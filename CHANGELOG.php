@@ -36,6 +36,9 @@ test
  # Queries cleaned of incorrect encapsulation of integer values
  # Fixed Login Component redirection [credit: David Gal]
 
+15-Sep-2005 Arno Zijlstra
+ ^ changed tab images to fit new color
+ 
 14-Sep-2005 Andrew Eddie
  # Added PHP 5 compatibility functions file_put_contents and file_get_contents
  + Added new version of js calendar
