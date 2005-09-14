@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: HTML_toolbar.php 191 2005-09-14 00:34:12Z stingrey $
+* @version $Id: HTML_toolbar.php 215 2005-09-14 18:21:51Z stingrey $
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -265,6 +265,21 @@ class mosToolBar {
 	*/
 	function save( $task='save', $alt=_CMN_SAVE ) {
 		$image = mosAdminMenus::ImageCheck( 'save_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
+		?>
+		<td>
+			<a class="toolbar" href="javascript:submitbutton('<?php echo $task;?>');" >
+				<?php echo $image;?></a>
+		</td>
+		<?php
+	}
+
+	/**
+	* Writes a save button for a given option
+	* @param string An override for the task
+	* @param string An override for the alt text
+	*/
+	function apply( $task='apply', $alt='Apply' ) {
+		$image = mosAdminMenus::ImageCheck( 'apply_f2.png', '/administrator/images/', NULL, NULL, $alt, $task, 1 );
 		?>
 		<td>
 			<a class="toolbar" href="javascript:submitbutton('<?php echo $task;?>');" >

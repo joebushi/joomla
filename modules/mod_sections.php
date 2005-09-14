@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: mod_sections.php 141 2005-09-12 12:13:49Z stingrey $
+* @version $Id: mod_sections.php 215 2005-09-14 18:21:51Z stingrey $
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -32,13 +32,23 @@ $query = "SELECT a.id AS id, a.title AS title, COUNT(b.id) as cnt"
 . "\n LIMIT $count"
 ;
 $database->setQuery( $query );
-
 $rows = $database->loadObjectList();
-echo '<ul>';
-if ($rows) {
-	foreach ($rows as $row) {
-		echo "  <li><a href=\"" . sefRelToAbs("index.php?option=com_content&task=blogsection&id=".$row->id) . "\">" . $row->title . "</a></li>\n";
-	}
-	echo '</ul>';
+
+if ( $rows ) {
+	?>
+	<ul>
+	<?php
+		foreach ($rows as $row) {
+			$link = sefRelToAbs( "index.php?option=com_content&task=blogsection&id=". $row->id );
+			?>
+			<li>
+				<a href="<?php echo $link;?>">
+					<?php echo $row->title;?></a>
+			</li>
+			<?php
+		}
+		?>
+	</ul>
+	<?php
 }
 ?>

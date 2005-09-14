@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: joomla.php 210 2005-09-14 08:08:36Z eddieajau $
+* @version $Id: joomla.php 217 2005-09-14 19:31:22Z stingrey $
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -685,7 +685,7 @@ class mosMainFrame {
 			$cur_template = $this->_db->loadResult();
 			$path = "$mosConfig_absolute_path/administrator/templates/$cur_template/index.php";
 			if (!file_exists( $path )) {
-				$cur_template = 'mambo_admin';
+				$cur_template = 'joomla_admin';
 			}
 		} else {
 			// TemplateChooser Start
@@ -2307,6 +2307,7 @@ function mosRedirect( $url, $msg='' ) {
 		echo "<script>document.location.href='$url';</script>\n";
 	} else {
 		@ob_end_clean(); // clear output buffer
+		header( 'HTTP/1.1 301 Moved Permanently' );
 		header( "Location: $url" );
 	}
 	exit();

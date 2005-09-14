@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: wrapper.html.php 151 2005-09-12 19:30:41Z stingrey $
+* @version $Id: wrapper.html.php 215 2005-09-14 18:21:51Z stingrey $
 * @package Joomla
 * @subpackage Wrapper
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
@@ -22,7 +22,6 @@ class HTML_wrapper {
 	function displayWrap( &$row, &$params, &$menu ) {
 		?>
 		<script language="javascript" type="text/javascript">
-		<?php echo $row->load ."\n"; ?>
 		function iFrameHeight() {
 			var h = 0;
 			if ( !document.all ) {
@@ -46,6 +45,7 @@ class HTML_wrapper {
 		}
 		?>
 		<iframe
+		<?php echo $row->load; ?>
 		id="blockrandom"
 		src="<?php echo $row->url; ?>"
 		width="<?php echo $params->get( 'width' ); ?>"

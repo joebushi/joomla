@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: content.php 191 2005-09-14 00:34:12Z stingrey $
+* @version $Id: content.php 215 2005-09-14 18:21:51Z stingrey $
 * @package Joomla
 * @subpackage Content
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
@@ -83,8 +83,9 @@ switch ( strtolower( $task ) ) {
 		break;
 
 	case 'save':
+	case 'apply':
 		mosCache::cleanCache( 'com_content' );
-		saveContent( $access );
+		saveContent( $access, $task );
 		break;
 
 	case 'cancel':
@@ -1290,7 +1291,7 @@ function editItem( $uid, $gid, &$access, $sectionid=0, $task, $Itemid ){
 /**
 * Saves the content item an edit form submit
 */
-function saveContent( &$access ) {
+function saveContent( &$access, $task ) {
 	global $database, $mainframe, $my;
 	global $mosConfig_absolute_path;
 
@@ -1314,8 +1315,8 @@ function saveContent( &$access ) {
 			mosNotAuth();
 			return;
 		}
-		$row->modified = date( 'Y-m-d H:i:s' );
-		$row->modified_by = $my->id;
+		$row->modified 		= date( 'Y-m-d H:i:s' );
+		$row->modified_by 	= $my->id;
 	}
 	if ( trim( $row->publish_down ) == 'Never' ) {
 		$row->publish_down = '0000-00-00 00:00:00';
@@ -1395,13 +1396,23 @@ function saveContent( &$access ) {
 		}
 	}
 
- 	$referer = mosGetParam( $_POST, 'referer', '' );
- 	$msg 	= $isNew ? _THANK_SUB : _E_ITEM_SAVED;
-	if ( $referer ) {
-		mosRedirect( $referer, $msg );
-	} else {
-		mosRedirect( 'index.php', $msg );
-	}
+	$msg = $isNew ? _THANK_SUB : _E_ITEM_SAVED;
+	switch ( $task ) {
+		case 'apply':
+			$link = $_SERVER['HTTP_REFERER'];
+			break;
+		
+		case 'save':
+		default:
+			$Itemid = mosGetParam( $_POST, 'Returnid', '' );
+			if ( $Itemid ) {
+				$link = 'index.php?option=com_content&task=view&id='. $row->id.'&Itemid='. $Itemid;
+			} else {
+				$link = mosGetParam( $_POST, 'referer', '' );
+			}			
+			break;
+	}	
+	mosRedirect( $link, $msg );
 }
 
 
@@ -1412,8 +1423,6 @@ function saveContent( &$access ) {
 function cancelContent( &$access ) {
 	global $database, $my;
 
-	$referer = mosGetParam( $_POST, 'referer', '' );
-	
 	$row = new mosContent( $database );
 	$row->bind( $_POST );
 
@@ -1423,6 +1432,15 @@ function cancelContent( &$access ) {
 
 	$Itemid = mosGetParam( $_POST, 'Returnid', '0' );
 
+	$referer 	= mosGetParam( $_POST, 'referer', '' );
+	$parts 		= parse_url( $referer );
+	parse_str( $parts['query'], $query );
+
+	if ( $query['task'] == 'edit' ) {
+		$Itemid  = mosGetParam( $_POST, 'Returnid', '' );
+		$referer = 'index.php?option=com_content&task=view&id='. $row->id.'&Itemid='. $Itemid;
+	}
+	
 	if ( $referer ) {
 		mosRedirect( $referer );
 	} else {

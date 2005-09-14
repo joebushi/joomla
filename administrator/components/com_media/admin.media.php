@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: admin.media.php 201 2005-09-14 03:57:52Z stingrey $
+* @version $Id: admin.media.php 215 2005-09-14 18:21:51Z stingrey $
 * @package Joomla
 * @subpackage Massmail
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
@@ -155,8 +155,29 @@ function do_upload($file, $dest_dir) {
 			mosRedirect( "index2.php?option=com_media&listdir=".$_POST['dirPath'], "Upload FAILED.File allready exists" );
 		}
 
-		if ((strcasecmp(substr($file['name'],-4),".gif")) && (strcasecmp(substr($file['name'],-4),".jpg")) && (strcasecmp(substr($file['name'],-4),".png")) && (strcasecmp(substr($file['name'],-4),".bmp")) &&(strcasecmp(substr($file['name'],-4),".doc")) && (strcasecmp(substr($file['name'],-4),".xls")) && (strcasecmp(substr($file['name'],-4),".ppt")) && (strcasecmp(substr($file['name'],-4),".swf")) && (strcasecmp(substr($file['name'],-4),".pdf"))) {
-			mosRedirect( "index2.php?option=com_media&listdir=".$_POST['dirPath'], "Only files of type gif, png, jpg, bmp, pdf, swf, doc, xls or ppt can be uploaded" );
+		$format = substr( $file['name'], -3 );
+		
+		$allowable = array (
+			'xcf',
+			'odg',			
+			'gif',
+			'jpg',
+			'png',
+			'bmp',
+			'doc',
+			'xls',
+			'ppt',
+			'swf',
+			'pdf',
+			'odt',
+			'ods',
+			'odp'
+		);
+		
+		foreach( $allowable as $ext ) {
+			if ( strcasecmp( $format, $ext ) ) {
+				mosRedirect( "index2.php?option=com_media&listdir=".$_POST['dirPath'], 'This file type is not supported' );
+			}
 		}
 
 		if (!move_uploaded_file($file['tmp_name'], $dest_dir.strtolower($file['name']))){
@@ -227,74 +248,75 @@ function listImages($listdir) {
 	// get list of images
 	$d = @dir($mosConfig_absolute_path. $base ."/".$listdir);
 
-	if($d)
-	{
-
-	//var_dump($d);
-	$images 	= array();
-	$folders 	= array();
-	$docs 		= array();
-
-	while (false !== ($entry = $d->read())) {
-		$img_file = $entry;
-		if(is_file($mosConfig_absolute_path. $base .$listdir.'/'.$img_file) && substr($entry,0,1) != '.' && strtolower($entry) !== 'index.html') {
-			if (eregi( "bmp|gif|jpg|png", $img_file )) {
-				$image_info = @getimagesize($mosConfig_absolute_path. $base ."/".$listdir.'/'.$img_file);
-				$file_details['file'] = $mosConfig_absolute_path. $base .$listdir."/".$img_file;
-				$file_details['img_info'] = $image_info;
-				$file_details['size'] = filesize($mosConfig_absolute_path. $base .$listdir."/".$img_file);
-				$images[$entry] = $file_details;
-			} else {
-				// file is document
-				$docs[$entry] = $img_file;
-			}
-		} else if(is_dir($mosConfig_absolute_path. $base ."/".$listdir.'/'.$img_file) && substr($entry,0,1) != '.' && strtolower($entry) !== 'cvs') {
-			$folders[$entry] = $img_file;
-		}
-	}
-	$d->close();
-
-	HTML_Media::imageStyle($listdir);
-
-	if(count($images) > 0 || count($folders) > 0 || count($docs) > 0) {
-		//now sort the folders and images by name.
-		ksort($images);
-		ksort($folders);
-		ksort($docs);
-
-
-		HTML_Media::draw_table_header();
+	if($d) {
+		//var_dump($d);
+		$images 	= array();
+		$folders 	= array();
+		$docs 		= array();
+		$allowable 	= 'xcf|odg|gif|jpg|png|bmp';
 		
-		for($i=0; $i<count($folders); $i++) {
-			$folder_name = key($folders);
-			HTML_Media::show_dir('/'.$folders[$folder_name], $folder_name,$listdir);
-			next($folders);
-		}
-		for($i=0; $i<count($docs); $i++) {
-			$doc_name = key($docs);
-			$iconfile= $mosConfig_absolute_path."/administrator/components/com_media/images/".substr($doc_name,-3)."_16.png";
-			if (file_exists($iconfile))	{
-				$icon = "components/com_media/images/".(substr($doc_name,-3))."_16.png"	; }
-			else {
-				$icon = "components/com_media/images/con_info.png";
+		while (false !== ($entry = $d->read())) {
+			$img_file = $entry;
+			if(is_file($mosConfig_absolute_path. $base .$listdir.'/'.$img_file) && substr($entry,0,1) != '.' && strtolower($entry) !== 'index.html') {
+				if (eregi( $allowable, $img_file )) {
+					$image_info = @getimagesize($mosConfig_absolute_path. $base ."/".$listdir.'/'.$img_file);
+					$file_details['file'] = $mosConfig_absolute_path. $base .$listdir."/".$img_file;
+					$file_details['img_info'] = $image_info;
+					$file_details['size'] = filesize($mosConfig_absolute_path. $base .$listdir."/".$img_file);
+					$images[$entry] = $file_details;
+				} else {
+					// file is document
+					$docs[$entry] = $img_file;
+				}
+			} else if(is_dir($mosConfig_absolute_path. $base ."/".$listdir.'/'.$img_file) && substr($entry,0,1) != '.' && strtolower($entry) !== 'cvs') {
+				$folders[$entry] = $img_file;
 			}
-			HTML_Media::show_doc($docs[$doc_name], $listdir, $icon);
-			next($docs);
 		}
-		for($i=0; $i<count($images); $i++) {
-			$image_name = key($images);
-			HTML_Media::show_image($images[$image_name]['file'], $image_name, $images[$image_name]['img_info'], $images[$image_name]['size'],$listdir);
-			next($images);
+		$d->close();
+	
+		HTML_Media::imageStyle($listdir);
+	
+		if(count($images) > 0 || count($folders) > 0 || count($docs) > 0) {
+			//now sort the folders and images by name.
+			ksort($images);
+			ksort($folders);
+			ksort($docs);
+	
+	
+			HTML_Media::draw_table_header();
+			
+			for($i=0; $i<count($folders); $i++) {
+				$folder_name = key($folders);
+				HTML_Media::show_dir('/'.$folders[$folder_name], $folder_name,$listdir);
+				next($folders);
+			}
+			
+			for($i=0; $i<count($docs); $i++) {
+				$doc_name = key($docs);
+				$iconfile= $mosConfig_absolute_path."/administrator/components/com_media/images/".substr($doc_name,-3)."_16.png";
+				if (file_exists($iconfile))	{
+					$icon = "components/com_media/images/".(substr($doc_name,-3))."_16.png"	; 
+				} else {
+					$icon = "components/com_media/images/con_info.png";
+				}
+				HTML_Media::show_doc($docs[$doc_name], $listdir, $icon);
+				next($docs);
+			}
+			
+			for($i=0; $i<count($images); $i++) {
+				$image_name = key($images);
+				HTML_Media::show_image($images[$image_name]['file'], $image_name, $images[$image_name]['img_info'], $images[$image_name]['size'],$listdir);
+				next($images);
+			}
+			
+			HTML_Media::draw_table_footer();
+		} else {
+			HTML_Media::draw_no_results();
 		}
-		HTML_Media::draw_table_footer();
 	} else {
-		HTML_Media::draw_no_results();
+		HTML_Media::draw_no_dir();
 	}
-} else {
-	HTML_Media::draw_no_dir();
 }
-
-
 
 function rm_all_dir($dir) {
 	//$dir = dir_name($dir);
@@ -302,7 +324,7 @@ function rm_all_dir($dir) {
 	if(is_dir($dir)) {
 		$d = @dir($dir);
 
-		while (false !== ($entry = $d->read())) {
+		while ( false !== ( $entry = $d->read() ) ) {
 			//echo "#".$entry.'<br>';
 			if($entry != '.' && $entry != '..') {
 				$node = $dir.'/'.$entry;
@@ -321,6 +343,5 @@ function rm_all_dir($dir) {
 		rmdir($dir);
 	}
 	//echo "RM: $dir <br>";
-}
 }
 ?>

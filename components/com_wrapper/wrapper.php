@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: wrapper.php 151 2005-09-12 19:30:41Z stingrey $
+* @version $Id: wrapper.php 215 2005-09-14 18:21:51Z stingrey $
 * @package Joomla
 * @subpackage Wrapper
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
@@ -49,7 +49,7 @@ function showWrap( $option ) {
 
 	// auto height control
 	if ( $params->def( 'height_auto' ) ) {
-		$row->load = 'window.onload = iFrameHeight;';
+		$row->load = 'onload="iFrameHeight()"';
 	} else {
 		$row->load = '';
 	}

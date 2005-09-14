@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: mod_related_items.php 141 2005-09-12 12:13:49Z stingrey $
+* @version $Id: mod_related_items.php 215 2005-09-14 18:21:51Z stingrey $
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -17,14 +17,12 @@ $task 	= mosGetParam( $_REQUEST, 'task' );
 $id 	= intval( mosGetParam( $_REQUEST, 'id', null ) );
 
 if ($option == 'com_content' && $task == 'view' && $id) {
-
 	// select the meta keywords from the item
 	$query = "SELECT metakey"
 	. "\n FROM #__content"
 	. "\n WHERE id = $id"
 	;
 	$database->setQuery( $query );
-
 	if ($metakey = trim( $database->loadResult() )) {
 		// explode the meta keys on a comma
 		$keys = explode( ',', $metakey );
@@ -45,22 +43,29 @@ if ($option == 'com_content' && $task == 'view' && $id) {
 			. "\n WHERE id <> $id"
 			. "\n AND state = 1"
 			. "\n AND access <= $my->gid"
-			. "\n AND ( metakey LIKE '%"
+			. "\n AND ( metakey LIKE '%" . implode( "%' OR metakey LIKE '%", $likes ) ."%' )"
 			;
-			$query .= implode( "%' OR metakey LIKE '%", $likes );
-			$query .= "%')";
-
 			$database->setQuery( $query );
-			if ($related = $database->loadObjectList()) {
-				echo '<ul>';
+			if ( $related = $database->loadObjectList() ) {
+				?>
+				<ul>
+				<?php
 				foreach ($related as $item) {
 					if ($option="com_content" && $task="view") {
 						$Itemid = $mainframe->getItemid($item->id);
 					}
 					$href = sefRelToAbs( "index.php?option=com_content&task=view&id=$item->id&Itemid=$Itemid" );
 					echo '<li><a href="'. $href .'">'. $item->title .'</a></li>';
+					?>
+					<li>
+						<a href="<?php echo $href; ?>">
+							<?php echo $item->title; ?></a>
+					</li>
+					<?php
 				}
-				echo '</ul>';
+				?>
+				</ul>
+				<?php
 			}
 		}
 	}

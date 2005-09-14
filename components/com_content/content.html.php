@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: content.html.php 191 2005-09-14 00:34:12Z stingrey $
+* @version $Id: content.html.php 215 2005-09-14 18:21:51Z stingrey $
 * @package Joomla
 * @subpackage Content
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
@@ -863,7 +863,9 @@ class HTML_content {
 	function editContent( &$row, $section, &$lists, &$images, &$access, $myid, $sectionid, $task, $Itemid ) {
 		global $mosConfig_live_site;
 		mosMakeHtmlSafe( $row );
-		$Returnid = intval( mosGetParam( $_REQUEST, 'Returnid', $Itemid ) );
+		
+		$Returnid 	= intval( mosGetParam( $_REQUEST, 'Returnid', $Itemid ) );
+		$tabs 		= new mosTabs(0);
 		?>
   		<div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
   		<link rel="stylesheet" type="text/css" media="all" href="includes/js/calendar/calendar-mos.css" title="green" />
@@ -955,6 +957,8 @@ class HTML_content {
 		$docinfo .= "<strong>"._E_HITS."</strong> ";
 		$docinfo .= $row->hits."<br />";
 		?>
+		<form action="index.php" method="post" name="adminForm" onSubmit="javascript:setgood();">
+		
 		<table cellspacing="0" cellpadding="0" border="0" width="100%">
 		<tr>
 			<td class="contentheading" >
@@ -964,42 +968,36 @@ class HTML_content {
 			<strong>[Info]</strong>
 			</a>
 			</td>
-			<td width="10%">
-			 <?php
-			 mosToolBar::startTable();
-			 mosToolBar::save();
-			 mosToolBar::spacer(25);
-			 mosToolBar::cancel();
-			 mosToolBar::endtable();
-			 $tabs = new mosTabs(0);
-			?>
-			</td>
 		</tr>
 		</table>
-
-		<form action="index.php" method="post" name="adminForm" onSubmit="javascript:setgood();">
-		<input type="hidden" name="images" value="" />
+		
 		<table class="adminform">
 		<tr>
 			<td>
-			<?php echo _E_TITLE; ?>
-			</td>
-		</tr>
-		<tr>
-			<td>
-			<input class="inputbox" type="text" name="title" size="50" maxlength="100" value="<?php echo $row->title; ?>" />
+				<div style="float: left;">
+					<?php echo _E_TITLE; ?>
+					<br/>
+					<input class="inputbox" type="text" name="title" size="50" maxlength="100" value="<?php echo $row->title; ?>" />
+				</div>
+				<div style="float: right;">
+					<?php
+					// Toolbar Top
+					mosToolBar::startTable();
+					mosToolBar::save();
+					mosToolBar::apply();
+					mosToolBar::cancel();
+					mosToolBar::endtable();
+					?>
+				</div>			
 			</td>
 		</tr>
 		<?php
-		if ($row->sectionid) {
+		if ($row->sectionid) {			
 			?>
 			<tr>
 				<td>
 				<?php echo _E_CATEGORY; ?>
-				</td>
-			</tr>
-			<tr>
-				<td>
+				<br/>
 				<?php echo $lists['catid']; ?>
 				</td>
 			</tr>
@@ -1050,214 +1048,232 @@ class HTML_content {
 		}
 		?>
 		</table>
+		
+		<?php
+		// Toolbar Bottom
+		mosToolBar::startTable();
+		mosToolBar::save();
+		mosToolBar::apply();
+		mosToolBar::cancel();
+		mosToolBar::endtable();
+		?>		
+		
 	 	<?php
 		$tabs->startPane( 'content-pane' );
 		$tabs->startTab( _E_IMAGES, 'images-page' );
 		?>
-		<table class="adminform">
-		<tr>
-			<td colspan="6">
-			<?php echo _CMN_SUBFOLDER; ?> :: <?php echo $lists['folders'];?>
-			</td>
-		</tr>
-		<tr>
-			<td align="top">
-			<?php echo _E_GALLERY_IMAGES; ?>
-			</td>
-			<td align="top">
-			<?php echo _E_CONTENT_IMAGES; ?>
-			</td>
-			<td align="top">
-			<?php echo _E_EDIT_IMAGE; ?>
-			</td>
-		<tr>
-			<td valign="top">
-			<?php echo $lists['imagefiles'];?>
-			<br />
-			<input class="button" type="button" value="<?php echo _E_INSERT; ?>" onclick="addSelectedToList('adminForm','imagefiles','imagelist')" />
-			</td>
-			<td valign="top">
-			<?php echo $lists['imagelist'];?>
-			<br />
-			<input class="button" type="button" value="<?php echo _E_UP; ?>" onclick="moveInList('adminForm','imagelist',adminForm.imagelist.selectedIndex,-1)" />
-			<input class="button" type="button" value="<?php echo _E_DOWN; ?>" onclick="moveInList('adminForm','imagelist',adminForm.imagelist.selectedIndex,+1)" />
-			<input class="button" type="button" value="<?php echo _E_REMOVE; ?>" onclick="delSelectedFromList('adminForm','imagelist')" />
-			</td>
-			<td valign="top">
-				<table>
-				<tr>
-					<td align="right">
-					<?php echo _E_SOURCE; ?>
-					</td>
-					<td>
-					<input class="inputbox" type="text" name= "_source" value="" size="15" />
-					</td>
-				</tr>
-				<tr>
-					<td align="right" valign="top">
-					<?php echo _E_ALIGN; ?>
-					</td>
-					<td>
-					<?php echo $lists['_align']; ?>
-					</td>
-				</tr>
-				<tr>
-					<td align="right">
-					<?php echo _E_ALT; ?>
-					</td>
-					<td>
-					<input class="inputbox" type="text" name="_alt" value="" size="15" />
-					</td>
-				</tr>
-				<tr>
-					<td align="right">
-					<?php echo _E_BORDER; ?>
-					</td>
-					<td>
-					<input class="inputbox" type="text" name="_border" value="" size="3" maxlength="1" />
-					</td>
-				</tr>				
-				<tr>
-					<td align="right">
-					Caption:
-					</td>
-					<td>
-					<input class="text_area" type="text" name="_caption" value="" size="30" />
-					</td>
-				</tr>
-				<tr>
-					<td align="right">
-					Caption Position:
-					</td>
-					<td>
-					<?php echo $lists['_caption_position']; ?>
-					</td>
-				</tr>
-				<tr>
-					<td align="right">
-					Caption Align:
-					</td>
-					<td>
-					<?php echo $lists['_caption_align']; ?>
-					</td>
-				</tr>
-				<tr>
-					<td align="right">
-					Caption Width:
-					</td>
-					<td>
-					<input class="text_area" type="text" name="_width" value="" size="5" maxlength="5" />
-					</td>
-				</tr>				
-				<tr>
-					<td align="right"></td>
-					<td>
-					<input class="button" type="button" value="<?php echo _E_APPLY; ?>" onclick="applyImageProps()" />
-					</td>
-				</tr>
-				</table>
-			</td>
-		</tr>
-		<tr>
-			<td>
-			<img name="view_imagefiles" src="<?php echo $mosConfig_live_site;?>/images/M_images/blank.png" width="50" alt="No Image" />
-			</td>
-			<td>
-			<img name="view_imagelist" src="<?php echo $mosConfig_live_site;?>/images/M_images/blank.png" width="50" alt="No Image" />
-			</td>
-		</tr>
-		</table>
+			<table class="adminform">
+			<tr>
+				<td colspan="6">
+				<?php echo _CMN_SUBFOLDER; ?> :: <?php echo $lists['folders'];?>
+				</td>
+			</tr>
+			<tr>
+				<td align="top">
+				<?php echo _E_GALLERY_IMAGES; ?>
+				</td>
+				<td align="top">
+				<?php echo _E_CONTENT_IMAGES; ?>
+				</td>
+				<td align="top">
+				<?php echo _E_EDIT_IMAGE; ?>
+				</td>
+			<tr>
+				<td valign="top">
+				<?php echo $lists['imagefiles'];?>
+				<br />
+				<input class="button" type="button" value="<?php echo _E_INSERT; ?>" onclick="addSelectedToList('adminForm','imagefiles','imagelist')" />
+				</td>
+				<td valign="top">
+				<?php echo $lists['imagelist'];?>
+				<br />
+				<input class="button" type="button" value="<?php echo _E_UP; ?>" onclick="moveInList('adminForm','imagelist',adminForm.imagelist.selectedIndex,-1)" />
+				<input class="button" type="button" value="<?php echo _E_DOWN; ?>" onclick="moveInList('adminForm','imagelist',adminForm.imagelist.selectedIndex,+1)" />
+				<input class="button" type="button" value="<?php echo _E_REMOVE; ?>" onclick="delSelectedFromList('adminForm','imagelist')" />
+				</td>
+				<td valign="top">
+					<table>
+					<tr>
+						<td align="right">
+						<?php echo _E_SOURCE; ?>
+						</td>
+						<td>
+						<input class="inputbox" type="text" name= "_source" value="" size="15" />
+						</td>
+					</tr>
+					<tr>
+						<td align="right" valign="top">
+						<?php echo _E_ALIGN; ?>
+						</td>
+						<td>
+						<?php echo $lists['_align']; ?>
+						</td>
+					</tr>
+					<tr>
+						<td align="right">
+						<?php echo _E_ALT; ?>
+						</td>
+						<td>
+						<input class="inputbox" type="text" name="_alt" value="" size="15" />
+						</td>
+					</tr>
+					<tr>
+						<td align="right">
+						<?php echo _E_BORDER; ?>
+						</td>
+						<td>
+						<input class="inputbox" type="text" name="_border" value="" size="3" maxlength="1" />
+						</td>
+					</tr>				
+					<tr>
+						<td align="right">
+						Caption:
+						</td>
+						<td>
+						<input class="text_area" type="text" name="_caption" value="" size="30" />
+						</td>
+					</tr>
+					<tr>
+						<td align="right">
+						Caption Position:
+						</td>
+						<td>
+						<?php echo $lists['_caption_position']; ?>
+						</td>
+					</tr>
+					<tr>
+						<td align="right">
+						Caption Align:
+						</td>
+						<td>
+						<?php echo $lists['_caption_align']; ?>
+						</td>
+					</tr>
+					<tr>
+						<td align="right">
+						Caption Width:
+						</td>
+						<td>
+						<input class="text_area" type="text" name="_width" value="" size="5" maxlength="5" />
+						</td>
+					</tr>				
+					<tr>
+						<td align="right"></td>
+						<td>
+						<input class="button" type="button" value="<?php echo _E_APPLY; ?>" onclick="applyImageProps()" />
+						</td>
+					</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td>
+				<img name="view_imagefiles" src="<?php echo $mosConfig_live_site;?>/images/M_images/blank.png" width="50" alt="No Image" />
+				</td>
+				<td>
+				<img name="view_imagelist" src="<?php echo $mosConfig_live_site;?>/images/M_images/blank.png" width="50" alt="No Image" />
+				</td>
+			</tr>
+			</table>
 		<?php
 		$tabs->endTab();
 		$tabs->startTab( _E_PUBLISHING, 'publish-page' );
 		?>
-		<table class="adminform">
-		<?php
-		if ($access->canPublish) {
-			?>
+			<table class="adminform">
+			<?php
+			if ($access->canPublish) {
+				?>
+				<tr>
+					<td align="left">
+					<?php echo _E_STATE; ?>
+					</td>
+					<td>
+					<?php echo $lists['state']; ?>
+					</td>
+				</tr>
+				<?php
+			} ?>
 			<tr>
 				<td align="left">
-				<?php echo _E_STATE; ?>
+				<?php echo _E_ACCESS_LEVEL; ?>
 				</td>
 				<td>
-				<?php echo $lists['state']; ?>
+				<?php echo $lists['access']; ?>
 				</td>
 			</tr>
-			<?php
-		} ?>
-		<tr>
-			<td align="left">
-			<?php echo _E_ACCESS_LEVEL; ?>
-			</td>
-			<td>
-			<?php echo $lists['access']; ?>
-			</td>
-		</tr>
-		<tr>
-			<td align="left">
-			<?php echo _E_AUTHOR_ALIAS; ?>
-			</td>
-			<td>
-			<input type="text" name="created_by_alias" size="50" maxlength="100" value="<?php echo $row->created_by_alias; ?>" class="inputbox" />
-			</td>
-		</tr>
-		<tr>
-			<td align="left">
-			<?php echo _E_ORDERING; ?>
-			</td>
-			<td>
-			<?php echo $lists['ordering']; ?>
-			</td>
-		</tr>
-		<tr>
-			<td align="left">
-			<?php echo _E_START_PUB; ?>
-			</td>
-			<td>
-			<input class="inputbox" type="text" name="publish_up" id="publish_up" size="25" maxlength="19" value="<?php echo $row->publish_up; ?>" />
-			<input type="reset" class="button" value="..." onclick="return showCalendar('publish_up', 'y-mm-dd');" />
-			</td>
-		</tr>
-		<tr>
-			<td align="left">
-			<?php echo _E_FINISH_PUB; ?>
-			</td>
-			<td>
-			<input class="inputbox" type="text" name="publish_down" id="publish_down" size="25" maxlength="19" value="<?php echo $row->publish_down; ?>" />
-			<input type="reset" class="button" value="..." onclick="return showCalendar('publish_down', 'y-mm-dd');" />
-			</td>
-		</tr>
-		<tr>
-			<td align="left">
-			<?php echo _E_SHOW_FP; ?>
-			</td>
-			<td>
-			<input type="checkbox" name="frontpage" value="1" <?php echo $row->frontpage ? 'checked="checked"' : ''; ?> />
-			</td>
-		</tr>
-		</table>
+			<tr>
+				<td align="left">
+				<?php echo _E_AUTHOR_ALIAS; ?>
+				</td>
+				<td>
+				<input type="text" name="created_by_alias" size="50" maxlength="100" value="<?php echo $row->created_by_alias; ?>" class="inputbox" />
+				</td>
+			</tr>
+			<tr>
+				<td align="left">
+				<?php echo _E_ORDERING; ?>
+				</td>
+				<td>
+				<?php echo $lists['ordering']; ?>
+				</td>
+			</tr>
+			<tr>
+				<td align="left">
+				<?php echo _E_START_PUB; ?>
+				</td>
+				<td>
+				<input class="inputbox" type="text" name="publish_up" id="publish_up" size="25" maxlength="19" value="<?php echo $row->publish_up; ?>" />
+				<input type="reset" class="button" value="..." onclick="return showCalendar('publish_up', 'y-mm-dd');" />
+				</td>
+			</tr>
+			<tr>
+				<td align="left">
+				<?php echo _E_FINISH_PUB; ?>
+				</td>
+				<td>
+				<input class="inputbox" type="text" name="publish_down" id="publish_down" size="25" maxlength="19" value="<?php echo $row->publish_down; ?>" />
+				<input type="reset" class="button" value="..." onclick="return showCalendar('publish_down', 'y-mm-dd');" />
+				</td>
+			</tr>
+			<tr>
+				<td align="left">
+				<?php echo _E_SHOW_FP; ?>
+				</td>
+				<td>
+				<input type="checkbox" name="frontpage" value="1" <?php echo $row->frontpage ? 'checked="checked"' : ''; ?> />
+				</td>
+			</tr>
+			</table>
 		<?php
 		$tabs->endTab();
 		$tabs->startTab( _E_METADATA, 'meta-page' );
 		?>
-		<table class="adminform">
-		<tr>
-			<td align="left" valign="top">
-			<?php echo _E_M_DESC; ?>
-			</td>
-			<td>
-			<textarea class="inputbox" cols="45" rows="3" name="metadesc"><?php echo str_replace('&','&amp;',$row->metadesc); ?></textarea>
-			</td>
-		</tr>
-		<tr>
-			<td align="left" valign="top">
-			<?php echo _E_M_KEY; ?>
-			</td>
-			<td>
-			<textarea class="inputbox" cols="45" rows="3" name="metakey"><?php echo str_replace('&','&amp;',$row->metakey); ?></textarea>
-			</td>
-		</tr>
-		</table>
+			<table class="adminform">
+			<tr>
+				<td align="left" valign="top">
+				<?php echo _E_M_DESC; ?>
+				</td>
+				<td>
+				<textarea class="inputbox" cols="45" rows="3" name="metadesc"><?php echo str_replace('&','&amp;',$row->metadesc); ?></textarea>
+				</td>
+			</tr>
+			<tr>
+				<td align="left" valign="top">
+				<?php echo _E_M_KEY; ?>
+				</td>
+				<td>
+				<textarea class="inputbox" cols="45" rows="3" name="metakey"><?php echo str_replace('&','&amp;',$row->metakey); ?></textarea>
+				</td>
+			</tr>
+			</table>
+		<?php
+		$tabs->endTab();
+		$tabs->endPane();
+		?>
+				
+		<div style="clear:both;"></div>
+		
+		<input type="hidden" name="images" value="" />
 		<input type="hidden" name="goodexit" value="0" />
 		<input type="hidden" name="option" value="com_content" />
 		<input type="hidden" name="Returnid" value="<?php echo $Returnid; ?>" />
@@ -1268,11 +1284,6 @@ class HTML_content {
 		<input type="hidden" name="referer" value="<?php echo $_SERVER['HTTP_REFERER']; ?>" />		
 		<input type="hidden" name="task" value="" />
 		</form>
-		<?php
-		$tabs->endTab();
-		$tabs->endPane();
-		?>
-		<div style="clear:both;"></div>
 		<?php
 	}
 
