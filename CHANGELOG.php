@@ -6,7 +6,7 @@
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * Joomla! is free software and parts of it may contain or be derived from the
 * GNU General Public License or other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
+* See COPYRIGHT.php for copyright notices and details. spoon.
 */
 
 // no direct access
@@ -33,7 +33,7 @@ test
 15-Sep-2005 Rey Gigataras
  ^ Ugraded TinyMCE [2.0 RC2]
  ^ Modified layout of Media Manager
- # Queries cleaned of incorrect encapsulation of integer values 
+ # Queries cleaned of incorrect encapsulation of integer values
  # Fixed Login Component redirection [credit: David Gal]
 
 14-Sep-2005 Andrew Eddie
@@ -69,7 +69,7 @@ test
 
 12-Sep-2005 Andy Stewart
  # Fixed issue with new content where Categories weren't displayed for sections
-  
+
 12-Sep-2005 Andrew Eddie
  ^ Upgrade DOMIT! and DOMIT!RSS (fixes issues in PHP 4.4.x)
  + Added database.mysqli.php, a MySQL 4.1.x compatible version
@@ -79,7 +79,7 @@ test
 
 11-Sep-2005 Rey Gigataras
  + Output Buffering for Admin [pulled from Johan's work in 1.1]
- + Loading of WYSIWYG Editor only when `editorArea` is present [pulled from Johan's work in 1.1] 
+ + Loading of WYSIWYG Editor only when `editorArea` is present [pulled from Johan's work in 1.1]
  ^ Upgraded JSCookMenu [1.4.3]
  ^ Upgraded wz_tooltip [3.34]
   ^ Upgraded Overlib [4.21]
@@ -91,7 +91,7 @@ test
  + Added offlinebar.php
  ^ Changed site offline check
  ^ Cosmetic change to offline.php
- 
+
 11-Sep-2005 Andrew Eddie
  + Added sort up and down icons
  + Added mosPageNav::setTemplateVars method
@@ -110,7 +110,7 @@ test
  ^ corrected several calls from makeOption in order to become multi lingual compatible
  ^ corrected little fixes in query handling in order to get multi lingual compatible
  + Added system bot's for better integration of ml support, ssl & multi sites
- 
+
 08-Sep-2005 Rey Gigataras
  + Added back Sys Info link in menubar
  + Added Changelog link to Help area
