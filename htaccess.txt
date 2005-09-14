@@ -1,0 +1,27 @@
+##
+# @version $Id: htaccess.txt 22 2005-09-08 18:01:32Z troozers $
+# @package Joomla
+# @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+# @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+# Joomla! is Free Software
+##
+
+#
+#  mod_rewrite in use
+#
+
+RewriteEngine On
+
+#  Uncomment following line if your webserver's URL 
+#  is not directly related to physical file paths.
+#  Update YourJoomlaDirectory (just / for root)
+
+# RewriteBase /YourJoomlaDirectory
+
+#
+#  Rules
+#
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*) index.php
