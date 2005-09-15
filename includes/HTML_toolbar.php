@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: HTML_toolbar.php 215 2005-09-14 18:21:51Z stingrey $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php

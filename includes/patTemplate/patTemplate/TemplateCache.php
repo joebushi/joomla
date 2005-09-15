@@ -2,7 +2,7 @@
 /**
  * Base class for patTemplate template cache
  *
- * $Id: TemplateCache.php 2 2005-09-05 22:53:16Z akede $
+ * $Id$
  *
  * A template cache is used to cache the data after
  * the template has been read, but before the variables
@@ -21,7 +21,7 @@
 /**
  * Base class for patTemplate template cache
  *
- * $Id: TemplateCache.php 2 2005-09-05 22:53:16Z akede $
+ * $Id$
  *
  * A template cache is used to cache the data after
  * the template has been read, but before the variables

@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: admin.users.php 121 2005-09-12 04:07:29Z eddieajau $
+* @version $Id$
 * @package Joomla
 * @subpackage Users
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.

@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: mod_quickicon.php 191 2005-09-14 00:34:12Z stingrey $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php

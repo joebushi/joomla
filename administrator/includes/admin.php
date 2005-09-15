@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: admin.php 177 2005-09-13 12:11:40Z stingrey $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php

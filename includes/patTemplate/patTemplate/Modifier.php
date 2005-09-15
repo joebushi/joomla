@@ -2,7 +2,7 @@
 /**
  * Base class for patTemplate variable modifiers
  *
- * $Id: Modifier.php 2 2005-09-05 22:53:16Z akede $
+ * $Id$
  *
  * A modifier is used to modify a variable when it's parsed
  * into the template.
@@ -15,7 +15,7 @@
 /**
  * Base class for patTemplate variable modifiers
  *
- * $Id: Modifier.php 2 2005-09-05 22:53:16Z akede $
+ * $Id$
  *
  * A modifier is used to modify a variable when it's parsed
  * into the template.

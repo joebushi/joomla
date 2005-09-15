@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: admin.config.php 192 2005-09-14 00:38:17Z eddieajau $
+* @version $Id$
 * @package Joomla
 * @subpackage Config
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.

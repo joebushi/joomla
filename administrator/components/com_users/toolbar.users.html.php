@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: toolbar.users.html.php 60 2005-09-10 12:05:52Z rhuk $
+* @version $Id$
 * @package Joomla
 * @subpackage Users
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.

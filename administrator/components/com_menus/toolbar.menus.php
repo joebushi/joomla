@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: toolbar.menus.php 184 2005-09-13 14:45:35Z stingrey $
+* @version $Id$
 * @package Joomla
 * @subpackage Menus
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.

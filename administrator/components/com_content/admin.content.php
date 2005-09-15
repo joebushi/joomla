@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: admin.content.php 183 2005-09-13 14:37:37Z stingrey $
+* @version $Id$
 * @package Joomla
 * @subpackage Content
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.

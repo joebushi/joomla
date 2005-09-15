@@ -3,7 +3,7 @@
  * patTemplate input filter to allow the short modifier syntax
  * that is used by Smarty
  *
- * $Id: ShortModifiers.php 6 2005-09-07 12:00:23Z eddieajau $
+ * $Id$
  *
  * @package		patTemplate
  * @subpackage	Filters
@@ -14,7 +14,7 @@
  * patTemplate input filter to allow the short modifier syntax
  * that is used by Smarty
  *
- * $Id: ShortModifiers.php 6 2005-09-07 12:00:23Z eddieajau $
+ * $Id$
  *
  * This will replace the variables with patTemplate:var/> tags that
  * have the name and the modifier attribute set.

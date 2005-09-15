@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: index.php 72 2005-09-11 03:37:21Z eddieajau $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php

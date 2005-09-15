@@ -3,7 +3,7 @@
  * patError error object used by the patFormsError manager as error messages
  * container for precise error management.
  *
- *	$Id: patError.php 2 2005-09-05 22:53:16Z akede $
+ *	$Id$
  *
  * @access		public
  * @package		patError
@@ -13,7 +13,7 @@
  * patError error object used by the patFormsError manager as error messages
  * container for precise error management.
  *
- * $Id: patError.php 2 2005-09-05 22:53:16Z akede $
+ * $Id$
  *
  * @access		public
  * @package		patError

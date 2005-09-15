@@ -2,7 +2,7 @@
 /**
  * patTemplate Module base class
  *
- * $Id: Module.php 2 2005-09-05 22:53:16Z akede $
+ * $Id$
  *
  * The patTemplate_Module is the base class for all patTemplate
  * modules like readers, dumpers, filters, etc.
@@ -14,7 +14,7 @@
 /**
  * patTemplate Module base class
  *
- * $Id: Module.php 2 2005-09-05 22:53:16Z akede $
+ * $Id$
  *
  * The patTemplate_Module is the base class for all patTemplate
  * modules like readers, dumpers, filters, etc.

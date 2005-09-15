@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: component.html.php 186 2005-09-13 15:15:44Z stingrey $
+* @version $Id$
 * @package Joomla
 * @subpackage Installer
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.

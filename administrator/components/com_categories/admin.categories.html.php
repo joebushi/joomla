@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: admin.categories.html.php 107 2005-09-11 22:31:28Z stingrey $
+* @version $Id$
 * @package Joomla
 * @subpackage Categories
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.

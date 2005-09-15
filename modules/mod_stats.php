@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: mod_stats.php 172 2005-09-13 09:38:20Z eddieajau $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php

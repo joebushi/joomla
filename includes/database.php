@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: database.php 209 2005-09-14 05:17:41Z eddieajau $
+* @version $Id$
 * @package Joomla
 * @subpackage Database
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.

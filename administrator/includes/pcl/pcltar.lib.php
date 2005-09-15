@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: pcltar.lib.php 177 2005-09-13 12:11:40Z stingrey $
+* @version $Id$
 * @package Joomla
 */
 

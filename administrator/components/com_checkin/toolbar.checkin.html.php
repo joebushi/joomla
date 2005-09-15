@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: toolbar.checkin.html.php 179 2005-09-13 12:45:37Z stingrey $
+* @version $Id$
 * @package Joomla
 * @subpackage Checkin
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.

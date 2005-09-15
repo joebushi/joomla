@@ -2,7 +2,7 @@
 /**
  * patTemplate GZip output filter
  *
- * $Id: Gzip.php 2 2005-09-05 22:53:16Z akede $
+ * $Id$
  *
  * Checks the accept encoding of the browser and
  * compresses the data before sending it to the client.
@@ -15,7 +15,7 @@
 /**
  * patTemplate GZip output filter
  *
- * $Id: Gzip.php 2 2005-09-05 22:53:16Z akede $
+ * $Id$
  *
  * Checks the accept encoding of the browser and
  * compresses the data before sending it to the client.

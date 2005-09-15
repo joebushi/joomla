@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: search.html.php 151 2005-09-12 19:30:41Z stingrey $
+* @version $Id$
 * @package Joomla
 * @subpackage Search
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.

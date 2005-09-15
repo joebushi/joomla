@@ -2,7 +2,7 @@
 /**
  * Base class for patTemplate output filter
  *
- * $Id: OutputFilter.php 2 2005-09-05 22:53:16Z akede $
+ * $Id$
  *
  * An output filter is used to modify the output
  * after it has been processed by patTemplate, but before
@@ -16,7 +16,7 @@
 /**
  * Base class for patTemplate output filter
  *
- * $Id: OutputFilter.php 2 2005-09-05 22:53:16Z akede $
+ * $Id$
  *
  * An output filter is used to modify the output
  * after it has been processed by patTemplate, but before

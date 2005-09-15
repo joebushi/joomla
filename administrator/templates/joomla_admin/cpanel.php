@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: cpanel.php 3 2005-09-06 15:11:03Z akede $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php

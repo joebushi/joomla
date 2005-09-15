@@ -2,7 +2,7 @@
 /**
  * patTemplate StripWhitespace output filter
  *
- * $Id: StripWhitespace.php 2 2005-09-05 22:53:16Z akede $
+ * $Id$
  *
  * Will remove all whitespace and replace it with a single space.
  *
@@ -14,7 +14,7 @@
 /**
  * patTemplate StripWhitespace output filter
  *
- * $Id: StripWhitespace.php 2 2005-09-05 22:53:16Z akede $
+ * $Id$
  *
  * Will remove all whitespace and replace it with a single space.
  *

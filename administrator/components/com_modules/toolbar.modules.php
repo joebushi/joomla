@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: toolbar.modules.php 182 2005-09-13 14:09:32Z stingrey $
+* @version $Id$
 * @package Joomla
 * @subpackage Modules
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.

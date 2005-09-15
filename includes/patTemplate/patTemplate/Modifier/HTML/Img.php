@@ -4,7 +4,7 @@
  *
  * It automatically retrieves the width and height of the image.
  *
- * $Id: Img.php 2 2005-09-05 22:53:16Z akede $
+ * $Id$
  *
  * @package		patTemplate
  * @subpackage	Modifiers
@@ -16,7 +16,7 @@
  *
  * It automatically retrieves the width and height of the image.
  *
- * $Id: Img.php 2 2005-09-05 22:53:16Z akede $
+ * $Id$
  *
  * @package		patTemplate
  * @subpackage	Modifiers

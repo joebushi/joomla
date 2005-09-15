@@ -10,7 +10,7 @@
  * Public License, as long as you do not remove or alter this notice.
  */
 
-// $Id: calendar.js 2 2005-09-05 22:53:16Z akede $
+// $Id$
 
 /** The Calendar object constructor. */
 Calendar = function (mondayFirst, dateStr, onSelected, onClose) {

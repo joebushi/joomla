@@ -16,7 +16,7 @@
 // | Author: Vincent Blavet <vincent@blavet.net>						  |
 // +----------------------------------------------------------------------+
 //
-// $Id: Tar.php 6 2005-09-07 12:00:23Z eddieajau $
+// $Id$
 
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );

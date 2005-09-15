@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: registration.html.php 151 2005-09-12 19:30:41Z stingrey $
+* @version $Id$
 * @package Joomla
 * @subpackage Users
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.

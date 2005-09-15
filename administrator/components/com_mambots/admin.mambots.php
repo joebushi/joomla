@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: admin.mambots.php 205 2005-09-14 04:38:04Z eddieajau $
+* @version $Id$
 * @package Joomla
 * @subpackage Mambots
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.

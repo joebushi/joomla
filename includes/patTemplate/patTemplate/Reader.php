@@ -2,7 +2,7 @@
 /**
  * Base class for patTemplate readers
  *
- * $Id: Reader.php 2 2005-09-05 22:53:16Z akede $
+ * $Id$
  *
  * This class is able to parse patTemplate tags from any string you hand it over
  * It will emulate some kind of SAX parsing by calling start-, end- and CData-handlers.

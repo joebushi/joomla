@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: module.class.php 187 2005-09-13 15:31:57Z stingrey $
+* @version $Id$
 * @package Joomla
 * @subpackage Installer
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.

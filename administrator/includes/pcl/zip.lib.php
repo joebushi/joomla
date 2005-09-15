@@ -1,13 +1,13 @@
 <?php
 /**
-* @version $Id: zip.lib.php 177 2005-09-13 12:11:40Z stingrey $
+* @version $Id$
 * @package Joomla
 */
 
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
-// $Id: zip.lib.php 177 2005-09-13 12:11:40Z stingrey $
+// $Id$
 //
 // The "GNU General Public License" (GPL) is available at
 // http://www.gnu.org/copyleft/gpl.html.

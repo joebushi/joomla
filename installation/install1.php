@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: install1.php 134 2005-09-12 09:52:07Z jick $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php

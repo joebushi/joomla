@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: login.html.php 212 2005-09-14 14:57:33Z stingrey $
+* @version $Id$
 * @package Joomla
 * @subpackage Users
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.

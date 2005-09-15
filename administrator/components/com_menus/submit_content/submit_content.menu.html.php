@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: submit_content.menu.html.php,v 1.8 2005/02/15 12:21:08 kochp Exp $
+* @version $Id$
 * @package Joomla
 * @subpackage Menus
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.

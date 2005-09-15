@@ -1,4 +1,4 @@
-# $Id: joomla.sql 216 2005-09-14 19:00:26Z stingrey $
+# $Id$
 
 #
 # Table structure for table `#__banner`

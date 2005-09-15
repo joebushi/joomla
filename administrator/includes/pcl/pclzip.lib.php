@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: pclzip.lib.php 177 2005-09-13 12:11:40Z stingrey $
+* @version $Id$
 * @package Joomla
 */
 
@@ -30,7 +30,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 //	The use of this software is at the risk of the user.
 //
 // --------------------------------------------------------------------------------
-// $Id: pclzip.lib.php 177 2005-09-13 12:11:40Z stingrey $
+// $Id$
 // --------------------------------------------------------------------------------
 
   // ----- Constants

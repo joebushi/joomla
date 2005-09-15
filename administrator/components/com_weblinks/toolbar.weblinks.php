@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: toolbar.weblinks.php 55 2005-09-09 22:01:38Z eddieajau $
+* @version $Id$
 * @package Joomla
 * @subpackage Weblinks
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.

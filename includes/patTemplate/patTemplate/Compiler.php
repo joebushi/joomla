@@ -2,7 +2,7 @@
 /**
  * Compiler for patTemplate
  *
- * $Id: Compiler.php 2 2005-09-05 22:53:16Z akede $
+ * $Id$
  *
  * WARNING: This is still experimental!
  *
@@ -14,7 +14,7 @@
 /**
  * Compiler for patTemplate
  *
- * $Id: Compiler.php 2 2005-09-05 22:53:16Z akede $
+ * $Id$
  *
  * WARNING: This is still experimental!
  *

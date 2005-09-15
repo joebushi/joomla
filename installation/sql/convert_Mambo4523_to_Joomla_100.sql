@@ -1,4 +1,4 @@
-# $Id: joomla.sql 2 2005-09-05 22:53:16Z akede $
+# $Id$
 
 # Converts Mambo 4.5.2.3 to Joomla! 1.0
 

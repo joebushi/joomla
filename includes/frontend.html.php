@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: frontend.html.php 148 2005-09-12 15:54:19Z stingrey $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php

@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: poll.class.php 88 2005-09-11 14:25:36Z stingrey $
+* @version $Id$
 * @package Joomla
 * @subpackage Polls
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.

@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: joomla.xml.php 201 2005-09-14 03:57:52Z stingrey $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php

@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: content_category.menu.php 185 2005-09-13 15:00:03Z stingrey $
+* @version $Id$
 * @package Joomla
 * @subpackage Menus
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.

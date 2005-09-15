@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: toolbar.admin.php 54 2005-09-09 21:29:01Z eddieajau $
+* @version $Id$
 * @package Joomla
 * @subpackage Admin
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.

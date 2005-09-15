@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: mod_popular.php 176 2005-09-13 11:58:24Z stingrey $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php

@@ -1,5 +1,5 @@
 ##
-# @version $Id: htaccess.txt 22 2005-09-08 18:01:32Z troozers $
+# @version $Id$
 # @package Joomla
 # @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 # @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
