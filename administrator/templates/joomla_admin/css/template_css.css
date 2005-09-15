@@ -397,7 +397,7 @@ form {
 	margin-left: 15px;
 }
 .adminheader {
-	color : #FF9900;
+	color : #c30;
 	font-size : 24px;
 }
 /* Text passed with mosmsg url parameter */
@@ -405,7 +405,7 @@ form {
 	font-family : "Trebuchet MS", Arial, Helvetica, sans-serif;
 	font-weight: bold;
 	font-size : 14px;
-	color : #FF9900;
+	color : #c30;
 	text-align: center;
 }
 .main {
