@@ -17,7 +17,7 @@ global $_VERSION;
 // NOTE - You may change this file to suit your site needs
 ?>
 <div align="center">
-	(C) <?php echo date( 'Y' ) . ' ' . $GLOBALS['mosConfig_sitename'];?>
+	(C) <?php echo mosCurrentDate( '%Y' ) . ' ' . $GLOBALS['mosConfig_sitename'];?>
 </div>
 
 <div align="center">
