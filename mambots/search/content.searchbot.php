@@ -29,7 +29,7 @@ function botSearchContent( $text, $phrase='', $ordering='' ) {
 
 	$_SESSION['searchword'] = $text;
 
-	$now = date( "Y-m-d H:i:s", time()+$mosConfig_offset*60*60 );
+	$now = date( 'Y-m-d H:i:s', time()+$mosConfig_offset*60*60 );
 
 	$text = trim( $text );
 	if ($text == '') {

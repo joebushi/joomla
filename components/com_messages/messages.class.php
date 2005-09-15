@@ -69,7 +69,7 @@ class mosMessage extends mosDBTable {
 			$this->user_id_to 	= $to_id;
 			$this->subject 		= $subject;
 			$this->message 		= $message;
-			$this->date_time 	= date( "Y-m-d h:i:s" );
+			$this->date_time 	= date( 'Y-m-d H:i:s' );
 
 			if ($this->store()) {
 				if ($domail) {

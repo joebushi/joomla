@@ -189,35 +189,28 @@ function mosShowHead() {
 
 	$live_bookmark = $params->get( 'live_bookmark', 0 );
 
-	if ( $live_bookmark ) {
-		// custom bookmark file name
-		$bookmark_file = $params->get( 'bookmark_file', $live_bookmark );
-
-		$link_file 	= $mosConfig_live_site .'/cache/'. $bookmark_file;
-		$filename 	= $mosConfig_absolute_path .'/cache/'. $bookmark_file;
-
-		$cache 		= $params->get( 'cache', 1 );
-		$cache_time = $params->get( 'cache_time', 3600 );
-		$title 		= $params->def( 'title', $mosConfig_sitename );
-
-		// checks to see if cache file exists, to determine whether to create a new one
-		if ( !file_exists( $filename ) || ( ( time() - filemtime( $filename ) ) > $cache_time ) ) {
-			$tempTask 	= $task;
-			$task		= 'live_bookmark';
-
-			// sets bookmark feed type
-			$_GET['feed'] = str_replace( '.xml', '', $live_bookmark );
-
-			// loads rss component to create bookmark file
-			require_once( $mosConfig_absolute_path .'/components/com_rss/rss.php' );
-			$task 		= $tempTask;
+	// support for Live Bookmarks ability for site syndication
+	if ($live_bookmark) {
+		$show = 1;
+		
+		if ($live_bookmark) {
+			$link_file 	= $mosConfig_live_site .'/cache/'. $live_bookmark;
+		} else {
+			$link_file 	= $mosConfig_live_site . '/index2.php?option=com_rss&feed='. $live_bookmark .'&no_html=1';
 		}
-
+		
+		// xhtml check
+		$link_file = ampReplace( $link_file );
+			
 		// outputs link tag for page
-		?>
-		<link rel="alternate" type="application/rss+xml" title="<?php echo $title; ?>" href="<?php echo $link_file; ?>" />
-		<?php
+		if ($show) {
+			?>
+			<link rel="alternate" type="application/rss+xml" title="<?php echo $mosConfig_sitename; ?>" href="<?php echo $link_file; ?>" />
+			<?php
+		}
 	}
+	
+
 
 	// favourites icon
 	if ( !$mosConfig_favicon ) {

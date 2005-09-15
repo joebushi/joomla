@@ -262,7 +262,7 @@ function saveWeblink( $option ) {
 	}
 	$isNew = $row->id < 1;
 
-	$row->date = date( "Y-m-d H:i:s" );
+	$row->date = date( 'Y-m-d H:i:s' );
 	if (!$row->check()) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
@@ -276,7 +276,7 @@ function saveWeblink( $option ) {
 	/** Notify admin's */
 	$query = "SELECT email, name"
 	. "\n FROM #__users"
-	. "\n WHERE usertype = 'superadministrator'"
+	. "\n WHERE gid = 25"
 	. "\n AND sendemail = 1"
 	;
 	$database->setQuery( $query );

@@ -56,7 +56,7 @@ class InputFilter {
 				if (is_string($value)) $source[$key] = $this->remove($this->decode($value));
 			return $source;
 		// clean this string
-		} else if (is_string($source)) {
+		} else if (is_string($source) && !empty($source)) {
 			// filter source for XSS and other 'bad' code etc.
 			return $this->remove($this->decode($source));
 		// return parameter as given

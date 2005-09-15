@@ -68,18 +68,6 @@ function sendNewPass( $option ) {
 		mosRedirect( "index.php?option=$option&task=lostPassword&mosmsg="._ERROR_PASS );
 	}
 
-	$query = "SELECT name, email"
-	. "\n FROM #__users"
-	. "\n WHERE LOWER( usertype ) = 'superadministrator'"
-	. "\n AND LOWER( usertype ) = 'super administrator'"
-	;
-	$database->setQuery( $query );
-	$rows = $database->loadObjectList();
-	foreach ($rows AS $row) {
-		$adminName = $row->name;
-		$adminEmail = $row->email;
-	}
-
 	$newpass = mosMakePassword();
 	$message = _NEWPASS_MSG;
 	eval ("\$message = \"$message\";");
@@ -149,7 +137,7 @@ function saveRegistration( $option ) {
 
 	$pwd 				= $row->password;
 	$row->password 		= md5( $row->password );
-	$row->registerDate 	= date("Y-m-d H:i:s");
+	$row->registerDate 	= date('Y-m-d H:i:s');
 
 	if (!$row->store()) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";

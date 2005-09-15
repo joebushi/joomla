@@ -30,6 +30,17 @@ Legend:
 
 -------------------- 1.0.0 Released ----------------------
 
+16-Sep-2005 Rey Gigataras
+ # Fixed [#7011] Subtle bug in saveUser() - admin.users.php
+ # Fixed [#7120] Articles with `publish_up` today after noon are shown with status `pending`
+ # Fixed [#6669] mosmail BCC not working, send as CC
+ # Fixed [#7422] Weblink submission emails
+ # Fixed [#7196] mosRedirect and Input Filter CGI Error
+ # Fixed [#6814] com_wrapper Iframe Name tag / relative url modifications
+ # Fixed [#6844] rss version is wrong in the Live Bookmark feeds
+ # Fixed [#7120] Articles with `publish_up` today after noon are shown with status `pending`
+ # Fixed [#7161] Apparently unncessary code in sendNewPass - registration.php
+
 15-Sep-2005 Andrew Eddie
  - Removed unused globals from joomla.php
  + Added mosAbstractLog class

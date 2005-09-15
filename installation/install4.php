@@ -219,7 +219,7 @@ if ($siteUrl) {
 	$database = new database( $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix );
 
 	// create the admin user
-	$installdate = date("Y-m-d H:i:s");
+	$installdate = date('Y-m-d H:i:s');
 	$query = "INSERT INTO `#__users` VALUES (62, 'Administrator', 'admin', '$adminEmail', '$cryptpass', 'Super Administrator', 0, 1, 25, '$installdate', '0000-00-00 00:00:00', '', '')";
 	$database->setQuery( $query );
 	$database->query();

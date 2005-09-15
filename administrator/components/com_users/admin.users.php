@@ -356,10 +356,10 @@ function saveUser( $option, $task ) {
 			. "\n WHERE gid = 25"
 			;
 			$database->setQuery( $query );
-			$rows = $database->loadObjectList();
-			$row 		= $rows[0];
-			$adminName 	= $row->name;
-			$adminEmail = $row->email;
+			$admins = $database->loadObjectList();
+			$admin 		= $admins[0];
+			$adminName 	= $admin->name;
+			$adminEmail = $admin->email;
 		}
 		mosMail( $adminEmail, $adminName, $row->email, $subject, $message );
 	}

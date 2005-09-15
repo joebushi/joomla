@@ -2369,8 +2369,9 @@ function mosRedirect( $url, $msg='' ) {
 	// specific filters
 	$iFilter = new InputFilter();
 	$url = $iFilter->process( $url );
-	$msg = $iFilter->process( $msg );
-
+	if (!empty($msg)) {
+		$msg = $iFilter->process( $msg );
+	}
 	if ($iFilter->badAttributeValue( array( 'href', $url ))) {
 		$url = $GLOBALS['mosConfig_live_site'];
 	}
@@ -2990,7 +2991,7 @@ function mosMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=NUL
 		if( is_array($bcc) )
 			foreach ($bcc as $to) $mail->AddCC($to);
 		else
-			$mail->AddCC($bcc);
+			$mail->AddBCC($bcc);
 	}
 	if ($attachment) {
 		if ( is_array($attachment) )

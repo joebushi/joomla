@@ -47,6 +47,7 @@ class HTML_wrapper {
 		<iframe
 		<?php echo $row->load; ?>
 		id="blockrandom"
+		name="iframe"
 		src="<?php echo $row->url; ?>"
 		width="<?php echo $params->get( 'width' ); ?>"
 		height="<?php echo $params->get( 'height' ); ?>"
