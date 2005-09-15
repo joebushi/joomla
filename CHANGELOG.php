@@ -49,6 +49,7 @@ Legend:
 
 15-Sep-2005 Arno Zijlstra
  ^ changed tab images to fit new color
+ ^ changed overlib colors
 
 14-Sep-2005 Rey Gigataras
  ^ Ugraded TinyMCE [2.0 RC2]
