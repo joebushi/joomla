@@ -20,20 +20,20 @@ $_MAMBOTS->registerFunction( 'onCustomEditorButton', 'botMosPageButton' );
 */
 function botMosPageButton() {
 	global $option;
-	
+
 	// button is not active in specific content components
 	switch ( $option ) {
-		case 'com_sections':			
+		case 'com_sections':
 		case 'com_categories':
 		case 'com_modules':
 			$button = array( '', '' );
 			break;
-	
+
 		default:
 			$button = array( 'mospage.gif', '{mospagebreak}' );
 			break;
 	}
-	
+
 	return $button;
 }
 ?>

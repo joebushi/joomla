@@ -1,16 +1,15 @@
 <?xml version="1.0" ?>
 <mosinstall version="1.0.0" type="mambot" group="editors">
-    <name>TinyMCE</name>
-    <version>2.0 RC2</version>
-    <creationDate>2005</creationDate>
-    <author>Moxiecode Systems AB</author>
-    <authorEmail>N/A</authorEmail>
-    <authorUrl>tinymce.moxiecode.com/</authorUrl>
-    <copyright>Moxiecode Systems AB</copyright>
-    <license>LGPL</license>
-    <description>TinyMCE is a platform independent web based Javascript HTML WYSIWYG editor control.</description>
+	<name>TinyMCE</name>
+	<version>2.0 RC2</version>
+	<creationDate>2005</creationDate>
+	<author>Moxiecode Systems AB</author>
+	<authorEmail>N/A</authorEmail>
+	<authorUrl>tinymce.moxiecode.com/</authorUrl>
+	<copyright>Moxiecode Systems AB</copyright>
+	<license>LGPL</license>
+	<description>TinyMCE is a platform independent web based Javascript HTML WYSIWYG editor control.</description>
 	<params>
-
 		<param name="theme" type="list" default="advanced" label="Functionality" description="Select functionality">
 			<option value="simple">Simple</option>
 			<option value="advanced">Advanced</option>

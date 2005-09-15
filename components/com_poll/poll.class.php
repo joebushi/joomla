@@ -39,7 +39,7 @@ class mosPoll extends mosDBTable {
 	function mosPoll( &$db ) {
 		$this->mosDBTable( '#__polls', 'id', $db );
 	}
-	
+
 	// overloaded check function
 	function check() {
 		// check for valid name
@@ -73,7 +73,7 @@ class mosPoll extends mosDBTable {
 
 		return true;
 	}
-	
+
 	// overloaded delete function
 	function delete( $oid=null ) {
 		$k = $this->_tbl_key;

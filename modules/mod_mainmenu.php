@@ -121,27 +121,27 @@ if (!defined( '_MOS_MAINMENU_MODULE' )) {
 				case 'Super Administrator':
 					$intUserType = 0;
 					break;
-					
+
 				case 'Administrator':
 					$intUserType = 1;
 					break;
-					
+
 				case 'Editor':
 					$intUserType = 2;
 					break;
-					
+
 				case 'Registered':
 					$intUserType = 3;
 					break;
-					
+
 				case 'Author':
 					$intUserType = 4;
 					break;
-					
+
 				case 'Publisher':
 					$intUserType = 5;
 					break;
-					
+
 				case 'Manager':
 					$intUserType = 6;
 					break;

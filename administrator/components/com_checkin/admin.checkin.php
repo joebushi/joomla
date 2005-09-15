@@ -74,7 +74,7 @@ while (list($tn) = mysql_fetch_array( $lt )) {
 			$query = "SELECT checked_out"
 			. "\n FROM $tn"
 			. "\n WHERE checked_out > 0"
-			;			
+			;
 			$database->setQuery(  );
 		}
 		$res = $database->query();

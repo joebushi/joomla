@@ -23,7 +23,7 @@ class HTML_user {
 		<div class="componentheading">
 			<?php echo _WELCOME; ?>
 		</div>
-	
+
 		<table cellpadding="0" cellspacing="0" border="0" width="100%">
 		<tr>
 			<td>
@@ -33,12 +33,12 @@ class HTML_user {
 		</table>
 		<?php
 	}
-	
+
 	function userEdit( $row, $option, $submitvalue, &$params ) {
 		global $mosConfig_absolute_path;
-		
+
 		require( $mosConfig_absolute_path .'/includes/HTML_toolbar.php' );
-		
+
 		mosCommonHTML::loadOverlib();
 		?>
 		<script language="javascript" type="text/javascript">
@@ -74,7 +74,7 @@ class HTML_user {
 		<div class="componentheading">
 			<?php echo _EDIT_TITLE; ?>
 		</div>
-		
+
 		<div style="float: right;">
 			<?php
 			mosToolBar::startTable();
@@ -84,7 +84,7 @@ class HTML_user {
 			mosToolBar::endtable();
 			?>
 		</div>
-		
+
 		<table cellpadding="5" cellspacing="0" border="0" width="100%">
 		<tr>
 			<td width=85>
@@ -138,7 +138,7 @@ class HTML_user {
 		</tr>
 		-->
 		</table>
-		
+
 		<input type="hidden" name="id" value="<?php echo $row->id;?>" />
 		<input type="hidden" name="option" value="<?php echo $option;?>">
 		<input type="hidden" name="task" value="saveUserEdit" />
@@ -151,7 +151,7 @@ class HTML_user {
 		<div class="componentheading">
 			<?php echo _SUBMIT_SUCCESS; ?>
 		</div>
-		
+
 		<table>
 		<tr>
 			<td>

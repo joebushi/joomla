@@ -316,7 +316,7 @@ function saveUser( $option, $task ) {
 	session_start();
 	$_SESSION['session_user_params']= $row->params;
 	session_write_close();
-	
+
 	// update the ACL
 	if ( !$isNew ) {
 		$query = "SELECT aro_id"
@@ -369,7 +369,7 @@ function saveUser( $option, $task ) {
 			$msg = 'Successfully Saved changes to User: '. $row->name;
 			mosRedirect( 'index2.php?option=com_users&task=editA&hidemainmenu=1&id='. $row->id, $msg );
 			break;
-			
+
 		case 'save':
 		default:
 			$msg = 'Successfully Saved User: '. $row->name;

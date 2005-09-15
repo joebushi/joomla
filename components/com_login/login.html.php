@@ -21,7 +21,7 @@ class loginHTML {
 
 	function loginpage ( &$params, $image ) {
 		global $mosConfig_lang;
-		
+
 		$return = $params->get('login');
 		?>
 		<form action="<?php echo sefRelToAbs( 'index.php?option=login' ); ?>" method="post" name="login" id="login">

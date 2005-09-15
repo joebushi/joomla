@@ -41,7 +41,7 @@ $d_path				= $mosConfig_live_site .'/images/M_images/';
 		<?php
 	}
 	?>
-	
+
 	<?php
 	// rss091 link
 	if ( $rss091 ) {
@@ -54,7 +54,7 @@ $d_path				= $mosConfig_live_site .'/images/M_images/';
 		<?php
 	}
 	?>
-	
+
 	<?php
 	// rss10 link
 	if ( $rss10 ) {
@@ -67,7 +67,7 @@ $d_path				= $mosConfig_live_site .'/images/M_images/';
 		<?php
 	}
 	?>
-	
+
 	<?php
 	// rss20 link
 	if ( $rss20 ) {
@@ -80,7 +80,7 @@ $d_path				= $mosConfig_live_site .'/images/M_images/';
 		<?php
 	}
 	?>
-	
+
 	<?php
 	// atom link
 	if ( $atom ) {
@@ -93,7 +93,7 @@ $d_path				= $mosConfig_live_site .'/images/M_images/';
 		<?php
 	}
 	?>
-	
+
 	<?php
 	// opml link
 	if ( $opml ) {

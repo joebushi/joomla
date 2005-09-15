@@ -41,7 +41,7 @@ function showInstalledMambots( $_option ) {
 	. "\n FROM #__mambots"
 	. "\n WHERE iscore = 0"
 	. "\n ORDER BY folder, name"
-	;		
+	;
 	$database->setQuery( $query );
 	$rows = $database->loadObjectList();
 

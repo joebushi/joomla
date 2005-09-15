@@ -64,7 +64,7 @@ if ($option == '') {
 	} else {
 		$query = "SELECT id, link"
 		. "\n FROM #__menu"
-		. "\n WHERE menutype = 'mainmenu'" 
+		. "\n WHERE menutype = 'mainmenu'"
 		. "\n AND published = 1"
 		. "\n ORDER BY parent, ordering LIMIT 1"
 		;

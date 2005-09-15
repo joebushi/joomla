@@ -156,10 +156,10 @@ function do_upload($file, $dest_dir) {
 		}
 
 		$format = substr( $file['name'], -3 );
-		
+
 		$allowable = array (
 			'xcf',
-			'odg',			
+			'odg',
 			'gif',
 			'jpg',
 			'png',
@@ -173,7 +173,7 @@ function do_upload($file, $dest_dir) {
 			'ods',
 			'odp'
 		);
-		
+
 		foreach( $allowable as $ext ) {
 			if ( strcasecmp( $format, $ext ) ) {
 				mosRedirect( "index2.php?option=com_media&listdir=".$_POST['dirPath'], 'This file type is not supported' );
@@ -194,7 +194,7 @@ function do_upload($file, $dest_dir) {
 function recursive_listdir($base) {
 	static $filelist = array();
 	static $dirlist = array();
-	
+
 	if(is_dir($base)) {
 		$dh = opendir($base);
 		while (false !== ($dir = readdir($dh))) {
@@ -223,7 +223,7 @@ function showMedia($listdir) {
 	$images 	= array();
 	$folders 	= array();
 	$folders[] 	= mosHTML::makeOption( "/" );
-	
+
 	foreach ($imgFiles as $file) {
 		$folders[] = mosHTML::makeOption( substr($file,strlen($mosConfig_absolute_path. $base )) );
 	}
@@ -254,7 +254,7 @@ function listImages($listdir) {
 		$folders 	= array();
 		$docs 		= array();
 		$allowable 	= 'xcf|odg|gif|jpg|png|bmp';
-		
+
 		while (false !== ($entry = $d->read())) {
 			$img_file = $entry;
 			if(is_file($mosConfig_absolute_path. $base .$listdir.'/'.$img_file) && substr($entry,0,1) != '.' && strtolower($entry) !== 'index.html') {
@@ -273,42 +273,42 @@ function listImages($listdir) {
 			}
 		}
 		$d->close();
-	
+
 		HTML_Media::imageStyle($listdir);
-	
+
 		if(count($images) > 0 || count($folders) > 0 || count($docs) > 0) {
 			//now sort the folders and images by name.
 			ksort($images);
 			ksort($folders);
 			ksort($docs);
-	
-	
+
+
 			HTML_Media::draw_table_header();
-			
+
 			for($i=0; $i<count($folders); $i++) {
 				$folder_name = key($folders);
 				HTML_Media::show_dir('/'.$folders[$folder_name], $folder_name,$listdir);
 				next($folders);
 			}
-			
+
 			for($i=0; $i<count($docs); $i++) {
 				$doc_name = key($docs);
 				$iconfile= $mosConfig_absolute_path."/administrator/components/com_media/images/".substr($doc_name,-3)."_16.png";
 				if (file_exists($iconfile))	{
-					$icon = "components/com_media/images/".(substr($doc_name,-3))."_16.png"	; 
+					$icon = "components/com_media/images/".(substr($doc_name,-3))."_16.png"	;
 				} else {
 					$icon = "components/com_media/images/con_info.png";
 				}
 				HTML_Media::show_doc($docs[$doc_name], $listdir, $icon);
 				next($docs);
 			}
-			
+
 			for($i=0; $i<count($images); $i++) {
 				$image_name = key($images);
 				HTML_Media::show_image($images[$image_name]['file'], $image_name, $images[$image_name]['img_info'], $images[$image_name]['size'],$listdir);
 				next($images);
 			}
-			
+
 			HTML_Media::draw_table_footer();
 		} else {
 			HTML_Media::draw_no_results();

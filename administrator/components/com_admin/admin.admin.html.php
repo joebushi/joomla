@@ -518,7 +518,7 @@ mosHTML::writableCell( 'templates' );
 		</table>
 		<?php
 	}
-	
+
 	/*
 	* Displays contents of Changelog.php file
 	*/
@@ -529,7 +529,7 @@ mosHTML::writableCell( 'templates' );
 			readfile( $GLOBALS['mosConfig_absolute_path'].'/CHANGELOG.php' );
 			?>
 		</pre>
-		<?php		
+		<?php
 	}
 }
 
@@ -564,31 +564,6 @@ function getHelpTOC( $helpsearch ) {
 				}
 			}
 		}
-		/*
-		$xmlDoc = new DOMIT_Lite_Document();
-		$xmlDoc->resolveErrors( true );
-		echo "<br>$file ";
-		if ($xmlDoc->loadXML( $mosConfig_absolute_path . '/help/' . $file, false, true )) {
-			if (eregi( '\.html$', $file )) {
-				// html file
-				$elem = $xmlDoc->getElementsByPath( 'head/title', 1 );
-			} else {
-				// xml file
-				$elem = $xmlDoc->getElementsByPath( 'title', 1 );
-			}
-			if ($elem) {
-				if ($helpsearch) {
-					if (strpos( $xmlDoc->getText(), $helpsearch ) !== false) {
-						$toc[$file] = $elem->getText();
-					}
-				} else {
-					$toc[$file] = $elem->getText();
-				}
-			}
-		} else {
-			echo $xmlDoc->getErrorString();
-		}
-		*/
 	}
 	asort( $toc );
 	return $toc;

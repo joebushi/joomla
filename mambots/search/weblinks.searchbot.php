@@ -42,7 +42,7 @@ function botSearchWeblinks( $text, $phrase='', $ordering='' ) {
 			$wheres2[] = "LOWER(a.title) LIKE '%$text%'";
 			$where = '(' . implode( ') OR (', $wheres2 ) . ')';
 			break;
-			
+
 		case 'all':
 		case 'any':
 		default:
@@ -63,19 +63,19 @@ function botSearchWeblinks( $text, $phrase='', $ordering='' ) {
 		case 'oldest':
 			$order = 'a.date ASC';
 			break;
-			
+
 		case 'popular':
 			$order = 'a.hits DESC';
 			break;
-			
+
 		case 'alpha':
 			$order = 'a.title ASC';
 			break;
-			
+
 		case 'category':
 			$order = 'b.title ASC, a.title ASC';
 			break;
-			
+
 		case 'newest':
 		default:
 			$order = 'a.date DESC';

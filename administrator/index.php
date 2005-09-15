@@ -39,7 +39,7 @@ if (isset( $_POST['submit'] )) {
 
 	$query = "SELECT COUNT(*)"
 	. "\n FROM #__users"
-	. "\n WHERE (" 
+	. "\n WHERE ("
 	// Administrators
 	. "\n gid = 24"
 	// Super Administrators

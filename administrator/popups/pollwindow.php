@@ -30,7 +30,7 @@ $title = $database->loadResult();
 $query = "SELECT text"
 . "\n FROM #__poll_data"
 . "\n WHERE pollid = $pollid"
-. "\n ORDER BY id" 
+. "\n ORDER BY id"
 ;
 $database->setQuery( $query );
 $options = $database->loadResultArray();

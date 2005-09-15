@@ -24,7 +24,7 @@ switch( $task ) {
 	case 'view':
 		showFeed( $option, $feedid );
 		break;
-		
+
 	default:
 		listFeeds( $option, $catid );
 		break;

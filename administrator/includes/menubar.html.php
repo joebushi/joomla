@@ -448,8 +448,8 @@ class mosMenuBar {
 			}
 			$url .= $ref;
 		} else if ( $helpUrl ) {
-	   // Online help site as defined in GC 
-    		$ref .= '.' . $GLOBALS['_VERSION']->getHelpVersion();
+	   // Online help site as defined in GC
+			$ref .= '.' . $GLOBALS['_VERSION']->getHelpVersion();
 			$url = $helpUrl . '/index2.php?option=com_content&amp;task=findkey&amp;pop=1&amp;keyref=' . urlencode( $ref );
 		} else {
 	   // Included html help files

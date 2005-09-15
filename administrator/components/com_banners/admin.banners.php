@@ -122,7 +122,7 @@ function viewBanners( $option ) {
 		return;
 	}
 	$rows = $database->loadObjectList();
-	
+
 	HTML_banners::showBanners( $rows, $pageNav, $option );
 }
 

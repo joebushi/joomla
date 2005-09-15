@@ -24,7 +24,7 @@ class mosToolBar {
 		table#toolbar {
 			margin-right: 10px;
 		}
-		
+
 		table#toolbar a.toolbar {
 			color : #808080;
 			text-decoration : none;
@@ -248,7 +248,7 @@ class mosToolBar {
 		. "\n AND menuid = 0";
 		$database->setQuery( $sql );
 		$cur_template = $database->loadResult();
-		
+
 		$image = mosAdminMenus::ImageCheck( 'preview_f2.png', 'images/', NULL, NULL, 'Preview', 'preview', 1 );
 		?>
 		<td>

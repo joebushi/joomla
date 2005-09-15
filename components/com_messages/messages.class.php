@@ -53,7 +53,7 @@ class mosMessage extends mosDBTable {
 			$subject 	= $subject ? $subject : $this->subject;
 			$message 	= $message ? $message : $this->message;
 		}
-		
+
 		$query = "SELECT cfg_name, cfg_value"
 		. "\n FROM #__messages_cfg"
 		. "\n WHERE user_id = $to_id"
@@ -81,7 +81,7 @@ class mosMessage extends mosDBTable {
 					$recipient = $database->loadResult();
 					$subject 	= _NEW_MESSAGE;
 					$msg 		= _NEW_MESSAGE;
-					
+
 					mosMail( $mosConfig_mailfrom, $mosConfig_fromname, $recipient, $subject, $msg );
 				}
 				return true;

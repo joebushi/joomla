@@ -36,16 +36,16 @@ if (!defined( '_MOS_EDITOR_INCLUDED' )) {
 		if ($mainframe->get( 'loadEditor' )) {
 			$results = $_MAMBOTS->trigger( 'onInitEditor' );
 			foreach ($results as $result) {
-			    if (trim($result)) {
-				   echo $result;				   
+				if (trim($result)) {
+				   echo $result;
 				}
-			}		
+			}
 		}
 	}
 	function getEditorContents( $editorArea, $hiddenField ) {
 		global $mainframe, $_MAMBOTS;
-		
-		$mainframe->set( 'loadEditor', true );		
+
+		$mainframe->set( 'loadEditor', true );
 
 		$results = $_MAMBOTS->trigger( 'onGetEditorContents', array( $editorArea, $hiddenField ) );
 		foreach ($results as $result) {
@@ -57,9 +57,9 @@ if (!defined( '_MOS_EDITOR_INCLUDED' )) {
 	// just present a textarea
 	function editorArea( $name, $content, $hiddenField, $width, $height, $col, $row ) {
 		global $mainframe, $_MAMBOTS, $my;
-		
+
 		$mainframe->set( 'loadEditor', true );
-		
+
 		$results = $_MAMBOTS->trigger( 'onEditorArea', array( $name, $content, $hiddenField, $width, $height, $col, $row ) );
 		foreach ($results as $result) {
 			if (trim($result)) {

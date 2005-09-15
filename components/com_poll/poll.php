@@ -98,7 +98,7 @@ function pollAddVote( $uid ) {
 	;
 	$database->setQuery( $query );
 	$database->query();
-	
+
 	if ( $redirect ) {
 		mosRedirect( sefRelToAbs( 'index.php?option=com_poll&task=results&id='. $uid ), _THANKS );
 	} else {

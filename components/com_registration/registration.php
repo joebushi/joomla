@@ -36,11 +36,11 @@ switch( $task ) {
 		break;
 }
 
-function lostPassForm( $option ) {	
+function lostPassForm( $option ) {
 	global $mainframe;
-	
+
 	$mainframe->SetPageTitle(_PROMPT_PASSWORD);
-	
+
 	HTML_registration::lostPassForm($option);
 }
 
@@ -110,7 +110,7 @@ function registerForm( $option, $useractivation ) {
 	}
 
   	$mainframe->SetPageTitle(_REGISTER_TITLE);
-	
+
 	HTML_registration::registerForm($option, $useractivation);
 }
 

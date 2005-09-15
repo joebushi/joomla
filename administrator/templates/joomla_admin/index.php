@@ -54,7 +54,7 @@ initEditor();
 	</td>
 	<td class="menubackgr" align="right">
 		<a href="index2.php?option=logout" style="color: #333333; font-weight: bold">
-			Logout</a> 
+			Logout</a>
 		<strong><?php echo $my->username;?></strong>
 	</td>
 </tr>

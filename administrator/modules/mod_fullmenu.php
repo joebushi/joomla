@@ -57,7 +57,7 @@ class mosFullAdminMenu {
 				$nonemptySections++;
 		$menuTypes = mosAdminMenus::menutypes();
 		?>
-		<div id="myMenuID"></div>		
+		<div id="myMenuID"></div>
 		<script language="JavaScript" type="text/javascript">
 		var myMenu =
 		[

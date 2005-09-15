@@ -191,7 +191,7 @@ function contactpage( $contact_id ) {
 	;
 	$database->setQuery( $query );
 	$list = $database->loadObjectList();
-	
+
 	$count = count( $list );
 	if ($count) {
 		if ($contact_id < 1) {

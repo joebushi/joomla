@@ -97,7 +97,7 @@ if (!defined( '_MOS_POLL_MODULE' )) {
 				</td>
 			</tr>
 		</table>
-		
+
 		<input type="hidden" name="id" value="<?php echo $poll->id;?>" />
 		<input type="hidden" name="task" value="vote" />
 	</form>

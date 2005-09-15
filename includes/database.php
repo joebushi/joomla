@@ -931,13 +931,13 @@ class mosDBTable {
 				$select .= ",\n COUNT(DISTINCT {$table['idfield']}) AS {$table['idfield']}";
 				$join .= "\n LEFT JOIN {$table['name']} ON {$table['joinfield']} = $k";
 			}
-			
+
 			$query = "SELECT $select"
 			. "\n FROM $this->_tbl"
 			. $join
 			. "\n WHERE $k = ". $this->$k .""
 			. "\n GROUP BY $k"
-			;			
+			;
 			$this->_db->setQuery( $query );
 
 			if ($obj = $this->_db->loadObject()) {
@@ -1045,7 +1045,7 @@ class mosDBTable {
 		if ($oid !== null) {
 			$this->$k = intval( $oid );
 		}
-		
+
 		$query = "UPDATE $this->_tbl"
 		. "\n SET hits = ( hits + 1 )"
 		. "\n WHERE $this->_tbl_key = '$this->id'"
@@ -1158,7 +1158,7 @@ class mosDBTable {
 	*/
 	function toXML( $mapKeysToText=false ) {
 		$xml = '<record table="' . $this->_tbl . '"';
-		
+
 		if ($mapKeysToText) {
 			$xml .= ' mapkeystotext="true"';
 		}

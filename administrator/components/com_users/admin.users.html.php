@@ -311,7 +311,7 @@ class HTML_users {
 					</td>
 				</tr>
 				</table>
-				
+
 				<?php
 				if ( !$contact ) {
 					?>

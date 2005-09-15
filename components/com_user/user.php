@@ -40,7 +40,7 @@ switch( $task ) {
 	case 'cancel':
 		mosRedirect( 'index.php' );
 		break;
-	
+
 	default:
 		HTML_user::frontpage();
 		break;
@@ -56,7 +56,7 @@ function saveUpload( $_dbprefix, $uid, $option, $userfile, $userfile_name, $type
 
 	$base_Dir 	= 'images/stories/';
 	$checksize	= filesize($userfile);
-	
+
 	if ($checksize > 50000) {
 		echo "<script> alert(\""._UP_SIZE."\"); window.history.go(-1); </script>\n";
 	} else {
@@ -99,9 +99,9 @@ function saveUpload( $_dbprefix, $uid, $option, $userfile, $userfile_name, $type
 function userEdit( $option, $uid, $submitvalue) {
 	global $database, $mainframe;
 	global $mosConfig_absolute_path;
-	
+
 	require_once( $mosConfig_absolute_path .'/administrator/components/com_users/users.class.php' );
-	
+
 	if ($uid == 0) {
 		mosNotAuth();
 		return;
@@ -109,7 +109,7 @@ function userEdit( $option, $uid, $submitvalue) {
 	$row = new mosUser( $database );
 	$row->load( $uid );
 	$row->orig_password = $row->password;
-	
+
 	$file 	= $mainframe->getPath( 'com_xml', 'com_users' );
 	$params =& new mosUserParameters( $row->params, $file, 'component' );
 
@@ -147,7 +147,7 @@ function userSave( $option, $uid) {
 		// Restore 'original password'
 		$row->password = $row->orig_password;
 	}
-	
+
 	// save params
 	$params = mosGetParam( $_POST, 'params', '' );
 	if (is_array( $params )) {

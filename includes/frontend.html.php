@@ -27,23 +27,23 @@ class modules_html {
 			// allows for rounded corners
 				modules_html::modoutput_rounded( $module, $params, $Itemid, $moduleclass_sfx, 0 );
 				break;
-			
+
 			case -2:
 			// xhtml (divs and font headder tags)
 				modules_html::modoutput_xhtml( $module, $params, $Itemid, $moduleclass_sfx, 0 );
 				break;
-			
+
 			case -1:
 			// show a naked module - no wrapper and no title
 				modules_html::modoutput_naked( $module, $params, $Itemid, $moduleclass_sfx, 0 );
 				break;
-			
-			default:				
+
+			default:
 			// standard tabled output
 				modules_html::modoutput_table( $module, $params, $Itemid, $moduleclass_sfx, 0 );
 				break;
-		}		
-		
+		}
+
 		if ( $rssurl ) {
 			// feed output
 			modules_html::modoutput_feed( $params, $moduleclass_sfx );
@@ -58,7 +58,7 @@ class modules_html {
 	*/
 	function module2( &$module, &$params, $Itemid, $style=0, $count=0 ) {
 		global $mosConfig_lang, $mosConfig_absolute_path;
-		
+
 		$moduleclass_sfx = $params->get( 'moduleclass_sfx' );
 
 		// check for custom language file
@@ -76,41 +76,41 @@ class modules_html {
 		if ($count > 0) {
 			$number = '<span>' . $count . '</span> ';
 		}
-		
+
 		switch ( $style ) {
 			case -3:
 			// allows for rounded corners
 				modules_html::modoutput_rounded( $module, $params, $Itemid, $moduleclass_sfx );
 				break;
-	
+
 			case -2:
 			// xhtml (divs and font headder tags)
 				modules_html::modoutput_xhtml( $module, $params, $Itemid, $moduleclass_sfx );
 				break;
-			
+
 			case -1:
 			// show a naked module - no wrapper and no title
 				modules_html::modoutput_naked( $module, $params, $Itemid, $moduleclass_sfx );
 				break;
-			
-			default:				
+
+			default:
 			// standard tabled output
 				modules_html::modoutput_table( $module, $params, $Itemid, $moduleclass_sfx );
 				break;
-		}		
+		}
 	}
-	
+
 	// feed output
-	function modoutput_feed( &$params, $moduleclass_sfx ) {	
+	function modoutput_feed( &$params, $moduleclass_sfx ) {
 		global $mosConfig_absolute_path;
-		
+
 		$rssurl 			= $params->get( 'rssurl' );
 		$rssitems 			= $params->get( 'rssitems', 5 );
 		$rssdesc 			= $params->get( 'rssdesc', 1 );
 		$rssimage 			= $params->get( 'rssimage', 1 );
 		$rssitemdesc		= $params->get( 'rssitemdesc', 1 );
 		$words 				= $params->def( 'word_count', 0 );
-		
+
 		$cacheDir 		= $mosConfig_absolute_path .'/cache/';
 		$LitePath 		= $mosConfig_absolute_path .'/includes/Cache/Lite.php';
 		require_once( $mosConfig_absolute_path .'/includes/domit/xml_domit_rss.php' );
@@ -118,7 +118,7 @@ class modules_html {
 		$rssDoc->useCacheLite(true, $LitePath, $cacheDir, 3600);
 		$rssDoc->loadRSS( $rssurl );
 		$totalChannels 	= $rssDoc->getChannelCount();
-		
+
 		for ( $i = 0; $i < $totalChannels; $i++ ) {
 			$currChannel =& $rssDoc->getChannel($i);
 			$elements 	= $currChannel->getElementList();
@@ -131,7 +131,7 @@ class modules_html {
 					$iTitle	= $image->getTitle();
 				}
 			}
-			
+
 			// feed title
 			?>
 			<tr>
@@ -142,7 +142,7 @@ class modules_html {
 					</strong>
 				</td>
 			</tr>
-			
+
 			<?php
 			// feed description
 			if ( $rssdesc ) {
@@ -154,7 +154,7 @@ class modules_html {
 				</tr>
 				<?php
 			}
-			
+
 			// feed image
 			if ( $rssimage ) {
 				?>
@@ -194,7 +194,7 @@ class modules_html {
 							if ( $rssitemdesc ) {
 								// item description
 								$text 	= html_entity_decode( $currItem->getDescription() );
-								
+
 								// word limit check
 								if ( $words ) {
 									$texts = explode( ' ', $text );
@@ -225,11 +225,11 @@ class modules_html {
 			<?php
 		}
 	}
-	
+
 	/*
 	* standard tabled output
 	*/
-	function modoutput_table( $module, $params, $Itemid, $moduleclass_sfx, $type=1 ) {		
+	function modoutput_table( $module, $params, $Itemid, $moduleclass_sfx, $type=1 ) {
 		global $mosConfig_live_site, $mosConfig_sitename, $mosConfig_lang, $mosConfig_absolute_path;
 		global $mainframe, $database, $my;
 		?>
@@ -250,7 +250,7 @@ class modules_html {
 				<?php
 				if ( $type ) {
 					include( $mosConfig_absolute_path . '/modules/' . $module->module . '.php' );
-					
+
 					if (isset( $content)) {
 						echo $content;
 					}
@@ -263,17 +263,17 @@ class modules_html {
 		</table>
 		<?php
 	}
-	
+
 	/*
 	* show a naked module - no wrapper and no title
 	*/
 	function modoutput_naked( $module, $params, $Itemid, $moduleclass_sfx, $type=1 ) {
 		global $mosConfig_live_site, $mosConfig_sitename, $mosConfig_lang, $mosConfig_absolute_path;
 		global $mainframe, $database, $my;
-		
+
 		if ( $type ) {
 			include( $mosConfig_absolute_path . '/modules/' . $module->module . '.php' );
-			
+
 			if (isset( $content)) {
 				echo $content;
 			}
@@ -281,7 +281,7 @@ class modules_html {
 			$module->content;
 		}
 	}
-	
+
 	/*
 	* xhtml (divs and font headder tags)
 	*/
@@ -299,10 +299,10 @@ class modules_html {
 				</h3>
 				<?php
 			}
-			
+
 			if ( $type ) {
 				include( $mosConfig_absolute_path . '/modules/' . $module->module . '.php' );
-				
+
 				if (isset( $content)) {
 					echo $content;
 				}
@@ -313,7 +313,7 @@ class modules_html {
 		</div>
 		<?php
 	}
-	
+
 	/*
 	* allows for rounded corners
 	*/
@@ -329,10 +329,10 @@ class modules_html {
 						if ($module->showtitle != 0) {
 							echo "<h3>$module->title</h3>";
 						}
-				
+
 						if ( $type ) {
 							include( $mosConfig_absolute_path . '/modules/' . $module->module . '.php' );
-							
+
 							if (isset( $content)) {
 								echo $content;
 							}

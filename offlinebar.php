@@ -42,14 +42,14 @@ echo '<?xml version="1.0" encoding="'. $iso[1] .'"?' .'>';
 <style>
 table.moswarning {
 	font-size: 200%;
-	background-color: #c00; 
-	color: #fff; 
+	background-color: #c00;
+	color: #fff;
 	border-bottom: 2px solid #600
 }
 
 table.moswarning h2 {
 	padding: 0;
-	margin: 0;	
+	margin: 0;
 	text-align: center;
 	font-family: Arial, Helvetica, sans-serif;
 }
@@ -65,9 +65,9 @@ table.moswarning h2 {
 	<tr>
 		<td>
 		<h2>
-	<?php	
+	<?php
 		echo $mosConfig_sitename;
-		echo ' - '; 
+		echo ' - ';
 		echo $mosConfig_offline_message;
 	?>
 		</h2>
@@ -76,7 +76,7 @@ table.moswarning h2 {
 	}
 	else if (@$mosSystemError){
 	?>
-	<tr> 
+	<tr>
 		<td>
 		<h2>
 		<?php echo $mosConfig_error_message; ?>
@@ -87,7 +87,7 @@ table.moswarning h2 {
 	<?php
 } else {
 	?>
-	<tr> 
+	<tr>
 		<td>
 		<h2>
 		<?php echo 'INSTALL_WARN'; ?>

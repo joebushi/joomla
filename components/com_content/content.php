@@ -375,11 +375,11 @@ function showCategory( $id, $gid, &$access, $sectionid, $limit, $limitstart, $no
 				case 'title':
 					$and = "\n AND LOWER( a.title ) LIKE '%$filter%'";
 					break;
-					
+
 				case 'author':
 					$and = "\n AND ( ( LOWER( u.name ) LIKE '%$filter%' ) OR ( LOWER( a.created_by_alias ) LIKE '%$filter%' ) )";
 					break;
-					
+
 				case 'hits':
 					$and = "\n AND a.hits LIKE '%$filter%'";
 					break;
@@ -1275,7 +1275,7 @@ function editItem( $uid, $gid, &$access, $sectionid=0, $task, $Itemid ){
 	$lists['_align'] 		= mosAdminMenus::Positions( '_align' );
 	// build the html select list for the group access
 	$lists['access'] 		= mosAdminMenus::Access( $row );
-	
+
 	// build the select list for the image caption alignment
 	$lists['_caption_align'] 	= mosAdminMenus::Positions( '_caption_align' );
 	// build the html select list for the group access
@@ -1372,7 +1372,7 @@ function saveContent( &$access, $task ) {
 	$database->setQuery( $query );
 	// gets category name of item
 	$section = $database->loadResult();
-	
+
 	$query = "SELECT c.title"
 	. "\n FROM #__categories AS c"
 	. "\n WHERE c.id = $row->catid"
@@ -1401,7 +1401,7 @@ function saveContent( &$access, $task ) {
 		case 'apply':
 			$link = $_SERVER['HTTP_REFERER'];
 			break;
-		
+
 		case 'save':
 		default:
 			$Itemid = mosGetParam( $_POST, 'Returnid', '' );
@@ -1409,9 +1409,9 @@ function saveContent( &$access, $task ) {
 				$link = 'index.php?option=com_content&task=view&id='. $row->id.'&Itemid='. $Itemid;
 			} else {
 				$link = mosGetParam( $_POST, 'referer', '' );
-			}			
+			}
 			break;
-	}	
+	}
 	mosRedirect( $link, $msg );
 }
 
@@ -1440,7 +1440,7 @@ function cancelContent( &$access ) {
 		$Itemid  = mosGetParam( $_POST, 'Returnid', '' );
 		$referer = 'index.php?option=com_content&task=view&id='. $row->id.'&Itemid='. $Itemid;
 	}
-	
+
 	if ( $referer ) {
 		mosRedirect( $referer );
 	} else {
@@ -1576,15 +1576,15 @@ function _orderby_pri( $orderby ) {
 		case 'alpha':
 			$orderby = 'cc.title, ';
 			break;
-			
+
 		case 'ralpha':
 			$orderby = 'cc.title DESC, ';
 			break;
-			
+
 		case 'order':
 			$orderby = 'cc.ordering, ';
 			break;
-			
+
 		default:
 			$orderby = '';
 			break;
@@ -1599,43 +1599,43 @@ function _orderby_sec( $orderby ) {
 		case 'date':
 			$orderby = 'a.created';
 			break;
-			
+
 		case 'rdate':
 			$orderby = 'a.created DESC';
 			break;
-			
+
 		case 'alpha':
 			$orderby = 'a.title';
 			break;
-			
+
 		case 'ralpha':
 			$orderby = 'a.title DESC';
 			break;
-			
+
 		case 'hits':
 			$orderby = 'a.hits DESC';
 			break;
-			
+
 		case 'rhits':
 			$orderby = 'a.hits ASC';
 			break;
-			
+
 		case 'order':
 			$orderby = 'a.ordering';
 			break;
-			
+
 		case 'author':
 			$orderby = 'a.created_by, u.name';
 			break;
-			
+
 		case 'rauthor':
 			$orderby = 'a.created_by DESC, u.name DESC';
 			break;
-			
+
 		case 'front':
 			$orderby = 'f.ordering';
 			break;
-			
+
 		default:
 			$orderby = 'a.ordering';
 			break;

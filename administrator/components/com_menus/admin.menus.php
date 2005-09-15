@@ -457,8 +457,8 @@ function TrashMenuSection( $cid=NULL ) {
 	}
 
 	$total = count( $cid );
-	
-	$msg = $total ." Item(s) sent to the Trash";		
+
+	$msg = $total ." Item(s) sent to the Trash";
 	return $msg;
 }
 

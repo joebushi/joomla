@@ -289,7 +289,7 @@ class mosMainFrame {
 	var $_head				= null;
 	/** @var string Custom html string to append to the pathway */
 	var $_custom_pathway	= null;
-	
+
 	/**
 	* Class constructor
 	* @param database A database connection object
@@ -615,7 +615,7 @@ class mosMainFrame {
 	*/
 	function getUser() {
 		global $database;
-		
+
 		$user = new mosUser( $this->_db );
 
 		$user->id 			= intval( $this->_session->userid );
@@ -634,7 +634,7 @@ class mosMainFrame {
 			$params = '';
 		}
 		$user->params = $params;
-		
+
 		return $user;
 	}
 	/**
@@ -787,7 +787,7 @@ class mosMainFrame {
 						}
 					}
 					break;
-					
+
 				case 'mod0_xml':
 					// Site modules
 					if ($option == '') {
@@ -799,7 +799,7 @@ class mosMainFrame {
 						$result = $path;
 					}
 					break;
-					
+
 				case 'mod1_xml':
 					// admin modules
 					if ($option == '') {
@@ -811,7 +811,7 @@ class mosMainFrame {
 						$result = $path;
 					}
 					break;
-					
+
 				case 'bot_xml':
 					// Site mambots
 					$path = $mosConfig_absolute_path . "/mambots/$option.xml";
@@ -819,21 +819,21 @@ class mosMainFrame {
 						$result = $path;
 					}
 					break;
-					
+
 				case 'menu_xml':
 					$path = $mosConfig_absolute_path . "/administrator/components/com_menus/$option/$option.xml";
 					if (file_exists( $path )) {
 						$result = $path;
 					}
 					break;
-					
+
 				case 'installer_html':
 					$path = $mosConfig_absolute_path . "/administrator/components/com_installer/$option/$option.html.php";
 					if (file_exists( $path )) {
 						$result = $path;
 					}
 					break;
-						
+
 				case 'installer_class':
 					$path = $mosConfig_absolute_path . "/administrator/components/com_installer/$option/$option.class.php";
 					if (file_exists( $path )) {
@@ -1116,7 +1116,7 @@ class mosMainFrame {
 		$count = $this->_db->loadResult();
 		return $count;
 	}
-	
+
 	/**
 	* @param string The name of the property
 	* @param mixed The value of the property to set
@@ -1251,7 +1251,7 @@ class mosHTML {
 		$end 	= intval( $end );
 		$inc 	= intval( $inc );
 		$arr 	= array();
-		
+
 		for ($i=$start; $i <= $end; $i+=$inc) {
 			$fi = $format ? sprintf( "$format", $i ) : "$i";
 			$arr[] = mosHTML::makeOption( $fi, $fi );
@@ -2098,14 +2098,14 @@ class mosUser extends mosDBTable {
 	function getUserListFromGroup( $value, $name, $recurse='NO_RECURSE', $order='name' ) {
 		global $acl;
 
-		// Change back in 
+		// Change back in
 		//$group_id = $acl->get_group_id( $value, $name, $group_type = 'ARO');
 		$group_id = $acl->get_group_id( $name, $group_type = 'ARO');
 		$objects = $acl->get_group_objects( $group_id, 'ARO', 'RECURSE');
 
 		if (isset( $objects['users'] )) {
 			$gWhere = '(id =' . implode( ' OR id =', $objects['users'] ) . ')';
-	
+
 			$query = "SELECT id AS value, name AS text"
 			. "\n FROM #__users"
 			. "\n WHERE block = '0'"
@@ -2790,13 +2790,13 @@ function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text
 	if ( $href ) {
 		$style = '';
 	}
-	
+
 	if ( $link ) {
 		$tip = "<a href=\"". $href ."\" onMouseOver=\"return overlib('" . $tooltip . "'". $title .", BELOW, RIGHT". $width .");\" onmouseout=\"return nd();\" ". $style .">". $text ."</a>";
 	} else {
 		$tip = "<span onMouseOver=\"return overlib('" . $tooltip . "'". $title .", BELOW, RIGHT". $width .");\" onmouseout=\"return nd();\" ". $style .">". $text ."</span>";
 	}
-	
+
 	return $tip;
 }
 
@@ -3132,9 +3132,9 @@ class mosMambotHandler {
 			$bot->lookup 	= $folder . '/' . $element;
 			$bot->params 	= $params;
 			$this->_bots[] 	= $bot;
-			
+
 			require_once( $path );
-			
+
 			$this->_loading = null;
 		}
 	}
@@ -3320,7 +3320,7 @@ class mosAdminMenus {
 		$database->setQuery( $query );
 		$groups = $database->loadObjectList();
 		$access = mosHTML::selectList( $groups, 'access', 'class="inputbox" size="3"', 'value', 'text', intval( $row->access ) );
-		
+
 		return $access;
 	}
 
@@ -3655,7 +3655,7 @@ class mosAdminMenus {
 		// does not include registered users in the list
 			$and = "\n AND gid > 18";
 		}
-		
+
 		$query = "SELECT id AS value, name AS text"
 		. "\n FROM #__users"
 		. "\n WHERE block = 0"

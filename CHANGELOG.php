@@ -34,7 +34,7 @@ Legend:
  + added `Apply` button to frontend Content editing
  ^ Modified layout of Media Manager
  ^ Added Media Manager support for XCF, ODG, ODT, ODS, ODP file formats
- # Fixed use of 302 redirect instead of 301 
+ # Fixed use of 302 redirect instead of 301
  # Content frontend `Save` Content redirects to full content view
  # Fixed Wrapper auto-height problem
  # Queries cleaned of incorrect encapsulation of integer values
@@ -42,11 +42,11 @@ Legend:
 
 15-Sep-2005 Arno Zijlstra
  ^ changed tab images to fit new color
- 
+
 14-Sep-2005 Rey Gigataras
  ^ Ugraded TinyMCE [2.0 RC2]
- ^ Param tip style change to dashed underline  
- # Queries cleaned of incorrect encapsulation of integer values 
+ ^ Param tip style change to dashed underline
+ # Queries cleaned of incorrect encapsulation of integer values
 
 14-Sep-2005 Andrew Eddie
  # Added PHP 5 compatibility functions file_put_contents and file_get_contents

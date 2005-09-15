@@ -25,7 +25,7 @@ function mosCountAdminModules(  $position='left' ) {
 	. "\n AND m.client_id = 1"
 	;
 	$database->setQuery( $query );
-	
+
 	return $database->loadResult();
 }
 /**
@@ -87,7 +87,7 @@ function mosLoadAdminModules( $position='left', $style=0 ) {
 				echo '</div>';
 			}
 			break;
-			
+
 		case 0:
 		default:
 			foreach ($modules as $module) {
@@ -98,7 +98,7 @@ function mosLoadAdminModules( $position='left', $style=0 ) {
 					mosLoadAdminModule( substr( $module->module, 4 ), $params );
 				}
 			}
-			break;		
+			break;
 	}
 }
 /**
@@ -216,15 +216,15 @@ function mosShowSource( $filename, $withLineNums=false ) {
 
 function mosIsChmodable($file) {
 	$perms = fileperms($file);
-	
+
 	if ( $perms !== FALSE ) {
 		if (@chmod($file, $perms ^ 0001)) {
 			@chmod($file, $perms);
-			
+
 			return TRUE;
-		} // if	
+		} // if
 	}
-	
+
 	return FALSE;
 } // mosIsChmodable
 
@@ -278,7 +278,7 @@ function mosMakePath($base, $path='', $mode = NULL) {
 	if (isset($origmask)) {
 		@umask($origmask);
 	}
-	
+
 	return $ret;
 }
 

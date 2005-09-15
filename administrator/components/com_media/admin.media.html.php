@@ -32,16 +32,16 @@ class HTML_Media {
 			var listdir=curdir.substring(0,curdir.lastIndexOf('/'));
 			frames['imgManager'].location.href='index3.php?option=com_media&task=list&listdir=' + listdir;
 		}
-	
-	
+
+
 		function goUpDir() {
 			var selection = document.forms[0].dirPath;
 			var dir = selection.options[selection.selectedIndex].value;
 			frames['imgManager'].location.href='index3.php?option=com_media&task=list&listdir=' + dir;
 		}
-		</script>	
+		</script>
 		<body>
-		
+
 		<form action="index2.php" name="adminForm" method="post" enctype="multipart/form-data" >
 		<table width="95%" align="center">
 		<tr>
@@ -69,13 +69,13 @@ class HTML_Media {
 								<input class="inputbox" type="text" name="foldername" size="70" />
 							</td>
 						</tr>
-						</table>							
+						</table>
 					</td>
 				</tr>
 				</table>
 			</th>
 		<tr>
-			<td align="center">	  
+			<td align="center">
 				<fieldset>
 					<table width="99%" align="center" border="0" cellspacing="2" cellpadding="2">
 					<tr>
@@ -91,7 +91,7 @@ class HTML_Media {
 								<td class="buttonOut">
 									<a href="javascript:dirup()">
 										<img src="components/com_media/images/btnFolderUp.gif" width="15" height="15" border="0" alt="Up">
-									</a>	
+									</a>
 								</td>
 							</tr>
 							</table>
@@ -109,7 +109,7 @@ class HTML_Media {
 		</tr>
 		<tr>
 			<td>
-	
+
 			</td>
 		</tr>
 		<tr>
@@ -119,7 +119,7 @@ class HTML_Media {
 			</td>
 		</tr>
 		</table>
-		  
+
 		<input type="hidden" name="option" value="com_media" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="cb1" id="cb1" value="0">
@@ -172,7 +172,7 @@ class HTML_Media {
 	}
 
 
-	function draw_table_header() {		
+	function draw_table_header() {
 		mosCommonHTML::loadOverlib();
 		?>
 		<script language="javascript" type="text/javascript">
@@ -182,13 +182,13 @@ class HTML_Media {
 			var listdir=curdir.substring(0,curdir.lastIndexOf('/'));
 			frames['imgManager'].location.href='index3.php?option=com_media&task=list&listdir=' + listdir;
 		}
-		</script>	
-		<div class="manager">			
+		</script>
+		<div class="manager">
 		<?php
 	}
 
 	function draw_table_footer() {
-		?>			
+		?>
 		</div>
 		<?php
 	}
@@ -200,33 +200,33 @@ class HTML_Media {
 		$img_url = $mosConfig_live_site.'/images'.$listdir.'/'.$img_file;
 
 		$filesize = HTML_Media::parse_size($size);
-		
+
 		if ( ( $info[0] > 70 ) || ( $info[0] > 70 ) ) {
 			$img_dimensions = HTML_Media::imageResize($info[0], $info[1], 80);
 		} else {
 			$img_dimensions = 'width="'. $info[0] .'" height="'. $info[1] .'"';
 		}
-		?>	
-		<div style="float:left; padding: 5px">	
+		?>
+		<div style="float:left; padding: 5px">
 			<div class="imgTotal"  onMouseOver="return overlib( '<?php echo 'Width: '. $info[0].'px<br/>Height: '.$info[1] .'px <br/><br/> *Click to Enlarge*'; ?>', CAPTION, '<?php echo $file; ?>', BELOW, LEFT, WIDTH, 150 );" onMouseOut="return nd();">
-				<div align="center" class="imgBorder">			
-					<a href="javascript:;" 
-						onclick="javascript: window.open( '<?php echo $img_url; ?>', 'win1', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=<?php echo $info[0] * 1.5;?>,height=<?php echo $info[1] * 1.5;?>,directories=no,location=no,left=120,top=80');"					
+				<div align="center" class="imgBorder">
+					<a href="javascript:;"
+						onclick="javascript: window.open( '<?php echo $img_url; ?>', 'win1', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=<?php echo $info[0] * 1.5;?>,height=<?php echo $info[1] * 1.5;?>,directories=no,location=no,left=120,top=80');"
 						style="display: block; width: 100%; height: 100%">
 						<div class="image">
 							<img src="<?php echo $img_url; ?>" <?php echo $img_dimensions; ?> alt="<?php echo $file; ?> - <?php echo $filesize; ?>" border="0">
 						</div></a>
-						
+
 				</div>
 			</div>
 			<div class="imginfoBorder" style="overflow: hidden; border: 1px solid threedface;">
 				<small>
-					<?php echo $file; ?> 
+					<?php echo $file; ?>
 				</small>
 				<div class="buttonOut">
 					<a href="index2.php?option=com_media&task=delete&delFile=<?php echo $file; ?>&listdir=<?php echo $listdir; ?>" target="_top" onClick="return deleteImage('<?php echo $file; ?>');">
-						<img src="components/com_media/images/edit_trash.gif" width="15" height="15" border="0" alt="Delete"></a>	
-					
+						<img src="components/com_media/images/edit_trash.gif" width="15" height="15" border="0" alt="Delete"></a>
+
 				</div>
 			</div>
 		</div>
@@ -242,26 +242,26 @@ class HTML_Media {
 		if ($listdir=='/') {
 			$listdir='';
 		}
-		
+
 
 		$link = 'index3.php?option=com_media&task=list&listdir='. $listdir . $path;
 		?>
-		<div style="float:left; padding: 5px">	
+		<div style="float:left; padding: 5px">
 			<div class="imgTotal">
-				<div align="center" class="imgBorder">			
+				<div align="center" class="imgBorder">
 					<a href="<?php echo $link; ?>" target="imgManager" onClick="javascript:updateDir();">
-						<img src="components/com_media/images/folder.gif" width="80" height="80" border="0" alt="<?php echo $dir; ?>"></a>		
+						<img src="components/com_media/images/folder.gif" width="80" height="80" border="0" alt="<?php echo $dir; ?>"></a>
 				</div>
 			</div>
 			<div class="imginfoBorder" style="overflow: hidden; border: 1px solid threedface;">
-				<small>			
+				<small>
 					<?php echo $dir; ?>
 				</small>
-				<div class="buttonOut">				
+				<div class="buttonOut">
 					<a href="index2.php?option=com_media&task=deletefolder&delFolder=<?php echo $path; ?>&listdir=<?php echo $listdir; ?>" target="_top" onClick="return deleteFolder('<?php echo $dir; ?>', <?php echo $num_files; ?>);">
 						<img src="components/com_media/images/edit_trash.gif" width="15" height="15" border="0" alt="Delete"></a>
-				</div>			
-			</div>			
+				</div>
+			</div>
 		</div>
 		<?php
 	}
@@ -269,9 +269,9 @@ class HTML_Media {
 	function show_doc($doc, $listdir, $icon) {
 		global $mosConfig_absolute_path,$mosConfig_live_site;
 		?>
-		<div style="float:left; padding: 5px">	
+		<div style="float:left; padding: 5px">
 			<div class="imgTotal">
-				<div align="center" class="imgBorder">			
+				<div align="center" class="imgBorder">
 				  <a href="index3.php?option=com_media&task=list&listdir=<?php echo $listdir; ?>" onClick="javascript:window.top.document.forms[0].imagecode.value = '<a href=&quot;<?php echo $mosConfig_live_site.'/images'.$listdir.'/'.$doc;?>&quot;>Insert your text here</a>';">
 		  				<img border="0" src="<?php echo $icon ?>" alt="<?php echo $doc; ?>"></a>
 		  		</div>
@@ -279,14 +279,14 @@ class HTML_Media {
 			<div class="imginfoBorder" style="overflow: hidden; border: 1px solid threedface;">
 				<small>
 					<?php echo $doc; ?>
-				</small>					
-				<div class="buttonOut">				
+				</small>
+				<div class="buttonOut">
 					<a href="index2.php?option=com_media&task=delete&delFile=<?php echo $doc; ?>&listdir=<?php echo $listdir; ?>" target="_top" onClick="return deleteImage('<?php echo $doc; ?>');">
 						<img src="components/com_media/images/edit_trash.gif" width="15" height="15" border="0" alt="Delete"></a>
-				</div>			
-			</div>			
+				</div>
+			</div>
 		</div>
-		<?php	
+		<?php
 	}
 
 	function parse_size($size){
@@ -353,11 +353,11 @@ class HTML_Media {
 				}
 			}
 		}
-	
+
 		function deleteImage(file) {
 			if(confirm("Delete file \""+file+"\"?"))
 			return true;
-	
+
 			return false;
 		}
 		function deleteFolder(folder, numFiles) {
@@ -365,10 +365,10 @@ class HTML_Media {
 				alert("There are "+numFiles+" files/folders in \""+folder+"\".\n\nPlease delete all files/folder in \""+folder+"\" first.");
 				return false;
 			}
-	
+
 			if(confirm("Delete folder \""+folder+"\"?"))
 			return true;
-	
+
 			return false;
 		}
 		</script>
@@ -393,7 +393,7 @@ class HTML_Media {
 		div.imgBorder a:hover {
 			height: 66px;
 			width: 84px;
-			background-color: #f1e8e6;  
+			background-color: #f1e8e6;
 			border: 1px solid #c24733;
 			color : #FF6600;
 		}
@@ -407,18 +407,18 @@ class HTML_Media {
 			width: 90px;
 			overflow: hidden
 		}
-	
+
 		.buttonHover {
 			border: 1px solid;
 			border-color: ButtonHighlight ButtonShadow ButtonShadow ButtonHighlight;
 			cursor: hand;
 			background: #FFFFCC;
 		}
-	
+
 		.buttonOut {
 		 	border: 0px;
 		}
-	
+
 		.imgCaption {
 			font-size: 9pt;
 			font-family: "MS Shell Dlg", Helvetica, sans-serif;

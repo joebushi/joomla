@@ -206,7 +206,7 @@ class mosPageNav {
 
 			return $output;
    		} else {
-  		    return '&nbsp;';
+  			return '&nbsp;';
 		}
 	}
 
@@ -239,7 +239,7 @@ class mosPageNav {
 
 			return $output;
   		} else {
-  		    return '&nbsp;';
+  			return '&nbsp;';
 		}
 	}
 

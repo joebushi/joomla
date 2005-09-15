@@ -579,7 +579,7 @@ function cancelCategory() {
 	$row = new mosCategory( $database );
 	$row->bind( $_POST );
 	$row->checkin();
-	
+
 	mosRedirect( 'index2.php?option=com_categories&section='. $redirect );
 }
 
@@ -593,7 +593,7 @@ function orderCategory( $uid, $inc ) {
 	$row = new mosCategory( $database );
 	$row->load( $uid );
 	$row->move( $inc, "section = '$row->section'" );
-	
+
 	mosRedirect( 'index2.php?option=com_categories&section='. $row->section );
 }
 

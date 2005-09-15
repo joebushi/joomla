@@ -80,7 +80,7 @@ function showPathway( $Itemid ) {
 			} else {
 				$query = "SELECT title, catid, id"
 				. "\n FROM #__content"
-				. "\n WHERE id = $id" 
+				. "\n WHERE id = $id"
 				;
 			}
 			$database->setQuery( $query );
@@ -127,7 +127,7 @@ function showPathway( $Itemid ) {
 					'index.php?option='. $option .'&task='. $task .'&id='. $id .'&Itemid='. $Itemid,
 					$Itemid
 				);
-				
+
 				$mitems[$id] = $mitem;
 				$Itemid = $id;
 			}
@@ -164,7 +164,7 @@ function showPathway( $Itemid ) {
 					'index.php?option='. $option .'&task=category&sectionid='. $sectionid .'&id='. $row->catid,
 					$Itemid
 				);
-				
+
 				$mitems[$id] = $mitem1;
 
 				// add the final content item
@@ -175,7 +175,7 @@ function showPathway( $Itemid ) {
 					'',
 					$id-1
 				);
-				
+
 				$mitems[$id] = $mitem2;
 				$Itemid = $id;
 
@@ -208,7 +208,7 @@ function showPathway( $Itemid ) {
 					'',
 					$Itemid
 				);
-				
+
 				$mitems[$id] = $mitem2;
 				$Itemid = $id;
 
@@ -225,7 +225,7 @@ function showPathway( $Itemid ) {
 
 			if ($id) {
 				// load the content item name and category
-				
+
 				$query = "SELECT title, catid, id"
 				. "\n FROM #__content"
 				. "\n WHERE id = $id"

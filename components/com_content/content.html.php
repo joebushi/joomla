@@ -863,7 +863,7 @@ class HTML_content {
 	function editContent( &$row, $section, &$lists, &$images, &$access, $myid, $sectionid, $task, $Itemid ) {
 		global $mosConfig_live_site;
 		mosMakeHtmlSafe( $row );
-		
+
 		$Returnid 	= intval( mosGetParam( $_REQUEST, 'Returnid', $Itemid ) );
 		$tabs 		= new mosTabs(0);
 		?>
@@ -958,7 +958,7 @@ class HTML_content {
 		$docinfo .= $row->hits."<br />";
 		?>
 		<form action="index.php" method="post" name="adminForm" onSubmit="javascript:setgood();">
-		
+
 		<table cellspacing="0" cellpadding="0" border="0" width="100%">
 		<tr>
 			<td class="contentheading" >
@@ -970,7 +970,7 @@ class HTML_content {
 			</td>
 		</tr>
 		</table>
-		
+
 		<table class="adminform">
 		<tr>
 			<td>
@@ -988,11 +988,11 @@ class HTML_content {
 					mosToolBar::cancel();
 					mosToolBar::endtable();
 					?>
-				</div>			
+				</div>
 			</td>
 		</tr>
 		<?php
-		if ($row->sectionid) {			
+		if ($row->sectionid) {
 			?>
 			<tr>
 				<td>
@@ -1048,7 +1048,7 @@ class HTML_content {
 		}
 		?>
 		</table>
-		
+
 		<?php
 		// Toolbar Bottom
 		mosToolBar::startTable();
@@ -1056,8 +1056,8 @@ class HTML_content {
 		mosToolBar::apply();
 		mosToolBar::cancel();
 		mosToolBar::endtable();
-		?>		
-		
+		?>
+
 	 	<?php
 		$tabs->startPane( 'content-pane' );
 		$tabs->startTab( _E_IMAGES, 'images-page' );
@@ -1124,7 +1124,7 @@ class HTML_content {
 						<td>
 						<input class="inputbox" type="text" name="_border" value="" size="3" maxlength="1" />
 						</td>
-					</tr>				
+					</tr>
 					<tr>
 						<td align="right">
 						Caption:
@@ -1156,7 +1156,7 @@ class HTML_content {
 						<td>
 						<input class="text_area" type="text" name="_width" value="" size="5" maxlength="5" />
 						</td>
-					</tr>				
+					</tr>
 					<tr>
 						<td align="right"></td>
 						<td>
@@ -1270,9 +1270,9 @@ class HTML_content {
 		$tabs->endTab();
 		$tabs->endPane();
 		?>
-				
+
 		<div style="clear:both;"></div>
-		
+
 		<input type="hidden" name="images" value="" />
 		<input type="hidden" name="goodexit" value="0" />
 		<input type="hidden" name="option" value="com_content" />
@@ -1281,7 +1281,7 @@ class HTML_content {
 		<input type="hidden" name="version" value="<?php echo $row->version; ?>" />
 		<input type="hidden" name="sectionid" value="<?php echo $row->sectionid; ?>" />
 		<input type="hidden" name="created_by" value="<?php echo $row->created_by; ?>" />
-		<input type="hidden" name="referer" value="<?php echo $_SERVER['HTTP_REFERER']; ?>" />		
+		<input type="hidden" name="referer" value="<?php echo $_SERVER['HTTP_REFERER']; ?>" />
 		<input type="hidden" name="task" value="" />
 		</form>
 		<?php

@@ -35,7 +35,7 @@ function botTinymceEditorInit() {
 	$params = new mosParameters( $mambot->params );
 
 	$theme = $params->get( 'theme', 'advanced' );
-	
+
 	$toolbar 			= $params->def( 'toolbar', 'top' );
 	$html_height		= $params->def( 'html_height', '550' );
 	$html_width			= $params->def( 'html_width', '750' );
@@ -44,7 +44,7 @@ function botTinymceEditorInit() {
 	$content_css_custom	= $params->def( 'content_css_custom', '' );
 	$invalid_elements		= $params->def( 'invalid_elements', 'script,applet,iframe' );
 	$newlines			= $params->def( 'newlines', 'false' );
-	
+
 	// Plugins
 	// preview
 	$preview			= $params->def( 'preview', 1 );
@@ -70,7 +70,7 @@ function botTinymceEditorInit() {
 	$fullscreen			=  $params->def( 'fullscreen', 1 );
 	// contextmenu
 	$contextmenu		=  $params->def( 'contextmenu', 1 );
-	
+
 	if ( $content_css ) {
 		$query = "SELECT template FROM #__templates_menu WHERE client_id='0' AND menuid='0'";
 		$database->setQuery( $query );
@@ -83,12 +83,12 @@ function botTinymceEditorInit() {
 			$content_css = '';
 		}
 	}
-	
+
 	$plugins[] 	= '';
 	$buttons2[]	= '';
 	$buttons3[]	= '';
 	$elements[]	= '';
-	
+
 // preview
 	if ( $preview ) {
 		$plugins[]	= 'preview';
@@ -113,7 +113,7 @@ if ( $searchreplace ) {
 		$plugins[]	= 'emotions';
 		$buttons2[]	= 'emotions';
 	}
-	
+
 	// horizontal line
 	if ( $hr ) {
 		$plugins[]	= 'advhr';
@@ -139,12 +139,12 @@ if ( $searchreplace ) {
 	if ( $contextmenu ) {
 		$plugins[]  = "contextmenu";
 	}
-	
+
 	$buttons2 	= implode( ',', $buttons2 );
 	$buttons3 	= implode( ',', $buttons3 );
 	$plugins 	= implode( ',', $plugins );
 	$elements 	= implode( ',', $elements );
-	
+
 return <<<EOD
 	<script type="text/javascript" src="$mosConfig_live_site/mambots/editors/tinymce/jscripts/tiny_mce/tiny_mce.js"></script>
 	<script type="text/javascript">

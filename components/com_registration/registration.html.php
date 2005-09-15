@@ -21,11 +21,11 @@ class HTML_registration {
 	function lostPassForm($option) {
 		?>
 		<form action="index.php" method="post">
-		
+
 		<div class="componentheading">
 			<?php echo _PROMPT_PASSWORD; ?>
 		</div>
-		
+
 		<table cellpadding="0" cellspacing="0" border="0" width="100%" class="contentpane">
 		<tr>
 			<td colspan="2">
@@ -49,7 +49,7 @@ class HTML_registration {
 			</td>
 		</tr>
 		<tr>
-			<td colspan="2"> 
+			<td colspan="2">
 				<input type="hidden" name="option" value="<?php echo $option;?>" />
 				<input type="hidden" name="task" value="sendNewPass" /> <input type="submit" class="button" value="<?php echo _BUTTON_SEND_PASS; ?>" />
 			</td>
@@ -93,7 +93,7 @@ class HTML_registration {
 		<div class="componentheading">
 			<?php echo _REGISTER_TITLE; ?>
 		</div>
-		
+
 		<table cellpadding="0" cellspacing="0" border="0" width="100%" class="contentpane">
 		<tr>
 			<td colspan="2"><?php echo _REGISTER_REQUIRED; ?></td>
@@ -105,22 +105,22 @@ class HTML_registration {
 		  	<td>
 		  		<input type="text" name="name" size="40" value="" class="inputbox" />
 		  	</td>
-		</tr>		
-		<tr>		
+		</tr>
+		<tr>
 			<td>
 				<?php echo _REGISTER_UNAME; ?> *
 			</td>
 			<td>
 				<input type="text" name="username" size="40" value="" class="inputbox" />
 			</td>
-		<tr>		
+		<tr>
 			<td>
 				<?php echo _REGISTER_EMAIL; ?> *
 			</td>
 			<td>
 				<input type="text" name="email" size="40" value="" class="inputbox" />
 			</td>
-		</tr>		
+		</tr>
 		<tr>
 			<td>
 				<?php echo _REGISTER_PASS; ?> *
@@ -128,7 +128,7 @@ class HTML_registration {
 		  	<td>
 		  		<input class="inputbox" type="password" name="password" size="40" value="" />
 		  	</td>
-		</tr>		
+		</tr>
 		<tr>
 			<td>
 				<?php echo _REGISTER_VPASS; ?> *
@@ -136,17 +136,17 @@ class HTML_registration {
 			<td>
 				<input class="inputbox" type="password" name="password2" size="40" value="" />
 			</td>
-		</tr>			
+		</tr>
 		<tr>
 			  <td colspan="2">
 			  </td>
-		</tr>		
+		</tr>
 		<tr>
 			<td colspan=2>
 			</td>
 		</tr>
 		</table>
-		
+
 		<input type="hidden" name="id" value="0" />
 		<input type="hidden" name="gid" value="0" />
 		<input type="hidden" name="useractivation" value="<?php echo $useractivation;?>" />

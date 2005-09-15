@@ -114,7 +114,7 @@ if (!defined( '_ADMIN_OFFLINE' )) {
 	}
 	?>
 	</table>
-	
+
 </body>
 </html>
 <?php

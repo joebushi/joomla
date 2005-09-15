@@ -16,18 +16,18 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 mosAdminMenus::menuItem( $type );
 
 switch ($task) {
-    case 'submit_content_link':
-        // this is the new item, ie, the same name as the menu `type`
-        submit_content_menu::editSection( 0, $menutype, $option );
-        break;
+	case 'submit_content_link':
+		// this is the new item, ie, the same name as the menu `type`
+		submit_content_menu::editSection( 0, $menutype, $option );
+		break;
 
-    case 'edit':
-        submit_content_menu::edit( $cid[0], $menutype, $option );
-        break;
+	case 'edit':
+		submit_content_menu::edit( $cid[0], $menutype, $option );
+		break;
 
-    case 'save':
-    case 'apply':
-        saveMenu( $option, $task );
-        break;
+	case 'save':
+	case 'apply':
+		saveMenu( $option, $task );
+		break;
 }
 ?>

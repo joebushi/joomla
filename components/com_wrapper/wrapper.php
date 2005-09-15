@@ -55,7 +55,7 @@ function showWrap( $option ) {
 	}
 
 	$mainframe->SetPageTitle($menu->name);
-	
+
 	HTML_wrapper::displayWrap( $row, $params, $menu );
 }
 ?>

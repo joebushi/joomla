@@ -60,7 +60,7 @@ if ($mosConfig_sef) {
 			$_REQUEST['limit'] 		= $limit;
 			$_GET['limitstart'] 	= $limitstart;
 			$_REQUEST['limitstart'] = $limitstart;
-			
+
 			$QUERY_STRING = "option=com_content&task=$task&sectionid=$sectionid&id=$id&Itemid=$Itemid&limit=$limit&limitstart=$limitstart";
 			// $option/$task/$id/$Itemid/$limit/$limitstart
 		} else if (isset($url_array[$pos+5]) && $url_array[$pos+5]!="") {
@@ -79,7 +79,7 @@ if ($mosConfig_sef) {
 			$_REQUEST['limit'] 		= $limit;
 			$_GET['limitstart'] 	= $limitstart;
 			$_REQUEST['limitstart'] = $limitstart;
-			
+
 			$QUERY_STRING = "option=com_content&task=$task&id=$id&Itemid=$Itemid&limit=$limit&limitstart=$limitstart";
 			// $option/$task/$sectionid/$id/$Itemid
 		} else if (!(isset($url_array[$pos+5]) && $url_array[$pos+5]!="") && isset($url_array[$pos+4]) && $url_array[$pos+4]!="") {
@@ -95,7 +95,7 @@ if ($mosConfig_sef) {
 			$_REQUEST['id'] 		= $id;
 			$_GET['Itemid'] 		= $Itemid;
 			$_REQUEST['Itemid'] 	= $Itemid;
-			
+
 			$QUERY_STRING = "option=com_content&task=$task&sectionid=$sectionid&id=$id&Itemid=$Itemid";
 			// $option/$task/$id/$Itemid
 		} else if (!(isset($url_array[$pos+4]) && $url_array[$pos+4]!="") && (isset($url_array[$pos+3]) && $url_array[$pos+3]!="")) {
@@ -108,7 +108,7 @@ if ($mosConfig_sef) {
 			$_REQUEST['id'] 		= $id;
 			$_GET['Itemid'] 		= $Itemid;
 			$_REQUEST['Itemid'] 	= $Itemid;
-			
+
 			$QUERY_STRING = "option=com_content&task=$task&id=$id&Itemid=$Itemid";
 			// $option/$task/$id
 		} else if (!(isset($url_array[$pos+3]) && $url_array[$pos+3]!="") && (isset($url_array[$pos+2]) && $url_array[$pos+2]!="")) {
@@ -118,14 +118,14 @@ if ($mosConfig_sef) {
 			$_REQUEST['task'] 		= $task;
 			$_GET['id'] 			= $id;
 			$_REQUEST['id'] 		= $id;
-			
+
 			$QUERY_STRING = "option=com_content&task=$task&id=$id";
 			// $option/$task
 		} else if (!(isset($url_array[$pos+2]) && $url_array[$pos+2]!="") && (isset($url_array[$pos+1]) && $url_array[$pos+1]!="")) {
 			$task = $url_array[$pos+1];
 			$_GET['task'] 			= $task;
 			$_REQUEST['task'] 		= $task;
-			
+
 			$QUERY_STRING = "option=com_content&task=$task";
 		}
 
@@ -200,43 +200,43 @@ function sefRelToAbs( $string ) {
 			if (eregi("&task=",$string)) {
 				$temp = split("&task=", $string);
 				$temp = split("&", $temp[1]);
-				
+
 				$sefstring .= $temp[0]."/";
 			}
 			if (eregi("&sectionid=",$string)) {
 				$temp = split("&sectionid=", $string);
 				$temp = split("&", $temp[1]);
-				
+
 				$sefstring .= $temp[0]."/";
 			}
 			if (eregi("&id=",$string)) {
 				$temp = split("&id=", $string);
 				$temp = split("&", $temp[1]);
-				
+
 				$sefstring .= $temp[0]."/";
 			}
 			if (eregi("&Itemid=",$string)) {
 				$temp = split("&Itemid=", $string);
 				$temp = split("&", $temp[1]);
-				
+
 				$sefstring .= $temp[0]."/";
 			}
 			if (eregi("&limit=",$string)) {
 				$temp = split("&limit=", $string);
 				$temp = split("&", $temp[1]);
-				
+
 				$sefstring .= $temp[0]."/";
 			}
 			if (eregi("&limitstart=",$string)) {
 				$temp = split("&limitstart=", $string);
 				$temp = split("&", $temp[1]);
-				
+
 				$sefstring .= $temp[0]."/";
 			}
 			if (eregi("&lang=",$string)) {
 				$temp = split("&lang=", $string);
 				$temp = split("&", $temp[1]);
-				
+
 				$sefstring .= "lang,".$temp[0]."/";
 			}
 			$string = $sefstring;
@@ -248,7 +248,7 @@ function sefRelToAbs( $string ) {
 			$sefstring 	= "component/";
 			$temp 		= split("\?", $string);
 			$temp 		= split("&", $temp[1]);
-			
+
 			foreach($temp as $key => $value) {
 				$sefstring .= $value."/";
 			}

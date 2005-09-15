@@ -15,9 +15,9 @@
 	<params>
 		<param name="catid" type="mos_category" default="0" label="Category" description="A content cateogry" />
 		<param name="style" type="list" default="random" label="Style" description="The style to display the category">
-		    <option value="random">Randomly choose one at a time</option>
-		    <option value="horiz">Horizontal</option>
-		    <option value="vert">Vertical</option>
+			<option value="random">Randomly choose one at a time</option>
+			<option value="horiz">Horizontal</option>
+			<option value="vert">Vertical</option>
 		</param>
 		<param name="image" type="radio" default="0" label="Show images" description="Display content item images">
 			<option value="1">Yes</option>
@@ -29,12 +29,12 @@
 			<option value="1">Yes</option>
 		</param>
         <param name="readmore" type="radio" default="0" label="Read More" description="Show/Hide the Read More button">
-            <option value="0">Hide</option>
-            <option value="1">Show</option>
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
         </param>
         <param name="item_title" type="list" default="0" label="Item Title" description="Show item title">
-                <option value="0">No</option>
-                <option value="1">Yes</option>
+			<option value="0">No</option>
+			<option value="1">Yes</option>
         </param>
 		<param name="items" type="text" default="" label="No. of Items" description="No of items to display" />
 		<param name="cache" type="radio" default="0" label="Enable Cache" description="Select whether to cache the content of this module">

@@ -231,7 +231,7 @@ function removeMessage( $cid, $option ) {
 
 	$limit 		= intval( mosGetParam( $_REQUEST, 'limit', 10 ) );
 	$limitstart	= intval( mosGetParam( $_REQUEST, 'limitstart', 0 ) );
-	
+
 	mosRedirect( "index2.php?option=$option&limit=$limit&limitstart=$limitstart" );
 }
 ?>

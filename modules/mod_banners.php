@@ -45,7 +45,7 @@ $query = "SELECT *"
 . "\n LIMIT $bannum, 1";
 $database->setQuery( $query );
 if ($database->loadObject( $banner )) {
-	
+
 	$query = "UPDATE #__banner SET impmade = impmade + 1"
 	. "\n WHERE bid = $banner->bid"
 	;
@@ -59,7 +59,7 @@ if ($database->loadObject( $banner )) {
 	if ($numrows > 0) {
 		// Check if this impression is the last one and print the banner
 		if ($banner->imptotal == $banner->impmade) {
-			
+
 			$query = "INSERT INTO #__bannerfinish ( cid, type, name, impressions, clicks, imageurl, datestart, dateend )"
 			. "\n VALUES ( $banner->cid, '$banner->type', '$banner->name', $banner->impmade, $banner->clicks, '$banner->imageurl', '$banner->date', 'now()' )"
 			;

@@ -222,7 +222,7 @@ function defaultTemplate( $p_tname, $option, $client ) {
 		$query = "DELETE FROM #__templates_menu"
 		. "\n WHERE client_id = 1"
 		. "\n AND menuid = 0"
-		;		
+		;
 		$database->setQuery( $query );
 		$database->query();
 
@@ -420,11 +420,11 @@ function assignTemplate( $p_tname, $option, $client ) {
 
 	// get selected pages for $menulist
 	if ( $p_tname ) {
-		
+
 		$query = "SELECT menuid AS value"
 		. "\n FROM #__templates_menu"
 		. "\n WHERE client_id = 0"
-		. "\n AND template = '$p_tname'"		 
+		. "\n AND template = '$p_tname'"
 		;
 		$database->setQuery( $query );
 		$lookup = $database->loadObjectList();
@@ -462,9 +462,9 @@ function saveTemplateAssign( $option, $client ) {
 				;
 				$database->setQuery( $query );
 				$database->query();
-				
+
 				$query = "INSERT INTO #__templates_menu"
-				. "\n SET client_id = 0, template = '$template', menuid = $menuid"				 
+				. "\n SET client_id = 0, template = '$template', menuid = $menuid"
 				;
 				$database->setQuery( $query );
 				$database->query();
