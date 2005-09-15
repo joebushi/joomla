@@ -92,23 +92,6 @@ $query = "DELETE FROM #__session"
 ;
 $database->setQuery( $query );
 $database->query();
-/*
-// start the html output
-if ($no_html) {
-	if ($path = $mainframe->getPath( "admin" )) {
-		require $path;
-	}
-	exit;
-}
-
-initGzip();
-
-$path = $mosConfig_absolute_path . "/administrator/templates/" . $mainframe->getTemplate() . "/index.php";
-require_once( $path );
-
-doGzip();
-*/
-
 
 $cur_template = $mainframe->getTemplate();
 
