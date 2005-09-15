@@ -100,7 +100,6 @@ initEditor();
 	</td>
 </tr>
 </table>
-
 <?php mosLoadAdminModules( 'debug' );?>
 </body>
 </html>
