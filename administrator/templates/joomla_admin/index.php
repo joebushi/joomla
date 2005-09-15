@@ -89,8 +89,10 @@ initEditor();
 <table width="99%" border="0">
 <tr>
 	<td align="center">
+		<div align="center">
+			<?php echo $_VERSION->URL; ?>
+		</div>
 		<?php
-		include ($mosConfig_absolute_path . "/includes/footer.php");
 		echo '<div class="smallgrey">';
 		$tend = mosProfiler::getmicrotime();
 		$totaltime = ($tend - $tstart);
