@@ -445,8 +445,8 @@ function showCategory( $id, $gid, &$access, $sectionid, $limit, $limitstart, $no
 		$check .= 1;
 	}
 	if ( $params->get( 'hits' ) ) {
-		$order[] = mosHTML::makeOption( 'hits', _ORDER_DROPDOWN_HA );
-		$order[] = mosHTML::makeOption( 'rhits', _ORDER_DROPDOWN_HD );
+		$order[] = mosHTML::makeOption( 'rhits', _ORDER_DROPDOWN_HA );
+		$order[] = mosHTML::makeOption( 'hits', _ORDER_DROPDOWN_HD );
 		$check .= 1;
 	}
 	if ( $params->get( 'author' ) ) {
