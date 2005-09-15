@@ -30,6 +30,9 @@ Legend:
 
 -------------------- 1.0.0 Released ----------------------
 
+16-Sep-2005 Alex Kempkens
+ + template contest winner 'MadeYourWeb' added
+
 16-Sep-2005 Rey Gigataras
  # Fixed [#7011] Subtle bug in saveUser() - admin.users.php
  # Fixed [#7120] Articles with `publish_up` today after noon are shown with status `pending`
