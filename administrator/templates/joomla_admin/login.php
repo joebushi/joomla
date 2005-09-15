@@ -63,9 +63,9 @@ $tstart = mosProfiler::getmicrotime();
 !Warning! Javascript must be enabled for proper operation of the Administrator
 </noscript>
 <div class="footer" align="center">
-<?php
-	include ($mosConfig_absolute_path . "/includes/footer.php");
-?>
+	<div align="center">
+		<?php echo $_VERSION->URL; ?>
+	</div>
 </div>
 </body>
 </html>
