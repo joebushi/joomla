@@ -1,4 +1,4 @@
-# $Id$
+# $Id: convert_Mambo4523_to_Joomla_100.sql 47 2005-09-15 02:55:27Z rhuk $
 
 # Converts Mambo 4.5.2.3 to Joomla! 1.0
 
