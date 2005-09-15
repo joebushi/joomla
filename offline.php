@@ -23,28 +23,30 @@ $adminOffline = false;
 session_name( md5( $mosConfig_live_site ) );
 session_start();
 
-// restore some session variables
-$admin 			= new mosUser( $database );
-$admin->id 		= mosGetParam( $_SESSION, 'session_user_id', '' );
-$admin->username 	= mosGetParam( $_SESSION, 'session_username', '' );
-$admin->usertype 	= mosGetParam( $_SESSION, 'session_usertype', '' );
-$session_id 	= mosGetParam( $_SESSION, 'session_id', '' );
-$logintime 		= mosGetParam( $_SESSION, 'session_logintime', '' );
-
-// check against db record of session
-if ($session_id == md5( $admin->id . $admin->username . $admin->usertype . $logintime )) {
-	$query = "SELECT *"
-	. "\n FROM #__session"
-	. "\n WHERE session_id = '$session_id'"
-	. "\n AND username = " . $database->Quote( $admin->username )
-	. "\n AND userid = " . intval( $admin->id )
-	;
-	$database->setQuery( $query );
-	if (!$result = $database->query()) {
-		echo $database->stderr();
-	}
-	if ($database->getNumRows( $result ) == 1) {
-		define( '_ADMIN_OFFLINE', 1 );
+if (class_exists( 'mosUser' )) {
+	// restore some session variables
+	$admin 			= new mosUser( $database );
+	$admin->id 		= mosGetParam( $_SESSION, 'session_user_id', '' );
+	$admin->username 	= mosGetParam( $_SESSION, 'session_username', '' );
+	$admin->usertype 	= mosGetParam( $_SESSION, 'session_usertype', '' );
+	$session_id 	= mosGetParam( $_SESSION, 'session_id', '' );
+	$logintime 		= mosGetParam( $_SESSION, 'session_logintime', '' );
+	
+	// check against db record of session
+	if ($session_id == md5( $admin->id . $admin->username . $admin->usertype . $logintime )) {
+		$query = "SELECT *"
+		. "\n FROM #__session"
+		. "\n WHERE session_id = '$session_id'"
+		. "\n AND username = " . $database->Quote( $admin->username )
+		. "\n AND userid = " . intval( $admin->id )
+		;
+		$database->setQuery( $query );
+		if (!$result = $database->query()) {
+			echo $database->stderr();
+		}
+		if ($database->getNumRows( $result ) == 1) {
+			define( '_ADMIN_OFFLINE', 1 );
+		}
 	}
 }
 
