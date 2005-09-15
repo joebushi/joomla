@@ -5,7 +5,7 @@
  * Author: Nigel McNie (oracle.shinoda@gmail.com)
  * Copyright: (c) 2004 Nigel McNie (http://qbnz.com/highlighter/)
  * Release Version: 1.0.3
- * CVS Revision Version: $Revision: 2 $
+ * CVS Revision Version: $Revision$
  * Date Started: 2004/06/02
  * Last Modified: $Date: 2005-09-05 17:53:16 -0500 (Mon, 05 Sep 2005) $
  *

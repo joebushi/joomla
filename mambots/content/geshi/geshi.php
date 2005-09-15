@@ -5,7 +5,7 @@
  * Author: Nigel McNie (oracle.shinoda@gmail.com)
  * Copyright: (c) 2004 Nigel McNie
  * Release Version: 1.0.4
- * CVS Revision Version: $Revision: 142 $
+ * CVS Revision Version: $Revision$
  * Date Started: 2004/05/20
  * Last Modified: $Date: 2005-09-12 07:24:33 -0500 (Mon, 12 Sep 2005) $
  *

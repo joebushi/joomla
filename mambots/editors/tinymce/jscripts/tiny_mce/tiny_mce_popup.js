@@ -1,6 +1,6 @@
 /**
  * $RCSfile: tiny_mce_popup.js,v $
- * $Revision: 1.14 $
+ * $Revision$
  * $Date: 2005/08/23 17:01:39 $
  *
  * @author Moxiecode

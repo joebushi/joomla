@@ -29,7 +29,7 @@ define ('ARCHIVE_TAR_ATT_SEPARATOR', 90001);
 * Creates a (compressed) Tar archive
 *
 * @author	Vincent Blavet <vincent@blavet.net>
-* @version  $Revision: 6 $
+* @version  $Revision$
 * @package  Archive
 */
 class Archive_Tar extends PEAR

@@ -23,7 +23,7 @@ class joomlaVersion {
 	/** @var int Sub Release Level */
 	var $DEV_LEVEL 	= '0';
 	/** @var int build Number */
-	var $BUILD	 	= '$Revision: 209 $';
+	var $BUILD	 	= '$Revision$';
 	/** @var string Codename */
 	var $CODENAME 	= 'Sunrise';
 	/** @var string Date */
