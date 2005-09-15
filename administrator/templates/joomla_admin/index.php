@@ -76,7 +76,7 @@ initEditor();
 
 <div align="center">
 	<div class="main">
-	<table width="100%" border="0">
+	<table width="98%" border="0">
 	<tr>
 		<td valign="middle" align="center">
 			<?php mosMainBody_Admin(); ?>
