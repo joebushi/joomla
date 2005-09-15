@@ -4,9 +4,11 @@
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-* Joomla! is free software and parts of it may contain or be derived from works
-* licensed under the GNU General Public License or other free or open source
-* software licenses. See COPYRIGHT.php for copyright notices and details.
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
+* See COPYRIGHT.php for copyright notices and details.
 */
 
 // no direct access
@@ -14,17 +16,19 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 ?>
 
 Joomla! derives from copyrighted works licensed under the GNU General
-Public License.  It may include or be derivative of works copyrighted by
-any or all of the following, from 2000 through 2005: Nick Anies, Brad Baker,
-Ron Bakker, Shayne Bartlett, Tim Broeker, Levis Bisson, Michelle Bisson,
-Robert Castley, Andrew Eddie, Rey Gigataras, Johan Janssens, Alex Kempkens,
-Peter Koch, James Logan, Andy Miller, Mitch Pirtle, Steen Rabol, Peter Russel,
-Phil Taylor, Brian Teeman, Emir Sakic, Jean-Marie Simonet, Andy Stewart,
-Trijnie Wanders, Arno Zijlstra, or Miro International Pty Ltd.
+Public License.  This version has been modified pursuant to the
+GNU General Public License as of September 15, 2005, and as distributed,
+it includes or is derivative of works licensed under the GNU General
+Public License or other free or open source software licenses, including
+works copyrighted by any or all of the following, from 2000 through 2005:
+Nick Anies, Brad Baker, Ron Bakker, Shayne Bartlett, Tim Broeker, Levis
+Bisson, Michelle Bisson, Robert Castley, Andrew Eddie, Rey Gigataras,
+Johan Janssens, Alex Kempkens, Peter Koch, James Logan, Andy Miller,
+Mitch Pirtle, Steen Rabol, Peter Russel, Phil Taylor, Brian Teeman, Emir
+Sakic, Jean-Marie Simonet, Andy Stewart, Trijnie Wanders, Arno Zijlstra,
+or Miro International Pty Ltd.
 
-Joomla! may include or be derivative of works, which it may have modified as
-of September 1, 2005 and which have been distributed under the following
-copyright notices:
+Joomla! includes or is derivative of works distributed under the following copyright notices:
 
 Chache
 ---
