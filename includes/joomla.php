@@ -3863,7 +3863,7 @@ class mosAdminMenus {
 			$ff 	= $folderPath . $file;
 			$i_f 	= $imagePath .'/'. $file;
 
-			if ( is_dir( $i_f ) && $file <> 'CVS' ) {
+			if ( is_dir( $i_f ) && $file <> 'CVS' && $file <> '.svn') {
 				$folders[] = mosHTML::makeOption( $ff_ );
 				mosAdminMenus::ReadImages( $i_f, $ff_, $folders, $images );
 			} else if ( eregi( "bmp|gif|jpg|png", $file ) && is_file( $i_f ) ) {

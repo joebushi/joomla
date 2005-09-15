@@ -440,7 +440,7 @@ class HTML_typedcontent {
 				</tr>
 				</table>
 				<br />
-				<table class="adminform">
+				<table class="adminform" width="100%">
 				<?php
 				if ( $row->id ) {
 					?>
@@ -514,38 +514,54 @@ class HTML_typedcontent {
 				<table class="adminform">
 				<tr>
 					<th colspan="2">
-					MOSImage Control
+						MOSImage Control
 					</th>
-				<tr>
-				<tr>
-					<td colspan="6">
-					Sub-folder: <?php echo $lists['folders'];?>
-					</td>
 				</tr>
 				<tr>
-					<td>
-					Gallery Images
-					<br />
-					<?php echo $lists['imagefiles'];?>
-					<br />
-					<input class="button" type="button" value="Add" onClick="addSelectedToList('adminForm','imagefiles','imagelist')" />
-					</td>
-					<td valign="top">
-					<img name="view_imagefiles" src="../images/M_images/blank.png" width="100" />
+					<td colspan="2">
+						<table width="100%">
+						<tr>
+							<td width="48%">
+								<div align="center">
+									Gallery Images:
+									<br />
+									<?php echo $lists['imagefiles'];?>
+									<br />
+									Sub-folder: <?php echo $lists['folders'];?>
+								</div>
+							</td>
+							<td width="2%">
+								<input class="button" type="button" value=">>" onclick="addSelectedToList('adminForm','imagefiles','imagelist')" title="Add"/>
+								<br/>
+								<input class="button" type="button" value="<<" onclick="delSelectedFromList('adminForm','imagelist')" title="Remove"/>
+							</td>
+							<td width="48%">
+								<div align="center">
+									Content Images:
+									<br />
+									<?php echo $lists['imagelist'];?>
+									<br />
+									<input class="button" type="button" value="Up" onclick="moveInList('adminForm','imagelist',adminForm.imagelist.selectedIndex,-1)" />
+									<input class="button" type="button" value="Down" onclick="moveInList('adminForm','imagelist',adminForm.imagelist.selectedIndex,+1)" />
+									<input class="button" type="button" value="remove" onClick="delSelectedFromList('adminForm','imagelist')" />
+								</div>
+							</td>
+						</tr>
+						</table>
 					</td>
 				</tr>
-				<tr>
+				<tr valign="top">
 					<td>
-					Content Images:
-					<br />
-					<?php echo $lists['imagelist'];?>
-					<br />
-					<input class="button" type="button" value="up" onClick="moveInList('adminForm','imagelist',adminForm.imagelist.selectedIndex,-1)" />
-					<input class="button" type="button" value="down" onClick="moveInList('adminForm','imagelist',adminForm.imagelist.selectedIndex,+1)" />
-					<input class="button" type="button" value="remove" onClick="delSelectedFromList('adminForm','imagelist')" />
+						<div align="center">
+							Sample Image:<br/>
+							<img name="view_imagefiles" src="../images/M_images/blank.png" width="100" />
+						</div>
 					</td>
 					<td valign="top">
-					<img name="view_imagelist" src="../images/M_images/blank.png" width="100" />
+						<div align="center">
+							Active Image:<br/>
+							<img name="view_imagelist" src="../images/M_images/blank.png" width="100" />
+						</div>
 					</td>
 				</tr>
 				<tr>
