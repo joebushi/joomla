@@ -30,6 +30,10 @@ Legend:
 
 -------------------- 1.0.0 Released ----------------------
 
+15-Sep-2005 Andrew Eddie
+ - Removed unused globals from joomla.php
+ + Added mosAbstractLog class
+
 15-Sep-2005 Rey Gigataras
  + added `Apply` button to frontend Content editing
  ^ Added publish date to syndicated feeds output [credit: gharding]

@@ -13,6 +13,41 @@
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 define( '_MOS_MAMBO_INCLUDED', 1 );
 
+/**
+ * Page generation time
+ * @package Joomla
+ */
+class mosProfiler {
+	/** @var int Start time stamp */
+	var $start=0;
+	/** @var string A prefix for mark messages */
+	var $prefix='';
+
+	/**
+	 * Constructor
+	 * @param string A prefix for mark messages
+	 */
+	function mosProfiler( $prefix='' ) {
+		$this->start = $this->getmicrotime();
+		$this->prefix = $prefix;
+	}
+
+	/**
+	 * @return string A format message of the elapsed time
+	 */
+	function mark( $label ) {
+		return sprintf ( "\n<div class=\"profiler\">$this->prefix %.3f $label</div>", $this->getmicrotime() - $this->start );
+	}
+
+	/**
+	 * @return float The current time in milliseconds
+	 */
+	function getmicrotime(){
+		list($usec, $sec) = explode(" ",microtime());
+		return ((float)$usec + (float)$sec);
+	}
+}
+
 if (phpversion() < '4.2.0') {
 	require_once( $mosConfig_absolute_path . '/includes/compat.php41x.php' );
 }
@@ -37,11 +72,6 @@ if (@$mosConfig_error_reporting === 0) {
 	error_reporting( $mosConfig_error_reporting );
 }
 
-$local_backup_path = $mosConfig_absolute_path.'/administrator/backups';
-$media_path = $mosConfig_absolute_path.'/media/';
-$image_path = $mosConfig_absolute_path.'/images/stories';
-$image_size = 100;
-
 require_once( $mosConfig_absolute_path . '/includes/version.php' );
 require_once( $mosConfig_absolute_path . '/includes/database.php' );
 require_once( $mosConfig_absolute_path . '/includes/gacl.class.php' );
@@ -61,6 +91,56 @@ if ($database->getErrorNum()) {
 $database->debug( $mosConfig_debug );
 $acl = new gacl_api();
 
+/**
+ * @package Joomla
+ * @abstract
+ */
+class mosAbstractLog {
+	/** @var array */
+	var $_log	= null;
+
+	/**
+	 * Constructor
+	 */
+	function mosAbstractLog() {
+		$this->__constructor();
+	}
+
+	/**
+	 * Generic constructor
+	 */
+	function __constructor() {
+		$this->_log = array();
+	}
+
+	/**
+	 * @param string Log message
+	 * @param boolean True to append to last message
+	 */
+	function log( $text, $append=false ) {
+		$n = count( $this->_log );
+		if ($append && $n > 0) {
+			$this->_log[count( $this->_log )-1] .= $text;
+		} else {
+			$this->_log[] = $text;
+		}
+	}
+
+	/**
+	 * @param string The glue for each log item
+	 * @return string Returns the log
+	 */
+	function getLog( $glue='<br/>', $truncate=9000, $htmlSafe=false ) {
+		$logs = array();
+		foreach ($this->_log as $log) {
+			if ($htmlSafe) {
+				$log = htmlspecialchars( $log );
+			}
+			$logs[] = substr( $log, 0, $truncate );
+		}
+		return  implode( $glue, $logs );
+	}
+}
 
 /**
  * Task routing class
@@ -2826,29 +2906,6 @@ function mosCompressID( $ID ){
 
 function mosExpandID( $ID ) {
 	return ( implode(unpack("H*",Base64_decode($ID)), '') );
-}
-
-/**
-* Page generation time
-* @package Joomla
-*/
-class mosProfiler {
-	var $start=0;
-	var $prefix='';
-
-	function mosProfiler( $prefix='' ) {
-		$this->start = $this->getmicrotime();
-		$this->prefix = $prefix;
-	}
-
-	function mark( $label ) {
-		return sprintf ( "\n<div class=\"profiler\">$this->prefix %.3f $label</div>", $this->getmicrotime() - $this->start );
-	}
-
-	function getmicrotime(){
-		list($usec, $sec) = explode(" ",microtime());
-		return ((float)$usec + (float)$sec);
-	}
 }
 
 /**
