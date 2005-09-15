@@ -52,7 +52,7 @@ initEditor();
 			<?php mosLoadAdminModules( 'header', 2 );?>
 		</div>
 	</td>
-	<td class="menubackgr" align="right">
+	<td class="menubackgr" align="right" style="padding-right:5px;">
 		<a href="index2.php?option=logout" style="color: #333333; font-weight: bold">
 			Logout</a>
 		<strong><?php echo $my->username;?></strong>
