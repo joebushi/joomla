@@ -43,7 +43,7 @@ class HTML_Media {
 		<body>
 
 		<form action="index2.php" name="adminForm" method="post" enctype="multipart/form-data" >
-		<table width="95%" align="center">
+		<table width="100%" align="center">
 		<tr>
 			<th>
 				<table class="adminheading">

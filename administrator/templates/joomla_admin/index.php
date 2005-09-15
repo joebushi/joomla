@@ -74,15 +74,9 @@ initEditor();
 <br />
 <?php mosLoadAdminModule( 'mosmsg' );?>
 
-<div align="center">
+<div align="center" class="centermain">
 	<div class="main">
-	<table width="98%" border="0">
-	<tr>
-		<td valign="middle" align="center">
-			<?php mosMainBody_Admin(); ?>
-		</td>
-	</tr>
-	</table>
+		<?php mosMainBody_Admin(); ?>
 	</div>
 </div>
 
