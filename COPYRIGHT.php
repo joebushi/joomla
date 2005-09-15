@@ -30,7 +30,7 @@ or Miro International Pty Ltd.
 
 Joomla! includes or is derivative of works distributed under the following copyright notices:
 
-Chache
+Cache
 ---
 Copyright:	Fabien MARTY
 License:	GNU Lesser General Public License (LGPL)
