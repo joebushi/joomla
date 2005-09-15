@@ -41,6 +41,9 @@ Legend:
  # Fixed [#7120] Articles with `publish_up` today after noon are shown with status `pending`
  # Fixed [#7161] Apparently unncessary code in sendNewPass - registration.php
 
+15-Sep-2005 Andy Miller
+ ^ Fixed some width issues with Admin template in IE
+
 15-Sep-2005 Andrew Eddie
  - Removed unused globals from joomla.php
  + Added mosAbstractLog class
