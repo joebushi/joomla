@@ -354,7 +354,7 @@ class HTML_typedcontent {
 					Text: (required)<br />
 					<?php
 					// parameters : areaname, content, hidden field, width, height, rows, cols
-					editorArea( 'editor1',  $row->introtext, 'introtext', '100%;', '400', '65', '50' );
+					editorArea( 'editor1',  $row->introtext, 'introtext', '100%;', '500', '75', '50' );
 					?>
 					</td>
 				</tr>

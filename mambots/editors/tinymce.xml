@@ -56,10 +56,6 @@
  			<option value="0">Hide</option>
  			<option value="1">Show</option>
  		</param>
- 		<param name="contextmenu" type="radio" default="1" label="Context Menu" description="Show/Hide a TinyMCE Context Menu within the editor. Only works in `Advanced` mode">
- 			<option value="0">Hide</option>
- 			<option value="1">Show</option>
- 		</param>
  		<param name="html_height" type="text" default="550" label="HTML Height" description="Height of HTML mode pop-up window. Only works in `Advanced` mode"/>
  		<param name="html_width" type="text" default="750" label="HTML Width" description="Width of HTML mode pop-up window. Only works in `Advanced` mode"/>
  		<param name="preview" type="radio" default="1" label="Preveiw" description="Show/Hide the Preview buttons. Only works in `Advanced` mode">

@@ -603,7 +603,7 @@ class HTML_content {
 					Intro Text: (required)
 					<br /><?php
 					// parameters : areaname, content, hidden field, width, height, rows, cols
-					editorArea( 'editor1',  $row->introtext , 'introtext', '100%;', '200', '75', '20' ) ; ?>
+					editorArea( 'editor1',  $row->introtext , 'introtext', '100%;', '350', '75', '20' ) ; ?>
 					</td>
 				</tr>
 				<tr>
@@ -611,7 +611,7 @@ class HTML_content {
 					Main Text: (optional)
 					<br /><?php
 					// parameters : areaname, content, hidden field, width, height, rows, cols
-					editorArea( 'editor2',  $row->fulltext , 'fulltext', '100%;', '350', '75', '30' ) ; ?>
+					editorArea( 'editor2',  $row->fulltext , 'fulltext', '100%;', '400', '75', '30' ) ; ?>
 					</td>
 				</tr>
 				</table>

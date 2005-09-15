@@ -68,8 +68,6 @@ function botTinymceEditorInit() {
 	$hr					=  $params->def( 'hr', 1 );
 	// fullscreen
 	$fullscreen			=  $params->def( 'fullscreen', 1 );
-	// contextmenu
-	$contextmenu		=  $params->def( 'contextmenu', 1 );
 
 	if ( $content_css ) {
 		$query = "SELECT template FROM #__templates_menu WHERE client_id='0' AND menuid='0'";
@@ -134,10 +132,6 @@ if ( $searchreplace ) {
 	if ( $fullscreen ) {
 		$plugins[]	= 'fullscreen';
 		$buttons3[]	= 'fullscreen';
-	}
-	// contextmenu
-	if ( $contextmenu ) {
-		$plugins[]  = "contextmenu";
 	}
 
 	$buttons2 	= implode( ',', $buttons2 );
