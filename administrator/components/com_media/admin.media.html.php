@@ -5,9 +5,11 @@
 * @subpackage Massmail
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-* Joomla! is free software and parts of it may contain or be derived from works
-* licensed under the GNU General Public License or other free or open source
-* software licenses. See COPYRIGHT.php for copyright notices and details.
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
+* See COPYRIGHT.php for copyright notices and details.
 */
 
 // no direct access
@@ -68,7 +70,7 @@ class HTML_Media {
 							<td>
 								<input class="inputbox" type="text" name="imagecode" size="80" />
 							</td>
-						</tr>						
+						</tr>
 						</table>
 					</td>
 				</tr>
@@ -97,7 +99,7 @@ class HTML_Media {
 									File Upload <small>[ Max = <?php echo ini_get( 'post_max_size' );?> ]</small>
 									&nbsp;&nbsp;&nbsp;&nbsp;
 									<input class="inputbox" type="file" name="upload" id="upload" size="63">&nbsp;
-								</td>							
+								</td>
 							</tr>
 							</table>
 						</td>
@@ -211,7 +213,7 @@ class HTML_Media {
 		} else {
 			$img_dimensions = 'width="'. $info[0] .'" height="'. $info[1] .'"';
 		}
-		
+
 		$overlib = 'Width: '. $info[0].'px<br/>Height: '.$info[1] .'px';
 		$overlib .= '<br/><br/> *Click to Enlarge*';
 		$overlib .= '<br/> *Click for Image Code*';
@@ -220,8 +222,8 @@ class HTML_Media {
 			<div class="imgTotal"  onMouseOver="return overlib( '<?php echo $overlib; ?>', CAPTION, '<?php echo $file; ?>', BELOW, LEFT, WIDTH, 150 );" onMouseOut="return nd();">
 				<div align="center" class="imgBorder">
 					<a href="javascript:;"
-						onclick="javascript: window.open( '<?php echo $img_url; ?>', 'win1', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=<?php echo $info[0] * 1.5;?>,height=<?php echo $info[1] * 1.5;?>,directories=no,location=no,left=120,top=80'); 
-									window.top.document.forms[0].imagecode.value = '<img src=&quot;<?php echo $img_url;?>&quot; align=&quot;left&quot; hspace=&quot;6&quot; alt=&quot;Image&quot />';"						 
+						onclick="javascript: window.open( '<?php echo $img_url; ?>', 'win1', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=<?php echo $info[0] * 1.5;?>,height=<?php echo $info[1] * 1.5;?>,directories=no,location=no,left=120,top=80');
+									window.top.document.forms[0].imagecode.value = '<img src=&quot;<?php echo $img_url;?>&quot; align=&quot;left&quot; hspace=&quot;6&quot; alt=&quot;Image&quot />';"
 						style="display: block; width: 100%; height: 100%">
 						<div class="image">
 							<img src="<?php echo $img_url; ?>" <?php echo $img_dimensions; ?> alt="<?php echo $file; ?> - <?php echo $filesize; ?>" border="0">
@@ -238,7 +240,7 @@ class HTML_Media {
 						<img src="components/com_media/images/edit_trash.gif" width="15" height="15" border="0" alt="Delete"></a>
 					<a href="javascript:;" onClick="javascript:window.top.document.forms[0].imagecode.value = '<img src=&quot;<?php echo $img_url;?>&quot; align=&quot;left&quot; hspace=&quot;6&quot; alt=&quot;Image&quot; />';" title="Image Code">
 						<img src="components/com_media/images/edit_pencil.gif" width="15" height="15" border="0" alt="Code"></a>
-				</div>					
+				</div>
 			</div>
 		</div>
 		<?php

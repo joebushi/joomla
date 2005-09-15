@@ -32,7 +32,7 @@ v1.7.2	Joomla! 1.0
  ^ Added publish date to syndicated feeds output [credit: gharding]
  ^ Added RSS Enclosure support to feedcreator [credit: Joseph L. LeBlanc]
  ^ Added Google Sitemap support to feedcreator
- 
+
 v1.7.2	10-11-04
 	license changed to LGPL
 
@@ -218,15 +218,15 @@ class FeedItem extends HtmlDescribable {
 
 
 	// Added by Joseph LeBlanc, contact@jlleblanc.com
-	
+
 	var $enclosures = Array();
-	
+
 	function addEnclosure($url, $length = 0, $type)	{
 		$this->enclosures[] = array("url" => $url, "length" => $length, "type" => $type);
 	}
-	
-	// end add, Joseph LeBlanc	
-	
+
+	// end add, Joseph LeBlanc
+
 	// on hold
 	// var $source;
 }

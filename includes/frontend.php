@@ -4,9 +4,11 @@
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-* Joomla! is free software and parts of it may contain or be derived from works
-* licensed under the GNU General Public License or other free or open source
-* software licenses. See COPYRIGHT.php for copyright notices and details.
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
+* See COPYRIGHT.php for copyright notices and details.
 */
 
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
@@ -192,16 +194,16 @@ function mosShowHead() {
 	// support for Live Bookmarks ability for site syndication
 	if ($live_bookmark) {
 		$show = 1;
-		
+
 		if ($live_bookmark) {
 			$link_file 	= $mosConfig_live_site .'/cache/'. $live_bookmark;
 		} else {
 			$link_file 	= $mosConfig_live_site . '/index2.php?option=com_rss&feed='. $live_bookmark .'&no_html=1';
 		}
-		
+
 		// xhtml check
 		$link_file = ampReplace( $link_file );
-			
+
 		// outputs link tag for page
 		if ($show) {
 			?>
@@ -209,8 +211,6 @@ function mosShowHead() {
 			<?php
 		}
 	}
-	
-
 
 	// favourites icon
 	if ( !$mosConfig_favicon ) {
