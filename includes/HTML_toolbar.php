@@ -35,6 +35,7 @@ class mosToolBar {
 		}
 		table#toolbar a.toolbar:hover {
 			color : #C64934;
+			cursor: pointer;
 			border: 1px solid #c24733;
 			background-color: #f1e8e6;
 			padding: 3px 5px 1px 5px;

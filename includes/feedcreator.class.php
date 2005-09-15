@@ -27,6 +27,12 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 Changelog:
 
+v1.7.2	Joomla! 1.0
+15-Sep-2005 Rey Gigataras
+ ^ Added publish date to syndicated feeds output [credit: gharding]
+ ^ Added RSS Enclosure support to feedcreator [credit: Joseph L. LeBlanc]
+ ^ Added Google Sitemap support to feedcreator
+ 
 v1.7.2	10-11-04
 	license changed to LGPL
 
@@ -210,6 +216,17 @@ class FeedItem extends HtmlDescribable {
 	 */
 	var $additionalElements = Array();
 
+
+	// Added by Joseph LeBlanc, contact@jlleblanc.com
+	
+	var $enclosures = Array();
+	
+	function addEnclosure($url, $length = 0, $type)	{
+		$this->enclosures[] = array("url" => $url, "length" => $length, "type" => $type);
+	}
+	
+	// end add, Joseph LeBlanc	
+	
 	// on hold
 	// var $source;
 }
@@ -958,8 +975,9 @@ class RSSCreator091 extends FeedCreator {
 		if ($this->ttl!="") {
 			$feed.= "		<ttl>".htmlspecialchars($this->ttl)."</ttl>\n";
 		}
-		if ($this->rating!="") {
-			$feed.= "		<rating>".FeedCreator::iTrunc(htmlspecialchars($this->rating),500)."</rating>\n";
+		if (isset( $this->rating_count ) && $this->rating_count > 0) {
+			$rating = round( $this->rating_sum / $this->rating_count );
+			$feed.= "		<rating>".FeedCreator::iTrunc(htmlspecialchars($rating),500)."</rating>\n";
 		}
 		if ($this->skipHours!="") {
 			$feed.= "		<skipHours>".htmlspecialchars($this->skipHours)."</skipHours>\n";
@@ -1482,6 +1500,40 @@ class JSCreator extends HTMLCreator {
 }
 
 
+/**
+* GoogleSiteMapIndex is a FeedCreator that implements Google Sitemap Index 0.84.
+*
+* @see https://www.google.com/webmasters/sitemaps/docs/en/protocol.html#sitemapFileRequirements
+* taken from http://phpbb.bitfolge.de/viewtopic.php?t=102
+*/
+class GoogleSiteMapIndex extends FeedCreator {
+	/**
+	* Builds the Google Sitemap feed's text.
+	* The feed will contain all items previously added in the same order.
+	* @return string the feed's complete text
+	*/
+	function createFeed() {
+		$feed 	= "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+		$feed	.= "<sitemapindex xmlns=\"http://www.google.com/schemas/sitemap/0.84\"\n";
+		$feed	.= "			  xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n";
+		$feed	.= "			  xsi:schemaLocation=\"http://www.google.com/schemas/sitemap/0.84\n";
+		$feed	.= "			  http://www.google.com/schemas/sitemap/0.84/siteindex.xsd\">\n";
+
+		$total = count( $this->items ) ;
+		for ( $i=0; $i < $total; $i++ ) {
+			$feed	.= "  <sitemap>\n";
+			$feed	.= "	<loc>".htmlspecialchars($this->items[$i]->link)."</loc>\n";
+			if ( $this->items[$i]->date != "" ) {
+				$itemDate 	= new FeedDate( $this->items[$i]->date );
+				$feed		.= "	<lastmod>".htmlspecialchars($itemDate->iso8601())."</lastmod>\n";
+			}
+			$feed.= "  </sitemap>\n";
+		}
+		$feed.= "</sitemapindex>\n";
+
+		return $feed;
+	}
+}
 
 /*** TEST SCRIPT *********************************************************
 

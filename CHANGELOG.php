@@ -32,6 +32,9 @@ Legend:
 
 15-Sep-2005 Rey Gigataras
  + added `Apply` button to frontend Content editing
+ ^ Added publish date to syndicated feeds output [credit: gharding]
+ ^ Added RSS Enclosure support to feedcreator [credit: Joseph L. LeBlanc]
+ ^ Added Google Sitemap support to feedcreator
  ^ Modified layout of Media Manager
  ^ Added Media Manager support for XCF, ODG, ODT, ODS, ODP file formats
  # Fixed use of 302 redirect instead of 301

@@ -160,7 +160,7 @@ function feedFrontpage( $showFeed ) {
 	$and 		= '';
 
 	// query of frontpage content items
-	$query = "SELECT a.*, u.name AS author, u.usertype"
+	$query = "SELECT a.*, u.name AS author, u.usertype, UNIX_TIMESTAMP( a.created ) AS created_ts"
 	. "\n FROM #__content AS a"
 	. $join
 	. "\n LEFT JOIN #__users AS u ON u.id = a.created_by"
@@ -215,6 +215,7 @@ function feedFrontpage( $showFeed ) {
 		$item->link 		= $item_link;
 		$item->description 	= $item_description;
 		$item->source 		= $info[ 'link' ];
+		$item->date			= date( 'r', $row->created_ts );
 
 		// loads item info into rss array
 		$rss->addItem( $item );
