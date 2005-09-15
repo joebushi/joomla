@@ -535,7 +535,7 @@ class HTML_content {
 		//-->
 		</script>
 		<form action="index2.php" method="post" name="adminForm">
-		<table class="adminheading" border="1">
+		<table class="adminheading">
 		<tr>
 			<th class="edit">
 			Content Item:
