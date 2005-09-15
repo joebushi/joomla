@@ -52,21 +52,21 @@ class HTML_Media {
 						Media Manager
 					</td>
 					<td>
-						<table border="0" align="right" cellpadding="0" cellspacing="0" width="600">
+						<table border="0" align="right" cellpadding="0" cellspacing="4" width="600">
 						<tr>
-							<td align="left" width="200">
+							<td align="right" width="200" style="padding-right:10px;">
 								Upload <small>[ Max = <?php echo ini_get( 'post_max_size' );?> ]</small>
 							</td>
 							<td>
-								<input class="inputbox" type="file" name="upload" id="upload" size="69">&nbsp;
+								<input class="inputbox" type="file" name="upload" id="upload" size="40">&nbsp;
 							</td>
 						</tr>
 						<tr>
-							<td align="left">
+							<td align="right" style="padding-right:10px;">
 								Create Directory
 							</td>
 							<td>
-								<input class="inputbox" type="text" name="foldername" size="70" />
+								<input class="inputbox" type="text" name="foldername" size="40" />
 							</td>
 						</tr>
 						</table>
