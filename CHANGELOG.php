@@ -47,6 +47,7 @@ Legend:
  + Added time offset to copyright year in footer
  # Fixed spelling in sample data
  # Reflected some file name changes in installer CHMOD
+ # Fixed bugs in paged search component
 
 16-Sep-2005 Alex Kempkens
  + template contest winner 'MadeYourWeb' added

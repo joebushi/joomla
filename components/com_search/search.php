@@ -28,6 +28,20 @@ function viewSearch() {
 	global $Itemid, $database, $_MAMBOTS;
 	global $mosConfig_list_limit;
 
+	// try to find search component's Itemid
+	$query = "SELECT id"
+		. "\n FROM #__menu"
+		. "\n WHERE type = 'components'"
+		. "\n AND published = 1"
+		. "\n AND link = 'index.php?option=com_search'"
+		;
+	$database->setQuery( $query );
+	$_Itemid = $database->loadResult();
+
+	if ($_Itemid != "") {
+		$Itemid = $_Itemid;
+	}
+
 	$gid = $my->gid;
 
 	// Adds parameter handling
