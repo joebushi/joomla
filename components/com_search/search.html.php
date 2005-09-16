@@ -35,6 +35,8 @@ class search_html {
 		global $Itemid;
 		?>
 		<form action="index.php" method="get">
+		<input type="hidden" name="option" value="com_search" />
+		<input type="hidden" name="Itemid" value="<?php echo $Itemid; ?>" />
 		<table class="contentpaneopen<?php echo $params->get( 'pageclass_sfx' ); ?>">
 			<tr>
 				<td nowrap="nowrap">
@@ -63,9 +65,6 @@ class search_html {
 				</td>
 			</tr>
 		</table>
-
-		<input type="hidden" name="option" value="com_search" />
-		<input type="hidden" name="Itemid" value="<?php echo $Itemid; ?>" />
 		</form>
 		<?php
 	}
@@ -106,7 +105,7 @@ class search_html {
 		$c = count ($rows);
 
 				// number of matches found
-				echo '<br/>';				
+				echo '<br/>';
 				eval ('echo "'._CONCLUSION.'";');
 				?>
 				<a href="http://www.google.com/search?q=<?php echo stripslashes($searchword);?>" target="_blank">
@@ -117,11 +116,11 @@ class search_html {
 		</table>
 		<br />
 		<div align="center">
-			<?php 
+			<?php
 			echo $pageNav->writePagesCounter();
 			$link = $_SERVER['HTTP_REFERER'];
 			echo $pageNav->getLimitBox( $link );
-			?>		
+			?>
 		</div>
 		<table class="contentpaneopen<?php echo $params->get( 'pageclass_sfx' ); ?>">
 		<tr class="<?php echo $params->get( 'pageclass_sfx' ); ?>">
@@ -157,9 +156,9 @@ class search_html {
 									<?php
 								}
 							}
-							
+
 							echo $row->title;
-							
+
 							if ( $row->href ) {
 								?>
 								</a>
@@ -175,11 +174,11 @@ class search_html {
 							}
 							?>
 						</div>
-						
+
 						<div>
-							<?php echo $row->text;?> 
+							<?php echo $row->text;?>
 						</div>
-						
+
 						<?php
 						if ( !$mosConfig_hideCreateDate ) {
 							?>
@@ -189,8 +188,8 @@ class search_html {
 							<?php
 						}
 						?>
-					</fieldset>		
-					<br/>			
+					</fieldset>
+					<br/>
 					<?php
 				}
 				?>
@@ -202,11 +201,11 @@ class search_html {
 		?>
 		<tr>
 			<td colspan="3">
-				<div align="center">			
+				<div align="center">
 					<?php
 					$link = $_SERVER['HTTP_REFERER'];
 					echo $pageNav->writePagesLinks( $link );
-					?>		
+					?>
 				</div>
 			</td>
 		</tr>
