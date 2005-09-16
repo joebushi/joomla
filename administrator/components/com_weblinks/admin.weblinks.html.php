@@ -58,9 +58,6 @@ class HTML_weblinks {
 			<th width="5%">
 			Published
 			</th>
-			<th width="5%">
-			Approved
-			</th>
 			<th colspan="2" width="5%">
 			Reorder
 			</th>
@@ -111,20 +108,6 @@ class HTML_weblinks {
 				<img src="images/<?php echo $img;?>" width="12" height="12" border="0" alt="<?php echo $alt; ?>" />
 				</a>
 				</td>
-				<?php
-				if ( $row->approved ) {
-					?>
-					<td align="center">
-					<img src="images/tick.png">
-					</td>
-					<?php
-				} else {
-					?>
-					<td align="center">
-					</td>
-					<?php
-				}
-				?>
 				<td>
 				<?php echo $pageNav->orderUpIcon( $i, ($row->catid == @$rows[$i-1]->catid) ); ?>
 				</td>
@@ -166,6 +149,8 @@ class HTML_weblinks {
 	*/
 	function editWeblink( &$row, &$lists, &$params, $option ) {
 		mosMakeHtmlSafe( $row, ENT_QUOTES, 'description' );
+		
+		mosCommonHTML::loadOverlib();
 		?>
 		<script language="javascript" type="text/javascript">
 		function submitbutton(pressbutton) {
@@ -247,14 +232,6 @@ class HTML_weblinks {
 					</td>
 					<td>
 					<?php echo $lists['ordering']; ?>
-					</td>
-				</tr>
-				<tr>
-					<td valign="top" align="right">
-					Approved:
-					</td>
-					<td>
-					<?php echo $lists['approved']; ?>
 					</td>
 				</tr>
 				<tr>

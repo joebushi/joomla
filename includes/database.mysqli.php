@@ -856,9 +856,9 @@ class mosDBTable {
 		}
 
 		$query = "SELECT $this->_tbl_key, ordering"
-		. "\" FROM $this->_tbl"
+		. "\n FROM $this->_tbl"
 		. ( $where ? "\n WHERE $where" : '' )
-		. "\n ORDER BY ordering$order2 "
+		. "\n ORDER BY ordering $order2 "
 		;
 		$this->_db->setQuery( $query );
 		if (!($orders = $this->_db->loadObjectList())) {

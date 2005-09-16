@@ -170,8 +170,6 @@ function editWeblink( $option, $id ) {
 	// build list of categories
 	$lists['catid'] 			= mosAdminMenus::ComponentCategory( 'catid', $option, intval( $row->catid ) );
 	// build the html select list
-	$lists['approved'] 			= mosHTML::yesnoRadioList( 'approved', 'class="inputbox"', $row->approved );
-	// build the html select list
 	$lists['published'] 		= mosHTML::yesnoRadioList( 'published', 'class="inputbox"', $row->published );
 
 	$file 	= $mosConfig_absolute_path .'/administrator/components/com_weblinks/weblinks_item.xml';

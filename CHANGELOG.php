@@ -36,6 +36,7 @@ Legend:
  + template contest winner 'MadeYourWeb' added
 
 16-Sep-2005 Rey Gigataras
+ # Fixed [#6710] `Link to menu` function from components Category not working
  # Fixed [#7011] Subtle bug in saveUser() - admin.users.php
  # Fixed [#7120] Articles with `publish_up` today after noon are shown with status `pending`
  # Fixed [#6669] mosmail BCC not working, send as CC

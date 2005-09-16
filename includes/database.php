@@ -856,7 +856,7 @@ class mosDBTable {
 		}
 
 		$query = "SELECT $this->_tbl_key, ordering"
-		. "\" FROM $this->_tbl"
+		. "\n FROM $this->_tbl"
 		. ( $where ? "\n WHERE $where" : '' )
 		. "\n ORDER BY ordering$order2 "
 		;

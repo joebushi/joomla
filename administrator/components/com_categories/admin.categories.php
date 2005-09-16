@@ -265,11 +265,32 @@ function editCategory( $uid=0, $section='' ) {
 		mosRedirect( 'index2.php?option=categories&section='. $row->section, 'The category '. $row->title .' is currently being edited by another administrator' );
 	}
 
-	if ($uid) {
+	$lists['links']	= 0;
+	$menus 			= NULL;
+	if ( $uid ) {
 		// existing record
 		$row->checkout( $my->id );
 		// code for Link Menu
+		
+		switch ( $row->section ) {
+			case 'com_weblinks':
+				$and 	= "\n AND type = 'weblink_category_table'";
+				$link 	= 'Table - Weblink Category';
+				break;
+			
+			case 'com_newsfeeds':
+				$and 	= "\n AND type = 'newsfeed_category_table'";
+				$link 	= 'Table - Newsfeeds Category';
+				break;
+			
+			case 'com_contact_details':
+				$and 	= "\n AND type = 'contact_category_table'";
+				$link 	= 'Table - Contacts Category';
+				break;
+		}
+		
 		if ( $row->section > 0 ) {
+			// content
 			$query = "SELECT *"
 			. "\n FROM #__menu"
 			. "\n WHERE componentid = ". $row->id
@@ -277,30 +298,44 @@ function editCategory( $uid=0, $section='' ) {
 			;
 			$database->setQuery( $query );
 			$menus = $database->loadObjectList();
+			
 			$count = count( $menus );
 			for( $i = 0; $i < $count; $i++ ) {
 				switch ( $menus[$i]->type ) {
 					case 'content_category':
-						$menus[$i]->type = 'Category Table';
-						break;
-
+					$menus[$i]->type = 'Table - Content Category';
+					break;
+					
 					case 'content_blog_category':
-						$menus[$i]->type = 'Category Blog';
-						break;
-
+					$menus[$i]->type = 'Blog - Content Category';
+					break;
+					
 					case 'content_archive_category':
-						$menus[$i]->type = 'Category Blog Archive';
-						break;
+					$menus[$i]->type = 'Blog - Content Category Archive';
+					break;
 				}
 			}
+			$lists['links']	= 1;
 		} else {
-			$menus = array();
-		}
+			$query = "SELECT *"
+			. "\n FROM #__menu"
+			. "\n WHERE componentid = ". $row->id
+			. $and
+			;
+			$database->setQuery( $query );
+			$menus = $database->loadObjectList();
+			
+			$count = count( $menus );
+			for( $i = 0; $i < $count; $i++ ) {
+				$menus[$i]->type = $link;
+			}
+			$lists['links']	= 1;
+		}	
 	} else {
 		// new record
-		$row->section = $section;
+		$row->section 	= $section;
 		$row->published = 1;
-		$menus = NULL;
+		$menus 			= NULL;
 	}
 
 	// make order list
@@ -403,7 +438,7 @@ function saveCategory( $task ) {
 		exit();
 	}
 	$row->checkin();
-	$row->updateOrder( "section='$row->section'" );
+	$row->updateOrder( "section = '$row->section'" );
 
 	if ( $oldtitle ) {
 		if ($oldtitle != $row->title) {
@@ -446,7 +481,7 @@ function saveCategory( $task ) {
 			break;
 
 		case 'apply':
-			$msg = 'Changes to Category saved';
+			$msg = 'Changes to Category saved'.$row->section;
 			mosRedirect( 'index2.php?option=com_categories&section='. $redirect .'&task=editA&hidemainmenu=1&id='. $row->id, $msg );
 			break;
 

@@ -142,7 +142,7 @@ if ( $searchreplace ) {
 	$elements 	= implode( ',', $elements );
 
 return <<<EOD
-	<script type="text/javascript" src="$mosConfig_live_site/mambots/editors/tinymce/jscripts/tiny_mce/tiny_mce.js"></script>
+	<script type="text/javascript" src="$mosConfig_live_site/mambots/editors/tinymce/jscripts/tiny_mce/tiny_mce_gzip.php"></script>
 	<script type="text/javascript">
 	tinyMCE.init({
 		theme : "$theme",
@@ -160,6 +160,7 @@ return <<<EOD
 		force_br_newlines : "$newlines",
 		$content_css,
 		debug : false,
+		safari_warning : false,
 		plugins : "advlink, advimage, $plugins",
 		theme_advanced_buttons2_add : "$buttons2",
 		theme_advanced_buttons3_add : "$buttons3",
