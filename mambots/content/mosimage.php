@@ -21,6 +21,12 @@ $_MAMBOTS->registerFunction( 'onPrepareContent', 'botMosImage' );
 function botMosImage( $published, &$row, &$params, $page=0 ) {
 	global $database;
 
+	// check whether mosimage has been disabled for page
+	if (!$published || !$params->get( 'image' )) {
+	$row->text = str_replace( '{mosimage}', '', $row->text );
+		return true;
+	}
+	
  	// expression to search for
 	$regex = '/{mosimage\s*.*?}/i';
 
