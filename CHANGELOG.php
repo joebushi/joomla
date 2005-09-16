@@ -35,6 +35,7 @@ Legend:
 16-Sep-2005 Emir Sakic
  # Fixed sorting by author on frontend category listing
  + Added time offset to copyright year in footer
+ # Fixed spelling in sample data
 
 16-Sep-2005 Alex Kempkens
  + template contest winner 'MadeYourWeb' added
