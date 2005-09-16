@@ -33,7 +33,9 @@ Legend:
 -------------------- 1.0.0 Released ----------------------
 
 16-Sep-2005 Andrew Eddie
- # Fixed 1014 : & amp ; in pathway
+ # Fixed: 1014 : & amp ; in pathway
+ # Fixed: Missing space in mosimage IMG tags
+ # Fixed: Incomplete function call - mysql_insert_id()
 
 16-Sep-2005 Emir Sakic
  # Fixed sorting by author on frontend category listing

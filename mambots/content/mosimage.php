@@ -134,7 +134,7 @@ function processImages ( &$row, &$params ) {
 			if ( function_exists( 'getimagesize' ) ) {
 				$size 	= @getimagesize( $mosConfig_absolute_path .'/images/stories/'. $attrib[0] );
 				if (is_array( $size )) {
-					$size = 'width="'. $size[0] .'" height="'. $size[1] .'"';
+					$size = ' width="'. $size[0] .'" height="'. $size[1] .'"';
 				}
 			}
 

@@ -503,7 +503,7 @@ class database {
 		if (!$this->query()) {
 			return false;
 		}
-		$id = mysql_insert_id();
+		$id = mysql_insert_id( $this->_resource );
 		($verbose) && print "id=[$id]<br />\n";
 		if ($keyName && $id) {
 			$object->$keyName = $id;
@@ -554,11 +554,11 @@ class database {
 	}
 
 	function insertid() {
-		return mysql_insert_id();
+		return mysql_insert_id( $this->_resource );
 	}
 
 	function getVersion() {
-		return mysql_get_server_info();
+		return mysql_get_server_info( $this->_resource );
 	}
 
 	/**
