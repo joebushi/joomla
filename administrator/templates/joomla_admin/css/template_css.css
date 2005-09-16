@@ -171,8 +171,7 @@ table.adminheading th {
 	height: 50px;
 	width: 99%;
 	padding-left: 50px;
-	padding-bottom: 5px;
-	border-bottom: 10px solid #fff;
+	border-bottom: 5px solid #fff;
 }
 table.adminheading th.checkin {
 	background: url(../../../images/checkin.png) no-repeat left;
