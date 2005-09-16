@@ -46,7 +46,7 @@ initEditor();
 </div>
 <table width="100%" class="menubar" cellpadding="0" cellspacing="0" border="0">
 <tr>
-	<td class="menubackgr">
+	<td class="menubackgr" style="padding-left:5px;">
 		<?php mosLoadAdminModule( 'fullmenu' );?>
 	</td>
 	<td class="menubackgr" align="right">
