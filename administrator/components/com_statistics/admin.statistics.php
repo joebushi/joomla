@@ -116,7 +116,7 @@ function showSummary( $option, $task ) {
 	. "\n WHERE type = 2"
 	. "\n ORDER BY hits DESC"
 	;
-	$database->setQuery(  );
+	$database->setQuery( $query );
 	$tldomains = $database->loadObjectList();
 
 	$query = "SELECT SUM( hits ) AS totalhits, MAX( hits ) AS maxhits"

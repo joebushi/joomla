@@ -55,6 +55,7 @@ Legend:
  ^ Ordering of Toolbar Icons/buttons now more consistent
  ^ Frontend Edit, status info moved to an overlib 
  ^ Search Component converted to GET method 
+ # Fixed artf1018 : Warning Backend Statistic
  # Fixed artf1016 : Notice: RSS undefined constant
  # Fixed artf1020 : Hide mosimages in blogview doesn't work
  # Various Search Component Fixes
