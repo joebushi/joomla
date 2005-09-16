@@ -60,7 +60,11 @@ class joomlaVersion {
 	 * @return string Version suffix for help files
 	 */
 	function getHelpVersion() {
-		return str_replace( '.', '', $this->RELEASE );
+		if ($this->RELEASE > '1.0') {
+			return '.' . str_replace( '.', '', $this->RELEASE );
+		} else {
+			return '';
+		}
 	}
 }
 $_VERSION = new joomlaVersion();
