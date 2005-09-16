@@ -429,7 +429,8 @@ function editContent( $uid=0, $sectionid=0, $option ) {
 		$row->modified 		= mosFormatDate( $row->modified, '%Y-%m-%d %H:%M:%S' );
 		$row->publish_up 	= mosFormatDate( $row->publish_up, '%Y-%m-%d %H:%M:%S' );
 
-  		if (trim( $row->publish_down ) == '0000-00-00 00:00:00') {
+		$nullDate = $database->getNullDate();
+  		if (trim( $row->publish_down ) == $nullDate) {
 			$row->publish_down = 'Never';
 		}
 
@@ -603,8 +604,9 @@ function saveContent( $sectionid, $task ) {
 	}
 	$row->publish_up = mosFormatDate($row->publish_up, '%Y-%m-%d %H:%M:%S', -$mosConfig_offset );
 
+	$nullDate = $database->getNullDate();
 	if (trim( $row->publish_down ) == "Never") {
-		$row->publish_down = "0000-00-00 00:00:00";
+		$row->publish_down = $nullDate;
 	}
 
 	$row->state = mosGetParam( $_REQUEST, 'published', 0 );

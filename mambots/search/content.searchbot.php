@@ -29,6 +29,7 @@ function botSearchContent( $text, $phrase='', $ordering='' ) {
 	global $my, $database;
 	global $mosConfig_abolute_path, $mosConfig_offset;
 
+	$nullDate = $database->getNullDate();
 	$_SESSION['searchword'] = $text;
 
 	$now = date( 'Y-m-d H:i:s', time()+$mosConfig_offset*60*60 );
@@ -102,8 +103,8 @@ function botSearchContent( $text, $phrase='', $ordering='' ) {
 	. "\n AND a.access <= '$my->gid'"
 	. "\n AND u.published = '1'"
 	. "\n AND b.published = '1'"
-	. "\n AND ( publish_up = '0000-00-00 00:00:00' OR publish_up <= '$now' )"
-	. "\n AND ( publish_down = '0000-00-00 00:00:00' OR publish_down >= '$now' )"
+	. "\n AND ( publish_up = '$nullDate' OR publish_up <= '$now' )"
+	. "\n AND ( publish_down = '$nullDate' OR publish_down >= '$now' )"
 	. "\n ORDER BY $order";
 
 	$database->setQuery( $query );

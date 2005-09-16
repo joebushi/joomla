@@ -36,6 +36,10 @@ Legend:
  # Fixed: 1014 : & amp ; in pathway
  # Fixed: Missing space in mosimage IMG tags
  # Fixed: Incomplete function call - mysql_insert_id()
+ + Added nullDate handling to database class
+ + Added database::NameQuote function for quoting field names
+ # Fixed: com_checkin to properly use database class
+ # Fixed: Missed stripslashes in`global configuration - site`
 
 16-Sep-2005 Emir Sakic
  # Fixed sorting by author on frontend category listing

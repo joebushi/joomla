@@ -180,6 +180,7 @@ function CheckIn( $userid, $access, $option ){
 	global $database;
 	global $mosConfig_db;
 
+	$nullDate = $database->getNullDate();
 	if (!($access->canEdit || $access->canEditOwn || $userid > 0)) {
 		mosNotAuth();
 		return;
@@ -229,13 +230,13 @@ function CheckIn( $userid, $access, $option ){
 
 			if ($editor) {
 				$query = "UPDATE $tn"
-				. "\n SET checked_out = 0, checked_out_time = '00:00:00', editor = NULL"
+				. "\n SET checked_out = 0, checked_out_time = '$nullDate', editor = NULL"
 				. "\n WHERE checked_out > 0"
 				;
 				$database->setQuery( $query );
 			} else {
 				$query = "UPDATE $tn"
-				. "\n SET checked_out = 0, checked_out_time = '0000-00-00 00:00:00'"
+				. "\n SET checked_out = 0, checked_out_time = '$nullDate'"
 				. "\n WHERE checked_out > 0"
 				;
 				$database->setQuery( $query );

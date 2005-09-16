@@ -26,7 +26,7 @@ class HTML_content {
 	* @param array An array of content objects
 	*/
 	function showContent( &$rows, $section, &$lists, $search, $pageNav, $all=NULL, $redirect ) {
-		global $my, $acl;
+		global $my, $acl, $database;
 
 		mosCommonHTML::loadOverlib();
 		?>
@@ -126,6 +126,7 @@ class HTML_content {
 		  </tr>
 		<?php
 		$k = 0;
+		$nullDate = $database->getNullDate();
 		for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 			$row = &$rows[$i];
 
@@ -138,7 +139,7 @@ class HTML_content {
 			if ( $now <= $row->publish_up && $row->state == "1" ) {
 				$img = 'publish_y.png';
 				$alt = 'Published';
-			} else if ( ( $now <= $row->publish_down || $row->publish_down == "0000-00-00 00:00:00" ) && $row->state == "1" ) {
+			} else if ( ( $now <= $row->publish_down || $row->publish_down == $nullDate ) && $row->state == "1" ) {
 				$img = 'publish_g.png';
 				$alt = 'Published';
 			} else if ( $now > $row->publish_down && $row->state == "1" ) {
@@ -150,14 +151,14 @@ class HTML_content {
 			}
 			$times = '';
 			if (isset($row->publish_up)) {
-				if ($row->publish_up == '0000-00-00 00:00:00') {
+				if ($row->publish_up == $nullDate) {
 					$times .= "<tr><td>Start: Always</td></tr>";
 				} else {
 					$times .= "<tr><td>Start: $row->publish_up</td></tr>";
 				}
 			}
 			if (isset($row->publish_down)) {
-				if ($row->publish_down == '0000-00-00 00:00:00') {
+				if ($row->publish_down == $nullDate) {
 					$times .= "<tr><td>Finish: No Expiry</td></tr>";
 				} else {
 					$times .= "<tr><td>Finish: $row->publish_down</td></tr>";

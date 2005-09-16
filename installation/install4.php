@@ -219,10 +219,11 @@ if ($siteUrl) {
 	$cryptpass=md5( $adminPassword );
 
 	$database = new database( $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix );
+	$nullDate = $database->getNullDate();
 
 	// create the admin user
 	$installdate = date('Y-m-d H:i:s');
-	$query = "INSERT INTO `#__users` VALUES (62, 'Administrator', 'admin', '$adminEmail', '$cryptpass', 'Super Administrator', 0, 1, 25, '$installdate', '0000-00-00 00:00:00', '', '')";
+	$query = "INSERT INTO `#__users` VALUES (62, 'Administrator', 'admin', '$adminEmail', '$cryptpass', 'Super Administrator', 0, 1, 25, '$installdate', '$nullDate', '', '')";
 	$database->setQuery( $query );
 	$database->query();
 	// add the ARO (Access Request Object)

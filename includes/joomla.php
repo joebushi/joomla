@@ -2272,26 +2272,26 @@ function mosGetParam( &$arr, $name, $def=null, $mask=0 ) {
 }
 
 /**
-* Strip slashes from strings or arrays of strings
-* @param value the input string or array
-*/
-function mosStripslashes(&$value)
-{
+ * Strip slashes from strings or arrays of strings
+ * @param mixed The input string or array
+ * @return mixed String or array stripped of slashes
+ */
+function mosStripslashes( &$value ) {
 	$ret = '';
-	if (is_string($value)) {
-		$ret = stripslashes($value);
+	if (is_string( $value )) {
+		$ret = stripslashes( $value );
 	} else {
-		if (is_array($value)) {
+		if (is_array( $value )) {
 			$ret = array();
-			while (list($key,$val) = each($value)) {
-				$ret[$key] = mosStripslashes($val);
-			} // while
+			foreach ($value as $key => $val) {
+				$ret[$key] = mosStripslashes( $val );
+			}
 		} else {
 			$ret = $value;
-		} // if
-	} // if
+		}
+	}
 	return $ret;
-} // mosStripSlashes
+}
 
 /**
 * Copy the named array content into the object as properties

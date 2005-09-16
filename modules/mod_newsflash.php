@@ -44,6 +44,7 @@ if ( $items ) {
 }
 
 $noauth = !$mainframe->getCfg( 'shownoauth' );
+$nullDate = $database->getNullDate();
 
 // query to determine article count
 $query = "SELECT a.id"
@@ -51,8 +52,8 @@ $query = "SELECT a.id"
 ."\n INNER JOIN #__categories AS b ON b.id = a.catid"
 ."\n WHERE a.state = 1"
 . ( $noauth ? "\n AND a.access <= $my->gid AND b.access <= $my->gid" : '' )
-."\n AND (a.publish_up = '0000-00-00 00:00:00' OR a.publish_up <= '$now' ) "
-."\n AND (a.publish_down = '0000-00-00 00:00:00' OR a.publish_down >= '$now' )"
+."\n AND (a.publish_up = '$nullDate' OR a.publish_up <= '$now' ) "
+."\n AND (a.publish_down = '$nullDate' OR a.publish_down >= '$now' )"
 ."\n AND catid = $catid"
 ."\n ORDER BY a.ordering"
 ."\n $limit"

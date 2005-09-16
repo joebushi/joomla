@@ -38,6 +38,7 @@ function feedFrontpage( $showFeed ) {
 	global $database, $mainframe;
 	global $mosConfig_live_site, $mosConfig_offset, $mosConfig_absolute_path;
 
+	$nullDate = $database->getNullDate();
 	// pull id of syndication component
 	$query = "SELECT a.id"
 	. "\n FROM #__components AS a"
@@ -169,8 +170,8 @@ function feedFrontpage( $showFeed ) {
 	. "\n WHERE a.state = 1"
 	. $and
 	. "\n AND a.access = 0"
-	. "\n AND ( publish_up = '0000-00-00 00:00:00' OR publish_up <= '$now' )"
-	. "\n AND ( publish_down = '0000-00-00 00:00:00' OR publish_down >= '$now' )"
+	. "\n AND ( publish_up = '$nullDate' OR publish_up <= '$now' )"
+	. "\n AND ( publish_down = '$nullDate' OR publish_down >= '$now' )"
 	. "\n ORDER BY $orderby"
 	. ( $info[ 'count' ] ? "\n LIMIT ". $info[ 'count' ] : '' )
 	;

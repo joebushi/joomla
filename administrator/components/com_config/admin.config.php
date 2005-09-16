@@ -262,22 +262,7 @@ function saveconfig( $task ) {
 	if (!$row->bind( $_POST )) {
 		mosRedirect( 'index2.php', $row->getError() );
 	}
-/*
-	$query = "UPDATE #__mambots"
-	. "\n SET published = 0"
-	. "\n WHERE published >= 0"
-	. "\n AND folder = 'editors'"
-	;
-	$database->setQuery( $query );
-	$database->query() or die( $database->getErrorMsg() );
 
-	$query = "UPDATE #__mambots"
-	. "\n SET published = 1"
-	. "\n WHERE element = '$row->config_editor'"
-	;
-	$database->setQuery( $query );
-	$database->query() or die( $database->getErrorMsg() );
-*/
 	$config = "<?php \n";
 	$config .= $row->getVarText();
 	$config .= "setlocale (LC_TIME, \$mosConfig_locale);\n";

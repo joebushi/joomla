@@ -18,13 +18,14 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 $count 	= intval( $params->get( 'count', 20 ) );
 $access = !$mainframe->getCfg( 'shownoauth' );
 $now 	= date( 'Y-m-d H:i:s', time() + $mosConfig_offset * 60 * 60 );
+$nullDate = $database->getNullDate();
 
 $query = "SELECT a.id AS id, a.title AS title, COUNT(b.id) as cnt"
 . "\n FROM #__sections as a"
 . "\n LEFT JOIN #__content as b ON a.id = b.sectionid"
 . ( $access ? "\n AND b.access <= $my->gid" : '' )
-. "\n AND ( b.publish_up = '0000-00-00 00:00:00' OR b.publish_up <= '$now' )"
-. "\n AND ( b.publish_down = '0000-00-00 00:00:00' OR b.publish_down >= '$now' )"
+. "\n AND ( b.publish_up = '$nullDate' OR b.publish_up <= '$now' )"
+. "\n AND ( b.publish_down = '$nullDate' OR b.publish_down >= '$now' )"
 . "\n WHERE a.scope = 'content'"
 . "\n AND a.published = 1"
 . ( $access ? "\n AND a.access <= $my->gid" : '' )

@@ -198,6 +198,7 @@ function edit( $uid, $option ) {
 	global $database, $my, $mainframe;
 	global $mosConfig_absolute_path, $mosConfig_live_site;
 
+	$nullDate = $database->getNullDate();
 	$row = new mosContent( $database );
 
 	$lists = array();
@@ -218,7 +219,7 @@ function edit( $uid, $option ) {
 		} else {
 			$row->images = array();
 		}
-		if (trim( $row->publish_down ) == "0000-00-00 00:00:00") {
+		if (trim( $row->publish_down ) == $nullDate) {
 			$row->publish_down = "Never";
 		}
 
@@ -296,6 +297,7 @@ function edit( $uid, $option ) {
 function save( $option, $task ) {
 	global $database, $my;
 
+	$nullDate = $database->getNullDate();
 	$menu 		= mosGetParam( $_POST, 'menu', 'mainmenu' );
 	$menuid		= mosGetParam( $_POST, 'menuid', 0 );
 
@@ -313,7 +315,7 @@ function save( $option, $task ) {
 		$row->created_by = $my->id;
 	}
 	if (trim( $row->publish_down ) == 'Never') {
-		$row->publish_down = '0000-00-00 00:00:00';
+		$row->publish_down = $nullDate;
 	}
 
 	// Save Parameters

@@ -18,52 +18,46 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 if (!$acl->acl_check( 'administration', 'config', 'users', $my->usertype )) {
 	mosRedirect( 'index2.php', _NOT_AUTH );
 }
+$nullDate = $database->getNullDate();
 ?>
 <table class="adminheading">
-<tr>
-	<th class="checkin">
-		Global Check-in
-	</th>
-</tr>
+	<tr>
+		<th class="checkin">
+			Global Check-in
+		</th>
+	</tr>
 </table>
 <table class="adminform">
-<tr>
-	<th class="title">
-		Database Table
-	</th>
-	<th class="title">
-		# of Items
-	</th>
-	<th class="title">
-		Checked-In
-	</th>
-	<th class="title">
-	</th>
-</tr>
+	<tr>
+		<th class="title">
+			Database Table
+		</th>
+		<th class="title">
+			# of Items
+		</th>
+		<th class="title">
+			Checked-In
+		</th>
+		<th class="title">
+		</th>
+	</tr>
 <?php
-$lt = mysql_list_tables($mosConfig_db);
+$tables = $database->getTableList();
 $k = 0;
-while (list($tn) = mysql_fetch_array( $lt )) {
+foreach ($tables as $tn) {
 	// make sure we get the right tables based on prefix
 	if (!preg_match( "/^".$mosConfig_dbprefix."/i", $tn )) {
 		continue;
 	}
-	$lf = mysql_list_fields($mosConfig_db, "$tn");
-	$nf = mysql_num_fields($lf);
+	$fields = $database->getTableFields( array( $tn ) );
 
 	$foundCO = false;
 	$foundCOT = false;
 	$foundE = false;
-	for ($i = 0; $i < $nf; $i++) {
-		$fname = mysql_field_name($lf, $i);
-		if ( $fname == 'checked_out') {
-			$foundCO = true;
-		} else if ( $fname == 'checked_out_time') {
-			$foundCOT = true;
-		} else if ( $fname == 'editor') {
-			$foundE = true;
-		}
-	}
+
+	$foundCO	= isset( $fields[$tn]['checked_out'] );
+	$foundCOT	= isset( $fields[$tn]['checked_out_time'] );
+	$foundE		= isset( $fields[$tn]['editor'] );
 
 	if ($foundCO && $foundCOT) {
 		if ($foundE) {
@@ -71,30 +65,28 @@ while (list($tn) = mysql_fetch_array( $lt )) {
 			. "\n FROM $tn"
 			. "\n WHERE checked_out > 0"
 			;
-			$database->setQuery( $query );
 		} else {
 			$query = "SELECT checked_out"
 			. "\n FROM $tn"
 			. "\n WHERE checked_out > 0"
 			;
-			$database->setQuery(  );
 		}
+		$database->setQuery( $query );
 		$res = $database->query();
 		$num = $database->getNumRows( $res );
 
 		if ($foundE) {
 			$query = "UPDATE $tn"
-			. "\n SET checked_out = 0, checked_out_time = '00:00:00', editor = NULL"
+			. "\n SET checked_out = 0, checked_out_time = '$nullDate', editor = NULL"
 			. "\n WHERE checked_out > 0"
 			;
-			$database->setQuery( $query );
 		} else {
 			$query = "UPDATE $tn"
-			. "\n SET checked_out = 0, checked_out_time = '0000-00-00 00:00:00'"
+			. "\n SET checked_out = 0, checked_out_time = '$nullDate'"
 			. "\n WHERE checked_out > 0"
 			;
-			$database->setQuery( $query );
 		}
+		$database->setQuery( $query );
 		$res = $database->query();
 
 		if ($res == 1) {
@@ -118,9 +110,9 @@ while (list($tn) = mysql_fetch_array( $lt )) {
 	}
 }
 ?>
-<tr>
-	<td colspan="4">
-		<b>Checked out items have now been all checked in</b>
-	</td>
-</tr>
+	<tr>
+		<td colspan="4">
+			<strong>Checked out items have now been all checked in</strong>
+		</td>
+	</tr>
 </table>

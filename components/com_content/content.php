@@ -141,6 +141,7 @@ function frontpage( $gid, &$access, $pop, $now ) {
 	global $database, $mainframe, $my, $Itemid;
 	global $mosConfig_offset;
 
+	$nullDate = $database->getNullDate();
 	$noauth = !$mainframe->getCfg( 'shownoauth' );
 
 	// Parameters
@@ -165,8 +166,8 @@ function frontpage( $gid, &$access, $pop, $now ) {
 	. "\n LEFT JOIN #__groups AS g ON a.access = g.id"
 	. "\n WHERE a.state = 1"
 	. ( $noauth ? "\n AND a.access <= $my->gid" : '' )
-	. "\n AND ( publish_up = '0000-00-00 00:00:00' OR publish_up <= '$now'  )"
-	. "\n AND ( publish_down = '0000-00-00 00:00:00' OR publish_down >= '$now' )"
+	. "\n AND ( publish_up = '$nullDate' OR publish_up <= '$now'  )"
+	. "\n AND ( publish_down = '$nullDate' OR publish_down >= '$now' )"
 	. "\n ORDER BY $order_pri $order_sec"
 	;
 	$database->setQuery( $query );
@@ -182,6 +183,7 @@ function frontpage( $gid, &$access, $pop, $now ) {
 function showSection( $id, $gid, &$access, $now ) {
 	global $database, $mainframe, $Itemid;
 
+	$nullDate = $database->getNullDate();
 	$noauth = !$mainframe->getCfg( 'shownoauth' );
 
 	// Paramters
@@ -221,8 +223,8 @@ function showSection( $id, $gid, &$access, $now ) {
 	} else {
 		$xwhere = "\n AND a.published = 1";
 		$xwhere2 = "\n AND b.state = 1"
-		. "\n AND ( publish_up = '0000-00-00 00:00:00' OR publish_up <= '$now' )"
-		. "\n AND ( publish_down = '0000-00-00 00:00:00' OR publish_down >= '$now' )"
+		. "\n AND ( publish_up = '$nullDate' OR publish_up <= '$now' )"
+		. "\n AND ( publish_down = '$nullDate' OR publish_down >= '$now' )"
 		;
 	}
 
@@ -272,6 +274,7 @@ function showSection( $id, $gid, &$access, $now ) {
 function showCategory( $id, $gid, &$access, $sectionid, $limit, $limitstart, $now  ) {
 	global $database, $mainframe, $Itemid, $mosConfig_list_limit;
 
+	$nullDate = $database->getNullDate();
 	$noauth = !$mainframe->getCfg( 'shownoauth' );
 	$selected = mosGetParam( $_POST, 'order', '' );
 
@@ -331,8 +334,8 @@ function showCategory( $id, $gid, &$access, $sectionid, $limit, $limitstart, $no
 	} else {
 		$xwhere = "\n AND c.published = 1";
 		$xwhere2 = "\n AND b.state = 1"
-		. "\n AND ( publish_up = '0000-00-00 00:00:00' OR publish_up <= '$now' )"
-		. "\n AND ( publish_down = '0000-00-00 00:00:00' OR publish_down >= '$now' )"
+		. "\n AND ( publish_up = '$nullDate' OR publish_up <= '$now' )"
+		. "\n AND ( publish_down = '$nullDate' OR publish_down >= '$now' )"
 		;
 	}
 
@@ -392,8 +395,8 @@ function showCategory( $id, $gid, &$access, $sectionid, $limit, $limitstart, $no
 		$xwhere = "\n AND a.state >= 0";
 	} else {
 		$xwhere = "\n AND a.state = 1"
-		. "\n AND ( publish_up = '0000-00-00 00:00:00' OR publish_up <= '$now' )"
-		. "\n AND ( publish_down = '0000-00-00 00:00:00' OR publish_down >= '$now' )"
+		. "\n AND ( publish_up = '$nullDate' OR publish_up <= '$now' )"
+		. "\n AND ( publish_down = '$nullDate' OR publish_down >= '$now' )"
 		;
 	}
 
@@ -972,12 +975,13 @@ function showItem( $uid, $gid, &$access, $pop, $option, $now ) {
 	global $database, $mainframe;
 	global $mosConfig_MetaTitle, $mosConfig_MetaAuthor;
 
+	$nullDate = $database->getNullDate();
 	if ( $access->canEdit ) {
 		$xwhere='';
 	} else {
 		$xwhere = " AND ( a.state = 1 OR a.state = -1 )"
-		. "\n AND ( publish_up = '0000-00-00 00:00:00' OR publish_up <= '$now' )"
-		. "\n AND ( publish_down = '0000-00-00 00:00:00' OR publish_down >= '$now' )"
+		. "\n AND ( publish_up = '$nullDate' OR publish_up <= '$now' )"
+		. "\n AND ( publish_down = '$nullDate' OR publish_down >= '$now' )"
 		;
 	}
 
@@ -1160,6 +1164,7 @@ function editItem( $uid, $gid, &$access, $sectionid=0, $task, $Itemid ){
 	global $database, $my;
 	global $mosConfig_absolute_path, $mosConfig_live_site;
 
+	$nullDate = $database->getNullDate();
 	$row = new mosContent( $database );
 	// load the row from the db table
 	$row->load( $uid );
@@ -1295,6 +1300,7 @@ function saveContent( &$access, $task ) {
 	global $database, $mainframe, $my;
 	global $mosConfig_absolute_path;
 
+	$nullDate = $database->getNullDate();
 	$row = new mosContent( $database );
 	if ( !$row->bind( $_POST ) ) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
@@ -1319,7 +1325,7 @@ function saveContent( &$access, $task ) {
 		$row->modified_by 	= $my->id;
 	}
 	if ( trim( $row->publish_down ) == 'Never' ) {
-		$row->publish_down = '0000-00-00 00:00:00';
+		$row->publish_down = $nullDate;
 	}
 
 	if (!$row->check()) {
@@ -1648,14 +1654,17 @@ function _orderby_sec( $orderby ) {
 * @param int 0 = Archives, 1 = Section, 2 = Category
 */
 function _where( $type=1, &$access, &$noauth, $gid, $id, $now=NULL, $year=NULL, $month=NULL ) {
+	global $database;
+	
+	$nullDate = $database->getNullDate();
 	$where = array();
 
 	// normal
 	if ( $type > 0) {
 		$where[] = "a.state = '1'";
 		if ( !$access->canEdit ) {
-			$where[] = "( a.publish_up = '0000-00-00 00:00:00' OR a.publish_up <= '$now' )";
-			$where[] = "( a.publish_down = '0000-00-00 00:00:00' OR a.publish_down >= '$now' )";
+			$where[] = "( a.publish_up = '$nullDate' OR a.publish_up <= '$now' )";
+			$where[] = "( a.publish_down = '$nullDate' OR a.publish_down >= '$now' )";
 		}
 		if ( $noauth ) {
 			$where[] = "a.access <= $gid";

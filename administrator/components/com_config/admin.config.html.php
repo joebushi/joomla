@@ -143,14 +143,14 @@ class HTML_config {
 		</tr>
 		<tr>
 			<td valign="top">Offline Message:</td>
-			<td><textarea class="text_area" cols="60" rows="2" style="width:500px; height:40px" name="config_offline_message"><?php echo htmlspecialchars($row->config_offline_message, ENT_QUOTES); ?></textarea><?php
+			<td><textarea class="text_area" cols="60" rows="2" style="width:500px; height:40px" name="config_offline_message"><?php echo htmlspecialchars( stripslashes( $row->config_offline_message ), ENT_QUOTES); ?></textarea><?php
 				$tip = 'A message that displays if your site is offline';
 				echo mosToolTip( $tip );
 			?></td>
 		</tr>
 		<tr>
 			<td valign="top">System Error Message:</td>
-			<td><textarea class="text_area" cols="60" rows="2" style="width:500px; height:40px" name="config_error_message"><?php echo htmlspecialchars($row->config_error_message, ENT_QUOTES); ?></textarea><?php
+			<td><textarea class="text_area" cols="60" rows="2" style="width:500px; height:40px" name="config_error_message"><?php echo htmlspecialchars( stripslashes( $row->config_error_message ), ENT_QUOTES); ?></textarea><?php
 				$tip = 'A message that displays if Joomla! could not connect to the database';
 				echo mosToolTip( $tip );
 			?></td>

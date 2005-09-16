@@ -24,14 +24,15 @@ $show_front	= $params->get( 'show_front', 1 );
 $now 		= date( 'Y-m-d H:i:s', time()+$mosConfig_offset*60*60 );
 $access 	= !$mainframe->getCfg( 'shownoauth' );
 
+$nullDate = $database->getNullDate();
 // select between Content Items, Static Content or both
 switch ( $type ) {
 	case 2:
 		$query = "SELECT a.id, a.title"
 		. "\n FROM #__content AS a"
 		. "\n WHERE ( a.state = 1 AND a.checked_out = 0 AND a.sectionid = 0 )"
-		. "\n AND ( a.publish_up = '0000-00-00 00:00:00' OR a.publish_up <= '$now' )"
-		. "\n AND ( a.publish_down = '0000-00-00 00:00:00' OR a.publish_down >= '$now' )"
+		. "\n AND ( a.publish_up = '$nullDate' OR a.publish_up <= '$now' )"
+		. "\n AND ( a.publish_down = '$nullDate' OR a.publish_down >= '$now' )"
 		. ( $access ? "\n AND a.access <= $my->gid" : '' )
 		. "\n ORDER BY a.hits DESC"
 		. "\n LIMIT $count"
@@ -44,8 +45,8 @@ switch ( $type ) {
 		$query = "SELECT a.id, a.title, a.sectionid"
 		. "\n FROM #__content AS a"
 		. "\n WHERE ( a.state = 1 AND a.checked_out = 0 )"
-		. "\n AND ( a.publish_up = '0000-00-00 00:00:00' OR a.publish_up <= '$now' )"
-		. "\n AND ( a.publish_down = '0000-00-00 00:00:00' OR a.publish_down >= '$now' )"
+		. "\n AND ( a.publish_up = '$nullDate' OR a.publish_up <= '$now' )"
+		. "\n AND ( a.publish_down = '$nullDate' OR a.publish_down >= '$now' )"
 		. ( $access ? "\n AND a.access <= $my->gid" : '' )
 		. "\n ORDER BY a.hits DESC"
 		. "\n LIMIT $count"
@@ -60,8 +61,8 @@ switch ( $type ) {
 		. "\n FROM #__content AS a"
 		. "\n LEFT JOIN #__content_frontpage AS f ON f.content_id = a.id"
 		. "\n WHERE ( a.state = 1 AND a.checked_out = 0 AND a.sectionid > 0 )"
-		. "\n AND ( a.publish_up = '0000-00-00 00:00:00' OR a.publish_up <= '$now' )"
-		. "\n AND ( a.publish_down = '0000-00-00 00:00:00' OR a.publish_down >= '$now' )"
+		. "\n AND ( a.publish_up = '$nullDate' OR a.publish_up <= '$now' )"
+		. "\n AND ( a.publish_down = '$nullDate' OR a.publish_down >= '$now' )"
 		. ( $access ? "\n AND a.access <= $my->gid" : '' )
 		. ( $catid ? "\n AND ( a.catid IN ( $catid ) )" : '' )
 		. ( $secid ? "\n AND ( a.sectionid IN ( $secid ) )" : '' )

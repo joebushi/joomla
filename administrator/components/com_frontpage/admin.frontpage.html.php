@@ -25,9 +25,10 @@ class HTML_content {
 	* @param array An array of content objects
 	*/
 	function showList( &$rows, $search, $pageNav, $option, $lists ) {
-		global $my, $acl;
+		global $my, $acl, $database;
 
 		mosCommonHTML::loadOverlib();
+		$nullDate = $database->getNullDate();
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 		<table class="adminheading">
@@ -102,13 +103,13 @@ class HTML_content {
 			$row->cat_link 	= 'index2.php?option=com_categories&task=editA&hidemainmenu=1&id='. $row->catid;
 
 			$now = date( 'Y-m-d H:i:s' );
-			if ( $now <= $row->publish_up && $row->state == "1" ) {
+			if ( $now <= $row->publish_up && $row->state == '1' ) {
 				$img = 'publish_y.png';
 				$alt = 'Published';
-			} else if ( ( $now <= $row->publish_down || $row->publish_down == "0000-00-00 00:00:00" ) && $row->state == "1" ) {
+			} else if (($now <= $row->publish_down || $row->publish_down == $nullDate) && $row->state == '1') {
 				$img = 'publish_g.png';
 				$alt = 'Published';
-			} else if ( $now > $row->publish_down && $row->state == "1" ) {
+			} else if ( $now > $row->publish_down && $row->state == '1' ) {
 				$img = 'publish_r.png';
 				$alt = 'Expired';
 			} elseif ( $row->state == "0" ) {
@@ -118,14 +119,14 @@ class HTML_content {
 
 			$times = '';
 			if ( isset( $row->publish_up ) ) {
-				  if ( $row->publish_up == '0000-00-00 00:00:00' ) {
+				  if ( $row->publish_up == $nullDate) {
 						$times .= '<tr><td>Start: Always</td></tr>';
 				  } else {
 						$times .= '<tr><td>Start: '. $row->publish_up .'</td></tr>';
 				  }
 			}
 			if ( isset( $row->publish_down ) ) {
-				  if ( $row->publish_down == '0000-00-00 00:00:00' ) {
+				  if ($row->publish_down == $nullDate) {
 						$times .= '<tr><td>Finish: No Expiry</td></tr>';
 				  } else {
 				  $times .= '<tr><td>Finish: '. $row->publish_down .'</td></tr>';

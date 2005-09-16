@@ -43,6 +43,10 @@ class database {
 	var $_ticker		= 0;
 	/** @var array A log of queries */
 	var $_log			= null;
+	/** @var string The null/zero date string */
+	var $_nullDate		= '0000-00-00 00:00:00';
+	/** @var string Quote for named objects */
+	var $_nameQuote		= '`';
 
 	/**
 	* Database object constructor
@@ -116,13 +120,32 @@ class database {
 	* @return string
 	*/
 	function Quote( $text ) {
-		return '\'' . mysql_escape_string( $text ) . '\'';
+		return '\'' . $this->getEscaped( $text ) . '\'';
+	}
+	/**
+	 * Quote an identifier name (field, table, etc)
+	 * @param string The name
+	 * @return string The quoted name
+	 */
+	function NameQuote( $s ) {
+		$q = $this->_nameQuote;
+		if (strlen( $q ) == 1) {
+			return $q . $s . $q;
+		} else {
+			return $q{0} . $s . $q{1};
+		}
 	}
 	/**
 	 * @return string The database prefix
 	 */
 	function getPrefix() {
 		return $this->_table_prefix;
+	}
+	/**
+	 * @return string Quoted null/zero date string
+	 */
+	function getNullDate() {
+		return $this->_nullDate;
 	}
 	/**
 	* Sets the SQL query string for later execution.
@@ -495,8 +518,8 @@ class database {
 			if ($k[0] == '_') { // internal field
 				continue;
 			}
-			$fields[] = "`$k`";
-			$values[] = "'" . $this->getEscaped( $v ) . "'";
+			$fields[] = $this->NameQuote( $k );;
+			$values[] = $this->Quote( $v );
 		}
 		$this->setQuery( sprintf( $fmtsql, implode( ",", $fields ) ,  implode( ",", $values ) ) );
 		($verbose) && print "$sql<br />\n";
@@ -526,7 +549,7 @@ class database {
 				continue;
 			}
 			if( $k == $keyName ) { // PK not to be updated
-				$where = "$keyName='" . $this->getEscaped( $v ) . "'";
+				$where = $keyName . '=' . $this->Quote( $v );
 				continue;
 			}
 			if ($v === NULL && !$updateNulls) {
@@ -535,9 +558,9 @@ class database {
 			if( $v == '' ) {
 				$val = "''";
 			} else {
-				$val = "'" . $this->getEscaped( $v ) . "'";
+				$val = $this->Quote( $v );
 			}
-			$tmp[] = "`$k`=$val";
+			$tmp[] = $this->NameQuote( $k ) . '=' . $val;
 		}
 		$this->setQuery( sprintf( $fmtsql, implode( ",", $tmp ) , $where ) );
 		return $this->query();
@@ -562,44 +585,38 @@ class database {
 	}
 
 	/**
-	* Fudge method for ADOdb compatibility
-	*/
-	function GenID( $foo1=null, $foo2=null ) {
-		return '0';
-	}
-	/**
-	* @return array A list of all the tables in the database
-	*/
+	 * @return array A list of all the tables in the database
+	 */
 	function getTableList() {
-		$this->setQuery( 'SHOW tables' );
-		$this->query();
+		$this->setQuery( 'SHOW TABLES' );
 		return $this->loadResultArray();
 	}
 	/**
-	* @param array A list of table names
-	* @return array A list the create SQL for the tables
-	*/
+	 * @param array A list of table names
+	 * @return array A list the create SQL for the tables
+	 */
 	function getTableCreate( $tables ) {
 		$result = array();
 
 		foreach ($tables as $tblval) {
-			$this->setQuery( 'SHOW CREATE table ' . $tblval );
-			$this->query();
-			$result[$tblval] = $this->loadResultArray( 1 );
+			$this->setQuery( 'SHOW CREATE table ' . $this->getEscaped( $tblval ) );
+			$rows = $this->loadRowList();
+			foreach ($rows as $row) {
+				$result[$tblval] = $row[1];
+			}
 		}
 
 		return $result;
 	}
 	/**
-	* @param array A list of table names
-	* @return array An array of fields by table
-	*/
+	 * @param array A list of table names
+	 * @return array An array of fields by table
+	 */
 	function getTableFields( $tables ) {
 		$result = array();
 
 		foreach ($tables as $tblval) {
 			$this->setQuery( 'SHOW FIELDS FROM ' . $tblval );
-			$this->query();
 			$fields = $this->loadObjectList();
 			foreach ($fields as $field) {
 				$result[$tblval][$field->Field] = preg_replace("/[(0-9)]/",'', $field->Type );
@@ -607,6 +624,13 @@ class database {
 		}
 
 		return $result;
+	}
+
+	/**
+	* Fudge method for ADOdb compatibility
+	*/
+	function GenID( $foo1=null, $foo2=null ) {
+		return '0';
 	}
 }
 
@@ -1033,7 +1057,7 @@ class mosDBTable {
 		}
 		$time = date( 'H:i:s' );
 		$query = "UPDATE $this->_tbl"
-		. "\n SET checked_out = 0, checked_out_time = '0000-00-00 00:00:00'"
+		. "\n SET checked_out = 0, checked_out_time = '$this->_nullDate'"
 		. "\n WHERE $this->_tbl_key = '". $this->$k ."'"
 		;
 		$this->_db->setQuery( $query );
