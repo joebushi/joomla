@@ -25,11 +25,6 @@ if (!is_array( $cid )) {
 }
 
 switch ($task) {
-	case 'clean_cache':
-		mosCache::cleanCache( 'com_content' );
-		mosRedirect( 'index2.php', 'Cache cleaned' );
-		break;
-
 	case 'new':
 		editContent( 0, $sectionid, $option );
 		break;

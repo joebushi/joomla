@@ -312,7 +312,8 @@ class mosFullAdminMenu {
 ?>				['<img src="../includes/js/ThemeOffice/checkin.png" />', 'Global Checkin', 'index2.php?option=com_checkin', null,'Check-in all checked-out items'],
 <?php
 			if ($mosConfig_caching) {
-?>				['<img src="../includes/js/ThemeOffice/config.png" />','Clean Cache','index2.php?option=com_content&task=clean_cache',null,'Clean the content items cache'],
+?>				['<img src="../includes/js/ThemeOffice/config.png" />','Clean Content Cache','index2.php?option=com_admin&task=clean_cache',null,'Clean the content items cache'],
+				['<img src="../includes/js/ThemeOffice/config.png" />','Clean All Caches','index2.php?option=com_admin&task=clean_all_cache',null,'Clean all caches'],
 <?php
 			}
 		}

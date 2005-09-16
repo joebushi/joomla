@@ -40,6 +40,7 @@ Legend:
  + Added database::NameQuote function for quoting field names
  # Fixed: com_checkin to properly use database class
  # Fixed: Missed stripslashes in`global configuration - site`
+ + Added admin menu item to clear all caches (for 3rd party addons)
 
 16-Sep-2005 Emir Sakic
  # Fixed sorting by author on frontend category listing

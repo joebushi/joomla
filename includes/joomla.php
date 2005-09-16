@@ -326,10 +326,10 @@ class mosCache {
 	function &getCache(  $group=''  ) {
 		global $mosConfig_absolute_path, $mosConfig_caching, $mosConfig_cachepath, $mosConfig_cachetime;
 
-		require_once( "$mosConfig_absolute_path/includes/Cache/Lite/Function.php" );
+		require_once( $mosConfig_absolute_path . '/includes/Cache/Lite/Function.php' );
 
 		$options = array(
-			'cacheDir' 		=> "$mosConfig_cachepath/",
+			'cacheDir' 		=> $mosConfig_cachepath . '/',
 			'caching' 		=> $mosConfig_caching,
 			'defaultGroup' 	=> $group,
 			'lifeTime' 		=> $mosConfig_cachetime
