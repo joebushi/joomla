@@ -54,19 +54,19 @@ class HTML_Media {
 					<td>
 						<table border="0" align="right" cellpadding="0" cellspacing="4" width="600">
 						<tr>
-							<td align="right" width="200" style="padding-right:10px;">
+							<td align="right" width="200" style="padding-right:10px;white-space:nowrap">
 								Create Directory
 							</td>
 							<td>
-								<input class="inputbox" type="text" name="foldername" size="80" />
+								<input class="inputbox" type="text" name="foldername" style="width:400px" />
 							</td>
 						</tr>
 						<tr>
-							<td align="right" style="padding-right:10px;">
+							<td align="right" style="padding-right:10px;;white-space:nowrap">
 								Image Code
 							</td>
 							<td>
-								<input class="inputbox" type="text" name="imagecode" size="80" />
+								<input class="inputbox" type="text" name="imagecode" style="width:400px" />
 							</td>
 						</tr>						
 						</table>
