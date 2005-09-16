@@ -397,7 +397,7 @@ class HTML_content {
 		$_Itemid 	= $Itemid;
 		$link_on 	= '';
 		$link_text 	= '';
-
+	
 		// process the new bots
 		$_MAMBOTS->loadBotGroup( 'content' );
 		$results = $_MAMBOTS->trigger( 'onPrepareContent', array( &$row, &$params, $page ), true );
@@ -569,6 +569,12 @@ class HTML_content {
 				</td>
 				<?php
 			}
+		} else {
+			?>
+			<td class="contentheading<?php echo $params->get( 'pageclass_sfx' ); ?>" width="100%">
+			<?php HTML_content::EditIcon( $row, $params, $access ); ?>
+			</td>
+			<?php			
 		}
 	}
 
@@ -586,17 +592,30 @@ class HTML_content {
 		if ( !$access->canEdit && !( $access->canEditOwn && $row->created_by == $my->id ) ) {
 			return;
 		}
+		mosCommonHTML::loadOverlib();			
+		
 		$link = 'index.php?option=com_content&amp;task=edit&amp;id='. $row->id .'&amp;Itemid='. $Itemid .'&amp;Returnid='. $Itemid;
 		$image = mosAdminMenus::ImageCheck( 'edit.png', '/images/M_images/', NULL, NULL, _E_EDIT );
+		
+		if ( $row->state == 0 ) {
+			$overlib = _CMN_UNPUBLISHED;
+		} else {
+			$overlib = _CMN_PUBLISHED;
+		}
+		$date 		= mosFormatDate( $row->created );
+		$author		= $row->created_by_alias ? $row->created_by_alias : $row->author;
+		
+		$overlib 	.= '<br/>';
+		$overlib 	.= $row->groups;
+		$overlib 	.= '<br/>';
+		$overlib 	.= $date;
+		$overlib 	.= '<br/>';
+		$overlib 	.= $author;
 		?>
-		<a href="<?php echo sefRelToAbs( $link ); ?>" title="<?php echo _E_EDIT;?>">
+		<a href="<?php echo sefRelToAbs( $link ); ?>" title="<?php echo _E_EDIT;?>"  onMouseOver="return overlib('<?php echo $overlib; ?>', CAPTION, '<?php echo 'Edit Item'; ?>', BELOW, RIGHT);" onMouseOut="return nd();">
 		<?php echo $image; ?>
 		</a>
 		<?php
-		if ( $row->state == 0 ) {
-			echo '( '. _CMN_UNPUBLISHED .' )';
-		}
-		echo '  ( '. $row->groups .' )';
 	}
 
 
