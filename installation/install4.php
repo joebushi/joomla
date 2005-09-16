@@ -252,15 +252,15 @@ if ($siteUrl) {
 			'media',
 			'modules',
 			'templates',
-			'CHANGELOG',
+			'CHANGELOG.php',
 			'configuration.php-dist',
 			'configuration.php',
 			'globals.php',
 			'htaccess.txt',
 			'index.php',
 			'index2.php',
-			'INSTALL',
-			'LICENSE',
+			'INSTALL.php',
+			'LICENSE.php',
 			'mainbody.php',
 			'offline.php',
 			'pathway.php',
@@ -271,14 +271,17 @@ if ($siteUrl) {
 		$dirmode = NULL;
 		if ($dirPerms != '') $dirmode = octdec($dirPerms);
 		$chmodOk = TRUE;
-		foreach ($mosrootfiles as $file)
-			if (!mosChmodRecursive($absolutePath.'/'.$file, $filemode, $dirmode))
+		foreach ($mosrootfiles as $file) {
+			if (!mosChmodRecursive($absolutePath.'/'.$file, $filemode, $dirmode)) {
 				$chmodOk = FALSE;
-		if ($chmodOk)
+			}
+		}
+		if ($chmodOk) {
 			$chmod_report = 'File and directory permissions successfully changed.';
-		else
-			$chmod_report = 'File and directory permissions could not be changed.<br/>'.
+		} else {
+			$chmod_report = 'File and directory permissions could not be changed.<br />'.
 							'Please CHMOD Joomla files and directories manually.';
+		}
 	} // if chmod wanted
 } else {
 ?>

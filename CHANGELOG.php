@@ -46,15 +46,16 @@ Legend:
  # Fixed sorting by author on frontend category listing
  + Added time offset to copyright year in footer
  # Fixed spelling in sample data
+ # Reflected some file name changes in installer CHMOD
 
 16-Sep-2005 Alex Kempkens
  + template contest winner 'MadeYourWeb' added
 
-16-Sep-2005 Rey Gigataras 
+16-Sep-2005 Rey Gigataras
  + Pagination Support for Search Component
  ^ Ordering of Toolbar Icons/buttons now more consistent
- ^ Frontend Edit, status info moved to an overlib 
- ^ Search Component converted to GET method 
+ ^ Frontend Edit, status info moved to an overlib
+ ^ Search Component converted to GET method
  # Fixed artf1018 : Warning Backend Statistic
  # Fixed artf1016 : Notice: RSS undefined constant
  # Fixed artf1020 : Hide mosimages in blogview doesn't work
