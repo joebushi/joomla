@@ -58,6 +58,8 @@ Legend:
 
 15-Sep-2005 Andy Miller
  ^ Fixed some width issues with Admin template in IE
+ ^ Fixed some UI issues with Banners Component
+ ^ Added a default header image for components that don't specify one
 
 15-Sep-2005 Andrew Eddie
  - Removed unused globals from joomla.php
