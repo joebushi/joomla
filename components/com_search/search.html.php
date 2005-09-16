@@ -119,11 +119,10 @@ class search_html {
 			<?php
 			echo $pageNav->writePagesCounter();
 
-			$Submit = trim( strtolower( mosGetParam( $_REQUEST, 'Submit' ) ) );
 			$searchphrase = trim( strtolower( mosGetParam( $_REQUEST, 'searchphrase' ) ) );
 			$ordering = trim( strtolower( mosGetParam( $_REQUEST, 'ordering' ) ) );
 
-			$link = $mosConfig_live_site ."/index.php?option=$option&Itemid=$Itemid&searchword=$searchword&submit=$Submit&searchphrase=$searchphrase&ordering=$ordering";
+			$link = $mosConfig_live_site ."/index.php?option=$option&Itemid=$Itemid&searchword=$searchword&searchphrase=$searchphrase&ordering=$ordering";
 			echo $pageNav->getLimitBox( $link );
 			?>
 		</div>
@@ -210,11 +209,10 @@ class search_html {
 				<div align="center">
 					<?php
 
-				$Submit = trim( strtolower( mosGetParam( $_REQUEST, 'Submit' ) ) );
 				$searchphrase = trim( strtolower( mosGetParam( $_REQUEST, 'searchphrase' ) ) );
 				$ordering = trim( strtolower( mosGetParam( $_REQUEST, 'ordering' ) ) );
 
-				$link = $mosConfig_live_site ."/index.php?option=$option&Itemid=$Itemid&searchword=$searchword&submit=$Submit&searchphrase=$searchphrase&ordering=$ordering";
+				$link = $mosConfig_live_site ."/index.php?option=$option&Itemid=$Itemid&searchword=$searchword&searchphrase=$searchphrase&ordering=$ordering";
 
 				echo $pageNav->writePagesLinks( $link );
 					?>
