@@ -252,19 +252,7 @@ if ($siteUrl) {
 			'media',
 			'modules',
 			'templates',
-			'CHANGELOG.php',
-			'configuration.php-dist',
-			'configuration.php',
-			'globals.php',
-			'htaccess.txt',
-			'index.php',
-			'index2.php',
-			'INSTALL.php',
-			'LICENSE.php',
-			'mainbody.php',
-			'offline.php',
-			'pathway.php',
-			'robots.txt'
+			'configuration.php'
 		);
 		$filemode = NULL;
 		if ($filePerms != '') $filemode = octdec($filePerms);

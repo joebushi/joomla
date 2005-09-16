@@ -293,32 +293,20 @@ function saveconfig( $task ) {
 		$applyDirPerms = mosGetParam($_POST,'applyDirPerms',0) && $row->config_dirperms!='';
 		if ($applyFilePerms || $applyDirPerms) {
 			$mosrootfiles = array(
-			'administrator',
-			'cache',
-			'components',
-			'editor',
-			'help',
-			'images',
-			'includes',
-			'installation',
-			'language',
-			'mambots',
-			'media',
-			'modules',
-			'templates',
-			'CHANGELOG.php',
-			'configuration.php-dist',
-			'configuration.php',
-			'globals.php',
-			'htaccess.txt',
-			'index.php',
-			'index2.php',
-			'INSTALL.php',
-			'LICENSE.php',
-			'mainbody.php',
-			'offline.php',
-			'pathway.php',
-			'robots.txt'
+				'administrator',
+				'cache',
+				'components',
+				'editor',
+				'help',
+				'images',
+				'includes',
+				'installation',
+				'language',
+				'mambots',
+				'media',
+				'modules',
+				'templates',
+				'configuration.php'
 			);
 			$filemode = NULL;
 
