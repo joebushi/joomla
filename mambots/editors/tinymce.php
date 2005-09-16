@@ -213,7 +213,9 @@ function botTinymceEditorEditorArea( $name, $content, $hiddenField, $width, $hei
 	$results = $_MAMBOTS->trigger( 'onCustomEditorButton' );
 	$buttons = array();
 	foreach ($results as $result) {
-		$buttons[] = '<img src="'.$mosConfig_live_site.'/mambots/editors-xtd/'.$result[0].'" onclick="tinyMCE.execCommand(\'mceInsertContent\',false,\''.$result[1].'\')" />';
+		if ( $result[0] ) {
+			$buttons[] = '<img src="'.$mosConfig_live_site.'/mambots/editors-xtd/'.$result[0].'" onclick="tinyMCE.execCommand(\'mceInsertContent\',false,\''.$result[1].'\')" />';
+		}
 	}
 	$buttons = implode( "", $buttons );
 
