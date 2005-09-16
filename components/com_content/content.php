@@ -1026,7 +1026,7 @@ function showItem( $uid, $gid, &$access, $pop, $option, $now ) {
 			. "\n FROM #__content AS a"
 			. "\n WHERE a.catid = $row->catid"
 			. "\n AND a.state = $row->state"
-			. "\n AND ordering < $row->ordering"
+			. "\n AND ordering > $row->ordering"
 			. ($access->canEdit ? '' : "\n AND a.access <= $gid" )
 			. "\n ORDER BY a.ordering"
 			. "\n LIMIT 1"
