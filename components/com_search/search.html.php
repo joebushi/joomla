@@ -99,7 +99,7 @@ class search_html {
 
 	function display( &$rows, $params, $pageNav, $limitstart, $limit, $total, $totalRows, $searchword ) {
 		global $mosConfig_hideCreateDate;
-		global $mosConfig_live_site;
+		global $mosConfig_live_site, $option, $Itemid;
 
 
 		$c = count ($rows);
@@ -118,7 +118,12 @@ class search_html {
 		<div align="center">
 			<?php
 			echo $pageNav->writePagesCounter();
-			$link = $mosConfig_live_site .'/index.php?'. $_SERVER['QUERY_STRING'];
+
+			$Submit = trim( strtolower( mosGetParam( $_REQUEST, 'Submit' ) ) );
+			$searchphrase = trim( strtolower( mosGetParam( $_REQUEST, 'searchphrase' ) ) );
+			$ordering = trim( strtolower( mosGetParam( $_REQUEST, 'ordering' ) ) );
+
+			$link = $mosConfig_live_site ."/index.php?option=$option&Itemid=$Itemid&searchword=$searchword&submit=$Submit&searchphrase=$searchphrase&ordering=$ordering";
 			echo $pageNav->getLimitBox( $link );
 			?>
 		</div>
@@ -198,14 +203,20 @@ class search_html {
 	}
 
 	function conclusion( $totalRows, $searchword, $pageNav ) {
-		global $mosConfig_live_site;
+		global $mosConfig_live_site, $option, $Itemid;
 		?>
 		<tr>
 			<td colspan="3">
 				<div align="center">
 					<?php
-					$link = $mosConfig_live_site .'/index.php?'. $_SERVER['QUERY_STRING'];
-					echo $pageNav->writePagesLinks( $link );
+
+				$Submit = trim( strtolower( mosGetParam( $_REQUEST, 'Submit' ) ) );
+				$searchphrase = trim( strtolower( mosGetParam( $_REQUEST, 'searchphrase' ) ) );
+				$ordering = trim( strtolower( mosGetParam( $_REQUEST, 'ordering' ) ) );
+
+				$link = $mosConfig_live_site ."/index.php?option=$option&Itemid=$Itemid&searchword=$searchword&submit=$Submit&searchphrase=$searchphrase&ordering=$ordering";
+
+				echo $pageNav->writePagesLinks( $link );
 					?>
 				</div>
 			</td>
