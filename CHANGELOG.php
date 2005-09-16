@@ -44,7 +44,9 @@ Legend:
  + template contest winner 'MadeYourWeb' added
 
 16-Sep-2005 Rey Gigataras 
+ + Pagination Support for Search Component
  ^ Frontend Edit, status info moved to an overlib
+ ^ Search Component converted to GET method 
  # Various Search Component Fixes
  # Fixed Search Component not honouring Show/Hide Date Global Config setting
  # Fixed [#6668] No static content edit icon for frontend logged in author

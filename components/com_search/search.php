@@ -26,6 +26,7 @@ switch ( $task ) {
 function viewSearch() {
 	global $mainframe, $mosConfig_absolute_path, $mosConfig_lang, $my;
 	global $Itemid, $database, $_MAMBOTS;
+	global $mosConfig_list_limit;
 
 	$gid = $my->gid;
 
@@ -146,16 +147,22 @@ function viewSearch() {
 
 		$mainframe->setPageTitle( _SEARCH_TITLE );
 
+		$total 		= $totalRows;
+		$limit		= mosGetParam( $_GET, 'limit', $mosConfig_list_limit );
+		$limitstart = mosGetParam( $_GET, 'limitstart', 0 );
 		if ( $n ) {
-		// html output
-			search_html::display( $rows, $params );
+		// html output		
+			require_once( $GLOBALS['mosConfig_absolute_path'] . '/includes/pageNavigation.php' );
+			$pageNav = new mosPageNav( $total, $limitstart, $limit );	
+			
+			search_html::display( $rows, $params, $pageNav, $limitstart, $limit, $total, $totalRows, htmlspecialchars( $searchword ) );
 		} else {
 		// html output
 			search_html::displaynoresult();
 		}
 
 		// html output
-		search_html::conclusion( $totalRows, htmlspecialchars( $searchword ) );
+		search_html::conclusion( $totalRows, htmlspecialchars( $searchword ), $pageNav );
 	}
 
 	// displays back button

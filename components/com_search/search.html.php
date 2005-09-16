@@ -34,7 +34,7 @@ class search_html {
 	function searchbox( $searchword, &$lists, $params ) {
 		global $Itemid;
 		?>
-		<form action="index.php" method="post">
+		<form action="index.php" method="get">
 		<table class="contentpaneopen<?php echo $params->get( 'pageclass_sfx' ); ?>">
 			<tr>
 				<td nowrap="nowrap">
@@ -98,27 +98,42 @@ class search_html {
 		<?php
 	}
 
-	function display( &$rows, $params ) {
+	function display( &$rows, $params, $pageNav, $limitstart, $limit, $total, $totalRows, $searchword ) {
 		global $mosConfig_hideCreateDate;
-		
-		$c 			= count ($rows);
-		$tabclass 	= array("sectiontableentry1", "sectiontableentry2");
-		$k 			= 0;
+		global $mosConfig_live_site;
 
-		// number of matches found
-		printf( _SEARCH_MATCHES, $c );
-		?>
+
+		$c = count ($rows);
+
+				// number of matches found
+				echo '<br/>';				
+				eval ('echo "'._CONCLUSION.'";');
+				?>
+				<a href="http://www.google.com/search?q=<?php echo stripslashes($searchword);?>" target="_blank">
+				<img src="<?php echo $mosConfig_live_site;?>/images/M_images/google.png" border="0" align="texttop" />
+				</a>
 			</td>
 		</tr>
 		</table>
 		<br />
+		<div align="center">
+			<?php 
+			echo $pageNav->writePagesCounter();
+			$link = $_SERVER['HTTP_REFERER'];
+			echo $pageNav->getLimitBox( $link );
+			?>		
+		</div>
 		<table class="contentpaneopen<?php echo $params->get( 'pageclass_sfx' ); ?>">
 		<tr class="<?php echo $params->get( 'pageclass_sfx' ); ?>">
 			<td>
 				<?php
-				$i = 0;
-				foreach ($rows as $row) {
-					$i++;
+				$z		= $limitstart + 1;
+				$end 	= $limit + $z;
+				if ( $end > $total ) {
+					$end = $total + 1;
+				}
+				for( $i=$z; $i < $end; $i++ ) {
+					$row = $rows[$i-1];
 					if ($row->created) {
 						$created = mosFormatDate ($row->created, '%d %B, %Y');
 					} else {
@@ -173,7 +188,6 @@ class search_html {
 							</div>
 							<?php
 						}
-						$k = 1 - $k;
 						?>
 					</fieldset>		
 					<br/>			
@@ -184,22 +198,21 @@ class search_html {
 		<?php
 	}
 
-	function conclusion( $totalRows, $searchword ) {
-		global $mosConfig_live_site;
+	function conclusion( $totalRows, $searchword, $pageNav ) {
 		?>
 		<tr>
 			<td colspan="3">
-			&nbsp;
+				<div align="center">			
+					<?php
+					$link = $_SERVER['HTTP_REFERER'];
+					echo $pageNav->writePagesLinks( $link );
+					?>		
+				</div>
 			</td>
 		</tr>
 		<tr>
 			<td colspan="3">
-			<?php
-			eval ('echo "'._CONCLUSION.'";');
-			?>
-			<a href="http://www.google.com/search?q=<?php echo stripslashes($searchword);?>" target="_blank">
-			<img src="<?php echo $mosConfig_live_site;?>/images/M_images/google.png" border="0" align="texttop" />
-			</a>
+
 			</td>
 		</tr>
 		</table>
