@@ -4,9 +4,11 @@
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-* Joomla! is free software and parts of it may contain or be derived from works
-* licensed under the GNU General Public License or other free or open source
-* software licenses. See COPYRIGHT.php for copyright notices and details.
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
+* See COPYRIGHT.php for copyright notices and details.
 */
 
 // no direct access
@@ -31,7 +33,7 @@ if (class_exists( 'mosUser' )) {
 	$admin->usertype 	= mosGetParam( $_SESSION, 'session_usertype', '' );
 	$session_id 	= mosGetParam( $_SESSION, 'session_id', '' );
 	$logintime 		= mosGetParam( $_SESSION, 'session_logintime', '' );
-	
+
 	// check against db record of session
 	if ($session_id == md5( $admin->id . $admin->username . $admin->usertype . $logintime )) {
 		$query = "SELECT *"
