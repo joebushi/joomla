@@ -328,7 +328,7 @@ function publishMambot( $cid=null, $publish=1, $option, $client ) {
 
 	$cids = implode( ',', $cid );
 
-	$query = "UPDATE #__mambots SET published = " . intval( $publish )
+	$query = "UPDATE #__mambots SET published = '". intval( $publish ) ."'"
 	. "\n WHERE id IN ( $cids )"
 	. "\n AND ( checked_out = 0 OR ( checked_out = $my->id ))"
 	;
