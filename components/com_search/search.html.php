@@ -118,7 +118,7 @@ class search_html {
 		<div align="center">
 			<?php
 			echo $pageNav->writePagesCounter();
-			$link = $_SERVER['HTTP_REFERER'];
+			$link = $mosConfig_live_site .'/index.php?'. $_SERVER['QUERY_STRING'];
 			echo $pageNav->getLimitBox( $link );
 			?>
 		</div>
@@ -198,12 +198,13 @@ class search_html {
 	}
 
 	function conclusion( $totalRows, $searchword, $pageNav ) {
+		global $mosConfig_live_site;
 		?>
 		<tr>
 			<td colspan="3">
 				<div align="center">
 					<?php
-					$link = $_SERVER['HTTP_REFERER'];
+					$link = $mosConfig_live_site .'/index.php?'. $_SERVER['QUERY_STRING'];
 					echo $pageNav->writePagesLinks( $link );
 					?>
 				</div>
