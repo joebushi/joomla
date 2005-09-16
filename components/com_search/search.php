@@ -112,7 +112,7 @@ function viewSearch() {
 
 		$rows = array();
 		for ($i = 0, $n = count( $results); $i < $n; $i++) {
-			$rows = array_merge( $rows, $results[$i] );
+			$rows = array_merge( (array)$rows, (array)$results[$i] );
 		}
 
 		$totalRows = count( $rows );
@@ -151,10 +151,10 @@ function viewSearch() {
 		$limit		= mosGetParam( $_GET, 'limit', $mosConfig_list_limit );
 		$limitstart = mosGetParam( $_GET, 'limitstart', 0 );
 		if ( $n ) {
-		// html output		
+		// html output
 			require_once( $GLOBALS['mosConfig_absolute_path'] . '/includes/pageNavigation.php' );
-			$pageNav = new mosPageNav( $total, $limitstart, $limit );	
-			
+			$pageNav = new mosPageNav( $total, $limitstart, $limit );
+
 			search_html::display( $rows, $params, $pageNav, $limitstart, $limit, $total, $totalRows, htmlspecialchars( $searchword ) );
 		} else {
 		// html output
