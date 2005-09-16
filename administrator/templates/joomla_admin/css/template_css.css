@@ -166,11 +166,13 @@ table.adminheading {
 	text-align: left;
 }
 table.adminheading th {
+	background: url(../../../images/generic.png) no-repeat left;
 	text-align: left;
 	height: 50px;
 	width: 99%;
 	padding-left: 50px;
 	padding-bottom: 5px;
+	border-bottom: 10px solid #fff;
 }
 table.adminheading th.checkin {
 	background: url(../../../images/checkin.png) no-repeat left;

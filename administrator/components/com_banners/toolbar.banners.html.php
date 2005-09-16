@@ -43,13 +43,21 @@ class TOOLBAR_banners {
 	}
 	function _DEFAULT() {
 		mosMenuBar::startTable();
+		mosMenuBar::spacer();
 		mosMenuBar::publishList();
+		mosMenuBar::spacer();
 		mosMenuBar::unpublishList();
+		mosMenuBar::spacer();
 		mosMenuBar::media_manager( 'banners' );
+		mosMenuBar::spacer();
 		mosMenuBar::addNewX();
+		mosMenuBar::spacer();
 		mosMenuBar::editListX();
+		mosMenuBar::spacer();
 		mosMenuBar::deleteList();
+		mosMenuBar::spacer();
 		mosMenuBar::help( 'screen.banners' );
+		mosMenuBar::spacer();
 		mosMenuBar::endTable();
 	}
 }

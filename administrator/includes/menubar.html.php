@@ -46,14 +46,14 @@ class mosMenuBar {
 		<td>
 			<a class="toolbar" href="<?php echo $href;?>">
 				<img name="<?php echo $task;?>" src="images/<?php echo $iconOver;?>" alt="<?php echo $alt;?>" border="0" align="middle" />
-				<br/><?php echo $alt; ?></a>
+				<br /><?php echo $alt; ?></a>
 		</td>
 		<?php
 		} else {
 		?>
 		<td>
 			<a class="toolbar" href="<?php echo $href;?>">
-				<br/><?php echo $alt; ?></a>
+				<br /><?php echo $alt; ?></a>
 		</td>
 		<?php
 		}
@@ -79,14 +79,14 @@ class mosMenuBar {
 		<td>
 			<a class="toolbar" href="<?php echo $href;?>">
 				<img name="<?php echo $task;?>" src="images/<?php echo $iconOver;?>" alt="<?php echo $alt;?>" border="0" align="middle" />
-				<br/><?php echo $alt; ?></a>
+				<br /><?php echo $alt; ?></a>
 		</td>
 		<?php
 		} else {
 		?>
 		<td>
 			<a class="toolbar" href="<?php echo $href;?>">
-				<br/><?php echo $alt; ?></a>
+				<br /><?php echo $alt; ?></a>
 		</td>
 		<?php
 		}
@@ -103,7 +103,7 @@ class mosMenuBar {
 		<td>
 			<a class="toolbar" href="javascript:submitbutton('<?php echo $task;?>');">
 				<?php echo $image2; ?>
-				<br/><?php echo $alt; ?></a>
+				<br /><?php echo $alt; ?></a>
 		</td>
 		<?php
 	}
@@ -120,7 +120,7 @@ class mosMenuBar {
 		<td>
 			<a class="toolbar" href="javascript:hideMainMenu();submitbutton('<?php echo $task;?>');">
 				<?php echo $image2; ?>
-				<br/><?php echo $alt; ?></a>
+				<br /><?php echo $alt; ?></a>
 		</td>
 		<?php
 	}
@@ -136,7 +136,7 @@ class mosMenuBar {
 		<td>
 			<a class="toolbar" href="javascript:submitbutton('<?php echo $task;?>');">
 				<?php echo $image2; ?>
-				<br/><?php echo $alt; ?></a>
+				<br /><?php echo $alt; ?></a>
 		</td>
 		<?php
 	}
@@ -152,7 +152,7 @@ class mosMenuBar {
 	 	<td>
 			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('Please make a selection from the list to publish'); } else {submitbutton('<?php echo $task;?>', '');}"">
 				<?php echo $image2; ?>
-				<br/><?php echo $alt; ?></a>
+				<br /><?php echo $alt; ?></a>
 		</td>
 	 	<?php
 	}
@@ -168,7 +168,7 @@ class mosMenuBar {
 		<td>
 			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('Please select an item to make default'); } else {submitbutton('<?php echo $task;?>', '');}">
 				<?php echo $image2; ?>
-				<br/><?php echo $alt; ?></a>
+				<br /><?php echo $alt; ?></a>
 		</td>
 		<?php
 	}
@@ -184,7 +184,7 @@ class mosMenuBar {
 		<td>
 			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('Please select an item to assign'); } else {submitbutton('<?php echo $task;?>', '');}">
 				<?php echo $image2; ?>
-				<br/><?php echo $alt; ?></a>
+				<br /><?php echo $alt; ?></a>
 		</td>
 		<?php
 	}
@@ -200,7 +200,7 @@ class mosMenuBar {
 		<td>
 			<a class="toolbar" href="javascript:submitbutton('<?php echo $task;?>');">
 				<?php echo $image2; ?>
-				<br/><?php echo $alt; ?></a>
+				<br /><?php echo $alt; ?></a>
 		</td>
 		<?php
 	}
@@ -216,7 +216,7 @@ class mosMenuBar {
 		<td>
 			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('Please make a selection from the list to unpublish'); } else {submitbutton('<?php echo $task;?>', '');}">
 				<?php echo $image2; ?>
-				<br/><?php echo $alt; ?></a>
+				<br /><?php echo $alt; ?></a>
 		</td>
 		<?php
 	}
@@ -232,7 +232,7 @@ class mosMenuBar {
 		<td>
 			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('Please make a selection from the list to archive'); } else {submitbutton('<?php echo $task;?>', '');}">
 				<?php echo $image2; ?>
-				<br/><?php echo $alt; ?></a>
+				<br /><?php echo $alt; ?></a>
 		</td>
 		<?php
 	}
@@ -248,7 +248,7 @@ class mosMenuBar {
 		<td>
 			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('Please select a news story to unarchive'); } else {submitbutton('<?php echo $task;?>', '');}">
 				<?php echo $image2; ?>
-				<br/><?php echo $alt; ?></a>
+				<br /><?php echo $alt; ?></a>
 		</td>
 		<?php
 	}
@@ -264,7 +264,7 @@ class mosMenuBar {
 		<td>
 			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('Please select an item from the list to edit'); } else {submitbutton('<?php echo $task;?>', '');}">
 				<?php echo $image2; ?>
-				<br/><?php echo $alt; ?></a>
+				<br /><?php echo $alt; ?></a>
 		</td>
 		<?php
 	}
@@ -281,7 +281,7 @@ class mosMenuBar {
 		<td>
 			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('Please select an item from the list to edit'); } else {hideMainMenu();submitbutton('<?php echo $task;?>', '');}">
 				<?php echo $image2; ?>
-				<br/><?php echo $alt; ?></a>
+				<br /><?php echo $alt; ?></a>
 		</td>
 		<?php
 	}
@@ -297,7 +297,7 @@ class mosMenuBar {
 		<td>
 			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('Please select an item from the list to edit'); } else {submitbutton('<?php echo $task;?>', '');}">
 				<?php echo $image2; ?>
-				<br/><?php echo $alt; ?></a>
+				<br /><?php echo $alt; ?></a>
 		</td>
 		<?php
 	}
@@ -314,7 +314,7 @@ class mosMenuBar {
 		<td>
 			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('Please select an item from the list to edit'); } else {hideMainMenu();submitbutton('<?php echo $task;?>', '');}"">
 				<?php echo $image2; ?>
-				<br/><?php echo $alt; ?></a>
+				<br /><?php echo $alt; ?></a>
 		</td>
 		<?php
 	}
@@ -330,7 +330,7 @@ class mosMenuBar {
 		<td>
 			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('Please select an item from the list to edit'); } else {submitbutton('<?php echo $task;?>', '');}"">
 				<?php echo $image2; ?>
-				<br/><?php echo $alt; ?></a>
+				<br /><?php echo $alt; ?></a>
 		</td>
 		<?php
 	}
@@ -347,7 +347,7 @@ class mosMenuBar {
 		<td>
 			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('Please select an item from the list to edit'); } else {hideMainMenu();submitbutton('<?php echo $task;?>', '');}">
 				<?php echo $image2; ?>
-				<br/><?php echo $alt; ?></a>
+				<br /><?php echo $alt; ?></a>
 		</td>
 		<?php
 	}
@@ -364,7 +364,7 @@ class mosMenuBar {
 		<td>
 			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('Please make a selection from the list to delete'); } else if (confirm('Are you sure you want to delete selected items? <?php echo $msg;?>')){ submitbutton('<?php echo $task;?>');}">
 				<?php echo $image2; ?>
-				<br/><?php echo $alt; ?></a>
+				<br /><?php echo $alt; ?></a>
 		</td>
 		<?php
 	}
@@ -382,7 +382,7 @@ class mosMenuBar {
 		<td>
 			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('Please make a selection from the list to delete'); } else if (confirm('Are you sure you want to delete selected items? <?php echo $msg;?>')){ hideMainMenu();submitbutton('<?php echo $task;?>');}">
 				<?php echo $image2; ?>
-				<br/><?php echo $alt; ?></a>
+				<br /><?php echo $alt; ?></a>
 		</td>
 		<?php
 	}
@@ -396,7 +396,7 @@ class mosMenuBar {
 		 <td>
 			<a class="toolbar" href="javascript:submitbutton('<?php echo $task;?>');">
 				<?php echo $image2; ?>
-				<br/><?php echo $alt; ?></a>
+				<br /><?php echo $alt; ?></a>
 		</td>
 		<?php
 	}
@@ -427,7 +427,7 @@ class mosMenuBar {
 			</script>
 		 	<a class="toolbar" href="#" onclick="popup();">
 				<?php echo $image2; ?>
-				<br/>Preview</a>
+				<br />Preview</a>
 		</td>
 		<?php
 	}
@@ -463,7 +463,7 @@ class mosMenuBar {
 		<td>
 			<a class="toolbar" href="#" onclick="window.open('<?php echo $url;?>', 'mambo_help_win', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');">
 				<?php echo $image2; ?>
-				<br/>Help</a>
+				<br />Help</a>
 		</td>
 		<?php
 	}
@@ -481,7 +481,7 @@ class mosMenuBar {
 		<td>
 			<a class="toolbar" href="javascript:submitbutton('<?php echo $task;?>');">
 				<?php echo $image2; ?>
-				<br/><?php echo $alt;?></a>
+				<br /><?php echo $alt;?></a>
 		</td>
 		<?php
 	}
@@ -498,7 +498,7 @@ class mosMenuBar {
 		<td>
 			<a class="toolbar" href="javascript:submitbutton('<?php echo $task;?>');">
 				<?php echo $image2; ?>
-				<br/><?php echo $alt;?></a>
+				<br /><?php echo $alt;?></a>
 		</td>
 		<?php
 	}
@@ -512,7 +512,7 @@ class mosMenuBar {
 		<td>
 			<a class="toolbar" href="javascript:submitbutton('savenew');">
 				<?php echo $image2; ?>
-				<br/>Save</a>
+				<br />Save</a>
 		</td>
 		<?php
 	}
@@ -526,7 +526,7 @@ class mosMenuBar {
 		<td>
 			<a class="toolbar" href="javascript:submitbutton('saveedit');">
 				<?php echo $image2; ?>
-				<br/>Save</a>
+				<br />Save</a>
 		</td>
 		<?php
 	}
@@ -542,7 +542,7 @@ class mosMenuBar {
 		<td>
 			<a class="toolbar" href="javascript:submitbutton('<?php echo $task;?>');">
 				<?php echo $image2; ?>
-				<br/><?php echo $alt;?></a>
+				<br /><?php echo $alt;?></a>
 		</td>
 		<?php
 	}
@@ -562,7 +562,7 @@ class mosMenuBar {
 		<td>
 			<a class="toolbar" href="<?php echo $link; ?>">
 				<?php echo $image2; ?>
-				<br/><?php echo $alt;?></a>
+				<br /><?php echo $alt;?></a>
 		</td>
 		<?php
 	}
@@ -593,7 +593,7 @@ class mosMenuBar {
 		<td>
 			<a class="toolbar" href="#" onclick="popupWindow('popups/uploadimage.php?directory=<?php echo $directory; ?>&t=<?php echo $cur_template; ?>','win1',250,100,'no');">
 				<?php echo $image2; ?>
-				<br/><?php echo $alt;?></a>
+				<br /><?php echo $alt;?></a>
 		</td>
 		<?php
 	}
