@@ -35,15 +35,15 @@ class TOOLBAR_typedcontent {
 
 	function _DEFAULT() {
 		mosMenuBar::startTable();
-		mosMenuBar::addNewX();
-		mosMenuBar::spacer();
-		mosMenuBar::editListX( 'editA' );
-		mosMenuBar::spacer();
 		mosMenuBar::publishList();
 		mosMenuBar::spacer();
 		mosMenuBar::unpublishList();
 		mosMenuBar::spacer();
 		mosMenuBar::trash();
+		mosMenuBar::spacer();
+		mosMenuBar::editListX( 'editA' );
+		mosMenuBar::spacer();
+		mosMenuBar::addNewX();
 		mosMenuBar::spacer();
 		mosMenuBar::help( 'screen.staticcontent' );
 		mosMenuBar::endTable();

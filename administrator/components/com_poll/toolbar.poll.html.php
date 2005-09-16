@@ -70,11 +70,11 @@ class TOOLBAR_poll {
 		mosMenuBar::spacer();
 		mosMenuBar::unpublishList();
 		mosMenuBar::spacer();
-		mosMenuBar::addNewX();
+		mosMenuBar::deleteList();
 		mosMenuBar::spacer();
 		mosMenuBar::editListX();
 		mosMenuBar::spacer();
-		mosMenuBar::deleteList();
+		mosMenuBar::addNewX();
 		mosMenuBar::spacer();
 		mosMenuBar::help( 'screen.polls' );
 		mosMenuBar::endTable();

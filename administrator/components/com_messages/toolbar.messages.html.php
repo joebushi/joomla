@@ -52,9 +52,9 @@ class TOOLBAR_messages {
 
 	function _DEFAULT() {
 		mosMenuBar::startTable();
-		mosMenuBar::addNewX();
-		mosMenuBar::spacer();
 		mosMenuBar::deleteList();
+		mosMenuBar::spacer();
+		mosMenuBar::addNewX();
 		mosMenuBar::spacer();
 		mosMenuBar::help( 'screen.messages.inbox' );
 		mosMenuBar::endTable();

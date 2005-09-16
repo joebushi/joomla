@@ -46,11 +46,11 @@ class TOOLBAR_contact {
 		mosMenuBar::spacer();
 		mosMenuBar::unpublish();
 		mosMenuBar::spacer();
-		mosMenuBar::addNewX();
+		mosMenuBar::deleteList();
 		mosMenuBar::spacer();
 		mosMenuBar::editListX();
 		mosMenuBar::spacer();
-		mosMenuBar::deleteList();
+		mosMenuBar::addNewX();
 		mosMenuBar::spacer();
 		mosMenuBar::help( 'screen.contactmanager' );
 		mosMenuBar::endTable();

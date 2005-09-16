@@ -94,10 +94,6 @@ class TOOLBAR_menus {
 
 	function _DEFAULT() {
 		mosMenuBar::startTable();
-		mosMenuBar::addNewX();
-		mosMenuBar::spacer();
-		mosMenuBar::editListX();
-		mosMenuBar::spacer();
 		mosMenuBar::publishList();
 		mosMenuBar::spacer();
 		mosMenuBar::unpublishList();
@@ -107,6 +103,10 @@ class TOOLBAR_menus {
 		mosMenuBar::customX( 'copymenu', 'copy.png', 'copy_f2.png', 'Copy', true );
 		mosMenuBar::spacer();
 		mosMenuBar::trash();
+		mosMenuBar::spacer();
+		mosMenuBar::editListX();
+		mosMenuBar::spacer();
+		mosMenuBar::addNewX();
 		mosMenuBar::spacer();
 		mosMenuBar::help( 'screen.menus' );
 		mosMenuBar::endTable();

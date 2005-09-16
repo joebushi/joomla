@@ -52,7 +52,8 @@ Legend:
 
 16-Sep-2005 Rey Gigataras 
  + Pagination Support for Search Component
- ^ Frontend Edit, status info moved to an overlib
+ ^ Ordering of Toolbar Icons/buttons now more consistent
+ ^ Frontend Edit, status info moved to an overlib 
  ^ Search Component converted to GET method 
  # Various Search Component Fixes
  # Fixed Search Component not honouring Show/Hide Date Global Config setting

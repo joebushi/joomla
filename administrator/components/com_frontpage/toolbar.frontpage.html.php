@@ -22,11 +22,11 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 class TOOLBAR_FrontPage {
 	function _DEFAULT() {
 		mosMenuBar::startTable();
+		mosMenuBar::archiveList();
+		mosMenuBar::spacer();
 		mosMenuBar::publishList();
 		mosMenuBar::spacer();
 		mosMenuBar::unpublishList();
-		mosMenuBar::spacer();
-		mosMenuBar::archiveList();
 		mosMenuBar::spacer();
 		mosMenuBar::custom('remove','delete.png','delete_f2.png','Remove', true);
 		mosMenuBar::spacer();

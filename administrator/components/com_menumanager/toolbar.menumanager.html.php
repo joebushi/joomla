@@ -25,13 +25,13 @@ class TOOLBAR_menumanager {
 	*/
 	function _DEFAULT() {
 		mosMenuBar::startTable();
-		mosMenuBar::addNewX();
-		mosMenuBar::spacer();
-		mosMenuBar::editListX();
-		mosMenuBar::spacer();
 		mosMenuBar::customX( 'copyconfirm', 'copy.png', 'copy_f2.png', 'Copy', true );
 		mosMenuBar::spacer();
 		mosMenuBar::customX( 'deleteconfirm', 'delete.png', 'delete_f2.png', 'Delete', true );
+		mosMenuBar::spacer();
+		mosMenuBar::editListX();
+		mosMenuBar::spacer();
+		mosMenuBar::addNewX();
 		mosMenuBar::spacer();
 		mosMenuBar::help( 'screen.menumanager' );
 		mosMenuBar::endTable();

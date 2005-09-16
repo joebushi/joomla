@@ -31,13 +31,13 @@ class TOOLBAR_templates {
 			mosMenuBar::assign();
 			mosMenuBar::spacer();
 		}
-		mosMenuBar::addNew();
+		mosMenuBar::deleteList();
 		mosMenuBar::spacer();
 		mosMenuBar::editHtmlX( 'edit_source' );
 		mosMenuBar::spacer();
 		mosMenuBar::editCssX( 'edit_css' );
 		mosMenuBar::spacer();
-		mosMenuBar::deleteList();
+		mosMenuBar::addNew();
 		mosMenuBar::spacer();
 		mosMenuBar::help( 'screen.templates' );
 		mosMenuBar::endTable();

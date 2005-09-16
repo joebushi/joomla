@@ -24,11 +24,11 @@ class TOOLBAR_languages {
 		mosMenuBar::startTable();
 		mosMenuBar::publishList();
 		mosMenuBar::spacer();
-		mosMenuBar::addNew();
+		mosMenuBar::deleteList();
 		mosMenuBar::spacer();
 		mosMenuBar::editListX( 'edit_source' );
 		mosMenuBar::spacer();
-		mosMenuBar::deleteList();
+		mosMenuBar::addNew();
 		mosMenuBar::spacer();
 		mosMenuBar::help( 'screen.languages' );
 		mosMenuBar::endTable();

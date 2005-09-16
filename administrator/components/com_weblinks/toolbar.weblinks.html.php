@@ -43,11 +43,11 @@ class TOOLBAR_weblinks {
 		mosMenuBar::spacer();
 		mosMenuBar::unpublishList();
 		mosMenuBar::spacer();
-		mosMenuBar::addNewX();
-		mosMenuBar::spacer();
 		mosMenuBar::editListX();
 		mosMenuBar::spacer();
 		mosMenuBar::deleteList();
+		mosMenuBar::spacer();
+		mosMenuBar::addNewX();
 		mosMenuBar::spacer();
 		mosMenuBar::help( 'screen.weblink' );
 		mosMenuBar::endTable();

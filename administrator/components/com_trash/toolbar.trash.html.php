@@ -38,9 +38,9 @@ class TOOLBAR_Trash {
 
 	function _SETTINGS() {
 		mosMenuBar::startTable();
-		mosMenuBar::save();
-		mosMenuBar::spacer();
 		mosMenuBar::back();
+		mosMenuBar::spacer();
+		mosMenuBar::save();
 		mosMenuBar::endTable();
 	}
 

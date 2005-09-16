@@ -43,18 +43,17 @@ class TOOLBAR_banners {
 	}
 	function _DEFAULT() {
 		mosMenuBar::startTable();
+		mosMenuBar::media_manager( 'banners' );
 		mosMenuBar::spacer();
 		mosMenuBar::publishList();
 		mosMenuBar::spacer();
 		mosMenuBar::unpublishList();
 		mosMenuBar::spacer();
-		mosMenuBar::media_manager( 'banners' );
-		mosMenuBar::spacer();
-		mosMenuBar::addNewX();
+		mosMenuBar::deleteList();
 		mosMenuBar::spacer();
 		mosMenuBar::editListX();
 		mosMenuBar::spacer();
-		mosMenuBar::deleteList();
+		mosMenuBar::addNewX();
 		mosMenuBar::spacer();
 		mosMenuBar::help( 'screen.banners' );
 		mosMenuBar::spacer();
@@ -90,11 +89,11 @@ class TOOLBAR_bannerClient {
 	*/
 	function _DEFAULT() {
 		mosMenuBar::startTable();
-		mosMenuBar::addNewX( 'newclient' );
+		mosMenuBar::deleteList( '', 'removeclients' );
 		mosMenuBar::spacer();
 		mosMenuBar::editListX( 'editclient' );
 		mosMenuBar::spacer();
-		mosMenuBar::deleteList( '', 'removeclients' );
+		mosMenuBar::addNewX( 'newclient' );
 		mosMenuBar::spacer();
 		mosMenuBar::help( 'screen.banners.client' );
 		mosMenuBar::endTable();

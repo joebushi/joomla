@@ -71,11 +71,11 @@ class TOOLBAR_modules {
 		mosMenuBar::spacer();
 		mosMenuBar::custom( 'copy', 'copy.png', 'copy_f2.png', 'Copy', true );
 		mosMenuBar::spacer();
-		mosMenuBar::addNewX();
+		mosMenuBar::deleteList();
 		mosMenuBar::spacer();
 		mosMenuBar::editListX();
 		mosMenuBar::spacer();
-		mosMenuBar::deleteList();
+		mosMenuBar::addNewX();
 		mosMenuBar::spacer();
 		mosMenuBar::help( 'screen.modules' );
 		mosMenuBar::endTable();

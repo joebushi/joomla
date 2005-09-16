@@ -68,9 +68,7 @@ class TOOLBAR_content {
 
 	function _DEFAULT() {
 		mosMenuBar::startTable();
-		mosMenuBar::addNewX();
-		mosMenuBar::spacer();
-		mosMenuBar::editListX( 'editA' );
+		mosMenuBar::archiveList();
 		mosMenuBar::spacer();
 		mosMenuBar::publishList();
 		mosMenuBar::spacer();
@@ -80,9 +78,11 @@ class TOOLBAR_content {
 		mosMenuBar::spacer();
 		mosMenuBar::customX( 'copy', 'copy.png', 'copy_f2.png', 'Copy' );
 		mosMenuBar::spacer();
-		mosMenuBar::archiveList();
-		mosMenuBar::spacer();
 		mosMenuBar::trash();
+		mosMenuBar::spacer();
+		mosMenuBar::editListX( 'editA' );
+		mosMenuBar::spacer();
+		mosMenuBar::addNewX();
 		mosMenuBar::spacer();
 		mosMenuBar::help( 'screen.content' );
 		mosMenuBar::endTable();
