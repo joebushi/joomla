@@ -88,12 +88,12 @@ function botSearchContent( $text, $phrase='', $ordering='' ) {
 			break;
 	}
 
-	$sql = "SELECT a.title AS title,"
+	$query = "SELECT a.title AS title,"
 	. "\n a.created AS created,"
 	. "\n CONCAT(a.introtext, a.fulltext) AS text,"
-	. "\n CONCAT_WS( '/', u.title, b.title ) AS section,";
-	$sql .= "\n CONCAT( 'index.php?option=com_content&task=view&id=', a.id ) AS href,";
-	$sql .= "\n '2' AS browsernav"
+	. "\n CONCAT_WS( '/', u.title, b.title ) AS section,"
+	. "\n CONCAT( 'index.php?option=com_content&task=view&id=', a.id ) AS href,"
+	. "\n '2' AS browsernav"
 	. "\n FROM #__content AS a"
 	. "\n INNER JOIN #__categories AS b ON b.id=a.catid AND b.access <= '$my->gid'"
 	. "\n LEFT JOIN #__sections AS u ON u.id = a.sectionid"
@@ -106,7 +106,7 @@ function botSearchContent( $text, $phrase='', $ordering='' ) {
 	. "\n AND ( publish_down = '0000-00-00 00:00:00' OR publish_down >= '$now' )"
 	. "\n ORDER BY $order";
 
-	$database->setQuery( $sql );
+	$database->setQuery( $query );
 
 	$list = $database->loadObjectList();
 

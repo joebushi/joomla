@@ -74,11 +74,11 @@ function botSearchNewsfeedslinks( $text, $phrase='', $ordering='' ) {
 	}
 
 	$query = "SELECT a.name AS title,"
-	. "\n a.link AS text,"
 	. "\n '' AS created,"
+	. "\n a.link AS text,"
 	. "\n CONCAT_WS( ' / ','Newsfeeds', b.title )AS section,"
-	. "\n '1' AS browsernav,"
-	. "\n CONCAT( 'index.php?option=com_newsfeeds&task=view&feedid=', a.id ) AS href"
+	. "\n CONCAT( 'index.php?option=com_newsfeeds&task=view&feedid=', a.id ) AS href,"
+	. "\n '1' AS browsernav"
 	. "\n FROM #__newsfeeds AS a"
 	. "\n INNER JOIN #__categories AS b ON b.id = a.catid AND b.access <= '$my->gid'"
 	. "\n WHERE ( $where )"

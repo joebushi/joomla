@@ -99,6 +99,8 @@ class search_html {
 	}
 
 	function display( &$rows, $params ) {
+		global $mosConfig_hideCreateDate;
+		
 		$c 			= count ($rows);
 		$tabclass 	= array("sectiontableentry1", "sectiontableentry2");
 		$k 			= 0;
@@ -111,52 +113,75 @@ class search_html {
 		</table>
 		<br />
 		<table class="contentpaneopen<?php echo $params->get( 'pageclass_sfx' ); ?>">
-		<?php
-		foreach ($rows as $row) {
-			if ($row->created) {
-				$created = mosFormatDate ($row->created, '%d %B, %Y');
-			} else {
-				$created = '';
-			}
-			?>
-			<tr class="<?php echo $tabclass[$k] . $params->get( 'pageclass_sfx' ); ?>">
-				<td>
+		<tr class="<?php echo $params->get( 'pageclass_sfx' ); ?>">
+			<td>
 				<?php
-				if ($row->browsernav == 1) {
+				$i = 0;
+				foreach ($rows as $row) {
+					$i++;
+					if ($row->created) {
+						$created = mosFormatDate ($row->created, '%d %B, %Y');
+					} else {
+						$created = '';
+					}
 					?>
-					<a href="<?php echo sefRelToAbs($row->href); ?>" target="_blank">
-					<?php
-				} else {
-					?>
-					<a href="<?php echo sefRelToAbs($row->href); ?>">
+					<fieldset>
+						<div>
+							<span class="small<?php echo $params->get( 'pageclass_sfx' ); ?>">
+								<?php echo $i.'. ';?>
+							</span>
+							<?php
+							if ( $row->href ) {
+								if ($row->browsernav == 1 ) {
+									?>
+									<a href="<?php echo sefRelToAbs($row->href); ?>" target="_blank">
+									<?php
+								} else {
+									?>
+									<a href="<?php echo sefRelToAbs($row->href); ?>">
+									<?php
+								}
+							}
+							
+							echo $row->title;
+							
+							if ( $row->href ) {
+								?>
+								</a>
+								<?php
+							}
+							if ( $row->section ) {
+								?>
+								<br/>
+								<span class="small<?php echo $params->get( 'pageclass_sfx' ); ?>">
+									(<?php echo $row->section; ?>)
+								</span>
+								<?php
+							}
+							?>
+						</div>
+						
+						<div>
+							<?php echo $row->text;?> 
+						</div>
+						
+						<?php
+						if ( !$mosConfig_hideCreateDate ) {
+							?>
+							<div class="small<?php echo $params->get( 'pageclass_sfx' ); ?>">
+								<?php echo $created; ?>
+							</div>
+							<?php
+						}
+						$k = 1 - $k;
+						?>
+					</fieldset>		
+					<br/>			
 					<?php
 				}
-				echo $row->title;
 				?>
-				</a>
-				<span class="small<?php echo $params->get( 'pageclass_sfx' ); ?>">
-				(<?php echo $row->section; ?>)
-				</span>
-				</td>
-			</tr>
-			<tr class="<?php echo $tabclass[$k] . $params->get( 'pageclass_sfx' ); ?>">
-				<td>
-				<?php echo $row->text;?> &#133;
-				</td>
-			</tr>
-			<tr>
-				<td class="small<?php echo $params->get( 'pageclass_sfx' ); ?>">
-				<?php echo $created; ?>
-				</td>
-			</tr>
-			<tr>
-				<td>
-				&nbsp;
-				</td>
-			</tr>
-			<?php
-			$k = 1 - $k;
-		}
+			</td>
+		<?php
 	}
 
 	function conclusion( $totalRows, $searchword ) {

@@ -40,8 +40,10 @@ Legend:
 16-Sep-2005 Alex Kempkens
  + template contest winner 'MadeYourWeb' added
 
-16-Sep-2005 Rey Gigataras
+16-Sep-2005 Rey Gigataras 
  ^ Frontend Edit, status info moved to an overlib
+ # Various Search Component Fixes
+ # Fixed Search Component not honouring Show/Hide Date Global Config setting
  # Fixed [#6668] No static content edit icon for frontend logged in author
  # Fixed [#6710] `Link to menu` function from components Category not working
  # Fixed [#7011] Subtle bug in saveUser() - admin.users.php

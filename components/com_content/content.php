@@ -24,7 +24,7 @@ $id 		= intval( mosGetParam( $_REQUEST, 'id', 0 ) );
 $limit 		= intval( mosGetParam( $_REQUEST, 'limit', '' ) );
 $limitstart = intval( mosGetParam( $_REQUEST, 'limitstart', 0 ) );
 
-$now = date( 'Y-m-d H:i:s', time() + $mosConfig_offset * 60 * 60 );
+$now = date( 'Y-m-d H:i', time() + $mosConfig_offset * 60 * 60 );
 
 // Editor usertype check
 $access = new stdClass();
@@ -153,8 +153,6 @@ function frontpage( $gid, &$access, $pop, $now ) {
 	// Ordering control
 	$order_sec = _orderby_sec( $orderby_sec );
 	$order_pri = _orderby_pri( $orderby_pri );
-
-	$now = date( 'Y-m-d H:i:s', time()+$mosConfig_offset*60*60 );
 
 	// query records
 	$query = "SELECT a.*, ROUND( v.rating_sum / v.rating_count ) AS rating, v.rating_count, u.name AS author, u.usertype, s.name AS section, cc.name AS category, g.name AS groups"

@@ -50,6 +50,8 @@ function botSearchCategories( $text, $phrase='', $ordering='' ) {
 	. "\n a.description AS text,"
 	. "\n '' AS created,"
 	. "\n '2' AS browsernav,"
+	. "\n '' AS section,"
+	. "\n '' AS href,"
 	. "\n s.id AS secid, a.id AS catid,"
 	. "\n m.id AS menuid, m.type AS menutype"
 	. "\n FROM #__categories AS a"
@@ -69,13 +71,12 @@ function botSearchCategories( $text, $phrase='', $ordering='' ) {
 
 	$count = count( $rows );
 	for ( $i = 0; $i < $count; $i++ ) {
-		if ( $rows[$i]->menutype == 'content_category' ) {
-			$rows[$i]->href = 'index.php?option=com_content&task=category&sectionid='. $rows[$i]->secid .'&id='. $rows[$i]->catid .'&Itemid='. $rows[$i]->menuid;
-			$rows[$i]->section 	= 'Category List';
-		}
 		if ( $rows[$i]->menutype == 'content_blog_category' ) {
 			$rows[$i]->href = 'index.php?option=com_content&task=blogcategory&id='. $rows[$i]->catid .'&Itemid='. $rows[$i]->menuid;
 			$rows[$i]->section 	= 'Category Blog';
+		} else {
+			$rows[$i]->href = 'index.php?option=com_content&task=category&sectionid='. $rows[$i]->secid .'&id='. $rows[$i]->catid .'&Itemid='. $rows[$i]->menuid;
+			$rows[$i]->section 	= 'Category List';
 		}
 	}
 
