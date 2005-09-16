@@ -447,8 +447,8 @@ function showCategory( $id, $gid, &$access, $sectionid, $limit, $limitstart, $no
 		$check .= 1;
 	}
 	if ( $params->get( 'hits' ) ) {
-		$order[] = mosHTML::makeOption( 'rhits', _ORDER_DROPDOWN_HA );
-		$order[] = mosHTML::makeOption( 'hits', _ORDER_DROPDOWN_HD );
+		$order[] = mosHTML::makeOption( 'hits', _ORDER_DROPDOWN_HA );
+		$order[] = mosHTML::makeOption( 'rhits', _ORDER_DROPDOWN_HD );
 		$check .= 1;
 	}
 	if ( $params->get( 'author' ) ) {
@@ -1615,11 +1615,11 @@ function _orderby_sec( $orderby ) {
 			break;
 
 		case 'hits':
-			$orderby = 'a.hits DESC';
+			$orderby = 'a.hits';
 			break;
 
 		case 'rhits':
-			$orderby = 'a.hits ASC';
+			$orderby = 'a.hits DESC';
 			break;
 
 		case 'order':
@@ -1627,11 +1627,11 @@ function _orderby_sec( $orderby ) {
 			break;
 
 		case 'author':
-			$orderby = 'a.created_by, u.name';
+			$orderby = 'a.created_by_alias, u.name';
 			break;
 
 		case 'rauthor':
-			$orderby = 'a.created_by DESC, u.name DESC';
+			$orderby = 'a.created_by_alias DESC, u.name DESC';
 			break;
 
 		case 'front':

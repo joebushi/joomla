@@ -32,6 +32,10 @@ Legend:
 
 -------------------- 1.0.0 Released ----------------------
 
+16-Sep-2005 Emir Sakic
+ # Fixed sorting by author on frontend category listing
+ + Added time offset to copyright year in footer
+
 16-Sep-2005 Alex Kempkens
  + template contest winner 'MadeYourWeb' added
 
