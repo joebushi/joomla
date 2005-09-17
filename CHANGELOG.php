@@ -30,6 +30,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+
+17-Sep-2005 Levis Bisson
+ # Fixed: the admin uploading media component
+
 -------------------- 1.0.0 Released ----------------------
 
 16-Sep-2005 Andrew Eddie
