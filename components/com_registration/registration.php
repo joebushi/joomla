@@ -168,7 +168,7 @@ function saveRegistration( $option ) {
 		$query = "SELECT name, email"
 		. "\n FROM #__users"
 		. "\n WHERE LOWER( usertype ) = 'superadministrator'"
-		. "\n AND LOWER( usertype ) = 'super administrator'"
+		. "\n OR LOWER( usertype ) = 'super administrator'"
 		;
 		$database->setQuery( $query );
 		$rows = $database->loadObjectList();
