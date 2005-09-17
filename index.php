@@ -29,13 +29,13 @@ if ($mosConfig_offline == 1) {
 	require( 'offline.php' );
 }
 
-/**/
+/**
 //Installation sub folder check, removed for work with CVS
 if (file_exists( 'installation/index.php' )) {
 	include ('offline.php');
 	exit();
 }
-/**/
+**/
 
 // load system bot group
 $_MAMBOTS->loadBotGroup( 'system' );
