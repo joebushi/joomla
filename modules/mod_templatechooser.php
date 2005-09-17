@@ -29,7 +29,7 @@ $darray = array();
 
 if ($templatefolder) {
 	while ($templatefile = $templatefolder->read()) {
-		if ($templatefile != "." && $templatefile != ".." && $templatefile != "CVS" && is_dir( "$template_path/$templatefile" )  ) {
+		if ($templatefile != "." && $templatefile != ".." && $templatefile != ".svn" && $templatefile != "css" && is_dir( "$template_path/$templatefile" )  ) {
 			if(strlen($templatefile) > $titlelength) {
 				$templatename = substr( $templatefile, 0, $titlelength-3 );
 				$templatename .= "...";
