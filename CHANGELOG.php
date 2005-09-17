@@ -34,6 +34,7 @@ Legend:
 17-Sep-2005 Levis Bisson
  # Fixed: the admin uploading media component
  # Fixed: Registration admin notification
+ # Fixed: The FrontEnd Template Chooser
 
 -------------------- 1.0.0 Released ----------------------
 
