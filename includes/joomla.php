@@ -771,16 +771,16 @@ class mosMainFrame {
 			}
 		} else {
 			// TemplateChooser Start
-			$mos_user_template = mosGetParam( $_COOKIE, 'mos_user_template', '' );
-			$mos_change_template = mosGetParam( $_REQUEST, 'mos_change_template', $mos_user_template );
-			if ($mos_change_template) {
+			$jos_user_template = mosGetParam( $_COOKIE, 'jos_user_template', '' );
+			$jos_change_template = mosGetParam( $_REQUEST, 'jos_change_template', $jos_user_template );
+			if ($jos_change_template) {
 				// check that template exists in case it was deleted
-				if (file_exists( $mosConfig_absolute_path .'/templates/'. $mos_change_template .'/index.php' )) {
+				if (file_exists( $mosConfig_absolute_path .'/templates/'. $jos_change_template .'/index.php' )) {
 					$lifetime = 60*10;
-					$cur_template = $mos_change_template;
-					setcookie( 'mos_user_template', "$mos_change_template", time()+$lifetime);
+					$cur_template = $jos_change_template;
+					setcookie( 'jos_user_template', "$jos_change_template", time()+$lifetime);
 				} else {
-					setcookie( 'mos_user_template', '', time()-3600 );
+					setcookie( 'jos_user_template', '', time()-3600 );
 				}
 			}
 			// TemplateChooser End
