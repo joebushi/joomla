@@ -450,10 +450,10 @@ mosHTML::writableCell( 'templates' );
 							<a href="http://help.joomla.org" target="_blank">
 								help.joomla.org</a>
 							|
-							<a href="<?php echo $mosConfig_live_site;?>/administrator/index2.php?option=com_admin&task=changelog&no_html=1" target="helpFrame">
+							<a href="<?php echo $mosConfig_live_site;?>/administrator/index3.php?option=com_admin&task=changelog" target="helpFrame">
 								Changelog</a>
 							|
-							<a href="<?php echo $mosConfig_live_site;?>/administrator/index2.php?option=com_admin&task=sysinfo&no_html=1" target="helpFrame">
+							<a href="<?php echo $mosConfig_live_site;?>/administrator/index3.php?option=com_admin&task=sysinfo" target="helpFrame">
 								System Info</a>
 						</td>
 					</tr>
