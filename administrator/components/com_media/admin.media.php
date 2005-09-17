@@ -176,11 +176,13 @@ function do_upload($file, $dest_dir) {
 			'odp'
 		);
 
+        $noMatch = 0;
 		foreach( $allowable as $ext ) {
-			if ( strcasecmp( $format, $ext ) ) {
-				mosRedirect( "index2.php?option=com_media&listdir=".$_POST['dirPath'], 'This file type is not supported' );
-			}
+			if ( strcasecmp( $format, $ext ) == 0 ) $noMatch = 1;
 		}
+        if(!$noMatch){
+			mosRedirect( "index2.php?option=com_media&listdir=".$_POST['dirPath'], 'This file type is not supported' );
+        }
 
 		if (!move_uploaded_file($file['tmp_name'], $dest_dir.strtolower($file['name']))){
 			mosRedirect( "index2.php?option=com_media&listdir=".$_POST['dirPath'], "Upload FAILED" );
