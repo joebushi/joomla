@@ -30,7 +30,7 @@ Legend:
 - -> Removed
 ! -> Note
 
--------------------- 1.0.0 Released ----------------------
+-------------------- 1.0.0 Released -----------------------
 
 16-Sep-2005 Andrew Eddie
  # Fixed: 1014 : & amp ; in pathway
