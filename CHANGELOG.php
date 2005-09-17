@@ -32,10 +32,11 @@ Legend:
 
 
 17-Sep-2005 Levis Bisson
- # Fixed: the admin uploading media component
- # Fixed: Registration admin notification
- # Fixed: The FrontEnd Template Chooser
-
+ # Fixed artf1037: Media Manager not uploading
+ # Fixed artf1025: Registration admin notification
+ # Fixed artf1043: Template Chooser doesn't work
+ # Fixed artf1042: Template Chooser shows rogue entry
+ 
 -------------------- 1.0.0 Released ----------------------
 
 16-Sep-2005 Andrew Eddie
