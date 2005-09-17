@@ -33,6 +33,7 @@ Legend:
 
 17-Sep-2005 Levis Bisson
  # Fixed: the admin uploading media component
+ # Fixed: Registration admin notification
 
 -------------------- 1.0.0 Released ----------------------
 
