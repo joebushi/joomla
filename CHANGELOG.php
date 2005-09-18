@@ -36,6 +36,7 @@ Legend:
  # Fixed issues in patTemplate Translate Function and Modifier
 
 18-Sep-2005 Rey Gigataras
+ # Fixed artf1033 : madeyourweb template logo path
  # Fixed artf1039 : & to &amp; translation in menu and contenttitle
  # Fixed PHP5 passed by reference error in admin.content.php
  # Fixed artf1068 : live bookmark link is wrong

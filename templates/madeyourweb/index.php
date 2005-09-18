@@ -12,7 +12,6 @@ if ( $my->id ) {
 	initEditor();
 }
 
-
 if ((mosCountModules( 'user1' )) && (mosCountModules( 'user2' ))) {  
 //if both modules are loaded, we need a 50%-layout for them
 	$usera = 'user1';
@@ -56,7 +55,7 @@ if ((mosCountModules( 'user1' )) && (mosCountModules( 'user2' ))) {
 		
 		<div id="top-bottom">
 			<a href="index.php">
-				<?php echo '<img src="' .$mosConfig_absolute_path. '/templates/' .$GLOBALS['cur_template']. '/images/logo.gif" border="0" width="250" height="80" alt="logo" />'; ?>
+				<?php echo '<img src="' .$mosConfig_live_site. '/templates/' .$GLOBALS['cur_template']. '/images/logo.gif" border="0" width="250" height="80" alt="logo" />'; ?>
 				</a>
 		</div>
 		<?php 
