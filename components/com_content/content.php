@@ -1327,6 +1327,8 @@ function saveContent( &$access, $task ) {
 	if ( trim( $row->publish_down ) == 'Never' ) {
 		$row->publish_down = $nullDate;
 	}
+	
+	$row->title = ampReplace( $row->title );
 
 	if (!$row->check()) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";

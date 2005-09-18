@@ -4430,7 +4430,7 @@ function mosNotAuth() {
 */
 function ampReplace( $text ) {
 	$text = str_replace( '&#', '*-*', $text );
-	$text = str_replace( '&', '&amp;', $text );
+	$text = preg_replace( '|&(?![\w]+;)|', '&amp;', $text );
 	$text = str_replace( '*-*', '&#', $text );
 
 	return $text;

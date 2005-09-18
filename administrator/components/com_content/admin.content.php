@@ -626,6 +626,8 @@ function saveContent( $sectionid, $task ) {
  	if ( $length && $search ) {
  		$row->fulltext = NULL;
  	}
+	
+	$row->title = ampReplace( $row->title );
 
  	if (!$row->check()) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
