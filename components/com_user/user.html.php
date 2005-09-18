@@ -39,7 +39,7 @@ class HTML_user {
 	function userEdit( $row, $option, $submitvalue, &$params ) {
 		global $mosConfig_absolute_path;
 
-		require( $mosConfig_absolute_path .'/includes/HTML_toolbar.php' );
+		require_once( $mosConfig_absolute_path .'/includes/HTML_toolbar.php' );
 
 		mosCommonHTML::loadOverlib();
 		?>

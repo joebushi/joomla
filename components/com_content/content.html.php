@@ -15,8 +15,6 @@
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
-require_once( $GLOBALS['mosConfig_absolute_path'] . '/includes/HTML_toolbar.php' );
-
 /**
 * Utility class for writing the HTML for content
 * @package Joomla
@@ -885,6 +883,8 @@ class HTML_content {
 		global $mosConfig_live_site;
 		mosMakeHtmlSafe( $row );
 
+		require_once( $GLOBALS['mosConfig_absolute_path'] . '/includes/HTML_toolbar.php' );
+		
 		$Returnid 	= intval( mosGetParam( $_REQUEST, 'Returnid', $Itemid ) );
 		$tabs 		= new mosTabs(0);
 		?>
