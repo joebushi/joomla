@@ -36,6 +36,7 @@ Legend:
  # Fixed issues in patTemplate Translate Function and Modifier
 
 17-Sep-2005 Rey Gigataras
+ # Fixed artf1040 : category manager not in content-menu
  # Fixed artf1041 : mod_mainmenu.xml: escape character for apostrophe missing
 
 17-Sep-2005 Levis Bisson
