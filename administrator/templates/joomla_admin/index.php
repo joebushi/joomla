@@ -82,22 +82,25 @@ initEditor();
 	</div>
 </div>
 
-<table width="99%" border="0">
-<tr>
-	<td align="center">
-		<div align="center">
-			<?php echo $_VERSION->URL; ?>
-		</div>
-		<?php
-		echo '<div class="smallgrey">';
-		$tend = mosProfiler::getmicrotime();
-		$totaltime = ($tend - $tstart);
-		printf ("Page was generated in %f seconds", $totaltime);
-		echo '</div>';
-		?>
-	</td>
-</tr>
-</table>
+<div align="center" style="float: left;">
+	<table width="99%" border="0">
+	<tr>
+		<td align="center">
+			<div align="center">
+				<?php echo $_VERSION->URL; ?>
+			</div>
+			<?php
+			echo '<div class="smallgrey">';
+			$tend = mosProfiler::getmicrotime();
+			$totaltime = ($tend - $tstart);
+			printf ("Page was generated in %f seconds", $totaltime);
+			echo '</div>';
+			?>
+		</td>
+	</tr>
+	</table>
+</div>
+
 <?php mosLoadAdminModules( 'debug' );?>
 </body>
 </html>
