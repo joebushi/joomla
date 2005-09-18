@@ -603,11 +603,11 @@ class HTML_content {
 		$date 		= mosFormatDate( $row->created );
 		$author		= $row->created_by_alias ? $row->created_by_alias : $row->author;
 		
-		$overlib 	.= '<br/>';
+		$overlib 	.= '<br />';
 		$overlib 	.= $row->groups;
-		$overlib 	.= '<br/>';
+		$overlib 	.= '<br />';
 		$overlib 	.= $date;
-		$overlib 	.= '<br/>';
+		$overlib 	.= '<br />';
 		$overlib 	.= $author;
 		?>
 		<a href="<?php echo sefRelToAbs( $link ); ?>" title="<?php echo _E_EDIT;?>"  onMouseOver="return overlib('<?php echo $overlib; ?>', CAPTION, '<?php echo 'Edit Item'; ?>', BELOW, RIGHT);" onMouseOut="return nd();">
@@ -997,7 +997,7 @@ class HTML_content {
 			<td>
 				<div style="float: left;">
 					<?php echo _E_TITLE; ?>
-					<br/>
+					<br />
 					<input class="inputbox" type="text" name="title" size="50" maxlength="100" value="<?php echo $row->title; ?>" />
 				</div>
 				<div style="float: right;">
@@ -1018,7 +1018,7 @@ class HTML_content {
 			<tr>
 				<td>
 				<?php echo _E_CATEGORY; ?>
-				<br/>
+				<br />
 				<?php echo $lists['catid']; ?>
 				</td>
 			</tr>
