@@ -41,6 +41,7 @@ $task 		= mosGetParam( $_REQUEST, 'task', '' );
 $act 		= strtolower( mosGetParam( $_REQUEST, 'act', '' ) );
 $section 	= mosGetParam( $_REQUEST, 'section', '' );
 $no_html 	= strtolower( mosGetParam( $_REQUEST, 'no_html', '' ) );
+$id         = intval( mosGetParam( $_REQUEST, 'id' ) );
 
 if ($option == 'logout') {
 	require 'logout.php';

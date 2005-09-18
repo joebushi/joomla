@@ -25,7 +25,7 @@ require_once( $mosConfig_absolute_path .'/administrator/components/com_templates
 // XML library
 require_once( $mosConfig_absolute_path .'/includes/domit/xml_domit_lite_include.php' );
 
-$cid 	= mosGetParam( $_REQUEST, "cid", array(0) );
+$cid 	= mosGetParam( $_REQUEST, 'cid', array(0) );
 $client = mosGetParam( $_REQUEST, 'client', '' );
 
 if (!is_array( $cid )) {
@@ -447,7 +447,7 @@ function saveTemplateAssign( $option, $client ) {
 
 	$query = "DELETE FROM #__templates_menu"
 	. "\n WHERE client_id = 0"
-	. "\n AND template = $template"
+	. "\n AND template = '$template'"
 	. "\n AND menuid <> 0"
 	;
 	$database->setQuery( $query );

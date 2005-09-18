@@ -36,6 +36,8 @@ Legend:
  # Fixed issues in patTemplate Translate Function and Modifier
 
 17-Sep-2005 Rey Gigataras
+ # Fixed artf1081 : com_categories can't edit category when clicking hyperlink
+ # Fixed artf1053 : Can not unassign template
  # Fixed artf1079 : com_weblinks can't edit links
  # Fixed artf1029 : Site -> Global Configuration = greyed out top menu
  # Fixed artf1064 : Deletion of Modules and Fix
