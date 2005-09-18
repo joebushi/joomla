@@ -479,7 +479,8 @@ function editContent( $uid=0, $sectionid=0, $option ) {
 		$sections = array_merge( $sections, $database->loadObjectList() );
 		$lists['sectionid'] = mosHTML::selectList( $sections, 'sectionid', 'class="inputbox" size="1" '. $javascript, 'id', 'title' );
 	} else {
-		$lists['sectionid'] = mosHTML::selectList( $database->loadObjectList(), 'sectionid', 'class="inputbox" size="1" '. $javascript, 'id', 'title', intval( $row->sectionid) );
+		$sections = $database->loadObjectList();
+		$lists['sectionid'] = mosHTML::selectList( $sections, 'sectionid', 'class="inputbox" size="1" '. $javascript, 'id', 'title', intval( $row->sectionid ) );
 	}
 
 	$sections = $database->loadObjectList();
