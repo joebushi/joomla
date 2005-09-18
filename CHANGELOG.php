@@ -34,6 +34,7 @@ Legend:
 
 18-Sep 2005 Andrew Eddie
  # Fixed issues in patTemplate Translate Function and Modifier
+ # Fixed issue with patTemplate variable for Tabs graphics
 
 18-Sep-2005 Rey Gigataras
  # Fixed artf1046 : Menu Manager Item Publishing

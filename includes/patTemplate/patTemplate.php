@@ -2694,6 +2694,10 @@ class patFactory {
 		$tmpl->addVar( 'form', 'formAction', $_SERVER['PHP_SELF'] );
 		$tmpl->addVar( 'form', 'formName', 'adminForm' );
 
+		// tabs
+		$turl = $GLOBALS['mosConfig_live_site'] .'/includes/js/tabs/';
+		$tmpl->addVar( 'includeTabs', 'taburl', $turl );
+
 		return $tmpl;
 	}
 }
