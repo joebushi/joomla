@@ -108,17 +108,17 @@
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="pdf" type="list" default="0" label="PDF Icon" description="Show/Hide the item pdf button - only affects this page">
+		<param name="pdf" type="list" default="" label="PDF Icon" description="Show/Hide the item pdf button - only affects this page">
 			<option value="">Use Global</option>
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="print" type="list" default="0" label="Print Icon" description="Show/Hide the item print button - only affects this page">
+		<param name="print" type="list" default="" label="Print Icon" description="Show/Hide the item print button - only affects this page">
 			<option value="">Use Global</option>
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="email" type="list" default="0" label="Email Icon" description="Show/Hide the item email button - only affects this page">
+		<param name="email" type="list" default="" label="Email Icon" description="Show/Hide the item email button - only affects this page">
 			<option value="">Use Global</option>
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
