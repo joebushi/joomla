@@ -72,7 +72,7 @@ function quickiconButton( $link, $image, $text ) {
 	}
 
 	if ( $my->gid > 24 ) {
-		$link = 'index2.php?option=com_config';
+		$link = 'index2.php?option=com_config&hidemainmenu=1';
 		quickiconButton( $link, 'config.png', 'Global Configuration' );
 	}
 	?>

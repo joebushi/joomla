@@ -36,6 +36,7 @@ Legend:
  # Fixed issues in patTemplate Translate Function and Modifier
 
 17-Sep-2005 Rey Gigataras
+ # Fixed artf1029 : Site -> Global Configuration = greyed out top menu
  # Fixed artf1064 : Deletion of Modules and Fix
  # Fixed artf1052 : Double Installer Locations
  # Fixed artf1051 : Copyright bumped to the right of the site
