@@ -27,22 +27,22 @@ class modules_html {
 		switch ( $style ) {
 			case -3:
 			// allows for rounded corners
-				modules_html::modoutput_rounded( $module, $params, $Itemid, $moduleclass_sfx, 0 );
+				modules_html::modoutput_rounded( $module, $params, $Itemid, $moduleclass_sfx, 1 );
 				break;
 
 			case -2:
 			// xhtml (divs and font headder tags)
-				modules_html::modoutput_xhtml( $module, $params, $Itemid, $moduleclass_sfx, 0 );
+				modules_html::modoutput_xhtml( $module, $params, $Itemid, $moduleclass_sfx, 1 );
 				break;
 
 			case -1:
 			// show a naked module - no wrapper and no title
-				modules_html::modoutput_naked( $module, $params, $Itemid, $moduleclass_sfx, 0 );
+				modules_html::modoutput_naked( $module, $params, $Itemid, $moduleclass_sfx, 1 );
 				break;
 
 			default:
 			// standard tabled output
-				modules_html::modoutput_table( $module, $params, $Itemid, $moduleclass_sfx, 0 );
+				modules_html::modoutput_table( $module, $params, $Itemid, $moduleclass_sfx, 1 );
 				break;
 		}
 
@@ -231,7 +231,7 @@ class modules_html {
 	/*
 	* standard tabled output
 	*/
-	function modoutput_table( $module, $params, $Itemid, $moduleclass_sfx, $type=1 ) {
+	function modoutput_table( $module, $params, $Itemid, $moduleclass_sfx, $type=0 ) {
 		global $mosConfig_live_site, $mosConfig_sitename, $mosConfig_lang, $mosConfig_absolute_path;
 		global $mainframe, $database, $my;
 		?>
@@ -251,13 +251,13 @@ class modules_html {
 			<td>
 				<?php
 				if ( $type ) {
+					echo $module->content;
+				} else {
 					include( $mosConfig_absolute_path . '/modules/' . $module->module . '.php' );
-
+					
 					if (isset( $content)) {
 						echo $content;
 					}
-				} else {
-					$module->content;
 				}
 				?>
 			</td>
@@ -269,25 +269,25 @@ class modules_html {
 	/*
 	* show a naked module - no wrapper and no title
 	*/
-	function modoutput_naked( $module, $params, $Itemid, $moduleclass_sfx, $type=1 ) {
+	function modoutput_naked( $module, $params, $Itemid, $moduleclass_sfx, $type=0 ) {
 		global $mosConfig_live_site, $mosConfig_sitename, $mosConfig_lang, $mosConfig_absolute_path;
 		global $mainframe, $database, $my;
 
 		if ( $type ) {
+			echo $module->content;
+		} else {
 			include( $mosConfig_absolute_path . '/modules/' . $module->module . '.php' );
-
+			
 			if (isset( $content)) {
 				echo $content;
 			}
-		} else {
-			$module->content;
 		}
 	}
 
 	/*
 	* xhtml (divs and font headder tags)
 	*/
-	function modoutput_xhtml( $module, $params, $Itemid, $moduleclass_sfx, $type=1 ) {
+	function modoutput_xhtml( $module, $params, $Itemid, $moduleclass_sfx, $type=0 ) {
 		global $mosConfig_live_site, $mosConfig_sitename, $mosConfig_lang, $mosConfig_absolute_path;
 		global $mainframe, $database, $my;
 		?>
@@ -303,13 +303,13 @@ class modules_html {
 			}
 
 			if ( $type ) {
+				echo $module->content;
+			} else {
 				include( $mosConfig_absolute_path . '/modules/' . $module->module . '.php' );
-
+				
 				if (isset( $content)) {
 					echo $content;
 				}
-			} else {
-				$module->content;
 			}
 			?>
 		</div>
@@ -319,7 +319,7 @@ class modules_html {
 	/*
 	* allows for rounded corners
 	*/
-	function modoutput_rounded( $module, $params, $Itemid, $moduleclass_sfx, $type=1 ) {
+	function modoutput_rounded( $module, $params, $Itemid, $moduleclass_sfx, $type=0 ) {
 		global $mosConfig_live_site, $mosConfig_sitename, $mosConfig_lang, $mosConfig_absolute_path;
 		global $mainframe, $database, $my;
 		?>
@@ -333,13 +333,13 @@ class modules_html {
 						}
 
 						if ( $type ) {
+							echo $module->content;
+						} else {
 							include( $mosConfig_absolute_path . '/modules/' . $module->module . '.php' );
-
+							
 							if (isset( $content)) {
 								echo $content;
 							}
-						} else {
-							$module->content;
 						}
 						?>
 					</div>
