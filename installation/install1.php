@@ -70,26 +70,40 @@ function check()
 	<form action="install2.php" method="post" name="form" id="form" onsubmit="return check();">
 	<div class="install">
 		<div id="stepbar">
-			<div class="step-off">pre-installation check</div>
-			<div class="step-off">license</div>
-			<div class="step-on">step 1</div>
-			<div class="step-off">step 2</div>
-			<div class="step-off">step 3</div>
-			<div class="step-off">step 4</div>
+			<div class="step-off">
+				pre-installation check
+			</div>
+			<div class="step-off">
+				license
+			</div>
+			<div class="step-on">
+				step 1
+			</div>
+			<div class="step-off">
+				step 2
+			</div>
+			<div class="step-off">
+				step 3
+			</div>
+			<div class="step-off">
+				step 4
+			</div>
 		</div>
 		<div id="right">
 			<div class="far-right">
 				<input class="button" type="submit" name="next" value="Next >>"/>
   			</div>
-	  		<div id="step">step 1</div>
+	  		<div id="step">
+	  			step 1
+	  		</div>
   			<div class="clr"></div>
   			<h1>MySQL database configuration:</h1>
 	  		<div class="install-text">
   				<p>Setting up Joomla to run on your server involves 4 simple steps...</p>
   				<p>Please enter the hostname of the server Joomla is to be installed on.</p>
 				<p>Enter the MySQL username, password and database name you wish to use with Joomla.</p>
-				<p>Enter the table name prefix to be used by this Joomla instance and select how
-					to do with in case existing tables from former installations.</p>
+				<p>Enter the a table name prefix to be used by this Joomla instance and select what
+					to do with existing tables from former installations.</p>
 				<p>Install the samples unless you are experianced Mamber wanting to start with a completely empty site.</p>
   			</div>
 			<div class="install-form">
@@ -101,39 +115,86 @@ function check()
   						<td></td>
   					</tr>
   		  			<tr>
-  						<td colspan="2">Host Name<br/><input class="inputbox" type="text" name="DBhostname" value="<?php echo "$DBhostname"; ?>" /></td>
-			  			<td><em>This is usually 'localhost'</em></td>
+  						<td colspan="2">
+  							Host Name
+  							<br/>
+  							<input class="inputbox" type="text" name="DBhostname" value="<?php echo "$DBhostname"; ?>" />
+  						</td>
+			  			<td>
+			  				<em>This is usually 'localhost'</em>
+			  			</td>
   					</tr>
 					<tr>
-			  			<td colspan="2">MySQL User Name<br/><input class="inputbox" type="text" name="DBuserName" value="<?php echo "$DBuserName"; ?>" /></td>
-			  			<td><em>Either something as 'root' or a username given by the hoster</em></td>
+			  			<td colspan="2">
+			  				MySQL User Name
+			  				<br/>
+			  				<input class="inputbox" type="text" name="DBuserName" value="<?php echo "$DBuserName"; ?>" />
+			  			</td>
+			  			<td>
+			  				<em>Either something as 'root' or a username given by the hoster</em>
+			  			</td>
   					</tr>
 			  		<tr>
-			  			<td colspan="2">MySQL Password<br/><input class="inputbox" type="text" name="DBpassword" value="<?php echo "$DBpassword"; ?>" /></td>
-			  			<td><em>For site security using a password for the mysql account in mandatory</em></td>
+			  			<td colspan="2">
+			  				MySQL Password
+			  				<br/>
+			  				<input class="inputbox" type="text" name="DBpassword" value="<?php echo "$DBpassword"; ?>" />
+			  			</td>
+			  			<td>
+			  				<em>For site security using a password for the mysql account in mandatory</em>
+			  			</td>
 					</tr>
   		  			<tr>
-  						<td colspan="2">MySQL Database Name<br/><input class="inputbox" type="text" name="DBname" value="<?php echo "$DBname"; ?>" /></td>
-			  			<td><em>Some hosts allow only a certain DB name per site. Use table prefix in this case for distinct Joomla sites.</em></td>
+  						<td colspan="2">
+  							MySQL Database Name
+  							<br/>
+  							<input class="inputbox" type="text" name="DBname" value="<?php echo "$DBname"; ?>" />
+  						</td>
+			  			<td>
+			  				<em>Some hosts allow only a certain DB name per site. Use table prefix in this case for distinct Joomla sites.</em>
+			  			</td>
   					</tr>
   		  			<tr>
-  						<td colspan="2">MySQL Table Prefix<br/><input class="inputbox" type="text" name="DBPrefix" value="<?php echo "$DBPrefix"; ?>" /></td>
-			  			<td><em>Dont use 'old_' since this is used for backup tables</em></td>
+  						<td colspan="2">
+  							MySQL Table Prefix
+  							<br/>
+  							<input class="inputbox" type="text" name="DBPrefix" value="<?php echo "$DBPrefix"; ?>" />
+  						</td>
+			  			<td>
+			  			<em>Dont use 'old_' since this is used for backup tables</em>
+			  			</td>
   					</tr>
   		  			<tr>
-			  			<td><input type="checkbox" name="DBDel" id="DBDel" value="1" <?php if ($DBDel) echo 'checked="checked"'; ?> /></td>
-						<td><label for="DBDel">Drop Existing Tables</label></td>
-  						<td>&nbsp;</td>
+			  			<td>
+			  				<input type="checkbox" name="DBDel" id="DBDel" value="1" <?php if ($DBDel) echo 'checked="checked"'; ?> />
+			  			</td>
+						<td>
+							<label for="DBDel">Drop Existing Tables</label>
+						</td>
+  						<td>
+  						</td>
 			  		</tr>
   		  			<tr>
-			  			<td><input type="checkbox" name="DBBackup" id="DBBackup" value="1" <?php if ($DBBackup) echo 'checked="checked"'; ?> /></td>
-						<td><label for="DBBackup">Backup Old Tables</label></td>
-  						<td><em>Any exiting backup tables from former Joomla installations will be replaced</em></td>
+			  			<td>
+			  				<input type="checkbox" name="DBBackup" id="DBBackup" value="1" <?php if ($DBBackup) echo 'checked="checked"'; ?> />
+			  			</td>
+						<td>
+							<label for="DBBackup">Backup Old Tables</label>
+						</td>
+  						<td>
+  							<em>Any existing backup tables from former Joomla installations will be replaced</em>
+  						</td>
 			  		</tr>
   		  			<tr>
-			  			<td><input type="checkbox" name="DBSample" id="DBSample" value="1" <?php if ($DBSample) echo 'checked="checked"'; ?> /></td>
-						<td><label for="DBSample">Install Sample Data</label></td>
-			  			<td><em>Dont uncheck this unless you are experienced with Joomla!</em></td>
+			  			<td>
+			  				<input type="checkbox" name="DBSample" id="DBSample" value="1" <?php if ($DBSample) echo 'checked="checked"'; ?> />
+			  			</td>
+						<td>
+							<label for="DBSample">Install Sample Data</label>
+						</td>
+			  			<td>
+			  				<em>Dont uncheck option this unless you are experienced in using Joomla!</em>
+			  			</td>
 			  		</tr>
 		  		 	</table>
   				</div>

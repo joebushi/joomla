@@ -36,6 +36,7 @@ Legend:
  # Fixed issues in patTemplate Translate Function and Modifier
 
 17-Sep-2005 Rey Gigataras
+ # Fixed artf1080 : Joomla! Installer
  # Fixed artf1050 : error in sql - database update
  # Fixed artf1081 : com_categories can't edit category when clicking hyperlink
  # Fixed artf1053 : Can not unassign template
