@@ -35,7 +35,8 @@ Legend:
 18-Sep 2005 Andrew Eddie
  # Fixed issues in patTemplate Translate Function and Modifier
 
-17-Sep-2005 Rey Gigataras
+18-Sep-2005 Rey Gigataras
+ # Fixed artf1030 : Bug Joomla 1.0.0 Stable (un)publishing News Feeds
  # Fixed artf1048 : Custom Module Bug
  # Fixed artf1080 : Joomla! Installer
  # Fixed artf1050 : error in sql - database update

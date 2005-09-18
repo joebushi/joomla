@@ -201,7 +201,7 @@ function saveNewsFeed( $option ) {
 * @param string The current GET/POST option
 */
 function publishNewsFeeds( $cid, $publish, $option ) {
-	global $database;
+	global $database, $my;
 
 	if (count( $cid ) < 1) {
 		$action = $publish ? 'publish' : 'unpublish';
@@ -212,7 +212,7 @@ function publishNewsFeeds( $cid, $publish, $option ) {
 	$cids = implode( ',', $cid );
 
 	$query = "UPDATE #__newsfeeds"
-	. "\n SET published = " . intval( $publish )
+	. "\n SET published = ". intval( $publish )
 	. "\n WHERE id IN ( $cids )"
 	. "\n AND ( checked_out = 0 OR ( checked_out = $my->id ) )"
 	;
