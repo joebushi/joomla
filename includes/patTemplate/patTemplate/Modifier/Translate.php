@@ -27,8 +27,9 @@ class patTemplate_Modifier_Translate extends patTemplate_Modifier
 	*/
 	function modify( $value, $params = array() )
 	{
-		if (is_object( $GLOBALS['_LANG'] )) {
-			return $GLOBALS['_LANG']->_( $value );
+		global $_LANG;
+		if (is_object( $_LANG )) {
+			return $_LANG->_( $value );
 		} else {
 			return $value;
 		}

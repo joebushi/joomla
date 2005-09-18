@@ -30,10 +30,14 @@ Legend:
 - -> Removed
 ! -> Note
 
+-------------------- 1.0.0 Released ----------------------
+
+18-Sep 2005 Andrew Eddie
+ # Fixed issues in patTemplate Translate Function and Modifier
 
 17-Sep-2005 Rey Gigataras
  # Fixed artf1041 : mod_mainmenu.xml: escape character for apostrophe missing
- 
+
 17-Sep-2005 Levis Bisson
  # Fixed artf1037: Media Manager not uploading
  # Fixed artf1025: Registration admin notification
