@@ -50,13 +50,13 @@ switch ($task) {
 
 		if ( $menu->type ) {
 			$type = $menu->type;
-			require( $path . $menu->type .'/'. $menu->type .'.menu.php' );
+			require_once( $path . $menu->type .'/'. $menu->type .'.menu.php' );
 		}
 		break;
 
 	case 'save':
 	case 'apply':
-		require( $path . $type .'/'. $type .'.menu.php' );
+		require_once( $path . $type .'/'. $type .'.menu.php' );
 		break;
 
 	case 'publish':
@@ -130,7 +130,7 @@ switch ($task) {
 		$type = mosGetParam( $_REQUEST, 'type' );
 		if ($type) {
 			// adding a new item - type selection form
-			require( $path . $type .'/'. $type .'.menu.php' );
+			require_once( $path . $type .'/'. $type .'.menu.php' );
 		} else {
 			viewMenuItems( $menutype, $option );
 		}
@@ -435,7 +435,9 @@ function publishMenuSection( $cid=null, $publish=1 ) {
 		if ($menu->type) {
 			$database = &$database;
 			$task = $publish ? 'publish' : 'unpublish';
-			require( $mosConfig_absolute_path . '/administrator/components/com_menus/' . $menu->type . '/' . $menu->type . '.menu.php' );
+			// $type value is used in *.menu.php
+			$type = $menu->type;
+			require_once( $mosConfig_absolute_path . '/administrator/components/com_menus/' . $type . '/' . $type . '.menu.php' );
 		}
 	}
 	return null;

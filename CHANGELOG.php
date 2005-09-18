@@ -36,6 +36,7 @@ Legend:
  # Fixed issues in patTemplate Translate Function and Modifier
 
 18-Sep-2005 Rey Gigataras
+ # Fixed artf1046 : Menu Manager Item Publishing
  # Fixed artf1036 : newsflash error when logged in in frontend
  # Fixed artf1033 : madeyourweb template logo path
  # Fixed artf1039 : & to &amp; translation in menu and contenttitle
