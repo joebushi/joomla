@@ -915,7 +915,7 @@ class HTML_content {
 
 			// var goodexit=false;
 			// assemble the images back into one field
-			form.goodexit.value=1
+			form.goodexit.value=1;
 			var temp = new Array;
 			for (var i=0, n=form.imagelist.options.length; i < n; i++) {
 				temp[i] = form.imagelist.options[i].value;
@@ -959,7 +959,7 @@ class HTML_content {
 		function WarnUser(){
 			if (document.adminForm.goodexit.value==0) {
 				alert('<?php echo _E_WARNUSER;?>');
-				window.location="<?php echo sefRelToAbs("index.php?option=com_content&task=".$task."&sectionid=".$sectionid."&id=".$row->id."&Itemid=".$Itemid); ?>"
+				window.location="<?php echo sefRelToAbs("index.php?option=com_content&task=".$task."&sectionid=".$sectionid."&id=".$row->id."&Itemid=".$Itemid); ?>";
 			}
 		}
 		</script>
@@ -1261,7 +1261,7 @@ class HTML_content {
 				<?php echo _E_SHOW_FP; ?>
 				</td>
 				<td>
-				<input type="checkbox" name="frontpage" value="1" <?php echo $row->frontpage ? 'checked="checked"' : ''; ?> />
+				<input type="checkbox" name="frontpage" value="1" <?php echo $row->frontpage ? 'checked="checked"' :        />
 				</td>
 			</tr>
 			</table>
