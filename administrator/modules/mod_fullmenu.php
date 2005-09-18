@@ -78,8 +78,7 @@ class mosFullAdminMenu {
 			if ($manageLanguages) {
 ?>				['<img src="../includes/js/ThemeOffice/language.png" />','Language Manager',null,null,'Manage languages',
   					['<img src="../includes/js/ThemeOffice/language.png" />','Site Languages','index2.php?option=com_languages',null,'Manage Languages'],
-  					['<img src="../includes/js/ThemeOffice/install.png" />','Install','index2.php?option=com_installer&element=language',null,'Install Languages'],
-  				],
+   				],
 <?php
 			}
 ?>				['<img src="../includes/js/ThemeOffice/media.png" />','Media Manager','index2.php?option=com_media',null,'Manage Media Files'],
@@ -101,10 +100,8 @@ class mosFullAdminMenu {
 			if ($manageTemplates) {
 ?>				['<img src="../includes/js/ThemeOffice/template.png" />','Template Manager',null,null,'Change site template',
   					['<img src="../includes/js/ThemeOffice/template.png" />','Site Templates','index2.php?option=com_templates',null,'Change site template'],
-  					['<img src="../includes/js/ThemeOffice/install.png" />','Install','index2.php?option=com_installer&element=template&client=',null,'Install Site Templates'],
   					_cmSplit,
   					['<img src="../includes/js/ThemeOffice/template.png" />','Administrator Templates','index2.php?option=com_templates&client=admin',null,'Change admin template'],
-  					['<img src="../includes/js/ThemeOffice/install.png" />','Install','index2.php?option=com_installer&element=template&client=admin',null,'Install Administrator Templates'],
   					_cmSplit,
   					['<img src="../includes/js/ThemeOffice/template.png" />','Module Positions','index2.php?option=com_templates&task=positions',null,'Template positions']
   				],
@@ -178,8 +175,6 @@ class mosFullAdminMenu {
 	if ($installComponents) {
 ?>			_cmSplit,
 			[null,'Components',null,null,'Component Management',
-				['<img src="../includes/js/ThemeOffice/install.png" />','Install/Uninstall','index2.php?option=com_installer&element=component',null,'Install/Uninstall components'],
-  				_cmSplit,
 <?php
 		$query = "SELECT *"
 		. "\n FROM #__components"
@@ -236,11 +231,6 @@ class mosFullAdminMenu {
 ?>			_cmSplit,
 			[null,'Modules',null,null,'Module Management',
 <?php
-			if ($installModules) {
-?>				['<img src="../includes/js/ThemeOffice/install.png" />', 'Install/Uninstall', 'index2.php?option=com_installer&element=module', null, 'Install custom modules'],
-				_cmSplit,
-<?php
-			}
 			if ($editAllModules) {
 ?>				['<img src="../includes/js/ThemeOffice/module.png" />', 'Site Modules', "index2.php?option=com_modules", null, 'Manage Site modules'],
 				['<img src="../includes/js/ThemeOffice/module.png" />', 'Administrator Modules', "index2.php?option=com_modules&client=admin", null, 'Manage Administrator modules'],
@@ -255,11 +245,6 @@ class mosFullAdminMenu {
 ?>			_cmSplit,
 			[null,'Mambots',null,null,'Mambot Management',
 <?php
-		if ($installMambots) {
-?>				['<img src="../includes/js/ThemeOffice/install.png" />', 'Install/Uninstall', 'index2.php?option=com_installer&element=mambot', null, 'Install custom mambot'],
-				_cmSplit,
-<?php
-		}
 		if ($editAllMambots) {
 ?>				['<img src="../includes/js/ThemeOffice/module.png" />', 'Site Mambots', "index2.php?option=com_mambots", null, 'Manage Site Mambots'],
 <?php

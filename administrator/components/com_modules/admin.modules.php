@@ -479,7 +479,7 @@ function removeModule( &$cid, $option, $client ) {
 	if (count( $cid )) {
 		$cids = implode( ',', $cid );
 		$query = "DELETE FROM #__modules"
-		. "n WHERE id IN ( $cids )"
+		. "\n WHERE id IN ( $cids )"
 		;
 		$database->setQuery( $query );
 		if (!$database->query()) {
