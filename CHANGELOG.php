@@ -36,6 +36,7 @@ Legend:
  # Fixed issues in patTemplate Translate Function and Modifier
 
 18-Sep-2005 Rey Gigataras
+ # Fixed artf1068 : live bookmark link is wrong
  # Fixed artf1030 : Bug Joomla 1.0.0 Stable (un)publishing News Feeds
  # Fixed artf1048 : Custom Module Bug
  # Fixed artf1080 : Joomla! Installer

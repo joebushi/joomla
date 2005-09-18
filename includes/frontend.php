@@ -195,11 +195,7 @@ function mosShowHead() {
 	if ($live_bookmark) {
 		$show = 1;
 
-		if ($live_bookmark) {
-			$link_file 	= $mosConfig_live_site .'/cache/'. $live_bookmark;
-		} else {
-			$link_file 	= $mosConfig_live_site . '/index2.php?option=com_rss&feed='. $live_bookmark .'&no_html=1';
-		}
+		$link_file 	= $mosConfig_live_site . '/index2.php?option=com_rss&feed='. $live_bookmark .'&no_html=1';
 
 		// xhtml check
 		$link_file = ampReplace( $link_file );
