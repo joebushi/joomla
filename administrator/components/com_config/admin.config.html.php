@@ -184,7 +184,7 @@ class HTML_config {
 		<tr>
 			<td>Require Unique Email:</td>
 			<td><?php echo $lists['uniquemail']; ?><?php
-				$tip = 'If yes, users cannot share the smae email address';
+				$tip = 'If yes, users cannot share the same email address';
 				echo mosToolTip( $tip );
 			?></td>
 		</tr>
