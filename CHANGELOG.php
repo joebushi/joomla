@@ -31,7 +31,9 @@ Legend:
 ! -> Note
 
 -------------------- 1.0.0 Released ----------------------
-
+18-Sep 2005 Arno Zijlstra
+ # Fixed artf1084 : <br> stays in empty content
+ 
 18-Sep 2005 Andrew Eddie
  # Fixed issues in patTemplate Translate Function and Modifier
  # Fixed issue with patTemplate variable for Tabs graphics

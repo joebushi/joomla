@@ -1328,6 +1328,17 @@ function saveContent( &$access, $task ) {
 		$row->publish_down = $nullDate;
 	}
 	
+	// code cleaner for xhtml transitional compliance
+	$row->introtext = str_replace( '<br>', '<br />', $row->introtext );
+	$row->fulltext 	= str_replace( '<br>', '<br />', $row->fulltext );
+
+ 	// remove <br /> take being automatically added to empty fulltext
+ 	$length	= strlen( $row->fulltext ) < 9;
+ 	$search = strstr( $row->fulltext, '<br />');
+ 	if ( $length && $search ) {
+ 		$row->fulltext = NULL;
+ 	}
+	
 	$row->title = ampReplace( $row->title );
 
 	if (!$row->check()) {
