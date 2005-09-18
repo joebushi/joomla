@@ -1261,7 +1261,7 @@ class HTML_content {
 				<?php echo _E_SHOW_FP; ?>
 				</td>
 				<td>
-				<input type="checkbox" name="frontpage" value="1" <?php echo $row->frontpage ? 'checked="checked"' :        />
+				<input type="checkbox" name="frontpage" value="1" <?php echo $row->frontpage ? 'checked="checked"' : ''; ?> />
 				</td>
 			</tr>
 			</table>
