@@ -46,7 +46,8 @@ function botTinymceEditorInit() {
 	$content_css_custom	= $params->def( 'content_css_custom', '' );
 	$invalid_elements	= $params->def( 'invalid_elements', 'script,applet,iframe' );
 	$newlines			= $params->def( 'newlines', 'false' );
-	$cleanup			= $params->def( 'cleanup', 'true' );
+	$cleanup			= $params->def( 'cleanup', 1 );
+	$compressed			= $params->def( 'compressed', 0 );
 
 	// Plugins
 	// preview
@@ -73,7 +74,11 @@ function botTinymceEditorInit() {
 	$fullscreen			=  $params->def( 'fullscreen', 1 );
 
 	if ( $content_css ) {
-		$query = "SELECT template FROM #__templates_menu WHERE client_id='0' AND menuid='0'";
+		$query = "SELECT template"
+		. "\n FROM #__templates_menu"
+		. "\n WHERE client_id = 0"
+		. "\n AND menuid = 0"
+		;
 		$database->setQuery( $query );
 		$template 		= $database->loadResult();
 		$content_css	= 'content_css : "'. $mosConfig_live_site .'/templates/'. $template .'/css/template_css.css"';
@@ -96,6 +101,11 @@ function botTinymceEditorInit() {
 		$cleanup	= 'false';
 	}
 
+	if ( $compressed ) {		
+		$load = '<script type="text/javascript" src="'. $mosConfig_live_site .'/mambots/editors/tinymce/jscripts/tiny_mce/tiny_mce_gzip.php"></script>';
+	} else {
+		$load = '<script type="text/javascript" src="'. $mosConfig_live_site .'/mambots/editors/tinymce/jscripts/tiny_mce/tiny_mce.js"></script>';
+	}
 
 // preview
 	if ( $preview ) {
@@ -149,10 +159,8 @@ if ( $searchreplace ) {
 	$plugins 	= implode( ',', $plugins );
 	$elements 	= implode( ',', $elements );
 	
-//	<script type="text/javascript" src="$mosConfig_live_site/mambots/editors/tinymce/jscripts/tiny_mce/tiny_mce_gzip.php"></script>
-
 return <<<EOD
-	<script type="text/javascript" src="$mosConfig_live_site/mambots/editors/tinymce/jscripts/tiny_mce/tiny_mce.js"></script>
+	$load	
 	<script type="text/javascript">
 	tinyMCE.init({
 		theme : "$theme",

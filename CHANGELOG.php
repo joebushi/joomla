@@ -36,6 +36,8 @@ Legend:
 19-Sep-2005 Rey Gigataras
  ^ Additional Overlib info for non-image files and directories
  ^ 'Cancel' button for Media Manager
+ ^ Option to run TinyMCE in compressed mode - off by default
+ # Fixed TinyMCE errors caused by use of compressed tinymce_gzip.php 
  # Installed Editor Mambots are now published by default
  # Fixed error in RSS module
  # Fixed artf1106 : Default Editor Will Not Take Codes Like Java Script
