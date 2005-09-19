@@ -218,23 +218,9 @@ class HTML_menusections {
 						$row = &$types_content[$i];
 
 						$link = 'index2.php?option=com_menus&menutype='. $menutype .'&task=edit&hidemainmenu=1&type='. $row->type;
-						?>
-						<tr class="<?php echo "row$k"; ?>">
-							<td width="20">
-							<input type="radio" id="cb<?php echo $i;?>" name="type" value="<?php echo $row->type; ?>" onClick="isChecked(this.checked);" />
-							</td>
-							<td>
-							<a href="<?php echo $link; ?>">
-							<?php echo $row->name; ?>
-							</a>
-							</td>
-							<td align="center" width="20">
-							<?php
-							echo mosToolTip( $row->descrip, $row->name, 250 );
-							?>
-							</td>
-						</tr>
-						<?php
+						
+						HTML_menusections::htmlOptions( &$row, $link, $k, $i );
+						
 						$k = 1 - $k;
 					}
 					?>
@@ -250,23 +236,9 @@ class HTML_menusections {
 						$row = &$types_other[$i];
 
 						$link = 'index2.php?option=com_menus&menutype='. $menutype .'&task=edit&type='. $row->type;
-						?>
-						<tr class="<?php echo "row$k"; ?>">
-							<td width="20">
-							<input type="radio" id="cb<?php echo $i;?>" name="type" value="<?php echo $row->type; ?>" onClick="isChecked(this.checked);" />
-							</td>
-							<td>
-							<a href="<?php echo $link; ?>">
-							<?php echo $row->name; ?>
-							</a>
-							</td>
-							<td align="center" width="20">
-							<?php
-							echo mosToolTip( $row->descrip, $row->name, 250 );
-							?>
-							</td>
-						</tr>
-						<?php
+						
+						HTML_menusections::htmlOptions( $row, $link, $k, $i );
+							
 						$k = 1 - $k;
 					}
 					?>
@@ -282,23 +254,9 @@ class HTML_menusections {
 						$row = &$types_submit[$i];
 
 						$link = 'index2.php?option=com_menus&menutype='. $menutype .'&task=edit&type='. $row->type;
-						?>
-						<tr class="<?php echo "row$k"; ?>">
-							<td width="20">
-							<input type="radio" id="cb<?php echo $i;?>" name="type" value="<?php echo $row->type; ?>" onClick="isChecked(this.checked);" />
-							</td>
-							<td>
-							<a href="<?php echo $link; ?>">
-							<?php echo $row->name; ?>
-							</a>
-							</td>
-							<td align="center" width="20">
-							<?php
-							echo mosToolTip( $row->descrip, $row->name, 250 );
-							?>
-							</td>
-						</tr>
-						<?php
+						
+						HTML_menusections::htmlOptions( $row, $link, $k, $i );
+							
 						$k = 1 - $k;
 					}
 					?>
@@ -316,23 +274,9 @@ class HTML_menusections {
 						$row = &$types_component[$i];
 
 						$link = 'index2.php?option=com_menus&menutype='. $menutype .'&task=edit&type='. $row->type;
-						?>
-						<tr class="<?php echo "row$k"; ?>">
-							<td width="20">
-							<input type="radio" id="cb<?php echo $i;?>" name="type" value="<?php echo $row->type; ?>" onClick="isChecked(this.checked);" />
-							</td>
-							<td>
-							<a href="<?php echo $link; ?>">
-							<?php echo $row->name; ?>
-							</a>
-							</td>
-							<td align="center" width="20">
-							<?php
-							echo mosToolTip( $row->descrip, $row->name, 250 );
-							?>
-							</td>
-						</tr>
-						<?php
+						
+						HTML_menusections::htmlOptions( $row, $link, $k, $i );
+							
 						$k = 1 - $k;
 					}
 					?>
@@ -348,23 +292,9 @@ class HTML_menusections {
 						$row = &$types_link[$i];
 
 						$link = 'index2.php?option=com_menus&menutype='. $menutype .'&task=edit&type='. $row->type;
-						?>
-						<tr class="<?php echo "row$k"; ?>">
-							<td width="20">
-							<input type="radio" id="cb<?php echo $i;?>" name="type" value="<?php echo $row->type; ?>" onClick="isChecked(this.checked);" />
-							</td>
-							<td>
-							<a href="<?php echo $link; ?>">
-							<?php echo $row->name; ?>
-							</a>
-							</td>
-							<td align="center" width="20">
-							<?php
-							echo mosToolTip( $row->descrip, $row->name, 250 );
-							?>
-							</td>
-						</tr>
-						<?php
+						
+						HTML_menusections::htmlOptions( $row, $link, $k, $i );
+							
 						$k = 1 - $k;
 					}
 					?>
@@ -383,6 +313,26 @@ class HTML_menusections {
 		<?php
 	}
 
+	function htmlOptions( &$row, $link, $k, $i ) {
+		?>
+		<tr class="<?php echo "row$k"; ?>">
+			<td width="20">
+			</td>
+			<td style="height: 30px;">
+				<span class="editlinktip" style="cursor: pointer;">
+						<?php
+						echo mosToolTip( $row->descrip, $row->name, 250, '', $row->name, $link, 1 );
+						?>
+				</span>
+			</td>
+			<td width="20">
+				<input type="radio" id="cb<?php echo $i;?>" name="cb<?php echo $i;?>" value="<?php echo $row->type; ?>" onclick="isChecked(this.checked);" />
+			</td>
+			<td width="20">
+			</td>
+		</tr>
+		<?php		
+	}
 
 	/**
 	* Form to select Menu to move menu item(s) to

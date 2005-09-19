@@ -34,6 +34,7 @@ Legend:
  # Fixed incorrect js function in patTemplate sticky and ordering templates/links
 
 19-Sep-2005 Rey Gigataras
+ ^ Changed Overlib styling when creating new menu items
  ^ Additional Overlib info for non-image files and directories
  ^ 'Cancel' button for Media Manager
  ^ Option to run TinyMCE in compressed mode - off by default
