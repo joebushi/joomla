@@ -36,6 +36,7 @@ Legend:
 19-Sep-2005 Rey Gigataras
  ^ Additional Overlib info for non-image files and directories
  ^ 'Cancel' button for Media Manager
+ # Installed Editor Mambots are now published by default
  # Fixed error in RSS module
  # Fixed artf1106 : Default Editor Will Not Take Codes Like Java Script
  # Fixed delete file in Media Manager 

@@ -51,7 +51,7 @@ class mosInstallerMambot extends mosInstaller {
 			return false;
 		}
 
-		// Insert in module in DB
+		// Insert mambot in DB
 		$query = "SELECT id"
 		. "\n FROM #__mambots"
 		. "\n WHERE element = '" . $this->elementName() . "'"
@@ -73,6 +73,10 @@ class mosInstallerMambot extends mosInstaller {
 			$row->access 	= 0;
 			$row->client_id = 0;
 			$row->element 	= $this->elementSpecial();
+			
+			if ($folder == 'editors') {
+				$row->published	= 1;
+			}
 
 			if (!$row->store()) {
 				$this->setError( 1, 'SQL error: ' . $row->getError() );
