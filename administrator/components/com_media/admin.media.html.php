@@ -63,7 +63,7 @@ class HTML_Media {
 						</tr>
 						<tr>
 							<td align="right" style="padding-right:10px;;white-space:nowrap">
-								Image Code
+								Image/Url Code
 							</td>
 							<td>
 								<input class="inputbox" type="text" name="imagecode" style="width:400px" />
@@ -260,6 +260,7 @@ class HTML_Media {
 		$link = 'index3.php?option=com_media&task=list&listdir='. $listdir . $path;
 		
 		$overlib = 'Files '. $num_files;
+		$overlib .= '<br/><br/> *Click to Open*';
 		?>
 		<div style="float:left; padding: 5px">
 			<div class="imgTotal" onMouseOver="return overlib( '<?php echo $overlib; ?>', CAPTION, '<?php echo $dir; ?>', BELOW, RIGHT, WIDTH, 150 );" onMouseOut="return nd();">
@@ -288,6 +289,7 @@ class HTML_Media {
 		$size = HTML_Media::parse_size( $size );
 		
 		$overlib = 'Filesize: '. $size;
+		$overlib .= '<br/><br/> *Click for Url*';
 		?>
 		<div style="float:left; padding: 5px">
 			<div class="imgTotal" onMouseOver="return overlib( '<?php echo $overlib; ?>', CAPTION, '<?php echo $doc; ?>', BELOW, RIGHT, WIDTH, 200 );" onMouseOut="return nd();">
@@ -422,7 +424,7 @@ class HTML_Media {
 			background: #FFFFCC;
 			cursor: hand;
 		}
-		.imginfoBorder {
+		div.imginfoBorder {
 			background: #f6f6f6;
 			width: 84px !important;
 			width: 90px;

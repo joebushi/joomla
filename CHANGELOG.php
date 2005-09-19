@@ -32,6 +32,7 @@ Legend:
 
 18-Sep-2005 Rey Gigataras
  ^ Additional Overlib info for non-image files and directories
+ ^ 'Cancel' button for Media Manager
  # Fixed delete file in Media Manager 
 
 18-Sep 2005 Arno Zijlstra

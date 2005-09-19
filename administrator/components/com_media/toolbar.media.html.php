@@ -30,6 +30,8 @@ class TOOLBAR_media {
 		mosMenuBar::spacer();
 		mosMenuBar::custom('newdir','new.png','new_f2.png','Create' ,false);
 		mosMenuBar::spacer();
+		mosMenuBar::cancel();
+		mosMenuBar::spacer();
 		mosMenuBar::help( 'screen.mediamanager' );
 		mosMenuBar::endTable();
 	}

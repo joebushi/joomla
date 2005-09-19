@@ -70,6 +70,10 @@ switch ($task) {
 		listImages($listdir);
 		break;
 
+	case 'cancel':
+		mosRedirect( 'index2.php' );
+		break;
+	
 	default:
 		showMedia($listdir);
 		break;
