@@ -38,6 +38,7 @@ Legend:
  ^ Additional Overlib info for non-image files and directories
  ^ 'Cancel' button for Media Manager
  ^ Option to run TinyMCE in compressed mode - off by default
+ # Fixed artf1111 : mosShowHead and the order of headers
  # Fixed artf1117 : database.php - bcc
  # Fixed artf1114 : database.php _nullDate
  # Fixed TinyMCE errors caused by use of compressed tinymce_gzip.php [artf1088||artf1034||artf1090||artf1044]

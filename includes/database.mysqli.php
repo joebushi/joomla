@@ -145,7 +145,7 @@ class database {
 	 * @return string Quoted null/zero date string
 	 */
 	function getNullDate() {
-		return $this->_db->_nullDate;
+		return $this->_nullDate;
 	}
 	/**
 	* Sets the SQL query string for later execution.

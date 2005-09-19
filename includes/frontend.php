@@ -157,22 +157,22 @@ function mosShowHead() {
 
 	$task = mosGetParam( $_REQUEST, 'task', '' );
 
+	if ( $my->id ) {
+		?>
+		<script language="JavaScript" src="<?php echo $mosConfig_live_site;?>/includes/js/joomla.javascript.js" type="text/javascript"></script>
+		<?php
+	}
+
+	if ( isset($mosConfig_sef) && $mosConfig_sef ) {
+		echo "<base href=\"$mosConfig_live_site/\" />\r\n";
+	}
+
 	$mainframe->appendMetaTag( 'description', $mosConfig_MetaDesc );
 	$mainframe->appendMetaTag( 'keywords', $mosConfig_MetaKeys );
 	$mainframe->addMetaTag( 'Generator', $_VERSION->PRODUCT . " - " . $_VERSION->COPYRIGHT);
 	$mainframe->addMetaTag( 'robots', 'index, follow' );
 
 	echo $mainframe->getHead();
-
-	if ( isset($mosConfig_sef) && $mosConfig_sef ) {
-		echo "<base href=\"$mosConfig_live_site/\" />\r\n";
-	}
-
-	if ( $my->id ) {
-		?>
-		<script language="JavaScript" src="<?php echo $mosConfig_live_site;?>/includes/js/joomla.javascript.js" type="text/javascript"></script>
-		<?php
-	}
 
 	// support for Firefox Live Bookmarks ability for site syndication
 	$query = "SELECT a.id"
