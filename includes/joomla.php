@@ -2991,7 +2991,7 @@ function mosMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=NUL
 	}
 	if (isset($bcc)) {
 		if( is_array($bcc) )
-			foreach ($bcc as $to) $mail->AddCC($to);
+			foreach ($bcc as $to) $mail->AddBCC($to);
 		else
 			$mail->AddBCC($bcc);
 	}
