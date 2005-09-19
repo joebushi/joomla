@@ -30,17 +30,20 @@ Legend:
 - -> Removed
 ! -> Note
 
+19-Sep-2005 Andrew Eddie
+ # Fixed incorrect js function in patTemplate sticky and ordering templates/links
+
 18-Sep-2005 Rey Gigataras
  ^ Additional Overlib info for non-image files and directories
  ^ 'Cancel' button for Media Manager
  # Fixed artf1106 : Default Editor Will Not Take Codes Like Java Script
  # Fixed delete file in Media Manager 
 
-18-Sep 2005 Arno Zijlstra
+18-Sep-2005 Arno Zijlstra
  # Fixed artf1084 : <br> stays in empty content
  # Fixed artf1101: Typo in Global Config
  
-18-Sep 2005 Andrew Eddie
+18-Sep-2005 Andrew Eddie
  # Fixed issues in patTemplate Translate Function and Modifier
  # Fixed issue with patTemplate variable for Tabs graphics
 

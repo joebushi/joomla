@@ -203,7 +203,7 @@ class mosPageNav {
 			$show = true;
 		};
 		if ($show) {
-			$output = '<a href="#ordering" onClick="goDoTask(this, \'submit-ordering\', \'task=orderup,id=cb'.$id.'\')" title="'. $alt .'">';
+			$output = '<a href="#ordering" onClick="listItemTask(\'cb'.$id.'\',\'orderup\')" title="'. $alt .'">';
 			$output .= '<img src="images/' . $img . '" width="12" height="12" border="0" alt="'. $alt .'" title="'. $alt .'" /></a>';
 
 			return $output;
@@ -236,7 +236,7 @@ class mosPageNav {
 			$show = true;
 		};
 		if ($show) {
-			$output = '<a href="#ordering" onClick="goDoTask(this, \'submit-ordering\', \'task=orderdown,id=cb'.$id.'\')" title="'. $alt .'">';
+			$output = '<a href="#ordering" onClick="listItemTask(\'cb'.$id.'\',\'orderdown\')" title="'. $alt .'">';
 			$output .= '<img src="images/' . $img . '" width="12" height="12" border="0" alt="'. $alt .'" title="'. $alt .'" /></a>';
 
 			return $output;

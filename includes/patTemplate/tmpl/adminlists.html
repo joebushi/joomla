@@ -71,16 +71,16 @@ See COPYRIGHT.php for copyright notices and details.
 </mos:tmpl>
 
 <mos:tmpl name="item-title" varscope="list-items">
-	<a href="#edit" onclick="goDoTasklist(this, 'submit-edit', 'task=edit,id=cb{ITEM_ID},hide=true')">{ITEM_TITLE}</a>
+	<a href="#edit" onclick="listItemTask( 'cb{ITEM_ID}', 'edit' )">{ITEM_TITLE}</a>
 </mos:tmpl>
 
 <mos:tmpl name="item-sticky-icon" type="condition" conditionvar="item_sticky" varscope="list-items" autoclear="yes">
 	<mos:sub condition="0">
-		<a href="#publish" onclick="goDoTask(this, 'submit-stick', 'task=stick,id=cb{ITEM_ID}')" title="Toggle">
+		<a href="#publish" onclick="listItemTask('cb{ITEM_ID}', 'stick' )" title="Toggle">
 			<img src="images/publish_x.png" alt="<mos:Translate>Free</mos:Translate>" border="0" /></a>
 	</mos:sub>
 	<mos:sub condition="1">
-		<a href="#unpublish" onclick="goDoTask(this, 'submit-unstick', 'task=unstick,id=cb{ITEM_ID}')" title="Toggle">
+		<a href="#unpublish" onclick="listItemTask('cb{ITEM_ID}', 'unstick' )" title="Toggle">
 			<img src="images/tick.png" alt="<mos:Translate>Sticky</mos:Translate>" border="0" /></a>
 	</mos:sub>
 </mos:tmpl>
