@@ -139,7 +139,7 @@ function changeDirPermsMode(mode)
 			<div class="clr"></div>
 			<h1>Confirm the site URL, path, admin e-mail and file/directory chmods</h1>
 			<div class="install-text">
-				  <p>If URL and Path looks correct then please do not change.
+				  <p>If URL and Path look correct then please do not change them.
 				  If you are not sure then please contact your ISP or administrator. Usually
 				  the values displayed will work for your site.<br/>
 				  <br/>

@@ -161,7 +161,7 @@ function check()
   							<input class="inputbox" type="text" name="DBPrefix" value="<?php echo "$DBPrefix"; ?>" />
   						</td>
 			  			<td>
-			  			<em>Dont use 'old_' since this is used for backup tables</em>
+			  			<em>Don't use 'old_' since this is used for backup tables</em>
 			  			</td>
   					</tr>
   		  			<tr>
@@ -193,7 +193,7 @@ function check()
 							<label for="DBSample">Install Sample Data</label>
 						</td>
 			  			<td>
-			  				<em>Dont uncheck option this unless you are experienced in using Joomla!</em>
+			  				<em>Don't uncheck option this unless you are experienced in using Joomla!</em>
 			  			</td>
 			  		</tr>
 		  		 	</table>
