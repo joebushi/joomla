@@ -200,11 +200,12 @@ class HTML_Media {
 
 	function show_image($img, $file, $info, $size, $listdir) {
 		global $mosConfig_live_site;
+		global $base;
 
 		$img_file = basename($img);
-		$img_url = $mosConfig_live_site.'/images'.$listdir.'/'.$img_file;
+		$img_url = $mosConfig_live_site . $base . $listdir . '/' . $img_file;
 
-		$filesize = HTML_Media::parse_size($size);
+		$filesize = HTML_Media::parse_size( $size );
 
 		if ( ( $info[0] > 70 ) || ( $info[0] > 70 ) ) {
 			$img_dimensions = HTML_Media::imageResize($info[0], $info[1], 80);
@@ -213,6 +214,7 @@ class HTML_Media {
 		}
 		
 		$overlib = 'Width: '. $info[0].'px<br/>Height: '.$info[1] .'px';
+		$overlib .= '<br/>Filesize: '. $filesize;
 		$overlib .= '<br/><br/> *Click to Enlarge*';
 		$overlib .= '<br/> *Click for Image Code*';
 		?>
@@ -244,21 +246,23 @@ class HTML_Media {
 		<?php
 	}
 
-	function show_dir($path, $dir,$listdir ) {
+	function show_dir( $path, $dir, $listdir ) {
 		global $mosConfig_absolute_path;
+		global $base;
 
-		$num_files = HTML_Media::num_files($mosConfig_absolute_path.$path);
+		$num_files = HTML_Media::num_files( $mosConfig_absolute_path . $base . $listdir . $path );
 
 		// Fix for Bug [0000577]
 		if ($listdir=='/') {
 			$listdir='';
 		}
 
-
 		$link = 'index3.php?option=com_media&task=list&listdir='. $listdir . $path;
+		
+		$overlib = 'Files '. $num_files;
 		?>
 		<div style="float:left; padding: 5px">
-			<div class="imgTotal">
+			<div class="imgTotal" onMouseOver="return overlib( '<?php echo $overlib; ?>', CAPTION, '<?php echo $dir; ?>', BELOW, RIGHT, WIDTH, 150 );" onMouseOut="return nd();">
 				<div align="center" class="imgBorder">
 					<a href="<?php echo $link; ?>" target="imgManager" onClick="javascript:updateDir();">
 						<img src="components/com_media/images/folder.gif" width="80" height="80" border="0" alt="<?php echo $dir; ?>"></a>
@@ -277,13 +281,18 @@ class HTML_Media {
 		<?php
 	}
 
-	function show_doc($doc, $listdir, $icon) {
-		global $mosConfig_absolute_path,$mosConfig_live_site;
+	function show_doc($doc, $size, $listdir, $icon) {
+		global $mosConfig_live_site;		
+		global $base;
+		
+		$size = HTML_Media::parse_size( $size );
+		
+		$overlib = 'Filesize: '. $size;
 		?>
 		<div style="float:left; padding: 5px">
-			<div class="imgTotal">
+			<div class="imgTotal" onMouseOver="return overlib( '<?php echo $overlib; ?>', CAPTION, '<?php echo $doc; ?>', BELOW, RIGHT, WIDTH, 200 );" onMouseOut="return nd();">
 				<div align="center" class="imgBorder">
-				  <a href="index3.php?option=com_media&task=list&listdir=<?php echo $listdir; ?>" onClick="javascript:window.top.document.forms[0].imagecode.value = '<a href=&quot;<?php echo $mosConfig_live_site.'/images'.$listdir.'/'.$doc;?>&quot;>Insert your text here</a>';">
+				  <a href="index3.php?option=com_media&task=list&listdir=<?php echo $listdir; ?>" onClick="javascript:window.top.document.forms[0].imagecode.value = '<a href=&quot;<?php echo $mosConfig_live_site. $base . $listdir  .'/'. $doc;?>&quot;>Insert your text here</a>';">
 		  				<img border="0" src="<?php echo $icon ?>" alt="<?php echo $doc; ?>"></a>
 		  		</div>
 			</div>
@@ -337,18 +346,18 @@ class HTML_Media {
 		$total = 0;
 
 		if(is_dir($dir)) {
-			$d = @dir($dir);
 
-			while (false !== ($entry = $d->read()))
-			{
-				//echo $entry."<br>";
+			$d = dir($dir);
+			while (false !== ($entry = $d->read())) {
+				
 				if(substr($entry,0,1) != '.') {
 					$total++;
 				}
 			}
 			$d->close();
 		}
-		return $total;
+		
+		return $total - 1;
 	}
 
 
