@@ -33,6 +33,7 @@ Legend:
 18-Sep-2005 Rey Gigataras
  ^ Additional Overlib info for non-image files and directories
  ^ 'Cancel' button for Media Manager
+ # Fixed artf1106 : Default Editor Will Not Take Codes Like Java Script
  # Fixed delete file in Media Manager 
 
 18-Sep 2005 Arno Zijlstra

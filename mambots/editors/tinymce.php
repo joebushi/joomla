@@ -44,8 +44,9 @@ function botTinymceEditorInit() {
 	$text_direction		= $params->def( 'text_direction', 'ltr' );
 	$content_css		= $params->def( 'content_css', 1 );
 	$content_css_custom	= $params->def( 'content_css_custom', '' );
-	$invalid_elements		= $params->def( 'invalid_elements', 'script,applet,iframe' );
+	$invalid_elements	= $params->def( 'invalid_elements', 'script,applet,iframe' );
 	$newlines			= $params->def( 'newlines', 'false' );
+	$cleanup			= $params->def( 'cleanup', 'true' );
 
 	// Plugins
 	// preview
@@ -88,6 +89,13 @@ function botTinymceEditorInit() {
 	$buttons2[]	= '';
 	$buttons3[]	= '';
 	$elements[]	= '';
+
+	if ( $cleanup ) {
+		$cleanup	= 'true';
+	} else {
+		$cleanup	= 'false';
+	}
+
 
 // preview
 	if ( $preview ) {
@@ -160,6 +168,7 @@ return <<<EOD
 		force_br_newlines : "$newlines",
 		$content_css,
 		debug : false,
+		cleanup : $cleanup,
 		safari_warning : false,
 		plugins : "advlink, advimage, $plugins",
 		theme_advanced_buttons2_add : "$buttons2",
