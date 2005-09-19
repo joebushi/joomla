@@ -145,7 +145,7 @@ class database {
 	 * @return string Quoted null/zero date string
 	 */
 	function getNullDate() {
-		return $this->_nullDate;
+		return $this->_db->_nullDate;
 	}
 	/**
 	* Sets the SQL query string for later execution.
@@ -1057,7 +1057,7 @@ class mosDBTable {
 		}
 		$time = date( 'H:i:s' );
 		$query = "UPDATE $this->_tbl"
-		. "\n SET checked_out = 0, checked_out_time = '$this->_nullDate'"
+		. "\n SET checked_out = 0, checked_out_time = '$this->_db->_nullDate'"
 		. "\n WHERE $this->_tbl_key = '". $this->$k ."'"
 		;
 		$this->_db->setQuery( $query );
