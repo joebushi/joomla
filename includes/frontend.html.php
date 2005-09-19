@@ -159,11 +159,11 @@ class modules_html {
 			}
 
 			// feed image
-			if ( $rssimage ) {
+			if ( $rssimage && $iUrl ) {
 				?>
 				<tr>
 					<td align="center">
-						<image src="<?php echo $iUrl; ?>" alt="<?php echo $iTitle; ?>"/>
+						<image src="<?php echo $iUrl; ?>" alt="<?php echo @$iTitle; ?>"/>
 					</td>
 				</tr>
 				<?php

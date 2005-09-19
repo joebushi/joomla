@@ -383,7 +383,7 @@ class HTML_modules {
 							<td>
 							<?php
 							// parameters : areaname, content, hidden field, width, height, rows, cols
-							editorArea( 'editor1',  $row->content , 'content', '700', '350', '95', '30' ) ; ?>
+							editorArea( 'editor1',  $row->content , 'content', '800', '400', '110', '40' ) ; ?>
 							</td>
 						</tr>
 						</table>
