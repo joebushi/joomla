@@ -240,6 +240,8 @@ writableCell( 'images/stories' );
 writableCell( 'language' );
 writableCell( 'mambots' );
 writableCell( 'mambots/content' );
+writableCell( 'mambots/editors' );
+writableCell( 'mambots/editors-xtd' );
 writableCell( 'mambots/search' );
 writableCell( 'media' );
 writableCell( 'modules' );

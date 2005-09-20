@@ -73,288 +73,289 @@ class HTML_admin_misc {
 			</th>
 		</tr>
 		</table>
+		
 		<?php
 		$tabs->startPane("sysinfo");
 		$tabs->startTab("System Info","system-page");
 		?>
-		<table class="adminform">
-		<tr>
-			<th colspan="2">
-				System Information
-			</th>
-		</tr>
-		<tr>
-			<td valign="top" width="250">
-				<strong>PHP built On:</strong>
-			</td>
-			<td>
-				<?php echo php_uname(); ?>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<strong>Database Version:</strong>
-			</td>
-			<td>
-				<?php echo $database->getVersion(); ?>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<strong>PHP Version:</strong>
-			</td>
-			<td>
-				<?php echo phpversion(); ?>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<strong>Web Server:</strong>
-			</td>
-			<td>
-				<?php echo HTML_admin_misc::get_server_software(); ?>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<strong>WebServer to PHP interface:</strong>
-			</td>
-			<td>
-				<?php echo php_sapi_name(); ?>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<strong>Joomla! Version:</strong>
-			</td>
-			<td>
-				<?php echo $version; ?>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<strong>User Agent:</strong>
-			</td>
-			<td>
-				<?php echo phpversion() <= "4.2.1" ? getenv( "HTTP_USER_AGENT" ) : $_SERVER['HTTP_USER_AGENT'];?>
-			</td>
-		</tr>
-		<tr>
-			<td valign="top">
-				<strong>Relevant PHP Settings:</strong>
-			</td>
-			<td>
-				<table cellspacing="1" cellpadding="1" border="0">
-				<tr>
-					<td>
-						Safe Mode:
-					</td>
-					<td>
-						<?php echo HTML_admin_misc::get_php_setting('safe_mode'); ?>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						Open basedir:
-					</td>
-					<td>
-						<?php echo (($ob = ini_get('open_basedir')) ? $ob : 'none'); ?>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						Display Errors:
-					</td>
-					<td>
-						<?php echo HTML_admin_misc::get_php_setting('display_errors'); ?>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						Short Open Tags:
-					</td>
-					<td>
-						<?php echo HTML_admin_misc::get_php_setting('short_open_tag'); ?>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						File Uploads:
-					</td>
-					<td>
-						<?php echo HTML_admin_misc::get_php_setting('file_uploads'); ?>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						Magic Quotes:
-					</td>
-					<td>
-						<?php echo HTML_admin_misc::get_php_setting('magic_quotes_gpc'); ?>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						Register Globals:
-					</td>
-					<td>
-						<?php echo HTML_admin_misc::get_php_setting('register_globals'); ?>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						Output Buffering:
-					</td>
-					<td>
-						<?php echo HTML_admin_misc::get_php_setting('output_buffering'); ?>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						Session save path:
-					</td>
-					<td>
-						<?php echo (($sp=ini_get('session.save_path'))?$sp:'none'); ?>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						Session auto start:
-					</td>
-					<td>
-						<?php echo intval( ini_get( 'session.auto_start' ) ); ?>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						XML enabled:
-					</td>
-					<td>
-					<?php echo extension_loaded('xml')?'Yes':'No'; ?>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						Zlib enabled:
-					</td>
-					<td>
-						<?php echo extension_loaded('zlib')?'Yes':'No'; ?>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						Disabled Functions:
-					</td>
-					<td>
-						<?php echo (($df=ini_get('disable_functions'))?$df:'none'); ?>
-					</td>
-				</tr>
+			<table class="adminform">
+			<tr>
+				<th colspan="2">
+					System Information
+				</th>
+			</tr>
+			<tr>
+				<td valign="top" width="250">
+					<strong>PHP built On:</strong>
+				</td>
+				<td>
+					<?php echo php_uname(); ?>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<strong>Database Version:</strong>
+				</td>
+				<td>
+					<?php echo $database->getVersion(); ?>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<strong>PHP Version:</strong>
+				</td>
+				<td>
+					<?php echo phpversion(); ?>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<strong>Web Server:</strong>
+				</td>
+				<td>
+					<?php echo HTML_admin_misc::get_server_software(); ?>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<strong>WebServer to PHP interface:</strong>
+				</td>
+				<td>
+					<?php echo php_sapi_name(); ?>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<strong>Joomla! Version:</strong>
+				</td>
+				<td>
+					<?php echo $version; ?>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<strong>User Agent:</strong>
+				</td>
+				<td>
+					<?php echo phpversion() <= "4.2.1" ? getenv( "HTTP_USER_AGENT" ) : $_SERVER['HTTP_USER_AGENT'];?>
+				</td>
+			</tr>
+			<tr>
+				<td valign="top">
+					<strong>Relevant PHP Settings:</strong>
+				</td>
+				<td>
+					<table cellspacing="1" cellpadding="1" border="0">
+					<tr>
+						<td>
+							Safe Mode:
+						</td>
+						<td>
+							<?php echo HTML_admin_misc::get_php_setting('safe_mode'); ?>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Open basedir:
+						</td>
+						<td>
+							<?php echo (($ob = ini_get('open_basedir')) ? $ob : 'none'); ?>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Display Errors:
+						</td>
+						<td>
+							<?php echo HTML_admin_misc::get_php_setting('display_errors'); ?>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Short Open Tags:
+						</td>
+						<td>
+							<?php echo HTML_admin_misc::get_php_setting('short_open_tag'); ?>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							File Uploads:
+						</td>
+						<td>
+							<?php echo HTML_admin_misc::get_php_setting('file_uploads'); ?>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Magic Quotes:
+						</td>
+						<td>
+							<?php echo HTML_admin_misc::get_php_setting('magic_quotes_gpc'); ?>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Register Globals:
+						</td>
+						<td>
+							<?php echo HTML_admin_misc::get_php_setting('register_globals'); ?>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Output Buffering:
+						</td>
+						<td>
+							<?php echo HTML_admin_misc::get_php_setting('output_buffering'); ?>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Session save path:
+						</td>
+						<td>
+							<?php echo (($sp=ini_get('session.save_path'))?$sp:'none'); ?>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Session auto start:
+						</td>
+						<td>
+							<?php echo intval( ini_get( 'session.auto_start' ) ); ?>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							XML enabled:
+						</td>
+						<td>
+						<?php echo extension_loaded('xml')?'Yes':'No'; ?>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Zlib enabled:
+						</td>
+						<td>
+							<?php echo extension_loaded('zlib')?'Yes':'No'; ?>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Disabled Functions:
+						</td>
+						<td>
+							<?php echo (($df=ini_get('disable_functions'))?$df:'none'); ?>
+						</td>
+					</tr>
+					<?php
+					$query = "SELECT name FROM #__mambots"
+					. "\nWHERE folder='editors' AND published='1'"
+					. "\nLIMIT 1";
+					$database->setQuery( $query );
+					$editor = $database->loadResult();
+					?>
+					<tr>
+						<td>
+							WYSIWYG Editor:
+						</td>
+						<td>
+							<?php echo $editor; ?>
+						</td>
+					</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td valign="top">
+					<strong>Configuration File:</strong>
+				</td>
+				<td>
 				<?php
-				$query = "SELECT name FROM #__mambots"
-				. "\nWHERE folder='editors' AND published='1'"
-				. "\nLIMIT 1";
-				$database->setQuery( $query );
-				$editor = $database->loadResult();
-				?>
-				<tr>
-					<td>
-						WYSIWYG Editor:
-					</td>
-					<td>
-						<?php echo $editor; ?>
-					</td>
-				</tr>
-				</table>
-			</td>
-		</tr>
-		<tr>
-			<td valign="top">
-				<strong>Configuration File:</strong>
-			</td>
-			<td>
-			<?php
-			$cf = file( $mosConfig_absolute_path . '/configuration.php' );
-			foreach ($cf as $k=>$v) {
-				if (eregi( 'mosConfig_host', $v)) {
-					$cf[$k] = '$mosConfig_host = \'xxxxxx\'';
-				} else if (eregi( 'mosConfig_user', $v)) {
-					$cf[$k] = '$mosConfig_user = \'xxxxxx\'';
-				} else if (eregi( 'mosConfig_password', $v)) {
-					$cf[$k] = '$mosConfig_password = \'xxxxxx\'';
-				} else if (eregi( 'mosConfig_db ', $v)) {
-					$cf[$k] = '$mosConfig_db = \'xxxxxx\'';
-				} else if (eregi( '<?php', $v)) {
-					$cf[$k] = '&lt;?php';
+				$cf = file( $mosConfig_absolute_path . '/configuration.php' );
+				foreach ($cf as $k=>$v) {
+					if (eregi( 'mosConfig_host', $v)) {
+						$cf[$k] = '$mosConfig_host = \'xxxxxx\'';
+					} else if (eregi( 'mosConfig_user', $v)) {
+						$cf[$k] = '$mosConfig_user = \'xxxxxx\'';
+					} else if (eregi( 'mosConfig_password', $v)) {
+						$cf[$k] = '$mosConfig_password = \'xxxxxx\'';
+					} else if (eregi( 'mosConfig_db ', $v)) {
+						$cf[$k] = '$mosConfig_db = \'xxxxxx\'';
+					} else if (eregi( '<?php', $v)) {
+						$cf[$k] = '&lt;?php';
+					}
 				}
-			}
-			echo implode( "<br />", $cf );
-			?>
-			</td>
-		</tr>
-		</table>
+				echo implode( "<br />", $cf );
+				?>
+				</td>
+			</tr>
+			</table>
 		<?php
 		$tabs->endTab();
 		$tabs->startTab("PHP Info","php-page");
 		?>
-		<table class="adminform">
-		<tr>
-			<th colspan="2">
-				PHP Information
-			</th>
-		</tr>
-		<tr>
-			<td>
-			<?php
-			ob_start();
-			phpinfo(INFO_GENERAL | INFO_CONFIGURATION | INFO_MODULES);
-			$phpinfo = ob_get_contents();
-			ob_end_clean();
-			preg_match_all('#<body[^>]*>(.*)</body>#siU', $phpinfo, $output);
-			$output = preg_replace('#<table#', '<table class="adminlist" align="center"', $output[1][0]);
-			$output = preg_replace('#(\w),(\w)#', '\1, \2', $output);
-			$output = preg_replace('#border="0" cellpadding="3" width="600"#', 'border="0" cellspacing="1" cellpadding="4" width="95%"', $output);
-			$output = preg_replace('#<hr />#', '', $output);
-			echo $output;
-			?>
-			</td>
-		</tr>
-		</table>
+			<table class="adminform">
+			<tr>
+				<th colspan="2">
+					PHP Information
+				</th>
+			</tr>
+			<tr>
+				<td>
+				<?php
+				ob_start();
+				phpinfo(INFO_GENERAL | INFO_CONFIGURATION | INFO_MODULES);
+				$phpinfo = ob_get_contents();
+				ob_end_clean();
+				preg_match_all('#<body[^>]*>(.*)</body>#siU', $phpinfo, $output);
+				$output = preg_replace('#<table#', '<table class="adminlist" align="center"', $output[1][0]);
+				$output = preg_replace('#(\w),(\w)#', '\1, \2', $output);
+				$output = preg_replace('#border="0" cellpadding="3" width="600"#', 'border="0" cellspacing="1" cellpadding="4" width="95%"', $output);
+				$output = preg_replace('#<hr />#', '', $output);
+				echo $output;
+				?>
+				</td>
+			</tr>
+			</table>
 		<?php
 		$tabs->endTab();
 		$tabs->startTab('Permissions','perms');
 		?>
-		<table class="adminform">
-		<tr>
-			<th colspan="2">
-				Directory Permissions
-			</th>
-		</tr>
-		<tr>
-			<td>
-				<strong>For all Joomla! functions and features to work ALL of the following directories should be writeable:</strong>
-			<?php
-mosHTML::writableCell( 'administrator/backups' );
-mosHTML::writableCell( 'administrator/components' );
-mosHTML::writableCell( 'administrator/modules' );
-mosHTML::writableCell( 'administrator/templates' );
-mosHTML::writableCell( 'cache' );
-mosHTML::writableCell( 'components' );
-mosHTML::writableCell( 'images' );
-mosHTML::writableCell( 'images/banners' );
-mosHTML::writableCell( 'images/stories' );
-mosHTML::writableCell( 'language' );
-mosHTML::writableCell( 'mambots' );
-mosHTML::writableCell( 'mambots/content' );
-mosHTML::writableCell( 'mambots/search' );
-mosHTML::writableCell( 'media' );
-mosHTML::writableCell( 'modules' );
-mosHTML::writableCell( 'templates' );
-
-?>
-
-			</td>
-		</tr>
-		</table>
+			<table class="adminform">
+			<tr>
+				<th colspan="2">
+					Directory Permissions
+				</th>
+			</tr>
+			<tr>
+				<td>
+					<strong>For all Joomla! functions and features to work ALL of the following directories should be writeable:</strong>
+					<?php
+					mosHTML::writableCell( 'administrator/backups' );
+					mosHTML::writableCell( 'administrator/components' );
+					mosHTML::writableCell( 'administrator/modules' );
+					mosHTML::writableCell( 'administrator/templates' );
+					mosHTML::writableCell( 'cache' );
+					mosHTML::writableCell( 'components' );
+					mosHTML::writableCell( 'images' );
+					mosHTML::writableCell( 'images/banners' );
+					mosHTML::writableCell( 'images/stories' );
+					mosHTML::writableCell( 'language' );
+					mosHTML::writableCell( 'mambots' );
+					mosHTML::writableCell( 'mambots/content' );
+					mosHTML::writableCell( 'mambots/editors' );
+					mosHTML::writableCell( 'mambots/editors-xtd' );
+					mosHTML::writableCell( 'mambots/search' );
+					mosHTML::writableCell( 'media' );
+					mosHTML::writableCell( 'modules' );
+					mosHTML::writableCell( 'templates' );				
+					?>
+				</td>
+			</tr>
+			</table>
 		<?php
 		$tabs->endTab();
 		$tabs->endPane();
