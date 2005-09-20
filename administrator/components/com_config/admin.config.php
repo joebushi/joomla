@@ -151,9 +151,9 @@ function showconfig( $option) {
 // LOCALE SETTINGS
 
 	$lists['lang'] = mosHTML::selectList( $langs, 'config_lang', 'class="inputbox" size="1"', 'value', 'text', $row->config_lang );
-
+	
 	for ($i=-24;$i<=24;$i++) {
-		$timeoffset[] = mosHTML::makeOption( $i, $i );
+		$timeoffset[] = mosHTML::makeOption( $i * 0.5, $i * 0.5 );
 	}
 	$lists['offset'] = mosHTML::selectList( $timeoffset, 'config_offset', 'class="inputbox" size="1"',	'value', 'text', $row->config_offset );
 
@@ -262,7 +262,7 @@ function saveconfig( $task ) {
 	if (!$row->bind( $_POST )) {
 		mosRedirect( 'index2.php', $row->getError() );
 	}
-
+	
 	$config = "<?php \n";
 	$config .= $row->getVarText();
 	$config .= "setlocale (LC_TIME, \$mosConfig_locale);\n";
@@ -270,11 +270,11 @@ function saveconfig( $task ) {
 
 	$fname = $mosConfig_absolute_path . '/configuration.php';
 
-	$enable_write = mosGetParam($_POST,'enable_write',0);
-	$oldperms = fileperms($fname);
-		if ( $enable_write ) {
-			@chmod( $fname, $oldperms | 0222);
-		}
+	$enable_write 	= mosGetParam($_POST,'enable_write',0);
+	$oldperms 		= fileperms($fname);
+	if ( $enable_write ) {
+		@chmod( $fname, $oldperms | 0222);
+	}
 
 	if ( $fp = fopen($fname, 'w') ) {
 		fputs($fp, $config, strlen($config));

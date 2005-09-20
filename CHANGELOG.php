@@ -30,6 +30,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+
+20-Sep-2005 Rey Gigataras
+ ^ Added 30 minute intervals to Server Time Offsets
+
 19-Sep-2005 Andrew Eddie
  # Fixed incorrect js function in patTemplate sticky and ordering templates/links
 
