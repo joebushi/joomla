@@ -31,6 +31,9 @@ Legend:
 ! -> Note
 
 
+20-Sep-2005 Levis Bisson
+ ^ added a chmod to the install unlink function
+
 20-Sep-2005 Marko Schmuck
  ^ Changed Time Offsets to hardcoded list with country/city names
  
