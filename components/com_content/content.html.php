@@ -529,7 +529,7 @@ class HTML_content {
 		HTML_content::ReadMore( $params, $link_on, $link_text );
 		?>
 		</table>
-		<span class="article_seperator"></span>
+		<span class="article_seperator">&nbsp;</span>
 		<?php
 		$results = $_MAMBOTS->trigger( 'onAfterDisplayContent', array( &$row, &$params, $page ) );
 		echo trim( implode( "\n", $results ) );
