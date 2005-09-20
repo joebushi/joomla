@@ -31,8 +31,10 @@ Legend:
 ! -> Note
 
 
+20-Sep-2005 Marko Schmuck
+ ^ Changed Time Offsets to hardcoded list with country/city names
+ 
 20-Sep-2005 Rey Gigataras
- ^ Added 30 minute intervals to Server Time Offsets
  # Fixed artf1133 : There is no install request to make /mambot/editor writeable
 
 19-Sep-2005 Andrew Eddie
