@@ -483,15 +483,18 @@ function cleanupInstall( $userfile_name, $resultdir) {
 
 function deldir( $dir ) {
 	$current_dir = opendir( $dir );
+	$old_umask = umask(0);
 	while ($entryname = readdir( $current_dir )) {
 		if ($entryname != '.' and $entryname != '..') {
 			if (is_dir( $dir . $entryname )) {
 				deldir( mosPathName( $dir . $entryname ) );
 			} else {
+                @chmod($dir . $entryname, 0777);
 				unlink( $dir . $entryname );
 			}
 		}
 	}
+	umask($old_umask);
 	closedir( $current_dir );
 	return rmdir( $dir );
 }
