@@ -56,14 +56,14 @@ class HTML_users {
 			<th class="title">
 			Name
 			</th>
+			<th width="15%" class="title" >
+			Username
+			</th>
 			<th width="5%" class="title" nowrap="nowrap">
 			Logged In
 			</th>
 			<th width="5%" class="title">
 			Enabled
-			</th>
-			<th width="15%" class="title" >
-			UserID
 			</th>
 			<th width="15%" class="title">
 			Group
@@ -74,6 +74,9 @@ class HTML_users {
 			<th width="10%" class="title">
 			Last Visit
 			</th>
+			<th width="1%" class="title">
+			ID
+			</th>			
 		</tr>
 		<?php
 		$k = 0;
@@ -96,6 +99,9 @@ class HTML_users {
 				<a href="<?php echo $link; ?>">
 				<?php echo $row->name; ?>
 				</a>
+				<td>
+				<?php echo $row->username; ?>
+				</td>
 				</td>
 				<td align="center">
 				<?php echo $row->loggedin ? '<img src="images/tick.png" width="12" height="12" border="0" alt="" />': ''; ?>
@@ -104,9 +110,6 @@ class HTML_users {
 				<a href="javascript: void(0);" onClick="return listItemTask('cb<?php echo $i;?>','<?php echo $task;?>')">
 				<img src="images/<?php echo $img;?>" width="12" height="12" border="0" alt="<?php echo $alt; ?>" />
 				</a>
-				</td>
-				<td>
-				<?php echo $row->username; ?>
 				</td>
 				<td>
 				<?php echo $row->groupname; ?>
@@ -118,6 +121,9 @@ class HTML_users {
 				</td>
 				<td nowrap="nowrap">
 				<?php echo mosFormatDate( $row->lastvisitDate, "%Y-%m-%d %H:%M:%S" ); ?>
+				</td>
+				<td>
+				<?php echo $row->id; ?>
 				</td>
 			</tr>
 			<?php

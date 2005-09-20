@@ -2063,11 +2063,10 @@ class mosUser extends mosDBTable {
 		// check for existing username
 		$query = "SELECT id"
 		. "\n FROM #__users "
-		. "\n WHERE LOWER( username ) = LOWER ( '$this->username' )"
+		. "\n WHERE username = '$this->username'"
 		. "\n AND id != $this->id"
 		;
 		$this->_db->setQuery( $query );
-
 		$xid = intval( $this->_db->loadResult() );
 		if ($xid && $xid != intval( $this->id )) {
 			$this->_error = _REGWARN_INUSE;
@@ -2082,7 +2081,6 @@ class mosUser extends mosDBTable {
 			. "\n AND id != $this->id"
 			;
 			$this->_db->setQuery( $query );
-
 			$xid = intval( $this->_db->loadResult() );
 			if ($xid && $xid != intval( $this->id )) {
 				$this->_error = _REGWARN_EMAIL_INUSE;
