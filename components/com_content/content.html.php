@@ -881,6 +881,7 @@ class HTML_content {
 	*/
 	function editContent( &$row, $section, &$lists, &$images, &$access, $myid, $sectionid, $task, $Itemid ) {
 		global $mosConfig_live_site;
+		
 		mosMakeHtmlSafe( $row );
 
 		require_once( $GLOBALS['mosConfig_absolute_path'] . '/includes/HTML_toolbar.php' );
@@ -1085,32 +1086,39 @@ class HTML_content {
 		?>
 			<table class="adminform">
 			<tr>
-				<td colspan="6">
+				<td colspan="4">
 				<?php echo _CMN_SUBFOLDER; ?> :: <?php echo $lists['folders'];?>
 				</td>
 			</tr>
 			<tr>
 				<td align="top">
-				<?php echo _E_GALLERY_IMAGES; ?>
+					<?php echo _E_GALLERY_IMAGES; ?>
+				</td>
+				<td width="2%">
 				</td>
 				<td align="top">
-				<?php echo _E_CONTENT_IMAGES; ?>
+					<?php echo _E_CONTENT_IMAGES; ?>
 				</td>
 				<td align="top">
-				<?php echo _E_EDIT_IMAGE; ?>
+					<?php echo _E_EDIT_IMAGE; ?>
 				</td>
+			</tr>
 			<tr>
 				<td valign="top">
-				<?php echo $lists['imagefiles'];?>
-				<br />
-				<input class="button" type="button" value="<?php echo _E_INSERT; ?>" onclick="addSelectedToList('adminForm','imagefiles','imagelist')" />
+					<?php echo $lists['imagefiles'];?>
+					<br />
+					<input class="button" type="button" value="<?php echo _E_INSERT; ?>" onclick="addSelectedToList('adminForm','imagefiles','imagelist')" />
+				</td>
+				<td width="2%">
+					<input class="button" type="button" value=">>" onclick="addSelectedToList('adminForm','imagefiles','imagelist')" title="Add"/>
+					<br/>
+					<input class="button" type="button" value="<<" onclick="delSelectedFromList('adminForm','imagelist')" title="Remove"/>				
 				</td>
 				<td valign="top">
-				<?php echo $lists['imagelist'];?>
-				<br />
-				<input class="button" type="button" value="<?php echo _E_UP; ?>" onclick="moveInList('adminForm','imagelist',adminForm.imagelist.selectedIndex,-1)" />
-				<input class="button" type="button" value="<?php echo _E_DOWN; ?>" onclick="moveInList('adminForm','imagelist',adminForm.imagelist.selectedIndex,+1)" />
-				<input class="button" type="button" value="<?php echo _E_REMOVE; ?>" onclick="delSelectedFromList('adminForm','imagelist')" />
+					<?php echo $lists['imagelist'];?>
+					<br />
+					<input class="button" type="button" value="<?php echo _E_UP; ?>" onclick="moveInList('adminForm','imagelist',adminForm.imagelist.selectedIndex,-1)" />
+					<input class="button" type="button" value="<?php echo _E_DOWN; ?>" onclick="moveInList('adminForm','imagelist',adminForm.imagelist.selectedIndex,+1)" />
 				</td>
 				<td valign="top">
 					<table>
@@ -1189,11 +1197,15 @@ class HTML_content {
 			</tr>
 			<tr>
 				<td>
-				<img name="view_imagefiles" src="<?php echo $mosConfig_live_site;?>/images/M_images/blank.png" width="50" alt="No Image" />
+					<img name="view_imagefiles" src="<?php echo $mosConfig_live_site;?>/images/M_images/blank.png" width="50" alt="No Image" />
+				</td>
+				<td width="2%">
 				</td>
 				<td>
-				<img name="view_imagelist" src="<?php echo $mosConfig_live_site;?>/images/M_images/blank.png" width="50" alt="No Image" />
+					<img name="view_imagelist" src="<?php echo $mosConfig_live_site;?>/images/M_images/blank.png" width="50" alt="No Image" />
 				</td>
+				<td>
+				</td>				
 			</tr>
 			</table>
 		<?php

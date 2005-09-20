@@ -89,7 +89,8 @@ function addSelectedToList( frmName, srcListName, tgtListName ) {
 	}
 
 	//Pull selected resources and add them to list
-	for (var i=srcLen-1; i > -1; i--) {
+	//for (var i=srcLen-1; i > -1; i--) {
+	for (var i=0; i < srcLen; i++) {
 		if (srcList.options[i].selected && tgt.indexOf( "," + srcList.options[i].value + "," ) == -1) {
 			opt = new Option( srcList.options[i].text, srcList.options[i].value );
 			tgtList.options[tgtList.length] = opt;

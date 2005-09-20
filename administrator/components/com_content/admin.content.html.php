@@ -808,7 +808,6 @@ class HTML_content {
 										<br />
 										<input class="button" type="button" value="Up" onclick="moveInList('adminForm','imagelist',adminForm.imagelist.selectedIndex,-1)" />
 										<input class="button" type="button" value="Down" onclick="moveInList('adminForm','imagelist',adminForm.imagelist.selectedIndex,+1)" />
-										<input class="button" type="button" value="remove" onClick="delSelectedFromList('adminForm','imagelist')" />
 									</div>
 								</td>
 							</tr>
