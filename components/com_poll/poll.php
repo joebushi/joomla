@@ -48,7 +48,7 @@ function pollAddVote( $uid ) {
 	$sessioncookie 		= mosGetParam( $_REQUEST, $sessionCookieName, '' );
 
 	if (!$sessioncookie) {
-		echo '<h3>'. _ALERT_ENABLED .'"</h3>';
+		echo '<h3>'. _ALERT_ENABLED .'</h3>';
 		echo '<input class="button" type="button" value="'. _CMN_CONTINUE .'" onClick="window.history.go(-1);">';
 		return;
 	}
