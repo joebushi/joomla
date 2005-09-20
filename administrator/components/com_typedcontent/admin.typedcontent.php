@@ -312,7 +312,7 @@ function save( $option, $task ) {
 		$row->modified_by = $my->id;
 	} else {
 		$row->created = date( 'Y-m-d H:i:s' );
-		$row->created_by = $my->id;
+		$row->created_by 	= $row->created_by ? $row->created_by : $my->id;
 	}
 	if (trim( $row->publish_down ) == 'Never') {
 		$row->publish_down = $nullDate;
