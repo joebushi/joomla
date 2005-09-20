@@ -37,7 +37,11 @@ function botTinymceEditorInit() {
 	$params = new mosParameters( $mambot->params );
 
 	$theme = $params->get( 'theme', 'advanced' );
-
+	// handling for former default option
+	if ($theme == 'default' ) {
+		$theme = 'advanced';
+	}
+	
 	$toolbar 			= $params->def( 'toolbar', 'top' );
 	$html_height		= $params->def( 'html_height', '550' );
 	$html_width			= $params->def( 'html_width', '750' );
