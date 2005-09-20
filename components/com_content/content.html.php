@@ -401,7 +401,7 @@ class HTML_content {
 		$results = $_MAMBOTS->trigger( 'onPrepareContent', array( &$row, &$params, $page ), true );
 
 		// adds mospagebreak heading or title to <site> Title
-		if ( @$row->page_title ) {
+		if ( isset($row->page_title) ) {
 			$mainframe->SetPageTitle( $row->title .': '. $row->page_title );
 		}
 
@@ -786,7 +786,7 @@ class HTML_content {
 	* Writes TOC
 	*/
 	function TOC( $row ) {
-		if ( @$row->toc ) {
+		if ( isset($row->toc) ) {
 			echo $row->toc;
 		}
 	}

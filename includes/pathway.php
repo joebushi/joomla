@@ -274,8 +274,8 @@ function showPathway( $Itemid ) {
 		$item =& $mitems[$mid];
 
 		// converts & to &amp; for xtml compliance
-		$itemname = str_replace( '&amp;', '&', $item->name );
-
+		$itemname = ampReplace( $item->name );
+		
 		// if it is the current page, then display a non hyperlink
 		if ($item->id == $Itemid || empty( $mid ) || empty($item->link)) {
 			$newlink = "  $itemname";
