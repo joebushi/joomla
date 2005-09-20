@@ -39,6 +39,7 @@ Legend:
  ^ Changed Time Offsets to hardcoded list with country/city names
  
 20-Sep-2005 Rey Gigataras
+ # Fixed /installation/ folder check
  # Fixed artf1153 : Quote appears in com_poll error
  # Fixed artf1151 : empty span 
  # Fixed artf1089 : multile select image insert reverses list order
