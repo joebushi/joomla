@@ -32,6 +32,7 @@ Legend:
 
 
 21-Sep-2005 Rey Gigataras
+ # Fixed artf1159 : Can't cancel "Submit - Content" menu item type form
  # Fixed artf1172 : "Help" link in Administration links to Mamboserver.com
  # Fixed artf1171 : mod_related_items shows all items twice
  # Fixed artf1167 : Component - Search

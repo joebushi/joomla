@@ -86,6 +86,7 @@ switch ( strtolower( $task ) ) {
 
 	case 'save':
 	case 'apply':
+	case 'apply_new':
 		mosCache::cleanCache( 'com_content' );
 		saveContent( $access, $task );
 		break;
@@ -1298,7 +1299,7 @@ function editItem( $uid, $gid, &$access, $sectionid=0, $task, $Itemid ){
 */
 function saveContent( &$access, $task ) {
 	global $database, $mainframe, $my;
-	global $mosConfig_absolute_path;
+	global $mosConfig_absolute_path, $Itemid;
 
 	$nullDate = $database->getNullDate();
 	$row = new mosContent( $database );
@@ -1420,6 +1421,12 @@ function saveContent( &$access, $task ) {
 		case 'apply':
 			$link = $_SERVER['HTTP_REFERER'];
 			break;
+
+		case 'apply_new':
+			$Itemid = mosGetParam( $_POST, 'Returnid', $Itemid );
+			$link = 'index.php?option=com_content&task=edit&id='. $row->id.'&Itemid='. $Itemid;
+			break;
+
 
 		case 'save':
 		default:

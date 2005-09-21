@@ -1006,7 +1006,7 @@ class HTML_content {
 					// Toolbar Top
 					mosToolBar::startTable();
 					mosToolBar::save();
-					mosToolBar::apply();
+					mosToolBar::apply( 'apply_new' );
 					mosToolBar::cancel();
 					mosToolBar::endtable();
 					?>
