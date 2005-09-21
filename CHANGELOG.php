@@ -31,6 +31,9 @@ Legend:
 ! -> Note
 
 
+21-Sep-2005 Rey Gigataras
+ # Fixed New Menu Type `Next` button bug [RC]
+
 20-Sep-2005 Levis Bisson
  ^ added a chmod to the install unlink function
  # Fixed artf1150 : the created_by on initial creation of Static Content Item

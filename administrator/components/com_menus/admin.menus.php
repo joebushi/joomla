@@ -17,7 +17,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 require_once( $mainframe->getPath( 'admin_html' ) );
 
-$id 		= intval( mosGetParam( $_GET, 'id', 0 ) );
+$id 		= intval( mosGetParam( $_REQUEST, 'id', 0 ) );
 $type 		= mosGetParam( $_REQUEST, 'type', false );
 $menutype 	= mosGetParam( $_REQUEST, 'menutype', 'mainmenu' );
 $task 		= mosGetParam( $_REQUEST, 'task', '' );

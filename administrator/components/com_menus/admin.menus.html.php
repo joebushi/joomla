@@ -326,7 +326,7 @@ class HTML_menusections {
 				</span>
 			</td>
 			<td width="20">
-				<input type="radio" id="cb<?php echo $i;?>" name="cb<?php echo $i;?>" value="<?php echo $row->type; ?>" onclick="isChecked(this.checked);" />
+				<input type="radio" id="cb<?php echo $i;?>" name="type" value="<?php echo $row->type; ?>" onClick="isChecked(this.checked);" />
 			</td>
 			<td width="20">
 			</td>
