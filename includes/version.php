@@ -21,19 +21,19 @@ class joomlaVersion {
 	/** @var int Main Release Level */
 	var $RELEASE 	= '1.0';
 	/** @var string Development Status */
-	var $DEV_STATUS = 'RC';
+	var $DEV_STATUS = 'Stable';
 	/** @var int Sub Release Level */
 	var $DEV_LEVEL 	= '1';
 	/** @var int build Number */
 	var $BUILD	 	= '$Revision$';
 	/** @var string Codename */
-	var $CODENAME 	= 'Sunrise';
+	var $CODENAME 	= 'Sunburst';
 	/** @var string Date */
-	var $RELDATE 	= '20-Sep-2005';
+	var $RELDATE 	= '21-Sep-2005';
 	/** @var string Time */
-	var $RELTIME 	= '00:00';
+	var $RELTIME 	= '16:00';
 	/** @var string Timezone */
-	var $RELTZ 		= 'GMT';
+	var $RELTZ 		= 'UTC';
 	/** @var string Copyright Text */
 	var $COPYRIGHT 	= 'Copyright (C) 2005 Open Source Matters. All rights reserved.';
 	/** @var string URL */
