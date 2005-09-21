@@ -23,14 +23,14 @@ if (!file_exists( 'configuration.php' ) || filesize( 'configuration.php' ) < 10)
 include_once( 'globals.php' );
 require_once( 'configuration.php' );
 require_once( 'includes/joomla.php' );
-/*
+
 //Installation sub folder check, removed for work with CVS
 if (file_exists( 'installation/index.php' )) {	
 	define( '_INSTALL_CHECK', 1 );
 	include ('offline.php');
 	exit();
 }
-*/
+
 // displays offline/maintanance page or bar
 if ($mosConfig_offline == 1) {
 	require( 'offline.php' );
