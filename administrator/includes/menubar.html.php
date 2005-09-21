@@ -446,9 +446,13 @@ class mosMenuBar {
 	*/
 	function help( $ref, $com=false ) {
 		global $mosConfig_live_site;
-		$image2 = mosAdminMenus::ImageCheckAdmin( 'help_f2.png', '/administrator/images/', NULL, NULL, 'Help', 'help', 1 );
-		$helpUrl = mosGetParam( $GLOBALS, 'mosConfig_helpurl', '' );
-
+		$image2 	= mosAdminMenus::ImageCheckAdmin( 'help_f2.png', '/administrator/images/', NULL, NULL, 'Help', 'help', 1 );
+		$helpUrl 	= mosGetParam( $GLOBALS, 'mosConfig_helpurl', '' );
+		
+		if ( $helpUrl == 'http://help.mamboserver.com' ) {
+			$helpUrl = 'http://help.joomla.org';
+		}
+				
 		if ($com) {
 	   // help file for 3PD Components
 			$url = $mosConfig_live_site . '/administrator/components/' . $GLOBALS['option'] . '/help/';

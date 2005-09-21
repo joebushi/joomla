@@ -372,7 +372,12 @@ class HTML_admin_misc {
 	 */
 	function help() {
 		global $mosConfig_live_site;
-		$helpurl = mosGetParam( $GLOBALS, 'mosConfig_helpurl', '' );
+		$helpurl 	= mosGetParam( $GLOBALS, 'mosConfig_helpurl', '' );
+		
+		if ( $helpurl == 'http://help.mamboserver.com' ) {
+			$helpurl = 'http://help.joomla.org';
+		}
+		
 		$fullhelpurl = $helpurl . '/index2.php?option=com_content&amp;task=findkey&pop=1&keyref=';
 
 		$helpsearch = mosGetParam( $_REQUEST, 'helpsearch', '' );

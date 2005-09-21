@@ -19,7 +19,6 @@ require_once( 'configuration.php' );
 require_once( 'includes/joomla.php' );
 
 // displays offline/maintanance page or bar
-// displays offline/maintanance page or bar
 if ($mosConfig_offline == 1) {
 	require( 'offline.php' );
 }
@@ -140,5 +139,4 @@ if ( $no_html == 0 ) {
 	mosMainBody();
 }
 doGzip();
-
 ?>
