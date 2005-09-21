@@ -1460,7 +1460,7 @@ function cancelContent( &$access ) {
 		$referer = 'index.php?option=com_content&task=view&id='. $row->id.'&Itemid='. $Itemid;
 	}
 
-	if ( $referer ) {
+	if ( $referer && !( $query['task'] == 'new' ) ) {
 		mosRedirect( $referer );
 	} else {
 		mosRedirect( 'index.php' );
