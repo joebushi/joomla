@@ -332,7 +332,6 @@ class HTML_trash {
 		<br /><br />
 
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
-		<input type="hidden" name="sectionid" value="<?php echo $sectionid; ?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="1" />
 		<input type="hidden" name="type" value="<?php echo $type; ?>" />

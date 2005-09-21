@@ -32,6 +32,7 @@ Legend:
 
 
 21-Sep-2005 Rey Gigataras
+ # Fixed undefined variable in Trash Manager
  # Fixed [RC] `Trash` button when no item selected
  # Fixed [RC] `New` Menu Item Type `Next` button bug
 
