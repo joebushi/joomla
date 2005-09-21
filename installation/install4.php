@@ -181,7 +181,7 @@ if ($siteUrl) {
 	$config .= "\$mosConfig_allowUserRegistration = '1';\n";
 	$config .= "\$mosConfig_link_titles = '0';\n";
 	$config .= "\$mosConfig_error_reporting = -1;\n";
-	$config .= "\$mosConfig_list_limit = '10';\n";
+	$config .= "\$mosConfig_list_limit = '30';\n";
 	$config .= "\$mosConfig_caching = '0';\n";
 	$config .= "\$mosConfig_cachepath = '{$configArray['absolutePath']}/cache';\n";
 	$config .= "\$mosConfig_cachetime = '900';\n";
