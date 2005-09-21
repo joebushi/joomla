@@ -32,7 +32,8 @@ Legend:
 
 
 21-Sep-2005 Rey Gigataras
- # Fixed New Menu Type `Next` button bug [RC]
+ # Fixed [RC] `Trash` button when no item selected
+ # Fixed [RC] `New` Menu Item Type `Next` button bug
 
 20-Sep-2005 Levis Bisson
  ^ added a chmod to the install unlink function

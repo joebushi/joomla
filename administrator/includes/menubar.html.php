@@ -390,11 +390,18 @@ class mosMenuBar {
 	/**
 	* Write a trash button that will move items to Trash Manager
 	*/
-	function trash( $task='remove', $alt='Trash' ) {
+	function trash( $task='remove', $alt='Trash', $check=true ) {
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'delete_f2.png', '/administrator/images/', NULL, NULL, $alt, $task, 1 );
+		
+		if ( $check ) {
+			$js = "javascript:if (document.adminForm.boxchecked.value == 0){ alert('Please make a selection from the list to Trash'); } else { submitbutton('$task');}";
+		} else {
+			$js = "javascript:submitbutton('$task');";
+		}
+		
 		?>
 		 <td>
-			<a class="toolbar" href="javascript:submitbutton('<?php echo $task;?>');">
+			<a class="toolbar" href="<?php echo $js; ?>">
 				<?php echo $image2; ?>
 				<br /><?php echo $alt; ?></a>
 		</td>
