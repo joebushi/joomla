@@ -37,12 +37,17 @@ $query = "SELECT a.id AS id, a.title AS title, COUNT(b.id) as cnt"
 $database->setQuery( $query );
 $rows = $database->loadObjectList();
 
+$bs 	= $mainframe->getBlogSectionCount();
+$bc 	= $mainframe->getBlogCategoryCount();
+$gbs 	= $mainframe->getGlobalBlogSectionCount();
+
 if ( $rows ) {
 	?>
 	<ul>
 	<?php
 		foreach ($rows as $row) {
-			$link = sefRelToAbs( "index.php?option=com_content&task=blogsection&id=". $row->id );
+			$_Itemid = $mainframe->getItemid( $row->id, 0, 0, $bs, $bc, $gbs );
+			$link 	= sefRelToAbs( "index.php?option=com_content&task=blogsection&id=". $row->id ."&Itemid=". $_Itemid );
 			?>
 			<li>
 				<a href="<?php echo $link;?>">
