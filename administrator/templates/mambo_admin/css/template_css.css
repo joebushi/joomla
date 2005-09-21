@@ -399,3 +399,8 @@ table.paramlist td {
 #cpanel div.iconimage { 
 	padding-top: 13px; 
 }
+.menudottedline {
+	border-bottom: 1px solid #cccccc;
+	border-top: 1px solid #ffffff;
+	background-color: #F1F3F5;
+}

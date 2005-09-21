@@ -65,9 +65,9 @@ echo "<meta name=\"Generator\" content=\"Mambo (C) 2000 - 2005 Miro Internationa
     <td class="menudottedline" width="40%">
     	<?php mosLoadAdminModule( 'pathway' );?>
     </td>
-    <td class="menudottedline" align="right">
-  		<?php mosLoadAdminModule( 'toolbar' );?>
-    </td>
+	<td class="menudottedline" align="right">
+		<?php mosLoadAdminModule( 'toolbar' );?>
+	</td>
   </tr>
 </table>
 <br />
