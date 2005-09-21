@@ -32,6 +32,7 @@ Legend:
 
 
 21-Sep-2005 Rey Gigataras
+ # Fixed artf1171 : mod_related_items shows all items twice
  # Fixed artf1167 : Component - Search
  # Fixed [RC] incorrect redirect when cancelling from Frontend 'Submit - Content'
  # Fixed undefined variable in Trash Manager

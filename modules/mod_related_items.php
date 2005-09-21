@@ -57,7 +57,6 @@ if ($option == 'com_content' && $task == 'view' && $id) {
 						$Itemid = $mainframe->getItemid($item->id);
 					}
 					$href = sefRelToAbs( "index.php?option=com_content&task=view&id=$item->id&Itemid=$Itemid" );
-					echo '<li><a href="'. $href .'">'. $item->title .'</a></li>';
 					?>
 					<li>
 						<a href="<?php echo $href; ?>">
