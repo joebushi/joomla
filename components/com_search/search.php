@@ -101,7 +101,7 @@ function viewSearch() {
 	$lists['searchphrase']= mosHTML::radioList( $searchphrases, 'searchphrase', '', $searchphrase );
 
 	// html output
-	search_html::searchbox( htmlspecialchars( $searchword ), $lists, $params );
+	search_html::searchbox( htmlspecialchars( stripslashes( $searchword ) ), $lists, $params );
 
 	if (!$searchword) {
 		if ( count( $_POST ) ) {
@@ -114,7 +114,10 @@ function viewSearch() {
 		search_html::message( _IGNOREKEYWORD, $params );
 	} else {
 		// html output
-		search_html::searchintro( htmlspecialchars( $searchword ), $params );
+		
+		$searchword_clean = htmlspecialchars( stripslashes( $searchword ) );
+		
+		search_html::searchintro( $searchword_clean, $params );
 
 		mosLogSearch( $searchword );
 		$phrase 	= mosGetParam( $_REQUEST, 'searchphrase', '' );
@@ -134,19 +137,20 @@ function viewSearch() {
 		for ($i=0; $i < $totalRows; $i++) {
 			$row = &$rows[$i]->text;
 			if ($phrase == 'exact') {
-		$searchwords = array($searchword);
-		$needle = $searchword;
-	  } else {
-		$searchwords = explode(' ', $searchword);
-		$needle = $searchwords[0];
-	  }
-
-		$row = mosPrepareSearchContent( $row, 200, $needle );
-
-	  foreach ($searchwords as $hlword) {
-			 $row = eregi_replace( $hlword, "<span class=\"highlight\">\\0</span>", $row);
+				$searchwords = array($searchword);
+				$needle = $searchword;
+			} else {
+				$searchwords = explode(' ', $searchword);
+				$needle = $searchwords[0];
 			}
 
+			$row = mosPrepareSearchContent( $row, 200, $needle );
+	
+		  	foreach ($searchwords as $hlword) {
+				$hlword = htmlspecialchars( stripslashes( $hlword ) );
+				$row = eregi_replace( $hlword, '<span class="highlight">\0</span>', $row );				
+			}
+	
 			if (!eregi( '^http', $rows[$i]->href )) {
 				// determines Itemid for Content items
 				if ( strstr( $rows[$i]->href, 'view' ) ) {
@@ -169,14 +173,14 @@ function viewSearch() {
 			require_once( $GLOBALS['mosConfig_absolute_path'] . '/includes/pageNavigation.php' );
 			$pageNav = new mosPageNav( $total, $limitstart, $limit );
 
-			search_html::display( $rows, $params, $pageNav, $limitstart, $limit, $total, $totalRows, htmlspecialchars( $searchword ) );
+			search_html::display( $rows, $params, $pageNav, $limitstart, $limit, $total, $totalRows, $searchword_clean );
 		} else {
 		// html output
 			search_html::displaynoresult();
 		}
 
 		// html output
-		search_html::conclusion( $totalRows, htmlspecialchars( $searchword ), $pageNav );
+		search_html::conclusion( $totalRows, $searchword_clean, $pageNav );
 	}
 
 	// displays back button
