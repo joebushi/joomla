@@ -32,6 +32,7 @@ Legend:
 
 
 22-Sep-2005 Rey Gigataras
+ + Added Version Information to bottom of joomla_admin template, with link to 'Joomla! 1.0.x Series Information'
  # Fixed artf1175 : Create catagory with selection of Section
  # Fixed artf1179 : Custom RSS Newsfeed Module has nested <TR>
 

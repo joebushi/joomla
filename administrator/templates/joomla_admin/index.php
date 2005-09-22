@@ -89,13 +89,20 @@ initEditor();
 			<div align="center">
 				<?php echo $_VERSION->URL; ?>
 			</div>
+			<div align="center" class="smallgrey">
+				<?php echo $version; ?>
+				<br/>
+				<a href="http://www.joomla.org/content/view/205/52/" target="_blank">Check for latest Version</a>
+			</div>			
 			<?php
-			echo '<div class="smallgrey">';
-			$tend = mosProfiler::getmicrotime();
-			$totaltime = ($tend - $tstart);
-			printf ("Page was generated in %f seconds", $totaltime);
-			echo '</div>';
-			?>
+			if ( $mosConfig_debug ) {
+				echo '<div class="smallgrey">';
+				$tend = mosProfiler::getmicrotime();
+				$totaltime = ($tend - $tstart);
+				printf ("Page was generated in %f seconds", $totaltime);
+				echo '</div>';
+			}
+			?>			
 		</td>
 	</tr>
 	</table>
