@@ -137,16 +137,21 @@ class modules_html {
 			// feed title
 			?>
 			<table cellpadding="0" cellspacing="0" class="moduletable<?php echo $moduleclass_sfx; ?>">			
-			<tr>
-				<td>
-					<strong>
-					<a href="<?php echo $currChannel->getLink(); ?>" target="_blank">
-						<?php echo $currChannel->getTitle(); ?></a>
-					</strong>
-				</td>
-			</tr>
-
 			<?php
+			// feed description
+			if ( $currChannel->getTitle() ) {
+				?>
+				<tr>
+					<td>
+						<strong>
+						<a href="<?php echo $currChannel->getLink(); ?>" target="_blank">
+							<?php echo $currChannel->getTitle(); ?></a>
+						</strong>
+					</td>
+				</tr>
+				<?php
+			}
+
 			// feed description
 			if ( $rssdesc ) {
 				?>
