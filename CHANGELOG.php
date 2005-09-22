@@ -32,6 +32,7 @@ Legend:
 
 
 22-Sep-2005 Rey Gigataras
+ # Fixed artf1175 : Create catagory with selection of Section
  # Fixed artf1179 : Custom RSS Newsfeed Module has nested <TR>
 
 -------------------- 1.0.1 Released ----------------------

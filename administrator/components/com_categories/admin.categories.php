@@ -254,8 +254,20 @@ function editCategory( $uid=0, $section='' ) {
 	global $database, $my;
 
 	$type 		= mosGetParam( $_REQUEST, 'type', '' );
-	$redirect 	= mosGetParam( $_REQUEST, 'section', 'content' );
-
+	$redirect 	= mosGetParam( $_REQUEST, 'section', 'content' );	
+	
+	// check for existance of any sections
+	$query = "SELECT COUNT( id )"
+	. "\n FROM #__sections"
+	. "\n WHERE scope = 'content'"
+	;
+	$database->setQuery( $query );
+	$sections = $database->loadResult();
+	if (!$sections) {
+		echo "<script> alert('You need to have at least one Section before you can create a Category'); window.history.go(-1); </script>\n";
+		exit();
+	}	
+	
 	$row = new mosCategory( $database );
 	// load the row from the db table
 	$row->load( $uid );
