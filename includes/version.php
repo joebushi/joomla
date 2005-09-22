@@ -21,13 +21,13 @@ class joomlaVersion {
 	/** @var int Main Release Level */
 	var $RELEASE 	= '1.0';
 	/** @var string Development Status */
-	var $DEV_STATUS = 'Stable';
+	var $DEV_STATUS = 'SVN';
 	/** @var int Sub Release Level */
-	var $DEV_LEVEL 	= '1';
+	var $DEV_LEVEL 	= '2';
 	/** @var int build Number */
 	var $BUILD	 	= '$Revision$';
 	/** @var string Codename */
-	var $CODENAME 	= 'Sunburst';
+	var $CODENAME 	= 'Sunset';
 	/** @var string Date */
 	var $RELDATE 	= '21-Sep-2005';
 	/** @var string Time */

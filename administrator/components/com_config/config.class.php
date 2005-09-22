@@ -66,7 +66,7 @@ class mosConfig {
 	/** @var int */
 	var $config_error_reporting	= 0;
 	/** @var string */
-	var $config_helpurl			= '';
+	var $config_helpurl			= 'http://help.joomla.org';
 	/** @var string */
 	var $config_fileperms		= '0644';
 	/** @var string */
