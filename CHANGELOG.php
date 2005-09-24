@@ -31,6 +31,9 @@ Legend:
 ! -> Note
 
 
+24-Sep-2005 Rey Gigataras
+ ^ artf1214 : pastarchives.jpg seems unintuitive.
+
 22-Sep-2005 Rey Gigataras
  + Added Version Information to bottom of joomla_admin template, with link to 'Joomla! 1.0.x Series Information'
  # Fixed artf1175 : Create catagory with selection of Section
