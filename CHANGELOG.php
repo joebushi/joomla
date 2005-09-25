@@ -34,6 +34,7 @@ Legend:
 25-Sep-2005 Emir Sakic
  # Fixed artf1185 : globals.php-off breaks pathway
  # Fixed artf1196 : undefined constant categoryid
+ # Fixed artf1216 : madeyourweb no </head> TAG
 
 24-Sep-2005 Rey Gigataras
  ^ artf1214 : pastarchives.jpg seems unintuitive.
