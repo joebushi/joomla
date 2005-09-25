@@ -32,7 +32,6 @@ function pathwayMakeLink( $id, $name, $link, $parent ) {
 */
 function showPathway( $Itemid ) {
 	global $database, $option, $task, $mainframe, $mosConfig_absolute_path, $mosConfig_live_site;
-	global $QUERY_STRING, $REQUEST_URI;
 
 	// get the home page
 	$query = "SELECT id, name, link, parent, type"
@@ -56,7 +55,7 @@ function showPathway( $Itemid ) {
 	$mitems = $database->loadObjectList( 'id' );
 
 	$isWin = (substr(PHP_OS, 0, 3) == 'WIN');
-	$optionstring = $isWin ? $QUERY_STRING : $REQUEST_URI;
+	$optionstring = $isWin ? $_SERVER['QUERY_STRING'] : $_SERVER['REQUEST_URI'];
 
 	// are we at the home page or not
 	$homekeys 	= array_keys( $mitems );
@@ -275,7 +274,7 @@ function showPathway( $Itemid ) {
 
 		// converts & to &amp; for xtml compliance
 		$itemname = ampReplace( $item->name );
-		
+
 		// if it is the current page, then display a non hyperlink
 		if ($item->id == $Itemid || empty( $mid ) || empty($item->link)) {
 			$newlink = "  $itemname";

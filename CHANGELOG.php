@@ -31,6 +31,9 @@ Legend:
 ! -> Note
 
 
+25-Sep-2005 Emir Sakic
+ # Fixed artf1185 : globals.php-off breaks pathway
+
 24-Sep-2005 Rey Gigataras
  ^ artf1214 : pastarchives.jpg seems unintuitive.
 
@@ -55,14 +58,14 @@ Legend:
 20-Sep-2005 Levis Bisson
  ^ added a chmod to the install unlink function
  # Fixed artf1150 : the created_by on initial creation of Static Content Item
- 
+
 20-Sep-2005 Marko Schmuck
  ^ Changed Time Offsets to hardcoded list with country/city names
- 
+
 20-Sep-2005 Rey Gigataras
  # Fixed /installation/ folder check
  # Fixed artf1153 : Quote appears in com_poll error
- # Fixed artf1151 : empty span 
+ # Fixed artf1151 : empty span
  # Fixed artf1089 : multile select image insert reverses list order
  # Fixed artf1138 : Joomla allows creation of double used username
  # Fixed artf1133 : There is no install request to make /mambot/editor writeable
@@ -82,12 +85,12 @@ Legend:
  # Installed Editor Mambots are now published by default
  # Fixed error in RSS module
  # Fixed artf1106 : Default Editor Will Not Take Codes Like Java Script
- # Fixed delete file in Media Manager 
+ # Fixed delete file in Media Manager
 
 18-Sep-2005 Arno Zijlstra
  # Fixed artf1084 : <br> stays in empty content
  # Fixed artf1101: Typo in Global Config
- 
+
 18-Sep-2005 Andrew Eddie
  # Fixed issues in patTemplate Translate Function and Modifier
  # Fixed issue with patTemplate variable for Tabs graphics
@@ -119,7 +122,7 @@ Legend:
  # Fixed artf1025: Registration admin notification
  # Fixed artf1043: Template Chooser doesn't work
  # Fixed artf1042: Template Chooser shows rogue entry
- 
+
 -------------------- 1.0.0 Released ----------------------
 
 16-Sep-2005 Andrew Eddie
