@@ -30,7 +30,9 @@ Legend:
 - -> Removed
 ! -> Note
 
-
+27-Sep-2005 Arno Zijlstra
+ # Fixed artf1253: Apply button image path
+ 
 25-Sep-2005 Emir Sakic
  # Fixed artf1185 : globals.php-off breaks pathway
  # Fixed artf1196 : undefined constant categoryid

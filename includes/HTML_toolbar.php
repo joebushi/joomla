@@ -282,7 +282,7 @@ class mosToolBar {
 	* @param string An override for the alt text
 	*/
 	function apply( $task='apply', $alt='Apply' ) {
-		$image = mosAdminMenus::ImageCheck( 'apply_f2.png', '/administrator/images/', NULL, NULL, $alt, $task, 1 );
+		$image = mosAdminMenus::ImageCheck( 'apply_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
 		?>
 		<td>
 			<a class="toolbar" href="javascript:submitbutton('<?php echo $task;?>');" >
