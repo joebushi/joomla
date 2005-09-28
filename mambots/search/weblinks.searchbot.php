@@ -92,7 +92,7 @@ function botSearchWeblinks( $text, $phrase='', $ordering='' ) {
 	. "\n FROM #__weblinks AS a"
 	. "\n INNER JOIN #__categories AS b ON b.id = a.catid AND b.access <= '$my->gid'"
 	. "\n WHERE ($where)"
-	. "\n AND published = 1"
+	. "\n AND a.published = 1"
 	. "\n ORDER BY $order"
 	;
 	$database->setQuery( $query );
