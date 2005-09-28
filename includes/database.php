@@ -1027,7 +1027,7 @@ class mosDBTable {
 		if ($oid !== null) {
 			$this->$k = $oid;
 		}
-		$time = date( '%Y-%m-%d H:i:s' );
+		$time = date( 'Y-m-d H:i:s' );
 		if (intval( $who )) {
 			// new way of storing editor, by id
 			$query = "UPDATE $this->_tbl"
@@ -1035,6 +1035,9 @@ class mosDBTable {
 			. "\n WHERE $this->_tbl_key = '". $this->$k ."'"
 			;
 			$this->_db->setQuery( $query );
+
+            $this->checked_out = $who;
+            $this->checked_out_time = $time;
 		} else {
 			// old way of storing editor, by name
 			$query = "UPDATE $this->_tbl"
@@ -1042,7 +1045,12 @@ class mosDBTable {
 			. "\n WHERE $this->_tbl_key = '". $this->$k ."'"
 			;
 			$this->_db->setQuery( $query );
+
+            $this->checked_out = 1;
+            $this->checked_out_time = $time;
+            $this->checked_out_editor = $who;
 		}
+
 		return $this->_db->query();
 	}
 
@@ -1061,6 +1069,10 @@ class mosDBTable {
 		. "\n WHERE $this->_tbl_key = '". $this->$k ."'"
 		;
 		$this->_db->setQuery( $query );
+
+        $this->checked_out = 0;
+        $this->checked_out_time = '';
+
 		return $this->_db->query();
 	}
 
