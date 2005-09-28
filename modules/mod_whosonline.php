@@ -29,9 +29,6 @@ if ($showmode==0 || $showmode==2) {
 	$query2 = "SELECT DISTINCT COUNT( username ) AS user_online"
 	. "\n FROM #__session"
 	. "\n WHERE guest = 0"
-	. "\n AND LOWER( usertype ) <> 'administrator'"
-	. "\n AND LOWER( usertype ) <> 'superadministrator'"
-	. "\n AND LOWER( usertype ) <> 'super administrator'"
 	;
 	$database->setQuery($query2);
 	$user_array = $database->loadResult();

@@ -31,8 +31,9 @@ Legend:
 ! -> Note
 
 27-Sep-2005 Arno Zijlstra
- # Fixed artf1253: Apply button image path
- # Fixed artf1240: WITH FIX: banners component - undefined var task
+ # Fixed artf1253 : Apply button image path
+ # Fixed artf1240 : WITH FIX: banners component - undefined var task
+ # Fixed artf1242 : Problem with "Who's online"
  
 25-Sep-2005 Emir Sakic
  # Fixed artf1185 : globals.php-off breaks pathway
