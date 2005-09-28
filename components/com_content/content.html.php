@@ -25,7 +25,7 @@ class HTML_content {
 	* Draws a Content List
 	* Used by Content Category & Content Section
 	*/
-	function showContentList( $title, &$items, &$access, $id=0, $sectionid=NULL, $gid, &$params, &$pageNav, $other_categories, &$lists ) {
+	function showContentList( $title, &$items, &$access, $id=0, $sectionid=NULL, $gid, &$params, &$pageNav, $other_categories, &$lists, $order ) {
 		global $Itemid, $mosConfig_live_site;
 
 		if ( $sectionid ) {
@@ -65,7 +65,7 @@ class HTML_content {
 			<?php
 			// Displays the Table of Items in Category View
 			if ( $items ) {
-				HTML_content::showTable( $params, $items, $gid, $catid, $id, $pageNav, $access, $sectionid, $lists );
+				HTML_content::showTable( $params, $items, $gid, $catid, $id, $pageNav, $access, $sectionid, $lists, $order );
 			} else if ( $catid ) {
 				?>
 				<br />
@@ -148,9 +148,9 @@ class HTML_content {
 	/**
 	* Display Table of items
 	*/
-	function showTable( &$params, &$items, &$gid, $catid, $id, &$pageNav, &$access, &$sectionid, &$lists ) {
+	function showTable( &$params, &$items, &$gid, $catid, $id, &$pageNav, &$access, &$sectionid, &$lists, $order ) {
 		global $mosConfig_live_site, $Itemid;
-		$link = 'index.php?option=com_content&amp;task=category&amp;sectionid='. $sectionid .'&amp;id='. $catid .'&amp;Itemid='. $Itemid;
+		$link = 'index.php?option=com_content&amp;task=category&amp;sectionid='. $sectionid .'&amp;id='. $catid .'&amp;order='. $order .'&amp;Itemid='. $Itemid;
 		?>
 		<form action="<?php echo sefRelToAbs($link); ?>" method="post" name="adminForm">
 		<table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -186,7 +186,7 @@ class HTML_content {
 						<td align="right" width="100%" nowrap="nowrap">
 						<?php
 						echo '&nbsp;&nbsp;&nbsp;'. _PN_DISPLAY_NR .'&nbsp;';
-						$link = 'index.php?option=com_content&amp;task=category&amp;sectionid='. $sectionid .'&amp;id='. $catid .'&amp;Itemid='. $Itemid;
+						$link = 'index.php?option=com_content&amp;task=category&amp;sectionid='. $sectionid .'&amp;id='. $catid .'&amp;order='. $order .'&amp;Itemid='. $Itemid;
 						echo $pageNav->getLimitBox( $link );
 						?>
 						</td>
@@ -301,7 +301,7 @@ class HTML_content {
 			<tr>
 				<td align="center" colspan="4" class="sectiontablefooter<?php echo $params->get( 'pageclass_sfx' ); ?>">
 				<?php
-				$link = 'index.php?option=com_content&amp;task=category&amp;sectionid='. $sectionid .'&amp;id='. $catid .'&amp;Itemid='. $Itemid;
+				$link = 'index.php?option=com_content&amp;task=category&amp;sectionid='. $sectionid .'&amp;id='. $catid .'&amp;order='. $order .'&amp;Itemid='. $Itemid;
 				echo $pageNav->writePagesLinks( $link );
 				?>
 				</td>

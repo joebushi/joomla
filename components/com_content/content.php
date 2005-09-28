@@ -22,6 +22,7 @@ $sectionid 	= mosGetParam( $_REQUEST, 'sectionid', 0 );
 $pop 		= intval( mosGetParam( $_REQUEST, 'pop', 0 ) );
 $id 		= intval( mosGetParam( $_REQUEST, 'id', 0 ) );
 $limit 		= intval( mosGetParam( $_REQUEST, 'limit', '' ) );
+$order 		= mosGetParam( $_REQUEST, 'order', '' );
 $limitstart = intval( mosGetParam( $_REQUEST, 'limitstart', 0 ) );
 
 $now = date( 'Y-m-d H:i', time() + $mosConfig_offset * 60 * 60 );
@@ -56,7 +57,7 @@ switch ( strtolower( $task ) ) {
 		break;
 
 	case 'category':
-		$cache->call( 'showCategory', $id, $gid, $access, $sectionid, $limit, $limitstart, $now );
+		$cache->call( 'showCategory', $id, $gid, $access, $sectionid, $limit, $order, $limitstart, $now );
 		break;
 
 	case 'blogsection':
@@ -260,7 +261,7 @@ function showSection( $id, $gid, &$access, $now ) {
 	$mainframe->SetPageTitle( $menu->name );
 
 	$null = null;
-	HTML_content::showContentList( $section, $null, $access, $id, $null,  $gid, $params, $null, $categories, $null );
+	HTML_content::showContentList( $section, $null, $access, $id, $null,  $gid, $params, $null, $categories, $null, $null );
 }
 
 
@@ -272,12 +273,11 @@ function showSection( $id, $gid, &$access, $now ) {
 * @param int The number of items to dislpay
 * @param int The offset for pagination
 */
-function showCategory( $id, $gid, &$access, $sectionid, $limit, $limitstart, $now  ) {
+function showCategory( $id, $gid, &$access, $sectionid, $limit, $selected, $limitstart, $now  ) {
 	global $database, $mainframe, $Itemid, $mosConfig_list_limit;
 
 	$nullDate = $database->getNullDate();
 	$noauth = !$mainframe->getCfg( 'shownoauth' );
-	$selected = mosGetParam( $_POST, 'order', '' );
 
 	// Paramters
 	$params = new stdClass();
@@ -471,7 +471,7 @@ function showCategory( $id, $gid, &$access, $sectionid, $limit, $limitstart, $no
 	// Dynamic Page Title
 	$mainframe->SetPageTitle( $pagetitle );
 
-	HTML_content::showContentList( $category, $items, $access, $id, $sectionid, $gid, $params, $pageNav, $other_categories, $lists );
+	HTML_content::showContentList( $category, $items, $access, $id, $sectionid, $gid, $params, $pageNav, $other_categories, $lists, $selected );
 } // showCategory
 
 
