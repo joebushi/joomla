@@ -42,9 +42,9 @@ class TOOLBAR_contact {
 
 	function _DEFAULT() {
 		mosMenuBar::startTable();
-		mosMenuBar::publish();
+		mosMenuBar::publishList();
 		mosMenuBar::spacer();
-		mosMenuBar::unpublish();
+		mosMenuBar::unpublishList();
 		mosMenuBar::spacer();
 		mosMenuBar::deleteList();
 		mosMenuBar::spacer();

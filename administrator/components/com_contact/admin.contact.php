@@ -266,10 +266,10 @@ function removeContacts( &$cid, $option ) {
 function changeContact( $cid=null, $state=0, $option ) {
 	global $database, $my;
 
-	if (count( $cid ) < 1) {
-		$action = $state == 1 ? 'publish' : 'unpublish';
-		echo "<script> alert('Select a record to $action'); window.history.go(-1);</script>\n";
-		exit;
+	if (!is_array( $cid ) || count( $cid ) < 1) {
+		$action = $publish ? 'publish' : 'unpublish';
+		echo "<script> alert('Select an item to $action'); window.history.go(-1);</script>\n";
+		exit();
 	}
 
 	$cids = implode( ',', $cid );

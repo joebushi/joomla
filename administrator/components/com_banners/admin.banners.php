@@ -211,7 +211,7 @@ function publishBanner( $cid, $publish=1 ) {
 	if (!is_array( $cid ) || count( $cid ) < 1) {
 		$action = $publish ? 'publish' : 'unpublish';
 		echo "<script> alert('Select an item to $action'); window.history.go(-1);</script>\n";
-		exit;
+		exit();
 	}
 
 	$cids = implode( ',', $cid );

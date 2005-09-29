@@ -154,6 +154,7 @@ class HTML_contact {
 		mosMakeHtmlSafe( $row, ENT_QUOTES, 'misc' );
 		?>
 		<script language="javascript" type="text/javascript">
+		<!--
 		function submitbutton(pressbutton) {
 			var form = document.adminForm;
 			if (pressbutton == 'cancel') {
@@ -170,6 +171,7 @@ class HTML_contact {
 				submitform( pressbutton );
 			}
 		}
+		//-->
 		</script>
 		<div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
 		<form action="index2.php" method="post" name="adminForm">

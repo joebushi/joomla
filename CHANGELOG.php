@@ -30,15 +30,18 @@ Legend:
 - -> Removed
 ! -> Note
 
+29-Sep-2005 Arno Zijlstra
+ # Fixed publish/unpublish select check in contacts
+
 29-Sep-2005 Rey Gigataras
  # Fixed artf1281 : Bad name of XML file
  # Fixed artf1180 : Call-by-reference warning when editing menu
  # Fixed artf1188 : includes/vcard.class.php uses short open tags
  
-29-Sep-2005 Lévis Bisson
+29-Sep-2005 Lï¿½vis Bisson
 # Fixed artf1274 : Module display bug when using register/forgot password links
 
-28-Sep-2005 Lévis Bisson
+28-Sep-2005 Lï¿½vis Bisson
  # Fixed artf1250 : Order is no use when many pages
  # Fixed artf1254 : Unable to delete when count > 1
  # Fixed artf1248 : Invalid argument supplied for 3P modules
