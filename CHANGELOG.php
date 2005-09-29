@@ -34,6 +34,7 @@ Legend:
  # Fixed publish/unpublish select check in contacts
 
 29-Sep-2005 Rey Gigataras
+ # Fixed artf1276 : tiny mce background
  # Fixed artf1281 : Bad name of XML file
  # Fixed artf1180 : Call-by-reference warning when editing menu
  # Fixed artf1188 : includes/vcard.class.php uses short open tags

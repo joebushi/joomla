@@ -22,7 +22,7 @@ $_MAMBOTS->registerFunction( 'onEditorArea', 'botTinymceEditorEditorArea' );
 * TinyMCE WYSIWYG Editor - javascript initialisation
 */
 function botTinymceEditorInit() {
-	global $mosConfig_live_site, $database, $mosConfig_absolute_path;
+	global $mosConfig_live_site, $database, $mosConfig_absolute_path, $mainframe;
 
 	// load tinymce info
 	$query = "SELECT id"
@@ -78,17 +78,17 @@ function botTinymceEditorInit() {
 	$fullscreen			=  $params->def( 'fullscreen', 1 );
 
 	if ( $content_css ) {
-		$query = "SELECT template"
-		. "\n FROM #__templates_menu"
-		. "\n WHERE client_id = 0"
-		. "\n AND menuid = 0"
-		;
-		$database->setQuery( $query );
-		$template 		= $database->loadResult();
-		$content_css	= 'content_css : "'. $mosConfig_live_site .'/templates/'. $template .'/css/template_css.css"';
+		$template 		= $mainframe->getTemplate();
+		
+		$file			= $mosConfig_absolute_path .'/templates/'. $template .'/css/editor_content.css';
+		if ( file_exists( $file ) ) {
+			$content_css	= 'content_css : "'. $file .'", ';
+		} else {
+			$content_css	= 'content_css : "'. $mosConfig_live_site .'/templates/'. $template .'/css/template_css.css", ';
+		}
 	} else {
 		if ( $content_css_custom ) {
-			$content_css = 'content_css : "'. $content_css_custom .'"';
+			$content_css = 'content_css : "'. $content_css_custom .'", ';
 		} else {
 			$content_css = '';
 		}
@@ -186,7 +186,7 @@ return <<<EOD
 		theme_advanced_source_editor_width : "$html_width",
 		directionality: "$text_direction",
 		force_br_newlines : "$newlines",
-		$content_css,
+		$content_css
 		debug : false,
 		cleanup : $cleanup,
 		safari_warning : false,
