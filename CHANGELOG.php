@@ -38,10 +38,10 @@ Legend:
  # Fixed artf1180 : Call-by-reference warning when editing menu
  # Fixed artf1188 : includes/vcard.class.php uses short open tags
  
-29-Sep-2005 L�vis Bisson
+29-Sep-2005 Levis Bisson
 # Fixed artf1274 : Module display bug when using register/forgot password links
 
-28-Sep-2005 L�vis Bisson
+28-Sep-2005 Levis Bisson
  # Fixed artf1250 : Order is no use when many pages
  # Fixed artf1254 : Unable to delete when count > 1
  # Fixed artf1248 : Invalid argument supplied for 3P modules
