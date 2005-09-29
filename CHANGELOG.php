@@ -30,6 +30,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+29-Sep-2005 Lévis Bisson
+# Fixed artf1274 : Module display bug when using register/forgot password links
+
 28-Sep-2005 Lévis Bisson
  # Fixed artf1250 : Order is no use when many pages
  # Fixed artf1254 : Unable to delete when count > 1
