@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <mosinstall type="component" version="1.0.0">
-	<name>Contact Items</name>
+	<name>Login</name>
 	<author>Joomla! Project</author>
 	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
 	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.0.0</version>
-	<description>Parameters for individual Contact Items</description>
+	<description>Parameters for Login Component</description>
 	<params>
 		<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="A small image to be placed to the left or right of your menu item, images must be in images/stories/" />
 		<param name="pageclass_sfx" type="text" default="" label="Page Class Suffix" description="A suffix to be applied to the css classes of the page, this allows individual page styling" />
