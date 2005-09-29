@@ -31,6 +31,7 @@ Legend:
 ! -> Note
 
 29-Sep-2005 Rey Gigataras
+ # Fixed artf1180 : Call-by-reference warning when editing menu
  # Fixed artf1188 : includes/vcard.class.php uses short open tags
  
 29-Sep-2005 Lévis Bisson

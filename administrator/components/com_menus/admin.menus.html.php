@@ -219,7 +219,7 @@ class HTML_menusections {
 
 						$link = 'index2.php?option=com_menus&menutype='. $menutype .'&task=edit&hidemainmenu=1&type='. $row->type;
 						
-						HTML_menusections::htmlOptions( &$row, $link, $k, $i );
+						HTML_menusections::htmlOptions( $row, $link, $k, $i );
 						
 						$k = 1 - $k;
 					}
