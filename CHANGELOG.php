@@ -30,9 +30,10 @@ Legend:
 - -> Removed
 ! -> Note
 
-28-Sep-2005 Levis Bisson
+28-Sep-2005 Lévis Bisson
  # Fixed artf1250 : Order is no use when many pages
  # Fixed artf1254 : Unable to delete when count > 1
+ # Fixed artf1248 : Invalid argument supplied for 3P modules
  
 27-Sep-2005 Arno Zijlstra
  # Fixed artf1253 : Apply button image path
