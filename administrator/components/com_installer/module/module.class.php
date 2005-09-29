@@ -127,73 +127,75 @@ class mosInstallerModule extends mosInstaller {
 
 		$query = "SELECT id"
 		. "\n FROM #__modules"
-		. "\n WHERE module = '$row->module'"
+		. "\n WHERE module = '". $row->module ."' AND client_id = '". $row->client_id ."'"
 		;
 		$database->setQuery( $query );
 		$modules = $database->loadResultArray();
 
 		if (count( $modules )) {
+            $modID = implode( ',', $modules );
+
 			$query = "DELETE FROM #__modules_menu"
-			. "\n WHERE moduleid IN ( ".implode( "','", $modules ) ." )"
+			. "\n WHERE moduleid IN ( ". $modID ." )"
 			;
 			$database->setQuery( $query );
 			if (!$database->query()) {
 				$msg = $database->stderr;
 				die( $msg );
 			}
-		}
 
-		$query = "DELETE FROM #__modules"
-		. "\n WHERE module = '$row->module'"
-		;
-		$database->setQuery( $query );
-		if (!$database->query()) {
-			$msg = $database->stderr;
-			die( $msg );
-		}
+    		$query = "DELETE FROM #__modules"
+    		. "\n WHERE module = '". $row->module ."' AND client_id = '". $row->client_id ."'"
+    		;
+    		$database->setQuery( $query );
+    		if (!$database->query()) {
+    			$msg = $database->stderr;
+    			die( $msg );
+    		}
 
-		if ( $row->client_id ) {
-			$basepath = $mosConfig_absolute_path . '/administrator/modules/';
-		} else {
-			$basepath = $mosConfig_absolute_path . '/modules/';
-		}
+    		if ( !$row->client_id ) {
+    			$basepath = $mosConfig_absolute_path . '/modules/';
+    		} else {
+    			$basepath = $mosConfig_absolute_path . '/administrator/modules/';
+    		}
 
-  		$xmlfile = $basepath . $row->module . '.xml';
+      		$xmlfile = $basepath . $row->module . '.xml';
 
-			// see if there is an xml install file, must be same name as element
-		if (file_exists( $xmlfile )) {
-			$this->i_xmldoc = new DOMIT_Lite_Document();
-			$this->i_xmldoc->resolveErrors( true );
+    			// see if there is an xml install file, must be same name as element
+    		if (file_exists( $xmlfile )) {
+    			$this->i_xmldoc = new DOMIT_Lite_Document();
+    			$this->i_xmldoc->resolveErrors( true );
 
-			if ($this->i_xmldoc->loadXML( $xmlfile, false, true )) {
-				$mosinstall =& $this->i_xmldoc->documentElement;
-				// get the files element
-				$files_element =& $mosinstall->getElementsByPath( 'files', 1 );
-				if (!is_null( $files_element )) {
-					$files = $files_element->childNodes;
-					foreach ($files as $file) {
-						// delete the files
-						$filename = $file->getText();
-						if (file_exists( $basepath . $filename )) {
-							$parts = pathinfo( $filename );
-							$subpath = $parts['dirname'];
-							if ($subpath <> '' && $subpath <> '.' && $subpath <> '..') {
-								echo '<br />Deleting: '. $basepath . $subpath;
-								$result = deldir(mosPathName( $basepath . $subpath . '/' ));
-							} else {
-								echo '<br />Deleting: '. $basepath . $filename;
-								$result = unlink( mosPathName ($basepath . $filename, false));
-							}
-							echo intval( $result );
-						}
-					}
+    			if ($this->i_xmldoc->loadXML( $xmlfile, false, true )) {
+    				$mosinstall =& $this->i_xmldoc->documentElement;
+    				// get the files element
+    				$files_element =& $mosinstall->getElementsByPath( 'files', 1 );
+    				if (!is_null( $files_element )) {
+    					$files = $files_element->childNodes;
+    					foreach ($files as $file) {
+    						// delete the files
+    						$filename = $file->getText();
+    						if (file_exists( $basepath . $filename )) {
+    							$parts = pathinfo( $filename );
+    							$subpath = $parts['dirname'];
+    							if ($subpath <> '' && $subpath <> '.' && $subpath <> '..') {
+    								echo '<br />Deleting: '. $basepath . $subpath;
+    								$result = deldir(mosPathName( $basepath . $subpath . '/' ));
+    							} else {
+    								echo '<br />Deleting: '. $basepath . $filename;
+    								$result = unlink( mosPathName ($basepath . $filename, false));
+    							}
+    							echo intval( $result );
+    						}
+    					}
 
-					// remove XML file from front
-					echo "Deleting XML File: $xmlfile";
-					@unlink(  mosPathName ($xmlfile, false ) );
-					return true;
-				}
-			}
+    					// remove XML file from front
+    					echo "Deleting XML File: $xmlfile";
+    					@unlink(  mosPathName ($xmlfile, false ) );
+    					return true;
+    				}
+    			}
+    		}
 		}
 
 	}
