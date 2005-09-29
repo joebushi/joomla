@@ -49,7 +49,7 @@ function botTinymceEditorInit() {
 	$content_css		= $params->def( 'content_css', 1 );
 	$content_css_custom	= $params->def( 'content_css_custom', '' );
 	$invalid_elements	= $params->def( 'invalid_elements', 'script,applet,iframe' );
-	$newlines			= $params->def( 'newlines', 'false' );
+	$newlines			= $params->def( 'newlines', 0 );
 	$cleanup			= $params->def( 'cleanup', 1 );
 	$compressed			= $params->def( 'compressed', 0 );
 
@@ -105,6 +105,12 @@ function botTinymceEditorInit() {
 		$cleanup	= 'false';
 	}
 
+	if ( $newlines ) {
+		$newlines	= 'true';
+	} else {
+		$newlines	= 'false';
+	}
+	
 	if ( $compressed ) {		
 		$load = '<script type="text/javascript" src="'. $mosConfig_live_site .'/mambots/editors/tinymce/jscripts/tiny_mce/tiny_mce_gzip.php"></script>';
 	} else {
