@@ -41,6 +41,7 @@ Legend:
  
 29-Sep-2005 Levis Bisson
 # Fixed artf1274 : Module display bug when using register/forgot password links
+# Fixed artf1238 : header("Location: $url")- some servers require an absolute URI
 
 28-Sep-2005 Levis Bisson
  # Fixed artf1250 : Order is no use when many pages

@@ -38,7 +38,7 @@ $session_id 	= mosGetParam( $_SESSION, 'session_id', '' );
 $logintime 		= mosGetParam( $_SESSION, 'session_logintime', '' );
 
 if ( $session_id != md5( $my->id.$my->username.$my->usertype.$logintime ) ) {
-	mosRedirect( "../index.php" );
+	mosRedirect( "index.php" );
 	die;
 }
 ?>

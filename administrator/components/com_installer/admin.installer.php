@@ -26,7 +26,7 @@ $path 		= $mosConfig_absolute_path . "/administrator/components/com_installer/$e
 
 // ensure user has access to this function
 if ( !$acl->acl_check( 'administration', 'install', 'users', $my->usertype, $element . 's', 'all' ) ) {
-	mosRedirect( 'index2.php', _NOT_AUTH );
+	mosRedirect( 'administrator/index2.php', _NOT_AUTH );
 }
 
 // map the element to the required derived class
@@ -128,7 +128,7 @@ function installFromDirectory( $installerClass, $option, $element, $client ) {
 	$userfile = mosGetParam( $_REQUEST, 'userfile', '' );
 
 	if (!$userfile) {
-		mosRedirect( "index2.php?option=$option&element=module", "Please select a directory" );
+		mosRedirect( "administrator/index2.php?option=$option&element=module", "Please select a directory" );
 	}
 
 	$installer = new $installerClass();
@@ -159,7 +159,7 @@ function removeElement( $installerClass, $option, $element, $client ) {
 
 	$msg = $installer->getError();
 
-	mosRedirect( $installer->returnTo( $option, $element, $client ), $result ? 'Success ' . $msg : 'Failed ' . $msg );
+	mosRedirect( $installer->returnTo( 'administrator/'. $option, $element, $client ), $result ? 'Success ' . $msg : 'Failed ' . $msg );
 }
 /**
 * @param string The name of the php (temporary) uploaded file

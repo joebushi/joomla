@@ -2375,7 +2375,9 @@ function mosRedirect( $url, $msg='' ) {
 	if ($iFilter->badAttributeValue( array( 'href', $url ))) {
 		$url = $GLOBALS['mosConfig_live_site'];
 	}
-
+    else{
+		$url = $GLOBALS['mosConfig_live_site'] ."/". $url;
+    }
 	if (trim( $msg )) {
 	 	if (strpos( $url, '?' )) {
 			$url .= '&mosmsg=' . urlencode( $msg );
@@ -2389,7 +2391,7 @@ function mosRedirect( $url, $msg='' ) {
 	} else {
 		@ob_end_clean(); // clear output buffer
 		header( 'HTTP/1.1 301 Moved Permanently' );
-		header( "Location: $url" );
+		header( "Location: ". $url );
 	}
 	exit();
 }
