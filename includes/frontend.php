@@ -54,7 +54,7 @@ function &initModules() {
 		. "\n FROM #__modules AS m, #__modules_menu AS mm"
 		. "\n WHERE m.published = 1"
 		. "\n AND m.access <= $my->gid"
-		. "\n AND m.client_id = 0"
+		. "\n AND m.client_id != 1"
 		. "\n AND mm.moduleid = m.id"
 		. "\n AND ( mm.menuid = $Itemid OR mm.menuid = 0 )"
 		. "\n ORDER BY ordering";
