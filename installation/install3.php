@@ -161,7 +161,8 @@ function changeDirPermsMode(mode)
 	if ($configArray['siteUrl'])
 		$url = $configArray['siteUrl'];
 	else {
-		$root = $_SERVER['SERVER_NAME'].$_SERVER['PHP_SELF'];
+		$port = ( $_SERVER['SERVER_PORT'] == 80 ) ? '' : ":".$_SERVER['SERVER_PORT'];
+		$root = $_SERVER['SERVER_NAME'].$port.$_SERVER['PHP_SELF'];
 		$root = str_replace("installation/","",$root);
 		$root = str_replace("/install3.php","",$root);
 		$url = "http://".$root;

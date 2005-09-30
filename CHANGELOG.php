@@ -30,6 +30,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+30-Sep-2005 Andy Stewart
+ + Updated installation routine to recognise port numbers other than 80
+ 
 30-Sep-2005 Rey Gigataras
  ^ Module Manager `position` dropdown ordering alphabetically
  ^ Ability to Hide feed title for `New` modules used to display feeds
