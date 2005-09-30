@@ -195,14 +195,15 @@ class modules_html {
 						<li class="newsfeed<?php echo $moduleclass_sfx; ?>">
 							<strong>
 							<a href="<?php echo $currItem->getLink(); ?>" target="_blank">
-								<?php echo $currItem->getTitle(); ?></a>
+                                <?php echo str_replace('&apos;', "'", html_entity_decode( $currItem->getTitle() ) ); ?></a>
 							</strong>
 							<?php
 							// item description
 							if ( $rssitemdesc ) {
 								// item description
-								$text 	= html_entity_decode( $currItem->getDescription() );
-
+								$text = html_entity_decode( $currItem->getDescription() );
+                                $text = str_replace('&apos;', "'", $text);
+                                
 								// word limit check
 								if ( $words ) {
 									$texts = explode( ' ', $text );

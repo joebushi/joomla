@@ -34,6 +34,7 @@ Legend:
  + Added UTF-8 support
  # Fixed tooltips empty links
  # Fixed artf1265 : url in 'edit-menue-item' of submenues is wrong
+ # Fixed artf1277 : News Feed Display Bad Accent character
 
 29-Sep-2005 Arno Zijlstra
  # Fixed publish/unpublish select check in contacts
