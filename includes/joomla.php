@@ -2873,6 +2873,7 @@ function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text
 	if ( $href ) {
 		$style = '';
 	}
+	else{ $href = "#"; }
 
 	if ( $link ) {
 		$tip = "<a href=\"". $href ."\" onMouseOver=\"return overlib('" . $tooltip . "'". $title .", BELOW, RIGHT". $width .");\" onmouseout=\"return nd();\" ". $style .">". $text ."</a>";
@@ -4431,6 +4432,7 @@ function mosNotAuth() {
 function ampReplace( $text ) {
 	$text = str_replace( '&#', '*-*', $text );
 	$text = preg_replace( '|&(?![\w]+;)|', '&amp;', $text );
+    $text = str_replace( '&amp;amp;', '&amp;', $text );
 	$text = str_replace( '*-*', '&#', $text );
 
 	return $text;
