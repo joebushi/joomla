@@ -55,6 +55,10 @@ switch ($task) {
 		HTML_admin_misc::help();
 		break;
 
+	case 'version':
+		HTML_admin_misc::version();
+		break;
+	
 	case 'preview':
 		HTML_admin_misc::preview();
 		break;
