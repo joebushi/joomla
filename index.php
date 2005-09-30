@@ -89,9 +89,11 @@ if ($option == '') {
 		}
 	}
 }
-else{
-	if (!$Itemid) $Itemid = 99999999;
-}
+//} else{
+	if ( !$Itemid ) {		$Itemid = 99999999;
+		$Itemid = 99999999;
+	} 
+//}
 // mainframe is an API workhorse, lots of 'core' interaction routines
 $mainframe = new mosMainFrame( $database, $option, '.' );
 $mainframe->initSession();

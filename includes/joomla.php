@@ -3472,7 +3472,7 @@ class mosAdminMenus {
 	/**
 	* build the multiple select list for Menu Links/Pages
 	*/
-	function MenuLinks( &$lookup, $all=NULL, $none=NULL ) {
+	function MenuLinks( &$lookup, $all=NULL, $none=NULL, $unassigned=1 ) {
 		global $database;
 
 		// get a list of the menu items
@@ -3531,6 +3531,12 @@ class mosAdminMenus {
 		if ( $none ) {
 			// prepare an array with 'all' as the first item
 			$mitems[] = mosHTML::makeOption( -999, 'None' );
+			// adds space, in select box which is not saved
+			$mitems[] = mosHTML::makeOption( -999, '----' );
+		}
+		if ( $none ) {
+			// prepare an array with 'all' as the first item
+			$mitems[] = mosHTML::makeOption( 99999999, 'Unassigned' );
 			// adds space, in select box which is not saved
 			$mitems[] = mosHTML::makeOption( -999, '----' );
 		}
