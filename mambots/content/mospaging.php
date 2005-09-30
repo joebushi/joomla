@@ -146,6 +146,7 @@ function createTOC( &$row, &$matches, &$page ) {
 
 		if ( @$args['heading'] ) {
 			$heading = $args['heading'];
+			$row->title .= ': '. $heading;
 		}
 	}
 

@@ -34,6 +34,7 @@ Legend:
  ^ Module Manager `position` dropdown ordering alphabetically
  ^ Ability to Hide feed title for `New` modules used to display feeds
  ^ Content Items `New` button sensitive to dropdown filters
+ # Fixed Seach Module not using Itemid of existng `Seach` component menu item
  # Fixed `Link to Menu` problem with Sections menu ordering
  # Fixed `Link to Menu` problem with Category = `Content Category`
  # Fixed artf1300 : PDF shows Author name despite setting content item

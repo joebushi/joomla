@@ -46,12 +46,28 @@ switch ( $button_pos ) {
 		$output = $button . $output;
 		break;
 }
+
+$query = "SELECT id"
+. "\n FROM #__menu"
+. "\n WHERE link = 'index.php?option=com_search'"
+;
+$database->setQuery( $query );
+$rows = $database->loadObjectList();
+
+if ( count( $rows ) ) {
+	$_Itemid	= $rows[0]->id;
+	$link 		= 'index.php?option=com_search&Itemid='. $_Itemid;
+} else {
+	$_Itemid 	= '';
+	$link 		= 'index.php?option=com_search';	
+}
 ?>
 
-<form action="<?php echo sefRelToAbs("index.php"); ?>" method="post">
+<form action="<?php echo sefRelToAbs( $link ); ?>" method="get">
 	<div align="left" class="search<?php echo $moduleclass_sfx; ?>">
 		<?php echo $output; ?>
 	</div>
 
-	<input type="hidden" name="option" value="search" />
+	<input type="hidden" name="option" value="com_search" />
+	<input type="hidden" name="Itemid" value="<?php echo $_Itemid; ?>" />	
 </form>
