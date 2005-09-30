@@ -107,7 +107,7 @@ if ($path = $mainframe->getPath( 'admin' )) {
 		require_once ( $path );
 } else {
 	?>
-	<img src="images/joomla_logo_black.png" border="0" alt="<?php echo 'Joomla! Logo'; ?>" />
+	<img src="images/joomla_logo_black.jpg" border="0" alt="<?php echo 'Joomla! Logo'; ?>" />
 	<br />
 	<?php
 }

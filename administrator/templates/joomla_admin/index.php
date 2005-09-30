@@ -82,7 +82,7 @@ initEditor();
 	</div>
 </div>
 
-<div align="center" style="float: left;">
+<div align="center" class="footer">
 	<table width="99%" border="0">
 	<tr>
 		<td align="center">

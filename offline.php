@@ -75,7 +75,7 @@ if (!defined( '_ADMIN_OFFLINE' ) || defined( '_INSTALL_CHECK' )) {
 		<table width="550" align="center" class="outline">
 		<tr>
 			<td width="60%" height="50" align="center">
-			<img src="<?php echo $mosConfig_live_site; ?>/images/joomla_logo_black.png" alt="Joomla! Logo" align="middle" />
+			<img src="<?php echo $mosConfig_live_site; ?>/images/joomla_logo_black.jpg" alt="Joomla! Logo" align="middle" />
 			</td>
 		</tr>
 		<tr>

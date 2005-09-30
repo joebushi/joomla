@@ -550,3 +550,8 @@ span.editlinktip {
 table.paramlist td {
 	height: 30px;
 }
+
+div.footer {
+	clear: both;
+	margin-top: 10px;
+}

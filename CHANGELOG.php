@@ -30,6 +30,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+30-Sep-2005 Andy Miller
+ ^ Updated solarflare2 template with new colors and logos
+ ^ Updated favicon and other Joomla! logos for admin
+ # Fixed alignment of footer in admin for safari/opera
+
 30-Sep-2005 Andy Stewart
  + Updated installation routine to recognise port numbers other than 80
  
