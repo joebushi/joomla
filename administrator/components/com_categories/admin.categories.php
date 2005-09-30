@@ -913,6 +913,10 @@ function menuLink( $id ) {
 	$row->componentid	= $id;
 	$row->link			= $link;
 	$row->ordering		= 9999;
+	
+	if ( $type == 'content_blog_category' ) {
+		$row->params = 'categoryid='. $id;
+	}
 
 	if (!$row->check()) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
