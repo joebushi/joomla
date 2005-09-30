@@ -30,6 +30,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+30-Sep-2005 Rey Gigataras
+ # Fixed artf1300 : PDF shows Author name despite setting content item
+
 30-Sep-2005 Levis Bisson
  + Added UTF-8 support
  # Fixed tooltips empty links

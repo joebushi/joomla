@@ -17,43 +17,23 @@
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
-global $mosConfig_offset, $mosConfig_hideAuthor, $mosConfig_hideModifyDate, $mosConfig_hideCreateDate, $mosConfig_live_site;
-
 function dofreePDF ( $database ) {
-	global $mosConfig_live_site, $mosConfig_sitename, $mosConfig_offset, $mosConfig_hideCreateDate, $mosConfig_hideAuthor, $mosConfig_hideModifyDate;
+	global $mosConfig_live_site, $mosConfig_sitename, $mosConfig_offset;
+	global $mainframe;
+	
+	include( 'includes/class.ezpdf.php' );
 
 	$id = intval( mosGetParam( $_REQUEST, 'id', 1 ) );
-	include( 'includes/class.ezpdf.php' );
 	$row = new mosContent( $database );
 	$row->load( $id );
-	//Find Author Name
-	$users_rows = new mosUser( $database );
-	$users_rows->load( $row->created_by );
-	$row->author = $users_rows->name;
-	$row->usertype = $users_rows->usertype;
 
-	// Ugly but needed to get rid of all the stuff the PDF class cant handle
-	$row->fulltext 	= str_replace( '<p>', "\n\n" , $row->fulltext );
-	$row->fulltext 	= str_replace( '<P>', "\n\n" , $row->fulltext );
-	$row->fulltext 	= str_replace( '<br />', "\n" , $row->fulltext );
-	$row->fulltext 	= str_replace( '<br>', "\n" , $row->fulltext );
-	$row->fulltext 	= str_replace( '<BR />', "\n" , $row->fulltext );
-	$row->fulltext 	= str_replace( '<BR>', "\n" , $row->fulltext );
-	$row->fulltext 	= str_replace( '<li>', "\n - " , $row->fulltext );
-	$row->fulltext 	= str_replace( '<LI>', "\n - " , $row->fulltext );
-	$row->fulltext 	= strip_tags( $row->fulltext );
-	$row->fulltext 	= str_replace( '{mosimage}', '', $row->fulltext );
-	$row->fulltext 	= str_replace( '{mospagebreak}', '', $row->fulltext );
-	$row->fulltext 	= decodeHTML( $row->fulltext );
-
-	$row->introtext 	= str_replace( '<p>', "\n\n", $row->introtext );
-	$row->introtext 	= str_replace( '<P>', "\n\n", $row->introtext );
-	$row->introtext 	= str_replace( '<li>', "\n - " , $row->introtext );
-	$row->introtext 	= str_replace( '<LI>', "\n - " , $row->introtext );
-	$row->introtext 	= strip_tags( $row->introtext );
-	$row->introtext 	= str_replace( '{mosimage}', '', $row->introtext );
-	$row->introtext 	= str_replace( '{mospagebreak}', '', $row->introtext );
-	$row->introtext 	= decodeHTML( $row->introtext );
+	$params = new mosParameters( $row->attribs );	
+	$params->def( 'author', 	!$mainframe->getCfg( 'hideAuthor' ) );
+	$params->def( 'createdate', !$mainframe->getCfg( 'hideCreateDate' ) );
+	$params->def( 'modifydate', !$mainframe->getCfg( 'hideModifyDate' ) );
+	
+	$row->fulltext 	= pdfCleaner( $row->fulltext );
+	$row->introtext = pdfCleaner( $row->introtext );
 
 	$pdf = new Cezpdf( 'a4', 'P' );  //A4 Portrait
 	$pdf -> ezSetCmMargins( 2, 1.5, 1, 1);
@@ -64,11 +44,12 @@ function dofreePDF ( $database ) {
 	$pdf->setStrokeColor( 0, 0, 0, 1 );
 
 	// footer
+	$pdf->addText( 250, 822, 6, $mosConfig_sitename );
 	$pdf->line( 10, 40, 578, 40 );
-	$pdf->line( 10, 822, 578, 822 );
-	$pdf->addText( 30, 34, 6, $mosConfig_live_site .' - '. $mosConfig_sitename );
+	$pdf->line( 10, 818, 578, 818 );
+	$pdf->addText( 30, 34, 6, $mosConfig_live_site );
 	$pdf->addText( 250, 34, 6, 'Powered by Joomla!' );
-	$pdf->addText( 450, 34, 6, 'Generated: '. date( 'j F, Y, H:i', time() + $mosConfig_offset*60*60 ) );
+	$pdf->addText( 450, 34, 6, 'Generated: '. date( 'j F, Y, H:i', time() + $mosConfig_offset * 60 * 60 ) );
 
 	$pdf->restoreState();
 	$pdf->closeObject();
@@ -78,50 +59,102 @@ function dofreePDF ( $database ) {
 	$txt1 = $row->title;
 	$pdf->ezText( $txt1, 14 );
 
-	$txt2 = NULL;
-	$mod_date = NULL;
-	$create_date = NULL;
-	if ( intval( $row->modified ) <> 0 ) {
-		$mod_date = mosFormatDate( $row->modified );
-	}
-	if ( intval( $row->created ) <> 0 ) {
-		$create_date = mosFormatDate( $row->created );
-	}
+	$txt2 = AuthorDateLine( &$row, &$params );
 
-	if ( $mosConfig_hideCreateDate == '0' ) {
-		$txt2 .= '('. $create_date .') - ';
-	}
-
-	if ( $mosConfig_hideAuthor == '0' ) {
-		if ( $row->author != '' && $mosConfig_hideAuthor == '0' ) {
-			if ($row->usertype == 'administrator' || $row->usertype == 'superadministrator') {
-				$txt2 .=  _WRITTEN_BY .' '. ( $row->created_by_alias ? $row->created_by_alias : $row->author );
-			} else {
-				$txt2 .=  _AUTHOR_BY .' '. ( $row->created_by_alias ? $row->created_by_alias : $row->author );
-			}
-		}
-	}
-
-	if ( $mosConfig_hideModifyDate == '0' ) {
-		$txt2 .= ' - '. _LAST_UPDATED .' ('. $mod_date .') ';
-	}
-
-	$txt2 .= "\n\n";
 	$pdf->ezText( $txt2, 8 );
+	
 	$txt3 = $row->introtext ."\n". $row->fulltext;
 	$pdf->ezText( $txt3, 10 );
+	
 	$pdf->ezStream();
 }
 
 function decodeHTML( $string ) {
 	$string = strtr( $string, array_flip(get_html_translation_table( HTML_ENTITIES ) ) );
 	$string = preg_replace( "/&#([0-9]+);/me", "chr('\\1')", $string );
+	
 	return $string;
 }
 
 function get_php_setting ($val ) {
 	$r = ( ini_get( $val ) == '1' ? 1 : 0 );
+	
 	return $r ? 'ON' : 'OFF';
+}
+
+function pdfCleaner( $text ) {	
+	// Ugly but needed to get rid of all the stuff the PDF class cant handle
+	
+	$text = str_replace( '<p>', 			"\n\n", 	$text );
+	$text = str_replace( '<P>', 			"\n\n", 	$text );
+	$text = str_replace( '<br />', 			"\n", 		$text );
+	$text = str_replace( '<br>', 			"\n", 		$text );
+	$text = str_replace( '<BR />', 			"\n", 		$text );
+	$text = str_replace( '<BR>', 			"\n", 		$text );
+	$text = str_replace( '<li>', 			"\n - ", 	$text );
+	$text = str_replace( '<LI>', 			"\n - ", 	$text );
+	$text = str_replace( '{mosimage}', 		'', 		$text );
+	$text = str_replace( '{mospagebreak}', 	'',			$text );
+	
+	$text = strip_tags( $text );
+	$text = decodeHTML( $text );
+
+	return $text;
+}
+
+function AuthorDateLine( &$row, &$params ) {
+	global $database;
+	
+	$text = '';
+	
+	if ( $params->get( 'author' ) ) {
+		// Display Author name
+		
+		//Find Author Name
+		$users_rows = new mosUser( $database );
+		$users_rows->load( $row->created_by );
+		$row->author 	= $users_rows->name;
+		$row->usertype 	= $users_rows->usertype;		
+		
+		if ($row->usertype == 'administrator' || $row->usertype == 'superadministrator') {
+			$text .= "\n";
+			$text .=  _WRITTEN_BY .' '. ( $row->created_by_alias ? $row->created_by_alias : $row->author );
+		} else {
+			$text .= "\n";
+			$text .=  _AUTHOR_BY .' '. ( $row->created_by_alias ? $row->created_by_alias : $row->author );
+		}
+	}
+	
+	if ( $params->get( 'createdate' ) && $params->get( 'author' ) ) {
+		// Display Separator
+		$text .= "\n";
+	}
+	
+	if ( $params->get( 'createdate' ) ) {
+		// Display Created Date
+		if ( intval( $row->created ) ) {
+			$create_date 	= mosFormatDate( $row->created );
+			$text .= $create_date;
+		}				
+	}	
+	
+	if ( $params->get( 'modifydate' ) && ( $params->get( 'author' ) || $params->get( 'createdate' ) ) ) {
+		// Display Separator
+		$text .= "\n";
+	}
+	
+	if ( $params->get( 'modifydate' ) ) {
+		// Display Modified Date
+		if ( intval( $row->modified ) ) {
+			$mod_date 	= mosFormatDate( $row->modified );
+			$text 		.= _LAST_UPDATED .' '. $mod_date;
+			
+		}
+	}	
+	
+	$text .= "\n\n";
+
+	return $text;
 }
 
 dofreePDF ( $database );
