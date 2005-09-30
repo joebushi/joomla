@@ -112,6 +112,7 @@ class modules_html {
 		$rssimage 			= $params->get( 'rssimage', 1 );
 		$rssitemdesc		= $params->get( 'rssitemdesc', 1 );
 		$words 				= $params->def( 'word_count', 0 );
+		$rsstitle			= $params->get( 'rsstitle', 1 );
 
 		$cacheDir 		= $mosConfig_absolute_path .'/cache/';
 		$LitePath 		= $mosConfig_absolute_path .'/includes/Cache/Lite.php';
@@ -139,7 +140,7 @@ class modules_html {
 			<table cellpadding="0" cellspacing="0" class="moduletable<?php echo $moduleclass_sfx; ?>">			
 			<?php
 			// feed description
-			if ( $currChannel->getTitle() ) {
+			if ( $currChannel->getTitle() && $rsstitle ) {
 				?>
 				<tr>
 					<td>

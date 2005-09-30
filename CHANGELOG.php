@@ -31,6 +31,7 @@ Legend:
 ! -> Note
 
 30-Sep-2005 Rey Gigataras
+ ^ Ability to Hide feed title for `New` modules used to display feeds
  ^ Content Items `New` button sensitive to dropdown filters
  # Fixed `Link to Menu` problem with Sections menu ordering
  # Fixed `Link to Menu` problem with Category = `Content Category`
