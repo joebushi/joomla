@@ -680,7 +680,7 @@ function menuLink( $id ) {
 		exit();
 	}
 	$row->checkin();
-	$row->updateOrder( "scope = '$row->scope'" );
+	$row->updateOrder( "menutype = '$menu'" );
 
 	$msg = $name .' ( '. $menutype .' ) in menu: '. $menu .' successfully created';
 	mosRedirect( 'administrator/index2.php?option=com_sections&scope=content&task=editA&hidemainmenu=1&id='. $id,  $msg );

@@ -31,6 +31,7 @@ Legend:
 ! -> Note
 
 30-Sep-2005 Rey Gigataras
+ # Fixed `Link to Menu` problem with Sections menu ordering
  # Fixed `Link to Menu` problem with Category = `Content Category`
  # Fixed artf1300 : PDF shows Author name despite setting content item
 
