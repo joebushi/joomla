@@ -388,6 +388,11 @@ table.contentpane td.componentheading {
 	padding-left: 4px;
 }
 
+table.contentpaneopen fieldset {
+	border: 0px;
+	border-bottom: 1px solid #eee;
+}
+
 .button {
   color: #c64934;
   font-family: Arial, Hevlvetica, sans-serif;
