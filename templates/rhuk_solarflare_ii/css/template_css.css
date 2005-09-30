@@ -1,5 +1,13 @@
 /* CSS Document */
 
+html {
+	height: 100%;
+}
+
+body {
+	height: 100%;
+	margin-bottom: 1px;
+}
 
 .clr {
 	clear: both;
@@ -62,7 +70,7 @@ ul#mainlevel-nav li
 	float: right;
 	margin: 0;
 	width: auto !important;
-  width: 15%;
+    width: 15%;
 	font-size: 11px;
 	line-height: 21px;
 	white-space: nowrap;
@@ -84,8 +92,8 @@ ul#mainlevel-nav li a
 
 	ul#mainlevel-nav li a:hover
 {
-	color: #ffcc00;
-	background: #D84203;
+	color: #fff;
+	background: #c64934;
 }
 
 
@@ -112,7 +120,7 @@ ul#mainlevel-nav li a
 	padding: 3px 3px 3px 5px;
 	font-family: arial, helvetica, sans-serif;
 	font-size: 11px;
-	color: #ff6600;
+	color: #c64934;
 }
 
 #header_outer {
@@ -237,12 +245,12 @@ table td.body_outer {
 
 
 #active_menu {
-	color:#FFCC00;
+	color:#fff;
 	font-weight: bold;
 }
 
 a#active_menu:hover {
-	color: #E15704;
+	color: #fff;
 }
 
 .maintitle {
@@ -328,6 +336,7 @@ body {
 	height: 100%;
 	padding: 0px;
 	font-family: Arial, Helvetica, Sans Serif;
+	line-height: 120%;
 	font-size: 11px;
 	color: #333333;
 	background: #ffffff;
@@ -335,12 +344,12 @@ body {
 
 /* Joomla core stuff */
 a:link, a:visited {
-	color: #ff6600; text-decoration: none;
+	color: #c64934; text-decoration: none;
 	font-weight: bold;
 }
 
 a:hover {
-	color: #C43C03;	text-decoration: none;
+	color: #900;	text-decoration: none;
 	font-weight: bold;
 }
 
@@ -380,7 +389,7 @@ table.contentpane td.componentheading {
 }
 
 .button {
-  color: #ff6600;
+  color: #c64934;
   font-family: Arial, Hevlvetica, sans-serif;
   text-align: center;
   font-size: 11px;
@@ -421,11 +430,10 @@ table.contentpane td.componentheading {
 
 .contentheading {
 	height: 30px;
-	background: url(../images/contenthead.png) top left repeat-x;
-	color: #666666;
-	text-indent: 15px;
+
+	color: #c64934;
 	font-weight: bold;
-	font-size: 11px;
+	font-size: 14px;
 	white-space: nowrap;
 }
 
@@ -498,7 +506,6 @@ table.pollstableborder td {
 .small {
 	color: #999999;
 	font-size: 11px;
-	font-weight: bold;
 }
 
 .createdate {
@@ -506,7 +513,6 @@ table.pollstableborder td {
 	padding-bottom: 10px;
 	color: #999999;
 	font-size: 11px;
-	font-weight: bold;
 }
 
 .modifydate {
@@ -514,7 +520,6 @@ table.pollstableborder td {
 	padding-top: 10px;
 	color: #999999;
 	font-size: 11px;
-	font-weight: bold;
 }
 
 table.contenttoc {
@@ -546,7 +551,7 @@ a.mainlevel:link, a.mainlevel:visited {
 	vertical-align: middle;
 	font-size: 11px;
 	font-weight: bold;
-	color: #ffffff;
+	color: #ccc;
 	text-align: left;
 	padding-top: 5px;
 	padding-left: 18px;
@@ -559,7 +564,7 @@ a.mainlevel:link, a.mainlevel:visited {
 a.mainlevel:hover {
 	background-position: 0px -25px;
 	text-decoration: none;
-	color: #333333;
+	color: #fff;
 }
 
 a.sublevel:link, a.sublevel:visited {
@@ -567,12 +572,12 @@ a.sublevel:link, a.sublevel:visited {
 	vertical-align: middle;
 	font-size: 11px;
 	font-weight: bold;
-	color: #ff6600;
+	color: #c64934;
 	text-align: left;
 }
 
 a.sublevel:hover {
-	color: #C43C03;
+	color: #900;
 	text-decoration: none;
 }
 .highlight {
