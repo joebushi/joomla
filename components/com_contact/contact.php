@@ -21,11 +21,8 @@ require_once( $mainframe->getPath( 'class' ) );
 
 $mainframe->setPageTitle( _CONTACT_TITLE );
 
-if ( !isset( $op ) ) {
-	$op = '';
-}
-
 //Load Vars
+$op			= mosGetParam( $_REQUEST, 'op' );
 $con_id 	= intval( mosGetParam( $_REQUEST ,'con_id', 0 ) );
 $contact_id = intval( mosGetParam( $_REQUEST ,'contact_id', 0 ) );
 $catid 		= intval( mosGetParam( $_REQUEST ,'catid', 0 ) );

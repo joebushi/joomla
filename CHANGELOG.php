@@ -38,6 +38,7 @@ Legend:
 
 30-Sep-2005 Andy Stewart
  + Updated installation routine to recognise port numbers other than 80
+ # Fixed artf1293 : added $op=mosGetParam so sendmail is called when running globals.php-off 
  
 30-Sep-2005 Rey Gigataras
  ^ Module Manager `position` dropdown ordering alphabetically
