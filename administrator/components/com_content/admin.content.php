@@ -454,6 +454,17 @@ function editContent( $uid=0, $sectionid=0, $option ) {
 		$and = "\n AND componentid = $row->id";
 		$menus = mosAdminMenus::Links2Menu( 'content_item_link', $and );
 	} else {
+		if ( !$sectionid && $_POST['filter_sectionid'] ) {
+			$sectionid = $_POST['filter_sectionid'];
+		}
+		if ( $_POST['catid'] ) {
+			$row->catid 	= $_POST['catid'];
+			$category = new mosCategory( $database );
+			$category->load( $_POST['catid'] );
+			$sectionid = $category->section;
+		} else {
+			$row->catid 	= NULL;
+		}
 		$row->sectionid 	= $sectionid;
 		$row->version 		= 0;
 		$row->state 		= 1;
@@ -461,7 +472,6 @@ function editContent( $uid=0, $sectionid=0, $option ) {
 		$row->images 		= array();
 		$row->publish_up 	= date( 'Y-m-d', time() + $mosConfig_offset * 60 * 60 );
 		$row->publish_down 	= 'Never';
-		$row->catid 		= NULL;
 		$row->creator 		= '';
 		$row->modifier 		= '';
 		$row->frontpage 	= 0;
