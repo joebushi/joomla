@@ -12,4 +12,5 @@
 	<files>
 		<filename module="mod_latest">mod_latest.php</filename>
 	</files>
+	<params/>
 </mosinstall>

@@ -12,4 +12,5 @@
 	<files>
 		<filename module="mod_popular">mod_popular.php</filename>
 	</files>
+	<params/>
 </mosinstall>

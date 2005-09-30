@@ -354,6 +354,7 @@ function editModule( $option, $uid, $client ) {
 	$query = "SELECT position, description"
 	. "\n FROM #__template_positions"
 	. "\n WHERE position <> ''"
+	. "\n ORDER BY position"
 	;
 	$database->setQuery( $query );
 	// hard code options for now
