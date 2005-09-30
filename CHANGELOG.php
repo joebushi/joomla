@@ -40,6 +40,7 @@ Legend:
  # Fixed artf1188 : includes/vcard.class.php uses short open tags
  
 29-Sep-2005 Levis Bisson
++ Added artf1289 : UTF-8 support
 # Fixed artf1274 : Module display bug when using register/forgot password links
 # Fixed artf1238 : header("Location: $url")- some servers require an absolute URI
 
