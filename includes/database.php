@@ -87,6 +87,7 @@ class database {
 			}
 		}
 		$this->_table_prefix = $table_prefix;
+        @mysql_query("SET NAMES 'utf8'", $this->_resource);
 		$this->_ticker = 0;
 		$this->_log = array();
 	}
