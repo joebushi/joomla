@@ -95,7 +95,7 @@ class wrapper_menu_html {
 					Url:
 					</td>
 					<td width="80%">
-					<?php echo $lists['link']; ?>
+                    <?php echo ampReplace($lists['link']); ?>
 					</td>
 				</tr>
 				<tr>

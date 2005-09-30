@@ -103,7 +103,7 @@ class content_blog_section_html {
 				<tr>
 					<td align="right">Url:</td>
 					<td colspan="2">
-					<?php echo $lists['link']; ?>
+                    <?php echo ampReplace($lists['link']); ?>
 					</td>
 				</tr>
 				<tr>

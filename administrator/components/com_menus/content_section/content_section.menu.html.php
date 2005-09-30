@@ -105,7 +105,7 @@ class content_section_menu_html {
 				<tr>
 					<td align="right">Url:</td>
 					<td colspan="2">
-					<?php echo $lists['link']; ?>
+                    <?php echo ampReplace($lists['link']); ?>
 					</td>
 				</tr>
 				<tr>

@@ -90,7 +90,7 @@ class content_item_link_menu_html {
 				<tr>
 					<td width="10%" align="right">Url:</td>
 					<td width="80%">
-					<?php echo $lists['link']; ?>
+                    <?php echo ampReplace($lists['link']); ?>
 					</td>
 				</tr>
 				<tr>
