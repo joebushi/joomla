@@ -32,6 +32,7 @@ Legend:
 
 01-Oct-2005 Levis Bisson
  # Fixed absolute backend redirection
+ # Fixed artf1311 : Banners not showing / returning PHP error
 
 30-Sep-2005 Andy Miller
  # Fixed poor rendering of fieldset with solarflare2
@@ -191,7 +192,7 @@ Legend:
 16-Sep-2005 Emir Sakic
  # Fixed sorting by author on frontend category listing
  + Added time offset to copyright year in footer
- # Fixed spelling in sample data
+ # Fixed spelling in sam        
  # Reflected some file name changes in installer CHMOD
  # Fixed bugs in paged search component
 

@@ -20,7 +20,7 @@ $where 	= '';
 $banner = null;
 
 if( $clientids <> '' ) {
-	$where = "\n AND cid IN ( $clientids )";
+	$where = "\n AND cid IN ('". $clientids ."')";
 }
 
 $query = "SELECT COUNT(*) AS numrows"
