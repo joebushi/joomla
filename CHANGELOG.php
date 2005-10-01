@@ -36,7 +36,8 @@ Legend:
 01-Oct-2005 Levis Bisson
  # Fixed absolute backend redirection
  # Fixed artf1311 : Banners not showing / returning PHP error
-
+ # Fixed artf1319 : Banners not showing in frontend / admin
+ 
 30-Sep-2005 Andy Miller
  # Fixed poor rendering of fieldset with solarflare2
  ^ Updated solarflare2 template with new colors and logos
