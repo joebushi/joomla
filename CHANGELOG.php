@@ -30,6 +30,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+01-Oct-2005 Levis Bisson
+ # Fixed absolute backend redirection
+
 30-Sep-2005 Andy Miller
  # Fixed poor rendering of fieldset with solarflare2
  ^ Updated solarflare2 template with new colors and logos
