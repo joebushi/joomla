@@ -19,37 +19,41 @@ body {
 	padding: 2px;
 }
 
-#pathway_outer {
+#buttons_outer {
 	width: 635px;
-  float: left;
-  margin-bottom: 2px;
+  	margin-bottom: 2px;
 	margin-right: 2px;
+	float: left;
+
 }
 
-#pathway_inner {
-  float: none !important;
-  float: left;
+#buttons_inner {
 	border: 1px solid #cccccc;
 	height: 21px;
 }
 
 #pathway_text {
   overflow: hidden;
-	float: left;
 	display: block;
-	padding-top: 4px;
-	height: 18px;
-	padding-left: 5px;
+	height: 25px;
+	line-height: 25px !important;
+	line-height: 22px;
+	padding-left: 4px;
+	border: 1px solid #ccc;
+	margin-bottom: 2px;
 }
 
-a.pathway {
+#pathway_text img {
+	margin-left: 5px;
+	margin-right: 5px;
+	margin-top: 6px;
 }
 
 #buttons {
-	float: right;
+	float: left;
 	margin: 0px;
 	padding: 0px;
-	width: 50%;
+	width: auto;
 }
 
 
@@ -63,23 +67,19 @@ ul#mainlevel-nav
 
 ul#mainlevel-nav li
 {
-	display: block;
 	background-image: none;
 	padding-left: 0px;
 	padding-right: 0px;
-	float: right;
+	float: left;
 	margin: 0;
-	width: auto !important;
-    width: 15%;
 	font-size: 11px;
 	line-height: 21px;
 	white-space: nowrap;
-	border-left: 1px solid #cccccc;
+	border-right: 1px solid #cccccc;
 }
 
 ul#mainlevel-nav li a
 {
-	width: 100%;
 	display: block;
 	padding-left: 15px;
 	padding-right: 15px;
@@ -318,9 +318,9 @@ li
 line-height: 15px;
 padding-left: 15px;
 padding-top: 0px;
-background-image: url(../images/arrow.png) ;
+background-image: url(../images/arrow.png);
 background-repeat: no-repeat;
-background-position: 0px 3px;
+background-position: 0px 2px;
 }
 
 
@@ -467,16 +467,22 @@ table.moduletable {
 	border-collapse: collapse;
 }
 
-table.moduletable th {
+div.moduletable {
+	padding: 0;
+	margin-bottom: 5px;
+}
+
+table.moduletable th, div.moduletable h3 {
 	background: url(../images/subhead_bg.png) repeat-x;
 	color: #666666;
 	text-align: left;
-	padding-top: 4px;
 	padding-left: 4px;
 	height: 21px;
+	line-height: 21px;
 	font-weight: bold;
 	font-size: 10px;
 	text-transform: uppercase;
+	margin: 0 0 2px 0;
 }
 
 table.moduletable td {

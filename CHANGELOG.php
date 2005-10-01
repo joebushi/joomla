@@ -41,6 +41,7 @@ Legend:
 30-Sep-2005 Andy Miller
  # Fixed poor rendering of fieldset with solarflare2
  ^ Updated solarflare2 template with new colors and logos
+ ^ Moved modules to divs, and shuffled pathway to give more button room
  ^ Updated favicon and other Joomla! logos for admin
  # Fixed alignment of footer in admin for safari/opera
 
