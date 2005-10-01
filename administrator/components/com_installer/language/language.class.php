@@ -100,7 +100,7 @@ class mosInstallerLanguage extends mosInstaller {
 	* return to method
 	*/
 	function returnTo( $option, $element, $client ) {
-		return "index2.php?option=com_languages";
+		return "administrator/index2.php?option=com_languages";
 	}
 
 }

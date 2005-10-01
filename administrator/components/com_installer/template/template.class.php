@@ -113,7 +113,7 @@ class mosInstallerTemplate extends mosInstaller {
 	* return to method
 	*/
 	function returnTo( $option, $element, $client ) {
-		return "index2.php?option=com_templates&client=$client";
+		return "administrator/index2.php?option=com_templates&client=$client";
 	}
 }
 ?>
