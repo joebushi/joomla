@@ -159,7 +159,7 @@ function removeElement( $installerClass, $option, $element, $client ) {
 
 	$msg = $installer->getError();
 
-	mosRedirect( $installer->returnTo( 'administrator/'. $option, $element, $client ), $result ? 'Success ' . $msg : 'Failed ' . $msg );
+	mosRedirect( $installer->returnTo( $option, $element, $client ), $result ? 'Success ' . $msg : 'Failed ' . $msg );
 }
 /**
 * @param string The name of the php (temporary) uploaded file

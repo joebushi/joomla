@@ -136,7 +136,7 @@ class mosInstallerModule extends mosInstaller {
             $modID = implode( ',', $modules );
 
 			$query = "DELETE FROM #__modules_menu"
-			. "\n WHERE moduleid IN ( ". $modID ." )"
+			. "\n WHERE moduleid IN ('". $modID ."')"
 			;
 			$database->setQuery( $query );
 			if (!$database->query()) {
