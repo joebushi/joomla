@@ -2416,11 +2416,11 @@ function mosRedirect( $url, $msg='' ) {
 	}
 	
 	if (headers_sent()) {
-		echo "<script>document.location.href='$location';</script>\n";
+		echo "<script>document.location.href='$url';</script>\n";
 	} else {
 		@ob_end_clean(); // clear output buffer
 		header( 'HTTP/1.1 301 Moved Permanently' );
-		header( "Location: ". $location );
+		header( "Location: ". $url );
 	}
 	exit();
 }
