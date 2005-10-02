@@ -67,6 +67,7 @@ if (!defined( '_ADMIN_OFFLINE' ) || defined( '_INSTALL_CHECK' )) {
 	<head>
 		<title><?php echo $mosConfig_sitename; ?> - Offline</title>
 		<link rel="stylesheet" href="<?php echo $mosConfig_live_site; ?>/templates/css/offline.css" type="text/css" />
+		<link rel="shortcut icon" href="<?php echo $mosConfig_live_site; ?>/images/favicon.ico" />
 		<meta http-equiv="Content-Type" content="text/html; <?php echo _ISO; ?>" />
 	</head>
 	<body>

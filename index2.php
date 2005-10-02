@@ -127,6 +127,7 @@ if ( $no_html == 0 ) {
 	<html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 	<link rel="stylesheet" href="templates/<?php echo $cur_template;?>/css/template_css.css" type="text/css" />
+	<link rel="shortcut icon" href="<?php echo $mosConfig_live_site; ?>/images/favicon.ico" />
 	<meta http-equiv="Content-Type" content="text/html; <?php echo _ISO; ?>" />
 	<meta name="robots" content="noindex, nofollow">
 	</head>
