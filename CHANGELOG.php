@@ -33,6 +33,7 @@ Legend:
 01-Oct-2005 Johan Janssens 
  ^ Updated TinyMCE editor to version RC 3
  # Fixed artf1221 : Unable to Submit Content (still not working post-patch)
+ # Fixed artf1108 : Tooltips on mouseover causes parameter panel to widen
 
 01-Oct-2005 Andy Stewart
  # Fixed artf1305 - Added a check within mosimage mambot for introtext being hidden
