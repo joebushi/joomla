@@ -64,5 +64,5 @@ if (session_is_registered( 'session_usertype' )) {
 if (session_is_registered( 'session_logintime' )) {
 	session_destroy();
 }
-mosRedirect( 'index.php' );
+mosRedirect( '../index.php' );
 ?>
