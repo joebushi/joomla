@@ -18,7 +18,7 @@ if (file_exists( '../configuration.php' ) && filesize( '../configuration.php' ) 
 require_once( '../includes/version.php' );
 
 /** Include common.php */
-include_once( "common.php" );
+include_once( 'common.php' );
 
 function get_php_setting($val) {
 	$r =  (ini_get($val) == '1' ? 1 : 0);

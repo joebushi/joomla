@@ -30,9 +30,13 @@ Legend:
 - -> Removed
 ! -> Note
 
+
+-------------------- 1.0.2 Released ----------------------
+
 02-Oct-2005 Rey Gigataras
  ^ Added check to mosCommonHTML::loadOverlib(); function that will stop it from being loaded twice on a page
  # Fixed Content display not honouring Section or Category publish state
+ # Fixed artf1344 : Link to menu shows wrong menu type
  # Fixed artf1189 : Long menu names get truncated, duplicate menus made
  # Fixed artf1192 : Unpublished Bots
  # Fixed artf1223 : Error with Edit items in categories and sections

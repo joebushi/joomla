@@ -1175,7 +1175,7 @@ function menuLink( $redirect, $id ) {
 	$row->checkin();
 	$row->updateOrder( "menutype = '$row->menutype' AND parent = $row->parent" );
 
-	$msg = $link .' (Link - Static Content) in menu: '. $menu .' successfully created';
+	$msg = $link .' (Link - Content Item) in menu: '. $menu .' successfully created';
 	mosRedirect( 'index2.php?option=com_content&sectionid='. $redirect .'&task=edit&hidemainmenu=1&id='. $id, $msg );
 }
 
