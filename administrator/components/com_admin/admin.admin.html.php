@@ -364,7 +364,17 @@ class HTML_admin_misc {
 	}
 
 	function ListComponents() {
-		mosLoadAdminModule( 'components' );
+		global $database;
+		
+		$query = "SELECT params"
+		. "\n FROM #__modules "
+		. "\n WHERE module = 'mod_components'"
+		;
+		$database->setQuery( $query );
+		$row = $database->loadResult();
+		$params = new mosParameters( $row );
+		
+		mosLoadAdminModule( 'components', $params );
 	}
 
 	/**
