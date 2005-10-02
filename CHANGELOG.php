@@ -31,6 +31,7 @@ Legend:
 ! -> Note
 
 02-Oct-2005 Rey Gigataras
+ # Fixed Content display not honouring Section or Category publish state
  # Fixed artf1183 : Section module: Still "no items to display"
  # Fixed artf1241 : Editing content fails with MySQL 5.0.12b
  # Fixed artf1306 : modules - parameters of type text not stored correctly

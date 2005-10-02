@@ -170,6 +170,8 @@ function frontpage( $gid, &$access, $pop, $now ) {
 	. ( $noauth ? "\n AND a.access <= $my->gid" : '' )
 	. "\n AND ( publish_up = '$nullDate' OR publish_up <= '$now'  )"
 	. "\n AND ( publish_down = '$nullDate' OR publish_down >= '$now' )"
+	. "\n AND s.published = 1"
+	. "\n AND cc.published = 1"
 	. "\n ORDER BY $order_pri $order_sec"
 	;
 	$database->setQuery( $query );
@@ -514,6 +516,8 @@ function showBlogSection( $id=0, $gid, &$access, $pop, $now=NULL ) {
 	. "\n LEFT JOIN #__groups AS g ON a.access = g.id"
 	. ( count( $where ) ? "\n WHERE ".implode( "\n AND ", $where ) : '' )
 	. "\n AND s.access <= $gid"
+	. "\n AND s.published = 1"
+	. "\n AND cc.published = 1"
 	. "\n ORDER BY $order_pri $order_sec"
 	;
 	$database->setQuery( $query );
@@ -566,6 +570,8 @@ function showBlogCategory( $id=0, $gid, &$access, $pop, $now ) {
 	. "\n LEFT JOIN #__groups AS g ON a.access = g.id"
 	. ( count( $where ) ? "\n WHERE ".implode( "\n AND ", $where ) : '' )
 	. "\n AND s.access <= $gid"
+	. "\n AND s.published = 1"
+	. "\n AND cc.published = 1"
 	. "\n ORDER BY $order_pri $order_sec"
 	;
 	$database->setQuery( $query );
@@ -636,6 +642,8 @@ function showArchiveSection( $id=NULL, $gid, &$access, $pop, $option ) {
 	. "\n LEFT JOIN #__groups AS g ON a.access = g.id"
 	. ( count( $where ) ? "\n WHERE ". implode( "\n AND ", $where ) : '')
 	. "\n AND s.access <= $gid"
+	. "\n AND s.published = 1"
+	. "\n AND cc.published = 1"
 	. "\n ORDER BY $order_pri $order_sec"
 	;
 	$database->setQuery( $query );
@@ -710,12 +718,15 @@ function showArchiveCategory( $id=0, $gid, &$access, $pop, $option, $now ) {
 
 	$query = "SELECT a.*, ROUND( v.rating_sum / v.rating_count ) AS rating, v.rating_count, u.name AS author, u.usertype, s.name AS section, g.name AS groups"
 	. "\n FROM #__content AS a"
+	. "\n INNER JOIN #__categories AS cc ON cc.id = a.catid"
 	. "\n LEFT JOIN #__users AS u ON u.id = a.created_by"
 	. "\n LEFT JOIN #__content_rating AS v ON a.id = v.content_id"
 	. "\n LEFT JOIN #__sections AS s ON a.sectionid = s.id"
 	. "\n LEFT JOIN #__groups AS g ON a.access = g.id"
 	. ( count( $where ) ? "\n WHERE ". implode( "\n AND ", $where ) : '' )
 	. "\n AND s.access <= $gid"
+	. "\n AND s.published = 1"
+	. "\n AND cc.published = 1"
 	. "\n ORDER BY $order_sec"
 	;
 	$database->setQuery( $query );
@@ -978,18 +989,20 @@ function showItem( $uid, $gid, &$access, $pop, $option, $now ) {
 
 	$nullDate = $database->getNullDate();
 	if ( $access->canEdit ) {
-		$xwhere='';
+		$xwhere = '';
 	} else {
 		$xwhere = " AND ( a.state = 1 OR a.state = -1 )"
 		. "\n AND ( publish_up = '$nullDate' OR publish_up <= '$now' )"
 		. "\n AND ( publish_down = '$nullDate' OR publish_down >= '$now' )"
+		. "\n AND s.published = 1"
+		. "\n AND cc.published = 1"
 		;
 	}
 
 	$query = "SELECT a.*, ROUND(v.rating_sum/v.rating_count) AS rating, v.rating_count, u.name AS author, u.usertype, cc.name AS category, s.name AS section, g.name AS groups"
 	. "\n FROM #__content AS a"
 	. "\n LEFT JOIN #__categories AS cc ON cc.id = a.catid"
-	. "\n LEFT JOIN #__sections AS s ON s.id = cc.section AND s.scope='content'"
+	. "\n LEFT JOIN #__sections AS s ON s.id = cc.section AND s.scope = 'content'"
 	. "\n LEFT JOIN #__users AS u ON u.id = a.created_by"
 	. "\n LEFT JOIN #__content_rating AS v ON a.id = v.content_id"
 	. "\n LEFT JOIN #__groups AS g ON a.access = g.id"
