@@ -194,7 +194,7 @@ class HTML_menumanager {
 			<strong>Menu Name:</strong>
 			</td>
 			<td>
-			<input class="inputbox" type="text" name="menutype" size="30" value="<?php echo isset( $row->menutype ) ? $row->menutype : ''; ?>" />
+			<input class="inputbox" type="text" name="menutype" size="30" maxlength="25" value="<?php echo isset( $row->menutype ) ? $row->menutype : ''; ?>" />
 			<?php
 			$tip = 'This is the identification name used by Joomla! to identify this menu within the code - it must be unique. Recommend that you do not have any spaces in your Menu Name';
 			echo mosToolTip( $tip );
