@@ -20,7 +20,7 @@ $_MAMBOTS->registerFunction( 'onPrepareContent', 'botMosImage' );
 */
 function botMosImage( $published, &$row, &$params, $page=0 ) {
 	global $database;
-
+	
 	// check whether mosimage has been disabled for page
 	if (!$published || !$params->get( 'image' )) {
 	$row->text = str_replace( '{mosimage}', '', $row->text );
@@ -29,6 +29,15 @@ function botMosImage( $published, &$row, &$params, $page=0 ) {
 	
  	// expression to search for
 	$regex = '/{mosimage\s*.*?}/i';
+	
+
+	//count how many {mosimage} are in introtext if it is set to hidden.
+	$introCount=0;
+	if ( ! $params->get( 'introtext' ) & ! $params->get( 'intro_only') ) 
+	{
+		preg_match_all( $regex, $row->introtext, $matches );
+		$introCount = count ( $matches[0] );
+	}
 
 	// find all instances of mambot and put in $matches
 	preg_match_all( $regex, $row->text, $matches );
@@ -54,14 +63,14 @@ function botMosImage( $published, &$row, &$params, $page=0 ) {
 	 	$botParams->def( 'margin' );
 	 	$botParams->def( 'link', 0 );
 
- 		$images 	= processImages( $row, $botParams );
+		$images 	= processImages( $row, $botParams, $introCount );
 
 		// store some vars in globals to access from the replacer
 		$GLOBALS['botMosImageCount'] 	= 0;
 		$GLOBALS['botMosImageParams'] 	=& $botParams;
 		$GLOBALS['botMosImageArray'] 	=& $images;
 		//$GLOBALS['botMosImageArray'] 	=& $combine;
-
+		
 		// perform the replacement
 		$row->text = preg_replace_callback( $regex, 'botMosImage_replacer', $row->text );
 
@@ -69,12 +78,12 @@ function botMosImage( $published, &$row, &$params, $page=0 ) {
 		unset( $GLOBALS['botMosImageCount'] );
 		unset( $GLOBALS['botMosImageMask'] );
 		unset( $GLOBALS['botMosImageArray'] );
-
+		unset( $GLOBALS['botJosIntroCount'] );
 		return true;
 	}
 }
 
-function processImages ( &$row, &$params ) {
+function processImages ( &$row, &$params, &$introCount ) {
 	global $mosConfig_absolute_path, $mosConfig_live_site;
 
 	$images 		= array();
@@ -83,7 +92,7 @@ function processImages ( &$row, &$params ) {
 	$row->images 	= explode( "\n", $row->images );
 	$total 			= count( $row->images );
 
-	$start = 0;
+	$start = $introCount; 
 	for ( $i = $start; $i < $total; $i++ ) {
 		$img = trim( $row->images[$i] );
 
