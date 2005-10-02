@@ -412,7 +412,7 @@ function accessMenu( $uid, $access, $option, $client ) {
 		return $row->getError();
 	}
 
-	mosRedirect( 'index2.php?abs=1&option='. $option );
+	mosRedirect( 'index2.php?option='. $option );
 }
 
 function saveOrder( &$cid ) {

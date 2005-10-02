@@ -31,7 +31,7 @@ class joomlaVersion {
 	/** @var string Date */
 	var $RELDATE 	= '02-Oct-2005';
 	/** @var string Time */
-	var $RELTIME 	= '14:30';
+	var $RELTIME 	= '16:00';
 	/** @var string Timezone */
 	var $RELTZ 		= 'UTC';
 	/** @var string Copyright Text */

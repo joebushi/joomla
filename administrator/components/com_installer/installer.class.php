@@ -215,7 +215,7 @@ class mosInstaller {
 	* return to method
 	*/
 	function returnTo( $option, $element ) {
-		return "index2.php?abs=1&option=$option&element=$element";
+		return "index2.php?option=$option&element=$element";
 	}
 	/**
 	* @param string Install from directory
