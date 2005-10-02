@@ -994,12 +994,10 @@ function showItem( $uid, $gid, &$access, $pop, $option, $now ) {
 		$xwhere = " AND ( a.state = 1 OR a.state = -1 )"
 		. "\n AND ( publish_up = '$nullDate' OR publish_up <= '$now' )"
 		. "\n AND ( publish_down = '$nullDate' OR publish_down >= '$now' )"
-		. "\n AND s.published = 1"
-		. "\n AND cc.published = 1"
 		;
 	}
 
-	$query = "SELECT a.*, ROUND(v.rating_sum/v.rating_count) AS rating, v.rating_count, u.name AS author, u.usertype, cc.name AS category, s.name AS section, g.name AS groups"
+	$query = "SELECT a.*, ROUND(v.rating_sum/v.rating_count) AS rating, v.rating_count, u.name AS author, u.usertype, cc.name AS category, s.name AS section, g.name AS groups, s.published AS sec_pub, cc.published AS cat_pub"
 	. "\n FROM #__content AS a"
 	. "\n LEFT JOIN #__categories AS cc ON cc.id = a.catid"
 	. "\n LEFT JOIN #__sections AS s ON s.id = cc.section AND s.scope = 'content'"
@@ -1014,6 +1012,17 @@ function showItem( $uid, $gid, &$access, $pop, $option, $now ) {
 	$row = NULL;
 
 	if ( $database->loadObject( $row ) ) {
+		if ( !$row->cat_pub && $row->catid ) {
+		// check whether category is published
+			mosNotAuth();
+			return;
+		}
+		if ( !$row->sec_pub && $row->sectionid ) {
+		// check whether section is published
+			mosNotAuth();
+			return;
+		}
+
 		$params = new mosParameters( $row->attribs );
 		$params->set( 'intro_only', 0 );
 		$params->def( 'back_button', $mainframe->getCfg( 'back_button' ) );
