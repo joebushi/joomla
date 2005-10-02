@@ -56,6 +56,7 @@ Legend:
 
 01-Oct-2005 Andy Stewart
  # Fixed artf1305 - Added a check within mosimage mambot for introtext being hidden
+ # Fixes artf1343 - Removed xml declaration at top of gpl.html
  
 01-Oct-2005 Arno Zijlstra
  ^ Changed OSM banner 2 a little to show banner changing
