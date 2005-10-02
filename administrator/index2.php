@@ -96,6 +96,9 @@ $query = "DELETE FROM #__session"
 $database->setQuery( $query );
 $database->query();
 
+$_LANG =& mosFactory::getLanguage( $option, true );
+$_LANG->debug( $mosConfig_debug );
+
 $cur_template = $mainframe->getTemplate();
 
 // set for overlib check

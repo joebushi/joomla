@@ -19,21 +19,21 @@ class joomlaVersion {
 	/** @var string Product */
 	var $PRODUCT 	= 'Joomla!';
 	/** @var int Main Release Level */
-	var $RELEASE 	= '1.0';
+	var $RELEASE 	= '1.1';
 	/** @var string Development Status */
-	var $DEV_STATUS = 'Stable';
+	var $DEV_STATUS = 'Dev';
 	/** @var int Sub Release Level */
-	var $DEV_LEVEL 	= '2';
+	var $DEV_LEVEL 	= '1';
 	/** @var int build Number */
 	var $BUILD	 	= '$Revision$';
 	/** @var string Codename */
-	var $CODENAME 	= 'Sunset';
+	var $CODENAME 	= 'Nigthfall';
 	/** @var string Date */
-	var $RELDATE 	= '02-Oct-2005';
+	var $RELDATE 	= '';
 	/** @var string Time */
-	var $RELTIME 	= '16:00';
+	var $RELTIME 	= '';
 	/** @var string Timezone */
-	var $RELTZ 		= 'UTC';
+	var $RELTZ 		= '';
 	/** @var string Copyright Text */
 	var $COPYRIGHT 	= 'Copyright (C) 2005 Open Source Matters. All rights reserved.';
 	/** @var string URL */

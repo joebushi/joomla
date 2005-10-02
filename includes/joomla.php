@@ -75,6 +75,8 @@ if (@$mosConfig_error_reporting === 0) {
 }
 
 require_once( $mosConfig_absolute_path . '/includes/version.php' );
+require_once( $mosConfig_absolute_path . '/includes/joomla.factory.php' );
+require_once( $mosConfig_absolute_path . '/includes/joomla.files.php' );
 require_once( $mosConfig_absolute_path . '/includes/database.php' );
 require_once( $mosConfig_absolute_path . '/includes/gacl.class.php' );
 require_once( $mosConfig_absolute_path . '/includes/gacl_api.class.php' );
@@ -847,6 +849,33 @@ class mosMainFrame {
 			$this->_path->admin_html = "$basePath/administrator/components/com_admin/admin.admin.html.php";
 		}
 	}
+	
+	/**
+	 * Gets the id number for a client
+	 * @param mixed A client identifier
+	 */
+	function getClientID( $client ) {
+		switch ($client) {
+			case '2':
+			case 'installation':
+				return 2;
+				break;
+
+			case '1':
+			case 'admin':
+			case 'administrator':
+				return 1;
+				break;
+
+			case '0':
+			case 'site':
+			case 'front':
+			default:
+				return 0;
+				break;
+		}
+	}
+	
 	/**
 	* Returns a stored path variable
 	*
@@ -934,6 +963,37 @@ class mosMainFrame {
 		}
 		return $result;
 	}
+	
+	/**
+	 * Gets the base path for the client
+	 * @param mixed A client identifier
+	 * @param boolean True (default) to add traling slash
+	 */
+	function getBasePath( $client=0, $addTrailingSlash=true ) {
+		global $mosConfig_absolute_path;
+
+		switch ($client) {
+			case '0':
+			case 'site':
+			case 'front':
+			default:
+				return mosFS::getNativePath( $mosConfig_absolute_path, $addTrailingSlash );
+				break;
+
+			case '2':
+			case 'installation':
+				return mosFS::getNativePath( $mosConfig_absolute_path . '/installation', $addTrailingSlash );
+				break;
+
+			case '1':
+			case 'admin':
+			case 'administrator':
+				return mosFS::getNativePath( $mosConfig_absolute_path . '/administrator', $addTrailingSlash );
+				break;
+
+		}
+	}
+	
 	/**
 	* Detects a 'visit'
 	*
@@ -2350,42 +2410,6 @@ function mosBindArrayToObject( $array, &$obj, $ignore='', $prefix=NULL, $checkSl
 }
 
 /**
-* Utility function to read the files in a directory
-* @param string The file system path
-* @param string A filter for the names
-* @param boolean Recurse search into sub-directories
-* @param boolean True if to prepend the full path to the file name
-*/
-function mosReadDirectory( $path, $filter='.', $recurse=false, $fullpath=false  ) {
-	$arr = array();
-	if (!@is_dir( $path )) {
-		return $arr;
-	}
-	$handle = opendir( $path );
-
-	while ($file = readdir($handle)) {
-		$dir = mosPathName( $path.'/'.$file, false );
-		$isDir = is_dir( $dir );
-		if (($file <> ".") && ($file <> "..")) {
-			if (preg_match( "/$filter/", $file )) {
-				if ($fullpath) {
-					$arr[] = trim( mosPathName( $path.'/'.$file, false ) );
-				} else {
-					$arr[] = trim( $file );
-				}
-			}
-			if ($recurse && $isDir) {
-				$arr2 = mosReadDirectory( $dir, $filter, $recurse, $fullpath );
-				$arr = array_merge( $arr, $arr2 );
-			}
-		}
-	}
-	closedir($handle);
-	asort($arr);
-	return $arr;
-}
-
-/**
 * Utility function redirect the browser location to another url
 *
 * Can optionally provide a message.
@@ -2451,39 +2475,6 @@ function mosTreeRecurse( $id, $indent, $list, &$children, $maxlevel=9999, $level
 		}
 	}
 	return $list;
-}
-
-/**
-* Function to strip additional / or \ in a path name
-* @param string The path
-* @param boolean Add trailing slash
-*/
-function mosPathName($p_path,$p_addtrailingslash = true) {
-	$retval = "";
-
-	$isWin = (substr(PHP_OS, 0, 3) == 'WIN');
-
-	if ($isWin)	{
-		$retval = str_replace( '/', '\\', $p_path );
-		if ($p_addtrailingslash) {
-			if (substr( $retval, -1 ) != '\\') {
-				$retval .= '\\';
-			}
-		}
-		// Remove double \\
-		$retval = str_replace( '\\\\', '\\', $retval );
-	} else {
-		$retval = str_replace( '\\', '/', $p_path );
-		if ($p_addtrailingslash) {
-			if (substr( $retval, -1 ) != '/') {
-				$retval .= '/';
-			}
-		}
-		// Remove double //
-		$retval = str_replace('//','/',$retval);
-	}
-
-	return $retval;
 }
 
 /**
@@ -4524,62 +4515,6 @@ function mosSmartSubstr($text, $length=200, $searchword) {
 	return substr( $text, 0, $length);
   }
 }
-
-/**
-* Chmods files and directories recursively to given permissions. Available from 1.0.0 up.
-* @param path The starting file or directory (no trailing slash)
-* @param filemode Integer value to chmod files. NULL = dont chmod files.
-* @param dirmode Integer value to chmod directories. NULL = dont chmod directories.
-* @return TRUE=all succeeded FALSE=one or more chmods failed
-*/
-function mosChmodRecursive($path, $filemode=NULL, $dirmode=NULL)
-{
-	$ret = TRUE;
-	if (is_dir($path)) {
-		$dh = opendir($path);
-		while ($file = readdir($dh)) {
-			if ($file != '.' && $file != '..') {
-				$fullpath = $path.'/'.$file;
-				if (is_dir($fullpath)) {
-					if (!mosChmodRecursive($fullpath, $filemode, $dirmode))
-						$ret = FALSE;
-				} else {
-					if (isset($filemode))
-						if (!@chmod($fullpath, $filemode))
-							$ret = FALSE;
-				} // if
-			} // if
-		} // while
-		closedir($dh);
-		if (isset($dirmode))
-			if (!@chmod($path, $dirmode))
-				$ret = FALSE;
-	} else {
-		if (isset($filemode))
-			$ret = @chmod($path, $filemode);
-	} // if
-	return $ret;
-} // mosChmodRecursive
-
-/**
-* Chmods files and directories recursively to mos global permissions. Available from 1.0.0 up.
-* @param path The starting file or directory (no trailing slash)
-* @param filemode Integer value to chmod files. NULL = dont chmod files.
-* @param dirmode Integer value to chmod directories. NULL = dont chmod directories.
-* @return TRUE=all succeeded FALSE=one or more chmods failed
-*/
-function mosChmod($path) {
-	global $mosConfig_fileperms, $mosConfig_dirperms;
-	$filemode = NULL;
-	if ($mosConfig_fileperms != '')
-		$filemode = octdec($mosConfig_fileperms);
-	$dirmode = NULL;
-	if ($mosConfig_dirperms != '')
-		$dirmode = octdec($mosConfig_dirperms);
-	if (isset($filemode) || isset($dirmode))
-		return mosChmodRecursive($path, $filemode, $dirmode);
-	return TRUE;
-} // mosChmod
 
 /**
  * Function to convert array to integer values

@@ -25,12 +25,12 @@ class HTML_admin_misc {
 	* Control panel
 	*/
 	function controlPanel() {
-		global $mosConfig_absolute_path, $mainframe;
+		global $mosConfig_absolute_path, $mainframe, $_LANG;
 		?>
 		<table class="adminheading" border="0">
 		<tr>
 			<th class="cpanel">
-			Control Panel
+			<?php echo $_LANG->_( 'Control Panel' ); ?>
 			</th>
 		</tr>
 		</table>
