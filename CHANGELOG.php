@@ -30,6 +30,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+02-Oct-2005 Levis Bisson
+ ^ Changed back the default redirection to relative + option for absolute
+
 01-Oct-2005 Andy Miller
  # Fixed base href in Content Preview for broken images
 
