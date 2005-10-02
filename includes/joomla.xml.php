@@ -503,7 +503,10 @@ class mosParameters {
 	function textareaHandling( &$txt ) {
 		$total = count( $txt );
 		for( $i=0; $i < $total; $i++ ) {
-			$txt[$i] = nl2br( $txt[$i] );
+			if ( strstr( $txt[$i], "\n" ) ) {
+				$txt[$i] = str_replace( "\n", '<br />', $txt[$i] );
+				$txt[$i] = nl2br( $txt[$i] );
+			}
 		}
 		$txt = implode( "\n", $txt );
 

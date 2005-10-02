@@ -30,6 +30,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+02-Oct-2005 Rey Gigataras
+ # Fixed artf1306 : modules - parameters of type text not stored correctly
+
 02-Oct-2005 Levis Bisson
  ^ Changed back the default redirection to relative + option for absolute
 
