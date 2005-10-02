@@ -18,7 +18,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 // ensure user has access to this function
 if (!($acl->acl_check( 'administration', 'edit', 'users', $my->usertype, 'components', 'all' )
 		| $acl->acl_check( 'administration', 'edit', 'users', $my->usertype, 'components', 'com_contact' ))) {
-	mosRedirect( 'administrator/index2.php', _NOT_AUTH );
+	mosRedirect( 'index2.php?abs=1', _NOT_AUTH );
 }
 
 require_once( $mainframe->getPath( 'admin_html' ) );
@@ -232,7 +232,7 @@ function saveContact( $option ) {
 		$database->query();
 	}
 
-	mosRedirect( "administrator/index2.php?option=$option" );
+	mosRedirect( "index2.php?abs=1&option=$option" );
 }
 
 /**
@@ -254,7 +254,7 @@ function removeContacts( &$cid, $option ) {
 		}
 	}
 
-	mosRedirect( "administrator/index2.php?option=$option" );
+	mosRedirect( "index2.php?abs=1&option=$option" );
 }
 
 /**
@@ -290,7 +290,7 @@ function changeContact( $cid=null, $state=0, $option ) {
 		$row->checkin( intval( $cid[0] ) );
 	}
 
-	mosRedirect( "administrator/index2.php?option=$option" );
+	mosRedirect( "index2.php?abs=1&option=$option" );
 }
 
 /** JJC
@@ -304,7 +304,7 @@ function orderContacts( $uid, $inc, $option ) {
 	$row->load( $uid );
 	$row->move( $inc, "published >= 0" );
 
-	mosRedirect( "administrator/index2.php?option=$option" );
+	mosRedirect( "index2.php?abs=1&option=$option" );
 }
 
 /** PT
@@ -316,6 +316,6 @@ function cancelContact() {
 	$row = new mosContact( $database );
 	$row->bind( $_POST );
 	$row->checkin();
-	mosRedirect('administrator/index2.php?option=com_contact');
+	mosRedirect('index2.php?abs=1&option=com_contact');
 }
 ?>

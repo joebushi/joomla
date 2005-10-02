@@ -110,7 +110,7 @@ class content_typed_menu {
 		}
 		$menu->checkin();
 
-		mosRedirect( 'administrator/index2.php?option=com_typedcontent&task=edit&id='. $id );
+		mosRedirect( 'index2.php?abs=1&option=com_typedcontent&task=edit&id='. $id );
 	}
 }
 ?>

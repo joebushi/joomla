@@ -17,7 +17,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 // ensure user has access to this function
 if (!($acl->acl_check( 'administration', 'manage', 'users', $my->usertype, 'components', 'com_trash' ))) {
-	mosRedirect( 'administrator/index2.php', _NOT_AUTH );
+	mosRedirect( 'index2.php?abs=1', _NOT_AUTH );
 }
 
 require_once( $mainframe->getPath( 'admin_html' ) );
@@ -184,7 +184,7 @@ function deleteTrash( $cid, $option ) {
 	}
 
 	$msg = $total. " Item(s) successfully Deleted";
-	mosRedirect( "administrator/index2.php?option=$option&mosmsg=". $msg ."" );
+	mosRedirect( "index2.php?abs=1&option=$option&mosmsg=". $msg ."" );
 }
 
 
@@ -261,6 +261,6 @@ function restoreTrash( $cid, $option ) {
 	}
 
 	$msg = $total. " Item(s) successfully Restored";
-	mosRedirect( "administrator/index2.php?option=$option&mosmsg=". $msg ."" );
+	mosRedirect( "index2.php?abs=1&option=$option&mosmsg=". $msg ."" );
 }
 ?>

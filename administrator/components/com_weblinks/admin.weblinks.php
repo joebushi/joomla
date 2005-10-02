@@ -18,7 +18,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 // ensure user has access to this function
 if (!($acl->acl_check( 'administration', 'edit', 'users', $my->usertype, 'components', 'all' )
 		| $acl->acl_check( 'administration', 'edit', 'users', $my->usertype, 'components', 'com_weblinks' ))) {
-	mosRedirect( 'administrator/index2.php', _NOT_AUTH );
+	mosRedirect( 'index2.php?abs=1', _NOT_AUTH );
 }
 
 require_once( $mainframe->getPath( 'admin_html' ) );
@@ -147,7 +147,7 @@ function editWeblink( $option, $id ) {
 
 	// fail if checked out not by 'me'
 	if ($row->isCheckedOut( $my->id )) {
-		mosRedirect( 'administrator/index2.php?option='. $option, 'The module $row->title is currently being edited by another administrator.' );
+		mosRedirect( 'index2.php?abs=1&option='. $option, 'The module $row->title is currently being edited by another administrator.' );
 	}
 
 	if ($id) {
@@ -213,7 +213,7 @@ function saveWeblink( $option ) {
 	$row->checkin();
 	$row->updateOrder( "catid = $row->catid" );
 
-	mosRedirect( "administrator/index2.php?option=$option" );
+	mosRedirect( "index2.php?abs=1&option=$option" );
 }
 
 /**
@@ -239,7 +239,7 @@ function removeWeblinks( $cid, $option ) {
 		}
 	}
 
-	mosRedirect( "administrator/index2.php?option=$option" );
+	mosRedirect( "index2.php?abs=1&option=$option" );
 }
 
 /**
@@ -276,7 +276,7 @@ function publishWeblinks( $cid=null, $publish=1,  $option ) {
 		$row = new mosWeblink( $database );
 		$row->checkin( $cid[0] );
 	}
-	mosRedirect( "administrator/index2.php?option=$option" );
+	mosRedirect( "index2.php?abs=1&option=$option" );
 }
 /**
 * Moves the order of a record
@@ -288,7 +288,7 @@ function orderWeblinks( $uid, $inc, $option ) {
 	$row->load( $uid );
 	$row->move( $inc, "published >= 0" );
 
-	mosRedirect( "administrator/index2.php?option=$option" );
+	mosRedirect( "index2.php?abs=1&option=$option" );
 }
 
 /**
@@ -300,6 +300,6 @@ function cancelWeblink( $option ) {
 	$row = new mosWeblink( $database );
 	$row->bind( $_POST );
 	$row->checkin();
-	mosRedirect( "administrator/index2.php?option=$option" );
+	mosRedirect( "index2.php?abs=1&option=$option" );
 }
 ?>

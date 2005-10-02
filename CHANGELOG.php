@@ -46,7 +46,7 @@ Legend:
  ^ Changed OSM banner 2 a little to show banner changing
  
 01-Oct-2005 Levis Bisson
- # Fixed absolute backend redirection
+ # Fixed absolute backend redirection - option
  # Fixed artf1311 : Banners not showing / returning PHP error
  # Fixed artf1319 : Banners not showing in frontend / admin
  

@@ -17,7 +17,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 // ensure user has access to this function
 if (!$acl->acl_check( 'administration', 'manage', 'users', $GLOBALS['my']->usertype, 'components', 'com_templates' )) {
-	mosRedirect( 'administrator/index2.php', _NOT_AUTH );
+	mosRedirect( 'index2.php?abs=1', _NOT_AUTH );
 }
 
 require_once( $mainframe->getPath( 'admin_html' ) );
@@ -34,7 +34,7 @@ if (!is_array( $cid )) {
 
 switch ($task) {
 	case 'new':
-		mosRedirect ( 'administrator/index2.php?option=com_installer&element=template&client='. $client );
+		mosRedirect ( 'index2.php?abs=1&option=com_installer&element=template&client='. $client );
 		break;
 
 	case 'edit_source':
@@ -74,7 +74,7 @@ switch ($task) {
 		break;
 
 	case 'cancel':
-		mosRedirect( 'administrator/index2.php?option='. $option .'&client='. $client );
+		mosRedirect( 'index2.php?abs=1&option='. $option .'&client='. $client );
 		break;
 
 	case 'positions':
@@ -250,7 +250,7 @@ function defaultTemplate( $p_tname, $option, $client ) {
 		$_SESSION['cur_template'] = $p_tname;
 	}
 
-	mosRedirect('administrator/index2.php?option='. $option .'&client='. $client);
+	mosRedirect('index2.php?abs=1&option='. $option .'&client='. $client);
 }
 
 /**
@@ -283,7 +283,7 @@ function removeTemplate( $cid, $option, $client ) {
 	$database->setQuery( $query );
 	$database->query();
 
-	mosRedirect( 'administrator/index2.php?option=com_installer&element=template&client='. $client .'&task=remove&cid[]='. $cid );
+	mosRedirect( 'index2.php?abs=1&option=com_installer&element=template&client='. $client .'&task=remove&cid[]='. $cid );
 }
 
 function editTemplateSource( $p_tname, $option, $client ) {
@@ -301,7 +301,7 @@ function editTemplateSource( $p_tname, $option, $client ) {
 
 		HTML_templates::editTemplateSource( $p_tname, $content, $option, $client );
 	} else {
-		mosRedirect( 'administrator/index2.php?option='. $option .'&client='. $client, 'Operation Failed: Could not open'. $file );
+		mosRedirect( 'index2.php?abs=1&option='. $option .'&client='. $client, 'Operation Failed: Could not open'. $file );
 	}
 }
 
@@ -313,10 +313,10 @@ function saveTemplateSource( $option, $client ) {
 	$filecontent 	= mosGetParam( $_POST, 'filecontent', '', _MOS_ALLOWHTML );
 
 	if ( !$template ) {
-		mosRedirect( 'administrator/index2.php?option='. $option .'&client='. $client, 'Operation failed: No template specified.' );
+		mosRedirect( 'index2.php?abs=1&option='. $option .'&client='. $client, 'Operation failed: No template specified.' );
 	}
 	if ( !$filecontent ) {
-		mosRedirect( 'administrator/index2.php?option='. $option .'&client='. $client, 'Operation failed: Content empty.' );
+		mosRedirect( 'index2.php?abs=1&option='. $option .'&client='. $client, 'Operation failed: Content empty.' );
 	}
 
 	if ( $client == 'admin' ) {
@@ -331,7 +331,7 @@ function saveTemplateSource( $option, $client ) {
 
 	clearstatcache();
 	if ( is_writable( $file ) == false ) {
-		mosRedirect( 'administrator/index2.php?option='. $option , 'Operation failed: '. $file .' is not writable.' );
+		mosRedirect( 'index2.php?abs=1&option='. $option , 'Operation failed: '. $file .' is not writable.' );
 	}
 
 	if ( $fp = fopen ($file, 'w' ) ) {
@@ -343,10 +343,10 @@ function saveTemplateSource( $option, $client ) {
 			if (mosGetParam($_POST,'disable_write',0))
 				@chmod($file, $oldperms & 0777555);
 		} // if
-		mosRedirect( 'administrator/index2.php?option='. $option .'&client='. $client );
+		mosRedirect( 'index2.php?abs=1&option='. $option .'&client='. $client );
 	} else {
 		if ($enable_write) @chmod($file, $oldperms);
-		mosRedirect( 'administrator/index2.php?option='. $option .'&client='. $client, 'Operation failed: Failed to open file for writing.' );
+		mosRedirect( 'index2.php?abs=1&option='. $option .'&client='. $client, 'Operation failed: Failed to open file for writing.' );
 	}
 
 }
@@ -366,7 +366,7 @@ function editTemplateCSS( $p_tname, $option, $client ) {
 
 		HTML_templates::editCSSSource( $p_tname, $content, $option, $client );
 	} else {
-		mosRedirect( 'administrator/index2.php?option='. $option .'&client='. $client, 'Operation Failed: Could not open'. $file );
+		mosRedirect( 'index2.php?abs=1&option='. $option .'&client='. $client, 'Operation Failed: Could not open'. $file );
 	}
 }
 
@@ -377,11 +377,11 @@ function saveTemplateCSS( $option, $client ) {
 	$filecontent = mosGetParam( $_POST, 'filecontent', '', _MOS_ALLOWHTML );
 
 	if ( !$template ) {
-		mosRedirect( 'administrator/index2.php?option='. $option .'&client='. $client, 'Operation failed: No template specified.' );
+		mosRedirect( 'index2.php?abs=1&option='. $option .'&client='. $client, 'Operation failed: No template specified.' );
 	}
 
 	if ( !$filecontent ) {
-		mosRedirect( 'administrator/index2.php?option='. $option .'&client='. $client, 'Operation failed: Content empty.' );
+		mosRedirect( 'index2.php?abs=1&option='. $option .'&client='. $client, 'Operation failed: Content empty.' );
 	}
 
 	if ( $client == 'admin' ) {
@@ -396,7 +396,7 @@ function saveTemplateCSS( $option, $client ) {
 
 	clearstatcache();
 	if ( is_writable( $file ) == false ) {
-		mosRedirect( 'administrator/index2.php?option='. $option .'&client='. $client, 'Operation failed: The file is not writable.' );
+		mosRedirect( 'index2.php?abs=1&option='. $option .'&client='. $client, 'Operation failed: The file is not writable.' );
 	}
 
 	if ($fp = fopen ($file, 'w')) {
@@ -408,10 +408,10 @@ function saveTemplateCSS( $option, $client ) {
 			if (mosGetParam($_POST,'disable_write',0))
 				@chmod($file, $oldperms & 0777555);
 		} // if
-		mosRedirect( 'administrator/index2.php?option='. $option );
+		mosRedirect( 'index2.php?abs=1&option='. $option );
 	} else {
 		if ($enable_write) @chmod($file, $oldperms);
-		mosRedirect( 'administrator/index2.php?option='. $option .'&client='. $client, 'Operation failed: Failed to open file for writing.' );
+		mosRedirect( 'index2.php?abs=1&option='. $option .'&client='. $client, 'Operation failed: Failed to open file for writing.' );
 	}
 
 }
@@ -474,7 +474,7 @@ function saveTemplateAssign( $option, $client ) {
 		}
 	}
 
-	mosRedirect( 'administrator/index2.php?option='. $option .'&client='. $client );
+	mosRedirect( 'index2.php?abs=1&option='. $option .'&client='. $client );
 }
 
 
@@ -516,6 +516,6 @@ function savePositions( $option ) {
 			$database->query();
 		}
 	}
-	mosRedirect( 'administrator/index2.php?option='. $option .'&task=positions', 'Positions saved' );
+	mosRedirect( 'index2.php?abs=1&option='. $option .'&task=positions', 'Positions saved' );
 }
 ?>

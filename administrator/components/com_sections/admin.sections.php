@@ -194,7 +194,7 @@ function editSection( $uid=0, $scope='', $option ) {
 	// fail if checked out not by 'me'
 	if ($row->isCheckedOut( $my->id )) {
 		$msg = 'The section '. $row->title .' is currently being edited by another administrator';
-		mosRedirect( 'administrator/index2.php?option='. $option .'&scope='. $row->scope .'&mosmsg='. $msg );
+		mosRedirect( 'index2.php?abs=1&option='. $option .'&scope='. $row->scope .'&mosmsg='. $msg );
 	}
 
 	if ( $uid ) {
@@ -303,11 +303,11 @@ function saveSection( $option, $scope, $task ) {
 
 	switch ( $task ) {
 		case 'go2menu':
-			mosRedirect( 'administrator/index2.php?option=com_menus&menutype='. $menu );
+			mosRedirect( 'index2.php?abs=1&option=com_menus&menutype='. $menu );
 			break;
 
 		case 'go2menuitem':
-			mosRedirect( 'administrator/index2.php?option=com_menus&menutype='. $menu .'&task=edit&hidemainmenu=1&id='. $menuid );
+			mosRedirect( 'index2.php?abs=1&option=com_menus&menutype='. $menu .'&task=edit&hidemainmenu=1&id='. $menuid );
 			break;
 
 		case 'menulink':
@@ -316,13 +316,13 @@ function saveSection( $option, $scope, $task ) {
 
 		case 'apply':
 			$msg = 'Changes to Section saved';
-			mosRedirect( 'administrator/index2.php?option='. $option .'&scope='. $scope .'&task=editA&hidemainmenu=1&id='. $row->id, $msg );
+			mosRedirect( 'index2.php?abs=1&option='. $option .'&scope='. $scope .'&task=editA&hidemainmenu=1&id='. $row->id, $msg );
 			break;
 
 		case 'save':
 		default:
 			$msg = 'Section saved';
-			mosRedirect( 'administrator/index2.php?option='. $option .'&scope='. $scope, $msg );
+			mosRedirect( 'index2.php?abs=1&option='. $option .'&scope='. $scope, $msg );
 			break;
 	}
 }
@@ -378,12 +378,12 @@ function removeSections( $cid, $scope, $option ) {
 	if (count( $err )) {
 		$cids = implode( ', ', $err );
 		$msg = 'Sections(s): '. $cids .' cannot be removed as they contain categories';
-		mosRedirect( 'administrator/index2.php?option='. $option .'&scope='. $scope, $msg );
+		mosRedirect( 'index2.php?abs=1&option='. $option .'&scope='. $scope, $msg );
 	}
 
 	$names = implode( ', ', $name );
 	$msg = 'Section(s): '. $names .' successfully deleted';
-	mosRedirect( 'administrator/index2.php?option='. $option .'&scope='. $scope, $msg );
+	mosRedirect( 'index2.php?abs=1&option='. $option .'&scope='. $scope, $msg );
 }
 
 /**
@@ -451,7 +451,7 @@ function publishSections( $scope, $cid=null, $publish=1, $option ) {
 		}
 	}
 
-	mosRedirect( 'administrator/index2.php?option='. $option .'&scope='. $scope );
+	mosRedirect( 'index2.php?abs=1&option='. $option .'&scope='. $scope );
 }
 
 /**
@@ -466,7 +466,7 @@ function cancelSection( $option, $scope ) {
 	$row->bind( $_POST );
 	$row->checkin();
 
-	mosRedirect( 'administrator/index2.php?option='. $option .'&scope='. $scope );
+	mosRedirect( 'index2.php?abs=1&option='. $option .'&scope='. $scope );
 }
 
 /**
@@ -480,7 +480,7 @@ function orderSection( $uid, $inc, $option, $scope ) {
 	$row->load( $uid );
 	$row->move( $inc, "scope = '$row->scope'" );
 
-	mosRedirect( 'administrator/index2.php?option='. $option .'&scope='. $scope );
+	mosRedirect( 'index2.php?abs=1&option='. $option .'&scope='. $scope );
 }
 
 
@@ -610,7 +610,7 @@ function copySectionSave( $sectionid ) {
 	$sectionOld->load( $sectionMove );
 
 	$msg = 'Section '. $sectionOld-> name .' and all its Categories and Items have been copied as '. $title;
-	mosRedirect( 'administrator/index2.php?option=com_sections&scope=content&mosmsg='. $msg );
+	mosRedirect( 'index2.php?abs=1&option=com_sections&scope=content&mosmsg='. $msg );
 }
 
 /**
@@ -631,7 +631,7 @@ function accessMenu( $uid, $access, $option ) {
 		return $row->getError();
 	}
 
-	mosRedirect( 'administrator/index2.php?option='. $option .'&scope='. $row->scope );
+	mosRedirect( 'index2.php?abs=1&option='. $option .'&scope='. $row->scope );
 }
 
 function menuLink( $id ) {
@@ -683,7 +683,7 @@ function menuLink( $id ) {
 	$row->updateOrder( "menutype = '$menu'" );
 
 	$msg = $name .' ( '. $menutype .' ) in menu: '. $menu .' successfully created';
-	mosRedirect( 'administrator/index2.php?option=com_sections&scope=content&task=editA&hidemainmenu=1&id='. $id,  $msg );
+	mosRedirect( 'index2.php?abs=1&option=com_sections&scope=content&task=editA&hidemainmenu=1&id='. $id,  $msg );
 }
 
 function saveOrder( &$cid ) {
@@ -722,6 +722,6 @@ function saveOrder( &$cid ) {
 	} // foreach
 
 	$msg 	= 'New ordering saved';
-	mosRedirect( 'administrator/index2.php?option=com_sections&scope=content', $msg );
+	mosRedirect( 'index2.php?abs=1&option=com_sections&scope=content', $msg );
 } // saveOrder
 ?>

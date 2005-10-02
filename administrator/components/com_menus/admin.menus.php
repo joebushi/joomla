@@ -63,17 +63,17 @@ switch ($task) {
 	case 'unpublish':
 		if ($msg = publishMenuSection( $cid, ($task == 'publish') )) {
 			// proceed no further if the menu item can't be published
-			mosRedirect( 'administrator/index2.php?option=com_menus&menutype='. $menutype .'&mosmsg= '.$msg );
+			mosRedirect( 'index2.php?abs=1&option=com_menus&menutype='. $menutype .'&mosmsg= '.$msg );
 		} else {
-			mosRedirect( 'administrator/index2.php?option=com_menus&menutype='. $menutype );
+			mosRedirect( 'index2.php?abs=1&option=com_menus&menutype='. $menutype );
 		}
 		break;
 
 	case 'remove':
 		if ($msg = TrashMenusection( $cid )) {
-			mosRedirect( 'administrator/index2.php?option=com_menus&menutype='. $menutype .'&mosmsg= '.$msg );
+			mosRedirect( 'index2.php?abs=1&option=com_menus&menutype='. $menutype .'&mosmsg= '.$msg );
 		} else {
-			mosRedirect( 'administrator/index2.php?option=com_menus&menutype='. $menutype );
+			mosRedirect( 'index2.php?abs=1&option=com_menus&menutype='. $menutype );
 		}
 		break;
 
@@ -396,12 +396,12 @@ function saveMenu( $option, $task='save' ) {
 	$msg = 'Menu item Saved';
 	switch ( $task ) {
 		case 'apply':
-			mosRedirect( 'administrator/index2.php?option='. $option .'&menutype='. $row->menutype .'&task=edit&id='. $row->id . '&hidemainmenu=1' , $msg );
+			mosRedirect( 'index2.php?abs=1&option='. $option .'&menutype='. $row->menutype .'&task=edit&id='. $row->id . '&hidemainmenu=1' , $msg );
 			break;
 
 		case 'save':
 		default:
-			mosRedirect( 'administrator/index2.php?option='. $option .'&menutype='. $row->menutype, $msg );
+			mosRedirect( 'index2.php?abs=1&option='. $option .'&menutype='. $row->menutype, $msg );
 			break;
 	}
 }

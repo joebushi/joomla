@@ -17,7 +17,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 // ensure user has access to this function
 if (!$acl->acl_check( 'administration', 'manage', 'users', $my->usertype, 'components', 'com_massmail' )) {
-	mosRedirect( 'administrator/index2.php', _NOT_AUTH );
+	mosRedirect( 'index2.php?abs=1', _NOT_AUTH );
 }
 
 require_once( $mainframe->getPath( 'admin_html' ) );
@@ -28,7 +28,7 @@ switch ($task) {
 		break;
 
 	case 'cancel':
-		mosRedirect( 'administrator/index2.php' );
+		mosRedirect( 'index2.php?abs=1' );
 		break;
 
 	default:
@@ -70,7 +70,7 @@ function sendMail() {
 	$message_body 		= stripslashes( $message_body );
 
 	if (!$message_body || !$subject || $gou === null) {
-		mosRedirect( 'administrator/index2.php?option=com_massmail&mosmsg=Please fill in the form correctly' );
+		mosRedirect( 'index2.php?abs=1&option=com_massmail&mosmsg=Please fill in the form correctly' );
 	}
 
 	// get users in the group out of the acl
@@ -107,6 +107,6 @@ function sendMail() {
 	}
 
 	$msg = 'E-mail sent to '. count( $rows ) .' users';
-	mosRedirect( 'administrator/index2.php?option=com_massmail', $msg );
+	mosRedirect( 'index2.php?abs=1&option=com_massmail', $msg );
 }
 ?>

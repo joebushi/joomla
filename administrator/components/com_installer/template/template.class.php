@@ -17,7 +17,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 // ensure user has access to this function
 if (!$acl->acl_check( 'administration', 'manage', 'users', $GLOBALS['my']->usertype, 'components', 'com_templates' )) {
-	mosRedirect( 'administrator/index2.php', _NOT_AUTH );
+	mosRedirect( 'index2.php?abs=1', _NOT_AUTH );
 }
 
 /**
@@ -113,7 +113,7 @@ class mosInstallerTemplate extends mosInstaller {
 	* return to method
 	*/
 	function returnTo( $option, $element, $client ) {
-		return "administrator/index2.php?option=com_templates&client=$client";
+		return "index2.php?abs=1&option=com_templates&client=$client";
 	}
 }
 ?>

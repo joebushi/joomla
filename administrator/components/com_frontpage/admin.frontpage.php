@@ -18,7 +18,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 // ensure user has access to this function
 if (!($acl->acl_check( 'administration', 'edit', 'users', $my->usertype, 'components', 'all' )
 		| $acl->acl_check( 'administration', 'edit', 'users', $my->usertype, 'components', 'com_frontpage' ))) {
-	mosRedirect( 'administrator/index2.php', _NOT_AUTH );
+	mosRedirect( 'index2.php?abs=1', _NOT_AUTH );
 }
 
 // call
@@ -211,7 +211,7 @@ function changeFrontPage( $cid=null, $state=0, $option ) {
 		$row->checkin( $cid[0] );
 	}
 
-	mosRedirect( "administrator/index2.php?option=$option" );
+	mosRedirect( "index2.php?abs=1&option=$option" );
 }
 
 function removeFrontPage( &$cid, $option ) {
@@ -237,7 +237,7 @@ function removeFrontPage( &$cid, $option ) {
 	}
 	$fp->updateOrder();
 
-	mosRedirect( "administrator/index2.php?option=$option" );
+	mosRedirect( "index2.php?abs=1&option=$option" );
 }
 
 /**
@@ -251,7 +251,7 @@ function orderFrontPage( $uid, $inc, $option ) {
 	$fp->load( $uid );
 	$fp->move( $inc );
 
-	mosRedirect( "administrator/index2.php?option=$option" );
+	mosRedirect( "index2.php?abs=1&option=$option" );
 }
 
 /**
@@ -273,7 +273,7 @@ function accessMenu( $uid, $access ) {
 		return $row->getError();
 	}
 
-	mosRedirect( 'administrator/index2.php?option=com_frontpage' );
+	mosRedirect( 'index2.php?abs=1&option=com_frontpage' );
 }
 
 function saveOrder( &$cid ) {
@@ -299,6 +299,6 @@ function saveOrder( &$cid ) {
 	}
 
 	$msg 	= 'New ordering saved';
-	mosRedirect( 'administrator/index2.php?option=com_frontpage', $msg );
+	mosRedirect( 'index2.php?abs=1&option=com_frontpage', $msg );
 }
 ?>

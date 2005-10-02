@@ -16,7 +16,7 @@
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 if (!$acl->acl_check( 'administration', 'manage', 'users', $my->usertype, 'components', 'com_users' )) {
-	mosRedirect( 'administrator/index2.php', _NOT_AUTH );
+	mosRedirect( 'index2.php?abs=1', _NOT_AUTH );
 }
 
 require_once( $mainframe->getPath( 'admin_html' ) );
@@ -73,7 +73,7 @@ switch ($task) {
 
 	case 'contact':
 		$contact_id = mosGetParam( $_POST, 'contact_id', '' );
-		mosRedirect( 'administrator/index2.php?option=com_contact&task=editA&id='. $contact_id );
+		mosRedirect( 'index2.php?abs=1&option=com_contact&task=editA&id='. $contact_id );
 		break;
 
 	default:
@@ -209,7 +209,7 @@ function editUser( $uid='0', $option='users' ) {
 
 	// check to ensure only super admins can edit super admin info
 	if ( ( $my->gid < 25 ) && ( $row->gid == 25 ) ) {
-		mosRedirect( 'administrator/index2.php?option=com_users', _NOT_AUTH );
+		mosRedirect( 'index2.php?abs=1&option=com_users', _NOT_AUTH );
 	}
 
 	$my_group = strtolower( $acl->get_group_name( $row->gid, 'ARO' ) );
@@ -369,13 +369,13 @@ function saveUser( $option, $task ) {
 	switch ( $task ) {
 		case 'apply':
 			$msg = 'Successfully Saved changes to User: '. $row->name;
-			mosRedirect( 'administrator/index2.php?option=com_users&task=editA&hidemainmenu=1&id='. $row->id, $msg );
+			mosRedirect( 'index2.php?abs=1&option=com_users&task=editA&hidemainmenu=1&id='. $row->id, $msg );
 			break;
 
 		case 'save':
 		default:
 			$msg = 'Successfully Saved User: '. $row->name;
-			mosRedirect( 'administrator/index2.php?option=com_users', $msg );
+			mosRedirect( 'index2.php?abs=1&option=com_users', $msg );
 			break;
 	}
 }
@@ -385,7 +385,7 @@ function saveUser( $option, $task ) {
 * @param option component option to call
 */
 function cancelUser( $option ) {
-	mosRedirect( 'administrator/index2.php?option='. $option .'&task=view' );
+	mosRedirect( 'index2.php?abs=1&option='. $option .'&task=view' );
 }
 
 function removeUsers( $cid, $option ) {
@@ -415,7 +415,7 @@ function removeUsers( $cid, $option ) {
 		}
 	}
 
-	mosRedirect( 'administrator/index2.php?option='. $option, $msg );
+	mosRedirect( 'index2.php?abs=1&option='. $option, $msg );
 }
 
 /**
@@ -445,7 +445,7 @@ function changeUserBlock( $cid=null, $block=1, $option ) {
 		exit();
 	}
 
-	mosRedirect( 'administrator/index2.php?option='. $option );
+	mosRedirect( 'index2.php?abs=1&option='. $option );
 }
 
 /**
@@ -458,7 +458,7 @@ function logoutUser( $cid=null, $option, $task ) {
 	$cids = $cid;
 	if ( is_array( $cid ) ) {
 		if (count( $cid ) < 1) {
-			mosRedirect( 'administrator/index2.php?option='. $option, 'Please select a user' );
+			mosRedirect( 'index2.php?abs=1&option='. $option, 'Please select a user' );
 		}
 		$cids = implode( ',', $cid );
 	}
@@ -471,11 +471,11 @@ function logoutUser( $cid=null, $option, $task ) {
 
 	switch ( $task ) {
 		case 'flogout':
-			mosRedirect( 'administrator/index2.php', $database->getErrorMsg() );
+			mosRedirect( 'index2.php?abs=1', $database->getErrorMsg() );
 			break;
 
 		default:
-			mosRedirect( 'administrator/index2.php?option='. $option, $database->getErrorMsg() );
+			mosRedirect( 'index2.php?abs=1&option='. $option, $database->getErrorMsg() );
 			break;
 	}
 }

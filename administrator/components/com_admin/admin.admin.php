@@ -20,23 +20,23 @@ switch ($task) {
 
 	case 'clean_cache':
 		mosCache::cleanCache( 'com_content' );
-		mosRedirect( 'administrator/index2.php', 'Content caches cleaned' );
+		mosRedirect( 'index2.php?abs=1', 'Content caches cleaned' );
 		break;
 
 	case 'clean_all_cache':
 		mosCache::cleanCache();
-		mosRedirect( 'administrator/index2.php', 'All caches cleaned' );
+		mosRedirect( 'index2.php?abs=1', 'All caches cleaned' );
 		break;
 
 	case 'redirect':
 		$goto = trim( strtolower( mosGetParam( $_REQUEST, 'link' ) ) );
 		if ($goto == 'null') {
 			$msg = 'There is no link associated with this item';
-			mosRedirect( 'administrator/index2.php?option=com_admin&task=listcomponents', $msg );
+			mosRedirect( 'index2.php?abs=1&option=com_admin&task=listcomponents', $msg );
 			exit();
 		}
 		$goto = str_replace( "'", '', $goto );
-		mosRedirect('administrator/'. $goto);
+		mosRedirect( $goto );
 		break;
 
 	case 'listcomponents':

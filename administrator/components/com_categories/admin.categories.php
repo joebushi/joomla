@@ -274,7 +274,7 @@ function editCategory( $uid=0, $section='' ) {
 
 	// fail if checked out not by 'me'
 	if ($row->checked_out && $row->checked_out <> $my->id) {
-		mosRedirect( 'administrator/index2.php?option=categories&section='. $row->section, 'The category '. $row->title .' is currently being edited by another administrator' );
+		mosRedirect( 'index2.php?abs=1&option=categories&section='. $row->section, 'The category '. $row->title .' is currently being edited by another administrator' );
 	}
 
 	$lists['links']	= 0;
@@ -481,11 +481,11 @@ function saveCategory( $task ) {
 
 	switch ( $task ) {
 		case 'go2menu':
-			mosRedirect( 'administrator/index2.php?option=com_menus&menutype='. $menu );
+			mosRedirect( 'index2.php?abs=1&option=com_menus&menutype='. $menu );
 			break;
 
 		case 'go2menuitem':
-			mosRedirect( 'administrator/index2.php?option=com_menus&menutype='. $menu .'&task=edit&hidemainmenu=1&id='. $menuid );
+			mosRedirect( 'index2.php?abs=1&option=com_menus&menutype='. $menu .'&task=edit&hidemainmenu=1&id='. $menuid );
 			break;
 
 		case 'menulink':
@@ -494,13 +494,13 @@ function saveCategory( $task ) {
 
 		case 'apply':
 			$msg = 'Changes to Category saved'.$row->section;
-			mosRedirect( 'administrator/index2.php?option=com_categories&section='. $redirect .'&task=editA&hidemainmenu=1&id='. $row->id, $msg );
+			mosRedirect( 'index2.php?abs=1&option=com_categories&section='. $redirect .'&task=editA&hidemainmenu=1&id='. $row->id, $msg );
 			break;
 
 		case 'save':
 		default:
 			$msg = 'Category saved';
-			mosRedirect( 'administrator/index2.php?option=com_categories&section='. $redirect, $msg );
+			mosRedirect( 'index2.php?abs=1&option=com_categories&section='. $redirect, $msg );
 			break;
 	}
 }
@@ -564,10 +564,10 @@ function removeCategories( $section, $cid ) {
 	if (count( $err )) {
 		$cids = implode( "\', \'", $err );
 		$msg = 'Category(s): '. $cids .' cannot be removed as they contain records';
-		mosRedirect( 'administrator/index2.php?option=com_categories&section='. $section .'&mosmsg='. $msg );
+		mosRedirect( 'index2.php?abs=1&option=com_categories&section='. $section .'&mosmsg='. $msg );
 	}
 
-	mosRedirect( 'administrator/index2.php?option=com_categories&section='. $section );
+	mosRedirect( 'index2.php?abs=1&option=com_categories&section='. $section );
 }
 
 /**
@@ -612,7 +612,7 @@ function publishCategories( $section, $categoryid=null, $cid=null, $publish=1 ) 
 		$row->checkin( $cid[0] );
 	}
 
-	mosRedirect( 'administrator/index2.php?option=com_categories&section='. $section );
+	mosRedirect( 'index2.php?abs=1&option=com_categories&section='. $section );
 }
 
 /**
@@ -629,7 +629,7 @@ function cancelCategory() {
 	$row->bind( $_POST );
 	$row->checkin();
 
-	mosRedirect( 'administrator/index2.php?option=com_categories&section='. $redirect );
+	mosRedirect( 'index2.php?abs=1&option=com_categories&section='. $redirect );
 }
 
 /**
@@ -643,7 +643,7 @@ function orderCategory( $uid, $inc ) {
 	$row->load( $uid );
 	$row->move( $inc, "section = '$row->section'" );
 
-	mosRedirect( 'administrator/index2.php?option=com_categories&section='. $row->section );
+	mosRedirect( 'index2.php?abs=1&option=com_categories&section='. $row->section );
 }
 
 /**
@@ -726,7 +726,7 @@ function moveCategorySave( $cid, $sectionOld ) {
 	$sectionNew->load( $sectionMove );
 
 	$msg = $total ." Categories moved to ". $sectionNew->name;
-	mosRedirect( 'administrator/index2.php?option=com_categories&section='. $sectionOld .'&mosmsg='. $msg );
+	mosRedirect( 'index2.php?abs=1&option=com_categories&section='. $sectionOld .'&mosmsg='. $msg );
 }
 
 /**
@@ -836,7 +836,7 @@ function copyCategorySave( $cid, $sectionOld ) {
 	$sectionNew->load( $sectionMove );
 
 	$msg = $total .' Categories copied to '. $sectionNew->name;
-	mosRedirect( 'administrator/index2.php?option=com_categories&section='. $sectionOld .'&mosmsg='. $msg );
+	mosRedirect( 'index2.php?abs=1&option=com_categories&section='. $sectionOld .'&mosmsg='. $msg );
 }
 
 /**
@@ -857,7 +857,7 @@ function accessMenu( $uid, $access, $section ) {
 		return $row->getError();
 	}
 
-	mosRedirect( 'administrator/index2.php?option=com_categories&section='. $section );
+	mosRedirect( 'index2.php?abs=1&option=com_categories&section='. $section );
 }
 
 function menuLink( $id ) {
@@ -930,7 +930,7 @@ function menuLink( $id ) {
 	$row->updateOrder( "menutype = '$menu'" );
 
 	$msg = $name .' ( '. $menutype .' ) in menu: '. $menu .' successfully created';
-	mosRedirect( 'administrator/index2.php?option=com_categories&section='. $redirect .'&task=editA&hidemainmenu=1&id='. $id, $msg );
+	mosRedirect( 'index2.php?abs=1&option=com_categories&section='. $redirect .'&task=editA&hidemainmenu=1&id='. $id, $msg );
 }
 
 function saveOrder( &$cid, $section ) {
@@ -969,6 +969,6 @@ function saveOrder( &$cid, $section ) {
 	} // foreach
 
 	$msg 	= 'New ordering saved';
-	mosRedirect( 'administrator/index2.php?option=com_categories&section='. $section, $msg );
+	mosRedirect( 'index2.php?abs=1&option=com_categories&section='. $section, $msg );
 } // saveOrder
 ?>

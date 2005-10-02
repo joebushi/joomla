@@ -134,12 +134,12 @@ class content_blog_section {
 		$msg = 'Menu item Saved';
 		switch ( $task ) {
 			case 'apply':
-				mosRedirect( 'administrator/index2.php?option='. $option .'&menutype='. $row->menutype .'&task=edit&id='. $row->id, $msg );
+				mosRedirect( 'index2.php?abs=1&option='. $option .'&menutype='. $row->menutype .'&task=edit&id='. $row->id, $msg );
 				break;
 
 			case 'save':
 			default:
-				mosRedirect( 'administrator/index2.php?option='. $option .'&menutype='. $row->menutype, $msg );
+				mosRedirect( 'index2.php?abs=1&option='. $option .'&menutype='. $row->menutype, $msg );
 			break;
 		}
 	}

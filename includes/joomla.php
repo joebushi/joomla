@@ -2366,18 +2366,27 @@ function mosReadDirectory( $path, $filter='.', $recurse=false, $fullpath=false  
 * @param string A filter for the names
 */
 function mosRedirect( $url, $msg='' ) {
-	// specific filters
+    //set to 1 if you want a absolute redirect
+    $absRedir = 0;
+    
+    // specific filters
 	$iFilter = new InputFilter();
 	$url = $iFilter->process( $url );
 	if (!empty($msg)) {
 		$msg = $iFilter->process( $msg );
 	}
+	
 	if ($iFilter->badAttributeValue( array( 'href', $url ))) {
 		$url = $GLOBALS['mosConfig_live_site'];
 	}
     else{
-		$url = $GLOBALS['mosConfig_live_site'] ."/". $url;
+        $adminDir = "";
+        if($absRedir){
+            if($abs) $adminDir = "administrator/";
+            $url = $GLOBALS['mosConfig_live_site'] ."/". $adminDir . $url;
+        }
     }
+    
 	if (trim( $msg )) {
 	 	if (strpos( $url, '?' )) {
 			$url .= '&mosmsg=' . urlencode( $msg );

@@ -18,7 +18,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 // ensure user has access to this function
 if (!($acl->acl_check( 'administration', 'edit', 'users', $my->usertype, 'components', 'all' )
 		| $acl->acl_check( 'administration', 'edit', 'users', $my->usertype, 'components', 'com_newsfeeds' ))) {
-	mosRedirect( 'administrator/index2.php', _NOT_AUTH );
+	mosRedirect( 'index2.php?abs=1', _NOT_AUTH );
 }
 
 require_once( $mainframe->getPath( 'admin_html' ) );
@@ -191,7 +191,7 @@ function saveNewsFeed( $option ) {
 	$row->checkin();
 	$row->updateOrder();
 
-	mosRedirect( 'administrator/index2.php?option='. $option );
+	mosRedirect( 'index2.php?abs=1&option='. $option );
 }
 
 /**
@@ -227,7 +227,7 @@ function publishNewsFeeds( $cid, $publish, $option ) {
 		$row->checkin( $cid[0] );
 	}
 
-	mosRedirect( 'administrator/index2.php?option='. $option );
+	mosRedirect( 'index2.php?abs=1&option='. $option );
 }
 
 /**
@@ -254,7 +254,7 @@ function removeNewsFeeds( &$cid, $option ) {
 		}
 	}
 
-	mosRedirect( 'administrator/index2.php?option='. $option );
+	mosRedirect( 'index2.php?abs=1&option='. $option );
 }
 
 /**
@@ -267,7 +267,7 @@ function cancelNewsFeed( $option ) {
 	$row = new mosNewsFeed( $database );
 	$row->bind( $_POST );
 	$row->checkin();
-	mosRedirect( 'administrator/index2.php?option='. $option );
+	mosRedirect( 'index2.php?abs=1&option='. $option );
 }
 
 /**
@@ -287,6 +287,6 @@ function orderNewsFeed( $id, $inc, $option ) {
 	$row->load( $id );
 	$row->move( $inc );
 
-	mosRedirect( 'administrator/index2.php?option='. $option );
+	mosRedirect( 'index2.php?abs=1&option='. $option );
 }
 ?>

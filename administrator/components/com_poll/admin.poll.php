@@ -18,7 +18,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 // ensure user has access to this function
 if (!($acl->acl_check( 'administration', 'edit', 'users', $my->usertype, 'components', 'all' )
 		| $acl->acl_check( 'administration', 'edit', 'users', $my->usertype, 'components', 'com_poll' ))) {
-	mosRedirect( 'administrator/index2.php', _NOT_AUTH );
+	mosRedirect( 'index2.php?abs=1', _NOT_AUTH );
 }
 
 require_once( $mainframe->getPath( 'admin_html' ) );
@@ -110,7 +110,7 @@ function editPoll( $uid=0, $option='com_poll' ) {
 
 	// fail if checked out not by 'me'
 	if ($row->isCheckedOut( $my->id )) {
-		mosRedirect( 'administrator/index2.php?option='. $option, 'The poll '. $row->title .' is currently being edited by another administrator.' );
+		mosRedirect( 'index2.php?abs=1&option='. $option, 'The poll '. $row->title .' is currently being edited by another administrator.' );
 	}
 
 	$options = array();
@@ -211,7 +211,7 @@ function savePoll( $option ) {
 		$database->query();
 	}
 
-	mosRedirect( 'administrator/index2.php?option='. $option );
+	mosRedirect( 'index2.php?abs=1&option='. $option );
 }
 
 function removePoll( $cid, $option ) {
@@ -223,7 +223,7 @@ function removePoll( $cid, $option ) {
 			$msg .= $poll->getError();
 		}
 	}
-	mosRedirect( 'administrator/index2.php?option='. $option .'&mosmsg='. $msg );
+	mosRedirect( 'index2.php?abs=1&option='. $option .'&mosmsg='. $msg );
 }
 
 /**
@@ -260,7 +260,7 @@ function publishPolls( $cid=null, $publish=1, $option ) {
 		$row = new mosPoll( $database );
 		$row->checkin( $cid[0] );
 	}
-	mosRedirect( 'administrator/index2.php?option='. $option );
+	mosRedirect( 'index2.php?abs=1&option='. $option );
 }
 
 function cancelPoll( $option ) {
@@ -268,6 +268,6 @@ function cancelPoll( $option ) {
 	$row = new mosPoll( $database );
 	$row->bind( $_POST );
 	$row->checkin();
-	mosRedirect( 'administrator/index2.php?option='. $option );
+	mosRedirect( 'index2.php?abs=1&option='. $option );
 }
 ?>
