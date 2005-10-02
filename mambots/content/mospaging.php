@@ -25,9 +25,9 @@ $_MAMBOTS->registerFunction( 'onPrepareContent', 'botMosPaging' );
 * or
 * <code>{mospagebreak heading=The first page}</code>
 * or
-* <code>{mospagebreak title=The page title,heading=The first page}</code>
+* <code>{mospagebreak title=The page title&heading=The first page}</code>
 * or
-* <code>{mospagebreak heading=The first page,title=The page title}</code>
+* <code>{mospagebreak heading=The first page&title=The page title}</code>
 *
 */
 function botMosPaging( $published, &$row, &$params, $page=0 ) {
@@ -73,7 +73,7 @@ function botMosPaging( $published, &$row, &$params, $page=0 ) {
 			$row->page_title = _PN_PAGE .' '. $page_text;
 			if ( !$page ) {
 				// processing for first page
-				parse_str( str_replace( ',', '&', $matches[0][2] ), $args );
+				parse_str( str_replace( '&amp;', '&', $matches[0][2] ), $args );
 
 				if ( @$args['heading'] ) {
 					$row->page_title = $args['heading'];
@@ -81,7 +81,7 @@ function botMosPaging( $published, &$row, &$params, $page=0 ) {
 					$row->page_title = '';
 				}
 			} else if ( $matches[$page-1][2] ) {
-				parse_str(  str_replace( ',', '&', $matches[$page-1][2] ), $args );
+				parse_str(  str_replace( '&amp;', '&', $matches[$page-1][2] ), $args );
 
 				if ( @$args['title'] ) {
 					$row->page_title = $args['title'];
@@ -142,7 +142,7 @@ function createTOC( &$row, &$matches, &$page ) {
 	$heading = $row->title;
 	// allows customization of first page title by checking for `heading` attribute in first bot
 	if ( @$matches[0][2] ) {
-		parse_str( str_replace( ',', '&', $matches[0][2] ), $args );
+		parse_str( str_replace( '&amp;', '&', $matches[0][2] ), $args );
 
 		if ( @$args['heading'] ) {
 			$heading = $args['heading'];
@@ -179,7 +179,7 @@ function createTOC( &$row, &$matches, &$page ) {
 		$link = sefRelToAbs( $link );
 
 		if ( @$bot[2] ) {
-			parse_str( str_replace( ',', '&', $bot[2] ), $args2 );
+			parse_str( str_replace( '&amp;', '&', $bot[2] ), $args2 );
 
 			if ( @$args2['title'] ) {
 				$row->toc .= '
