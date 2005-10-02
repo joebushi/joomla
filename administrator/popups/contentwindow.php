@@ -25,9 +25,10 @@ echo '<?xml version="1.0" encoding="'. $iso[1] .'"?' .'>';
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
+<base href="<?php echo($mosConfig_live_site); ?>/" />
 <head>
 <title>Content Preview</title>
-<link rel="stylesheet" href="../../templates/<?php echo $css;?>/css/template_css.css" type="text/css" />
+<link rel="stylesheet" href="templates/<?php echo $css;?>/css/template_css.css" type="text/css" />
 	<script>
 		var form = window.opener.document.adminForm
 		var title = form.title.value;
@@ -43,7 +44,7 @@ echo '<?xml version="1.0" encoding="'. $iso[1] .'"?' .'>';
 			value = form.imagelist.options[i].value;
 			parts = value.split( '|' );
 
-			temp[i] = '<img src="../../images/stories/' + parts[0] + '" align="' + parts[1] + '" border="' + parts[3] + '" alt="' + parts[2] + '" hspace="6" />';
+			temp[i] = '<img src="images/stories/' + parts[0] + '" align="' + parts[1] + '" border="' + parts[3] + '" alt="' + parts[2] + '" hspace="6" />';
 		}
 
 		var temp2 = alltext.split( '{mosimage}' );

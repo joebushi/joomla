@@ -30,6 +30,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+01-Oct-2005 Andy Miller
+ # Fixed base href in Content Preview for broken images
+
 01-Oct-2005 Johan Janssens 
  ^ Updated TinyMCE editor to version RC 3
  # Fixed artf1221 : Unable to Submit Content (still not working post-patch)
