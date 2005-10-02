@@ -46,8 +46,12 @@ if ( $rows ) {
 	<ul>
 	<?php
 		foreach ($rows as $row) {
-			$_Itemid = $mainframe->getItemid( $row->id, 0, 0, $bs, $bc, $gbs );
-			$link 	= sefRelToAbs( "index.php?option=com_content&task=blogsection&id=". $row->id ."&Itemid=". $_Itemid );
+			$_Itemid 	= $mainframe->getItemid( $row->id, 0, 0, $bs, $bc, $gbs );
+			if ( $Itemid == $_Itemid ) {
+				$link 		= sefRelToAbs( "index.php?option=com_content&task=blogsection&id=". $row->id );
+			} else {
+				$link 		= sefRelToAbs( "index.php?option=com_content&task=blogsection&id=". $row->id ."&Itemid=". $_Itemid );
+			}
 			?>
 			<li>
 				<a href="<?php echo $link;?>">

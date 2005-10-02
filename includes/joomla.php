@@ -1117,6 +1117,20 @@ class mosMainFrame {
 			$_Itemid = $this->_db->loadResult();
 		}
 
+		if ($_Itemid == '') {
+			// Search in categories
+			$query = "SELECT m.id "
+			. "\n FROM #__content AS i"
+			. "\n LEFT JOIN #__categories AS cc ON i.catid = cc.id"
+			. "\n LEFT JOIN #__menu AS m ON m.componentid = cc.id "
+			. "\n WHERE m.type = 'content_category'"
+			. "\n AND m.published = 1"
+			. "\n AND i.id = $id"
+			;
+			$this->_db->setQuery( $query );
+			$_Itemid = $this->_db->loadResult();
+		}
+		
 		if ( $_Itemid != '' ) {
 			return $_Itemid;
 		} else {
