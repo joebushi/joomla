@@ -30,9 +30,6 @@ Legend:
 - -> Removed
 ! -> Note
 
-02-Oct-2005 Johan Janssens
- # Fixed :  HTTP/1.1 requires an absolute URI as argument to header redirects.
-
 02-Oct-2005 Rey Gigataras
  ^ Added check to mosCommonHTML::loadOverlib(); function that will stop it from being loaded twice on a page
  # Fixed Content display not honouring Section or Category publish state

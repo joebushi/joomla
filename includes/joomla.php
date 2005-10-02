@@ -2415,18 +2415,6 @@ function mosRedirect( $url, $msg='' ) {
 		}
 	}
 	
-	$parts = parse_url( $url );
-	if ( $parts['path'] ) {
-	// check whether url is absolute url
-	// if so pull only query part of url 
-	// and recreate as a relative url by adding together path and query info
-		$url = $parts['path'] .'?'. $parts['query'];
-	}
-	
-	$location  = $GLOBALS['mosConfig_live_site'];
-	$location .= $mainframe->isAdmin() ? '/administrator' :  '';
-	$location .= '/'. $url;
-   
 	if (headers_sent()) {
 		echo "<script>document.location.href='$location';</script>\n";
 	} else {

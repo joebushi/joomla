@@ -148,7 +148,7 @@ if ($option == 'login') {
 		</script>
 		<?php
 	}
-	echo $return;
+	
 	if ($return) {
 		mosRedirect( $return );
 	} else {
@@ -168,7 +168,7 @@ if ($option == 'login') {
 		</script>
 		<?php
 	}
-	echo $return;
+
 	if ($return) {
 		mosRedirect( $return );
 	} else {
