@@ -371,6 +371,8 @@ class mosMainFrame {
 	var $_head				= null;
 	/** @var string Custom html string to append to the pathway */
 	var $_custom_pathway	= null;
+	/** @var boolean True if in the admin client */
+	var $_isAdmin 			= false;
 
 	/**
 	* Class constructor
@@ -393,6 +395,9 @@ class mosMainFrame {
 		$this->_head['title'] 	= $GLOBALS['mosConfig_sitename'];
 		$this->_head['meta'] 	= array();
 		$this->_head['custom'] 	= array();
+		
+		//set the admin check
+		$this->_isAdmin 		= (boolean) $isAdmin;
 	}
 	/**
 	* @param string
@@ -1232,6 +1237,14 @@ class mosMainFrame {
 		} else {
 			return $default;
 		}
+	}
+	
+	/** Is admin interface?
+	 * @return boolean
+	 * @since 1.0.2
+	 */
+	function isAdmin() {
+		return $this->_isAdmin;
 	}
 }
 
@@ -2380,9 +2393,9 @@ function mosReadDirectory( $path, $filter='.', $recurse=false, $fullpath=false  
 * @param string A filter for the names
 */
 function mosRedirect( $url, $msg='' ) {
-    //set to 1 if you want a absolute redirect
-    $absRedir = 0;
-    
+   
+   global $mainframe;
+   
     // specific filters
 	$iFilter = new InputFilter();
 	$url = $iFilter->process( $url );
@@ -2393,14 +2406,7 @@ function mosRedirect( $url, $msg='' ) {
 	if ($iFilter->badAttributeValue( array( 'href', $url ))) {
 		$url = $GLOBALS['mosConfig_live_site'];
 	}
-    else{
-        $adminDir = "";
-        if($absRedir){
-            if($abs) $adminDir = "administrator/";
-            $url = $GLOBALS['mosConfig_live_site'] ."/". $adminDir . $url;
-        }
-    }
-    
+	
 	if (trim( $msg )) {
 	 	if (strpos( $url, '?' )) {
 			$url .= '&mosmsg=' . urlencode( $msg );
@@ -2408,13 +2414,17 @@ function mosRedirect( $url, $msg='' ) {
 			$url .= '?mosmsg=' . urlencode( $msg );
 		}
 	}
-
+	
+	$location  = $GLOBALS['mosConfig_live_site'];
+	$location .= $mainframe->isAdmin() ? "/administrator" :  "";
+    $location .= "/".$url;
+   
 	if (headers_sent()) {
-		echo "<script>document.location.href='$url';</script>\n";
+		echo "<script>document.location.href='$location';</script>\n";
 	} else {
 		@ob_end_clean(); // clear output buffer
 		header( 'HTTP/1.1 301 Moved Permanently' );
-		header( "Location: ". $url );
+		header( "Location: ". $location );
 	}
 	exit();
 }
