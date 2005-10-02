@@ -3176,13 +3176,27 @@ class mosMambotHandler {
 		}
 
 		$group = trim( $group );
-		$query = "SELECT folder, element, published, params"
-		. "\n FROM #__mambots"
-		. "\n WHERE published >= 1"
-		. "\n AND access <= $gid"
-		. "\n AND folder = '$group'"
-		. "\n ORDER BY ordering"
-		;
+		
+		switch ( $group ) {
+			case 'content':
+				$query = "SELECT folder, element, published, params"
+				. "\n FROM #__mambots"
+				. "\n WHERE access <= $gid"
+				. "\n AND folder = '$group'"
+				. "\n ORDER BY ordering"
+				;
+				break;
+			
+			default:
+				$query = "SELECT folder, element, published, params"
+				. "\n FROM #__mambots"
+				. "\n WHERE published >= 1"
+				. "\n AND access <= $gid"
+				. "\n AND folder = '$group'"
+				. "\n ORDER BY ordering"
+				;
+				break;
+		}
 		$database->setQuery( $query );
 
 		if (!($bots = $database->loadObjectList())) {
