@@ -378,7 +378,7 @@ function editContent( $uid=0, $sectionid=0, $option ) {
 	if ($uid) {
 		$sectionid = $row->sectionid;
 		if ($row->state < 0) {
-			mosRedirect( 'index2.php?abs=1&option=com_content&sectionid='. $row->sectionid, 'You cannot edit an archived item' );
+			mosRedirect( 'index2.php?option=com_content&sectionid='. $row->sectionid, 'You cannot edit an archived item' );
 		}
 	}
 
@@ -409,7 +409,7 @@ function editContent( $uid=0, $sectionid=0, $option ) {
 
 	// fail if checked out not by 'me'
 	if ($row->checked_out && $row->checked_out <> $my->id) {
-		mosRedirect( 'index2.php?abs=1&option=com_content', 'The module '. $row->title .' is currently being edited by another administrator' );
+		mosRedirect( 'index2.php?option=com_content', 'The module '. $row->title .' is currently being edited by another administrator' );
 	}
 
 	if ($uid) {
@@ -683,11 +683,11 @@ function saveContent( $sectionid, $task ) {
 	$redirect = mosGetParam( $_POST, 'redirect', $sectionid );
 	switch ( $task ) {
 		case 'go2menu':
-			mosRedirect( 'index2.php?abs=1&option=com_menus&menutype='. $menu );
+			mosRedirect( 'index2.php?option=com_menus&menutype='. $menu );
 			break;
 
 		case 'go2menuitem':
-			mosRedirect( 'index2.php?abs=1&option=com_menus&menutype='. $menu .'&task=edit&hidemainmenu=1&id='. $menuid );
+			mosRedirect( 'index2.php?option=com_menus&menutype='. $menu .'&task=edit&hidemainmenu=1&id='. $menuid );
 			break;
 
 		case 'menulink':
@@ -700,13 +700,13 @@ function saveContent( $sectionid, $task ) {
 
 		case 'apply':
 			$msg = 'Successfully Saved changes to Item: '. $row->title;
-			mosRedirect( 'index2.php?abs=1&option=com_content&sectionid='. $redirect .'&task=edit&hidemainmenu=1&id='. $row->id, $msg );
+			mosRedirect( 'index2.php?option=com_content&sectionid='. $redirect .'&task=edit&hidemainmenu=1&id='. $row->id, $msg );
 			break;
 
 		case 'save':
 		default:
 			$msg = 'Successfully Saved Item: '. $row->title;
-			mosRedirect( 'index2.php?abs=1&option=com_content&sectionid='. $redirect, $msg );
+			mosRedirect( 'index2.php?option=com_content&sectionid='. $redirect, $msg );
 
 			break;
 	}
@@ -763,7 +763,7 @@ function changeContent( $cid=null, $state=0, $option ) {
 		$task = '';
 	}
 
-	mosRedirect( 'index2.php?abs=1&option='. $option . $task .'&sectionid='. $redirect .'&mosmsg='. $msg );
+	mosRedirect( 'index2.php?option='. $option . $task .'&sectionid='. $redirect .'&mosmsg='. $msg );
 }
 
 /**
@@ -808,7 +808,7 @@ function toggleFrontPage( $cid, $section, $option ) {
 		$fp->updateOrder();
 	}
 
-	mosRedirect( 'index2.php?abs=1&option='. $option .'&sectionid='. $section, $msg );
+	mosRedirect( 'index2.php?option='. $option .'&sectionid='. $section, $msg );
 }
 
 function removeContent( &$cid, $sectionid, $option ) {
@@ -836,7 +836,7 @@ function removeContent( &$cid, $sectionid, $option ) {
 
 	$msg = $total ." Item(s) sent to the Trash";
 	$return = mosGetParam( $_POST, 'returntask', '' );
-	mosRedirect( 'index2.php?abs=1&option='. $option .'&task='. $return .'&sectionid='. $sectionid, $msg );
+	mosRedirect( 'index2.php?option='. $option .'&task='. $return .'&sectionid='. $sectionid, $msg );
 }
 
 /**
@@ -850,7 +850,7 @@ function cancelContent( ) {
 	$row->checkin();
 
 	$redirect = mosGetParam( $_POST, 'redirect', 0 );
-	mosRedirect( 'index2.php?abs=1&option=com_content&sectionid='. $redirect );
+	mosRedirect( 'index2.php?option=com_content&sectionid='. $redirect );
 }
 
 /**
@@ -866,7 +866,7 @@ function orderContent( $uid, $inc, $option ) {
 
 	$redirect = mosGetParam( $_POST, 'redirect', $row->sectionid );
 
-	mosRedirect( 'index2.php?abs=1&option='. $option .'&sectionid='. $redirect );
+	mosRedirect( 'index2.php?option='. $option .'&sectionid='. $redirect );
 }
 
 /**
@@ -915,7 +915,7 @@ function moveSectionSave( &$cid, $sectionid, $option ) {
 	list( $newsect, $newcat ) = explode( ',', $sectcat );
 
 	if (!$newsect && !$newcat ) {
-		mosRedirect( "index.php?abs=1&option=com_content&sectionid=$sectionid&mosmsg=An error has occurred" );
+		mosRedirect( "index.php?option=com_content&sectionid=$sectionid&mosmsg=An error has occurred" );
 	}
 
 	// find section name
@@ -965,7 +965,7 @@ function moveSectionSave( &$cid, $sectionid, $option ) {
 	}
 
 	$msg = $total. ' Item(s) successfully moved to Section: '. $section .', Category: '. $category;
-	mosRedirect( 'index2.php?abs=1&option='. $option .'&sectionid='. $sectionid .'&mosmsg='. $msg );
+	mosRedirect( 'index2.php?option='. $option .'&sectionid='. $sectionid .'&mosmsg='. $msg );
 }
 
 
@@ -1019,7 +1019,7 @@ function copyItemSave( $cid, $sectionid, $option ) {
 	list( $newsect, $newcat ) = $sectcat;
 
 	if ( !$newsect && !$newcat ) {
-		mosRedirect( 'index.php?abs=1&option=com_content&sectionid='. $sectionid .'&mosmsg=An error has occurred' );
+		mosRedirect( 'index.php?option=com_content&sectionid='. $sectionid .'&mosmsg=An error has occurred' );
 	}
 
 	// find section name
@@ -1093,7 +1093,7 @@ function copyItemSave( $cid, $sectionid, $option ) {
 	}
 
 	$msg = $total. ' Item(s) successfully copied to Section: '. $section .', Category: '. $category;
-	mosRedirect( 'index2.php?abs=1&option='. $option .'&sectionid='. $sectionid .'&mosmsg='. $msg );
+	mosRedirect( 'index2.php?option='. $option .'&sectionid='. $sectionid .'&mosmsg='. $msg );
 }
 
 /**
@@ -1110,7 +1110,7 @@ function resethits( $redirect, $id ) {
 	$row->checkin();
 
 	$msg = 'Successfully Reset Hit count';
-	mosRedirect( 'index2.php?abs=1&option=com_content&sectionid='. $redirect .'&task=edit&hidemainmenu=1&id='. $id, $msg );
+	mosRedirect( 'index2.php?option=com_content&sectionid='. $redirect .'&task=edit&hidemainmenu=1&id='. $id, $msg );
 }
 
 /**
@@ -1134,7 +1134,7 @@ function accessMenu( $uid, $access, $option ) {
 
 	$redirect = mosGetParam( $_POST, 'redirect', $row->sectionid );
 
-	mosRedirect( 'index2.php?abs=1&option='. $option .'&sectionid='. $redirect );
+	mosRedirect( 'index2.php?option='. $option .'&sectionid='. $redirect );
 }
 
 function filterCategory( $query, $active=NULL ) {
@@ -1176,20 +1176,20 @@ function menuLink( $redirect, $id ) {
 	$row->updateOrder( "menutype = '$row->menutype' AND parent = $row->parent" );
 
 	$msg = $link .' (Link - Static Content) in menu: '. $menu .' successfully created';
-	mosRedirect( 'index2.php?abs=1&option=com_content&sectionid='. $redirect .'&task=edit&hidemainmenu=1&id='. $id, $msg );
+	mosRedirect( 'index2.php?option=com_content&sectionid='. $redirect .'&task=edit&hidemainmenu=1&id='. $id, $msg );
 }
 
 function go2menu() {
 	$menu = mosGetParam( $_POST, 'menu', 'mainmenu' );
 
-	mosRedirect( 'index2.php?abs=1&option=com_menus&menutype='. $menu );
+	mosRedirect( 'index2.php?option=com_menus&menutype='. $menu );
 }
 
 function go2menuitem() {
 	$menu 	= mosGetParam( $_POST, 'menu', 'mainmenu' );
 	$id		= mosGetParam( $_POST, 'menuid', 0 );
 
-	mosRedirect( 'index2.php?abs=1&option=com_menus&menutype='. $menu .'&task=edit&hidemainmenu=1&id='. $id );
+	mosRedirect( 'index2.php?option=com_menus&menutype='. $menu .'&task=edit&hidemainmenu=1&id='. $id );
 }
 
 function saveOrder( &$cid ) {
@@ -1232,11 +1232,11 @@ function saveOrder( &$cid ) {
 	$msg 	= 'New ordering saved';
 	switch ( $rettask ) {
 		case 'showarchive':
-			mosRedirect( 'index2.php?abs=1&option=com_content&task=showarchive&sectionid='. $redirect, $msg );
+			mosRedirect( 'index2.php?option=com_content&task=showarchive&sectionid='. $redirect, $msg );
 			break;
 
 		default:
-			mosRedirect( 'index2.php?abs=1&option=com_content&sectionid='. $redirect, $msg );
+			mosRedirect( 'index2.php?option=com_content&sectionid='. $redirect, $msg );
 			break;
 	} // switch
 } // saveOrder

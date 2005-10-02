@@ -1473,7 +1473,7 @@ function cancelContent( &$access ) {
 
 	$row = new mosContent( $database );
 	$row->bind( $_POST );
-
+	
 	if ( $access->canEdit || ( $access->canEditOwn && $row->created_by == $my->id ) ) {
 		$row->checkin();
 	}
@@ -1488,7 +1488,7 @@ function cancelContent( &$access ) {
 		$Itemid  = mosGetParam( $_POST, 'Returnid', '' );
 		$referer = 'index.php?option=com_content&task=view&id='. $row->id.'&Itemid='. $Itemid;
 	}
-
+	
 	if ( $referer && !( $query['task'] == 'new' ) ) {
 		mosRedirect( $referer );
 	} else {

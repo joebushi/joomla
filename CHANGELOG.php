@@ -30,6 +30,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+02-Oct-2005 Johan Janssens
+ # Fixed :  HTTP/1.1 requires an absolute URI as argument to header redirects.
+
 02-Oct-2005 Rey Gigataras
  ^ Added check to mosCommonHTML::loadOverlib(); function that will stop it from being loaded twice on a page
  # Fixed Content display not honouring Section or Category publish state
@@ -40,9 +43,6 @@ Legend:
  # Fixed artf1183 : Section module: Still "no items to display"
  # Fixed artf1241 : Editing content fails with MySQL 5.0.12b
  # Fixed artf1306 : modules - parameters of type text not stored correctly
-
-02-Oct-2005 Levis Bisson
- ^ Changed back the default redirection to relative + option for absolute
 
 01-Oct-2005 Andy Miller
  # Fixed base href in Content Preview for broken images
@@ -60,7 +60,6 @@ Legend:
  ^ Changed OSM banner 2 a little to show banner changing
  
 01-Oct-2005 Levis Bisson
- # Fixed absolute backend redirection - option
  # Fixed artf1311 : Banners not showing / returning PHP error
  # Fixed artf1319 : Banners not showing in frontend / admin
  
