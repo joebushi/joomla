@@ -63,17 +63,17 @@ switch ($task) {
 	case 'unpublish':
 		if ($msg = publishMenuSection( $cid, ($task == 'publish') )) {
 			// proceed no further if the menu item can't be published
-			mosRedirect( 'index2.php?abs=1&option=com_menus&menutype='. $menutype .'&mosmsg= '.$msg );
+			mosRedirect( 'index2.php?option=com_menus&menutype='. $menutype .'&mosmsg= '.$msg );
 		} else {
-			mosRedirect( 'index2.php?abs=1&option=com_menus&menutype='. $menutype );
+			mosRedirect( 'index2.php?option=com_menus&menutype='. $menutype );
 		}
 		break;
 
 	case 'remove':
 		if ($msg = TrashMenusection( $cid )) {
-			mosRedirect( 'index2.php?abs=1&option=com_menus&menutype='. $menutype .'&mosmsg= '.$msg );
+			mosRedirect( 'index2.php?option=com_menus&menutype='. $menutype .'&mosmsg= '.$msg );
 		} else {
-			mosRedirect( 'index2.php?abs=1&option=com_menus&menutype='. $menutype );
+			mosRedirect( 'index2.php?option=com_menus&menutype='. $menutype );
 		}
 		break;
 
@@ -396,12 +396,12 @@ function saveMenu( $option, $task='save' ) {
 	$msg = 'Menu item Saved';
 	switch ( $task ) {
 		case 'apply':
-			mosRedirect( 'index2.php?abs=1&option='. $option .'&menutype='. $row->menutype .'&task=edit&id='. $row->id . '&hidemainmenu=1' , $msg );
+			mosRedirect( 'index2.php?option='. $option .'&menutype='. $row->menutype .'&task=edit&id='. $row->id . '&hidemainmenu=1' , $msg );
 			break;
 
 		case 'save':
 		default:
-			mosRedirect( 'index2.php?abs=1&option='. $option .'&menutype='. $row->menutype, $msg );
+			mosRedirect( 'index2.php?option='. $option .'&menutype='. $row->menutype, $msg );
 			break;
 	}
 }
@@ -489,7 +489,7 @@ function cancelMenu( $option ) {
 		$content->checkin();
 	}
 */
-	mosRedirect( 'administrator/index2.php?option='. $option .'&menutype='. $menu->menutype );
+	mosRedirect( 'index2.php?option='. $option .'&menutype='. $menu->menutype );
 }
 
 /**
@@ -503,7 +503,7 @@ function orderMenu( $uid, $inc, $option ) {
 	$row->load( $uid );
 	$row->move( $inc, "menutype = '$row->menutype' AND parent = $row->parent" );
 
-	mosRedirect( 'administrator/index2.php?option='. $option .'&menutype='. $row->menutype );
+	mosRedirect( 'index2.php?option='. $option .'&menutype='. $row->menutype );
 }
 
 
@@ -525,7 +525,7 @@ function accessMenu( $uid, $access, $option, $menutype ) {
 		return $menu->getError();
 	}
 
-	mosRedirect( 'administrator/index2.php?option='. $option .'&menutype='. $menutype );
+	mosRedirect( 'index2.php?option='. $option .'&menutype='. $menutype );
 }
 
 /**
@@ -639,7 +639,7 @@ function moveMenuSave( $option, $cid, $menu, $menutype ) {
 	} // if
 
 	$msg = count($cid) .' Menu Items moved to '. $menu;
-	mosRedirect( 'administrator/index2.php?option='. $option .'&menutype='. $menutype .'&mosmsg='. $msg );
+	mosRedirect( 'index2.php?option='. $option .'&menutype='. $menutype .'&mosmsg='. $msg );
 } // moveMenuSave
 
 /**
@@ -712,7 +712,7 @@ function copyMenuSave( $option, $cid, $menu, $menutype ) {
 		$curr->updateOrder( "menutype = '$curr->menutype' AND parent = $curr->parent" );
 	} // foreach
 	$msg = count( $cid ) .' Menu Items Copied to '. $menu;
-	mosRedirect( 'administrator/index2.php?option='. $option .'&menutype='. $menutype .'&mosmsg='. $msg );
+	mosRedirect( 'index2.php?option='. $option .'&menutype='. $menutype .'&mosmsg='. $msg );
 }
 
 function ReadMenuXML( $type, $component=-1 ) {
@@ -788,6 +788,6 @@ function saveOrder( &$cid, $menutype ) {
 	} // foreach
 
 	$msg 	= 'New ordering saved';
-	mosRedirect( 'administrator/index2.php?option=com_menus&menutype='. $menutype, $msg );
+	mosRedirect( 'index2.php?option=com_menus&menutype='. $menutype, $msg );
 } // saveOrder
 ?>

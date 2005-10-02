@@ -16,7 +16,7 @@
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 if (!$acl->acl_check( 'administration', 'config', 'users', $my->usertype )) {
-	mosRedirect( 'index2.php?abs=1', _NOT_AUTH );
+	mosRedirect( 'index2.php?', _NOT_AUTH );
 }
 
 require_once( $mainframe->getPath( 'class' ) );
@@ -29,7 +29,7 @@ switch ( $task ) {
 		break;
 
 	case 'cancel':
-		mosRedirect( 'index2.php?abs=1' );
+		mosRedirect( 'index2.php' );
 		break;
 
 	default:
@@ -298,7 +298,7 @@ function saveconfig( $task ) {
 
 	$row = new mosConfig();
 	if (!$row->bind( $_POST )) {
-		mosRedirect( 'index2.php?abs=1', $row->getError() );
+		mosRedirect( 'index2.php', $row->getError() );
 	}
 	
 	$config = "<?php \n";
@@ -361,19 +361,19 @@ function saveconfig( $task ) {
 
 		switch ( $task ) {
 			case 'apply':
-				mosRedirect( 'index2.php?abs=1&option=com_config&hidemainmenu=1', $msg );
+				mosRedirect( 'index2.php?option=com_config&hidemainmenu=1', $msg );
 				break;
 
 			case 'save':
 			default:
-				mosRedirect( 'index2.php?abs=1', $msg );
+				mosRedirect( 'index2.php', $msg );
 				break;
 		}
 	} else {
 		if ($enable_write) {
 			@chmod( $fname, $oldperms );
 		}
-		mosRedirect( 'index2.php?abs=1', 'An Error Has Occurred! Unable to open config file to write!' );
+		mosRedirect( 'index2.php', 'An Error Has Occurred! Unable to open config file to write!' );
 	}
 }
 ?>

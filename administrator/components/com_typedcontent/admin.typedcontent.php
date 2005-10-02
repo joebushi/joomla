@@ -347,11 +347,11 @@ function save( $option, $task ) {
 
 	switch ( $task ) {
 		case 'go2menu':
-			mosRedirect( 'index2.php?abs=1&option=com_menus&menutype='. $menu );
+			mosRedirect( 'index2.php?option=com_menus&menutype='. $menu );
 			break;
 
 		case 'go2menuitem':
-			mosRedirect( 'index2.php?abs=1&option=com_menus&menutype='. $menu .'&task=edit&hidemainmenu=1&id='. $menuid );
+			mosRedirect( 'index2.php?option=com_menus&menutype='. $menu .'&task=edit&hidemainmenu=1&id='. $menuid );
 			break;
 
 		case 'menulink':
@@ -364,13 +364,13 @@ function save( $option, $task ) {
 
 		case 'save':
 			$msg = 'Typed Content Item saved';
-			mosRedirect( 'index2.php?abs=1&option='. $option, $msg );
+			mosRedirect( 'index2.php?option='. $option, $msg );
 			break;
 
 		case 'apply':
 		default:
 			$msg = 'Changes to Typed Content Item saved';
-			mosRedirect( 'index2.php?abs=1&option='. $option .'&task=edit&hidemainmenu=1&id='. $row->id, $msg );
+			mosRedirect( 'index2.php?option='. $option .'&task=edit&hidemainmenu=1&id='. $row->id, $msg );
 			break;
 	}
 }
@@ -402,7 +402,7 @@ function trash( &$cid, $option ) {
 	}
 
 	$msg = $total ." Item(s) sent to the Trash";
-	mosRedirect( 'index2.php?abs=1&option='. $option, $msg );
+	mosRedirect( 'index2.php?option='. $option, $msg );
 }
 
 /**
@@ -446,7 +446,7 @@ function changeState( $cid=null, $state=0, $option ) {
 	} else if ( $state == "0" ) {
 		$msg = $total ." Item(s) successfully Unpublished";
 	}
-	mosRedirect( 'index2.php?abs=1&option='. $option .'&msg='. $msg );
+	mosRedirect( 'index2.php?option='. $option .'&msg='. $msg );
 }
 
 /**
@@ -467,7 +467,7 @@ function changeAccess( $id, $access, $option  ) {
 		return $row->getError();
 	}
 
-	mosRedirect( 'index2.php?abs=1&option='. $option );
+	mosRedirect( 'index2.php?option='. $option );
 }
 
 
@@ -484,7 +484,7 @@ function resethits( $option, $id ) {
 	$row->checkin();
 
 	$msg = 'Successfully Reset Hit';
-	mosRedirect( 'index2.php?abs=1&option='. $option .'&task=edit&hidemainmenu=1&id='. $row->id, $msg );
+	mosRedirect( 'index2.php?option='. $option .'&task=edit&hidemainmenu=1&id='. $row->id, $msg );
 }
 
 /**
@@ -497,7 +497,7 @@ function cancel( $option ) {
 	$row = new mosContent( $database );
 	$row->bind( $_POST );
 	$row->checkin();
-	mosRedirect( 'index2.php?abs=1&option='. $option );
+	mosRedirect( 'index2.php?option='. $option );
 }
 
 function menuLink( $option, $id ) {
@@ -527,7 +527,7 @@ function menuLink( $option, $id ) {
 	$row->updateOrder( "menutype='$row->menutype' AND parent='$row->parent'" );
 
 	$msg = $link .' (Link - Static Content) in menu: '. $menu .' successfully created';
-	mosRedirect( 'index2.php?abs=1&option='. $option .'&task=edit&hidemainmenu=1&id='. $id, $msg );
+	mosRedirect( 'index2.php?option='. $option .'&task=edit&hidemainmenu=1&id='. $id, $msg );
 }
 
 function go2menu() {
@@ -540,7 +540,7 @@ function go2menu() {
 
 	$menu = mosGetParam( $_POST, 'menu', 'mainmenu' );
 
-	mosRedirect( 'index2.php?abs=1&option=com_menus&menutype='. $menu );
+	mosRedirect( 'index2.php?option=com_menus&menutype='. $menu );
 }
 
 function go2menuitem() {
@@ -554,7 +554,7 @@ function go2menuitem() {
 	$menu 	= mosGetParam( $_POST, 'menu', 'mainmenu' );
 	$id		= mosGetParam( $_POST, 'menuid', 0 );
 
-	mosRedirect( 'index2.php?abs=1&option=com_menus&menutype='. $menu .'&task=edit&hidemainmenu=1&id='. $id );
+	mosRedirect( 'index2.php?option=com_menus&menutype='. $menu .'&task=edit&hidemainmenu=1&id='. $id );
 }
 
 function saveOrder( &$cid ) {
@@ -593,6 +593,6 @@ function saveOrder( &$cid ) {
 	} // foreach
 
 	$msg 	= 'New ordering saved';
-	mosRedirect( 'index2.php?abs=1&option=com_typedcontent', $msg );
+	mosRedirect( 'index2.php?option=com_typedcontent', $msg );
 } // saveOrder
 ?>

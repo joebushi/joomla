@@ -18,7 +18,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 // ensure user has access to this function
 if (!($acl->acl_check( 'administration', 'edit', 'users', $my->usertype, 'components', 'all' )
 		| $acl->acl_check( 'administration', 'edit', 'users', $my->usertype, 'components', 'com_media' ))) {
-	mosRedirect( 'index2.php?abs=1', _NOT_AUTH );
+	mosRedirect( 'index2.php', _NOT_AUTH );
 }
 
 require_once( $mainframe->getPath( 'admin_html' ) );
@@ -34,7 +34,7 @@ if (!(isset($listdir))){
 }
 
 if (is_int(strpos ($listdir, "..")) && $listdir<>'') {
-	mosRedirect( "index2.php?abs=1&option=com_media&listdir=".$_POST['dirPath'], "NO HACKING PLEASE" );
+	mosRedirect( "index2.php?option=com_media&listdir=".$_POST['dirPath'], "NO HACKING PLEASE" );
 }
 
 $base = '/images';
@@ -48,7 +48,7 @@ switch ($task) {
 
 	case 'newdir':
 		if (ini_get('safe_mode')=='On') {
-			mosRedirect( "index2.php?abs=1&option=com_media&listdir=".$_POST['dirPath'], "Directory creation not allowed while running in SAFE MODE as this can cause problems." );
+			mosRedirect( "index2.php?option=com_media&listdir=".$_POST['dirPath'], "Directory creation not allowed while running in SAFE MODE as this can cause problems." );
 			}
 		else {
 			create_folder($foldername,$dirPath);
@@ -71,7 +71,7 @@ switch ($task) {
 		break;
 
 	case 'cancel':
-		mosRedirect( 'index2.php?abs=1' );
+		mosRedirect( 'index2.php' );
 		break;
 	
 	default:
@@ -97,7 +97,7 @@ function create_folder($folder_name,$dirPath) {
 
 	if(strlen($folder_name) >0) {
 		if (eregi("[^0-9a-zA-Z_]", $folder_name)) {
-			mosRedirect( "index2.php?abs=1&option=com_media&listdir=".$_POST['dirPath'], "Directory name must only contain alphanumeric characters and no spaces please." );
+			mosRedirect( "index2.php?option=com_media&listdir=".$_POST['dirPath'], "Directory name must only contain alphanumeric characters and no spaces please." );
 		}
 		$folder = $mosConfig_absolute_path. $base . $dirPath .'/'. $folder_name;
 		if(!is_dir($folder) && !is_file($folder)) {
@@ -161,7 +161,7 @@ function do_upload($file, $dest_dir) {
 	global $clearUploads;
 
 		if (file_exists($dest_dir.$file['name'])) {
-			mosRedirect( "index2.php?abs=1&option=com_media&listdir=".$_POST['dirPath'], "Upload FAILED.File allready exists" );
+			mosRedirect( "index2.php?option=com_media&listdir=".$_POST['dirPath'], "Upload FAILED.File allready exists" );
 		}
 
 		$format = substr( $file['name'], -3 );
@@ -191,15 +191,15 @@ function do_upload($file, $dest_dir) {
 			if ( strcasecmp( $format, $ext ) == 0 ) $noMatch = 1;
 		}
         if(!$noMatch){
-			mosRedirect( "index2.php?abs=1&option=com_media&listdir=".$_POST['dirPath'], 'This file type is not supported' );
+			mosRedirect( "index2.php?option=com_media&listdir=".$_POST['dirPath'], 'This file type is not supported' );
         }
 
 		if (!move_uploaded_file($file['tmp_name'], $dest_dir.strtolower($file['name']))){
-			mosRedirect( "index2.php?abs=1&option=com_media&listdir=".$_POST['dirPath'], "Upload FAILED" );
+			mosRedirect( "index2.php?option=com_media&listdir=".$_POST['dirPath'], "Upload FAILED" );
 			}
 		else {
 			mosChmod($dest_dir.strtolower($file['name']));
-			mosRedirect( "index2.php?abs=1&option=com_media&listdir=".$_POST['dirPath'], "Upload complete" );
+			mosRedirect( "index2.php?option=com_media&listdir=".$_POST['dirPath'], "Upload complete" );
 		}
 
 	$clearUploads = true;

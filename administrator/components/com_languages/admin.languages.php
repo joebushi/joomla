@@ -17,7 +17,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 // ensure user has access to this function
 if (!$acl->acl_check( 'administration', 'config', 'users', $my->usertype )) {
-	mosRedirect( 'index2.php?abs=1', _NOT_AUTH );
+	mosRedirect( 'index2.php', _NOT_AUTH );
 }
 
 
@@ -34,7 +34,7 @@ if (!is_array( $cid )) {
 
 switch ($task) {
 	case 'new':
-		mosRedirect( 'index2.php?abs=1&option=com_installer&element=language' );
+		mosRedirect( 'index2.php?option=com_installer&element=language' );
 		break;
 
 	case 'edit_source':
@@ -54,7 +54,7 @@ switch ($task) {
 		break;
 
 	case 'cancel':
-		mosRedirect( "index2.php?abs=1&option=$option" );
+		mosRedirect( "index2.php?option=$option" );
 		break;
 
 	default:
@@ -169,9 +169,9 @@ function publishLanguage( $p_lname, $option ) {
 	if ($fp = fopen("../configuration.php","w")){
 		fputs($fp, $config, strlen($config));
 		fclose($fp);
-		mosRedirect("index2.php?abs=1","Configuration succesfully updated!");
+		mosRedirect("index2.php","Configuration succesfully updated!");
 	} else {
-		mosRedirect("index2.php?abs=1","Error! Make sure that configuration.php is writeable.");
+		mosRedirect("index2.php","Error! Make sure that configuration.php is writeable.");
 	}
 
 }
@@ -200,7 +200,7 @@ function removeLanguage( $cid, $option, $client ) {
 	unlink($xml_path);
 	*/
 
-	mosRedirect( 'index2.php?abs=1&option=com_installer&element=language&client='. $client .'&task=remove&cid[]='. $cid );
+	mosRedirect( 'index2.php?option=com_installer&element=language&client='. $client .'&task=remove&cid[]='. $cid );
 
 }
 
@@ -213,7 +213,7 @@ function editLanguageSource( $p_lname, $option) {
 
 		HTML_languages::editLanguageSource( $p_lname, $content, $option );
 	} else {
-		mosRedirect( "index2.php?abs=1&option=$option&mosmsg=Operation Failed: Could not open $file" );
+		mosRedirect( "index2.php?option=$option&mosmsg=Operation Failed: Could not open $file" );
 	}
 }
 
@@ -222,10 +222,10 @@ function saveLanguageSource( $option ) {
 	$filecontent = mosGetParam( $_POST, 'filecontent', '', _MOS_ALLOWHTML );
 
 	if (!$language) {
-		mosRedirect( "index2.php?abs=1&option=$option&mosmsg=Operation failed: No language specified." );
+		mosRedirect( "index2.php?option=$option&mosmsg=Operation failed: No language specified." );
 	}
 	if (!$filecontent) {
-		mosRedirect( "index2.php?abs=1&option=$option&mosmsg=Operation failed: Content empty." );
+		mosRedirect( "index2.php?option=$option&mosmsg=Operation failed: Content empty." );
 	}
 
 	$file = "../language/$language.php";
@@ -235,7 +235,7 @@ function saveLanguageSource( $option ) {
 
 	clearstatcache();
 	if (is_writable( $file ) == false) {
-		mosRedirect( "index2.php?abs=1&option=$option&mosmsg=Operation failed: The file is not writable." );
+		mosRedirect( "index2.php?option=$option&mosmsg=Operation failed: The file is not writable." );
 	}
 
 	if ($fp = fopen ($file, "w")) {
@@ -247,10 +247,10 @@ function saveLanguageSource( $option ) {
 			if (mosGetParam($_POST,'disable_write',0))
 				@chmod($file, $oldperms & 0777555);
 		} // if
-		mosRedirect( "index2.php?abs=1&option=$option" );
+		mosRedirect( "index2.php?option=$option" );
 	} else {
 		if ($enable_write) @chmod($file, $oldperms);
-		mosRedirect( "index2.php?abs=1&option=$option&mosmsg=Operation failed: Failed to open file for writing." );
+		mosRedirect( "index2.php?option=$option&mosmsg=Operation failed: Failed to open file for writing." );
 	}
 }
 ?>

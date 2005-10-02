@@ -17,7 +17,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 // ensure user has access to this function
 if (!($acl->acl_check( 'administration', 'edit', 'users', $my->usertype, 'components', 'all' ) | $acl->acl_check( 'administration', 'edit', 'users', $my->usertype, 'components', 'com_contact' ))) {
-	mosRedirect( 'index2.php?abs=1', _NOT_AUTH );
+	mosRedirect( 'index2.php', _NOT_AUTH );
 }
 
 require_once( $mainframe->getPath( 'admin_html' ) );
@@ -97,13 +97,13 @@ function saveSyndicate( $option ) {
 	}
 
 	$msg = 'Settings successfully Saved';
-	mosRedirect( 'index2.php?abs=1&option='. $option, $msg );
+	mosRedirect( 'index2.php?option='. $option, $msg );
 }
 
 /**
 * Cancels editing and checks in the record
 */
 function cancelSyndicate(){
-	mosRedirect( 'index2.php?abs=1' );
+	mosRedirect( 'index2.php' );
 }
 ?>

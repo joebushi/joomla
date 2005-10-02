@@ -18,7 +18,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 // ensure user has access to this function
 if (!($acl->acl_check( 'administration', 'edit', 'users', $my->usertype, 'mambots', 'all' )
 | $acl->acl_check( 'administration', 'install', 'users', $my->usertype, 'mambots', 'all' ))) {
-		mosRedirect( 'index2.php?abs=1', _NOT_AUTH );
+		mosRedirect( 'index2.php', _NOT_AUTH );
 }
 
 require_once( $mainframe->getPath( 'admin_html' ) );
@@ -190,12 +190,12 @@ function saveMambot( $option, $client, $task ) {
 	switch ( $task ) {
 		case 'apply':
 			$msg = 'Successfully Saved changes to Mambot: '. $row->name;
-			mosRedirect( 'index2.php?abs=1&option='. $option .'&client='. $client .'&task=editA&hidemainmenu=1&id='. $row->id, $msg );
+			mosRedirect( 'index2.php?option='. $option .'&client='. $client .'&task=editA&hidemainmenu=1&id='. $row->id, $msg );
 
 		case 'save':
 		default:
 			$msg = 'Successfully Saved Mambot: '. $row->name;
-			mosRedirect( 'index2.php?abs=1&option='. $option .'&client='. $client, $msg );
+			mosRedirect( 'index2.php?option='. $option .'&client='. $client, $msg );
 			break;
 	}
 }
@@ -309,7 +309,7 @@ function removeMambot( &$cid, $option, $client ) {
 		exit;
 	}
 
-	mosRedirect( 'index2.php?abs=1&option=com_installer&element=mambot&client='. $client .'&task=remove&cid[]='. $cid[0] );
+	mosRedirect( 'index2.php?option=com_installer&element=mambot&client='. $client .'&task=remove&cid[]='. $cid[0] );
 }
 
 /**
@@ -343,7 +343,7 @@ function publishMambot( $cid=null, $publish=1, $option, $client ) {
 		$row->checkin( $cid[0] );
 	}
 
-	mosRedirect( 'index2.php?abs=1&option='. $option .'&client='. $client );
+	mosRedirect( 'index2.php?option='. $option .'&client='. $client );
 }
 
 /**
@@ -356,7 +356,7 @@ function cancelMambot( $option, $client ) {
 	$row->bind( $_POST );
 	$row->checkin();
 
-	mosRedirect( 'index2.php?abs=1&option='. $option .'&client='. $client );
+	mosRedirect( 'index2.php?option='. $option .'&client='. $client );
 }
 
 /**
@@ -377,7 +377,7 @@ function orderMambot( $uid, $inc, $option, $client ) {
 	$row->load( $uid );
 	$row->move( $inc, "folder='$row->folder' AND ordering > -10000 AND ordering < 10000 AND ($where)"  );
 
-	mosRedirect( 'index2.php?abs=1&option='. $option );
+	mosRedirect( 'index2.php?option='. $option );
 }
 
 /**
@@ -451,6 +451,6 @@ function saveOrder( &$cid ) {
 	} // foreach
 
 	$msg 	= 'New ordering saved';
-	mosRedirect( 'index2.php?abs=1&option=com_mambots', $msg );
+	mosRedirect( 'index2.php?option=com_mambots', $msg );
 } // saveOrder
 ?>

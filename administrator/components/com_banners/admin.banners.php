@@ -17,7 +17,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 // ensure user has access to this function
 if (!($acl->acl_check( 'administration', 'edit', 'users', $my->usertype, 'components', 'all' )| $acl->acl_check( 'administration', 'edit', 'users', $my->usertype, 'components', 'com_banners' ))) {
-	mosRedirect( 'index2.php?abs=1', _NOT_AUTH );
+	mosRedirect( 'index2.php', _NOT_AUTH );
 }
 
 require_once( $mainframe->getPath( 'admin_html' ) );
@@ -192,7 +192,7 @@ function saveBanner( $task ) {
 	}
 	$row->checkin();
 
-	mosRedirect( 'index2.php?abs=1&option=com_banners', $msg );
+	mosRedirect( 'index2.php?option=com_banners', $msg );
 }
 
 function cancelEditBanner() {
@@ -202,7 +202,7 @@ function cancelEditBanner() {
 	$row->bind( $_POST );
 	$row->checkin();
 
-	mosRedirect( 'index2.php?abs=1&option=com_banners' );
+	mosRedirect( 'index2.php?option=com_banners' );
 }
 
 function publishBanner( $cid, $publish=1 ) {
@@ -231,7 +231,7 @@ function publishBanner( $cid, $publish=1 ) {
 		$row = new mosBanner( $database );
 		$row->checkin( $cid[0] );
 	}
-	mosRedirect( 'index2.php?abs=1&option=com_banners' );
+	mosRedirect( 'index2.php?option=com_banners' );
 
 }
 
@@ -247,7 +247,7 @@ function removeBanner( $cid ) {
 			echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
 		}
 	}
-	mosRedirect( 'index2.php?abs=1&option=com_banners' );
+	mosRedirect( 'index2.php?option=com_banners' );
 }
 
 // ---------- BANNER CLIENTS ----------
@@ -294,7 +294,7 @@ function editBannerClient( $clientid, $option ) {
 	// fail if checked out not by 'me'
 	if ($row->checked_out && $row->checked_out <> $my->id) {
 		$msg = 'The client [ '. $row->name. ' ] is currently being edited by another person.';
-		mosRedirect( 'index2.php?abs=1&option='. $option .'&task=listclients', $msg );
+		mosRedirect( 'index2.php?option='. $option .'&task=listclients', $msg );
 	}
 
 	if ($clientid) {
@@ -318,7 +318,7 @@ function saveBannerClient( $option ) {
 		exit();
 	}
 	if (!$row->check()) {
-		mosRedirect( "index2.php?abs=1&option=$option&task=editclient&cid[]=$row->id", $row->getError() );
+		mosRedirect( "index2.php?option=$option&task=editclient&cid[]=$row->id", $row->getError() );
 	}
 
 	if (!$row->store()) {
@@ -327,7 +327,7 @@ function saveBannerClient( $option ) {
 	}
 	$row->checkin();
 
-	mosRedirect( "index2.php?abs=1&option=$option&task=listclients" );
+	mosRedirect( "index2.php?option=$option&task=listclients" );
 }
 
 function cancelEditClient( $option ) {
@@ -335,7 +335,7 @@ function cancelEditClient( $option ) {
 	$row = new mosBannerClient( $database );
 	$row->bind( $_POST );
 	$row->checkin();
-	mosRedirect( "index2.php?abs=1&option=$option&task=listclients" );
+	mosRedirect( "index2.php?option=$option&task=listclients" );
 }
 
 function removeBannerClients( $cid, $option ) {
@@ -353,7 +353,7 @@ function removeBannerClients( $cid, $option ) {
 		}
 
 		if ($count != 0) {
-			mosRedirect( "index2.php?abs=1&option=$option&task=listclients",
+			mosRedirect( "index2.php?option=$option&task=listclients",
 			"Cannot delete client at this time as they have a banner still running" );
 		} else {
 			$query="DELETE FROM #__bannerfinish"
@@ -369,6 +369,6 @@ function removeBannerClients( $cid, $option ) {
 			$database->query();
 		}
 	}
-	mosRedirect("index2.php?abs=1&option=$option&task=listclients");
+	mosRedirect("index2.php?option=$option&task=listclients");
 }
 ?>

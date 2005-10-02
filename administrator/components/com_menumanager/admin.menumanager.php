@@ -17,7 +17,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 // ensure user has access to this function
 if (!$acl->acl_check( 'administration', 'manage', 'users', $my->usertype, 'components', 'com_menumanager' )) {
-	mosRedirect( 'index2.php?abs=1', _NOT_AUTH );
+	mosRedirect( 'index2.php', _NOT_AUTH );
 }
 
 require_once( $mainframe->getPath( 'admin_html' ) );
@@ -316,7 +316,7 @@ function saveMenu() {
 			break;
 	}
 
-	mosRedirect( 'index2.php?abs=1&option=com_menumanager', $msg );
+	mosRedirect( 'index2.php?option=com_menumanager', $msg );
 }
 
 /**
@@ -430,7 +430,7 @@ function deleteMenu( $option, $cid, $type ) {
 	}
 
 	$msg = 'Menu Deleted';
-	mosRedirect( 'index2.php?abs=1&option=' . $option, $msg );
+	mosRedirect( 'index2.php?option=' . $option, $msg );
 }
 
 
@@ -533,7 +533,7 @@ function copyMenu( $option, $cid, $type ) {
 	}
 
 	$msg = 'Copy of Menu `'. $type .'` created, consisting of '. $total .' items';
-	mosRedirect( 'index2.php?abs=1&option=' . $option, $msg );
+	mosRedirect( 'index2.php?option=' . $option, $msg );
 }
 
 /**
@@ -541,6 +541,6 @@ function copyMenu( $option, $cid, $type ) {
 * @param option	options for the operation
 */
 function cancelMenu( $option ) {
-	mosRedirect( 'index2.php?abs=1&option=' . $option . '&task=view' );
+	mosRedirect( 'index2.php?option=' . $option . '&task=view' );
 }
 ?>

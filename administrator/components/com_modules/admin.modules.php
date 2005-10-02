@@ -17,7 +17,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 // ensure user has access to this function
 if (!($acl->acl_check( 'administration', 'edit', 'users', $my->usertype, 'modules', 'all' ) | $acl->acl_check( 'administration', 'install', 'users', $my->usertype, 'modules', 'all' ))) {
-	mosRedirect( 'index2.php?abs=1', _NOT_AUTH );
+	mosRedirect( 'index2.php', _NOT_AUTH );
 }
 
 require_once( $mainframe->getPath( 'admin_html' ) );
@@ -223,7 +223,7 @@ function copyModule( $option, $uid, $client ) {
 	}
 
 	$msg = 'Module Copied ['. $row->title .']';
-	mosRedirect( 'index2.php?abs=1&option='. $option .'&client='. $client, $msg );
+	mosRedirect( 'index2.php?option='. $option .'&client='. $client, $msg );
 }
 
 /**
@@ -285,13 +285,13 @@ function saveModule( $option, $client, $task ) {
 	switch ( $task ) {
 		case 'apply':
 			$msg = 'Successfully Saved changes to Module: '. $row->title;
-			mosRedirect( 'index2.php?abs=1&option='. $option .'&client='. $client .'&task=editA&hidemainmenu=1&id='. $row->id, $msg );
+			mosRedirect( 'index2.php?option='. $option .'&client='. $client .'&task=editA&hidemainmenu=1&id='. $row->id, $msg );
 			break;
 
 		case 'save':
 		default:
 			$msg = 'Successfully Saved Module: '. $row->title;
-			mosRedirect( 'index2.php?abs=1&option='. $option .'&client='. $client, $msg );
+			mosRedirect( 'index2.php?option='. $option .'&client='. $client, $msg );
 			break;
 	}
 }
@@ -506,7 +506,7 @@ function removeModule( &$cid, $option, $client ) {
 		echo "<script>alert('Module(s): \'$cids\' cannot be deleted they can only be un-installed as they are Joomla! modules.');</script>\n";
 	}
 
-	mosRedirect( 'index2.php?abs=1&option='. $option .'&client='. $client );
+	mosRedirect( 'index2.php?option='. $option .'&client='. $client );
 }
 
 /**
@@ -541,7 +541,7 @@ function publishModule( $cid=null, $publish=1, $option, $client ) {
 		$row->checkin( $cid[0] );
 	}
 
-	mosRedirect( 'index2.php?abs=1&option='. $option .'&client='. $client );
+	mosRedirect( 'index2.php?option='. $option .'&client='. $client );
 }
 
 /**
@@ -555,7 +555,7 @@ function cancelModule( $option, $client ) {
 	$row->bind( $_POST, 'selections params' );
 	$row->checkin();
 
-	mosRedirect( 'index2.php?abs=1&option='. $option .'&client='. $client );
+	mosRedirect( 'index2.php?option='. $option .'&client='. $client );
 }
 
 /**
@@ -583,7 +583,7 @@ function orderModule( $uid, $inc, $option ) {
 		$client = '';
 	}
 
-	mosRedirect( 'index2.php?abs=1&option='. $option .'&client='. $client );
+	mosRedirect( 'index2.php?option='. $option .'&client='. $client );
 }
 
 /**
@@ -618,7 +618,7 @@ function accessMenu( $uid, $access, $option, $client ) {
 		return $row->getError();
 	}
 
-	mosRedirect( 'index2.php?abs=1&option='. $option .'&client='. $client );
+	mosRedirect( 'index2.php?option='. $option .'&client='. $client );
 }
 
 function saveOrder( &$cid, $client ) {
@@ -657,6 +657,6 @@ function saveOrder( &$cid, $client ) {
 	} // foreach
 
 	$msg 	= 'New ordering saved';
-	mosRedirect( 'index2.php?abs=1&option=com_modules&client='. $client, $msg );
+	mosRedirect( 'index2.php?option=com_modules&client='. $client, $msg );
 } // saveOrder
 ?>

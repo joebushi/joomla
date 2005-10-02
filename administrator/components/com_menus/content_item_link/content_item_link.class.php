@@ -160,7 +160,7 @@ class content_item_link_menu {
 		}
 		$menu->checkin();
 
-		mosRedirect( 'index2.php?abs=1&option=com_content&task=edit&id='. $id );
+		mosRedirect( 'index2.php?option=com_content&task=edit&id='. $id );
 	}
 }
 ?>

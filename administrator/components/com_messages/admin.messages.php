@@ -99,7 +99,7 @@ function saveConfig( $option ) {
 		$database->setQuery( $query );
 		$database->query();
 	}
-	mosRedirect( "index2.php?abs=1&option=$option" );
+	mosRedirect( "index2.php?option=$option" );
 }
 
 function newMessage( $option, $user, $subject ) {
@@ -141,9 +141,9 @@ function saveMessage( $option ) {
 	}
 
 	if (!$row->send()) {
-		mosRedirect( "index2.php?abs=1&option=com_messages&mosmsg=" . $row->getError() );
+		mosRedirect( "index2.php?option=com_messages&mosmsg=" . $row->getError() );
 	}
-	mosRedirect( "index2.php?abs=1&option=com_messages" );
+	mosRedirect( "index2.php?option=com_messages" );
 }
 
 function showMessages( $option ) {
@@ -234,6 +234,6 @@ function removeMessage( $cid, $option ) {
 	$limit 		= intval( mosGetParam( $_REQUEST, 'limit', 10 ) );
 	$limitstart	= intval( mosGetParam( $_REQUEST, 'limitstart', 0 ) );
 
-	mosRedirect( "index2.php?abs=1&option=$option&limit=$limit&limitstart=$limitstart" );
+	mosRedirect( "index2.php?option=$option&limit=$limit&limitstart=$limitstart" );
 }
 ?>
