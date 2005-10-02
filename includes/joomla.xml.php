@@ -505,7 +505,6 @@ class mosParameters {
 		for( $i=0; $i < $total; $i++ ) {
 			if ( strstr( $txt[$i], "\n" ) ) {
 				$txt[$i] = str_replace( "\n", '<br />', $txt[$i] );
-				$txt[$i] = nl2br( $txt[$i] );
 			}
 		}
 		$txt = implode( "\n", $txt );
