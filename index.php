@@ -182,6 +182,9 @@ $my = $mainframe->getUser();
 // detect first visit
 $mainframe->detect();
 
+// set for overlib check
+$mainframe->set( 'loadOverlib', false );
+
 $gid = intval( $my->gid );
 
 // gets template for page

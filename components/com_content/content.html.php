@@ -387,10 +387,10 @@ class HTML_content {
 		global $mainframe, $my, $hide_js;
 		global $mosConfig_sitename, $Itemid, $mosConfig_live_site, $task;
 		global $_MAMBOTS;
-
+		
 		$mainframe->appendMetaTag( 'description', $row->metadesc );
 		$mainframe->appendMetaTag( 'keywords', $row->metakey );
-
+		
 		$gid 		= $my->gid;
 		$_Itemid 	= $Itemid;
 		$link_on 	= '';
@@ -580,7 +580,8 @@ class HTML_content {
 	* Writes Edit icon that links to edit page
 	*/
 	function EditIcon( $row, $params, $access ) {
-		global $Itemid, $my;
+		global $Itemid, $my, $mainframe;
+		
 		if ( $params->get( 'popup' ) ) {
 			return;
 		}
@@ -590,7 +591,8 @@ class HTML_content {
 		if ( !$access->canEdit && !( $access->canEditOwn && $row->created_by == $my->id ) ) {
 			return;
 		}
-		mosCommonHTML::loadOverlib();			
+		
+		mosCommonHTML::loadOverlib();		
 		
 		$link = 'index.php?option=com_content&amp;task=edit&amp;id='. $row->id .'&amp;Itemid='. $Itemid .'&amp;Returnid='. $Itemid;
 		$image = mosAdminMenus::ImageCheck( 'edit.png', '/images/M_images/', NULL, NULL, _E_EDIT );

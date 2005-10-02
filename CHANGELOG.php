@@ -31,7 +31,9 @@ Legend:
 ! -> Note
 
 02-Oct-2005 Rey Gigataras
+ ^ Added check to mosCommonHTML::loadOverlib(); function that will stop it from being loaded twice on a page
  # Fixed Content display not honouring Section or Category publish state
+ # Fixed artf1223 : Error with Edit items in categories and sections
  # Fixed artf1219 : Joomla Component Module displays Error!
  # Fixed artf1183 : Section module: Still "no items to display"
  # Fixed artf1241 : Editing content fails with MySQL 5.0.12b

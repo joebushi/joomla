@@ -4314,11 +4314,17 @@ class mosCommonHTML {
 	* Loads all necessary files for JS Overlib tooltips
 	*/
 	function loadOverlib() {
-		global  $mosConfig_live_site;
-		?>
-		<script language="Javascript" src="<?php echo $mosConfig_live_site;?>/includes/js/overlib_mini.js"></script>
-		<div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
-		<?php
+		global  $mosConfig_live_site, $mainframe;
+		
+		if ( !$mainframe->get( 'loadOverlib' ) ) {
+		// check if this function is already loaded
+			?>
+			<script language="Javascript" src="<?php echo $mosConfig_live_site;?>/includes/js/overlib_mini.js"></script>
+			<div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
+			<?php
+			// change state so it isnt loaded a second time
+			$mainframe->set( 'loadOverlib', true );
+		}
 	}
 
 
