@@ -60,7 +60,7 @@ class HTML_admin_misc {
 	}
 
 	function system_info( $version ) {
-		global $mosConfig_absolute_path, $database;
+		global $mosConfig_absolute_path, $database, $_LANG;
 		//$tab = mosGetParam( $_REQUEST, 'tab', 'tab1' );
 		$width = 400;	// width of 100%
 		$tabs = new mosTabs(0);
@@ -69,7 +69,7 @@ class HTML_admin_misc {
 		<table class="adminheading">
 		<tr>
 			<th class="info">
-				Information
+			<?php echo $_LANG->_( 'Information' ); ?>
 			</th>
 		</tr>
 		</table>
@@ -81,12 +81,12 @@ class HTML_admin_misc {
 			<table class="adminform">
 			<tr>
 				<th colspan="2">
-					System Information
+				<?php echo $_LANG->_( 'System Information' ); ?>
 				</th>
 			</tr>
 			<tr>
 				<td valign="top" width="250">
-					<strong>PHP built On:</strong>
+					<strong><?php echo $_LANG->_( 'PHP built On' ); ?>:</strong>
 				</td>
 				<td>
 					<?php echo php_uname(); ?>
@@ -94,7 +94,7 @@ class HTML_admin_misc {
 			</tr>
 			<tr>
 				<td>
-					<strong>Database Version:</strong>
+					<strong><?php echo $_LANG->_( 'Database Version' ); ?>:</strong>
 				</td>
 				<td>
 					<?php echo $database->getVersion(); ?>
@@ -270,7 +270,7 @@ class HTML_admin_misc {
 			</tr>
 			<tr>
 				<td valign="top">
-					<strong>Configuration File:</strong>
+					<strong><?php echo $_LANG->_( 'Configuration File' ); ?>:</strong>
 				</td>
 				<td>
 				<?php
@@ -381,7 +381,7 @@ class HTML_admin_misc {
 	 * Display Help Page
 	 */
 	function help() {
-		global $mosConfig_live_site;
+		global $mosConfig_live_site, $_LANG;
 		$helpurl 	= mosGetParam( $GLOBALS, 'mosConfig_helpurl', '' );
 		
 		if ( $helpurl == 'http://help.mamboserver.com' ) {
@@ -431,31 +431,31 @@ class HTML_admin_misc {
 							<input class="text_area" type="hidden" name="option" value="com_admin" />
 							<input type="text" name="helpsearch" value="<?php echo $helpsearch;?>" class="inputbox" />
 							<input type="submit" value="Go" class="button" />
-							<input type="button" value="Clear Results" class="button" onclick="f=document.adminForm;f.helpsearch.value='';f.submit()" />
+							<input type="button" value="<?php echo $_LANG->_( 'Clear Results' ); ?>" class="button" onclick="f=document.adminForm;f.helpsearch.value='';f.submit()" />
 							</td>
 							<td style="text-align:right">
 							<?php
 							if ($helpurl) {
 							?>
 							<a href="<?php echo $fullhelpurl;?>joomla.glossary" target="helpFrame">
-								Glossary</a>
+								<?php echo $_LANG->_( 'Glossary' ); ?></a>
 							|
 							<a href="<?php echo $fullhelpurl;?>joomla.credits" target="helpFrame">
-								Credits</a>
+								<?php echo $_LANG->_( 'Credits' ); ?></a>
 							|
 							<a href="<?php echo $fullhelpurl;?>joomla.support" target="helpFrame">
-								Support</a>
+								<?php echo $_LANG->_( 'Support' ); ?></a>
 							<?php
 							} else {
 							?>
 							<a href="<?php echo $mosConfig_live_site;?>/help/joomla.glossary.html" target="helpFrame">
-								Glossary</a>
+								<?php echo $_LANG->_( 'Glossary' ); ?></a>
 							|
 							<a href="<?php echo $mosConfig_live_site;?>/help/joomla.credits.html" target="helpFrame">
-								Credits</a>
+								<?php echo $_LANG->_( 'Credits' ); ?></a>
 							|
 							<a href="<?php echo $mosConfig_live_site;?>/help/joomla.support.html" target="helpFrame">
-								Support</a>
+								<?php echo $_LANG->_( 'Support' ); ?></a>
 							<?php
 							}
 							?>
@@ -467,7 +467,7 @@ class HTML_admin_misc {
 								help.joomla.org</a>
 							|
 							<a href="<?php echo $mosConfig_live_site;?>/administrator/index3.php?option=com_admin&task=changelog" target="helpFrame">
-								Changelog</a>
+								<?php echo $_LANG->_( 'Changelog' ); ?></a>
 							|
 							<a href="<?php echo $mosConfig_live_site;?>/administrator/index3.php?option=com_admin&task=sysinfo" target="helpFrame">
 								System Info</a>
