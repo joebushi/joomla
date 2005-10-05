@@ -25,6 +25,7 @@ class TOOLBAR_users {
 	*/
 	function _EDIT() {
 		global $id;
+		global $_LANG;
 
 		mosMenuBar::startTable();
 		mosMenuBar::save();
@@ -33,7 +34,7 @@ class TOOLBAR_users {
 		mosMenuBar::spacer();
 		if ( $id ) {
 			// for existing content items the button is renamed `close`
-			mosMenuBar::cancel( 'cancel', 'Close' );
+			mosMenuBar::cancel( 'cancel', $_LANG->_( 'Close' ) );
 		} else {
 			mosMenuBar::cancel();
 		}
@@ -43,8 +44,10 @@ class TOOLBAR_users {
 	}
 
 	function _DEFAULT() {
+		global $_LANG;
+
 		mosMenuBar::startTable();
-		mosMenuBar::custom( 'logout', 'cancel.png', 'cancel_f2.png', '&nbsp;Logout' );
+		mosMenuBar::custom( 'logout', 'cancel.png', 'cancel_f2.png', '&nbsp;'. $_LANG->_( 'Logout' ) );
 		mosMenuBar::spacer();
 		mosMenuBar::deleteList();
 		mosMenuBar::spacer();

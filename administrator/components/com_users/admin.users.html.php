@@ -22,16 +22,17 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 class HTML_users {
 
 	function showUsers( &$rows, $pageNav, $search, $option, $lists ) {
+		global $_LANG;
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 
 		<table class="adminheading">
 		<tr>
 			<th class="user">
-			User Manager
+			<?php echo $_LANG->_( 'User Manager' ); ?>
 			</th>
 			<td>
-			Filter:
+			<?php echo $_LANG->_( 'Filter' ); ?>:
 			</td>
 			<td>
 			<input type="text" name="search" value="<?php echo $search;?>" class="inputbox" onChange="document.adminForm.submit();" />
@@ -48,34 +49,34 @@ class HTML_users {
 		<table class="adminlist">
 		<tr>
 			<th width="2%" class="title">
-			#
+			<?php echo $_LANG->_( 'NUM' ); ?>
 			</th>
 			<th width="3%" class="title">
 			<input type="checkbox" name="toggle" value="" onClick="checkAll(<?php echo count($rows); ?>);" />
 			</th>
 			<th class="title">
-			Name
+			<?php echo $_LANG->_( 'Name' ); ?>
 			</th>
 			<th width="15%" class="title" >
-			Username
+			<?php echo $_LANG->_( 'Username' ); ?>
 			</th>
 			<th width="5%" class="title" nowrap="nowrap">
-			Logged In
+			<?php echo $_LANG->_( 'Logged In' ); ?>
 			</th>
 			<th width="5%" class="title">
-			Enabled
+			<?php echo $_LANG->_( 'Enabled' ); ?>
 			</th>
 			<th width="15%" class="title">
-			Group
+			<?php echo $_LANG->_( 'Group' ); ?>
 			</th>
 			<th width="15%" class="title">
-			E-Mail
+			<?php echo $_LANG->_( 'E-Mail' ); ?>
 			</th>
 			<th width="10%" class="title">
-			Last Visit
+			<?php echo $_LANG->_( 'Last Visit' ); ?>
 			</th>
 			<th width="1%" class="title">
-			ID
+			<?php echo $_LANG->_( 'ID' ); ?>
 			</th>			
 		</tr>
 		<?php
@@ -85,7 +86,7 @@ class HTML_users {
 
 			$img 	= $row->block ? 'publish_x.png' : 'tick.png';
 			$task 	= $row->block ? 'unblock' : 'block';
-			$alt 	= $row->block ? 'Enabled' : 'Blocked';
+			$alt 	= $row->block ? $_LANG->_( 'Enabled' ) : $_LANG->_( 'Blocked' );
 			$link 	= 'index2.php?option=com_users&amp;task=editA&amp;id='. $row->id. '&amp;hidemainmenu=1';
 			?>
 			<tr class="<?php echo "row$k"; ?>">
@@ -144,6 +145,7 @@ class HTML_users {
 	function edituser( &$row, &$contact, &$lists, $option, $uid, &$params ) {
 		global $my, $acl;
 		global $mosConfig_live_site;
+		global $_LANG;
 		$tabs = new mosTabs( 0 );
 
 		mosCommonHTML::loadOverlib();
@@ -161,21 +163,21 @@ class HTML_users {
 
 			// do field validation
 			if (trim(form.name.value) == "") {
-				alert( "You must provide a name." );
+				alert( "<?php echo $_LANG->_( 'You must provide a name.' ); ?>" );
 			} else if (form.username.value == "") {
-				alert( "You must provide a user login name." );
+				alert( "<?php echo $_LANG->_( 'You must provide a user login name.' ); ?>" );
 			} else if (r.exec(form.username.value) || form.username.value.length < 3) {
-				alert( "You login name contains invalid characters or is too short." );
+				alert( "<?php echo $_LANG->_( 'WARNLOGININVALID' ); ?>" );
 			} else if (trim(form.email.value) == "") {
-				alert( "You must provide an email address." );
+				alert( "<?php echo $_LANG->_( 'You must provide an email address.' ); ?>" );
 			} else if (form.gid.value == "") {
-				alert( "You must assign user to a group." );
+				alert( "<?php echo $_LANG->_( 'You must assign user to a group.' ); ?>" );
 			} else if (trim(form.password.value) != "" && form.password.value != form.password2.value){
-				alert( "Password do not match." );
+				alert( "<?php echo $_LANG->_( 'Password do not match.' ); ?>" );
 			} else if (form.gid.value == "29") {
-				alert( "Please Select another group as `Public Frontend` is not a selectable option" );
+				alert( "<?php echo $_LANG->_( 'WARNSELECTPF' ); ?>" );
 			} else if (form.gid.value == "30") {
-				alert( "Please Select another group as `Public Backend` is not a selectable option" );
+				alert( "<?php echo $_LANG->_( 'WARNSELECTPB' ); ?>" );
 			} else {
 				submitform( pressbutton );
 			}
@@ -192,7 +194,7 @@ class HTML_users {
 		<table class="adminheading">
 		<tr>
 			<th class="user">
-			User: <small><?php echo $row->id ? 'Edit' : 'Add';?></small>
+			<?php echo $_LANG->_( 'User' ); ?>: <small><?php echo $row->id ? $_LANG->_( 'Edit' ) : $_LANG->_( 'Add' );?></small>
 			</th>
 		</tr>
 		</table>
@@ -203,12 +205,12 @@ class HTML_users {
 				<table class="adminform">
 				<tr>
 					<th colspan="2">
-					User Details
+					<?php echo $_LANG->_( 'User Details' ); ?>
 					</th>
 				</tr>
 				<tr>
 					<td width="100">
-					Name:
+					<?php echo $_LANG->_( 'Name' ); ?>:
 					</td>
 					<td width="85%">
 					<input type="text" name="name" class="inputbox" size="40" value="<?php echo $row->name; ?>" />
@@ -216,14 +218,14 @@ class HTML_users {
 				</tr>
 				<tr>
 					<td>
-					Username:
+					<?php echo $_LANG->_( 'Username' ); ?>:
 					</td>
 					<td>
 					<input type="text" name="username" class="inputbox" size="40" value="<?php echo $row->username; ?>" />
 					</td>
 				<tr>
 					<td>
-					Email:
+					<?php echo $_LANG->_( 'Email' ); ?>:
 					</td>
 					<td>
 					<input class="inputbox" type="text" name="email" size="40" value="<?php echo $row->email; ?>" />
@@ -231,7 +233,7 @@ class HTML_users {
 				</tr>
 				<tr>
 					<td>
-					New Password:
+					<?php echo $_LANG->_( 'New Password' ); ?>:
 					</td>
 					<td>
 					<input class="inputbox" type="password" name="password" size="40" value="" />
@@ -239,7 +241,7 @@ class HTML_users {
 				</tr>
 				<tr>
 					<td>
-					Verify Password:
+					<?php echo $_LANG->_( 'Verify Password' ); ?>:
 					</td>
 					<td>
 					<input class="inputbox" type="password" name="password2" size="40" value="" />
@@ -247,7 +249,7 @@ class HTML_users {
 				</tr>
 				<tr>
 					<td valign="top">
-					Group:
+					<?php echo $_LANG->_( 'Group' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['gid']; ?>
@@ -258,7 +260,7 @@ class HTML_users {
 					?>
 					<tr>
 						<td>
-						Block User
+						<?php echo $_LANG->_( 'Block User' ); ?>
 						</td>
 						<td>
 						<?php echo $lists['block']; ?>
@@ -270,7 +272,7 @@ class HTML_users {
 					?>
 					<tr>
 						<td>
-						Receive Submission Emails
+						<?php echo $_LANG->_( 'Receive Submission Emails' ); ?>
 						</td>
 						<td>
 						<?php echo $lists['sendEmail']; ?>
@@ -282,7 +284,7 @@ class HTML_users {
 					?>
 					<tr>
 						<td>
-						Register Date
+						<?php echo $_LANG->_( 'Register Date' ); ?>
 						</td>
 						<td>
 						<?php echo $row->registerDate;?>
@@ -290,7 +292,7 @@ class HTML_users {
 					</tr>
 				<tr>
 					<td>
-					Last Visit Date
+					<?php echo $_LANG->_( 'Last Visit Date' ); ?>
 					</td>
 					<td>
 					<?php echo $row->lastvisitDate;?>
@@ -326,15 +328,15 @@ class HTML_users {
 					<table class="adminform">
 					<tr>
 						<th>
-						Contact Information
+						<?php echo $_LANG->_( 'Contact Information' ); ?>
 						</th>
 					</tr>
 					<tr>
 						<td>
 						<br />
-						No Contact details linked to this User:
+						<?php echo $_LANG->_( 'No Contact details linked to this User' ); ?>:
 						<br />
-						See 'Components -> Contact -> Manage Contacts' for details.
+						<?php echo $_LANG->_( 'SEECOMPCONTACTFORDETAILS' ); ?>.
 						<br /><br />
 						</td>
 					</tr>
@@ -345,12 +347,12 @@ class HTML_users {
 					<table class="adminform">
 					<tr>
 						<th colspan="2">
-						Contact Information
+						<?php echo $_LANG->_( 'Contact Information' ); ?>
 						</th>
 					</tr>
 					<tr>
 						<td width="15%">
-						Name:
+						<?php echo $_LANG->_( 'Name' ); ?>:
 						</td>
 						<td>
 						<strong>
@@ -360,7 +362,7 @@ class HTML_users {
 					</tr>
 					<tr>
 						<td>
-						Position:
+						<?php echo $_LANG->_( 'Position' ); ?>:
 						</td>
 						<td >
 						<strong>
@@ -370,7 +372,7 @@ class HTML_users {
 					</tr>
 					<tr>
 						<td>
-						Telephone:
+						<?php echo $_LANG->_( 'Telephone' ); ?>:
 						</td>
 						<td >
 						<strong>
@@ -380,7 +382,7 @@ class HTML_users {
 					</tr>
 					<tr>
 						<td>
-						Fax:
+						<?php echo $_LANG->_( 'Fax' ); ?>:
 						</td>
 						<td >
 						<strong>
@@ -402,7 +404,7 @@ class HTML_users {
 						<tr>
 							<td></td>
 							<td valign="top">
-							<img src="<?php echo $mosConfig_live_site;?>/images/stories/<?php echo $contact[0]->image; ?>" align="middle" alt="Contact" />
+							<img src="<?php echo $mosConfig_live_site;?>/images/stories/<?php echo $contact[0]->image; ?>" align="middle" alt="<?php echo $_LANG->_( 'Contact' ); ?>" />
 							</td>
 						</tr>
 						<?php
@@ -411,10 +413,10 @@ class HTML_users {
 					<tr>
 						<td colspan="2">
 						<br /><br />
-						<input class="button" type="button" value="change Contact Details" onclick="javascript: gotocontact( '<?php echo $contact[0]->id; ?>' )">
+						<input class="button" type="button" value="<?php echo $_LANG->_( 'change Contact Details' ); ?>" onclick="javascript: gotocontact( '<?php echo $contact[0]->id; ?>' )">
 						<i>
 						<br />
-						'Components -> Contact -> Manage Contacts'.
+						'<?php echo $_LANG->_( 'Components -> Contact -> Manage Contacts' ); ?>'
 						</i>
 						</td>
 					</tr>

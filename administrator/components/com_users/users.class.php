@@ -25,6 +25,7 @@ class mosUserParameters extends mosParameters {
 	*/
 	function _form_editor_list( $name, $value, &$node, $control_name ) {
 		global $database;
+		global $_LANG;
 
 		// compile list of the editors
 		$query = "SELECT element AS value, name AS text"
@@ -36,7 +37,7 @@ class mosUserParameters extends mosParameters {
 		$database->setQuery( $query );
 		$editors = $database->loadObjectList();
 
-		array_unshift( $editors, mosHTML::makeOption( '', '- Select Editor -' ) );
+		array_unshift( $editors, mosHTML::makeOption( '', '- '. $_LANG->_( 'Select Editor' ) .' -' ) );
 
 		return mosHTML::selectList( $editors, ''. $control_name .'['. $name .']', 'class="inputbox"', 'value', 'text', $value );
 	}

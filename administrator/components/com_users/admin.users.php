@@ -16,7 +16,7 @@
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 if (!$acl->acl_check( 'administration', 'manage', 'users', $my->usertype, 'components', 'com_users' )) {
-	mosRedirect( 'index2.php', _NOT_AUTH );
+	mosRedirect( 'index2.php', $_LANG->_('ALERTNOTAUTH') );
 }
 
 require_once( $mainframe->getPath( 'admin_html' ) );
@@ -83,6 +83,7 @@ switch ($task) {
 
 function showUsers( $option ) {
 	global $database, $mainframe, $my, $acl, $mosConfig_list_limit;
+	global $_LANG;
 
 	$filter_type	= $mainframe->getUserStateFromRequest( "filter_type{$option}", 'filter_type', 0 );
 	$filter_logged	= $mainframe->getUserStateFromRequest( "filter_logged{$option}", 'filter_logged', 0 );
@@ -97,7 +98,7 @@ function showUsers( $option ) {
 	}
 	if ( $filter_type ) {
 		if ( $filter_type == 'Public Frontend' ) {
-			$where[] = "a.usertype = 'Registered' OR a.usertype = 'Author' OR a.usertype = 'Editor'OR a.usertype = 'Publisher'";
+			$where[] = "a.usertype = 'Registered' OR a.usertype = 'Author' OR a.usertype = 'Editor' OR a.usertype = 'Publisher'";
 		} else if ( $filter_type == 'Public Backend' ) {
 			$where[] = "a.usertype = 'Manager' OR a.usertype = 'Administrator' OR a.usertype = 'Super Administrator'";
 		} else {
@@ -170,14 +171,14 @@ function showUsers( $option ) {
 	. "\n WHERE name != 'ROOT'"
 	. "\n AND name != 'USERS'"
 	;
-	$types[] = mosHTML::makeOption( '0', '- Select Group -' );
+	$types[] = mosHTML::makeOption( '0', '- '. $_LANG->_( 'Select Group' ) .' -' );
 	$database->setQuery( $query );
 	$types = array_merge( $types, $database->loadObjectList() );
 	$lists['type'] = mosHTML::selectList( $types, 'filter_type', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', "$filter_type" );
 
 	// get list of Log Status for dropdown filter
-	$logged[] = mosHTML::makeOption( 0, '- Select Log Status - ');
-	$logged[] = mosHTML::makeOption( 1, 'Logged In');
+	$logged[] = mosHTML::makeOption( 0, '- '. $_LANG->_( 'Select Log Status' ) .' -');
+	$logged[] = mosHTML::makeOption( 1, $_LANG->_( 'Logged In' ) );
 	$lists['logged'] = mosHTML::selectList( $logged, 'filter_logged', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', "$filter_logged" );
 
 	HTML_users::showUsers( $rows, $pageNav, $search, $option, $lists );
@@ -190,6 +191,7 @@ function showUsers( $option ) {
  */
 function editUser( $uid='0', $option='users' ) {
 	global $database, $my, $acl, $mainframe;
+	global $_LANG;
 
 	$row = new mosUser( $database );
 	// load the row from the db table
@@ -209,14 +211,14 @@ function editUser( $uid='0', $option='users' ) {
 
 	// check to ensure only super admins can edit super admin info
 	if ( ( $my->gid < 25 ) && ( $row->gid == 25 ) ) {
-		mosRedirect( 'index2.php?option=com_users', _NOT_AUTH );
+		mosRedirect( 'index2.php?option=com_users', $_LANG->_('ALERTNOTAUTH') );
 	}
 
 	$my_group = strtolower( $acl->get_group_name( $row->gid, 'ARO' ) );
 	if ( $my_group == 'super administrator' ) {
-		$lists['gid'] = '<input type="hidden" name="gid" value="'. $my->gid .'" /><strong>Super Administrator</strong>';
+		$lists['gid'] = '<input type="hidden" name="gid" value="'. $my->gid .'" /><strong>'. $_LANG->_( 'Super Administrator' ) .'</strong>';
 	} else if ( $my->gid == 24 && $row->gid == 24 ) {
-		$lists['gid'] = '<input type="hidden" name="gid" value="'. $my->gid .'" /><strong>Administrator</strong>';
+		$lists['gid'] = '<input type="hidden" name="gid" value="'. $my->gid .'" /><strong>'. $_LANG->_( 'Administrator' ) .'</strong>';
 	} else {
 		// ensure user can't add group higher than themselves
 		$my_groups = $acl->get_object_groups( 'users', $my->id, 'ARO' );
@@ -255,6 +257,7 @@ function editUser( $uid='0', $option='users' ) {
 function saveUser( $option, $task ) {
 	global $database, $my;
 	global $mosConfig_live_site, $mosConfig_mailfrom, $mosConfig_fromname, $mosConfig_sitename;
+	global $_LANG;
 
 	$row = new mosUser( $database );
 	if (!$row->bind( $_POST )) {
@@ -368,13 +371,13 @@ function saveUser( $option, $task ) {
 
 	switch ( $task ) {
 		case 'apply':
-			$msg = 'Successfully Saved changes to User: '. $row->name;
+			$msg = $_LANG->_( 'Successfully Saved changes to User' ) .': '. $row->name;
 			mosRedirect( 'index2.php?option=com_users&task=editA&hidemainmenu=1&id='. $row->id, $msg );
 			break;
 
 		case 'save':
 		default:
-			$msg = 'Successfully Saved User: '. $row->name;
+			$msg = $_LANG->_( 'Successfully Saved User' ) .': '. $row->name;
 			mosRedirect( 'index2.php?option=com_users', $msg );
 			break;
 	}
@@ -390,9 +393,10 @@ function cancelUser( $option ) {
 
 function removeUsers( $cid, $option ) {
 	global $database, $acl, $my;
+	global $_LANG;
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
-		echo "<script> alert('Select an item to delete'); window.history.go(-1);</script>\n";
+		echo "<script> alert('". $_LANG->_( 'Select an item to delete' ) ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
 
@@ -403,11 +407,11 @@ function removeUsers( $cid, $option ) {
 			$groups 	= $acl->get_object_groups( 'users', $id, 'ARO' );
 			$this_group = strtolower( $acl->get_group_name( $groups[0], 'ARO' ) );
 			if ( $this_group == 'super administrator' ) {
-				$msg = "You cannot delete a Super Administrator";
+				$msg = $_LANG->_( 'You cannot delete a Super Administrator' );
  			} else if ( $id == $my->id ){
- 				$msg = "You cannot delete Yourself!";
+ 				$msg = $_LANG->_( 'You cannot delete Yourself!' );
  			} else if ( ( $this_group == 'administrator' ) && ( $my->gid == 24 ) ){
- 				$msg = "You cannot delete another `Administrator` only `Super Administrators` have this power";
+ 				$msg = $_LANG->_( 'WARNDELETE' );
 			} else {
 				$obj->delete( $id );
 				$msg = $obj->getError();
@@ -426,10 +430,11 @@ function removeUsers( $cid, $option ) {
 */
 function changeUserBlock( $cid=null, $block=1, $option ) {
 	global $database;
+	global $_LANG;
 
 	if (count( $cid ) < 1) {
 		$action = $block ? 'block' : 'unblock';
-		echo "<script> alert('Select an item to $action'); window.history.go(-1);</script>\n";
+		echo "<script> alert('". $_LANG->_( 'Select an item to' ) ." ". $action ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
 
@@ -454,11 +459,12 @@ function changeUserBlock( $cid=null, $block=1, $option ) {
 */
 function logoutUser( $cid=null, $option, $task ) {
 	global $database, $my;
+	global $_LANG;
 
 	$cids = $cid;
 	if ( is_array( $cid ) ) {
 		if (count( $cid ) < 1) {
-			mosRedirect( 'index2.php?option='. $option, 'Please select a user' );
+			mosRedirect( 'index2.php?option='. $option, $_LANG->_( 'Please select a user' ) );
 		}
 		$cids = implode( ',', $cid );
 	}
