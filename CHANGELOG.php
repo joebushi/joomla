@@ -31,6 +31,11 @@ Legend:
 ! -> Note
 
 
+--------------------
+
+05-Oct-2005 Robin Muilwijk
+ # Fixed artf1366 : Typo in admin, Adding a new menu item - Blog Content Category
+
 -------------------- 1.0.2 Released ----------------------
 
 02-Oct-2005 Rey Gigataras
