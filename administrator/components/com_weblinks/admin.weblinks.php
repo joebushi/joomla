@@ -18,7 +18,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 // ensure user has access to this function
 if (!($acl->acl_check( 'administration', 'edit', 'users', $my->usertype, 'components', 'all' )
 		| $acl->acl_check( 'administration', 'edit', 'users', $my->usertype, 'components', 'com_weblinks' ))) {
-	mosRedirect( 'index2.php', _NOT_AUTH );
+	mosRedirect( 'index2.php', $_LANG->_('NOT_AUTH') );
 }
 
 require_once( $mainframe->getPath( 'admin_html' ) );
@@ -138,6 +138,7 @@ function showWeblinks( $option ) {
 */
 function editWeblink( $option, $id ) {
 	global $database, $my, $mosConfig_absolute_path, $mosConfig_live_site;
+	global $_LANG;
 
 	$lists = array();
 
@@ -147,7 +148,7 @@ function editWeblink( $option, $id ) {
 
 	// fail if checked out not by 'me'
 	if ($row->isCheckedOut( $my->id )) {
-		mosRedirect( 'index2.php?option='. $option, 'The module $row->title is currently being edited by another administrator.' );
+		mosRedirect( 'index2.php?option='. $option, $_LANG->_( 'The module' ) .' '. $row->title .' '. $_LANG->_( 'descBeingEditted' ) );
 	}
 
 	if ($id) {
@@ -213,7 +214,7 @@ function saveWeblink( $option ) {
 	$row->checkin();
 	$row->updateOrder( "catid = $row->catid" );
 
-	mosRedirect( "index2.php?option=$option" );
+	mosRedirect( "index2.php?option=". $option );
 }
 
 /**
@@ -223,9 +224,10 @@ function saveWeblink( $option ) {
 */
 function removeWeblinks( $cid, $option ) {
 	global $database;
+	global $_LANG;
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
-		echo "<script> alert('Select an item to delete'); window.history.go(-1);</script>\n";
+		echo "<script> alert('". $_LANG->_( 'Select an item to delete' ) ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
 	if (count( $cid )) {
@@ -239,7 +241,7 @@ function removeWeblinks( $cid, $option ) {
 		}
 	}
 
-	mosRedirect( "index2.php?option=$option" );
+	mosRedirect( "index2.php?option=". $option );
 }
 
 /**
@@ -250,12 +252,13 @@ function removeWeblinks( $cid, $option ) {
 */
 function publishWeblinks( $cid=null, $publish=1,  $option ) {
 	global $database, $my;
+	global $_LANG;
 
 	$catid = mosGetParam( $_POST, 'catid', array(0) );
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
-		$action = $publish ? 'publish' : 'unpublish';
-		echo "<script> alert('Select an item to $action'); window.history.go(-1);</script>\n";
+		$action = $publish ? $_LANG->_( 'publish' ) : $_LANG->_( 'unpublish' );
+		echo "<script> alert('". $_LANG->_( 'Select an item to' ) . $action ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
 
@@ -276,7 +279,7 @@ function publishWeblinks( $cid=null, $publish=1,  $option ) {
 		$row = new mosWeblink( $database );
 		$row->checkin( $cid[0] );
 	}
-	mosRedirect( "index2.php?option=$option" );
+	mosRedirect( "index2.php?option=". $option );
 }
 /**
 * Moves the order of a record
@@ -288,7 +291,7 @@ function orderWeblinks( $uid, $inc, $option ) {
 	$row->load( $uid );
 	$row->move( $inc, "published >= 0" );
 
-	mosRedirect( "index2.php?option=$option" );
+	mosRedirect( "index2.php?option=". $option );
 }
 
 /**
@@ -300,6 +303,6 @@ function cancelWeblink( $option ) {
 	$row = new mosWeblink( $database );
 	$row->bind( $_POST );
 	$row->checkin();
-	mosRedirect( "index2.php?option=$option" );
+	mosRedirect( "index2.php?option=". $option );
 }
 ?>

@@ -23,6 +23,7 @@ class HTML_weblinks {
 
 	function showWeblinks( $option, &$rows, &$lists, &$search, &$pageNav ) {
 		global $my;
+		global $_LANG;
 
 		mosCommonHTML::loadOverlib();
 		?>
@@ -30,10 +31,10 @@ class HTML_weblinks {
 		<table class="adminheading">
 		<tr>
 			<th>
-			Weblink Manager
+			<?php echo $_LANG->_( 'Weblink Manager' ); ?>
 			</th>
 			<td>
-			Filter:
+			<?php echo $_LANG->_( 'Filter' ); ?>:
 			</td>
 			<td>
 			<input type="text" name="search" value="<?php echo $search;?>" class="text_area" onChange="document.adminForm.submit();" />
@@ -47,25 +48,25 @@ class HTML_weblinks {
 		<table class="adminlist">
 		<tr>
 			<th width="5">
-			#
+			<?php echo $_LANG->_( 'NUM' ); ?>
 			</th>
 			<th width="20">
 			<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
 			</th>
 			<th class="title">
-			Title
+			<?php echo $_LANG->_( 'Title' ); ?>
 			</th>
 			<th width="5%">
-			Published
+			<?php echo $_LANG->_( 'Published' ); ?>
 			</th>
 			<th colspan="2" width="5%">
-			Reorder
+			<?php echo $_LANG->_( 'Reorder' ); ?>
 			</th>
 			<th width="25%" align="left">
-			Category
+			<?php echo $_LANG->_( 'Category' ); ?>
 			</th>
 			<th width="5%">
-			Hits
+			<?php echo $_LANG->_( 'Hits' ); ?>
 			</th>
 		</tr>
 		<?php
@@ -77,7 +78,7 @@ class HTML_weblinks {
 
 			$task 	= $row->published ? 'unpublish' : 'publish';
 			$img 	= $row->published ? 'publish_g.png' : 'publish_x.png';
-			$alt 	= $row->published ? 'Published' : 'Unpublished';
+			$alt 	= $row->published ? $_LANG->_( 'Published' ) : $_LANG->_( 'Unpublished' );
 
 			$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
 
@@ -148,6 +149,8 @@ class HTML_weblinks {
 	* @param string The option
 	*/
 	function editWeblink( &$row, &$lists, &$params, $option ) {
+		global $_LANG;
+
 		mosMakeHtmlSafe( $row, ENT_QUOTES, 'description' );
 		
 		mosCommonHTML::loadOverlib();
@@ -162,11 +165,11 @@ class HTML_weblinks {
 
 			// do field validation
 			if (form.title.value == ""){
-				alert( "Weblink item must have a title" );
+				alert( "<?php echo $_LANG->_( 'Weblink item must have a title' ); ?>" );
 			} else if (form.catid.value == "0"){
-				alert( "You must select a category." );
+				alert( "<?php echo $_LANG->_( 'You must select a category' ); ?>" );
 			} else if (form.url.value == ""){
-				alert( "You must have a url." );
+				alert( "<?php echo $_LANG->_( 'You must have a url.' ); ?>" );
 			} else {
 				submitform( pressbutton );
 			}
@@ -176,9 +179,9 @@ class HTML_weblinks {
 		<table class="adminheading">
 		<tr>
 			<th>
-			Weblink:
+			<?php echo $_LANG->_( 'Weblink' ); ?>:
 			<small>
-			<?php echo $row->id ? 'Edit' : 'New';?>
+			<?php echo $row->id ? $_LANG->_( 'Edit' ) : $_LANG->_( 'New' ); ?>
 			</small>
 			</th>
 		</tr>
@@ -190,12 +193,12 @@ class HTML_weblinks {
 				<table class="adminform">
 				<tr>
 					<th colspan="2">
-					Details
+					<?php echo $_LANG->_( 'Details' ); ?>
 					</th>
 				</tr>
 				<tr>
 					<td width="20%" align="right">
-					Name:
+					<?php echo $_LANG->_( 'Name' ); ?>:
 					</td>
 					<td width="80%">
 					<input class="text_area" type="text" name="title" size="50" maxlength="250" value="<?php echo $row->title;?>" />
@@ -203,7 +206,7 @@ class HTML_weblinks {
 				</tr>
 				<tr>
 					<td valign="top" align="right">
-					Category:
+					<?php echo $_LANG->_( 'Category' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['catid']; ?>
@@ -211,7 +214,7 @@ class HTML_weblinks {
 				</tr>
 				<tr>
 					<td valign="top" align="right">
-					URL:
+					<?php echo $_LANG->_( 'URL' ); ?>:
 					</td>
 					<td>
 					<input class="text_area" type="text" name="url" value="<?php echo $row->url; ?>" size="50" maxlength="250" />
@@ -219,7 +222,7 @@ class HTML_weblinks {
 				</tr>
 				<tr>
 					<td valign="top" align="right">
-					Description:
+					<?php echo $_LANG->_( 'Description' ); ?>:
 					</td>
 					<td>
 					<textarea class="text_area" cols="50" rows="5" name="description" style="width:500px" width="500"><?php echo $row->description; ?></textarea>
@@ -228,7 +231,7 @@ class HTML_weblinks {
 
 				<tr>
 					<td valign="top" align="right">
-					Ordering:
+					<?php echo $_LANG->_( 'Ordering' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['ordering']; ?>
@@ -236,7 +239,7 @@ class HTML_weblinks {
 				</tr>
 				<tr>
 					<td valign="top" align="right">
-					Published:
+					<?php echo $_LANG->_( 'Published' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['published']; ?>
@@ -248,7 +251,7 @@ class HTML_weblinks {
 				<table class="adminform">
 				<tr>
 					<th colspan="1">
-					Parameters
+					<?php echo $_LANG->_( 'Parameters' ); ?>
 					</th>
 				</tr>
 				<tr>
