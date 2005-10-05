@@ -26,7 +26,7 @@ $path 		= $mosConfig_absolute_path . "/administrator/components/com_installer/$e
 
 // ensure user has access to this function
 if ( !$acl->acl_check( 'administration', 'install', 'users', $my->usertype, $element . 's', 'all' ) ) {
-	mosRedirect( 'index2.php', _NOT_AUTH );
+	mosRedirect( 'index2.php', $_LANG->_('ALERTNOTAUTH') );
 }
 
 // map the element to the required derived class

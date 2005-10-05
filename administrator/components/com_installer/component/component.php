@@ -17,7 +17,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 // ensure user has access to this function
 if ( !$acl->acl_check( 'administration', 'install', 'users', $my->usertype, $element . 's', 'all' ) ) {
-	mosRedirect( 'index2.php', _NOT_AUTH );
+	mosRedirect( 'index2.php', $_LANG->_('ALERTNOTAUTH') );
 }
 
 require_once( $mainframe->getPath( 'installer_html', 'component' ) );
