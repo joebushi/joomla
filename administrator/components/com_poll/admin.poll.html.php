@@ -23,35 +23,36 @@ class HTML_poll {
 
 	function showPolls( &$rows, &$pageNav, $option ) {
 		global $my;
+		global $_LANG;
 
 		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 		<table class="adminheading">
 		<tr>
-			<th>Poll Manager</th>
+			<th><?php echo $_LANG->_( 'Poll Manager' ); ?></th>
 		</tr>
 		</table>
 
 		<table class="adminlist">
 		<tr>
 			<th width="5">
-			#
+			<?php echo $_LANG->_( 'NUM' ); ?>
 			</th>
 			<th width="20">
 			<input type="checkbox" name="toggle" value="" onClick="checkAll(<?php echo count( $rows ); ?>);" />
 			</th>
 			<th align="left">
-			Poll Title
+			<?php echo $_LANG->_( 'Poll Title' ); ?>
 			</th>
 			<th width="10%" align="center">
-			Published
+			<?php echo $_LANG->_( 'Published' ); ?>
 			</th>
 			<th width="10%" align="center">
-			Options
+			<?php echo $_LANG->_( 'Options' ); ?>
 			</th>
 			<th width="10%" align="center">
-			Lag
+			<?php echo $_LANG->_( 'Lag' ); ?>
 			</th>
 		</tr>
 		<?php
@@ -63,7 +64,7 @@ class HTML_poll {
 
 			$task 	= $row->published ? 'unpublish' : 'publish';
 			$img 	= $row->published ? 'publish_g.png' : 'publish_x.png';
-			$alt 	= $row->published ? 'Published' : 'Unpublished';
+			$alt 	= $row->published ? $_LANG->_( 'Published' ) : $_LANG->_( 'Unpublished' );
 
 			$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
 			?>
@@ -75,7 +76,7 @@ class HTML_poll {
 				<?php echo $checked; ?>
 				</td>
 				<td>
-				<a href="<?php echo $link; ?>" title="Edit Poll">
+				<a href="<?php echo $link; ?>" title="<?php echo $_LANG->_( 'Edit Poll' ); ?>">
 				<?php echo $row->title; ?>
 				</a>
 				</td>
@@ -108,6 +109,8 @@ class HTML_poll {
 
 
 	function editPoll( &$row, &$options, &$lists ) {
+		global $_LANG;
+
 		mosMakeHtmlSafe( $row, ENT_QUOTES );
 		?>
 		<script language="javascript" type="text/javascript">
@@ -119,9 +122,9 @@ class HTML_poll {
 			}
 			// do field validation
 			if (form.title.value == "") {
-				alert( "Poll must have a title" );
+				alert( "<?php echo $_LANG->_( 'Poll must have a title' ); ?>" );
 			} else if( isNaN( parseInt( form.lag.value ) ) ) {
-				alert( "Poll must have a non-zero lag time" );
+				alert( "<?php echo $_LANG->_( 'Poll must have a non-zero lag time' ); ?>" );
 			//} else if (form.menu.options.value == ""){
 			//	alert( "Poll must have pages." );
 			//} else if (form.adminForm.textfieldcheck.value == 0){
@@ -135,9 +138,9 @@ class HTML_poll {
 		<table class="adminheading">
 		<tr>
 			<th>
-			Poll:
+			<?php echo $_LANG->_( 'Poll' ); ?>:
 			<small>
-			<?php echo $row->id ? 'Edit' : 'New';?>
+			<?php echo $row->id ? $_LANG->_( 'Edit' ) : $_LANG->_( 'New' );?>
 			</small>
 			</th>
 		</tr>
@@ -146,12 +149,12 @@ class HTML_poll {
 		<table class="adminform">
 		<tr>
 			<th colspan="4">
-			Details
+			<?php echo $_LANG->_( 'Details' ); ?>
 			</th>
 		</tr>
 		<tr>
 			<td width="10%">
-			Title:
+			<?php echo $_LANG->_( 'Title' ); ?>:
 			</td>
 			<td>
 			<input class="inputbox" type="text" name="title" size="60" value="<?php echo $row->title; ?>" />
@@ -160,23 +163,23 @@ class HTML_poll {
 
 			</td>
 			<td width="100%" rowspan="20" valign="top">
-			Show on menu items:
+			<?php echo $_LANG->_( 'Show on menu items' ); ?>:
 			<br />
 			<?php echo $lists['select']; ?>
 			</td>
 		</tr>
 		<tr>
 			<td>
-			Lag:
+			<?php echo $_LANG->_( 'Lag' ); ?>:
 			</td>
 			<td>
-			<input class="inputbox" type="text" name="lag" size="10" value="<?php echo $row->lag; ?>" /> (seconds between votes)
+			<input class="inputbox" type="text" name="lag" size="10" value="<?php echo $row->lag; ?>" /> <?php echo $_LANG->_( '(seconds between votes)' ); ?>
 			</td>
 		</tr>
 		<tr>
 			<td colspan="3">
 			<br /><br />
-			Options:
+			<?php echo $_LANG->_( 'Options' ); ?>:
 			</td>
 		</tr>
 		<?php

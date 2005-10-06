@@ -36,8 +36,8 @@ class TOOLBAR_poll {
 	* Draws the menu for Editing an existing category
 	*/
 	function _EDIT( $pollid, $cur_template ) {
-		global $database;
-		global $id;
+		global $database, $id;
+		global $_LANG;
 
 		$sql = "SELECT template"
 		. "\n FROM #__templates_menu"
@@ -56,7 +56,7 @@ class TOOLBAR_poll {
 		mosMenuBar::spacer();
 		if ( $id ) {
 			// for existing content items the button is renamed `close`
-			mosMenuBar::cancel( 'cancel', 'Close' );
+			mosMenuBar::cancel( 'cancel', $_LANG->_( 'Close' ) );
 		} else {
 			mosMenuBar::cancel();
 		}
