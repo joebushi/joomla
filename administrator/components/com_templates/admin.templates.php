@@ -258,6 +258,7 @@ function defaultTemplate( $p_tname, $option, $client ) {
 */
 function removeTemplate( $cid, $option, $client ) {
 	global $database;
+	global $_LANG;
 
 	$client_id = $client=='admin' ? 1 : 0;
 
@@ -270,7 +271,7 @@ function removeTemplate( $cid, $option, $client ) {
 	$cur_template = $database->loadResult();
 
 	if ($cur_template == $cid) {
-		echo "<script>alert(\"You can not delete template in use.\"); window.history.go(-1); </script>\n";
+		echo "<script>alert(\"". $_LANG->_( 'You can not delete template in use.' ) ."\"); window.history.go(-1); </script>\n";
 		exit();
 	}
 
@@ -288,6 +289,7 @@ function removeTemplate( $cid, $option, $client ) {
 
 function editTemplateSource( $p_tname, $option, $client ) {
 	global $mosConfig_absolute_path;
+	global $_LANG;
 
 	if ( $client == 'admin' ) {
 		$file = $mosConfig_absolute_path .'/administrator/templates/'. $p_tname .'/index.php';
@@ -301,22 +303,23 @@ function editTemplateSource( $p_tname, $option, $client ) {
 
 		HTML_templates::editTemplateSource( $p_tname, $content, $option, $client );
 	} else {
-		mosRedirect( 'index2.php?option='. $option .'&client='. $client, 'Operation Failed: Could not open'. $file );
+		mosRedirect( 'index2.php?option='. $option .'&client='. $client, $_LANG->_( 'Operation Failed' ) .': '. $_LANG->_( 'Could not open' ) .' '. $file );
 	}
 }
 
 
 function saveTemplateSource( $option, $client ) {
 	global $mosConfig_absolute_path;
+	global $_LANG;
 
 	$template 		= mosGetParam( $_POST, 'template', '' );
 	$filecontent 	= mosGetParam( $_POST, 'filecontent', '', _MOS_ALLOWHTML );
 
 	if ( !$template ) {
-		mosRedirect( 'index2.php?option='. $option .'&client='. $client, 'Operation failed: No template specified.' );
+		mosRedirect( 'index2.php?option='. $option .'&client='. $client, $_LANG->_( 'Operation Failed' ) .': '. $_LANG->_( 'No template specified.' ) );
 	}
 	if ( !$filecontent ) {
-		mosRedirect( 'index2.php?option='. $option .'&client='. $client, 'Operation failed: Content empty.' );
+		mosRedirect( 'index2.php?option='. $option .'&client='. $client, $_LANG->_( 'Operation Failed' ) .': '. $_LANG->_( 'Content empty.' ) );
 	}
 
 	if ( $client == 'admin' ) {
@@ -331,7 +334,7 @@ function saveTemplateSource( $option, $client ) {
 
 	clearstatcache();
 	if ( is_writable( $file ) == false ) {
-		mosRedirect( 'index2.php?option='. $option , 'Operation failed: '. $file .' is not writable.' );
+		mosRedirect( 'index2.php?option='. $option , $_LANG->_( 'Operation Failed' ) .': '. $file .' '. $_LANG->_( 'is not writable.' ) );
 	}
 
 	if ( $fp = fopen ($file, 'w' ) ) {
@@ -346,13 +349,14 @@ function saveTemplateSource( $option, $client ) {
 		mosRedirect( 'index2.php?option='. $option .'&client='. $client );
 	} else {
 		if ($enable_write) @chmod($file, $oldperms);
-		mosRedirect( 'index2.php?option='. $option .'&client='. $client, 'Operation failed: Failed to open file for writing.' );
+		mosRedirect( 'index2.php?option='. $option .'&client='. $client, $_LANG->_( 'Operation Failed' ) .': '. $_LANG->_( 'Failed to open file for writing.' ) );
 	}
 
 }
 
 function editTemplateCSS( $p_tname, $option, $client ) {
 	global $mosConfig_absolute_path;
+	global $_LANG;
 
 	if ( $client == 'admin' ) {
 		$file = $mosConfig_absolute_path .'/administrator/templates/'. $p_tname .'/css/template_css.css';
@@ -366,22 +370,24 @@ function editTemplateCSS( $p_tname, $option, $client ) {
 
 		HTML_templates::editCSSSource( $p_tname, $content, $option, $client );
 	} else {
-		mosRedirect( 'index2.php?option='. $option .'&client='. $client, 'Operation Failed: Could not open'. $file );
+		mosRedirect( 'index2.php?option='. $option .'&client='. $client, $_LANG->_( 'Operation Failed' ) .': '. $_LANG->_( 'Could not open' ) .' '. $file );
 	}
 }
 
 
 function saveTemplateCSS( $option, $client ) {
 	global $mosConfig_absolute_path;
+	global $_LANG;
+
 	$template = mosGetParam( $_POST, 'template', '' );
 	$filecontent = mosGetParam( $_POST, 'filecontent', '', _MOS_ALLOWHTML );
 
 	if ( !$template ) {
-		mosRedirect( 'index2.php?option='. $option .'&client='. $client, 'Operation failed: No template specified.' );
+		mosRedirect( 'index2.php?option='. $option .'&client='. $client, $_LANG->_( 'Operation Failed' ) .': '. $_LANG->_( 'No template specified.' ) );
 	}
 
 	if ( !$filecontent ) {
-		mosRedirect( 'index2.php?option='. $option .'&client='. $client, 'Operation failed: Content empty.' );
+		mosRedirect( 'index2.php?option='. $option .'&client='. $client, $_LANG->_( 'Operation Failed' ) .': '. $_LANG->_( 'Content empty.' ) );
 	}
 
 	if ( $client == 'admin' ) {
@@ -396,7 +402,7 @@ function saveTemplateCSS( $option, $client ) {
 
 	clearstatcache();
 	if ( is_writable( $file ) == false ) {
-		mosRedirect( 'index2.php?option='. $option .'&client='. $client, 'Operation failed: The file is not writable.' );
+		mosRedirect( 'index2.php?option='. $option .'&client='. $client, $_LANG->_( 'Operation Failed' ) .': '. $_LANG->_( 'The file is not writable.' ) );
 	}
 
 	if ($fp = fopen ($file, 'w')) {
@@ -411,7 +417,7 @@ function saveTemplateCSS( $option, $client ) {
 		mosRedirect( 'index2.php?option='. $option );
 	} else {
 		if ($enable_write) @chmod($file, $oldperms);
-		mosRedirect( 'index2.php?option='. $option .'&client='. $client, 'Operation failed: Failed to open file for writing.' );
+		mosRedirect( 'index2.php?option='. $option .'&client='. $client, $_LANG->_( 'Operation Failed' ) .': '. $_LANG->_( 'Failed to open file for writing.' ) );
 	}
 
 }
@@ -496,6 +502,7 @@ function editPositions( $option ) {
 */
 function savePositions( $option ) {
 	global $database;
+	global $_LANG;
 
 	$positions 		= mosGetParam( $_POST, 'position', array() );
 	$descriptions 	= mosGetParam( $_POST, 'description', array() );
@@ -516,6 +523,6 @@ function savePositions( $option ) {
 			$database->query();
 		}
 	}
-	mosRedirect( 'index2.php?option='. $option .'&task=positions', 'Positions saved' );
+	mosRedirect( 'index2.php?option='. $option .'&task=positions', $_LANG->_( 'Positions saved' ) );
 }
 ?>

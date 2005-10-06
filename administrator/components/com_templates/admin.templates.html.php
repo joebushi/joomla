@@ -27,6 +27,7 @@ class HTML_templates {
 	*/
 	function showTemplates( &$rows, &$pageNav, $option, $client ) {
 		global $my, $mosConfig_live_site;
+		global $_LANG;
 
 		if ( isset( $row->authorUrl) && $row->authorUrl != '' ) {
 			$row->authorUrl = str_replace( 'http://', '', $row->authorUrl );
@@ -43,7 +44,7 @@ class HTML_templates {
 			if (document.adminForm.doPreview.checked) {
 				var src = '<?php echo $mosConfig_live_site . ($client == 'admin' ? '/administrator' : '');?>/templates/'+name+'/template_thumbnail.png';
 				var html=name;
-				html = '<br /><img border="1" src="'+src+'" name="imagelib" alt="No preview available" width="206" height="145" />';
+				html = '<br /><img border="1" src="'+src+'" name="imagelib" alt="<?php echo $_LANG->_( 'No preview available' ); ?>" width="206" height="145" />';
 				return overlib(html, CAPTION, name)
 			} else {
 				return false;
@@ -55,11 +56,11 @@ class HTML_templates {
 		<form action="index2.php" method="post" name="adminForm">
 		<table class="adminheading">
 		<tr>
-			<th class="templates">
-			Template Manager <small><small>[ <?php echo $client == 'admin' ? 'Administrator' : 'Site';?> ]</small></small>
+			<th class="templates"><?php echo $_LANG->_( 'Template Manager' ); ?>
+			 <small><small>[ <?php echo $client == 'admin' ? $_LANG->_( 'Administrator' ) : $_LANG->_( 'Site' );?> ]</small></small>
 			</th>
 			<td align="right" nowrap="true">
-			Preview Template
+             <?php echo $_LANG->_( 'Preview Template' ); ?>
 			</td>
 			<td align="right">
 			<input type="checkbox" name="doPreview" checked="checked"/>
@@ -71,37 +72,37 @@ class HTML_templates {
 			<th width="5%">#</th>
 			<th width="5%">&nbsp;</th>
 			<th width="25%" class="title">
-			Name
+			<?php echo $_LANG->_( 'Name' ); ?>
 			</th>
 			<?php
 			if ( $client == 'admin' ) {
 				?>
 				<th width="10%">
-				Default
+				<?php echo $_LANG->_( 'Default' ); ?>
 				</th>
 				<?php
 			} else {
 				?>
 				<th width="5%">
-				Default
+				<?php echo $_LANG->_( 'Default' ); ?>
 				</th>
 				<th width="5%">
-				Assigned
+				<?php echo $_LANG->_( 'Assigned' ); ?>
 				</th>
 				<?php
 			}
 			?>
 			<th width="20%" align="left">
-			Author
+			<?php echo $_LANG->_( 'Author' ); ?>
 			</th>
 			<th width="5%" align="center">
-			Version
+			<?php echo $_LANG->_( 'Version' ); ?>
 			</th>
 			<th width="10%" align="center">
-			Date
+			<?php echo $_LANG->_( 'Date' ); ?>
 			</th>
 			<th width="20%" align="left">
-			Author URL
+			<?php echo $_LANG->_( 'Author URL' ); ?>
 			</th>
 		</tr>
 		<?php
@@ -138,7 +139,7 @@ class HTML_templates {
 					<?php
 					if ( $row->published == 1 ) {
 						?>
-					<img src="images/tick.png" alt="Published">
+					<img src="images/tick.png" alt="<?php echo $_LANG->_( 'Published' ); ?>">
 						<?php
 					} else {
 						?>
@@ -154,7 +155,7 @@ class HTML_templates {
 					<?php
 					if ( $row->published == 1 ) {
 						?>
-						<img src="images/tick.png" alt="Default">
+						<img src="images/tick.png" alt="<?php echo $_LANG->_( 'Default' ); ?>">
 						<?php
 					} else {
 						?>
@@ -167,7 +168,7 @@ class HTML_templates {
 					<?php
 					if ( $row->assigned == 1 ) {
 						?>
-						<img src="images/tick.png" alt="Assigned" />
+						<img src="images/tick.png" alt="<?php echo $_LANG->_( 'Assigned' ); ?>" />
 						<?php
 					} else {
 						?>
@@ -217,17 +218,19 @@ class HTML_templates {
 	*/
 	function editTemplateSource( $template, &$content, $option, $client ) {
 		global $mosConfig_absolute_path;
+		global $_LANG;
+
 		$template_path =
-			$mosConfig_absolute_path . ($client == 'admin' ? '/administrator':'') .
+			$mosConfig_absolute_path . ($client == 'admin' ? '/administrator' : '') .
 			'/templates/' . $template . '/index.php';
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 		<table cellpadding="1" cellspacing="1" border="0" width="100%">
 		<tr>
-			<td width="290"><table class="adminheading"><tr><th class="templates">Template HTML Editor</th></tr></table></td>
+			<td width="290"><table class="adminheading"><tr><th class="templates"><?php echo $_LANG->_( 'Template HTML Editor' ); ?></th></tr></table></td>
 			<td width="220">
-				<span class="componentheading">index.php is :
-				<b><?php echo is_writable($template_path) ? '<font color="green"> Writeable</font>' : '<font color="red"> Unwriteable</font>' ?></b>
+				<span class="componentheading">index.php <?php echo $_LANG->_( 'is' ); ?>:
+				<b><?php echo is_writable($template_path) ? '<font color="green"> '. $_LANG->_( 'Writeable' ) .'</font>' : '<font color="red"> '. $_LANG->_( 'Unwriteable' ) .'</font>' ?></b>
 				</span>
 			</td>
 <?php
@@ -236,14 +239,14 @@ class HTML_templates {
 ?>
 			<td>
 				<input type="checkbox" id="disable_write" name="disable_write" value="1"/>
-				<label for="disable_write">Make unwriteable after saving</label>
+				<label for="disable_write"><?php echo $_LANG->_( 'Make unwriteable after saving' ); ?></label>
 			</td>
 <?php
 				} else {
 ?>
 			<td>
 				<input type="checkbox" id="enable_write" name="enable_write" value="1"/>
-				<label for="enable_write">Override write protection while saving</label>
+				<label for="enable_write"><?php echo $_LANG->_( 'Override write protection while saving' ); ?></label>
 			</td>
 <?php
 				} // if
@@ -271,6 +274,8 @@ class HTML_templates {
 	*/
 	function editCSSSource( $template, &$content, $option, $client ) {
 		global $mosConfig_absolute_path;
+		global $_LANG;
+
 		$css_path =
 			$mosConfig_absolute_path . ($client == 'admin' ? '/administrator' : '')
 			. '/templates/' . $template . '/css/template_css.css';
@@ -278,10 +283,10 @@ class HTML_templates {
 		<form action="index2.php" method="post" name="adminForm">
 		<table cellpadding="1" cellspacing="1" border="0" width="100%">
 		<tr>
-			<td width="280"><table class="adminheading"><tr><th class="templates">Template CSS Editor</th></tr></table></td>
+			<td width="280"><table class="adminheading"><tr><th class="templates"><?php echo $_LANG->_( 'Template CSS Editor' ); ?></th></tr></table></td>
 			<td width="260">
-				<span class="componentheading">template_css.css is :
-				<b><?php echo is_writable($css_path) ? '<font color="green"> Writeable</font>' : '<font color="red"> Unwriteable</font>' ?></b>
+				<span class="componentheading"><?php echo $_LANG->_( 'QQQQ' ); ?>template_css.css is :
+				<b><?php echo is_writable($css_path) ? '<font color="green"> '. $_LANG->_( 'Writeable' ) .'</font>' : '<font color="red"> '. $_LANG->_( 'Unwriteable' ) .'</font>' ?></b>
 				</span>
 			</td>
 <?php
@@ -290,14 +295,14 @@ class HTML_templates {
 ?>
 			<td>
 				<input type="checkbox" id="disable_write" name="disable_write" value="1"/>
-				<label for="disable_write">Make unwriteable after saving</label>
+				<label for="disable_write"><?php echo $_LANG->_( 'Make unwriteable after saving' ); ?></label>
 			</td>
 <?php
 				} else {
 ?>
 			<td>
 				<input type="checkbox" id="enable_write" name="enable_write" value="1"/>
-				<label for="enable_write">Override write protection while saving</label>
+				<label for="enable_write"><?php echo $_LANG->_( 'Override write protection while saving' ); ?></label>
 			</td>
 <?php
 				} // if
@@ -324,17 +329,19 @@ class HTML_templates {
 	* @param string The option
 	*/
 	function assignTemplate( $template, &$menulist, $option ) {
+		global $_LANG;
+
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 		<table class="adminform">
 		<tr>
-			<th class="left" colspan="2">
-			Assign template <?php echo $template; ?> to menu items
+			<th class="left" colspan="2"><?php echo $_LANG->_( 'Assign template' ); ?>
+			 <?php echo $template; ?> <?php echo $_LANG->_( 'to menu items' ); ?>
 			</th>
 		</tr>
 		<tr>
 			<td valign="top" align="left">
-			Page(s):
+			<?php echo $_LANG->_( 'Page(s)' ); ?>:
 			</td>
 			<td width="90%">
 			<?php echo $menulist; ?>
@@ -354,6 +361,8 @@ class HTML_templates {
 	* @param string The option
 	*/
 	function editPositions( &$positions, $option ) {
+		global $_LANG;
+
 		$rows = 25;
 		$cols = 2;
 		$n = $rows * $cols;
@@ -362,7 +371,7 @@ class HTML_templates {
 		<table class="adminheading">
 		<tr>
 			<th class="templates">
-			Module Positions
+			<?php echo $_LANG->_( 'Module Positions' ); ?>
 			</th>
 		</tr>
 		</table>
@@ -373,13 +382,13 @@ class HTML_templates {
 		for ( $c = 0; $c < $cols; $c++ ) {
 			?>
 			<th width="25">
-			#
+			<?php echo $_LANG->_( 'NUM' ); ?>
 			</th>
 			<th align="left">
-			Position
+			<?php echo $_LANG->_( 'Position' ); ?>
 			</th>
 			<th align="left">
-			Description
+			<?php echo $_LANG->_( 'Description' ); ?>
 			</th>
 			<?php
 		}
