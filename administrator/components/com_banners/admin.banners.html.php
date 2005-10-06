@@ -22,7 +22,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 class HTML_banners {
 
 	function showBanners( &$rows, &$pageNav, $option ) {
-		global $my;
+		global $my, $_LANG;
 
 		mosCommonHTML::loadOverlib();
 		?>
@@ -30,7 +30,7 @@ class HTML_banners {
 		<table class="adminheading">
 		<tr>
 			<th>
-			Banner Manager
+			<?php echo $_LANG->_( 'Banner Manager' ); ?>
 			</th>
 		</tr>
 		</table>
@@ -44,22 +44,22 @@ class HTML_banners {
 			<input type="checkbox" name="toggle" value="" onClick="checkAll(<?php echo count( $rows ); ?>);" />
 			</th>
 			<th align="left" nowrap>
-			Banner Name
+			<?php echo $_LANG->_( 'Banner Name' ); ?>
 			</th>
 			<th width="10%" nowrap>
-			Published
+			<?php echo $_LANG->_( 'Published' ); ?>
 			</th>
 			<th width="11%" nowrap>
-			Impressions Made
+			<?php echo $_LANG->_( 'Impressions Made' ); ?>
 			</th>
 			<th width="11%" nowrap>
-			Impressions Left
+			<?php echo $_LANG->_( 'Impressions Left' ); ?>
 			</th>
 			<th width="8%">
-			Clicks
+			<?php echo $_LANG->_( 'Clicks' ); ?>
 			</th>
 			<th width="8%" nowrap>
-			% Clicks
+			<?php echo $_LANG->_( '% Clicks' ); ?>
 			</th>
 		</tr>
 		<?php
