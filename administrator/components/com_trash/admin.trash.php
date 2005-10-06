@@ -162,7 +162,8 @@ function viewdeleteTrash( $cid, $mid, $option ) {
 */
 function deleteTrash( $cid, $option ) {
 	global $database;
-	
+	global $_LANG;
+
 	$type = mosGetParam( $_POST, 'type', array(0) );
 
 	$total = count( $cid );
@@ -183,7 +184,7 @@ function deleteTrash( $cid, $option ) {
 		}
 	}
 
-	$msg = $total. " Item(s) successfully Deleted";
+	$msg = $total. " ". $_LANG->_( 'Item(s) successfully Deleted' );
 	mosRedirect( "index2.php?option=$option&mosmsg=". $msg ."" );
 }
 
@@ -231,7 +232,8 @@ function viewrestoreTrash( $cid, $mid, $option ) {
 */
 function restoreTrash( $cid, $option ) {
 	global $database;
-	
+	global $_LANG;
+
 	$type = mosGetParam( $_POST, 'type', array(0) );
 
 	$total = count( $cid );
@@ -260,7 +262,7 @@ function restoreTrash( $cid, $option ) {
 		exit();
 	}
 
-	$msg = $total. " Item(s) successfully Restored";
+	$msg = $total. " ". $_LANG->_( 'Item(s) successfully Restored' );
 	mosRedirect( "index2.php?option=$option&mosmsg=". $msg ."" );
 }
 ?>

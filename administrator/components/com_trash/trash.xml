@@ -7,6 +7,6 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.0.0</version>
-	<description>This component manages the Trash functionality.</description>
+	<description>PARAMTRASH</description>
 	<params/>
 </mosinstall>
