@@ -27,6 +27,7 @@ class HTML_modules {
 	*/
 	function showModules( &$rows, $myid, $client, &$pageNav, $option, &$lists, $search ) {
 		global $my;
+		global $_LANG;
 
 		mosCommonHTML::loadOverlib();
 		?>
@@ -34,8 +35,8 @@ class HTML_modules {
 
 		<table class="adminheading">
 		<tr>
-			<th class="modules" rowspan="2">
-			Module Manager <small><small>[ <?php echo $client == 'admin' ? 'Administrator' : 'Site';?> ]</small></small>
+			<th class="modules" rowspan="2"><?php echo $_LANG->_( 'Module Manager' ); ?>
+			 <small><small>[ <?php echo $client == 'admin' ? $_LANG->_( 'Administrator' ) : $_LANG->_( 'Site' );?> ]</small></small>
 			</th>
 			<td width="right">
 			<?php echo $lists['position'];?>
@@ -46,7 +47,7 @@ class HTML_modules {
 		</tr>
 		<tr>
 			<td align="right">
-			Filter:
+			<?php echo $_LANG->_( 'Filter' ); ?>:
 			</td>
 			<td>
 			<input type="text" name="search" value="<?php echo $search;?>" class="text_area" onChange="document.adminForm.submit();" />
@@ -56,45 +57,45 @@ class HTML_modules {
 
 		<table class="adminlist">
 		<tr>
-			<th width="20px">#</th>
+			<th width="20px"><?php echo $_LANG->_( 'NUM' ); ?></th>
 			<th width="20px">
 			<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows );?>);" />
 			</th>
 			<th class="title">
-			Module Name
+			<?php echo $_LANG->_( 'Module Name' ); ?>
 			</th>
 			<th nowrap="nowrap" width="10%">
-			Published
+			<?php echo $_LANG->_( 'Published' ); ?>
 			</th>
 			<th colspan="2" align="center" width="5%">
-			Reorder
+			<?php echo $_LANG->_( 'Reorder' ); ?>
 			</th>
 			<th width="2%">
-			Order
+			<?php echo $_LANG->_( 'Order' ); ?>
 			</th>
 			<th width="1%">
-			<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )"><img src="images/filesave.png" border="0" width="16" height="16" alt="Save Order" /></a>
+			<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )"><img src="images/filesave.png" border="0" width="16" height="16" alt="<?php echo $_LANG->_( 'Save Order' ); ?>" /></a>
 			</th>
 			<?php
 			if ( !$client ) {
 				?>
 				<th nowrap="nowrap" width="7%">
-				Access
+				<?php echo $_LANG->_( 'Access' ); ?>
 				</th>
 				<?php
 			}
 			?>
 			<th nowrap="nowrap" width="7%">
-			Position
+			<?php echo $_LANG->_( 'Position' ); ?>
 			</th>
 			<th nowrap="nowrap" width="5%">
-			Pages
+			<?php echo $_LANG->_( 'Pages' ); ?>
 			</th>
 			<th nowrap="nowrap" width="5%">
-			ID
+			<?php echo $_LANG->_( 'ID' ); ?>
 			</th>
 			<th nowrap="nowrap" width="10%" align="left">
-			Type
+			<?php echo $_LANG->_( 'Type' ); ?>
 			</th>
 		</tr>
 		<?php
@@ -155,11 +156,11 @@ class HTML_modules {
 				<td align="center">
 				<?php
 				if (is_null( $row->pages )) {
-					echo 'None';
+					echo $_LANG->_( 'None' );
 				} else if ($row->pages > 0) {
-					echo 'Varies';
+					echo $_LANG->_( 'Varies' );
 				} else {
-					echo 'All';
+					echo $_LANG->_( 'All' );
 				}
 				?>
 				</td>
@@ -167,7 +168,7 @@ class HTML_modules {
 				<?php echo $row->id;?>
 				</td>
 				<td align="left">
-				<?php echo $row->module ? $row->module : "User";?>
+				<?php echo $row->module ? $row->module : $_LANG->_( 'User' );?>
 				</td>
 			</tr>
 			<?php
@@ -203,6 +204,7 @@ class HTML_modules {
 	*/
 	function editModule( &$row, &$orders2, &$lists, &$params, $option ) {
 		global $mosConfig_live_site;
+		global $_LANG;
 
 		$row->titleA = '';
 		if ( $row->id ) {
@@ -214,7 +216,7 @@ class HTML_modules {
 		<script language="javascript" type="text/javascript">
 		function submitbutton(pressbutton) {
 			if ( ( pressbutton == 'save' ) && ( document.adminForm.title.value == "" ) ) {
-				alert("Module must have a title");
+				alert("<?php echo $_LANG->_( 'Module must have a title' ); ?>");
 			} else {
 				<?php if ($row->module == "") {
 					getEditorContents( 'editor1', 'content' );
@@ -239,10 +241,10 @@ class HTML_modules {
 		<table class="adminheading">
 		<tr>
 			<th class="modules">
-			<?php echo $lists['client_id'] ? 'Administrator' : 'Site';?>
-			Module:
+			<?php echo $lists['client_id'] ? $_LANG->_( 'Administrator' ) : $_LANG->_( 'Site' );?>
+			<?php echo $_LANG->_( 'Module' ); ?>:
 			<small>
-			<?php echo $row->id ? 'Edit' : 'New';?>
+			<?php echo $row->id ? $_LANG->_( 'Edit' ) : $_LANG->_( 'New' );?>
 			</small>
 			<?php echo $row->titleA; ?>
 			</th>
@@ -257,12 +259,12 @@ class HTML_modules {
 				<table class="adminform">
 				<tr>
 					<th colspan="2">
-					Details
+					<?php echo $_LANG->_( 'Details' ); ?>
 					</th>
 				<tr>
 				<tr>
 					<td width="100" align="left">
-					Title:
+					<?php echo $_LANG->_( 'Title' ); ?>:
 					</td>
 					<td>
 					<input class="text_area" type="text" name="title" size="35" value="<?php echo $row->title; ?>" />
@@ -271,7 +273,7 @@ class HTML_modules {
 				<!-- START selectable pages -->
 				<tr>
 					<td width="100" align="left">
-					Show title:
+					<?php echo $_LANG->_( 'Show title' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['showtitle']; ?>
@@ -279,7 +281,7 @@ class HTML_modules {
 				</tr>
 				<tr>
 					<td valign="top" align="left">
-					Position:
+					<?php echo $_LANG->_( 'Position' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['position']; ?>
@@ -287,7 +289,7 @@ class HTML_modules {
 				</tr>
 				<tr>
 					<td valign="top" align="left">
-					Module Order:
+					<?php echo $_LANG->_( 'Module Order' ); ?>:
 					</td>
 					<td>
 					<script language="javascript" type="text/javascript">
@@ -299,7 +301,7 @@ class HTML_modules {
 				</tr>
 				<tr>
 					<td valign="top" align="left">
-					Access Level:
+					<?php echo $_LANG->_( 'Access Level' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['access']; ?>
@@ -307,7 +309,7 @@ class HTML_modules {
 				</tr>
 				<tr>
 					<td valign="top">
-					Published:
+					<?php echo $_LANG->_( 'Published' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['published']; ?>
@@ -319,7 +321,7 @@ class HTML_modules {
 				</tr>
 				<tr>
 					<td valign="top">
-					ID:
+					<?php echo $_LANG->_( 'ID' ); ?>:
 					</td>
 					<td>
 					<?php echo $row->id; ?>
@@ -327,7 +329,7 @@ class HTML_modules {
 				</tr>
 				<tr>
 					<td valign="top">
-					Description:
+					<?php echo $_LANG->_( 'Description' ); ?>:
 					</td>
 					<td>
 					<?php echo $row->description; ?>
@@ -338,7 +340,7 @@ class HTML_modules {
 				<table class="adminform">
 				<tr>
 					<th >
-					Parameters
+					<?php echo $_LANG->_( 'Parameters' ); ?>
 					</th>
 				<tr>
 				<tr>
@@ -352,12 +354,12 @@ class HTML_modules {
 				<table width="100%" class="adminform">
 				<tr>
 					<th>
-					Pages / Items
+					<?php echo $_LANG->_( 'Pages / Items' ); ?>
 					</th>
 				<tr>
 				<tr>
 					<td>
-					Menu Item Link(s):
+					<?php echo $_LANG->_( 'Menu Item Link(s)' ); ?>:
 					<br />
 					<?php echo $lists['selections']; ?>
 					</td>
@@ -373,12 +375,12 @@ class HTML_modules {
 						<table width="100%" class="adminform">
 						<tr>
 							<th colspan="2">
-							Custom Output
+							<?php echo $_LANG->_( 'Custom Output' ); ?>
 							</th>
 						<tr>
 						<tr>
 							<td valign="top" align="left">
-							Content:
+							<?php echo $_LANG->_( 'Content' ); ?>:
 							</td>
 							<td>
 							<?php

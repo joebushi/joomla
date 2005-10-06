@@ -182,11 +182,12 @@ function viewModules( $option, $client ) {
 */
 function copyModule( $option, $uid, $client ) {
 	global $database, $my;
+	global $_LANG;
 
 	$row = new mosModule( $database );
 	// load the row from the db table
 	$row->load( $uid );
-	$row->title 		= 'Copy of '.$row->title;
+	$row->title 		= $_LANG->_( 'Copy of' ) .' '.$row->title;
 	$row->id 			= 0;
 	$row->iscore 		= 0;
 	$row->published 	= 0;
@@ -222,7 +223,7 @@ function copyModule( $option, $uid, $client ) {
 		$database->query();
 	}
 
-	$msg = 'Module Copied ['. $row->title .']';
+	$msg = $_LANG->_( 'Module Copied' ) .' ['. $row->title .']';
 	mosRedirect( 'index2.php?option='. $option .'&client='. $client, $msg );
 }
 
@@ -231,6 +232,7 @@ function copyModule( $option, $uid, $client ) {
 */
 function saveModule( $option, $client, $task ) {
 	global $database;
+	global $_LANG;
 
 	$params = mosGetParam( $_POST, 'params', '' );
 	if (is_array( $params )) {
@@ -284,13 +286,13 @@ function saveModule( $option, $client, $task ) {
 
 	switch ( $task ) {
 		case 'apply':
-			$msg = 'Successfully Saved changes to Module: '. $row->title;
+			$msg = $_LANG->_( 'Successfully Saved changes to Module' ) .': '. $row->title;
 			mosRedirect( 'index2.php?option='. $option .'&client='. $client .'&task=editA&hidemainmenu=1&id='. $row->id, $msg );
 			break;
 
 		case 'save':
 		default:
-			$msg = 'Successfully Saved Module: '. $row->title;
+			$msg = $_LANG->_( 'Successfully Saved Module' ) .': '. $row->title;
 			mosRedirect( 'index2.php?option='. $option .'&client='. $client, $msg );
 			break;
 	}
@@ -304,6 +306,7 @@ function saveModule( $option, $client, $task ) {
 function editModule( $option, $uid, $client ) {
 	global $database, $my, $mainframe;
 	global $mosConfig_absolute_path;
+	global $_LANG;
 
 	$lists = array();
 	$row = new mosModule( $database );
@@ -311,7 +314,7 @@ function editModule( $option, $uid, $client ) {
 	$row->load( $uid );
 	// fail if checked out not by 'me'
 	if ($row->isCheckedOut( $my->id )) {
-		echo "<script>alert('The module $row->title is currently being edited by another administrator'); document.location.href='index2.php?option=$option'</script>\n";
+		echo "<script>alert('". $_LANG->_( 'The module' ) ." ". $row->title ." ". $_LANG->_( 'DESCBEINGEDITTED' ) ."'); document.location.href='index2.php?option=$option'</script>\n";
 		exit(0);
 	}
 
@@ -443,9 +446,10 @@ function editModule( $option, $uid, $client ) {
 */
 function removeModule( &$cid, $option, $client ) {
 	global $database, $my;
+	global $_LANG;
 
 	if (count( $cid ) < 1) {
-		echo "<script> alert('Select a module to delete'); window.history.go(-1);</script>\n";
+		echo "<script> alert('". $_LANG->_( 'Select a module to delete' ) ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
 
@@ -471,7 +475,7 @@ function removeModule( &$cid, $option, $client ) {
 		// mod_mainmenu modules only deletable via Menu Manager
 		if ( $row->module == 'mod_mainmenu' ) {
 			if ( strstr( $row->params, 'mainmenu' ) ) {
-				echo "<script> alert('You cannot delete mod_mainmenu module that displays the \'mainmenu\' as it is a core Menu'); window.history.go(-1); </script>\n";
+				echo "<script> alert('". $_LANG->_( 'WARNMAINMENU' ) ."'); window.history.go(-1); </script>\n";
 				exit;
 			}
 		}
@@ -503,7 +507,7 @@ function removeModule( &$cid, $option, $client ) {
 
 	if (count( $err )) {
 		$cids = addslashes( implode( "', '", $err ) );
-		echo "<script>alert('Module(s): \'$cids\' cannot be deleted they can only be un-installed as they are Joomla! modules.');</script>\n";
+		echo "<script>alert('". $_LANG->_( 'Module(s)' ) .": \'". $cids ."\' ". $_LANG->_( 'WARNMODULES' ) ."');</script>\n";
 	}
 
 	mosRedirect( 'index2.php?option='. $option .'&client='. $client );
@@ -516,10 +520,11 @@ function removeModule( &$cid, $option, $client ) {
 */
 function publishModule( $cid=null, $publish=1, $option, $client ) {
 	global $database, $my;
+	global $_LANG;
 
 	if (count( $cid ) < 1) {
 		$action = $publish ? 'publish' : 'unpublish';
-		echo "<script> alert('Select a module to $action'); window.history.go(-1);</script>\n";
+		echo "<script> alert('". $_LANG->_( 'Select a module to' ) ." ". $action ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
 
@@ -623,6 +628,7 @@ function accessMenu( $uid, $access, $option, $client ) {
 
 function saveOrder( &$cid, $client ) {
 	global $database;
+	global $_LANG;
 
 	$total		= count( $cid );
 	$order 		= mosGetParam( $_POST, 'order', array(0) );
@@ -656,7 +662,7 @@ function saveOrder( &$cid, $client ) {
 		$row->updateOrder( $cond[1] );
 	} // foreach
 
-	$msg 	= 'New ordering saved';
+	$msg 	= $_LANG->_( 'New ordering saved' );
 	mosRedirect( 'index2.php?option=com_modules&client='. $client, $msg );
 } // saveOrder
 ?>
