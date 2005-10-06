@@ -22,6 +22,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 class HTML_statistics {
 	function show( &$browsers, &$platforms, $tldomains, $bstats, $pstats, $dstats, $sorts, $option ) {
 		global $mosConfig_live_site;
+		global $_LANG;
 
 		$tab = mosGetParam( $_REQUEST, 'tab', 'tab1' );
 		$width = 400;	// width of 100%
@@ -36,20 +37,21 @@ class HTML_statistics {
 		</style>
 		<table class="adminheading">
 		<tr>
-			<th class="browser">Browser, OS, Domain Statistics</th>
+			<th class="browser"><?php echo $_LANG->_( 'Browser, OS, Domain Statistics' ); ?></th>
 		</tr>
 		</table>
 		<form action="index2.php" method="post" name="adminForm">
 		<?php
+		$title = $_LANG->_( 'Browsers' );
 		$tabs->startPane("statsPane");
-		$tabs->startTab("Browsers","browsers-page");
+		$tabs->startTab( $title, "browsers-page" );
 		?>
 		<table class="adminlist">
 		<tr>
-			<th align="left">&nbsp;Browser <?php echo $sorts['b_agent'];?></th>
+			<th align="left">&nbsp;<?php echo $_LANG->_( 'Browser' ); ?>&nbsp;<?php echo $sorts['b_agent'];?></th>
 			<th>&nbsp;</th>
 			<th width="100" align="left">% <?php echo $sorts['b_hits'];?></th>
-			<th width="100" align="left">#</th>
+			<th width="100" align="left"><?php echo $_LANG->_( 'NUM' ); ?></th>
 		</tr>
 		<?php
 		$c = 1;
@@ -84,15 +86,16 @@ class HTML_statistics {
 		</tr>
 		</table>
 		<?php
+		$title = $_LANG->_( 'OS Stats' );
 		$tabs->endTab();
-		$tabs->startTab("OS Stats","os-page");
+		$tabs->startTab( $title, "os-page" );
 		?>
 		<table class="adminlist">
 		<tr>
-			<th align="left">&nbsp;Operating System <?php echo $sorts['o_agent'];?></th>
+			<th align="left">&nbsp;<?php echo $_LANG->_( 'Operating System' ); ?>&nbsp;<?php echo $sorts['o_agent'];?></th>
 			<th>&nbsp;</th>
 			<th width="100" align="left">% <?php echo $sorts['o_hits'];?></th>
-			<th width="100" align="left">#</th>
+			<th width="100" align="left"><?php echo $_LANG->_( 'NUM' ); ?></th>
 		</tr>
 		<?php
 		$c = 1;
@@ -127,15 +130,16 @@ class HTML_statistics {
 		</tr>
 		</table>
 		<?php
+		$title = $_LANG->_( 'Domain Stats' );
 		$tabs->endTab();
-		$tabs->startTab("Domain Stats","domain-page");
+		$tabs->startTab( $title, "domain-page" );
 		?>
 		<table class="adminlist">
 		<tr>
-			<th align="left">&nbsp;Domain <?php echo $sorts['d_agent'];?></th>
+			<th align="left">&nbsp;<?php echo $_LANG->_( 'Domain' ); ?>&nbsp;<?php echo $sorts['d_agent'];?></th>
 			<th>&nbsp;</th>
 			<th width="100" align="left">% <?php echo $sorts['d_hits'];?></th>
-			<th width="100" align="left">#</th>
+			<th width="100" align="left"><?php echo $_LANG->_( 'NUM' ); ?></th>
 		</tr>
 		<?php
 		$c = 1;
@@ -180,19 +184,20 @@ class HTML_statistics {
 	}
 
 	function pageImpressions( &$rows, $pageNav, $option, $task ) {
+		global $_LANG;
 		?>
 		<table cellpadding="4" cellspacing="0" border="0" width="100%" class="adminheading">
 		<tr>
-			<th width="100%" class="impressions">Page Impression Statistics</th>
+			<th width="100%" class="impressions"><?php echo $_LANG->_( 'Page Impression Statistics' ); ?></th>
 		</tr>
 		</table>
 
 		<form action="index2.php" method="post" name="adminForm">
 		<table class="adminlist">
 		<tr>
-			<th style="text-align:right">#</th>
-			<th class="title">Title</th>
-			<th align="center" nowrap="nowrap">Page Impressions</th>
+			<th style="text-align:right"><?php echo $_LANG->_( 'NUM' ); ?></th>
+			<th class="title"><?php echo $_LANG->_( 'Title' ); ?></th>
+			<th align="center" nowrap="nowrap"><?php echo $_LANG->_( 'Page Impressions' ); ?></th>
 		</tr>
 		<?php
 		$i = $pageNav->limitstart;
@@ -224,14 +229,15 @@ class HTML_statistics {
 
 	function showSearches( &$rows, $pageNav, $option, $task ) {
 		global $mainframe;
+		global $_LANG;
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 		<table cellpadding="4" cellspacing="0" border="0" width="100%" class="adminheading">
 			<tr>
 				<th width="100%" class="searchtext">
-				Search Engine Text :
-				<span class="componentheading">logging is :
-				<?php echo $mainframe->getCfg( 'enable_log_searches' ) ? '<b><font color="green">Enabled</font></b>' : '<b><font color="red">Disabled</font></b>' ?>
+				<?php echo $_LANG->_( 'Search Engine Text' ); ?> :
+				<span class="componentheading"><?php echo $_LANG->_( 'logging is' ); ?> :
+				<?php echo $mainframe->getCfg( 'enable_log_searches' ) ? '<b><font color="green">'. $_LANG->_( 'Enabled' ) .'</font></b>' : '<b><font color="red">'. $_LANG->_( 'Disabled' ) .'</font></b>' ?>
 				</span>
 				</th>
 			</tr>
@@ -239,10 +245,10 @@ class HTML_statistics {
 
 		<table class="adminlist">
 		<tr>
-			<th style="text-align:right">#</th>
-			<th class="title">Search Text</th>
-			<th nowrap="nowrap">Times Requested</th>
-			<th nowrap="nowrap">Results Returned</th>
+			<th style="text-align:right"><?php echo $_LANG->_( 'NUM' ); ?></th>
+			<th class="title"><?php echo $_LANG->_( 'Search Text' ); ?></th>
+			<th nowrap="nowrap"><?php echo $_LANG->_( 'Times Requested' ); ?></th>
+			<th nowrap="nowrap"><?php echo $_LANG->_( 'Results Returned' ); ?></th>
 		</tr>
 		<?php
 		$k = 0;
