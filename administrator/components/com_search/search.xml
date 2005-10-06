@@ -7,11 +7,11 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.0.0</version>
-	<description>This component manages the Search functionality.</description>
+	<description>DESCSEARCH</description>
 	<params>
-		<param name="menu_image" type="imagelist" directory="/images/stories" default="" label="Menu Image" description="A small image to be placed to the left or right of your menu item, images must be in images/stories/"/>
-		<param name="pageclass_sfx" type="text" size="20" default="" label="Page Class Suffix" description="A suffix to be applied to the css classes of the page, this allows individual page styling"/>
-		<param name="back_button" type="list" default="" label="Back Button" description="Show/Hide a Back Button, that returns you to the previously view page">
+		<param name="menu_image" type="imagelist" directory="/images/stories" default="" label="Menu Image" description="PARAMMENUIMAGE"/>
+		<param name="pageclass_sfx" type="text" size="20" default="" label="Page Class Suffix" description="PARAMPAGECLASSSUFFIX"/>
+		<param name="back_button" type="list" default="" label="Back Button" description="PARAMBACKBUTTON">
 			<option value="">Use Global</option>
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
@@ -20,6 +20,6 @@
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="header" type="text" size="30" default="" label="Page Title" description="Text to display at the top of the page. If left blank, the Menu name will be used instead"/>
+		<param name="header" type="text" size="30" default="" label="Page Title" description="PARAMPAGETITLE"/>
 	</params>
 </mosinstall>
