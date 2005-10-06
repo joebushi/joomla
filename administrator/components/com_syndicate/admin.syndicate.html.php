@@ -23,13 +23,14 @@ class HTML_syndicate {
 
 	function settings( $option, &$params, $id ) {
 		global $mosConfig_live_site;
+		global $_LANG;
 		?>
 		<div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
 		<form action="index2.php" method="post" name="adminForm">
 		<table class="adminheading">
 		<tr>
 			<th>
-			Syndication Settings
+			<?php echo $_LANG->_( 'Syndication Settings' ); ?>
 			</th>
 		</tr>
 		</table>
@@ -37,7 +38,7 @@ class HTML_syndicate {
 		<table class="adminform">
 		<tr>
 			<th>
-			Parameters
+			<?php echo $_LANG->_( 'Parameters' ); ?>
 			</th>
 		</tr>
 		<tr>

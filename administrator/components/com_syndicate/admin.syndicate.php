@@ -68,6 +68,7 @@ function showSyndicate( $option ) {
 */
 function saveSyndicate( $option ) {
 	global $database;
+	global $_LANG;
 
 	$params = mosGetParam( $_POST, 'params', '' );
 	if (is_array( $params )) {
@@ -96,7 +97,7 @@ function saveSyndicate( $option ) {
 		exit();
 	}
 
-	$msg = 'Settings successfully Saved';
+	$msg = $_LANG->_( 'Settings successfully Saved' );
 	mosRedirect( 'index2.php?option='. $option, $msg );
 }
 
