@@ -27,6 +27,7 @@ class HTML_typedcontent {
 	*/
 	function showContent( &$rows, &$pageNav, $option, $search, &$lists ) {
 		global $my, $acl, $database;
+		global $_LANG;
 
 		mosCommonHTML::loadOverlib();
 		?>
@@ -35,16 +36,16 @@ class HTML_typedcontent {
 		<table class="adminheading">
 		<tr>
 			<th class="edit">
-			Static Content Manager
+			<?php echo $_LANG->_( 'Static Content Manager' ); ?>
 			</th>
 			<td>
-			Filter:&nbsp;
+			<?php echo $_LANG->_( 'Filter' ); ?>:&nbsp;
 			</td>
 			<td>
 			<input type="text" name="search" value="<?php echo $search;?>" class="text_area" onChange="document.adminForm.submit();" />
 			</td>
 			<td>
-			&nbsp;&nbsp;&nbsp;Order:&nbsp;
+			&nbsp;&nbsp;&nbsp;<?php echo $_LANG->_( 'Order' ); ?>:&nbsp;
 			</td>
 			<td>
 			<?php echo $lists['order']; ?>
@@ -58,37 +59,37 @@ class HTML_typedcontent {
 		<table class="adminlist">
 		<tr>
 			<th width="5">
-			#
+			<?php echo $_LANG->_( 'NUM' ); ?>
 			</th>
 			<th width="5px">
 			<input type="checkbox" name="toggle" value="" onClick="checkAll(<?php echo count( $rows ); ?>);" />
 			</th>
 			<th class="title">
-			Title
+			<?php echo $_LANG->_( 'Title' ); ?>
 			</th>
 			<th width="5%">
-			Published
+			<?php echo $_LANG->_( 'Published' ); ?>
 			</th>
 			<th width="2%">
-			Order
+			<?php echo $_LANG->_( 'Order' ); ?>
 			</th>
 			<th width="1%">
-			<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )"><img src="images/filesave.png" border="0" width="16" height="16" alt="Save Order" /></a>
+			<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )"><img src="images/filesave.png" border="0" width="16" height="16" alt="<?php echo $_LANG->_( 'Save Order' ); ?>" /></a>
 			</th>
 			<th width="10%">
-			Access
+			<?php echo $_LANG->_( 'Access' ); ?>
 			</th>
 			<th width="5%">
-			ID
+			<?php echo $_LANG->_( 'ID' ); ?>
 			</th>
 			<th width="1%" align="left">
-			Links
+			<?php echo $_LANG->_( 'Links' ); ?>
 			</th>
 			<th width="20%" align="left">
-			Author
+			<?php echo $_LANG->_( 'Author' ); ?>
 			</th>
 			<th align="center" width="10">
-			Date
+			<?php echo $_LANG->_( 'Date' ); ?>
 			</th>
 		</tr>
 		<?php
@@ -100,30 +101,30 @@ class HTML_typedcontent {
 			$now = date( 'Y-m-d H:i:s' );
 			if ( $now <= $row->publish_up && $row->state == "1" ) {
 				$img = 'publish_y.png';
-				$alt = 'Published';
+				$alt = $_LANG->_( 'Published' );
 			} else if ( ( $now <= $row->publish_down || $row->publish_down == $nullDate ) && $row->state == "1" ) {
 				$img = 'publish_g.png';
-				$alt = 'Published';
+				$alt = $_LANG->_( 'Published' );
 			} else if ( $now > $row->publish_down && $row->state == "1" ) {
 				$img = 'publish_r.png';
-				$alt = 'Expired';
+				$alt = $_LANG->_( 'Expired' );
 			} elseif ( $row->state == "0" ) {
 				$img = "publish_x.png";
-				$alt = 'Unpublished';
+				$alt = $_LANG->_( 'Unpublished' );
 			}
 			$times = '';
 			if (isset($row->publish_up)) {
 				if ($row->publish_up == $nullDate) {
-					$times .= "<tr><td>Start: Always</td></tr>";
+					$times .= "<tr><td>". $_LANG->_( 'Start: Always' ) ."</td></tr>";
 				} else {
-					$times .= "<tr><td>Start: $row->publish_up</td></tr>";
+					$times .= "<tr><td>". $_LANG->_( 'Start' ) .": ". $row->publish_up ."</td></tr>";
 				}
 			}
 			if (isset($row->publish_down)) {
 				if ($row->publish_down == $nullDate) {
-					$times .= "<tr><td>Finish: No Expiry</td></tr>";
+					$times .= "<tr><td>". $_LANG->_( 'Finish: No Expiry' ) ."</td></tr>";
 				} else {
-					$times .= "<tr><td>Finish: $row->publish_down</td></tr>";
+					$times .= "<tr><td>". $_LANG->_( 'Finish' ) .": ". $row->publish_down ."</td></tr>";
 				}
 			}
 
@@ -179,7 +180,7 @@ class HTML_typedcontent {
 					}
 				} else {
 					?>
-					<a href="<?php echo $link; ?>" title="Edit Static Content">
+					<a href="<?php echo $link; ?>" title="<?php echo $_LANG->_( 'Edit Static Content' ); ?>">
 					<?php
 					echo $row->title;
 					if ( $row->title_alias ) {
@@ -195,7 +196,7 @@ class HTML_typedcontent {
 				if ( $times ) {
 					?>
 					<td align="center">
-					<a href="javascript: void(0);" onMouseOver="return overlib('<table><?php echo $times; ?></table>', CAPTION, 'Publish Information', BELOW, RIGHT);" onMouseOut="return nd();" onClick="return listItemTask('cb<?php echo $i;?>','<?php echo $row->state ? "unpublish" : "publish";?>')">
+					<a href="javascript: void(0);" onMouseOver="return overlib('<table><?php echo $times; ?></table>', CAPTION, '<?php echo $_LANG->_( 'Publish Information' ); ?>', BELOW, RIGHT);" onMouseOut="return nd();" onClick="return listItemTask('cb<?php echo $i;?>','<?php echo $row->state ? "unpublish" : "publish";?>')">
 					<img src="images/<?php echo $img;?>" width="12" height="12" border="0" alt="<?php echo $alt; ?>" />
 					</a>
 					</td>
@@ -241,6 +242,8 @@ class HTML_typedcontent {
 	}
 
 	function edit( &$row, &$images, &$lists, &$params, $option, &$menus ) {
+		global $_LANG;
+
 		//mosMakeHtmlSafe( $row );
 		$tabs = new mosTabs( 1 );
 		// used to hide "Reset Hits" when hits = 0
@@ -271,7 +274,7 @@ class HTML_typedcontent {
 			}
 
 			if ( pressbutton ==' resethits' ) {
-				if (confirm('Are you sure you want to reset the Hits to Zero? \nAny unsaved changes to this content will be lost.')){
+				if (confirm('<?php echo $_LANG->_( 'WARNWANTRESETHITSTOZERO' ); ?>')){
 					submitform( pressbutton );
 					return;
 				} else {
@@ -281,10 +284,10 @@ class HTML_typedcontent {
 
 			if ( pressbutton == 'menulink' ) {
 				if ( form.menuselect.value == "" ) {
-					alert( "Please select a Menu" );
+					alert( "<?php echo $_LANG->_( 'Please select a Menu' ); ?>" );
 					return;
 				} else if ( form.link_name.value == "" ) {
-					alert( "Please enter a Name for this menu item" );
+					alert( "<?php echo $_LANG->_( 'Please enter a Name for this menu item' ); ?>" );
 					return;
 				}
 			}
@@ -300,9 +303,9 @@ class HTML_typedcontent {
 			}
 			catch(e){}
 			if (trim(form.title.value) == ""){
-				alert( "Content item must have a title" );
+				alert( "<?php echo $_LANG->_( 'Content item must have a title' ); ?>" );
 			} else if (trim(form.name.value) == ""){
-				alert( "Content item must have a name" );
+				alert( "<?php echo $_LANG->_( 'Content item must have a name' ); ?>" );
 			} else {
 				if ( form.reset_hits.checked ) {
 					form.hits.value = 0;
@@ -317,9 +320,9 @@ class HTML_typedcontent {
 		<table class="adminheading">
 		<tr>
 			<th class="edit">
-			Static Content Item:
+			<?php echo $_LANG->_( 'Static Content Item' ); ?>:
 			<small>
-			<?php echo $row->id ? 'Edit' : 'New';?>
+			<?php echo $row->id ? $_LANG->_( 'Edit' ) : $_LANG->_( 'New' );?>
 			</small>
 			</th>
 		</tr>
@@ -333,12 +336,12 @@ class HTML_typedcontent {
 				<table class="adminform">
 				<tr>
 					<th colspan="3">
-					Item Details
+					<?php echo $_LANG->_( 'Item Details' ); ?>
 					</th>
 				<tr>
 				<tr>
 					<td align="left">
-					Title:
+					<?php echo $_LANG->_( 'Title' ); ?>:
 					</td>
 					<td>
 					<input class="inputbox" type="text" name="title" size="30" maxlength="100" value="<?php echo $row->title; ?>" />
@@ -346,7 +349,7 @@ class HTML_typedcontent {
 				</tr>
 				<tr>
 					<td align="left">
-					Title Alias:
+					<?php echo $_LANG->_( 'Title Alias' ); ?>:
 					</td>
 					<td>
 					<input class="inputbox" type="text" name="title_alias" size="30" maxlength="100" value="<?php echo $row->title_alias; ?>" />
@@ -354,7 +357,7 @@ class HTML_typedcontent {
 				</tr>
 				<tr>
 					<td valign="top" align="left" colspan="2">
-					Text: (required)<br />
+					<?php echo $_LANG->_( 'Text: (required)' ); ?><br />
 					<?php
 					// parameters : areaname, content, hidden field, width, height, rows, cols
 					editorArea( 'editor1',  $row->introtext, 'introtext', '100%;', '500', '75', '50' );
@@ -365,26 +368,27 @@ class HTML_typedcontent {
 			</td>
 			<td width="40%" valign="top">
 				<?php
+    	   		$title = $_LANG->_( 'Publishing' );
 				$tabs->startPane("content-pane");
-				$tabs->startTab("Publishing","publish-page");
+				$tabs->startTab( $title, "publish-page" );
 				?>
 				<table class="adminform">
 				<tr>
 					<th colspan="2">
-					Publishing Info
+						<?php echo $_LANG->_( 'Publishing Info' ); ?>
 					</th>
 				<tr>
 				<tr>
 					<td valign="top" align="right">
-					State:
+					<?php echo $_LANG->_( 'State' ); ?>:
 					</td>
 					<td>
-					<?php echo $row->state > 0 ? 'Published' : 'Draft Unpublished'; ?>
+					<?php echo $row->state > 0 ? $_LANG->_( 'Published' ) : $_LANG->_( 'Draft Unpublished' ); ?>
 					</td>
 				</tr>
 				<tr>
 					<td valign="top" align="right">
-					Published:
+					<?php echo $_LANG->_( 'Published' ); ?>:
 					</td>
 					<td>
 					<input type="checkbox" name="published" value="1" <?php echo $row->state ? 'checked="checked"' : ''; ?> />
@@ -392,7 +396,7 @@ class HTML_typedcontent {
 				</tr>
 				<tr>
 					<td valign="top" align="right">
-					Access Level:
+					<?php echo $_LANG->_( 'Access Level' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['access']; ?>
@@ -400,7 +404,7 @@ class HTML_typedcontent {
 				</tr>
 				<tr>
 					<td valign="top" align="right">
-					Author Alias:
+					<?php echo $_LANG->_( 'Author Alias' ); ?>:
 					</td>
 					<td>
 					<input type="text" name="created_by_alias" size="30" maxlength="100" value="<?php echo $row->created_by_alias; ?>" class="inputbox" />
@@ -408,7 +412,7 @@ class HTML_typedcontent {
 				</tr>
 				<tr>
 					<td valign="top" align="right">
-					Change Creator:
+					<?php echo $_LANG->_( 'Change Creator' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['created_by']; ?>
@@ -416,7 +420,7 @@ class HTML_typedcontent {
 				</tr>
 				<tr>
 					<td valign="top" align="right">
-					Override Created Date
+					<?php echo $_LANG->_( 'Override Created Date' ); ?>
 					</td>
 					<td>
 					<input class="inputbox" type="text" name="created" id="created" size="25" maxlength="19" value="<?php echo $row->created; ?>" />
@@ -425,7 +429,7 @@ class HTML_typedcontent {
 				</tr>
 				<tr>
 					<td width="20%" align="right">
-					Start Publishing:
+					<?php echo $_LANG->_( 'Start Publishing' ); ?>:
 					</td>
 					<td width="80%">
 					<input class="inputbox" type="text" name="publish_up" id="publish_up" size="25" maxlength="19" value="<?php echo $row->publish_up; ?>" />
@@ -434,7 +438,7 @@ class HTML_typedcontent {
 				</tr>
 				<tr>
 					<td width="20%" align="right">
-					Finish Publishing:
+					<?php echo $_LANG->_( 'Finish Publishing' ); ?>:
 					</td>
 					<td width="80%">
 					<input class="inputbox" type="text" name="publish_down" id="publish_down" size="25" maxlength="19" value="<?php echo $row->publish_down; ?>" />
@@ -449,7 +453,7 @@ class HTML_typedcontent {
 					?>
 					<tr>
 						<td>
-						<strong>Content ID:</strong>
+						<strong><?php echo $_LANG->_( 'Content ID' ); ?>:</strong>
 						</td>
 						<td>
 						<?php echo $row->id; ?>
@@ -460,26 +464,26 @@ class HTML_typedcontent {
 				?>
 				<tr>
 					<td width="90px" valign="top" align="right">
-					<strong>State</strong>
+					<strong><?php echo $_LANG->_( 'State' ); ?></strong>
 					</td>
 					<td>
-					<?php echo $row->state > 0 ? 'Published' : ($row->state < 0 ? 'Archived' : 'Draft Unpublished');?>
+					<?php echo $row->state > 0 ? $_LANG->_( 'Published' ) : ($row->state < 0 ? $_LANG->_( 'Archived' ) : $_LANG->_( 'Draft Unpublished' ) );?>
 					</td>
 				</tr>
 				<tr>
 					<td valign="top" align="right">
-					<strong>Hits</strong>
+					<strong><?php echo $_LANG->_( 'Hits' ); ?></strong>
 					</td>
 					<td>
 					<?php echo $row->hits;?>
 					<div <?php echo $visibility; ?>>
-					<input name="reset_hits" type="button" class="button" value="Reset Hit Count" onClick="submitbutton('resethits');">
+					<input name="reset_hits" type="button" class="button" value="<?php echo $_LANG->_( 'Reset Hit Count' ); ?>" onClick="submitbutton('resethits');">
 					</div>
 					</td>
 				</tr>
 				<tr>
 					<td valign="top" align="right">
-					<strong>Version</strong>
+					<strong><?php echo $_LANG->_( 'Version' ); ?></strong>
 					</td>
 					<td>
 					<?php echo "$row->version";?>
@@ -487,23 +491,23 @@ class HTML_typedcontent {
 				</tr>
 				<tr>
 					<td valign="top" align="right">
-					<strong>Created</strong>
+					<strong><?php echo $_LANG->_( 'Created' ); ?></strong>
 					</td>
 					<td>
-					<?php echo $row->created ? "$row->created</td></tr><tr><td valign='top' align='right'><strong>By</strong></td><td>$row->creator" : "New document";?>
+					<?php echo $row->created ? "$row->created</td></tr><tr><td valign='top' align='right'><strong>". $_LANG->_( 'By' ) ."</strong></td><td>". $row->creator : $_LANG->_( 'New document' );?>
 					</td>
 				</tr>
 				<tr>
 					<td valign="top" align="right">
-					<strong>Last Modified</strong>
+					<strong><?php echo $_LANG->_( 'Last Modified' ); ?></strong>
 					</td>
 					<td>
-					<?php echo $row->modified ? "$row->modified</td></tr><tr><td valign='top' align='right'><strong>By</strong></td><td>$row->modifier" : "Not modified";?>
+					<?php echo $row->modified ? "$row->modified</td></tr><tr><td valign='top' align='right'><strong>". $_LANG->_( 'By' ) ."</strong></td><td>". $row->modifier : $_LANG->_( 'Not modified' );?>
 					</td>
 				</tr>
 				<tr>
 					<td valign="top" align="right">
-					<strong>Expires</strong>
+					<strong><?php echo $_LANG->_( 'Expires' ); ?></strong>
 					</td>
 					<td>
 					<?php echo "$row->publish_down";?>
@@ -511,13 +515,14 @@ class HTML_typedcontent {
 				</tr>
 				</table>
 				<?php
+       	   		$title = $_LANG->_( 'Images' );
 				$tabs->endTab();
-				$tabs->startTab("Images","images-page");
+				$tabs->startTab( $title, "images-page" );
 				?>
 				<table class="adminform">
 				<tr>
 					<th colspan="2">
-						MOSImage Control
+						<?php echo $_LANG->_( 'MOSImage Control' ); ?>
 					</th>
 				</tr>
 				<tr>
@@ -526,26 +531,26 @@ class HTML_typedcontent {
 						<tr>
 							<td width="48%">
 								<div align="center">
-									Gallery Images:
+									<?php echo $_LANG->_( 'Gallery Images' ); ?>:
 									<br />
 									<?php echo $lists['imagefiles'];?>
 									<br />
-									Sub-folder: <?php echo $lists['folders'];?>
+									<?php echo $_LANG->_( 'Sub-folder' ); ?>: <?php echo $lists['folders'];?>
 								</div>
 							</td>
 							<td width="2%">
-								<input class="button" type="button" value=">>" onclick="addSelectedToList('adminForm','imagefiles','imagelist')" title="Add"/>
-								<br/>
-								<input class="button" type="button" value="<<" onclick="delSelectedFromList('adminForm','imagelist')" title="Remove"/>
+								<input class="button" type="button" value=">>" onclick="addSelectedToList('adminForm','imagefiles','imagelist')" title="<?php echo $_LANG->_( 'Add' ); ?>"/>
+								<br />
+								<input class="button" type="button" value="<<" onclick="delSelectedFromList('adminForm','imagelist')" title="<?php echo $_LANG->_( 'Remove' ); ?>"/>
 							</td>
 							<td width="48%">
 								<div align="center">
-									Content Images:
+									<?php echo $_LANG->_( 'Content Images' ); ?>:
 									<br />
 									<?php echo $lists['imagelist'];?>
 									<br />
-									<input class="button" type="button" value="Up" onclick="moveInList('adminForm','imagelist',adminForm.imagelist.selectedIndex,-1)" />
-									<input class="button" type="button" value="Down" onclick="moveInList('adminForm','imagelist',adminForm.imagelist.selectedIndex,+1)" />
+									<input class="button" type="button" value="<?php echo $_LANG->_( 'Up' ); ?>" onclick="moveInList('adminForm','imagelist',adminForm.imagelist.selectedIndex,-1)" />
+									<input class="button" type="button" value="<?php echo $_LANG->_( 'Down' ); ?>" onclick="moveInList('adminForm','imagelist',adminForm.imagelist.selectedIndex,+1)" />
 								</div>
 							</td>
 						</tr>
@@ -555,24 +560,24 @@ class HTML_typedcontent {
 				<tr valign="top">
 					<td>
 						<div align="center">
-							Sample Image:<br/>
+							<?php echo $_LANG->_( 'Sample Image' ); ?>:<br />
 							<img name="view_imagefiles" src="../images/M_images/blank.png" width="100" />
 						</div>
 					</td>
 					<td valign="top">
 						<div align="center">
-							Active Image:<br/>
+							<?php echo $_LANG->_( 'Active Image' ); ?>:<br />
 							<img name="view_imagelist" src="../images/M_images/blank.png" width="100" />
 						</div>
 					</td>
 				</tr>
 				<tr>
 					<td>
-					Edit the image selected:
+					<?php echo $_LANG->_( 'Edit the image selected' ); ?>:
 						<table>
 						<tr>
 							<td align="right">
-							Source
+							<?php echo $_LANG->_( 'Source' ); ?>
 							</td>
 							<td>
 							<input type="text" name= "_source" value="" />
@@ -580,7 +585,7 @@ class HTML_typedcontent {
 						</tr>
 						<tr>
 							<td align="right">
-							Align
+							<?php echo $_LANG->_( 'Align' ); ?>
 							</td>
 							<td>
 							<?php echo $lists['_align']; ?>
@@ -588,7 +593,7 @@ class HTML_typedcontent {
 						</tr>
 						<tr>
 							<td align="right">
-							Alt Text
+							<?php echo $_LANG->_( 'Alt Text' ); ?>
 							</td>
 							<td>
 							<input type="text" name="_alt" value="" />
@@ -596,7 +601,7 @@ class HTML_typedcontent {
 						</tr>
 						<tr>
 							<td align="right">
-							Border
+							<?php echo $_LANG->_( 'Border' ); ?>
 							</td>
 							<td>
 							<input type="text" name="_border" value="" size="3" maxlength="1" />
@@ -604,7 +609,7 @@ class HTML_typedcontent {
 						</tr>
 						<tr>
 							<td align="right">
-							Caption:
+							<?php echo $_LANG->_( 'Caption' ); ?>:
 							</td>
 							<td>
 							<input class="text_area" type="text" name="_caption" value="" size="30" />
@@ -612,7 +617,7 @@ class HTML_typedcontent {
 						</tr>
 						<tr>
 							<td align="right">
-							Caption Position:
+							<?php echo $_LANG->_( 'Caption Position' ); ?>:
 							</td>
 							<td>
 							<?php echo $lists['_caption_position']; ?>
@@ -620,7 +625,7 @@ class HTML_typedcontent {
 						</tr>
 						<tr>
 							<td align="right">
-							Caption Align:
+							<?php echo $_LANG->_( 'Caption Align' ); ?>:
 							</td>
 							<td>
 							<?php echo $lists['_caption_align']; ?>
@@ -628,7 +633,7 @@ class HTML_typedcontent {
 						</tr>
 						<tr>
 							<td align="right">
-							Width:
+							<?php echo $_LANG->_( 'Width' ); ?>:
 							</td>
 							<td>
 							<input class="text_area" type="text" name="_width" value="" size="5" maxlength="5" />
@@ -636,7 +641,7 @@ class HTML_typedcontent {
 						</tr>
 						<tr>
 							<td colspan="2">
-							<input class="button" type="button" value="Apply" onClick="applyImageProps()" />
+							<input class="button" type="button" value="<?php echo $_LANG->_( 'Apply' ); ?>" onClick="applyImageProps()" />
 							</td>
 						</tr>
 						</table>
@@ -644,13 +649,14 @@ class HTML_typedcontent {
 				</tr>
 				</table>
 				<?php
+       	   		$title = $_LANG->_( 'Parameters' );
 				$tabs->endTab();
-				$tabs->startTab("Parameters","params-page");
+				$tabs->startTab( $title, "params-page" );
 				?>
 				<table class="adminform">
 				<tr>
 					<th colspan="2">
-					Parameter Control
+					<?php echo $_LANG->_( 'Parameter Control' ); ?>
 					</th>
 				<tr>
 				<tr>
@@ -660,47 +666,49 @@ class HTML_typedcontent {
 				</tr>
 				</table>
 				<?php
+       	   		$title = $_LANG->_( 'Meta Info' );
 				$tabs->endTab();
-				$tabs->startTab("Meta Info","metadata-page");
+				$tabs->startTab( $title, "metadata-page" );
 				?>
 				<table class="adminform">
 				<tr>
 					<th colspan="2">
-					Meta Data
+					<?php echo $_LANG->_( 'Meta Data' ); ?>
 					</th>
 				<tr>
 				<tr>
 					<td align="left">
-					Description:<br />
+					<?php echo $_LANG->_( 'Description' ); ?>:<br />
 					<textarea class="inputbox" cols="40" rows="5" name="metadesc" style="width:300px"><?php echo str_replace('&','&amp;',$row->metadesc); ?></textarea>
 					</td>
 				</tr>
 				<tr>
 					<td align="left">
-					Keywords:<br />
+					<?php echo $_LANG->_( 'Keywords' ); ?>:<br />
 					<textarea class="inputbox" cols="40" rows="5" name="metakey" style="width:300px"><?php echo str_replace('&','&amp;',$row->metakey); ?></textarea>
 					</td>
 				</tr>
 				</table>
 				<?php
+       	   		$title = $_LANG->_( 'Link to Menu' );
 				$tabs->endTab();
-				$tabs->startTab("Link to Menu","link-page");
+				$tabs->startTab( $title, "link-page" );
 				?>
 				<table class="adminform">
 				<tr>
 					<th colspan="2">
-					Link to Menu
+					<?php echo $_LANG->_( 'Link to Menu' ); ?>
 					</th>
 				<tr>
 				<tr>
 					<td colspan="2">
-					This will create a 'Link - Static Content' in the menu you select
+					<?php echo $_LANG->_( 'DESCLINKSTATIC' ); ?>
 					<br /><br />
 					</td>
 				<tr>
 				<tr>
 					<td valign="top" width="90px">
-					Select a Menu
+					<?php echo $_LANG->_( 'Select a Menu' ); ?>
 					</td>
 					<td>
 					<?php echo $lists['menuselect']; ?>
@@ -708,7 +716,7 @@ class HTML_typedcontent {
 				<tr>
 				<tr>
 					<td valign="top" width="90px">
-					Menu Item Name
+					<?php echo $_LANG->_( 'Menu Item Name' ); ?>
 					</td>
 					<td>
 					<input type="text" name="link_name" class="inputbox" value="" size="30" />
@@ -718,12 +726,12 @@ class HTML_typedcontent {
 					<td>
 					</td>
 					<td>
-					<input name="menu_link" type="button" class="button" value="Link to Menu" onClick="submitbutton('menulink');" />
+					<input name="menu_link" type="button" class="button" value="<?php echo $_LANG->_( 'Link to Menu' ); ?>" onClick="submitbutton('menulink');" />
 					</td>
 				<tr>
 				<tr>
 					<th colspan="2">
-					Existing Menu Links
+					<?php echo $_LANG->_( 'Existing Menu Links' ); ?>
 					</th>
 				</tr>
 				<?php
@@ -731,7 +739,7 @@ class HTML_typedcontent {
 					?>
 					<tr>
 						<td colspan="2">
-						None
+						<?php echo $_LANG->_( 'None' ); ?>
 						</td>
 					</tr>
 					<?php

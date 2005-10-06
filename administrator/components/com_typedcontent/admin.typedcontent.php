@@ -197,6 +197,7 @@ function view( $option ) {
 function edit( $uid, $option ) {
 	global $database, $my, $mainframe;
 	global $mosConfig_absolute_path, $mosConfig_live_site;
+	global $_LANG;
 
 	$nullDate = $database->getNullDate();
 	$row = new mosContent( $database );
@@ -209,7 +210,7 @@ function edit( $uid, $option ) {
 
 		// fail if checked out not by 'me'
 		if ($row->isCheckedOut( $my->id )) {
-			echo "<script>alert('The module $row->title is currently being edited by another administrator'); document.location.href='index2.php?option=$option'</script>\n";
+			echo "<script>alert('". $_LANG->_( 'The module' ) ." ". $row->title ." ". $_LANG->_( 'DESCBEINGEDITTED' ) ); document.location.href='index2.php?option=$option'</script>\n";
 			exit(0);
 		}
 
@@ -281,8 +282,8 @@ function edit( $uid, $option ) {
 	// build the select list for the image caption alignment
 	$lists['_caption_align'] 	= mosAdminMenus::Positions( '_caption_align' );
 	// build the select list for the image caption position
-	$pos[] = mosHTML::makeOption( 'bottom', _CMN_BOTTOM );
-	$pos[] = mosHTML::makeOption( 'top', _CMN_TOP );
+	$pos[] = mosHTML::makeOption( 'bottom', $_LANG->_( 'Bottom' ) );
+	$pos[] = mosHTML::makeOption( 'top', $_LANG->_( 'Top' ) );
 	$lists['_caption_position'] = mosHTML::selectList( $pos, '_caption_position', 'class="inputbox" size="1"', 'value', 'text' );
 
 	// get params definitions
@@ -296,6 +297,7 @@ function edit( $uid, $option ) {
 */
 function save( $option, $task ) {
 	global $database, $my;
+	global $_LANG;
 
 	$nullDate = $database->getNullDate();
 	$menu 		= mosGetParam( $_POST, 'menu', 'mainmenu' );
@@ -363,13 +365,13 @@ function save( $option, $task ) {
 			break;
 
 		case 'save':
-			$msg = 'Typed Content Item saved';
+			$msg = $_LANG->_( 'Typed Content Item saved' );
 			mosRedirect( 'index2.php?option='. $option, $msg );
 			break;
 
 		case 'apply':
 		default:
-			$msg = 'Changes to Typed Content Item saved';
+			$msg = $_LANG->_( 'Changes to Typed Content Item saved' );
 			mosRedirect( 'index2.php?option='. $option .'&task=edit&hidemainmenu=1&id='. $row->id, $msg );
 			break;
 	}
@@ -380,10 +382,11 @@ function save( $option, $task ) {
 */
 function trash( &$cid, $option ) {
 	global $database;
+	global $_LANG;
 
 	$total = count( $cid );
 	if ( $total < 1) {
-		echo "<script> alert('Select an item to delete'); window.history.go(-1);</script>\n";
+		echo "<script> alert('". $_LANG->_( 'Select an item to delete' ) ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
 
@@ -401,7 +404,7 @@ function trash( &$cid, $option ) {
 		exit();
 	}
 
-	$msg = $total ." Item(s) sent to the Trash";
+	$msg = $total ." ". $_LANG->_( 'Item(s) sent to the Trash' );
 	mosRedirect( 'index2.php?option='. $option, $msg );
 }
 
@@ -415,10 +418,11 @@ function trash( &$cid, $option ) {
 */
 function changeState( $cid=null, $state=0, $option ) {
 	global $database, $my;
+	global $_LANG;
 
 	if (count( $cid ) < 1) {
 		$action = $state == 1 ? 'publish' : ($state == -1 ? 'archive' : 'unpublish');
-		echo "<script> alert('Select an item to $action'); window.history.go(-1);</script>\n";
+		echo "<script> alert('". $_LANG->_( 'Select an item to' ) ." ". $action ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
 
@@ -442,9 +446,9 @@ function changeState( $cid=null, $state=0, $option ) {
 	}
 
 	if ( $state == "1" ) {
-		$msg = $total ." Item(s) successfully Published";
+		$msg = $total ." ". $_LANG->_( 'Item(s) successfully Published' );
 	} else if ( $state == "0" ) {
-		$msg = $total ." Item(s) successfully Unpublished";
+		$msg = $total ." ". $_LANG->_( 'Item(s) successfully Unpublished' );
 	}
 	mosRedirect( 'index2.php?option='. $option .'&msg='. $msg );
 }
@@ -476,6 +480,7 @@ function changeAccess( $id, $access, $option  ) {
 */
 function resethits( $option, $id ) {
 	global $database;
+	global $_LANG;
 
 	$row = new mosContent($database);
 	$row->Load( $id );
@@ -483,7 +488,7 @@ function resethits( $option, $id ) {
 	$row->store();
 	$row->checkin();
 
-	$msg = 'Successfully Reset Hit';
+	$msg = $_LANG->_( 'Successfully Reset Hit' );
 	mosRedirect( 'index2.php?option='. $option .'&task=edit&hidemainmenu=1&id='. $row->id, $msg );
 }
 
@@ -502,6 +507,7 @@ function cancel( $option ) {
 
 function menuLink( $option, $id ) {
 	global $database;
+	global $_LANG;
 
 	$menu 	= mosGetParam( $_POST, 'menuselect', '' );
 	$link 	= mosGetParam( $_POST, 'link_name', '' );
@@ -526,7 +532,7 @@ function menuLink( $option, $id ) {
 	$row->checkin();
 	$row->updateOrder( "menutype='$row->menutype' AND parent='$row->parent'" );
 
-	$msg = $link .' (Link - Static Content) in menu: '. $menu .' successfully created';
+	$msg = $link ." ". $_LANG->_( '(Link - Static Content) in menu' ) .": ". $menu ." ". $_LANG->_( 'successfully created' );
 	mosRedirect( 'index2.php?option='. $option .'&task=edit&hidemainmenu=1&id='. $id, $msg );
 }
 
@@ -559,6 +565,7 @@ function go2menuitem() {
 
 function saveOrder( &$cid ) {
 	global $database;
+	global $_LANG;
 
 	$total		= count( $cid );
 	$order 		= mosGetParam( $_POST, 'order', array(0) );
@@ -592,7 +599,7 @@ function saveOrder( &$cid ) {
 		$row->updateOrder( $cond[1] );
 	} // foreach
 
-	$msg 	= 'New ordering saved';
+	$msg 	= $_LANG->_( 'New ordering saved' );
 	mosRedirect( 'index2.php?option=com_typedcontent', $msg );
 } // saveOrder
 ?>
