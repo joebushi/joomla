@@ -15,7 +15,7 @@
 		</param>
 		<param name="cache_time" type="text" size="8" default="3600" label="Cache Time" description="PARAMCAHETIME" />
 		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="count" type="text" size="4" default="5" label="# Items" description="Number of Items to syndicate" />
+		<param name="count" type="text" size="4" default="5" label="Num Items" description="Number of Items to syndicate" />
 		<param name="title" type="text" size="40" default="Powered by Joomla! 1.0" label="Title" description="Syndication Title" />
 		<param name="description" type="textarea" rows="5" cols="30" default="Joomla! site syndication" label="Description" description="Syndication Description" />
 		<param name="@spacer" type="spacer" default="" label="" description="" />

@@ -155,20 +155,20 @@ function view( $option ) {
 		$rows[$i]->links = $database->loadResult();
 	}
 
-	$ordering[] = mosHTML::makeOption( 'c.ordering ASC', 'Ordering asc' );
-	$ordering[] = mosHTML::makeOption( 'c.ordering DESC', 'Ordering desc' );
-	$ordering[] = mosHTML::makeOption( 'c.id ASC', 'ID asc' );
-	$ordering[] = mosHTML::makeOption( 'c.id DESC', 'ID desc' );
-	$ordering[] = mosHTML::makeOption( 'c.title ASC', 'Title asc' );
-	$ordering[] = mosHTML::makeOption( 'c.title DESC', 'Title desc' );
-	$ordering[] = mosHTML::makeOption( 'c.created ASC', 'Date asc' );
-	$ordering[] = mosHTML::makeOption( 'c.created DESC', 'Date desc' );
-	$ordering[] = mosHTML::makeOption( 'z.name ASC', 'Author asc' );
-	$ordering[] = mosHTML::makeOption( 'z.name DESC', 'Author desc' );
-	$ordering[] = mosHTML::makeOption( 'c.state ASC', 'Published asc' );
-	$ordering[] = mosHTML::makeOption( 'c.state DESC', 'Published desc' );
-	$ordering[] = mosHTML::makeOption( 'c.access ASC', 'Access asc' );
-	$ordering[] = mosHTML::makeOption( 'c.access DESC', 'Access desc' );
+	$ordering[] = mosHTML::makeOption( 'c.ordering ASC', $_LANG->_( 'Ordering asc' ) );
+	$ordering[] = mosHTML::makeOption( 'c.ordering DESC', $_LANG->_( 'Ordering desc' ) );
+	$ordering[] = mosHTML::makeOption( 'c.id ASC', $_LANG->_( 'ID asc' ) );
+	$ordering[] = mosHTML::makeOption( 'c.id DESC', $_LANG->_( 'ID desc' ) );
+	$ordering[] = mosHTML::makeOption( 'c.title ASC', $_LANG->_( 'Title asc' ) );
+	$ordering[] = mosHTML::makeOption( 'c.title DESC', $_LANG->_( 'Title desc' ) );
+	$ordering[] = mosHTML::makeOption( 'c.created ASC', $_LANG->_( 'Date asc' ) );
+	$ordering[] = mosHTML::makeOption( 'c.created DESC', $_LANG->_( 'Date desc' ) );
+	$ordering[] = mosHTML::makeOption( 'z.name ASC', $_LANG->_( 'Author asc' ) );
+	$ordering[] = mosHTML::makeOption( 'z.name DESC', $_LANG->_( 'Author desc' ) );
+	$ordering[] = mosHTML::makeOption( 'c.state ASC', $_LANG->_( 'Published asc' ) );
+	$ordering[] = mosHTML::makeOption( 'c.state DESC', $_LANG->_( 'Published desc' ) );
+	$ordering[] = mosHTML::makeOption( 'c.access ASC', $_LANG->_( 'Access asc' ) );
+	$ordering[] = mosHTML::makeOption( 'c.access DESC', $_LANG->_( 'Access desc' ) );
 	$javascript = 'onchange="document.adminForm.submit();"';
 	$lists['order'] = mosHTML::selectList( $ordering, 'zorder', 'class="inputbox" size="1"'. $javascript, 'value', 'text', $order );
 

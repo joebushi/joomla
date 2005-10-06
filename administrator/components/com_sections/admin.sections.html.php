@@ -27,6 +27,7 @@ class sections_html {
 	*/
 	function show( &$rows, $scope, $myid, &$pageNav, $option ) {
 		global $my;
+  		global $_LANG;
 
 		mosCommonHTML::loadOverlib();
 		?>
@@ -34,7 +35,7 @@ class sections_html {
 		<table class="adminheading">
 		<tr>
 			 <th class="sections">
-			Section Manager
+			<?php echo $_LANG->_( 'Section Manager' ); ?>
 			</th>
 		</tr>
 		</table>
@@ -42,40 +43,40 @@ class sections_html {
 		<table class="adminlist">
 		<tr>
 			<th width="20">
-			#
+			<?php echo $_LANG->_( 'NUM' ); ?>
 			</th>
 			<th width="20">
 			<input type="checkbox" name="toggle" value="" onClick="checkAll(<?php echo count( $rows );?>);" />
 			</th>
 			<th class="title">
-			Section Name
+			<?php echo $_LANG->_( 'Section Name' ); ?>
 			</th>
 			<th width="10%">
-			Published
+			<?php echo $_LANG->_( 'Published' ); ?>
 			</th>
 			<th colspan="2" width="5%">
-			Reorder
+			<?php echo $_LANG->_( 'Reorder' ); ?>
 			</th>
 			<th width="2%">
-			Order
+			<?php echo $_LANG->_( 'Order' ); ?>
 			</th>
 			<th width="1%">
 			<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )"><img src="images/filesave.png" border="0" width="16" height="16" alt="Save Order" /></a>
 			</th>
 			<th width="8%">
-			Access
+			<?php echo $_LANG->_( 'Access' ); ?>
 			</th>
 			<th width="12%" nowrap>
-			Section ID
+			<?php echo $_LANG->_( 'Section ID' ); ?>
 			</th>
 			<th width="12%" nowrap>
-			# Categories
+			<?php echo $_LANG->_( 'Num Categories' ); ?>
 			</th>
 			<th width="12%" nowrap>
-			# Active
+			<?php echo $_LANG->_( 'Num Active' ); ?>
 			</th>
 			<th width="12%" nowrap>
-			# Trash
+			<?php echo $_LANG->_( 'Num Trash' ); ?>
 			</th>
 
 		</tr>
@@ -173,10 +174,12 @@ class sections_html {
 	*/
 	function edit( &$row, $option, &$lists, &$menus ) {
 		global $mosConfig_live_site;
+  		global $_LANG;
+
 		if ( $row->name != '' ) {
 			$name = $row->name;
 		} else {
-			$name = "New Section";
+			$name = $_LANG->_( 'New Section' );
 		}
 		if ($row->image == "") {
 			$row->image = 'blank.png';
@@ -191,22 +194,22 @@ class sections_html {
 			}
 
 			if ( pressbutton == 'menulink' ) {
-				if ( form.menuselect.value == "" ) {
-					alert( "Please select a Menu" );
+				if ( form.menuselect.value == '' ) {
+					alert( "<?php echo $_LANG->_( 'Please select a Menu' ); ?>" );
 					return;
 				} else if ( form.link_type.value == "" ) {
-					alert( "Please select a menu type" );
+					alert( "<?php echo $_LANG->_( 'Please select a menu type' ); ?>" );
 					return;
 				} else if ( form.link_name.value == "" ) {
-					alert( "Please enter a Name for this menu item" );
+					alert( "<?php echo $_LANG->_( 'Please enter a Name for this menu item' ); ?>" );
 					return;
 				}
 			}
 
-			if (form.name.value == ""){
-				alert("Section must have a name");
-			} else if (form.title.value ==""){
-				alert("Section must have a title");
+			if ( form.name.value == '' ){
+				alert("<?php echo $_LANG->_( 'Section must have a name' ); ?>");
+			} else if ( form.title.value == '' ){
+				alert("<?php echo $_LANG->_( 'Section must have a title' ); ?>");
 			} else {
 				<?php getEditorContents( 'editor1', 'description' ) ; ?>
 				submitform(pressbutton);
@@ -218,9 +221,9 @@ class sections_html {
 		<table class="adminheading">
 		<tr>
 			<th class="sections">
-			Section:
+			<?php echo $_LANG->_( 'Section' ); ?>:
 			<small>
-			<?php echo $row->id ? 'Edit' : 'New';?>
+			<?php echo $row->id ? $_LANG->_( 'Edit' ) : $_LANG->_( 'New' );?>
 			</small>
 			<small><small>
 			[ <?php echo $name ; ?> ]
@@ -235,12 +238,12 @@ class sections_html {
 				<table class="adminform">
 				<tr>
 					<th colspan="3">
-					Section Details
+					<?php echo $_LANG->_( 'Section Details' ); ?>
 					</th>
 				<tr>
 				<tr>
 					<td width="150">
-					Scope:
+					<?php echo $_LANG->_( 'Scope' ); ?>:
 					</td>
 					<td width="85%" colspan="2">
 					<strong>
@@ -250,23 +253,23 @@ class sections_html {
 				</tr>
 				<tr>
 					<td>
-					Title:
+					<?php echo $_LANG->_( 'Title' ); ?>:
 					</td>
 					<td colspan="2">
-					<input class="text_area" type="text" name="title" value="<?php echo $row->title; ?>" size="50" maxlength="50" title="A short name to appear in menus" />
+					<input class="text_area" type="text" name="title" value="<?php echo $row->title; ?>" size="50" maxlength="50" title="<?php echo $_LANG->_( 'TIPTITLEFIELD' ); ?>" />
 					</td>
 				</tr>
 				<tr>
 					<td>
-					<?php echo (isset($row->section) ? "Category" : "Section");?> Name:
+					<?php echo (isset($row->section) ? $_LANG->_( 'Category' ) : $_LANG->_( 'Section' ) );?> Name:
 					</td>
 					<td colspan="2">
-					<input class="text_area" type="text" name="name" value="<?php echo $row->name; ?>" size="50" maxlength="255" title="A long name to be displayed in headings" />
+					<input class="text_area" type="text" name="name" value="<?php echo $row->name; ?>" size="50" maxlength="255" title="<?php echo $_LANG->_( 'TIPNAMEFIELD' ); ?>" />
 					</td>
 				</tr>
 				<tr>
 					<td>
-					Image:
+					<?php echo $_LANG->_( 'Image' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['image']; ?>
@@ -278,12 +281,12 @@ class sections_html {
 							$path.= "stories/";
 						}
 					?>
-					<img src="<?php echo $path;?><?php echo $row->image;?>" name="imagelib" width="80" height="80" border="2" alt="Preview" />
+					<img src="<?php echo $path;?><?php echo $row->image;?>" name="imagelib" width="80" height="80" border="2" alt="<?php echo $_LANG->_( 'Preview' ); ?>" />
 					</td>
 				</tr>
 				<tr>
 					<td>
-					Image Position:
+					<?php echo $_LANG->_( 'Image Position' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['image_position']; ?>
@@ -291,7 +294,7 @@ class sections_html {
 				</tr>
 				<tr>
 					<td>
-					Ordering:
+					<?php echo $_LANG->_( 'Ordering' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['ordering']; ?>
@@ -299,7 +302,7 @@ class sections_html {
 				</tr>
 				<tr>
 					<td>
-					Access Level:
+					<?php echo $_LANG->_( 'Access Level' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['access']; ?>
@@ -307,7 +310,7 @@ class sections_html {
 				</tr>
 				<tr>
 					<td>
-					Published:
+					<?php echo $_LANG->_( 'Published' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['published']; ?>
@@ -315,7 +318,7 @@ class sections_html {
 				</tr>
 				<tr>
 					<td valign="top">
-					Description:
+					<?php echo $_LANG->_( 'Description' ); ?>:
 					</td>
 					<td colspan="2">
 					<?php
@@ -332,18 +335,18 @@ class sections_html {
 				<table class="adminform">
 				<tr>
 					<th colspan="2">
-					Link to Menu
+					<?php echo $_LANG->_( 'Link to Menu' ); ?>
 					</th>
 				<tr>
 				<tr>
 					<td colspan="2">
-					This will create a new menu item in the menu you select
+					<?php echo $_LANG->_( 'DESCNEWMENUITEM' ); ?>
 					<br /><br />
 					</td>
 				<tr>
 				<tr>
 					<td valign="top" width="100px">
-					Select a Menu
+					<?php echo $_LANG->_( 'Select a Menu' ); ?>
 					</td>
 					<td>
 					<?php echo $lists['menuselect']; ?>
@@ -351,7 +354,7 @@ class sections_html {
 				<tr>
 				<tr>
 					<td valign="top" width="100px">
-					Select Menu Type
+					<?php echo $_LANG->_( 'Select Menu Type' ); ?>
 					</td>
 					<td>
 					<?php echo $lists['link_type']; ?>
@@ -359,7 +362,7 @@ class sections_html {
 				<tr>
 				<tr>
 					<td valign="top" width="100px">
-					Menu Item Name
+					<?php echo $_LANG->_( 'Menu Item Name' ); ?>
 					</td>
 					<td>
 					<input type="text" name="link_name" class="inputbox" value="" size="25" />
@@ -369,12 +372,12 @@ class sections_html {
 					<td>
 					</td>
 					<td>
-					<input name="menu_link" type="button" class="button" value="Link to Menu" onClick="submitbutton('menulink');" />
+					<input name="menu_link" type="button" class="button" value="<?php echo $_LANG->_( 'Link to Menu' ); ?>" onClick="submitbutton('menulink');" />
 					</td>
 				<tr>
 				<tr>
 					<th colspan="2">
-					Existing Menu Links
+					<?php echo $_LANG->_( 'Existing Menu Links' ); ?>
 					</th>
 				</tr>
 				<?php
@@ -382,7 +385,7 @@ class sections_html {
 					?>
 					<tr>
 						<td colspan="2">
-						None
+						<?php echo $_LANG->_( 'None' ); ?>
 						</td>
 					</tr>
 					<?php
@@ -400,7 +403,7 @@ class sections_html {
 			?>
 			<table class="adminform" width="40%">
 				<tr><th>&nbsp;</th></tr>
-				<tr><td>Menu links available when saved</td></tr>
+				<tr><td><?php echo $_LANG->_( 'Menu links available when saved' ); ?></td></tr>
 			</table>
 			<?php
 			}
@@ -424,13 +427,14 @@ class sections_html {
 	* Form to select Section to copy Category to
 	*/
 	function copySectionSelect( $option, $cid, $categories, $contents, $section ) {
+  		global $_LANG;
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 		<br />
 		<table class="adminheading">
 		<tr>
 			<th class="sections">
-			Copy Section
+			<?php echo $_LANG->_( 'Copy Section' ); ?>
 			</th>
 		</tr>
 		</table>
@@ -440,13 +444,13 @@ class sections_html {
 		<tr>
 			<td width="3%"></td>
 			<td align="left" valign="top" width="30%">
-			<strong>Copy to Section:</strong>
+			<strong><?php echo $_LANG->_( 'Copy to Section' ); ?>:</strong>
 			<br />
-			<input class="text_area" type="text" name="title" value="" size="35" maxlength="50" title="The new Section name" />
+			<input class="text_area" type="text" name="title" value="" size="35" maxlength="50" title="<?php echo $_LANG->_( 'The new Section name' ); ?>" />
 			<br /><br />
 			</td>
 			<td align="left" valign="top" width="20%">
-			<strong>Categories being copied:</strong>
+			<strong><?php echo $_LANG->_( 'Categories being copied' ); ?>:</strong>
 			<br />
 			<?php
 			echo "<ol>";
@@ -458,7 +462,7 @@ class sections_html {
 			?>
 			</td>
 			<td valign="top" width="20%">
-			<strong>Content Items being copied:</strong>
+			<strong><?php echo $_LANG->_( 'Content Items being copied' ); ?>:</strong>
 			<br />
 			<?php
 			echo "<ol>";
@@ -470,11 +474,11 @@ class sections_html {
 			?>
 			</td>
 			<td valign="top">
-			This will copy the Categories listed
+			<?php echo $_LANG->_( 'This will copy the Categories listed' ); ?>
 			<br />
-			and all the items within the category (also listed)
+			<?php echo $_LANG->_( 'DESCALLITEMSWITHINCAT' ); ?>
 			<br />
-			to the new Section created.
+			<?php echo $_LANG->_( 'to the new Section created.' ); ?>
 			</td>.
 		</tr>
 		</table>
