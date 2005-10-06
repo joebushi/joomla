@@ -55,7 +55,7 @@ class HTML_admin_misc {
 		} else if (($sf = getenv('SERVER_SOFTWARE'))) {
 			return $sf;
 		} else {
-			return 'n/a';
+			return $_LANG->_( 'n/a' );
 		}
 	}
 
@@ -102,7 +102,7 @@ class HTML_admin_misc {
 			</tr>
 			<tr>
 				<td>
-					<strong>PHP Version:</strong>
+					<strong><?php echo $_LANG->_( 'PHP Version' ); ?>:</strong>
 				</td>
 				<td>
 					<?php echo phpversion(); ?>
@@ -110,7 +110,7 @@ class HTML_admin_misc {
 			</tr>
 			<tr>
 				<td>
-					<strong>Web Server:</strong>
+					<strong><?php echo $_LANG->_( 'Web Server' ); ?>:</strong>
 				</td>
 				<td>
 					<?php echo HTML_admin_misc::get_server_software(); ?>
@@ -118,7 +118,7 @@ class HTML_admin_misc {
 			</tr>
 			<tr>
 				<td>
-					<strong>WebServer to PHP interface:</strong>
+					<strong><?php echo $_LANG->_( 'WebServer to PHP interface' ); ?>:</strong>
 				</td>
 				<td>
 					<?php echo php_sapi_name(); ?>
@@ -126,7 +126,7 @@ class HTML_admin_misc {
 			</tr>
 			<tr>
 				<td>
-					<strong>Joomla! Version:</strong>
+					<strong><?php echo $_LANG->_( 'Joomla! Version' ); ?>:</strong>
 				</td>
 				<td>
 					<?php echo $version; ?>
@@ -134,7 +134,7 @@ class HTML_admin_misc {
 			</tr>
 			<tr>
 				<td>
-					<strong>User Agent:</strong>
+					<strong><?php echo $_LANG->_( 'User Agent' ); ?>:</strong>
 				</td>
 				<td>
 					<?php echo phpversion() <= "4.2.1" ? getenv( "HTTP_USER_AGENT" ) : $_SERVER['HTTP_USER_AGENT'];?>
@@ -142,13 +142,13 @@ class HTML_admin_misc {
 			</tr>
 			<tr>
 				<td valign="top">
-					<strong>Relevant PHP Settings:</strong>
+					<strong><?php echo $_LANG->_( 'Relevant PHP Settings' ); ?>:</strong>
 				</td>
 				<td>
 					<table cellspacing="1" cellpadding="1" border="0">
 					<tr>
 						<td>
-							Safe Mode:
+							<?php echo $_LANG->_( 'Safe Mode' ); ?>:
 						</td>
 						<td>
 							<?php echo HTML_admin_misc::get_php_setting('safe_mode'); ?>
@@ -156,7 +156,7 @@ class HTML_admin_misc {
 					</tr>
 					<tr>
 						<td>
-							Open basedir:
+							<?php echo $_LANG->_( 'Open basedir' ); ?>:
 						</td>
 						<td>
 							<?php echo (($ob = ini_get('open_basedir')) ? $ob : 'none'); ?>
@@ -164,7 +164,7 @@ class HTML_admin_misc {
 					</tr>
 					<tr>
 						<td>
-							Display Errors:
+							<?php echo $_LANG->_( 'Display Errors' ); ?>:
 						</td>
 						<td>
 							<?php echo HTML_admin_misc::get_php_setting('display_errors'); ?>
@@ -172,7 +172,7 @@ class HTML_admin_misc {
 					</tr>
 					<tr>
 						<td>
-							Short Open Tags:
+							<?php echo $_LANG->_( 'Short Open Tags' ); ?>:
 						</td>
 						<td>
 							<?php echo HTML_admin_misc::get_php_setting('short_open_tag'); ?>
@@ -180,7 +180,7 @@ class HTML_admin_misc {
 					</tr>
 					<tr>
 						<td>
-							File Uploads:
+							<?php echo $_LANG->_( 'File Uploads' ); ?>:
 						</td>
 						<td>
 							<?php echo HTML_admin_misc::get_php_setting('file_uploads'); ?>
@@ -188,7 +188,7 @@ class HTML_admin_misc {
 					</tr>
 					<tr>
 						<td>
-							Magic Quotes:
+							<?php echo $_LANG->_( 'Magic Quotes' ); ?>:
 						</td>
 						<td>
 							<?php echo HTML_admin_misc::get_php_setting('magic_quotes_gpc'); ?>
@@ -196,7 +196,7 @@ class HTML_admin_misc {
 					</tr>
 					<tr>
 						<td>
-							Register Globals:
+							<?php echo $_LANG->_( 'Register Globals' ); ?>:
 						</td>
 						<td>
 							<?php echo HTML_admin_misc::get_php_setting('register_globals'); ?>
@@ -204,7 +204,7 @@ class HTML_admin_misc {
 					</tr>
 					<tr>
 						<td>
-							Output Buffering:
+							<?php echo $_LANG->_( 'Output Buffering' ); ?>:
 						</td>
 						<td>
 							<?php echo HTML_admin_misc::get_php_setting('output_buffering'); ?>
@@ -212,7 +212,7 @@ class HTML_admin_misc {
 					</tr>
 					<tr>
 						<td>
-							Session save path:
+							<?php echo $_LANG->_( 'Session save path' ); ?>:
 						</td>
 						<td>
 							<?php echo (($sp=ini_get('session.save_path'))?$sp:'none'); ?>
@@ -220,7 +220,7 @@ class HTML_admin_misc {
 					</tr>
 					<tr>
 						<td>
-							Session auto start:
+							<?php echo $_LANG->_( 'Session auto start' ); ?>:
 						</td>
 						<td>
 							<?php echo intval( ini_get( 'session.auto_start' ) ); ?>
@@ -228,7 +228,7 @@ class HTML_admin_misc {
 					</tr>
 					<tr>
 						<td>
-							XML enabled:
+							<?php echo $_LANG->_( 'XML enabled' ); ?>:
 						</td>
 						<td>
 						<?php echo extension_loaded('xml')?'Yes':'No'; ?>
@@ -236,7 +236,7 @@ class HTML_admin_misc {
 					</tr>
 					<tr>
 						<td>
-							Zlib enabled:
+							<?php echo $_LANG->_( 'Zlib enabled' ); ?>:
 						</td>
 						<td>
 							<?php echo extension_loaded('zlib')?'Yes':'No'; ?>
@@ -244,7 +244,7 @@ class HTML_admin_misc {
 					</tr>
 					<tr>
 						<td>
-							Disabled Functions:
+							<?php echo $_LANG->_( 'Disabled Functions' ); ?>:
 						</td>
 						<td>
 							<?php echo (($df=ini_get('disable_functions'))?$df:'none'); ?>
@@ -259,7 +259,7 @@ class HTML_admin_misc {
 					?>
 					<tr>
 						<td>
-							WYSIWYG Editor:
+							<?php echo $_LANG->_( 'WYSIWYG Editor' ); ?>:
 						</td>
 						<td>
 							<?php echo $editor; ?>
@@ -300,7 +300,7 @@ class HTML_admin_misc {
 			<table class="adminform">
 			<tr>
 				<th colspan="2">
-					PHP Information
+					<?php echo $_LANG->_( 'PHP Information' ); ?>
 				</th>
 			</tr>
 			<tr>
@@ -327,12 +327,12 @@ class HTML_admin_misc {
 			<table class="adminform">
 			<tr>
 				<th colspan="2">
-					Directory Permissions
+					<?php echo $_LANG->_( 'Directory Permissions' ); ?>
 				</th>
 			</tr>
 			<tr>
 				<td>
-					<strong>For all Joomla! functions and features to work ALL of the following directories should be writeable:</strong>
+					<strong><?php echo $_LANG->_( 'DescDirWritable' ); ?>:</strong>
 					<?php
 					mosHTML::writableCell( 'administrator/backups' );
 					mosHTML::writableCell( 'administrator/components' );
@@ -461,7 +461,7 @@ class HTML_admin_misc {
 							?>
 							|
 							<a href="http://www.gnu.org/copyleft/gpl.html" target="helpFrame">
-								License</a>
+								<?php echo $_LANG->_( 'License' ); ?></a>
 							|
 							<a href="http://help.joomla.org" target="_blank">
 								help.joomla.org</a>
@@ -481,7 +481,7 @@ class HTML_admin_misc {
 		</tr>
 		<tr valign="top">
 			<td width="20%" valign="top">
-				<strong>Index</strong>
+				<strong><?php echo $_LANG->_( 'Index' ); ?></strong>
 				<div class="helpIndex">
 				<?php
 				foreach ($toc as $k=>$v) {
@@ -523,11 +523,11 @@ class HTML_admin_misc {
 		<table class="adminform">
 		<tr>
 			<th width="50%" class="title">
-			Site Preview
+			<?php echo $_LANG->_( 'Site Preview' ); ?>
 			</th>
 			<th width="50%" style="text-align:right">
 			<a href="<?php echo $mosConfig_live_site . '/index.php?tp=' . $tp;?>" target="_blank">
-			Open in new window
+			<?php echo $_LANG->_( 'Open in new window' ); ?>
 			</a>
 			</th>
 		</tr>
