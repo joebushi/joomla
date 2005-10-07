@@ -27,6 +27,7 @@ class url_menu_html {
 
 	function edit( $menu, $lists, $params, $option ) {
 		global $mosConfig_live_site;
+		global $_LANG;
 		?>
 		<div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
 		<script language="javascript" type="text/javascript">
@@ -39,9 +40,9 @@ class url_menu_html {
 
 			// do field validation
 			if (trim(form.name.value) == ""){
-				alert( "Link must have a name" );
+				alert( "<?php echo $_LANG->_( 'Link must have a name' ); ?>" );
 			} else if (trim(form.link.value) == ""){
-				alert( "You must provide a url." );
+				alert( "<?php echo $_LANG->_( 'You must provide a url.' ); ?>" );
 			} else {
 				submitform( pressbutton );
 			}
@@ -52,7 +53,7 @@ class url_menu_html {
 		<table class="adminheading">
 		<tr>
 			<th>
-			<?php echo $menu->id ? 'Edit' : 'Add';?> Menu Item :: Link - URL
+			<?php echo $menu->id ? $_LANG->_( 'Edit' ) : $_LANG->_( 'Add' );?> <?php echo $_LANG->_( 'Menu Item :: Link - URL' ); ?>
 			</th>
 		</tr>
 		</table>
@@ -63,12 +64,12 @@ class url_menu_html {
 				<table class="adminform">
 				<tr>
 					<th colspan="2">
-					Details
+					<?php echo $_LANG->_( 'Details' ); ?>
 					</th>
 				</tr>
 				<tr>
 					<td width="20%" align="right">
-					Name:
+					<?php echo $_LANG->_( 'Name' ); ?>:
 					</td>
 					<td width="80%">
 					<input class="inputbox" type="text" name="name" size="50" maxlength="150" value="<?php echo $menu->name; ?>" />
@@ -76,7 +77,7 @@ class url_menu_html {
 				</tr>
 				<tr>
 					<td width="20%" align="right">
-					Link:
+					<?php echo $_LANG->_( 'Link' ); ?>:
 					</td>
 					<td width="80%">
 					<input class="inputbox" type="text" name="link" size="50" maxlength="250" value="<?php echo $menu->link; ?>" />
@@ -84,7 +85,7 @@ class url_menu_html {
 				</tr>
 				<tr>
 					<td valign="top" align="right">
-					On Click, Open in:
+					<?php echo $_LANG->_( 'On Click, Open in' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['target']; ?>
@@ -92,7 +93,7 @@ class url_menu_html {
 				</tr>
 				<tr>
 					<td align="right">
-					Parent Item:
+					<?php echo $_LANG->_( 'Parent Item' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['parent']; ?>
@@ -100,7 +101,7 @@ class url_menu_html {
 				</tr>
 				<tr>
 					<td valign="top" align="right">
-					Ordering:
+					<?php echo $_LANG->_( 'Ordering' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['ordering']; ?>
@@ -108,7 +109,7 @@ class url_menu_html {
 				</tr>
 				<tr>
 					<td valign="top" align="right">
-					Access Level:
+					<?php echo $_LANG->_( 'Access Level' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['access']; ?>
@@ -116,7 +117,7 @@ class url_menu_html {
 				</tr>
 				<tr>
 					<td valign="top" align="right">
-					Published:
+					<?php echo $_LANG->_( 'Published' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['published']; ?>
@@ -128,7 +129,7 @@ class url_menu_html {
 				<table class="adminform">
 				<tr>
 					<th>
-					Parameters
+					<?php echo $_LANG->_( 'Parameters' ); ?>
 					</th>
 				</tr>
 				<tr>

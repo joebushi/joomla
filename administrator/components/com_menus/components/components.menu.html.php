@@ -28,6 +28,7 @@ class components_menu_html {
 
 	function edit( &$menu, &$components, &$lists, &$params, $option ) {
 		global $mosConfig_live_site;
+		global $_LANG;
 
 		if ( $menu->id ) {
 			$title = '[ '. $lists['componentname'] .' ]';
@@ -60,9 +61,9 @@ class components_menu_html {
 			}
 
 			if ( trim( form.name.value ) == "" ){
-				alert( "Item must have a name" );
+				alert( "<?php echo $_LANG->_( 'Item must have a name' ); ?>" );
 			} else if (form.componentid.value == ""){
-				alert( "Please select a Component" );
+				alert( "<?php echo $_LANG->_( 'Please select a Component' ); ?>" );
 			} else {
 				submitform( pressbutton );
 			}
@@ -74,7 +75,7 @@ class components_menu_html {
 		<table class="adminheading">
 		<tr>
 			<th>
-			<?php echo $menu->id ? 'Edit' : 'Add';?> Menu Item :: Component <small><small><?php echo $title; ?></small></small>
+			<?php echo $menu->id ? $_LANG->_( 'Edit' ) : $_LANG->_( 'Add' );?> <?php echo $_LANG->_( 'Menu Item :: Component' ); ?> <small><small><?php echo $title; ?></small></small>
 			</th>
 		</tr>
 		</table>
@@ -85,48 +86,48 @@ class components_menu_html {
 				<table class="adminform">
 				<tr>
 					<th colspan="2">
-					Details
+					<?php echo $_LANG->_( 'Details' ); ?>
 					</th>
 				</tr>
 				<tr>
-					<td width="10%" align="right">Name:</td>
+					<td width="10%" align="right"><?php echo $_LANG->_( 'Name' ); ?>:</td>
 					<td width="80%">
 					<input class="inputbox" type="text" name="name" size="50" maxlength="100" value="<?php echo htmlspecialchars( $menu->name, ENT_QUOTES ); ?>" />
 					</td>
 				</tr>
 				<tr>
-					<td valign="top" align="right">Component:</td>
+					<td valign="top" align="right"><?php echo $_LANG->_( 'Component' ); ?>:</td>
 					<td>
 					<?php echo $lists['componentid']; ?>
 					</td>
 				</tr>
 				<tr>
-					<td width="10%" align="right">Url:</td>
+					<td width="10%" align="right"><?php echo $_LANG->_( 'Url' ); ?>:</td>
 					<td width="80%">
                     <?php echo ampReplace($lists['link']); ?>
 					</td>
 				</tr>
 				<tr>
-					<td align="right">Parent Item:</td>
+					<td align="right"><?php echo $_LANG->_( 'Parent Item' ); ?>:</td>
 					<td>
 					<?php echo $lists['parent'];?>
 					</td>
 				</tr>
 
 				<tr>
-					<td valign="top" align="right">Ordering:</td>
+					<td valign="top" align="right"><?php echo $_LANG->_( 'Ordering' ); ?>:</td>
 					<td>
 					<?php echo $lists['ordering']; ?>
 					</td>
 				</tr>
 				<tr>
-					<td valign="top" align="right">Access Level:</td>
+					<td valign="top" align="right"><?php echo $_LANG->_( 'Access Level' ); ?>:</td>
 					<td>
 					<?php echo $lists['access']; ?>
 					</td>
 				</tr>
 				<tr>
-					<td valign="top" align="right">Published:</td>
+					<td valign="top" align="right"><?php echo $_LANG->_( 'Published' ); ?>:</td>
 					<td>
 					<?php echo $lists['published']; ?>
 					</td>
@@ -140,7 +141,7 @@ class components_menu_html {
 				<table class="adminform">
 				<tr>
 					<th>
-					Parameters
+					<?php echo $_LANG->_( 'Parameters' ); ?>
 					</th>
 				</tr>
 				<tr>
@@ -150,7 +151,7 @@ class components_menu_html {
 						echo $params->render();
 					} else {
 						?>
-						<strong>Parameter list will be available once you save this New menu item</strong>
+						<strong><?php echo $_LANG->_( 'TIPPARAMLISTMENUITEM' ); ?></strong>
 						<?php
 					}
 					?>

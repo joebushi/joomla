@@ -51,7 +51,7 @@ class HTML_newsfeeds {
 			<?php echo $_LANG->_( 'News Feed' ); ?>
 			</th>
 			<th width="5%">
-			<?php echo $_LANG->_( 'QQQQ' ); ?>Published
+			<?php echo $_LANG->_( 'Published' ); ?>
 			</th>
 			<th colspan="2" width="5%">
 			<?php echo $_LANG->_( 'Reorder' ); ?>

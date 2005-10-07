@@ -11,9 +11,9 @@
 	<version>1.0.0</version>
 	<description>Creates an IFrame that will wrap an external page/site into Joomla</description>
 	<params>
-		<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="A small image to be placed to the left or right of your menu item, images must be in images/stories/" />
-		<param name="pageclass_sfx" type="text" size="20" default="" label="Page Class Suffix" description="A suffix to be applied to the css classes of the page, this allows individual page styling" />
-		<param name="back_button" type="list" default="" label="Back Button" description="Show/Hide a Back Button, that returns you to the previously view page">
+		<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="PARAMMENUIMAGE" />
+		<param name="pageclass_sfx" type="text" size="20" default="" label="Page Class Suffix" description="PARAMPAGECLASSSFX" />
+		<param name="back_button" type="list" default="" label="Back Button" description="PARAMBACKBUTTON">
 			<option value="">Use Global</option>
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
@@ -22,20 +22,20 @@
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="header" type="text" size="30" default="" label="Page Title" description="Text to display at the top of the page. If left blank, the Menu name will be used instead" />
+		<param name="header" type="text" size="30" default="" label="Page Title" description="PARAMPAGETITLE" />
 		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="scrolling" type="radio" default="auto" label="Scroll Bars" description="Show/Hide Horizontal & Vertical scroll bars.">
+		<param name="scrolling" type="radio" default="auto" label="Scroll Bars" description="PARAMHORIVERT">
 			<option value="no">No</option>
 			<option value="yes">Yes</option>
 			<option value="auto">Auto</option>
 		</param>
-		<param name="width" type="text" size="5" default="100%" label="Width" description="Width of the IFrame Window, you can enter an absolute figure in pixels, or a relative figure by adding a %" />
-		<param name="height" type="text" size="5" default="500" label="Height" description="Height of the IFrame Window" />
-		<param name="height_auto" type="radio" default="1" label="Auto Height" description="The height will automatically be set to the size of the external page. This will only work for pages on your own domain. This will break XHTML compatability for this page.">
+		<param name="width" type="text" size="5" default="100%" label="Width" description="PARAMWIDTH" />
+		<param name="height" type="text" size="5" default="500" label="Height" description="PARAMHEIGHT" />
+		<param name="height_auto" type="radio" default="1" label="Auto Height" description="PARAMHEIGHTAUTO">
 			<option value="0">No</option>
 			<option value="1">Yes</option>
 		</param>
-		<param name="add" type="radio" default="1" label="Auto Add" description="By default http:// will be added unless it detects http:// or https:// in the url link you provide, this allow you to switch this ability off">
+		<param name="add" type="radio" default="1" label="Auto Add" description="PARAMADD">
 			<option value="0">No</option>
 			<option value="1">Yes</option>
 		</param>

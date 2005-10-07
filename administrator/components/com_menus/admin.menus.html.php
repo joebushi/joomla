@@ -23,6 +23,7 @@ class HTML_menusections {
 
 	function showMenusections( $rows, $pageNav, $search, $levellist, $menutype, $option ) {
 		global $my;
+    	global $_LANG;
 
 		mosCommonHTML::loadOverlib();
 		?>
@@ -30,16 +31,16 @@ class HTML_menusections {
 		<table class="adminheading">
 		<tr>
 			<th class="menus">
-			Menu Manager <small><small>[ <?php echo $menutype;?> ]</small></small>
+			<?php echo $_LANG->_( 'Menu Manager' ); ?> <small><small>[ <?php echo $menutype;?> ]</small></small>
 			</th>
 			<td nowrap="true">
-			Max Levels
+			<?php echo $_LANG->_( 'Max Levels' ); ?>
 			</td>
 			<td>
 			<?php echo $levellist;?>
 			</td>
 			<td>
-			Filter:
+			<?php echo $_LANG->_( 'Filter' ); ?>:
 			</td>
 			<td>
 			<input type="text" name="search" value="<?php echo $search;?>" class="inputbox" />
@@ -50,10 +51,10 @@ class HTML_menusections {
 			?>
 			<tr>
 				<td align="right" nowrap style="color: red; font-weight: normal;" colspan="5">
-				<?php echo _MAINMENU_DEL; ?>
+				<?php echo $_LANG->_( 'WARNDELETEMENU' ); ?>
 				<br/>
 				<span style="color: black;">
-				<?php echo _MAINMENU_HOME; ?>
+				<?php echo $_LANG->_( 'WARNMAINMENUHOME' ); ?>
 				</span>
 				</td>
 			</tr>
@@ -65,37 +66,37 @@ class HTML_menusections {
 		<table class="adminlist">
 		<tr>
 			<th width="20">
-			#
+			<?php echo $_LANG->_( 'NUM' ); ?>
 			</th>
 			<th width="20">
 			<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($rows); ?>);" />
 			</th>
 			<th class="title" width="40%">
-			Menu Item
+			<?php echo $_LANG->_( 'Menu Item' ); ?>
 			</th>
 			<th width="5%">
-			Published
+			<?php echo $_LANG->_( 'Published' ); ?>
 			</th>
 			<th colspan="2" width="5%">
-			Reorder
+			<?php echo $_LANG->_( 'Reorder' ); ?>
 			</th>
 			<th width="2%">
-			Order
+			<?php echo $_LANG->_( 'Order' ); ?>
 			</th>
 			<th width="1%">
-			<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )"><img src="images/filesave.png" border="0" width="16" height="16" alt="Save Order" /></a>
+			<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )"><img src="images/filesave.png" border="0" width="16" height="16" alt="<?php echo $_LANG->_( 'Save Order' ); ?>" /></a>
 			</th>
 			<th width="10%">
-			Access
+			<?php echo $_LANG->_( 'Access' ); ?>
 			</th>
 			<th>
-			Itemid
+			<?php echo $_LANG->_( 'Itemid' ); ?>
 			</th>
 			<th width="35%" align="left">
-			Type
+			<?php echo $_LANG->_( 'Type' ); ?>
 			</th>
 			<th>
-			CID
+			<?php echo $_LANG->_( 'CID' ); ?>
 			</th>
 		</tr>
 		<?php
@@ -180,6 +181,7 @@ class HTML_menusections {
 	* Displays a selection list for menu item types
 	*/
 	function addMenuItem( &$cid, $menutype, $option, $types_content, $types_component, $types_link, $types_other, $types_submit ) {
+    	global $_LANG;
 
 		mosCommonHTML::loadOverlib();
 		?>
@@ -196,11 +198,10 @@ class HTML_menusections {
 		<table class="adminheading">
 		<tr>
 			<th class="menus">
-			New Menu Item
+			<?php echo $_LANG->_( 'New Menu Item' ); ?>
 			</th>
 			<td valign="bottom" nowrap style="color: red;">
-			<?php //echo _MENU_GROUP; ?>
-			* Note that some menu types appear in more that one grouping, but they are still the same menu type.
+            <?php echo $_LANG->_( 'DESCMENUGROUP' ); ?>
 			</td>
 		</tr>
 		</table>
@@ -209,7 +210,7 @@ class HTML_menusections {
 		<tr>
 			<td width="50%" valign="top">
 				<fieldset>
-					<legend>Content</legend>
+					<legend><?php echo $_LANG->_( 'Content' ); ?></legend>
 					<table class="adminform">
 					<?php
 					$k 		= 0;
@@ -227,7 +228,7 @@ class HTML_menusections {
 					</table>
 				</fieldset>
 				<fieldset>
-					<legend>Miscellaneous</legend>
+					<legend><?php echo $_LANG->_( 'Miscellaneous' ); ?></legend>
 					<table class="adminform">
 					<?php
 					$k 		= 0;
@@ -245,7 +246,7 @@ class HTML_menusections {
 					</table>
 				</fieldset>
 				<fieldset>
-					<legend>Submit</legend>
+					<legend><?php echo $_LANG->_( 'Submit' ); ?></legend>
 					<table class="adminform">
 					<?php
 					$k 		= 0;
@@ -265,7 +266,7 @@ class HTML_menusections {
 			</td>
 			<td width="50%" valign="top">
 				<fieldset>
-					<legend>Components</legend>
+					<legend><?php echo $_LANG->_( 'Components' ); ?></legend>
 					<table class="adminform">
 					<?php
 					$k 		= 0;
@@ -283,7 +284,7 @@ class HTML_menusections {
 					</table>
 				</fieldset>
 				<fieldset>
-					<legend>Links</legend>
+					<legend><?php echo $_LANG->_( 'Links' ); ?></legend>
 					<table class="adminform">
 					<?php
 					$k 		= 0;
@@ -314,6 +315,7 @@ class HTML_menusections {
 	}
 
 	function htmlOptions( &$row, $link, $k, $i ) {
+    	global $_LANG;
 		?>
 		<tr class="<?php echo "row$k"; ?>">
 			<td width="20">
@@ -338,13 +340,14 @@ class HTML_menusections {
 	* Form to select Menu to move menu item(s) to
 	*/
 	function moveMenu( $option, $cid, $MenuList, $items, $menutype  ) {
+    	global $_LANG;
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 		<br />
 		<table class="adminheading">
 		<tr>
 			<th>
-			Move Menu Items
+			<?php echo $_LANG->_( 'Move Menu Items' ); ?>
 			</th>
 		</tr>
 		</table>
@@ -354,14 +357,14 @@ class HTML_menusections {
 		<tr>
 			<td width="3%"></td>
 			<td align="left" valign="top" width="30%">
-			<strong>Move to Menu:</strong>
+			<strong><?php echo $_LANG->_( 'Move to Menu' ); ?>:</strong>
 			<br />
 			<?php echo $MenuList ?>
 			<br /><br />
 			</td>
 			<td align="left" valign="top">
 			<strong>
-			Menu Items being moved:
+			<?php echo $_LANG->_( 'Menu Items being moved' ); ?>:
 			</strong>
 			<br />
 			<ol>
@@ -398,13 +401,14 @@ class HTML_menusections {
 	* Form to select Menu to copy menu item(s) to
 	*/
 	function copyMenu( $option, $cid, $MenuList, $items, $menutype  ) {
+    	global $_LANG;
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 		<br />
 		<table class="adminheading">
 		<tr>
 			<th>
-			Copy Menu Items
+			<?php echo $_LANG->_( 'Copy Menu Items' ); ?>
 			</th>
 		</tr>
 		</table>
@@ -415,7 +419,7 @@ class HTML_menusections {
 			<td width="3%"></td>
 			<td align="left" valign="top" width="30%">
 			<strong>
-			Copy to Menu:
+			<?php echo $_LANG->_( 'Copy to Menu' ); ?>:
 			</strong>
 			<br />
 			<?php echo $MenuList ?>
@@ -423,7 +427,7 @@ class HTML_menusections {
 			</td>
 			<td align="left" valign="top">
 			<strong>
-			Menu Items being copied:
+			<?php echo $_LANG->_( 'Menu Items being copied' ); ?>:
 			</strong>
 			<br />
 			<ol>

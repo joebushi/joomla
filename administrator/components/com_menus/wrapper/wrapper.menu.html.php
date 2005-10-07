@@ -25,6 +25,7 @@ class wrapper_menu_html {
 
 	function edit( &$menu, &$lists, &$params, $option ) {
 		global $mosConfig_live_site;
+		global $_LANG;
 		?>
 		<div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
 		<script language="Javascript" src="<?php echo $mosConfig_live_site;?>/includes/js/overlib_mini.js"></script>
@@ -36,13 +37,13 @@ class wrapper_menu_html {
 			}
 			var form = document.adminForm;
 			if ( form.name.value == "" ) {
-				alert( 'This Menu item must have a title' );
+				alert( "<?php echo $_LANG->_( 'This Menu item must have a title' ); ?>" );
 			} else {
 				<?php
 				if ( !$menu->id ) {
 					?>
 					if ( form.url.value == "" ){
-						alert( "You must provide a url." );
+						alert( "<?php echo $_LANG->_( 'You must provide a url.' ); ?>" );
 					} else {
 						submitform( pressbutton );
 					}
@@ -60,7 +61,7 @@ class wrapper_menu_html {
 		<table class="adminheading">
 		<tr>
 			<th>
-			<?php echo $menu->id ? 'Edit' : 'Add';?> Menu Item :: Wrapper
+			<?php echo $menu->id ? $_LANG->_( 'Edit' ) : $_LANG->_( 'Add' );?> <?php echo $_LANG->_( 'Menu Item :: Wrapper' ); ?>
 			</th>
 		</tr>
 		</table>
@@ -71,12 +72,12 @@ class wrapper_menu_html {
 				<table class="adminform">
 				<tr>
 					<th colspan="2">
-					Details
+					<?php echo $_LANG->_( 'Details' ); ?>
 					</th>
 				</tr>
 				<tr>
 					<td width="10%" align="right" valign="top">
-					Name:
+					<?php echo $_LANG->_( 'Name' ); ?>:
 					</td>
 					<td width="200px">
 					<input type="text" name="name" size="30" maxlength="100" class="inputbox" value="<?php echo $menu->name; ?>"/>
@@ -84,7 +85,7 @@ class wrapper_menu_html {
 				</tr>
 				<tr>
 					<td width="20%" align="right">
-					Wrapper Link:
+					<?php echo $_LANG->_( 'Wrapper Link' ); ?>:
 					</td>
 					<td width="80%">
 					<input class="inputbox" type="text" name="url" size="50" maxlength="250" value="<?php echo @$menu->url; ?>" />
@@ -92,7 +93,7 @@ class wrapper_menu_html {
 				</tr>
 				<tr>
 					<td width="10%" align="right">
-					Url:
+					<?php echo $_LANG->_( 'Url' ); ?>:
 					</td>
 					<td width="80%">
                     <?php echo ampReplace($lists['link']); ?>
@@ -100,7 +101,7 @@ class wrapper_menu_html {
 				</tr>
 				<tr>
 					<td align="right">
-					Parent Item:
+					<?php echo $_LANG->_( 'Parent Item' ); ?>:
 					</td>
 					<td colspan="2">
 					<?php echo $lists['parent'];?>
@@ -108,7 +109,7 @@ class wrapper_menu_html {
 				</tr>
 				<tr>
 					<td valign="top" align="right">
-					Ordering:
+					<?php echo $_LANG->_( 'Ordering' ); ?>:
 					</td>
 					<td colspan="2">
 					<?php echo $lists['ordering']; ?>
@@ -116,7 +117,7 @@ class wrapper_menu_html {
 				</tr>
 				<tr>
 					<td valign="top" align="right">
-					Access Level:
+					<?php echo $_LANG->_( 'Access Level' ); ?>:
 					</td>
 					<td colspan="2">
 					<?php echo $lists['access']; ?>
@@ -124,7 +125,7 @@ class wrapper_menu_html {
 				</tr>
 				<tr>
 					<td valign="top" align="right">
-					Published:
+					<?php echo $_LANG->_( 'Published' ); ?>:
 					</td>
 					<td colspan="2">
 					<?php echo $lists['published']; ?>
@@ -139,7 +140,7 @@ class wrapper_menu_html {
 				<table class="adminform">
 				<tr>
 					<th>
-					Parameters
+					<?php echo $_LANG->_( 'Parameters' ); ?>
 					</th>
 				</tr>
 				<tr>

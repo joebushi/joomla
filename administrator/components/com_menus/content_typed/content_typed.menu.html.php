@@ -27,6 +27,7 @@ class content_menu_html {
 
 	function edit( &$menu, &$lists, &$params, $option, $content ) {
 		global $mosConfig_live_site;
+		global $_LANG;
 		?>
 		<div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
 		<script language="javascript" type="text/javascript">
@@ -43,9 +44,9 @@ class content_menu_html {
 
 			// do field validation
 			if (trim(form.name.value) == ""){
-				alert( "Link must have a name" );
+				alert( "<?php echo $_LANG->_( 'Link must have a name' ); ?>" );
 			} else if (trim(form.content_typed.value) == ""){
-				alert( "You must select a Content to link to" );
+				alert( "<?php echo $_LANG->_( 'You must select a Content to link to' ); ?>" );
 			} else {
 				form.link.value = "index.php?option=com_content&task=view&id=" + form.content_typed.value;
 				form.componentid.value = form.content_typed.value;
@@ -58,7 +59,7 @@ class content_menu_html {
 		<table class="adminheading">
 		<tr>
 			<th>
-			<?php echo $menu->id ? 'Edit' : 'Add';?> Menu Item :: Link - Static Content
+			<?php echo $menu->id ? $_LANG->_( 'Edit' ) : $_LANG->_( 'Add' );?> <?php echo $_LANG->_( 'Menu Item :: Link - Static Content' ); ?>
 			</th>
 		</tr>
 		</table>
@@ -69,12 +70,12 @@ class content_menu_html {
 				<table class="adminform">
 				<tr>
 					<th colspan="2">
-					Details
+					<?php echo $_LANG->_( 'Details' ); ?>
 					</th>
 				</tr>
 				<tr>
 					<td width="10%" align="right">
-					Name:
+					<?php echo $_LANG->_( 'Name' ); ?>:
 					</td>
 					<td width="80%">
 					<input class="inputbox" type="text" name="name" size="50" maxlength="100" value="<?php echo $menu->name; ?>" />
@@ -82,7 +83,7 @@ class content_menu_html {
 				</tr>
 				<tr>
 					<td width="10%" align="right" valign="top">
-					Static Content:
+					<?php echo $_LANG->_( 'Static Content' ); ?>:
 					</td>
 					<td width="80%">
 					<?php echo $lists['content']; ?>
@@ -96,7 +97,7 @@ class content_menu_html {
 				</tr>
 				<tr>
 					<td width="10%" align="right" valign="top">
-					On Click, open:
+					<?php echo $_LANG->_( 'On Click, open' ); ?>:
 					</td>
 					<td width="80%">
 					<?php echo $lists['target']; ?>
@@ -104,7 +105,7 @@ class content_menu_html {
 				</tr>
 				<tr>
 					<td align="right">
-					Parent Item:
+					<?php echo $_LANG->_( 'Parent Item' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['parent']; ?>
@@ -112,7 +113,7 @@ class content_menu_html {
 				</tr>
 				<tr>
 					<td valign="top" align="right">
-					Ordering:
+					<?php echo $_LANG->_( 'Ordering' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['ordering']; ?>
@@ -120,14 +121,14 @@ class content_menu_html {
 				</tr>
 				<tr>
 					<td valign="top" align="right">
-					Access Level:
+					<?php echo $_LANG->_( 'Access Level' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['access']; ?>
 					</td>
 				</tr>
 				<tr>
-					<td valign="top" align="right">Published:</td>
+					<td valign="top" align="right"><?php echo $_LANG->_( 'Published' ); ?>:</td>
 					<td>
 					<?php echo $lists['published']; ?>
 					</td>
@@ -141,7 +142,7 @@ class content_menu_html {
 				<table class="adminform">
 				<tr>
 					<th>
-					Parameters
+					<?php echo $_LANG->_( 'Parameters' ); ?>
 					</th>
 				</tr>
 				<tr>

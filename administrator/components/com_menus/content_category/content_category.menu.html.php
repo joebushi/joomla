@@ -27,6 +27,7 @@ class content_category_menu_html {
 
 	function editCategory( &$menu, &$lists, &$params, $option ) {
 		global $mosConfig_live_site;
+		global $_LANG;
 		?>
 		<div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
 		<script language="javascript" type="text/javascript">
@@ -40,7 +41,7 @@ class content_category_menu_html {
 			if ( !$menu->id ) {
 				?>
 				if ( getSelectedValue( 'adminForm', 'componentid' ) < 1 ) {
-					alert( 'You must select a category' );
+					alert( "<?php echo $_LANG->_( 'You must select a category' ); ?>" );
 					return;
 				}
 				sectcat = getSelectedText( 'adminForm', 'componentid' );
@@ -56,7 +57,7 @@ class content_category_menu_html {
 			} else {
 				?>
 				if ( form.name.value == '' ) {
-					alert( 'This Menu item must have a title' );
+					alert( "<?php echo $_LANG->_( 'This Menu item must have a title' ); ?>" );
 				} else {
 					submitform( pressbutton );
 				}
@@ -69,7 +70,7 @@ class content_category_menu_html {
 		<table class="adminheading">
 		<tr>
 			<th>
-			<?php echo $menu->id ? 'Edit' : 'Add';?> Menu Item :: Table - Content Category
+			<?php echo $menu->id ? $_LANG->_( 'Edit' ) : $_LANG->_( 'Add' );?> <?php echo $_LANG->_( 'Menu Item :: Table - Content Category' ); ?>
 			</th>
 		</tr>
 		</table>
@@ -80,12 +81,12 @@ class content_category_menu_html {
 				<table class="adminform">
 				<tr>
 					<th colspan="3">
-					Details
+					<?php echo $_LANG->_( 'Details' ); ?>
 					</th>
 				</tr>
 				<tr>
 					<td width="10%" align="right" valign="top">
-					Name:
+					<?php echo $_LANG->_( 'Name' ); ?>:
 					</td>
 					<td width="200px">
 					<input type="text" name="name" size="30" maxlength="100" class="inputbox" value="<?php echo $menu->name; ?>"/>
@@ -93,14 +94,14 @@ class content_category_menu_html {
 					<td>
 					<?php
 					if ( !$menu->id ) {
-						echo mosToolTip( 'If you leave this blank the Category name will be automatically used' );
+						echo mosToolTip( $_LANG->_( 'TIPIFLEAVEBLANKCAT' ) );
 					}
 					?>
 					</td>
 				</tr>
 				<tr>
 					<td width="10%" align="right" valign="top">
-					Category:
+					<?php echo $_LANG->_( 'Category' ); ?>:
 					</td>
 					<td colspan="2">
 					<?php echo $lists['componentid']; ?>
@@ -108,7 +109,7 @@ class content_category_menu_html {
 				</tr>
 				<tr>
 					<td align="right">
-					Url:
+					<?php echo $_LANG->_( 'Url' ); ?>:
 					</td>
 					<td colspan="2">
                     <?php echo ampReplace($lists['link']); ?>
@@ -116,7 +117,7 @@ class content_category_menu_html {
 				</tr>
 				<tr>
 					<td align="right">
-					Parent Item:
+					<?php echo $_LANG->_( 'Parent Item' ); ?>:
 					</td>
 					<td colspan="2">
 					<?php echo $lists['parent'];?>
@@ -124,7 +125,7 @@ class content_category_menu_html {
 				</tr>
 				<tr>
 					<td valign="top" align="right">
-					Ordering:
+					<?php echo $_LANG->_( 'Ordering' ); ?>:
 					</td>
 					<td colspan="2">
 					<?php echo $lists['ordering']; ?>
@@ -132,7 +133,7 @@ class content_category_menu_html {
 				</tr>
 				<tr>
 					<td valign="top" align="right">
-					Access Level:
+					<?php echo $_LANG->_( 'Access Level' ); ?>:
 					</td>
 					<td colspan="2">
 					<?php echo $lists['access']; ?>
@@ -140,7 +141,7 @@ class content_category_menu_html {
 				</tr>
 				<tr>
 					<td valign="top" align="right">
-					Published:
+					<?php echo $_LANG->_( 'Published' ); ?>:
 					</td>
 					<td colspan="2">
 					<?php echo $lists['published']; ?>
@@ -155,7 +156,7 @@ class content_category_menu_html {
 				<table class="adminform">
 				<tr>
 					<th>
-					Parameters
+					<?php echo $_LANG->_( 'Parameters' ); ?>
 					</th>
 				</tr>
 				<tr>

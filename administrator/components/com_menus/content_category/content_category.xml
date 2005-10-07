@@ -11,19 +11,19 @@
 	<version>1.0.0</version>
 	<description>Shows a Table view of Content items for a particular Category</description>
 	<params>
-		<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="A small image to be placed to the left or right of your menu item, images must be in images/stories/" />
+		<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="PARAMMENUIMAGE" />
 		<param name="page_title" type="radio" default="1" label="Page Title" description="Show/Hide the pages Title">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="pageclass_sfx" type="text" size="20" default="" label="Page Class Suffix" description="A suffix to be applied to the css classes of the page, this allows individual page styling" />
-		<param name="back_button" type="list" default="" label="Back Button" description="Show/Hide a Back Button, that returns you to the previously view page">
+		<param name="pageclass_sfx" type="text" size="20" default="" label="Page Class Suffix" description="PARAMPAGECLASSSFX" />
+		<param name="back_button" type="list" default="" label="Back Button" description="PARAMBACKBUTTON">
 			<option value="">Use Global</option>
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
 		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="orderby" type="list" default="" label="Order by" description="This overrides the ordering of the items.">
+		<param name="orderby" type="list" default="" label="Order by" description="PARAMORDERBY">
 			<option value="">Default</option>
 			<option value="date">Oldest first</option>
 			<option value="rdate">Most recent first</option>
@@ -35,7 +35,7 @@
 			<option value="rhits">Least Hits</option>
 			<option value="order">Ordering</option>
 		</param>
-		<param name="date_format" type="text" size="15" default="" label="Date Format" description="The format of the date displayed, using PHPs strftime Command Format - if left blank it will load the format from your language file" />
+		<param name="date_format" type="text" size="15" default="" label="Date Format" description="PARAMDATEFORMAT" />
 		<param name="date" type="list" default="" label="Date Column" description="Show/Hide the Date column">
 			<option value="">Use Global</option>
 			<option value="0">Hide</option>
@@ -67,7 +67,7 @@
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="display_num" type="list" default="50" label="Display Number" description="Number of items to be displayed by default">
+		<param name="display_num" type="list" default="50" label="Display Number" description="PARAMDISPLAYNUM">
 			<option value="5">5</option>
 			<option value="10">10</option>
 			<option value="15">15</option>
@@ -94,11 +94,11 @@
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="cat_items" type="radio" default="1" label="# Category Items" description="Show/Hide the number of items in each category">
+		<param name="cat_items" type="radio" default="1" label="Num Category Items" description="PARAMCATITEMS">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="cat_description" type="radio" default="1" label="Category Description" description="Show/Hide the Category Description, it will appear below the Category Name">
+		<param name="cat_description" type="radio" default="1" label="Category Description" description="PARAMSHOWHIDE">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>

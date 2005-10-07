@@ -27,13 +27,14 @@ class content_blog_section {
 	*/
 	function edit( $uid, $menutype, $option ) {
 		global $database, $my, $mainframe;
+		global $_LANG;
 
 		$menu = new mosMenu( $database );
 		$menu->load( $uid );
 
 		// fail if checked out not by 'me'
 		if ($menu->checked_out && $menu->checked_out <> $my->id) {
-			echo "<script>alert('The module $menu->title is currently being edited by another administrator'); document.location.href='index2.php?option=$option'</script>\n";
+			echo "<script>alert('". $_LANG->_( 'The module' ) ." ". $menu->title ." ". $_LANG->_( 'DESCBEINGEDITTED' ) ."'); document.location.href='index2.php?option=$option'</script>\n";
 			exit(0);
 		}
 
@@ -64,7 +65,7 @@ class content_blog_section {
 		}
 
 		// build the html select list for section
-		$rows[] = mosHTML::makeOption( '', 'All Sections' );
+		$rows[] = mosHTML::makeOption( '', $_LANG->_( 'All Sections' ) );
 		$query = "SELECT s.id AS `value`, s.id AS `id`, s.title AS `text`"
 		. "\n FROM #__sections AS s"
 		. "\n WHERE s.scope = 'content'"
@@ -94,6 +95,7 @@ class content_blog_section {
 
 	function saveMenu( $option, $task ) {
 		global $database;
+		global $_LANG;
 
 		$params = mosGetParam( $_POST, 'params', '' );
 		$secids	= mosGetParam( $_POST, 'secid', array() );
@@ -131,7 +133,7 @@ class content_blog_section {
 		$row->checkin();
 		$row->updateOrder( "menutype = '$row->menutype' AND parent = $row->parent" );
 
-		$msg = 'Menu item Saved';
+		$msg = $_LANG->_( 'Menu item Saved' );
 		switch ( $task ) {
 			case 'apply':
 				mosRedirect( 'index2.php?option='. $option .'&menutype='. $row->menutype .'&task=edit&id='. $row->id, $msg );

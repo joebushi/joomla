@@ -285,7 +285,7 @@ class HTML_templates {
 		<tr>
 			<td width="280"><table class="adminheading"><tr><th class="templates"><?php echo $_LANG->_( 'Template CSS Editor' ); ?></th></tr></table></td>
 			<td width="260">
-				<span class="componentheading"><?php echo $_LANG->_( 'QQQQ' ); ?>template_css.css is :
+				<span class="componentheading"><?php echo $_LANG->_( 'template_css.css is' ); ?> :
 				<b><?php echo is_writable($css_path) ? '<font color="green"> '. $_LANG->_( 'Writeable' ) .'</font>' : '<font color="red"> '. $_LANG->_( 'Unwriteable' ) .'</font>' ?></b>
 				</span>
 			</td>

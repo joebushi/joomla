@@ -25,13 +25,14 @@ class newsfeed_link_menu {
 	function edit( &$uid, $menutype, $option ) {
 		global $database, $my, $mainframe;
 		global $mosConfig_absolute_path;
+		global $_LANG;
 
 		$menu = new mosMenu( $database );
 		$menu->load( $uid );
 
 		// fail if checked out not by 'me'
 		if ($menu->checked_out && $menu->checked_out <> $my->id) {
-			echo "<script>alert('The module $menu->title is currently being edited by another administrator'); document.location.href='index2.php?option=$option'</script>\n";
+			echo "<script>alert('". $_LANG->_( 'The module' ) ." ". $menu->title ." ". $_LANG->_( 'DESCBEINGEDITTED' ) ."'); document.location.href='index2.php?option=$option'</script>\n";
 			exit(0);
 		}
 
@@ -61,7 +62,7 @@ class newsfeed_link_menu {
 			<table width="100%">
 			<tr>
 				<td width="10%">
-				Item:
+				'. $_LANG->_( 'Item' ) .':
 				</td>
 				<td>
 				'. $newsfeed[0]->name .'
@@ -69,7 +70,7 @@ class newsfeed_link_menu {
 			</tr>
 			<tr>
 				<td width="10%">
-				Position:
+				'. $_LANG->_( 'Position' ) .':
 				</td>
 				<td>
 				'. $newsfeed[0]->category .'
