@@ -26,6 +26,7 @@ class HTML_menumanager {
 	*/
 	function show ( $option, $menus, $pageNav ) {
 		global $mosConfig_live_site;
+		global $_LANG;
 		?>
 		<script language="javascript" type="text/javascript">
 		function menu_listItemTask( id, task, option ) {
@@ -43,33 +44,33 @@ class HTML_menumanager {
 		<table class="adminheading">
 		<tr>
 			<th class="menus">
-			Menu Manager
+			<?php echo $_LANG->_( 'Menu Manager' ); ?>
 			</th>
 		</tr>
 		</table>
 
 		<table class="adminlist">
 		<tr>
-			<th width="20">#</th>
+			<th width="20"><?php echo $_LANG->_( 'NUM' ); ?></th>
 			<th width="20px">
 			</th>
 			<th class="title" nowrap="nowrap">
-			Menu Name
+			<?php echo $_LANG->_( 'Menu Name' ); ?>
 			</th>
 			<th width="5%" nowrap="nowrap">
-			Menu Items
+			<?php echo $_LANG->_( 'Menu Items' ); ?>
 			</th>
 			<th width="10%">
-			# Published
+			<?php echo $_LANG->_( 'NUM Published' ); ?>
 			</th>
 			<th width="15%">
-			# Unpublished
+			<?php echo $_LANG->_( 'NUM Unpublished' ); ?>
 			</th>
 			<th width="15%">
-			# Trash
+			<?php echo $_LANG->_( 'NUM Trash' ); ?>
 			</th>
 			<th width="15%">
-			# Modules
+			<?php echo $_LANG->_( 'NUM Modules' ); ?>
 			</th>
 		</tr>
 		<?php
@@ -95,12 +96,12 @@ class HTML_menumanager {
 				<input type="radio" id="cb<?php echo $i;?>" name="cid[]" value="<?php echo $menu->type; ?>" onclick="isChecked(this.checked);" />
 				</td>
 				<td>
-				<a href="<?php echo $link; ?>" title="Edit Menu Name">
+				<a href="<?php echo $link; ?>" title="<?php echo $_LANG->_( 'Edit Menu Name' ); ?>">
 				<?php echo $menu->type; ?>
 				</a>
 				</td>
 				<td align="center">
-				<a href="<?php echo $linkA; ?>" title="Edit Menu Items">
+				<a href="<?php echo $linkA; ?>" title="<?php echo $_LANG->_( 'Edit Menu Items' ); ?>">
 				<img src="<?php echo $mosConfig_live_site; ?>/includes/js/ThemeOffice/mainmenu.png" border="0"/>
 				</a>
 				</td>
@@ -148,6 +149,7 @@ class HTML_menumanager {
 	*/
 	function edit ( &$row, $option ) {
 		global $mosConfig_live_site;
+		global $_LANG;
 
 		$new = $row->menutype ? 0 : 1;
 		?>
@@ -157,7 +159,7 @@ class HTML_menumanager {
 
 			if (pressbutton == 'savemenu') {
 				if ( form.menutype.value == '' ) {
-					alert( 'Please enter a menu name' );
+					alert( '<?php echo $_LANG->_( 'Please enter a menu name' ); ?>' );
 					form.menutype.focus();
 					return;
 				}
@@ -165,7 +167,7 @@ class HTML_menumanager {
 				if ( $new ) {
 					?>
 					if ( form.title.value == '' ) {
-						alert( 'Please enter a module name for your menu' );
+						alert( '<?php echo $_LANG->_( 'Please enter a module name for your menu' ); ?>' );
 						form.title.focus();
 						return;
 					}
@@ -183,7 +185,7 @@ class HTML_menumanager {
 		<table class="adminheading">
 		<tr>
 			<th class="menus">
-			Menu Details
+			<?php echo $_LANG->_( 'Menu Details' ); ?>
 			</th>
 		</tr>
 		</table>
@@ -191,12 +193,12 @@ class HTML_menumanager {
 		<table class="adminform">
 		<tr height="45px;">
 			<td width="100px" align="left">
-			<strong>Menu Name:</strong>
+			<strong><?php echo $_LANG->_( 'Menu Name' ); ?>:</strong>
 			</td>
 			<td>
 			<input class="inputbox" type="text" name="menutype" size="30" maxlength="25" value="<?php echo isset( $row->menutype ) ? $row->menutype : ''; ?>" />
 			<?php
-			$tip = 'This is the identification name used by Joomla! to identify this menu within the code - it must be unique. Recommend that you do not have any spaces in your Menu Name';
+			$tip = $_LANG->_( 'TIPNAMEUSEDTOIDENTIFYMENU' );
 			echo mosToolTip( $tip );
 			?>
 			</td>
@@ -206,19 +208,19 @@ class HTML_menumanager {
 			?>
 			<tr>
 				<td width="100px" align="left" valign="top">
-				<strong>Module Title:</strong>
+				<strong><?php echo $_LANG->_( 'Module Title' ); ?>:</strong>
 				</td>
 				<td>
 				<input class="inputbox" type="text" name="title" size="30" value="<?php echo $row->title ? $row->title : '';?>" />
 				<?php
-				$tip = 'Title of the mod_mainmenu module required to show this Menu';
+				$tip = $_LANG->_( 'TIPTITLEMAINMENUMODULEREQUIRED' );
 				echo mosToolTip( $tip );
 				?>
-				<br/><br/><br/>
+				<br /><br /><br />
 				<strong>
-				* A new mod_mainmenu module, with the Title you have entered above will automatically be created when you save this menu. *
-				<br/><br/>
-				Parameters for the module created are to be edited through the 'Modules Manager [site]': Modules -> Site Modules
+				<?php echo $_LANG->_( 'TIPTITLECREATED' ); ?>
+				<br /><br />
+				<?php echo $_LANG->_( 'DESCPARAMMODULEMANAGER' ); ?>
 				</strong>
 				</td>
 			</tr>
@@ -261,12 +263,13 @@ class HTML_menumanager {
 	* Writes list of the items that have been selected for deletion
 	*/
 	function showDelete( $option, $type, $items, $modules ) {
+		global $_LANG;
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 		<table class="adminheading">
 		<tr>
 			<th>
-			Delete Menu: <?php echo $type;?>
+			<?php echo $_LANG->_( 'Delete Menu' ); ?>: <?php echo $type;?>
 			</th>
 		</tr>
 		</table>
@@ -279,7 +282,7 @@ class HTML_menumanager {
 			<?php
 			if ( $modules ) {
 				?>
-				<strong>Module(s) being Deleted:</strong>
+				<strong><?php echo $_LANG->_( 'Module(s) being Deleted' ); ?>:</strong>
 				<ol>
 				<?php
 				foreach ( $modules as $module ) {
@@ -301,7 +304,7 @@ class HTML_menumanager {
 			?>
 			</td>
 			<td align="left" valign="top" width="25%">
-			<strong>Menu Items being Deleted:</strong>
+			<strong><?php echo $_LANG->_( 'Menu Items being Deleted' ); ?>:</strong>
 			<br />
 			<ol>
 			<?php
@@ -319,12 +322,12 @@ class HTML_menumanager {
 			</ol>
 			</td>
 			<td>
-			* This will <strong><font color="#FF0000">Delete</font></strong> this Menu, <br />ALL its Menu Items and the Module(s) associated with it *
+			<?php echo $_LANG->_( '* This will' ); ?> <strong><font color="#FF0000"><?php echo $_LANG->_( 'Delete' ); ?></font></strong> <?php echo $_LANG->_( 'this Menu,' ); ?> <br /><?php echo $_LANG->_( 'DESCALLMENUITEMS' ); ?>
 			<br /><br /><br />
 			<div style="border: 1px dotted gray; width: 70px; padding: 10px; margin-left: 100px;">
-			<a class="toolbar" href="javascript:if (confirm('Are you sure you want to Delete this menu? \nThis will Delete the Menu, its Items and the Module(s).')){ submitbutton('deletemenu');}" onmouseout="MM_swapImgRestore();"  onmouseover="MM_swapImage('remove','','images/delete_f2.png',1);">
-			<img name="remove" src="images/delete.png" alt="Delete" border="0" align="middle" />
-			&nbsp;Delete
+			<a class="toolbar" href="javascript:if (confirm('<?php echo $_LANG->_( 'WARNWANTDELTHISMENU' ); ?>')){ submitbutton('deletemenu');}" onmouseout="MM_swapImgRestore();"  onmouseover="MM_swapImage('remove','','images/delete_f2.png',1);">
+			<img name="remove" src="images/delete.png" alt="<?php echo $_LANG->_( 'Delete' ); ?>" border="0" align="middle" />
+			&nbsp;<?php echo $_LANG->_( 'Delete' ); ?>
 			</a>
 			</div>
 			</td>
@@ -349,15 +352,16 @@ class HTML_menumanager {
 	* Writes list of the items that have been selected for copy
 	*/
 	function showCopy( $option, $type, $items ) {
+		global $_LANG;
 	?>
 		<script language="javascript" type="text/javascript">
 		function submitbutton(pressbutton) {
 			if (pressbutton == 'copymenu') {
 				if ( document.adminForm.menu_name.value == '' ) {
-					alert( 'Please enter a name for the copy of the Menu' );
+					alert( "<?php echo $_LANG->_( 'Please enter a name for the copy of the Menu' ); ?>" );
 					return;
 				} else if ( document.adminForm.module_name.value == '' ) {
-					alert( 'Please enter a name for the new Module' );
+					alert( "<?php echo $_LANG->_( 'Please enter a name for the new Module' ); ?>" );
 					return;
 				} else {
 					submitform( 'copymenu' );
@@ -371,7 +375,7 @@ class HTML_menumanager {
 		<table class="adminheading">
 		<tr>
 			<th>
-			Copy Menu
+			<?php echo $_LANG->_( 'Copy Menu' ); ?>
 			</th>
 		</tr>
 		</table>
@@ -381,18 +385,18 @@ class HTML_menumanager {
 		<tr>
 			<td width="3%"></td>
 			<td align="left" valign="top" width="30%">
-			<strong>New Menu Name:</strong>
+			<strong><?php echo $_LANG->_( 'New Menu Name' ); ?>:</strong>
 			<br />
 			<input class="inputbox" type="text" name="menu_name" size="30" value="" />
 			<br /><br /><br />
-			<strong>New Module Name:</strong>
+			<strong><?php echo $_LANG->_( 'New Module Name' ); ?>:</strong>
 			<br />
 			<input class="inputbox" type="text" name="module_name" size="30" value="" />
 			<br /><br />
 			</td>
 			<td align="left" valign="top" width="25%">
 			<strong>
-			Menu being copied:
+			<?php echo $_LANG->_( 'Menu being copied' ); ?>:
 			</strong>
 			<br />
 			<font color="#000066">
@@ -402,7 +406,7 @@ class HTML_menumanager {
 			</font>
 			<br /><br />
 			<strong>
-			Menu Items being copied:
+			<?php echo $_LANG->_( 'Menu Items being copied' ); ?>:
 			</strong>
 			<br />
 			<ol>

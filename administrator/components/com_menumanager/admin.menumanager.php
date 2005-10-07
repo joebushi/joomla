@@ -198,6 +198,7 @@ function editMenu( $option, $menu ) {
 */
 function saveMenu() {
 	global $database;
+	global $_LANG;
 
 	$menutype 		= mosGetParam( $_POST, 'menutype', '' );
 	$old_menutype 	= mosGetParam( $_POST, 'old_menutype', '' );
@@ -206,7 +207,7 @@ function saveMenu() {
 	// block to stop renaming of 'mainmenu' menutype
 	if ( $old_menutype == 'mainmenu' ) {
 		if ( $menutype <> 'mainmenu' ) {
-			echo "<script> alert('You cannot rename the \'mainmenu\' Menu as this will disrupt the proper operation of Joomla'); window.history.go(-1); </script>\n";
+			echo "<script> alert('". $_LANG->_( 'WARNMAINMENU' ) ."'); window.history.go(-1); </script>\n";
 			exit;
 		}
 	}
@@ -221,7 +222,7 @@ function saveMenu() {
 	foreach ( $menus as $menu ) {
 		$params = mosParseParams( $menu );
 		if ( $params->menutype == $menutype ) {
-			echo "<script> alert('A menu already exists with that name - you must enter a unique Menu Name'); window.history.go(-1); </script>\n";
+			echo "<script> alert('". $_LANG->_( 'ERRORMENUNAMEEXISTS' ) ."'); window.history.go(-1); </script>\n";
 			exit;
 		}
 	}
@@ -256,7 +257,7 @@ function saveMenu() {
 				exit();
 			}
 
-			$msg = 'New Menu created [ '. $menutype .' ]';
+			$msg = $_LANG->_( 'New Menu created' ) .' [ '. $menutype .' ]';
 			break;
 
 		default:
@@ -312,7 +313,7 @@ function saveMenu() {
 				$database->query();
 			}
 
-			$msg = 'Menu Items & Modules updated';
+			$msg = $_LANG->_( 'Menu Items & Modules updated' );
 			break;
 	}
 
@@ -324,9 +325,10 @@ function saveMenu() {
 */
 function deleteConfirm( $option, $type ) {
 	global $database;
+	global $_LANG;
 
 	if ( $type == 'mainmenu' ) {
-		echo "<script> alert('You cannot delete the \'mainmenu\' menu as it is core menu'); window.history.go(-1); </script>\n";
+		echo "<script> alert('". $_LANG->_( 'WARNDELMAINMENU' ) ."'); window.history.go(-1); </script>\n";
 		exit();
 	}
 
@@ -374,9 +376,10 @@ function deleteConfirm( $option, $type ) {
 */
 function deleteMenu( $option, $cid, $type ) {
 	global $database;
+	global $_LANG;
 
 	if ( $type == 'mainmenu' ) {
-		echo "<script> alert('You cannot delete the \'mainmenu\' menu as it is core menu'); window.history.go(-1); </script>\n";
+		echo "<script> alert('". $_LANG->_( 'WARNDELMAINMENU' ) ."'); window.history.go(-1); </script>\n";
 		exit();
 	}
 
@@ -429,7 +432,7 @@ function deleteMenu( $option, $cid, $type ) {
 		$mod->updateOrder( "position='right'" );
 	}
 
-	$msg = 'Menu Deleted';
+	$msg = $_LANG->_( 'Menu Deleted' );
 	mosRedirect( 'index2.php?option=' . $option, $msg );
 }
 
@@ -458,6 +461,7 @@ function copyConfirm( $option, $type ) {
 */
 function copyMenu( $option, $cid, $type ) {
 	global $database;
+	global $_LANG;
 
 	$menu_name 		= mosGetParam( $_POST, 'menu_name', 'New Menu' );
 	$module_name 	= mosGetParam( $_POST, 'module_name', 'New Module' );
@@ -472,7 +476,7 @@ function copyMenu( $option, $cid, $type ) {
 	foreach ( $menus as $menu ) {
 		$params = mosParseParams( $menu );
 		if ( $params->menutype == $menu_name ) {
-			echo "<script> alert('A menu already exists with that name - you must enter a unique Menu Name'); window.history.go(-1); </script>\n";
+			echo "<script> alert('". $_LANG->_( 'ERRORMENUNAMEEXISTS' ) ."'); window.history.go(-1); </script>\n";
 			exit;
 		}
 	}
@@ -532,7 +536,7 @@ function copyMenu( $option, $cid, $type ) {
 		exit();
 	}
 
-	$msg = 'Copy of Menu `'. $type .'` created, consisting of '. $total .' items';
+	$msg = $_LANG->_( 'Copy of Menu' ) .' `'. $type .'` '. $_LANG->_( 'created, consisting of' ) .' '. $total .' '. $_LANG->_( 'items' );
 	mosRedirect( 'index2.php?option=' . $option, $msg );
 }
 

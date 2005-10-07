@@ -24,10 +24,11 @@ class TOOLBAR_menumanager {
 	* Draws the menu for the Menu Manager
 	*/
 	function _DEFAULT() {
+		global $_LANG;
 		mosMenuBar::startTable();
-		mosMenuBar::customX( 'copyconfirm', 'copy.png', 'copy_f2.png', 'Copy', true );
+		mosMenuBar::customX( 'copyconfirm', 'copy.png', 'copy_f2.png', $_LANG->_( 'Copy' ), true );
 		mosMenuBar::spacer();
-		mosMenuBar::customX( 'deleteconfirm', 'delete.png', 'delete_f2.png', 'Delete', true );
+		mosMenuBar::customX( 'deleteconfirm', 'delete.png', 'delete_f2.png', $_LANG->_( 'Delete' ), true );
 		mosMenuBar::spacer();
 		mosMenuBar::editListX();
 		mosMenuBar::spacer();
@@ -50,8 +51,9 @@ class TOOLBAR_menumanager {
 	* Draws the menu to create a New menu
 	*/
 	function _NEWMENU()	{
+		global $_LANG;
 		mosMenuBar::startTable();
-		mosMenuBar::custom( 'savemenu', 'save.png', 'save_f2.png', 'Save', false );
+		mosMenuBar::custom( 'savemenu', 'save.png', 'save_f2.png', $_LANG->_( 'Save' ), false );
 		mosMenuBar::spacer();
 		mosMenuBar::cancel();
 		mosMenuBar::spacer();
@@ -63,8 +65,9 @@ class TOOLBAR_menumanager {
 	* Draws the menu to create a New menu
 	*/
 	function _COPYMENU()	{
+		global $_LANG;
 		mosMenuBar::startTable();
-		mosMenuBar::custom( 'copymenu', 'copy.png', 'copy_f2.png', 'Copy', false );
+		mosMenuBar::custom( 'copymenu', 'copy.png', 'copy_f2.png', $_LANG->_( 'Copy' ), false );
 		mosMenuBar::spacer();
 		mosMenuBar::cancel();
 		mosMenuBar::spacer();
