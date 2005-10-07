@@ -19,6 +19,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 */
 class HTML_Media {
 	function showMedia($dirPath,$listdir ) {
+    	global $_LANG;
 		?>
 		<head>
 		<style type="text/css">
@@ -49,13 +50,13 @@ class HTML_Media {
 				<table class="adminheading">
 				<tr>
 					<th class="mediamanager">
-						Media Manager
+						<?php echo $_LANG->_( 'Media Manager' ); ?>
 					</td>
 					<td>
 						<table border="0" align="right" cellpadding="0" cellspacing="4" width="600">
 						<tr>
 							<td align="right" width="200" style="padding-right:10px;white-space:nowrap">
-								Create Directory
+								<?php echo $_LANG->_( 'Create Directory' ); ?>
 							</td>
 							<td>
 								<input class="inputbox" type="text" name="foldername" style="width:400px" />
@@ -63,7 +64,7 @@ class HTML_Media {
 						</tr>
 						<tr>
 							<td align="right" style="padding-right:10px;;white-space:nowrap">
-								Image/Url Code
+								<?php echo $_LANG->_( 'Image/Url Code' ); ?>
 							</td>
 							<td>
 								<input class="inputbox" type="text" name="imagecode" style="width:400px" />
@@ -83,7 +84,7 @@ class HTML_Media {
 							<table border="0" cellspacing="1" cellpadding="3"  class="adminheading">
 							<tr>
 								<td>
-									Directory
+									<?php echo $_LANG->_( 'Directory' ); ?>
 								</td>
 								<td>
 									<?php echo $dirPath;?>
@@ -93,8 +94,8 @@ class HTML_Media {
 										<img src="components/com_media/images/btnFolderUp.gif" width="15" height="15" border="0" alt="Up">
 									</a>
 								</td>
-								<td align="right">
-									File Upload <small>[ Max = <?php echo ini_get( 'post_max_size' );?> ]</small>
+								<td align="right"><?php echo $_LANG->_( 'File Upload' ); ?>
+									 <small>[ <?php echo $_LANG->_( 'Max' ); ?>&nbsp;<?php echo ini_get( 'post_max_size' );?> ]</small>
 									&nbsp;&nbsp;&nbsp;&nbsp;
 									<input class="inputbox" type="file" name="upload" id="upload" size="63">&nbsp;
 								</td>							
@@ -148,12 +149,13 @@ class HTML_Media {
 	}
 
 	function draw_no_results(){
+    	global $_LANG;
 		?>
 		<table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
 		<tr>
 			<td>
 				<div align="center" style="font-size:large;font-weight:bold;color:#CCCCCC;font-family: Helvetica, sans-serif;">
-					No Images Found
+					<?php echo $_LANG->_( 'No Images Found' ); ?>
 				</div>
 			</td>
 		</tr>
@@ -163,12 +165,13 @@ class HTML_Media {
 
 	function draw_no_dir() {
 		global $BASE_DIR, $BASE_ROOT;
+    	global $_LANG;
 		?>
 		<table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
 		<tr>
 			<td>
 				<div align="center" style="font-size:small;font-weight:bold;color:#CC0000;font-family: Helvetica, sans-serif;">
-					Configuration Problem: &quot;<?php echo $BASE_DIR.$BASE_ROOT; ?>&quot; does not exist.
+					<?php echo $_LANG->_( 'Configuration Problem' ); ?>: &quot;<?php echo $BASE_DIR.$BASE_ROOT; ?>&quot; <?php echo $_LANG->_( 'does not exist.' ); ?>
 				</div>
 			</td>
 		</tr>
@@ -201,6 +204,7 @@ class HTML_Media {
 	function show_image($img, $file, $info, $size, $listdir) {
 		global $mosConfig_live_site;
 		global $base;
+    	global $_LANG;
 
 		$img_file = basename($img);
 		$img_url = $mosConfig_live_site . $base . $listdir . '/' . $img_file;
@@ -213,17 +217,17 @@ class HTML_Media {
 			$img_dimensions = 'width="'. $info[0] .'" height="'. $info[1] .'"';
 		}
 		
-		$overlib = 'Width: '. $info[0].'px<br/>Height: '.$info[1] .'px';
-		$overlib .= '<br/>Filesize: '. $filesize;
-		$overlib .= '<br/><br/> *Click to Enlarge*';
-		$overlib .= '<br/> *Click for Image Code*';
+		$overlib = $_LANG->_( 'Width' ) .': '. $info[0].'px<br/>'. $_LANG->_( 'Height' ) .': '.$info[1] . $_LANG->_( 'px' );
+		$overlib .= '<br/>'. $_LANG->_( 'Filesize' ) .': '. $filesize;
+		$overlib .= '<br/><br/> '. $_LANG->_( '*Click to Enlarge*' );
+		$overlib .= '<br/> '. $_LANG->_( '*Click for Image Code*' );
 		?>
 		<div style="float:left; padding: 5px">
 			<div class="imgTotal"  onMouseOver="return overlib( '<?php echo $overlib; ?>', CAPTION, '<?php echo $file; ?>', BELOW, LEFT, WIDTH, 150 );" onMouseOut="return nd();">
 				<div align="center" class="imgBorder">
 					<a href="javascript:;"
 						onclick="javascript: window.open( '<?php echo $img_url; ?>', 'win1', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=<?php echo $info[0] * 1.5;?>,height=<?php echo $info[1] * 1.5;?>,directories=no,location=no,left=120,top=80'); 
-									window.top.document.forms[0].imagecode.value = '<img src=&quot;<?php echo $img_url;?>&quot; align=&quot;left&quot; hspace=&quot;6&quot; alt=&quot;Image&quot />';"						 
+									window.top.document.forms[0].imagecode.value = '<img src=&quot;<?php echo $img_url;?>&quot; align=&quot;left&quot; hspace=&quot;6&quot; alt=&quot;<?php echo $_LANG->_( 'Image' ); ?>&quot />';"
 						style="display: block; width: 100%; height: 100%">
 						<div class="image">
 							<img src="<?php echo $img_url; ?>" <?php echo $img_dimensions; ?> alt="<?php echo $file; ?> - <?php echo $filesize; ?>" border="0">
@@ -236,10 +240,10 @@ class HTML_Media {
 					<?php echo $file; ?>
 				</small>
 				<div class="buttonOut">
-					<a href="index2.php?option=com_media&task=delete&delFile=<?php echo $file; ?>&listdir=<?php echo $listdir; ?>" target="_top" onClick="return deleteImage('<?php echo $file; ?>');" title="Delete Item">
-						<img src="components/com_media/images/edit_trash.gif" width="15" height="15" border="0" alt="Delete"></a>
-					<a href="javascript:;" onClick="javascript:window.top.document.forms[0].imagecode.value = '<img src=&quot;<?php echo $img_url;?>&quot; align=&quot;left&quot; hspace=&quot;6&quot; alt=&quot;Image&quot; />';" title="Image Code">
-						<img src="components/com_media/images/edit_pencil.gif" width="15" height="15" border="0" alt="Code"></a>
+					<a href="index2.php?option=com_media&task=delete&delFile=<?php echo $file; ?>&listdir=<?php echo $listdir; ?>" target="_top" onClick="return deleteImage('<?php echo $file; ?>');" title="<?php echo $_LANG->_( 'Delete Item' ); ?>">
+						<img src="components/com_media/images/edit_trash.gif" width="15" height="15" border="0" alt="<?php echo $_LANG->_( 'Delete' ); ?>"></a>
+					<a href="javascript:;" onClick="javascript:window.top.document.forms[0].imagecode.value = '<img src=&quot;<?php echo $img_url;?>&quot; align=&quot;left&quot; hspace=&quot;6&quot; alt=&quot;<?php echo $_LANG->_( 'Image' ); ?>&quot; />';" title="<?php echo $_LANG->_( 'Image Code' ); ?>">
+						<img src="components/com_media/images/edit_pencil.gif" width="15" height="15" border="0" alt="<?php echo $_LANG->_( 'Code' ); ?>"></a>
 				</div>					
 			</div>
 		</div>
@@ -249,6 +253,7 @@ class HTML_Media {
 	function show_dir( $path, $dir, $listdir ) {
 		global $mosConfig_absolute_path;
 		global $base;
+    	global $_LANG;
 
 		$num_files = HTML_Media::num_files( $mosConfig_absolute_path . $base . $listdir . $path );
 
@@ -259,8 +264,8 @@ class HTML_Media {
 
 		$link = 'index3.php?option=com_media&task=list&listdir='. $listdir . $path;
 		
-		$overlib = 'Files '. $num_files;
-		$overlib .= '<br/><br/> *Click to Open*';
+		$overlib = $_LANG->_( 'Files' ) .' '. $num_files;
+		$overlib .= '<br /><br />'. $_LANG->_( '*Click to Open*' );
 		?>
 		<div style="float:left; padding: 5px">
 			<div class="imgTotal" onMouseOver="return overlib( '<?php echo $overlib; ?>', CAPTION, '<?php echo $dir; ?>', BELOW, RIGHT, WIDTH, 150 );" onMouseOut="return nd();">
@@ -275,7 +280,7 @@ class HTML_Media {
 				</small>
 				<div class="buttonOut">
 					<a href="index2.php?option=com_media&task=deletefolder&delFolder=<?php echo $path; ?>&listdir=<?php echo $listdir; ?>" target="_top" onClick="return deleteFolder('<?php echo $dir; ?>', <?php echo $num_files; ?>);">
-						<img src="components/com_media/images/edit_trash.gif" width="15" height="15" border="0" alt="Delete"></a>
+						<img src="components/com_media/images/edit_trash.gif" width="15" height="15" border="0" alt="<?php echo $_LANG->_( 'Delete' ); ?>"></a>
 				</div>
 			</div>
 		</div>
@@ -285,16 +290,17 @@ class HTML_Media {
 	function show_doc($doc, $size, $listdir, $icon) {
 		global $mosConfig_live_site;		
 		global $base;
-		
+    	global $_LANG;
+
 		$size = HTML_Media::parse_size( $size );
 		
-		$overlib = 'Filesize: '. $size;
-		$overlib .= '<br/><br/> *Click for Url*';
+		$overlib = $_LANG->_( 'Filesize' ) .': '. $size;
+		$overlib .= '<br /><br />'. $_LANG->_( '*Click for Url*' );
 		?>
 		<div style="float:left; padding: 5px">
 			<div class="imgTotal" onMouseOver="return overlib( '<?php echo $overlib; ?>', CAPTION, '<?php echo $doc; ?>', BELOW, RIGHT, WIDTH, 200 );" onMouseOut="return nd();">
 				<div align="center" class="imgBorder">
-				  <a href="index3.php?option=com_media&task=list&listdir=<?php echo $listdir; ?>" onClick="javascript:window.top.document.forms[0].imagecode.value = '<a href=&quot;<?php echo $mosConfig_live_site. $base . $listdir  .'/'. $doc;?>&quot;>Insert your text here</a>';">
+				  <a href="index3.php?option=com_media&task=list&listdir=<?php echo $listdir; ?>" onClick="javascript:window.top.document.forms[0].imagecode.value = '<a href=&quot;<?php echo $mosConfig_live_site. $base . $listdir  .'/'. $doc;?>&quot;><?php echo $_LANG->_( 'Insert your text here' ); ?></a>';">
 		  				<img border="0" src="<?php echo $icon ?>" alt="<?php echo $doc; ?>"></a>
 		  		</div>
 			</div>
@@ -304,7 +310,7 @@ class HTML_Media {
 				</small>
 				<div class="buttonOut">
 					<a href="index2.php?option=com_media&task=delete&delFile=<?php echo $doc; ?>&listdir=<?php echo $listdir; ?>" target="_top" onClick="return deleteImage('<?php echo $doc; ?>');">
-						<img src="components/com_media/images/edit_trash.gif" width="15" height="15" border="0" alt="Delete"></a>
+						<img src="components/com_media/images/edit_trash.gif" width="15" height="15" border="0" alt="<?php echo $_LANG->_( 'Delete' ); ?>"></a>
 				</div>
 			</div>
 		</div>
@@ -312,6 +318,8 @@ class HTML_Media {
 	}
 
 	function parse_size($size){
+    	global $_LANG;
+
 		if($size < 1024) {
 			return $size.' bytes';
 		} else if($size >= 1024 && $size < 1024*1024) {
@@ -377,18 +385,18 @@ class HTML_Media {
 		}
 
 		function deleteImage(file) {
-			if(confirm("Delete file \""+file+"\"?"))
+			if(confirm("<?php echo $_LANG->_( 'Delete file' ); ?> \""+file+"\"?"))
 			return true;
 
 			return false;
 		}
 		function deleteFolder(folder, numFiles) {
 			if(numFiles > 0) {
-				alert("There are "+numFiles+" files/folders in \""+folder+"\".\n\nPlease delete all files/folder in \""+folder+"\" first.");
+				alert("<?php echo $_LANG->_( 'There are' ); ?> "+numFiles+" <?php echo $_LANG->_( 'files/folders in' ); ?> \""+folder+"\".\n\n<?php echo $_LANG->_( 'Please delete all files/folder in' ); ?> \""+folder+"\" <?php echo $_LANG->_( 'first.' ); ?>");
 				return false;
 			}
 
-			if(confirm("Delete folder \""+folder+"\"?"))
+			if(confirm("<?php echo $_LANG->_( 'Delete folder' ); ?> \""+folder+"\"?"))
 			return true;
 
 			return false;
