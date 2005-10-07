@@ -33,6 +33,10 @@ Legend:
 
 --------------------
 
+07-Oct-205 Andy Stewart
+ # Fixed artf1382 : Added installation check to ensure "//" is not generated via PHP_SELF
+
+
 05-Oct-2005 Robin Muilwijk
  # Fixed artf1366 : Typo in admin, Adding a new menu item - Blog Content Category
 
