@@ -9,9 +9,9 @@
 	<version>1.0.0</version>
 	<description>Parameters for Login Component</description>
 	<params>
-		<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="A small image to be placed to the left or right of your menu item, images must be in images/stories/" />
-		<param name="pageclass_sfx" type="text" default="" label="Page Class Suffix" description="A suffix to be applied to the css classes of the page, this allows individual page styling" />
-		<param name="back_button" type="list" default="" label="Back Button" description="Show/Hide a Back Button, that returns you to the previously view page">
+		<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="PARAMMENUIMAGE" />
+		<param name="pageclass_sfx" type="text" size="20" default="" label="Page Class Suffix" description="PARAMPAGECLASSSFX" />
+		<param name="back_button" type="list" default="" label="Back Button" description="PARAMBACKBUTTON">
 			<option value="">Use Global</option>
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
@@ -21,9 +21,9 @@
 			<option value="1">Show</option>
 		</param>
 		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="header_login" type="text" size="30" default="" label="Login Page Title" description="Text to display at the top of the page. If left blank, the Menu name will be used instead" />
-		<param name="login" type="text" size="30"  default="" label="Login Redirection URL" description="What page will the login redirect to after login, if let blank will load front page" />
-		<param name="login_message" type="radio" default="0" label="Login JS Message" description="Show/Hide the javascript Pop-up indicating Login Success">
+		<param name="header_login" type="text" size="30" default="" label="Login Page Title" description="PARAMLOGINPAGETITLE" />
+		<param name="login" type="text" size="30"  default="" label="Login Redirection URL" description="PARAMLOGINURL" />
+		<param name="login_message" type="radio" default="0" label="Login JS Message" description="PARAMLOGINJSMESSAGE">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
@@ -31,16 +31,16 @@
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="description_login_text" type="textarea" cols="30" rows="5" default="" label="Login Description Text" description="Text to display on the login Page, if left blank _LOGIN_DESCRIPTION will be used" />
+		<param name="description_login_text" type="textarea" cols="30" rows="5" default="" label="Login Description Text" description="PARAMLOGINDESCTEXT" />
 		<param name="image_login" type="imagelist" directory="/images/stories" default="" label="Login Image" description="Image for the Login Page" />
 		<param name="image_login_align" type="radio" default="right" label="Login Image Align" description="Alignment for Login Image">
 			<option value="left">Left</option>
 			<option value="right">Right</option>
 		</param>
 		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="header_logout" type="text" size="30" default="" label="Logout Page Title" description="Text to display at the top of the page. If left blank, the Menu name will be used instead" />
-		<param name="logout" type="text" size="30"  default="" label="Logout Redirection URL" description="What page will be redirected to after logout, if let blank will load front page" />
-		<param name="logout_message" type="radio" default="1" label="Logout JS Message" description="Show/Hide the javascript Pop-up indicating Logout Success">
+		<param name="header_logout" type="text" size="30" default="" label="Logout Page Title" description="PARAMLOGOUTPAGETITLE" />
+		<param name="logout" type="text" size="30"  default="" label="Logout Redirection URL" description="PARAMLOGOUTURL" />
+		<param name="logout_message" type="radio" default="1" label="Logout JS Message" description="PARAMLOGOUTJSMESSAGE">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
@@ -48,7 +48,7 @@
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="description_logout_text" type="textarea" cols="30" rows="5" default="" label="Logout Description Text" description="Text to display on the logout Page, if left blank _LOGOUT_DESCRIPTION will be used" />
+		<param name="description_logout_text" type="textarea" cols="30" rows="5" default="" label="Logout Description Text" description="PARAMLOGOUTDESCTEXT" />
 		<param name="image_logout" type="imagelist" directory="/images/stories" default="" label="Logout Image" description="Image for the Logout Page" />
 		<param name="image_logout_align" type="radio" default="1" label="Logout Image Align" description="Alignment for Logout Image">
 			<option value="left">Left</option>
