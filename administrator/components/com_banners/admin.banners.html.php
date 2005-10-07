@@ -141,6 +141,8 @@ class HTML_banners {
 	}
 
 	function bannerForm( &$_row, &$lists, $_option ) {
+		global $_LANG;
+		
 		mosMakeHtmlSafe( $_row, ENT_QUOTES, 'custombannercode' );
 		?>
 		<script language="javascript">
@@ -160,13 +162,13 @@ class HTML_banners {
 			}
 			// do field validation
 			if (form.name.value == "") {
-				alert( "You must provide a banner name." );
+				alert( "<?php echo $_LANG->_( 'You must provide a banner name.' ); ?>" );
 			} else if (getSelectedValue('adminForm','cid') < 1) {
-				alert( "Please select a client." );
+				alert( "<?php echo $_LANG->_( 'Please select a client.' ); ?>" );
 			} else if (!getSelectedValue('adminForm','imageurl')) {
-				alert( "Please select an image." );
+				alert( "<?php echo $_LANG->_( 'Please select an image.' ); ?>" );
 			} else if (form.clickurl.value == "") {
-				alert( "Please fill in the URL for the banner." );
+				alert( "<?php echo $_LANG->_( 'Please fill in the URL for the banner.' ); ?>" );
 			} else {
 				submitform( pressbutton );
 			}
@@ -177,7 +179,7 @@ class HTML_banners {
 		<table class="adminheading">
 		<tr>
 			<th>
-			Banner:
+			<?php echo $_LANG->_( 'Banner' ); ?>:
 			<small>
 			<?php echo $_row->cid ? 'Edit' : 'New';?>
 			</small>
@@ -193,7 +195,7 @@ class HTML_banners {
 		</tr>
 		<tr>
 			<td width="20%">
-			Banner Name:
+			<?php echo $_LANG->_( 'Banner Name' ); ?>:
 			</td>
 			<td width="80%">
 			<input class="inputbox" type="text" name="name" value="<?php echo $_row->name;?>">
@@ -201,7 +203,7 @@ class HTML_banners {
 		</tr>
 		<tr>
 			<td>
-			Client Name:
+			<?php echo $_LANG->_( 'Client Name' ); ?>:
 			</td>
 			<td align="left">
 			<?php echo $lists['cid']; ?>
@@ -209,7 +211,7 @@ class HTML_banners {
 		</tr>
 		<tr>
 			<td>
-			Impressions Purchased:
+			<?php echo $_LANG->_( 'Impressions Purchased' ); ?>:
 			</td>
 			<?php
 			if ($_row->imptotal == "0") {
@@ -220,12 +222,12 @@ class HTML_banners {
 			}
 			?>
 			<td>
-			<input class="inputbox" type="text" name="imptotal" size="12" maxlength="11" value="<?php echo $_row->imptotal;?>">&nbsp;Unlimited <input type="checkbox" name="unlimited" <?php echo $unlimited;?>>
+			<input class="inputbox" type="text" name="imptotal" size="12" maxlength="11" value="<?php echo $_row->imptotal;?>">&nbsp;<?php echo $_LANG->_( 'Unlimited' ); ?> <input type="checkbox" name="unlimited" <?php echo $unlimited;?>>
 			</td>
 		</tr>
 		<tr>
 			<td valign="top">
-			Banner URL:
+			<?php echo $_LANG->_( 'Banner URL' ); ?>:
 			</td>
 			<td align="left">
 			<?php echo $lists['imageurl']; ?>
@@ -233,7 +235,7 @@ class HTML_banners {
 		</tr>
 		<tr>
 			<td>
-			Show Banner :
+			<?php echo $_LANG->_( 'Show Banner' ); ?>:
 			</td>
 			<td>
 			<?php echo $lists['showBanner']; ?>
@@ -241,7 +243,7 @@ class HTML_banners {
 		</tr>
 		<tr>
 			<td>
-			Click URL:
+			<?php echo $_LANG->_( 'Click URL' ); ?>:
 			</td>
 			<td>
 			<input class="inputbox" type="text" name="clickurl" size="50" maxlength="200" value="<?php echo $_row->clickurl;?>">
@@ -249,7 +251,7 @@ class HTML_banners {
 		</tr>
 		<tr>
 			<td valign="top">
-			Custom banner code:
+			<?php echo $_LANG->_( 'Custom banner code' ); ?>:
 			</td>
 			<td>
 			<textarea class="inputbox" cols="70" rows="5" name="custombannercode"><?php echo $_row->custombannercode;?></textarea>
@@ -257,9 +259,9 @@ class HTML_banners {
 		</tr>
 		<tr >
 			<td valign="top" align="right">
-			Clicks
+			<?php echo $_LANG->_( 'Clicks' ); ?>
 			<br/>
-			<input name="reset_hits" type="button" class="button" value="Reset Clicks" onClick="submitbutton('resethits');">
+			<input name="reset_hits" type="button" class="button" value="<?php echo $_LANG->_( 'Reset Clicks' ); ?>" onClick="submitbutton('resethits');">
 			</td>
 			<td colspan="2">
 			<?php echo $_row->clicks;?>
@@ -271,7 +273,7 @@ class HTML_banners {
 		</tr>
 		<tr>
 			<td valign="top">
-			Banner Image:
+			<?php echo $_LANG->_( 'Banner Image' ); ?>:
 			</td>
 			<td valign="top">
 			<?php
@@ -313,7 +315,7 @@ class HTML_banners {
 class HTML_bannerClient {
 
 	function showClients( &$rows, &$pageNav, $option ) {
-		global $my;
+		global $my, $_LANG;
 
 		mosCommonHTML::loadOverlib();
 		?>
@@ -321,7 +323,7 @@ class HTML_bannerClient {
 		<table class="adminheading">
 		<tr>
 			<th>
-			Banner Client Manager
+			<?php echo $_LANG->_( 'Banner Client Manager' ); ?>
 			</th>
 		</tr>
 		</table>
@@ -335,13 +337,13 @@ class HTML_bannerClient {
 			<input type="checkbox" name="toggle" value="" onClick="checkAll(<?php echo count( $rows ); ?>);" />
 			</th>
 			<th align="left" nowrap>
-			Client Name
+			<?php echo $_LANG->_( 'Client Name' ); ?>
 			</th>
 			<th align="left" nowrap>
-			Contact
+			<?php echo $_LANG->_( 'Contact' ); ?>
 			</th>
 			<th align="center" nowrap>
-			No. of Active Banners
+			<?php echo $_LANG->_( 'No. of Active Banners' ); ?>
 			</th>
 		</tr>
 		<?php
@@ -396,6 +398,8 @@ class HTML_bannerClient {
 	}
 
 	function bannerClientForm( &$row, $option ) {
+		global $_LANG;
+		
 		mosMakeHtmlSafe( $row, ENT_QUOTES, 'extrainfo' );
 		?>
 		<script language="javascript">
@@ -408,11 +412,11 @@ class HTML_bannerClient {
 			}
 			// do field validation
 			if (form.name.value == "") {
-				alert( "Please fill in the Client Name." );
+				alert( "<?php echo $_LANG->_( 'Please fill in the Client Name.' ); ?>" );
 			} else if (form.contact.value == "") {
-				alert( "Please fill in the Contact Name." );
+				alert( "<?php echo $_LANG->_( 'Please fill in the Contact Name.' ); ?>" );
 			} else if (form.email.value == "") {
-				alert( "Please fill in the Contact Email." );
+				alert( "<?php echo $_LANG->_( 'Please fill in the Contact Email.' ); ?>" );
 			} else {
 				submitform( pressbutton );
 			}
@@ -422,7 +426,7 @@ class HTML_bannerClient {
 		<table class="adminheading">
 		<tr>
 			<th>
-			Banner Client:
+			<?php echo $_LANG->_( 'Banner Client' ); ?>:
 			<small>
 			<?php echo $row->cid ? 'Edit' : 'New';?>
 			</small>
@@ -434,12 +438,12 @@ class HTML_bannerClient {
 		<table class="adminform">
 		<tr>
 			<th colspan="2">
-			Details
+			<?php echo $_LANG->_( 'Details' ); ?>
 			</th>
 		</tr>
 		<tr>
 			<td width="10%">
-			Client Name:
+			<?php echo $_LANG->_( 'Client Name' ); ?>:
 			</td>
 			<td>
 			<input class="inputbox" type="text" name="name" size="30" maxlength="60" valign="top" value="<?php echo $row->name; ?>">
@@ -447,7 +451,7 @@ class HTML_bannerClient {
 		</tr>
 		<tr>
 			<td width="10%">
-			Contact Name:
+			<?php echo $_LANG->_( 'Contact Name' ); ?>:
 			</td>
 			<td>
 			<input class="inputbox" type="text" name="contact" size="30" maxlength="60" value="<?php echo $row->contact; ?>">
@@ -455,7 +459,7 @@ class HTML_bannerClient {
 		</tr>
 		<tr>
 			<td width="10%">
-			Contact Email:
+			<?php echo $_LANG->_( 'Contact Email' ); ?>:
 			</td>
 			<td>
 			<input class="inputbox" type="text" name="email" size="30" maxlength="60" value="<?php echo $row->email; ?>">
@@ -463,7 +467,7 @@ class HTML_bannerClient {
 		</tr>
 		<tr>
 			<td valign="top">
-			Extra Info:
+			<?php echo $_LANG->_( 'Extra Info' ); ?>:
 			</td>
 			<td>
 			<textarea class="inputbox" name="extrainfo" cols="60" rows="10"><?php echo str_replace('&','&amp;',$row->extrainfo);?></textarea>
