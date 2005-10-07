@@ -33,6 +33,9 @@ Legend:
 
 --------------------
 
+07-Oct-2005 Andy Miller
+ # Fixed tabpane css font issue
+
 07-Oct-205 Andy Stewart
  # Fixed artf1382 : Added installation check to ensure "//" is not generated via PHP_SELF
 
