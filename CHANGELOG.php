@@ -33,6 +33,9 @@ Legend:
 
 --------------------
 
+07-Oct-2005 Andy Miller
+ # Fixed tabpane css font issue
+
 07-Oct-2005 Johan Janssens
  # Fixed artf1421 : unneeded file includes\domit\testing_domit.php
 
