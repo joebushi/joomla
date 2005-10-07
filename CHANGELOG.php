@@ -33,7 +33,10 @@ Legend:
 
 --------------------
 
-07-Oct-205 Andy Stewart
+07-Oct-2005 Johan Janssens
+ # Fixed artf1421 : unneeded file includes\domit\testing_domit.php
+
+07-Oct-2005 Andy Stewart
  # Fixed artf1382 : Added installation check to ensure "//" is not generated via PHP_SELF
 
 
@@ -57,7 +60,7 @@ Legend:
 01-Oct-2005 Andy Miller
  # Fixed base href in Content Preview for broken images
 
-01-Oct-2005 Johan Janssens 
+01-Oct-2005 Johan Janssens
  ^ Updated TinyMCE editor to version RC 3
  # Fixed artf1221 : Unable to Submit Content (still not working post-patch)
  # Fixed artf1108 : Tooltips on mouseover causes parameter panel to widen
@@ -66,14 +69,14 @@ Legend:
 01-Oct-2005 Andy Stewart
  # Fixed artf1305 - Added a check within mosimage mambot for introtext being hidden
  # Fixes artf1343 - Removed xml declaration at top of gpl.html
- 
+
 01-Oct-2005 Arno Zijlstra
  ^ Changed OSM banner 2 a little to show banner changing
- 
+
 01-Oct-2005 Levis Bisson
  # Fixed artf1311 : Banners not showing / returning PHP error
  # Fixed artf1319 : Banners not showing in frontend / admin
- 
+
 30-Sep-2005 Andy Miller
  # Fixed poor rendering of fieldset with solarflare2
  ^ Updated solarflare2 template with new colors and logos
@@ -83,8 +86,8 @@ Legend:
 
 30-Sep-2005 Andy Stewart
  + Updated installation routine to recognise port numbers other than 80
- # Fixed artf1293 : added $op=mosGetParam so sendmail is called when running globals.php-off 
- 
+ # Fixed artf1293 : added $op=mosGetParam so sendmail is called when running globals.php-off
+
 30-Sep-2005 Rey Gigataras
  ^ Module Manager `position` dropdown ordering alphabetically
  ^ Ability to Hide feed title for `New` modules used to display feeds
@@ -108,7 +111,7 @@ Legend:
  # Fixed artf1281 : Bad name of XML file
  # Fixed artf1180 : Call-by-reference warning when editing menu
  # Fixed artf1188 : includes/vcard.class.php uses short open tags
- 
+
 29-Sep-2005 Levis Bisson
 # Fixed artf1274 : Module display bug when using register/forgot password links
 # Fixed artf1238 : header("Location: $url")- some servers require an absolute URI
@@ -117,13 +120,13 @@ Legend:
  # Fixed artf1250 : Order is no use when many pages
  # Fixed artf1254 : Unable to delete when count > 1
  # Fixed artf1248 : Invalid argument supplied for 3P modules
- 
+
 27-Sep-2005 Arno Zijlstra
  # Fixed artf1253 : Apply button image path
  # Fixed artf1240 : WITH FIX: banners component - undefined var task
  # Fixed artf1242 : Problem with "Who's online"
  # Fixed artf1218 : 'Search' does not include weblinks?
- 
+
 25-Sep-2005 Emir Sakic
  # Fixed artf1185 : globals.php-off breaks pathway
  # Fixed artf1196 : undefined constant categoryid
