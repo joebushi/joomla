@@ -7,7 +7,7 @@
 	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>4.5.1</version>
-	<description>This component allows you to send a mass email to certain user groups</description>
+	<version>1.1.x</version>
+	<description>DESCMASSMAIL</description>
 	<params/>
 </mosinstall>

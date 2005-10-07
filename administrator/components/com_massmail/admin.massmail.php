@@ -38,9 +38,10 @@ switch ($task) {
 
 function messageForm( $option ) {
 	global $acl;
+	global $_LANG;
 
 	$gtree = array(
-	mosHTML::makeOption( 0, '- All User Groups -' )
+	mosHTML::makeOption( 0, '- '. $_LANG->_( 'All User Groups' ) .' -' )
 	);
 
 	// get list of groups
@@ -55,6 +56,7 @@ function sendMail() {
 	global $database, $my, $acl;
 	global $mosConfig_sitename;
 	global $mosConfig_mailfrom, $mosConfig_fromname;
+	global $_LANG;
 
 	$mode				= mosGetParam( $_POST, 'mm_mode', 0 );
 	$subject			= mosGetParam( $_POST, 'mm_subject', '' );
@@ -70,7 +72,7 @@ function sendMail() {
 	$message_body 		= stripslashes( $message_body );
 
 	if (!$message_body || !$subject || $gou === null) {
-		mosRedirect( 'index2.php?option=com_massmail&mosmsg=Please fill in the form correctly' );
+		mosRedirect( 'index2.php?option=com_massmail&mosmsg='. $_LANG->_( 'Please fill in the form correctly' ) );
 	}
 
 	// get users in the group out of the acl
@@ -106,7 +108,7 @@ function sendMail() {
 		}
 	}
 
-	$msg = 'E-mail sent to '. count( $rows ) .' users';
+	$msg = $_LANG->_( 'E-mail sent to' ) .' '. count( $rows ) .' '. $_LANG->_( 'users' );
 	mosRedirect( 'index2.php?option=com_massmail', $msg );
 }
 ?>
