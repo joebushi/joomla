@@ -69,6 +69,7 @@ function viewLanguages( $option ) {
 	global $languages;
 	global $mainframe;
 	global $mosConfig_lang, $mosConfig_absolute_path, $mosConfig_list_limit;
+	global $_LANG;
 
 	$limit 		= $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit );
 	$limitstart = $mainframe->getUserStateFromRequest( "view{$option}limitstart", 'limitstart', 0 );
@@ -152,6 +153,7 @@ function viewLanguages( $option ) {
 */
 function publishLanguage( $p_lname, $option ) {
 	global $mosConfig_lang;
+	global $_LANG;
 
 	$config = '';
 
@@ -169,9 +171,9 @@ function publishLanguage( $p_lname, $option ) {
 	if ($fp = fopen("../configuration.php","w")){
 		fputs($fp, $config, strlen($config));
 		fclose($fp);
-		mosRedirect("index2.php","Configuration succesfully updated!");
+		mosRedirect("index2.php",$_LANG->_( 'Configuration succesfully updated!' ) );
 	} else {
-		mosRedirect("index2.php","Error! Make sure that configuration.php is writeable.");
+		mosRedirect("index2.php",$_LANG->_( 'ERRORCONFIGWRITEABLE' ) );
 	}
 
 }
@@ -181,13 +183,14 @@ function publishLanguage( $p_lname, $option ) {
 */
 function removeLanguage( $cid, $option, $client ) {
 	global $mosConfig_lang;
+	global $_LANG;
 
 	$client_id = $client=='admin' ? 1 : 0;
 
 	$cur_language = $mosConfig_lang;
 
 	if ($cur_language == $cid) {
-		echo "<script>alert(\"You can not delete language in use.\"); window.history.go(-1); </script>\n";
+		echo "<script>alert(\"". $_LANG->_( 'You can not delete language in use.' ) ."\"); window.history.go(-1); </script>\n";
 		exit();
 	}
 
@@ -206,6 +209,7 @@ function removeLanguage( $cid, $option, $client ) {
 
 function editLanguageSource( $p_lname, $option) {
 	$file = stripslashes( "../language/$p_lname.php" );
+	global $_LANG;
 
 	if ($fp = fopen( $file, "r" )) {
 		$content = fread( $fp, filesize( $file ) );
@@ -213,19 +217,21 @@ function editLanguageSource( $p_lname, $option) {
 
 		HTML_languages::editLanguageSource( $p_lname, $content, $option );
 	} else {
-		mosRedirect( "index2.php?option=$option&mosmsg=Operation Failed: Could not open $file" );
+		mosRedirect( "index2.php?option=". $option ."&mosmsg=". $_LANG->_( 'Operation Failed: Could not open' ) ." ". $file );
 	}
 }
 
 function saveLanguageSource( $option ) {
+	global $_LANG;
+
 	$language = mosGetParam( $_POST, 'language', '' );
 	$filecontent = mosGetParam( $_POST, 'filecontent', '', _MOS_ALLOWHTML );
 
 	if (!$language) {
-		mosRedirect( "index2.php?option=$option&mosmsg=Operation failed: No language specified." );
+		mosRedirect( "index2.php?option=". $option ."&mosmsg=". $_LANG->_( 'Operation failed: No language specified.' ) );
 	}
 	if (!$filecontent) {
-		mosRedirect( "index2.php?option=$option&mosmsg=Operation failed: Content empty." );
+		mosRedirect( "index2.php?option=". $option ."&mosmsg=". $_LANG->_( 'Operation failed: Content empty.' ) );
 	}
 
 	$file = "../language/$language.php";
@@ -235,7 +241,7 @@ function saveLanguageSource( $option ) {
 
 	clearstatcache();
 	if (is_writable( $file ) == false) {
-		mosRedirect( "index2.php?option=$option&mosmsg=Operation failed: The file is not writable." );
+		mosRedirect( "index2.php?option=". $option ."&mosmsg=". $_LANG->_( 'Operation failed: The file is not writable.' ) );
 	}
 
 	if ($fp = fopen ($file, "w")) {
@@ -250,7 +256,7 @@ function saveLanguageSource( $option ) {
 		mosRedirect( "index2.php?option=$option" );
 	} else {
 		if ($enable_write) @chmod($file, $oldperms);
-		mosRedirect( "index2.php?option=$option&mosmsg=Operation failed: Failed to open file for writing." );
+		mosRedirect( "index2.php?option=". $option ."&mosmsg=". $_LANG->_( 'WARNOPENFILE' ) );
 	}
 }
 ?>
