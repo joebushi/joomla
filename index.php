@@ -25,12 +25,12 @@ include_once( 'globals.php' );
 require_once( 'configuration.php' );
 require_once( 'includes/joomla.php' );
 
-//Installation sub folder check, removed for work with CVS
-if (file_exists( 'installation/index.php' )) {	
-	define( '_INSTALL_CHECK', 1 );
-	include ('offline.php');
-	exit();
-}
+//Installation sub folder check, removed for work with SVN
+#if (file_exists( 'installation/index.php' )) {	
+#	define( '_INSTALL_CHECK', 1 );
+#	include ('offline.php');
+#	exit();
+#}
 
 // displays offline/maintanance page or bar
 if ($mosConfig_offline == 1) {
@@ -91,7 +91,8 @@ if ($option == '') {
 	}
 }
 if ( !$Itemid ) {
-// when no Itemid give a default value	$Itemid = 99999999;
+// when no Itemid give a default value
+	$Itemid = 99999999;
 	$Itemid = 99999999;	
 } 
 	
