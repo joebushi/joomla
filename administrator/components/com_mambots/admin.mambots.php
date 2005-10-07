@@ -155,6 +155,7 @@ function viewMambots( $option, $client ) {
 */
 function saveMambot( $option, $client, $task ) {
 	global $database;
+	global $_LANG;
 
 	$params = mosGetParam( $_POST, 'params', '' );
 	if (is_array( $params )) {
@@ -189,12 +190,12 @@ function saveMambot( $option, $client, $task ) {
 
 	switch ( $task ) {
 		case 'apply':
-			$msg = 'Successfully Saved changes to Mambot: '. $row->name;
+			$msg = $_LANG->_( 'Successfully Saved changes to Mambot' ) .': '. $row->name;
 			mosRedirect( 'index2.php?option='. $option .'&client='. $client .'&task=editA&hidemainmenu=1&id='. $row->id, $msg );
 
 		case 'save':
 		default:
-			$msg = 'Successfully Saved Mambot: '. $row->name;
+			$msg = $_LANG->_( 'Successfully Saved Mambot' ) .': '. $row->name;
 			mosRedirect( 'index2.php?option='. $option .'&client='. $client, $msg );
 			break;
 	}
@@ -208,6 +209,7 @@ function saveMambot( $option, $client, $task ) {
 function editMambot( $option, $uid, $client ) {
 	global $database, $my, $mainframe;
 	global $mosConfig_absolute_path;
+	global $_LANG;
 
 	$lists 	= array();
 	$row 	= new mosMambot($database);
@@ -217,7 +219,7 @@ function editMambot( $option, $uid, $client ) {
 
 	// fail if checked out not by 'me'
 	if ($row->isCheckedOut( $my->id )) {
-		echo "<script>alert('The module $row->title is currently being edited by another administrator'); document.location.href='index2.php?option=$option'</script>\n";
+		echo "<script>alert('". $_LANG->_( 'The module' ) ." ". $row->title ." ". $_LANG->_( 'DESCBEINGEDITTED' ) ."'); document.location.href='index2.php?option=$option'</script>\n";
 		exit(0);
 	}
 
@@ -252,7 +254,7 @@ function editMambot( $option, $uid, $client ) {
 			$order = mosGetOrderingList( $query );
 			$lists['ordering'] = mosHTML::selectList( $order, 'ordering', 'class="inputbox" size="1"', 'value', 'text', intval( $row->ordering ) );
 		} else {
-			$lists['ordering'] = '<input type="hidden" name="ordering" value="'. $row->ordering .'" />This mambot cannot be reordered';
+			$lists['ordering'] = '<input type="hidden" name="ordering" value="'. $row->ordering .'" />'. $_LANG->_( 'This mambot cannot be reordered' );
 		}
 		$lists['folder'] = '<input type="hidden" name="folder" value="'. $row->folder .'" />'. $row->folder;
 
@@ -284,7 +286,7 @@ function editMambot( $option, $uid, $client ) {
 			}
 		}
 		$lists['folder'] = mosHTML::selectList( $folders2, 'folder', 'class="inputbox" size="1"', 'value', 'text', null );
-		$lists['ordering'] = '<input type="hidden" name="ordering" value="'. $row->ordering .'" />New items default to the last place. Ordering can be changed after this item is saved.';
+		$lists['ordering'] = '<input type="hidden" name="ordering" value="'. $row->ordering .'" />'. $_LANG->_( 'DESCNEWITEMSDEFAULTLASTPLACE' );
 	}
 
 	$lists['published'] = mosHTML::yesnoRadioList( 'published', 'class="inputbox"', $row->published );
@@ -303,9 +305,10 @@ function editMambot( $option, $uid, $client ) {
 */
 function removeMambot( &$cid, $option, $client ) {
 	global $database, $my;
+	global $_LANG;
 
 	if (count( $cid ) < 1) {
-		echo "<script> alert('Select a module to delete'); window.history.go(-1);</script>\n";
+		echo "<script> alert('". $_LANG->_( 'Select a module to delete' ) ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
 
@@ -319,10 +322,11 @@ function removeMambot( &$cid, $option, $client ) {
 */
 function publishMambot( $cid=null, $publish=1, $option, $client ) {
 	global $database, $my;
+	global $_LANG;
 
 	if (count( $cid ) < 1) {
-		$action = $publish ? 'publish' : 'unpublish';
-		echo "<script> alert('Select a mambot to $action'); window.history.go(-1);</script>\n";
+		$action = $publish ? $_LANG->_( 'publish' ) : $_LANG->_( 'unpublish' );
+		echo "<script> alert('". $_LANG->_( 'Select a mambot to' ) ." ". $action ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
 
@@ -417,6 +421,7 @@ function accessMenu( $uid, $access, $option, $client ) {
 
 function saveOrder( &$cid ) {
 	global $database;
+	global $_LANG;
 
 	$total		= count( $cid );
 	$order 		= mosGetParam( $_POST, 'order', array(0) );
@@ -450,7 +455,7 @@ function saveOrder( &$cid ) {
 		$row->updateOrder( $cond[1] );
 	} // foreach
 
-	$msg 	= 'New ordering saved';
+	$msg 	= $_LANG->_( 'New ordering saved' );
 	mosRedirect( 'index2.php?option=com_mambots', $msg );
 } // saveOrder
 ?>

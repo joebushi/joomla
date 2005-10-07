@@ -27,6 +27,7 @@ class HTML_modules {
 	*/
 	function showMambots( &$rows, $client, &$pageNav, $option, &$lists, $search ) {
 		global $my;
+    	global $_LANG;
 
 		mosCommonHTML::loadOverlib();
 		?>
@@ -34,11 +35,11 @@ class HTML_modules {
 
 		<table class="adminheading">
 		<tr>
-			<th class="modules">
-			Mambot Manager <small><small>[ <?php echo $client == 'admin' ? 'Administrator' : 'Site';?> ]</small></small>
+			<th class="modules"><?php echo $_LANG->_( 'Mambot Manager' ); ?>
+			 <small><small>[ <?php echo $client == 'admin' ? $_LANG->_( 'Administrator' ) : $_LANG->_( 'Site' );?> ]</small></small>
 			</th>
 			<td>
-			Filter:
+			<?php echo $_LANG->_( 'Filter' ); ?>:
 			</td>
 			<td>
 			<input type="text" name="search" value="<?php echo $search;?>" class="text_area" onChange="document.adminForm.submit();" />
@@ -51,33 +52,33 @@ class HTML_modules {
 
 		<table class="adminlist">
 		<tr>
-			<th width="20">#</th>
+			<th width="20"><?php echo $_LANG->_( 'Num' ); ?></th>
 			<th width="20">
 			<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows );?>);" />
 			</th>
 			<th class="title">
-			Mambot Name
+			<?php echo $_LANG->_( 'Mambot Name' ); ?>
 			</th>
 			<th nowrap="nowrap" width="10%">
-	  		Published
+	  		<?php echo $_LANG->_( 'Published' ); ?>
 			</th>
 			<th colspan="2" nowrap="true" width="5%">
-			Reorder
+			<?php echo $_LANG->_( 'Reorder' ); ?>
 			</th>
 			<th width="2%">
-			Order
+			<?php echo $_LANG->_( 'Order' ); ?>
 			</th>
 			<th width="1%">
-			<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )"><img src="images/filesave.png" border="0" width="16" height="16" alt="Save Order" /></a>
+			<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )"><img src="images/filesave.png" border="0" width="16" height="16" alt="<?php echo $_LANG->_( 'Save Order' ); ?>" /></a>
 			</th>
 			<th nowrap="nowrap" width="10%">
-			Access
+			<?php echo $_LANG->_( 'Access' ); ?>
 			</th>
 			<th nowrap="nowrap" align="left" width="10%">
-			Type
+			<?php echo $_LANG->_( 'Type' ); ?>
 			</th>
 			<th nowrap="nowrap" align="left" width="10%">
-			File
+			<?php echo $_LANG->_( 'File' ); ?>
 			</th>
 		</tr>
 		<?php
@@ -164,6 +165,7 @@ class HTML_modules {
 	*/
 	function editMambot( &$row, &$lists, &$params, $option ) {
 		global $mosConfig_live_site;
+    	global $_LANG;
 
 		$row->nameA = '';
 		if ( $row->id ) {
@@ -180,9 +182,9 @@ class HTML_modules {
 			// validation
 			var form = document.adminForm;
 			if (form.name.value == "") {
-				alert( "Mambot must have a name" );
+				alert( "<?php echo $_LANG->_( 'Mambot must have a name' ); ?>" );
 			} else if (form.element.value == "") {
-				alert( "Mambot must have a filename" );
+				alert( "<?php echo $_LANG->_( 'Mambot must have a filename' ); ?>" );
 			} else {
 				submitform(pressbutton);
 			}
@@ -191,9 +193,9 @@ class HTML_modules {
 		<table class="adminheading">
 		<tr>
 			<th class="mambots">
-			Site Mambot:
+			<?php echo $_LANG->_( 'Site Mambot' ); ?>:
 			<small>
-			<?php echo $row->id ? 'Edit' : 'New';?>
+			<?php echo $row->id ? $_LANG->_( 'Edit' ) : $_LANG->_( 'New' );?>
 			</small>
 			<?php echo $row->nameA; ?>
 			</th>
@@ -207,12 +209,12 @@ class HTML_modules {
 				<table class="adminform">
 				<tr>
 					<th colspan="2">
-					Mambot Details
+					<?php echo $_LANG->_( 'Mambot Details' ); ?>
 					</th>
 				<tr>
 				<tr>
 					<td width="100" align="left">
-					Name:
+					<?php echo $_LANG->_( 'Name' ); ?>:
 					</td>
 					<td>
 					<input class="text_area" type="text" name="name" size="35" value="<?php echo $row->name; ?>" />
@@ -220,7 +222,7 @@ class HTML_modules {
 				</tr>
 				<tr>
 					<td valign="top" align="left">
-					Folder:
+					<?php echo $_LANG->_( 'Folder' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['folder']; ?>
@@ -228,7 +230,7 @@ class HTML_modules {
 				</tr>
 				<tr>
 					<td valign="top" align="left">
-					Mambot file:
+					<?php echo $_LANG->_( 'Mambot file' ); ?>:
 					</td>
 					<td>
 					<input class="text_area" type="text" name="element" size="35" value="<?php echo $row->element; ?>" />.php
@@ -236,7 +238,7 @@ class HTML_modules {
 				</tr>
 				<tr>
 					<td valign="top" align="left">
-					Mambot Order:
+					<?php echo $_LANG->_( 'Mambot Order' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['ordering']; ?>
@@ -244,7 +246,7 @@ class HTML_modules {
 				</tr>
 				<tr>
 					<td valign="top" align="left">
-					Access Level:
+					<?php echo $_LANG->_( 'Access Level' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['access']; ?>
@@ -252,7 +254,7 @@ class HTML_modules {
 				</tr>
 				<tr>
 					<td valign="top">
-					Published:
+					<?php echo $_LANG->_( 'Published' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['published']; ?>
@@ -260,12 +262,11 @@ class HTML_modules {
 				</tr>
 				<tr>
 					<td valign="top" colspan="2">&nbsp;
-
 					</td>
 				</tr>
 				<tr>
 					<td valign="top">
-					Description:
+					<?php echo $_LANG->_( 'Description' ); ?>:
 					</td>
 					<td>
 					<?php echo $row->description; ?>
@@ -277,7 +278,7 @@ class HTML_modules {
 				<table class="adminform">
 				<tr>
 					<th colspan="2">
-					Parameters
+					<?php echo $_LANG->_( 'Parameters' ); ?>
 					</th>
 				<tr>
 				<tr>
@@ -286,7 +287,7 @@ class HTML_modules {
 					if ( $row->id ) {
 						echo $params->render();
 					} else {
-						echo '<i>No Parameters</i>';
+						echo '<i>'. $_LANG->_( 'No Parameters' ) .'</i>';
 					}
 					?>
 					</td>
