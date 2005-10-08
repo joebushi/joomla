@@ -22,16 +22,18 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 class HTML_module {
 
 	function showInstalledModules( &$rows, $option, &$xmlfile, &$lists ) {
+		global $_LANG;
+
 		if (count($rows)) {
 			?>
 			<form action="index2.php" method="post" name="adminForm">
 			<table class="adminheading">
 			<tr>
 				<th class="install">
-				Installed Modules
+				<?php echo $_LANG->_( 'Installed Modules' ); ?>
 				</th>
 				<td>
-				Filter:
+				<?php echo $_LANG->_( 'Filter' ); ?>:
 				</td>
 				<td width="right">
 				<?php echo $lists['filter'];?>
@@ -39,7 +41,7 @@ class HTML_module {
 			</tr>
 			<tr>
 				<td colspan="3">
-				Only those Modules that can be uninstalled are displayed - some Core Modules cannot be removed.
+				<?php echo $_LANG->_( 'DESCMODULES' ); ?>
 				<br /><br />
 				</td>
 			</tr>
@@ -48,25 +50,25 @@ class HTML_module {
 			<table class="adminlist">
 			<tr>
 				<th width="20%" class="title">
-				Module File
+				<?php echo $_LANG->_( 'Module File' ); ?>
 				</th>
 				<th width="10%" align="left">
-				Client
+				<?php echo $_LANG->_( 'Client' ); ?>
 				</th>
 				<th width="10%" align="left">
-				Author
+				<?php echo $_LANG->_( 'Author' ); ?>
 				</th>
 				<th width="5%" align="center">
-				Version
+				<?php echo $_LANG->_( 'Version' ); ?>
 				</th>
 				<th width="10%" align="center">
-				Date
+				<?php echo $_LANG->_( 'Date' ); ?>
 				</th>
 				<th width="15%" align="left">
-				Author Email
+				<?php echo $_LANG->_( 'Author Email' ); ?>
 				</th>
 				<th width="15%" align="left">
-				Author URL
+				<?php echo $_LANG->_( 'Author URL' ); ?>
 				</th>
 			</tr>
 			<?php
@@ -78,7 +80,7 @@ class HTML_module {
 					<td>
 					<input type="radio" id="cb<?php echo $i;?>" name="cid[]" value="<?php echo $row->id; ?>" onclick="isChecked(this.checked);"><span class="bold"><?php echo $row->module; ?></span></td>
 					<td>
-					<?php echo $row->client_id == "0" ? 'Site' : 'Administrator'; ?>
+					<?php echo $row->client_id == "0" ? $_LANG->_( 'Site' ) : $_LANG->_( 'Administrator' ); ?>
 					</td>
 					<td>
 					<?php echo @$row->author != "" ? $row->author : "&nbsp;"; ?>
@@ -102,7 +104,7 @@ class HTML_module {
 		} else {
 			?>
 			<td class="small">
-			No custom modules installed
+			<?php echo $_LANG->_( 'No custom modules installed' ); ?>
 			</td>
 			<?php
 		}

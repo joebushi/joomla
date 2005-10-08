@@ -25,13 +25,15 @@ class HTML_component {
 * @param string The URL option
 */
 	function showInstalledComponents( $rows, $option ) {
+		global $_LANG;
+
 		if (count( $rows )) {
 			?>
 			<form action="index2.php" method="post" name="adminForm">
 			<table class="adminheading">
 			<tr>
 				<th class="install">
-				Installed Components
+				<?php echo $_LANG->_( 'Installed Components' ); ?>
 				</th>
 			</tr>
 			</table>
@@ -39,25 +41,25 @@ class HTML_component {
 			<table class="adminlist">
 			<tr>
 				<th width="20%" class="title">
-				Currently Installed
+				<?php echo $_LANG->_( 'Currently Installed' ); ?>
 				</th>
 				<th width="20%" class="title">
-				Component Menu Link
+				<?php echo $_LANG->_( 'Component Menu Link' ); ?>
 				</th>
 				<th width="10%" align="left">
-				Author
+				<?php echo $_LANG->_( 'Author' ); ?>
 				</th>
 				<th width="5%" align="center">
-				Version
+				<?php echo $_LANG->_( 'Version' ); ?>
 				</th>
 				<th width="10%" align="center">
-				Date
+				<?php echo $_LANG->_( 'Date' ); ?>
 				</th>
 				<th width="15%" align="left">
-				Author Email
+				<?php echo $_LANG->_( 'Author Email' ); ?>
 				</th>
 				<th width="15%" align="left">
-				Author URL
+				<?php echo $_LANG->_( 'Author URL' ); ?>
 				</th>
 			</tr>
 			<?php
@@ -97,7 +99,7 @@ class HTML_component {
 		} else {
 			?>
 			<td class="small">
-			There are no custom components installed
+			<?php echo $_LANG->_( 'There are no custom components installed' ); ?>
 			</td>
 			<?php
 		}

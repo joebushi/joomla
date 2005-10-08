@@ -24,9 +24,9 @@ $client 	= mosGetParam( $_REQUEST, 'client', '' );
 $userfile 	= mosGetParam( $_REQUEST, 'userfile', dirname( __FILE__ ) );
 $userfile 	= mosPathName( $userfile );
 
-HTML_installer::showInstallForm( 'Install new Template <small><small>[ ' . ($client == 'admin' ? 'Administrator' : 'Site') .' ]</small></small>',
+HTML_installer::showInstallForm( $_LANG->_( 'Install new Template' ) .'<small><small>[ ' . ($client == 'admin' ? $_LANG->_( 'Administrator' ) : $_LANG->_( 'Site' ) ) .' ]</small></small>',
 	$option, 'template', $client, $userfile,
-	'<a href="index2.php?option=com_templates&client='.$client.'">Back to Templates</a>'
+	'<a href="index2.php?option=com_templates&client='.$client.'">'. $_LANG->_( 'Back to Templates' ) .'</a>'
 );
 ?>
 <table class="content">

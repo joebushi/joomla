@@ -22,7 +22,7 @@ if ( !$acl->acl_check( 'administration', 'install', 'users', $my->usertype, $ele
 
 require_once( $mainframe->getPath( 'installer_html', 'mambot' ) );
 
-HTML_installer::showInstallForm( 'Install new Mambots', $option, 'mambot', '', dirname(__FILE__) );
+HTML_installer::showInstallForm( $_LANG->_( 'Install new Mambots' ), $option, 'mambot', '', dirname(__FILE__) );
 ?>
 <table class="content">
 <?php

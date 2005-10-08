@@ -20,8 +20,8 @@ if ( !$acl->acl_check( 'administration', 'install', 'users', $my->usertype, $ele
 	mosRedirect( 'index2.php', $_LANG->_('ALERTNOTAUTH') );
 }
 
-$backlink = '<a href="index2.php?option=com_languages">Back to Language Manager</a>';
-HTML_installer::showInstallForm( 'Install new Language - Site', $option, 'language', '', dirname(__FILE__), $backlink );
+$backlink = '<a href="index2.php?option=com_languages">'. $_LANG->_( 'Back to Language Manager' ) .'</a>';
+HTML_installer::showInstallForm( $_LANG->_( 'Install new Language - Site' ), $option, 'language', '', dirname(__FILE__), $backlink );
 ?>
 <table class="content">
 <?php

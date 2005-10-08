@@ -26,16 +26,17 @@ class HTML_mambot {
 * @param strong The URL option
 */
 	function showInstalledMambots( &$rows, $option ) {
+		global $_LANG;
 		?>
 		<table class="adminheading">
 		<tr>
 			<th class="install">
-			Installed Mambots
+			<?php echo $_LANG->_( 'Installed Mambots' ); ?>
 			</th>
 		</tr>
 		<tr>
 			<td>
-			Only those Mambots that can be uninstalled are displayed - some Core Mambots cannot be removed.
+			<?php echo $_LANG->_( 'DESCMAMBOTS' ); ?>
 			<br /><br />
 			</td>
 		</tr>
@@ -46,10 +47,10 @@ class HTML_mambot {
 			<table class="adminlist">
 			<tr>
 				<th width="20%" class="title">
-				Mambot
+				<?php echo $_LANG->_( 'Mambot' ); ?>
 				</th>
 				<th width="10%" class="title">
-				Type
+				<?php echo $_LANG->_( 'Type' ); ?>
 				</th>
 				<!--
 				Currently Unsupported
@@ -58,19 +59,19 @@ class HTML_mambot {
 				</th>
 				-->
 				<th width="10%" align="left">
-				Author
+				<?php echo $_LANG->_( 'Author' ); ?>
 				</th>
 				<th width="5%" align="center">
-				Version
+				<?php echo $_LANG->_( 'Version' ); ?>
 				</th>
 				<th width="10%" align="center">
-				Date
+				<?php echo $_LANG->_( 'Date' ); ?>
 				</th>
 				<th width="15%" align="left">
-				Author Email
+				<?php echo $_LANG->_( 'Author Email' ); ?>
 				</th>
 				<th width="15%" align="left">
-				Author URL
+				<?php echo $_LANG->_( 'Author URL' ); ?>
 				</th>
 			</tr>
 			<?php
@@ -124,9 +125,7 @@ class HTML_mambot {
 			</form>
 			<?php
 		} else {
-			?>
-			There are no non-core, custom mambots installed.
-			<?php
+			echo $_LANG->_( 'WARNNONONCORE' );
 		}
 	}
 }

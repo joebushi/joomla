@@ -32,6 +32,7 @@ class mosInstallerTemplate extends mosInstaller {
 	*/
 	function install( $p_fromdir = null ) {
 		global $mosConfig_absolute_path,$database;
+		global $_LANG;
 
 		if (!$this->preInstallCheck( $p_fromdir, 'template' )) {
 			return false;
@@ -44,7 +45,7 @@ class mosInstallerTemplate extends mosInstaller {
 		if ($mosinstall->getAttribute( 'client' )) {
 			$validClients = array( 'administrator' );
 			if (!in_array( $mosinstall->getAttribute( 'client' ), $validClients )) {
-				$this->setError( 1, 'Unknown client type ['.$mosinstall->getAttribute( 'client' ).']' );
+				$this->setError( 1, $_LANG->_( 'Unknown client type' ) .' ['.$mosinstall->getAttribute( 'client' ).']' );
 				return false;
 			}
 			$client = 'admin';
@@ -59,7 +60,7 @@ class mosInstallerTemplate extends mosInstaller {
 		);
 
 		if (!file_exists( $this->elementDir() ) && !mosMakePath( $this->elementDir() )) {
-			$this->setError(1, 'Failed to create directory "' . $this->elementDir() . '"' );
+			$this->setError(1, $_LANG->_( 'Failed to create directory' ) .' "' . $this->elementDir() . '"' );
 			return false;
 		}
 
@@ -89,6 +90,7 @@ class mosInstallerTemplate extends mosInstaller {
 	*/
 	function uninstall( $id, $option, $client=0 ) {
 		global $database, $mosConfig_absolute_path;
+		global $_LANG;
 
 		// Delete directories
 		$path = $mosConfig_absolute_path
@@ -100,11 +102,11 @@ class mosInstallerTemplate extends mosInstaller {
 			if (is_dir( $path )) {
 				return deldir( mosPathName( $path ) );
 			} else {
-				HTML_installer::showInstallMessage( 'Directory does not exist, cannot remove files', 'Uninstall -  error',
+				HTML_installer::showInstallMessage( $_LANG->_( 'Directory does not exist, cannot remove files' ), $_LANG->_( 'Uninstall - error' ),
 					$this->returnTo( $option, 'template', $client ) );
 			}
 		} else {
-			HTML_installer::showInstallMessage( 'Template id is empty, cannot remove files', 'Uninstall -  error',
+			HTML_installer::showInstallMessage( $_LANG->_( 'Template id is empty, cannot remove files' ), $_LANG->_( 'Uninstall - error' ),
 				$this->returnTo( $option, 'template', $client ) );
 			exit();
 		}

@@ -22,7 +22,7 @@ if ( !$acl->acl_check( 'administration', 'install', 'users', $my->usertype, $ele
 
 require_once( $mainframe->getPath( 'installer_html', 'module' ) );
 
-HTML_installer::showInstallForm( 'Install new Modules', $option, 'module', '', dirname(__FILE__) );
+HTML_installer::showInstallForm( $_LANG->_( 'Install new Modules' ), $option, 'module', '', dirname(__FILE__) );
 ?>
 <table class="content">
 <?php
@@ -39,11 +39,12 @@ showInstalledModules( $option );
 */
 function showInstalledModules( $_option ) {
 	global $database, $mosConfig_absolute_path;
+	global $_LANG;
 
 	$filter 		= mosGetParam( $_POST, 'filter', '' );
-	$select[] 		= mosHTML::makeOption( '', 'All' );
-	$select[] 		= mosHTML::makeOption( '0', 'Site Modules' );
-	$select[] 		= mosHTML::makeOption( '1', 'Admin Modules' );
+	$select[] 		= mosHTML::makeOption( '', $_LANG->_( 'All' ) );
+	$select[] 		= mosHTML::makeOption( '0', $_LANG->_( 'Site Modules' ) );
+	$select[] 		= mosHTML::makeOption( '1', $_LANG->_( 'Admin Modules' ) );
 	$lists['filter'] = mosHTML::selectList( $select, 'filter', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $filter );
 	if ( $filter == NULL ) {
 		$and = '';
