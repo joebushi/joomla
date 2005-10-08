@@ -40,7 +40,8 @@ Legend:
  # Fixed artf1382 : Added installation check to ensure "//" is not generated via PHP_SELF
 
 07-Oct-2005 Johan Janssens
-# Fixed artf1421 : unneeded file includes\domit\testing_domit.php
+ # Fixed artf1421 : unneeded file includes\domit\testing_domit.php
+ # Fixed artf1439 : Used correct ErrorMsg function and updated javascript redirect to remove POSTDATA message
 
 05-Oct-2005 Robin Muilwijk
  # Fixed artf1366 : Typo in admin, Adding a new menu item - Blog Content Category

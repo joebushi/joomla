@@ -277,11 +277,11 @@ function saveSection( $option, $scope, $task ) {
 
 	$row = new mosSection( $database );
 	if (!$row->bind( $_POST )) {
-		echo "<script> alert('".$row->getErrorMsg()."'); window.history.go(-1); </script>\n";
+		echo "<script> alert('".$row->getError()."'); document.location.href='index2.php?option=$option&scope=$scope&task=new'; </script>\n";
 		exit();
 	}
 	if (!$row->check()) {
-		echo "<script> alert('".$row->getErrorMsg()."'); window.history.go(-1); </script>\n";
+		echo "<script> alert('".$row->getError()."'); document.location.href='index2.php?option=$option&scope=$scope&task=new'; </script>\n";
 		exit();
 	}
 	if ( $oldtitle ) {
