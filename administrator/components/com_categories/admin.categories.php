@@ -263,7 +263,7 @@ function editCategory( $uid=0, $section='' ) {
 	;
 	$database->setQuery( $query );
 	$sections = $database->loadResult();
-	if (!$sections) {
+	if (!$sections && $type!="other") {
 		echo "<script> alert('You need to have at least one Section before you can create a Category'); window.history.go(-1); </script>\n";
 		exit();
 	}	
