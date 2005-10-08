@@ -1603,7 +1603,7 @@ function recordVote() {
 			$database->setQuery( $query );
 			$database->query() or die( $database->stderr() );;
 		} else {
-			if ($currip <> ($votesdb->lastip)) {
+			if ($currip != ($votesdb->lastip)) {
 				$query = "UPDATE #__content_rating"
 				. "\n SET rating_count = rating_count + 1, rating_sum = rating_sum + $user_rating, lastip = '$currip'"
 				. "\n WHERE content_id = $cid"

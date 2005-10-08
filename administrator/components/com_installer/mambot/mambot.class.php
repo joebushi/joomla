@@ -147,7 +147,7 @@ class mosInstallerMambot extends mosInstaller {
 						if (file_exists( $basepath . $filename )) {
 							$parts = pathinfo( $filename );
 							$subpath = $parts['dirname'];
-							if ($subpath <> '' && $subpath <> '.' && $subpath <> '..') {
+							if ($subpath != '' && $subpath != '.' && $subpath != '..') {
 								echo '<br />Deleting: '. $basepath . $subpath;
 								$result = deldir(mosPathName( $basepath . $subpath . '/' ));
 							} else {

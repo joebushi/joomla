@@ -43,7 +43,7 @@ if (!defined( '_MOS_POLL_MODULE' )) {
 				$query = "SELECT id, text"
 				. "\n FROM #__poll_data"
 				. "\n WHERE pollid = $poll->id"
-				. "\n AND text <> ''"
+				. "\n AND text != ''"
 				. "\n ORDER BY id";
 				$database->setQuery($query);
 				if(!($options = $database->loadObjectList())) {

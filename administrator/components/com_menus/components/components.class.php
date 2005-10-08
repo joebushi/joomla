@@ -35,7 +35,7 @@ class components_menu {
 		$row->load( $menu->componentid );
 
 		// fail if checked out not by 'me'
-		if ( $menu->checked_out && $menu->checked_out <> $my->id ) {
+		if ( $menu->checked_out && $menu->checked_out != $my->id ) {
 			echo "<script>alert('The module $menu->title is currently being edited by another administrator'); document.location.href='index2.php?option=$option'</script>\n";
 			exit(0);
 		}
@@ -55,7 +55,7 @@ class components_menu {
 
 		$query = "SELECT c.id AS value, c.name AS text, c.link"
 		. "\n FROM #__components AS c"
-		. "\n WHERE c.link <> ''"
+		. "\n WHERE c.link != ''"
 		. "\n ORDER BY c.name"
 		;
 		$database->setQuery( $query );

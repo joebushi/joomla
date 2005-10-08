@@ -19,7 +19,7 @@ $clientids = $params->get( 'banner_cids', '' );
 $where 	= '';
 $banner = null;
 
-if( $clientids <> '' ) {
+if( $clientids != '' ) {
 	$where = "\n AND cid IN ('". $clientids ."')";
 }
 

@@ -70,7 +70,7 @@ if ( $session_id == md5( $my->id . $my->username . $my->usertype . $logintime ) 
 	if (!$result = $database->query()) {
 		echo $database->stderr();
 	}
-	if ($database->getNumRows( $result ) <> 1) {
+	if ($database->getNumRows( $result ) != 1) {
 		echo "<script>document.location.href='index.php'</script>\n";
 		exit();
 	}

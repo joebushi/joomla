@@ -79,7 +79,7 @@ class categories_html {
 			Published
 			</th>
 			<?php
-			if ( $section <> 'content') {
+			if ( $section != 'content') {
 				?>
 				<th colspan="2" width="5%">
 				Reorder
@@ -163,7 +163,7 @@ class categories_html {
 				<?php echo $published;?>
 				</td>
 				<?php
-				if ( $section <> 'content' ) {
+				if ( $section != 'content' ) {
 					?>
 					<td>
 					<?php echo $pageNav->orderUpIcon( $i ); ?>

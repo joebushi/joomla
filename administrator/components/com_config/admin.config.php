@@ -59,7 +59,7 @@ function showconfig( $option) {
 	if ($handle = opendir( $mosConfig_absolute_path . '/language/' )) {
 		$i=0;
 		while (false !== ($file = readdir( $handle ))) {
-			if (!strcasecmp(substr($file,-4),".php") && $file <> "." && $file <> ".." && strcasecmp(substr($file,-11),".ignore.php")) {
+			if (!strcasecmp(substr($file,-4),".php") && $file != "." && $file != ".." && strcasecmp(substr($file,-11),".ignore.php")) {
 				$langs[] = mosHTML::makeOption( substr($file,0,-4) );
 			}
 		}

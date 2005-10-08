@@ -195,7 +195,7 @@ function viewTemplates( $option, $client ) {
 			. "\n FROM #__templates_menu"
 			. "\n WHERE client_id = 0"
 			. "\n AND template = '$row->directory'"
-			. "\n AND menuid <> 0"
+			. "\n AND menuid != 0"
 			;
 			$database->setQuery( $query );
 			$row->assigned = $database->loadResult() ? 1 : 0;
@@ -278,7 +278,7 @@ function removeTemplate( $cid, $option, $client ) {
 	$query = "DELETE FROM #__templates_menu"
 	. "\n WHERE template = '$cid'"
 	. "\n AND client_id = $client_id"
-	. "\n AND menuid <> 0"
+	. "\n AND menuid != 0"
 	;
 	$database->setQuery( $query );
 	$database->query();
@@ -448,7 +448,7 @@ function saveTemplateAssign( $option, $client ) {
 	$query = "DELETE FROM #__templates_menu"
 	. "\n WHERE client_id = 0"
 	. "\n AND template = '$template'"
-	. "\n AND menuid <> 0"
+	. "\n AND menuid != 0"
 	;
 	$database->setQuery( $query );
 	$database->query();
@@ -456,7 +456,7 @@ function saveTemplateAssign( $option, $client ) {
 	if ( !in_array( '', $menus ) ) {
 		foreach ( $menus as $menuid ){
 			// If 'None' is not in array
-			if ( $menuid <> -999 ) {
+			if ( $menuid != -999 ) {
 				// check if there is already a template assigned to this menu item
 				$query = "DELETE FROM #__templates_menu"
 				. "\n WHERE client_id = 0"

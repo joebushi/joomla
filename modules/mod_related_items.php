@@ -42,7 +42,7 @@ if ($option == 'com_content' && $task == 'view' && $id) {
 			// select other items based on the metakey field 'like' the keys found
 			$query = "SELECT id, title"
 			. "\n FROM #__content"
-			. "\n WHERE id <> $id"
+			. "\n WHERE id != $id"
 			. "\n AND state = 1"
 			. "\n AND access <= $my->gid"
 			. "\n AND ( metakey LIKE '%" . implode( "%' OR metakey LIKE '%", $likes ) ."%' )"

@@ -166,8 +166,8 @@ function viewFrontPage( $option ) {
 	. "\n FROM #__content AS c"
 	. "\n INNER JOIN #__sections AS s ON s.id = c.sectionid"
 	. "\n LEFT JOIN #__users AS u ON u.id = c.created_by"
-	. "\n WHERE c.state <> -1"
-	. "\n AND c.state <> -2"
+	. "\n WHERE c.state != -1"
+	. "\n AND c.state != -2"
 	. "\n GROUP BY u.name"
 	. "\n ORDER BY u.name"
 	;

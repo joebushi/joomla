@@ -2366,7 +2366,7 @@ function mosReadDirectory( $path, $filter='.', $recurse=false, $fullpath=false  
 	while ($file = readdir($handle)) {
 		$dir = mosPathName( $path.'/'.$file, false );
 		$isDir = is_dir( $dir );
-		if (($file <> ".") && ($file <> "..")) {
+		if (($file != ".") && ($file != "..")) {
 			if (preg_match( "/$filter/", $file )) {
 				if ($fullpath) {
 					$arr[] = trim( mosPathName( $path.'/'.$file, false ) );
@@ -3438,7 +3438,7 @@ class mosAdminMenus {
 		$query = "SELECT m.*"
 		. "\n FROM #__menu m"
 		. "\n WHERE menutype = '$row->menutype'"
-		. "\n AND published <> -2"
+		. "\n AND published != -2"
 		. "\n ORDER BY ordering"
 		;
 		$database->setQuery( $query );
@@ -3550,7 +3550,7 @@ class mosAdminMenus {
 			foreach ($mitems_temp as $mitems_a) {
 				if ($mitems_a->id == $list_a->id) {
 					// Code that inserts the blank line that seperates different menus
-					if ($mitems_a->menutype <> $mitems_spacer) {
+					if ($mitems_a->menutype != $mitems_spacer) {
 						$list_temp[] = mosHTML::makeOption( -999, '----' );
 						$mitems_spacer = $mitems_a->menutype;
 					}
@@ -3664,7 +3664,7 @@ class mosAdminMenus {
 
 		$query = "SELECT c.id AS value, c.name AS text, c.link"
 		. "\n FROM #__components AS c"
-		. "\n WHERE c.link <> ''"
+		. "\n WHERE c.link != ''"
 		. "\n ORDER BY c.name"
 		;
 		$database->setQuery( $query );
@@ -3692,7 +3692,7 @@ class mosAdminMenus {
 
 		$query = "SELECT c.id AS value, c.name AS text, c.link"
 		. "\n FROM #__components AS c"
-		. "\n WHERE c.link <> ''"
+		. "\n WHERE c.link != ''"
 		. "\n ORDER BY c.name"
 		;
 		$database->setQuery( $query );
@@ -3915,7 +3915,7 @@ class mosAdminMenus {
 			$ff 	= $folderPath . $file;
 			$i_f 	= $imagePath .'/'. $file;
 
-			if ( is_dir( $i_f ) && $file <> 'CVS' && $file <> '.svn') {
+			if ( is_dir( $i_f ) && $file != 'CVS' && $file != '.svn') {
 				$folders[] = mosHTML::makeOption( $ff_ );
 				mosAdminMenus::ReadImages( $i_f, $ff_, $folders, $images );
 			} else if ( eregi( "bmp|gif|jpg|png", $file ) && is_file( $i_f ) ) {

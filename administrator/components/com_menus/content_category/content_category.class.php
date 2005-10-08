@@ -32,7 +32,7 @@ class content_category_menu {
 		$menu->load( $uid );
 
 		// fail if checked out not by 'me'
-		if ($menu->checked_out && $menu->checked_out <> $my->id) {
+		if ($menu->checked_out && $menu->checked_out != $my->id) {
 			echo "<script>alert('The module $menu->title is currently being edited by another administrator'); document.location.href='index2.php?option=$option'</script>\n";
 			exit(0);
 		}

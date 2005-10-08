@@ -33,7 +33,7 @@ if ($showmode==0 || $showmode==2) {
 	$database->setQuery($query2);
 	$user_array = $database->loadResult();
 
-	if ($guest_array<>0 && $user_array==0) {
+	if ($guest_array != 0 && $user_array==0) {
 		if ($guest_array==1) {
 			$content.=_WE_HAVE;
 			$content.=_GUEST_COUNT;
@@ -47,7 +47,7 @@ if ($showmode==0 || $showmode==2) {
 		}
 	}
 
-	if ($guest_array==0 && $user_array<>0) {
+	if ($guest_array==0 && $user_array != 0) {
 		if ($user_array==1) {
 			$content.=_WE_HAVE;
 			$content.=_MEMBER_COUNT;
@@ -61,7 +61,7 @@ if ($showmode==0 || $showmode==2) {
 		}
 	}
 
-	if ($guest_array<>0 && $user_array<>0) {
+	if ($guest_array != 0 && $user_array != 0) {
 		if ($guest_array==1) {
 			$content.=_WE_HAVE;
 			$content.=_GUEST_COUNT;

@@ -178,8 +178,8 @@ class mosFullAdminMenu {
 <?php
 		$query = "SELECT *"
 		. "\n FROM #__components"
-		. "\n WHERE name <> 'frontpage'"
-		. "\n AND name <> 'media manager'"
+		. "\n WHERE name != 'frontpage'"
+		. "\n AND name != 'media manager'"
 		. "\n ORDER BY ordering, name"
 		;
 		$database->setQuery( $query );

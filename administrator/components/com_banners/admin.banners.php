@@ -292,7 +292,7 @@ function editBannerClient( $clientid, $option ) {
 	$row->load($clientid);
 
 	// fail if checked out not by 'me'
-	if ($row->checked_out && $row->checked_out <> $my->id) {
+	if ($row->checked_out && $row->checked_out != $my->id) {
 		$msg = 'The client [ '. $row->name. ' ] is currently being edited by another person.';
 		mosRedirect( 'index2.php?option='. $option .'&task=listclients', $msg );
 	}

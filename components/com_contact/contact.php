@@ -138,7 +138,7 @@ function listContacts( $option, $catid ) {
 
 		// page description
 		$currentcat->descrip = '';
-		if( isset($currentcat->description) && ($currentcat->description <> '') ) {
+		if( isset($currentcat->description) && ($currentcat->description != '') ) {
 			$currentcat->descrip = $currentcat->description;
 		} else if ( !$catid ) {
 			// show description
@@ -150,11 +150,11 @@ function listContacts( $option, $catid ) {
 		// page image
 		$currentcat->img = '';
 		$path = $mosConfig_live_site .'/images/stories/';
-		if ( isset($currentcat->image) && ($currentcat->image <> '') ) {
+		if ( isset($currentcat->image) && ($currentcat->image != '') ) {
 			$currentcat->img = $path . $currentcat->image;
 			$currentcat->align = $currentcat->image_position;
 		} else if ( !$catid ) {
-			if ( $params->get( 'image' ) <> -1 ) {
+			if ( $params->get( 'image' ) != -1 ) {
 				$currentcat->img = $path . $params->get( 'image' );
 				$currentcat->align = $params->get( 'image_align' );
 			}
@@ -162,7 +162,7 @@ function listContacts( $option, $catid ) {
 
 		// page header
 		$currentcat->header = '';
-		if ( isset($currentcat->name) && ($currentcat->name <> '') ) {
+		if ( isset($currentcat->name) && ($currentcat->name != '') ) {
 			$currentcat->header = $params->get( 'header' ) .' - '. $currentcat->name;
 		} else {
 			$currentcat->header = $params->get( 'header' );

@@ -219,7 +219,7 @@ function showCategories( $section, $option ) {
 		$query = "SELECT COUNT( a.id )"
 		. "\n FROM #__content AS a"
 		. "\n WHERE a.catid = ". $rows[$i]->id
-		. "\n AND a.state <> -2"
+		. "\n AND a.state != -2"
 		;
 		$database->setQuery( $query );
 		$active = $database->loadResult();
@@ -273,7 +273,7 @@ function editCategory( $uid=0, $section='' ) {
 	$row->load( $uid );
 
 	// fail if checked out not by 'me'
-	if ($row->checked_out && $row->checked_out <> $my->id) {
+	if ($row->checked_out && $row->checked_out != $my->id) {
 		mosRedirect( 'index2.php?option=categories&section='. $row->section, 'The category '. $row->title .' is currently being edited by another administrator' );
 	}
 

@@ -108,7 +108,7 @@ function listFeeds( $option, $catid ) {
 
 	// page description
 	$currentcat->descrip = '';
-	if( ( @$currentcat->description ) <> '' ) {
+	if( ( @$currentcat->description ) != '' ) {
 		$currentcat->descrip = $currentcat->description;
 	} else if ( !$catid ) {
 		// show description
@@ -120,11 +120,11 @@ function listFeeds( $option, $catid ) {
 	// page image
 	$currentcat->img = '';
 	$path = $mosConfig_live_site .'/images/stories/';
-	if ( ( @$currentcat->image ) <> '' ) {
+	if ( ( @$currentcat->image ) != '' ) {
 		$currentcat->img = $path . $currentcat->image;
 		$currentcat->align = $currentcat->image_position;
 	} else if ( !$catid ) {
-		if ( $params->get( 'image' ) <> -1 ) {
+		if ( $params->get( 'image' ) != -1 ) {
 			$currentcat->img = $path . $params->get( 'image' );
 			$currentcat->align = $params->get( 'image_align' );
 		}
@@ -132,7 +132,7 @@ function listFeeds( $option, $catid ) {
 
 	// page header
 	$currentcat->header = '';
-	if ( @$currentcat->name <> '' ) {
+	if ( @$currentcat->name != '' ) {
 		$currentcat->header = $currentcat->name;
 	} else {
 		$currentcat->header = $params->get( 'header' );

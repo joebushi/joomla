@@ -453,11 +453,11 @@ class HTML_content {
 		mosMakeHtmlSafe( $row );
 
 		$create_date = null;
-		if (intval( $row->created ) <> 0) {
+		if (intval( $row->created ) != 0) {
 			$create_date 	= mosFormatDate( $row->created, '%A, %d %B %Y %H:%M', '0' );
 		}
 		$mod_date = null;
-		if (intval( $row->modified ) <> 0) {
+		if (intval( $row->modified ) != 0) {
 			$mod_date 		= mosFormatDate( $row->modified, '%A, %d %B %Y %H:%M', '0' );
 		}
 

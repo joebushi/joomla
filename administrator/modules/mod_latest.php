@@ -17,7 +17,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 $query = "SELECT a.id, a.sectionid, a.title, a.created, u.name, a.created_by_alias, a.created_by"
 . "\n FROM #__content AS a"
 . "\n LEFT JOIN #__users AS u ON u.id = a.created_by"
-. "\n WHERE a.state <> -2"
+. "\n WHERE a.state != -2"
 . "\n ORDER BY created DESC"
 . "\n LIMIT 10"
 ;

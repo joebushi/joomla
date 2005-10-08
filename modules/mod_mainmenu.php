@@ -96,7 +96,7 @@ if (!defined( '_MOS_MAINMENU_MODULE' )) {
 			$menu_params = new stdClass();
 			$menu_params = new mosParameters( $mitem->params );
 			$menu_image = $menu_params->def( 'menu_image', -1 );
-			if ( ( $menu_image <> '-1' ) && $menu_image ) {
+			if ( ( $menu_image != '-1' ) && $menu_image ) {
 				$image = '<img src="'. $mosConfig_live_site .'/images/stories/'. $menu_image .'" border="0" alt="'. $mitem->name .'"/>';
 				if ( $params->get( 'menu_images_align' ) ) {
 					$txt = $txt .' '. $image;

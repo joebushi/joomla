@@ -52,7 +52,7 @@ $options = $database->loadResultArray();
 	</tr>
 	<?php foreach ($options as $text)
 	{
-		if ($text <> "")
+		if ($text != "")
 		{?>
 		<tr>
 			<td valign="top" height="30"><input type="radio" name="poll" value="<?php echo $text; ?>"></td>

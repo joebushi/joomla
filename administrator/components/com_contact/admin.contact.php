@@ -225,7 +225,7 @@ function saveContact( $option ) {
 	if ($row->default_con) {
 		$query = "UPDATE #__contact_details"
 		. "\n SET default_con = 0"
-		. "\n WHERE id <> $row->id"
+		. "\n WHERE id != $row->id"
 		. "\n AND default_con = 1"
 		;
 		$database->setQuery( $query );

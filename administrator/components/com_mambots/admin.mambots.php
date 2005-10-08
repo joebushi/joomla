@@ -279,7 +279,7 @@ function editMambot( $option, $uid, $client ) {
 		$folders = mosReadDirectory( $mosConfig_absolute_path . '/mambots/' );
 		$folders2 = array();
 		foreach ($folders as $folder) {
-			if (is_dir( $mosConfig_absolute_path . '/mambots/' . $folder ) && ( $folder <> 'CVS' ) ) {
+			if (is_dir( $mosConfig_absolute_path . '/mambots/' . $folder ) && ( $folder != 'CVS' ) ) {
 				$folders2[] = mosHTML::makeOption( $folder );
 			}
 		}

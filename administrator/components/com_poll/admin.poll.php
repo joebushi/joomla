@@ -86,7 +86,7 @@ function showPolls( $option ) {
 	. "\n COUNT(d.id) AS numoptions"
 	. "\n FROM #__polls AS m"
 	. "\n LEFT JOIN #__users AS u ON u.id = m.checked_out"
-	. "\n LEFT JOIN #__poll_data AS d ON d.pollid = m.id AND d.text <> ''"
+	. "\n LEFT JOIN #__poll_data AS d ON d.pollid = m.id AND d.text != ''"
 	. "\n GROUP BY m.id"
 	. "\n LIMIT $pageNav->limitstart, $pageNav->limit"
 	;

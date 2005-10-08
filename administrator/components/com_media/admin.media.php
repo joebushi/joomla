@@ -33,7 +33,7 @@ if (!(isset($listdir))){
 	$listdir='';
 }
 
-if (is_int(strpos ($listdir, "..")) && $listdir<>'') {
+if (is_int(strpos ($listdir, "..")) && $listdir != '') {
 	mosRedirect( "index2.php?option=com_media&listdir=".$_POST['dirPath'], "NO HACKING PLEASE" );
 }
 

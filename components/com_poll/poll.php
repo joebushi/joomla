@@ -144,7 +144,7 @@ function pollresult( $uid ) {
 	. "\n FROM #__poll_data AS a"
 	. "\n LEFT JOIN #__poll_date AS b ON b.vote_id = a.id"
 	. "\n WHERE a.pollid = $poll->id"
-	. "\n AND a.text <> ''"
+	. "\n AND a.text != ''"
 	. "\n GROUP BY a.id"
 	. "\n ORDER BY a.id"
 	;

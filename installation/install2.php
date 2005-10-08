@@ -61,7 +61,7 @@ if (!$DBcreated){
 	$database->query();
 	$test = $database->getErrorNum();
 
-	if ($test <> 0 && $test <> 1007) {
+	if ($test != 0 && $test != 1007) {
 		db_err( 'stepBack', 'A database error occurred: ' . $database->getErrorMsg() );
 	}
 

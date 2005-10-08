@@ -741,7 +741,7 @@ function ReadMenuXML( $type, $component=-1 ) {
 		}
 	}
 
-	if ( ( $component <> -1 ) && ( $name == 'Component') ) {
+	if ( ( $component != -1 ) && ( $name == 'Component') ) {
 			$name .= ' - '. $component;
 	}
 

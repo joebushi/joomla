@@ -86,7 +86,7 @@ class HTML_weblinks {
 	function showTable( &$params, &$rows, $catid, $tabclass ) {
 		global $mosConfig_live_site;
 		// icon in table display
-		if ( $params->get( 'weblink_icons' ) <> -1 ) {
+		if ( $params->get( 'weblink_icons' ) != -1 ) {
 			$img = mosAdminMenus::ImageCheck( 'weblink.png', '/images/M_images/', $params->get( 'weblink_icons' ) );
 		} else {
 			$img = NULL;

@@ -205,7 +205,7 @@ function saveMenu() {
 
 	// block to stop renaming of 'mainmenu' menutype
 	if ( $old_menutype == 'mainmenu' ) {
-		if ( $menutype <> 'mainmenu' ) {
+		if ( $menutype != 'mainmenu' ) {
 			echo "<script> alert('You cannot rename the \'mainmenu\' Menu as this will disrupt the proper operation of Joomla'); window.history.go(-1); </script>\n";
 			exit;
 		}
@@ -303,7 +303,7 @@ function saveMenu() {
 			}
 
 		// change menutype of all menuitems using old menutype
-			if ( $menutype <> $old_menutype ) {
+			if ( $menutype != $old_menutype ) {
 				$query = "UPDATE #__menu"
 				. "\n SET menutype = '$menutype'"
 				. "\n WHERE menutype = '$old_menutype'"

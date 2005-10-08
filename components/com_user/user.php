@@ -124,7 +124,7 @@ function userSave( $option, $uid) {
 	$user_id = intval( mosGetParam( $_POST, 'id', 0 ));
 
 	// do some security checks
-	if ($uid == 0 || $user_id == 0 || $user_id <> $uid) {
+	if ($uid == 0 || $user_id == 0 || $user_id != $uid) {
 		mosNotAuth();
 		return;
 	}

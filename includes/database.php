@@ -1128,7 +1128,7 @@ class mosDBTable {
 	 */
 	function isCheckedOut( $user_id=0 ) {
 		if ($user_id) {
-			return ($this->checked_out && $this->checked_out <> $user_id);
+			return ($this->checked_out && $this->checked_out != $user_id);
 		} else {
 			return $this->checked_out;
 		}

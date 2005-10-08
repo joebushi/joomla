@@ -272,7 +272,7 @@ function saveModule( $option, $client, $task ) {
 
 	foreach ($menus as $menuid){
 		// this check for the blank spaces in the select box that have been added for cosmetic reasons
-		if ( $menuid <> "-999" ) {
+		if ( $menuid != "-999" ) {
 			$query = "INSERT INTO #__modules_menu"
 			. "\n SET moduleid = $row->id, menuid = $menuid"
 			;
@@ -353,7 +353,7 @@ function editModule( $option, $uid, $client ) {
 
 	$query = "SELECT position, description"
 	. "\n FROM #__template_positions"
-	. "\n WHERE position <> ''"
+	. "\n WHERE position != ''"
 	. "\n ORDER BY position"
 	;
 	$database->setQuery( $query );
