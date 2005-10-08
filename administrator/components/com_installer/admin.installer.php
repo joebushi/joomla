@@ -61,12 +61,12 @@ if (array_key_exists ( $element, $classMap )) {
 			if (file_exists( $path )) {
 				require $path;
 			} else {
-				echo "Installer not found for element [$element]";
+				echo $_LANG->_( 'Installer not found for element' ) .' ['. $element .']';
 			}
 			break;
 	}
 } else {
-	echo "Installer not available for element [$element]";
+	echo $_LANG->_( 'Installer not available for element' ) .' ['. $element .']';
 }
 
 /**
@@ -75,26 +75,28 @@ if (array_key_exists ( $element, $classMap )) {
 * @param string The element name
 */
 function uploadPackage( $installerClass, $option, $element, $client ) {
+	global $_LANG;
+
 	$installer = new $installerClass();
 
 	// Check if file uploads are enabled
 	if (!(bool)ini_get('file_uploads')) {
-		HTML_installer::showInstallMessage( "The installer can't continue before file uploads are enabled. Please use the install from directory method.",
-			'Installer - Error', $installer->returnTo( $option, $element, $client ) );
+		HTML_installer::showInstallMessage( $_LANG->_( 'WARNINSTALLFILE' ),
+			$_LANG->_( 'Installer - Error' ), $installer->returnTo( $option, $element, $client ) );
 		exit();
 	}
 
 	// Check that the zlib is available
 	if(!extension_loaded('zlib')) {
-		HTML_installer::showInstallMessage( "The installer can't continue before zlib is installed",
-			'Installer - Error', $installer->returnTo( $option, $element, $client ) );
+		HTML_installer::showInstallMessage( $_LANG->_( 'WARNINSTALLZLIB' )",
+			$_LANG->_( 'Installer - Error' ), $installer->returnTo( $option, $element, $client ) );
 		exit();
 	}
 
 	$userfile = mosGetParam( $_FILES, 'userfile', null );
 
 	if (!$userfile) {
-		HTML_installer::showInstallMessage( 'No file selected', 'Upload new module - error',
+		HTML_installer::showInstallMessage( $_LANG->_( 'No file selected' ), $_LANG->_( 'Upload new module - error' ),
 			$installer->returnTo( $option, $element, $client ));
 		exit();
 	}
@@ -106,16 +108,16 @@ function uploadPackage( $installerClass, $option, $element, $client ) {
 
 	if ($resultdir !== false) {
 		if (!$installer->upload( $userfile['name'] )) {
-			HTML_installer::showInstallMessage( $installer->getError(), 'Upload '.$element.' - Upload Failed',
+			HTML_installer::showInstallMessage( $installer->getError(), $_LANG->_( 'Upload' ) .' '. $element .' - '. $_LANG->_( 'Upload Failed' ),
 				$installer->returnTo( $option, $element, $client ) );
 		}
 		$ret = $installer->install();
 
-		HTML_installer::showInstallMessage( $installer->getError(), 'Upload '.$element.' - '.($ret ? 'Success' : 'Failed'),
+		HTML_installer::showInstallMessage( $installer->getError(), $_LANG->_( 'Upload' ) .' '. $element .' - '.($ret ? $_LANG->_( 'Success' ) : $_LANG->_( 'Failed' )),
 			$installer->returnTo( $option, $element, $client ) );
 		cleanupInstall( $userfile['name'], $installer->unpackDir() );
 	} else {
-		HTML_installer::showInstallMessage( $msg, 'Upload '.$element.' -  Upload Error',
+		HTML_installer::showInstallMessage( $msg, $_LANG->_( 'Upload' ) .' '. $element .' - '. $_LANG->_( 'Upload Error' ),
 			$installer->returnTo( $option, $element, $client ) );
 	}
 }
@@ -125,10 +127,12 @@ function uploadPackage( $installerClass, $option, $element, $client ) {
 * @param string The URL option
 */
 function installFromDirectory( $installerClass, $option, $element, $client ) {
+	global $_LANG;
+
 	$userfile = mosGetParam( $_REQUEST, 'userfile', '' );
 
 	if (!$userfile) {
-		mosRedirect( "index2.php?option=$option&element=module", "Please select a directory" );
+		mosRedirect( "index2.php?option=$option&element=module", $_LANG->_( 'Please select a directory' ) );
 	}
 
 	$installer = new $installerClass();
@@ -139,13 +143,15 @@ function installFromDirectory( $installerClass, $option, $element, $client ) {
 	}
 
 	$ret = $installer->install( $path );
-	HTML_installer::showInstallMessage( $installer->getError(), 'Upload new '.$element.' - '.($ret ? 'Success' : 'Error'), $installer->returnTo( $option, $element, $client ) );
+	HTML_installer::showInstallMessage( $installer->getError(), $_LANG->_( 'Upload new' ) .' '.$element.' - '.($ret ? $_LANG->_( 'Success' ) : $_LANG->_( 'Error' )), $installer->returnTo( $option, $element, $client ) );
 }
 /**
 *
 * @param
 */
 function removeElement( $installerClass, $option, $element, $client ) {
+	global $_LANG;
+
 	$cid = mosGetParam( $_REQUEST, 'cid', array(0) );
 	if (!is_array( $cid )) {
 		$cid = array(0);
@@ -159,7 +165,7 @@ function removeElement( $installerClass, $option, $element, $client ) {
 
 	$msg = $installer->getError();
 
-	mosRedirect( $installer->returnTo( $option, $element, $client ), $result ? 'Success ' . $msg : 'Failed ' . $msg );
+	mosRedirect( $installer->returnTo( $option, $element, $client ), $result ? $_LANG->_( 'Success' ) .' '. $msg : $_LANG->_( 'Failed' ) .' '. $msg );
 }
 /**
 * @param string The name of the php (temporary) uploaded file
@@ -168,6 +174,8 @@ function removeElement( $installerClass, $option, $element, $client ) {
 */
 function uploadFile( $filename, $userfile_name, &$msg ) {
 	global $mosConfig_absolute_path;
+	global $_LANG;
+
 	$baseDir = mosPathName( $mosConfig_absolute_path . '/media' );
 
 	if (file_exists( $baseDir )) {
@@ -176,16 +184,16 @@ function uploadFile( $filename, $userfile_name, &$msg ) {
 				if (mosChmod( $baseDir . $userfile_name )) {
 					return true;
 				} else {
-					$msg = 'Failed to change the permissions of the uploaded file.';
+					$msg = $_LANG->_( 'WARNPERMISSIONS' );
 				}
 			} else {
-				$msg = 'Failed to move uploaded file to <code>/media</code> directory.';
+				$msg = $_LANG->_( 'Failed to move uploaded file to' ) .'<code>/media</code>'. $_LANG->_( 'directory.' );
 			}
 		} else {
-			$msg = 'Upload failed as <code>/media</code> directory is not writable.';
+			$msg = $_LANG->_( 'Upload failed as' ) .'<code>/media</code>'. $_LANG->_( 'directory is not writable.' );
 		}
 	} else {
-		$msg = 'Upload failed as <code>/media</code> directory does not exist.';
+		$msg = $_LANG->_( 'Upload failed as' ) .'<code>/media</code>'. $_LANG->_( 'directory does not exist.' );
 	}
 	return false;
 }

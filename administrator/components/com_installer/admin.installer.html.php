@@ -16,11 +16,12 @@
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 function writableCell( $folder ) {
+	global $_LANG;
 	echo '<tr>';
 	echo '<td class="item">' . $folder . '/</td>';
 	echo '<td align="left">';
-	echo is_writable( $GLOBALS['mosConfig_absolute_path'] . '/' . $folder ) ? '<b><font color="green">Writeable</font></b>' : '<b><font color="red">Unwriteable</font></b>' . '</td>';
-	echo '</tr>';
+	echo is_writable( $GLOBALS['mosConfig_absolute_path'] . '/' . $folder ) ? '<b><font color="green">'. $_LANG->_( 'Writeable' ) .'</font></b>' : '<b><font color="red">'. $_LANG->_( 'Unwriteable' ) .'</font></b>';
+	echo '</td></tr>';
 }
 
 /**
@@ -29,6 +30,7 @@ function writableCell( $folder ) {
 class HTML_installer {
 
 	function showInstallForm( $title, $option, $element, $client = "", $p_startdir = "", $backLink="" ) {
+    	global $_LANG;
 		?>
 		<script language="javascript" type="text/javascript">
 		function submitbutton3(pressbutton) {
@@ -36,7 +38,7 @@ class HTML_installer {
 
 			// do field validation
 			if (form.userfile.value == ""){
-				alert( "Please select a directory" );
+				alert( "<?php echo $_LANG->_( 'Please select a directory' ); ?>" );
 			} else {
 				form.submit();
 			}
@@ -57,14 +59,14 @@ class HTML_installer {
 		<table class="adminform">
 		<tr>
 			<th>
-			Upload Package File
+			<?php echo $_LANG->_( 'Upload Package File' ); ?>
 			</th>
 		</tr>
 		<tr>
 			<td align="left">
-			Package File:
+			<?php echo $_LANG->_( 'Package File' ); ?>:
 			<input class="text_area" name="userfile" type="file" size="70"/>
-			<input class="button" type="submit" value="Upload File &amp; Install" />
+			<input class="button" type="submit" value="<?php echo $_LANG->_( 'Upload File' ); ?> &amp; <?php echo $_LANG->_( 'Install' ); ?>" />
 			</td>
 		</tr>
 		</table>
@@ -80,14 +82,14 @@ class HTML_installer {
 		<table class="adminform">
 		<tr>
 			<th>
-			Install from directory
+			<?php echo $_LANG->_( 'Install from directory' ); ?>
 			</th>
 		</tr>
 		<tr>
 			<td align="left">
-			Install directory:&nbsp;
+			<?php echo $_LANG->_( 'Install directory' ); ?>:&nbsp;
 			<input type="text" name="userfile" class="text_area" size="65" value="<?php echo $p_startdir; ?>"/>&nbsp;
-			<input type="button" class="button" value="Install" onclick="submitbutton3()" />
+			<input type="button" class="button" value="<?php echo $_LANG->_( 'Install' ); ?>" onclick="submitbutton3()" />
 			</td>
 		</tr>
 		</table>
@@ -108,6 +110,7 @@ class HTML_installer {
 	*/
 	function showInstallMessage( $message, $title, $url ) {
 		global $PHP_SELF;
+    	global $_LANG;
 		?>
 		<table class="adminheading">
 		<tr>
@@ -125,7 +128,7 @@ class HTML_installer {
 		</tr>
 		<tr>
 			<td colspan="2" align="center">
-			[&nbsp;<a href="<?php echo $url;?>" style="font-size: 16px; font-weight: bold">Continue ...</a>&nbsp;]
+			[&nbsp;<a href="<?php echo $url;?>" style="font-size: 16px; font-weight: bold"><?php echo $_LANG->_( 'Continue ...' ); ?></a>&nbsp;]
 			</td>
 		</tr>
 		</table>
