@@ -41,7 +41,8 @@ Legend:
 
 07-Oct-2005 Andy Stewart
  # Fixed artf1382 : Added installation check to ensure "//" is not generated via PHP_SELF
- # Fixed artf1438 : Used correct ErrorMsg function and updated javascript redirect to remove POSTDATA message
+ # Fixed artf1439 : Used correct ErrorMsg function and updated javascript redirect to remove POSTDATA message
+ # Fixed artf1400 : Added a check of $other within com_categories to skip section exists check if set to "other"
 
 05-Oct-2005 Robin Muilwijk
  # Fixed artf1366 : Typo in admin, Adding a new menu item - Blog Content Category
