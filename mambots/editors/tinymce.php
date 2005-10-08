@@ -205,9 +205,10 @@ return <<<EOD
 	function TinyMCE_Save(editor_id, content, node)
 	{
 		base_url = tinyMCE.settings['document_base_url'];
+		var vHTML = content;
 		if (true == true){
-			vHTML = tinyMCE.regexpReplace(content, 'href\s*=\s*"?'+base_url+'', 'href="', 'gi');
-			vHTML = tinyMCE.regexpReplace(content, 'src\s*=\s*"?'+base_url+'', 'src="', 'gi');
+			vHTML = tinyMCE.regexpReplace(vHTML, 'href\s*=\s*"?'+base_url+'', 'href="', 'gi');
+			vHTML = tinyMCE.regexpReplace(vHTML, 'src\s*=\s*"?'+base_url+'', 'src="', 'gi');
 		}
 		return vHTML;
 	}
