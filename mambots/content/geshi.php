@@ -27,9 +27,9 @@ function botGeshi( $published, &$row, &$params, $page=0 ) {
 	// define the regular expression for the bot
 	$regex = "#<pre\s*(.*?)>(.*?)</pre>#s";
 
-	if (!$published) {
-		$row->text = preg_replace( $regex, '', $row->text );
-		return;
+	// check whether mambot has been unpublished
+	if ( !$published ) {
+		return true;
 	}
 
 	$GLOBALS['_MAMBOT_GESHI_PARAMS'] =& $params;

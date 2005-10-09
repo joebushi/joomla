@@ -26,12 +26,12 @@ function botMosCode( $published, &$row, &$params, $page=0 ) {
 	// define the regular expression for the bot
 	$regex = "#{moscode}(.*?){/moscode}#s";
 
-	if (!$published) {
+	// check whether mambot has been unpublished
+	if ( !$published ) {
 		$row->text = preg_replace( $regex, '', $row->text );
-		return;
+		return true;
 	}
-
-
+	
 	// perform the replacement
 	$row->text = preg_replace_callback( $regex, 'botMosCode_replacer', $row->text );
 
