@@ -455,16 +455,35 @@ function changeUserBlock( $cid=null, $block=1, $option ) {
 function logoutUser( $cid=null, $option, $task ) {
 	global $database, $my;
 
-	$cids = $cid;
 	if ( is_array( $cid ) ) {
 		if (count( $cid ) < 1) {
 			mosRedirect( 'index2.php?option='. $option, 'Please select a user' );
 		}
-		$cids = implode( ',', $cid );
+		
+		foreach( $cid as $cidA ) {
+			$temp = new mosUser( $database );
+			$temp->load( $cidA );
+			
+			// check to see whether a Administrator is attempting to log out a Super Admin
+			if ( !( $my->gid == 24 && $temp->gid == 25 ) ) {
+				$id[] = $cidA;
+			}
+		}	
+		$ids = implode( ',', $id );		
+	} else {
+		$temp = new mosUser( $database );
+		$temp->load( $cid );
+		
+		// check to see whether a Administrator is attempting to log out a Super Admin
+		if ( $my->gid == 24 && $temp->gid == 25 ) {
+			echo "<script> alert('You cannot log out a Super Administrator'); window.history.go(-1); </script>\n";
+			exit();
+		}
+		$ids = $cid;
 	}
 
 	$query = "DELETE FROM #__session"
- 	. "\n WHERE userid IN ( $cids )"
+ 	. "\n WHERE userid IN ( $ids )"
  	;
 	$database->setQuery( $query );
 	$database->query();
@@ -486,6 +505,7 @@ function is_email($email){
 	if(preg_match("/[\w\.\-]+@\w+[\w\.\-]*?\.\w{1,4}/", $email)){
 		$rBool=true;
 	}
+	
 	return $rBool;
 }
 ?>
