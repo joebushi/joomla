@@ -28,12 +28,12 @@ if (!defined( '_INSTALL_CHECK' )) {
 	
 	if (class_exists( 'mosUser' )) {
 		// restore some session variables
-		$admin 			= new mosUser( $database );
-		$admin->id 		= mosGetParam( $_SESSION, 'session_user_id', '' );
+		$admin 				= new mosUser( $database );
+		$admin->id 			= mosGetParam( $_SESSION, 'session_user_id', '' );
 		$admin->username 	= mosGetParam( $_SESSION, 'session_username', '' );
 		$admin->usertype 	= mosGetParam( $_SESSION, 'session_usertype', '' );
-		$session_id 	= mosGetParam( $_SESSION, 'session_id', '' );
-		$logintime 		= mosGetParam( $_SESSION, 'session_logintime', '' );
+		$session_id 		= mosGetParam( $_SESSION, 'session_id', '' );
+		$logintime 			= mosGetParam( $_SESSION, 'session_logintime', '' );
 	
 		// check against db record of session
 		if ($session_id == md5( $admin->id . $admin->username . $admin->usertype . $logintime )) {
@@ -56,7 +56,7 @@ if (!defined( '_INSTALL_CHECK' )) {
 
 if (!defined( '_ADMIN_OFFLINE' ) || defined( '_INSTALL_CHECK' )) {
 	$cur_template = 'rhuk_solarflare_ii';
-
+	
 	// needed to seperate the ISO number from the language file constant _ISO
 	$iso = split( '=', _ISO );
 	// xml prolog
