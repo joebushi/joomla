@@ -34,10 +34,10 @@ Legend:
 --------------------
 
 11-Oct-2005 Rey Gigataras
- # Fixed Search Component flooding, by limiting searching to between 3 and 20 characters
+ # Fixed Search Component flooding, by limiting searching to between 3 and 20 characters - * Minor Security Bug in 1.0.x*
 
 09-Oct-2005 Rey Gigataras
- # Fixed SQL injection bug in content submission - * Medium Security Bug *
+ # Fixed SQL injection bug in content submission - * Medium Security Bug in 1.0.x*
  # Fixed artf1454 : After update email_cloacking bot is always on
  # Fixed artf1447 : Bug in mosloadposition mambot
  # Fixed artf1483 : SEF default .htaccess file settings are too lax
