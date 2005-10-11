@@ -34,6 +34,7 @@ Legend:
 --------------------
 
 11-Oct-2005 Rey Gigataras
+ # Fixed artf1493 : mod_whosonline.php
  # Fixed Search Component flooding, by limiting searching to between 3 and 20 characters - * Minor Security Bug in 1.0.x*
 
 09-Oct-2005 Rey Gigataras
