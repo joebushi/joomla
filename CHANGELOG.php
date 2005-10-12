@@ -32,6 +32,8 @@ Legend:
 ! -> Note
 
 --------------------
+12-Oct-2005 Marko Schmuck
+ # Fixed securitybug in admin.content.html.php when 2 logged in and try to edit the same content
 
 12-Oct-2005 Johan Janssens
  # Fixed artf1266 : gzip compression conflict
@@ -272,7 +274,7 @@ Legend:
 16-Sep-2005 Emir Sakic
  # Fixed sorting by author on frontend category listing
  + Added time offset to copyright year in footer
- # Fixed spelling in sam        
+ # Fixed spelling in sam        
  # Reflected some file name changes in installer CHMOD
  # Fixed bugs in paged search component
 
