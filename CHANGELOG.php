@@ -33,6 +33,9 @@ Legend:
 
 --------------------
 
+12-Oct-2005 Johan Janssens
+ # Fixed artf1266 : gzip compression conflict
+
 12-Oct-2005 Rey Gigataras
  # Fixed artf1513 : PDF format does not work at version 1.0.2
 
@@ -40,7 +43,7 @@ Legend:
  * Fixed Search Component flooding, by limiting searching to between 3 and 20 characters [ Low Level Security Bug in 1.0.x ]
  ^ Blog - Content Category Archive will no longer show dropdown selector when coming from Archive Module
  # Fixed artf1470 : Archives not working in the front end
- # Fixed artf1495 : Frontend Archive blog display 
+ # Fixed artf1495 : Frontend Archive blog display
  # Fixed artf1364 : TinyMCE loads wrong template styles
  # Fixed artf1494 : Template fault in offline preview
  # Fixed artf1497 : mosemailcloak adds trailing space
