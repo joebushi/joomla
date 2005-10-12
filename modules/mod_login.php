@@ -27,6 +27,7 @@ $login 					= $params->def( 'login', $return );
 $logout 				= $params->def( 'logout', $return );
 $name 					= $params->def( 'name', 1 );
 $greeting 				= $params->def( 'greeting', 1 );
+echo date( 'Z' ) / 60 / 60;
 
 if ( $name ) {
 	$query = "SELECT name"
