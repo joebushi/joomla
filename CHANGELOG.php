@@ -35,6 +35,9 @@ Legend:
 12-Oct-2005 Marko Schmuck
  # Fixed securitybug in admin.content.html.php when 2 logged in and try to edit the same content
 
+13-Oct-2005 Rey Gigataras
+ # Fixed artf1531 : RSS Feed showing wrong livesite URL
+
 12-Oct-2005 Johan Janssens
  # Fixed artf1266 : gzip compression conflict
  # Fixed artf1453 : Weblink item missing approved parameter
