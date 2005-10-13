@@ -32,6 +32,7 @@ Legend:
 ! -> Note
 
 --------------------
+
 12-Oct-2005 Marko Schmuck
  * Fixed securitybug in admin.content.html.php when 2 logged in and try to edit the same content [ Low Level Security Bug ]
 
