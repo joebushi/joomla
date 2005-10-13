@@ -275,7 +275,7 @@ Legend:
 16-Sep-2005 Emir Sakic
  # Fixed sorting by author on frontend category listing
  + Added time offset to copyright year in footer
- # Fixed spelling in sam        
+ # Fixed spelling in sam
  # Reflected some file name changes in installer CHMOD
  # Fixed bugs in paged search component
 
