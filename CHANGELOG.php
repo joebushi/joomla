@@ -45,6 +45,7 @@ Low Level Threat
 -------
 
 14-Oct-2005 Rey Gigataras
+ # Fixed edit icon not showing on frontpage
  # Fixed artf1560 : Install1.php doesn't enforce rule against old_ table prefix
 
 13-Oct-2005 Andy Miller
