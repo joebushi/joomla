@@ -33,8 +33,8 @@ Legend:
 
 --------------------
 
-12-Oct-2005 Marko Schmuck
- * Fixed securitybug in admin.content.html.php when 2 logged in and try to edit the same content [ Low Level Security Bug ]
+13-Oct-2005 Andy Miller
+ # Fixed artf1504 : rhuk_solarflare_ii Template | Menus with " not displaying correctly
 
 13-Oct-2005 Rey Gigataras
  # Fixed duplicated module creation in install
@@ -45,6 +45,9 @@ Legend:
  # Fixed artf1354 : Can't create new user
  # Fixed artf1433 : Images in Templates
  # Fixed artf1531 : RSS Feed showing wrong livesite URL
+
+12-Oct-2005 Marko Schmuck
+ * Fixed securitybug in admin.content.html.php when 2 logged in and try to edit the same content [ Low Level Security Bug ]
 
 12-Oct-2005 Johan Janssens
  # Fixed artf1266 : gzip compression conflict
