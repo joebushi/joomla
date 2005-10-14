@@ -46,6 +46,7 @@ Low Level Threat
 
 14-Oct-2005 Rey Gigataras
  # Fixed edit icon not showing on frontpage
+ # Fixed artf1553 : database.php fails to pass resource id into mysql_get_server_info() call
  # Fixed artf1560 : Install1.php doesn't enforce rule against old_ table prefix
 
 13-Oct-2005 Andy Miller
