@@ -33,6 +33,9 @@ Legend:
 
 --------------------
 
+14-Oct-2005 Rey Gigataras
+ # Fixed artf1560 : Install1.php doesn't enforce rule against old_ table prefix
+
 13-Oct-2005 Andy Miller
  # Fixed artf1504 : rhuk_solarflare_ii Template | Menus with " not displaying correctly
 
