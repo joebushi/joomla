@@ -31,7 +31,18 @@ Legend:
 - -> Removed
 ! -> Note
 
---------------------
+---------------- 1.0.3 Released -- [14-Oct-2005 08:00 UTC] ------------------
+
+Contains following Security Fixes
+Medium Level Threat
+ * Fixed SQL injection bug in content submission (thanks Dead Krolik)
+
+Low Level Threat
+ * Fixed securitybug in admin.content.html.php when 2 logged in and try to edit the same content
+ * Fixed Search Component flooding, by limiting searching to between 3 and 20 characters
+ * Fixed artf1405 : Joomla shows Items to unauthorized users
+
+-------
 
 14-Oct-2005 Rey Gigataras
  # Fixed artf1560 : Install1.php doesn't enforce rule against old_ table prefix
@@ -59,6 +70,7 @@ Legend:
  # Fixed artf1373 : Pagination error
 
 12-Oct-2005 Rey Gigataras
+ ^ Core now automatically calculates the offset between yourself and the server
  # Fixed bug in Global Config param `Time Offset`
  # Fixed artf1414 : Missing images in HTML_toolbar
  # Fixed artf1513 : PDF format does not work at version 1.0.2
@@ -101,7 +113,7 @@ Legend:
 05-Oct-2005 Robin Muilwijk
  # Fixed artf1366 : Typo in admin, Adding a new menu item - Blog Content Category
 
--------------------- 1.0.2 Released ----------------------
+---------------- 1.0.2 Released -- [02-Oct-2005 16:00 UTC] ------------------
 
 02-Oct-2005 Rey Gigataras
  ^ Added check to mosCommonHTML::loadOverlib(); function that will stop it from being loaded twice on a page
@@ -198,7 +210,7 @@ Legend:
  # Fixed artf1175 : Create catagory with selection of Section
  # Fixed artf1179 : Custom RSS Newsfeed Module has nested <TR>
 
--------------------- 1.0.1 Released ----------------------
+---------------- 1.0.1 Released -- [21-Sep-2005 16:30 UTC] ------------------
 
 21-Sep-2005 Rey Gigataras
  # Fixed artf1157 : Section module: Content not displayed, wrong header
@@ -279,7 +291,16 @@ Legend:
  # Fixed artf1043: Template Chooser doesn't work
  # Fixed artf1042: Template Chooser shows rogue entry
 
--------------------- 1.0.0 Released ----------------------
+---------------- 1.0.0 Released -- [17-Sep-2005 00:30 UTC] ------------------
+
+Contains following Security Fixes
+Medium Level Threat
+ * Fixed SQL injection bugs in user activation (thanks Enno Klasing)
+
+Low Level Threat
+ * Fixed [#6775] Display of static content without Itemid
+
+-------
 
 16-Sep-2005 Andrew Eddie
  # Fixed: 1014 : & amp ; in pathway

@@ -21,7 +21,7 @@ class joomlaVersion {
 	/** @var int Main Release Level */
 	var $RELEASE 	= '1.0';
 	/** @var string Development Status */
-	var $DEV_STATUS = 'RC';
+	var $DEV_STATUS = 'Stable';
 	/** @var int Sub Release Level */
 	var $DEV_LEVEL 	= '3';
 	/** @var int build Number */
@@ -29,9 +29,9 @@ class joomlaVersion {
 	/** @var string Codename */
 	var $CODENAME 	= 'Sunlight';
 	/** @var string Date */
-	var $RELDATE 	= '13-Oct-2005';
+	var $RELDATE 	= '14-Oct-2005';
 	/** @var string Time */
-	var $RELTIME 	= '18:00';
+	var $RELTIME 	= '08:00';
 	/** @var string Timezone */
 	var $RELTZ 		= 'UTC';
 	/** @var string Copyright Text */
