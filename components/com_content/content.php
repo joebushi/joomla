@@ -105,7 +105,7 @@ switch ( strtolower( $task ) ) {
 		break;
 
 	case 'vote':
-		recordVote ( $url , $user_rating , $cid , $database);
+		recordVote ();
 		break;
 
 	default:
@@ -141,7 +141,6 @@ function findKeyItem( $gid, $access, $pop, $option, $now ) {
 
 function frontpage( $gid, &$access, $pop, $now ) {
 	global $database, $mainframe, $my, $Itemid;
-	global $mosConfig_offset;
 
 	$nullDate = $database->getNullDate();
 	$noauth = !$mainframe->getCfg( 'shownoauth' );
