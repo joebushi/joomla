@@ -31,7 +31,7 @@ Legend:
 - -> Removed
 ! -> Note
 
----------------- 1.0.3 Released -- [14-Oct-2005 08:00 UTC] ------------------
+---------------- 1.0.3 Released -- [14-Oct-2005 10:00 UTC] ------------------
 
 Contains following Security Fixes
 Medium Level Threat
