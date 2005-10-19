@@ -31,6 +31,8 @@ Legend:
 - -> Removed
 ! -> Note
 
+19-Oct-2005 Andrew Eddie
+ # Fixed missing autoclear in "list-item" stock template
 
 19-Oct-2005 Rey Gigataras
  # Fixed artf1577 : MenuLink Blog section error
