@@ -31,6 +31,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+
+19-Oct-2005 Rey Gigataras
+ # Fixed artf1577 : MenuLink Blog section error
+
 ---------------- 1.0.3 Released -- [14-Oct-2005 10:00 UTC] ------------------
 
 Contains following Security Fixes
