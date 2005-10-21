@@ -37,6 +37,11 @@ Legend:
 19-Oct-2005 Rey Gigataras
  # Fixed artf1577 : MenuLink Blog section error
 
+19-Oct-2005 Levis Bisson
+  Applyed Feature Requests:
+^ Artifact artf1282 : Easier sorting of static content in creating menu links
+^ Artifact artf1162 : Remove hardcoding of <<, <, > and >> in pageNavigation.php
+
 ---------------- 1.0.3 Released -- [14-Oct-2005 10:00 UTC] ------------------
 
 Contains following Security Fixes
