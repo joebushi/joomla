@@ -32,6 +32,7 @@ Legend:
 ! -> Note
 
 23-Oct-2005 Rey Gigataras
+ # Fixed artf1708 : Search CMT: Hardcoded date format
  # Fixed artf1689 : Joomla! Installer - Wording still not correct
  # Fixed artf1692 : email and print buttons (maybe also the PDF) does not validate
 
