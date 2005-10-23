@@ -87,7 +87,7 @@ class HTML_weblinks {
 		global $mosConfig_live_site;
 		// icon in table display
 		if ( $params->get( 'weblink_icons' ) != -1 ) {
-			$img = mosAdminMenus::ImageCheck( 'weblink.png', '/images/M_images/', $params->get( 'weblink_icons' ) );
+			$img = mosAdminMenus::ImageCheck( 'weblink.png', '/images/M_images/', $params->get( 'weblink_icons' ), NULL, 'Link', 'Link' );
 		} else {
 			$img = NULL;
 		}
@@ -112,7 +112,7 @@ class HTML_weblinks {
 				<?php
 				if ( $params->get( 'hits' ) ) {
 					?>
-					<td width="30px" height="20" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>" align="right">
+					<td width="30" height="20" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>" align="right">
 					<?php echo _HEADER_HITS; ?>
 					</td>
 					<?php
@@ -127,30 +127,33 @@ class HTML_weblinks {
 			$iparams = new mosParameters( $row->params );
 
 			$link = sefRelToAbs( 'index.php?option=com_weblinks&task=view&catid='. $catid .'&id='. $row->id );
+			$link = ampReplace( $link );
+			
 			$menuclass = 'category'.$params->get( 'pageclass_sfx' );
+			
 			switch ($iparams->get( 'target' )) {
 				// cases are slightly different
 				case 1:
-				// open in a new window
-				$txt = '<a href="'. $link .'" target="_blank" class="'. $menuclass .'">'. $row->title .'</a>';
-				break;
+					// open in a new window
+					$txt = '<a href="'. $link .'" target="_blank" class="'. $menuclass .'">'. $row->title .'</a>';
+					break;
 
 				case 2:
-				// open in a popup window
-				$txt = "<a href=\"#\" onclick=\"javascript: window.open('". $link ."', '', 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=550'); return false\" class=\"$menuclass\">". $row->title ."</a>\n";
-				break;
+					// open in a popup window
+					$txt = "<a href=\"#\" onclick=\"javascript: window.open('". $link ."', '', 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=550'); return false\" class=\"$menuclass\">". $row->title ."</a>\n";
+					break;
 
 				default:	// formerly case 2
-				// open in parent window
-				$txt = '<a href="'. $link .'" class="'. $menuclass .'">'. $row->title .'</a>';
-				break;
+					// open in parent window
+					$txt = '<a href="'. $link .'" class="'. $menuclass .'">'. $row->title .'</a>';
+					break;
 			}
 			?>
 			<tr class="<?php echo $tabclass[$k]; ?>">
 				<?php
 				if ( $img ) {
 					?>
-					<td width="100px" height="20" align="center">
+					<td width="100" height="20" align="center">
 					&nbsp;&nbsp;<?php echo $img;?>&nbsp;&nbsp;
 					</td>
 					<?php
