@@ -782,7 +782,7 @@ http://developer.joomla.org/sf/go/artf1710?nav=1
 			$query = "SELECT template"
 			. "\n FROM #__templates_menu"
 			. "\n WHERE client_id = 0"
-			. "\n AND menuid = 0 $assigned )"
+			. "\n AND ( menuid = 0 $assigned )"
 			. "\n ORDER BY menuid DESC"
 			. "\n LIMIT 1"
 			;
