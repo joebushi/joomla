@@ -31,6 +31,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+23-Oct-2005 Rey Gigataras
+ # Fixed artf1689 : Joomla! Installer - Wording still not correct
+ # Fixed artf1692 : email and print buttons (maybe also the PDF) does not validate
+
 19-Oct-2005 Andrew Eddie
  # Fixed missing autoclear in "list-item" stock template
 
