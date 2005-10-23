@@ -402,7 +402,7 @@ class HTML_content {
 
 		// adds mospagebreak heading or title to <site> Title
 		if ( isset($row->page_title) ) {
-			$mainframe->SetPageTitle( $row->title .': '. $row->page_title );
+			$mainframe->setPageTitle( $row->title .': '. $row->page_title );
 		}
 
 		// determines the link and link text of the readmore button
@@ -428,11 +428,7 @@ class HTML_content {
 
 		// for pop-up page
 		if ( $params->get( 'popup' ) && $no_html == 0) {
-			?>
-			<title>
-			<?php echo $mosConfig_sitename .' :: '. $row->title; ?>
-			</title>
-			<?php
+			$mainframe->setPageTitle( $mosConfig_sitename .' :: '. $row->title );
 		}
 
 		// determines links to next and prev content items within category
@@ -1326,7 +1322,9 @@ class HTML_content {
 	* Writes Email form for filling in the send destination
 	*/
 	function emailForm( $uid, $title, $template='' ) {
-		global $mosConfig_sitename;
+		global $mosConfig_sitename, $mainframe;
+		
+		$mainframe->setPageTitle( $mosConfig_sitename .' :: '. $title );
 		?>
 		<script language="javascript" type="text/javascript">
 		function submitbutton() {
@@ -1340,9 +1338,8 @@ class HTML_content {
 		}
 		</script>
 
-		<title><?php echo $mosConfig_sitename; ?> :: <?php echo $title; ?></title>
 		<link rel="stylesheet" href="templates/<?php echo $template; ?>/css/template_css.css" type="text/css" />
-		<form action="index2.php?option=com_content&task=emailsend" name="frontendForm" method="post" onSubmit="return submitbutton();">
+		<form action="index2.php?option=com_content&amp;task=emailsend" name="frontendForm" method="post" onSubmit="return submitbutton();">
 		<table cellspacing="0" cellpadding="0" border="0">
 		<tr>
 			<td colspan="2">
@@ -1357,7 +1354,7 @@ class HTML_content {
 			<?php echo _EMAIL_FRIEND_ADDR; ?>
 			</td>
 			<td>
-			<input type="text" name="email" class="inputbox" size="25">
+			<input type="text" name="email" class="inputbox" size="25" />
 			</td>
 		</tr>
 		<tr>
@@ -1365,7 +1362,7 @@ class HTML_content {
 			<?php echo _EMAIL_YOUR_NAME; ?>
 			</td>
 			<td>
-			<input type="text" name="yourname" class="inputbox" size="25">
+			<input type="text" name="yourname" class="inputbox" size="25" />
 			</td>
 		</tr>
 		<tr>
@@ -1373,7 +1370,7 @@ class HTML_content {
 			<?php echo _EMAIL_YOUR_MAIL; ?>
 			</td>
 			<td>
-			<input type="text" name="youremail" class="inputbox" size="25">
+			<input type="text" name="youremail" class="inputbox" size="25" />
 			</td>
 		</tr>
 		<tr>
@@ -1381,7 +1378,7 @@ class HTML_content {
 			<?php echo _SUBJECT_PROMPT; ?>
 			</td>
 			<td>
-			<input type="text" name="subject" class="inputbox" maxlength="100" size="40">
+			<input type="text" name="subject" class="inputbox" maxlength="100" size="40" />
 			</td>
 		</tr>
 		<tr>
@@ -1389,14 +1386,15 @@ class HTML_content {
 		</tr>
 		<tr>
 			<td colspan="2">
-			<input type="submit" name="submit" class="button" value="<?php echo _BUTTON_SUBMIT_MAIL; ?>">
-			&nbsp;&nbsp; <input type="button" name="cancel" value="<?php echo _BUTTON_CANCEL; ?>" class="button" onclick="window.close();">
+			<input type="submit" name="submit" class="button" value="<?php echo _BUTTON_SUBMIT_MAIL; ?>" />
+			&nbsp;&nbsp; 
+			<input type="button" name="cancel" value="<?php echo _BUTTON_CANCEL; ?>" class="button" onclick="window.close();" />
 			</td>
 		</tr>
 		</table>
 
-		<input type="hidden" name="id" value="<?php echo $uid; ?>">
-		<input type="hidden" name="<?php echo mosHash( 'validate' );?>" value="1">
+		<input type="hidden" name="id" value="<?php echo $uid; ?>" />
+		<input type="hidden" name="<?php echo mosHash( 'validate' );?>" value="1" />
 		</form>
 		<?php
 	}
