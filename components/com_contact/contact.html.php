@@ -251,9 +251,9 @@ class HTML_contact {
 
 
 	function viewcontact( &$contact, &$params, $count, &$list, &$menu_params ) {
-
 		global $mosConfig_live_site;
 		global $mainframe, $Itemid;
+		
 		$template = $mainframe->getTemplate();
 		$sitename = $mainframe->getCfg( 'sitename' );
 		$hide_js = mosGetParam($_REQUEST,'hide_js', 0 );
@@ -293,10 +293,8 @@ class HTML_contact {
 		<?php
 		// For the pop window opened for print preview
 		if ( $params->get( 'popup' ) ) {
-			?>
-			<title><?php echo $sitename ." :: ". $contact->name; ?></title>
-			<link rel="stylesheet" href="<?php echo $mosConfig_live_site ."/templates/". $template ."/css/template_css.css";?>" type="text/css" />
-			<?php
+			$mainframe->setPageTitle( $sitename .' :: '. $contact->name );
+			$mainframe->addCustomHeadTag( '<link rel="stylesheet" href="templates/'. $template .'/css/template_css.css" type="text/css" />' );
 		}
 		if ( $menu_params->get( 'page_title' ) ) {
 			?>
