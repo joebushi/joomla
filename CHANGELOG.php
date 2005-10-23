@@ -32,6 +32,7 @@ Legend:
 ! -> Note
 
 23-Oct-2005 Rey Gigataras
+ # Fixed artf1695 : Show Empty Categories in Section does not work
  # Fixed artf1710 : Unnecessary queries (optimization)
  # Fixed artf1711 : Missing whitespace in search results
  # Fixed artf1706 : Mambo logo not removed from admin images
