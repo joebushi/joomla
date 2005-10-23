@@ -32,6 +32,7 @@ Legend:
 ! -> Note
 
 23-Oct-2005 Rey Gigataras
+ # Fixed artf1710 : Unnecessary queries (optimization)
  # Fixed artf1711 : Missing whitespace in search results
  # Fixed artf1706 : Mambo logo not removed from admin images
  # Fixed artf1708 : Search CMT: Hardcoded date format
