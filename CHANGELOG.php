@@ -33,6 +33,7 @@ Legend:
 
 25-Oct-2005 Johan Janssens
  # Fixed artf1733 : $contact->id used instead of $Itemid
+ # Fixed artf1654 : base url above title tag
 
 23-Oct-2005 Rey Gigataras
  # Fixed artf1695 : Show Empty Categories in Section does not work
