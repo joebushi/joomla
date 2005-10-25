@@ -36,37 +36,30 @@ if (isset($_FILES['userfile'])) {
 	$filename = split("\.", $userfile_name);
 
 	if (eregi("[^0-9a-zA-Z_]", $filename[0])) {
-		echo "<script> alert('File must only contain alphanumeric characters and no spaces please.'); window.history.go(-1);</script>\n";
-		exit();
+		mosErrorAlert("File must only contain alphanumeric characters and no spaces please.");
 	}
 
 	if (file_exists($base_Dir.$userfile_name)) {
-		echo "<script> alert('Image $userfile_name already exists.'); window.history.go(-1);</script>\n";
-		exit();
+		mosErrorAlert("Image ".$userfile_name." already exists.");
 	}
 
 	if ((strcasecmp(substr($userfile_name,-4),".gif")) && (strcasecmp(substr($userfile_name,-4),".jpg")) && (strcasecmp(substr($userfile_name,-4),".png")) && (strcasecmp(substr($userfile_name,-4),".bmp")) &&(strcasecmp(substr($userfile_name,-4),".doc")) && (strcasecmp(substr($userfile_name,-4),".xls")) && (strcasecmp(substr($userfile_name,-4),".ppt")) && (strcasecmp(substr($userfile_name,-4),".swf")) && (strcasecmp(substr($userfile_name,-4),".pdf"))) {
-		echo "<script>alert('The file must be gif, png, jpg, bmp, swf, doc, xls or ppt'); window.history.go(-1);</script>\n";
-		exit();
+		mosErrorAlert("The file must be gif, png, jpg, bmp, swf, doc, xls or ppt");
 	}
 
 
 	if (eregi(".pdf", $userfile_name) || eregi(".doc", $userfile_name) || eregi(".xls", $userfile_name) || eregi(".ppt", $userfile_name)) {
 		if (!move_uploaded_file ($_FILES['userfile']['tmp_name'],$media_path.$_FILES['userfile']['name']) || !mosChmod($media_path.$_FILES['userfile']['name'])) {
-			echo "<script>alert('Upload of $userfile_name failed'); window.history.go(-1);</script>\n";
-			exit();
+			mosErrorAlert("Upload of ".$userfile_name." failed");
 		}
 		else {
-			echo "<script>alert('Upload of $userfile_name to $media_path successful'); window.history.go(-1);</script>\n";
-			exit();
+			mosErrorAlert("Upload of ".$userfile_name." to $media_path successful");
 		}
 	} elseif (!move_uploaded_file ($_FILES['userfile']['tmp_name'],$base_Dir.$_FILES['userfile']['name']) || !mosChmod($base_Dir.$_FILES['userfile']['name'])) {
-		echo "<script>alert('Upload of $userfile_name failed'); window.history.go(-1);</script>\n";
-		exit();
+		mosErrorAlert("Upload of ".$userfile_name." failed");
 	}
 	else {
-		echo "<script>alert('Upload of $userfile_name to $base_Dir successful'); window.history.go(-1);</script>\n";
-		exit();
+		mosErrorAlert("Upload of ".$userfile_name." to ".$base_Dir." successful");
 	}
 
 

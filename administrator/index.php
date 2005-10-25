@@ -58,8 +58,7 @@ if (isset( $_POST['submit'] )) {
 	$database->setQuery( $query );
 	$count = intval( $database->loadResult() );
 	if ($count < 1) {
-		echo "<script>alert(\"". _LOGIN_NOADMINS ."\"); window.history.go(-1); </script>\n";
-		exit();
+		mosErrorAlert( _LOGIN_NOADMINS );
 	}
 
 	$my = null;
@@ -78,8 +77,7 @@ if (isset( $_POST['submit'] )) {
 		$my->usertype 	= $grp->name;
 
 		if ( strcmp( $my->password, $pass ) || !$acl->acl_check( 'administration', 'login', 'users', $my->usertype ) ) {
-			echo "<script>alert('Incorrect Username, Password, or Access Level.  Please try again'); document.location.href='index.php';</script>\n";
-			exit();
+			mosErrorAlert("Incorrect Username, Password, or Access Level.  Please try again", "document.location.href='index.php'");
 		}
 
 		session_name( md5( $mosConfig_live_site ) );
@@ -109,8 +107,7 @@ if (isset( $_POST['submit'] )) {
 		echo "<script>document.location.href='index2.php';</script>\n";
 		exit();
 	} else {
-		echo "<script>alert('Incorrect Username and Password, please try again'); document.location.href='index.php';</script>\n";
-		exit();
+		mosErrorAlert("Incorrect Username, Password.  Please try again", "document.location.href='index.php'");
 	}
 } else {
 	initGzip();

@@ -117,8 +117,7 @@ function saveRegistration( $option ) {
 	$row = new mosUser( $database );
 
 	if (!$row->bind( $_POST, 'usertype' )) {
-		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
-		exit();
+		mosErrorAlert( $row->getError() );
 	}
 
 	mosMakeHtmlSafe($row);

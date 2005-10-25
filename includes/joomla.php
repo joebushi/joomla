@@ -621,8 +621,7 @@ class mosMainFrame {
 			$row = null;
 			if ($this->_db->loadObject( $row )) {
 				if ($row->block == 1) {
-					echo "<script>alert(\""._LOGIN_BLOCKED."\"); window.history.go(-1); </script>\n";
-					exit();
+					mosErrorAlert(_LOGIN_BLOCKED);
 				}
 				// fudge the group stuff
 				$grp = $acl->getAroGroup( $row->id );
@@ -663,7 +662,7 @@ class mosMainFrame {
 				mosCache::cleanCache();
 			} else {
 				if (isset($bypost)) {
-					echo "<script>alert(\""._LOGIN_INCORRECT."\"); window.history.go(-1); </script>\n";
+					mosErrorAlert(_LOGIN_INCORRECT);
 				} else {
 					$this->logout();
 					mosRedirect("index.php");
@@ -2437,6 +2436,28 @@ function mosRedirect( $url, $msg='' ) {
 		header( "Location: ". $url );
 	}
 	exit();
+}
+
+function mosErrorAlert( $text, $action='window.history.go(-1);', $mode=1 ) {
+	$text = nl2br( $text );
+	$text = addslashes( $text );
+	$text = strip_tags( $text );
+
+	switch ( $mode ) {
+		case 2:
+			echo "<script>$action</script> \n";
+			break;
+
+		case 1:
+		default:
+			echo "<script>alert('$text'); $action</script> \n";
+			echo '<noscript>';
+			mosRedirect( @$_SERVER['HTTP_REFERER'], $text );
+			echo '</noscript>';
+			break;
+	}
+
+	exit;
 }
 
 function mosTreeRecurse( $id, $indent, $list, &$children, $maxlevel=9999, $level=0, $type=1 ) {

@@ -270,8 +270,7 @@ function removeTemplate( $cid, $option, $client ) {
 	$cur_template = $database->loadResult();
 
 	if ($cur_template == $cid) {
-		echo "<script>alert(\"You can not delete template in use.\"); window.history.go(-1); </script>\n";
-		exit();
+		mosErrorAlert( "You can not delete template in use" );
 	}
 
 	// Un-assign

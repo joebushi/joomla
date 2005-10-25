@@ -217,8 +217,7 @@ function editMambot( $option, $uid, $client ) {
 
 	// fail if checked out not by 'me'
 	if ($row->isCheckedOut( $my->id )) {
-		echo "<script>alert('The module $row->title is currently being edited by another administrator'); document.location.href='index2.php?option=$option'</script>\n";
-		exit(0);
+		mosErrorAlert( "The module ".$row->title." is currently being edited by another administrator" );
 	}
 
 	if ($client == 'admin') {
