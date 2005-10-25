@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+25-Oct-2005 Johan Janssens
+ # Fixed artf1733 : $contact->id used instead of $Itemid
+
 23-Oct-2005 Rey Gigataras
  # Fixed artf1695 : Show Empty Categories in Section does not work
  # Fixed artf1710 : Unnecessary queries (optimization)
@@ -76,7 +79,7 @@ Low Level Threat
  # Fixed duplicated module creation in install
  # Fixed XHTML issue in rss feed module
  # Fixed XHTML issue in com_search
- # Fixed artf1550 : Properly SEFify com_registration links 
+ # Fixed artf1550 : Properly SEFify com_registration links
  # Fixed artf1533 : rhuk_solarflare_ii 2.2 active_menu
  # Fixed artf1354 : Can't create new user
  # Fixed artf1433 : Images in Templates
