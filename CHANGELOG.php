@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+26-Oct-2005 Samuel Moffatt
+ # Fixed bug where a new database object with the same username, password and host but different database name would kill Joomla!
+
 25-Oct-2005 Johan Janssens
  # Fixed artf1733 : $contact->id used instead of $Itemid
  # Fixed artf1654 : base url above title tag
