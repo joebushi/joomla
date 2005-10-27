@@ -20,7 +20,7 @@ function quickiconButton( $link, $image, $text ) {
 		<div class="icon">
 			<a href="<?php echo $link; ?>">
 				<?php echo mosAdminMenus::imageCheck( $image, '/administrator/images/', NULL, NULL, $text ); ?>
-				<p><?php echo $text; ?></p>
+				<span><?php echo $text; ?></span>
 			</a>
 		</div>
 	</div>
