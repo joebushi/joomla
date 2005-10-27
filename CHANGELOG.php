@@ -33,6 +33,7 @@ Legend:
 
 27-Oct-2005 Johan Janssens
  # Fixed artf1671 : Media Manager
+ # Fixed artf1814 : Tab Class wrong
 
 26-Oct-2005 Samuel Moffatt
  # Fixed bug where a new database object with the same username, password and host but different database name would kill Joomla!
