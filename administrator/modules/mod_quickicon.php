@@ -19,10 +19,9 @@ function quickiconButton( $link, $image, $text ) {
 	<div style="float:left;">
 		<div class="icon">
 			<a href="<?php echo $link; ?>">
-				<div class="iconimage">
-					<?php echo mosAdminMenus::imageCheck( $image, '/administrator/images/', NULL, NULL, $text ); ?>
-				</div>
-				<?php echo $text; ?></a>
+				<?php echo mosAdminMenus::imageCheck( $image, '/administrator/images/', NULL, NULL, $text ); ?>
+				<p><?php echo $text; ?></p>
+			</a>
 		</div>
 	</div>
 	<?php
