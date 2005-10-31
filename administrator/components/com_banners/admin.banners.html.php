@@ -212,23 +212,17 @@ class HTML_banners {
 			Impressions Purchased:
 			</td>
 			<?php
-			if ($_row->imptotal == "0") {
-				$unlimited="checked";
-				$_row->imptotal="";
+			if ($_row->imptotal == 0) {
+				$unlimited = 'checked';
+				$_row->imptotal = '';
 			} else {
-				$unlimited = "";
+				$unlimited = '';
 			}
 			?>
 			<td>
-			<input class="inputbox" type="text" name="imptotal" size="12" maxlength="11" value="<?php echo $_row->imptotal;?>">&nbsp;Unlimited <input type="checkbox" name="unlimited" <?php echo $unlimited;?>>
-			</td>
-		</tr>
-		<tr>
-			<td valign="top">
-			Banner URL:
-			</td>
-			<td align="left">
-			<?php echo $lists['imageurl']; ?>
+			<input class="inputbox" type="text" name="imptotal" size="12" maxlength="11" value="<?php echo $_row->imptotal;?>">
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			Unlimited <input type="checkbox" name="unlimited" <?php echo $unlimited;?>>
 			</td>
 		</tr>
 		<tr>
@@ -244,7 +238,17 @@ class HTML_banners {
 			Click URL:
 			</td>
 			<td>
-			<input class="inputbox" type="text" name="clickurl" size="50" maxlength="200" value="<?php echo $_row->clickurl;?>">
+			<input class="inputbox" type="text" name="clickurl" size="100" maxlength="200" value="<?php echo $_row->clickurl;?>">
+			</td>
+		</tr>
+		<tr >
+			<td valign="top" align="right">
+			Clicks
+			</td>
+			<td colspan="2">
+			<?php echo $_row->clicks;?>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			<input name="reset_hits" type="button" class="button" value="Reset Clicks" onClick="submitbutton('resethits');">
 			</td>
 		</tr>
 		<tr>
@@ -255,18 +259,12 @@ class HTML_banners {
 			<textarea class="inputbox" cols="70" rows="5" name="custombannercode"><?php echo $_row->custombannercode;?></textarea>
 			</td>
 		</tr>
-		<tr >
-			<td valign="top" align="right">
-			Clicks
-			<br/>
-			<input name="reset_hits" type="button" class="button" value="Reset Clicks" onClick="submitbutton('resethits');">
-			</td>
-			<td colspan="2">
-			<?php echo $_row->clicks;?>
-			</td>
-		</tr>
 		<tr>
-			<td colspan="3">
+			<td valign="top">
+			Banner Image Selector:
+			</td>
+			<td align="left">
+			<?php echo $lists['imageurl']; ?>
 			</td>
 		</tr>
 		<tr>
