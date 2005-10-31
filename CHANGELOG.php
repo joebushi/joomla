@@ -32,6 +32,7 @@ Legend:
 ! -> Note
 
 31-Oct-2005 Rey Gigataras
+ # Fixed artf1597 : Small bug in loadAssocList function in database.php
  # Fixed artf1832 : Logout problem
  # Fixed artf1769 : Undefined index: 2 in includes/joomla.php on line 2721
  # Fixed artf1749 : Email-to-friend is NOT actually from friend
