@@ -40,6 +40,8 @@ if ( $name ) {
 }
 
 if ( $my->id ) {
+// Logout output
+// ie HTML when already logged in and trying to logout
 	?>
 	<form action="<?php echo sefRelToAbs( 'index.php?option=logout' ); ?>" method="post" name="login">
 	<?php
@@ -60,6 +62,8 @@ if ( $my->id ) {
 	</form>
 	<?php
 } else {
+// Login output
+// ie HTML when not logged in and trying to login
 	?>
 	<form action="<?php echo sefRelToAbs( 'index.php' ); ?>" method="post" name="login" >
 	<?php
