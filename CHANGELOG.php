@@ -32,6 +32,7 @@ Legend:
 ! -> Note
 
 31-Oct-2005 Rey Gigataras
+ # Fixed artf1851 : 1.0.2 copy content has error
  # Fixed artf1569 : Display of mouseover in IE gives a problem with a dropdown-box
  # Fixed artf1869 : Poll produces MySQL-Error when accessed via Component Link
  # Fixed artf1694 : 1.0.3 undefined indexes filter_sectionid and catid on "Add New Content"
