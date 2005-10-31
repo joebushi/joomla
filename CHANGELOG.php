@@ -32,6 +32,7 @@ Legend:
 ! -> Note
 
 31-Oct-2005 Rey Gigataras
+ # Fixed artf1769 : Undefined index: 2 in includes/joomla.php on line 2721
  # Fixed artf1749 : Email-to-friend is NOT actually from friend
  # Fixed artf1591 : page is expired at installation
  # Fixed artf1851 : 1.0.2 copy content has error
