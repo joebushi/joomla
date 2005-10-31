@@ -32,6 +32,7 @@ Legend:
 ! -> Note
 
 31-Oct-2005 Rey Gigataras
+ # Fixed artf1739 : Problem with the menuitem type url and assigned templates and modules
  # Fixed artf1574 : Who is online after update to Joomla 1.0.3 no more work correctly
  # Fixed artf1666 : Notice: on component installation
  # Fixed artf1573 : Manage Banners | Error in Field Name
