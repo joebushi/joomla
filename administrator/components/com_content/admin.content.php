@@ -721,7 +721,7 @@ function saveContent( $sectionid, $task ) {
 * @param string The name of the current user
 */
 function changeContent( $cid=null, $state=0, $option ) {
-	global $database, $my;
+	global $database, $my, $task;
 
 	if (count( $cid ) < 1) {
 		$action = $state == 1 ? 'publish' : ($state == -1 ? 'archive' : 'unpublish');
@@ -747,23 +747,34 @@ function changeContent( $cid=null, $state=0, $option ) {
 		$row->checkin( $cid[0] );
 	}
 
-	if ( $state == "-1" ) {
-		$msg = $total ." Item(s) successfully Archived";
-	} else if ( $state == "1" ) {
-		$msg = $total ." Item(s) successfully Published";
-	} else if ( $state == "0" ) {
-		$msg = $total ." Item(s) successfully Unpublished";
+	switch ( $state ) {
+		case -1:				
+			$msg = $total .' Item(s) successfully Archived';
+			break;
+		
+		case 1:				
+			$msg = $total .' Item(s) successfully Published';
+			break;
+			
+		case 0:				
+		default:
+			if ( $task == 'unarchive' ) {
+				$msg = $total .' Item(s) successfully Unarchived';
+			} else {
+				$msg = $total .' Item(s) successfully Unpublished';
+			}
+			break;
 	}
 
-	$redirect = mosGetParam( $_POST, 'redirect', $row->sectionid );
-	$task = mosGetParam( $_POST, 'returntask', '' );
-	if ( $task ) {
-		$task = '&task='. $task;
+	$redirect 	= mosGetParam( $_POST, 'redirect', $row->sectionid );
+	$rtask 		= mosGetParam( $_POST, 'returntask', '' );
+	if ( $rtask ) {
+		$rtask = '&task='. $rtask;
 	} else {
-		$task = '';
+		$rtask = '';
 	}
 
-	mosRedirect( 'index2.php?option='. $option . $task .'&sectionid='. $redirect .'&mosmsg='. $msg );
+	mosRedirect( 'index2.php?option='. $option . $rtask .'&sectionid='. $redirect .'&mosmsg='. $msg );
 }
 
 /**
