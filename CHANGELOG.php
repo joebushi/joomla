@@ -31,6 +31,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+30-Oct-2005 Rey Gigataras
+ ^ Upgraded TinyMCE Compressor [1.02]
+ ^ Upgraded TinyMCE [2.0 RC4]
+
 27-Oct-2005 Johan Janssens
  # Fixed artf1671 : Media Manager
  # Fixed artf1814 : Tab Class wrong
