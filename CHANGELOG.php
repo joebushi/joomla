@@ -32,6 +32,7 @@ Legend:
 ! -> Note
 
 31-Oct-2005 Rey Gigataras
+ # Fixed artf1869 : Poll produces MySQL-Error when accessed via Component Link
  # Fixed artf1694 : 1.0.3 undefined indexes filter_sectionid and catid on "Add New Content"
  # Fixed artf1834 : English Localisation
  # Fixed artf1771 : Wrong mosmsg
