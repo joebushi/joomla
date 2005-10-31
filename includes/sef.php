@@ -256,8 +256,12 @@ function sefRelToAbs( $string ) {
 			}
 			$string = str_replace( '=', ',', $sefstring );
 		}
-		//echo $mosConfig_live_site."/".$string;
+		
 		return $mosConfig_live_site."/".$string;
+		
+		// allows SEF without mod_rewrite
+		// uncomment Line 264 and comment out Line 260
+		//return $mosConfig_live_site."/index.php/".$string;
 	} else {
 		return $string;
 	}

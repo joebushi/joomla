@@ -142,7 +142,7 @@ if ($option == 'login') {
 	// JS Popup message
 	if ( $message ) {
 		?>
-		<script>
+		<script language="javascript" type="text/javascript">
 		<!--//
 		alert( "<?php echo _LOGIN_SUCCESS; ?>" );
 		//-->
@@ -153,7 +153,7 @@ if ($option == 'login') {
 	if ($return) {
 		mosRedirect( $return );
 	} else {
-		mosRedirect( 'index.php' );
+		mosRedirect( $mosConfig_live_site );
 	}
 
 } else if ($option == 'logout') {
@@ -162,7 +162,7 @@ if ($option == 'login') {
 	// JS Popup message
 	if ( $message ) {
 		?>
-		<script>
+		<script language="javascript" type="text/javascript">
 		<!--//
 		alert( "<?php echo _LOGOUT_SUCCESS; ?>" );
 		//-->
@@ -173,7 +173,7 @@ if ($option == 'login') {
 	if ($return) {
 		mosRedirect( $return );
 	} else {
-		mosRedirect( 'index.php' );
+		mosRedirect( $mosConfig_live_site );
 	}
 }
 
