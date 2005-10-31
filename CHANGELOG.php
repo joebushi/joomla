@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+31-Oct-2005 Johan Janssens
+ # Fixed artf1277 : News Feed Display Bad Accent character
+
 31-Oct-2005 Rey Gigataras
  # Fixed artf1739 : Problem with the menuitem type url and assigned templates and modules
  # Fixed artf1574 : Who is online after update to Joomla 1.0.3 no more work correctly
