@@ -29,9 +29,9 @@ class joomlaVersion {
 	/** @var string Codename */
 	var $CODENAME 	= 'Sunny';
 	/** @var string Date */
-	var $RELDATE 	= 'xx-Oct-2005';
+	var $RELDATE 	= '**-Nov-2005';
 	/** @var string Time */
-	var $RELTIME 	= 'xx:xx';
+	var $RELTIME 	= '**:**';
 	/** @var string Timezone */
 	var $RELTZ 		= 'UTC';
 	/** @var string Copyright Text */

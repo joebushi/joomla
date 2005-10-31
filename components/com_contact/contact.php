@@ -382,9 +382,9 @@ function is_email($email){
 
 function vCard( $id ) {
 	global $database;
-	global $mosConfig_sitename, $mosConfig_absolute_path, $mosConfig_live_site;
+	global $mosConfig_sitename, $mosConfig_live_site;
 
-	$contact 	= new mosContact( $database );
+	$contact	= new mosContact( $database );
 	$contact->load( $id );
 	$name 	= explode( ' ', $contact->name );
 	$count 	= count( $name );
@@ -429,13 +429,15 @@ function vCard( $id ) {
 	$v->setFilename( $filename );
 
 	$output 	= $v->getVCard( $mosConfig_sitename );
-	$filename = $v->getFileName();
+	$filename 	= $v->getFileName();
 
 	// header info for page
 	header( 'Content-Disposition: attachment; filename='. $filename );
 	header( 'Content-Length: '. strlen( $output ) );
 	header( 'Connection: close' );
-	header( 'Content-Type: text/x-vCard; name='. $filename );
+	header( 'Content-Type: text/x-vCard; name='. $filename );	
+	header( 'Cache-Control: store, cache' );
+	header( 'Pragma: cache' );
 
 	print $output;
 }
