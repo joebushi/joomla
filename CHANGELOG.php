@@ -32,6 +32,7 @@ Legend:
 ! -> Note
 
 31-Oct-2005 Rey Gigataras
+ # Fixed artf1666 : Notice: on component installation
  # Fixed artf1573 : Manage Banners | Error in Field Name
  # Fixed artf1597 : Small bug in loadAssocList function in database.php
  # Fixed artf1832 : Logout problem
