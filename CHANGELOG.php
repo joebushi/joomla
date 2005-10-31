@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+31-Oct-2005 Rey Gigataras
+ # Fixed artf1770 : Undefined index: HTTP_USER_AGENT 
+ 
 30-Oct-2005 Rey Gigataras
  ^ Upgraded TinyMCE Compressor [1.02]
  ^ Upgraded TinyMCE [2.0 RC4]
