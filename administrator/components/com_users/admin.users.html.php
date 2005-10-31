@@ -270,7 +270,7 @@ class HTML_users {
 					?>
 					<tr>
 						<td>
-						Receive Submission Emails
+						Receive System Emails
 						</td>
 						<td>
 						<?php echo $lists['sendEmail']; ?>

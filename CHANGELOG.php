@@ -32,6 +32,7 @@ Legend:
 ! -> Note
 
 31-Oct-2005 Rey Gigataras
+ # Fixed artf1792 : "Receive Submission Emails" label is misleading
  # Fixed artf1770 : Undefined index: HTTP_USER_AGENT 
  
 30-Oct-2005 Rey Gigataras
