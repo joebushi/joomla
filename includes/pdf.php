@@ -48,8 +48,8 @@ function dofreePDF ( $database ) {
 	$pdf->line( 10, 40, 578, 40 );
 	$pdf->line( 10, 818, 578, 818 );
 	$pdf->addText( 30, 34, 6, $mosConfig_live_site );
-	$pdf->addText( 250, 34, 6, 'Powered by Joomla!' );
-	$pdf->addText( 450, 34, 6, 'Generated: '. date( 'j F, Y, H:i', time() + $mosConfig_offset * 60 * 60 ) );
+	$pdf->addText( 250, 34, 6, _PDF_POWERED );
+	$pdf->addText( 450, 34, 6, _PDF_GENERATED .' '. date( 'j F, Y, H:i', time() + $mosConfig_offset * 60 * 60 ) );
 
 	$pdf->restoreState();
 	$pdf->closeObject();
@@ -134,7 +134,7 @@ function AuthorDateLine( &$row, &$params ) {
 		// Display Created Date
 		if ( intval( $row->created ) ) {
 			$create_date 	= mosFormatDate( $row->created );
-			$text .= $create_date;
+			$text 			.= $create_date;
 		}				
 	}	
 	
