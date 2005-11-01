@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+01-Nov-2005 Rey Gigataras
+ # Fixed artf1887 : Content: Bug in creation date generation
+
 31-Oct-2005 Johan Janssens
  # Fixed artf1277 : News Feed Display Bad Accent character
 
