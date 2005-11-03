@@ -290,6 +290,7 @@ class mosInstallerComponent extends mosInstaller {
 		$filesindir = mosReadDirectory( mosPathName( $mosConfig_absolute_path.'/administrator/components/'.$row->option ), '.xml$');
 		if (count($filesindir) > 0) {
 			$ismosinstall = false;
+			$found = 0;
 			foreach ($filesindir as $file) {
 				$xmlDoc = new DOMIT_Lite_Document();
 				$xmlDoc->resolveErrors( true );
@@ -299,10 +300,9 @@ class mosInstallerComponent extends mosInstaller {
 				$root = &$xmlDoc->documentElement;
 
 				if ($root->getTagName() != 'mosinstall') {
-					HTML_installer::showInstallMessage('XML File invalid','Uninstall -  error',
-						$this->returnTo( $option, 'component', $client ) );
-					exit();
+					continue;
 				}
+				$found = 1;
 
 				$query_element = &$root->getElementsbyPath( 'uninstall/queries', 1 );
 				if(!is_null($query_element))
@@ -319,6 +319,11 @@ class mosInstallerComponent extends mosInstaller {
 						}
 					}
 				}
+			}
+			if(!$found) {
+				HTML_installer::showInstallMessage('XML File invalid','Uninstall -  error',
+					$this->returnTo( $option, 'component', $client ) );
+				exit();
 			}
 		} else {
 			/*
