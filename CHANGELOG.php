@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+03-Nov-2005 Samuel Moffatt
+# Fixed up bug which prevented component uninstall if another XML file was in the directory
+
 01-Nov-2005 Rey Gigataras
  # Fixed artf1888 : linkable [category|section] URL incorrect
  # Fixed artf1620 : Hardcoded words in pdf.php
