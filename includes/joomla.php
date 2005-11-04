@@ -2966,7 +2966,7 @@ function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text
 function mosWarning($warning, $title='Joomla! Warning') {
 	global $mosConfig_live_site;
 	
-	$mousover 	= 'return overlib(\''. $warning .'\', CAPTION, \'$title\', BELOW, RIGHT);';
+	$mouseover 	= 'return overlib(\''. $warning .'\', CAPTION, \'$title\', BELOW, RIGHT);';
 	
 	$tip 		= "<!-- Warning -->\n";
 	$tip 		.= '<a href="#" onmouseover="'. $mouseover .'" onmouseout="return nd();">';
