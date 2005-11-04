@@ -31,12 +31,16 @@ Legend:
 - -> Removed
 ! -> Note
 
+
+04-Nov-2005 Rey Gigataras
+ # Fixed artf1945 : mosToolTip not generating valid xhtml
+ 
 03-Nov-2005 Rey Gigataras
  + modduleclass_sfx support to mod_poll
  # Fixed artf1902 : Incorrect number of table cells in mod_poll
 
 03-Nov-2005 Samuel Moffatt
- # Fixed up bug which prevented component uninstall if another XML file was in the directory
+ # Fixed bug which prevented component uninstall if another XML file was in the directory
 
 01-Nov-2005 Rey Gigataras
  # Fixed artf1888 : linkable [category|section] URL incorrect

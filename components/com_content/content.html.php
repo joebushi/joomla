@@ -608,7 +608,7 @@ class HTML_content {
 		$overlib 	.= '<br />';
 		$overlib 	.= $author;
 		?>
-		<a href="<?php echo sefRelToAbs( $link ); ?>" title="<?php echo _E_EDIT;?>"  onMouseOver="return overlib('<?php echo $overlib; ?>', CAPTION, '<?php echo 'Edit Item'; ?>', BELOW, RIGHT);" onMouseOut="return nd();">
+		<a href="<?php echo sefRelToAbs( $link ); ?>" onmouseover="return overlib('<?php echo $overlib; ?>', CAPTION, '<?php echo 'Edit Item'; ?>', BELOW, RIGHT);" onmouseout="return nd();">
 		<?php echo $image; ?>
 		</a>
 		<?php
