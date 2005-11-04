@@ -33,6 +33,7 @@ Legend:
 
 
 04-Nov-2005 Rey Gigataras
+ # Fixed artf1953 : Page Class Suffix in Contacts component
  # Fixed artf1945 : mosToolTip not generating valid xhtml
  
 03-Nov-2005 Rey Gigataras
