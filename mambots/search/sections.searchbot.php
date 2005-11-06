@@ -40,7 +40,7 @@ function botSearchSections( $text, $phrase='', $ordering='' ) {
 	$mambot->load( $id );
 	$botParams = new mosParameters( $mambot->params );
 	
-	$limit = $botParams->def( 'search_limit', '50' );
+	$limit = $botParams->def( 'search_limit', 50 );
 	$limit = "\n LIMIT $limit";	
 	
 	 $text = trim( $text );

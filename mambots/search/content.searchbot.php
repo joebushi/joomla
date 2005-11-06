@@ -41,11 +41,8 @@ function botSearchContent( $text, $phrase='', $ordering='' ) {
 	$mambot->load( $id );
 	$botParams = new mosParameters( $mambot->params );
 	
-	$limit = $botParams->def( 'search_limit', '50' );
-	$limit = "\n LIMIT $limit";	
-	
-	$nullDate = $database->getNullDate();
-	$now = date( 'Y-m-d H:i:s', time()+$mosConfig_offset*60*60 );
+	$limit 		= $botParams->def( 'search_limit', 50 );
+	$limit 		= "\n LIMIT $limit";	
 
 	$text = trim( $text );
 	if ($text == '') {
@@ -55,13 +52,13 @@ function botSearchContent( $text, $phrase='', $ordering='' ) {
 	$wheres = array();
 	switch ($phrase) {
 		case 'exact':
-			$wheres2 = array();
-			$wheres2[] = "LOWER(a.title) LIKE '%$text%'";
-			$wheres2[] = "LOWER(a.introtext) LIKE '%$text%'";
-			$wheres2[] = "LOWER(a.fulltext) LIKE '%$text%'";
-			$wheres2[] = "LOWER(a.metakey) LIKE '%$text%'";
-			$wheres2[] = "LOWER(a.metadesc) LIKE '%$text%'";
-			$where = '(' . implode( ') OR (', $wheres2 ) . ')';
+			$wheres2 	= array();
+			$wheres2[] 	= "LOWER(a.title) LIKE '%$text%'";
+			$wheres2[] 	= "LOWER(a.introtext) LIKE '%$text%'";
+			$wheres2[] 	= "LOWER(a.fulltext) LIKE '%$text%'";
+			$wheres2[] 	= "LOWER(a.metakey) LIKE '%$text%'";
+			$wheres2[] 	= "LOWER(a.metadesc) LIKE '%$text%'";
+			$where 		= '(' . implode( ') OR (', $wheres2 ) . ')';
 			break;
 			
 		case 'all':
@@ -70,13 +67,13 @@ function botSearchContent( $text, $phrase='', $ordering='' ) {
 			$words = explode( ' ', $text );
 			$wheres = array();
 			foreach ($words as $word) {
-				$wheres2 = array();
-				$wheres2[] = "LOWER(a.title) LIKE '%$word%'";
-				$wheres2[] = "LOWER(a.introtext) LIKE '%$word%'";
-				$wheres2[] = "LOWER(a.fulltext) LIKE '%$word%'";
-				$wheres2[] = "LOWER(a.metakey) LIKE '%$word%'";
-				$wheres2[] = "LOWER(a.metadesc) LIKE '%$word%'";
-				$wheres[] = implode( ' OR ', $wheres2 );
+				$wheres2 	= array();
+				$wheres2[] 	= "LOWER(a.title) LIKE '%$word%'";
+				$wheres2[] 	= "LOWER(a.introtext) LIKE '%$word%'";
+				$wheres2[] 	= "LOWER(a.fulltext) LIKE '%$word%'";
+				$wheres2[] 	= "LOWER(a.metakey) LIKE '%$word%'";
+				$wheres2[] 	= "LOWER(a.metadesc) LIKE '%$word%'";
+				$wheres[] 	= implode( ' OR ', $wheres2 );
 			}
 			$where = '(' . implode( ($phrase == 'all' ? ') AND (' : ') OR ('), $wheres ) . ')';
 			break;
@@ -102,11 +99,12 @@ function botSearchContent( $text, $phrase='', $ordering='' ) {
 			break;
 			
 		case 'newest':
-			default:
+		default:
 			$order = 'a.created DESC';
 			break;		
 	}
 
+	// search content items
 	$query = "SELECT a.title AS title,"
 	. "\n a.created AS created,"
 	. "\n CONCAT(a.introtext, a.fulltext) AS text,"
@@ -127,10 +125,9 @@ function botSearchContent( $text, $phrase='', $ordering='' ) {
 	. $limit
 	;
 	$database->setQuery( $query );
-
 	$list = $database->loadObjectList();
 
-	// search typed content
+	// search static content
 	$query = "SELECT a.title AS title, a.created AS created,"
 	. "\n a.introtext AS text,"
 	. "\n CONCAT( 'index.php?option=com_content&task=view&id=', a.id, '&Itemid=', m.id ) AS href,"
@@ -169,7 +166,7 @@ function botSearchContent( $text, $phrase='', $ordering='' ) {
 	;
 	$database->setQuery( $query );
 	$list3 = $database->loadObjectList();
-
+	
 	return array_merge( $list, $list2, $list3 );
 }
 ?>
