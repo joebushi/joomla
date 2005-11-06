@@ -36,26 +36,30 @@ class mosMenuBar {
 	* @param boolean True if required to check that a standard list item is checked
 	*/
 	function custom( $task='', $icon='', $iconOver='', $alt='', $listSelect=true ) {
+		$icon 	= ( $iconOver ? $iconOver : $icon );
+		$image 	= mosAdminMenus::ImageCheckAdmin( $icon, '/administrator/images/', NULL, NULL, $alt, $task, 1 );
+		
 		if ($listSelect) {
 			$href = "javascript:if (document.adminForm.boxchecked.value == 0){ alert('Please make a selection from the list to $alt');}else{submitbutton('$task')}";
 		} else {
 			$href = "javascript:submitbutton('$task')";
 		}
+		
 		if ($icon && $iconOver) {
-		?>
-		<td>
-			<a class="toolbar" href="<?php echo $href;?>">
-				<img name="<?php echo $task;?>" src="images/<?php echo $iconOver;?>" alt="<?php echo $alt;?>" border="0" align="middle" />
-				<br /><?php echo $alt; ?></a>
-		</td>
-		<?php
+			?>
+			<td>
+				<a class="toolbar" href="<?php echo $href;?>">
+					<?php echo $image; ?>
+					<br /><?php echo $alt; ?></a>
+			</td>
+			<?php
 		} else {
-		?>
-		<td>
-			<a class="toolbar" href="<?php echo $href;?>">
-				<br /><?php echo $alt; ?></a>
-		</td>
-		<?php
+			?>
+			<td>
+				<a class="toolbar" href="<?php echo $href;?>">
+					<br /><?php echo $alt; ?></a>
+			</td>
+			<?php
 		}
 	}
 
@@ -69,26 +73,30 @@ class mosMenuBar {
 	* @param boolean True if required to check that a standard list item is checked
 	*/
 	function customX( $task='', $icon='', $iconOver='', $alt='', $listSelect=true ) {
+		$icon 	= ( $iconOver ? $iconOver : $icon );
+		$image 	= mosAdminMenus::ImageCheckAdmin( $icon, '/administrator/images/', NULL, NULL, $alt, $task, 1 );
+		
 		if ($listSelect) {
 			$href = "javascript:if (document.adminForm.boxchecked.value == 0){ alert('Please make a selection from the list to $alt');}else{hideMainMenu();submitbutton('$task')}";
 		} else {
 			$href = "javascript:hideMainMenu();submitbutton('$task')";
 		}
+		
 		if ($icon && $iconOver) {
-		?>
-		<td>
-			<a class="toolbar" href="<?php echo $href;?>">
-				<img name="<?php echo $task;?>" src="images/<?php echo $iconOver;?>" alt="<?php echo $alt;?>" border="0" align="middle" />
-				<br /><?php echo $alt; ?></a>
-		</td>
-		<?php
+			?>
+			<td>
+				<a class="toolbar" href="<?php echo $href;?>">
+					<?php echo $image; ?>
+					<br /><?php echo $alt; ?></a>
+			</td>
+			<?php
 		} else {
-		?>
-		<td>
-			<a class="toolbar" href="<?php echo $href;?>">
-				<br /><?php echo $alt; ?></a>
-		</td>
-		<?php
+			?>
+			<td>
+				<a class="toolbar" href="<?php echo $href;?>">
+					<br /><?php echo $alt; ?></a>
+			</td>
+			<?php
 		}
 	}
 

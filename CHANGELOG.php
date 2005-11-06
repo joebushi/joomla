@@ -40,6 +40,7 @@ Low Level Threat
 
 06-Nov-2005 Rey Gigataras
  * Add search limit param (default of 50) to `Search` Mambots to prevent search flooding [ Low Level Security Bug ]
+ # Fixed custom() & customX() functions in menu.html.php no checking for image in /administrator/images/
 
 04-Nov-2005 Rey Gigataras
  # Fixed artf1953 : Page Class Suffix in Contacts component
