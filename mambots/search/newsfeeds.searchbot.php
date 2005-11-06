@@ -27,7 +27,22 @@ $_MAMBOTS->registerFunction( 'onSearch', 'botSearchNewsfeedslinks' );
 */
 function botSearchNewsfeedslinks( $text, $phrase='', $ordering='' ) {
 	global $database, $my;
-
+	
+	// load mambot params info
+	$query = "SELECT id"
+	. "\n FROM #__mambots"
+	. "\n WHERE element = 'newsfeeds.searchbot'"
+	. "\n AND folder = 'search'"
+	;
+	$database->setQuery( $query );
+	$id 	= $database->loadResult();
+	$mambot = new mosMambot( $database );
+	$mambot->load( $id );
+	$botParams = new mosParameters( $mambot->params );
+	
+	$limit = $botParams->def( 'search_limit', '50' );
+	$limit = "\n LIMIT $limit";	
+	
 	$text = trim( $text );
 	if ($text == '') {
 		return array();
@@ -41,6 +56,7 @@ function botSearchNewsfeedslinks( $text, $phrase='', $ordering='' ) {
 			$wheres2[] = "LOWER(a.link) LIKE '%$text%'";
 			$where = '(' . implode( ') OR (', $wheres2 ) . ')';
 			break;
+			
 		case 'all':
 		case 'any':
 		default:
@@ -84,9 +100,11 @@ function botSearchNewsfeedslinks( $text, $phrase='', $ordering='' ) {
 	. "\n WHERE ( $where )"
 	. "\n AND a.published = 1"
 	. "\n ORDER BY $order"
+	. $limit
 	;
 	$database->setQuery( $query );
 	$rows = $database->loadObjectList();
+	
 	return $rows;
 }
 ?>

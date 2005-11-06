@@ -27,7 +27,22 @@ $_MAMBOTS->registerFunction( 'onSearch', 'botSearchSections' );
 */
 function botSearchSections( $text, $phrase='', $ordering='' ) {
 	global $database, $my;
-
+	
+	// load mambot params info
+	$query = "SELECT id"
+	. "\n FROM #__mambots"
+	. "\n WHERE element = 'sections.searchbot'"
+	. "\n AND folder = 'search'"
+	;
+	$database->setQuery( $query );
+	$id 	= $database->loadResult();
+	$mambot = new mosMambot( $database );
+	$mambot->load( $id );
+	$botParams = new mosParameters( $mambot->params );
+	
+	$limit = $botParams->def( 'search_limit', '50' );
+	$limit = "\n LIMIT $limit";	
+	
 	 $text = trim( $text );
 	if ($text == '') {
 		return array();
@@ -37,6 +52,7 @@ function botSearchSections( $text, $phrase='', $ordering='' ) {
 		case 'alpha':
 			$order = 'a.name ASC';
 			break;
+			
 		case 'category':
 		case 'popular':
 		case 'newest':
@@ -59,6 +75,7 @@ function botSearchSections( $text, $phrase='', $ordering='' ) {
 	. "\n AND a.access <= $my->gid"
 	. "\n AND ( m.type = 'content_section' OR m.type = 'content_blog_section' )"
 	. "\n ORDER BY $order"
+	. "\n LIMIT $limit"
 	;
 	$database->setQuery( $query );
 	$rows = $database->loadObjectList();
@@ -74,6 +91,7 @@ function botSearchSections( $text, $phrase='', $ordering='' ) {
 			$rows[$i]->section 	= _SEARCH_SECBLOG;
 		}
 	}
+	
 	return $rows;
 }
 ?>

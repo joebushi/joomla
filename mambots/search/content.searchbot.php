@@ -27,11 +27,24 @@ $_MAMBOTS->registerFunction( 'onSearch', 'botSearchContent' );
 */
 function botSearchContent( $text, $phrase='', $ordering='' ) {
 	global $my, $database;
-	global $mosConfig_abolute_path, $mosConfig_offset;
+	global $mosConfig_offset;
 
+	// load mambot params info
+	$query = "SELECT id"
+	. "\n FROM #__mambots"
+	. "\n WHERE element = 'content.searchbot'"
+	. "\n AND folder = 'search'"
+	;
+	$database->setQuery( $query );
+	$id 	= $database->loadResult();
+	$mambot = new mosMambot( $database );
+	$mambot->load( $id );
+	$botParams = new mosParameters( $mambot->params );
+	
+	$limit = $botParams->def( 'search_limit', '50' );
+	$limit = "\n LIMIT $limit";	
+	
 	$nullDate = $database->getNullDate();
-	$_SESSION['searchword'] = $text;
-
 	$now = date( 'Y-m-d H:i:s', time()+$mosConfig_offset*60*60 );
 
 	$text = trim( $text );
@@ -50,6 +63,7 @@ function botSearchContent( $text, $phrase='', $ordering='' ) {
 			$wheres2[] = "LOWER(a.metadesc) LIKE '%$text%'";
 			$where = '(' . implode( ') OR (', $wheres2 ) . ')';
 			break;
+			
 		case 'all':
 		case 'any':
 		default:
@@ -70,23 +84,27 @@ function botSearchContent( $text, $phrase='', $ordering='' ) {
 
 	$morder = '';
 	switch ($ordering) {
-		case 'newest':
-		default:
-			$order = 'a.created DESC';
-			break;
 		case 'oldest':
 			$order = 'a.created ASC';
 			break;
+			
 		case 'popular':
 			$order = 'a.hits DESC';
 			break;
+			
 		case 'alpha':
 			$order = 'a.title ASC';
 			break;
+			
 		case 'category':
 			$order = 'b.title ASC, a.title ASC';
 			$morder = 'a.title ASC';
 			break;
+			
+		case 'newest':
+			default:
+			$order = 'a.created DESC';
+			break;		
 	}
 
 	$query = "SELECT a.title AS title,"
@@ -105,8 +123,9 @@ function botSearchContent( $text, $phrase='', $ordering='' ) {
 	. "\n AND b.published = '1'"
 	. "\n AND ( publish_up = '$nullDate' OR publish_up <= '$now' )"
 	. "\n AND ( publish_down = '$nullDate' OR publish_down >= '$now' )"
-	. "\n ORDER BY $order";
-
+	. "\n ORDER BY $order"
+	. $limit
+	;
 	$database->setQuery( $query );
 
 	$list = $database->loadObjectList();
@@ -125,6 +144,7 @@ function botSearchContent( $text, $phrase='', $ordering='' ) {
 	. "\n AND ( publish_up = '0000-00-00 00:00:00' OR publish_up <= '$now' )"
 	. "\n AND ( publish_down = '0000-00-00 00:00:00' OR publish_down >= '$now' )"
 	. "\n ORDER BY ". ($morder ? $morder : $order)
+	. $limit
 	;
 	$database->setQuery( $query );
 	$list2 = $database->loadObjectList();
@@ -145,6 +165,7 @@ function botSearchContent( $text, $phrase='', $ordering='' ) {
 	. "\n AND ( publish_up = '0000-00-00 00:00:00' OR publish_up <= '$now' )"
 	. "\n AND ( publish_down = '0000-00-00 00:00:00' OR publish_down >= '$now' )"
 	. "\n ORDER BY $order"
+	. $limit
 	;
 	$database->setQuery( $query );
 	$list3 = $database->loadObjectList();

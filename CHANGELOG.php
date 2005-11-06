@@ -32,6 +32,15 @@ Legend:
 ! -> Note
 
 
+Contains following Security Fixes
+Low Level Threat
+ * Add search limit param (default of 50) to `Search` Mambots to prevent search flooding
+
+-------
+
+06-Nov-2005 Rey Gigataras
+ * Add search limit param (default of 50) to `Search` Mambots to prevent search flooding [ Low Level Security Bug ]
+
 04-Nov-2005 Rey Gigataras
  # Fixed artf1953 : Page Class Suffix in Contacts component
  # Fixed artf1945 : mosToolTip not generating valid xhtml
@@ -261,8 +270,8 @@ Low Level Threat
  # Fixed artf1188 : includes/vcard.class.php uses short open tags
 
 29-Sep-2005 Levis Bisson
-# Fixed artf1274 : Module display bug when using register/forgot password links
-# Fixed artf1238 : header("Location: $url")- some servers require an absolute URI
+ # Fixed artf1274 : Module display bug when using register/forgot password links
+ # Fixed artf1238 : header("Location: $url")- some servers require an absolute URI
 
 28-Sep-2005 Levis Bisson
  # Fixed artf1250 : Order is no use when many pages
