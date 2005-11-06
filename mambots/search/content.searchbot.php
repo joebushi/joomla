@@ -44,6 +44,9 @@ function botSearchContent( $text, $phrase='', $ordering='' ) {
 	$limit 		= $botParams->def( 'search_limit', 50 );
 	$limit 		= "\n LIMIT $limit";	
 
+	$nullDate 	= $database->getNullDate();
+	$now 		= date( 'Y-m-d H:i:s', time()+$mosConfig_offset*60*60 );
+	
 	$text = trim( $text );
 	if ($text == '') {
 		return array();
