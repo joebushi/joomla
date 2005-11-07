@@ -31,12 +31,12 @@ Legend:
 - -> Removed
 ! -> Note
 
+07-Nov-2005 Johan Janssens
+ # Fixed  artf1648 : tinyMCE BR and P elements
 
 Contains following Security Fixes
 Low Level Threat
  * Add search limit param (default of 50) to `Search` Mambots to prevent search flooding
-
--------
 
 06-Nov-2005 Rey Gigataras
  * Add search limit param (default of 50) to `Search` Mambots to prevent search flooding [ Low Level Security Bug ]
