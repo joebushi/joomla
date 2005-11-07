@@ -200,10 +200,9 @@ class HTML_Media {
 
 	function show_image($img, $file, $info, $size, $listdir) {
 		global $mosConfig_live_site;
-		global $base;
 
 		$img_file = basename($img);
-		$img_url = $mosConfig_live_site . $base . $listdir . '/' . $img_file;
+		$img_url = COM_MEDIA_BASEURL . $listdir . '/' . $img_file;
 
 		$filesize = HTML_Media::parse_size( $size );
 
@@ -247,10 +246,7 @@ class HTML_Media {
 	}
 
 	function show_dir( $path, $dir, $listdir ) {
-		global $mosConfig_absolute_path;
-		global $base;
-
-		$num_files = HTML_Media::num_files( $mosConfig_absolute_path . $base . $listdir . $path );
+		$num_files = HTML_Media::num_files( COM_MEDIA_BASE . $listdir . $path );
 
 		// Fix for Bug [0000577]
 		if ($listdir=='/') {
@@ -283,9 +279,6 @@ class HTML_Media {
 	}
 
 	function show_doc($doc, $size, $listdir, $icon) {
-		global $mosConfig_live_site;		
-		global $base;
-		
 		$size = HTML_Media::parse_size( $size );
 		
 		$overlib = 'Filesize: '. $size;
@@ -294,7 +287,7 @@ class HTML_Media {
 		<div style="float:left; padding: 5px">
 			<div class="imgTotal" onMouseOver="return overlib( '<?php echo $overlib; ?>', CAPTION, '<?php echo $doc; ?>', BELOW, RIGHT, WIDTH, 200 );" onMouseOut="return nd();">
 				<div align="center" class="imgBorder">
-				  <a href="index3.php?option=com_media&task=list&listdir=<?php echo $listdir; ?>" onClick="javascript:window.top.document.forms[0].imagecode.value = '<a href=&quot;<?php echo $mosConfig_live_site. $base . $listdir  .'/'. $doc;?>&quot;>Insert your text here</a>';">
+				  <a href="index3.php?option=com_media&task=list&listdir=<?php echo $listdir; ?>" onClick="javascript:window.top.document.forms[0].imagecode.value = '<a href=&quot;<?php echo COM_MEDIA_BASEURL . $listdir  .'/'. $doc;?>&quot;>Insert your text here</a>';">
 		  				<img border="0" src="<?php echo $icon ?>" alt="<?php echo $doc; ?>"></a>
 		  		</div>
 			</div>

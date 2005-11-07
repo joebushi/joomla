@@ -39,6 +39,7 @@ Low Level Threat
  * Add search limit param (default of 50) to `Search` Mambots to prevent search flooding
  * Potential SQL injection in Polls modules through the Itemid variable
  * Potential SQL injection in several methods in mosDBTable class
+ * Potential misuse of Media component file management functions
 
 07-Nov-2005 Johan Janssens
  # Fixed  artf1648 : tinyMCE BR and P elements
@@ -46,6 +47,7 @@ Low Level Threat
 07-Nov-2005 Andrew Eddie
  # SECURITY: Fixed SQL injection through Itemid in poll module
  # SECURITY: Fixed SQL injection possibility in several mosDBTable methods
+ # SECURITY: Fixed malicious injection into filename variables in com_media
  ^ mosDBTable::publish_array renamed to publish
  ^ mosDBTable::save no longer updates the ordering (must now be done separately)
 
