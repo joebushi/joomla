@@ -37,9 +37,13 @@ Legend:
 Contains following Security Fixes
 Low Level Threat
  * Add search limit param (default of 50) to `Search` Mambots to prevent search flooding
+ * Potential SQL injection in Polls modules through the Itemid variable
+
+07-Nov-2005 Andrew Eddie
+ # SECURITY: Fixed SQL injection through Itemid in poll module
 
 06-Nov-2005 Rey Gigataras
- * Add search limit param (default of 50) to `Search` Mambots to prevent search flooding [ Low Level Security Bug ]
+ * SECURITY: Add search limit param (default of 50) to `Search` Mambots to prevent search flooding [ Low Level Security Bug ]
  # Fixed custom() & customX() functions in menu.html.php no checking for image in /administrator/images/
 
 04-Nov-2005 Rey Gigataras
@@ -566,9 +570,9 @@ Low Level Threat
 
 01-Sep-2005 Andrew Eddie
  + Added article_separator span after a content item
- ^ Hardened mosGetParam by using phpInputFilter for NO_HTML mode
+ ^ SECURITY: Hardened mosGetParam by using phpInputFilter for NO_HTML mode
  + Added new mosHash function to produce secure keys
- + Hardened Email to Friend form
+ + SECURITY: Hardened Email to Friend form
 
 31-Aug-2005 Andrew Eddie
  + Added setTemplateVars method to admin pageNavigation class
@@ -585,7 +589,7 @@ Low Level Threat
  ^ Convert 4xSpace to tab
 
 08-Aug-2005 Andrew Eddie
- * Fixed SQL injection bugs in user activation (thanks Enno Klasing) [ Medium Level Security Bug ]
+ * SECURITY: Fixed SQL injection bugs in user activation (thanks Enno Klasing) [ Medium Level Security Bug ]
  ^ Encased text files in PHP wrapper to help obsfucate version info
  # Changed admin session name to hash of live_site to allow you to log into more than one Joomla! on the same host
  # Fixed hardcoded (c) character in web installer files

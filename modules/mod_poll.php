@@ -18,10 +18,14 @@ if (!defined( '_MOS_POLL_MODULE' )) {
 	/** ensure that functions are declared only once */
 	define( '_MOS_POLL_MODULE', 1 );
 
+	/**
+	 * @param int The current menu item
+	 * @param string CSS suffix
+	 */
 	function show_poll_vote_form( $Itemid, $moduleclass_sfx ) {
 		global $database;
 
-		$Itemid = mosGetParam( $_REQUEST, 'Itemid', 0 );
+		$Itemid = intval( mosGetParam( $_REQUEST, 'Itemid', 0 ) );
 
 		$query = "SELECT p.id, p.title"
 		. "\n FROM #__polls AS p, #__poll_menu AS pm"
@@ -57,6 +61,12 @@ if (!defined( '_MOS_POLL_MODULE' )) {
 		}
 	}
 
+	/**
+	 * @param object Poll object
+	 * @param array
+	 * @param int The current menu item
+	 * @param string CSS suffix
+	 */
 	function poll_vote_form_html( &$poll, &$options, $Itemid, $moduleclass_sfx ) {		
 		$tabclass_arr 	= array( 'sectiontableentry2', 'sectiontableentry1' );
 		$tabcnt 		= 0;
