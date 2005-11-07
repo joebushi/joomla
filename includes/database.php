@@ -558,9 +558,6 @@ class database {
 			}
 			if( $v == '' ) {
 				$val = "''";
-				//if ($k != 'guest') {
-				//	$val = "''";
-				//}
 			} else {
 				$val = $this->Quote( $v );
 			}
@@ -1022,7 +1019,12 @@ class mosDBTable {
 		}
 	}
 
-	function checkout( $who, $oid=null ) {
+	/**
+	 * Checks out an object
+	 * @param int User id
+	 * @param int Object id
+	 */
+	function checkout( $user_id, $oid=null ) {
 		if (!array_key_exists( 'checked_out', get_class_vars( strtolower(get_class( $this )) ) )) {
 			$this->_error = "WARNING: ".strtolower(get_class( $this ))." does not support checkouts.";
 			return false;
@@ -1031,33 +1033,40 @@ class mosDBTable {
 		if ($oid !== null) {
 			$this->$k = $oid;
 		}
+
 		$time = date( 'Y-m-d H:i:s' );
-		if (intval( $who )) {
+		if (intval( $user_id )) {
+			$user_id = intval( $user_id );
 			// new way of storing editor, by id
 			$query = "UPDATE $this->_tbl"
-			. "\n SET checked_out = $who, checked_out_time = '$time'"
+			. "\n SET checked_out = $user_id, checked_out_time = '$time'"
 			. "\n WHERE $this->_tbl_key = '". $this->$k ."'"
 			;
 			$this->_db->setQuery( $query );
 
-            $this->checked_out = $who;
+            $this->checked_out = $user_id;
             $this->checked_out_time = $time;
 		} else {
+			$user_id = $hits->_db->Quote( $user_id );
 			// old way of storing editor, by name
 			$query = "UPDATE $this->_tbl"
-			. "\n SET checked_out = 1, checked_out_time = '$time', editor = '".$who."' "
+			. "\n SET checked_out = 1, checked_out_time = '$time', editor = $user_id"
 			. "\n WHERE $this->_tbl_key = '". $this->$k ."'"
 			;
 			$this->_db->setQuery( $query );
 
-            $this->checked_out = 1;
-            $this->checked_out_time = $time;
-            $this->checked_out_editor = $who;
+			$this->checked_out = 1;
+			$this->checked_out_time = $time;
+			$this->checked_out_editor = $user_id;
 		}
 
 		return $this->_db->query();
 	}
 
+	/**
+	 * Checks in an object
+	 * @param int Object id
+	 */
 	function checkin( $oid=null ) {
 		if (!array_key_exists( 'checked_out', get_class_vars( strtolower(get_class( $this )) ) )) {
 			$this->_error = "WARNING: ".strtolower(get_class( $this ))." does not support checkin.";
@@ -1065,21 +1074,25 @@ class mosDBTable {
 		}
 		$k = $this->_tbl_key;
 		if ($oid !== null) {
-			$this->$k = $oid;
+			$this->$k = intval( $oid );
 		}
 		$time = date( 'H:i:s' );
 		$query = "UPDATE $this->_tbl"
 		. "\n SET checked_out = 0, checked_out_time = '$this->_db->_nullDate'"
-		. "\n WHERE $this->_tbl_key = '". $this->$k ."'"
+		. "\n WHERE $this->_tbl_key = ". $this->$k
 		;
 		$this->_db->setQuery( $query );
 
-        $this->checked_out = 0;
-        $this->checked_out_time = '';
+		$this->checked_out = 0;
+		$this->checked_out_time = '';
 
 		return $this->_db->query();
 	}
 
+	/**
+	 * Increments the hit counter for an object
+	 * @param int Object id
+	 */
 	function hit( $oid=null ) {
 		global $mosConfig_enable_log_items;
 
@@ -1141,9 +1154,10 @@ class mosDBTable {
 	* Generic save function
 	* @param array Source array for binding to class vars
 	* @param string Filter for the order updating
-	* @returns TRUE if completely successful, FALSE if partially or not succesful.
+	* @returns TRUE if completely successful, FALSE if partially or not succesful
+	* NOTE: Filter will be deprecated in verion 1.1
 	*/
-	function save( $source, $order_filter ) {
+	function save( $source, $order_filter='' ) {
 		if (!$this->bind( $_POST )) {
 			return false;
 		}
@@ -1156,30 +1170,45 @@ class mosDBTable {
 		if (!$this->checkin()) {
 			return false;
 		}
-		$filter_value = $this->$order_filter;
-		$this->updateOrder( $order_filter ? "`$order_filter` = '$filter_value'" : '' );
+		
+		if ($order_filter) {
+			$filter_value = $this->$order_filter;
+			$this->updateOrder( $order_filter ? "`$order_filter` = '$filter_value'" : '' );
+		}
 		$this->_error = '';
 		return true;
 	}
 
 	/**
-	* Generic Publish/Unpublish function
-	* @param array An array of id numbers
-	* @param integer 0 if unpublishing, 1 if publishing
-	* @param integer The id of the user performnig the operation
-	*/
-	function publish_array( $cid=null, $publish=1, $myid=0 ) {
-		if (!is_array( $cid ) || count( $cid ) < 1) {
+	 * @deprecated As of 1.0.3, replaced by publish
+	 */
+	function publish_array( $cid=null, $publish=1, $user_id=0 ) {
+		$this->publish( $cid, $publish, $user_id );
+	}
+
+	/**
+	 * Generic Publish/Unpublish function
+	 * @param array An array of id numbers
+	 * @param integer 0 if unpublishing, 1 if publishing
+	 * @param integer The id of the user performnig the operation
+	 * @since 1.0.4
+	 */
+	function publish( $cid=null, $publish=1, $user_id=0 ) {
+		mosArrayToInts( $cid, array() );
+		$user_id = intval( $user_id );
+		$publish = intval( $publish );
+
+		if (count( $cid ) < 1) {
 			$this->_error = "No items selected.";
 			return false;
 		}
 
-		$cids = implode( ',', $cid );
+		$cids = 'id=' . implode( ' OR id=', $cid );
 
 		$query = "UPDATE $this->_tbl"
 		. "\n SET published = " . intval( $publish )
-		. "\n WHERE $this->_tbl_key IN ( $cids )"
-		. "\n AND ( checked_out = 0 OR ( checked_out = $myid ) )"
+		. "\n WHERE ($cids)"
+		. "\n AND (checked_out = 0 OR checked_out = $user_id)"
 		;
 		$this->_db->setQuery( $query );
 		if (!$this->_db->query()) {
