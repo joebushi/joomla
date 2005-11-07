@@ -308,7 +308,7 @@ class mosAbstractTasker {
 	 * @return null
 	 */
 	function notAllowed( $name ) {
-		echo $GLOBALS['_LANG']->_( 'NOT_AUTH' );
+		echo _NOT_AUTH;
 
 		return null;
 	}
