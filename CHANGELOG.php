@@ -32,7 +32,6 @@ Legend:
 ! -> Note
 
 ---------------- 1.0.4 Pending -- [TBA] ------------------
- # Fixed artf1700 : TinyMCE doesn't support relative URL's for images
 
 This Release Contains following Security Fixes
 Low Level Threat
@@ -41,13 +40,18 @@ Low Level Threat
  * Potential SQL injection in several methods in mosDBTable class
  * Potential misuse of Media component file management functions
 
+
+07-Nov-2005 Rey Gigataras
+ # Fixed mod_quickicon `redeclaration of function` error possibilities
+
 07-Nov-2005 Johan Janssens
  # Fixed  artf1648 : tinyMCE BR and P elements
+ # Fixed artf1700 : TinyMCE doesn't support relative URL's for images
 
 07-Nov-2005 Andrew Eddie
- # SECURITY: Fixed SQL injection through Itemid in poll module
- # SECURITY: Fixed SQL injection possibility in several mosDBTable methods
- # SECURITY: Fixed malicious injection into filename variables in com_media
+ * SECURITY: Fixed SQL injection through Itemid in poll module [ Low Level Security Bug ]
+ * SECURITY: Fixed SQL injection possibility in several mosDBTable methods [ Low Level Security Bug ]
+ * SECURITY: Fixed malicious injection into filename variables in com_media [ Low Level Security Bug ]
  ^ mosDBTable::publish_array renamed to publish
  ^ mosDBTable::save no longer updates the ordering (must now be done separately)
 
