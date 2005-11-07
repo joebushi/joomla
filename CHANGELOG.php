@@ -33,6 +33,7 @@ Legend:
 
 07-Nov-2005 Johan Janssens
  # Fixed  artf1648 : tinyMCE BR and P elements
+ # Fixed artf1700 : TinyMCE doesn't support relative URL's for images
 
 Contains following Security Fixes
 Low Level Threat

@@ -333,7 +333,7 @@ function insertAction() {
 
 		tinyMCEPopup.execCommand("mceInsertContent", false, html);
 	}
-
+	
 	tinyMCE._setEventsEnabled(inst.getBody(), false);
 	tinyMCEPopup.close();
 }
@@ -443,7 +443,7 @@ function onSelectMainImage(target_form_element, name, value) {
 
 function showPreviewImage(src) {
 	selectByValue(document.forms[0], 'imagelistsrc', src);
-
+	
 	var elm = document.getElementById('prev');
 	var src = src == "" ? src : tinyMCE.convertRelativeToAbsoluteURL(tinyMCE.settings['base_href'], src);
 
