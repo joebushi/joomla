@@ -41,6 +41,9 @@ Low Level Threat
  * Potential misuse of Media component file management functions
 
 
+10-Nov-2005 Rey Gigataras
+ # Fixed contact component dropdown select category bug
+
 07-Nov-2005 Rey Gigataras
  # Fixed mod_quickicon `redeclaration of function` error possibilities
 
