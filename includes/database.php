@@ -1158,7 +1158,7 @@ class mosDBTable {
 	* NOTE: Filter will be deprecated in verion 1.1
 	*/
 	function save( $source, $order_filter='' ) {
-		if (!$this->bind( $_POST )) {
+		if (!$this->bind( $source )) {
 			return false;
 		}
 		if (!$this->check()) {
