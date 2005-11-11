@@ -23,6 +23,11 @@ class modules_html {
 		// custom module params
 		$moduleclass_sfx 	= $params->get( 'moduleclass_sfx' );
 		$rssurl 			= $params->get( 'rssurl' );
+		
+		if ( $rssurl ) {
+			// feed output
+			modules_html::modoutput_feed( $module, $params, $moduleclass_sfx );
+		}
 
 		switch ( $style ) {
 			case -3:
@@ -46,10 +51,7 @@ class modules_html {
 				break;
 		}
 
-		if ( $rssurl ) {
-			// feed output
-			modules_html::modoutput_feed( $params, $moduleclass_sfx );
-		}
+		
 	}
 
 	/**
@@ -103,8 +105,8 @@ class modules_html {
 	}
 
 	// feed output
-	function modoutput_feed( &$params, $moduleclass_sfx ) {
-		global $mosConfig_absolute_path;
+	function modoutput_feed( &$module, &$params, $moduleclass_sfx ) {
+		global $mosConfig_absolute_path, $rssfeed_content;
 
 		$rssurl 			= $params->get( 'rssurl' );
 		$rssitems 			= $params->get( 'rssitems', 5 );
@@ -114,6 +116,7 @@ class modules_html {
 		$words 				= $params->def( 'word_count', 0 );
 		$rsstitle			= $params->get( 'rsstitle', 1 );
 
+		$contentBuffer	= '';
 		$cacheDir 		= $mosConfig_absolute_path .'/cache/';
 		$LitePath 		= $mosConfig_absolute_path .'/includes/Cache/Lite.php';
 		require_once( $mosConfig_absolute_path .'/includes/domit/xml_domit_rss.php' );
@@ -136,43 +139,38 @@ class modules_html {
 			}
 
 			// feed title
-			?>
-			<table cellpadding="0" cellspacing="0" class="moduletable<?php echo $moduleclass_sfx; ?>">			
-			<?php
-			// feed description
+			$content_buffer .= '';
+			$content_buffer .= '<table cellpadding="0" cellspacing="0" class="moduletable<?php echo $moduleclass_sfx; ?>">' . "\n";
+						
 			if ( $currChannel->getTitle() && $rsstitle ) {
-				?>
-				<tr>
-					<td>
-						<strong>
-						<a href="<?php echo ampReplace( $currChannel->getLink() ); ?>" target="_blank">
-							<?php echo $currChannel->getTitle(); ?></a>
-						</strong>
-					</td>
-				</tr>
-				<?php
+				
+				$content_buffer .= "<tr>\n";
+				$content_buffer .= "	<td>\n";
+				$content_buffer .= "		<strong>\n";
+				$content_buffer .= "		<a href=\"" . ampReplace( $currChannel->getLink() )  . "\" target=\"_blank\">\n";
+				$content_buffer .= 		$currChannel->getTitle() . "</a>\n";
+				$content_buffer .= "		</strong>\n";
+				$content_buffer .= "	</td>\n";
+				$content_buffer .= "</tr>\n";
+
 			}
 
 			// feed description
 			if ( $rssdesc ) {
-				?>
-				<tr>
-					<td>
-						<?php echo $currChannel->getDescription(); ?>
-					</td>
-				</tr>
-				<?php
+				$content_buffer .= "<tr>\n";
+				$content_buffer .= "	<td>\n";
+				$content_buffer .= $currChannel->getDescription();
+				$content_buffer .= "	</td>\n";
+				$content_buffer .= "</tr>\n";
 			}
 
 			// feed image
 			if ( $rssimage && $iUrl ) {
-				?>
-				<tr>
-					<td align="center">
-						<image src="<?php echo $iUrl; ?>" alt="<?php echo @$iTitle; ?>"/>
-					</td>
-				</tr>
-				<?php
+				$content_buffer .= "<tr>\n";
+				$content_buffer .= "	<td align=\"center\">\n";
+				$content_buffer .= "		<image src=\"" . $iUrl . "\" alt=\"" . @$iTitle . "\"/>\n";
+				$content_buffer .= "	</td>\n";
+				$content_buffer .= "</tr>\n";
 			}
 
 			$actualItems = $currChannel->getItemCount();
@@ -184,26 +182,24 @@ class modules_html {
 				$totalItems = $setItems;
 			}
 
-			?>
-			<tr>
-				<td>
-					<ul class="newsfeed<?php echo $moduleclass_sfx; ?>">
-					<?php
+
+			$content_buffer .= "<tr>\n";
+			$content_buffer .= "	<td>\n";
+			$content_buffer .= "		<ul class=\"newsfeed" . $moduleclass_sfx . "\">\n";
+
 					for ($j = 0; $j < $totalItems; $j++) {
 						$currItem =& $currChannel->getItem($j);
 						// item title
-						?>
-						<li class="newsfeed<?php echo $moduleclass_sfx; ?>">
-							<strong>
-							<a href="<?php echo ampReplace( $currItem->getLink() ); ?>" target="_blank">
-                                <?php echo str_replace('&apos;', "'", html_entity_decode( $currItem->getTitle() ) ); ?></a>
-							</strong>
-							<?php
+
+						$content_buffer .= "<li class=\"newsfeed" . $moduleclass_sfx . "\">\n";
+						$content_buffer .= "	<strong>\n";
+						$content_buffer .= "      " . str_replace('&apos;', "'", html_entity_decode( $currItem->getTitle() ) ) . "</a>\n";
+						$content_buffer .= "	</strong>\n";
 							// item description
 							if ( $rssitemdesc ) {
 								// item description
 								$text = html_entity_decode( $currItem->getDescription() );
-                                $text = str_replace('&apos;', "'", $text);
+								$text = str_replace('&apos;', "'", $text);
                                 
 								// word limit check
 								if ( $words ) {
@@ -217,23 +213,20 @@ class modules_html {
 										$text .= '...';
 									}
 								}
-								?>
-								<div>
-									<?php echo $text; ?>
-								</div>
-								<?php
+
+								$content_buffer .= "     <div>\n";
+								$content_buffer .= "        " . $text;
+								$content_buffer .= "		</div>\n";
+
 							}
-							?>
-						</li>
-						<?php
+						$content_buffer .= "</li>\n";
 					}
-					?>
-					</ul>
-				</td>
-			</tr>
-			</table>
-			<?php
+			$content_buffer .= "    </ul>\n";
+			$content_buffer .= "	</td>\n";
+			$content_buffer .= "</tr>\n";
+			$content_buffer .= "</table>\n";
 		}
+		$module->content = $content_buffer;
 	}
 
 	/*

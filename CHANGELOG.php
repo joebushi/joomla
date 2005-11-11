@@ -40,6 +40,8 @@ Low Level Threat
  * Potential SQL injection in several methods in mosDBTable class
  * Potential misuse of Media component file management functions
 
+11-Nov-2005 Andy Miller
+ # Fixed issue with RSS module not displaying inside module rendering wrapper
 
 10-Nov-2005 Rey Gigataras
  # Fixed contact component dropdown select category bug
