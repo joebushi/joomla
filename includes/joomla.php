@@ -436,7 +436,8 @@ class mosMainFrame {
 					if ( !$this->_head['meta'][$i][1] ) {
 						$this->_head['meta'][$i][1] = $content ;
 					} else {
-						$this->_head['meta'][$i][1] = $content .', '. $this->_head['meta'][$i][1];
+						//$this->_head['meta'][$i][1] = $content .', '. $this->_head['meta'][$i][1];
+						$this->_head['meta'][$i][1] = $this->_head['meta'][$i][1]  .', '.  $content;
 					}
 				}
 				return;
