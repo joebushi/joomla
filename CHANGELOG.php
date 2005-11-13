@@ -40,6 +40,9 @@ Low Level Threat
  * Potential SQL injection in several methods in mosDBTable class
  * Potential misuse of Media component file management functions
 
+13-Nov-2005 Rey Gigataras
+ # Fixed artf1976 : Check for custom icon in mod_quickicon.php
+
 11-Nov-2005 Andy Miller
  # Fixed issue with RSS module not displaying inside module rendering wrapper
 
