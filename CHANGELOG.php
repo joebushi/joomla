@@ -41,6 +41,7 @@ Low Level Threat
  * Potential misuse of Media component file management functions
 
 13-Nov-2005 Rey Gigataras
+ # Fixed artf2079 : SQL error in category manager thru contact manager
  # Fixed artf1586 : .htaccess - RewriteEngine problem
  # Fixed artf1976 : Check for custom icon in mod_quickicon.php
 
