@@ -610,7 +610,8 @@ class mosMainFrame {
 		$remember = mosGetParam( $_POST, 'remember', '' );
 
 		if (!$username || !$passwd) {
-			echo "<script> alert(\""._LOGIN_INCOMPLETE."\"); window.history.go(-1); </script>\n";
+			echo "<script> alert(\""._LOGIN_INCOMPLETE."\"); </script>\n";
+			mosRedirect( mosGetParam( $_POST, 'return', '/' ) );
 			exit();
 		} else {
 			$query = "SELECT *"
@@ -622,7 +623,9 @@ class mosMainFrame {
 			$row = null;
 			if ($this->_db->loadObject( $row )) {
 				if ($row->block == 1) {
-					mosErrorAlert(_LOGIN_BLOCKED);
+					echo "<script>alert(\""._LOGIN_BLOCKED."\"); </script>\n";
+					mosRedirect(mosGetParam( $_POST, 'return', '/' ));
+					exit();
 				}
 				// fudge the group stuff
 				$grp = $acl->getAroGroup( $row->id );
@@ -663,10 +666,11 @@ class mosMainFrame {
 				mosCache::cleanCache();
 			} else {
 				if (isset($bypost)) {
-					mosErrorAlert(_LOGIN_INCORRECT);
+					echo "<script>alert(\""._LOGIN_INCORRECT."\");</script>\n";
+					mosRedirect(mosGetParam( $_POST, 'return', '/' ));
 				} else {
 					$this->logout();
-					mosRedirect("index.php");
+					mosRedirect('index.php');
 				}
 				exit();
 			}

@@ -43,6 +43,7 @@ Low Level Threat
 ---
 
 13-Nov-2005 Rey Gigataras
+ # Fixed artf2021 : artf1791 : Failed Login results in redirect to referring page 
  # Fixed artf2021 : appendMetaTag() prepends instead of appends
  # Fixed artf1981 : incorrect url's at next/previous links at content items
  # Fixed artf2079 : SQL error in category manager thru contact manager
