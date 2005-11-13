@@ -35,12 +35,15 @@ Legend:
 
 This Release Contains following Security Fixes
 Low Level Threat
- * Add search limit param (default of 50) to `Search` Mambots to prevent search flooding
  * Potential SQL injection in Polls modules through the Itemid variable
  * Potential SQL injection in several methods in mosDBTable class
  * Potential misuse of Media component file management functions
+ * Add search limit param (default of 50) to `Search` Mambots to prevent search flooding
+ 
+---
 
 13-Nov-2005 Rey Gigataras
+ # Fixed artf1981 : incorrect url's at next/previous links at content items
  # Fixed artf2079 : SQL error in category manager thru contact manager
  # Fixed artf1586 : .htaccess - RewriteEngine problem
  # Fixed artf1976 : Check for custom icon in mod_quickicon.php
@@ -59,7 +62,7 @@ Low Level Threat
  # Fixed artf1700 : TinyMCE doesn't support relative URL's for images
 
 07-Nov-2005 Andrew Eddie
- * SECURITY: Fixed SQL injection through Itemid in poll module [ Low Level Security Bug ]
+ * SECURITY: Fixed artf1978 : mod_poll SQL Injection Vulnerability [ Low Level Security Bug ] 
  * SECURITY: Fixed SQL injection possibility in several mosDBTable methods [ Low Level Security Bug ]
  * SECURITY: Fixed malicious injection into filename variables in com_media [ Low Level Security Bug ]
  ^ mosDBTable::publish_array renamed to publish
