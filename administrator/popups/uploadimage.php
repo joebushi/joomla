@@ -24,11 +24,14 @@ $userfile2=(isset($_FILES['userfile']['tmp_name']) ? $_FILES['userfile']['tmp_na
 $userfile_name=(isset($_FILES['userfile']['name']) ? $_FILES['userfile']['name'] : "");
 
 if (isset($_FILES['userfile'])) {
-	if ($directory!="banners") {
-		$base_Dir = "../../images/stories/";
-	} else {
+	if ($directory == 'banners') {
 		$base_Dir = "../../images/banners/";
+	} else if ( $directory != '' ) {
+		$base_Dir = '../../images/stories/'. $directory;
+	} else {
+		$base_Dir = '../../images/stories/';
 	}
+	
 	if (empty($userfile_name)) {
 		echo "<script>alert('Please select an image to upload'); document.location.href='uploadimage.php';</script>";
 	}
@@ -51,19 +54,16 @@ if (isset($_FILES['userfile'])) {
 	if (eregi(".pdf", $userfile_name) || eregi(".doc", $userfile_name) || eregi(".xls", $userfile_name) || eregi(".ppt", $userfile_name)) {
 		if (!move_uploaded_file ($_FILES['userfile']['tmp_name'],$media_path.$_FILES['userfile']['name']) || !mosChmod($media_path.$_FILES['userfile']['name'])) {
 			mosErrorAlert("Upload of ".$userfile_name." failed");
-		}
-		else {
+		} else {
 			mosErrorAlert("Upload of ".$userfile_name." to $media_path successful");
 		}
 	} elseif (!move_uploaded_file ($_FILES['userfile']['tmp_name'],$base_Dir.$_FILES['userfile']['name']) || !mosChmod($base_Dir.$_FILES['userfile']['name'])) {
 		mosErrorAlert("Upload of ".$userfile_name." failed");
-	}
-	else {
+	} else {
 		mosErrorAlert("Upload of ".$userfile_name." to ".$base_Dir." successful");
 	}
-
-
 }
+$css = mosGetParam($_REQUEST,'t','');
 
 $iso = split( '=', _ISO );
 // xml prolog
@@ -75,31 +75,31 @@ echo '<?xml version="1.0" encoding="'. $iso[1] .'"?' .'>';
 <title>Upload a file</title>
 </head>
 <body>
-<?php
-$css = mosGetParam($_REQUEST,"t","");
-?>
+
 <link rel="stylesheet" href="../templates/<?php echo $css; ?>/css/template_css.css" type="text/css" />
+<form method="post" action="uploadimage.php" enctype="multipart/form-data" name="filename">
+
 <table class="adminform">
-  <form method="post" action="uploadimage.php" enctype="multipart/form-data" name="filename">
-	<tr>
-	  <th class="title"> File Upload : <?php echo $directory; ?></th>
-	</tr>
-	<tr>
-	  <td align="center">
+<tr>
+	<th class="title"> 
+		File Upload : <?php echo $directory; ?>
+	</th>
+</tr>
+<tr>
+	<td align="center">
 		<input class="inputbox" name="userfile" type="file" />
-	  </td>
-	</tr>
-	<tr>
-	  <td>
+	</td>
+</tr>
+<tr>
+	<td>
 		<input class="button" type="submit" value="Upload" name="fileupload" />
 		Max size = <?php echo ini_get( 'post_max_size' );?>
-	  </td>
-	<tr>
-	  <td>
-		<input type="hidden" name="directory" value="<?php echo $directory;?>" />
-	  </td>
-	</tr>
-  </form>
+	</td>
+</tr>
 </table>
+
+<input type="hidden" name="directory" value="<?php echo $directory;?>" />
+</form>
+
 </body>
 </html>

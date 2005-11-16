@@ -42,6 +42,9 @@ Low Level Threat
  
 ---
 
+16-Nov-2005 Rey Gigataras
+ # Fixed artf2027 : uploading images from custom component
+
 13-Nov-2005 Rey Gigataras
  # PERFORMANCE: Fixed artf1993 : Inefficient queries in com_content
  # Fixed artf2021 : artf1791 : Failed Login results in redirect to referring page 
