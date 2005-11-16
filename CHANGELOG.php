@@ -43,6 +43,11 @@ Low Level Threat
 ---
 
 16-Nov-2005 Rey Gigataras
+ # Fixed artf2137 : editorArea xhtml
+ # Fixed artf2139 : admin menu xhtml
+ # Fixed artf2136 : Admin menubar valid xhtml
+ # Fixed artf2135 : Admin invalid xhtml
+ # Fixed artf2140 : mosMenuBar::publishList
  # Fixed artf2027 : uploading images from custom component
 
 13-Nov-2005 Rey Gigataras
