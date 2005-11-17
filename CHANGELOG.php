@@ -44,6 +44,7 @@ Low Level Threat
 
 17-Nov-2005 Johan Janssens
  ^ Replaced install.png with new image
+ - Reverted artf2139 : admin menu xhtml
 
 16-Nov-2005 Rey Gigataras
  # Fixed artf2137 : editorArea xhtml
