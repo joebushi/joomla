@@ -521,48 +521,6 @@ function mosParseParams( $txt ) {
 	return mosParameters::parse( $txt );
 }
 
-function walkNodesAndReturnMosNodeList(&$nodeList, &$contextNode) {
-	//STEP 1: DO SOME ERROR CHECKING (this can be omitted if you want to optimize, but isn't as safe)
-	//ensure that node is not null
-	if (!isset( $contextNode )) {
-		return;
-	}
-
-	//ensure that node is a DOMIT element
-	if (strtolower( get_class( $contextNode ) ) != 'domit_element') {
-		//if contextNode is a DOMIT Document, grab the documentElement
-		if (strtolower( get_class( $contextNode ) ) == 'domit_document') {
-			$contextNode =& $contextNode->documentElement;
-			if (!isset( $contextNode )) {
-				return;
-			}
-		} else {
-			return;
-		}
-	}
-
-	//STEP 2: EVALUATE THE CONTEXT NODE BASED ON SOME CRITERIA
-	//determine whether the context node should be added to the master nodeList
-	if ((strlen( $contextNode->nodeName ) > 3) && (substr( $contextNode->nodeName, 0, 4 ) == "mos:")) {
-		$nodeList->appendNode($contextNode);
-	}
-
-	//STEP 3: ITERATE THROUGH THE CONTEXT NODE CHILDREN AND
-	//RECURSIVELY CALL THIS FUNCTION WITH THE CHILD AS THE CONTEXT NODE
-	$total = $contextNode->childCount;
-
-	for ($i = 0; $i < $total; $i++) {
-		walkNodesAndReturnMosNodeList($nodeList, $contextNode->childNodes[$i]);
-	}
-} //walkNodesAndReturnMosNodeList
-
-/*
-	You'd call the function like this:
-
-	$myNodeList = new DOMIT_NodeList();
-	walkNodesAndReturnMosNodeList($myNodeList, $someXMLDoc);
-*/
-
 class mosEmpty {
 	function def( $key, $value='' ) {
 		return 1;

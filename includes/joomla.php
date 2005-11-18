@@ -51,16 +51,20 @@ class mosProfiler {
 }
 
 if (phpversion() < '4.2.0') {
-	require_once( $mosConfig_absolute_path . '/includes/compat.php41x.php' );
+	require_once( dirname( __FILE__ ) . '/compat.php41x.php' );
 }
 if (phpversion() < '4.3.0') {
-	require_once( $mosConfig_absolute_path . '/includes/compat.php42x.php' );
+	require_once( dirname( __FILE__ ) . '/compat.php42x.php' );
 }
-if (in_array( 'globals', array_keys( array_change_key_case( $_REQUEST, CASE_LOWER ) ) ) ) {
+$rKeys = array_keys( array_change_key_case( $_REQUEST, CASE_LOWER ) );
+if (in_array( 'globals', $rKeys ) ) {
 	die( 'Fatal error.  Global variable hack attempted.' );
 }
-if (in_array( '_post', array_keys( array_change_key_case( $_REQUEST, CASE_LOWER ) ) ) ) {
+if (in_array( '_post', $rKeys ) ) {
 	die( 'Fatal error.  Post variable hack attempted.' );
+}
+if (in_array( '_get', $rKeys ) ) {
+	die( 'Fatal error.  Get variable hack attempted.' );
 }
 if (version_compare( phpversion(), '5.0' ) < 0) {
 	require_once( $mosConfig_absolute_path . '/includes/compat.php50x.php' );
@@ -1776,6 +1780,7 @@ class mosCategory extends mosDBTable {
 			$this->_error = "Your Category must have a name.";
 			return false;
 		}
+
 		// check for existing name
 		$query = "SELECT id"
 		. "\n FROM #__categories "

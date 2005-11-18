@@ -39,8 +39,12 @@ Low Level Threat
  * Potential SQL injection in several methods in mosDBTable class
  * Potential misuse of Media component file management functions
  * Add search limit param (default of 50) to `Search` Mambots to prevent search flooding
+ * Potentional XSS injection through GET variable
  
 ---
+
+19-Nov-2005 Andrew Eddie
+ # Fixed XSS injection of global variable through the _GET array
 
 17-Nov-2005 Johan Janssens
  ^ Replaced install.png with new image
