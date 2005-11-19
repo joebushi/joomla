@@ -46,6 +46,9 @@ Low Level Threat
  
 ---
 
+19-Nov-2005 Levis Bisson
+ # replaced charset=utf-8 to charset=iso-8859-1 in language file
+
 19-Nov-2005 Andrew Eddie
  # Fixed XSS injection of global variable through the _GET array
 

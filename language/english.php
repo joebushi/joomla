@@ -396,7 +396,7 @@ DEFINE('_SEARCH_SECBLOG','Section Blog');
 
 
 /** templates/*.php */
-DEFINE('_ISO','charset=utf-8');
+DEFINE('_ISO','charset=iso-8859-1');
 DEFINE('_DATE_FORMAT','l, F d Y');  //Uses PHP's DATE Command Format - Depreciated
 /**
 * Modify this line to reflect how you want the date to appear in your site
