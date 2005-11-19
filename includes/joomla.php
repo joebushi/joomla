@@ -56,18 +56,8 @@ if (phpversion() < '4.2.0') {
 if (phpversion() < '4.3.0') {
 	require_once( dirname( __FILE__ ) . '/compat.php42x.php' );
 }
-$rKeys = array_keys( array_change_key_case( $_REQUEST, CASE_LOWER ) );
-if (in_array( 'globals', $rKeys ) ) {
-	die( 'Fatal error.  Global variable hack attempted.' );
-}
-if (in_array( '_post', $rKeys ) ) {
-	die( 'Fatal error.  Post variable hack attempted.' );
-}
-if (in_array( '_get', $rKeys ) ) {
-	die( 'Fatal error.  Get variable hack attempted.' );
-}
 if (version_compare( phpversion(), '5.0' ) < 0) {
-	require_once( $mosConfig_absolute_path . '/includes/compat.php50x.php' );
+	require_once( dirname( __FILE__ ) . '/compat.php50x.php' );
 }
 
 @set_magic_quotes_runtime( 0 );
@@ -403,6 +393,74 @@ class mosMainFrame {
 		//set the admin check
 		$this->_isAdmin 		= (boolean) $isAdmin;
 	}
+
+	/**
+	 * Gets the id number for a client
+	 * @param mixed A client identifier
+	 */
+	function getClientID( $client ) {
+		switch ($client) {
+			case '2':
+			case 'installation':
+				return 2;
+				break;
+
+			case '1':
+			case 'admin':
+			case 'administrator':
+				return 1;
+				break;
+
+			case '0':
+			case 'site':
+			case 'front':
+			default:
+				return 0;
+				break;
+		}
+	}
+
+	/**
+	 * Gets the client name
+	 * @param int The client identifier
+	 * @return strint The text name of the client
+	 */
+	function getClientName( $client_id ) {
+		 // do not translate
+		$clients = array( 'site', 'admin', 'installer' );
+		return mosGetParam( $clients, $client_id, 'unknown' );
+	}
+
+	/**
+	 * Gets the base path for the client
+	 * @param mixed A client identifier
+	 * @param boolean True (default) to add traling slash
+	 */
+	function getBasePath( $client=0, $addTrailingSlash=true ) {
+		global $mosConfig_absolute_path;
+
+		switch ($client) {
+			case '0':
+			case 'site':
+			case 'front':
+			default:
+				return JFile::getNativePath( $mosConfig_absolute_path, $addTrailingSlash );
+				break;
+
+			case '2':
+			case 'installation':
+				return JFile::getNativePath( $mosConfig_absolute_path . '/installation', $addTrailingSlash );
+				break;
+
+			case '1':
+			case 'admin':
+			case 'administrator':
+				return JFile::getNativePath( $mosConfig_absolute_path . '/administrator', $addTrailingSlash );
+				break;
+
+		}
+	}
+
 	/**
 	* @param string
 	*/
@@ -440,8 +498,7 @@ class mosMainFrame {
 					if ( !$this->_head['meta'][$i][1] ) {
 						$this->_head['meta'][$i][1] = $content ;
 					} else {
-						//$this->_head['meta'][$i][1] = $content .', '. $this->_head['meta'][$i][1];
-						$this->_head['meta'][$i][1] = $this->_head['meta'][$i][1]  .', '.  $content;
+						$this->_head['meta'][$i][1] = $content .', '. $this->_head['meta'][$i][1];
 					}
 				}
 				return;
@@ -614,8 +671,7 @@ class mosMainFrame {
 		$remember = mosGetParam( $_POST, 'remember', '' );
 
 		if (!$username || !$passwd) {
-			echo "<script> alert(\""._LOGIN_INCOMPLETE."\"); </script>\n";
-			mosRedirect( mosGetParam( $_POST, 'return', '/' ) );
+			echo "<script> alert(\""._LOGIN_INCOMPLETE."\"); window.history.go(-1); </script>\n";
 			exit();
 		} else {
 			$query = "SELECT *"
@@ -627,9 +683,7 @@ class mosMainFrame {
 			$row = null;
 			if ($this->_db->loadObject( $row )) {
 				if ($row->block == 1) {
-					echo "<script>alert(\""._LOGIN_BLOCKED."\"); </script>\n";
-					mosRedirect(mosGetParam( $_POST, 'return', '/' ));
-					exit();
+					mosErrorAlert(_LOGIN_BLOCKED);
 				}
 				// fudge the group stuff
 				$grp = $acl->getAroGroup( $row->id );
@@ -670,11 +724,10 @@ class mosMainFrame {
 				mosCache::cleanCache();
 			} else {
 				if (isset($bypost)) {
-					echo "<script>alert(\""._LOGIN_INCORRECT."\");</script>\n";
-					mosRedirect(mosGetParam( $_POST, 'return', '/' ));
+					mosErrorAlert(_LOGIN_INCORRECT);
 				} else {
 					$this->logout();
-					mosRedirect('index.php');
+					mosRedirect("index.php");
 				}
 				exit();
 			}
@@ -4045,15 +4098,12 @@ class mosAdminMenus {
 	*/
 	function ImageCheck( $file, $directory='/images/M_images/', $param=NULL, $param_directory='/images/M_images/', $alt=NULL, $name='image', $type=1, $align='middle' ) {
 		global $mosConfig_absolute_path, $mosConfig_live_site, $mainframe;
-		
 		$cur_template = $mainframe->getTemplate();
 
-		$name = ( $name ? 'name="'. $name .'"' : '' );
-		
 		if ( $param ) {
 			$image = $mosConfig_live_site. $param_directory . $param;
 			if ( $type ) {
-				$image = '<img src="'. $image .'" align="'. $align .'" alt="'. $alt .'" '. $name .' border="0" />';
+				$image = '<img src="'. $image .'" align="'. $align .'" alt="'. $alt .'" name="'. $name .'" border="0" />';
 			}
 		} else if ( $param == -1 ) {
 			$image = '';
@@ -4067,7 +4117,7 @@ class mosAdminMenus {
 
 			// outputs actual html <img> tag
 			if ( $type ) {
-				$image = '<img src="'. $image .'" alt="'. $alt .'" align="'. $align .'" '. $name .' border="0" />';
+				$image = '<img src="'. $image .'" alt="'. $alt .'" align="'. $align .'" name="'. $name .'" border="0" />';
 			}
 		}
 
@@ -4082,15 +4132,12 @@ class mosAdminMenus {
 	*/
 	function ImageCheckAdmin( $file, $directory='/administrator/images/', $param=NULL, $param_directory='/administrator/images/', $alt=NULL, $name=NULL, $type=1, $align='middle' ) {
 		global $mosConfig_absolute_path, $mosConfig_live_site, $mainframe;
-		
 		$cur_template = $mainframe->getTemplate();
 
-		$name = ( $name ? 'name="'. $name .'"' : '' );
-		
 		if ( $param ) {
 			$image = $mosConfig_live_site. $param_directory . $param;
 			if ( $type ) {
-				$image = '<img src="'. $image .'" align="'. $align .'" alt="'. $alt .'" '. $name .' border="0" />';
+				$image = '<img src="'. $image .'" align="'. $align .'" alt="'. $alt .'" name="'. $name .'" border="0" />';
 			}
 		} else if ( $param == -1 ) {
 			$image = '';
@@ -4103,7 +4150,7 @@ class mosAdminMenus {
 
 			// outputs actual html <img> tag
 			if ( $type ) {
-				$image = '<img src="'. $image .'" alt="'. $alt .'" align="'. $align .'" '. $name .' border="0" />';
+				$image = '<img src="'. $image .'" alt="'. $alt .'" align="'. $align .'" name="'. $name .'" border="0" />';
 			}
 		}
 
