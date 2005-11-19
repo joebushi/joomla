@@ -34,12 +34,15 @@ Legend:
 ---------------- 1.0.4 Pending -- [TBA] ------------------
 
 This Release Contains following Security Fixes
+
+Critical Level Threat
+ * Potentional XSS injection through GET and other variables
+
 Low Level Threat
  * Potential SQL injection in Polls modules through the Itemid variable
  * Potential SQL injection in several methods in mosDBTable class
  * Potential misuse of Media component file management functions
  * Add search limit param (default of 50) to `Search` Mambots to prevent search flooding
- * Potentional XSS injection through GET variable
  
 ---
 
