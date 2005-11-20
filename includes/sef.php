@@ -50,7 +50,7 @@ if ($mosConfig_sef) {
 			$Itemid 				= $url_array[$pos+4];
 			$limit 					= $url_array[$pos+5];
 			$limitstart 			= $url_array[$pos+6];
-			
+
 			// pass data onto global variables
 			$_GET['task'] 			= $task;
 			$_REQUEST['task'] 		= $task;
@@ -73,7 +73,7 @@ if ($mosConfig_sef) {
 			$Itemid 				= $url_array[$pos+3];
 			$limit 					= $url_array[$pos+4];
 			$limitstart 			= $url_array[$pos+5];
-			
+
 			// pass data onto global variables
 			$_GET['task'] 			= $task;
 			$_REQUEST['task'] 		= $task;
@@ -93,7 +93,7 @@ if ($mosConfig_sef) {
 			$sectionid 				= $url_array[$pos+2];
 			$id 					= $url_array[$pos+3];
 			$Itemid 				= $url_array[$pos+4];
-			
+
 			// pass data onto global variables
 			$_GET['task'] 			= $task;
 			$_REQUEST['task'] 		= $task;
@@ -110,7 +110,7 @@ if ($mosConfig_sef) {
 			$task 					= $url_array[$pos+1];
 			$id 					= $url_array[$pos+2];
 			$Itemid 				= $url_array[$pos+3];
-			
+
 			// pass data onto global variables
 			$_GET['task'] 			= $task;
 			$_REQUEST['task'] 		= $task;
@@ -124,7 +124,7 @@ if ($mosConfig_sef) {
 		} else if (!(isset($url_array[$pos+3]) && $url_array[$pos+3]!='') && (isset($url_array[$pos+2]) && $url_array[$pos+2]!='')) {
 			$task 					= $url_array[$pos+1];
 			$id 					= $url_array[$pos+2];
-			
+
 			// pass data onto global variables
 			$_GET['task'] 			= $task;
 			$_REQUEST['task'] 		= $task;
@@ -135,7 +135,7 @@ if ($mosConfig_sef) {
 			// $option/$task
 		} else if (!(isset($url_array[$pos+2]) && $url_array[$pos+2]!='') && (isset($url_array[$pos+1]) && $url_array[$pos+1]!='')) {
 			$task = $url_array[$pos+1];
-			
+
 			$_GET['task'] 			= $task;
 			$_REQUEST['task'] 		= $task;
 
@@ -175,7 +175,11 @@ if ($mosConfig_sef) {
 		$_SERVER['REQUEST_URI'] 	= $REQUEST_URI;
 	}
 	// Extract to globals
-	while(list($key,$value)=each($_GET)) $GLOBALS[$key]=$value;
+	while(list($key,$value)=each($_GET)) {
+		if ($key!="GLOBALS") {
+			$GLOBALS[$key]=$value;
+		}
+	}
 	// Don't allow config vars to be passed as global
 	include( 'configuration.php' );
 }
@@ -183,7 +187,7 @@ if ($mosConfig_sef) {
 function sefRelToAbs( $string ) {
 	global $mosConfig_live_site, $mosConfig_sef, $mosConfig_mbf_content;
 	global $iso_client_lang;
-	
+
 	if( $mosConfig_mbf_content && $string!='index.php' && !eregi("^(([^:/?#]+):)",$string) && !strcasecmp(substr($string,0,9),'index.php') && !eregi('lang=', $string) ) {
 		$string .= '&lang='. $iso_client_lang;
 	}
@@ -267,9 +271,9 @@ function sefRelToAbs( $string ) {
 			}
 			$string = str_replace( '=', ',', $sefstring );
 		}
-		
+
 		return $mosConfig_live_site.'/'.$string;
-		
+
 		// allows SEF without mod_rewrite
 		// uncomment Line 273 and comment out Line 269
 		//return $mosConfig_live_site.'/index.php/'.$string;

@@ -43,8 +43,11 @@ Low Level Threat
  * Potential SQL injection in several methods in mosDBTable class
  * Potential misuse of Media component file management functions
  * Add search limit param (default of 50) to `Search` Mambots to prevent search flooding
- 
+
 ---
+
+20-Nov-2005 Emir Sakic
+ # Hardened SEF against XSS injection of global variable through the _GET array
 
 19-Nov-2005 Levis Bisson
  # replaced charset=utf-8 to charset=iso-8859-1 in language file
@@ -67,7 +70,7 @@ Low Level Threat
 
 13-Nov-2005 Rey Gigataras
  # PERFORMANCE: Fixed artf1993 : Inefficient queries in com_content
- # Fixed artf2021 : artf1791 : Failed Login results in redirect to referring page 
+ # Fixed artf2021 : artf1791 : Failed Login results in redirect to referring page
  # Fixed artf2021 : appendMetaTag() prepends instead of appends
  # Fixed artf1981 : incorrect url's at next/previous links at content items
  # Fixed artf2079 : SQL error in category manager thru contact manager
@@ -88,7 +91,7 @@ Low Level Threat
  # Fixed artf1700 : TinyMCE doesn't support relative URL's for images
 
 07-Nov-2005 Andrew Eddie
- * SECURITY: Fixed artf1978 : mod_poll SQL Injection Vulnerability [ Low Level Security Bug ] 
+ * SECURITY: Fixed artf1978 : mod_poll SQL Injection Vulnerability [ Low Level Security Bug ]
  * SECURITY: Fixed SQL injection possibility in several mosDBTable methods [ Low Level Security Bug ]
  * SECURITY: Fixed malicious injection into filename variables in com_media [ Low Level Security Bug ]
  ^ mosDBTable::publish_array renamed to publish
@@ -101,7 +104,7 @@ Low Level Threat
 04-Nov-2005 Rey Gigataras
  # Fixed artf1953 : Page Class Suffix in Contacts component
  # Fixed artf1945 : mosToolTip not generating valid xhtml
- 
+
 03-Nov-2005 Rey Gigataras
  + modduleclass_sfx support to mod_poll
  # Fixed artf1902 : Incorrect number of table cells in mod_poll
@@ -134,8 +137,8 @@ Low Level Threat
  # Fixed artf1834 : English Localisation
  # Fixed artf1771 : Wrong mosmsg
  # Fixed artf1792 : "Receive Submission Emails" label is misleading
- # Fixed artf1770 : Undefined index: HTTP_USER_AGENT 
- 
+ # Fixed artf1770 : Undefined index: HTTP_USER_AGENT
+
 30-Oct-2005 Rey Gigataras
  ^ Upgraded TinyMCE Compressor [1.02]
  ^ Upgraded TinyMCE [2.0 RC4]
