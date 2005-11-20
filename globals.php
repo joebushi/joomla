@@ -10,9 +10,9 @@
  */
 
 /**
- * Use 0 to emulate register_globals = on
+ * Use 1 to emulate register_globals = on
  * 
- * Use 1 to emulate regsiter_globals = off
+ * Use 0 to emulate regsiter_globals = off
  */
 define( 'RG_EMULATION', 1 );
 
@@ -26,7 +26,7 @@ function checkInputArray( &$array, $globalise=false ) {
 	static $banned = array( '_files', '_env', '_get', '_post', '_cookie', '_server', '_sessions', 'globals' );
 
 	foreach ($array as $key => $value) {
-		if (in_array( strtolower( $key ), $banned )) {
+		if (in_array( strtolower( $key ), $banned ) ) {
 			die( 'Illegal variable <b>' . implode( '</b> or <b>', $banned ) . '</b> passed to script.' );
 		}
 		if ($globalise) {
@@ -101,9 +101,24 @@ function registerGlobals() {
 	}
 }
 
-if (RG_EMULATION != 1 && ini_get('register_globals') == 0) {
+if (RG_EMULATION == 0) {
+	// force register_globals = off
+	unregisterGlobals();	
+} else if (ini_get('register_globals') <> 0) {
+	// php.ini has register_globals = off and emulate = on
 	registerGlobals();
 } else {
-	unregisterGlobals();
+	// php.ini has register_globals = on and emulate = on
+	// just check for spoofing
+	checkInputArray( $_FILES );
+	checkInputArray( $_ENV );
+	checkInputArray( $_GET );
+	checkInputArray( $_POST );
+	checkInputArray( $_COOKIE );
+	checkInputArray( $_SERVER );
+
+	if (isset( $_SESSION )) {
+		checkInputArray( $_SESSION );
+	}
 }
 ?>
