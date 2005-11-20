@@ -47,6 +47,9 @@ Low Level Threat
 
 ---
 
+20-Nov-2005 Levis Bisson
+ # Fixed Artifact artf1967 displays with an escaped apostrophe in both title and TOC.
+
 20-Nov-2005 Emir Sakic
  * SECURITY: Hardened SEF against XSS injection
 

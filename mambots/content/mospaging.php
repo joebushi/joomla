@@ -85,7 +85,7 @@ function botMosPaging( $published, &$row, &$params, $page=0 ) {
 				parse_str(  str_replace( '&amp;', '&', $matches[$page-1][2] ), $args );
 
 				if ( @$args['title'] ) {
-					$row->page_title = $args['title'];
+					$row->page_title = stripslashes( $args['title'] );
 				}
 			}
 	 	}
@@ -187,7 +187,7 @@ function createTOC( &$row, &$matches, &$page ) {
 				<tr>
 					<td>
 					<a href="'. $link .'" class="toclink">'
-					. $args2['title'] .
+					. stripslashes( $args2['title'] ) .
 					'</a>
 					</td>
 				</tr>
