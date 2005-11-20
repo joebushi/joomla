@@ -23,7 +23,7 @@ define( 'RG_EMULATION', 1 );
  * @param boolean True if the array is to be added to the GLOBALS
  */
 function checkInputArray( &$array, $globalise=false ) {
-	static $banned = array( '_files', '_env', '_get', '_post', '_cookie', '_server', '_session', 'globals' );
+	static $banned = array( '_files', '_env', '_get', '_post', '_cookie', '_server', '_sessions', 'globals' );
 
 	foreach ($array as $key => $value) {
 		if (in_array( strtolower( $key ), $banned ) ) {
@@ -104,7 +104,7 @@ function registerGlobals() {
 if (RG_EMULATION == 0) {
 	// force register_globals = off
 	unregisterGlobals();	
-} elseif (ini_get('register_globals') <> 1) {
+} else if (ini_get('register_globals') <> 0) {
 	// php.ini has register_globals = off and emulate = on
 	registerGlobals();
 } else {
