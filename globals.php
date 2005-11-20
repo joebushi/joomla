@@ -23,7 +23,7 @@ define( 'RG_EMULATION', 1 );
  * @param boolean True if the array is to be added to the GLOBALS
  */
 function checkInputArray( &$array, $globalise=false ) {
-	static $banned = array( '_files', '_env', '_get', '_post', '_cookie', '_server', '_sessions', 'globals' );
+	static $banned = array( '_files', '_env', '_get', '_post', '_cookie', '_server', '_session', 'globals' );
 
 	foreach ($array as $key => $value) {
 		if (in_array( strtolower( $key ), $banned ) ) {
