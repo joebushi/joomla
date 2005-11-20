@@ -174,14 +174,16 @@ if ($mosConfig_sef) {
 		$REQUEST_URI 				= $uri[0].'index.php?'.$QUERY_STRING;
 		$_SERVER['REQUEST_URI'] 	= $REQUEST_URI;
 	}
-	// Extract to globals
-	while(list($key,$value)=each($_GET)) {
-		if ($key!="GLOBALS") {
-			$GLOBALS[$key]=$value;
+	if (defined('RG_EMULATION') && RG_EMULATION == 1) {
+		// Extract to globals
+		while(list($key,$value)=each($_GET)) {
+			if ($key!="GLOBALS") {
+				$GLOBALS[$key]=$value;
+			}
 		}
+		// Don't allow config vars to be passed as global
+		include( 'configuration.php' );
 	}
-	// Don't allow config vars to be passed as global
-	include( 'configuration.php' );
 }
 
 function sefRelToAbs( $string ) {
