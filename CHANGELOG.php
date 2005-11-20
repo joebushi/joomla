@@ -31,12 +31,13 @@ Legend:
 - -> Removed
 ! -> Note
 
----------------- 1.0.4 Pending -- [TBA] ------------------
+---------------- 1.0.4 Released -- [21-Nov-2005 10:00 UTC] ------------------
 
 This Release Contains following Security Fixes
 
 Critical Level Threat
  * Potentional XSS injection through GET and other variables
+ * Hardened SEF against XSS injection
 
 Low Level Threat
  * Potential SQL injection in Polls modules through the Itemid variable
@@ -47,13 +48,13 @@ Low Level Threat
 ---
 
 20-Nov-2005 Emir Sakic
- # Hardened SEF against XSS injection of global variable through the _GET array
+ * SECURITY: Hardened SEF against XSS injection
 
 19-Nov-2005 Levis Bisson
  # replaced charset=utf-8 to charset=iso-8859-1 in language file
 
 19-Nov-2005 Andrew Eddie
- # Fixed XSS injection of global variable through the _GET array
+ * SECURITY: Fixed XSS injection of global variable through the _GET array
 
 17-Nov-2005 Johan Janssens
  ^ Replaced install.png with new image
