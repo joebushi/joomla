@@ -104,7 +104,7 @@ function registerGlobals() {
 if (RG_EMULATION == 0) {
 	// force register_globals = off
 	unregisterGlobals();	
-} else if (ini_get('register_globals') <> 0) {
+} else if (ini_get('register_globals') <> 1) {
 	// php.ini has register_globals = off and emulate = on
 	registerGlobals();
 } else {
