@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+22-Nov-2005 Johan Janssens
+ # Fixed artf2224 : Problem with Media Manager
+
 ---------------- 1.0.4 Released -- [21-Nov-2005 10:00 UTC] ------------------
 
 This Release Contains following Security Fixes
