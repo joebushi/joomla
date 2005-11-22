@@ -31,7 +31,7 @@ require_once( $mainframe->getPath( 'admin_html' ) );
  * @return string The sanitised string
  */
 function makeSafe( $file ) {
-	$regex = '#\.\.[^A-Za-z0-9\.\_\- ]#';
+	$regex = '#\.\.[^A-Za-z0-9\.\_\-/ ]#';
 	return preg_replace( $regex, '', $file );
 }
 
@@ -41,7 +41,7 @@ if (!is_array( $cid )) {
 }
 
 $listdir = makeSafe( mosGetParam( $_REQUEST, 'listdir', '' ) );
-$dirPath = makeSafe( mosGetParam( $_POST, 'dirpath', '' ) );
+$dirPath = makeSafe( mosGetParam( $_POST, 'dirPath', '' ) );
 
 if (is_int(strpos ($listdir, "..")) && $listdir != '') {
 	mosRedirect( "index2.php?option=com_media&listdir=".$_POST['dirPath'], "NO HACKING PLEASE" );
