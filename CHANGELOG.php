@@ -31,6 +31,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+22-Nov-2005 Marko Schmuck
+ # Fixed artf2240 : 1.0.4 URL encoding entire frontend?
+ # Fixed artf2222 : ampReplace in content.html.php
+ + Versioncheck for new_link parameter for mysql_connect.
+
 22-Nov-2005 Levis Bisson
  # Fixed artf2221 : 1.0.4: includes/database.php faulty on PHP < 4.2.0
 
