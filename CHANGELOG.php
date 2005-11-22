@@ -38,6 +38,7 @@ Legend:
 
 22-Nov-2005 Levis Bisson
  # Fixed artf2221 : 1.0.4: includes/database.php faulty on PHP < 4.2.0
+ # Fixed artf2219 : Bug in pageNavigation.php - added "if not define _PN_LT or _PN_RT"
 
 22-Nov-2005 Johan Janssens
  # Fixed artf2224 : Problem with Media Manager

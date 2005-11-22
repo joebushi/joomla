@@ -104,6 +104,11 @@ class mosPageNav {
 
 		$link .= '&amp;limit='. $this->limit;
 
+        if (!defined( '_PN_LT' ) || !defined( '_PN_RT' ) ) {
+            DEFINE('_PN_LT','&lt;');
+            DEFINE('_PN_RT','&gt;');
+        }
+
         if (_PN_LT || _PN_RT) $pnSpace = " ";
 
 		if ($this_page > 1) {
