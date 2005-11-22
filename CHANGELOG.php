@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+22-Nov-2005 Levis Bisson
+ # Fixed artf2221 : 1.0.4: includes/database.php faulty on PHP < 4.2.0
+
 22-Nov-2005 Johan Janssens
  # Fixed artf2224 : Problem with Media Manager
 
