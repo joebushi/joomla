@@ -68,13 +68,25 @@ class database {
 				exit();
 			}
 		}
-		if (!($this->_resource = @mysql_connect( $host, $user, $pass ))) {
-			$mosSystemError = 2;
-			if ($goOffline) {
-				$basePath = dirname( __FILE__ );
-				include $basePath . '/../configuration.php';
-				include $basePath . '/../offline.php';
-				exit();
+		if (phpversion() < '4.2.0') {
+			if (!($this->_resource = @mysql_connect( $host, $user, $pass ))) {
+				$mosSystemError = 2;
+				if ($goOffline) {
+					$basePath = dirname( __FILE__ );
+					include $basePath . '/../configuration.php';
+					include $basePath . '/../offline.php';
+					exit();
+				}
+			}
+		} else {		
+			if (!($this->_resource = @mysql_connect( $host, $user, $pass, true ))) {
+				$mosSystemError = 2;
+				if ($goOffline) {
+					$basePath = dirname( __FILE__ );
+					include $basePath . '/../configuration.php';
+					include $basePath . '/../offline.php';
+					exit();
+				}
 			}
 		}
 		if ($db != '' && !mysql_select_db( $db, $this->_resource )) {
