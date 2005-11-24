@@ -33,6 +33,7 @@ Legend:
 
 24-Nov-2005 Emir Sakic
  # Fixed artf2225 : Email / Print redirects to homepage
+ # Fixed artf1705 : Not same URL for same item : duplicate content
 
 23-Nov-2005 Johan Janssens
  # Fixed : Content Finish Publishing & not authorized
