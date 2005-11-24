@@ -25,12 +25,13 @@ include_once( 'globals.php' );
 require_once( 'configuration.php' );
 require_once( 'includes/joomla.php' );
 
-//Installation sub folder check, removed for work with SVN
-if (file_exists( 'installation/index.php' )) {	
+/*Installation sub folder check, removed for work with SVN
+if (file_exists( 'installation/index.php' )) {
 	define( '_INSTALL_CHECK', 1 );
 	include ('offline.php');
 	exit();
 }
+*/
 
 // displays offline/maintanance page or bar
 if ($mosConfig_offline == 1) {
@@ -93,8 +94,8 @@ if ($option == '') {
 if ( !$Itemid ) {
 // when no Itemid give a default value
 	$Itemid = 99999999;
-} 
-	
+}
+
 // mainframe is an API workhorse, lots of 'core' interaction routines
 $mainframe = new mosMainFrame( $database, $option, '.' );
 $mainframe->initSession();
@@ -149,7 +150,7 @@ if ($option == 'login') {
 		</script>
 		<?php
 	}
-	
+
 	if ($return) {
 		mosRedirect( $return );
 	} else {

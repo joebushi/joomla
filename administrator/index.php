@@ -23,12 +23,13 @@ require_once( '../configuration.php' );
 require_once( '../includes/joomla.php' );
 include_once ( $mosConfig_absolute_path . '/language/'. $mosConfig_lang .'.php' );
 
-//Installation sub folder check, removed for work with SVN
-if (file_exists( '../installation/index.php' )) {	
+/*Installation sub folder check, removed for work with SVN
+if (file_exists( '../installation/index.php' )) {
 	define( '_INSTALL_CHECK', 1 );
 	include ('../offline.php');
 	exit();
 }
+*/
 
 $option = mosGetParam( $_REQUEST, 'option', NULL );
 
