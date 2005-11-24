@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+23-Nov-2005 Johan Janssens
+ # Fixed : Content Finish Publishing & not authorized
+
 22-Nov-2005 Marko Schmuck
  # Fixed artf2240 : 1.0.4 URL encoding entire frontend?
  # Fixed artf2222 : ampReplace in content.html.php
@@ -42,6 +45,7 @@ Legend:
 
 22-Nov-2005 Johan Janssens
  # Fixed artf2224 : Problem with Media Manager
+ # Fixed : Can't create new folders in media manager
 
 ---------------- 1.0.4 Released -- [21-Nov-2005 10:00 UTC] ------------------
 

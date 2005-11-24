@@ -1073,6 +1073,7 @@ function showItem( $uid, $gid, &$access, $pop, $option, $now ) {
 			. "\n AND a.state = $row->state"
 			. "\n AND ordering < $row->ordering"
 			. ($access->canEdit ? '' : "\n AND a.access <= $gid" )
+			. $xwhere
 			. "\n ORDER BY a.ordering DESC"
 			. "\n LIMIT 1"
 			;
@@ -1085,6 +1086,7 @@ function showItem( $uid, $gid, &$access, $pop, $option, $now ) {
 			. "\n AND a.state = $row->state"
 			. "\n AND ordering > $row->ordering"
 			. ($access->canEdit ? '' : "\n AND a.access <= $gid" )
+			. $xwhere
 			. "\n ORDER BY a.ordering"
 			. "\n LIMIT 1"
 			;
