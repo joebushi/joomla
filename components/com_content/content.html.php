@@ -387,15 +387,15 @@ class HTML_content {
 		global $mainframe, $my, $hide_js;
 		global $mosConfig_sitename, $Itemid, $mosConfig_live_site, $task;
 		global $_MAMBOTS;
-		
+
 		$mainframe->appendMetaTag( 'description', $row->metadesc );
 		$mainframe->appendMetaTag( 'keywords', $row->metakey );
-		
+
 		$gid 		= $my->gid;
 		$_Itemid 	= $Itemid;
 		$link_on 	= '';
 		$link_text 	= '';
-	
+
 		// process the new bots
 		$_MAMBOTS->loadBotGroup( 'content' );
 		$results = $_MAMBOTS->trigger( 'onPrepareContent', array( &$row, &$params, $page ), true );
@@ -570,7 +570,7 @@ class HTML_content {
 			<td class="contentheading<?php echo $params->get( 'pageclass_sfx' ); ?>" width="100%">
 			<?php HTML_content::EditIcon( $row, $params, $access ); ?>
 			</td>
-			<?php			
+			<?php
 		}
 	}
 
@@ -579,7 +579,7 @@ class HTML_content {
 	*/
 	function EditIcon( $row, $params, $access ) {
 		global $Itemid, $my, $mainframe;
-		
+
 		if ( $params->get( 'popup' ) ) {
 			return;
 		}
@@ -589,12 +589,12 @@ class HTML_content {
 		if ( !$access->canEdit && !( $access->canEditOwn && $row->created_by == $my->id ) ) {
 			return;
 		}
-		
-		mosCommonHTML::loadOverlib();		
-		
+
+		mosCommonHTML::loadOverlib();
+
 		$link = 'index.php?option=com_content&amp;task=edit&amp;id='. $row->id .'&amp;Itemid='. $Itemid .'&amp;Returnid='. $Itemid;
 		$image = mosAdminMenus::ImageCheck( 'edit.png', '/images/M_images/', NULL, NULL, _E_EDIT, _E_EDIT );
-		
+
 		if ( $row->state == 0 ) {
 			$overlib = _CMN_UNPUBLISHED;
 		} else {
@@ -602,7 +602,7 @@ class HTML_content {
 		}
 		$date 		= mosFormatDate( $row->created );
 		$author		= $row->created_by_alias ? $row->created_by_alias : $row->author;
-		
+
 		$overlib 	.= '<br />';
 		$overlib 	.= $row->groups;
 		$overlib 	.= '<br />';
@@ -632,7 +632,7 @@ class HTML_content {
 			}
 			?>
 			<td align="right" width="100%" class="buttonheading">
-			<a href="#" onclick="window.open('<?php echo $link; ?>','win2','<?php echo $status; ?>');" title="<?php echo _CMN_PDF;?>">
+			<a href="javascript: void(0)" onclick="window.open('<?php echo $link; ?>','win2','<?php echo $status; ?>');" title="<?php echo _CMN_PDF;?>">
 			<?php echo $image; ?>
 			</a>
 			</td>
@@ -656,7 +656,7 @@ class HTML_content {
 			}
 			?>
 			<td align="right" width="100%" class="buttonheading">
-			<a href="#" onclick="window.open('<?php echo $link; ?>','win2','<?php echo $status; ?>');" title="<?php echo _CMN_EMAIL;?>">
+			<a href="javascript: void(0)" onclick="window.open('<?php echo $link; ?>','win2','<?php echo $status; ?>');" title="<?php echo _CMN_EMAIL;?>">
 			<?php echo $image; ?>
 			</a>
 			</td>
@@ -851,7 +851,7 @@ class HTML_content {
 				if ( $row->prev && $row->next ) {
 					?>
 					<td width="50">&nbsp;
-	
+
 					</td>
 					<?php
 				}
@@ -881,15 +881,15 @@ class HTML_content {
 	*/
 	function editContent( &$row, $section, &$lists, &$images, &$access, $myid, $sectionid, $task, $Itemid ) {
 		global $mosConfig_live_site, $mainframe;
-		
+
 		mosMakeHtmlSafe( $row );
 
 		require_once( $GLOBALS['mosConfig_absolute_path'] . '/includes/HTML_toolbar.php' );
-		
+
 		$Returnid 	= intval( mosGetParam( $_REQUEST, 'Returnid', $Itemid ) );
 		$tabs 		= new mosTabs(0, 1);
-		
-		$mainframe->addCustomHeadTag( '<link rel="stylesheet" type="text/css" media="all" href="includes/js/calendar/calendar-mos.css" title="green" />' );	
+
+		$mainframe->addCustomHeadTag( '<link rel="stylesheet" type="text/css" media="all" href="includes/js/calendar/calendar-mos.css" title="green" />' );
 		?>
   		<div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
 		<!-- import the calendar script -->
@@ -1111,7 +1111,7 @@ class HTML_content {
 				<td width="2%">
 					<input class="button" type="button" value=">>" onclick="addSelectedToList('adminForm','imagefiles','imagelist')" title="Add"/>
 					<br/>
-					<input class="button" type="button" value="<<" onclick="delSelectedFromList('adminForm','imagelist')" title="Remove"/>				
+					<input class="button" type="button" value="<<" onclick="delSelectedFromList('adminForm','imagelist')" title="Remove"/>
 				</td>
 				<td valign="top">
 					<?php echo $lists['imagelist'];?>
@@ -1204,7 +1204,7 @@ class HTML_content {
 					<img name="view_imagelist" src="<?php echo $mosConfig_live_site;?>/images/M_images/blank.png" width="50" alt="No Image" />
 				</td>
 				<td>
-				</td>				
+				</td>
 			</tr>
 			</table>
 		<?php
@@ -1324,7 +1324,7 @@ class HTML_content {
 	*/
 	function emailForm( $uid, $title, $template='' ) {
 		global $mosConfig_sitename, $mainframe;
-		
+
 		$mainframe->setPageTitle( $mosConfig_sitename .' :: '. $title );
 		$mainframe->addCustomHeadTag( '<link rel="stylesheet" href="templates/'. $template .'/css/template_css.css" type="text/css" />' );
 		?>
@@ -1388,7 +1388,7 @@ class HTML_content {
 		<tr>
 			<td colspan="2">
 			<input type="submit" name="submit" class="button" value="<?php echo _BUTTON_SUBMIT_MAIL; ?>" />
-			&nbsp;&nbsp; 
+			&nbsp;&nbsp;
 			<input type="button" name="cancel" value="<?php echo _BUTTON_CANCEL; ?>" class="button" onclick="window.close();" />
 			</td>
 		</tr>

@@ -389,7 +389,7 @@ class mosMainFrame {
 		$this->_head['title'] 	= $GLOBALS['mosConfig_sitename'];
 		$this->_head['meta'] 	= array();
 		$this->_head['custom'] 	= array();
-		
+
 		//set the admin check
 		$this->_isAdmin 		= (boolean) $isAdmin;
 	}
@@ -839,7 +839,7 @@ http://developer.joomla.org/sf/go/artf1710?nav=1
 			}
 		} else {
 			$assigned = ( !empty( $Itemid ) ? " OR menuid = $Itemid" : '' );
-			
+
 			$query = "SELECT template"
 			. "\n FROM #__templates_menu"
 			. "\n WHERE client_id = 0"
@@ -849,7 +849,7 @@ http://developer.joomla.org/sf/go/artf1710?nav=1
 			;
 			$this->_db->setQuery( $query );
 			$cur_template = $this->_db->loadResult();
-			
+
 			// TemplateChooser Start
 			$jos_user_template 		= mosGetParam( $_COOKIE, 'jos_user_template', '' );
 			$jos_change_template 	= mosGetParam( $_REQUEST, 'jos_change_template', $jos_user_template );
@@ -1033,7 +1033,7 @@ http://developer.joomla.org/sf/go/artf1710?nav=1
 				} else {
 					$agent = 'Unknown';
 				}
-				
+
 				$domain = gethostbyaddr( $_SERVER['REMOTE_ADDR'] );
 			}
 
@@ -1215,7 +1215,7 @@ http://developer.joomla.org/sf/go/artf1710?nav=1
 			$this->_db->setQuery( $query );
 			$_Itemid = $this->_db->loadResult();
 		}
-		
+
 		if ( $_Itemid != '' ) {
 			return $_Itemid;
 		} else {
@@ -1318,7 +1318,7 @@ http://developer.joomla.org/sf/go/artf1710?nav=1
 			return $default;
 		}
 	}
-	
+
 	/** Is admin interface?
 	 * @return boolean
 	 * @since 1.0.2
@@ -1698,7 +1698,7 @@ class mosHTML {
 				// Print Preview button - used when viewing page
 				?>
 				<td align="right" width="100%" class="buttonheading">
-				<a href="#" onclick="javascript:window.print(); return false" title="<?php echo _CMN_PRINT;?>">
+				<a href="javascript: void(0)" onclick="javascript:window.print(); return false" title="<?php echo _CMN_PRINT;?>">
 				<?php echo $image;?>
 				</a>
 				</td>
@@ -1707,7 +1707,7 @@ class mosHTML {
 				// Print Button - used in pop-up window
 				?>
 				<td align="right" width="100%" class="buttonheading">
-				<a href="#" onclick="window.open('<?php echo $link; ?>','win2','<?php echo $status; ?>');" title="<?php echo _CMN_PRINT;?>">
+				<a href="javascript: void(0)" onclick="window.open('<?php echo $link; ?>','win2','<?php echo $status; ?>');" title="<?php echo _CMN_PRINT;?>">
 				<?php echo $image;?>
 				</a>
 				</td>
@@ -2474,20 +2474,20 @@ function mosReadDirectory( $path, $filter='.', $recurse=false, $fullpath=false  
 * @param string A filter for the names
 */
 function mosRedirect( $url, $msg='' ) {
-   
+
    global $mainframe;
-   
+
     // specific filters
 	$iFilter = new InputFilter();
 	$url = $iFilter->process( $url );
 	if (!empty($msg)) {
 		$msg = $iFilter->process( $msg );
 	}
-	
+
 	if ($iFilter->badAttributeValue( array( 'href', $url ))) {
 		$url = $GLOBALS['mosConfig_live_site'];
 	}
-	
+
 	if (trim( $msg )) {
 	 	if (strpos( $url, '?' )) {
 			$url .= '&mosmsg=' . urlencode( $msg );
@@ -2495,7 +2495,7 @@ function mosRedirect( $url, $msg='' ) {
 			$url .= '?mosmsg=' . urlencode( $msg );
 		}
 	}
-	
+
 	if (headers_sent()) {
 		echo "<script>document.location.href='$url';</script>\n";
 	} else {
@@ -3004,12 +3004,12 @@ function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text
 	$style = 'style="text-decoration: none; color: #333;"';
 	if ( $href ) {
 		$style = '';
-	} else{ 
-		$href = '#'; 
+	} else{
+		$href = '#';
 	}
 
 	$mousover = 'return overlib(\''. $tooltip .'\''. $title .', BELOW, RIGHT'. $width .');';
-	
+
 	$tip = "<!-- Tooltip -->\n";
 	if ( $link ) {
 		$tip .= '<a href="'. $href .'" onmouseover="'. $mousover .'" onmouseout="return nd();" '. $style .'>'. $text .'</a>';
@@ -3028,13 +3028,13 @@ function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text
 */
 function mosWarning($warning, $title='Joomla! Warning') {
 	global $mosConfig_live_site;
-	
+
 	$mouseover 	= 'return overlib(\''. $warning .'\', CAPTION, \'$title\', BELOW, RIGHT);';
-	
+
 	$tip 		= "<!-- Warning -->\n";
-	$tip 		.= '<a href="#" onmouseover="'. $mouseover .'" onmouseout="return nd();">';
+	$tip 		.= '<a href="javascript: void(0)" onmouseover="'. $mouseover .'" onmouseout="return nd();">';
 	$tip 		.= '<img src="'. $mosConfig_live_site .'/includes/js/ThemeOffice/warning.png" border="0"  alt="warning"/></a>';
-	
+
 	return $tip;
 }
 
@@ -3173,7 +3173,7 @@ function initGzip() {
 				)
 			) {
 			if ( extension_loaded('zlib') ) {
-				// You cannot specify additional output handlers if 
+				// You cannot specify additional output handlers if
 				// zlib.output_compression is activated here
 				ob_start();
 				return;
@@ -3297,7 +3297,7 @@ class mosMambotHandler {
 		}
 
 		$group = trim( $group );
-		
+
 		switch ( $group ) {
 			case 'content':
 				$query = "SELECT folder, element, published, params"
@@ -3307,7 +3307,7 @@ class mosMambotHandler {
 				. "\n ORDER BY ordering"
 				;
 				break;
-			
+
 			default:
 				$query = "SELECT folder, element, published, params"
 				. "\n FROM #__mambots"
@@ -3454,15 +3454,15 @@ class mosTabs {
 	*/
 	function mosTabs( $useCookies, $xhtml=NULL ) {
 		global $mosConfig_live_site, $mainframe;
-		
+
 		if ( $xhtml ) {
-			$mainframe->addCustomHeadTag( '<link rel="stylesheet" type="text/css" media="all" href="includes/js/tabs/tabpane.css" id="luna-tab-style-sheet" />' );	
+			$mainframe->addCustomHeadTag( '<link rel="stylesheet" type="text/css" media="all" href="includes/js/tabs/tabpane.css" id="luna-tab-style-sheet" />' );
 		} else {
 			echo "<link id=\"luna-tab-style-sheet\" type=\"text/css\" rel=\"stylesheet\" href=\"" . $mosConfig_live_site. "/includes/js/tabs/tabpane.css\" />";
 		}
-		
+
 		echo "<script type=\"text/javascript\" src=\"". $mosConfig_live_site . "/includes/js/tabs/tabpane_mini.js\"></script>";
-		
+
 		$this->useCookies = $useCookies;
 	}
 
@@ -3647,7 +3647,7 @@ class mosAdminMenus {
 // Change adds Itemid support for Link - Urls without `index.php` or `Itemid=` in their url
 		. "\n WHERE m.type != 'separator'"
 		. "\n AND NOT ("
-			. "\n ( m.type = 'url' )" 
+			. "\n ( m.type = 'url' )"
 			. "\n AND ( m.link LIKE '%index.php%' )"
 			. "\n AND ( m.link LIKE '%Itemid=%' )"
 		. "\n )"
@@ -4463,7 +4463,7 @@ class mosCommonHTML {
 	*/
 	function loadOverlib() {
 		global  $mosConfig_live_site, $mainframe;
-		
+
 		if ( !$mainframe->get( 'loadOverlib' ) ) {
 		// check if this function is already loaded
 			?>

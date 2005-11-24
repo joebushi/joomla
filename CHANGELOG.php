@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+24-Nov-2005 Emir Sakic
+ # Fixed artf2225 : Email / Print redirects to homepage
+
 23-Nov-2005 Johan Janssens
  # Fixed : Content Finish Publishing & not authorized
 
