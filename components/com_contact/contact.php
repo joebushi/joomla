@@ -355,32 +355,34 @@ function sendmail( $con_id, $option ) {
 	$database->setQuery( $query );
 	$contact 	= $database->loadObjectList();
 
-	$default 	= $mosConfig_sitename.' '. _ENQUIRY;
-	$email 		= mosGetParam( $_POST, 'email', '' );
-	$text 		= mosGetParam( $_POST, 'text', '' );
-	$name 		= mosGetParam( $_POST, 'name', '' );
-	$subject 	= mosGetParam( $_POST, 'subject', $default );
-	$email_copy = mosGetParam( $_POST, 'email_copy', 0 );
-
-	if ( !$email || !$text || ( is_email( $email )==false ) ) {
-		mosErrorAlert( _CONTACT_FORM_NC );
+	if (count( $contact ) > 0) {
+		$default 	= $mosConfig_sitename.' '. _ENQUIRY;
+		$email 		= mosGetParam( $_POST, 'email', '' );
+		$text 		= mosGetParam( $_POST, 'text', '' );
+		$name 		= mosGetParam( $_POST, 'name', '' );
+		$subject 	= mosGetParam( $_POST, 'subject', $default );
+		$email_copy = mosGetParam( $_POST, 'email_copy', 0 );
+	
+		if ( !$email || !$text || ( is_email( $email )==false ) ) {
+			mosErrorAlert( _CONTACT_FORM_NC );
+		}
+		$prefix = sprintf( _ENQUIRY_TEXT, $mosConfig_live_site );
+		$text 	= $prefix ."\n". $name. ' <'. $email .'>' ."\n\n". stripslashes( $text );
+	
+		mosMail( $email, $name , $contact[0]->email_to, $mosConfig_fromname .': '. $subject, $text );
+	
+		if ( $email_copy ) {
+			$copy_text = sprintf( _COPY_TEXT, $contact[0]->name, $mosConfig_sitename );
+			$copy_text = $copy_text ."\n\n". $text .'';
+			$copy_subject = _COPY_SUBJECT . $subject;
+			mosMail( $mosConfig_mailfrom, $mosConfig_fromname, $email, $copy_subject, $copy_text );
+		}
+		?>
+		<script>
+		alert( "<?php echo _THANK_MESSAGE; ?>" );
+		document.location.href='<?php echo sefRelToAbs( 'index.php?option='. $option .'&Itemid='. $Itemid ); ?>';
+		</script>
 	}
-	$prefix = sprintf( _ENQUIRY_TEXT, $mosConfig_live_site );
-	$text 	= $prefix ."\n". $name. ' <'. $email .'>' ."\n\n". stripslashes( $text );
-
-	mosMail( $email, $name , $contact[0]->email_to, $mosConfig_fromname .': '. $subject, $text );
-
-	if ( $email_copy ) {
-		$copy_text = sprintf( _COPY_TEXT, $contact[0]->name, $mosConfig_sitename );
-		$copy_text = $copy_text ."\n\n". $text .'';
-		$copy_subject = _COPY_SUBJECT . $subject;
-		mosMail( $mosConfig_mailfrom, $mosConfig_fromname, $email, $copy_subject, $copy_text );
-	}
-	?>
-	<script>
-	alert( "<?php echo _THANK_MESSAGE; ?>" );
-	document.location.href='<?php echo sefRelToAbs( 'index.php?option='. $option .'&Itemid='. $Itemid ); ?>';
-	</script>
 	<?php
 }
 
