@@ -382,8 +382,8 @@ function sendmail( $con_id, $option ) {
 		alert( "<?php echo _THANK_MESSAGE; ?>" );
 		document.location.href='<?php echo sefRelToAbs( 'index.php?option='. $option .'&Itemid='. $Itemid ); ?>';
 		</script>
-	}
 	<?php
+	}
 }
 
 
