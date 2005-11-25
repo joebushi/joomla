@@ -57,7 +57,7 @@ See COPYRIGHT.php for copyright notices and details.
 
 <mos:tmpl name="item-select-box" type="condition" conditionvar="item_checked_out" varscope="list-items">
 	<mos:sub condition="0">
-    	<input type="checkbox" name="cid[]" id="cb{ITEM_ID}" value="{ITEM_ID}" />
+    	<input type="checkbox" name="cid[]" id="cb{ITEM_ID}" value="{ITEM_ID}" onclick="isChecked(this);" />
 	</mos:sub>
 	<mos:sub condition="__default">
 		<a href="javascript:submitbutton('checkin');" onmouseover="return escape('{ITEM_EDITOR}<br/>{ITEM_CHECKED_OUT_TIME}<br/><mos:Translate>Click to check in</mos:Translate>')">

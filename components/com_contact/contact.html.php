@@ -696,6 +696,7 @@ class HTML_contact {
 				<input type="hidden" name="con_id" value="<?php echo $contact->id; ?>" />
 				<input type="hidden" name="sitename" value="<?php echo $sitename; ?>" />
 				<input type="hidden" name="op" value="sendmail" />
+				<input type="hidden" name="<?php echo mosHash( 'validate' );?>" value="1" />
 				</form>
 				<br />
 				</td>

@@ -23,9 +23,9 @@ $mainframe->setPageTitle( _CONTACT_TITLE );
 
 //Load Vars
 $op			= mosGetParam( $_REQUEST, 'op' );
-$con_id 	= intval( mosGetParam( $_REQUEST ,'con_id', 0 ) );
-$contact_id = intval( mosGetParam( $_REQUEST ,'contact_id', 0 ) );
-$catid 		= intval( mosGetParam( $_REQUEST ,'catid', 0 ) );
+$con_id 	= (int) mosGetParam( $_REQUEST ,'con_id', 0 );
+$contact_id = (int) mosGetParam( $_REQUEST ,'contact_id', 0 );
+$catid 		= (int) mosGetParam( $_REQUEST ,'catid', 0 );
 
 switch( $task ) {
 	case 'view':
@@ -340,6 +340,13 @@ function contactpage( $contact_id ) {
 function sendmail( $con_id, $option ) {
 	global $database, $Itemid;
 	global $mosConfig_sitename, $mosConfig_live_site, $mosConfig_mailfrom, $mosConfig_fromname;
+
+	$validate = mosGetParam( $_POST, mosHash( 'validate' ), 0 );
+	if (!$validate) {
+		// probably a spoofing attack
+		echo _NOT_AUTH;
+		return;
+	}
 
 	$query = "SELECT *"
 	. "\n FROM #__contact_details"
