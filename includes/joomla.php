@@ -444,18 +444,18 @@ class mosMainFrame {
 			case 'site':
 			case 'front':
 			default:
-				return JFile::getNativePath( $mosConfig_absolute_path, $addTrailingSlash );
+				return mosPathName( $mosConfig_absolute_path, $addTrailingSlash );
 				break;
 
 			case '2':
 			case 'installation':
-				return JFile::getNativePath( $mosConfig_absolute_path . '/installation', $addTrailingSlash );
+				return mosPathName( $mosConfig_absolute_path . '/installation', $addTrailingSlash );
 				break;
 
 			case '1':
 			case 'admin':
 			case 'administrator':
-				return JFile::getNativePath( $mosConfig_absolute_path . '/administrator', $addTrailingSlash );
+				return mosPathName( $mosConfig_absolute_path . '/administrator', $addTrailingSlash );
 				break;
 
 		}

@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+28-Nov-2005 Andrew Eddie
+ # Fixed artf2329 : mosMainFrame::getBasePath refers to non-existant JFile class.
+
 24-Nov-2005 Emir Sakic
  # Fixed artf2225 : Email / Print redirects to homepage
  # Fixed artf1705 : Not same URL for same item : duplicate content
