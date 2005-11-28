@@ -35,6 +35,7 @@ Legend:
  # Fixed artf2329 : mosMainFrame::getBasePath refers to non-existant JFile class.
  # Fixed artf2246 : Error in frontend.html.php
  # Fixed artf2190 : mod_poll.php modification
+ # Fixed artf2292 : [WITH FIX] Sql query missing hits
 
 24-Nov-2005 Emir Sakic
  # Fixed artf2225 : Email / Print redirects to homepage
