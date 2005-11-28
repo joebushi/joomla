@@ -50,7 +50,7 @@ class HTML_Media {
 				<tr>
 					<th class="mediamanager">
 						Media Manager
-					</td>
+					</th>
 					<td>
 						<table border="0" align="right" cellpadding="0" cellspacing="4" width="600">
 						<tr>

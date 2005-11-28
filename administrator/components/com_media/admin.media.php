@@ -31,8 +31,7 @@ require_once( $mainframe->getPath( 'admin_html' ) );
  * @return string The sanitised string
  */
 function makeSafe( $file ) {
-	$regex = '#\.\.[^A-Za-z0-9\.\_\-/ ]#';
-	return preg_replace( $regex, '', $file );
+	return str_replace( '..', '', urldecode( $file ) );
 }
 
 $cid = mosGetParam( $_POST, 'cid', array(0) );
@@ -234,7 +233,7 @@ function recursive_listdir( $base ) {
 * Show media manager
 * @param string The image directory to display
 */
-function showMedia($listdir) {
+function showMedia( $listdir ) {
 	global $mosConfig_live_site;
 
 	// get list of directories
@@ -290,7 +289,7 @@ function listImages($listdir) {
 					//$docs[$entry] = $img_file;
 					$docs[$entry] = $file_details;
 				}
-			} else if(is_dir( COM_MEDIA_BASE ."/".$listdir.'/'.$img_file) && substr($entry,0,1) != '.' && strtolower($entry) !== 'cvs') {
+			} else if(is_dir( COM_MEDIA_BASE .'/'.$listdir.'/'.$img_file) && substr($entry,0,1) != '.' && strtolower($entry) !== 'cvs') {
 				$folders[$entry] = $img_file;
 			}
 		}
