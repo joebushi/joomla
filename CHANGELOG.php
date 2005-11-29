@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+29-Nov-2005 Andrew Eddie
+ # Fixed artf2258 : Parameter tooltips missing in 1.0.4
+
 28-Nov-2005 Andrew Eddie
  # Fixed artf2329 : mosMainFrame::getBasePath refers to non-existant JFile class.
  # Fixed artf2246 : Error in frontend.html.php
