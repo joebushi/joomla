@@ -16,11 +16,13 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 if ($mosConfig_sef) {
 	$url_array = explode('/', $_SERVER['REQUEST_URI']);
-	/**
-	* Content
-	* http://www.domain.com/$option/$task/$sectionid/$id/$Itemid/$limit/$limitstart
-	*/
+
 	if (in_array('content', $url_array)) {
+
+		/**
+		* Content
+		* http://www.domain.com/$option/$task/$sectionid/$id/$Itemid/$limit/$limitstart
+		*/
 
 		$uri 				= explode('content/', $_SERVER['REQUEST_URI']);
 		$option 			= 'com_content';
@@ -149,14 +151,13 @@ if ($mosConfig_sef) {
 		$_SERVER['QUERY_STRING'] 	= $QUERY_STRING;
 		$REQUEST_URI 				= $uri[0].'index.php?'.$QUERY_STRING;
 		$_SERVER['REQUEST_URI'] 	= $REQUEST_URI;
-	}
 
-	/*
-	Components
-	http://www.domain.com/component/$name,$value
-	*/
-	if (in_array('component', $url_array)) {
+	} else if (in_array('component', $url_array)) {
 
+		/*
+		Components
+		http://www.domain.com/component/$name,$value
+		*/
 		$uri = explode('component/', $_SERVER['REQUEST_URI']);
 		$uri_array = explode('/', $uri[1]);
 		$QUERY_STRING = '';
@@ -173,17 +174,28 @@ if ($mosConfig_sef) {
 		$_SERVER['QUERY_STRING'] 	= $QUERY_STRING;
 		$REQUEST_URI 				= $uri[0].'index.php?'.$QUERY_STRING;
 		$_SERVER['REQUEST_URI'] 	= $REQUEST_URI;
-	}
-	if (defined('RG_EMULATION') && RG_EMULATION == 1) {
-		// Extract to globals
-		while(list($key,$value)=each($_GET)) {
-			if ($key!="GLOBALS") {
-				$GLOBALS[$key]=$value;
+
+		if (defined('RG_EMULATION') && RG_EMULATION == 1) {
+			// Extract to globals
+			while(list($key,$value)=each($_GET)) {
+				if ($key!="GLOBALS") {
+					$GLOBALS[$key]=$value;
+				}
 			}
+			// Don't allow config vars to be passed as global
+			include( 'configuration.php' );
 		}
-		// Don't allow config vars to be passed as global
-		include( 'configuration.php' );
+
+	} else {
+
+		/*
+		Unknown content
+		http://www.domain.com/unknown
+		*/
+		header("HTTP/1.0 404 Not Found");
+
 	}
+
 }
 
 function sefRelToAbs( $string ) {
