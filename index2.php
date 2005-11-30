@@ -118,25 +118,30 @@ if (defined( '_ADMIN_OFFLINE' )) {
 
 // start basic HTML
 if ( $no_html == 0 ) {
-	// needed to seperate the ISO number from the language file constant _ISO
-	$iso = split( '=', _ISO );
-	// xml prolog
-	echo '<?xml version="1.0" encoding="'. $iso[1] .'"?' .'>';
+	$customIndex2 = 'templates/'. $mainframe->getTemplate() .'/index2.php';
+	if (file_exists( $customIndex2 )) {
+		require( $customIndex2 );
+	} else {
+		// needed to seperate the ISO number from the language file constant _ISO
+		$iso = split( '=', _ISO );
+		// xml prolog
+		echo '<?xml version="1.0" encoding="'. $iso[1] .'"?' .'>';
 	?>
-	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-	<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
-	<?php echo $mainframe->getHead(); ?>
-	<link rel="stylesheet" href="templates/<?php echo $cur_template;?>/css/template_css.css" type="text/css" />
-	<link rel="shortcut icon" href="<?php echo $mosConfig_live_site; ?>/images/favicon.ico" />
-	<meta http-equiv="Content-Type" content="text/html; <?php echo _ISO; ?>" />
-	<meta name="robots" content="noindex, nofollow" />
+		<?php echo $mainframe->getHead(); ?>
+		<link rel="stylesheet" href="templates/<?php echo $cur_template;?>/css/template_css.css" type="text/css" />
+		<link rel="shortcut icon" href="<?php echo $mosConfig_live_site; ?>/images/favicon.ico" />
+		<meta http-equiv="Content-Type" content="text/html; <?php echo _ISO; ?>" />
+		<meta name="robots" content="noindex, nofollow" />
 	</head>
 	<body class="contentpane">
-	<?php mosMainBody(); ?>
+		<?php mosMainBody(); ?>
 	</body>
-	</html>
-	<?php
+</html>
+<?php
+	}
 } else {
 	mosMainBody();
 }
