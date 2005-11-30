@@ -106,10 +106,6 @@ switch ( strtolower( $task ) ) {
 		recordVote ();
 		break;
 
-	case 'blogsection':
-		$cache->call('showBlogSection', 0, $gid, $access, $pop, $now );
-		break;
-
 	default:
 		//$cache->call('showBlogSection', 0, $gid, $access, $pop, $now );
 		header("HTTP/1.0 404 Not Found");
