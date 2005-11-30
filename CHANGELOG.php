@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+30-Nov-2005 Emir Sakic
+ + Added 404 handling for missing content and components
+
 30-Nov-2005 Andrew Eddie
  # Site templates allowed to have custom index2.php (fixes problems where custom code is required in index2)
 

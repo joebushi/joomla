@@ -106,8 +106,14 @@ switch ( strtolower( $task ) ) {
 		recordVote ();
 		break;
 
-	default:
+	case 'blogsection':
 		$cache->call('showBlogSection', 0, $gid, $access, $pop, $now );
+		break;
+
+	default:
+		//$cache->call('showBlogSection', 0, $gid, $access, $pop, $now );
+		header("HTTP/1.0 404 Not Found");
+		echo _NOT_EXIST;
 		break;
 }
 
@@ -241,7 +247,7 @@ function showSection( $id, $gid, &$access, $now ) {
 		if ( !$params->get( 'empty_cat' ) ) {
 			$empty = "\n HAVING numitems > 0";
 		}
-	}	
+	}
 	if ( $params->get( 'type' ) == 'section' ) {
 		// show/hide empty categories in section
 		if ( !$params->get( 'empty_cat_section' ) ) {
@@ -1169,11 +1175,11 @@ function show( $row, $params, $gid, &$access, $pop, $option, $ItemidCount=NULL )
 		;
 		$database->setQuery( $query );
 		$_Itemid = $database->loadResult();
-		
+
 		if ( $_Itemid ) {
 			$_Itemid = '&amp;Itemid='. $_Itemid;
 		}
-		
+
 		$link 			= sefRelToAbs( 'index.php?option=com_content&amp;task=section&amp;id='. $row->sectionid . $_Itemid );
 		$row->section 	= '<a href="'. $link .'">'. $row->section .'</a>';
 	}
@@ -1186,11 +1192,11 @@ function show( $row, $params, $gid, &$access, $pop, $option, $ItemidCount=NULL )
 		;
 		$database->setQuery( $query );
 		$_Itemid = $database->loadResult();
-		
+
 		if ( $_Itemid ) {
 			$_Itemid = '&amp;Itemid='. $_Itemid;
 		}
-		
+
 		$link 			= sefRelToAbs( 'index.php?option=com_content&amp;task=category&amp;sectionid='. $row->sectionid .'&amp;id='. $row->catid . $_Itemid );
 		$row->category 	= '<a href="'. $link .'">'. $row->category .'</a>';
 	}
@@ -1395,7 +1401,7 @@ function saveContent( &$access, $task ) {
 	if ( trim( $row->publish_down ) == 'Never' ) {
 		$row->publish_down = $nullDate;
 	}
-	
+
 	// code cleaner for xhtml transitional compliance
 	$row->introtext = str_replace( '<br>', '<br />', $row->introtext );
 	$row->fulltext 	= str_replace( '<br>', '<br />', $row->fulltext );
@@ -1406,7 +1412,7 @@ function saveContent( &$access, $task ) {
  	if ( $length && $search ) {
  		$row->fulltext = NULL;
  	}
-	
+
 	$row->title = ampReplace( $row->title );
 
 	if (!$row->check()) {
@@ -1518,7 +1524,7 @@ function cancelContent( &$access ) {
 
 	$row = new mosContent( $database );
 	$row->bind( $_POST );
-	
+
 	if ( $access->canEdit || ( $access->canEditOwn && $row->created_by == $my->id ) ) {
 		$row->checkin();
 	}
@@ -1533,7 +1539,7 @@ function cancelContent( &$access ) {
 		$Itemid  = mosGetParam( $_POST, 'Returnid', '' );
 		$referer = 'index.php?option=com_content&task=view&id='. $row->id.'&Itemid='. $Itemid;
 	}
-	
+
 	if ( $referer && !( $task == 'new' ) ) {
 		mosRedirect( $referer );
 	} else {
@@ -1741,7 +1747,7 @@ function _orderby_sec( $orderby ) {
 */
 function _where( $type=1, &$access, &$noauth, $gid, $id, $now=NULL, $year=NULL, $month=NULL ) {
 	global $database;
-	
+
 	$nullDate = $database->getNullDate();
 	$where = array();
 

@@ -209,6 +209,7 @@ if ($path = $mainframe->getPath( 'front' )) {
 		mosNotAuth();
 	}
 } else {
+	header("HTTP/1.0 404 Not Found");
 	echo _NOT_EXIST;
 }
 $_MOS_OPTION['buffer'] = ob_get_contents();
