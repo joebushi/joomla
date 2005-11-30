@@ -1513,7 +1513,7 @@ class gacl_api extends gacl {
 
 					// Get rid of $object_id map referencing erased objects
 					$this->db->setQuery( "DELETE FROM $object_map_table WHERE section_value='$section_value' AND value='$value'" );
-					$rs = $this->db->query($query);
+					$rs = $this->db->query();
 
 					if (!$rs) {
 						$this->debug_db('edit_object');

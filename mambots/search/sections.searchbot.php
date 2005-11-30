@@ -41,7 +41,6 @@ function botSearchSections( $text, $phrase='', $ordering='' ) {
 	$botParams = new mosParameters( $mambot->params );
 	
 	$limit = $botParams->def( 'search_limit', 50 );
-	$limit = "\n LIMIT $limit";	
 	
 	 $text = trim( $text );
 	if ($text == '') {
@@ -75,9 +74,8 @@ function botSearchSections( $text, $phrase='', $ordering='' ) {
 	. "\n AND a.access <= $my->gid"
 	. "\n AND ( m.type = 'content_section' OR m.type = 'content_blog_section' )"
 	. "\n ORDER BY $order"
-	. "\n LIMIT $limit"
 	;
-	$database->setQuery( $query );
+	$database->setQuery( $query, 0, $limit );
 	$rows = $database->loadObjectList();
 
 	$count = count( $rows );

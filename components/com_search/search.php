@@ -169,8 +169,7 @@ function viewSearch() {
 			$row = mosPrepareSearchContent( $row, 200, $needle );
 	
 		  	foreach ($searchwords as $hlword) {
-				$hlword = htmlspecialchars( stripslashes( $hlword ) );
-				$row = eregi_replace( $hlword, '<span class="highlight">\0</span>', $row );				
+				$row = preg_replace( '/' . preg_quote( $hlword, '/' ) . '/i', '<span class="highlight">\0</span>', $row ); 
 			}
 	
 			if (!eregi( '^http', $rows[$i]->href )) {

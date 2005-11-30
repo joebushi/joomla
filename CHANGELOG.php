@@ -31,6 +31,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+01-Dec-2005 Andrew Eddie
+ # Fixed limit error in sections search bot
+ # Bug in gacl_api::add_group query [c/o Mambo bug #8199]
+ # Search highlighting fails when a "?" is entered [c/o Mambo bug #8260]
+
 30-Nov-2005 Emir Sakic
  + Added 404 handling for missing content and components
  + Added 404 handling to SEF for unknown files
