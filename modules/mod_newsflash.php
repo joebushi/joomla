@@ -72,6 +72,7 @@ switch ($style) {
 			$row->load( $id );
 			$row->text = $row->introtext;
 			$row->groups = '';
+			$row->readmore = (trim( $row->fulltext ) != '');
 			echo '<td>';
 			HTML_content::show( $row, $params, $access, 0, 'com_content' );
 			echo '</td>';
@@ -84,6 +85,7 @@ switch ($style) {
 			$row->load( $id );
 			$row->text = $row->introtext;
 			$row->groups = '';
+			$row->readmore = (trim( $row->fulltext ) != '');
 
 			HTML_content::show( $row, $params, $access, 0, 'com_content' );
 		}
@@ -91,17 +93,18 @@ switch ($style) {
 
 	case 'flash':
 		default:
-		if ($numrows > 0) {
-			srand ((double) microtime() * 1000000);
-			$flashnum = $rows[rand( 0, $numrows-1 )];
-		} else {
-			$flashnum = 0;
-		}
-		$row->load( $flashnum );
-		$row->text = $row->introtext;
-		$row->groups = '';
+			if ($numrows > 0) {
+				srand ((double) microtime() * 1000000);
+				$flashnum = $rows[rand( 0, $numrows-1 )];
+			} else {
+				$flashnum = 0;
+			}
+			$row->load( $flashnum );
+			$row->text = $row->introtext;
+			$row->groups = '';
+			$row->readmore = (trim( $row->fulltext ) != '');
 
-		HTML_content::show( $row, $params, $access, 0, 'com_content' );
-		break;
+			HTML_content::show( $row, $params, $access, 0, 'com_content' );
+			break;
 }
 ?>
