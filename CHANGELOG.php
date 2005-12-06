@@ -36,6 +36,7 @@ Legend:
  # Fixed artf2156 : memory exhastion error in joomla.xml.php
  # Fixed artf2378 : mosCommonHTML::CheckedOutProcessing not checking if the current user 
                     has checked out the document
+ # Fixed artf1948 : Pagination problem still exists
 
 01-Dec-2005 Andrew Eddie
  # Fixed limit error in sections search bot
