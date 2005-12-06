@@ -1059,7 +1059,7 @@ class mosDBTable {
             $this->checked_out = $user_id;
             $this->checked_out_time = $time;
 		} else {
-			$user_id = $hits->_db->Quote( $user_id );
+			$user_id = $this->_db->Quote( $user_id );
 			// old way of storing editor, by name
 			$query = "UPDATE $this->_tbl"
 			. "\n SET checked_out = 1, checked_out_time = '$time', editor = $user_id"
