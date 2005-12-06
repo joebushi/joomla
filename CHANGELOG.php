@@ -33,6 +33,7 @@ Legend:
 
 06-Dec-2005 Johan Janssens
  # Fixed artf2418 : Banners Client Manager Next Page Issue: Joomla 1.04
+ # Fixed artf2156 : memory exhastion error in joomla.xml.php
 
 01-Dec-2005 Andrew Eddie
  # Fixed limit error in sections search bot
