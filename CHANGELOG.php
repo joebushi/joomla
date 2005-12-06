@@ -33,6 +33,7 @@ Legend:
 
 06-Dec-2005 Alex Kempkens
  # Fixed artf2434: Typo in database.php checkout function line 1050
+ # Fixed artf2398 : Parameter Text Area field name
 
 06-Dec-2005 Johan Janssens
  # Fixed artf2418 : Banners Client Manager Next Page Issue: Joomla 1.04
