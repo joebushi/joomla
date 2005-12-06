@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+06-Dec-2005 Johan Janssens
+ # Fixed artf2418 : Banners Client Manager Next Page Issue: Joomla 1.04
+
 01-Dec-2005 Andrew Eddie
  # Fixed limit error in sections search bot
  # Bug in gacl_api::add_group query [c/o Mambo bug #8199]
