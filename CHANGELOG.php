@@ -41,6 +41,8 @@ Legend:
  # Fixed artf2378 : mosCommonHTML::CheckedOutProcessing not checking if the current user 
                     has checked out the document
  # Fixed artf1948 : Pagination problem still exists
+ ^ Upgraded TinyMCE Compressor [1.0.4]
+ ^ Upgraded TinyMCE [2.0.1]
 
 01-Dec-2005 Andrew Eddie
  # Fixed limit error in sections search bot
