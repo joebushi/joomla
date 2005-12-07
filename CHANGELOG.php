@@ -55,7 +55,9 @@ Legend:
 01-Dec-2005 Andrew Eddie
  # Fixed nullDate error in mosDBTable::checkin method
  # Removed $migrate global in mosDBTable::store method
- # Fixed some MySQL 5 issues (but not all)
+ # Fixed some MySQL 5 issues (still very unreliable)
+ + Component may force frontend application to include joomla.javascript.js by:
+   $mainframe->set( 'joomlaJavascript', 1 );
 
 01-Dec-2005 Andrew Eddie
  # Fixed limit error in sections search bot
