@@ -64,10 +64,6 @@ if (is_dir($abspath_folder)) {
 
   	$image = $mosConfig_live_site .'/'. $folder .'/'. $image_name;
 
-	if ($link) {
-  		echo '<a href="'. $link .'" target="_self">';
-  	}
-
 	}
   	?>
  	<div align="center">

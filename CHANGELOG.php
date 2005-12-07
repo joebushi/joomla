@@ -35,6 +35,7 @@ Legend:
  # Fixed artf2430 : invalid values in tabpane.css
  # Fixed artf2457 : VCard bug IS a bug
  # Fixed artf2218 : RSS Newsfeed module generates wrong rendering output
+ # Fixed artf2453 : Random Image Module
 
 06-Dec-2005 Alex Kempkens
  # Fixed artf2434: Typo in database.php checkout function line 1050
