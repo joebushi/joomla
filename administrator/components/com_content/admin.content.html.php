@@ -194,7 +194,7 @@ class HTML_content {
 				</td>
 				<td>
 				<?php
-				if ( $row->checked_out ) {
+				if ( $row->checked_out && ( $row->checked_out != $my->id )) {
 					echo $row->title;
 				} else {
 					?>
