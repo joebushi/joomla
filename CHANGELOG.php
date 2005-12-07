@@ -31,6 +31,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+07-Dec-2005 Andrew Eddie
+ # Fixed unitialised array in mosHTML::MenuSelect method
+ + Added mosBackTrace debugging function
+
 07-Dec-2005 Johan Janssens
  # Fixed artf2430 : invalid values in tabpane.css
  # Fixed artf2457 : VCard bug IS a bug

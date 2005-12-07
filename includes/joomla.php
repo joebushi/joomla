@@ -4058,8 +4058,11 @@ class mosAdminMenus {
 	}
 
 	/**
-	* Select list of menus
-	*/
+	 * Select list of menus
+	 * @param string The control name
+	 * @param string Additional javascript
+	 * @return string A select list
+	 */
 	function MenuSelect( $name='menuselect', $javascript=NULL ) {
 		global $database;
 
@@ -4070,6 +4073,7 @@ class mosAdminMenus {
 		$database->setQuery( $query );
 		$menus = $database->loadObjectList();
 		$total = count( $menus );
+		$menuselect = array();
 		for( $i = 0; $i < $total; $i++ ) {
 			$params = mosParseParams( $menus[$i]->params );
 			$menuselect[$i]->value 	= $params->menutype;
@@ -4878,6 +4882,22 @@ class patHTML {
  */
 function mosHash( $seed ) {
 	return md5( $GLOBALS['mosConfig_secret'] . md5( $seed ) );
+}
+
+/**
+ * Format a backtrace error
+ * @since 1.0.5
+ */
+function mosBackTrace() {
+	if (function_exists( 'debug_backtrace' )) {
+		echo '<div align="left">';
+		foreach( debug_backtrace() as $back) {
+			if (@$back['file']) {
+				echo '<br />' . str_replace( $GLOBALS['mosConfig_absolute_path'], '', $back['file'] ) . ':' . $back['line'];
+			}
+		}
+		echo '</div>';
+	}
 }
 
 // ----- NO MORE CLASSES OR FUNCTIONS PASSED THIS POINT -----
