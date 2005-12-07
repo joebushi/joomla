@@ -26,7 +26,7 @@ class loginHTML {
 
 		$return = $params->get('login');
 		?>
-		<form action="<?php echo sefRelToAbs( 'index.php?option=com_login' ); ?>" method="post" name="login" id="login">
+		<form action="<?php echo sefRelToAbs( 'index.php?option=login' ); ?>" method="post" name="login" id="login">
 		<table width="100%" border="0" align="center" cellpadding="4" cellspacing="0" class="contentpane<?php echo $params->get( 'pageclass_sfx' ); ?>">
 		<tr>
 			<td colspan="2">
