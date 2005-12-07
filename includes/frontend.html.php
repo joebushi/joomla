@@ -139,7 +139,7 @@ class modules_html {
 			}
 
 			// feed title
-			$content_buffer = '<table cellpadding="0" cellspacing="0" class="moduletable'.$moduleclass_sfx.'>' . "\n";
+			$content_buffer = '<table cellpadding="0" cellspacing="0" class="moduletable'.$moduleclass_sfx.'">' . "\n";
 						
 			if ( $currChannel->getTitle() && $rsstitle ) {
 				
@@ -190,10 +190,27 @@ class modules_html {
 						$currItem =& $currChannel->getItem($j);
 						// item title
 
+						// START fix for RSS enclosure tag url not showing
 						$content_buffer .= "<li class=\"newsfeed" . $moduleclass_sfx . "\">\n";
 						$content_buffer .= "	<strong>\n";
-						$content_buffer .= "      " . str_replace('&apos;', "'", html_entity_decode( $currItem->getTitle() ) ) . "</a>\n";
-						$content_buffer .= "	</strong>\n";
+						if ($currItem->getLink()) {
+							$content_buffer .= "        <a href=\"" . ampReplace( $currItem->getLink() ) . "\" target=\"_blank\">\n";
+							$content_buffer .= "      " . str_replace('&apos;', "'", html_entity_decode( $currItem->getTitle() ) ) . "</a>\n";
+						} else if ($currItem->getEnclosure()) {
+							$enclosure = $currItem->getEnclosure();
+							$eUrl	= $enclosure->getUrl();
+							$content_buffer .= "        <a href=\"" . ampReplace( $eUrl ) . "\" target=\"_blank\">\n";
+							$content_buffer .= "      " . str_replace('&apos;', "'", html_entity_decode( $currItem->getTitle() ) ) . "</a>\n";
+						}  else if (($currItem->getEnclosure()) && ($currItem->getLink())) {
+							$enclosure = $currItem->getEnclosure();
+							$eUrl	= $enclosure->getUrl();
+							$content_buffer .= "        <a href=\"" . ampReplace( $currItem->getLink() ) . "\" target=\"_blank\">\n";
+							$content_buffer .= "      " . str_replace('&apos;', "'", html_entity_decode( $currItem->getTitle() ) ) . "</a><br/>\n";
+							$content_buffer .= "        <a href=\"" . ampReplace( $eUrl ) . "\" target=\"_blank\"><u>Download</u></a>\n";
+						}
+						$content_buffer .= "	<strong>\n";
+						// END fix for RSS enclosure tag url not showing
+						
 							// item description
 							if ( $rssitemdesc ) {
 								// item description
