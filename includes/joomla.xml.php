@@ -213,7 +213,7 @@ class mosParameters {
 			if (!is_object( $this->_xmlElem )) {
 				require_once( $mosConfig_absolute_path . '/includes/domit/xml_domit_lite_include.php' );
 
-				$xmlDoc =& new DOMIT_Lite_Document();
+				$xmlDoc = new DOMIT_Lite_Document();
 				$xmlDoc->resolveErrors( true );
 				if ($xmlDoc->loadXML( $this->_path, false, true )) {
 					$root =& $xmlDoc->documentElement;

@@ -51,6 +51,7 @@ class mosBannerClient extends mosDBTable {
 			$this->_error = _BNR_VALID_EMAIL;
 			return false;
 		}
+
 		return true;
 	}
 }
@@ -124,6 +125,7 @@ class mosBanner extends mosDBTable {
 			$this->_error = _BNR_URL;
 			return false;
 		}
+		$this->imptotal = (int) $this->imptotal;
 
 		return true;
 	}

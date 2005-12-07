@@ -1256,6 +1256,7 @@ class gacl_api extends gacl {
 		$name = trim($name);
 		$value = trim($value);
 		$order = trim($order);
+		$hidden = (int) $hidden;
 
 		if ($order == NULL OR $order == '') {
 			$order = 0;
@@ -1304,7 +1305,7 @@ class gacl_api extends gacl {
 		}
 
 		$insert_id = $this->db->GenID($this->_db_table_prefix.$object_type.'_seq',10);
-		$this->db->setQuery( "INSERT INTO $table ({$object_type}_id,section_value,value,order_value,name,hidden) VALUES($insert_id,'$section_value','$value','$order','$name','$hidden')" );
+		$this->db->setQuery( "INSERT INTO $table ({$object_type}_id,section_value,value,order_value,name,hidden) VALUES($insert_id,'$section_value','$value','$order','$name',$hidden)" );
 
 		if (!$this->db->query()) {
 			$this->debug_db('add_object');

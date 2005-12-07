@@ -791,8 +791,8 @@ class mosDBTable {
 	*/
 	function store( $updateNulls=false ) {
 		$k = $this->_tbl_key;
-		global $migrate;
-		if( $this->$k && !$migrate) {
+
+		if ($this->$k) {
 			$ret = $this->_db->updateObject( $this->_tbl, $this, $this->_tbl_key, $updateNulls );
 		} else {
 			$ret = $this->_db->insertObject( $this->_tbl, $this, $this->_tbl_key );
@@ -1089,8 +1089,9 @@ class mosDBTable {
 			$this->$k = intval( $oid );
 		}
 		$time = date( 'H:i:s' );
+		$nullDate = $this->_db->getNullDate();
 		$query = "UPDATE $this->_tbl"
-		. "\n SET checked_out = 0, checked_out_time = '$this->_db->_nullDate'"
+		. "\n SET checked_out = 0, checked_out_time = '$nullDate'"
 		. "\n WHERE $this->_tbl_key = ". $this->$k
 		;
 		$this->_db->setQuery( $query );

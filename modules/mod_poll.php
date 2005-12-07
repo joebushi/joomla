@@ -26,9 +26,9 @@ if (!defined( '_JOS_POLL_MODULE' )) {
 		global $database;
 
 		$query = "SELECT p.id, p.title"
-		. "\n FROM #__polls AS p, #__poll_menu AS pm"
+		. "\n FROM #__polls AS p"
+		. "\n INNER JOIN #__poll_menu AS pm ON  pm.pollid = p.id"
 		. "\n WHERE ( pm.menuid = " . (int) $Itemid . " OR pm.menuid = 0 )"
-		. "\n AND p.id = pm.pollid"
 		. "\n AND p.published = 1";
 
 		$database->setQuery( $query );

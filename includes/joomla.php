@@ -2718,6 +2718,46 @@ class mosSession extends mosDBTable {
 		$this->mosDBTable( '#__session', 'session_id', $db );
 	}
 
+	/**
+	 * @param string Key search for
+	 * @param mixed Default value if not set
+	 * @return mixed
+	 */
+	function get( $key, $default=null ) {
+		return mosGetParam( $_SESSION, $key, $default );
+	}
+
+	/**
+	 * @param string Key to set
+	 * @param mixed Value to set
+	 * @return mixed The new value
+	 */
+	function set( $key, $value ) {
+		$_SESSION[$key] = $value;
+		return $value;
+	}
+
+	/**
+	 * Sets a key from a REQUEST variable, otherwise uses the default
+	 * @param string The variable key
+	 * @param string The REQUEST variable name
+	 * @param mixed The default value
+	 * @return mixed
+	 */
+	function setFromRequest( $key, $varName, $default=null ) {
+		if (isset( $_REQUEST[$varName] )) {
+			return mosSession::set( $key, $_REQUEST[$varName] );
+		} else if (isset( $_SESSION[$key] )) {
+			return $_SESSION[$key];
+		} else {
+			return mosSession::set( $key, $default );
+		}
+	}
+
+	/**
+	 * Insert a new row
+	 * @return boolean
+	 */
 	function insert() {
 		$ret = $this->_db->insertObject( $this->_tbl, $this );
 
@@ -2729,6 +2769,10 @@ class mosSession extends mosDBTable {
 		}
 	}
 
+	/**
+	 * Update an existing row
+	 * @return boolean
+	 */
 	function update( $updateNulls=false ) {
 		$ret = $this->_db->updateObject( $this->_tbl, $this, 'session_id', $updateNulls );
 
@@ -2740,6 +2784,10 @@ class mosSession extends mosDBTable {
 		}
 	}
 
+	/**
+	 * Generate a unique session id
+	 * @return string
+	 */
 	function generateId() {
 		$failsafe = 20;
 		$randnum = 0;
@@ -2765,10 +2813,17 @@ class mosSession extends mosDBTable {
 		$this->session_id = md5( $randnum . $_SERVER['REMOTE_ADDR'] );
 	}
 
+	/**
+	 * @return string The name of the session cookie
+	 */
 	function getCookie() {
 		return $this->_session_cookie;
 	}
 
+	/**
+	 * Purge lapsed sessions
+	 * @return boolean
+	 */
 	function purge( $inc=1800 ) {
 		$past = time() - $inc;
 		$query = "DELETE FROM $this->_tbl"

@@ -53,6 +53,11 @@ Legend:
  ^ Upgraded TinyMCE [2.0.1]
 
 01-Dec-2005 Andrew Eddie
+ # Fixed nullDate error in mosDBTable::checkin method
+ # Removed $migrate global in mosDBTable::store method
+ # Fixed some MySQL 5 issues (but not all)
+
+01-Dec-2005 Andrew Eddie
  # Fixed limit error in sections search bot
  # Bug in gacl_api::add_group query [c/o Mambo bug #8199]
  # Search highlighting fails when a "?" is entered [c/o Mambo bug #8260]

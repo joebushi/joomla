@@ -51,11 +51,11 @@ function &initModules() {
 
 	if (!isset( $GLOBALS['_MOS_MODULES'] )) {
 		$query = "SELECT id, title, module, position, content, showtitle, params"
-		. "\n FROM #__modules AS m, #__modules_menu AS mm"
+		. "\n FROM #__modules AS m"
+		. "\n INNER JOIN #__modules_menu AS mm ON mm.moduleid = m.id"
 		. "\n WHERE m.published = 1"
 		. "\n AND m.access <= '". $my->gid ."'"
 		. "\n AND m.client_id != 1"
-		. "\n AND mm.moduleid = m.id"
 		. "\n AND ( mm.menuid = '". $Itemid ."' OR mm.menuid = 0 )"
 		. "\n ORDER BY ordering";
 
@@ -157,7 +157,7 @@ function mosShowHead() {
 
 	$task = mosGetParam( $_REQUEST, 'task', '' );
 
-	if ( $my->id ) {
+	if ($my->id || $mainframe->get( 'joomlaJavascript' )) {
 		?>
 		<script language="JavaScript" src="<?php echo $mosConfig_live_site;?>/includes/js/joomla.javascript.js" type="text/javascript"></script>
 		<?php
