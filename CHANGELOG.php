@@ -42,6 +42,7 @@ Legend:
  # Fixed artf2453 : Random Image Module
  # Fixed artf2251 : Poll title error
  # Fixed artf2393 : Original editor cannot open content item if checked out
+ # Fixed artf2323 : overlib_hideform_mini.js parse error
 
 06-Dec-2005 Alex Kempkens
  # Fixed artf2434: Typo in database.php checkout function line 1050
