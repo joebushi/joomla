@@ -139,7 +139,7 @@ class modules_html {
 			}
 
 			// feed title
-			$content_buffer = '<table cellpadding="0" cellspacing="0" class="moduletable<?php echo $moduleclass_sfx; ?>">' . "\n";
+			$content_buffer = '<table cellpadding="0" cellspacing="0" class="moduletable'.$moduleclass_sfx.'>' . "\n";
 						
 			if ( $currChannel->getTitle() && $rsstitle ) {
 				
