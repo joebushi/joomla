@@ -104,14 +104,30 @@ class database {
 		$this->_log = array();
 	}
 	/**
-	* @param int
-	*/
+	 * Returns an array of public properties
+	 * @return array
+	 */
+	function getPublicProperties() {
+		static $cache = null;
+		if (is_null( $cache )) {
+			$cache = array();
+			foreach (get_class_vars( get_class( $this ) ) as $key=>$val) {
+				if (substr( $key, 0, 1 ) != '_') {
+					$cache[] = $key;
+				}
+			}
+		}
+		return $cache;
+	}
+	/**
+	 * @param int
+	 */
 	function debug( $level ) {
 		$this->_debug = intval( $level );
 	}
 	/**
-	* @return int The error number for the most recent query
-	*/
+	 * @return int The error number for the most recent query
+	 */
 	function getErrorNum() {
 		return $this->_errorNum;
 	}
@@ -524,11 +540,11 @@ class database {
 	function insertObject( $table, &$object, $keyName = NULL, $verbose=false ) {
 		$fmtsql = "INSERT INTO $table ( %s ) VALUES ( %s ) ";
 		$fields = array();
-		foreach (get_object_vars( $object ) as $k => $v) {
-			if (is_array($v) or is_object($v) or $v === NULL) {
-				continue;
-			}
-			if ($k[0] == '_') { // internal field
+		$vars = $object->getPublicProperties();
+
+		foreach ($vars as $k) {
+			$v =& $object->$k;
+			if (is_array( $v ) or is_object( $v ) or $v === NULL) {
 				continue;
 			}
 			$fields[] = $this->NameQuote( $k );;
@@ -680,6 +696,23 @@ class mosDBTable {
 		$this->_tbl_key = $key;
 		$this->_db =& $db;
 	}
+
+	/**
+	 * Returns an array of public properties
+	 * @return array
+	 */
+	function getPublicProperties() {
+		static $cache = null;
+		if (is_null( $cache )) {
+			$cache = array();
+			foreach (get_class_vars( get_class( $this ) ) as $key=>$val) {
+				if (substr( $key, 0, 1 ) != '_') {
+					$cache[] = $key;
+				}
+			}
+		}
+		return $cache;
+	}
 	/**
 	 * Filters public properties
 	 * @access protected
@@ -714,22 +747,7 @@ class mosDBTable {
 			return null;
 		}
 	}
-	/**
-	 * Returns an array of public properties
-	 * @return array
-	 */
-	function getPublicProperties() {
-		static $cache = null;
-		if (is_null( $cache )) {
-			$cache = array();
-			foreach (get_class_vars( get_class( $this ) ) as $key=>$val) {
-				if (substr( $key, 0, 1 ) != '_') {
-					$cache[] = $key;
-				}
-			}
-		}
-		return $cache;
-	}
+
 	/**
 	* Set the value of the class variable
 	* @param string The name of the class variable
@@ -738,6 +756,17 @@ class mosDBTable {
 	function set( $_property, $_value ) {
 		$this->$_property = $_value;
 	}
+
+	/**
+	 * Resets public properties
+	 * @param mixed The value to set all properties to, default is null
+	 */
+	function reset( $value=null ) {
+		$keys = $this->getPublicProperties();
+		foreach ($keys as $k) {
+			$this->$k = $value;
+		}
+	}
 	/**
 	*	binds a named array/hash to this object
 	*
@@ -745,7 +774,7 @@ class mosDBTable {
 	*	@param array $hash named array
 	*	@return null|string	null is operation was satisfactory, otherwise returns an error
 	*/
-	function bind( $array, $ignore="" ) {
+	function bind( $array, $ignore='' ) {
 		if (!is_array( $array )) {
 			$this->_error = strtolower(get_class( $this ))."::bind failed.";
 			return false;
@@ -768,6 +797,7 @@ class mosDBTable {
 		if ($oid === null) {
 			return false;
 		}
+		$this->reset();
 		$this->_db->setQuery( "SELECT * FROM $this->_tbl WHERE $this->_tbl_key='$oid'" );
 		return $this->_db->loadObject( $this );
 	}
@@ -889,7 +919,7 @@ class mosDBTable {
 		if ($this->_tbl == "#__content_frontpage") {
 			$order2 = ", content_id DESC";
 		} else {
-			$order2 = "";
+			$order2 = '';
 		}
 
 		$query = "SELECT $this->_tbl_key, ordering"
@@ -964,8 +994,8 @@ class mosDBTable {
 			$this->$k = intval( $oid );
 		}
 		if (is_array( $joins )) {
-			$select = "$k";
-			$join = "";
+			$select = $k;
+			$join = '';
 			foreach( $joins as $table ) {
 				$select .= ",\n COUNT(DISTINCT {$table['idfield']}) AS {$table['idfield']}";
 				$join .= "\n LEFT JOIN {$table['name']} ON {$table['joinfield']} = $k";
@@ -974,7 +1004,7 @@ class mosDBTable {
 			$query = "SELECT $select"
 			. "\n FROM $this->_tbl"
 			. $join
-			. "\n WHERE $k = ". $this->$k .""
+			. "\n WHERE $k = ". $this->$k
 			. "\n GROUP BY $k"
 			;
 			$this->_db->setQuery( $query );
@@ -1127,7 +1157,7 @@ class mosDBTable {
 			. "\n FROM #__core_log_items"
 			. "\n WHERE time_stamp = '$now'"
 			. "\n AND item_table = '$this->_tbl'"
-			. "\n AND item_id = ". $this->$k .""
+			. "\n AND item_id = ". $this->$k
 			;
 			$this->_db->setQuery( $query );
 			$hits = intval( $this->_db->loadResult() );
@@ -1136,7 +1166,7 @@ class mosDBTable {
 				. "\n SET hits = ( hits + 1 )"
 				. "\n WHERE time_stamp = '$now'"
 				. "\n AND item_table = '$this->_tbl'"
-				. "\n AND item_id = ".$this->$k.""
+				. "\n AND item_id = " . $this->$k
 				;
 				$this->_db->setQuery( $query );
 				$this->_db->query();

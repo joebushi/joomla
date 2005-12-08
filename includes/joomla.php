@@ -3160,10 +3160,10 @@ function mosCreateMail( $from='', $fromname='', $subject, $body ) {
 * @param string/array CC e-mail address(es)
 * @param string/array BCC e-mail address(es)
 * @param string/array Attachment file name(s)
-* @param string/array ReplyTo e-mail address(es)      
-* @param string/array ReplyTo name(s)  
+* @param string/array ReplyTo e-mail address(es)
+* @param string/array ReplyTo name(s)
 */
-function mosMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=NULL, $bcc=NULL, $attachment=NULL, $replyto=NULL, $replytoname=NULL ) {
+function mosMail( $from, $fromname, $recipient, $subject, $body, $mode=0, $cc=NULL, $bcc=NULL, $attachment=NULL, $replyto=NULL, $replytoname=NULL ) {
 	global $mosConfig_debug;
 	$mail = mosCreateMail( $from, $fromname, $subject, $body );
 
@@ -3172,43 +3172,53 @@ function mosMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=NUL
 		$mail->IsHTML(true);
 	}
 
-	if( is_array($recipient) ) {
+	if (is_array( $recipient )) {
 		foreach ($recipient as $to) {
-			$mail->AddAddress($to);
+			$mail->AddAddress( $to );
 		}
 	} else {
-		$mail->AddAddress($recipient);
+		$mail->AddAddress( $recipient );
 	}
-	if (isset($cc)) {
-		if( is_array($cc) )
-			foreach ($cc as $to) $mail->AddCC($to);
-		else
+	if (isset( $cc )) {
+		if (is_array( $cc )) {
+			foreach ($cc as $to) {
+				$mail->AddCC($to);
+			}
+		} else {
 			$mail->AddCC($cc);
+		}
 	}
-	if (isset($bcc)) {
-		if( is_array($bcc) )
-			foreach ($bcc as $to) $mail->AddBCC($to);
-		else
-			$mail->AddBCC($bcc);
+	if (isset( $bcc )) {
+		if (is_array( $bcc )) {
+			foreach ($bcc as $to) {
+				$mail->AddBCC( $to );
+			}
+		} else {
+			$mail->AddBCC( $bcc );
+		}
 	}
 	if ($attachment) {
-		if ( is_array($attachment) )
-			foreach ($attachment as $fname) $mail->AddAttachment($fname);
-		else
+		if (is_array( $attachment )) {
+			foreach ($attachment as $fname) {
+				$mail->AddAttachment( $fname );
+			}
+		} else {
 			$mail->AddAttachment($attachment);
-	} // if
+		}
+	}
 	//Important for being able to use mosMail without spoofing...
-	 if ($replyto) {												
-        if ( is_array($replyto) ) {
-        	reset($replytoname);
-            foreach ($replyto as $to) {
-            	$toname = ((list($key, $value) = each($replytoname)) ? $value : "");
-            	$mail->AddReplyTo($to, $toname);
-            }
-        } else
-            $mail->AddReplyTo($replyto, $replytoname);
+	if ($replyto) {
+		if (is_array( $replyto )) {
+			reset( $replytoname );
+			foreach ($replyto as $to) {
+				$toname = ((list( $key, $value ) = each( $replytoname )) ? $value : '');
+				$mail->AddReplyTo( $to, $toname );
+			}
+        } else {
+			$mail->AddReplyTo($replyto, $replytoname);
+		}
     }
-	
+
 	$mailssend = $mail->Send();
 
 	if( $mosConfig_debug ) {
@@ -3222,10 +3232,11 @@ function mosMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=NUL
 } // mosMail
 
 /**
-* Initialise GZIP
-*/
+ * Initialise GZIP
+ */
 function initGzip() {
 	global $mosConfig_gzip, $do_gzip_compress;
+
 	$do_gzip_compress = FALSE;
 	if ($mosConfig_gzip == 1) {
 		$phpver = phpversion();
