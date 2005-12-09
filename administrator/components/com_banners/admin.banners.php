@@ -318,7 +318,7 @@ function saveBannerClient( $option ) {
 		exit();
 	}
 	if (!$row->check()) {
-		mosRedirect( "index2.php?option=$option&task=editclient&cid[]=$row->id", $row->getError() );
+		mosRedirect( "index2.php?option=$option&task=editclient&cid[]=$row->cid", $row->getError() );
 	}
 
 	if (!$row->store()) {

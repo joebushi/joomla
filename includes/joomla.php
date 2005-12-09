@@ -2168,7 +2168,7 @@ class mosUser extends mosDBTable {
 		$query = "SELECT id"
 		. "\n FROM #__users "
 		. "\n WHERE username = '$this->username'"
-		. "\n AND id != $this->id"
+		. "\n AND id != " . (int)$this->id
 		;
 		$this->_db->setQuery( $query );
 		$xid = intval( $this->_db->loadResult() );
@@ -2182,7 +2182,7 @@ class mosUser extends mosDBTable {
 			$query = "SELECT id"
 			. "\n FROM #__users "
 			. "\n WHERE email = '$this->email'"
-			. "\n AND id != $this->id"
+			. "\n AND id != " . (int)$this->id
 			;
 			$this->_db->setQuery( $query );
 			$xid = intval( $this->_db->loadResult() );
