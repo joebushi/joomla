@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+09-Dec-2005 Emir Sakic
+ # Fixed artf2324 : SEF for components assumes option is always first part of query
+
 07-Dec-2005 Andrew Eddie
  # Fixed unitialised array in mosHTML::MenuSelect method
  + Added mosBackTrace debugging function
@@ -62,7 +65,7 @@ Legend:
 06-Dec-2005 Johan Janssens
  # Fixed artf2418 : Banners Client Manager Next Page Issue: Joomla 1.04
  # Fixed artf2156 : memory exhastion error in joomla.xml.php
- # Fixed artf2378 : mosCommonHTML::CheckedOutProcessing not checking if the current user 
+ # Fixed artf2378 : mosCommonHTML::CheckedOutProcessing not checking if the current user
                     has checked out the document
  # Fixed artf1948 : Pagination problem still exists
  ^ Upgraded TinyMCE Compressor [1.0.4]
