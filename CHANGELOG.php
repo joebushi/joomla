@@ -33,6 +33,7 @@ Legend:
 
 09-Dec-2005 Emir Sakic
  # Fixed artf2324 : SEF for components assumes option is always first part of query
+ # Fixed artf1955 : Search results bug
 
 07-Dec-2005 Andrew Eddie
  # Fixed unitialised array in mosHTML::MenuSelect method
