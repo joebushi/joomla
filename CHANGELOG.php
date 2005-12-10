@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+10-Dec-2005 Emir Sakic
+ # Fixed artf2517 : "Cancel" the editing of content after "apply" not possible
+
 09-Dec-2005 Emir Sakic
  # Fixed artf2324 : SEF for components assumes option is always first part of query
  # Fixed artf1955 : Search results bug
