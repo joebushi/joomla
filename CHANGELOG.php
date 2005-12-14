@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+07-Dec-2005 Andrew Eddie
+ + Added database::getAffectedRows to db connectors
+
 10-Dec-2005 Emir Sakic
  # Fixed artf2517 : "Cancel" the editing of content after "apply" not possible
 

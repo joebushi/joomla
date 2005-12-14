@@ -310,6 +310,13 @@ class database {
 		return $this->_cursor;
 	}
 
+	/**
+	 * @return int The number of affected rows in the previous operation
+	 */
+	function getAffectedRows() {
+		return mysql_affected_rows( $this->_resource );
+	}
+
 	function query_batch( $abort_on_error=true, $p_transaction_safe = false) {
 		$this->_errorNum = 0;
 		$this->_errorMsg = '';
