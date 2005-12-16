@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+16-Dec-2005
+ # fixed mod_whosonline not rendering list properly
+
 07-Dec-2005 Andrew Eddie
  + Added database::getAffectedRows to db connectors
 

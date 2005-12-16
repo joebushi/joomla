@@ -95,11 +95,11 @@ if ($showmode==1 || $showmode==2) {
 	;
 	$database->setQuery($query);
 	$rows = $database->loadObjectList();
+	$content .= "<ul>\n";
 	foreach($rows as $row) {
-		$content .= "<ul>\n";
 		$content .= "<li><strong>" . $row->username . "</strong></li>\n";
-		$content .= "</ul>\n";
 	}
+	$content .= "</ul>\n";
 
 	if ( !$content ) {
 		echo _NONE ."\n";
