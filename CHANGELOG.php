@@ -35,6 +35,7 @@ Legend:
  # Fixed artf2389 : gzip compression not operational
  # Fixed artf2599 : loosing Itemid afet submitting "ask for new password"
  # Fixed artf1712 : Search Mambots return duplicate results
+ # Fixed artf2534 : Template chooser no lonnger able to manage SEF urls / XHTML validation
 
 16-Dec-2005 Andy Miller
  # Fixed mod_whosonline not rendering list properly
