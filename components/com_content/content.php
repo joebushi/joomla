@@ -493,7 +493,7 @@ function showCategory( $id, $gid, &$access, $sectionid, $limit, $selected, $limi
 
 function showBlogSection( $id=0, $gid, &$access, $pop, $now=NULL ) {
 	global $database, $mainframe, $Itemid;
-
+	
 	$noauth = !$mainframe->getCfg( 'shownoauth' );
 
 	// Parameters
@@ -1051,12 +1051,12 @@ function showItem( $uid, $gid, &$access, $pop, $option, $now ) {
 	if ( $database->loadObject( $row ) ) {
 		if ( !$row->cat_pub && $row->catid ) {
 		// check whether category is published
-			mosNotAuth();
+			mosNotAuth();  
 			return;
 		}
 		if ( !$row->sec_pub && $row->sectionid ) {
 		// check whether section is published
-			mosNotAuth();
+			mosNotAuth(); 
 			return;
 		}
 
