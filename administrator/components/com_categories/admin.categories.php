@@ -153,7 +153,7 @@ function showCategories( $section, $option ) {
 		$where 	= "\n WHERE c.section = '$section'";
 		$type 	= 'other';
 	}
-
+	
 	// get the total number of records
 	$query = "SELECT COUNT(*)"
 	. "\n FROM #__categories"
@@ -161,7 +161,7 @@ function showCategories( $section, $option ) {
 	;
 	$database->setQuery( $query );
 	$total = $database->loadResult();
-
+	
 	// allows for viweing of all content categories
 	if ( $section == 'content' ) {
 		$table 			= 'content';
@@ -174,8 +174,10 @@ function showCategories( $section, $option ) {
 		// get the total number of records
 		$query = "SELECT COUNT(*)"
 		. "\n FROM #__categories"
-		. "\n INNER JOIN #__sections AS s ON s.id = section"
-		;
+		. "\n INNER JOIN #__sections AS s ON s.id = section";
+		if ( $sectionid > 0 ) {
+			$query .= "\n WHERE section = '$sectionid'";
+		}
 		$database->setQuery( $query );
 		$total = $database->loadResult();
 		$type 			= 'content';
