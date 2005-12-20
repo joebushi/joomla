@@ -40,6 +40,7 @@ Legend:
  # Fixed artf2595 : Deleted "mass mail" item menu in component menu
  # Fixed artf2518 : mod_latestnews problem
  # Fixed artf2591 : mosMakePath problem with mkdir on strato
+ # Fixed artf2665 : Most Read module generates incorrect class for <li> statement
 
 16-Dec-2005 Andy Miller
  # Fixed mod_whosonline not rendering list properly
