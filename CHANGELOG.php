@@ -31,7 +31,7 @@ Legend:
 - -> Removed
 ! -> Note
 
-29-Dec-2005 Emir Sakic
+20-Dec-2005 Emir Sakic
  # Fixed artf2432 : Apostrophe in paths isn't escaped properly
 
 20-Dec-2005 Johan Janssens
