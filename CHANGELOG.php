@@ -37,6 +37,7 @@ Legend:
  # Fixed artf1712 : Search Mambots return duplicate results
  # Fixed artf2534 : Template chooser no lonnger able to manage SEF urls / XHTML validation
  # Fixed artf1410 : 'Special' access menu locks out 'public' menu's articles "read more" content
+ # Fixed artf2595 : Deleted "mass mail" item menu in component menu
 
 16-Dec-2005 Andy Miller
  # Fixed mod_whosonline not rendering list properly
