@@ -270,7 +270,7 @@ function mosMakePath($base, $path='', $mode = NULL) {
 		for ($i = 0; $i < $n; $i++) {
 			$path .= $parts[$i] . '/';
 			if (!file_exists( $path )) {
-				if (!@mkdir( $path, $mode )) {
+				if (!@mkdir(substr($path,0,-1),$mode)) {
 					$ret = false;
 					break;
 				}
