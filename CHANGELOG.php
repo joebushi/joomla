@@ -33,6 +33,7 @@ Legend:
 
 20-Dec-2005 Johan Janssens
  # Fixed artf2389 : gzip compression not operational
+ # Fixed artf2599 : loosing Itemid afet submitting "ask for new password"
 
 16-Dec-2005 Andy Miller
  # Fixed mod_whosonline not rendering list properly
