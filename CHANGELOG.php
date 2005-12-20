@@ -31,11 +31,14 @@ Legend:
 - -> Removed
 ! -> Note
 
+29-Dec-2005 Emir Sakic
+ # Fixed artf2432 : Apostrophe in paths isn't escaped properly
+
 20-Dec-2005 Johan Janssens
  # Fixed artf2389 : gzip compression not operational
  # Fixed artf2599 : loosing Itemid afet submitting "ask for new password"
  # Fixed artf1712 : Search Mambots return duplicate results
- # Fixed artf2534 : Template chooser no lonnger able to manage SEF urls / XHTML validation
+ # Fixed artf2534 : Template chooser no longer able to manage SEF urls / XHTML validation
  # Fixed artf1410 : 'Special' access menu locks out 'public' menu's articles "read more" content
  # Fixed artf2595 : Deleted "mass mail" item menu in component menu
  # Fixed artf2518 : mod_latestnews problem

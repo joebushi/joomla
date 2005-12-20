@@ -135,8 +135,7 @@ if (file_exists( '../configuration.php' )) {
 if ($siteUrl) {
 	$configArray['siteUrl']=$siteUrl;
 	// Fix for Windows
-	$absolutePath= str_replace("\\","/", $absolutePath);
-	$absolutePath= str_replace("//","/", $absolutePath);
+	$absolutePath= str_replace("\\\\","/", $absolutePath);
 	$configArray['absolutePath']=$absolutePath;
 	$configArray['filePerms']=$filePerms;
 	$configArray['dirPerms']=$dirPerms;
@@ -319,17 +318,17 @@ echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?".">";
 				<input class="button" type="button" name="runSite" value="View Site"
 <?php
 				if ($siteUrl) {
-					echo "onClick='window.location.href=\"$siteUrl"."/index.php\" '";
+					echo "onClick=\"window.location.href='$siteUrl/index.php' \"";
 				} else {
-					echo "onClick='window.location.href=\"{$configArray['siteURL']}"."/index.php\" '";
+					echo "onClick=\"window.location.href='".$configArray['siteURL']."/index.php' \"";
 				}
 ?>/>
 				<input class="button" type="button" name="Admin" value="Administration"
 <?php
 				if ($siteUrl) {
-					echo "onClick='window.location.href=\"$siteUrl"."/administrator/index.php\" '";
+					echo "onClick=\"window.location.href='$siteUrl/administrator/index.php' \"";
 				} else {
-					echo "onClick='window.location.href=\"{$configArray['siteURL']}"."/administrator/index.php\" '";
+					echo "onClick=\"window.location.href='".$configArray['siteURL']."/administrator/index.php' \"";
 				}
 ?>/>
 			</div>
