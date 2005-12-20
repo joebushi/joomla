@@ -31,8 +31,11 @@ Legend:
 - -> Removed
 ! -> Note
 
-16-Dec-2005
- # fixed mod_whosonline not rendering list properly
+20-Dec-2005 Johan Janssens
+ # Fixed artf2389 : gzip compression not operational
+
+16-Dec-2005 Andy Miller
+ # Fixed mod_whosonline not rendering list properly
 
 07-Dec-2005 Andrew Eddie
  + Added database::getAffectedRows to db connectors
