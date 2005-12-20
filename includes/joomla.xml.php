@@ -366,7 +366,7 @@ class mosParameters {
 		;
 		$database->setQuery( $query );
 		$options = $database->loadObjectList();
-		array_unshift( $options, mosHTML::makeOption( '0', '- Select Content Section -', 'id', 'title' ) );
+		array_unshift( $options, mosHTML::makeOption( '0', '- Select Section -', 'id', 'title' ) );
 
 		return mosHTML::selectList( $options, ''. $control_name .'['. $name .']', 'class="inputbox"', 'id', 'title', $value );
 	}
@@ -404,7 +404,7 @@ class mosParameters {
 		}
 		$database->setQuery( $query );
 		$options = $database->loadObjectList();
-		array_unshift( $options, mosHTML::makeOption( '0', '- Select Content Category -', 'id', 'title' ) );
+		array_unshift( $options, mosHTML::makeOption( '0', '- Select Category -', 'id', 'title' ) );
 
 		return mosHTML::selectList( $options, ''. $control_name .'['. $name .']', 'class="inputbox"', 'id', 'title', $value );
 	}

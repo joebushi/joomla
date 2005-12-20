@@ -45,6 +45,7 @@ Legend:
  # Fixed artf2591 : mosMakePath problem with mkdir on strato
  # Fixed artf2665 : Most Read module generates incorrect class for <li> statement
  # Fixed artf2666 : Pagination Error in Category Manager
+ # Fixed artf2407 : parameter type=mos_category show only "- Select Content Category -"
 
 16-Dec-2005 Andy Miller
  # Fixed mod_whosonline not rendering list properly
