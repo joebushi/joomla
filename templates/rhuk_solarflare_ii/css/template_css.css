@@ -629,3 +629,8 @@ div.mosimage {
   font-size: 10px;
   border-top: 1px solid #cccccc;
 }
+
+span.article_seperator {
+	display: block;
+	height: 1.5em;
+}
