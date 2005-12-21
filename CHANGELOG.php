@@ -31,6 +31,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+21-Dec-2005 Andrew Eddie
+ # Fixed bug in backend poll entry with ' is in option name
+ # Fixed bug where content modified date is not updated on a bluck publish/archive operation
+
 20-Dec-2005 Emir Sakic
  # Fixed artf2432 : Apostrophe in paths isn't escaped properly
 

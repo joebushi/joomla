@@ -732,7 +732,7 @@ function changeContent( $cid=null, $state=0, $option ) {
 	$cids = implode( ',', $cid );
 
 	$query = "UPDATE #__content"
-	. "\n SET state = $state"
+	. "\n SET state = $state, modified = " . $database->Quote( date( 'Y-m-d H:i:s' ) )
 	. "\n WHERE id IN ( $cids ) AND ( checked_out = 0 OR (checked_out = $my->id ) )"
 	;
 	$database->setQuery( $query );
