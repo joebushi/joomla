@@ -31,6 +31,8 @@ Legend:
 - -> Removed
 ! -> Note
 
+---------------- 1.0.5 Released -- [24-Nov-2005 10:00 UTC] ------------------
+
 21-Dec-2005 Andrew Eddie
  # Fixed slow query in com_content (Author text in a content item is now set to Written By)
  # Fixed bug in backend poll entry with ' is in option name
