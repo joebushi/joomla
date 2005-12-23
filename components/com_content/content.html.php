@@ -730,14 +730,16 @@ class HTML_content {
 	function Author( $row, $params ) {
 		global $acl;
 		if ( ( $params->get( 'author' ) ) && ( $row->author != "" ) ) {
+			/* This is too slow white large sites
 			$grp = $acl->getAroGroup( $row->created_by );
 			$is_frontend_user = $acl->is_group_child_of( intval( $grp->group_id ), 'Public Frontend', 'ARO' );
 			$by = $is_frontend_user ? _AUTHOR_BY : _WRITTEN_BY;
+			*/
 		?>
 		<tr>
 			<td width="70%" align="left" valign="top" colspan="2">
 			<span class="small">
-			<?php echo $by. ' '.( $row->created_by_alias ? $row->created_by_alias : $row->author ); ?>
+			<?php echo _WRITTEN_BY . ' '.( $row->created_by_alias ? $row->created_by_alias : $row->author ); ?>
 			</span>
 			&nbsp;&nbsp;
 			</td>
