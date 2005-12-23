@@ -31,6 +31,9 @@ class patTemplate_Modifier_Translate extends patTemplate_Modifier
 		if (is_object( $_LANG )) {
 			return $_LANG->_( $value );
 		} else {
+			if (defined( $value )) {
+				$value = constant( $value );
+			}
 			return $value;
 		}
 	}

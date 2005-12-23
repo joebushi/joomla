@@ -2681,6 +2681,7 @@ class patFactory {
 		$tmpl->addGlobalVar( 'itemid', 			$GLOBALS['Itemid'] );
 		$tmpl->addGlobalVar( 'siteurl', $GLOBALS['mosConfig_live_site'] );
 		$tmpl->addGlobalVar( 'adminurl', $GLOBALS['mosConfig_live_site'] . '/administrator' );
+		$tmpl->addGlobalVar( 'templateurl', $GLOBALS['mosConfig_live_site'] . '/templates/' . $mainframe->getTemplate() );
 		$tmpl->addGlobalVar( 'admintemplateurl', $GLOBALS['mosConfig_live_site'] . '/administrator/templates/' . $mainframe->getTemplate() );
 		$tmpl->addGlobalVar( 'sitename', $GLOBALS['mosConfig_sitename'] );
 		$tmpl->addGlobalVar('treecss', 'dtree.css');

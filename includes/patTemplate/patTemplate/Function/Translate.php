@@ -120,7 +120,11 @@ class patTemplate_Function_Translate extends patTemplate_Function
 				$text = $_LANG->_( $content );
 			}
 		} else {
-			$text = $content;
+			if (defined( $content )) {
+				$text = constant( $content );
+			} else {
+				$text = $content;
+			}
 		}
 		if ($escape == 'yes' || $escape == 'true') {
 			$text = addslashes( $text );
