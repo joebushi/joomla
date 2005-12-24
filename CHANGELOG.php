@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+24-Dec-2005 Emir Sakic
+ # Fixed a bug with 404 header being returned for homepage when SEF activated
+
 ---------------- 1.0.5 Released -- [24-Nov-2005 10:00 UTC] ------------------
 
 21-Dec-2005 Andrew Eddie
