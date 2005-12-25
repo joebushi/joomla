@@ -33,6 +33,7 @@ Legend:
 
 24-Dec-2005 Emir Sakic
  # Fixed a bug with 404 header being returned for homepage when SEF activated
+ # Fixed a bug with all items on frontpage returning Itemid=1 (duplicate content)
 
 ---------------- 1.0.5 Released -- [24-Nov-2005 10:00 UTC] ------------------
 
