@@ -31,6 +31,13 @@ Legend:
 - -> Removed
 ! -> Note
 
+
+---------------- 1.0.6 Released -- [TBA] ------------------
+
+29-Dec-2005 Rey Gigataras
+ # Fixed `Reset Clicks` button not working in admin component `Banner Manager`
+ # Fixed artf2712 : Clicks reset on save 
+
 29-Dec-2005 Andrew Eddie
  ^ SEF error handling throws to new /templates/404.php file
 
@@ -39,6 +46,13 @@ Legend:
  # Fixed a bug with all items on frontpage returning Itemid=1 (duplicate content)
 
 ---------------- 1.0.5 Released -- [24-Nov-2005 10:00 UTC] ------------------
+
+This Release Contains following Security Fixes
+
+Medium Level Threats
+* Hardened ability to use the contact component to proliferate spam
+
+---
 
 21-Dec-2005 Andrew Eddie
  # Fixed slow query in com_content (Author text in a content item is now set to Written By)

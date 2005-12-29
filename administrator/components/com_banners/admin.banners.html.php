@@ -132,10 +132,10 @@ class HTML_banners {
 		</table>
 		<?php echo $pageNav->getListFooter(); ?>
 
-		<input type="hidden" name="option" value="<?php echo $option; ?>">
-		<input type="hidden" name="task" value="">
-		<input type="hidden" name="boxchecked" value="0">
-		<input type="hidden" name="hidemainmenu" value="0">
+		<input type="hidden" name="option" value="<?php echo $option; ?>" />
+		<input type="hidden" name="task" value="" />
+		<input type="hidden" name="boxchecked" value="0" />
+		<input type="hidden" name="hidemainmenu" value="0" />
 		</form>
 		<?php
 	}
@@ -196,7 +196,7 @@ class HTML_banners {
 			Banner Name:
 			</td>
 			<td width="80%">
-			<input class="inputbox" type="text" name="name" value="<?php echo $_row->name;?>">
+			<input class="inputbox" type="text" name="name" value="<?php echo $_row->name;?>" />
 			</td>
 		</tr>
 		<tr>
@@ -220,7 +220,7 @@ class HTML_banners {
 			}
 			?>
 			<td>
-			<input class="inputbox" type="text" name="imptotal" size="12" maxlength="11" value="<?php echo $_row->imptotal;?>">
+			<input class="inputbox" type="text" name="imptotal" size="12" maxlength="11" value="<?php echo $_row->imptotal;?>" />
 			&nbsp;&nbsp;&nbsp;&nbsp;
 			Unlimited <input type="checkbox" name="unlimited" <?php echo $unlimited;?>>
 			</td>
@@ -238,7 +238,7 @@ class HTML_banners {
 			Click URL:
 			</td>
 			<td>
-			<input class="inputbox" type="text" name="clickurl" size="100" maxlength="200" value="<?php echo $_row->clickurl;?>">
+			<input class="inputbox" type="text" name="clickurl" size="100" maxlength="200" value="<?php echo $_row->clickurl;?>" />
 			</td>
 		</tr>
 		<tr >
@@ -248,7 +248,7 @@ class HTML_banners {
 			<td colspan="2">
 			<?php echo $_row->clicks;?>
 			&nbsp;&nbsp;&nbsp;&nbsp;
-			<input name="reset_hits" type="button" class="button" value="Reset Clicks" onClick="submitbutton('resethits');">
+			<input name="reset_hits" type="button" class="button" value="Reset Clicks" onClick="submitbutton('resethits');" />
 			</td>
 		</tr>
 		<tr>
@@ -279,11 +279,11 @@ class HTML_banners {
 				<?php
 			} elseif (eregi("gif|jpg|png", $_row->imageurl)) {
 				?>
-				<img src="../images/banners/<?php echo $_row->imageurl; ?>" name="imagelib">
+				<img src="../images/banners/<?php echo $_row->imageurl; ?>" name="imagelib" />
 				<?php
 			} else {
 				?>
-				<img src="images/blank.png" name="imagelib">
+				<img src="images/blank.png" name="imagelib" />
 				<?php
 			}
 			?>
@@ -295,10 +295,11 @@ class HTML_banners {
 		</tr>
 		</table>
 
-		<input type="hidden" name="option" value="<?php echo $_option; ?>">
-		<input type="hidden" name="bid" value="<?php echo $_row->bid; ?>">
-		<input type="hidden" name="task" value="">
-		<input type="hidden" name="impmade" value="<?php echo $_row->impmade; ?>">
+		<input type="hidden" name="option" value="<?php echo $_option; ?>" />
+		<input type="hidden" name="bid" value="<?php echo $_row->bid; ?>" />
+		<input type="hidden" name="clicks" value="<?php echo $_row->clicks; ?>" />
+		<input type="hidden" name="task" value="" />
+		<input type="hidden" name="impmade" value="<?php echo $_row->impmade; ?>" />
 		</form>
 		<?php
 	}
@@ -385,10 +386,11 @@ class HTML_bannerClient {
 		?>
 		</table>
 		<?php echo $pageNav->getListFooter(); ?>
-		<input type="hidden" name="option" value="<?php echo $option; ?>">
-		<input type="hidden" name="task" value="listclients">
-		<input type="hidden" name="boxchecked" value="0">
-		<input type="hidden" name="hidemainmenu" value="0">
+		
+		<input type="hidden" name="option" value="<?php echo $option; ?>" />
+		<input type="hidden" name="task" value="listclients" />
+		<input type="hidden" name="boxchecked" value="0" />
+		<input type="hidden" name="hidemainmenu" value="0" />
 		</form>
 		<?php
 	}
@@ -440,7 +442,7 @@ class HTML_bannerClient {
 			Client Name:
 			</td>
 			<td>
-			<input class="inputbox" type="text" name="name" size="30" maxlength="60" valign="top" value="<?php echo $row->name; ?>">
+			<input class="inputbox" type="text" name="name" size="30" maxlength="60" valign="top" value="<?php echo $row->name; ?>" />
 			</td>
 		</tr>
 		<tr>
@@ -448,7 +450,7 @@ class HTML_bannerClient {
 			Contact Name:
 			</td>
 			<td>
-			<input class="inputbox" type="text" name="contact" size="30" maxlength="60" value="<?php echo $row->contact; ?>">
+			<input class="inputbox" type="text" name="contact" size="30" maxlength="60" value="<?php echo $row->contact; ?>" />
 			</td>
 		</tr>
 		<tr>
@@ -456,7 +458,7 @@ class HTML_bannerClient {
 			Contact Email:
 			</td>
 			<td>
-			<input class="inputbox" type="text" name="email" size="30" maxlength="60" value="<?php echo $row->email; ?>">
+			<input class="inputbox" type="text" name="email" size="30" maxlength="60" value="<?php echo $row->email; ?>" />
 			</td>
 		</tr>
 		<tr>
@@ -473,9 +475,9 @@ class HTML_bannerClient {
 		</tr>
 		</table>
 
-		<input type="hidden" name="option" value="<?php echo $option; ?>">
-		<input type="hidden" name="cid" value="<?php echo $row->cid; ?>">
-		<input type="hidden" name="task" value="">
+		<input type="hidden" name="option" value="<?php echo $option; ?>" />
+		<input type="hidden" name="cid" value="<?php echo $row->cid; ?>" />
+		<input type="hidden" name="task" value="" />
 		</form>
 		<?php
 	}
