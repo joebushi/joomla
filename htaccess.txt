@@ -14,6 +14,13 @@ Options +FollowSymLinks
 
 RewriteEngine On
 
+##
+## NOTE!
+## When using multiple Joomla sites or other web applications in sub-folders,
+## you must explicitly turn the RewriteEngine off or use the settings
+## recommended for the application
+##
+
 #  Uncomment following line if your webserver's URL 
 #  is not directly related to physical file paths.
 #  Update YourJoomlaDirectory (just / for root)

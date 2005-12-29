@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+29-Dec-2005 Andrew Eddie
+ ^ SEF error handling throws to new /templates/404.php file
+
 24-Dec-2005 Emir Sakic
  # Fixed a bug with 404 header being returned for homepage when SEF activated
  # Fixed a bug with all items on frontpage returning Itemid=1 (duplicate content)

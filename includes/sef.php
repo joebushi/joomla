@@ -192,21 +192,25 @@ if ($mosConfig_sef) {
 		Unknown content
 		http://www.domain.com/unknown
 		*/
-		$jdir = str_replace ('index.php', '', $_SERVER['PHP_SELF']);
-		$juri = str_replace ($jdir, '', $_SERVER['REQUEST_URI']);
+		$jdir = str_replace( 'index.php', '', $_SERVER['PHP_SELF'] );
+		$juri = str_replace( $jdir, '', $_SERVER['REQUEST_URI'] );
 
 		if ($juri != "" &&
-			!eregi("index\.php", $_SERVER['REQUEST_URI']) &&
-			!eregi("index2\.php", $_SERVER['REQUEST_URI']) &&
-			!eregi("/\?", $_SERVER['REQUEST_URI'])
+			!eregi( "index\.php", $_SERVER['REQUEST_URI'] ) &&
+			!eregi( "index2\.php", $_SERVER['REQUEST_URI'] ) &&
+			!eregi( "/\?", $_SERVER['REQUEST_URI'] )
 			) {
-			header("HTTP/1.0 404 Not Found");
+			require_once( $mosConfig_absolute_path . '/templates/404.php' );
 		}
-
 	}
 
 }
 
+/**
+ * Converts an absolute URL to SEF format
+ * @param string The URL
+ * @return string
+ */
 function sefRelToAbs( $string ) {
 	global $mosConfig_live_site, $mosConfig_sef, $mosConfig_mbf_content;
 	global $iso_client_lang;
