@@ -35,6 +35,7 @@ Legend:
 ---------------- 1.0.6 Released -- [TBA] ------------------
 
 29-Dec-2005 Rey Gigataras
+ # Fixed artf2646 : name="" not valid XHTML
  # Fixed artf2747 : title_alias is missing in mambots
  # Fixed `Reset Clicks` button not working in admin component `Banner Manager`
  # Fixed artf2712 : Clicks reset on save 
