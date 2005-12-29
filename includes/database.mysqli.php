@@ -91,22 +91,6 @@ class database {
 		$this->_log = array();
 	}
 	/**
-	 * Returns an array of public properties
-	 * @return array
-	 */
-	function getPublicProperties() {
-		static $cache = null;
-		if (is_null( $cache )) {
-			$cache = array();
-			foreach (get_class_vars( get_class( $this ) ) as $key=>$val) {
-				if (substr( $key, 0, 1 ) != '_') {
-					$cache[] = $key;
-				}
-			}
-		}
-		return $cache;
-	}
-	/**
 	 * @param int
 	 */
 	function debug( $level ) {
@@ -534,14 +518,14 @@ class database {
 	function insertObject( $table, &$object, $keyName = NULL, $verbose=false ) {
 		$fmtsql = "INSERT INTO $table ( %s ) VALUES ( %s ) ";
 		$fields = array();
-		$vars = $object->getPublicProperties();
-
-		foreach ($vars as $k) {
-			$v =& $object->$k;
-			if (is_array( $v ) or is_object( $v ) or $v === NULL) {
+		foreach (get_object_vars( $object ) as $k => $v) {
+			if (is_array($v) or is_object($v) or $v === NULL) {
 				continue;
 			}
-			$fields[] = $this->NameQuote( $k );;
+			if ($k[0] == '_') { // internal field
+				continue;
+			}
+			$fields[] = $this->NameQuote( $k );
 			$values[] = $this->Quote( $v );
 		}
 		$this->setQuery( sprintf( $fmtsql, implode( ",", $fields ) ,  implode( ",", $values ) ) );
