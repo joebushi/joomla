@@ -200,7 +200,9 @@ if ($mosConfig_sef) {
 			!eregi( "index2\.php", $_SERVER['REQUEST_URI'] ) &&
 			!eregi( "/\?", $_SERVER['REQUEST_URI'] )
 			) {
+			header( 'HTTP/1.0 404 Not Found' );
 			require_once( $mosConfig_absolute_path . '/templates/404.php' );
+			exit( 404 );
 		}
 	}
 

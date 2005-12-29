@@ -14,10 +14,7 @@
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
-header( 'HTTP/1.0 404 Not Found' );
-
 // backward compatibility
-
 if (!defined( '_404' )) {
 	define( '_404', 'We\'re sorry but the page you requested could not be found.' );
 }
@@ -52,6 +49,3 @@ if (!defined( '_404_RTS' )) {
 		</table>
 	</body>
 </html>
-<?php
-exit( 404 );
-?>
