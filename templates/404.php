@@ -25,27 +25,24 @@ if (!defined( '_404_RTS' )) {
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
-		<title>404 - <?php echo $mosConfig_sitename; ?></title>
-		<link rel="stylesheet" href="<?php echo $mosConfig_live_site; ?>/templates/css/offline.css" type="text/css" />
-		<link rel="shortcut icon" href="<?php echo $mosConfig_live_site; ?>/images/favicon.ico" />
+		<title>404 Not Found - <?php echo $mosConfig_sitename; ?></title>
 		<meta http-equiv="Content-Type" content="text/html; <?php echo _ISO; ?>" />
+		<style type="text/css">
+			body {
+				font-family: Arial, Helvetica, Sans Serif;
+				font-size: 11px;
+				color: #333333;
+				background: #ffffff;
+				text-align: center;
+			}
+		</style>
 	</head>
 	<body>
-		<table width="550" align="center" class="outline">
-			<tr>
-				<td width="60%" height="50" align="center">
-				<img src="<?php echo $mosConfig_live_site; ?>/images/joomla_logo_black.jpg" alt="Joomla! Logo" align="middle" />
-				</td>
-			</tr>
-			<tr>
-				<td width="39%" align="center">
-					<h2><?php echo _404;?></h2>
-					<h3><a href="<?php echo $mosConfig_live_site; ?>">
-						<?php echo _404_RTS;?></a></h3>
-					<br />
-					Error 404
-				</td>
-			</tr>
-		</table>
+		<h2><?php echo $mosConfig_sitename; ?></h2>
+		<h2><?php echo _404;?></h2>
+		<h3><a href="<?php echo $mosConfig_live_site; ?>">
+			<?php echo _404_RTS;?></a></h3>
+		<br />
+		Error 404
 	</body>
 </html>

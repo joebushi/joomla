@@ -42,6 +42,8 @@ Legend:
 
 29-Dec-2005 Andrew Eddie
  ^ SEF error handling throws to new /templates/404.php file
+ # Rolled back changes to database::insertObject
+ + New prototype MySQL 5 driver
 
 24-Dec-2005 Emir Sakic
  # Fixed a bug with 404 header being returned for homepage when SEF activated
