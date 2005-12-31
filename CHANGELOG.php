@@ -34,6 +34,9 @@ Legend:
 
 ---------------- 1.0.6 Released -- [TBA] ------------------
 
+30-Dec-2005 Rey Gigataras
+ # Fixed artf2788 : admin template css errors
+
 29-Dec-2005 Rey Gigataras
  # Fixed artf2646 : name="" not valid XHTML
  # Fixed artf2747 : title_alias is missing in mambots
