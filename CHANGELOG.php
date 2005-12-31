@@ -35,6 +35,8 @@ Legend:
 ---------------- 1.0.6 Released -- [TBA] ------------------
 
 30-Dec-2005 Rey Gigataras
+ # Fixed `Unlimited` banner impressions option
+ # Fixed artf2776 : Multiple banners not possible
  # Fixed artf2788 : admin template css errors
 
 29-Dec-2005 Rey Gigataras

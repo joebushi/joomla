@@ -212,11 +212,10 @@ class HTML_banners {
 			Impressions Purchased:
 			</td>
 			<?php
+			$unlimited = '';
 			if ($_row->imptotal == 0) {
 				$unlimited = 'checked="checked"';
 				$_row->imptotal = '';
-			} else {
-				$unlimited = '';
 			}
 			?>
 			<td>
