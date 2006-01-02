@@ -208,7 +208,7 @@ class modules_html {
 							$content_buffer .= "      " . str_replace('&apos;', "'", html_entity_decode( $currItem->getTitle() ) ) . "</a><br/>\n";
 							$content_buffer .= "        <a href=\"" . ampReplace( $eUrl ) . "\" target=\"_blank\"><u>Download</u></a>\n";
 						}
-						$content_buffer .= "	<strong>\n";
+						$content_buffer .= "	</strong>\n";
 						// END fix for RSS enclosure tag url not showing
 						
 							// item description
