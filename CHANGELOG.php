@@ -34,6 +34,10 @@ Legend:
 
 ---------------- 1.0.6 Released -- [TBA] ------------------
 
+02-Jan-2005 Rey Gigataras
+ # Fixed artf2786 : Newsflash module not picking up "linked title" global setting
+ # Fixed artf2810 : 1.0.x changelog incorrectly states release date of 1.0.5
+ 
 30-Dec-2005 Rey Gigataras
  # Fixed `Unlimited` banner impressions option
  # Fixed artf2776 : Multiple banners not possible
@@ -54,7 +58,7 @@ Legend:
  # Fixed a bug with 404 header being returned for homepage when SEF activated
  # Fixed a bug with all items on frontpage returning Itemid=1 (duplicate content)
 
----------------- 1.0.5 Released -- [24-Nov-2005 10:00 UTC] ------------------
+---------------- 1.0.5 Released -- [24-Dec-2005 10:00 UTC] ------------------
 
 This Release Contains following Security Fixes
 
