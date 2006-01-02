@@ -35,6 +35,7 @@ Legend:
 ---------------- 1.0.6 Released -- [TBA] ------------------
 
 02-Jan-2005 Rey Gigataras
+ # Fixed artf2780 : Newsflash Read More bad link
  # Fixed artf2786 : Newsflash module not picking up "linked title" global setting
  # Fixed artf2810 : 1.0.x changelog incorrectly states release date of 1.0.5
  
