@@ -346,7 +346,7 @@ function sendmail( $con_id, $option ) {
 		echo _NOT_AUTH;
 		return;
 	}
-/*	
+	
 	// First, make sure the form was posted from a browser.
 	// For basic web-forms, we don't care about anything
 	// other than requests from a browser:   
@@ -387,7 +387,7 @@ function sendmail( $con_id, $option ) {
 	// Made it past spammer test, free up some memory
 	// and continue rest of script:   
 	unset($k, $v, $v2, $badStrings);
-*/	
+
 	$query = "SELECT *"
 	. "\n FROM #__contact_details"
 	. "\n WHERE id = $con_id"
@@ -402,14 +402,7 @@ function sendmail( $con_id, $option ) {
 		$name 		= mosGetParam( $_POST, 'name', '' );
 		$subject 	= mosGetParam( $_POST, 'subject', $default );
 		$email_copy = mosGetParam( $_POST, 'email_copy', 0 );
-/*		
-		// email clean up, to stop sending to multiple emails	
-		$bad 				= array( ';', ',', "\n", "\r", "\0" );
-		$good 				= '?';
-		$email          	= str_replace( $bad, $good, $email );
-		$name       		= str_replace( $bad, $good, $name );
-		$subject            = str_replace( $bad, $good, $subject );
-*/
+
 		if ( !$email || !$text || ( is_email( $email ) == false ) ) {
 			mosErrorAlert( _CONTACT_FORM_NC );
 		}
