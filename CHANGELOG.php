@@ -35,6 +35,8 @@ Legend:
 ---------------- 1.0.6 Released -- [TBA] ------------------
 
 03-Jan-2005 Rey Gigataras
+ # Fixed artf2791 : RSS item links not SEF'd
+ # Fixed artf2791 : RSS items have no category
  # Fixed artf2813 : Media Manager doesn't support ICO files
 
 02-Jan-2005 Rey Gigataras
