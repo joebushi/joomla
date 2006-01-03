@@ -869,7 +869,7 @@ function BlogOutput ( &$rows, &$params, $gid, &$access, $pop, &$menu, $archive=N
 	// checks to see if there are there any items to display
 	if ( $total ) {
 		$col_with = 100 / $columns;			// width of each column
-		$width = 'width="'. $col_with .'%"';
+		$width = 'width="'. intval( $col_with ) .'%"';
 
 		if ( $archive ) {
 			// Search Success message
@@ -952,7 +952,7 @@ function BlogOutput ( &$rows, &$params, $gid, &$access, $pop, &$menu, $archive=N
 			if ( $intro % $columns ) {
 				echo '</tr>';
 			}
-
+		
 			echo '</table>';
 			echo '</td>';
 			echo '</tr>';

@@ -35,6 +35,7 @@ Legend:
 ---------------- 1.0.6 Released -- [TBA] ------------------
 
 03-Jan-2005 Rey Gigataras
+ # Fixed XHTML validation error in `Blog` view with decmimal value widths
  # Fixed XHTML validation error in `Table - Content Category`
  # Fixed artf2791 : RSS item links not SEF'd
  # Fixed artf2791 : RSS items have no category
