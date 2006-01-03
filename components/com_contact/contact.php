@@ -45,7 +45,6 @@ switch( $op ) {
 	case 'sendmail':
 		sendmail( $con_id, $option );
 		break;
-
 }
 
 
@@ -347,7 +346,48 @@ function sendmail( $con_id, $option ) {
 		echo _NOT_AUTH;
 		return;
 	}
-
+/*	
+	// First, make sure the form was posted from a browser.
+	// For basic web-forms, we don't care about anything
+	// other than requests from a browser:   
+	if (!isset( $_SERVER['HTTP_USER_AGENT'] )) {
+		header( "HTTP/1.0 403 Forbidden" );
+		die( _NOT_AUTH );
+		exit;
+	}
+	
+	// Make sure the form was indeed POST'ed:
+	//  (requires your html form to use: action="post")
+	if (!$_SERVER['REQUEST_METHOD'] == 'POST' ) {
+		header("HTTP/1.0 403 Forbidden");
+		die( _NOT_AUTH );
+		exit;   
+	}
+	
+	// Attempt to defend against header injections:
+	$badStrings = array(
+			'Content-Type:',
+			'MIME-Version:',
+			'Content-Transfer-Encoding:',
+			'bcc:',
+			'cc:'
+		);
+	
+	// Loop through each POST'ed value and test if it contains
+	// one of the $badStrings:
+	foreach ($_POST as $k => $v){
+		foreach ($badStrings as $v2) {
+			if (strpos( $v, $v2 ) !== false) {
+				header( "HTTP/1.0 403 Forbidden" );
+				die( _NOT_AUTH );
+			}
+		}
+	}   
+	
+	// Made it past spammer test, free up some memory
+	// and continue rest of script:   
+	unset($k, $v, $v2, $badStrings);
+*/	
 	$query = "SELECT *"
 	. "\n FROM #__contact_details"
 	. "\n WHERE id = $con_id"
@@ -362,8 +402,15 @@ function sendmail( $con_id, $option ) {
 		$name 		= mosGetParam( $_POST, 'name', '' );
 		$subject 	= mosGetParam( $_POST, 'subject', $default );
 		$email_copy = mosGetParam( $_POST, 'email_copy', 0 );
-	
-		if ( !$email || !$text || ( is_email( $email )==false ) ) {
+/*		
+		// email clean up, to stop sending to multiple emails	
+		$bad 				= array( ';', ',', "\n", "\r", "\0" );
+		$good 				= '?';
+		$email          	= str_replace( $bad, $good, $email );
+		$name       		= str_replace( $bad, $good, $name );
+		$subject            = str_replace( $bad, $good, $subject );
+*/
+		if ( !$email || !$text || ( is_email( $email ) == false ) ) {
 			mosErrorAlert( _CONTACT_FORM_NC );
 		}
 		$prefix = sprintf( _ENQUIRY_TEXT, $mosConfig_live_site );
@@ -371,10 +418,12 @@ function sendmail( $con_id, $option ) {
 	
 		mosMail( $email, $name , $contact[0]->email_to, $mosConfig_fromname .': '. $subject, $text );
 	
+		//if ( $email_copy && $email ) {
 		if ( $email_copy ) {
 			$copy_text = sprintf( _COPY_TEXT, $contact[0]->name, $mosConfig_sitename );
 			$copy_text = $copy_text ."\n\n". $text .'';
 			$copy_subject = _COPY_SUBJECT . $subject;
+			
 			mosMail( $mosConfig_mailfrom, $mosConfig_fromname, $email, $copy_subject, $copy_text );
 		}
 		?>
@@ -382,10 +431,9 @@ function sendmail( $con_id, $option ) {
 		alert( "<?php echo _THANK_MESSAGE; ?>" );
 		document.location.href='<?php echo sefRelToAbs( 'index.php?option='. $option .'&Itemid='. $Itemid ); ?>';
 		</script>
-	<?php
+		<?php
 	}
 }
-
 
 function is_email($email){
 	$rBool=false;
