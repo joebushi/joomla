@@ -34,14 +34,17 @@ Legend:
 
 ---------------- 1.0.6 Released -- [TBA] ------------------
 
-03-Jan-2005 Rey Gigataras
+03-Jan-2006 Andy Miller
+ ^ Updated copyright information for iCandy Junior icons
+
+03-Jan-2006 Rey Gigataras
  # Fixed XHTML validation error in `Blog` view with decmimal value widths
  # Fixed XHTML validation error in `Table - Content Category`
  # Fixed artf2791 : RSS item links not SEF'd
  # Fixed artf2791 : RSS items have no category
  # Fixed artf2813 : Media Manager doesn't support ICO files
 
-02-Jan-2005 Rey Gigataras
+02-Jan-2006 Rey Gigataras
  # Fixed artf2802 : All content made bold for Rss module published on the frontpage
  # Fixed artf2780 : Newsflash Read More bad link
  # Fixed artf2786 : Newsflash module not picking up "linked title" global setting
