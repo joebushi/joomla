@@ -43,6 +43,7 @@ Low Level Threat
 
 04-Jan-2005 Rey Gigataras
  * SECURITY: Fixed artf2050 : Itemid in index2.php
+ # Fixed Related items Module shows Expired items - Mambo Tracker [#7590] 
  # Fixed artf2185 : Changing weblinks possible for everyone
 
 03-Jan-2006 Andy Miller
