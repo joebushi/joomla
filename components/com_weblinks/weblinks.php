@@ -258,13 +258,17 @@ function saveWeblink( $option ) {
 	}
 
 	$row = new mosWeblink( $database );
-	if (!$row->bind( $_POST, "published" )) {
+	if (!$row->bind( $_POST, 'published' )) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
 	}
 	$isNew = $row->id < 1;
 
 	$row->date = date( 'Y-m-d H:i:s' );
+	
+	// until full edit capabilities are given for weblinks - limit saving to new weblinks only
+	$row->id = 0;
+
 	if (!$row->check()) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
@@ -275,7 +279,7 @@ function saveWeblink( $option ) {
 	}
 	$row->checkin();
 
-	/** Notify admin's */
+	// Notify admin's
 	$query = "SELECT email, name"
 	. "\n FROM #__users"
 	. "\n WHERE gid = 25"

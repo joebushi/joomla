@@ -34,10 +34,21 @@ Legend:
 
 ---------------- 1.0.6 Released -- [TBA] ------------------
 
+This Release Contains following Security Fixes
+
+Low Level Threat
+* Hardened Itemid against misuse
+
+---
+
+04-Jan-2005 Rey Gigataras
+ * SECURITY: Fixed artf2050 : Itemid in index2.php
+ # Fixed artf2185 : Changing weblinks possible for everyone
+
 03-Jan-2006 Andy Miller
  ^ Updated copyright information for iCandy Junior icons
 
-03-Jan-2006 Rey Gigataras
+03-Jan-2005 Rey Gigataras
  # Fixed XHTML validation error in `Blog` view with decmimal value widths
  # Fixed XHTML validation error in `Table - Content Category`
  # Fixed artf2791 : RSS item links not SEF'd

@@ -38,7 +38,7 @@ require_once( 'includes/frontend.php' );
 
 // retrieve some expected url (or form) arguments
 $option 	= strtolower( mosGetParam( $_REQUEST, 'option' ) );
-$Itemid 	= strtolower( mosGetParam( $_REQUEST, 'Itemid',0 ) );
+$Itemid 	= intval( mosGetParam( $_REQUEST, 'Itemid', 0 ) );
 $no_html 	= intval( mosGetParam( $_REQUEST, 'no_html', 0 ) );
 $act 		= mosGetParam( $_REQUEST, 'act', '' );
 $do_pdf 	= intval( mosGetParam( $_REQUEST, 'do_pdf', 0 ) );
