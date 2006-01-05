@@ -41,6 +41,9 @@ Low Level Threat
 
 ---
 
+05-Jan-2005 Rey Gigataras
+ # Fixed artf2825 : RSS module SEF urls
+
 04-Jan-2005 Rey Gigataras
  * SECURITY: Fixed artf2050 : Itemid in index2.php
  # Fixed Related items Module shows Expired items - Mambo Tracker [#7590] 
