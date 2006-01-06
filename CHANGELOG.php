@@ -42,6 +42,7 @@ Low Level Threat
 ---
 
 06-Jan-2005 Rey Gigataras
+ # Fixed artf2738 : Incorrect SEF links for archive com_content links
  # Fixed artf1809 : mospagebreak problem with "Special Characters"
  # Fixed artf2861 : article_seperator glitch
 
