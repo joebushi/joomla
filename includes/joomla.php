@@ -1694,7 +1694,7 @@ class mosHTML {
 				// Print Preview button - used when viewing page
 				?>
 				<td align="right" width="100%" class="buttonheading">
-				<a href="javascript: void(0)" onclick="javascript:window.print(); return false" title="<?php echo _CMN_PRINT;?>">
+				<a href="javascript:void(0)" onclick="javascript:window.print(); return false" title="<?php echo _CMN_PRINT;?>">
 				<?php echo $image;?>
 				</a>
 				</td>
@@ -1703,7 +1703,7 @@ class mosHTML {
 				// Print Button - used in pop-up window
 				?>
 				<td align="right" width="100%" class="buttonheading">
-				<a href="javascript: void(0)" onclick="window.open('<?php echo $link; ?>','win2','<?php echo $status; ?>');" title="<?php echo _CMN_PRINT;?>">
+				<a href="javascript:void(0)" onclick="window.open('<?php echo $link; ?>','win2','<?php echo $status; ?>');" title="<?php echo _CMN_PRINT;?>">
 				<?php echo $image;?>
 				</a>
 				</td>
@@ -3083,7 +3083,7 @@ function mosWarning($warning, $title='Joomla! Warning') {
 	$mouseover 	= 'return overlib(\''. $warning .'\', CAPTION, \'$title\', BELOW, RIGHT);';
 
 	$tip 		= "<!-- Warning -->\n";
-	$tip 		.= '<a href="javascript: void(0)" onmouseover="'. $mouseover .'" onmouseout="return nd();">';
+	$tip 		.= '<a href="javascript:void(0)" onmouseover="'. $mouseover .'" onmouseout="return nd();">';
 	$tip 		.= '<img src="'. $mosConfig_live_site .'/includes/js/ThemeOffice/warning.png" border="0"  alt="warning"/></a>';
 
 	return $tip;

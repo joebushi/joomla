@@ -532,7 +532,9 @@ class HTML_content {
 		HTML_content::ReadMore( $params, $link_on, $link_text );
 		?>
 		</table>
-		<span class="article_seperator"></span>
+		
+		<span class="article_seperator">&nbsp;</span>
+		
 		<?php
 		$results = $_MAMBOTS->trigger( 'onAfterDisplayContent', array( &$row, &$params, $page ) );
 		echo trim( implode( "\n", $results ) );
@@ -637,7 +639,7 @@ class HTML_content {
 			}
 			?>
 			<td align="right" width="100%" class="buttonheading">
-			<a href="javascript: void(0)" onclick="window.open('<?php echo $link; ?>','win2','<?php echo $status; ?>');" title="<?php echo _CMN_PDF;?>">
+			<a href="javascript:void(0)" onclick="window.open('<?php echo $link; ?>','win2','<?php echo $status; ?>');" title="<?php echo _CMN_PDF;?>">
 			<?php echo $image; ?>
 			</a>
 			</td>
@@ -661,7 +663,7 @@ class HTML_content {
 			}
 			?>
 			<td align="right" width="100%" class="buttonheading">
-			<a href="javascript: void(0)" onclick="window.open('<?php echo $link; ?>','win2','<?php echo $status; ?>');" title="<?php echo _CMN_EMAIL;?>">
+			<a href="javascript:void(0)" onclick="window.open('<?php echo $link; ?>','win2','<?php echo $status; ?>');" title="<?php echo _CMN_EMAIL;?>">
 			<?php echo $image; ?>
 			</a>
 			</td>

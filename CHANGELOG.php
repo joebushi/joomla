@@ -41,6 +41,9 @@ Low Level Threat
 
 ---
 
+06-Jan-2005 Rey Gigataras
+ # Fixed artf2861 : article_seperator glitch
+
 05-Jan-2005 Rey Gigataras
  # Fixed artf2825 : RSS module SEF urls
 
