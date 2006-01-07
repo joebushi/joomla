@@ -54,8 +54,14 @@ function showPathway( $Itemid ) {
 	$database->setQuery( $query );
 	$mitems = $database->loadObjectList( 'id' );
 
-	$isWin = (substr(PHP_OS, 0, 3) == 'WIN');
-	$optionstring = $isWin ? $_SERVER['QUERY_STRING'] : $_SERVER['REQUEST_URI'];
+	//$isWin = (substr(PHP_OS, 0, 3) == 'WIN');
+	//$optionstring = $isWin ? $_SERVER['QUERY_STRING'] : $_SERVER['REQUEST_URI'];
+	$optionstring = '';
+	if ( isset( $_SERVER['REQUEST_URI'] ) ) {
+		$optionstring = $_SERVER['REQUEST_URI'];
+	} else if ( isset( $_SERVER['QUERY_STRING'] ) ) {
+		$optionstring = $_SERVER['QUERY_STRING'];
+	}
 
 	// are we at the home page or not
 	$homekeys 	= array_keys( $mitems );

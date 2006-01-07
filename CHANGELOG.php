@@ -41,6 +41,9 @@ Low Level Threat
 
 ---
 
+07-Jan-2005 Rey Gigataras
+ # Fixed artf2933 : Pathway problem on Windows
+
 06-Jan-2005 Rey Gigataras
  ^ changed mod_archive so that no Itemid is assigned, meaning it uses the default Itemid=99999999
  # Fixed artf2738 : Incorrect SEF links for archive com_content links
