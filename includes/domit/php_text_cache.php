@@ -109,7 +109,9 @@ class php_text_cache extends php_http_connector {
 	* @param boolean True if an HTTP client is to be used to establish the connection
 	*/
 	function useHTTPClient($truthVal) {
-		$this->doUseHTTPClient = truthVal;
+		// fixes bug identified here: sarahk.pcpropertymanager.com/blog/using-domit-rss/225/
+		//$this->doUseHTTPClient = truthVal;
+		$this->doUseHTTPClient = $truthVal;
 	} //useHTTPClient
 
 	/**
