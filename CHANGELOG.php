@@ -39,8 +39,12 @@ This Release Contains following Security Fixes
 Low Level Threat
 * VCard no longer accessible via urls even if switched off
 * Hardened Itemid against misuse
+* Multiple Vulnerabilities in TinyMCE Compressor
 
 ---
+
+08-Jan-2005 Johan Janssens
+ * SECURITY : Fixed Security Vulnerability in TinyMCE Compressor
 
 08-Jan-2005 Rey Gigataras
  * SECURITY: Fixed artf2950 : Information leak with Vcard hide function
