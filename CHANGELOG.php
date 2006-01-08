@@ -46,6 +46,7 @@ Low Level Threat
  * SECURITY: Fixed artf2950 : Information leak with Vcard hide function
  ^ VCard param option for new Contacts now set to `hide`
  # Fixed DOMIT bugs identified by sarahk: http://sarahk.pcpropertymanager.com/blog/using-domit-rss/225/
+ # Fixed artf2793 : New user confirmation link warning on login 
  # Fixed artf2732 : Pagination in the Blog section/category doesnt work 
  # Fixed artf2943 : Incorrect Redirect for Weblinks
  # Fixed artf2945 : Undefined constant in php_http_exceptions.php

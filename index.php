@@ -151,7 +151,9 @@ if ($option == 'login') {
 		<?php
 	}
 
-	if ($return) {
+	if ( $return && !( strpos( $return, 'com_registration' ) || strpos( $return, 'com_login' ) ) ) {
+	// checks for the presence of a return url 
+	// and ensures that this url is not the registration or login pages
 		mosRedirect( $return );
 	} else {
 		mosRedirect( $mosConfig_live_site );
@@ -171,7 +173,9 @@ if ($option == 'login') {
 		<?php
 	}
 
-	if ($return) {
+	if ( $return && !( strpos( $return, 'com_registration' ) || strpos( $return, 'com_login' ) ) ) {
+	// checks for the presence of a return url 
+	// and ensures that this url is not the registration or logout pages
 		mosRedirect( $return );
 	} else {
 		mosRedirect( $mosConfig_live_site );
