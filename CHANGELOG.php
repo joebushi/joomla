@@ -37,11 +37,14 @@ Legend:
 This Release Contains following Security Fixes
 
 Low Level Threat
+* VCard no longer accessible via urls even if switched off
 * Hardened Itemid against misuse
 
 ---
 
 08-Jan-2005 Rey Gigataras
+ * SECURITY: Fixed artf2950 : Information leak with Vcard hide function
+ ^ VCard param option for new Contacts now set to `hide`
  # Fixed DOMIT bugs identified by sarahk: http://sarahk.pcpropertymanager.com/blog/using-domit-rss/225/
  # Fixed artf2732 : Pagination in the Blog section/category doesnt work 
  # Fixed artf2943 : Incorrect Redirect for Weblinks
