@@ -162,24 +162,27 @@ function showItem ( $id, $catid ) {
 	global $database;
 
 	//Record the hit
-	$sql= "UPDATE #__weblinks"
+	$query = "UPDATE #__weblinks"
 	. "\n SET hits = hits + 1"
 	. "\n WHERE id = $id"
 	;
-	$database->setQuery( $sql );
+	$database->setQuery( $query );
 	$database->query();
 
 	$query = "SELECT url"
 	. "\n FROM #__weblinks"
 	. "\n WHERE id = $id"
 	;
-	$database->setQuery( $query );
+	$database->setQuery( $query );	
 	$url = $database->loadResult();
-
-	mosRedirect ( $url );
-
-	listWeblinks( $catid );
-
+	
+	if ( $url ) {
+		// redirects to url if matching id found
+		mosRedirect ( $url );
+	} else {		
+		// redirects to weblink category page if no matching id found
+		listWeblinks( $catid );
+	}
 }
 
 function editWebLink( $id, $option ) {

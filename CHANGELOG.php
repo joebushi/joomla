@@ -43,6 +43,7 @@ Low Level Threat
 
 08-Jan-2005 Rey Gigataras
  # Fixed DOMIT bugs identified here: sarahk.pcpropertymanager.com/blog/using-domit-rss/225/
+ # Fixed artf2943 : Incorrect Redirect for Weblinks
  # Fixed artf2945 : Undefined constant in php_http_exceptions.php
 
 07-Jan-2005 Rey Gigataras
