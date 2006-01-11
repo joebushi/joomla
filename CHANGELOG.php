@@ -44,6 +44,7 @@ Low Level Threat
 ---
 
 10-Jan-2005 Rey Gigataras
+ # Fixed artf2622 : admin.users.php session_start called when a session is already open
  # Fixed artf2789 : invalid xhtml
  # Fixed artf2989 : User WYSIWYG editor setting resets after adding new user from backend
  # Fixed artf2986 : Wrong link to image-icon in weblinks
