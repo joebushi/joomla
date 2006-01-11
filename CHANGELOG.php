@@ -43,6 +43,9 @@ Low Level Threat
 
 ---
 
+10-Jan-2005 Rey Gigataras
+ # Fixed artf2986 : Wrong link to image-icon in weblinks
+
 08-Jan-2005 Johan Janssens
  * SECURITY : Fixed Security Vulnerability in TinyMCE Compressor
 
