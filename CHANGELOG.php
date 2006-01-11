@@ -37,13 +37,15 @@ Legend:
 This Release Contains following Security Fixes
 
 Low Level Threat
+* Hardened misuse of Contact Component `email copy` ability when not activated
+* Multiple Vulnerabilities in TinyMCE Compressor
 * VCard no longer accessible via urls even if switched off
 * Hardened Itemid against misuse
-* Multiple Vulnerabilities in TinyMCE Compressor
 
 ---
 
 10-Jan-2005 Rey Gigataras
+ * SECURITY: Fixed artf2386 : Preventing Spambots through com_contact
  # Fixed artf2622 : admin.users.php session_start called when a session is already open
  # Fixed artf2789 : invalid xhtml
  # Fixed artf2989 : User WYSIWYG editor setting resets after adding new user from backend

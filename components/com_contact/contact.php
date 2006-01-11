@@ -411,8 +411,11 @@ function sendmail( $con_id, $option ) {
 	
 		mosMail( $email, $name , $contact[0]->email_to, $mosConfig_fromname .': '. $subject, $text );
 	
-		//if ( $email_copy && $email ) {
-		if ( $email_copy ) {
+		// parameter check
+		$params = new mosParameters( $contact[0]->params );		
+		$emailcopyCheck = $params->get( 'email_copy', 0 );
+			
+		if ( $email_copy && $emailcopyCheck ) {
 			$copy_text = sprintf( _COPY_TEXT, $contact[0]->name, $mosConfig_sitename );
 			$copy_text = $copy_text ."\n\n". $text .'';
 			$copy_subject = _COPY_SUBJECT . $subject;
