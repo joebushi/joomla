@@ -940,18 +940,34 @@ function BlogOutput ( &$rows, &$params, $gid, &$access, $pop, &$menu, $archive=N
 
 				echo '</td>';
 
-				if ( !( ( $z + 1 ) % $columns ) || $columns == 1 ) {
-					echo '</tr>';
-				}
+//				if ( !( ( $z + 1 ) % $columns ) || $columns == 1 ) {
+//					echo '</tr>';
+//				}
+//
+//				$i++;
+//			}
+//
+//			// this is required to output a final closing </tr> tag when the number of items does not fully
+//			// fill the last row of output - a blank column is left
+//			if ( $intro % $columns ) {
+//				echo '</tr>';
+//			}
+				
+                $i++;
 
-				$i++;
-			}
+                // this is required to output a closing </tr> tag if one of the 3 conditions are met
+                // 1. No of intro story output = number of columns
+                // 2. Total number of items is reached before the number set to display
+                // 3. Reached the last item but it does not fully fill the last row of output - a blank column is left
+                if ( !( ( $z + 1 ) % $columns ) || $columns == 1 ) {
+                    echo '</tr>';
+                } else if ($i >= $total) {
+                    echo '</tr>';
+                } else if ( ( ( $z + 1 )==$intro ) && ( $intro % $columns ) ) {
+                    echo '</tr>';
+                }
 
-			// this is required to output a final closing </tr> tag when the number of items does not fully
-			// fill the last row of output - a blank column is left
-			if ( $intro % $columns ) {
-				echo '</tr>';
-			}
+            }
 		
 			echo '</table>';
 			echo '</td>';
