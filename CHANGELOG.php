@@ -50,8 +50,9 @@ Low Level Threat
 
 12-Jan-2006 Rey Gigataras
  * SECURITY: changed `Email Copy` param option for new Contacts now set to `hide`
+ # Fixed missing <li> tag in newsfeed component
  # Fixed artf1487 : Media Manager breaks when illegal characters in uploaded file name
- # Fixed artf2108 : Saving a parent inside of a child
+ # Fixed artf2108 : Saving a parent inside of a child 
  - unnecessary `checked out` check in  mod_latestnews.php and mod_mostread.php 
  - unnecessary param variable in mod_latestnews.php
 
