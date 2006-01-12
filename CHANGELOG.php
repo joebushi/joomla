@@ -56,6 +56,7 @@ Low Level Threat
  # Fixed artf2108 : Saving a parent inside of a child 
  + caching support to `Frontpage` component
  + missing param for `Table - Weblink Category`
+ - sef handling in mod_search.php as SEF
  - unnecessary `checked out` check in  mod_latestnews.php and mod_mostread.php 
  - unnecessary param variable in mod_latestnews.php
 
