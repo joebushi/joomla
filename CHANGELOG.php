@@ -50,6 +50,7 @@ Low Level Threat
 
 12-Jan-2006 Rey Gigataras
  * SECURITY: changed `Email Copy` param option for new Contacts now set to `hide`
+ # Fixed artf2070 : mosHTML:encoding_converter() breaks with &ouml;
  # Fixed missing <li> tag in newsfeed component
  # Fixed artf1487 : Media Manager breaks when illegal characters in uploaded file name
  # Fixed artf2108 : Saving a parent inside of a child 
