@@ -84,7 +84,7 @@
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="email_copy" type="radio" default="1" label="Email Copy" description="Show/Hide the checkbox to email a copy to the senders address">
+		<param name="email_copy" type="radio" default="0" label="Email Copy" description="Show/Hide the checkbox to email a copy to the senders address">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>

@@ -81,26 +81,26 @@ function listContacts( $option, $catid ) {
 		$menu->load( $Itemid );
 		$params = new mosParameters( $menu->params );
 
-		$params->def( 'page_title', 1 );
-		$params->def( 'header', $menu->name );
-		$params->def( 'pageclass_sfx', '' );
-		$params->def( 'headings', 1 );
-		$params->def( 'back_button', $mainframe->getCfg( 'back_button' ) );
-		$params->def( 'description_text', _CONTACTS_DESC );
-		$params->def( 'image', -1 );
-		$params->def( 'image_align', 'right' );
-		$params->def( 'other_cat_section', 1 );
+		$params->def( 'page_title', 		1 );
+		$params->def( 'header', 			$menu->name );
+		$params->def( 'pageclass_sfx', 		'' );
+		$params->def( 'headings', 			1 );
+		$params->def( 'back_button', 		$mainframe->getCfg( 'back_button' ) );
+		$params->def( 'description_text', 	_CONTACTS_DESC );
+		$params->def( 'image', 				-1 );
+		$params->def( 'image_align', 		'right' );
+		$params->def( 'other_cat_section', 	1 );
 		// Category List Display control
-		$params->def( 'other_cat', 1 );
-		$params->def( 'cat_description', 1 );
-		$params->def( 'cat_items', 1 );
+		$params->def( 'other_cat', 			1 );
+		$params->def( 'cat_description', 	1 );
+		$params->def( 'cat_items', 			1 );
 		// Table Display control
-		$params->def( 'headings', 1 );
-		$params->def( 'position', '1' );
-		$params->def( 'email', '0' );
-		$params->def( 'phone', '1' );
-		$params->def( 'fax', '1' );
-		$params->def( 'telephone', '1' );
+		$params->def( 'headings', 			1 );
+		$params->def( 'position', 			1 );
+		$params->def( 'email', 				0 );
+		$params->def( 'phone', 				1 );
+		$params->def( 'fax', 				1 );
+		$params->def( 'telephone', 			1 );
 
 		if( $catid == 0 ) {
 			$catid = $params->get( 'catid', 0 );
@@ -223,36 +223,36 @@ function contactpage( $contact_id ) {
 		// Adds parameter handling
 		$params = new mosParameters( $contact->params );
 
-		$params->set( 'page_title', 0 );
-		$params->def( 'pageclass_sfx', '' );
-		$params->def( 'back_button', $mainframe->getCfg( 'back_button' ) );
-		$params->def( 'print', !$mainframe->getCfg( 'hidePrint' ) );
-		$params->def( 'name', '1' );
-		$params->def( 'email', '0' );
-		$params->def( 'street_address', '1' );
-		$params->def( 'suburb', '1' );
-		$params->def( 'state', '1' );
-		$params->def( 'country', '1' );
-		$params->def( 'postcode', '1' );
-		$params->def( 'telephone', '1' );
-		$params->def( 'fax', '1' );
-		$params->def( 'misc', '1' );
-		$params->def( 'image', '1' );
-		$params->def( 'email_description', '1' );
+		$params->set( 'page_title', 			0 );
+		$params->def( 'pageclass_sfx', 			'' );
+		$params->def( 'back_button', 			$mainframe->getCfg( 'back_button' ) );
+		$params->def( 'print', 					!$mainframe->getCfg( 'hidePrint' ) );
+		$params->def( 'name', 					1 );
+		$params->def( 'email', 					0 );
+		$params->def( 'street_address', 		1 );
+		$params->def( 'suburb', 				1 );
+		$params->def( 'state', 					1 );
+		$params->def( 'country', 				1 );
+		$params->def( 'postcode', 				1 );
+		$params->def( 'telephone', 				1 );
+		$params->def( 'fax', 					1 );
+		$params->def( 'misc', 					1 );
+		$params->def( 'image', 					1 );
+		$params->def( 'email_description', 		1 );
 		$params->def( 'email_description_text', _EMAIL_DESCRIPTION );
-		$params->def( 'email_form', '1' );
-		$params->def( 'email_copy', '1' );
+		$params->def( 'email_form', 			1 );
+		$params->def( 'email_copy', 			0 );
 		// global pront|pdf|email
-		$params->def( 'icons', $mainframe->getCfg( 'icons' ) );
+		$params->def( 'icons', 					$mainframe->getCfg( 'icons' ) );
 		// contact only icons
-		$params->def( 'contact_icons', 0 );
-		$params->def( 'icon_address', '' );
-		$params->def( 'icon_email', '' );
-		$params->def( 'icon_telephone', '' );
-		$params->def( 'icon_fax', '' );
-		$params->def( 'icon_misc', '' );
-		$params->def( 'drop_down', '0' );
-		$params->def( 'vcard', '0' );
+		$params->def( 'contact_icons', 			0 );
+		$params->def( 'icon_address', 			'' );
+		$params->def( 'icon_email', 			'' );
+		$params->def( 'icon_telephone', 		'' );
+		$params->def( 'icon_fax', 				'' );
+		$params->def( 'icon_misc', 				'' );
+		$params->def( 'drop_down', 				0 );
+		$params->def( 'vcard', 					0 );
 
 
 		if ( $contact->email_to && $params->get( 'email' )) {

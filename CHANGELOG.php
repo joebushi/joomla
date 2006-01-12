@@ -37,9 +37,10 @@ Legend:
 This Release Contains following Security Fixes
 
 Low Level Threat
+* `Email Copy` no longer usable even if switched off
 * Hardened misuse of Contact Component `email copy` ability when not activated
 * Multiple Vulnerabilities in TinyMCE Compressor
-* VCard no longer accessible via urls even if switched off
+* `VCard` no longer accessible via urls even if switched off
 * Hardened Itemid against misuse
 
 ---
@@ -47,7 +48,8 @@ Low Level Threat
 12-Jan-2006 Alex Kempkens
  # Fixed mosFormateDate, handling offset's with value 0
 
-11-Jan-2006 Rey Gigataras
+12-Jan-2006 Rey Gigataras
+ * SECURITY: changed `Email Copy` param option for new Contacts now set to `hide`
  # Fixed artf1487 : Media Manager breaks when illegal characters in uploaded file name
  # Fixed artf2108 : Saving a parent inside of a child
 
@@ -63,7 +65,7 @@ Low Level Threat
 
 08-Jan-2006 Rey Gigataras
  * SECURITY: Fixed artf2950 : Information leak with Vcard hide function
- ^ VCard param option for new Contacts now set to `hide`
+ * SECURITY: changed `VCard` param option for new Contacts now set to `hide`
  # Fixed DOMIT bugs identified by sarahk: http://sarahk.pcpropertymanager.com/blog/using-domit-rss/225/
  # Fixed artf2793 : New user confirmation link warning on login 
  # Fixed artf2732 : Pagination in the Blog section/category doesnt work 
