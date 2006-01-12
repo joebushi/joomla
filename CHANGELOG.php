@@ -44,21 +44,24 @@ Low Level Threat
 
 ---
 
-11-Jan-2005 Rey Gigataras
+12-Jan-2006 Alex Kempkens
+ # Fixed mosFormateDate, handling offset's with value 0
+
+11-Jan-2006 Rey Gigataras
  # Fixed artf1487 : Media Manager breaks when illegal characters in uploaded file name
  # Fixed artf2108 : Saving a parent inside of a child
 
-10-Jan-2005 Rey Gigataras
+10-Jan-2006 Rey Gigataras
  * SECURITY: Fixed artf2386 : Preventing Spambots through com_contact
  # Fixed artf2622 : admin.users.php session_start called when a session is already open
  # Fixed artf2789 : invalid xhtml
  # Fixed artf2989 : User WYSIWYG editor setting resets after adding new user from backend
  # Fixed artf2986 : Wrong link to image-icon in weblinks
 
-08-Jan-2005 Johan Janssens
+08-Jan-2006 Johan Janssens
  * SECURITY : Fixed Security Vulnerability in TinyMCE Compressor
 
-08-Jan-2005 Rey Gigataras
+08-Jan-2006 Rey Gigataras
  * SECURITY: Fixed artf2950 : Information leak with Vcard hide function
  ^ VCard param option for new Contacts now set to `hide`
  # Fixed DOMIT bugs identified by sarahk: http://sarahk.pcpropertymanager.com/blog/using-domit-rss/225/
@@ -67,19 +70,19 @@ Low Level Threat
  # Fixed artf2943 : Incorrect Redirect for Weblinks
  # Fixed artf2945 : Undefined constant in php_http_exceptions.php
 
-07-Jan-2005 Rey Gigataras
+07-Jan-2006 Rey Gigataras
  # Fixed artf2933 : Pathway problem on Windows
 
-06-Jan-2005 Rey Gigataras
+06-Jan-2006 Rey Gigataras
  ^ changed mod_archive so that no Itemid is assigned, meaning it uses the default Itemid=99999999
  # Fixed artf2738 : Incorrect SEF links for archive com_content links
  # Fixed artf1809 : mospagebreak problem with "Special Characters"
  # Fixed artf2861 : article_seperator glitch
 
-05-Jan-2005 Rey Gigataras
+05-Jan-2006 Rey Gigataras
  # Fixed artf2825 : RSS module SEF urls
 
-04-Jan-2005 Rey Gigataras
+04-Jan-2006 Rey Gigataras
  * SECURITY: Fixed artf2050 : Itemid in index2.php
  # Fixed Related items Module shows Expired items - Mambo Tracker [#7590] 
  # Fixed artf2185 : Changing weblinks possible for everyone

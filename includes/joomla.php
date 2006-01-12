@@ -3003,13 +3003,13 @@ function mosMenuCheck( $Itemid, $menu_option, $task, $gid ) {
 * @param offset time offset if different than global one
 * @returns formated date
 */
-function mosFormatDate( $date, $format="", $offset="" ){
+function mosFormatDate( $date, $format="", $offset=NULL ){
 	global $mosConfig_offset;
 	if ( $format == '' ) {
 		// %Y-%m-%d %H:%M:%S
 		$format = _DATE_FORMAT_LC;
 	}
-	if ( $offset == '' ) {
+	if ( is_null($offset) ) {
 		$offset = $mosConfig_offset;
 	}
 	if ( $date && ereg( "([0-9]{4})-([0-9]{2})-([0-9]{2})[ ]([0-9]{2}):([0-9]{2}):([0-9]{2})", $date, $regs ) ) {
