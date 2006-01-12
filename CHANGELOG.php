@@ -44,6 +44,9 @@ Low Level Threat
 
 ---
 
+11-Jan-2005 Rey Gigataras
+ # Fixed artf2108 : Saving a parent inside of a child
+
 10-Jan-2005 Rey Gigataras
  * SECURITY: Fixed artf2386 : Preventing Spambots through com_contact
  # Fixed artf2622 : admin.users.php session_start called when a session is already open
