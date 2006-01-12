@@ -37,6 +37,7 @@ Legend:
 This Release Contains following Security Fixes
 
 Low Level Threat
+* Added simple filtering control ability to Contact Component
 * `Email Copy` no longer usable even if switched off
 * Hardened misuse of Contact Component `email copy` ability when not activated
 * Multiple Vulnerabilities in TinyMCE Compressor
@@ -45,6 +46,9 @@ Low Level Threat
 
 ---
 
+13-Jan-2006 Rey Gigataras
+ * SECURITY: + simple filter check to Contact Component
+ 
 12-Jan-2006 Alex Kempkens
  # Fixed mosFormateDate, handling offset's with value 0
 

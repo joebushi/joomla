@@ -341,8 +341,8 @@ function sendmail( $con_id, $option ) {
 	global $mosConfig_sitename, $mosConfig_live_site, $mosConfig_mailfrom, $mosConfig_fromname;
 
 	$validate = mosGetParam( $_POST, mosHash( 'validate' ), 0 );
+	// probably a spoofing attack
 	if (!$validate) {
-		// probably a spoofing attack
 		echo _NOT_AUTH;
 		return;
 	}
@@ -351,17 +351,15 @@ function sendmail( $con_id, $option ) {
 	// For basic web-forms, we don't care about anything
 	// other than requests from a browser:   
 	if (!isset( $_SERVER['HTTP_USER_AGENT'] )) {
-		header( "HTTP/1.0 403 Forbidden" );
-		die( _NOT_AUTH );
-		exit;
+		echo _NOT_AUTH;
+		return;
 	}
 	
 	// Make sure the form was indeed POST'ed:
 	//  (requires your html form to use: action="post")
 	if (!$_SERVER['REQUEST_METHOD'] == 'POST' ) {
-		header("HTTP/1.0 403 Forbidden");
-		die( _NOT_AUTH );
-		exit;   
+		echo _NOT_AUTH;
+		return;
 	}
 	
 	// Attempt to defend against header injections:
@@ -378,8 +376,8 @@ function sendmail( $con_id, $option ) {
 	foreach ($_POST as $k => $v){
 		foreach ($badStrings as $v2) {
 			if (strpos( $v, $v2 ) !== false) {
-				header( "HTTP/1.0 403 Forbidden" );
-				die( _NOT_AUTH );
+				echo _NOT_AUTH;
+				return;
 			}
 		}
 	}   
@@ -397,12 +395,50 @@ function sendmail( $con_id, $option ) {
 
 	if (count( $contact ) > 0) {
 		$default 	= $mosConfig_sitename.' '. _ENQUIRY;
-		$email 		= mosGetParam( $_POST, 'email', '' );
-		$text 		= mosGetParam( $_POST, 'text', '' );
-		$name 		= mosGetParam( $_POST, 'name', '' );
-		$subject 	= mosGetParam( $_POST, 'subject', $default );
-		$email_copy = mosGetParam( $_POST, 'email_copy', 0 );
+		$email 		= mosGetParam( $_POST, 'email', 		'' );
+		$text 		= mosGetParam( $_POST, 'text', 			'' );
+		$name 		= mosGetParam( $_POST, 'name', 			'' );
+		$subject 	= mosGetParam( $_POST, 'subject', 		$default );
+		$email_copy = mosGetParam( $_POST, 'email_copy', 	0 );
 
+		$menu = new mosMenu( $database );
+		$menu->load( $Itemid );
+		$mparams = new mosParameters( $menu->params );		
+		$bannedEmail 	= $mparams->get( 'bannedEmail', 	'' );		
+		$bannedSubject 	= $mparams->get( 'bannedSubject', 	'' );		
+		$bannedText 	= $mparams->get( 'bannedText', 		'' );
+		
+		// Prevent form submission if one of the banned text is discovered in the email field
+		if ( $bannedEmail ) {
+			$bannedEmail = explode( ';', $bannedEmail );
+			foreach ($bannedEmail as $value) {
+				if ( stristr($email, $value) ) {
+					echo _NOT_AUTH;
+					return;
+				}
+			}
+		}
+		// Prevent form submission if one of the banned text is discovered in the subject field		
+		if ( $bannedSubject ) {
+			$bannedSubject = explode( ';', $bannedSubject );
+			foreach ($bannedSubject as $value) {
+				if ( stristr($subject, $value) ) {
+					echo _NOT_AUTH;
+					return;
+				}
+			}
+		}
+		// Prevent form submission if one of the banned text is discovered in the text field		
+		if ( $bannedText ) {
+			$bannedText = explode( ';', $bannedText );
+			foreach ($bannedText as $value) {
+				if ( stristr($text, $value) ) {
+					echo _NOT_AUTH;
+					return;
+				}
+			}
+		}
+		
 		if ( !$email || !$text || ( is_email( $email ) == false ) ) {
 			mosErrorAlert( _CONTACT_FORM_NC );
 		}
