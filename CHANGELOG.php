@@ -45,6 +45,7 @@ Low Level Threat
 ---
 
 11-Jan-2005 Rey Gigataras
+ # Fixed artf1487 : Media Manager breaks when illegal characters in uploaded file name
  # Fixed artf2108 : Saving a parent inside of a child
 
 10-Jan-2005 Rey Gigataras

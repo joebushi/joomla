@@ -145,20 +145,22 @@ function delete_folder($listdir) {
 
 function upload() {
 	if (isset($_FILES['upload']) && is_array($_FILES['upload']) && isset($_POST['dirPath'])) {
-		$dirPathPost = $_POST['dirPath'];
-
-		if(strlen($dirPathPost) > 0) {
-			if(substr($dirPathPost,0,1)=='/')
+		$dirPathPost 	= $_POST['dirPath'];
+		$file 			= $_FILES['upload'];
+		
+		if (strlen($dirPathPost) > 0) {
+			if (substr($dirPathPost,0,1) == '/') {
 				$IMG_ROOT .= $dirPathPost;
-			else
+			} else {
 				$IMG_ROOT = $dirPathPost;
+			}
 		}
 
-		if (strrpos( $IMG_ROOT, '/' )!= strlen( $IMG_ROOT )-1) {
+		if (strrpos( $IMG_ROOT, '/' ) != strlen( $IMG_ROOT )-1) {
 			$IMG_ROOT .= '/';
 		}
 
-		do_upload( $_FILES['upload'], COM_MEDIA_BASE . $dirPathPost . '/' );
+		do_upload( $file, COM_MEDIA_BASE . $dirPathPost . '/' );
 	}
 }
 
