@@ -3631,13 +3631,18 @@ class mosAdminMenus {
 	function Parent( &$row ) {
 		global $database;
 
+		$id = '';
+		if ( $row->id ) {
+			$id = "\n AND id != $row->id";
+		}
+		
 		// get a list of the menu items
 		// excluding the current menu item and its child elements
 		$query = "SELECT m.*"
 		. "\n FROM #__menu m"
 		. "\n WHERE menutype = '$row->menutype'"
 		. "\n AND published != -2"
-		. "\n AND id != $row->id"
+		. $id
 		. "\n ORDER BY parent, ordering"
 		;
 		$database->setQuery( $query );
