@@ -21,17 +21,17 @@ class joomlaVersion {
 	/** @var int Main Release Level */
 	var $RELEASE 	= '1.0';
 	/** @var string Development Status */
-	var $DEV_STATUS = 'Dev';
+	var $DEV_STATUS = 'Beta';
 	/** @var int Sub Release Level */
 	var $DEV_LEVEL 	= '6';
 	/** @var int build Number */
 	var $BUILD	 	= '$Revision$';
 	/** @var string Codename */
-	var $CODENAME 	= 'Sunrise';
+	var $CODENAME 	= 'Sunscreen';
 	/** @var string Date */
-	var $RELDATE 	= 'TBA';
+	var $RELDATE 	= '13-Jan-2006';
 	/** @var string Time */
-	var $RELTIME 	= 'TBA';
+	var $RELTIME 	= '11:00';
 	/** @var string Timezone */
 	var $RELTZ 		= 'UTC';
 	/** @var string Copyright Text */

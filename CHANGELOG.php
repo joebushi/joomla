@@ -32,7 +32,7 @@ Legend:
 ! -> Note
 
 
----------------- 1.0.6 Released -- [TBA] ------------------
+---------------- 1.0.6 Beta Released -- [13-Jan-2006 11:00 UTC] ------------------
 
 This Release Contains following Security Fixes
 
