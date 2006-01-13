@@ -52,6 +52,7 @@ Low Level Threat
 
 13-Jan-2006 Rey Gigataras
  * SECURITY: + simple filter check to Contact Component
+ # Fixed artf3035 : Bug with mod_newsflash
  
 12-Jan-2006 Alex Kempkens
  # Fixed mosFormateDate, handling offset's with value 0

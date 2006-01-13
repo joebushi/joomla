@@ -16,6 +16,26 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 require_once( $mainframe->getPath( 'front_html', 'com_content') );
 
+if (!defined( '_JOS_NEWSFLASH_MODULE' )) {
+	/** ensure that functions are declared only once */
+	define( '_JOS_NEWSFLASH_MODULE', 1 );
+	
+	function output_newsflash( &$row, &$params, &$access ) {	
+		global $mainframe;
+		
+		$row->text 		= $row->introtext;
+		$row->groups 	= '';
+		$row->readmore 	= (trim( $row->fulltext ) != '');
+		
+		$bs 			= $mainframe->getBlogSectionCount();
+		$bc 			= $mainframe->getBlogCategoryCount();
+		$gbs 			= $mainframe->getGlobalBlogSectionCount();
+		$ItemidCount 	= $mainframe->getItemid( $row->id, 0, 0, $bs, $bc, $gbs );
+		
+		HTML_content::show( $row, $params, $access, 0, 'com_content', $ItemidCount );
+	}
+}
+
 global $my, $mosConfig_shownoauth, $mosConfig_offset, $mosConfig_link_titles, $acl;
 
 // Disable edit ability icon
@@ -101,20 +121,5 @@ switch ($style) {
 
 		output_newsflash( $row, $params, $access );
 		break;
-}
-
-function output_newsflash( &$row, &$params, &$access ) {	
-	global $mainframe;
-
-	$row->text 		= $row->introtext;
-	$row->groups 	= '';
-	$row->readmore 	= (trim( $row->fulltext ) != '');
-	
-	$bs 			= $mainframe->getBlogSectionCount();
-	$bc 			= $mainframe->getBlogCategoryCount();
-	$gbs 			= $mainframe->getGlobalBlogSectionCount();
-	$ItemidCount 	= $mainframe->getItemid( $row->id, 0, 0, $bs, $bc, $gbs );
-	
-	HTML_content::show( $row, $params, $access, 0, 'com_content', $ItemidCount );
 }
 ?>
