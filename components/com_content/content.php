@@ -1100,9 +1100,13 @@ function showItem( $uid, $gid, &$access, $pop, $option, $now ) {
 			} else {
 				$order_method = $mparams->get( 'orderby', '' );
 			}
+			// additional check for invalid sort ordering
+			if ( $order_method == 'front' ) {
+				$order_method = '';
+			}
 			$orderby = _orderby_sec( $order_method );			
 
-			// array of content items in same category corretly ordered
+			// array of content items in same category correctly ordered
 			$query = "SELECT a.id"
 			. "\n FROM #__content AS a"
 			. "\n WHERE a.catid = $row->catid"
@@ -1114,6 +1118,10 @@ function showItem( $uid, $gid, &$access, $pop, $option, $now ) {
 			$database->setQuery( $query );
 			$list = $database->loadResultArray();
 
+			// this check needed if incorrect Itemid is given resulting in an incorrect result
+			if ( !is_array($list) ) {
+				$list = array();
+			}
 			// location of current content item in array list
 			$location = array_search( $uid, $list );
 

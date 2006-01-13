@@ -52,6 +52,7 @@ Low Level Threat
 
 13-Jan-2006 Rey Gigataras
  * SECURITY: + simple filter check to Contact Component
+ # Fixed artf3038 : Warning: array_search(): Wrong datatype for second argument in
  # Fixed artf3037 : New 404 tags aren't translated
  # Fixed artf3035 : Bug with mod_newsflash
  
