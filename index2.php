@@ -136,6 +136,9 @@ if ( $no_html == 0 ) {
 		<link rel="shortcut icon" href="<?php echo $mosConfig_live_site; ?>/images/favicon.ico" />
 		<meta http-equiv="Content-Type" content="text/html; <?php echo _ISO; ?>" />
 		<meta name="robots" content="noindex, nofollow" />
+		<?php if ($my->id || $mainframe->get( 'joomlaJavascript' )) { ?>
+		<script language="JavaScript" src="<?php echo $mosConfig_live_site;?>/includes/js/joomla.javascript.js" type="text/javascript"></script>
+		<?php } ?>
 	</head>
 	<body class="contentpane">
 		<?php mosMainBody(); ?>

@@ -46,6 +46,10 @@ Low Level Threat
 
 ---
 
+13-Jan-2005 Andrew Eddie
+ # Fixed bug in database::loadRowList that reutrn assoc and not numerical array
+ # Fixed bug in index2.php where joomlajavascript.js is not included
+
 13-Jan-2006 Rey Gigataras
  * SECURITY: + simple filter check to Contact Component
  

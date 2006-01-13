@@ -14,8 +14,6 @@
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
-global $_CONFIG, $_LANG;
-
 $params->def( 'url', '' );
 $params->def( 'scrolling', 'auto' );
 $params->def( 'height', '200' );

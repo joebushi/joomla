@@ -497,7 +497,7 @@ class database {
 			return null;
 		}
 		$array = array();
-		while ($row = mysqli_fetch_array( $cur )) {
+		while ($row = mysqli_fetch_row( $cur )) {
 			if ($key) {
 				$array[$row[$key]] = $row;
 			} else {

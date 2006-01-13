@@ -317,7 +317,7 @@ class mosFullAdminMenu {
 	* @param string The current user type
 	*/
 	function showDisabled( $usertype='' ) {
-		global $acl, $_LANG;
+		global $acl;
 
 		$canConfig 			= $acl->acl_check( 'administration', 'config', 'users', $usertype );
 		$installModules 	= $acl->acl_check( 'administration', 'install', 'users', $usertype, 'modules', 'all' );
