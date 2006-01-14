@@ -156,7 +156,7 @@ if ($option == 'login') {
 	// and ensures that this url is not the registration or login pages
 		mosRedirect( $return );
 	} else {
-		mosRedirect( $mosConfig_live_site );
+		mosRedirect( $mosConfig_live_site .'/index.php' );
 	}
 
 } else if ($option == 'logout') {
@@ -178,7 +178,7 @@ if ($option == 'login') {
 	// and ensures that this url is not the registration or logout pages
 		mosRedirect( $return );
 	} else {
-		mosRedirect( $mosConfig_live_site );
+		mosRedirect( $mosConfig_live_site.'/index.php' );
 	}
 }
 

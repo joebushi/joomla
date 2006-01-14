@@ -47,6 +47,7 @@ Low Level Threat
 ---
 
 14-Jan-2006 Rey Gigataras
+ # Fixed artf3043 : Login & Logout redirecting to $mosConfig_live_site
  # Fixed artf3040 : Site Modules | Display can be duplicated on Pages
  # Fixed problem with display mod_rssfeed twice on a page
 
