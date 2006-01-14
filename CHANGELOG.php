@@ -48,6 +48,9 @@ Low Level Threat
 
 ---
 
+14-Jan-2006  Louis Landry
+ # Fixed Caching `Blog` pagination problem
+
 14-Jan-2006 Rey Gigataras
  * SECURITY: disallow Author from publishing items or changing publish state [identified Max Dymond]
  # Fixed artf3045 : Unhandled fragment identifier with core SEF enabled

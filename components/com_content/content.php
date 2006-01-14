@@ -37,7 +37,7 @@ $cache =& mosCache::getCache( 'com_content' );
 
 // loads function for frontpage component
 if ( $option == 'com_frontpage' ) {
-	$cache->call( 'frontpage', $gid, $access, $pop, $now );
+	$cache->call( 'frontpage', $gid, $access, $pop, $now, $limit, $limitstart );
 	return;
 }
 
@@ -59,12 +59,12 @@ switch ( strtolower( $task ) ) {
 		break;
 
 	case 'blogsection':
-		$cache->call('showBlogSection', $id, $gid, $access, $pop, $now );
+		$cache->call('showBlogSection', $id, $gid, $access, $pop, $now, $limit, $limitstart );
 		break;
 
 	case 'blogcategorymulti':
 	case 'blogcategory':
-		$cache->call( 'showBlogCategory', $id, $gid, $access, $pop, $now );
+		$cache->call( 'showBlogCategory', $id, $gid, $access, $pop, $now, $limit, $limitstart );
 		break;
 
 	case 'archivesection':
