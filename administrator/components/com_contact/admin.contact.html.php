@@ -314,14 +314,6 @@ class HTML_contact {
 					</th>
 				<tr>
 				<tr>
-					<td width="20%" align="right">
-					Site Default:
-					</td>
-					<td >
-					<?php echo $lists['default_con']; ?>
-					</td>
-				</tr>
-				<tr>
 					<td valign="top" align="right">
 					Published:
 					</td>
