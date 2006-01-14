@@ -76,8 +76,10 @@ function botTinymceEditorInit() {
 	$hr					=  $params->def( 'hr', 1 );
 	// fullscreen
 	$fullscreen			=  $params->def( 'fullscreen', 1 );
-
-	if ( $content_css ) {
+	
+	if ( $content_css_custom ) {
+		$content_css = 'content_css : "'. $content_css_custom .'", ';
+	} else {
 		$query = "SELECT template"
 		. "\n FROM #__templates_menu"
 		. "\n WHERE client_id = 0"
@@ -86,17 +88,19 @@ function botTinymceEditorInit() {
 		$database->setQuery( $query );
 		$template = $database->loadResult();
 		
-		$file			= $mosConfig_absolute_path .'/templates/'. $template .'/css/editor_content.css';
-		if ( file_exists( $file ) ) {
-			$content_css	= 'content_css : "'. $mosConfig_live_site .'/templates/'. $template .'/css/editor_content.css", ';
+		$file_path = $mosConfig_absolute_path .'/templates/'. $template .'/css/';
+		if ( $content_css ) {			
+			$file = 'template.css';
 		} else {
-			$content_css	= 'content_css : "'. $mosConfig_live_site .'/templates/'. $template .'/css/template_css.css", ';
+			$file = 'editor_content.css';
 		}
-	} else {
-		if ( $content_css_custom ) {
-			$content_css = 'content_css : "'. $content_css_custom .'", ';
+		
+		$content_css = 'content_css : "'. $mosConfig_live_site .'/templates/'. $template .'/css/';
+		
+		if ( file_exists( $file_path .'/'. $file ) ) {
+			$content_css = $content_css . $file .'", ';
 		} else {
-			$content_css = '';
+			$content_css = $content_css . 'template_css.css", ';
 		}
 	}
 
@@ -119,27 +123,30 @@ function botTinymceEditorInit() {
 		$p_newlines     = 'true';
 	}
 	
+	// Tiny Compressed mode
 	if ( $compressed ) {		
 		$load = '<script type="text/javascript" src="'. $mosConfig_live_site .'/mambots/editors/tinymce/jscripts/tiny_mce/tiny_mce_gzip.php"></script>';
 	} else {
 		$load = '<script type="text/javascript" src="'. $mosConfig_live_site .'/mambots/editors/tinymce/jscripts/tiny_mce/tiny_mce_src.js"></script>';
 	}
 
-// preview
+	// preview
 	if ( $preview ) {
 		$plugins[]	= 'preview';
 		$buttons2[]	= 'preview';
 	}
-// search & replace
-if ( $searchreplace ) {
-	$plugins[]	= 'searchreplace';
-	$buttons2[]	= 'search,replace';
-}
-	$plugins[]	= 'insertdatetime';
+	// search & replace
+	if ( $searchreplace ) {
+		$plugins[]	= 'searchreplace';
+		$buttons2[]	= 'search,replace';
+	}
+	
+	$plugins[]	= 'insertdatetime';	
 	// insert date
 	if ( $insertdate ) {
 		$buttons2[]	= 'insertdate';
 	}
+	
 	// insert time
 	if ( $inserttime ) {
 		$buttons2[]	= 'inserttime';

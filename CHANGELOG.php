@@ -50,6 +50,7 @@ Low Level Threat
 
 14-Jan-2006 Rey Gigataras
  * SECURITY: disallow Author from publishing items or changing publish state [identified Max Dymond]
+ # Fixed artf3032 : 1783: Can't get custom CSS in Tiny MCE
  # Fixed artf3052 : Contact Component Re-Direct Issue
  # Fixed artf3043 : Login & Logout redirecting to $mosConfig_live_site
  # Fixed artf3040 : Site Modules | Display can be duplicated on Pages
