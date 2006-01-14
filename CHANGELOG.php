@@ -49,7 +49,7 @@ Low Level Threat
 ---
 
 14-Jan-2006 Rey Gigataras
- * SECURITY: disallow Author from publishing items or changing publish state
+ * SECURITY: disallow Author from publishing items or changing publish state [identified Max Dymond]
  # Fixed artf3052 : Contact Component Re-Direct Issue
  # Fixed artf3043 : Login & Logout redirecting to $mosConfig_live_site
  # Fixed artf3040 : Site Modules | Display can be duplicated on Pages
@@ -94,7 +94,7 @@ Low Level Threat
 08-Jan-2006 Rey Gigataras
  * SECURITY: Fixed artf2950 : Information leak with Vcard hide function
  * SECURITY: changed `VCard` param option for new Contacts now set to `hide`
- # Fixed DOMIT bugs identified by sarahk: http://sarahk.pcpropertymanager.com/blog/using-domit-rss/225/
+ # Fixed DOMIT bugs [identified by sarahk] http://sarahk.pcpropertymanager.com/blog/using-domit-rss/225/
  # Fixed artf2793 : New user confirmation link warning on login 
  # Fixed artf2732 : Pagination in the Blog section/category doesnt work 
  # Fixed artf2943 : Incorrect Redirect for Weblinks
