@@ -53,6 +53,7 @@ Low Level Threat
 
 14-Jan-2006 Rey Gigataras
  * SECURITY: disallow Author from publishing items or changing publish state [identified Max Dymond]
+ # Fixed artf3055 : Weblink submit, no email to admin
  # Fixed artf3045 : Unhandled fragment identifier with core SEF enabled
  # Fixed artf3032 : 1783: Can't get custom CSS in Tiny MCE
  # Fixed artf3052 : Contact Component Re-Direct Issue
