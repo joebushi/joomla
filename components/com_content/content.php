@@ -1453,6 +1453,28 @@ function saveContent( &$access, $task ) {
 
 	$row->title = ampReplace( $row->title );
 
+	// Publishing state hardening for Authors
+	if ( !$access->canPublish ) {     
+		if ( $isNew ) {
+		// For new items - author is not allowed to publish - prevent them from doing so
+			$row->state = 0;                 
+		} else {
+		// For existing items keep existing state - author is not allowed to change status
+			$query = "SELECT state"
+			. "\n FROM #__content"
+			. "\n WHERE id = $row->id"
+			;
+			$database->setQuery( $query);
+			$state = $database->loadResult();          
+
+			if ( $state ) {
+				$row->state = 1;
+			} else {
+				$row->state = 0;
+			}
+		}
+	}
+	
 	if (!$row->check()) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();

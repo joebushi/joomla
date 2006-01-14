@@ -37,16 +37,19 @@ Legend:
 This Release Contains following Security Fixes
 
 Low Level Threat
+* Disallow Author from publishing items or changing publish state
+* Hardened Contact Component against misuse
 * Added simple filtering control ability to Contact Component
-* `Email Copy` no longer usable even if switched off
 * Hardened misuse of Contact Component `email copy` ability when not activated
+* Hardened misuse of Contact Component `VCard` ability when not activated
+* `VCard` & `Email Copy` options set to hide by default
 * Multiple Vulnerabilities in TinyMCE Compressor
-* `VCard` no longer accessible via urls even if switched off
 * Hardened Itemid against misuse
 
 ---
 
 14-Jan-2006 Rey Gigataras
+ * SECURITY: disallow Author from publishing items or changing publish state
  # Fixed artf3052 : Contact Component Re-Direct Issue
  # Fixed artf3043 : Login & Logout redirecting to $mosConfig_live_site
  # Fixed artf3040 : Site Modules | Display can be duplicated on Pages
