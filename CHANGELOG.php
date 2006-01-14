@@ -47,9 +47,11 @@ Low Level Threat
 ---
 
 14-Jan-2006 Rey Gigataras
+ # Fixed artf3052 : Contact Component Re-Direct Issue
  # Fixed artf3043 : Login & Logout redirecting to $mosConfig_live_site
  # Fixed artf3040 : Site Modules | Display can be duplicated on Pages
  # Fixed problem with display mod_rssfeed twice on a page
+ ^ Contact Component confirmation now uses mosredireect msg, rather than JS
 
 13-Jan-2005 Andrew Eddie
  # Fixed bug in database::loadRowList that reutrn assoc and not numerical array

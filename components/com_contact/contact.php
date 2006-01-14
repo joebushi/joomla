@@ -458,12 +458,10 @@ function sendmail( $con_id, $option ) {
 			
 			mosMail( $mosConfig_mailfrom, $mosConfig_fromname, $email, $copy_subject, $copy_text );
 		}
-		?>
-		<script>
-		alert( "<?php echo _THANK_MESSAGE; ?>" );
-		document.location.href='<?php echo sefRelToAbs( 'index.php?option='. $option .'&Itemid='. $Itemid ); ?>';
-		</script>
-		<?php
+		
+		$link = 'index.php?option=com_contact&task=view&contact_id='. $contact[0]->id .'&Itemid='. $Itemid;
+
+		mosRedirect( $link, _THANK_MESSAGE );
 	}
 }
 
