@@ -254,6 +254,7 @@ function cancelWebLink( $option ) {
 * @param database A database connector object
 */
 function saveWeblink( $option ) {
+	global $mosConfig_mailfrom, $mosConfig_fromname;
 	global $database, $my;
 
 	if ($my->gid < 1) {
@@ -283,21 +284,25 @@ function saveWeblink( $option ) {
 	}
 	$row->checkin();
 
-	// Notify admin's
+	// admin users gid
+	$gid = 25;
+
+	// list of admins	
 	$query = "SELECT email, name"
 	. "\n FROM #__users"
-	. "\n WHERE gid = 25"
-	. "\n AND sendemail = 1"
+	. "\n WHERE gid = $gid"
+	. "\n AND sendEmail = 1"
 	;
 	$database->setQuery( $query );
 	if(!$database->query()) {
 		echo $database->stderr( true );
 		return;
 	}
-
 	$adminRows = $database->loadObjectList();
-	foreach( $adminRows as $adminRow) {
-		mosSendAdminMail($adminRow->name, $adminRow->email, "", "Weblink", $row->title, $my->username );
+	
+	// send email notification to admins
+	foreach($adminRows as $adminRow) {			
+		mosSendAdminMail($adminRow->name, $adminRow->email, '', 'Weblink', $row->title, $my->username );
 	}
 
 	$msg 	= $isNew ? _THANK_SUB : '';

@@ -4667,11 +4667,12 @@ function SortArrayObjects( &$a, $k, $sort_direction=1 ) {
 * Sends mail to admin
 */
 function mosSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $author ) {
-	global $mosConfig_live_site;
+	global $mosConfig_mailfrom, $mosConfig_fromname, $mosConfig_live_site;
 
 	$subject = _MAIL_SUB." '$type'";
 	$message = _MAIL_MSG;
 	eval ("\$message = \"$message\";");
+	
 	mosMail($mosConfig_mailfrom, $mosConfig_fromname, $adminEmail, $subject, $message);
 }
 
