@@ -14,6 +14,21 @@
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
+if (!defined( '_JOS_RSSFEED_MODULE' )) {
+	/** ensure that functions are declared only once */
+	define( '_JOS_RSSFEED_MODULE', 1 );	
+	
+	function output_rssfeed( $link, $img_default, $img_file, $img_alt, $img_name  ) {	
+		$img = mosAdminMenus::ImageCheck( $img_default, '/images/M_images/', $img_file, '/images/M_images/', $img_alt, $img_name );
+		?>
+		<div align="center">
+			<a href="<?php echo sefRelToAbs( $link ); ?>">
+				<?php echo $img ?></a>
+		</div>
+		<?php
+	}
+}
+
 global $mosConfig_live_site, $mosConfig_absolute_path, $cur_template;
 
 $text 				= $params->get( 'text', 			'');
@@ -76,15 +91,3 @@ $d_path				= $mosConfig_live_site .'/images/M_images/';
 	}
 	?>
 </div>
-
-<?php
-function output_rssfeed( $link, $img_default, $img_file, $img_alt, $img_name  ) {	
-	$img = mosAdminMenus::ImageCheck( $img_default, '/images/M_images/', $img_file, '/images/M_images/', $img_alt, $img_name );
-	?>
-	<div align="center">
-		<a href="<?php echo sefRelToAbs( $link ); ?>">
-			<?php echo $img ?></a>
-	</div>
-	<?php
-}
-?>

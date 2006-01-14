@@ -46,6 +46,9 @@ Low Level Threat
 
 ---
 
+14-Jan-2006 Rey Gigataras
+ # Fixed problem with display mod_rssfeed twice on a page
+
 13-Jan-2005 Andrew Eddie
  # Fixed bug in database::loadRowList that reutrn assoc and not numerical array
  # Fixed bug in index2.php where joomlajavascript.js is not included
