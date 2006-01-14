@@ -317,6 +317,16 @@ function sefRelToAbs( $string ) {
 				
 				$sefstring .= $temp[0].'/';
 			}
+			// Handle fragment identifiers (ex. #foo)
+			if (eregi('#', $string)) {
+				$temp = split('#', $string, 2);
+				$string = $temp[0];
+				// ensure fragment identifiers are compatible with HTML4
+				if (preg_match('@^[A-Za-z][A-Za-z0-9:_.-]*$@', $temp[1])) {
+					$fragment = '#'. $temp[1];
+					$sefstring .= $fragment .'/';
+				}
+			}
 
 			$string = $sefstring;
 		} else if (eregi('option=com_',$string) && !eregi('task=new',$string) && !eregi('task=edit',$string)) {
@@ -334,10 +344,13 @@ function sefRelToAbs( $string ) {
 			$string = str_replace( '=', ',', $sefstring );
 		}
 
+		// comment line below if you dont have mod_rewrite
 		return $mosConfig_live_site.'/'.$string;
 
 		// allows SEF without mod_rewrite
-		// uncomment Line 273 and comment out Line 269
+		// uncomment Line 348 and comment out Line 354	
+	
+		// comment out line below if you dont have mod_rewrite
 		//return $mosConfig_live_site.'/index.php/'.$string;
 	} else {
 		return $string;
