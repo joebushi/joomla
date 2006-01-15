@@ -49,6 +49,7 @@ Low Level Threat
 ---
 
 15-Jan-2006 Rey Gigataras
+ # Fixed artf3064 : Warning: Invalid argument supplied mod_fullmenu Line 57
  # Fixed artf3063 : Poll Component Output Display Error
 
 14-Jan-2006  Louis Landry

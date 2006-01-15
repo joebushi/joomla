@@ -54,9 +54,13 @@ class mosFullAdminMenu {
 		$database->setQuery( $query );
 		$sections = $database->loadObjectList();
 		$nonemptySections = 0;
-		foreach ($sections as $section)
-			if ($section->numcat > 0)
-				$nonemptySections++;
+		if (count($sections) > 0) {
+			foreach ($sections as $section) {
+				if ($section->numcat > 0) {
+					$nonemptySections++;
+				}
+			}
+		}
 		$menuTypes = mosAdminMenus::menutypes();
 		?>
 		<div id="myMenuID"></div>
