@@ -32,6 +32,11 @@ Legend:
 ! -> Note
 
 
+---------------- 1.0.7 Released -- [15-Jan-2006 20:00 UTC] ------------------
+
+15-Jan-2006 Rey Gigataras
+ # Fixed : database password being incorrectly overwritten with a blank
+
 ---------------- 1.0.6 Released -- [15-Jan-2006 15:00 UTC] ------------------
 
 This Release Contains following Security Fixes

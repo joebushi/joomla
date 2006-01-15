@@ -294,7 +294,7 @@ function showconfig( $option) {
  * Save the configuration
  */
 function saveconfig( $task ) {
-	global $database, $mosConfig_absolute_path, $mosconfig_password;
+	global $database, $mosConfig_absolute_path, $mosConfig_password;
 
 	$row = new mosConfig();
 	if (!$row->bind( $_POST )) {
@@ -306,7 +306,7 @@ function saveconfig( $task ) {
 	$row->config_offset 	= $offset;	
 	
 	//override any possible database password change
-	$row->config_password 	= $mosconfig_password;
+	$row->config_password 	= $mosConfig_password;
 	
 	$config = "<?php \n";
 	$config .= $row->getVarText();
