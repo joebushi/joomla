@@ -48,6 +48,9 @@ Low Level Threat
 
 ---
 
+15-Jan-2006 Rey Gigataras
+ # Fixed artf3063 : Poll Component Output Display Error
+
 14-Jan-2006  Louis Landry
  # Fixed Caching `Blog` pagination problem
 
