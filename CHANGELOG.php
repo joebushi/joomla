@@ -45,10 +45,12 @@ Low Level Threat
 * `VCard` & `Email Copy` options set to hide by default
 * Multiple Vulnerabilities in TinyMCE Compressor
 * Hardened Itemid against misuse
+* Hide database password in Global Configuration
 
 ---
 
 15-Jan-2006 Rey Gigataras
+ * SECURITY [ Low Level Bug ]: Hide database password in Global Configuration
  # Fixed artf3064 : Warning: Invalid argument supplied mod_fullmenu Line 57
  # Fixed artf3063 : Poll Component Output Display Error
 
@@ -56,7 +58,7 @@ Low Level Threat
  # Fixed Caching `Blog` pagination problem
 
 14-Jan-2006 Rey Gigataras
- * SECURITY: disallow Author from publishing items or changing publish state [identified Max Dymond]
+ * SECURITY [ Low Level Bug ]: disallow Author from publishing items or changing publish state [identified Max Dymond]
  # Fixed artf3055 : Weblink submit, no email to admin
  # Fixed artf3045 : Unhandled fragment identifier with core SEF enabled
  # Fixed artf3032 : 1783: Can't get custom CSS in Tiny MCE
@@ -71,7 +73,7 @@ Low Level Threat
  # Fixed bug in index2.php where joomlajavascript.js is not included
 
 13-Jan-2006 Rey Gigataras
- * SECURITY: + simple filter check to Contact Component
+ * SECURITY [ Low Level Bug ]: + simple filter check to Contact Component
  # Fixed artf3038 : Warning: array_search(): Wrong datatype for second argument in
  # Fixed artf3037 : New 404 tags aren't translated
  # Fixed artf3035 : Bug with mod_newsflash
@@ -80,7 +82,7 @@ Low Level Threat
  # Fixed mosFormateDate, handling offset's with value 0
 
 12-Jan-2006 Rey Gigataras
- * SECURITY: changed `Email Copy` param option for new Contacts now set to `hide`
+ * SECURITY [ Low Level Bug ]: changed `Email Copy` param option for new Contacts now set to `hide`
  # Fixed artf2070 : mosHTML:encoding_converter() breaks with &ouml;
  # Fixed missing <li> tag in newsfeed component
  # Fixed artf1487 : Media Manager breaks when illegal characters in uploaded file name
@@ -92,18 +94,18 @@ Low Level Threat
  - unnecessary param variable in mod_latestnews.php
 
 10-Jan-2006 Rey Gigataras
- * SECURITY: Fixed artf2386 : Preventing Spambots through com_contact
+ * SECURITY [ Low Level Bug ]: Fixed artf2386 : Preventing Spambots through com_contact
  # Fixed artf2622 : admin.users.php session_start called when a session is already open
  # Fixed artf2789 : invalid xhtml
  # Fixed artf2989 : User WYSIWYG editor setting resets after adding new user from backend
  # Fixed artf2986 : Wrong link to image-icon in weblinks
 
 08-Jan-2006 Johan Janssens
- * SECURITY : Fixed Security Vulnerability in TinyMCE Compressor
+ * SECURITY [ Low Level Bug ]: Fixed Security Vulnerability in TinyMCE Compressor
 
 08-Jan-2006 Rey Gigataras
- * SECURITY: Fixed artf2950 : Information leak with Vcard hide function
- * SECURITY: changed `VCard` param option for new Contacts now set to `hide`
+ * SECURITY [ Low Level Bug ]: Fixed artf2950 : Information leak with Vcard hide function
+ * SECURITY [ Low Level Bug ]: changed `VCard` param option for new Contacts now set to `hide`
  # Fixed DOMIT bugs [identified by sarahk] http://sarahk.pcpropertymanager.com/blog/using-domit-rss/225/
  # Fixed artf2793 : New user confirmation link warning on login 
  # Fixed artf2732 : Pagination in the Blog section/category doesnt work 
@@ -123,7 +125,7 @@ Low Level Threat
  # Fixed artf2825 : RSS module SEF urls
 
 04-Jan-2006 Rey Gigataras
- * SECURITY: Fixed artf2050 : Itemid in index2.php
+ * SECURITY [ Low Level Bug ]: Fixed artf2050 : Itemid in index2.php
  # Fixed Related items Module shows Expired items - Mambo Tracker [#7590] 
  # Fixed artf2185 : Changing weblinks possible for everyone
 
@@ -313,13 +315,13 @@ Low Level Threat
  # Fixed Artifact artf1967 displays with an escaped apostrophe in both title and TOC.
 
 20-Nov-2005 Emir Sakic
- * SECURITY: Hardened SEF against XSS injection
+ * SECURITY [ Critical Level Bug ]: Hardened SEF against XSS injection
 
 19-Nov-2005 Levis Bisson
  # replaced charset=utf-8 to charset=iso-8859-1 in language file
 
 19-Nov-2005 Andrew Eddie
- * SECURITY: Fixed XSS injection of global variable through the _GET array
+ * SECURITY [ Critical Level Bug ]: Fixed XSS injection of global variable through the _GET array
 
 17-Nov-2005 Johan Janssens
  ^ Replaced install.png with new image
@@ -357,14 +359,14 @@ Low Level Threat
  # Fixed artf1700 : TinyMCE doesn't support relative URL's for images
 
 07-Nov-2005 Andrew Eddie
- * SECURITY: Fixed artf1978 : mod_poll SQL Injection Vulnerability [ Low Level Security Bug ]
- * SECURITY: Fixed SQL injection possibility in several mosDBTable methods [ Low Level Security Bug ]
- * SECURITY: Fixed malicious injection into filename variables in com_media [ Low Level Security Bug ]
+ * SECURITY [ Low Level Bug ]: Fixed artf1978 : mod_poll SQL Injection Vulnerability
+ * SECURITY [ Low Level Bug ]: Fixed SQL injection possibility in several mosDBTable methods
+ * SECURITY [ Low Level Bug ]: Fixed malicious injection into filename variables in com_media
  ^ mosDBTable::publish_array renamed to publish
  ^ mosDBTable::save no longer updates the ordering (must now be done separately)
 
 06-Nov-2005 Rey Gigataras
- * SECURITY: Add search limit param (default of 50) to `Search` Mambots to prevent search flooding [ Low Level Security Bug ]
+ * SECURITY [ Low Level Bug ]: Add search limit param (default of 50) to `Search` Mambots to prevent search flooding
  # Fixed custom() & customX() functions in menu.html.php no checking for image in /administrator/images/
 
 04-Nov-2005 Rey Gigataras
@@ -474,7 +476,7 @@ Low Level Threat
  # Fixed artf1531 : RSS Feed showing wrong livesite URL
 
 12-Oct-2005 Marko Schmuck
- * Fixed securitybug in admin.content.html.php when 2 logged in and try to edit the same content [ Low Level Security Bug ]
+ * SECURITY [ Low Level Bug ]: Fixed security bug in admin.content.html.php when 2 logged in and try to edit the same content
 
 12-Oct-2005 Johan Janssens
  # Fixed artf1266 : gzip compression conflict
@@ -489,7 +491,7 @@ Low Level Threat
  # Fixed artf1513 : PDF format does not work at version 1.0.2
 
 11-Oct-2005 Rey Gigataras
- * Fixed Search Component flooding, by limiting searching to between 3 and 20 characters [ Low Level Security Bug in 1.0.x ]
+ * SECURITY [ Low Level Bug ]: Fixed Search Component flooding, by limiting searching to between 3 and 20 characters
  ^ Blog - Content Category Archive will no longer show dropdown selector when coming from Archive Module
  # Fixed artf1470 : Archives not working in the front end
  # Fixed artf1495 : Frontend Archive blog display
@@ -499,8 +501,8 @@ Low Level Threat
  # Fixed artf1493 : mod_whosonline.php
 
 09-Oct-2005 Rey Gigataras
- * Fixed SQL injection bug in content submission [ Medium Level Security Bug in 1.0.x ]
- * Fixed artf1405 : Joomla shows Items to unauthorized users [ Low Level Security Bug in 1.0.2 ]
+ * SECURITY [ Medium Level Bug ]: Fixed SQL injection bug in content submission
+ * SECURITY [ Low Level Bug ]: Fixed artf1405 : Joomla shows Items to unauthorized users
  # Fixed artf1454 : After update email_cloacking bot is always on
  # Fixed artf1447 : Bug in mosloadposition mambot
  # Fixed artf1483 : SEF default .htaccess file settings are too lax
@@ -891,9 +893,9 @@ Low Level Threat
 
 01-Sep-2005 Andrew Eddie
  + Added article_separator span after a content item
- ^ SECURITY: Hardened mosGetParam by using phpInputFilter for NO_HTML mode
+ * SECURITY [ Critical Level Bug ]: Hardened mosGetParam by using phpInputFilter for NO_HTML mode
  + Added new mosHash function to produce secure keys
- + SECURITY: Hardened Email to Friend form
+ * SECURITY [ Low Level Bug ]: Hardened Email to Friend form
 
 31-Aug-2005 Andrew Eddie
  + Added setTemplateVars method to admin pageNavigation class
@@ -910,7 +912,7 @@ Low Level Threat
  ^ Convert 4xSpace to tab
 
 08-Aug-2005 Andrew Eddie
- * SECURITY: Fixed SQL injection bugs in user activation (thanks Enno Klasing) [ Medium Level Security Bug ]
+ * SECURITY [ Medium Level Bug ]: Fixed SQL injection bugs in user activation (thanks Enno Klasing)
  ^ Encased text files in PHP wrapper to help obsfucate version info
  # Changed admin session name to hash of live_site to allow you to log into more than one Joomla! on the same host
  # Fixed hardcoded (c) character in web installer files
@@ -920,7 +922,7 @@ Low Level Threat
  # Fixed login bug for nested Joomla! sites on the same domain
 
 02-Aug-2005 Alex Kempkens
- * Fixed [#6775] Display of static content without Itemid [ Low Level Security Bug ]
+ * SECURITY [ Low Level Bug ]: Fixed [#6775] Display of static content without Itemid
  # Fixed [#6330] Corrected default value of field
 
 ----- Derived from Mambo 4.5.2.3 circa. 17 Aug 12005 -----

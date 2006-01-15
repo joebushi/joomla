@@ -374,10 +374,6 @@ class HTML_config {
 				<td><input class="text_area" type="text" name="config_user" size="25" value="<?php echo $row->config_user; ?>"/></td>
 			</tr>
 			<tr>
-				<td>MySQL Password:</td>
-				<td><input class="text_area" type="text" name="config_password" size="25" value="<?php echo $row->config_password; ?>"/></td>
-			</tr>
-			<tr>
 				<td>MySQL Database:</td>
 				<td><input class="text_area" type="text" name="config_db" size="25" value="<?php echo $row->config_db; ?>"/></td>
 			</tr>
