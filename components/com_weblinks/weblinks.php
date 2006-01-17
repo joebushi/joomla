@@ -58,21 +58,8 @@ function listWeblinks( $catid ) {
 	global $mosConfig_live_site;
 	global $Itemid;
 
-	/* Query to retrieve all categories that belong under the web links section and that are published. */
-	$query = "SELECT *, COUNT(a.id) AS numlinks FROM #__categories AS cc"
-	. "\n LEFT JOIN #__weblinks AS a ON a.catid = cc.id"
-	. "\n WHERE a.published = 1"
-	. "\n AND section = 'com_weblinks'"
-	. "\n AND cc.published = 1"
-	. "\n AND cc.access <= $my->gid"
-	. "\n GROUP BY cc.id"
-	. "\n ORDER BY cc.ordering"
-	;
-	$database->setQuery( $query );
-	$categories = $database->loadObjectList();
-
-	$rows = array();
-	$currentcat = NULL;
+	$rows 		= array();
+	$currentcat = null;
 	if ( $catid ) {
 		// url links info for category
 		$query = "SELECT id, url, title, description, date, hits, params"
@@ -93,8 +80,29 @@ function listWeblinks( $catid ) {
 		;
 		$database->setQuery( $query );
 		$database->loadObject( $currentcat );
+
+		/*
+		Check if the category is published
+		*/
+		if ( !$currentcat->name ) {
+			mosNotAuth();
+			return;
+		}
 	}
 
+	/* Query to retrieve all categories that belong under the web links section and that are published. */
+	$query = "SELECT *, COUNT(a.id) AS numlinks FROM #__categories AS cc"
+	. "\n LEFT JOIN #__weblinks AS a ON a.catid = cc.id"
+	. "\n WHERE a.published = 1"
+	. "\n AND section = 'com_weblinks'"
+	. "\n AND cc.published = 1"
+	. "\n AND cc.access <= $my->gid"
+	. "\n GROUP BY cc.id"
+	. "\n ORDER BY cc.ordering"
+	;
+	$database->setQuery( $query );
+	$categories = $database->loadObjectList();
+	
 	// Parameters
 	$menu = new mosMenu( $database );
 	$menu->load( $Itemid );

@@ -42,12 +42,14 @@ Legend:
 This Release Contains following Security Fixes
 
 Medium Level Threat
-* Disallow unpublished polls from being accessible
+* Disallow unpublished Contact Categories from being accessible
+* Disallow unpublished Polls data from being accessible
 
 ---
 
 17-Jan-2006 Rey Gigataras
- * SECURITY [ Medium Level ]: # Fixed : Unpublished polls accessible
+ * SECURITY [ Medium Level ]: # Fixed : Unpublished Contact Categories accessible
+ * SECURITY [ Medium Level ]: # Fixed : Unpublished Polls data accessible
 
 
 ---------------- 1.0.7 Released -- [15-Jan-2006 20:00 UTC] ------------------
