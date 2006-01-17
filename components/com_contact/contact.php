@@ -73,7 +73,7 @@ function listContacts( $option, $catid ) {
 		// if only one record exists loads that record, instead of displying category list
 		contactpage( $option, 0 );
 	} else {
-		$rows = array();
+		$rows 		= array();
 		$currentcat = NULL;
 
 		// Parameters
@@ -133,6 +133,14 @@ function listContacts( $option, $catid ) {
 			;
 			$database->setQuery( $query );
 			$database->loadObject( $currentcat );
+			
+			/*
+			Check if the category is published
+			*/
+			if (!$currentcat->name) {
+				mosNotAuth();
+				return;
+			}
 		}
 
 		// page description
