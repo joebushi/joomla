@@ -74,6 +74,14 @@ function listFeeds( $option, $catid ) {
 		;
 		$database->setQuery( $query );
 		$database->loadObject( $currentcat );
+
+		/*
+		Check if the category is published
+		*/
+		if (!$currentcat->name) {
+			mosNotAuth();
+			return;
+		}
 	}
 
 	// Parameters
@@ -150,6 +158,19 @@ function listFeeds( $option, $catid ) {
 function showFeed( $option, $feedid ) {
 	global $database, $mainframe, $mosConfig_absolute_path, $Itemid;
 
+	require_once( $mainframe->getPath( 'class' ) );
+	
+	$newsfeed = new mosNewsFeed($database);
+	$newsfeed->load($feedid);
+
+	/*
+	* Check if newsfeed is published
+	*/
+	if(!$newsfeed->published) {
+		mosNotAuth();
+		return;
+	}
+	
 	// full RSS parser used to access image information
 	require_once( $mosConfig_absolute_path . '/includes/domit/xml_domit_rss.php');
 	$cacheDir = $mosConfig_absolute_path . '/cache/';
@@ -178,18 +199,8 @@ function showFeed( $option, $feedid ) {
 		$and = "\n AND id = $feedid";
 	}
 
-	$query = "SELECT name, link, numarticles, cache_time"
-	. "\n FROM #__newsfeeds"
-	. "\n WHERE published = 1"
-	. "\n AND checked_out = 0"
-	. $and
-	. "\n ORDER BY ordering"
-	;
-	$database->setQuery( $query );
-	$newsfeeds = $database->loadObjectList();
-
 	$mainframe->SetPageTitle($menu->name);
 
-	HTML_newsfeed::showNewsfeeds( $newsfeeds, $LitePath, $cacheDir, $params );
+	HTML_newsfeed::showNewsfeeds( $newsfeed, $LitePath, $cacheDir, $params );
 }
 ?>

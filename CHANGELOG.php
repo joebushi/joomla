@@ -44,6 +44,7 @@ This Release Contains following Security Fixes
 Medium Level Threat
 * Disallow unpublished `Weblink` items from being accessible
 * Disallow unpublished `Polls` data from being accessible
+* Disallow unpublished `Newsfeeds` Categories from being accessible
 * Disallow unpublished `Contact` Categories from being accessible
 * Disallow unpublished `Weblink` Categories from being accessible
 
@@ -52,6 +53,7 @@ Medium Level Threat
 17-Jan-2006 Rey Gigataras
  * SECURITY [ Medium Level ]: # Fixed : Unpublished `Weblink` items accessible
  * SECURITY [ Medium Level ]: # Fixed : Unpublished `Polls` data accessible
+ * SECURITY [ Medium Level ]: # Fixed : Unpublished `Newfeeds` Categories accessible
  * SECURITY [ Medium Level ]: # Fixed : Unpublished `Contact` Categories accessible
  * SECURITY [ Medium Level ]: # Fixed : Unpublished `Weblink` Categories accessible
 
