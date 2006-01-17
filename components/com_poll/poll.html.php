@@ -80,14 +80,6 @@ class poll_html {
 						</td>
 					</tr>
 					<?php
-				} else {
-					?>
-					<tr>
-						<td valign="bottom">
-						<?php echo _NO_RESULTS; ?>
-						</td>
-					</tr>
-					<?php
 				}
 				?>
 				</table>

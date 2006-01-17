@@ -14,8 +14,13 @@
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 ?>
+1. Copyright and disclaimer
+---------------------------
+This application is opensource software released under the GPL.  Please
+see source code and the LICENSE file
 
-1. Changelog
+
+2. Changelog
 ------------
 This is a non-exhaustive (but still near complete) changelog for
 Joomla! 1.0, including beta and release candidate versions.
@@ -32,10 +37,25 @@ Legend:
 ! -> Note
 
 
+---------------- 1.0.8 Pending -- [TBA] ------------------
+
+This Release Contains following Security Fixes
+
+Medium Level Threat
+* Disallow unpublished polls from being accessible
+
+---
+
+17-Jan-2006 Rey Gigataras
+ * SECURITY [ Medium Level ]: Unpublished polls visible
+
+
 ---------------- 1.0.7 Released -- [15-Jan-2006 20:00 UTC] ------------------
+
 
 15-Jan-2006 Rey Gigataras
  # Fixed : database password being incorrectly overwritten with a blank
+
 
 ---------------- 1.0.6 Released -- [15-Jan-2006 15:00 UTC] ------------------
 
@@ -170,7 +190,9 @@ Low Level Threat
  # Fixed a bug with 404 header being returned for homepage when SEF activated
  # Fixed a bug with all items on frontpage returning Itemid=1 (duplicate content)
 
+
 ---------------- 1.0.5 Released -- [24-Dec-2005 10:00 UTC] ------------------
+
 
 This Release Contains following Security Fixes
 
@@ -300,7 +322,9 @@ Medium Level Threats
  # Fixed artf2224 : Problem with Media Manager
  # Fixed : Can't create new folders in media manager
 
+
 ---------------- 1.0.4 Released -- [21-Nov-2005 10:00 UTC] ------------------
+
 
 This Release Contains following Security Fixes
 
@@ -449,7 +473,9 @@ Low Level Threat
 ^ Artifact artf1282 : Easier sorting of static content in creating menu links
 ^ Artifact artf1162 : Remove hardcoding of <<, <, > and >> in pageNavigation.php
 
+
 ---------------- 1.0.3 Released -- [14-Oct-2005 10:00 UTC] ------------------
+
 
 Contains following Security Fixes
 Medium Level Threat
@@ -533,7 +559,9 @@ Low Level Threat
 05-Oct-2005 Robin Muilwijk
  # Fixed artf1366 : Typo in admin, Adding a new menu item - Blog Content Category
 
+
 ---------------- 1.0.2 Released -- [02-Oct-2005 16:00 UTC] ------------------
+
 
 02-Oct-2005 Rey Gigataras
  ^ Added check to mosCommonHTML::loadOverlib(); function that will stop it from being loaded twice on a page
@@ -630,7 +658,9 @@ Low Level Threat
  # Fixed artf1175 : Create catagory with selection of Section
  # Fixed artf1179 : Custom RSS Newsfeed Module has nested <TR>
 
+
 ---------------- 1.0.1 Released -- [21-Sep-2005 16:30 UTC] ------------------
+
 
 21-Sep-2005 Rey Gigataras
  # Fixed artf1157 : Section module: Content not displayed, wrong header
@@ -711,7 +741,9 @@ Low Level Threat
  # Fixed artf1043: Template Chooser doesn't work
  # Fixed artf1042: Template Chooser shows rogue entry
 
+
 ---------------- 1.0.0 Released -- [17-Sep-2005 00:30 UTC] ------------------
+
 
 Contains following Security Fixes
 Medium Level Threat
@@ -930,9 +962,6 @@ Low Level Threat
  * SECURITY [ Low Level ]: Fixed [#6775] Display of static content without Itemid
  # Fixed [#6330] Corrected default value of field
 
+
 ----- Derived from Mambo 4.5.2.3 circa. 17 Aug 12005 -----
 
-2. Copyright and disclaimer
----------------------------
-This application is opensource software released under the GPL.  Please
-see source code and the LICENSE file
