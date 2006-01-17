@@ -47,7 +47,7 @@ Medium Level Threat
 ---
 
 17-Jan-2006 Rey Gigataras
- * SECURITY [ Medium Level ]: Unpublished polls visible
+ * SECURITY [ Medium Level ]: # Fixed : Unpublished polls visible
 
 
 ---------------- 1.0.7 Released -- [15-Jan-2006 20:00 UTC] ------------------
