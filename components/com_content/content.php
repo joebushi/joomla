@@ -193,6 +193,9 @@ function showSection( $id, $gid, &$access, $now ) {
 	$section = new mosSection( $database );
 	$section->load( $id );
 	
+	/*
+	Check if section is published
+	*/
 	if(!$section->published) {
 		mosNotAuth();
 		return;
@@ -296,6 +299,28 @@ function showSection( $id, $gid, &$access, $now ) {
 function showCategory( $id, $gid, &$access, $sectionid, $limit, $selected, $limitstart, $now  ) {
 	global $database, $mainframe, $Itemid, $mosConfig_list_limit;
 
+	$category = new mosCategory( $database );
+	$category->load( $id );
+	
+	/*
+	Check if category is published
+	*/
+	if(!$category->published) {
+		mosNotAuth();
+		return;
+	}
+	
+	$section = new mosSection( $database );
+	$section->load( $category->section );
+	
+	/*
+	Check if category is published
+	*/
+	if(!$section->published) {
+		mosNotAuth();
+		return;
+	}
+	
 	$nullDate = $database->getNullDate();
 	$noauth = !$mainframe->getCfg( 'shownoauth' );
 
@@ -341,9 +366,6 @@ function showCategory( $id, $gid, &$access, $sectionid, $limit, $selected, $limi
 
 	// Ordering control
 	$orderby = _orderby_sec( $orderby );
-
-	$category = new mosCategory( $database );
-	$category->load( $id );
 
 	if ( $sectionid == 0 ) {
 		$sectionid = $category->section;
