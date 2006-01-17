@@ -45,7 +45,7 @@ switch ($task) {
 		break;
 
 	case 'view':
-		showItem( $id, $catid );
+		showItem( $id );
 		break;
 
 	default:
@@ -84,7 +84,7 @@ function listWeblinks( $catid ) {
 		/*
 		Check if the category is published
 		*/
-		if ( !$currentcat->name ) {
+		if (!$currentcat->name) {
 			mosNotAuth();
 			return;
 		}
@@ -167,10 +167,21 @@ function listWeblinks( $catid ) {
 }
 
 
-function showItem ( $id, $catid ) {
+function showItem ( $id ) {
 	global $database;
 
-	//Record the hit
+	$link = new mosWeblink($database);
+	$link->load($id);
+	
+	/*
+	* Check if link is published
+	*/
+	if (!$link->published) {
+		mosNotAuth();
+		return;
+	}
+	
+	// Record the hit
 	$query = "UPDATE #__weblinks"
 	. "\n SET hits = hits + 1"
 	. "\n WHERE id = $id"
@@ -178,16 +189,9 @@ function showItem ( $id, $catid ) {
 	$database->setQuery( $query );
 	$database->query();
 
-	$query = "SELECT url"
-	. "\n FROM #__weblinks"
-	. "\n WHERE id = $id"
-	;
-	$database->setQuery( $query );	
-	$url = $database->loadResult();
-	
-	if ( $url ) {
+	if ( $link->url ) {
 		// redirects to url if matching id found
-		mosRedirect ( $url );
+		mosRedirect ( $link->url );
 	} else {		
 		// redirects to weblink category page if no matching id found
 		listWeblinks( $catid );
