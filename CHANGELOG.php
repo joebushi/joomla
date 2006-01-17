@@ -51,11 +51,12 @@ Medium Level Threat
 ---
 
 17-Jan-2006 Rey Gigataras
- * SECURITY [ Medium Level ]: # Fixed : Unpublished `Weblink` items accessible
- * SECURITY [ Medium Level ]: # Fixed : Unpublished `Polls` data accessible
- * SECURITY [ Medium Level ]: # Fixed : Unpublished `Newfeeds` Categories accessible
- * SECURITY [ Medium Level ]: # Fixed : Unpublished `Contact` Categories accessible
- * SECURITY [ Medium Level ]: # Fixed : Unpublished `Weblink` Categories accessible
+ * SECURITY [ Medium Level ]: # Fixed : unpublished `Weblink` items accessible
+ * SECURITY [ Medium Level ]: # Fixed : unpublished `Polls` data accessible
+ * SECURITY [ Medium Level ]: # Fixed : `Newfeeds` accessible when category unpublished 
+ * SECURITY [ Medium Level ]: # Fixed : unpublished `Newfeeds` Categories accessible
+ * SECURITY [ Medium Level ]: # Fixed : unpublished `Contact` Categories accessible
+ * SECURITY [ Medium Level ]: # Fixed : unpublished `Weblink` Categories accessible
 
 
 ---------------- 1.0.7 Released -- [15-Jan-2006 20:00 UTC] ------------------

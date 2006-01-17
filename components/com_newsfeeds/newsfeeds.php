@@ -171,6 +171,17 @@ function showFeed( $option, $feedid ) {
 		return;
 	}
 	
+	$category = new mosCategory($database);
+	$category->load($newsfeed->catid);
+	
+	/*
+	* Check if newsfeed category is published
+	*/
+	if(!$category->published) {
+		mosNotAuth();
+		return;
+	}
+	
 	// full RSS parser used to access image information
 	require_once( $mosConfig_absolute_path . '/includes/domit/xml_domit_rss.php');
 	$cacheDir = $mosConfig_absolute_path . '/cache/';
