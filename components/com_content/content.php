@@ -190,6 +190,14 @@ function frontpage( $gid, &$access, $pop, $now ) {
 function showSection( $id, $gid, &$access, $now ) {
 	global $database, $mainframe, $Itemid;
 
+	$section = new mosSection( $database );
+	$section->load( $id );
+	
+	if(!$section->published) {
+		mosNotAuth();
+		return;
+	}
+	
 	$nullDate 	= $database->getNullDate();
 	$noauth 	= !$mainframe->getCfg( 'shownoauth' );
 
@@ -222,9 +230,6 @@ function showSection( $id, $gid, &$access, $now ) {
 	// Ordering control
 	$orderby = _orderby_sec( $orderby );
 
-	$section = new mosSection( $database );
-	$section->load( $id );
-
 	if ( $access->canEdit ) {
 		$xwhere = '';
 		$xwhere2 = "\n AND b.state >= 0";
@@ -256,7 +261,7 @@ function showSection( $id, $gid, &$access, $now ) {
 		$access = "\n AND a.access <= $gid";
 	}
 
-	// Main Query
+	// Query of categories within section
 	$query = "SELECT a.*, COUNT( b.id ) AS numitems"
 	. "\n FROM #__categories AS a"
 	. "\n LEFT JOIN #__content AS b ON b.catid = a.id"

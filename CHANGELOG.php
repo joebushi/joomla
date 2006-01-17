@@ -48,6 +48,9 @@ Medium Level Threat
  * Disallow unpublished `Newsfeeds` Categories from being accessible
  * Disallow unpublished `Contact` Categories from being accessible
  * Disallow unpublished `Weblink` Categories from being accessible
+ 
+ Low Level Threat
+ * Disallow `Table - Content Section` from being accessible when section unpublished
 
 ---
 
@@ -58,6 +61,7 @@ Medium Level Threat
  * SECURITY [ Medium Level ]: # Fixed : unpublished `Newfeeds` Categories accessible
  * SECURITY [ Medium Level ]: # Fixed : unpublished `Contact` Categories accessible
  * SECURITY [ Medium Level ]: # Fixed : unpublished `Weblink` Categories accessible
+ * SECURITY [ Low Level ]: # Fixed : `Table - Content Section` view accessible when section unpublished
 
 
 ---------------- 1.0.7 Released -- [15-Jan-2006 20:00 UTC] ------------------
