@@ -42,11 +42,12 @@ Legend:
 This Release Contains following Security Fixes
 
 Medium Level Threat
-* Disallow unpublished `Weblink` items from being accessible
-* Disallow unpublished `Polls` data from being accessible
-* Disallow unpublished `Newsfeeds` Categories from being accessible
-* Disallow unpublished `Contact` Categories from being accessible
-* Disallow unpublished `Weblink` Categories from being accessible
+ * Disallow unpublished `Weblink` items from being accessible
+ * Disallow unpublished `Polls` data from being accessible
+ * Disallow `Newfeeds` from being accessible when category unpublished 
+ * Disallow unpublished `Newsfeeds` Categories from being accessible
+ * Disallow unpublished `Contact` Categories from being accessible
+ * Disallow unpublished `Weblink` Categories from being accessible
 
 ---
 
