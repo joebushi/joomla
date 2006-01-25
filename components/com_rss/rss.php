@@ -52,6 +52,24 @@ function feedFrontpage( $showFeed ) {
 	$component->load( $id );
 	$params = new mosParameters( $component->params );
 
+	// test if security check is enbled
+	$check = $params->def( 'check', 1 );
+	if($check) {
+		// test if rssfeed module is published
+		// if not disable access
+		$query = "SELECT m.id"
+		. "\n FROM #__modules AS m"
+		. "\n WHERE m.module = 'mod_rssfeed'"
+		. "\n AND m.published = 1"
+		;
+		$database->setQuery( $query );
+		$check = $database->loadResultArray();
+		if(empty($check)) {
+			mosNotAuth();
+			return;		
+		}			
+	}
+	
 	$now 	= date( 'Y-m-d H:i:s', time() + $mosConfig_offset * 60 * 60 );
 	$iso 	= split( '=', _ISO );
 

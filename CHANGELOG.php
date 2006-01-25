@@ -50,10 +50,14 @@ Medium Level Threat
  * Disallow unpublished `Weblink` Categories from being accessible
  
  Low Level Threat
+ * Disallow access to syndication functionality
  * Disallow `Table - Content Category` from being accessible when section/category unpublished
  * Disallow `List - Content Section` from being accessible when section unpublished
 
 ---
+
+25-Jan-2006 Rey Gigataras
+ * SECURITY [ Low Level ]: # Fixed : No way to disable access to syndication functionality
 
 17-Jan-2006 Rey Gigataras
  * SECURITY [ Medium Level ]: # Fixed : unpublished `Weblink` items accessible
