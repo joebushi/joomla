@@ -42,32 +42,36 @@ Legend:
 This Release Contains following Security Fixes
 
 Medium Level Threat
- * Disallow unpublished `Weblink` items from being accessible
- * Disallow unpublished `Polls` data from being accessible
- * Disallow `Newfeeds` from being accessible when category unpublished 
- * Disallow unpublished `Newsfeeds` Categories from being accessible
- * Disallow unpublished `Contact` Categories from being accessible
- * Disallow unpublished `Weblink` Categories from being accessible
+ * Disallow `Weblink` item from being accessible when 'unpublished'
+ * Disallow `Polls` item from being accessible when 'unpublished'
+ * Disallow `Newfeeds` item from being accessible when category 'unpublished'
+ * Disallow `Weblinks` item from being accessible when category 'unpublished' 
+ * Disallow `Newsfeeds` Categories from being accessible when 'unpublished'
+ * Disallow `Contact` Categories from being accessible when 'unpublished'
+ * Disallow `Weblink` Categories from being accessible when 'unpublished'
  
  Low Level Threat
  * Disallow access to syndication functionality
- * Disallow `Table - Content Category` from being accessible when section/category unpublished
- * Disallow `List - Content Section` from being accessible when section unpublished
+ * Disallow `Table - Content Category` from being accessible when section/category 'unpublished'
+ * Disallow `List - Content Section` from being accessible when section 'unpublished'
 
 ---
+
+29-Jan-2006 Rey Gigataras
+ * SECURITY [ Medium Level ]: # Fixed : `Weblinks` item accessible when category 'unpublished' 
 
 25-Jan-2006 Rey Gigataras
  * SECURITY [ Low Level ]: # Fixed : No way to disable access to syndication functionality
 
 17-Jan-2006 Rey Gigataras
- * SECURITY [ Medium Level ]: # Fixed : unpublished `Weblink` items accessible
- * SECURITY [ Medium Level ]: # Fixed : unpublished `Polls` data accessible
- * SECURITY [ Medium Level ]: # Fixed : `Newfeeds` accessible when category unpublished 
- * SECURITY [ Medium Level ]: # Fixed : unpublished `Newfeeds` Categories accessible
- * SECURITY [ Medium Level ]: # Fixed : unpublished `Contact` Categories accessible
- * SECURITY [ Medium Level ]: # Fixed : unpublished `Weblink` Categories accessible
- * SECURITY [ Low Level ]: # Fixed : `List - Content Section` view accessible when section unpublished
- * SECURITY [ Low Level ]: # Fixed : `Table - Content Category` view accessible when section/category unpublished
+ * SECURITY [ Medium Level ]: # Fixed : `Weblink` item accessible when 'unpublished'
+ * SECURITY [ Medium Level ]: # Fixed : `Polls` item accessible when 'unpublished'
+ * SECURITY [ Medium Level ]: # Fixed : `Newfeeds` item accessible when category 'unpublished'
+ * SECURITY [ Medium Level ]: # Fixed : 'unpublished' `Newfeeds` Categories accessible
+ * SECURITY [ Medium Level ]: # Fixed : 'unpublished' `Contact` Categories accessible
+ * SECURITY [ Medium Level ]: # Fixed : 'unpublished' `Weblink` Categories accessible
+ * SECURITY [ Low Level ]: # Fixed : `List - Content Section` view accessible when section 'unpublished'
+ * SECURITY [ Low Level ]: # Fixed : `Table - Content Category` view accessible when section/category 'unpublished'
 
 
 ---------------- 1.0.7 Released -- [15-Jan-2006 20:00 UTC] ------------------

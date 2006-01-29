@@ -181,6 +181,17 @@ function showItem ( $id ) {
 		return;
 	}
 	
+	$cat = new mosCategory($database);
+	$cat->load($link->catid);
+	
+	/*
+	* Check if category is published
+	*/
+	if (!$cat->published) {
+		mosNotAuth();
+		return;
+	}
+	
 	// Record the hit
 	$query = "UPDATE #__weblinks"
 	. "\n SET hits = hits + 1"
