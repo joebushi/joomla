@@ -520,6 +520,9 @@ function showCategory( $id, $gid, &$access, $sectionid, $limit, $selected, $limi
 function showBlogSection( $id=0, $gid, &$access, $pop, $now=NULL ) {
 	global $database, $mainframe, $Itemid;
 	
+	// needed for check whether section is published
+	$check = ( $id ? $id : 0 );
+	
 	$noauth = !$mainframe->getCfg( 'shownoauth' );
 
 	// Parameters
@@ -547,7 +550,6 @@ function showBlogSection( $id=0, $gid, &$access, $pop, $now=NULL ) {
 	$order_pri 		= _orderby_pri( $orderby_pri );
 
 	// Main data query
-	//$query = "SELECT a.*, ROUND( v.rating_sum / v.rating_count ) AS rating, v.rating_count, u.name AS author, u.usertype, cc.name AS category, g.name AS groups"
 	$query = "SELECT a.id, a.title, a.title_alias, a.introtext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by,"
 	. "\n a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access,"
 	. "\n CHAR_LENGTH( a.fulltext ) AS readmore,"
@@ -572,6 +574,17 @@ function showBlogSection( $id=0, $gid, &$access, $pop, $now=NULL ) {
 		$mainframe->setPageTitle( $menu->name );
 	}
 
+	// check whether section is published
+	if (!count($rows)) {
+		$secCheck = new mosSection( $database );
+		$secCheck->load( $check );
+		
+		if (!$secCheck->published) {
+			mosNotAuth();
+			return;
+		}
+	}
+
 	BlogOutput( $rows, $params, $gid, $access, $pop, $menu );
 }
 
@@ -580,6 +593,9 @@ function showBlogCategory( $id=0, $gid, &$access, $pop, $now ) {
 
 	$noauth = !$mainframe->getCfg( 'shownoauth' );
 
+	// needed for check whether section & category is published
+	$check = ( $id ? $id : 0 );
+	
 	// Paramters
 	$params = new stdClass();
 	if ( $Itemid ) {
@@ -605,10 +621,9 @@ function showBlogCategory( $id=0, $gid, &$access, $pop, $now ) {
 	$order_pri 		= _orderby_pri( $orderby_pri );
 
 	// Main data query
-	//$query = "SELECT a.*, ROUND( v.rating_sum / v.rating_count ) AS rating, v.rating_count, u.name AS author, u.usertype, s.name AS section, g.name AS groups, cc.name AS category"
 	$query = "SELECT a.id, a.title, a.title_alias, a.introtext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by,"
 	. "\n a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access,"
-	. "\n CHAR_LENGTH( a.fulltext ) AS readmore,"
+	. "\n CHAR_LENGTH( a.fulltext ) AS readmore, s.published AS sec_pub,  cc.published AS sec_pub,"
 	. "\n ROUND( v.rating_sum / v.rating_count ) AS rating, v.rating_count, u.name AS author, u.usertype, s.name AS section, cc.name AS category, g.name AS groups"
 	. "\n FROM #__content AS a"
 	. "\n LEFT JOIN #__categories AS cc ON cc.id = a.catid"
@@ -625,6 +640,25 @@ function showBlogCategory( $id=0, $gid, &$access, $pop, $now ) {
 	$database->setQuery( $query );
 	$rows = $database->loadObjectList();
 
+	// check whether section & category is published
+	if (!count($rows)) {
+		$catCheck = new mosCategory( $database );
+		$catCheck->load( $check );
+		
+		if (!$catCheck->published) {
+			mosNotAuth();
+			return;
+		}
+		
+		$secCheck = new mosSection( $database );
+		$secCheck->load( $catCheck->section );
+		
+		if (!$secCheck->published) {
+			mosNotAuth();
+			return;
+		}
+	}
+	
 	// Dynamic Page Title
 	$mainframe->SetPageTitle( $menu->name );
 
@@ -635,6 +669,8 @@ function showArchiveSection( $id=NULL, $gid, &$access, $pop, $option ) {
 	global $database, $mainframe;
 	global $Itemid;
 
+	$check = ( $id ? $id : 0 );
+	
 	$noauth = !$mainframe->getCfg( 'shownoauth' );
 
 	// Paramters
@@ -701,6 +737,17 @@ function showArchiveSection( $id=NULL, $gid, &$access, $pop, $option ) {
 	$database->setQuery( $query );
 	$rows = $database->loadObjectList();
 
+	// check whether section is published
+	if (!count($rows)) {
+		$secCheck = new mosSection( $database );
+		$secCheck->load( $check );
+		
+		if (!$secCheck->published) {
+			mosNotAuth();
+			return;
+		}
+	}
+	
 	// initiate form
 	$link = 'index.php?option=com_content&task=archivesection&id='. $id .'&Itemid='. $Itemid;
  	echo '<form action="'.sefRelToAbs( $link ).'" method="post">';
@@ -727,6 +774,9 @@ function showArchiveCategory( $id=0, $gid, &$access, $pop, $option, $now ) {
 	global $database, $mainframe;
 	global $Itemid;
 
+	// needed for check whether section & category is published
+	$check = ( $id ? $id : 0 );
+	
 	// Parameters
 	$noauth = !$mainframe->getCfg( 'shownoauth' );
 	$year 	= mosGetParam( $_REQUEST, 'year', 	date( 'Y' ) );
@@ -788,6 +838,25 @@ function showArchiveCategory( $id=0, $gid, &$access, $pop, $option, $now ) {
 	;
 	$database->setQuery( $query );
 	$rows = $database->loadObjectList();
+	
+	// check whether section & category is published
+	if (!count($rows)) {
+		$catCheck = new mosCategory( $database );
+		$catCheck->load( $check );
+		
+		if (!$catCheck->published) {
+			mosNotAuth();
+			return;
+		}
+		
+		$secCheck = new mosSection( $database );
+		$secCheck->load( $catCheck->section );
+		
+		if (!$secCheck->published) {
+			mosNotAuth();
+			return;
+		}
+	}
 
 	// initiate form
 	$link = 'index.php?option=com_content&task=archivecategory&id='. $id .'&Itemid='. $Itemid;

@@ -52,13 +52,15 @@ Medium Level Threat
  
  Low Level Threat
  * Disallow access to syndication functionality
- * Disallow `Table - Content Category` from being accessible when section/category 'unpublished'
- * Disallow `List - Content Section` from being accessible when section 'unpublished'
+ * Disallow `Content Section` from being accessible when section 'unpublished' - `List - Content Section`
+ * Disallow `Content Category` from being accessible when category 'unpublished' - `Table - Content Category`
+ * Disallow `Content Category` from being accessible when section 'unpublished' - `Table - Content Category`
 
 ---
 
 29-Jan-2006 Rey Gigataras
  * SECURITY [ Medium Level ]: # Fixed : `Weblinks` item accessible when category 'unpublished' 
+ ^ Blog pages display Authorization block text if lack of items due to section/category being unpublished
 
 25-Jan-2006 Rey Gigataras
  * SECURITY [ Low Level ]: # Fixed : No way to disable access to syndication functionality
@@ -70,8 +72,9 @@ Medium Level Threat
  * SECURITY [ Medium Level ]: # Fixed : 'unpublished' `Newfeeds` Categories accessible
  * SECURITY [ Medium Level ]: # Fixed : 'unpublished' `Contact` Categories accessible
  * SECURITY [ Medium Level ]: # Fixed : 'unpublished' `Weblink` Categories accessible
- * SECURITY [ Low Level ]: # Fixed : `List - Content Section` view accessible when section 'unpublished'
- * SECURITY [ Low Level ]: # Fixed : `Table - Content Category` view accessible when section/category 'unpublished'
+ * SECURITY [ Low Level ]: # Fixed : `Content Section` accessible when section 'unpublished' - `List - Content Section`
+ * SECURITY [ Low Level ]: # Fixed : `Content Category` view accessible when category 'unpublished' - `Table - Content Category`
+ * SECURITY [ Low Level ]: # Fixed : `Content Category` view accessible when section 'unpublished' - `Table - Content Category`
 
 
 ---------------- 1.0.7 Released -- [15-Jan-2006 20:00 UTC] ------------------
