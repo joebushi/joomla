@@ -77,12 +77,13 @@ function listWeblinks( $catid ) {
 		. "\n FROM #__categories"
 		. "\n WHERE id = $catid"
 		. "\n AND published = 1"
+		. "\n AND access <= $my->gid"
 		;
 		$database->setQuery( $query );
 		$database->loadObject( $currentcat );
 
 		/*
-		Check if the category is published
+		Check if the category is published or if access level allows access
 		*/
 		if (!$currentcat->name) {
 			mosNotAuth();

@@ -67,6 +67,8 @@ Medium Level Threat
  * Disallow `Content Category` from being accessible when section 'unpublished' - `Table - Content Category`
 
  * Disallow `Contact` Categories from being accessible despite category 'access level'
+ * Disallow `Newsfeeds` Categories from being accessible despite category 'access level'
+ * Disallow `Weblinks` Categories from being accessible despite category 'access level'
 
 ---
 
@@ -76,6 +78,8 @@ Medium Level Threat
  * SECURITY [ Medium Level ]: # Fixed : `Newsfeed` item accessible despite category 'access level'
  * SECURITY [ Medium Level ]: # Fixed : `Weblink` item accessible despite category 'access level'
  * SECURITY [ Low Level ]: # Fixed : `Contact` Categories accessible despite category 'access level'
+ * SECURITY [ Low Level ]: # Fixed : `Newsfeeds` Categories accessible despite category 'access level'
+ * SECURITY [ Low Level ]: # Fixed : `Weblinks` Categories accessible despite category 'access level'
  ^ Contact Items display Authorization block text if category 'access level' denies access
  
 29-Jan-2006 Rey Gigataras
