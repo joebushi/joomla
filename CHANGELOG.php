@@ -46,8 +46,9 @@ Legend:
 This Release Contains following Security Fixes
 
 Medium Level Threat
- * Disallow `Content` item from being accessible despite category 'access level'
  * Disallow `Content` item from being accessible despite section 'access level'
+ * Disallow `Content` item from being accessible despite category 'access level'
+ * Disallow `Newsfeed` item from being accessible despite category 'access level'
  * Disallow `Weblink` item from being accessible despite category 'access level'
  
  * Disallow `Weblink` item from being accessible when 'unpublished'
@@ -69,9 +70,10 @@ Medium Level Threat
 ---
 
 30-Jan-2006 Rey Gigataras
- * SECURITY [ Medium Level ]: # Fixed : `Content` item accessible despite category 'access level'
  * SECURITY [ Medium Level ]: # Fixed : `Content` item accessible despite section 'access level'
- * SECURITY [ Medium Level ]: # Fixed : `Weblink` item accessible despite section 'access level'
+ * SECURITY [ Medium Level ]: # Fixed : `Content` item accessible despite category 'access level'
+ * SECURITY [ Medium Level ]: # Fixed : `Newsfeed` item accessible despite category 'access level'
+ * SECURITY [ Medium Level ]: # Fixed : `Weblink` item accessible despite category 'access level'
  
 29-Jan-2006 Rey Gigataras
  * SECURITY [ Medium Level ]: # Fixed : `Weblinks` item accessible when category 'unpublished' 

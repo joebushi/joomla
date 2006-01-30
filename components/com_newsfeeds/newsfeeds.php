@@ -24,16 +24,16 @@ $catid 	= intval( mosGetParam( $_REQUEST ,'catid', 0 ) );
 
 switch( $task ) {
 	case 'view':
-		showFeed( $option, $feedid );
+		showFeed( $feedid );
 		break;
 
 	default:
-		listFeeds( $option, $catid );
+		listFeeds( $catid );
 		break;
 }
 
 
-function listFeeds( $option, $catid ) {
+function listFeeds( $catid ) {
 	global $mainframe, $database, $my;
 	global $mosConfig_live_site;
 	global $Itemid;
@@ -155,8 +155,8 @@ function listFeeds( $option, $catid ) {
 }
 
 
-function showFeed( $option, $feedid ) {
-	global $database, $mainframe, $mosConfig_absolute_path, $Itemid;
+function showFeed( $feedid ) {
+	global $database, $mainframe, $mosConfig_absolute_path, $Itemid, $my;
 
 	require_once( $mainframe->getPath( 'class' ) );
 	
@@ -180,8 +180,15 @@ function showFeed( $option, $feedid ) {
 	if(!$category->published) {
 		mosNotAuth();
 		return;
+	}	
+	/*
+	* check whether category access level allows access
+	*/
+	if ( $category->access > $my->gid ) {	
+		mosNotAuth();  
+		return;
 	}
-	
+
 	// full RSS parser used to access image information
 	require_once( $mosConfig_absolute_path . '/includes/domit/xml_domit_rss.php');
 	$cacheDir = $mosConfig_absolute_path . '/cache/';
