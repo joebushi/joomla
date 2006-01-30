@@ -66,9 +66,12 @@ Medium Level Threat
  * Disallow `Content Category` from being accessible when category 'unpublished' - `Table - Content Category`
  * Disallow `Content Category` from being accessible when section 'unpublished' - `Table - Content Category`
 
- * Disallow `Contact` Categories from being accessible despite category 'access level'
- * Disallow `Newsfeeds` Categories from being accessible despite category 'access level'
- * Disallow `Weblinks` Categories from being accessible despite category 'access level'
+ * Disallow `Contact` Categories from being accessible as per category 'access level'
+ * Disallow `Newsfeeds` Categories from being accessible as per category 'access level'
+ * Disallow `Weblinks` Categories from being accessible as per category 'access level'
+ * Disallow `Content Category` from being accessible as per section 'access level' - `Table - Content Category`
+ * Disallow `Content Category` from being accessible as per category 'access level' - `Table - Content Category`
+ * Disallow `Content Category` from being accessible as per category 'access level' - `Blog - Content Category` & `Blog - Content Category Archive`
 
 ---
 
@@ -80,11 +83,15 @@ Medium Level Threat
  * SECURITY [ Low Level ]: # Fixed : `Contact` Categories accessible despite category 'access level'
  * SECURITY [ Low Level ]: # Fixed : `Newsfeeds` Categories accessible despite category 'access level'
  * SECURITY [ Low Level ]: # Fixed : `Weblinks` Categories accessible despite category 'access level'
+ * SECURITY [ Low Level ]: # Fixed : `Content Category` view accessible despite section 'access level' - `Table - Content Category`
+ * SECURITY [ Low Level ]: # Fixed : `Content Category` view accessible despite category 'access level' - `Table - Content Category`
+ * SECURITY [ Low Level ]: # Fixed : `Content Category` view accessible despite category 'access level' - `Blog - Content Category` & `Blog - Content Category Archive` 
  ^ Contact Items display Authorization block text if category 'access level' denies access
+ ^ Blog pages display Authorization block text if section/category 'access level' denies access
  
 29-Jan-2006 Rey Gigataras
  * SECURITY [ Medium Level ]: # Fixed : `Weblinks` item accessible when category 'unpublished' 
- ^ Blog pages display Authorization block text if lack of items due to section/category being unpublished
+ ^ Blog pages display Authorization block text if section/category being unpublished
 
 25-Jan-2006 Rey Gigataras
  * SECURITY [ Low Level ]: # Fixed : No way to disable access to syndication functionality

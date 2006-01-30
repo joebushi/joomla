@@ -297,7 +297,7 @@ function showSection( $id, $gid, &$access, $now ) {
 * @param int The offset for pagination
 */
 function showCategory( $id, $gid, &$access, $sectionid, $limit, $selected, $limitstart, $now  ) {
-	global $database, $mainframe, $Itemid, $mosConfig_list_limit;
+	global $database, $mainframe, $Itemid, $mosConfig_list_limit, $my;
 
 	$category = new mosCategory( $database );
 	$category->load( $id );
@@ -308,8 +308,15 @@ function showCategory( $id, $gid, &$access, $sectionid, $limit, $selected, $limi
 	if(!$category->published) {
 		mosNotAuth();
 		return;
-	}
-	
+	}	
+	/*
+	* check whether category access level allows access
+	*/
+	if( $category->access > $my->gid ) {
+		mosNotAuth();
+		return;
+	}	
+
 	$section = new mosSection( $database );
 	$section->load( $category->section );
 	
@@ -319,8 +326,15 @@ function showCategory( $id, $gid, &$access, $sectionid, $limit, $selected, $limi
 	if(!$section->published) {
 		mosNotAuth();
 		return;
-	}
-	
+	}	
+	/*
+	* check whether section access level allows access
+	*/
+	if( $section->access > $my->gid ) {
+		mosNotAuth();
+		return;
+	}	
+
 	$nullDate = $database->getNullDate();
 	$noauth = !$mainframe->getCfg( 'shownoauth' );
 
@@ -633,6 +647,7 @@ function showBlogCategory( $id=0, $gid, &$access, $pop, $now ) {
 	. "\n LEFT JOIN #__groups AS g ON a.access = g.id"
 	. ( count( $where ) ? "\n WHERE ".implode( "\n AND ", $where ) : '' )
 	. "\n AND s.access <= $gid"
+	. "\n AND cc.access <= $gid"
 	. "\n AND s.published = 1"
 	. "\n AND cc.published = 1"
 	. "\n ORDER BY $order_pri $order_sec"
@@ -645,18 +660,38 @@ function showBlogCategory( $id=0, $gid, &$access, $pop, $now ) {
 		$catCheck = new mosCategory( $database );
 		$catCheck->load( $check );
 		
+		/*
+		* check whether category is published
+		*/
 		if (!$catCheck->published) {
 			mosNotAuth();
 			return;
 		}
-		
+		/*
+		* check whether category access level allows access
+		*/
+		if( $catCheck->access > $gid ) {
+			mosNotAuth();
+			return;
+		}			
+
 		$secCheck = new mosSection( $database );
 		$secCheck->load( $catCheck->section );
 		
+		/*
+		* check whether section is published
+		*/
 		if (!$secCheck->published) {
 			mosNotAuth();
 			return;
 		}
+		/*
+		* check whether category access level allows access
+		*/
+		if( $secCheck->access > $gid ) {
+			mosNotAuth();
+			return;
+		}			
 	}
 	
 	// Dynamic Page Title
@@ -810,7 +845,7 @@ function showArchiveCategory( $id=0, $gid, &$access, $pop, $option, $now ) {
 	$where = _where( -2, $access, $noauth, $gid, $id, NULL, $year, $month );
 
 	// query to determine if there are any archived entries for the category
-	$query = 	"SELECT a.id"
+	$query = "SELECT a.id"
 	. "\n FROM #__content as a"
 	. "\n WHERE a.state = -1"
 	. $check
@@ -832,6 +867,7 @@ function showArchiveCategory( $id=0, $gid, &$access, $pop, $option, $now ) {
 	. "\n LEFT JOIN #__groups AS g ON a.access = g.id"
 	. ( count( $where ) ? "\n WHERE ". implode( "\n AND ", $where ) : '' )
 	. "\n AND s.access <= $gid"
+	. "\n AND cc.access <= $gid"
 	. "\n AND s.published = 1"
 	. "\n AND cc.published = 1"
 	. "\n ORDER BY $order_sec"
@@ -844,18 +880,38 @@ function showArchiveCategory( $id=0, $gid, &$access, $pop, $option, $now ) {
 		$catCheck = new mosCategory( $database );
 		$catCheck->load( $check );
 		
+		/*
+		* check whether category is published
+		*/
 		if (!$catCheck->published) {
 			mosNotAuth();
 			return;
 		}
+		/*
+		* check whether category access level allows access
+		*/
+		if( $catCheck->access > $gid ) {
+			mosNotAuth();
+			return;
+		}			
 		
 		$secCheck = new mosSection( $database );
 		$secCheck->load( $catCheck->section );
 		
+		/*
+		* check whether section is published
+		*/
 		if (!$secCheck->published) {
 			mosNotAuth();
 			return;
 		}
+		/*
+		* check whether category access level allows access
+		*/
+		if( $secCheck->access > $gid ) {
+			mosNotAuth();
+			return;
+		}			
 	}
 
 	// initiate form
@@ -1161,25 +1217,31 @@ function showItem( $uid, $gid, &$access, $pop, $option, $now ) {
 	$row = NULL;
 
 	if ( $database->loadObject( $row ) ) {
-		//echo $row->sec_access;
-		//echo ' | '. $gid;
+		/*
+		* check whether category is published
+		*/
 		if ( !$row->cat_pub && $row->catid ) {
-		// check whether category is published
 			mosNotAuth();  
 			return;
 		}
+		/*
+		* check whether section is published
+		*/
 		if ( !$row->sec_pub && $row->sectionid ) {
-		// check whether section is published
 			mosNotAuth(); 
 			return;
 		}
+		/*
+		* check whether category access level allows access
+		*/
 		if ( ($row->cat_access > $gid) && $row->catid ) {
-		// check whether category access level allows access
 			mosNotAuth();  
 			return;
 		}
+		/*
+		* check whether section access level allows access
+		*/
 		if ( ($row->sec_access > $gid) && $row->sectionid ) {
-		// check whether section access level allows access
 			mosNotAuth();  
 			return;
 		}
