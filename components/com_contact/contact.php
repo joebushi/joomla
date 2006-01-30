@@ -69,9 +69,10 @@ function listContacts( $option, $catid ) {
 	$categories = $database->loadObjectList();
 
 	$count = count( $categories );
+
 	if ( ( $count < 2 ) && ( @$categories[0]->numlinks == 1 ) ) {
 		// if only one record exists loads that record, instead of displying category list
-		contactpage( $option, 0 );
+		//contactpage( $option, 0 );
 	} else {
 		$rows 		= array();
 		$currentcat = NULL;
@@ -133,9 +134,9 @@ function listContacts( $option, $catid ) {
 			;
 			$database->setQuery( $query );
 			$database->loadObject( $currentcat );
-			
+
 			/*
-			Check if the category is published
+			Check if the category is published or if access level allows access
 			*/
 			if (!$currentcat->name) {
 				mosNotAuth();

@@ -46,26 +46,27 @@ Legend:
 This Release Contains following Security Fixes
 
 Medium Level Threat
- * Disallow `Content` item from being accessible despite section 'access level'
- * Disallow `Content` item from being accessible despite category 'access level'
- * Disallow `Newsfeed` item from being accessible despite category 'access level'
- * Disallow `Weblink` item from being accessible despite category 'access level'
- 
  * Disallow `Weblink` item from being accessible when 'unpublished'
  * Disallow `Polls` item from being accessible when 'unpublished'
  
  * Disallow `Newfeeds` item from being accessible when category 'unpublished'
  * Disallow `Weblinks` item from being accessible when category 'unpublished' 
  
- * Disallow `Newsfeeds` Categories from being accessible when 'unpublished'
- * Disallow `Contact` Categories from being accessible when 'unpublished'
- * Disallow `Weblink` Categories from being accessible when 'unpublished'
+ * Disallow `Content` item from being accessible despite section 'access level'
+ * Disallow `Content` item from being accessible despite category 'access level'
+ * Disallow `Newsfeed` item from being accessible despite category 'access level'
+ * Disallow `Weblink` item from being accessible despite category 'access level' 
  
  Low Level Threat
  * Disallow access to syndication functionality
+ * Disallow `Newsfeeds` Categories from being accessible when 'unpublished'
+ * Disallow `Contact` Categories from being accessible when 'unpublished'
+ * Disallow `Weblink` Categories from being accessible when 'unpublished'
  * Disallow `Content Section` from being accessible when section 'unpublished' - `List - Content Section`
  * Disallow `Content Category` from being accessible when category 'unpublished' - `Table - Content Category`
  * Disallow `Content Category` from being accessible when section 'unpublished' - `Table - Content Category`
+
+ * Disallow `Contact` Categories from being accessible despite category 'access level'
 
 ---
 
@@ -74,6 +75,7 @@ Medium Level Threat
  * SECURITY [ Medium Level ]: # Fixed : `Content` item accessible despite category 'access level'
  * SECURITY [ Medium Level ]: # Fixed : `Newsfeed` item accessible despite category 'access level'
  * SECURITY [ Medium Level ]: # Fixed : `Weblink` item accessible despite category 'access level'
+ * SECURITY [ Low Level ]: # Fixed : `Contact` Categories accessible despite category 'access level'
  ^ Contact Items display Authorization block text if category 'access level' denies access
  
 29-Jan-2006 Rey Gigataras
@@ -87,9 +89,9 @@ Medium Level Threat
  * SECURITY [ Medium Level ]: # Fixed : `Weblink` item accessible when 'unpublished'
  * SECURITY [ Medium Level ]: # Fixed : `Polls` item accessible when 'unpublished'
  * SECURITY [ Medium Level ]: # Fixed : `Newfeeds` item accessible when category 'unpublished'
- * SECURITY [ Medium Level ]: # Fixed : 'unpublished' `Newfeeds` Categories accessible
- * SECURITY [ Medium Level ]: # Fixed : 'unpublished' `Contact` Categories accessible
- * SECURITY [ Medium Level ]: # Fixed : 'unpublished' `Weblink` Categories accessible
+ * SECURITY [ Low Level ]: # Fixed : 'unpublished' `Newfeeds` Categories accessible
+ * SECURITY [ Low Level ]: # Fixed : 'unpublished' `Contact` Categories accessible
+ * SECURITY [ Low Level ]: # Fixed : 'unpublished' `Weblink` Categories accessible
  * SECURITY [ Low Level ]: # Fixed : `Content Section` accessible when section 'unpublished' - `List - Content Section`
  * SECURITY [ Low Level ]: # Fixed : `Content Category` view accessible when category 'unpublished' - `Table - Content Category`
  * SECURITY [ Low Level ]: # Fixed : `Content Category` view accessible when section 'unpublished' - `Table - Content Category`
