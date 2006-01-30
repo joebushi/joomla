@@ -74,6 +74,7 @@ Medium Level Threat
  * SECURITY [ Medium Level ]: # Fixed : `Content` item accessible despite category 'access level'
  * SECURITY [ Medium Level ]: # Fixed : `Newsfeed` item accessible despite category 'access level'
  * SECURITY [ Medium Level ]: # Fixed : `Weblink` item accessible despite category 'access level'
+ ^ Contact Items display Authorization block text if category 'access level' denies access
  
 29-Jan-2006 Rey Gigataras
  * SECURITY [ Medium Level ]: # Fixed : `Weblinks` item accessible when category 'unpublished' 

@@ -186,13 +186,12 @@ function listContacts( $option, $catid ) {
 function contactpage( $contact_id ) {
 	global $mainframe, $database, $my, $Itemid;
 
-	$query = "SELECT a.id AS value, CONCAT_WS( ' - ', a.name, a.con_position ) AS text, a.catid"
+	$query = "SELECT a.id AS value, CONCAT_WS( ' - ', a.name, a.con_position ) AS text, a.catid, cc.access AS cat_access"
 	. "\n FROM #__contact_details AS a"
 	. "\n LEFT JOIN #__categories AS cc ON cc.id = a.catid"
 	. "\n WHERE a.published = 1"
 	. "\n AND cc.published = 1"
 	. "\n AND a.access <= $my->gid"
-	. "\n AND cc.access <= $my->gid"
 	. "\n ORDER BY a.default_con DESC, a.ordering ASC"
 	;
 	$database->setQuery( $query );
@@ -204,11 +203,12 @@ function contactpage( $contact_id ) {
 			$contact_id = $checks[0]->value;
 		}
 
-		$query = "SELECT *"
-		. "\n FROM #__contact_details"
-		. "\n WHERE published = 1"
-		. "\n AND id = $contact_id"
-		. "\n AND access <= $my->gid"
+		$query = "SELECT a.*, cc.access AS cat_access"
+		. "\n FROM #__contact_details AS a"
+		. "\n LEFT JOIN #__categories AS cc ON cc.id = a.catid"
+		. "\n WHERE a.published = 1"
+		. "\n AND a.id = $contact_id"
+		. "\n AND a.access <= $my->gid"
 		;
 		$database->SetQuery($query);
 		$contacts = $database->LoadObjectList();
@@ -217,11 +217,19 @@ function contactpage( $contact_id ) {
 			echo _NOT_AUTH;
 			return;
 		}
-		$contact = $contacts[0];
-		
+		$contact = $contacts[0];	
+			
+		/*
+		* check whether category access level allows access
+		*/
+		if ( $contact->cat_access > $my->gid ) {	
+			mosNotAuth();  
+			return;
+		}
+
 		$list = array();
 		foreach ( $checks as $check ) {
-			if ( $check->catid == $contact->catid ) {
+			if ( $check->catid == $contact->catid && $check->cat_access > $my->gid ) {
 				$list[] = $check;
 			}
 		}		
