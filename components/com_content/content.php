@@ -199,8 +199,15 @@ function showSection( $id, $gid, &$access, $now ) {
 	if(!$section->published) {
 		mosNotAuth();
 		return;
-	}
-	
+	}	
+	/*
+	* check whether section access level allows access
+	*/
+	if( $section->access > $gid ) {
+		mosNotAuth();
+		return;
+	}	
+
 	$nullDate 	= $database->getNullDate();
 	$noauth 	= !$mainframe->getCfg( 'shownoauth' );
 
@@ -297,7 +304,7 @@ function showSection( $id, $gid, &$access, $now ) {
 * @param int The offset for pagination
 */
 function showCategory( $id, $gid, &$access, $sectionid, $limit, $selected, $limitstart, $now  ) {
-	global $database, $mainframe, $Itemid, $mosConfig_list_limit, $my;
+	global $database, $mainframe, $Itemid, $mosConfig_list_limit;
 
 	$category = new mosCategory( $database );
 	$category->load( $id );
@@ -312,7 +319,7 @@ function showCategory( $id, $gid, &$access, $sectionid, $limit, $selected, $limi
 	/*
 	* check whether category access level allows access
 	*/
-	if( $category->access > $my->gid ) {
+	if( $category->access > $gid ) {
 		mosNotAuth();
 		return;
 	}	
@@ -330,7 +337,7 @@ function showCategory( $id, $gid, &$access, $sectionid, $limit, $selected, $limi
 	/*
 	* check whether section access level allows access
 	*/
-	if( $section->access > $my->gid ) {
+	if( $section->access > $gid ) {
 		mosNotAuth();
 		return;
 	}	
@@ -576,6 +583,7 @@ function showBlogSection( $id=0, $gid, &$access, $pop, $now=NULL ) {
 	. "\n LEFT JOIN #__groups AS g ON a.access = g.id"
 	. ( count( $where ) ? "\n WHERE ".implode( "\n AND ", $where ) : '' )
 	. "\n AND s.access <= $gid"
+	. "\n AND cc.access <= $gid"
 	. "\n AND s.published = 1"
 	. "\n AND cc.published = 1"
 	. "\n ORDER BY $order_pri $order_sec"
@@ -593,10 +601,20 @@ function showBlogSection( $id=0, $gid, &$access, $pop, $now=NULL ) {
 		$secCheck = new mosSection( $database );
 		$secCheck->load( $check );
 		
+		/*
+		* check whether section is published
+		*/
 		if (!$secCheck->published) {
 			mosNotAuth();
 			return;
 		}
+		/*
+		* check whether section access level allows access
+		*/
+		if ($secCheck->access > $gid) {
+			mosNotAuth();
+			return;
+		}			
 	}
 
 	BlogOutput( $rows, $params, $gid, $access, $pop, $menu );
@@ -765,6 +783,7 @@ function showArchiveSection( $id=NULL, $gid, &$access, $pop, $option ) {
 	. "\n LEFT JOIN #__groups AS g ON a.access = g.id"
 	. ( count( $where ) ? "\n WHERE ". implode( "\n AND ", $where ) : '')
 	. "\n AND s.access <= $gid"
+	. "\n AND cc.access <= $gid"
 	. "\n AND s.published = 1"
 	. "\n AND cc.published = 1"
 	. "\n ORDER BY $order_pri $order_sec"
@@ -777,10 +796,20 @@ function showArchiveSection( $id=NULL, $gid, &$access, $pop, $option ) {
 		$secCheck = new mosSection( $database );
 		$secCheck->load( $check );
 		
+		/*
+		* check whether section is published
+		*/
 		if (!$secCheck->published) {
 			mosNotAuth();
 			return;
 		}
+		/*
+		* check whether section access level allows access
+		*/
+		if ($secCheck->access > $gid) {
+			mosNotAuth();
+			return;
+		}			
 	}
 	
 	// initiate form

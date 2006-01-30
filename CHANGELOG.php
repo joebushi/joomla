@@ -52,10 +52,12 @@ Medium Level Threat
  * Disallow `Newfeeds` item from being accessible when category 'unpublished'
  * Disallow `Weblinks` item from being accessible when category 'unpublished' 
  
- * Disallow `Content` item from being accessible despite section 'access level'
- * Disallow `Content` item from being accessible despite category 'access level'
+ * Disallow `Content` item from being accessible despite section/category 'access level'
  * Disallow `Newsfeed` item from being accessible despite category 'access level'
  * Disallow `Weblink` item from being accessible despite category 'access level' 
+ 
+ * Disallow `Content` item from being visible despite category 'access level' in `Content Section` view  - 
+ 
  
  Low Level Threat
  * Disallow access to syndication functionality
@@ -63,29 +65,28 @@ Medium Level Threat
  * Disallow `Contact` Categories from being accessible when 'unpublished'
  * Disallow `Weblink` Categories from being accessible when 'unpublished'
  * Disallow `Content Section` from being accessible when section 'unpublished' - `List - Content Section`
- * Disallow `Content Category` from being accessible when category 'unpublished' - `Table - Content Category`
- * Disallow `Content Category` from being accessible when section 'unpublished' - `Table - Content Category`
+ * Disallow `Content Category` from being accessible when category/section 'unpublished' - `Table - Content Category`
 
  * Disallow `Contact` Categories from being accessible as per category 'access level'
  * Disallow `Newsfeeds` Categories from being accessible as per category 'access level'
  * Disallow `Weblinks` Categories from being accessible as per category 'access level'
- * Disallow `Content Category` from being accessible as per section 'access level' - `Table - Content Category`
- * Disallow `Content Category` from being accessible as per category 'access level' - `Table - Content Category`
+ * Disallow `Content Section` from being accessible as per section 'access level' - `List - Content Section`
+ * Disallow `Content Category` from being accessible as per section/category 'access level' - `Table - Content Category`
  * Disallow `Content Category` from being accessible as per category 'access level' - `Blog - Content Category` & `Blog - Content Category Archive`
 
 ---
 
 30-Jan-2006 Rey Gigataras
- * SECURITY [ Medium Level ]: # Fixed : `Content` item accessible despite section 'access level'
- * SECURITY [ Medium Level ]: # Fixed : `Content` item accessible despite category 'access level'
+ * SECURITY [ Medium Level ]: # Fixed : `Content` item accessible despite section/category 'access level'
+ * SECURITY [ Medium Level ]: # Fixed : `Content Section` view `Content` items visible despite category 'access level' - `Blog - Content Section` & `Blog - Content Section Archive`
  * SECURITY [ Medium Level ]: # Fixed : `Newsfeed` item accessible despite category 'access level'
  * SECURITY [ Medium Level ]: # Fixed : `Weblink` item accessible despite category 'access level'
  * SECURITY [ Low Level ]: # Fixed : `Contact` Categories accessible despite category 'access level'
  * SECURITY [ Low Level ]: # Fixed : `Newsfeeds` Categories accessible despite category 'access level'
  * SECURITY [ Low Level ]: # Fixed : `Weblinks` Categories accessible despite category 'access level'
- * SECURITY [ Low Level ]: # Fixed : `Content Category` view accessible despite section 'access level' - `Table - Content Category`
- * SECURITY [ Low Level ]: # Fixed : `Content Category` view accessible despite category 'access level' - `Table - Content Category`
+ * SECURITY [ Low Level ]: # Fixed : `Content Category` view accessible despite section/category 'access level' - `Table - Content Category`
  * SECURITY [ Low Level ]: # Fixed : `Content Category` view accessible despite category 'access level' - `Blog - Content Category` & `Blog - Content Category Archive` 
+ * SECURITY [ Low Level ]: # Fixed : `Content Section` view accessible despite section 'access level' - `Table - Content Section`
  ^ Contact Items display Authorization block text if category 'access level' denies access
  ^ Blog pages display Authorization block text if section/category 'access level' denies access
  
@@ -104,8 +105,7 @@ Medium Level Threat
  * SECURITY [ Low Level ]: # Fixed : 'unpublished' `Contact` Categories accessible
  * SECURITY [ Low Level ]: # Fixed : 'unpublished' `Weblink` Categories accessible
  * SECURITY [ Low Level ]: # Fixed : `Content Section` accessible when section 'unpublished' - `List - Content Section`
- * SECURITY [ Low Level ]: # Fixed : `Content Category` view accessible when category 'unpublished' - `Table - Content Category`
- * SECURITY [ Low Level ]: # Fixed : `Content Category` view accessible when section 'unpublished' - `Table - Content Category`
+ * SECURITY [ Low Level ]: # Fixed : `Content Category` view accessible when category/section 'unpublished' - `Table - Content Category`
 
 
 ---------------- 1.0.7 Released -- [15-Jan-2006 20:00 UTC] ------------------
