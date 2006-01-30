@@ -56,7 +56,7 @@ Medium Level Threat
  * Disallow `Newsfeed` item from being accessible despite category 'access level'
  * Disallow `Weblink` item from being accessible despite category 'access level' 
  
- * Disallow `Content` item from being visible despite category 'access level' in `Content Section` view  - 
+ * Disallow `Content` item from being visible despite category 'access level' in `Content Section` view  - `Blog - Content Section` & `Blog - Content Section Archive`
  
  
  Low Level Threat
