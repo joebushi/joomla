@@ -168,7 +168,7 @@ function listWeblinks( $catid ) {
 
 
 function showItem ( $id ) {
-	global $database;
+	global $database, $my;
 
 	$link = new mosWeblink($database);
 	$link->load($id);
@@ -191,7 +191,14 @@ function showItem ( $id ) {
 		mosNotAuth();
 		return;
 	}
-	
+	/*
+	* check whether category access level allows access
+	*/
+	if ( $cat->access > $my->gid ) {	
+		mosNotAuth();  
+		return;
+	}
+
 	// Record the hit
 	$query = "UPDATE #__weblinks"
 	. "\n SET hits = hits + 1"
