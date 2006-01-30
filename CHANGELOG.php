@@ -42,10 +42,14 @@ Legend:
 This Release Contains following Security Fixes
 
 Medium Level Threat
+ * Disallow `Content` item from being accessible when despite category 'access level'
+ 
  * Disallow `Weblink` item from being accessible when 'unpublished'
  * Disallow `Polls` item from being accessible when 'unpublished'
+ 
  * Disallow `Newfeeds` item from being accessible when category 'unpublished'
  * Disallow `Weblinks` item from being accessible when category 'unpublished' 
+ 
  * Disallow `Newsfeeds` Categories from being accessible when 'unpublished'
  * Disallow `Contact` Categories from being accessible when 'unpublished'
  * Disallow `Weblink` Categories from being accessible when 'unpublished'
@@ -58,6 +62,9 @@ Medium Level Threat
 
 ---
 
+30-Jan-2006 Rey Gigataras
+ * SECURITY [ Medium Level ]: # Fixed : `Content` item accessible despite category 'access level'
+ 
 29-Jan-2006 Rey Gigataras
  * SECURITY [ Medium Level ]: # Fixed : `Weblinks` item accessible when category 'unpublished' 
  ^ Blog pages display Authorization block text if lack of items due to section/category being unpublished

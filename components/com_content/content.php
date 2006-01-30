@@ -1145,7 +1145,8 @@ function showItem( $uid, $gid, &$access, $pop, $option, $now ) {
 		;
 	}
 
-	$query = "SELECT a.*, ROUND(v.rating_sum/v.rating_count) AS rating, v.rating_count, u.name AS author, u.usertype, cc.name AS category, s.name AS section, g.name AS groups, s.published AS sec_pub, cc.published AS cat_pub"
+	$query = "SELECT a.*, ROUND(v.rating_sum/v.rating_count) AS rating, v.rating_count, u.name AS author, u.usertype, cc.name AS category, s.name AS section, g.name AS groups,"
+	. "\n s.published AS sec_pub, cc.published AS cat_pub, s.access AS sec_access, cc.access AS cat_access"
 	. "\n FROM #__content AS a"
 	. "\n LEFT JOIN #__categories AS cc ON cc.id = a.catid"
 	. "\n LEFT JOIN #__sections AS s ON s.id = cc.section AND s.scope = 'content'"
@@ -1160,6 +1161,8 @@ function showItem( $uid, $gid, &$access, $pop, $option, $now ) {
 	$row = NULL;
 
 	if ( $database->loadObject( $row ) ) {
+		//echo $row->sec_access;
+		//echo ' | '. $gid;
 		if ( !$row->cat_pub && $row->catid ) {
 		// check whether category is published
 			mosNotAuth();  
@@ -1168,6 +1171,16 @@ function showItem( $uid, $gid, &$access, $pop, $option, $now ) {
 		if ( !$row->sec_pub && $row->sectionid ) {
 		// check whether section is published
 			mosNotAuth(); 
+			return;
+		}
+		if ( ($row->cat_access > $gid) && $row->catid ) {
+		// check whether category access level allows access
+			mosNotAuth();  
+			return;
+		}
+		if ( ($row->sec_access > $gid) && $row->sectionid ) {
+		// check whether section access level allows access
+			mosNotAuth();  
 			return;
 		}
 
