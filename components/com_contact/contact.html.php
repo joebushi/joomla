@@ -644,9 +644,11 @@ class HTML_contact {
 	* Writes Email form
 	*/
 	function _writeEmailForm( &$contact, &$params, $sitename, &$menu_params ) {
-		global $Itemid;
+		global $Itemid, $mainframe;
 		
 		if ( $contact->email_to && !$params->get( 'popup' ) && $params->get( 'email_form' ) ) {
+			// used for spoof hardening
+			$validate = mosHash( $mainframe->getCfg( 'db' ) );
 			?>
 			<tr>
 				<td colspan="2">
@@ -697,7 +699,7 @@ class HTML_contact {
 				<input type="hidden" name="con_id" value="<?php echo $contact->id; ?>" />
 				<input type="hidden" name="sitename" value="<?php echo $sitename; ?>" />
 				<input type="hidden" name="op" value="sendmail" />
-				<input type="hidden" name="<?php echo mosHash( 'validate' );?>" value="1" />
+				<input type="hidden" name="<?php echo $validate; ?>" value="1" />
 				</form>
 				<br />
 				</td>

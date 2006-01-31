@@ -76,6 +76,10 @@ Medium Level Threat
 
 ---
 
+
+31-Jan-2006 Rey Gigataras
+ + Additional Contact Component hardening
+
 30-Jan-2006 Rey Gigataras
  * SECURITY [ Medium Level ]: # Fixed : `Content` item accessible despite section/category 'access level'
  * SECURITY [ Medium Level ]: # Fixed : `Content Section` view `Content` items visible despite category 'access level' - `Blog - Content Section` & `Blog - Content Section Archive`
