@@ -198,7 +198,7 @@ function check() {
 							<label for="DBSample">Install Sample Data</label>
 						</td>
 			  			<td>
-			  				<em>Don't uncheck option this unless you are experienced in using Joomla!</em>
+			  				<em>Don't uncheck this option unless you are experienced in using Joomla!</em>
 			  			</td>
 			  		</tr>
 		  		 	</table>
