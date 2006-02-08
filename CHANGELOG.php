@@ -76,6 +76,9 @@ Medium Level Threat
 
 ---
 
+07-Feb-2006 Robin Muilwijk
+ # Fixed artf3328, 1.0.7 EN Installation Typo - Step 1
+ # Fixed artf3401 : Spelling errors in two modules
 
 31-Jan-2006 Rey Gigataras
  + Additional Contact Component hardening
