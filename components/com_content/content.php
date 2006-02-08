@@ -157,7 +157,6 @@ function frontpage( $gid, &$access, $pop, $now ) {
 	$order_pri = _orderby_pri( $orderby_pri );
 
 	// query records
-//	$query = "SELECT a.*, ROUND( v.rating_sum / v.rating_count ) AS rating, v.rating_count, u.name AS author, u.usertype, s.name AS section, cc.name AS category, g.name AS groups"
 	$query = "SELECT a.id, a.title, a.title_alias, a.introtext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by,"
 	. "\n a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access, a.hits,"
 	. "\n CHAR_LENGTH( a.fulltext ) AS readmore,"
@@ -170,7 +169,7 @@ function frontpage( $gid, &$access, $pop, $now ) {
 	. "\n LEFT JOIN #__content_rating AS v ON a.id = v.content_id"
 	. "\n LEFT JOIN #__groups AS g ON a.access = g.id"
 	. "\n WHERE a.state = 1"
-	. ( $noauth ? "\n AND a.access <= $my->gid" : '' )
+	. ( $noauth ? "\n AND a.access <= $my->gid AND cc.access <= $my->gid AND s.access <= $my->gid" : '' )
 	. "\n AND ( publish_up = '$nullDate' OR publish_up <= '$now'  )"
 	. "\n AND ( publish_down = '$nullDate' OR publish_down >= '$now' )"
 	. "\n AND s.published = 1"
