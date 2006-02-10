@@ -87,6 +87,9 @@ Medium Level Threat
 11-Feb-2006 Rey Gigataras
  * SECURITY [ Low Level ]: Harden frontend Session ID
  # Fixed artf3421 : Session cleanup relies on administrator login
+ # Fixed artf3307 : Error in code - non critical, but logout setcookie not working
+ # Fixed artf3126 : Short open PHP tag in pathway.php 
+ # Fixed artf3126 : artf3413 : small problem with variable in xml_domit_lite_parser.php
  # Fixed [topic,34620.0.html] : Excessive Joomla Sessions, and AOL Login Problem [Steve Graham]
  # Fixed mosWarning() $title error
  + New Session Type Global Config param 
