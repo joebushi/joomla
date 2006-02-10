@@ -42,7 +42,7 @@ function pollAddVote( $uid ) {
 
 	$redirect = 1;
 
-	$sessionCookieName 	= md5( 'site'.$GLOBALS['mosConfig_live_site'] );
+	$sessionCookieName 	= mosMainFrame::sessionCookieName();
 	$sessioncookie 		= mosGetParam( $_REQUEST, $sessionCookieName, '' );
 
 	if (!$sessioncookie) {

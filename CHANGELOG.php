@@ -63,6 +63,8 @@ Medium Level Threat
  
  
  Low Level Threat
+ * Harden frontend Session ID
+
  * Disallow access to syndication functionality
  * Disallow `Newsfeeds` Categories from being accessible when 'unpublished'
  * Disallow `Contact` Categories from being accessible when 'unpublished'
@@ -82,9 +84,17 @@ Medium Level Threat
 ---
 
 
+11-Feb-2006 Rey Gigataras
+ * SECURITY [ Low Level ]: Harden frontend Session ID
+ # Fixed artf3421 : Session cleanup relies on administrator login
+ # Fixed [topic,34620.0.html] : Excessive Joomla Sessions, and AOL Login Problem [Steve Graham]
+ # Fixed mosWarning() $title error
+ + New Session Type Global Config param 
+
 08-Feb-2006 Rey Gigataras
  * SECURITY [ Medium Level ]: # Fixed : `Content` items viewable when category/section 'unpublished' - mod_newsflash 
  * SECURITY [ Low Level ]: # Fixed : `Content` item links visible despite category/section 'access level' - mod_newsflash, mod_latestnews, mod_mostread
+ # Fixed artf3393 : Latestnews doesn't show static content
 
 07-Feb-2006 Robin Muilwijk
  # Fixed artf3328, 1.0.7 EN Installation Typo - Step 1

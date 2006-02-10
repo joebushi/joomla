@@ -616,40 +616,108 @@ class mosMainFrame {
 	* the jos_sessions table.
 	*/
 	function initSession() {
-		$session =& $this->_session;
-		$session = new mosSession( $this->_db );
-		$session->purge(intval( $this->getCfg( 'lifetime' ) ));
+		$session 	=& $this->_session;
+		$session 	= new mosSession( $this->_db );
+		// purge expired frontend sessions only
+		$and 		= "\n AND ( ( guest = 1 AND userid = 0 ) OR ( guest = 0 AND gid > 0 ) )";
+		$session->purge(intval( $this->getCfg( 'lifetime' ) ), $and );
 
-		$sessionCookieName = md5( 'site'.$GLOBALS['mosConfig_live_site'] );
-
-		$sessioncookie 	= mosGetParam( $_COOKIE, $sessionCookieName, null );
-		$usercookie 	= mosGetParam( $_COOKIE, 'usercookie', null );
-
-		if ($session->load( md5( $sessioncookie . $_SERVER['REMOTE_ADDR'] ) )) {
-			// Session cookie exists, update time in session table
+		// Session Cookie `name`
+		$sessionCookieName 	= mosMainFrame::sessionCookieName();
+		
+		$cookie_found = false;
+		if ( isset($_COOKIE[$sessionCookieName]) || isset($_COOKIE['usercookie']) || isset($_POST['force_session']) ) {
+			$cookie_found = true;
+		}
+		
+		// Get Session Cookie `value`
+		$sessioncookie 		= mosGetParam( $_COOKIE, $sessionCookieName, null );
+		
+		// Session ID / `value`
+		$sessionValueCheck 		= mosMainFrame::sessionCookieValue( $sessioncookie );
+	
+		// Check if existing session exists in db corresponding to Session cookie `value` 
+		// extra check added in 1.0.8 to test sessioncookie value is of correct length
+		if ( (strlen($sessioncookie) == 32 && $sessioncookie != '-') && $session->load($sessionValueCheck) ) {
+			// update time in session table
 			$session->time = time();
 			$session->update();
 		} else {
-			$session->generateId();
-			$session->guest 	= 1;
-			$session->username 	= '';
-			$session->time 		= time();
-			$session->gid 		= 0;
+			if (!$cookie_found) {
+			// if neither usercookie nor sessioncookie found, create the sessioncookie and set it to a test value
+				setcookie( $sessionCookieName, '-', time() + 3600, '/' );
+			} else {
+			// otherwise, sessioncookie was found, but set to test val or the session expired, prepare for session registration and register the session
+				$session->guest 	= 1;
+				$session->username 	= '';
+				$session->time 		= time();
+				$session->gid 		= 0;
+				// Generate Session Cookie `value`
+				$session->generateId();
 
-			if (!$session->insert()) {
-				die( $session->getError() );
+				if (!$session->insert()) {
+					die( $session->getError() );
+				}
+				
+				// create Session Tracking Cookie - expires in 12 hours
+				setcookie( $sessionCookieName, $session->getCookie(), time() + 43200, '/' );
 			}
 
-			setcookie( $sessionCookieName, $session->getCookie(), time() + 43200, '/' );
-			//$_COOKIE["sessioncookie"] = $session->getCookie();
-
+			// Cookie used by Remember me functionality
+			$usercookie 		= mosGetParam( $_COOKIE, 'usercookie', null );
+			
+			// check if Remember me cookie exists. Login with usercookie info.
 			if ($usercookie) {
-				// Remember me cookie exists. Login with usercookie info.
 				$this->login($usercookie['username'], $usercookie['password']);
 			}
 		}
 	}
 
+	/*
+	* Static Function used to generate the Session Cookie Name
+	* Added as of 1.0.8
+	*/
+	function sessionCookieName() {
+		global $mainframe;
+		
+		return md5( 'site' . $mainframe->getCfg( 'live_site' ) );		
+	}
+	
+	/*
+	* Static Function used to generate the Session Cookie Value
+	* Added as of 1.0.8
+	*/
+	function sessionCookieValue( $id ) {
+		global $mainframe;		
+	
+		$type = $mainframe->getCfg( 'session_type' );
+		
+		$browser = @$_SERVER['HTTP_USER_AGENT'] . @$_SERVER['HTTP_ACCEPT_LANGUAGE'] . @$_SERVER['HTTP_ACCEPT_CHARSET'] . @$_SERVER['HTTP_ACCEPT_ENCODING'];
+		
+		switch ($type) {
+			case 2:
+			// 1.0.0 to 1.0.7 Compatibility
+			// lowest level security
+				$value 			= md5( $id . $_SERVER['REMOTE_ADDR'] );
+				break;
+
+			case 1:
+			// slightly reduced security - 3rd level IP authentication for those behind IP Proxy 
+				$remote_addr 	= explode('.',$_SERVER['REMOTE_ADDR']);
+				$ip				= $remote_addr[0] . $remote_addr[1] . $remote_addr[2];
+				$value 			= mosHash( $id . $ip . $browser );
+				break;
+			
+			default:
+			// Highest security level - new default for 1.0.8 and beyond
+				$ip				= $_SERVER['REMOTE_ADDR'];
+				$value 			= mosHash( $id . $ip . $browser );
+				break;
+		}		
+
+		return $value;
+	}
+	
 	/**
 	* Login validation function
 	*
@@ -659,9 +727,8 @@ class mosMainFrame {
 	*/
 	function login( $username=null,$passwd=null ) {
 		global $acl;
-
+		
 		$usercookie 	= mosGetParam( $_COOKIE, 'usercookie', '' );
-		$sessioncookie 	= mosGetParam( $_COOKIE, 'sessioncookie', '' );
 		if (!$username || !$passwd) {
 			$username 	= mosGetParam( $_POST, 'username', '' );
 			$passwd 	= mosGetParam( $_POST, 'passwd', '' );
@@ -696,12 +763,12 @@ class mosMainFrame {
 				}
 				$row->usertype = $grp->name;
 
-				$session =& $this->_session;
-				$session->guest 		= 0;
-				$session->username 		= $username;
-				$session->userid 		= intval( $row->id );
-				$session->usertype 		= $row->usertype;
-				$session->gid 			= intval( $row->gid );
+				$session 			=& $this->_session;
+				$session->guest 	= 0;
+				$session->username 	= $username;
+				$session->userid 	= intval( $row->id );
+				$session->usertype 	= $row->usertype;
+				$session->gid 		= intval( $row->gid );
 
 				$session->update();
 
@@ -715,19 +782,19 @@ class mosMainFrame {
 					die($this->_db->stderr(true));
 				}
 
-				if ($remember=="yes") {
+				// set remember me cookie
+				if ( $remember == 'yes' ) {
 					$lifetime = time() + 365*24*60*60;
-					setcookie( "usercookie[username]", $username, $lifetime, "/" );
-					setcookie( "usercookie[password]", $passwd, $lifetime, "/" );
+					setcookie( "usercookie[username]", $username, $lifetime, '/' );
+					setcookie( "usercookie[password]", $passwd, $lifetime, '/' );
 				}
-				//mosCache::cleanCache('com_content');
 				mosCache::cleanCache();
 			} else {
 				if (isset($bypost)) {
 					mosErrorAlert(_LOGIN_INCORRECT);
 				} else {
 					$this->logout();
-					mosRedirect("index.php");
+					mosRedirect('index.php');
 				}
 				exit();
 			}
@@ -739,25 +806,26 @@ class mosMainFrame {
 	* Reverts the current session record back to 'anonymous' parameters
 	*/
 	function logout() {
-		//mosCache::cleanCache('com_content');
 		mosCache::cleanCache();
-		$session =& $this->_session;
-
-		$session->guest 		= 1;
-		$session->username 		= '';
-		$session->userid 		= '';
-		$session->usertype 		= '';
-		$session->gid = 0;
+		
+		$session 			=& $this->_session;
+		$session->guest 	= 1;
+		$session->username 	= '';
+		$session->userid 	= '';
+		$session->usertype 	= '';
+		$session->gid 		= 0;
 
 		$session->update();
 
+		// kill remember me login cookie
 		// this is daggy??
 		$lifetime = time() - 1800;
-		setcookie( "usercookie[username]", " ", $lifetime, "/" );
-		setcookie( "usercookie[password]", " ", $lifetime, "/" );
-		setcookie( "usercookie", " ", $lifetime, "/" );
+		setcookie( "usercookie[username]", ' ', $lifetime, '/' );
+		setcookie( "usercookie[password]", ' ', $lifetime, '/' );
+		
 		@session_destroy();
 	}
+	
 	/**
 	* @return mosUser A user object with the information from the current session
 	*/
@@ -801,30 +869,7 @@ class mosMainFrame {
 	function _setTemplate( $isAdmin=false ) {
 		global $Itemid;
 		$mosConfig_absolute_path = $this->getCfg( 'absolute_path' );
-/*
-Unneeded Query
-http://developer.joomla.org/sf/go/artf1710?nav=1
-		// Default template
-		$query = "SELECT template"
-		. "\n FROM #__templates_menu"
-		. "\n WHERE client_id = 0"
-		. "\n AND menuid = 0"
-		;
-		$this->_db->setQuery( $query );
-		$cur_template = $this->_db->loadResult();
 
-		// Assigned template
-		if (isset($Itemid) && $Itemid!="" && $Itemid!=0) {
-			$query = "SELECT template"
-			. "\n FROM #__templates_menu"
-			. "\n WHERE client_id = 0"
-			. "\n AND menuid = $Itemid"
-			. "\n LIMIT 1"
-			;
-			$this->_db->setQuery( $query );
-			$cur_template = $this->_db->loadResult() ? $this->_db->loadResult() : $cur_template;
-		}
-*/
 		if ($isAdmin) {
 			$query = "SELECT template"
 			. "\n FROM #__templates_menu"
@@ -2805,8 +2850,9 @@ class mosSession extends mosDBTable {
 				}
 			}
 		}
-		$this->_session_cookie = $randnum;
-		$this->session_id = md5( $randnum . $_SERVER['REMOTE_ADDR'] );
+		
+		$this->_session_cookie = $randnum;		
+		$this->session_id = mosMainFrame::sessionCookieValue( $randnum );
 	}
 
 	/**
@@ -2820,10 +2866,12 @@ class mosSession extends mosDBTable {
 	 * Purge lapsed sessions
 	 * @return boolean
 	 */
-	function purge( $inc=1800 ) {
+	function purge( $inc=1800, $and='' ) {
 		$past = time() - $inc;
 		$query = "DELETE FROM $this->_tbl"
-		. "\n WHERE ( time < '$past' )";
+		. "\n WHERE ( time < '$past' )"
+		. $and
+		;
 		$this->_db->setQuery($query);
 
 		return $this->_db->query();
@@ -3080,7 +3128,7 @@ function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text
 function mosWarning($warning, $title='Joomla! Warning') {
 	global $mosConfig_live_site;
 
-	$mouseover 	= 'return overlib(\''. $warning .'\', CAPTION, \'$title\', BELOW, RIGHT);';
+	$mouseover 	= 'return overlib(\''. $warning .'\', CAPTION, \''. $title .'\', BELOW, RIGHT);';
 
 	$tip 		= "<!-- Warning -->\n";
 	$tip 		.= '<a href="javascript:void(0)" onmouseover="'. $mouseover .'" onmouseout="return nd();">';

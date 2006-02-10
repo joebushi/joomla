@@ -64,6 +64,8 @@ class mosConfig {
 	/** @var int */
 	var $config_lifetime		= null;
 	/** @var int */
+	var $config_session_type	= 0;
+	/** @var int */
 	var $config_error_reporting	= 0;
 	/** @var string */
 	var $config_helpurl			= 'http://help.joomla.org';

@@ -86,10 +86,13 @@ $query = "UPDATE #__session"
 $database->setQuery( $query );
 $database->query();
 
-// timeout old sessions
+// timeout old admin sessions only
 $past = time()-1800;
 $query = "DELETE FROM #__session"
 . "\n WHERE time < '$past'"
+. "\n AND guest = 1"
+. "\n AND gid = 0"
+. "\n AND userid <> 0"
 ;
 $database->setQuery( $query );
 $database->query();

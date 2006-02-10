@@ -137,6 +137,14 @@ function showconfig( $option) {
 // SERVER SETTINGS
 
 	$lists['gzip'] = mosHTML::yesnoRadioList( 'config_gzip', 'class="inputbox"', $row->config_gzip );
+	
+	$session = array(
+		mosHTML::makeOption( 0, 'Level 3 Security- Default & Highest' ),
+		mosHTML::makeOption( 1, 'Level 2 Security - Allow for proxy IPs' ),
+		mosHTML::makeOption( 2, 'Level 1 Security - Backward Compatibility' )
+	);
+	
+	$lists['session_type'] = mosHTML::selectList( $session, 'config_session_type', 'class="inputbox" size="1"', 'value', 'text', $row->config_session_type );
 
 	$errors = array(
 		mosHTML::makeOption( -1, 'System Default' ),
@@ -294,11 +302,24 @@ function showconfig( $option) {
  * Save the configuration
  */
 function saveconfig( $task ) {
-	global $database, $mosConfig_absolute_path, $mosConfig_password;
+	global $database, $mosConfig_absolute_path, $mosConfig_password, $mosConfig_session_type;
 
 	$row = new mosConfig();
 	if (!$row->bind( $_POST )) {
 		mosRedirect( 'index2.php', $row->getError() );
+	}
+	
+	// if Session Authentication Type changed, delete all old Frontend sessions only - which used old Authentication Type
+	if ( $mosConfig_session_type != $row->config_session_type ) {
+		$past = time();
+		$query = "DELETE FROM #__session"
+		. "\n WHERE time < '$past'"
+		. "\n AND ("
+		. "\n ( guest = 1 AND userid = 0 ) OR ( guest = 0 AND gid > 0 )" 
+		. "\n )"
+		;
+		$database->setQuery( $query );
+		$database->query();
 	}
 	
 	$server_time 			= date( 'O' ) / 100;
