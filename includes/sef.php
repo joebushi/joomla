@@ -250,6 +250,17 @@ function sefRelToAbs( $string ) {
 
 		$sefstring = '';
 		if ( (eregi('option=com_content',$string) || eregi('option=content',$string) ) && !eregi('task=new',$string) && !eregi('task=edit',$string) ) {
+			// Handle fragment identifiers (ex. #foo)
+			$fragment = '';
+			if (eregi('#', $string)) {
+				$temp = split('#', $string, 2);
+				$string = $temp[0];
+				// ensure fragment identifiers are compatible with HTML4
+				if (preg_match('@^[A-Za-z][A-Za-z0-9:_.-]*$@', $temp[1])) {
+					$fragment = '#'. $temp[1];
+				}
+			}
+			
 			/*
 			Content
 			index.php?option=com_content&task=$task&sectionid=$sectionid&id=$id&Itemid=$Itemid&limit=$limit&limitstart=$limitstart&year=$year&month=$month&module=$module
@@ -317,18 +328,8 @@ function sefRelToAbs( $string ) {
 				
 				$sefstring .= $temp[0].'/';
 			}
-			// Handle fragment identifiers (ex. #foo)
-			if (eregi('#', $string)) {
-				$temp = split('#', $string, 2);
-				$string = $temp[0];
-				// ensure fragment identifiers are compatible with HTML4
-				if (preg_match('@^[A-Za-z][A-Za-z0-9:_.-]*$@', $temp[1])) {
-					$fragment = '#'. $temp[1];
-					$sefstring .= $fragment .'/';
-				}
-			}
-
-			$string = $sefstring;
+			
+			$string = $sefstring . $fragment;
 		} else if (eregi('option=com_',$string) && !eregi('task=new',$string) && !eregi('task=edit',$string)) {
 			/*
 			Components

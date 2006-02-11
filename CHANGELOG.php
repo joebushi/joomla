@@ -84,6 +84,7 @@ Medium Level Threat
 ---
 
 11-Feb-2006 Rey Gigataras
+ # Fixed artf3067 : Reopen: Unhandled fragment identifier with core SEF enabled
  # Fixed [topic,31813.0.html] : new .htaccess gives proper 404s [Steve Graham]
 
 10-Feb-2006 Rey Gigataras
