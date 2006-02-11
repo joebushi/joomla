@@ -84,6 +84,7 @@ Medium Level Threat
 
 
 12-Feb-2006 Rey Gigataras
+ # Fixed artf3438 : RSS Feed Created it not base on the same encoding of the content
  # Fixed artf3108 : Joomla 1.0.7 core SEF bug gives 404 on homepage
  # Fixed artf3169 : RSS feeds does not work with SEF disabled
 

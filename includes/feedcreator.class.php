@@ -27,11 +27,17 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 Changelog:
 
+v1.7.2	Joomla! 1.0.8
+12-Feb-2005 Rey Gigataras
+ - Fixed artf3438 : RSS Feed Created it not base on the same encoding of the content
+
 v1.7.2	Joomla! 1.0
 15-Sep-2005 Rey Gigataras
  ^ Added publish date to syndicated feeds output [credit: gharding]
  ^ Added RSS Enclosure support to feedcreator [credit: Joseph L. LeBlanc]
  ^ Added Google Sitemap support to feedcreator
+
+*********************************
 
 v1.7.2	10-11-04
 	license changed to LGPL
@@ -411,7 +417,7 @@ class UniversalFeedCreator extends FeedCreator {
 		$vars = get_object_vars($this);
 		foreach ($vars as $key => $value) {
 			// prevent overwriting of properties "contentType", "encoding"; do not copy "_feed" itself
-			if (!in_array($key, array("_feed", "contentType", "encoding"))) {
+			if (!in_array($key, array("_feed", "contentType"))) {
 				$this->_feed->{$key} = $this->{$key};
 			}
 		}
