@@ -21,9 +21,6 @@ require_once( $mainframe->getPath( 'front_html' ) );
 global $database, $my;
 global $mosConfig_live_site;
 
-$return = mosGetParam( $_SERVER, 'REQUEST_URI', null );
-$return = ampReplace( $return );
-
 $menu = new mosMenu( $database );
 $menu->load( $Itemid );
 $params = new mosParameters( $menu->params );

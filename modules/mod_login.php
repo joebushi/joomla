@@ -14,7 +14,7 @@
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
-$return = mosGetParam( $_SERVER, 'REQUEST_URI', null );
+$return	= 'index.php?'. mosGetParam( $_SERVER, 'QUERY_STRING', null );
 // converts & to &amp; for xtml compliance
 $return = str_replace( '&', '&amp;', $return );
 

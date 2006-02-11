@@ -82,6 +82,10 @@ Medium Level Threat
 
 ---
 
+
+12-Feb-2006 Rey Gigataras
+ # Fixed artf3169 : RSS feeds does not work with SEF disabled
+
 11-Feb-2006 Rey Gigataras
  * SECURITY [ Medium Level ]: Protect against real server path disclosure via syndication component
  * SECURITY [ Medium Level ]: Limit arbitrary file creation via syndication component
