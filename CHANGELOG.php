@@ -84,6 +84,7 @@ Medium Level Threat
 ---
 
 11-Feb-2006 Rey Gigataras
+ # Fixed artf3183 : Sub-menu items of separators not showing in module menu selection list
  # Fixed artf3103 : $mosConfig_cachepath not used everywhere
  # Fixed artf3114 : mod_related_items outputs nothing
  # Fixed artf3234 : mod_related_items unitialized mosConfig_offset variable
