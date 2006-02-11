@@ -83,8 +83,10 @@ Medium Level Threat
 
 ---
 
-
 11-Feb-2006 Rey Gigataras
+ # Fixed [topic,31813.0.html] : new .htaccess gives proper 404s [Steve Graham]
+
+10-Feb-2006 Rey Gigataras
  * SECURITY [ Low Level ]: Harden frontend Session ID
  # Fixed artf3421 : Session cleanup relies on administrator login
  # Fixed artf3307 : Error in code - non critical, but logout setcookie not working
