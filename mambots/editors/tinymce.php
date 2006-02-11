@@ -52,7 +52,8 @@ function botTinymceEditorInit() {
 	$newlines			= $params->def( 'newlines', 0 );
 	$cleanup			= $params->def( 'cleanup', 1 );
 	$compressed			= $params->def( 'compressed', 0 );
-
+	$relative_urls		= $params->def( 'relative_urls', 0 );
+	
 	// Plugins
 	// preview
 	$preview			= $params->def( 'preview', 1 );
@@ -76,6 +77,12 @@ function botTinymceEditorInit() {
 	$hr					=  $params->def( 'hr', 1 );
 	// fullscreen
 	$fullscreen			=  $params->def( 'fullscreen', 1 );
+	
+	if ( $relative_urls ) {
+		$relative_urls = 'true';
+	} else {
+		$relative_urls = 'false';
+	}
 	
 	if ( $content_css_custom ) {
 		$content_css = 'content_css : "'. $content_css_custom .'", ';
@@ -192,7 +199,7 @@ return <<<EOD
 		language : "en",
 		mode : "specific_textareas",
 		document_base_url : "$mosConfig_live_site/",
-		relative_urls : false,
+		relative_urls : $relative_urls,
 		remove_script_host : false,
 		save_callback : "TinyMCE_Save",
 		invalid_elements : "$invalid_elements",
