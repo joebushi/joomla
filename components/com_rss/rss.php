@@ -36,7 +36,7 @@ switch ( $task ) {
 */
 function feedFrontpage( $showFeed ) {
 	global $database, $mainframe;
-	global $mosConfig_live_site, $mosConfig_offset, $mosConfig_absolute_path;
+	global $mosConfig_live_site, $mosConfig_offset, $mosConfig_absolute_path, $mosConfig_cachepath;
 
 	$nullDate = $database->getNullDate();
 	// pull id of syndication component
@@ -105,15 +105,15 @@ function feedFrontpage( $showFeed ) {
 	if ( !$showFeed & $info[ 'live_bookmark' ] ) {
 		if ( $info[ 'bookmark_file' ] ) {
 		// custom bookmark filename
-			$info[ 'file' ] = $mosConfig_absolute_path .'/cache/'. $info[ 'bookmark_file' ];
+			$info[ 'file' ] = $mosConfig_cachepath .'/'. $info[ 'bookmark_file' ];
 		} else {
 		// standard bookmark filename
-			$info[ 'file' ] = $mosConfig_absolute_path .'/cache/'. $info[ 'live_bookmark' ];
+			$info[ 'file' ] = $mosConfig_cachepath .'/'. $info[ 'live_bookmark' ];
 		}
 	} else {
 	// set filename for rss feeds
 		$info[ 'file' ] = strtolower( str_replace( '.', '', $info[ 'feed' ] ) );
-		$info[ 'file' ] = $mosConfig_absolute_path .'/cache/'. $info[ 'file' ] .'.xml';
+		$info[ 'file' ] = $mosConfig_cachepath .'/'. $info[ 'file' ] .'.xml';
 	}
 
 	// load feed creator class
@@ -181,7 +181,6 @@ function feedFrontpage( $showFeed ) {
 	$and 		= '';
 
 	// query of frontpage content items
-	//$query = "SELECT a.*, u.name AS author, u.usertype, UNIX_TIMESTAMP( a.created ) AS created_ts"
 	$query = "SELECT a.*, u.name AS author, u.usertype, UNIX_TIMESTAMP( a.created ) AS created_ts, cat.title AS cat_title, sec.title AS section_title"
 	. "\n FROM #__content AS a"
 	. $join

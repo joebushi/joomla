@@ -123,7 +123,7 @@ function mosLoadAdminModule( $name, $params=NULL ) {
 }
 
 function mosLoadCustomModule( &$module, &$params ) {
-	global $mosConfig_absolute_path;
+	global $mosConfig_absolute_path, $mosConfig_cachepath;
 
 	$rssurl 			= $params->get( 'rssurl', '' );
 	$rssitems 			= $params->get( 'rssitems', '' );
@@ -140,8 +140,7 @@ function mosLoadCustomModule( &$module, &$params ) {
 
 	// feed output
 	if ( $rssurl ) {
-		$cacheDir = $mosConfig_absolute_path .'/cache/';
-		if (!is_writable( $cacheDir )) {
+		if (!is_writable( $mosConfig_cachepath )) {
 			echo '<tr>';
 			echo '<td>Please make cache directory writable.</td>';
 			echo '</tr>';
@@ -149,7 +148,7 @@ function mosLoadCustomModule( &$module, &$params ) {
 			$LitePath = $mosConfig_absolute_path .'/includes/Cache/Lite.php';
 			require_once( $mosConfig_absolute_path .'/includes/domit/xml_domit_rss_lite.php');
 			$rssDoc = new xml_domit_rss_document_lite();
-			$rssDoc->useCacheLite(true, $LitePath, $cacheDir, 3600);
+			$rssDoc->useCacheLite(true, $LitePath, $mosConfig_cachepath, 3600);
 			$rssDoc->loadRSS( $rssurl );
 			$totalChannels = $rssDoc->getChannelCount();
 

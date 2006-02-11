@@ -156,7 +156,7 @@ function listFeeds( $catid ) {
 
 
 function showFeed( $feedid ) {
-	global $database, $mainframe, $mosConfig_absolute_path, $Itemid, $my;
+	global $database, $mainframe, $mosConfig_absolute_path, $mosConfig_cachepath, $Itemid, $my;
 
 	require_once( $mainframe->getPath( 'class' ) );
 	
@@ -191,7 +191,6 @@ function showFeed( $feedid ) {
 
 	// full RSS parser used to access image information
 	require_once( $mosConfig_absolute_path . '/includes/domit/xml_domit_rss.php');
-	$cacheDir = $mosConfig_absolute_path . '/cache/';
 	$LitePath = $mosConfig_absolute_path . '/includes/Cache/Lite.php';
 
 	// Adds parameter handling
@@ -219,6 +218,6 @@ function showFeed( $feedid ) {
 
 	$mainframe->SetPageTitle($menu->name);
 
-	HTML_newsfeed::showNewsfeeds( $newsfeed, $LitePath, $cacheDir, $params );
+	HTML_newsfeed::showNewsfeeds( $newsfeed, $LitePath, $mosConfig_cachepath, $params );
 }
 ?>

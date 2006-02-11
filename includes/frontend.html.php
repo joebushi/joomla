@@ -106,7 +106,7 @@ class modules_html {
 
 	// feed output
 	function modoutput_feed( &$module, &$params, $moduleclass_sfx ) {
-		global $mosConfig_absolute_path, $rssfeed_content;
+		global $mosConfig_absolute_path, $rssfeed_content, $mosConfig_cachepath;
 
 		$rssurl 			= $params->get( 'rssurl' );
 		$rssitems 			= $params->get( 'rssitems', 5 );
@@ -117,7 +117,7 @@ class modules_html {
 		$rsstitle			= $params->get( 'rsstitle', 1 );
 
 		$contentBuffer	= '';
-		$cacheDir 		= $mosConfig_absolute_path .'/cache/';
+		$cacheDir 		= $mosConfig_cachepath .'/';
 		$LitePath 		= $mosConfig_absolute_path .'/includes/Cache/Lite.php';
 		require_once( $mosConfig_absolute_path .'/includes/domit/xml_domit_rss.php' );
 		$rssDoc = new xml_domit_rss_document();
