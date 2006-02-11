@@ -37,10 +37,6 @@ Legend:
 - -> Removed
 ! -> Note
 
-**************************************************************************************************
-							SECURITY AUDIT BEING CONDUCTED
-**************************************************************************************************
-
 
 ---------------- 1.0.8 Pending -- [TBA] ------------------
 
@@ -98,6 +94,7 @@ Medium Level Threat
  # Fixed artf3402 : Missing param in module
  # Fixed artf3067 : Reopen: Unhandled fragment identifier with core SEF enabled
  # Fixed [topic,31813.0.html] : new .htaccess gives proper 404s [Steve Graham]
+ + Disable session.use_trans_sid to .htaccess
 
 10-Feb-2006 Rey Gigataras
  * SECURITY [ Low Level ]: Harden frontend Session ID
