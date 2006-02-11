@@ -3285,6 +3285,9 @@ function mosMail( $from, $fromname, $recipient, $subject, $body, $mode=0, $cc=NU
 function initGzip() {
 	global $mosConfig_gzip, $do_gzip_compress;
 	
+	// attempt to disable session.use_trans_sid
+	ini_set('session.use_trans_sid', false);
+	
 	$do_gzip_compress = FALSE;
 	if ($mosConfig_gzip == 1) {
 		$phpver = phpversion();
@@ -3296,11 +3299,11 @@ function initGzip() {
 		strpos($useragent,'Gecko')	  !== false
 		)
 		) {
-			// Check for gzip header or northon internet securities
+			// Check for gzip header or northon internet securities or session.use_trans_sid
 			if ( isset($_SERVER['HTTP_ACCEPT_ENCODING']) ) {
 				$encodings = explode(',', strtolower($_SERVER['HTTP_ACCEPT_ENCODING']));
 			}				
-			if ( (in_array('gzip', $encodings) || isset( $_SERVER['---------------']) ) && extension_loaded('zlib') && function_exists('ob_gzhandler') && !ini_get('zlib.output_compression') ) {
+			if ( (in_array('gzip', $encodings) || isset( $_SERVER['---------------']) ) && extension_loaded('zlib') && function_exists('ob_gzhandler') && !ini_get('zlib.output_compression') && !ini_get('session.use_trans_sid') ) {
 				// You cannot specify additional output handlers if
 				// zlib.output_compression is activated here
 				ob_start( 'ob_gzhandler' );
