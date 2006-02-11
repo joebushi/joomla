@@ -3284,22 +3284,26 @@ function mosMail( $from, $fromname, $recipient, $subject, $body, $mode=0, $cc=NU
  */
 function initGzip() {
 	global $mosConfig_gzip, $do_gzip_compress;
-
+	
 	$do_gzip_compress = FALSE;
 	if ($mosConfig_gzip == 1) {
 		$phpver = phpversion();
 		$useragent = mosGetParam( $_SERVER, 'HTTP_USER_AGENT', '' );
 		$canZip = mosGetParam( $_SERVER, 'HTTP_ACCEPT_ENCODING', '' );
-
+		
 		if ( $phpver >= '4.0.4pl1' &&
-				( strpos($useragent,'compatible') !== false ||
-				  strpos($useragent,'Gecko')	  !== false
-				)
-			) {
-			if ( extension_loaded('zlib') && !ini_get('zlib.output_compression')) {
+		( strpos($useragent,'compatible') !== false ||
+		strpos($useragent,'Gecko')	  !== false
+		)
+		) {
+			// Check for gzip header or northon internet securities
+			if ( isset($_SERVER['HTTP_ACCEPT_ENCODING']) ) {
+				$encodings = explode(',', strtolower($_SERVER['HTTP_ACCEPT_ENCODING']));
+			}				
+			if ( (in_array('gzip', $encodings) || isset( $_SERVER['---------------']) ) && extension_loaded('zlib') && function_exists('ob_gzhandler') && !ini_get('zlib.output_compression') ) {
 				// You cannot specify additional output handlers if
 				// zlib.output_compression is activated here
-				ob_start("ob_gzhandler");
+				ob_start( 'ob_gzhandler' );
 				return;
 			}
 		} else if ( $phpver > '4.0' ) {
@@ -3308,7 +3312,7 @@ function initGzip() {
 					$do_gzip_compress = TRUE;
 					ob_start();
 					ob_implicit_flush(0);
-
+					
 					header( 'Content-Encoding: gzip' );
 					return;
 				}
