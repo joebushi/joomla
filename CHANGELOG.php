@@ -84,6 +84,9 @@ Medium Level Threat
 ---
 
 11-Feb-2006 Rey Gigataras
+ # Fixed artf3114 : mod_related_items outputs nothing
+ # Fixed artf3234 : mod_related_items unitialized mosConfig_offset variable
+ # Fixed artf3402 : Missing param in module
  # Fixed artf3067 : Reopen: Unhandled fragment identifier with core SEF enabled
  # Fixed [topic,31813.0.html] : new .htaccess gives proper 404s [Steve Graham]
 
