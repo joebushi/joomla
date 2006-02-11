@@ -692,7 +692,7 @@ class mosMainFrame {
 	
 		$type = $mainframe->getCfg( 'session_type' );
 		
-		$browser = @$_SERVER['HTTP_USER_AGENT'] . @$_SERVER['HTTP_ACCEPT_LANGUAGE'] . @$_SERVER['HTTP_ACCEPT_CHARSET'] . @$_SERVER['HTTP_ACCEPT_ENCODING'];
+		$browser = @$_SERVER['HTTP_USER_AGENT'];
 		
 		switch ($type) {
 			case 2:
@@ -785,6 +785,7 @@ class mosMainFrame {
 				// set remember me cookie
 				if ( $remember == 'yes' ) {
 					$lifetime = time() + 365*24*60*60;
+					// cookie set to last for 365 days
 					setcookie( "usercookie[username]", $username, $lifetime, '/' );
 					setcookie( "usercookie[password]", $passwd, $lifetime, '/' );
 				}
@@ -818,7 +819,6 @@ class mosMainFrame {
 		$session->update();
 
 		// kill remember me login cookie
-		// this is daggy??
 		$lifetime = time() - 1800;
 		setcookie( "usercookie[username]", ' ', $lifetime, '/' );
 		setcookie( "usercookie[password]", ' ', $lifetime, '/' );
