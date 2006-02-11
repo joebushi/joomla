@@ -161,9 +161,12 @@ echo $rss->saveFeed("RSS1.0", "news/feed.xml");
 *		  A little setup												 *
 **************************************************************************/
 
+// no direct access
+defined( '_VALID_MOS' ) or die( 'Restricted access' );
+
+
 // your local timezone, set to "" to disable or for GMT
 define("TIME_ZONE","+01:00");
-
 
 
 

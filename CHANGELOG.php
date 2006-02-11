@@ -47,6 +47,9 @@ Legend:
 This Release Contains following Security Fixes
 
 Medium Level Threat
+ * Protect against real server path disclosure via syndication component
+ * Limit arbitrary file creation via syndication component
+
  * Disallow `Weblink` item from being accessible when 'unpublished'
  * Disallow `Polls` item from being accessible when 'unpublished'
  
@@ -84,6 +87,8 @@ Medium Level Threat
 ---
 
 11-Feb-2006 Rey Gigataras
+ * SECURITY [ Medium Level ]: Protect against real server path disclosure via syndication component
+ * SECURITY [ Medium Level ]: Limit arbitrary file creation via syndication component
  # Fixed artf3109 : 1.0.7 "The XML page cannot be displayed ERROR" ob_gzhandler issue
  # Fixed artf3447 : TinyMCE and relative urls
  # Fixed artf3183 : Sub-menu items of separators not showing in module menu selection list
