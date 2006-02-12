@@ -132,7 +132,7 @@ function saveRegistration( $option ) {
 	}
 
 	if (!$row->check()) {
-		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
+		echo "<script> alert('".html_entity_decode($row->getError())."'); window.history.go(-1); </script>\n";
 		exit();
 	}
 
@@ -141,7 +141,7 @@ function saveRegistration( $option ) {
 	$row->registerDate 	= date('Y-m-d H:i:s');
 
 	if (!$row->store()) {
-		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
+		echo "<script> alert('".html_entity_decode($row->getError())."'); window.history.go(-1); </script>\n";
 		exit();
 	}
 	$row->checkin();
