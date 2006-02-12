@@ -96,6 +96,7 @@ Medium Level Threat
  * SECURITY [ Low Level ]: Content Search returns items despite section 'access level'
  * SECURITY [ Low Level ]: Newsfeed Search returns items despite category 'state'
  * SECURITY [ Low Level ]: Weblink Search returns items despite category 'state'
+ # Fixed artf3391 : Aphostrophes in Category: Edit
  # Fixed artf3291 : Alert() problem
  # Fixed artf3188 : Unnecessary table cell in contact.html.php
  # Fixed artf3121 : css errors in tiny_mce and rhuk_solarflare_ii template

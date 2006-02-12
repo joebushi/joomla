@@ -149,11 +149,11 @@ class categories_html {
 				<td>
 				<?php
 				if ( $row->checked_out_contact_category && ( $row->checked_out_contact_category != $my->id ) ) {
-					echo $row->name .' ( '. $row->title .' )';
+					echo stripslashes( $row->name ) .' ( '. stripslashes( $row->title ) .' )';
 				} else {
 					?>
 					<a href="<?php echo $link; ?>">
-					<?php echo $row->name .' ( '. $row->title .' )'; ?>
+					<?php echo stripslashes( $row->name ) .' ( '. stripslashes( $row->title ) .' )'; ?>
 					</a>
 					<?php
 				}
@@ -312,7 +312,7 @@ class categories_html {
 					Category Title:
 					</td>
 					<td colspan="2">
-					<input class="text_area" type="text" name="title" value="<?php echo $row->title; ?>" size="50" maxlength="50" title="A short name to appear in menus" />
+					<input class="text_area" type="text" name="title" value="<?php echo stripslashes( $row->title ); ?>" size="50" maxlength="50" title="A short name to appear in menus" />
 					</td>
 				</tr>
 				<tr>
@@ -320,7 +320,7 @@ class categories_html {
 					Category Name:
 					</td>
 					<td colspan="2">
-					<input class="text_area" type="text" name="name" value="<?php echo $row->name; ?>" size="50" maxlength="255" title="A long name to be displayed in headings" />
+					<input class="text_area" type="text" name="name" value="<?php echo stripslashes( $row->name ); ?>" size="50" maxlength="255" title="A long name to be displayed in headings" />
 					</td>
 				</tr>
 				<tr>

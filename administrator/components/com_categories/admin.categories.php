@@ -447,6 +447,8 @@ function saveCategory( $task ) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
 	}
+	$row->title = addslashes( $row->title );
+	$row->name	= addslashes( $row->name );
 	if (!$row->check()) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
