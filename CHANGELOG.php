@@ -97,6 +97,7 @@ Medium Level Threat
  * SECURITY [ Low Level ]: Content Search returns items despite section 'access level'
  * SECURITY [ Low Level ]: Newsfeed Search returns items despite category 'state'
  * SECURITY [ Low Level ]: Weblink Search returns items despite category 'state'
+ # Fixed artf3181 : Task routing class
  # Fixed artf3400 : showCalendar does not get value of date
  # Fixed artf3348 : Bold tag overrides css in mod_poll.php 
  # Fixed artf3120 : &and & &link not defined in admin.categories.php
