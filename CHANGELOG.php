@@ -81,11 +81,22 @@ Medium Level Threat
 
  * Disallow `Content` item links from being visible as per category/section 'access level' - mod_newsflash, mod_latestnews, mod_mostread
 
+ * Disallow Category Search returning items despite section 'access level' & section 'state'
+ * Disallow Contact Search returning items despite 'access level' & category 'state'
+ * Disallow Content Search returning items despite section 'access level'
+ * Disallow Newsfeed Search returnings items despite category 'state'
+ * Disallow Weblink Search returning items despite category 'state'
+
 ---
 
 
 12-Feb-2006 Rey Gigataras
  * SECURITY [ Low Level ]: Multiple Admin SQL Injection Vulnerabilities
+ * SECURITY [ Low Level ]: Category Search returns items despite section 'access level' & section 'state'
+ * SECURITY [ Low Level ]: Contact Search returns items despite 'access level' & category 'state'
+ * SECURITY [ Low Level ]: Content Search returns items despite section 'access level'
+ * SECURITY [ Low Level ]: Newsfeed Search returns items despite category 'state'
+ * SECURITY [ Low Level ]: Weblink Search returns items despite category 'state'
  # Fixed artf3220 : Search bug: No way to update referenced search component
  # Fixed artf3438 : RSS Feed Created it not base on the same encoding of the content
  # Fixed artf3108 : Joomla 1.0.7 core SEF bug gives 404 on homepage
