@@ -97,6 +97,7 @@ Medium Level Threat
  * SECURITY [ Low Level ]: Content Search returns items despite section 'access level'
  * SECURITY [ Low Level ]: Newsfeed Search returns items despite category 'state'
  * SECURITY [ Low Level ]: Weblink Search returns items despite category 'state'
+ # Fixed artf3100 : Incorrect Response Headers for Missing Pages
  # Fixed artf3220 : Search bug: No way to update referenced search component
  # Fixed artf3438 : RSS Feed Created it not base on the same encoding of the content
  # Fixed artf3108 : Joomla 1.0.7 core SEF bug gives 404 on homepage
