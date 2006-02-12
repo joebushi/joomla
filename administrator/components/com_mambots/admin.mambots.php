@@ -23,7 +23,7 @@ if (!($acl->acl_check( 'administration', 'edit', 'users', $my->usertype, 'mambot
 
 require_once( $mainframe->getPath( 'admin_html' ) );
 
-$client = intval( mosGetParam( $_REQUEST, 'client', '' ) );
+$client = mosGetParam( $_REQUEST, 'client', '' );
 $cid 	= mosGetParam( $_POST, 'cid', array(0) );
 $id 	= intval( mosGetParam( $_REQUEST, 'id', 0 ) );
 if (!is_array( $cid )) {
@@ -34,7 +34,7 @@ switch ( $task ) {
 
 	case 'new':
 	case 'edit':
-		editMambot( $option, $cid[0], $client );
+		editMambot( $option, intval( $cid[0] ), $client );
 		break;
 
 	case 'editA':
