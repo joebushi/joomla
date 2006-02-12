@@ -63,6 +63,7 @@ Medium Level Threat
  
  Low Level Threat
  * Harden frontend Session ID
+ * Harden against multiple Admin SQL Injection Vulnerabilities
 
  * Disallow access to syndication functionality
  * Disallow `Newsfeeds` Categories from being accessible when 'unpublished'
@@ -84,6 +85,7 @@ Medium Level Threat
 
 
 12-Feb-2006 Rey Gigataras
+ * SECURITY [ Low Level ]: Multiple Admin SQL Injection Vulnerabilities
  # Fixed artf3438 : RSS Feed Created it not base on the same encoding of the content
  # Fixed artf3108 : Joomla 1.0.7 core SEF bug gives 404 on homepage
  # Fixed artf3169 : RSS feeds does not work with SEF disabled

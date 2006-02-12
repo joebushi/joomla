@@ -17,8 +17,8 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 require_once( $mainframe->getPath( 'admin_html' ) );
 
-$sectionid 	= mosGetParam( $_REQUEST, 'sectionid', 0 );
-$id 		= mosGetParam( $_REQUEST, 'id', '' );
+$sectionid 	= intval( mosGetParam( $_REQUEST, 'sectionid', 0 ) );
+$id 		= intval( mosGetParam( $_REQUEST, 'id', '' ) );
 $cid 		= mosGetParam( $_POST, 'cid', array(0) );
 if (!is_array( $cid )) {
 	$cid = array(0);
@@ -34,7 +34,7 @@ switch ($task) {
 		break;
 
 	case 'editA':
-		editContent( $cid[0], '', $option );
+		editContent( intval( $cid[0] ), '', $option );
 		break;
 
 	case 'go2menu':
@@ -76,11 +76,11 @@ switch ($task) {
 		break;
 
 	case 'orderup':
-		orderContent( $cid[0], -1, $option );
+		orderContent( intval( $cid[0] ), -1, $option );
 		break;
 
 	case 'orderdown':
-		orderContent( $cid[0], 1, $option );
+		orderContent( intval( $cid[0] ), 1, $option );
 		break;
 
 	case 'showarchive':
@@ -104,15 +104,15 @@ switch ($task) {
 		break;
 
 	case 'accesspublic':
-		accessMenu( $cid[0], 0, $option );
+		accessMenu( intval( $cid[0] ), 0, $option );
 		break;
 
 	case 'accessregistered':
-		accessMenu( $cid[0], 1, $option );
+		accessMenu( intval( $cid[0] ), 1, $option );
 		break;
 
 	case 'accessspecial':
-		accessMenu( $cid[0], 2, $option );
+		accessMenu( intval( $cid[0] ), 2, $option );
 		break;
 
 	case 'saveorder':
@@ -131,11 +131,11 @@ switch ($task) {
 function viewContent( $sectionid, $option ) {
 	global $database, $mainframe, $mosConfig_list_limit;
 
-	$catid 				= $mainframe->getUserStateFromRequest( "catid{$option}{$sectionid}", 'catid', 0 );
-	$filter_authorid 	= $mainframe->getUserStateFromRequest( "filter_authorid{$option}{$sectionid}", 'filter_authorid', 0 );
-	$filter_sectionid 	= $mainframe->getUserStateFromRequest( "filter_sectionid{$option}{$sectionid}", 'filter_sectionid', 0 );
-	$limit 				= $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit );
-	$limitstart 		= $mainframe->getUserStateFromRequest( "view{$option}{$sectionid}limitstart", 'limitstart', 0 );
+	$catid 				= intval( $mainframe->getUserStateFromRequest( "catid{$option}{$sectionid}", 'catid', 0 ) );
+	$filter_authorid 	= intval( $mainframe->getUserStateFromRequest( "filter_authorid{$option}{$sectionid}", 'filter_authorid', 0 ) );
+	$filter_sectionid 	= intval( $mainframe->getUserStateFromRequest( "filter_sectionid{$option}{$sectionid}", 'filter_sectionid', 0 ) );
+	$limit 				= intval( $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit ) );
+	$limitstart 		= intval( $mainframe->getUserStateFromRequest( "view{$option}{$sectionid}limitstart", 'limitstart', 0 ) );
 	$search 			= $mainframe->getUserStateFromRequest( "search{$option}{$sectionid}", 'search', '' );
 	$search 			= $database->getEscaped( trim( strtolower( $search ) ) );
 	$redirect 			= $sectionid;
@@ -254,12 +254,12 @@ function viewContent( $sectionid, $option ) {
 function viewArchive( $sectionid, $option ) {
 	global $database, $mainframe, $mosConfig_list_limit;
 
-	$catid 				= $mainframe->getUserStateFromRequest( "catidarc{$option}{$sectionid}", 'catid', 0 );
-	$limit 				= $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit );
-	$limitstart 		= $mainframe->getUserStateFromRequest( "viewarc{$option}{$sectionid}limitstart", 'limitstart', 0 );
+	$catid 				= intval( $mainframe->getUserStateFromRequest( "catidarc{$option}{$sectionid}", 'catid', 0 ) );
+	$limit 				= intval( $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit ) );
+	$limitstart 		= intval( $mainframe->getUserStateFromRequest( "viewarc{$option}{$sectionid}limitstart", 'limitstart', 0 ) );
+	$filter_authorid 	= intval( $mainframe->getUserStateFromRequest( "filter_authorid{$option}{$sectionid}", 'filter_authorid', 0 ) );
+	$filter_sectionid 	= intval( $mainframe->getUserStateFromRequest( "filter_sectionid{$option}{$sectionid}", 'filter_sectionid', 0 ) );
 	$search 			= $mainframe->getUserStateFromRequest( "searcharc{$option}{$sectionid}", 'search', '' );
-	$filter_authorid 	= $mainframe->getUserStateFromRequest( "filter_authorid{$option}{$sectionid}", 'filter_authorid', 0 );
-	$filter_sectionid 	= $mainframe->getUserStateFromRequest( "filter_sectionid{$option}{$sectionid}", 'filter_sectionid', 0 );
 	$search 			= $database->getEscaped( trim( strtolower( $search ) ) );
 	$redirect 			= $sectionid;
 

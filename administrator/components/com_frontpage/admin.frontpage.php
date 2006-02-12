@@ -49,11 +49,11 @@ switch ($task) {
 		break;
 
 	case 'orderup':
-		orderFrontPage( $cid[0], -1, $option );
+		orderFrontPage( intval( $cid[0] ), -1, $option );
 		break;
 
 	case 'orderdown':
-		orderFrontPage( $cid[0], 1, $option );
+		orderFrontPage( intval( $cid[0] ), 1, $option );
 		break;
 
 	case 'saveorder':
@@ -61,15 +61,15 @@ switch ($task) {
 		break;
 
 	case 'accesspublic':
-		accessMenu( $cid[0], 0 );
+		accessMenu( intval( $cid[0] ), 0 );
 		break;
 
 	case 'accessregistered':
-		accessMenu( $cid[0], 1 );
+		accessMenu( intval( $cid[0] ), 1 );
 		break;
 
 	case 'accessspecial':
-		accessMenu( $cid[0], 2 );
+		accessMenu( intval( $cid[0] ), 2 );
 		break;
 
 	default:
@@ -84,12 +84,12 @@ switch ($task) {
 function viewFrontPage( $option ) {
 	global $database, $mainframe, $mosConfig_list_limit;
 
-	$catid 				= $mainframe->getUserStateFromRequest( "catid{$option}", 'catid', 0 );
-	$filter_authorid 	= $mainframe->getUserStateFromRequest( "filter_authorid{$option}", 'filter_authorid', 0 );
-	$filter_sectionid 	= $mainframe->getUserStateFromRequest( "filter_sectionid{$option}", 'filter_sectionid', 0 );
+	$catid 				= intval( $mainframe->getUserStateFromRequest( "catid{$option}", 'catid', 0 ) );
+	$filter_authorid 	= intval( $mainframe->getUserStateFromRequest( "filter_authorid{$option}", 'filter_authorid', 0 ) );
+	$filter_sectionid 	= intval( $mainframe->getUserStateFromRequest( "filter_sectionid{$option}", 'filter_sectionid', 0 ) );
 
-	$limit 		= $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit );
-	$limitstart = $mainframe->getUserStateFromRequest( "view{$option}limitstart", 'limitstart', 0 );
+	$limit 		= intval( $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit ) );
+	$limitstart = intval( $mainframe->getUserStateFromRequest( "view{$option}limitstart", 'limitstart', 0 ) );
 	$search 	= $mainframe->getUserStateFromRequest( "search{$option}", 'search', '' );
 	$search 	= $database->getEscaped( trim( strtolower( $search ) ) );
 

@@ -26,7 +26,7 @@ require_once( $mainframe->getPath( 'class' ) );
 
 $task 	= mosGetParam( $_REQUEST, 'task', array(0) );
 $cid 	= mosGetParam( $_POST, 'cid', array(0) );
-$id 	= mosGetParam( $_GET, 'id', 0 );
+$id 	= intval( mosGetParam( $_GET, 'id', 0 ) );
 if (!is_array( $cid )) {
 	$cid = array(0);
 }
@@ -38,7 +38,7 @@ switch ($task) {
 		break;
 
 	case 'edit':
-		editNewsFeed( $cid[0], $option );
+		editNewsFeed( intval( $cid[0] ), $option );
 		break;
 
 	case 'editA':
@@ -66,11 +66,11 @@ switch ($task) {
 		break;
 
 	case 'orderup':
-		orderNewsFeed( $cid[0], -1, $option );
+		orderNewsFeed( intval( $cid[0] ), -1, $option );
 		break;
 
 	case 'orderdown':
-		orderNewsFeed( $cid[0], 1, $option );
+		orderNewsFeed( intval( $cid[0] ), 1, $option );
 		break;
 
 	default:
@@ -85,9 +85,9 @@ switch ($task) {
 function showNewsFeeds( $option ) {
 	global $database, $mainframe, $mosConfig_list_limit;
 
-	$catid = $mainframe->getUserStateFromRequest( "catid{$option}", 'catid', 0 );
-	$limit = $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit );
-	$limitstart = $mainframe->getUserStateFromRequest( "view{$option}limitstart", 'limitstart', 0 );
+	$catid 		= intval( $mainframe->getUserStateFromRequest( "catid{$option}", 'catid', 0 ) );
+	$limit 		= intval( $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit ) );
+	$limitstart = intval( $mainframe->getUserStateFromRequest( "view{$option}limitstart", 'limitstart', 0 ) );
 
 	// get the total number of records
 	$query = "SELECT COUNT(*)"

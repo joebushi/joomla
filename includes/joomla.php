@@ -591,7 +591,7 @@ class mosMainFrame {
 				$this->setUserState( $var_name, $_REQUEST[$req_name] );
 			} else if (!isset( $this->_userstate[$var_name] )) {
 				$this->setUserState( $var_name, $var_default );
-			}
+			}			
 			return $this->_userstate[$var_name];
 		} else {
 			return null;

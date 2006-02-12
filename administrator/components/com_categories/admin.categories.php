@@ -78,23 +78,23 @@ switch ($task) {
 		break;
 
 	case 'orderup':
-		orderCategory( $cid[0], -1 );
+		orderCategory( intval( $cid[0] ), -1 );
 		break;
 
 	case 'orderdown':
-		orderCategory( $cid[0], 1 );
+		orderCategory( intval( $cid[0] ), 1 );
 		break;
 
 	case 'accesspublic':
-		accessMenu( $cid[0], 0, $section );
+		accessMenu( intval( $cid[0] ), 0, $section );
 		break;
 
 	case 'accessregistered':
-		accessMenu( $cid[0], 1, $section );
+		accessMenu( intval( $cid[0] ), 1, $section );
 		break;
 
 	case 'accessspecial':
-		accessMenu( $cid[0], 2, $section );
+		accessMenu( intval( $cid[0] ), 2, $section );
 		break;
 
 	case 'saveorder':
@@ -113,9 +113,9 @@ switch ($task) {
 function showCategories( $section, $option ) {
 	global $database, $mainframe, $mosConfig_list_limit, $mosConfig_absolute_path;
 
-	$sectionid 		= $mainframe->getUserStateFromRequest( "sectionid{$option}{$section}", 'sectionid', 0 );
-	$limit 			= $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit );
-	$limitstart 	= $mainframe->getUserStateFromRequest( "view{$section}limitstart", 'limitstart', 0 );
+	$sectionid 		= intval( $mainframe->getUserStateFromRequest( "sectionid{$option}{$section}", 'sectionid', 0 ) );
+	$limit 			= intval( $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit ) );
+	$limitstart 	= intval( $mainframe->getUserStateFromRequest( "view{$section}limitstart", 'limitstart', 0 ) );
 
 	$section_name 	= '';
 	$content_add 	= '';

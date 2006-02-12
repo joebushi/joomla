@@ -23,7 +23,7 @@ if (!($acl->acl_check( 'administration', 'edit', 'users', $my->usertype, 'mambot
 
 require_once( $mainframe->getPath( 'admin_html' ) );
 
-$client = mosGetParam( $_REQUEST, 'client', '' );
+$client = intval( mosGetParam( $_REQUEST, 'client', '' ) );
 $cid 	= mosGetParam( $_POST, 'cid', array(0) );
 $id 	= intval( mosGetParam( $_REQUEST, 'id', 0 ) );
 if (!is_array( $cid )) {
@@ -61,13 +61,13 @@ switch ( $task ) {
 
 	case 'orderup':
 	case 'orderdown':
-		orderMambot( $cid[0], ($task == 'orderup' ? -1 : 1), $option, $client );
+		orderMambot( intval( $cid[0] ), ($task == 'orderup' ? -1 : 1), $option, $client );
 		break;
 
 	case 'accesspublic':
 	case 'accessregistered':
 	case 'accessspecial':
-		accessMenu( $cid[0], $task, $option, $client );
+		accessMenu( intval( $cid[0] ), $task, $option, $client );
 		break;
 
 	case 'saveorder':
@@ -86,8 +86,8 @@ function viewMambots( $option, $client ) {
 	global $database, $mainframe, $mosConfig_list_limit;
 	global $mosConfig_absolute_path;
 
-	$limit 			= $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit );
-	$limitstart 	= $mainframe->getUserStateFromRequest( "view{$option}limitstart", 'limitstart', 0 );
+	$limit 			= intval( $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit ) );
+	$limitstart 	= intval( $mainframe->getUserStateFromRequest( "view{$option}limitstart", 'limitstart', 0 ) );
 	$filter_type	= $mainframe->getUserStateFromRequest( "filter_type{$option}{$client}", 'filter_type', 1 );
 	$search 		= $mainframe->getUserStateFromRequest( "search{$option}{$client}", 'search', '' );
 	$search 		= $database->getEscaped( trim( strtolower( $search ) ) );

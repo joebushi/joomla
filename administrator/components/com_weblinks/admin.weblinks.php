@@ -25,7 +25,7 @@ require_once( $mainframe->getPath( 'admin_html' ) );
 require_once( $mainframe->getPath( 'class' ) );
 
 $cid 	= mosGetParam( $_POST, 'cid', array(0) );
-$id 	= mosGetParam( $_GET, 'id', 0 );
+$id 	= intval( mosGetParam( $_GET, 'id', 0 ) );
 
 switch ($task) {
 	case 'new':
@@ -64,11 +64,11 @@ switch ($task) {
 		break;
 
 	case 'orderup':
-		orderWeblinks( $cid[0], -1, $option );
+		orderWeblinks( intval( $cid[0] ), -1, $option );
 		break;
 
 	case 'orderdown':
-		orderWeblinks( $cid[0], 1, $option );
+		orderWeblinks( intval( $cid[0] ), 1, $option );
 		break;
 
 	default:
@@ -83,9 +83,9 @@ switch ($task) {
 function showWeblinks( $option ) {
 	global $database, $mainframe, $mosConfig_list_limit;
 
-	$catid 		= $mainframe->getUserStateFromRequest( "catid{$option}", 'catid', 0 );
-	$limit 		= $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit );
-	$limitstart = $mainframe->getUserStateFromRequest( "view{$option}limitstart", 'limitstart', 0 );
+	$catid 		= intval( $mainframe->getUserStateFromRequest( "catid{$option}", 'catid', 0 ) );
+	$limit 		= intval( $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit ) );
+	$limitstart = intval( $mainframe->getUserStateFromRequest( "view{$option}limitstart", 'limitstart', 0 ) );
 	$search 	= $mainframe->getUserStateFromRequest( "search{$option}", 'search', '' );
 	$search 	= $database->getEscaped( trim( strtolower( $search ) ) );
 

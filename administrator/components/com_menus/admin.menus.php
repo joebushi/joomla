@@ -40,7 +40,7 @@ switch ($task) {
 		break;
 
 	case 'edit':
-		$cid[0]	= ( $id ? $id : $cid[0] );
+		$cid[0]	= ( $id ? $id : intval( $cid[0] ) );
 		$menu = new mosMenu( $database );
 		if ( $cid[0] ) {
 			$menu->load( $cid[0]  );
@@ -82,23 +82,23 @@ switch ($task) {
 		break;
 
 	case 'orderup':
-		orderMenu( $cid[0], -1, $option );
+		orderMenu( intval( $cid[0] ), -1, $option );
 		break;
 
 	case 'orderdown':
-		orderMenu( $cid[0], 1, $option );
+		orderMenu( intval( $cid[0] ), 1, $option );
 		break;
 
 	case 'accesspublic':
-		accessMenu( $cid[0], 0, $option, $menutype );
+		accessMenu( intval( $cid[0] ), 0, $option, $menutype );
 		break;
 
 	case 'accessregistered':
-		accessMenu( $cid[0], 1, $option, $menutype );
+		accessMenu( intval( $cid[0] ), 1, $option, $menutype );
 		break;
 
 	case 'accessspecial':
-		accessMenu( $cid[0], 2, $option, $menutype );
+		accessMenu( intval( $cid[0] ), 2, $option, $menutype );
 		break;
 
 	case 'movemenu':
@@ -143,9 +143,9 @@ switch ($task) {
 function viewMenuItems( $menutype, $option ) {
 	global $database, $mainframe, $mosConfig_list_limit;
 
-	$limit 		= $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit );
-	$limitstart = $mainframe->getUserStateFromRequest( "view{$option}limitstart$menutype", 'limitstart', 0 );
-	$levellimit = $mainframe->getUserStateFromRequest( "view{$option}limit$menutype", 'levellimit', 10 );
+	$limit 		= intval( $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit ) );
+	$limitstart = intval( $mainframe->getUserStateFromRequest( "view{$option}limitstart$menutype", 'limitstart', 0 ) );
+	$levellimit = intval( $mainframe->getUserStateFromRequest( "view{$option}limit$menutype", 'levellimit', 10 ) );
 	$search 	= $mainframe->getUserStateFromRequest( "search{$option}$menutype", 'search', '' );
 	$search 	= $database->getEscaped( trim( strtolower( $search ) ) );
 

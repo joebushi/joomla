@@ -31,7 +31,7 @@ switch ($task) {
 		break;
 
 	case 'edit':
-		editSection( $cid[0], '', $option );
+		editSection( intval( $cid[0] ), '', $option );
 		break;
 
 	case 'editA':
@@ -71,23 +71,23 @@ switch ($task) {
 		break;
 
 	case 'orderup':
-		orderSection( $cid[0], -1, $option, $scope );
+		orderSection( intval( $cid[0] ), -1, $option, $scope );
 		break;
 
 	case 'orderdown':
-		orderSection( $cid[0], 1, $option, $scope );
+		orderSection( intval( $cid[0] ), 1, $option, $scope );
 		break;
 
 	case 'accesspublic':
-		accessMenu( $cid[0], 0, $option );
+		accessMenu( intval( $cid[0] ), 0, $option );
 		break;
 
 	case 'accessregistered':
-		accessMenu( $cid[0], 1, $option );
+		accessMenu( intval( $cid[0] ), 1, $option );
 		break;
 
 	case 'accessspecial':
-		accessMenu( $cid[0], 2, $option );
+		accessMenu( intval( $cid[0] ), 2, $option );
 		break;
 
 	case 'saveorder':
@@ -108,8 +108,8 @@ switch ($task) {
 function showSections( $scope, $option ) {
 	global $database, $my, $mainframe, $mosConfig_list_limit;
 
-	$limit = $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit );
-	$limitstart = $mainframe->getUserStateFromRequest( "view{$option}limitstart", 'limitstart', 0 );
+	$limit 		= intval( $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit ) );
+	$limitstart = intval( $mainframe->getUserStateFromRequest( "view{$option}limitstart", 'limitstart', 0 ) );
 
 	// get the total number of records
 	$query = "SELECT COUNT(*)"

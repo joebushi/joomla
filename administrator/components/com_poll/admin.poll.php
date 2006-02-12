@@ -35,7 +35,7 @@ switch( $task ) {
 		break;
 
 	case 'edit':
-		editPoll( $cid[0], $option );
+		editPoll( intval( $cid[0] ), $option );
 		break;
 
 	case 'editA':
@@ -70,8 +70,8 @@ switch( $task ) {
 function showPolls( $option ) {
 	global $database, $mainframe, $mosConfig_list_limit;
 
-	$limit 		= $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit );
-	$limitstart = $mainframe->getUserStateFromRequest( "view{$option}limitstart", 'limitstart', 0 );
+	$limit 		= intval( $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit ) );
+	$limitstart = intval( $mainframe->getUserStateFromRequest( "view{$option}limitstart", 'limitstart', 0 ) );
 
 	$query = "SELECT COUNT(*)"
 	. "\n FROM #__polls"

@@ -17,7 +17,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 require_once( $mainframe->getPath( 'admin_html' ) );
 
-$id 	= mosGetParam( $_REQUEST, 'id', '' );
+$id 	= intval( mosGetParam( $_REQUEST, 'id', '' ) );
 $cid 	= mosGetParam( $_POST, 'cid', array(0) );
 if (!is_array( $cid )) {
 	$cid = array(0);
@@ -38,7 +38,7 @@ switch ( $task ) {
 		break;
 
 	case 'editA':
-		edit( $cid[0], $option );
+		edit( intval( $cid[0] ), $option );
 		break;
 
 	case 'go2menu':
@@ -63,15 +63,15 @@ switch ( $task ) {
 		break;
 
 	case 'accesspublic':
-		changeAccess( $cid[0], 0, $option );
+		changeAccess( intval( $cid[0] ), 0, $option );
 		break;
 
 	case 'accessregistered':
-		changeAccess( $cid[0], 1, $option );
+		changeAccess( intval( $cid[0] ), 1, $option );
 		break;
 
 	case 'accessspecial':
-		changeAccess( $cid[0], 2, $option );
+		changeAccess( intval( $cid[0] ), 2, $option );
 		break;
 
 	case 'saveorder':
@@ -90,10 +90,10 @@ switch ( $task ) {
 function view( $option ) {
 	global $database, $mainframe, $mosConfig_list_limit;
 
-	$filter_authorid 	= $mainframe->getUserStateFromRequest( "filter_authorid{$option}", 'filter_authorid', 0 );
+	$filter_authorid 	= intval( $mainframe->getUserStateFromRequest( "filter_authorid{$option}", 'filter_authorid', 0 ) );
 	$order 				= $mainframe->getUserStateFromRequest( "zorder", 'zorder', 'c.ordering DESC' );
-	$limit 				= $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit );
-	$limitstart 		= $mainframe->getUserStateFromRequest( "view{$option}limitstart", 'limitstart', 0 );
+	$limit 				= intval( $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit ) );
+	$limitstart 		= intval( $mainframe->getUserStateFromRequest( "view{$option}limitstart", 'limitstart', 0 ) );
 	$search 			= $mainframe->getUserStateFromRequest( "search{$option}", 'search', '' );
 	$search 			= $database->getEscaped( trim( strtolower( $search ) ) );
 
