@@ -97,6 +97,7 @@ Medium Level Threat
  * SECURITY [ Low Level ]: Content Search returns items despite section 'access level'
  * SECURITY [ Low Level ]: Newsfeed Search returns items despite category 'state'
  * SECURITY [ Low Level ]: Weblink Search returns items despite category 'state'
+ # Fixed artf3120 : &and & &link not defined in admin.categories.php
  # Fixed artf3446 : Problems with mosimage with caption
  # Fixed artf3100 : Incorrect Response Headers for Missing Pages
  # Fixed artf3220 : Search bug: No way to update referenced search component

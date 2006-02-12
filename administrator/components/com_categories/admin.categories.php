@@ -284,8 +284,8 @@ function editCategory( $uid=0, $section='' ) {
 	if ( $uid ) {
 		// existing record
 		$row->checkout( $my->id );
-		// code for Link Menu
 		
+		// code for Link Menu		
 		switch ( $row->section ) {
 			case 'com_weblinks':
 				$and 	= "\n AND type = 'weblink_category_table'";
@@ -300,6 +300,11 @@ function editCategory( $uid=0, $section='' ) {
 			case 'com_contact_details':
 				$and 	= "\n AND type = 'contact_category_table'";
 				$link 	= 'Table - Contacts Category';
+				break;
+			
+			default:
+				$and  = '';
+				$link = '';
 				break;
 		}
 		
