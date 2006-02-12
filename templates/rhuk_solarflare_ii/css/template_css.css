@@ -592,7 +592,6 @@ a.sublevel:hover {
 
 a.sublevel#active_menu {
 	color: #333;
-	text-decoration: bold;
 }
 
 .highlight {
@@ -625,7 +624,6 @@ div.mosimage {
   background: #efefef;
   padding: 1px 2px;
   color: #666;
-  text-transform: normal;
   font-size: 10px;
   border-top: 1px solid #cccccc;
 }
