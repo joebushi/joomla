@@ -133,7 +133,6 @@ class HTML_contact {
 					<?php
 				}
 				?>
-				<td width="100%"></td>
 			</tr>
 			<?php
 		}
@@ -143,7 +142,7 @@ class HTML_contact {
 			$link = 'index.php?option=com_contact&amp;task=view&amp;contact_id='. $row->id .'&amp;Itemid='. $Itemid;
 			?>
 			<tr>
-				<td width="25%" height="20" class="<?php echo $tabclass[$k]; ?>">
+				<td height="20" class="<?php echo $tabclass[$k]; ?>">
 					<a href="<?php echo sefRelToAbs( $link ); ?>" class="category<?php echo $params->get( 'pageclass_sfx' ); ?>">
 						<?php echo $row->name; ?></a>
 				</td>
@@ -186,7 +185,6 @@ class HTML_contact {
 					<?php
 				}
 				?>
-				<td width="100%"></td>
 			</tr>
 			<?php
 			$k = 1 - $k;

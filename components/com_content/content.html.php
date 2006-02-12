@@ -216,7 +216,7 @@ class HTML_content {
 				}
 				if ( $params->get( 'title' ) ) {
 					?>
-					<td class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>" width="45%">
+					<td class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>">
 					<?php echo _HEADER_TITLE; ?>
 					</td>
 					<?php

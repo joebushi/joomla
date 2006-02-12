@@ -121,7 +121,6 @@ class HTML_newsfeed {
 					<?php
 				}
 				?>
-				<td width="100%" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>"></td>
 			</tr>
 			<?php
 		}
@@ -134,7 +133,7 @@ class HTML_newsfeed {
 				<?php
 				if ( $params->get( 'name' ) ) {
 					?>
-					<td width="30%" height="20" class="<?php echo $tabclass[$k]; ?>">
+					<td height="20" class="<?php echo $tabclass[$k]; ?>">
 					<a href="<?php echo sefRelToAbs( $link ); ?>" class="category<?php echo $params->get( 'pageclass_sfx' ); ?>">
 					<?php echo $row->name; ?>
 					</a>
@@ -160,7 +159,6 @@ class HTML_newsfeed {
 					<?php
 				}
 				?>
-				<td width="100%"></td>
 			</tr>
 			<?php
 			$k = 1 - $k;
