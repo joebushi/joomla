@@ -51,6 +51,7 @@ function botTinymceEditorInit() {
 	$invalid_elements	= $params->def( 'invalid_elements', 'script,applet,iframe' );
 	$newlines			= $params->def( 'newlines', 0 );
 	$cleanup			= $params->def( 'cleanup', 1 );
+	$cleanup_startup	= $params->def( 'cleanup_startup', 0 );
 	$compressed			= $params->def( 'compressed', 0 );
 	$relative_urls		= $params->def( 'relative_urls', 0 );
 	
@@ -77,7 +78,9 @@ function botTinymceEditorInit() {
 	$hr					=  $params->def( 'hr', 1 );
 	// fullscreen
 	$fullscreen			=  $params->def( 'fullscreen', 1 );
-	
+	// autosave
+	$autosave			= $params->def( 'autosave', 1 );
+
 	if ( $relative_urls ) {
 		$relative_urls = 'true';
 	} else {
@@ -117,10 +120,16 @@ function botTinymceEditorInit() {
 	$elements[]	= '';
 
 	if ( $cleanup ) {
-		$cleanup	= 'true';
+		$cleanup = 'true';
 	} else {
-		$cleanup	= 'false';
+		$cleanup = 'false';
 	}
+	
+	if ( $cleanup_startup ) {
+		$cleanup_startup = 'true';
+	} else {
+		$cleanup_startup = 'false';
+	}	
 
 	if ( $newlines ) {
 		$br_newlines	= 'true';
@@ -185,11 +194,15 @@ function botTinymceEditorInit() {
 		$plugins[]	= 'fullscreen';
 		$buttons3[]	= 'fullscreen';
 	}
+	// autosave
+	if ( $autosave ) {
+		$plugins[]	= 'autosave';
+	}
 
-	$buttons2 	= implode( ',', $buttons2 );
-	$buttons3 	= implode( ',', $buttons3 );
-	$plugins 	= implode( ',', $plugins );
-	$elements 	= implode( ',', $elements );
+	$buttons2 	= implode( ', ', $buttons2 );
+	$buttons3 	= implode( ', ', $buttons3 );
+	$plugins 	= implode( ', ', $plugins );
+	$elements 	= implode( ', ', $elements );
 	
 return <<<EOD
 	$load	
@@ -212,6 +225,7 @@ return <<<EOD
 		$content_css
 		debug : false,
 		cleanup : $cleanup,
+		cleanup_on_startup : $cleanup_startup,
 		safari_warning : false,
 		plugins : "advlink, advimage, $plugins",
 		theme_advanced_buttons2_add : "$buttons2",
