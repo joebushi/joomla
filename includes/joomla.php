@@ -724,8 +724,8 @@ class mosMainFrame {
 	* Added as of 1.0.8
 	*/
 	function rememberCookieName_User() {
-		$value = mosHash( 'remembermecookie[username]'. mosMainFrame::sessionCookieName() );
-		
+		$value = mosHash( 'remembermecookieusername'. mosMainFrame::sessionCookieName() );
+
 		return $value;
 	}
 	
@@ -734,18 +734,8 @@ class mosMainFrame {
 	* Added as of 1.0.8
 	*/
 	function rememberCookieName_Pass() {
-		$value = mosHash( 'remembermecookie[password]'. mosMainFrame::sessionCookieName() );
-		
-		return $value;
-	}
-	
-	/*
-	* Static Function used to generate the Rememeber Me Cookie Name for Password information
-	* Added as of 1.0.8
-	*/
-	function rememberCookie_Hash() {
-		$value = mosHash( 'remembermecookie[password]'. mosMainFrame::sessionCookieName() );
-		
+		$value = mosHash( 'remembermecookiepassword'. mosMainFrame::sessionCookieName() );
+
 		return $value;
 	}
 	
@@ -755,7 +745,7 @@ class mosMainFrame {
 	*/
 	function rememberCookieValue_User( $username ) {
 		$value = md5( $username . mosHash( @$_SERVER['HTTP_USER_AGENT'] ) );
-		
+
 		return $value;
 	}
 	
@@ -765,7 +755,7 @@ class mosMainFrame {
 	*/
 	function rememberCookieValue_Pass( $passwd ) {
 		$value = md5( $passwd . mosHash( @$_SERVER['HTTP_USER_AGENT'] ) );
-		
+
 		return $value;
 	}
 	
@@ -793,10 +783,10 @@ class mosMainFrame {
 			if ( $remember ) {
 			// query used for remember me cookie
 				$harden = mosHash( @$_SERVER['HTTP_USER_AGENT'] );
-				$query = "SELECT *, MD5( username || $harden ) AS user, MD5( password || $harden ) AS pass"
+				$query = "SELECT *"
 				. "\n FROM #__users"
-				. "\n WHERE user = '$username'"
-				. "\n AND pass = '$passwd'"
+				. "\n WHERE MD5( CONCAT( username , '$harden' ) ) = '$username'"
+				. "\n AND MD5( CONCAT( password , '$harden' ) ) = '$passwd'"
 				;
 			} else {
 			// query used for normal login
