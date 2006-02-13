@@ -626,7 +626,7 @@ class mosMainFrame {
 		$sessionCookieName 	= mosMainFrame::sessionCookieName();
 		
 		$cookie_found = false;
-		if ( isset($_COOKIE[$sessionCookieName]) || isset($_COOKIE['usercookie']) || isset($_POST['force_session']) ) {
+		if ( isset($_COOKIE[$sessionCookieName]) || isset($_COOKIE[mosMainFrame::rememberCookieName_User()]) || isset($_POST['force_session']) ) {
 			$cookie_found = true;
 		}
 		
@@ -644,7 +644,7 @@ class mosMainFrame {
 			$session->update();
 		} else {
 			if (!$cookie_found) {
-			// if neither usercookie nor sessioncookie found, create the sessioncookie and set it to a test value
+			// if neither remembermecookie nor sessioncookie found, create the sessioncookie and set it to a test value
 				setcookie( $sessionCookieName, '-', time() + 3600, '/' );
 			} else {
 			// otherwise, sessioncookie was found, but set to test val or the session expired, prepare for session registration and register the session
@@ -664,11 +664,12 @@ class mosMainFrame {
 			}
 
 			// Cookie used by Remember me functionality
-			$usercookie 		= mosGetParam( $_COOKIE, 'usercookie', null );
-			
+			$rememberme_User = mosGetParam( $_COOKIE, mosMainFrame::rememberCookieName_User(), null );
+			$rememberme_Pass = mosGetParam( $_COOKIE, mosMainFrame::rememberCookieName_Pass(), null );
+
 			// check if Remember me cookie exists. Login with usercookie info.
-			if ($usercookie) {
-				$this->login($usercookie['username'], $usercookie['password']);
+			if ($rememberme_User && $rememberme_Pass) {
+				$this->login( $rememberme_User, $rememberme_Pass, 1 );
 			}
 		}
 	}
@@ -687,7 +688,7 @@ class mosMainFrame {
 	* Static Function used to generate the Session Cookie Value
 	* Added as of 1.0.8
 	*/
-	function sessionCookieValue( $id ) {
+	function sessionCookieValue( $id=null ) {
 		global $mainframe;		
 	
 		$type = $mainframe->getCfg( 'session_type' );
@@ -718,6 +719,56 @@ class mosMainFrame {
 		return $value;
 	}
 	
+	/*
+	* Static Function used to generate the Rememeber Me Cookie Name for Username information
+	* Added as of 1.0.8
+	*/
+	function rememberCookieName_User() {
+		$value = mosHash( 'remembermecookie[username]'. mosMainFrame::sessionCookieName() );
+		
+		return $value;
+	}
+	
+	/*
+	* Static Function used to generate the Rememeber Me Cookie Name for Password information
+	* Added as of 1.0.8
+	*/
+	function rememberCookieName_Pass() {
+		$value = mosHash( 'remembermecookie[password]'. mosMainFrame::sessionCookieName() );
+		
+		return $value;
+	}
+	
+	/*
+	* Static Function used to generate the Rememeber Me Cookie Name for Password information
+	* Added as of 1.0.8
+	*/
+	function rememberCookie_Hash() {
+		$value = mosHash( 'remembermecookie[password]'. mosMainFrame::sessionCookieName() );
+		
+		return $value;
+	}
+	
+	/*
+	* Static Function used to generate the Remember Me Cookie Value for Username information
+	* Added as of 1.0.8
+	*/
+	function rememberCookieValue_User( $username ) {
+		$value = md5( $username . mosHash( @$_SERVER['HTTP_USER_AGENT'] ) );
+		
+		return $value;
+	}
+	
+	/*
+	* Static Function used to generate the Remember Me Cookie Value for Password information
+	* Added as of 1.0.8
+	*/
+	function rememberCookieValue_Pass( $passwd ) {
+		$value = md5( $passwd . mosHash( @$_SERVER['HTTP_USER_AGENT'] ) );
+		
+		return $value;
+	}
+	
 	/**
 	* Login validation function
 	*
@@ -725,53 +776,64 @@ class mosMainFrame {
 	* table. A successful validation updates the current session record with
 	* the users details.
 	*/
-	function login( $username=null,$passwd=null ) {
+	function login( $username=null,$passwd=null, $remember=null ) {
 		global $acl;
 		
-		$usercookie 	= mosGetParam( $_COOKIE, 'usercookie', '' );
 		if (!$username || !$passwd) {
 			$username 	= mosGetParam( $_POST, 'username', '' );
 			$passwd 	= mosGetParam( $_POST, 'passwd', '' );
 			$passwd 	= md5( $passwd );
 			$bypost 	= 1;
 		}
-		$remember = mosGetParam( $_POST, 'remember', '' );
 
 		if (!$username || !$passwd) {
 			echo "<script> alert(\""._LOGIN_INCOMPLETE."\"); window.history.go(-1); </script>\n";
 			exit();
 		} else {
-			$query = "SELECT *"
-			. "\n FROM #__users"
-			. "\n WHERE username = '$username'"
-			. "\n AND password = '$passwd'"
-			;
+			if ( $remember ) {
+			// query used for remember me cookie
+				$harden = mosHash( @$_SERVER['HTTP_USER_AGENT'] );
+				$query = "SELECT *, MD5( username || $harden ) AS user, MD5( password || $harden ) AS pass"
+				. "\n FROM #__users"
+				. "\n WHERE user = '$username'"
+				. "\n AND pass = '$passwd'"
+				;
+			} else {
+			// query used for normal login
+				$query = "SELECT *"
+				. "\n FROM #__users"
+				. "\n WHERE username = '$username'"
+				. "\n AND password = '$passwd'"
+				;
+			}
 			$this->_db->setQuery( $query );
 			$row = null;
+			
 			if ($this->_db->loadObject( $row )) {
+				// user blocked from login
 				if ($row->block == 1) {
 					mosErrorAlert(_LOGIN_BLOCKED);
 				}
+				
 				// fudge the group stuff
 				$grp = $acl->getAroGroup( $row->id );
 				$row->gid = 1;
-
-				if ($acl->is_group_child_of( $grp->name, 'Registered', 'ARO' ) ||
-				$acl->is_group_child_of( $grp->name, 'Public Backend', 'ARO' )) {
+				if ($acl->is_group_child_of( $grp->name, 'Registered', 'ARO' ) || $acl->is_group_child_of( $grp->name, 'Public Backend', 'ARO' )) {
 					// fudge Authors, Editors, Publishers and Super Administrators into the Special Group
 					$row->gid = 2;
 				}
 				$row->usertype = $grp->name;
 
+				// initialize session data
 				$session 			=& $this->_session;
 				$session->guest 	= 0;
 				$session->username 	= $username;
 				$session->userid 	= intval( $row->id );
 				$session->usertype 	= $row->usertype;
 				$session->gid 		= intval( $row->gid );
-
 				$session->update();
 
+				// update user visit data
 				$currentDate = date("Y-m-d\TH:i:s");
 				$query = "UPDATE #__users"
 				. "\n SET lastvisitDate = '$currentDate'"
@@ -782,12 +844,13 @@ class mosMainFrame {
 					die($this->_db->stderr(true));
 				}
 
-				// set remember me cookie
+				// set remember me cookie if selected
+				$remember = mosGetParam( $_POST, 'remember', '' );
 				if ( $remember == 'yes' ) {
 					$lifetime = time() + 365*24*60*60;
 					// cookie set to last for 365 days
-					setcookie( "usercookie[username]", $username, $lifetime, '/' );
-					setcookie( "usercookie[password]", $passwd, $lifetime, '/' );
+					setcookie( mosMainFrame::rememberCookieName_User(), mosMainFrame::rememberCookieValue_User( $username ), $lifetime, '/' );
+					setcookie( mosMainFrame::rememberCookieName_Pass(), mosMainFrame::rememberCookieValue_Pass( $passwd ), $lifetime, '/' );
 				}
 				mosCache::cleanCache();
 			} else {
@@ -818,10 +881,10 @@ class mosMainFrame {
 
 		$session->update();
 
-		// kill remember me login cookie
+		// kill remember me cookie
 		$lifetime = time() - 1800;
-		setcookie( "usercookie[username]", ' ', $lifetime, '/' );
-		setcookie( "usercookie[password]", ' ', $lifetime, '/' );
+		setcookie( mosMainFrame::rememberCookieName_User(), ' ', $lifetime, '/' );
+		setcookie( mosMainFrame::rememberCookieName_Pass(), ' ', $lifetime, '/' );
 		
 		@session_destroy();
 	}

@@ -42,6 +42,7 @@ Legend:
 This Release Contains following Security Fixes
 
 Medium Level Threat
+ * Hardening of Remember Me login functionality
  * Protect against real server path disclosure via syndication component
  * Limit arbitrary file creation via syndication component
 
@@ -90,6 +91,7 @@ Medium Level Threat
 
 
 13-Feb-2006 Rey Gigataras
+ * SECURITY [ Medium Level ]: Hardening of Remember Me login functionality
  ^ Upgraded TinyMCE to 2.0.2
 
 12-Feb-2006 Rey Gigataras
