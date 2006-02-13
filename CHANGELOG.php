@@ -64,6 +64,7 @@ Medium Level Threat
  Low Level Threat
  * Harden frontend Session ID
  * Harden against multiple Admin SQL Injection Vulnerabilities
+ * Disable ability to enter more than one email address in Contact Component contact form
 
  * Disallow access to syndication functionality
  * Disallow `Newsfeeds` Categories from being accessible when 'unpublished'
@@ -89,6 +90,9 @@ Medium Level Threat
 
 ---
 
+
+14-Feb-2006 Rey Gigataras
+ * SECURITY [ Low Level ]: Disable ability to enter more than one email address in Contact Component contact form
 
 13-Feb-2006 Rey Gigataras
  * SECURITY [ Medium Level ]: Hardening of Remember Me login functionality

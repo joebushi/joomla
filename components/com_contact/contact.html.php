@@ -261,9 +261,11 @@ class HTML_contact {
 		function validate(){
 			if ( ( document.emailForm.text.value == "" ) || ( document.emailForm.email.value.search("@") == -1 ) || ( document.emailForm.email.value.search("[.*]" ) == -1 ) ) {
 				alert( "<?php echo _CONTACT_FORM_NC; ?>" );
+			} else if ( ( document.emailForm.email.value.search(";") != -1 ) || ( document.emailForm.email.value.search(",") != -1 ) || ( document.emailForm.email.value.search(" ") != -1 ) ) {
+				alert( "You cannot enter more than one email address" );			
 			} else {
-			document.emailForm.action = "<?php echo sefRelToAbs("index.php?option=com_contact&Itemid=$Itemid"); ?>"
-			document.emailForm.submit();
+				document.emailForm.action = "<?php echo sefRelToAbs("index.php?option=com_contact&Itemid=$Itemid"); ?>"
+				document.emailForm.submit();
 			}
 		}
 		//-->

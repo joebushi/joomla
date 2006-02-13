@@ -457,6 +457,12 @@ function sendmail( $con_id, $option ) {
 			}
 		}
 		
+		// test to ensure that only one email address is entered
+		$check = explode( '@', $email );
+		if ( strpos( $email, ';' ) || strpos( $email, ',' ) || strpos( $email, ' ' ) || count( $check ) > 2 ) {
+			mosErrorAlert( 'You cannot enter more than one email address' );
+		}
+		
 		if ( !$email || !$text || ( is_email( $email ) == false ) ) {
 			mosErrorAlert( _CONTACT_FORM_NC );
 		}
@@ -469,6 +475,7 @@ function sendmail( $con_id, $option ) {
 		$params = new mosParameters( $contact[0]->params );		
 		$emailcopyCheck = $params->get( 'email_copy', 0 );
 			
+		// check whether email copy function activated
 		if ( $email_copy && $emailcopyCheck ) {
 			$copy_text = sprintf( _COPY_TEXT, $contact[0]->name, $mosConfig_sitename );
 			$copy_text = $copy_text ."\n\n". $text .'';
