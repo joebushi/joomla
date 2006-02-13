@@ -93,12 +93,12 @@ Medium Level Threat
 
 
 14-Feb-2006 Rey Gigataras
- * SECURITY [ Low Level ]: Harden Contact Component with param option to check for existance of session cookie - enabled by default
  * SECURITY [ Low Level ]: Disable ability to enter more than one email address in Contact Component contact form
+ ^ Upgraded TinyMCE to 2.0.3 & TinyMCE GZip Compressor to 1.0.7
 
 13-Feb-2006 Rey Gigataras
  * SECURITY [ Medium Level ]: Hardening of Remember Me login functionality
- ^ Upgraded TinyMCE to 2.0.2
+ * SECURITY [ Low Level ]: Harden Contact Component with param option to check for existance of session cookie - enabled by default
 
 12-Feb-2006 Rey Gigataras
  * SECURITY [ Low Level ]: Multiple Admin SQL Injection Vulnerabilities
