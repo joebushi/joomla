@@ -95,6 +95,7 @@ Medium Level Threat
 14-Feb-2006 Rey Gigataras
  * SECURITY [ Low Level ]: Disable ability to enter more than one email address in Contact Component contact form
  
+ # Fixed artf3144 : NULL values from SQL tables not loaded
  # Fixed [topic,31769.0.html] : $access variable conflict com_content
  # Fixed [topic,32201.0.html] : mod_related_items urls not xhtml compliant
  # Fixed [topic,31185.0.html] : heading in pagination not working
