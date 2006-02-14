@@ -77,7 +77,8 @@ function botMosPaging( $published, &$row, &$params, $page=0 ) {
 				parse_str( html_entity_decode( $matches[0][2] ), $args );
 
 				if ( @$args['heading'] ) {
-					$row->page_title = $args['heading'];
+					//$row->page_title = $args['heading'];
+					$row->page_title = '';
 				} else {
 					$row->page_title = '';
 				}
@@ -85,7 +86,7 @@ function botMosPaging( $published, &$row, &$params, $page=0 ) {
 				parse_str( html_entity_decode( $matches[$page-1][2] ), $args );
 
 				if ( @$args['title'] ) {
-					$row->page_title = stripslashes( $args['title'] );
+					$row->page_title = ': '. stripslashes( $args['title'] );
 				}
 			}
 	 	}
@@ -143,11 +144,11 @@ function createTOC( &$row, &$matches, &$page ) {
 	$heading = $row->title;
 	// allows customization of first page title by checking for `heading` attribute in first bot
 	if ( @$matches[0][2] ) {
-		parse_str( html_entity_decode( $matches[0][2] ), $args2 );
+		parse_str( html_entity_decode( $matches[0][2] ), $args );
 
 		if ( @$args['heading'] ) {
 			$heading = $args['heading'];
-			$row->title .= ': '. $heading;
+			$row->title .= ' - '. $heading;
 		}
 	}
 

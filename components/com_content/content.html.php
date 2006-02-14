@@ -407,7 +407,7 @@ class HTML_content {
 
 		// adds mospagebreak heading or title to <site> Title
 		if ( isset($row->page_title) ) {
-			$mainframe->setPageTitle( $row->title .': '. $row->page_title );
+			$mainframe->setPageTitle( $row->title .' '. $row->page_title );
 		}
 
 		// determines the link and link text of the readmore button

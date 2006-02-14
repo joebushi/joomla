@@ -79,7 +79,7 @@ function botTinymceEditorInit() {
 	// fullscreen
 	$fullscreen			=  $params->def( 'fullscreen', 1 );
 	// autosave
-	$autosave			= $params->def( 'autosave', 1 );
+	$autosave			= $params->def( 'autosave', 0 );
 
 	if ( $relative_urls ) {
 		$relative_urls = 'true';
