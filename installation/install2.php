@@ -49,6 +49,10 @@ if (!$DBcreated){
 		db_err ('stepBack','The database name provided is empty.');
 	}
 
+	if($DBPrefix == '') {
+		db_err ('stepBack','You have not entered a database prefix.');
+	}
+	
 	// Does this code actually do anything???
 	$configArray['DBhostname'] = $DBhostname;
 	$configArray['DBuserName'] = $DBuserName;

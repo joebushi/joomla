@@ -50,6 +50,10 @@ function check() {
 		alert('Please enter a Name for your new Database');
 		f.DBname.focus();
 		formValid=false;
+	} else if ( f.DBPrefix.value == '' ) {
+		alert('You must enter a MySQL Table Prefix for Joomla to operate correctly.');
+		f.DBPrefix.focus();
+		formValid=false;
 	} else if ( f.DBPrefix.value == 'old_' ) {
 		alert('You cannot use "old_" as the MySQL Table Prefix because Joomla uses this prefix for backup tables.');
 		f.DBPrefix.focus();
