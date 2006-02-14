@@ -265,9 +265,9 @@ function showSection( $id, $gid, &$access, $now ) {
 		}
 	}
 
-	$access = '';
+	$access_check = '';
 	if ($noauth) {
-		$access = "\n AND a.access <= $gid";
+		$access_check = "\n AND a.access <= $gid";
 	}
 
 	// Query of categories within section
@@ -277,7 +277,7 @@ function showSection( $id, $gid, &$access, $now ) {
 	. $xwhere2
 	. "\n WHERE a.section = '$section->id'"
 	. $xwhere
-	. $access
+	. $access_check
 	. "\n GROUP BY a.id"
 	. $empty
 	. $empty_sec

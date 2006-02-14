@@ -37,7 +37,7 @@ Legend:
 ! -> Note
 
 
----------------- 1.0.8 Pending -- [TBA] ------------------
+---------------- 1.0.8 Beta 2 Pending -- [TBA] ------------------
 
 This Release Contains following Security Fixes
 
@@ -94,17 +94,22 @@ Medium Level Threat
 
 14-Feb-2006 Rey Gigataras
  * SECURITY [ Low Level ]: Disable ability to enter more than one email address in Contact Component contact form
- ^ Upgraded TinyMCE to 2.0.3 & TinyMCE GZip Compressor to 1.0.7
+ 
+ # Fixed [topic,31769.0.html] : $access variable conflict com_content
  # Fixed [topic,32201.0.html] : mod_related_items urls not xhtml compliant
  # Fixed [topic,31185.0.html] : heading in pagination not working
  # Fixed [topic,10947.0.html] : Add Prefix check to installer  
  # Fixed artf3082 : Template preview *still* not available 
  # Fixed artf2925 : mosGetParam has side affects
  # Fixed [topic,38017.0.html] : Content -> New -> Cancel 
+ 
+ ^ Upgraded TinyMCE to 2.0.3 & TinyMCE GZip Compressor to 1.0.7
+
 
 13-Feb-2006 Rey Gigataras
  * SECURITY [ Medium Level ]: Hardening of Remember Me login functionality
  * SECURITY [ Low Level ]: Harden Contact Component with param option to check for existance of session cookie - enabled by default
+
 
 12-Feb-2006 Rey Gigataras
  * SECURITY [ Low Level ]: Multiple Admin SQL Injection Vulnerabilities
@@ -113,6 +118,7 @@ Medium Level Threat
  * SECURITY [ Low Level ]: Content Search returns items despite section 'access level'
  * SECURITY [ Low Level ]: Newsfeed Search returns items despite category 'state'
  * SECURITY [ Low Level ]: Weblink Search returns items despite category 'state'
+ 
  # Fixed artf3391 : Aphostrophes in Category: Edit
  # Fixed artf3291 : Alert() problem
  # Fixed artf3188 : Unnecessary table cell in contact.html.php
@@ -128,9 +134,11 @@ Medium Level Threat
  # Fixed artf3108 : Joomla 1.0.7 core SEF bug gives 404 on homepage
  # Fixed artf3169 : RSS feeds does not work with SEF disabled
 
+
 11-Feb-2006 Rey Gigataras
  * SECURITY [ Medium Level ]: Protect against real server path disclosure via syndication component
  * SECURITY [ Medium Level ]: Limit arbitrary file creation via syndication component
+ 
  # Fixed artf3397 : link to menu and loss of images list
  # Fixed artf3109 : 1.0.7 "The XML page cannot be displayed ERROR" ob_gzhandler issue
  # Fixed artf3447 : TinyMCE and relative urls
@@ -141,29 +149,37 @@ Medium Level Threat
  # Fixed artf3402 : Missing param in module
  # Fixed artf3067 : Reopen: Unhandled fragment identifier with core SEF enabled
  # Fixed [topic,31813.0.html] : new .htaccess gives proper 404s [Steve Graham]
+ 
  + Disable session.use_trans_sid to .htaccess
+
 
 10-Feb-2006 Rey Gigataras
  * SECURITY [ Low Level ]: Harden frontend Session ID
+ 
  # Fixed artf3421 : Session cleanup relies on administrator login
  # Fixed artf3307 : Error in code - non critical, but logout setcookie not working
  # Fixed artf3126 : Short open PHP tag in pathway.php 
  # Fixed artf3126 : artf3413 : small problem with variable in xml_domit_lite_parser.php
  # Fixed [topic,34620.0.html] : Excessive Joomla Sessions, and AOL Login Problem [Steve Graham]
  # Fixed mosWarning() $title error
+ 
  + New Session Type Global Config param 
 
 08-Feb-2006 Rey Gigataras
  * SECURITY [ Medium Level ]: # Fixed : `Content` items viewable when category/section 'unpublished' - mod_newsflash 
  * SECURITY [ Low Level ]: # Fixed : `Content` item links visible despite category/section 'access level' - mod_newsflash, mod_latestnews, mod_mostread
+ 
  # Fixed artf3393 : Latestnews doesn't show static content
+
 
 07-Feb-2006 Robin Muilwijk
  # Fixed artf3328, 1.0.7 EN Installation Typo - Step 1
  # Fixed artf3401 : Spelling errors in two modules
 
+
 31-Jan-2006 Rey Gigataras
  + Additional Contact Component hardening
+
 
 30-Jan-2006 Rey Gigataras
  * SECURITY [ Medium Level ]: # Fixed : `Content` item accessible despite section/category 'access level'
@@ -176,15 +192,20 @@ Medium Level Threat
  * SECURITY [ Low Level ]: # Fixed : `Content Category` view accessible despite section/category 'access level' - `Table - Content Category`
  * SECURITY [ Low Level ]: # Fixed : `Content Category` view accessible despite category 'access level' - `Blog - Content Category` & `Blog - Content Category Archive` 
  * SECURITY [ Low Level ]: # Fixed : `Content Section` view accessible despite section 'access level' - `Table - Content Section`
+
  ^ Contact Items display Authorization block text if category 'access level' denies access
  ^ Blog pages display Authorization block text if section/category 'access level' denies access
  
+ 
 29-Jan-2006 Rey Gigataras
  * SECURITY [ Medium Level ]: # Fixed : `Weblinks` item accessible when category 'unpublished' 
+ 
  ^ Blog pages display Authorization block text if section/category being unpublished
+
 
 25-Jan-2006 Rey Gigataras
  * SECURITY [ Low Level ]: # Fixed : No way to disable access to syndication functionality
+
 
 17-Jan-2006 Rey Gigataras
  * SECURITY [ Medium Level ]: # Fixed : `Weblink` item accessible when 'unpublished'
