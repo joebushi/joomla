@@ -2438,15 +2438,19 @@ define( "_MOS_NOTRIM", 0x0001 );
 define( "_MOS_ALLOWHTML", 0x0002 );
 define( "_MOS_ALLOWRAW", 0x0004 );
 function mosGetParam( &$arr, $name, $def=null, $mask=0 ) {
-	static $noHtmlFilter = null;
-	static $safeHtmlFilter = null;
+	static $noHtmlFilter 	= null;
+	static $safeHtmlFilter 	= null;
 
 	$return = null;
 	if (isset( $arr[$name] )) {
-		if (is_string( $arr[$name] )) {
+		$return = $arr[$name];
+		
+		if (is_string( $return )) {
+			// trim data
 			if (!($mask&_MOS_NOTRIM)) {
-				$arr[$name] = trim( $arr[$name] );
+				$return = trim( $return );
 			}
+			
 			if ($mask&_MOS_ALLOWRAW) {
 				// do nothing
 			} else if ($mask&_MOS_ALLOWHTML) {
@@ -2458,16 +2462,20 @@ function mosGetParam( &$arr, $name, $def=null, $mask=0 ) {
 				$arr[$name] = $safeHtmlFilter->process( $arr[$name] );
 				*/
 			} else {
+				// send to inputfilter
 				if (is_null( $noHtmlFilter )) {
 					$noHtmlFilter = new InputFilter( /* $tags, $attr, $tag_method, $attr_method, $xss_auto */ );
 				}
-				$arr[$name] = $noHtmlFilter->process( $arr[$name] );
+				$return = $noHtmlFilter->process( $return );
 			}
+			
+			// account for magic quotes setting
 			if (!get_magic_quotes_gpc()) {
-				$arr[$name] = addslashes( $arr[$name] );
+				$return = addslashes( $return );
 			}
 		}
-		return $arr[$name];
+		
+		return $return;
 	} else {
 		return $def;
 	}
