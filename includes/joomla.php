@@ -705,7 +705,7 @@ class mosMainFrame {
 			case 1:
 			// slightly reduced security - 3rd level IP authentication for those behind IP Proxy 
 				$remote_addr 	= explode('.',$_SERVER['REMOTE_ADDR']);
-				$ip				= $remote_addr[0] . $remote_addr[1] . $remote_addr[2];
+				$ip				= $remote_addr[0] .'.'. $remote_addr[1] .'.'. $remote_addr[2];
 				$value 			= mosHash( $id . $ip . $browser );
 				break;
 			
@@ -780,19 +780,21 @@ class mosMainFrame {
 			echo "<script> alert(\""._LOGIN_INCOMPLETE."\"); window.history.go(-1); </script>\n";
 			exit();
 		} else {
-			if ( $remember ) {
+			if ( $remember && strlen($username) == 32 && strlen($passwd) == 32 ) {
 			// query used for remember me cookie
 				$harden = mosHash( @$_SERVER['HTTP_USER_AGENT'] );
 				$query = "SELECT *"
 				. "\n FROM #__users"
-				. "\n WHERE MD5( CONCAT( username , '$harden' ) ) = '$username'"
+				. "\n WHERE block != 1"
+				. "\n AND MD5( CONCAT( username , '$harden' ) ) = '$username'"
 				. "\n AND MD5( CONCAT( password , '$harden' ) ) = '$passwd'"
 				;
 			} else {
 			// query used for normal login
 				$query = "SELECT *"
 				. "\n FROM #__users"
-				. "\n WHERE username = '$username'"
+				. "\n WHERE block != 1"
+				. "\n AND username = '$username'"
 				. "\n AND password = '$passwd'"
 				;
 			}
