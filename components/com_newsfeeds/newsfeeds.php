@@ -158,6 +158,13 @@ function listFeeds( $catid ) {
 function showFeed( $feedid ) {
 	global $database, $mainframe, $mosConfig_absolute_path, $mosConfig_cachepath, $Itemid, $my;
 
+	// check if cache directory is writeable
+	$cacheDir = $mosConfig_cachepath .'/';
+	if ( is_writable( $cacheDir ) ) {	
+		echo 'Cache Directory Unwriteable';
+		return;
+	}
+	
 	require_once( $mainframe->getPath( 'class' ) );
 	
 	$newsfeed = new mosNewsFeed($database);
@@ -191,38 +198,33 @@ function showFeed( $feedid ) {
 
 	// full RSS parser used to access image information
 	require_once( $mosConfig_absolute_path . '/includes/domit/xml_domit_rss.php');
-	$cacheDir = $mosConfig_cachepath .'/';
 	$LitePath = $mosConfig_absolute_path . '/includes/Cache/Lite.php';
 
-	if ( is_writable( $cacheDir ) ) {	
-		// Adds parameter handling
-		$menu = new mosMenu( $database );
-		$menu->load( $Itemid );
-		$params = new mosParameters( $menu->params );
-		$params->def( 'page_title', 1 );
-		$params->def( 'header', $menu->name );
-		$params->def( 'pageclass_sfx', '' );
-		$params->def( 'back_button', $mainframe->getCfg( 'back_button' ) );
-		// Feed Display control
-		$params->def( 'feed_image', 1 );
-		$params->def( 'feed_descr', 1 );
-		$params->def( 'item_descr', 1 );
-		$params->def( 'word_count', 0 );
-	
-		if ( !$params->get( 'page_title' ) ) {
-			$params->set( 'header', '' );
-		}
-	
-		$and = '';
-		if ( $feedid ) {
-			$and = "\n AND id = $feedid";
-		}
-	
-		$mainframe->SetPageTitle($menu->name);
-	
-		HTML_newsfeed::showNewsfeeds( $newsfeed, $LitePath, $cacheDir, $params );
-	} else {
-		echo 'Cache Directory Unwriteable';
+	// Adds parameter handling
+	$menu = new mosMenu( $database );
+	$menu->load( $Itemid );
+	$params = new mosParameters( $menu->params );
+	$params->def( 'page_title', 1 );
+	$params->def( 'header', $menu->name );
+	$params->def( 'pageclass_sfx', '' );
+	$params->def( 'back_button', $mainframe->getCfg( 'back_button' ) );
+	// Feed Display control
+	$params->def( 'feed_image', 1 );
+	$params->def( 'feed_descr', 1 );
+	$params->def( 'item_descr', 1 );
+	$params->def( 'word_count', 0 );
+
+	if ( !$params->get( 'page_title' ) ) {
+		$params->set( 'header', '' );
 	}
+
+	$and = '';
+	if ( $feedid ) {
+		$and = "\n AND id = $feedid";
+	}
+
+	$mainframe->SetPageTitle($menu->name);
+
+	HTML_newsfeed::showNewsfeeds( $newsfeed, $LitePath, $cacheDir, $params );
 }
 ?>

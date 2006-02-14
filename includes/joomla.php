@@ -3349,7 +3349,7 @@ function initGzip() {
 	global $mosConfig_gzip, $do_gzip_compress;
 	
 	// attempt to disable session.use_trans_sid
-	ini_set('session.use_trans_sid', false);
+	//ini_set('session.use_trans_sid', false);
 	
 	$do_gzip_compress = FALSE;
 	if ($mosConfig_gzip == 1) {
