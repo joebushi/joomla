@@ -36,12 +36,12 @@ class HTML_templates {
 		?>
 		<script language="Javascript">
 		<!--
-		function showInfo(name) {
+		function showInfo(name, dir) {
 			var pattern = /\b \b/ig;
 			name = name.replace(pattern,'_');
 			name = name.toLowerCase();
 			if (document.adminForm.doPreview.checked) {
-				var src = '<?php echo $mosConfig_live_site . ($client == 'admin' ? '/administrator' : '');?>/templates/'+name+'/template_thumbnail.png';
+				var src = '<?php echo $mosConfig_live_site . ($client == 'admin' ? '/administrator' : '');?>/templates/'+dir+'/template_thumbnail.png';
 				var html=name;
 				html = '<br /><img border="1" src="'+src+'" name="imagelib" alt="No preview available" width="206" height="145" />';
 				return overlib(html, CAPTION, name)
@@ -127,7 +127,7 @@ class HTML_templates {
 				?>
 				</td>
 				<td>
-				<a href="#info" onmouseover="showInfo('<?php echo $row->name;?>')" onmouseout="return nd();">
+				<a href="#info" onmouseover="showInfo('<?php echo $row->name;?>','<?php echo $row->directory; ?>')" onmouseout="return nd();">
 				<?php echo $row->name;?>
 				</a>
 				</td>

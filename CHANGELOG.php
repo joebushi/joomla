@@ -95,6 +95,7 @@ Medium Level Threat
 14-Feb-2006 Rey Gigataras
  * SECURITY [ Low Level ]: Disable ability to enter more than one email address in Contact Component contact form
  ^ Upgraded TinyMCE to 2.0.3 & TinyMCE GZip Compressor to 1.0.7
+ # Fixed artf3082 : Template preview *still* not available 
  # Fixed artf2925 : mosGetParam has side affects
  # Fixed [topic,38017.0.html] : Content -> New -> Cancel 
 
