@@ -388,8 +388,10 @@ function sefRelToAbs( $string ) {
 		// allows SEF without mod_rewrite
 		// uncomment Line 348 and comment out Line 354	
 	
-		// comment out line below if you dont have mod_rewrite
-		//return $mosConfig_live_site.'/index.php/'.$string;
+		// uncomment line below if you dont have mod_rewrite
+		// return $mosConfig_live_site.'/index.php/'.$string;
+		// If the above doesnt work - try uncommenting this line instead
+		// return $mosConfig_live_site.'/index.php?/'.$string;
 	} else {
 		if ( !strstr( $string, $mosConfig_live_site ) ) {
 			$string = $mosConfig_live_site .'/'. $string;
