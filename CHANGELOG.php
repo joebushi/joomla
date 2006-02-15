@@ -94,6 +94,7 @@ Medium Level Threat
 
 15-Feb-2006 Rey Gigataras
  # Fixed [topic,36462.0.html] : Static Content Start/Finish publishing time is based on server time, not local time
+ # Fixed : Publisher submission message for frontend content editing/submission
 
 
 14-Feb-2006 Rey Gigataras

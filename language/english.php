@@ -420,6 +420,7 @@ DEFINE('_HI','Hi, ');
 /** user.php */
 DEFINE('_SAVE_ERR','Please complete all the fields.');
 DEFINE('_THANK_SUB','Thanks for your submission. Your submission will now be reviewed before being posted to the site.');
+DEFINE('_THANK_SUB_PUB','Thanks for your submission.');
 DEFINE('_UP_SIZE','You cannot upload files greater than 15kb in size.');
 DEFINE('_UP_EXISTS','Image $userfile_name already exists. Please rename the file and try again.');
 DEFINE('_UP_COPY_FAIL','Failed to copy');

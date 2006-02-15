@@ -1557,7 +1557,6 @@ function editItem( $uid, $gid, &$access, $sectionid=0, $task, $Itemid ){
 		$row->frontpage 	= 0;
 	}
 
-
 	// calls function to read image from directory
 	$pathA 		= $mosConfig_absolute_path .'/images/stories';
 	$pathL 		= $mosConfig_live_site .'/images/stories';
@@ -1749,6 +1748,7 @@ function saveContent( &$access, $task ) {
 	}
 
 	$msg = $isNew ? _THANK_SUB : _E_ITEM_SAVED;
+	$msg = $my->usertype == 'Publisher' ? _THANK_SUB_PUB: $msg;
 	switch ( $task ) {
 		case 'apply':
 			$link = $_SERVER['HTTP_REFERER'];
@@ -1799,7 +1799,7 @@ function cancelContent( &$access ) {
 		$referer = 'index.php?option=com_content&task=view&id='. $row->id.'&Itemid='. $Itemid;
 	}
 
-	if ( $referer && isset($row->id) ) {
+	if ( $referer && $row->id ) {
 		mosRedirect( $referer );
 	} else {
 		mosRedirect( 'index.php' );
