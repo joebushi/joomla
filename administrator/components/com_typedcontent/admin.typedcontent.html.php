@@ -242,6 +242,15 @@ class HTML_typedcontent {
 
 	function edit( &$row, &$images, &$lists, &$params, $option, &$menus ) {
 		//mosMakeHtmlSafe( $row );
+		$create_date = null;
+		if ( $row->created != '0000-00-00 00:00:00' ) {
+			$create_date 	= mosFormatDate( $row->created, '%A, %d %B %Y %H:%M', '0' );
+		}
+		$mod_date = null;
+		if ( $row->modified != '0000-00-00 00:00:00' ) {
+			$mod_date 		= mosFormatDate( $row->modified, '%A, %d %B %Y %H:%M', '0' );
+		}
+		
 		$tabs = new mosTabs( 1 );
 		// used to hide "Reset Hits" when hits = 0
 		if ( !$row->hits ) {
@@ -375,7 +384,7 @@ class HTML_typedcontent {
 					</th>
 				<tr>
 				<tr>
-					<td valign="top" align="right">
+					<td valign="top" align="right" width="120">
 					State:
 					</td>
 					<td>
@@ -424,19 +433,19 @@ class HTML_typedcontent {
 					</td>
 				</tr>
 				<tr>
-					<td width="20%" align="right">
+					<td align="right">
 					Start Publishing:
 					</td>
-					<td width="80%">
+					<td>
 					<input class="inputbox" type="text" name="publish_up" id="publish_up" size="25" maxlength="19" value="<?php echo $row->publish_up; ?>" />
 					<input type="reset" class="button" value="..." onclick="return showCalendar('publish_up', 'y-mm-dd');">
 					</td>
 				</tr>
 				<tr>
-					<td width="20%" align="right">
+					<td align="right">
 					Finish Publishing:
 					</td>
-					<td width="80%">
+					<td>
 					<input class="inputbox" type="text" name="publish_down" id="publish_down" size="25" maxlength="19" value="<?php echo $row->publish_down; ?>" />
 					<input type="reset" class="button" value="..." onclick="return showCalendar('publish_down', 'y-mm-dd');">
 					</td>
@@ -459,7 +468,7 @@ class HTML_typedcontent {
 				}
 				?>
 				<tr>
-					<td width="90px" valign="top" align="right">
+					<td width="120" valign="top" align="right">
 					<strong>State</strong>
 					</td>
 					<td>
@@ -482,7 +491,7 @@ class HTML_typedcontent {
 					<strong>Version</strong>
 					</td>
 					<td>
-					<?php echo "$row->version";?>
+					<?php echo $row->version;?> times
 					</td>
 				</tr>
 				<tr>
@@ -490,7 +499,15 @@ class HTML_typedcontent {
 					<strong>Created</strong>
 					</td>
 					<td>
-					<?php echo $row->created ? "$row->created</td></tr><tr><td valign='top' align='right'><strong>By</strong></td><td>$row->creator" : "New document";?>
+						<?php
+						if ( !$create_date ) {
+							?>
+							New document
+							<?php
+						} else {
+							echo $create_date;
+						}
+						?>
 					</td>
 				</tr>
 				<tr>
@@ -498,7 +515,19 @@ class HTML_typedcontent {
 					<strong>Last Modified</strong>
 					</td>
 					<td>
-					<?php echo $row->modified ? "$row->modified</td></tr><tr><td valign='top' align='right'><strong>By</strong></td><td>$row->modifier" : "Not modified";?>
+						<?php
+						if ( !$mod_date ) {
+							?>
+							Not modified
+							<?php
+						} else {
+							echo $mod_date;
+							?>
+							<br />
+							<?php
+							echo $row->modifier;
+						}
+						?>
 					</td>
 				</tr>
 				<tr>

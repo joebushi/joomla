@@ -453,16 +453,15 @@ class HTML_content {
 		mosMakeHtmlSafe( $row );
 
 		$create_date = null;
-		if (intval( $row->created ) != 0) {
+		if ( $row->created != '0000-00-00 00:00:00' ) {
 			$create_date 	= mosFormatDate( $row->created, '%A, %d %B %Y %H:%M', '0' );
 		}
 		$mod_date = null;
-		if (intval( $row->modified ) != 0) {
+		if ( $row->modified != '0000-00-00 00:00:00' ) {
 			$mod_date 		= mosFormatDate( $row->modified, '%A, %d %B %Y %H:%M', '0' );
 		}
-
+		
 		$tabs = new mosTabs(1);
-
 
 		// used to hide "Reset Hits" when hits = 0
 		if ( !$row->hits ) {
@@ -631,7 +630,7 @@ class HTML_content {
 					</th>
 				<tr>
 				<tr>
-					<td valign="top" align="right">
+					<td valign="top" align="right" width="120">
 					Show on Frontpage:
 					</td>
 					<td>
@@ -718,7 +717,7 @@ class HTML_content {
 				}
 				?>
 				<tr>
-					<td width="90px" valign="top" align="right">
+					<td width="120" valign="top" align="right">
 					<strong>State:</strong>
 					</td>
 					<td>
@@ -755,7 +754,15 @@ class HTML_content {
 					</strong>
 					</td>
 					<td>
-					<?php echo $row->created ? "$create_date</td></tr><tr><td valign='top' align='right'><strong>By</strong></td><td>$row->creator" : "New document"; ?>
+						<?php
+						if ( !$create_date ) {
+							?>
+							New document
+							<?php
+						} else {
+							echo $create_date;
+						}
+						?>
 					</td>
 				</tr>
 				<tr>
@@ -765,7 +772,19 @@ class HTML_content {
 					</strong>
 					</td>
 					<td>
-					<?php echo $row->modified ? "$mod_date</td></tr><tr><td valign='top' align='right'><strong>By</strong></td><td>$row->modifier" : "Not modified";?>
+						<?php
+						if ( !$mod_date ) {
+							?>
+							Not modified
+							<?php
+						} else {
+							echo $mod_date;
+							?>
+							<br />
+							<?php
+							echo $row->modifier;
+						}
+						?>
 					</td>
 				</tr>
 				</table>

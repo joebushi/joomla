@@ -196,28 +196,32 @@ function view( $option ) {
 */
 function edit( $uid, $option ) {
 	global $database, $my, $mainframe;
-	global $mosConfig_absolute_path, $mosConfig_live_site;
+	global $mosConfig_absolute_path, $mosConfig_live_site, $mosConfig_offset;
 
-	$nullDate = $database->getNullDate();
 	$row = new mosContent( $database );
+	$row->load( $uid );
 
 	$lists = array();
 
 	if ($uid) {
-		// load the row from the db table
-		$row->load( $uid );
-
 		// fail if checked out not by 'me'
 		if ($row->isCheckedOut( $my->id )) {
 			mosErrorAlert( "The module ".$row->title." is currently being edited by another administrator" );
 		}
 
 		$row->checkout( $my->id );
+		
 		if (trim( $row->images )) {
 			$row->images = explode( "\n", $row->images );
 		} else {
 			$row->images = array();
 		}
+		
+		$row->created 		= mosFormatDate( $row->created, '%Y-%m-%d %H:%M:%S' );
+		$row->modified 		= $row->modified == '0000-00-00 00:00:00' ? '' : mosFormatDate( $row->modified, '%Y-%m-%d %H:%M:%S' );
+		$row->publish_up 	= mosFormatDate( $row->publish_up, '%Y-%m-%d %H:%M:%S' );
+		
+		$nullDate = $database->getNullDate();
 		if (trim( $row->publish_down ) == $nullDate) {
 			$row->publish_down = "Never";
 		}
@@ -244,11 +248,12 @@ function edit( $uid, $option ) {
 		$row->version 		= 0;
 		$row->state 		= 1;
 		$row->images 		= array();
-		$row->publish_up 	= date( "Y-m-d", time() );
-		$row->publish_down 	= "Never";
+		$row->publish_up 	= date( 'Y-m-d H:i:s', time() + ( $mosConfig_offset * 60 * 60 ) );
+		$row->publish_down 	= 'Never';
 		$row->sectionid 	= 0;
 		$row->catid 		= 0;
 		$row->creator 		= '';
+		$row->modified 		= '0000-00-00 00:00:00';
 		$row->modifier 		= '';
 		$row->ordering 		= 0;
 		$menus = array();
@@ -294,7 +299,7 @@ function edit( $uid, $option ) {
 * Saves the typed content item
 */
 function save( $option, $task ) {
-	global $database, $my;
+	global $database, $my, $mosConfig_offset;
 
 	$nullDate = $database->getNullDate();
 	$menu 		= mosGetParam( $_POST, 'menu', 'mainmenu' );
@@ -306,16 +311,27 @@ function save( $option, $task ) {
 		exit();
 	}
 
-	if ( $row->id ) {
-		$row->modified = date( 'Y-m-d H:i:s' );
-		$row->modified_by = $my->id;
+	if ($row->id) {
+		$row->modified 		= date( 'Y-m-d H:i:s' );
+		$row->modified_by 	= $my->id;
+		$row->created 		= $row->created ? mosFormatDate( $row->created, '%Y-%m-%d %H:%M:%S', -$mosConfig_offset ) : date( 'Y-m-d H:i:s' );
+		$row->created_by 	= $row->created_by ? $row->created_by : $my->id;
 	} else {
-		$row->created = date( 'Y-m-d H:i:s' );
+		$row->created 		= $row->created ? mosFormatDate( $row->created, '%Y-%m-%d %H:%M:%S', -$mosConfig_offset ) : date( 'Y-m-d H:i:s' );
 		$row->created_by 	= $row->created_by ? $row->created_by : $my->id;
 	}
-	if (trim( $row->publish_down ) == 'Never') {
+	
+	if (strlen(trim( $row->publish_up )) <= 10) {
+		$row->publish_up .= ' 00:00:00';
+	}
+	$row->publish_up = mosFormatDate($row->publish_up, '%Y-%m-%d %H:%M:%S', -$mosConfig_offset );
+	
+	$nullDate = $database->getNullDate();
+	if (trim( $row->publish_down ) == "Never") {
 		$row->publish_down = $nullDate;
 	}
+	
+	$row->state = mosGetParam( $_REQUEST, 'published', 0 );
 
 	// Save Parameters
 	$params = mosGetParam( $_POST, 'params', '' );
@@ -329,8 +345,6 @@ function save( $option, $task ) {
 
 	// code cleaner for xhtml transitional compliance
 	$row->introtext = str_replace( '<br>', '<br />', $row->introtext );
-
-	$row->state = mosGetParam( $_REQUEST, 'published', 0 );
 
 	$row->title = ampReplace( $row->title );
 	

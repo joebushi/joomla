@@ -92,6 +92,10 @@ Medium Level Threat
 ---
 
 
+15-Feb-2006 Rey Gigataras
+ # Fixed [topic,36462.0.html] : Static Content Start/Finish publishing time is based on server time, not local time
+
+
 14-Feb-2006 Rey Gigataras
  * SECURITY [ Low Level ]: Disable ability to enter more than one email address in Contact Component contact form
  
