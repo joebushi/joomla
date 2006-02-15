@@ -73,7 +73,17 @@ class HTML_content {
 				<br /><br />
 				<?php
 			}
-			?>
+			// New Content Icon
+			if ( $access->canEdit || $access->canEditOwn ) {
+				$link = sefRelToAbs( 'index.php?option=com_content&amp;task=new&amp;sectionid='. $id .'&amp;Itemid='. $Itemid );
+				?>
+				<a href="<?php echo $link; ?>">
+					<img src="<?php echo $mosConfig_live_site;?>/images/M_images/new.png" width="13" height="14" align="middle" border="0" alt="<?php echo _CMN_NEW;?>" />
+						&nbsp;<?php echo _CMN_NEW;?>...</a>
+				<br /><br />
+				<?php
+			}
+			?>				
 			</td>
 		</tr>
 		<tr>
@@ -314,21 +324,6 @@ class HTML_content {
 			<tr>
 				<td colspan="4" align="right">
 				<?php echo $pageNav->writePagesCounter(); ?>
-				</td>
-			</tr>
-			<?php
-		}
-		?>
-		<?php
-		if ( $access->canEdit || $access->canEditOwn ) {
-			$link = sefRelToAbs( 'index.php?option=com_content&amp;task=new&amp;sectionid='. $id .'&amp;cid='. $row->id .'&amp;Itemid='. $Itemid );
-			?>
-			<tr>
-				<td colspan="4">
-				<a href="<?php echo $link; ?>">
-				<img src="<?php echo $mosConfig_live_site;?>/images/M_images/new.png" width="13" height="14" align="middle" border="0" alt="<?php echo _CMN_NEW;?>" />
-				&nbsp;<?php echo _CMN_NEW;?>...
-				</a>
 				</td>
 			</tr>
 			<?php
