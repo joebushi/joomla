@@ -38,7 +38,7 @@ switch ($task) {
 		break;
 
 	case 'edit_source':
-		editTemplateSource( intval( $cid[0] ), $option, $client );
+		editTemplateSource( $cid[0], $option, $client );
 		break;
 
 	case 'save_source':
@@ -46,7 +46,7 @@ switch ($task) {
 		break;
 
 	case 'edit_css':
-		editTemplateCSS( intval( $cid[0] ), $option, $client );
+		editTemplateCSS( $cid[0], $option, $client );
 		break;
 
 	case 'save_css':
@@ -54,19 +54,19 @@ switch ($task) {
 		break;
 
 	case 'remove':
-		removeTemplate( intval( $cid[0] ), $option, $client );
+		removeTemplate( $cid[0], $option, $client );
 		break;
 
 	case 'publish':
-		defaultTemplate( intval( $cid[0] ), $option, $client );
+		defaultTemplate( $cid[0], $option, $client );
 		break;
 
 	case 'default':
-		defaultTemplate( intval( $cid[0] ), $option, $client );
+		defaultTemplate( $cid[0], $option, $client );
 		break;
 
 	case 'assign':
-		assignTemplate( intval( $cid[0] ), $option, $client );
+		assignTemplate( $cid[0], $option, $client );
 		break;
 
 	case 'save_assign':
