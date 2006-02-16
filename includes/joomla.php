@@ -819,7 +819,7 @@ class mosMainFrame {
 				// initialize session data
 				$session 			=& $this->_session;
 				$session->guest 	= 0;
-				$session->username 	= $username;
+				$session->username 	= $row->username;
 				$session->userid 	= intval( $row->id );
 				$session->usertype 	= $row->usertype;
 				$session->gid 		= intval( $row->gid );
@@ -841,8 +841,8 @@ class mosMainFrame {
 				if ( $remember == 'yes' ) {
 					$lifetime = time() + 365*24*60*60;
 					// cookie set to last for 365 days
-					setcookie( mosMainFrame::rememberCookieName_User(), mosMainFrame::rememberCookieValue_User( $username ), $lifetime, '/' );
-					setcookie( mosMainFrame::rememberCookieName_Pass(), mosMainFrame::rememberCookieValue_Pass( $passwd ), $lifetime, '/' );
+					setcookie( mosMainFrame::rememberCookieName_User(), mosMainFrame::rememberCookieValue_User( $row->username ), $lifetime, '/' );
+					setcookie( mosMainFrame::rememberCookieName_Pass(), mosMainFrame::rememberCookieValue_Pass( $row->password ), $lifetime, '/' );
 				}
 				mosCache::cleanCache();
 			} else {

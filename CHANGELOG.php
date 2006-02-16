@@ -96,6 +96,7 @@ Medium Level Threat
  # Fixed artf3523 : mosemailcloak issue with mailto params
  # Fixed : disable mossef bot from working on mailto links
  # Fixed [topic,36637.0.html] : SEF deactivated relative & absolute url handling
+ # Fixed [topic,36637.0.html] : Session username not correct for those coming from `Remember Me` cookie
 
 
 15-Feb-2006 Rey Gigataras
