@@ -92,6 +92,10 @@ Medium Level Threat
 ---
 
 
+17-Feb-2006 Rey Gigataras
+ ^ PERFORMANCE : 'content' bot group loaded only once instead of each time content is loaded
+
+
 16-Feb-2006 Rey Gigataras
  # Fixed artf3523 : mosemailcloak issue with mailto params
  # Fixed : disable mossef bot from working on mailto links

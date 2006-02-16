@@ -3461,13 +3461,15 @@ if (!function_exists('html_entity_decode')) {
 */
 class mosMambotHandler {
 	/** @var array An array of functions in event groups */
-	var $_events	= null;
+	var $_events			= null;
 	/** @var array An array of lists */
-	var $_lists		= null;
+	var $_lists				= null;
 	/** @var array An array of mambots */
-	var $_bots		= null;
+	var $_bots				= null;
 	/** @var int Index of the mambot being loaded */
-	var $_loading	= null;
+	var $_loading			= null;
+	/** @var array An array of the content mambots in the system */
+	var $_content_mambots	= null;
 
 	/**
 	* Constructor
@@ -3480,8 +3482,7 @@ class mosMambotHandler {
 	* @param string The group name, relates to the sub-directory in the mambots directory
 	*/
 	function loadBotGroup( $group ) {
-		global $database, $my, $mosConfig_absolute_path;
-		global $_MAMBOTS;
+		global $database, $my;
 
 		$group = trim( $group );
 		if (is_object( $my )) {
@@ -3494,12 +3495,27 @@ class mosMambotHandler {
 
 		switch ( $group ) {
 			case 'content':
-				$query = "SELECT folder, element, published, params"
-				. "\n FROM #__mambots"
-				. "\n WHERE access <= $gid"
-				. "\n AND folder = '$group'"
-				. "\n ORDER BY ordering"
-				;
+				if (!defined( '_JOS_CONTENT_MAMBOTS' )) {
+					/** ensure that query is only called once */
+					define( '_JOS_CONTENT_MAMBOTS', 1 );
+	
+					$query = "SELECT folder, element, published, params"
+					. "\n FROM #__mambots"
+					. "\n WHERE access <= $gid"
+					. "\n AND folder = 'content'"
+					. "\n ORDER BY ordering"
+					;
+					$database->setQuery( $query );
+				
+					// load query into class variable _content_mambots
+					if (!($this->_content_mambots = $database->loadObjectList())) {
+						//echo "Error loading Mambots: " . $database->getErrorMsg();
+						return false;
+					}
+				}
+				
+				// pull bots to be processed from class variable 
+				$bots = $this->_content_mambots;
 				break;
 
 			default:
@@ -3510,18 +3526,21 @@ class mosMambotHandler {
 				. "\n AND folder = '$group'"
 				. "\n ORDER BY ordering"
 				;
+				$database->setQuery( $query );
+			
+				if (!($bots = $database->loadObjectList())) {
+					//echo "Error loading Mambots: " . $database->getErrorMsg();
+					return false;
+				}
 				break;
 		}
-		$database->setQuery( $query );
-
-		if (!($bots = $database->loadObjectList())) {
-			//echo "Error loading Mambots: " . $database->getErrorMsg();
-			return false;
-		}
+		
+		// load bots found by queries
 		$n = count( $bots);
-		for ($i = 0; $i < $n; $i++) {
+		for ($i = 0; $i < $n; $i++) {			
 			$this->loadBot( $bots[$i]->folder, $bots[$i]->element, $bots[$i]->published, $bots[$i]->params );
 		}
+
 		return true;
 	}
 	/**
