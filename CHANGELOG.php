@@ -93,7 +93,9 @@ Medium Level Threat
 
 
 17-Feb-2006 Rey Gigataras
- ^ PERFORMANCE : 'content' bot group loaded only once instead of each time content is loaded
+ ^ PERFORMANCE : `dynamic` Itemid checks store previous query results - affect = reduction in queries
+ ^ PERFORMANCE : `static` Itemid counters now loads only once - affect = reduction in queries
+ ^ PERFORMANCE : 'content' bot group loaded only once instead of each time content is loaded - affect = reduction in queries
 
 
 16-Feb-2006 Rey Gigataras
@@ -103,8 +105,8 @@ Medium Level Threat
  # Fixed [topic,36637.0.html] : Session username not correct for those coming from `Remember Me` cookie
  
  + PERFORMANCE : Simple check for all bots to determine whether they should process further 
- ^ PERFORMANCE : Reduce queries used by bots - mosemailcloak, mosimage, mosloadposition, mospaging
- ^ PERFORMANCE : 'editor-xtd' bot group loaded only when needed
+ ^ PERFORMANCE : Reduce queries used by bots - mosemailcloak, mosimage, mosloadposition, mospaging - affect = reduction in queries
+ ^ PERFORMANCE : 'editor-xtd' bot group loaded only when needed - affect = reduction in queries
 
 
 15-Feb-2006 Rey Gigataras

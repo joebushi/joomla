@@ -350,23 +350,67 @@ class mosCache {
 */
 class mosMainFrame {
 	/** @var database Internal database class pointer */
-	var $_db				= null;
+	var $_db						= null;
 	/** @var object An object of configuration variables */
-	var $_config			= null;
+	var $_config					= null;
 	/** @var object An object of path variables */
-	var $_path				= null;
+	var $_path						= null;
 	/** @var mosSession The current session */
-	var $_session			= null;
+	var $_session					= null;
 	/** @var string The current template */
-	var $_template			= null;
+	var $_template					= null;
 	/** @var array An array to hold global user state within a session */
-	var $_userstate			= null;
+	var $_userstate					= null;
 	/** @var array An array of page meta information */
-	var $_head				= null;
+	var $_head						= null;
 	/** @var string Custom html string to append to the pathway */
-	var $_custom_pathway	= null;
+	var $_custom_pathway			= null;
 	/** @var boolean True if in the admin client */
-	var $_isAdmin 			= false;
+	var $_isAdmin 					= false;	
+	
+	
+	/** Folowing Variables are new as of 1.0.8 and are needed to reduce queries created to find Itemid value **/
+	
+	/** @var int number of published Blog Sections */
+	var $_BlogSectionCount 			= null;	
+	/** @var int number of published Blog Categories */
+	var $_BlogCategoryCount			= null;
+	/** @var int number of published Global Blog Sections */
+	var $_GloblBlogSectionCount 	= null;	
+	/** @var int number of published Global Blog Sections */
+	var $_StaticContentCount 		= null;	
+	/** @var int number of published Global Blog Sections */
+	var $_ContentItemLinkCount 		= null;		
+
+	/** @var int id of last item calling function */
+	var $_ContentTyped_id 			= null;
+	/** @var int id of last item calling function */
+	var $_ContentItemLink_id 		= null;
+	/** @var int id of last item calling function */
+	var $_ContentSection_id 		= null;
+	/** @var int id of last item calling function */
+	var $_ContentBlogSection_id 	= null;	
+	/** @var int id of last item calling function */
+	var $_ContentBlogCategory_id 	= null;
+	/** @var int id of last item calling function */
+	var $_ContentCategory_id 		= null;
+	
+	/** @var int Itemid of a specific item last called */
+	var $_ContentTyped 				= null;
+	/** @var int Itemid of a specific item last called */
+	var $_ContentItemLink 			= null;
+	/** @var int Itemid of a specific item last called */
+	var $_ContentSection 			= null;	
+	/** @var int Itemid of a specific item last called */
+	var $_ContentBlogSection 		= null;
+	/** @var int Itemid of a specific item last called */
+	var $_ContentBlogCategory 		= null;
+	/** @var int Itemid of a specific item last called */
+	var $_GloblBlogSection		 	= null;	
+	/** @var int Itemid of a specific item last called */
+	var $_ContentCategory 			= null;	
+	
+
 
 	/**
 	* Class constructor
@@ -1217,6 +1261,7 @@ class mosMainFrame {
 		}
 	}
 
+
 	/**
 	* @return correct Itemid for Content Item
 	*/
@@ -1225,95 +1270,162 @@ class mosMainFrame {
 
 		$_Itemid = '';
 		if ($_Itemid == '' && $typed) {
-			// Search for typed link
-			$query = "SELECT id"
-			. "\n FROM #__menu"
-			. "\n WHERE type = 'content_typed'"
-			. "\n AND published = 1"
-			. "\n AND link = 'index.php?option=com_content&task=view&id=$id'"
-			;
-			$this->_db->setQuery( $query );
-			$_Itemid = $this->_db->loadResult();
+			// test whether id is the same as last id that called function
+			// if so the previous query result is loaded to reduce number of queries being loaded
+			if ( $this->_ContentTyped_id != $id ) {
+				// save current id to class variable
+				$this->_ContentTyped_id = $id;
+				
+				// Search for typed link
+				$query = "SELECT id"
+				. "\n FROM #__menu"
+				. "\n WHERE type = 'content_typed'"
+				. "\n AND published = 1"
+				. "\n AND link = 'index.php?option=com_content&task=view&id=$id'"
+				;
+				$this->_db->setQuery( $query );
+				// saves previous query result to class variable
+				$this->_ContentTyped = $this->_db->loadResult();
+			}
+			
+			$_Itemid = $this->_ContentTyped;
 		}
 
 		if ($_Itemid == '' && $link) {
-			// Search for item link
-			$query = "SELECT id"
-			."\n FROM #__menu"
-			."\n WHERE type = 'content_item_link'"
-			. "\n AND published = 1"
-			. "\n AND link = 'index.php?option=com_content&task=view&id=$id'"
-			;
-			$this->_db->setQuery( $query );
-			$_Itemid = $this->_db->loadResult();
+			// test whether id is the same as last id that called function
+			// if so the previous query result is loaded to reduce number of queries being loaded
+			if ( $this->_ContentItemLink_id != $id ) {
+				// save current id to class variable
+				$this->_ContentItemLink_id = $id;
+				
+				// Search for item link
+				$query = "SELECT id"
+				."\n FROM #__menu"
+				."\n WHERE type = 'content_item_link'"
+				. "\n AND published = 1"
+				. "\n AND link = 'index.php?option=com_content&task=view&id=$id'"
+				;
+				$this->_db->setQuery( $query );
+				// saves previous query result to class variable
+				$this->_ContentItemLink = $this->_db->loadResult();
+			}
+			
+			$_Itemid = $this->_ContentItemLink;
 		}
 
 		if ($_Itemid == '') {
-			// Search in sections
-			$query = "SELECT m.id "
-			. "\n FROM #__content AS i"
-			. "\n LEFT JOIN #__sections AS s ON i.sectionid = s.id"
-			. "\n LEFT JOIN #__menu AS m ON m.componentid = s.id "
-			. "\n WHERE m.type = 'content_section'"
-			. "\n AND m.published = 1"
-			. "\n AND i.id = $id"
-			;
-			$this->_db->setQuery( $query );
-			$_Itemid = $this->_db->loadResult();
+			// test whether id is the same as last id that called function
+			// if so the previous query result is loaded to reduce number of queries being loaded
+			if ( $this->_ContentSection_id != $id ) {
+				// save current id to class variable
+				$this->_ContentSection_id = $id;
+				
+				// Search in sections
+				$query = "SELECT m.id "
+				. "\n FROM #__content AS i"
+				. "\n LEFT JOIN #__sections AS s ON i.sectionid = s.id"
+				. "\n LEFT JOIN #__menu AS m ON m.componentid = s.id "
+				. "\n WHERE m.type = 'content_section'"
+				. "\n AND m.published = 1"
+				. "\n AND i.id = $id"
+				;
+				$this->_db->setQuery( $query );
+				// saves previous query result to class variable
+				$this->_ContentSection = $this->_db->loadResult();
+			}
+			
+			$_Itemid = $this->_ContentSection;
 		}
 
 		if ($_Itemid == '' && $bs) {
-			// Search in specific blog section
-			$query = "SELECT m.id "
-			. "\n FROM #__content AS i"
-			. "\n LEFT JOIN #__sections AS s ON i.sectionid = s.id"
-			. "\n LEFT JOIN #__menu AS m ON m.componentid = s.id "
-			. "\n WHERE m.type = 'content_blog_section'"
-			. "\n AND m.published = 1"
-			. "\n AND i.id = $id"
-			;
-			$this->_db->setQuery( $query );
-			$_Itemid = $this->_db->loadResult();
+			// test whether id is the same as last id that called function
+			// if so the previous query result is loaded to reduce number of queries being loaded
+			if ( $this->_ContentBlogSection_id != $id ) {
+				// save current id to class variable
+				$this->_ContentBlogSection_id = $id;
+				
+				// Search in specific blog section
+				$query = "SELECT m.id "
+				. "\n FROM #__content AS i"
+				. "\n LEFT JOIN #__sections AS s ON i.sectionid = s.id"
+				. "\n LEFT JOIN #__menu AS m ON m.componentid = s.id "
+				. "\n WHERE m.type = 'content_blog_section'"
+				. "\n AND m.published = 1"
+				. "\n AND i.id = $id"
+				;
+				$this->_db->setQuery( $query );
+				// saves previous query result to class variable
+				$this->_ContentBlogSection = $this->_db->loadResult();
+			}
+			
+			$_Itemid = $this->_ContentBlogSection;
 		}
 
 		if ($_Itemid == '' && $bc) {
-			// Search in specific blog category
-			$query = "SELECT m.id "
-			. "\n FROM #__content AS i"
-			. "\n LEFT JOIN #__categories AS c ON i.catid = c.id"
-			. "\n LEFT JOIN #__menu AS m ON m.componentid = c.id "
-			. "\n WHERE m.type = 'content_blog_category'"
-			. "\n AND m.published = 1"
-			. "\n AND i.id = $id"
-			;
-			$this->_db->setQuery( $query );
-			$_Itemid = $this->_db->loadResult();
+			// test whether id is the same as last id that called function
+			// if so the previous query result is loaded to reduce number of queries being loaded
+			if ( $this->_ContentBlogCategory_id != $id ) {
+				// save current id to class variable
+				$this->_ContentBlogCategory_id = $id;
+				
+				// Search in specific blog category
+				$query = "SELECT m.id "
+				. "\n FROM #__content AS i"
+				. "\n LEFT JOIN #__categories AS c ON i.catid = c.id"
+				. "\n LEFT JOIN #__menu AS m ON m.componentid = c.id "
+				. "\n WHERE m.type = 'content_blog_category'"
+				. "\n AND m.published = 1"
+				. "\n AND i.id = $id"
+				;
+				$this->_db->setQuery( $query );
+				// saves previous query result to class variable
+				$this->_ContentBlogCategory = $this->_db->loadResult();
+			}
+		
+			$_Itemid = $this->_ContentBlogCategory;
 		}
 
 		if ($_Itemid == '' && $gbs) {
-			// Search in global blog section
-			$query = "SELECT id "
-			. "\n FROM #__menu "
-			. "\n WHERE type = 'content_blog_section'"
-			. "\n AND published = 1"
-			. "\n AND componentid = 0"
-			;
-			$this->_db->setQuery( $query );
-			$_Itemid = $this->_db->loadResult();
+			if (!defined( '_JOS_GBS' )) {
+				/** ensure that query is only called once */
+				define( '_JOS_GBS', 1 );
+					
+				// Search in global blog section
+				$query = "SELECT id "
+				. "\n FROM #__menu "
+				. "\n WHERE type = 'content_blog_section'"
+				. "\n AND published = 1"
+				. "\n AND componentid = 0"
+				;
+				$this->_db->setQuery( $query );
+				$this->_GlobalBlogSection = $this->_db->loadResult();
+			}
+			
+			$_Itemid = $this->_GlobalBlogSection;
 		}
 
 		if ($_Itemid == '') {
-			// Search in categories
-			$query = "SELECT m.id "
-			. "\n FROM #__content AS i"
-			. "\n LEFT JOIN #__categories AS cc ON i.catid = cc.id"
-			. "\n LEFT JOIN #__menu AS m ON m.componentid = cc.id "
-			. "\n WHERE m.type = 'content_category'"
-			. "\n AND m.published = 1"
-			. "\n AND i.id = $id"
-			;
-			$this->_db->setQuery( $query );
-			$_Itemid = $this->_db->loadResult();
+			// test whether id is the same as last id that called function
+			// if so the previous query result is loaded to reduce number of queries being loaded
+			if ( $this->_ContentCategory_id != $id ) {
+				// save current id to class variable
+				$this->_ContentCategory_id = $id;
+				
+				// Search in categories
+				$query = "SELECT m.id "
+				. "\n FROM #__content AS i"
+				. "\n LEFT JOIN #__categories AS cc ON i.catid = cc.id"
+				. "\n LEFT JOIN #__menu AS m ON m.componentid = cc.id "
+				. "\n WHERE m.type = 'content_category'"
+				. "\n AND m.published = 1"
+				. "\n AND i.id = $id"
+				;
+				$this->_db->setQuery( $query );
+				// saves previous query result to class variable
+				$this->_ContentCategory = $this->_db->loadResult();
+			}
+			
+			$_Itemid = $this->_ContentCategory;
 		}
 
 		if ( $_Itemid != '' ) {
@@ -1327,13 +1439,22 @@ class mosMainFrame {
 	* @return number of Published Blog Sections
 	*/
 	function getBlogSectionCount( ) {
-		$query = "SELECT COUNT( id )"
-		."\n FROM #__menu "
-		."\n WHERE type = 'content_blog_section'"
-		."\n AND published = 1"
-		;
-		$this->_db->setQuery( $query );
-		$count = $this->_db->loadResult();
+		/** ensure that query is only called once */
+		if (!defined( '_JOS_BSC' )) {
+			define( '_JOS_BSC', 1 );
+			
+			$query = "SELECT COUNT( id )"
+			."\n FROM #__menu "
+			."\n WHERE type = 'content_blog_section'"
+			."\n AND published = 1"
+			;
+			$this->_db->setQuery( $query );
+			// saves query result to class variable
+			$this->_BlogSectionCount = $this->_db->loadResult();
+		}
+		
+		$count = $this->_BlogSectionCount;
+		
 		return $count;
 	}
 
@@ -1341,13 +1462,22 @@ class mosMainFrame {
 	* @return number of Published Blog Categories
 	*/
 	function getBlogCategoryCount( ) {
-		$query = "SELECT COUNT( id )"
-		."\n FROM #__menu "
-		. "\n WHERE type = 'content_blog_category'"
-		. "\n AND published = 1"
-		;
-		$this->_db->setQuery( $query );
-		$count = $this->_db->loadResult();
+		/** ensure that query is only called once */
+		if (!defined( '_JOS_BCC' )) {
+			define( '_JOS_BCC', 1 );
+			
+			$query = "SELECT COUNT( id )"
+			."\n FROM #__menu "
+			. "\n WHERE type = 'content_blog_category'"
+			. "\n AND published = 1"
+			;
+			$this->_db->setQuery( $query );
+			// saves query result to class variable
+			$this->_BlogCategoryCount = $this->_db->loadResult();			
+		}
+		
+		$count = $this->_BlogCategoryCount;
+		
 		return $count;
 	}
 
@@ -1355,14 +1485,23 @@ class mosMainFrame {
 	* @return number of Published Global Blog Sections
 	*/
 	function getGlobalBlogSectionCount( ) {
-		$query = "SELECT COUNT( id )"
-		."\n FROM #__menu "
-		."\n WHERE type = 'content_blog_section'"
-		."\n AND published = 1"
-		."\n AND componentid = 0"
-		;
-		$this->_db->setQuery( $query );
-		$count = $this->_db->loadResult();
+		/** ensure that query is only called once */
+		if (!defined( '_JOS_GBSC' )) {
+			define( '_JOS_GBSC', 1 );
+			
+			$query = "SELECT COUNT( id )"
+			."\n FROM #__menu "
+			."\n WHERE type = 'content_blog_section'"
+			."\n AND published = 1"
+			."\n AND componentid = 0"
+			;
+			$this->_db->setQuery( $query );
+			// saves query result to class variable
+			$this->_GlobalBlogSectionCount = $this->_db->loadResult();			
+		}
+		
+		$count = $this->_GlobalBlogSectionCount;
+		
 		return $count;
 	}
 
@@ -1370,27 +1509,44 @@ class mosMainFrame {
 	* @return number of Static Content
 	*/
 	function getStaticContentCount( ) {
-		$query = "SELECT COUNT( id )"
-		."\n FROM #__menu "
-		."\n WHERE type = 'content_typed'"
-		."\n AND published = 1"
-		;
-		$this->_db->setQuery( $query );
-		$count = $this->_db->loadResult();
-		return $count;
+		/** ensure that query is only called once */
+		if (!defined( '_JOS_SCC' )) {
+			define( '_JOS_SCC', 1 );
+			
+			$query = "SELECT COUNT( id )"
+			."\n FROM #__menu "
+			."\n WHERE type = 'content_typed'"
+			."\n AND published = 1"
+			;
+			$this->_db->setQuery( $query );
+			// saves query result to class variable
+			$this->_StaticContentCount = $this->_db->loadResult();			
+		}
+		
+		$count = $this->_StaticContentCount;
+		
 	}
 
 	/**
 	* @return number of Content Item Links
 	*/
 	function getContentItemLinkCount( ) {
-		$query = "SELECT COUNT( id )"
-		."\n FROM #__menu "
-		."\n WHERE type = 'content_item_link'"
-		."\n AND published = 1"
-		;
-		$this->_db->setQuery( $query );
-		$count = $this->_db->loadResult();
+		/** ensure that query is only called once */
+		if (!defined( '_JOS_CILC' )) {
+			define( '_JOS_CILC', 1 );
+			
+			$query = "SELECT COUNT( id )"
+			."\n FROM #__menu "
+			."\n WHERE type = 'content_item_link'"
+			."\n AND published = 1"
+			;
+			$this->_db->setQuery( $query );
+			// saves query result to class variable
+			$this->_ContentItemLinkCount = $this->_db->loadResult();			
+		}
+		
+		$count = $this->_ContentItemLinkCount;
+		
 		return $count;
 	}
 
