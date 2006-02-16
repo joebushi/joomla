@@ -22,6 +22,11 @@ $_MAMBOTS->registerFunction( 'onPrepareContent', 'botMosLoadPosition' );
 function botMosLoadPosition( $published, &$row, &$params, $page=0 ) {
 	global $database;
 
+	// simple performance check to determine whether bot should process further
+	if ( strpos( $row->text, 'mosloadposition' ) === false ) {
+		return true;
+	}
+	
  	// expression to search for
  	$regex = '/{mosloadposition\s*.*?}/i';
 

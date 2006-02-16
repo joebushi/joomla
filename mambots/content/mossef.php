@@ -24,6 +24,11 @@ $_MAMBOTS->registerFunction( 'onPrepareContent', 'botMosSef' );
 */
 function botMosSef( $published, &$row, &$params, $page=0 ) {
 
+	// simple performance check to determine whether bot should process further
+	if ( strpos( $row->text, 'href="' ) === false ) {
+		return true;
+	}
+	
 	// check whether mambot has been unpublished
 	if ( !$published ) {
 		return true;

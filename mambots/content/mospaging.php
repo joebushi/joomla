@@ -33,6 +33,11 @@ $_MAMBOTS->registerFunction( 'onPrepareContent', 'botMosPaging' );
 function botMosPaging( $published, &$row, &$params, $page=0 ) {
 	global $mainframe, $Itemid, $database;
 
+	// simple performance check to determine whether bot should process further
+	if ( strpos( $row->text, 'mospagebreak' ) === false ) {
+		return true;
+	}
+	
  	// expression to search for
  	$regex = '/{(mospagebreak)\s*(.*?)}/i';
 

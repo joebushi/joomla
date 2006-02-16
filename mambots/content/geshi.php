@@ -24,6 +24,11 @@ $_MAMBOTS->registerFunction( 'onPrepareContent', 'botGeshi' );
 function botGeshi( $published, &$row, &$params, $page=0 ) {
 	require_once( $GLOBALS['mosConfig_absolute_path'] . '/includes/domit/xml_saxy_shared.php' );
 
+	// simple performance check to determine whether bot should process further
+	if ( strpos( $row->text, 'pre>' ) === false ) {
+		return true;
+	}
+	
 	// define the regular expression for the bot
 	$regex = "#<pre\s*(.*?)>(.*?)</pre>#s";
 

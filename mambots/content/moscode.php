@@ -23,6 +23,11 @@ $_MAMBOTS->registerFunction( 'onPrepareContent', 'botMosCode' );
 * <code>{moscode}...some code...{/moscode}</code>
 */
 function botMosCode( $published, &$row, &$params, $page=0 ) {
+	// simple performance check to determine whether bot should process further
+	if ( strpos( $row->text, 'moscode' ) === false ) {
+		return true;
+	}
+	
 	// define the regular expression for the bot
 	$regex = "#{moscode}(.*?){/moscode}#s";
 
