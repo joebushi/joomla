@@ -94,7 +94,8 @@ Medium Level Threat
 
 16-Feb-2006 Rey Gigataras
  # Fixed artf3523 : mosemailcloak issue with mailto params
- # Fixed : disbable mossef bot from working on mailto links
+ # Fixed : disable mossef bot from working on mailto links
+ # Fixed [topic,36637.0.html] : SEF deactivated relative & absolute url handling
 
 
 15-Feb-2006 Rey Gigataras
