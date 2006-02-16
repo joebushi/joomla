@@ -19,7 +19,7 @@ $_MAMBOTS->registerFunction( 'onPrepareContent', 'botMosImage' );
 /**
 */
 function botMosImage( $published, &$row, &$params, $page=0 ) {
-	global $database;
+	global $database, $_MAMBOTS;
 	
 	// simple performance check to determine whether bot should process further
 	if ( strpos( $row->text, 'mosimage' ) === false ) {
@@ -52,15 +52,24 @@ function botMosImage( $published, &$row, &$params, $page=0 ) {
 
  	// mambot only processes if there are any instances of the mambot in the text
  	if ( $count ) {
-		// load mambot params info
-		$query = "SELECT params"
-		. "\n FROM #__mambots"
-		. "\n WHERE element = 'mosimage'"
-		. "\n AND folder = 'content'"
-		;
-		$database->setQuery( $query );
-		$database->loadObject($mambot);
+		// check if param query has previously been processed
+		if ( !isset($_MAMBOTS->_content_mambot_params['mosimage']) ) {
+			// load mambot params info
+			$query = "SELECT params"
+			. "\n FROM #__mambots"
+			. "\n WHERE element = 'mosimage'"
+			. "\n AND folder = 'content'"
+			;
+			$database->setQuery( $query );
+			$database->loadObject($mambot);
+			
+			// save query to class variable
+			$_MAMBOTS->_content_mambot_params['mosimage'] = $mambot;
+		}
 
+		// pull query data from class variable
+		$mambot = $_MAMBOTS->_content_mambot_params['mosimage'];
+		
 	 	$botParams = new mosParameters( $mambot->params );
 
 	 	$botParams->def( 'padding' );

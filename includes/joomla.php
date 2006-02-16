@@ -3624,8 +3624,13 @@ class mosMambotHandler {
 	var $_bots				= null;
 	/** @var int Index of the mambot being loaded */
 	var $_loading			= null;
+	
+	/** Added as of 1.0.8 to ensure queries are only called once **/
+	
 	/** @var array An array of the content mambots in the system */
 	var $_content_mambots	= null;
+	/** @var array An array of the content mambot params */
+	var $_content_mambot_params	= array();
 
 	/**
 	* Constructor

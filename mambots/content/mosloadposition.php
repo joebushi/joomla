@@ -44,14 +44,23 @@ function botMosLoadPosition( $published, &$row, &$params, $page=0 ) {
 
  	// mambot only processes if there are any instances of the mambot in the text
  	if ( $count ) {
-		// load mambot params info
-		$query = "SELECT params"
-		. "\n FROM #__mambots"
-		. "\n WHERE element = 'mosloadposition'"
-		. "\n AND folder = 'content'"
-		;
-		$database->setQuery( $query );
-		$database->loadObject($mambot);
+		// check if param query has previously been processed
+		if ( !isset($_MAMBOTS->_content_mambot_params['mosloadposition']) ) {
+			// load mambot params info
+			$query = "SELECT params"
+			. "\n FROM #__mambots"
+			. "\n WHERE element = 'mosloadposition'"
+			. "\n AND folder = 'content'"
+			;
+			$database->setQuery( $query );
+			$database->loadObject($mambot);
+					
+			// save query to class variable
+			$_MAMBOTS->_content_mambot_params['mosloadposition'] = $mambot;
+		}
+		
+		// pull query data from class variable
+		$mambot = $_MAMBOTS->_content_mambot_params['mosloadposition'];
 		
 	 	$botParams = new mosParameters( $mambot->params );
 

@@ -20,7 +20,7 @@ $_MAMBOTS->registerFunction( 'onPrepareContent', 'botMosEmailCloak' );
 * Mambot that Cloaks all emails in content from spambots via javascript
 */
 function botMosEmailCloak( $published, &$row, &$params, $page=0 ) {
-	global $database;
+	global $database, $_MAMBOTS;
 
 	// check whether mambot has been unpublished
 	if ( !$published ) {
@@ -32,14 +32,23 @@ function botMosEmailCloak( $published, &$row, &$params, $page=0 ) {
 		return true;
 	}
 	
-	// load mambot params info
-	$query = "SELECT params"
-	. "\n FROM #__mambots"
-	. "\n WHERE element = 'mosemailcloak'"
-	. "\n AND folder = 'content'"
-	;
-	$database->setQuery( $query );
-	$database->loadObject($mambot);
+	// check if param query has previously been processed
+	if ( !isset($_MAMBOTS->_content_mambot_params['mosemailcloak']) ) {
+		// load mambot params info
+		$query = "SELECT params"
+		. "\n FROM #__mambots"
+		. "\n WHERE element = 'mosemailcloak'"
+		. "\n AND folder = 'content'"
+		;
+		$database->setQuery( $query );
+		$database->loadObject($mambot);	
+			
+		// save query to class variable
+		$_MAMBOTS->_content_mambot_params['mosemailcloak'] = $mambot;
+	}
+	
+	// pull query data from class variable
+	$mambot = $_MAMBOTS->_content_mambot_params['mosemailcloak'];
 	
  	$botParams 	= new mosParameters( $mambot->params );
  	$mode		= $botParams->def( 'mode', 1 );

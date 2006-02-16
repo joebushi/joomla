@@ -96,6 +96,7 @@ Medium Level Threat
  ^ PERFORMANCE : `dynamic` Itemid checks store previous query results - affect = reduction in queries
  ^ PERFORMANCE : `static` Itemid counters now loads only once - affect = reduction in queries
  ^ PERFORMANCE : 'content' bot group loaded only once instead of each time content is loaded - affect = reduction in queries
+ ^ PERFORMANCE : individual 'content' bot query to pull params loaded only once instead of each time content is loaded - affect = reduction in queries
 
 
 16-Feb-2006 Rey Gigataras
