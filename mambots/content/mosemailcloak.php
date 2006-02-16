@@ -27,6 +27,11 @@ function botMosEmailCloak( $published, &$row, &$params, $page=0 ) {
 		return true;
 	}
 	
+	// simple performance check to determine whether bot should process further
+	if ( strpos( $row->text, '@' ) === false ) {
+		return true;
+	}
+	
 	// load mambot params info
 	$query = "SELECT id"
 	. "\n FROM #__mambots"
