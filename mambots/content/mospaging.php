@@ -60,15 +60,14 @@ function botMosPaging( $published, &$row, &$params, $page=0 ) {
 	// we have found at least one mambot, therefore at least 2 pages
 	if ($n > 1) {
 		// load mambot params info
-		$query = "SELECT id"
+		$query = "SELECT params"
 		. "\n FROM #__mambots"
 		. "\n WHERE element = 'mospaging'"
 		. "\n AND folder = 'content'"
 		;
 		$database->setQuery( $query );
-	 	$id 	= $database->loadResult();
-	 	$mambot = new mosMambot( $database );
-	  	$mambot->load( $id );
+		$database->loadObject($mambot);
+		
 	 	$botParams = new mosParameters( $mambot->params );
 
 	 	$title	= $botParams->def( 'title', 1 );

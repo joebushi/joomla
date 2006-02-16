@@ -98,8 +98,8 @@ Medium Level Threat
  # Fixed [topic,36637.0.html] : SEF deactivated relative & absolute url handling
  # Fixed [topic,36637.0.html] : Session username not correct for those coming from `Remember Me` cookie
  
- + PERFORMANCE : Simple check for all bots to determine whether they should process further
- 
+ + PERFORMANCE : Simple check for all bots to determine whether they should process further 
+ ^ PERFORMANCE : Reduce queries used by bots - mosemailcloak, mosimage, mosloadposition, mospaging
  ^ PERFORMANCE : 'editor-xtd' bot group loaded only when needed
 
 

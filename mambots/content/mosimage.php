@@ -53,15 +53,14 @@ function botMosImage( $published, &$row, &$params, $page=0 ) {
  	// mambot only processes if there are any instances of the mambot in the text
  	if ( $count ) {
 		// load mambot params info
-		$query = "SELECT id"
+		$query = "SELECT params"
 		. "\n FROM #__mambots"
 		. "\n WHERE element = 'mosimage'"
 		. "\n AND folder = 'content'"
 		;
 		$database->setQuery( $query );
-	 	$id 	= $database->loadResult();
-	 	$mambot = new mosMambot( $database );
-	  	$mambot->load( $id );
+		$database->loadObject($mambot);
+
 	 	$botParams = new mosParameters( $mambot->params );
 
 	 	$botParams->def( 'padding' );
