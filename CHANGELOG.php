@@ -92,6 +92,11 @@ Medium Level Threat
 ---
 
 
+16-Feb-2006 Rey Gigataras
+ # Fixed artf3523 : mosemailcloak issue with mailto params
+ # Fixed : disbable mossef bot from working on mailto links
+
+
 15-Feb-2006 Rey Gigataras
  # Fixed artf3527 : "New" Content Link and Image Not Present When Category Empty
  # Fixed [topic,36462.0.html] : Static Content Start/Finish publishing time is based on server time, not local time
