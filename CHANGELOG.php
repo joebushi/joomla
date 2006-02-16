@@ -99,6 +99,8 @@ Medium Level Threat
  # Fixed [topic,36637.0.html] : Session username not correct for those coming from `Remember Me` cookie
  
  + PERFORMANCE : Simple check for all bots to determine whether they should process further
+ 
+ ^ PERFORMANCE : 'editor-xtd' bot group loaded only when needed
 
 
 15-Feb-2006 Rey Gigataras

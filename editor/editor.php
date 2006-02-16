@@ -30,7 +30,6 @@ if (!defined( '_MOS_EDITOR_INCLUDED' )) {
 	}
 
 	$_MAMBOTS->loadBot( 'editors', $editor, 1 );
-	$_MAMBOTS->loadBotGroup( 'editors-xtd' );
 
 	function initEditor() {
 		global $mainframe, $_MAMBOTS;
@@ -60,6 +59,8 @@ if (!defined( '_MOS_EDITOR_INCLUDED' )) {
 	function editorArea( $name, $content, $hiddenField, $width, $height, $col, $row ) {
 		global $mainframe, $_MAMBOTS, $my;
 
+		$_MAMBOTS->loadBotGroup( 'editors-xtd' );
+		
 		$mainframe->set( 'loadEditor', true );
 
 		$results = $_MAMBOTS->trigger( 'onEditorArea', array( $name, $content, $hiddenField, $width, $height, $col, $row ) );
