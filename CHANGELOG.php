@@ -92,6 +92,7 @@ Medium Level Threat
 ---
 
 18-Feb-2006 Rey Gigataras
+ ^ PERFORMANCE : Reduce queries used in com_content & com_typedcontent
  ^ PERFORMANCE : Reduce queries used by search bots to load params
  ^ PERFORMANCE : 'editor-xtd' bot group loaded only once - affect = reduction in queries
  ^ Refactored session handling code for Admin sessions

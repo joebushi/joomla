@@ -1527,20 +1527,29 @@ function editItem( $uid, $gid, &$access, $sectionid=0, $task, $Itemid ){
 		} else {
 			$row->images = array();
 		}
-		$query = "SELECT name from #__users"
+		
+		$query = "SELECT name"
+		. "\n FROM #__users"
 		. "\n WHERE id = $row->created_by"
 		;
 		$database->setQuery( $query	);
 		$row->creator = $database->loadResult();
+		
+		// test to reduce unneeded query
+		if ( $row->created_by == $row->modified_by ) {
+			$row->modifier = $row->creator;
+		} else {
+			$query = "SELECT name"
+			. "\n FROM #__users"
+			. "\n WHERE id = '$row->modified_by'"
+			;
+			$database->setQuery( $query );
+			$row->modifier = $database->loadResult();
+		}
 
-		$query = "SELECT name from #__users"
-		. "\n WHERE id = $row->modified_by"
-		;
-		$database->setQuery( $query );
-		$row->modifier = $database->loadResult();
-
-		$query = "SELECT content_id from #__content_frontpage"
-		."\n WHERE content_id = $row->id"
+		$query = "SELECT content_id"
+		. "\n FROM #__content_frontpage"
+		. "\n WHERE content_id = $row->id"
 		;
 		$database->setQuery( $query );
 		$row->frontpage = $database->loadResult();
