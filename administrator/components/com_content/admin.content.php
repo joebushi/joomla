@@ -382,31 +382,6 @@ function editContent( $uid=0, $sectionid=0, $option ) {
 		}
 	}
 
-	if ( $sectionid == 0 ) {
-		$where = "\n WHERE section NOT LIKE '%com_%'";
-	} else {
-		$where = "\n WHERE section = '$sectionid'";
-	}
-
-	// get the type name - which is a special category
-	 if ($row->sectionid){
-		$query = "SELECT name"
-		. "\n FROM #__sections"
-		. "\n WHERE id = $row->sectionid"
-		;
-		$database->setQuery( $query );
-		$section = $database->loadResult();
-		$contentSection = $section;
-	} else {
-		$query = "SELECT name"
-		. "\n FROM #__sections"
-		. "\n WHERE id = $sectionid"
-		;
-		$database->setQuery( $query );
-		$section = $database->loadResult();
-		$contentSection = $section;
-	}
-
 	// fail if checked out not by 'me'
 	if ($row->checked_out && $row->checked_out != $my->id) {
 		mosRedirect( 'index2.php?option=com_content', 'The module '. $row->title .' is currently being edited by another administrator' );
@@ -499,18 +474,30 @@ function editContent( $uid=0, $sectionid=0, $option ) {
 		$sections = $database->loadObjectList();
 		$lists['sectionid'] = mosHTML::selectList( $sections, 'sectionid', 'class="inputbox" size="1" '. $javascript, 'id', 'title', intval( $row->sectionid ) );
 	}
-	$sections = $database->loadObjectList();
+	
+	$contentSection = '';
+	foreach($sections as $section) {
+		$section_list[] = $section->id;
+		// get the type name - which is a special category
+		if ($row->sectionid){
+			if ( $section->id == $row->sectionid ) {
+				$contentSection = $section->title;
+			}
+		} else {
+			if ( $section->id == $sectionid ) {
+				$contentSection = $section->title;
+			}
+		}		
+	}
 
 	$sectioncategories 			= array();
 	$sectioncategories[-1] 		= array();
 	$sectioncategories[-1][] 	= mosHTML::makeOption( '-1', 'Select Category', 'id', 'name' );
-	foreach($sections as $section) {
-		$section_list[] = $section->id;
-	}
-	$section_list = implode( ',', $section_list );
+	$section_list 				= implode( '\', \'', $section_list );
+	
 	$query = "SELECT id, name, section"
 	. "\n FROM #__categories"
-	. "\n WHERE section IN ( $section_list )"
+	. "\n WHERE section IN ( '$section_list' )"
 	. "\n ORDER BY ordering"
 	;
 	$database->setQuery( $query );
@@ -533,14 +520,21 @@ function editContent( $uid=0, $sectionid=0, $option ) {
  		$categories[] 		= mosHTML::makeOption( '-1', 'Select Category', 'id', 'name' );
  		$lists['catid'] 	= mosHTML::selectList( $categories, 'catid', 'class="inputbox" size="1"', 'id', 'name' );
   	} else {
- 		$query = "SELECT id, name"
- 		. "\n FROM #__categories"
- 		. $where
- 		. "\n ORDER BY ordering"
- 		;
- 		$database->setQuery( $query );
- 		$categories[] 		= mosHTML::makeOption( '-1', 'Select Category', 'id', 'name' );
- 		$categories 		= array_merge( $categories, $database->loadObjectList() );
+		if ( $sectionid == 0 ) {
+			//$where = "\n WHERE section NOT LIKE '%com_%'";
+			foreach($cat_list as $cat) {		
+				$categoriesA[] = $cat;
+			}
+		} else {
+			//$where = "\n WHERE section = '$sectionid'";
+			foreach($cat_list as $cat) {		
+				if ($cat->section == $sectionid) {
+					$categoriesA[] = $cat;
+				}
+			}
+		}		
+		$categories[] 		= mosHTML::makeOption( '-1', 'Select Category', 'id', 'name' );
+		$categories 		= array_merge( $categories, $categoriesA );
  		$lists['catid'] 	= mosHTML::selectList( $categories, 'catid', 'class="inputbox" size="1"', 'id', 'name', intval( $row->catid ) );
   	}
 

@@ -424,9 +424,12 @@ class mosMenuBar {
 		global $database;
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'preview_f2.png', '/administrator/images/', NULL, NULL, 'Preview', 'preview', 1 );
 
-		$sql = "SELECT template FROM #__templates_menu WHERE client_id='0' AND menuid='0'";
+		$sql = "SELECT template"
+		. "\n FROM #__templates_menu"
+		. "\n WHERE client_id = 0"
+		. "\n AND menuid = 0";
 		$database->setQuery( $sql );
-		$cur_template = $database->loadResult();
+		$cur_template = $database->loadResult();	
 		?>
 		<td>
 			<script language="javascript">
@@ -603,15 +606,9 @@ class mosMenuBar {
 	* @param string The sub-drectory to upload the media to
 	*/
 	function media_manager( $directory='', $alt='Upload' ) {
-		global $database;
+		global $database, $mainframe;
 		
-		$query = "SELECT template"
-		. "\n FROM #__templates_menu"
-		. "\n WHERE client_id = 1"
-		. "\n AND menuid = 0"
-		;
-		$database->setQuery( $query );		
-		$cur_template = $database->loadResult();
+		$cur_template = $mainframe->getTemplate();
 		
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'upload_f2.png', '/administrator/images/', NULL, NULL, 'Upload Image', 'uploadPic', 1 );
 		?>
