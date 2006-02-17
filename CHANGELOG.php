@@ -92,6 +92,8 @@ Medium Level Threat
 ---
 
 18-Feb-2006 Rey Gigataras
+ ^ PERFORMANCE : Reduce queries used by search bots to load params
+ ^ PERFORMANCE : 'editor-xtd' bot group loaded only once - affect = reduction in queries
  ^ Refactored session handling code for Admin sessions
  
  + session.gc_maxlifetime setting for Admin Sessions
@@ -118,7 +120,7 @@ Medium Level Threat
  # Fixed [topic,36637.0.html] : Session username not correct for those coming from `Remember Me` cookie
  
  + PERFORMANCE : Simple check for all bots to determine whether they should process further 
- ^ PERFORMANCE : Reduce queries used by bots - mosemailcloak, mosimage, mosloadposition, mospaging - affect = reduction in queries
+ ^ PERFORMANCE : Reduce queries used by bots to load params - mosemailcloak, mosimage, mosloadposition, mospaging - affect = reduction in queries
  ^ PERFORMANCE : 'editor-xtd' bot group loaded only when needed - affect = reduction in queries
 
 

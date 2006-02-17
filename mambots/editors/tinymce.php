@@ -25,15 +25,14 @@ function botTinymceEditorInit() {
 	global $mosConfig_live_site, $database, $mosConfig_absolute_path, $mainframe;
 
 	// load tinymce info
-	$query = "SELECT id"
+	$query = "SELECT params"
 	. "\n FROM #__mambots"
 	. "\n WHERE element = 'tinymce'"
 	. "\n AND folder = 'editors'"
 	;
 	$database->setQuery( $query );
-	$id = $database->loadResult();
-	$mambot = new mosMambot( $database );
-	$mambot->load( $id );
+	$database->loadObject($mambot);
+	
 	$params = new mosParameters( $mambot->params );
 
 	$theme = $params->get( 'theme', 'advanced' );

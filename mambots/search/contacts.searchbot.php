@@ -29,15 +29,14 @@ function botSearchContacts( $text, $phrase='', $ordering='' ) {
 	global $database, $my;
 
 	// load mambot params info
-	$query = "SELECT id"
+	$query = "SELECT params"
 	. "\n FROM #__mambots"
 	. "\n WHERE element = 'contacts.searchbot'"
 	. "\n AND folder = 'search'"
 	;
 	$database->setQuery( $query );
-	$id 	= $database->loadResult();
-	$mambot = new mosMambot( $database );
-	$mambot->load( $id );
+	$database->loadObject($mambot);
+	
 	$botParams = new mosParameters( $mambot->params );
 	
 	$limit = $botParams->def( 'search_limit', 50 );

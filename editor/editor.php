@@ -14,7 +14,7 @@
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
-if (!defined( '_MOS_EDITOR_INCLUDED' )) {
+if (!defined( '_JOS_EDITOR_INCLUDED' )) {
 	global $mosConfig_editor;
 	global $my;
 
@@ -59,7 +59,11 @@ if (!defined( '_MOS_EDITOR_INCLUDED' )) {
 	function editorArea( $name, $content, $hiddenField, $width, $height, $col, $row ) {
 		global $mainframe, $_MAMBOTS, $my;
 
-		$_MAMBOTS->loadBotGroup( 'editors-xtd' );
+		// ensure editor-xtd bots are loaded only once
+		if (!defined( '_JOS_EDITORXTD_INCLUDED' )) {
+			define( '_JOS_EDITORXTD_INCLUDED', 1 );
+			$_MAMBOTS->loadBotGroup( 'editors-xtd' );
+		}
 		
 		$mainframe->set( 'loadEditor', true );
 
@@ -70,6 +74,6 @@ if (!defined( '_MOS_EDITOR_INCLUDED' )) {
 			}
 		}
 	}
-	define( '_MOS_EDITOR_INCLUDED', 1 );
+	define( '_JOS_EDITOR_INCLUDED', 1 );
 }
 ?>
