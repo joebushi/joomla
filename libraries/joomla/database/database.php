@@ -12,60 +12,22 @@
 */
 
 jimport( 'joomla.common.base.object' );
+jimport('joomla.database.databaseconnector');
 jimport( 'joomla.database.recordset' );
 
 /**
- * Database connector class
+ * Database application class
+ * the purpose of this class is to provide a framework wide interface for
+ * all database requests. This interface is independed of the data container
+ * (e.g. database, content container) and works together with a specific
+ * connector for this database.
  *
- * @abstract
  * @package		Joomla.Framework
  * @subpackage	Database
  * @since		1.0
  */
 class JDatabase extends JObject
 {
-	/** @var string Internal variable to hold the query sql */
-	var $_sql			= '';
-	/** @var int Internal variable to hold the database error number */
-	var $_errorNum		= 0;
-	/** @var string Internal variable to hold the database error message */
-	var $_errorMsg		= '';
-	/** @var string Internal variable to hold the prefix used on all database tables */
-	var $_table_prefix	= '';
-	/** @var Internal variable to hold the connector resource */
-	var $_resource		= '';
-	/** @var Internal variable to hold the last query cursor */
-	var $_cursor		= null;
-	/** @var boolean Debug option */
-	var $_debug			= 0;
-	/** @var int The limit for the query */
-	var $_limit			= 0;
-	/** @var int The for offset for the limit */
-	var $_offset		= 0;
-	/** @var int A counter for the number of queries performed by the object instance */
-	var $_ticker		= 0;
-	/** @var array A log of queries */
-	var $_log			= null;
-	/** @var string The null/zero date string */
-	var $_nullDate		= null;
-	/** @var string Quote for named objects */
-	var $_nameQuote		= null;
-	/**
-	 * @var boolean UTF-8 support
-	 * @since    1.1
-	 */
-	var $_utf			= 0;
-	/**
-	 * @var array The fields that are to be quote
-	 * @since    1.1
-	 */
-	var $_quoted	= null;
-	/**
-	 * @var bool Legacy compatibility
-	 * @since    1.1
-	 */
-	var $_hasQuoted	= null;
-
 	/**
 	* Database object constructor
 	* 
@@ -137,7 +99,7 @@ class JDatabase extends JObject
 
 		if (empty($instances[$signature])) {
 			jimport('joomla.database.database.'.$driver);
-			$adapter = 'JDatabase'.$driver;
+			$adapter = 'JDatabaseConnector'.$driver;
 			$instances[$signature] = new $adapter($host, $user, $pass, $db, $table_prefix);
 		}
 

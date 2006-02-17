@@ -312,12 +312,12 @@ class mosUser extends JModelUser {
  * @package		Joomla.Legacy
  * @subpackage	1.1
  */
-class database extends JDatabaseMySQL {
+/*class database extends JDatabaseMySQL {
 	function __construct ($host='localhost', $user, $pass, $db='', $table_prefix='', $offline = true) {
 		parent::__construct( $host, $user, $pass, $db, $table_prefix );
 	}
 }
-
+*/
  /**
  * Legacy class, use JFactory::getCache instead
  * 
