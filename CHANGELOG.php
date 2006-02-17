@@ -91,6 +91,11 @@ Medium Level Threat
 
 ---
 
+18-Feb-2006 Rey Gigataras
+ ^ Refactored session handling code for Admin sessions
+ 
+ + session.gc_maxlifetime setting for Admin Sessions
+
 
 17-Feb-2006 Rey Gigataras
  # Fixed artf3543 : Rev 2393 Language Manager Error

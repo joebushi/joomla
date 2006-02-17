@@ -717,10 +717,95 @@ class mosMainFrame {
 			}
 		}
 	}
+	
+	/*
+	* Function used to conduct admin session duties
+	* Added as of 1.0.8
+	* Deperciated 1.1
+	*/
+	function initSessionAdmin( $mainframe ) {	
+		// restore some session variables
+		$my 			= new mosUser( $this->_db );
+		$my->id 		= mosGetParam( $_SESSION, 'session_user_id', '' );
+		$my->username 	= mosGetParam( $_SESSION, 'session_username', '' );
+		$my->usertype 	= mosGetParam( $_SESSION, 'session_usertype', '' );
+		$my->gid 		= mosGetParam( $_SESSION, 'session_gid', '' );
+		$my->params		= mosGetParam( $_SESSION, 'session_user_params', '' );
 
+		$session_id 	= mosGetParam( $_SESSION, 'session_id', '' );
+		$logintime 		= mosGetParam( $_SESSION, 'session_logintime', '' );
+		$site			= $mainframe->getCfg( 'live_site' );
+		
+		// set garbage cleaning timeout
+		$this->setSessionGarbageClean();
+		
+		// check against db record of session
+		if ( $session_id == md5( $my->id . $my->username . $my->usertype . $logintime ) ) {
+			$query = "SELECT *"
+			. "\n FROM #__session"
+			. "\n WHERE session_id = '$session_id'"
+			. "\n AND username = ". $this->_db->Quote( $my->username )
+			. "\n AND userid = ". intval( $my->id )
+			;
+			$this->_db->setQuery( $query );
+			if (!$result = $this->_db->query()) {
+				echo $this->_db->stderr();
+			}
+			
+			// if no entry in session table that corresponds disallow login
+			if ($this->_db->getNumRows( $result ) != 1) {
+				echo "<script>document.location.href='index.php'</script>\n";
+				exit();
+			}
+		} else {
+		// session id does not correspond to required session format
+			echo "<script>document.location.href='$site/administrator/index.php'</script>\n";
+			exit();
+		}
+		
+		// update session timestamp
+		$current_time = time();
+		$query = "UPDATE #__session"
+		. "\n SET time = '$current_time'"
+		. "\n WHERE session_id = '$session_id'"
+		;
+		$this->_db->setQuery( $query );
+		$this->_db->query();
+		
+		// purge expired admin sessions only		
+		$past = time() - $this->getCfg( 'session_life_admin' );
+		$query = "DELETE FROM #__session"
+		. "\n WHERE time < '$past'"
+		. "\n AND guest = 1"
+		. "\n AND gid = 0"
+		. "\n AND userid <> 0"
+		;
+		$this->_db->setQuery( $query );
+		$this->_db->query();	
+
+		return $my;
+	}
+	
+	/*
+	* Function used to set Session Garbage Cleaning
+	* garbage cleaning set at configured session time + 600 seconds
+	* Added as of 1.0.8
+	* Deperciated 1.1
+	*/
+	function setSessionGarbageClean() {
+		/** ensure that funciton is only called once */
+		if (!defined( '_JOS_GARBAGECLEAN' )) {
+			define( '_JOS_GARBAGECLEAN', 1 );
+			
+			$garbage_timeout = $this->getCfg('session_life_admin') + 600;
+			ini_set('session.gc_maxlifetime', $garbage_timeout);
+		}
+	}
+	
 	/*
 	* Static Function used to generate the Session Cookie Name
 	* Added as of 1.0.8
+	* Deperciated 1.1
 	*/
 	function sessionCookieName() {
 		global $mainframe;
@@ -731,6 +816,7 @@ class mosMainFrame {
 	/*
 	* Static Function used to generate the Session Cookie Value
 	* Added as of 1.0.8
+	* Deperciated 1.1
 	*/
 	function sessionCookieValue( $id=null ) {
 		global $mainframe;		
@@ -766,6 +852,7 @@ class mosMainFrame {
 	/*
 	* Static Function used to generate the Rememeber Me Cookie Name for Username information
 	* Added as of 1.0.8
+	* Deperciated 1.1
 	*/
 	function rememberCookieName_User() {
 		$value = mosHash( 'remembermecookieusername'. mosMainFrame::sessionCookieName() );
@@ -776,6 +863,7 @@ class mosMainFrame {
 	/*
 	* Static Function used to generate the Rememeber Me Cookie Name for Password information
 	* Added as of 1.0.8
+	* Deperciated 1.1
 	*/
 	function rememberCookieName_Pass() {
 		$value = mosHash( 'remembermecookiepassword'. mosMainFrame::sessionCookieName() );
@@ -786,6 +874,7 @@ class mosMainFrame {
 	/*
 	* Static Function used to generate the Remember Me Cookie Value for Username information
 	* Added as of 1.0.8
+	* Deperciated 1.1
 	*/
 	function rememberCookieValue_User( $username ) {
 		$value = md5( $username . mosHash( @$_SERVER['HTTP_USER_AGENT'] ) );
@@ -796,6 +885,7 @@ class mosMainFrame {
 	/*
 	* Static Function used to generate the Remember Me Cookie Value for Password information
 	* Added as of 1.0.8
+	* Deperciated 1.1
 	*/
 	function rememberCookieValue_Pass( $passwd ) {
 		$value = md5( $passwd . mosHash( @$_SERVER['HTTP_USER_AGENT'] ) );
@@ -900,6 +990,7 @@ class mosMainFrame {
 			}
 		}
 	}
+	
 	/**
 	* User logout
 	*

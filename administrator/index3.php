@@ -27,6 +27,12 @@ require_once( $mosConfig_absolute_path . '/administrator/includes/admin.php' );
 
 $option = trim( strtolower( mosGetParam( $_REQUEST, 'option', '' ) ) );
 
+// logout check
+if ($option == 'logout') {
+	require 'logout.php';
+	exit();
+}
+		
 // must start the session before we create the mainframe object
 session_name( md5( $mosConfig_live_site ) );
 session_start();
@@ -34,68 +40,15 @@ session_start();
 // mainframe is an API workhorse, lots of 'core' interaction routines
 $mainframe = new mosMainFrame( $database, $option, '..', true );
 
+// admin session handling
+$my = $mainframe->initSessionAdmin( $mainframe );
+
 // initialise some common request directives
 $task		= mosGetParam( $_REQUEST, 'task', '' );
 $act		= strtolower( mosGetParam( $_REQUEST, 'act', '' ) );
 $section	= mosGetParam( $_REQUEST, 'section', '' );
 $mosmsg		= strip_tags( mosGetParam( $_REQUEST, 'mosmsg', '' ) );
 $no_html	= strtolower( mosGetParam( $_REQUEST, 'no_html', '' ) );
-
-if ($option == 'logout') {
-	require 'logout.php';
-	exit();
-}
-
-// restore some session variables
-$my = new mosUser( $database );
-$my->id 		= mosGetParam( $_SESSION, 'session_user_id', '' );
-$my->username 	= mosGetParam( $_SESSION, 'session_username', '' );
-$my->usertype 	= mosGetParam( $_SESSION, 'session_usertype', '' );
-$my->gid 		= mosGetParam( $_SESSION, 'session_gid', '' );
-
-$session_id 	= mosGetParam( $_SESSION, 'session_id', '' );
-$logintime 		= mosGetParam( $_SESSION, 'session_logintime', '' );
-
-// check against db record of session
-if ( $session_id == md5( $my->id . $my->username . $my->usertype . $logintime ) ) {
-	$query = "SELECT *"
-	. "\n FROM #__session"
-	. "\n WHERE session_id = '$session_id'"
-	. "\n AND username = '" . $database->getEscaped( $my->username ) . "'"
-	. "\n AND userid = " . intval( $my->id )
-	;
-	$database->setQuery( $query );
-	if (!$result = $database->query()) {
-		echo $database->stderr();
-	}
-	if ($database->getNumRows( $result ) != 1) {
-		echo "<script>document.location.href='index.php'</script>\n";
-		exit();
-	}
-} else {
-	echo "<script>document.location.href='index.php'</script>\n";
-	exit();
-}
-
-// update session timestamp
-$current_time = time();
-$query = "UPDATE #__session"
-. "\n SET time = '$current_time'"
-. "\n WHERE session_id = '$session_id'"
-;
-$database->setQuery( $query );
-$database->query();
-
-// timeout old admin sessions only
-$past = time() - $mainframe->getCfg( 'session_life_admin' );
-$query = "DELETE FROM #__session"
-. "\n WHERE time < '$past'"
-. "\n AND guest = 1"
-. "\n AND gid = 0"
-. "\n AND userid <> 0"
-;
-$database->setQuery( $query );
-$database->query();
 
 // start the html output
 if ($no_html) {
@@ -126,7 +79,6 @@ initEditor();
 ?>
 </head>
 <body>
-
 <?php
 if ($mosmsg) {
 	if (!get_magic_quotes_gpc()) {
