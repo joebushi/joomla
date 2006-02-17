@@ -153,20 +153,16 @@ if (!defined( '_MOS_MAINMENU_MODULE' )) {
 			$intUserType = 0;
 		}
 
-		if ($mosConfig_shownoauth) {
-			$sql = "SELECT m.*"
-			. "\n FROM #__menu AS m"
-			. "\n WHERE menutype = '". $params->get( 'menutype' ) ."'"
-			. "\n AND published = 1"
-			. "\n ORDER BY parent, ordering";
-		} else {
-			$sql = "SELECT m.*"
-			. "\n FROM #__menu AS m"
-			. "\n WHERE menutype = '". $params->get( 'menutype' ) ."'"
-			. "\n AND published = 1"
-			. "\n AND access <= $my->gid"
-			. "\n ORDER BY parent, ordering";
-		}
+		$and = '';
+		if ( !$mosConfig_shownoauth ) {
+			$and = "\n AND access <= $my->gid";
+		}		
+		$sql = "SELECT m.*"
+		. "\n FROM #__menu AS m"
+		. "\n WHERE menutype = '". $params->get( 'menutype' ) ."'"
+		. "\n AND published = 1"
+		. $and
+		. "\n ORDER BY parent, ordering";
 		$database->setQuery( $sql );
 		$rows = $database->loadObjectList( 'id' );
 
