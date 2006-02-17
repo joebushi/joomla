@@ -95,6 +95,7 @@ Medium Level Threat
 17-Feb-2006 Rey Gigataras
  # Fixed artf3543 : Rev 2393 Language Manager Error
  # Fixed [topic,22061.0.html] : Wrapper Autoheight ability set to off by default, as causes javascript errors when used on sites not on your domain
+ # Fixed [topic,30542.0.html] : MySQL 5 support in strict mode 
 
  ^ PERFORMANCE : `dynamic` Itemid checks store previous query results - affect = reduction in queries
  ^ PERFORMANCE : `static` Itemid counters now loads only once - affect = reduction in queries

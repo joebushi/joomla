@@ -738,7 +738,7 @@ class mosDBTable {
 	 * @private
 	 * @since 1.0.6
 	 */
-	function setSchema( $array=null ) {
+	function _setSchema( $array=null ) {
 		if (is_array( $array )) {
 			$this->_schema = $array;
 		} else {
@@ -752,7 +752,7 @@ class mosDBTable {
 	 * @private
 	 * @since 1.0.6
 	 */
-	function &_getSchema() {
+	function _getSchema() {
 		if ($this->_schema == null) {
 			$this->_setSchema();
 		}
