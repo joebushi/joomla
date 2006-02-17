@@ -93,11 +93,16 @@ Medium Level Threat
 
 
 17-Feb-2006 Rey Gigataras
+ # Fixed artf3543 : Rev 2393 Language Manager Error
+
  ^ PERFORMANCE : `dynamic` Itemid checks store previous query results - affect = reduction in queries
  ^ PERFORMANCE : `static` Itemid counters now loads only once - affect = reduction in queries
  ^ PERFORMANCE : 'content' bot group loaded only once instead of each time content is loaded - affect = reduction in queries
  ^ PERFORMANCE : individual 'content' bot query to pull params loaded only once instead of each time content is loaded - affect = reduction in queries
 
+ + new Admin Session Life Global Config param, allowing setting of admin session idle logout time
+ + query debug mode to backend
+ 
 
 16-Feb-2006 Rey Gigataras
  # Fixed artf3523 : mosemailcloak issue with mailto params

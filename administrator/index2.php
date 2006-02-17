@@ -89,7 +89,7 @@ $database->setQuery( $query );
 $database->query();
 
 // timeout old admin sessions only
-$past = time()-1800;
+$past = time() - $mainframe->getCfg( 'session_life_admin' );
 $query = "DELETE FROM #__session"
 . "\n WHERE time < '$past'"
 . "\n AND guest = 1"
@@ -133,6 +133,15 @@ if ($no_html == 0) {
 	}
 } else {
 	mosMainBody_Admin();
+}
+
+// displays queries performed for page
+if ($mosConfig_debug) {
+	echo $database->_ticker . ' queries executed';
+	echo '<pre>';
+	foreach ($database->_log as $k=>$sql) {
+		echo $k+1 . "\n" . $sql . '<hr />';
+	}
 }
 
 doGzip();

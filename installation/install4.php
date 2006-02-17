@@ -158,6 +158,7 @@ if ($siteUrl) {
 	$config .= "\$mosConfig_error_message = 'This site is temporarily unavailable.<br /> Please notify the System Administrator';\n";
 	$config .= "\$mosConfig_debug = '0';\n";
 	$config .= "\$mosConfig_lifetime = '900';\n";
+	$config .= "\$mosConfig_session_life_admin = '900';\n";
 	$config .= "\$mosConfig_session_type = '0';\n";
 	$config .= "\$mosConfig_MetaDesc = 'Joomla - the dynamic portal engine and content management system';\n";
 	$config .= "\$mosConfig_MetaKeys = 'Joomla, joomla';\n";

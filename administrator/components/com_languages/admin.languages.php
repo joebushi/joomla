@@ -38,7 +38,7 @@ switch ($task) {
 		break;
 
 	case 'edit_source':
-		editLanguageSource( intval( $cid[0] ), $option );
+		editLanguageSource( $cid[0], $option );
 		break;
 
 	case 'save_source':
@@ -46,11 +46,11 @@ switch ($task) {
 		break;
 
 	case 'remove':
-		removeLanguage( intval( $cid[0] ), $option );
+		removeLanguage( $cid[0], $option );
 		break;
 
 	case 'publish':
-		publishLanguage( intval( $cid[0] ), $option );
+		publishLanguage( $cid[0], $option );
 		break;
 
 	case 'cancel':

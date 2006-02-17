@@ -424,11 +424,20 @@ class HTML_config {
 				<td>&nbsp;</td>
 			</tr>
 			<tr>
-				<td>Frontend Login Session Lifetime:</td>
+				<td>Site Session Lifetime:</td>
 				<td>
 				<input class="text_area" type="text" name="config_lifetime" size="10" value="<?php echo $row->config_lifetime; ?>"/>
 				&nbsp;seconds&nbsp;
-				<?php echo mosToolTip('Auto logout after this time of inactivity for frontend users only.  Backend sessions are hardcoded at 1800 seconds'); ?>
+				<?php echo mosWarning('Auto logout after this time of inactivity for <strong>site/frontend</strong> users. The higher the value the greater the security risk!'); ?>
+				</td>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+				<td>Admin Session Lifetime:</td>
+				<td>
+				<input class="text_area" type="text" name="config_session_life_admin" size="10" value="<?php echo $row->config_session_life_admin; ?>"/>
+				&nbsp;seconds&nbsp;
+				<?php echo mosWarning('Auto logout after this time of inactivity for <strong>admin/backend</strong> users. The higher the value the greater the security risk!'); ?>
 				</td>
 				<td>&nbsp;</td>
 			</tr>
