@@ -382,35 +382,21 @@ class mosMainFrame {
 	/** @var int number of published Global Blog Sections */
 	var $_ContentItemLinkCount 		= null;		
 
-	/** @var int id of last item calling function */
-	var $_ContentTyped_id 			= null;
-	/** @var int id of last item calling function */
-	var $_ContentItemLink_id 		= null;
-	/** @var int id of last item calling function */
-	var $_ContentSection_id 		= null;
-	/** @var int id of last item calling function */
-	var $_ContentBlogSection_id 	= null;	
-	/** @var int id of last item calling function */
-	var $_ContentBlogCategory_id 	= null;
-	/** @var int id of last item calling function */
-	var $_ContentCategory_id 		= null;
-	
-	/** @var int Itemid of a specific item last called */
-	var $_ContentTyped 				= null;
-	/** @var int Itemid of a specific item last called */
-	var $_ContentItemLink 			= null;
-	/** @var int Itemid of a specific item last called */
-	var $_ContentSection 			= null;	
-	/** @var int Itemid of a specific item last called */
-	var $_ContentBlogSection 		= null;
-	/** @var int Itemid of a specific item last called */
-	var $_ContentBlogCategory 		= null;
-	/** @var int Itemid of a specific item last called */
+	/** @var array store of Itemid checks generated */
+	var $_ContentTyped 				= array();
+	/** @var array store of Itemid checks generated */
+	var $_ContentItemLink 			= array();
+	/** @var array store of Itemid checks generated */
+	var $_ContentSection 			= array();	
+	/** @var array store of Itemid checks generated */
+	var $_ContentBlogSection 		= array();
+	/** @var array store of Itemid checks generated */
+	var $_ContentBlogCategory 		= array();
+	/** @var array store of Itemid checks generated */
 	var $_GloblBlogSection		 	= null;	
-	/** @var int Itemid of a specific item last called */
-	var $_ContentCategory 			= null;	
+	/** @var array store of Itemid checks generated */
+	var $_ContentCategory 			= array();	
 	
-
 
 	/**
 	* Class constructor
@@ -1352,7 +1338,7 @@ class mosMainFrame {
 		}
 	}
 
-
+	var $getItemid_log = array();
 	/**
 	* @return correct Itemid for Content Item
 	*/
@@ -1361,12 +1347,17 @@ class mosMainFrame {
 
 		$_Itemid = '';
 		if ($_Itemid == '' && $typed) {
-			// test whether id is the same as last id that called function
-			// if so the previous query result is loaded to reduce number of queries being loaded
-			if ( $this->_ContentTyped_id != $id ) {
-				// save current id to class variable
-				$this->_ContentTyped_id = $id;
-				
+			$exists = 0;
+			foreach( $this->_ContentTyped as $key => $value ) {
+				// check if id has been tested before, if it is pull from class variable store
+				if ( $key == $id ) {
+					$_Itemid 	= $value;
+					$exists 	= 1;
+					break;
+				}
+			}
+			// if id hasnt been checked before initaite query
+			if ( !$exists ) {				
 				// Search for typed link
 				$query = "SELECT id"
 				. "\n FROM #__menu"
@@ -1375,20 +1366,25 @@ class mosMainFrame {
 				. "\n AND link = 'index.php?option=com_content&task=view&id=$id'"
 				;
 				$this->_db->setQuery( $query );
-				// saves previous query result to class variable
-				$this->_ContentTyped = $this->_db->loadResult();
+				// saves query result to class variable storage
+				$this->_ContentTyped[$id] = $this->_db->loadResult();
+				
+				$_Itemid = $this->_ContentTyped[$id];
 			}
-			
-			$_Itemid = $this->_ContentTyped;
 		}
 
 		if ($_Itemid == '' && $link) {
-			// test whether id is the same as last id that called function
-			// if so the previous query result is loaded to reduce number of queries being loaded
-			if ( $this->_ContentItemLink_id != $id ) {
-				// save current id to class variable
-				$this->_ContentItemLink_id = $id;
-				
+			$exists = 0;
+			foreach( $this->_ContentItemLink as $key => $value ) {
+				// check if id has been tested before, if it is pull from class variable store
+				if ( $key == $id ) {
+					$_Itemid 	= $value;
+					$exists 	= 1;
+					break;
+				}
+			}
+			// if id hasnt been checked before initaite query
+			if ( !$exists ) {				
 				// Search for item link
 				$query = "SELECT id"
 				."\n FROM #__menu"
@@ -1397,20 +1393,25 @@ class mosMainFrame {
 				. "\n AND link = 'index.php?option=com_content&task=view&id=$id'"
 				;
 				$this->_db->setQuery( $query );
-				// saves previous query result to class variable
-				$this->_ContentItemLink = $this->_db->loadResult();
+				// saves query result to class variable storage
+				$this->_ContentItemLink[$id] = $this->_db->loadResult();
+				
+				$_Itemid = $this->_ContentSection[$id];
 			}
-			
-			$_Itemid = $this->_ContentItemLink;
 		}
 
 		if ($_Itemid == '') {
-			// test whether id is the same as last id that called function
-			// if so the previous query result is loaded to reduce number of queries being loaded
-			if ( $this->_ContentSection_id != $id ) {
-				// save current id to class variable
-				$this->_ContentSection_id = $id;
-				
+			$exists = 0;
+			foreach( $this->_ContentSection as $key => $value ) {
+			// check if id has been tested before, if it is pull from class variable store
+				if ( $key == $id ) {
+					$_Itemid 	= $value;
+					$exists 	= 1;
+					break;
+				}
+			}
+			// if id hasnt been checked before initaite query
+			if ( !$exists ) {
 				// Search in sections
 				$query = "SELECT m.id "
 				. "\n FROM #__content AS i"
@@ -1421,20 +1422,25 @@ class mosMainFrame {
 				. "\n AND i.id = $id"
 				;
 				$this->_db->setQuery( $query );
-				// saves previous query result to class variable
-				$this->_ContentSection = $this->_db->loadResult();
+				// saves query result to class variable storage
+				$this->_ContentSection[$id] = $this->_db->loadResult();
+				
+				$_Itemid = $this->_ContentSection[$id];
 			}
-			
-			$_Itemid = $this->_ContentSection;
 		}
 
 		if ($_Itemid == '' && $bs) {
-			// test whether id is the same as last id that called function
-			// if so the previous query result is loaded to reduce number of queries being loaded
-			if ( $this->_ContentBlogSection_id != $id ) {
-				// save current id to class variable
-				$this->_ContentBlogSection_id = $id;
-				
+			$exists = 0;
+			foreach( $this->_ContentBlogSection as $key => $value ) {
+				// check if id has been tested before, if it is pull from class variable store
+				if ( $key == $id ) {
+					$_Itemid 	= $value;
+					$exists 	= 1;
+					break;
+				}
+			}
+			// if id hasnt been checked before initaite query
+			if ( !$exists ) {
 				// Search in specific blog section
 				$query = "SELECT m.id "
 				. "\n FROM #__content AS i"
@@ -1445,20 +1451,25 @@ class mosMainFrame {
 				. "\n AND i.id = $id"
 				;
 				$this->_db->setQuery( $query );
-				// saves previous query result to class variable
-				$this->_ContentBlogSection = $this->_db->loadResult();
+				// saves query result to class variable storage
+				$this->_ContentBlogSection[$id] = $this->_db->loadResult();
+				
+				$_Itemid = $this->_ContentBlogSection[$id];
 			}
-			
-			$_Itemid = $this->_ContentBlogSection;
 		}
 
 		if ($_Itemid == '' && $bc) {
-			// test whether id is the same as last id that called function
-			// if so the previous query result is loaded to reduce number of queries being loaded
-			if ( $this->_ContentBlogCategory_id != $id ) {
-				// save current id to class variable
-				$this->_ContentBlogCategory_id = $id;
-				
+			$exists = 0;
+			foreach( $this->_ContentBlogCategory as $key => $value ) {
+				// check if id has been tested before, if it is pull from class variable store
+				if ( $key == $id ) {
+					$_Itemid 	= $value;
+					$exists 	= 1;
+					break;
+				}
+			}
+			// if id hasnt been checked before initaite query
+			if ( !$exists ) {
 				// Search in specific blog category
 				$query = "SELECT m.id "
 				. "\n FROM #__content AS i"
@@ -1469,11 +1480,11 @@ class mosMainFrame {
 				. "\n AND i.id = $id"
 				;
 				$this->_db->setQuery( $query );
-				// saves previous query result to class variable
-				$this->_ContentBlogCategory = $this->_db->loadResult();
+				// saves query result to class variable storage
+				$this->_ContentBlogCategory[$id] = $this->_db->loadResult();
+				
+				$_Itemid = $this->_ContentBlogCategory[$id];
 			}
-		
-			$_Itemid = $this->_ContentBlogCategory;
 		}
 
 		if ($_Itemid == '' && $gbs) {
@@ -1496,12 +1507,17 @@ class mosMainFrame {
 		}
 
 		if ($_Itemid == '') {
-			// test whether id is the same as last id that called function
-			// if so the previous query result is loaded to reduce number of queries being loaded
-			if ( $this->_ContentCategory_id != $id ) {
-				// save current id to class variable
-				$this->_ContentCategory_id = $id;
-				
+			$exists = 0;
+			foreach( $this->_ContentCategory as $key => $value ) {
+				// check if id has been tested before, if it is pull from class variable store
+				if ( $key == $id ) {
+					$_Itemid 	= $value;
+					$exists 	= 1;
+					break;
+				}
+			}
+			// if id hasnt been checked before initaite query
+			if ( !$exists ) {
 				// Search in categories
 				$query = "SELECT m.id "
 				. "\n FROM #__content AS i"
@@ -1512,11 +1528,11 @@ class mosMainFrame {
 				. "\n AND i.id = $id"
 				;
 				$this->_db->setQuery( $query );
-				// saves previous query result to class variable
-				$this->_ContentCategory = $this->_db->loadResult();
+				// saves query result to class variable storage
+				$this->_ContentCategory[$id] = $this->_db->loadResult();
+				
+				$_Itemid = $this->_ContentCategory[$id];
 			}
-			
-			$_Itemid = $this->_ContentCategory;
 		}
 
 		if ( $_Itemid != '' ) {
