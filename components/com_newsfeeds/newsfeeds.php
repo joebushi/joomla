@@ -160,11 +160,11 @@ function showFeed( $feedid ) {
 
 	// check if cache directory is writeable
 	$cacheDir = $mosConfig_cachepath .'/';
-	if ( is_writable( $cacheDir ) ) {	
+	if ( !is_writable( $cacheDir ) ) {	
 		echo 'Cache Directory Unwriteable';
 		return;
 	}
-	
+
 	require_once( $mainframe->getPath( 'class' ) );
 	
 	$newsfeed = new mosNewsFeed($database);

@@ -92,6 +92,8 @@ Medium Level Threat
 ---
 
 18-Feb-2006 Rey Gigataras
+ # Fixed [topic,39101.0.html] : Newsfeeds do not display
+
  ^ PERFORMANCE : General query reduction work
  ^ PERFORMANCE : Reduce queries used by search bots to load params
  ^ PERFORMANCE : 'editor-xtd' bot group loaded only once - affect = reduction in queries
