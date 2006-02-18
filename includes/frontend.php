@@ -175,16 +175,12 @@ function mosShowHead() {
 	}
 
 	// support for Firefox Live Bookmarks ability for site syndication
-	$query = "SELECT a.id"
+	$query = "SELECT a.*"
 	. "\n FROM #__components AS a"
 	. "\n WHERE a.name = 'Syndicate'"
 	;
 	$database->setQuery( $query );
-	$id = $database->loadResult();
-
-	// load the row from the db table
-	$row = new mosComponent( $database );
-	$row->load( $id );
+	$database->loadObject( $row );
 
 	// get params definitions
 	$params = new mosParameters( $row->params, $mainframe->getPath( 'com_xml', $row->option ), 'component' );

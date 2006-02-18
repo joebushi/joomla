@@ -32,7 +32,8 @@ function pathwayMakeLink( $id, $name, $link, $parent ) {
 */
 function showPathway( $Itemid ) {
 	global $database, $option, $task, $mainframe, $mosConfig_absolute_path, $mosConfig_live_site;
-
+/*
+	// replaced by code below to reduce query
 	// get the home page
 	$query = "SELECT id, name, link, parent, type"
 	. "\n FROM #__menu"
@@ -44,16 +45,26 @@ function showPathway( $Itemid ) {
 	$database->setQuery( $query );
 	$home_menu = new mosMenu( $database );
 	$database->loadObject( $home_menu );
+*/
 
 	// the the whole menu array and index the array by the id
-	$query = "SELECT id, name, link, parent, type"
+	$query = "SELECT id, name, link, parent, type, menutype"
 	. "\n FROM #__menu"
 	. "\n WHERE published = 1"
-	. "\n ORDER BY parent, ordering"
+	. "\n ORDER BY menutype, parent, ordering"
 	;
 	$database->setQuery( $query );
 	$mitems = $database->loadObjectList( 'id' );
 
+	// get the home page
+	$home_menu = new mosMenu( $database );
+	foreach( $mitems as $mitem ) {
+		if ( $mitem->menutype == 'mainmenu' ) {
+			$home_menu = $mitem;
+			break;
+		}
+	}
+	
 	//$isWin = (substr(PHP_OS, 0, 3) == 'WIN');
 	//$optionstring = $isWin ? $_SERVER['QUERY_STRING'] : $_SERVER['REQUEST_URI'];
 	$optionstring = '';
