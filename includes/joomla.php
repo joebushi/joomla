@@ -1338,7 +1338,6 @@ class mosMainFrame {
 		}
 	}
 
-	var $getItemid_log = array();
 	/**
 	* @return correct Itemid for Content Item
 	*/
