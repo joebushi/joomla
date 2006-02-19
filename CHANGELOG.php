@@ -37,7 +37,7 @@ Legend:
 ! -> Note
 
 
----------------- 1.0.8 Beta 2 Pending -- [TBA] ------------------
+---------------- 1.0.8 Beta 2 Released -- [19-Feb-2006 07:00 UTC] ------------------
 
 This Release Contains following Security Fixes
 
