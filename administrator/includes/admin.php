@@ -150,37 +150,87 @@ function mosLoadCustomModule( &$module, &$params ) {
 			require_once( $mosConfig_absolute_path .'/includes/domit/xml_domit_rss_lite.php');
 			$rssDoc = new xml_domit_rss_document_lite();
 			$rssDoc->useCacheLite(true, $LitePath, $cachePath, 3600);
-			$rssDoc->loadRSS( $rssurl );
-			$totalChannels = $rssDoc->getChannelCount();
-
-			for ($i = 0; $i < $totalChannels; $i++) {
-				$currChannel =& $rssDoc->getChannel($i);
-				echo '<tr>';
-				echo '<td><strong><a href="'. $currChannel->getLink() .'" target="_child">';
-				echo $currChannel->getTitle() .'</a></strong></td>';
-				echo '</tr>';
-				if ($rssdesc) {
-					echo '<tr>';
-					echo '<td>'. $currChannel->getDescription() .'</td>';
-					echo '</tr>';
-				}
-
-				$actualItems = $currChannel->getItemCount();
-				$setItems = $rssitems;
-
-				if ($setItems > $actualItems) {
-					$totalItems = $actualItems;
+			$rssDoc->useHTTPClient(true); 
+			$success = $rssDoc->loadRSS( $rssurl );
+			
+			if ( $success )	{		
+				$totalChannels = $rssDoc->getChannelCount();
+	
+				// special handling for feed encoding
+				$text 		= $rssDoc->toNormalizedString(true);
+				//$text 		= substr( $text, 0, 100 );
+				$utf8 		= strpos( $text, 'encoding=&quot;utf-8&quot;' );
+				// test if feed is utf-8
+				if ( $utf8 !== false ) {
+					// test if page is utf-8
+					if ( strpos(_ISO,'utf') || strpos(_ISO,'UTF') ) {
+						$encoding = 'html_entity_decode';
+					} else {
+						// non utf-8 page
+						$encoding = 'utf8_decode';
+					}
 				} else {
-					$totalItems = $setItems;
+					// handling for non utf-8 feed
+					// test if page is utf-8
+					if ( strpos(_ISO,'utf') || strpos(_ISO,'UTF') ) {
+						$encoding = 'utf8_encode';
+					} else {
+						// non utf-8 page
+						$encoding = 'html_entity_decode';
+					}
 				}
-
-				for ($j = 0; $j < $totalItems; $j++) {
-					$currItem =& $currChannel->getItem($j);
+				
+				for ($i = 0; $i < $totalChannels; $i++) {
+					$currChannel =& $rssDoc->getChannel($i);
+					
+					$feed_title = $currChannel->getTitle();
+					$feed_title = $encoding( $feed_title );
+					$feed_title = html_entity_decode($feed_title);
+					$feed_title = str_replace('&apos;', "'", $feed_title);				
 
 					echo '<tr>';
-					echo '<td><strong><a href="'. $currItem->getLink() .'" target="_child">';
-					echo $currItem->getTitle() .'</a></strong> - '. $currItem->getDescription() .'</td>';
+					echo '<td><strong><a href="'. $currChannel->getLink() .'" target="_child">';
+					echo $feed_title .'</a></strong></td>';
 					echo '</tr>';
+					
+					if ($rssdesc) {
+						$feed_descrip = $currChannel->getDescription();
+						$feed_descrip = $encoding( $feed_descrip );
+						$feed_descrip = html_entity_decode($feed_descrip);
+						$feed_descrip = str_replace('&apos;', "'", $feed_descrip);
+						
+						echo '<tr>';
+						echo '<td>'. $feed_descrip .'</td>';
+						echo '</tr>';
+					}
+	
+					$actualItems = $currChannel->getItemCount();
+					$setItems = $rssitems;
+	
+					if ($setItems > $actualItems) {
+						$totalItems = $actualItems;
+					} else {
+						$totalItems = $setItems;
+					}
+	
+					for ($j = 0; $j < $totalItems; $j++) {
+						$currItem =& $currChannel->getItem($j);
+	
+						$item_title = $currItem->getTitle();
+						$item_title = $encoding( $item_title );
+						$item_title = html_entity_decode($item_title);
+						$item_title = str_replace('&apos;', "'", $item_title);
+						
+						$text 		= $currItem->getDescription();
+						$text 		= $encoding( $text );
+						$text 		= html_entity_decode($text);
+						$text 		= str_replace('&apos;', "'", $text);					
+
+						echo '<tr>';
+						echo '<td><strong><a href="'. $currItem->getLink() .'" target="_child">';
+						echo $item_title .'</a></strong> - '. $text .'</td>';
+						echo '</tr>';
+					}
 				}
 			}
 		}

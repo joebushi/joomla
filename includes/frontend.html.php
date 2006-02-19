@@ -133,7 +133,31 @@ class modules_html {
 		$rssDoc->useHTTPClient(true); 
 		$success = $rssDoc->loadRSS( $rssurl );
 
-		if ( $success ) {
+		if ( $success )	{		
+			// special handling for feed encoding
+			$text 		= $rssDoc->toNormalizedString(true);
+			//$text 		= substr( $text, 0, 100 );
+			$utf8 		= strpos( $text, 'encoding=&quot;utf-8&quot;' );
+			// test if feed is utf-8
+			if ( $utf8 !== false ) {
+				// test if page is utf-8
+				if ( strpos(_ISO,'utf') || strpos(_ISO,'UTF') ) {
+					$encoding = 'html_entity_decode';
+				} else {
+					// non utf-8 page
+					$encoding = 'utf8_decode';
+				}
+			} else {
+				// handling for non utf-8 feed
+				// test if page is utf-8
+				if ( strpos(_ISO,'utf') || strpos(_ISO,'UTF') ) {
+					$encoding = 'utf8_encode';
+				} else {
+					// non utf-8 page
+					$encoding = 'html_entity_decode';
+				}
+			}
+			
 			$content_buffer = '';
 			$totalChannels 	= $rssDoc->getChannelCount();
 	
@@ -154,12 +178,16 @@ class modules_html {
 				$content_buffer = '<table cellpadding="0" cellspacing="0" class="moduletable'.$moduleclass_sfx.'">' . "\n";
 							
 				if ( $currChannel->getTitle() && $rsstitle ) {
-					
+					$feed_title 	= $currChannel->getTitle();
+					$feed_title 	= $encoding( $feed_title );
+					$feed_title 	= html_entity_decode($feed_title);
+					$feed_title 	= str_replace('&apos;', "'", $feed_title);
+
 					$content_buffer .= "<tr>\n";
 					$content_buffer .= "	<td>\n";
 					$content_buffer .= "		<strong>\n";
 					$content_buffer .= "		<a href=\"" . ampReplace( $currChannel->getLink() )  . "\" target=\"_blank\">\n";
-					$content_buffer .= 		$currChannel->getTitle() . "</a>\n";
+					$content_buffer .= $feed_title . "</a>\n";
 					$content_buffer .= "		</strong>\n";
 					$content_buffer .= "	</td>\n";
 					$content_buffer .= "</tr>\n";
@@ -168,9 +196,14 @@ class modules_html {
 	
 				// feed description
 				if ( $rssdesc ) {
+					$feed_descrip 	= $currChannel->getDescription();
+					$feed_descrip 	= $encoding( $feed_descrip );
+					$feed_descrip 	= html_entity_decode($feed_descrip);
+					$feed_descrip 	= str_replace('&apos;', "'", $feed_descrip);
+					
 					$content_buffer .= "<tr>\n";
 					$content_buffer .= "	<td>\n";
-					$content_buffer .= $currChannel->getDescription();
+					$content_buffer .= $feed_descrip;
 					$content_buffer .= "	</td>\n";
 					$content_buffer .= "</tr>\n";
 				}
@@ -201,23 +234,28 @@ class modules_html {
 						for ($j = 0; $j < $totalItems; $j++) {
 							$currItem =& $currChannel->getItem($j);
 							// item title
+							
+							$item_title = $currItem->getTitle();
+							$item_title = $encoding( $item_title );
+							$item_title = html_entity_decode($item_title);
+							$item_title = str_replace('&apos;', "'", $item_title);
 	
 							// START fix for RSS enclosure tag url not showing
 							$content_buffer .= "<li class=\"newsfeed" . $moduleclass_sfx . "\">\n";
 							$content_buffer .= "	<strong>\n";
 							if ($currItem->getLink()) {
 								$content_buffer .= "        <a href=\"" . ampReplace( $currItem->getLink() ) . "\" target=\"_blank\">\n";
-								$content_buffer .= "      " . str_replace('&apos;', "'", html_entity_decode( $currItem->getTitle() ) ) . "</a>\n";
+								$content_buffer .= "      " . $item_title . "</a>\n";
 							} else if ($currItem->getEnclosure()) {
 								$enclosure = $currItem->getEnclosure();
 								$eUrl	= $enclosure->getUrl();
 								$content_buffer .= "        <a href=\"" . ampReplace( $eUrl ) . "\" target=\"_blank\">\n";
-								$content_buffer .= "      " . str_replace('&apos;', "'", html_entity_decode( $currItem->getTitle() ) ) . "</a>\n";
+								$content_buffer .= "      " . $item_title . "</a>\n";
 							}  else if (($currItem->getEnclosure()) && ($currItem->getLink())) {
 								$enclosure = $currItem->getEnclosure();
 								$eUrl	= $enclosure->getUrl();
 								$content_buffer .= "        <a href=\"" . ampReplace( $currItem->getLink() ) . "\" target=\"_blank\">\n";
-								$content_buffer .= "      " . str_replace('&apos;', "'", html_entity_decode( $currItem->getTitle() ) ) . "</a><br/>\n";
+								$content_buffer .= "      " . $item_title . "</a><br/>\n";
 								$content_buffer .= "        <a href=\"" . ampReplace( $eUrl ) . "\" target=\"_blank\"><u>Download</u></a>\n";
 							}
 							$content_buffer .= "	</strong>\n";
@@ -226,9 +264,11 @@ class modules_html {
 								// item description
 								if ( $rssitemdesc ) {
 									// item description
-									$text = html_entity_decode( $currItem->getDescription() );
+									$text = $currItem->getDescription();
+									$text = $encoding( $text );
+									$text = html_entity_decode($text);
 									$text = str_replace('&apos;', "'", $text);
-	                                
+
 									// word limit check
 									if ( $words ) {
 										$texts = explode( ' ', $text );

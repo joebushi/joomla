@@ -89,24 +89,24 @@ function listFeeds( $catid ) {
 	$menu->load( $Itemid );
 	$params = new mosParameters( $menu->params );
 
-	$params->def( 'page_title', 1 );
-	$params->def( 'header', $menu->name );
-	$params->def( 'pageclass_sfx', '' );
-	$params->def( 'headings', 1 );
-	$params->def( 'back_button', $mainframe->getCfg( 'back_button' ) );
-	$params->def( 'description_text', '' );
-	$params->def( 'image', -1 );
-	$params->def( 'image_align', 'right' );
-	$params->def( 'other_cat_section', 1 );
+	$params->def( 'page_title', 		1 );
+	$params->def( 'header', 			$menu->name );
+	$params->def( 'pageclass_sfx', 		'' );
+	$params->def( 'headings', 			1 );
+	$params->def( 'back_button', 		$mainframe->getCfg( 'back_button' ) );
+	$params->def( 'description_text', 	'' );
+	$params->def( 'image', 				-1 );
+	$params->def( 'image_align', 		'right' );
+	$params->def( 'other_cat_section', 	1 );
 	// Category List Display control
-	$params->def( 'other_cat', 1 );
-	$params->def( 'cat_description', 1 );
-	$params->def( 'cat_items', 1 );
+	$params->def( 'other_cat', 			1 );
+	$params->def( 'cat_description', 	1 );
+	$params->def( 'cat_items', 			1 );
 	// Table Display control
-	$params->def( 'headings', 1 );
-	$params->def( 'name', 1 );
-	$params->def( 'articles', '1' );
-	$params->def( 'link', '1' );
+	$params->def( 'headings', 			1 );
+	$params->def( 'name', 				1 );
+	$params->def( 'articles', 			1 );
+	$params->def( 'link', 				1 );
 
 	if ( $catid ) {
 		$params->set( 'type', 'category' );
@@ -204,15 +204,17 @@ function showFeed( $feedid ) {
 	$menu = new mosMenu( $database );
 	$menu->load( $Itemid );
 	$params = new mosParameters( $menu->params );
-	$params->def( 'page_title', 1 );
-	$params->def( 'header', $menu->name );
-	$params->def( 'pageclass_sfx', '' );
-	$params->def( 'back_button', $mainframe->getCfg( 'back_button' ) );
+	$params->def( 'page_title', 	1 );
+	$params->def( 'header', 		$menu->name );
+	$params->def( 'pageclass_sfx', 	'' );
+	$params->def( 'back_button', 	$mainframe->getCfg( 'back_button' ) );
 	// Feed Display control
-	$params->def( 'feed_image', 1 );
-	$params->def( 'feed_descr', 1 );
-	$params->def( 'item_descr', 1 );
-	$params->def( 'word_count', 0 );
+	$params->def( 'feed_image', 	1 );
+	$params->def( 'feed_descr', 	1 );
+	$params->def( 'item_descr', 	1 );
+	$params->def( 'word_count', 	0 );
+	// Encoding
+	$params->def( 'utf8', 			1 );	
 
 	if ( !$params->get( 'page_title' ) ) {
 		$params->set( 'header', '' );

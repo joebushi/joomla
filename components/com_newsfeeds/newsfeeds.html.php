@@ -223,7 +223,7 @@ class HTML_newsfeed {
 	}
 
 
-	function showNewsfeeds( &$newsfeed, $LitePath, $cacheDir, &$params ) {
+	function showNewsfeeds( &$newsfeed, $LitePath, $cacheDir, &$params ) {		
 		?>
 		<table width="100%" class="contentpane<?php echo $params->get( 'pageclass_sfx' ); ?>">
 		<?php
@@ -242,8 +242,32 @@ class HTML_newsfeed {
 		$rssDoc->useCacheLite( true, $LitePath, $cacheDir, $newsfeed->cache_time );
 		$rssDoc->useHTTPClient(true); 
 		$success = $rssDoc->loadRSS( $newsfeed->link );
-
+		
 		if ( $success ) {
+			// special handling for feed encoding
+			$text 		= $rssDoc->toNormalizedString(true);
+			//$text 		= substr( $text, 0, 100 );
+			$utf8 		= strpos( $text, 'encoding=&quot;utf-8&quot;' );
+			// test if feed is utf-8
+			if ( $utf8 !== false ) {
+				// test if page is utf-8
+				if ( strpos(_ISO,'utf') || strpos(_ISO,'UTF') ) {
+					$encoding = 'html_entity_decode';
+				} else {
+					// non utf-8 page
+					$encoding = 'utf8_decode';
+				}
+			} else {
+				// handling for non utf-8 feed
+				// test if page is utf-8
+				if ( strpos(_ISO,'utf') || strpos(_ISO,'UTF') ) {
+					$encoding = 'utf8_encode';
+				} else {
+					// non utf-8 page
+					$encoding = 'html_entity_decode';
+				}
+			}
+			
 			$totalChannels = $rssDoc->getChannelCount();
 	
 			for ( $i = 0; $i < $totalChannels; $i++ ) {
@@ -251,6 +275,7 @@ class HTML_newsfeed {
 				$elements 		= $currChannel->getElementList();
 				$descrip 		= 0;
 				$iUrl			= 0;
+
 				foreach ( $elements as $element ) {
 					//image handling
 					if ( $element == 'image' ) {
@@ -266,21 +291,28 @@ class HTML_newsfeed {
 						}
 					}
 				}
+				$feed_title = $currChannel->getTitle();
+				$feed_title = $encoding( $feed_title );
+				$feed_title = html_entity_decode($feed_title);
+				$feed_title = str_replace('&apos;', "'", $feed_title);
 				?>
 				<tr>
 					<td class="contentheading<?php echo $params->get( 'pageclass_sfx' ); ?>">
-					<a href="<?php echo ampReplace( $currChannel->getLink() ); ?>" target="_blank">
-					<?php echo str_replace('&apos;', "'", html_entity_decode($currChannel->getTitle())); ?>
-					</a>
+						<a href="<?php echo ampReplace( $currChannel->getLink() ); ?>" target="_blank">
+							<?php echo $feed_title; ?></a>
 					</td>
 				</tr>
 				<?php
 				// feed description
 				if ( $descrip && $params->get( 'feed_descr' ) ) {
+					$feed_descrip = $currChannel->getDescription();
+					$feed_descrip = $encoding( $feed_descrip );
+					$feed_descrip = html_entity_decode($feed_descrip);
+					$feed_descrip = str_replace('&apos;', "'", $feed_descrip);
 					?>
 					<tr>
 						<td>
-						<?php echo str_replace('&apos;', "'", html_entity_decode($currChannel->getDescription())); ?>
+						<?php echo $feed_descrip; ?>
 						<br />
 						<br />
 						</td>
@@ -311,6 +343,11 @@ class HTML_newsfeed {
 						<?php
 						for ( $j = 0; $j < $totalItems; $j++ ) {
 							$currItem =& $currChannel->getItem($j);
+							
+							$item_title = $currItem->getTitle();
+							$item_title = $encoding( $item_title );
+							$item_title = html_entity_decode($item_title);
+							$item_title = str_replace('&apos;', "'", $item_title);
 							?>
 							<li>
 								<?php							
@@ -318,23 +355,24 @@ class HTML_newsfeed {
 								if ($currItem->getLink()) {
 									?>
 									<a href="<?php echo ampReplace( $currItem->getLink() ); ?>" target="_blank">
-										<?php echo $currItem->getTitle(); ?></a>
+										<?php echo $item_title; ?></a>
 									<?php
 								} else if ($currItem->getEnclosure()) {
 									$enclosure = $currItem->getEnclosure();
 									$eUrl	= $enclosure->getUrl();
 									?>
 									<a href="<?php echo ampReplace( $eUrl ); ?>" target="_blank">
-										<?php echo $currItem->getTitle(); ?></a>
+										<?php echo $item_title; ?></a>
 									<?php
 								}  else if (($currItem->getEnclosure()) && ($currItem->getLink())) {
 									$enclosure = $currItem->getEnclosure();
 									$eUrl	= $enclosure->getUrl();
 									?>
 									<a href="<?php echo ampReplace( $currItem->getLink() ); ?>" target="_blank">
-										<?php echo $currItem->getTitle(); ?></a>
+										<?php echo $item_title; ?></a>
 									<br />
-									Link: <a href="<?php echo $eUrl; ?>" target="_blank">
+									Link:
+									<a href="<?php echo $eUrl; ?>" target="_blank">
 										<?php echo ampReplace( $eUrl ); ?></a>
 									<?php
 								}
@@ -342,8 +380,11 @@ class HTML_newsfeed {
 								
 								// item description
 								if ( $params->get( 'item_descr' ) ) {
-									$text   = html_entity_decode( $currItem->getDescription() );
-									$text   = str_replace('&apos;', "'", $text);
+									$text = $currItem->getDescription();
+									$text = $encoding( $text );
+									$text = html_entity_decode($text);
+									$text = str_replace('&apos;', "'", $text);
+
 									$num 	= $params->get( 'word_count' );
 		
 									// word limit check
