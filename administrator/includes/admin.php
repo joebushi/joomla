@@ -163,7 +163,7 @@ function mosLoadCustomModule( &$module, &$params ) {
 				// test if feed is utf-8
 				if ( $utf8 !== false ) {
 					// test if page is utf-8
-					if ( strpos(_ISO,'utf') || strpos(_ISO,'UTF') ) {
+					if ( strpos(_ISO,'utf')!== false || strpos(_ISO,'UTF') !== false ) {
 						$encoding = 'html_entity_decode';
 					} else {
 						// non utf-8 page
@@ -172,7 +172,7 @@ function mosLoadCustomModule( &$module, &$params ) {
 				} else {
 					// handling for non utf-8 feed
 					// test if page is utf-8
-					if ( strpos(_ISO,'utf') || strpos(_ISO,'UTF') ) {
+					if ( strpos(_ISO,'utf') !== false || strpos(_ISO,'UTF') !== false ) {
 						$encoding = 'utf8_encode';
 					} else {
 						// non utf-8 page
