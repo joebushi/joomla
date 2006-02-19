@@ -4935,7 +4935,7 @@ class mosCommonHTML {
 		?>
 		<input type="hidden" name="menu" value="" />
 		<input type="hidden" name="menuid" value="" />
-		<?php
+		<?php		
 	}
 
 	function checkedOut( &$row, $overlib=1 ) {
@@ -5034,6 +5034,52 @@ class mosCommonHTML {
 		;
 
 		return $href;
+	}
+
+	/*
+	* Special handling for newfeed encoding and possible conflicts with page encoding and PHP version
+	* Added 1.0.8
+	* Static Function
+	*/	
+	function newsfeedEncoding( $rssDoc ) {	
+		// test if PHP 5
+		if ( phpversion() >= 5 ) {		
+			// test if page is utf-8
+			if ( strpos(_ISO,'utf')!== false || strpos(_ISO,'UTF') !== false ) {
+				$encoding = 'html_entity_decode';
+			} else {
+			// non utf-8 page
+				$encoding = 'utf8_decode';
+			}
+		} else {
+		// handling for PHP 4
+			// determine encoding of feed
+			$text 		= $rssDoc->toNormalizedString(true);
+			$text 		= substr( $text, 0, 100 );
+			$utf8 		= strpos( $text, 'encoding=&quot;utf-8&quot;' );
+			
+			// test if feed is utf-8
+			if ( $utf8 !== false ) {
+				// test if page is utf-8
+				if ( strpos(_ISO,'utf')!== false || strpos(_ISO,'UTF') !== false ) {
+					$encoding = 'html_entity_decode';
+				} else {
+					// non utf-8 page
+					$encoding = 'utf8_decode';
+				}
+			} else {
+			// handling for non utf-8 feed
+				// test if page is utf-8
+				if ( strpos(_ISO,'utf') !== false || strpos(_ISO,'UTF') !== false ) {
+					$encoding = 'utf8_encode';
+				} else {
+					// non utf-8 page
+					$encoding = 'html_entity_decode';
+				}
+			}								
+		}
+		
+		return $encoding;
 	}
 }
 

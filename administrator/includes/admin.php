@@ -157,28 +157,7 @@ function mosLoadCustomModule( &$module, &$params ) {
 				$totalChannels = $rssDoc->getChannelCount();
 	
 				// special handling for feed encoding
-				$text 		= $rssDoc->toNormalizedString(true);
-				//$text 		= substr( $text, 0, 100 );
-				$utf8 		= strpos( $text, 'encoding=&quot;utf-8&quot;' );
-				// test if feed is utf-8
-				if ( $utf8 !== false ) {
-					// test if page is utf-8
-					if ( strpos(_ISO,'utf')!== false || strpos(_ISO,'UTF') !== false ) {
-						$encoding = 'html_entity_decode';
-					} else {
-						// non utf-8 page
-						$encoding = 'utf8_decode';
-					}
-				} else {
-					// handling for non utf-8 feed
-					// test if page is utf-8
-					if ( strpos(_ISO,'utf') !== false || strpos(_ISO,'UTF') !== false ) {
-						$encoding = 'utf8_encode';
-					} else {
-						// non utf-8 page
-						$encoding = 'html_entity_decode';
-					}
-				}
+				$encoding = mosCommonHTML::newsfeedEncoding( $rssDoc );
 				
 				for ($i = 0; $i < $totalChannels; $i++) {
 					$currChannel =& $rssDoc->getChannel($i);
