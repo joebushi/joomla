@@ -92,7 +92,7 @@ Medium Level Threat
 ---
 
 19-Feb-2006 Rey Gigataras
- # Fixed [topic,39103.0.html] : time check incorrectly being based on local time - rather than server time
+ # Fixed [topic,36462.0.html] : time check incorrectly being based on local time - rather than server time
  # Fixed [topic,39103.0.html] : utf-8 encoded newsfeeds in a ISO-8559-1 site
 
 18-Feb-2006 Rey Gigataras
