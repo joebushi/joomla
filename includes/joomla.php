@@ -1395,7 +1395,7 @@ class mosMainFrame {
 				// saves query result to class variable storage
 				$this->_ContentItemLink[$id] = $this->_db->loadResult();
 				
-				$_Itemid = $this->_ContentSection[$id];
+				$_Itemid = $this->_ContentItemLink[$id];
 			}
 		}
 
