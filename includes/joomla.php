@@ -368,22 +368,6 @@ class mosMainFrame {
 	/** @var boolean True if in the admin client */
 	var $_isAdmin 					= false;	
 	
-	
-	/** Folowing Variables are new as of 1.0.8 and are needed to reduce queries created to find Itemid value **/
-	
-	/** @var array store of Itemid checks generated */
-	var $_ContentTyped 				= array();
-	/** @var array store of Itemid checks generated */
-	var $_ContentItemLink 			= array();
-	/** @var array store of Itemid checks generated */
-	var $_ContentSection 			= array();	
-	/** @var array store of Itemid checks generated */
-	var $_ContentBlogSection 		= array();
-	/** @var array store of Itemid checks generated */
-	var $_ContentBlogCategory 		= array();
-	/** @var array store of Itemid checks generated */
-	var $_ContentCategory 			= array();	
-	
 
 	/**
 	* Class constructor
@@ -1334,7 +1318,7 @@ class mosMainFrame {
 		$_Itemid = '';
 		if ($_Itemid == '' && $typed) {
 			$exists = 0;
-			foreach( $this->_ContentTyped as $key => $value ) {
+			foreach( $this->get( '_ContentTyped', array() ) as $key => $value ) {
 				// check if id has been tested before, if it is pull from class variable store
 				if ( $key == $id ) {
 					$_Itemid 	= $value;
@@ -1352,16 +1336,20 @@ class mosMainFrame {
 				. "\n AND link = 'index.php?option=com_content&task=view&id=$id'"
 				;
 				$this->_db->setQuery( $query );
-				// saves query result to class variable storage
-				$this->_ContentTyped[$id] = $this->_db->loadResult();
+				// pull existing query storage into temp variable
+				$ContentTyped 		= $this->get( '_ContentItemLink', array() );
+				// add query result to temp array storage
+				$ContentTyped[$id] 	= $this->_db->loadResult();	
+				// save temp array to main array storage
+				$this->set( '_ContentTyped', $ContentTyped );
 				
-				$_Itemid = $this->_ContentTyped[$id];
+				$_Itemid = $ContentTyped[$id];				
 			}
 		}
 
 		if ($_Itemid == '' && $link) {
 			$exists = 0;
-			foreach( $this->_ContentItemLink as $key => $value ) {
+			foreach( $this->get( '_ContentItemLink', array() ) as $key => $value ) {
 				// check if id has been tested before, if it is pull from class variable store
 				if ( $key == $id ) {
 					$_Itemid 	= $value;
@@ -1379,16 +1367,20 @@ class mosMainFrame {
 				. "\n AND link = 'index.php?option=com_content&task=view&id=$id'"
 				;
 				$this->_db->setQuery( $query );
-				// saves query result to class variable storage
-				$this->_ContentItemLink[$id] = $this->_db->loadResult();
+				// pull existing query storage into temp variable
+				$ContentItemLink 		= $this->get( '_ContentItemLink', array() );
+				// add query result to temp array storage
+				$ContentItemLink[$id] 	= $this->_db->loadResult();	
+				// save temp array to main array storage
+				$this->set( '_ContentItemLink', $ContentItemLink );
 				
-				$_Itemid = $this->_ContentItemLink[$id];
+				$_Itemid = $ContentItemLink[$id];				
 			}
 		}
 
 		if ($_Itemid == '') {
 			$exists = 0;
-			foreach( $this->_ContentSection as $key => $value ) {
+			foreach( $this->get( '_ContentSection', array() ) as $key => $value ) {
 			// check if id has been tested before, if it is pull from class variable store
 				if ( $key == $id ) {
 					$_Itemid 	= $value;
@@ -1408,16 +1400,20 @@ class mosMainFrame {
 				. "\n AND i.id = $id"
 				;
 				$this->_db->setQuery( $query );
-				// saves query result to class variable storage
-				$this->_ContentSection[$id] = $this->_db->loadResult();		
+				// pull existing query storage into temp variable
+				$ContentSection 		= $this->get( '_ContentSection', array() );
+				// add query result to temp array storage
+				$ContentSection[$id] 	= $this->_db->loadResult();	
+				// save temp array to main array storage
+				$this->set( '_ContentSection', $ContentSection );
 				
-				$_Itemid = $this->_ContentSection[$id];
+				$_Itemid = $ContentSection[$id];				
 			}
 		}
 
 		if ($_Itemid == '' && $bs) {
 			$exists = 0;
-			foreach( $this->_ContentBlogSection as $key => $value ) {
+			foreach( $this->get( '_ContentBlogSection', array() ) as $key => $value ) {
 				// check if id has been tested before, if it is pull from class variable store
 				if ( $key == $id ) {
 					$_Itemid 	= $value;
@@ -1437,16 +1433,20 @@ class mosMainFrame {
 				. "\n AND i.id = $id"
 				;
 				$this->_db->setQuery( $query );
-				// saves query result to class variable storage
-				$this->_ContentBlogSection[$id] = $this->_db->loadResult();
+				// pull existing query storage into temp variable
+				$ContentBlogSection 		= $this->get( '_ContentBlogSection', array() );
+				// add query result to temp array storage
+				$ContentBlogSection[$id] 	= $this->_db->loadResult();	
+				// save temp array to main array storage
+				$this->set( '_ContentBlogSection', $ContentBlogSection );
 				
-				$_Itemid = $this->_ContentBlogSection[$id];
+				$_Itemid = $ContentBlogSection[$id];				
 			}
 		}
 
 		if ($_Itemid == '' && $bc) {
 			$exists = 0;
-			foreach( $this->_ContentBlogCategory as $key => $value ) {
+			foreach( $this->get( '_ContentBlogCategory', array() ) as $key => $value ) {
 				// check if id has been tested before, if it is pull from class variable store
 				if ( $key == $id ) {
 					$_Itemid 	= $value;
@@ -1466,10 +1466,14 @@ class mosMainFrame {
 				. "\n AND i.id = $id"
 				;
 				$this->_db->setQuery( $query );
-				// saves query result to class variable storage
-				$this->_ContentBlogCategory[$id] = $this->_db->loadResult();
+				// pull existing query storage into temp variable
+				$ContentBlogCategory 		= $this->get( '_ContentBlogCategory', array() );
+				// add query result to temp array storage
+				$ContentBlogCategory[$id] 	= $this->_db->loadResult();	
+				// save temp array to main array storage
+				$this->set( '_ContentBlogCategory', $ContentBlogCategory );
 				
-				$_Itemid = $this->_ContentBlogCategory[$id];
+				$_Itemid = $ContentBlogCategory[$id];				
 			}
 		}
 
@@ -1494,7 +1498,7 @@ class mosMainFrame {
 
 		if ($_Itemid == '') {
 			$exists = 0;
-			foreach( $this->_ContentCategory as $key => $value ) {
+			foreach( $this->get( '_ContentCategory', array() ) as $key => $value ) {
 				// check if id has been tested before, if it is pull from class variable store
 				if ( $key == $id ) {
 					$_Itemid 	= $value;
@@ -1514,10 +1518,14 @@ class mosMainFrame {
 				. "\n AND i.id = $id"
 				;
 				$this->_db->setQuery( $query );
-				// saves query result to class variable storage
-				$this->_ContentCategory[$id] = $this->_db->loadResult();
+				// pull existing query storage into temp variable
+				$_ContentCategory 		= $this->get( '_ContentCategory', array() );
+				// add query result to temp array storage
+				$_ContentCategory[$id] 	= $this->_db->loadResult();	
+				// save temp array to main array storage
+				$this->set( '__ContentCategory', $ContentBlogCategory );
 				
-				$_Itemid = $this->_ContentCategory[$id];
+				$_Itemid = $_ContentCategory[$id];				
 			}
 		}
 
