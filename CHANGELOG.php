@@ -91,9 +91,14 @@ Medium Level Threat
 
 ---
 
+20-Feb-2006 Rey Gigataras
+ # Fixed [topic,39295.0.html] : error in TinyMCE 2.0.3 (toggle fullscreen mode)
+
+
 19-Feb-2006 Rey Gigataras
  # Fixed [topic,36462.0.html] : time check incorrectly being based on local time - rather than server time
  # Fixed [topic,39103.0.html] : utf-8 encoded newsfeeds in a ISO-8559-1 site
+
 
 18-Feb-2006 Rey Gigataras
  # Fixed [topic,39101.0.html] : Newsfeeds do not display
