@@ -371,17 +371,6 @@ class mosMainFrame {
 	
 	/** Folowing Variables are new as of 1.0.8 and are needed to reduce queries created to find Itemid value **/
 	
-	/** @var int number of published Blog Sections */
-	var $_BlogSectionCount 			= null;	
-	/** @var int number of published Blog Categories */
-	var $_BlogCategoryCount			= null;
-	/** @var int number of published Global Blog Sections */
-	var $_GloblBlogSectionCount 	= null;	
-	/** @var int number of published Global Blog Sections */
-	var $_StaticContentCount 		= null;	
-	/** @var int number of published Global Blog Sections */
-	var $_ContentItemLinkCount 		= null;		
-
 	/** @var array store of Itemid checks generated */
 	var $_ContentTyped 				= array();
 	/** @var array store of Itemid checks generated */
@@ -392,8 +381,6 @@ class mosMainFrame {
 	var $_ContentBlogSection 		= array();
 	/** @var array store of Itemid checks generated */
 	var $_ContentBlogCategory 		= array();
-	/** @var array store of Itemid checks generated */
-	var $_GloblBlogSection		 	= null;	
 	/** @var array store of Itemid checks generated */
 	var $_ContentCategory 			= array();	
 	
@@ -1422,7 +1409,7 @@ class mosMainFrame {
 				;
 				$this->_db->setQuery( $query );
 				// saves query result to class variable storage
-				$this->_ContentSection[$id] = $this->_db->loadResult();
+				$this->_ContentSection[$id] = $this->_db->loadResult();		
 				
 				$_Itemid = $this->_ContentSection[$id];
 			}
@@ -1487,10 +1474,10 @@ class mosMainFrame {
 		}
 
 		if ($_Itemid == '' && $gbs) {
-			if (!defined( '_JOS_GBS' )) {
-				/** ensure that query is only called once */
+			// ensure that query is only called once		
+			if ( !$this->get( '_GlobalBlogSection' ) && !defined( '_JOS_GBS' ) ) {					
 				define( '_JOS_GBS', 1 );
-					
+				
 				// Search in global blog section
 				$query = "SELECT id "
 				. "\n FROM #__menu "
@@ -1499,10 +1486,10 @@ class mosMainFrame {
 				. "\n AND componentid = 0"
 				;
 				$this->_db->setQuery( $query );
-				$this->_GlobalBlogSection = $this->_db->loadResult();
+				$this->set( '_GlobalBlogSection', $this->_db->loadResult() );
 			}
 			
-			$_Itemid = $this->_GlobalBlogSection;
+			$_Itemid = $this->get( '_GlobalBlogSection' );
 		}
 
 		if ($_Itemid == '') {
@@ -1545,8 +1532,8 @@ class mosMainFrame {
 	* @return number of Published Blog Sections
 	*/
 	function getBlogSectionCount( ) {
-		/** ensure that query is only called once */
-		if (!defined( '_JOS_BSC' )) {
+		// ensure that query is only called once		
+		if ( !$this->get( '_BlogSectionCount' ) && !defined( '_JOS_BSC' ) ) {		
 			define( '_JOS_BSC', 1 );
 			
 			$query = "SELECT COUNT( id )"
@@ -1555,21 +1542,19 @@ class mosMainFrame {
 			."\n AND published = 1"
 			;
 			$this->_db->setQuery( $query );
-			// saves query result to class variable
-			$this->_BlogSectionCount = $this->_db->loadResult();
+			// saves query result to variable
+			$this->set( '_BlogSectionCount', $this->_db->loadResult() );
 		}
 		
-		$count = $this->_BlogSectionCount;
-		
-		return $count;
+		return $this->get( '_BlogSectionCount' );
 	}
 
 	/**
 	* @return number of Published Blog Categories
 	*/
 	function getBlogCategoryCount( ) {
-		/** ensure that query is only called once */
-		if (!defined( '_JOS_BCC' )) {
+		// ensure that query is only called once		
+		if ( !$this->get( '_BlogCategoryCount' )&& !defined( '_JOS_BCC' ) ) {
 			define( '_JOS_BCC', 1 );
 			
 			$query = "SELECT COUNT( id )"
@@ -1578,21 +1563,19 @@ class mosMainFrame {
 			. "\n AND published = 1"
 			;
 			$this->_db->setQuery( $query );
-			// saves query result to class variable
-			$this->_BlogCategoryCount = $this->_db->loadResult();			
+			// saves query result to variable
+			$this->set( '_BlogCategoryCount', $this->_db->loadResult() );
 		}
 		
-		$count = $this->_BlogCategoryCount;
-		
-		return $count;
+		return $this->get( '_BlogCategoryCount' );
 	}
 
 	/**
 	* @return number of Published Global Blog Sections
 	*/
 	function getGlobalBlogSectionCount( ) {
-		/** ensure that query is only called once */
-		if (!defined( '_JOS_GBSC' )) {
+		// ensure that query is only called once		
+		if ( !$this->get( '_GlobalBlogSectionCount' ) && !defined( '_JOS_GBSC' ) ) {		
 			define( '_JOS_GBSC', 1 );
 			
 			$query = "SELECT COUNT( id )"
@@ -1602,21 +1585,19 @@ class mosMainFrame {
 			."\n AND componentid = 0"
 			;
 			$this->_db->setQuery( $query );
-			// saves query result to class variable
-			$this->_GlobalBlogSectionCount = $this->_db->loadResult();			
+			// saves query result to variable
+			$this->set( '_GlobalBlogSectionCount', $this->_db->loadResult() );
 		}
 		
-		$count = $this->_GlobalBlogSectionCount;
-		
-		return $count;
+		return $this->get( '_GlobalBlogSectionCount' );
 	}
 
 	/**
 	* @return number of Static Content
 	*/
 	function getStaticContentCount( ) {
-		/** ensure that query is only called once */
-		if (!defined( '_JOS_SCC' )) {
+		// ensure that query is only called once		
+		if ( !$this->get( '_StaticContentCount' ) && !defined( '_JOS_SCC' ) ) {		
 			define( '_JOS_SCC', 1 );
 			
 			$query = "SELECT COUNT( id )"
@@ -1625,20 +1606,19 @@ class mosMainFrame {
 			."\n AND published = 1"
 			;
 			$this->_db->setQuery( $query );
-			// saves query result to class variable
-			$this->_StaticContentCount = $this->_db->loadResult();			
+			// saves query result to variable
+			$this->set( '_StaticContentCount', $this->_db->loadResult() );
 		}
 		
-		$count = $this->_StaticContentCount;
-		
+		return $this->get( '_StaticContentCount' );		
 	}
 
 	/**
 	* @return number of Content Item Links
 	*/
 	function getContentItemLinkCount( ) {
-		/** ensure that query is only called once */
-		if (!defined( '_JOS_CILC' )) {
+		// ensure that query is only called once		
+		if ( !$this->get( '_ContentItemLinkCount' ) && !defined( '_JOS_CILC' ) ) {		
 			define( '_JOS_CILC', 1 );
 			
 			$query = "SELECT COUNT( id )"
@@ -1646,14 +1626,11 @@ class mosMainFrame {
 			."\n WHERE type = 'content_item_link'"
 			."\n AND published = 1"
 			;
-			$this->_db->setQuery( $query );
-			// saves query result to class variable
-			$this->_ContentItemLinkCount = $this->_db->loadResult();			
+			// saves query result to variable
+			$this->set( '_ContentItemLinkCount', $this->_db->loadResult() );
 		}
-		
-		$count = $this->_ContentItemLinkCount;
-		
-		return $count;
+
+		return $this->get( '_ContentItemLinkCount' );
 	}
 
 	/**
