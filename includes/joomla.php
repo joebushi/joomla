@@ -680,7 +680,13 @@ class mosMainFrame {
 	* Added as of 1.0.8
 	* Deperciated 1.1
 	*/
-	function initSessionAdmin( $mainframe ) {	
+	function initSessionAdmin($option) {	
+		// logout check
+		if ($option == 'logout') {
+			require 'logout.php';
+			exit();
+		}
+		
 		// restore some session variables
 		$my 			= new mosUser( $this->_db );
 		$my->id 		= mosGetParam( $_SESSION, 'session_user_id', '' );
@@ -691,7 +697,7 @@ class mosMainFrame {
 
 		$session_id 	= mosGetParam( $_SESSION, 'session_id', '' );
 		$logintime 		= mosGetParam( $_SESSION, 'session_logintime', '' );
-		$site			= $mainframe->getCfg( 'live_site' );
+		$site			= $this->getCfg( 'live_site' );
 		
 		// set garbage cleaning timeout
 		$this->setSessionGarbageClean();

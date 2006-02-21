@@ -91,6 +91,10 @@ Medium Level Threat
 
 ---
 
+21-Feb-2006 Rey Gigataras
+ # Fixed [topic,39295.0.html] : Admin logout does not clear/delete session bing logged out
+
+
 20-Feb-2006 Rey Gigataras
  # Fixed [topic,39295.0.html] : error in TinyMCE 2.0.3 (toggle fullscreen mode)
 

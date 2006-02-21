@@ -25,23 +25,17 @@ require_once( $mosConfig_absolute_path . '/includes/joomla.php' );
 include_once( $mosConfig_absolute_path . '/language/'. $mosConfig_lang .'.php' );
 require_once( $mosConfig_absolute_path . '/administrator/includes/admin.php' );
 
-$option = strtolower( mosGetParam( $_REQUEST, 'option', '' ) );
-
-// logout check
-if ($option == 'logout') {
-	require 'logout.php';
-	exit();
-}
-
 // must start the session before we create the mainframe object
 session_name( md5( $mosConfig_live_site ) );
 session_start();
 
+$option 		= strtolower( mosGetParam( $_REQUEST, 'option', '' ) );
+
 // mainframe is an API workhorse, lots of 'core' interaction routines
-$mainframe = new mosMainFrame( $database, $option, '..', true );
+$mainframe 		= new mosMainFrame( $database, $option, '..', true );
 
 // admin session handling
-$my = $mainframe->initSessionAdmin( $mainframe );
+$my 			= $mainframe->initSessionAdmin( $option );
 
 // initialise some common request directives
 $task 			= mosGetParam( $_REQUEST, 'task', '' );
