@@ -15,7 +15,7 @@
 			<option value="advanced">Advanced</option>
 		</param>
  		<param name="@spacer" type="spacer" default="" label="" description="" />
- 		<param name="cleanup" type="radio" default="1" label="Code Cleanup" description="By default TinyMCE will celan your code of certain html elements, like script and center tags, for security and XHTML compliance.  We recommend you do no deactivate this funcitonality">
+ 		<param name="cleanup" type="radio" default="1" label="Code Cleanup" description="By default TinyMCE will clean your code of certain html elements, like script and center tags, for security and XHTML compliance.  We recommend you do no deactivate this funcitonality">
  			<option value="0">Off</option>
  			<option value="1">On</option>
  		</param>
