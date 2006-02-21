@@ -105,6 +105,9 @@ Medium Level Threat
  # Fixed [topic,39103.0.html] : utf-8 encoded newsfeeds in a ISO-8559-1 site
 
 
+20-Feb-2006 Andrew Eddie
+ # Fixed filelist param - would always show list entries related to images for default and do not use
+
 18-Feb-2006 Rey Gigataras
  # Fixed [topic,39101.0.html] : Newsfeeds do not display
 
