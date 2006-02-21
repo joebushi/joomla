@@ -92,7 +92,8 @@ Medium Level Threat
 ---
 
 21-Feb-2006 Rey Gigataras
- # Fixed [topic,39295.0.html] : Admin logout does not clear/delete session bing logged out
+ # Fixed [topic,39295.0.html] : Incorrect favicon path in installer 
+ # Fixed [topic,39295.0.html] : Admin logout does not clear/delete session being logged out
 
 
 20-Feb-2006 Rey Gigataras
