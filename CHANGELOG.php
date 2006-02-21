@@ -41,10 +41,16 @@ Legend:
 
 This Release Contains following Security Fixes
 
+High Level Threat
+ * Protect against SQL Injection vunerability in com_content
+ * Protect against SQL Injection vunerability in login function
+ * Protect against SQL Injection vunerability in mosMenuCheck function
+
 Medium Level Threat
  * Hardening of Remember Me login functionality
  * Protect against real server path disclosure via syndication component
  * Limit arbitrary file creation via syndication component
+ * Protect against real server path disclosure in mod_templatechooser
 
  * Disallow `Weblink` item from being accessible when 'unpublished'
  * Disallow `Polls` item from being accessible when 'unpublished'
@@ -92,6 +98,11 @@ Medium Level Threat
 ---
 
 21-Feb-2006 Rey Gigataras
+ * SECURITY [ High Level ]: SQL Injection vunerability in com_content
+ * SECURITY [ High Level ]: SQL Injection vunerability in login function
+ * SECURITY [ High Level ]: SQL Injection vunerability in mosMenuCheck function
+ * SECURITY [ Medium Level ]: Real server path disclosure in mod_templatechooser
+
  # Fixed [topic,39295.0.html] : Incorrect favicon path in installer 
  # Fixed [topic,39295.0.html] : Admin logout does not clear/delete session being logged out
 
@@ -100,13 +111,14 @@ Medium Level Threat
  # Fixed [topic,39295.0.html] : error in TinyMCE 2.0.3 (toggle fullscreen mode)
 
 
+20-Feb-2006 Andrew Eddie
+ # Fixed filelist param - would always show list entries related to images for default and do not use
+
+
 19-Feb-2006 Rey Gigataras
  # Fixed [topic,36462.0.html] : time check incorrectly being based on local time - rather than server time
  # Fixed [topic,39103.0.html] : utf-8 encoded newsfeeds in a ISO-8559-1 site
 
-
-20-Feb-2006 Andrew Eddie
- # Fixed filelist param - would always show list entries related to images for default and do not use
 
 18-Feb-2006 Rey Gigataras
  # Fixed [topic,39101.0.html] : Newsfeeds do not display

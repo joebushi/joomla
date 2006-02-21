@@ -626,8 +626,9 @@ class mosMainFrame {
 		// Session Cookie `name`
 		$sessionCookieName 	= mosMainFrame::sessionCookieName();
 		
-		$cookie_found = false;
-		if ( isset($_COOKIE[$sessionCookieName]) || isset($_COOKIE[mosMainFrame::rememberCookieName_User()]) || isset($_POST['force_session']) ) {
+		$cookie_found 	= false;
+		$remCookieName 	= mosMainFrame::remCookieName_User().mosMainFrame::remCookieName_Pass();
+		if ( isset($_COOKIE[$sessionCookieName]) || isset($_COOKIE[$remCookieName]) || isset($_POST['force_session']) ) {
 			$cookie_found = true;
 		}
 		
@@ -665,12 +666,18 @@ class mosMainFrame {
 			}
 
 			// Cookie used by Remember me functionality
-			$rememberme_User = mosGetParam( $_COOKIE, mosMainFrame::rememberCookieName_User(), null );
-			$rememberme_Pass = mosGetParam( $_COOKIE, mosMainFrame::rememberCookieName_Pass(), null );
-
-			// check if Remember me cookie exists. Login with usercookie info.
-			if ($rememberme_User && $rememberme_Pass) {
-				$this->login( $rememberme_User, $rememberme_Pass, 1 );
+			$remCookieValue	= mosGetParam( $_COOKIE, $remCookieName, null );
+			
+			// test if cookie is correct length
+			if ( strlen($remCookieValue) == 64 ) {
+				// Separate Values from Remember Me Cookie
+				$remUser		= substr( $remCookieValue, 0, 31 );
+				$remName		= substr( $remCookieValue, 32, 63 );
+	
+				// check if Remember me cookie exists. Login with usercookie info.
+				if ( strlen($remUser) == 32 && strlen($remPass) == 32 ) {
+					$this->login( $remUser, $remPass, 1 );
+				}
 			}
 		}
 	}
@@ -817,7 +824,7 @@ class mosMainFrame {
 	* Added as of 1.0.8
 	* Deperciated 1.1
 	*/
-	function rememberCookieName_User() {
+	function remCookieName_User() {
 		$value = mosHash( 'remembermecookieusername'. mosMainFrame::sessionCookieName() );
 
 		return $value;
@@ -828,7 +835,7 @@ class mosMainFrame {
 	* Added as of 1.0.8
 	* Deperciated 1.1
 	*/
-	function rememberCookieName_Pass() {
+	function remCookieName_Pass() {
 		$value = mosHash( 'remembermecookiepassword'. mosMainFrame::sessionCookieName() );
 
 		return $value;
@@ -839,7 +846,7 @@ class mosMainFrame {
 	* Added as of 1.0.8
 	* Deperciated 1.1
 	*/
-	function rememberCookieValue_User( $username ) {
+	function remCookieValue_User( $username ) {
 		$value = md5( $username . mosHash( @$_SERVER['HTTP_USER_AGENT'] ) );
 
 		return $value;
@@ -850,7 +857,7 @@ class mosMainFrame {
 	* Added as of 1.0.8
 	* Deperciated 1.1
 	*/
-	function rememberCookieValue_Pass( $passwd ) {
+	function remCookieValue_Pass( $passwd ) {
 		$value = md5( $passwd . mosHash( @$_SERVER['HTTP_USER_AGENT'] ) );
 
 		return $value;
@@ -887,6 +894,8 @@ class mosMainFrame {
 				. "\n AND MD5( CONCAT( password , '$harden' ) ) = '$passwd'"
 				;
 			} else {
+			//clean username input	
+			$username = $this->_db->getEscaped($username);
 			// query used for normal login
 				$query = "SELECT *"
 				. "\n FROM #__users"
@@ -936,10 +945,11 @@ class mosMainFrame {
 				// set remember me cookie if selected
 				$remember = mosGetParam( $_POST, 'remember', '' );
 				if ( $remember == 'yes' ) {
-					$lifetime = time() + 365*24*60*60;
-					// cookie set to last for 365 days
-					setcookie( mosMainFrame::rememberCookieName_User(), mosMainFrame::rememberCookieValue_User( $row->username ), $lifetime, '/' );
-					setcookie( mosMainFrame::rememberCookieName_Pass(), mosMainFrame::rememberCookieValue_Pass( $row->password ), $lifetime, '/' );
+					// cookie lifetime of 365 days
+					$lifetime 		= time() + 365*24*60*60;
+					$remCookieName 	= mosMainFrame::remCookieName_User() . mosMainFrame::remCookieName_Pass();
+					$remCookieValue = mosMainFrame::remCookieValue_User( $row->username ) . mosMainFrame::remCookieValue_Pass( $row->password );
+					setcookie( $remCookieName, $remCookieValue, $lifetime, '/' );
 				}
 				mosCache::cleanCache();
 			} else {
@@ -972,9 +982,9 @@ class mosMainFrame {
 		$session->update();
 
 		// kill remember me cookie
-		$lifetime = time() - 1800;
-		setcookie( mosMainFrame::rememberCookieName_User(), ' ', $lifetime, '/' );
-		setcookie( mosMainFrame::rememberCookieName_Pass(), ' ', $lifetime, '/' );
+		$lifetime 		= time() - 1800;
+		$remCookieName 	= mosMainFrame::remCookieName_User() . mosMainFrame::remCookieName_Pass();
+		setcookie( $remCookieName, ' ', $lifetime, '/' );
 		
 		@session_destroy();
 	}
@@ -1052,10 +1062,16 @@ class mosMainFrame {
 			$jos_user_template 		= mosGetParam( $_COOKIE, 'jos_user_template', '' );
 			$jos_change_template 	= mosGetParam( $_REQUEST, 'jos_change_template', $jos_user_template );
 			if ($jos_change_template) {
+				// clean template name
+				$jos_change_template = preg_replace( '#\W#', '', $jos_change_template );
+				if ( strlen( $jos_change_template ) >= 40 ) {
+					$jos_change_template = substr($jos_change_template, 0 , 39);
+				}
+				
 				// check that template exists in case it was deleted
 				if (file_exists( $mosConfig_absolute_path .'/templates/'. $jos_change_template .'/index.php' )) {
-					$lifetime = 60*10;
-					$cur_template = $jos_change_template;
+					$lifetime 		= 60*10;
+					$cur_template 	= $jos_change_template;
 					setcookie( 'jos_user_template', "$jos_change_template", time()+$lifetime);
 				} else {
 					setcookie( 'jos_user_template', '', time()-3600 );
@@ -3334,29 +3350,34 @@ function mosMakeHtmlSafe( &$mixed, $quote_style=ENT_QUOTES, $exclude_keys='' ) {
 */
 function mosMenuCheck( $Itemid, $menu_option, $task, $gid ) {
 	global $database;
-	$dblink="index.php?option=$menu_option";
-	if ($Itemid!="" && $Itemid!=0 && $Itemid!=99999999) {
+	
+	$dblink = "index.php?option=$menu_option";
+	
+	if ( $Itemid != '' && $Itemid != 0 && $Itemid != 99999999 ) {
 		$query = "SELECT access"
 		. "\n FROM #__menu"
 		. "\n WHERE id = $Itemid"
 		;
 		$database->setQuery( $query );
 	} else {
-		if ($task!="") {
-			$dblink.="&task=$task";
+		if ($task != '') {
+			$task 	= $database->getEscaped($task);
+			$dblink	.= "&task=$task";
 		}
+		
 		$query = "SELECT access"
 		. "\n FROM #__menu"
 		. "\n WHERE link LIKE '$dblink%'"
 		;
 		$database->setQuery( $query );
 	}
-	$results = $database->loadObjectList();
-	$access = 0;
-	//echo "<pre>"; print_r($results); echo "</pre>";
+	$results 	= $database->loadObjectList();
+	$access 	= 0;
+	
 	foreach ($results as $result) {
 		$access = max( $access, $result->access );
 	}
+	
 	return ($access <= $gid);
 }
 

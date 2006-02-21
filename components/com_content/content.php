@@ -432,26 +432,29 @@ function showCategory( $id, $gid, &$access, $sectionid, $limit, $selected, $limi
 
 	// get the total number of published items in the category
 	// filter functionality
-	$filter = mosGetParam( $_POST, 'filter', '' );
-	$filter = strtolower( $filter );
 	$and = '';
-	if ( $filter ) {
-		if ( $params->get( 'filter' ) ) {
+	if ( $params->get( 'filter' ) ) {
+		$filter = mosGetParam( $_POST, 'filter', '' );
+		
+		if ( $filter ) {
+			// clean filter variable
+			$filter = strtolower( $filter );
+			$filter = $database->getEscaped($filter);
+			
 			switch ( $params->get( 'filter_type' ) ) {
 				case 'title':
 					$and = "\n AND LOWER( a.title ) LIKE '%$filter%'";
 					break;
-
+	
 				case 'author':
 					$and = "\n AND ( ( LOWER( u.name ) LIKE '%$filter%' ) OR ( LOWER( a.created_by_alias ) LIKE '%$filter%' ) )";
 					break;
-
+	
 				case 'hits':
 					$and = "\n AND a.hits LIKE '%$filter%'";
 					break;
 			}
 		}
-
 	}
 
 	if ( $access->canEdit ) {
