@@ -41,11 +41,6 @@ Legend:
 
 This Release Contains following Security Fixes
 
-High Level Threat
- * Protect against SQL Injection vunerability in com_content
- * Protect against SQL Injection vunerability in login function
- * Protect against SQL Injection vunerability in mosMenuCheck function
-
 Medium Level Threat
  * Hardening of Remember Me login functionality
  * Protect against real server path disclosure via syndication component
@@ -98,9 +93,6 @@ Medium Level Threat
 ---
 
 21-Feb-2006 Rey Gigataras
- * SECURITY [ High Level ]: SQL Injection vunerability in com_content
- * SECURITY [ High Level ]: SQL Injection vunerability in login function
- * SECURITY [ High Level ]: SQL Injection vunerability in mosMenuCheck function
  * SECURITY [ Medium Level ]: Real server path disclosure in mod_templatechooser
 
  # Fixed [topic,39295.0.html] : Incorrect favicon path in installer 

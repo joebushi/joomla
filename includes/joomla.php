@@ -874,7 +874,7 @@ class mosMainFrame {
 		global $acl;
 		
 		if (!$username || !$passwd) {
-			$username 	= mosGetParam( $_POST, 'username', '' );
+			$username 	= strval( mosGetParam( $_POST, 'username', '' ) );
 			$passwd 	= mosGetParam( $_POST, 'passwd', '' );
 			$passwd 	= md5( $passwd );
 			$bypost 	= 1;
@@ -894,8 +894,6 @@ class mosMainFrame {
 				. "\n AND MD5( CONCAT( password , '$harden' ) ) = '$passwd'"
 				;
 			} else {
-			//clean username input	
-			$username = $this->_db->getEscaped($username);
 			// query used for normal login
 				$query = "SELECT *"
 				. "\n FROM #__users"
@@ -906,7 +904,7 @@ class mosMainFrame {
 			}
 			$this->_db->setQuery( $query );
 			$row = null;
-			
+			echo $query;
 			if ($this->_db->loadObject( $row )) {
 				// user blocked from login
 				if ($row->block == 1) {

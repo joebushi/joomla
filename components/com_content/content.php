@@ -439,7 +439,6 @@ function showCategory( $id, $gid, &$access, $sectionid, $limit, $selected, $limi
 		if ( $filter ) {
 			// clean filter variable
 			$filter = strtolower( $filter );
-			$filter = $database->getEscaped($filter);
 			
 			switch ( $params->get( 'filter_type' ) ) {
 				case 'title':
