@@ -92,11 +92,17 @@ Medium Level Threat
 
 ---
 
+22-Feb-2006 Rey Gigataras
+ # Fixed artf3605 : Spelling error when saving content
+
+
 21-Feb-2006 Rey Gigataras
  * SECURITY [ Medium Level ]: Real server path disclosure in mod_templatechooser
 
  # Fixed [topic,39295.0.html] : Incorrect favicon path in installer 
  # Fixed [topic,39295.0.html] : Admin logout does not clear/delete session being logged out
+ 
+ ^ Remember Me Cookie amalgamated into a single cookie.
 
 
 20-Feb-2006 Rey Gigataras

@@ -169,7 +169,7 @@ function publishLanguage( $p_lname, $option ) {
 	if ($fp = fopen("../configuration.php","w")){
 		fputs($fp, $config, strlen($config));
 		fclose($fp);
-		mosRedirect("index2.php","Configuration succesfully updated!");
+		mosRedirect("index2.php","Configuration successfully updated!");
 	} else {
 		mosRedirect("index2.php","Error! Make sure that configuration.php is writeable.");
 	}
