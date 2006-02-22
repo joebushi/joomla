@@ -622,32 +622,36 @@ class mosMainFrame {
 		// purge expired frontend sessions only
 		$and 		= "\n AND ( ( guest = 1 AND userid = 0 ) OR ( guest = 0 AND gid > 0 ) )";
 		$session->purge(intval( $this->getCfg( 'lifetime' ) ), $and );
-
+		
 		// Session Cookie `name`
 		$sessionCookieName 	= mosMainFrame::sessionCookieName();
-		
-		$cookie_found 	= false;
-		$remCookieName 	= mosMainFrame::remCookieName_User().mosMainFrame::remCookieName_Pass();
-		if ( isset($_COOKIE[$sessionCookieName]) || isset($_COOKIE[$remCookieName]) || isset($_POST['force_session']) ) {
-			$cookie_found = true;
-		}
-		
 		// Get Session Cookie `value`
 		$sessioncookie 		= mosGetParam( $_COOKIE, $sessionCookieName, null );
 		
 		// Session ID / `value`
-		$sessionValueCheck 		= mosMainFrame::sessionCookieValue( $sessioncookie );
+		$sessionValueCheck 	= mosMainFrame::sessionCookieValue( $sessioncookie );
 	
 		// Check if existing session exists in db corresponding to Session cookie `value` 
 		// extra check added in 1.0.8 to test sessioncookie value is of correct length
-		if ( (strlen($sessioncookie) == 32 && $sessioncookie != '-') && $session->load($sessionValueCheck) ) {
+		if ( $sessioncookie && strlen($sessioncookie) == 32 && $sessioncookie != '-' && $session->load($sessionValueCheck) ) {
 			// update time in session table
 			$session->time = time();
 			$session->update();
 		} else {
+			// Remember Me Cookie `name`
+			$remCookieName = mosMainFrame::remCookieName_User().mosMainFrame::remCookieName_Pass();
+			
+			// test if cookie found
+			$cookie_found = false;
+			if ( isset($_COOKIE[$sessionCookieName]) || isset($_COOKIE[$remCookieName]) || isset($_POST['force_session']) ) {
+				$cookie_found = true;
+			}
+			
+			// check if neither remembermecookie nor sessioncookie found
 			if (!$cookie_found) {
-			// if neither remembermecookie nor sessioncookie found, create the sessioncookie and set it to a test value
-				setcookie( $sessionCookieName, '-', time() + 3600, '/' );
+				// create sessioncookie and set it to a test value set to expire on session end
+				//setcookie( $sessionCookieName, '-', time() + 3600, '/' );
+				setcookie( $sessionCookieName, '-', 0, '/' );				
 			} else {
 			// otherwise, sessioncookie was found, but set to test val or the session expired, prepare for session registration and register the session
 				$session->guest 	= 1;
@@ -662,7 +666,9 @@ class mosMainFrame {
 				}
 				
 				// create Session Tracking Cookie - expires in 12 hours
-				setcookie( $sessionCookieName, $session->getCookie(), time() + 43200, '/' );
+				//setcookie( $sessionCookieName, $session->getCookie(), time() + 43200, '/' );
+				// create Session Tracking Cookie set to expire on session end
+				setcookie( $sessionCookieName, $session->getCookie(), 0, '/' );
 			}
 
 			// Cookie used by Remember me functionality
@@ -671,8 +677,8 @@ class mosMainFrame {
 			// test if cookie is correct length
 			if ( strlen($remCookieValue) == 64 ) {
 				// Separate Values from Remember Me Cookie
-				$remUser		= substr( $remCookieValue, 0, 31 );
-				$remName		= substr( $remCookieValue, 32, 63 );
+				$remUser	= substr( $remCookieValue, 0, 31 );
+				$remName	= substr( $remCookieValue, 32, 63 );
 	
 				// check if Remember me cookie exists. Login with usercookie info.
 				if ( strlen($remUser) == 32 && strlen($remPass) == 32 ) {
@@ -791,9 +797,9 @@ class mosMainFrame {
 	function sessionCookieValue( $id=null ) {
 		global $mainframe;		
 	
-		$type = $mainframe->getCfg( 'session_type' );
+		$type 		= $mainframe->getCfg( 'session_type' );
 		
-		$browser = @$_SERVER['HTTP_USER_AGENT'];
+		$browser 	= @$_SERVER['HTTP_USER_AGENT'];
 		
 		switch ($type) {
 			case 2:
@@ -873,6 +879,7 @@ class mosMainFrame {
 	function login( $username=null,$passwd=null, $remember=null ) {
 		global $acl;
 		
+		// if no username and password passed from function, then function is being called from login module/component
 		if (!$username || !$passwd) {
 			$username 	= strval( mosGetParam( $_POST, 'username', '' ) );
 			$passwd 	= mosGetParam( $_POST, 'passwd', '' );
@@ -904,7 +911,7 @@ class mosMainFrame {
 			}
 			$this->_db->setQuery( $query );
 			$row = null;
-			echo $query;
+			
 			if ($this->_db->loadObject( $row )) {
 				// user blocked from login
 				if ($row->block == 1) {

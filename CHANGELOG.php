@@ -95,6 +95,8 @@ Medium Level Threat
 
 22-Feb-2006 Rey Gigataras
  # Fixed artf3591 : Error if unpublish menu item
+ 
+ ^ Frontend Session Tracking cookie uses `Expire at End of Session`, rather than expiry by a set time to resolve issues with incorrect system clocks
 
 
 21-Feb-2006 Rey Gigataras
