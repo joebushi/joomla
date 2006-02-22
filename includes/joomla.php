@@ -650,7 +650,6 @@ class mosMainFrame {
 			// check if neither remembermecookie nor sessioncookie found
 			if (!$cookie_found) {
 				// create sessioncookie and set it to a test value set to expire on session end
-				//setcookie( $sessionCookieName, '-', time() + 3600, '/' );
 				setcookie( $sessionCookieName, '-', 0, '/' );				
 			} else {
 			// otherwise, sessioncookie was found, but set to test val or the session expired, prepare for session registration and register the session
@@ -665,8 +664,6 @@ class mosMainFrame {
 					die( $session->getError() );
 				}
 				
-				// create Session Tracking Cookie - expires in 12 hours
-				//setcookie( $sessionCookieName, $session->getCookie(), time() + 43200, '/' );
 				// create Session Tracking Cookie set to expire on session end
 				setcookie( $sessionCookieName, $session->getCookie(), 0, '/' );
 			}
@@ -678,8 +675,8 @@ class mosMainFrame {
 			if ( strlen($remCookieValue) == 64 ) {
 				// Separate Values from Remember Me Cookie
 				$remUser	= substr( $remCookieValue, 0, 31 );
-				$remName	= substr( $remCookieValue, 32, 63 );
-	
+				$remPass	= substr( $remCookieValue, 32, 63 );
+
 				// check if Remember me cookie exists. Login with usercookie info.
 				if ( strlen($remUser) == 32 && strlen($remPass) == 32 ) {
 					$this->login( $remUser, $remPass, 1 );
@@ -828,7 +825,7 @@ class mosMainFrame {
 	/*
 	* Static Function used to generate the Rememeber Me Cookie Name for Username information
 	* Added as of 1.0.8
-	* Deperciated 1.1
+	* Depreciated 1.1
 	*/
 	function remCookieName_User() {
 		$value = mosHash( 'remembermecookieusername'. mosMainFrame::sessionCookieName() );
@@ -839,7 +836,7 @@ class mosMainFrame {
 	/*
 	* Static Function used to generate the Rememeber Me Cookie Name for Password information
 	* Added as of 1.0.8
-	* Deperciated 1.1
+	* Depreciated 1.1
 	*/
 	function remCookieName_Pass() {
 		$value = mosHash( 'remembermecookiepassword'. mosMainFrame::sessionCookieName() );
@@ -850,7 +847,7 @@ class mosMainFrame {
 	/*
 	* Static Function used to generate the Remember Me Cookie Value for Username information
 	* Added as of 1.0.8
-	* Deperciated 1.1
+	* Depreciated 1.1
 	*/
 	function remCookieValue_User( $username ) {
 		$value = md5( $username . mosHash( @$_SERVER['HTTP_USER_AGENT'] ) );
@@ -861,7 +858,7 @@ class mosMainFrame {
 	/*
 	* Static Function used to generate the Remember Me Cookie Value for Password information
 	* Added as of 1.0.8
-	* Deperciated 1.1
+	* Depreciated 1.1
 	*/
 	function remCookieValue_Pass( $passwd ) {
 		$value = md5( $passwd . mosHash( @$_SERVER['HTTP_USER_AGENT'] ) );
@@ -894,6 +891,7 @@ class mosMainFrame {
 			if ( $remember && strlen($username) == 32 && strlen($passwd) == 32 ) {
 			// query used for remember me cookie
 				$harden = mosHash( @$_SERVER['HTTP_USER_AGENT'] );
+				
 				$query = "SELECT *"
 				. "\n FROM #__users"
 				. "\n WHERE block != 1"
