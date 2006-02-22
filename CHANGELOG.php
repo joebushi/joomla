@@ -92,6 +92,11 @@ Medium Level Threat
 
 ---
 
+
+22-Feb-2006 Rey Gigataras
+ # Fixed artf3591 : Error if unpublish menu item
+
+
 21-Feb-2006 Rey Gigataras
  * SECURITY [ Medium Level ]: Real server path disclosure in mod_templatechooser
 

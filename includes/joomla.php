@@ -1357,7 +1357,7 @@ class mosMainFrame {
 				;
 				$this->_db->setQuery( $query );
 				// pull existing query storage into temp variable
-				$ContentTyped 		= $this->get( '_ContentItemLink', array() );
+				$ContentTyped 		= $this->get( '_ContentTyped', array() );
 				// add query result to temp array storage
 				$ContentTyped[$id] 	= $this->_db->loadResult();	
 				// save temp array to main array storage
@@ -1539,13 +1539,13 @@ class mosMainFrame {
 				;
 				$this->_db->setQuery( $query );
 				// pull existing query storage into temp variable
-				$_ContentCategory 		= $this->get( '_ContentCategory', array() );
+				$ContentCategory 		= $this->get( '_ContentCategory', array() );
 				// add query result to temp array storage
-				$_ContentCategory[$id] 	= $this->_db->loadResult();	
+				$ContentCategory[$id] 	= $this->_db->loadResult();	
 				// save temp array to main array storage
-				$this->set( '__ContentCategory', $ContentBlogCategory );
+				$this->set( '_ContentCategory', $ContentCategory );
 				
-				$_Itemid = $_ContentCategory[$id];				
+				$_Itemid = $ContentCategory[$id];				
 			}
 		}
 
