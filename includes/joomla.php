@@ -674,8 +674,8 @@ class mosMainFrame {
 			// test if cookie is correct length
 			if ( strlen($remCookieValue) == 64 ) {
 				// Separate Values from Remember Me Cookie
-				$remUser	= substr( $remCookieValue, 0, 31 );
-				$remPass	= substr( $remCookieValue, 32, 63 );
+				$remUser	= substr( $remCookieValue, 0, 32 );
+				$remPass	= substr( $remCookieValue, 32, 32 );
 
 				// check if Remember me cookie exists. Login with usercookie info.
 				if ( strlen($remUser) == 32 && strlen($remPass) == 32 ) {
@@ -891,7 +891,7 @@ class mosMainFrame {
 			if ( $remember && strlen($username) == 32 && strlen($passwd) == 32 ) {
 			// query used for remember me cookie
 				$harden = mosHash( @$_SERVER['HTTP_USER_AGENT'] );
-				
+
 				$query = "SELECT *"
 				. "\n FROM #__users"
 				. "\n WHERE block != 1"
