@@ -630,7 +630,7 @@ class mosMainFrame {
 		
 		// Session ID / `value`
 		$sessionValueCheck 	= mosMainFrame::sessionCookieValue( $sessioncookie );
-	
+		//echo mosMakePassword(32);
 		// Check if existing session exists in db corresponding to Session cookie `value` 
 		// extra check added in 1.0.8 to test sessioncookie value is of correct length
 		if ( $sessioncookie && strlen($sessioncookie) == 32 && $sessioncookie != '-' && $session->load($sessionValueCheck) ) {
@@ -672,6 +672,7 @@ class mosMainFrame {
 			$remCookieValue	= mosGetParam( $_COOKIE, $remCookieName, null );
 			
 			// test if cookie is correct length
+			
 			if ( strlen($remCookieValue) == 64 ) {
 				// Separate Values from Remember Me Cookie
 				$remUser	= substr( $remCookieValue, 0, 32 );
@@ -861,8 +862,8 @@ class mosMainFrame {
 	* Depreciated 1.1
 	*/
 	function remCookieValue_Pass( $passwd ) {
-		$value = md5( $passwd . mosHash( @$_SERVER['HTTP_USER_AGENT'] ) );
-
+		$value 	= md5( $passwd . mosHash( @$_SERVER['HTTP_USER_AGENT'] ) );
+		
 		return $value;
 	}
 	
@@ -890,7 +891,7 @@ class mosMainFrame {
 		} else {
 			if ( $remember && strlen($username) == 32 && strlen($passwd) == 32 ) {
 			// query used for remember me cookie
-				$harden = mosHash( @$_SERVER['HTTP_USER_AGENT'] );
+					$harden 	= mosHash( @$_SERVER['HTTP_USER_AGENT'] );
 
 				$query = "SELECT *"
 				. "\n FROM #__users"
@@ -3696,12 +3697,12 @@ function doGzip() {
 * Random password generator
 * @return password
 */
-function mosMakePassword() {
+function mosMakePassword($length=8) {
 	$salt 		= "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 	$len 		= strlen($salt);
 	$makepass	= '';
 	mt_srand(10000000*(double)microtime());
-	for ($i = 0; $i < 8; $i++)
+	for ($i = 0; $i < $length; $i++)
 	$makepass .= $salt[mt_rand(0,$len - 1)];
 	return $makepass;
 }
