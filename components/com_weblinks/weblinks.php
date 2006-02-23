@@ -73,7 +73,7 @@ function listWeblinks( $catid ) {
 		$rows = $database->loadObjectList();
 
 		// current cate info
-		$query = "SELECT name, description, image, image_position"
+		$query = "SELECT *"
 		. "\n FROM #__categories"
 		. "\n WHERE id = $catid"
 		. "\n AND published = 1"
@@ -92,7 +92,7 @@ function listWeblinks( $catid ) {
 	}
 
 	/* Query to retrieve all categories that belong under the web links section and that are published. */
-	$query = "SELECT *, COUNT(a.id) AS numlinks FROM #__categories AS cc"
+	$query = "SELECT cc.*, a.catid, a.title, a.url, COUNT(a.id) AS numlinks FROM #__categories AS cc"
 	. "\n LEFT JOIN #__weblinks AS a ON a.catid = cc.id"
 	. "\n WHERE a.published = 1"
 	. "\n AND section = 'com_weblinks'"
