@@ -37,7 +37,7 @@ Legend:
 ! -> Note
 
 
----------------- 1.0.8 Beta 2 Released -- [19-Feb-2006 07:00 UTC] ------------------
+---------------- 1.0.8 Pre-Stable Released -- [23-Feb-2006 20:00 UTC] ------------------
 
 This Release Contains following Security Fixes
 
@@ -92,13 +92,14 @@ Medium Level Threat
 
 ---
 
-
 23-Feb-2006 Robin Muilwijk
  # Fixed [topic,39449.0.html] : typo in menu manager
+
 
 23-Feb-2006 Rey Gigataras
  ^ Global Config session life only controls purging of frontend logged in sessions
  ^ Guests session separately purged at a hardcoded 900 seconds
+
 
 22-Feb-2006 Rey Gigataras
  # Fixed artf3591 : Error if unpublish menu item
@@ -107,7 +108,6 @@ Medium Level Threat
  
  ^ Frontend Session Tracking cookie uses `Expire at End of Session`, rather than expiry by a set time to resolve issues with incorrect system clocks
  
-
 
 21-Feb-2006 Rey Gigataras
  * SECURITY [ Medium Level ]: Real server path disclosure in mod_templatechooser
