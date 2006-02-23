@@ -200,7 +200,7 @@ class HTML_menusections {
 			</th>
 			<td valign="bottom" nowrap style="color: red;">
 			<?php //echo _MENU_GROUP; ?>
-			* Note that some menu types appear in more that one grouping, but they are still the same menu type.
+			* Note that some menu types appear in more than one grouping, but they are still the same menu type.
 			</td>
 		</tr>
 		</table>
