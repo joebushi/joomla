@@ -93,6 +93,9 @@ Medium Level Threat
 ---
 
 
+23-Feb-2006 Robin Muilwijk
+ # Fixed [topic,39449.0.html] : typo in menu manager
+
 23-Feb-2006 Rey Gigataras
  ^ Global Config session life only controls purging of frontend logged in sessions
  ^ Guests session separately purged at a hardcoded 900 seconds
