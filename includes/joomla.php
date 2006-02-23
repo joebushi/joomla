@@ -617,12 +617,17 @@ class mosMainFrame {
 	* the jos_sessions table.
 	*/
 	function initSession() {
+		// initailize session variables
 		$session 	=& $this->_session;
 		$session 	= new mosSession( $this->_db );
-		// purge expired frontend sessions only
-		$and 		= "\n AND ( ( guest = 1 AND userid = 0 ) OR ( guest = 0 AND gid > 0 ) )";
-		$session->purge(intval( $this->getCfg( 'lifetime' ) ), $and );
 		
+		// purge expired frontend logged sessions only - expiry time set in Global Config
+		$and 		= "\n AND guest = 0 AND gid > 0";
+		$session->purge(intval( $this->getCfg( 'lifetime' ) ), $and );
+		// purge expired frontend guest sessions only - expire time fixed at 15 mins
+		$and 		= "\n AND guest = 1 AND userid = 0";
+		$session->purge( 900, $and );
+
 		// Session Cookie `name`
 		$sessionCookieName 	= mosMainFrame::sessionCookieName();
 		// Get Session Cookie `value`
@@ -647,7 +652,7 @@ class mosMainFrame {
 				$cookie_found = true;
 			}
 			
-			// check if neither remembermecookie nor sessioncookie found
+			// check if neither remembermecookie or sessioncookie found
 			if (!$cookie_found) {
 				// create sessioncookie and set it to a test value set to expire on session end
 				setcookie( $sessionCookieName, '-', 0, '/' );				
@@ -671,8 +676,7 @@ class mosMainFrame {
 			// Cookie used by Remember me functionality
 			$remCookieValue	= mosGetParam( $_COOKIE, $remCookieName, null );
 			
-			// test if cookie is correct length
-			
+			// test if cookie is correct length			
 			if ( strlen($remCookieValue) == 64 ) {
 				// Separate Values from Remember Me Cookie
 				$remUser	= substr( $remCookieValue, 0, 32 );
@@ -891,7 +895,7 @@ class mosMainFrame {
 		} else {
 			if ( $remember && strlen($username) == 32 && strlen($passwd) == 32 ) {
 			// query used for remember me cookie
-					$harden 	= mosHash( @$_SERVER['HTTP_USER_AGENT'] );
+				$harden = mosHash( @$_SERVER['HTTP_USER_AGENT'] );
 
 				$query = "SELECT *"
 				. "\n FROM #__users"
@@ -934,7 +938,18 @@ class mosMainFrame {
 				$session->usertype 	= $row->usertype;
 				$session->gid 		= intval( $row->gid );
 				$session->update();
-
+				
+				// delete any old sessions to stop duplicate sessions
+				$query = "DELETE FROM #__session"
+				. "\n WHERE session_id != '$session->session_id'"
+				. "\n AND username = '$row->username'"
+				. "\n AND userid = $row->id"
+				. "\n AND gid = $row->gid"
+				. "\n AND guest = 0"
+				;
+				$this->_db->setQuery( $query );
+				$this->_db->query();	
+				
 				// update user visit data
 				$currentDate = date("Y-m-d\TH:i:s");
 				$query = "UPDATE #__users"
@@ -1340,6 +1355,10 @@ class mosMainFrame {
 	*/
 	function getItemid( $id, $typed=1, $link=1, $bs=1, $bc=1, $gbs=1 ) {
 		global $Itemid;
+		
+		$bs 	= $this->get( '_BlogSectionCount' );
+		$bc 	= $this->get( '_BlogCategoryCount' );
+		$gbs 	= $this->get( '_GlobalBlogSectionCount' );
 
 		$_Itemid = '';
 		if ($_Itemid == '' && $typed) {
