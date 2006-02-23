@@ -92,6 +92,10 @@ Medium Level Threat
 
 ---
 
+24-Feb-2006 Rey Gigataras
+ ^ Special Flag to allow differentiate behviour of site for Production vs online Demo sites
+
+
 23-Feb-2006 Robin Muilwijk
  # Fixed [topic,39449.0.html] : typo in menu manager
 

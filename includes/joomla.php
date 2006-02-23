@@ -719,19 +719,17 @@ class mosMainFrame {
 		
 		// check against db record of session
 		if ( $session_id == md5( $my->id . $my->username . $my->usertype . $logintime ) ) {
-			$query = "SELECT *"
+			$query = "SELECT COUNT( session_id )"
 			. "\n FROM #__session"
 			. "\n WHERE session_id = '$session_id'"
 			. "\n AND username = ". $this->_db->Quote( $my->username )
 			. "\n AND userid = ". intval( $my->id )
 			;
 			$this->_db->setQuery( $query );
-			if (!$result = $this->_db->query()) {
-				echo $this->_db->stderr();
-			}
+			$count = $this->_db->loadResult();
 			
 			// if no entry in session table that corresponds disallow login
-			if ($this->_db->getNumRows( $result ) != 1) {
+			if ( $count == 0 ) {
 				echo "<script>document.location.href='index.php'</script>\n";
 				exit();
 			}
@@ -879,7 +877,7 @@ class mosMainFrame {
 	* the users details.
 	*/
 	function login( $username=null,$passwd=null, $remember=null ) {
-		global $acl;
+		global $acl, $_VERSION;
 		
 		// if no username and password passed from function, then function is being called from login module/component
 		if (!$username || !$passwd) {
@@ -939,16 +937,20 @@ class mosMainFrame {
 				$session->gid 		= intval( $row->gid );
 				$session->update();
 				
-				// delete any old front sessions to stop duplicate sessions
-				$query = "DELETE FROM #__session"
-				. "\n WHERE session_id != '$session->session_id'"
-				. "\n AND username = '$row->username'"
-				. "\n AND userid = $row->id"
-				. "\n AND gid = $row->gid"
-				. "\n AND guest = 0"
-				;
-				$this->_db->setQuery( $query );
-				$this->_db->query();	
+				// check to see if site is a production site
+				// allows multiple logins with same user for a demo site
+				if ( $_VERSION->site ) {
+					// delete any old front sessions to stop duplicate sessions
+					$query = "DELETE FROM #__session"
+					. "\n WHERE session_id != '$session->session_id'"
+					. "\n AND username = '$row->username'"
+					. "\n AND userid = $row->id"
+					. "\n AND gid = $row->gid"
+					. "\n AND guest = 0"
+					;
+					$this->_db->setQuery( $query );
+					$this->_db->query();	
+				}
 				
 				// update user visit data
 				$currentDate = date("Y-m-d\TH:i:s");

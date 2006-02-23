@@ -14,32 +14,36 @@
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
-global $database;
+global $database, $_VERSION;
 
-// update db user last visit record corresponding to currently logged in user
-if ( isset( $_SESSION['session_user_id'] ) && $_SESSION['session_user_id'] != '' ) {
-	$currentDate = date( "Y-m-d\TH:i:s" );
+// check to see if site is a production site
+// allows multiple logins with same user for a demo site
+if ( $_VERSION->site ) {
+	// update db user last visit record corresponding to currently logged in user
+	if ( isset( $_SESSION['session_user_id'] ) && $_SESSION['session_user_id'] != '' ) {
+		$currentDate = date( "Y-m-d\TH:i:s" );
+		
+		$query = "UPDATE #__users"
+		. "\n SET lastvisitDate = '$currentDate'"
+		. "\n WHERE id = ". $_SESSION['session_user_id']
+		;
+		$database->setQuery( $query );
 	
-	$query = "UPDATE #__users"
-	. "\n SET lastvisitDate = '$currentDate'"
-	. "\n WHERE id = ". $_SESSION['session_user_id']
-	;
-	$database->setQuery( $query );
-
-	if (!$database->query()) {
-		echo $database->stderr();
+		if (!$database->query()) {
+			echo $database->stderr();
+		}
 	}
-}
-
-// delete db session record corresponding to currently logged in user
-if ( isset( $_SESSION['session_id'] ) && $_SESSION['session_id'] != '' ) {
-	$query = "DELETE FROM #__session"
-	. "\n WHERE session_id = '". $_SESSION['session_id'] ."'"
-	;
-	$database->setQuery( $query );
-
-	if (!$database->query()) {
-		echo $database->stderr();
+	
+	// delete db session record corresponding to currently logged in user
+	if ( isset( $_SESSION['session_id'] ) && $_SESSION['session_id'] != '' ) {
+		$query = "DELETE FROM #__session"
+		. "\n WHERE session_id = '". $_SESSION['session_id'] ."'"
+		;
+		$database->setQuery( $query );
+	
+		if (!$database->query()) {
+			echo $database->stderr();
+		}
 	}
 }
 
