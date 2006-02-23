@@ -20,7 +20,7 @@ $_MAMBOTS->registerFunction( 'onPrepareContent', 'botMosLoadPosition' );
 * Mambot that loads module positions within content
 */
 function botMosLoadPosition( $published, &$row, &$params, $page=0 ) {
-	global $database;
+	global $database, $_MAMBOTS;
 
 	// simple performance check to determine whether bot should process further
 	if ( strpos( $row->text, 'mosloadposition' ) === false ) {
