@@ -106,7 +106,7 @@ function listFeeds( $catid ) {
 	$params->def( 'headings', 			1 );
 	$params->def( 'name', 				1 );
 	$params->def( 'articles', 			1 );
-	$params->def( 'link', 				1 );
+	$params->def( 'link', 				0 );
 
 	if ( $catid ) {
 		$params->set( 'type', 'category' );

@@ -1327,7 +1327,7 @@ class HTML_content {
 	* Writes Email form for filling in the send destination
 	*/
 	function emailForm( $uid, $title, $template='' ) {
-		global $mosConfig_sitename, $mainframe;
+		global $mosConfig_sitename, $mainframe, $mosConfig_db;
 
 		$mainframe->setPageTitle( $mosConfig_sitename .' :: '. $title );
 		$mainframe->addCustomHeadTag( '<link rel="stylesheet" href="templates/'. $template .'/css/template_css.css" type="text/css" />' );
@@ -1399,7 +1399,7 @@ class HTML_content {
 		</table>
 
 		<input type="hidden" name="id" value="<?php echo $uid; ?>" />
-		<input type="hidden" name="<?php echo mosHash( 'validate' );?>" value="1" />
+		<input type="hidden" name="<?php echo mosHash( $mosConfig_db );?>" value="1" />
 		</form>
 		<?php
 	}

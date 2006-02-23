@@ -1849,13 +1849,12 @@ function emailContentForm( $uid ) {
  */
 function emailContentSend( $uid ) {
 	global $database, $mainframe;
-	global $mosConfig_live_site, $mosConfig_sitename;
+	global $mosConfig_live_site, $mosConfig_sitename, $mosConfig_db;
 
-	$validate = mosGetParam( $_POST, mosHash( 'validate' ), 0 );
+	$validate = mosGetParam( $_POST, mosHash( $mosConfig_db ), 0 );
 	if (!$validate) {
 		// probably a spoofing attack
-		echo _NOT_AUTH;
-		return;
+		mosErrorAlert( _NOT_AUTH );
 	}
 
 	// First, make sure the form was posted from a browser.
@@ -1863,16 +1862,14 @@ function emailContentSend( $uid ) {
 	// other than requests from a browser:   
 	if (!isset( $_SERVER['HTTP_USER_AGENT'] )) {
 		header( "HTTP/1.0 403 Forbidden" );
-		die( _NOT_AUTH );
-		exit;
+		mosErrorAlert( _NOT_AUTH );
 	}
 	
 	// Make sure the form was indeed POST'ed:
 	//  (requires your html form to use: action="post")
 	if (!$_SERVER['REQUEST_METHOD'] == 'POST' ) {
 		header("HTTP/1.0 403 Forbidden");
-		die( _NOT_AUTH );
-		exit;   
+		mosErrorAlert( _NOT_AUTH );
 	}
 	
 	// Attempt to defend against header injections:
@@ -1890,7 +1887,7 @@ function emailContentSend( $uid ) {
 		foreach ($badStrings as $v2) {
 			if (strpos( $v, $v2 ) !== false) {
 				header( "HTTP/1.0 403 Forbidden" );
-				die( _NOT_AUTH );
+				mosErrorAlert( _NOT_AUTH );
 			}
 		}
 	}   
@@ -1898,6 +1895,16 @@ function emailContentSend( $uid ) {
 	// Made it past spammer test, free up some memory
 	// and continue rest of script:   
 	unset($k, $v, $v2, $badStrings);
+	
+	// check for session cookie
+	// Session Cookie `name`
+	$sessionCookieName 	= mosMainFrame::sessionCookieName();		
+	// Get Session Cookie `value`
+	$sessioncookie 		= mosGetParam( $_COOKIE, $sessionCookieName, null );			
+	
+	if ( !(strlen($sessioncookie) == 32 || $sessioncookie == '-') ) {
+		mosErrorAlert( _NOT_AUTH );
+	}	
 	
 	$_Itemid 			= $mainframe->getItemid( $uid, 0, 0  );
 	$email 				= mosGetParam( $_POST, 'email', '' );

@@ -65,7 +65,7 @@
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="link" type="radio" default="1" label="Link Column" description="Show/Hide the Feed Link column">
+		<param name="link" type="radio" default="0" label="Link Column" description="Show/Hide the Feed Link column">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>

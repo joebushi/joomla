@@ -622,10 +622,10 @@ class mosMainFrame {
 		$session 	= new mosSession( $this->_db );
 		
 		// purge expired frontend logged sessions only - expiry time set in Global Config
-		$and 		= "\n AND guest = 0 AND gid > 0";
+		$and 		= "\n AND guest = 0 \n AND gid > 0";
 		$session->purge(intval( $this->getCfg( 'lifetime' ) ), $and );
 		// purge expired frontend guest sessions only - expire time fixed at 15 mins
-		$and 		= "\n AND guest = 1 AND userid = 0";
+		$and 		= "\n AND guest = 1 \n AND userid = 0";
 		$session->purge( 900, $and );
 
 		// Session Cookie `name`
@@ -644,7 +644,7 @@ class mosMainFrame {
 			$session->update();
 		} else {
 			// Remember Me Cookie `name`
-			$remCookieName = mosMainFrame::remCookieName_User().mosMainFrame::remCookieName_Pass();
+			$remCookieName = mosMainFrame::remCookieName_User();
 			
 			// test if cookie found
 			$cookie_found = false;
@@ -655,7 +655,7 @@ class mosMainFrame {
 			// check if neither remembermecookie or sessioncookie found
 			if (!$cookie_found) {
 				// create sessioncookie and set it to a test value set to expire on session end
-				setcookie( $sessionCookieName, '-', 0, '/' );				
+				setcookie( $sessionCookieName, '-', false, '/' );				
 			} else {
 			// otherwise, sessioncookie was found, but set to test val or the session expired, prepare for session registration and register the session
 				$session->guest 	= 1;
@@ -670,7 +670,7 @@ class mosMainFrame {
 				}
 				
 				// create Session Tracking Cookie set to expire on session end
-				setcookie( $sessionCookieName, $session->getCookie(), 0, '/' );
+				setcookie( $sessionCookieName, $session->getCookie(), false, '/' );
 			}
 
 			// Cookie used by Remember me functionality
@@ -939,7 +939,7 @@ class mosMainFrame {
 				$session->gid 		= intval( $row->gid );
 				$session->update();
 				
-				// delete any old sessions to stop duplicate sessions
+				// delete any old front sessions to stop duplicate sessions
 				$query = "DELETE FROM #__session"
 				. "\n WHERE session_id != '$session->session_id'"
 				. "\n AND username = '$row->username'"
@@ -966,7 +966,7 @@ class mosMainFrame {
 				if ( $remember == 'yes' ) {
 					// cookie lifetime of 365 days
 					$lifetime 		= time() + 365*24*60*60;
-					$remCookieName 	= mosMainFrame::remCookieName_User() . mosMainFrame::remCookieName_Pass();
+					$remCookieName 	= mosMainFrame::remCookieName_User();
 					$remCookieValue = mosMainFrame::remCookieValue_User( $row->username ) . mosMainFrame::remCookieValue_Pass( $row->password );
 					setcookie( $remCookieName, $remCookieValue, $lifetime, '/' );
 				}
@@ -1001,8 +1001,8 @@ class mosMainFrame {
 		$session->update();
 
 		// kill remember me cookie
-		$lifetime 		= time() - 1800;
-		$remCookieName 	= mosMainFrame::remCookieName_User() . mosMainFrame::remCookieName_Pass();
+		$lifetime 		= time() - 86400;
+		$remCookieName 	= mosMainFrame::remCookieName_User();
 		setcookie( $remCookieName, ' ', $lifetime, '/' );
 		
 		@session_destroy();

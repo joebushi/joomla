@@ -92,7 +92,8 @@ function listWeblinks( $catid ) {
 	}
 
 	/* Query to retrieve all categories that belong under the web links section and that are published. */
-	$query = "SELECT cc.*, a.catid, a.title, a.url, COUNT(a.id) AS numlinks FROM #__categories AS cc"
+	$query = "SELECT cc.*, a.catid, a.title, a.url, COUNT(a.id) AS numlinks"
+	. "\n FROM #__categories AS cc"
 	. "\n LEFT JOIN #__weblinks AS a ON a.catid = cc.id"
 	. "\n WHERE a.published = 1"
 	. "\n AND section = 'com_weblinks'"
@@ -242,20 +243,6 @@ function editWebLink( $id, $option ) {
 		$row->approved 		= 1;
 		$row->ordering 		= 0;
 	}
-/*
-	// make the select list for the image positions
-	$yesno[] = mosHTML::makeOption( '0', 'No' );
-	$yesno[] = mosHTML::makeOption( '1', 'Yes' );
-	// build the html select list
-	$applist = mosHTML::selectList( $yesno, 'approved', 'class="inputbox" size="2"', 'value', 'text', $row->approved );
-	// build the html select list for ordering
-	$query = "SELECT ordering AS value, title AS text"
-	. "\n FROM #__weblinks"
-	. "\n WHERE catid='$row->catid'"
-	. "\n ORDER BY ordering"
-	;
-	$lists['ordering'] 			= mosAdminMenus::SpecificOrdering( $row, $id, $query, 1 );
-*/
 
 	// build list of categories
 	$lists['catid'] 			= mosAdminMenus::ComponentCategory( 'catid', $option, intval( $row->catid ) );
