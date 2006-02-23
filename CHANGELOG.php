@@ -96,6 +96,7 @@ Medium Level Threat
 22-Feb-2006 Rey Gigataras
  # Fixed artf3591 : Error if unpublish menu item
  # Fixed [topic,39295.0.html] : SEF handling of custom .htaccess reconfigured urls
+ # Fixed [topic,39295.0.html] : mod_login return value incorrectly returning 'index.php?' if come from site homepage
  
  ^ Frontend Session Tracking cookie uses `Expire at End of Session`, rather than expiry by a set time to resolve issues with incorrect system clocks
 
