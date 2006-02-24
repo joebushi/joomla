@@ -94,6 +94,8 @@ Medium Level Threat
 
 24-Feb-2006 Rey Gigataras
  # Fixed HTTP_ACCEPT_ENCODING problems
+ # Fixed incorrect handling of external links with mossef
+ 
  ^ Special Flag to allow differentiate behviour of site for Production vs online Demo sites
 
 

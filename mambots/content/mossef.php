@@ -23,7 +23,6 @@ $_MAMBOTS->registerFunction( 'onPrepareContent', 'botMosSef' );
 * <code><a href="...relative link..."></code>
 */
 function botMosSef( $published, &$row, &$params, $page=0 ) {
-
 	// simple performance check to determine whether bot should process further
 	if ( strpos( $row->text, 'href="' ) === false ) {
 		return true;
@@ -48,17 +47,29 @@ function botMosSef( $published, &$row, &$params, $page=0 ) {
 * @return string
 */
 function botMosSef_replacer( &$matches ) {
+	global $mosConfig_live_site;
+
 	// disable bot from being applied to mailto tags
-	if (strstr($matches[1],'mailto:')) {
+	if (strpos($matches[1],'mailto:')) {
 		return 'href="'. $matches[1] .'"';
 	}
 	
 	if ( substr($matches[1],0,1) == '#' ) {
 		// anchor
-		$temp = split('index.php', $_SERVER['REQUEST_URI']);
-		return 'href="'. sefRelToAbs( 'index.php' . @$temp[1] ) . $matches[1] .'"';
+		$temp 		= split('index.php', $_SERVER['REQUEST_URI']);
+		$link 		= sefRelToAbs( 'index.php' . @$temp[1] );
+		$replace 	= 'href="'. $link . $matches[1] .'"';
 	} else {
-		return 'href="'. sefRelToAbs($matches[1]) .'"';
+		$link 		= sefRelToAbs( $matches[1] );
+		$replace 	= 'href="'. $link .'"';
 	}
+
+	// needed to stop site url to external site links
+	$count = explode( 'http://', $replace );
+	if ( count( $count ) > 2 ) {
+		$replace = str_replace( $mosConfig_live_site .'/', '', $replace );
+	}
+	
+	return $replace;
 }
 ?>
