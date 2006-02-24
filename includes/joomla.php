@@ -939,7 +939,7 @@ class mosMainFrame {
 				
 				// check to see if site is a production site
 				// allows multiple logins with same user for a demo site
-				if ( $_VERSION->site ) {
+				if ( $_VERSION->SITE ) {
 					// delete any old front sessions to stop duplicate sessions
 					$query = "DELETE FROM #__session"
 					. "\n WHERE session_id != '$session->session_id'"
