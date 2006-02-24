@@ -65,6 +65,7 @@ if (isset( $_POST['submit'] )) {
 	$query = "SELECT *"
 	. "\n FROM #__users"
 	. "\n WHERE username = '$usrname'"
+	. "\n AND password = '$pass'"
 	. "\n AND block = 0"
 	;
 	$database->setQuery( $query );

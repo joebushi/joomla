@@ -696,12 +696,22 @@ class mosMainFrame {
 	* Deperciated 1.1
 	*/
 	function initSessionAdmin($option) {	
+		global $_VERSION;
+		
 		// logout check
 		if ($option == 'logout') {
 			require 'logout.php';
 			exit();
 		}
 		
+		$site			= $this->getCfg( 'live_site' );
+		
+		// check if session name corresponds to correct format
+		if ( session_name() != md5( $site ) ) {
+			echo "<script>document.location.href='$site/administrator/index.php'</script>\n";
+			exit();
+		}
+
 		// restore some session variables
 		$my 			= new mosUser( $this->_db );
 		$my->id 		= mosGetParam( $_SESSION, 'session_user_id', '' );
@@ -712,26 +722,29 @@ class mosMainFrame {
 
 		$session_id 	= mosGetParam( $_SESSION, 'session_id', '' );
 		$logintime 		= mosGetParam( $_SESSION, 'session_logintime', '' );
-		$site			= $this->getCfg( 'live_site' );
 		
 		// set garbage cleaning timeout
 		$this->setSessionGarbageClean();
 		
 		// check against db record of session
 		if ( $session_id == md5( $my->id . $my->username . $my->usertype . $logintime ) ) {
-			$query = "SELECT COUNT( session_id )"
-			. "\n FROM #__session"
-			. "\n WHERE session_id = '$session_id'"
-			. "\n AND username = ". $this->_db->Quote( $my->username )
-			. "\n AND userid = ". intval( $my->id )
-			;
-			$this->_db->setQuery( $query );
-			$count = $this->_db->loadResult();
-			
-			// if no entry in session table that corresponds disallow login
-			if ( $count == 0 ) {
-				echo "<script>document.location.href='index.php'</script>\n";
-				exit();
+			// check to see if site is a production site
+			// allows multiple logins with same user for a demo site
+			if ( $_VERSION->SITE ) {
+				$query = "SELECT COUNT( session_id )"
+				. "\n FROM #__session"
+				. "\n WHERE session_id = '$session_id'"
+				. "\n AND username = ". $this->_db->Quote( $my->username )
+				. "\n AND userid = ". intval( $my->id )
+				;
+				$this->_db->setQuery( $query );
+				$count = $this->_db->loadResult();
+				
+				// if no entry in session table that corresponds disallow login
+				if ( $count == 0 ) {
+					echo "<script>document.location.href='index.php'</script>\n";
+					exit();
+				}
 			}
 		} else {
 		// session id does not correspond to required session format

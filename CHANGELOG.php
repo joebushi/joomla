@@ -67,6 +67,7 @@ Medium Level Threat
  * Harden against multiple Admin SQL Injection Vulnerabilities
  * Disable ability to enter more than one email address in Contact Component contact form
  * Harden Contact Component with param option to check for existance of session cookie - enabled by default
+ * Addiotnal check for correct Admin session name 
 
  * Disallow access to syndication functionality
  * Disallow `Newsfeeds` Categories from being accessible when 'unpublished'
@@ -93,10 +94,12 @@ Medium Level Threat
 ---
 
 24-Feb-2006 Rey Gigataras
+ * SECURITY [ Low Level ]: Add check for correct Admin session name 
+ 
  # Fixed HTTP_ACCEPT_ENCODING problems
  # Fixed incorrect handling of external links with mossef
- 
- ^ Special Flag to allow differentiate behviour of site for Production vs online Demo sites
+   
+ ^ Special Flag to allow different login behaviour of site for Production vs online Demo site
 
 
 23-Feb-2006 Robin Muilwijk
