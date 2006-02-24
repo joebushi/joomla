@@ -3645,33 +3645,44 @@ function mosMail( $from, $fromname, $recipient, $subject, $body, $mode=0, $cc=NU
 function initGzip() {
 	global $mosConfig_gzip, $do_gzip_compress;
 	
-	// attempt to disable session.use_trans_sid
-	//ini_set('session.use_trans_sid', false);
-	
 	$do_gzip_compress = FALSE;
 	if ($mosConfig_gzip == 1) {
-		$phpver = phpversion();
-		$useragent = mosGetParam( $_SERVER, 'HTTP_USER_AGENT', '' );
-		$canZip = mosGetParam( $_SERVER, 'HTTP_ACCEPT_ENCODING', '' );
+		$phpver 	= phpversion();
+		$useragent 	= mosGetParam( $_SERVER, 'HTTP_USER_AGENT', '' );
+		$canZip 	= mosGetParam( $_SERVER, 'HTTP_ACCEPT_ENCODING', '' );
 		
-		if ( $phpver >= '4.0.4pl1' &&
-		( strpos($useragent,'compatible') !== false ||
-		strpos($useragent,'Gecko')	  !== false
-		)
-		) {
+		$gzip_check 	= 0;
+		$zlib_check 	= 0;
+		$gz_check		= 0;
+		$zlibO_check	= 0;
+		$sid_check		= 0;
+		if ( strpos( $canZip, 'gzip' ) !== false) {
+			$gzip_check = 1;
+		}		
+		if ( extension_loaded( 'zlib' ) ) {
+			$zlib_check = 1;
+		}		
+		if ( function_exists('ob_gzhandler') ) {
+			$gz_check = 1;
+		}
+		if ( ini_get('zlib.output_compression') ) {
+			$zlibO_check = 1;
+		}
+		if ( ini_get('session.use_trans_sid') ) {
+			$sid_check = 1;
+		}
+
+		if ( $phpver >= '4.0.4pl1' && ( strpos($useragent,'compatible') !== false || strpos($useragent,'Gecko')	!== false ) ) {
 			// Check for gzip header or northon internet securities or session.use_trans_sid
-			if ( isset($_SERVER['HTTP_ACCEPT_ENCODING']) ) {
-				$encodings = explode(',', strtolower($_SERVER['HTTP_ACCEPT_ENCODING']));
-			}				
-			if ( (in_array('gzip', $encodings) || isset( $_SERVER['---------------']) ) && extension_loaded('zlib') && function_exists('ob_gzhandler') && !ini_get('zlib.output_compression') && !ini_get('session.use_trans_sid') ) {
+			if ( ( $gzip_check || isset( $_SERVER['---------------']) ) && $zlib_check && $gz_check && !$zlibO_check && !$sid_check ) {
 				// You cannot specify additional output handlers if
 				// zlib.output_compression is activated here
 				ob_start( 'ob_gzhandler' );
 				return;
 			}
 		} else if ( $phpver > '4.0' ) {
-			if ( strpos($canZip,'gzip') !== false ) {
-				if (extension_loaded( 'zlib' )) {
+			if ( $gzip_check ) {
+				if ( $zlib_check ) {
 					$do_gzip_compress = TRUE;
 					ob_start();
 					ob_implicit_flush(0);
