@@ -37,7 +37,7 @@ Legend:
 ! -> Note
 
 
----------------- 1.0.8 Pre-Stable Released -- [23-Feb-2006 20:00 UTC] ------------------
+---------------- 1.0.8 Stable Released -- [25-Feb-2006 04:00 UTC] ------------------
 
 This Release Contains following Security Fixes
 
@@ -98,6 +98,8 @@ Medium Level Threat
  # Fixed [topic,40568.0.html] : Conversion of &amp; to & when editing 'new' modules, breaking xhtml compliance
  # Fixed [topic,40568.0.html] : Itemid=99999999 visible when navigating polls
  # Fixed artf3630 : Site name printed twice in the popup window title (print, email to friend)
+ 
+ - Depreciated Admin templates - mambo_admin & mambo_admin_blue
 
 
 24-Feb-2006 Rey Gigataras
