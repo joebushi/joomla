@@ -428,11 +428,6 @@ class HTML_content {
 
 		$no_html = mosGetParam( $_REQUEST, 'no_html', null);
 
-		// for pop-up page
-		if ( $params->get( 'popup' ) && $no_html == 0) {
-			$mainframe->setPageTitle( $mosConfig_sitename .' :: '. $row->title );
-		}
-
 		// determines links to next and prev content items within category
 		if ( $params->get( 'item_navigation' ) ) {
 			if ( $row->prev ) {
@@ -1329,7 +1324,7 @@ class HTML_content {
 	function emailForm( $uid, $title, $template='' ) {
 		global $mosConfig_sitename, $mainframe, $mosConfig_db;
 
-		$mainframe->setPageTitle( $mosConfig_sitename .' :: '. $title );
+		$mainframe->setPageTitle( $title );
 		$mainframe->addCustomHeadTag( '<link rel="stylesheet" href="templates/'. $template .'/css/template_css.css" type="text/css" />' );
 		?>
 		<script language="javascript" type="text/javascript">
