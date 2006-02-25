@@ -93,6 +93,11 @@ Medium Level Threat
 
 ---
 
+
+25-Feb-2006 Rey Gigataras
+ # Fixed [topic,40568.0.html] : Conversion of &amp; to & when editing 'new' modules, breaking xhtml compliance
+
+
 24-Feb-2006 Rey Gigataras
  * SECURITY [ Low Level ]: Add check for correct Admin session name 
  

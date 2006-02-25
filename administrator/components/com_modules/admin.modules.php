@@ -326,7 +326,7 @@ function editModule( $option, $uid, $client ) {
 		mosErrorAlert( "The module ".$row->title." is currently being edited by another administrator" );
 	}
 
-	$row->content = htmlspecialchars( str_replace( '&amp;', '&', $row->content ) );
+	$row->content = htmlspecialchars( $row->content );
 
 	if ( $uid ) {
 		$row->checkout( $my->id );
