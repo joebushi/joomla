@@ -96,6 +96,7 @@ Medium Level Threat
 
 25-Feb-2006 Rey Gigataras
  # Fixed [topic,40568.0.html] : Conversion of &amp; to & when editing 'new' modules, breaking xhtml compliance
+ # Fixed [topic,40568.0.html] : Itemid=99999999 visible when navigating polls
 
 
 24-Feb-2006 Rey Gigataras

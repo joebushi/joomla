@@ -171,7 +171,7 @@ function pollresult( $uid ) {
 	
 	// Itemid for dropdown
 	$_Itemid = '';
-	if ( $Itemid || $Itemid != 99999999 ) {
+	if ( $Itemid && $Itemid != 99999999 ) {
 		$_Itemid = '&amp;Itemid='. $Itemid;
 	}
 	

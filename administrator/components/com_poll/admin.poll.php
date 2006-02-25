@@ -141,8 +141,11 @@ function editPoll( $uid=0, $option='com_poll' ) {
 	}
 
 	// build the html select list
-	$lists['select'] = mosAdminMenus::MenuLinks( $lookup, 1, 1 );
+	$lists['select'] 	= mosAdminMenus::MenuLinks( $lookup, 1, 1 );
 
+	// build the html select list for published
+	$lists['published'] = mosAdminMenus::Published( $row );
+	
 	HTML_poll::editPoll($row, $options, $lists );
 }
 

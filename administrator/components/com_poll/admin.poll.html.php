@@ -174,8 +174,15 @@ class HTML_poll {
 			</td>
 		</tr>
 		<tr>
+			<td valign="top">
+			Published:
+			</td>
+			<td>
+			<?php echo $lists['published']; ?>
+			</td>
+		</tr>
+		<tr>
 			<td colspan="3">
-			<br /><br />
 			Options:
 			</td>
 		</tr>
