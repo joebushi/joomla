@@ -99,6 +99,8 @@ Medium Level Threat
  # Fixed [topic,40568.0.html] : Itemid=99999999 visible when navigating polls
  # Fixed artf3630 : Site name printed twice in the popup window title (print, email to friend)
  
+ ^ Upgraded to TinyMCE 2.0.4
+ 
  - Depreciated Admin templates - mambo_admin & mambo_admin_blue
 
 
