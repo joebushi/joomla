@@ -64,7 +64,7 @@ class mosConfig {
 	/** @var int */
 	var $config_lifetime			= 900;
 	/** @var int */
-	var $config_session_life_admin	= 900;
+	var $config_session_life_admin	= 1800;
 	/** @var int */
 	var $config_session_type		= 0;
 	/** @var int */
