@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosinstall type="component">
+  <name>MVFS Beta1</name>
+  <creationDate>2005-08-14</creationDate>
+  <author>Timothy Beutels</author>
+  <copyright>This component is released under the GNU/GPL License</copyright>
+  <authorEmail>timothy@bluecherry.be</authorEmail>
+  <authorUrl>www.bluecherry.be</authorUrl>
+  <version>1.0.0 beta 4</version>
+  <description>Mixed Virtual FileSystem.</description>
+  <files>
+    <filename>mfile.class.php</filename>
+    <filename>mfolder.class.php</filename>
+    <filename>mvfs.class.php</filename>	
+	<filename>mvfs.php</filename>	 
+	<filename>gettext.class.php</filename>	
+	<filename>config.php</filename>
+	<filename>index.html</filename>
+	<filename>Encryption/cast128.class.php</filename>
+	<filename>Encryption/cast128.txt</filename>
+	<filename>Pear/PEAR.php</filename>
+	<filename>Pear/VFS.php</filename>
+	<filename>Pear/VFS/Browser.php</filename>
+	<filename>Pear/VFS/file.php</filename>
+	<filename>Pear/VFS/ftp.php</filename>
+	<filename>Pear/VFS/GC.php</filename>
+	<filename>Pear/VFS/ListItem.php</filename>
+	<filename>Pear/VFS/musql.php</filename>
+	<filename>Pear/VFS/Object.php</filename>
+	<filename>Pear/VFS/sql.php</filename>
+	<filename>Pear/VFS/sql_file.php</filename>
+  </files>
+  <install>
+  	<queries>
+		<query>DROP TABLE IF EXISTS `#__mvfs`</query>
+		<query></query>
+	</queries>
+  </install>
+  <uninstall>
+  </uninstall>
+  <administration>
+  <menu>FileMan</menu>
+  <files>
+  </files>
+  </administration>
+</mosinstall>

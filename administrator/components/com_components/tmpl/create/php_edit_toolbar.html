@@ -1,0 +1,21 @@
+<pat:comment>
+@version $Id: php_edit_toolbar.html,v 1.1 2005/08/25 14:14:14 johanjanssens Exp $
+@package Mambo
+@copyright (C) 2000 - 2005 Miro International Pty Ltd
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</pat:comment>
+	/**
+	 * Edit toolbar
+	 */
+	function edit() {
+		global $_LANG;
+
+		mosMenuBar::title( $_LANG->_( 'Edit {BASENAME}' ), '' );
+
+		mosMenuBar::startTable();
+		mosMenuBar::save();
+		mosMenuBar::apply();
+		mosMenuBar::cancel();
+		mosMenuBar::help( 'screen.{BASENAME}.edit.html', true );
+		mosMenuBar::endTable();
+	}

@@ -1,0 +1,118 @@
+<mos:comment>
+@version $Id: view.html,v 1.1 2005/08/27 15:51:10 ratlaw101 Exp $
+@package $ambo
+@copyright (C) 2005 Richard Allinson www.ratlaw.co.uk
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<mos:tmpl name="comInitialiseManager">
+<form action="{ACTION}" method="{METHOD}" name="{FORMNAME}" id="{FORMID}" class="{FORMCLASS}">
+
+<div id="treecell">
+	<fieldset>
+		<legend>
+			<mos:Translate>Related Links</mos:Translate>
+		</legend>
+		<mos:tmpl src="relatedLinks.html" varscope="body"/>
+	</fieldset>
+	
+	<fieldset>
+		<legend>
+			<mos:Translate>File Permissions</mos:Translate>
+		</legend>
+		<mos:tmpl src="fso_permissions.html" varscope="body"/>
+	</fieldset>
+	
+	<fieldset>
+		<legend>
+			<mos:Translate>Quick Tip</mos:Translate>
+		</legend>
+		<mos:Translate key="Quicktiptext Initialiser Manager"></mos:Translate>
+	</fieldset>
+</div>
+
+<div id="datacell">
+	<fieldset>
+		<legend>
+			<mos:Translate>Initialiser Entries</mos:Translate>
+		</legend>
+		
+		<table width="100%" class="adminlist" id="moslist">
+		
+		<thead>
+		<tr>
+			<th width="1%" align="center"><input type="checkbox" name="toggle" value=""  /></th>
+			<th width="30%" align="left"><mos:Translate>Value</mos:Translate></th>
+			<th width="30%" align="left"><mos:Translate>Search String</mos:Translate></th>
+			<th align="center"><mos:Translate>Type</mos:Translate></th>
+			<th align="center"><mos:Translate>Published</mos:Translate></th>
+			<th align="center"><mos:Translate>Reorder</mos:Translate></th>
+		</tr>
+		</thead>
+
+		<tbody>
+		
+		<mos:tmpl name="body-list-rows" type="modulo" modulo="2">
+		<mos:sub condition="__default">
+			<tr class="row{PAT_MODULO}">
+				<td><input type="checkbox" id="cb{ROW_ID}" name="cid[]" value="{ROW_ID}" onclick="isChecked(this.checked);" />	</td>
+				<td align="left">
+					<a href="index2.php?option=com_initialise&task=edit&cid[]={ROW_ID}">{ROW_VALUE}</a>
+				</td>
+			    <td align="left">{ROW_STRING}</td>
+			    <td align="center">
+			    	<mos:tmpl type="condition" conditionvar="row_type" varscope="body-list-rows">	
+						<mos:sub condition="1">	
+							Web Page	
+						</mos:sub>	
+						<mos:sub condition="__default">	
+							Template
+						</mos:sub>	
+					</mos:tmpl>
+			    </td>
+			    <td align="center">
+				    <mos:tmpl type="condition" conditionvar="row_published" varscope="body-list-rows">	
+						<mos:sub condition="1">	
+							<a href="#unpublish" onclick="return listItemTask('cb{ROW_ID}','unpublish')" title="Toggle">	
+								<img src="images/tick.png" alt="<mos:Translate>Published</mos:Translate>" border="0" /></a>	
+						</mos:sub>	
+						<mos:sub condition="__default">	
+							<a href="#publish" onclick="return listItemTask('cb{ROW_ID}','publish')" title="Toggle">	
+								<img src="images/publish_x.png" alt="<mos:Translate>Unpublished</mos:Translate>" border="0" /></a>	
+						</mos:sub>	
+					</mos:tmpl>
+				</td>
+			    <td align="center">
+			    	<a href="index2.php?option=com_initialise&task=reorder&cid[]={ROW_ID}&direction=-1" title="Reorder">
+			    		<img src="images/uparrow.png" alt="<mos:Translate>Move Up</mos:Translate>" border="0" />
+			    	</a>
+					<a href="index2.php?option=com_initialise&task=reorder&cid[]={ROW_ID}&direction=1" title="Reorder">
+						<img src="images/downarrow.png" alt="<mos:Translate>Move Down</mos:Translate>" border="0" />
+					</a>
+			    </td>
+			</tr>
+		</mos:sub>
+		</mos:tmpl>
+		
+		</tbody>
+		
+		<tfoot>
+			<tr>
+				<th colspan="10" class="center">
+					{PAGENAV}
+				</th>
+			</tr>
+			<tr>
+				<td colspan="10" class="center">
+					{LIMITBOX}
+				</td>
+			</tr>
+		</tfoot>
+		
+		</table>
+</div>
+
+<input type="hidden" name="option" value="{OPTION}" />
+<input type="hidden" name="task" value="{TASK}" />
+</form>
+</mos:tmpl>

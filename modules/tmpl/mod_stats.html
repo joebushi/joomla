@@ -1,0 +1,22 @@
+<mos:comment>
+@version $Id: mod_stats.html,v 1.1 2005/08/25 14:24:07 johanjanssens Exp $
+@package Mambo
+@copyright (C) 2000 - 2005 Miro International Pty Ltd
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<mos:tmpl name="mod_stats">
+	<div class="stats{CLASS}">
+
+	<mos:tmpl name="mod_stats-items" varscope="mod_stats">
+		<div>
+			<span style="font-weight: bold; width: 85px; display: block; float: left;" class="stats_title{CLASS}">
+				{ROW_TITLE}:</span>
+
+			<span class="stats_data{CLASS}">
+				{ROW_DATA}</span>
+		</div>
+	</mos:tmpl>
+
+	</div>
+</mos:tmpl>

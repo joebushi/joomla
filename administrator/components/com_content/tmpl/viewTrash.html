@@ -1,0 +1,38 @@
+<mos:comment>
+@version $Id: viewTrash.html,v 1.1 2005/08/25 14:14:15 johanjanssens Exp $
+@package Mambo
+@copyright (C) 2000 - 2005 Miro International Pty Ltd
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<mos:tmpl name="body2">
+
+<div id="treecell">
+		<fieldset>
+			<legend>
+				<mos:Translate>Content Structure</mos:Translate>
+			</legend>
+			<mos:link src="contentTree" />
+		</fieldset>
+		<fieldset>
+			<legend>
+				<mos:Translate>Related Links</mos:Translate>
+			</legend>
+			<mos:tmpl src="relatedLinks.html" varscope="body"/>
+		</fieldset>
+	
+		<fieldset>
+			<legend>
+				<mos:Translate>Quick Tip</mos:Translate>
+			</legend>
+			<mos:Translate key="Quicktiptext"></mos:Translate>
+		</fieldset>
+	</div>
+
+<div id="datacell">
+	<fieldset>
+		<legend>
+		<mos:Translate>Trashed Content Items</mos:Translate>
+		</legend>
+	
+</mos:tmpl>

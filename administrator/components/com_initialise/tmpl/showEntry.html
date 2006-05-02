@@ -1,0 +1,100 @@
+<mos:comment>
+@version $Id: showEntry.html,v 1.1 2005/08/27 15:51:10 ratlaw101 Exp $
+@package $ambo
+@copyright (C) 2005 Richard Allinson www.ratlaw.co.uk
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<mos:tmpl name="comInitialiseManager">
+<form action="{ACTION}" method="{METHOD}" name="{FORMNAME}" id="{FORMID}" class="{FORMCLASS}">
+
+<div id="treecell">
+	<fieldset>
+		<legend>
+			<mos:Translate>Quick Tip</mos:Translate>
+		</legend>
+		<mos:Translate key="Quicktiptext Initialiser Show Entry"></mos:Translate>
+	</fieldset>
+</div>
+
+<div id="datacell">
+	<fieldset>
+		<legend>
+			<mos:Translate>Initialiser Detail</mos:Translate>
+		</legend>
+		
+		<table width="100%" class="adminform" id="editpage">
+		
+		<thead>
+		<tr>
+			<th width="10%">Details</th>
+			<th width="40%"></th>
+			<th width="50%"></th>
+		</tr>
+		</thead>
+		
+		<tbody>
+		<tr>
+			<td><mos:Translate>Search String</mos:Translate></td>
+			<td align="left"><input class="inputbox" type="text" id="string" name="string" value="{STRING}" size="50"/></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td><mos:Translate>Value</mos:Translate></td>
+			<td align="left"><input class="inputbox" type="text" id="value" name="value" value="{VALUE}" size="50"/></td>
+			<td align="left">
+				<!-- Template list that populates value -->
+			</td>
+		</tr>
+		<tr>
+			<td><mos:Translate>Type</mos:Translate></td>
+			<td align="left">
+				<!-- Hmmm, there must be a better way to do this -->
+				<mos:tmpl type="condition" conditionvar="type" varscope="comInitialiseManager">	
+					<mos:sub condition="1">	
+						<input type="radio" id="type" name="type" value="0"><mos:Translate>Template</mos:Translate></input>
+						<input type="radio" id="type" name="type" value="1" checked><mos:Translate>Webpage</mos:Translate></input>
+					</mos:sub>	
+					<mos:sub condition="__default">	
+						<input type="radio" id="type" name="type" value="0" checked><mos:Translate>Template</mos:Translate></input>
+						<input type="radio" id="type" name="type" value="1"><mos:Translate>Webpage</mos:Translate></input>
+					</mos:sub>
+				</mos:tmpl>
+			</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td><mos:Translate>Published</mos:Translate></td>
+			<td align="left">
+				<!-- Hmmm, there must be a better way to do this -->
+				<mos:tmpl type="condition" conditionvar="published" varscope="comInitialiseManager">		
+					<mos:sub condition="1">	
+						<input type="radio" id="published" name="published" value="0"><mos:Translate>No</mos:Translate></input>
+						<input type="radio" id="published" name="published" value="1" checked><mos:Translate>Yes</mos:Translate></input>
+					</mos:sub>	
+					<mos:sub condition="__default">	
+						<input type="radio" id="published" name="published" value="0" checked><mos:Translate>No</mos:Translate></input>
+						<input type="radio" id="published" name="published" value="1"><mos:Translate>Yes</mos:Translate></input>
+					</mos:sub>
+				</mos:tmpl>
+			</td>
+			<td></td>
+		</tr>
+		</tbody>
+		
+		<tfoot>
+		<tr>
+			<th></th>
+			<th></th>
+			<th></th>
+		</tr>
+		</tfoot>
+		
+		</table>
+</div>
+
+<input type="hidden" name="id" value="{ID}" />
+<input type="hidden" name="option" value="{OPTION}" />
+<input type="hidden" name="task" value="{TASK}" />
+</form>
+</mos:tmpl>

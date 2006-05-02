@@ -1,0 +1,213 @@
+<mos:comment>
+@version $Id: view_config.html,v 1.3 2005/08/31 17:28:51 facedancer Exp $
+@package Mambo
+@copyright (C) Mateusz Krzeszowiec
+@author Mateusz Krzeszowiec <mateusz@krzeszowiec.com>
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+{JAVASCRIPT_FILES_INCLUDE}
+<style type="text/css">
+	<!--
+	.separator {
+	  position: relative;
+	  margin: 3px;
+	  border-left: 1px solid ButtonShadow;
+	  border-right: 1px solid ButtonHighlight;
+	  width: 0px;
+	  height: 16px;
+	  padding: 0px;
+	}
+
+	.manager {
+		width: 100%;
+		overflow: auto;
+		display: block;
+	}
+
+	.statusLayer {
+		background:#FFFFFF;
+		border: 1px solid #CCCCCC;
+	}
+
+	.statusText {
+		font-family: Verdana, Arial, Helvetica, sans-serif;
+		font-size: 15px;
+		font-weight: bold;
+		color: #6699CC;
+		text-decoration: none;
+	}
+
+	div.nodirectory {
+		font-size: large;
+		font-weight: bold;
+		color: #CC0000;
+		font-family: Helvetica, sans-serif;
+		text-align: center;
+	}
+	div.dropdown {
+		vertical-align: middle;
+		height: 30px;
+		text-align: center;
+	}
+
+	div.noimages {
+		font-size: large;
+		font-weight: bold;
+		color: #CCCCCC;
+		font-family: Helvetica, sans-serif;
+	}
+	div.imgTotal {
+		border: 1px solid threedface;
+		margin: 2px;
+	}
+	div.imgBorder {
+		height: 70px;
+		vertical-align: middle;
+		width: 90px;
+		overflow: hidden;
+		border-bottom: 1px solid threedface;
+		margin: 2px;
+	}
+	div.imgBorder a {
+		height: 70px;
+		width: 90px;
+		display: block;
+	}
+	div.imgBorder a:hover {
+		height: 68px;
+		width: 88px;
+		background-color: #E9EFF5; 
+		border: 1px solid #B5CDE8; 
+		color : #FF6600; 
+	}
+	.imgBorderHover {
+		background: #FFFFCC;
+		cursor: hand;
+	}
+	.imginfoBorder {
+		height: 35px;
+		border-top: 1px solid threedface;
+		margin: 2px;
+		vertical-align: middle;
+		width: 90px;
+		overflow: hidden
+	}
+
+	.buttonHover {
+		border: 1px solid;
+		border-color: ButtonHighlight ButtonShadow ButtonShadow ButtonHighlight;
+		cursor: hand;
+		background: #FFFFCC;
+	}
+
+	.buttonOut {
+	 border: 0px;
+	}
+
+	.imgCaption {
+		font-size: 9pt;
+		font-family: "MS Shell Dlg", Helvetica, sans-serif;
+		text-align: center;
+	}
+	.dirField {
+		font-size: 9pt;
+		font-family: "MS Shell Dlg", Helvetica, sans-serif;
+		width:110px;
+	}
+	div.image {
+		padding-top: 20px;
+	}
+	ul.quicktip {
+		padding: 0 0 0 10px;
+	}
+	-->
+</style>
+
+<script language="javascript" type="text/javascript">
+	function deleteImage( file ) {
+		if ( confirm( "<mos:Translate>Delete file</mos:Translate>"+file ) ) {
+			return true;
+		}
+		return false;
+	}
+
+	function deleteFolder(folder, numFiles) {
+		if ( numFiles > 0 ) {
+			alert( "<mos:Translate>There are</mos:Translate>"+numFiles+" <mos:Translate>files/folders in</mos:Translate> \""+folder+"\".\n\n<?php echo $_LANG->_( 'Please delete all files/folder in' ); ?> \""+folder+"\" <mos:Translate>first</mos:Translate>" );
+			return false;
+		}
+		if ( confirm( "<mos:Translate>Delete folder</mos:Translate> \""+folder+"\"?" ) ) {
+			return true;
+		}
+		return false;
+	}
+
+	function dirup() {
+		var listdir 	= document.adminForm.upone.value;
+		window.location.href='index2.php?option=com_media&listdir=' + listdir;
+	}
+
+	function submitbutton( pressbutton ) {
+		var form = document.adminForm;
+
+		if (pressbutton == 'showUpload') {
+			dhtml.hideElem( 'newdir-container' );
+			dhtml.showElem( 'upload-container' );
+		} else if ( pressbutton == 'showNewDir' ) {
+			dhtml.hideElem( 'upload-container' );
+			dhtml.showElem( 'newdir-container' );
+		} else {
+			submitform( pressbutton );
+		}
+	}
+</script>
+
+<div id="datacell">
+	<fieldset>
+		<legend>
+			<mos:Translate>Config</mos:Translate> :
+		</legend>
+
+		<style type="text/css">
+		table.paramlist {
+			width: 100%;
+		}
+		table.paramlist td {
+			height: 35px;
+			padding-left: 10px;
+			vertical-align: middle;
+		}
+		table.paramlist td.column1 {
+			width: 200px;
+		}
+		</style>
+
+			<table class="adminform">
+			<thead>
+			<tr>
+				<th>
+					{TITLE}
+				</th>
+			</tr>
+			</thead>
+			<tfoot>
+			<tr>
+				<th>
+				</th>
+			</tr>
+			</tfoot>
+			<tr>
+				<td>
+					{CONTENT}
+				</td>
+			</tr>
+			</table>
+		</fieldset>
+	</div>
+	
+		<input type="hidden" name="id" value="{ID}" />
+		<input type="hidden" name="option" value="com_media" />
+		<input type="hidden" name="task" value="" />
+		<input type="hidden" name="listdir" value="{LISTDIR}" />
+		<input type="hidden" name="style" value="{STYLE}" />
+</div>

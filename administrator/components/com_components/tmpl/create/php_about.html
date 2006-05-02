@@ -1,0 +1,13 @@
+<pat:comment>
+@version $Id: php_about.html,v 1.1 2005/08/25 14:14:14 johanjanssens Exp $
+@package Mambo
+@copyright (C) 2000 - 2005 Miro International Pty Ltd
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</pat:comment>
+	/**
+	 * About
+	 */
+	function about() {
+		mosFS::load( '@admin_html' );
+		{BASENAME}Screens::about();
+	}

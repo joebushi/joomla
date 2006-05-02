@@ -1,0 +1,28 @@
+<mos:comment>
+@version $Id: mod_banners.html,v 1.1 2005/08/25 14:24:07 johanjanssens Exp $
+@package Mambo
+@copyright (C) 2000 - 2005 Miro International Pty Ltd
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<mos:tmpl name="mod_banner" type="condition" conditionvar="type">
+	<mos:sub condition="1">
+	<!-- Custom Banner Code -->
+		{BANNER}
+	</mos:sub>
+
+	<mos:sub condition="2">
+	<!-- Image Banner -->
+		<a href="{HREF}" target="_blank">
+			<img src="{IMAGE}" border="0" alt="{ALT}" vspace="0" hspace="0" /></a>
+	</mos:sub>
+
+	<mos:sub condition="3">
+	<!-- Flash Banner -->
+		<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0" border="5">
+			<param name="movie" value="{IMAGE}">
+			<embed src="{IMAGE}" loop="false" pluginspage="http://www.macromedia.com/go/get/flashplayer" type="application/x-shockwave-flash">
+			</embed>
+		</object>
+	</mos:sub>
+</mos:tmpl>

@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<!--MamboIDE Menu Editor-->
+<menu name="Mambo Update Server" action="" task="V:\public_html\mambo\mos-45x-cvs\4.5.x\administrator\components\com_update_server\update_server.mostask">
+  <option action="listRemoteSites">Products</option>
+  <option action="listReleases">Releases</option>
+  <option action="listReleases">Remote Sites</option>
+</menu>

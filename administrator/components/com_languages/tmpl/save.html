@@ -1,0 +1,19 @@
+# version $Id: save.html,v 1.1 2005/08/25 14:14:25 johanjanssens Exp $
+# copyright (C) 2000 - 2005 Miro International Pty Ltd
+# license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+# Mambo is Free Software
+
+<mos:tmpl name="language-ini" autoclear="yes"># version {VERSION}
+# copyright (C) 2000 - 2005 Miro International Pty Ltd
+# license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+# Mambo is Free Software
+<mos:tmpl name="strings" type="simplecondition" requiredvars="alias">
+{ALIAS}={TEXT}</mos:tmpl>
+<mos:tmpl name="metadata" type="simplecondition" requiredvars="name">
+[Metadata]
+__NAME={NAME}
+__ISO={ISO}
+__LOCALE={LOCALE}
+__ISOCODE={ISOCODE}
+__RTL={RTL}</mos:tmpl>
+</mos:tmpl>

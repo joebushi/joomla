@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosinstall version="4.5.3" type="component">
+    <name>Initialise Manager</name>
+    <version>-</version>
+    <creationDate>2005-08-27</creationDate>
+    <author>Mambo Core</author>
+    <authorEmail>ric@ratlaw.co.uk</authorEmail>
+    <authorUrl>www.ratlaw.co.uk</authorUrl>
+    <copyright>(C) 2005 Richard Allinson</copyright>
+    <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+    <description>...</description>
+    <params />
+</mosinstall>

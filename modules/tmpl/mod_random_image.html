@@ -1,0 +1,22 @@
+<mos:comment>
+@version $Id: mod_random_image.html,v 1.1 2005/08/25 14:24:07 johanjanssens Exp $
+@package Mambo
+@copyright (C) 2000 - 2005 Miro International Pty Ltd
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<mos:tmpl name="mod_random_image">
+ 	<div align="center" class="randomimage{CLASS}">
+ 		<mos:tmpl type="simplecondition" requiredvars="ROW_LINK=1" varscope="body-list-rows">
+ 		<!-- Make Linkable -->
+	 		<a href="{ROW_URL}" target="{ROW_TARGET}">
+		</mos:tmpl>
+
+ 		<img src="{ROW_IMAGE}" border="0" {ROW_WIDTH} {ROW_HEIGHT} alt="{ROW_IMAGE_NAME}" />
+
+ 		<mos:tmpl type="simplecondition" requiredvars="ROW_LINK=1" varscope="body-list-rows">
+ 		<!-- Make Linkable -->
+	 		</a>
+		</mos:tmpl>
+ 	</div>
+</mos:tmpl>

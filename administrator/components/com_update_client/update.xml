@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<mosupdate type="component">
+	<name>Mambo Update Client</name>
+	<versionstring>ALPHA 1</versionstring>
+	<productid>1</productid>
+	<releaseid>9</releaseid>
+	<server>http://pasamio.homelinux.net/~pasamio/mambo/mos-45x-cvs/4.5.x/xmlrpc.server.php</server>
+</mosupdate>

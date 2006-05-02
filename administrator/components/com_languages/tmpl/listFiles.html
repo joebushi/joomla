@@ -1,0 +1,35 @@
+<mos:comment>
+@version $Id: listFiles.html,v 1.1 2005/08/25 14:14:25 johanjanssens Exp $
+@package Mambo
+@copyright (C) 2000 - 2005 Miro International Pty Ltd
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<style type="text/css">
+.backgroundMenu {
+  vertical-align: top;
+  padding: 5px;
+  width: 20%;
+  float: left;
+  text-align: left;
+}
+</style>
+
+<div id="treecell">
+	<mos:tmpl src="tree.html" />
+</div>
+
+<div id="datacell">
+	<fieldset>
+		<legend>
+			<mos:Translate>Files</mos:Translate>
+		</legend>
+		<mos:link src="file-list" />
+	</fieldset>
+</div>
+
+<input type="hidden" name="option" value="{OPTION}" />
+<input type="hidden" name="task" value="" />
+<input type="hidden" name="boxchecked" value="0" />
+
+<mos:link src="include-tooltips" />

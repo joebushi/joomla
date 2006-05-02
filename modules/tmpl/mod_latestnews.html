@@ -1,0 +1,19 @@
+<mos:comment>
+@version $Id: mod_latestnews.html,v 1.1 2005/08/25 14:24:07 johanjanssens Exp $
+@package Mambo
+@copyright (C) 2000 - 2005 Miro International Pty Ltd
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<mos:tmpl name="mod_latestnews">
+	<div class="latestnews{CLASS}">
+		<ul class="latestnews{CLASS}">
+			<mos:tmpl name="mod_latestnews-items" varscope="mod_latestnews">
+				<li>
+				<a href="{ROW_LINK}" class="latestnews{CLASS}" title="{ROW_TEXT}">
+				{ROW_TEXT}</a>
+				</li>
+			</mos:tmpl>
+		</ul>
+	</div>
+</mos:tmpl>

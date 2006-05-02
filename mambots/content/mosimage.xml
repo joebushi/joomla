@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosinstall version="4.5.3" type="mambot" group="content">
+    <name>mosimage</name>
+    <version>4.5.2</version>
+    <creationDate>August 2004</creationDate>
+    <author>Mambo Project</author>
+    <authorEmail>admin@mamboserver.com</authorEmail>
+    <authorUrl>http://www.mamboserver.com</authorUrl>
+    <copyright>(C) 2000 - 2005 Miro International Pty Ltd</copyright>
+    <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+    <description>Replaces {mosimage} tag in content with specified images</description>
+    <files>
+        <filename mambot="mosimage">mosimage.php</filename>
+        <filename>mosimage.xml</filename>
+    </files>
+    <params>
+        <param name="margin" type="text" default="5" size="5" label="Margin" description="Margin in px, of Div surrounding Image &amp; Caption - only applies if using a Caption" />
+        <param name="padding" type="text" default="5" size="5" label="Padding" description="Padding in px, of Div surrounding Image &amp; Caption - only applies if using a Caption" />	
+		<param name="@spacer" type="spacer" default="" label="" description="" />		
+		<param name="enable_thumbnailer_frontend" type="radio" default="1" label="Enable thumbnailer in frontend" description="Enables thumbnailer in frontend">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="process_img" type="radio" default="0" label="Process &lt; img &gt; tags." description="If set, mosimage mambot will look for all &lt; img &gt; and {mosimage} tags in content">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>		
+		<param name="process_img_this_domain" type="radio" default="0" label="Process &lt; img &gt; tags from this domain." description="If set, mosimage mambot will look for all &lt; img &gt; tags in content, then will try to extract all needed data from tag and thumbnail it, if needed.">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="process_img_other_domains" type="radio" default="0" label="Process &lt; img &gt; tags from other domains." description="If set, mosimage mambot will look for all &lt; img &gt; tags in content, then will try to extract all needed data from tag and thumbnail it, if needed.  Please notice that it will fasten images loading if server on which mambo is hosted got much better connection that end-user have. Please notice that you should set allow_url_fopen variable to \'On\' in your php.ini.">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>				
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="max_image_width" type="text" size="8" default="300" label="Maximum image width" description="Maximum image width in frontend." />
+		<param name="max_image_height" type="text" size="8" default="300" label="Maximum image height" description="Maximum image height in frontend." />
+		<param name="@spacer" type="spacer" default="" label="" description="" />		
+		<param name="default_image_width" type="text" size="8" default="150" label="Default image width" description="Default image width on page. Will be set if &lt;img&gt; tag will not have width param." />
+		<param name="default_image_height" type="text" size="8" default="150" label="Default image height" description="Default image height on page. Will be set if &lt;img&gt; tag will not have height param." />		
+		<param name="enforce_default_size" type="radio" default="0" label="Set all images to default size" description="This enforces all images to be ">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="jpg_quality_frontend" type="text" size="8" default="20" label="JPG quality in frontend (0-100%)" description="All jpg\'s in admin panel will be sent to output with this quality level." />
+		<param name="output_all_as_jpg" type="radio" default="0" label="Output all images as jpg\'s" description="Output all other image filetypes as jpgs too">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+    </params>
+</mosinstall>

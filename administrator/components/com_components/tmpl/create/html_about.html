@@ -1,0 +1,25 @@
+<pat:comment>
+@version $Id: html_about.html,v 1.1 2005/08/25 14:14:14 johanjanssens Exp $
+@package Mambo
+@copyright (C) 2000 - 2005 Miro International Pty Ltd
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</pat:comment>
+
+<pat:link src="navigator" />
+
+<div id="datacell">
+	<fieldset>
+		<legend>
+			<mos:Translate>{CLASSNAME}</mos:Translate>
+		</legend>
+		A <a href="http://{AUTHORURL}" target="_blank">{AUTHOR}</a> Product.
+		<br/>
+		&copy; {COPYRIGHT}
+	</fieldset>
+</div>
+
+<pat:tmpl type="simplecondition" requiredvars="hasfunctions" varscope="options"><input type="hidden" name="function" value="{FUNCTION}" /></pat:tmpl>
+<input type="hidden" name="option" value="{OPTION}" />
+<input type="hidden" name="task" value="" />
+
+<mos:link src="include-tooltips" />

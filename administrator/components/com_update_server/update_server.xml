@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosinstall type="component" version="4.5.2">
+	<name>Mambo Updater</name>
+	<author>Samuel Moffatt</author>
+	<creationDate>April 2005</creationDate>
+	<copyright>(C) 2005 Samuel Moffatt</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>pasamio@gmail.com</authorEmail>
+	<authorUrl>pasamio.magi.net.au</authorUrl>
+	<version>0.1</version>
+	<description>This provides a package management framework.</description>
+	<administrator>
+		<files>
+			<file>
+</mosinstall>

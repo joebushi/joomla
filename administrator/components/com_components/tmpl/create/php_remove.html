@@ -1,0 +1,32 @@
+<pat:comment>
+@version $Id: php_remove.html,v 1.1 2005/08/25 14:14:14 johanjanssens Exp $
+@package Mambo
+@copyright (C) 2000 - 2005 Miro International Pty Ltd
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</pat:comment>
+	/**
+	 * Deletes one or more records
+	 * @param array An array of unique category id numbers
+	 * @param string The current url option
+	 */
+	function remove() {
+		global $database;
+		global $_LANG;
+
+		$cid = mosGetParam( $_POST, 'cid', array(0) );
+		mosArrayToInts( $cid, array() );
+
+		$cids = implode( ',', $cid );
+
+		if (!empty( $cids )) {
+			mosErrorAlert( $_LANG->_( 'Select an item to delete' ) );
+		}
+		$cids = implode( ',', $cid );
+		$query = "DELETE FROM #__{BASENAME} WHERE id IN ($cids)";
+		$database->setQuery( $query );
+		if (!$database->query()) {
+			mosErrorAlert( $database->getErrorMsg() );
+		}
+
+		$this->setRedirect( 'index2.php?option=com_{BASENAME}' );
+	}

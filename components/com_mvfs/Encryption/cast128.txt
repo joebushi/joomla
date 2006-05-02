@@ -1,0 +1,38 @@
+CAST 128 Encryption/Decryption Class
+By Devin Doucette
+Copyright (c) 2004 Devin Doucette
+Email: darksnoopy@shaw.ca
+
+As the name implies, this is an implementation of the CAST128 algorithm. 
+Obviously it isn't very fast since it's written in PHP, but I did my best to improve the 
+speed.  It's ideal for encrypting *SMALL* text and files, don't expect it to encrypt or 
+decrypt large files without bogging down your server.  Using base64 encoding on the 
+encrypted data usually makes it easier to store in cookies, session variables, etc.
+
+The class itself is fairly simple, as there are only four functions that you would ever 
+need to call.  These are as follows:
+
+Creating an object is fairly straightforward.
+$example = new cast128;
+
+Set the key using the setkey function:
+$example->setkey("Your key, whatever it may be");
+
+Encrypt data using the encrypt function:
+Takes the data to be encrypted as the first argument, and optionally a key as the second. 
+If no key is provided it will use the last key that was set, either through the encrypt or 
+decrypt functions or through the setkey function.
+$example->encrypt("This is the text/data to be encrypted");
+$example->encrypt("This is the text/data to be encrypted", "MYKEY");
+
+Decrypt data using the decrypt function:
+Takes the data to be decrypted as the first argument, and optionally a key as the second. 
+If no key is provided it will use the last key that was set, either through the encrypt or 
+decrypt functions or through the setkey function.
+$example->decrypt($data);
+$example->decrypt($data, "MYKEY");
+
+Run a test to ensure that the script is working properly:
+Uses known values to ensure that the script is able to implement that CAST128 algorithm.
+$example->test();
+Returns true if it succeeded, false if it failed.

@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!--MamboIDE Database Editor-->
+<database name="update" description="Mambo Update Tables" prefix="">
+  <table name="cache" description="">
+    <field name="cacheid" type="INT" length="10" defaultData="" key="PRIMARY_KEY" values="" autoincrement="true" isNull="false">cacheid</field>
+    <field name="productname" type="VARCHAR" length="50" defaultData="" key="NO_KEY" values="" autoincrement="false" isNull="false">productname</field>
+    <field name="directory" type="VARCHAR" length="50" defaultData="" key="NO_KEY" values="" autoincrement="false" isNull="false">directory</field>
+    <field name="versionstring" type="VARCHAR" length="20" defaultData="" key="NO_KEY" values="" autoincrement="false" isNull="false">versionstring</field>
+    <field name="updateurl" type="TEXT" length="0" defaultData="" key="NO_KEY" values="" autoincrement="false" isNull="false">updateurl</field>
+    <field name="lastupdate" type="DATE" length="0" defaultData="" key="NO_KEY" values="" autoincrement="false" isNull="false">lastupdate</field>
+  </table>
+  <table name="dependancy" description="">
+    <field name="dependancyid" type="INT" length="10" defaultData="" key="PRIMARY_KEY" values="" autoincrement="true" isNull="false">dependancyid</field>
+    <field name="currentrelease" type="INT" length="10" defaultData="" key="NO_KEY" values="" autoincrement="false" isNull="false">currentrelease</field>
+    <field name="depprodname" type="VARCHAR" length="50" defaultData="" key="NO_KEY" values="" autoincrement="false" isNull="false">depprodname</field>
+    <field name="depversionstring" type="VARCHAR" length="20" defaultData="" key="NO_KEY" values="" autoincrement="false" isNull="false">depversionstring</field>
+    <field name="depremotesite" type="INT" length="10" defaultData="" key="NO_KEY" values="" autoincrement="false" isNull="false">depremotesite</field>
+  </table>
+  <table name="product" description="Product Table">
+    <field name="productid" type="INT" length="10" defaultData="" key="PRIMARY_KEY" values="" autoincrement="true" isNull="false">productid</field>
+    <field name="productname" type="VARCHAR" length="50" defaultData="" key="NO_KEY" values="" autoincrement="false" isNull="false">productname</field>
+    <field name="productdescription" type="TEXT" length="0" defaultData="" key="NO_KEY" values="" autoincrement="false" isNull="false">productdescription</field>
+    <field name="producturl" type="TEXT" length="0" defaultData="" key="NO_KEY" values="" autoincrement="false" isNull="false">producturl</field>
+    <field name="productdetailsurl" type="TEXT" length="0" defaultData="" key="NO_KEY" values="" autoincrement="false" isNull="false">productdetailsurl</field>
+  </table>
+  <table name="release" description="">
+    <field name="releaseid" type="INT" length="10" defaultData="" key="PRIMARY_KEY" values="" autoincrement="true" isNull="false">releaseid</field>
+    <field name="productid" type="INT" length="10" defaultData="" key="NO_KEY" values="" autoincrement="false" isNull="false">productid</field>
+    <field name="releasetitle" type="VARCHAR" length="30" defaultData="" key="NO_KEY" values="" autoincrement="false" isNull="false">releasetitle</field>
+    <field name="releasedescription" type="TEXT" length="0" defaultData="" key="NO_KEY" values="" autoincrement="false" isNull="false">releasedescription</field>
+    <field name="releasesurl" type="TEXT" length="0" defaultData="" key="NO_KEY" values="" autoincrement="false" isNull="false">releasesurl</field>
+    <field name="releasechangelog" type="TEXT" length="0" defaultData="" key="NO_KEY" values="" autoincrement="false" isNull="false">releasechangelog</field>
+    <field name="releasenotes" type="TEXT" length="0" defaultData="" key="NO_KEY" values="" autoincrement="false" isNull="false">releasenotes</field>
+    <field name="versionstring" type="VARCHAR" length="20" defaultData="" key="NO_KEY" values="" autoincrement="false" isNull="false">versionstring</field>
+    <field name="updateurl" type="TEXT" length="0" defaultData="" key="NO_KEY" values="" autoincrement="false" isNull="false">updateurl</field>
+    <field name="releaseurl" type="TEXT" length="0" defaultData="" key="NO_KEY" values="" autoincrement="false" isNull="false">releaseurl</field>
+    <field name="releasedate" type="DATE" length="0" defaultData="" key="NO_KEY" values="" autoincrement="false" isNull="false">releasedate</field>
+  </table>
+  <table name="remotesite" description="Remote Mambo Update Server installations">
+    <field name="remotesiteid" type="INT" length="10" defaultData="" key="PRIMARY_KEY" values="" autoincrement="true" isNull="false">remotesiteid</field>
+    <field name="remotesitename" type="VARCHAR" length="30" defaultData="" key="NO_KEY" values="" autoincrement="false" isNull="false">remotesitename</field>
+    <field name="remotesiteurl" type="TEXT" length="0" defaultData="" key="NO_KEY" values="" autoincrement="false" isNull="false">remotesiteurl</field>
+  </table>
+</database>

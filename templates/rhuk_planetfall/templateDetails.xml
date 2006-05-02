@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosinstall type="template" version="4.5.1">
+	<name>rhuk_planetfall</name>
+	<creationDate>07/27/04</creationDate>
+	<author>rhuk</author>
+	<copyright>GNU/GPL</copyright>
+	<authorEmail>rhuk@rhuk.net</authorEmail>
+	<authorUrl>http://www.mambodev.com</authorUrl>
+	<version>1.0</version>
+	<description>Planetfall is a simple but stylish dark template.  The clean design of this template makes it very lightweight and fast.  As the default images and content that is loaded with Mambo is really focused on lighter backgrounds, it will take a tiny bit more customization of your content to make the template look it's best. </description>
+	<files>
+		<filename>index.php</filename>
+		<filename>template_thumbnail.png</filename>
+	</files>
+	<images>
+		<filename>images/arrow.png</filename>
+		<filename>images/back_fade.jpg</filename>
+		<filename>images/bottom_bar.jpg</filename>
+		<filename>images/indent1.png</filename>
+		<filename>images/indent2.png</filename>
+		<filename>images/indent3.png</filename>
+		<filename>images/indent4.png</filename>
+		<filename>images/mambo_header.jpg</filename>
+		<filename>images/menu1_fade.jpg</filename>
+		<filename>images/menu2_fade.jpg</filename>
+		<filename>images/menu_bullet.png</filename>
+		<filename>images/silver_background.jpg</filename>
+		<filename>images/spacer.png</filename>
+		<filename>images/title_background.png</filename>
+		<filename>images/top_bar.jpg</filename>
+		</images>
+	<css>
+		<filename>css/template_css.css</filename>
+	</css>
+</mosinstall>

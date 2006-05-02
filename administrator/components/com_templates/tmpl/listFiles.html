@@ -1,0 +1,42 @@
+<mos:comment>
+@version $Id: listFiles.html,v 1.1 2005/08/25 14:14:53 johanjanssens Exp $
+@package Mambo
+@copyright (C) 2000 - 2005 Miro International Pty Ltd
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<div id="treecell">
+	<fieldset>
+		<legend>
+			<mos:Translate>Navigator</mos:Translate>
+		</legend>
+		<mos:tmpl src="tree.html" />
+	</fieldset>
+
+	<fieldset>
+		<legend>
+			<mos:Translate>Related Links</mos:Translate>
+		</legend>
+		<mos:tmpl src="relatedLinks.html" varscope="body"/>
+	</fieldset>
+
+	<fieldset>
+		<legend>
+			<mos:Translate>Quick Tip</mos:Translate>
+		</legend>
+		<mos:Translate key="Quicktiptext files"></mos:Translate>
+	</fieldset>
+</div>
+
+<div id="datacell">
+	<fieldset>
+		<legend>
+			<mos:Translate>Files</mos:Translate>
+		</legend>
+		<mos:link src="file-list" />
+	</fieldset>
+</div>
+
+<input type="hidden" name="option" value="{OPTION}" />
+<input type="hidden" name="task" value="" />
+<input type="hidden" name="boxchecked" value="0" />

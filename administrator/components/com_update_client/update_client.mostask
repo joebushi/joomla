@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!--MamboIDE Task Editor-->
+<tasklist>
+  <component>update_client</component>
+  <toolbarClass>update_client</toolbarClass>
+  <toolbar />
+  <task description="Purges the Package Cache" type="ADMIN">purgeCache</task>
+  <task description="Builds a cache of installed packages that are capable of upgrading." type="ADMIN">buildCache</task>
+  <task description="Displays a list of installed packages." type="ADMIN">listPackages</task>
+  <task description="Adds a remote site" type="ADMIN">addRemoteSite</task>
+  <task description="Edits a remote site" type="ADMIN">editRemoteSite</task>
+</tasklist>

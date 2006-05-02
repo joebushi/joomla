@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosinstall type="component" version="4.5.2">
+  <name>Media Manager</name>
+  <author>Mambo Project</author>
+  <creationDate>July 2004</creationDate>
+  <copyright>(C) 2000 - 2005 Miro International Pty Ltd</copyright>
+  <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+  <authorEmail>admin@mamboserver.com</authorEmail>
+  <authorUrl>www.mamboserver.com</authorUrl>
+  <version>4.5.2</version>
+  <description>This component manages site media</description>
+  <params>  		
+		<param name="enable_thumbnailer_adm" type="radio" default="1" label="Enable thumbnailer in admin panel" description="Enables thumbnailer in admin panel">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="jpg_quality_admin" type="text" size="8" default="70" label="JPG quality in admin panel (0-100%)" description="All jpg\'s in admin panel will be sent to output with this quality level." />
+		<param name="@spacer" type="spacer" default="" label="" description="" />		
+		<param name="images_filetypes" type="text" size="50" default="jpg png gif bmp" label="Images filetypes" description="List of files extensions treated as images. Please separate with spaces." />
+		<param name="docs_filetypes" type="text" size="50" default="pdf doc zip xls ppt sxw" label="Documents filetypes" description="List of files extensions treated as documents. Please separate with spaces." />		
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="max_upload_size" type="text" size="8" default="2097152" label="Maximum upload size" description="Maximum upload size in bytes. Default: 2097152 bytes = 2048 Kb = 2 MB" />
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="root_directories" type="text" size="50" default="images" label="Root directories for Media Manager" description="Root directories for Media Manager, default: mamboroot/images amd mamboroot/media. Please separate with spaces." />		
+  </params>
+</mosinstall>

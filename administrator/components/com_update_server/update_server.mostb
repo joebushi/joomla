@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--MamboIDE Toolbar Editor-->
+<toolbars name="update_server" description="Mambo Update Server Toolbar">
+  <tasks>V:\public_html\mambo\mos-45x-cvs\4.5.x\administrator\components\com_update_server\update_server.mostask</tasks>
+  <toolbar name="_edit">
+    <item type="save" order="0">Save</item>
+    <item type="cancel" order="0">Cancel</item>
+  </toolbar>
+  <toolbar name="_list">
+    <item type="new" order="0">New</item>
+    <item type="publish" order="0">Publish</item>
+    <item type="unpublish" order="0">Unpublish</item>
+    <item type="deletelist" order="0">Delete</item>
+  </toolbar>
+</toolbars>

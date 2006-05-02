@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--MamboIDE Task Editor-->
+<tasklist>
+  <component>update_server</component>
+  <toolbarClass>menuupdate_server</toolbarClass>
+  <toolbar>V:\public_html\mambo\mos-45x-cvs\4.5.x\administrator\components\com_update_server\update_server.mostb</toolbar>
+  <task description="Creates a new product" type="ADMIN" toolbar="_edit">newProduct</task>
+  <task description="Edits a product" type="ADMIN" toolbar="_edit">editProduct</task>
+  <task description="Lists remote sites or servers" type="ADMIN" toolbar="_list">listRemoteSites</task>
+  <task description="Creates a new remote site/server" type="ADMIN" toolbar="_edit">newRemoteSite</task>
+  <task description="Edits a remote site" type="ADMIN" toolbar="_edit">editRemoteSite</task>
+  <task description="Creates a listing of releases" type="ADMIN" toolbar="_list">listReleases</task>
+  <task description="Creates a new release" type="ADMIN" toolbar="_edit">newRelease</task>
+  <task description="Edits a release" type="ADMIN" toolbar="_edit">editRelease</task>
+  <task description="Generic multitask save option" type="ADMIN">save</task>
+  <task description="Creates a listing of products" type="ADMIN" toolbar="_list">listProducts</task>
+  <task description="Lists available products" type="FRONTEND">listProducts</task>
+  <task description="Shows a specific product" type="FRONTEND">showProduct</task>
+  <task description="Lists the releases for a product" type="FRONTEND">listReleases</task>
+  <task description="Shows a specific release" type="FRONTEND">showRelease</task>
+</tasklist>
