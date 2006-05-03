@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id$
+* @version $Id: database.php 2247 2006-02-05 19:29:07Z webImagery $
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -11,21 +11,23 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
+jimport( 'joomla.common.base.object' );
+
+
 /**
- * Load compatibility files
+ * Data storage connector class
+ * The purpose of this class is to define a general connector to
+ * different kind of data storage solutions. The main storage might be
+ * a database, but techniques like content container (JSR 170) or other
+ * techniques.
  *
+ * @abstract
  * @package		Joomla.Framework
- * @subpackage	Compatibility
+ * @subpackage	Database
  * @since		1.1
  */
+class JDatacontainerConnector extends JObject {
+	
+}
 
-if (phpversion() < '4.2.0') {
-	jimport('joomla.common.compat.php41x' );
-}
-if (phpversion() < '4.3.0') {
-	jimport('joomla.common.compat.php42x' );
-}
-if (version_compare( phpversion(), '5.0' ) < 0) {
-	jimport('joomla.common.compat.php50x' );
-}
 ?>
