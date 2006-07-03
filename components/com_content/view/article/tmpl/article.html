@@ -1,0 +1,72 @@
+<jtmpl:comment>
+@version $Id$
+@package Joomla
+@copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+Joomla! is free software. This version may have been modified pursuant
+to the GNU General Public License, and as distributed it includes or
+is derivative of works licensed under the GNU General Public License or
+other free or open source software licenses.
+See COPYRIGHT.php for copyright notices and details.
+</jtmpl:comment>
+
+
+<jtmpl:tmpl name="article">
+
+	<jtmpl:tmpl type="simplecondition" requiredvars="PARAMS_ITEM_TITLE=1" varscope="article">
+		<jtmpl:tmpl type="simplecondition" requiredvars="PARAMS_LINK_TITLES=1,LINKON" varscope="article">
+				<a href="{LINKON}"><h1>{A_TITLE}</h1></a>
+		</jtmpl:tmpl>
+
+		<jtmpl:tmpl type="simplecondition" requiredvars="PARAMS_LINK_TITLES=0" varscope="article">
+				<h1>{A_TITLE}</h1>
+		</jtmpl:tmpl>
+	
+	</jtmpl:tmpl>	
+	
+	<jtmpl:tmpl type="simplecondition" requiredvars="PPE" varscope="article">
+		<span style="float:right;display:block">
+	</jtmpl:tmpl>	
+	
+		<jtmpl:tmpl type="simplecondition" requiredvars="PARAMS_PDF=1" varscope="article">
+			<a href="{PDF_LINK}" onclick="window.open('{PDF_LINK}','win2','{PDF_STATUS}'); return false;" title="<jtmpl:Translate>PDF</jtmpl:Translate>">		
+			{PDF_IMAGE}
+			</a>	
+		</jtmpl:tmpl>	
+	
+		<jtmpl:tmpl type="simplecondition" requiredvars="PARAMS_PRINT=1" varscope="article">
+			<a href="{PRINT_LINK}" onclick="window.open('{PRINT_LINK}','win2','{PRINT_STATUS}'); return false;" title="<jtmpl:Translate>Print</jtmpl:Translate>">		
+			{PRINT_IMAGE}
+			</a>	
+		</jtmpl:tmpl>
+		
+	<jtmpl:tmpl type="simplecondition" requiredvars="PPE" varscope="article">
+		</span>
+	</jtmpl:tmpl>		
+
+
+	<jtmpl:tmpl type="simplecondition" requiredvars="PARAMS_SECTION=1,A_SECTIONID" varscope="article">
+		<span class="section">{A_SECTION}</span>
+	</jtmpl:tmpl>
+	
+	<jtmpl:tmpl type="simplecondition" requiredvars="PARAMS_CATEGORY=1,A_SECTIONID" varscope="article">
+		<span class="category">{A_CATEGORY}</span>
+	</jtmpl:tmpl>
+
+	<jtmpl:tmpl type="simplecondition" requiredvars="PARAMS_AUTHOR=1,A_AUTHOR" varscope="article">
+		<span class="author">{A_CATEGORY}</span>
+	</jtmpl:tmpl>
+
+	<jtmpl:tmpl type="simplecondition" requiredvars="PARAMS_CREATEDATE=1,A_CREATED" varscope="article">
+		<span class="createdate">{A_CREATED}</span>
+	</jtmpl:tmpl>
+
+	{A_TEXT}
+
+	<jtmpl:tmpl type="simplecondition" requiredvars="PARAMS_READMORE=1,A_READMORE" varscope="article">
+		<span class="readmore">
+			<a herf="{LINKON}">{LINKTEXT}</a></span>
+	</jtmpl:tmpl>
+		
+		
+</jtmpl:tmpl>
