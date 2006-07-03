@@ -21,6 +21,12 @@ See COPYRIGHT.php for copyright notices and details.
 		<jtmpl:tmpl type="simplecondition" requiredvars="PARAMS_LINK_TITLES=0" varscope="article">
 				<h1>{A_TITLE}</h1>
 		</jtmpl:tmpl>
+		
+		<jtmpl:tmpl type="simplecondition" requiredvars="CANEDIT" varscpe="article">
+		<div class="contentpaneopen_edit<?php echo $params->get( 'pageclass_sfx' ); ?>" style="float: left;">
+			{CANEDIT}
+		</div>
+		</jtmpl:tmpl>
 	
 	</jtmpl:tmpl>	
 	

@@ -50,11 +50,11 @@ if ($params->get('readmore') || $params->get('link_titles')) {
 	}
 }
 
-
 // Popup pages get special treatment for page titles
 if ($params->get('popup') && $type =! 'html') {
 	$doc->setTitle($app->getCfg('sitename').' - '.$article->title);
 }
+
 
 $tmpl =& new JTemplate;
 $tmpl->setRoot( JPATH_COM_CONTENT .DS. 'view' .DS. 'article' .DS. 'tmpl' );
@@ -92,6 +92,7 @@ $article->modified = mosFormatDate($article->modified);
 $tmpl->addObject('article',$article,'A_');
 
 // links an other stuff			
+// To Do - make edit bottom availabe.
 $tmpl->addVar('article','canedit',$access->canEdit);
 $tmpl->addVar('article','linkon',$linkOn);
 $tmpl->addVar('article','linktext',$linkText);
@@ -129,42 +130,8 @@ $tmpl->addVar('article','print_status',$print_status);
 $tmpl->display('article');
 
 /**
-		// Build the link and text of the readmore button
-		if ($params->get('readmore') || $params->get('link_titles')) {
-			if ($params->get('intro_only')) {
-				// Check to see if the user has access to view the full article
-				if ($article->access <= $user->get('gid')) {
-					$Itemid = JContentHelper::getItemid($article->id);
-					$linkOn = sefRelToAbs("index.php?option=com_content&amp;task=view&amp;id=".$article->id."&amp;Itemid=".$Itemid);
-
-					if (@$article->readmore) {
-					// text for the readmore link
-						$linkText = JText::_('Read more...');
-					}
-				} else {
-					$linkOn = sefRelToAbs("index.php?option=com_registration&amp;task=register");
-
-					if (@$article->readmore) {
-					// text for the readmore link if accessible only if registered
-						$linkText = JText::_('Register to read more...');
-					}
-				}
-			}
-		}
-
-		// Popup pages get special treatment for page titles
-		if ($params->get('popup') && $type =! 'html') {
-			$doc->setTitle($app->getCfg('sitename').' - '.$article->title);
-		}
 
 		// If the user can edit the article, display the edit icon
-		if ($access->canEdit) {
-			?>
-			<div class="contentpaneopen_edit<?php echo $params->get( 'pageclass_sfx' ); ?>" style="float: left;">
-				<?php JContentHTMLHelper::editIcon($article, $params, $access); ?>
-			</div>
-			<?php
-		}
 
 		// Time to build the title bar... this may also include the pdf/print/email buttons if enabled
 		if ($params->get('item_title') || $params->get('pdf') || $params->get('print') || $params->get('email')) {
