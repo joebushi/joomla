@@ -1,7 +1,7 @@
 <?php
 
 /**
-* @version $Id: string.php
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license GNU/GPL, see LICENSE.php
@@ -379,7 +379,7 @@ class JString
 	 * @see http://www.php.net/ucwords
 	*/
 	function ucwords($str) {
-		jimport('phputf8.native.utf8_ucwords');
+		jimport('phputf8.ucwords');
 		return utf8_ucwords($str);
 	}
 

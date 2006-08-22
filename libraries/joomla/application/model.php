@@ -30,11 +30,6 @@ class JModel extends JObject {
 	var $_modelName;
 
 	/**
-	 * The calling controller
-	 */
-	var $_controller;
-
-	/**
 	 * Database Connector
 	 *
 	 * @var object
@@ -51,7 +46,8 @@ class JModel extends JObject {
 	 * Constructor
 	 * @since 1.5
 	 */
-	function __construct() {
+	function __construct()
+	{
 		$this->_db = &JFactory::getDBO();
 	}
 
@@ -101,15 +97,6 @@ class JModel extends JObject {
 	}
 
 	/**
-	 * Gets the application
-	 * @return object A JApplication based object
-	 */
-	function &getApplication()
-	{
-		return $this->_controller->getApplication();
-	}
-
-	/**
 	 * Get instance
 	 * @return JModelMenu
 	 */
@@ -134,15 +121,6 @@ class JModel extends JObject {
 	}
 
 	/**
-	 * Get controller
-	 * @return object A JController based object
-	 * @since 1.5
-	 */
-	function getController() {
-		return $this->_controller;
-	}
-
-	/**
 	 * Method to get current menu parameters
 	 *
 	 * @access	public
@@ -163,14 +141,6 @@ class JModel extends JObject {
 		return $this->_error;
 	}
 
-	/**
-	 * Sets the controller
-	 * @param object
-	 * @since 1.5
-	 */
-	function setController( &$value ) {
-		$this->_controller = &$value;
-	}
 	/**
 	 * Sets the error message
 	 * @param string The error message

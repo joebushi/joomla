@@ -54,7 +54,9 @@ class mosMainFrame extends JApplication
 	 * the mos_sessions table.
 	 */
 	function initSession( ) {
-		$this->setSession($this->getCfg('live_site').$this->getClientId());
+		// TODO: Quick fix to preserve session when going to https
+		global $mainframe;
+		$this->setSession(str_replace( 'https:', 'http:', $mainframe->getCfg('live_site') ).$this->getClientId());
 	}
 
 	/**
@@ -90,7 +92,7 @@ class mosMainFrame extends JApplication
 	* @since 1.5
 	*/
 	function setPageTitle( $title=null ) {
-		$document=& $this->getDocument();
+		$document=& JFactory::getDocument();
 		$document->setTitle($title);
 	}
 
@@ -99,7 +101,7 @@ class mosMainFrame extends JApplication
 	* @since 1.5
 	*/
 	function getPageTitle() {
-		$document=& $this->getDocument();
+		$document=& JFactory::getDocument();
 		return $document->getTitle();
 	}
 	

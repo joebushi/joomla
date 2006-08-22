@@ -26,12 +26,6 @@
 class JController extends JObject
 {
 	/**
-	 * The Main Application [JApplication]
-	 * @var	object
-	  */
-	var $_app = null;
-
-	/**
 	 * Array of class methods
 	 * @var	array
 	 */
@@ -116,12 +110,6 @@ class JController extends JObject
 	var $_modelPath = null;
 
 	/**
-	 * Internal data to pass to the controller
-	 * @var $array
-	 */
-	var $_data;
-
-	/**
 	 * An error message
 	 * @var string
 	 */
@@ -130,20 +118,19 @@ class JController extends JObject
 	/**
 	 * Constructor for PHP 4.x compatibility
 	 */
-	function JController( &$application, $default = '' )
+	function JController( $default = '' )
 	{
-		$this->__construct( $application, $default );
+		$this->__construct( $default );
 	}
 
 	/**
 	 * Constructor
 	 *
 	 * @access	protected
-	 * @param	object	$app	The main application
 	 * @param	string	$default	The default task [optional]
 	 * @since	1.5
 	 */
-	function __construct( &$application, $default='' )
+	function __construct( $default='' )
 	{
 		/*
 		 * Initialize private variables
@@ -153,7 +140,6 @@ class JController extends JObject
 		$this->_taskMap		= array();
 		$this->_methods		= array();
 		$this->_data		= array();
-		$this->_app			= &$application;
 
 		// Get the methods only for the final controller class
 		$thisMethods	= get_class_methods( get_class( $this ) );
@@ -233,7 +219,6 @@ class JController extends JObject
 		}
 
 		$model = & new $modelClass();
-		$model->setController( $this );
 		return $model;
 	}
 
@@ -250,6 +235,7 @@ class JController extends JObject
 	 */
 	function &_loadView( $viewName, $option='', $classPrefix='' )
 	{
+		global $mainframe;
 		// Clean the view name
 		$viewName	= preg_replace( '#\W#', '', $viewName );
 		$option		= preg_replace( '#\W#', '', $option );
@@ -259,7 +245,7 @@ class JController extends JObject
 		if ($option)
 		{
 			// Get the current template name and path
-			$tName = $this->_app->getTemplate();
+			$tName = $mainframe->getTemplate();
 			$tPath = JPATH_BASE.DS.'templates'.DS.$tName.DS.$option.DS.strtolower($viewName).'.php';
 		}
 		else
@@ -396,18 +382,6 @@ class JController extends JObject
 	}
 
 	/**
-	 * Get the application
-	 *
-	 * @access	public
-	 * @return object
-	 * @since	1.5
-	 */
-	function &getApplication()
-	{
-		return $this->_app;
-	}
-
-	/**
 	 * Get the system database object from the application
 	 *
 	 * @access	public
@@ -466,20 +440,6 @@ class JController extends JObject
 	function getTask()
 	{
 		return $this->_task;
-	}
-
-	/**
-	 * Data getter
-	 * @param string The name of the data variable
-	 * @return mixed The value of the data variable
-	 */
-	function &getVar( $name ) {
-		if (isset( $this->_vardata[$name] )) {
-			return $this->_vardata[$name];
-		} else {
-			$null = null;
-			return $null;
-		}
 	}
 
 	/**
@@ -542,8 +502,10 @@ class JController extends JObject
 	 */
 	function redirect()
 	{
-		if ($this->_redirect) {
-			$this->_app->redirect( $this->_redirect, $this->_message, $this->_messageType );
+		if ($this->_redirect)
+		{
+			global $mainframe;
+			$mainframe->redirect( $this->_redirect, $this->_message, $this->_messageType );
 		}
 	}
 
@@ -648,16 +610,6 @@ class JController extends JObject
 	{
 		$this->_viewPath = $path.DS;
 		return $this->_viewPath;
-	}
-
-	/**
-	 * Data setter
-	 * @param string The name of the data variable
-	 * @param mixed The value of the data variable
-	 */
-	function setVar( $name, &$value )
-	{
-		$this->_vardata[$name] = &$value;
 	}
 
 	/**
