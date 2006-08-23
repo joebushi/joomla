@@ -522,10 +522,10 @@ class mosUser extends JTableUser
  * @package		Joomla.Legacy
  * @subpackage	1.5
  */
-class database extends JDatabaseMySQL
+class database extends JDatabase
 {
 	function __construct ($host='localhost', $user, $pass, $db='', $table_prefix='', $offline = true) {
-		parent::__construct( $host, $user, $pass, $db, $table_prefix );
+		parent::__construct( 'mysql', $host, $user, $pass, $db, $table_prefix );
 	}
 	
 	/**

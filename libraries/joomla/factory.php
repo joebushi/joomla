@@ -182,26 +182,20 @@ class JFactory
 	/**
 	 * Get th database object
 	 *
-	 * Returns a reference to the global JDatabase object, only creating it
-	 * if it doesn't already exist.
+	 * Returns a reference to the global JDatabase object.
+	 * <b>IMPORTANT:</b> It is essential that the factory is not checking for
+	 * the existens of the object as it can not judge if a new instance
+	 * is required or not. This will be done in the singelton of the
+	 * JDatabase class!
 	 *
 	 * @return object JDatabase based object
 	 */
 	function &getDBO()
 	{
-		static $instance;
-
-		if (!is_object($instance))
-		{
-			//get the debug configuration setting
-			$conf =& JFactory::getConfig();
-			$debug = $conf->getValue('config.debug');
-			
-			$instance = JFactory::_createDBO();
-			$instance->debug($debug);
-		}
-
-		return $instance;
+		// all config settings are done in _createDBO - sub-method could be removed
+		// as static is not implemented anymore. May be TODO.
+		$dbo = JFactory::_createDBO();
+		return $dbo;
 	}
 
 	/**

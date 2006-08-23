@@ -91,7 +91,7 @@ class JInstallerPlugin extends JInstaller
 		/*
 		 * Copy all the necessary files
 		 */
-		if ($this->_parseFiles('files', $specialTag, JText::_('No file is marked as module file')) === false)
+		if ($this->_parseFiles('files', $specialTag, JText::_('No file is marked as plugin file')) === false)
 		{
 			JError::raiseWarning(1, 'JInstallerPlugin::install: '.JText::_('Failed to copy files to').' "'.$this->_extensionDir.'"');
 
