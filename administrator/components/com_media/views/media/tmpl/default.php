@@ -8,20 +8,8 @@
 			</fieldset>
 		</td>
 		<td>
-			<form action="index.php" name="adminForm" id="adminForm" method="post" enctype="multipart/form-data" >
-				<fieldset id="folderview">
-					<legend><?php echo JText::_( 'Files' ); ?></legend>
-					<div class="path">
-						<input class="inputbox" type="text" id="folderpath" readonly="readonly" />/
-						<input class="inputbox" type="text" id="foldername" name="foldername"  />
-						<button type="button" onclick="document.mediamanager.oncreatefolder()" /><?php echo JText::_( 'Create Folder' ); ?></button>
-					</div>
-					<div class="view">
-						<iframe src="index.php?option=com_media&amp;view=mediaList&amp;tmpl=component&amp;folder=<?php echo $this->current;?>" id="folderframe" name="folderframe" width="100%" marginwidth="0" marginheight="0" scrolling="auto" frameborder="0"></iframe>
-					</div>
-				</fieldset>
-
-				<?php if ($this->require_ftp): ?>
+			<?php if ($this->require_ftp): ?>
+			<form action="index.php?option=com_media&amp;task=ftpValidate" name="ftpForm" id="ftpForm" method="post">
 				<fieldset title="<?php echo JText::_('DESCFTPTITLE'); ?>">
 					<legend><?php echo JText::_('DESCFTPTITLE'); ?></legend>
 					<?php echo JText::_('DESCFTP'); ?>
@@ -46,12 +34,28 @@
 						</tbody>
 					</table>
 				</fieldset>
-				<?php endif; ?>
+			</form>
+			<?php endif; ?>
 
-				<input type="hidden" name="option" value="com_media" />
+			<form action="index.php?option=com_media&amp;task=folder.create" name="folderForm" id="folderForm" method="post">
+				<fieldset id="folderview">
+					<legend><?php echo JText::_( 'Files' ); ?></legend>
+					<div class="path">
+						<input class="inputbox" type="text" id="folderpath" readonly="readonly" />/
+						<input class="inputbox" type="text" id="foldername" name="foldername"  />
+						<input class="update-folder" type="hidden" name="folderbase" id="folderbase" value="<?php echo $this->current; ?>" />
+						<button type="submit"><?php echo JText::_( 'Create Folder' ); ?></button>
+					</div>
+					<div class="view">
+						<iframe src="index.php?option=com_media&amp;view=mediaList&amp;tmpl=component&amp;folder=<?php echo $this->current;?>" id="folderframe" name="folderframe" width="100%" marginwidth="0" marginheight="0" scrolling="auto" frameborder="0"></iframe>
+					</div>
+				</fieldset>
+			</form>
+
+			<form action="index.php?option=com_media" name="adminForm" id="adminForm" method="post" enctype="multipart/form-data" >
 				<input type="hidden" name="task" value="" />
 				<input type="hidden" name="cb1" id="cb1" value="0" />
-				<input type="hidden" name="dirpath" id="dirpath" value="<?php echo $this->current; ?>" />
+				<input class="update-folder" type="hidden" name="folder" id="folder" value="<?php echo $this->current; ?>" />
 			</form>
 
 			<!-- File Upload Form -->

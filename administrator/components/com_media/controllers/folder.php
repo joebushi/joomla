@@ -2,7 +2,7 @@
 /**
  * @version		$Id: weblink.php 7873 2007-07-05 22:44:21Z friesengeist $
  * @package		Joomla
- * @subpackage	Content
+ * @subpackage	Media
  * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant to the
@@ -19,38 +19,41 @@ defined('_JEXEC') or die();
  * Weblinks Weblink Controller
  *
  * @package		Joomla
- * @subpackage	Weblinks
+ * @subpackage	Media
  * @since 1.5
  */
 class MediaControllerFolder extends MediaController
 {
+
 	/**
 	 * Deletes paths from the current path
 	 *
 	 * @param string $listFolder The image directory to delete a file from
 	 * @since 1.5
 	 */
-	function delete($current)
+	function delete()
 	{
-		jimport('joomla.filesystem.file');
-		jimport('joomla.filesystem.folder');
-
 		// Set FTP credentials, if given
 		jimport('joomla.client.helper');
 		JClientHelper::setCredentialsFromRequest('ftp');
 
-		$msg	= null;
+		// Get some data from the request
+		$tmpl	= JRequest::getCmd( 'tmpl' );
 		$paths	= JRequest::getVar( 'rm', array(), '', 'array' );
-		$ret	= false;
+		$folder = JRequest::getVar( 'folder', '', '', 'path');
+
+		// Initialize variables
+		$msg = array();
+
 		if (count($paths)) {
 			foreach ($paths as $path)
 			{
-				if ($path !== JFilterInput::clean($path, 'cmd')) {
-					$msg .= '<font color="red">'.JText::_('Unable to delete:').htmlspecialchars($path).' '.JText::_('WARNFILENAME').'</font><br />';
+				if ($path !== JFilterInput::clean($path, 'path')) {
+					JError::raiseWarning(100, JText::_('Unable to delete:').htmlspecialchars($path).' '.JText::_('WARNFILENAME'));
 					continue;
 				}
 
-				$fullPath = JPath::clean(COM_MEDIA_BASE.DS.$current.DS.$path);
+				$fullPath = JPath::clean(COM_MEDIA_BASE.DS.$folder.DS.$path);
 				if (is_file($fullPath)) {
 					$ret |= !JFile::delete($fullPath);
 				} else if (is_dir($fullPath)) {
@@ -64,12 +67,17 @@ class MediaControllerFolder extends MediaController
 					if ($canDelete) {
 						$ret |= !JFolder::delete($fullPath);
 					} else {
-						$msg .= '<font color="red">'.JText::_('Unable to delete:').$fullPath.' '.JText::_('Not Empty!').'</font><br />';
+						JError::raiseWarning(100, JText::_('Unable to delete:').$fullPath.' '.JText::_('Not Empty!'));
 					}
 				}
 			}
 		}
-		return !$ret;
+		if ($tmpl == 'component') {
+			// We are inside the iframe
+			$mainframe->redirect('index.php?option=com_media&view=mediaList&folder='.$folder.'&tmpl=component');
+		} else {
+			$mainframe->redirect('index.php?option=com_media&folder='.$folder);
+		}
 	}
 
 	/**
@@ -78,7 +86,7 @@ class MediaControllerFolder extends MediaController
 	 * @param string $path Path of the folder to create
 	 * @since 1.5
 	 */
-	function createFolder()
+	function create()
 	{
 		global $mainframe;
 
@@ -88,7 +96,7 @@ class MediaControllerFolder extends MediaController
 
 		$folder			= JRequest::getCmd( 'foldername', '');
 		$folderCheck	= JRequest::getVar( 'foldername', null, '', 'string', JREQUEST_ALLOWRAW);
-		$parent			= JRequest::getVar( 'dirpath', '', '', 'path' );
+		$parent			= JRequest::getVar( 'folderbase', '', '', 'path' );
 
 		JRequest::setVar('folder', $parent);
 
@@ -106,5 +114,6 @@ class MediaControllerFolder extends MediaController
 			}
 			JRequest::setVar('folder', ($parent) ? $parent.'/'.$folder : $folder);
 		}
+		$mainframe->redirect('index.php?option=com_media&folder='.$parent);
 	}
 }

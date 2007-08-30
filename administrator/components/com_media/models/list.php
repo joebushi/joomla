@@ -141,7 +141,7 @@ class MediaModelList extends JModel
 							$filesize		= MediaHelper::parseSize($tmp->size);
 
 							if (($info[0] > 70) || ($info[1] > 70)) {
-								$dimensions = MediaHelper::imageResize($info[0], $info[1], 80);
+								$dimensions = MediaHelper::imageResize($info[0], $info[1], 70);
 								$tmp->width_80 = $dimensions[0];
 								$tmp->height_80 = $dimensions[1];
 							} else {

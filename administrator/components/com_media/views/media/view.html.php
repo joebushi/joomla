@@ -35,8 +35,8 @@ class MediaViewMedia extends JView
 
 		$listStyle = "
 			<ul id=\"submenu\">
-				<li><a id=\"thumbs\" onclick=\"document.mediamanager.setViewType('thumbs')\">".JText::_('Thumbnail View')."</a></li>
-				<li><a id=\"details\" onclick=\"document.mediamanager.setViewType('details')\">".JText::_('Detail View')."</a></li>
+				<li><a id=\"thumbs\" onclick=\"MediaManager.setViewType('thumbs')\">".JText::_('Thumbnail View')."</a></li>
+				<li><a id=\"details\" onclick=\"MediaManager.setViewType('details')\">".JText::_('Detail View')."</a></li>
 			</ul>
 		";
 
@@ -53,7 +53,7 @@ class MediaViewMedia extends JView
 			document.preview = SqueezeBox;
 		});");
 
-		JHTML::_('behavior.uploader', 'file-upload', array('onAllComplete' => 'function(){ document.mediamanager.refreshFrame(); }'));
+		JHTML::_('behavior.uploader', 'file-upload', array('onAllComplete' => 'function(){ MediaManager.refreshFrame(); }'));
 
 		$base = str_replace("\\","/",JPATH_ROOT);
 		$js = "

@@ -20,14 +20,19 @@
  * @subpackage	Media
  * @since		1.5
  */
-var JMediaManager = new Class({
+var MediaManager = {
+
 	initialize: function()
 	{
 		this.folderframe  	= $('folderframe');
 		this.folderpath  	= $('folderpath');
 
+		this.updatepaths	= $$('input.update-folder');
+
 		this.frame		= window.frames['folderframe'];
 		this.frameurl	= this.frame.location.href;
+
+
 	},
 
 	submit: function(task)
@@ -48,8 +53,10 @@ var JMediaManager = new Class({
 
 		var folder = this.getFolder();
 		if (folder) {
+			this.updatepaths.each(function(path){ path.value =folder; });
 			this.folderpath.value = basepath+'/'+folder;
 		} else {
+			this.updatepaths.each(function(path){ path.value = ''; });
 			this.folderpath.value = basepath;
 		}
 
@@ -147,12 +154,11 @@ var JMediaManager = new Class({
 			? bits.associate(['uri', 'scheme', 'authority', 'domain', 'port', 'path', 'directory', 'file', 'query', 'fragment'])
 			: null;
 	}
-});
+};
 
-document.mediamanager = null;
 window.addEvent('domready', function(){
- 	document.mediamanager = new JMediaManager();
+ 	MediaManager.initialize();
  	// Added to populate data on iframe load
- 	$('folderframe').onload = function() {document.mediamanager.onloadframe();}
- 	document.mediamanager.onloadframe();
+ 	$('folderframe').onload = function() { MediaManager.onloadframe();}
+ 	MediaManager.onloadframe();
 });

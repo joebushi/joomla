@@ -8,8 +8,8 @@
 				</div>
 			</div>
 			<div class="controls">
-				<img src="components/com_media/images/remove.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Delete' ); ?>" onclick="confirmDeleteFolder('<?php echo $this->_tmp_folder->path_relative; ?>', <?php echo $this->_tmp_folder->files+$this->_tmp_folder->folders; ?>);" />
-				<input type="checkbox" name="rm[]" value="<?php echo $this->_tmp_folder->path_relative; ?>" />
+				<a class="delete-item" href="index.php?option=com_media&amp;task=folder.delete&amp;tmpl=component&amp;folder=<?php echo $this->state->folder; ?>&amp;rm[]=<?php echo $this->_tmp_folder->name; ?>" rel="<?php echo $this->_tmp_folder->name; ?>' :: <?php echo $this->_tmp_folder->files+$this->_tmp_folder->folders; ?>"><img src="components/com_media/images/remove.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Delete' ); ?>" /></a>
+				<input type="checkbox" name="rm[]" value="<?php echo $this->_tmp_folder->name; ?>" />
 			</div>
 			<div class="imginfoBorder">
 				<a href="index.php?option=com_media&amp;view=mediaList&amp;tmpl=component&amp;folder=<?php echo $this->_tmp_folder->path_relative; ?>" target="folderframe"><?php echo substr( $this->_tmp_folder->name, 0, 10 ) . ( strlen( $this->_tmp_folder->name ) > 10 ? '...' : ''); ?></a>
