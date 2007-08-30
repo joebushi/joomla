@@ -69,8 +69,31 @@ class MediaViewMedia extends JView
 		$this->assign('current', '');
 		$this->assign('folders', $this->get('folderTree'));
 
+		// Set the toolbar
+		$this->_setToolBar();
+
 		parent::display($tpl);
 		echo JHTML::_('behavior.keepalive');
+	}
+
+	function _setToolBar()
+	{
+		// Get the toolbar object instance
+		$bar =& JToolBar::getInstance('toolbar');
+
+		// Set the titlebar text
+		JToolBarHelper::title( JText::_( 'Media Manager' ), 'mediamanager.png');
+
+		// Add a delete button
+		$title = JText::_('Delete');
+		$dhtml = "<a href=\"#\" onclick=\"MediaManager.submit('delete')\" class=\"toolbar\">
+					<span class=\"icon-32-delete\" title=\"$title\" type=\"Custom\"></span>
+					$title
+				</a>";
+		$bar->appendButton( 'Custom', $dhtml, 'delete' );
+
+		// Add a popup configuration button
+		JToolBarHelper::help( 'screen.mediamanager' );
 	}
 
 	function getFolderLevel($folder)
