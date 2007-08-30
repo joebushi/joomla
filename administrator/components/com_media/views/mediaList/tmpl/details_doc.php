@@ -12,7 +12,7 @@
 
 			</td>
 			<td>
-				<?php echo $this->_tmp_doc->size; ?>
+				<?php echo MediaHelper::parseSize($this->_tmp_doc->size); ?>
 			</td>
 			<td>
 				<img src="components/com_media/images/remove.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Delete' ); ?>" onclick="confirmDeleteImage('<?php echo $this->_tmp_doc->name; ?>');" />

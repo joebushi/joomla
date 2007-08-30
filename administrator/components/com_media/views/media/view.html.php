@@ -70,6 +70,7 @@ class MediaViewMedia extends JView
 		$this->assign('folders', $this->get('folderTree'));
 
 		parent::display($tpl);
+		echo JHTML::_('behavior.keepalive');
 	}
 
 	function getFolderLevel($folder)

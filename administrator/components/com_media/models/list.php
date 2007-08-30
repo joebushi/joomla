@@ -137,6 +137,26 @@ class MediaModelList extends JModel
 							$tmp->height	= @$info[1];
 							$tmp->type		= @$info[2];
 							$tmp->mime		= @$info['mime'];
+
+							$filesize		= MediaHelper::parseSize($tmp->size);
+
+							if (($info[0] > 70) || ($info[1] > 70)) {
+								$dimensions = MediaHelper::imageResize($info[0], $info[1], 80);
+								$tmp->width_80 = $dimensions[0];
+								$tmp->height_80 = $dimensions[1];
+							} else {
+								$tmp->width_80 = $tmp->width;
+								$tmp->height_80 = $tmp->height;
+							}
+
+							if (($info[0] > 16) || ($info[1] > 16)) {
+								$dimensions = MediaHelper::imageResize($info[0], $info[1], 16);
+								$tmp->width_16 = $dimensions[0];
+								$tmp->height_16 = $dimensions[1];
+							} else {
+								$tmp->width_16 = $tmp->width;
+								$tmp->height_16 = $tmp->height;
+							}
 							$images[] = $tmp;
 							break;
 						// Non-image document
