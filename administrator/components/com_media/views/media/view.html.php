@@ -62,10 +62,17 @@ class MediaViewMedia extends JView
 		" ;
 		$document->addScriptDeclaration($js);
 
+		/*
+		 * Display form for FTP credentials?
+		 * Don't set them here, as there are other functions called before this one if there is any file write operation
+		 */
+		jimport('joomla.client.helper');
+		$ftp = !JClientHelper::hasCredentials('ftp');
+
 		$this->assignRef('session', JFactory::getSession());
 		$this->assignRef('config', JComponentHelper::getParams('com_media'));
 		$this->assignRef('state', $this->get('state'));
-		$this->assign('require_ftp', false);
+		$this->assign('require_ftp', $ftp);
 		$this->assign('current', '');
 		$this->assign('folders', $this->get('folderTree'));
 

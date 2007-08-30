@@ -45,48 +45,6 @@ class MediaModelManager extends JModel
 	}
 
 	/**
-	 * Show media manager
-	 *
-	 * @param string $listFolder The image directory to display
-	 * @since 1.5
-	 */
-	function showMedia($base = null)
-	{
-		// Do not allow cache
-		JResponse::allowCache(false);
-
-		// Load the admin HTML view
-		require_once (JApplicationHelper::getPath('admin_html'));
-
-		// Get some paths from the request
-		if (empty($base)) {
-			$base = COM_MEDIA_BASE;
-		}
-
-		// Get the list of folders
-		jimport('joomla.filesystem.folder');
-		$imgFolders = JFolder::folders($base, '.', true, true);
-
-		$nodes = array();
-		foreach ($imgFolders as $folder) {
-			$folder 	= str_replace($base, "", $folder);
-			$folder		= (strpos($folder, DS) === 0) ? substr($folder, 1) : $folder ;
-			$folder 	= str_replace(DS, "/", $folder);
-			$nodes[] 	= $folder;
-		}
-		$tree = MediaController::_buildFolderTree($nodes);
-
-		/*
-		 * Display form for FTP credentials?
-		 * Don't set them here, as there are other functions called before this one if there is any file write operation
-		 */
-		jimport('joomla.client.helper');
-		$ftp = !JClientHelper::hasCredentials('ftp');
-
-		MediaViews::showMedia($tree, $ftp);
-	}
-
-	/**
 	 * Image Manager Popup
 	 *
 	 * @param string $listFolder The image directory to display
