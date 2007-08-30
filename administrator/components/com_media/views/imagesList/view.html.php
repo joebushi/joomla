@@ -39,18 +39,10 @@ class MediaViewImagesList extends JView
 		$document = &JFactory::getDocument();
 		$document->addStyleSheet('components/com_media/assets/popup-imagelist.css');
 
-		$document->addScriptDeclaration("
-		window.addEvent('domready', function() {
-			$$('a.img-preview').each(function(el) {
-				el.addEvent('click', function(e) {
-					new Event(e).stop();
-					window.top.document.preview.fromElement(el);
-				});
-			});
-		});");
+		$document->addScriptDeclaration("var ImageManager = window.parent.ImageManager;");
 
 		$base = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
-		$this->assign('baseURL', $base);
+		$this->assign('baseURL', COM_MEDIA_BASEURL);
 		$this->assignRef('images', $this->get('images'));
 		$this->assignRef('folders', $this->get('folders'));
 		$this->assignRef('state', $this->get('state'));
