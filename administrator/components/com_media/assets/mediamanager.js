@@ -52,8 +52,7 @@ var JMediaManager = new Class({
 		} else {
 			this.folderpath.value = basepath;
 		}
-		var node = d.getNodeByTitle(folder);
-		d.openTo(node, true, true);
+
 		$(viewstyle).addClass('active');
 
 		a = this._getUriObject($('uploadForm').getProperty('action'));
@@ -84,7 +83,7 @@ var JMediaManager = new Class({
 		$(viewstyle).removeClass('active');
 		viewstyle = type;
 		var folder = this.getFolder();
-		this._setFrameUrl('index.php?option=com_media&task=list&tmpl=component&folder='+folder+'&listStyle='+type);
+		this._setFrameUrl('index.php?option=com_media&view=mediaList&tmpl=component&folder='+folder+'&layout='+type);
 	},
 
 	refreshFrame: function()
