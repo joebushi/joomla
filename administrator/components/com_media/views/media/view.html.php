@@ -86,7 +86,7 @@ class MediaViewMedia extends JView
 
 		// Add a delete button
 		$title = JText::_('Delete');
-		$dhtml = "<a href=\"#\" onclick=\"MediaManager.submit('delete')\" class=\"toolbar\">
+		$dhtml = "<a href=\"#\" onclick=\"MediaManager.submit('folder.delete')\" class=\"toolbar\">
 					<span class=\"icon-32-delete\" title=\"$title\" type=\"Custom\"></span>
 					$title
 				</a>";

@@ -19,7 +19,7 @@
 		endfor; ?>
 
 	</div>
-	<input type="hidden" name="task" value="list" />
+	<input type="hidden" name="task" value="" />
 	<input type="hidden" name="username" value="" />
 	<input type="hidden" name="password" value="" />
 </form>

@@ -15,6 +15,9 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
 
+jimport('joomla.filesystem.file');
+jimport('joomla.filesystem.folder');
+
 /**
  * Weblinks Weblink Controller
  *
