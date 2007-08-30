@@ -4,7 +4,10 @@
 		<td width="200px">
 			<fieldset id="treeview">
 				<legend><?php echo JText::_( 'Folders' ); ?></legend>
-				<?php echo $this->loadTemplate('folders'); ?>
+				<ul class="folderTree">
+					<li><a href="index.php?option=com_media&amp;view=mediaList&amp;tmpl=component" target="folderframe"><?php echo JText::_('Media'); ?></a>
+					<?php echo $this->loadTemplate('folders'); ?></li>
+				</ul>
 			</fieldset>
 		</td>
 		<td>
@@ -47,12 +50,12 @@
 						<button type="submit"><?php echo JText::_( 'Create Folder' ); ?></button>
 					</div>
 					<div class="view">
-						<iframe src="index.php?option=com_media&amp;view=mediaList&amp;tmpl=component&amp;folder=<?php echo $this->current;?>" id="folderframe" name="folderframe" width="100%" marginwidth="0" marginheight="0" scrolling="auto" frameborder="0"></iframe>
+						<iframe src="index.php?option=com_media&amp;view=mediaList&amp;tmpl=component&amp;folder=<?php echo $this->state->folder;?>" id="folderframe" name="folderframe" width="100%" marginwidth="0" marginheight="0" scrolling="auto" frameborder="0"></iframe>
 					</div>
 				</fieldset>
 			</form>
 
-			<form action="index.php?option=com_media" name="adminForm" id="adminForm" method="post" enctype="multipart/form-data" >
+			<form action="index.php?option=com_media" name="adminForm" id="mediamanager-form" method="post" enctype="multipart/form-data" >
 				<input type="hidden" name="task" value="" />
 				<input type="hidden" name="cb1" id="cb1" value="0" />
 				<input class="update-folder" type="hidden" name="folder" id="folder" value="<?php echo $this->current; ?>" />

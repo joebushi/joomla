@@ -27,44 +27,21 @@ jimport('joomla.application.component.model');
  */
 class MediaModelManager extends JModel
 {
-	/**
-	 * Category ata array
-	 *
-	 * @var array
-	 */
-	var $_data = null;
 
-	/**
-	 * Category total
-	 *
-	 * @var integer
-	 */
-	var $_total = null;
-
-	/**
-	 * Pagination object
-	 *
-	 * @var object
-	 */
-	var $_pagination = null;
-
-	/**
-	 * Constructor
-	 *
-	 * @since 1.5
-	 */
-	function __construct()
+	function getState($property = null)
 	{
-		parent::__construct();
+		static $set;
 
-		global $mainframe, $option;
+		if (!$set) {
+			$folder = JRequest::getVar( 'folder', '', '', 'path' );
+			$this->setState('folder', $folder);
 
-		// Get the pagination request variables
-		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
-		$limitstart	= $mainframe->getUserStateFromRequest( $option.'limitstart', 'limitstart', 0, 'int' );
-
-		$this->setState('limit', $limit);
-		$this->setState('limitstart', $limitstart);
+			$parent = str_replace("\\", "/", dirname($folder));
+			$parent = ($parent == '.') ? null : $parent;
+			$this->setState('parent', $parent);
+			$set = true;
+		}
+		return parent::getState($property);
 	}
 
 	/**
@@ -198,6 +175,7 @@ class MediaModelManager extends JModel
 				}
 			}
 		}
+		$tree['data'] = (object) array('name' => JText::_('Media'), 'relative' => '', 'absolute' => $base);
 		return $tree;
 	}
 }

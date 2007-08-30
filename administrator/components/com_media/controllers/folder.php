@@ -33,6 +33,8 @@ class MediaControllerFolder extends MediaController
 	 */
 	function delete()
 	{
+		global $mainframe;
+
 		// Set FTP credentials, if given
 		jimport('joomla.client.helper');
 		JClientHelper::setCredentialsFromRequest('ftp');
@@ -44,6 +46,7 @@ class MediaControllerFolder extends MediaController
 
 		// Initialize variables
 		$msg = array();
+		$ret = true;
 
 		if (count($paths)) {
 			foreach ($paths as $path)

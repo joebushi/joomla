@@ -43,7 +43,7 @@ class TOOLBAR_media {
 
 		// Add a delete button
 		$title = JText::_('Delete');
-		$dhtml = "<a href=\"#\" onclick=\"document.mediamanager.submit('delete')\" class=\"toolbar\">
+		$dhtml = "<a href=\"#\" onclick=\"MediaManager.submit('delete')\" class=\"toolbar\">
 					<span class=\"icon-32-delete\" title=\"$title\" type=\"Custom\"></span>
 					$title
 				</a>";
