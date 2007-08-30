@@ -46,7 +46,7 @@
 					<div class="path">
 						<input class="inputbox" type="text" id="folderpath" readonly="readonly" />/
 						<input class="inputbox" type="text" id="foldername" name="foldername"  />
-						<input class="update-folder" type="hidden" name="folderbase" id="folderbase" value="<?php echo $this->current; ?>" />
+						<input class="update-folder" type="hidden" name="folderbase" id="folderbase" value="<?php echo $this->state->folder; ?>" />
 						<button type="submit"><?php echo JText::_( 'Create Folder' ); ?></button>
 					</div>
 					<div class="view">
@@ -58,7 +58,7 @@
 			<form action="index.php?option=com_media" name="adminForm" id="mediamanager-form" method="post" enctype="multipart/form-data" >
 				<input type="hidden" name="task" value="" />
 				<input type="hidden" name="cb1" id="cb1" value="0" />
-				<input class="update-folder" type="hidden" name="folder" id="folder" value="<?php echo $this->current; ?>" />
+				<input class="update-folder" type="hidden" name="folder" id="folder" value="<?php echo $this->state->folder; ?>" />
 			</form>
 
 			<!-- File Upload Form -->

@@ -50,53 +50,44 @@ class MediaModelManager extends JModel
 	 * @param string $listFolder The image directory to display
 	 * @since 1.5
 	 */
-	function imgManager($listFolder)
+	function getFolderList($base = null)
 	{
 		global $mainframe;
 
-		$document =& JFactory::getDocument();
+		// Get some paths from the request
+		if (empty($base)) {
+			$base = COM_MEDIA_BASE;
+		}
 
+		// Get the list of folders
+		jimport('joomla.filesystem.folder');
+		$folders = JFolder::folders($base, '.', true, true);
+
+		// Load appropriate language files
 		$lang = & JFactory::getLanguage();
 		$lang->load('', JPATH_ADMINISTRATOR);
 		$lang->load(JRequest::getCmd( 'option' ), JPATH_ADMINISTRATOR);
 
+		$document =& JFactory::getDocument();
 		$document->setTitle(JText::_('Insert Image'));
 
-		// Load the admin popup view
-		require_once (dirname(__FILE__).DS.'admin.media.popup.php');
-
-		// Get the list of folders
-		jimport('joomla.filesystem.folder');
-		$imgFolders = JFolder::folders(COM_MEDIA_BASE, '.', true, true);
-
 		// Build the array of select options for the folder list
-		$folders[] = JHTML::_('select.option', "","/");
-		foreach ($imgFolders as $folder) {
+		$options[] = JHTML::_('select.option', "","/");
+		foreach ($folders as $folder) {
 			$folder 	= str_replace(COM_MEDIA_BASE, "", $folder);
 			$value		= substr($folder, 1);
 			$text	 	= str_replace(DS, "/", $folder);
-			$folders[] 	= JHTML::_('select.option', $value, $text);
+			$options[] 	= JHTML::_('select.option', $value, $text);
 		}
 
 		// Sort the folder list array
-		if (is_array($folders)) {
-			sort($folders);
+		if (is_array($options)) {
+			sort($options);
 		}
 
 		// Create the drop-down folder select list
-		$folderSelect = JHTML::_('select.genericlist',  $folders, 'folderlist', "class=\"inputbox\" size=\"1\" onchange=\"document.imagemanager = new JImageManager(); document.imagemanager.setFolder(this.options[this.selectedIndex].value)\" ", 'value', 'text', $listFolder);
-
-		//attach stylesheet to document
-		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
-
-		// Load the mootools framework
-		JHTML::_('behavior.mootools');
-
-		$doc =& JFactory::getDocument();
-		$doc->addStyleSheet('components/com_media/assets/popup-imagemanager.css');
-		$doc->addScript('components/com_media/assets/popup-imagemanager.js');
-
-		MediaViews::imgManager($folderSelect, null);
+		$list = JHTML::_('select.genericlist',  $options, 'folderlist', "class=\"inputbox\" size=\"1\" onchange=\"ImageManager.setFolder(this.options[this.selectedIndex].value)\" ", 'value', 'text', $base);
+		return $list;
 	}
 
 	function getFolderTree($base = null)

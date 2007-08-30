@@ -73,7 +73,6 @@ class MediaViewMedia extends JView
 		$this->assignRef('config', JComponentHelper::getParams('com_media'));
 		$this->assignRef('state', $this->get('state'));
 		$this->assign('require_ftp', $ftp);
-		$this->assign('current', '');
 		$this->assign('folders', $this->get('folderTree'));
 
 		// Set the toolbar
