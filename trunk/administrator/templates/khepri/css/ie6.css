@@ -1,0 +1,13 @@
+/* CSS Document */
+
+div#toolbar-box {
+  float: left;
+  width: 100%;
+}
+
+#content-box {
+	float: left;
+}
+
+input { border-width: expression(this.type=="radio"?'0px':this.type=="checkbox"?'0px':'1px'); }
+
