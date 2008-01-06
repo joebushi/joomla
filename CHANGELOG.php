@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+07-Jan-2008 Andrew Eddie
+ # Changed form tokens to display different public and logged in values
+
 05-Jan-2008 Rob Schley
  # Refactored routers for com_contact, com_weblinks, com_polls, and com_newsfeeds to be more reliable
    at finding configurations and to prevent duplicate content URL issues.

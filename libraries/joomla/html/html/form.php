@@ -33,6 +33,8 @@ class JHTMLForm
 	 */
 	function token()
 	{
-		return '<input type="hidden" name="'.JUtility::getToken().'" value="1" />';
+		$user	= &JFactory::getUser();
+		$token	= JUtility::getToken();
+		return '<input type="hidden" name="'.JUtility::getHash( $user->id.$token ).'" value="1" />';
 	}
 }
