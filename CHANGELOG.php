@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+07-Jan-2008 Johan Janssens
+ # Fixed issue with JApplication::route wrongly assuming no route was found if no request variables are 
+   being returned and throwing a 404.
+
 07-Jan-2008 Andrew Eddie
  # Changed form tokens to display different public and logged in values
 
