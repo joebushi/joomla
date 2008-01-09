@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+
+09-Jan-2008 Ian MacLennan
+ # Fixed issue with incorrect building of section links in content router
+
 07-Jan-2008 Johan Janssens
  # Fixed issue with JApplication::route wrongly assuming no route was found if no request variables are 
    being returned and throwing a 404.
