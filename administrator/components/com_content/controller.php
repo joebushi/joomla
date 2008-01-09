@@ -624,7 +624,7 @@ class ContentController extends JController
 
 		$config =& JFactory::getConfig();
 		$tzoffset = $config->getValue('config.offset');
-		$date = new JDate($row->created, -$tzoffset);
+		$date = new JDate($row->created, $tzoffset);
 		$row->created = $date->toMySQL();
 
 		// Append time if not added to publish date
@@ -632,7 +632,7 @@ class ContentController extends JController
 			$row->publish_up .= ' 00:00:00';
 		}
 
-		$date = new JDate($row->publish_up, -$tzoffset);
+		$date = new JDate($row->publish_up, $tzoffset);
 		$row->publish_up = $date->toMySQL();
 
 		// Handle never unpublish date
@@ -645,7 +645,7 @@ class ContentController extends JController
 			if (strlen(trim( $row->publish_down )) <= 10) {
 				$row->publish_down .= ' 00:00:00';
 			}
-			$date = new JDate($row->publish_down, -$tzoffset);
+			$date = new JDate($row->publish_down, $tzoffset);
 			$row->publish_down = $date->toMySQL();
 		}
 

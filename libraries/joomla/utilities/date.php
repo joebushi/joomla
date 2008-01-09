@@ -49,11 +49,10 @@ class JDate extends JObject
 	 * If not specified, the current date and time is used.
 	 *
 	 * @param mixed $date optional the date this JDate will represent.
+	 * @param int $tzOffset optional the timezone $date is from
 	 */
-	function __construct($date = 'now', $tzOffset = 0, $gmt=true)
+	function __construct($date = 'now', $tzOffset = 0)
 	{
-		$function = ($gmt) ? 'gmmktime' : 'mktime';
-
 		if ($date == 'now' || empty($date))
 		{
 			$this->_date = strtotime(gmdate("M d Y H:i:s", time()));
@@ -63,7 +62,7 @@ class JDate extends JObject
 		$tzOffset *= 3600;
 		if (is_numeric($date))
 		{
-			$this->_date = $date + $tzOffset;
+			$this->_date = $date - $tzOffset;
 			return;
 		}
 
@@ -78,7 +77,7 @@ class JDate extends JObject
 			if (! isset($months[$matches[2]])) {
 				return;
 			}
-			$this->_date = $function(
+			$this->_date = mktime(
 				$matches[4], $matches[5], $matches[6],
 				$months[$matches[2]], $matches[1], $matches[3]
 			);
@@ -114,7 +113,7 @@ class JDate extends JObject
 		}
 		if (preg_match('~(\\d{4})-(\\d{2})-(\\d{2})[T\s](\\d{2}):(\\d{2}):(\\d{2})(.*)~', $date, $matches))
 		{
-			$this->_date = $function(
+			$this->_date = mktime(
 				$matches[4], $matches[5], $matches[6],
 				$matches[2], $matches[3], $matches[1]
 			);
@@ -129,15 +128,13 @@ class JDate extends JObject
 				} elseif ($matches[7] == 'Z') {
 					$tzOffset = 0;
 				}
-			} else {
-				$tzOffset = 0;
 			}
 			$this->_date -= $tzOffset;
 			return;
 		}
 		$this->_date = strtotime($date);
 		if ($this->_date) {
-			$this->_date += $tzOffset;
+			$this->_date -= $tzOffset;
 		}
 	}
 
