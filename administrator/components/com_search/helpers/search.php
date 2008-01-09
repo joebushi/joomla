@@ -137,7 +137,7 @@ class SearchHelper
 		$wordfound = false;
 		$pos = 0;
 		while ($wordfound === false && $pos < $textlen) {
-			if (($wordpos = @JString::strpos($text, ' ', $pos + $length)) !== false) {
+			if (($wordpos = JString::strpos($text, ' ', $pos)) !== false) {
 				$chunk_size = $wordpos - $pos;
 			} else {
 				$chunk_size = $length;
@@ -152,7 +152,7 @@ class SearchHelper
 		if ($wordfound !== false) {
 			return (($pos > 0) ? '...&nbsp;' : '') . $chunk . '&nbsp;...';
 		} else {
-			if (($wordpos = JString::strpos($text, ' ', $length)) !== false) {
+			if (($wordpos = JString::strpos($text, ' ')) !== false) {
 				return JString::substr($text, 0, $wordpos) . '&nbsp;...';
 			} else {
 				return JString::substr($text, 0, $length);
