@@ -62,7 +62,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 
 		if ($data->image!=null)
 		{
-			$re.= "		<image>\n";
+			$feed.= "		<image>\n";
 			$feed.= "			<url>".$data->image->url."</url>\n";
 			$feed.= "			<title>".htmlspecialchars($data->image->title, ENT_COMPAT, 'UTF-8')."</title>\n";
 			$feed.= "			<link>".$data->image->link."</link>\n";
