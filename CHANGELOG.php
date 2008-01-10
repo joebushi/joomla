@@ -37,6 +37,8 @@ Legend:
 - -> Removed
 ! -> Note
 
+09-Jan-2008 Andy Miller
+ # Fixed issues with pillmenu in both LTR and RTL directions
 
 09-Jan-2008 Ian MacLennan
  # Fixed issue with incorrect building of section links in content router
