@@ -92,6 +92,8 @@ class JComponentHelper
 		global $mainframe, $option;
 
 		if(empty($name)) {
+			// Throw 404 if no component
+			JError::raiseError(404, JText::_("Component Not Found"));
 			return;
 		}
 		

@@ -537,7 +537,7 @@ class ContentModelSection extends JModel
 			if ($filter) {
 				// clean filter variable
 				$filter = JString::strtolower($filter);
-				$filter	= $db->Quote( '%'.$db->getEscaped( $filter, true ).'%', false );
+				$filter	= $this->_db->Quote( '%'.$this->_db->getEscaped( $filter, true ).'%', false );
 
 				switch ($params->get('filter_type'))
 				{

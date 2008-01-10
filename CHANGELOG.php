@@ -37,6 +37,12 @@ Legend:
 - -> Removed
 ! -> Note
 
+10-Jan-2008 Sam Moffatt
+ # Fixed error in backlink migration plugin
+ # Fixed error with category/section search in front end
+ # Fixed error with weblink search in back end
+ # Fixed error with Legacy SEF incorrectly returning 404 page not found error
+
 09-Jan-2008 Andy Miller
  # Fixed issues with pillmenu in both LTR and RTL directions
 
