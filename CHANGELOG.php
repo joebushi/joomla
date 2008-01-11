@@ -37,6 +37,13 @@ Legend:
 - -> Removed
 ! -> Note
 
+11-Jan-2008 Wilco Jansen
+ # Fixed [9032] cannot upload image
+ # Fixed [9161] Media Manager - uploads doesn't work with flash tool
+ ! Patch provided by Kevin Devine, thanks Kevin!
+ ^ Changes language files for hr-HR, lt-LT, ro-RO, ru-RU
+ + Added language files for eu-ES, hi-IN
+
 11-Jan-2008 Ian MacLennan
  # Fixed bug in search where small words were not being filtered out properly
  # Fixed problem in search with regex using too many resources (related to above)
@@ -55,7 +62,7 @@ Legend:
  # Fixed issue with incorrect building of section links in content router
 
 07-Jan-2008 Johan Janssens
- # Fixed issue with JApplication::route wrongly assuming no route was found if no request variables are 
+ # Fixed issue with JApplication::route wrongly assuming no route was found if no request variables are
    being returned and throwing a 404.
 
 07-Jan-2008 Andrew Eddie

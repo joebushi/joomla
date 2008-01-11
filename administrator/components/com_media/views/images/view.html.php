@@ -40,6 +40,10 @@ class MediaViewImages extends JView
 
 		JHTML::_('behavior.uploader', 'file-upload', array('onAllComplete' => 'function(){ ImageManager.refreshFrame(); }'));
 
+		$user = &JFactory::getUser();
+		$token = JUtility::getToken();
+		$hash = JUtility::getHash( $user->id.$token );
+
 		/*
 		 * Display form for FTP credentials?
 		 * Don't set them here, as there are other functions called before this one if there is any file write operation
@@ -52,6 +56,7 @@ class MediaViewImages extends JView
 		$this->assignRef('state', $this->get('state'));
 		$this->assignRef('folderList', $this->get('folderList'));
 		$this->assign('require_ftp', $ftp);
+		$this->assign('token', $hash);
 
 		parent::display($tpl);
 	}
