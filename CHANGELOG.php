@@ -37,6 +37,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+11-Jan-2008 Ian MacLennan
+ # Fixed bug in search where small words were not being filtered out properly
+ # Fixed problem in search with regex using too many resources (related to above)
+ # Fixed [#8404] Incorrect highlighting of search terms (as a byproduct)
+
 10-Jan-2008 Sam Moffatt
  # Fixed error in backlink migration plugin
  # Fixed error with category/section search in front end

@@ -39,8 +39,15 @@ class SearchHelper
 			$ignored = true;
 		}
 
-		// next is to remove ignored words from type 'all' searches with multiple words
-		if ( count( $aterms ) > 1 && $searchphrase == 'any' ) {
+		// filter out search terms that are too small
+		foreach( $aterms AS $aterm ) {
+			if (JString::strlen( $aterm ) < 3) {
+				$search_ignore[] = $aterm;
+			}
+		}
+
+		// next is to remove ignored words from type 'all' or 'any' (not exact) searches with multiple words
+		if ( count( $aterms ) > 1 && $searchphrase != 'exact' ) {
 			$pruned = array_diff( $aterms, $search_ignore );
 			$searchword = implode( ' ', $pruned );
 		}
@@ -137,7 +144,7 @@ class SearchHelper
 		$wordfound = false;
 		$pos = 0;
 		while ($wordfound === false && $pos < $textlen) {
-			if (($wordpos = JString::strpos($text, ' ', $pos)) !== false) {
+			if (($wordpos = @JString::strpos($text, ' ', $pos + $length)) !== false) {
 				$chunk_size = $wordpos - $pos;
 			} else {
 				$chunk_size = $length;
@@ -152,7 +159,7 @@ class SearchHelper
 		if ($wordfound !== false) {
 			return (($pos > 0) ? '...&nbsp;' : '') . $chunk . '&nbsp;...';
 		} else {
-			if (($wordpos = JString::strpos($text, ' ')) !== false) {
+			if (($wordpos = @JString::strpos($text, ' ', $length)) !== false) {
 				return JString::substr($text, 0, $wordpos) . '&nbsp;...';
 			} else {
 				return JString::substr($text, 0, $length);
