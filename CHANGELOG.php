@@ -40,6 +40,7 @@ Legend:
 12-Jan-2008 Ian MacLennan
  # Fixed SEF issue for com_newsfeeds.
  # Removed incorrect line endings from some language files.
+ # Fixed issue with page cache caching tokens.
 
 11-Jan-2008 Ian MacLennan
  # Fixed SEF issue for com_poll, com_wrapper and com_search
