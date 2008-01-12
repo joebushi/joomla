@@ -50,7 +50,7 @@ function NewsfeedsBuildRoute(&$query)
 				// Check if this menu item links to this view.
 				if (isset($item->query['view']) && $item->query['view'] == 'newsfeed'
 					&& isset($query['view']) && $query['view'] != 'category'
-					&& isset($item->query['id']) && $item->query['id'] == $query['id'])
+					&& isset($item->query['id']) && isset($query['id']) && $item->query['id'] == $query['id'])
 				{
 					$itemid	= $item->id;
 				}

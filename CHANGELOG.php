@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+12-Jan-2008 Ian MacLennan
+ # Fixed SEF issue for com_newsfeeds.
+ # Removed incorrect line endings from some language files.
+
 11-Jan-2008 Ian MacLennan
  # Fixed SEF issue for com_poll, com_wrapper and com_search
 
