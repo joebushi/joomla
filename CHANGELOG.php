@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+11-Jan-2008 Ian MacLennan
+ # Fixed SEF issue for com_poll, com_wrapper and com_search
+
 11-Jan-2008 Wilco Jansen
  # Fixed [9032] cannot upload image
  # Fixed [9161] Media Manager - uploads doesn't work with flash tool

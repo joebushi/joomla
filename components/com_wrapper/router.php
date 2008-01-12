@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: router.php 9764 2007-12-30 07:48:11Z ircmaxell $
  * @package		Joomla
  * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
@@ -15,15 +15,10 @@
  * @param	array
  * @return	array
  */
-function SearchBuildRoute( &$query )
+function WrapperBuildRoute( &$query )
 {
 	$segments = array();
 
-	if (isset($query['searchword'])) {
-		$segments[] = $query['searchword'];
-		unset($query['searchword']);
-	}
-	
 	if (isset($query['view'])) {
 		unset($query['view']);
 	}
@@ -35,13 +30,11 @@ function SearchBuildRoute( &$query )
  * @param	array
  * @return	array
  */
-function SearchParseRoute( $segments )
+function WrapperParseRoute( $segments )
 {
 	$vars = array();
 
-	$searchword	= array_shift($segments);
-	$vars['searchword'] = $searchword;
-	$vars['view'] = 'search';
+	$vars['view'] = 'wrapper';
 
 	return $vars;
 }
