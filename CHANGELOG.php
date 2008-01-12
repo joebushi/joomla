@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+12-Jan-2008 Wilco Jansen
+ # Fixed [9194] No _JEXEC check in bigdump causes information disclosure if called directly
+
 12-Jan-2008 Ian MacLennan
  # Fixed SEF issue for com_newsfeeds.
  # Removed incorrect line endings from some language files.

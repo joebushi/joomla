@@ -1,4 +1,7 @@
 <?php
+// no direct access
+defined( '_JEXEC' ) or die( 'Restricted access' );
+
 //TODO: Rewrite this so its cleaner
 
 // BigDump ver. 0.28b from 2007-06-08
@@ -107,7 +110,7 @@ foreach ($_REQUEST as $key => $val) {
 	$_REQUEST[$key] = $val;
 }
 
-// *cough* dirty *cough* *cough* hack *cough*
+// Determine filename to execute for loading...
 $filename = JPATH_BASE . DS . 'sql' . DS . 'migration' . DS . 'migrate.sql';
 $_REQUEST['fn'] = $filename;
 $error = false;
