@@ -93,6 +93,10 @@ class JTableSection extends JTable
 			$this->alias = $this->title;
 		}
 		$this->alias = JFilterOutput::stringURLSafe($this->alias);
+		if(trim(str_replace('-','',$this->alias)) == '') {
+			$datenow = new JDate();
+			$this->alias = $datenow->toFormat("%Y-%m-%d-%H-%M-%S");
+		}
 
 		return true;
 	}

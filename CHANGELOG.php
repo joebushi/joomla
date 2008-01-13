@@ -42,7 +42,7 @@ Legend:
  * [topic,252372] Security fix in com_users
  # [9126] [8702] Fixes for imagepath problems in categories:w
  # Fixed language issues
-
+ # Added default alias for all items in core
 
 12-Jan-2008 Wilco Jansen
  # Fixed [9194] No _JEXEC check in bigdump causes information disclosure if called directly
