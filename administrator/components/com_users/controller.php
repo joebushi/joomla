@@ -83,6 +83,7 @@ class UsersController extends JController
 		// Initialize some variables
 		$db			= & JFactory::getDBO();
 		$me			= & JFactory::getUser();
+		$acl			=& JFactory::getACL();
 		$MailFrom	= $mainframe->getCfg('mailfrom');
 		$FromName	= $mainframe->getCfg('fromname');
 		$SiteName	= $mainframe->getCfg('sitename');
@@ -104,7 +105,35 @@ class UsersController extends JController
 			//return false;
 			return $this->execute('edit');
 		}
+		
+		$objectID 	= $acl->get_object_id( 'users', $user->get('id'), 'ARO' );
+		$groups 	= $acl->get_object_groups( $objectID, 'ARO' );
+		$this_group = strtolower( $acl->get_group_name( $groups[0], 'ARO' ) );
 
+
+		if ( $user->get('id') == $me->get( 'id' ) && $user->get('block') == 1 )
+		{
+			$msg = JText::_( 'You cannot block Yourself!' );
+			$mainframe->enqueueMessage($msg, 'message');
+			return $this->execute('edit');
+		}
+		else if ( ( $this_group == 'super administrator' ) && $user->get('block') == 1 ) {
+			$msg = JText::_( 'You cannot block a Super Administrator' );
+			$mainframe->enqueueMessage($msg, 'message');
+			return $this->execute('edit');
+		}
+		else if ( ( $this_group == 'administrator' ) && ( $me->get( 'gid' ) == 24 ) && $user->get('block') == 1 )
+		{
+			$msg = JText::_( 'WARNBLOCK' );
+			$mainframe->enqueueMessage($msg, 'message');
+			return $this->execute('edit');
+		}
+		else if ( ( $this_group == 'super administrator' ) && ( $me->get( 'gid' ) != 25 ) )
+		{
+			$msg = JText::_( 'You cannot edit a super administrator account' );
+			$mainframe->enqueueMessage($msg, 'message');
+			return $this->execute('edit');
+		}
 		// Are we dealing with a new user which we need to create?
 		$isNew 	= ($user->get('id') < 1);
 		if (!$isNew)

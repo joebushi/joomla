@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+13-Jan-2008 Anthony Ferrara
+ * [8739] Block user issues in administrator fix
+ * [topic,252372] Security fix in com_users
+
 12-Jan-2008 Wilco Jansen
  # Fixed [9194] No _JEXEC check in bigdump causes information disclosure if called directly
 
