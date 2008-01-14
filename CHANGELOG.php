@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+14-Jan-2008 Andrew Eddie
+ # Fixed inconsistend SQL in backward compat file (#__core_acl_aro_sections.section_id renamed to #__core_acl_aro_sections.id)
+
 13-Jan-2008 Anthony Ferrara
  * [8739] Block user issues in administrator fix
  * [topic,252372] Security fix in com_users
@@ -67,6 +70,7 @@ Legend:
  # Fixed problem in search with regex using too many resources (related to above)
  # Fixed [#8404] Incorrect highlighting of search terms (as a byproduct)
 
+>>>>>>> .r9939
 10-Jan-2008 Sam Moffatt
  # Fixed error in backlink migration plugin
  # Fixed error with category/section search in front end
