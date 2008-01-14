@@ -37,6 +37,14 @@ Legend:
 - -> Removed
 ! -> Note
 
+14-Jan-2008 Wilco Jansen
+ # Fixed [8874] Apostrophes transformed in html entities for page titles
+ # Fixed [8673] Wrong encoding for "login redirection url" in user login parameters
+ ^ Changed fa-IR langiage pack
+ + Added tr-TR langiage pack
+ ! Patch for 8874 and 8673 provided by Kevin Devine
+
+
 14-Jan-2008 Andrew Eddie
  # Fixed inconsistend SQL in backward compat file (#__core_acl_aro_sections.section_id renamed to #__core_acl_aro_sections.id)
 
@@ -70,7 +78,6 @@ Legend:
  # Fixed problem in search with regex using too many resources (related to above)
  # Fixed [#8404] Incorrect highlighting of search terms (as a byproduct)
 
->>>>>>> .r9939
 10-Jan-2008 Sam Moffatt
  # Fixed error in backlink migration plugin
  # Fixed error with category/section search in front end
