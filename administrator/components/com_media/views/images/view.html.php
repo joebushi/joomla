@@ -37,12 +37,7 @@ class MediaViewImages extends JView
 
 		JHTML::_('script'    , 'popup-imagemanager.js', $append .'components/com_media/assets/');
 		JHTML::_('stylesheet', 'popup-imagemanager.css', $append .'components/com_media/assets/');
-
 		JHTML::_('behavior.uploader', 'file-upload', array('onAllComplete' => 'function(){ ImageManager.refreshFrame(); }'));
-
-		$user = &JFactory::getUser();
-		$token = JUtility::getToken();
-		$hash = JUtility::getHash( $user->id.$token );
 
 		/*
 		 * Display form for FTP credentials?
@@ -51,12 +46,11 @@ class MediaViewImages extends JView
 		jimport('joomla.client.helper');
 		$ftp = !JClientHelper::hasCredentials('ftp');
 
-		$this->assignRef('session', JFactory::getSession());
-		$this->assignRef('config', JComponentHelper::getParams('com_media'));
-		$this->assignRef('state', $this->get('state'));
-		$this->assignRef('folderList', $this->get('folderList'));
+		$this->assignRef( 'session',	JFactory::getSession());
+		$this->assignRef( 'config',		JComponentHelper::getParams('com_media'));
+		$this->assignRef( 'state',		$this->get('state'));
+		$this->assignRef( 'folderList',	$this->get('folderList'));
 		$this->assign('require_ftp', $ftp);
-		$this->assign('token', $hash);
 
 		parent::display($tpl);
 	}

@@ -433,9 +433,8 @@ class JRequest
 	 */
 	function checkToken( $method = 'post' )
 	{
-		$user	= &JFactory::getUser();
 		$token	= JUtility::getToken();
-		return JRequest::getVar( JUtility::getHash( $user->id.$token ), '', $method, 'alnum' );
+		return JRequest::getVar( $token, '', $method, 'alnum' );
 	}
 
 	/**

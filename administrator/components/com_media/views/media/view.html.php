@@ -58,10 +58,6 @@ class MediaViewMedia extends JView
 
 		JHTML::_('behavior.uploader', 'file-upload', array('onAllComplete' => 'function(){ MediaManager.refreshFrame(); }'));
 
-		$user = &JFactory::getUser();
-		$token = JUtility::getToken();
-		$hash = JUtility::getHash( $user->id.$token );
-
 		$base = str_replace("\\","/",JPATH_ROOT);
 		$js = "
 			var basepath = '".$base.'/images'."';
@@ -82,7 +78,6 @@ class MediaViewMedia extends JView
 		$this->assign('require_ftp', $ftp);
 		$this->assign('folders_id', ' id="media-tree"');
 		$this->assign('folders', $this->get('folderTree'));
-		$this->assign('token', $hash);
 
 		// Set the toolbar
 		$this->_setToolBar();

@@ -50,7 +50,7 @@ echo $params->get('image_path', 'images/stories');?>/';
 	<input type="hidden" id="f_file" name="f_file" />
 	<input type="hidden" id="tmpl" name="component" />
 </form>
-<form action="<?php echo JURI::base(); ?>index.php?option=com_media&amp;task=file.upload&amp;tmpl=component&amp;<?php echo $this->session->getName().'='.$this->session->getId(); ?>&amp;pop_up=1&amp;<?php echo $this->token; ?>=1" id="uploadForm" method="post" enctype="multipart/form-data">
+<form action="<?php echo JURI::base(); ?>index.php?option=com_media&amp;task=file.upload&amp;tmpl=component&amp;<?php echo $this->session->getName().'='.$this->session->getId(); ?>&amp;pop_up=1&amp;<?php echo JUtility::getToken();?>=1" id="uploadForm" method="post" enctype="multipart/form-data">
 	<fieldset>
 		<legend><?php echo JText::_('Upload'); ?></legend>
 		<fieldset class="actions">

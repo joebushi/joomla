@@ -37,13 +37,15 @@ Legend:
 - -> Removed
 ! -> Note
 
+15-Jan-2008 Andrew Eddie
+ ^ Encapsulated public/non-public token logic into JUtility::getToken
+
 14-Jan-2008 Wilco Jansen
  # Fixed [8874] Apostrophes transformed in html entities for page titles
  # Fixed [8673] Wrong encoding for "login redirection url" in user login parameters
  ^ Changed fa-IR langiage pack
  + Added tr-TR langiage pack
  ! Patch for 8874 and 8673 provided by Kevin Devine
-
 
 14-Jan-2008 Andrew Eddie
  # Fixed inconsistend SQL in backward compat file (#__core_acl_aro_sections.section_id renamed to #__core_acl_aro_sections.id)
