@@ -39,6 +39,7 @@ Legend:
 
 16-Jan-2008 Anthony Ferrara
  # Fixed session issues with Invalid Token randomly appearing
+ # Fixed [9255] Error with Pagination and SEF (Thanks Jenscski)
 
 15-Jan-2008 Wilco Jansen
  + Added language af-ZA and ar-DZ
