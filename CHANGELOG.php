@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+16-Jan-2008 Anthony Ferrara
+ # Fixed session issues with Invalid Token randomly appearing
+
 15-Jan-2008 Wilco Jansen
  + Added language af-ZA and ar-DZ
 

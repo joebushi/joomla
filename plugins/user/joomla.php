@@ -151,11 +151,11 @@ class plgUserJoomla extends JPlugin
 	 */
 	function onLogoutUser($user, $options = array())
 	{
-		// Remove the session from the session table
-		$table = & JTable::getInstance('session');
-		$table->destroy($user['id'], $options['clientid']);
+		//Make sure we're a valid user first
+		if($user['id'] == 0) return true;
 
 		$my =& JFactory::getUser();
+		//Check to see if we're deleting the current session
 		if($my->get('id') == $user['id'])
 		{
 			// Hit the user last visit field
@@ -164,8 +164,11 @@ class plgUserJoomla extends JPlugin
 			// Destroy the php session for this user
 			$session =& JFactory::getSession();
 			$session->destroy();
+		} else {
+			// Force logout all users with that userid
+			$table = & JTable::getInstance('session');
+			$table->destroy($user['id'], $options['clientid']);
 		}
-
 		return true;
 	}
 
