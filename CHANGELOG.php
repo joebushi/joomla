@@ -38,7 +38,7 @@ Legend:
 ! -> Note
 
 15-Jan-2008 Wilco Jansen
- + Added language af-ZA
+ + Added language af-ZA and ar-DZ
 
 15-Jan-2008 Andrew Eddie
  ^ Encapsulated public/non-public token logic into JUtility::getToken
