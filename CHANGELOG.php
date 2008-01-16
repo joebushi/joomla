@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+15-Jan-2008 Wilco Jansen
+ + Added language af-ZA
+
 15-Jan-2008 Andrew Eddie
  ^ Encapsulated public/non-public token logic into JUtility::getToken
 
