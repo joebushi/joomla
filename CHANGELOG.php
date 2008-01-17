@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+17-Jan-2008 Anthony Ferrara
+ + [8987] [8986] Added 3 Language strings to com_user and com_installer's language files (Thanks JM)
+ # [9285] Administrators not being able to edit their own profile or change password
+
 16-Jan-2008 Anthony Ferrara
  # Fixed session issues with Invalid Token randomly appearing
  # Fixed [9255] Error with Pagination and SEF (Thanks Jenscski)
