@@ -7,16 +7,16 @@
 	<author>Joomfa Team</author>
 	<authorEmail>joomfa@gmail.com</authorEmail>
 	<authorUrl>www.joomfa.org</authorUrl>
-	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<description>پارسی/Persian language file for web installer</description>
 	<metadata>
 		<name>Persian(پارسی)</name>
 		<tag>fa-IR</tag>
 		<rtl>1</rtl>
-		<locale>fa_IR.utf8, fa, farsi, parsi, pars, persian, per, pe,pe-IR iran, fars, fa-IR, farsi-IR,persian_IR, per_IR, joomfa, joomfa_IR</locale>
+		<locale>fa_IR.utf8, fa_IR.UTF-8, fa, farsi, parsi, pars, persian, per, pe, iran, fars, fa-IR, farsi-IR,persian_IR, per_IR, joomfa, joomfa_IR</locale>
 		<winCodePage>utf-8</winCodePage>
-		<backwardLang>persian</backwardLang>
+		<backwardLang>farsi</backwardLang>
 	</metadata>
 	<params />
 </metafile>
