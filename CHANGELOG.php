@@ -37,6 +37,8 @@ Legend:
 - -> Removed
 ! -> Note
 
+-------------------- 1.5.0 Stable Release [21-January-2008] ---------------------
+
 21-Jan-2008 Rob Schley
  ^ Updated COPYRIGHT.php to reference the new, consolidated CREDITS.php
  + Added LICENSES.php which will hold full text versions of other licenses.
