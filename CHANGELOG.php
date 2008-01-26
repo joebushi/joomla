@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+27-Jan-2008 Wilco Jansen
+ ^ Remove the installation check
+
 -------------------- 1.5.0 Stable Release [21-January-2008] ---------------------
 
 21-Jan-2008 Rob Schley
