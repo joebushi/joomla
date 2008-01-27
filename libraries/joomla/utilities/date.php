@@ -132,7 +132,7 @@ class JDate extends JObject
 			$this->_date -= $tzOffset;
 			return;
 		}
-		$this->_date = strtotime($date);
+        $this->_date = (strtotime($date) == -1) ? false : strtotime($date);
 		if ($this->_date) {
 			$this->_date -= $tzOffset;
 		}
