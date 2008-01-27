@@ -39,6 +39,7 @@ Legend:
 
 27-Jan-2008 Wilco Jansen
  ^ Remove the installation check
+ # [9401] Help in backend showind 404 [Patch], thanks Jens-Christian Skibakk for the patch
 
 -------------------- 1.5.0 Stable Release [21-January-2008] ---------------------
 

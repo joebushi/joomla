@@ -236,7 +236,7 @@ class HTML_admin_misc
 					<?php
 				} else {
 					?>
-					<iframe name="helpFrame" src="<?php echo JURI::base() .'/help/' .$lang->getTag(). '/' . $page;?>" class="helpFrame" frameborder="0"></iframe>
+					<iframe name="helpFrame" src="<?php echo JURI::base() .'help/' .$langTag. '/' . $page;?>" class="helpFrame" frameborder="0"></iframe>
 					<?php
 				}
 				?>
