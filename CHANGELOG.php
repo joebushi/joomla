@@ -40,6 +40,7 @@ Legend:
 28-Jan-2008 Robin Muilwijk
  # Fixed [#9472] Session not cleared properly
  # Fixed [#9291] Error in call method
+ # Fixed [#9251] Additional double quote in weblink's template
 
 27-Jan-2008 Wilco Jansen
  ^ Remove the installation check
