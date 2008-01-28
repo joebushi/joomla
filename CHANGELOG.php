@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+28-Jan-2008 Robin Muilwijk
+ # Fixed [#9472] Session not cleared properly
+
 27-Jan-2008 Wilco Jansen
  ^ Remove the installation check
  # [9401] Help in backend showind 404 [Patch], thanks Jens-Christian Skibakk for the patch
