@@ -39,6 +39,9 @@ Legend:
 
 28-Jan-2008 Anthony Ferrara
  # Fixed memcache session driver config param loading (changed it to work like cache driver)
+ # [#9225] Typo in joomla_backwards.sql (Thanks Jens-Christian Skibakk)
+ # [#8823] Modules don't show up when eAccelerator is enabled (Thanks Dalibor Karlovic)
+
 
 28-Jan-2008 Robin Muilwijk
  # Fixed [#9472] Session not cleared properly
