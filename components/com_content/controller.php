@@ -82,7 +82,7 @@ class ContentController extends JController
 			JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
 		}
 
-		if ( $model->isCheckedOut($user->get ('id')))
+		if ( $model->isCheckedOut($user->get('id')))
 		{
 			$msg = JText::sprintf('DESCBEINGEDITTED', JText::_('The item'), $model->get('title'));
 			$this->setRedirect(JRoute::_('index.php?view=article&id='.$model->get('id'), false), $msg);
