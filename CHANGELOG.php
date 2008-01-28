@@ -41,6 +41,7 @@ Legend:
  # Fixed [#9472] Session not cleared properly
  # Fixed [#9291] Error in call method
  # Fixed [#9251] Additional double quote in weblink's template
+ # Fixed [#8173] Problem with preg_quote in function utf8_ireplace
 
 27-Jan-2008 Wilco Jansen
  ^ Remove the installation check
