@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+28-Jan-2008 Anthony Ferrara
+ # Fixed memcache session driver config param loading (changed it to work like cache driver)
+
 28-Jan-2008 Robin Muilwijk
  # Fixed [#9472] Session not cleared properly
  # Fixed [#9291] Error in call method
