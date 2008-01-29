@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+29-Jan-2008 Ian MacLennan
+ # Fixed [#9342] Poll goes 404 after voting - fixed redirect URL. 
+
 28-Jan-2008 Anthony Ferrara
  # Fixed memcache session driver config param loading (changed it to work like cache driver)
  # [#9225] Typo in joomla_backwards.sql (Thanks Jens-Christian Skibakk)
