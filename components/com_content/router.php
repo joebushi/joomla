@@ -35,7 +35,7 @@ function ContentBuildRoute(&$query)
 		} else {
 			$menu = &JSite::getMenu();
 			$menuItem = &$menu->getItem( $query['Itemid'] );
-			if ($query['id'] != $menuItem->query['id']) {
+			if (isset($menuItem->query['id']) && $query['id'] != $menuItem->query['id']) {
 				$segments[] = $query['id'];
 			}
 		}

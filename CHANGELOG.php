@@ -37,6 +37,12 @@ Legend:
 - -> Removed
 ! -> Note
 
+30-Jan-2008 Anthony Ferrara
+ # Fixed htaccess instructions (refering to a second section that was removed)
+ # [topic,257873] Fixed possible notice with com_content router
+ # [#9518] When creating menu item for a poll, you cannot select poll (Thanks Ian MacLennan)
+ # [#9383] Search for contacts generates bad links (Thanks Jans-Christian Skibakk) 
+
 29-Jan-2008 Ian MacLennan
  # Fixed [#9342] Poll goes 404 after voting - fixed redirect URL. 
 
@@ -44,7 +50,6 @@ Legend:
  # Fixed memcache session driver config param loading (changed it to work like cache driver)
  # [#9225] Typo in joomla_backwards.sql (Thanks Jens-Christian Skibakk)
  # [#8823] Modules don't show up when eAccelerator is enabled (Thanks Dalibor Karlovic)
-
 
 28-Jan-2008 Robin Muilwijk
  # Fixed [#9472] Session not cleared properly
