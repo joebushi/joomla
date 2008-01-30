@@ -42,6 +42,7 @@ Legend:
  # [topic,257873] Fixed possible notice with com_content router
  # [#9518] When creating menu item for a poll, you cannot select poll (Thanks Ian MacLennan)
  # [#9383] Search for contacts generates bad links (Thanks Jans-Christian Skibakk) 
+ # [#9426] PopUp Url link broken
 
 29-Jan-2008 Ian MacLennan
  # Fixed [#9342] Poll goes 404 after voting - fixed redirect URL. 
