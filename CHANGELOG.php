@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+1-Feb-2008 Anthony Ferrara
+ * Fixed remote execution vulnerability in phpmailer
+
 30-Jan-2008 Anthony Ferrara
  # Fixed htaccess instructions (refering to a second section that was removed)
  # [topic,257873] Fixed possible notice with com_content router
