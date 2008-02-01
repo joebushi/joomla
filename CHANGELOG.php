@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+1-Feb-2008 Ian MacLennan
+ # Fixed [#9320] Problem with allowing HTML in requests [patch] (Thanks Jens)
+
 1-Feb-2008 Anthony Ferrara
  * Fixed remote execution vulnerability in phpmailer
  # [#6730] batchQuery() Bug: Broken splitting function
