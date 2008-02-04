@@ -37,15 +37,18 @@ Legend:
 - -> Removed
 ! -> Note
 
-4-Feb-2008 Wilco Jansen
+05-Feb-2008 Andrew Eddie
+ # Turned XML-RPC server off by default
+
+04-Feb-2008 Wilco Jansen
  # Fixed [9111] error.php contains a relative url to Home Page (Thanks Jens)
  # Fixed [9516] Links in archive module don't work with SEF (Thanks Jens)
  # Fixed [9211] Installation always falling back to joomla_backwards.sql (Thanks Jens)
 
-1-Feb-2008 Ian MacLennan
+01-Feb-2008 Ian MacLennan
  # Fixed [#9320] Problem with allowing HTML in requests [patch] (Thanks Jens)
 
-1-Feb-2008 Anthony Ferrara
+01-Feb-2008 Anthony Ferrara
  * Fixed remote execution vulnerability in phpmailer
  # [#6730] batchQuery() Bug: Broken splitting function
  # [#8776] Mass Email BCC option (Thanks JM)
