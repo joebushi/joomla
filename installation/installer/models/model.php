@@ -291,8 +291,7 @@ class JInstallationModel extends JModel
 		$DBpassword = JArrayHelper::getValue($vars, 'DBpassword', '');
 		$DBname 	= JArrayHelper::getValue($vars, 'DBname', '');
 		$DBPrefix 	= JArrayHelper::getValue($vars, 'DBPrefix', 'jos_');
-		$DBOld 		= JArrayHelper::getValue($vars, 'DBOld', 'bu');
-		$DButfSupport 	= intval(JArrayHelper::getValue($vars, 'DButfSupport', 0));
+		$DBOld 		= JArrayHelper::getValue($vars, 'DBOld', 'bu');	
 		$DBversion 		= JArrayHelper::getValue($vars, 'DBversion', '');
 
 		// these 3 errors should be caught by the javascript in dbConfig
@@ -341,7 +340,10 @@ class JInstallationModel extends JModel
 				$this->setData('errors', $db->getErrorMsg());
 				return false;
 			}
-
+			
+			//Check utf8 support of database
+			$DButfSupport = $db->hasUTF();
+			
 			// Try to select the database
 			if ( ! $db->select($DBname) )
 			{

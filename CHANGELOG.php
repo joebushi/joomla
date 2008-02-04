@@ -37,6 +37,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+4-Feb-2008 Wilco Jansen
+ # Fixed [9111] error.php contains a relative url to Home Page (Thanks Jens)
+ # Fixed [9516] Links in archive module don't work with SEF (Thanks Jens)
+ # Fixed [9211] Installation always falling back to joomla_backwards.sql (Thanks Jens)
+
 1-Feb-2008 Ian MacLennan
  # Fixed [#9320] Problem with allowing HTML in requests [patch] (Thanks Jens)
 
@@ -49,11 +54,11 @@ Legend:
  # Fixed htaccess instructions (refering to a second section that was removed)
  # [topic,257873] Fixed possible notice with com_content router
  # [#9518] When creating menu item for a poll, you cannot select poll (Thanks Ian MacLennan)
- # [#9383] Search for contacts generates bad links (Thanks Jans-Christian Skibakk) 
+ # [#9383] Search for contacts generates bad links (Thanks Jans-Christian Skibakk)
  # [#9426] PopUp Url link broken
 
 29-Jan-2008 Ian MacLennan
- # Fixed [#9342] Poll goes 404 after voting - fixed redirect URL. 
+ # Fixed [#9342] Poll goes 404 after voting - fixed redirect URL.
 
 28-Jan-2008 Anthony Ferrara
  # Fixed memcache session driver config param loading (changed it to work like cache driver)
