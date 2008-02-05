@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+05-Feb-2008 Ian MacLennan
+ # Fixed [9512] Removed superfluous references to JUser
+
 05-Feb-2008 Andrew Eddie
  # Turned XML-RPC server off by default
 
