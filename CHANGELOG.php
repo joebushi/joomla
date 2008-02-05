@@ -39,6 +39,7 @@ Legend:
 
 05-Feb-2008 Anthony Ferrara
  # Fixed [9552] Added missing DOMMIT files
+ # Fixed [9620] When trying to login, the site returns 'Invalid Token'
 
 05-Feb-2008 Ian MacLennan
  # Fixed [9512] Removed superfluous references to JUser
