@@ -41,6 +41,8 @@ Legend:
  # Fixed [9512] Removed superfluous references to JUser
  # Fixed [9596] Incorrect language string in Beez
  # Fixed [9257] Fixed comments in index.php and administrator/index.php
+ # Fixed [9399] XMLRPC Blogger more_text tag problem
+ * Fixed [9406] XMLRPC Blogger API
 
 05-Feb-2008 Andrew Eddie
  # Turned XML-RPC server off by default
