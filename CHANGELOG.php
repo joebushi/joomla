@@ -40,6 +40,7 @@ Legend:
 05-Feb-2008 Anthony Ferrara
  # Fixed [9552] Added missing DOMMIT files
  # Fixed [9620] When trying to login, the site returns 'Invalid Token'
+ # Added live_site parameter to config, and JURI::base override (fixes SEF and proxy issues)
 
 05-Feb-2008 Ian MacLennan
  # Fixed [9512] Removed superfluous references to JUser
@@ -68,7 +69,7 @@ Legend:
  # Fixed htaccess instructions (refering to a second section that was removed)
  # [topic,257873] Fixed possible notice with com_content router
  # [#9518] When creating menu item for a poll, you cannot select poll (Thanks Ian MacLennan)
- # [#9383] Search for contacts generates bad links (Thanks Jans-Christian Skibakk)
+ # [#9383] Search for contacts generates bad links (Thanks Jens-Christian Skibakk)
  # [#9426] PopUp Url link broken
 
 29-Jan-2008 Ian MacLennan
