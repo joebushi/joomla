@@ -39,6 +39,7 @@ Legend:
 
 05-Feb-2008 Ian MacLennan
  # Fixed [9512] Removed superfluous references to JUser
+ # Fixed [9596] Incorrect language string in Beez
 
 05-Feb-2008 Andrew Eddie
  # Turned XML-RPC server off by default
