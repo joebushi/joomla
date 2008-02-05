@@ -40,6 +40,7 @@ Legend:
 05-Feb-2008 Ian MacLennan
  # Fixed [9512] Removed superfluous references to JUser
  # Fixed [9596] Incorrect language string in Beez
+ # Fixed [9257] Fixed comments in index.php and administrator/index.php
 
 05-Feb-2008 Andrew Eddie
  # Turned XML-RPC server off by default
