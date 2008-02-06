@@ -37,6 +37,8 @@ Legend:
 - -> Removed
 ! -> Note
 
+-------------------- 1.5.1 Stable Release [8-February-2008] ---------------------
+
 05-Feb-2008 Anthony Ferrara
  # Fixed [9552] Added missing DOMMIT files
  # Fixed [9620] When trying to login, the site returns 'Invalid Token'
