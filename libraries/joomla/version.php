@@ -26,7 +26,7 @@ class JVersion
 	/** @var string Development Status */
 	var $DEV_STATUS = 'Production/Stable';
 	/** @var int Sub Release Level */
-	var $DEV_LEVEL 	= '0';
+	var $DEV_LEVEL 	= '1';
 	/** @var int build Number */
 	var $BUILD	 	= '';
 	/** @var string Codename */
