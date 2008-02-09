@@ -151,11 +151,20 @@ class TableMessage extends JTable
 			{
 				if ($domail)
 				{
+					$query = 'SELECT name, email' .
+							' FROM #__users' .
+							' WHERE id = '.(int) $fromId;
+					$db->setQuery($query);
+					$fromObject = $db->loadObject();
+					$fromname	= $fromObject->name;
+					$mailfrom	= $fromObject->email;
+
 					$query = 'SELECT email' .
 							' FROM #__users' .
 							' WHERE id = '.(int) $toId;
 					$db->setQuery($query);
 					$recipient	= $db->loadResult();
+
 					$subject	= JText::_('A new private message has arrived');
 					$msg		= JText::_('A new private message has arrived');
 

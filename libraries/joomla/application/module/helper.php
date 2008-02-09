@@ -87,6 +87,14 @@ class JModuleHelper
 				$result[] =& $modules[$i];
 			}
 		}
+		if(count($result) == 0) {
+			if(JRequest::getBool('tp')) {
+				$result[0] = JModuleHelper::getModule( 'mod_'.$position );
+				$result[0]->title = $position;
+				$result[0]->content = $position;
+				$result[0]->position = $position;
+			}
+		}
 
 		return $result;
 	}

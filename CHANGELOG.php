@@ -39,6 +39,12 @@ Legend:
 
 -------------------- 1.5.1 Stable Release [8-February-2008] ---------------------
 
+09-Feb-2008 Ian MacLennan
+ # Fixed [8602] Cookie error message in installation process
+ # Fixed [9458] Email on new article - "from" is missing
+ # Fixed [8368] Template preview shows only used module positions
+ # Fixed [9434] Sample data: Two Resource Modules
+
 05-Feb-2008 Anthony Ferrara
  # Fixed [9552] Added missing DOMMIT files
  # Fixed [9620] When trying to login, the site returns 'Invalid Token'
