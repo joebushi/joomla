@@ -23,7 +23,7 @@ require_once( JPATH_LIBRARIES.DS.'loader.php');
  * Joomla! Global version define
  */
 if (!defined('JVERSION')) {
-	define('JVERSION', '1.5.0');
+	define('JVERSION', '1.5.1');
 }
 
 /**
