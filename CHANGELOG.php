@@ -37,13 +37,14 @@ Legend:
 - -> Removed
 ! -> Note
 
+10-Feb-2008 Ian MacLennan
+ # Fixed [9371] h3 Title not translated at install step4 and 5
+
 10-Feb-2008 Anthony Ferrara
  # Fixed issue with notice populating $live_site on upgrade from 1.5.0
 
 10-Feb-2008 Sam Moffatt
  # Fixed [#9381] Misnamed variable errors in migration
-
--------------------- 1.5.1 Stable Release [8-February-2008] ---------------------
 
 09-Feb-2008 Ian MacLennan
  # Fixed [8602] Cookie error message in installation process
@@ -53,7 +54,9 @@ Legend:
  # Fixed [9690] Version number in administrator backend shows 1.5.0
  # Fixed [9312] Pre-installation Check wrongly recommends Display Errors ON
  # Fixed [9408] Articles don't change if you change a category to another section
- 
+
+
+-------------------- 1.5.1 Stable Release [8-February-2008] ---------------------
 
 05-Feb-2008 Anthony Ferrara
  # Fixed [9552] Added missing DOMMIT files
