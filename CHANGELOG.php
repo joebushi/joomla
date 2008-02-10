@@ -45,6 +45,9 @@ Legend:
  # Fixed [8368] Template preview shows only used module positions
  # Fixed [9434] Sample data: Two Resource Modules
  # Fixed [9690] Version number in administrator backend shows 1.5.0
+ # Fixed [9312] Pre-installation Check wrongly recommends Display Errors ON
+ # Fixed [9408] Articles don't change if you change a category to another section
+ 
 
 05-Feb-2008 Anthony Ferrara
  # Fixed [9552] Added missing DOMMIT files

@@ -616,7 +616,7 @@ class JInstallationModel extends JModel
 		array (
 			JText::_('Display Errors'),
 			'display_errors',
-			'ON'
+			'OFF'
 			),
 		array (
 			JText::_('File Uploads'),

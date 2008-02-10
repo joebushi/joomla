@@ -433,6 +433,15 @@ function saveCategory()
 	}
 	$row->checkin();
 
+	if ($row->section > 0) {
+		$query = 'UPDATE #__content'
+				.' SET sectionid = '.$row->section
+				.' WHERE catid = '.$row->id
+		;
+		$db->setQuery( $query );
+		$db->query();
+	}
+
 	if ( $oldtitle ) {
 		if ($oldtitle != $row->title) {
 			$query = 'UPDATE #__menu'
