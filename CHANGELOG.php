@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+10-Feb-2008 Anthony Ferrara
+ # Fixed issue with notice populating $live_site on upgrade from 1.5.0
+
 10-Feb-2008 Sam Moffatt
  # Fixed [#9381] Misnamed variable errors in migration
 
