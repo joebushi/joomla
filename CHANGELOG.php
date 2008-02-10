@@ -39,6 +39,7 @@ Legend:
 
 10-Feb-2008 Ian MacLennan
  # Fixed [9371] h3 Title not translated at install step4 and 5
+ # Fixed [9697] Khepri has type="module" instead of type="modules" for Admin Submenu
 
 10-Feb-2008 Anthony Ferrara
  # Fixed issue with notice populating $live_site on upgrade from 1.5.0
