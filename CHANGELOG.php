@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+10-Feb-2008 Sam Moffatt
+ # Fixed [#9381] Misnamed variable errors in migration
+
 -------------------- 1.5.1 Stable Release [8-February-2008] ---------------------
 
 09-Feb-2008 Ian MacLennan
