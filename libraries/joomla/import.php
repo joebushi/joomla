@@ -19,12 +19,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  */
 require_once( JPATH_LIBRARIES.DS.'loader.php');
 
-/**
- * Joomla! Global version define
- */
-if (!defined('JVERSION')) {
-	define('JVERSION', '1.5.1');
-}
 
 /**
  * Joomla! library imports
@@ -42,6 +36,10 @@ JLoader::import( 'joomla.environment.response'  );
 //Factory class and methods
 JLoader::import( 'joomla.factory' 				);
 JLoader::import( 'joomla.version' 				);
+if (!defined('JVERSION')) {
+	$version = new JVersion();
+	define('JVERSION', $version->getShortVersion());
+}
 
 //Error
 JLoader::import( 'joomla.error.error' 			);
