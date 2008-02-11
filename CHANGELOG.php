@@ -32,10 +32,14 @@ Legend:
 
 * -> Security Fix
 # -> Bug Fix
+$ -> Language fix or change
 + -> Addition
 ^ -> Change
 - -> Removed
 ! -> Note
+
+11-Feb-2008 Andrew Eddie
+ $ Fixed string for XML-RPC server tip (default is no) in com_config.ini
 
 10-Feb-2008 Ian MacLennan
  # Fixed [9371] h3 Title not translated at install step4 and 5
