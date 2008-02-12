@@ -54,7 +54,7 @@ class HTML_admin_misc
 		ob_clean();
 
 		$document =& JFactory::getDocument();
-		$document->setBuffer($contents, 'module', 'submenu');
+		$document->setBuffer($contents, 'modules', 'submenu');
 		?>
 		<form action="index.php" method="post" name="adminForm">
 

@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+12-Feb-2008 Anthony Ferrara
+ # [#9697] Khepri has type="module" instead of type="modules" for Admin Submenu (Thanks Jens)
+
 11-Feb-2008 Andrew Eddie
  $ Fixed string for XML-RPC server tip (default is no) in com_config.ini
 

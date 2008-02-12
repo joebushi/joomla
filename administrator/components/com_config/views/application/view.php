@@ -46,7 +46,7 @@ class ConfigApplicationView
 
 		// Set document data
 		$document =& JFactory::getDocument();
-		$document->setBuffer($contents, 'module', 'submenu');
+		$document->setBuffer($contents, 'modules', 'submenu');
 
 		// Load settings for the FTP layer
 		jimport('joomla.client.helper');

@@ -41,7 +41,7 @@ class MediaViewMedia extends JView
 		";
 
 		$document =& JFactory::getDocument();
-		$document->setBuffer($listStyle, 'module', 'submenu');
+		$document->setBuffer($listStyle, 'modules', 'submenu');
 
 		JHTML::_('behavior.mootools');
 		$document->addScript('components/com_media/assets/mediamanager.js');
