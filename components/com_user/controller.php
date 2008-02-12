@@ -111,7 +111,7 @@ class UserController extends JController
 	function login()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken('request') or die( 'Invalid Token' );
 
 		global $mainframe;
 

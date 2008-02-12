@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+12-Feb-2008 Ian MacLennan
+ # [#9695] Invalid Token message received when trying to authenticate with OpenID
+
 12-Feb-2008 Anthony Ferrara
  # [#9697] Khepri has type="module" instead of type="modules" for Admin Submenu (Thanks Jens)
 
