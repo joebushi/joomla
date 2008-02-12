@@ -44,6 +44,7 @@ $ -> Language fix or change
  # [#9253] Incorrect caching time of the feed XML in mod_feed
  # [#9490] Fatal error: Call to a member function name() helper.php
  # [#8808] PDF from an article - "contributed by" isof "written by"
+ # [#9555] Poll Manager poll's title sorting broken 
  
 12-Feb-2008 Anthony Ferrara
  # [#9697] Khepri has type="module" instead of type="modules" for Admin Submenu (Thanks Jens)
