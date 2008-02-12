@@ -787,9 +787,9 @@ function moveCategorySave( $cid, $sectionOld )
 	}
 	if ( !empty($title) && is_array($title) ) {
 	    if ( count($title) == 1 ) {
-		    $msg = JText::sprintf( 'Category already in', implode( ',', $title ), $sectionNew->title );
+		    $msg = JText::sprintf( 'Category already in', implode( ', ', $title ), $sectionNew->title );
 	    } else {
-		    $msg = JText::sprintf( 'Categories already in', implode( ',', $title ), $sectionNew->title );
+		    $msg = JText::sprintf( 'Categories already in', implode( ', ', $title ), $sectionNew->title );
 		}
 		$mainframe->enqueueMessage($msg);
 	}
