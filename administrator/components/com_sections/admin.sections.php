@@ -359,7 +359,7 @@ function removeSections( $cid, $scope, $option )
 	JArrayHelper::toInteger( $cid );
 	$cids = implode( ',', $cid );
 
-	$query = 'SELECT s.id, s.name, COUNT(c.id) AS numcat'
+	$query = 'SELECT s.id, s.title, COUNT(c.id) AS numcat'
 	. ' FROM #__sections AS s'
 	. ' LEFT JOIN #__categories AS c ON c.section=s.id'
 	. ' WHERE s.id IN ( '.$cids.' )'
@@ -370,14 +370,15 @@ function removeSections( $cid, $scope, $option )
 		echo "<script> alert('".$db->getErrorMsg(true)."'); window.history.go(-1); </script>\n";
 	}
 
+	$name = array();
 	$err = array();
 	$cid = array();
 	foreach ($rows as $row) {
 		if ($row->numcat == 0) {
 			$cid[]	= (int) $row->id;
-			$name[]	= $row->name;
+			$name[]	= $row->title;
 		} else {
-			$err[]	= $row->name;
+			$err[]	= $row->title;
 		}
 	}
 

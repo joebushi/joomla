@@ -324,8 +324,11 @@ class JFactory
 				{
 					jimport ('simplepie.simplepie');
 					$simplepie = new SimplePie($options['rssUrl']);
-					$simplepie->set_cache_location(JPATH_BASE.DS.'cache');
-					$simplepie->init();
+					$simplepie = new SimplePie(
+						$options['rssUrl'],
+						JPATH_BASE.DS.'cache',
+						isset( $options['cache_time'] ) ? $options['cache_time'] : 0
+					);
 					$simplepie->handle_content_type();
 					if ($simplepie->data) {
 						$doc = $simplepie;
