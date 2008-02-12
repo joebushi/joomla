@@ -42,6 +42,8 @@ $ -> Language fix or change
  # [#9695] Invalid Token message received when trying to authenticate with OpenID
  # [#9006] Incorrect delete section message
  # [#9253] Incorrect caching time of the feed XML in mod_feed
+ # [#9490] Fatal error: Call to a member function name() helper.php
+ # [#8808] PDF from an article - "contributed by" isof "written by"
  
 12-Feb-2008 Anthony Ferrara
  # [#9697] Khepri has type="module" instead of type="modules" for Admin Submenu (Thanks Jens)

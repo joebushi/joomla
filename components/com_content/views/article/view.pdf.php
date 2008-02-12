@@ -61,12 +61,10 @@ class ContentViewArticle extends JView
 
 		if ($params->get('show_author')) {
 			// Display Author name
-			if ($article->usertype == 'administrator' || $article->usertype == 'superadministrator') {
+			if ($params->get('show_author')) {
+				// Display Author name
 				$text .= "\n";
-				$text .= JText::_('Written by').' '. ($article->created_by_alias ? $article->created_by_alias : $article->author);
-			} else {
-				$text .= "\n";
-				$text .= JText::_('Contributed by').' '. ($article->created_by_alias ? $article->created_by_alias : $article->author);
+				$text .= JText::printf( 'Written by', ($article->created_by_alias ? $article->created_by_alias : $article->author) );
 			}
 		}
 
