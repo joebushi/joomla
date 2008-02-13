@@ -40,6 +40,7 @@ $ -> Language fix or change
 
 13-Feb-2008 Ian MacLennan
  # [#9263] Bug in com_search: incorrect highliting of multiple search words
+ # [#8738] Backend Login Problems--error message not shown when frontend or blocked user attempts login
 
 12-Feb-2008 Ian MacLennan
  # [#9695] Invalid Token message received when trying to authenticate with OpenID
