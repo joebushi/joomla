@@ -277,7 +277,7 @@ class JModuleHelper
 		$db->setQuery( $query );
 
 		if (!($modules = $db->loadObjectList())) {
-			JError::raiseWarning( 'SOME_ERROR_CODE', "Error loading Modules: " . $db->getErrorMsg());
+			JError::raiseWarning( 'SOME_ERROR_CODE', JText::_( 'Error Loading Modules' ) . $db->getErrorMsg());
 			return false;
 		}
 

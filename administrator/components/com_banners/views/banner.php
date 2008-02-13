@@ -356,7 +356,7 @@ class BannersViewBanner
 					</tr>
 					<tr >
 						<td valign="top" align="right" class="key">
-							<?php echo JText::_( 'Clicks' ); ?>
+							<?php echo JText::_( 'Clicks' ); ?>:
 						</td>
 						<td colspan="2">
 							<?php echo $row->clicks;?>
