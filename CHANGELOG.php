@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+13-Feb-2008 Ian MacLennan
+ # [#9263] Bug in com_search: incorrect highliting of multiple search words
+
 12-Feb-2008 Ian MacLennan
  # [#9695] Invalid Token message received when trying to authenticate with OpenID
  # [#9006] Incorrect delete section message
