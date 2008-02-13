@@ -43,6 +43,7 @@ $ -> Language fix or change
  # [#8738] Backend Login Problems--error message not shown when frontend or blocked user attempts login
  # [#9630] Language strings missing
  # [#9636] mod_banners cannot validate as XHTML 1.0 Strict
+ # [#9289] reference to wrapper url produces errors when no modules are loaded
 
 12-Feb-2008 Ian MacLennan
  # [#9695] Invalid Token message received when trying to authenticate with OpenID
