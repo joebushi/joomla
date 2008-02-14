@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+14-Feb-2008 Ian MacLennan
+ # [#9655] Cannot have more than 1 mootools tree on a page
+
 13-Feb-2008 Ian MacLennan
  # [#9263] Bug in com_search: incorrect highliting of multiple search words
  # [#8738] Backend Login Problems--error message not shown when frontend or blocked user attempts login
