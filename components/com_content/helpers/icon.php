@@ -114,11 +114,11 @@ class JHTMLIcon
 		$date = JHTML::_('date', $article->created);
 		$author = $article->created_by_alias ? $article->created_by_alias : $article->author;
 
-		$overlib .= '<br />';
+		$overlib .= '&lt;br /&gt;';
 		$overlib .= JText::_($article->groups);
-		$overlib .= '<br />';
+		$overlib .= '&lt;br /&gt;';
 		$overlib .= $date;
-		$overlib .= '<br />';
+		$overlib .= '&lt;br /&gt;';
 		$overlib .= $author;
 
 		$button = JHTML::_('link', JRoute::_($url), $text);
