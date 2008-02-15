@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-Feb-2008 Ian MacLennan
+ # [#8684] Errors not correctly trapped on login 
+
 14-Feb-2008 Ian MacLennan
  # [#9655] Cannot have more than 1 mootools tree on a page
 

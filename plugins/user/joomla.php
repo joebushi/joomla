@@ -79,6 +79,11 @@ class plgUserJoomla extends JPlugin
 
 		$instance =& $this->_getUser($user, $options);
 
+		// if _getUser returned an error, then pass it back.
+		if (JError::isError( $instance )) {
+			return $instance;
+		}
+
 		// If the user is blocked, redirect with an error
 		if ($instance->get('block') == 1) {
 			return JError::raiseWarning('SOME_ERROR_CODE', JText::_('E_NOLOGIN_BLOCKED'));
