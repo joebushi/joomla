@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Feb-2008 Ian MacLennan
+ # [9635] mod_random_image doesn't work as advertised
+
 15-Feb-2008 Ian MacLennan
  # [#8684] Errors not correctly trapped on login 
 
