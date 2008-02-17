@@ -333,7 +333,7 @@ class JFactory
 					if ($simplepie->data) {
 						$doc = $simplepie;
 					} else {
-					// Raise Error
+						JError::raiseWarning( 'SOME_ERROR_CODE', JText::_('ERROR LOADING FEED DATA') );
 					}
 				}
 			}	break;
