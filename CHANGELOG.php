@@ -38,6 +38,12 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-Feb-2008 Anthony Ferrara
+ # [#9534] Tooltips hidden behind some tabs
+ # [#8800] Changing order of articles
+ # [#9708] Styling of loadmodule plugin fix.
+ # [#9710] mod_feed htmlentities issues.
+
 16-Feb-2008 Ian MacLennan
  # [9635] mod_random_image doesn't work as advertised
  # [8230] missing error handler on jfactory getxmlparser
