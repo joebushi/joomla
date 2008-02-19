@@ -43,6 +43,7 @@ $ -> Language fix or change
  # [#8800] Changing order of articles
  # [#9708] Styling of loadmodule plugin fix.
  # [#9710] mod_feed htmlentities issues.
+ # [#9758] Frontend error message for checked out content partially translated
 
 16-Feb-2008 Ian MacLennan
  # [9635] mod_random_image doesn't work as advertised
