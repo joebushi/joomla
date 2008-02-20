@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+20-Feb-2008 Ian MacLennan
+ # [#9807] Notice error in lib/j/html/html/list.php, sign of bigger problem (thanks Jens)
+
 19-Feb-2008 Anthony Ferrara
  # [#9534] Tooltips hidden behind some tabs
  # [#8800] Changing order of articles

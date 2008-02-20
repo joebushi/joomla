@@ -121,7 +121,7 @@ class WeblinksViewWeblink extends JView
 			. ' WHERE catid = ' . (int) $weblink->catid
 			. ' ORDER BY ordering';
 
-		$lists['ordering'] 			= JHTML::_('list.specificordering',  'jform[ordering]', $weblink->id, $query, 1 );
+		$lists['ordering'] 			= JHTML::_('list.specificordering',  $weblink, $weblink->id, $query );
 
 		// Radio Buttons: Should the article be published
 		$lists['published'] 		= JHTML::_('select.booleanlist',  'jform[published]', 'class="inputbox"', $weblink->published );
