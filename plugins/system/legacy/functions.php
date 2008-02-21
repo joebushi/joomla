@@ -873,7 +873,7 @@ function sefRelToAbs($value)
 {
 	// Replace all &amp; with & as the router doesn't understand &amp;
 	$url = str_replace('&amp;', '&', $value);
-
+	if(substr(strtolower($url),0,9) != "index.php") return $url;
 	$uri    = JURI::getInstance();
 	$prefix = $uri->toString(array('scheme', 'host', 'port'));
 	return $prefix.JRoute::_($url);
