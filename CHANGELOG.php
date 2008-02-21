@@ -38,6 +38,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-Feb-2008 Ian MacLennan
+ # [#9840] •Hard coded string missing translation
+ 
+
 20-Feb-2008 Ian MacLennan
  # [#9807] Notice error in lib/j/html/html/list.php, sign of bigger problem (thanks Jens)
 
