@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+22-Feb-2008 Anthony Ferrara
+ # Fix parse_str &amp; issues
+
 21-Feb-2008 Ian MacLennan
  # [#9840] •Hard coded string missing translation
  # [#9579] Contact Send-Email Form Routing to Wrong Address 

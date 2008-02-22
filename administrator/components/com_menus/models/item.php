@@ -97,6 +97,11 @@ class MenusModelItem extends JModel
 				$url = str_replace('index.php?', '', $table->link);
 				$url = str_replace('&amp;', '&', $url);
 				$table->linkparts = null;
+				if(strpos($url, '&amp;') !== false) 
+				{ 
+				   $url = str_replace('&amp;','&',$url); 
+				} 
+				
 				parse_str($url, $table->linkparts);
 
 				$db = &$this->getDBO();
@@ -411,6 +416,9 @@ class MenusModelItem extends JModel
 				$query	= substr( $row->link, $pos+1 );
 
 				$temp = array();
+				if(strpos($query, '&amp;') !== false) {
+					$query = str_replace('&amp;', '&', $query);
+				}
 				parse_str( $query, $temp );
 				$temp2 = array_merge( $temp, $post['urlparams'] );
 

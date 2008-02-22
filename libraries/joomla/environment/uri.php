@@ -307,7 +307,7 @@ class JURI extends JObject
 		}
 
 		//We need to replace &amp; with & for parse_str to work right...
-		if(isset ($_parts['query']) && strstr($_parts['query'], '&amp;')) {
+		if(isset ($_parts['query']) && strpos($_parts['query'], '&amp;')) {
 			$_parts['query'] = str_replace('&amp;', '&', $_parts['query']);
 		}
 			
@@ -417,6 +417,10 @@ class JURI extends JObject
 	function setQuery($query)
 	{
 		if(!is_array($query)) {
+			if(strpos($query, '&amp;') !== false) 
+			{ 
+			   $query = str_replace('&amp;','&',$query); 
+			} 
 			parse_str($query, $this->_vars);
 		}
 
