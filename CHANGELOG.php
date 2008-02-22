@@ -40,6 +40,8 @@ $ -> Language fix or change
 
 22-Feb-2008 Anthony Ferrara
  # Fix parse_str &amp; issues
+ # [#9867] •Hardcoded strings + some errors (Thanks JM)
+
 
 21-Feb-2008 Ian MacLennan
  # [#9840] â€¢Hard coded string missing translation
