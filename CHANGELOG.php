@@ -41,11 +41,11 @@ $ -> Language fix or change
 23-Feb-2008 Ian MacLennan
  # [#9778] Breadcrumb includes separators
  # [#9513] Search module in rhuk_milkyway - IE6
+ # [#8547] Com_media: Unable to delete files with spaces
 
 22-Feb-2008 Anthony Ferrara
  # Fix parse_str &amp; issues
  # [#9867] �Hardcoded strings + some errors (Thanks JM)
-
 
 21-Feb-2008 Ian MacLennan
  # [#9840] •Hard coded string missing translation

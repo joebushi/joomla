@@ -152,7 +152,7 @@ class MediaControllerFile extends MediaController
 		if (count($paths)) {
 			foreach ($paths as $path)
 			{
-				if ($path !== JFilterInput::clean($path, 'path')) {
+				if ($path !== JFile::makeSafe($path)) {
 					JError::raiseWarning(100, JText::_('Unable to delete:').htmlspecialchars($path, ENT_COMPAT, 'UTF-8').' '.JText::_('WARNFILENAME'));
 					continue;
 				}
