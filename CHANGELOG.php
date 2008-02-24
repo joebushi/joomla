@@ -40,6 +40,7 @@ $ -> Language fix or change
 
 23-Feb-2008 Ian MacLennan
  # [#9778] Breadcrumb includes separators
+ # [#9513] Search module in rhuk_milkyway - IE6
 
 22-Feb-2008 Anthony Ferrara
  # Fix parse_str &amp; issues
