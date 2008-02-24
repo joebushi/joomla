@@ -42,6 +42,8 @@ $ -> Language fix or change
  # [#9778] Breadcrumb includes separators
  # [#9513] Search module in rhuk_milkyway - IE6
  # [#8547] Com_media: Unable to delete files with spaces
+ # [#9862] Remember me can display confusing error message.
+
 
 22-Feb-2008 Anthony Ferrara
  # Fix parse_str &amp; issues

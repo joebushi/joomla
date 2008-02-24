@@ -547,6 +547,12 @@ class JApplication extends JObject
 		// Trigger onLoginFailure Event
 		$this->triggerEvent('onLoginFailure', array((array)$response));
 
+
+		// If silent is set, just return false
+		if (isset($options['silent']) && $options['silent']) {
+			return false;
+		}
+
 		// Return the error
 		return JError::raiseWarning('SOME_ERROR_CODE', JText::_('E_LOGIN_AUTHENTICATE'));
 	}
