@@ -59,13 +59,11 @@ class ContentViewArticle extends JView
 		// Initialize some variables
 		$text = '';
 
+		// Display Author name
 		if ($params->get('show_author')) {
 			// Display Author name
-			if ($params->get('show_author')) {
-				// Display Author name
-				$text .= "\n";
-				$text .= JText::printf( 'Written by', ($article->created_by_alias ? $article->created_by_alias : $article->author) );
-			}
+			$text .= "\n";
+			$text .= JText::sprintf( 'Written by', ($article->created_by_alias ? $article->created_by_alias : $article->author) );
 		}
 
 		if ($params->get('show_create_date') && $params->get('show_author')) {
@@ -89,7 +87,7 @@ class ContentViewArticle extends JView
 		if ($params->get('show_modify_date')) {
 			// Display Modified Date
 			if (intval($article->modified)) {
-				$mod_date = JHTML::_('date', $article->modified);
+				$mod_date = JHTML::_('date', $article->modified, JText::_('DATE_FORMAT_LC2'));
 				$text .= JText::_('Last Updated').' '.$mod_date;
 			}
 		}
