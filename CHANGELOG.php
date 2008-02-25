@@ -38,7 +38,7 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-24-Feb-2008Mati Kochen
+25-Feb-2008Mati Kochen
  ^ [#9857] Updated TCPDF Library to support RTL - Thanks JM.
 
 23-Feb-2008 Ian MacLennan
