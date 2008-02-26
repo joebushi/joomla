@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+25-Feb-2008 Ian MacLennan
+ # [#9932] Typo in file
+
 25-Feb-2008Mati Kochen
  ^ [#9857] Updated TCPDF Library to support RTL - Thanks JM.
 
