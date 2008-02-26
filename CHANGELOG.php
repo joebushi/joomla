@@ -40,6 +40,7 @@ $ -> Language fix or change
 
 25-Feb-2008 Ian MacLennan
  # [#9932] Typo in file
+ # [#9907] Code cleanup com_weblinks, <button> element improperly closed
 
 25-Feb-2008Mati Kochen
  ^ [#9857] Updated TCPDF Library to support RTL - Thanks JM.
