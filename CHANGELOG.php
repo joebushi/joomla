@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+26-Feb-2008 Hannes Papenberg
+ # [#9916] Saving Article Layout menu does not work
+
 25-Feb-2008 Ian MacLennan
  # [#9932] Typo in file
  # [#9907] Code cleanup com_weblinks, <button> element improperly closed
