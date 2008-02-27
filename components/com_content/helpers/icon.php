@@ -41,7 +41,7 @@ class JHTMLIcon
 
 	function pdf($article, $params, $access, $attribs = array())
 	{
-		$url  = 'index.php?view=article;';
+		$url  = 'index.php?view=article';
 		$url .=  @$article->catslug ? '&catid='.$article->catslug : '';
 		$url .= '&id='.$article->slug.'&format=pdf';
 

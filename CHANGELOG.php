@@ -40,6 +40,7 @@ $ -> Language fix or change
 
 27-Feb-2008 Ian MacLennan
  # [#9648] Cache folder disapearing with legacy mode enabled
+ # [#9805] bad url element for content pdf links]
 
 26-Feb-2008 Ian MacLennan
  # [#9845] com_user Login form does not offer OpenId login option
