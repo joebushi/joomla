@@ -14,8 +14,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<input type="hidden" name="return" value="<?php echo $return; ?>" />
 </form>
 <?php else : ?>
-<?php if(JPluginHelper::isEnabled('authentication', 'openid')) : ?>
-	<?php 
+<?php if(JPluginHelper::isEnabled('authentication', 'openid')) :
 		$lang->load( 'plg_authentication_openid', JPATH_ADMINISTRATOR );
 		$langScript = 	'var JLanguage = {};'.
 						' JLanguage.WHAT_IS_OPENID = \''.JText::_( 'WHAT_IS_OPENID' ).'\';'.
@@ -24,8 +23,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		$document = &JFactory::getDocument();
 		$document->addScriptDeclaration( $langScript );
 		JHTML::_('script', 'openid.js');		
-	?>
-<?php endif; ?>
+endif; ?>
 <form action="<?php echo JRoute::_( 'index.php', true, $params->get('usesecure')); ?>" method="post" name="login" id="form-login" >
 	<?php echo $params->get('pretext'); ?>
 	<fieldset class="input">

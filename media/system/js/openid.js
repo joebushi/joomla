@@ -58,15 +58,13 @@ var JOpenID = new Class({
 		{
 			username.removeClass('system-openid');
 			var text = JLanguage.LOGIN_WITH_OPENID;
-			//this.link.remove();
 			password.effect('height',  {duration: time}).start(0, this.length);
 		}
 		else
 		{
 			username.addClass('system-openid');
 			var text = JLanguage.NORMAL_LOGIN;
-			//this.link.inject($('form-login-username'));
-			password.effect('height',  {duration: time}).start(this.lenght, 0);
+			password.effect('height',  {duration: time}).start(this.length, 0);
 		}
 
 		password.effect('opacity', {duration: time}).start(state,1-state);

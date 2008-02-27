@@ -41,6 +41,7 @@ $ -> Language fix or change
 26-Feb-2008 Ian MacLennan
  # [#9845] com_user Login form does not offer OpenId login option
  # [#9844] created date on openid created users is invalid
+ # [#8676] OpenID related untranslated strings [js]
 
 26-Feb-2008 Hannes Papenberg
  # [#9916] Saving Article Layout menu does not work
