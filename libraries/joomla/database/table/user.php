@@ -159,6 +159,14 @@ class JTableUser extends JTable
 			return false;
 		}
 
+		if ($this->registerDate == null) {
+			// Set the registration timestamp
+			jimport('joomla.utilities.date');
+			$now = new JDate();
+			$this->registerDate = $now->toMySQL();
+		}
+		
+
 		// check for existing username
 		$query = 'SELECT id'
 		. ' FROM #__users '

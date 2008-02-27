@@ -15,7 +15,16 @@ defined('_JEXEC') or die('Restricted access'); ?>
 </form>
 <?php else : ?>
 <?php if(JPluginHelper::isEnabled('authentication', 'openid')) : ?>
-	<?php JHTML::_('script', 'openid.js'); ?>
+	<?php 
+		$lang->load( 'plg_authentication_openid', JPATH_ADMINISTRATOR );
+		$langScript = 	'var JLanguage = {};'.
+						' JLanguage.WHAT_IS_OPENID = \''.JText::_( 'WHAT_IS_OPENID' ).'\';'.
+						' JLanguage.LOGIN_WITH_OPENID = \''.JText::_( 'LOGIN_WITH_OPENID' ).'\';'.
+						' JLanguage.NORMAL_LOGIN = \''.JText::_( 'NORMAL_LOGIN' ).'\';';
+		$document = &JFactory::getDocument();
+		$document->addScriptDeclaration( $langScript );
+		JHTML::_('script', 'openid.js');		
+	?>
 <?php endif; ?>
 <form action="<?php echo JRoute::_( 'index.php', true, $params->get('usesecure')); ?>" method="post" name="login" id="form-login" >
 	<?php echo $params->get('pretext'); ?>

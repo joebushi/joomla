@@ -32,13 +32,13 @@ var JOpenID = new Class({
 		switcher.inject($('form-login'));
 
 		var link = new Element('a', { 'styles': {'text-align' : 'right', 'display' : 'block', 'font-size' : 'xx-small'}, 'href' : 'http://openid.net'});
-		link.setHTML('What is OpenId?');
+		link.setHTML(JLanguage.WHAT_IS_OPENID);
 
 		//Initialise members
 		this.switcher = switcher;
 		this.link     = link;
 		this.state    = Cookie.get('login-openid');
-		this.lenght   = $('form-login-password').getSize().size.y;
+		this.length   = $('form-login-password').getSize().size.y;
 
 		this.switch(this.state, 0);
 
@@ -52,19 +52,19 @@ var JOpenID = new Class({
 	switch : function(state, time)
 	{
 		var password = $('form-login-password');
-		var username = $('username');
+		var username = $('modlgn_username');
 
 		if(state == 0)
 		{
 			username.removeClass('system-openid');
-			var text = 'Login with an OpenID';
+			var text = JLanguage.LOGIN_WITH_OPENID;
 			//this.link.remove();
-			password.effect('height',  {duration: time}).start(0, this.lenght);
+			password.effect('height',  {duration: time}).start(0, this.length);
 		}
 		else
 		{
 			username.addClass('system-openid');
-			var text = 'Go back to normal login';
+			var text = JLanguage.NORMAL_LOGIN;
 			//this.link.inject($('form-login-username'));
 			password.effect('height',  {duration: time}).start(this.lenght, 0);
 		}
