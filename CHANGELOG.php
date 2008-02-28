@@ -41,6 +41,7 @@ $ -> Language fix or change
 28-Feb-2008 Ian MacLennan
  # [#9402] Alternative read more
  # [#9909] Newsflash Module returns incorrect SEF URL
+ # [#9847] JTable::isCheckedOut() can throw an undefined method error
 
 27-Feb-2008 Ian MacLennan
  # [#9648] Cache folder disapearing with legacy mode enabled
