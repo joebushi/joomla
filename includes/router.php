@@ -154,9 +154,18 @@ class JRouterSite extends JRouter
 		$menu  =& JSite::getMenu(true);
 		$route = $uri->getPath();
 
+		//Get the variables from the uri
+		$vars = $uri->getQuery(true);
+
 		//Handle an empty URL (special case)
 		if(empty($route))
 		{
+
+			//If route is empty AND option is set in the query, assume it's non-sef url, and parse apropriately
+			if(isset($vars['option'])) {
+				return $this->_parseRawRoute($uri);
+			}
+			
 			$item = $menu->getDefault();
 
 			//Set the information in the request
@@ -171,8 +180,6 @@ class JRouterSite extends JRouter
 			return $vars;
 		}
 
-		//Get the variables from the uri
-		$vars = $uri->getQuery(true);
 
 		/*
 		 * Parse the application route
