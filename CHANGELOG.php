@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-Feb-2008 Ian MacLennan
+ # [#9402] Alternative read more
+
 27-Feb-2008 Ian MacLennan
  # [#9648] Cache folder disapearing with legacy mode enabled
  # [#9805] bad url element for content pdf links]
