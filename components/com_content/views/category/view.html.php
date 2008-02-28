@@ -94,6 +94,9 @@ class ContentViewCategory extends ContentView
 		$access->canEditOwn		= $user->authorize('com_content', 'edit', 'content', 'own');
 		$access->canPublish		= $user->authorize('com_content', 'publish', 'content', 'all');
 
+		// Set page title per category
+        $document->setTitle( $category->title. ' - '. $params->get( 'page_title'));
+
 		//set breadcrumbs
 		if(is_object($menu) && $menu->query['view'] != 'category') {
 			$pathway->addItem($category->title, '');

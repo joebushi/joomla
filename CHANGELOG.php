@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-Feb-2008 Wilco Jansen
+ # [9946] Page title issue for contents
+
 28-Feb-2008 Sam Moffatt
  ^ Changed incorrect and misleading text in LDAP Authentication plugin
 
@@ -79,7 +82,7 @@ $ -> Language fix or change
 
 21-Feb-2008 Ian MacLennan
  # [#9840] •Hard coded string missing translation
- # [#9579] Contact Send-Email Form Routing to Wrong Address 
+ # [#9579] Contact Send-Email Form Routing to Wrong Address
  # [#9739] sefRelToAbs( 'http://localhost/index.php?option=com_content&view=frontpage&Itemid=1' ) returns wrong URL
 
 20-Feb-2008 Ian MacLennan
@@ -95,9 +98,9 @@ $ -> Language fix or change
 16-Feb-2008 Ian MacLennan
  # [9635] mod_random_image doesn't work as advertised
  # [8230] missing error handler on jfactory getxmlparser
- 
+
 15-Feb-2008 Ian MacLennan
- # [#8684] Errors not correctly trapped on login 
+ # [#8684] Errors not correctly trapped on login
 
 14-Feb-2008 Ian MacLennan
  # [#9655] Cannot have more than 1 mootools tree on a page
@@ -116,8 +119,8 @@ $ -> Language fix or change
  # [#9253] Incorrect caching time of the feed XML in mod_feed
  # [#9490] Fatal error: Call to a member function name() helper.php
  # [#8808] PDF from an article - "contributed by" isof "written by"
- # [#9555] Poll Manager poll's title sorting broken 
- 
+ # [#9555] Poll Manager poll's title sorting broken
+
 12-Feb-2008 Anthony Ferrara
  # [#9697] Khepri has type="module" instead of type="modules" for Admin Submenu (Thanks Jens)
 
