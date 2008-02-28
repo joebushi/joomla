@@ -88,7 +88,7 @@ class modNewsFlashHelper
 		// query to determine article count
 		$query = 'SELECT a.*,' .
 			' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug,'.
-			' CASE WHEN CHAR_LENGTH(cc.name) THEN CONCAT_WS(":", cc.id, cc.name) ELSE cc.id END as catslug'.
+			' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(":", cc.id, cc.alias) ELSE cc.id END as catslug'.
 			' FROM #__content AS a' .
 			' INNER JOIN #__categories AS cc ON cc.id = a.catid' .
 			' INNER JOIN #__sections AS s ON s.id = a.sectionid' .
