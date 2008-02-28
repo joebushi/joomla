@@ -14,7 +14,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.utilities.date');
+
 
 class modArchiveHelper
 {
@@ -38,7 +38,7 @@ class modArchiveHelper
 		$lists	= array();
 		foreach ( $rows as $row )
 		{
-			$date = new JDate($row->created);
+			$date =& JFactory::getDate($row->created);
 
 			$created_month	= $date->toFormat("%m");
 			$month_name		= $date->toFormat("%B");

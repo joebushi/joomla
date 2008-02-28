@@ -477,8 +477,7 @@ class ContentModelSection extends JModel
 		$user		=& JFactory::getUser();
 		$aid		= $user->get('aid', 0);
 
-		jimport('joomla.utilities.date');
-		$jnow		= new JDate();
+		$jnow		=& JFactory::getDate();
 		$now		= $jnow->toMySQL();
 
 		// Get the page/component configuration

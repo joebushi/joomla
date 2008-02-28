@@ -161,8 +161,7 @@ class JTableUser extends JTable
 
 		if ($this->registerDate == null) {
 			// Set the registration timestamp
-			jimport('joomla.utilities.date');
-			$now = new JDate();
+			$now =& JFactory::getDate();
 			$this->registerDate = $now->toMySQL();
 		}
 		
@@ -304,7 +303,7 @@ class JTableUser extends JTable
 		}
 
 		// if no timestamp value is passed to functon, than current time is used
-		$date = new JDate($timeStamp);
+		$date =& JFactory::getDate($timeStamp);
 
 		// updates user lastvistdate field with date and time
 		$query = 'UPDATE '. $this->_tbl

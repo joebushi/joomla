@@ -98,7 +98,7 @@ class JTableCategory extends JTable
 		}
 		$this->alias = JFilterOutput::stringURLSafe($this->alias);
 		if(trim(str_replace('-','',$this->alias)) == '') {
-			$datenow = new JDate();
+			$datenow =& JFactory::getDate();
 			$this->alias = $datenow->toFormat("%Y-%m-%d-%H-%M-%S");
 		}
 

@@ -79,8 +79,7 @@ class modNewsFlashHelper
 		$contentConfig	= &JComponentHelper::getParams( 'com_content' );
 		$noauth			= !$contentConfig->get('shownoauth');
 
-		jimport('joomla.utilities.date');
-		$date = new JDate();
+		$date =& JFactory::getDate();
 		$now = $date->toMySQL();
 
 		$nullDate = $db->getNullDate();

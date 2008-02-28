@@ -302,8 +302,7 @@ class ContentModelArticle extends JModel
 			$article->publish_up .= ' 00:00:00';
 		}
 
-		jimport( 'joomla.utilities.date' );
-		$date = new JDate($article->publish_up, $mainframe->getCfg('offset'));
+		$date =& JFactory::getDate($article->publish_up, $mainframe->getCfg('offset'));
 		$article->publish_up = $date->toMySQL();
 
 		// Handle never unpublish date
@@ -317,7 +316,7 @@ class ContentModelArticle extends JModel
 				$article->publish_down .= ' 00:00:00';
 			}
 
-			$date = new JDate($article->publish_down, $mainframe->getCfg('offset'));
+			$date =& JFactory::getDate($article->publish_down, $mainframe->getCfg('offset'));
 			$article->publish_down = $date->toMySQL();
 		}
 
@@ -549,11 +548,8 @@ class ContentModelArticle extends JModel
 
 		$user		=& JFactory::getUser();
 		$aid		= (int) $user->get('aid', 0);
-		// TODO: Should we be using requestTime here? or is JDate ok?
-		// $now		= $mainframe->get('requestTime');
 
-		jimport('joomla.utilities.date');
-		$jnow		= new JDate();
+		$jnow		=& JFactory::getDate();
 		$now		= $jnow->toMySQL();
 		$nullDate	= $this->_db->getNullDate();
 

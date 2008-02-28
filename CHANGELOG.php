@@ -38,6 +38,14 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-Feb-2008 Anthony Ferrara
+ + JFactory::getDate
+ + Support for locale based JDate override (for support of non-gregorian calendars)
+ ^ Changed all calls from $date = new JDate() to $date =& JFactory::getDate();
+ ^ JDate now does the translations on its own (it does not rely on setlocale()) for thread safe function.
+ $ Added support for xx-XX.date.php in frontend language directories (to be used for non-gregorian calendars).
+ ! all instances of JDate should now be retrieved via JFactory::getDate(); (to allow for overrides)
+
 28-Feb-2008 Wilco Jansen
  # [9946] Page title issue for contents
 

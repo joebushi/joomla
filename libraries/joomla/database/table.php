@@ -593,8 +593,8 @@ class JTable extends JObject
 		if ($oid !== null) {
 			$this->$k = $oid;
 		}
-		jimport('joomla.utilities.date');
-		$date = new JDate();
+
+		$date =& JFactory::getDate();
 		$time = $date->toMysql();
 
 		$query = 'UPDATE '.$this->_db->nameQuote( $this->_tbl ) .
