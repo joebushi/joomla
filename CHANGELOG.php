@@ -46,7 +46,13 @@ $ -> Language fix or change
  $ Added support for xx-XX.date.php in frontend language directories (to be used for non-gregorian calendars).
  ! all instances of JDate should now be retrieved via JFactory::getDate(); (to allow for overrides)
  # Notice with JTable::isCheckedOut when called statically
-
+ # [#9832] [#9696] Invalid Itemid causes router to choke
+ # [#7860] Cache Callback ID not reliable if callback is object
+ # [#9715] Development info cached (also fixes tpl=1 case)
+ # [#9421] Fix for INI parsing with | in the content
+ $ [#9848] DESCNEWITEMSFIRST & LAST added to many places.
+ # [#9377] Easier translation and localization
+ 
 28-Feb-2008 Wilco Jansen
  # [9946] Page title issue for contents
 

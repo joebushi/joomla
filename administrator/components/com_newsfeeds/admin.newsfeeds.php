@@ -198,9 +198,9 @@ function editNewsFeed($edit)
 	;
 
 	if($edit)
-		$lists['ordering'] 			= JHTML::_('list.specificordering',  $row, $cid[0], $query, 1 );
+		$lists['ordering'] 			= JHTML::_('list.specificordering',  $row, $cid[0], $query );
 	else
-		$lists['ordering'] 			= JHTML::_('list.specificordering',  $row, '', $query, 1 );
+		$lists['ordering'] 			= JHTML::_('list.specificordering',  $row, '', $query );
 
 	// build list of categories
 	$lists['category'] 			= JHTML::_('list.category',  'catid', $option, intval( $row->catid ) );

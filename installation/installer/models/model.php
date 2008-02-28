@@ -415,6 +415,19 @@ class JInstallationModel extends JModel
 				return false;
 				//return JInstallationView::error($vars, JText::_('WARNPOPULATINGDB'), 'dbconfig', JInstallationHelper::errors2string($errors));
 			}
+			
+			// Load the localise.sql for translating the data in joomla.sql/joomla_backwards.sql
+			// This feature is available for localized version of Joomla! 1.5
+			jimport('joomla.filesystem.file');
+			$dblocalise = 'sql'.DS.$type.DS.'localise.sql';
+			if(JFile::exists($dblocalise)) {
+				if(JInstallationHelper::populateDatabase($db, $dblocalise, $errors) > 0) {
+					$this->setError(JText::_('WARNPOPULATINGDB'));
+					$this->setData('back', 'dbconfig');
+					$this->setData('errors', JInstallationHelper::errors2string($errors));
+					return false;
+				}
+			}
 
 			// Handle default backend language setting. This feature is available for
 			// localized versions of Joomla! 1.5.

@@ -70,9 +70,10 @@ class  plgSystemCache extends JPlugin
 	{
 		global $mainframe, $_PROFILER;
 
-		 if($mainframe->isAdmin()) {
+		 if($mainframe->isAdmin() || JDEBUG) {
 		 	return;
 		 }
+		
 
 		$data  = $this->_cache->get();
 
@@ -104,7 +105,7 @@ class  plgSystemCache extends JPlugin
 	{
 		global $mainframe;
 
-		if($mainframe->isAdmin()) {
+		if($mainframe->isAdmin() || JDEBUG) {
 			return;
 		}
 

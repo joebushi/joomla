@@ -295,16 +295,18 @@ class JRouterSite extends JRouter
 		/*
 		 * Build the application route
 		 */
-		if (isset($query['Itemid']))
+		$built = false;
+		if (isset($query['Itemid']) && !empty($query['Itemid']))
 		{
 			$item = $menu->getItem($query['Itemid']);
 
-			if ($query['option'] == $item->component) {
+			if (is_object($item) && $query['option'] == $item->component) {
 				$tmp = !empty($tmp) ? $item->route.'/'.$tmp : $item->route;
+				$built = true;
 			}
 		}
-		else
-		{
+		
+		if(!$built) {
 			$tmp = 'component/'.substr($query['option'], 4).'/'.$tmp;
 		}
 

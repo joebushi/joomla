@@ -215,9 +215,9 @@ function editContact($edit )
 	. ' ORDER BY ordering'
 	;
 	if($edit)
-		$lists['ordering'] 			= JHTML::_('list.specificordering',  $row, $cid[0], $query, 1 );
+		$lists['ordering'] 			= JHTML::_('list.specificordering',  $row, $cid[0], $query );
 	else
-		$lists['ordering'] 			= JHTML::_('list.specificordering',  $row, '', $query, 1 );
+		$lists['ordering'] 			= JHTML::_('list.specificordering',  $row, '', $query );
 
 	// build list of users
 	$lists['user_id'] 			= JHTML::_('list.users',  'user_id', $row->user_id, 1, NULL, 'name', 0 );
