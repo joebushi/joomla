@@ -149,7 +149,7 @@ class JFilterInput extends JObject
 
 			case 'STRING' :
 				// Check for static usage and assign $filter the proper variable
-				if(is_object($this) && get_class($this) == 'JFilterInput') {
+				if(isset($this) && is_a( $this, 'JFilterInput' )) {
 					$filter =& $this;
 				} else {
 					$filter =& JFilterInput::getInstance();

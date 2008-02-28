@@ -66,6 +66,7 @@ $ -> Language fix or change
  # [#9847] JTable::isCheckedOut() can throw an undefined method error
  # [#9912] Error in sample data
  $ [#9967] 2 missing strings in admin
+ # [#7960] JFilterInput
 
 27-Feb-2008 Ian MacLennan
  # [#9648] Cache folder disapearing with legacy mode enabled
