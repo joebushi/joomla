@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-Feb-2008 Sam Moffatt
+ ^ Changed incorrect and misleading text in LDAP Authentication plugin
+
 28-Feb-2008 Ian MacLennan
  # [#9402] Alternative read more
  # [#9909] Newsflash Module returns incorrect SEF URL
