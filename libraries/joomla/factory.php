@@ -427,7 +427,7 @@ class JFactory
 		if(!isset($classname) || $locale != $mainLocale) {
 			//Store the locale for future reference
 			$mainLocale = $locale;
-			$localePath = JPATH_ROOT . DS . 'language' . DS . $mainLocale . DS . $mainLocale . '.date.php' 
+			$localePath = JPATH_ROOT . DS . 'language' . DS . $mainLocale . DS . $mainLocale . '.date.php'; 
 			if($mainLocale !== false && file_exists($localePath)) {
 				$classname = 'JDate'.str_replace('-', '_', $mainLocale);
 				JLoader::register( $classname,  $localePath);
