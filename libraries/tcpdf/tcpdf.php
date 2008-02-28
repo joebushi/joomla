@@ -2,9 +2,9 @@
 //============================================================+
 // File name   : tcpdf.php
 // Begin       : 2002-08-03
-// Last Update : 2008-02-12
+// Last Update : 2008-02-28
 // Author      : Nicola Asuni
-// Version     : 2.2.001_PHP4
+// Version     : 2.2.002_PHP4
 // License     : GNU LGPL (http://www.gnu.org/copyleft/lesser.html)
 //
 // Description : This is a PHP5 class for generating PDF files 
@@ -12,7 +12,7 @@
 //               extensions.
 //
 // IMPORTANT:
-// This class has been originally derived in 2002 from the Public 
+// This class was originally derived in 2002 from the Public 
 // Domain FPDF class by Olivier Plathey (http://www.fpdf.org).
 //
 // Main features:
@@ -48,7 +48,8 @@
 // Patrick Benny for text stretch suggestion on Cell().
 // Johannes Güntert for JavaScript support.
 // Denis Van Nuffelen for Dynamic Form.
-// Jacek Czekaj for multibyte justification
+// Jacek Czekaj for multibyte justification.
+// Anthony Ferrara for the reintroduction of legacy image methods.
 // Anyone that has reported a bug or sent a suggestion.
 //============================================================+
 
@@ -84,7 +85,7 @@
  * @copyright 2004-2008 Nicola Asuni - Tecnick.com S.r.l (www.tecnick.com) Via Della Pace, 11 - 09044 - Quartucciu (CA) - ITALY - www.tecnick.com - info@tecnick.com
  * @link http://tcpdf.sourceforge.net
  * @license http://www.gnu.org/copyleft/lesser.html LGPL
- * @version 2.2.001_PHP4
+ * @version 2.2.002_PHP4
  */
 
 /**
@@ -96,7 +97,7 @@ if(!class_exists('TCPDF')) {
 	/**
 	 * define default PDF document producer
 	 */ 
-	define('PDF_PRODUCER','TCPDF 2.2.001_PHP4 (http://tcpdf.sf.net)');
+	define('PDF_PRODUCER','TCPDF 2.2.002_PHP4 (http://tcpdf.sf.net)');
 	
 	/**
 	* This is a PHP5 class for generating PDF files on-the-fly without requiring external extensions.<br>
@@ -104,7 +105,7 @@ if(!class_exists('TCPDF')) {
 	* To add your own TTF fonts please read /fonts/README.TXT
 	* @name TCPDF
 	* @package com.tecnick.tcpdf
-	* @version 2.2.001_PHP4
+	* @version 2.2.002_PHP4
 	* @author Nicola Asuni
 	* @link http://tcpdf.sourceforge.net
 	* @license http://www.gnu.org/copyleft/lesser.html LGPL
@@ -2736,6 +2737,10 @@ if(!class_exists('TCPDF')) {
 					}
 					$info=$this->$mtd($file);
 				}
+				if($info === false) {
+					//If false, we cannot process image
+					return;
+				}
 				set_magic_quotes_runtime($mqr);
 				$info['i']=count($this->images)+1;
 				$this->images[$file]=$info;
@@ -3562,12 +3567,19 @@ if(!class_exists('TCPDF')) {
 		// altered to allow compatibility with all sorts of image formats including gif. 
 		// Can easily extend to work with others
 		// such as gd xbm etc. which are all supported by php 5+
+		// (Requires GD library)
 		
 		/**
 		* Extract info from a JPEG file
+		* @param string $file image file to parse
+		* @return string
 		* @access protected
 		*/
 		function _parsejpg($file) {
+			if(!function_exists('imagecreatefromjpeg')) {
+				// GD is not installed, try legacy method
+				return $this->_legacyparsejpg($file);
+			}
 			$a=getimagesize($file);
 			if(empty($a)) {
 				$this->Error('Missing or incorrect image file: '.$file);
@@ -3581,9 +3593,15 @@ if(!class_exists('TCPDF')) {
 
 		/**
 		* Extract info from a GIF file
+		* @param string $file image file to parse
+		* @return string
 		* @access protected
 		*/
 		function _parsegif($file) {
+			if(!function_exists('imagecreatefromgif')) {
+				// PDF doesn't support native GIF and GD is not installed
+				return false;
+			}
 			$a=getimagesize($file);
 			if(empty($a)) {
 				$this->Error('Missing or incorrect image file: '.$file);
@@ -3598,9 +3616,15 @@ if(!class_exists('TCPDF')) {
 		
 		/**
 		* Extract info from a PNG file
+		* @param string $file image file to parse
+		* @return string
 		* @access protected
 		*/
-		function _parsepng($file) {	
+		function _parsepng($file) {
+			if(!function_exists('imagecreatefrompng')) {
+				// GD is not installed, try legacy method
+				return $this->_legacyparsepng($file);
+			}	
 			$f=fopen($file,'rb');
 			if(empty($f)) {
 				$this->Error('Can\'t open image file: '.$file);
@@ -3620,6 +3644,139 @@ if(!class_exists('TCPDF')) {
 			return $this->toJPEG($file, $png);
 		}
 		
+		/**
+		* Extract info from a JPEG file without using GD
+		* @param string $file image file to parse
+		* @return string
+		* @access protected
+		*/
+		function _legacyparsejpg($file) {
+			$a=GetImageSize($file);
+			if(empty($a)) {
+				$this->Error('Missing or incorrect image file: '.$file);
+			}
+			if($a[2]!=2) {
+				$this->Error('Not a JPEG file: '.$file);
+			}
+			if(!isset($a['channels']) or $a['channels']==3) {
+				$colspace='DeviceRGB';
+			}
+			elseif($a['channels']==4) {
+				$colspace='DeviceCMYK';
+			}
+			else {
+				$colspace='DeviceGray';
+			}
+			$bpc=isset($a['bits']) ? $a['bits'] : 8;
+			//Read whole file
+			$f=fopen($file,'rb');
+			$data='';
+			while(!feof($f)) {
+				$data.=fread($f,4096);
+			}
+			fclose($f);
+			return array('w'=>$a[0],'h'=>$a[1],'cs'=>$colspace,'bpc'=>$bpc,'f'=>'DCTDecode','data'=>$data);
+		}
+
+		/**
+		* Extract info from a PNG file without using GD
+		* @param string $file image file to parse
+		* @return string
+		* @access protected
+		*/
+		function _legacyparsepng($file) {
+			$f=fopen($file,'rb');
+			if(empty($f)) {
+				$this->Error('Can\'t open image file: '.$file);
+			}
+			//Check signature
+			if(fread($f,8)!=chr(137).'PNG'.chr(13).chr(10).chr(26).chr(10)) {
+				$this->Error('Not a PNG file: '.$file);
+			}
+			//Read header chunk
+			fread($f,4);
+			if(fread($f,4)!='IHDR') {
+				$this->Error('Incorrect PNG file: '.$file);
+			}
+			$w=$this->_freadint($f);
+			$h=$this->_freadint($f);
+			$bpc=ord(fread($f,1));
+			if($bpc>8) {
+				$this->Error('16-bit depth not supported: '.$file);
+			}
+			$ct=ord(fread($f,1));
+			if($ct==0) {
+				$colspace='DeviceGray';
+			}
+			elseif($ct==2) {
+				$colspace='DeviceRGB';
+			}
+			elseif($ct==3) {
+				$colspace='Indexed';
+			}
+			else {
+				$this->Error('Alpha channel not supported: '.$file);
+			}
+			if(ord(fread($f,1))!=0) {
+				$this->Error('Unknown compression method: '.$file);
+			}
+			if(ord(fread($f,1))!=0) {
+				$this->Error('Unknown filter method: '.$file);
+			}
+			if(ord(fread($f,1))!=0) {
+				$this->Error('Interlacing not supported: '.$file);
+			}
+			fread($f,4);
+			$parms='/DecodeParms <</Predictor 15 /Colors '.($ct==2 ? 3 : 1).' /BitsPerComponent '.$bpc.' /Columns '.$w.'>>';
+			//Scan chunks looking for palette, transparency and image data
+			$pal='';
+			$trns='';
+			$data='';
+			do {
+				$n=$this->_freadint($f);
+				$type=fread($f,4);
+				if($type=='PLTE') {
+					//Read palette
+					$pal=fread($f,$n);
+					fread($f,4);
+				}
+				elseif($type=='tRNS') {
+					//Read transparency info
+					$t=fread($f,$n);
+					if($ct==0) {
+						$trns=array(ord(substr($t,1,1)));
+					}
+					elseif($ct==2) {
+						$trns=array(ord(substr($t,1,1)),ord(substr($t,3,1)),ord(substr($t,5,1)));
+					}
+					else {
+						$pos=strpos($t,chr(0));
+						if($pos!==false) {
+							$trns=array($pos);
+						}
+					}
+					fread($f,4);
+				}
+				elseif($type=='IDAT') {
+					//Read image data block
+					$data.=fread($f,$n);
+					fread($f,4);
+				}
+				elseif($type=='IEND') {
+					break;
+				}
+				else {
+					fread($f,$n+4);
+				}
+			}
+			while($n);
+			if($colspace=='Indexed' and empty($pal)) {
+				$this->Error('Missing palette in '.$file);
+			}
+			fclose($f);
+			return array('w'=>$w, 'h'=>$h, 'cs'=>$colspace, 'bpc'=>$bpc, 'f'=>'FlateDecode', 'parms'=>$parms, 'pal'=>$pal, 'trns'=>$trns, 'data'=>$data);
+		}
+
 		/**
 		* Convert the loaded php image to a JPEG and then return a structure for the PDF creator.
 		* @param string $file Image file name.
