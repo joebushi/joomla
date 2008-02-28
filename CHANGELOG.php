@@ -45,6 +45,7 @@ $ -> Language fix or change
  ^ JDate now does the translations on its own (it does not rely on setlocale()) for thread safe function.
  $ Added support for xx-XX.date.php in frontend language directories (to be used for non-gregorian calendars).
  ! all instances of JDate should now be retrieved via JFactory::getDate(); (to allow for overrides)
+ # Notice with JTable::isCheckedOut when called statically
 
 28-Feb-2008 Wilco Jansen
  # [9946] Page title issue for contents
