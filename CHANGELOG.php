@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Feb-2008 Anthony Ferrara
+ # Error Log Library overwriting $date var (fatal error)
+
 28-Feb-2008 Anthony Ferrara
  + JFactory::getDate
  + Support for locale based JDate override (for support of non-gregorian calendars)
