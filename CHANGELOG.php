@@ -43,6 +43,7 @@ $ -> Language fix or change
  # [#9673] Media Manager + Global paths issues
  # [#9978] Alias URLs don't work when SEF enabled
  * Sanitization of image and media paths in global config
+ # Fix for date in com_messages (Thanks Jens)
 
 28-Feb-2008 Anthony Ferrara
  + JFactory::getDate
