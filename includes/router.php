@@ -162,7 +162,7 @@ class JRouterSite extends JRouter
 		{
 
 			//If route is empty AND option is set in the query, assume it's non-sef url, and parse apropriately
-			if(isset($vars['option'])) {
+			if(isset($vars['option']) || isset($vars['Itemid'])) {
 				return $this->_parseRawRoute($uri);
 			}
 			

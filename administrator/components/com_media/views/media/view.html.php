@@ -60,7 +60,7 @@ class MediaViewMedia extends JView
 
 		$base = str_replace("\\","/",JPATH_ROOT);
 		$js = "
-			var basepath = '".$base.'/images'."';
+			var basepath = '".COM_MEDIA_BASE."';
 			var viewstyle = '".$style."';
 		" ;
 		$document->addScriptDeclaration($js);
