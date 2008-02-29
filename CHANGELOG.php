@@ -54,6 +54,7 @@ $ -> Language fix or change
  # [#9377] Easier translation and localization
  # Upgrade TCPDF to 2.2.002 (Removes GD, libjpeg and libpng dependancies)
  # [#9968] Fix for router using default menu item vars if non-sef url passed when sef is enabled
+ # [#9288] Title not escaped in link for section blog view
 
 28-Feb-2008 Wilco Jansen
  # [9946] Page title issue for contents
