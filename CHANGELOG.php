@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Feb-2008 Toby Patterson
+ # [#8775] Administration Toolbar translation issues
+
 29-Feb-2008 Anthony Ferrara
  # Error Log Library overwriting $date var (fatal error)
  # [#9673] Media Manager + Global paths issues
