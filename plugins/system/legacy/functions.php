@@ -808,7 +808,7 @@ function josSpoofCheck( $header=false, $alternate=false )
 	if (!$check)
 	{
 		header( 'HTTP/1.0 403 Forbidden' );
-		die( JText::_('E_SESSION_TIMEOUT') );
+		jexit( JText::_('E_SESSION_TIMEOUT') );
 	}
 }
 

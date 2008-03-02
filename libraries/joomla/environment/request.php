@@ -446,7 +446,7 @@ class JRequest
 				return false;
 			}
 		} else {
-			return true;	
+			return true;
 		}
 	}
 
@@ -524,7 +524,7 @@ class JRequest
 			// PHP Zend_Hash_Del_Key_Or_Index bug
 			$failed |= is_numeric( $key );
 			if ($failed) {
-				die( 'Illegal variable <b>' . implode( '</b> or <b>', $banned ) . '</b> passed to script.' );
+				jexit( 'Illegal variable <b>' . implode( '</b> or <b>', $banned ) . '</b> passed to script.' );
 			}
 			if ($globalise) {
 				$GLOBALS[$key] = $value;

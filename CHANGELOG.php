@@ -38,6 +38,12 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+01-Mar-2008 Alan Langford
+ ^ Conditional load of JLoader to support unit test.
+ + Add jexit() global exit function, also for unit test.
+ ^ Replace all non-environment calls to die() and exit() with jexit() (except external libs).
+ ^ Make die message on no _JEXEC defined consistent throughout.
+
 29-Feb-2008 Toby Patterson
  # [#8775] Administration Toolbar translation issues
 

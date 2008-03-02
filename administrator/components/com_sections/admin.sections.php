@@ -275,7 +275,7 @@ function saveSection( $option, $scope, $task )
 	global $mainframe;
 
 	// Check for request forgeries
-	JRequest::checkToken() or die( 'Invalid Token' );
+	JRequest::checkToken() or jexit( 'Invalid Token' );
 
 	$db			=& JFactory::getDBO();
 	$menu		= JRequest::getVar( 'menu', 'mainmenu', 'post', 'string' );
@@ -349,7 +349,7 @@ function removeSections( $cid, $scope, $option )
 	global $mainframe;
 
 	// Check for request forgeries
-	JRequest::checkToken() or die( 'Invalid Token' );
+	JRequest::checkToken() or jexit( 'Invalid Token' );
 
 	$db =& JFactory::getDBO();
 	if (count( $cid ) < 1) {
@@ -420,7 +420,7 @@ function publishSections( $scope, $cid=null, $publish=1, $option )
 	global $mainframe;
 
 	// Check for request forgeries
-	JRequest::checkToken() or die( 'Invalid Token' );
+	JRequest::checkToken() or jexit( 'Invalid Token' );
 
 	$db 	=& JFactory::getDBO();
 	$user 	=& JFactory::getUser();
@@ -485,7 +485,7 @@ function cancelSection( $option, $scope )
 	global $mainframe;
 
 	// Check for request forgeries
-	JRequest::checkToken() or die( 'Invalid Token' );
+	JRequest::checkToken() or jexit( 'Invalid Token' );
 
 	$db =& JFactory::getDBO();
 	$row =& JTable::getInstance('section');
@@ -504,7 +504,7 @@ function orderSection( $uid, $inc, $option, $scope )
 	global $mainframe;
 
 	// Check for request forgeries
-	JRequest::checkToken() or die( 'Invalid Token' );
+	JRequest::checkToken() or jexit( 'Invalid Token' );
 
 	$db =& JFactory::getDBO();
 	$row =& JTable::getInstance('section');
@@ -522,7 +522,7 @@ function copySectionSelect( $option, $cid, $section )
 	global $mainframe;
 
 	// Check for request forgeries
-	JRequest::checkToken() or die( 'Invalid Token' );
+	JRequest::checkToken() or jexit( 'Invalid Token' );
 
 	$db =& JFactory::getDBO();
 
@@ -562,7 +562,7 @@ function copySectionSave( $sectionid, $scope )
 	global $mainframe;
 
 	// Check for request forgeries
-	JRequest::checkToken() or die( 'Invalid Token' );
+	JRequest::checkToken() or jexit( 'Invalid Token' );
 
 	$db			=& JFactory::getDBO();
 	$title		= JRequest::getString( 'title' );
@@ -662,7 +662,7 @@ function accessMenu( $uid, $access, $option )
 	global $mainframe;
 
 	// Check for request forgeries
-	JRequest::checkToken() or die( 'Invalid Token' );
+	JRequest::checkToken() or jexit( 'Invalid Token' );
 
 	$db	=& JFactory::getDBO();
 	$row =& JTable::getInstance('section');
@@ -684,7 +684,7 @@ function saveOrder( &$cid )
 	global $mainframe;
 
 	// Check for request forgeries
-	JRequest::checkToken() or die( 'Invalid Token' );
+	JRequest::checkToken() or jexit( 'Invalid Token' );
 
 	$db			=& JFactory::getDBO();
 	$row		=& JTable::getInstance('section');

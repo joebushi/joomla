@@ -291,7 +291,7 @@ class JInstallationModel extends JModel
 		$DBpassword = JArrayHelper::getValue($vars, 'DBpassword', '');
 		$DBname 	= JArrayHelper::getValue($vars, 'DBname', '');
 		$DBPrefix 	= JArrayHelper::getValue($vars, 'DBPrefix', 'jos_');
-		$DBOld 		= JArrayHelper::getValue($vars, 'DBOld', 'bu');	
+		$DBOld 		= JArrayHelper::getValue($vars, 'DBOld', 'bu');
 		$DBversion 		= JArrayHelper::getValue($vars, 'DBversion', '');
 
 		// these 3 errors should be caught by the javascript in dbConfig
@@ -340,10 +340,10 @@ class JInstallationModel extends JModel
 				$this->setData('errors', $db->getErrorMsg());
 				return false;
 			}
-			
+
 			//Check utf8 support of database
 			$DButfSupport = $db->hasUTF();
-			
+
 			// Try to select the database
 			if ( ! $db->select($DBname) )
 			{
@@ -415,7 +415,7 @@ class JInstallationModel extends JModel
 				return false;
 				//return JInstallationView::error($vars, JText::_('WARNPOPULATINGDB'), 'dbconfig', JInstallationHelper::errors2string($errors));
 			}
-			
+
 			// Load the localise.sql for translating the data in joomla.sql/joomla_backwards.sql
 			// This feature is available for localized version of Joomla! 1.5
 			jimport('joomla.filesystem.file');
@@ -507,7 +507,7 @@ class JInstallationModel extends JModel
 		}
 		if ((JRequest::getVar( 'migrationupload', 0, 'post', 'int' ) == 1) && (JRequest::getVar( 'migrationUploaded', 0, 'post', 'int' ) == 0))
 		{
-			die(print_r(JRequest::getVar( 'migrationUploaded', 0, 'post', 'int' )));
+			jexit(print_r(JRequest::getVar( 'migrationUploaded', 0, 'post', 'int' )));
 			$vars['migresponse'] = JInstallationHelper::uploadSql( $vars, true );
 			$vars['dataloaded'] = '1';
 			$vars['loadchecked'] = 2;

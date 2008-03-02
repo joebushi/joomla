@@ -402,7 +402,7 @@ function saveCategory()
 	global $mainframe;
 
 	// Check for request forgeries
-	JRequest::checkToken() or die( 'Invalid Token' );
+	JRequest::checkToken() or jexit( 'Invalid Token' );
 
 	// Initialize variables
 	$db		 =& JFactory::getDBO();
@@ -501,7 +501,7 @@ function removeCategories( $section, $cid )
 	global $mainframe;
 
 	// Check for request forgeries
-	JRequest::checkToken() or die( 'Invalid Token' );
+	JRequest::checkToken() or jexit( 'Invalid Token' );
 
 	// Initialize variables
 	$db =& JFactory::getDBO();
@@ -584,7 +584,7 @@ function publishCategories( $section, $cid=null, $publish=1 )
 	global $mainframe;
 
 	// Check for request forgeries
-	JRequest::checkToken() or die( 'Invalid Token' );
+	JRequest::checkToken() or jexit( 'Invalid Token' );
 
 	// Initialize variables
 	$db		=& JFactory::getDBO();
@@ -628,7 +628,7 @@ function cancelCategory()
 	global $mainframe;
 
 	// Check for request forgeries
-	JRequest::checkToken() or die( 'Invalid Token' );
+	JRequest::checkToken() or jexit( 'Invalid Token' );
 
 	// Initialize variables
 	$db =& JFactory::getDBO();
@@ -651,7 +651,7 @@ function orderCategory( $uid, $inc )
 	global $mainframe;
 
 	// Check for request forgeries
-	JRequest::checkToken() or die( 'Invalid Token' );
+	JRequest::checkToken() or jexit( 'Invalid Token' );
 
 	// Initialize variables
 	$db		=& JFactory::getDBO();
@@ -673,7 +673,7 @@ function moveCategorySelect( $option, $cid, $sectionOld )
 	global $mainframe;
 
 	// Check for request forgeries
-	JRequest::checkToken() or die( 'Invalid Token' );
+	JRequest::checkToken() or jexit( 'Invalid Token' );
 
 	$db =& JFactory::getDBO();
 	$redirect = JRequest::getCmd( 'section', 'com_content', 'post' );
@@ -726,7 +726,7 @@ function moveCategorySave( $cid, $sectionOld )
 	global $mainframe;
 
 	// Check for request forgeries
-	JRequest::checkToken() or die( 'Invalid Token' );
+	JRequest::checkToken() or jexit( 'Invalid Token' );
 
 	$db =& JFactory::getDBO();
 	$sectionMove = JRequest::getCmd( 'sectionmove' );
@@ -805,7 +805,7 @@ function copyCategorySelect( $option, $cid, $sectionOld )
 	global $mainframe;
 
 	// Check for request forgeries
-	JRequest::checkToken() or die( 'Invalid Token' );
+	JRequest::checkToken() or jexit( 'Invalid Token' );
 
 	$db =& JFactory::getDBO();
 	$redirect = JRequest::getCmd( 'section', 'com_content', 'post' );
@@ -858,7 +858,7 @@ function copyCategorySave( $cid, $sectionOld )
 	global $mainframe;
 
 	// Check for request forgeries
-	JRequest::checkToken() or die( 'Invalid Token' );
+	JRequest::checkToken() or jexit( 'Invalid Token' );
 
 	// Initialize variables
 	$db =& JFactory::getDBO();
@@ -937,7 +937,7 @@ function accessMenu( $uid, $access, $section )
 	global $mainframe;
 
 	// Check for request forgeries
-	JRequest::checkToken() or die( 'Invalid Token' );
+	JRequest::checkToken() or jexit( 'Invalid Token' );
 
 	// Initialize variables
 	$db =& JFactory::getDBO();
@@ -961,7 +961,7 @@ function saveOrder( &$cid, $section )
 	global $mainframe;
 
 	// Check for request forgeries
-	JRequest::checkToken() or die( 'Invalid Token' );
+	JRequest::checkToken() or jexit( 'Invalid Token' );
 
 	// Initialize variables
 	$db =& JFactory::getDBO();

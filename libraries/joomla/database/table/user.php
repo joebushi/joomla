@@ -164,7 +164,7 @@ class JTableUser extends JTable
 			$now =& JFactory::getDate();
 			$this->registerDate = $now->toMySQL();
 		}
-		
+
 
 		// check for existing username
 		$query = 'SELECT id'
@@ -298,7 +298,7 @@ class JTableUser extends JTable
 				$id = $this->id;
 			} else {
 				// do not translate
-				die( 'WARNMOSUSER' );
+				jexit( 'WARNMOSUSER' );
 			}
 		}
 

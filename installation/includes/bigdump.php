@@ -274,7 +274,7 @@ if (!$error && isset ($_REQUEST["start"]) && isset ($_REQUEST["foffset"]) && ere
 		$migration = JRequest::getVar( 'migration', 0, 'post', 'bool' );
 
 			$db = & JInstallationHelper::getDBO($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
-			if(JError::isError($db)) die(JText::_('CONNECTION FAIL'));
+			if(JError::isError($db)) jexit(JText::_('CONNECTION FAIL'));
 
 //			echo 'Done.<br />';
 			// Execute query if end of query detected (; as last character) AND NOT in parents

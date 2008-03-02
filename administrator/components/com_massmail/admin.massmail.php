@@ -61,7 +61,7 @@ function sendMail()
 	global $mainframe;
 
 	// Check for request forgeries
-	JRequest::checkToken() or die( 'Invalid Token' );
+	JRequest::checkToken() or jexit( 'Invalid Token' );
 
 	$db					=& JFactory::getDBO();
 	$user 				=& JFactory::getUser();

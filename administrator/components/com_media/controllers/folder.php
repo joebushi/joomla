@@ -13,7 +13,7 @@
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined('_JEXEC') or die( 'Restricted access' );
 
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
@@ -97,7 +97,7 @@ class MediaControllerFolder extends MediaController
 		global $mainframe;
 
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		// Set FTP credentials, if given
 		jimport('joomla.client.helper');

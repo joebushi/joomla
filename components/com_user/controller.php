@@ -13,7 +13,7 @@
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined('_JEXEC') or die( 'Restricted access' );
 
 jimport('joomla.application.component.controller');
 
@@ -57,7 +57,7 @@ class UserController extends JController
 	function save()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		$user	 =& JFactory::getUser();
 		$userid = JRequest::getVar( 'id', 0, 'post', 'int' );
@@ -111,7 +111,7 @@ class UserController extends JController
 	function login()
 	{
 		// Check for request forgeries
-		JRequest::checkToken('request') or die( 'Invalid Token' );
+		JRequest::checkToken('request') or jexit( 'Invalid Token' );
 
 		global $mainframe;
 
@@ -199,7 +199,7 @@ class UserController extends JController
 		global $mainframe;
 
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		// Get required system objects
 		$user 		= clone(JFactory::getUser());
@@ -352,7 +352,7 @@ class UserController extends JController
 	function requestreset()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		// Get the input
 		$email		= JRequest::getVar('email', null, 'post', 'string');
@@ -379,7 +379,7 @@ class UserController extends JController
 	function confirmreset()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		// Get the input
 		$token = JRequest::getVar('token', null, 'post', 'alnum');
@@ -406,7 +406,7 @@ class UserController extends JController
 	function completereset()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		// Get the input
 		$password1 = JRequest::getVar('password1', null, 'post', 'string', JREQUEST_ALLOWRAW);
@@ -435,7 +435,7 @@ class UserController extends JController
 	function remindusername()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		// Get the input
 		$email = JRequest::getVar('email', null, 'post', 'string');

@@ -91,7 +91,7 @@ class TemplatesController
 		global $mainframe;
 
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		// Initialize some variables
 		$db		= & JFactory::getDBO();
@@ -185,7 +185,7 @@ class TemplatesController
 		global $mainframe;
 
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		// Initialize some variables
 		$db			 = & JFactory::getDBO();
@@ -321,7 +321,7 @@ class TemplatesController
 		global $mainframe;
 
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		// Initialize some variables
 		$option			= JRequest::getCmd('option');
@@ -442,7 +442,7 @@ class TemplatesController
 		global $mainframe;
 
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		// Initialize some variables
 		$option			= JRequest::getCmd('option');

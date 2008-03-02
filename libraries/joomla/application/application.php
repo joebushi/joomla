@@ -54,7 +54,7 @@ class JApplication extends JObject
 	 * @access	protected
 	 */
 	var $_name = null;
-	
+
 	/**
 	 * The scope of the application
 	 *
@@ -747,7 +747,7 @@ class JApplication extends JObject
 		$session->set('user',		new JUser());
 
 		if (!$storage->insert( $session->getId(), $this->getClientId())) {
-			die( $storage->getError());
+			jexit( $storage->getError());
 		}
 
 		return $session;

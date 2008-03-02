@@ -13,7 +13,7 @@
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined('_JEXEC') or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.model' );
 
@@ -97,11 +97,11 @@ class MenusModelItem extends JModel
 				$url = str_replace('index.php?', '', $table->link);
 				$url = str_replace('&amp;', '&', $url);
 				$table->linkparts = null;
-				if(strpos($url, '&amp;') !== false) 
-				{ 
-				   $url = str_replace('&amp;','&',$url); 
-				} 
-				
+				if(strpos($url, '&amp;') !== false)
+				{
+				   $url = str_replace('&amp;','&',$url);
+				}
+
 				parse_str($url, $table->linkparts);
 
 				$db = &$this->getDBO();
