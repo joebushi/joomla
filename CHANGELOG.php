@@ -38,6 +38,12 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-Mar-2008 Anthony Ferrara
+ # [#9964] lost password sends a bad link when Joomla is in a directory (Thanks Tomasz Dobrzynski)
+ # [#10011] 2 Bugs in com_newsfeed
+ # [#9828] Broken Links to blog items
+ # [#8679] Incorrect anchors in pagination for admin template
+
 01-Mar-2008 Alan Langford
  ^ Conditional load of JLoader to support unit test.
  + Add jexit() global exit function, also for unit test.

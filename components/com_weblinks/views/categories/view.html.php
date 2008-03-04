@@ -47,7 +47,7 @@ class WeblinksViewCategories extends JView
 		if ($params->get('image') != -1)
 		{
 			if($params->get('image_align')!="")
-				$attribs['align'] = '"'. $params->get('image_align').'"';
+				$attribs['align'] = $params->get('image_align');
 			else
 				$attribs['align'] = '';
 			$attribs['hspace'] = 6;

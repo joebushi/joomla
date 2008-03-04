@@ -45,8 +45,8 @@ class NewsfeedsViewCategories extends JView
 		// Define image tag attributes
 		if ($params->get('image') != -1)
 		{
-			$attribs['align'] = '"'. $params->get('image_align').'"';
-			$attribs['hspace'] = '"6"';
+			$attribs['align'] = $params->get('image_align');
+			$attribs['hspace'] = 6;
 
 			// Use the static HTML library to build the image tag
 
