@@ -237,7 +237,7 @@ class JURI extends JObject
 	 *
 	 * @access	public
 	 * @static
-	 * @param	boolean $pathonly If true, prepend the scheme, host and port information. Default is false.
+	 * @param	boolean $pathonly If false, prepend the scheme, host and port information. Default is false.
 	 * @return	string	The root URI string
 	 * @since	1.5
 	 */
