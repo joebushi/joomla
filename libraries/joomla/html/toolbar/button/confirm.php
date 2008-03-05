@@ -71,7 +71,7 @@ class JButtonConfirm extends JButton
 	 */
 	function _getCommand($msg, $name, $task, $list, $hide)
 	{
-		$todo	 = strtolower(JText::_( $name ));
+		$todo	 = JString::strtolower(JText::_( $name ));
 		$message = JText::sprintf( 'Please make a selection from the list to', $todo );
 		$message = addslashes($message);
 			
