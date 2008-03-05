@@ -125,7 +125,7 @@ class JTableUser extends JTable
 		//initialise
 		$this->id        = 0;
 		$this->gid       = 0;
-		$this->sendEmail = 1;
+		$this->sendEmail = 0;
 	}
 
 	/**

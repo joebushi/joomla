@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-Mar-2008 Ian MacLennan
+ # [#9817] TableUser has sendEmail set to 1 by default instead of 0, while JUser has it set to 0 by default
+
 04-Mar-2008 Anthony Ferrara
  # [#9964] lost password sends a bad link when Joomla is in a directory (Thanks Tomasz Dobrzynski)
  # [#10011] 2 Bugs in com_newsfeed
