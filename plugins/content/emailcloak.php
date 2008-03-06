@@ -80,9 +80,9 @@ function plgEmailCloak(&$text, &$params)
     $mode = $pluginParams->def('mode', 1);
 
     // any@email.address.com
-    $searchEmail = '([\w\.\-]+\@(?:[a-z0-9\.\-]+\.)+(?:[a-z0-9\-]+))';
+    $searchEmail = '([\w\.\-]+\@(?:[a-z0-9\.\-]+\.)+(?:[a-z0-9\-]{2,4}))';
     // any@email.address.com?subject=anyText
-    $searchEmailLink = $searchEmail . '([\x20-\x7f][^"<>]+)';
+    $searchEmailLink = $searchEmail . '([?&][\x20-\x7f][^"<>]+)';
     // anyText
     $searchText = '([\x20-\x7f][^<>]+)';
 
@@ -153,13 +153,13 @@ function plgEmailCloak(&$text, &$params)
     }
 
     // Search for plain text email@amail.com
-    $pattern = '~' . $searchEmail . '~i';
+    $pattern = '~' . $searchEmail . '([^a-z0-9]|$)~i';
     while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
-        $mail = $regs[0][0];
+        $mail = $regs[1][0];
         $replacement = JHTML::_('email.cloak', $mail, $mode);
 
         // Replace the found address with the js cloaked email
-        $text = substr_replace($text, $replacement, $regs[0][1], strlen($mail));
+        $text = substr_replace($text, $replacement, $regs[1][1], strlen($mail));
     }
     return true;
 }
