@@ -133,13 +133,15 @@ class ContentViewCategory extends ContentView
 	{
 		global $mainframe;
 
-		if (!count( $this->items ) ) {
+		//create select lists
+		$lists	= $this->_buildSortLists();
+
+		if (!count( $this->items ) )
+		{
+			$this->assign('lists',	$lists);
 			$return = array();
 			return $return;
 		}
-
-		//create select lists
-		$lists	= $this->_buildSortLists();
 
 		//create paginatiion
 		if ($lists['filter']) {
