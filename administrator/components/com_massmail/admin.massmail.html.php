@@ -92,7 +92,7 @@ class HTML_massmail
 							</label>
 					</td>
 					<td>
-							<input type="checkbox" name="mm_bcc" id="mm_bcc" value="1" />
+							<input type="checkbox" name="mm_bcc" id="mm_bcc" value="1" checked="checked" />
 					</td>
 				</tr>
 
