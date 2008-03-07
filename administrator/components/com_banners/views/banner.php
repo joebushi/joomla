@@ -30,7 +30,7 @@ class BannersViewBanner
 		JToolBarHelper::deleteList();
 		JToolBarHelper::editListX();
 		JToolBarHelper::addNewX();
-		JToolBarHelper::preferences('com_banners', '150');
+		JToolBarHelper::preferences('com_banners', '200');
 		JToolBarHelper::help( 'screen.banners' );
 	}
 
