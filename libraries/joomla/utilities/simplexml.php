@@ -635,7 +635,7 @@ class JSimpleXMLElement extends JObject
 
 		//If there are no children and it contains no data, end it off with a />
 		if (empty($this->_children) && empty($this->_data)) {
-			$out = ''; //dont output anything
+			$out .= " />";
 		}
 		else //Otherwise...
 		{
