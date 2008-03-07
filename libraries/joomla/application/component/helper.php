@@ -16,14 +16,13 @@
 defined('JPATH_BASE') or die();
 
 /**
-* Component helper class
-*
-* @static
-* @author		Johan Janssens <johan.janssens@joomla.org>
-* @package		Joomla.Framework
-* @subpackage	Application
-* @since		1.5
-*/
+ * Component helper class
+ *
+ * @static
+ * @package		Joomla.Framework
+ * @subpackage	Application
+ * @since		1.5
+ */
 class JComponentHelper
 {
 	/**
@@ -96,7 +95,7 @@ class JComponentHelper
 			JError::raiseError(404, JText::_("Component Not Found"));
 			return;
 		}
-		
+
 		$scope = $mainframe->scope; //record the scope
 		$mainframe->scope = $name;  //set scope to component name
 
@@ -173,7 +172,7 @@ class JComponentHelper
 			// Make the toolbar
 			include_once( $path );
 		}
-		
+
 		$mainframe->scope = $scope; //revert the scope
 
 		return $contents;

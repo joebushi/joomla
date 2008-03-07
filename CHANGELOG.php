@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Mar-2008 Andrew Eddie
+ # Fixed [#10032] JView::get() does not defer properly to JObject::get()
+
 05-Mar-2008 Ian MacLennan
  # [#9817] TableUser has sendEmail set to 1 by default instead of 0, while JUser has it set to 0 by default
 
