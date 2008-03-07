@@ -41,6 +41,7 @@ $ -> Language fix or change
 07-Mar-2008 Ian MacLennan
  # [#9808] JHTMLSelect::Options dies if empty array passed
  # [#10027] When bulit a menu with catalog list which catalog has no articles, error comes out when click this menu
+ # [#10055] Administrator login not possible due to unmasked querys.
 
 07-Mar-2008 Andrew Eddie
  # [#10032] JView::get() does not defer properly to JObject::get()

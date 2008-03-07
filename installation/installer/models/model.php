@@ -319,6 +319,30 @@ class JInstallationModel extends JModel
 			return false;
 			//return JInstallationView::error($vars, JText::_('emptyDBName'), 'dbconfig');
 		}
+		if (!preg_match( '#^[a-zA-Z]+[a-zA-Z0-9_]*$#', $DBPrefix )) {
+			$this->setError(JText::_('MYSQLPREFIXINVALIDCHARS'));
+			$this->setData('back', 'dbconfig');
+			$this->setData('errors', $errors);
+			return false;
+		}
+		if (!preg_match( '#^[a-zA-Z]+[a-zA-Z0-9_]*$#', $DBname )) {
+			$this->setError(JText::_('MYSQLDBNAMEINVALIDCHARS'));
+			$this->setData('back', 'dbconfig');
+			$this->setData('errors', $errors);
+			return false;
+		}
+		if (strlen($DBPrefix) > 15) {
+			$this->setError(JText::_('MYSQLPREFIXTOOLONG'));
+			$this->setData('back', 'dbconfig');
+			$this->setData('errors', $errors);
+			return false;
+		}
+		if (strlen($DBname) > 64) {
+			$this->setError(JText::_('MYSQLDBNAMETOOLONG'));
+			$this->setData('back', 'dbconfig');
+			$this->setData('errors', $errors);
+			return false;
+		}
 
 		if (!$DBcreated)
 		{
