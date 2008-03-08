@@ -355,10 +355,39 @@ class ContentModelArticle extends JModel
 		$tagPos = JString::strpos($text, '<hr id="system-readmore" />');
 
 		if ($tagPos === false)	{
-			$article->introtext = $text;
+			$article->introtext	= $text;
 		} else 	{
-			$article->introtext = JString::substr($text, 0, $tagPos);
-			$article->fulltext = JString::substr($text, $tagPos +27);
+			$article->introtext	= JString::substr($text, 0, $tagPos);
+			$article->fulltext	= JString::substr($text, $tagPos +27);
+		}
+
+		// Filter settings
+		jimport( 'joomla.application.component.helper' );
+		$config	= JComponentHelper::getParams( 'com_content' );
+		$user	= &JFactory::getUser();
+		$gid	= $user->get( 'gid' );
+
+		$filterGroups	= (array) $config->get( 'filter_groups' );
+		if (in_array( $gid, $filterGroups ))
+		{
+			$filterType		= $config->get( 'filter_type' );
+			$filterTags		= preg_split( '#[,\s]+#', trim( $config->get( 'filter_tags' ) ) );
+			$filterAttrs	= preg_split( '#[,\s]+#', trim( $config->get( 'filter_attritbutes' ) ) );
+			switch ($filterType)
+			{
+				case 'NH':
+					$filter	= new JFilterInput();
+					break;
+				case 'WL':
+					$filter	= new JFilterInput( $filterTags, $filterAttrs, 0, 0 );
+					break;
+				case 'BL':
+				default:
+					$filter	= new JFilterInput( $filterTags, $filterAttrs, 1, 1 );
+					break;
+			}
+			$article->introtext	= $filter->clean( $article->introtext );
+			$article->fulltext	= $filter->clean( $article->fulltext );
 		}
 
 		// Make sure the article table is valid

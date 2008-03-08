@@ -223,17 +223,28 @@ class MenusModelItem extends JModel
 
 					if (isset($document->params[0]->param))
 					{
+						// We will collect the hidden elements in an array
+						// loop will mess up if we do it within the loop
+						$hide	= array();
 						for ($i=0,$n=count($document->params[0]->param); $i<$n; $i++)
 						{
-							if ($document->params[0]->param[$i]->attributes('type') == 'radio' || $document->params[0]->param[$i]->attributes('type') == 'list') {
+							if ($document->params[0]->param[$i]->attributes('menu') == 'hide')
+							{
+								$hide[]	= &$document->params[0]->param[$i];
+							}
+							else if ($document->params[0]->param[$i]->attributes('type') == 'radio' || $document->params[0]->param[$i]->attributes('type') == 'list') {
 								$document->params[0]->param[$i]->addAttribute('default', '');
 								$document->params[0]->param[$i]->addAttribute('type', 'list');
 								$child = &$document->params[0]->param[$i]->addChild('option', array('value' => ''));
 								$child->setData('Use Global');
 							}
 						}
+						// Now remove any hidden elements
+						for ($i = 0, $n = count( $hide ); $i < $n; $i++) {
+							$document->params[0]->removeChild( $hide[$i] );
+						}
 					}
-					$params->setXML($document->params[0]);
+					$params->setXML( $document->params[0] );
 				}
 			}
 		}

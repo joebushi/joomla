@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+08-Mar-2008 Andrew Eddie
+ # [#10103] Additional Content Filtering
+
 07-Mar-2008 Ian MacLennan
  # [#9808] JHTMLSelect::Options dies if empty array passed
  # [#10027] When bulit a menu with catalog list which catalog has no articles, error comes out when click this menu
