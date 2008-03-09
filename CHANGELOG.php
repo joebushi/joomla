@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+09-Mar-2008 Mati Kochen
+ # [#10083] Upgraded TCPDF Library to v2.6
+ 
 08-Mar-2008 Andrew Eddie
  # [#10103] Additional Content Filtering
 

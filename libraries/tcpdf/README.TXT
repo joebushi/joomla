@@ -5,10 +5,10 @@ Name:
 	TCPDF
 
 Version:
-	2.2.001_PHP4
+	2.6.000_PHP4
 	
 Release date:
-	2008-02-16
+	2008-03-07
 
 Author:
 	Nicola Asuni 
@@ -22,9 +22,9 @@ Copyright (c) 2001-2008:
 	www.tecnick.com
 	
 URLs:
+	http://www.tcpdf.org
 	http://tcpdf.sourceforge.net/
-	http://tcpdf.sf.net/
-
+	
 Description:
 	TCPDF is a PHP5 class for generating PDF files on-the-fly without requiring external extensions.
 	TCPDF has been originally derived from the Public Domain FPDF class by Olivier Plathey (http://www.fpdf.org).
@@ -48,7 +48,7 @@ Description:
   - supports colors; 
   - supports links; 
   - support page compression (require zlib extension: http://www.gzip.org/zlib/); 
-  - the source code is full documented in PhpDocumentor Style (http://www.phpdoc.org).
+  - the source code is full documented in PhpDocumentor Style (http://www.phpdoc.org). 
 
 Installation:
 	1. copy the folder on your Web server
@@ -58,6 +58,9 @@ Installation:
 
 Source Code Documentation:
 	doc/index.html
+	
+For Additional Documentation check:
+	http://www.tcpdf.org
 
 License
 	GNU LESSER GENERAL PUBLIC LICENSE v.2.1

@@ -1,9 +1,48 @@
+2.6.000 (2008-03-07)
+	- various alignments bugs were fixed.
+	
+2.5.000 (2008-03-07)
+	- Several bugs were fixed.
+	- example_019.php was added to test non-unicode mode using old fonts.
+
+2.4.000 (2008-03-06)
+	- RTL support was deeply improved.
+	- GetStringWidth() was fixed to support RTL languages.
+	- Text() RTL alignment was fixed.
+	- Some functions were added: GetArrStringWidth(), GetCharWidth(), uniord(), utf8Bidi().
+	- example_018.php was added and test_unicode.php was removed.
+
+2.3.000 (2008-03-05)
+	- MultiCell() signature is changed. Now support multiple columns across pages (see example_017).
+	- Write() signature is changed. Now support the cell mode to be used with MultiCell.
+	- Header() and Footer() were changed.
+	- The following functions were added: UTF8ArrSubString() and unichr().
+	- Examples were updated to reflect last changes.
+
+2.2.004 (2008-03-04)
+	- Several examples were added.
+	- AddPage() Header() and Footer() were fixed.
+	- Documentation is now available on http://www.tcpdf.org
+	
+2.2.003 (2008-03-03)
+	- [1894853] Performance of MultiCell() was improved.
+	- RadioButton and ListBox functions were added.
+	- javascript form functions were rewritten and properties names are changed. The properties function supported by form fields are listed on Possible values are listed on http://www.adobe.com/devnet/acrobat/pdfs/js_developer_guide.pdf.
+	
+2.2.002 (2008-02-28)
+	- [1900495] html images path was fixed.
+	- Legacy image functions were reintroduced to allow PNG and JPEG support without GD library.
+
+2.2.001 (2008-02-16)
+	- The bug "[1894700] bug with replace relative path" was fixed
+	- Justification was fixed
+	
 2.2.000 (2008-02-12)
 	- fixed javascript bug introduced with latest release
 
 2.1.002 (2008-02-12)
-	- justify function was fixed on PHP4 version.
-	- Bookmark function was added ([1578250] Table of contents).
+	- Justify function was fixed on PHP4 version.
+	- Bookmank function was added ([1578250] Table of contents).
 	- Javascript and Form fields support was added ([1796359] Form fields).
 	
 2.1.001 (2008-02-10)
@@ -24,10 +63,10 @@
 	- _begindoc() function was fixed.
 	- ChangeDate was fixed and ModDate was added.
 	- The following functions were added:
-	  setPage() : Move pointer to the apecified document page.
+	  setPage() : Move pointer to the specified document page.
 	  getPage() : Get current document page number.
 	  lastpage() : Reset pointer to the last document page.
-	  getNumPages() : Get the total number of insered pages.
+	  getNumPages() : Get the total number of inserted pages.
 	  GetNumChars() : count the number of (UTF-8) characters in a string.
 	- $stretch parameter was added to Cell() function to fit text on cell:
 			0 = disabled

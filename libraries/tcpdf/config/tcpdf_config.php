@@ -2,7 +2,7 @@
 //============================================================+
 // File name   : tcpdf_config.php
 // Begin       : 2004-06-11
-// Last Update : 2008-01-09
+// Last Update : 2008-03-04
 //
 // Description : Congiguration file for TCPDF.
 //
@@ -104,12 +104,12 @@ if (!defined("K_TCPDF_EXTERNAL_CONFIG")) {
 	/**
 	 * image logo
 	 */
-	define ("PDF_HEADER_LOGO", "logo_example.png");
+	define ("PDF_HEADER_LOGO", "tcpdf_logo.jpg");
 	
 	/**
 	 * header logo image width [mm]
 	 */
-	define ("PDF_HEADER_LOGO_WIDTH", 20);
+	define ("PDF_HEADER_LOGO_WIDTH", 30);
 	
 	/**
 	 *  document unit of measure [pt=point, mm=millimeter, cm=centimeter, in=inch]
@@ -159,7 +159,7 @@ if (!defined("K_TCPDF_EXTERNAL_CONFIG")) {
 	/**
 	 * data font name
 	 */
-	define ("PDF_FONT_NAME_DATA", "vera"); //verase
+	define ("PDF_FONT_NAME_DATA", "vera"); //vera
 	
 	/**
 	 * data font size

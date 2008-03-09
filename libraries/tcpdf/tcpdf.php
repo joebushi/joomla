@@ -2,16 +2,16 @@
 //============================================================+
 // File name   : tcpdf.php
 // Begin       : 2002-08-03
-// Last Update : 2008-02-28
+// Last Update : 2008-03-07
 // Author      : Nicola Asuni
-// Version     : 2.2.002_PHP4
+// Version     : 2.5.000_PHP4
 // License     : GNU LGPL (http://www.gnu.org/copyleft/lesser.html)
 //
 // Description : This is a PHP5 class for generating PDF files 
 //               on-the-fly without requiring external 
 //               extensions.
 //
-// IMPORTANT:
+// NOTE:
 // This class was originally derived in 2002 from the Public 
 // Domain FPDF class by Olivier Plathey (http://www.fpdf.org).
 //
@@ -48,7 +48,7 @@
 // Patrick Benny for text stretch suggestion on Cell().
 // Johannes Güntert for JavaScript support.
 // Denis Van Nuffelen for Dynamic Form.
-// Jacek Czekaj for multibyte justification.
+// Jacek Czekaj for multibyte justification
 // Anthony Ferrara for the reintroduction of legacy image methods.
 // Anyone that has reported a bug or sent a suggestion.
 //============================================================+
@@ -83,21 +83,21 @@
  * @abstract Class for generating PDF files on-the-fly without requiring external extensions.
  * @author Nicola Asuni
  * @copyright 2004-2008 Nicola Asuni - Tecnick.com S.r.l (www.tecnick.com) Via Della Pace, 11 - 09044 - Quartucciu (CA) - ITALY - www.tecnick.com - info@tecnick.com
- * @link http://tcpdf.sourceforge.net
+ * @link http://www.tcpdf.org
  * @license http://www.gnu.org/copyleft/lesser.html LGPL
- * @version 2.2.002_PHP4
+ * @version 2.5.000_PHP4
  */
 
 /**
  * include configuration file
  */
-//require_once(dirname(__FILE__).'/config/tcpdf_config.php');
+require_once(dirname(__FILE__).'/config/tcpdf_config.php');
 
-if(!class_exists('TCPDF')) {
+if(!class_exists('TCPDF', false)) {
 	/**
 	 * define default PDF document producer
 	 */ 
-	define('PDF_PRODUCER','TCPDF 2.2.002_PHP4 (http://tcpdf.sf.net)');
+	define('PDF_PRODUCER','TCPDF 2.5.000_PHP4 (http://www.tcpdf.org)');
 	
 	/**
 	* This is a PHP5 class for generating PDF files on-the-fly without requiring external extensions.<br>
@@ -105,9 +105,9 @@ if(!class_exists('TCPDF')) {
 	* To add your own TTF fonts please read /fonts/README.TXT
 	* @name TCPDF
 	* @package com.tecnick.tcpdf
-	* @version 2.2.002_PHP4
+	* @version 2.5.000_PHP4
 	* @author Nicola Asuni
-	* @link http://tcpdf.sourceforge.net
+	* @link http://www.tcpdf.org
 	* @license http://www.gnu.org/copyleft/lesser.html LGPL
 	*/
 	class TCPDF {
@@ -808,7 +808,7 @@ if(!class_exists('TCPDF')) {
 		 */
 		var $last_rc4_key_c;
 		
-		// --------------
+		// --- bookmark ---
 		
 		/**
 		 * Outlines for bookmark
@@ -823,6 +823,7 @@ if(!class_exists('TCPDF')) {
 		 * @since 2.1.002 (2008-02-12)
 		 */
 		var $OutlineRoot;
+		
 		
 		// --- javascript and form ---
 		
@@ -865,8 +866,6 @@ if(!class_exists('TCPDF')) {
 			
 			// set language direction
 			$this->rtl = $this->l['a_meta_dir']=='rtl' ? true : false;
-			//$this->rtl = $this->direction=='rtl' ? true : false;
-			//$this->rtl = true;
 			$this->tmprtl = false;
 			
 			//Some checks
@@ -1333,7 +1332,7 @@ if(!class_exists('TCPDF')) {
 		* 		//Go to 1.5 cm from bottom
 		* 		$this->SetY(-15);
 		* 		//Select Arial italic 8
-		* 		$this->SetFont('Arial','I',8);
+		* 		$this->SetFont('vera','I',8);
 		* 		//Print current and total page numbers
 		* 		$this->Cell(0,10,'Page '.$this->PageNo().'/{nb}',0,0,'C');
 		* 	}
@@ -1446,9 +1445,10 @@ if(!class_exists('TCPDF')) {
 		* @see TCPDF(), Header(), Footer(), SetMargins()
 		*/
 		function AddPage($orientation='') {
-			if (count($this->pages) > ($this->page + 1)) {
+			if (count($this->pages) > $this->page) {
 				// this page has been already added
 				$this->page++;
+				$this->y = $this->tMargin;
 				return;
 			}
 			//Start a new page
@@ -1579,6 +1579,15 @@ if(!class_exists('TCPDF')) {
 					$this->original_rMargin = $this->rMargin;
 				}
 				
+				// reset original header margins
+				$this->rMargin = $this->original_rMargin;
+				$this->lMargin = $this->original_lMargin;
+				
+				// save current font values
+				$font_family =  $this->FontFamily;
+				$font_style = $this->FontStyle;
+				$font_size = $this->FontSizePt;
+				
 				//set current position
 				if ($this->rtl) {
 					$this->SetXY($this->original_rMargin, $this->header_margin);
@@ -1609,24 +1618,22 @@ if(!class_exists('TCPDF')) {
 				// header string
 				$this->SetFont($this->header_font[0], $this->header_font[1], $this->header_font[2]);
 				$this->SetX($header_x);
-				$this->MultiCell($this->header_width, $cell_height, $this->header_string, 0, '', 0);
+				$this->MultiCell($this->header_width, $cell_height, $this->header_string, 0, '', 0, 1, 0, 0, true, 0);
 				
 				// print an ending header line
-				if (empty($this->header_width)) {
-					//set style for cell border
-					$prevlinewidth = $this->GetLineWidth();
-					$line_width = 0.3;
-					$this->SetLineWidth($line_width);
-					$this->SetDrawColor(0, 0, 0);
-					$this->SetY(1 + max($this->img_rb_y, $this->GetY()));
-					if ($this->rtl) {
-						$this->SetX($this->original_rMargin);
-					} else {
-						$this->SetX($this->original_lMargin);
-					}
-					$this->Cell(0, 0, '', 'T', 0, 'C');
-					$this->SetLineWidth($prevlinewidth);
+				//set style for cell border
+				$prevlinewidth = $this->GetLineWidth();
+				$line_width = 0.3;
+				$this->SetLineWidth($line_width);
+				$this->SetDrawColor(0, 0, 0);
+				$this->SetY(1 + max($this->img_rb_y, $this->GetY()));
+				if ($this->rtl) {
+					$this->SetX($this->original_rMargin);
+				} else {
+					$this->SetX($this->original_lMargin);
 				}
+				$this->Cell(0, 0, '', 'T', 0, 'C');
+				$this->SetLineWidth($prevlinewidth);
 				
 				//restore position
 				if ($this->rtl) {
@@ -1634,6 +1641,9 @@ if(!class_exists('TCPDF')) {
 				} else {
 					$this->SetXY($this->original_lMargin, $this->tMargin);
 				}
+				
+				// restore font values
+				$this->SetFont($font_family, $font_style, $font_size);
 			}
 		}
 		
@@ -1650,6 +1660,15 @@ if(!class_exists('TCPDF')) {
 				if (!isset($this->original_rMargin)) {
 					$this->original_rMargin = $this->rMargin;
 				}
+				
+				// reset original header margins
+				$this->rMargin = $this->original_rMargin;
+				$this->lMargin = $this->original_lMargin;
+				
+				// save current font values
+				$font_family =  $this->FontFamily;
+				$font_style = $this->FontStyle;
+				$font_size = $this->FontSizePt;
 				
 				//set font
 				$this->SetFont($this->footer_font[0], $this->footer_font[1] , $this->footer_font[2]);
@@ -1690,6 +1709,9 @@ if(!class_exists('TCPDF')) {
 				}
 				// restore line width
 				$this->SetLineWidth($prevlinewidth);
+				
+				// restore font values
+				$this->SetFont($font_family, $font_style, $font_size);
 			}
 		}
 		
@@ -1778,40 +1800,49 @@ if(!class_exists('TCPDF')) {
 
 		/**
 		* Returns the length of a string in user unit. A font must be selected.<br>
-		* Support UTF-8 Unicode [Nicola Asuni, 2005-01-02]
 		* @param string $s The string whose length is to be computed
-		* @return int
+		* @return int string length
+		* @author Nicola Asuni
 		* @since 1.2
 		*/
 		function GetStringWidth($s) {
-			//Get width of a string in the current font
-			$s = (string)$s;
-			$cw = &$this->CurrentFont['cw'];
+			return $this->GetArrStringWidth($this->utf8Bidi($this->UTF8StringToArray($s), $this->tmprtl));
+		}
+		
+		/**
+		* Returns the string length of an array of chars in user unit. A font must be selected.<br>
+		* @param string $arr The array of chars whose total length is to be computed
+		* @return int string length
+		* @author Nicola Asuni
+		* @since 2.4.000 (2008-03-06)
+		*/
+		function GetArrStringWidth($sa) {
 			$w = 0;
-			if($this->isunicode) {
-				$unicode = $this->UTF8StringToArray($s);
-				foreach($unicode as $char) {
-					if (isset($cw[$char])) {
-						$w+=$cw[$char];
-					} elseif(isset($cw[ord($char)])) {
-						$w+=$cw[ord($char)];
-					} elseif(isset($cw[chr($char)])) {
-						$w+=$cw[chr($char)];
-					} elseif(isset($this->CurrentFont['desc']['MissingWidth'])) {
-						$w += $this->CurrentFont['desc']['MissingWidth']; // set default size
-					} else {
-						$w += 500;
-					}
-				}
+			foreach($sa as $char) {
+				$w += $this->GetCharWidth($char);
+			}
+			return $w;
+		}
+		
+		/**
+		* Returns the length of the char in user unit. A font must be selected.<br>
+		* @param string $char The char whose length is to be returned
+		* @return int char width
+		* @author Nicola Asuni
+		* @since 2.4.000 (2008-03-06)
+		*/
+		function GetCharWidth($char) {
+			$cw = &$this->CurrentFont['cw'];
+			if (isset($cw[$char])) {
+				$w = $cw[$char];
+			} elseif(isset($cw[ord($char)])) {
+				$w = $cw[ord($char)];
+			} elseif(isset($cw[chr($char)])) {
+				$w = $cw[chr($char)];
+			} elseif(isset($this->CurrentFont['desc']['MissingWidth'])) {
+				$w = $this->CurrentFont['desc']['MissingWidth']; // set default size
 			} else {
-				$l = strlen($s);
-				for($i=0; $i < $l; $i++) {
-					if (isset($cw[$s{$i}])) {
-						$w += $cw[$s{$i}];
-					} else if (isset($cw[ord($s{$i})])) {
-						$w += $cw[ord($s{$i})];
-					}
-				}
+				$w = 500;
 			}
 			return ($w * $this->FontSize / 1000);
 		}
@@ -1930,7 +1961,7 @@ if(!class_exists('TCPDF')) {
 		* //Times regular 12
 		* $pdf->SetFont('Times');
 		* //Arial bold 14
-		* $pdf->SetFont('Arial','B',14);
+		* $pdf->SetFont('vera','B',14);
 		* //Removes bold
 		* $pdf->SetFont('');
 		* //Times bold, italic and underlined 14
@@ -1941,7 +1972,7 @@ if(!class_exists('TCPDF')) {
 		* @param string $style Font style. Possible values are (case insensitive):<ul><li>empty string: regular</li><li>B: bold</li><li>I: italic</li><li>U: underline</li></ul>or any combination. The default value is regular. Bold and italic styles do not apply to Symbol and ZapfDingbats
 		* @param float $size Font size in points. The default value is the current size. If no size has been specified since the beginning of the document, the value taken is 12
 		* @since 1.0
-		* @see AddFont(), SetFontSize(), Cell(), MultiCell(), Write()
+		* @see AddFont(), SetFontSize()
 		*/
 		function SetFont($family, $style='', $size=0) {
 			// save previous values
@@ -2111,7 +2142,10 @@ if(!class_exists('TCPDF')) {
 		function Text($x, $y, $txt) {
 			//Output a string
 			if($this->rtl) {
-				$xr = $this->w - $x - $this->GetStringWidth($txt);
+				// bidirectional algorithm (some chars may be changed affecting the line length)
+				$s = $this->utf8Bidi($this->UTF8StringToArray($txt), $this->tmprtl);
+				$l = $this->GetArrStringWidth($s);
+				$xr = $this->w - $x - $this->GetArrStringWidth($s);
 			} else {
 				$xr = $x;
 			}
@@ -2160,7 +2194,7 @@ if(!class_exists('TCPDF')) {
 		* $pdf=new PDF();
 		* $pdf->Open();
 		* $pdf->AddPage();
-		* $pdf->SetFont('Arial','',12);
+		* $pdf->SetFont('vera','',12);
 		* for($i=1;$i<=300;$i++) {
 		*     $pdf->Cell(0,5,"Line $i",0,1);
 		* }
@@ -2192,9 +2226,10 @@ if(!class_exists('TCPDF')) {
 		* @see SetFont(), SetDrawColor(), SetFillColor(), SetTextColor(), SetLineWidth(), AddLink(), Ln(), MultiCell(), Write(), SetAutoPageBreak()
 		*/
 		function Cell($w, $h=0, $txt='', $border=0, $ln=0, $align='', $fill=0, $link='', $stretch=0) {
-			//Output a cell
-			$k=$this->k;
-			if(($this->y + $h) > $this->PageBreakTrigger AND empty($this->InFooter) AND $this->AcceptPageBreak()) {
+			
+			$k = $this->k;
+			
+			if((($this->y + $h) > $this->PageBreakTrigger) AND empty($this->InFooter) AND $this->AcceptPageBreak()) {
 				//Automatic page break
 				$x = $this->x;
 				$ws = $this->ws;
@@ -2203,11 +2238,11 @@ if(!class_exists('TCPDF')) {
 					$this->_out('0 Tw');
 				}
 				$this->AddPage($this->CurOrientation);
-				$this->x = $x;
 				if($ws > 0) {
 					$this->ws = $ws;
 					$this->_out(sprintf('%.3f Tw',$ws * $k));
 				}
+				$this->x = $x;
 			}
 			if($w == 0) {
 				if ($this->rtl) {
@@ -2276,12 +2311,12 @@ if(!class_exists('TCPDF')) {
 				// ratio between cell lenght and text lenght
 				$ratio = ($w - (2 * $this->cMargin)) / $width;
 				
-				// stretch text if requested
+				// stretch text if required
 				if (($stretch > 0) AND (($ratio < 1) OR (($ratio > 1) AND (($stretch % 2) == 0)))) {
 					if ($stretch > 2) {
 						// spacing
 						//Calculate character spacing in points
-						$char_space = ($w - (2 * $this->cMargin) - $width) / max($this->GetNumChars($s)-1,1) * $this->k;
+						$char_space = ($w - $width - (2 * $this->cMargin)) / max($this->GetNumChars($s)-1,1) * $this->k;
 						//Set character spacing
 						$this->_out(sprintf('BT %.2f Tc ET', $char_space));
 					} else {
@@ -2299,7 +2334,7 @@ if(!class_exists('TCPDF')) {
 				
 				if($align == 'L') {
 					if ($this->rtl) {
-						$dx = $w - $this->cMargin - $width;
+						$dx = $w - $width - $this->cMargin;
 					} else {
 						$dx = $this->cMargin;
 					}
@@ -2307,13 +2342,13 @@ if(!class_exists('TCPDF')) {
 					if ($this->rtl) {
 						$dx = $this->cMargin;
 					} else {
-						$dx = $w - $this->cMargin - $width;
+						$dx = $w - $width - $this->cMargin;
 					}
 				} elseif($align=='C') {
 					$dx = ($w - $width)/2;
 				} elseif($align=='J') {
 					if ($this->rtl) {
-						$dx = $w - $this->cMargin - $width;
+						$dx = $w - $width - $this->cMargin;
 					} else {
 						$dx = $this->cMargin;
 					}
@@ -2336,10 +2371,11 @@ if(!class_exists('TCPDF')) {
 					// get string width without spaces
 					$width = $this->GetStringWidth(str_replace(' ', '', $txt));
 					// set word position to be used with TJ operator
-					$txt2 = str_replace(chr(0).' ', ') '. -2830*($w-$width-2)/($ns?$ns:1)/$this->FontSize/$this->k . ' (', $txt2);
+					$txt2 = str_replace(chr(0).' ', ') '. -2830*($w-$width-(2*$this->cMargin))/($ns?$ns:1)/$this->FontSize/$this->k . ' (', $txt2);
 				}
+				
 				$s.=sprintf('BT %.2f %.2f Td [(%s)] TJ ET', $xdk, ($this->h - ($this->y + 0.5 * $h + 0.3 * $this->FontSize)) * $k, $txt2);
-				//$s.=sprintf('BT %.2f %.2f Td (%s) Tj ET', $xdk, ($this->h - ($this->y + 0.5 * $h + 0.3 * $this->FontSize)) * $k, $txt2);
+				
 				if($this->underline) {
 					if ($this->rtl) {
 						$xdx = $this->x - $dx - $width;
@@ -2376,6 +2412,7 @@ if(!class_exists('TCPDF')) {
 			}
 			
 			$this->lasth = $h;
+			
 			if($ln>0) {
 				//Go to the beginning of the next line
 				$this->y += $h;
@@ -2400,32 +2437,41 @@ if(!class_exists('TCPDF')) {
 		* This method allows printing text with line breaks. They can be automatic (as soon as the text reaches the right border of the cell) or explicit (via the \n character). As many cells as necessary are output, one below the other.<br />
 		* Text can be aligned, centered or justified. The cell block can be framed and the background painted.
 		* @param float $w Width of cells. If 0, they extend up to the right margin of the page.
-		* @param float $h Height of cells.
+		* @param float $h Cell minimum height. The cell extends automatically if needed.
 		* @param string $txt String to print
 		* @param mixed $border Indicates if borders must be drawn around the cell block. The value can be either a number:<ul><li>0: no border (default)</li><li>1: frame</li></ul>or a string containing some or all of the following characters (in any order):<ul><li>L: left</li><li>T: top</li><li>R: right</li><li>B: bottom</li></ul>
 		* @param string $align Allows to center or align the text. Possible values are:<ul><li>L or empty string: left align</li><li>C: center</li><li>R: right align</li><li>J: justification (default value)</li></ul>
 		* @param int $fill Indicates if the cell background must be painted (1) or transparent (0). Default value: 0.
 		* @param int $ln Indicates where the current position should go after the call. Possible values are:<ul><li>0: to the right</li><li>1: to the beginning of the next line [DEFAULT]</li><li>2: below</li></ul>
-		* @return int number of cells (number of lines)
+		* @param int $x x position in user units
+		* @param int $y y position in user units
+		* @param boolean $reseth if true reset the last cell height (default true).
+		* @param int $stretch stretch carachter mode: <ul><li>0 = disabled</li><li>1 = horizontal scaling only if necessary</li><li>2 = forced horizontal scaling</li><li>3 = character spacing only if necessary</li><li>4 = forced character spacing</li></ul>
+		* @return int Rerurn the number of lines.
 		* @since 1.3
 		* @see SetFont(), SetDrawColor(), SetFillColor(), SetTextColor(), SetLineWidth(), Cell(), Write(), SetAutoPageBreak()
 		*/
-		function MultiCell($w, $h, $txt, $border=0, $align='J', $fill=0, $ln=1) {
-			
-			// save current position
-			$prevx = $this->x;
-			$prevy = $this->y;
+		function MultiCell($w, $h, $txt, $border=0, $align='J', $fill=0, $ln=1, $x='', $y='', $reseth=true, $stretch=0) {
+			if ((empty($this->lasth))OR ($reseth)) {
+				//set row height
+				$this->lasth = $this->FontSize * K_CELL_HEIGHT_RATIO;
+			}
 			
 			// get current page number
 			$startpage = $this->page;
 			
-			// calculate remaining vertical space on first page ($startpage)
-			$restspace = $this->getPageHeight() - $this->GetY() - $this->getBreakMargin();
-			 
-			//Output text with automatic or explicit line breaks
-			$cw = &$this->CurrentFont['cw'];
+			if (!empty($y)) {
+				$this->SetY($y);
+			} else {
+				$y = $this->GetY();
+			}
+			if (!empty($x)) {
+				$this->SetX($x);
+			} else {
+				$x = $this->GetX();
+			}
 			
-			if($w == 0) {
+			if(empty($w)) {
 				if ($this->rtl) {
 					$w = $this->x - $this->lMargin;
 				} else {
@@ -2433,82 +2479,24 @@ if(!class_exists('TCPDF')) {
 				}
 			}
 			
-			$wmax = ($w - 2 * $this->cMargin);
+			// store original margin values
+			$lMargin = $this->lMargin;
+			$rMargin = $this->rMargin;
 			
-			$s = str_replace("\r", '', $txt); // remove carriage returns
-			$nb = strlen($s);
+			// set new margin values
+			if ($this->rtl) {
+				$this->SetLeftMargin($this->x - $w);
+				$this->SetRightMargin($this->w - $this->x);
+			} else {
+				$this->SetLeftMargin($this->x);
+				$this->SetRightMargin($this->w - $this->x - $w);
+			}
 			
-			$sep=-1;
-			$i=0;
-			$j=0;
-			$l=0;
-			$ns=0;
-			$nl=1;
-			while($i < $nb) {
-				//Get next character
-				$c = $s{$i};
-				if(preg_match("/[\n]/u", $c)) {
-					//Explicit line break
-					if($this->ws > 0) {
-						$this->ws = 0;
-						$this->_out('0 Tw');
-					}
-					$this->Cell($w, $h, substr($s, $j, $i-$j), 0, 2, $align, $fill, '');
-					$i++;
-					$sep=-1;
-					$j=$i;
-					$l=0;
-					$ns=0;
-					$nl++;
-					continue;
-				}
-				if(preg_match("/[ ]/u", $c)) {
-					$sep = $i;
-					$ls = $l;
-					$ns++;
-				}
-				
-				$l = $this->GetStringWidth(substr($s, $j, $i-$j));
-				
-				if($l > $wmax) {
-					//Automatic line break
-					if($sep == -1) {
-						if($i == $j) {
-							$i++;
-						}
-						if($this->ws > 0) {
-							$this->ws = 0;
-							$this->_out('0 Tw');
-						}
-						$this->Cell($w, $h, substr($s, $j, $i-$j), 0, 2, $align, $fill, '');
-					}
-					else {
-						if($align=='J') {
-							$this->ws=($ns>1) ? ($wmax-$ls)/1000*$this->FontSize/($ns-1) : 0;
-							$this->_out(sprintf('%.3f Tw', $this->ws * $this->k));
-						}
-						$this->Cell($w, $h, substr($s, $j, $sep-$j), 0, 2, $align, $fill, '');
-						$i = $sep + 1;
-					}
-					$sep=-1;
-					$j=$i;
-					$l=0;
-					$ns=0;
-					$nl++;
-				}
-				else {
-					$i++;
-				}
-			}
-			//Last chunk
-			if($this->ws>0) {
-				$this->ws=0;
-				$this->_out('0 Tw');
-			}
-			if($align == "J") {
-				$align = "L";
-			}
-			$this->Cell($w, $h, substr($s, $j, $i-$j), 0, 2, $align, $fill, '');
+			// calculate remaining vertical space on first page ($startpage)
+			$restspace = $this->getPageHeight() - $this->GetY() - $this->getBreakMargin();
+			
+			// Write text
+			$nl = $this->Write($this->lasth, $txt, '', $fill, $align, true, $stretch);
 			
 			// Get end-of-text Y position
 			$currentY = $this->GetY();
@@ -2522,75 +2510,97 @@ if(!class_exists('TCPDF')) {
 					for ($page=$startpage; $page<=$endpage; $page++) {
 						$this->page = $page;
 						if ($page==$startpage) {
-							$this->y = $this->getPageHeight() - $restspace - $this->getBreakMargin();
+							$this->SetY($this->getPageHeight() - $restspace - $this->getBreakMargin());
 							$h = $restspace - 1;
 						} elseif ($page==$endpage) {
-							$this->y = $this->tMargin; // put cursor at the beginning of text
+							$this->SetY($this->tMargin); // put cursor at the beginning of text
 							$h = $currentY - $this->tMargin;
 						} else {
-							$this->y = $this->tMargin; // put cursor at the beginning of text
+							$this->SetY($this->tMargin); // put cursor at the beginning of text
 							$h = $this->getPageHeight() - $this->tMargin - $this->getBreakMargin();
 						}
+						$this->SetX($x);
 						$this->Cell($w, $h, "", $border, 1, '', 0);
 					}
 				} else {
-					$h = max($h, ($currentY - $prevy));
-					$this->y = $prevy; // put cursor at the beginning of text
+					$h = max($h, ($currentY - $y));
+					$this->SetY($y); // put cursor at the beginning of text
+					$this->SetX($x);
 					// design a cell around the text
 					$this->Cell($w, $h, "", $border, 1, '', 0);
 				}
 			}
 			
-			// move cursor to specified position
+			// restore original margin values
+			$this->SetLeftMargin($lMargin);
+			$this->SetRightMargin($rMargin);
+			
 			if($ln>0) {
 				//Go to the beginning of the next line
 				$this->SetY($currentY);
 				if($ln == 2) {
-					$this->SetX($prevx + $w);
+					$this->SetX($x + $w);
 				}
 			} else {
 				// go left or right by case
 				$this->page = $startpage;
-				$this->y = $prevy;
-				$this->SetX($prevx + $w);
+				$this->y = $y;
+				$this->SetX($x + $w);
 			}
-						
+			
 			return $nl;
 		}
-
+		
 		/**
-		* This method prints text from the current position. When the right margin is reached (or the \n character is met) a line break occurs and text continues from the left margin. Upon method exit, the current position is left just at the end of the text. It is possible to put a link on the text.<br />
-		* <b>Example:</b><br />
-		* <pre>
-		* //Begin with regular font
-		* $pdf->SetFont('Arial','',14);
-		* $pdf->Write(5,'Visit ');
-		* //Then put a blue underlined link
-		* $pdf->SetTextColor(0,0,255);
-		* $pdf->SetFont('','U');
-		* $pdf->Write(5,'www.tecnick.com','http://www.tecnick.com');
-		* </pre>
+		* This method prints text from the current position.<br />
 		* @param float $h Line height
 		* @param string $txt String to print
 		* @param mixed $link URL or identifier returned by AddLink()
 		* @param int $fill Indicates if the background must be painted (1) or transparent (0). Default value: 0.
+		* @param string $align Allows to center or align the text. Possible values are:<ul><li>L or empty string: left align (default value)</li><li>C: center</li><li>R: right align</li><li>J: justify</li></ul>
+		* @param boolean $ln if true set cursor at the bottom of the line, otherwise set cursor at the top of the line.
+		* @param int $stretch stretch carachter mode: <ul><li>0 = disabled</li><li>1 = horizontal scaling only if necessary</li><li>2 = forced horizontal scaling</li><li>3 = character spacing only if necessary</li><li>4 = forced character spacing</li></ul>
+		* @return int Rerurn the number of lines.
 		* @since 1.5
-		* @see SetFont(), SetTextColor(), AddLink(), MultiCell(), SetAutoPageBreak()
 		*/
-		function Write($h, $txt, $link='', $fill=0) {
-			//Output text in flowing mode
-			$cw = &$this->CurrentFont['cw'];
+		function Write($h, $txt, $link='', $fill=0, $align='', $ln=false, $stretch=0) {
+			
+			// store current position
+			$prevx = $this->x;
+			$prevy = $this->y;
+			
+			// Adjust internal padding
+			if ($this->cMargin < ($this->LineWidth/2)) {
+				$this->cMargin = ($this->LineWidth/2);
+			}
+			
+			// Add top space if needed
+			if (($h - $this->FontSize) < $this->LineWidth) {
+				$this->y += $this->LineWidth/2;
+			}
+			
+			//if ($h < ($this->LineWidth)) {
+			//	$h = ($this->LineWidth);
+			//}
+			
 			// calculating remaining line width ($w)
 			if ($this->rtl) {
 				$w = $this->x - $this->lMargin;
 			} else {
 				$w = $this->w - $this->rMargin - $this->x;
 			}
-			$wmax = $w - 2 * $this->cMargin;
+			
+			// remove carriage returns
 			$s = str_replace("\r", '', $txt);
-			$nb = strlen($s);
+			
+			// get array of chars
+			$chars = $this->UTF8StringToArray($s);
+			
+			// get the number of characters
+			$nb = count($chars);
+			
 			// handle single space character
-			if(($nb==1) AND preg_match("/[ ]/u", $s)) {
+			if(($nb==1) AND preg_match("/[\s]/u", $s)) {
 				if ($this->rtl) {
 					$this->x -= $this->GetStringWidth($s);
 				} else {
@@ -2598,22 +2608,39 @@ if(!class_exists('TCPDF')) {
 				}
 				return;
 			}
-			$sep=-1;
-			$i=0;
-			$j=0;
-			$l=0;
-			$nl=1;
-			while($i<$nb) {
-				//Get next character
-				$c=$s{$i};
-				if(preg_match("/[\n]/u", $c)) {
+			
+			// max column width
+			$wmax = $w - (2 * $this->cMargin);
+			
+			$i = 0; // character position
+			$j = 0; // current srting starting position
+			$sep = -1; // position of the last blank space
+			$l = 0; // current string lenght
+			$nl = 0; //number of lines
+			
+			// for each character
+			while($i < $nb) {
+				//Get the current character
+				$c = $chars[$i];
+				if ($c == 10) {
+					// 10 = "\n" = new line
 					//Explicit line break
-					$this->Cell($w, $h, substr($s, $j, $i-$j), 0, 2, '', $fill, $link);
-					$i++;
-					$sep = -1;
-					$j = $i;
+					if ($align == "J") {
+						if ($this->rtl) {
+							$talign = "R";
+						} else {
+							$talign = "L";
+						}
+					} else {
+						$talign = $align;
+					}
+					$this->Cell($w, $h, $this->UTF8ArrSubString($chars, $j, $i), 0, 2, $talign, $fill, $link, $stretch);
+					$nl++;
+					$j = $i + 1;
 					$l = 0;
+					$sep = -1;
 					if($nl == 1) {
+						// set the next line width and position
 						if ($this->rtl) {
 							$this->x = $this->w - $this->rMargin;
 							$w = $this->x - $this->lMargin;
@@ -2622,70 +2649,132 @@ if(!class_exists('TCPDF')) {
 							$this->x = $this->lMargin;
 							$w = $this->w - $this->rMargin - $this->x;
 						}
-						$wmax = ($w - 2 * $this->cMargin);
+						$wmax = $w - (2 * $this->cMargin);
 					}
-					$nl++;
-					continue;
-				}
-				if(preg_match("/[ ]/u", $c)) {
-					$sep= $i;
-				}
-				$l = $this->GetStringWidth(substr($s, $j, $i-$j));
-				if($l > $wmax) {
-					//Automatic line break (word wrapping)
-					if($sep == -1) {
-						if((!$this->rtl) AND ($this->x > $this->lMargin)) {
-							//Move to next line
-							$this->x = $this->lMargin;
-							$this->y += $h;
-							$w=$this->w - $this->rMargin - $this->x;
-							$wmax=($w - 2 * $this->cMargin);
-							$i++;
+				} else {
+					if(preg_match("/[\s]/u", $this->unichr($c))) {
+						// update last blank space position
+						$sep = $i;
+					}
+					
+					// update string length
+					if($this->isunicode) {
+						// with bidirectional algorithm some chars may be changed affecting the line length
+						// *** very slow
+						$l = $this->GetArrStringWidth($this->utf8Bidi(array_slice($chars, $j, $i-$j+1), $this->tmprtl));
+					} else {
+						$l += $this->GetCharWidth($c);
+					}
+					
+					if($l > $wmax) {
+						// we have reached the end of column
+						if($sep == -1) {
+							// truncate the word because do not fit on column
+							$this->Cell($w, $h, $this->UTF8ArrSubString($chars, $j, $i), 0, 2, $align, $fill, $link, $stretch);
 							$nl++;
-							continue;
-						}
-						if($this->rtl AND ($this->x < $this->rMargin)) {
-							//Move to next line
-							$this->x = $this->w - $this->rMargin;
-							$this->y += $h;
-							$w=$this->x - $this->lMargin;
-							$wmax=($w - 2 * $this->cMargin);
-							$i++;
-							$nl++;
-							continue;
-						}
-						if($i==$j) {
-							$i++;
-						}
-						$this->Cell($w, $h, substr($s, $j, $i-$j), 0, 2, '', $fill, $link);
-					}
-					else {
-						$this->Cell($w, $h, substr($s, $j, $sep-$j), 0, 2, '', $fill, $link);
-						$i=$sep+1;
-					}
-					$sep = -1;
-					$j = $i;
-					$l = 0;
-					if($nl==1) {
-						if ($this->rtl) {
-							$this->x = $this->w - $this->rMargin;
-							$w = $this->x - $this->lMargin;
+							if($nl == 1) {
+								// set the next line width and position
+								if ($this->rtl) {
+									$this->x = $this->w - $this->rMargin;
+									$w = $this->x - $this->lMargin;
+								}
+								else {
+									$this->x = $this->lMargin;
+									$w = $this->w - $this->rMargin - $this->x;
+								}
+								$wmax = $w - (2 * $this->cMargin);
+							}
 						} else {
-							$this->x = $this->lMargin;
-							$w = $this->w - $this->rMargin - $this->x;
+							// word wrapping
+							$this->Cell($w, $h, $this->UTF8ArrSubString($chars, $j, $sep), 0, 2, $align, $fill, $link, $stretch);
+							$nl++;
+							$i = $sep + 1;
+							if($nl == 1) {
+								// set the next line width and position
+								if ($this->rtl) {
+									$this->x = $this->w - $this->rMargin;
+									$w = $this->x - $this->lMargin;
+								}
+								else {
+									$this->x = $this->lMargin;
+									$w = $this->w - $this->rMargin - $this->x;
+								}
+								$wmax = $w - (2 * $this->cMargin);
+							}
 						}
-						$wmax = ($w - 2 * $this->cMargin);
+						$sep = -1;
+						$j = $i;
+						$l = 0;
 					}
-					$nl++;
 				}
-				else {
-					$i++;
-				}
+				$i++;
+			} // end while i < nb
+			// print last row
+			if($i != $j) {
+				$this->Cell($w, $h, $this->UTF8ArrSubString($chars, $j, $nb), 0, $ln, $align, $fill, $link, $stretch);
+				$nl++;
 			}
 			
-			//Last chunk
-			if($i!=$j) {
-				$this->Cell($this->GetStringWidth(substr($s, $j)) + 2 * $this->cMargin, $h, substr($s, $j), 0, 0, '', $fill, $link);
+			$w = $this->GetStringWidth($this->UTF8ArrSubString($chars, $j, $nb)) + (2 * $this->cMargin);
+			if ($this->rtl) {
+				$this->x = $prevx - $w;
+			} else {
+				$this->x = $prevx + $w;
+			}
+			
+			// Add bottom space if needed
+			if (($ln > 0) AND (($h - $this->FontSize) < $this->LineWidth)) {
+				$this->y += $this->LineWidth/2;
+			}
+			
+			return $nl;
+		}
+		
+		/**
+		* Extract a slice of the $strarr array and return it as string.
+		* @param string $strarr The input array of characters.
+		* @param int $start the starting element of $strarr.
+		* @param int $end first element that will not be returned.
+		* @return Return part of a string
+		*/
+		function UTF8ArrSubString($strarr, $start='', $end='') {
+			if (strlen($start) == 0) {
+				$start = 0;
+			}
+			if (strlen($end) == 0) {
+				$end = count($strarr);
+			}
+			$string = "";
+			for ($i=$start; $i < $end; $i++) {
+				$string .= $this->unichr($strarr[$i]);
+			}
+			return $string;
+		}
+		
+		/**
+		* Returns the unicode caracter specified by UTF-8 code
+		* @param int $c UTF-8 code
+		* @return Returns the specified character.
+		* @author Miguel Perez, Nicola Asuni
+		* @since 2.3.000 (2008-03-05)
+		*/
+		function unichr($c) {
+			if (!$this->isunicode) {
+				return chr($c);
+			} elseif ($c <= 0x7F) {
+				// one byte
+				return chr($c);
+			} else if ($c <= 0x7FF) {
+				// two bytes
+				return chr(0xC0 | $c >> 6).chr(0x80 | $c & 0x3F);
+			} else if ($c <= 0xFFFF) {
+				// three bytes
+				return chr(0xE0 | $c >> 12).chr(0x80 | $c >> 6 & 0x3F).chr(0x80 | $c & 0x3F);
+			} else if ($c <= 0x10FFFF) {
+				// four bytes
+				return chr(0xF0 | $c >> 18).chr(0x80 | $c >> 12 & 0x3F).chr(0x80 | $c >> 6 & 0x3F).chr(0x80 | $c & 0x3F);
+			} else {
+				return "";
 			}
 		}
 		
@@ -3620,11 +3709,11 @@ if(!class_exists('TCPDF')) {
 		* @return string
 		* @access protected
 		*/
-		function _parsepng($file) {
+		function _parsepng($file) {	
 			if(!function_exists('imagecreatefrompng')) {
 				// GD is not installed, try legacy method
 				return $this->_legacyparsepng($file);
-			}	
+			}
 			$f=fopen($file,'rb');
 			if(empty($f)) {
 				$this->Error('Can\'t open image file: '.$file);
@@ -3776,7 +3865,7 @@ if(!class_exists('TCPDF')) {
 			fclose($f);
 			return array('w'=>$w, 'h'=>$h, 'cs'=>$colspace, 'bpc'=>$bpc, 'f'=>'FlateDecode', 'parms'=>$parms, 'pal'=>$pal, 'trns'=>$trns, 'data'=>$data);
 		}
-
+		
 		/**
 		* Convert the loaded php image to a JPEG and then return a structure for the PDF creator.
 		* @param string $file Image file name.
@@ -4075,7 +4164,13 @@ if(!class_exists('TCPDF')) {
 		 */
 		function UTF8StringToArray($str) {
 			if(!$this->isunicode) {
-				return $str; // string is not in unicode
+				// split string into array of chars
+				$strarr = str_split($str);
+				// convert chars to equivalent code
+				while(list($pos,$char)=each($strarr)) {
+					$strarr[$pos] = ord($char);
+				}
+				return $strarr;
 			}
 			$unicode = array(); // array containing unicode values
 			$bytes  = array(); // array containing single character byte sequences
@@ -4349,12 +4444,12 @@ if(!class_exists('TCPDF')) {
 		 * @param boolean $ln if true add a new line after text (default = true)
 		 * @param int $fill Indicates if the background must be painted (1) or transparent (0). Default value: 0.
 		 * @param boolean $reseth if true reset the last cell height (default false).
-		 * @param boolean $cell if true add the default cMargin space to each Write.
+		 * @param boolean $cell if true add the default cMargin space to each Write (default false).
 		 */
 		function writeHTML($html, $ln=true, $fill=0, $reseth=false, $cell=false) {
 			
 			// store some variables
-		$html=strip_tags($html,"<h1><h2><h3><h4><h5><h6><b><u><i><a><img><p><br><br/><strong><em><font><blockquote><li><ul><ol><hr><td><th><tr><table><sup><sub><small><span><div>"); //remove all unsupported tags
+			$html=strip_tags($html,"<h1><h2><h3><h4><h5><h6><b><u><i><a><img><p><br><br/><strong><em><font><blockquote><li><ul><ol><hr><td><th><tr><table><sup><sub><small><span><div>"); //remove all unsupported tags
 			//replace carriage returns, newlines and tabs
 			$repTable = array("\t" => " ", "\n" => " ", "\r" => " ", "\0" => " ", "\x0B" => " "); 
 			$html = strtr($html, $repTable);
@@ -4383,7 +4478,9 @@ if(!class_exists('TCPDF')) {
 						if(!$cell) {
 							$this->cMargin = 0;
 						}
-						$this->Write($this->lasth, stripslashes($this->unhtmlentities($element)), '', $fill, 0);
+						
+						$this->Write($this->lasth, stripslashes($this->unhtmlentities($element)), '', $fill, '', false, 0);
+						
 						$this->cMargin = $ctmpmargin;
 					}
 				} else {
@@ -4424,10 +4521,10 @@ if(!class_exists('TCPDF')) {
 		 * @param int $ln Indicates where the current position should go after the call. Possible values are:<ul><li>0: to the right (or left for RTL language)</li><li>1: to the beginning of the next line</li><li>2: below</li></ul>
 	Putting 1 is equivalent to putting 0 and calling Ln() just after. Default value: 0.
 		 * @param int $fill Indicates if the cell background must be painted (1) or transparent (0). Default value: 0.
-		 * @param boolean $reseth if true reset the last cell height (default false).
+		 * @param boolean $reseth if true reset the last cell height (default true).
 		 * @see Cell()
 		 */
-		function writeHTMLCell($w, $h, $x, $y, $html='', $border=0, $ln=0, $fill=0, $reseth=false) {
+		function writeHTMLCell($w, $h, $x, $y, $html='', $border=0, $ln=0, $fill=0, $reseth=true) {
 			
 			if ((empty($this->lasth))OR ($reseth)) {
 				//set row height
@@ -4473,7 +4570,7 @@ if(!class_exists('TCPDF')) {
 			$restspace = $this->getPageHeight() - $this->GetY() - $this->getBreakMargin();
 			
 			// Write HTML text
-			$this->writeHTML($html, true, $fill, $reseth, true); 
+			$this->writeHTML($html, true, $fill, $reseth, true);
 			
 			// Get end-of-text Y position
 			$currentY = $this->GetY();
@@ -4496,11 +4593,13 @@ if(!class_exists('TCPDF')) {
 							$this->SetY($this->tMargin); // put cursor at the beginning of text
 							$h = $this->getPageHeight() - $this->tMargin - $this->getBreakMargin();
 						}
+						$this->SetX($x);
 						$this->Cell($w, $h, "", $border, 1, '', 0);
 					}
 				} else {
 					$h = max($h, ($currentY - $y));
 					$this->SetY($y); // put cursor at the beginning of text
+					$this->SetX($x);
 					// design a cell around the text
 					$this->Cell($w, $h, "", $border, 1, '', 0);
 				}
@@ -4509,7 +4608,6 @@ if(!class_exists('TCPDF')) {
 			// restore original margin values
 			$this->SetLeftMargin($lMargin);
 			$this->SetRightMargin($rMargin);
-			
 			
 			if($ln>0) {
 				//Go to the beginning of the next line
@@ -4523,7 +4621,6 @@ if(!class_exists('TCPDF')) {
 				$this->y = $y;
 				$this->SetX($x + $w);
 			}
-			
 		}
 		
 		/**
@@ -4637,6 +4734,9 @@ if(!class_exists('TCPDF')) {
 				case 'img': {
 					if(isset($attr['src'])) {
 						// replace relative path with real server path
+						if ($attr['src'][0] == '/') {
+							$attr['src'] = $_SERVER['DOCUMENT_ROOT'].$attr['src'];
+						}
 						$attr['src'] = str_replace(K_PATH_URL, K_PATH_MAIN, $attr['src']);
 						if(!isset($attr['width'])) {
 							$attr['width'] = 0;
@@ -4694,7 +4794,7 @@ if(!class_exists('TCPDF')) {
 					}
 					$rtldir = $this->tmprtl;
 					$this->tmprtl = false;
-					$this->Write($this->lasth, $this->lispacer, '', $fill);
+					$this->Write($this->lasth, $this->lispacer, '', $fill, '', false, 0);
 					$this->tmprtl = $rtldir;
 					break;
 				}
@@ -4925,7 +5025,7 @@ if(!class_exists('TCPDF')) {
 			//Put a hyperlink
 			$this->SetTextColor(0, 0, 255);
 			$this->setStyle('u', true);
-			$this->Write($this->lasth, $name, $url, $fill);
+			$this->Write($this->lasth, $name, $url, $fill, '', false, 0);
 			$this->setStyle('u', false);
 			$this->SetTextColor(0);
 		}
@@ -6129,7 +6229,6 @@ if(!class_exists('TCPDF')) {
 		// END GRAPHIC FUNCTIONS SECTION -----------------------
 		
 		// BIDIRECTIONAL TEXT SECTION --------------------------
-		
 		/**
 		 * Reverse the RLT substrings using the Bidirectional Algorithm (http://unicode.org/reports/tr9/).
 		 * @param string $str string to manipulate.
@@ -6139,6 +6238,18 @@ if(!class_exists('TCPDF')) {
 		 * @since 2.1.000 (2008-01-08)
 		*/
 		function utf8StrRev($str, $setbom=false, $forcertl=false) {
+			return $this->arrUTF8ToUTF16BE($this->utf8Bidi($this->UTF8StringToArray($str), $forcertl=false), $setbom);
+		}
+		
+		/**
+		 * Reverse the RLT substrings using the Bidirectional Algorithm (http://unicode.org/reports/tr9/).
+		 * @param array $ta array of characters composing the string.
+		 * @param bool $forcertl if 'R' forces RTL, if 'L' forces LTR
+		 * @return string
+		 * @author Nicola Asuni
+		 * @since 2.4.000 (2008-03-06)
+		*/
+		function utf8Bidi($ta, $forcertl=false) {
 			global $unicode,$unicode_mirror, $unicode_arlet;
 			require_once(dirname(__FILE__).'/unicode_data.php');
 			
@@ -6146,6 +6257,9 @@ if(!class_exists('TCPDF')) {
 			$pel = 0;
 			// max level
 			$maxlevel = 0;
+			
+			// create string from array
+			$str = $this->UTF8ArrSubString($ta);
 			
 			// check if string contains arabic text
 			if (preg_match(K_RE_PATTERN_ARABIC, $str)) {
@@ -6156,11 +6270,9 @@ if(!class_exists('TCPDF')) {
 			
 			// check if string contains RTL text
 			if (!($forcertl OR $arabic OR preg_match(K_RE_PATTERN_RTL, $str))) {
-				return $this->UTF8ToUTF16BE($str, false);
+				return $ta;
 			}
 			
-			// convert string to array of unicode chars
-			$ta = $this->UTF8StringToArray($str);
 			// get number of chars
 			$numchars = count($ta);
 			
@@ -6586,8 +6698,9 @@ if(!class_exists('TCPDF')) {
 				$ordarray[] = $chardata[$i]['char'];
 			}
 			
-			return $this->arrUTF8ToUTF16BE($ordarray, $setbom);
+			return $ordarray;
 		}
+		
 		// END OF BIDIRECTIONAL TEXT SECTION -------------------
 		
 		/*
@@ -6667,7 +6780,8 @@ if(!class_exists('TCPDF')) {
 			$this->_out('endobj');
 		}
 		
-// --- JAVASCRIPT - FORMS ------------------------------
+		
+		// --- JAVASCRIPT - FORMS ------------------------------
 		
 		/*
 		* Adds a javascript
@@ -6729,7 +6843,7 @@ if(!class_exists('TCPDF')) {
 		* @param int $y vertical position
 		* @param int $w width
 		* @param int $h height
-		* @param string $prop properties
+		* @param array $prop array of properties. Possible values are (http://www.adobe.com/devnet/acrobat/pdfs/js_developer_guide.pdf): <ul><li>rect: Position and size of field on page.</li><li>borderStyle: Rectangle border appearance.</li><li>strokeColor: Color of bounding rectangle.</li><li>lineWidth: Width of the edge of the surrounding rectangle.</li><li>rotation: Rotation of field in 90-degree increments.</li><li>fillColor: Background color of field (gray, transparent, RGB, or CMYK).</li><li>userName: Short description of field that appears on mouse-over.</li><li>readonly: Whether the user may change the field contents.</li><li>doNotScroll: Whether text fields may scroll.</li><li>display: Whether visible or hidden on screen or in print.</li><li>textFont: Text font.</li><li>textColor: Text color.</li><li>textSize: Text size.</li><li>richText: Rich text.</li><li>richValue: Text.</li><li>comb: Text comb format.</li><li>multiline: Text multiline.</li><li>charLimit: Text limit to number of characters.</li><li>fileSelect: Text file selection format.</li><li>password: Text password format.</li><li>alignment: Text layout in text fields.</li><li>buttonAlignX: X alignment of icon on button face.</li><li>buttonAlignY: Y alignment of icon on button face.</li><li>buttonFitBounds: Relative scaling of an icon to fit inside a button face.</li><li>buttonScaleHow: Relative scaling of an icon to fit inside a button face.</li><li>buttonScaleWhen: Relative scaling of an icon to fit inside a button face.</li><li>highlight: Appearance of a button when pushed.</li><li>style: Glyph style for checkbox and radio buttons.</li><li>numItems: Number of items in a combo box or list box.</li><li>editable: Whether the user can type in a combo box.</li><li>multipleSelection: Whether multiple list box items may be selected.</li></ul>
 		* @access private
 		* @author Denis Van Nuffelen, Nicola Asuni
 		* @since 2.1.002 (2008-02-12)
@@ -6738,20 +6852,13 @@ if(!class_exists('TCPDF')) {
 			$k = $this->k;
 			$this->javascript .= sprintf("f=addField('%s','%s',%d,[%.2f,%.2f,%.2f,%.2f]);",$name,$type,$this->PageNo()-1,$x*$k,($this->h-$y)*$k+1,($x+$w)*$k,($this->h-$y-$h)*$k+1);
 			$this->javascript .= 'f.textSize='.$this->FontSizePt.';';
-			if(isset($prop['value'])) {
-				$this->javascript .= "f.value='".addslashes($prop['value'])."';";
-			}
-			if(isset($prop['TextColor'])) {
-				$this->javascript .= 'f.textColor='.$this->_JScolor($prop['TextColor']).';';
-			}
-			if(isset($prop['FillColor'])) {
-				$this->javascript .= 'f.fillColor='.$this->_JScolor($prop['FillColor']).';';
-			}
-			if(isset($prop['BorderColor'])) {
-				$this->javascript .= 'f.strokeColor='.$this->_JScolor($prop['BorderColor']).';';
-			}
-			if(isset($prop['BorderStyle'])) {
-				$this->javascript .= "f.borderStyle='".$prop['BorderStyle']."';";
+			while(list($key, $val) = each($prop)) {
+				if (strcmp(substr($key,-5),"Color") == 0) {
+					$val = $this->_JScolor($val);
+				} else {
+					$val = "'".$val."'";
+				}
+				$this->javascript .= "f.".$key."=".$val.";";
 			}
 			$this->x+=$w;
 		}
@@ -6761,16 +6868,52 @@ if(!class_exists('TCPDF')) {
 		* @param string $name field name
 		* @param int $w width
 		* @param int $h height
-		* @param string $prop properties. The value property allows to set the initial value. The multiline property allows to define the field as multiline.
+		* @param string $prop properties. The value property allows to set the initial value. The multiline property allows to define the field as multiline. Possible values are (http://www.adobe.com/devnet/acrobat/pdfs/js_developer_guide.pdf): <ul><li>rect: Position and size of field on page.</li><li>borderStyle: Rectangle border appearance.</li><li>strokeColor: Color of bounding rectangle.</li><li>lineWidth: Width of the edge of the surrounding rectangle.</li><li>rotation: Rotation of field in 90-degree increments.</li><li>fillColor: Background color of field (gray, transparent, RGB, or CMYK).</li><li>userName: Short description of field that appears on mouse-over.</li><li>readonly: Whether the user may change the field contents.</li><li>doNotScroll: Whether text fields may scroll.</li><li>display: Whether visible or hidden on screen or in print.</li><li>textFont: Text font.</li><li>textColor: Text color.</li><li>textSize: Text size.</li><li>richText: Rich text.</li><li>richValue: Text.</li><li>comb: Text comb format.</li><li>multiline: Text multiline.</li><li>charLimit: Text limit to number of characters.</li><li>fileSelect: Text file selection format.</li><li>password: Text password format.</li><li>alignment: Text layout in text fields.</li><li>buttonAlignX: X alignment of icon on button face.</li><li>buttonAlignY: Y alignment of icon on button face.</li><li>buttonFitBounds: Relative scaling of an icon to fit inside a button face.</li><li>buttonScaleHow: Relative scaling of an icon to fit inside a button face.</li><li>buttonScaleWhen: Relative scaling of an icon to fit inside a button face.</li><li>highlight: Appearance of a button when pushed.</li><li>style: Glyph style for checkbox and radio buttons.</li><li>numItems: Number of items in a combo box or list box.</li><li>editable: Whether the user can type in a combo box.</li><li>multipleSelection: Whether multiple list box items may be selected.</li></ul>
 		* @access public
 		* @author Denis Van Nuffelen, Nicola Asuni
 		* @since 2.1.002 (2008-02-12)
 		*/
 		function TextField($name, $w, $h, $prop=array()) {
 			$this->_addfield('text',$name,$this->x,$this->y,$w,$h,$prop);
-			if(isset($prop['multiline']) AND $prop['multiline']) {
-				$this->javascript .= 'f.multiline=true;';
+		}
+		
+		/*
+		* Creates a RadioButton field
+		* @param string $name field name
+		* @param int $w width
+		* @param string $prop properties. Possible values are (http://www.adobe.com/devnet/acrobat/pdfs/js_developer_guide.pdf): <ul><li>rect: Position and size of field on page.</li><li>borderStyle: Rectangle border appearance.</li><li>strokeColor: Color of bounding rectangle.</li><li>lineWidth: Width of the edge of the surrounding rectangle.</li><li>rotation: Rotation of field in 90-degree increments.</li><li>fillColor: Background color of field (gray, transparent, RGB, or CMYK).</li><li>userName: Short description of field that appears on mouse-over.</li><li>readonly: Whether the user may change the field contents.</li><li>doNotScroll: Whether text fields may scroll.</li><li>display: Whether visible or hidden on screen or in print.</li><li>textFont: Text font.</li><li>textColor: Text color.</li><li>textSize: Text size.</li><li>richText: Rich text.</li><li>richValue: Text.</li><li>comb: Text comb format.</li><li>multiline: Text multiline.</li><li>charLimit: Text limit to number of characters.</li><li>fileSelect: Text file selection format.</li><li>password: Text password format.</li><li>alignment: Text layout in text fields.</li><li>buttonAlignX: X alignment of icon on button face.</li><li>buttonAlignY: Y alignment of icon on button face.</li><li>buttonFitBounds: Relative scaling of an icon to fit inside a button face.</li><li>buttonScaleHow: Relative scaling of an icon to fit inside a button face.</li><li>buttonScaleWhen: Relative scaling of an icon to fit inside a button face.</li><li>highlight: Appearance of a button when pushed.</li><li>style: Glyph style for checkbox and radio buttons.</li><li>numItems: Number of items in a combo box or list box.</li><li>editable: Whether the user can type in a combo box.</li><li>multipleSelection: Whether multiple list box items may be selected.</li></ul>
+		* @access public
+		* @author Nicola Asuni
+		* @since 2.2.003 (2008-03-03)
+		*/
+		function RadioButton($name, $w, $prop=array()) {
+			if(!isset($prop['strokeColor'])) {
+				$prop['strokeColor']='black';
 			}
+			$this->_addfield('radiobutton',$name,$this->x,$this->y,$w,$w,$prop);
+		}
+		
+		/*
+		* Creates a List-box field
+		* @param string $name field name
+		* @param int $w width
+		* @param int $h height
+		* @param array $values array containing the list of values.
+		* @param string $prop properties. Possible values are (http://www.adobe.com/devnet/acrobat/pdfs/js_developer_guide.pdf): <ul><li>rect: Position and size of field on page.</li><li>borderStyle: Rectangle border appearance.</li><li>strokeColor: Color of bounding rectangle.</li><li>lineWidth: Width of the edge of the surrounding rectangle.</li><li>rotation: Rotation of field in 90-degree increments.</li><li>fillColor: Background color of field (gray, transparent, RGB, or CMYK).</li><li>userName: Short description of field that appears on mouse-over.</li><li>readonly: Whether the user may change the field contents.</li><li>doNotScroll: Whether text fields may scroll.</li><li>display: Whether visible or hidden on screen or in print.</li><li>textFont: Text font.</li><li>textColor: Text color.</li><li>textSize: Text size.</li><li>richText: Rich text.</li><li>richValue: Text.</li><li>comb: Text comb format.</li><li>multiline: Text multiline.</li><li>charLimit: Text limit to number of characters.</li><li>fileSelect: Text file selection format.</li><li>password: Text password format.</li><li>alignment: Text layout in text fields.</li><li>buttonAlignX: X alignment of icon on button face.</li><li>buttonAlignY: Y alignment of icon on button face.</li><li>buttonFitBounds: Relative scaling of an icon to fit inside a button face.</li><li>buttonScaleHow: Relative scaling of an icon to fit inside a button face.</li><li>buttonScaleWhen: Relative scaling of an icon to fit inside a button face.</li><li>highlight: Appearance of a button when pushed.</li><li>style: Glyph style for checkbox and radio buttons.</li><li>numItems: Number of items in a combo box or list box.</li><li>editable: Whether the user can type in a combo box.</li><li>multipleSelection: Whether multiple list box items may be selected.</li></ul>
+		* @access public
+		* @author Nicola Asuni
+		* @since 2.2.003 (2008-03-03)
+		*/
+		function ListBox($name, $w, $h, $values, $prop=array()) {
+			if(!isset($prop['strokeColor'])) {
+				$prop['strokeColor']='ltGray';
+			}
+			$this->_addfield('listbox',$name,$this->x,$this->y,$w,$h,$prop);
+			$s = '';
+			foreach($values as $value) {
+				$s .= "'".addslashes($value)."',";
+			}
+			$this->javascript .= 'f.setItems(['.substr($s,0,-1).']);';
 		}
 		
 		/*
@@ -6779,7 +6922,7 @@ if(!class_exists('TCPDF')) {
 		* @param int $w width
 		* @param int $h height
 		* @param array $values array containing the list of values.
-		* @param string $prop properties.
+		* @param string $prop properties. Possible values are (http://www.adobe.com/devnet/acrobat/pdfs/js_developer_guide.pdf): <ul><li>rect: Position and size of field on page.</li><li>borderStyle: Rectangle border appearance.</li><li>strokeColor: Color of bounding rectangle.</li><li>lineWidth: Width of the edge of the surrounding rectangle.</li><li>rotation: Rotation of field in 90-degree increments.</li><li>fillColor: Background color of field (gray, transparent, RGB, or CMYK).</li><li>userName: Short description of field that appears on mouse-over.</li><li>readonly: Whether the user may change the field contents.</li><li>doNotScroll: Whether text fields may scroll.</li><li>display: Whether visible or hidden on screen or in print.</li><li>textFont: Text font.</li><li>textColor: Text color.</li><li>textSize: Text size.</li><li>richText: Rich text.</li><li>richValue: Text.</li><li>comb: Text comb format.</li><li>multiline: Text multiline.</li><li>charLimit: Text limit to number of characters.</li><li>fileSelect: Text file selection format.</li><li>password: Text password format.</li><li>alignment: Text layout in text fields.</li><li>buttonAlignX: X alignment of icon on button face.</li><li>buttonAlignY: Y alignment of icon on button face.</li><li>buttonFitBounds: Relative scaling of an icon to fit inside a button face.</li><li>buttonScaleHow: Relative scaling of an icon to fit inside a button face.</li><li>buttonScaleWhen: Relative scaling of an icon to fit inside a button face.</li><li>highlight: Appearance of a button when pushed.</li><li>style: Glyph style for checkbox and radio buttons.</li><li>numItems: Number of items in a combo box or list box.</li><li>editable: Whether the user can type in a combo box.</li><li>multipleSelection: Whether multiple list box items may be selected.</li></ul>
 		* @access public
 		* @author Denis Van Nuffelen, Nicola Asuni
 		* @since 2.1.002 (2008-02-12)
@@ -6798,15 +6941,15 @@ if(!class_exists('TCPDF')) {
 		* @param string $name field name
 		* @param int $w width
 		* @param boolean $checked define the initial state (default = false).
-		* @param string $prop properties.
+		* @param string $prop properties. Possible values are (http://www.adobe.com/devnet/acrobat/pdfs/js_developer_guide.pdf): <ul><li>rect: Position and size of field on page.</li><li>borderStyle: Rectangle border appearance.</li><li>strokeColor: Color of bounding rectangle.</li><li>lineWidth: Width of the edge of the surrounding rectangle.</li><li>rotation: Rotation of field in 90-degree increments.</li><li>fillColor: Background color of field (gray, transparent, RGB, or CMYK).</li><li>userName: Short description of field that appears on mouse-over.</li><li>readonly: Whether the user may change the field contents.</li><li>doNotScroll: Whether text fields may scroll.</li><li>display: Whether visible or hidden on screen or in print.</li><li>textFont: Text font.</li><li>textColor: Text color.</li><li>textSize: Text size.</li><li>richText: Rich text.</li><li>richValue: Text.</li><li>comb: Text comb format.</li><li>multiline: Text multiline.</li><li>charLimit: Text limit to number of characters.</li><li>fileSelect: Text file selection format.</li><li>password: Text password format.</li><li>alignment: Text layout in text fields.</li><li>buttonAlignX: X alignment of icon on button face.</li><li>buttonAlignY: Y alignment of icon on button face.</li><li>buttonFitBounds: Relative scaling of an icon to fit inside a button face.</li><li>buttonScaleHow: Relative scaling of an icon to fit inside a button face.</li><li>buttonScaleWhen: Relative scaling of an icon to fit inside a button face.</li><li>highlight: Appearance of a button when pushed.</li><li>style: Glyph style for checkbox and radio buttons.</li><li>numItems: Number of items in a combo box or list box.</li><li>editable: Whether the user can type in a combo box.</li><li>multipleSelection: Whether multiple list box items may be selected.</li></ul>
 		* @access public
 		* @author Denis Van Nuffelen, Nicola Asuni
 		* @since 2.1.002 (2008-02-12)
 		*/
 		function CheckBox($name, $w, $checked=false, $prop=array()) {
 			$prop['value'] = ($checked ? 'Yes' : 'Off');
-			if(!isset($prop['BorderColor'])) {
-				$prop['BorderColor']='black';
+			if(!isset($prop['strokeColor'])) {
+				$prop['strokeColor']='black';
 			}
 			$this->_addfield('checkbox',$name,$this->x,$this->y,$w,$w,$prop);
 		}
@@ -6818,16 +6961,18 @@ if(!class_exists('TCPDF')) {
 		* @param int $h height
 		* @param string $caption caption.
 		* @param string $action action triggered by the button (JavaScript code).
-		* @param string $prop properties.
+		* @param string $prop properties. Possible values are (http://www.adobe.com/devnet/acrobat/pdfs/js_developer_guide.pdf): <ul><li>rect: Position and size of field on page.</li><li>borderStyle: Rectangle border appearance.</li><li>strokeColor: Color of bounding rectangle.</li><li>lineWidth: Width of the edge of the surrounding rectangle.</li><li>rotation: Rotation of field in 90-degree increments.</li><li>fillColor: Background color of field (gray, transparent, RGB, or CMYK).</li><li>userName: Short description of field that appears on mouse-over.</li><li>readonly: Whether the user may change the field contents.</li><li>doNotScroll: Whether text fields may scroll.</li><li>display: Whether visible or hidden on screen or in print.</li><li>textFont: Text font.</li><li>textColor: Text color.</li><li>textSize: Text size.</li><li>richText: Rich text.</li><li>richValue: Text.</li><li>comb: Text comb format.</li><li>multiline: Text multiline.</li><li>charLimit: Text limit to number of characters.</li><li>fileSelect: Text file selection format.</li><li>password: Text password format.</li><li>alignment: Text layout in text fields.</li><li>buttonAlignX: X alignment of icon on button face.</li><li>buttonAlignY: Y alignment of icon on button face.</li><li>buttonFitBounds: Relative scaling of an icon to fit inside a button face.</li><li>buttonScaleHow: Relative scaling of an icon to fit inside a button face.</li><li>buttonScaleWhen: Relative scaling of an icon to fit inside a button face.</li><li>highlight: Appearance of a button when pushed.</li><li>style: Glyph style for checkbox and radio buttons.</li><li>numItems: Number of items in a combo box or list box.</li><li>editable: Whether the user can type in a combo box.</li><li>multipleSelection: Whether multiple list box items may be selected.</li></ul>
 		* @access public
 		* @author Denis Van Nuffelen, Nicola Asuni
 		* @since 2.1.002 (2008-02-12)
 		*/
 		function Button($name, $w, $h, $caption, $action, $prop=array()) {
-			if(!isset($prop['BorderColor'])) {
-				$prop['BorderColor']='black';
+			if(!isset($prop['strokeColor'])) {
+				$prop['strokeColor']='black';
 			}
-			$prop['BorderStyle']='beveled';
+			if(!isset($prop['borderStyle'])) {
+				$prop['borderStyle']='beveled';
+			}
 			$this->_addfield('button',$name,$this->x,$this->y,$w,$h,$prop);
 			$this->javascript .= "f.buttonSetCaption('".addslashes($caption)."');";
 			$this->javascript .= "f.setAction('MouseUp','".addslashes($action)."');";
