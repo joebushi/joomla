@@ -226,11 +226,7 @@ class JDate extends JObject
 	function toFormat($format = '%Y-%m-%d %H:%M:%S')
 	{
 		$date = ($this->_date !== false) ? $this->_strftime($format, $this->_date + $this->_offset) : null;
-		// for Windows there is a need to convert the OS date string to utf-8.
-		if ( JUtility::isWinOS() && function_exists('iconv') ) {
-			$lang =& JFactory::getLanguage();
-			return iconv($lang->getWinCP(), 'UTF-8', $date);
-		}
+		
 		return $date;
 	}
 
