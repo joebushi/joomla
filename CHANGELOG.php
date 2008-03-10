@@ -38,10 +38,14 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Mar-2008 Wilco Jansen
+ # [10112] Strings and tips added for 10019 editing options
+ # [10124] Notice layout in milkyway is not right due to missing some css
+
 09-Mar-2008 Mati Kochen
  # [#10083] Upgraded TCPDF Library to v2.6
  # [#10102] Removed unneeded IF clause for ICONV usage
- 
+
 08-Mar-2008 Andrew Eddie
  # [#10103] Additional Content Filtering
 
