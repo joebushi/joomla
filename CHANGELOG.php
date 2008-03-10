@@ -39,6 +39,8 @@ $ -> Language fix or change
 ! -> Note
 
 10-Mar-2008 Wilco Jansen
+ # [9971] Default parameter (global configuration) not stored in table
+ # [9976] Invalid behavior after switching list length
  # [10112] Strings and tips added for 10019 editing options
  # [10124] Notice layout in milkyway is not right due to missing some css
  # [10071] Email alert for private message is confusing
