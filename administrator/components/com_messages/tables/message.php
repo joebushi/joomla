@@ -119,6 +119,7 @@ class TableMessage extends JTable
 	 */
 	function send($fromId = null, $toId = null, $subject = null, $message = null, $mailfrom = null, $fromname = null)
 	{
+		global $mainframe;
 		$db =& JFactory::getDBO();
 
 		if (is_object($this))
@@ -158,6 +159,8 @@ class TableMessage extends JTable
 					$fromObject = $db->loadObject();
 					$fromname	= $fromObject->name;
 					$mailfrom	= $fromObject->email;
+					$siteURL		= JURI::base();
+					$sitename 		= $mainframe->getCfg( 'sitename' );
 
 					$query = 'SELECT email' .
 							' FROM #__users' .
@@ -165,8 +168,8 @@ class TableMessage extends JTable
 					$db->setQuery($query);
 					$recipient	= $db->loadResult();
 
-					$subject	= JText::_('A new private message has arrived');
-					$msg		= JText::_('A new private message has arrived');
+					$subject	= sprintf (JText::_('A new private message has arrived'), $sitename);
+					$msg		= sprintf (JText::_('Please login to read your message'), $siteURL);
 
 					JUtility::sendMail($mailfrom, $fromname, $recipient, $subject, $msg);
 				}

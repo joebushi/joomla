@@ -41,6 +41,7 @@ $ -> Language fix or change
 10-Mar-2008 Wilco Jansen
  # [10112] Strings and tips added for 10019 editing options
  # [10124] Notice layout in milkyway is not right due to missing some css
+ # [10071] Email alert for private message is confusing
 
 09-Mar-2008 Mati Kochen
  # [#10083] Upgraded TCPDF Library to v2.6
