@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+11-Mar-2008 Anthony Ferrara
+ # [#10077] Edit links for frontpage layout broken when not default menu item.
+
 11-Mar-2008 Wilco Jansen
  # [10129] front-end message when article submitted not translated
 
