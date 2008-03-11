@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+11-Mar-2008 Wilco Jansen
+ # [10129] front-end message when article submitted not translated
+
 10-Mar-2008 Wilco Jansen
  # [9971] Default parameter (global configuration) not stored in table
  # [9976] Invalid behavior after switching list length

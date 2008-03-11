@@ -205,6 +205,11 @@ class ContentController extends JController
 		{
 			// messaging for new items
 			require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_messages'.DS.'tables'.DS.'message.php');
+
+			// load language for messaging
+			$lang =& JFactory::getLanguage();
+			$lang->load('com_messages');
+
 			$query = 'SELECT id' .
 					' FROM #__users' .
 					' WHERE sendEmail = 1';
