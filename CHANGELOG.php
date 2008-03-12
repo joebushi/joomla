@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+12-Mar-2008 Ian MacLennan
+ # [#10156] Param for disabling the Flash Uploader
+
 11-Mar-2008 Anthony Ferrara
  # [#10077] Edit links for frontpage layout broken when not default menu item.
 

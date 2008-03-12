@@ -30,6 +30,8 @@ class MediaViewImages extends JView
 	function display($tpl = null)
 	{
 		global $mainframe;
+		
+		$config =& JComponentHelper::getParams('com_media');
 
 		$app = JFactory::getApplication();
 		$append = '';
@@ -37,7 +39,9 @@ class MediaViewImages extends JView
 
 		JHTML::_('script'    , 'popup-imagemanager.js', $append .'components/com_media/assets/');
 		JHTML::_('stylesheet', 'popup-imagemanager.css', $append .'components/com_media/assets/');
-		JHTML::_('behavior.uploader', 'file-upload', array('onAllComplete' => 'function(){ ImageManager.refreshFrame(); }'));
+		if ($config->get('enable_flash', 1)) {
+			JHTML::_('behavior.uploader', 'file-upload', array('onAllComplete' => 'function(){ ImageManager.refreshFrame(); }'));
+		}
 
 		/*
 		 * Display form for FTP credentials?
@@ -47,7 +51,7 @@ class MediaViewImages extends JView
 		$ftp = !JClientHelper::hasCredentials('ftp');
 
 		$this->assignRef( 'session',	JFactory::getSession());
-		$this->assignRef( 'config',		JComponentHelper::getParams('com_media'));
+		$this->assignRef( 'config',		$config);
 		$this->assignRef( 'state',		$this->get('state'));
 		$this->assignRef( 'folderList',	$this->get('folderList'));
 		$this->assign('require_ftp', $ftp);

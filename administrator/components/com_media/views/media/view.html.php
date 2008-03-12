@@ -30,6 +30,8 @@ class MediaViewMedia extends JView
 	function display($tpl = null)
 	{
 		global $mainframe;
+		
+		$config =& JComponentHelper::getParams('com_media');
 
 		$style = $mainframe->getUserStateFromRequest('media.list.layout', 'layout', 'thumbs', 'word');
 
@@ -56,7 +58,9 @@ class MediaViewMedia extends JView
 		JHTML::script('mootree.js');
 		JHTML::stylesheet('mootree.css');
 
-		JHTML::_('behavior.uploader', 'file-upload', array('onAllComplete' => 'function(){ MediaManager.refreshFrame(); }'));
+		if ($config->get('enable_flash', 1)) {
+			JHTML::_('behavior.uploader', 'file-upload', array('onAllComplete' => 'function(){ MediaManager.refreshFrame(); }'));
+		}
 
 		$base = str_replace("\\","/",JPATH_ROOT);
 		$js = "
@@ -73,7 +77,7 @@ class MediaViewMedia extends JView
 		$ftp = !JClientHelper::hasCredentials('ftp');
 
 		$this->assignRef('session', JFactory::getSession());
-		$this->assignRef('config', JComponentHelper::getParams('com_media'));
+		$this->assignRef('config', $config);
 		$this->assignRef('state', $this->get('state'));
 		$this->assign('require_ftp', $ftp);
 		$this->assign('folders_id', ' id="media-tree"');
