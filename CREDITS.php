@@ -19,7 +19,7 @@ defined('_JEXEC') or die('Restricted access');
 
 Code contributers:
 ------------------
-Levis Bison
+Levis Bisson
 Blagovest Dachev
 Andrew Eddie
 Anthony Ferrara
