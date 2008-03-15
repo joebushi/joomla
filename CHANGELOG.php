@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-Mar-2008 Sam Moffatt
+ ^ Updated language XML files version to 1.5.2 and date to 2008-03-15 (pour JM)
+ 
 12-Mar-2008 Ian MacLennan
  # [#10156] Param for disabling the Flash Uploader
 
