@@ -40,6 +40,8 @@ $ -> Language fix or change
 
 15-Mar-2008 Ian MacLennan
  # [#9816] Fixed openid toggle link doesn't appear on component.  Also fixes duplicate ids for com and mod.
+ # [#9816] Fixed username cannot contain + or - characters
+ # [#9816] Fixed css resulting from first patch above
 
 15-Mar-2008 Sam Moffatt
  ^ Updated language XML files version to 1.5.2 and date to 2008-03-15 (pour JM)

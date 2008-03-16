@@ -649,6 +649,9 @@ div.search input {
 form#form-login fieldset { border: 0 none; margin: 0em; padding: 0.2em;}
 form#form-login ul { padding-left: 20px; }
 
+form#com-form-login fieldset { border: 0 none; margin: 0em; padding: 0.2em;}
+form#com-form-login ul { padding-left: 20px; }
+
 /* thumbnails */
 div.mosimage         {  margin: 5px; }
 div.mosimage_caption {  font-size: .90em; color: #666; }
