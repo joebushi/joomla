@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+20-Mar-2008 Ian MacLennan
+ $ Added bn-IN and th-TH installation language files
+
 20-Mar-2008 Andrew Eddie
  # Fixed double-quoting bug in gacl_api::del_object
 
