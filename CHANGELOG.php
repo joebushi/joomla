@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-Mar-2008 Sam Moffatt
+ $ Added lt-LT and pl-PL installation language files
+
 20-Mar-2008 Ian MacLennan
  $ Added bn-IN and th-TH installation language files
 
