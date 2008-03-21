@@ -38,6 +38,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+-------------------- 1.5.2 Stable Release [22-March-2008] ---------------------
+
 21-Mar-2008 Sam Moffatt
  $ Added lt-LT, pl-PL and ca-ES installation language files
 
