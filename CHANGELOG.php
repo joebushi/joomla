@@ -40,6 +40,9 @@ $ -> Language fix or change
 
 -------------------- 1.5.2 Stable Release [22-March-2008] ---------------------
 
+22-Mar-2008 Sam Moffatt
+ $ Added ko-KR installation language files
+
 21-Mar-2008 Sam Moffatt
  $ Added lt-LT, pl-PL and ca-ES installation language files
 
