@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: $
  */
 // No direct access
 defined('_JEXEC') or die('Restricted access');

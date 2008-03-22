@@ -1,9 +1,4 @@
-<?php
-/**
- * @version		$Id$
- */
-// No direct access
-defined('_JEXEC') or die('Restricted access');
+<?php defined('_JEXEC') or die('Restricted access');
 
 ?>
 <fieldset class="adminform">

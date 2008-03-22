@@ -1,10 +1,7 @@
-<?php
-/**
- * @version		$Id$
- */
-// No direct access
-defined('_JEXEC') or die('Restricted access');
+<?php defined('_JEXEC') or die('Restricted access'); ?>
 
+<?php
+$db =& JFactory::getDBO();
 ?>
 <fieldset class="adminform">
 	<legend><?php echo JText::_( 'System Information' ); ?></legend>
@@ -63,7 +60,7 @@ defined('_JEXEC') or die('Restricted access');
 				<strong><?php echo JText::_( 'Web Server' ); ?>:</strong>
 			</td>
 			<td>
-				<?php echo HTML_admin_misc::get_server_software(); ?>
+				<?php echo AdminViewSysinfo::get_server_software(); ?>
 			</td>
 		</tr>
 		<tr>
