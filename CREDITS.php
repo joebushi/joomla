@@ -84,6 +84,7 @@ Hindi-Devanagari (hi-IN) - IndicJoomla! Team - Vishal Pahuja
 Hungarian (hu-HU) - Magyar Joomla! Felhasznalok Nemzetkozi Egyesulete (joomla.org.hu) - Jozsef Tamas Herczeg, Annamaria Ban
 Italian (it-IT) - Italian Translation Team - Stefania Gaianigo, Alessandro Rossi
 Japanese (ja-JP) - Japanese Translation Team - Nori Aki
+Korean (ko-KR) - Korean Translation Team - Song S. Kim
 Lao (lo-LA) - Joomla LaiLao Team (LaoOpenSource) - Akarawuth Tamrareang , Viengsakhone phanthanousy , Outhai Saioudom
 Latvian (lv-LV) - Joomla Latvian Team - Edgars Piruška, Iveta Rītiņa-Namiķe, Ingars Stepkāns
 Lithuanian (lt-LT) - Lithuanian Translation Team - Stasys
