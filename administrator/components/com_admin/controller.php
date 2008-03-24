@@ -26,9 +26,14 @@ jimport( 'joomla.application.component.controller' );
  */
 class AdminController extends JController
 {
-	function __construct($config = array())
+	/**
+	 * Constructor
+	 *
+	 * @param	array	Configuration array
+	 */
+	function __construct( $config = array() )
 	{
-		parent::__construct($config);
+		parent::__construct( $config );
 
 		// Register Extra tasks
 		$this->registerTask( 'sysinfo',		'display' );
@@ -36,29 +41,31 @@ class AdminController extends JController
 		$this->registerTask( 'changelog',	'display' );
 	}
 
-	function display( )
+	/**
+	 * Display the view
+	 */
+	function display()
 	{
-		switch($this->getTask())
+		// Intercept URL's using the old task format
+		$task	= $this->getTask();
+
+		switch ($task)
 		{
-			case 'sysinfo'    :
-			{
-				JRequest::setVar( 'view'  , 'sysinfo');
-			} break;
-			case 'help'     :
-			{
-				JRequest::setVar( 'view'  , 'help');
-			} break;
+			case 'sysinfo':
+			case 'help':
 			case 'changelog'    :
-			{
-				JRequest::setVar( 'view'  , 'changelog');
-			} break;
+				JRequest::setVar( 'view', $task );
+				break;
 		}
 
-		if ( JRequest::getVar( 'view' ) ) {
+		if (JRequest::getVar( 'view' )) {
 			parent::display();
 		}
 	}
 
+	/**
+	 * TODO: Description?
+	 */
 	function keepalive( )
 	{
 		return;
