@@ -53,6 +53,9 @@ class AdminViewHelp extends JView
 			$page .= '.xml';
 		}
 	
+		// Toolbar
+		JToolBarHelper::title( JText::_( 'Help' ), 'help_header.png' );
+
 		$this->assignRef('fullhelpurl',	$fullhelpurl);
 		$this->assignRef('helpsearch',	$helpsearch);
 		$this->assignRef('page',		$page);

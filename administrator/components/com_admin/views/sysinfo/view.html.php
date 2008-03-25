@@ -38,6 +38,10 @@ class AdminViewSysinfo extends JView
 		$document =& JFactory::getDocument();
 		$document->setBuffer($contents, 'modules', 'submenu');
 		
+		// Toolbar
+		JToolBarHelper::title( JText::_( 'Information' ), 'systeminfo.png' );
+		JToolBarHelper::help( 'screen.system.info' );
+
 		parent::display($tpl);
 	}
 
@@ -58,10 +62,10 @@ class AdminViewSysinfo extends JView
 		}
 	}
 
-	function writableCell( $folder, $relative=1, $text='', $visible=1 )
+	function writableRow( $folder, $relative=1, $text='', $visible=1 )
 	{
-		$writeable		= '<b><font color="green">'. JText::_( 'Writable' ) .'</font></b>';
-		$unwriteable	= '<b><font color="red">'. JText::_( 'Unwritable' ) .'</font></b>';
+		$writeable		= '<b><span style="color:green;">'. JText::_( 'Writable' ) .'</span></b>';
+		$unwriteable	= '<b><span style="color:red;">'. JText::_( 'Unwritable' ) .'</span></b>';
 	
 		echo '<tr>';
 		echo '<td class="item">';

@@ -1,8 +1,5 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 
-<?php
-	JToolBarHelper::title( JText::_( 'Help' ), 'help_header.png' );
-?>
 <form action="index.php?option=com_admin&amp;task=help" method="post" name="adminForm">
 
 <table class="adminform" border="1">

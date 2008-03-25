@@ -25,45 +25,45 @@ $cparams = JComponentHelper::getParams ('com_media');
 		</tfoot>
 		<tbody>
 			<?php
-			AdminViewSysinfo::writableCell( 'administrator/backups' );
-			AdminViewSysinfo::writableCell( 'administrator/components' );
-			AdminViewSysinfo::writableCell( 'administrator/language' );
+			AdminViewSysinfo::writableRow( 'administrator/backups' );
+			AdminViewSysinfo::writableRow( 'administrator/components' );
+			AdminViewSysinfo::writableRow( 'administrator/language' );
 
 			// List all admin languages
 			$admin_langs = JFolder::folders(JPATH_ADMINISTRATOR.DS.'language');
 			foreach ($admin_langs as $alang)
 			{
-				AdminViewSysinfo::writableCell( 'administrator/language/'.$alang );
+				AdminViewSysinfo::writableRow( 'administrator/language/'.$alang );
 			}
 
-			AdminViewSysinfo::writableCell( 'administrator/modules' );
-			AdminViewSysinfo::writableCell( 'administrator/templates' );
-			AdminViewSysinfo::writableCell( 'components' );
-			AdminViewSysinfo::writableCell( 'images' );
-			AdminViewSysinfo::writableCell( 'images/banners' );
-			AdminViewSysinfo::writableCell( $cparams->get('image_path'));
-			AdminViewSysinfo::writableCell( 'language' );
+			AdminViewSysinfo::writableRow( 'administrator/modules' );
+			AdminViewSysinfo::writableRow( 'administrator/templates' );
+			AdminViewSysinfo::writableRow( 'components' );
+			AdminViewSysinfo::writableRow( 'images' );
+			AdminViewSysinfo::writableRow( 'images/banners' );
+			AdminViewSysinfo::writableRow( $cparams->get('image_path'));
+			AdminViewSysinfo::writableRow( 'language' );
 
 			// List all site languages
 			$site_langs	= JFolder::folders(JPATH_SITE.DS.'language');
 			foreach ($site_langs as $slang)
 			{
-				AdminViewSysinfo::writableCell( 'language/'.$slang );
+				AdminViewSysinfo::writableRow( 'language/'.$slang );
 			}
 
-			AdminViewSysinfo::writableCell( 'modules' );
-			AdminViewSysinfo::writableCell( 'plugins' );
-			AdminViewSysinfo::writableCell( 'plugins/content' );
-			AdminViewSysinfo::writableCell( 'plugins/editors' );
-			AdminViewSysinfo::writableCell( 'plugins/editors-xtd' );
-			AdminViewSysinfo::writableCell( 'plugins/search' );
-			AdminViewSysinfo::writableCell( 'plugins/system' );
-			AdminViewSysinfo::writableCell( 'plugins/user' );
-			AdminViewSysinfo::writableCell( 'plugins/xmlrpc' );
-			AdminViewSysinfo::writableCell( 'tmp' );
-			AdminViewSysinfo::writableCell( 'templates' );
-			AdminViewSysinfo::writableCell( JPATH_SITE.DS.'cache', 0, '<strong>'. JText::_( 'Cache Directory' ) .'</strong> ' );
-			AdminViewSysinfo::writableCell( JPATH_ADMINISTRATOR.DS.'cache', 0, '<strong>'. JText::_( 'Cache Directory' ) .'</strong> ' );
+			AdminViewSysinfo::writableRow( 'modules' );
+			AdminViewSysinfo::writableRow( 'plugins' );
+			AdminViewSysinfo::writableRow( 'plugins/content' );
+			AdminViewSysinfo::writableRow( 'plugins/editors' );
+			AdminViewSysinfo::writableRow( 'plugins/editors-xtd' );
+			AdminViewSysinfo::writableRow( 'plugins/search' );
+			AdminViewSysinfo::writableRow( 'plugins/system' );
+			AdminViewSysinfo::writableRow( 'plugins/user' );
+			AdminViewSysinfo::writableRow( 'plugins/xmlrpc' );
+			AdminViewSysinfo::writableRow( 'tmp' );
+			AdminViewSysinfo::writableRow( 'templates' );
+			AdminViewSysinfo::writableRow( JPATH_SITE.DS.'cache', 0, '<strong>'. JText::_( 'Cache Directory' ) .'</strong> ' );
+			AdminViewSysinfo::writableRow( JPATH_ADMINISTRATOR.DS.'cache', 0, '<strong>'. JText::_( 'Cache Directory' ) .'</strong> ' );
 			?>
 		</tbody>
 		</table>

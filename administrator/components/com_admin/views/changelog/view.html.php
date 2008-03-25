@@ -23,8 +23,13 @@ jimport( 'joomla.application.component.view');
  * @static
  * @package		Joomla
  * @subpackage	Admin
- * @since 1.0
+ * @since 1.5
  */
 class AdminViewChangelog extends JView
 {
+	function display($tpl = null)
+	{
+		$this->assign( 'changelog', $this->get( 'Changelog' ) );
+		parent::display($tpl);
+	}
 }

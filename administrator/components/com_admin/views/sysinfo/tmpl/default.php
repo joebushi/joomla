@@ -1,9 +1,5 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 
-<?php
-	JToolBarHelper::title( JText::_( 'Information' ), 'systeminfo.png' );
-	JToolBarHelper::help( 'screen.system.info' );
-?>
 <form action="index.php" method="post" name="adminForm">
 
 <div id="config-document">
