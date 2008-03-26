@@ -40,6 +40,9 @@ $ -> Language fix or change
 
 -------------------- 1.5.2 Stable Release [22-March-2008] ---------------------
 
+26-Mar-2008 Toby Patterson
+ # Fixed [#9015] No .blank class in system general.css
+
 22-Mar-2008 Sam Moffatt
  $ Added ko-KR installation language files
 
