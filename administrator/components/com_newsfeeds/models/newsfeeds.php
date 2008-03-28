@@ -46,6 +46,13 @@ class NewsfeedsModelNewsfeeds extends JModel
 	 * @var object
 	 */
 	var $_pagination = null;
+	
+	/**
+	 * Filter object
+	 *
+	 * @var object
+	 */
+	var $_filter = null;
 
 	/**
 	 * Constructor
@@ -64,6 +71,14 @@ class NewsfeedsModelNewsfeeds extends JModel
 
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
+
+		$filter = new stdClass();
+		$filter->order		= $mainframe->getUserStateFromRequest( $option.'filter_order',		'filter_order',		'a.ordering',	'cmd' );
+		$filter->order_Dir	= $mainframe->getUserStateFromRequest( $option.'filter_order_Dir',	'filter_order_Dir',	'',				'word' );
+		$filter->state		= $mainframe->getUserStateFromRequest( $option.'filter_state',		'filter_state',		'',				'word' );
+		$filter->catid		= $mainframe->getUserStateFromRequest( $option.'filter_catid',		'filter_catid',		0,				'int' );
+		$filter->search		= $mainframe->getUserStateFromRequest( $option.'search',			'search',			'',				'string' );
+		$this->_filter = $filter;
 	}
 
 	/**
@@ -120,6 +135,17 @@ class NewsfeedsModelNewsfeeds extends JModel
 		return $this->_pagination;
 	}
 
+	/**
+	 * Method to get filter object for the newsfeeds
+	 *
+	 * @access public
+	 * @return object
+	 */
+	function getFilter()
+	{
+		return $this->_filter;
+	}
+
 	function _buildQuery()
 	{
 		// Get the WHERE and ORDER BY clauses for the query
@@ -141,15 +167,11 @@ class NewsfeedsModelNewsfeeds extends JModel
 	{
 		global $mainframe, $option;
 
-		$filter_order		= $mainframe->getUserStateFromRequest( $option.'filter_order',		'filter_order',		'a.ordering',	'cmd' );
-		$filter_order_Dir	= $mainframe->getUserStateFromRequest( $option.'filter_order_Dir',	'filter_order_Dir',	'',				'word' );
-
-		if ($filter_order == 'a.ordering'){
-			$orderby 	= ' ORDER BY catname, a.ordering '.$filter_order_Dir;
+		if ($this->_filter->order == 'a.ordering'){
+			$orderby 	= ' ORDER BY catname, a.ordering '.$this->_filter->order_Dir;
 		} else {
-			$orderby 	= ' ORDER BY '.$filter_order.' '.$filter_order_Dir.' , catname, a.ordering ';
+			$orderby 	= ' ORDER BY '.$this->_filter->order.' '.$this->_filter->order_Dir.' , catname, a.ordering ';
 		}
-		//$orderby='';
 		return $orderby;
 	}
 
@@ -157,23 +179,20 @@ class NewsfeedsModelNewsfeeds extends JModel
 	{
 		global $mainframe, $option;
 
-		$filter_state		= $mainframe->getUserStateFromRequest( $option.'filter_state',		'filter_state',		'',				'word' );
-		$filter_catid		= $mainframe->getUserStateFromRequest( $option.'filter_catid',		'filter_catid',		0,				'int' );
-		$search				= $mainframe->getUserStateFromRequest( $option.'search',			'search',			'',				'string' );
-		$search				= JString::strtolower( $search );
+		$search = JString::strtolower( $this->_filter->search );
 
 		$where = array();
 
-		if ($filter_catid > 0) {
-			$where[] = 'a.catid = '.(int) $filter_catid;
+		if ($this->_filter->catid > 0) {
+			$where[] = 'a.catid = '.(int) $this->_filter->catid;
 		}
 		if ($search) {
-			$where[] = 'LOWER(a.name) LIKE '.$this->_db->Quote('%'.$search.'%');
+			$where[] = 'LOWER(a.name) LIKE '.$this->_db->Quote('%'.$this->_db->getEscaped( $search, true ).'%', false);
 		}
-		if ( $filter_state ) {
-			if ( $filter_state == 'P' ) {
+		if ( $this->_filter->state ) {
+			if ( $this->_filter->state == 'P' ) {
 				$where[] = 'a.published = 1';
-			} else if ($filter_state == 'U' ) {
+			} else if ($this->_filter->state == 'U' ) {
 				$where[] = 'a.published = 0';
 			}
 		}

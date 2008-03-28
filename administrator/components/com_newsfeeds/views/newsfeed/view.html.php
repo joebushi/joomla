@@ -29,15 +29,25 @@ class NewsfeedsViewNewsfeed extends JView
 {
 	function display($tpl = null)
 	{
-		$db 		=& JFactory::getDBO();
 		$user 		=& JFactory::getUser();
-	
-		$catid 		= JRequest::getVar( 'catid', 0, '', 'int' );
-		$cid 		= JRequest::getVar( 'cid', array(0), '', 'array' );
 		$option 	= JRequest::getCmd( 'option' );
 		$model		=& $this->getModel();
-		JArrayHelper::toInteger($cid, array(0));
 	
+		// Set toolbar items for the page
+		$edit	= JRequest::getVar('edit',true);
+		$text 	= ( $edit ? JText::_( 'Edit' ) : JText::_( 'New' ) );
+	
+		JToolBarHelper::title(  JText::_( 'Newsfeed' ).': <small><small>[ '. $text.' ]</small></small>' );
+		JToolBarHelper::save();
+		JToolBarHelper::apply();
+		if ($edit) {
+			// for existing items the button is renamed `close`
+			JToolBarHelper::cancel( 'cancel', 'Close' );
+		} else {
+			JToolBarHelper::cancel();
+		}
+		JToolBarHelper::help( 'screen.newsfeeds.edit' );
+
 		$newsfeed	=& $this->get('data');
 		$isNew		= ($newsfeed->id < 1);
 
@@ -60,24 +70,14 @@ class NewsfeedsViewNewsfeed extends JView
 		}
 	
 		// build the html select list for ordering
-		$query = 'SELECT a.ordering AS value, a.name AS text'
+		$order_query = 'SELECT a.ordering AS value, a.name AS text'
 			. ' FROM #__newsfeeds AS a'
 			. ' WHERE catid = ' . (int) $newsfeed->catid
 			. ' ORDER BY a.ordering'
 		;
 	
-		if(!$isNew)
-			$lists['ordering'] 			= JHTML::_('list.specificordering',  $newsfeed, $cid[0], $query, 1 );
-		else
-			$lists['ordering'] 			= JHTML::_('list.specificordering',  $newsfeed, '', $query, 1 );
-	
-		// build list of categories
-		$lists['category'] 			= JHTML::_('list.category',  'catid', $option, intval( $newsfeed->catid ) );
-		// build the html select list
-		$lists['published'] 		= JHTML::_('select.booleanlist',  'published', 'class="inputbox"', $newsfeed->published );
-	
 		$this->assignRef('user',		$user);
-		$this->assignRef('lists',		$lists);
+		$this->assignRef('order_query',	$order_query);
 		$this->assignRef('newsfeed',	$newsfeed);
 
 		parent::display($tpl);

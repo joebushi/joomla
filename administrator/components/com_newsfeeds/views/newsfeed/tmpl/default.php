@@ -3,23 +3,6 @@
 <?php JHTML::_('behavior.tooltip'); ?>
 <?php JRequest::setVar( 'hidemainmenu', 1 ); ?>
 
-
-<?php
-	// Set toolbar items for the page
-	$edit	= JRequest::getVar('edit',true);
-	$text 	= ( $edit ? JText::_( 'Edit' ) : JText::_( 'New' ) );
-
-	JToolBarHelper::title(  JText::_( 'Newsfeed' ).': <small><small>[ '. $text.' ]</small></small>' );
-	JToolBarHelper::save();
-	JToolBarHelper::apply();
-	if ($edit) {
-		// for existing items the button is renamed `close`
-		JToolBarHelper::cancel( 'cancel', 'Close' );
-	} else {
-		JToolBarHelper::cancel();
-	}
-	JToolBarHelper::help( 'screen.newsfeeds.edit' );
-?>
 <script language="javascript" type="text/javascript">
 function submitbutton(pressbutton) {
 	var form = document.adminForm;
@@ -79,7 +62,7 @@ function submitbutton(pressbutton) {
 				<?php echo JText::_( 'Published' ); ?>:
 			</td>
 			<td>
-				<?php echo $this->lists['published']; ?>
+				<?php echo JHTML::_('select.booleanlist',  'published', 'class="inputbox"', $this->newsfeed->published ); ?>
 			</td>
 		</tr>
 		<tr>
@@ -89,7 +72,7 @@ function submitbutton(pressbutton) {
 				</label>
 			</td>
 			<td>
-				<?php echo $this->lists['category']; ?>
+				<?php echo JHTML::_('list.category',  'catid', $option, intval( $this->newsfeed->catid ) ); ?>
 			</td>
 		</tr>
 		<tr>
@@ -129,7 +112,7 @@ function submitbutton(pressbutton) {
 				</label>
 			</td>
 			<td>
-				<?php echo $this->lists['ordering']; ?>
+				<?php echo JHTML::_('list.specificordering',  $this->newsfeed, $this->newsfeed->id, $this->order_query, 1 ); ?>
 			</td>
 		</tr>
 		<?php

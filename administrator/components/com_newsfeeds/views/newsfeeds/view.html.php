@@ -31,75 +31,41 @@ class NewsfeedsViewNewsfeeds extends JView
 	{
 		global $mainframe, $option;
 	
-		$db					=& JFactory::getDBO();
 		$user				=& JFactory::getUser();
 	
-		$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order",		'filter_order',		'a.ordering',	'cmd' );
-		$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'',				'word' );
-		$filter_state		= $mainframe->getUserStateFromRequest( "$option.filter_state",		'filter_state',		'',				'word' );
-		$filter_catid		= $mainframe->getUserStateFromRequest( "$option.filter_catid",		'filter_catid',		0,				'int' );
-		$search				= $mainframe->getUserStateFromRequest( "$option.search",			'search',			'',				'string' );
-		$search				= JString::strtolower( $search );
-	
+		// Set toolbar items for the page
+		JToolBarHelper::title(  JText::_( 'Newsfeed Manager' ) );
+		JToolBarHelper::publishList();
+		JToolBarHelper::unpublishList();
+		JToolBarHelper::deleteList();
+		JToolBarHelper::editListX();
+		JToolBarHelper::addNewX();
+		JToolBarHelper::preferences( 'com_newsfeeds', 390 );
+		JToolBarHelper::help( 'screen.newsfeeds' );
+
 		// Get data from the model
 		$items		= & $this->get( 'Data');
-		$total		= & $this->get( 'Total');
 		$pagination = & $this->get( 'Pagination' );
+		$filter		= & $this->get( 'Filter');
+
+		$cache_path = JPATH_SITE.DS.'cache';
+		$cache_writable = is_writable( $cache_path );
 
 		// Is cache directory writable?
-		$visible = 0;
 		// check to hide certain paths if not super admin
 		// TODO: Change this when ACLs more solid
+		$cache_folder = '';
 		if ( $user->get('gid') == 25 ) {
-			$visible = 1;
+			$cache_folder = $cache_path;
 		}
-		$cache = NewsfeedsViewNewsfeeds::writableCell( JPATH_SITE.DS.'cache', 0, '<strong>'. JText::_('Cache Directory') .'</strong> ', $visible );
-		$lists['cache']		= $cache;
-	
-		// build list of categories
-		$javascript = 'onchange="document.adminForm.submit();"';
-		$lists['catid'] = JHTML::_('list.category',  'filter_catid', 'com_newsfeeds', $filter_catid, $javascript );
-	
-		// state filter
-		$lists['state']	= JHTML::_('grid.state',  $filter_state );
-	
-		// table ordering
-		$lists['order_Dir']	= $filter_order_Dir;
-		$lists['order']		= $filter_order;
-	
-		// search filter
-		$lists['search']= $search;
 	
 		$this->assignRef('user',		$user);
-		$this->assignRef('lists',		$lists);
+		$this->assignRef('cache_folder',	$cache_folder);
+		$this->assignRef('cache_writable',	$cache_writable);
 		$this->assignRef('items',		$items);
 		$this->assignRef('pagination',	$pagination);
+		$this->assignRef('filter',		$filter);
 
 		parent::display($tpl);
-	}
-
-	function writableCell( $folder, $relative=1, $text='', $visible=1 )
-	{
-		$writeable 		= '<b><font color="green">'. JText::_( 'Writable' ) .'</font></b>';
-		$unwriteable 	= '<b><font color="red">'. JText::_( 'Unwritable' ) .'</font></b>';
-
-		$result = '';
-		$result .= '<tr>';
-		$result .= '<td class="item">';
-		$result .= $text;
-		if ( $visible ) {
-			$result .= $folder . '/';
-		}
-		$result .= '</td>';
-		$result .= '<td >';
-		if ( $relative ) {
-			$result .= is_writable( "../$folder" ) ? $writeable : $unwriteable;
-		} else {
-			$result .= is_writable( "$folder" ) ? $writeable : $unwriteable;
-		}
-		$result .= '</td>';
-		$result .= '</tr>';
-		
-		return $result;
 	}
 }
