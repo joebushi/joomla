@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Mar-2008 Sam Moffatt
+ ! Removed old TODO notice in installer
+
 28-Mar-2008 Wilco Jansen
  # Fixed [9118] Uncaught Error message in Extension Manager when uninstalling deleted component
  ! Thanks Ian for the patch 
