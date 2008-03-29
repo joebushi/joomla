@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Mar-2008 Ian MacLennan
+ # Fixed [#9335] Extra/Random table class (sectionentrytable0)
+
 29-Mar-2008 Sam Moffatt
  ! Removed old TODO notice in installer
 
