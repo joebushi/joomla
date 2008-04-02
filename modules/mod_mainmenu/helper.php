@@ -48,7 +48,7 @@ class modMainMenuHelper
 		    while (count($rows) && !is_null($row = array_shift($rows)))
 		    {
 			    if (array_key_exists($row->parent, $ids)) {
-				    $menu->addNode($row);
+				    $menu->addNode($params, $row);
 				    // record loaded parents
 				    $ids[$row->id] = true;
 			    } else {
@@ -200,10 +200,10 @@ class JMenuTree extends JTree
 		$this->_current		=& $this->_root;
 	}
 
-	function addNode($item)
+	function addNode(&$params, $item)
 	{
 		// Get menu item data
-		$data = $this->_getItemData($item);
+		$data = $this->_getItemData($params, $item);
 
 		// Create the node and add it
 		$node = new JMenuNode($item->id, $item->name, $item->access, $data);
@@ -270,7 +270,7 @@ class JMenuTree extends JTree
 		$this->_buffer .= '</li>';
 	}
 
-	function _getItemData($item)
+	function _getItemData(&$params, $item)
 	{
 		$data = null;
 
@@ -291,7 +291,7 @@ class JMenuTree extends JTree
 		}
 
 		$iParams = new JParameter($tmp->params);
-		if ($iParams->get('menu_image') && $iParams->get('menu_image') != -1) {
+		if ($params->get('menu_images') && $iParams->get('menu_image') && $iParams->get('menu_image') != -1) {
 			$image = '<img src="'.JURI::base(true).'/images/stories/'.$iParams->get('menu_image').'" alt="" />';
 		} else {
 			$image = null;
