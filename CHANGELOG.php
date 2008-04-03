@@ -41,6 +41,7 @@ $ -> Language fix or change
 03-Apr-2008 Toby Patterson
  # Fixed [#10197] component install error fails to reference left over folder in administrator/components folder
  # Fixed [#10200] jdoc:include type="module" not usable
+ # Fixed [#10012] $task is not properly passed to extensions
 
 29-Mar-2008 Ian MacLennan
  # Fixed [#9335] Extra/Random table class (sectionentrytable0)
