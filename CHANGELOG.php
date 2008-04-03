@@ -42,6 +42,7 @@ $ -> Language fix or change
  # Fixed [#10197] component install error fails to reference left over folder in administrator/components folder
  # Fixed [#10200] jdoc:include type="module" not usable
  # Fixed [#10012] $task is not properly passed to extensions
+ # Fixed [#10345] emailcloak is not removed if the article does not contain @
 
 29-Mar-2008 Ian MacLennan
  # Fixed [#9335] Extra/Random table class (sectionentrytable0)
