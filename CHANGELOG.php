@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+03-Apr-2008 Toby Patterson
+ # Fixed [#10197] component install error fails to reference left over folder in administrator/components folder
+
 29-Mar-2008 Ian MacLennan
  # Fixed [#9335] Extra/Random table class (sectionentrytable0)
 
