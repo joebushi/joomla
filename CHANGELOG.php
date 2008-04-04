@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-Apr-2008 Toby Patterson
+ # Fixed [#10307] "Select Article" breaks on change category refresh ( Thanks Michael )
+
 03-Apr-2008 Toby Patterson
  # Fixed [#10197] component install error fails to reference left over folder in administrator/components folder
  # Fixed [#10200] jdoc:include type="module" not usable
