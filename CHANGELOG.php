@@ -38,6 +38,15 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Apr-2008 Mati Kochen
+ # [#10299] Added 'Use Global' as default value to weblink.xml
+
+09-Apr-2008 Mati Kochen
+ # [#10253] Better PDF coding
+
+09-Apr-2008 Mati Kochen
+ # [#10297] Fixed RTL in Offline message
+
 04-Apr-2008 Toby Patterson
  # Fixed [#10307] "Select Article" breaks on change category refresh ( Thanks Michael )
 
