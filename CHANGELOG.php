@@ -38,6 +38,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Apr-2008 Anthony Ferrara
+ # [#10508] Caching pathway and breadcrumbs fix
+ # [#10329] Debug fails with version of Zend Optimizer
+
 10-Apr-2008 Mati Kochen
  # [#10299] Added 'Use Global' as default value to weblink.xml
 
