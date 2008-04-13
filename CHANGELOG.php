@@ -38,6 +38,15 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+13-Apr-2008 Sam Moffatt
+ # [#10639] mod_newsflash renders bad "read more" link text
+ # [#10574] Problem with template rhuk_milkyway in white color variation.
+ # [#10540] com_login not w3c valid
+ # [#10539] Contacts string repeat twice in com_contacts language file
+ # [#10510] /templates/beez/com_content/section/default.php
+ # [#10302] Milky Way and Beez lack editor.css files
+ # [#9984] Plugin parameters with pipes still not working perfectly
+
 10-Apr-2008 Anthony Ferrara
  # [#10508] Caching pathway and breadcrumbs fix
  # [#10329] Debug fails with version of Zend Optimizer
