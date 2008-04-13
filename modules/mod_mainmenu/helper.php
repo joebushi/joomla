@@ -48,7 +48,9 @@ class modMainMenuHelper
 		    while (count($rows) && !is_null($row = array_shift($rows)))
 		    {
 			    if (array_key_exists($row->parent, $ids)) {
-				    $menu->addNode($params, $row);
+				  	$row->ionly = $params->get('menu_images_link');
+					 $menu->addNode($params, $row);
+
 				    // record loaded parents
 				    $ids[$row->id] = true;
 			    } else {
@@ -109,7 +111,7 @@ class modMainMenuHelper
 							break;
 						}
 					}
-	
+
 					if ($i == $start-1) {
 						$found = true;
 						break;
@@ -293,6 +295,9 @@ class JMenuTree extends JTree
 		$iParams = new JParameter($tmp->params);
 		if ($params->get('menu_images') && $iParams->get('menu_image') && $iParams->get('menu_image') != -1) {
 			$image = '<img src="'.JURI::base(true).'/images/stories/'.$iParams->get('menu_image').'" alt="" />';
+			if($tmp->ionly){
+			     $tmp->name = null;
+		     }
 		} else {
 			$image = null;
 		}

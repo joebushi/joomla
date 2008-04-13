@@ -46,6 +46,9 @@ $ -> Language fix or change
  # [#10510] /templates/beez/com_content/section/default.php
  # [#10302] Milky Way and Beez lack editor.css files
  # [#9984] Plugin parameters with pipes still not working perfectly
+ # [#10402] Mainmenu Module issues
+ # [#9977] Search module changing '-' to ':' in keywords
+ # [#10097] Various XHTML fixes
 
 10-Apr-2008 Anthony Ferrara
  # [#10508] Caching pathway and breadcrumbs fix
