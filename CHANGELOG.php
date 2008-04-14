@@ -40,6 +40,7 @@ $ -> Language fix or change
 
 14-Apr-2008 Mati Kochen
  + Offline validation
+ + Legacy-Marker - a marker to show (admin) extensions requiring Legacy-Mode ON
 
 13-Apr-2008 Sam Moffatt
  # [#10639] mod_newsflash renders bad "read more" link text
