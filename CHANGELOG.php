@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+14-Apr-2008 Mati Kochen
+ + Offline validation
+
 13-Apr-2008 Sam Moffatt
  # [#10639] mod_newsflash renders bad "read more" link text
  # [#10574] Problem with template rhuk_milkyway in white color variation.
