@@ -45,16 +45,16 @@ class modMainMenuHelper
 		$unresolved = array();
 		// pop the first item until the array is empty if there is any item
 		if ( is_array($rows)) {
-		    while (count($rows) && !is_null($row = array_shift($rows)))
-		    {
-			    if (array_key_exists($row->parent, $ids)) {
+			while (count($rows) && !is_null($row = array_shift($rows)))
+			{
+				if (array_key_exists($row->parent, $ids)) {
 				  	$row->ionly = $params->get('menu_images_link');
 					 $menu->addNode($params, $row);
 
-				    // record loaded parents
-				    $ids[$row->id] = true;
-			    } else {
-				    // no parent yet so push item to back of list
+					// record loaded parents
+					$ids[$row->id] = true;
+				} else {
+					// no parent yet so push item to back of list
 					// SAM: But if the key isn't in the list and we dont _add_ this is infinite, so check the unresolved queue
 					if(!array_key_exists($row->id, $unresolved) || $unresolved[$row->id] < $maxdepth) {
 						array_push($rows, $row);
@@ -63,8 +63,8 @@ class modMainMenuHelper
 						if(!isset($unresolved[$row->id])) $unresolved[$row->id] = 1;
 						else $unresolved[$row->id]++;
 					}
-			    }
-		    }
+				}
+			}
 		}
 		return $menu->toXML();
 	}
@@ -296,8 +296,8 @@ class JMenuTree extends JTree
 		if ($params->get('menu_images') && $iParams->get('menu_image') && $iParams->get('menu_image') != -1) {
 			$image = '<img src="'.JURI::base(true).'/images/stories/'.$iParams->get('menu_image').'" alt="" />';
 			if($tmp->ionly){
-			     $tmp->name = null;
-		     }
+				 $tmp->name = null;
+			 }
 		} else {
 			$image = null;
 		}

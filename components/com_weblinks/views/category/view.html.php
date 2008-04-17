@@ -70,6 +70,9 @@ class WeblinksViewCategory extends JView
 			$pathway->addItem($category->title, '');
 		}
 
+		// Prepare category description
+		$category->description = JHTML::_('content.prepare', $category->description);
+
 		// table ordering
 		$lists['order_Dir'] = $state->get('filter_order_dir');
 		$lists['order'] = $state->get('filter_order');
