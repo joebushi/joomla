@@ -1,8 +1,8 @@
 <?php
 /**
-* @version		$Id$
+* @version		$Id: $
 * @package		Joomla
-* @subpackage	Sections
+* @subpackage	Newsfeeds
 * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -15,24 +15,11 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once( JApplicationHelper::getPath( 'toolbar_html' ) );
+// Require the base controller
+require_once (JPATH_COMPONENT.DS.'controller.php');
 
-switch ( $task )
-{
-	case 'add'  :
-		TOOLBAR_sections::_EDIT(false);
-		break;
-	case 'edit' :
-	case 'editA':
-		TOOLBAR_sections::_EDIT(true);
-		break;
+$controller	= new SectionsController( );
 
-	case 'copyselect':
-	case 'copysave':
-		TOOLBAR_sections::_COPY();
-		break;
-
-	default:
-		TOOLBAR_sections::_DEFAULT();
-		break;
-}
+// Perform the Request task
+$controller->execute( JRequest::getCmd('task'));
+$controller->redirect();
