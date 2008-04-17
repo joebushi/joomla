@@ -38,6 +38,16 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+17-Apr-2008 Anthony Ferrara
+ # [#9858] Flash Uploader not loading properly
+ # [#10511] Print button showing Array Print Array
+ # [#9775] Cache directory not writable causes warning
+ # [#10588] QueryBatch executing empty queries
+ # [#10675] Code Cleanup
+ # [#10702] JURI::clean fix (not properly stripping out /'s) - Thanks Alex Stylianos
+ # [#10308] Installer rejects valid DB names
+ # [#10323] Wrong param count for class_exists in TCPDF
+
 14-Apr-2008 Mati Kochen
  + Offline validation
  + Legacy-Marker - a marker to show (admin) extensions requiring Legacy-Mode ON

@@ -93,7 +93,7 @@
  */
 require_once(dirname(__FILE__).'/config/tcpdf_config.php');
 
-if(!class_exists('TCPDF', false)) {
+if(!class_exists('TCPDF')) {
 	/**
 	 * define default PDF document producer
 	 */ 
