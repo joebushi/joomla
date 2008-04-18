@@ -38,6 +38,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+18-Apr-2008 Sam Moffatt
+ # [#10707] update link to forum in Sample content
+ # [#10638] mod_newsflash renders article separator after last article
+
 17-Apr-2008 Anthony Ferrara
  # [#9858] Flash Uploader not loading properly
  # [#10511] Print button showing Array Print Array
