@@ -39,6 +39,7 @@ $ -> Language fix or change
 ! -> Note
 
 18-Apr-2008 Sam Moffatt
+ # [#10724] Custom user groups fail to display
  # [#10707] update link to forum in Sample content
  # [#10638] mod_newsflash renders article separator after last article
 
