@@ -676,7 +676,7 @@ class JURI extends JObject
 	 */
 	function _cleanPath($path)
 	{
-		$path = explode('/', str_replace('//', '/', $path));
+		$path = explode('/', preg_replace('#(/+)#', '/', $path));
 
 		for ($i = 0; $i < count($path); $i ++) {
 			if ($path[$i] == '.') {
