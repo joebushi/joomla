@@ -75,7 +75,7 @@ function plgEmailCloak(&$text, &$params)
 	}
 
 	$plugin = & JPluginHelper::getPlugin('content', 'emailcloak');
-	
+
 	// Load plugin params info
 	$pluginParams = new JParameter($plugin->params);
 	$mode = $pluginParams->def('mode', 1);

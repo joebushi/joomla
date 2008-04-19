@@ -89,7 +89,7 @@ class JDocumentPDF extends JDocument
 		 * Setup external configuration options
 		 */
 		define('K_TCPDF_EXTERNAL_CONFIG', true);
-		
+
 		/*
 		 * Path options
 		 */
@@ -241,9 +241,9 @@ class JDocumentPDF extends JDocument
 		//Close and output PDF document
 		return $data;
 	}
-	
+
 	function fixLinks()
 	{
-		
+
 	}
 }

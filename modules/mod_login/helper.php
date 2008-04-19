@@ -22,7 +22,7 @@ class modLoginHelper
                {
                        $menu =& JSite::getMenu();
                        $item = $menu->getItem($itemid);
-                       $url = $item->link; 
+                       $url = $item->link;
                }
                else
                {

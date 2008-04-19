@@ -6,6 +6,6 @@
 			<option value="0">Parent Window With Browser Navigation</option>
 			<option value="1">New Window With Browser Navigation</option>
 			<option value="2">New Window Without Browser Navigation</option>
-		</param>		
+		</param>
 	</params>
 </model>

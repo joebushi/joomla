@@ -56,9 +56,9 @@
 			<option value="1">Right</option>
 		</param>
 		 <param name="menu_images_link" type="radio" default="0" label="Menu Icon Link" description="PARAMMENUICONLINK">
-		      	<option value="0">No</option>  
+		      	<option value="0">No</option>
 		      	<option value="1">Yes</option>
-		  </param>        		
+		  </param>
 		<param name="expand_menu" type="radio" default="0" label="Expand Menu" description="PARAMEXPANDMENU">
 			<option value="0">No</option>
 			<option value="1">Yes</option>

@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-Apr-2008 Andrew Eddie
+ ! Trailing white-space cleanup
+
 18-Apr-2008 Ian MacLennan
  # [#10732] Help screen updates for Menu Manager
 
@@ -102,7 +105,7 @@ $ -> Language fix or change
 
 28-Mar-2008 Wilco Jansen
  # Fixed [9118] Uncaught Error message in Extension Manager when uninstalling deleted component
- ! Thanks Ian for the patch 
+ ! Thanks Ian for the patch
 
 26-Mar-2008 Toby Patterson
  # Fixed [9015] No .blank class in system general.css

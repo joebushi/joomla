@@ -1298,7 +1298,7 @@ class JInstallationHelper
 		/*
 		 * Add core client modules from old site to modules table as unpublished
 		 */
-		$query = 'SELECT id FROM '.$newPrefix.'modules_migration WHERE client_id = 0 '; 
+		$query = 'SELECT id FROM '.$newPrefix.'modules_migration WHERE client_id = 0 ';
 		$db->setQuery( $query );
 		$lookup = $db->loadResultArray();
 		JInstallationHelper::getDBErrors($errors, $db );

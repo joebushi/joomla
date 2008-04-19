@@ -748,7 +748,7 @@ class JLanguage extends JObject
 	function _parseXMLLanguageFile($path)
 	{
 		$xml = & JFactory::getXMLParser('Simple');
-		
+
 		// Load the file
 		if (!$xml || !$xml->loadFile($path)) {
 			return null;

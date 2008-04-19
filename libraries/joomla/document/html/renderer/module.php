@@ -38,7 +38,7 @@ class JDocumentRendererModule extends JDocumentRenderer
 		if (!is_object($module))
 		{
 			$title	= isset($params['title']) ? $params['title'] : null;
-			
+
 			$module =& JModuleHelper::getModule($module, $title);
 
 			if (!is_object($module))

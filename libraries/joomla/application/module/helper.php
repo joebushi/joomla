@@ -55,7 +55,7 @@ class JModuleHelper
 				}
 			}
 		}
-		
+
 		// if we didn't find it, and the name is mod_something, create a dummy object
 		if (is_null( $result ) && substr( $name, 0, 4 ) == 'mod_')
 		{
@@ -123,10 +123,10 @@ class JModuleHelper
 	{
 		static $chrome;
 		global $mainframe, $option;
-		
+
 		$scope = $mainframe->scope; //record the scope
 		$mainframe->scope = $module->module;  //set scope to component name
-		
+
 		// Handle legacy globals if enabled
 		if ($mainframe->getCfg('legacy'))
 		{
@@ -216,9 +216,9 @@ class JModuleHelper
 				ob_end_clean();
 			}
 		}
-		
+
 		$mainframe->scope = $scope; //revert the scope
-		
+
 		return $module->content;
 	}
 
