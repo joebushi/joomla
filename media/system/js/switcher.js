@@ -40,7 +40,7 @@ var JSwitcher = new Class({
 		}
 
 		//hide all
-		elements = $ES('div', element);
+		elements = element.getElements('div[id^=page-]');
 		for (i=0; i < elements.length; i++) {
 			this.hide(elements[i])
 		}

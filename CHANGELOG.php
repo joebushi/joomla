@@ -38,8 +38,16 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-Apr-2008 Anthony Ferrara
+ # [#10009] Search Function yields warning
+ # [#10150] Installation minimum password length doesn't work
+ # [#10725] Installation not xhtml compliant
+ # [#10739] Spelling error in com_installer.ini
+ # [#10092] Switcher hides nested divs
+
 19-Apr-2008 Andrew Eddie
  ! Trailing white-space cleanup
+ # [#9725] JFilterInput Infinite Loop
 
 18-Apr-2008 Ian MacLennan
  # [#10732] Help screen updates for Menu Manager

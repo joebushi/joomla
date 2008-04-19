@@ -52,9 +52,15 @@ JFormValidator.prototype = {
 										return regex.test(value);
 									}
 								  }
+		this.handlers['sitename']	= { enabled : true,
+									exec : function (value) {
+										regex=/^(.){1,200}$/;
+										return regex.test(value);
+									}
+								  }
 		this.handlers['password']	= { enabled : true,
 									exec : function (value) {
-										regex=/^[a-zA-Z]\w{3,14}$/;
+										regex=/^\S[\S ]{2,98}\S$/;
 										return regex.test(value);
 									}
 								  }
@@ -192,12 +198,14 @@ JFormValidator.prototype = {
 		}
 	},
 
-	isValid: function(form) 
+	isValid: function(form, element) 
 	{
 		var valid = true;
 		for (var i=0;i < form.elements.length; i++) {
-			if (this.validate(form.elements[i]) == false) {
-				valid = false;
+			if ((element == '') || ((element != '') && (form.elements[i].name==element))) {
+				if (this.validate(form.elements[i]) == false) {
+					valid = false;
+				}
 			}
 		}
 		return valid;
