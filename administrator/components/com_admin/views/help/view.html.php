@@ -52,7 +52,7 @@ class AdminViewHelp extends JView
 		if (!eregi( '\.html$', $page )) {
 			$page .= '.xml';
 		}
-	
+
 		// Toolbar
 		JToolBarHelper::title( JText::_( 'Help' ), 'help_header.png' );
 
@@ -73,19 +73,19 @@ class AdminViewHelp extends JView
 	function getHelpTOC( $helpsearch )
 	{
 		global $mainframe;
-	
+
 		$lang =& JFactory::getLanguage();
 		jimport( 'joomla.filesystem.folder' );
-	
+
 		$helpurl		= $mainframe->getCfg('helpurl');
-	
+
 		// Check for files in the actual language
 		$langTag = $lang->getTag();
 		if( !JFolder::exists( JPATH_BASE.DS.'help'.DS.$langTag ) ) {
 			$langTag = 'en-GB';		// use english as fallback
 		}
 		$files = JFolder::files( JPATH_BASE.DS.'help'.DS.$langTag, '\.xml$|\.html$' );
-	
+
 		$toc = array();
 		foreach ($files as $file) {
 			$buffer = file_get_contents( JPATH_BASE.DS.'help'.DS.$langTag.DS.$file );

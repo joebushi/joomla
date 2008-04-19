@@ -33,7 +33,7 @@ class SectionsViewSection extends JView
 
 		$db			=& JFactory::getDBO();
 		$user 		=& JFactory::getUser();
-	
+
 		$option		= JRequest::getCmd( 'option');
 		$scope		= JRequest::getCmd( 'scope' );
 		$cid		= JRequest::getVar( 'cid', array(0), '', 'array' );
@@ -49,14 +49,14 @@ class SectionsViewSection extends JView
 			$msg = JText::sprintf( 'DESCBEINGEDITTED', JText::_( 'The section' ), $row->title );
 			$mainframe->redirect( 'index.php?option='. $option .'&scope='. $row->scope, $msg );
 		}
-	
+
 		if ( $edit ) {
 			$model->checkout( $user->get('id') );
 		} else {
 			$row->scope 		= $scope;
 			$row->published 	= 1;
 		}
-	
+
 		// build the html select list for ordering
 		$query = 'SELECT ordering AS value, title AS text'
 		. ' FROM #__sections'
@@ -76,7 +76,7 @@ class SectionsViewSection extends JView
 		$lists['access'] 			= JHTML::_('list.accesslevel',  $row );
 		// build the html radio buttons for published
 		$lists['published'] 		= JHTML::_('select.booleanlist',  'published', 'class="inputbox"', $row->published );
-	
+
 		$this->assignRef('user',		$user);
 		$this->assignRef('lists',		$lists);
 		$this->assignRef('row',			$row);

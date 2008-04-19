@@ -30,7 +30,7 @@ class MassmailViewMassmail extends JView
 	function display($tpl = null)
 	{
 		$acl =& JFactory::getACL();
-	
+
 		// Set toolbar items for the page
 		JToolBarHelper::title( JText::_( 'Mass Mail' ), 'massemail.png' );
 		JToolBarHelper::custom('send', 'send.png', 'send_f2.png', 'Send Mail', false);
@@ -43,7 +43,7 @@ class MassmailViewMassmail extends JView
 			JHTML::_('select.option',  0, '- '. JText::_( 'All User Groups' ) .' -' )
 		);
 		$gtree = array_merge( $gtree, $acl->get_group_children_tree( null, 'users', false ) );
-	
+
 		$this->assignRef('gtree',		$gtree);
 
 		parent::display( $tpl );

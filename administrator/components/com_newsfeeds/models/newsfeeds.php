@@ -46,7 +46,7 @@ class NewsfeedsModelNewsfeeds extends JModel
 	 * @var object
 	 */
 	var $_pagination = null;
-	
+
 	/**
 	 * Filter object
 	 *

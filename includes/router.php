@@ -165,7 +165,7 @@ class JRouterSite extends JRouter
 			if(isset($vars['option']) || isset($vars['Itemid'])) {
 				return $this->_parseRawRoute($uri);
 			}
-			
+
 			$item = $menu->getDefault();
 
 			//Set the information in the request
@@ -312,7 +312,7 @@ class JRouterSite extends JRouter
 				$built = true;
 			}
 		}
-		
+
 		if(!$built) {
 			$tmp = 'component/'.substr($query['option'], 4).'/'.$tmp;
 		}

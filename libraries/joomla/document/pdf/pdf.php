@@ -89,7 +89,7 @@ class JDocumentPDF extends JDocument
 		 * Setup external configuration options
 		 */
 		define('K_TCPDF_EXTERNAL_CONFIG', true);
-		
+
 		/*
 		 * Path options
 		 */

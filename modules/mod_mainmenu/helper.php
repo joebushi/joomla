@@ -109,7 +109,7 @@ class modMainMenuHelper
 							break;
 						}
 					}
-	
+
 					if ($i == $start-1) {
 						$found = true;
 						break;

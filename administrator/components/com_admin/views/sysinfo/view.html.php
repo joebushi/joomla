@@ -37,7 +37,7 @@ class AdminViewSysinfo extends JView
 		$contents = $this->loadTemplate('navigation');
 		$document =& JFactory::getDocument();
 		$document->setBuffer($contents, 'modules', 'submenu');
-		
+
 		// Toolbar
 		JToolBarHelper::title( JText::_( 'Information' ), 'systeminfo.png' );
 		JToolBarHelper::help( 'screen.system.info' );
@@ -66,7 +66,7 @@ class AdminViewSysinfo extends JView
 	{
 		$writeable		= '<b><span style="color:green;">'. JText::_( 'Writable' ) .'</span></b>';
 		$unwriteable	= '<b><span style="color:red;">'. JText::_( 'Unwritable' ) .'</span></b>';
-	
+
 		echo '<tr>';
 		echo '<td class="item">';
 		echo $text;

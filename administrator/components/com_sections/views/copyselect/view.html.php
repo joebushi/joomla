@@ -30,16 +30,16 @@ class SectionsViewCopySelect extends JView
 	function display($tpl = null)
 	{
 		global $mainframe;
-	
+
 		$db =& JFactory::getDBO();
-	
+
 		$cid = JRequest::getVar( 'cid', array(0), '', 'array' );
 		JArrayHelper::toInteger($cid);
-	
+
 		if ( count( $cid ) < 1) {
 			JError::raiseError(500, JText::_( 'Select an item to move', true ) );
 		}
-	
+
 		## query to list selected sections
 		$cids = implode( ',', $cid );
 		$query = 'SELECT a.title, a.id'
@@ -48,7 +48,7 @@ class SectionsViewCopySelect extends JView
 		;
 		$db->setQuery( $query );
 		$sections = $db->loadObjectList();
-	
+
 		## query to list selected categories
 		$cids = implode( ',', $cid );
 		$query = 'SELECT a.title, a.id'
@@ -57,7 +57,7 @@ class SectionsViewCopySelect extends JView
 		;
 		$db->setQuery( $query );
 		$categories = $db->loadObjectList();
-	
+
 		## query to list items from categories
 		$query = 'SELECT a.title, a.id'
 		. ' FROM #__content AS a'
@@ -66,7 +66,7 @@ class SectionsViewCopySelect extends JView
 		;
 		$db->setQuery( $query );
 		$contents = $db->loadObjectList();
-	
+
 		$this->assignRef('sections',	$sections);
 		$this->assignRef('categories',	$categories);
 		$this->assignRef('contents',	$contents);

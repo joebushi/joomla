@@ -46,7 +46,7 @@ class SectionsModelSections extends JModel
 	 * @var object
 	 */
 	var $_pagination = null;
-	
+
 	/**
 	 * Filter object
 	 *

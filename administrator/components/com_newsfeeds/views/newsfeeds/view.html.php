@@ -30,9 +30,9 @@ class NewsfeedsViewNewsfeeds extends JView
 	function display($tpl = null)
 	{
 		global $mainframe, $option;
-	
+
 		$user				=& JFactory::getUser();
-	
+
 		// Set toolbar items for the page
 		JToolBarHelper::title(  JText::_( 'Newsfeed Manager' ) );
 		JToolBarHelper::publishList();
@@ -58,7 +58,7 @@ class NewsfeedsViewNewsfeeds extends JView
 		if ( $user->get('gid') == 25 ) {
 			$cache_folder = $cache_path;
 		}
-	
+
 		$this->assignRef('user',		$user);
 		$this->assignRef('cache_folder',	$cache_folder);
 		$this->assignRef('cache_writable',	$cache_writable);

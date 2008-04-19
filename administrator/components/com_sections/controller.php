@@ -76,13 +76,13 @@ class SectionsController extends JController
 	function save()
 	{
 		global $mainframe, $option;
-	
+
 		// Check for request forgeries.
 		$token = JUtility::getToken();
 		if (!JRequest::getInt($token, 0, 'post')) {
 			JError::raiseError(403, 'Request Forbidden');
 		}
-	
+
 		$db			=& JFactory::getDBO();
 		$menu		= JRequest::getVar( 'menu', 'mainmenu', 'post', 'string' );
 		$menuid		= JRequest::getVar( 'menuid', 0, 'post', 'int' );
@@ -91,10 +91,10 @@ class SectionsController extends JController
 		$scope		= JRequest::getVar( 'scope', '' );
 
 		$post = JRequest::get('post');
-	
+
 		// fix up special html fields
 		$post['description'] = JRequest::getVar( 'description', '', 'post', 'string', JREQUEST_ALLOWRAW );
-	
+
 		$row =& JTable::getInstance('section');
 		if (!$row->bind($post)) {
 			JError::raiseError(500, $row->getError() );
@@ -113,12 +113,12 @@ class SectionsController extends JController
 				$db->query();
 			}
 		}
-	
+
 		// if new item order last in appropriate group
 		if (!$row->id) {
 			$row->ordering = $row->getNextOrder();
 		}
-	
+
 		if (!$row->store()) {
 			JError::raiseError(500, $row->getError() );
 		}
@@ -129,16 +129,16 @@ class SectionsController extends JController
 			case 'go2menu':
 				$mainframe->redirect( 'index.php?option=com_menus&menutype='. $menu );
 				break;
-	
+
 			case 'go2menuitem':
 				$mainframe->redirect( 'index.php?option=com_menus&menutype='. $menu .'&task=edit&id='. $menuid );
 				break;
-	
+
 			case 'apply':
 				$msg = JText::_( 'Changes to Section saved' );
 				$mainframe->redirect( 'index.php?option='. $option .'&scope='. $scope .'&task=edit&cid[]='. $row->id, $msg );
 				break;
-	
+
 			case 'save':
 			default:
 				$msg = JText::_( 'Section saved' );
@@ -171,13 +171,13 @@ class SectionsController extends JController
 	function copysave()
 	{
 		global $mainframe;
-	
+
 		// Check for request forgeries.
 		$token = JUtility::getToken();
 		if (!JRequest::getInt($token, 0, 'post')) {
 			JError::raiseError(403, 'Request Forbidden');
 		}
-	
+
 		$db			=& JFactory::getDBO();
 		$scope		= JRequest::getString( 'scope' );
 		$sectionid	= JRequest::getVar( 'cid' );
@@ -186,7 +186,7 @@ class SectionsController extends JController
 		JArrayHelper::toInteger($sectionid);
 		JArrayHelper::toInteger($contentid);
 		JArrayHelper::toInteger($categoryid);
-	
+
 		// copy section
 		$copied = array();
 		$section =& JTable::getInstance('section');
@@ -206,7 +206,7 @@ class SectionsController extends JController
 				JError::raiseWarning(500, $section->getError() );
 				return;
 			}
-	
+
 			if ( !$section->store() ) {
 				JError::raiseError(500, $section->getError() );
 			}
@@ -217,7 +217,7 @@ class SectionsController extends JController
 			// pulls new catid
 			$newsectids[]["new"] = $section->id;
 		}
-	
+
 		// copy categories
 		$category =& JTable::getInstance('category');
 		foreach( $categoryid as $id ) {
@@ -235,7 +235,7 @@ class SectionsController extends JController
 			if (!$category->check()) {
 				JError::raiseError(500, $category->getError() );
 			}
-	
+
 			if (!$category->store()) {
 				JError::raiseError(500, $category->getError() );
 			}
@@ -246,7 +246,7 @@ class SectionsController extends JController
 			// pulls new catid
 			$newcatids[]["new"] = $category->id;
 		}
-	
+
 		$content =& JTable::getInstance('content');
 		foreach( $contentid as $id) {
 			$content->load( $id );
@@ -267,7 +267,7 @@ class SectionsController extends JController
 			if (!$content->check()) {
 				JError::raiseError(500, $content->getError() );
 			}
-	
+
 			if (!$content->store()) {
 				JError::raiseError(500, $content->getError() );
 			}
@@ -292,7 +292,7 @@ class SectionsController extends JController
 		if (count( $cid ) < 1) {
 			JError::raiseError(500, JText::_( 'Select a section to delete', true ) );
 		}
-	
+
 		$cids = implode( ',', $cid );
 
 		$query = 'SELECT s.id, s.name, COUNT(c.id) AS numcat'
@@ -305,7 +305,7 @@ class SectionsController extends JController
 		if (!($rows = $db->loadObjectList())) {
 			echo "<script> alert('".$db->getErrorMsg(true)."'); window.history.go(-1); </script>\n";
 		}
-	
+
 		$err = array();
 		$cid = array();
 		foreach ($rows as $row) {
@@ -316,7 +316,7 @@ class SectionsController extends JController
 				$err[]	= $row->name;
 			}
 		}
-	
+
 		if (count( $cid ))
 		{
 			$cids = implode( ',', $cid );
@@ -328,7 +328,7 @@ class SectionsController extends JController
 				echo "<script> alert('".$db->getErrorMsg(true)."'); window.history.go(-1); </script>\n";
 			}
 		}
-	
+
 		if (count( $err ))
 		{
 			$cids = implode( ', ', $err );

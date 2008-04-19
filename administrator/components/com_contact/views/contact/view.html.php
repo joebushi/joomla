@@ -38,7 +38,7 @@ class ContactsViewContact extends JView
 
 		// Set toolbar items for the page
 		JRequest::setVar( 'hidemainmenu', 1 );
-		
+
 		$edit		= JRequest::getVar('edit',true);
 		$text = !$edit ? JText::_( 'New' ) : JText::_( 'Edit' );
 		JToolBarHelper::title(   JText::_( 'Contact' ).': <small><small>[ ' . $text.' ]</small></small>' );

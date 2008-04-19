@@ -12,7 +12,7 @@ jimport('joomla.application.component.model');
 
 /**
  * Bricks Component ECB Rates Model
- * 
+ *
  * Retrieve cash exchange rates from the European Central Bank
  *
  * @package		Bricks
@@ -61,7 +61,7 @@ class AdminModelChangelog extends JModel
 			readfile( JPATH_SITE.DS.'CHANGELOG.php' );
 			$this->_data = ob_get_contents();
 			ob_clean();
-	
+
 			return (boolean) $this->_data;
 		}
 		return true;

@@ -32,11 +32,11 @@ class NewsfeedsViewNewsfeed extends JView
 		$user 		=& JFactory::getUser();
 		$option 	= JRequest::getCmd( 'option' );
 		$model		=& $this->getModel();
-	
+
 		// Set toolbar items for the page
 		$edit	= JRequest::getVar('edit',true);
 		$text 	= ( $edit ? JText::_( 'Edit' ) : JText::_( 'New' ) );
-	
+
 		JToolBarHelper::title(  JText::_( 'Newsfeed' ).': <small><small>[ '. $text.' ]</small></small>' );
 		JToolBarHelper::save();
 		JToolBarHelper::apply();
@@ -68,14 +68,14 @@ class NewsfeedsViewNewsfeed extends JView
 			$newsfeed->published 	= 1;
 			$newsfeed->catid 	= JRequest::getVar( 'catid', 0, 'post', 'int' );
 		}
-	
+
 		// build the html select list for ordering
 		$order_query = 'SELECT a.ordering AS value, a.name AS text'
 			. ' FROM #__newsfeeds AS a'
 			. ' WHERE catid = ' . (int) $newsfeed->catid
 			. ' ORDER BY a.ordering'
 		;
-	
+
 		$this->assignRef('user',		$user);
 		$this->assignRef('order_query',	$order_query);
 		$this->assignRef('newsfeed',	$newsfeed);
