@@ -44,6 +44,7 @@ $ -> Language fix or change
  # [#10725] Installation not xhtml compliant
  # [#10739] Spelling error in com_installer.ini
  # [#10092] Switcher hides nested divs
+ # Fix for fatal error related to [#10638]
 
 19-Apr-2008 Andrew Eddie
  ! Trailing white-space cleanup
