@@ -48,8 +48,8 @@ class modMainMenuHelper
 			while (count($rows) && !is_null($row = array_shift($rows)))
 			{
 				if (array_key_exists($row->parent, $ids)) {
-				  	$row->ionly = $params->get('menu_images_link');
-					 $menu->addNode($params, $row);
+					$row->ionly = $params->get('menu_images_link');
+					$menu->addNode($params, $row);
 
 					// record loaded parents
 					$ids[$row->id] = true;
