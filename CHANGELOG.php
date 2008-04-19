@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+18-Apr-2008 Ian MacLennan
+ # [#10732] Help screen updates for Menu Manager
+
 18-Apr-2008 Sam Moffatt
  # [#10724] Custom user groups fail to display
  # [#10707] update link to forum in Sample content
