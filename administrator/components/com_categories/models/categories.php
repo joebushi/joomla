@@ -73,7 +73,7 @@ class CategoriesModelCategories extends JModel
 		$this->setState('limitstart', $limitstart);
 
 		$filter = new stdClass();
-		$filter->order		= $mainframe->getUserStateFromRequest( $option.'filter_order',		'filter_order',		's.ordering',	'cmd' );
+		$filter->order		= $mainframe->getUserStateFromRequest( $option.'filter_order',		'filter_order',		'c.ordering',	'cmd' );
 		$filter->order_Dir	= $mainframe->getUserStateFromRequest( $option.'filter_order_Dir',	'filter_order_Dir',	'',				'word' );
 		$filter->state		= $mainframe->getUserStateFromRequest( $option.'filter_state',		'filter_state',		'',				'word' );
 		$filter->search		= $mainframe->getUserStateFromRequest( $option.'search',			'search',			'',				'string' );
