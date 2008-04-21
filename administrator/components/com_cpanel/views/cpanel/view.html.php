@@ -1,8 +1,8 @@
 <?php
 /**
-* @version		$Id$
+* @version		$Id: $
 * @package		Joomla
-* @subpackage	Admin
+* @subpackage	Cpanel
 * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -12,25 +12,36 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-// no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+// Check to ensure this file is included in Joomla!
+defined('_JEXEC') or die();
 
+jimport( 'joomla.application.component.view');
 jimport('joomla.html.pane');
 jimport('joomla.application.module.helper');
 
 /**
-* @package		Joomla
-* @subpackage	Admin
-*/
-class HTML_cpanel
+ * HTML View class for the Cpanel component
+ *
+ * @static
+ * @package		Joomla
+ * @subpackage	Cpanel
+ * @since 1.0
+ */
+class CpanelViewCpanel extends JView
 {
-	/**
-	* Control panel
-	*/
-	function display()
+	function display($tpl = null)
 	{
-		global $mainframe;
+		// Set toolbar items for the page
+		JToolBarHelper::title( JText::_( 'Control Panel' ), 'cpanel.png' );
+		JToolBarHelper::help( 'screen.cpanel' );
+		
+		/*
+		 * Set the template - this will display cpanel.php
+		 * from the selected admin template.
+		 */
+		JRequest::setVar('tmpl', 'cpanel');
 
+		// Display the cpanel modules
 		$modules	=& JModuleHelper::getModules('cpanel');
 		$pane		=& JPane::getInstance('sliders');
 		echo $pane->startPane("content-pane");
