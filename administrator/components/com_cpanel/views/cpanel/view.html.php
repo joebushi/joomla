@@ -16,7 +16,6 @@
 defined('_JEXEC') or die();
 
 jimport( 'joomla.application.component.view');
-jimport('joomla.html.pane');
 jimport('joomla.application.module.helper');
 
 /**
@@ -43,16 +42,9 @@ class CpanelViewCpanel extends JView
 
 		// Display the cpanel modules
 		$modules	=& JModuleHelper::getModules('cpanel');
-		$pane		=& JPane::getInstance('sliders');
-		echo $pane->startPane("content-pane");
 
-		foreach ($modules as $module) {
-			$title = $module->title ;
-			echo $pane->startPanel( $title, 'cpanel-panel-'.$module->name );
-			echo JModuleHelper::renderModule($module);
-			echo $pane->endPanel();
-		}
+		$this->assignRef('modules',			$modules);
 
-		echo $pane->endPane();
+		parent::display($tpl);
 	}
 }
