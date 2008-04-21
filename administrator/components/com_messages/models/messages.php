@@ -74,7 +74,7 @@ class MessagesModelMessages extends JModel
 		$this->setState('limitstart', $limitstart);
 
 		$filter = new stdClass();
-		$filter->order		= $mainframe->getUserStateFromRequest( $context.'.filter_order',		'filter_order',		'a.ordering',	'cmd' );
+		$filter->order		= $mainframe->getUserStateFromRequest( $context.'.filter_order',		'filter_order',		'a.date_time',	'cmd' );
 		$filter->order_Dir	= $mainframe->getUserStateFromRequest( $context.'.filter_order_Dir',	'filter_order_Dir',	'',				'word' );
 		$filter->state		= $mainframe->getUserStateFromRequest( $context.'.filter_state',		'filter_state',		'',				'word' );
 		$filter->search		= $mainframe->getUserStateFromRequest( $context.'.search',			'search',			'',				'string' );
