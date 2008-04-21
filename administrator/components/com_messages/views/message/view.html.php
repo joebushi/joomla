@@ -79,6 +79,7 @@ class MessagesViewMessage extends JView
 			JToolBarHelper::customX('reply', 'restore.png', 'restore_f2.png', 'Reply', false );
 			JToolBarHelper::deleteList();
 			JToolBarHelper::cancel();
+			JToolBarHelper::help( 'screen.messages.view' );
 
 			$model = $this->getModel();
 			$model->markAsRead();
