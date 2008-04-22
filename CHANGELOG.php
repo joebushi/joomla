@@ -39,7 +39,7 @@ $ -> Language fix or change
 ! -> Note
 
 
--------------------- 1.5.3 Stable Release [22-June-2008] ---------------------
+-------------------- 1.5.3 Stable Release [22-April-2008] ---------------------
 
 19-Apr-2008 Anthony Ferrara
  # [#10009] Search Function yields warning
