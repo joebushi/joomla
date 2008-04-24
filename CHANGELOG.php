@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+24-Apr-2008 Mati Kochen
+ # Fix for the Legacy-Marker - missing parse
+
 
 -------------------- 1.5.3 Stable Release [22-April-2008] ---------------------
 

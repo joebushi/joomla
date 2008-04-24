@@ -222,6 +222,7 @@ class JApplicationHelper
 		}
 
 		$data = array();
+		$data['legacy'] = $xml->document->name() == 'mosinstall';
 
 		$element = & $xml->document->name[0];
 		$data['name'] = $element ? $element->data() : '';
