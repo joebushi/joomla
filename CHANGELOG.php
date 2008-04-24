@@ -40,6 +40,7 @@ $ -> Language fix or change
 
 24-Apr-2008 Mati Kochen
  # Fix for the Legacy-Marker - missing parse
+ # Removed the special treatment for RTL in Pagination
 
 
 -------------------- 1.5.3 Stable Release [22-April-2008] ---------------------
