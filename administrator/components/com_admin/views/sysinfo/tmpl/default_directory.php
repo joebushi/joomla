@@ -51,6 +51,7 @@ $cparams = JComponentHelper::getParams ('com_media');
 				AdminViewSysinfo::writableRow( 'language/'.$slang );
 			}
 
+			AdminViewSysinfo::writableRow( 'media' );
 			AdminViewSysinfo::writableRow( 'modules' );
 			AdminViewSysinfo::writableRow( 'plugins' );
 			AdminViewSysinfo::writableRow( 'plugins/content' );
