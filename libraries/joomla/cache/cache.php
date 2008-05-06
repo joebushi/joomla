@@ -299,6 +299,31 @@ class JCache extends JObject
 	}
 
 	/**
+	 * Check parameter against global param
+	 *
+	 * @access 	public
+	 * @param 	int local cache parameter
+	 * @return 	boolean true if enabled, false if not
+	 * @since 	1.6
+	 */
+	function checkParam($local) 
+	{
+		static $global = null;
+		if(is_null($global)) {
+			$config =& JFactory::getConfig();
+			$global = $config->get('config.caching');
+		}
+		//if either is explicitly disabled, return false
+		if(!$global || !$local) 
+			return false;
+		//If either is set to On or Default On, return true
+		if($global == 2 || $local == 2) 
+			return true;
+		//Both are 1, return false;
+		return false;
+	}
+
+	/**
 	 * Get the cache storage handler
 	 *
 	 * @access protected

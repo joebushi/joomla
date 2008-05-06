@@ -35,12 +35,49 @@ class JDocumentRendererModules extends JDocumentRenderer
 	 */
 	function render( $position, $params = array(), $content = null )
 	{
-		$renderer =&  $this->_doc->loadRenderer('module');
-
 		$contents = '';
-		foreach (JModuleHelper::getModules($position) as $mod)  {
-			$contents .= $renderer->render($mod, $params, $content);
+		$cache =& JFactory::getCache('modules', 'object');
+		$user =& JFactory::getUser();
+		if(!isset($params['cache'])) {
+			$cachable = 1;
+		} elseif($params['cache']) {
+			$cachable = 2;
+		} else {
+			$cachable = 0;
 		}
+		if( JCache::checkParam($cachable) ) {
+			//Caching module positions is possible, generate the cache id
+			$cacheid = md5(
+				JRequest::getInt('Itemid') 
+				. strtoupper( $position ) 
+				. serialize($params) 
+				. $content 
+				. $user->get('aid', 0)
+			);
+			$data = $cache->get($cacheid, 'modules');
+			if($data) {
+				return $data;
+			}
+			//data isn't there, generate it
+			$renderer =&  $this->_doc->loadRenderer('module');
+			$cachable = true;
+			foreach (JModuleHelper::getModules($position) as $mod)  {
+				$contents .= $renderer->render($mod, $params, $content);
+				$mod_params = new JParameter($mod->params);
+				if( !JCache::checkParam( $mod_params->get('cache') ) ) {
+					$cachable = false;
+				}
+			}
+			if($cachable) {
+				$cache->store($contents, $cacheid, 'modules');
+			}
+		} else {
+			$renderer =&  $this->_doc->loadRenderer('module');
+			foreach (JModuleHelper::getModules($position) as $mod)  {
+				$contents .= $renderer->render($mod, $params, $content);
+			}
+		}
+
 		return $contents;
 	}
 }

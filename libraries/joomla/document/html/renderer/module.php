@@ -38,9 +38,7 @@ class JDocumentRendererModule extends JDocumentRenderer
 		if (!is_object($module))
 		{
 			$title	= isset($params['title']) ? $params['title'] : null;
-
 			$module =& JModuleHelper::getModule($module, $title);
-
 			if (!is_object($module))
 			{
 				if (is_null($content)) {
@@ -63,6 +61,14 @@ class JDocumentRendererModule extends JDocumentRenderer
 		// get the user and configuration object
 		$user =& JFactory::getUser();
 		$conf =& JFactory::getConfig();
+		if($conf->get('config.caching')) {
+			$cache =& JFactory::getCache( $module->module, 'object' );
+			$cacheid = md5(JRequest::getInt('Itemid') . $module->module . $module->params . $module->id . $user->get('aid', 0));
+			$contents = $cache->get($cacheid, $module->module);
+			if($contents) {
+				return $contents;
+			}
+		}
 
 		// set the module content
 		if (!is_null($content)) {
@@ -71,18 +77,12 @@ class JDocumentRendererModule extends JDocumentRenderer
 
 		//get module parameters
 		$mod_params = new JParameter( $module->params );
-
-		$contents = '';
-		if ($mod_params->get('cache', 0) && $conf->getValue( 'config.caching' ))
+		$contents = JModuleHelper::renderModule($module, $params);
+		if ( JCache::checkParam($mod_params->get('cache')) )
 		{
-			$cache =& JFactory::getCache( $module->module );
-
-			$cache->setLifeTime( $mod_params->get( 'cache_time', $conf->getValue( 'config.cachetime' ) * 60 ) );
-			$cache->setCacheValidation(true);
-
-			$contents =  $cache->get( array('JModuleHelper', 'renderModule'), array( $module, $params ), $module->id. $user->get('aid', 0) );
-		} else {
+			$ttl = $mod_params->get( 'cache_time', $conf->getValue( 'config.cachetime' ) * 60 ) );
 			$contents = JModuleHelper::renderModule($module, $params);
+			$cache->store($contents, $cacheid, $module->module, $ttl);
 		}
 
 		return $contents;

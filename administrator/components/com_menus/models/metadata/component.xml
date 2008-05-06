@@ -18,6 +18,8 @@
 				<option value="0">Ignore</option>
 				<option value="1">On</option>
 			</param>
+			<param name="cache" type="cachelist" default="1" label="Caching" description="Select whether to cache the content of this page" />
+			<param name="cache_time" type="text" default="" label="Cache Time" description="The time before the page is recached" />
 		</params>
 		<advanced />
 	</state>

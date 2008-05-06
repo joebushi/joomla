@@ -79,9 +79,20 @@ class JCachePage extends JCache
 	 */
 	function store()
 	{
+		$menu =& JSite::getMenu();
+		$active = $menu->getActive();
+		if(is_object($active)) {
+			$params =& $menu->getParams($active->id);
+			if(!JCache::checkParam($params->get('cache'))) {
+				return false;
+			}
+			$ttl = $params->get('cache_time');
+			if($ttl) {
+				$this->setLifetime($ttl * 60);
+			}
+		}
 		// Get page data from JResponse body
 		$data = JResponse::getBody();
-
 		// Get id and group and reset them placeholders
 		$id		= $this->_id;
 		$group	= $this->_group;

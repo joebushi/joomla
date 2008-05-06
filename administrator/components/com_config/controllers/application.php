@@ -154,7 +154,12 @@ class ConfigControllerApplication extends ConfigController
 		$lists['smtpauth'] 		= JHTML::_('select.booleanlist', 'smtpauth', 'class="inputbox"', $row->smtpauth);
 
 		// CACHE SETTINGS
-		$lists['caching'] 		= JHTML::_('select.booleanlist', 'caching', 'class="inputbox"', $row->caching);
+		$caching = array(
+			JHTML::_('select.option', 0, JText::_('Disabled')),
+			JHTML::_('select.option', 1, JText::_('Enabled - Default Off')),
+			JHTML::_('select.option', 2, JText::_('Enabled - Default On')),
+		);
+		$lists['caching'] 		= JHTML::_('select.genericlist', $caching, 'caching', 'class="inputbox"', $row->caching);
 		jimport('joomla.cache.cache');
 		$stores = JCache::getStores();
 		$options = array();
