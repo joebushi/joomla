@@ -159,7 +159,7 @@ class ConfigControllerApplication extends ConfigController
 			JHTML::_('select.option', 1, JText::_('Enabled - Default Off')),
 			JHTML::_('select.option', 2, JText::_('Enabled - Default On')),
 		);
-		$lists['caching'] 		= JHTML::_('select.genericlist', $caching, 'caching', 'class="inputbox"', $row->caching);
+		$lists['caching'] 		= JHTML::_('select.genericlist', $caching, 'caching', 'class="inputbox"', 'value', 'text', $row->caching);
 		jimport('joomla.cache.cache');
 		$stores = JCache::getStores();
 		$options = array();

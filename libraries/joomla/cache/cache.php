@@ -311,7 +311,7 @@ class JCache extends JObject
 		static $global = null;
 		if(is_null($global)) {
 			$config =& JFactory::getConfig();
-			$global = $config->get('config.caching');
+			$global = $config->getValue('config.caching');
 		}
 		//if either is explicitly disabled, return false
 		if(!$global || !$local) 

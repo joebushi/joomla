@@ -61,7 +61,7 @@ class JDocumentRendererModule extends JDocumentRenderer
 		// get the user and configuration object
 		$user =& JFactory::getUser();
 		$conf =& JFactory::getConfig();
-		if($conf->get('config.caching')) {
+		if($conf->getValue('config.caching')) {
 			$cache =& JFactory::getCache( $module->module, 'object' );
 			$cacheid = md5(JRequest::getInt('Itemid') . $module->module . $module->params . $module->id . $user->get('aid', 0));
 			$contents = $cache->get($cacheid, $module->module);
@@ -80,7 +80,7 @@ class JDocumentRendererModule extends JDocumentRenderer
 		$contents = JModuleHelper::renderModule($module, $params);
 		if ( JCache::checkParam($mod_params->get('cache')) )
 		{
-			$ttl = $mod_params->get( 'cache_time', $conf->getValue( 'config.cachetime' ) * 60 ) );
+			$ttl = $mod_params->get( 'cache_time', $conf->getValue( 'config.cachetime' )) * 60;
 			$contents = JModuleHelper::renderModule($module, $params);
 			$cache->store($contents, $cacheid, $module->module, $ttl);
 		}
