@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-May-2008 Sam Moffatt
+ # [#10923] Backend accepts any password for custom Super Administrator when LDAP enabled
+
 24-Apr-2008 Mati Kochen
  # Fix for the Legacy-Marker - missing parse
  # Removed the special treatment for RTL in Pagination
