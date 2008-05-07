@@ -804,7 +804,7 @@ class JDatabase extends JObject
 	}
 
 	/**
-	 * Update ab object in the database
+	 * Update an object in the database
 	 *
 	 * @abstract
 	 * @access public
