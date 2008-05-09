@@ -805,6 +805,9 @@ class JInstaller extends JObject
 		{
 			$path['src']	= $source.DS.$file->data();
 			$path['dest']	= $destination.DS.$file->data();
+			
+			// Is this path a file or folder?
+			$path['type']	= ( $file->name() == 'folder') ? 'folder' : 'file';
 
 			/*
 			 * Before we can add a file to the copyfiles array we need to ensure

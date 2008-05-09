@@ -39,8 +39,9 @@ $ -> Language fix or change
 ! -> Note
 
 10-May-2008 Wilco Jansen
- # [#10412] XHTML validation fails when using category name as a link on frontpage
- # [#10811] Category link is not closed on front page in BEEZ template - default_item.php
+ # [10412] XHTML validation fails when using category name as a link on frontpage
+ # [10811] Category link is not closed on front page in BEEZ template - default_item.php
+ # [10498] [PATCH] folders not copied correctly, using <media> in XML
 
 09-May-2008 Andrew Eddie
  + Added ja_purity template by JoomlArt
