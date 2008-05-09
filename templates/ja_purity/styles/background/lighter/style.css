@@ -30,7 +30,6 @@ blockquote span.close {
 
 .small-quote span.author {
 	border-top: 1px solid #DCDDE0;
-	background: url(images/author.gif) no-repeat 5px 4px #EAEBEE;
 }
 
 /* Rropcap */
@@ -41,17 +40,14 @@ blockquote span.close {
 /* Tips, Error, Message, Hightlight*/
 .error {
 	color: #666666;
-	background: url(images/icon-error.gif) no-repeat top left;
 }
 
 .message {
 	color: #999999;
-	background: url(images/icon-info.gif) no-repeat top left;
 }
 
 .tips {
 	color: #666666;
-	background: url(images/icon-tips.gif) no-repeat top left;
 }
 
 .highlight {
@@ -95,7 +91,6 @@ div.bubble1 span.author,
 div.bubble2 span.author,
 div.bubble3 span.author,
 div.bubble4 span.author {
-	background: url(images/author.gif) no-repeat center left;
 }
 
 div.bubble1 div {

@@ -138,6 +138,9 @@ td, div {
 	font-size: 100%;
 }
 
+img {
+	border: none;
+}
 /* FORM
 --------------------------------------------------------- */
 form {
@@ -707,12 +710,10 @@ ul.pagination a:hover, ul.pagination a:active, ul.pagination a:focus {
 
 .pagenavbar {
 	padding-left: 14px;
-	background: url(../images/icon-pages.gif) no-repeat center left;
 }
 
 .pagenavcounter {
 	padding: 8px 14px 0 14px;
-	background: url(../images/icon-pages.gif) no-repeat 0 11px;
 }
 
 .sectiontableheader {
@@ -773,12 +774,12 @@ div.syndicate div {
 
 .createby {
 	padding: 3px 3px 3px 20px;
-	background: url(../images/icon-user.gif) no-repeat 0 5px;
+	background: url(../images/icon-user.gif) no-repeat 0 2px;
 }
 
 .createdate {
 	padding: 3px 3px 3px 20px;
-	background: url(../images/icon-date.gif) no-repeat 0 5px;
+	background: url(../images/icon-date.gif) no-repeat 0 2px;
 }
 
 .modifydate {

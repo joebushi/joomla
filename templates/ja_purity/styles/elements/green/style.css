@@ -7,9 +7,9 @@ a.readon {
 	color: #7BA566;
 }
 
-ul.menu li li a:hover,
-ul.menu li li a:active,
-ul.menu li li a:focus {
+#ja-container2 ul.menu li li a:hover,
+#ja-container2 ul.menu li li a:active,
+#ja-container2 ul.menu li li a:focus {
 	color: #7BA566;
 }
 
@@ -17,7 +17,7 @@ ul.menu li li a:focus {
 	color: #7BA566;
 }
 
-ul.menu li.active a {
+#ja-container2 ul.menu li.active a {
 	color: #7BA566;
 }
 

@@ -30,33 +30,28 @@ include_once (dirname(__FILE__).DS.'/ja_vars.php');
 
 <script language="javascript" type="text/javascript" src="<?php echo $tmpTools->templateurl(); ?>/js/ja.script.js"></script>
 
-<?php if ($tmpTools->getParam('rightCollapsible')) { ?>
+<?php if ($tmpTools->getParam('rightCollapsible')): ?>
 <script language="javascript" type="text/javascript">
 var rightCollapseDefault='<?php echo $tmpTools->getParam('rightCollapseDefault'); ?>';
 var excludeModules='<?php echo $tmpTools->getParam('excludeModules'); ?>';
 </script>
 <script language="javascript" type="text/javascript" src="<?php echo $tmpTools->templateurl(); ?>/js/ja.rightcol.js"></script>
-<?php } ?>
-
-<?php
-if ($tmpTools->getParam('horNav')){
-	if ($tmpTools->getParam('horNavType') == 'css'){
-?>
-<link rel="stylesheet" href="<?php echo $tmpTools->templateurl(); ?>/ja_menus/ja_cssmenu/ja-sosdmenu.css" type="text/css" />
-<script language="javascript" type="text/javascript" src="<?php echo $tmpTools->templateurl(); ?>/ja_menus/ja_cssmenu/ja.cssmenu.js"></script>
-<?php
-	}else{
-?>
-<link rel="stylesheet" href="<?php echo $tmpTools->templateurl(); ?>/ja_menus/ja_cssmenu/ja-sosdmenu.css" type="text/css" />
-<script language="javascript" type="text/javascript" src="<?php echo $tmpTools->templateurl(); ?>/ja_menus/ja_cssmenu/ja.moomenu.js"></script>
-<?php
-	}
-} ?>
+<?php endif; ?>
 
 <?php  if($this->direction == 'rtl') : ?>
 <link rel="stylesheet" href="<?php echo $tmpTools->templateurl(); ?>/css/template_rtl.css" type="text/css" />
 <?php else : ?>
 <link rel="stylesheet" href="<?php echo $tmpTools->templateurl(); ?>/css/menu.css" type="text/css" />
+<?php endif; ?>
+
+<?php if ($this->countModules('hornav')): ?>
+<?php if ($tmpTools->getParam('horNavType') == 'css'): ?>
+<link rel="stylesheet" href="<?php echo $tmpTools->templateurl(); ?>/css/ja-sosdmenu.css" type="text/css" />
+<script language="javascript" type="text/javascript" src="<?php echo $tmpTools->templateurl(); ?>/js/ja.cssmenu.js"></script>
+<?php else: ?>
+<link rel="stylesheet" href="<?php echo $tmpTools->templateurl(); ?>/css/ja-sosdmenu.css" type="text/css" />
+<script language="javascript" type="text/javascript" src="<?php echo $tmpTools->templateurl(); ?>/js/ja.moomenu.js"></script>
+<?php endif; ?>
 <?php endif; ?>
 
 <?php if ($tmpTools->getParam('theme_header') && $tmpTools->getParam('theme_header')!='-1') : ?>
@@ -69,22 +64,13 @@ if ($tmpTools->getParam('horNav')){
 <link rel="stylesheet" href="<?php echo $tmpTools->templateurl(); ?>/styles/elements/<?php echo $tmpTools->getParam('theme_elements'); ?>/style.css" type="text/css" />
 <?php endif; ?>
 
-<!--[if lte IE 6]>
-<style type="text/css">
-.clearfix {height: 1%;}
-img {
-	border: none;
-}
-</style>
-<![endif]-->
-
 <!--[if gte IE 7.0]>
 <style type="text/css">
 .clearfix {display: inline-block;}
 </style>
 <![endif]-->
-<?php if ($tmpTools->isIE6()) {
-?>
+<?php if ($tmpTools->isIE6()): ?>
+<!--[if lte IE 6]>
 <script type="text/javascript">
 var siteurl = '<?php echo $tmpTools->baseurl();?>';
 
@@ -93,31 +79,20 @@ function makeTransBG() {
 	fixIEPNG($E('.ja-headermask'), '', '', 1);
 	fixIEPNG($E('h1.logo a'));
 	fixIEPNG($$('img'));
-	fixIEPNG ($$('#ja-cssmenu li ul'), '', 'scale', 0, 2);
+	fixIEPNG ($$('#ja-mainnav ul.menu li ul'), '', 'scale', 0, 2);
 }
 </script>
 <style type="text/css">
-.ja-headermask, h1.logo a, #ja-cssmenu li ul
-{ background-position: -1000px; }
-#ja-cssmenu li ul li, #ja-cssmenu li a
-{
-	background:transparent url(<?php echo $tmpTools->templateurl(); ?>/images/blank.png) no-repeat right;
-}
+.ja-headermask, h1.logo a, #ja-cssmenu li ul { background-position: -1000px; }
+#ja-cssmenu li ul li, #ja-cssmenu li a { background:transparent url(<?php echo $tmpTools->templateurl(); ?>/images/blank.png) no-repeat right;}
+.clearfix {height: 1%;}
 </style>
-<?php } ?>
+<![endif]-->
+<?php endif; ?>
 
 <style type="text/css">
-#ja-header,
-#ja-mainnav,
-#ja-container,
-#ja-botsl,
-#ja-footer {
-	width: <?php echo $tmpWidth; ?>;
-	margin: 0 auto;
-}
-#ja-wrapper {
-	min-width: <?php echo $tmpWrapMin; ?>;
-}
+#ja-header,#ja-mainnav,#ja-container,#ja-botsl,#ja-footer {width: <?php echo $tmpWidth; ?>;margin: 0 auto;}
+#ja-wrapper {min-width: <?php echo $tmpWrapMin; ?>;}
 </style>
 </head>
 
@@ -138,18 +113,18 @@ function makeTransBG() {
 
 	<?php
 		$siteName = $tmpTools->sitename();
-		if ($tmpTools->getParam('logoType')=='image') { ?>
+		if ($tmpTools->getParam('logoType')=='image'): ?>
 		<h1 class="logo">
 			<a href="index.php" title="<?php echo $siteName; ?>"><span><?php echo $siteName; ?></span></a>
 		</h1>
-	<?php } else {
+	<?php else:
 		$logoText = (trim($tmpTools->getParam('logoText'))=='') ? $config->sitename : $tmpTools->getParam('logoText');
 		$sloganText = (trim($tmpTools->getParam('sloganText'))=='') ? JText::_('SITE SLOGAN') : $tmpTools->getParam('sloganText');	?>
 		<h1 class="logo-text">
 			<a href="index.php" title="<?php echo $siteName; ?>"><span><?php echo $logoText; ?></span></a>
 		</h1>
 		<p class="site-slogan"><?php echo $sloganText;?></p>
-	<?php } ?>
+	<?php endif; ?>
 
 	<div class="ja-headermask">&nbsp;</div>
 
@@ -166,21 +141,13 @@ function makeTransBG() {
 <!-- END: HEADER -->
 
 <!-- BEGIN: MAIN NAVIGATION -->
-<?php if ($tmpTools->getParam('horNav')==1){ ?>
-<div id="ja-mainnavwrap">
-	<div id="ja-mainnav" class="clearfix">
-		<?php $jamenu->genMenu (0); ?>
-	</div>
-</div>
-<?php } ?>
-
-<?php if ($tmpTools->getParam('horNav')==2 && $this->countModules('hornav')) { ?>
+<?php if ($this->countModules('hornav')): ?>
 <div id="ja-mainnavwrap">
 	<div id="ja-mainnav" class="clearfix">
 	<jdoc:include type="modules" name="hornav" />
 	</div>
 </div>
-<?php } ?>
+<?php endif; ?>
 <!-- END: MAIN NAVIGATION -->
 
 <div id="ja-containerwrap<?php echo $divid; ?>">
@@ -214,23 +181,23 @@ function makeTransBG() {
 		</div>
 		<!-- END: CONTENT -->
 
-		<?php if ($this->countModules('left')) { ?>
+		<?php if ($this->countModules('left')): ?>
 		<!-- BEGIN: LEFT COLUMN -->
 		<div id="ja-col1">
 			<jdoc:include type="modules" name="left" style="xhtml" />
 		</div><br />
 		<!-- END: LEFT COLUMN -->
-		<?php } ?>
+		<?php endif; ?>
 
 		</div>
 
-		<?php if ($this->countModules('right')) { ?>
+		<?php if ($this->countModules('right')): ?>
 		<!-- BEGIN: RIGHT COLUMN -->
 		<div id="ja-col2">
 			<jdoc:include type="modules" name="right" style="jarounded" />
 		</div><br />
 		<!-- END: RIGHT COLUMN -->
-		<?php } ?>
+		<?php endif; ?>
 
 	</div>
 	</div>
@@ -240,40 +207,40 @@ function makeTransBG() {
 <?php
 $spotlight = array ('user1','user2','top','user5');
 $botsl = $tmpTools->calSpotlight ($spotlight,99,22);
-if( $botsl ) {
+if( $botsl ) :
 ?>
 <!-- BEGIN: BOTTOM SPOTLIGHT -->
 <div id="ja-botslwrap">
 	<div id="ja-botsl" class="clearfix">
 
-	  <?php if( $this->countModules('user1') ) {?>
+	  <?php if( $this->countModules('user1') ): ?>
 	  <div class="ja-box<?php echo $botsl['user1']['class']; ?>" style="width: <?php echo $botsl['user1']['width']; ?>;">
 			<jdoc:include type="modules" name="user1" style="xhtml" />
 	  </div>
-	  <?php } ?>
+	  <?php endif; ?>
 
-	  <?php if( $this->countModules('user2') ) {?>
+	  <?php if( $this->countModules('user2') ): ?>
 	  <div class="ja-box<?php echo $botsl['user2']['class']; ?>" style="width: <?php echo $botsl['user2']['width']; ?>;">
 			<jdoc:include type="modules" name="user2" style="xhtml" />
 	  </div>
-	  <?php } ?>
+	  <?php endif; ?>
 
-	  <?php if( $this->countModules('top') ) {?>
+	  <?php if( $this->countModules('top') ): ?>
 	  <div class="ja-box<?php echo $botsl['top']['class']; ?>" style="width: <?php echo $botsl['top']['width']; ?>;">
 			<jdoc:include type="modules" name="top" style="xhtml" />
 	  </div>
-	  <?php } ?>
+	  <?php endif; ?>
 
-	  <?php if( $this->countModules('user5') ) {?>
+	  <?php if( $this->countModules('user5') ): ?>
 	  <div class="ja-box<?php echo $botsl['user5']['class']; ?>" style="width: <?php echo $botsl['user5']['width']; ?>;">
 			<jdoc:include type="modules" name="user5" style="xhtml" />
 	  </div>
-	  <?php } ?>
+	  <?php endif; ?>
 
 	</div>
 </div>
 <!-- END: BOTTOM SPOTLIGHT -->
-<?php } ?>
+<?php endif; ?>
 
 <!-- BEGIN: FOOTER -->
 <div id="ja-footerwrap">

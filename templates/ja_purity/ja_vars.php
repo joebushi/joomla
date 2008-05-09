@@ -48,7 +48,7 @@ switch ($tmpTools->getParam(JA_TOOL_SCREEN)){
 		$tmpWidth = intval($tmpTools->getParam('ja_screen_width'));
 		$tmpWrapMin = $tmpWidth ? ($tmpWidth+1).'px' : '751px';
 		$tmpWidth = $tmpWidth ? $tmpWidth.'px' : '750px';
-		break;
+		break;		
 	default:
 		$tmpWidth = intval($tmpTools->getParam(JA_TOOL_SCREEN));
 		$tmpWrapMin = $tmpWidth ? ($tmpWidth+1).'px' : '751px';
@@ -56,17 +56,4 @@ switch ($tmpTools->getParam(JA_TOOL_SCREEN)){
 		break;
 }
 
-//Embeded horizontal navigation
-if($tmpTools->getParam('horNav')==1) {
-	$menuType = $tmpTools->getParam('horNavMenuType');
-	if (!$menuType) $menuType = 'mainmenu';
-
-	$japarams = new JParameter('');
-	$japarams->set( 'menu_images', 1 );                    //    Source of menu
-	$japarams->set( 'menu_images_align', 'left' );
-	$japarams->set( 'menutype', $menuType );
-
-	include_once( dirname(__FILE__).DS.'ja_menus/CSSmenu.class.php' );
-	$jamenu = new JA_CSSmenu ($japarams);
-}
 ?>

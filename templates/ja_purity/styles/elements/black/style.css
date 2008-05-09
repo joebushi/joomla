@@ -7,13 +7,13 @@ a.readon {
 	color: #333333;
 }
 
-ul.menu li li a:hover,
-ul.menu li li a:active,
-ul.menu li li a:focus {
+#ja-container2 ul.menu li li a:hover,
+#ja-container2 ul.menu li li a:active,
+#ja-container2 ul.menu li li a:focus {
 	color: #333333;
 }
 
-ul.menu li.active a span {
+#ja-container2 ul.menu li.active a span {
 	background: url(../../../images/bullet.gif) no-repeat 5px;
 }
 
@@ -21,7 +21,7 @@ ul.menu li.active a span {
 	color: #333333;
 }
 
-ul.menu li.active a {
+#ja-container2 ul.menu li.active a {
 	color: #333333;
 }
 

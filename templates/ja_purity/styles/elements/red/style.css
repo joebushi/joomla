@@ -7,9 +7,9 @@ a.readon {
 	color: #CC0000;
 }
 
-ul.menu li li a:hover,
-ul.menu li li a:active,
-ul.menu li li a:focus {
+#ja-container2 ul.menu li li a:hover,
+#ja-container2 ul.menu li li a:active,
+#ja-container2 ul.menu li li a:focus {
 	color: #CC0000;
 }
 
@@ -17,7 +17,7 @@ ul.menu li li a:focus {
 	color: #CC0000;
 }
 
-ul.menu li.active a {
+#ja-container2 ul.menu li.active a {
 	color: #CC0000;
 }
 
@@ -31,6 +31,6 @@ div.module h3 {
 	color: #CC0000;
 }
 
-ul.menu li.active a span {
+#ja-container2 ul.menu li.active a span {
 	background: url(images/bullet3.gif) no-repeat 5px;
 }

@@ -8,15 +8,11 @@ class JA_Tools {
 	var $_params_cookie = null; //Params will store in cookie for user select. Default: store all params
 	var $_tpl = null;
 	var $template = '';
-
-	//This default value could override by setting with function setScreenSizes() and setColorThemes()
-	var $_ja_screen_sizes = array ('narrow', 'wide');
-	var $_ja_color_themes = array ('default', 'red', 'green');
-
+	
 	function JA_Tools ($template, $_params_cookie=null) {
-		$this->_tpl = $template;
+		$this->_tpl = $template;		
 		$this->template = $template->template;
-
+		
 		if(!$_params_cookie) {
 			$this->_params_cookie = $this->_tpl->params->toArray();
 		} else {
@@ -24,11 +20,11 @@ class JA_Tools {
 				$this->_params_cookie[$k] = $this->_tpl->params->get($k);
 			}
 		}
-
+		
 		$this->getUserSetting();
 	}
-
-	function getUserSetting(){
+	
+	function getUserSetting(){		
 		$exp = time() + 60*60*24*355;
 		if (isset($_COOKIE[$this->template.'_tpl']) && $_COOKIE[$this->template.'_tpl'] == $this->template){
 			foreach($this->_params_cookie as $k=>$v) {
@@ -43,24 +39,24 @@ class JA_Tools {
 				}
 				$this->setParam($k, $v);
 			}
-
+			
 		}else{
 			setcookie ($this->template.'_tpl', $this->template, $exp, '/');
-		}
+		}		
 		return $this;
 	}
 
-	function getParam ($param) {
+	function getParam ($param, $default='') {
 		if (isset($this->_params_cookie[$param])) {
 			return $this->_params_cookie[$param];
 		}
-		return $this->_tpl->params->get($param);
+		return $this->_tpl->params->get($param, $default);
 	}
 
 	function setParam ($param, $value) {
 		$this->_params_cookie[$param] = $value;
 	}
-
+	
 	function getCurrentURL(){
 		$cururl = JRequest::getURI();
 		if(($pos = strpos($cururl, "index.php"))!== false){
@@ -73,53 +69,19 @@ class JA_Tools {
 	function genToolMenu($_array_tools=null, $imgext = 'gif'){
 		if(!is_array($_array_tools)) $_array_tools = array($_array_tools);
 		if(!$_array_tools) $_array_tools = array_keys($this->_params_cookie);
-
-		if (in_array(JA_TOOL_SCREEN, $_array_tools)){//show screen tools
-			?>
-			<ul class="ja-usertools-res">
-			<?php
-			foreach ($this->_ja_screen_sizes as $ja_screen_size) {
-				echo "
-		    <li><img style=\"cursor: pointer;\" title=\"$ja_screen_size screen\" src=\"".$this->templateurl()."/images/user-screen1". ( ($this->getParam(JA_TOOL_SCREEN)=="narrow") ? "-hilite" : "" ) .".<?php echo $imgext;?>\" alt=\"$ja_screen_size screen resolution\" id=\"ja-tool-$ja_screen_size\" onclick=\"switchTool('".$this->template."_".JA_TOOL_SCREEN."','$ja_screen_size');return false;\" /></li>
-			";
-			}
-			?>
-			</ul>
-		<?php }
-
 		if (in_array(JA_TOOL_FONT, $_array_tools)){//show font tools
 		?>
-			<ul class="ja-usertools-font">
+		<ul class="ja-usertools-font">
 	      <li><img style="cursor: pointer;" title="<?php echo JText::_('Increase font size');?>" src="<?php echo $this->templateurl();?>/images/user-increase.<?php echo $imgext;?>" alt="<?php echo JText::_('Increase font size');?>" id="ja-tool-increase" onclick="switchFontSize('<?php echo $this->template."_".JA_TOOL_FONT;?>','inc'); return false;" /></li>
-		    <li><img style="cursor: pointer;" title="<?php echo JText::_('Default font size');?>" src="<?php echo $this->templateurl();?>/images/user-reset.<?php echo $imgext;?>" alt="<?php echo JText::_('Default font size');?>" id="ja-tool-reset" onclick="switchFontSize('<?php echo $this->template."_".JA_TOOL_FONT;?>',<?php echo $this->_tpl->params->get(JA_TOOL_FONT);?>); return false;" /></li>
-		    <li><img style="cursor: pointer;" title="<?php echo JText::_('Decrease font size');?>" src="<?php echo $this->templateurl();?>/images/user-decrease.<?php echo $imgext;?>" alt="<?php echo JText::_('Decrease font size');?>" id="ja-tool-decrease" onclick="switchFontSize('<?php echo $this->template."_".JA_TOOL_FONT;?>','dec'); return false;" /></li>
-			</ul>
-			<script type="text/javascript">var CurrentFontSize=parseInt('<?php echo $this->getParam(JA_TOOL_FONT);?>');</script>
-			<?php
-		}
-		if (in_array(JA_TOOL_COLOR, $_array_tools)){//show color tools
-			?>
-			<ul class="ja-usertools-color">
-			<?php
-			foreach ($this->_ja_color_themes as $ja_color_theme) {
-				echo "
-				<li><img style=\"cursor: pointer;\" src=\"".$this->templateurl()."/images/".$ja_color_theme.( ($this->getParam(JA_TOOL_COLOR)==$ja_color_theme) ? "-hilite" : "" ).".<?php echo $imgext;?>\" title=\"".$ja_color_theme." color\" alt=\"".$ja_color_theme." color\" id=\"ja-tool-".$ja_color_theme."color\" onclick=\"switchTool('".$this->template."_".JA_TOOL_COLOR."','$ja_color_theme');return false;\" /></li>
-				";
-			} ?>
-			</ul>
+		  <li><img style="cursor: pointer;" title="<?php echo JText::_('Default font size');?>" src="<?php echo $this->templateurl();?>/images/user-reset.<?php echo $imgext;?>" alt="<?php echo JText::_('Default font size');?>" id="ja-tool-reset" onclick="switchFontSize('<?php echo $this->template."_".JA_TOOL_FONT;?>',<?php echo $this->_tpl->params->get(JA_TOOL_FONT);?>); return false;" /></li>
+		  <li><img style="cursor: pointer;" title="<?php echo JText::_('Decrease font size');?>" src="<?php echo $this->templateurl();?>/images/user-decrease.<?php echo $imgext;?>" alt="<?php echo JText::_('Decrease font size');?>" id="ja-tool-decrease" onclick="switchFontSize('<?php echo $this->template."_".JA_TOOL_FONT;?>','dec'); return false;" /></li>
+		</ul>
+		<script type="text/javascript">var CurrentFontSize=parseInt('<?php echo $this->getParam(JA_TOOL_FONT);?>');</script> 
 		<?php
 		}
 	}
-
-	function setScreenSizes ($_array_screen_sizes) {
-		$this->_ja_screen_sizes = $_array_screen_sizes;
-	}
-
-	function setColorThemes ($_array_color_themes) {
-		$this->_ja_color_themes = $_array_color_themes;
-	}
-
-	function getCurrentMenuIndex(){
+	
+	function getCurrentMenuIndex(){	
 		$Itemid = JRequest::getInt( 'Itemid');
 		$database		=& JFactory::getDBO();
 		$id = $Itemid;
@@ -129,7 +91,7 @@ class JA_Tools {
 			$sql = "select parent, menutype, ordering from #__menu where id = $id limit 1";
 			$database->setQuery($sql);
 			$row = null;
-			$row = $database->loadObject();
+			$row = $database->loadObject();			
 			if ($row) {
 				$menutype = $row->menutype;
 				$ordering = $row->ordering;
@@ -154,9 +116,9 @@ class JA_Tools {
 
 		return $database->loadResult();
 	}
-
+		
 	function calSpotlight ($spotlight, $totalwidth=100, $firstwidth=0) {
-
+	
 		/********************************************
 		$spotlight = array ('position1', 'position2',...)
 		*********************************************/
@@ -168,9 +130,9 @@ class JA_Tools {
 			}
 			$modules[$position] = array('class'=>'-full', 'width'=>$totalwidth);
 		}
-
+	
 		if (!count($modules_s)) return null;
-
+	
 		if ($firstwidth) {
 			if (count($modules_s)>1) {
 				$width = round(($totalwidth-$firstwidth)/(count($modules_s)-1),1) . "%";
@@ -182,7 +144,7 @@ class JA_Tools {
 			$width = round($totalwidth/(count($modules_s)),1) . "%";
 			$firstwidth = $width;
 		}
-
+		
 		if (count ($modules_s) > 1){
 			$modules[$modules_s[0]]['class'] = "-left";
 			$modules[$modules_s[0]]['width'] = $firstwidth;
@@ -195,51 +157,47 @@ class JA_Tools {
 		}
 		return $modules;
 	}
-
+	
 	function isIE6 () {
-		$agent = $_SERVER['HTTP_USER_AGENT'];
-		$msie='/msie\s(5\.[5-9]|[6]\.[0-9]*).*(win)/i';
-		return isset($agent) &&
-			preg_match($msie,$agent) &&
-			!preg_match('/opera/i',$agent);
-	}
-
+		return $this->browser() == 'IE6';
+	}	
+	
 	function baseurl(){
 		return JURI::base();
 	}
-
+	
 	function templateurl(){
 		return JURI::base()."templates/".$this->template;
 	}
-
+	
 	function getRandomImage ($img_folder) {
 		$imglist=array();
-
+		
 		mt_srand((double)microtime()*1000);
-
+		
 		//use the directory class
 		$imgs = dir($img_folder);
-
+		
 		//read all files from the  directory, checks if are images and ads them to a list (see below how to display flash banners)
 		while ($file = $imgs->read()) {
 			if (eregi("gif", $file) || eregi("jpg", $file) || eregi("png", $file))
 				$imglist[] = $file;
-		}
+		} 
 		closedir($imgs->handle);
-
+		
 		if(!count($imglist)) return '';
-
+		
 		//generate a random number between 0 and the number of images
 		$random = mt_rand(0, count($imglist)-1);
 		$image = $imglist[$random];
-
+		
 		return $image;
 	}
 
 	function isFrontPage(){
-		return (JRequest::getCmd('option')=='com_content' && !JRequest::getInt('id'));
+		return (JRequest::getCmd( 'view' ) == 'frontpage') ;
 	}
-
+	
 	function sitename() {
 		$config = new JConfig();
 		return $config->sitename;
@@ -264,9 +222,9 @@ class JA_Tools {
 		}
 		else if ( strpos($agent, 'MSIE') && !preg_match('/opera/i',$agent) )
 		{
-			 $msie='/msie\s(5\.[5-9]|[6]\.[0-9]*).*(win)/i';
-		   	 if (preg_match($msie,$agent)) $browser = 'IE6';
-		   	 else $browser = 'IE7';
+			 $msie='/msie\s(7\.[0-9]).*(win)/i';
+		   	 if (preg_match($msie,$agent)) $browser = 'IE7';
+		   	 else $browser = 'IE6';
 		}
 		else if ( preg_match('/opera/i',$agent) )
 		{

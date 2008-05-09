@@ -188,12 +188,12 @@ if (typeof(MooTools) != 'undefined'){
 			}
 		});
 		
-		Window.onDomReady(function() {new DropdownMenu($('ja-cssmenu'))});
+		Window.onDomReady(function() {new DropdownMenu($E('#ja-mainnav ul.menu'))});
 	
 	}else {
 	
 		sfHover = function() {
-		var sfEls = document.getElementById("ja-cssmenu").getElementsByTagName("li");
+		var sfEls = document.getElementById("ja-mainnav").getElementsByTagName("li");
 		for (var i=0; i<sfEls.length; ++i) {
 			sfEls[i].onmouseover=function() {
 				this.className+="sfhover";
