@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+09-May-2008 Andrew Eddie
+ + Added ja_purity template by JoomlArt
+
 07-May-2008 Sam Moffatt
  # [#10923] Backend accepts any password for custom Super Administrator when LDAP enabled
 
