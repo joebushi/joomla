@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-May-2008 Wilco Jansen
+ # [#10412] XHTML validation fails when using category name as a link on frontpage
+
 09-May-2008 Andrew Eddie
  + Added ja_purity template by JoomlArt
 
