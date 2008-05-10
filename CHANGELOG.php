@@ -42,6 +42,7 @@ $ -> Language fix or change
  # [10412] XHTML validation fails when using category name as a link on frontpage
  # [10811] Category link is not closed on front page in BEEZ template - default_item.php
  # [10498] [PATCH] folders not copied correctly, using <media> in XML
+ # [11055] [Security] Crafted URL can disclose absolute path
 
 09-May-2008 Andrew Eddie
  + Added ja_purity template by JoomlArt
