@@ -36,7 +36,11 @@ class InstallerController extends JController
 	 */
 	function installform()
 	{
+		global $mainframe;
+
 		$model	= &$this->getModel( 'Install' );
+		$model->setState( 'install.directory', $mainframe->getCfg( 'config.tmp_path' ));
+
 		$view	= &$this->getView( 'Install');
 
 		$ftp =& JClientHelper::setCredentialsFromRequest('ftp');

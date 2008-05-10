@@ -39,6 +39,7 @@ $ -> Language fix or change
 ! -> Note
 
 10-May-2008 Wilco Jansen
+ # [9986] Extension installer Install from Directory field should come with the site path prefilled by default.
  # [10412] XHTML validation fails when using category name as a link on frontpage
  # [10811] Category link is not closed on front page in BEEZ template - default_item.php
  # [10498] [PATCH] folders not copied correctly, using <media> in XML
@@ -50,7 +51,7 @@ $ -> Language fix or change
  + Added ja_purity template by JoomlArt
 
 07-May-2008 Sam Moffatt
- # [#10923] Backend accepts any password for custom Super Administrator when LDAP enabled
+ # [10923] Backend accepts any password for custom Super Administrator when LDAP enabled
 
 24-Apr-2008 Mati Kochen
  # Fix for the Legacy-Marker - missing parse
