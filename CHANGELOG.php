@@ -44,7 +44,7 @@ $ -> Language fix or change
  # [10498] [PATCH] folders not copied correctly, using <media> in XML
  # [11055] [Security] Crafted URL can disclose absolute path
  # [10226] mod_login has a slightly wrong description for login/logout redirection
-
+ # [10669] Breadcrumbs module always produces last item in pathway
 
 09-May-2008 Andrew Eddie
  + Added ja_purity template by JoomlArt
