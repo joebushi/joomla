@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+14-May-2008 Ian MacLennan
+ ^ Updated key reference for help system from screen.menus.type to screen.menus.edit
+
 10-May-2008 Wilco Jansen
  # [9986] Extension installer Install from Directory field should come with the site path prefilled by default.
  # [10412] XHTML validation fails when using category name as a link on frontpage
