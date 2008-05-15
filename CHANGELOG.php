@@ -39,7 +39,8 @@ $ -> Language fix or change
 ! -> Note
 
 15-May-2008 Johan Janssens
-- Removed administrator/includes/pcl
+ - Removed administrator/includes/pcl
+ - Removed file placeholders from application includes directories
 
 19-Apr-2008 Andrew Eddie
  ! Trailing white-space cleanup
