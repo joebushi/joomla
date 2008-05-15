@@ -22,21 +22,21 @@ class JVersion
 	/** @var string Product */
 	var $PRODUCT 	= 'Joomla!';
 	/** @var int Main Release Level */
-	var $RELEASE 	= '1.5';
+	var $RELEASE 	= '1.6';
 	/** @var string Development Status */
-	var $DEV_STATUS = 'Production/Stable';
+	var $DEV_STATUS = 'Development/Alpha';
 	/** @var int Sub Release Level */
-	var $DEV_LEVEL 	= '2';
+	var $DEV_LEVEL 	= '0';
 	/** @var int build Number */
 	var $BUILD	 	= '';
 	/** @var string Codename */
-	var $CODENAME 	= 'Woi';
+	var $CODENAME 	= 'Sparrow';
 	/** @var string Date */
-	var $RELDATE 	= '22-March-2008';
+	var $RELDATE 	= '';
 	/** @var string Time */
-	var $RELTIME 	= '22:00';
+	var $RELTIME 	= '';
 	/** @var string Timezone */
-	var $RELTZ 		= 'GMT';
+	var $RELTZ 		= '';
 	/** @var string Copyright Text */
 	var $COPYRIGHT 	= 'Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.';
 	/** @var string URL */

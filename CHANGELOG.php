@@ -44,6 +44,7 @@ $ -> Language fix or change
  - Removed libraries/bitfolge/feedcreator
  - Cleaned up legacy plugin for 1.6
  - Removed 1.0 legacy code
+ - Updated version information to reflect 1.6
 
 19-Apr-2008 Andrew Eddie
  ! Trailing white-space cleanup
