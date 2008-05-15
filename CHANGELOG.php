@@ -48,6 +48,7 @@ $ -> Language fix or change
  - Removed hack to support PHP5 style constructors in PHP4
  - Removed hack to support PHP5 style destructors in PHP4
  - Removed _parseURL function from JURI, replaced by parse_url
+ - Removed index2.php and index3.php entry files
 
 19-Apr-2008 Andrew Eddie
  ! Trailing white-space cleanup
