@@ -23,7 +23,7 @@ see source code and the LICENSE file
 2. Changelog
 ------------
 This is a non-exhaustive (but still near complete) changelog for
-Joomla! 1.5, including beta and release candidate versions.
+Joomla! 1.6, including beta and release candidate versions.
 Our thanks to all those people who've contributed bug reports and
 code fixes.
 
@@ -45,6 +45,7 @@ $ -> Language fix or change
  - Cleaned up legacy plugin for 1.6
  - Removed 1.0 legacy code
  - Updated version information to reflect 1.6
+ - Removed hack to support PHP5 style constructors in PHP4
 
 19-Apr-2008 Andrew Eddie
  ! Trailing white-space cleanup

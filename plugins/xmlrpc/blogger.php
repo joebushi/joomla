@@ -18,9 +18,15 @@ jimport( 'joomla.plugin.plugin' );
 
 class plgXMLRPCBlogger extends JPlugin
 {
-	function plgXMLRPCBlogger(&$subject, $config)
-	{
-		parent::__construct($subject, $config);
+	/**
+	 * Constructor
+	 *
+	 * @access	protected
+	 * @param	object	$subject The object to observe
+	 * @param 	array   $config  An array that holds the plugin configuration
+	 * @since	1.6
+	 */
+	function __construct($subject, $config) {
 		$this->loadLanguage( '', JPATH_ADMINISTRATOR );
 	}
 
