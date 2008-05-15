@@ -214,15 +214,4 @@ class JObject
 	{
 		return get_class($this);
 	}
-
-	/**
-	 * Legacy Method, use {@link JObject::getProperties()}  instead
-	 *
-	 * @deprecated as of 1.5
-	 * @since 1.0
-	 */
-	function getPublicProperties()
-	{
-		return $this->getProperties();
-	}
 }

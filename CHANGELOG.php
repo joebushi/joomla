@@ -42,6 +42,8 @@ $ -> Language fix or change
  - Removed administrator/includes/pcl
  - Removed folder and file placeholders from application includes directories
  - Removed libraries/bitfolge/feedcreator
+ - Cleaned up legacy plugin for 1.6
+ - Removed 1.0 legacy code
 
 19-Apr-2008 Andrew Eddie
  ! Trailing white-space cleanup
