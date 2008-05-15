@@ -164,11 +164,6 @@ class JFTP extends JObject
 			// Autoloading fails for JBuffer as the class is used as a stream handler
 			JLoader::load('JBuffer');
 		}
-
-		// Register faked "destructor" in PHP4 to close all connections we might have made
-		if (version_compare(PHP_VERSION, '5') == -1) {
-			register_shutdown_function(array(&$this, '__destruct'));
-		}
 	}
 
 	/**

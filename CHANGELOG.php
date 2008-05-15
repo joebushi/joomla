@@ -46,6 +46,7 @@ $ -> Language fix or change
  - Removed 1.0 legacy code
  - Updated version information to reflect 1.6
  - Removed hack to support PHP5 style constructors in PHP4
+ - Removed hack to support PHP5 style destructors in PHP4
 
 19-Apr-2008 Andrew Eddie
  ! Trailing white-space cleanup
