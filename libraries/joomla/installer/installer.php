@@ -362,16 +362,17 @@ class JInstaller extends JObject
 		$version	= $root->attributes('version');
 		$rootName	= $root->name();
 		$config		= &JFactory::getConfig();
-		if ((version_compare($version, '1.5', '<') || $rootName == 'mosinstall') && !$config->getValue('config.legacy')) {
-			return $this->abort(JText::_('MUSTENABLELEGACY'));
+		if ((version_compare($version, '1.5', '<') || $rootName == 'mosinstall' || $type == 'mambot')) {
+			$this->abort(JText::_('NOTCOMPATIBLE'));
+			return false;
+		}
+		
+		if ((version_compare($version, '1.6', '<')) && !$config->getValue('config.legacy')) {
+			$this->abort(JText::_('MUSTENABLELEGACY'));
+			return false;
 		}
 
 		$type = $root->attributes('type');
-
-		// Needed for legacy reasons ... to be deprecated in next minor release
-		if ($type == 'mambot') {
-			$type = 'plugin';
-		}
 
 		if (is_object($this->_adapters[$type])) {
 			return $this->_adapters[$type]->update();
@@ -420,11 +421,6 @@ class JInstaller extends JObject
 		// Load the adapter(s) for the install manifest
 		$root =& $this->_manifest->document;
 		$type = $root->attributes('type');
-
-		// Needed for legacy reasons ... to be deprecated in next minor release
-		if ($type == 'mambot') {
-			$type = 'plugin';
-		}
 
 		// Lazy load the adapter
 		if (!isset($this->_adapters[$type]) || !is_object($this->_adapters[$type])) {

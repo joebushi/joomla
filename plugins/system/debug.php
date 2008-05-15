@@ -105,22 +105,6 @@ class  plgSystemDebug extends JPlugin
 				}
 				echo '</ol>';
 			}
-
-			if(isset($database))
-			{
-				echo '<h4>'.JText::sprintf( 'Legacy Queries logged',  $database->getTicker() ).'</h4>';
-				echo '<ol>';
-
-					foreach ($database->getLog() as $k=>$sql)
-					{
-						$geshi->set_source($sql);
-						$text = $geshi->parse_code();
-						$text = preg_replace($newlineKeywords, '<br />&nbsp;&nbsp;\\0', $text);
-						echo '<li>'.$text.'</li>';
-					}
-
-				echo '</ol>';
-			}
 		}
 
 		if ($this->params->get('language', 1))
