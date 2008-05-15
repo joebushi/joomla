@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-May-2008 Johan Janssens
+- Removed administrator/includes/pcl
+
 19-Apr-2008 Andrew Eddie
  ! Trailing white-space cleanup
 
