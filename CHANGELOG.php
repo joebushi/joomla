@@ -41,6 +41,7 @@ $ -> Language fix or change
 15-May-2008 Johan Janssens
  - Removed administrator/includes/pcl
  - Removed folder and file placeholders from application includes directories
+ - Removed libraries/bitfolge/feedcreator
 
 19-Apr-2008 Andrew Eddie
  ! Trailing white-space cleanup
