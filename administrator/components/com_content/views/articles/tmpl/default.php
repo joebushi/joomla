@@ -14,24 +14,6 @@
 	JHTML::_('behavior.tooltip');
 ?>
 
-<?php
-	JToolBarHelper::title( JText::_( 'Article Manager' ), 'addedit.png' );
-	if ($this->filter->state == 'A' || $this->filter->state == NULL) {
-		JToolBarHelper::unarchiveList();
-	}
-	if ($this->filter->state != 'A') {
-		JToolBarHelper::archiveList();
-	}
-	JToolBarHelper::publishList();
-	JToolBarHelper::unpublishList();
-	JToolBarHelper::customX( 'movesect', 'move.png', 'move_f2.png', 'Move' );
-	JToolBarHelper::customX( 'copy', 'copy.png', 'copy_f2.png', 'Copy' );
-	JToolBarHelper::trash();
-	JToolBarHelper::editListX();
-	JToolBarHelper::addNewX();
-	JToolBarHelper::preferences('com_content', '550');
-	JToolBarHelper::help( 'screen.content' );
-?>
 <form action="index.php?option=com_content" method="post" name="adminForm">
 	<table>
 		<tr>

@@ -36,6 +36,23 @@ class ContentViewArticles extends JView
 
 		$redirect			= $filter->sectionid;
 
+		JToolBarHelper::title( JText::_( 'Article Manager' ), 'addedit.png' );
+		if ($filter->state == 'A' || $filter->state == NULL) {
+			JToolBarHelper::unarchiveList();
+		}
+		if ($filter->state != 'A') {
+			JToolBarHelper::archiveList();
+		}
+		JToolBarHelper::publishList();
+		JToolBarHelper::unpublishList();
+		JToolBarHelper::customX( 'movesect', 'move.png', 'move_f2.png', 'Move' );
+		JToolBarHelper::customX( 'copy', 'copy.png', 'copy_f2.png', 'Copy' );
+		JToolBarHelper::trash();
+		JToolBarHelper::editListX();
+		JToolBarHelper::addNewX();
+		JToolBarHelper::preferences('com_content', '550');
+		JToolBarHelper::help( 'screen.content' );
+
 		$this->assignRef('redirect',	$redirect);
 		$this->assignRef('rows',		$rows);
 		$this->assignRef('pagination',	$pagination);
