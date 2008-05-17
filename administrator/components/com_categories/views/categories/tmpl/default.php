@@ -94,7 +94,7 @@ for ($i=0, $n=count( $this->rows ); $i < $n; $i++) {
 
 	$row->sect_link = JRoute::_( 'index.php?option=com_sections&task=edit&cid[]='. $row->section );
 
-	$link = 'index.php?option=com_categories&section='. $this->filter->section .'&task=edit&cid[]='. $row->id .'&type='.$$this->type;
+	$link = 'index.php?option=com_categories&section='. $this->filter->section .'&task=edit&cid[]='. $row->id .'&type='.$this->type;
 
 	$access 	= JHTML::_('grid.access',   $row, $i );
 	$checked 	= JHTML::_('grid.checkedout',   $row, $i );
