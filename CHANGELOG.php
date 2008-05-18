@@ -38,6 +38,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+18-May-2008 Wilco Jansen
+ # [10949] Cannot Add News Feeds Category List Layout in 1.5.3
+
+
 14-May-2008 Ian MacLennan
  ^ Updated key reference for help system from screen.menus.type to screen.menus.edit
 

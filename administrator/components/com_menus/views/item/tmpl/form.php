@@ -13,7 +13,7 @@ function submitbutton(pressbutton) {
 	if ( (type != "separator") && (trim( form.name.value ) == "") ){
 		alert( "<?php echo JText::_( 'Item must have a title', true ); ?>" );
 	}
-	<?php if( $this->name == "Category List Layout" ){ ?>
+	<?php if( strpos($this->item->link, 'index.php?option=com_newsfeeds&amp;view=category') === 0 ){ ?>
 	else if( document.getElementById('urlparamsid').value == 0 ){
  		alert( "<?php echo JText::_('Please select a Category', true ); ?>" );
 	} <?php } ?>
