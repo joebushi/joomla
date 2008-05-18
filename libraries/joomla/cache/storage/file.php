@@ -64,7 +64,11 @@ class JCacheStorageFile extends JCacheStorage
 			} else {
 				$data = file_get_contents($path);
 			}
+			
+			// Remove the initial die() statement
+			$data	= preg_replace('/^.*\n/', '', $data);
 		}
+		
 		return $data;
 	}
 
@@ -82,7 +86,12 @@ class JCacheStorageFile extends JCacheStorage
 	{
 		$written	= false;
 		$path		= $this->_getFilePath($id, $group);
-
+		$die		= '<?php die("Access Denied"); ?>'."\n";
+		
+		// Prepend a die string
+		
+		$data		= $die.$data;
+		
 		$fp = @fopen($path, "wb");
 		if ($fp) {
 			if ($this->_locking) {
@@ -214,17 +223,21 @@ class JCacheStorageFile extends JCacheStorage
 	function _getFilePath($id, $group)
 	{
 		$folder	= $group;
-		$name	= md5($this->_application.'-'.$id.'-'.$this->_hash.'-'.$this->_language).'.cache';
+		$name	= md5($this->_application.'-'.$id.'-'.$this->_hash.'-'.$this->_language).'.php';
+		$dir	= $this->_root.DS.$folder;
 
 		// If the folder doesn't exist try to create it
-		if (!is_dir($this->_root.DS.$folder)) {
-			@mkdir($this->_root.DS.$folder);
+		if (!is_dir($dir)) {
+
+			// Make sure the index file is there
+			$indexFile      = $dir . DS . 'index.html';
+			@ mkdir($dir) && file_put_contents($indexFile, '<html><body bgcolor="#FFFFFF"></body></html>');
 		}
 
 		// Make sure the folder exists
-		if (!is_dir($this->_root.DS.$folder)) {
+		if (!is_dir($dir)) {
 			return false;
 		}
-		return $this->_root.DS.$folder.DS.$name;
+		return $dir.DS.$name;
 	}
 }
