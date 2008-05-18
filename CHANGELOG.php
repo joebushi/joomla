@@ -40,7 +40,7 @@ $ -> Language fix or change
 
 18-May-2008 Wilco Jansen
  # [9349] JApplicationHelper::getPath requires strict naming conventions which may be deprecated
- # [10397] 
+ # [10397] _processBuildRules and processParseRules  not passing by reference
  # [10793] Two small bugs in com_messages
  # [10949] Cannot Add News Feeds Category List Layout in 1.5.3
 
