@@ -145,6 +145,10 @@ class JApplicationHelper
 			case 'admin':
 				$path 	= DS.'components'.DS. $user_option .DS.'admin.'. $name .'.php';
 				$result = JApplicationHelper::_checkPath( $path, -1 );
+				if ($result == null) {
+					$path = DS.'components'.DS. $user_option .DS. $name .'.php';
+					$result = JApplicationHelper::_checkPath( $path, -1 );
+				}
 				break;
 
 			case 'admin_html':
