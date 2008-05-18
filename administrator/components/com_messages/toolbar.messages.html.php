@@ -27,6 +27,7 @@ class TOOLBAR_messages
 		JToolBarHelper::customX('reply', 'restore.png', 'restore_f2.png', 'Reply', false );
 		JToolBarHelper::deleteList();
 		JToolBarHelper::cancel();
+		JToolBarHelper::help( 'screen.messages.read' );
 	}
 
 	function _EDIT() {
