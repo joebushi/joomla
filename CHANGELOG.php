@@ -67,7 +67,6 @@ $ -> Language fix or change
  # Fix for the Legacy-Marker - missing parse
  # Removed the special treatment for RTL in Pagination
 
-
 -------------------- 1.5.3 Stable Release [22-April-2008] ---------------------
 
 19-Apr-2008 Anthony Ferrara
