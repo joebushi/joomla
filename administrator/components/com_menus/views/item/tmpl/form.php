@@ -13,11 +13,11 @@ function submitbutton(pressbutton) {
 	if ( (type != "separator") && (trim( form.name.value ) == "") ){
 		alert( "<?php echo JText::_( 'Item must have a title', true ); ?>" );
 	}
-	<?php if( strpos($this->item->link, 'index.php?option=com_newsfeeds&amp;view=category') === 0 ){ ?>
+	<?php if( $this->item->type == 'component' && isset($this->item->linkparts['option']) && $this->item->linkparts['option'] == 'com_newsfeeds' && isset($this->item->linkparts['view']) && $this->item->linkparts['view'] == 'category' ){ ?>
 	else if( document.getElementById('urlparamsid').value == 0 ){
  		alert( "<?php echo JText::_('Please select a Category', true ); ?>" );
 	} <?php } ?>
-	<?php if( $this->name == "Article Layout" ){ ?>
+	<?php if( $this->item->type == 'component' && isset($this->item->linkparts['option']) && $this->item->linkparts['option'] == 'com_content' && isset($this->item->linkparts['view']) && $this->item->linkparts['view'] == 'article' ){ ?>
 	else if( document.getElementById('id_id').value == 0 ){
 		alert( "<?php echo JText::_('Please select an Article', true ); ?>" );
 	} <?php } ?> else {

@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-May-2008 Anthony Ferrara
+ # [#11111] More robust checking of menu type layouts for JS validation (Thanks Jens!)
+
 18-May-2008 Wilco Jansen
  # [9349] JApplicationHelper::getPath requires strict naming conventions which may be deprecated
  # [10255] Adding Additonal Security to Joomla's File Caching
