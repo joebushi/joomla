@@ -1,6 +1,6 @@
 // <?php !! This fools phpdocumentor into parsing this file
 /**
-* @version		$Id$
+* @version		$Id: joomla.javascript.js 9765 2007-12-30 08:21:02Z ircmaxell $
 * @package		Joomla
 * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 * @license		GNU/GPL

@@ -41,6 +41,17 @@ $ -> Language fix or change
 19-May-2008 Johan Janssens
  - Removed phpinputfilter library
  - Removed phputf8, moved mbstring and iconv implementation into JString
+ - Removed administrator/includes/js/ThemeOffice
+ - Removed includes/js/ThemeOffice
+ - Removed includes/js/calendar
+ - Removed includes/js/jscalendar-1.0
+ - Removed includes/js/tabs
+ - Removed includes/js/dtree
+ - Removed includes/js/wz_tooltip.js
+ - Removed includes/js/overlib
+ - Removed includes/js/mambojavascript.js
+ - Removed includes/js/JSCookMenu
+ ^ Renamed joomla.javascript.js to legacy.js and moved to media/system/js
 
 15-May-2008 Johan Janssens
  - Removed administrator/includes/pcl
