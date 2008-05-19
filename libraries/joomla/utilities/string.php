@@ -35,17 +35,13 @@ if (function_exists('iconv') || ((!strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' &&
 }
 
 /**
- * Include the utf8 package
- */
-require_once(JPATH_LIBRARIES.DS.'phputf8'.DS.'utf8.php');
-
-/**
  * String handling class for utf-8 data
  * Wraps the phputf8 library
  * All functions assume the validity of utf-8 strings.
  *
  * @static
  * @author 		David Gal <david@joomla.co.il>
+ * @author 		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	Utilities
  * @since		1.5
@@ -66,11 +62,14 @@ class JString
 	 */
 	function strpos($str, $search, $offset = FALSE)
 	{
-		if ( $offset === FALSE ) {
-			return utf8_strpos($str, $search);
-		} else {
-			return utf8_strpos($str, $search, $offset);
-		}
+		if(strlen($str) && strlen($search)) 
+		{
+	    	if ( $offset === FALSE ) {
+	        	return mb_strpos($str, $search);
+	    	} else {
+	        	return mb_strpos($str, $search, $offset);
+	    	}
+		} else return FALSE;
 	}
 
 	/**
@@ -84,8 +83,31 @@ class JString
 	 * @return mixed Number of characters before the last match or FALSE on failure
 	 * @see http://www.php.net/strrpos
 	 */
-	function strrpos($str, $search){
-		return utf8_strrpos($str, $search);
+	function strrpos($str, $search)
+	{
+		if ( $offset === FALSE ) 
+		{
+        	# Emulate behaviour of strrpos rather than raising warning
+       	 	if ( empty($str) ) {
+            	return FALSE;
+        	}
+        	return mb_strrpos($str, $search);
+    	} 
+    	else 
+    	{
+        	if ( !is_int($offset) ) {
+            	trigger_error('utf8_strrpos expects parameter 3 to be long',E_USER_WARNING);
+            	return FALSE;
+        	}
+
+        	$str = mb_substr($str, $offset);
+
+        	if ( FALSE !== ( $pos = mb_strrpos($str, $search) ) ) {
+            	return $pos + $offset;
+        	}
+
+        	return FALSE;
+    	}
 	}
 
 	/**
@@ -102,11 +124,11 @@ class JString
 	 */
 	function substr($str, $offset, $length = FALSE)
 	{
-		if ( $length === FALSE ) {
-			return utf8_substr($str, $offset);
-		} else {
-			return utf8_substr($str, $offset, $length);
-		}
+	 	if ( $length === FALSE ) {
+        	return mb_substr($str, $offset);
+    	} else {
+        	return mb_substr($str, $offset, $length);
+    	}
 	}
 
 	/**
@@ -123,7 +145,7 @@ class JString
 	 * @see http://www.php.net/strtolower
 	 */
 	function strtolower($str){
-		return utf8_strtolower($str);
+		return mb_strtolower($str);
 	}
 
 	/**
@@ -140,7 +162,7 @@ class JString
 	 * @see http://www.php.net/strtoupper
 	 */
 	function strtoupper($str){
-		return utf8_strtoupper($str);
+		return mb_strtoupper($str);
 	}
 
 	/**
@@ -153,7 +175,7 @@ class JString
 	 * @see http://www.php.net/strlen
 	 */
 	function strlen($str){
-		return utf8_strlen($str);
+		return mb_strlen($str);
 	}
 
 	/**
@@ -170,12 +192,49 @@ class JString
 	*/
 	function str_ireplace($search, $replace, $str, $count = NULL)
 	{
-		jimport('phputf8.str_ireplace');
-		if ( $count === FALSE ) {
-			return utf8_ireplace($search, $replace, $str);
-		} else {
-			return utf8_ireplace($search, $replace, $str, $count);
-		}
+		if ( !is_array($search) ) 
+		{
+        	$slen = strlen($search);
+        	$lendif = strlen($replace) - $slen;
+        	if ( $slen == 0 ) {
+            	return $str;
+        	}
+
+        	$search = JString::strtolower($search);
+
+        	$search = preg_quote($search, '/');
+        	$lstr = JString::strtolower($str);
+        	$i = 0;
+        	$matched = 0;
+       	 	while ( preg_match('/(.*)'.$search.'/Us',$lstr, $matches) ) {
+            	if ( $i === $count ) {
+                	break;
+            	}
+            	$mlen = strlen($matches[0]);
+            	$lstr = substr($lstr, $mlen);
+            	$str = substr_replace($str, $replace, $matched+strlen($matches[1]), $slen);
+            	$matched += $mlen + $lendif;
+            	$i++;
+        	}
+        	return $str;
+
+    	} else {
+
+        	foreach ( array_keys($search) as $k ) 
+        	{
+            	if ( is_array($replace) ) 
+            	{
+                	if ( array_key_exists($k,$replace) ) {
+                    	$str = JString::str_ireplace($search[$k], $replace[$k], $str, $count);
+                	} else {
+                    	$str = JString::str_ireplace($search[$k], '', $str, $count);
+                	}
+            	} else {
+                	$str = JString::str_ireplace($search[$k], $replace, $str, $count);
+            	}
+        	}
+        	return $str;
+    	}
 	}
 
 	/**
@@ -191,8 +250,17 @@ class JString
 	*/
 	function str_split($str, $split_len = 1)
 	{
-		jimport('phputf8.str_split');
-		return utf8_str_split($str, $split_len);
+		 if ( !preg_match('/^[0-9]+$/',$split_len) || $split_len < 1 ) {
+       		return FALSE;
+    	}
+
+    	$len = JString::strlen($str);
+   	 	if ( $len <= $split_len ) {
+        	return array($str);
+    	}
+
+    	preg_match_all('/.{'.$split_len.'}|[^\x00]{1,'.$split_len.'}$/us', $str, $ar);
+    	return $ar[0];
 	}
 
 	/**
@@ -208,8 +276,9 @@ class JString
 	*/
 	function strcasecmp($str1, $str2)
 	{
-		jimport('phputf8.strcasecmp');
-		return utf8_strcasecmp($str1, $str2);
+		 $strX = JString::strtolower($strX);
+  	 	 $strY = JString::strtolower($strY);
+    	return strcmp($strX, $strY);
 	}
 
 	/**
@@ -227,14 +296,23 @@ class JString
 	*/
 	function strcspn($str, $mask, $start = NULL, $length = NULL)
 	{
-		jimport('phputf8.strcspn');
-		if ( $start === FALSE && $length === FALSE ) {
-			return utf8_strcspn($str, $mask);
-		} else if ( $length === FALSE ) {
-			return utf8_strcspn($str, $mask, $start);
-		} else {
-			return utf8_strcspn($str, $mask, $start, $length);
-		}
+		if ( empty($mask) || strlen($mask) == 0 ) {
+        	return NULL;
+    	}
+
+    	$mask = preg_replace('!([\\\\\\-\\]\\[/^])!','\\\${1}',$mask);
+
+    	if ( $start !== NULL || $length !== NULL ) {
+        	$str = JString::substr($str, $start, $length);
+    	}
+
+    	preg_match('/^[^'.$mask.']+/u',$str, $matches);
+
+    	if ( isset($matches[0]) ) {
+        	return utf8_strlen($matches[0]);
+    	}
+
+    	return 0;
 	}
 
 	/**
@@ -252,8 +330,19 @@ class JString
 	*/
 	function stristr($str, $search)
 	{
-		jimport('phputf8.stristr');
-		return utf8_stristr($str, $search);
+		if ( strlen($search) == 0 ) {
+        	return $str;
+    	}
+
+    	$lstr = JString::strtolower($str);
+    	$lsearch = JString::strtolower($search);
+    	preg_match('|^(.*)'.preg_quote($lsearch).'|Us',$lstr, $matches);
+
+    	if ( count($matches) == 2 ) {
+        	return substr($str, strlen($matches[1]));
+    	}
+
+    	return FALSE;
 	}
 
 	/**
@@ -268,8 +357,8 @@ class JString
 	*/
 	function strrev($str)
 	{
-		jimport('phputf8.strrev');
-		return utf8_strrev($str);
+		 preg_match_all('/./us', $str, $ar);
+   	 	 return join('',array_reverse($ar[0]));
 	}
 
 	/**
@@ -286,14 +375,19 @@ class JString
 	*/
 	function strspn($str, $mask, $start = NULL, $length = NULL)
 	{
-		jimport('phputf8.native.utf8_strspn');
-		if ( $start === FALSE && $length === FALSE ) {
-			return utf8_strspn($str, $mask);
-		} else if ( $length === FALSE ) {
-			return utf8_strspn($str, $mask, $start);
-		} else {
-			return utf8_strspn($str, $mask, $start, $length);
-		}
+		$mask = preg_replace('!([\\\\\\-\\]\\[/^])!','\\\${1}',$mask);
+
+    	if ( $start !== NULL || $length !== NULL ) {
+        	$str = JString::substr($str, $start, $length);
+    	}
+
+    	preg_match('/^['.$mask.']+/u',$str, $matches);
+
+    	if ( isset($matches[0]) ) {
+        	return JString::strlen($matches[0]);
+    	}
+
+    	return 0;
 	}
 
 	/**
@@ -310,12 +404,13 @@ class JString
 	*/
 	function substr_replace($str, $repl, $start, $length = NULL )
 	{
-		// loaded by library loader
-		if ( $length === FALSE ) {
-			return utf8_substr_replace($str, $repl, $start);
-		} else {
-			return utf8_substr_replace($str, $repl, $start, $length);
-		}
+		preg_match_all('/./us', $str, $ar);
+    	preg_match_all('/./us', $repl, $rar);
+    	if( $length === NULL ) {
+        	$length = JString::strlen($str);
+    	}
+    	array_splice( $ar[0], $start, $length, $rar[0] );
+    	return join('',$ar[0]);
 	}
 
 	/**
@@ -334,12 +429,12 @@ class JString
 	*/
 	function ltrim( $str, $charlist = FALSE )
 	{
-		jimport('phputf8.trim');
-		if ( $charlist === FALSE ) {
-			return utf8_ltrim( $str );
-		} else {
-			return utf8_ltrim( $str, $charlist );
-		}
+		if($charlist === FALSE) return ltrim($str);
+
+    	//quote charlist for use in a characterclass
+    	$charlist = preg_replace('!([\\\\\\-\\]\\[/^])!','\\\${1}',$charlist);
+
+    	return preg_replace('/^['.$charlist.']+/u','',$str);
 	}
 
 	/**
@@ -358,12 +453,14 @@ class JString
 	*/
 	function rtrim( $str, $charlist = FALSE )
 	{
-		jimport('phputf8.trim');
-		if ( $charlist === FALSE ) {
-			return utf8_rltrim( $str );
-		} else {
-			return utf8_rtrim( $str, $charlist );
-		}
+		 if($charlist === FALSE) {
+		 	return rtrim($str);
+		 }
+
+   	 	//quote charlist for use in a characterclass
+    	$charlist = preg_replace('!([\\\\\\-\\]\\[/^])!','\\\${1}',$charlist);
+
+    	return preg_replace('/['.$charlist.']+$/u','',$str);
 	}
 
 	/**
@@ -382,12 +479,11 @@ class JString
 	*/
 	function trim( $str, $charlist = FALSE )
 	{
-		jimport('phputf8.trim');
-		if ( $charlist === FALSE ) {
-			return utf8_trim( $str );
-		} else {
-			return utf8_trim( $str, $charlist );
+		if($charlist === FALSE) {
+			return trim($str);
 		}
+		
+    	return JString::ltrim(utf8_rtrim($str, $charlist), $charlist);
 	}
 
 	/**
@@ -402,8 +498,18 @@ class JString
 	*/
 	function ucfirst($str)
 	{
-		jimport('phputf8.ucfirst');
-		return utf8_ucfirst($str);
+		switch ( JString::strlen($str) ) {
+        	case 0:
+            	return '';
+        	break;
+        	case 1:
+            	return JString::strtoupper($str);
+        	break;
+        	default:
+            	preg_match('/^(.{1})(.*)$/us', $str, $matches);
+            	return JString::strtoupper($matches[1]).$matches[2];
+        	break;
+    	}
 	}
 
 	/**
@@ -418,8 +524,28 @@ class JString
 	*/
 	function ucwords($str)
 	{
-		jimport('phputf8.ucwords');
-		return utf8_ucwords($str);
+		 // Note: [\x0c\x09\x0b\x0a\x0d\x20] matches;
+    	// form feeds, horizontal tabs, vertical tabs, linefeeds and carriage returns
+    	// This corresponds to the definition of a "word" defined at http://www.php.net/ucwords
+    	$pattern = '/(^|([\x0c\x09\x0b\x0a\x0d\x20]+))([^\x0c\x09\x0b\x0a\x0d\x20]{1})[^\x0c\x09\x0b\x0a\x0d\x20]*/u';
+    	return preg_replace_callback($pattern, 'JString::ucwords_callback',$str);
+	}
+	
+
+	/**
+	 * Callback function for preg_replace_callback call in utf8_ucwords
+	 * You don't need to call this yourself
+	 * @param array of matches corresponding to a single word
+	 * @return string with first char of the word in uppercase
+	 * @see ucwords
+	 * @see strtoupper
+	 */
+	function ucwords_callback($matches) 
+	{
+    	$leadingws = $matches[2];
+    	$ucfirst = JString::strtoupper($matches[3]);
+    	$ucword = JString::substr_replace(ltrim($matches[0]),$ucfirst,0,1);
+    	return $leadingws . $ucword;
 	}
 
 	/**
@@ -432,9 +558,10 @@ class JString
 	 * @return string Transcoded string
 	 * @since 1.5
 	 */
-	function transcode($source, $from_encoding, $to_encoding) {
-
-		if (is_string($source)) {
+	function transcode($source, $from_encoding, $to_encoding) 
+	{
+		if (is_string($source)) 
+		{
 			/*
 			 * "//TRANSLIT" is appendd to the $to_encoding to ensure that when iconv comes
 			 * across a character that cannot be represented in the target charset, it can
@@ -442,5 +569,159 @@ class JString
 			 */
 			return iconv($from_encoding, $to_encoding.'//TRANSLIT', $source);
 		}
+	}
+	
+	/**
+	 * Tests a string as to whether it's valid UTF-8 and supported by the
+	 * Unicode standard
+	 * Note: this function has been modified to simple return true or false
+	 * @author <hsivonen@iki.fi>
+	 * @param string UTF-8 encoded string
+	 * @return boolean true if valid
+	 * @see http://hsivonen.iki.fi/php-utf8/
+	 * @see compliant
+	 */
+	function valid($str) 
+	{
+		$mState = 0;     // cached expected number of octets after the current octet
+        	             // until the beginning of the next UTF8 character sequence
+    	$mUcs4  = 0;     // cached Unicode character
+   	 	$mBytes = 1;     // cached expected number of octets in the current sequence
+
+    	$len = strlen($str);
+
+    	for($i = 0; $i < $len; $i++) 
+    	{
+			$in = ord($str{$i});
+
+        	if ( $mState == 0) 
+        	{
+            	// When mState is zero we expect either a US-ASCII character or a
+            	// multi-octet sequence.
+           	 	if (0 == (0x80 & ($in))) {
+                	// US-ASCII, pass straight through.
+                	$mBytes = 1;
+            	} else if (0xC0 == (0xE0 & ($in))) {
+               	 	// First octet of 2 octet sequence
+                	$mUcs4 = ($in);
+                	$mUcs4 = ($mUcs4 & 0x1F) << 6;
+                	$mState = 1;
+                	$mBytes = 2;
+            	} else if (0xE0 == (0xF0 & ($in))) {
+                	// First octet of 3 octet sequence
+                	$mUcs4 = ($in);
+                	$mUcs4 = ($mUcs4 & 0x0F) << 12;
+                	$mState = 2;
+                	$mBytes = 3;
+            	} else if (0xF0 == (0xF8 & ($in))) {
+                	// First octet of 4 octet sequence
+                	$mUcs4 = ($in);
+                	$mUcs4 = ($mUcs4 & 0x07) << 18;
+                	$mState = 3;
+                	$mBytes = 4;
+            	} else if (0xF8 == (0xFC & ($in))) {
+                	/* First octet of 5 octet sequence.
+                	 *
+                	 * This is illegal because the encoded codepoint must be either
+                	 * (a) not the shortest form or
+                	 * (b) outside the Unicode range of 0-0x10FFFF.
+                	 * Rather than trying to resynchronize, we will carry on until the end
+                	 * of the sequence and let the later error handling code catch it.
+                	 */
+                	$mUcs4 = ($in);
+                	$mUcs4 = ($mUcs4 & 0x03) << 24;
+                	$mState = 4;
+                	$mBytes = 5;
+            	} else if (0xFC == (0xFE & ($in))) {
+                	// First octet of 6 octet sequence, see comments for 5 octet sequence.
+                	$mUcs4 = ($in);
+                	$mUcs4 = ($mUcs4 & 1) << 30;
+                	$mState = 5;
+                	$mBytes = 6;
+
+            	} else {
+                	/* Current octet is neither in the US-ASCII range nor a legal first
+                 	 * octet of a multi-octet sequence.
+                 	 */
+                	return FALSE;
+            	}
+        	} 
+        	else 
+        	{
+            	// When mState is non-zero, we expect a continuation of the multi-octet
+           	 	// sequence
+            	if (0x80 == (0xC0 & ($in))) 
+            	{
+                	// Legal continuation.
+                	$shift = ($mState - 1) * 6;
+                	$tmp = $in;
+                	$tmp = ($tmp & 0x0000003F) << $shift;
+                	$mUcs4 |= $tmp;
+
+                	/**
+                	 * End of the multi-octet sequence. mUcs4 now contains the final
+                	 * Unicode codepoint to be output
+                	 */
+                	if (0 == --$mState) 
+                	{
+                    	/*
+                    	 * Check for illegal sequences and codepoints.
+                    	 */
+                    	// From Unicode 3.1, non-shortest form is illegal
+                    	if (((2 == $mBytes) && ($mUcs4 < 0x0080)) ||
+                        	((3 == $mBytes) && ($mUcs4 < 0x0800)) ||
+                       		((4 == $mBytes) && ($mUcs4 < 0x10000)) ||
+                        	(4 < $mBytes) ||
+                        	// From Unicode 3.2, surrogate characters are illegal
+                       	 	(($mUcs4 & 0xFFFFF800) == 0xD800) ||
+                        	// Codepoints outside the Unicode range are illegal
+                        	($mUcs4 > 0x10FFFF)) {
+								return FALSE;
+                    		}
+
+                    	//initialize UTF8 cache
+                    	$mState = 0;
+                    	$mUcs4  = 0;
+                    	$mBytes = 1;
+                	}
+            	} 
+            	else 
+            	{
+                	/**
+                	 *((0xC0 & (*in) != 0x80) && (mState != 0))
+                	 * Incomplete multi-octet sequence.
+                	 */
+                	return FALSE;
+            	}
+        	}
+    	}
+    	return TRUE;
+	}
+
+	/**
+	 * Tests whether a string complies as UTF-8. This will be much
+	 * faster than utf8_is_valid but will pass five and six octet
+	 * UTF-8 sequences, which are not supported by Unicode and
+	 * so cannot be displayed correctly in a browser. In other words
+	 * it is not as strict as utf8_is_valid but it's faster. If you use
+	 * is to validate user input, you place yourself at the risk that
+	 * attackers will be able to inject 5 and 6 byte sequences (which
+	 * may or may not be a significant risk, depending on what you are
+	 * are doing)
+	 * @see valid
+	 * @see http://www.php.net/manual/en/reference.pcre.pattern.modifiers.php#54805
+	 * @param string UTF-8 string to check
+	 * @return boolean TRUE if string is valid UTF-8
+	 */
+	function compliant($str) 
+	{
+    	if ( strlen($str) == 0 ) {
+        	return TRUE;
+    	}
+    	// If even just the first character can be matched, when the /u
+    	// modifier is used, then it's valid UTF-8. If the UTF-8 is somehow
+    	// invalid, nothing at all will match, even if the string contains
+    	// some valid sequences
+    	return (preg_match('/^.{1}/us',$str,$ar) == 1);
 	}
 }

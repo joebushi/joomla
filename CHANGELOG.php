@@ -38,6 +38,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-May-2008 Johan Janssens
+ - Removed phpinputfilter library
+ - Removed phputf8, moved mbstring and iconv implementation into JString
+
 15-May-2008 Johan Janssens
  - Removed administrator/includes/pcl
  - Removed folder and file placeholders from application includes directories

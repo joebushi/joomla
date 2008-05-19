@@ -38,7 +38,7 @@ class plgSystemBacklink extends JPlugin
 	function plgSystemBacklink(& $subject, $config)
 	{
 		$this->_db = JFactory::getDBO();
-		parent :: __construct($subject, $config);
+		parent::__construct($subject, $config);
 	}
 
 	function onAfterInitialise()

@@ -26,8 +26,10 @@ class plgXMLRPCBlogger extends JPlugin
 	 * @param 	array   $config  An array that holds the plugin configuration
 	 * @since	1.6
 	 */
-	function __construct($subject, $config) {
+	function __construct($subject, $config) 
+	{
 		$this->loadLanguage( '', JPATH_ADMINISTRATOR );
+		parent::__construct($subject, $config);
 	}
 
 	/**

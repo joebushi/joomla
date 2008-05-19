@@ -54,6 +54,8 @@ class  plgSystemCache extends JPlugin
 		if (!$user->get('aid') && $_SERVER['REQUEST_METHOD'] == 'GET') {
 			$this->_cache->setCaching(true);
 		}
+		
+		parent::__construct($subject, $config);
 	}
 
 	/**
