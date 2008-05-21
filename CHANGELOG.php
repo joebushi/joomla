@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-May-2008 Anthony Ferrara
+ # Fix for fatal error introduced by [#10397] fix.  Supports pass by reference too (so [#10397] is fixed as well)
+
 19-May-2008 Anthony Ferrara
  # [#11111] More robust checking of menu type layouts for JS validation (Thanks Jens!)
 
