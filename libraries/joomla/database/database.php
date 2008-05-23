@@ -47,7 +47,7 @@ class JDatabase extends JObject
 	var $_errorNum		= 0;
 
 	/**
-	 * The database error message
+	 * The database error  message
 	 *
 	 * @var string
 	 */
