@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: connection.php 244 2008-05-20 12:12:46Z plamendp $
+ * @version     $Id$
  *
  * @package     Joomla.Framework
  * @subpackage  Joda

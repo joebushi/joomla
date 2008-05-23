@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: mysql.php 232 2008-05-19 13:22:54Z plamendp $
+ * @version     $Id$
  *
  * @package     Joomla.Framework
  * @subpackage  Joda

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: user.php 233 2008-05-19 14:15:53Z plamendp $
+ * @version     $Id$
  *
  * @package     Joomla.Framework
  * @subpackage  Joda

@@ -1,5 +1,5 @@
 #!/bin/sh
-# $Id: makedoc.sh 229 2008-05-18 19:03:54Z plamendp $
+# $Id$
 
 #/**
 #  * Generate documentation using phpDocumentor (http://www.phpdoc.org)

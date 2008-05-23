@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: dataset.php 253 2008-05-22 14:32:40Z plamendp $
+ * @version     $Id$
  *
  * @package     Joomla.Framework
  * @subpackage  Joda
@@ -118,7 +118,6 @@ class JDataset extends JObject
     function Open()
     {
         $this->Close();
-
         switch ($this->datatype) {
 
             case Joda::DATA_ASTABLE:

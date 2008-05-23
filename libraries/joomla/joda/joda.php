@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: joda.php 253 2008-05-22 14:32:40Z plamendp $
+ * @version     $Id$
  *
  * @package     Joomla.Framework
  * @subpackage  Joda
@@ -54,6 +54,7 @@ defined( 'JPATH_BASE' ) or die();
  * @todo Parameters in doQuery()/Query()
  * @todo Use quoting from PDO in Querybuilder
  * @todo For metadata - select * from table where 1=1
+ * @todo Table prefix!!
  *
  *
  */

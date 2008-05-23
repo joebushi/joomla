@@ -1,6 +1,6 @@
 <?php
 /**
-* @version        $Id: index.php 253 2008-05-22 14:32:40Z plamendp $
+* @version        $Id$
 * @package        Joomla-Framework
 * @subpackage   Joda
 * @copyright    Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.

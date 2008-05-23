@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: connection.php 253 2008-05-22 14:32:40Z plamendp $
+ * @version     $Id$
  *
  * @package     Joomla.Framework
  * @subpackage  Joda
@@ -19,7 +19,6 @@
  * Check to ensure this file is within the rest of the framework
  */
 defined( 'JPATH_BASE' ) or die();
-
 
 /**
  * Database Connection Class
@@ -44,7 +43,7 @@ class JConnection extends PDO
      *
      * It's an object holding the result of queries, prepared statement, etc.
      *
-     * @var object PDOStatement
+     * @var object JStatement
      */
     var $statement                 = null;
 
@@ -134,7 +133,7 @@ class JConnection extends PDO
      * Return an instance of JConnection's descendant class (database specific).
      *
      * @param array Options/Configuration
-     * @return object JConnection Subclass
+     * @return object JConnection
      */
      function &getInstance($options)
     {
@@ -145,7 +144,6 @@ class JConnection extends PDO
 
         $class = "JConnection" . $dbtype;
         $instance = new $class($options);
-
         return $instance;
     }
 
@@ -200,10 +198,10 @@ class JConnection extends PDO
 
 
     /**
-     * Execute SQL queries
+     * Execute SQL queries.
      *
-     * @param
-     * @return
+     * @param array
+     * @return object JStatement
      */
      function doQuery($sql, $parameters=array())
     {
@@ -266,6 +264,12 @@ class JConnection extends PDO
 
 
 
+    /**
+     * Description
+     *
+     * @param
+     * @return array
+     */
     function getFieldsMeta()
     {
         $count = $this->statement->columnCount();

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: pgsql.php 251 2008-05-22 10:33:12Z plamendp $
+ * @version     $Id$
  *
  * @package     Joomla.Framework
  * @subpackage  Joda
