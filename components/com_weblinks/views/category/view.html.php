@@ -79,7 +79,11 @@ class WeblinksViewCategory extends JView
 
 		// Set some defaults if not set for params
 		$params->def('comp_description', JText::_('WEBLINKS_DESC'));
-		$params->def('show_display_num', '1');	// Default to "show"
+		$params->def('show_numbers', '1');		// Default to "show"
+		$params->def('show_report', '0');		// Default to "hide"
+		$params->def('show_snapshot', '0');		// Default to "hide"
+		$params->def('snapshot_width', '120');
+		$params->def('snapshot_height', '90');
 
 		// Define image tag attributes
 		if (isset( $category->image ) && $category->image != '')
@@ -96,6 +100,20 @@ class WeblinksViewCategory extends JView
 			$image = JHTML::_('image.site',  $params->get('link_icons'), '/images/M_images/', $params->get( 'weblink_icons' ), '/images/M_images/', 'Link' );
 		}
 
+		$source = $params->get('snapshot_source');
+		$source_url = '';
+		if ($source) {
+			JModel::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_weblinks'.DS.'models');
+			$model =& JModel::getInstance('snapshotsources','WeblinksModel');
+			$sites = $model->getData();
+			foreach ($sites as $site) {
+				if ($source == $site->name) $source_url = $site->url;
+			}
+		}
+
+		$patterns = array('%u','%w','%h');
+		$replacements = array(null, $params->get('snapshot_width'), $params->get('snapshot_height'));
+
 		$k = 0;
 		$count = count($items);
 		for($i = 0; $i < $count; $i++)
@@ -104,6 +122,17 @@ class WeblinksViewCategory extends JView
 
 			$link = JRoute::_( 'index.php?view=weblink&catid='.$category->slug.'&id='. $item->slug);
 
+			$item->report_link = JRoute::_('index.php?task=report&id='. $item->slug);
+			if ($source_url) {
+				$replacements[0] = $item->url;
+				$url_snapshot = str_replace($patterns, $replacements, $source_url);
+				$item->url_snapshot = JRoute::_($url_snapshot);
+			}
+			else {
+				$item->url_snapshot = '';
+				$params->set('show_snapshot', '0');
+			}
+			
 			$menuclass = 'category'.$params->get( 'pageclass_sfx' );
 
 			$itemParams = new JParameter($item->params);

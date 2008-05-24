@@ -18,7 +18,6 @@
 </script>
 
 <form action="<?php echo $this->action; ?>" method="post" name="adminForm">
-<a href="http://www.cssglobe.com" class="screenshot" rel="tick.png">Css Globe</a>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <?php if ($this->params->get( 'show_display_num' )): ?>
 <tr>

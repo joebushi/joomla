@@ -19,15 +19,5 @@
 				<option value="1">Yes</option>
 			</param>
 		</params>
-		<advanced>
-			<param name="expand_cats" type="radio" default="0" label="Expand All Categories" description="PARAMEXPANDCATS">
-				<option value="0">No</option>
-				<option value="1">Yes</option>
-			</param>
-			<param name="show_display_num" type="list" default="1" label="Display #" description="Show/Hide Display number selection">
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
-			</param>
-		</advanced>
 	</state>
 </metadata>

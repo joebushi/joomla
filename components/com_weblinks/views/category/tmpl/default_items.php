@@ -1,4 +1,12 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
+
+<?php
+	if ($this->params->get('show_snapshot'))
+		JHTML::_('weblink.snapshotinit', $this->params->get('snapshot_width'), $this->params->get('snapshot_height'));
+	else
+		JHTML::_('behavior.tooltip');
+?>
+
 <script language="javascript" type="text/javascript">
 	function tableOrdering( order, dir, task ) {
 	var form = document.adminForm;
@@ -55,7 +63,9 @@
 		<?php if ( $item->image ) : ?>
 		&nbsp;&nbsp;<?php echo $item->image;?>&nbsp;&nbsp;
 		<?php endif; ?>
+		<span id="<?php echo $item->url_snapshot; ?>" class="<?php echo $this->params->get('show_snapshot') ? 'hasSnapshot' : 'hasTip' ?>" title="<?php echo $item->title; ?>::<?php echo $item->description; ?>">
 		<?php echo $item->link; ?>
+		</span>
 		<?php if ( $this->params->get( 'show_link_description' ) ) : ?>
 		<br /><span class="description"><?php echo nl2br($item->description); ?></span>
 		<?php endif; ?>
