@@ -1,4 +1,12 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
+
+<?php
+	if ($this->params->get('show_snapshot'))
+		JHTML::_('weblink.snapshotinit', $this->params->get('snapshot_width'), $this->params->get('snapshot_height'));
+	else
+		JHTML::_('behavior.tooltip');
+?>
+
 <script language="javascript" type="text/javascript">
 	function tableOrdering( order, dir, task ) {
 	var form = document.adminForm;
@@ -10,6 +18,7 @@
 </script>
 
 <form action="<?php echo $this->action; ?>" method="post" name="adminForm">
+<a href="http://www.cssglobe.com" class="screenshot" rel="tick.png">Css Globe</a>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <?php if ($this->params->get( 'show_display_num' )): ?>
 <tr>
@@ -28,17 +37,20 @@
 		<?php echo JText::_('Num'); ?>
 	</td>
 	<?php endif; ?>
-	<td width="90%" height="20" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-		<?php echo JHTML::_('grid.sort',  'Web Link', 'title', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+	<td width="50%" height="20" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+		<?php echo JHTML::_('grid.sort',  'Web Link', 'title', $this->filter->order_Dir, $this->filter->order ); ?>
+	</td>
+	<td width="80" height="20" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+		<?php echo JHTML::_('grid.sort',  'Category', 'category', $this->filter->order_Dir, $this->filter->order ); ?>
 	</td>
 	<?php if ( $this->params->get( 'show_link_hits' ) ) : ?>
 
 	<td width="30" height="20" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>" style="text-align:center;" nowrap="nowrap">
-		<?php echo JHTML::_('grid.sort',  'Hits', 'hits', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+		<?php echo JHTML::_('grid.sort',  'Hits', 'hits', $this->filter->order_Dir, $this->filter->order ); ?>
 	</td>
 	<?php endif; ?>
 	<?php if ($this->params->get( 'show_report' )): ?>
-	<td width="10" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+	<td width="10" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>" style="text-align:center;" nowrap="nowrap">
 		<?php echo JText::_('Report'); ?>
 	</td>
 	<?php endif; ?>
@@ -55,19 +67,24 @@
 		<?php if ( $item->image ) : ?>
 		&nbsp;&nbsp;<?php echo $item->image;?>&nbsp;&nbsp;
 		<?php endif; ?>
+		<span id="<?php echo $item->url_snapshot; ?>" class="<?php echo $this->params->get('show_snapshot') ? 'hasSnapshot' : 'hasTip' ?>" title="<?php echo $item->title; ?>::<?php echo $item->description; ?>">
 		<?php echo $item->link; ?>
+		</span>
 		<?php if ( $this->params->get( 'show_link_description' ) ) : ?>
 		<br /><span class="description"><?php echo nl2br($item->description); ?></span>
 		<?php endif; ?>
 	</td>
 	<?php if ( $this->params->get( 'show_link_hits' ) ) : ?>
+	<td align="left">
+		<?php echo $item->category; ?>
+	</td>
 	<td align="center">
 		<?php echo $item->hits; ?>
 	</td>
 	<?php endif; ?>
 	<?php if ($this->params->get( 'show_report' )): ?>
 	<td align="center">
-		<a href="<?php echo $item->report_link; ?>"><?php echo JHTML::_('image.site', 'report', null, null, null, JText::_('Report this link')); ?></a>
+		<a href="<?php echo $item->report_link; ?>"><?php echo JHTML::_('image.site', 'report.png', null, null, null, JText::_('Report this link')); ?></a>
 	</td>
 	<?php endif; ?>
 </tr>
@@ -83,6 +100,6 @@
 	</td>
 </tr>
 </table>
-<input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
+<input type="hidden" name="filter_order" value="<?php echo $this->filter->order; ?>" />
 <input type="hidden" name="filter_order_Dir" value="" />
 </form>

@@ -245,7 +245,6 @@ class JDocumentFeed extends JDocument
 	 */
 	function addItem( &$item )
 	{
-		$item->source = $this->link;
 		$this->items[] = $item;
 	}
 }

@@ -54,7 +54,7 @@ class WeblinksModelCategories extends JModel
 	}
 
 	/**
-	 * Method to get weblink item data for the category
+	 * Method to get weblink data for the category
 	 *
 	 * @access public
 	 * @return array
@@ -99,7 +99,7 @@ class WeblinksModelCategories extends JModel
 			.' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(\':\', cc.id, cc.alias) ELSE cc.id END as slug'
 			.' FROM #__categories AS cc'
 			.' LEFT JOIN #__weblinks AS a ON a.catid = cc.id'
-			.' WHERE a.published = 1'
+			.' WHERE a.state = 1'
 			.' AND section = \'com_weblinks\''
 			.' AND cc.published = 1'
 			.' AND cc.access <= '.(int) $aid

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: category.php 10094 2008-03-02 04:35:10Z instance $
  * @package		Joomla
  * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
@@ -18,24 +18,17 @@ defined('_JEXEC') or die( 'Restricted access' );
 jimport('joomla.application.component.model');
 
 /**
- * Weblinks Component Weblink Model
+ * Weblinks Component Weblinks Model
  *
  * @author	Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla
  * @subpackage	Content
  * @since 1.5
  */
-class WeblinksModelCategory extends JModel
+class WeblinksModelWeblinks extends JModel
 {
 	/**
-	 * Category id
-	 *
-	 * @var int
-	 */
-	var $_id = null;
-
-	/**
-	 * Category ata array
+	 * Weblinks data array
 	 *
 	 * @var array
 	 */
@@ -49,18 +42,18 @@ class WeblinksModelCategory extends JModel
 	var $_total = null;
 
 	/**
-	 * Category data
-	 *
-	 * @var object
-	 */
-	var $_category = null;
-
-	/**
 	 * Pagination object
 	 *
 	 * @var object
 	 */
 	var $_pagination = null;
+	
+	/**
+	 * Filter object
+	 *
+	 * @var object
+	 */
+	var $_filter = null;
 
 	/**
 	 * Constructor
@@ -71,7 +64,7 @@ class WeblinksModelCategory extends JModel
 	{
 		parent::__construct();
 
-		global $mainframe;
+		global $mainframe, $option;
 
 		$config = JFactory::getConfig();
 
@@ -83,24 +76,10 @@ class WeblinksModelCategory extends JModel
 		$this->setState('limitstart', ($this->getState('limit') != 0 ? (floor($this->getState('limitstart') / $this->getState('limit')) * $this->getState('limit')) : 0));
 
 		// Get the filter request variables
-		$this->setState('filter_order', JRequest::getCmd('filter_order', 'ordering'));
-		$this->setState('filter_order_dir', JRequest::getCmd('filter_order_Dir', 'ASC'));
-
-		$id = JRequest::getVar('id', 0, '', 'int');
-		$this->setId((int)$id);
-	}
-
-	/**
-	 * Method to set the category id
-	 *
-	 * @access	public
-	 * @param	int	Category ID number
-	 */
-	function setId($id)
-	{
-		// Set category ID and wipe data
-		$this->_id			= $id;
-		$this->_category	= null;
+		$filter = new stdClass();
+		$filter->order		= $mainframe->getUserStateFromRequest( $option.'filter_order',		'filter_order',		'w.ordering',	'cmd' );
+		$filter->order_Dir	= $mainframe->getUserStateFromRequest( $option.'filter_order_Dir',	'filter_order_Dir',	'',				'word' );
+		$this->_filter = $filter;
 	}
 
 	/**
@@ -165,71 +144,54 @@ class WeblinksModelCategory extends JModel
 	}
 
 	/**
-	 * Method to get category data for the current category
+	 * Method to get filter object for the categories
 	 *
-	 * @since 1.5
+	 * @access public
+	 * @return object
 	 */
-	function getCategory()
+	function getFilter()
 	{
-		// Load the Category data
-		if ($this->_loadCategory())
-		{
-			// Initialize some variables
-			$user = &JFactory::getUser();
-
-			// Make sure the category is published
-			if (!$this->_category->published) {
-				JError::raiseError(404, JText::_("Resource Not Found"));
-				return false;
-			}
-			// check whether category access level allows access
-			if ($this->_category->access > $user->get('aid', 0)) {
-				JError::raiseError(403, JText::_("ALERTNOTAUTH"));
-				return false;
-			}
-		}
-		return $this->_category;
-	}
-
-	/**
-	 * Method to load category data if it doesn't exist.
-	 *
-	 * @access	private
-	 * @return	boolean	True on success
-	 */
-	function _loadCategory()
-	{
-		if (empty($this->_category))
-		{
-			// current category info
-			$query = 'SELECT c.*, ' .
-				' CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(\':\', c.id, c.alias) ELSE c.id END as slug '.
-				' FROM #__categories AS c' .
-				' WHERE c.id = '. (int) $this->_id .
-				' AND c.section = "com_weblinks"';
-			$this->_db->setQuery($query, 0, 1);
-			$this->_category = $this->_db->loadObject();
-		}
-		return true;
+		return $this->_filter;
 	}
 
 	function _buildQuery()
 	{
-		$filter_order		= $this->getState('filter_order');
-		$filter_order_dir	= $this->getState('filter_order_dir');
+		$orderby 			= $this->_buildContentOrderBy();
 
-		$filter_order		= JFilterInput::clean($filter_order, 'cmd');
-		$filter_order_dir	= JFilterInput::clean($filter_order_dir, 'word');
-
-		// We need to get a list of all weblinks in the given category
-		$query = 'SELECT *' .
-			' FROM #__weblinks' .
-			' WHERE catid = '. (int) $this->_id.
-			' AND state = 1' .
-			' AND archived = 0'.
-			' ORDER BY '. $filter_order .' '. $filter_order_dir .', ordering';
+		// We need to get a list of all weblinks
+		$query = 'SELECT w.*, cc.title AS category'
+			. ' FROM #__weblinks AS w'
+			. ' LEFT JOIN #__categories AS cc ON cc.id = w.catid'
+			. ' WHERE w.state = 1'
+			. ' AND cc.published = 1'
+			. $orderby;
 
 		return $query;
+	}
+
+	function _buildContentOrderBy()
+	{
+		global $mainframe;
+
+		if ($this->_filter->order != ''){
+			$orderby = ' ORDER BY '. $this->_filter->order .' '. $this->_filter->order_Dir .', w.ordering';
+		}
+		else {
+			// Get the page/component configuration
+			$params = &$mainframe->getParams();
+			if (!is_object($params)) {
+				$params = &JComponentHelper::getParams('com_weblinks');
+			}
+	
+			$orderby_sec	= $params->def('orderby_sec', '');
+			$orderby_pri	= $params->def('orderby_pri', '');
+			$secondary		= WeblinksHelperQuery::orderbySecondary($orderby_sec);
+			$primary		= WeblinksHelperQuery::orderbyPrimary($orderby_pri);
+
+			$orderby = ' ORDER BY '.$primary.' '.$secondary;
+		}
+
+		return $orderby;
 	}
 }
 ?>

@@ -717,7 +717,7 @@ CREATE TABLE `#__weblinks` (
   `description` text NOT NULL default '',
   `date` datetime NOT NULL default '0000-00-00 00:00:00',
   `hits` int(11) NOT NULL default '0',
-  `published` tinyint(1) NOT NULL default '0',
+  `state` tinyint(1) NOT NULL default '0',
   `checked_out` int(11) NOT NULL default '0',
   `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
   `ordering` int(11) NOT NULL default '0',

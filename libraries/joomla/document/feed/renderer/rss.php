@@ -121,12 +121,9 @@ class JDocumentRendererRSS extends JDocumentRenderer
 			if ($data->items[$i]->author!="") {
 				$feed.= "			<author>".htmlspecialchars($data->items[$i]->author, ENT_COMPAT, 'UTF-8')."</author>\n";
 			}
-			/*
-			// on hold
 			if ($data->items[$i]->source!="") {
-					$data.= "			<source>".htmlspecialchars($data->items[$i]->source, ENT_COMPAT, 'UTF-8')."</source>\n";
+				$feed.= "			<source>".htmlspecialchars($data->items[$i]->source, ENT_COMPAT, 'UTF-8')."</source>\n";
 			}
-			*/
 			if ($data->items[$i]->category!="") {
 				$feed.= "			<category>".htmlspecialchars($data->items[$i]->category, ENT_COMPAT, 'UTF-8')."</category>\n";
 			}

@@ -68,14 +68,12 @@ class WeblinksViewWeblink extends JView
 		$weblink	=& $this->get('data');
 		$isNew	= ($weblink->id < 1);
 
+		// Check it out
+		$model->checkout();
+
 		// Edit or Create?
 		if (!$isNew)
 		{
-			// Is this link checked out?  If not by me fail
-			//if ($model->isCheckedOut($user->get('id'))) {
-			//	$mainframe->redirect("index.php?option=$option", "The weblink $weblink->title is currently being edited by another administrator.");
-			//}
-
 			// Set page title
 			$document->setTitle(JText::_('Links').' - '.JText::_('Edit'));
 
@@ -101,9 +99,10 @@ class WeblinksViewWeblink extends JView
 			 * we want to manipulate the pathway and pagetitle to indicate this.  Also,
 			 * we need to initialize some values.
 			 */
-			$weblink->published = 0;
+			$weblink->state = 0;
 			$weblink->approved = 1;
 			$weblink->ordering = 0;
+			$weblink->reported = 0;
 
 			// Set page title
 			$document->setTitle(JText::_('Links').' - '.JText::_('New'));
@@ -123,8 +122,8 @@ class WeblinksViewWeblink extends JView
 
 		$lists['ordering'] 			= JHTML::_('list.specificordering',  $weblink, $weblink->id, $query );
 
-		// Radio Buttons: Should the article be published
-		$lists['published'] 		= JHTML::_('select.booleanlist',  'jform[published]', 'class="inputbox"', $weblink->published );
+		// Radio Buttons: weblink state
+		$lists['state'] 		= JHTML::_('weblink.statelist',  'jform[state]', $weblink->state );
 
 		JFilterOutput::objectHTMLSafe( $weblink, ENT_QUOTES, 'description' );
 
