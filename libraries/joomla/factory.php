@@ -556,7 +556,6 @@ class JFactory
 		$prefix 	= $conf->getValue('config.dbprefix');
 		$driver 	= $conf->getValue('config.dbtype');
 		$debug 		= $conf->getValue('config.debug');
-
 		$options	= array ( 'driver' => $driver, 'host' => $host, 'user' => $user, 'password' => $password, 'database' => $database, 'prefix' => $prefix );
 
 		$db =& JDatabase::getInstance( $options );
@@ -712,4 +711,57 @@ class JFactory
 		$doc =& JDocument::getInstance($type, $attributes);
 		return $doc;
 	}
+
+
+    /**
+     * Description
+     *
+     * @param
+     * @return
+     */
+     function getDataset()
+     {
+
+     }
+
+    /**
+     * Description
+     *
+     * @param
+     * @return
+     */
+     function getConnection($connectionname="")
+     {
+
+        jimport('joomla.joda.connection');
+
+        $conf =& JFactory::getConfig();
+        if ( empty( $connectionname ) )
+        {
+            $host       = $conf->getValue('config.host');
+            $user       = $conf->getValue('config.user');
+            $password   = $conf->getValue('config.password');
+            $database   = $conf->getValue('config.db');
+            $prefix     = $conf->getValue('config.dbprefix');
+            $driver     = $conf->getValue('config.dbtype');
+            $debug      = $conf->getValue('config.debug');
+            $port       = $conf->getValue('config.port');
+        }
+        else
+        {
+            $connectionsList = $conf->getValue('config.connections');
+            $connectionInfo = $connectionsList[$connectionname];
+            $host       = $connectionInfo["host"];
+            $user       = $connectionInfo["user"];
+            $password   = $connectionInfo["password"];
+            $database   = $connectionInfo["database"];
+            $prefix     = $connectionInfo["prefix"];
+            $driver     = $connectionInfo["driver"];
+            $debug      = $connectionInfo["debug"];
+            $port       = $connectionInfo["port"];
+        }
+        $options    = array ( 'driver' => $driver, 'host' => $host, 'user' => $user, 'password' => $password, 'database' => $database, 'prefix' => $prefix, "port"=>$port );
+        return JConnection::getInstance($options, $connectionname);
+     }
+
 }
