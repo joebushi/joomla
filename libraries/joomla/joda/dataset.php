@@ -88,10 +88,10 @@ class JDataset extends JObject
      * @param
      * @return
      */
-    function __construct($options)
+    function __construct($connectionname="")
     {
-        $this->connection = JConnection::getInstance($options);
-        $this->queryBuilder = JQueryBuilder::getInstance($options["dbtype"]);
+        $this->connection = JFactory::getConnection($connectionname);
+        $this->queryBuilder = JQueryBuilder::getInstance("mysql");
         $this->queryBuilder->resetQuery();
         $this->Close();
     }
@@ -172,57 +172,6 @@ class JDataset extends JObject
     }
 
 
-    /**
-     * Description
-     *
-     * @param
-     * @return
-     */
-    function First()
-    {
-    }
-
-    /**
-     * Description
-     *
-     * @param
-     * @return
-     */
-    function Next()
-    {
-    }
-
-    /**
-     * Description
-     *
-     * @param
-     * @return
-     */
-    function Last()
-    {
-    }
-
-    /**
-     * Description
-     *
-     * @param
-     * @return
-     */
-    function saveUpdates()
-    {
-    }
-
-
-    /**
-     * Description
-     *
-     * @param
-     * @return
-     */
-    function sortByFieldName($fieldname, $direction = Joda::SORT_ASC)
-    {
-
-    }
 
 
 } //JDataset

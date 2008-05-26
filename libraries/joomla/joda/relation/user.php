@@ -40,9 +40,9 @@ class JRelationUser extends JRelation
      * @param
      * @return
      */
-     function __construct($options)
+     function __construct($connectionname="")
     {
-        parent::__construct($this->name, $options);
+        parent::__construct($this->name, $connectionname);
         $this->queryBuilder->select("*")->from($this->relation);
         $this->sql[] = $this->queryBuilder->toString();
     }

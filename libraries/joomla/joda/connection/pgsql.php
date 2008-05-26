@@ -31,10 +31,22 @@ defined( 'JPATH_BASE' ) or die();
  */
 class JConnectionPgSQL extends JConnection
 {
-    var $dbtype                 = "pgsql";
+    var $driver                 = "pgsql";
     var $port                   = "5432";
     var $transaction_isolevel   = Joda::READ_COMMITED;
     var $driver_options         = array();
+
+    /**
+    * This driver Transaction Isolation Level Names
+    *
+    * @var array
+    */
+    var $isolevel_names = array(
+        Joda::READ_COMMITED     => "READ COMMITED",
+        Joda::REPEATABLE_READ   => "REPEATABLE READ",
+        Joda::READ_UNCOMMITTED  => "READ UNCOMMITTED",
+        Joda::SERIALIZABLE      => "SERIALIZABLE"
+    );
 
     /**
      * Description
@@ -45,7 +57,7 @@ class JConnectionPgSQL extends JConnection
      function __construct($options)
     {
         $this->host = $options["host"];
-        $this->database = $options["db"];
+        $this->database = $options["database"];
         $this->user = $options["user"];
         $this->password = $options["password"];
         $this->port = $options["port"];

@@ -878,11 +878,11 @@ abstract class JQueryBuilder extends JObject
      * @param    array    Array of options
      * @return    object    Query Builder object
      */
-    public function &getInstance($dbtype)
+    public function &getInstance($driver)
     {
-        $path = dirname(__FILE__) .DS. 'querybuilder' .DS. $dbtype . '.php';
+        $path = dirname(__FILE__) .DS. 'querybuilder' .DS. $driver . '.php';
         require_once($path);
-        $class = "JQueryBuilder".$dbtype;
+        $class = "JQueryBuilder".$driver;
         $instance =  new $class();
         return $instance;
     }

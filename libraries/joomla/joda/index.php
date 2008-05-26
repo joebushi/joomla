@@ -108,27 +108,27 @@ function test( $test) {
     $config =& JFactory::getConfig();
 
     // MYSQL
-    $options["dbtype"] = $config->getValue('config.dbtype');
+    $options["driver"] = $config->getValue('config.dbtype');
     $options["host"] = $config->getValue('config.host');
     $options["user"] = $config->getValue('config.user');
     $options["password"] = $config->getValue('config.password');
-    $options["db"] = $config->getValue('config.db');
+    $options["database"] = $config->getValue('config.db');
     $options["port"] = $config->getValue('config.port');
 
     // PGSQL
 /*
-    $options["dbtype"] = "pgsql";
+    $options["driver"] = "pgsql";
     $options["host"] = "localhost";
     $options["user"] = "postgres";
     $options["password"] = "";
-    $options["db"] = "jomla";
+    $options["database"] = "jomla";
     $options["port"] = "5432";
 */
 
     //$table = new JRelation("test", $options);
-    $dataset = new JDataset($options);
-    $users = new JRelationUser($options);
-    $sections = new JRelationSection($options);
+    $dataset = new JDataset("conn1");
+    $users = new JRelationUser("conn2");
+    $sections = new JRelationSection("conn2");
     $qb = JQueryBuilder::getInstance("mysql");
 
 
@@ -155,7 +155,7 @@ function test( $test) {
 
 
     echo "<P><B>Fields</B><HR>";
-    $dataset2 = new JDataset($options);
+    $dataset2 = new JDataset();
     //$dataset2->datatype = Joda::DATA_ASTABLE;
     //$dataset2->sql = array("select *, jos_polls.id as IDDDD, jos_poll_data.* from jos_polls jp join jos_poll_data on (jos_polls.id=jos_poll_data.pollid) where false");
     $dataset2->sql = array("select * from jos_polls as jp");
@@ -169,7 +169,7 @@ function test( $test) {
     }
 
     echo "<P><B>All datasets using the same Connection Instance</B><HR>";
-    $dataset2 = new JDataset($options);
+    $dataset2 = new JDataset();
     if ($users->connection === $sections->connection)  echo "EQ 1<BR>";
     if ($dataset->connection === $dataset2->connection)  echo "EQ 2<BR>";
     if ($users->connection === $dataset->connection)  echo "EQ 3<BR>";
@@ -184,8 +184,6 @@ function test( $test) {
 /****************************************************************/
 /****************************************************************/
 /****************************************************************/
-
-
 
 
 

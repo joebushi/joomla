@@ -37,7 +37,7 @@ class JConnection extends PDO
      *
      * @var string
      */
-    var $dbtype                    = "";
+    var $driver                    = "";
 
 
     /**
@@ -117,6 +117,13 @@ class JConnection extends PDO
     var $autocommit                = false;
 
 
+    /**
+     * The name of this connection as per the backend configuration
+     *
+     * @var string
+     */
+    var $name = "";
+
 
     /**
      * Class constructor
@@ -126,7 +133,7 @@ class JConnection extends PDO
      */
     function __construct()
     {
-        $dsn = $this->dbtype.":port=".$this->port.";host=" . $this->host . ";dbname=" . $this->database;
+        $dsn = $this->driver.":port=".$this->port.";host=" . $this->host . ";dbname=" . $this->database;
         parent::__construct($dsn, $this->user, $this->password, $this->driver_options);
         $this->setAttribute(PDO::ATTR_STATEMENT_CLASS, array("JStatement"));
     }
@@ -137,7 +144,7 @@ class JConnection extends PDO
      * @param array Options/Configuration
      * @return object JConnection
      */
-    function &getInstance($options)
+    function &getInstance($options, $connectionname)
     {
         static $instances;
 
@@ -145,20 +152,24 @@ class JConnection extends PDO
             $instances = array();
         }
 
-        $signature = serialize( $options );
+
+        $signature = serialize( array_merge($options, array($connectionname)) );
 
 
         if (empty($instances[$signature]))
         {
-            $dbtype = $options["dbtype"];
+            $driver = $options["driver"];
 
-            $file = dirname(__FILE__) .DS. "connection" .DS. $dbtype . ".php";
+            $file = dirname(__FILE__) .DS. "connection" .DS. $driver . ".php";
             require_once($file);
 
-            $class = "JConnection" . $dbtype;
+            $class = "JConnection" . $driver;
             $instance = new $class($options);
+            $instance->name = $connectionname;
             $instances[$signature] = & $instance;
         }
+
+
 
         return $instances[$signature];
     }

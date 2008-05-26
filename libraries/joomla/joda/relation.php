@@ -40,10 +40,10 @@ class JRelation extends JDataset
      * @param
      * @return
      */
-     function __construct($name, $options)
+     function __construct($name, $connectionname="")
     {
-        parent::__construct($options);
         $this->name = $name;
+        parent::__construct($connectionname);
     }
 
 
