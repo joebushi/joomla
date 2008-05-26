@@ -129,21 +129,29 @@ function test( $test) {
     $dataset = new JDataset($options);
     $users = new JRelationUser($options);
     $sections = new JRelationSection($options);
-
-
-    echo "<P><B>Open Users</B><HR>";
-    $users->Open();
-    print_r($users->data);
-
-    echo "<P><B>Open sections</B><HR>";
-    $sections->Open();
-    print_r($sections->data);
+    $qb = JQueryBuilder::getInstance("mysql");
 
 
     echo "<P><B>Use dataset</B><HR>";
     $dataset->sql = array("select menutype from jos_menu");
     $dataset->Open();
     print_r($dataset->data);
+
+    echo "<P><B>Open sections</B><HR>";
+    $sections->Open();
+    print_r($sections->data);
+
+
+    echo "<P><B>Open Users</B><HR>";
+    $users->Open();
+    print_r($users->data);
+
+
+
+    echo "<P><B>Transaction</B><HR>";
+    $dataset->sql = array("insert into jos_groups values(4,'test')");
+    $dataset->Open();
+
 
 
     echo "<P><B>Fields</B><HR>";
@@ -160,20 +168,12 @@ function test( $test) {
         echo "<BR>";
     }
 
-    echo "<P><B>Parameters</B><HR>";
-    $qb = $dataset->queryBuilder;
-    $qb
-        ->select("*")
-        ->from("jos_content")
-        ->where("title like :titlefilter");
-
-    $qb->setParameters(array("titlefilter"=>'Joomla'));
-    $dataset->queryBuilder = $qb;
-
-    //echo $dataset->queryBuilder;
-
-    //$dataset->OpenAsObjects();
-    //print_r($dataset->fields);
+    echo "<P><B>All datasets using the same Connection Instance</B><HR>";
+    $dataset2 = new JDataset($options);
+    if ($users->connection === $sections->connection)  echo "EQ 1<BR>";
+    if ($dataset->connection === $dataset2->connection)  echo "EQ 2<BR>";
+    if ($users->connection === $dataset->connection)  echo "EQ 3<BR>";
+    if ($users->queryBuilder  === $sections->queryBuilder)  echo "EQ 4<BR>";
 
 
 }

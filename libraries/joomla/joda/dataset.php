@@ -48,12 +48,6 @@ class JDataset extends JObject
      */
     var $sql = array();
 
-    /**
-     * Query Builder Object
-     *
-     * @var JQueryBuilder
-     */
-    var $queryBuilder = null;
 
     /**
      * Data, the result of the query
@@ -81,6 +75,14 @@ class JDataset extends JObject
 
 
     /**
+     * Query Builder
+     *
+     * @var JQueryBuilder
+     */
+    var $queryBuilder = null;
+
+
+    /**
      * Description
      *
      * @param
@@ -88,10 +90,9 @@ class JDataset extends JObject
      */
     function __construct($options)
     {
-        $qbOptions["dbtype"] = $options["dbtype"];
-        $this->queryBuilder = JQueryBuilder::getInstance($qbOptions);
-        $this->queryBuilder->resetQuery();
         $this->connection = JConnection::getInstance($options);
+        $this->queryBuilder = JQueryBuilder::getInstance($options["dbtype"]);
+        $this->queryBuilder->resetQuery();
         $this->Close();
     }
 

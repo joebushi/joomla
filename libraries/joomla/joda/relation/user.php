@@ -43,11 +43,7 @@ class JRelationUser extends JRelation
      function __construct($options)
     {
         parent::__construct($this->name, $options);
-
-        $this->queryBuilder
-            ->select("*")
-            ->from($this->relation);
-
+        $this->queryBuilder->select("*")->from($this->relation);
         $this->sql[] = $this->queryBuilder->toString();
     }
 

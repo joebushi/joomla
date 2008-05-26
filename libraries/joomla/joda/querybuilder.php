@@ -21,75 +21,6 @@
 defined( 'JPATH_BASE' ) or die();
 
 
-/**
- * Interface to JQuery. See {@link JQuery}  for detailed information.
- *
- * Note: SPOC = SQL Piece Of Code
- *
- * @package     Joomla.Framework
- * @author      Plamen Petkov <plamendp@zetcom.bg>
- *
- */
-interface JQueryBuilderInterface
-{
-
-    function &getInstance($options);
-    function cloning();
-
-    function resetQuery();
-    function resetSection( $section = null );
-
-    function getCurSection();
-    function toString( $subselectname = '' );
-
-
-    function select( $input = null );
-    function subselect( $input, $subselectname = null );
-    function distinct( $distinct = null );
-    function from( $input );
-    function join( $fromitem, $condition = '', $alias = '' );
-    function innerjoin( $fromitem, $condition = '', $alias = '' );
-    function rightjoin( $fromitem, $condition = '', $alias = '' );
-    function leftjoin( $fromitem, $condition = '', $alias = '' );
-    function crossjoin( $fromitem, $condition = '', $alias = '' );
-    function where( $input = null );
-    function whereor( $input = null );
-    function orwhere( $input = null );
-    function orwhereor( $input = null );
-    function orLP();
-    function LP();
-    function RP();
-    function groupBy( $input = null );
-    function orderBy( $input = null );
-    function limit( $limit, $offset = 0 );
-    function update( $table );
-    function insertinto( $table );
-    function fields( $input );
-    function values( $input );
-    function fieldvalues( $input );
-    function delete();
-
-
-    function setParameters($parameters = array());
-    function getParameters();
-
-
-    function nameQuote( $s );
-    function Quote( $text, $escaped = true );
-    function splitSql( $queries );
-
-    // SQL
-    function sqlCAST( $expression, $type, $length = null );
-    function sqlCASE( $conditions, $results, $defresult = null, $restype = '' );
-    function sqlSUBSELECT( $select, $subselectname = null );
-    function sqlCONCAT( $expressions );
-    function sqlJOIN( $join = null );
-    function sqlLIMIT( $limit, $offset = 0 );
-    function sqlMAX( $expression );
-    function sqlIN( $expression, $list, $emulate = false, $quote = true );
-
-
-}
 
 
 /**
@@ -98,7 +29,7 @@ interface JQueryBuilderInterface
  * @package     Joomla.Framework
  * @subpackage  Joda
  */
-abstract class JQueryBuilder extends JObject implements JQueryBuilderInterface
+abstract class JQueryBuilder extends JObject
 {
 
     /**
@@ -942,35 +873,19 @@ abstract class JQueryBuilder extends JObject implements JQueryBuilderInterface
 
 
     /**
-     * Returns a reference to a Query Builder object, only creating it
-     * if it doesn't already exist (for the given dialect and database object)
+     * Returns a reference to a Query Builder object
      *
      * @param    array    Array of options
      * @return    object    Query Builder object
      */
-    public function &getInstance($options)
+    public function &getInstance($dbtype)
     {
-        $dbtype     = $options["dbtype"];
         $path = dirname(__FILE__) .DS. 'querybuilder' .DS. $dbtype . '.php';
         require_once($path);
         $class = "JQueryBuilder".$dbtype;
         $instance =  new $class();
         return $instance;
     }
-
-
-
-
-    /**
-    * Clone this object.
-    *
-    *
-    */
-    public function cloning()
-    {
-        return clone $this;
-    }
-
 
 
 

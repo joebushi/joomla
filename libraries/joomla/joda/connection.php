@@ -20,6 +20,8 @@
  */
 defined( 'JPATH_BASE' ) or die();
 
+
+
 /**
  * Database Connection Class
  *
@@ -112,7 +114,7 @@ class JConnection extends PDO
      *
      * @var bool <var>True</var>=No Transactions, <var>False</var>=Use Transactions
      */
-    var $autocommit                = true;
+    var $autocommit                = false;
 
 
 
@@ -130,21 +132,35 @@ class JConnection extends PDO
     }
 
     /**
-     * Return an instance of JConnection's descendant class (database specific).
+     * Return an instance of JConnection's descendant class (singleton)
      *
      * @param array Options/Configuration
      * @return object JConnection
      */
-     function &getInstance($options)
+    function &getInstance($options)
     {
-        $dbtype = $options["dbtype"];
+        static $instances;
 
-        $file = dirname(__FILE__) .DS. "connection" .DS. $dbtype . ".php";
-        require_once($file);
+        if (!isset( $instances )) {
+            $instances = array();
+        }
 
-        $class = "JConnection" . $dbtype;
-        $instance = new $class($options);
-        return $instance;
+        $signature = serialize( $options );
+
+
+        if (empty($instances[$signature]))
+        {
+            $dbtype = $options["dbtype"];
+
+            $file = dirname(__FILE__) .DS. "connection" .DS. $dbtype . ".php";
+            require_once($file);
+
+            $class = "JConnection" . $dbtype;
+            $instance = new $class($options);
+            $instances[$signature] = & $instance;
+        }
+
+        return $instances[$signature];
     }
 
 
@@ -156,7 +172,7 @@ class JConnection extends PDO
      * @param integer {@link Joda::READ_COMMITED}|{@link Joda::REPEATABLE_READ}|{@link Joda::READ_UNCOMMITTED}|{@link Joda::SERIALIZABLE}
      * @return
      */
-     function setTransactionIsoLevel($level)
+    function setTransactionIsoLevel($level)
     {
         $this->transaction_isolevel = $level;
     }
@@ -168,7 +184,7 @@ class JConnection extends PDO
      * @param
      * @return
      */
-     function beginTransaction()
+    function beginTransaction()
     {
         parent::beginTransaction();
     }
@@ -179,7 +195,7 @@ class JConnection extends PDO
      * @param
      * @return
      */
-     function Commit()
+    function Commit()
     {
         parent::commit();
     }
@@ -191,7 +207,7 @@ class JConnection extends PDO
      * @param
      * @return
      */
-     function Rollback()
+    function Rollback()
     {
         parent::rollBack();
     }
@@ -203,37 +219,48 @@ class JConnection extends PDO
      * @param array
      * @return object JStatement
      */
-     function doQuery($sql, $parameters=array())
+    function doQuery($sql, $parameters=array())
     {
+        $result = false;
         foreach ( $sql as $query )
         {
             $statement = $this->prepare($query);
-            $statement->execute();
+            $result = $statement->execute();
         }
         $this->statement = $statement;
-        return $statement;
+        return $result;
     }
 
 
     /**
      * Execute SQL queries, enclosing them in a transaction if Autocommit mode is off.
      *
+     * NOTE:Currently Isolation Levels not implemented yet! Using the server default one!
+     *
      * @param array Arrays of sql queries
      * @return
      */
-     function Query($sql)
+    function Query($sql)
     {
+
+        $result = false;
         if ( ! $this->autocommit )
         {
             $this->beginTransaction();
+            if ( $this->doQuery($sql) )
+            {
+                $result = $this->Commit();
+            }
+            else
+            {
+                $result = $this->Rollback();
+            }
         }
-
-        $result = $this->doQuery($sql);
-
-        if  ( ! $this->autocommit )
+        else
         {
-            $this->Commit();
+            $result = $this->doQuery($sql);
         }
+        return $result;
     }
 
 
@@ -272,7 +299,13 @@ class JConnection extends PDO
      */
     function getFieldsMeta()
     {
+        $result = array();
         $count = $this->statement->columnCount();
+        if ( $count <= 0 )
+        {
+            return $result;
+        }
+
         $i = 0;
         while ( $fieldmeta = $this->statement->getColumnMeta($i++) )
         {
@@ -282,6 +315,12 @@ class JConnection extends PDO
     }
 
 
+    /**
+     * Description
+     *
+     * @param
+     * @return array
+     */
     function recordCount()
     {
         return $this->statement->rowCount();

@@ -43,9 +43,8 @@ class JRelationSection extends JRelation
      function __construct($options)
     {
         parent::__construct($this->name, $options);
-        $qb = $this->queryBuilder;
-        $qb->select("*")->from($this->relation);
-        $this->sql[] = $qb->toString();
+        $this->queryBuilder->select("*")->from($this->relation);
+        $this->sql[] = $this->queryBuilder->toString();
     }
 
 

@@ -33,8 +33,21 @@ class JConnectionMySQL extends JConnection
 {
     var $dbtype                 = "mysql";
     var $port                   = "3306";
-    var $transaction_isolevel   = Joda::REPEATABLE_READ;
+    //var $transaction_isolevel   = Joda::REPEATABLE_READ;
+    var $transaction_isolevel   = Joda::SERIALIZABLE;
     var $driver_options         = array();
+
+    /**
+    * This driver Transaction Isolation Level Names
+    *
+    * @var array
+    */
+    var $isolevel_names = array(
+        Joda::READ_COMMITED     => "READ COMMITED",
+        Joda::REPEATABLE_READ   => "REPEATABLE READ",
+        Joda::READ_UNCOMMITTED  => "READ UNCOMMITTED",
+        Joda::SERIALIZABLE      => "SERIALIZABLE"
+    );
 
     /**
      * Description
@@ -51,6 +64,21 @@ class JConnectionMySQL extends JConnection
         $this->port = $options["port"];
         parent::__construct();
     }
+
+
+    /**
+     * Return SQL query string for setting transaction isolation level
+     *
+     * @param integer {@link Joda::READ_COMMITED}|{@link Joda::REPEATABLE_READ}|{@link Joda::READ_UNCOMMITTED}|{@link Joda::SERIALIZABLE}
+     * @return
+     */
+     function sqlSetTransactionIsoLevel($level)
+    {
+        $levelname = $this->isolevel_names[$level];
+        $sql = "SET TRANSACTION ISOLATION LEVEL " . $levelname;
+        return $sql;
+    }
+
 
 
 } //JConnection

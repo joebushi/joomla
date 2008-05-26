@@ -55,6 +55,8 @@ defined( 'JPATH_BASE' ) or die();
  * @todo Use quoting from PDO in Querybuilder
  * @todo For metadata - select * from table where 1=1
  * @todo Table prefix!!
+ * @todo Decide: where to put the QueryBuilder: prop of JConnection or JDataset???
+ * @todo Make QueryBuilder returning array of strings, not A string
  *
  *
  */
