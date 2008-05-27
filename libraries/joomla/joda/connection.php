@@ -21,7 +21,6 @@
 defined( 'JPATH_BASE' ) or die();
 
 
-
 /**
  * Database Connection Class
  *
@@ -114,7 +113,7 @@ abstract class JConnection extends PDO
      *
      * @var bool <var>True</var>=No Transactions, <var>False</var>=Use Transactions
      */
-    public $autocommit                = false;
+    protected $_autocommit                = false;
 
 
     /**
@@ -123,6 +122,16 @@ abstract class JConnection extends PDO
      * @var string
      */
     public $name = "";
+
+
+    /**
+     * Table name prefix - all tables are prefixed with this string, usually "jos_".
+     * Placeholder "#__" used in SQL queries must be replaced by this very prefix.
+     *
+     * @var string
+     */
+    protected $_table_prefix = "jos_";
+
 
 
     /**
@@ -177,7 +186,7 @@ abstract class JConnection extends PDO
     /**
      * Set transaction isolation level
      *
-     * Note: This method does NOT turn ON using transactions. Property {@link $autocommit} must be set to TRUE.
+     * Note: This method does NOT turn ON using transactions. Property {@link $_autocommit} must be set to TRUE.
      *
      * @param integer {@link Joda::READ_COMMITED}|{@link Joda::REPEATABLE_READ}|{@link Joda::READ_UNCOMMITTED}|{@link Joda::SERIALIZABLE}
      * @return
@@ -254,7 +263,7 @@ abstract class JConnection extends PDO
     {
 
         $result = false;
-        if ( ! $this->autocommit ) {
+        if ( ! $this->_autocommit ) {
             $this->beginTransaction();
             if ( $this->doQuery($sql) ) {
                 $result = $this->Commit();
@@ -332,6 +341,31 @@ abstract class JConnection extends PDO
     {
         return $this->statement->rowCount();
     }
+
+
+    /**
+     * Description
+     *
+     * @param
+     * @return array
+     */
+    function enableTransactions()
+    {
+        $this->_autocommit = false;
+    }
+
+
+    /**
+     * Description
+     *
+     * @param
+     * @return array
+     */
+    function disableTransactions()
+    {
+        $this->_autocommit = true;
+    }
+
 
 } //JConnection
 

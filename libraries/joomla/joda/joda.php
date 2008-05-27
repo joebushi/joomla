@@ -56,8 +56,8 @@ defined( 'JPATH_BASE' ) or die();
  * @todo For metadata - select * from table where 1=1  (?!?!)
  * @todo Table prefix!!
  * @todo Make QueryBuilder returning array of strings, not A string
- *
- *
+ * @todo Where to put the prefix? Dataset or Connection... is it specific to dataset or connection
+ * @todo protected class propoerties - underscore
  */
 class Joda extends JObject
 {
