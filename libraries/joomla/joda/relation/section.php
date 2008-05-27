@@ -31,8 +31,8 @@ defined( 'JPATH_BASE' ) or die();
  */
 class JRelationSection extends JRelation
 {
-    var $name = "sections";
-    var $relation = "jos_sections";
+    public $name = "sections";
+    public $relation = "jos_sections";
 
     /**
      * Description
@@ -43,8 +43,8 @@ class JRelationSection extends JRelation
      function __construct($connectionname="")
     {
         parent::__construct($this->name, $connectionname);
-        $this->queryBuilder->select("*")->from($this->relation);
-        $this->sql[] = $this->queryBuilder->toString();
+        $this->querybuilder->select("*")->from($this->relation);
+        $this->sql[] = $this->querybuilder->toString();
     }
 
 

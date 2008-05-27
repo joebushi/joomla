@@ -31,17 +31,17 @@ defined( 'JPATH_BASE' ) or die();
  */
 class JConnectionMySQL extends JConnection
 {
-    var $driver                 = "mysql";
-    var $port                   = "3306";
-    var $transaction_isolevel   = Joda::REPEATABLE_READ;
-    var $driver_options         = array();
+    public $driver                 = "mysql";
+    public $port                   = "3306";
+    public $transaction_isolevel   = Joda::REPEATABLE_READ;
+    public $driver_options         = array();
 
     /**
     * This driver Transaction Isolation Level Names
     *
     * @var array
     */
-    var $isolevel_names = array(
+    public $isolevel_names = array(
         Joda::READ_COMMITED     => "READ COMMITED",
         Joda::REPEATABLE_READ   => "REPEATABLE READ",
         Joda::READ_UNCOMMITTED  => "READ UNCOMMITTED",

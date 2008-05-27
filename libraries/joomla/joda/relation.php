@@ -31,8 +31,8 @@ defined( 'JPATH_BASE' ) or die();
  */
 class JRelation extends JDataset
 {
-    var $name = "";
-    var $relation = "";
+    public $name = "";
+    public $relation = "";
 
     /**
      * Description

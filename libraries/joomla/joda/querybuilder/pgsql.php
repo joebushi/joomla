@@ -170,8 +170,12 @@ class JQueryBuilderPgsql extends JQueryBuilder {
 	function sqlLimit( $limit, $offset = 0 ) {
 		$result = "";
 		if ( ($limit > 0) || ($offset > 0) ) {
-			if ( $offset > 0 ) $result = ' LIMIT '.$limit.' OFFSET '.$offset;
-			else $result = ' LIMIT '.$limit;
+			if ( $offset > 0 ) {
+                $result = ' LIMIT '.$limit.' OFFSET '.$offset;
+            }
+			else {
+                $result = ' LIMIT '.$limit;
+            }
 		}
 		return $result;
 	}

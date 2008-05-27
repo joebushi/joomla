@@ -321,8 +321,7 @@ abstract class JQueryBuilder extends JObject
     {
         $this->_cursection = self::QS_WHERE;
 
-        if ( $input == null )
-            return $this;
+        if ( $input == null ) return $this;
 
         $tmp = $this->_expression( $input, $innerglue, $outerglue, self::QA_EXPR );
         if ( ! isset($this->_sections[self::QS_WHERE]) ) {
@@ -409,7 +408,6 @@ abstract class JQueryBuilder extends JObject
             }
         }
 
-        /** @todo Check parethesis count and closing */
         return $tmp;
     }
 
@@ -576,8 +574,9 @@ abstract class JQueryBuilder extends JObject
     protected function _qs_distinct_toString( $section )
     {
         $this->_sectionsSQL[$section] = '';
-        if ( $this->_distinct )
+        if ( $this->_distinct ) {
             $this->_sectionsSQL[$section] = 'DISTINCT';
+        }
         return true;
     }
 
@@ -770,8 +769,9 @@ abstract class JQueryBuilder extends JObject
                 $errors[] = "Class/Section: ".$classname." / ".$section;
             }
         }
-        if ( count($errors) <= 0 )
+        if ( count($errors) <= 0 ) {
             $errors = false;
+        }
         return $errors;
     }
 
@@ -910,8 +910,9 @@ abstract class JQueryBuilder extends JObject
      */
     public function resetSection( $section = null )
     {
-        if ( ! isset($section) )
+        if ( ! isset($section) ) {
             return $this;
+        }
         $this->_sections[$section] = array();
         return $this;
     }
@@ -965,15 +966,11 @@ abstract class JQueryBuilder extends JObject
             $sql = str_replace( "%%".$section."%%", $value, $sql );
         }
 
-
         // SUBSELECT Query Types need one more thing
         if ( $this->_type == self::QT_SUBSELECT ) {
             $sql = $this->sqlSubselect( $sql, $subselectname );
         }
 
-        // Final ;
-        if ( trim($sql) != '' )
-            //$sql .= ';';
         return $sql;
     }
 
@@ -1523,8 +1520,9 @@ abstract class JQueryBuilder extends JObject
     public function sqlCASE( $conditions, $results, $defresult = null, $restype = '' )
     {
         // Validate sizes
-        if ( (count($conditions) != count($results)) or (count($conditions) <= 0) )
+        if ( (count($conditions) != count($results)) or (count($conditions) <= 0) ) {
             return '';
+        }
 
         // Array of 'WHEN ... THEN ...';
         $when_array = array();
@@ -1533,8 +1531,9 @@ abstract class JQueryBuilder extends JObject
         foreach ( $conditions as $condition ) {
             $condition = trim( $condition );
             $result = trim( $results[$i] );
-            if ( $restype != '' )
+            if ( $restype != '' ) {
                 $result = $this->sqlCAST( $result, $restype );
+            }
             $when_array[] = 'WHEN ('.$condition.') THEN '.$result;
             $i++;
         }
@@ -1543,8 +1542,9 @@ abstract class JQueryBuilder extends JObject
 
         // Check if we need 'ELSE' clause
         if ( ! empty($defresult) ) {
-            if ( $restype != '' )
+            if ( $restype != '' ) {
                 $defresult = $this->sqlCAST( $defresult, $restype );
+            }
             $code = $code.' ELSE '.$defresult;
         }
 
@@ -1584,7 +1584,9 @@ abstract class JQueryBuilder extends JObject
     public function sqlMAX( $expression )
     {
         $result = "";
-        if ( (!is_string($expression)) || empty($expression) ) return $result;
+        if ( (!is_string($expression)) || empty($expression) ) {
+            return $result;
+        }
         $result = "MAX(" . $expression . ")";
         return $result;
     }
@@ -1606,8 +1608,12 @@ abstract class JQueryBuilder extends JObject
         $result = "";
 
         // Return empty string if no valid expression (string) or array is passed
-        if ( (!is_string($expression)) || empty($expression) ) return $result;
-        if ( (!is_array($list)) || (count($list) <= 0) ) return $result;
+        if ( (!is_string($expression)) || empty($expression) ) {
+            return $result;
+        }
+        if ( (!is_array($list)) || (count($list) <= 0) ) {
+            return $result;
+        }
 
         $tmp = array();
         $tmp_emulated = array();
@@ -1617,10 +1623,12 @@ abstract class JQueryBuilder extends JObject
                 $tmp_emulated[] = "(" . $expression . "=" . ($quote ? $this->Quote($element) : $element ) . ")";
             }
         }
-        if ($emulate)
+        if ($emulate) {
             $result = "(" . implode(" OR ", $tmp_emulated) . ")";
-        else
+        }
+        else {
             $result = $expression . " IN (" . implode(', ', $tmp)  . ")";
+        }
         return $result;
     }
 

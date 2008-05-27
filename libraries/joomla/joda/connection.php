@@ -30,14 +30,14 @@ defined( 'JPATH_BASE' ) or die();
  * @author      Plamen Petkov <plamendp@zetcom.bg>
  *
  */
-class JConnection extends PDO
+abstract class JConnection extends PDO
 {
     /**
      * Database type (mysql, pgsql, mssql, etc.)
      *
      * @var string
      */
-    var $driver                    = "";
+    protected $driver                    = "";
 
 
     /**
@@ -47,56 +47,56 @@ class JConnection extends PDO
      *
      * @var object JStatement
      */
-    var $statement                 = null;
+    public $statement                 = null;
 
     /**
      * Database host name or IP address
      *
      * @var string
      */
-    var $host                      = "";
+    public $host                      = "";
 
     /**
      * Database host's port number
      *
      * @var string
      */
-    var $port                      = "";
+    public $port                      = "";
 
     /**
      * Database name
      *
      * @var string
      */
-    var $database                  = "";
+    public $database                  = "";
 
     /**
      * Database username
      *
      * @var string
      */
-    var $user                      = "";
+    public $user                      = "";
 
     /**
      * Database user's password
      *
      * @var string
      */
-    var $password                  = "";
+    public $password                  = "";
 
     /**
      * PDO Database Driver Options
      *
      * @var array An array of Key=>Value PDO options
      */
-    var $driver_options            = array();
+    public $driver_options            = array();
 
     /**
      * Database encoding
      *
      * @var string
      */
-    var $encoding                  = "";
+    public $encoding                  = "";
 
     /**
      * Transaction Isolation level used if and when transactions are involved.
@@ -105,7 +105,7 @@ class JConnection extends PDO
      *
      * @var integer {@link Joda::READ_COMMITED}|{@link Joda::REPEATABLE_READ}|{@link Joda::READ_UNCOMMITTED}|{@link Joda::SERIALIZABLE}
      */
-    var $transaction_isolevel      = Joda::READ_COMMITED;
+    public $transaction_isolevel      = Joda::READ_COMMITED;
 
     /**
      * Autocommit enabled or disabled.
@@ -114,7 +114,7 @@ class JConnection extends PDO
      *
      * @var bool <var>True</var>=No Transactions, <var>False</var>=Use Transactions
      */
-    var $autocommit                = false;
+    public $autocommit                = false;
 
 
     /**
@@ -122,7 +122,7 @@ class JConnection extends PDO
      *
      * @var string
      */
-    var $name = "";
+    public $name = "";
 
 
     /**
@@ -156,8 +156,7 @@ class JConnection extends PDO
         $signature = serialize( array_merge($options, array($connectionname)) );
 
 
-        if (empty($instances[$signature]))
-        {
+        if (empty($instances[$signature])) {
             $driver = $options["driver"];
 
             $file = dirname(__FILE__) .DS. "connection" .DS. $driver . ".php";
@@ -255,11 +254,9 @@ class JConnection extends PDO
     {
 
         $result = false;
-        if ( ! $this->autocommit )
-        {
+        if ( ! $this->autocommit ) {
             $this->beginTransaction();
-            if ( $this->doQuery($sql) )
-            {
+            if ( $this->doQuery($sql) ) {
                 $result = $this->Commit();
             }
             else
@@ -312,8 +309,7 @@ class JConnection extends PDO
     {
         $result = array();
         $count = $this->statement->columnCount();
-        if ( $count <= 0 )
-        {
+        if ( $count <= 0 ) {
             return $result;
         }
 

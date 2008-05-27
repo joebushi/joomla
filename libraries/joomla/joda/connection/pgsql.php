@@ -31,17 +31,17 @@ defined( 'JPATH_BASE' ) or die();
  */
 class JConnectionPgSQL extends JConnection
 {
-    var $driver                 = "pgsql";
-    var $port                   = "5432";
-    var $transaction_isolevel   = Joda::READ_COMMITED;
-    var $driver_options         = array();
+    public $driver                 = "pgsql";
+    public $port                   = "5432";
+    public $transaction_isolevel   = Joda::READ_COMMITED;
+    public $driver_options         = array();
 
     /**
     * This driver Transaction Isolation Level Names
     *
     * @var array
     */
-    var $isolevel_names = array(
+    public $isolevel_names = array(
         Joda::READ_COMMITED     => "READ COMMITED",
         Joda::REPEATABLE_READ   => "REPEATABLE READ",
         Joda::READ_UNCOMMITTED  => "READ UNCOMMITTED",

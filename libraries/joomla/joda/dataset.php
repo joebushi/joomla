@@ -39,14 +39,14 @@ class JDataset extends JObject
      *
      * @var object JConnection
      */
-    var $connection = null;
+    public $connection = null;
 
     /**
      * Array of SQL queries to be executed
      *
      * @var array
      */
-    var $sql = array();
+    public $sql = array();
 
 
     /**
@@ -54,7 +54,7 @@ class JDataset extends JObject
      *
      * @var array
      */
-    var $data = array();
+    public $data = array();
 
     /**
      * Result set Fields/Columns metadata
@@ -63,7 +63,7 @@ class JDataset extends JObject
      *
      * @var array
      */
-    var $fields = array();
+    public $fields = array();
 
 
     /**
@@ -71,7 +71,7 @@ class JDataset extends JObject
      *
      * @var integer {@link Joda::DATA_ASTABLE}: as table | {@link Joda::DATA_ASOBJECTS}: as an array of objects
      */
-    var $datatype = Joda::DATA_ASTABLE;
+    public $datatype = Joda::DATA_ASTABLE;
 
 
     /**
@@ -79,7 +79,7 @@ class JDataset extends JObject
      *
      * @var JQueryBuilder
      */
-    var $queryBuilder = null;
+    public $querybuilder = null;
 
 
     /**
@@ -91,8 +91,8 @@ class JDataset extends JObject
     function __construct($connectionname="")
     {
         $this->connection = JFactory::getConnection($connectionname);
-        $this->queryBuilder = JQueryBuilder::getInstance("mysql");
-        $this->queryBuilder->resetQuery();
+        $this->querybuilder = JQueryBuilder::getInstance("mysql");
+        $this->querybuilder->resetQuery();
         $this->Close();
     }
 
