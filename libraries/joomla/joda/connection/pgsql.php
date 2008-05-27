@@ -31,10 +31,10 @@ defined( 'JPATH_BASE' ) or die();
  */
 class JConnectionPgSQL extends JConnection
 {
-    public $driver                 = "pgsql";
-    public $port                   = "5432";
-    public $transaction_isolevel   = Joda::READ_COMMITED;
-    public $driver_options         = array();
+    protected $_drivername             = "pgsql";
+    protected $_port                   = "5432";
+    protected $_transaction_isolevel   = Joda::READ_COMMITED;
+    protected $_driver_options         = array();
 
     /**
     * This driver Transaction Isolation Level Names
@@ -56,11 +56,11 @@ class JConnectionPgSQL extends JConnection
      */
      function __construct($options)
     {
-        $this->host = $options["host"];
-        $this->database = $options["database"];
-        $this->user = $options["user"];
-        $this->password = $options["password"];
-        $this->port = $options["port"];
+        $this->_host = $options["host"];
+        $this->_database = $options["database"];
+        $this->_user = $options["user"];
+        $this->_password = $options["password"];
+        $this->_port = $options["port"];
         parent::__construct();
     }
 

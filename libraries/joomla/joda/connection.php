@@ -31,13 +31,6 @@ defined( 'JPATH_BASE' ) or die();
  */
 abstract class JConnection extends PDO
 {
-    /**
-     * Database type (mysql, pgsql, mssql, etc.)
-     *
-     * @var string
-     */
-    protected $driver                    = "";
-
 
     /**
      * PDO Dtatement class.
@@ -53,49 +46,43 @@ abstract class JConnection extends PDO
      *
      * @var string
      */
-    public $host                      = "";
+    protected $_host                      = "localhost";
 
     /**
      * Database host's port number
      *
      * @var string
      */
-    public $port                      = "";
+    protected $_port                      = "";
 
     /**
      * Database name
      *
      * @var string
      */
-    public $database                  = "";
+    protected $_database                  = "";
 
     /**
      * Database username
      *
      * @var string
      */
-    public $user                      = "";
+    protected $_user                      = "";
 
     /**
      * Database user's password
      *
      * @var string
      */
-    public $password                  = "";
+    protected $_password                  = "";
 
     /**
      * PDO Database Driver Options
      *
      * @var array An array of Key=>Value PDO options
      */
-    public $driver_options            = array();
+    protected $_driver_options            = array();
 
-    /**
-     * Database encoding
-     *
-     * @var string
-     */
-    public $encoding                  = "";
 
     /**
      * Transaction Isolation level used if and when transactions are involved.
@@ -104,7 +91,7 @@ abstract class JConnection extends PDO
      *
      * @var integer {@link Joda::READ_COMMITED}|{@link Joda::REPEATABLE_READ}|{@link Joda::READ_UNCOMMITTED}|{@link Joda::SERIALIZABLE}
      */
-    public $transaction_isolevel      = Joda::READ_COMMITED;
+    protected $_transaction_isolevel      = Joda::READ_COMMITED;
 
     /**
      * Autocommit enabled or disabled.
@@ -121,7 +108,7 @@ abstract class JConnection extends PDO
      *
      * @var string
      */
-    public $name = "";
+    protected $_name = "";
 
 
     /**
@@ -142,8 +129,8 @@ abstract class JConnection extends PDO
      */
     function __construct()
     {
-        $dsn = $this->driver.":port=".$this->port.";host=" . $this->host . ";dbname=" . $this->database;
-        parent::__construct($dsn, $this->user, $this->password, $this->driver_options);
+        $dsn = $this->_drivername.":port=".$this->_port.";host=" . $this->_host . ";dbname=" . $this->_database;
+        parent::__construct($dsn, $this->_user, $this->_password, $this->_driver_options);
         $this->setAttribute(PDO::ATTR_STATEMENT_CLASS, array("JStatement"));
     }
 
@@ -173,12 +160,9 @@ abstract class JConnection extends PDO
 
             $class = "JConnection" . $driver;
             $instance = new $class($options);
-            $instance->name = $connectionname;
+            $instance->_name = $connectionname;
             $instances[$signature] = & $instance;
         }
-
-
-
         return $instances[$signature];
     }
 
@@ -193,7 +177,7 @@ abstract class JConnection extends PDO
      */
     function setTransactionIsoLevel($level)
     {
-        $this->transaction_isolevel = $level;
+        $this->_transaction_isolevel = $level;
     }
 
 

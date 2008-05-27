@@ -31,10 +31,10 @@ defined( 'JPATH_BASE' ) or die();
  */
 class JConnectionMySQL extends JConnection
 {
-    public $driver                 = "mysql";
-    public $port                   = "3306";
-    public $transaction_isolevel   = Joda::REPEATABLE_READ;
-    public $driver_options         = array();
+    protected $_drivername            = "mysql";
+    protected $_port                      = "3306";
+    protected $_transaction_isolevel  = Joda::REPEATABLE_READ;
+    protected $_driver_options        = array();
 
     /**
     * This driver Transaction Isolation Level Names
@@ -56,11 +56,11 @@ class JConnectionMySQL extends JConnection
      */
      function __construct($options)
     {
-        $this->host = $options["host"];
-        $this->database = $options["database"];
-        $this->user = $options["user"];
-        $this->password = $options["password"];
-        $this->port = $options["port"];
+        $this->_host = $options["host"];
+        $this->_database = $options["database"];
+        $this->_user = $options["user"];
+        $this->_password = $options["password"];
+        $this->_port = $options["port"];
         parent::__construct();
     }
 
