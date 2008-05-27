@@ -206,7 +206,7 @@ class JConnection extends PDO
      * @param
      * @return
      */
-    function Commit()
+    function commit()
     {
         parent::commit();
     }
@@ -218,7 +218,7 @@ class JConnection extends PDO
      * @param
      * @return
      */
-    function Rollback()
+    function rollback()
     {
         parent::rollBack();
     }
@@ -251,7 +251,7 @@ class JConnection extends PDO
      * @param array Arrays of sql queries
      * @return
      */
-    function Query($sql)
+    function query($sql)
     {
 
         $result = false;
@@ -282,7 +282,7 @@ class JConnection extends PDO
      * @param
      * @return
      */
-    function FetchDataAsTable($sql)
+    function fetchDataAsTable($sql)
     {
         $this->Query($sql);
         return $this->statement->fetchAll(PDO::FETCH_ASSOC);
@@ -294,7 +294,7 @@ class JConnection extends PDO
      * @param
      * @return
      */
-    function FetchDataAsObjects($sql)
+    function fetchDataAsObjects($sql)
     {
         $this->Query($sql);
         return $this->statement->fetchAll(PDO::FETCH_OBJ);

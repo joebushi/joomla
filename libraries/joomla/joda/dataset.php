@@ -103,7 +103,7 @@ class JDataset extends JObject
      * @param
      * @return
      */
-    function Close()
+    function close()
     {
         $this->fields = array();
         $this->data = array();
@@ -116,7 +116,7 @@ class JDataset extends JObject
      * @param
      * @return
      */
-    function Open()
+    function open()
     {
         $this->Close();
         switch ($this->datatype) {
@@ -138,7 +138,7 @@ class JDataset extends JObject
      * @param
      * @return
      */
-    function OpenAsTable()
+    function openAsTable()
     {
         $this->data = $this->connection->FetchDataAsTable($this->sql);
         $this->fields = $this->connection->getFieldsMeta();
@@ -151,7 +151,7 @@ class JDataset extends JObject
      * @param
      * @return
      */
-    function OpenAsObjects()
+    function openAsObjects()
     {
         $this->data = $this->connection->FetchDataAsObjects($this->sql);
         $this->fields = $this->connection->getFieldsMeta();

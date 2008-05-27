@@ -1216,7 +1216,7 @@ abstract class JQueryBuilder extends JObject
      * When rendered to string add OR in front if needed
      *
      */
-    public function orLP()
+    public function orlp()
     {
         $this->_parenthesis( self::QA_ORLP );
         return $this;
@@ -1227,7 +1227,7 @@ abstract class JQueryBuilder extends JObject
      * When rendered add AND in front if needed (most used)
      *
      */
-    public function LP()
+    public function lp()
     {
         $this->_parenthesis( self::QA_LP );
         return $this;
@@ -1238,7 +1238,7 @@ abstract class JQueryBuilder extends JObject
      * Add Right Parenthesis
      *
      */
-    public function RP()
+    public function rp()
     {
         $this->_parenthesis( self::QA_RP );
         return $this;
@@ -1430,7 +1430,7 @@ abstract class JQueryBuilder extends JObject
      * @param    boolean Default true to escape string, false to leave the string unchanged
      * @return   string
      */
-    function Quote( $text, $escaped = true )
+    function quote( $text, $escaped = true )
     {
         //return $this->_quote_text_begin . ($escaped ? $this->_dbo->getEscaped( $text ) : $text) . $this->_quote_text_end;
     }
