@@ -58,6 +58,7 @@ defined( 'JPATH_BASE' ) or die();
  * @todo Make QueryBuilder returning array of strings, not A string
  * @todo Where to put the prefix? Dataset or Connection... is it specific to dataset or connection
  * @todo protected class propoerties - underscore
+ * @todo Prevent idle connections in beginTransaction() /inTransaction check/
  */
 class Joda extends JObject
 {
