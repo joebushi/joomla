@@ -245,6 +245,7 @@ abstract class JConnection extends PDO
      */
     function query($sql)
     {
+        $this->statement = null;
 
         $result = false;
         if ( ! $this->_autocommit ) {
@@ -274,7 +275,7 @@ abstract class JConnection extends PDO
      */
     function fetchDataAsTable($sql)
     {
-        $this->Query($sql);
+        $this->query($sql);
         return $this->statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -286,7 +287,7 @@ abstract class JConnection extends PDO
      */
     function fetchDataAsObjects($sql)
     {
-        $this->Query($sql);
+        $this->query($sql);
         return $this->statement->fetchAll(PDO::FETCH_OBJ);
     }
 

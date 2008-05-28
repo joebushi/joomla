@@ -115,20 +115,11 @@ function test( $test) {
     $options["database"] = $config->getValue('config.db');
     $options["port"] = $config->getValue('config.port');
 
-    // PGSQL
-/*
-    $options["driver"] = "pgsql";
-    $options["host"] = "localhost";
-    $options["user"] = "postgres";
-    $options["password"] = "";
-    $options["database"] = "jomla";
-    $options["port"] = "5432";
-*/
 
     //$table = new JRelation("test", $options);
     $dataset = new JDataset("conn1");
-    $users = new JRelationUser("conn2");
     $sections = new JRelationSection("conn2");
+    $users = new JRelationUser("conn2");
     $qb = JQueryBuilder::getInstance("mysql");
 
 
