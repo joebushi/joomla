@@ -30,7 +30,9 @@ $subMenus = array(
 	'Modules' => 'modules',
 	'Plugins' => 'plugins',
 	'Languages' => 'languages',
-	'Templates' => 'templates');
+	'Templates' => 'templates',
+	'Libraries' => 'libraries',
+	'Packages' => 'packages');
 
 JSubMenuHelper::addEntry(JText::_( 'Install' ), '#" onclick="javascript:document.adminForm.type.value=\'\';submitbutton(\'installer\');', !in_array( $ext, $subMenus));
 foreach ($subMenus as $name => $extension) {

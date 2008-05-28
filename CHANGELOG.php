@@ -38,6 +38,13 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+
+
+28-May-2008 Sam Moffatt
+ + Added libraries to system
+ + Added packages to system (non-functional UI)
+ ^ Changed language files to handle new features
+
 -------------------- 1.5.2 Stable Release [22-March-2008] ---------------------
 
 22-Mar-2008 Sam Moffatt
