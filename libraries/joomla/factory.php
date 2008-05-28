@@ -736,7 +736,11 @@ class JFactory
         jimport('joomla.joda.connection');
 
         $conf =& JFactory::getConfig();
-        if ( empty( $connectionname ) )
+        $connectionsList = $conf->getValue('config.connections');
+
+        if (    (empty( $connectionname )) ||
+                ( ! array_key_exists( $connectionname,  $connectionsList) )
+             )
         {
             $host       = $conf->getValue('config.host');
             $user       = $conf->getValue('config.user');
@@ -749,7 +753,6 @@ class JFactory
         }
         else
         {
-            $connectionsList = $conf->getValue('config.connections');
             $connectionInfo = $connectionsList[$connectionname];
             $host       = $connectionInfo["host"];
             $user       = $connectionInfo["user"];
