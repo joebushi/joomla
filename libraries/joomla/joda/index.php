@@ -115,6 +115,13 @@ function test( $test) {
     $options["database"] = $config->getValue('config.db');
     $options["port"] = $config->getValue('config.port');
 
+    // PgSQL
+    $options["driver"] = "pgsql";
+    $options["host"] = "localhost";
+    $options["user"] = "postgres";
+    $options["password"] = "Dimana";
+    $options["database"] = "joomla";
+    //$options["port"] = "5432";
 
     //$table = new JRelation("test", $options);
     $dataset = new JDataset("conn1");
@@ -134,11 +141,11 @@ function test( $test) {
     $sections->Open();
     print_r($sections->data);
 
-    
+
     echo "<P><B>Open Users</B><HR>";
     $users->Open();
     print_r($users->data);
-    
+
 
     echo "<P><B>Transaction</B><HR>";
     $dataset->sql = array("insert into jos_groups values(4,'test')");
