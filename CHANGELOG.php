@@ -41,6 +41,7 @@ $ -> Language fix or change
 29-May-2008 Wilco Jansen
  # [10942] Menu does not rebuild sublevel on copy/move (causes menu ordering issues)
  # [10037] timeoffset correction in toISO8601 method of JDate Class
+ # [11189] Install site and admin languages with one package
 
 21-May-2008 Anthony Ferrara
  # Fix for fatal error introduced by [#10397] fix.  Supports pass by reference too (so [#10397] is fixed as well)
