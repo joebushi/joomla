@@ -62,6 +62,11 @@ class JConnectionMySQL extends JConnection
         $this->_password = $options["password"];
         $this->_port = $options["port"];
         parent::__construct();
+        
+        // Buffered query must be turn ON, transaction problems arise otherwise.
+        // Commit() without fetchAll() brings "There is already active transaction..."
+        // Stupid MySQL!
+        $this->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY , true);
     }
 
 

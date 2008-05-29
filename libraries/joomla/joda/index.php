@@ -118,8 +118,8 @@ function test( $test) {
 
     //$table = new JRelation("test", $options);
     $dataset = new JDataset("conn1");
-    $sections = new JRelationSection("conn2");
-    $users = new JRelationUser("conn2");
+    $sections = new JRelationSection("conn1");
+    $users = new JRelationUser("conn1");
     $qb = JQueryBuilder::getInstance("mysql");
 
 
@@ -128,16 +128,17 @@ function test( $test) {
     $dataset->Open();
     print_r($dataset->data);
 
+
+
     echo "<P><B>Open sections</B><HR>";
     $sections->Open();
     print_r($sections->data);
 
-
+    
     echo "<P><B>Open Users</B><HR>";
     $users->Open();
     print_r($users->data);
-
-
+    
 
     echo "<P><B>Transaction</B><HR>";
     $dataset->sql = array("insert into jos_groups values(4,'test')");
