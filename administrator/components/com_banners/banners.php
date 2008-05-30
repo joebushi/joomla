@@ -21,9 +21,6 @@ if (!$user->authorize( 'com_banners', 'manage' )) {
 	$mainframe->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
 }
 
-// Set the table directory
-JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_banners'.DS.'tables');
-
 $controllerName = JRequest::getCmd( 'c', 'banner' );
 
 if($controllerName == 'client') {
