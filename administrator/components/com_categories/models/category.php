@@ -299,7 +299,7 @@ class CategoriesModelCategory extends JModel
 		// execute updateOrder for each parent group
 		$groupings = array_unique( $groupings );
 		foreach ($groupings as $group){
-			$row->reorder('section = '.$db->Quote($group));
+			$row->reorder('section = '.$this->_db->Quote($group));
 		}
 
 		return true;
