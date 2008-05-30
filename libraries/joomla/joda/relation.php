@@ -31,19 +31,48 @@ defined( 'JPATH_BASE' ) or die();
  */
 class JRelation extends JDataset
 {
-    public $name = "";
-    public $relation = "";
+   /**
+    * This class internal name
+    *
+    * @var string
+    */
+    protected $_name = "";
+
+   /**
+    * Relation name this class represents, e.g. table name
+    *
+    * @var string
+    */
+    protected $_relation = "";
 
     /**
-     * Description
+     * Constructor.
      *
      * @param
      * @return
      */
-     function __construct($name, $connectionname="")
+    function __construct($name, $relationname, $connectionname="")
     {
-        $this->name = $name;
+        $this->_name = $name;
+        $this->_relation = $relationname;
         parent::__construct($connectionname);
+    }
+
+
+
+    /**
+     * Return an instance of JRelation descendant class
+     *
+     * @param string Relation name, e.g. table name, view, etc.
+     * @return object JRelation
+     */
+    function &getInstance($name, $connectionname="")
+    {
+        $file = dirname(__FILE__) .DS. "relation" .DS. $name . ".php";
+        require_once($file);
+        $class = "JRelation" . $name;
+        $instance = new $class($connectionname);
+        return $instance;
     }
 
 

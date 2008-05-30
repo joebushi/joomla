@@ -39,7 +39,7 @@ abstract class JConnection extends PDO
      *
      * @var object JStatement
      */
-    public $statement                 = null;
+    protected $_statement                 = null;
 
     /**
      * Database host name or IP address
@@ -100,7 +100,7 @@ abstract class JConnection extends PDO
      *
      * @var bool <var>True</var>=No Transactions, <var>False</var>=Use Transactions
      */
-    protected $_autocommit                = false;
+    protected $_autocommit                = true;
 
 
     /**
@@ -148,9 +148,7 @@ abstract class JConnection extends PDO
             $instances = array();
         }
 
-
         $signature = serialize( array_merge($options, array($connectionname)) );
-
 
         if (empty($instances[$signature])) {
             $driver = $options["driver"];
@@ -163,6 +161,9 @@ abstract class JConnection extends PDO
             $instance->_name = $connectionname;
             $instances[$signature] = & $instance;
         }
+
+        echo "<I>$connectionname</I><BR>";
+
         return $instances[$signature];
     }
 
@@ -230,7 +231,9 @@ abstract class JConnection extends PDO
             $statement = $this->prepare($query);
             $result = $statement->execute();
         }
-        $this->statement = $statement;
+
+        $this->_statement = $statement;
+
         return $result;
     }
 
@@ -245,7 +248,7 @@ abstract class JConnection extends PDO
      */
     function query($sql)
     {
-        $this->statement = null;
+        $this->_statement = null;
 
         $result = false;
         if ( ! $this->_autocommit ) {
@@ -276,7 +279,7 @@ abstract class JConnection extends PDO
     function fetchDataAsTable($sql)
     {
         $this->query($sql);
-        return $this->statement->fetchAll(PDO::FETCH_ASSOC);
+        return $this->_statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
     /**
@@ -288,7 +291,7 @@ abstract class JConnection extends PDO
     function fetchDataAsObjects($sql)
     {
         $this->query($sql);
-        return $this->statement->fetchAll(PDO::FETCH_OBJ);
+        return $this->_statement->fetchAll(PDO::FETCH_OBJ);
     }
 
 
@@ -302,13 +305,13 @@ abstract class JConnection extends PDO
     function getFieldsMeta()
     {
         $result = array();
-        $count = $this->statement->columnCount();
+        $count = $this->_statement->columnCount();
         if ( $count <= 0 ) {
             return $result;
         }
 
         $i = 0;
-        while ( $fieldmeta = $this->statement->getColumnMeta($i++) )
+        while ( $fieldmeta = $this->_statement->getColumnMeta($i++) )
         {
             $result["'".$fieldmeta["name"]."'"] = $fieldmeta;
         }
@@ -324,7 +327,7 @@ abstract class JConnection extends PDO
      */
     function recordCount()
     {
-        return $this->statement->rowCount();
+        return $this->_statement->rowCount();
     }
 
 
@@ -350,6 +353,19 @@ abstract class JConnection extends PDO
     {
         $this->_autocommit = true;
     }
+
+
+    /**
+     * Description
+     *
+     * @param
+     * @return array
+     */
+    function getDriverName()
+    {
+        return $this->_drivername;
+    }
+
 
 
 } //JConnection

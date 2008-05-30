@@ -20,6 +20,7 @@
  */
 class JFactory
 {
+
 	/**
 	 * Get a application object
 	 *
@@ -736,33 +737,37 @@ class JFactory
         jimport('joomla.joda.connection');
 
         $conf =& JFactory::getConfig();
+
+        // Get predefined list of connections
         $connectionsList = $conf->getValue('config.connections');
 
-        if (    (empty( $connectionname )) ||
-                ( ! array_key_exists( $connectionname,  $connectionsList) )
-             )
-        {
-            $host       = $conf->getValue('config.host');
-            $user       = $conf->getValue('config.user');
-            $password   = $conf->getValue('config.password');
-            $database   = $conf->getValue('config.db');
-            $prefix     = $conf->getValue('config.dbprefix');
-            $driver     = $conf->getValue('config.dbtype');
-            $debug      = $conf->getValue('config.debug');
-            $port       = $conf->getValue('config.port');
+        // Empty list is a failure
+        if ( empty($connectionsList) ) {
+            return null;
         }
-        else
-        {
-            $connectionInfo = $connectionsList[$connectionname];
-            $host       = $connectionInfo["host"];
-            $user       = $connectionInfo["user"];
-            $password   = $connectionInfo["password"];
-            $database   = $connectionInfo["database"];
-            $prefix     = $connectionInfo["prefix"];
-            $driver     = $connectionInfo["driver"];
-            $debug      = $connectionInfo["debug"];
-            $port       = $connectionInfo["port"];
+
+        // Empty connection name is a sign to get some "default" one
+        if ( empty( $connectionname ) ) {
+            if ( array_key_exists("main", $connectionsList) ) {
+                $connectionname = "main";
+            }
+            else {
+                $keys = array_keys($connectionsList);
+                $connectionname = $keys[0];
+            }
         }
+
+        // Huh, finally we got a connection info
+        $connectionInfo = $connectionsList[$connectionname];
+        $host       = $connectionInfo["host"];
+        $user       = $connectionInfo["user"];
+        $password   = $connectionInfo["password"];
+        $database   = $connectionInfo["database"];
+        $prefix     = $connectionInfo["prefix"];
+        $driver     = $connectionInfo["driver"];
+        $debug      = $connectionInfo["debug"];
+        $port       = $connectionInfo["port"];
+
         $options    = array ( 'driver' => $driver, 'host' => $host, 'user' => $user, 'password' => $password, 'database' => $database, 'prefix' => $prefix, "port"=>$port );
         return JConnection::getInstance($options, $connectionname);
      }

@@ -99,7 +99,7 @@ jimport("joomla.joda.connection");
 jimport("joomla.joda.statement");
 jimport("joomla.joda.dataset");
 jimport("joomla.joda.relation");
-require_once ( JPATH_BASE .DS.'libraries'.DS.'joomla'.DS.'joda'.DS.'relation'.DS.'user.php' );
+//require_once ( JPATH_BASE .DS.'libraries'.DS.'joomla'.DS.'joda'.DS.'relation'.DS.'user.php' );
 require_once ( JPATH_BASE .DS.'libraries'.DS.'joomla'.DS.'joda'.DS.'relation'.DS.'section.php' );
 
 
@@ -115,19 +115,9 @@ function test( $test) {
     $options["database"] = $config->getValue('config.db');
     $options["port"] = $config->getValue('config.port');
 
-    // PgSQL
-    $options["driver"] = "pgsql";
-    $options["host"] = "localhost";
-    $options["user"] = "postgres";
-    $options["password"] = "Dimana";
-    $options["database"] = "joomla";
-    //$options["port"] = "5432";
-
-    //$table = new JRelation("test", $options);
-    $dataset = new JDataset("conn1");
-    $sections = new JRelationSection("conn1");
-    $users = new JRelationUser("conn1");
-    $qb = JQueryBuilder::getInstance("mysql");
+    $dataset = new JDataset();
+    $users = JRelation::getInstance("user","postgres");
+    $sections = JRelation::getInstance("section", "mysql");
 
 
     echo "<P><B>Use dataset</B><HR>";
@@ -155,8 +145,6 @@ function test( $test) {
 
     echo "<P><B>Fields</B><HR>";
     $dataset2 = new JDataset();
-    //$dataset2->datatype = Joda::DATA_ASTABLE;
-    //$dataset2->sql = array("select *, jos_polls.id as IDDDD, jos_poll_data.* from jos_polls jp join jos_poll_data on (jos_polls.id=jos_poll_data.pollid) where false");
     $dataset2->sql = array("select * from jos_polls as jp");
     $dataset2->Open();
     echo "RecCount=" . $dataset2->recordCount();

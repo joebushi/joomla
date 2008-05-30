@@ -216,7 +216,21 @@ abstract class JQueryBuilder extends JObject
     protected $_quote_text_end = "";
 
 
+    /**
+     * Query Parameters (for Prepared statements)
+     *
+     * @var array
+     */
     protected $_parameters = array();
+
+
+    /**
+     * SQL Strings. NOTE PLEASE: AN ARRAY!!!
+     *
+     * @var array
+     */
+    protected $_sql = array();
+
 
 
     /**
@@ -931,18 +945,6 @@ abstract class JQueryBuilder extends JObject
 
 
     /**
-     * Magic method invoked when the object is used in "string" context (echo, print, etc).
-     * Nice idea by jynx (Johan Janssens,  johan at jinx dot be). Thanks.
-     *
-     */
-    public function __toString()
-    {
-        $result = $this->toString();
-        return (string) $result;
-    }
-
-
-    /**
      * Generate a single SQL Statement (one row ending with ';')
      *
      * @param string  An optional, "last minute given" Subselect name
@@ -1630,6 +1632,20 @@ abstract class JQueryBuilder extends JObject
             $result = $expression . " IN (" . implode(', ', $tmp)  . ")";
         }
         return $result;
+    }
+
+
+    /**
+     * Description
+     *
+     * @param
+     * @return  array
+     */
+    public function getSQL()
+    {
+        // temporary solution!
+        $this->_sql[] = $this->toString();
+        return $this->_sql;
     }
 
 

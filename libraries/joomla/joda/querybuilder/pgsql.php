@@ -43,10 +43,10 @@ class JQueryBuilderPgsql extends JQueryBuilder {
 	protected $_sDefault = 'DEFAULT';
 
     /**    @var string Name Quote starting char */
-    protected $_name_quote_begin = ''';
+    protected $_name_quote_begin = '"';
 
     /**    @var string Name Quote ending char */
-    protected $_name_quote_end = ''';
+    protected $_name_quote_end = '"';
 
     /** @var Quoting character for text literals */
     protected $_quote_text = '"';

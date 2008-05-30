@@ -91,7 +91,7 @@ class JDataset extends JObject
     function __construct($connectionname="")
     {
         $this->connection = JFactory::getConnection($connectionname);
-        $this->querybuilder = JQueryBuilder::getInstance("mysql");
+        $this->querybuilder = JQueryBuilder::getInstance($this->connection->getDriverName());
         $this->querybuilder->resetQuery();
         $this->Close();
     }

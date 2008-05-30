@@ -41,7 +41,7 @@ class JConnectionMySQL extends JConnection
     *
     * @var array
     */
-    public $isolevel_names = array(
+    protected $_isolevel_names = array(
         Joda::READ_COMMITED     => "READ COMMITED",
         Joda::REPEATABLE_READ   => "REPEATABLE READ",
         Joda::READ_UNCOMMITTED  => "READ UNCOMMITTED",
@@ -62,7 +62,7 @@ class JConnectionMySQL extends JConnection
         $this->_password = $options["password"];
         $this->_port = $options["port"];
         parent::__construct();
-        
+
         // Buffered query must be turn ON, transaction problems arise otherwise.
         // Commit() without fetchAll() brings "There is already active transaction..."
         // Stupid MySQL!

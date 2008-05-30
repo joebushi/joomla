@@ -56,9 +56,8 @@ defined( 'JPATH_BASE' ) or die();
  * @todo For metadata - select * from table where 1=1  (?!?!)
  * @todo Table prefix!!
  * @todo Make QueryBuilder returning array of strings, not A string
- * @todo Where to put the prefix? Dataset or Connection... is it specific to dataset or connection
- * @todo protected class propoerties - underscore
  * @todo Prevent idle connections in beginTransaction() /inTransaction check/
+ * @todo Non-standard use of escape strings in Postgresql!!!?!?!?!?!
  */
 class Joda extends JObject
 {
@@ -155,6 +154,13 @@ class Joda extends JObject
      */
     const DATA_ASOBJECTS                  = 402;
 
+
+    /**
+     * Name of the fallback connection
+     *
+     * @var string
+     */
+    const CONN_FALLBACK                  = 'fallback';
 
 
 } //Joda

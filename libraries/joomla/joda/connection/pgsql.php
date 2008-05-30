@@ -41,7 +41,7 @@ class JConnectionPgSQL extends JConnection
     *
     * @var array
     */
-    public $isolevel_names = array(
+    protected $_isolevel_names = array(
         Joda::READ_COMMITED     => "READ COMMITED",
         Joda::REPEATABLE_READ   => "REPEATABLE READ",
         Joda::READ_UNCOMMITTED  => "READ UNCOMMITTED",
