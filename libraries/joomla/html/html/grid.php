@@ -106,7 +106,10 @@ class JHTMLGrid
 		if ( $result ) {
 			$checked = JHTMLGrid::_checkedOut( $row );
 		} else {
-			$checked = JHTML::_('grid.id', $i, $row->$identifier, $result, $identifier );
+			if ($identifier == 'id')
+				$checked = JHTML::_('grid.id', $i, $row->$identifier );
+			else
+				$checked = JHTML::_('grid.id', $i, $row->$identifier, $result, $identifier );
 		}
 
 		return $checked;
