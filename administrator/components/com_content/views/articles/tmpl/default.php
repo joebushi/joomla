@@ -7,7 +7,7 @@
 	$db		=& JFactory::getDBO();
 	$user	=& JFactory::getUser();
 	$config	=& JFactory::getConfig();
-	$now	= new JDate();
+	$now	=& JFactory::getDate();
 
 	//Ordering allowed ?
 	$ordering = ($this->filter->order == 'section_name' || $this->filter->order == 'cc.name');
