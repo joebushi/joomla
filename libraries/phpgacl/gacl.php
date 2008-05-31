@@ -306,7 +306,7 @@ class gacl {
 				$sql_aro_group_ids = implode(',', $aro_group_ids);
 			}
 
-			if ($axo_section_value != '' AND $axo_value != '') {
+			if ($axo_section_value !== '' AND $axo_value !== '') {
 				$axo_group_ids = $this->acl_get_groups($axo_section_value, $axo_value, $root_axo_group, 'AXO');
 
 				if (is_array($axo_group_ids) AND !empty($axo_group_ids)) {
