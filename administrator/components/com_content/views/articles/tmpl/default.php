@@ -8,6 +8,7 @@
 	$user	=& JFactory::getUser();
 	$config	=& JFactory::getConfig();
 	$now	=& JFactory::getDate();
+	$nullDate 	= $db->getNullDate();
 
 	//Ordering allowed ?
 	$ordering = ($this->filter->order == 'section_name' || $this->filter->order == 'cc.name');
@@ -89,7 +90,6 @@
 	<tbody>
 	<?php
 	$k = 0;
-	$nullDate = $db->getNullDate();
 	for ($i=0, $n=count( $this->rows ); $i < $n; $i++)
 	{
 		$row = &$this->rows[$i];
