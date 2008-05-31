@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id$
+* @version		$Id: $
 * @package		Joomla
 * @subpackage	Languages
 * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
@@ -15,16 +15,19 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-/**
-* @package		Joomla
-* @subpackage	Languages
-*/
-class TOOLBAR_languages
-{
-	function _DEFAULT()
-	{
-		JToolBarHelper::title( JText::_( 'Language Manager' ), 'langmanager.png' );
-		JToolBarHelper::makeDefault( 'publish' );
-		JToolBarHelper::help( 'screen.languages' );
-	}
+/*
+ * Make sure the user is authorized to view this page
+ */
+$user = & JFactory::getUser();
+if (!$user->authorize( 'com_languages', 'manage' )) {
+	$mainframe->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
 }
+
+// Require the base controller
+require_once (JPATH_COMPONENT.DS.'controller.php');
+
+$controller	= new LanguagesController( );
+
+// Perform the Request task
+$controller->execute( JRequest::getCmd('task'));
+$controller->redirect();
