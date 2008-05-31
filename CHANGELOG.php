@@ -43,6 +43,7 @@ $ -> Language fix or change
  # [11329] If you have a login menu item, Forgot Password and Forgot Username links don't work
  # [10107] Notice: Trying to get property of non-object in section.php on line 449
  # [10126] External link in breadcrumb
+ # [10376] Article editing from FrontPage changes the article alias
 
 29-May-2008 Wilco Jansen
  # [10942] Menu does not rebuild sublevel on copy/move (causes menu ordering issues)
