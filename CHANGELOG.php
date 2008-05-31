@@ -48,6 +48,7 @@ $ -> Language fix or change
  # [11158] Menu link to unpublished menu item causes fatal error
  # [11191] Missing mandatory check for several menu item types
  # [11075] Minor errors in ACL libraries
+ # [11054] Logged in user can view registration form
 
 29-May-2008 Wilco Jansen
  # [10942] Menu does not rebuild sublevel on copy/move (causes menu ordering issues)
