@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: $
  * @package		Joomla
  * @subpackage	Cache
  * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
@@ -16,13 +16,13 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 /**
- * Class used to hold Cache data
+ * Model Class used to hold Cache data
  *
  * @package		Joomla
  * @subpackage	Cache
- * @since		1.5
+ * @since		1.6
  */
-class CacheData extends JObject
+class CacheModelCache extends JModel
 {
 	/**
 	 * An Array of CacheItems indexed by cache group ID
@@ -30,7 +30,7 @@ class CacheData extends JObject
 	 * @access protected
 	 * @var Array
 	 */
-	var $_items = null;
+	var $_data = null;
 
 	/**
 	 * The cache path
@@ -41,14 +41,63 @@ class CacheData extends JObject
 	var $_path = null;
 
 	/**
+	 * Group total
+	 *
+	 * @var integer
+	 */
+	var $_total = null;
+
+	/**
+	 * Pagination object
+	 *
+	 * @var object
+	 */
+	var $_pagination = null;
+
+	/**
 	 * Class constructor
 	 *
 	 * @access protected
 	 */
 	function __construct( $path )
 	{
+		parent::__construct();
+
+		global $mainframe, $option;
+
+		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'));
+		$limitstart = $mainframe->getUserStateFromRequest( $option.'.limitstart', 'limitstart', 0 );
+
+		$this->setPath($path);
+	}
+
+	/**
+	 * Method to set contacts item path
+	 *
+	 * @access public
+	 * @param string
+	 */
+	function setPath($path)
+	{
 		$this->_path = $path;
-		$this->_parse();
+		$this->_data = null;
+	}
+
+	/**
+	 * Method to get contacts item data
+	 *
+	 * @access public
+	 * @return array
+	 */
+	function getData()
+	{
+		// Lets load the content if it doesn't already exist
+		if (empty($this->_data))
+		{
+			$this->_parse();
+		}
+
+		return $this->_data;
 	}
 
 	/**
@@ -56,7 +105,6 @@ class CacheData extends JObject
 	 * in a group and stored in $this->items.
 	 *
 	 * @access	private
-	 * @param	String $path
 	 */
 	function _parse()
 	{
@@ -68,12 +116,13 @@ class CacheData extends JObject
 		{
 			$files = array();
 			$files = JFolder::files($this->_path.DS.$folder);
-			$this->_items[$folder] = new CacheItem( $folder );
+			$item = new CacheItem( $folder );
 
 			foreach ($files as $file)
 			{
-				$this->_items[$folder]->updateSize( filesize( $this->_path.DS.$folder.DS.$file )/ 1024 );
+				$item->updateSize( filesize( $this->_path.DS.$folder.DS.$file )/ 1024 );
 			}
+			$this->_data[] = $item;
 		}
 	}
 
@@ -83,35 +132,34 @@ class CacheData extends JObject
 	 * @access public
 	 * @return int
 	 */
-	function getGroupCount()
+	function getTotal()
 	{
-		return count($this->_items);
+		// Lets load the content if it doesn't already exist
+		if (empty($this->_total))
+		{
+			$this->getData();
+			$this->_total = count($this->_data);
+		}
+
+		return $this->_total;
 	}
 
 	/**
-	 * Retrun an Array containing a sub set of the total
-	 * number of Cache Groups as defined by the params.
+	 * Method to get a pagination object for the cache
 	 *
 	 * @access public
-	 * @param Int $start
-	 * @param Int $limit
-	 * @return Array
+	 * @return integer
 	 */
-	function getRows( $start, $limit )
+	function getPagination()
 	{
-		$i = 0;
-		if (count($this->_items) == 0) {
-			return null;
+		// Lets load the content if it doesn't already exist
+		if (empty($this->_pagination))
+		{
+			jimport('joomla.html.pagination');
+			$this->_pagination = new JPagination( $this->getTotal(), $this->getState('limitstart'), $this->getState('limit') );
 		}
 
-		foreach ($this->_items as $item)
-		{
-			if ($i >= $start && $i < $start+$limit) {
-				$rows[] = $item;
-			}
-			$i++;
-		}
-		return $rows;
+		return $this->_pagination;
 	}
 
 	/**
@@ -120,16 +168,16 @@ class CacheData extends JObject
 	 *
 	 * @param String $group
 	 */
-	function cleanCache( $group='' )
+	function clean( $group='' )
 	{
 		$cache =& JFactory::getCache();
 		$cache->clean( $group );
 	}
 
-	function cleanCacheList( $array )
+	function cleanlist( $array )
 	{
 		foreach ($array as $group) {
-			$this->cleanCache( $group );
+			$this->clean( $group );
 		}
 	}
 }

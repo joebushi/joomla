@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: $
  * @package		Joomla
  * @subpackage	Cache
  * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
@@ -15,11 +15,19 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once( JApplicationHelper::getPath( 'toolbar_html' ) );
-
-switch ($task)
-{
-	default:
-		TOOLBAR_cache::_DEFAULT();
-		break;
+/*
+ * Make sure the user is authorized to view this page
+ */
+$user =& JFactory::getUser();
+if (!$user->authorize( 'com_cache', 'manage' )) {
+	$mainframe->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
 }
+
+// Require the base controller
+require_once (JPATH_COMPONENT.DS.'controller.php');
+
+$controller	= new CacheController( );
+
+// Perform the Request task
+$controller->execute( JRequest::getCmd('task'));
+$controller->redirect();
