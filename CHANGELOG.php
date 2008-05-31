@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+31-May-2008 Wilco Jansen
+ # [10864] PHP session.auto_start leads to broken installation and warning messages
+
 29-May-2008 Wilco Jansen
  # [10942] Menu does not rebuild sublevel on copy/move (causes menu ordering issues)
  # [10037] timeoffset correction in toISO8601 method of JDate Class
