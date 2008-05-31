@@ -50,7 +50,8 @@ $ -> Language fix or change
  # [11075] Minor errors in ACL libraries
  # [11054] Logged in user can view registration form
  # [11311] JA Purity - templateDetails.xml, params - language
- # [8512] HTML in content items matches search words in search component/plugin (AKA the real big issue with search in Joomla!)
+ # [8512]  HTML in content items matches search words in search component/plugin (AKA the real big issue with search in Joomla!)
+ # [11302] Typos in tpl_ja_purity admin
 
 29-May-2008 Wilco Jansen
  # [10942] Menu does not rebuild sublevel on copy/move (causes menu ordering issues)
