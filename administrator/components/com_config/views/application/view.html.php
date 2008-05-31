@@ -217,20 +217,9 @@ class ConfigViewApplication extends JView
 		$this->assignRef('row',			$row);
 		$this->assignRef('ftp',			$ftp);
 		$this->assignRef('lists',		$lists);
-		$this->assignRef('tmplpath',	$tmplpath);
 		$this->assignRef('userparams',	$userparams);
 		$this->assignRef('mediaparams',	$mediaparams);
-		$this->assignRef('warnicon',	$this->WarningIcon());
 
 		parent::display($tpl);
-	}
-
-	function WarningIcon()
-	{
-		global $mainframe;
-
-		$tip = '<img src="'.JURI::root().'includes/js/ThemeOffice/warning.png" border="0"  alt="" />';
-
-		return $tip;
 	}
 }
