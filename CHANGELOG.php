@@ -45,6 +45,7 @@ $ -> Language fix or change
  # [10126] External link in breadcrumb
  # [10376] Article editing from FrontPage changes the article alias
  # [11331] Breadcrumbs: redundant parameter, and not respecting default values for parameters
+ # [11158] Menu link to unpublished menu item causes fatal error
 
 29-May-2008 Wilco Jansen
  # [10942] Menu does not rebuild sublevel on copy/move (causes menu ordering issues)
