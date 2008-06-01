@@ -124,7 +124,7 @@ class JAdministrator extends JApplication
 			default : break;
 		}
 
-		$document->setTitle( $this->getCfg('sitename' ). ' - ' .JText::_( 'Administration' ));
+		$document->setTitle( htmlspecialchars_decode($this->getCfg('sitename' )). ' - ' .JText::_( 'Administration' ));
 		$document->setDescription( $this->getCfg('MetaDesc') );
 
 		$contents = JComponentHelper::renderComponent($component);

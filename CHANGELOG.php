@@ -41,6 +41,7 @@ $ -> Language fix or change
 1-June-2008 Sam Moffatt
  ^ prop-set all php files to LF line ending style
  ^ Cleaned up a lot of files with mixed line ending styles
+ # [#8957] ampersand in Site name shows up as &amp; in Administrator tool
 
 31-May-2008 Wilco Jansen
  # [10864] PHP session.auto_start leads to broken installation and warning messages
