@@ -40,8 +40,8 @@ class  plgSystemLegacy extends JPlugin
 		define('_JLEGACY', '1.5');
 
 		// Set global configuration var for legacy mode
-		$config = &JFactory::getConfig();
-		$config->setValue('config.legacy', 1);
+		$conf = &JFactory::getConfig();
+		$conf->setValue('config.legacy', 1);
 		
 		parent::__construct($subject, $config);
 	}
