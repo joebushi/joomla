@@ -1,4 +1,4 @@
-<?php
+drupal<?php
 /**
 * @version		$Id$
 * @package		Joomla.Framework

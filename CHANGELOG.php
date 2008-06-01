@@ -38,6 +38,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+1-June-2008 Sam Moffatt
+ ^ prop-set all php files to LF line ending style
+ ^ Cleaned up a lot of files with mixed line ending styles
+
 31-May-2008 Wilco Jansen
  # [10864] PHP session.auto_start leads to broken installation and warning messages
  # [11329] If you have a login menu item, Forgot Password and Forgot Username links don't work
