@@ -104,7 +104,6 @@ class LanguagesModelLanguages extends JModel
 		if (empty($this->_total))
 		{
 			$this->getData();
-			$this->_total = count($this->_data);
 		}
 
 		return $this->_total;
@@ -143,18 +142,30 @@ class LanguagesModelLanguages extends JModel
 	{
 		// Initialize some variables
 		$rows	= array ();
-		$rowid = 0;
+		$rowid = -1;
+		$rowstart = $this->getState('limitstart') + 0;
+		$rowend = $rowstart + $this->getState('limit') - 1;
 	
 		//load folder filesystem class
 		jimport('joomla.filesystem.folder');
 		$path = JLanguage::getLanguagePath($this->_client->path);
 		$dirs = JFolder::folders( $path );
-	
+
 		foreach ($dirs as $dir)
 		{
 			$files = JFolder::files( $path.DS.$dir, '^([-_A-Za-z]*)\.xml$' );
 			foreach ($files as $file)
 			{
+				$rowid++;
+				// Only include the current page
+				if ($rowid < $rowstart) {
+					continue;
+				}
+				
+				if ($rowid > $rowend) {
+					continue;
+				}
+				
 				$data = JApplicationHelper::parseXMLLangMetaFile($path.DS.$dir.DS.$file);
 	
 				$row 			= new StdClass();
@@ -179,9 +190,9 @@ class LanguagesModelLanguages extends JModel
 				$row->checked_out = 0;
 				$row->mosname = JString::strtolower( str_replace( " ", "_", $row->name ) );
 				$rows[] = $row;
-				$rowid++;
 			}
 		}
 		$this->_data = $rows;
+		$this->_total = $rowid+1;
 	}
 }
