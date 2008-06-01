@@ -199,16 +199,11 @@ class ConfigViewApplication extends JView
 		$mediaparams = new JParameter( $table->params, JPATH_ADMINISTRATOR.DS.'components'.DS.'com_media'.DS.'config.xml' );
 
 		// Build the component's submenu
-		$contents = '';
-		$tmplpath = dirname(__FILE__).DS.'tmpl';
-		ob_start();
-		require_once($tmplpath.DS.'navigation.php');
-		$contents = ob_get_contents();
-		ob_end_clean();
+		$submenu = $this->loadTemplate('navigation');
 
 		// Set document data
 		$document =& JFactory::getDocument();
-		$document->setBuffer($contents, 'modules', 'submenu');
+		$document->setBuffer($submenu, 'modules', 'submenu');
 
 		// Load settings for the FTP layer
 		jimport('joomla.client.helper');
