@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+3-June-2008 Sam Moffatt
+ ^ prop-set all js, ini and css files to LF line ending style and cleaned up mixed line ending styles
+
 1-June-2008 Sam Moffatt
  ^ prop-set all php files to LF line ending style
  ^ Cleaned up a lot of files with mixed line ending styles
