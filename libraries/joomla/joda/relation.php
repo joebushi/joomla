@@ -29,7 +29,7 @@ defined( 'JPATH_BASE' ) or die();
  * @author      Plamen Petkov <plamendp@zetcom.bg>
  *
  */
-class JRelation extends JDataset
+abstract class JRelation extends JDataset
 {
    /**
     * This class internal name
@@ -43,7 +43,7 @@ class JRelation extends JDataset
     *
     * @var string
     */
-    protected $_relation = "";
+    protected $_relation_name = "";
 
     /**
      * Constructor.
@@ -51,17 +51,15 @@ class JRelation extends JDataset
      * @param
      * @return
      */
-    function __construct($name, $relationname, $connectionname="")
+    function __construct($connectionname="")
     {
-        $this->_name = $name;
-        $this->_relation = $relationname;
         parent::__construct($connectionname);
     }
 
 
 
     /**
-     * Return an instance of JRelation descendant class
+     * Return an instance of JRelation descendant class (factoring)
      *
      * @param string Relation name, e.g. table name, view, etc.
      * @return object JRelation
@@ -77,6 +75,6 @@ class JRelation extends JDataset
 
 
 
-} //JTable
+} //JRelation
 
 ?>

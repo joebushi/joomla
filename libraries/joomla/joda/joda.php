@@ -58,6 +58,7 @@ defined( 'JPATH_BASE' ) or die();
  * @todo Make QueryBuilder returning array of strings, not A string
  * @todo Prevent idle connections in beginTransaction() /inTransaction check/
  * @todo Non-standard use of escape strings in Postgresql!!!?!?!?!?!
+ * @todo Multi-line SQL not allowed ? (';' separated)
  */
 class Joda extends JObject
 {

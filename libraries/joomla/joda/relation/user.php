@@ -31,8 +31,9 @@ defined( 'JPATH_BASE' ) or die();
  */
 class JRelationUser extends JRelation
 {
-    const NAME = "user";
-    const RELATION = "jos_users";
+
+    protected $_name = "user";
+    protected $_relation_name = "jos_users";
 
     /**
      * Description
@@ -42,8 +43,8 @@ class JRelationUser extends JRelation
      */
      function __construct($connectionname="")
     {
-        parent::__construct(self::NAME, self::RELATION, $connectionname);
-        $this->querybuilder->select("*")->from($this->_relation);
+        parent::__construct($connectionname);
+        $this->querybuilder->select("*")->from($this->_relation_name);
         $this->sql = $this->querybuilder->getSQL();
     }
 

@@ -355,16 +355,24 @@ abstract class JConnection extends PDO
     }
 
 
+
+
     /**
-     * Description
+     * Return this connection's driver name
      *
      * @param
-     * @return array
+     * @return string
      */
     function getDriverName()
     {
         return $this->_drivername;
     }
+
+
+
+
+
+
 
 
 
