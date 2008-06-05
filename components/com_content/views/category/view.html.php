@@ -46,7 +46,7 @@ class ContentViewCategory extends ContentView
 		// Request variables
 		$layout     = JRequest::getCmd('layout');
 		$task		= JRequest::getCmd('task');
-		$limit		= $mainframe->getUserStateFromRequest('com_content.'.$this->getLayout().'.limit', 'limit', $params->def('display_num', 0), 'int');
+		$limit = $mainframe->getUserStateFromRequest('limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
 		// Parameters

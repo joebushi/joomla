@@ -38,6 +38,14 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+6-June-2008 Wilco Jansen
+ # [9806] Menu instance seems to be overriden
+ # [11338] Linked category title in JA_Purity category blog causes text to be linked
+ # [10873] Frontend Does Not Respect Global List Length
+ # [11333] Various weblinks fixes, and a little on category manager
+ # [10834] "Umbrella" issue for several mod_newsfeed issues
+ # [11354] Typo in gmail authentication plugin
+
 3-June-2008 Sam Moffatt
  ^ prop-set all js, ini and css files to LF line ending style and cleaned up mixed line ending styles
 
