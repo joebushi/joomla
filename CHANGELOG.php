@@ -40,6 +40,10 @@ $ -> Language fix or change
 
 
 
+05-Jun-2008 Sam Moffatt
+ + Added packages to installer UI
+ + Altered package format in manifest handler
+
 28-May-2008 Sam Moffatt
  + Added libraries to system
  + Added packages to system (non-functional UI)

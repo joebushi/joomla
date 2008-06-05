@@ -16,9 +16,7 @@
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();
 
-if(!defined('PACKAGE_MANIFEST_PATH')) {
-	define('PACKAGE_MANIFEST_PATH',JPATH_ADMINISTRATOR . DS . 'manifests' . DS . 'packages');
-}
+
 
 /**
  * Package installer
@@ -149,7 +147,7 @@ class JInstallerPackage extends JObject
 		// Lastly, we will copy the manifest file to its appropriate place.
 		$manifest = Array();
 		$manifest['src'] = $this->parent->getPath('manifest');
-		$manifest['dest'] = PACKAGE_MANIFEST_PATH.DS.basename($this->parent->getPath('manifest'));
+		$manifest['dest'] = JPATH_MANIFESTS.DS.'packages'.DS.basename($this->parent->getPath('manifest'));
 		if (!$this->parent->copyFiles(array($manifest), true)) {
 			// Install failed, rollback changes
 			$this->parent->abort(JText::_('Package').' '.JText::_('Install').': '.JText::_('Could not copy setup file'));
@@ -172,11 +170,11 @@ class JInstallerPackage extends JObject
 		// Initialize variables
 		$row	= null;
 		$retval = true;
-		$manifestFile = PACKAGE_MANIFEST_PATH . DS . $id .'.xml';
+		$manifestFile = JPATH_MANIFESTS.DS.'packages' . DS . $id .'.xml';
 		$manifest = new JPackageManifest($manifestFile);		
 
 		// Set the plugin root path
-		$this->parent->setPath('extension_root', PACKAGE_MANIFEST_PATH.DS.$manifest->packagename);
+		$this->parent->setPath('extension_root', JPATH_MANIFESTS.DS.'packages'.DS.$manifest->packagename);
 
 		// Because libraries may not have their own folders we cannot use the standard method of finding an installation manifest
 		if (file_exists($manifestFile))

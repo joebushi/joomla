@@ -15,10 +15,7 @@
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();
 
-if(!defined('LIBRARY_MANIFEST_PATH')) {
-	/** Path to Library Manifest Location */
-	define('LIBRARY_MANIFEST_PATH',JPATH_ADMINISTRATOR . DS . 'manifests' . DS . 'libraries');
-}
+jimport( 'joomla.installer.librarymanifest' );
 
 /**
  * Library installer
@@ -176,7 +173,7 @@ class JInstallerLibrary extends JObject
 		// Initialize variables
 		$row	= null;
 		$retval = true;
-		$manifestFile = LIBRARY_MANIFEST_PATH . DS . $id .'.xml'; 
+		$manifestFile = JPATH_MANIFESTS.DS.'libraries' . DS . $id .'.xml'; 
 
 		// Because libraries may not have their own folders we cannot use the standard method of finding an installation manifest
 		if (file_exists($manifestFile))

@@ -19,11 +19,6 @@ jimport( 'joomla.installer.extension' );
 jimport( 'joomla.installer.librarymanifest' );
 jimport( 'joomla.filesystem.file' );
 
-if(!defined('LIBRARY_MANIFEST_PATH')) {
-	/** Path to Library Manifest Location */
-	define('LIBRARY_MANIFEST_PATH',JPATH_ADMINISTRATOR . DS . 'manifests' . DS . 'libraries');
-}
-
 /**
  * Extension Manager Templates Model
  *
@@ -60,13 +55,13 @@ class InstallerModelLibraries extends InstallerModel
 	 */
 	function _loadItems()
 	{
-		$files =  JFolder::files(LIBRARY_MANIFEST_PATH);
+		$files =  JFolder::files(JPATH_MANIFESTS.DS.'libraries');
 		$rows = Array();
 		$file = $files[0];
 		
 		foreach($files as $file) {
 			if(strtolower(JFile::getExt($file)) == 'xml') {
-				$rows[] = new JLibraryManifest(LIBRARY_MANIFEST_PATH . DS . $file);
+				$rows[] = new JLibraryManifest(JPATH_MANIFESTS . DS . 'libraries' . DS . $file);
 			}
 		}
 		
@@ -87,7 +82,7 @@ class InstallerModelLibraries extends InstallerModel
 		$library = new JLibraryManifest();
 		$retval = false;
 		$library->manifest_filename = $file;
-		if($library->loadManifestFromXML(LIBRARY_MANIFEST_PATH . DS . $file . '.xml')) 
+		if($library->loadManifestFromXML(JPATH_MANIFESTS . DS . 'libraries' . DS . $file . '.xml')) 
 			return $library;
 		else 
 			return $retval;

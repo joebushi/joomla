@@ -53,7 +53,9 @@ class JPackageManifest extends JObject {
 			$this->name = $xml->name[0]->data();
 			$this->packagename = $xml->packagename[0]->data();
 			$this->update = $xml->update[0]->data();
-			$this->url = $xml->url[0]->data();
+			$this->authorurl = $xml->authorUrl[0]->data();
+			$this->author = $xml->author[0]->data();
+			$this->authoremail = $xml->authorEmail[0]->data();
 			$this->description = $xml->description[0]->data();
 			$this->packager = $xml->packager[0]->data();
 			$this->packagerurl = $xml->packagerurl[0]->data();
