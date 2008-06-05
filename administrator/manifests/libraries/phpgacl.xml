@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <extension type="library" version="1.5">
-	<name>phpGACL</name>
-	<libraryname>phpgacl</libraryname>
+	<fullname>phpGACL</fullname>
+	<name>phpgacl</name>
 	<version>15</version>
 	<description>phpGACL - Generic Access Control List</description>
 	<creationDate>2008</creationDate>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <extension type="library" version="1.5">
-	<name>TCPDF</name>
-	<libraryname>tcpdf</libraryname>
+	<fullname>TCPDF</fullname>
+	<name>tcpdf</name>
 	<version>1.53</version>
 	<description>A PHP4 class for generating PDF files on-the-fly without requiring external extensions</description>
 	<creationDate>2008</creationDate>

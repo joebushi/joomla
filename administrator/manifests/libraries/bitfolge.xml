@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <extension type="library" version="1.5">
-	<name>BitFolge</name>
-	<libraryname>bitfolge</libraryname>
+	<fullname>BitFolge</fullname>
+	<name>bitfolge</name>
 	<version>1.5</version>
 	<description>Useful PHP scripts (incl feedcreator)</description>
 	<creationDate>21-Sep-2007</creationDate>

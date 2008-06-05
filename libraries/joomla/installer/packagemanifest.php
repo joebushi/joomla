@@ -51,7 +51,7 @@ class JPackageManifest extends JObject {
 		} else {
 			$xml = $xml->document;
 			$this->name = $xml->name[0]->data();
-			$this->packagename = $xml->packagename[0]->data();
+			$this->fullname = $xml->fullname[0]->data();
 			$this->update = $xml->update[0]->data();
 			$this->authorurl = $xml->authorUrl[0]->data();
 			$this->author = $xml->author[0]->data();

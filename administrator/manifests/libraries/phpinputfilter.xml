@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <extension type="library" version="1.5">
-	<name>PHP Input Filter</name>
-	<libraryname>phpinputfilter</libraryname>
+	<fullname>PHP Input Filter</fullname>
+	<name>phpinputfilter</name>
 	<version>1.2.2</version>
 	<description>Filter out unwanted PHP / Javascript / HTML tags.</description>
 	<creationDate>2008</creationDate>

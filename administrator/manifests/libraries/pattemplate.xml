@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <extension type="library" version="1.5">
-	<name>patTemplate</name>
-	<libraryname>pattemplate</libraryname>
+	<fullname>patTemplate</fullname>
+	<name>pattemplate</name>
 	<version>3.1.0</version>
 	<description>patTemplate is a powerful templating engine</description>
 	<creationDate>2008</creationDate>

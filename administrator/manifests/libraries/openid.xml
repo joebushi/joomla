@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <extension type="library" version="1.5">
-	<name>OpenID</name>
-	<libraryname>openid</libraryname>
+	<fullname>OpenID</fullname>
+	<name>openid</name>
 	<version>1.2.2</version>
 	<description>OpenID is a way for individuals to create identity online and use it anywhere OpenID is supported. This library provides an OpenID consumer.</description>
 	<creationDate>2008</creationDate>

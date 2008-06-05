@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <extension type="library" version="1.5">
-	<name>PEAR</name>
-	<libraryname>pear</libraryname>
+	<fullname>PEAR</fullname>
+	<name>pear</name>
 	<version>1.4.10</version>
 	<description>PEAR, the PHP Extension and Application Repository</description>
 	<creationDate>2008</creationDate>

@@ -56,7 +56,7 @@ class JLibraryManifest extends JObject {
 		} else {
 			$xml = $xml->document; 
 			$this->name = isset($xml->name[0]) ? $xml->name[0]->data() : '';
-			$this->libraryname = isset($xml->libraryname[0]) ? $xml->libraryname[0]->data() : '';
+			$this->fullname = isset($xml->libraryname[0]) ? $xml->fullname[0]->data() : '';
 			$this->version = isset($xml->version[0]) ? $xml->version[0]->data() : '';
 			$this->description = isset($xml->description[0]) ? $xml->description[0]->data() : '';
 			$this->creationdate = isset($xml->creationdate) ? $xml->creationDate[0]->data() : '';
