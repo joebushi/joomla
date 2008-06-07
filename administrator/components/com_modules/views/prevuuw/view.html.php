@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id$
+* @version		$Id: $
 * @package		Joomla
 * @subpackage	Modules
 * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
@@ -12,25 +12,27 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-// no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+// Check to ensure this file is included in Joomla!
+defined('_JEXEC') or die( 'Restricted access' );
 
-require_once( JApplicationHelper::getPath( 'toolbar_html' ) );
+jimport( 'joomla.application.component.view');
 
-$client	=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+/**
+ * HTML View class for the Modules component
+ *
+ * @static
+ * @package		Joomla
+ * @subpackage	Modules
+ * @since 1.6
+ */
+class ModulesViewPrevuuw extends JView
+{
+	function display($tpl = null)
+	{
+		$editor =& JFactory::getEditor();
 
-switch ($task) {
+		$this->assignRef('editor',		$editor);
 
-	case 'editA':
-	case 'edit':
-		TOOLBAR_modules::_EDIT( $client );
-		break;
-
-	case 'add':
-		TOOLBAR_modules::_NEW($client);
-		break;
-
-	default:
-		TOOLBAR_modules::_DEFAULT($client);
-		break;
+		parent::display($tpl);
+	}
 }
