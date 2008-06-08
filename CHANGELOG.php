@@ -38,6 +38,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+
+8-June-2008 Ian MacLennan
+ # [10363] E_NOLOGIN_BLOCKED visible in error/warning
+
 6-June-2008 Wilco Jansen
  # [9806] Menu instance seems to be overriden
  # [11338] Linked category title in JA_Purity category blog causes text to be linked
