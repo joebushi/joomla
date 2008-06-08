@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+08-June-2008 Johan Janssens
+ - Removed deprecated functions from JApplication
+
 19-May-2008 Johan Janssens
  - Removed phpinputfilter library
  - Removed phputf8, moved mbstring and iconv implementation into JString
