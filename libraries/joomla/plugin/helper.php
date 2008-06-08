@@ -128,7 +128,7 @@ class JPluginHelper
 			if (file_exists( $path ))
 			{
 				//needed for backwards compatibility
-				global $_MAMBOTS, $mainframe;
+				global $mainframe;
 
 				jimport('joomla.plugin.plugin');
 				require_once( $path );
