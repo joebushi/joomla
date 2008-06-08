@@ -116,7 +116,7 @@ function test( $test) {
     $options["port"] = $config->getValue('config.port');
 
     $dataset = new JDataset();
-    $users = JRelation::getInstance("user","postgres");
+    $users = JRelation::getInstance("user","mysql");
     $sections = JRelation::getInstance("section", "mysql");
 
 
