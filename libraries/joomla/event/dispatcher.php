@@ -99,11 +99,10 @@ class JDispatcher extends JObservable
 	 * @access	public
 	 * @param	string	$event			The event name
 	 * @param	array	$args			An array of arguments
-	 * @param	boolean	$doUnpublished	[DEPRECATED]
 	 * @return	array	An array of results from each function call
 	 * @since	1.5
 	 */
-	function trigger($event, $args = null, $doUnpublished = false)
+	function trigger($event, $args = null)
 	{
 		// Initialize variables
 		$result = array ();
