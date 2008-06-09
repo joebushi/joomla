@@ -53,6 +53,9 @@ class ContentViewArticles extends JView
 		JToolBarHelper::preferences('com_content', '550');
 		JToolBarHelper::help( 'screen.content' );
 
+		JSubMenuHelper::addEntry(JText::_('Articles'), 'index.php?option=com_content', true );
+		JSubMenuHelper::addEntry(JText::_('Front Page'), 'index.php?option=com_content&controller=frontpage' );
+
 		$this->assignRef('redirect',	$redirect);
 		$this->assignRef('rows',		$rows);
 		$this->assignRef('pagination',	$pagination);

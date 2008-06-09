@@ -21,8 +21,21 @@ require_once (JPATH_COMPONENT.DS.'controller.php');
 // Set the helper directory
 JHTML::addIncludePath( JPATH_COMPONENT.DS.'classes' );
 
-$controller	= new ContentController( );
+// Require specific controller if requested
+global $controller;
+if($controller = JRequest::getWord('controller', 'application')) {
+	$path = JPATH_COMPONENT.DS.'controllers'.DS.$controller.'.php';
+	if (file_exists($path)) {
+		require_once $path;
+	} else {
+		$controller = '';
+	}
+}
+
+// Create the controller
+$classname	= 'ContentController'.ucfirst($controller);
+$controller_obj	= new $classname( );
 
 // Perform the Request task
-$controller->execute( JRequest::getCmd('task'));
-$controller->redirect();
+$controller_obj->execute( JRequest::getCmd('task'));
+$controller_obj->redirect();
