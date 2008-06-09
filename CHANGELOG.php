@@ -40,6 +40,7 @@ $ -> Language fix or change
 
 09-Jun-2008 Johan Janssens
  - Removed backlink system plugin
+ - Removed legacy from mod_mainmenu
 
 08-Jun-2008 Johan Janssens
  - Removed deprecated functions from JApplication
