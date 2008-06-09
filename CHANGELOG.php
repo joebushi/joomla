@@ -38,7 +38,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-08-June-2008 Johan Janssens
+09-Jun-2008 Johan Janssens
+ - Removed backlink system plugin
+
+08-Jun-2008 Johan Janssens
  - Removed deprecated functions from JApplication
 
 19-May-2008 Johan Janssens
