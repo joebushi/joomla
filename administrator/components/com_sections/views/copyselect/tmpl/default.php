@@ -24,7 +24,7 @@ function submitbutton(pressbutton) {
 	submitform(pressbutton);
 }
 </script>
-<form action="index.php" method="post" name="adminForm">
+<form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="adminForm">
 
 <table class="adminform">
 <tr>
@@ -82,9 +82,7 @@ function submitbutton(pressbutton) {
 </table>
 <br /><br />
 
-<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 <input type="hidden" name="option" value="<?php echo $option;?>" />
-<input type="hidden" name="section" value="<?php echo $section;?>" />
 <input type="hidden" name="boxchecked" value="1" />
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="scope" value="content" />
@@ -95,4 +93,5 @@ foreach ( $this->cid as $id ) {
 	<?php
 }
 ?>
+<?php echo JHTML::_( 'form.token' ); ?>
 </form>
