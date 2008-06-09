@@ -22,7 +22,7 @@ function submitbutton(pressbutton) {
 }
 //-->
 </script>
-<form action="index.php" method="post" name="adminForm">
+<form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="adminForm">
 	<table class="admintable" width="100%">
 		<tr valign="top">
 			<td width="60%">

@@ -3,7 +3,7 @@
 <?php
 	JHTML::_('behavior.tooltip');
 ?>
-<form action="index.php?option=com_content&amp;task=element&amp;tmpl=component&amp;object=id" method="post" name="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_content&amp;task=element&amp;tmpl=component&amp;object=id'); ?>" method="post" name="adminForm">
 
 	<table>
 		<tr>

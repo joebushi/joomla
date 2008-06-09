@@ -11,7 +11,7 @@
 	JToolBarHelper::help( 'screen.users' );
 ?>
 
-<form action="index.php?option=com_users" method="post" name="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_users'); ?>" method="post" name="adminForm">
 	<table>
 		<tr>
 			<td width="100%">

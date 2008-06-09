@@ -66,7 +66,7 @@
 		submitform( 'contact' );
 	}
 </script>
-<form action="index.php" method="post" name="adminForm" autocomplete="off">
+<form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="adminForm" autocomplete="off">
 	<div class="col width-45">
 		<fieldset class="adminform">
 		<legend><?php echo JText::_( 'User Details' ); ?></legend>

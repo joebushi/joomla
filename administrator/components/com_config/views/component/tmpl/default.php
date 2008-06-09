@@ -1,6 +1,6 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 
-<form action="index.php" method="post" name="adminForm" autocomplete="off">
+<form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="adminForm" autocomplete="off">
 	<fieldset>
 		<div style="float: right">
 			<button type="button" onclick="submitbutton('save');window.top.setTimeout('window.parent.document.getElementById(\'sbox-window\').close()', 700);">

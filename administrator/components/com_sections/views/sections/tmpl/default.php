@@ -7,7 +7,7 @@
 	JHTML::_('behavior.tooltip');
 ?>
 
-<form action="index.php?option=com_sections&amp;scope=<?php echo $this->scope; ?>" method="post" name="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_sections&amp;scope=' . $this->scope); ?>" method="post" name="adminForm">
 
 <table>
 <tr>

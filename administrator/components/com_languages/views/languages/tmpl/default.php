@@ -1,6 +1,6 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 
-<form action="index.php" method="post" name="adminForm">
+<form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="adminForm">
 
 	<?php if($this->ftp): ?>
 	<fieldset title="<?php echo JText::_('DESCFTPTITLE'); ?>">

@@ -3,7 +3,7 @@
 <?php
 	$css_path = $this->client->path .DS. 'templates' .DS. $this->template .DS. 'css' .DS. $this->filename;
 ?>
-<form action="index.php" method="post" name="adminForm">
+<form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="adminForm">
 
 <?php if($this->ftp): ?>
 <fieldset title="<?php echo JText::_('DESCFTPTITLE'); ?>">

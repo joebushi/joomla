@@ -71,7 +71,7 @@ function submitbutton(pressbutton, section) {
 }
 </script>
 
-<form action="index.php" method="post" name="adminForm">
+<form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="adminForm">
 
 <div class="col width-60">
 	<fieldset class="adminform">

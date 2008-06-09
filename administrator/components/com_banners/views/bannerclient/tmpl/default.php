@@ -37,7 +37,7 @@ function submitbutton(pressbutton)
 //-->
 </script>
 
-<form action="index.php" method="post" name="adminForm">
+<form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="adminForm">
 
 <div class="col width-50">
 	<fieldset class="adminform">

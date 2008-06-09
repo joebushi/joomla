@@ -1,6 +1,6 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 
-<form action="index.php?option=com_messages" method="post" name="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_messages'); ?>" method="post" name="adminForm">
 
 <table>
 <tr>

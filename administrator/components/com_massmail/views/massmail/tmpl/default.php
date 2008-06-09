@@ -22,7 +22,7 @@
 	}
 </script>
 
-<form action="index.php" name="adminForm" method="post">
+<form action="<?php echo JRoute::_('index.php'); ?>" name="adminForm" method="post">
 
 <div class="col width-30">
 	<fieldset class="adminform">

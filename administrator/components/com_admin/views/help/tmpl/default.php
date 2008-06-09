@@ -1,6 +1,6 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 
-<form action="index.php?option=com_admin&amp;task=help" method="post" name="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_admin&amp;task=help'); ?>" method="post" name="adminForm">
 
 <table class="adminform" border="1">
 <tr>
