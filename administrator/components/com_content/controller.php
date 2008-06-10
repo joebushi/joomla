@@ -152,7 +152,7 @@ class ContentController extends JController
         
         
         $ds = new JDataset("mysql");
-        p[rint_r($ds);
+        print_r($ds)
 
 		// If there is a database query error, throw a HTTP 500 and exit
 		if ($db->getErrorNum()) {
