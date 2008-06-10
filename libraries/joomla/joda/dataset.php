@@ -96,6 +96,9 @@ class JDataset extends JObject
         $this->Close();
     }
 
+    
+    
+    
 
     /**
      * Description

@@ -97,7 +97,6 @@ $mainframe->triggerEvent('onAfterRender');
 require_once ( JPATH_BASE .DS.'libraries'.DS.'joomla'.DS.'joda'.DS.'joda.php' );
 jimport("joomla.joda.connection");
 jimport("joomla.joda.statement");
-jimport("joomla.joda.dataset");
 jimport("joomla.joda.relation");
 //require_once ( JPATH_BASE .DS.'libraries'.DS.'joomla'.DS.'joda'.DS.'relation'.DS.'user.php' );
 require_once ( JPATH_BASE .DS.'libraries'.DS.'joomla'.DS.'joda'.DS.'relation'.DS.'section.php' );
@@ -105,7 +104,7 @@ require_once ( JPATH_BASE .DS.'libraries'.DS.'joomla'.DS.'joda'.DS.'relation'.DS
 
 function test( $test) {
 
-    $dataset = new JDataset("mysql");
+    $dataset = JFactory::getDataset("mysql");
     $users = JRelation::getInstance("user","mysql");
     $sections = JRelation::getInstance("section", "mysql");
 

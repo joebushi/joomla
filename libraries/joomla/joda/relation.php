@@ -62,6 +62,7 @@ abstract class JRelation extends JDataset
      * Return an instance of JRelation descendant class (factoring)
      *
      * @param string Relation name, e.g. table name, view, etc.
+     * @param string Connection name
      * @return object JRelation
      */
     function &getInstance($name, $connectionname="")

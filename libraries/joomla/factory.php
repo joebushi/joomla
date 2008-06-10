@@ -720,9 +720,11 @@ class JFactory
      * @param string Connection Name
      * @return object JConnection
      */
-     function getDataset()
+     function getDataset($connectionname="")
      {
-
+        jimport('joomla.joda.dataset');
+        $object = new JDataset($connectionname);
+        return $object;
      }
 
     /**
