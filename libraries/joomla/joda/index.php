@@ -105,16 +105,6 @@ require_once ( JPATH_BASE .DS.'libraries'.DS.'joomla'.DS.'joda'.DS.'relation'.DS
 
 function test( $test) {
 
-    $config =& JFactory::getConfig();
-
-    // MYSQL
-    $options["driver"] = $config->getValue('config.dbtype');
-    $options["host"] = $config->getValue('config.host');
-    $options["user"] = $config->getValue('config.user');
-    $options["password"] = $config->getValue('config.password');
-    $options["database"] = $config->getValue('config.db');
-    $options["port"] = $config->getValue('config.port');
-
     $dataset = new JDataset();
     $users = JRelation::getInstance("user","mysql");
     $sections = JRelation::getInstance("section", "mysql");
@@ -122,31 +112,31 @@ function test( $test) {
 
     echo "<P><B>Use dataset</B><HR>";
     $dataset->sql = array("select menutype from jos_menu");
-    $dataset->Open();
+    $dataset->open();
     print_r($dataset->data);
 
 
 
     echo "<P><B>Open sections</B><HR>";
-    $sections->Open();
+    $sections->open();
     print_r($sections->data);
 
 
     echo "<P><B>Open Users</B><HR>";
-    $users->Open();
+    $users->open();
     print_r($users->data);
 
 
     echo "<P><B>Transaction</B><HR>";
     $dataset->sql = array("insert into jos_groups values(4,'test')");
-    $dataset->Open();
+    $dataset->open();
 
 
 
     echo "<P><B>Fields</B><HR>";
     $dataset2 = new JDataset();
     $dataset2->sql = array("select * from jos_polls as jp");
-    $dataset2->Open();
+    $dataset2->open();
     echo "RecCount=" . $dataset2->recordCount();
     foreach ($dataset2->fields as $field)
     {

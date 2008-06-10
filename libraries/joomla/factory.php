@@ -715,10 +715,10 @@ class JFactory
 
 
     /**
-     * Description
+     * Returns a singleton JConnection instance based on the name of the connection
      *
-     * @param
-     * @return
+     * @param string Connection Name
+     * @return object JConnection
      */
      function getDataset()
      {

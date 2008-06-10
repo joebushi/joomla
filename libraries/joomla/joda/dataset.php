@@ -118,15 +118,15 @@ class JDataset extends JObject
      */
     function open()
     {
-        $this->Close();
+        $this->close();
         switch ($this->datatype) {
 
             case Joda::DATA_ASTABLE:
-                $this->OpenAsTable();
+                $this->openAsTable();
                 break;
 
             case Joda::DATA_ASOBJECTS:
-                $this->OpenAsObjects();
+                $this->openAsObjects();
                 break;
         } // switch
 
