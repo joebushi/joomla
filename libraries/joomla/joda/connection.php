@@ -251,6 +251,7 @@ abstract class JConnection extends PDO
         $this->_statement = null;
 
         $result = false;
+        
         if ( ! $this->_autocommit ) {
             $this->beginTransaction();
             if ( $this->doQuery($sql) ) {
@@ -265,6 +266,7 @@ abstract class JConnection extends PDO
         {
             $result = $this->doQuery($sql);
         }
+        
         return $result;
     }
 

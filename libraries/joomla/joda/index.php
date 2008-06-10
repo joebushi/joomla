@@ -105,7 +105,7 @@ require_once ( JPATH_BASE .DS.'libraries'.DS.'joomla'.DS.'joda'.DS.'relation'.DS
 
 function test( $test) {
 
-    $dataset = new JDataset();
+    $dataset = new JDataset("mysql");
     $users = JRelation::getInstance("user","mysql");
     $sections = JRelation::getInstance("section", "mysql");
 

@@ -65,7 +65,7 @@ class JConnectionMySQL extends JConnection
 
         // Buffered query must be turn ON, transaction problems arise otherwise.
         // Commit() without fetchAll() brings "There is already active transaction..."
-        // Stupid MySQL!
+        // Stupid MySQL! Not sure about versions though!
         $this->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY , true);
     }
 

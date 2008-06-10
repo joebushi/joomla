@@ -149,6 +149,10 @@ class ContentController extends JController
 				$order;
 		$db->setQuery($query, $pagination->limitstart, $pagination->limit);
 		$rows = $db->loadObjectList();
+        
+        
+        $ds = new JDataset("mysql");
+        p[rint_r($ds);
 
 		// If there is a database query error, throw a HTTP 500 and exit
 		if ($db->getErrorNum()) {
