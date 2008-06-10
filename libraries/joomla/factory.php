@@ -742,7 +742,7 @@ class JFactory
         $connectionsList = $conf->getValue('config.connections');
 
         // Empty list is a failure
-        if ( empty($connectionsList) ) {
+        if ( empty($connectionsList) ) { 
             return null;
         }
 
