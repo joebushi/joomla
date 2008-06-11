@@ -41,8 +41,8 @@ class JRelationUser extends JRelation
      function __construct($connectionname="")
     {
         parent::__construct($connectionname);
-        $this->querybuilder->select("*")->from("jos_users");
-        $this->sql = $this->querybuilder->getSQL();
+        $this->querybuilder->select("*")->from('#__users');
+        $this->setSQL($this->querybuilder->getSQL(),'#__');
     }
 
 

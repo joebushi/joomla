@@ -49,6 +49,14 @@ class JDataset extends JObject
 
 
     /**
+     * Prefix-placeholder used in queries, later replaced by the real prefix
+     *
+     * @var string
+     */
+    public $prefix_placeholder = "#__";
+
+
+    /**
      * Data, the result of the query
      *
      * @var array
@@ -123,6 +131,15 @@ class JDataset extends JObject
     function open()
     {
         $this->close();
+
+        // Replace Prefixes
+        $tmp = array();
+        foreach ( $this->sql as $sql ) {
+            $tmp[] = $this->querybuilder->replaceString($sql, $this->prefix_placeholder, $this->connection->getRelationPrefix());
+        }
+        $this->sql = $tmp;
+
+
         switch ($this->datatype) {
 
             case Joda::DATA_ASTABLE:
@@ -175,6 +192,21 @@ class JDataset extends JObject
         return $count;
     }
 
+
+
+    /**
+     * Description
+     *
+     * @param
+     * @return
+     */
+    function setSQL($sql, $prefixholder = "")
+    {
+        if ( !empty($prefixholder) ) {
+            $this->prefix_placeholder = $prefixholder;
+        }
+        $this->sql = $sql;
+    }
 
 
 

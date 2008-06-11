@@ -1644,38 +1644,41 @@ abstract class JQueryBuilder extends JObject
     {
         // temporary solution!
         $this->_sql[] = $this->toString();
-
         return $this->_sql;
     }
 
 
 
     /**
-     * This function replaces a string identifier <var>$prefix</var> with the
-     * string <var>relation_prefix</var>
+     * This function replaces a string identifier <var>$from</var> with the
+     * string <var>$to</var>
      *
-     * @param string The SQL query
+     * @param string The String
      * @param string The common table prefix
      */
-    function replacePrefix( $sql, $relation_prefix, $prefix='#__' )
+    function replaceString( $string, $from, $to )
     {
-        $sql = trim( $sql );
+
+
+        //echo "<P>$string - $from - $to";
+
+        $string = trim( $string );
 
         $escaped = false;
         $quoteChar = '';
 
-        $n = strlen( $sql );
+        $n = strlen( $string );
 
         $startPos = 0;
         $literal = '';
         while ($startPos < $n) {
-            $ip = strpos($sql, $prefix, $startPos);
+            $ip = strpos($string, $from, $startPos);
             if ($ip === false) {
                 break;
             }
 
-            $j = strpos( $sql, "'", $startPos );
-            $k = strpos( $sql, '"', $startPos );
+            $j = strpos( $string, "'", $startPos );
+            $k = strpos( $string, '"', $startPos );
             if (($k !== FALSE) && (($k < $j) || ($j === FALSE))) {
                 $quoteChar    = '"';
                 $j            = $k;
@@ -1687,7 +1690,7 @@ abstract class JQueryBuilder extends JObject
                 $j = $n;
             }
 
-            $literal .= str_replace( $prefix, $relation_prefix,substr( $sql, $startPos, $j - $startPos ) );
+            $literal .= str_replace( $from, $to, substr( $string, $startPos, $j - $startPos ) );
             $startPos = $j;
 
             $j = $startPos + 1;
@@ -1698,13 +1701,13 @@ abstract class JQueryBuilder extends JObject
 
             // quote comes first, find end of quote
             while (TRUE) {
-                $k = strpos( $sql, $quoteChar, $j );
+                $k = strpos( $string, $quoteChar, $j );
                 $escaped = false;
                 if ($k === false) {
                     break;
                 }
                 $l = $k - 1;
-                while ($l >= 0 && $sql{$l} == '\\') {
+                while ($l >= 0 && $string{$l} == '\\') {
                     $l--;
                     $escaped = !$escaped;
                 }
@@ -1718,11 +1721,11 @@ abstract class JQueryBuilder extends JObject
                 // error in the query - no end quote; ignore it
                 break;
             }
-            $literal .= substr( $sql, $startPos, $k - $startPos + 1 );
+            $literal .= substr( $string, $startPos, $k - $startPos + 1 );
             $startPos = $k+1;
         }
         if ($startPos < $n) {
-            $literal .= substr( $sql, $startPos, $n - $startPos );
+            $literal .= substr( $string, $startPos, $n - $startPos );
         }
         return $literal;
     }

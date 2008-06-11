@@ -102,7 +102,7 @@ function test( $test) {
     $sections = JFactory::getDBRelation("section");
 
     echo "<P><B>Use dataset</B><HR>";
-    $dataset->sql = array("select menutype from jos_menu");
+    $dataset->setSQL(array("select menutype from #__menu"));
     $dataset->open();
     print_r($dataset->data);
 
@@ -119,16 +119,16 @@ function test( $test) {
 
 
     echo "<P><B>Transaction</B><HR>";
-    $dataset->sql = array("insert into jos_groups values(4,'test')");
+    $dataset->setSQL(array("insert into #__groups values(4,'test')"));
     $dataset->open();
 
 
 
     echo "<P><B>Fields</B><HR>";
     $dataset2 = JFactory::getDBSet();
-    $dataset2->sql = array("select * from jos_polls as jp");
+    $dataset2->setSQL(array("select * from #__groups as xx"));
     $dataset2->open();
-    echo "RecCount=" . $dataset2->recordCount();
+    echo "RecCount=" . $dataset2->recordCount() . "<BR>";
     foreach ($dataset2->fields as $field)
     {
         echo $field["name"] . ":";

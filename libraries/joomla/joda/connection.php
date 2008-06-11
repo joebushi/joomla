@@ -117,7 +117,7 @@ abstract class JConnection extends PDO
      *
      * @var string
      */
-    protected $_table_prefix = "jos_";
+    protected $_relation_prefix = "jos_";
 
 
 
@@ -160,6 +160,7 @@ abstract class JConnection extends PDO
             $class = "JConnection" . $driver;
             $instance = new $class($options);
             $instance->_name = $connectionname;
+            $instance->_relation_prefix = $options["prefix"];
             $instances[$signature] = & $instance;
         }
 
@@ -373,6 +374,17 @@ abstract class JConnection extends PDO
 
 
 
+
+    /**
+     * Return this connection's relation prefix (usualy "jos_")
+     *
+     * @param
+     * @return string
+     */
+    function getRelationPrefix()
+    {
+        return $this->_relation_prefix;
+    }
 
 
 
