@@ -45,15 +45,15 @@ class JDataset extends JObject
      *
      * @var array
      */
-    public $sql = array();
+    protected $_sql = array();
 
 
     /**
-     * Prefix-placeholder used in queries, later replaced by the real prefix
+     * Prefix-placeholder used in queries, later replaced by the relation prefix
      *
      * @var string
      */
-    public $prefix_placeholder = "#__";
+    protected $_prefix = Joda::DEFAULT_PREFIX;
 
 
     /**
@@ -82,11 +82,11 @@ class JDataset extends JObject
 
 
     /**
-     * Query Builder
+     * This JDataset Object's own Query Builder. Created on object construction
      *
      * @var JQueryBuilder
      */
-    public $querybuilder = null;
+    protected $_querybuilder = null;
 
 
     /**
@@ -100,8 +100,8 @@ class JDataset extends JObject
         jimport("joomla.joda.querybuilder");
 
         $this->connection = JFactory::getDBConnection($connectionname);
-        $this->querybuilder = JFactory::getQueryBuilder($this->connection->getDriverName());
-        $this->querybuilder->resetQuery();
+        $this->_querybuilder = JFactory::getQueryBuilder($this->connection->getDriverName());
+        $this->_querybuilder->resetQuery();
         $this->Close();
     }
 
@@ -134,10 +134,10 @@ class JDataset extends JObject
 
         // Replace Prefixes
         $tmp = array();
-        foreach ( $this->sql as $sql ) {
-            $tmp[] = $this->querybuilder->replaceString($sql, $this->prefix_placeholder, $this->connection->getRelationPrefix());
+        foreach ( $this->_sql as $sql ) {
+            $tmp[] = $this->_querybuilder->replaceString($sql, $this->_prefix, $this->connection->getRelationPrefix());
         }
-        $this->sql = $tmp;
+        $this->_sql = $tmp;
 
 
         switch ($this->datatype) {
@@ -161,7 +161,7 @@ class JDataset extends JObject
      */
     function openAsTable()
     {
-        $this->data = $this->connection->FetchDataAsTable($this->sql);
+        $this->data = $this->connection->FetchDataAsTable($this->_sql);
         $this->fields = $this->connection->getFieldsMeta();
     }
 
@@ -174,7 +174,7 @@ class JDataset extends JObject
      */
     function openAsObjects()
     {
-        $this->data = $this->connection->FetchDataAsObjects($this->sql);
+        $this->data = $this->connection->FetchDataAsObjects($this->_sql);
         $this->fields = $this->connection->getFieldsMeta();
     }
 
@@ -195,17 +195,36 @@ class JDataset extends JObject
 
 
     /**
-     * Description
+     * Set the array of SQL queries to be executed later
      *
-     * @param
+     * Additionaly, specify the prefix used in these queries (if any) to be replaced by
+     * the underlying connection's specific relation prefix, i.e. <var>$prefix</var> here
+     * is "#__" (the usual), to be replaced by "jos_" (the usual)
+     *
+     * @param array Array of SQL queries
+     * @param string Prefix Placeholder
      * @return
      */
-    function setSQL($sql, $prefixholder = "")
+    function setSQL($sql, $prefix = "" )
     {
-        if ( !empty($prefixholder) ) {
-            $this->prefix_placeholder = $prefixholder;
+        if ( !empty($prefix) ) {
+            $this->_prefix = $prefix;
         }
-        $this->sql = $sql;
+        $this->_sql = $sql;
+    }
+
+
+
+
+    /**
+     * Return this object own QueryBuilder
+     *
+     * @param
+     * @return object JQueryBuilder
+     */
+    function getQueryBuilder()
+    {
+        return $this->_querybuilder;
     }
 
 

@@ -112,12 +112,11 @@ abstract class JConnection extends PDO
 
 
     /**
-     * Table name prefix - all tables are prefixed with this string, usually "jos_".
-     * Placeholder "#__" used in SQL queries must be replaced by this very prefix.
+     * Relation/Table name prefix
      *
      * @var string
      */
-    protected $_relation_prefix = "jos_";
+    protected $_relation_prefix = Joda::DEFAULT_RELATION_PREFIX;
 
 
 
@@ -228,6 +227,7 @@ abstract class JConnection extends PDO
     function doQuery($sql, $parameters=array())
     {
         $result = false;
+        $statement = null;
         foreach ( $sql as $query )
         {
             $statement = $this->prepare($query);

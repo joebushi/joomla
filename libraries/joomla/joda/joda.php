@@ -54,12 +54,14 @@ defined( 'JPATH_BASE' ) or die();
  * @todo Parameters in doQuery()/Query()
  * @todo Use quoting from PDO in Querybuilder
  * @todo For metadata - select * from table where 1=1  (?!?!)
- * @todo Table prefix!!
  * @todo Make QueryBuilder returning array of strings, not A string
- * @todo Prevent idle connections in beginTransaction() /inTransaction check/
+ * @todo handle "In-Transaction" status
  * @todo Non-standard use of escape strings in Postgresql!!!?!?!?!?!
- * @todo Multi-line SQL not allowed ? (';' separated)
- * @todo "Replace Prefix" method
+ * @todo Multi-line SQL not allowed !!!!
+ * @todo replaceString() : make it DB aware (quoting symbols)
+ * @todo JDataset properties - make them protected
+ *
+ *
  */
 class Joda extends JObject
 {
@@ -165,6 +167,22 @@ class Joda extends JObject
     const CONN_FALLBACK                  = 'fallback';
 
 
+
+    /**
+     * Default Prefix Placeholder to be replaced by Relation Prefix
+     *
+     * @var string
+     */
+    const DEFAULT_PREFIX                            = '#__';
+
+    /**
+     * Default Relation/Table Prefix.
+     *
+     * This is JConnection specific. See {@link JConnection}
+     *
+     * @var string
+     */
+    const DEFAULT_RELATION_PREFIX                   = 'jos_';
 
 
 

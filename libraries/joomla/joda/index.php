@@ -141,7 +141,7 @@ function test( $test) {
     if ($users->connection === $sections->connection)  echo "EQ 1<BR>";
     if ($dataset->connection === $dataset2->connection)  echo "EQ 2<BR>";
     if ($users->connection === $dataset->connection)  echo "EQ 3<BR>";
-    if ($users->querybuilder  === $sections->querybuilder)  echo "EQ 4<BR>";
+    if ($users->getQueryBuilder()  === $sections->getQueryBuilder())  echo "EQ 4<BR>";
 
 
 }

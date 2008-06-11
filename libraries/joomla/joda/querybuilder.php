@@ -1659,9 +1659,6 @@ abstract class JQueryBuilder extends JObject
     function replaceString( $string, $from, $to )
     {
 
-
-        //echo "<P>$string - $from - $to";
-
         $string = trim( $string );
 
         $escaped = false;
