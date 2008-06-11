@@ -32,9 +32,6 @@ defined( 'JPATH_BASE' ) or die();
 class JRelationUser extends JRelation
 {
 
-    protected $_name = "user";
-    protected $_relation_name = "jos_users";
-
     /**
      * Description
      *
@@ -44,7 +41,7 @@ class JRelationUser extends JRelation
      function __construct($connectionname="")
     {
         parent::__construct($connectionname);
-        $this->querybuilder->select("*")->from($this->_relation_name);
+        $this->querybuilder->select("*")->from("jos_users");
         $this->sql = $this->querybuilder->getSQL();
     }
 

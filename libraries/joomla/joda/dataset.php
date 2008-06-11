@@ -20,7 +20,6 @@
  */
 defined( 'JPATH_BASE' ) or die();
 
-jimport("joomla.joda.querybuilder");
 
 /**
  * Dataset Class
@@ -90,15 +89,17 @@ class JDataset extends JObject
      */
     function __construct($connectionname="")
     {
-        $this->connection = JFactory::getConnection($connectionname);
-        $this->querybuilder = JQueryBuilder::getInstance($this->connection->getDriverName());
+        jimport("joomla.joda.querybuilder");
+
+        $this->connection = JFactory::getDBConnection($connectionname);
+        $this->querybuilder = JFactory::getQueryBuilder($this->connection->getDriverName());
         $this->querybuilder->resetQuery();
         $this->Close();
     }
 
-    
-    
-    
+
+
+
 
     /**
      * Description

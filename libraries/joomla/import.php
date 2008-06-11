@@ -56,3 +56,7 @@ JLoader::import( 'joomla.filter.filteroutput'	);
 //Register class that don't follow one file per class naming conventions
 JLoader::register('JText' , dirname(__FILE__).DS.'methods.php');
 JLoader::register('JRoute', dirname(__FILE__).DS.'methods.php');
+
+
+// Register Joda class (not following Joomla! Class Naming convention)
+JLoader::register('Joda', dirname(__FILE__).DS.'joda'.DS.'joda.php');

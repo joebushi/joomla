@@ -60,7 +60,6 @@ defined( 'JPATH_BASE' ) or die();
  * @todo Non-standard use of escape strings in Postgresql!!!?!?!?!?!
  * @todo Multi-line SQL not allowed ? (';' separated)
  * @todo "Replace Prefix" method
- * @todo Registering Joda class - where and how
  */
 class Joda extends JObject
 {
@@ -164,6 +163,9 @@ class Joda extends JObject
      * @var string
      */
     const CONN_FALLBACK                  = 'fallback';
+
+
+
 
 
 } //Joda

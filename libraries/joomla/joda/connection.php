@@ -129,6 +129,7 @@ abstract class JConnection extends PDO
      */
     function __construct()
     {
+        jimport("joomla.joda.statement");
         $dsn = $this->_drivername.":port=".$this->_port.";host=" . $this->_host . ";dbname=" . $this->_database;
         parent::__construct($dsn, $this->_user, $this->_password, $this->_driver_options);
         $this->setAttribute(PDO::ATTR_STATEMENT_CLASS, array("JStatement"));
@@ -251,7 +252,7 @@ abstract class JConnection extends PDO
         $this->_statement = null;
 
         $result = false;
-        
+
         if ( ! $this->_autocommit ) {
             $this->beginTransaction();
             if ( $this->doQuery($sql) ) {
@@ -266,7 +267,7 @@ abstract class JConnection extends PDO
         {
             $result = $this->doQuery($sql);
         }
-        
+
         return $result;
     }
 

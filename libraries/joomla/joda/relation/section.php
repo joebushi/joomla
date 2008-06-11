@@ -31,11 +31,8 @@ defined( 'JPATH_BASE' ) or die();
  */
 class JRelationSection extends JRelation
 {
-    protected $_name = "section";
-    protected $_relation_name = "jos_sections";
-
     /**
-     * Description
+     * Constructor
      *
      * @param
      * @return
@@ -43,7 +40,7 @@ class JRelationSection extends JRelation
      function __construct($connectionname="")
     {
         parent::__construct($connectionname);
-        $this->querybuilder->select("*")->from($this->_relation_name);
+        $this->querybuilder->select("*")->from("jos_sections");
         $this->sql = $this->querybuilder->getSQL();
     }
 

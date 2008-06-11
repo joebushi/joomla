@@ -21,6 +21,9 @@
 defined( 'JPATH_BASE' ) or die();
 
 
+jimport('joomla.joda.dataset');
+
+
 /**
  * Table Class
  *
@@ -31,19 +34,6 @@ defined( 'JPATH_BASE' ) or die();
  */
 abstract class JRelation extends JDataset
 {
-   /**
-    * This class internal name
-    *
-    * @var string
-    */
-    protected $_name = "";
-
-   /**
-    * Relation name this class represents, e.g. table name
-    *
-    * @var string
-    */
-    protected $_relation_name = "";
 
     /**
      * Constructor.
@@ -65,11 +55,11 @@ abstract class JRelation extends JDataset
      * @param string Connection name
      * @return object JRelation
      */
-    function &getInstance($name, $connectionname="")
+    function &getInstance($relationname, $connectionname="")
     {
-        $file = dirname(__FILE__) .DS. "relation" .DS. $name . ".php";
+        $file = dirname(__FILE__) .DS. "relation" .DS. $relationname . ".php";
         require_once($file);
-        $class = "JRelation" . $name;
+        $class = "JRelation" . $relationname;
         $instance = new $class($connectionname);
         return $instance;
     }

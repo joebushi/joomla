@@ -94,20 +94,12 @@ $mainframe->triggerEvent('onAfterRender');
 //echo JResponse::toString($mainframe->getCfg('gzip'));
 
 
-require_once ( JPATH_BASE .DS.'libraries'.DS.'joomla'.DS.'joda'.DS.'joda.php' );
-jimport("joomla.joda.connection");
-jimport("joomla.joda.statement");
-jimport("joomla.joda.relation");
-//require_once ( JPATH_BASE .DS.'libraries'.DS.'joomla'.DS.'joda'.DS.'relation'.DS.'user.php' );
-require_once ( JPATH_BASE .DS.'libraries'.DS.'joomla'.DS.'joda'.DS.'relation'.DS.'section.php' );
-
 
 function test( $test) {
 
-    $dataset = JFactory::getDataset("mysql");
-    $users = JRelation::getInstance("user","mysql");
-    $sections = JRelation::getInstance("section", "mysql");
-
+    $dataset = JFactory::getDBSet();
+    $users = JFactory::getDBRelation("user");
+    $sections = JFactory::getDBRelation("section");
 
     echo "<P><B>Use dataset</B><HR>";
     $dataset->sql = array("select menutype from jos_menu");
@@ -133,7 +125,7 @@ function test( $test) {
 
 
     echo "<P><B>Fields</B><HR>";
-    $dataset2 = new JDataset();
+    $dataset2 = JFactory::getDBSet();
     $dataset2->sql = array("select * from jos_polls as jp");
     $dataset2->open();
     echo "RecCount=" . $dataset2->recordCount();
@@ -145,7 +137,7 @@ function test( $test) {
     }
 
     echo "<P><B>All datasets using the same Connection Instance</B><HR>";
-    $dataset2 = new JDataset();
+    $dataset2 = JFactory::getDBSet();
     if ($users->connection === $sections->connection)  echo "EQ 1<BR>";
     if ($dataset->connection === $dataset2->connection)  echo "EQ 2<BR>";
     if ($users->connection === $dataset->connection)  echo "EQ 3<BR>";

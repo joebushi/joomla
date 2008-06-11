@@ -715,25 +715,49 @@ class JFactory
 
 
     /**
+     * Returns an instance of JDataset object
+     *
+     * @param string Connection Name
+     * @return object JDataset
+     */
+     function getDBSet($connectionname="")
+     {
+        jimport('joomla.joda.dataset');
+
+        $object = new JDataset($connectionname);
+        return $object;
+     }
+
+
+
+    /**
+     * Returns a factored instance of JDataset's descendant class
+     *
+     * @param string Connection Name
+     * @return object JDataset
+     */
+     function getDBRelation($relationname, $connectionname = "")
+     {
+        if ( empty($relationname) ) {
+            return false;
+        }
+
+        jimport('joomla.joda.relation');
+
+        $object = JRelation::getInstance($relationname, $connectionname);
+
+        return $object;
+     }
+
+
+
+    /**
      * Returns a singleton JConnection instance based on the name of the connection
      *
      * @param string Connection Name
      * @return object JConnection
      */
-     function getDataset($connectionname="")
-     {
-        jimport('joomla.joda.dataset');
-        $object = new JDataset($connectionname);
-        return $object;
-     }
-
-    /**
-     * Description
-     *
-     * @param
-     * @return
-     */
-     function getConnection($connectionname="")
+     function getDBConnection($connectionname="")
      {
 
         jimport('joomla.joda.connection');
@@ -744,7 +768,7 @@ class JFactory
         $connectionsList = $conf->getValue('config.connections');
 
         // Empty list is a failure
-        if ( empty($connectionsList) ) { 
+        if ( empty($connectionsList) ) {
             return null;
         }
 
@@ -773,5 +797,21 @@ class JFactory
         $options    = array ( 'driver' => $driver, 'host' => $host, 'user' => $user, 'password' => $password, 'database' => $database, 'prefix' => $prefix, "port"=>$port );
         return JConnection::getInstance($options, $connectionname);
      }
+
+
+
+    /**
+     * Returns a factored instance of JQueryBuilder's descendant class
+     *
+     * @param string Driver Name (Database Engine Name: mysql, pgsql, etc.)
+     * @return object JQueryBuilder
+     */
+     function getQueryBuilder($drivername = "")
+     {
+        jimport('joomla.joda.querybuilder');
+        $object = JQueryBuilder::getInstance($drivername);
+        return $object;
+     }
+
 
 }
