@@ -60,6 +60,7 @@ defined( 'JPATH_BASE' ) or die();
  * @todo Multi-line SQL not allowed !!!!
  * @todo replaceString() : make it DB aware (quoting symbols)
  * @todo JDataset properties - make them protected
+ * @todo Finish the PREFIX mess
  *
  *
  */
