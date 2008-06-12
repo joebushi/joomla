@@ -806,10 +806,10 @@ class JFactory
      * @param string Driver Name (Database Engine Name: mysql, pgsql, etc.)
      * @return object JQueryBuilder
      */
-     function getQueryBuilder($drivername = "")
+     function getQueryBuilder($drivername, $prefix=Joda::DEFAULT_PREFIX, $relation_prefix=Joda::DEFAULT_RELATION_PREFIX)
      {
         jimport('joomla.joda.querybuilder');
-        $object = JQueryBuilder::getInstance($drivername);
+        $object = JQueryBuilder::getInstance($drivername, $prefix, $relation_prefix);
         return $object;
      }
 

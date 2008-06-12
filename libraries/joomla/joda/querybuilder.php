@@ -233,12 +233,29 @@ abstract class JQueryBuilder extends JObject
 
 
     /**
+     * Prefix-placeholder used in queries, later replaced by the relation prefix
+     *
+     * @var string
+     */
+    protected $_prefix = "";
+
+    /**
+     * Relation/Table name prefix
+     *
+     * @var string
+     */
+    protected $_relation_prefix = "";
+
+
+    /**
      * Constructor
      *
      * @param object DatabaseObject A reference to a database connector
      */
-    function __construct( )
+    function __construct( $prefix, $relation_prefix )
     {
+        $this->_prefix = $prefix;
+        $this->_relation_prefix = $relation_prefix;
     }
 
 
@@ -891,12 +908,12 @@ abstract class JQueryBuilder extends JObject
      * @param    array    Array of options
      * @return    object    Query Builder object
      */
-    public function &getInstance($driver)
+    public function &getInstance($driver, $prefix, $relation_prefix)
     {
         $path = dirname(__FILE__) .DS. 'querybuilder' .DS. $driver . '.php';
         require_once($path);
         $class = "JQueryBuilder".$driver;
-        $instance =  new $class();
+        $instance =  new $class($prefix, $relation_prefix);
         return $instance;
     }
 
@@ -1643,8 +1660,32 @@ abstract class JQueryBuilder extends JObject
     public function getSQL()
     {
         // temporary solution!
+        // It's an array!
         $this->_sql[] = $this->toString();
-        return $this->_sql;
+
+
+        $result = array();
+        foreach ( $this->_sql as $query ) {
+            $result[] = $this->replaceString($query, $this->_prefix, $this->_relation_prefix);
+        }
+
+
+        return $result;
+    }
+
+
+
+
+    /**
+     * Replace Prefixes
+     *
+     * @param string The String
+     * @param string Pattern
+     * @param string Replacement
+     */
+    function replacePrefix( $string, $prefix=Joda::DEFAULT_PREFIX, $relationprefix=Joda::DEFAULT_RELATION_PREFIX )
+    {
+        return $this->replaceString( $string, $prefix, $relationprefix );
     }
 
 
@@ -1654,7 +1695,8 @@ abstract class JQueryBuilder extends JObject
      * string <var>$to</var>
      *
      * @param string The String
-     * @param string The common table prefix
+     * @param string Pattern
+     * @param string Replacement
      */
     function replaceString( $string, $from, $to )
     {

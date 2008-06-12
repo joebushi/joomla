@@ -102,20 +102,32 @@ function test( $test) {
     $sections = JFactory::getDBRelation("section");
 
     echo "<P><B>Use dataset</B><HR>";
-    $dataset->setSQL(array("select menutype from #__menu"));
+
+    $qb1 = $dataset->getQueryBuilder();
+    $qb2 = $dataset->getQueryBuilder();
+
+    $qb1->select('menutype')->from('#__menu');
+    $qb2->select('*')->from('#__groups');
+
+    $dataset->setSQL($qb1->getSQL());
     $dataset->open();
-    print_r($dataset->data);
+    print_r($dataset->_data);
+
+    $dataset->setSQL($qb2->getSQL());
+    $dataset->open();
+    echo "<HR>";
+    print_r($dataset->_data);
 
 
 
     echo "<P><B>Open sections</B><HR>";
     $sections->open();
-    print_r($sections->data);
+    print_r($sections->_data);
 
 
     echo "<P><B>Open Users</B><HR>";
     $users->open();
-    print_r($users->data);
+    print_r($users->_data);
 
 
     echo "<P><B>Transaction</B><HR>";
@@ -126,10 +138,13 @@ function test( $test) {
 
     echo "<P><B>Fields</B><HR>";
     $dataset2 = JFactory::getDBSet();
-    $dataset2->setSQL(array("select * from #__groups as xx"));
+    $qbf = $dataset2->getQueryBuilder();
+    $s = "select * from #__groups as xx";
+    $s = $qbf->replacePrefix($s);
+    $dataset2->setSQL(array($s));
     $dataset2->open();
     echo "RecCount=" . $dataset2->recordCount() . "<BR>";
-    foreach ($dataset2->fields as $field)
+    foreach ($dataset2->_fields as $field)
     {
         echo $field["name"] . ":";
         print_r($field);
