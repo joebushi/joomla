@@ -290,4 +290,42 @@ class ContentModelFrontpage extends JModel
 
 		return true;
 	}
+
+	/**
+	* Function to toggle frontpage flag
+	*
+	*/
+	function toggle($cid)
+	{
+		/*
+		 * We need to update frontpage status for the articles.
+		 *
+		 * First we include the frontpage table and instantiate an instance of
+		 * it.
+		 */
+		$fp = & JTable::getInstance('frontpage', 'Table');
+
+		foreach ($cid as $id)
+		{
+			// toggles go to first place
+			if ($fp->load($id)) {
+				if (!$fp->delete($id)) {
+					$msg .= $fp->stderr();
+				}
+				$fp->ordering = 0;
+			} else {
+				// new entry
+				$query = 'INSERT INTO #__content_frontpage' .
+						' VALUES ( '. (int) $id .', 0 )';
+				$this->_db->setQuery($query);
+				if (!$this->_db->query()) {
+					JError::raiseError( 500, $this->_db->stderr() );
+					return false;
+				}
+				$fp->ordering = 0;
+			}
+			$fp->reorder();
+		}
+		return true;
+	}
 }

@@ -271,6 +271,41 @@ class ContentModelArticle extends JModel
 
 		// Save ID so controller can find data
 		$this->setId($row->id);
+
+		/*
+		 * We need to update frontpage status for the article.
+		 *
+		 * First we include the frontpage table and instantiate an instance of it.
+		 */
+		$fp = & JTable::getInstance('frontpage', 'Table');
+
+		// Is the article viewable on the frontpage?
+		if ($data['frontpage'])
+		{
+			// Is the item already viewable on the frontpage?
+			if (!$fp->load($row->id))
+			{
+				// Insert the new entry
+				$query = 'INSERT INTO #__content_frontpage' .
+						' VALUES ( '. (int) $row->id .', 1 )';
+				$this->_db->setQuery($query);
+				if (!$this->_db->query())
+				{
+					JError::raiseError( 500, $this->_db->stderr() );
+					return false;
+				}
+				$fp->ordering = 1;
+			}
+		}
+		else
+		{
+			// Delete the item from frontpage if it exists
+			if (!$fp->delete($article->id)) {
+				$msg .= $fp->stderr();
+			}
+			$fp->ordering = 0;
+		}
+		$fp->reorder();
 		
 		return true;
 	}

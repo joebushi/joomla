@@ -131,42 +131,6 @@ class ContentController extends JController
 		$success = $model->store($post);
 		$article = $model->getData();
 
-		/*
-		 * We need to update frontpage status for the article.
-		 *
-		 * First we include the frontpage table and instantiate an instance of it.
-		 */
-		require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_frontpage'.DS.'tables'.DS.'frontpage.php');
-		$fp = new TableFrontPage($db);
-
-		// Is the article viewable on the frontpage?
-		if (JRequest::getVar( 'frontpage', 0, '', 'int' ))
-		{
-			// Is the item already viewable on the frontpage?
-			if (!$fp->load($article->id))
-			{
-				// Insert the new entry
-				$query = 'INSERT INTO #__content_frontpage' .
-						' VALUES ( '. (int) $article->id .', 1 )';
-				$db->setQuery($query);
-				if (!$db->query())
-				{
-					JError::raiseError( 500, $db->stderr() );
-					return false;
-				}
-				$fp->ordering = 1;
-			}
-		}
-		else
-		{
-			// Delete the item from frontpage if it exists
-			if (!$fp->delete($article->id)) {
-				$msg .= $fp->stderr();
-			}
-			$fp->ordering = 0;
-		}
-		$fp->reorder();
-
 		switch ($task)
 		{
 			case 'go2menu' :
@@ -320,36 +284,9 @@ class ContentController extends JController
 			return;
 		}
 
-		/*
-		 * We need to update frontpage status for the articles.
-		 *
-		 * First we include the frontpage table and instantiate an instance of
-		 * it.
-		 */
-		require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_frontpage'.DS.'tables'.DS.'frontpage.php');
-		$fp = new TableFrontPage($db);
-
-		foreach ($cid as $id)
-		{
-			// toggles go to first place
-			if ($fp->load($id)) {
-				if (!$fp->delete($id)) {
-					$msg .= $fp->stderr();
-				}
-				$fp->ordering = 0;
-			} else {
-				// new entry
-				$query = 'INSERT INTO #__content_frontpage' .
-						' VALUES ( '. (int) $id .', 0 )';
-				$db->setQuery($query);
-				if (!$db->query()) {
-					JError::raiseError( 500, $db->stderr() );
-					return false;
-				}
-				$fp->ordering = 0;
-			}
-			$fp->reorder();
-		}
+		$model = $this->getModel('frontpage');
+		if (!$model->toggle($cid))
+			$msg = JText::_('Error toggling frontpage flag');
 
 		$cache = & JFactory::getCache('com_content');
 		$cache->clean();
