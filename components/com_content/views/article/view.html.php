@@ -28,13 +28,12 @@ class ContentViewArticle extends ContentView
 {
 	function display($tpl = null)
 	{
-		global $mainframe;
-
-		$user		   =& JFactory::getUser();
-		$document	   =& JFactory::getDocument();
-		$dispatcher	   =& JDispatcher::getInstance();
-		$pathway	   =& $mainframe->getPathway();
-		$params 	   =& $mainframe->getParams('com_content');
+		$app			=& JFactory::getApplication();
+		$user			=& JFactory::getUser();
+		$document		=& JFactory::getDocument();
+		$dispatcher		=& JDispatcher::getInstance();
+		$pathway		=& $app->getPathway();
+		$params			= JComponentHelper::getParams('com_content');
 
 		// Initialize variables
 		$article	=& $this->get('Article');
@@ -94,11 +93,11 @@ class ContentViewArticle extends ContentView
 			$document->setMetadata('keywords', $article->metakey);
 		}
 
-		if ($mainframe->getCfg('MetaTitle') == '1') {
-			$mainframe->addMetaTag('title', $article->title);
+		if ($app->getCfg('MetaTitle') == '1') {
+			$document->setMetadata('title', $article->title);
 		}
-		if ($mainframe->getCfg('MetaAuthor') == '1') {
-			$mainframe->addMetaTag('author', $article->author);
+		if ($app->getCfg('MetaAuthor') == '1') {
+			$document->setMetadata('author', $article->author);
 		}
 
 		$mdata = new JParameter($article->metadata);
@@ -160,12 +159,12 @@ class ContentViewArticle extends ContentView
 
 	function _displayForm($tpl)
 	{
-		global $mainframe;
-
 		// Initialize variables
+		$app		=& JFactory::getApplication();
+		$pathway	=& $app->getPathway();
 		$document	=& JFactory::getDocument();
 		$user		=& JFactory::getUser();
-		$uri     	 =& JFactory::getURI();
+		$uri		=& JFactory::getURI();
 
 		// Make sure you are logged in and have the necessary access rights
 		if ($user->get('gid') < 19) {
@@ -206,7 +205,6 @@ class ContentViewArticle extends ContentView
 		$document->setTitle($title);
 
 		// get pathway
-		$pathway =& $mainframe->getPathWay();
 		$pathway->addItem($title, '');
 
 		// Unify the introtext and fulltext fields and separated the fields by the {readmore} tag
