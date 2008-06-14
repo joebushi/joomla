@@ -2,7 +2,7 @@
 
 <?php
 	if ($this->params->get('show_snapshot'))
-		JHTML::_('weblink.snapshotinit', $this->params->get('snapshot_width'), $this->params->get('snapshot_height'));
+		JHTML::_('behavior.imagetooltip', $this->params->get('snapshot_width'), $this->params->get('snapshot_height'));
 	else
 		JHTML::_('behavior.tooltip');
 ?>

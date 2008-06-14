@@ -114,6 +114,53 @@ class JHTMLBehavior
 		return;
 	}
 
+	/**
+	* Load Weblink snapshot javascript
+	*/
+	function imagetooltip($width=120, $height=90, $selector='.hasSnapshot', $params = array())
+	{
+		static $snapshots;
+
+		if (!isset($snapshots)) {
+			$snapshots = array();
+		}
+
+		$sig = md5(serialize(array($selector,$params)));
+		if (isset($snapshots[$sig]) && ($snapshots[$sig])) {
+			return;
+		}
+
+		$params['initialize']			= "
+		function()
+		{
+			$$('" . $selector . "').each(
+				function (el){
+					if (el.id){
+						el.\$tmp.myImg = el.id;
+						el.removeAttribute('id');
+					}
+					el.addEvent('mouseenter', function(event){
+						this.start(el);
+						if (el.\$tmp.myImg){
+							this.img = new Element('img', {
+								src: el.\$tmp.myImg,
+								width: $width,
+								height: $height,
+							});
+							this.img.inject(new Element('div', {'class': this.options.className + '-img'}).inject(this.wrapper));
+						}
+					}.bind(this));
+				},
+			this);
+		}";
+
+		JHTMLBehavior::tooltip($selector, $params);
+
+		// Set static array
+		$snapshots[$sig] = true;
+		return;
+	}
+
 	function modal($selector='a.modal', $params = array())
 	{
 		static $modals;

@@ -3,7 +3,7 @@
 <?php
 	$user = & JFactory :: getUser();
 
-	JHTML::_('behavior.tooltip');
+	JHTML::_('behavior.imagetooltip', 206, 145);
 ?>
 
 <form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="adminForm">
@@ -60,6 +60,7 @@ for ($i = 0, $n = count($this->rows); $i < $n; $i++) {
 	$row = & $this->rows[$i];
 
 	$author_info = @ $row->authorEmail . '<br />' . @ $row->authorUrl;
+	$img_path = ($this->client->id == 1 ? JURI::root().'administrator' : $mainframe->getSiteURL() ).'/templates/'.$row->directory.'/template_thumbnail.png';
 ?>
 		<tr class="<?php echo 'row'. $k; ?>">
 			<td>
@@ -78,10 +79,10 @@ for ($i = 0, $n = count($this->rows); $i < $n; $i++) {
 			}
 			?>
 			</td>
-			<td><?php $img_path = ($this->client->id == 1 ? JURI::root().'administrator' : $mainframe->getSiteURL() ).'/templates/'.$row->directory.'/template_thumbnail.png'; ?>
-				<span class="editlinktip hasTip" title="<?php echo $row->name;?>::
-					<img border=&quot;1&quot; src=&quot;<?php echo $img_path; ?>&quot; name=&quot;imagelib&quot; alt=&quot;<?php echo JText::_( 'No preview available' ); ?>&quot; width=&quot;206&quot; height=&quot;145&quot; />"><a href="index.php?option=com_templates&amp;task=edit&amp;cid[]=<?php echo $row->directory;?>&amp;client=<?php echo $this->client->id;?>">
-					<?php echo $row->name;?></a></span>
+			<td>
+				<span id="<?php echo $img_path; ?>" class="hasSnapshot" title="<?php echo $row->name;?>::">
+					<a href="<?php echo JRoute::_('index.php?option=com_templates&task=edit&cid[]=' . $row->directory . '&client=' . $this->client->id); ?>"><?php echo $row->name;?></a>
+				</span>
 			</td>
 			<?php
 			if ($this->client->id == 1) {
