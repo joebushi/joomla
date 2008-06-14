@@ -25,7 +25,7 @@ $cparams =& JComponentHelper::getParams('com_media');
 	<?php foreach ($this->categories as $category) : ?>
 		<?php if (!$this->params->get('show_empty_categories') && !$category->numitems) continue; ?>
 		<li>
-			<a href="<?php echo $category->link; ?>" class="category">
+			<a href="<?php echo JRoute::_($category->link); ?>" class="category">
 				<?php echo $category->title;?></a>
 			<?php if ($this->params->get('show_cat_num_articles')) : ?>
 			&nbsp;

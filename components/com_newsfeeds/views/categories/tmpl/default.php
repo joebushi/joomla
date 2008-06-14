@@ -21,7 +21,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <ul>
 <?php foreach ( $this->categories as $category ) : ?>
 	<li>
-		<a href="<?php echo $category->link ?>" class="category<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+		<a href="<?php echo JRoute::_($category->link); ?>" class="category<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 			<?php echo $category->title;?></a>
 		<?php if ( $this->params->get( 'show_cat_items' ) ) : ?>
 		&nbsp;

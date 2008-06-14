@@ -35,7 +35,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<?php echo $item->count + 1; ?>
 	</td>
 	<td height="20" width="90%">
-		<a href="<?php echo $item->link; ?>" class="category<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+		<a href="<?php echo JRoute::_($item->link); ?>" class="category<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 			<?php echo $item->name; ?></a>
 	</td>
 	<?php if ( $this->params->get( 'show_articles' ) ) : ?>

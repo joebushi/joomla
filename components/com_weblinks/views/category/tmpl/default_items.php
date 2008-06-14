@@ -77,7 +77,7 @@
 	<?php endif; ?>
 	<?php if ($this->params->get( 'show_report' )): ?>
 	<td align="center">
-		<a href="<?php echo $item->report_link; ?>"><?php echo JHTML::_('image.site', 'report', null, null, null, JText::_('Report this link')); ?></a>
+		<a href="<?php echo JRoute::_($item->report_link); ?>"><?php echo JHTML::_('image.site', 'report', null, null, null, JText::_('Report this link')); ?></a>
 	</td>
 	<?php endif; ?>
 </tr>

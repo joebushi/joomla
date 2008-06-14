@@ -72,7 +72,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<?php if ($this->params->get('show_title')) : ?>
 	<?php if ($item->access <= $this->user->get('aid', 0)) : ?>
 	<td>
-		<a href="<?php echo $item->link; ?>">
+		<a href="<?php echo JRoute::_($item->link); ?>">
 			<?php echo $item->title; ?></a>
 			<?php $this->item = $item; echo JHTML::_('icon.edit', $item, $this->params, $this->access) ?>
 	</td>
