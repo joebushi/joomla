@@ -46,7 +46,7 @@ class JHTMLList
 	/**
 	* Build the select list to choose an image
 	*/
-	function images( $name, $active = NULL, $javascript = NULL, $directory = NULL )
+	function images( $name, $active = NULL, $javascript = NULL, $directory = NULL, $extensions =  "bmp|gif|jpg|png" )
 	{
 		if ( !$directory ) {
 			$directory = '/images/stories/';
@@ -60,7 +60,7 @@ class JHTMLList
 		$imageFiles = JFolder::files( JPATH_SITE.DS.$directory );
 		$images 	= array(  JHTML::_('select.option',  '', '- '. JText::_( 'Select Image' ) .' -' ) );
 		foreach ( $imageFiles as $file ) {
-			if ( eregi( "bmp|gif|jpg|png", $file ) ) {
+		   if ( eregi( $extensions, $file ) ) {
 				$images[] = JHTML::_('select.option',  $file );
 			}
 		}

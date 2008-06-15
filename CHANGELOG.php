@@ -38,6 +38,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-June-2008 Wilco Jansen
+ # [9991] Inconsistent use of nameQuote()
+ # [11426] Banners component not able to handle flash banners
+
 
 8-June-2008 Ian MacLennan
  # [10363] E_NOLOGIN_BLOCKED visible in error/warning
