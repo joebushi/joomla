@@ -190,10 +190,10 @@ class JInstallerPackage extends JObject
 			/*
 			 * Check for a valid XML root tag.
 			 * @todo: Remove backwards compatability in a future version
-			 * Should be 'install', but for backward compatability we will accept 'mosinstall'.
+			 * Should be 'extension', but for backward compatability we will accept 'install'.
 			 */
 			$root =& $xml->document;
-			if ($root->name() != 'install' && $root->name() != 'mosinstall') {
+			if ($root->name() != 'install' && $root->name() != 'extension') {
 				JError::raiseWarning(100, JText::_('Package').' '.JText::_('Uninstall').': '.JText::_('Invalid manifest file'));
 				return false;
 			}

@@ -180,7 +180,7 @@ class JInstallerLibrary extends JObject
 		{
 			$manifest = new JLibraryManifest($manifestFile);
 			// Set the plugin root path
-			$this->parent->setPath('extension_root', JPATH_ROOT.DS.'libraries'.DS.$manifest->libraryname);
+			$this->parent->setPath('extension_root', JPATH_ROOT.DS.'libraries'.DS.$manifest->name);
 			
 			$xml =& JFactory::getXMLParser('Simple');
 
@@ -193,10 +193,10 @@ class JInstallerLibrary extends JObject
 			/*
 			 * Check for a valid XML root tag.
 			 * @todo: Remove backwards compatability in a future version
-			 * Should be 'install', but for backward compatability we will accept 'mosinstall'.
+			 * Should be 'extension', but for backward compatability we will accept 'install'.
 			 */
 			$root =& $xml->document;
-			if ($root->name() != 'install' && $root->name() != 'mosinstall') {
+			if ($root->name() != 'install' && $root->name() != 'extension') {
 				JError::raiseWarning(100, JText::_('Library').' '.JText::_('Uninstall').': '.JText::_('Invalid manifest file'));
 				return false;
 			}
