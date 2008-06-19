@@ -55,18 +55,13 @@ class JCacheStorageFile extends JCacheStorage
 		$data = false;
 
 		$path = $this->_getFilePath($id, $group);
-		clearstatcache();
-		if (is_file($path)) {
-			if ($checkTime) {
-				if (@ filemtime($path) > $this->_threshold) {
-					$data = file_get_contents($path);
-				}
-			} else {
-				$data = file_get_contents($path);
+		$this->_setExpire($id, $group);
+		if (file_exists($path)) {
+			$data = file_get_contents($path);
+			if($data) {		
+				// Remove the initial die() statement
+				$data	= preg_replace('/^.*\n/', '', $data);
 			}
-			
-			// Remove the initial die() statement
-			$data	= preg_replace('/^.*\n/', '', $data);
 		}
 		
 		return $data;
@@ -86,6 +81,7 @@ class JCacheStorageFile extends JCacheStorage
 	{
 		$written	= false;
 		$path		= $this->_getFilePath($id, $group);
+		$expirePath	= $path . '_expire';
 		$die		= '<?php die("Access Denied"); ?>'."\n";
 		
 		// Prepend a die string
@@ -107,6 +103,7 @@ class JCacheStorageFile extends JCacheStorage
 		}
 		// Data integrity check
 		if ($written && ($data == file_get_contents($path))) {
+			@file_put_contents($expirePath, ($this->_now + $this->_lifetime));
 			return true;
 		} else {
 			return false;
@@ -125,6 +122,7 @@ class JCacheStorageFile extends JCacheStorage
 	function remove($id, $group)
 	{
 		$path = $this->_getFilePath($id, $group);
+		@unlink($path.'_expire');
 		if (!@unlink($path)) {
 			return false;
 		}
@@ -185,13 +183,12 @@ class JCacheStorageFile extends JCacheStorage
 	{
 		$result = true;
 		// files older than lifeTime get deleted from cache
-		if (!is_null($this->_lifeTime)) {
-			$files = JFolder::files($this->_root, '.', true, true);
-			for ($i=0,$n=count($files);$i<$n;$i++)
-			{
-				if (@ filemtime($files[$i]) < $this->_threshold) {
-					$result |= JFile::delete($files[$i]);
-				}
+		$files = JFolder::files($this->_root, '_expire', true, true);
+		foreach($files As $file) {
+			$time = @file_get_contents($file);
+			if ($time > $this->_now) {
+				$result |= JFile::delete($file);
+				$result |= JFile::delete(str_replace('_expire', '', $file));
 			}
 		}
 		return $result;
@@ -209,6 +206,30 @@ class JCacheStorageFile extends JCacheStorage
 		$config	=& JFactory::getConfig();
 		$root	= $config->getValue('config.cache_path', JPATH_ROOT.DS.'cache');
 		return is_writable($root);
+	}
+
+	/**
+	 * Check to make sure cache is still valid, if not, delete it.
+	 *
+	 * @access private
+	 *
+	 * @param string  $id   Cache key to expire.
+	 * @param string  $group The cache data group.
+	 */
+	function _setExpire($id, $group)
+	{
+		$path = $this->_getFilePath($id, $group);
+
+		// set prune period
+		if(file_exists($path.'_expire')) {
+			$time = @file_get_contents($path.'_expire');
+			if ($time < $this->_now || empty($time)) {
+				$this->remove($id, $group);
+			}
+		} elseif(file_exists($path)) {
+			//This means that for some reason there's no expire file, remove it
+			$this->remove($id, $group);
+		}
 	}
 
 	/**
