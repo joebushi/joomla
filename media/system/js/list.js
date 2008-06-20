@@ -10,7 +10,7 @@
  */
 
 /**
- * List Behavior
+ * Joomla! JavaScript List Class
  * 
  * @author		Rob Schley <rob.schley@community.joomla.org>
  * @package		Joomla!
@@ -23,21 +23,26 @@ var JList = new Class
 	
 	// The configuration options object.
 	options: {
-		
+		toggler:	'cid[]'
 	},
 	
 	// Class constructor.
 	initialize: function(form, options)
 	{
+		// Merge in the optional options.
+		this.setOptions(options);
+		
+		// Prepare the class state.
 		this.form	= form;
+		this.list	= form.getElement('table');
 		this.items	= new Array();
 		
 		// Get the child item elements.
-		items = form.getElements('tr.item');
+		items = this.list.getElements('tr');
 		
 		// Load the button elements.
 		for (i=0; i < items.length; i++) {
-			this.addItem(new JListItem(items[i], this));
+			this.addItem(new JListItem(items[i], this, this.options.toggler));
 		}
 	},
 	
@@ -72,7 +77,7 @@ var JList = new Class
 
 
 /**
- * List Item Behavior
+ * Joomla! JavaScript List Item Class
  * 
  * @author		Rob Schley <rob.schley@community.joomla.org>
  * @package		Joomla!
@@ -82,13 +87,34 @@ var JList = new Class
 var JListItem = new Class
 ({
 	// Class constructor.
-	initialize: function(item, form)
+	initialize: function(item, list, toggler)
 	{
 		this.item		= item;
-		this.form		= form;
-		this.selector	= null
+		this.form		= list.form;
+		this.list		= list;
+		
+		this.selector	= item.getElement('input[name^='+toggler.replace(/\[\]$/, '')+']'); 
 		
 		// Store the object data inside the element.
 		this.item.store('item', this);
+		
+		this.selector.addEvent('change', function()
+		{
+			var row		= this.getParent('tr');
+			var item	= row.retrieve('item');
+			var form	= item.form;
+			
+			if (this.get('checked')) {
+				form.fireEvent('listItemSelect', { listItem: item });
+			} else {
+				form.fireEvent('listItemDeselect', { listItem: item });
+			}
+			
+		});
 	}
+});
+
+window.addEvent('domready', function()
+{
+	var list = document.retrieve('list', new JList($('blah')));	
 });

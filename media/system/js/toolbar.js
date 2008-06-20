@@ -10,7 +10,7 @@
  */
 
 /**
- * Toolbar Behavior
+ * Joomla! JavaScript Toolbar Class
  * 
  * @author		Rob Schley <rob.schley@community.joomla.org>
  * @package		Joomla!
@@ -33,13 +33,42 @@ var JToolbar = new Class
 		this.setOptions(options);
 	
 		// Prepare the class state.
-		this.bar		= bar;
+		this.element	= bar;
 		this.form		= form;
 		this.buttons	= new Hash();
 		this.tasks		= new Hash();
+		this.selected	= 0;
+		
+		form.store('toolbar', this);
+		
+		form.addEvent('listItemSelect', function(params) {
+			var bar		= this.retrieve('toolbar');
+			bar.selected += 1;
+			
+			bar.getButtons().each(function(button) {
+				if (button.list) {
+					button.disabled = false;
+					button.element.getParent().removeClass('disabled');
+				}
+			});
+		});
+		
+		form.addEvent('listItemDeselect', function() {
+			var bar = this.retrieve('toolbar');
+			bar.selected -= 1;
+			
+			if (bar.selected == 0) {
+				bar.getButtons().each(function(button) {
+					if (button.list) {
+						button.disabled = true;
+						button.element.getParent().addClass('disabled');
+					}
+				});
+			}
+		});
 		
 		// Get the child button elements.
-		elements = bar.getElements('td.button');
+		elements = this.element.getElements('td.button');
 		
 		// Load the button elements.
 		for (i=0; i < elements.length; i++) {
@@ -153,7 +182,7 @@ var JToolbar = new Class
 });
 
 /**
- * Toolbar Button Behavior
+ * Joomla! JavaScript  Button Class
  * 
  * @author		Rob Schley <rob.schley@community.joomla.org>
  * @package		Joomla!
@@ -182,7 +211,7 @@ var JToolbarButton = new Class
 			var button	= this.retrieve('button');
 			var bar		= button.bar;
 			var task	= button.task;
-			
+	
 			if (!button.disabled) {
 				bar.doTask(task);
 			}
@@ -227,6 +256,9 @@ window.addEvent('domready', function()
 	// Define the default unarchive task.
 	toolbar.defTask('unarchive', function(task, params)
 	{
+		console.log(task);
+		return true;
+		
 		var form = toolbar.getForm();
 		form.fireEvent('submit');
 		form.submit();
