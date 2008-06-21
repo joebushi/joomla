@@ -49,7 +49,6 @@ $ -> Language fix or change
  # [10944] josSpoofCheck not passing $alternate to josSpoofValue correctly
  # [11444] [Patch] "What is OpenID?" not displayed
  # [11516] Typo in en-GB.mod_mainmenu.ini
-
  ! Patches provided during the second Pizza Bug and Fun event
 
 19-June-2008 Wilco Jansen
