@@ -46,6 +46,7 @@ $ -> Language fix or change
  # [10532] Filter issues in installation and missing or invalid language strings
  # [10877] Error: time connection remains a UTC
  # [10944] josSpoofCheck not passing $alternate to josSpoofValue correctly
+ # [11444] [Patch] "What is OpenID?" not displayed
  # [11516] Typo in en-GB.mod_mainmenu.ini
 
  ! Patches provided during the second Pizza Bug and Fun event
