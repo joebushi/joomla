@@ -43,6 +43,7 @@ $ -> Language fix or change
  # [9901] Patch - com_weblinks Categories view revised tmpl/default.php
  # [10291] Empty URL Parameters
  # [10273] HTML entities in changelog break help display in back-end
+ # [10280] New Time Zone in Venezuela
  # [10380] Category description textarea not HTML-quoted
  # [10532] Filter issues in installation and missing or invalid language strings
  # [10877] Error: time connection remains a UTC
