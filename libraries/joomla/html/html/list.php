@@ -210,12 +210,16 @@ class JHTMLList
 	/**
 	* Select list of active sections
 	*/
-	function section( $name, $active = NULL, $javascript = NULL, $order = 'ordering' )
+	function section( $name, $active = NULL, $javascript = NULL, $order = 'ordering', $uncategorized = true )
 	{
 		$db =& JFactory::getDBO();
 
 		$categories[] = JHTML::_('select.option',  '-1', '- '. JText::_( 'Select Section' ) .' -' );
-		$categories[] = JHTML::_('select.option',  '0', JText::_( 'Uncategorized' ) );
+		
+		if ($uncategorized) {
+			$categories[] = JHTML::_('select.option',  '0', JText::_( 'Uncategorized' ) );
+		}
+		
 		$query = 'SELECT id AS value, title AS text'
 		. ' FROM #__sections'
 		. ' WHERE published = 1'

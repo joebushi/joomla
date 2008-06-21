@@ -39,6 +39,18 @@ $ -> Language fix or change
 ! -> Note
 
 19-June-2008 Wilco Jansen
+ # [9729] Category Manager - Uncategorized
+ # [9901] Patch - com_weblinks Categories view revised tmpl/default.php
+ # [10291] Empty URL Parameters
+ # [10380] Category description textarea not HTML-quoted
+ # [10532] Filter issues in installation and missing or invalid language strings
+ # [10877] Error: time connection remains a UTC
+ # [10944] josSpoofCheck not passing $alternate to josSpoofValue correctly
+ # [11516] Typo in en-GB.mod_mainmenu.ini
+
+ ! Patches provided during the second Pizza Bug and Fun event
+
+19-June-2008 Wilco Jansen
  # [11225] Expired cache files lead to component not found error message
  ! Patch provided by Anthony. Also unit tests have been created for the caching layer...yay!
 
