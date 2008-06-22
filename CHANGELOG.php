@@ -47,6 +47,7 @@ $ -> Language fix or change
  # [10380] Category description textarea not HTML-quoted
  # [10532] Filter issues in installation and missing or invalid language strings
  # [10877] Error: time connection remains a UTC
+ # [10881] "Article order" missing in language file
  # [10944] josSpoofCheck not passing $alternate to josSpoofValue correctly
  # [11326] "validName" popup when omitting user name, password or database name in setup wizard
  # [11444] [Patch] "What is OpenID?" not displayed
