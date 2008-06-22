@@ -51,6 +51,7 @@ $ -> Language fix or change
  # [10944] josSpoofCheck not passing $alternate to josSpoofValue correctly
  # [11326] "validName" popup when omitting user name, password or database name in setup wizard
  # [11444] [Patch] "What is OpenID?" not displayed
+ # [11487] Unable to insert image directly after upload without flash uploader
  # [11516] Typo in en-GB.mod_mainmenu.ini
  ! Patches provided during the second Pizza Bug and Fun event
 
