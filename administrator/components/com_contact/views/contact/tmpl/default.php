@@ -103,7 +103,7 @@
 			</td>
 		</tr>
 		<?php
-		if ($row->id) {
+		if ($this->contact->id) {
 			?>
 			<tr>
 				<td class="key">
@@ -112,7 +112,7 @@
 					</label>
 				</td>
 				<td>
-					<strong><?php echo $row->id;?></strong>
+					<strong><?php echo $this->contact->id;?></strong>
 				</td>
 			</tr>
 			<?php
