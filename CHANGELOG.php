@@ -37,6 +37,11 @@ $ -> Language fix or change
 ^ -> Change
 - -> Removed
 ! -> Note
+ 
+25-Jun-2008 Johan Janssens
+ - Removed libraries/bitfolge/vcard
+ + Added JDocumentVCARD format
+ + Implemented new Vcard format in contact component
 
 09-Jun-2008 Johan Janssens
  - Removed backlink system plugin
