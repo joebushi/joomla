@@ -38,6 +38,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+
+25-June-2008 Sam Moffatt
+ # [11079] Joomla! LDAP Library doesn't support altering details in LDAP
+
 19/20-June-2008 Wilco Jansen
  # [9729] Category Manager - Uncategorized
  # [9901] Patch - com_weblinks Categories view revised tmpl/default.php
