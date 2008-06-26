@@ -390,6 +390,11 @@ class ConfigControllerApplication extends ConfigController
 		$oldconfig->setValue('config.ftp_root', $config_array['ftp_root']);
 		JClientHelper::getCredentials('ftp', true);
 
+		if(!$config->get('caching') && $oldconfig->get('caching')) {
+			$cache = JFactory::getCache();
+			$cache->clean();
+		}
+
 		// Try to make configuration.php writeable
 		jimport('joomla.filesystem.path');
 		if (!$ftp['enabled'] && JPath::isOwner($fname) && !JPath::setPermissions($fname, '0644')) {

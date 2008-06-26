@@ -188,7 +188,8 @@ class JUser extends JObject
 			jimport('joomla.user.helper');
 			if (!$id = JUserHelper::getUserId($id)) {
 				JError::raiseWarning( 'SOME_ERROR_CODE', 'JUser::_load: User '.$id.' does not exist' );
-				return false;
+				$retval = false;
+				return $retval;
 			}
 		}
 

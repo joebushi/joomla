@@ -38,6 +38,14 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+26-June-2008 Wilco Jansen
+ # [11190] Unable to delete files with illegal characters
+ # [11571] Old cache file can't be deleted when cache is turned off
+ # [11580] Missing translation for timezone Venezuela
+ # [11463] Dates for votes on poll is not gmt
+ # [11598] JFactory::getUser() error when specifying user who doesn't exist
+ # [11470] registered content doesn't show up in a public view when show unauthorized links is set to true in a section view
+ # [11584] Sort "add module" list in alpha order by column; fix HTML
 
 25-June-2008 Sam Moffatt
  # [11079] Joomla! LDAP Library doesn't support altering details in LDAP

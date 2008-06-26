@@ -482,7 +482,11 @@ class ContentModelSection extends JModel
 		$nullDate	= $this->_db->getNullDate();
 
 		// First thing we need to do is assert that the articles are in the current category
-		$where = ' WHERE a.access <= '.(int) $aid;
+		if ($noauth) {
+			$where = ' WHERE a.access <= '.(int) $aid;
+		} else {
+			$where = ' WHERE 1';
+		}
 		if ($this->_id) {
 			$where .= ' AND s.id = '.(int)$this->_id;
 		}

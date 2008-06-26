@@ -50,7 +50,9 @@ class PollModelPoll extends JModel
 		$db->query();
 
 		$query = 'INSERT INTO #__poll_date'
-			. ' SET date = NOW(), vote_id = '. (int) $option_id . ', poll_id = ' . (int) $poll_id
+			. ' SET date = ' . $db->Quote(gmdate('Y-m-d H:i:s'))
+			. ', vote_id = ' . (int) $option_id
+			. ', poll_id = ' . (int) $poll_id
 		;
 		$db->setQuery( $query );
 		$db->query();
