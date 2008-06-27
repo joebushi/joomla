@@ -40,6 +40,7 @@ $ -> Language fix or change
 
 27-June-2008 Andrew Eddie
  ^ [11601] Improvement to System Debug plugin
+ # [10842] [patch] mod_latest doesn't use JHTML::_('date')
 
 26-June-2008 Wilco Jansen
  # [11190] Unable to delete files with illegal characters
