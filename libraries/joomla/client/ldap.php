@@ -217,18 +217,18 @@ class JLDAP extends JObject
 
 		foreach ($filters as $search_filter)
 		{
-			$search_result = ldap_search($resource, $dn, $search_filter);
+			$search_result = @ldap_search($resource, $dn, $search_filter);
 			if ($search_result && ($count = @ldap_count_entries($resource, $search_result)) > 0)
 			{
 				for ($i = 0; $i < $count; $i++)
 				{
 					$attributes[$i] = Array ();
 					if (!$i) {
-						$firstentry = ldap_first_entry($resource, $search_result);
+						$firstentry = @ldap_first_entry($resource, $search_result);
 					} else {
-						$firstentry = ldap_next_entry($resource, $firstentry);
+						$firstentry = @ldap_next_entry($resource, $firstentry);
 					}
-					$attributes_array = ldap_get_attributes($resource, $firstentry); // load user-specified attributes
+					$attributes_array = @ldap_get_attributes($resource, $firstentry); // load user-specified attributes
 					// ldap returns an array of arrays, fit this into attributes result array
 					foreach ($attributes_array as $ki => $ai)
 					{
@@ -241,7 +241,7 @@ class JLDAP extends JObject
 							}
 						}
 					}
-					$attributes[$i]['dn'] = ldap_get_dn($resource, $firstentry);
+					$attributes[$i]['dn'] = @ldap_get_dn($resource, $firstentry);
 				}
 			}
 		}
@@ -257,7 +257,7 @@ class JLDAP extends JObject
 	 */
 
 	function replace($dn, $attribute) {
-		return ldap_mod_replace($this->_resource, $dn, $attribute);
+		return @ldap_mod_replace($this->_resource, $dn, $attribute);
 	}
 
 
@@ -269,7 +269,7 @@ class JLDAP extends JObject
 	 * @return mixed result of comparison (true, false, -1 on error)
 	 */
 	function modify($dn, $attribute) {
-		return ldap_modify($this->_resource, $dn, $attribute);
+		return @ldap_modify($this->_resource, $dn, $attribute);
 	}
 
 	/**
@@ -282,7 +282,7 @@ class JLDAP extends JObject
 	function remove($dn, $attribute)
 	{
 		$resource = $this->_resource;
-		return ldap_mod_del($resource, $dn, $attribute);
+		return @ldap_mod_del($resource, $dn, $attribute);
 	}
 
 	/**
@@ -295,7 +295,7 @@ class JLDAP extends JObject
 	 * @access public
 	 */
 	function compare($dn, $attribute, $value) {
-		return ldap_compare($this->_resource, $dn, $attribute, $value);
+		return @ldap_compare($this->_resource, $dn, $attribute, $value);
 	}
 
 	/**
@@ -310,11 +310,11 @@ class JLDAP extends JObject
 	{
 		$base = substr($dn,strpos($dn,',')+1);
 		$cn = substr($dn,0,strpos($dn,','));
-		$result = ldap_read($this->_resource, $base, $cn);
+		$result = @ldap_read($this->_resource, $base, $cn);
 
 		if ($result) {
 			// TODO: instead of just returning array of attributes, convert to object before returning
-			return ldap_get_entries($this->_resource, $result);
+			return @ldap_get_entries($this->_resource, $result);
 		} else {
 			return $result;
 		}
@@ -328,7 +328,7 @@ class JLDAP extends JObject
 	 * @access public
 	 */
 	function delete($dn) {
-		return ldap_delete($this->_resource, $dn);	
+		return @ldap_delete($this->_resource, $dn);	
 	}
 	
 	/**
@@ -339,7 +339,7 @@ class JLDAP extends JObject
 	 * @return bool result of operation 
 	 */
 	function create($dn, $entries) {
-		return ldap_add($this->_resource, $dn, $entries);
+		return @ldap_add($this->_resource, $dn, $entries);
 	}
 	
 	/**
@@ -351,7 +351,7 @@ class JLDAP extends JObject
 	 * @return bool Result of operation
 	 */
 	function add($dn, $entry) {
-		return ldap_mod_add($this->_resource, $dn, $entry);
+		return @ldap_mod_add($this->_resource, $dn, $entry);
 	}
 	
 	/**
@@ -364,7 +364,7 @@ class JLDAP extends JObject
 	 * @return bool Result of operation
 	 */
 	function rename($dn, $newdn, $newparent, $deleteolddn) {
-		return ldap_rename($this->_resource, $dn, $newdn, $newparent, $deleteolddn);	
+		return @ldap_rename($this->_resource, $dn, $newdn, $newparent, $deleteolddn);	
 	}
 	
 	/**
@@ -373,7 +373,7 @@ class JLDAP extends JObject
 	 * @return string error message
 	 */
 	function getErrorMsg() {
-		return ldap_error($this->_resource);	
+		return @ldap_error($this->_resource);	
 	}
 	  
 	/**
