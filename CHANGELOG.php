@@ -38,6 +38,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-June 2008 Wilco jansen
+ # [11407] error of time display module pool
+ ! Patches provided during the second Pizza Bug and Fun event (28/29 june)
+
 27-June-2008 Andrew Eddie
  ^ [11601] Improvement to System Debug plugin
  # [10842] [patch] mod_latest doesn't use JHTML::_('date')
