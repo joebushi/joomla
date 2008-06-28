@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-June 2008 Anthony Ferrara
+ # [#11583] Updated help screen key refs from doc team  (Thanks Chris Davenport)
+
 28-June 2008 Wilco jansen
  # [9027] Search system use keyword "Search..." if the inputbox empty
  # [11407] error of time display module pool
