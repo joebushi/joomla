@@ -42,6 +42,7 @@ $ -> Language fix or change
  # [9027] Search system use keyword "Search..." if the inputbox empty
  # [11407] error of time display module pool
  # [11464] Contact router broken on SEF and no Itemid
+ # [11562] Help screen key reference for Category Manager needs to be variable
  ! Patches provided during the second Pizza Bug and Fun event (28/29 june)
 
 27-June-2008 Andrew Eddie
