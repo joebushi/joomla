@@ -39,6 +39,7 @@ $ -> Language fix or change
 ! -> Note
 
 28-June 2008 Wilco jansen
+ # [9027] Search system use keyword "Search..." if the inputbox empty
  # [11407] error of time display module pool
  ! Patches provided during the second Pizza Bug and Fun event (28/29 june)
 
