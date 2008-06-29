@@ -268,10 +268,8 @@ class UserController extends JController
 		} else {
 			$message = JText::_( 'REG_COMPLETE' );
 		}
-
-		//TODO :: this needs to be replace by raiseMessage
-		JError::raiseNotice('', $message);
-		$this->register();
+		
+		$this->setRedirect('index.php', $message);
 	}
 
 	function activate()
