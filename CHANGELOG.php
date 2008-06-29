@@ -42,8 +42,9 @@ $ -> Language fix or change
  # [#11583] Updated help screen key refs from doc team  (Thanks Chris Davenport)
  ! Patches provided during the second Pizza Bug and Fun event (28/29 june)
 
-28-June 2008 Wilco jansen
+28/29-June 2008 Wilco jansen
  # [9027] Search system use keyword "Search..." if the inputbox empty
+ # [10166] Untranslated String in Calendar tool
  # [11407] error of time display module pool
  # [11464] Contact router broken on SEF and no Itemid
  # [11562] Help screen key reference for Category Manager needs to be variable
