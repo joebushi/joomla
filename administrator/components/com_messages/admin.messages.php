@@ -47,14 +47,6 @@ switch ($task)
 		removeMessage( $cid, $option );
 		break;
 
-	case 'config':
-		editConfig( $option );
-		break;
-
-	case 'saveconfig':
-		saveConfig( $option );
-		break;
-
 	default:
 		showMessages( $option );
 		break;
@@ -129,67 +121,6 @@ function showMessages( $option )
 	$lists['search']= $search;
 
 	HTML_messages::showMessages( $rows, $pageNav, $option, $lists );
-}
-
-function editConfig( $option )
-{
-	$db		=& JFactory::getDBO();
-	$user	=& JFactory::getUser();
-
-	$query = 'SELECT cfg_name, cfg_value'
-	. ' FROM #__messages_cfg'
-	. ' WHERE user_id = '.(int) $user->get('id')
-	;
-	$db->setQuery( $query );
-	$data = $db->loadObjectList( 'cfg_name' );
-
-	// initialize values if they do not exist
-	if (!isset($data['lock']->cfg_value)) {
-		$data['lock']->cfg_value 		= 0;
-	}
-	if (!isset($data['mail_on_new']->cfg_value)) {
-		$data['mail_on_new']->cfg_value = 0;
-	}
-	if (!isset($data['auto_purge']->cfg_value)) {
-		$data['auto_purge']->cfg_value 	= 7;
-	}
-
-	$vars 					= array();
-	$vars['lock'] 			= JHTML::_('select.booleanlist',  "vars[lock]", '', $data['lock']->cfg_value, 'yes', 'no', 'varslock' );
-	$vars['mail_on_new'] 	= JHTML::_('select.booleanlist',  "vars[mail_on_new]", '', $data['mail_on_new']->cfg_value, 'yes', 'no', 'varsmail_on_new' );
-	$vars['auto_purge'] 	= $data['auto_purge']->cfg_value;
-
-	HTML_messages::editConfig( $vars, $option );
-
-}
-
-function saveConfig( $option )
-{
-	global $mainframe;
-
-	// Check for request forgeries
-	JRequest::checkToken() or jexit( 'Invalid Token' );
-
-	$db		=& JFactory::getDBO();
-	$user	=& JFactory::getUser();
-
-	$query = 'DELETE FROM #__messages_cfg'
-	. ' WHERE user_id = '.(int) $user->get('id')
-	;
-	$db->setQuery( $query );
-	$db->query();
-
-	$vars = JRequest::getVar( 'vars', array(), 'post', 'array' );
-	foreach ($vars as $k=>$v) {
-		$v = $db->getEscaped( $v );
-		$query = 'INSERT INTO #__messages_cfg'
-		. ' ( user_id, cfg_name, cfg_value )'
-		. ' VALUES ( '.(int) $user->get('id').', '.$db->Quote($k).', '.$db->Quote($v).' )'
-		;
-		$db->setQuery( $query );
-		$db->query();
-	}
-	$mainframe->redirect( "index.php?option=$option" );
 }
 
 function newMessage( $option, $user, $subject )
