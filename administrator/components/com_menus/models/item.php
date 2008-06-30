@@ -173,27 +173,37 @@ class MenusModelItem extends JModel
 				$params->setXML($sp);
 			}
 		}
-		return $params;
-	}
 
-	function &getAdvancedParams()
-	{
-		// Get the state parameters
-		$item	=& $this->getItem();
-		$params	= new JParameter($item->params);
-
-		if ($state =& $this->_getStateXML())
-		{
-			if (is_a($state, 'JSimpleXMLElement'))
-			{
-				$ap =& $state->getElementByPath('advanced');
-				$params->setXML($ap);
+		if($item->type == 'component' && isset($item->linkparts['view'])) {
+			if(isset($item->linkparts['layout'])) {
+				$layout = $item->linkparts['layout'];
+			} else {
+				$layout = 'default';
 			}
+			$params->loadSetupDirectory(JPATH_ROOT.DS.'components'.DS.$item->linkparts['option'].DS.'views'.DS.$item->linkparts['view'].DS.'params', $layout.'_(.*)\.xml');
+			$params->loadSetupDirectory(JPATH_ADMINISTRATOR.DS.'components'.DS.$item->linkparts['option'].DS.'params');
 		}
-		return $params;
-	}
 
-	function &getComponentParams()
+ 		return $params;
+ 	}
+ 
+ 	function &getAdvancedParams()
+ 	{
+ 		// Get the state parameters
+ 		if ($state =& $this->_getStateXML())
+ 		{
+ 			if (is_a($state, 'JSimpleXMLElement'))
+ 			{
+ 				$ap =& $state->getElementByPath('advanced');
+				if($ap) {
+					$ap->addAttribute('group', 'advanced');
+				}
+ 			}
+ 		}
+		return $ap;
+ 	}
+ 
+ 	function &getComponentParams()
 	{
 		// Initialize variables
 		$params	= null;
@@ -251,25 +261,23 @@ class MenusModelItem extends JModel
 		return $params;
 	}
 
-	function &getSystemParams()
-	{
-		// Initialize variables
-		$params	= null;
-		$item	= &$this->getItem();
-
-		$params = new JParameter( $item->params );
-		if ($item->type == 'component') {
-			$path = JPATH_BASE.DS.'components'.DS.'com_menus'.DS.'models'.DS.'metadata'.DS.'component.xml';
-			if (file_exists( $path )) {
-				$xml =& JFactory::getXMLParser('Simple');
-				if ($xml->loadFile($path)) {
-					$document =& $xml->document;
-					$params->setXML($document->getElementByPath('state/params'));
-				}
-			}
-		}
-		return $params;
-	}
+ 	function &getSystemParams()
+ 	{
+ 		if ($item->type == 'component') {
+ 			$path = JPATH_BASE.DS.'components'.DS.'com_menus'.DS.'models'.DS.'metadata'.DS.'component.xml';
+ 			if (file_exists( $path )) {
+ 				$xml =& JFactory::getXMLParser('Simple');
+ 				if ($xml->loadFile($path)) {
+ 					$document =& $xml->document;
+					$system = $document->getElementByPath('state/params');
+					if($system) {
+						$system->addAttribute('group','state');
+					}
+ 				}
+ 			}
+ 		}
+		return $system;
+ 	}
 
 	/**
 	 * Get the name of the current menu item
@@ -565,10 +573,9 @@ class MenusModelItem extends JModel
 	{
 		static $xml;
 
-		if (isset($xml)) {
+		if ($xml) {
 			return $xml;
 		}
-		$xml = null;
 		$xmlpath = null;
 		$item 	= &$this->getItem();
 
@@ -614,7 +621,6 @@ class MenusModelItem extends JModel
 		{
 			$xml =& JFactory::getXMLParser('Simple');
 			if ($xml->loadFile($xmlpath)) {
-				$this->_xml = &$xml;
 				$document =& $xml->document;
 
 				/*
