@@ -586,7 +586,7 @@ class HTML_modules
 				?>
 				<td width="<?php echo $pct; ?>%">
 					<span class="editlinktip hasTip" title="<?php
-						echo htmlentities(JText::_(stripslashes($item->name))
+						echo htmlspecialchars(JText::_(stripslashes($item->name), ENT_QUOTES, 'UTF-8')
 							. ' :: ' . JText::_(stripslashes($item->descrip)));
 					?>" name="module" value="<?php
 						echo $item->module;
@@ -595,7 +595,7 @@ class HTML_modules
 						echo $item->module;
 					?>" id="cb<?php echo $mod; ?>"/><a href="<?php
 						echo $link;
-					?>"><?php echo htmlentities(JText::_($item->name)); ?></a></span>
+					?>"><?php echo htmlspecialchars(JText::_($item->name), ENT_QUOTES, 'UTF-8'); ?></a></span>
 				</td>
 				<?php
 			endfor;

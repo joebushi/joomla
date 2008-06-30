@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-June-2008 Andrew Eddie
+ # [11637] Fix htmlentities in com_modules
+
 28-June 2008 Anthony Ferrara
  # [#11583] Updated help screen key refs from doc team  (Thanks Chris Davenport)
  ! Patches provided during the second Pizza Bug and Fun event (28/29 june)
