@@ -87,7 +87,7 @@
 					$lvisit	= $row->lastvisitDate; //= JHTML::_('date',  $row->lastvisitDate, JText::_('DATE_FORMAT_LC4'));
 				}
 			?>
-			<tr class="<?php echo "row$k"; ?>">
+			<tr class="<?php echo "row$k"; ?> item">
 				<td>
 					<?php echo $i+1+$this->pagination->limitstart;?>
 				</td>

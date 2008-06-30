@@ -42,13 +42,13 @@ var JToolbar = new Class
 		form.store('toolbar', this);
 		
 		form.addEvent('listItemSelect', function(params) {
-			var bar		= this.retrieve('toolbar');
+			var bar	= this.retrieve('toolbar');
 			bar.selected += 1;
-			
+			console.log(bar.selected);
 			bar.getButtons().each(function(button) {
 				if (button.list) {
 					button.disabled = false;
-					button.element.getParent().removeClass('disabled');
+					button.element.removeClass('disabled');
 				}
 			});
 		});
@@ -61,14 +61,14 @@ var JToolbar = new Class
 				bar.getButtons().each(function(button) {
 					if (button.list) {
 						button.disabled = true;
-						button.element.getParent().addClass('disabled');
+						button.element.addClass('disabled');
 					}
 				});
 			}
 		});
 		
 		// Get the child button elements.
-		elements = this.element.getElements('td.button');
+		elements = this.element.getElements('a.button');
 		
 		// Load the button elements.
 		for (i=0; i < elements.length; i++) {
@@ -133,7 +133,7 @@ var JToolbar = new Class
 	},
 	
 	// Method to execute a task.
-	doTask: function(task)
+	execute: function(behavior, task)
 	{
 		params = arguments[1] ? arguments[1] : new Hash();
 		
@@ -196,11 +196,12 @@ var JToolbarButton = new Class
 	{
 		// Prepare the class state.
 		this.bar		= bar;
-		this.id			= element.get('id');
-		this.task		= this.id.split('-')[1];
+		this.element	= element;
 		this.disabled	= element.hasClass('disabled');
 		this.list		= element.hasClass('list');
-		this.element	= $(element).getElement('a');
+		this.id			= element.get('id');
+		this.behavior	= this.id.split('-')[1]
+		this.task		= this.id.split('-')[2] ? this.id.split('-')[2] : null;
 		
 		// Store the object data inside the element.
 		this.element.store('button', this);
@@ -208,12 +209,13 @@ var JToolbarButton = new Class
 		// Attach the onclick behavior.
 		this.element.addEvent('click', function()
 		{
-			var button	= this.retrieve('button');
-			var bar		= button.bar;
-			var task	= button.task;
+			var button		= this.retrieve('button');
+			var bar			= button.bar;
+			var behavior	= button.behavior;
+			var task		= button.task;
 	
 			if (!button.disabled) {
-				bar.doTask(task);
+				bar.execute(behavior, task);
 			}
 		});
 		
@@ -241,7 +243,7 @@ var JToolbarButton = new Class
 
 window.addEvent('domready', function()
 {
-	var toolbar 	= document.retrieve('toolbar',	new JToolbar($('toolbar').getElement('table.toolbar'), $('blah')));
+	var toolbar 	= document.retrieve('toolbar',	new JToolbar($('toolbar').getElement('table.toolbar'), document.getElement('form')));
 	var language	= document.retrieve('language',	new Hash());
 
 	// Define the default legacy support task.

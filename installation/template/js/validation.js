@@ -233,6 +233,6 @@ JFormValidator.prototype = {
 }
 
 document.formvalidator = null;
-Window.onDomReady(function(){
+window.addEvent('domready', function(){
 	document.formvalidator = new JFormValidator();
 });

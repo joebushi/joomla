@@ -115,7 +115,10 @@ class JAdministrator extends JApplication
 				$document->setMetaData( 'keywords', $this->getCfg('MetaKeys') );
 
 				if ( $user->get('id') ) {
-					$document->addScript( JURI::root(true).'/includes/js/joomla.javascript.js');
+					$document->addScript(JURI::root(true).'/media/system/js/mootools.js');
+					$document->addScript(JURI::root(true).'/media/system/js/toolbar.js');
+					$document->addScript(JURI::root(true).'/media/system/js/list.js');
+					//$document->addScript( JURI::root(true).'/includes/js/joomla.javascript.js');
 				}
 
 				JHTML::_('behavior.mootools');

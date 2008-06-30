@@ -36,16 +36,21 @@ class JButtonStandard extends JButton
 	function fetchButton( $type='Standard', $name = '', $text = '', $task = '', $list = true, $hideMenu = false )
 	{
 		$i18n_text	= JText::_($text);
-		$class	= $this->fetchIconClass($name);
-		$doTask	= $this->_getCommand($text, $task, $list, $hideMenu);
 
-		$html	= "<a href=\"#\" onclick=\"$doTask\" class=\"toolbar\">\n";
-		$html .= "<span class=\"$class\" title=\"$i18n_text\">\n";
-		$html .= "</span>\n";
-		$html	.= "$i18n_text\n";
-		$html	.= "</a>\n";
+//		$doTask	= $this->_getCommand($text, $task, $list, $hideMenu);
+		$id		= $this->fetchId($type, $name, $text, $task);
+		
+		$bClass = $list ? 'button list disabled': 'button';
+		$sClass	= $this->fetchIconClass($name);
 
-		return $html;
+		$html	= array();
+		$html[]	= '<a href="#" class="'.$bClass.'" id="'.$id.'">';
+		$html[]	= '<span class="'.$sClass.'" title="'.$i18n_text.'">';
+		$html[]	= '</span>';
+		$html[]	= $i18n_text;
+		$html[]	= '</a>';
+
+		return implode("\n", $html);
 	}
 
 	/**
@@ -57,7 +62,7 @@ class JButtonStandard extends JButton
 	 */
 	function fetchId( $type='Standard', $name = '', $text = '', $task = '', $list = true, $hideMenu = false )
 	{
-		return $this->_parent->_name.'-'.$name;
+		return $this->_parent->_name.'-'.strtolower($type).'-'.$task;
 	}
 
 	/**

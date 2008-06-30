@@ -23,7 +23,7 @@ var JList = new Class
 	
 	// The configuration options object.
 	options: {
-		toggler:	'cid[]'
+		toggler:	'selector'
 	},
 	
 	// Class constructor.
@@ -34,11 +34,11 @@ var JList = new Class
 		
 		// Prepare the class state.
 		this.form	= form;
-		this.list	= form.getElement('table');
+		this.list	= form.getElement('table.adminlist');
 		this.items	= new Array();
 		
 		// Get the child item elements.
-		items = this.list.getElements('tr');
+		items = this.list.getElements('tr.item');
 		
 		// Load the button elements.
 		for (i=0; i < items.length; i++) {
@@ -93,11 +93,12 @@ var JListItem = new Class
 		this.form		= list.form;
 		this.list		= list;
 		
-		this.selector	= item.getElement('input[name^='+toggler.replace(/\[\]$/, '')+']'); 
+		//this.selector	= item.getElement('input[name^='+toggler.replace(/\[\]$/, '')+']'); 
+		this.selector	= item.getElement('input.selector');
 		
 		// Store the object data inside the element.
 		this.item.store('item', this);
-		
+
 		this.selector.addEvent('change', function()
 		{
 			var row		= this.getParent('tr');
@@ -116,5 +117,5 @@ var JListItem = new Class
 
 window.addEvent('domready', function()
 {
-	var list = document.retrieve('list', new JList($('blah')));	
+	var list = document.retrieve('list', new JList(document.getElement('form')));	
 });

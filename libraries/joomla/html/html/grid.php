@@ -58,7 +58,7 @@ class JHTMLGrid
 		if ( $checkedOut ) {
 			return '';
 		} else {
-			return '<input type="checkbox" id="cb'.$rowNum.'" name="'.$name.'[]" value="'.$recId.'" onclick="isChecked(this.checked);" />';
+			return '<input type="checkbox" class="selector" id="cb'.$rowNum.'" name="'.$name.'[]" value="'.$recId.'" />';
 		}
 	}
 

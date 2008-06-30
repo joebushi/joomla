@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-gb" lang="en-gb" dir="ltr" >
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>JavaScript Test</title>
+		<link href="/jxtended/test/administrator/templates/khepri/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+		<script type="text/javascript" src="js/mootools.js"></script>
+		<script type="text/javascript" src="js/toolbar.js"></script>
+		<script type="text/javascript" src="js/list.js"></script>
+	</head>
+	
+	<body>
+		<div id="toolbar-box">
+   			<div class="t">
+				<div class="t">
+					<div class="t"/>
+				</div>
+			</div>
+			<div class="m">
+				<div id="toolbar" class="toolbar">
+					<table class="toolbar"><tbody><tr>
+						<td id="toolbar-unarchive" class="button disabled list">
+							<a class="toolbar" href="#">
+								<span title="Unarchive" class="icon-32-unarchive"></span>
+								Unarchive
+							</a>
+						</td>
+						<td id="toolbar-archive" class="button">
+							<a class="toolbar" href="#">
+								<span title="Archive" class="icon-32-archive"></span>
+								Archive
+							</a>
+						</td>
+						<td id="toolbar-publish" class="button">
+							<a class="toolbar" onclick="javascript:if(document.adminForm.boxchecked.value==0){alert('Please select an Article from the list to publish');}else{  submitbutton('publish')}" href="#">
+								<span title="Publish" class="icon-32-publish"></span>
+								Publish
+							</a>
+						</td>
+						<td id="toolbar-unpublish" class="button">
+							<a class="toolbar" onclick="javascript:if(document.adminForm.boxchecked.value==0){alert('Please select an Article from the list to unpublish');}else{  submitbutton('unpublish')}" href="#">
+								<span title="Unpublish" class="icon-32-unpublish"></span>
+								Unpublish
+							</a>
+						</td>
+						<td id="toolbar-move" class="button">
+							<a class="toolbar" onclick="javascript:if(document.adminForm.boxchecked.value==0){alert('Please select an Article from the list to move');}else{ hideMainMenu(); submitbutton('movesect')}" href="#">
+								<span title="Move" class="icon-32-move"></span>
+								Move
+							</a>
+						</td>
+						<td id="toolbar-copy" class="button">
+							<a class="toolbar" onclick="javascript:if(document.adminForm.boxchecked.value==0){alert('Please select an Article from the list to copy');}else{ hideMainMenu(); submitbutton('copy')}" href="#">
+								<span title="Copy" class="icon-32-copy"></span>
+								Copy
+							</a>
+						</td>
+						<td id="toolbar-trash" class="button">
+							<a class="toolbar" onclick="javascript:if(document.adminForm.boxchecked.value==0){alert('Please select an Article from the list to trash');}else{  submitbutton('remove')}" href="#">
+								<span title="Trash" class="icon-32-trash"></span>
+								Trash
+							</a>
+						</td>
+						<td id="toolbar-edit" class="button">
+							<a class="toolbar" onclick="javascript:if(document.adminForm.boxchecked.value==0){alert('Please select an Article from the list to edit');}else{ hideMainMenu(); submitbutton('edit')}" href="#">
+								<span title="Edit" class="icon-32-edit"></span>
+								Edit
+							</a>
+						</td>
+						<td id="toolbar-new" class="button">
+							<a class="toolbar" onclick="javascript:hideMainMenu(); submitbutton('add')" href="#">
+								<span title="New" class="icon-32-new"></span>
+								New
+							</a>
+						</td>
+						<td id="toolbar-popup-Popup" class="button">
+							<a rel="{handler: 'iframe', size: {x: 570, y: 550}}" href="http://localhost/jxtended/test/administrator/index.php?option=com_config&amp;controller=component&amp;component=com_content&amp;path=" class="modal">
+								<span title="Parameters" class="icon-32-config"></span>
+								Parameters
+							</a>
+						</td>
+						<td id="toolbar-help" class="button">
+							<a class="toolbar" onclick="popupWindow('http://help.joomla.org/index2.php?option=com_content&amp;task=findkey&amp;tmpl=component;1&amp;keyref=screen.content.15', 'Help', 640, 480, 1)" href="#">
+								<span title="Help" class="icon-32-help"></span>
+								Help
+							</a>
+						</td>
+					
+					</tr></tbody></table>
+					</div>
+						<div class="header icon-48-addedit">
+					Article Manager
+					</div>
+
+				<div class="clr"/>
+			</div>
+			<div class="b">
+				<div class="b">
+					<div class="b"/>
+				</div>
+			</div>
+  		</div>
+	
+		<form action="test.html#meh" id="blah" method="post">
+			<table>
+				<tbody>
+					<tr>
+						<td>1</td>
+						<td><input type="checkbox" class="selector" name="cid[]" /></td>
+						<td>Row 1</td>
+					</tr>
+					<tr>
+						<td>2</td>
+						<td><input type="checkbox" class="selector" name="cid[]" /></td>
+						<td>Row 2</td>
+					</tr>
+					<tr>
+						<td>3</td>
+						<td><input type="checkbox" class="selector" name="cid[]" /></td>
+						<td>Row 3</td>
+					</tr>
+					<tr>
+						<td>4</td>
+						<td><input type="checkbox" class="selector" name="cid[]" /></td>
+						<td>Row 4</td>
+					</tr>
+				</tbody>
+		</form>
+	</body>
+</html>
