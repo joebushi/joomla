@@ -546,6 +546,7 @@ class ContentController extends JController
 
 		// Create the form
 		$form = new JParameter('', JPATH_COMPONENT.DS.'models'.DS.'article.xml');
+		$form->loadSetupDirectory(JPATH_COMPONENT.DS.'params', 'article_(.*)\.xml');
 
 		// Details Group
 		$active = (intval($row->created_by) ? intval($row->created_by) : $user->get('id'));

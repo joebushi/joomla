@@ -519,22 +519,23 @@ class ContentView
 			<?php
 				ContentView::_displayArticleStats($row, $lists);
 
-				$title = JText::_( 'Parameters - Article' );
-				echo $pane->startPane("content-pane");
-				echo $pane->startPanel( $title, "detail-page" );
-				echo $form->render('details');
-
-				$title = JText::_( 'Parameters - Advanced' );
-				echo $pane->endPanel();
-				echo $pane->startPanel( $title, "params-page" );
-				echo $form->render('params', 'advanced');
-
-				$title = JText::_( 'Metadata Information' );
-				echo $pane->endPanel();
-				echo $pane->startPanel( $title, "metadata-page" );
-				echo $form->render('meta', 'metadata');
-
-				echo $pane->endPanel();
+				echo $pane->startPane("menu-pane");
+				$groups = $form->getGroups();
+				if(count($groups)) {
+					foreach($groups as $groupname => $group) {
+						if($groupname == '_default') {
+							$title = 'Article';
+						} else {
+							$title = ucfirst($groupname);
+						}
+						if($form->getNumParams($groupname)) {
+							echo $pane->startPanel(JText :: _('Parameters - '.$title), $groupname.'-page');
+							echo $form->render('params', $groupname);
+							echo $pane->endPanel();
+						}
+						
+					}
+				}
 				echo $pane->endPane();
 			?>
 			</td>
