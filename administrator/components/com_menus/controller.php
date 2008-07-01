@@ -419,6 +419,13 @@ class MenusController extends JController
 			return false;
 		}
 
+		$item =& JTable::getInstance( 'menu' );
+		$item->load($id);
+		if(!$item->get('published')) {
+			$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menu, JText::_('The Default Menu Item Must Be Published') );
+			return false;
+		} 
+
 		$model =& $this->getModel( 'List' );
 		if ($model->setHome($id)) {
 			$msg = JText::_( 'Default Menu Item Set' );
@@ -718,6 +725,7 @@ class MenusController extends JController
 			$copy->id 		= NULL;
 			$copy->parent 	= $a_ids[$original->parent];
 			$copy->menutype = $menu_name;
+			$copy->home 	= 0;
 
 			if ( !$copy->check() ) {
 				JError::raiseWarning( 500, $copy->getError() );

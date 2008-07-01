@@ -184,8 +184,14 @@ class UserController extends JController
 			JError::raiseError( 403, JText::_( 'Access Forbidden' ));
 			return;
 		}
-
-		JRequest::setVar('view', 'register');
+		
+		$user 	=& JFactory::getUser();
+		
+		if ( $user->get('guest')) {
+			JRequest::setVar('view', 'register');
+		} else {
+			$this->setredirect('index.php?option=com_user&task=edit',JText::_('You are already registered.'));
+		}
 
 		parent::display();
 	}
@@ -262,10 +268,8 @@ class UserController extends JController
 		} else {
 			$message = JText::_( 'REG_COMPLETE' );
 		}
-
-		//TODO :: this needs to be replace by raiseMessage
-		JError::raiseNotice('', $message);
-		$this->register();
+		
+		$this->setRedirect('index.php', $message);
 	}
 
 	function activate()

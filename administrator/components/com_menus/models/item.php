@@ -436,7 +436,10 @@ class MenusModelItem extends JModel
 				$temp3 = array();
 				foreach ($temp2 as $k => $v)
 				{
-					$temp3[] = $k.'='.$v;
+					if ( $k && strlen($v) )
+					{
+						$temp3[] = $k.'='.$v;
+					}
 				}
 				$url = null;
 				$row->link = $prefix . '?' . implode( '&', $temp3 );

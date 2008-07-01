@@ -9,7 +9,7 @@
 }
 </script>
 
-<form action="<?php echo $this->action; ?>" method="post" name="adminForm">
+<form action="<?php echo JFilterOutput::ampReplace($this->action); ?>" method="post" name="adminForm">
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
 	<td align="right" colspan="4">
@@ -46,7 +46,7 @@
 		<?php endif; ?>
 		<?php echo $item->link; ?>
 		<?php if ( $this->params->get( 'show_link_description' ) ) : ?>
-		<br /><span class="description"><?php echo nl2br($item->description); ?></span>		
+		<br /><span class="description"><?php echo nl2br($item->description); ?></span>
 		<?php endif; ?>
 	</td>
 	<?php if ( $this->params->get( 'show_link_hits' ) ) : ?>

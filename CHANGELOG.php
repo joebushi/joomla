@@ -38,6 +38,224 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-June-2008 Andrew Eddie
+ # [11637] Fix htmlentities in com_modules
+
+28-June 2008 Anthony Ferrara
+ # [#11583] Updated help screen key refs from doc team  (Thanks Chris Davenport)
+ ! Patches provided during the second Pizza Bug and Fun event (28/29 june)
+
+28/29-June 2008 Wilco jansen
+ # [9027] Search system use keyword "Search..." if the inputbox empty
+ # [10166] Untranslated String in Calendar tool
+ # [11249] Set unpublished menu-item as default
+ # [11407] error of time display module pool
+ # [11464] Contact router broken on SEF and no Itemid
+ # [11562] Help screen key reference for Category Manager needs to be variable
+ # [11600] JURI::root does not honour live_site setting
+ # [11632] Registration redirects upon successful submission of form back to blank registration form
+ # [11633] The css for messages in  in milkyway  is incorrect
+ ! Patches provided during the second Pizza Bug and Fun event (28/29 june)
+
+27-June-2008 Andrew Eddie
+ ^ [11601] Improvement to System Debug plugin
+ # [10842] [patch] mod_latest doesn't use JHTML::_('date')
+ # [11610] Date in popular module in administrator not GMT
+
+26-June-2008 Wilco Jansen
+ # [11190] Unable to delete files with illegal characters
+ # [11571] Old cache file can't be deleted when cache is turned off
+ # [11580] Missing translation for timezone Venezuela
+ # [11463] Dates for votes on poll is not gmt
+ # [11598] JFactory::getUser() error when specifying user who doesn't exist
+ # [11470] registered content doesn't show up in a public view when show unauthorized links is set to true in a section view
+ # [11584] Sort "add module" list in alpha order by column; fix HTML
+
+25-June-2008 Sam Moffatt
+ # [11079] Joomla! LDAP Library doesn't support altering details in LDAP
+
+19/20-June-2008 Wilco Jansen
+ # [9729] Category Manager - Uncategorized
+ # [9901] Patch - com_weblinks Categories view revised tmpl/default.php
+ # [10291] Empty URL Parameters
+ # [10273] HTML entities in changelog break help display in back-end
+ # [10280] New Time Zone in Venezuela
+ # [10380] Category description textarea not HTML-quoted
+ # [10532] Filter issues in installation and missing or invalid language strings
+ # [10877] Error: time connection remains a UTC
+ # [10881] "Article order" missing in language file
+ # [10944] josSpoofCheck not passing $alternate to josSpoofValue correctly
+ # [11326] "validName" popup when omitting user name, password or database name in setup wizard
+ # [11444] [Patch] "What is OpenID?" not displayed
+ # [11487] Unable to insert image directly after upload without flash uploader
+ # [11516] Typo in en-GB.mod_mainmenu.ini
+ ! Patches provided during the second Pizza Bug and Fun event
+
+19-June-2008 Wilco Jansen
+ # [11225] Expired cache files lead to component not found error message
+ ! Patch provided by Anthony. Also unit tests have been created for the caching layer...yay!
+
+15-June-2008 Wilco Jansen
+ # [9991] Inconsistent use of nameQuote()
+ # [11426] Banners component not able to handle flash banners
+
+8-June-2008 Ian MacLennan
+ # [10363] E_NOLOGIN_BLOCKED visible in error/warning
+
+6-June-2008 Wilco Jansen
+ # [9806] Menu instance seems to be overriden
+ # [11338] Linked category title in JA_Purity category blog causes text to be linked
+ # [10873] Frontend Does Not Respect Global List Length
+ # [11333] Various weblinks fixes, and a little on category manager
+ # [10834] "Umbrella" issue for several mod_newsfeed issues
+ # [11354] Typo in gmail authentication plugin
+
+3-June-2008 Sam Moffatt
+ ^ prop-set all js, ini and css files to LF line ending style and cleaned up mixed line ending styles
+
+1-June-2008 Sam Moffatt
+ ^ prop-set all php files to LF line ending style
+ ^ Cleaned up a lot of files with mixed line ending styles
+ # [#8957] ampersand in Site name shows up as &amp; in Administrator tool
+
+31-May-2008 Wilco Jansen
+ # [10864] PHP session.auto_start leads to broken installation and warning messages
+ # [11329] If you have a login menu item, Forgot Password and Forgot Username links don't work
+ # [10107] Notice: Trying to get property of non-object in section.php on line 449
+ # [10126] External link in breadcrumb
+ # [10376] Article editing from FrontPage changes the article alias
+ # [11331] Breadcrumbs: redundant parameter, and not respecting default values for parameters
+ # [11158] Menu link to unpublished menu item causes fatal error
+ # [11191] Missing mandatory check for several menu item types
+ # [11075] Minor errors in ACL libraries
+ # [11054] Logged in user can view registration form
+ # [11311] JA Purity - templateDetails.xml, params - language
+ # [8512]  HTML in content items matches search words in search component/plugin (AKA the real big issue with search in Joomla!)
+ # [11302] Typos in tpl_ja_purity admin
+
+29-May-2008 Wilco Jansen
+ # [10942] Menu does not rebuild sublevel on copy/move (causes menu ordering issues)
+ # [10037] timeoffset correction in toISO8601 method of JDate Class
+ # [11189] Install site and admin languages with one package
+
+21-May-2008 Anthony Ferrara
+ # Fix for fatal error introduced by [#10397] fix.  Supports pass by reference too (so [#10397] is fixed as well)
+
+19-May-2008 Anthony Ferrara
+ # [#11111] More robust checking of menu type layouts for JS validation (Thanks Jens!)
+
+18-May-2008 Wilco Jansen
+ # [9349] JApplicationHelper::getPath requires strict naming conventions which may be deprecated
+ # [10255] Adding Additonal Security to Joomla's File Caching
+ # [10397] _processBuildRules and processParseRules  not passing by reference
+ # [10793] Two small bugs in com_messages
+ # [10949] Cannot Add News Feeds Category List Layout in 1.5.3
+
+14-May-2008 Ian MacLennan
+ ^ Updated key reference for help system from screen.menus.type to screen.menus.edit
+
+10-May-2008 Wilco Jansen
+ # [9986] Extension installer Install from Directory field should come with the site path prefilled by default.
+ # [10412] XHTML validation fails when using category name as a link on frontpage
+ # [10811] Category link is not closed on front page in BEEZ template - default_item.php
+ # [10498] [PATCH] folders not copied correctly, using <media> in XML
+ # [11055] [Security] Crafted URL can disclose absolute path
+ # [10226] mod_login has a slightly wrong description for login/logout redirection
+ # [10669] Breadcrumbs module always produces last item in pathway
+
+09-May-2008 Andrew Eddie
+ + Added ja_purity template by JoomlArt
+
+07-May-2008 Sam Moffatt
+ # [10923] Backend accepts any password for custom Super Administrator when LDAP enabled
+
+24-Apr-2008 Mati Kochen
+ # Fix for the Legacy-Marker - missing parse
+ # Removed the special treatment for RTL in Pagination
+
+-------------------- 1.5.3 Stable Release [22-April-2008] ---------------------
+
+19-Apr-2008 Anthony Ferrara
+ # [#10009] Search Function yields warning
+ # [#10150] Installation minimum password length doesn't work
+ # [#10725] Installation not xhtml compliant
+ # [#10739] Spelling error in com_installer.ini
+ # [#10092] Switcher hides nested divs
+ # Fix for fatal error related to [#10638]
+
+19-Apr-2008 Andrew Eddie
+ ! Trailing white-space cleanup
+ # [#9725] JFilterInput Infinite Loop
+
+18-Apr-2008 Ian MacLennan
+ # [#10732] Help screen updates for Menu Manager
+
+18-Apr-2008 Sam Moffatt
+ # [#10724] Custom user groups fail to display
+ # [#10707] update link to forum in Sample content
+ # [#10638] mod_newsflash renders article separator after last article
+
+17-Apr-2008 Anthony Ferrara
+ # [#9858] Flash Uploader not loading properly
+ # [#10511] Print button showing Array Print Array
+ # [#9775] Cache directory not writable causes warning
+ # [#10588] QueryBatch executing empty queries
+ # [#10675] Code Cleanup
+ # [#10702] JURI::clean fix (not properly stripping out /'s) - Thanks Alex Stylianos
+ # [#10308] Installer rejects valid DB names
+ # [#10323] Wrong param count for class_exists in TCPDF
+
+14-Apr-2008 Mati Kochen
+ + Offline validation
+ + Legacy-Marker - a marker to show (admin) extensions requiring Legacy-Mode ON
+
+13-Apr-2008 Sam Moffatt
+ # [#10639] mod_newsflash renders bad "read more" link text
+ # [#10574] Problem with template rhuk_milkyway in white color variation.
+ # [#10540] com_login not w3c valid
+ # [#10539] Contacts string repeat twice in com_contacts language file
+ # [#10510] /templates/beez/com_content/section/default.php
+ # [#10302] Milky Way and Beez lack editor.css files
+ # [#9984] Plugin parameters with pipes still not working perfectly
+ # [#10402] Mainmenu Module issues
+ # [#9977] Search module changing '-' to ':' in keywords
+ # [#10097] Various XHTML fixes
+
+10-Apr-2008 Anthony Ferrara
+ # [#10508] Caching pathway and breadcrumbs fix
+ # [#10329] Debug fails with version of Zend Optimizer
+
+10-Apr-2008 Mati Kochen
+ # [#10299] Added 'Use Global' as default value to weblink.xml
+
+09-Apr-2008 Mati Kochen
+ # [#10253] Better PDF coding
+
+09-Apr-2008 Mati Kochen
+ # [#10297] Fixed RTL in Offline message
+
+04-Apr-2008 Toby Patterson
+ # Fixed [#10307] "Select Article" breaks on change category refresh ( Thanks Michael )
+
+03-Apr-2008 Toby Patterson
+ # Fixed [#10197] component install error fails to reference left over folder in administrator/components folder
+ # Fixed [#10200] jdoc:include type="module" not usable
+ # Fixed [#10012] $task is not properly passed to extensions
+ # Fixed [#10345] emailcloak is not removed if the article does not contain @
+
+29-Mar-2008 Ian MacLennan
+ # Fixed [#9335] Extra/Random table class (sectionentrytable0)
+
+29-Mar-2008 Sam Moffatt
+ ! Removed old TODO notice in installer
+
+28-Mar-2008 Wilco Jansen
+ # Fixed [9118] Uncaught Error message in Extension Manager when uninstalling deleted component
+ ! Thanks Ian for the patch
+
+26-Mar-2008 Toby Patterson
+ # Fixed [9015] No .blank class in system general.css
+
 -------------------- 1.5.2 Stable Release [22-March-2008] ---------------------
 
 22-Mar-2008 Sam Moffatt

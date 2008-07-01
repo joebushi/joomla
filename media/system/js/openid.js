@@ -32,7 +32,7 @@ var JOpenID = new Class({
 		switcher.inject($('form-login'));
 
 		var link = new Element('a', { 'styles': {'text-align' : 'right', 'display' : 'block', 'font-size' : 'xx-small'}, 'href' : 'http://openid.net'});
-		link.setHTML(JLanguage.WHAT_IS_OPENID);
+		link.inject($('form-login'));
 
 		//Initialise members
 		this.switcher = switcher;
@@ -70,6 +70,7 @@ var JOpenID = new Class({
 		password.effect('opacity', {duration: time}).start(state,1-state);
 
 		this.switcher.setHTML(text);
+		this.link.setHTML(JLanguage.WHAT_IS_OPENID);
 	}
 });
 
@@ -86,7 +87,7 @@ var JOpenID_com = new Class({
 		switcher.inject($('com-form-login'));
 
 		var link = new Element('a', { 'styles': {'text-align' : 'right', 'display' : 'block', 'font-size' : 'xx-small'}, 'href' : 'http://openid.net'});
-		link.setHTML(JLanguage.WHAT_IS_OPENID);
+		link.inject($('form-login'));
 
 		//Initialise members
 		this.switcher = switcher;
@@ -124,6 +125,7 @@ var JOpenID_com = new Class({
 		password.effect('opacity', {duration: time}).start(state,1-state);
 
 		this.switcher.setHTML(text);
+		this.link.setHTML(JLanguage.WHAT_IS_OPENID);
 	}
 });
 

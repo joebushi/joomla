@@ -31,7 +31,7 @@ class modBreadCrumbsHelper
 			$items[$i]->link = JRoute::_($items[$i]->link);
 		}
 
-		if ($params->get('showHome'))
+		if ($params->get('showHome', 1))
 		{
 			$item = new stdClass();
 			$item->name = $params->get('homeText', JText::_('Home'));

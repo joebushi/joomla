@@ -22,11 +22,12 @@
 				<th class="title" width="10%" align="center"><?php echo JText::_( 'Version' ); ?></th>
 				<th class="title" width="15%"><?php echo JText::_( 'Date' ); ?></th>
 				<th class="title" width="25%"><?php echo JText::_( 'Author' ); ?></th>
+				<th class="title" width="5%"><?php echo JText::_( 'Compatibility' ); ?></th>
 			</tr>
 		</thead>
 		<tfoot>
 			<tr>
-				<td colspan="6"><?php echo $this->pagination->getListFooter(); ?></td>
+				<td colspan="7"><?php echo $this->pagination->getListFooter(); ?></td>
 			</tr>
 		</tfoot>
 		<tbody>
@@ -39,7 +40,7 @@
 		</tbody>
 	</table>
 	<?php else : ?>
-		<?php echo JText::_( 'There are no custom modules installed' ); ?>
+		<?php echo JText::_( 'There are no custom templates installed' ); ?>
 	<?php endif; ?>
 	<input type="hidden" name="task" value="manage" />
 	<input type="hidden" name="boxchecked" value="0" />

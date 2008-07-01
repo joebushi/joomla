@@ -372,7 +372,7 @@ class JDatabase extends JObject
 						$open_char = $current;
 					}
 				}
-			} 
+			}
 			if(($current == ';' && !$open)|| $i == $end - 1) {
 				$query_split[] = substr($queries, $start, ($i - $start + 1));
 				$start = $i + 1;
@@ -486,17 +486,24 @@ class JDatabase extends JObject
 	/**
 	 * Quote an identifier name (field, table, etc)
 	 *
-	 * @access public
-	 * @param string The name
-	 * @return string The quoted name
+	 * @access	public
+	 * @param	string	The name
+	 * @return	string	The quoted name
 	 */
 	function nameQuote( $s )
 	{
-		$q = $this->_nameQuote;
-		if (strlen( $q ) == 1) {
-			return $q . $s . $q;
-		} else {
-			return $q{0} . $s . $q{1};
+		// Only quote if the name is not using dot-notation
+		if (strpos( '.', $s ) === false)
+		{
+			$q = $this->_nameQuote;
+			if (strlen( $q ) == 1) {
+				return $q . $s . $q;
+			} else {
+				return $q{0} . $s . $q{1};
+			}
+		}
+		else {
+			return $s;
 		}
 	}
 	/**
@@ -804,7 +811,7 @@ class JDatabase extends JObject
 	}
 
 	/**
-	 * Update ab object in the database
+	 * Update an object in the database
 	 *
 	 * @abstract
 	 * @access public

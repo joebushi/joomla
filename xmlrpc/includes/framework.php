@@ -55,7 +55,7 @@ unset( $CONFIG );
  */
 
 // Include object abstract class
-jimport( 'joomla.utilities.compat.compat' );
+require_once(JPATH_SITE.DS.'libraries'.DS.'joomla'.DS.'utilities'.DS.'compat'.DS.'compat.php');
 
 // Joomla! library imports
 jimport( 'joomla.environment.uri' );

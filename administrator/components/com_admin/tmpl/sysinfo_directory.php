@@ -56,6 +56,7 @@ $cparams = JComponentHelper::getParams ('com_media');
 				writableCell( 'language/'.$slang );
 			}
 
+			writableCell( 'media' );
 			writableCell( 'modules' );
 			writableCell( 'plugins' );
 			writableCell( 'plugins/content' );

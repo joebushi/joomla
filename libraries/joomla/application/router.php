@@ -325,7 +325,7 @@ class JRouter extends JObject
 		$vars = array();
 
 		foreach($this->_rules['parse'] as $rule) {
-			$vars = call_user_func( $rule, $this, $uri);
+			$vars = call_user_func_array($rule, array(&$this, &$uri));
 		}
 
 		return $vars;
@@ -340,7 +340,7 @@ class JRouter extends JObject
 	function _processBuildRules(&$uri)
 	{
 		foreach($this->_rules['build'] as $rule) {
-			call_user_func($rule, $this, $uri) ;
+			call_user_func_array($rule, array(&$this, &$uri));
 		}
 	}
 
@@ -356,11 +356,11 @@ class JRouter extends JObject
 		if(substr($url, 0, 1) == '&')
 		{
 			$vars = array();
-			if(strpos($url, '&amp;') !== false) 
-			{ 
-			   $url = str_replace('&amp;','&',$url); 
-			} 
-			
+			if(strpos($url, '&amp;') !== false)
+			{
+			   $url = str_replace('&amp;','&',$url);
+			}
+
 			parse_str($url, $vars);
 
 			$vars = array_merge($this->getVars(), $vars);

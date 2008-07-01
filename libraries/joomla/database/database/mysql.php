@@ -256,6 +256,7 @@ class JDatabaseMySQL extends JDatabase
 		$this->_errorNum = 0;
 		$this->_errorMsg = '';
 		if ($p_transaction_safe) {
+			$this->_sql = rtrim($this->_sql, '; \t\r\n\0');
 			$si = $this->getVersion();
 			preg_match_all( "/(\d+)\.(\d+)\.(\d+)/i", $si, $m );
 			if ($m[1] >= 4) {
@@ -518,7 +519,7 @@ class JDatabaseMySQL extends JDatabase
 	 */
 	function insertObject( $table, &$object, $keyName = NULL )
 	{
-		$fmtsql = "INSERT INTO $table ( %s ) VALUES ( %s ) ";
+		$fmtsql = 'INSERT INTO '.$this->nameQuote($table).' ( %s ) VALUES ( %s ) ';
 		$fields = array();
 		foreach (get_object_vars( $object ) as $k => $v) {
 			if (is_array($v) or is_object($v) or $v === NULL) {
@@ -549,7 +550,7 @@ class JDatabaseMySQL extends JDatabase
 	 */
 	function updateObject( $table, &$object, $keyName, $updateNulls=true )
 	{
-		$fmtsql = "UPDATE $table SET %s WHERE %s";
+		$fmtsql = 'UPDATE '.$this->nameQuote($table).' SET %s WHERE %s';
 		$tmp = array();
 		foreach (get_object_vars( $object ) as $k => $v)
 		{

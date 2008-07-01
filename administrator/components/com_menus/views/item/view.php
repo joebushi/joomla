@@ -139,7 +139,7 @@ class MenusViewItem extends JView
 
 		// Set toolbar items for the page
 		JToolBarHelper::cancel('view');
-		JToolBarHelper::help( 'screen.menus.type' );
+		JToolBarHelper::help( 'screen.menus.edit' );
 
 		// Add scripts and stylesheets to the document
 		$document	= & JFactory::getDocument();

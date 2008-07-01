@@ -19,6 +19,16 @@ function UserBuildRoute(&$query)
 	{
 		if(empty($query['Itemid'])) {
 			$segments[] = $query['view'];
+		} else {
+			$menu = &JSite::getMenu();
+			$menuItem = &$menu->getItem( $query['Itemid'] );
+			if (isset($menuItem->query['view'])) {
+				if($query['view'] != $menuItem->query['view']) {
+					$segments[] = $query['view'];	
+				}
+			} else {
+				$segments[] = $query['view'];
+			}
 		}
 
 		unset($query['view']);
@@ -38,10 +48,13 @@ function UserParseRoute($segments)
 	// Count route segments
 	$count = count($segments);
 
+	if (isset( $segments[0] )) {
+		$vars['view'] = $segments[0];
+	}
+
 	//Standard routing for articles
 	if(!isset($item))
 	{
-		$vars['view']  = $segments[0];
 		$vars['id']    = $segments[$count - 1];
 		return $vars;
 	}

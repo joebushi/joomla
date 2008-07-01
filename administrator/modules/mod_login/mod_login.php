@@ -34,7 +34,7 @@ $langs = JHTML::_('select.genericlist',   $languages, 'lang', ' class="inputbox"
 						' var modlogin = 1;';
 		$document = &JFactory::getDocument();
 		$document->addScriptDeclaration( $langScript );
-		JHTML::_('script', 'openid.js');		
+		JHTML::_('script', 'openid.js');
 endif; ?>
 <form action="<?php echo JRoute::_( 'index.php', true, $params->get('usesecure')); ?>" method="post" name="login" id="form-login" style="clear: both;">
 	<p id="form-login-username">

@@ -1,6 +1,5 @@
 <?php // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
-<div style="direction: <?php echo $rssrtl ? 'rtl' :'ltr'; ?>; text-align: <?php echo $rssrtl ? 'right' :'left'; ?>">
 <?php
 if( $feed != false )
 {
@@ -78,11 +77,11 @@ if( $feed != false )
 					$text = str_replace('&apos;', "'", $text);
 
 					// word limit check
-					if ($words) 
+					if ($words)
 					{
 						$texts = explode(' ', $text);
 						$count = count($texts);
-						if ($count > $words) 
+						if ($count > $words)
 						{
 							$text = '';
 							for ($i = 0; $i < $words; $i ++) {
@@ -92,7 +91,7 @@ if( $feed != false )
 						}
 					}
 					?>
-					<div style="text-align: <?php echo $params->get('rssrtl', 0) ? 'right': 'left'; ?> ! important">
+					<div class="newsfeed_item<?php echo $params->get( 'moduleclass_sfx'); ?>"  >
 						<?php echo $text; ?>
 					</div>
 					<?php
@@ -107,4 +106,3 @@ if( $feed != false )
 		</tr>
 	</table>
 <?php } ?>
-</div>

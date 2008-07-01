@@ -59,6 +59,7 @@ class plgAuthenticationLdap extends JPlugin
 		// Initialize variables
 		$userdetails = null;
 		$success = 0;
+		$userdetails = Array();
 
 		// For JLog
 		$response->type = 'LDAP';
@@ -100,10 +101,15 @@ class plgAuthenticationLdap extends JPlugin
 				{
 					// Search for users DN
 					$binddata = $ldap->simple_search(str_replace("[search]", $credentials['username'], $this->params->get('search_string')));
-					// Verify Users Credentials
-					$success = $ldap->bind($binddata[0]['dn'],$credentials['password'],1);
-					// Get users details
-					$userdetails = $binddata;
+					if(isset($binddata[0]) && isset($binddata[0]['dn'])) {
+						// Verify Users Credentials
+						$success = $ldap->bind($binddata[0]['dn'],$credentials['password'],1);
+						// Get users details
+						$userdetails = $binddata;
+					} else {
+						$response->status = JAUTHENTICATE_STATUS_FAILURE;
+						$response->error_message = 'Unable to find user';
+					}
 				}
 				else
 				{
@@ -116,14 +122,19 @@ class plgAuthenticationLdap extends JPlugin
 			{
 				// We just accept the result here
 				$success = $ldap->bind($credentials['username'],$credentials['password']);
-				$userdetails = $ldap->simple_search(str_replace("[search]", $credentials['username'], $this->params->get('search_string')));
+				if($success) {
+					$userdetails = $ldap->simple_search(str_replace("[search]", $credentials['username'], $this->params->get('search_string')));
+				} else {
+					$response->status = JAUTHENTICATE_STATUS_FAILURE;
+					$response->error_message = 'Failed binding to LDAP server';
+				}
 			}	break;
 		}
 
 		if(!$success)
 		{
 			$response->status = JAUTHENTICATE_STATUS_FAILURE;
-			$response->error_message = 'Incorrect username/password';
+			if(!strlen($response->error_message)) $response->error_message = 'Incorrect username/password';
 		}
 		else
 		{

@@ -188,15 +188,16 @@ class JLanguage extends JObject
 			{
 				if ($this->_debug)
 				{
-					$string = '??'.$string.'??';
-
 					$caller	= $this->_getCallerInfo();
+					$caller['string'] = $string;
 
 					if ( ! array_key_exists($key, $this->_orphans ) ) {
 						$this->_orphans[$key] = array();
 					}
 
 					$this->_orphans[$key][] = $caller;
+
+					$string = '??'.$string.'??';
 				}
 			}
 		}
@@ -382,7 +383,7 @@ class JLanguage extends JObject
 	function _getCallerInfo()
 	{
 			// Try to determine the source if none was provided
-		if ( ! function_exists('debug_backtrace') ) {
+		if (!function_exists('debug_backtrace')) {
 			return null;
 		}
 
@@ -391,13 +392,13 @@ class JLanguage extends JObject
 
 		// Search through the backtrace to our caller
 		$continue = true;
-		while ( $continue && next($backtrace) )
+		while ($continue && next($backtrace))
 		{
-			$step		= current($backtrace);
-			$class		= @ $step['class'];
+			$step	= current($backtrace);
+			$class	= @ $step['class'];
 
 			// We're looking for something outside of language.php
-			if ( $class != 'JLanguage' && $class != 'JText') {
+			if ($class != 'JLanguage' && $class != 'JText') {
 				$info['function']	= @ $step['function'];
 				$info['class']		= $class;
 				$info['step']		= prev($backtrace);
@@ -748,7 +749,7 @@ class JLanguage extends JObject
 	function _parseXMLLanguageFile($path)
 	{
 		$xml = & JFactory::getXMLParser('Simple');
-		
+
 		// Load the file
 		if (!$xml || !$xml->loadFile($path)) {
 			return null;
@@ -770,4 +771,3 @@ class JLanguage extends JObject
 		return $metadata;
 	}
 }
-

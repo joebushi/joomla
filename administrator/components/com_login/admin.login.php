@@ -43,6 +43,7 @@ class LoginController
 {
 	function display()
 	{
+		jimport('joomla.application.module.helper');
 		$module = & JModuleHelper::getModule('mod_login');
 		$module = JModuleHelper::renderModule($module, array('style' => 'rounded', 'id' => 'section-box'));
 		echo $module;

@@ -24,6 +24,7 @@ class TOOLBAR_categories {
 	function _EDIT($edit)
 	{
 		$cid = JRequest::getVar( 'cid', array(0), '', 'array' );
+		$section = JRequest::getCmd( 'section' );
 
 		$text = ( $edit ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 
@@ -36,7 +37,7 @@ class TOOLBAR_categories {
 		} else {
 			JToolBarHelper::cancel();
 		}
-		JToolBarHelper::help( 'screen.categories.edit' );
+		JToolBarHelper::help( 'screen.' . substr( $section, 4 ) . '.categories.edit' );
 	}
 
 	/**
@@ -79,6 +80,6 @@ class TOOLBAR_categories {
 		JToolBarHelper::deleteList();
 		JToolBarHelper::editListX();
 		JToolBarHelper::addNewX();
-		JToolBarHelper::help( 'screen.categories' );
+		JToolBarHelper::help( 'screen.' . substr( $section, 4 ) . '.categories' );
 	}
 }

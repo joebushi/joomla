@@ -181,7 +181,8 @@ class JDate extends JObject
 	function toISO8601($local = false)
 	{
 		$date   = ($local) ? $this->_date + $this->_offset : $this->_date;
-        $offset = ($local) ? sprintf("%+03d", $this->getOffset()).':00' : 'Z';
+		$offset = $this->getOffset();
+        $offset = ($local && $this->_offset) ? sprintf("%+03d:%02d", $offset, abs(($offset-intval($offset))*60) ) : 'Z';
         $date   = ($this->_date !== false) ? date('Y-m-d\TH:i:s', $date).$offset : null;
 		return $date;
 	}
@@ -226,7 +227,7 @@ class JDate extends JObject
 	function toFormat($format = '%Y-%m-%d %H:%M:%S')
 	{
 		$date = ($this->_date !== false) ? $this->_strftime($format, $this->_date + $this->_offset) : null;
-		
+
 		return $date;
 	}
 
@@ -238,11 +239,11 @@ class JDate extends JObject
 	 * @param int $time Unix timestamp
 	 * @return string a date in the specified format
 	 */
-	function _strftime($format, $time) 
+	function _strftime($format, $time)
 	{
-		if(strpos($format, '%a') !== false) 
+		if(strpos($format, '%a') !== false)
 			$format = str_replace('%a', $this->_dayToString(date('w', $time), true), $format);
-		if(strpos($format, '%A') !== false) 
+		if(strpos($format, '%A') !== false)
 			$format = str_replace('%A', $this->_dayToString(date('w', $time)), $format);
 		if(strpos($format, '%b') !== false)
 			$format = str_replace('%b', $this->_monthToString(date('n', $time), true), $format);
@@ -251,7 +252,7 @@ class JDate extends JObject
 		$date = strftime($format, $time);
 		return $date;
 	}
-	
+
 	/**
 	 * Translates month number to string
 	 *
@@ -278,7 +279,7 @@ class JDate extends JObject
 			case 12: return $abbr ? JText::_('DECEMBER_SHORT')  : JText::_('DECEMBER');
 		}
 	}
-	
+
 	/**
 	 * Translates day of week number to string
 	 *
@@ -300,5 +301,5 @@ class JDate extends JObject
 			case 6: return $abbr ? JText::_('SAT') : JText::_('SATURDAY');
 		}
 	}
-		
+
 }
