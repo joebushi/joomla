@@ -173,7 +173,6 @@ class MenusModelItem extends JModel
 				$params->setXML($sp);
 			}
 		}
-
 		if($item->type == 'component' && isset($item->linkparts['view'])) {
 			if(isset($item->linkparts['layout'])) {
 				$layout = $item->linkparts['layout'];
@@ -263,6 +262,8 @@ class MenusModelItem extends JModel
 
  	function &getSystemParams()
  	{
+		// Get the state parameters
+		$item	=& $this->getItem();
  		if ($item->type == 'component') {
  			$path = JPATH_BASE.DS.'components'.DS.'com_menus'.DS.'models'.DS.'metadata'.DS.'component.xml';
  			if (file_exists( $path )) {
@@ -508,6 +509,7 @@ class MenusModelItem extends JModel
 				$this->setError( $menuTable->getErrorMsg() );
 				return false;
 			}
+
 
 			// Set any alias menu types to not point to missing menu items
 			$query = 'UPDATE #__menu SET link = 0 WHERE type = \'menulink\' AND (link = '.implode( ' OR id = ', $ids ).')';
