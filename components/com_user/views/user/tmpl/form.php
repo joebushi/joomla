@@ -83,7 +83,22 @@ function submitbutton( pressbutton ) {
 </tr>
 <?php endif; ?>
 </table>
-<?php if(isset($this->params)) :  echo $this->params->render( 'params' ); endif; ?>
+<?php
+if(isset($this->params)) {
+	$groups = $this->params->getGroups();
+	foreach ($groups as $groupname => $group) {
+		if($groupname == '_default') {
+			$title = 'General';
+		} else {
+			$title = ucfirst($groupname);
+		}
+		if($this->params->getNumParams($groupname)) {
+			echo '<fieldset><legend>'.JText :: _('Parameters - '.$title).'</legend>';
+			echo $form->render('params', $groupname);
+			echo '</fieldset>';
+		}
+	}
+} ?>
 	<button class="button" type="submit" onclick="submitbutton( this.form );return false;"><?php echo JText::_('Save'); ?></button>
 
 	<input type="hidden" name="username" value="<?php echo $this->user->get('username');?>" />
