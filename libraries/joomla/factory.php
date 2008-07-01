@@ -224,7 +224,9 @@ class JFactory
 		static $instance;
 
 		if (!is_object($instance)) {
-			$instance = JFactory::_createACL();
+			jimport( 'joomla.user.authorization' );
+			$conf =& JFactory::getConfig();
+			$instance = JAuthorization::getInstance( $conf->getValue('config.aclservice', 'phpgacl') );
 		}
 
 		return $instance;

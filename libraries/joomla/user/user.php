@@ -255,13 +255,16 @@ class JUser extends JObject
 	 * @return	boolean	True if authorized
 	 * @since	1.5
 	 */
-	function authorize( $acoSection, $aco, $axoSection = null, $axo = null )
+	function authorize( $extension, $action, $xobject = null, $xobjectextension = null )
 	{
-		// the native calls (Check Mode 1) work on the user id, not the user type
-		$acl	= & JFactory::getACL();
-		$value	= $acl->getCheckMode() == 1 ? $this->id : $this->usertype;
+		$acl = & JFactory::getACL();
+		return $acl->authorize( $extension, $action, $xobject, $xobjectextension, $this->get( 'id' ) );
+	}
 
-		return $acl->acl_check( $acoSection, $aco,	'users', $value, $axoSection, $axo );
+	function loadAccessrights( $extension = 0, $action = 0 )
+	{
+		$acl =& JFactory::getACL();
+		$acl->getAllowedActions( $extension, $action, $this->get('id'));
 	}
 
 	/**
@@ -443,17 +446,16 @@ class JUser extends JObject
 			}
 		}
 
-		// TODO: this will be deprecated as of the ACL implementation
-		$db =& JFactory::getDBO();
-
 		$gid = array_key_exists('gid', $array ) ? $array['gid'] : $this->get('gid');
 
-		$query = 'SELECT name'
-		. ' FROM #__core_acl_aro_groups'
-		. ' WHERE id = ' . (int) $gid
-		;
-		$db->setQuery( $query );
-		$this->set( 'usertype', $db->loadResult());
+		$group = array( '18' => 'Registered',
+				'19' => 'Author',
+				'20' => 'Editor',
+				'21' => 'Publisher',
+				'23' => 'Manager',
+				'24' => 'Administrator',
+				'25' => 'Super Administrator');
+		$this->set( 'usertype', $group[$gid]);
 
 		if ( array_key_exists('params', $array) )
 		{
@@ -467,6 +469,9 @@ class JUser extends JObject
 
 			$this->params = $params;
 		}
+
+		//new ACL: get groups and prepare them for later saving in the new system
+		$this->_groups	= array_key_exists('group', $array ) ? $array['group'] : array();
 
 		// Bind the array
 		if (!$this->setProperties($array)) {
@@ -490,6 +495,8 @@ class JUser extends JObject
 	 */
 	function save( $updateOnly = false )
 	{
+		$acl =& JFactory::getACL();
+
 		// Create the user table object
 		$table 	=& $this->getTable();
 		$this->params = $this->_params->toString();
@@ -544,6 +551,34 @@ class JUser extends JObject
 			$this->id = $table->get( 'id' );
 		}
 
+		//add or update user in ACL system
+		if ($isnew)
+		{
+			$acl->adduser($this->id, $this->username);
+			if(count($this->_groups))
+			{
+				foreach($this->_groups as $group)
+				{
+					$acl->addUser2Group($this->id, $group);
+				}
+			}
+		} else {
+			$acl->adduser($this->id, $this->username, true);
+			$groups	= $acl->getUsergroups( 0, $this->id);
+			foreach($groups as $group)
+			{
+				$acl->deluser2group($this->id, $group['id']);
+			}
+
+			if(count($this->_groups))
+			{
+				foreach($this->_groups as $group)
+				{
+					$acl->addUser2Group($this->id, $group);
+				}
+			}
+		}
+
 		// Fire the onAftereStoreUser event
 		$dispatcher->trigger( 'onAfterStoreUser', array( $this->getProperties(), $isnew, $result, $this->getError() ) );
 
@@ -573,7 +608,8 @@ class JUser extends JObject
 		if (!$result = $table->delete($this->id)) {
 			$this->setError($table->getError());
 		}
-
+		$acl = JFactory::getACL();
+		$acl->deluser($this->id);
 		//trigger the onAfterDeleteUser event
 		$dispatcher->trigger( 'onAfterDeleteUser', array( $this->getProperties(), $result, $this->getError()) );
 		return $result;

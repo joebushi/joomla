@@ -32,20 +32,7 @@ class modMenuHelper
 		$usertype	= $user->get('usertype');
 
 		// cache some acl checks
-		$canCheckin			= $user->authorize('com_checkin', 'manage');
-		$canConfig			= $user->authorize('com_config', 'manage');
-		$manageTemplates	= $user->authorize('com_templates', 'manage');
-		$manageTrash		= $user->authorize('com_trash', 'manage');
-		$manageMenuMan		= $user->authorize('com_menus', 'manage');
-		$manageLanguages	= $user->authorize('com_languages', 'manage');
-		$installModules		= $user->authorize('com_installer', 'module');
-		$editAllModules		= $user->authorize('com_modules', 'manage');
-		$installPlugins		= $user->authorize('com_installer', 'plugin');
-		$editAllPlugins		= $user->authorize('com_plugins', 'manage');
-		$installComponents	= $user->authorize('com_installer', 'component');
-		$editAllComponents	= $user->authorize('com_components', 'manage');
-		$canMassMail		= $user->authorize('com_massmail', 'manage');
-		$canManageUsers		= $user->authorize('com_users', 'manage');
+		$user->loadAccessRights(0, 'manage');
 
 		// Menu Types
 		require_once( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_menus'.DS.'helpers'.DS.'helper.php' );
@@ -62,12 +49,12 @@ class modMenuHelper
 		$menu->addChild(new JMenuNode(JText::_('Site')), true);
 		$menu->addChild(new JMenuNode(JText::_('Control Panel'), 'index.php', 'class:cpanel'));
 		$menu->addSeparator();
-		if ($canManageUsers) {
+		if ($user->authorize('com_users', 'manage')) {
 			$menu->addChild(new JMenuNode(JText::_('User Manager'), 'index.php?option=com_users&task=view', 'class:user'));
 		}
 		$menu->addChild(new JMenuNode(JText::_('Media Manager'), 'index.php?option=com_media', 'class:media'));
 		$menu->addSeparator();
-		if ($canConfig) {
+		if ($user->authorize('com_config', 'manage')) {
 			$menu->addChild(new JMenuNode(JText::_('Configuration'), 'index.php?option=com_config', 'class:config'));
 			$menu->addSeparator();
 		}
@@ -79,14 +66,14 @@ class modMenuHelper
 		 * Menus SubMenu
 		 */
 		$menu->addChild(new JMenuNode(JText::_('Menus')), true);
-		if ($manageMenuMan) {
+		if ($user->authorize('com_menus', 'manage')) {
 			$menu->addChild(new JMenuNode(JText::_('Menu Manager'), 'index.php?option=com_menus', 'class:menu'));
 		}
-		if ($manageTrash) {
+		if ($user->authorize('com_trash', 'manage')) {
 			$menu->addChild(new JMenuNode(JText::_('Menu Trash'), 'index.php?option=com_trash&task=viewMenu', 'class:trash'));
 		}
 
-		if($manageTrash || $manageMenuMan) {
+		if($user->authorize('com_menus', 'manage') || $user->authorize('com_trash', 'manage')) {
 			$menu->addSeparator();
 		}
 		/*
@@ -105,7 +92,7 @@ class modMenuHelper
 		 */
 		$menu->addChild(new JMenuNode(JText::_('Content')), true);
 		$menu->addChild(new JMenuNode(JText::_('Article Manager'), 'index.php?option=com_content', 'class:article'));
-		if ($manageTrash) {
+		if ($user->authorize('com_trash', 'manage')) {
 			$menu->addChild(new JMenuNode(JText::_('Article Trash'), 'index.php?option=com_trash&task=viewContent', 'class:trash'));
 		}
 		$menu->addSeparator();
@@ -119,7 +106,7 @@ class modMenuHelper
 		/*
 		 * Components SubMenu
 		 */
-		if ($editAllComponents)
+		if (1)
 		{
 			$menu->addChild(new JMenuNode(JText::_('Components')), true);
 
@@ -159,7 +146,7 @@ class modMenuHelper
 
 			foreach ($comps as $row)
 			{
-				if ($editAllComponents | $user->authorize('administration', 'edit', 'components', $row->option))
+				if ($user->authorize($row->option, 'manage'))
 				{
 					if ($row->parent == 0 && (trim($row->admin_menu_link) || array_key_exists($row->id, $subs)))
 					{
@@ -186,22 +173,24 @@ class modMenuHelper
 		/*
 		 * Extensions SubMenu
 		 */
-		if ($installModules)
+		if ($user->authorize('com_installer', 'manage') || $user->authorize('com_languages', 'manage') || $user->authorize('com_modules', 'manage') || $user->authorize('com_plugins', 'manage') || $user->authorize('com_templates', 'manage'))
 		{
 			$menu->addChild(new JMenuNode(JText::_('Extensions')), true);
 
-			$menu->addChild(new JMenuNode(JText::_('Install/Uninstall'), 'index.php?option=com_installer', 'class:install'));
-			$menu->addSeparator();
-			if ($editAllModules) {
+			if($user->authorize('com_installer', 'manage')) {
+				$menu->addChild(new JMenuNode(JText::_('Install/Uninstall'), 'index.php?option=com_installer', 'class:install'));
+				$menu->addSeparator();
+			}
+			if ($user->authorize('com_modules', 'manage')) {
 				$menu->addChild(new JMenuNode(JText::_('Module Manager'), 'index.php?option=com_modules', 'class:module'));
 			}
-			if ($editAllPlugins) {
+			if ($user->authorize('com_plugins', 'manage')) {
 				$menu->addChild(new JMenuNode(JText::_('Plugin Manager'), 'index.php?option=com_plugins', 'class:plugin'));
 			}
-			if ($manageTemplates) {
+			if ($user->authorize('com_templates', 'manage')) {
 				$menu->addChild(new JMenuNode(JText::_('Template Manager'), 'index.php?option=com_templates', 'class:themes'));
 			}
-			if ($manageLanguages) {
+			if ($user->authorize('com_languages', 'manage')) {
 				$menu->addChild(new JMenuNode(JText::_('Language Manager'), 'index.php?option=com_languages', 'class:language'));
 			}
 			$menu->getParent();
@@ -210,20 +199,20 @@ class modMenuHelper
 		/*
 		 * System SubMenu
 		 */
-		if ($canConfig || $canCheckin)
+		if ($user->authorize('com_config', 'manage') || $user->authorize('com_checkin', 'manage'))
 		{
 			$menu->addChild(new JMenuNode(JText::_('Tools')), true);
 
-			if ($canConfig) {
+			if ($user->authorize('com_config', 'manage')) {
 				$menu->addChild(new JMenuNode(JText::_('Read Messages'), 'index.php?option=com_messages', 'class:messages'));
 				$menu->addChild(new JMenuNode(JText::_('Write Message'), 'index.php?option=com_messages&task=add', 'class:messages'));
 				$menu->addSeparator();
 			}
-			if ($canMassMail) {
+			if ($user->authorize('com_massmail', 'manage')) {
 				$menu->addChild(new JMenuNode(JText::_('Mass Mail'), 'index.php?option=com_massmail', 'class:massmail'));
 				$menu->addSeparator();
 			}
-			if ($canCheckin) {
+			if ($user->authorize('com_checkin', 'manage')) {
 				$menu->addChild(new JMenuNode(JText::_('Global Checkin'), 'index.php?option=com_checkin', 'class:checkin'));
 				$menu->addSeparator();
 			}
@@ -251,21 +240,7 @@ class modMenuHelper
 	 */
 	function buildDisabledMenu()
 	{
-		$lang	 =& JFactory::getLanguage();
 		$user	 =& JFactory::getUser();
-		$usertype = $user->get('usertype');
-
-		$canConfig			= $user->authorize('com_config', 'manage');
-		$installModules		= $user->authorize('com_installer', 'module');
-		$editAllModules		= $user->authorize('com_modules', 'manage');
-		$installPlugins		= $user->authorize('com_installer', 'plugin');
-		$editAllPlugins		= $user->authorize('com_plugins', 'manage');
-		$installComponents	= $user->authorize('com_installer', 'component');
-		$editAllComponents	= $user->authorize('com_components', 'manage');
-		$canMassMail			= $user->authorize('com_massmail', 'manage');
-		$canManageUsers		= $user->authorize('com_users', 'manage');
-
-		$text = JText::_('Menu inactive for this Page', true);
 
 		// Get the menu object
 		$menu = new JAdminCSSMenu();
@@ -280,17 +255,15 @@ class modMenuHelper
 		$menu->addChild(new JMenuNode(JText::_('Content'), null, 'disabled'));
 
 		// Components SubMenu
-		if ($installComponents) {
-			$menu->addChild(new JMenuNode(JText::_('Components'), null, 'disabled'));
-		}
+		$menu->addChild(new JMenuNode(JText::_('Components'), null, 'disabled'));
 
 		// Extensions SubMenu
-		if ($installModules) {
+		if ($user->authorize('com_modules', 'manage')) {
 			$menu->addChild(new JMenuNode(JText::_('Extensions'), null, 'disabled'));
 		}
 
 		// System SubMenu
-		if ($canConfig) {
+		if ($user->authorize('com_config', 'manage')) {
 			$menu->addChild(new JMenuNode(JText::_('Tools'),  null, 'disabled'));
 		}
 

@@ -208,25 +208,11 @@ class JTableUser extends JTable
 		{
 			// existing record
 			$ret = $this->_db->updateObject( $this->_tbl, $this, $this->_tbl_key, $updateNulls );
-
-			// syncronise ACL
-			// single group handled at the moment
-			// trivial to expand to multiple groups
-			$object_id = $acl->get_object_id( $section_value, $this->$k, 'ARO' );
-
-			$groups = $acl->get_object_groups( $object_id, 'ARO' );
-			$acl->del_group_object( $groups[0], $section_value, $this->$k, 'ARO' );
-			$acl->add_group_object( $this->gid, $section_value, $this->$k, 'ARO' );
-
-			$acl->edit_object( $object_id, $section_value, $this->_db->getEscaped( $this->name ), $this->$k, 0, 0, 'ARO' );
 		}
 		else
 		{
 			// new record
 			$ret = $this->_db->insertObject( $this->_tbl, $this, $this->_tbl_key );
-			// syncronise ACL
-			$acl->add_object( $section_value, $this->name, $this->$k, null, null, 'ARO' );
-			$acl->add_group_object( $this->gid, $section_value, $this->$k, 'ARO' );
 		}
 
 		if( !$ret )

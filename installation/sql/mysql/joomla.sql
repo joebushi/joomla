@@ -362,6 +362,7 @@ INSERT INTO `#__plugins` VALUES (30, 'System - Cache', 'cache', 'system', 0, 4, 
 INSERT INTO `#__plugins` VALUES (31, 'System - Log', 'log', 'system', 0, 5, 0, 1, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `#__plugins` VALUES (32, 'System - Remember Me', 'remember', 'system', 0, 6, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `#__plugins` VALUES (33, 'System - Backlink', 'backlink', 'system', 0, 7, 0, 1, 0, 0, '0000-00-00 00:00:00', '');
+INSERT INTO `#__plugins` VALUES (34, 'phpGACL', 'phpgacl', 'system', 0, 2, 1, 0, 0, 0, '0000-00-00 00:00:00', '');
 
 # --------------------------------------------------------
 
@@ -731,20 +732,286 @@ CREATE TABLE `#__weblinks` (
 # --------------------------------------------------------
 
 #
+# Table structure for table `#__core_acl_acl`
+#
+
+CREATE TABLE IF NOT EXISTS `#__core_acl_acl` (
+  `id` int(11) NOT NULL default '0',
+  `section_value` varchar(230) NOT NULL default 'system',
+  `allow` int(11) NOT NULL default '0',
+  `enabled` int(11) NOT NULL default '0',
+  `return_value` text,
+  `note` text,
+  `updated_date` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  KEY `enabled_acl` (`enabled`),
+  KEY `section_value_acl` (`section_value`),
+  KEY `updated_date_acl` (`updated_date`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `#__core_acl_acl`
+#
+
+INSERT INTO `#__core_acl_acl` VALUES(1, 'system', 1, 1, '', '', 1156117968),
+(2, 'system', 1, 1, '', '', 1156117968),
+(3, 'system', 1, 1, '', '', 1156117968),
+(4, 'system', 1, 1, '', '', 1156117968);
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `#__core_acl_acl_sections`
+#
+
+CREATE TABLE IF NOT EXISTS `#__core_acl_acl_sections` (
+  `id` int(11) NOT NULL default '0',
+  `value` varchar(230) NOT NULL default '',
+  `order_value` int(11) NOT NULL default '0',
+  `name` varchar(230) NOT NULL default '',
+  `hidden` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `value_acl_sections` (`value`),
+  KEY `hidden_acl_sections` (`hidden`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `#__core_acl_acl_sections`
+#
+
+INSERT INTO `#__core_acl_acl_sections` VALUES (1, 'system', 0, 'system', 0);
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `#__core_acl_aco`
+#
+
+CREATE TABLE `#__core_acl_aco` (
+  `id` int(11) NOT NULL auto_increment,
+  `section_value` varchar(240) collate latin1_general_ci NOT NULL default '0',
+  `value` varchar(240) collate latin1_general_ci NOT NULL default '',
+  `order_value` int(11) NOT NULL default '0',
+  `name` varchar(255) collate latin1_general_ci NOT NULL default '',
+  `hidden` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `section_value_value_aco` (`section_value`,`value`),
+  KEY `hidden_aco` (`hidden`)
+) ENGINE=MyISAM AUTO_INCREMENT=38 ;
+
+#
+# Dumping data for table `#__core_acl_aco`
+#
+
+INSERT INTO `#__core_acl_aco` VALUES(1, 'com_admin', 'manage', 0, 'Manage', 0),
+(2, 'com_banners', 'manage', 0, 'Manage', 0),
+(3, 'com_cache', 'manage', 0, 'Manage', 0),
+(4, 'com_categories', 'manage', 0, 'Manage', 0),
+(5, 'com_categories', 'view', 0, 'View', 0),
+(6, 'com_checkin', 'manage', 0, 'Manage', 0),
+(7, 'com_config', 'manage', 0, 'Manage', 0),
+(8, 'com_contact', 'manage', 0, 'Manage', 0),
+(9, 'com_contact', 'view', 0, 'View', 0),
+(10, 'com_content', 'manage', 0, 'Manage', 0),
+(11, 'com_content', 'view', 0, 'View', 0),
+(12, 'com_cpanel', 'manage', 0, 'Manage', 0),
+(13, 'com_frontpage', 'manage', 0, 'Manage', 0),
+(14, 'com_installer', 'manage', 0, 'Manage', 0),
+(15, 'com_languages', 'manage', 0, 'Manage', 0),
+(16, 'com_login', 'manage', 0, 'Manage', 0),
+(17, 'com_login', 'view', 0, 'View', 0),
+(18, 'com_massmail', 'manage', 0, 'Manage', 0),
+(19, 'com_media', 'manage', 0, 'Manage', 0),
+(20, 'com_menus', 'manage', 0, 'Manage', 0),
+(21, 'com_messages', 'manage', 0, 'Manage', 0),
+(22, 'com_modules', 'manage', 0, 'Manage', 0),
+(23, 'com_newsfeeds', 'manage', 0, 'Manage', 0),
+(24, 'com_newsfeeds', 'view', 0, 'View', 0),
+(25, 'com_plugins', 'manage', 0, 'Manage', 0),
+(26, 'com_poll', 'manage', 0, 'Manage', 0),
+(27, 'com_poll', 'view', 0, 'View', 0),
+(28, 'com_search', 'manage', 0, 'Manage', 0),
+(29, 'com_search', 'view', 0, 'View', 0),
+(30, 'com_sections', 'manage', 0, 'Manage', 0),
+(31, 'com_sections', 'view', 0, 'View', 0),
+(32, 'com_templates', 'manage', 0, 'Manage', 0),
+(33, 'com_trash', 'manage', 0, 'Manage', 0),
+(34, 'com_users', 'manage', 0, 'Manage', 0),
+(35, 'com_user', 'view', 0, 'View', 0),
+(36, 'com_weblinks', 'manage', 0, 'Manage', 0),
+(37, 'com_weblinks', 'view', 0, 'View', 0);
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `#__core_acl_aco_map`
+#
+
+CREATE TABLE IF NOT EXISTS `#__core_acl_aco_map` (
+  `acl_id` int(11) NOT NULL default '0',
+  `section_value` varchar(100) NOT NULL default '0',
+  `value` varchar(100) NOT NULL default '',
+  PRIMARY KEY  (`acl_id`,`section_value`,`value`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `#__core_acl_aco_map`
+#
+
+INSERT INTO `#__core_acl_aco_map` VALUES(1, 'com_user', 'view'),
+(1, 'com_login', 'view'),
+(2, 'com_user', 'view'),
+(2, 'com_login', 'view'),
+(2, 'com_login', 'manage'),
+(2, 'com_banners', 'manage'),
+(2, 'com_frontpage', 'manage'),
+(2, 'com_contact', 'manage'),
+(2, 'com_newsfeeds', 'manage'),
+(2, 'com_poll', 'manage'),
+(2, 'com_weblinks', 'manage'),
+(2, 'com_media', 'manage'),
+(3, 'com_checkin', 'manage'),
+(3, 'com_cache', 'manage'),
+(3, 'com_installer', 'manage'),
+(3, 'com_plugins', 'manage'),
+(3, 'com_menus', 'manage'),
+(3, 'com_modules', 'manage'),
+(3, 'com_trash', 'manage'),
+(3, 'com_users', 'manage'),
+(4, 'com_config', 'manage'),
+(4, 'com_languages', 'manage'),
+(4, 'com_massmail', 'manage'),
+(4, 'com_templates', 'manage');
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `#__core_acl_aco_sections`
+#
+
+CREATE TABLE `#__core_acl_aco_sections` (
+  `id` int(11) NOT NULL auto_increment,
+  `value` varchar(230) collate latin1_general_ci NOT NULL default '',
+  `order_value` int(11) NOT NULL default '0',
+  `name` varchar(230) collate latin1_general_ci NOT NULL default '',
+  `hidden` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `value_aco_sections` (`value`),
+  KEY `hidden_aco_sections` (`hidden`)
+) ENGINE=MyISAM AUTO_INCREMENT=28 ;
+
+#
+# Dumping data for table `#__core_acl_aco_sections`
+#
+
+INSERT INTO `#__core_acl_aco_sections` VALUES(1, 'com_admin', 0, 'Admin & Help', 0),
+(2, 'com_banners', 0, 'Banner component', 0),
+(3, 'com_cache', 0, 'Cache Administration', 0),
+(4, 'com_categories', 0, 'Category Manager', 0),
+(5, 'com_checkin', 0, 'Checkin Component', 0),
+(6, 'com_config', 0, 'Config Component', 0),
+(7, 'com_contact', 0, 'Contact Manager', 0),
+(8, 'com_content', 0, 'Content Component', 0),
+(9, 'com_cpanel', 0, 'Control Panel', 0),
+(10, 'com_frontpage', 0, 'Frontpage Manager', 0),
+(11, 'com_installer', 0, 'Installer', 0),
+(12, 'com_languages', 0, 'Language Manager', 0),
+(13, 'com_login', 0, 'Login', 0),
+(14, 'com_massmail', 0, 'Massmail', 0),
+(15, 'com_media', 0, 'Media Manager', 0),
+(16, 'com_menus', 0, 'Menu Manager', 0),
+(17, 'com_messages', 0, 'Messages', 0),
+(18, 'com_modules', 0, 'Module Manager', 0),
+(19, 'com_newsfeeds', 0, 'Newsfeed Manager', 0),
+(20, 'com_plugins', 0, 'Plugin Manager', 0),
+(21, 'com_poll', 0, 'Poll Manager', 0),
+(22, 'com_search', 0, 'Search Manager', 0),
+(23, 'com_sections', 0, 'Section Manager', 0),
+(24, 'com_templates', 0, 'Template Manager', 0),
+(25, 'com_trash', 0, 'Trash Manager', 0),
+(26, 'com_users', 0, 'User Manager', 0),
+(27, 'com_weblinks', 0, 'Weblink Manager', 0);
+
+# --------------------------------------------------------
+
+#
 # Table structure for table `#__core_acl_aro`
 #
 
-CREATE TABLE `#__core_acl_aro` (
+CREATE TABLE IF NOT EXISTS `#__core_acl_aro` (
   `id` int(11) NOT NULL auto_increment,
-  `section_value` varchar(240) NOT NULL default '0',
-  `value` varchar(240) NOT NULL default '',
+  `section_value` varchar(100) NOT NULL default '0',
+  `value` varchar(100) NOT NULL default '',
   `order_value` int(11) NOT NULL default '0',
   `name` varchar(255) NOT NULL default '',
   `hidden` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id`),
-  UNIQUE KEY `#__section_value_value_aro` (`section_value`(100),`value`(100)),
-  KEY `#__gacl_hidden_aro` (`hidden`)
-) TYPE=MyISAM CHARACTER SET `utf8`;
+  UNIQUE KEY `section_value_value_aro` (`section_value`,`value`),
+  KEY `hidden_aro` (`hidden`)
+) TYPE=MyISAM AUTO_INCREMENT=3 ;
+
+#
+# Dumping data for table `#__core_acl_aro`
+#
+
+INSERT INTO `#__core_acl_aro` VALUES(1, 'users', '0', 0, 'Guest', 0),
+(2, 'users', '62', 0, 'Administrator', 0);
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `#__core_acl_aro_groups`
+#
+
+CREATE TABLE IF NOT EXISTS `#__core_acl_aro_groups` (
+  `id` int(11) NOT NULL auto_increment,
+  `parent_id` int(11) NOT NULL default '0',
+  `lft` int(11) NOT NULL default '0',
+  `rgt` int(11) NOT NULL default '0',
+  `name` varchar(255) NOT NULL default '',
+  `value` varchar(255) NOT NULL default '',
+  PRIMARY KEY  (`id`,`value`),
+  UNIQUE KEY `value_aro_groups` (`value`),
+  KEY `parent_id_aro_groups` (`parent_id`),
+  KEY `lft_rgt_aro_groups` (`lft`,`rgt`)
+) TYPE=MyISAM AUTO_INCREMENT=12 ;
+
+#
+# Dumping data for table `#__core_acl_aro_groups`
+#
+
+INSERT INTO `#__core_acl_aro_groups` VALUES(1, 0, 1, 22, 'ROOT', 'ROOT'),
+(2, 1, 2, 21, 'USERS', 'USERS'),
+(3, 2, 3, 20, 'Public Frontend', 'Public Frontend'),
+(4, 3, 4, 19, 'Registered', 'Registered'),
+(5, 4, 5, 18, 'Author', 'Author'),
+(6, 5, 6, 17, 'Editor', 'Editor'),
+(7, 6, 7, 16, 'Publisher', 'Publisher'),
+(8, 2, 8, 15, 'Public Backend', 'Public Backend'),
+(9, 8, 9, 14, 'Manager', 'Manager'),
+(10, 9, 10, 13, 'Administrator', 'Administrator'),
+(11, 10, 11, 12, 'Super Administrator', 'Super Administrator');
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `#__core_acl_aro_groups_map`
+#
+
+CREATE TABLE IF NOT EXISTS `#__core_acl_aro_groups_map` (
+  `acl_id` int(11) NOT NULL default '0',
+  `group_id` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`acl_id`,`group_id`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `#__core_acl_aro_groups_map`
+#
+
+INSERT INTO `#__core_acl_aro_groups_map` VALUES(1, 4),
+(2, 9),
+(3, 10),
+(4, 11);
 
 # --------------------------------------------------------
 
@@ -752,75 +1019,140 @@ CREATE TABLE `#__core_acl_aro` (
 # Table structure for table `#__core_acl_aro_map`
 #
 
-CREATE TABLE  `#__core_acl_aro_map` (
+CREATE TABLE IF NOT EXISTS `#__core_acl_aro_map` (
   `acl_id` int(11) NOT NULL default '0',
-  `section_value` varchar(230) NOT NULL default '0',
-  `value` varchar(100) NOT NULL,
+  `section_value` varchar(100) NOT NULL default '0',
+  `value` varchar(100) NOT NULL default '',
   PRIMARY KEY  (`acl_id`,`section_value`,`value`)
-) TYPE=MyISAM CHARACTER SET `utf8`;
-
-# --------------------------------------------------------
-
-#
-# Table structure for table `#__core_acl_aro_groups`
-#
-CREATE TABLE `#__core_acl_aro_groups` (
-  `id` int(11) NOT NULL auto_increment,
-  `parent_id` int(11) NOT NULL default '0',
-  `name` varchar(255) NOT NULL default '',
-  `lft` int(11) NOT NULL default '0',
-  `rgt` int(11) NOT NULL default '0',
-  `value` varchar(255) NOT NULL default '',
-  PRIMARY KEY  (`id`),
-  KEY `#__gacl_parent_id_aro_groups` (`parent_id`),
-  KEY `#__gacl_lft_rgt_aro_groups` (`lft`,`rgt`)
-) TYPE=MyISAM CHARACTER SET `utf8`;
-
-#
-# Dumping data for table `#__core_acl_aro_groups`
-#
-
-INSERT INTO `#__core_acl_aro_groups` VALUES (17,0,'ROOT',1,22,'ROOT');
-INSERT INTO `#__core_acl_aro_groups` VALUES (28,17,'USERS',2,21,'USERS');
-INSERT INTO `#__core_acl_aro_groups` VALUES (29,28,'Public Frontend',3,12,'Public Frontend');
-INSERT INTO `#__core_acl_aro_groups` VALUES (18,29,'Registered',4,11,'Registered');
-INSERT INTO `#__core_acl_aro_groups` VALUES (19,18,'Author',5,10,'Author');
-INSERT INTO `#__core_acl_aro_groups` VALUES (20,19,'Editor',6,9,'Editor');
-INSERT INTO `#__core_acl_aro_groups` VALUES (21,20,'Publisher',7,8,'Publisher');
-INSERT INTO `#__core_acl_aro_groups` VALUES (30,28,'Public Backend',13,20,'Public Backend');
-INSERT INTO `#__core_acl_aro_groups` VALUES (23,30,'Manager',14,19,'Manager');
-INSERT INTO `#__core_acl_aro_groups` VALUES (24,23,'Administrator',15,18,'Administrator');
-INSERT INTO `#__core_acl_aro_groups` VALUES (25,24,'Super Administrator',16,17,'Super Administrator');
-
-# --------------------------------------------------------
-
-#
-# Table structure for table `#__core_acl_groups_aro_map`
-#
-CREATE TABLE `#__core_acl_groups_aro_map` (
-  `group_id` int(11) NOT NULL default '0',
-  `section_value` varchar(240) NOT NULL default '',
-  `aro_id` int(11) NOT NULL default '0',
-  UNIQUE KEY `group_id_aro_id_groups_aro_map` (`group_id`,`section_value`,`aro_id`)
-) TYPE=MyISAM CHARACTER SET `utf8`;
+) TYPE=MyISAM;
 
 # --------------------------------------------------------
 
 #
 # Table structure for table `#__core_acl_aro_sections`
 #
-CREATE TABLE `#__core_acl_aro_sections` (
-  `id` int(11) NOT NULL auto_increment,
+
+CREATE TABLE IF NOT EXISTS `#__core_acl_aro_sections` (
+  `id` int(11) NOT NULL default '0',
   `value` varchar(230) NOT NULL default '',
   `order_value` int(11) NOT NULL default '0',
   `name` varchar(230) NOT NULL default '',
   `hidden` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id`),
-  UNIQUE KEY `#__gacl_value_aro_sections` (`value`),
-  KEY `#__gacl_hidden_aro_sections` (`hidden`)
-) TYPE=MyISAM CHARACTER SET `utf8`;
+  UNIQUE KEY `value_aro_sections` (`value`),
+  KEY `hidden_aro_sections` (`hidden`)
+) TYPE=MyISAM;
 
-INSERT INTO `#__core_acl_aro_sections` VALUES (10,'users',1,'Users',0);
+#
+# Dumping data for table `#__core_acl_aro_sections`
+#
+
+INSERT INTO `#__core_acl_aro_sections` VALUES (10, 'users', 1, 'Users', 0);
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `#__core_acl_axo`
+#
+
+CREATE TABLE IF NOT EXISTS `#__core_acl_axo` (
+  `id` int(11) NOT NULL default '0',
+  `section_value` varchar(100) NOT NULL default '0',
+  `value` varchar(100) NOT NULL default '',
+  `order_value` int(11) NOT NULL default '0',
+  `name` varchar(255) NOT NULL default '',
+  `hidden` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `section_value_value_axo` (`section_value`,`value`),
+  KEY `hidden_axo` (`hidden`)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `#__core_acl_axo_groups`
+#
+
+CREATE TABLE IF NOT EXISTS `#__core_acl_axo_groups` (
+  `id` int(11) NOT NULL default '0',
+  `parent_id` int(11) NOT NULL default '0',
+  `lft` int(11) NOT NULL default '0',
+  `rgt` int(11) NOT NULL default '0',
+  `name` varchar(255) NOT NULL default '',
+  `value` varchar(255) NOT NULL default '',
+  PRIMARY KEY  (`id`,`value`),
+  UNIQUE KEY `value_axo_groups` (`value`),
+  KEY `parent_id_axo_groups` (`parent_id`),
+  KEY `lft_rgt_axo_groups` (`lft`,`rgt`)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `#__core_acl_axo_groups_map`
+#
+
+CREATE TABLE IF NOT EXISTS `#__core_acl_axo_groups_map` (
+  `acl_id` int(11) NOT NULL default '0',
+  `group_id` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`acl_id`,`group_id`)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `#__core_acl_axo_map`
+#
+
+CREATE TABLE IF NOT EXISTS `#__core_acl_axo_map` (
+  `acl_id` int(11) NOT NULL default '0',
+  `section_value` varchar(100) NOT NULL default '0',
+  `value` varchar(100) NOT NULL default '',
+  PRIMARY KEY  (`acl_id`,`section_value`,`value`)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `#__core_acl_axo_sections`
+#
+
+CREATE TABLE IF NOT EXISTS `#__core_acl_axo_sections` (
+  `id` int(11) NOT NULL default '0',
+  `value` varchar(230) NOT NULL default '',
+  `order_value` int(11) NOT NULL default '0',
+  `name` varchar(230) NOT NULL default '',
+  `hidden` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `value_axo_sections` (`value`),
+  KEY `hidden_axo_sections` (`hidden`)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `#__core_acl_groups_aro_map`
+#
+
+CREATE TABLE IF NOT EXISTS `#__core_acl_groups_aro_map` (
+  `group_id` int(11) NOT NULL default '0',
+  `aro_id` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`group_id`,`aro_id`),
+  KEY `aro_id` (`aro_id`)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `#__core_acl_groups_axo_map`
+#
+
+CREATE TABLE IF NOT EXISTS `#__core_acl_groups_axo_map` (
+  `group_id` int(11) NOT NULL default '0',
+  `axo_id` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`group_id`,`axo_id`),
+  KEY `axo_id` (`axo_id`)
+) TYPE=MyISAM;
 
 # --------------------------------------------------------
 

@@ -13,7 +13,7 @@
 */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die();
 
 jimport('joomla.plugin.plugin');
 
@@ -79,49 +79,19 @@ class plgUserJoomla extends JPlugin
 
 		$instance =& $this->_getUser($user, $options);
 
-		// if _getUser returned an error, then pass it back.
-		if (JError::isError( $instance )) {
-			return $instance;
-		}
-
 		// If the user is blocked, redirect with an error
 		if ($instance->get('block') == 1) {
 			return JError::raiseWarning('SOME_ERROR_CODE', JText::_('E_NOLOGIN_BLOCKED'));
-		}
-
-		// Get an ACL object
-		$acl =& JFactory::getACL();
-
-		// Get the user group from the ACL
-		if ($instance->get('tmp_user') == 1) {
-			$grp = new JObject;
-			// This should be configurable at some point
-			$grp->set('name', 'Registered');
-		} else {
-			$grp = $acl->getAroGroup($instance->get('id'));
-		}
-
-		//Authorise the user based on the group information
-		if(!isset($options['group'])) {
-			$options['group'] = 'USERS';
-		}
-
-		if(!$acl->is_group_child_of( $grp->name, $options['group'])) {
-			return JError::raiseWarning('SOME_ERROR_CODE', JText::_('E_NOLOGIN_ACCESS'));
 		}
 
 		//Mark the user as logged in
 		$instance->set( 'guest', 0);
 		$instance->set('aid', 1);
 
-		// Fudge Authors, Editors, Publishers and Super Administrators into the special access group
-		if ($acl->is_group_child_of($grp->name, 'Registered')      ||
-		    $acl->is_group_child_of($grp->name, 'Public Backend'))    {
+		if ($instance->get('gid') > 18) {
+			// fudge Authors, Editors, Publishers and Super Administrators into the special access group
 			$instance->set('aid', 2);
 		}
-
-		//Set the usertype based on the ACL group name
-		$instance->set('usertype', $grp->name);
 
 		// Register the needed session variables
 		$session =& JFactory::getSession();
@@ -190,6 +160,7 @@ class plgUserJoomla extends JPlugin
 	 */
 	function &_getUser($user, $options = array())
 	{
+
 		$instance = new JUser();
 		if($id = intval(JUserHelper::getUserId($user['username'])))  {
 			$instance->load($id);
@@ -208,6 +179,7 @@ class plgUserJoomla extends JPlugin
 		$instance->set( 'username'		, $user['username'] );
 		$instance->set( 'password_clear'	, $user['password_clear'] );
 		$instance->set( 'email'			, $user['email'] );	// Result should contain an email (check)
+//ACL_TODO
 		$instance->set( 'gid'			, $acl->get_group_id( '', $usertype));
 		$instance->set( 'usertype'		, $usertype );
 
