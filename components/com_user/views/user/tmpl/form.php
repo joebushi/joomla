@@ -94,7 +94,7 @@ if(isset($this->params)) {
 		}
 		if($this->params->getNumParams($groupname)) {
 			echo '<fieldset><legend>'.JText :: _('Parameters - '.$title).'</legend>';
-			echo $form->render('params', $groupname);
+			echo $this->params->render('params', $groupname);
 			echo '</fieldset>';
 		}
 	}
