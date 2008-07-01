@@ -48,6 +48,8 @@ class JForm extends JRegistry
 	 */
 	var $_xml = null;
 
+	var $_files = array();
+
 	/**
 	* loaded elements
 	*
@@ -230,11 +232,9 @@ class JForm extends JRegistry
 		if (!isset($this->_xml[$group])) {
 			return false;
 		}
-
 		if(!count($this->_chromePath) && $chrome != 'params') {
 			return false;
 		}
-
 		$engine = 'JFormRenderer'.ucfirst(strtolower($chrome));
 		if(!class_exists($engine)) {
 			jimport('joomla.filesystem.path');
@@ -357,20 +357,20 @@ class JForm extends JRegistry
 
 		//get value
 		$value = $this->get($node->attributes('name'), $node->attributes('default'), $group);
-
 		if($form) {
 			return $element->render($node, $value, $control_name);
-		} elseif (method_exists($element, 'fetchTableElement')) {
-			return $element->render($node, $value, $control_name, $form);
 		} else {
-			$result[0] = '';
-			$result[1] = $value;
-			$result[2] = $node->attributes('description');
-			$result[3] = $node->attributes('label');
-			$result[4] = $value;
-			$result[5] = $node->attributes('name');
-			return $result;
-		}
+			if (method_exists($element, 'fetchTableElement')) {
+				return $element->render($node, $value, $control_name, $form);
+			} else {
+				$result[0] = $node->attributes('label').': ';
+				$result[1] = $this->get($node->attributes('name'), $node->attributes('default'), $group);
+				$result[2] = $node->attributes('description');
+				$result[3] = $node->attributes('label');
+				$result[4] = $value;
+				$result[5] = $node->attributes('name');
+				return $result;
+		}	}
 	}
 
 	/**
@@ -417,10 +417,11 @@ class JForm extends JRegistry
 	{
 		$result = false;
 
-		if ($path)
+		if ($path && !in_array($path, $this->_file))
 		{
+			$this->_file[] = $path;
 			$xml = & JFactory::getXMLParser('Simple');
-
+			
 			if ($xml->loadFile($path))
 			{
 				$elementtagname = $this->_elementTagName.'s';
@@ -611,7 +612,7 @@ class JFormRendererParams extends JObject
 			$this->_html[]	= '<tr><td class="paramlist_description" colspan="2">'.$desc.'</td></tr>';
 		}
 
-		$this->_render($xml->children(), $name, $form);
+		$this->_render($xml->children(), $name, '', '', $form);
 
 		if (count($xml->children()) < 1) {
 			$this->_html[] = "<tr><td colspan=\"2\"><i>".JText::_('There are no Parameters for this item')."</i></td></tr>";
@@ -658,7 +659,7 @@ $name.$cond.$cond_value.'-cond'
 					$this->_render($cond_group->children(), $param->attribute('name'), $cond_group->attribute('value'));
 				}
 			} else {
-				$result = $this->_object->getElement($param, $name, $form);
+				$result = $this->_object->getElement($param, $name, '_default', $form);
 				if($id_prefix != '') {
 					$id = ' id="'.$id_prefix.$this->_cond[$name][$cond][$cond_value].'"';
 					$this->_cond[$name][$cond][$cond_value]++;
