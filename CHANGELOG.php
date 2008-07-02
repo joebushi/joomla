@@ -38,6 +38,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+2-July-2008 Anthony Ferrara
+ # [#11643] Cannot save menu item for Submit New Article (Thanks Jens!)
+ # [#11638] SVN Rev.10473 breaks path on JS includes (Thanks Jens!)
+
 30-June-2008 Andrew Eddie
  # [11637] Fix htmlentities in com_modules
 
