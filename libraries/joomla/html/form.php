@@ -19,6 +19,7 @@ jimport( 'joomla.registry.registry' );
 
 //Register the element class with the loader
 JLoader::register('JElement', dirname(__FILE__).DS.'parameter'.DS.'element.php');
+JLoader::register('JSimpleXMLElement', JPATH_BASE.DS.'libraries'.DS.'joomla'.DS.'utilities'.DS.'simplexml.php');
 
 /**
  * Form handler
@@ -47,6 +48,8 @@ class JForm extends JRegistry
 	 * @since	1.6
 	 */
 	var $_xml = null;
+
+	var $_xmlAttributes = null;
 
 	var $_files = array();
 
@@ -184,6 +187,7 @@ class JForm extends JRegistry
 			if (!$group = $xml->attributes( 'group' )) {
 				$group = '_default';
 			}
+			$this->_xmlAttributes[$group] = $xml->attributes();
 			if(isset($this->_xml[$group])) {
 				foreach($xml->children() as $child) {
 					$this->_xml[$group]->_children[] = $child;
@@ -305,6 +309,15 @@ class JForm extends JRegistry
 		return $results;
 	}
 
+	function getGroupAttributes($group = '_default')
+	{
+		if(isset($this->_xmlAttributes[$group]))
+		{
+			return $this->_xmlAttributes[$group];
+		}
+		return false;
+	}
+
 	/**
 	 * Render all parameters
 	 * Notice: This function does not support the conditional parameters introduced in 1.6.
@@ -417,6 +430,10 @@ class JForm extends JRegistry
 	{
 		$result = false;
 
+		if(!is_array($this->_file))
+		{
+			$this->_file = array();
+		}
 		if ($path && !in_array($path, $this->_file))
 		{
 			$this->_file[] = $path;

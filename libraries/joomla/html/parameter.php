@@ -19,7 +19,6 @@ jimport( 'joomla.html.form' );
 
 //Register the element class with the loader
 JLoader::register('JElement', dirname(__FILE__).DS.'parameter'.DS.'element.php');
-JLoader::register('JSimpleXMLElement', JPATH_BASE.DS.'libraries'.DS.'joomla'.DS.'utilities'.DS.'simplexml.php');
 
 /**
  * Parameter handler
