@@ -117,6 +117,9 @@ class UserController extends JController
 
 		if ($return = JRequest::getVar('return', '', 'method', 'base64')) {
 			$return = base64_decode($return);
+			if (strpos( $return, 'http' ) !== false && strpos( $return, JURI::base() ) !== 0) {
+				$return = '';
+			}
 		}
 
 		$options = array();
@@ -162,6 +165,9 @@ class UserController extends JController
 		{
 			if ($return = JRequest::getVar('return', '', 'method', 'base64')) {
 				$return = base64_decode($return);
+				if (strpos( $return, 'http' ) !== false && strpos( $return, JURI::base() ) !== 0) {
+					$return = '';
+				}
 			}
 
 			// Redirect if the return url is not registration or login
