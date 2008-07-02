@@ -309,13 +309,13 @@ class JForm extends JRegistry
 		return $results;
 	}
 
-	function getGroupAttributes($group = '_default')
+	function getGroupAttributes($group = '')
 	{
 		if(isset($this->_xmlAttributes[$group]))
 		{
 			return $this->_xmlAttributes[$group];
 		}
-		return false;
+		return $this->_xmlAttributes;
 	}
 
 	/**

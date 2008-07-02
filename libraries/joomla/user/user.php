@@ -16,7 +16,7 @@
 defined('JPATH_BASE') or die();
 
 jimport( 'joomla.html.parameter');
-
+JLoader::register('JForm', JPATH_BASE.DS.'libraries'.DS.'joomla'.DS.'html'.DS.'form.php');
 
 /**
  * User class.  Handles all application interaction with a user
@@ -112,6 +112,8 @@ class JUser extends JObject
 	 */
 	var $params			= null;
 
+	var $_infos			= null;
+
 	/**
 	 * Description
 	 * @var string integer
@@ -146,6 +148,7 @@ class JUser extends JObject
 	{
 		// Create the user parameters object
 		$this->_params = new JParameter( '' );
+		$this->_infos = new JForm( '', '', 'profile' );
 
 		// Load the user if it exists
 		if (!empty($identifier)) {
@@ -279,6 +282,36 @@ class JUser extends JObject
 		$table->load($this->id);
 
 		return $table->setLastVisit($timestamp);
+	}
+
+	function &getInfos($loadsetupfile = false, $path = null)
+	{
+		static $infospath;
+
+		// Set a custom parampath if defined
+		if( isset($path) ) {
+			$infospath = $path;
+		}
+
+		// Set the default parampath if not set already
+		if( !isset($infospath) ) {
+			$infospath = JPATH_ADMINISTRATOR.DS.'components'.DS.'com_users'.DS.'profile';
+		}
+
+		if($loadsetupfile)
+		{
+			$type = str_replace(' ', '_', strtolower($this->usertype));
+
+			$file = $infospath.DS.$type.'.xml';
+			if(!file_exists($file)) {
+				$file = $infospath.DS.'user.xml';
+			}
+
+			$this->_infos->loadSetupFile($file);
+			$this->_infos->loadSetupDirectory($infospath, $type.'_(.*)\.xml');
+			$this->_infos->loadSetupDirectory($infospath, 'general_(.*)\.xml');
+		}
+		return $this->_infos;
 	}
 
 	/**
@@ -608,6 +641,7 @@ class JUser extends JObject
 		 * user parameters, but for right now we'll leave it how it is.
 		 */
 		$this->_params->loadINI($table->params);
+		$this->_infos->loadINI($table->infos);
 
 		// Assuming all is well at this point lets bind the data
 		$this->setProperties($table->getProperties());

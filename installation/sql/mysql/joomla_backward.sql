@@ -693,6 +693,7 @@ CREATE TABLE `#__users` (
   `lastvisitDate` datetime NOT NULL default '0000-00-00 00:00:00',
   `activation` varchar(100) NOT NULL default '',
   `params` text NOT NULL,
+  `infos` text NOT NULL,
   PRIMARY KEY  (`id`),
   KEY `usertype` (`usertype`),
   KEY `idx_name` (`name`(255)),

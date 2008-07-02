@@ -115,6 +115,8 @@ class JTableUser extends JTable
 	 */
 	var $params			= null;
 
+	var $infos			= null;
+
 	/**
 	* @param database A database connector object
 	*/
