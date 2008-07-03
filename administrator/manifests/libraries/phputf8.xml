@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <extension type="library" version="1.5">
-	<fullname>PHP UTF-8</fullname>
-	<name>phputf8</name>
+	<name>PHP UTF-8</name>
+	<libraryname>phputf8</libraryname>
 	<version>1.5</version>
 	<description>PHP UTF-8 support functions</description>
 	<creationDate>2008</creationDate>

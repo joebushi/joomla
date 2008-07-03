@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <extension type="library" version="1.5">
-	<fullname>DOMiT</fullname>
-	<name>domit</name>
+	<name>DOMiT</name>
+	<libraryname>domit</libraryname>
 	<version>1.01</version>
 	<description>DOMIT! is a non-validating, but lightweight and fast DOM parser for PHP</description>
 	<creationDate>2006</creationDate>

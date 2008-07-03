@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <extension type="library" version="1.5">
-	<fullname>SimplePie</fullname>
-	<name>simplepie</name>
+	<name>SimplePie</name>
+	<libraryname>simplepie</libraryname>
 	<version>1.0.1</version>
 	<description>A PHP-Based RSS and Atom Feed Framework.</description>
 	<creationDate>2008</creationDate>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <extension type="library" version="1.5">
-	<fullname>XML RPC for PHP</fullname>
-	<name>phpxmlrpc</name>
+	<name>XML RPC for PHP</name>
+	<libraryname>phpxmlrpc</libraryname>
 	<version>1.5</version>
 	<description>PHP XML RPC Library for Client and Server</description>
 	<creationDate>2008</creationDate>

@@ -67,7 +67,7 @@ class InstallerViewLibraries extends InstallerViewDefault
 		$item->alt 		= $item->enabled ? JText::_( 'Enabled' ) : JText::_( 'Disabled' );
 		$item->action	= $item->enabled ? JText::_( 'disable' ) : JText::_( 'enable' );
 */
-		if ($item->name == 'joomla') {
+		if ($item->libraryname == 'joomla') {
 			$item->cbd		= 'disabled';
 			$item->style	= 'style="color:#999999;"';
 		} else {

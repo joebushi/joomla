@@ -52,7 +52,8 @@ class JInstallerComponent extends JObject
 		// Get the extension manifest object
 		$manifest =& $this->parent->getManifest();
 		$this->manifest =& $manifest->document;
-
+		
+		$manifestClass = null; // set this in case
 		/**
 		 * ---------------------------------------------------------------------------------------------
 		 * Manifest Document Setup Section
@@ -81,6 +82,33 @@ class JInstallerComponent extends JObject
 		$this->parent->setPath('extension_site', JPath::clean(JPATH_SITE.DS."components".DS.strtolower("com_".str_replace(" ", "", $this->get('name')))));
 		$this->parent->setPath('extension_administrator', JPath::clean(JPATH_ADMINISTRATOR.DS."components".DS.strtolower("com_".str_replace(" ", "", $this->get('name')))));
 
+		/**
+		 * ---------------------------------------------------------------------------------------------
+		 * Installer Trigger Loading and Preflight Check
+		 * ---------------------------------------------------------------------------------------------
+		 */
+		// If there is an manifest class file, lets load it; we'll copy it later (don't have dest yet)
+		$manifestScriptElement =& $this->manifest->getElementByPath('manifestfile');
+		if (is_a($manifestScriptElement, 'JSimpleXMLElement')) {
+			$manifestScript = $installScriptElement->data();
+			$manifestScriptFile = $this->parent->getPath('source').DS.$manifestScript;
+			if(is_file($manifestScriptFile)) {
+				// load the file
+				include_once($manifestScriptFile);
+			}
+			// Set the class name
+			$classname = $name.'Manifest';
+			if(class_exists($classname)) {
+				// create a new instance
+				$manifestClass = new $classname($this);
+				// and set this so we can copy it later
+				$this->set('manifest.script', $manifestScript);
+				// Note: if we don't find the class, don't bother to copy the file				
+			}
+		}
+		// run preflight if possible
+		if($manifestClass && method_exists($manifestClass,'preflight') $manifestClass->preflight();	
+		
 		/**
 		 * ---------------------------------------------------------------------------------------------
 		 * Basic Checks Section
@@ -177,6 +205,7 @@ class JInstallerComponent extends JObject
 		$this->parent->parseFiles($this->manifest->getElementByPath('images'));
 		$this->parent->parseFiles($this->manifest->getElementByPath('administration/images'), 1);
 
+		// Deprecated install, remove after 1.6
 		// If there is an install file, lets copy it.
 		$installScriptElement =& $this->manifest->getElementByPath('installfile');
 		if (is_a($installScriptElement, 'JSimpleXMLElement')) {
@@ -194,6 +223,7 @@ class JInstallerComponent extends JObject
 			$this->set('install.script', $installScriptElement->data());
 		}
 
+		// Deprecated uninstall, remove after 1.6
 		// If there is an uninstall file, lets copy it.
 		$uninstallScriptElement =& $this->manifest->getElementByPath('uninstallfile');
 		if (is_a($uninstallScriptElement, 'JSimpleXMLElement')) {
@@ -205,6 +235,19 @@ class JInstallerComponent extends JObject
 				if (!$this->parent->copyFiles(array ($path))) {
 					// Install failed, rollback changes
 					$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.JText::_('Could not copy PHP uninstall file.'));
+					return false;
+				}
+			}
+		}
+		
+		if($this->get('manifest.script')) {
+			$path['src'] = $this->parent->getPath('source').DS.$this->get('manifest.script');
+			$path['dest'] = $this->parent->getPath('extension_administrator').DS.$this->get('manifest.script');
+			
+			if(!file_exists($path['dest'])) {
+				if (!$this->parent->copyFiles(array ($path))) {
+					// Install failed, rollback changes
+					$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.JText::_('Could not copy PHP manifest file.'));
 					return false;
 				}
 			}
@@ -277,12 +320,17 @@ class JInstallerComponent extends JObject
 		 * ---------------------------------------------------------------------------------------------
 		 */
 
-		// Lastly, we will copy the manifest file to its appropriate place.
+		// We will copy the manifest file to its appropriate place.
 		if (!$this->parent->copyManifest()) {
 			// Install failed, rollback changes
 			$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.JText::_('Could not copy setup file'));
 			return false;
 		}
+		
+		// And now we run the postflight
+		
+		
+		
 		return true;
 	}
 

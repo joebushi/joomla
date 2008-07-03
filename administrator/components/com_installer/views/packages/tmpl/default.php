@@ -66,6 +66,6 @@ defined('_JEXEC') or die('Restricted access');
 	<input type="hidden" name="task" value="manage" />
 	<input type="hidden" name="boxchecked" value="0" />
 	<input type="hidden" name="option" value="com_installer" />
-	<input type="hidden" name="type" value="libraries" />
+	<input type="hidden" name="type" value="packages" />
 	<?php echo JHTML::_( 'form.token' ); ?>
 </form>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <extension type="library" version="1.6">
-	<fullname>Joomla! Web Application Framework</fullname>
-	<name>joomla</name>
+	<name>Joomla! Web Application Framework</name>
+	<libraryname>joomla</libraryname>
 	<version>1.6</version>
 	<description>The Joomla! Web Application Framework is the Core of the Joomla! Content Management System</description>
 	<creationDate>2008</creationDate>

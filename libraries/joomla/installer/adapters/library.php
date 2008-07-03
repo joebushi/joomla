@@ -123,7 +123,7 @@ class JInstallerLibrary extends JObject
 		// Lastly, we will copy the manifest file to its appropriate place.
 		$manifest = Array();
 		$manifest['src'] = $this->parent->getPath('manifest');
-		$manifest['dest'] = JPATH_ADMINISTRATOR.DS.'components'.DS.'com_jlibman'.DS.'manifests'.DS.basename($this->parent->getPath('manifest'));
+		$manifest['dest'] = JPATH_MANIFESTS.DS.'libraries'.DS.basename($this->parent->getPath('manifest'));
 		if (!$this->parent->copyFiles(array($manifest), true)) {
 			// Install failed, rollback changes
 			$this->parent->abort(JText::_('Library').' '.JText::_('Install').': '.JText::_('Could not copy setup file'));
@@ -180,7 +180,7 @@ class JInstallerLibrary extends JObject
 		{
 			$manifest = new JLibraryManifest($manifestFile);
 			// Set the plugin root path
-			$this->parent->setPath('extension_root', JPATH_ROOT.DS.'libraries'.DS.$manifest->name);
+			$this->parent->setPath('extension_root', JPATH_ROOT.DS.'libraries'.DS.$manifest->libraryname);
 			
 			$xml =& JFactory::getXMLParser('Simple');
 
