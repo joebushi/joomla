@@ -140,7 +140,7 @@
 						<?php echo $this->lists['gid']; ?>
 					</td>
 				</tr>
-				<?php if ($this->user->authorize( 'com_users', 'block user' )) { ?>
+				<?php if ($this->me->authorize( 'com_users', 'block user' )) { ?>
 				<tr>
 					<td class="key">
 						<?php echo JText::_( 'Block User' ); ?>
@@ -149,7 +149,7 @@
 						<?php echo $this->lists['block']; ?>
 					</td>
 				</tr>
-				<?php } if ($this->user->authorize( 'com_users', 'email_events' )) { ?>
+				<?php } if ($this->me->authorize( 'com_users', 'email_events' )) { ?>
 				<tr>
 					<td class="key">
 						<?php echo JText::_( 'Receive System Emails' ); ?>
@@ -295,7 +295,7 @@
 	<input type="hidden" name="option" value="com_users" />
 	<input type="hidden" name="task" value="" />
 	<input type="hidden" name="contact_id" value="" />
-	<?php if (!$this->user->authorize( 'com_users', 'email_events' )) { ?>
+	<?php if (!$this->me->authorize( 'com_users', 'email_events' )) { ?>
 	<input type="hidden" name="sendEmail" value="0" />
 	<?php } ?>
 	<?php echo JHTML::_( 'form.token' ); ?>

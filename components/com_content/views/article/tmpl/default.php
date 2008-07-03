@@ -86,7 +86,7 @@ endif; ?>
 <?php endif; ?>
 <?php if (($this->params->get('show_author')) && ($this->article->author != "")) : ?>
 <tr>
-	<td width="70%"  valign="top" colspan="2">
+	<td valign="top">
 		<span class="small">
 			<?php JText::printf( 'Written by', ($this->article->created_by_alias ? $this->article->created_by_alias : $this->article->author) ); ?>
 		</span>
@@ -97,7 +97,7 @@ endif; ?>
 
 <?php if ($this->params->get('show_create_date')) : ?>
 <tr>
-	<td valign="top" colspan="2" class="createdate">
+	<td valign="top" class="createdate">
 		<?php echo JHTML::_('date', $this->article->created, JText::_('DATE_FORMAT_LC2')) ?>
 	</td>
 </tr>
@@ -105,7 +105,7 @@ endif; ?>
 
 <?php if ($this->params->get('show_url') && $this->article->urls) : ?>
 <tr>
-	<td valign="top" colspan="2">
+	<td valign="top">
 		<a href="http://<?php echo $this->article->urls ; ?>" target="_blank">
 			<?php echo $this->article->urls; ?></a>
 	</td>
@@ -113,7 +113,7 @@ endif; ?>
 <?php endif; ?>
 
 <tr>
-<td valign="top" colspan="2">
+<td valign="top">
 <?php if (isset ($this->article->toc)) : ?>
 	<?php echo $this->article->toc; ?>
 <?php endif; ?>
@@ -123,7 +123,7 @@ endif; ?>
 
 <?php if ( intval($this->article->modified) !=0 && $this->params->get('show_modify_date')) : ?>
 <tr>
-	<td colspan="2"  class="modifydate">
+	<td class="modifydate">
 		<?php echo JText::_( 'Last Updated' ); ?> ( <?php echo JHTML::_('date', $this->article->modified, JText::_('DATE_FORMAT_LC2')); ?> )
 	</td>
 </tr>

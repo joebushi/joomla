@@ -38,6 +38,12 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+3-July-2008 Anthony Ferrara
+ # [#11647] Corrections (spelling and grammar) to en-GB administrator files (Thanks Ron!)
+ # [#11648] Corrections to en-GB installer (Thanks Ron!)
+ # [#11618] acl check incorrect in com_users for block user and email events
+ # [#11609] Default Article Layout should not have width or colspan="2"
+
 2-July-2008 Anthony Ferrara
  # [#11643] Cannot save menu item for Submit New Article (Thanks Jens!)
  # [#11638] SVN Rev.10473 breaks path on JS includes (Thanks Jens!)
