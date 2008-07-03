@@ -40,16 +40,16 @@ var JOpenID = new Class({
 		this.state    = Cookie.get('login-openid');
 		this.length   = $('form-login-password').getSize().size.y;
 
-		this.switch(this.state, 0);
+		this.switchID(this.state, 0);
 
 		this.switcher.addEvent('click', (function(event) {
 			this.state = this.state ^ 1;
-			this.switch(this.state, 300);
+			this.switchID(this.state, 300);
 			Cookie.set('login-openid', this.state);
 		}).bind(this));
 	},
 
-	switch : function(state, time)
+	switchID : function(state, time)
 	{
 		var password = $('form-login-password');
 		var username = $('modlgn_username');
@@ -95,16 +95,16 @@ var JOpenID_com = new Class({
 		this.state    = Cookie.get('login-openid');
 		this.length   = $('com-form-login-password').getSize().size.y;
 
-		this.switch(this.state, 0);
+		this.switchID(this.state, 0);
 
 		this.switcher.addEvent('click', (function(event) {
 			this.state = this.state ^ 1;
-			this.switch(this.state, 300);
+			this.switchID(this.state, 300);
 			Cookie.set('login-openid', this.state);
 		}).bind(this));
 	},
 
-	switch : function(state, time)
+	switchID : function(state, time)
 	{
 		var password = $('com-form-login-password');
 		var username = $('username');
@@ -133,12 +133,12 @@ var JOpenID_com = new Class({
 document.openid = null
 document.com_openid = null
 window.addEvent('domready', function(){
-  if (modlogin == 1) {
-  	var openid = new JOpenID()
-  	document.openid = openid
-  }
-  if (comlogin == 1) {
-  	var com_openid = new JOpenID_com()
-  	document.com_openid = openid
-  }
+  if (typeof modlogin != 'undefined' && modlogin == 1) {
+  	var openid = new JOpenID();
+  	document.openid = openid;
+  };
+  if (typeof comlogin != 'undefined' && comlogin == 1) {
+  	var com_openid = new JOpenID_com();
+  	document.com_openid = openid;
+  };
 });

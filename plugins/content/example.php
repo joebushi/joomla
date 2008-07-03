@@ -108,4 +108,41 @@ class plgContentExample extends JPlugin
 
 		return '';
 	}
+
+	/**
+	 * Example before save content method
+	 *
+	 * Method is called right before content is saved into the database.
+	 * Article object is passed by reference, so any changes will be saved!
+	 * NOTE:  Returning false will abort the save with an error.  
+	 * 	You can set the error by calling $article->setError($message)
+	 *
+	 * @param 	object		A JTableContent object
+	 * @param 	bool		If the content is just about to be created
+	 * @return	bool		If false, abort the save
+	 */
+	function onBeforeContentSave( &$article, $isNew )
+	{
+		global $mainframe;
+
+		return true;
+	}
+
+	/**
+	 * Example after save content method
+	 * Article is passed by reference, but after the save, so no changes will be saved.
+	 * Method is called right after the content is saved
+	 *
+	 *
+	 * @param 	object		A JTableContent object
+	 * @param 	bool		If the content is just about to be created
+	 * @return	void		
+	 */
+	function onAfterContentSave( &$article, $isNew )
+	{
+		global $mainframe;
+
+		return true;
+	}
+
 }

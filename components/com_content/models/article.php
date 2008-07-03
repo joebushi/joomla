@@ -275,6 +275,8 @@ class ContentModelArticle extends JModel
 
 		$article  =& JTable::getInstance('content');
 		$user     =& JFactory::getUser();
+		$dispatcher =& JDispatcher::getInstance();
+		JPluginHelper::importPlugin('content');
 
 		// Bind the form fields to the web link table
 		if (!$article->bind($data, "published")) {
@@ -398,6 +400,13 @@ class ContentModelArticle extends JModel
 
 		$article->version++;
 
+		//Trigger OnBeforeContentSave
+		$result = $dispatcher->trigger('onBeforeContentSave', array(&$article, $isNew));
+		if(in_array(false, $result, true)) {
+			$this->setError($article->getError());
+			return false;
+		}
+		
 		// Store the article table to the database
 		if (!$article->store()) {
 			$this->setError($this->_db->getErrorMsg());
@@ -410,6 +419,9 @@ class ContentModelArticle extends JModel
 		}
 
 		$article->reorder("catid = " . (int) $data['catid']);
+
+		//Trigger OnAfterContentSave
+		$dispatcher->trigger('onAfterContentSave', array(&$article, $isNew));
 
 		$this->_article	=& $article;
 

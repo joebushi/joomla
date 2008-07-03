@@ -43,6 +43,9 @@ $ -> Language fix or change
  # [#11648] Corrections to en-GB installer (Thanks Ron!)
  # [#11618] acl check incorrect in com_users for block user and email events
  # [#11609] Default Article Layout should not have width or colspan="2"
+ # [#9234] Article Layout menu type does not restrict Categories by Section in Article listbox
+ # [#11639] OpenID Javascript throws errors causes conflicts with Mootools functions
+ # [#11627] OnBefore/AfterContentSave Triggers
 
 2-July-2008 Anthony Ferrara
  # [#11643] Cannot save menu item for Submit New Article (Thanks Jens!)

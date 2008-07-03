@@ -176,12 +176,20 @@ class ContentViewElement extends JView
 		$search				= $mainframe->getUserStateFromRequest('articleelement.search',				'search',			'',	'string');
 		$search				= JString::strtolower($search);
 
-		// get list of categories for dropdown filter
-		$query = 'SELECT cc.id AS value, cc.title AS text, section FROM #__categories AS cc' .
-				' INNER JOIN #__sections AS s ON s.id = cc.section' .
-				' ORDER BY s.ordering, cc.ordering';
-		$lists['catid'] = ContentHelper::filterCategory($query, $catid);
+		// get list of categories for dropdown filter	
+		if ($filter_sectionid >= 0) {
+			$filter = ' WHERE cc.section = '.$db->Quote($filter_sectionid);
+		}
 
+		// get list of categories for dropdown filter
+		$query = 'SELECT cc.id AS value, cc.title AS text, section' .
+				' FROM #__categories AS cc' .
+				' INNER JOIN #__sections AS s ON s.id = cc.section' .
+				$filter .
+				' ORDER BY s.ordering, cc.ordering';
+		
+		$lists['catid'] = ContentHelper::filterCategory($query, $catid);
+		
 		// get list of sections for dropdown filter
 		$javascript = 'onchange="document.adminForm.submit();"';
 		$lists['sectionid'] = JHTML::_('list.section', 'filter_sectionid', $filter_sectionid, $javascript);
