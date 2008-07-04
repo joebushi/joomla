@@ -107,7 +107,7 @@ class JInstallerComponent extends JObject
 			}
 		}
 		// run preflight if possible
-		if($manifestClass && method_exists($manifestClass,'preflight') $manifestClass->preflight();	
+		if($manifestClass && method_exists($manifestClass,'preflight') $manifestClass->preflight('install', $this);	
 		
 		/**
 		 * ---------------------------------------------------------------------------------------------
@@ -299,6 +299,7 @@ class JInstallerComponent extends JObject
 			if (is_file($this->parent->getPath('extension_administrator').DS.$this->get('install.script'))) {
 				ob_start();
 				ob_implicit_flush(false);
+				// start legacy support
 				require_once ($this->parent->getPath('extension_administrator').DS.$this->get('install.script'));
 				if (function_exists('com_install')) {
 					if (com_install() === false) {
@@ -306,6 +307,8 @@ class JInstallerComponent extends JObject
 						return false;
 					}
 				}
+				// end legacy support
+				if($manifestClass && method_exists($manifestClass,'install') $manifestClass->install($this);	
 				$msg = ob_get_contents();
 				ob_end_clean();
 				if ($msg != '') {
@@ -328,7 +331,7 @@ class JInstallerComponent extends JObject
 		}
 		
 		// And now we run the postflight
-		
+		if($manifestClass && method_exists($manifestClass,'postflight') $manifestClass->postflight('install', $this);
 		
 		
 		return true;
