@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+4-July-2008 Wilco Jansen
+ ^ Change default template back to rhuk_milkyway (all help docs are based upon this template)
+
 4-July-2008 Anthony Ferrara
  # Rollback of language file change (accidental removal of 3 strings)
 
