@@ -38,6 +38,14 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+
+3-July-2008 Ian MacLennan
+ # [#8369] Issues with Page Title and Menu Item Layouts
+ # [#10766] table align=right breaks rendering in IE and Opera
+ # [#11602] Language file is missing for administrator module mod_feed
+ # [#11646] Corrects in spelling and grammar for en-GB site
+ # [#11659] Sorting of modules in New module screen is wrong
+
 3-July-2008 Anthony Ferrara
  # [#11647] Corrections (spelling and grammar) to en-GB administrator files (Thanks Ron!)
  # [#11648] Corrections to en-GB installer (Thanks Ron!)

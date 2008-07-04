@@ -167,7 +167,7 @@ function plgContentCreateTOC( &$row, &$matches, &$page )
 
 	// TOC Header
 	$row->toc = '
-	<table cellpadding="0" cellspacing="0" class="contenttoc" align="right">
+	<table cellpadding="0" cellspacing="0" class="contenttoc">
 	<tr>
 		<th>'
 		. JText::_( 'Article Index' ) .

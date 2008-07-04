@@ -65,8 +65,20 @@ class WeblinksViewCategory extends JView
 			$document->addHeadLink(JRoute::_($link.'&type=atom'), 'alternate', 'rel', $attribs);
 		}
 
-		// Set page title per category
-		$document->setTitle( $category->title. ' - '. $params->get( 'page_title'));
+		$menus	= &JSite::getMenu();
+		$menu	= $menus->getActive();
+
+		// because the application sets a default page title, we need to get it
+		// right from the menu item itself
+		if (is_object( $menu )) {
+			$menu_params = new JParameter( $menu->params );
+			if (!$menu_params->get( 'page_title')) {
+				$params->set('page_title', $category->title);
+			}
+		} else {
+			$params->set('page_title',	$category->title);
+		}
+		$document->setTitle( $params->get( 'page_title' ) );
 
 		//set breadcrumbs
 		if(is_object($menu) && $menu->query['view'] != 'category') {

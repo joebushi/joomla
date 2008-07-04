@@ -586,8 +586,8 @@ class HTML_modules
 				?>
 				<td width="<?php echo $pct; ?>%">
 					<span class="editlinktip hasTip" title="<?php
-						echo htmlspecialchars(JText::_(stripslashes($item->name), ENT_QUOTES, 'UTF-8')
-							. ' :: ' . JText::_(stripslashes($item->descrip)));
+						echo htmlspecialchars($item->name . ' :: '
+							. JText::_(stripslashes($item->descrip)), ENT_QUOTES, 'UTF-8');
 					?>" name="module" value="<?php
 						echo $item->module;
 					?>" onclick="isChecked(this.checked);">
@@ -595,7 +595,7 @@ class HTML_modules
 						echo $item->module;
 					?>" id="cb<?php echo $mod; ?>"/><a href="<?php
 						echo $link;
-					?>"><?php echo htmlspecialchars(JText::_($item->name), ENT_QUOTES, 'UTF-8'); ?></a></span>
+					?>"><?php echo htmlspecialchars($item->name, ENT_QUOTES, 'UTF-8'); ?></a></span>
 				</td>
 				<?php
 			endfor;
