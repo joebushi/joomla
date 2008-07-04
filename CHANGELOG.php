@@ -38,6 +38,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+4-July-2008 Anthony Ferrara
+ # Rollback of language file change (accidental removal of 3 strings)
 
 3-July-2008 Ian MacLennan
  # [#8369] Issues with Page Title and Menu Item Layouts
