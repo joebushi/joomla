@@ -38,6 +38,12 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+-------------------- 1.5.4 Stable Release [7-July-2008] ---------------------
+
+6-July-2008 Wilco Jansen
+ # Rollback of language file in joomla_backward.sql
+ # Included latest language files in installer for 1.5.4
+
 5-July-2008 Andrew Eddie
  # [#11075] Minor errors in ACL libraries (reopened)
 
