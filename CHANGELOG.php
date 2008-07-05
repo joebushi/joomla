@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+5-July-2008 Andrew Eddie
+ # [#11075] Minor errors in ACL libraries (reopened)
+
 4-July-2008 Wilco Jansen
  ^ Change default template back to rhuk_milkyway (all help docs are based upon this template)
 
