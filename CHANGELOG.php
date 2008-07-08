@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+8-July-2008 Anthony Ferrara
+ # Removal of install check
+
 -------------------- 1.5.4 Stable Release [7-July-2008] ---------------------
 
 6-July-2008 Wilco Jansen
@@ -56,7 +59,6 @@ $ -> Language fix or change
 3-July-2008 Ian MacLennan
  # [#8369] Issues with Page Title and Menu Item Layouts
  # [#10766] table align=right breaks rendering in IE and Opera
- # [#11602] Language file is missing for administrator module mod_feed
  # [#11646] Corrects in spelling and grammar for en-GB site
  # [#11659] Sorting of modules in New module screen is wrong
 
