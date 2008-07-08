@@ -43,6 +43,18 @@ class JInstaller extends JObject
 	var $_manifest = null;
 
 	/**
+	 * True if packakge is an update
+	 * @var boolean
+	 */
+	var $_update = null;
+	
+	/**
+	 * The manifest trigger class
+	 * @var object
+	 */
+	var $_manifestClass = null;
+	
+	/**
 	 * True if existing files can be overwritten
 	 * @var boolean
 	 */
@@ -317,10 +329,6 @@ class JInstaller extends JObject
 		$version	= $root->attributes('version');
 		$rootName	= $root->name();
 		$config		= &JFactory::getConfig();
-		if ((version_compare($version, '1.5', '<') || $rootName == 'mosinstall') && !$config->getValue('config.legacy')) {
-			$this->abort(JText::_('MUSTENABLELEGACY'));
-			return false;
-		}
 
 		$type = $root->attributes('type');
 
@@ -362,9 +370,6 @@ class JInstaller extends JObject
 		$version	= $root->attributes('version');
 		$rootName	= $root->name();
 		$config		= &JFactory::getConfig();
-		if ((version_compare($version, '1.5', '<') || $rootName == 'mosinstall') && !$config->getValue('config.legacy')) {
-			return $this->abort(JText::_('MUSTENABLELEGACY'));
-		}
 
 		$type = $root->attributes('type');
 
@@ -517,15 +522,17 @@ class JInstaller extends JObject
 			}
 
 			if( $fCharset == $dbCharset && $fDriver == $dbDriver) {
-				$sqlfile = $file->data();
+				$sqlfile = $this->getPath('extension_administrator').DS.$file->data();
 				// Check that sql files exists before reading. Otherwise raise error for rollback
-				if ( !file_exists( $this->getPath('extension_administrator').DS.$sqlfile ) ) {
+				if ( !file_exists( $sqlfile ) ) {
+					JError::raiseWarning(1,'JInstaller::installer: '. JText::_('SQL File not found').' '. $sqlfile);
 					return false;
 				}
-				$buffer = file_get_contents($this->getPath('extension_administrator').DS.$sqlfile);
+				$buffer = file_get_contents($sqlfile);
 
 				// Graceful exit and rollback if read not successful
 				if ( $buffer === false ) {
+					JError::raiseWarning(1, 'JInstaller::installer: '. JText::_('SQL File Buffer Read Error'));
 					return false;
 				}
 
@@ -1112,6 +1119,7 @@ class JInstaller extends JObject
 					// If the root method attribute is set to upgrade, allow file overwrite
 					$root =& $manifest->document;
 					if ($root->attributes('method') == 'upgrade') {
+						$this->_upgrade = true;
 						$this->_overwrite = true;
 					}
 
@@ -1159,13 +1167,12 @@ class JInstaller extends JObject
 		/*
 		 * Check for a valid XML root tag.
 		 * @todo: Remove backwards compatability in a future version
-		 * Should be 'extension', but for backward compatability we will accept 'mosinstall' or 'install'.
+		 * Should be 'extension', but for backward compatability we will accept 'extension' or 'install'.
 		 */
 		$root =& $xml->document;
-		// 1.0 legacy uses 'mosinstall'
 		// 1.5 uses 'install'
 		// 1.6 uses 'extension'
-		if (!is_object($root) || ($root->name() != 'install' && $root->name() != 'mosinstall' && $root->name() != 'extension')) {
+		if (!is_object($root) || ($root->name() != 'install' && $root->name() != 'extension')) {
 			// Free up xml parser memory and return null
 			unset ($xml);
 			return $null;
