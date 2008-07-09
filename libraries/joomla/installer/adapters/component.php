@@ -104,12 +104,15 @@ class JInstallerComponent extends JObject
 		 * If the component site or admin directory already exists, then we will assume that the component is already
 		 * installed or another component is using that directory.
 		 */
-		if ((file_exists($this->parent->getPath('extension_site')) || file_exists($this->parent->getPath('extension_administrator'))) && !$this->parent->getOverwrite()) {
+		if ((file_exists($this->parent->getPath('extension_site')) || file_exists($this->parent->getPath('extension_administrator')))) {
 			// look for an update function or update tag			
 			$updateElement = $this->manifest->getElementByPath('update');
-			if(($this->parent->_manifestClass && method_exists($this->parent->_manifestClass,'update')) || is_a($updateElement, 'JSimpleXMLElement')) {
+			// upgrade manually set
+			// update function available
+			// update tag detected 
+			if($this->parent->getUpgrade() || ($this->parent->_manifestClass && method_exists($this->parent->_manifestClass,'update')) || is_a($updateElement, 'JSimpleXMLElement')) {
 				return $this->update(); // transfer control to the update function
-			} else {
+			} else if(!$this->parent->getOverwrite()) { // overwrite is set
 				// we didn't have overwrite set, find an udpate function or find an update tag so lets call it safe 
 				JError::raiseWarning(1, JText::_('Component').' '.JText::_('Install').': '.JText::_('Another component is already using directory').': "'.$this->parent->getPath('extension_site').'"');
 				return false;
@@ -423,7 +426,7 @@ class JInstallerComponent extends JObject
 		 */
 		// If there is an manifest class file, lets load it; we'll copy it later (don't have dest yet)
 		if (is_a($this->scriptElement, 'JSimpleXMLElement')) {
-			$manifestScript = $installScriptElement->data();
+			$manifestScript = $this->scriptElement->data();
 			$manifestScriptFile = $this->parent->getPath('source').DS.$manifestScript;
 			if(is_file($manifestScriptFile)) {
 				// load the file
@@ -581,19 +584,12 @@ class JInstallerComponent extends JObject
 		 *	If Joomla 1.5 compatible, with discreet sql files - execute appropriate
 		 *	file for utf-8 support or non-utf-8 support
 		 */
-		if ($result === false) {
+		// second argument is the utf compatible version attribute
+		$utfresult = $this->parent->parseSQLFiles($this->manifest->getElementByPath('update/sql'));
+		if ($utfresult === false) {
 			// Install failed, rollback changes
-			$this->parent->abort(JText::_('Component').' '.JText::_('Update').': '.JText::_('SQL Error')." ".$db->stderr(true));
+			$this->parent->abort(JText::_('Component').' '.JText::_('Update').': '.JText::_('SQLERRORORFILE')." ".$db->stderr(true));
 			return false;
-		} elseif ($result === 0) {
-			// no backward compatibility queries found - try for Joomla 1.5 type queries
-			// second argument is the utf compatible version attribute
-			$utfresult = $this->parent->parseSQLFiles($this->manifest->getElementByPath('update/sql'));
-			if ($utfresult === false) {
-				// Install failed, rollback changes
-				$this->parent->abort(JText::_('Component').' '.JText::_('Update').': '.JText::_('SQLERRORORFILE')." ".$db->stderr(true));
-				return false;
-			}
 		}
 
 		// Time to build the admin menus
@@ -606,31 +602,10 @@ class JInstallerComponent extends JObject
 		 */
 
 		/*
-		 * If we have an install script, lets include it, execute the custom
-		 * install method, and append the return value from the custom install
+		 * If we have an update script, lets include it, execute the custom
+		 * update method, and append the return value from the custom update
 		 * method to the installation message.
 		 */
-		// start legacy support
-		if ($this->get('install.script')) {
-			if (is_file($this->parent->getPath('extension_administrator').DS.$this->get('install.script'))) {
-				ob_start();
-				ob_implicit_flush(false);
-				require_once ($this->parent->getPath('extension_administrator').DS.$this->get('install.script'));
-				if (function_exists('com_install')) {
-					if (com_install() === false) {
-						$this->parent->abort(JText::_('Component').' '.JText::_('Update').': '.JText::_('Custom install routine failure'));
-						return false;
-					}
-				}
-				$msg .= ob_get_contents(); // append messages
-				ob_end_clean();
-				if ($msg != '') {
-					$this->parent->set('extension.message', $msg);
-				}
-			}
-		}
-		// end legacy support
-
 		// Start Joomla! 1.6
 		ob_start();
 		ob_implicit_flush(false);
