@@ -143,6 +143,37 @@ class JInstaller extends JObject
 		}
 		return $tmp;
 	}
+	
+	/**
+	 * Get the allow overwrite switch
+	 *
+	 * @access	public
+	 * @return	boolean	Allow overwrite switch
+	 * @since	1.5
+	 */
+	function getUpgrade()
+	{
+		return $this->_upgrade;
+	}
+
+	/**
+	 * Set the allow overwrite switch
+	 *
+	 * @access	public
+	 * @param	boolean	$state	Overwrite switch state
+	 * @return	boolean	Previous value
+	 * @since	1.5
+	 */
+	function setUpgrade($state=false)
+	{
+		$tmp = $this->_upgrade;
+		if ($state) {
+			$this->_upgrade = true;
+		} else {
+			$this->_upgrade = false;
+		}
+		return $tmp;
+	}	
 
 	/**
 	 * Get the database connector object
