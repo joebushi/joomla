@@ -362,7 +362,7 @@ INSERT INTO `#__plugins` VALUES (30, 'System - Cache', 'cache', 'system', 0, 4, 
 INSERT INTO `#__plugins` VALUES (31, 'System - Log', 'log', 'system', 0, 5, 0, 1, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `#__plugins` VALUES (32, 'System - Remember Me', 'remember', 'system', 0, 6, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `#__plugins` VALUES (33, 'System - Backlink', 'backlink', 'system', 0, 7, 0, 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__plugins` VALUES (34, 'phpGACL', 'phpgacl', 'system', 0, 2, 1, 0, 0, 0, '0000-00-00 00:00:00', '');
+INSERT INTO `#__plugins` VALUES (34, 'JACL', 'jacl', 'system', 0, 2, 1, 0, 0, 0, '0000-00-00 00:00:00', '');
 
 # --------------------------------------------------------
 
@@ -954,8 +954,7 @@ CREATE TABLE IF NOT EXISTS `#__core_acl_aro` (
 # Dumping data for table `#__core_acl_aro`
 #
 
-INSERT INTO `#__core_acl_aro` VALUES(1, 'users', '0', 0, 'Guest', 0),
-(2, 'users', '62', 0, 'Administrator', 0);
+INSERT INTO `#__core_acl_aro` VALUES(1, 'users', '0', 0, 'Guest', 0);
 
 # --------------------------------------------------------
 
@@ -1140,6 +1139,9 @@ CREATE TABLE IF NOT EXISTS `#__core_acl_groups_aro_map` (
   PRIMARY KEY  (`group_id`,`aro_id`),
   KEY `aro_id` (`aro_id`)
 ) TYPE=MyISAM;
+
+INSERT INTO `#__core_acl_groups_aro_map` (`group_id`, `aro_id`) VALUES
+(11, 2);
 
 # --------------------------------------------------------
 

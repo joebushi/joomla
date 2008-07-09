@@ -22,7 +22,7 @@ jimport( 'joomla.plugin.plugin');
 * @package 		Joomla
 * @subpackage	System
 */
-class plgSystemPhpgacl extends JPlugin
+class plgSystemjacl extends JPlugin
 {
 	/**
 	 * Constructor
@@ -45,7 +45,7 @@ class plgSystemPhpgacl extends JPlugin
 	function onAfterInitialise()
 	{
 		$config =& JFactory::getConfig();
-		$config->setValue('config.aclservice', 'phpgacl');
+		$config->setValue('config.aclservice', 'jacl');
 		return true;
 	}
 }
@@ -60,7 +60,7 @@ jimport('phpgacl.gacl_api');
  * @subpackage	Application
  * @since		1.5
  */
-class JACLphpgaclManager extends gacl_api
+class JACLjaclManager extends gacl_api
 {
 	var $_instance = NULL;
 
@@ -91,6 +91,11 @@ class JACLphpgaclManager extends gacl_api
 			'cache_dir'			=> JPATH_CACHE.DS.'acl'.DS.'phpgacl',
 		);
 		$_instance = parent::gacl_api( $options );
+		if(!count($this->_rights))
+		{
+			$this->_getAllowedActions();
+		}
+
 		return $_instance;
 	}
 
@@ -105,30 +110,39 @@ class JACLphpgaclManager extends gacl_api
 	 * @param string The user to check for. If not provided, the current user is used [optional]
 	 * @return boolean
 	 */
-	function authorize( $extension, $action, $contentObject = null, $contentExtension = null,  $user = null )
+	function authorize( $extension, $action, $contentitem = null,  $user)
 	{
-		if (($contentExtension == null) && ($contentObject != null)) {
-			$contentExtension = $extension;
-		}
-
-		if ($user == null) {
-			$userobject = JFactory::getUser();
-			$user = $userobject->get('id');
-		}
-
-		if (($contentExtension == null) && ($contentObject == null)) {
-			if(!isset($this->_rights[$user][$extension][$action]))
-			{
-				$this->_rights[$user][$extension][$action] = $this->acl_check($extension, $action, 'users', $user);
+		if(is_null($contentitem)) {
+			if(isset($this->_rights[$user][$extension][$action])) {
+				return true;
+			} else {
+				return false;
 			}
-			return $this->_rights[$user][$extension][$action];
 		} else {
-			if(!isset($this->_rights[$user][$extension][$action][$contentExtension][$contentObject]))
-			{
-				$this->_rights[$user][$extension][$action][$contentExtension][$contentObject] = $this->acl_check($extension, $action, 'users', $user, $contentExtension, $contentObject);
+			if(!is_array($this->_rights[$user][$extension][$action])) {
+ 				$this->_getAllowedContent($extension);
+			} else {
+				if(isset($this->_rights[$user][$extension][$action][$contentitem])) {
+					return true;
+				} else {
+					return false;
+				}
 			}
-			return $this->_rights[$user][$extension][$action][$contentExtension][$contentObject];
+		}		
+	}
+
+	function getAllowedContent($extension, $action)
+	{
+		$content = array();
+		$user =& JFactory::getUser();
+		if(!is_array($this->_rights[$user->get('id')][$extension][$action])) {
+			$this->_getAllowedContent($extension, $action);
 		}
+		foreach($this->_rights[$user->get('id')][$extension][$action] as $name => $value)
+		{
+			$content[] = name;
+		}
+		return $content;
 	}
 
 	/**
@@ -868,6 +882,60 @@ var_dump($rights);
 		}
 
 		return $results;
+	}
+
+	function _getAllowedActions()
+	{
+		$db =& JFactory::getDBO();
+		$user = JFactory::getUser();
+
+		$groups = $this->acl_get_groups('users', $user->get('id'));
+
+		if (is_array($groups) AND !empty($groups)) {
+			$groups = implode(',', $groups);
+		}
+
+		$query = 'SELECT aco_map.section_value as extension, aco_map.value as action FROM #__core_acl_aco_map aco_map'
+				.' LEFT JOIN #__core_acl_acl acl ON aco_map.acl_id = acl.id'
+				.' LEFT JOIN #__core_acl_aro_groups_map aro_group ON acl.id = aro_group.acl_id'
+				.' LEFT JOIN #__core_acl_axo_map axo ON axo.acl_id = acl.id'
+				.' LEFT JOIN #__core_acl_axo_groups_map axo_group ON acl.id = axo_group.acl_id'
+				.' WHERE (aro_group.group_id IN ('.$groups.')) && (acl.allow = 1) && (axo.section_value IS NULL AND axo.value IS NULL)';
+
+		$db->setQuery($query);
+		$results = $db->loadObjectList();
+
+		foreach($results as $result)
+		{
+			$this->_rights[$user->get('id')][$result->extension][$result->action] = true;
+		}
+	}
+
+	function _getAllowedContent($extension, $action)
+	{
+		$db =& JFactory::getDBO();
+		$user = JFactory::getUser();
+
+		$groups = $this->acl_get_groups('users', $user->get('id'));
+
+		if (is_array($groups) AND !empty($groups)) {
+			$groups = implode(',', $groups);
+		}
+
+		$query = 'SELECT aco_map.section_value as extension, aco_map.value as action, axo_map.value as contentitem'
+			.' FROM #__core_acl_aco_map aco_map'
+			.' LEFT JOIN #__core_acl_acl acl ON aco_map.acl_id = acl.id'
+			.' LEFT JOIN #__core_acl_aro_groups_map aro_group ON acl.id = aro_group.acl_id'
+			.' LEFT JOIN #__core_acl_axo_map axo ON axo.acl_id = acl.id'
+			.' LEFT JOIN #__core_acl_axo_groups_map axo_group ON acl.id = axo_group.acl_id'
+			.' WHERE (aro_group.group_id IN ('.$groups.')) && (acl.allow = 1) && (axo.section_value = '.$extension.') && (aco_map.value = '.$action.')';
+		$db->setQuery($query);
+		$results = $db->loadObjectList();
+
+		foreach($results as $result)
+		{
+			$this->_rights[$user->get('id')][$result->extension][$result->action][$result->contentitem] = true;
+		}
 	}
 }
 

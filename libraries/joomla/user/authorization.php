@@ -46,7 +46,7 @@ class JAuthorization
 	 * @param string	acl service that should be loaded, default phpgacl
 	 * @return object	new instance of the ACLManager
 	 */
-	function getInstance($aclservice = 'phpgacl')
+	function getInstance($aclservice = 'jacl')
 	{
 		static $instances;
 
@@ -56,7 +56,7 @@ class JAuthorization
 
 		if( empty( $aclservice ) ) {
 			// setting default
-			$aclservice = 'phpgacl';
+			$aclservice = 'jacl';
 		}
 		
 		if (empty($instances[$aclservice])) {
@@ -84,8 +84,12 @@ class JAuthorization
 	 * this one has to be set [optional]
 	 * @return boolean
 	 */
-	function authorize( $extension, $action, $xobject = null, $xobjectextension = null,  $user = null ) {
-		return $this->_acladapter->authorize( $extension, $action, $xobject, $xobjectextension, $user );
+	function authorize( $extension, $action, $contentitem = null,  $user = null ) {
+		if($user == null) {
+			$user = JFactory::getUser();
+			$user = $user->get('id');
+		}
+		return $this->_acladapter->authorize( $extension, $action, $contentitem, $user );
 	}
 
 	/**

@@ -255,16 +255,10 @@ class JUser extends JObject
 	 * @return	boolean	True if authorized
 	 * @since	1.5
 	 */
-	function authorize( $extension, $action, $xobject = null, $xobjectextension = null )
+	function authorize( $extension, $action, $contentitem = null )
 	{
 		$acl = & JFactory::getACL();
-		return $acl->authorize( $extension, $action, $xobject, $xobjectextension, $this->get( 'id' ) );
-	}
-
-	function loadAccessrights( $extension = 0, $action = 0 )
-	{
-		$acl =& JFactory::getACL();
-		$acl->getAllowedActions( $extension, $action, $this->get('id'));
+		return $acl->authorize( $extension, $action, $contentitem, $this->get( 'id' ) );
 	}
 
 	/**

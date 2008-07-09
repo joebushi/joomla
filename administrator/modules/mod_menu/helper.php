@@ -31,9 +31,6 @@ class modMenuHelper
 		$db			= & JFactory::getDBO();
 		$usertype	= $user->get('usertype');
 
-		// cache some acl checks
-		$user->loadAccessRights(0, 'manage');
-
 		// Menu Types
 		require_once( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_menus'.DS.'helpers'.DS.'helper.php' );
 		$menuTypes 	= MenusHelper::getMenuTypelist();
@@ -203,7 +200,7 @@ class modMenuHelper
 		{
 			$menu->addChild(new JMenuNode(JText::_('Tools')), true);
 
-			if ($user->authorize('com_config', 'manage')) {
+			if ($user->authorize('com_messages', 'manage')) {
 				$menu->addChild(new JMenuNode(JText::_('Read Messages'), 'index.php?option=com_messages', 'class:messages'));
 				$menu->addChild(new JMenuNode(JText::_('Write Message'), 'index.php?option=com_messages&task=add', 'class:messages'));
 				$menu->addSeparator();
