@@ -35,7 +35,7 @@ class plgSystemjacl extends JPlugin
 	  * @param 	array  		$config  An array that holds the plugin configuration
 	 * @since	1.0
 	 */
-	function plgSystemPhpgacl(&$subject, $config)  {
+	function plgSystemJacl(&$subject, $config)  {
 		parent::__construct($subject, $config);
 	}
 
@@ -50,9 +50,6 @@ class plgSystemjacl extends JPlugin
 	}
 }
 
-jimport('phpgacl.gacl');
-jimport('phpgacl.gacl_api');
-
 /**
  * Class that handles all access authorization
  *
@@ -60,19 +57,13 @@ jimport('phpgacl.gacl_api');
  * @subpackage	Application
  * @since		1.5
  */
-class JACLjaclManager extends gacl_api
+class JACLjaclManager
 {
-	var $_instance = NULL;
-
 	var $_rights = array();
-	/**
-	 * Constructor
-	 * @param array An arry of options to oeverride the class defaults
-	 */
-	function JACLphpgaclManager($options = NULL)
-	{
-		$this->__construct( $options );
-	}
+
+	var $_ugroups = array();
+
+	var $_cgroups = array();
 
 	/**
 	 * Constructor
@@ -80,23 +71,10 @@ class JACLjaclManager extends gacl_api
 	 */
 	function __construct( $options = NULL ) 
 	{
-		$db =&  JFactory::getDBO();
-		$config =& JFactory::getConfig();
-
-		$options = array(
-			'db'				=> &$db,
-			'db_table_prefix'		=> $db->getPrefix() . 'core_acl_',
-			'debug'			=> 0,
-			'caching'			=> $config->getValue('caching'),
-			'cache_dir'			=> JPATH_CACHE.DS.'acl'.DS.'phpgacl',
-		);
-		$_instance = parent::gacl_api( $options );
 		if(!count($this->_rights))
 		{
 			$this->_getAllowedActions();
 		}
-
-		return $_instance;
 	}
 
 	/**
@@ -144,6 +122,91 @@ class JACLjaclManager extends gacl_api
 		}
 		return $content;
 	}
+
+	/**
+	 * Grabs all groups mapped to a user
+	 *
+	 * @param integer root-group-ID to start from/group ID to get informations from
+	 * @param string The user whose group to return. If not provided, current user is used [optional]
+	 * @return array
+	 */
+	function getUserGroups( $user )
+	{
+		if(!count($this->_ugroups[$user]))
+		{
+			$db = JFactory::getDBO();
+			$query = 'SELECT DISTINCT g2.id'
+					.' FROM #__core_acl_aro o,'
+					.' #__core_acl_groups_aro_map gm,'
+					.' #__core_acl_aro_groups g1,'
+					.' #__core_acl_aro_groups g2'
+					.' WHERE (o.section_value=\'users\' AND o.value=\''.$user.'\')'
+					.' AND gm.aro_id=o.id AND g1.id=gm.group_id AND (g2.lft <= g1.lft AND g2.rgt >= g1.rgt)';
+			$db->setQuery($query);
+			$this->_ugroups[$user] = $db->loadResultArray();
+		}
+
+		return $this->_ugroups[$user];
+	}
+
+
+
+	function _getAllowedActions()
+	{
+		$db =& JFactory::getDBO();
+		$user = JFactory::getUser();
+
+		$groups = $this->getUserGroups($user->get('id'));
+
+		if (is_array($groups) AND !empty($groups)) {
+			$groups = implode(',', $groups);
+		}
+
+		$query = 'SELECT aco_map.section_value as extension, aco_map.value as action FROM #__core_acl_aco_map aco_map'
+				.' LEFT JOIN #__core_acl_acl acl ON aco_map.acl_id = acl.id'
+				.' LEFT JOIN #__core_acl_aro_groups_map aro_group ON acl.id = aro_group.acl_id'
+				.' LEFT JOIN #__core_acl_axo_map axo ON axo.acl_id = acl.id'
+				.' LEFT JOIN #__core_acl_axo_groups_map axo_group ON acl.id = axo_group.acl_id'
+				.' WHERE (aro_group.group_id IN ('.$groups.')) && (acl.allow = 1) && (axo.section_value IS NULL AND axo.value IS NULL)';
+
+		$db->setQuery($query);
+		$results = $db->loadObjectList();
+
+		foreach($results as $result)
+		{
+			$this->_rights[$user->get('id')][$result->extension][$result->action] = true;
+		}
+	}
+
+	function _getAllowedContent($extension, $action)
+	{
+		$db =& JFactory::getDBO();
+		$user = JFactory::getUser();
+
+		$groups = $this->getUserGroups($user->get('id'));
+
+		if (is_array($groups) AND !empty($groups)) {
+			$groups = implode(',', $groups);
+		}
+
+		$query = 'SELECT aco_map.section_value as extension, aco_map.value as action, axo_map.value as contentitem'
+			.' FROM #__core_acl_aco_map aco_map'
+			.' LEFT JOIN #__core_acl_acl acl ON aco_map.acl_id = acl.id'
+			.' LEFT JOIN #__core_acl_aro_groups_map aro_group ON acl.id = aro_group.acl_id'
+			.' LEFT JOIN #__core_acl_axo_map axo ON axo.acl_id = acl.id'
+			.' LEFT JOIN #__core_acl_axo_groups_map axo_group ON acl.id = axo_group.acl_id'
+			.' WHERE (aro_group.group_id IN ('.$groups.')) && (acl.allow = 1) && (axo.section_value = '.$extension.') && (aco_map.value = '.$action.')';
+		$db->setQuery($query);
+		$results = $db->loadObjectList();
+
+		foreach($results as $result)
+		{
+			$this->_rights[$user->get('id')][$result->extension][$result->action][$result->contentitem] = true;
+		}
+	}
+
+
+	//OLD FUNCTIONS (old as in "stuff that Hannes worked one before")
 
 	/**
 	 * Grabs all groups mapped to a user
@@ -884,84 +947,5 @@ var_dump($rights);
 		return $results;
 	}
 
-	function _getAllowedActions()
-	{
-		$db =& JFactory::getDBO();
-		$user = JFactory::getUser();
 
-		$groups = $this->acl_get_groups('users', $user->get('id'));
-
-		if (is_array($groups) AND !empty($groups)) {
-			$groups = implode(',', $groups);
-		}
-
-		$query = 'SELECT aco_map.section_value as extension, aco_map.value as action FROM #__core_acl_aco_map aco_map'
-				.' LEFT JOIN #__core_acl_acl acl ON aco_map.acl_id = acl.id'
-				.' LEFT JOIN #__core_acl_aro_groups_map aro_group ON acl.id = aro_group.acl_id'
-				.' LEFT JOIN #__core_acl_axo_map axo ON axo.acl_id = acl.id'
-				.' LEFT JOIN #__core_acl_axo_groups_map axo_group ON acl.id = axo_group.acl_id'
-				.' WHERE (aro_group.group_id IN ('.$groups.')) && (acl.allow = 1) && (axo.section_value IS NULL AND axo.value IS NULL)';
-
-		$db->setQuery($query);
-		$results = $db->loadObjectList();
-
-		foreach($results as $result)
-		{
-			$this->_rights[$user->get('id')][$result->extension][$result->action] = true;
-		}
-	}
-
-	function _getAllowedContent($extension, $action)
-	{
-		$db =& JFactory::getDBO();
-		$user = JFactory::getUser();
-
-		$groups = $this->acl_get_groups('users', $user->get('id'));
-
-		if (is_array($groups) AND !empty($groups)) {
-			$groups = implode(',', $groups);
-		}
-
-		$query = 'SELECT aco_map.section_value as extension, aco_map.value as action, axo_map.value as contentitem'
-			.' FROM #__core_acl_aco_map aco_map'
-			.' LEFT JOIN #__core_acl_acl acl ON aco_map.acl_id = acl.id'
-			.' LEFT JOIN #__core_acl_aro_groups_map aro_group ON acl.id = aro_group.acl_id'
-			.' LEFT JOIN #__core_acl_axo_map axo ON axo.acl_id = acl.id'
-			.' LEFT JOIN #__core_acl_axo_groups_map axo_group ON acl.id = axo_group.acl_id'
-			.' WHERE (aro_group.group_id IN ('.$groups.')) && (acl.allow = 1) && (axo.section_value = '.$extension.') && (aco_map.value = '.$action.')';
-		$db->setQuery($query);
-		$results = $db->loadObjectList();
-
-		foreach($results as $result)
-		{
-			$this->_rights[$user->get('id')][$result->extension][$result->action][$result->contentitem] = true;
-		}
-	}
 }
-
-jimport('joomla.cache.cache');
-require_once(JPATH_LIBRARIES.DS.'phpgacl'.DS.'Cache_Lite'.DS.'Hashed_Cache_Lite.php');
-
-/**
- * currently, this is not working, but the caching should be handled by the Joomla caching mechanisms.
-class Hashed_Cache_Lite extends JCache
-{
-	var $instance;
-
-	function __construct()
-	{
-		$options = array();
-		parent::__construct($options);
-	}
-
-	function save($data, $id = NULL, $group = 'default')
-	{
-		parent::store($data, $id, 'acl');
-	}
-
-	function get($id, $group = 'default', $doNotTestCacheValidity = false)
-	{
-		return parent::get($id, $group);
-	}
-}
-**/

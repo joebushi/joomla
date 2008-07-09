@@ -226,7 +226,7 @@ class JFactory
 		if (!is_object($instance)) {
 			jimport( 'joomla.user.authorization' );
 			$conf =& JFactory::getConfig();
-			$instance = JAuthorization::getInstance( $conf->getValue('config.aclservice', 'phpgacl') );
+			$instance = JAuthorization::getInstance( $conf->getValue('config.aclservice', 'jacl') );
 		}
 
 		return $instance;
