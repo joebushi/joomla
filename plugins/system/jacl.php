@@ -215,7 +215,7 @@ class JACLjaclManager
 	 * @param string The user whose group to return. If not provided, current user is used [optional]
 	 * @return array
 	 */
-	function getUsergroups( $root_group = 0, $user = 0 )
+	function getUsergroups2( $root_group = 0, $user = 0 )
 	{
 		$db = JFactory::getDBO();
 		jimport('joomla.user.models.usergroup');
