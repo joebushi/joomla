@@ -150,9 +150,6 @@ class JInstallerComponent extends JObject
 		if($this->parent->_manifestClass && method_exists($this->parent->_manifestClass,'preflight')) $this->parent->_manifestClass->preflight('install', $this);	
 		$msg = ob_get_contents(); // create msg object; first use here
 		ob_end_clean();
-		if ($msg != '') {
-			$this->parent->set('extension.message', $msg);
-		}
 		
 		// If the component directory does not exist, lets create it
 		$created = false;
@@ -315,9 +312,6 @@ class JInstallerComponent extends JObject
 				}	
 				$msg .= ob_get_contents(); // append messages
 				ob_end_clean();
-				if ($msg != '') {
-					$this->parent->set('extension.message', $msg);
-				}
 			}
 		}
 		// end legacy support
@@ -328,9 +322,6 @@ class JInstallerComponent extends JObject
 		if($this->parent->_manifestClass && method_exists($this->parent->_manifestClass,'install')) $this->parent->_manifestClass->install($this);	
 		$msg .= ob_get_contents(); // append messages
 		ob_end_clean();
-		if ($msg != '') {
-			$this->parent->set('extension.message', $msg);
-		}
 
 		/**
 		 * ---------------------------------------------------------------------------------------------
@@ -449,9 +440,6 @@ class JInstallerComponent extends JObject
 		if($this->parent->_manifestClass && method_exists($this->parent->_manifestClass,'preflight')) $this->parent->_manifestClass->preflight('update', $this);	
 		$msg = ob_get_contents(); // create msg object; first use here
 		ob_end_clean();
-		if ($msg != '') {
-			$this->parent->set('extension.message', $msg);
-		}
 		
 		/**
 		 * ---------------------------------------------------------------------------------------------
@@ -612,9 +600,6 @@ class JInstallerComponent extends JObject
 		if($this->parent->_manifestClass && method_exists($this->parent->_manifestClass,'update')) $this->parent->_manifestClass->update($this);	
 		$msg .= ob_get_contents(); // append messages
 		ob_end_clean();
-		if ($msg != '') {
-			$this->parent->set('extension.message', $msg);
-		}
 
 		/**
 		 * ---------------------------------------------------------------------------------------------
@@ -742,10 +727,7 @@ class JInstallerComponent extends JObject
 		// run uninstall if possible
 		if($this->parent->_manifestClass && method_exists($this->parent->_manifestClass,'uninstall')) $this->parent->_manifestClass->uninstall($this);	
 		$msg = ob_get_contents();
-		ob_end_clean();
-		if ($msg != '') {
-			$this->parent->set('extension.message', $msg);
-		}		
+		ob_end_clean();		
 
 		/**
 		 * ---------------------------------------------------------------------------------------------
@@ -769,10 +751,11 @@ class JInstallerComponent extends JObject
 				}
 				$msg .= ob_get_contents(); // append this in case there was something else
 				ob_end_clean();
-				if ($msg != '') {
-					$this->parent->set('extension.message', $msg);
-				}
 			}
+		}
+		
+		if ($msg != '') {
+			$this->parent->set('extension.message', $msg);
 		}
 
 		/**

@@ -40,6 +40,12 @@ $ -> Language fix or change
 
 
 
+10-Jul-2008 Sam Moffatt
+ # Fixed [#10374] setAdapter pass by reference from 1.5 bug tracker
+ - Removed excess calls to set the extension.message in the component adapter
+ ^ Changed some legacy references to mosinstall to extension
+ 
+
 05-Jun-2008 Sam Moffatt
  + Added packages to installer UI
  ^ Altered package format in manifest handler

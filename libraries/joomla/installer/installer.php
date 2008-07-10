@@ -252,7 +252,7 @@ class JInstaller extends JObject
 	 * @return	boolean True if successful
 	 * @since	1.5
 	 */
-	function setAdapter($name, $adapter = null)
+	function setAdapter($name, &$adapter = null)
 	{
 		if (!is_object($adapter))
 		{
