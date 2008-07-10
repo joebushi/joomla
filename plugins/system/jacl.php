@@ -98,7 +98,7 @@ class JACLjaclManager
 			}
 		} else {
 			if(!is_array($this->_rights[$user][$extension][$action])) {
- 				$this->_getAllowedContent($extension);
+ 				$this->_getAllowedContent($extension, $action);
 			} else {
 				if(isset($this->_rights[$user][$extension][$action][$contentitem])) {
 					return true;
@@ -189,13 +189,13 @@ class JACLjaclManager
 			$groups = implode(',', $groups);
 		}
 
-		$query = 'SELECT aco_map.section_value as extension, aco_map.value as action, axo_map.value as contentitem'
+		$query = 'SELECT aco_map.section_value as extension, aco_map.value as action, axo.value as contentitem'
 			.' FROM #__core_acl_aco_map aco_map'
 			.' LEFT JOIN #__core_acl_acl acl ON aco_map.acl_id = acl.id'
 			.' LEFT JOIN #__core_acl_aro_groups_map aro_group ON acl.id = aro_group.acl_id'
 			.' LEFT JOIN #__core_acl_axo_map axo ON axo.acl_id = acl.id'
 			.' LEFT JOIN #__core_acl_axo_groups_map axo_group ON acl.id = axo_group.acl_id'
-			.' WHERE (aro_group.group_id IN ('.$groups.')) && (acl.allow = 1) && (axo.section_value = '.$extension.') && (aco_map.value = '.$action.')';
+			.' WHERE (aro_group.group_id IN ('.$groups.')) && (acl.allow = 1) && (axo.section_value = \''.$extension.'\') && (aco_map.value = \''.$action.'\')';
 		$db->setQuery($query);
 		$results = $db->loadObjectList();
 
@@ -204,6 +204,8 @@ class JACLjaclManager
 			$this->_rights[$user->get('id')][$result->extension][$result->action][$result->contentitem] = true;
 		}
 	}
+
+	
 
 
 	//OLD FUNCTIONS (old as in "stuff that Hannes worked one before")

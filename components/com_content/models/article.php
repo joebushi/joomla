@@ -576,7 +576,8 @@ class ContentModelArticle extends JModel
 		global $mainframe;
 
 		$user		=& JFactory::getUser();
-		$aid		= (int) $user->get('aid', 0);
+		$acl		=& JFactory::getACL();
+		$aid		= $acl->getAllowedContent('com_content', 'view');
 
 		$jnow		=& JFactory::getDate();
 		$now		= $jnow->toMySQL();
@@ -587,7 +588,7 @@ class ContentModelArticle extends JModel
 		 * we are looking for and we have access to it.
 		 */
 		$where = ' WHERE a.id = '. (int) $this->_id;
-		$where .= ' AND a.access <= '. (int) $aid;
+		$where .= ' AND a.access IN ('. implode($aid, ',').',0)';
 
 		if (!$user->authorize('com_content', 'edit', 'content', 'all'))
 		{

@@ -29,7 +29,6 @@ class modMenuHelper
 		$lang		= & JFactory::getLanguage();
 		$user		= & JFactory::getUser();
 		$db			= & JFactory::getDBO();
-		$usertype	= $user->get('usertype');
 
 		// Menu Types
 		require_once( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_menus'.DS.'helpers'.DS.'helper.php' );

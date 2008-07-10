@@ -92,6 +92,10 @@ class JAuthorization
 		return $this->_acladapter->authorize( $extension, $action, $contentitem, $user );
 	}
 
+	function getAllowedContent($extension, $action) {
+		return $this->_acladapter->getAllowedContent( $extension, $action );
+	}
+
 	/**
 	 * Returns all Usergroups starting with the given root-group [optional]
 	 *
@@ -456,7 +460,7 @@ class JAuthorization
 		return $this->_acladapter->delextension( $name, $value );
 	}
 
-	function getAllowedContent($extension, $action, $user = 0, $contentExtension = 0, $contentGroup = 0)
+	function getAllowedContent2($extension, $action, $user = 0, $contentExtension = 0, $contentGroup = 0)
 	{
 
 	}
