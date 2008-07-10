@@ -116,9 +116,11 @@ class JACLjaclManager
 		if(!is_array($this->_rights[$user->get('id')][$extension][$action])) {
 			$this->_getAllowedContent($extension, $action);
 		}
-		foreach($this->_rights[$user->get('id')][$extension][$action] as $name => $value)
-		{
-			$content[] = name;
+		if(count($this->_rights[$user->get('id')][$extension][$action])) {
+			foreach($this->_rights[$user->get('id')][$extension][$action] as $name => $value)
+			{
+				$content[] = $value;
+			}
 		}
 		return $content;
 	}
@@ -187,6 +189,8 @@ class JACLjaclManager
 
 		if (is_array($groups) AND !empty($groups)) {
 			$groups = implode(',', $groups);
+		} else {
+			$groups = array('2');
 		}
 
 		$query = 'SELECT aco_map.section_value as extension, aco_map.value as action, axo.value as contentitem'
@@ -198,10 +202,14 @@ class JACLjaclManager
 			.' WHERE (aro_group.group_id IN ('.$groups.')) && (acl.allow = 1) && (axo.section_value = \''.$extension.'\') && (aco_map.value = \''.$action.'\')';
 		$db->setQuery($query);
 		$results = $db->loadObjectList();
-
-		foreach($results as $result)
+		if(count($results))
 		{
-			$this->_rights[$user->get('id')][$result->extension][$result->action][$result->contentitem] = true;
+			foreach($results as $result)
+			{
+				$this->_rights[$user->get('id')][$result->extension][$result->action][$result->contentitem] = true;
+			}
+		} else {
+			$this->_rights[$user->get('id')][$extension][$action] = array();
 		}
 	}
 
