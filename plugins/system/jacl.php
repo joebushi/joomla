@@ -15,6 +15,9 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport( 'joomla.plugin.plugin');
+JLoader::register('JAuthorization', JPATH_BASE.DS.'libraries'.DS.'joomla'.DS.'user'.DS.'authorization.php');
+JLoader::register('JACLUsergroups', JPATH_BASE.DS.'libraries'.DS.'joomla'.DS.'user'.DS.'authorization.php');
+JLoader::register('JACLContent', JPATH_BASE.DS.'libraries'.DS.'joomla'.DS.'user'.DS.'authorization.php');
 
 /**
 * Joomla! SEF Plugin
@@ -57,7 +60,7 @@ class plgSystemjacl extends JPlugin
  * @subpackage	Application
  * @since		1.5
  */
-class JACLjaclManager
+class JAuthorizationJACL extends JAuthorization
 {
 	var $_rights = array();
 
@@ -88,8 +91,13 @@ class JACLjaclManager
 	 * @param string The user to check for. If not provided, the current user is used [optional]
 	 * @return boolean
 	 */
-	function authorize( $extension, $action, $contentitem = null,  $user)
+	function authorize( $extension, $action, $contentitem = null, $user = null)
 	{
+		if($user == null) {
+			$user = JFactory::getUser();
+			$user = $user->get('id');
+		}
+
 		if(is_null($contentitem)) {
 			if(isset($this->_rights[$user][$extension][$action])) {
 				return true;
@@ -109,15 +117,18 @@ class JACLjaclManager
 		}		
 	}
 
-	function getAllowedContent($extension, $action)
+	function getAllowedContent($extension, $action, $user = null)
 	{
 		$content = array();
-		$user =& JFactory::getUser();
-		if(!is_array($this->_rights[$user->get('id')][$extension][$action])) {
-			$this->_getAllowedContent($extension, $action);
+		if($user == null) {
+			$user = JFactory::getUser();
+			$user = $user->get('id');
 		}
-		if(count($this->_rights[$user->get('id')][$extension][$action])) {
-			foreach($this->_rights[$user->get('id')][$extension][$action] as $name => $value)
+		if(!is_array($this->_rights[$user][$extension][$action])) {
+			$this->_getAllowedContent($extension, $action, $user);
+		}
+		if(count($this->_rights[$user][$extension][$action])) {
+			foreach($this->_rights[$user][$extension][$action] as $name => $value)
 			{
 				$content[] = $value;
 			}
@@ -153,17 +164,18 @@ class JACLjaclManager
 
 
 
-	function _getAllowedActions()
+	function _getAllowedActions($user = null)
 	{
+		if($user == null) {
+			$user = JFactory::getUser();
+			$user = $user->get('id');
+		}
 		$db =& JFactory::getDBO();
-		$user = JFactory::getUser();
-
-		$groups = $this->getUserGroups($user->get('id'));
-
+		$groups = $this->getUserGroups($user);
+	
 		if (is_array($groups) AND !empty($groups)) {
 			$groups = implode(',', $groups);
 		}
-
 		$query = 'SELECT aco_map.section_value as extension, aco_map.value as action FROM #__core_acl_aco_map aco_map'
 				.' LEFT JOIN #__core_acl_acl acl ON aco_map.acl_id = acl.id'
 				.' LEFT JOIN #__core_acl_aro_groups_map aro_group ON acl.id = aro_group.acl_id'
@@ -176,16 +188,18 @@ class JACLjaclManager
 
 		foreach($results as $result)
 		{
-			$this->_rights[$user->get('id')][$result->extension][$result->action] = true;
+			$this->_rights[$user][$result->extension][$result->action] = true;
 		}
 	}
 
-	function _getAllowedContent($extension, $action)
+	function _getAllowedContent($extension, $action, $user = null)
 	{
+		if($user == null) {
+			$user = JFactory::getUser();
+			$user = $user->get('id');
+		}
 		$db =& JFactory::getDBO();
-		$user = JFactory::getUser();
-
-		$groups = $this->getUserGroups($user->get('id'));
+		$groups = $this->getUserGroups($user);
 
 		if (is_array($groups) AND !empty($groups)) {
 			$groups = implode(',', $groups);
@@ -206,13 +220,22 @@ class JACLjaclManager
 		{
 			foreach($results as $result)
 			{
-				$this->_rights[$user->get('id')][$result->extension][$result->action][$result->contentitem] = true;
+				$this->_rights[$user][$result->extension][$result->action][$result->contentitem] = true;
 			}
 		} else {
-			$this->_rights[$user->get('id')][$extension][$action] = array();
+			$this->_rights[$user][$extension][$action] = array();
 		}
 	}
+}
 
+class JACLjaclUsergroups extends JACLUsergroups
+{
+
+}
+
+
+
+class stuff{
 	
 
 

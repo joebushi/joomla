@@ -22,22 +22,19 @@ defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
  *
  * @package 	Joomla.Framework
  * @subpackage	Authorization
- * @author 		Alex Kempkens, Hannes Papenberg
+ * @author 		Hannes Papenberg
  * @abstract 
  * @since		1.5
  */
-class JAuthorization
+class JAuthorization extends JObject
 {
-	/** @var local adapter to redirect all ACL requests */
-	var $_acladapter=null;
-	
 	/**
 	 * Default Constructor
 	 * @param object	service adapter to forward the acl requests
 	 */
-	function __construct( $acladapter=NULL ) 
+	function __construct() 
 	{
-		$this->_acladapter = $acladapter;
+		parent::__construct();
 	}
 
 	/**
@@ -46,28 +43,21 @@ class JAuthorization
 	 * @param string	acl service that should be loaded, default phpgacl
 	 * @return object	new instance of the ACLManager
 	 */
-	function getInstance($aclservice = 'jacl')
+	function getInstance()
 	{
-		static $instances;
+		static $instance;
 
-		if (!isset( $instances )) {
-			$instances = array();
+		if (empty($instances))
+		{
+			$config =& JFactory::getConfig();
+			$driver = $config->getValue('config.aclservice', 'JACL');
+
+			$adapter	= 'JAuthorization'.$driver;
+			$instance	= new $adapter();
+
 		}
 
-		if( empty( $aclservice ) ) {
-			// setting default
-			$aclservice = 'jacl';
-		}
-		
-		if (empty($instances[$aclservice])) {
-			$adapter = 'JACL'.$aclservice.'Manager';
-
-			$aclAdapter = new $adapter();
-			$aclManager = new JAuthorization( $aclAdapter );
-			$instances[$aclservice] = $aclManager;
-		}
-
-		return $instances[$aclservice];
+		return $instance;
 	}
 
 	/**
@@ -85,15 +75,11 @@ class JAuthorization
 	 * @return boolean
 	 */
 	function authorize( $extension, $action, $contentitem = null,  $user = null ) {
-		if($user == null) {
-			$user = JFactory::getUser();
-			$user = $user->get('id');
-		}
-		return $this->_acladapter->authorize( $extension, $action, $contentitem, $user );
+		return;
 	}
 
-	function getAllowedContent($extension, $action) {
-		return $this->_acladapter->getAllowedContent( $extension, $action );
+	function getAllowedContent($extension, $action, $user = null) {
+		return;
 	}
 
 	/**
@@ -106,9 +92,11 @@ class JAuthorization
 	 */
 	function getUsergroups( $root_group = 0, $user = 0, $data = false )
 	{
-		return $this->_acladapter->getUsergroups( $root_group, $user );
+		return;
 	}
+}
 
+class stuff2{
 	/**
 	 * Returns extensive informations about a Usergroup
 	 *
@@ -469,5 +457,9 @@ class JAuthorization
 	{
 		return $this->_acladapter->getAllowedActions($extension, $action, $user);
 	}
-}	
-?>
+}
+
+class JACLUsergroups
+{
+	var $stuff;
+}
