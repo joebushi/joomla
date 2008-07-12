@@ -184,6 +184,11 @@ class JAuthorizationUsergroup
 	{
 
 	}
+
+	function getUsergroups()
+	{
+
+	}
 }
 
 class JAuthorizationRule
@@ -216,6 +221,11 @@ class JAuthorizationRule
 	}
 
 	function remove()
+	{
+
+	}
+
+	function getRules()
 	{
 
 	}
@@ -343,6 +353,11 @@ class JAuthorizationAction
 	{
 
 	}
+
+	function getActions()
+	{
+
+	}
 }
 
 class JAuthorizationContentItem
@@ -406,6 +421,11 @@ class JAuthorizationContentItem
 	{
 
 	}
+
+	function getContentItems()
+	{
+
+	}
 }
 
 class JAuthorizationUser
@@ -455,6 +475,11 @@ class JAuthorizationUser
 	{
 
 	}
+
+	function getUsers()
+	{
+
+	}
 }
 
 class JAuthorizationExtension
@@ -501,6 +526,11 @@ class JAuthorizationExtension
 	}
 
 	function setValue()
+	{
+
+	}
+
+	function getExtensions()
 	{
 
 	}
