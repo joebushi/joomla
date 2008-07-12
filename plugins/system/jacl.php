@@ -16,8 +16,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport( 'joomla.plugin.plugin');
 JLoader::register('JAuthorization', JPATH_BASE.DS.'libraries'.DS.'joomla'.DS.'user'.DS.'authorization.php');
-JLoader::register('JACLUsergroups', JPATH_BASE.DS.'libraries'.DS.'joomla'.DS.'user'.DS.'authorization.php');
-JLoader::register('JACLContent', JPATH_BASE.DS.'libraries'.DS.'joomla'.DS.'user'.DS.'authorization.php');
 
 /**
 * Joomla! SEF Plugin
@@ -228,7 +226,7 @@ class JAuthorizationJACL extends JAuthorization
 	}
 }
 
-class JACLjaclUsergroups extends JACLUsergroups
+class JAuthorizationJACLUsergroup extends JAuthorizationUsergroup
 {
 
 }
