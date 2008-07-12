@@ -15,6 +15,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport( 'joomla.plugin.plugin');
+jimport( 'joomla.user.authorization');
 JLoader::register('JAuthorization', JPATH_BASE.DS.'libraries'.DS.'joomla'.DS.'user'.DS.'authorization.php');
 
 /**
