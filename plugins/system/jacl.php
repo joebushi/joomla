@@ -176,7 +176,10 @@ class JAuthorizationJACL extends JAuthorization
 	
 		if (is_array($groups) AND !empty($groups)) {
 			$groups = implode(',', $groups);
+		} else {
+			$groups = array('2');
 		}
+
 		$query = 'SELECT aco_map.section_value as extension, aco_map.value as action FROM #__core_acl_aco_map aco_map'
 				.' LEFT JOIN #__core_acl_acl acl ON aco_map.acl_id = acl.id'
 				.' LEFT JOIN #__core_acl_aro_groups_map aro_group ON acl.id = aro_group.acl_id'
