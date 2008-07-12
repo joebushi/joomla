@@ -756,7 +756,9 @@ CREATE TABLE IF NOT EXISTS `#__core_acl_acl` (
 INSERT INTO `#__core_acl_acl` VALUES(1, 'system', 1, 1, '', '', 1156117968),
 (2, 'system', 1, 1, '', '', 1156117968),
 (3, 'system', 1, 1, '', '', 1156117968),
-(4, 'system', 1, 1, '', '', 1156117968);
+(4, 'system', 1, 1, '', '', 1156117968),
+(10, 'system', 1, 1, '', '', 1215731266),
+(5, 'system', 1, 1, '', '', 1156117968);
 
 # --------------------------------------------------------
 
@@ -839,7 +841,10 @@ INSERT INTO `#__core_acl_aco` VALUES(1, 'com_admin', 'manage', 0, 'Manage', 0),
 (34, 'com_users', 'manage', 0, 'Manage', 0),
 (35, 'com_user', 'view', 0, 'View', 0),
 (36, 'com_weblinks', 'manage', 0, 'Manage', 0),
-(37, 'com_weblinks', 'view', 0, 'View', 0);
+(37, 'com_weblinks', 'view', 0, 'View', 0),
+(38, 'com_users', 'email_events', 0, 'email_events', 0),
+(39, 'com_users', 'block user', 0, 'block user', 0),
+(40, 'login', 'administrator', 0, 'administrator', 0);
 
 # --------------------------------------------------------
 
@@ -858,30 +863,32 @@ CREATE TABLE IF NOT EXISTS `#__core_acl_aco_map` (
 # Dumping data for table `#__core_acl_aco_map`
 #
 
-INSERT INTO `#__core_acl_aco_map` VALUES(1, 'com_user', 'view'),
-(1, 'com_login', 'view'),
-(2, 'com_user', 'view'),
-(2, 'com_login', 'view'),
-(2, 'com_login', 'manage'),
+INSERT INTO `#__core_acl_aco_map` VALUES(1, 'com_login', 'view'),
+(1, 'com_user', 'view'),
 (2, 'com_banners', 'manage'),
-(2, 'com_frontpage', 'manage'),
 (2, 'com_contact', 'manage'),
+(2, 'com_frontpage', 'manage'),
+(2, 'com_login', 'manage'),
+(2, 'com_login', 'view'),
+(2, 'com_media', 'manage'),
 (2, 'com_newsfeeds', 'manage'),
 (2, 'com_poll', 'manage'),
+(2, 'com_user', 'view'),
 (2, 'com_weblinks', 'manage'),
-(2, 'com_media', 'manage'),
-(3, 'com_checkin', 'manage'),
 (3, 'com_cache', 'manage'),
+(3, 'com_checkin', 'manage'),
 (3, 'com_installer', 'manage'),
-(3, 'com_plugins', 'manage'),
 (3, 'com_menus', 'manage'),
 (3, 'com_modules', 'manage'),
+(3, 'com_plugins', 'manage'),
 (3, 'com_trash', 'manage'),
 (3, 'com_users', 'manage'),
 (4, 'com_config', 'manage'),
 (4, 'com_languages', 'manage'),
 (4, 'com_massmail', 'manage'),
-(4, 'com_templates', 'manage');
+(4, 'com_templates', 'manage'),
+(5, 'com_content', 'view'),
+(10, 'com_content', 'view');
 
 # --------------------------------------------------------
 
@@ -1010,7 +1017,8 @@ CREATE TABLE IF NOT EXISTS `#__core_acl_aro_groups_map` (
 INSERT INTO `#__core_acl_aro_groups_map` VALUES(1, 4),
 (2, 9),
 (3, 10),
-(4, 11);
+(4, 11),
+(5, 11);
 
 # --------------------------------------------------------
 

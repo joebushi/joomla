@@ -104,7 +104,9 @@ class JAuthorizationUsergroup
 
 	var $_id = null;
 
-	var $_members = null;
+	var $_users = null;
+
+	var $_userscount = 0;
 
 	var $_children = null;
 
@@ -146,12 +148,12 @@ class JAuthorizationUsergroup
 
 	function getChildren()
 	{
-
+		
 	}
 
 	function addChild()
 	{
-
+		
 	}
 
 	function setName()
@@ -194,17 +196,17 @@ class JAuthorizationUsergroup
 
 	}
 
-	function getMembers()
+	function getUsers()
 	{
 
 	}
 
-	function addMember()
+	function addUser()
 	{
 
 	}
 
-	function removeMember()
+	function removeUser()
 	{
 
 	}

@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id: sef.php 9764 2007-12-30 07:48:11Z ircmaxell $
+* @version		$Id: jacl.php 9764 2007-12-30 07:48:11Z ircmaxell $
 * @package		Joomla
 * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
@@ -24,7 +24,7 @@ JLoader::register('JAuthorization', JPATH_BASE.DS.'libraries'.DS.'joomla'.DS.'us
 * @package 		Joomla
 * @subpackage	System
 */
-class plgSystemjacl extends JPlugin
+class plgSystemJACL extends JPlugin
 {
 	/**
 	 * Constructor
@@ -42,12 +42,12 @@ class plgSystemjacl extends JPlugin
 	}
 
 	/**
-     * Converting the site URL to fit to the HTTP request
-     */
+	* Registering the active ACL solution
+	*/
 	function onAfterInitialise()
 	{
 		$config =& JFactory::getConfig();
-		$config->setValue('config.aclservice', 'jacl');
+		$config->setValue('config.aclservice', 'JACL');
 		return true;
 	}
 }
@@ -64,8 +64,6 @@ class JAuthorizationJACL extends JAuthorization
 	var $_rights = array();
 
 	var $_ugroups = array();
-
-	var $_cgroups = array();
 
 	/**
 	 * Constructor
@@ -144,6 +142,10 @@ class JAuthorizationJACL extends JAuthorization
 	 */
 	function getUserGroups( $user )
 	{
+		if(is_object($user)) {
+			$user = $user->get('id');
+		}
+
 		if(!count($this->_ugroups[$user]))
 		{
 			$db = JFactory::getDBO();
@@ -236,12 +238,12 @@ class JAuthorizationJACLUsergroup
 
 	function getParent()
 	{
-		
+		return $this->_groups[$this->_parent];
 	}
 
 	function getChildren()
 	{
-
+		return $this->_children;
 	}
 
 	function addChild()
@@ -274,14 +276,57 @@ class JAuthorizationJACLUsergroup
 
 	}
 
-	function load()
+	function load($group = null)
 	{
+		if(!count($this->_groups))
+		{
+			$db =&JFactory::getDBO();
+			$query = 'SELECT g.id, g.parent_id as parent, g.name, COALESCE(gm.users, 0) AS userscount'
+					.' FROM #__core_acl_aro_groups AS g'
+					.' LEFT JOIN (SELECT group_id, COUNT(*) AS users'
+					.' FROM #__core_acl_groups_aro_map'
+					.' GROUP BY group_id) AS gm ON g.id = gm.group_id'
+					.' ORDER BY g.parent_id, g.name;';
+			$db->setQuery($query);
+			$this->_groups = $db->loadObjectList('id');
 
+			foreach($this->_groups as &$group)
+			{
+				$this->_groups[$group->parent_id]->children[] = &$group;
+			}
+		}
+
+		if(is_int($group))
+		{
+			$this->_id = &$this->_groups[$group]->id;
+			$this->_parent = &$this->_groups[$group]->parent;
+			$this->_name = &$this->_groups[$group]->name;
+			$this->_userscount = &$this->_groups[$group]->userscount;
+			$this->_children = &$this->_groups[$group]->children;
+		}
 	}
 
 	function store()
 	{
-
+		if($this->_id != 0)
+		{
+			$db =& JFactory::getDBO();
+			$query = 'UPDATE #__core_acl_aro_groups'
+					.' SET parent_id = '.$this->_parent.','
+					.' name = \''.$this->_name.'\','
+					.' value = \''.$this->_name.'\''
+					.' WHERE id = '.$this->_id;
+			$db->setQuery($query);
+			$db->Query();
+		} else {
+			$db =& JFactory::getDBO();
+			$query = 'INSERT INTO #__core_acl_aro_groups'
+					.' (parent_id, name, value)'
+					.' VALUES ('.$this->_parent.',\''.$this->_name.'\',\''.$this->_name.'\');';
+			$db->setQuery($query);
+			$db->Query();
+		}
+		return true;			
 	}
 
 	function remove()
@@ -289,17 +334,17 @@ class JAuthorizationJACLUsergroup
 
 	}
 
-	function getMembers()
+	function getUsers()
 	{
 
 	}
 
-	function addMember()
+	function addUser()
 	{
 
 	}
 
-	function removeMember()
+	function removeUser()
 	{
 
 	}
@@ -317,7 +362,7 @@ class JAuthorizationJACLRule
 
 	}
 
-	function load()
+	function load($group = null)
 	{
 
 	}
