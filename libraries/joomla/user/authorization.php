@@ -602,6 +602,8 @@ class JAuthorizationUser
 
 class JAuthorizationExtension
 {
+	var $_extensions = null;
+
 	var $_id = null;
 
 	var $_name = null;
@@ -638,41 +640,41 @@ class JAuthorizationExtension
 
 	function load()
 	{
-
+		return;
 	}
 
 	function store()
 	{
-
+		return;
 	}
 
 	function remove()
 	{
-
+		return;
 	}
 
 	function getName()
 	{
-
+		return;
 	}
 
-	function setName()
+	function setName($name)
 	{
-
+		return;
 	}
 
 	function getValue()
 	{
-
+		return;
 	}
 
-	function setValue()
+	function setValue($value)
 	{
-
+		return;
 	}
 
 	function getExtensions()
 	{
-
+		return;
 	}
 }

@@ -241,12 +241,12 @@ class JAuthorizationJACLUsergroup
 
 	function getParent()
 	{
-		return $this->_groups[$this->_parent];
+
 	}
 
 	function getChildren()
 	{
-		return $this->_children;
+
 	}
 
 	function addChild()
@@ -329,7 +329,7 @@ class JAuthorizationJACLUsergroup
 			$db->setQuery($query);
 			$db->Query();
 		}
-		return true;			
+		return true;
 	}
 
 	function remove()
@@ -618,43 +618,107 @@ class JAuthorizationJACLExtension
 
 	}
 
-	function load()
+	function load($extension)
 	{
-
+		if(is_null($this->_extensions))
+		{
+			$db =& JFactory::getDBO();
+			$query = 'SELECT id, value, name FROM #__core_acl_aco_sections';
+			$db->setQuery($query);
+			$this->_extensions = $db->loadObjectList('value');
+		}
+		if(isset($this->_extensions[$extension]))
+		{
+			$this->_id = $this->_extensions[$extension]->id;
+			$this->_name = $this->_extensions[$extension]->name;
+			$this->_value = $this->_extensions[$extension]->value;
+			return true;
+		}
+		return false;
 	}
 
 	function store()
 	{
-
+		if(is_null($this->_id))
+		{
+			$db =& JFactory::getDBO();
+			$query = 'UPDATE #__core_acl_aco_sections'
+					.' SET name = \''.$this->_name.'\','
+					.' value = \''.$this->_value.'\''
+					.' WHERE id = '.$this->_id;
+			$db->setQuery($query);
+			$db->Query();
+			$query = 'UPDATE #__core_acl_axo_sections'
+					.' SET name = \''.$this->_name.'\','
+					.' value = \''.$this->_value.'\''
+					.' WHERE id = '.$this->_id;
+			$db->setQuery($query);
+			$db->Query();
+		} else {
+			$db =& JFactory::getDBO();
+			$query = 'INSERT INTO #__core_acl_aco_sections'
+					.' (name, value)'
+					.' VALUES (\''.$this->_name.'\',\''.$this->_value.'\');';
+			$db->setQuery($query);
+			$db->Query();
+			$db =& JFactory::getDBO();
+			$query = 'INSERT INTO #__core_acl_axo_sections'
+					.' (name, value)'
+					.' VALUES (\''.$this->_name.'\',\''.$this->_value.'\');';
+			$db->setQuery($query);
+			$db->Query();
+		}
+		return true;		
 	}
 
 	function remove()
 	{
-
+		$db =&JFactory::getDBO();
+		$query = 'DELETE FROM #__core_acl_aco_sections WHERE id = '.$this->_id;
+		$db->setQuery($query);
+		$db->Query();
+		$query = 'DELETE FROM #__core_acl_axo_sections WHERE id = '.$this->_id;
+		$db->setQuery($query);
+		$db->Query();
+		$query = 'DELETE FROM #__core_acl_aco WHERE section_value = \''.$this->_value.'\'';
+		$db->setQuery($query);
+		$db->Query();
+		$query = 'DELETE FROM #__core_acl_axo WHERE section_value = \''.$this->_value.'\'';
+		$db->setQuery($query);
+		$db->Query();
+		$query = 'DELETE FROM #__core_acl_aco_map WHERE section_value = \''.$this->_value.'\'';
+		$db->setQuery($query);
+		$db->Query();
+		$query = 'DELETE FROM #__core_acl_axo_map WHERE section_value = \''.$this->_value.'\'';
+		$db->setQuery($query);
+		$db->Query();
+		return true;
 	}
 
 	function getName()
 	{
-
+		return $this->_name;
 	}
 
-	function setName()
+	function setName($name)
 	{
-
+		this->_name = $name;
+		return true;
 	}
 
 	function getValue()
 	{
-
+		return $this->_value;
 	}
 
-	function setValue()
+	function setValue($value)
 	{
-
+		$this->_value = $value;
+		return true;
 	}
 
 	function getExtensions()
 	{
-
+		return $this->_extensions;
 	}
 }
