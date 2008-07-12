@@ -102,7 +102,7 @@ class JAuthorizationJACL extends JAuthorization
 				return false;
 			}
 		} else {
-			if(!is_array($this->_rights[$user][$extension][$action])) {
+			if(isset($this->_rights[$user]) && !is_array($this->_rights[$user][$extension][$action])) {
  				$this->_getAllowedContent($extension, $action);
 			} else {
 				if(isset($this->_rights[$user][$extension][$action][$contentitem])) {
@@ -121,10 +121,10 @@ class JAuthorizationJACL extends JAuthorization
 			$user = JFactory::getUser();
 			$user = $user->get('id');
 		}
-		if(!is_array($this->_rights[$user][$extension][$action])) {
+		if(isset($this->_rights[$user]) && !is_array($this->_rights[$user][$extension][$action])) {
 			$this->_getAllowedContent($extension, $action, $user);
 		}
-		if(count($this->_rights[$user][$extension][$action])) {
+		if(isset($this->_rights[$user]) && count($this->_rights[$user][$extension][$action])) {
 			foreach($this->_rights[$user][$extension][$action] as $name => $value)
 			{
 				$content[] = $value;
@@ -524,42 +524,51 @@ class JAuthorizationJACLContentItem
 
 	function remove()
 	{
-
+		$db =& JFactory::getDBO();
+		$query = 'DELETE FROM #__core_acl_axo WHERE id = '.$this->_id;
+		$db->setQuery($query);
+		$db->Query();
+		$query = 'DELETE FROM #_core_acl_axo_map WHERE section_value = \''.$this->_extension.'\' && value = \''.$this->_value.'\'';
+		$db->setQuery($query);
+		$db->Query();
 	}
 
 	function getExtension()
 	{
-		
+		return $this->_extension;
 	}
 
-	function setExtension()
+	function setExtension($extension)
 	{
-
+		$this->_extension = $extension;
+		return true;
 	}
 
 	function getName()
 	{
-
+		return $this->_name;
 	}
 
-	function setName()
+	function setName($name)
 	{
-
+		$this->_name = $name;
+		return true;
 	}
 
 	function getValue()
 	{
-
+		return $this->_value;
 	}
 
-	function setValue()
+	function setValue($value)
 	{
-
+		$this->_value = $value;
+		return true;
 	}
 
 	function getContentItems()
 	{
-
+		return $this->_contentItems;
 	}
 }
 
@@ -743,7 +752,7 @@ class JAuthorizationJACLExtension
 
 	function setName($name)
 	{
-		this->_name = $name;
+		$this->_name = $name;
 		return true;
 	}
 
