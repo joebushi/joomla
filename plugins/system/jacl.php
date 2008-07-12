@@ -146,7 +146,7 @@ class JAuthorizationJACL extends JAuthorization
 			$user = $user->get('id');
 		}
 
-		if(!count($this->_ugroups[$user]))
+		if(!isset($this->_ugroups[$user]))
 		{
 			$db = JFactory::getDBO();
 			$query = 'SELECT DISTINCT g2.id'
