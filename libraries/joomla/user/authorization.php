@@ -525,6 +525,8 @@ class JAuthorizationContentItem
 
 class JAuthorizationUser
 {
+	var $_users = null;
+
 	var $_id = null;
 
 	var $_name = null;

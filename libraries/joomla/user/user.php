@@ -548,7 +548,10 @@ class JUser extends JObject
 		//add or update user in ACL system
 		if ($isnew)
 		{
-			$acl->adduser($this->id, $this->username);
+			$aclUser = JAuthorizationUser::getInstance();
+			$aclUser->setName = $this->username;
+			$aclUser->setUserID($this->id);
+			$aclUser->store();
 			if(count($this->_groups))
 			{
 				foreach($this->_groups as $group)

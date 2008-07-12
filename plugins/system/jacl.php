@@ -570,44 +570,85 @@ class JAuthorizationJACLUser
 
 	}
 
-	function load()
+	function load($id = null)
 	{
+		if(!is_array($this->_users))
+		{
+			$db =& JFactory::getDBO();
+			$query = 'SELECT id, value, name FROM #__core_acl_aro';
+			$db->setQuery($query);
+			$this->_users = $db->loadObjectList('value');
+		}
 
+		if(is_int($id))
+		{
+			$this->_id = $this->_users[$id]->id;
+			$this->_value = $this->_users[$id]->value;
+			$this->_name = $this->_users[$id]->name;
+			return true;
+		}
 	}
 
 	function store()
 	{
-
+		if(!is_null($this->_id))
+		{
+			$db =& JFactory::getDBO();
+			$query = 'UPDATE #__core_acl_aro'
+					.' SET name = \''.$this->_name.'\','
+					.' value = \''.$this->_value.'\''
+					.' WHERE id = '.$this->_id;
+			$db->setQuery($query);
+			$db->Query();
+		} else {
+			$db =& JFactory::getDBO();
+			$query = 'INSERT INTO #__core_acl_aco'
+					.' (name, value)'
+					.' VALUES (\''.$this->_name.'\',\''.$this->_value.'\');';
+			$db->setQuery($query);
+			$db->Query();
+			$this->_id = $db->inserid();
+		}
+		return true;		
 	}
 
 	function remove()
 	{
-
+		$db =& JFactory::getDBO();
+		$query = 'DELETE FROM #__core_acl_aro WHERE id = '.$this->_id;
+		$db->setQuery($query);
+		$db->Query();
+		$query = 'DELETE FROM #__core_acl_groups_aro_map WHERE aro_id = '.$this->_id;
+		$db->setQuery($query);
+		$db->Query();
 	}
 
 	function getName()
 	{
-
+		return $this->_name;
 	}
 
-	function setName()
+	function setName($name)
 	{
-
+		$this->_name = $name;
+		return true;
 	}
 
 	function getUserID()
 	{
-
+		return $this->_value;
 	}
 
-	function setUserID()
+	function setUserID($id)
 	{
-
+		$this->_value = $id;
+		return true;
 	}
 
 	function getUsers()
 	{
-
+		$this->_load();
+		return $this->_users;
 	}
 }
 
@@ -639,7 +680,7 @@ class JAuthorizationJACLExtension
 
 	function store()
 	{
-		if(is_null($this->_id))
+		if(!is_null($this->_id))
 		{
 			$db =& JFactory::getDBO();
 			$query = 'UPDATE #__core_acl_aco_sections'
@@ -719,6 +760,7 @@ class JAuthorizationJACLExtension
 
 	function getExtensions()
 	{
+		$this->load();
 		return $this->_extensions;
 	}
 }

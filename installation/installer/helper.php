@@ -316,7 +316,7 @@ class JInstallationHelper
 		}
 
 		// add the map between the ARO and the Group
-		$query = "INSERT INTO #__core_acl_groups_aro_map VALUES (25,'',10)";
+		$query = "INSERT INTO #__core_acl_groups_aro_map VALUES (11, 10)";
 		$db->setQuery($query);
 		if (!$db->query())
 		{
