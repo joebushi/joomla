@@ -115,6 +115,30 @@ class JAuthorizationUsergroup
 
 	}
 
+	/**
+	 * Singelton method to create one unique instance of an manager per specific acl service
+	 * 
+	 * @param string	acl service that should be loaded, default phpgacl
+	 * @return object	new instance of the ACLManager
+	 */
+	function getInstance()
+	{
+		static $instance;
+
+		if (empty($instances))
+		{
+			$config =& JFactory::getConfig();
+			$driver = $config->getValue('config.aclservice', 'JACL');
+
+			$adapter	= 'JAuthorization'.$driver.'Usergroup';
+			$instance	= new $adapter();
+
+		}
+
+		return $instance;
+	}
+
+
 	function getParent()
 	{
 		
@@ -208,6 +232,29 @@ class JAuthorizationRule
 	function __construct()
 	{
 
+	}
+
+	/**
+	 * Singelton method to create one unique instance of an manager per specific acl service
+	 * 
+	 * @param string	acl service that should be loaded, default phpgacl
+	 * @return object	new instance of the ACLManager
+	 */
+	function getInstance()
+	{
+		static $instance;
+
+		if (empty($instances))
+		{
+			$config =& JFactory::getConfig();
+			$driver = $config->getValue('config.aclservice', 'JACL');
+
+			$adapter	= 'JAuthorization'.$driver.'Rule';
+			$instance	= new $adapter();
+
+		}
+
+		return $instance;
 	}
 
 	function load()
@@ -309,6 +356,29 @@ class JAuthorizationAction
 
 	}
 
+	/**
+	 * Singelton method to create one unique instance of an manager per specific acl service
+	 * 
+	 * @param string	acl service that should be loaded, default phpgacl
+	 * @return object	new instance of the ACLManager
+	 */
+	function getInstance()
+	{
+		static $instance;
+
+		if (empty($instances))
+		{
+			$config =& JFactory::getConfig();
+			$driver = $config->getValue('config.aclservice', 'JACL');
+
+			$adapter	= 'JAuthorization'.$driver.'Action';
+			$instance	= new $adapter();
+
+		}
+
+		return $instance;
+	}
+
 	function load()
 	{
 
@@ -377,6 +447,29 @@ class JAuthorizationContentItem
 
 	}
 
+	/**
+	 * Singelton method to create one unique instance of an manager per specific acl service
+	 * 
+	 * @param string	acl service that should be loaded, default phpgacl
+	 * @return object	new instance of the ACLManager
+	 */
+	function getInstance()
+	{
+		static $instance;
+
+		if (empty($instances))
+		{
+			$config =& JFactory::getConfig();
+			$driver = $config->getValue('config.aclservice', 'JACL');
+
+			$adapter	= 'JAuthorization'.$driver.'ContentItem';
+			$instance	= new $adapter();
+
+		}
+
+		return $instance;
+	}
+
 	function load()
 	{
 
@@ -441,6 +534,29 @@ class JAuthorizationUser
 
 	}
 
+	/**
+	 * Singelton method to create one unique instance of an manager per specific acl service
+	 * 
+	 * @param string	acl service that should be loaded, default phpgacl
+	 * @return object	new instance of the ACLManager
+	 */
+	function getInstance()
+	{
+		static $instance;
+
+		if (empty($instances))
+		{
+			$config =& JFactory::getConfig();
+			$driver = $config->getValue('config.aclservice', 'JACL');
+
+			$adapter	= 'JAuthorization'.$driver.'User';
+			$instance	= new $adapter();
+
+		}
+
+		return $instance;
+	}
+
 	function load()
 	{
 
@@ -493,6 +609,29 @@ class JAuthorizationExtension
 	function __construct()
 	{
 
+	}
+
+	/**
+	 * Singelton method to create one unique instance of an manager per specific acl service
+	 * 
+	 * @param string	acl service that should be loaded, default phpgacl
+	 * @return object	new instance of the ACLManager
+	 */
+	function getInstance()
+	{
+		static $instance;
+
+		if (empty($instances))
+		{
+			$config =& JFactory::getConfig();
+			$driver = $config->getValue('config.aclservice', 'JACL');
+
+			$adapter	= 'JAuthorization'.$driver.'Extension';
+			$instance	= new $adapter();
+
+		}
+
+		return $instance;
 	}
 
 	function load()
