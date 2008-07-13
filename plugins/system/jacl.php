@@ -129,7 +129,7 @@ class JAuthorizationJACL extends JAuthorization
 				$user = 1;
 			}
 		}
-		if(!isset($this->_rights[$user]) || !is_array($this->_rights[$user][$extension][$action])) {
+		if(!isset($this->_rights[$user][$extension][$action]) || !is_array($this->_rights[$user][$extension][$action])) {
 			$this->_getAllowedContent($extension, $action, $user);
 		}
 		if(isset($this->_rights[$user]) && count($this->_rights[$user][$extension][$action])) {
