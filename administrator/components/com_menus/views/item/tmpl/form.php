@@ -141,7 +141,7 @@ function submitbutton(pressbutton) {
 								<?php echo JText::_( 'Access Level' ); ?>:
 							</td>
 							<td>
-								<?php echo JHTML::_('list.accesslevel',  $this->item ); ?>
+								<?php echo JHTML::_('list.accesslevel',  $this->item, 'com_menus' ); ?>
 							</td>
 						</tr>
 						<tr>

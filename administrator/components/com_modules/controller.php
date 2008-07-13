@@ -455,7 +455,7 @@ class ModulesController extends JController
 				$lists['access'] 		= 'N/A';
 				$lists['selections'] 	= 'N/A';
 			} else {
-				$lists['access'] 		= JHTML::_('list.accesslevel',  $row );
+				$lists['access'] 		= JHTML::_('list.accesslevel',  $row, 'com_modules' );
 
 				$selections				= JHTML::_('menu.linkoptions');
 				$lists['selections']	= JHTML::_('select.genericlist',   $selections, 'selections[]', 'class="inputbox" size="15" multiple="multiple"', 'value', 'text', $lookup, 'selections' );

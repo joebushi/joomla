@@ -383,52 +383,52 @@ class JAuthorizationAction
 
 	function load()
 	{
-
+		return;
 	}
 
 	function store()
 	{
-
+		return;
 	}
 
 	function remove()
 	{
-
+		return;
 	}
 
 	function getExtension()
 	{
-		
+		return;
 	}
 
 	function setExtension()
 	{
-
+		return;
 	}
 
 	function getName()
 	{
-
+		return;
 	}
 
 	function setName()
 	{
-
+		return;
 	}
 
 	function getValue()
 	{
-
+		return;
 	}
 
 	function setValue()
 	{
-
+		return;
 	}
 
 	function getActions()
 	{
-
+		return;
 	}
 }
 
@@ -474,52 +474,52 @@ class JAuthorizationContentItem
 
 	function load()
 	{
-
+		return;
 	}
 
 	function store()
 	{
-
+		return;
 	}
 
 	function remove()
 	{
-
+		return;
 	}
 
 	function getExtension()
 	{
-		
+		return;
 	}
 
 	function setExtension()
 	{
-
+		return;
 	}
 
 	function getName()
 	{
-
+		return;
 	}
 
 	function setName()
 	{
-
+		return;
 	}
 
 	function getValue()
 	{
-
+		return;
 	}
 
 	function setValue()
 	{
-
+		return;
 	}
 
 	function getContentItems()
 	{
-
+		return;
 	}
 }
 
@@ -563,42 +563,42 @@ class JAuthorizationUser
 
 	function load()
 	{
-
+		return;
 	}
 
 	function store()
 	{
-
+		return;
 	}
 
 	function remove()
 	{
-
+		return;
 	}
 
 	function getName()
 	{
-
+		return;
 	}
 
 	function setName()
 	{
-
+		return;
 	}
 
 	function getUserID()
 	{
-
+		return;
 	}
 
 	function setUserID()
 	{
-
+		return;
 	}
 
 	function getUsers()
 	{
-
+		return;
 	}
 }
 

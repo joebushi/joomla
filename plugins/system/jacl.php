@@ -241,42 +241,42 @@ class JAuthorizationJACLUsergroup
 
 	function getParent()
 	{
-
+		return $this->_groups[$this->_id]->parent;
 	}
 
 	function getChildren()
 	{
-
+		return $this->_groups[$this->_id]->children;
 	}
 
 	function addChild()
 	{
-
+		
 	}
 
-	function setName()
+	function setName($name)
 	{
-
+		$this->_groups[$this->_id]->name = $name;
 	}
 
 	function getName()
 	{
-
+		return $this->_groups[$this->_id]->name;
 	}
 
 	function getID()
 	{
-
+		return $this->_id;
 	}
 
 	function setID()
 	{
-
+		
 	}
 
 	function removeChild()
 	{
-
+		
 	}
 
 	function load($group = null)
@@ -302,10 +302,6 @@ class JAuthorizationJACLUsergroup
 		if(is_int($group))
 		{
 			$this->_id = &$this->_groups[$group]->id;
-			$this->_parent = &$this->_groups[$group]->parent;
-			$this->_name = &$this->_groups[$group]->name;
-			$this->_userscount = &$this->_groups[$group]->userscount;
-			$this->_children = &$this->_groups[$group]->children;
 		}
 	}
 
@@ -315,9 +311,9 @@ class JAuthorizationJACLUsergroup
 		{
 			$db =& JFactory::getDBO();
 			$query = 'UPDATE #__core_acl_aro_groups'
-					.' SET parent_id = '.$this->_parent.','
+					.' SET (parent_id = '.$this->_parent.','
 					.' name = \''.$this->_name.'\','
-					.' value = \''.$this->_name.'\''
+					.' value = \''.$this->_name.'\')'
 					.' WHERE id = '.$this->_id;
 			$db->setQuery($query);
 			$db->Query();
@@ -550,7 +546,7 @@ class JAuthorizationJACLAction
 		return $this->_actionss;
 	}}
 
-class JAuthorizationJACLContentItem
+class JAuthorizationJACLContentItem extends JAuthorizationContentItem
 {
 	function __construct()
 	{
@@ -559,7 +555,7 @@ class JAuthorizationJACLContentItem
 
 	function load($extension = null, $value = null)
 	{
-		if(!is_array($this->_contentItems))
+		if(!is_array($this->_contentitems))
 		{
 			$db =& JFactory::getDBO();
 			$query = 'SELECT id, section_value as extension, name, value FROM #__core_acl_axo';
@@ -648,9 +644,13 @@ class JAuthorizationJACLContentItem
 		return true;
 	}
 
-	function getContentItems()
+	function getContentItems($extension = null)
 	{
-		return $this->_contentItems;
+		if($extension != null)
+		{
+			return $this->_contentitems[$extension];
+		}
+		return $this->_contentitems;
 	}
 }
 

@@ -258,7 +258,7 @@ function editSection( $edit)
 	// build the html select list for images
 	$lists['image'] 			= JHTML::_('list.images',  'image', $row->image );
 	// build the html select list for the group access
-	$lists['access'] 			= JHTML::_('list.accesslevel',  $row );
+	$lists['access'] 			= JHTML::_('list.accesslevel',  $row, 'com_content' );
 	// build the html radio buttons for published
 	$lists['published'] 		= JHTML::_('select.booleanlist',  'published', 'class="inputbox"', $row->published );
 

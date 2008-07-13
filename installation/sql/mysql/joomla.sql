@@ -747,18 +747,20 @@ CREATE TABLE IF NOT EXISTS `#__core_acl_acl` (
   KEY `enabled_acl` (`enabled`),
   KEY `section_value_acl` (`section_value`),
   KEY `updated_date_acl` (`updated_date`)
-) TYPE=MyISAM;
+) TYPE=MyISAM AUTO_INCREMENT=0;
 
 #
 # Dumping data for table `#__core_acl_acl`
 #
 
-INSERT INTO `#__core_acl_acl` VALUES(1, 'system', 1, 1, '', '', 1156117968),
+INSERT INTO `#__core_acl_acl` (`id`, `section_value`, `allow`, `enabled`, `return_value`, `note`, `updated_date`) VALUES
+(1, 'system', 1, 1, '', '', 1156117968),
 (2, 'system', 1, 1, '', '', 1156117968),
 (3, 'system', 1, 1, '', '', 1156117968),
 (4, 'system', 1, 1, '', '', 1156117968),
-(10, 'system', 1, 1, '', '', 1215731266),
-(5, 'system', 1, 1, '', '', 1156117968);
+(5, 'system', 1, 1, '', '', 1156117968),
+(6, 'system', 1, 1, '', '', 1156117968),
+(7, 'system', 1, 1, '', '', 1156117968);
 
 # --------------------------------------------------------
 
@@ -799,13 +801,14 @@ CREATE TABLE `#__core_acl_aco` (
   PRIMARY KEY  (`id`),
   UNIQUE KEY `section_value_value_aco` (`section_value`,`value`),
   KEY `hidden_aco` (`hidden`)
-) ENGINE=MyISAM AUTO_INCREMENT=38 ;
+) ENGINE=MyISAM AUTO_INCREMENT=43 ;
 
 #
 # Dumping data for table `#__core_acl_aco`
 #
 
-INSERT INTO `#__core_acl_aco` VALUES(1, 'com_admin', 'manage', 0, 'Manage', 0),
+INSERT INTO `#__core_acl_aco` (`id`, `section_value`, `value`, `order_value`, `name`, `hidden`) VALUES
+(1, 'com_admin', 'manage', 0, 'Manage', 0),
 (2, 'com_banners', 'manage', 0, 'Manage', 0),
 (3, 'com_cache', 'manage', 0, 'Manage', 0),
 (4, 'com_categories', 'manage', 0, 'Manage', 0),
@@ -844,7 +847,10 @@ INSERT INTO `#__core_acl_aco` VALUES(1, 'com_admin', 'manage', 0, 'Manage', 0),
 (37, 'com_weblinks', 'view', 0, 'View', 0),
 (38, 'com_users', 'email_events', 0, 'email_events', 0),
 (39, 'com_users', 'block user', 0, 'block user', 0),
-(40, 'login', 'administrator', 0, 'administrator', 0);
+(40, 'login', 'administrator', 0, 'administrator', 0),
+(41, 'com_plugins', 'view', 0, 'View', 0),
+(42, 'com_menus', 'view', 0, 'View', 0),
+(43, 'com_modules', 'view', 0, 'View', 0);
 
 # --------------------------------------------------------
 
@@ -863,7 +869,8 @@ CREATE TABLE IF NOT EXISTS `#__core_acl_aco_map` (
 # Dumping data for table `#__core_acl_aco_map`
 #
 
-INSERT INTO `#__core_acl_aco_map` VALUES(1, 'com_login', 'view'),
+INSERT INTO `#__core_acl_aco_map` (`acl_id`, `section_value`, `value`) VALUES
+(1, 'com_login', 'view'),
 (1, 'com_user', 'view'),
 (2, 'com_banners', 'manage'),
 (2, 'com_contact', 'manage'),
@@ -887,8 +894,27 @@ INSERT INTO `#__core_acl_aco_map` VALUES(1, 'com_login', 'view'),
 (4, 'com_languages', 'manage'),
 (4, 'com_massmail', 'manage'),
 (4, 'com_templates', 'manage'),
+(5, 'com_contact', 'view'),
 (5, 'com_content', 'view'),
-(10, 'com_content', 'view');
+(5, 'com_menus', 'view'),
+(5, 'com_modules', 'view'),
+(5, 'com_newsfeeds', 'view'),
+(5, 'com_plugins', 'view'),
+(5, 'com_weblinks', 'view'),
+(6, 'com_contact', 'view'),
+(6, 'com_content', 'view'),
+(6, 'com_menus', 'view'),
+(6, 'com_modules', 'view'),
+(6, 'com_newsfeeds', 'view'),
+(6, 'com_plugins', 'view'),
+(6, 'com_weblinks', 'view'),
+(7, 'com_contact', 'view'),
+(7, 'com_content', 'view'),
+(7, 'com_menus', 'view'),
+(7, 'com_modules', 'view'),
+(7, 'com_newsfeeds', 'view'),
+(7, 'com_plugins', 'view'),
+(7, 'com_weblinks', 'view');
 
 # --------------------------------------------------------
 
@@ -911,7 +937,8 @@ CREATE TABLE `#__core_acl_aco_sections` (
 # Dumping data for table `#__core_acl_aco_sections`
 #
 
-INSERT INTO `#__core_acl_aco_sections` VALUES(1, 'com_admin', 0, 'Admin & Help', 0),
+INSERT INTO `#__core_acl_aco_sections` (`id`, `value`, `order_value`, `name`, `hidden`) VALUES
+(1, 'com_admin', 0, 'Admin & Help', 0),
 (2, 'com_banners', 0, 'Banner component', 0),
 (3, 'com_cache', 0, 'Cache Administration', 0),
 (4, 'com_categories', 0, 'Category Manager', 0),
@@ -937,7 +964,8 @@ INSERT INTO `#__core_acl_aco_sections` VALUES(1, 'com_admin', 0, 'Admin & Help',
 (24, 'com_templates', 0, 'Template Manager', 0),
 (25, 'com_trash', 0, 'Trash Manager', 0),
 (26, 'com_users', 0, 'User Manager', 0),
-(27, 'com_weblinks', 0, 'Weblink Manager', 0);
+(27, 'com_weblinks', 0, 'Weblink Manager', 0),
+(28, 'login', 0, 'login', 0);
 
 # --------------------------------------------------------
 
@@ -1014,11 +1042,14 @@ CREATE TABLE IF NOT EXISTS `#__core_acl_aro_groups_map` (
 # Dumping data for table `#__core_acl_aro_groups_map`
 #
 
-INSERT INTO `#__core_acl_aro_groups_map` VALUES(1, 4),
+INSERT INTO `#__core_acl_aro_groups_map` (`acl_id`, `group_id`) VALUES
+(1, 4),
 (2, 9),
 (3, 10),
 (4, 11),
-(5, 11);
+(5, 2),
+(6, 4),
+(7, 5);
 
 # --------------------------------------------------------
 
@@ -1072,7 +1103,34 @@ CREATE TABLE IF NOT EXISTS `#__core_acl_axo` (
   PRIMARY KEY  (`id`),
   UNIQUE KEY `section_value_value_axo` (`section_value`,`value`),
   KEY `hidden_axo` (`hidden`)
-) TYPE=MyISAM;
+) TYPE=MyISAM AUTO_INCREMENT=0;
+
+#
+# Dumping data for table `#__core_acl_axo`
+#
+
+INSERT INTO `#__core_acl_axo` (`id`, `section_value`, `value`, `order_value`, `name`, `hidden`) VALUES
+(5, 'com_content', '0', 0, 'Public', 0),
+(2, 'com_modules', '0', 0, 'Public', 0),
+(3, 'com_modules', '1', 0, 'Registered', 0),
+(4, 'com_modules', '2', 0, 'Special', 0),
+(6, 'com_content', '1', 0, 'Registered', 0),
+(7, 'com_content', '2', 0, 'Special', 0),
+(8, 'com_plugins', '0', 0, 'Public', 0),
+(9, 'com_plugins', '1', 0, 'Registered', 0),
+(10, 'com_plugins', '2', 0, 'Special', 0),
+(11, 'com_contact', '0', 0, 'Public', 0),
+(12, 'com_contact', '1', 0, 'Registered', 0),
+(13, 'com_contact', '2', 0, 'Special', 0),
+(14, 'com_newsfeeds', '0', 0, 'Public', 0),
+(15, 'com_newsfeeds', '1', 0, 'Registered', 0),
+(16, 'com_newsfeeds', '2', 0, 'Special', 0),
+(17, 'com_weblinks', '0', 0, 'Public', 0),
+(18, 'com_weblinks', '1', 0, 'Registered', 0),
+(19, 'com_weblinks', '2', 0, 'Special', 0),
+(20, 'com_menus', '0', 0, 'Public', 0),
+(21, 'com_menus', '1', 0, 'Registered', 0),
+(22, 'com_menus', '2', 0, 'Special', 0);
 
 # --------------------------------------------------------
 
@@ -1118,6 +1176,33 @@ CREATE TABLE IF NOT EXISTS `#__core_acl_axo_map` (
   PRIMARY KEY  (`acl_id`,`section_value`,`value`)
 ) TYPE=MyISAM;
 
+#
+# Dumping data for table `#__core_acl_axo_map`
+#
+
+INSERT INTO `#__core_acl_axo_map` (`acl_id`, `section_value`, `value`) VALUES
+(5, 'com_contact', '0'),
+(5, 'com_content', '0'),
+(5, 'com_menus', '0'),
+(5, 'com_modules', '0'),
+(5, 'com_newsfeeds', '0'),
+(5, 'com_plugins', '0'),
+(5, 'com_weblinks', '0'),
+(6, 'com_contact', '1'),
+(6, 'com_content', '1'),
+(6, 'com_menus', '1'),
+(6, 'com_modules', '1'),
+(6, 'com_newsfeeds', '1'),
+(6, 'com_plugins', '1'),
+(6, 'com_weblinks', '1'),
+(7, 'com_contact', '2'),
+(7, 'com_content', '2'),
+(7, 'com_menus', '2'),
+(7, 'com_modules', '2'),
+(7, 'com_newsfeeds', '2'),
+(7, 'com_plugins', '2'),
+(7, 'com_weblinks', '2');
+
 # --------------------------------------------------------
 
 #
@@ -1133,7 +1218,20 @@ CREATE TABLE IF NOT EXISTS `#__core_acl_axo_sections` (
   PRIMARY KEY  (`id`),
   UNIQUE KEY `value_axo_sections` (`value`),
   KEY `hidden_axo_sections` (`hidden`)
-) TYPE=MyISAM;
+) TYPE=MyISAM AUTO_INCREMENT=0;
+
+#
+# Dumping data for table `#__core_acl_axo_sections`
+#
+
+INSERT INTO `#__core_acl_axo_sections` (`id`, `value`, `order_value`, `name`, `hidden`) VALUES
+(1, 'com_contact', 0, 'Contact Manager', 0),
+(2, 'com_content', 0, 'Content Manager', 0),
+(3, 'com_menus', 0, 'Menu Manager', 0),
+(4, 'com_modules', 0, 'Module Manager', 0),
+(5, 'com_newsfeeds', 0, 'Newsfeed Manager', 0),
+(6, 'com_plugins', 0, 'Plugin Manager', 0),
+(7, 'com_weblinks', 0, 'Weblink Manager', 0);
 
 # --------------------------------------------------------
 

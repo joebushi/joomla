@@ -385,7 +385,7 @@ function editCategory($edit )
 	// Imagelist
 	$lists['image'] 			= JHTML::_('list.images',  'image', $row->image );
 	// build the html select list for the group access
-	$lists['access'] 			= JHTML::_('list.accesslevel',  $row );
+	$lists['access'] 			= JHTML::_('list.accesslevel',  $row, $section );
 	// build the html radio buttons for published
 	$published = ($row->id) ? $row->published : 1;
 	$lists['published'] 		= JHTML::_('select.booleanlist',  'published', 'class="inputbox"', $published );
