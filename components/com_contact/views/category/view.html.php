@@ -31,6 +31,7 @@ class ContactViewCategory extends JView
 		$uri 	  =& JFactory::getURI();
 		$model	  = &$this->getModel();
 		$document =& JFactory::getDocument();
+		$acl =& JFactory::getACL();
 
 		$pparams = &$mainframe->getParams('com_contact');
 
@@ -42,7 +43,7 @@ class ContactViewCategory extends JView
 		$filter_order_Dir	= JRequest::getVar('filter_order_Dir',	'ASC',			'', 'word');
 
 		// query options
-		$options['aid'] 		= $user->get('aid', 0);
+		$options['aid'] 		= $acl->getAllowedContent('com_contact', 'view');
 		$options['category_id']	= $categoryId;
 		$options['limit']		= $limit;
 		$options['limitstart']	= $limitstart;
