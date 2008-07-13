@@ -989,7 +989,7 @@ CREATE TABLE IF NOT EXISTS `#__core_acl_aro` (
 # Dumping data for table `#__core_acl_aro`
 #
 
-INSERT INTO `#__core_acl_aro` VALUES(1, 'users', '0', 0, 'Guest', 0);
+INSERT INTO `#__core_acl_aro` VALUES(1, 'users', '1', 0, 'Guest', 0);
 
 # --------------------------------------------------------
 

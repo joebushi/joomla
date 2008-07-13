@@ -93,6 +93,10 @@ class JAuthorizationJACL extends JAuthorization
 		if($user == null) {
 			$user = JFactory::getUser();
 			$user = $user->get('id');
+			if($user == 0)
+			{
+				$user = 1;
+			}
 		}
 
 		if(is_null($contentitem)) {
@@ -102,7 +106,7 @@ class JAuthorizationJACL extends JAuthorization
 				return false;
 			}
 		} else {
-			if(isset($this->_rights[$user]) && !is_array($this->_rights[$user][$extension][$action])) {
+			if(!isset($this->_rights[$user]) || isset($this->_rights[$user][$extension][$action]) && !is_array($this->_rights[$user][$extension][$action])) {
  				$this->_getAllowedContent($extension, $action);
 			} else {
 				if(isset($this->_rights[$user][$extension][$action][$contentitem])) {
@@ -120,14 +124,18 @@ class JAuthorizationJACL extends JAuthorization
 		if($user == null) {
 			$user = JFactory::getUser();
 			$user = $user->get('id');
+			if($user == 0)
+			{
+				$user = 1;
+			}
 		}
-		if(isset($this->_rights[$user]) && !is_array($this->_rights[$user][$extension][$action])) {
+		if(!isset($this->_rights[$user]) || !is_array($this->_rights[$user][$extension][$action])) {
 			$this->_getAllowedContent($extension, $action, $user);
 		}
 		if(isset($this->_rights[$user]) && count($this->_rights[$user][$extension][$action])) {
 			foreach($this->_rights[$user][$extension][$action] as $name => $value)
 			{
-				$content[] = $value;
+				$content[] = $name;
 			}
 		}
 		return $content;
@@ -145,6 +153,10 @@ class JAuthorizationJACL extends JAuthorization
 		if(is_object($user)) {
 			$user = $user->get('id');
 		}
+		if($user == 0)
+		{
+			$user = 1;
+		}
 
 		if(!isset($this->_ugroups[$user]))
 		{
@@ -159,7 +171,6 @@ class JAuthorizationJACL extends JAuthorization
 			$db->setQuery($query);
 			$this->_ugroups[$user] = $db->loadResultArray();
 		}
-
 		return $this->_ugroups[$user];
 	}
 
