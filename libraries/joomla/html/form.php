@@ -72,24 +72,6 @@ class JForm extends JRegistry
 	var $_elementPath = array();
 
 	/**
-	* directories, where rendering chromes can be stored
-	*
-	* @access	private
-	* @var	array
-	* @since	1.6
-	*/
-	var $_chromePath = array();
-
-	/**
-	* Renderer for the parameters
-	*
-	* @access	private
-	* @var	array
-	* @since	1.6
-	*/
-	var $_renderer = array();
-
-	/**
 	* XML tag-name for the elements
 	*
 	* @access	private
@@ -97,6 +79,24 @@ class JForm extends JRegistry
 	* @since	1.6
 	*/
 	var $_elementTagName = '';
+
+	/**
+	 * The HTML elements to render
+	 *
+	 * @access	private
+	 * @var		object
+	 * @since	1.6
+	 */
+	var $_html = array();
+
+	/**
+	 * The conditional informations for the params elements
+	 *
+	 * @access	private
+	 * @var		object
+	 * @since	1.5
+	 */
+	var $_cond = array();
 
 	/**
 	 * Constructor
@@ -126,6 +126,16 @@ class JForm extends JRegistry
 		}
 
 		$this->_raw = $data;
+	}
+
+	function getInstance($data, $xmldata = '', $xmlelement = 'element', $engine = null)
+	{
+		if($engine != null)
+		{
+			$engine = 'JForm'.ucfirst(strtolower($engine));
+			return new $engine($data, $xmldata, $xmlelement);
+		}
+		return new JForm();
 	}
 
 	/**
@@ -233,24 +243,24 @@ class JForm extends JRegistry
 	 */
 	function render($name = 'elements', $group = '_default', $chrome = 'params', $form = true)
 	{
-		if (!isset($this->_xml[$group])) {
-			return false;
-		}
-		if(!count($this->_chromePath) && $chrome != 'params') {
-			return false;
-		}
-		$engine = 'JFormRenderer'.ucfirst(strtolower($chrome));
-		if(!class_exists($engine)) {
-			jimport('joomla.filesystem.path');
-			if ($chromeFile = JPath::find($this->_chromePath, $chrome.'.php')) {
-				include_once $chromeFile;
-			} else {
-				return $false;
-			}
+		$this->_html = array();
+		$this->_html[] = '<table width="100%" class="paramlist admintable" cellspacing="1">';
+
+		if ($description = $this->_xml[$group]->attributes('description')) {
+			// add the params description to the display
+			$desc	= JText::_($description);
+			$this->_html[]	= '<tr><td class="paramlist_description" colspan="2">'.$desc.'</td></tr>';
 		}
 
-		$this->_renderer[$chrome] = new $engine;
-		return $this->_renderer[$chrome]->render($name, $group, $this->_xml[$group], $form, $this);
+		$this->_render($this->_xml[$group]->children(), $name, '', '', $form);
+
+		if (count($this->_xml[$group]->children()) < 1) {
+			$this->_html[] = "<tr><td colspan=\"2\"><i>".JText::_('There are no Parameters for this item')."</i></td></tr>";
+		}
+
+		$this->_html[] = '</table>';
+
+		return implode("\n", $this->_html);
 	}
 
 	/**
@@ -373,17 +383,8 @@ class JForm extends JRegistry
 		if($form) {
 			return $element->render($node, $value, $control_name);
 		} else {
-			if (method_exists($element, 'fetchTableElement')) {
-				return $element->render($node, $value, $control_name, $form);
-			} else {
-				$result[0] = $node->attributes('label').': ';
-				$result[1] = $this->get($node->attributes('name'), $node->attributes('default'), $group);
-				$result[2] = $node->attributes('description');
-				$result[3] = $node->attributes('label');
-				$result[4] = $value;
-				$result[5] = $node->attributes('name');
-				return $result;
-		}	}
+			return $element->renderElement($node, $value, $control_name);
+		}
 	}
 
 	/**
@@ -578,67 +579,6 @@ class JForm extends JRegistry
 
 	}
 
-}
-
-/**
- * Parameter HTML Renderer
- *
- * @author 		Hannes Papenberg <hannes.papenberg@community.joomla.org>
- * @package 	Joomla.Framework
- * @subpackage		Parameter
- * @since		1.6
- */
-class JFormRendererParams extends JObject
-{
-	/**
-	 * The HTML elements to render
-	 *
-	 * @access	private
-	 * @var		object
-	 * @since	1.6
-	 */
-	var $_html = array();
-
-	/**
-	 * The conditional informations for the params elements
-	 *
-	 * @access	private
-	 * @var		object
-	 * @since	1.5
-	 */
-	var $_cond = array();
-
-	/**
-	 * The calling JParameter object
-	 *
-	 * @access	private
-	 * @var		object
-	 * @since	1.6
-	 */
-	var $_object;
-
-	function render($name, $group, $xml, $form, $jform)
-	{
-		$this->_object = $jform;
-		$this->_html = array();
-		$this->_html[] = '<table width="100%" class="paramlist admintable" cellspacing="1">';
-
-		if ($description = $xml->attributes('description')) {
-			// add the params description to the display
-			$desc	= JText::_($description);
-			$this->_html[]	= '<tr><td class="paramlist_description" colspan="2">'.$desc.'</td></tr>';
-		}
-
-		$this->_render($xml->children(), $name, '', '', $form);
-
-		if (count($xml->children()) < 1) {
-			$this->_html[] = "<tr><td colspan=\"2\"><i>".JText::_('There are no Parameters for this item')."</i></td></tr>";
-		}
-
-		$this->_html[] = '</table>';
-
-		return implode("\n", $this->_html);
-	}
 
 /**	function getConditionalScript() {
 		if(count($this->_cond) < 1) {
@@ -676,7 +616,7 @@ $name.$cond.$cond_value.'-cond'
 					$this->_render($cond_group->children(), $param->attribute('name'), $cond_group->attribute('value'));
 				}
 			} else {
-				$result = $this->_object->getElement($param, $name, '_default', $form);
+				$result = $this->getElement($param, $name, '_default', $form);
 				if($id_prefix != '') {
 					$id = ' id="'.$id_prefix.$this->_cond[$name][$cond][$cond_value].'"';
 					$this->_cond[$name][$cond][$cond_value]++;
@@ -685,7 +625,7 @@ $name.$cond.$cond_value.'-cond'
 				}
 				$this->_html[] = '<tr'.$id.'>';
 
-				if ($result[0]) {
+				if ($result[0] && $form) {
 					$this->_html[] = '<td width="40%" class="paramlist_key"><span class="editlinktip">'.$result[0].'</span></td>';
 					$this->_html[] = '<td class="paramlist_value">'.$result[1].'</td>';
 				} else {

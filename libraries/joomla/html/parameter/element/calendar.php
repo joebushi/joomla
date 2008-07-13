@@ -44,4 +44,9 @@ class JElementCalendar extends JElement
 
 		return JHTML::_('calendar', $value, $name, $id, $format, array('class' => $class));
 	}
+
+	function getElement($name, $value, &$node)
+	{
+		return JHTML::_('date', $value, JText::_('DATE_FORMAT_LC2'));
+	}
 }

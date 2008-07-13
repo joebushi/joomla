@@ -73,4 +73,35 @@ class JElementCategory extends JElement
 
 		return JHTML::_('select.genericlist',  $options, ''.$control_name.'['.$name.']', 'class="'.$class.'"', 'id', 'title', $value, $control_name.$name );
 	}
+
+	function getElement($name, $value, &$node)
+	{
+		$db = &JFactory::getDBO();
+
+		$section	= $node->attributes('section');
+		if (!isset ($section)) {
+			// alias for section
+			$section = $node->attributes('scope');
+			if (!isset ($section)) {
+				$section = 'content';
+			}
+		}
+
+		if ($section == 'content') {
+			// This might get a conflict with the dynamic translation - TODO: search for better solution
+			$query = 'SELECT CONCAT_WS( "/",s.title, c.title ) AS title' .
+				' FROM #__categories AS c' .
+				' LEFT JOIN #__sections AS s ON s.id=c.section' .
+				' WHERE c.id = '.$value.' ' .
+				' AND s.scope = '.$db->Quote($section).
+				' ORDER BY s.title, c.title';
+		} else {
+			$query = 'SELECT c.title' .
+				' FROM #__categories AS c' .
+				' WHERE c.id = '.$value .
+				' AND c.section = '.$db->Quote($section).
+				' ORDER BY c.title';
+		}
+		$db->setQuery($query);
+		return $db->loadResult();
 }

@@ -43,4 +43,9 @@ class JElementImageList extends JElement
 
 		return $parameter->fetchElement($name, $value, $node, $control_name);
 	}
+
+	function getElement($name, $value, &$node)
+	{
+		return '<img src="'.$value.'" border="0" />';
+	}
 }

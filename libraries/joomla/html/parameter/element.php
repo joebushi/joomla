@@ -83,6 +83,23 @@ class JElement extends JObject
 		return $result;
 	}
 
+	function renderElement($node, $value, $control_name = 'params')
+	{
+		$name	= $xmlElement->attributes('name');
+		$label	= $xmlElement->attributes('label');
+		$descr	= $xmlElement->attributes('description');
+		//make sure we have a valid label
+		$label = $label ? $label : $name;
+		$result[0] = $this->fetchTooltip($label, $descr, $xmlElement, $control_name, $name);
+		$result[1] = $this->getElement($name, $value, $node);
+		$result[2] = $descr;
+		$result[3] = $label;
+		$result[4] = $value;
+		$result[5] = $name;
+
+		return $result;
+	}
+
 	function fetchTooltip($label, $description, &$xmlElement, $control_name='', $name='')
 	{
 		$output = '<label id="'.$control_name.$name.'-lbl" for="'.$control_name.$name.'"';
@@ -98,5 +115,10 @@ class JElement extends JObject
 
 	function fetchElement($name, $value, &$xmlElement, $control_name) {
 		return;
+	}
+
+	function getElement($name, $value, &$node)
+	{
+		return $value;
 	}
 }
