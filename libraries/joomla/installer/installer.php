@@ -352,23 +352,15 @@ class JInstaller extends JObject
 			$this->abort(JText::_('Unable to detect manifest file'));
 			return false;
 		}
-
-		/*
-		 * LEGACY CHECK
-		 */
+		
 		$root		=& $this->_manifest->document;
-		$version	= $root->attributes('version');
-		$rootName	= $root->name();
-		$config		= &JFactory::getConfig();
-
 		$type = $root->attributes('type');
-
-		// Needed for legacy reasons ... to be deprecated in next minor release
-		if ($type == 'mambot') {
-			$type = 'plugin';
-		}
-
+		
 		if (is_object($this->_adapters[$type])) {
+			// Add the languages from the package itself
+			$language =& JFactory::getLanguage();
+			$language->load('joomla',$path);
+			// Run the install 
 			return $this->_adapters[$type]->install();
 		}
 		return false;
@@ -393,23 +385,15 @@ class JInstaller extends JObject
 		if (!$this->setupInstall()) {
 			return $this->abort(JText::_('Unable to detect manifest file'));
 		}
-
-		/*
-		 * LEGACY CHECK
-		 */
+		
 		$root		=& $this->_manifest->document;
-		$version	= $root->attributes('version');
-		$rootName	= $root->name();
-		$config		= &JFactory::getConfig();
-
 		$type = $root->attributes('type');
 
-		// Needed for legacy reasons ... to be deprecated in next minor release
-		if ($type == 'mambot') {
-			$type = 'plugin';
-		}
-
 		if (is_object($this->_adapters[$type])) {
+			// Add the languages from the package itself
+			$language =& JFactory::getLanguage();
+			$language->load('joomla',$path);
+			// Run the update
 			return $this->_adapters[$type]->update();
 		}
 		return false;
@@ -433,6 +417,8 @@ class JInstaller extends JObject
 			}
 		}
 		if (is_object($this->_adapters[$type])) {
+			// We don't load languages here, we get the extension adapter to work it out 
+			// Run the uninstall
 			return $this->_adapters[$type]->uninstall($identifier, $cid);
 		}
 		return false;

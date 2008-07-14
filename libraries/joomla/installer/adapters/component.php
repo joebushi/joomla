@@ -658,6 +658,10 @@ class JInstallerComponent extends JObject
 			JError::raiseWarning(100, JText::_('Component').' '.JText::_('Uninstall').': '.JText::sprintf('WARNCORECOMPONENT', $row->name)."<br />".JText::_('WARNCORECOMPONENT2'));
 			return false;
 		}
+		
+		// Attempt to load the admin language file; might have uninstall strings
+		$language =& JFactory::getLanguage();
+		$language->load($row->option);
 
 		// Get the admin and site paths for the component
 		$this->parent->setPath('extension_administrator', JPath::clean(JPATH_ADMINISTRATOR.DS.'components'.DS.$row->option));
