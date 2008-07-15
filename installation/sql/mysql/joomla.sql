@@ -836,4 +836,25 @@ CREATE TABLE #__migration_backlinks (
 	PRIMARY KEY(`itemid`)
 ) TYPE=MyISAM CHARACTER SET `utf8`;
 
+
 # --------------------------------------------------------
+# Table structure for table `#__extensions`
+CREATE TABLE `#__extensions` (
+  `extensionid` INT  NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(100)  NOT NULL,
+  `type` VARCHAR(20)  NOT NULL,
+  `element` VARCHAR(100) NOT NULL,
+  `folder` VARCHAR(100) NOT NULL,
+  `client_id` TINYINT(3) NOT NULL,
+  `enabled` TINYINT(3) NOT NULL DEFAULT '1',
+  `access` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0',  
+  `protected` TINYINT(3) NOT NULL DEFAULT '0', 
+  `manifestcache` TEXT  NOT NULL,
+  `params` TEXT NOT NULL,
+  `data` TEXT NOT NULL,
+  PRIMARY KEY (`extensionid`)
+) TYPE=MyISAM CHARACTER SET `utf8`;
+
+
+# --------------------------------------------------------
+

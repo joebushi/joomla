@@ -26,15 +26,18 @@ if (!$user->authorize('com_installer', 'installer')) {
 $ext	= JRequest::getWord('type');
 
 $subMenus = array(
+	'Install' => 'install',
 	'Components' => 'components',
 	'Modules' => 'modules',
 	'Plugins' => 'plugins',
 	'Languages' => 'languages',
 	'Templates' => 'templates',
 	'Libraries' => 'libraries',
-	'Packages' => 'packages');
+	'Packages' => 'packages',
+	'Update' => 'update',
+	'Manage' => 'manage');
 
-JSubMenuHelper::addEntry(JText::_( 'Install' ), '#" onclick="javascript:document.adminForm.type.value=\'\';submitbutton(\'installer\');', !in_array( $ext, $subMenus));
+//JSubMenuHelper::addEntry(JText::_( 'Install' ), '#" onclick="javascript:document.adminForm.type.value=\'\';submitbutton(\'installer\');', !in_array( $ext, $subMenus));
 foreach ($subMenus as $name => $extension) {
 	JSubMenuHelper::addEntry(JText::_( $name ), '#" onclick="javascript:document.adminForm.type.value=\''.$extension.'\';submitbutton(\'manage\');', ($extension == $ext));
 }

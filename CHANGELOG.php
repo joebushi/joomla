@@ -38,6 +38,11 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-Jul-2008 Sam Moffatt
+ + Added jos_extensions table
+ + Added 'manage' tab to installer
+ ^ Changed modules to use jos_extensions on install
+
 14-Jul-2008 Sam Moffatt
  ^ Strings in extension installs can now be translated
  ^ Merged in the 1.5.4 language installer changes

@@ -1123,7 +1123,7 @@ class JInstaller extends JObject
 	 */
 	function _findManifest()
 	{
-		// Get an array of all the xml files from teh installation directory
+		// Get an array of all the xml files from the installation directory
 		$xmlfiles = JFolder::files($this->getPath('source'), '.xml$', 1, true);
 		// If at least one xml file exists
 		if (count($xmlfiles) > 0) {
@@ -1137,6 +1137,11 @@ class JInstaller extends JObject
 					$root =& $manifest->document;
 					if ($root->attributes('method') == 'upgrade') {
 						$this->_upgrade = true;
+						$this->_overwrite = true;
+					}
+					
+					// If the overwrite option is set, allow file overwriting
+					if($root->attributes('overwrite') == 'true') {
 						$this->_overwrite = true;
 					}
 
@@ -1197,5 +1202,13 @@ class JInstaller extends JObject
 
 		// Valid manifest file return the object
 		return $xml;
+	}
+	
+	/**
+	 * Generates a manifest cache
+	 * @return string serialised manifest data  
+	 */
+	function generateManifestCache() {
+		return serialize(JApplicationHelper::parseXMLInstallFile($this->getPath('manifest')));
 	}
 }

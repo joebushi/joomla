@@ -169,13 +169,12 @@ class JInstallerModule extends JObject
 		 */
 
 		// Check to see if a module by the same name is already installed
-		// Shouldn't this be stopped by the above section?
-		// Commented out pending removal
-		// TODO: Remove this at a later point
-		// see http://groups.google.com/group/joomla-devel/browse_thread/thread/7ef4cd7f80c98e41
-/*		$query = 'SELECT `id`' .
-				' FROM `#__modules` ' .
-				' WHERE module = '.$db->Quote($mname) .
+		// If it is, then update the table because if the files aren't there
+		// we can assume that it was (badly) uninstalled
+		// If it isn't, add an entry to extensions
+		$query = 'SELECT `extensionid`' .
+				' FROM `#__extensions` ' .
+				' WHERE element = '.$db->Quote($mname) .
 				' AND client_id = '.(int)$clientId;
 		$db->setQuery($query);
 		if (!$db->Query()) {
@@ -187,28 +186,28 @@ class JInstallerModule extends JObject
 
 		// Was there a module already installed with the same name?
 		if ($id) {
-
-			if ( ! $this->parent->getOverwrite())
-			{
+			// load the entry and update the manifestcache
+			$row =& JTable::getInstance('extension');
+			$row->load($id);
+			$row->manifestcache = serialize($this->manifest);
+			if (!$row->store()) {
 				// Install failed, roll back changes
-				$this->parent->abort(JText::_('Module').' '.JText::_('Install').': '.JText::_('Module').' "'.$mname.'" '.JText::_('already exists!'));
+				$this->parent->abort(JText::_('Module').' '.JText::_('Install').': '.$db->stderr(true));
 				return false;
 			}
-
-
 		} else {
-*/
-
-			$row = & JTable::getInstance('module');
-			$row->title = $this->get('name');
-			$row->ordering = $row->getNextOrder( "position='left'" );
-			$row->position = 'left';
-			$row->showtitle = 1;
-			$row->iscore = 0;
+			$row = & JTable::getInstance('extension');
+			$row->name = $this->get('type');
+			$row->type = 'module';
+			$row->element = $this->get('name');
+			$row->folder = ''; // There is no folder for modules
+			$row->enabled = 1;
+			$row->protected = 0;
 			$row->access = $clientId == 1 ? 2 : 0;
 			$row->client_id = $clientId;
-			$row->module = $mname;
 			$row->params = $this->parent->getParams();
+			$row->data = ''; // custom data
+			$row->manifestcache = $this->parent->generateManifestCache();
 
 			if (!$row->store()) {
 				// Install failed, roll back changes
@@ -218,33 +217,8 @@ class JInstallerModule extends JObject
 
 			// Since we have created a module item, we add it to the installation step stack
 			// so that if we have to rollback the changes we can undo it.
-			$this->parent->pushStep(array ('type' => 'module', 'id' => $row->id));
-
-			// Clean up possible garbage first
-			$query = 'DELETE FROM #__modules_menu WHERE moduleid = '.(int) $row->id;
-			$db->setQuery( $query );
-			if (!$db->query()) {
-				// Install failed, roll back changes
-				$this->parent->abort(JText::_('Module').' '.JText::_('Install').': '.$db->stderr(true));
-				return false;
-			}
-
-			// Time to create a menu entry for the module
-			$query = 'INSERT INTO `#__modules_menu` ' .
-					' VALUES ('.(int) $row->id.', 0 )';
-			$db->setQuery($query);
-			if (!$db->query()) {
-				// Install failed, roll back changes
-				$this->parent->abort(JText::_('Module').' '.JText::_('Install').': '.$db->stderr(true));
-				return false;
-			}
-
-			/*
-			 * Since we have created a menu item, we add it to the installation step stack
-			 * so that if we have to rollback the changes we can undo it.
-			 */
-			$this->parent->pushStep(array ('type' => 'menu', 'id' => $db->insertid()));
-//		} // TODO: Remove this re: database check removal
+			$this->parent->pushStep(array ('type' => 'extension', 'extensionid' => $row->extensionid));
+		}
 
 		/**
 		 * ---------------------------------------------------------------------------------------------
