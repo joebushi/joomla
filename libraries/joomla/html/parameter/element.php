@@ -83,7 +83,7 @@ class JElement extends JObject
 		return $result;
 	}
 
-	function renderElement($node, $value, $control_name = 'params')
+	function renderElement($xmlElement, $value, $control_name = 'params')
 	{
 		$name	= $xmlElement->attributes('name');
 		$label	= $xmlElement->attributes('label');
@@ -91,7 +91,7 @@ class JElement extends JObject
 		//make sure we have a valid label
 		$label = $label ? $label : $name;
 		$result[0] = $this->fetchTooltip($label, $descr, $xmlElement, $control_name, $name);
-		$result[1] = $this->getElement($name, $value, $node);
+		$result[1] = $this->getElement($name, $value, $xmlElement);
 		$result[2] = $descr;
 		$result[3] = $label;
 		$result[4] = $value;

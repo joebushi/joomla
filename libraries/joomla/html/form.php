@@ -259,7 +259,6 @@ class JForm extends JRegistry
 		}
 
 		$this->_html[] = '</table>';
-
 		return implode("\n", $this->_html);
 	}
 
@@ -625,7 +624,7 @@ $name.$cond.$cond_value.'-cond'
 				}
 				$this->_html[] = '<tr'.$id.'>';
 
-				if ($result[0] && $form) {
+				if ($result[0]) {
 					$this->_html[] = '<td width="40%" class="paramlist_key"><span class="editlinktip">'.$result[0].'</span></td>';
 					$this->_html[] = '<td class="paramlist_value">'.$result[1].'</td>';
 				} else {
