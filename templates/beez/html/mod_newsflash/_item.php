@@ -20,7 +20,7 @@ endif; ?>
 <?php echo $item->beforeDisplayContent;
 echo JFilterOutput::ampReplace($item->text);
 if (isset($item->linkOn) && $item->readmore) : ?>
-<a href="<?php $item->linkOn; ?>" class="readon">
+<a href="<?php echo $item->linkOn; ?>" class="readon">
 	<?php echo JText::_('Read more'); ?></a>
 <?php endif; ?>
 <span class="article_separator">&nbsp;</span>

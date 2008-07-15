@@ -38,6 +38,20 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-July-2008 Anthony Ferrara
+ # [#11839] Contact item, setting the bad word param stops all mail
+ # [#11731] Wrong languagestring in tpl_ja_purity
+ # [#11808] Sample data - Promo Books banner incorrect link
+ # [#11817] JA-Purity Login module using incorrect code for token
+ # [#11676] fix for Newsflash "read more" links in beez template incorrect
+ # [#11730] Missing language string in com_content.ini
+ # [#11760] Another missing language string in com_content.ini
+ # [#11597] Search filter on Private Messaging Doesn't Find any Messages
+ # [#11716] Banner using Flash/SWF wrong dimensions
+ # [#11806] Notice in article selection for article layout menu items
+ # [#11789] forgot your user name not displayed in other languages
+ # [#11602] Language file is missing for administrator module mod_feed
+
 8-July-2008 Anthony Ferrara
  # Removal of install check
 

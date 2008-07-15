@@ -177,9 +177,7 @@ class ContentViewElement extends JView
 		$search				= JString::strtolower($search);
 
 		// get list of categories for dropdown filter	
-		if ($filter_sectionid >= 0) {
-			$filter = ' WHERE cc.section = '.$db->Quote($filter_sectionid);
-		}
+		$filter = ($filter_sectionid >= 0) ? ' WHERE cc.section = '.$db->Quote($filter_sectionid) : '';
 
 		// get list of categories for dropdown filter
 		$query = 'SELECT cc.id AS value, cc.title AS text, section' .
