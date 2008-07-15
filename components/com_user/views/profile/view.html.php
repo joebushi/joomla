@@ -37,12 +37,12 @@ class UserViewProfile extends JView
 			return;
 		}
 
-		$user =& JFactory::getUser();
+		$user =& JFactory::getUser(JRequest::getInt('id', ''));
 		$menus = &JSite::getMenu();
 		$menu  = $menus->getActive();
 
 		$infos = $user->getInfos(true);
-//var_dump($infos);
+
 		// Set pathway information
 		$this->assignRef('user'   , $user);
 		$this->assignRef('menu', $menu);

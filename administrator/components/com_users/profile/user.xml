@@ -7,4 +7,7 @@
 		<profile name="helpsite" type="helpsites" default="" label="Help Site" description="Help Site for this User" />
 		<profile name="timezone" type="timezones" default="" label="Time Zone" description="Time Zone for this User" />
 	</profiles>
+	<profiles group="adress" label="Adress" rendergroup="_default" rendergroupname="General">
+		<profile name="street" type="text" default="" label="Street" />
+	</profiles>
 </form>

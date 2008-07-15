@@ -49,9 +49,14 @@ class JForm extends JRegistry
 	 */
 	var $_xml = null;
 
+	/**
+	 * Additional Attributes to the group of XML Data
+	 *
+	 * @access 	private
+	 * @var	array
+	 * @since	1.6
+	 */
 	var $_xmlAttributes = null;
-
-	var $_files = array();
 
 	/**
 	* loaded elements
@@ -103,7 +108,8 @@ class JForm extends JRegistry
 	 *
 	 * @access	protected
 	 * @param	string The raw parms text
-	 * @param	string Path to the xml setup file
+	 * @param	string Path to the xml setup file or XML data
+	 * @param	string Tagname used in the XML file
 	 * @since	1.5
 	 */
 	function __construct($data, $xmldata = '', $xmlelement = 'element')
@@ -128,6 +134,16 @@ class JForm extends JRegistry
 		$this->_raw = $data;
 	}
 
+	/**
+	 * Function to overload the class with another rendering engine
+	 *
+	 * @access	public
+	 * @param	string The raw params text
+	 * @param	string Path to the XML setup file or XML data
+	 * @param	string Tagname used in the XML file
+	 * @param	string Name of the class file to overload the JForm class with
+	 * @since	1.6
+	 */
 	function getInstance($data, $xmldata = '', $xmlelement = 'element', $engine = null)
 	{
 		if($engine != null)
@@ -208,9 +224,6 @@ class JForm extends JRegistry
 			if ($dir = $xml->attributes( 'addpath' )) {
 				$this->addElementPath( JPATH_ROOT . str_replace('/', DS, $dir) );
 			}
-			if ($chrome = $xml->attributes( 'addchromepath' )) {
-				$this->addElementPath( JPATH_ROOT . str_replace('/', DS, $chrome), 'chrome' );
-			}
 		}
 	}
 
@@ -218,6 +231,7 @@ class JForm extends JRegistry
 	 * Bind data to the parameter
 	 *
 	 * @param	mixed	$data Array or Object
+	 * @param	string Name of the XML group
 	 * @return	boolean	True if the data was successfully bound
 	 * @access	public
 	 * @since	1.5
@@ -234,14 +248,16 @@ class JForm extends JRegistry
 	}
 
 	/**
-	 * Render
+	 * Function to render the HTML for the parameter set/form set
 	 *
 	 * @access	public
 	 * @param	string	The name of the control, or the default text area if a setup file is not found
+	 * @param	string	Name of the Group to render
+	 * @param	boolean	Render as data view when false, render as form when set to true
 	 * @return	string	HTML
-	 * @since	1.5
+	 * @since	1.6
 	 */
-	function render($name = 'elements', $group = '_default', $chrome = 'params', $form = true)
+	function render($name = 'elements', $group = '_default', $form = true)
 	{
 		$this->_html = array();
 		$this->_html[] = '<table width="100%" class="paramlist admintable" cellspacing="1">';
@@ -318,6 +334,14 @@ class JForm extends JRegistry
 		return $results;
 	}
 
+	/**
+	 * Get additional Attributes for a Group
+	 *
+	 * @access	public
+	 * @param	string Name of the group
+	 * @return	array
+	 * @since	1.6
+	 */
 	function getGroupAttributes($group = '')
 	{
 		if(isset($this->_xmlAttributes[$group]))
@@ -465,7 +489,7 @@ class JForm extends JRegistry
 	 * @access	public
 	 * @param	string	directory to xml setup file
 	 * @return	object
-	 * @since	1.5
+	 * @since	1.6
 	 */
 	function loadSetupDirectory($path, $filter = '.xml')
 	{
@@ -550,7 +574,7 @@ class JForm extends JRegistry
 	 * @param	string|array	directory or directories to search.
 	 * @since	1.5
 	 */
-	function addElementPath( $path, $type = 'element' )
+	function addElementPath( $path )
 	{
 		// just force path to array
 		settype( $path, 'array' );
@@ -568,11 +592,7 @@ class JForm extends JRegistry
 			}
 
 			// add to the top of the search dirs
-			if($type == 'element') {
-				array_unshift( $this->_elementPath, $dir );
-			} else {
-				array_unshift( $this->_chromePath, $dir );
-			}
+			array_unshift( $this->_elementPath, $dir );
 		}
 
 
