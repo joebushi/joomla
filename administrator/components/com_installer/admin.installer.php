@@ -27,15 +27,9 @@ $ext	= JRequest::getWord('type');
 
 $subMenus = array(
 	'Install' => 'install',
-	'Components' => 'components',
-	'Modules' => 'modules',
-	'Plugins' => 'plugins',
-	'Languages' => 'languages',
-	'Templates' => 'templates',
-	'Libraries' => 'libraries',
-	'Packages' => 'packages',
 	'Update' => 'update',
-	'Manage' => 'manage');
+	'Manage' => 'manage',
+	'Discover' => 'discover');
 
 //JSubMenuHelper::addEntry(JText::_( 'Install' ), '#" onclick="javascript:document.adminForm.type.value=\'\';submitbutton(\'installer\');', !in_array( $ext, $subMenus));
 foreach ($subMenus as $name => $extension) {

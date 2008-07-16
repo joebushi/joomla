@@ -63,6 +63,8 @@ class JInstallerLibrary extends JObject
 		$name =& $this->manifest->getElementByPath('name');
 		$name = JFilterInput::clean($name->data(), 'string');
 		$this->set('name', $name);
+		
+		$this->set('element', str_replace('.xml','',basename($this->parent->getPath('manifest'))));
 
 		// Get the component description
 		$description = & $this->manifest->getElementByPath('description');
@@ -111,6 +113,29 @@ class JInstallerLibrary extends JObject
 		if ($this->parent->parseFiles($element, -1) === false) {
 			// Install failed, roll back changes
 			$this->parent->abort();
+			return false;
+		}
+		
+		/**
+		 * ---------------------------------------------------------------------------------------------
+		 * Extension Registration
+		 * ---------------------------------------------------------------------------------------------
+		 */
+		$row = & JTable::getInstance('extension');
+		$row->name = $this->get('name');
+		$row->type = 'library';
+		$row->element = $this->get('element');
+		$row->folder = ''; // There is no folder for modules
+		$row->enabled = 1;
+		$row->protected = 0;
+		$row->access = 0;
+		$row->client_id = 0;
+		$row->params = $this->parent->getParams();
+		$row->data = ''; // custom data
+		$row->manifestcache = $this->parent->generateManifestCache();
+		if (!$row->store()) {
+			// Install failed, roll back changes
+			$this->parent->abort(JText::_('Library').' '.JText::_('Install').': '.$db->stderr(true));
 			return false;
 		}
 
@@ -164,16 +189,30 @@ class JInstallerLibrary extends JObject
 	 *
 	 * @access	public
 	 * @param	string	$id	The id of the library to uninstall
-	 * @param	int		$clientId	The id of the client (unused; libraries are global)
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function uninstall($id, $clientId )
+	function uninstall($id)
 	{
 		// Initialize variables
-		$row	= null;
 		$retval = true;
-		$manifestFile = JPATH_MANIFESTS.DS.'libraries' . DS . $id .'.xml'; 
+		
+		// First order of business will be to load the module object table from the database.
+		// This should give us the necessary information to proceed.
+		$row = & JTable::getInstance('extension');
+		if ( !$row->load((int) $id) || !strlen($row->element)) {
+			JError::raiseWarning(100, JText::_('ERRORUNKOWNEXTENSION'));
+			return false;
+		}
+		
+		// Is the library we are trying to uninstall a core one?
+		// Because that is not a good idea...
+		if ($row->protected) {
+			JError::raiseWarning(100, JText::_('Library').' '.JText::_('Uninstall').': '.JText::sprintf('WARNCOREMODULE', $row->name)."<br />".JText::_('WARNCOREMODULE2'));
+			return false;
+		}
+		
+		$manifestFile = JPATH_MANIFESTS.DS.'libraries' . DS . $row->element .'.xml'; 
 
 		// Because libraries may not have their own folders we cannot use the standard method of finding an installation manifest
 		if (file_exists($manifestFile))
@@ -219,6 +258,9 @@ class JInstallerLibrary extends JObject
 				}
 			}
 		}
+		
+		$row->delete($row->extensionid);
+		unset($row);
 
 		return $retval;
 	}

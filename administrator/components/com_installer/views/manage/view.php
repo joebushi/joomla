@@ -16,7 +16,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 /**
- * Extension Manager Components View
+ * Extension Manager Manage View
  *
  * @package		Joomla
  * @subpackage	Installer

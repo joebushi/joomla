@@ -103,6 +103,7 @@ class JInstallerModule extends JObject
 			foreach ($files as $file) {
 				if ($file->attributes('module')) {
 					$mname = $file->attributes('module');
+					$this->set('element',$mname);
 					break;
 				}
 			}
@@ -189,7 +190,8 @@ class JInstallerModule extends JObject
 			// load the entry and update the manifestcache
 			$row =& JTable::getInstance('extension');
 			$row->load($id);
-			$row->manifestcache = serialize($this->manifest);
+			$row->name = $this->get('name'); // update name
+			$row->manifestcache = $this->parent->generateManifestCache(); // update manifest
 			if (!$row->store()) {
 				// Install failed, roll back changes
 				$this->parent->abort(JText::_('Module').' '.JText::_('Install').': '.$db->stderr(true));
@@ -197,9 +199,9 @@ class JInstallerModule extends JObject
 			}
 		} else {
 			$row = & JTable::getInstance('extension');
-			$row->name = $this->get('type');
+			$row->name = $this->get('name');
 			$row->type = 'module';
-			$row->element = $this->get('name');
+			$row->element = $this->get('element');
 			$row->folder = ''; // There is no folder for modules
 			$row->enabled = 1;
 			$row->protected = 0;
@@ -240,11 +242,10 @@ class JInstallerModule extends JObject
 	 *
 	 * @access	public
 	 * @param	int		$id			The id of the module to uninstall
-	 * @param	int		$clientId	The id of the client (unused)
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function uninstall( $id, $clientId )
+	function uninstall( $id )
 	{
 		// Initialize variables
 		$row	= null;
@@ -253,15 +254,15 @@ class JInstallerModule extends JObject
 
 		// First order of business will be to load the module object table from the database.
 		// This should give us the necessary information to proceed.
-		$row = & JTable::getInstance('module');
-		if ( !$row->load((int) $id) ) {
+		$row = & JTable::getInstance('extension');
+		if ( !$row->load((int) $id) || !strlen($row->element)) {
 			JError::raiseWarning(100, JText::_('ERRORUNKOWNEXTENSION'));
 			return false;
 		}
-
+		
 		// Is the module we are trying to uninstall a core one?
 		// Because that is not a good idea...
-		if ($row->iscore) {
+		if ($row->protected) {
 			JError::raiseWarning(100, JText::_('Module').' '.JText::_('Uninstall').': '.JText::sprintf('WARNCOREMODULE', $row->name)."<br />".JText::_('WARNCOREMODULE2'));
 			return false;
 		}
@@ -273,7 +274,8 @@ class JInstallerModule extends JObject
 			$this->parent->abort(JText::_('Module').' '.JText::_('Uninstall').': '.JText::_('Unknown client type').' ['.$row->client_id.']');
 			return false;
 		}
-		$this->parent->setPath('extension_root', $client->path.DS.'modules'.DS.$row->module);
+		$this->parent->setPath('extension_root', $client->path.DS.'modules'.DS.$row->element);
+		
 
 		// Get the package manifest objecct
 		$this->parent->setPath('source', $this->parent->getPath('extension_root'));
@@ -294,15 +296,18 @@ class JInstallerModule extends JObject
 		// Lets delete all the module copies for the type we are uninstalling
 		$query = 'SELECT `id`' .
 				' FROM `#__modules`' .
-				' WHERE module = '.$db->Quote($row->module) .
+				' WHERE module = '.$db->Quote($row->element) .
 				' AND client_id = '.(int)$row->client_id;
 		$db->setQuery($query);
 		$modules = $db->loadResultArray();
 
 		// Do we have any module copies?
 		if (count($modules)) {
+			// Ensure the list is sane
 			JArrayHelper::toInteger($modules);
 			$modID = implode(',', $modules);
+			
+			// Wipe out any items assigned to menus
 			$query = 'DELETE' .
 					' FROM #__modules_menu' .
 					' WHERE moduleid IN ('.$modID.')';
@@ -311,10 +316,21 @@ class JInstallerModule extends JObject
 				JError::raiseWarning(100, JText::_('Module').' '.JText::_('Uninstall').': '.$db->stderr(true));
 				$retval = false;
 			}
+			
+			// Wipe out any instances in the modules table
+			$query = 'DELETE' .
+					' FROM #__modules' .
+					' WHERE id IN ('.$modID.')';
+			$db->setQuery($query);
+			if (!$db->query()) {
+				JError::raiseWarning(100, JText::_('Module').' '.JText::_('Uninstall').': '.$db->stderr(true));
+				$retval = false;
+			}
 		}
+		
 
 		// Now we will no longer need the module object, so lets delete it and free up memory
-		$row->delete($row->id);
+		$row->delete($row->extensionid);
 		unset ($row);
 
 		// Remove the installation folder

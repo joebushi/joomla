@@ -135,4 +135,72 @@ class InstallerModelManage extends InstallerModel
 			$this->_items = $rows;
 		}
 	}
+	
+	/**
+	 * Remove (uninstall) an extension
+	 *
+	 * @static
+	 * @param	array	An array of identifiers
+	 * @return	boolean	True on success
+	 * @since 1.0
+	 */
+	function remove($eid=array())
+	{
+		global $mainframe;
+
+		// Initialize variables
+		$failed = array ();
+
+		/*
+		 * Ensure eid is an array of extension ids in the form id => client_id
+		 * TODO: If it isn't an array do we want to set an error and fail?
+		 */
+		if (!is_array($eid)) {
+			$eid = array($eid => 0);
+		}
+
+		// Get a database connector
+		$db =& JFactory::getDBO();
+
+		// Get an installer object for the extension type
+		jimport('joomla.installer.installer');
+		$installer = & JInstaller::getInstance();
+		$row =& JTable::getInstance('extension');
+		
+		// Uninstall the chosen extensions
+		foreach ($eid as $id)
+		{
+			$id		= trim( $id );
+			$row->load($id);
+			if($row->type) {
+				$result	= $installer->uninstall($row->type, $id );
+			
+
+				// Build an array of extensions that failed to uninstall
+				if ($result === false) {
+					$failed[] = $id;
+				}
+			} else {
+				$failed[] = $id;
+			}
+		}
+
+		if (count($failed)) {
+			// There was an error in uninstalling the package
+			$msg = JText::sprintf('UNINSTALLEXT', JText::_($this->_type), JText::_('Error'));
+			$result = false;
+		} else {
+			// Package uninstalled sucessfully
+			$msg = JText::sprintf('UNINSTALLEXT', JText::_($this->_type), JText::_('Success'));
+			$result = true;
+		}
+
+		$mainframe->enqueueMessage($msg);
+		$this->setState('action', 'remove');
+		$this->setState('name', $installer->get('name'));
+		$this->setState('message', $installer->message);
+		$this->setState('extension.message', $installer->get('extension.message'));
+
+		return $result;
+	}	
 }

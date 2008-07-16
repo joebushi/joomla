@@ -38,6 +38,13 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Jul-2008 Sam Moffatt
+ - Hid old extension specific tabs from com_installer
+ + Added 'discover' tab to find new extensions/installed extensions
+ $ Added language strings
+ ^ Changed modules to use jos_extensions on uninstall
+ ^ Changed libraries to use jos_extensions when installing and uninstalling
+
 15-Jul-2008 Sam Moffatt
  + Added jos_extensions table
  + Added 'manage' tab to installer
