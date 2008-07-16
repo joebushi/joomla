@@ -439,9 +439,10 @@ class ContentView
 		jimport('joomla.html.pane');
 		JFilterOutput::objectHTMLSafe( $row );
 
-		$db		=& JFactory::getDBO();
-		$editor =& JFactory::getEditor();
-		$pane	=& JPane::getInstance('sliders');
+		$db		= &JFactory::getDBO();
+		$editor = &JFactory::getEditor();
+        // TODO: allowAllClose should default true in J!1.6, so remove the array when it does.
+		$pane	= &JPane::getInstance('sliders', array('allowAllClose' => true));
 
 		JHTML::_('behavior.tooltip');
 		?>

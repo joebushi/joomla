@@ -113,7 +113,8 @@ class MenusViewItem extends JView
 		$this->assignRef('description', $description);
 
 		// Add slider pane
-		$pane =& JPane::getInstance('sliders');
+        // TODO: allowAllClose should default true in J!1.6, so remove the array when it does.
+		$pane = &JPane::getInstance('sliders', array('allowAllClose' => true));
 		$this->assignRef('pane', $pane);
 
 		parent::display($tpl);

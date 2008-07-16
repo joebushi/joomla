@@ -31,8 +31,9 @@ class HTML_cpanel
 	{
 		global $mainframe;
 
-		$modules	=& JModuleHelper::getModules('cpanel');
-		$pane		=& JPane::getInstance('sliders');
+		$modules = &JModuleHelper::getModules('cpanel');
+        // TODO: allowAllClose should default true in J!1.6, so remove the array when it does.
+		$pane = &JPane::getInstance('sliders', array('allowAllClose' => true));
 		echo $pane->startPane("content-pane");
 
 		foreach ($modules as $module) {
