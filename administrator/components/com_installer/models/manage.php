@@ -122,9 +122,13 @@ class InstallerModelManage extends InstallerModel
 		for($i=0;$i < $numRows; $i++)
 		{
 			$row =& $rows[$i];
-			$data = unserialize($row->manifestcache);
-			foreach($data as $key => $value) {
-				$row->$key = $value;
+			if(strlen($row->manifestcache)) {
+				$data = unserialize($row->manifestcache);
+				if($data) {
+					foreach($data as $key => $value) {
+						$row->$key = $value;
+					}	
+				}
 			}
 			$row->jname = JString::strtolower(str_replace(" ", "_", $row->name));
 		}

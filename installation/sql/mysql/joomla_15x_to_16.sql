@@ -20,3 +20,10 @@ CREATE TABLE `jos_extensions` (
 ) TYPE=MyISAM CHARACTER SET `utf8`;
 
 
+ALTER TABLE `jos_extensions` ADD COLUMN `checked_out` INTEGER UNSIGNED NOT NULL DEFAULT 0 AFTER `data`,
+ ADD COLUMN `checked_out_time` DATETIME NOT NULL DEFAULT 0 AFTER `checked_out`,
+ ADD COLUMN `ordering` INTEGER DEFAULT 0 AFTER `checked_out_time`;
+
+ 
+ INSERT INTO jos_extensions SELECT id AS extensionid, name, 'plugin', element, folder, client_id, published, access, iscore AS protected, '', params, '', checked_out, checked_out_time, ordering FROM jos_plugins
+ 

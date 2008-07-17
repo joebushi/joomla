@@ -306,6 +306,18 @@ class JInstaller extends JObject
 				case 'query' :
 					// placeholder in case this is necessary in the future
 					break;
+					
+				case 'extension' :
+					// Get database connector object
+					$db =& $this->parent->getDBO();
+
+					// Remove the entry from the #__extensions table
+					$query = 'DELETE' .
+							' FROM `#__extensions`' .
+							' WHERE id='.(int)$step['id'];
+					$db->setQuery($query);
+					$stepval = $db->Query();
+					break;
 
 				default :
 					if ($type && is_object($this->_adapters[$type])) {
@@ -735,7 +747,14 @@ class JInstaller extends JObject
 			 */
 			if ($file->attributes('tag') != '') {
 				$path['src']	= $source.DS.$file->data();
-				$path['dest']	= $destination.DS.$file->attributes('tag').DS.basename($file->data());
+				if($file->attributes('client') != '') {
+					// override the client
+					$langclient =& JApplicationHelper::getClientInfo($file->attributes('client'), true);
+					$path['dest'] = $langclient->path.DS.'language'.DS.$file->attributes('tag').DS.basename($file->data());
+				} else {
+					// use the default client
+					$path['dest']	= $destination.DS.$file->attributes('tag').DS.basename($file->data());
+				}
 
 				// If the language folder is not present, then the core pack hasn't been installed... ignore
 				if (!JFolder::exists(dirname($path['dest']))) {

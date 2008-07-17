@@ -38,6 +38,11 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+17-Jul-2008 Sam Moffatt
+ ^ Converting plugins to use jos_extensions on install and uninstall
+ ^ Converted com_plugins to use jos_extensions
+ 
+
 16-Jul-2008 Sam Moffatt
  - Hid old extension specific tabs from com_installer
  + Added 'discover' tab to find new extensions/installed extensions

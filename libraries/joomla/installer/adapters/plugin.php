@@ -139,8 +139,8 @@ class JInstallerPlugin extends JObject
 		 */
 
 		// Check to see if a plugin by the same name is already installed
-		$query = 'SELECT `id`' .
-				' FROM `#__plugins`' .
+		$query = 'SELECT `extensionid`' .
+				' FROM `#__extensions`' .
 				' WHERE folder = '.$db->Quote($group) .
 				' AND element = '.$db->Quote($pname);
 		$db->setQuery($query);
@@ -162,7 +162,8 @@ class JInstallerPlugin extends JObject
 			}
 
 		} else {
-			$row =& JTable::getInstance('plugin');
+			// Store in the plugin table (1.5)
+			/*$row =& JTable::getInstance('plugin');
 			$row->name = $this->get('name');
 			$row->ordering = 0;
 			$row->folder = $group;
@@ -181,11 +182,37 @@ class JInstallerPlugin extends JObject
 				// Install failed, roll back changes
 				$this->parent->abort(JText::_('Plugin').' '.JText::_('Install').': '.$db->stderr(true));
 				return false;
+			}*/
+			
+			// Store in the extensions table (1.6)
+			$row = & JTable::getInstance('extension');
+			$row->name = $this->get('name');
+			$row->type = 'plugin';
+			$row->ordering = 0; // TODO: Add ordering, checked_out and checked_out_time to extension table
+			$row->element = $pname;
+			$row->folder = $group;
+			$row->enabled = 0;
+			$row->protected = 0;
+			$row->access = 0;
+			$row->client_id = 0;
+			$row->params = $this->parent->getParams();
+			$row->data = ''; // custom data
+			$row->manifestcache = $this->parent->generateManifestCache();
+
+			// Editor plugins are published by default
+			if ($group == 'editors') {
+				$row->enabled = 1;
+			}			
+
+			if (!$row->store()) {
+				// Install failed, roll back changes
+				$this->parent->abort(JText::_('Plugin').' '.JText::_('Install').': '.$db->stderr(true));
+				return false;
 			}
 
 			// Since we have created a plugin item, we add it to the installation step stack
 			// so that if we have to rollback the changes we can undo it.
-			$this->parent->pushStep(array ('type' => 'plugin', 'id' => $row->id));
+			$this->parent->pushStep(array ('type' => 'extension', 'id' => $row->extensionid));
 		}
 
 		/**
@@ -221,7 +248,7 @@ class JInstallerPlugin extends JObject
 
 		// First order of business will be to load the module object table from the database.
 		// This should give us the necessary information to proceed.
-		$row = & JTable::getInstance('plugin');
+		$row = & JTable::getInstance('extension');
 		if ( !$row->load((int) $id) ) {
 			JError::raiseWarning(100, JText::_('ERRORUNKOWNEXTENSION'));
 			return false;
@@ -229,7 +256,7 @@ class JInstallerPlugin extends JObject
 
 		// Is the plugin we are trying to uninstall a core one?
 		// Because that is not a good idea...
-		if ($row->iscore) {
+		if ($row->protected) {
 			JError::raiseWarning(100, JText::_('Plugin').' '.JText::_('Uninstall').': '.JText::sprintf('WARNCOREPLUGIN', $row->name)."<br />".JText::_('WARNCOREPLUGIN2'));
 			return false;
 		}
@@ -280,7 +307,7 @@ class JInstallerPlugin extends JObject
 		}
 
 		// Now we will no longer need the plugin object, so lets delete it
-		$row->delete($row->id);
+		$row->delete($row->extensionid);
 		unset ($row);
 
 		// If the folder is empty, let's delete it

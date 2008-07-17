@@ -17,7 +17,7 @@
 
 <?php
 	$this->plugin->nameA = '';
-	if ( $this->plugin->id ) {
+	if ( $this->plugin->extensionid ) {
 		$row->nameA = '<small><small>[ '. $this->plugin->name .' ]</small></small>';
 	}
 ?>
@@ -56,10 +56,10 @@
 		</tr>
 		<tr>
 			<td valign="top" class="key">
-				<?php echo JText::_( 'Published' ); ?>:
+				<?php echo JText::_( 'Enabled' ); ?>:
 			</td>
 			<td>
-				<?php echo $this->lists['published']; ?>
+				<?php echo $this->lists['enabled']; ?>
 			</td>
 		</tr>
 		<tr>
@@ -152,8 +152,8 @@
 <div class="clr"></div>
 
 	<input type="hidden" name="option" value="com_plugins" />
-	<input type="hidden" name="id" value="<?php echo $this->plugin->id; ?>" />
-	<input type="hidden" name="cid[]" value="<?php echo $this->plugin->id; ?>" />
+	<input type="hidden" name="id" value="<?php echo $this->plugin->extensionid; ?>" />
+	<input type="hidden" name="cid[]" value="<?php echo $this->plugin->extensionid; ?>" />
 	<input type="hidden" name="client" value="<?php echo $this->plugin->client_id; ?>" />
 	<input type="hidden" name="task" value="" />
 	<?php echo JHTML::_( 'form.token' ); ?>
