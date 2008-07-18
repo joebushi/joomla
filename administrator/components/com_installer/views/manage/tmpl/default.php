@@ -1,3 +1,13 @@
+<?php
+// TODO: Hook this up properly 
+$lists = Array(); //$this->lists;
+$lists['search'] = '';
+$lists['type'] = '';
+$lists['clientid'] = '';
+$lists['folder'] = '';
+$lists['state'] = '';
+$lists['hideprotected'] = '1';
+?>
 <form action="index.php" method="post" name="adminForm">
 	<?php if ($this->showMessage) : ?>
 		<?php echo $this->loadTemplate('message'); ?>
@@ -7,6 +17,28 @@
 		<?php echo $this->loadTemplate('ftp'); ?>
 	<?php endif; ?>
 
+	<!-- TODO: connect me to something -->
+	<table>
+		<tr>
+			<td width="100%">
+				<?php echo JText::_( 'Filter' ); ?>:
+				<input type="text" name="search" id="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" title="<?php echo JText::_( 'Filter by name, element or enter extension ID' );?>"/>
+				<button onclick="this.form.submit();"><?php echo JText::_( 'Go' ); ?></button>
+				<button onclick="document.getElementById('search').value='';this.form.getElementById('filter_sectionid').value='-1';this.form.getElementById('catid').value='0';this.form.getElementById('filter_authorid').value='0';this.form.getElementById('filter_state').value='';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
+				<input type="checkbox" name="hideprotected" <?php if($lists['hideprotected']) echo 'CHECKED'; ?>/>Hide Protected Extensions
+			</td>
+			<td nowrap="nowrap">
+				<?php
+				echo $lists['type'];
+				echo $lists['clientid'];
+				echo $lists['folder'];// group?
+				echo $lists['state'];
+				?>
+			</td>
+			
+		</tr>
+	</table>	
+			
 	<?php if (count($this->items)) : ?>
 	<table class="adminlist" cellspacing="1">
 		<thead>
