@@ -852,7 +852,10 @@ CREATE TABLE `#__extensions` (
   `manifestcache` TEXT  NOT NULL,
   `params` TEXT NOT NULL,
   `data` TEXT NOT NULL,
-  PRIMARY KEY (`extensionid`)
+  `checked_out` int(10) unsigned NOT NULL default '0',
+  `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
+  `ordering` int(11) default '0',  
+  PRIMARY KEY (`extensionid`)  
 ) TYPE=MyISAM CHARACTER SET `utf8`;
 
 

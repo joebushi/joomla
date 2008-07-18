@@ -38,10 +38,13 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+18-Jul-2008 Sam Moffatt
+ + Components now use the extensions table for install and uninstall
+ + Added a simple migration script for components, modules, plugins 
+
 17-Jul-2008 Sam Moffatt
  ^ Converting plugins to use jos_extensions on install and uninstall
  ^ Converted com_plugins to use jos_extensions
- 
 
 16-Jul-2008 Sam Moffatt
  - Hid old extension specific tabs from com_installer

@@ -114,7 +114,7 @@ class InstallerModelManage extends InstallerModel
 
 		$query = 'SELECT *' .
 				' FROM #__extensions' .
-				' ORDER BY protected, name';
+				' ORDER BY protected, type, name';
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
 		

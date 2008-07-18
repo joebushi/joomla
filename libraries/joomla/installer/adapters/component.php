@@ -61,7 +61,9 @@ class JInstallerComponent extends JObject
 
 		// Set the extensions name
 		$name =& $this->manifest->getElementByPath('name');
-		$name = JFilterInput::clean($name->data(), 'cmd');
+		$element = strtolower('com_'.JFilterInput::clean($name->data(), 'cmd'));
+		$name = $name->data();
+		$this->set('element', $element);
 		$this->set('name', $name);
 
 		// Get the component description
@@ -78,8 +80,8 @@ class JInstallerComponent extends JObject
 		$this->uninstallElement	=& $this->manifest->getElementByPath('uninstall');
 
 		// Set the installation target paths
-		$this->parent->setPath('extension_site', JPath::clean(JPATH_SITE.DS."components".DS.strtolower("com_".str_replace(" ", "", $this->get('name')))));
-		$this->parent->setPath('extension_administrator', JPath::clean(JPATH_ADMINISTRATOR.DS."components".DS.strtolower("com_".str_replace(" ", "", $this->get('name')))));
+		$this->parent->setPath('extension_site', JPath::clean(JPATH_SITE.DS."components".DS.$this->get('element')));
+		$this->parent->setPath('extension_administrator', JPath::clean(JPATH_ADMINISTRATOR.DS."components".DS.$this->get('element')));
 		
 		/**
 		 * ---------------------------------------------------------------------------------------------
@@ -134,7 +136,7 @@ class JInstallerComponent extends JObject
 				include_once($manifestScriptFile);
 			}
 			// Set the class name
-			$classname = $name.'InstallerScript';
+			$classname = $element.'InstallerScript';
 			if(class_exists($classname)) {
 				// create a new instance
 				$this->parent->_manifestClass = new $classname($this);
@@ -329,6 +331,25 @@ class JInstallerComponent extends JObject
 		 * ---------------------------------------------------------------------------------------------
 		 */
 
+		// Add an entry to the extension table
+		$row = & JTable::getInstance('extension');
+		$row->name = $this->get('name');
+		$row->type = 'component';
+		$row->element = $this->get('element');
+		$row->folder = ''; // There is no folder for modules
+		$row->enabled = 1;
+		$row->protected = 0;
+		$row->access = 0;
+		$row->client_id = 0;
+		$row->params = $this->parent->getParams();
+		$row->data = ''; // custom data
+		$row->manifestcache = $this->parent->generateManifestCache();
+		if (!$row->store()) {
+			// Install failed, roll back changes
+			$this->parent->abort(JText::_('Module').' '.JText::_('Install').': '.$db->stderr(true));
+			return false;
+		}
+
 		// We will copy the manifest file to its appropriate place.
 		if (!$this->parent->copyManifest()) {
 			// Install failed, rollback changes
@@ -376,7 +397,9 @@ class JInstallerComponent extends JObject
 
 		// Set the extensions name
 		$name =& $this->manifest->getElementByPath('name');
-		$name = JFilterInput::clean($name->data(), 'cmd');
+		$element = strtolower('com_'.JFilterInput::clean($name->data(), 'cmd'));
+		$name = $name->data();
+		$this->set('element', $element);
 		$this->set('name', $name);
 
 		// Get the component description
@@ -394,8 +417,8 @@ class JInstallerComponent extends JObject
 		$this->scriptElement =& $this->manifest->getElementByPath('scriptfile');
 
 		// Set the installation target paths
-		$this->parent->setPath('extension_site', JPath::clean(JPATH_SITE.DS."components".DS.strtolower("com_".str_replace(" ", "", $this->get('name')))));
-		$this->parent->setPath('extension_administrator', JPath::clean(JPATH_ADMINISTRATOR.DS."components".DS.strtolower("com_".str_replace(" ", "", $this->get('name')))));
+		$this->parent->setPath('extension_site', JPath::clean(JPATH_SITE.DS."components".DS.$this->get('element')));
+		$this->parent->setPath('extension_administrator', JPath::clean(JPATH_ADMINISTRATOR.DS."components".DS.$this->get('element')));
 		
 		/**
 		 * ---------------------------------------------------------------------------------------------
@@ -632,12 +655,11 @@ class JInstallerComponent extends JObject
 	 * Custom uninstall method for components
 	 *
 	 * @access	public
-	 * @param	int		$cid	The id of the component to uninstall
-	 * @param	int		$clientId	The id of the client (unused)
+	 * @param	int		$id	The unique extension id of the component to uninstall
 	 * @return	mixed	Return value for uninstall method in component uninstall file
 	 * @since	1.0
 	 */
-	function uninstall($id, $clientId)
+	function uninstall($id)
 	{
 		// Initialize variables
 		$db =& $this->parent->getDBO();
@@ -646,7 +668,7 @@ class JInstallerComponent extends JObject
 
 		// First order of business will be to load the component object table from the database.
 		// This should give us the necessary information to proceed.
-		$row = & JTable::getInstance('component');
+		$row = & JTable::getInstance('extension');
 		if ( !$row->load((int) $id) ) {
 			JError::raiseWarning(100, JText::_('ERRORUNKOWNEXTENSION'));
 			return false;
@@ -654,18 +676,18 @@ class JInstallerComponent extends JObject
 
 		// Is the component we are trying to uninstall a core one?
 		// Because that is not a good idea...
-		if ($row->iscore) {
+		if ($row->protected) {
 			JError::raiseWarning(100, JText::_('Component').' '.JText::_('Uninstall').': '.JText::sprintf('WARNCORECOMPONENT', $row->name)."<br />".JText::_('WARNCORECOMPONENT2'));
 			return false;
 		}
-		
+				
 		// Attempt to load the admin language file; might have uninstall strings
 		$language =& JFactory::getLanguage();
-		$language->load($row->option);
+		$language->load($row->element);
 
 		// Get the admin and site paths for the component
-		$this->parent->setPath('extension_administrator', JPath::clean(JPATH_ADMINISTRATOR.DS.'components'.DS.$row->option));
-		$this->parent->setPath('extension_site', JPath::clean(JPATH_SITE.DS.'components'.DS.$row->option));		
+		$this->parent->setPath('extension_administrator', JPath::clean(JPATH_ADMINISTRATOR.DS.'components'.DS.$row->element));
+		$this->parent->setPath('extension_site', JPath::clean(JPATH_SITE.DS.'components'.DS.$row->element));		
 		
 		/**
 		 * ---------------------------------------------------------------------------------------------
@@ -805,7 +827,7 @@ class JInstallerComponent extends JObject
 		$this->parent->removeFiles($this->manifest->getElementByPath('administration/languages'), 1);
 
 		// Now we need to delete the installation directories.  This is the final step in uninstalling the component.
-		if (trim($row->option)) {
+		if (trim($row->element)) {
 			// Delete the component site directory
 			if (is_dir($this->parent->getPath('extension_site'))) {
 				if (!JFolder::delete($this->parent->getPath('extension_site'))) {
@@ -821,6 +843,11 @@ class JInstallerComponent extends JObject
 					$retval = false;
 				}
 			}
+			
+			// Now we will no longer need the extension object, so lets delete it and free up memory
+			$row->delete($row->extensionid);
+			unset ($row);
+			
 			return $retval;
 		} else {
 			// No component option defined... cannot delete what we don't know about
@@ -842,19 +869,28 @@ class JInstallerComponent extends JObject
 		$db =& $this->parent->getDBO();
 
 		// Initialize variables
-		$option = strtolower("com_".str_replace(" ", "", $this->get('name')));
+		$option = $this->get('element');
 
 		// If a component exists with this option in the table than we don't need to add menus
-		$query = 'SELECT id' .
+		// Grab the params for later
+		$query = 'SELECT id, params, enabled' .
 				' FROM #__components' .
-				' WHERE `option` = '.$db->Quote($option);
+				' WHERE `option` = '.$db->Quote($option) .
+				' ORDER BY `parent` ASC';
 
 		$db->setQuery($query);
-		$exists = intval($db->loadResult()); 
-
+		$componentrow = $db->loadAssoc(); // will return null on error
+		$exists = 0;
+		$oldparams = '';
 		// Check if menu items exist
-		if ($exists) {
-
+		if ($componentrow) {
+			// set the value of exists to be the value of the old id
+			$exists = $componentrow['id'];
+			// and set the old params 
+			$oldparams = $componentrow['params'];
+			// and old enabled
+			$oldenabled = $componentrow['enabled'];
+			
 			// Don't do anything if overwrite has not been enabled
 			if ( ! $this->parent->getOverwrite() ) {
 				return true;
@@ -886,9 +922,13 @@ class JInstallerComponent extends JObject
 			$db_ordering = 0;
 			$db_admin_menu_img = ($menuElement->attributes('img')) ? $menuElement->attributes('img') : 'js/ThemeOffice/component.png';
 			$db_iscore = 0;
-			$db_params = $this->parent->getParams();
-			$db_enabled = 1;
+			// use the old params if a previous entry exists
+			$db_params = $exists ? $oldparams : $this->parent->getParams();
+			// use the old enabled field if a previous entry exists
+			$db_enabled = $exists ? $oldenabled : 1;
 
+			// This works because exists will be zero (autoincr)
+			// or the old component id
 			$query = 'INSERT INTO #__components' .
 				' VALUES( '.$exists .', '.$db->Quote($db_name).', '.$db->Quote($db_link).', '.(int) $db_menuid.',' .
 				' '.(int) $db_parent.', '.$db->Quote($db_admin_menu_link).', '.$db->Quote($db_admin_menu_alt).',' .
@@ -900,6 +940,7 @@ class JInstallerComponent extends JObject
 				$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.$db->stderr(true));
 				return false;
 			}
+			// save ourselves a call if we don't need it
 			$menuid = $exists ? $exists : $db->insertid(); // if there was an existing value, reuse
 
 			/*
@@ -1043,21 +1084,15 @@ class JInstallerComponent extends JObject
 		// Get database connector object
 		$db =& $this->parent->getDBO();
 		$retval = true;
-
-		// Delete the submenu items
+		
+		// Delete the items
 		$sql = 'DELETE ' .
 				' FROM #__components ' .
-				'WHERE parent = '.(int)$row->id;
+				'WHERE `option` = '.$db->Quote($row->element);
 
 		$db->setQuery($sql);
 		if (!$db->query()) {
 			JError::raiseWarning(100, JText::_('Component').' '.JText::_('Uninstall').': '.$db->stderr(true));
-			$retval = false;
-		}
-
-		// Next, we will delete the component object
-		if (!$row->delete($row->id)) {
-			JError::raiseWarning(100, JText::_('Component').' '.JText::_('Uninstall').': '.JText::_('Unable to delete the component from the database'));
 			$retval = false;
 		}
 		return $retval;
