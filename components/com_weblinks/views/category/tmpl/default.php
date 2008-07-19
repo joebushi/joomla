@@ -16,6 +16,24 @@
 	</td>
 </tr>
 <?php endif; ?>
+<?php if ($this->params->get('show_subcategories', 1) && count($this->subcategories)): ?>
+<tr>
+	<td width="60%" colspan="2">
+		<ul>
+		<?php foreach ( $this->subcategories as $category ) : ?>
+			<li>
+				<a href="<?php echo $category->link; ?>" class="category<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+					<?php echo $this->escape($category->title);?></a>
+				&nbsp;
+				<span class="small">
+					(<?php echo $category->weblinkcount + $category->linkcount;?>)
+				</span>
+			</li>
+		<?php endforeach; ?>
+		</ul>
+	</td>
+</tr>
+<?php endif; ?>
 <tr>
 	<td width="60%" colspan="2">
 	<?php echo $this->loadTemplate('items'); ?>

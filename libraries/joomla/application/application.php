@@ -55,6 +55,22 @@ class JApplication extends JObject
 	 */
 	var $_name = null;
 
+ 	/**
+	 * The template
+	 *
+	 * @var	string
+	 * @access	protected
+	 */
+	var $_template = null;
+
+	/**
+	 * The parameters for the template
+	 *
+	 * @var	object
+	 * @access	protected
+	 */
+	var $_template_params = null;
+
 	/**
 	 * The scope of the application
 	 *
@@ -616,6 +632,16 @@ class JApplication extends JObject
 	function getTemplate()
 	{
 		return 'system';
+	}
+
+ 	/**
+	 * Gets the name of the current template.
+	 *
+	 * @return	string
+	 */
+	function getTemplateParams()
+	{
+		return new JParameter('');
 	}
 
 	/**

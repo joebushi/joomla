@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="editors-xtd">
+	<name>Button - Article</name>
+	<author>Ross Crawford</author>
+	<creationDate>January 2008</creationDate>
+	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<authorEmail>ross.crawford@gmail.com</authorEmail>
+	<authorUrl>www.br-eng.info</authorUrl>
+	<version>0.1.2</version>
+	<description>Article selection editor button</description>
+	<files>
+		<filename plugin="article">article.php</filename>
+		<filename plugin="article">article.png<!--Created by Stian from Joomla icons--></filename>
+	</files>
+	<params />
+</install>

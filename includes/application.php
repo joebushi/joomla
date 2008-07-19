@@ -160,7 +160,8 @@ class JSite extends JApplication
 				$params = array(
 					'template' 	=> $template,
 					'file'		=> $file.'.php',
-					'directory'	=> JPATH_THEMES
+					'directory'	=> JPATH_THEMES,
+					'params'	=> $this->getTemplateParams()
 				);
 			} break;
  		}
@@ -278,47 +279,55 @@ class JSite extends JApplication
 	 * @return string The template name
 	 * @since 1.0
 	 */
-	function getTemplate()
-	{
-		// Allows for overriding the active template from a component, and caches the result of this function
-		// e.g. $mainframe->setTemplate('solar-flare-ii');
-		if ($template = $this->get('setTemplate')) {
-			return $template;
-		}
+ 	function getTemplate()
+ 	{
+		if(empty($this->_template))
+		{
+			// Allows for overriding the active template from a component, and caches the result of this function
+			// e.g. $mainframe->setTemplate('solar-flare-ii');
+			$template = $this->get('setTemplate');
+ 
+			$template = JRequest::getCmd('template', $template);
+ 
+			if(!$template)
+			{
+				// Get the id of the active menu item
+				$menu =& JSite::getMenu();
+				$item = $menu->getActive();
+ 
+				$id = 0;
+				if(is_object($item)) { // valid item retrieved
+					$id = $item->id;
+				}
+ 
+				// Load template entries for the active menuid and the default template
+				$db =& JFactory::getDBO();
+				$query = 'SELECT template, params'
+					. ' FROM #__templates_menu'
+					. ' WHERE client_id = 0 AND (menuid = 0 OR menuid = '.(int) $id.')'
+					. ' ORDER BY menuid DESC'
+					;
+				$db->setQuery($query, 0, 1);
+				$result = $db->loadObject();
+				$template = $result->template;
+				$this->setTemplateParams($result->params);
+			}
+ 
+			// Fallback template
+			if(!file_exists(JPATH_THEMES.DS.$template.DS.'index.php')) {
+				$template = 'rhuk_milkyway';
+			}
 
-		// Get the id of the active menu item
-		$menu =& JSite::getMenu();
-		$item = $menu->getActive();
+			$template = JFilterInput::clean($template, 'cmd'); // need to filter the default value as well
 
-		$id = 0;
-		if(is_object($item)) { // valid item retrieved
-			$id = $item->id;
-		}
-
-		// Load template entries for the active menuid and the default template
-		$db =& JFactory::getDBO();
-		$query = 'SELECT template'
-			. ' FROM #__templates_menu'
-			. ' WHERE client_id = 0 AND (menuid = 0 OR menuid = '.(int) $id.')'
-			. ' ORDER BY menuid DESC'
-			;
-		$db->setQuery($query, 0, 1);
-		$template = $db->loadResult();
-
-		// Allows for overriding the active template from the request
-		$template = JRequest::getCmd('template', $template);
-		$template = JFilterInput::clean($template, 'cmd'); // need to filter the default value as well
-
-		// Fallback template
-		if (!file_exists(JPATH_THEMES.DS.$template.DS.'index.php')) {
-			$template = 'rhuk_milkyway';
-		}
-
-		// Cache the result
-		$this->set('setTemplate', $template);
-		return $template;
-	}
-
+			// Cache the result
+			$this->set('setTemplate', $template);
+			
+			$this->setTemplate( $template );
+ 		}
+ 
+		return $this->_template;
+ 	}
 	/**
 	 * Overrides the default template that would be used
 	 *
@@ -328,7 +337,28 @@ class JSite extends JApplication
 	{
 		if (is_dir(JPATH_THEMES.DS.$template)) {
 			$this->set('setTemplate', $template);
-		}
+			$this->_template = $template;
+ 		}
+ 	}
+ 
+ 	/**
+	 * Sets the template parameters
+	 *
+	 * @param string The template name
+	 */
+	function setTemplateParams( $paramstring )
+	{
+		$this->_template_params = new JParameter($paramstring);
+	}
+
+	/**
+	 * Get the template parameters
+	 *
+	 * @param string The template name
+	 */
+	function getTemplateParams()
+	{
+		return $this->_template_params;
 	}
 
 	/**

@@ -149,7 +149,8 @@ class JAdministrator extends JApplication
 		$params = array(
 			'template' 	=> $template,
 			'file'		=> $file.'.php',
-			'directory'	=> JPATH_THEMES
+			'directory'	=> JPATH_THEMES,
+			'params'	=> $this->_template_params
 		);
 
 		$document =& JFactory::getDocument();
@@ -200,28 +201,63 @@ class JAdministrator extends JApplication
 	 */
 	function getTemplate()
 	{
-		static $template;
-
-		if (!isset($template))
+		if (empty($this->_template))
 		{
 			// Load the template name from the database
 			$db =& JFactory::getDBO();
-			$query = 'SELECT template'
+			$query = 'SELECT template, params'
 				. ' FROM #__templates_menu'
 				. ' WHERE client_id = 1'
 				. ' AND menuid = 0'
 				;
 			$db->setQuery( $query );
-			$template = $db->loadResult();
+			$result = $db->loadObject();
 
-			$template = JFilterInput::clean($template, 'cmd');
+			$template = JFilterInput::clean($result->template, 'cmd');
+
+			$this->setTemplateParams($result->params);
 
 			if (!file_exists(JPATH_THEMES.DS.$template.DS.'index.php')) {
 				$template = 'khepri';
 			}
+
+			$this->setTemplate($template);
 		}
 
-		return $template;
+		return $this->_template;
+	}
+
+	/**
+	 * Overrides the default template that would be used
+	 *
+	 * @param string The template name
+	 */
+	function setTemplate( $template )
+	{
+		if (is_dir(JPATH_THEMES.DS.$template)) {
+			$this->set('setTemplate', $template);
+			$this->_template = $template;
+		}
+	}
+
+	/**
+	 * Sets the template parameters
+	 *
+	 * @param string The template name
+	 */
+	function setTemplateParams( $paramstring )
+	{
+		$this->_template_params = new JParameter($paramstring);
+	}
+
+	/**
+	 * Get the template parameters
+	 *
+	 * @param string The template name
+	 */
+	function getTemplateParams()
+	{
+		return $this->_template_params;
 	}
 
 	/**

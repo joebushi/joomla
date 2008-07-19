@@ -53,7 +53,7 @@ class WeblinksModelCategory extends JModel
 	 *
 	 * @var object
 	 */
-	var $_category = null;
+	var $_categories = null;
 
 	/**
 	 * Pagination object
@@ -86,6 +86,8 @@ class WeblinksModelCategory extends JModel
 		$this->setState('filter_order', JRequest::getCmd('filter_order', 'ordering'));
 		$this->setState('filter_order_dir', JRequest::getCmd('filter_order_Dir', 'ASC'));
 
+		$this->_loadCategories();
+
 		$id = JRequest::getVar('id', 0, '', 'int');
 		$this->setId((int)$id);
 	}
@@ -100,7 +102,6 @@ class WeblinksModelCategory extends JModel
 	{
 		// Set category ID and wipe data
 		$this->_id			= $id;
-		$this->_category	= null;
 	}
 
 	/**
@@ -172,13 +173,13 @@ class WeblinksModelCategory extends JModel
 	function getCategory()
 	{
 		// Load the Category data
-		if ($this->_loadCategory())
+		if ($this->_loadCategories())
 		{
 			// Initialize some variables
 			$user = &JFactory::getUser();
 
 			// Make sure the category is published
-			if (!$this->_category->published) {
+			if (!$this->_categories[$this->_id]->published) {
 				JError::raiseError(404, JText::_("Resource Not Found"));
 				return false;
 			}
@@ -188,7 +189,20 @@ class WeblinksModelCategory extends JModel
 				return false;
 			}
 		}
-		return $this->_category;
+		return $this->_categories[$this->_id];
+	}
+
+	function getCategories($parent)
+	{
+		$result = array();
+		foreach($this->_categories as $category)
+		{
+			if($category->parent_id == $parent)
+			{
+				$result[] = $category;
+			}
+		}
+		return $result;
 	}
 
 	/**
@@ -197,21 +211,40 @@ class WeblinksModelCategory extends JModel
 	 * @access	private
 	 * @return	boolean	True on success
 	 */
-	function _loadCategory()
+	function _loadCategories()
 	{
-		if (empty($this->_category))
+		if (empty($this->_categories))
 		{
+			$user =& JFactory::getUser();
 			// current category info
-			$query = 'SELECT c.*, ' .
+			$query = 'SELECT c.*, COALESCE(w.linkcount, 0) AS linkcount,' .
 				' CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(\':\', c.id, c.alias) ELSE c.id END as slug '.
 				' FROM #__categories AS c' .
-				' WHERE c.id = '. (int) $this->_id .
-				' AND c.section = "com_weblinks"';
-			$this->_db->setQuery($query, 0, 1);
-			$this->_category = $this->_db->loadObject();
+				' LEFT JOIN (SELECT catid, COUNT(*) AS linkcount FROM #__weblinks GROUP BY catid) AS w ON w.catid = c.id'.
+				' WHERE c.section = "com_weblinks"'.
+				' AND c.access <= '.$user->get('aid');
+			$this->_db->setQuery($query);
+			$this->_categories = $this->_db->loadObjectList('id');
+			$this->_calculateWeblinks(0);
 		}
 		return true;
 	}
+
+	function _calculateWeblinks($parent)
+	{
+		foreach($this->_categories as $category)
+		{
+			if($category->parent_id == $parent)
+			{
+				$this->_calculateWeblinks($category->id);
+				if(isset($this->_categories[$parent])) {
+					$count = $category->linkcount + $category->weblinkcount;
+					$this->_categories[$parent]->weblinkcount += $count;
+				}
+			}
+		}
+	}
+			
 
 	function _buildQuery()
 	{

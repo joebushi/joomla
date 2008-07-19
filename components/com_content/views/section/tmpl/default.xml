@@ -40,6 +40,7 @@
 			</param>
 		</params>
 		<advanced>
+			<param name="category_layout" type="viewlayout" component="com_content" view="category" default="" label="Category Layout" description="PARAMCATEGORYLAYOUT" />
 			<param name="orderby" type="list" default="" label="Order by" description="PARAMORDERBY">
 				<option value="">Default</option>
 				<option value="alpha">Title Alphabetical</option>
