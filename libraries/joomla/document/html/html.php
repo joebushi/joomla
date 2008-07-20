@@ -233,7 +233,9 @@ class JDocumentHTML extends JDocument
 		// Assign the variables
 		$this->template = $template;
 		$this->baseurl  = JURI::base(true);
-		$this->params   = $params['params'];
+		if(isset($params['params'])) {
+			$this->params   = $params['params'];
+		}
 
 		// load
 		$data = $this->_loadTemplate($directory.DS.$template, $file);

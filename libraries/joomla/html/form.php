@@ -452,15 +452,17 @@ class JForm extends JRegistry
 	 */
 	function loadSetupFile($path)
 	{
+		static $file;
+
 		$result = false;
 
-		if(!is_array($this->_file))
+		if(!is_array($file))
 		{
-			$this->_file = array();
+			$file = array();
 		}
-		if ($path && !in_array($path, $this->_file))
+		if ($path && !in_array($path, $file))
 		{
-			$this->_file[] = $path;
+			$file[] = $path;
 			$xml = & JFactory::getXMLParser('Simple');
 			
 			if ($xml->loadFile($path))
