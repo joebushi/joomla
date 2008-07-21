@@ -43,10 +43,10 @@ class JInstaller extends JObject
 	var $_manifest = null;
 
 	/**
-	 * True if packakge is an update
+	 * True if packakge is an upgrade
 	 * @var boolean
 	 */
-	var $_update = null;
+	var $_upgrade = null;
 	
 	/**
 	 * The manifest trigger class
@@ -454,11 +454,6 @@ class JInstaller extends JObject
 		// Load the adapter(s) for the install manifest
 		$root =& $this->_manifest->document;
 		$type = $root->attributes('type');
-
-		// Needed for legacy reasons ... to be deprecated in next minor release
-		if ($type == 'mambot') {
-			$type = 'plugin';
-		}
 
 		// Lazy load the adapter
 		if (!isset($this->_adapters[$type]) || !is_object($this->_adapters[$type])) {

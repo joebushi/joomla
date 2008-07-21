@@ -123,11 +123,11 @@ class modMenuHelper
 		{
 			$menu->addChild(new JMenuNode(JText::_('Components')), true);
 
-			$query = 'SELECT *' .
-				' FROM #__components' .
+			$query = 'SELECT c.*' .
+				' FROM #__components c LEFT JOIN #__extensions e ON c.option = e.element ' .
 				' WHERE '.$db->NameQuote( 'option' ).' <> "com_frontpage"' .
 				' AND '.$db->NameQuote( 'option' ).' <> "com_media"' .
-				' AND enabled = 1' .
+				' AND e.enabled = 1' .
 				' ORDER BY ordering, name';
 			$db->setQuery($query);
 			$comps = $db->loadObjectList(); // component list

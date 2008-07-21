@@ -227,11 +227,13 @@ class JInstallerPackage extends JObject
 	}
 	
 	function _getExtensionID($type, $id, $client, $group) {
+		// TODO: Rewrite this to handle #__extensions for more than just plugins
+		// TODO-UPDATE
 		$db		=& $this->parent->getDBO();
 		$result = $id;
 		switch($type) {
 			case 'plugin':
-				$db->setQuery("SELECT id FROM #__plugins WHERE folder = '$group' AND element = '$id'");
+				$db->setQuery("SELECT id FROM #__extensions WHERE type = 'plugin' AND folder = '$group' AND element = '$id'");
 				$result = $db->loadResult();
 				break;
 			case 'component':

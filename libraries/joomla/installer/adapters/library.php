@@ -62,9 +62,25 @@ class JInstallerLibrary extends JObject
 		// Set the extensions name
 		$name =& $this->manifest->getElementByPath('name');
 		$name = JFilterInput::clean($name->data(), 'string');
+		$element = str_replace('.xml','',basename($this->parent->getPath('manifest')));
 		$this->set('name', $name);
-		
-		$this->set('element', str_replace('.xml','',basename($this->parent->getPath('manifest'))));
+		$this->set('element', $element);
+
+		$db =& $this->parent->getDBO();
+		$db->setQuery('SELECT extensionid FROM #__extensions WHERE type="library" AND element = "'. $element .'"');
+		$result = $db->loadResult();
+		if($result) { // already installed, can we upgrade?
+			if($this->parent->getOverwrite() || $this->parent->getUpgrade()) { 
+				// we can upgrade, so uninstall the old one
+				$installer = new JInstaller(); // we don't want to compromise this instance!
+				$installer->uninstall('library', $result);
+			} else {
+				// abort the install, no upgrade possible
+				$this->parent->abort(JText::_('Library').' '. JText::_('Install').': '.JText::_('Library already installed'));
+				return false;
+			}
+		}
+
 
 		// Get the component description
 		$description = & $this->manifest->getElementByPath('description');
@@ -178,9 +194,17 @@ class JInstallerLibrary extends JObject
 		// Set the extensions name
 		$name =& $this->manifest->getElementByPath('name');
 		$name = JFilterInput::clean($name->data(), 'string');
+		$element = str_replace('.xml','',basename($this->parent->getPath('manifest')));
+		$this->set('name', $name);
+		$this->set('element', $element);
 		$installer = new JInstaller(); // we don't want to compromise this instance!
-		return $installer->uninstall('library', $name, 0 );
-		// ...and adds new files
+		$db =& $this->parent->getDBO();
+		$db->setQuery('SELECT extensionid FROM #__extensions WHERE type="library" AND element = "'. $element .'"');
+		$result = $db->loadResult();
+		if($result) { // already installed, which would make sense
+			$installer->uninstall('library', $result);
+		}
+		// now create the new files
 		return $this->install();
 	}
 	
@@ -244,6 +268,9 @@ class JInstallerLibrary extends JObject
 			JFile::delete($manifestFile);
 
 		} else {
+			// remove this row entry since its invalid
+			$row->delete($row->extensionid);
+			unset($row);
 			JError::raiseWarning(100, 'Library Uninstall: Manifest File invalid or not found');
 			return false;
 		}

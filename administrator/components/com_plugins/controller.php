@@ -90,7 +90,7 @@ class PluginsController extends JController
 			$where = "client_id=0";
 		}
 
-		$row->reorder( 'folder = '.$db->Quote($row->folder).' AND ordering > -10000 AND ordering < 10000 AND ( '.$where.' )' );
+		$row->reorder( 'type = "plugin" AND folder = '.$db->Quote($row->folder).' AND ordering > -10000 AND ordering < 10000 AND ( '.$where.' )' );
 
 		switch ( $task )
 		{
@@ -181,7 +181,7 @@ class PluginsController extends JController
 		}
 		$row =& JTable::getInstance('extension');
 		$row->load( $uid );
-		$row->move( $inc, 'folder='.$db->Quote($row->folder).' AND ordering > -10000 AND ordering < 10000 AND ('.$where.')' );
+		$row->move( $inc, 'type = "plugin" AND folder='.$db->Quote($row->folder).' AND ordering > -10000 AND ordering < 10000 AND ('.$where.')' );
 
 		$this->setRedirect( 'index.php?option=com_plugins' );
 	}
@@ -257,7 +257,7 @@ class PluginsController extends JController
 					JError::raiseError(500, $db->getErrorMsg() );
 				}
 				// remember to updateOrder this group
-				$condition = 'folder = '.$db->Quote($row->folder).' AND ordering > -10000 AND ordering < 10000 AND client_id = ' . (int) $row->client_id;
+				$condition = 'type = "plugin" AND folder = '.$db->Quote($row->folder).' AND ordering > -10000 AND ordering < 10000 AND client_id = ' . (int) $row->client_id;
 				$found = false;
 				foreach ( $conditions as $cond )
 				{

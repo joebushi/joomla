@@ -22,19 +22,19 @@ class JVersion
 	/** @var string Product */
 	var $PRODUCT 	= 'Joomla!';
 	/** @var int Main Release Level */
-	var $RELEASE 	= '1.5';
+	var $RELEASE 	= '1.6';
 	/** @var string Development Status */
-	var $DEV_STATUS = 'Production/Stable';
+	var $DEV_STATUS = 'Development Branch';
 	/** @var int Sub Release Level */
-	var $DEV_LEVEL 	= '2';
+	var $DEV_LEVEL 	= 'Update';
 	/** @var int build Number */
 	var $BUILD	 	= '';
 	/** @var string Codename */
-	var $CODENAME 	= 'Woi';
+	var $CODENAME 	= 'Update branch';
 	/** @var string Date */
-	var $RELDATE 	= '22-March-2008';
+	var $RELDATE 	= '??-???-????';
 	/** @var string Time */
-	var $RELTIME 	= '22:00';
+	var $RELTIME 	= '??:??';
 	/** @var string Timezone */
 	var $RELTZ 		= 'GMT';
 	/** @var string Copyright Text */

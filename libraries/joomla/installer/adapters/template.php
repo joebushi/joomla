@@ -72,10 +72,27 @@ class JInstallerTemplate extends JObject
 		// Set the extensions name
 		$name =& $root->getElementByPath('name');
 		$name = JFilterInput::clean($name->data(), 'cmd');
+		$element = strtolower(str_replace(" ", "_", $this->get('name')));
 		$this->set('name', $name);
+		$this->set('element',$element);
+		$db =& $this->parent->getDBO();
+		$db->setQuery('SELECT extensionid FROM #__extensions WHERE type="template" AND element = "'. $element .'"');
+		$result = $db->loadResult();
+		// TODO: Rewrite this! We shouldn't uninstall a template, we should back up the params as well
+		if($result) { // already installed, can we upgrade?
+			if($this->parent->getOverwrite() || $this->parent->getUpgrade()) { 
+				// we can upgrade, so uninstall the old one
+				$installer = new JInstaller(); // we don't want to compromise this instance!
+				$installer->uninstall('template', $result);
+			} else {
+				// abort the install, no upgrade possible
+				$this->parent->abort(JText::_('Library').' '. JText::_('Install').': '.JText::_('Library already installed'));
+				return false;
+			}
+		}
 
 		// Set the template root path
-		$this->parent->setPath('extension_root', $basePath.DS.'templates'.DS.strtolower(str_replace(" ", "_", $this->get('name'))));
+		$this->parent->setPath('extension_root', $basePath.DS.'templates'.DS.$element);
 
 		/*
 		 * If the template directory already exists, then we will assume that the template is already
@@ -137,6 +154,29 @@ class JInstallerTemplate extends JObject
 			$this->parent->abort(JText::_('Template').' '.JText::_('Install').': '.JText::_('Could not copy setup file'));
 			return false;
 		}
+		
+		/**
+		 * ---------------------------------------------------------------------------------------------
+		 * Extension Registration
+		 * ---------------------------------------------------------------------------------------------
+		 */
+		$row = & JTable::getInstance('extension');
+		$row->name = $this->get('name');
+		$row->type = 'template';
+		$row->element = $this->get('name');
+		$row->folder = ''; // There is no folder for modules
+		$row->enabled = 1;
+		$row->protected = 0;
+		$row->access = 0;
+		$row->client_id = 0;
+		$row->params = $this->parent->getParams();
+		$row->data = ''; // custom data
+		$row->manifestcache = $this->parent->generateManifestCache();
+		if (!$row->store()) {
+			// Install failed, roll back changes
+			$this->parent->abort(JText::_('Template').' '.JText::_('Install').': '.$db->stderr(true));
+			return false;
+		}
 		return true;
 	}
 
@@ -149,10 +189,29 @@ class JInstallerTemplate extends JObject
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function uninstall( $name, $clientId )
+	function uninstall( $id )
 	{
 		// Initialize variables
 		$retval	= true;
+		
+		// First order of business will be to load the module object table from the database.
+		// This should give us the necessary information to proceed.
+		$row = & JTable::getInstance('extension');
+		if ( !$row->load((int) $id) || !strlen($row->element)) {
+			JError::raiseWarning(100, JText::_('ERRORUNKOWNEXTENSION'));
+			return false;
+		}
+		
+		// Is the library we are trying to uninstall a core one?
+		// Because that is not a good idea...
+		if ($row->protected) {
+			JError::raiseWarning(100, JText::_('Template').' '.JText::_('Uninstall').': '.JText::sprintf('WARNCOREMODULE', $row->name)."<br />".JText::_('WARNCOREMODULE2'));
+			return false;
+		}
+		
+		$name = $row->element;
+		$clientId = $row->client_id;
+
 
 		// For a template the id will be the template name which represents the subfolder of the templates folder that the template resides in.
 		if (!$name) {
@@ -171,6 +230,9 @@ class JInstallerTemplate extends JObject
 
 		$manifest =& $this->parent->getManifest();
 		if (!is_a($manifest, 'JSimpleXML')) {
+			// kill the extension entry
+			$row->delete($row->extensionid);
+			unset($row);
 			// Make sure we delete the folders
 			JFolder::delete($this->parent->getPath('extension_root'));
 			JError::raiseWarning(100, JTEXT::_('Template').' '.JTEXT::_('Uninstall').': '.JTEXT::_('Package manifest file invalid or not found'));
@@ -190,6 +252,8 @@ class JInstallerTemplate extends JObject
 			JError::raiseWarning(100, JText::_('Template').' '.JText::_('Uninstall').': '.JText::_('Directory does not exist, cannot remove files'));
 			$retval = false;
 		}
+		$row->delete($row->extensionid);
+		unset($row);
 		return $retval;
 	}
 }

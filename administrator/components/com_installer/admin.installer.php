@@ -29,7 +29,8 @@ $subMenus = array(
 	'Install' => 'install',
 	'Update' => 'update',
 	'Manage' => 'manage',
-	'Discover' => 'discover');
+	'Discover' => 'discover',
+	'Warnings' => 'warnings');
 
 //JSubMenuHelper::addEntry(JText::_( 'Install' ), '#" onclick="javascript:document.adminForm.type.value=\'\';submitbutton(\'installer\');', !in_array( $ext, $subMenus));
 foreach ($subMenus as $name => $extension) {
