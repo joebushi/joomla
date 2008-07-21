@@ -39,6 +39,9 @@ $ -> Language fix or change
 ! -> Note
 
 21-July-2008 Sam Moffatt
+ # [#11818] JA_Purity : CSS style not correctly apply to menu in Hornav position
+ # [#11698] Issue with & in Menu Manager Unique Name
+ # [#10662] Error not warning when there is a submit menu item with the wrong permissions
  # [#11895] Wrong overlib for login
  # [#11892] Determining Read more Tag
  # [#11890] Installing upgrade module results in duplicate module entry
