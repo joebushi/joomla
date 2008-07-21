@@ -38,6 +38,18 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-July-2008 Sam Moffatt
+ # [#11895] Wrong overlib for login
+ # [#11892] Determining Read more Tag
+ # [#11890] Installing upgrade module results in duplicate module entry
+ # [#11873] Upgrading components deletes old component entry
+ # [#11838] Clean up of some Todos
+ # [#11820] javascript file dtree is corrupt
+ # [#11717] Double Titles with 1.5.4 upgrade
+ # [#11409] Category List view does not have a parameter in XML for number of items
+ # [#10869] newsflash description bad: "random article"?
+ # [#8889] BEEZ - search ONLY fieldset alignment
+
 17-July-2008 Mati Kochen
  # [#10823] mosmsg is ignored - added support in legacy plugin (thanks Ian for code suggestions)
 

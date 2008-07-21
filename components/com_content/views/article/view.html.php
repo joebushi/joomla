@@ -87,8 +87,8 @@ class ContentViewArticle extends ContentView
 		$menus = &JSite::getMenu();
 		$menu  = $menus->getActive();
 
-		if (is_object( $menu )) {
-			$menu_params = new JParameter( $menu->params );			
+		if (is_object( $menu ) && isset($menu->query['view']) && $menu->query['view'] == 'article' && isset($menu->query['id']) && $menu->query['id'] == $article->id) {
+			$menu_params = new JParameter( $menu->params );
 			if (!$menu_params->get( 'page_title')) {
 				$params->set('page_title',	$article->title);
 			}

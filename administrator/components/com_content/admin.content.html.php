@@ -696,7 +696,7 @@ class ContentView
 		var title = form.title.value;
 
 		var alltext = window.top.<?php echo $editor->getContent('text') ?>;
-		alltext = alltext.replace('<hr id=\"system-readmore\" \/>', '');
+		alltext = alltext.replace(/<hr\s+id=(\"|')system-readmore(\"|')\s*\/*>/i, '');
 
 		</script>
 

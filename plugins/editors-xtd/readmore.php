@@ -59,7 +59,7 @@ class plgButtonReadmore extends JPlugin
 		$js = "
 			function insertReadmore(editor) {
 				var content = $getContent
-				if (content.match(/<hr id=\"system-readmore\" \/>/)) {
+				if (content.match(/<hr\s+id=(\"|')system-readmore(\"|')\s*\/*>/i)) {
 					alert('$present');
 					return false;
 				} else {

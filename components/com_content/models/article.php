@@ -354,13 +354,13 @@ class ContentModelArticle extends JModel
 		// Search for the {readmore} tag and split the text up accordingly.
 		$text = str_replace('<br>', '<br />', $data['text']);
 
-		$tagPos = JString::strpos($text, '<hr id="system-readmore" />');
+		$pattern = '#<hr\s+id=("|\')system-readmore("|\')\s*\/*>#i';
+		$tagPos	= preg_match($pattern, $text);
 
-		if ($tagPos === false)	{
+		if ($tagPos == 0)	{
 			$article->introtext	= $text;
 		} else 	{
-			$article->introtext	= JString::substr($text, 0, $tagPos);
-			$article->fulltext	= JString::substr($text, $tagPos +27);
+			list($article->introtext, $article->fulltext) = preg_split($pattern, $text, 2);
 		}
 
 		// Filter settings

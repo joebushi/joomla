@@ -342,7 +342,8 @@ form.search_result, form.registration, form.lost_password, .login_form{
 }
 
 .only input{
-	float: left;
+	float: right;
+	margin:0 0 0 10px;
 }
 
 form.registration label, form.lost_password label, .login_form label{

@@ -46,8 +46,6 @@ class ContentViewCategory extends ContentView
 		// Request variables
 		$layout     = JRequest::getCmd('layout');
 		$task		= JRequest::getCmd('task');
-		$limit = $mainframe->getUserStateFromRequest('limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
-		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
 		// Parameters
 		$params->def('num_leading_articles', 	1);
@@ -64,10 +62,16 @@ class ContentViewCategory extends ContentView
 		$leading	= $params->get('num_leading_articles');
 		$links		= $params->get('num_links');
 
-		//In case we are in a blog view set the limit
+		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
+
 		if ($layout == 'blog') {
-			if ($limit ==  0) $limit = $intro + $leading + $links;
+			$default_limit = $intro + $leading + $links;
+		} else {
+			$params->def('display_num', $mainframe->getCfg('list_limit'));
+			$default_limit = $params->get('display_num');
 		}
+		$limit = $mainframe->getUserStateFromRequest('com_content.'.$this->getLayout().'.limit', 'limit', $default_limit, 'int');
+
 		JRequest::setVar('limit', (int) $limit);
 
 		$contentConfig = &JComponentHelper::getParams('com_content');
