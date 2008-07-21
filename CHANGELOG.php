@@ -38,6 +38,14 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-Jul-2008 Sam Moffatt
+ + Gave modules install trigger set
+ ^ Changed triggers to use elements (e.g. com_alpha) instead of clean names to ensure uniqueness
+ + Added warnings tab
+ ^ Converting plugins to extensions in more places
+ ^ Changed version string
+ ^ Changed components menu to use extenions table instead of components
+
 18-Jul-2008 Sam Moffatt
  + Components now use the extensions table for install and uninstall
  + Added a simple migration script for components, modules, plugins 

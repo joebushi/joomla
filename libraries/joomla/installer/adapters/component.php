@@ -447,7 +447,7 @@ class JInstallerComponent extends JObject
 				include_once($manifestScriptFile);
 			}
 			// Set the class name
-			$classname = $name.'InstallerScript';
+			$classname = $element.'InstallerScript';
 			if(class_exists($classname)) {
 				// create a new instance
 				$this->parent->_manifestClass = new $classname($this);
@@ -738,7 +738,7 @@ class JInstallerComponent extends JObject
 				include_once($manifestScriptFile);
 			}
 			// Set the class name
-			$classname = $name.'InstallerScript';
+			$classname = $element.'InstallerScript';
 			if(class_exists($classname)) {
 				// create a new instance
 				$this->parent->_manifestClass = new $classname($this);
