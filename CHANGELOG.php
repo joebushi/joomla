@@ -38,6 +38,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-July-2008 Anthony Ferrara
+ # [#11718] Pagebreak plugin still does not work
+ # [#11844] SEF Plugin breaks Google Webmaster Tools JS 
+
 21-July-2008 Sam Moffatt
  # [#11818] JA_Purity : CSS style not correctly apply to menu in Hornav position
  # [#11698] Issue with & in Menu Manager Unique Name
@@ -55,6 +59,9 @@ $ -> Language fix or change
 
 17-July-2008 Mati Kochen
  # [#10823] mosmsg is ignored - added support in legacy plugin (thanks Ian for code suggestions)
+ 
+16-July-2008 Alan Langford
+ # [#11846] Allow "collapse all" on all instances of JPane
 
 15-July-2008 Anthony Ferrara
  # [#11839] Contact item, setting the bad word param stops all mail
