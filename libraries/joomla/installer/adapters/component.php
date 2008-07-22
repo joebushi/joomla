@@ -277,7 +277,7 @@ class JInstallerComponent extends JObject
 		 *	If Joomla 1.5 compatible, with discreet sql files - execute appropriate
 		 *	file for utf-8 support or non-utf-8 support
 		 */
-		// no backward compatibility queries found - try for Joomla 1.5 type queries
+		// try for Joomla 1.5 type queries
 		// second argument is the utf compatible version attribute
 		$utfresult = $this->parent->parseSQLFiles($this->manifest->getElementByPath('install/sql'));
 		if ($utfresult === false) {
@@ -419,6 +419,7 @@ class JInstallerComponent extends JObject
 		// Set the installation target paths
 		$this->parent->setPath('extension_site', JPath::clean(JPATH_SITE.DS."components".DS.$this->get('element')));
 		$this->parent->setPath('extension_administrator', JPath::clean(JPATH_ADMINISTRATOR.DS."components".DS.$this->get('element')));
+		$this->parent->setPath('extension_root', $this->parent->getPath('extension_administrator')); // copy this as its used as a common base
 		
 		/**
 		 * ---------------------------------------------------------------------------------------------
@@ -738,7 +739,7 @@ class JInstallerComponent extends JObject
 				include_once($manifestScriptFile);
 			}
 			// Set the class name
-			$classname = $element.'InstallerScript';
+			$classname = $row->element.'InstallerScript';
 			if(class_exists($classname)) {
 				// create a new instance
 				$this->parent->_manifestClass = new $classname($this);
@@ -792,24 +793,16 @@ class JInstallerComponent extends JObject
 
 		/*
 		 * Let's run the uninstall queries for the component
-		 *	If backward compatibility is required - run queries in xml file
 		 *	If Joomla 1.5 compatible, with discreet sql files - execute appropriate
 		 *	file for utf-8 support or non-utf support
 		 */
-		$result = $this->parent->parseQueries($this->manifest->getElementByPath('uninstall/queries'));
-		if ($result === false) {
+		// try for Joomla 1.5 type queries
+		// second argument is the utf compatible version attribute
+		$utfresult = $this->parent->parseSQLFiles($this->manifest->getElementByPath('uninstall/sql'));
+		if ($utfresult === false) {
 			// Install failed, rollback changes
-			JError::raiseWarning(100, JText::_('Component').' '.JText::_('Uninstall').': '.JText::_('SQL Error')." ".$db->stderr(true));
+			JError::raiseWarning(100, JText::_('Component').' '.JText::_('Uninstall').': '.JText::_('SQLERRORORFILE')." ".$db->stderr(true));
 			$retval = false;
-		} elseif ($result === 0) {
-			// no backward compatibility queries found - try for Joomla 1.5 type queries
-			// second argument is the utf compatible version attribute
-			$utfresult = $this->parent->parseSQLFiles($this->manifest->getElementByPath('uninstall/sql'));
-			if ($utfresult === false) {
-				// Install failed, rollback changes
-				JError::raiseWarning(100, JText::_('Component').' '.JText::_('Uninstall').': '.JText::_('SQLERRORORFILE')." ".$db->stderr(true));
-				$retval = false;
-			}
 		}
 
 		$this->_removeAdminMenus($row);

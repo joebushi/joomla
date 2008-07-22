@@ -46,7 +46,7 @@ ALTER TABLE `jos_extensions` ADD COLUMN `checked_out` INTEGER UNSIGNED NOT NULL 
  	checked_out, 			# checked_out
  	checked_out_time, 		# checked_out_time
  	ordering					# ordering
- 	FROM jos_plugins; 		# #__extensions replaces the #__plugins table
+ 	FROM jos_plugins; 		# #__extensions replaces the old #__plugins table
  	
  INSERT INTO jos_extensions SELECT 
  	0, 						# extension id (regenerate)

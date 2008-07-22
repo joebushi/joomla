@@ -309,7 +309,7 @@ class JInstaller extends JObject
 					
 				case 'extension' :
 					// Get database connector object
-					$db =& $this->parent->getDBO();
+					$db =& $this->getDBO();
 
 					// Remove the entry from the #__extensions table
 					$query = 'DELETE' .
@@ -546,7 +546,7 @@ class JInstaller extends JObject
 			}
 
 			if( $fCharset == $dbCharset && $fDriver == $dbDriver) {
-				$sqlfile = $this->getPath('extension_administrator').DS.$file->data();
+				$sqlfile = $this->getPath('extension_root').DS.$file->data();
 				// Check that sql files exists before reading. Otherwise raise error for rollback
 				if ( !file_exists( $sqlfile ) ) {
 					JError::raiseWarning(1,'JInstaller::installer: '. JText::_('SQL File not found').' '. $sqlfile);

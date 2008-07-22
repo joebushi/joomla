@@ -38,6 +38,18 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+22-Jul-2008 Sam Moffatt
+ ^ Clean installation now adding entries for plugins, modules and components
+ - Removed plugins table completely
+ + Modules now can use SQL and have full install, update and uninstall triggers
+ + Modules now have an update function
+ ^ Changed the parseSQLQueries code to use extension_root instead of extension_administrator
+ ^ Changed component installer adapter to set extension_root to extension_administrator
+ - Removed old comments
+ # Fixed rollback bug in installer handler for extensions
+ + Added File and SQL adapters as copies of libraries and components respectively (nonfunctional)
+ ^ Set svn:keywords recursively to Id for /libraries/joomla/installer
+
 21-Jul-2008 Sam Moffatt
  + Gave modules install trigger set
  ^ Changed triggers to use elements (e.g. com_alpha) instead of clean names to ensure uniqueness

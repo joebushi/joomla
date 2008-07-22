@@ -162,33 +162,11 @@ class JInstallerPlugin extends JObject
 			}
 
 		} else {
-			// Store in the plugin table (1.5)
-			/*$row =& JTable::getInstance('plugin');
-			$row->name = $this->get('name');
-			$row->ordering = 0;
-			$row->folder = $group;
-			$row->iscore = 0;
-			$row->access = 0;
-			$row->client_id = 0;
-			$row->element = $pname;
-			$row->params = $this->parent->getParams();
-
-			// Editor plugins are published by default
-			if ($group == 'editors') {
-				$row->published = 1;
-			}
-
-			if (!$row->store()) {
-				// Install failed, roll back changes
-				$this->parent->abort(JText::_('Plugin').' '.JText::_('Install').': '.$db->stderr(true));
-				return false;
-			}*/
-			
 			// Store in the extensions table (1.6)
 			$row = & JTable::getInstance('extension');
 			$row->name = $this->get('name');
 			$row->type = 'plugin';
-			$row->ordering = 0; // TODO: Add ordering, checked_out and checked_out_time to extension table
+			$row->ordering = 0;
 			$row->element = $pname;
 			$row->folder = $group;
 			$row->enabled = 0;
@@ -317,27 +295,5 @@ class JInstallerPlugin extends JObject
 		}
 
 		return $retval;
-	}
-
-	/**
-	 * Custom rollback method
-	 * 	- Roll back the plugin item
-	 *
-	 * @access	public
-	 * @param	array	$arg	Installation step to rollback
-	 * @return	boolean	True on success
-	 * @since	1.5
-	 */
-	function _rollback_plugin($arg)
-	{
-		// Get database connector object
-		$db =& $this->parent->getDBO();
-
-		// Remove the entry from the #__plugins table
-		$query = 'DELETE' .
-				' FROM `#__plugins`' .
-				' WHERE id='.(int)$arg['id'];
-		$db->setQuery($query);
-		return ($db->query() !== false);
 	}
 }
