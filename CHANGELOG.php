@@ -38,6 +38,13 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+22-July-2008 Anthony Ferrara
+ # [#11682] component login error with SEF
+ # [#11888] Archive Article Error With Finish Publishing Date
+ # [#11849] Various problems with com_content router
+ # [#11875] Item user acces overridden in newsflash module
+ # [#11744] searching for article-title doesn't work
+
 21-July-2008 Anthony Ferrara
  # [#11718] Pagebreak plugin still does not work
  # [#11844] SEF Plugin breaks Google Webmaster Tools JS 

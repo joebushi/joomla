@@ -151,6 +151,7 @@ class ContentViewCategory extends ContentView
 		global $mainframe;
 
 		//create select lists
+		$user	= &JFactory::getUser();
 		$lists	= $this->_buildSortLists();
 
 		if (!count( $this->items ) )
@@ -169,7 +170,17 @@ class ContentViewCategory extends ContentView
 		$i = 0;
 		foreach($this->items as $key => $item)
 		{
-			$item->link		= JRoute::_('index.php?view=article&catid='.$this->category->slug.'&id='.$item->slug);
+			// checks if the item is a public or registered/special item
+			if ($item->access <= $user->get('aid', 0))
+			{
+				$item->link	= JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug, $item->sectionid));
+				$item->readmore_register = false;
+			}
+			else
+			{
+				$item->link = JRoute::_('index.php?option=com_user&task=register');
+				$item->readmore_register = true;
+			}
 			$item->created	= JHTML::_('date', $item->created, $this->params->get('date_format'));
 
 			$item->odd		= $k;

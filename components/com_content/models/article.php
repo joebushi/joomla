@@ -606,9 +606,12 @@ class ContentModelArticle extends JModel
 			$where .= ' AND ( ';
 			$where .= ' ( a.created_by = ' . (int) $user->id . ' ) ';
 			$where .= '   OR ';
-			$where .= ' ( a.state = 1 OR a.state = -1)' .
+			$where .= ' ( a.state = 1' .
 					' AND ( a.publish_up = '.$this->_db->Quote($nullDate).' OR a.publish_up <= '.$this->_db->Quote($now).' )' .
 					' AND ( a.publish_down = '.$this->_db->Quote($nullDate).' OR a.publish_down >= '.$this->_db->Quote($now).' )';
+			$where .= '   ) ';
+			$where .= '   OR ';
+			$where .= ' ( a.state = -1 ) ';
 			$where .= ' ) ';
 		}
 
