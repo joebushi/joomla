@@ -46,14 +46,19 @@ class JTableExtension extends JTable
 	var $manifestcache		= null;
 	/** @var string Extension parameters */
 	var $params				= null;
-	/** @var string Generic extension data field */
-	var $data				= null;
+	/** @var string Generic extension data field; for extensions private use */
+	var $custom_data				= null;
+	/** @var string Generic extension data field; for Joomla! use */
+	var $system_data				= null;	
 	/** @var int Checked Out */
 	var $checked_out = 0;
 	/** @var datetime Checked Out Time */
 	var $checked_out_time = null;
 	/** @var int ordering */
 	var $ordering = 0; 
+	/** @var int state State of the extension, either default (0), discovered (-1) */
+	//var $state = 0; 
+	
 
 	/**
 	 * Contructor

@@ -24,6 +24,9 @@ defined('JPATH_BASE') or die();
  */
 class JInstallerPlugin extends JObject
 {
+	/** @var string install function routing */
+	var $route = 'Install';
+
 	/**
 	 * Constructor
 	 *
@@ -79,23 +82,89 @@ class JInstallerPlugin extends JObject
 		$type = $this->manifest->attributes('type');
 
 		// Set the installation path
-		$element =& $this->manifest->getElementByPath('files');
-		if (is_a($element, 'JSimpleXMLElement') && count($element->children())) {
-			$files =& $element->children();
+		$plugin_files =& $this->manifest->getElementByPath('files');
+		if (is_a($plugin_files, 'JSimpleXMLElement') && count($plugin_files->children())) {
+			$files =& $plugin_files->children();
 			foreach ($files as $file) {
 				if ($file->attributes($type)) {
-					$pname = $file->attributes($type);
+					$element = $file->attributes($type);
 					break;
 				}
 			}
 		}
 		$group = $this->manifest->attributes('group');
-		if (!empty ($pname) && !empty($group)) {
-			$this->parent->setPath('extension_root', JPATH_ROOT.DS.'plugins'.DS.$group);
+		if (!empty ($element) && !empty($group)) {
+			$this->parent->setPath('extension_root', JPATH_ROOT.DS.'plugins'.DS.$group.DS.$element);
 		} else {
 			$this->parent->abort(JText::_('Plugin').' '.JText::_('Install').': '.JText::_('No plugin file specified'));
 			return false;
 		}
+		
+		/*
+		 * Check if we should enable overwrite settings
+		 */
+		// Check to see if a plugin by the same name is already installed
+		$query = 'SELECT `extensionid`' .
+				' FROM `#__extensions`' .
+				' WHERE folder = '.$db->Quote($group) .
+				' AND element = '.$db->Quote($element);
+		$db->setQuery($query);
+		if (!$db->Query()) {
+			// Install failed, roll back changes
+			$this->parent->abort(JText::_('Plugin').' '.JText::_('Install').': '.$db->stderr(true));
+			return false;
+		}
+		$id = $db->loadResult();
+		
+		// if its on the fs...
+		if(file_exists($this->parent->getPath('extension_root')) && !$this->parent->getOverwrite()) {
+			$updateElement = $this->manifest->getElementByPath('update');
+			// upgrade manually set
+			// update function available
+			// update tag detected 
+			if($this->parent->getUpgrade() || ($this->parent->_manifestClass && method_exists($this->parent->_manifestClass,'update')) || is_a($updateElement, 'JSimpleXMLElement')) {
+				// force these one
+				$this->parent->setOverwrite(true);
+				$this->parent->setUpgrade(true);
+				$this->route = 'Update';
+			} else if(!$this->parent->getOverwrite()) { // overwrite is set
+				// we didn't have overwrite set, find an udpate function or find an update tag so lets call it safe 
+				$this->parent->abort(JText::_('Plugin').' '.JText::_($this->route).': '.JText::_('Another extension is already using directory').': "'.$this->parent->getPath('extension_root').'"');
+				return false;
+			}
+		}
+		
+		/**
+		 * ---------------------------------------------------------------------------------------------
+		 * Installer Trigger Loading
+		 * ---------------------------------------------------------------------------------------------
+		 */
+		// If there is an manifest class file, lets load it; we'll copy it later (don't have dest yet)
+		$this->scriptElement =& $this->manifest->getElementByPath('scriptfile');
+		if (is_a($this->scriptElement, 'JSimpleXMLElement')) {
+			$manifestScript = $this->scriptElement->data();
+			$manifestScriptFile = $this->parent->getPath('source').DS.$manifestScript;
+			if(is_file($manifestScriptFile)) {
+				// load the file
+				include_once($manifestScriptFile);
+			}
+			// Set the class name
+			$classname = 'plg'.$group.$element.'InstallerScript';
+			if(class_exists($classname)) {
+				// create a new instance
+				$this->parent->_manifestClass = new $classname($this);
+				// and set this so we can copy it later
+				$this->set('manifest.script', $manifestScript);
+				// Note: if we don't find the class, don't bother to copy the file				
+			}
+		}		
+		
+		// run preflight if possible (since we know we're not an update)
+		ob_start();
+		ob_implicit_flush(false);
+		if($this->parent->_manifestClass && method_exists($this->parent->_manifestClass,'preflight')) $this->parent->_manifestClass->preflight($this->route, $this);	
+		$msg = ob_get_contents(); // create msg object; first use here
+		ob_end_clean();			
 
 		/**
 		 * ---------------------------------------------------------------------------------------------
@@ -122,7 +191,7 @@ class JInstallerPlugin extends JObject
 		}
 
 		// Copy all necessary files
-		if ($this->parent->parseFiles($element, -1) === false) {
+		if ($this->parent->parseFiles($plugin_files, -1) === false) {
 			// Install failed, roll back changes
 			$this->parent->abort();
 			return false;
@@ -132,26 +201,27 @@ class JInstallerPlugin extends JObject
 		$this->parent->parseMedia($this->manifest->getElementByPath('media'), 1);
 		$this->parent->parseLanguages($this->manifest->getElementByPath('languages'), 1);
 
+		// If there is a manifest script, lets copy it.
+		if($this->get('manifest.script')) {
+			$path['src'] = $this->parent->getPath('source').DS.$this->get('manifest.script');
+			$path['dest'] = $this->parent->getPath('extension_root').DS.$this->get('manifest.script');
+			
+			if(!file_exists($path['dest'])) {
+				if (!$this->parent->copyFiles(array ($path))) {
+					// Install failed, rollback changes
+					$this->parent->abort(JText::_('Plugin').' '.JText::_($this->route).': '.JText::_('Could not copy PHP manifest file.'));
+					return false;
+				}
+			}
+		}
+		
 		/**
 		 * ---------------------------------------------------------------------------------------------
 		 * Database Processing Section
 		 * ---------------------------------------------------------------------------------------------
 		 */
 
-		// Check to see if a plugin by the same name is already installed
-		$query = 'SELECT `extensionid`' .
-				' FROM `#__extensions`' .
-				' WHERE folder = '.$db->Quote($group) .
-				' AND element = '.$db->Quote($pname);
-		$db->setQuery($query);
-		if (!$db->Query()) {
-			// Install failed, roll back changes
-			$this->parent->abort(JText::_('Plugin').' '.JText::_('Install').': '.$db->stderr(true));
-			return false;
-		}
-		$id = $db->loadResult();
-
-		// Was there a module already installed with the same name?
+		// Was there a plugin already installed with the same name?
 		if ($id) {
 
 			if (!$this->parent->getOverwrite())
@@ -167,14 +237,15 @@ class JInstallerPlugin extends JObject
 			$row->name = $this->get('name');
 			$row->type = 'plugin';
 			$row->ordering = 0;
-			$row->element = $pname;
+			$row->element = $element;
 			$row->folder = $group;
 			$row->enabled = 0;
 			$row->protected = 0;
 			$row->access = 0;
 			$row->client_id = 0;
 			$row->params = $this->parent->getParams();
-			$row->data = ''; // custom data
+			$row->custom_data = ''; // custom data
+			$row->system_data = ''; // system data
 			$row->manifestcache = $this->parent->generateManifestCache();
 
 			// Editor plugins are published by default
@@ -192,6 +263,27 @@ class JInstallerPlugin extends JObject
 			// so that if we have to rollback the changes we can undo it.
 			$this->parent->pushStep(array ('type' => 'extension', 'id' => $row->extensionid));
 		}
+		
+		/*
+		 * Let's run the queries for the module
+		 *	If Joomla 1.5 compatible, with discreet sql files - execute appropriate
+		 *	file for utf-8 support or non-utf-8 support
+		 */
+		// try for Joomla 1.5 type queries
+		// second argument is the utf compatible version attribute
+		$utfresult = $this->parent->parseSQLFiles($this->manifest->getElementByPath(strtolower($this->route).'/sql'));
+		if ($utfresult === false) {
+			// Install failed, rollback changes
+			$this->parent->abort(JText::_('Module').' '.JText::_($this->route).': '.JText::_('SQLERRORORFILE')." ".$db->stderr(true));
+			return false;
+		}		
+		
+		// Start Joomla! 1.6
+		ob_start();
+		ob_implicit_flush(false);
+		if($this->parent->_manifestClass && method_exists($this->parent->_manifestClass,$this->route)) $this->parent->_manifestClass->{$this->route}($this);	
+		$msg .= ob_get_contents(); // append messages
+		ob_end_clean();		
 
 		/**
 		 * ---------------------------------------------------------------------------------------------
@@ -205,9 +297,36 @@ class JInstallerPlugin extends JObject
 			$this->parent->abort(JText::_('Plugin').' '.JText::_('Install').': '.JText::_('Could not copy setup file'));
 			return false;
 		}
+		// And now we run the postflight
+		ob_start();
+		ob_implicit_flush(false);
+		if($this->parent->_manifestClass && method_exists($this->parent->_manifestClass,'postflight')) $this->parent->_manifestClass->postflight($this->route, $this);	
+		$msg .= ob_get_contents(); // append messages
+		ob_end_clean();
+		if ($msg != '') {
+			$this->parent->set('extension.message', $msg);
+		}
 		return true;
 	}
 
+	/**
+	 * Custom update method
+	 *
+	 * @access	public
+	 * @return	boolean	True on success
+	 * @since	1.6
+	 */
+	function update()
+	{
+		// set the overwrite setting
+		$this->parent->setOverwrite(true);
+		$this->parent->setUpgrade(true);
+		// set the route for the install
+		$this->route = 'Update';
+		// go to install which handles updates properly
+		return $this->install();
+	}	
+	
 	/**
 	 * Custom uninstall method
 	 *
@@ -246,10 +365,18 @@ class JInstallerPlugin extends JObject
 		}
 
 		// Set the plugin root path
-		$this->parent->setPath('extension_root', JPATH_ROOT.DS.'plugins'.DS.$row->folder);
+		if(is_dir(JPATH_ROOT.DS.'plugins'.DS.$row->folder.DS.$row->element)) {
+			// Use 1.6 plugins
+			$this->parent->setPath('extension_root', JPATH_ROOT.DS.'plugins'.DS.$row->folder.DS.$row->element);
+		} else {
+			// Use Legacy 1.5 plugins
+			$this->parent->setPath('extension_root', JPATH_ROOT.DS.'plugins'.DS.$row->folder);
+		}
 
 		// Because plugins don't have their own folders we cannot use the standard method of finding an installation manifest
-		$manifestFile = JPATH_ROOT.DS.'plugins'.DS.$row->folder.DS.$row->element.'.xml';
+		// Since 1.6 they do, however until we move to 1.7 and remove 1.6 legacy we still need to use this method
+		// when we get there it'll be something like "$manifest =& $this->parent->getManifest();"
+		$manifestFile = $this->parent->getPath('extension_root').DS.$row->element.'.xml';
 		if (file_exists($manifestFile))
 		{
 			$xml =& JFactory::getXMLParser('Simple');
@@ -263,13 +390,68 @@ class JInstallerPlugin extends JObject
 			/*
 			 * Check for a valid XML root tag.
 			 * @todo: Remove backwards compatability in a future version
-			 * Should be 'install', but for backward compatability we will accept 'extension'.
+			 * Should be 'extension', but for backward compatability we will accept 'install'.
 			 */
 			$root =& $xml->document;
+			$this->manifest =& $xml->document;
 			if ($root->name() != 'install' && $root->name() != 'extension') {
 				JError::raiseWarning(100, JText::_('Plugin').' '.JText::_('Uninstall').': '.JText::_('Invalid manifest file'));
 				return false;
 			}
+			
+			/**
+			 * ---------------------------------------------------------------------------------------------
+			 * Installer Trigger Loading
+			 * ---------------------------------------------------------------------------------------------
+			 */
+			// If there is an manifest class file, lets load it; we'll copy it later (don't have dest yet)
+			$this->scriptElement =& $this->manifest->getElementByPath('scriptfile');
+			if (is_a($this->scriptElement, 'JSimpleXMLElement')) {
+				$manifestScript = $this->scriptElement->data();
+				$manifestScriptFile = $this->parent->getPath('source').DS.$manifestScript;
+				if(is_file($manifestScriptFile)) {
+					// load the file
+					include_once($manifestScriptFile);
+				}
+				// Set the class name
+				$classname = 'plg'.$row->folder.$row->element.'InstallerScript';
+				if(class_exists($classname)) {
+					// create a new instance
+					$this->parent->_manifestClass = new $classname($this);
+					// and set this so we can copy it later
+					$this->set('manifest.script', $manifestScript);
+					// Note: if we don't find the class, don't bother to copy the file				
+				}
+			}		
+			
+			// run preflight if possible (since we know we're not an update)
+			ob_start();
+			ob_implicit_flush(false);
+			if($this->parent->_manifestClass && method_exists($this->parent->_manifestClass,'preflight')) $this->parent->_manifestClass->preflight($this->route, $this);	
+			$msg = ob_get_contents(); // create msg object; first use here
+			ob_end_clean();				
+			
+			/*
+			 * Let's run the queries for the module
+			 *	If Joomla 1.5 compatible, with discreet sql files - execute appropriate
+			 *	file for utf-8 support or non-utf-8 support
+			 */
+			// try for Joomla 1.5 type queries
+			// second argument is the utf compatible version attribute
+			$utfresult = $this->parent->parseSQLFiles($this->manifest->getElementByPath(strtolower($this->route).'/sql'));
+			if ($utfresult === false) {
+				// Install failed, rollback changes
+				$this->parent->abort(JText::_('Plugin').' '.JText::_('Uninstall').': '.JText::_('SQLERRORORFILE')." ".$db->stderr(true));
+				return false;
+			}		
+			
+			// Start Joomla! 1.6
+			ob_start();
+			ob_implicit_flush(false);
+			if($this->parent->_manifestClass && method_exists($this->parent->_manifestClass,'uninstall')) $this->parent->_manifestClass->uninstall($this);	
+			$msg = ob_get_contents(); // append messages
+			ob_end_clean();
+			
 
 			// Remove the plugin files
 			$this->parent->removeFiles($root->getElementByPath('images'), -1);
@@ -292,6 +474,10 @@ class JInstallerPlugin extends JObject
 		$files = JFolder::files($this->parent->getPath('extension_root'));
 		if (!count($files)) {
 			JFolder::delete($this->parent->getPath('extension_root'));
+		}
+		
+		if($msg) {
+			$this->parent->set('extension.message',$msg);
 		}
 
 		return $retval;

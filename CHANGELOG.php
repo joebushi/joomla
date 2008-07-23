@@ -38,6 +38,13 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+23-Jul-2008 Sam Moffatt
+ ^ Plugins now have their own directory with their group
+ + Plugins now have install triggers and SQL support
+ + Packages can handle folders as well as archives
+ ^ Altered #__extensions.data to be called 'custom_data' and 'system_data' 
+ 
+
 22-Jul-2008 Sam Moffatt
  ^ Clean installation now adding entries for plugins, modules and components
  - Removed plugins table completely

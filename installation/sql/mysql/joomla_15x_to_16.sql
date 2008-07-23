@@ -15,7 +15,8 @@ CREATE TABLE  `jos_extensions` (
   `protected` tinyint(3) NOT NULL default '0',
   `manifestcache` text NOT NULL,
   `params` text NOT NULL,
-  `data` text NOT NULL,
+  `custom_data` text NOT NULL,
+  `system_data` text NOT NULL,
   `checked_out` int(10) unsigned NOT NULL default '0',
   `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
   `ordering` int(11) default '0',
@@ -26,6 +27,10 @@ CREATE TABLE  `jos_extensions` (
 ALTER TABLE `jos_extensions` ADD COLUMN `checked_out` INTEGER UNSIGNED NOT NULL DEFAULT 0 AFTER `data`,
  ADD COLUMN `checked_out_time` DATETIME NOT NULL DEFAULT 0 AFTER `checked_out`,
  ADD COLUMN `ordering` INTEGER DEFAULT 0 AFTER `checked_out_time`;
+
+# Earlier versions used 'data' instead of 'custom_data' and 'system_data'
+ALTER TABLE `jos_extensions` CHANGE COLUMN `data` `custom_data` TEXT NOT NULL,
+ ADD COLUMN `system_data` TEXT  NOT NULL AFTER `custom_data`;
 
 
 # Migration script; adds modules, plugins and components to the extensions table

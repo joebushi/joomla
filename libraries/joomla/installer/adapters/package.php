@@ -120,7 +120,13 @@ class JInstallerPackage extends JObject
 			foreach($element->children() as $child) {
 				$file = $source . DS . $child->data();
 				jimport('joomla.installer.helper');
-				$package = JInstallerHelper::unpack($file);
+				if(is_dir($file)) { // if its actually a directory then fill it up
+					$package = Array();
+					$package['dir'] = $file;
+					$package['type'] = JInstallerHelper::detectType($file);
+				} else { // if its an archive
+					$package = JInstallerHelper::unpack($file);
+				}
 				$tmpInstaller = new JInstaller();
 				if(!$tmpInstaller->install($package['dir'])) {
 					$this->parent->abort(JText::_('Package').' '.JText::_('Install').': '.JText::_('There was an error installing an extension:') . basename($file));

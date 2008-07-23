@@ -24,7 +24,7 @@ defined('JPATH_BASE') or die();
  */
 class JInstallerModule extends JObject
 {
-	// install function routing
+	/** @var string install function routing */
 	var $route = 'Install';
 	
 	/**
@@ -341,7 +341,7 @@ class JInstallerModule extends JObject
 	 *
 	 * @access	public
 	 * @return	boolean	True on success
-	 * @since	1.5
+	 * @since	1.6
 	 */
 	function update()
 	{
@@ -354,6 +354,29 @@ class JInstallerModule extends JObject
 		return $this->install();
 	}
 
+	/**
+	 * Custom discover method
+	 * 
+	 * @access public
+	 * @return array(JExtension) list of extensions available
+	 * @since 1.6
+	 */
+	function discover() {
+		// TODO: 1.6-UPDATE: Discover function
+	}
+	
+	/**
+	 * Custom discover_install method
+	 * 
+	 * @access public
+	 * @param int $id The id of the extension to install (from #__discoveredextensions)
+	 * @return void
+	 * @since 1.6
+	 */
+	function discover_install($discoveredid) {
+		// TODO: 1.6-UPDATE: Discover install function
+	}
+	
 	/**
 	 * Custom uninstall method
 	 *
