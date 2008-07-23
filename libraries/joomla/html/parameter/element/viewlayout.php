@@ -67,7 +67,7 @@ class JElementViewlayout extends JElement
 						}
 					} else {
 						// Add default info for the layout
-						$title = ucfirst($layout).' '.JText::_('Layout');
+						$title = ucfirst($file).' '.JText::_('Layout');
 					}
 					$options[] = JHTML::_('select.option', JFile::stripext($file), JText::_($title));
 				}

@@ -51,8 +51,8 @@ class ContactModelContact extends JModel
 
 		if ($aid !== null)
 		{
-			$wheres[] = 'a.access <= ' . (int) $aid;
-			$wheres[] = 'cc.access <= ' . (int) $aid;
+			$wheres[] = 'a.access IN ('.implode($aid, ',').')';
+			$wheres[] = 'cc.access IN ('.implode($aid, ',').')';
 		}
 
 		/*

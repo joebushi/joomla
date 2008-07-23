@@ -131,14 +131,13 @@ class ContentModelFrontpage extends JModel
 			' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug,'.
 			' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(":", cc.id, cc.alias) ELSE cc.id END as catslug,'.
 			' CHAR_LENGTH( a.`fulltext` ) AS readmore,' .
-			' u.name AS author, u.usertype, g.name AS groups, cc.title AS category, s.title AS section, s.ordering AS s_ordering, cc.ordering AS cc_ordering, a.ordering AS a_ordering, f.ordering AS f_ordering'.
+			' u.name AS author, u.usertype, cc.title AS category, s.title AS section, s.ordering AS s_ordering, cc.ordering AS cc_ordering, a.ordering AS a_ordering, f.ordering AS f_ordering'.
 			$voting['select'] .
 			' FROM #__content AS a' .
 			' INNER JOIN #__content_frontpage AS f ON f.content_id = a.id' .
 			' LEFT JOIN #__categories AS cc ON cc.id = a.catid'.
 			' LEFT JOIN #__sections AS s ON s.id = a.sectionid'.
 			' LEFT JOIN #__users AS u ON u.id = a.created_by' .
-			' LEFT JOIN #__groups AS g ON a.access = g.id'.
 			$voting['join'].
 			$where
 			.$orderby
@@ -171,7 +170,9 @@ class ContentModelFrontpage extends JModel
 		global $mainframe;
 
 		$user		=& JFactory::getUser();
-		$gid		= $user->get('aid', 0);
+		$acl		=& JFactory::getACL();
+		$aid		= $acl->getAllowedContent('com_content', 'view');
+
 		// TODO: Should we be using requestTime here? or is JDate ok?
 		// $now		= $mainframe->get('requestTime');
 
@@ -189,21 +190,20 @@ class ContentModelFrontpage extends JModel
 
 		// Does the user have access to view the items?
 		if ($noauth) {
-			$where .= ' AND a.access <= '.(int) $gid;
+			if(count($aid)) {
+				$where .= ' AND a.access IN ('. implode($aid, ',').')';
+			} else {
+				$where .= ' AND a.access = 0';
+			}
 		}
 
-		if ($user->authorize('com_content', 'edit', 'content', 'all')) {
-			$where .= ' AND a.state >= 0';
-		} else {
-			$where .= ' AND a.state = 1'.
-					' AND (( cc.published = 1'.
-					' AND s.published = 1 )'.
-					' OR ( a.catid = 0 AND a.sectionid = 0 ) )';
+		$where .= ' AND a.state = 1'.
+				' AND (( cc.published = 1'.
+				' AND s.published = 1 )'.
+				' OR ( a.catid = 0 AND a.sectionid = 0 ) )';
 
-			$where .= ' AND ( a.publish_up = '.$this->_db->Quote($nullDate).' OR a.publish_up <= '.$this->_db->Quote($now).' )' .
-					  ' AND ( a.publish_down = '.$this->_db->Quote($nullDate).' OR a.publish_down >= '.$this->_db->Quote($now).' )';
-		}
-
+		$where .= ' AND ( a.publish_up = '.$this->_db->Quote($nullDate).' OR a.publish_up <= '.$this->_db->Quote($now).' )' .
+				' AND ( a.publish_down = '.$this->_db->Quote($nullDate).' OR a.publish_down >= '.$this->_db->Quote($now).' )';
 		return $where;
 	}
 }

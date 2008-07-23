@@ -224,7 +224,8 @@ class JFactory
 		static $instance;
 
 		if (!is_object($instance)) {
-			$instance = JFactory::_createACL();
+			jimport( 'joomla.user.authorization' );
+			$instance = JAuthorization::getInstance();
 		}
 
 		return $instance;

@@ -28,17 +28,12 @@ class JHTMLList
 	/**
 	* Build the select list for access level
 	*/
-	function accesslevel( &$row )
+	function accesslevel( &$row, $extension = 'com_content' )
 	{
-		$db =& JFactory::getDBO();
-
-		$query = 'SELECT id AS value, name AS text'
-		. ' FROM #__groups'
-		. ' ORDER BY id'
-		;
-		$db->setQuery( $query );
-		$groups = $db->loadObjectList();
-		$access = JHTML::_('select.genericlist',   $groups, 'access', 'class="inputbox" size="3"', 'value', 'text', intval( $row->access ), '', 1 );
+		$aclContent =& JAuthorizationContentItem::getInstance();
+		$aclContent->load();
+		$contentItems = $aclContent->getContentItems($extension);
+		$access = JHTML::_('select.genericlist',   $contentItems, 'access', 'class="inputbox" size="3"', 'value', 'name', intval( $row->access ), '', 1 );
 
 		return $access;
 	}

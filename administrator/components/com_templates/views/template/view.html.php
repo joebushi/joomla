@@ -59,6 +59,35 @@ class TemplatesViewTemplate extends JView
 			$lists['selections'] = TemplatesHelper::createMenuList($template);
 		}
 
+		$list =& JHTML::_('menu.menulist');
+		$mitems = array();
+
+		$lastMenuType	= null;
+		$tmpMenuType	= null;
+		foreach ($list as $list_a)
+		{
+			if ($list_a->menutype != $lastMenuType)
+			{
+				if ($tmpMenuType) {
+					$mitems[] = '</ul></li>';
+				}
+				$mitems[] = '<li>'.$list_a->menutype.'<ul>';
+				$lastMenuType = $list_a->menutype;
+				$tmpMenuType  = $list_a->menutype;
+			}
+
+			if(isset($assignments[$list_a->id]))
+			{
+				$mitems[] = '<li><a href="index.php?option=com_templates&view=template&layout=edit&cid[]='.$this->row->directory.'&menuid='.$list_a->id.'"><img src="tick.png" width="16" height="16" /></a>'.$list_a->treename.'</li>';
+			} else {
+				$mitems[] = '<li>'.$list_a->treename.'</li>';
+			}
+
+		}
+		if ($lastMenuType !== null) {
+			$mitems[] = '</ul></li></ul>';
+		}
+
 		// Set FTP credentials, if given
 		jimport('joomla.client.helper');
 		$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
@@ -69,7 +98,7 @@ class TemplatesViewTemplate extends JView
 		$this->assignRef('client',		$client);
 		$this->assignRef('ftp',			$ftp);
 		$this->assignRef('template',	$template);
-		$this->assignRef('assignments', $assignments);
+		$this->assignRef('assignments', $mitems);
 		$this->assignRef('params',		$params);
 
 		parent::display($tpl);

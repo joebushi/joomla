@@ -78,13 +78,7 @@
 		</table>
 <?php } else { ?>
 		<legend><?php echo JText::_( 'Assignments' ); ?></legend>
-		<table class="admintable" cellspacing="1">
-		<?php foreach($this->assignments as $assignments)
-		{
-			echo '<tr><td>'.implode($assignments->menuNames, ', ').'</td><td><a href="'.JRoute::_('index.php?option=com_templates&view=template&layout=edit&cid[]='.$this->row->directory.'&menuid='.$assigments->menuId[0]).'"><img src="images/edit_f2.png" /></a><a href="'.JRoute::_('index.php?option=com_templates&task=deleteAssignment&cid[]='.$this->row->directory.'&menuid='.$assigments->menuId[0]).'"><img src="images/publish_x.png" /></a></td></tr>';
-		}
-		?>
-		</table>
+		<?php echo implode($this->assignments, ''); ?>
 <?php } ?>
 	</fieldset>
 </div>

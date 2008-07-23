@@ -92,7 +92,8 @@ class WeblinksModelCategories extends JModel
 	function _buildQuery()
 	{
 		$user =& JFactory::getUser();
-		$aid = $user->get('aid', 0);
+		$acl =& JFactory::getACL();
+		$aid = $acl->getAllowedContent('com_weblinks', 'view');
 
 		//Query to retrieve all categories that belong under the web links section and that are published.
 		$query = 'SELECT cc.*, COUNT(a.id) AS numlinks,'
@@ -102,7 +103,7 @@ class WeblinksModelCategories extends JModel
 			.' WHERE a.published = 1'
 			.' AND section = \'com_weblinks\''
 			.' AND cc.published = 1'
-			.' AND cc.access <= '.(int) $aid
+			.' AND cc.access IN ('.implode($aid, ',').')'
 			.' GROUP BY cc.id'
 			.' ORDER BY cc.ordering';
 

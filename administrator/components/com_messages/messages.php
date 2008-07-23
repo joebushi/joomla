@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id$
+* @version		$Id: $
 * @package		Joomla
 * @subpackage	Messages
 * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
@@ -15,25 +15,11 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once( JApplicationHelper::getPath( 'toolbar_html' ) );
+// Require the base controller
+require_once (JPATH_COMPONENT.DS.'controller.php');
 
-switch ( $task ) {
+$controller	= new MessagesController( );
 
-	case 'view':
-		TOOLBAR_messages::_VIEW();
-		break;
-
-	case 'add'  :
-	case 'edit' :
-	case 'reply':
-		TOOLBAR_messages::_EDIT();
-		break;
-
-	case 'config':
-		TOOLBAR_messages::_CONFIG();
-		break;
-
-	default:
-		TOOLBAR_messages::_DEFAULT();
-		break;
-}
+// Perform the Request task
+$controller->execute( JRequest::getCmd('task'));
+$controller->redirect();

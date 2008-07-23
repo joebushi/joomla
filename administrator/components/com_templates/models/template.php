@@ -230,34 +230,8 @@ class TemplatesModelTemplate extends JModel
 					' FROM #__templates_menu'.
 					' WHERE client_id = '.$this->_client->id.' AND template = \''.$this->_id.'\';';
 			$db->setQuery($query);
-			$assignments = $db->loadObjectList();
-			foreach($assignments as $assignment)
-			{
-				if(count($this->_assignments))
-				{
-					foreach($this->_assignments as &$temp)
-					{
-						if($temp->params == $assignment->params)
-						{
-							$temp->menuids[] = $assignment->menuid;
-							$assignment = null;
-							break;
-						}
-					}
-					if($assignment != null)
-					{
-						$temp = new stdClass();
-						$temp->menuids[] = $assignment->menuid;
-						$temp->params = $assignment->params;
-						$this->_assignments[] = $temp;
-					}
-				} else {
-					$temp = new stdClass();
-					$temp->menuids[] = $assignment->menuid;
-					$temp->params = $assignment->params;
-					$this->_assignments[] = $temp;
-				}
-			}
+			$this->_assignments = $db->loadObjectList('menuid');
+
 			require_once(JPATH_COMPONENT.DS.'helpers'.DS.'template.php');
 			
 			$tBaseDir	= JPath::clean($this->_client->path.DS.'templates');

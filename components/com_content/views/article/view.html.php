@@ -326,7 +326,7 @@ class ContentViewArticle extends ContentView
 		$lists['frontpage'] = JHTML::_('select.booleanlist', 'frontpage', '', (boolean) $article->frontpage);
 
 		// Select List: Group Access
-		$lists['access'] = JHTML::_('list.accesslevel', $article);
+		$lists['access'] = JHTML::_('list.accesslevel', $article, 'com_content');
 
 		return $lists;
 	}

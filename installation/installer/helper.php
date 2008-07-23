@@ -288,7 +288,7 @@ class JInstallationHelper
 		// create the admin user
 		$installdate 	= date('Y-m-d H:i:s');
 		$nullDate 		= $db->getNullDate();
-		$query = "INSERT INTO #__users VALUES (62, 'Administrator', 'admin', ".$db->Quote($adminEmail).", ".$db->Quote($cryptpass).", 'Super Administrator', 0, 1, 25, '$installdate', '$nullDate', '', '', '')";
+		$query = "INSERT INTO #__users VALUES (62, 'Administrator', 'admin', ".$db->Quote($adminEmail).", ".$db->Quote($cryptpass).", 'Super Administrator', 0, 1, 25, '$installdate', '$nullDate', '', '')";
 		$db->setQuery($query);
 		if (!$db->query())
 		{
@@ -316,7 +316,7 @@ class JInstallationHelper
 		}
 
 		// add the map between the ARO and the Group
-		$query = "INSERT INTO #__core_acl_groups_aro_map VALUES (25,'',10)";
+		$query = "INSERT INTO #__core_acl_groups_aro_map VALUES (11, 10)";
 		$db->setQuery($query);
 		if (!$db->query())
 		{

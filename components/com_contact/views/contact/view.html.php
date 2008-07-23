@@ -31,6 +31,7 @@ class ContactViewContact extends JView
 		$pathway	= &$mainframe->getPathway();
 		$document	= & JFactory::getDocument();
 		$model		= &$this->getModel();
+		$acl		=& JFactory::getACL();
 
 		// Get the parameters of the active menu item
 		$menus	= &JSite::getMenu();
@@ -50,7 +51,7 @@ class ContactViewContact extends JView
 
 		// query options
 		$options['id']	= $contactId;
-		$options['aid']	= $user->get('aid', 0);
+		$options['aid']	= $acl->getAllowedContent('com_contact', 'view');
 
 		$contact	= $model->getContact( $options );
 

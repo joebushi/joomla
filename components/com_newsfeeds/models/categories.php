@@ -92,7 +92,8 @@ class NewsfeedsModelCategories extends JModel
 	function _buildQuery()
 	{
 		$user =& JFactory::getUser();
-		$gid = $user->get('aid', 0);
+		$acl =& JFactory::getACL();
+		$aid = $acl->getAllowedContent('com_newsfeeds', 'view');
 
 		/* Query to retrieve all categories that belong under the newsfeeds section and that are published. */
 		$query = 'SELECT cc.*, a.catid, COUNT(a.id) AS numlinks,'
@@ -102,7 +103,7 @@ class NewsfeedsModelCategories extends JModel
 			. ' WHERE a.published = 1'
 			. ' AND cc.section = \'com_newsfeeds\''
 			. ' AND cc.published = 1'
-			. ' AND cc.access <= '.(int) $gid
+			. ' AND cc.access IN ('.implode($aid, ',').')'
 			. ' GROUP BY cc.id'
 			. ' ORDER BY cc.ordering'
 		;

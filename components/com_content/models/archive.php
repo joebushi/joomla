@@ -161,12 +161,13 @@ class ContentModelArchive extends JModel
 		// Initialize some variables
 		$user	=& JFactory::getUser();
 		$db		=& JFactory::getDBO();
-		$aid	= (int) $user->get('aid', 0);
+		$acl =& JFactory::getACL();
+		$aid	= implode($acl->getAllowedContent('com_content', 'view'), ',');
 
 		// First thing we need to do is build the access section of the clause
-		$where = ' WHERE a.access <= '.$aid;
-		$where .= ' AND s.access <= '.$aid;
-		$where .= ' AND cc.access <= '.$aid;
+		$where = ' WHERE a.access IN ('.$aid.')';
+		$where .= ' AND s.access IN ('.$aid.')';
+		$where .= ' AND cc.access IN ('.$aid.')';
 		$where .= ' AND s.published = 1';
 		$where .= ' AND cc.published = 1';
 

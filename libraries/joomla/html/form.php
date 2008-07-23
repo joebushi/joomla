@@ -420,13 +420,14 @@ class JForm extends JRegistry
 	 */
 	function loadXML($xml)
 	{
+		$elementTagName = $this->_elementTagName.'s';
 		$result = false;
 
 		$xml = & JFactory::getXMLParser('Simple');
 
 		if ($xml->loadString($xml))
 		{
-			if ($elements = & $xml->document->$_elementTagName.'s') {
+			if ($elements = & $xml->document->$elementTagName) {
 				foreach ($elements as $element)
 				{
 					$this->setXML( $element );
@@ -623,7 +624,7 @@ $name.$cond.$cond_value.'-cond'
 
 	function _render($params, $name = 'params', $cond = '', $cond_value = '', $form = true)
 	{
-		if($cond != '' && $cond_calue != '') {
+		if($cond != '' && $cond_value != '') {
 			$id_prefix = $name.$cond.$cond_value.'-cond';
 		} else {
 			$id_prefix = '';

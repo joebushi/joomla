@@ -121,6 +121,39 @@ class JHTMLMenu
 		return $mitems;
 	}
 
+	/**
+	* Build the multiple select list for Menu Links/Pages
+	*/
+	function menulist( $all=false, $unassigned=false )
+	{
+		$db =& JFactory::getDBO();
+
+		// get a list of the menu items
+		$query = 'SELECT m.id, m.parent, m.name, m.menutype'
+		. ' FROM #__menu AS m'
+		. ' WHERE m.published = 1'
+		. ' ORDER BY m.menutype, m.parent, m.ordering'
+		;
+		$db->setQuery( $query );
+		$mitems = $db->loadObjectList();
+		$mitems_temp = $mitems;
+
+		// establish the hierarchy of the menu
+		$children = array();
+		// first pass - collect children
+		foreach ( $mitems as $v )
+		{
+			$id = $v->id;
+			$pt = $v->parent;
+			$list = @$children[$pt] ? $children[$pt] : array();
+			array_push( $list, $v );
+			$children[$pt] = $list;
+		}
+		// second pass - get an indent list of the items
+		$list = JHTMLMenu::TreeRecurse( intval( $mitems[0]->parent ), '', array(), $children, 9999, 0, 0 );
+		return $list;
+	}
+
 	function treerecurse( $id, $indent, $list, &$children, $maxlevel=9999, $level=0, $type=1 )
 	{
 		if (@$children[$id] && $level <= $maxlevel)

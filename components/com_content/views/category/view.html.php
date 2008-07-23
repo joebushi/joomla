@@ -44,10 +44,7 @@ class ContentViewCategory extends ContentView
 		$params = clone($mainframe->getParams('com_content'));
 
 		// Request variables
-		$layout	= JRequest::getCmd('layout', $params->get('category_layout', ''));
-		if($layout != '') {
-			$this->setLayout('blog');
-		}
+		$layout     = JRequest::getCmd('layout');
 		$task		= JRequest::getCmd('task');
 		$limit = $mainframe->getUserStateFromRequest('limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');

@@ -104,4 +104,5 @@ class JElementCategory extends JElement
 		}
 		$db->setQuery($query);
 		return $db->loadResult();
+	}
 }
