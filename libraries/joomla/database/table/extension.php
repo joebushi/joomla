@@ -17,10 +17,11 @@ defined('JPATH_BASE') or die();
 
 /**
  * Extension table
+ * Replaces plugins table
  *
  * @package 	Joomla.Framework
  * @subpackage		Table
- * @since	1.0
+ * @since	1.6
  */
 class JTableExtension extends JTable
 {
@@ -57,7 +58,7 @@ class JTableExtension extends JTable
 	/** @var int ordering */
 	var $ordering = 0; 
 	/** @var int state State of the extension, either default (0), discovered (-1) */
-	//var $state = 0; 
+	var $state = 0; 
 	
 
 	/**

@@ -24,7 +24,7 @@ if (!$user->authorize('com_installer', 'installer')) {
 }
 
 $ext	= JRequest::getWord('type');
-
+$task 	= JRequest::getWord('task');
 $subMenus = array(
 	'Install' => 'install',
 	'Update' => 'update',
@@ -34,7 +34,8 @@ $subMenus = array(
 
 //JSubMenuHelper::addEntry(JText::_( 'Install' ), '#" onclick="javascript:document.adminForm.type.value=\'\';submitbutton(\'installer\');', !in_array( $ext, $subMenus));
 foreach ($subMenus as $name => $extension) {
-	JSubMenuHelper::addEntry(JText::_( $name ), '#" onclick="javascript:document.adminForm.type.value=\''.$extension.'\';submitbutton(\'manage\');', ($extension == $ext));
+	// TODO: Rewrite this extension so it acts normally and doesn't require this sort of a hack below
+	JSubMenuHelper::addEntry(JText::_( $name ), '#" onclick="javascript:document.adminForm.type.value=\''.$extension.'\';submitbutton(\'manage\');', (($task != 'manage' && $task == $extension) || ($task == 'manage' && $extension == $ext)));
 }
 
 require_once( JPATH_COMPONENT.DS.'controller.php' );

@@ -107,7 +107,7 @@ class JInstallerSQL extends JObject
 			}
 		}
 		// run preflight if possible
-		if($manifestClass && method_exists($manifestClass,'preflight') $manifestClass->preflight('install', $this);	
+		if($manifestClass && method_exists($manifestClass,'preflight')) $manifestClass->preflight('install', $this);	
 		
 		/**
 		 * ---------------------------------------------------------------------------------------------
@@ -308,7 +308,7 @@ class JInstallerSQL extends JObject
 					}
 				}
 				// end legacy support
-				if($manifestClass && method_exists($manifestClass,'install') $manifestClass->install($this);	
+				if($manifestClass && method_exists($manifestClass,'install')) $manifestClass->install($this);	
 				$msg = ob_get_contents();
 				ob_end_clean();
 				if ($msg != '') {
@@ -331,7 +331,7 @@ class JInstallerSQL extends JObject
 		}
 		
 		// And now we run the postflight
-		if($manifestClass && method_exists($manifestClass,'postflight') $manifestClass->postflight('install', $this);
+		if($manifestClass && method_exists($manifestClass,'postflight')) $manifestClass->postflight('install', $this);
 		
 		
 		return true;

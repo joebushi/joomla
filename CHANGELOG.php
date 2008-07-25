@@ -38,6 +38,13 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+25-Jul-2008 Sam Moffatt
+ + Added a state field and some indicies to the jos_extensions table
+ + Added discover and discover_install support in the installer class
+ + Discover tab in admininistrator:com_installer now goes somewhere 
+ + Discover function works for templates
+ + Added an icon to the Khepri template CSS
+
 23-Jul-2008 Sam Moffatt
  ^ Plugins now have their own directory with their group
  + Plugins now have install triggers and SQL support

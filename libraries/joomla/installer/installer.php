@@ -80,6 +80,12 @@ class JInstaller extends JObject
 	var $_stepStack = array();
 
 	/**
+	 * Extension Table Entry
+	 * @var JTableExtension
+	 */
+	var $_extension = null;
+	
+	/**
 	 * The output from the install/uninstall scripts
 	 * @var string
 	 */
@@ -310,11 +316,11 @@ class JInstaller extends JObject
 				case 'extension' :
 					// Get database connector object
 					$db =& $this->getDBO();
-
+					
 					// Remove the entry from the #__extensions table
 					$query = 'DELETE' .
 							' FROM `#__extensions`' .
-							' WHERE id='.(int)$step['id'];
+							' WHERE id = '.(int)$step['id'];
 					$db->setQuery($query);
 					$stepval = $db->Query();
 					break;
@@ -377,7 +383,69 @@ class JInstaller extends JObject
 		}
 		return false;
 	}
+	
+	/*
+	 * Discovered package installation method
+	 *
+	 * @access	public
+	 * @param	string	$path	Path to package source folder
+	 * @return	boolean	True if successful
+	 * @since	1.5
+	 */
+	function discover_install($eid=null)
+	{
+		if($eid) {
+			$this->_extension =& JTable::getInstance('extension');
+			if(!$this->_extension->load($eid)) {
+				$this->abort(JText::_('Failed to load extension details'));
+				return false;
+			} 
+			if($this->_extension->state != -1) {
+				$this->abort(JText::_('Extension is not valid'));
+				return false;
+			}
+			
+			// Lazy load the adapter
+			if (!isset($this->_adapters[$type]) || !is_object($this->_adapters[$type])) {
+				if (!$this->setAdapter($type)) {
+					return false;
+				}
+			}
+			
+			if (is_object($this->_adapters[$this->_extension->type])) {
+				// Run the install 
+				return $this->_adapters[$type]->discover_install();
+			}
+			return false;
+		} else {
+			$this->abort(JText::_('Extension is not a valid'));
+			return false;
+		}
+	}	
 
+	/**
+	 * Extension discover method
+	 * Asks each adapter to find extensions
+	 * 
+	 * @access public
+	 * @return Array JExtension
+	 */
+	function discover() {
+		$this->loadAllAdapters();
+		$results = Array();
+		print_r($this->_adapters);
+		foreach($this->_adapters as $adapter) {
+			// Legacy 1.5 Support for installer adapters that don't support discovery
+			if(method_exists($adapter,'discover')) {
+				$tmp = $adapter->discover();
+				if(is_array($tmp)) {
+					$results = array_merge($tmp, $results);
+				}
+			}
+		}	
+		return $results;
+	}
+	
 	/**
 	 * Package update method
 	 *
@@ -1224,5 +1292,26 @@ class JInstaller extends JObject
 	 */
 	function generateManifestCache() {
 		return serialize(JApplicationHelper::parseXMLInstallFile($this->getPath('manifest')));
+	}
+	
+	/**
+	 * Loads all adapters
+	 */
+	function loadAllAdapters() {
+		$list = JFolder::files(dirname(__FILE__).DS.'adapters');
+		foreach($list as $filename) {
+			if(JFile::getExt($filename) == 'php') {
+				// Try to load the adapter object
+				require_once(dirname(__FILE__).DS.'adapters'.DS.$filename);
+				$name = JFile::stripExt($filename);
+				$class = 'JInstaller'.ucfirst($name);
+				if (!class_exists($class)) {
+					return false;
+				}
+				$adapter = new $class($this);
+				$adapter->parent =& $this;
+				$this->_adapters[$name] =& $adapter;
+			}
+		}
 	}
 }

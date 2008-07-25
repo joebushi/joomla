@@ -14,6 +14,7 @@
 
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();
+jimport('joomla.installer.extension');
 
 /**
  * Template installer
@@ -255,5 +256,27 @@ class JInstallerTemplate extends JObject
 		$row->delete($row->extensionid);
 		unset($row);
 		return $retval;
+	}
+	
+	function discover() {
+		$results = Array();
+		$site_list = JFolder::folders(JPATH_SITE.DS.'templates');
+		$admin_list = JFolder::folders(JPATH_ADMINISTRATOR.DS.'templates');
+		$site_info = JApplicationHelper::getClientInfo('site', true);
+		$admin_info = JApplicationHelper::getClientInfo('administrator', true);
+		foreach($site_list as $template) {
+			$extension =& JTable::getInstance('extension');
+			$extension->type = 'template';
+			$extension->client_id = $site_info->id;
+			$extension->element = $template;
+			$extension->name = $template;
+		}
+		foreach($admin_list as $template) {
+			$extension =& JTable::getInstance('extension');
+			$extension->type = 'template';
+			$extension->client_id = $admin_info->id;
+			$extension->element = $template;
+			$extension->name = $template;
+		}
 	}
 }

@@ -23,6 +23,7 @@ defined('JPATH_BASE') or die();
  * @subpackage	Installer
  * @since		1.6
  */
+// TODO: Merge this into JTableExtension?
 class JExtension extends JObject {
 		
 	var $filename = '';

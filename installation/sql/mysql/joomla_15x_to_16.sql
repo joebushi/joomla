@@ -20,7 +20,13 @@ CREATE TABLE  `jos_extensions` (
   `checked_out` int(10) unsigned NOT NULL default '0',
   `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
   `ordering` int(11) default '0',
-  PRIMARY KEY  (`extensionid`)
+  `state` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`extensionid`),
+  KEY `type_element` (`type`,`element`),
+  KEY `element_clientid` (`element`,`client_id`),
+  KEY `element_folder_clientid` (`element`,`folder`,`client_id`),
+  KEY `element_folder` (`element`,`folder`),
+  KEY `extension` (`type`,`element`,`folder`,`client_id`)
 ) TYPE=MyISAM CHARACTER SET `utf8`;
 
 # Earlier versions of this file didn't have the checkout and ordering fields
@@ -31,6 +37,15 @@ ALTER TABLE `jos_extensions` ADD COLUMN `checked_out` INTEGER UNSIGNED NOT NULL 
 # Earlier versions used 'data' instead of 'custom_data' and 'system_data'
 ALTER TABLE `jos_extensions` CHANGE COLUMN `data` `custom_data` TEXT NOT NULL,
  ADD COLUMN `system_data` TEXT  NOT NULL AFTER `custom_data`;
+
+# Earlier versions didn't have a state field; used for discovered extensions
+ALTER TABLE `jos_extensions` ADD COLUMN `state` INTEGER  NOT NULL DEFAULT 0 AFTER `ordering`;
+
+# Added some indicies
+ALTER TABLE `jos_extensions` ADD INDEX `type_element`(`type`, `element`),
+ ADD INDEX `element_clientid`(`element`, `client_id`),
+ ADD INDEX `element_folder_clientid`(`element`, `folder`, `client_id`).
+ ADD INDEX `extension`(`type`,`element`,`folder`,`client_id`);
 
 
 # Migration script; adds modules, plugins and components to the extensions table
