@@ -38,6 +38,12 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+-------------------- 1.5.5 Stable Release [27-July-2008] ---------------------
+
+26-July-2008 Anthony Ferrara
+ # [#11973] Section Layout chooses existing Category Blog for drill down using SEF URLs
+ # [#11737] Archive and SEO
+
 22-July-2008 Anthony Ferrara
  # [#11682] component login error with SEF
  # [#11888] Archive Article Error With Finish Publishing Date
