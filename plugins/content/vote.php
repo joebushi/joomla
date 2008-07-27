@@ -23,8 +23,14 @@ function plgContentVote( &$row, &$params, $page=0 )
 	$id 	= $row->id;
 	$html 	= '';
 
-	if (isset($row->rating_count) && $params->get( 'show_vote' ) && !$params->get( 'popup' ))
+	if ($params->get( 'show_vote' ) && !$params->get( 'popup' ))
 	{
+		if($params->get('rating_count') != 0)
+		{
+			$rating = ($params->get('rating_sum') / $params->get('rating_count'));
+		} else {
+			$rating = 0;
+		}
 		JPlugin::loadLanguage( 'plg_content_vote' );
 		$html .= '<form method="post" action="' . $uri->toString( ) . '">';
 		$img = '';
@@ -33,15 +39,15 @@ function plgContentVote( &$row, &$params, $page=0 )
 		$starImageOn 	= JHTML::_('image.site',  'rating_star.png', '/images/M_images/' );
 		$starImageOff 	= JHTML::_('image.site',  'rating_star_blank.png', '/images/M_images/' );
 
-		for ($i=0; $i < $row->rating; $i++) {
+		for ($i=0; $i < (int) $rating; $i++) {
 			$img .= $starImageOn;
 		}
-		for ($i=$row->rating; $i < 5; $i++) {
+		for ($i= (int) $rating; $i < 5; $i++) {
 			$img .= $starImageOff;
 		}
 		$html .= '<span class="content_rating">';
 		$html .= JText::_( 'User Rating' ) .':'. $img .'&nbsp;/&nbsp;';
-		$html .= intval( $row->rating_count );
+		$html .= intval( $params->get('rating_count') );
 		$html .= "</span>\n<br />\n";
 
 		if (!$params->get( 'intro_only' ))

@@ -430,39 +430,24 @@ class ContentModelArticle extends JModel
 		{
 			$userIP =  $_SERVER['REMOTE_ADDR'];
 
-			$query = 'SELECT *' .
-					' FROM #__content_rating' .
-					' WHERE content_id = '.(int) $this->_id;
+			$query = 'SELECT attribs' .
+					' FROM #__content' .
+					' WHERE id = '.(int) $this->_id;
 			$this->_db->setQuery($query);
-			$rating = $this->_db->loadObject();
+			$rating = $this->_db->loadResult();
+			jimport('joomla.html.parameter');
+			$params = new JParameter($rating);
 
-			if (!$rating)
+			if ($userIP != $params->get('lastip'))
 			{
-				// There are no ratings yet, so lets insert our rating
-				$query = 'INSERT INTO #__content_rating ( content_id, lastip, rating_sum, rating_count )' .
-						' VALUES ( '.(int) $this->_id.', '.$this->_db->Quote($userIP).', '.(int) $rate.', 1 )';
+				$params->set('rating_sum', (int) $params->get('rating_sum') + (int) $rate);
+				$params->set('rating_count', (int) $params->get('rating_count') + 1);
+				$params->set('lastip', $userIP);
+				$query = 'UPDATE #__content SET attribs = '.$this->_db->Quote($params->toString()).' WHERE id = '.(int) $this->_id;
 				$this->_db->setQuery($query);
-				if (!$this->_db->query()) {
-					JError::raiseError( 500, $this->_db->stderr());
-				}
-			}
-			else
-			{
-				if ($userIP != ($rating->lastip))
-				{
-					// We weren't the last voter so lets add our vote to the ratings totals for the article
-					$query = 'UPDATE #__content_rating' .
-							' SET rating_count = rating_count + 1, rating_sum = rating_sum + '.(int) $rate.', lastip = '.$this->_db->Quote($userIP) .
-							' WHERE content_id = '.(int) $this->_id;
-					$this->_db->setQuery($query);
-					if (!$this->_db->query()) {
-						JError::raiseError( 500, $this->_db->stderr());
-					}
-				}
-				else
-				{
-					return false;
-				}
+				$this->_db->Query();
+			} else {
+				return false;
 			}
 			return true;
 		}

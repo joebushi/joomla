@@ -254,20 +254,6 @@ CREATE TABLE `#__content_frontpage` (
 
 # --------------------------------------------------------
 
-#
-# Table structure for table `#__content_rating`
-#
-
-CREATE TABLE `#__content_rating` (
-  `content_id` int(11) NOT NULL default '0',
-  `rating_sum` int(11) unsigned NOT NULL default '0',
-  `rating_count` int(11) unsigned NOT NULL default '0',
-  `lastip` varchar(50) NOT NULL default '',
-  PRIMARY KEY  (`content_id`)
-) TYPE=MyISAM CHARACTER SET `utf8`;
-
-# --------------------------------------------------------
-
 # Table structure for table `#__core_log_items`
 
 CREATE TABLE `#__core_log_items` (

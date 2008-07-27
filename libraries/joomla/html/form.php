@@ -93,6 +93,8 @@ class JForm extends JRegistry
 	 * @since	1.6
 	 */
 	var $_html = array();
+	
+	var $_hiddenElements = array();
 
 	/**
 	 * The conditional informations for the params elements
@@ -268,14 +270,14 @@ class JForm extends JRegistry
 			$this->_html[]	= '<tr><td class="paramlist_description" colspan="2">'.$desc.'</td></tr>';
 		}
 
-		$this->_render($this->_xml[$group]->children(), $name, '', '', $form);
+		$this->_render($this->_xml[$group]->children(), $group, $name, '', '', $form);
 
 		if (count($this->_xml[$group]->children()) < 1) {
 			$this->_html[] = "<tr><td colspan=\"2\"><i>".JText::_('There are no Parameters for this item')."</i></td></tr>";
 		}
 
 		$this->_html[] = '</table>';
-		return implode("\n", $this->_html);
+		return implode("\n", $this->_html).implode("\n", $this->_hiddenElements);
 	}
 
 	/**
@@ -622,7 +624,7 @@ $name.$cond.$cond_value.'-cond'
 	}
 **/
 
-	function _render($params, $name = 'params', $cond = '', $cond_value = '', $form = true)
+	function _render($params, $group, $name = 'params', $cond = '', $cond_value = '', $form = true)
 	{
 		if($cond != '' && $cond_value != '') {
 			$id_prefix = $name.$cond.$cond_value.'-cond';
@@ -639,22 +641,28 @@ $name.$cond.$cond_value.'-cond'
 				}
 			} else {
 				$result = $this->getElement($param, $name, '_default', $form);
-				if($id_prefix != '') {
-					$id = ' id="'.$id_prefix.$this->_cond[$name][$cond][$cond_value].'"';
-					$this->_cond[$name][$cond][$cond_value]++;
+				if($param->attributes('type') == 'hidden')
+				{
+					$this->_hiddenElements[] = $result[1];
+					
 				} else {
-					$id = '';
-				}
-				$this->_html[] = '<tr'.$id.'>';
+					if($id_prefix != '') {
+						$id = ' id="'.$id_prefix.$this->_cond[$name][$cond][$cond_value].'"';
+						$this->_cond[$name][$cond][$cond_value]++;
+					} else {
+						$id = '';
+					}
+					$this->_html[] = '<tr'.$id.'>';
 
-				if ($result[0]) {
-					$this->_html[] = '<td width="40%" class="paramlist_key"><span class="editlinktip">'.$result[0].'</span></td>';
-					$this->_html[] = '<td class="paramlist_value">'.$result[1].'</td>';
-				} else {
-					$this->_html[] = '<td class="paramlist_value" colspan="2">'.$result[1].'</td>';
-				}
+					if ($result[0]) {
+						$this->_html[] = '<td width="40%" class="paramlist_key"><span class="editlinktip">'.$result[0].'</span></td>';
+						$this->_html[] = '<td class="paramlist_value">'.$result[1].'</td>';
+					} else {
+						$this->_html[] = '<td class="paramlist_value" colspan="2">'.$result[1].'</td>';
+					}
 
-				$this->_html[] = '</tr>';
+					$this->_html[] = '</tr>';
+				}
 			}
 		}
 	}

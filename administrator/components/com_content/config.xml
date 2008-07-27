@@ -101,6 +101,9 @@
 			default="" label="Filter Tags" description="TIPSFILTERTAGS" />
 		<param name="filter_attritbutes" type="text" menu="hide"
 			default="" label="Filter Attributes" description="TIPSFILTERATTRIBUTES" />
+		<param name="rating_sum" type="hidden" value="0" />
+		<param name="rating_count" type="hidden" value="0" />
+		<param name="lastip" type="hidden" value="0" />
 
 	</params>
 </config>
