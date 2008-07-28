@@ -38,6 +38,11 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-July-2008 Hannes Papenberg
+ # [#10906] Error in JURI::buildQuery if using "param[key]=value" GET parameter
+ # [#11327] Base path showed in media manager is missing slashes
+ # [#11870] Type mismatch in 3 module helpers
+
 -------------------- 1.5.5 Stable Release [27-July-2008] ---------------------
 
 26-July-2008 Anthony Ferrara

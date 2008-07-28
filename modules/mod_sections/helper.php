@@ -27,14 +27,14 @@ class modSectionsHelper
 
 		$count	= intval($params->get('count', 20));
 		$contentConfig 	= &JComponentHelper::getParams( 'com_content' );
-		$access	= !$contentConfig->get('shownoauth');
+		$access	= !$contentConfig->get('show_noauth');
 
 		$gid 		= $user->get('aid', 0);
 		$now		= date('Y-m-d H:i:s', time() + $mainframe->getCfg('offset') * 60 * 60);
 		$nullDate	= $db->getNullDate();
 
 
-		$query = 'SELECT a.id AS id, a.title AS title, COUNT(b.id) as cnt' .
+		$query = 'SELECT a.id AS id, a.title AS title, a.access, COUNT(b.id) as cnt' .
 			' FROM #__sections as a' .
 			' LEFT JOIN #__content as b ON a.id = b.sectionid' .
 			($access ? ' AND b.access <= '.(int) $gid : '') .
@@ -48,6 +48,16 @@ class modSectionsHelper
 			' ORDER BY a.ordering';
 		$db->setQuery($query, 0, $count);
 		$rows = $db->loadObjectList();
+
+		foreach($rows as &$row)
+		{
+			if($row->access <= $gid)
+			{
+				$row->link = JRoute::_(ContentHelperRoute::getSectionRoute($row->id));
+			} else {
+				$row->link = JRoute::_('index.php?option=com_user&view=login');
+			}
+		}
 
 		return $rows;
 	}

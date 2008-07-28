@@ -4,7 +4,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 foreach ($list as $item) :
 ?>
 <li>
-	<a href="<?php echo JRoute::_(ContentHelperRoute::getSectionRoute($item->id)); ?>">
+	<a href="<?php echo $item->link; ?>">
 		<?php echo $item->title;?></a>
 </li>
 <?php endforeach; ?>

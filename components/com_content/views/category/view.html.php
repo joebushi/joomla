@@ -236,7 +236,7 @@ class ContentViewCategory extends ContentView
 			}
 			else
 			{
-				$item->readmore_link = JRoute::_("index.php?option=com_user&task=register");
+				$item->readmore_link = JRoute::_('index.php?option=com_user&view=login');
 				$item->readmore_register = true;
 			}
 		}
