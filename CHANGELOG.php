@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Jul-2008 Sam Moffatt
+ + Added discover_install functionality to templates and com_installer
+
 25-Jul-2008 Sam Moffatt
  + Added a state field and some indicies to the jos_extensions table
  + Added discover and discover_install support in the installer class

@@ -105,6 +105,16 @@ class InstallerController extends JController
 		$view->setModel( $model, true );
 		$view->display();
 	}
+	
+	function discover_install() {
+		$model = &$this->getModel('discover');
+		$view = &$this->getView( 'discover' );
+		$model->discover_install();
+		$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
+		$view->assignRef('ftp', $ftp);
+		$view->setModel( $model, true );
+		$view->display();
+	}
 
 	/**
 	 * Enable an extension (If supported)

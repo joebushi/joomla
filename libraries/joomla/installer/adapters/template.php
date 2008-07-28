@@ -297,16 +297,17 @@ class JInstallerTemplate extends JObject
 	function discover_install() {
 		// Templates are one of the easiest
 		// If its not in the extensions table we just add it
-		$client = JApplicationHelper::getClientInfo($this->_extension->client_id);
-		$manifestPath = $client->path . DS . 'templates'. DS . $this->_extension->element . DS . 'templateDetails.xml';
-		$this->setPath('manifest', $manifestPath);
-		$manifest_details = JApplicationHelper::parseXMLInstallFile($this->getPath('manifest'));
-		$this->_extension->manifestcache = serialize($manifest_details);
-		$this->_extension->state = 0;
-		$this->_extension->name = $manifest_details['name'];
-		$this->_extension->enabled = 1;
-		$this->_extension->params = $this->parent->getParams();
-		if($this->_extension->store()) {
+		$client = JApplicationHelper::getClientInfo($this->parent->_extension->client_id);
+		$manifestPath = $client->path . DS . 'templates'. DS . $this->parent->_extension->element . DS . 'templateDetails.xml';
+		$this->parent->_manifest = $this->parent->_isManifest($manifestPath);
+		$this->parent->setPath('manifest', $manifestPath);
+		$manifest_details = JApplicationHelper::parseXMLInstallFile($this->parent->getPath('manifest'));
+		$this->parent->_extension->manifestcache = serialize($manifest_details);
+		$this->parent->_extension->state = 0;
+		$this->parent->_extension->name = $manifest_details['name'];
+		$this->parent->_extension->enabled = 1;
+		$this->parent->_extension->params = $this->parent->getParams();
+		if($this->parent->_extension->store()) {
 			return true;
 		} else {
 			JError::raiseWarning(101, JText::_('Template').' '.JText::_('Discover Install').': '.JText::_('Failed to store extension details'));

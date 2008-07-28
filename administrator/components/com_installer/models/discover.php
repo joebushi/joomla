@@ -100,4 +100,25 @@ class InstallerModelDiscover extends InstallerModel
 			}
 		}
 	}
+	
+	function discover_install() {
+		$installer =& JInstaller::getInstance();
+		$eid = JRequest::getVar('eid',0);
+		$app =& JFactory::getApplication();
+		if($eid) {
+			$result = $installer->discover_install($eid);
+			if($result) { 
+				$app->enqueueMessage(JText::_('Discover install successful'));
+			} else {
+				$app->enqueueMEssage(JText::_('Discover install failed'));
+			}
+			$this->setState('action', 'remove');
+			$this->setState('name', $installer->get('name'));
+			$this->setState('message', $installer->message);
+			$this->setState('extension.message', $installer->get('extension.message'));
+		} else {
+			$app =& JFactory::getApplication();
+			$app->enqueueMessage(JText::_('No extension selected'));
+		}
+	}
 }

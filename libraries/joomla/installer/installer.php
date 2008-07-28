@@ -406,16 +406,16 @@ class JInstaller extends JObject
 			}
 			
 			// Lazy load the adapter
-			if (!isset($this->_adapters[$type]) || !is_object($this->_adapters[$type])) {
-				if (!$this->setAdapter($type)) {
+			if (!isset($this->_adapters[$this->_extension->type]) || !is_object($this->_adapters[$this->_extension->type])) {
+				if (!$this->setAdapter($this->_extension->type)) {
 					return false;
 				}
 			}
 			
 			if (is_object($this->_adapters[$this->_extension->type])) {
-				if(method_exists($this->_adapters[$type], 'discover_install')) {
+				if(method_exists($this->_adapters[$this->_extension->type], 'discover_install')) {
 					// Run the install 
-					return $this->_adapters[$type]->discover_install();					
+					return $this->_adapters[$this->_extension->type]->discover_install();					
 				} else {
 					$this->abort(JText::_('Method not supported for this extension type'));
 					return false;
