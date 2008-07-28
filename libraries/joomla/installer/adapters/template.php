@@ -165,7 +165,7 @@ class JInstallerTemplate extends JObject
 		$row->name = $this->get('name');
 		$row->type = 'template';
 		$row->element = $this->get('name');
-		$row->folder = ''; // There is no folder for modules
+		$row->folder = ''; // There is no folder for templates
 		$row->enabled = 1;
 		$row->protected = 0;
 		$row->access = 0;
@@ -258,6 +258,10 @@ class JInstallerTemplate extends JObject
 		return $retval;
 	}
 	
+	/**
+	 * Discover existing but uninstalled templates
+	 * @return Array JExtensionTable list
+	 */
 	function discover() {
 		$results = Array();
 		$site_list = JFolder::folders(JPATH_SITE.DS.'templates');
@@ -270,6 +274,8 @@ class JInstallerTemplate extends JObject
 			$extension->client_id = $site_info->id;
 			$extension->element = $template;
 			$extension->name = $template;
+			$extension->state = -1;
+			$results[] = $extension;
 		}
 		foreach($admin_list as $template) {
 			$extension =& JTable::getInstance('extension');
@@ -277,6 +283,32 @@ class JInstallerTemplate extends JObject
 			$extension->client_id = $admin_info->id;
 			$extension->element = $template;
 			$extension->name = $template;
+			$extension->state = -1;
+			$results[] = $extension;
+		}
+		return $results;
+	}
+	
+	/**
+	 * Perform an install from a discovered extension
+	 */
+	function discover_install() {
+		// Templates are one of the easiest
+		// If its not in the extensions table we just add it
+		$client = JApplicationHelper::getClientInfo($this->_extension->client_id);
+		$manifestPath = $client->path . DS . 'templates'. DS . $this->_extension->element . DS . 'templateDetails.xml';
+		$this->setPath('manifest', $manifestPath);
+		$manifest_details = JApplicationHelper::parseXMLInstallFile($this->getPath('manifest'));
+		$this->_extension->manifestcache = serialize($manifest_details);
+		$this->_extension->state = 0;
+		$this->_extension->name = $manifest_details['name'];
+		$this->_extension->enabled = 1;
+		$this->_extension->params = $this->parent->getParams();
+		if($this->_extension->store()) {
+			return true;
+		} else {
+			JError::raiseWarning(101, JText::_('Template').' '.JText::_('Discover Install').': '.JText::_('Failed to store extension details'));
+			return false;
 		}
 	}
 }

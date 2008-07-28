@@ -413,8 +413,13 @@ class JInstaller extends JObject
 			}
 			
 			if (is_object($this->_adapters[$this->_extension->type])) {
-				// Run the install 
-				return $this->_adapters[$type]->discover_install();
+				if(method_exists($this->_adapters[$type], 'discover_install')) {
+					// Run the install 
+					return $this->_adapters[$type]->discover_install();					
+				} else {
+					$this->abort(JText::_('Method not supported for this extension type'));
+					return false;
+				}
 			}
 			return false;
 		} else {
@@ -433,14 +438,15 @@ class JInstaller extends JObject
 	function discover() {
 		$this->loadAllAdapters();
 		$results = Array();
-		print_r($this->_adapters);
 		foreach($this->_adapters as $adapter) {
-			// Legacy 1.5 Support for installer adapters that don't support discovery
+			// Joomla! 1.5 installation adapter legacy support
 			if(method_exists($adapter,'discover')) {
 				$tmp = $adapter->discover();
-				if(is_array($tmp)) {
-					$results = array_merge($tmp, $results);
-				}
+				// if its an array and has entries
+				if(is_array($tmp) && count($tmp)) {
+					// merge it into the system
+					$results = array_merge($results, $tmp);
+				}	
 			}
 		}	
 		return $results;
@@ -1310,7 +1316,7 @@ class JInstaller extends JObject
 				}
 				$adapter = new $class($this);
 				$adapter->parent =& $this;
-				$this->_adapters[$name] =& $adapter;
+				$this->_adapters[$name] = clone($adapter);
 			}
 		}
 	}

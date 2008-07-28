@@ -47,9 +47,11 @@ class InstallerModelDiscover extends InstallerModel
 		$query = 'SELECT *' .
 				' FROM #__extensions' .
 				' WHERE state = -1' .
-				' ORDER BY type, name';
+				' ORDER BY type, client_id, folder, name';
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
+		
+		$apps =& JApplicationHelper::getClientInfo();
 		
 		$numRows = count($rows);
 		for($i=0;$i < $numRows; $i++)
@@ -64,6 +66,11 @@ class InstallerModelDiscover extends InstallerModel
 				}
 			}
 			$row->jname = JString::strtolower(str_replace(" ", "_", $row->name));
+			if(isset($apps[$row->client_id])) {
+				$row->client = ucfirst($apps[$row->client_id]->name);
+			} else {
+				$row->client = $row->client_id;
+			}
 		}
 		$this->setState('pagination.total', $numRows);
 		if($this->_state->get('pagination.limit') > 0) {
@@ -76,9 +83,21 @@ class InstallerModelDiscover extends InstallerModel
 	function discover() {
 		$installer =& JInstaller::getInstance();
 		$results = $installer->discover();
+		// Get all templates, including discovered ones
+		$query = 'SELECT * FROM #__extensions';
+		$dbo =& JFactory::getDBO();
+		$dbo->setQuery($query);
+		$installed = $dbo->loadObjectList('element');
 		foreach($results as $result) {
-		//	$result->store(); // put it into the table
+			// check if we have a match on the element
+			if(!array_key_exists($result->element, $installed)) {
+				// since the element doesn't exist, its definitely new
+				$result->store(); // put it into the table	
+				echo '<p>Added: <pre>'.print_r($result,1).'</pre></p>';
+			} else {
+				// an element exists that matches this
+				echo '<p>Ignored: '. $result->name .'</p>';
+			}
 		}
-		print_r($results);
 	}
 }

@@ -114,9 +114,12 @@ class InstallerModelManage extends InstallerModel
 
 		$query = 'SELECT *' .
 				' FROM #__extensions' .
-				' ORDER BY protected, type, name';
+				' WHERE state > -1' .
+				' ORDER BY protected, type, client_id, folder, name';
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
+		
+		$apps =& JApplicationHelper::getClientInfo();
 		
 		$numRows = count($rows);
 		for($i=0;$i < $numRows; $i++)
@@ -131,6 +134,11 @@ class InstallerModelManage extends InstallerModel
 				}
 			}
 			$row->jname = JString::strtolower(str_replace(" ", "_", $row->name));
+			if(isset($apps[$row->client_id])) {
+				$row->client = ucfirst($apps[$row->client_id]->name);
+			} else {
+				$row->client = $row->client_id;
+			}
 		}
 		$this->setState('pagination.total', $numRows);
 		if($this->_state->get('pagination.limit') > 0) {

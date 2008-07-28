@@ -1112,4 +1112,19 @@ class JInstallerComponent extends JObject
 		$db->setQuery($query);
 		return ($db->query() !== false);
 	}
+	
+	function discover() {
+		$results = Array();
+		$components = array_merge(JFolder::folders(JPATH_SITE.DS.'components'),JFolder::folders(JPATH_ADMINISTRATOR.DS.'components'));
+		foreach($components as $component) {
+			$extension =& JTable::getInstance('extension');
+			$extension->type = 'component';
+			$extension->client_id = 0;
+			$extension->element = $component;
+			$extension->name = $component;
+			$extension->state = -1;
+			$results[] = $extension;
+		}
+		return $results;
+	}
 }
