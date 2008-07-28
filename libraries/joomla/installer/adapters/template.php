@@ -269,6 +269,7 @@ class JInstallerTemplate extends JObject
 		$site_info = JApplicationHelper::getClientInfo('site', true);
 		$admin_info = JApplicationHelper::getClientInfo('administrator', true);
 		foreach($site_list as $template) {
+			if($template == 'system') continue; // ignore special system template
 			$extension =& JTable::getInstance('extension');
 			$extension->type = 'template';
 			$extension->client_id = $site_info->id;
@@ -278,6 +279,7 @@ class JInstallerTemplate extends JObject
 			$results[] = $extension;
 		}
 		foreach($admin_list as $template) {
+			if($template == 'system') continue; // ignore special system template
 			$extension =& JTable::getInstance('extension');
 			$extension->type = 'template';
 			$extension->client_id = $admin_info->id;
