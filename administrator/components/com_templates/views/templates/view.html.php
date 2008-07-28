@@ -36,11 +36,11 @@ class TemplatesViewTemplates extends JView
 		$client		= & $this->get( 'Client');
 
 		$task = JRequest::getCmd('task');
-		
-		if ($client == 1) {
+
+		if ($client->id == 1) {
 			JSubMenuHelper::addEntry(JText::_('Site'), 'index.php?option=com_templates&client=0');
 			JSubMenuHelper::addEntry(JText::_('Administrator'), 'index.php?option=com_templates&client=1', true);
-		} elseif ($client == 0 && !$task) {
+		} elseif ($client->id == 0 && !$task) {
 			JSubMenuHelper::addEntry(JText::_('Site'), 'index.php?option=com_templates&client=0', true);
 			JSubMenuHelper::addEntry(JText::_('Administrator'), 'index.php?option=com_templates&client=1');
 		} else {

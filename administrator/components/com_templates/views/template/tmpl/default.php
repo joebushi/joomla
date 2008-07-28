@@ -58,10 +58,9 @@
 		</table>
 	</fieldset>
 </div>
-
+<?php if($this->client->id == 1) { ?>
 <div class="col width-50">
 	<fieldset class="adminform">
-<?php if($this->client->id == 1) { ?>
 		<legend><?php echo JText::_( 'Parameters' ); ?></legend>
 		<table class="admintable">
 		<tr>
@@ -77,8 +76,12 @@
 		</tr>
 		</table>
 <?php } else { ?>
+<div class="col width-50">
+	<fieldset class="adminform">
 		<legend><?php echo JText::_( 'Assignments' ); ?></legend>
+		<div style="height:200px;overflow:auto;">
 		<?php echo implode($this->assignments, ''); ?>
+		</div>
 <?php } ?>
 	</fieldset>
 </div>

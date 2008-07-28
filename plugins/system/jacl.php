@@ -476,7 +476,7 @@ class JAuthorizationJACLAction
 			$db =& JFactory::getDBO();
 			$query = 'SELECT id, section_value as extension, name, value FROM #__core_acl_aco';
 			$db->setQuery($query);
-			$contentItems = $db->loadObjectList();
+			$actions = $db->loadObjectList();
 			foreach($actions as $action)
 			{
 				$this->_actions[$action->extension][$action->value] = $action;

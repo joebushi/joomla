@@ -115,7 +115,13 @@ class TemplatesModelTemplate extends JModel
 	function &getParams()
 	{
 		$this->getData();
-		return $this->_params;
+		if(is_file(JPATH_THEMES.DS.$this->_id.DS.'templateDetails.xml'))
+		{
+			$params = new JParameter($this->_assignments[JRequest::getVar('menuid', 0)]->params, JPATH_THEMES.DS.$this->_id.DS.'templateDetails.xml');
+			return $params;
+		}
+		$params = new JParameter('');
+		return $params;
 	}
 
 	function &getTemplate()

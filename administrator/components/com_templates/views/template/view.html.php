@@ -31,6 +31,11 @@ class TemplatesViewTemplate extends JView
 	{
 		global $option;
 		
+		if(JRequest::getVar('layout') == 'edit')
+		{
+			$this->_edit($tpl);
+			return;
+		}
 		jimport('joomla.filesystem.path');
 		$this->loadHelper('template');
 
@@ -64,6 +69,7 @@ class TemplatesViewTemplate extends JView
 
 		$lastMenuType	= null;
 		$tmpMenuType	= null;
+
 		foreach ($list as $list_a)
 		{
 			if ($list_a->menutype != $lastMenuType)
@@ -78,7 +84,7 @@ class TemplatesViewTemplate extends JView
 
 			if(isset($assignments[$list_a->id]))
 			{
-				$mitems[] = '<li><a href="index.php?option=com_templates&view=template&layout=edit&cid[]='.$this->row->directory.'&menuid='.$list_a->id.'"><img src="tick.png" width="16" height="16" /></a>'.$list_a->treename.'</li>';
+				$mitems[] = '<li><a href="index.php?option=com_templates&view=template&layout=edit&cid[]='.$row->directory.'&menuid='.$list_a->id.'"><img src="tick.png" width="16" height="16" />'.$list_a->treename.'</a></li>';
 			} else {
 				$mitems[] = '<li>'.$list_a->treename.'</li>';
 			}
@@ -88,19 +94,44 @@ class TemplatesViewTemplate extends JView
 			$mitems[] = '</ul></li></ul>';
 		}
 
-		// Set FTP credentials, if given
-		jimport('joomla.client.helper');
-		$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
-
 		$this->assignRef('lists',		$lists);
 		$this->assignRef('row',			$row);
 		$this->assignRef('option',		$option);
 		$this->assignRef('client',		$client);
-		$this->assignRef('ftp',			$ftp);
 		$this->assignRef('template',	$template);
 		$this->assignRef('assignments', $mitems);
 		$this->assignRef('params',		$params);
 
 		parent::display($tpl);
+	}
+	
+	function _edit($tpl = null)
+	{
+		global $option;
+		$this->setLayout('edit');
+		
+		JToolBarHelper::title( JText::_( 'Template' ) . ': <small><small>[ '. JText::_( 'Edit' ) .' ]</small></small>', 'thememanager' );
+		JToolBarHelper::save();
+		JToolBarHelper::cancel();
+		JToolBarHelper::help( 'screen.template_edit' );
+
+		$client		=& $this->get('Client');
+		$template	=& $this->get('Template');
+		$row		=& $this->get('Data');
+		
+		$params		=& $this->get('Params');
+		if($client->id == '1')  {
+			$lists['selections'] =  JText::_('Cannot assign an administrator template');
+		} else {
+			$lists['selections'] = TemplatesHelper::createMenuList($template);
+		}
+				
+		$this->assignRef('row',			$row);
+		$this->assignRef('lists',		$lists);
+		$this->assignRef('params', $params);
+		$this->assignRef('client',		$client);
+		$this->assignRef('option',		$option);
+
+		parent::display($tpl);		
 	}
 }

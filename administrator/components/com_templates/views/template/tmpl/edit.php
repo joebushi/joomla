@@ -1,43 +1,6 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 
-<?php
-	JHTML::_('behavior.tooltip');
-?>
-
 <form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="adminForm">
-
-<?php if($this->ftp): ?>
-<fieldset title="<?php echo JText::_('DESCFTPTITLE'); ?>" class="adminform">
-	<legend><?php echo JText::_('DESCFTPTITLE'); ?></legend>
-
-	<?php echo JText::_('DESCFTP'); ?>
-
-	<?php if(JError::isError($this->ftp)): ?>
-		<p><?php echo JText::_($this->ftp->message); ?></p>
-	<?php endif; ?>
-
-	<table class="adminform nospace">
-	<tbody>
-	<tr>
-		<td width="120">
-			<label for="username"><?php echo JText::_('Username'); ?>:</label>
-		</td>
-		<td>
-			<input type="text" id="username" name="username" class="input_box" size="70" value="" />
-		</td>
-	</tr>
-	<tr>
-		<td width="120">
-			<label for="password"><?php echo JText::_('Password'); ?>:</label>
-		</td>
-		<td>
-			<input type="password" id="password" name="password" class="input_box" size="70" value="" />
-		</td>
-	</tr>
-	</tbody>
-	</table>
-</fieldset>
-<?php endif; ?>
 
 <div class="col width-50">
 	<fieldset class="adminform">
@@ -138,21 +101,29 @@
 <div class="col width-50">
 	<fieldset class="adminform">
 		<legend><?php echo JText::_( 'Parameters' ); ?></legend>
-		<?php $this->templatefile = DS.'templates'.DS.$this->template.DS.'params.ini';
-		echo is_writable($this->client->path.$this->templatefile) ? JText::sprintf('PARAMSWRITABLE', $this->templatefile):JText::sprintf('PARAMSUNWRITABLE', $this->templatefile); ?>
-		<table class="admintable">
-		<tr>
-			<td>
 			<?php
-			if (!is_null($this->params)) {
-				echo $this->params->render();
+			jimport('joomla.html.pane');
+			$pane	=& JPane::getInstance('sliders');
+			echo $pane->startPane("menu-pane");
+			$groups = $this->params->getGroups();
+			if($groups && count($groups)) {
+				foreach($groups as $groupname => $group) {
+					if($groupname == '_default') {
+						$title = 'Template';
+					} else {
+						$title = ucfirst($groupname);
+					}
+					if($this->params->getNumParams($groupname)) {
+						echo $pane->startPanel(JText :: _('Parameters - '.$title), $groupname.'-page');
+						echo $this->params->render('params', $groupname);
+						echo $pane->endPanel();
+					}
+				}
 			} else {
-				echo '<i>' . JText :: _('No Parameters') . '</i>';
+				echo "<div style=\"text-align: center; padding: 5px; \">".JText::_('There are no parameters for this item')."</div>";
 			}
+			echo $pane->endPane();
 			?>
-			</td>
-		</tr>
-		</table>
 	</fieldset>
 </div>
 <div class="clr"></div>
@@ -161,5 +132,6 @@
 <input type="hidden" name="option" value="<?php echo $this->option;?>" />
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="client" value="<?php echo $this->client->id;?>" />
+<input type="hidden" name="old_menu_id" value="<?php echo JRequest::getVar('menuid'); ?>" />
 <?php echo JHTML::_( 'form.token' ); ?>
 </form>

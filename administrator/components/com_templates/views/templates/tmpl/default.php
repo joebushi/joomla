@@ -3,7 +3,7 @@
 <?php
 	$user = & JFactory :: getUser();
 
-	JHTML::_('behavior.imagetooltip', 206, 145);
+	JHTML::_('behavior.tooltip', 'hasSnapshot');
 ?>
 
 <form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="adminForm">
