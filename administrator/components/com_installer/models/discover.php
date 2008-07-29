@@ -31,6 +31,8 @@ class InstallerModelDiscover extends InstallerModel
 	 */
 	var $_type = 'discover';
 	
+	var $_message = '';
+	
 	/**
 	 * Current extension list
 	 */
@@ -93,10 +95,10 @@ class InstallerModelDiscover extends InstallerModel
 			if(!array_key_exists($result->element, $installed)) {
 				// since the element doesn't exist, its definitely new
 				$result->store(); // put it into the table	
-				echo '<p>Added: <pre>'.print_r($result,1).'</pre></p>';
+				//echo '<p>Added: <pre>'.print_r($result,1).'</pre></p>';
 			} else {
 				// an element exists that matches this
-				echo '<p>Ignored: '. $result->name .'</p>';
+				//echo '<p>Ignored: '. $result->name .'</p>';
 			}
 		}
 	}
@@ -119,6 +121,18 @@ class InstallerModelDiscover extends InstallerModel
 		} else {
 			$app =& JFactory::getApplication();
 			$app->enqueueMessage(JText::_('No extension selected'));
+		}
+	}
+	
+	function purge() {
+		$db =& JFactory::getDBO();
+		$db->setQuery('DELETE FROM #__extensions WHERE state = -1');
+		if($db->Query()) {
+			$this->_message = JText::_('Purged discovered extensions');
+			return true;
+		} else {
+			$this->_message = JText::_('Failed to purge extensions');
+			return false;
 		}
 	}
 }

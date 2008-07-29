@@ -115,6 +115,12 @@ class InstallerController extends JController
 		$view->setModel( $model, true );
 		$view->display();
 	}
+	
+	function discover_purge() {
+		$model = &$this->getModel('discover');
+		$model->purge();
+		$this->setRedirect('index.php?option=com_installer&task=manage&type=discover', $model->_message);
+	}
 
 	/**
 	 * Enable an extension (If supported)

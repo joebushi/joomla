@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id:view.php 10586 2008-07-25 05:57:24Z pasamio $
  * @package		Joomla
  * @subpackage	Menus
  * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
@@ -34,6 +34,7 @@ class InstallerViewDiscover extends InstallerViewDefault
 		 */
 		JToolBarHelper::custom( 'discover_install', 'config', 'config', 'Install', true, false);
 		JToolBarHelper::custom( 'discover', 'refresh', 'refresh','Discover',false,false);
+		JToolBarHelper::custom( 'discover_purge', 'trash', 'trash', 'Purge', false,false);
 		JToolBarHelper::help( 'screen.installer' );
 
 		// Get data from the model

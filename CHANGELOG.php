@@ -40,6 +40,8 @@ $ -> Language fix or change
 
 29-Jul-2008 Sam Moffatt
  + Added discover_install functionality to templates and com_installer
+ + Added purge functionality for discovery cache
+ + Started on discover_install for component installation adapter
 
 25-Jul-2008 Sam Moffatt
  + Added a state field and some indicies to the jos_extensions table
