@@ -291,6 +291,65 @@ class JInstallerLibrary extends JObject
 
 		return $retval;
 	}
+	
+/**
+	 * Custom discover method
+	 * 
+	 * @access public
+	 * @return array(JExtension) list of extensions available
+	 * @since 1.6
+	 */
+	function discover() {
+		$results = Array();
+		$file_list = JFolder::files(JPATH_MANIFESTS.DS.'libraries','\.xml$');
+		foreach($file_list as $file) {
+			$file = JFile::stripExt($file);
+			$extension =& JTable::getInstance('extension');
+			$extension->type = 'library';
+			$extension->client_id = 0;
+			$extension->element = $file;
+			$extension->name = $file;
+			$extension->state = -1;
+			$results[] = $extension;
+		}
+		return $results;
+	}
+	
+	/**
+	 * Custom discover_install method
+	 * 
+	 * @access public
+	 * @param int $id The id of the extension to install (from #__discoveredextensions)
+	 * @return void
+	 * @since 1.6
+	 */
+	function discover_install() {
+		/* Libraries are a strange beast, they actually references files
+		 * There are two parts to a library which are disjunct in their locations
+		 * 1) The manifest file (stored in /JPATH_MANIFESTS/libraries)
+		 * 2) The actual files (stored in /JPATH_LIBRARIES/libraryname)
+		 * Thus installation of a library is the process of dumping files 
+		 * in two different places. As such it is impossible to perform
+		 * any operation beyond mere registration of a library under the presumption
+		 * that the files exist in the appropriate location so that come uninstall
+		 * time they can be adequately removed.
+		 */
+		$manifestPath = JPATH_MANIFESTS . DS . 'libraries' . DS . $this->parent->_extension->element . '.xml';
+		$this->parent->_manifest = $this->parent->_isManifest($manifestPath);
+		$this->parent->setPath('manifest', $manifestPath);
+		$manifest_details = JApplicationHelper::parseXMLInstallFile($this->parent->getPath('manifest'));
+		$this->parent->_extension->manifestcache = serialize($manifest_details);
+		$this->parent->_extension->state = 0;
+		$this->parent->_extension->name = $manifest_details['name'];
+		$this->parent->_extension->enabled = 1;
+		$this->parent->_extension->params = $this->parent->getParams();
+		if($this->parent->_extension->store()) {
+			return true;
+		} else {
+			JError::raiseWarning(101, JText::_('Plugin').' '.JText::_('Discover Install').': '.JText::_('Failed to store extension details'));
+			return false;
+		}
+	}		
 
 }
 

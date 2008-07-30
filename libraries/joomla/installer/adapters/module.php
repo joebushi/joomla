@@ -362,7 +362,30 @@ class JInstallerModule extends JObject
 	 * @since 1.6
 	 */
 	function discover() {
-		// TODO: 1.6-UPDATE: Discover function
+		$results = Array();
+		$site_list = JFolder::folders(JPATH_SITE.DS.'modules');
+		$admin_list = JFolder::folders(JPATH_ADMINISTRATOR.DS.'modules');
+		$site_info = JApplicationHelper::getClientInfo('site', true);
+		$admin_info = JApplicationHelper::getClientInfo('administrator', true);
+		foreach($site_list as $module) {
+			$extension =& JTable::getInstance('extension');
+			$extension->type = 'module';
+			$extension->client_id = $site_info->id;
+			$extension->element = $module;
+			$extension->name = $module;
+			$extension->state = -1;
+			$results[] = $extension;
+		}
+		foreach($admin_list as $module) {
+			$extension =& JTable::getInstance('extension');
+			$extension->type = 'module';
+			$extension->client_id = $admin_info->id;
+			$extension->element = $module;
+			$extension->name = $module;
+			$extension->state = -1;
+			$results[] = $extension;
+		}
+		return $results;
 	}
 	
 	/**
@@ -373,8 +396,25 @@ class JInstallerModule extends JObject
 	 * @return void
 	 * @since 1.6
 	 */
-	function discover_install($discoveredid) {
-		// TODO: 1.6-UPDATE: Discover install function
+	function discover_install() {
+		// Modules are like templates, and are one of the easiest
+		// If its not in the extensions table we just add it
+		$client = JApplicationHelper::getClientInfo($this->parent->_extension->client_id);
+		$manifestPath = $client->path . DS . 'modules'. DS . $this->parent->_extension->element . DS . $this->parent->_extension->element . '.xml';
+		$this->parent->_manifest = $this->parent->_isManifest($manifestPath);
+		$this->parent->setPath('manifest', $manifestPath);
+		$manifest_details = JApplicationHelper::parseXMLInstallFile($this->parent->getPath('manifest'));
+		$this->parent->_extension->manifestcache = serialize($manifest_details);
+		$this->parent->_extension->state = 0;
+		$this->parent->_extension->name = $manifest_details['name'];
+		$this->parent->_extension->enabled = 1;
+		$this->parent->_extension->params = $this->parent->getParams();
+		if($this->parent->_extension->store()) {
+			return true;
+		} else {
+			JError::raiseWarning(101, JText::_('Module').' '.JText::_('Discover Install').': '.JText::_('Failed to store extension details'));
+			return false;
+		}
 	}
 	
 	/**

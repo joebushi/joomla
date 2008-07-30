@@ -482,4 +482,62 @@ class JInstallerPlugin extends JObject
 
 		return $retval;
 	}
+	
+	/**
+	 * Custom discover method
+	 * 
+	 * @access public
+	 * @return array(JExtension) list of extensions available
+	 * @since 1.6
+	 */
+	function discover() {
+		$results = Array();
+		$folder_list = JFolder::folders(JPATH_SITE.DS.'plugins');
+		foreach($folder_list as $folder) {
+			$file_list = JFolder::files(JPATH_SITE.DS.'plugins'.DS.$folder,'\.xml$');
+			foreach($file_list as $file) {
+				$file = JFile::stripExt($file);
+				if($file == 'example') continue; // ignore example plugins
+				$extension =& JTable::getInstance('extension');
+				$extension->type = 'plugin';
+				$extension->client_id = 0;
+				$extension->element = $file;
+				$extension->folder = $folder;
+				$extension->name = $file;
+				$extension->state = -1;
+				$results[] = $extension;
+			}
+		}
+		return $results;
+	}
+	
+	/**
+	 * Custom discover_install method
+	 * 
+	 * @access public
+	 * @param int $id The id of the extension to install (from #__discoveredextensions)
+	 * @return void
+	 * @since 1.6
+	 */
+	function discover_install() {
+		// Plugins use the extensions table as their primary store
+		// Similar to modules and templates, rather easy
+		// If its not in the extensions table we just add it
+		$client = JApplicationHelper::getClientInfo($this->parent->_extension->client_id);
+		$manifestPath = $client->path . DS . 'plugins'. DS . $this->parent->_extension->folder . DS . $this->parent->_extension->element . '.xml';
+		$this->parent->_manifest = $this->parent->_isManifest($manifestPath);
+		$this->parent->setPath('manifest', $manifestPath);
+		$manifest_details = JApplicationHelper::parseXMLInstallFile($this->parent->getPath('manifest'));
+		$this->parent->_extension->manifestcache = serialize($manifest_details);
+		$this->parent->_extension->state = 0;
+		$this->parent->_extension->name = $manifest_details['name'];
+		$this->parent->_extension->enabled = 1;
+		$this->parent->_extension->params = $this->parent->getParams();
+		if($this->parent->_extension->store()) {
+			return true;
+		} else {
+			JError::raiseWarning(101, JText::_('Plugin').' '.JText::_('Discover Install').': '.JText::_('Failed to store extension details'));
+			return false;
+		}
+	}	
 }

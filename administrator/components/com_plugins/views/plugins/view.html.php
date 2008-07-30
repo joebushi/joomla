@@ -70,6 +70,7 @@ class PluginsViewPlugins extends JView
 		}
 		
 		$where[] = 'type = "plugin"';
+		$where[] = 'state > -1';
 
 		$where 		= ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' );
 		$orderby 	= ' ORDER BY '.$filter_order .' '. $filter_order_Dir .', p.ordering ASC';
@@ -107,6 +108,7 @@ class PluginsViewPlugins extends JView
 			. ' FROM #__extensions'
 			. ' WHERE client_id = '.(int) $client_id
 			. ' AND type = "plugin"'
+			. ' AND state > -1'
 			. ' GROUP BY folder'
 			. ' ORDER BY folder'
 			;

@@ -79,6 +79,7 @@ class PluginsViewPlugin extends JView
 					. ' FROM #__extensions'
 					. ' WHERE folder = '.$db->Quote($row->folder)
 					. ' AND enabled > 0'
+					. ' AND state > -1'
 					. ' AND '. $where
 					. ' AND ordering > -10000'
 					. ' AND ordering < 10000'
