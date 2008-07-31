@@ -1150,6 +1150,7 @@ class JInstallerComponent extends JObject
 		$this->parent->_manifest = $this->parent->_isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
 		$this->parent->setPath('source', $client->path . DS . 'components'. DS . $this->parent->_extension->element);
+		$this->parent->setPath('extension_root', $this->parent->getPath('source'));
 		$manifest_details = JApplicationHelper::parseXMLInstallFile($this->parent->getPath('manifest'));
 		$this->parent->_extension->manifestcache = serialize($manifest_details);
 		$this->parent->_extension->state = 0;
@@ -1208,12 +1209,6 @@ class JInstallerComponent extends JObject
 							JError::raiseWarning(1, JText::_('Component').' '.JText::_('Install').': '.JText::_('The XML file did not contain an administration element'));
 							return false;
 						}
-				
-						/**
-						 * ---------------------------------------------------------------------------------------------
-						 * Filesystem Processing Section
-						 * ---------------------------------------------------------------------------------------------
-						 */
 
 						/**
 						 * ---------------------------------------------------------------------------------------------
@@ -1248,11 +1243,11 @@ class JInstallerComponent extends JObject
 						ob_end_clean();
 						
 						// Normally we would copy files and create directories, lets skip to the optional files
-				
+						// Note: need to dereference things!
 						// Parse optional tags
-						/*$this->parent->parseMedia($this->manifest->getElementByPath('media'));
+						$this->parent->parseMedia($this->manifest->getElementByPath('media'));
 						$this->parent->parseLanguages($this->manifest->getElementByPath('languages'));
-						$this->parent->parseLanguages($this->manifest->getElementByPath('administration/languages'), 1);*/
+						$this->parent->parseLanguages($this->manifest->getElementByPath('administration/languages'), 1);
 				
 						/**
 						 * ---------------------------------------------------------------------------------------------
@@ -1267,12 +1262,12 @@ class JInstallerComponent extends JObject
 						 */
 						// try for Joomla 1.5 type queries
 						// second argument is the utf compatible version attribute
-						/*$utfresult = $this->parent->parseSQLFiles($this->manifest->getElementByPath('install/sql'));
+						$utfresult = $this->parent->parseSQLFiles($this->manifest->getElementByPath('install/sql'));
 						if ($utfresult === false) {
 							// Install failed, rollback changes
 							$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.JText::_('SQLERRORORFILE')." ".$db->stderr(true));
 							return false;
-						}*/
+						}
 				
 						// Time to build the admin menus
 						$this->_buildAdminMenus();
@@ -1299,7 +1294,7 @@ class JInstallerComponent extends JObject
 										$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.JText::_('Custom install routine failure'));
 										return false;
 									}
-								}	
+								}
 								$msg .= ob_get_contents(); // append messages
 								ob_end_clean();
 							}

@@ -712,7 +712,8 @@ class JInstaller extends JObject
 		 * folder and we should append the folder attribute to the source path when
 		 * copying files.
 		 */
-		if ($folder = $element->attributes('folder')) {
+		$folder = $element->attributes('folder');
+		if ($folder && file_exists($this->getPath('source').DS.$folder)) {
 			$source = $this->getPath('source').DS.$folder;
 		} else {
 			$source = $this->getPath('source');
@@ -795,7 +796,8 @@ class JInstaller extends JObject
 		 * folder and we should append the folder attribute to the source path when
 		 * copying files.
 		 */
-		if ($folder = $element->attributes('folder')) {
+		$folder = $element->attributes('folder');
+		if ($folder && file_exists($this->getPath('source').DS.$folder)) {
 			$source = $this->getPath('source').DS.$folder;
 		} else {
 			$source = $this->getPath('source');
@@ -906,7 +908,8 @@ class JInstaller extends JObject
 		 * folder and we should append the folder attribute to the source path when
 		 * copying files.
 		 */
-		if ($folder = $element->attributes('folder')) {
+		$folder = $element->attributes('folder');
+		if ($folder && file_exists($this->getPath('source').DS.$folder)) {
 			$source = $this->getPath('source').DS.$folder;
 		} else {
 			$source = $this->getPath('source');
