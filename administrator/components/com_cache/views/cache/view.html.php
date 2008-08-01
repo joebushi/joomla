@@ -46,11 +46,11 @@ class CacheViewCache extends JView
 		}
 
 		//$cmData = new CacheData($client->path.DS.'cache');
-		
+
 		// Set the model path
 		$model =& $this->getModel();
 		$model->setPath($client->path.DS.'cache');
-		
+
 		// Get data from the model
 		$rows		= & $this->get( 'Data');
 		$total		= & $this->get( 'Total');

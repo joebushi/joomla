@@ -38,7 +38,7 @@ class CacheController extends JController
 		$model = $this->getModel('cache');
 		$model->setPath($client->path.DS.'cache');
 		$model->cleanlist( $cid );
-		
+
 		$this->display();
 	}
 }
