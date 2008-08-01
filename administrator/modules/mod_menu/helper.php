@@ -128,6 +128,7 @@ class modMenuHelper
 				' WHERE '.$db->NameQuote( 'option' ).' <> "com_frontpage"' .
 				' AND '.$db->NameQuote( 'option' ).' <> "com_media"' .
 				' AND e.enabled = 1' .
+				' AND e.state > -1' .
 				' ORDER BY ordering, name';
 			$db->setQuery($query);
 			$comps = $db->loadObjectList(); // component list

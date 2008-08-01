@@ -47,6 +47,7 @@ $ -> Language fix or change
  + Added plugin, module and library discover and discover_install functionality
  ^ Use checkbox for discovered extensions
  ^ Fixed plugins display to exclude 'discovered' extensions
+ # Fixed issue where menu would pick up discovered and installed extensions if an extension was available in both states
  
 29-Jul-2008 Sam Moffatt
  + Added discover_install functionality to templates and com_installer

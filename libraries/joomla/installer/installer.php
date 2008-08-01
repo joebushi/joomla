@@ -1324,4 +1324,13 @@ class JInstaller extends JObject
 			}
 		}
 	}
+	
+	/**
+	 * Cleans up discovered extensions if they're being installed somehow else
+	 */
+	function cleanDiscoveredExtension($type, $element, $folder='', $client=0) {
+		$dbo =& JFactory::getDBO();
+		$dbo->setQuery('DELETE FROM #__extensions WHERE type = '. $dbo->Quote($type).' AND element = '. $dbo->Quote($element) .' AND folder = '. $dbo->Quote($folder). ' AND client_id = '. intval($client).' AND state = -1');
+		return $dbo->Query();
+	}
 }
