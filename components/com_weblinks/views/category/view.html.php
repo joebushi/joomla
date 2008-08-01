@@ -132,7 +132,7 @@ class WeblinksViewCategory extends JView
 				$item->url_snapshot = '';
 				$params->set('show_snapshot', '0');
 			}
-			
+
 			$menuclass = 'category'.$params->get( 'pageclass_sfx' );
 
 			$itemParams = new JParameter($item->params);

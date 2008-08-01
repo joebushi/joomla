@@ -20,7 +20,6 @@ jimport('joomla.application.component.model');
 /**
  * Weblinks Component Categories Model
  *
- * @author	Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla
  * @subpackage	Weblinks
  * @since 1.5

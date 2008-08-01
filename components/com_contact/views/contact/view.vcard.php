@@ -32,7 +32,7 @@ class ContactViewContact extends JView
 
 		$SiteName  = $mainframe->getCfg('sitename');
 		$contactId = JRequest::getVar('contact_id', 0, '', 'int');
-		
+
 		// Get a Contact table object and load the selected contact details
 		JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_contact'.DS.'tables');
 		$contact =& JTable::getInstance('contact', 'Table');
@@ -46,7 +46,7 @@ class ContactViewContact extends JView
 			JError::raiseWarning('SOME_ERROR_CODE', 'ContactController::vCard: '.JText::_('NOTAUTH'));
 			return false;
 		}
-		
+
 		// Parse the contact name field and build the nam information for the vcard.
 		$firstname 	= null;
 		$middlename = null;
@@ -56,7 +56,7 @@ class ContactViewContact extends JView
 		$parts = explode(' ', $contact->name);
 		$count = count($parts);
 
-		switch ($count) 
+		switch ($count)
 		{
 			case 1 :
 				// only a first name
@@ -78,7 +78,7 @@ class ContactViewContact extends JView
 				}
 				break;
 		}
-		
+
 		// quick cleanup for the middlename value
 		$middlename = trim($middlename);
 
@@ -95,7 +95,7 @@ class ContactViewContact extends JView
 		$document->setOrg($SiteName);
 
 		$filename = str_replace(' ', '_', $contact->name);
-		
+
 		$document->setFilename($filename);
 	}
 }

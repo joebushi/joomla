@@ -20,7 +20,6 @@ jimport('joomla.application.component.model');
 /**
  * Weblinks Component Weblink Model
  *
- * @author Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla
  * @subpackage	Weblinks
  * @since 1.5
@@ -250,7 +249,7 @@ class WeblinksModelWeblink extends JModel
 				return false;
 			}
 			$weblink->state = -1;
-			
+
 			if (!$weblink->store()) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
@@ -260,7 +259,7 @@ class WeblinksModelWeblink extends JModel
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Method to load content weblink data
 	 *

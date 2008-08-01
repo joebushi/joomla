@@ -20,7 +20,6 @@ jimport('joomla.application.component.model');
 /**
  * Weblinks Component Weblinks Model
  *
- * @author	Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla
  * @subpackage	Content
  * @since 1.5
@@ -47,7 +46,7 @@ class WeblinksModelWeblinks extends JModel
 	 * @var object
 	 */
 	var $_pagination = null;
-	
+
 	/**
 	 * Filter object
 	 *
@@ -182,7 +181,7 @@ class WeblinksModelWeblinks extends JModel
 			if (!is_object($params)) {
 				$params = &JComponentHelper::getParams('com_weblinks');
 			}
-	
+
 			$orderby_sec	= $params->def('orderby_sec', '');
 			$orderby_pri	= $params->def('orderby_pri', '');
 			$secondary		= WeblinksHelperQuery::orderbySecondary($orderby_sec);

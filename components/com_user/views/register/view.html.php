@@ -20,7 +20,6 @@ jimport( 'joomla.application.component.view');
 /**
  * HTML View class for the Registration component
  *
- * @author		David Gal <david.gal@joomla.org>
  * @package		Joomla
  * @subpackage	Registration
  * @since 1.0

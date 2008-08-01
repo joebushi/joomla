@@ -20,7 +20,6 @@ jimport('joomla.application.component.model');
 /**
  * User Component Reset Model
  *
- * @author		Rob Schley <rob.schley@joomla.org>
  * @package		Joomla
  * @subpackage	User
  * @since		1.5

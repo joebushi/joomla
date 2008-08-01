@@ -20,7 +20,6 @@ jimport('joomla.application.component.view');
 /**
  * HTML View class for the Users component
  *
- * @author		Rob Schley <rob.schley@joomla.org>
  * @package		Joomla
  * @subpackage	User
  * @since		1.5

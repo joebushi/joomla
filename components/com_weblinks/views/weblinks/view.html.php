@@ -107,7 +107,7 @@ class WeblinksViewWeblinks extends JView
 				$item->url_snapshot = '';
 				$params->set('show_snapshot', '0');
 			}
-			
+
 			$menuclass = 'weblinks'.$params->get( 'pageclass_sfx' );
 
 			$itemParams = new JParameter($item->params);
