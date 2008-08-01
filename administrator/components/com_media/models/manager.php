@@ -64,6 +64,7 @@ class MediaModelManager extends JModel
 
 		// Load appropriate language files
 		$lang = & JFactory::getLanguage();
+		// TODO: Check that this is right; the '' should load en-GB..ini, probably not what is intended
 		$lang->load('', JPATH_ADMINISTRATOR);
 		$lang->load(JRequest::getCmd( 'option' ), JPATH_ADMINISTRATOR);
 

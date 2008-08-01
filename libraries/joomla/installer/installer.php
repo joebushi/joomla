@@ -338,6 +338,7 @@ class JInstaller extends JObject
 			}
 
 			// Only set the return value if it is false
+			// TODO: undefined variable error generated here somehow!
 			if ($stepval === false) {
 				$retval = false;
 			}
@@ -376,8 +377,8 @@ class JInstaller extends JObject
 		
 		if (is_object($this->_adapters[$type])) {
 			// Add the languages from the package itself
-			$language =& JFactory::getLanguage();
-			$language->load('joomla',$path);
+			$lang =& JFactory::getLanguage();
+			$lang->load('joomla',$path);
 			// Run the install 
 			return $this->_adapters[$type]->install();
 		}
@@ -477,8 +478,8 @@ class JInstaller extends JObject
 
 		if (is_object($this->_adapters[$type])) {
 			// Add the languages from the package itself
-			$language =& JFactory::getLanguage();
-			$language->load('joomla',$path);
+			$lang =& JFactory::getLanguage();
+			$lang->load('joomla',$path);
 			// Run the update
 			return $this->_adapters[$type]->update();
 		}

@@ -82,6 +82,7 @@ class JInstallerComponent extends JObject
 		// Set the installation target paths
 		$this->parent->setPath('extension_site', JPath::clean(JPATH_SITE.DS."components".DS.$this->get('element')));
 		$this->parent->setPath('extension_administrator', JPath::clean(JPATH_ADMINISTRATOR.DS."components".DS.$this->get('element')));
+		$this->parent->setPath('extension_root', $this->parent->getPath('extension_administrator')); // copy this as its used as a common base
 		
 		/**
 		 * ---------------------------------------------------------------------------------------------
@@ -342,7 +343,6 @@ class JInstallerComponent extends JObject
 		$row->access = 0;
 		$row->client_id = 0;
 		$row->params = $this->parent->getParams();
-		$row->data = ''; // custom data
 		$row->manifestcache = $this->parent->generateManifestCache();
 		if (!$row->store()) {
 			// Install failed, roll back changes
@@ -681,14 +681,18 @@ class JInstallerComponent extends JObject
 			JError::raiseWarning(100, JText::_('Component').' '.JText::_('Uninstall').': '.JText::sprintf('WARNCORECOMPONENT', $row->name)."<br />".JText::_('WARNCORECOMPONENT2'));
 			return false;
 		}
-				
-		// Attempt to load the admin language file; might have uninstall strings
-		$language =& JFactory::getLanguage();
-		$language->load($row->element);
 
 		// Get the admin and site paths for the component
 		$this->parent->setPath('extension_administrator', JPath::clean(JPATH_ADMINISTRATOR.DS.'components'.DS.$row->element));
-		$this->parent->setPath('extension_site', JPath::clean(JPATH_SITE.DS.'components'.DS.$row->element));		
+		$this->parent->setPath('extension_site', JPath::clean(JPATH_SITE.DS.'components'.DS.$row->element));
+		$this->parent->setPath('extension_root', $this->parent->getPath('extension_administrator')); // copy this as its used as a common base
+
+		// Attempt to load the admin language file; might have uninstall strings
+		$lang =& JFactory::getLanguage();
+		// 1.5 or Core
+		$lang->load($row->element);
+		// 1.6
+		$lang->load( 'joomla', $this->parent->getPath('extension_administrator'));		
 		
 		/**
 		 * ---------------------------------------------------------------------------------------------
@@ -1196,6 +1200,7 @@ class JInstallerComponent extends JObject
 						// Set the installation target paths
 						$this->parent->setPath('extension_site', JPath::clean(JPATH_SITE.DS."components".DS.$this->get('element')));
 						$this->parent->setPath('extension_administrator', JPath::clean(JPATH_ADMINISTRATOR.DS."components".DS.$this->get('element')));
+						$this->parent->setPath('extension_root', $this->parent->getPath('extension_administrator')); // copy this as its used as a common base
 						
 						/**
 						 * ---------------------------------------------------------------------------------------------
@@ -1246,8 +1251,9 @@ class JInstallerComponent extends JObject
 						// Note: need to dereference things!
 						// Parse optional tags
 						$this->parent->parseMedia($this->manifest->getElementByPath('media'));
-						$this->parent->parseLanguages($this->manifest->getElementByPath('languages'));
-						$this->parent->parseLanguages($this->manifest->getElementByPath('administration/languages'), 1);
+						// We don't do language because 1.6 suggests moving to extension based languages
+						//$this->parent->parseLanguages($this->manifest->getElementByPath('languages'));
+						//$this->parent->parseLanguages($this->manifest->getElementByPath('administration/languages'), 1);
 				
 						/**
 						 * ---------------------------------------------------------------------------------------------

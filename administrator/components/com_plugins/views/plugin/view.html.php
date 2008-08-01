@@ -93,8 +93,12 @@ class PluginsViewPlugin extends JView
 			}
 
 			$lang =& JFactory::getLanguage();
+			// Core or 1.5
 			$lang->load( 'plg_' . trim( $row->folder ) . '_' . trim( $row->element ), JPATH_ADMINISTRATOR );
+			// 1.6 3PD Extension
+			$lang->load( 'joomla', PATH_SITE . DS . 'plugins'. DS .$row->folder . DS . $row->element);
 
+			// TODO: Rewrite this (and other instances of parseXMLInstallFile) to use the extensions table
 			$data = JApplicationHelper::parseXMLInstallFile(JPATH_SITE . DS . 'plugins'. DS .$row->folder . DS . $row->element .'.xml');
 
 			$row->description = $data['description'];

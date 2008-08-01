@@ -38,10 +38,16 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+01-Aug-2008 Sam Moffatt
+ + Added extension based language file support
+ # Changed libraries/joomla/language/language.php to not overwrite strings with default
+ ^ Working on component discover_install functionality
+
 30-Jul-2008 Sam Moffatt
  + Added plugin, module and library discover and discover_install functionality
- ^ Use checkbox for discovered extensions 
-
+ ^ Use checkbox for discovered extensions
+ ^ Fixed plugins display to exclude 'discovered' extensions
+ 
 29-Jul-2008 Sam Moffatt
  + Added discover_install functionality to templates and com_installer
  + Added purge functionality for discovery cache

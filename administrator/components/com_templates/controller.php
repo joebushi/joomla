@@ -139,7 +139,10 @@ class TemplatesController
 			return JError::raiseWarning( 500, JText::_('Template not found') );
 		}
 		$lang =& JFactory::getLanguage();
+		// 1.5 or Core
 		$lang->load( 'tpl_'.$template, JPATH_ADMINISTRATOR );
+		// 1.6 3PD Templates
+		$lang->load( 'joomla', $client->path.DS.'templates'.DS.$templates );
 
 		$ini	= $client->path.DS.'templates'.DS.$template.DS.'params.ini';
 		$xml	= $client->path.DS.'templates'.DS.$template.DS.'templateDetails.xml';

@@ -154,7 +154,10 @@ class modMenuHelper
 				unset($langs['.menu']);
 			}
 			foreach ($langs as $lang_name => $nothing) {
+				// 1.5 or Core
 				$lang->load($lang_name);
+				// 1.6 3PD Extensions
+				$lang->load( 'menu', JPATH_ADMINISTRATOR.DS.'components'.DS.str_replace('.menu','',$lang_name));
 			}
 
 			foreach ($comps as $row)

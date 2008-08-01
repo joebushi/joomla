@@ -471,8 +471,10 @@ class ModulesController extends JController
 		$lang =& JFactory::getLanguage();
 		if ( $client->id != '1' ) {
 			$lang->load( trim($row->module), JPATH_SITE );
+			$lang->load( 'joomla', JPATH_SITE.DS.'modules'.DS.trim($row->module));
 		} else {
 			$lang->load( trim($row->module) );
+			$lang->load( 'joomla', JPATH_ADMINISTRATOR.DS.'modules'.DS.trim($row->module));
 		}
 
 		// xml file for module
@@ -532,7 +534,10 @@ class ModulesController extends JController
 				$module->path 		= $path.DS.$dir;
 				$modules[]			= $module;
 
+				// 1.5 Format; Core files or language packs 
 				$lang->load( $module->module, $langbase );
+				// 1.6 3PD Extension Support
+				$lang->load( 'joomla', $langbase.DS.'modules'.DS.$module->module);
 			}
 		}
 
