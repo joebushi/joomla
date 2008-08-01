@@ -26,7 +26,6 @@ defined('JPATH_BASE') or die();
  *
  * @author  Chuck Hagenbuch <chuck@horde.org>
  * @author  Jon Parise <jon@horde.org>
- * @author  Johan Janssens <johan.janssens@joomla.org>
  *
  * @package     Joomla.Framework
  * @subpackage  Environment

@@ -19,7 +19,6 @@ defined('JPATH_BASE') or die();
  * Abstract cache storage handler
  *
  * @abstract
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Cache
  * @since		1.5

@@ -18,7 +18,6 @@ defined('JPATH_BASE') or die();
 /**
  * DocumentVCARD class, provides an easy interface to parse and display a vcard
  *
- * @author		Johan Janssens <johan@joomla.be>
  * @package		Joomla.Framework
  * @subpackage	Document
  * @since		1.6
@@ -33,10 +32,10 @@ class JDocumentVCARD extends JDocument
 	 * @access	public
 	 */
 	var $_properties;
-	
+
 	var $_filename;
-	
-	
+
+
 	/**
 	 * Class constructore
 	 *
@@ -79,18 +78,18 @@ class JDocumentVCARD extends JDocument
 		$data	.= "\r\n";
 		$data	.= 'END:VCARD';
 		$data	.= "\r\n";
-		
+
 		// Set document type headers
 		parent::render();
-		
+
 		//JResponse::setHeader('Content-Length', strlen($data), true);
 		JResponse::setHeader('Content-disposition: attachment; filename="'.$this->_filename.'"', true);
-		
+
 		return $data;
 	}
-	
+
 	// type may be PREF | WORK | HOME | VOICE | FAX | MSG | CELL | PAGER | BBS | CAR | MODEM | ISDN | VIDEO or any senseful combination, e.g. "PREF;WORK;VOICE"
-	function setPhoneNumber($number, $type='') 
+	function setPhoneNumber($number, $type='')
 	{
 		$key = 'TEL';
 		if ($type!='') {
@@ -102,30 +101,30 @@ class JDocumentVCARD extends JDocument
 	}
 
 	// $type = "GIF" | "JPEG"
-	function setPhoto($type, $photo) 
-	{ 
+	function setPhoto($type, $photo)
+	{
 		$this->_properties["PHOTO;TYPE=$type;ENCODING=BASE64"] = base64_encode($photo);
 	}
 
-	function setFormattedName($name) 
+	function setFormattedName($name)
 	{
 		$this->_properties['FN'] = $this->quoted_printable_encode($name);
 	}
-	
-	function setName( $family='', $first='', $additional='', $prefix='', $suffix='' ) 
+
+	function setName( $family='', $first='', $additional='', $prefix='', $suffix='' )
 	{
 		$this->_properties["N"] 	= "$family;$first;$additional;$prefix;$suffix";
 		$this->setFormattedName( trim( "$prefix $first $additional $family $suffix" ) );
 	}
 
 	// $date format is YYYY-MM-DD
-	function setBirthday($date) 
-	{ 
+	function setBirthday($date)
+	{
 		$this->_properties['BDAY'] = $date;
 	}
 
 	// $type may be DOM | INTL | POSTAL | PARCEL | HOME | WORK or any combination of these: e.g. "WORK;PARCEL;POSTAL"
-	function setAddress( $postoffice='', $extended='', $street='', $city='', $region='', $zip='', $country='', $type='HOME;POSTAL' ) 
+	function setAddress( $postoffice='', $extended='', $street='', $city='', $region='', $zip='', $country='', $type='HOME;POSTAL' )
 	{
 		$separator = ';';
 
@@ -146,7 +145,7 @@ class JDocumentVCARD extends JDocument
 		$this->_properties[$key] = $return;
 	}
 
-	function setLabel($postoffice='', $extended='', $street='', $city='', $region='', $zip='', $country='', $type='HOME;POSTAL') 
+	function setLabel($postoffice='', $extended='', $street='', $city='', $region='', $zip='', $country='', $type='HOME;POSTAL')
 	{
 		$label = '';
 		if ($postoffice!='') {
@@ -186,18 +185,18 @@ class JDocumentVCARD extends JDocument
 		$this->_properties["LABEL;$type;ENCODING=QUOTED-PRINTABLE"] = $this->quoted_printable_encode($label);
 	}
 
-	function setEmail($address) 
+	function setEmail($address)
 	{
 		$this->_properties['EMAIL;INTERNET'] = $address;
 	}
 
-	function setNote($note) 
+	function setNote($note)
 	{
 		$this->_properties['NOTE;ENCODING=QUOTED-PRINTABLE'] = $this->quoted_printable_encode($note);
 	}
 
 	// $type may be WORK | HOME
-	function setURL($url, $type='') 
+	function setURL($url, $type='')
 	{
 		$key = 'URL';
 		if ($type!='') {
@@ -206,19 +205,19 @@ class JDocumentVCARD extends JDocument
 
 		$this->_properties[$key] = $url;
 	}
-	
-	function setFilename( $filename ) 
+
+	function setFilename( $filename )
 	{
 		$this->_filename = $filename .'.vcf';
 	}
-	
-	function setTitle( $title ) 
+
+	function setTitle( $title )
 	{
 		$title 	= trim( $title );
 		$this->_properties['TITLE'] 	= $title;
 	}
-	
-	function setOrg( $org ) 
+
+	function setOrg( $org )
 	{
 		$org 	= trim( $org );
 		$this->_properties['ORG'] = $org;
@@ -233,7 +232,7 @@ class JDocumentVCARD extends JDocument
 		return str_replace(';',"\;",$string);
 	}
 
-	function quoted_printable_encode($input, $line_max = 76) 
+	function quoted_printable_encode($input, $line_max = 76)
 	{
 		$hex 		= array('0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F');
 		$lines 		= preg_split("/(?:\r\n|\r|\n)/", $input);
@@ -242,13 +241,13 @@ class JDocumentVCARD extends JDocument
 		$escape 	= '=';
 		$output 	= '';
 
-		for ($j=0;$j<count($lines);$j++) 
+		for ($j=0;$j<count($lines);$j++)
 		{
 			$line 		= $lines[$j];
 			$linlen 	= strlen($line);
 			$newline 	= '';
 
-			for($i = 0; $i < $linlen; $i++) 
+			for($i = 0; $i < $linlen; $i++)
 			{
 				$c 		= substr($line, $i, 1);
 				$dec 	= ord($c);

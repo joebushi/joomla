@@ -20,7 +20,6 @@ jimport('joomla.application.module.helper');
 /**
  * DocumentHTML class, provides an easy interface to parse and display an html document
  *
- * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Document
  * @since		1.5

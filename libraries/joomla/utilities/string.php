@@ -40,8 +40,6 @@ if (function_exists('iconv') || ((!strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' &&
  * All functions assume the validity of utf-8 strings.
  *
  * @static
- * @author 		David Gal <david@joomla.co.il>
- * @author 		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	Utilities
  * @since		1.5
@@ -62,7 +60,7 @@ class JString
 	 */
 	function strpos($str, $search, $offset = FALSE)
 	{
-		if(strlen($str) && strlen($search)) 
+		if(strlen($str) && strlen($search))
 		{
 	    	if ( $offset === FALSE ) {
 	        	return mb_strpos($str, $search);
@@ -85,15 +83,15 @@ class JString
 	 */
 	function strrpos($str, $search)
 	{
-		if ( $offset === FALSE ) 
+		if ( $offset === FALSE )
 		{
         	# Emulate behaviour of strrpos rather than raising warning
        	 	if ( empty($str) ) {
             	return FALSE;
         	}
         	return mb_strrpos($str, $search);
-    	} 
-    	else 
+    	}
+    	else
     	{
         	if ( !is_int($offset) ) {
             	trigger_error('utf8_strrpos expects parameter 3 to be long',E_USER_WARNING);
@@ -192,7 +190,7 @@ class JString
 	*/
 	function str_ireplace($search, $replace, $str, $count = NULL)
 	{
-		if ( !is_array($search) ) 
+		if ( !is_array($search) )
 		{
         	$slen = strlen($search);
         	$lendif = strlen($replace) - $slen;
@@ -220,9 +218,9 @@ class JString
 
     	} else {
 
-        	foreach ( array_keys($search) as $k ) 
+        	foreach ( array_keys($search) as $k )
         	{
-            	if ( is_array($replace) ) 
+            	if ( is_array($replace) )
             	{
                 	if ( array_key_exists($k,$replace) ) {
                     	$str = JString::str_ireplace($search[$k], $replace[$k], $str, $count);
@@ -482,7 +480,7 @@ class JString
 		if($charlist === FALSE) {
 			return trim($str);
 		}
-		
+
     	return JString::ltrim(utf8_rtrim($str, $charlist), $charlist);
 	}
 
@@ -530,7 +528,7 @@ class JString
     	$pattern = '/(^|([\x0c\x09\x0b\x0a\x0d\x20]+))([^\x0c\x09\x0b\x0a\x0d\x20]{1})[^\x0c\x09\x0b\x0a\x0d\x20]*/u';
     	return preg_replace_callback($pattern, 'JString::ucwords_callback',$str);
 	}
-	
+
 
 	/**
 	 * Callback function for preg_replace_callback call in utf8_ucwords
@@ -540,7 +538,7 @@ class JString
 	 * @see ucwords
 	 * @see strtoupper
 	 */
-	function ucwords_callback($matches) 
+	function ucwords_callback($matches)
 	{
     	$leadingws = $matches[2];
     	$ucfirst = JString::strtoupper($matches[3]);
@@ -558,9 +556,9 @@ class JString
 	 * @return string Transcoded string
 	 * @since 1.5
 	 */
-	function transcode($source, $from_encoding, $to_encoding) 
+	function transcode($source, $from_encoding, $to_encoding)
 	{
-		if (is_string($source)) 
+		if (is_string($source))
 		{
 			/*
 			 * "//TRANSLIT" is appendd to the $to_encoding to ensure that when iconv comes
@@ -570,7 +568,7 @@ class JString
 			return iconv($from_encoding, $to_encoding.'//TRANSLIT', $source);
 		}
 	}
-	
+
 	/**
 	 * Tests a string as to whether it's valid UTF-8 and supported by the
 	 * Unicode standard
@@ -581,7 +579,7 @@ class JString
 	 * @see http://hsivonen.iki.fi/php-utf8/
 	 * @see compliant
 	 */
-	function valid($str) 
+	function valid($str)
 	{
 		$mState = 0;     // cached expected number of octets after the current octet
         	             // until the beginning of the next UTF8 character sequence
@@ -590,11 +588,11 @@ class JString
 
     	$len = strlen($str);
 
-    	for($i = 0; $i < $len; $i++) 
+    	for($i = 0; $i < $len; $i++)
     	{
 			$in = ord($str{$i});
 
-        	if ( $mState == 0) 
+        	if ( $mState == 0)
         	{
             	// When mState is zero we expect either a US-ASCII character or a
             	// multi-octet sequence.
@@ -645,12 +643,12 @@ class JString
                  	 */
                 	return FALSE;
             	}
-        	} 
-        	else 
+        	}
+        	else
         	{
             	// When mState is non-zero, we expect a continuation of the multi-octet
            	 	// sequence
-            	if (0x80 == (0xC0 & ($in))) 
+            	if (0x80 == (0xC0 & ($in)))
             	{
                 	// Legal continuation.
                 	$shift = ($mState - 1) * 6;
@@ -662,7 +660,7 @@ class JString
                 	 * End of the multi-octet sequence. mUcs4 now contains the final
                 	 * Unicode codepoint to be output
                 	 */
-                	if (0 == --$mState) 
+                	if (0 == --$mState)
                 	{
                     	/*
                     	 * Check for illegal sequences and codepoints.
@@ -684,8 +682,8 @@ class JString
                     	$mUcs4  = 0;
                     	$mBytes = 1;
                 	}
-            	} 
-            	else 
+            	}
+            	else
             	{
                 	/**
                 	 *((0xC0 & (*in) != 0x80) && (mState != 0))
@@ -713,7 +711,7 @@ class JString
 	 * @param string UTF-8 string to check
 	 * @return boolean TRUE if string is valid UTF-8
 	 */
-	function compliant($str) 
+	function compliant($str)
 	{
     	if ( strlen($str) == 0 ) {
         	return TRUE;

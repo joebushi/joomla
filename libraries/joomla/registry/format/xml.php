@@ -18,7 +18,6 @@ defined('JPATH_BASE') or die();
 /**
  * XML Format for JRegistry
  *
- * @author 		Samuel Moffatt <pasamio@gmail.com>
  * @package 	Joomla.Framework
  * @subpackage		Registry
  * @since		1.5

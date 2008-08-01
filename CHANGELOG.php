@@ -37,7 +37,7 @@ $ -> Language fix or change
 ^ -> Change
 - -> Removed
 ! -> Note
- 
+
 25-Jun-2008 Johan Janssens
  - Removed libraries/bitfolge/vcard
  + Added JDocumentVCARD format

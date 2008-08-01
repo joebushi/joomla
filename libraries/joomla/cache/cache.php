@@ -22,7 +22,6 @@ JLoader::register('JCacheStorage', dirname(__FILE__).DS.'storage.php');
  * Joomla! Cache base object
  *
  * @abstract
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Cache
  * @since		1.5

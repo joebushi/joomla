@@ -18,8 +18,6 @@ defined('JPATH_BASE') or die();
 /**
  * Memcache cache storage handler
  *
- * @author		Louis Landry <louis.landry@joomla.org>
- * @author		Mitch Pirtle
  * @package		Joomla.Framework
  * @subpackage	Cache
  * @since		1.5

@@ -18,7 +18,6 @@ defined('JPATH_BASE') or die();
 /**
  * Renders a SQL element
  *
- * @author 		Sam Moffatt <sam.moffatt@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage		Parameter
  * @since		1.5

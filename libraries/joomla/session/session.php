@@ -26,7 +26,6 @@ JLoader::register('JSessionStorage', dirname(__FILE__).DS.'storage.php');
 * Based on the standart PHP session handling mechanism it provides
 * for you more advanced features such as expire timeouts.
 *
-* @author		Johan Janssens <johan.janssens@joomla.org>
 * @package		Joomla.Framework
 * @subpackage	Session
 * @since		1.5

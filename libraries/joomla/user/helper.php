@@ -19,7 +19,6 @@
  * This class has influences and some method logic from the Horde Auth package
  *
  * @static
- * @author 		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	User
  * @since		1.5

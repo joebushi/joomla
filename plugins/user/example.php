@@ -24,7 +24,7 @@ jimport('joomla.plugin.plugin');
  * @subpackage	JFramework
  * @since 		1.5
  */
-class plgUserExample extends JPlugin 
+class plgUserExample extends JPlugin
 {
 	/**
 	 * Example store user method

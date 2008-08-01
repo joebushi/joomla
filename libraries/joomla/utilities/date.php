@@ -18,8 +18,6 @@ defined('JPATH_BASE') or die();
 /**
  * JDate is a class that stores a date
  *
- * @author	Johan Janssens <johan.janssens@joomla.org>
- *
  * @package		Joomla.Framework
  * @subpackage	Utilities
  * @since		1.5

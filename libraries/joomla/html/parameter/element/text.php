@@ -18,7 +18,6 @@ defined('JPATH_BASE') or die();
 /**
  * Renders a text element
  *
- * @author 		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage		Parameter
  * @since		1.5

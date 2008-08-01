@@ -133,7 +133,7 @@ class modMainMenuHelper
 	{
 		// Include the new menu class
 		$xml = modMainMenuHelper::getXML($params->get('menutype'), $params, $callback);
-		if ($xml) 
+		if ($xml)
 		{
 			$class = $params->get('class_sfx');
 			$xml->addAttribute('class', 'menu'.$class);

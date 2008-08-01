@@ -19,7 +19,6 @@ jimport( 'joomla.plugin.plugin' );
 /**
  * Joomla! Debug plugin
  *
- * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla
  * @subpackage	System
  */
@@ -47,7 +46,7 @@ class  plgSystemDebug extends JPlugin
 	function onAfterRender()
 	{
 		global $_PROFILER, $mainframe, $database;
-		
+
 		// Do not render if debugging is not enabled
 		if(!JDEBUG) { return; }
 

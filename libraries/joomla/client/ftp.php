@@ -53,7 +53,6 @@ if (!defined('FTP_NATIVE')) {
 /**
  * FTP client class
  *
- * @author		Louis Landry  <louis.landry@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Client
  * @since		1.5

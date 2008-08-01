@@ -19,7 +19,6 @@ jimport( 'joomla.plugin.plugin' );
 /**
  * Joomla! Debug plugin
  *
- * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla
  * @subpackage	System
  */
@@ -42,7 +41,7 @@ class  plgSystemLegacy extends JPlugin
 		// Set global configuration var for legacy mode
 		$conf = &JFactory::getConfig();
 		$conf->setValue('config.legacy', 1);
-		
+
 		parent::__construct($subject, $config);
 	}
 }

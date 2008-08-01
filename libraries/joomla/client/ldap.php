@@ -14,7 +14,6 @@
 /**
  * LDAP client class
  *
- * @author		Samuel Moffatt <pasamio@gmail.com>
  * @package		Joomla.Framework
  * @subpackage	Client
  * @since		1.5

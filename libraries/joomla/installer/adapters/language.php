@@ -18,7 +18,6 @@ defined('JPATH_BASE') or die();
 /**
  * Language installer
  *
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Installer
  * @since		1.5

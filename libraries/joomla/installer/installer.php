@@ -23,7 +23,6 @@ jimport('joomla.filesystem.path');
 /**
  * Joomla base installer class
  *
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Installer
  * @since		1.5
@@ -321,7 +320,7 @@ class JInstaller extends JObject
 			$this->abort(JText::_('NOTCOMPATIBLE'));
 			return false;
 		}
-		
+
 		if ((version_compare($version, '1.6', '<')) && !$config->getValue('config.legacy')) {
 			$this->abort(JText::_('MUSTENABLELEGACY'));
 			return false;
@@ -366,7 +365,7 @@ class JInstaller extends JObject
 			$this->abort(JText::_('NOTCOMPATIBLE'));
 			return false;
 		}
-		
+
 		if ((version_compare($version, '1.6', '<')) && !$config->getValue('config.legacy')) {
 			$this->abort(JText::_('MUSTENABLELEGACY'));
 			return false;

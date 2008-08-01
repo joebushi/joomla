@@ -19,7 +19,6 @@ jimport( 'joomla.plugin.plugin' );
 /**
  * No WYSIWYG Editor Plugin
  *
- * @author Louis Landry <louis.landry@joomla.org>
  * @package Editors
  * @since 1.5
  */

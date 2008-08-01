@@ -19,7 +19,6 @@ defined('JPATH_BASE') or die();
  * Abstract Format for JRegistry
  *
  * @abstract
- * @author 		Samuel Moffatt <pasamio@gmail.com>
  * @package 	Joomla.Framework
  * @subpackage	Registry
  * @since		1.5

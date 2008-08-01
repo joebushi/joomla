@@ -18,8 +18,6 @@ defined('JPATH_BASE') or die();
 /**
  * DocumentPDF class, provides an easy interface to parse and display a pdf document
  *
- * @author		Johan Janssens <johan.janssens@joomla.org>
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Document
  * @since		1.5

@@ -38,7 +38,6 @@ class patTemplate_Function_Translate extends patTemplate_Function
 	* @param	array	parameters of the function (= attributes of the tag)
 	* @param	string	content of the tag
 	* @return	string	content to insert into the template
-	* @author	Andrew Eddie
 	* Function modifed for Joomla!
 	*/
 	function call( $params, $content )

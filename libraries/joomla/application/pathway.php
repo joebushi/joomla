@@ -22,7 +22,6 @@ defined('JPATH_BASE') or die();
  * the user's navigated path within the Joomla application.
  *
  * @abstract
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	Application
  * @since		1.5
