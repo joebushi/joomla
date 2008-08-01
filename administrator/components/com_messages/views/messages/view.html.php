@@ -30,10 +30,10 @@ class MessagesViewMessages extends JView
 	function display($tpl = null)
 	{
 		global $mainframe;
-	
+
 		$db					=& JFactory::getDBO();
 		$user				=& JFactory::getUser();
-	
+
 		// Set toolbar items for the page
 		JToolBarHelper::title(  JText::_( 'Private Messaging' ), 'inbox.png' );
 		JToolBarHelper::deleteList();

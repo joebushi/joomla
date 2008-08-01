@@ -11,7 +11,7 @@
 	$nullDate 	= $db->getNullDate();
 
 	global $controller;
-	
+
 	JHTML::_('behavior.tooltip');
 	//Ordering allowed ?
 	$ordering = ($this->filter->order == 'fpordering');

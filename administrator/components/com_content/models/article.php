@@ -306,7 +306,7 @@ class ContentModelArticle extends JModel
 			$fp->ordering = 0;
 		}
 		$fp->reorder();
-		
+
 		return true;
 	}
 

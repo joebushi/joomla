@@ -166,11 +166,11 @@ class TemplatesModelCssedit extends JModel
 		if (empty($this->_data))
 		{
 			jimport('joomla.filesystem.file');
-	
+
 			if (JFile::getExt($this->_filename) !== 'css') {
 				return JError::raiseWarning( 500, JText::_('Wrong file type given, only CSS files can be edited.') );
 			}
-	
+
 			$content = JFile::read($this->_client->path.DS.'templates'.DS.$this->_id.DS.'css'.DS.$this->_filename);
 
 			if ($content === false)
@@ -178,7 +178,7 @@ class TemplatesModelCssedit extends JModel
 				$this->setError(JText::sprintf('Operation Failed Could not open', $this->_client->path.DS.'templates'.DS.$this->_id.DS.'css'.DS.$this->_filename));
 				return false;
 			}
-	
+
 			$content = htmlspecialchars($content, ENT_COMPAT, 'UTF-8');
 
 			$this->_data = $content;

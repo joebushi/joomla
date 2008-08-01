@@ -44,7 +44,7 @@ class TemplatesViewSource extends JView
 		$content	=& $this->get('Data');
 		$client		=& $this->get('Client');
 		$template	=& $this->get('Template');
-		
+
 		// Set FTP credentials, if given
 		jimport('joomla.client.helper');
 		$ftp =& JClientHelper::setCredentialsFromRequest('ftp');

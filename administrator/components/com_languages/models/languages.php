@@ -145,7 +145,7 @@ class LanguagesModelLanguages extends JModel
 		$rowid = -1;
 		$rowstart = $this->getState('limitstart') + 0;
 		$rowend = $rowstart + $this->getState('limit') - 1;
-	
+
 		//load folder filesystem class
 		jimport('joomla.filesystem.folder');
 		$path = JLanguage::getLanguagePath($this->_client->path);
@@ -161,24 +161,24 @@ class LanguagesModelLanguages extends JModel
 				if ($rowid < $rowstart) {
 					continue;
 				}
-				
+
 				if ($rowid > $rowend) {
 					continue;
 				}
-				
+
 				$data = JApplicationHelper::parseXMLLangMetaFile($path.DS.$dir.DS.$file);
-	
+
 				$row 			= new StdClass();
 				$row->id 		= $rowid;
 				$row->language 	= substr($file,0,-4);
-	
+
 				if (!is_array($data)) {
 					continue;
 				}
 				foreach($data as $key => $value) {
 					$row->$key = $value;
 				}
-	
+
 				// if current than set published
 				$params = JComponentHelper::getParams('com_languages');
 				if ( $params->get($this->_client->name, 'en-GB') == $row->language) {
@@ -186,7 +186,7 @@ class LanguagesModelLanguages extends JModel
 				} else {
 					$row->published = 0;
 				}
-	
+
 				$row->checked_out = 0;
 				$row->mosname = JString::strtolower( str_replace( " ", "_", $row->name ) );
 				$rows[] = $row;

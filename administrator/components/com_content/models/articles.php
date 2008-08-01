@@ -221,7 +221,7 @@ class ContentModelArticles extends JModel
 
 		// Build the where clause of the content record query
 		$where = (count($where) ? ' WHERE '.implode(' AND ', $where) : '');
-	
+
 		return $where;
 	}
 }

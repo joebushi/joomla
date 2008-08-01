@@ -30,9 +30,9 @@ class MessagesViewConfig extends JView
 	function display($tpl = null)
 	{
 		global $mainframe;
-	
+
 		$db					=& JFactory::getDBO();
-	
+
 		// Set toolbar items for the page
 		JToolBarHelper::title(  JText::_( 'Private Messaging Configuration' ), 'inbox.png' );
 		JToolBarHelper::save( 'saveconfig' );
@@ -41,7 +41,7 @@ class MessagesViewConfig extends JView
 
 		// Get data from the model
 		$vars		= & $this->get( 'Data');
-	
+
 		$this->assignRef('vars',	$vars);
 
 		parent::display($tpl);

@@ -153,11 +153,11 @@ class TemplatesModelSource extends JModel
 		if (empty($this->_data))
 		{
 			$file		= $this->_client->path.DS.'templates'.DS.$this->_id.DS.'index.php';
-	
+
 			// Read the source file
 			jimport('joomla.filesystem.file');
 			$content = JFile::read($file);
-	
+
 			if ($content === false)
 			{
 				$this->setError(JText::sprintf('Operation Failed Could not open', $file));

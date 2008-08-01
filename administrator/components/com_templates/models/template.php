@@ -214,19 +214,19 @@ class TemplatesModelTemplate extends JModel
 		if (empty($this->_data))
 		{
 			require_once(JPATH_COMPONENT.DS.'helpers'.DS.'template.php');
-			
+
 			$tBaseDir	= JPath::clean($this->_client->path.DS.'templates');
-	
+
 			if (!is_dir( $tBaseDir . DS . $this->_id )) {
 				return JError::raiseWarning( 500, JText::_('Template not found') );
 			}
 			$lang =& JFactory::getLanguage();
 			$lang->load( 'tpl_'.$this->_id, JPATH_ADMINISTRATOR );
-	
+
 			$ini	= $this->_client->path.DS.'templates'.DS.$this->_id.DS.'params.ini';
 			$xml	= $this->_client->path.DS.'templates'.DS.$this->_id.DS.'templateDetails.xml';
 			$row	= TemplatesHelper::parseXMLTemplateFile($tBaseDir, $this->_id);
-	
+
 			jimport('joomla.filesystem.file');
 			// Read the ini file
 			if (JFile::exists($ini)) {
@@ -234,9 +234,9 @@ class TemplatesModelTemplate extends JModel
 			} else {
 				$content = null;
 			}
-	
+
 			$this->_params = new JParameter($content, $xml, 'template');
-	
+
 			$assigned = TemplatesHelper::isTemplateAssigned($row->directory);
 			$default = TemplatesHelper::isTemplateDefault($row->directory, $this->_client->id);
 			if ($default) {

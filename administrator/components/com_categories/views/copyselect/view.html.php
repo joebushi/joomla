@@ -36,17 +36,17 @@ class CategoriesViewCopySelect extends JView
 		if (!JRequest::getInt($token, 0, 'post')) {
 			JError::raiseError(403, 'Request Forbidden');
 		}
-	
+
 		$db =& JFactory::getDBO();
 		$sectionOld = JRequest::getCmd( 'section', 'com_content', 'post' );
 		$redirect = $sectionOld;
 		$cid 	= JRequest::getVar( 'cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
-	
+
 		if (count( $cid ) < 1) {
 			JError::raiseError(500, JText::_( 'Select an item to copy', true ));
 		}
-	
+
 		## query to list selected categories
 		$cids = implode( ',', $cid );
 		$query = 'SELECT a.title, a.section'
@@ -55,7 +55,7 @@ class CategoriesViewCopySelect extends JView
 		;
 		$db->setQuery( $query );
 		$items = $db->loadObjectList();
-	
+
 		## query to list items from categories
 		$query = 'SELECT a.title, a.id'
 		. ' FROM #__content AS a'
@@ -64,7 +64,7 @@ class CategoriesViewCopySelect extends JView
 		;
 		$db->setQuery( $query );
 		$contents = $db->loadObjectList();
-	
+
 		## query to choose section to move to
 		$query = 'SELECT a.title AS `text`, a.id AS `value`'
 		. ' FROM #__sections AS a'
@@ -73,10 +73,10 @@ class CategoriesViewCopySelect extends JView
 		;
 		$db->setQuery( $query );
 		$sections = $db->loadObjectList();
-	
+
 		// build the html select list
 		$lists['SectionList'] = JHTML::_('select.genericlist',   $sections, 'sectionmove', 'class="inputbox" size="10"', 'value', 'text', null );
-	
+
 		$this->assignRef('lists',		$lists);
 		$this->assignRef('redirect',	$redirect);
 		$this->assignRef('sectionOld',	$sectionOld);

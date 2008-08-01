@@ -514,7 +514,7 @@ class ContentController extends JController
 			if (!$content->check()) {
 				JError::raiseError(500, $content->getError());
 			}
-	
+
 			if (!$content->store()) {
 				JError::raiseError(500, $content->getError());
 			}

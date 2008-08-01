@@ -68,7 +68,7 @@ class TemplatesController extends JController
 		} else {
 			$msg = JText::_( 'Error Saving Template' ) . $model->getError();
 		}
-		
+
 		$task = JRequest::getCmd('task');
 		if($task == 'apply') {
 			$this->setRedirect('index.php?option='.$option.'&task=edit&cid[]='.$template.'&client='.$client->id, $msg);
@@ -160,7 +160,7 @@ class TemplatesController extends JController
 		} else {
 			$msg = $model->getError();
 		}
-		
+
 		$task = JRequest::getCmd('task');
 		switch($task)
 		{
@@ -229,7 +229,7 @@ class TemplatesController extends JController
 		} else {
 			$msg = $model->getError();
 		}
-		
+
 		$task = JRequest::getCmd('task');
 		switch($task)
 		{

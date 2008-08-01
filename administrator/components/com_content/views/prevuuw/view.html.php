@@ -19,7 +19,7 @@ jimport( 'joomla.application.component.view');
 
 /**
  * HTML View class for the Articles component
- * 
+ *
  * NOTE: Weird spelling used because Joomla! framework prefers
  * view names not to contain "View"
  *

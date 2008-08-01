@@ -46,7 +46,7 @@ class CategoriesModelCategories extends JModel
 	 * @var object
 	 */
 	var $_pagination = null;
-	
+
 	/**
 	 * Filter object
 	 *
@@ -275,7 +275,7 @@ class CategoriesModelCategories extends JModel
 		$this->content_join 	= '';
 		if (intval( $section ) > 0) {
 			$this->table = 'content';
-	
+
 			$query = 'SELECT title'
 			. ' FROM #__sections'
 			. ' WHERE id = '.(int) $section;
@@ -286,7 +286,7 @@ class CategoriesModelCategories extends JModel
 			$this->type 	= 'content';
 		} else if (strpos( $section, 'com_' ) === 0) {
 			$this->table = substr( $section, 4 );
-	
+
 			$query = 'SELECT name'
 			. ' FROM #__components'
 			. ' WHERE link = '.$db->Quote('option='.$section);
@@ -305,19 +305,19 @@ class CategoriesModelCategories extends JModel
 			$where 	= ' WHERE c.section = '.$db->Quote($section);
 			$this->type 	= 'other';
 		}
-	
+
 		// allows for viweing of all content categories
 		if ( $section == 'com_content' ) {
 			$this->table 			= 'content';
 			$this->content_add 	= ' , z.title AS section_name';
 			$this->content_join 	= ' LEFT JOIN #__sections AS z ON z.id = c.section';
 			$where 			= ' WHERE c.section NOT LIKE "%com_%"';
-	
+
 			$this->section_name 	= JText::_( 'All Content:' );
-	
+
 			$this->type 			= 'content';
 		}
-	
+
 		// used by filter
 		if ( $this->_filter->sectionid > 0 ) {
 			$filter = ' AND c.section = '.$db->Quote($this->_filter->sectionid);
@@ -335,7 +335,7 @@ class CategoriesModelCategories extends JModel
 		if ($search) {
 			$filter .= ' AND LOWER(c.title) LIKE '.$this->_db->Quote('%'.$this->_db->getEscaped( $search, true ).'%');
 		}
-	
+
 		return $where . $filter;
 	}
 }

@@ -165,7 +165,7 @@ class MessagesModelMessages extends JModel
 	function _buildContentOrderBy()
 	{
 		$orderby 	= ' ORDER BY '. $this->_filter->order .' '. $this->_filter->order_Dir .', a.date_time DESC';
-	
+
 		return $orderby;
 	}
 
@@ -181,7 +181,7 @@ class MessagesModelMessages extends JModel
 			$searchEscaped = $db->Quote( '%'.$db->getEscaped( $search, true ).'%', false );
 			$where[] = '( u.username LIKE '.$searchEscaped.' OR email LIKE '.$searchEscaped.' OR u.name LIKE '.$searchEscaped.' )';
 		}
-	
+
 		if ( $this->_filter->state ) {
 			if ( $this->_filter->state == 'P' ) {
 				$where[] = 'a.published = 1';

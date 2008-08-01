@@ -213,7 +213,7 @@ class MessagesModelMessage extends JModel
 		$this->_db->setQuery( $query );
 		if ($this->_db->query() === false)
 			return false;
-		
+
 		return true;
 	}
 }

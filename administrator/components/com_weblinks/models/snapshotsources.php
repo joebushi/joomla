@@ -19,7 +19,7 @@ jimport('joomla.application.component.model');
 
 /**
  * Weblinks Component Snapshots
- * 
+ *
  * Read XML snapshots file
  *
  * @package		Joomla
@@ -84,7 +84,7 @@ class WeblinksModelSnapshotSources extends JModel
 				$this->setError(JText::_('Error: Cannot parse XML doc'));
 				return false;
 			}
-			
+
 			$config = &$xmlDoc->documentElement;
 			if ($config->nodeName != 'config') {
 				$this->setError(JText::_('Error: Root incorrect'));
@@ -138,7 +138,7 @@ class WeblinksModelSnapshotSources extends JModel
 				$sites[] = $site;
 				$siteNode = & $siteNode->nextSibling;
 			}
-			
+
 			$this->_data = $sites;
 			return (boolean) $this->_data;
 		}

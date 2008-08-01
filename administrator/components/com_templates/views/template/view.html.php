@@ -30,7 +30,7 @@ class TemplatesViewTemplate extends JView
 	function display($tpl = null)
 	{
 		global $option;
-		
+
 		jimport('joomla.filesystem.path');
 		$this->loadHelper('template');
 

@@ -36,7 +36,7 @@ class TemplatesViewTemplates extends JView
 		$client		= & $this->get( 'Client');
 
 		$task = JRequest::getCmd('task');
-		
+
 		if ($client == 1) {
 			JSubMenuHelper::addEntry(JText::_('Site'), 'index.php?option=com_templates&client=0');
 			JSubMenuHelper::addEntry(JText::_('Administrator'), 'index.php?option=com_templates&client=1', true);

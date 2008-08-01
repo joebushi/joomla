@@ -15,7 +15,7 @@
 		JToolBarHelper::title( JText::_( 'Move Articles' ), 'move_f2.png' );
 		JToolBarHelper::custom( 'movesectsave', 'save.png', 'save_f2.png', 'Save', false );
 	}
-		
+
 	JToolBarHelper::cancel();
 ?>
 <script language="javascript" type="text/javascript">

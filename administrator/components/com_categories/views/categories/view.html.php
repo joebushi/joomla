@@ -34,7 +34,7 @@ class CategoriesViewCategories extends JView
 		// get parameters from the URL or submitted form
 		$db					=& JFactory::getDBO();
 		$user				=& JFactory::getUser();
-	
+
 		// Get data from the model
 		$rows		= & $this->get( 'Data');
 		$pagination = & $this->get( 'Pagination' );
@@ -46,7 +46,7 @@ class CategoriesViewCategories extends JView
 		JToolBarHelper::title( JText::_( 'Category Manager' ) .': <small><small>[ '. JText::_(JString::substr($filter->section, 4)).' ]</small></small>', 'categories.png' );
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
-	
+
 		if ( $filter->section == 'com_content' || ( $filter->section > 0 ) ) {
 			JToolBarHelper::customX( 'moveselect', 'move.png', 'move_f2.png', 'Move', true );
 			JToolBarHelper::customX( 'copyselect', 'copy.png', 'copy_f2.png', 'Copy', true );

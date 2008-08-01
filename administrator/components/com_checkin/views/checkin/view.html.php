@@ -33,11 +33,11 @@ class CheckinViewCheckin extends JView
 
 		// get parameters from the URL or submitted form
 		$db					=& JFactory::getDBO();
-	
+
 		// Set toolbar items for the page
 		JToolBarHelper::title( JText::_( 'Global Check-in' ), 'checkin.png' );
 		JToolBarHelper::help( 'screen.checkin' );
-	
+
 		$tables = $db->getTableList();
 		foreach ($tables as $tn) {
 			// make sure we get the right tables based on prefix
@@ -45,15 +45,15 @@ class CheckinViewCheckin extends JView
 				continue;
 			}
 			$fields = $db->getTableFields( array( $tn ) );
-	
+
 			$foundCO = false;
 			$foundCOT = false;
 			$foundE = false;
-	
+
 			$foundCO	= isset( $fields[$tn]['checked_out'] );
 			$foundCOT	= isset( $fields[$tn]['checked_out_time'] );
 			$foundE		= isset( $fields[$tn]['editor'] );
-	
+
 			if ($foundCO && $foundCOT) {
 				if ($foundE) {
 					$query = 'SELECT checked_out, editor FROM '.$tn.' WHERE checked_out > 0';
@@ -63,7 +63,7 @@ class CheckinViewCheckin extends JView
 				$db->setQuery( $query );
 				$res = $db->query();
 				$num = $db->getNumRows( $res );
-	
+
 				if ($foundE) {
 					$query = 'UPDATE '.$tn.' SET checked_out = 0, checked_out_time = '.$db->Quote($nullDate).', editor = NULL WHERE checked_out > 0';
 				} else {
@@ -71,7 +71,7 @@ class CheckinViewCheckin extends JView
 				}
 				$db->setQuery( $query );
 				$res = $db->query();
-	
+
 				if ($res == 1) {
 					$rows[] = array(
 							'table' => $tn,

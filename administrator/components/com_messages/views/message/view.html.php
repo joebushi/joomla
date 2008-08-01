@@ -49,13 +49,13 @@ class MessagesViewMessage extends JView
 				$reply_user = JRequest::getVar( 'userid', 0, '', 'int' );
 				$subject = JRequest::getString( 'subject' );
 			}
-	
+
 			// get available backend user groups
 			$gid 	= $acl->get_group_id( 'Public Backend', 'ARO' );
 			$gids 	= $acl->get_group_children( $gid, 'ARO', 'RECURSE' );
 			JArrayHelper::toInteger($gids, array(0));
 			$gids 	= implode( ',', $gids );
-		
+
 			// get list of usernames
 			$recipients = array( JHTML::_('select.option',  '0', '- '. JText::_( 'Select User' ) .' -' ) );
 			$query = 'SELECT id AS value, username AS text FROM #__users'
@@ -64,7 +64,7 @@ class MessagesViewMessage extends JView
 			;
 			$db->setQuery( $query );
 			$recipients = array_merge( $recipients, $db->loadObjectList() );
-		
+
 			$this->assignRef('recipients',		$recipients);
 			$this->assignRef('user',			$user);
 			$this->assignRef('reply_user',		$reply_user);

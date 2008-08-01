@@ -19,7 +19,7 @@ jimport( 'joomla.application.component.view');
 
 /**
  * HTML View class for the Articles component
- * 
+ *
  * @static
  * @package		Joomla
  * @subpackage	Content

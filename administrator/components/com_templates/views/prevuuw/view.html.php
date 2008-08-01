@@ -30,7 +30,7 @@ class TemplatesViewPrevuuw extends JView
 	function display($tpl = null)
 	{
 		global $mainframe;
-		
+
 		JToolBarHelper::title( JText::_( 'Template Manager' ), 'thememanager' );
 		JToolBarHelper::back();
 

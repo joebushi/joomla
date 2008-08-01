@@ -94,7 +94,7 @@ class MessagesModelConfig extends JModel
 	function store($vars)
 	{
 		$user	=& JFactory::getUser();
-	
+
 		$query = 'DELETE FROM #__messages_cfg'
 			. ' WHERE user_id = '.(int) $user->get('id')
 		;

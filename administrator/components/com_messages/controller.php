@@ -74,10 +74,10 @@ class MessagesController extends JController
 	function saveconfig( )
 	{
 		global $mainframe;
-	
+
 		// Check for request forgeries
 		JRequest::checkToken() or jexit( 'Invalid Token' );
-	
+
 		$vars = JRequest::getVar( 'vars', array(), 'post', 'array' );
 
 		$model = $this->getModel('config');
@@ -90,11 +90,11 @@ class MessagesController extends JController
 
 		$this->setRedirect( 'index.php?option=com_messages', $msg );
 	}
-	
+
 	function save( )
 	{
 		global $mainframe;
-	
+
 		// Check for request forgeries
 		JRequest::checkToken() or jexit( 'Invalid Token' );
 
@@ -112,14 +112,14 @@ class MessagesController extends JController
 
 		$this->setRedirect('index.php?option=com_messages', $msg);
 	}
-	
+
 	function remove( )
 	{
 		global $mainframe;
-	
+
 		// Check for request forgeries
 		JRequest::checkToken() or jexit( 'Invalid Token' );
-	
+
 		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
 

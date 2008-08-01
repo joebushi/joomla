@@ -78,10 +78,10 @@ class CategoriesController extends JController
 	function save()
 	{
 		global $mainframe, $option;
-	
+
 		// Check for request forgeries.
 		JRequest::checkToken() or die( 'Invalid Token' );
-	
+
 		$db			=& JFactory::getDBO();
 		$menu		= JRequest::getVar( 'menu', 'mainmenu', 'post', 'string' );
 		$menuid		= JRequest::getVar( 'menuid', 0, 'post', 'int' );
@@ -90,10 +90,10 @@ class CategoriesController extends JController
 		$redirect 	= JRequest::getCmd( 'redirect', '', 'post' );
 
 		$post = JRequest::get('post');
-	
+
 		// fix up special html fields
 		$post['description'] = JRequest::getVar( 'description', '', 'post', 'string', JREQUEST_ALLOWRAW );
-	
+
 		$row =& JTable::getInstance('category');
 		if (!$row->bind($post)) {
 			JError::raiseError(500, $row->getError() );
@@ -112,17 +112,17 @@ class CategoriesController extends JController
 				$db->query();
 			}
 		}
-	
+
 		// if new item order last in appropriate group
 		if (!$row->id) {
 			$row->ordering = $row->getNextOrder();
 		}
-	
+
 		if (!$row->store()) {
 			JError::raiseError(500, $row->getError() );
 		}
 		$row->checkin();
-	
+
 		// Update Section Count
 		if ($row->section != 'com_contact_details' &&
 			$row->section != 'com_newsfeeds' &&
@@ -132,7 +132,7 @@ class CategoriesController extends JController
 			;
 			$db->setQuery( $query );
 		}
-	
+
 		if (!$db->query()) {
 			JError::raiseError(500, $db->getErrorMsg() );
 		}
@@ -142,16 +142,16 @@ class CategoriesController extends JController
 			case 'go2menu':
 				$mainframe->redirect( 'index.php?option=com_menus&menutype='. $menu );
 				break;
-	
+
 			case 'go2menuitem':
 				$mainframe->redirect( 'index.php?option=com_menus&menutype='. $menu .'&task=edit&id='. $menuid );
 				break;
-	
+
 			case 'apply':
 				$msg = JText::_( 'Changes to Category saved' );
 				$mainframe->redirect( 'index.php?option=com_categories&section='. $redirect .'&task=edit&cid[]='. $row->id, $msg );
 				break;
-	
+
 			case 'save':
 			default:
 				$msg = JText::_( 'Category saved' );
@@ -163,18 +163,18 @@ class CategoriesController extends JController
 	function copysave()
 	{
 		global $mainframe;
-	
+
 		// Check for request forgeries.
 		JRequest::checkToken() or die( 'Invalid Token' );
-	
+
 		// Initialize variables
 		$db =& JFactory::getDBO();
-	
+
 		$sectionMove 	= JRequest::getInt( 'sectionmove' );
 		$sectionOld = JRequest::getCmd( 'section', 'com_content', 'post' );
 		$cid 	= JRequest::getVar( 'cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid, array(0));
-	
+
 		//Check to see if a section was selected to copy the items too
 		if (!$sectionMove)
 		{
@@ -182,12 +182,12 @@ class CategoriesController extends JController
 			$this->setRedirect( 'index.php?option=com_categories&task=copyselect&section='. $sectionOld . '&cid[]='. $cid, $msg );
 			return;
 		}
-	
+
 		$contentid 		= JRequest::getVar( 'item', null, '', 'array' );
 		JArrayHelper::toInteger($contentid);
-	
+
 		$category =& JTable::getInstance('category');
-	
+
 		foreach( $cid as $id )
 		{
 			$category->load( $id );
@@ -198,7 +198,7 @@ class CategoriesController extends JController
 			if (!$category->check()) {
 				JError::raiseError(500, $category->getError());
 			}
-	
+
 			if (!$category->store()) {
 				JError::raiseError(500, $category->getError());
 			}
@@ -208,7 +208,7 @@ class CategoriesController extends JController
 			// pulls new catid
 			$newcatids[]["new"] = $category->id;
 		}
-	
+
 		$content =& JTable::getInstance('content');
 		foreach( $contentid as $id) {
 			$content->load( $id );
@@ -224,16 +224,16 @@ class CategoriesController extends JController
 			if (!$content->check()) {
 				JError::raiseError(500, $content->getError());
 			}
-	
+
 			if (!$content->store()) {
 				JError::raiseError(500, $content->getError());
 			}
 			$content->checkin();
 		}
-	
+
 		$sectionNew =& JTable::getInstance('section');
 		$sectionNew->load( $sectionMove );
-	
+
 		$msg = JText::sprintf( 'Categories copied to', count($cid), $sectionNew->title );
 		$this->setRedirect( 'index.php?option=com_categories&section='. $sectionOld, $msg );
 	}
@@ -241,16 +241,16 @@ class CategoriesController extends JController
 	function movesave()
 	{
 		global $mainframe;
-	
+
 		// Check for request forgeries.
 		JRequest::checkToken() or die( 'Invalid Token' );
-	
+
 		$db =& JFactory::getDBO();
 		$sectionMove = JRequest::getCmd( 'sectionmove' );
 		$sectionOld = JRequest::getCmd( 'section', 'com_content', 'post' );
 		$cid 	= JRequest::getVar( 'cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid, array(0));
-	
+
 		//Check to see of a section was selected to copy the items too
 		if (!$sectionMove)
 		{
@@ -258,31 +258,31 @@ class CategoriesController extends JController
 			$this->setRedirect( 'index.php?option=com_categories&task=moveselect&section='. $sectionOld . '&cid[]='. $cid, $msg );
 			return;
 		}
-	
+
 		JArrayHelper::toInteger($cid, array(0));
-	
+
 		$sectionNew =& JTable::getInstance('section');
 	    $sectionNew->load( $sectionMove );
-	
+
 	    //Remove the categories was in destination section
 		$cids = implode( ',', $cid );
-	
+
 		$query = 'SELECT id, title'
 		. ' FROM #__categories'
 		. ' WHERE id IN ( '.$cids.' )'
 		. ' AND section = '.$db->Quote($sectionMove)
 		;
 		$db->setQuery( $query );
-	
+
 		$scid   = $db->loadResultArray(0);
 		$title  = $db->loadResultArray(1);
-	
+
 		$cid = array_diff($cid, $scid);
-	
+
 		if ( !empty($cid) ) {
 		    $cids = implode( ',', $cid );
 		    $total = count( $cid );
-	
+
 		    $query = 'UPDATE #__categories'
 		    . ' SET section = '.$db->Quote($sectionMove)
 		    . ' WHERE id IN ( '.$cids.' )'
@@ -299,7 +299,7 @@ class CategoriesController extends JController
 		    if ( !$db->query() ) {
 		    	JError::raiseError(500, $db->getErrorMsg());
 		    }
-	
+
 			$msg = JText::sprintf( 'Categories moved to', $sectionNew->title );
 		}
 		if ( !empty($title) && is_array($title) ) {
@@ -309,7 +309,7 @@ class CategoriesController extends JController
 			    $msg = JText::sprintf( 'Categories already in', implode( ',', $title ), $sectionNew->title );
 			}
 		}
-	
+
 		$this->setRedirect( 'index.php?option=com_categories&section='. $sectionOld, $msg );
 	}
 
@@ -325,7 +325,7 @@ class CategoriesController extends JController
 		if (count( $cid ) < 1) {
 			JError::raiseError(500, JText::_( 'Select a section to delete', true ) );
 		}
-	
+
 		$cids = implode( ',', $cid );
 
 		if (intval( $section ) > 0) {
@@ -335,12 +335,12 @@ class CategoriesController extends JController
 		} else {
 			$table = $section;
 		}
-	
+
 		$tablesAllowed = $db->getTableList();
 		if (!in_array($db->getPrefix().$table, $tablesAllowed)) {
 			$table = 'content';
 		}
-	
+
 		$query = 'SELECT c.id, c.name, c.title, COUNT( s.catid ) AS numcat'
 		. ' FROM #__categories AS c'
 		. ' LEFT JOIN #__'.$table.' AS s ON s.catid = c.id'
@@ -348,12 +348,12 @@ class CategoriesController extends JController
 		. ' GROUP BY c.id'
 		;
 		$db->setQuery( $query );
-	
+
 		if (!($rows = $db->loadObjectList())) {
 			JError::raiseError( 500, $db->stderr() );
 			return false;
 		}
-	
+
 		$err = array();
 		$names = array();
 		$cid = array();
@@ -365,7 +365,7 @@ class CategoriesController extends JController
 				$err[]	= $row->name;
 			}
 		}
-	
+
 		if (count( $cid ))
 		{
 			$cids = implode( ',', $cid );
@@ -378,7 +378,7 @@ class CategoriesController extends JController
 				return false;
 			}
 		}
-	
+
 		if (count( $err ))
 		{
 			$cids = implode( ", ", $err );
@@ -443,7 +443,7 @@ class CategoriesController extends JController
 		$model->checkin();
 
 		$redirect = JRequest::getCmd( 'redirect', '', 'post' );
-	
+
 		$this->setRedirect( 'index.php?option=com_categories&section='. $redirect );
 	}
 

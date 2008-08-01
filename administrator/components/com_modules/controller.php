@@ -101,7 +101,7 @@ class ModulesController extends JController
 			case 'save':
 				$this->setRedirect( 'index.php?option=com_modules&client='. $client->id );
 				break;
-				
+
 			case 'apply':
 				$this->setRedirect( 'index.php?option=com_modules&client='. $client->id .'&task=edit&id='. $model->_id );
 				break;

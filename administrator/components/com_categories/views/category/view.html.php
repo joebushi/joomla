@@ -30,19 +30,19 @@ class CategoriesViewCategory extends JView
 	function display($tpl = null)
 	{
 		global $mainframe;
-	
+
 		// Initialize variables
 		$db			=& JFactory::getDBO();
 		$user 		=& JFactory::getUser();
 		$uid		= $user->get('id');
-	
+
 		$type		= JRequest::getCmd( 'type' );
 		$redirect	= JRequest::getCmd( 'section', 'com_content' );
 		$section	= JRequest::getCmd( 'section', 'com_content' );
 		$cid		= JRequest::getVar( 'cid', array(0), '', 'array' );
 		JArrayHelper::toInteger($cid, array(0));
 		$model	=& $this->getModel();
-	
+
 		// check for existance of any sections
 		$query = 'SELECT COUNT( id )'
 		. ' FROM #__sections'
@@ -57,7 +57,7 @@ class CategoriesViewCategory extends JView
 				&& $section != 'com_banner') {
 			$mainframe->redirect( 'index.php?option=com_categories&section='. $section, JText::_( 'WARNSECTION', true ) );
 		}
-	
+
 		//get the section
 		$row	=& $this->get('data');
 		$edit	= JRequest::getVar('edit',true);
@@ -67,14 +67,14 @@ class CategoriesViewCategory extends JView
 			$msg = JText::sprintf( 'DESCBEINGEDITTED', JText::_( 'The category' ), $row->title );
 			$mainframe->redirect( 'index.php?option=com_categories&section='. $row->section, $msg );
 		}
-	
+
 		if ( $edit ) {
 			$model->checkout( $user->get('id'));
 		} else {
 			$row->published 	= 1;
 		}
-	
-	
+
+
 		// make order list
 		/*
 		$order = array();
@@ -84,19 +84,19 @@ class CategoriesViewCategory extends JView
 		;
 		$db->setQuery( $query );
 		$max = intval( $db->loadResult() ) + 1;
-	
+
 		for ($i=1; $i < $max; $i++) {
 			$order[] = JHTML::_('select.option',  $i );
 		}
 		*/
-	
+
 		// build the html select list for sections
 		if ( $section == 'com_content' ) {
-	
+
 			if (!$row->section && JRequest::getInt('sectionid')) {
 			    $row->section = JRequest::getInt('sectionid');
 			}
-	
+
 			$query = 'SELECT s.id AS value, s.title AS text'
 			. ' FROM #__sections AS s'
 			. ' ORDER BY s.ordering'
@@ -116,7 +116,7 @@ class CategoriesViewCategory extends JView
 			$row->section = $section;
 			$lists['section'] = '<input type="hidden" name="section" value="'. $row->section .'" />'. $section_name;
 		}
-	
+
 		// build the html select list for ordering
 		$query = 'SELECT ordering AS value, title AS text'
 		. ' FROM #__categories'
@@ -138,7 +138,7 @@ class CategoriesViewCategory extends JView
 		// build the html radio buttons for published
 		$published = ($row->id) ? $row->published : 1;
 		$lists['published'] 		= JHTML::_('select.booleanlist',  'published', 'class="inputbox"', $published );
-	
+
 		$this->assignRef('redirect',	$redirect);
 		$this->assignRef('lists',		$lists);
 		$this->assignRef('row',			$row);

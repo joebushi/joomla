@@ -44,7 +44,7 @@ class TemplatesViewCssedit extends JView
 		$client		=& $this->get('Client');
 		$template	=& $this->get('Template');
 		$filename	=& $this->get('Filename');
-		
+
 		// Set FTP credentials, if given
 		jimport('joomla.client.helper');
 		$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
