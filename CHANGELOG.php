@@ -38,9 +38,6 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-3-August-2008 Charl van Niekerk
- # [#12065] Section Blog Skips Articles When Next Page Pressed
-
 28-July-2008 Hannes Papenberg
  # [#10906] Error in JURI::buildQuery if using "param[key]=value" GET parameter
  # [#11327] Base path showed in media manager is missing slashes
