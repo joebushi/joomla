@@ -43,8 +43,16 @@ class ContentViewCategory extends ContentView
 		// Get the page/component configuration
 		$params = clone($mainframe->getParams('com_content'));
 
+		$category	= & $this->get( 'Category' );
+
+		$params->merge(new JParameter($category->params));
+
 		// Request variables
-		$layout     = JRequest::getCmd('layout');
+		$layout     = JRequest::getCmd('layout', $params->get('layout'));
+		if($layout != null)
+		{
+			$this->setLayout($layout);
+		}
 		$task		= JRequest::getCmd('task');
 		$limit = $mainframe->getUserStateFromRequest('limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
@@ -76,7 +84,6 @@ class ContentViewCategory extends ContentView
 		// Get some data from the model
 		$items		= & $this->get( 'Data' );
 		$total		= & $this->get( 'Total' );
-		$category	= & $this->get( 'Category' );
 
 		//add alternate feed link
 		if($params->get('show_feed_link', 1) == 1)

@@ -198,6 +198,40 @@ function submitbutton(pressbutton, section) {
 			</table>
 	</fieldset>
 </div>
+		<div>
+			<fieldset class="adminform">
+				<legend><?php echo JText::_( 'Parameters' ); ?></legend>
+				<table class="admintable">
+					<tr>
+						<td valign="top" colspan="3">
+							<?php
+							jimport('joomla.html.pane');
+							$pane	=& JPane::getInstance('sliders');
+							$groups = $this->params->getGroups();
+							if($groups && count($groups)) {
+								echo $pane->startPane("menu-pane");
+								foreach($groups as $groupname => $group) {
+									if($groupname == '_default') {
+										$title = 'General';
+									} else {
+										$title = ucfirst($groupname);
+									}
+									if($this->params->getNumParams($groupname)) {
+										echo $pane->startPanel(JText :: _('Parameters - '.$title), $groupname.'-page');
+										echo $this->params->render('params', $groupname);
+										echo $pane->endPanel();
+									}
+								}
+								echo $pane->endPane();
+							} else {
+								echo '<div style="text-align: center; padding: 5px; ">'.JText::_('There are no parameters for this item').'</div>';
+							}
+							?>
+						</td>
+					</tr>
+				</table>
+			</fieldset>
+			</div> 
 <div class="clr"></div>
 
 <input type="hidden" name="option" value="com_categories" />

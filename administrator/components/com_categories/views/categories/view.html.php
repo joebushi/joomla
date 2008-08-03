@@ -68,7 +68,11 @@ class CategoriesViewCategories extends JView
 
 function renderCats($rows, $level = 0, $parent = 0)
 {
+	$ordering = ($this->filter->order == 'c.ordering');
+	
+	$k = 0;
 	$i = 0;
+	$n = count($rows);
 foreach($rows as $row) {
 	$i++;
 if($row->parent_id == $parent) {

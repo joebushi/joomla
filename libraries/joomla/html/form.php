@@ -114,7 +114,7 @@ class JForm extends JRegistry
 	 * @param	string Tagname used in the XML file
 	 * @since	1.5
 	 */
-	function __construct($data, $xmldata = '', $xmlelement = 'element')
+	function __construct($data, $xmldata = '', $xmlelement = 'element', $addDefault = false)
 	{
 		parent::__construct('_default');
 
@@ -128,9 +128,9 @@ class JForm extends JRegistry
 		}
 
 		if(strpos($xmldata, '<')) {
-			$this->loadXML($xmldata);
+			$this->loadXML($xmldata, $addDefault);
 		} elseif ($xmldata != '') {
-			$this->loadSetupFile($xmldata);
+			$this->loadSetupFile($xmldata, $addDefault);
 		}
 
 		$this->_raw = $data;
@@ -420,7 +420,7 @@ class JForm extends JRegistry
 	 * @return	object
 	 * @since	1.5
 	 */
-	function loadXML($xml)
+	function loadXML($xml, $addDefault = false)
 	{
 		$elementTagName = $this->_elementTagName.'s';
 		$result = false;
@@ -432,6 +432,13 @@ class JForm extends JRegistry
 			if ($elements = & $xml->document->$elementTagName) {
 				foreach ($elements as $element)
 				{
+					if ($addDefault && ($element->attributes('type') == 'radio' || $element->attributes('type') == 'list')) {
+						$element->addAttribute('default', '');
+						$element->addAttribute('type', 'list');
+						$child = &$element->addChild('option', array('value' => ''));
+						$child->setData('Use Global');
+					}
+					
 					$this->setXML( $element );
 					$result = true;
 				}
@@ -453,7 +460,7 @@ class JForm extends JRegistry
 	 * @return	object
 	 * @since	1.5
 	 */
-	function loadSetupFile($path)
+	function loadSetupFile($path, $addDefault = false)
 	{
 		static $file;
 
@@ -474,6 +481,18 @@ class JForm extends JRegistry
 				if ($elements = & $xml->document->$elementtagname) {
 					foreach ($elements as $element)
 					{
+						if ($addDefault)
+						{
+							foreach($element->_children as &$child)
+							{
+								if($child->attributes('type') == 'radio' || $child->attributes('type') == 'list') {
+									$child->addAttribute('default', '');
+									$child->addAttribute('type', 'list');
+									$subchild = &$child->addChild('option', array('value' => ''));
+									$subchild->setData('Use Global');
+								}
+							}
+						}
 						$this->setXML( $element );
 						$result = true;
 					}
@@ -496,7 +515,7 @@ class JForm extends JRegistry
 	 * @return	object
 	 * @since	1.6
 	 */
-	function loadSetupDirectory($path, $filter = '.xml')
+	function loadSetupDirectory($path, $filter = '.xml', $addDefault = false)
 	{
 		$result = false;
 
@@ -509,7 +528,7 @@ class JForm extends JRegistry
 		{
 			foreach($files as $file)
 			{
-				$result = $this->loadSetupFile($file);
+				$result = $this->loadSetupFile($file, $addDefault);
 			}
 		}
 		else

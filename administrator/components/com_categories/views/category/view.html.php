@@ -141,9 +141,19 @@ class CategoriesViewCategory extends JView
 
 		$lists['parent']		= JHTML::_('list.category', 'parent_id', $row->section, $row->parent_id);
 	
+		jimport('joomla.html.parameter');
+		if(is_file(JPATH_ADMINISTRATOR.DS.'components'.DS.$section.DS.'params'.DS.'category.xml'))
+		{
+			$params = new JParameter($row->params, JPATH_ADMINISTRATOR.DS.'components'.DS.$section.DS.'params'.DS.'category.xml', true);
+			$params->loadSetupDirectory(JPATH_ADMINISTRATOR.DS.'components'.DS.$section.DS.'params', 'category_(.*)\.xml', true);
+		} else {
+			$params = new JParameter($row->params);
+		}
+
 		$this->assignRef('redirect',	$redirect);
 		$this->assignRef('lists',		$lists);
 		$this->assignRef('row',			$row);
+		$this->assignRef('params',		$params);
 
 		parent::display($tpl);
 	}

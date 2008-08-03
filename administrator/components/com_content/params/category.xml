@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<category>
+	<params>
+		<param name="use_params" type="radio" default="0" label="Use these parameters" description="Use this parameterset">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="show_description" type="radio" default="0" label="Description" description="Show/Hide the Category Description">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="show_description_image" type="radio" default="0" label="Description Image" description="Show/Hide the Category Description">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="layout" type="layout" default="" component="com_content" view="category" label="Layout for the Category" description="" />
+	</params>
+	<params group="blog_view">
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="num_leading_articles" type="text" size="3" default="1" label="Num Leading" description="PARAMLEADING" />
+		<param name="num_intro_articles" type="text" size="3" default="4" label="Num Intro" description="PARAMINTRO" />
+		<param name="num_columns" type="text" size="3" default="2" label="Columns" description="PARAMCOLUMNS" />
+		<param name="num_links" type="text" size="3" default="4" label="Num Links" description="Number of Items to display as Links." />
+	</params>
+	<params group="ordering">
+		<param name="orderby_pri" type="list" default="" label="Category Order" description="Order items by category">
+			<option value="">No, order by Primary Order only</option>
+			<option value="alpha">Title Alphabetical</option>
+			<option value="ralpha">Title Reverse-Alphabetical</option>
+			<option value="order">Ordering</option>
+		</param>
+		<param name="orderby_sec" type="list" default="" label="Primary Order" description="Order that the items will be displayed in.">
+			<option value="">Default</option>
+			<option value="date">Oldest first</option>
+			<option value="rdate">Most recent first</option>
+			<option value="alpha">Title Alphabetical</option>
+			<option value="ralpha">Title Reverse-Alphabetical</option>
+			<option value="author">Author Alphabetical</option>
+			<option value="rauthor">Author Reverse-Alphabetical</option>
+			<option value="hits">Most Hits</option>
+			<option value="rhits">Least Hits</option>
+			<option value="order">Ordering</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="show_pagination" type="list" default="2" label="Pagination" description="Show/Hide Pagination support">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+			<option value="2">Auto</option>
+		</param>
+		<param name="show_pagination_results" type="radio" default="1" label="Pagination Results" description="PARAMPAGINATIONRESULTS">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="show_feed_link" type="radio" default="1" label="Show a feed link" description="PARAMSHOWFEEDLINK">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+	</params>
+	<params group="standard_view">
+		<param name="display_num" type="list" default="10" label="Num Links" description="Number of Items to display as links.">
+			<option value="5">5</option>
+			<option value="10">10</option>
+			<option value="15">15</option>
+			<option value="20">20</option>
+			<option value="25">25</option>
+			<option value="30">30</option>
+			<option value="50">50</option>
+			<option value="100">100</option>
+			<option value="0">All</option>
+		</param>
+		<param name="show_headings" type="radio" default="1" label="Table Headings" description="Show/Hide the Table Headings">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="show_date" type="list" default="" label="Date Column" description="Show/Hide the Date column">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="date_format" type="text" size="15" default="" label="Date Format" description="PARAMDATEFORMAT" />
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="filter" type="radio" default="1" label="Filter" description="Show/Hide the Filter ability">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="filter_type" type="list" default="title" label="Filter Field" description="Which field shall the filter apply to">
+			<option value="title">Title</option>
+			<option value="author">Author</option>
+			<option value="hits">Hits</option>
+		</param>
+	</params>
+</category>

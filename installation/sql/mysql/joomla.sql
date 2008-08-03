@@ -658,7 +658,7 @@ CREATE TABLE `#__templates_menu` (
 
 # Dumping data for table `#__templates_menu`
 
-INSERT INTO `#__templates_menu` VALUES ('ja_purity', '0', '0', '');
+INSERT INTO `#__templates_menu` VALUES ('ja_purity', '0', '0', 'logoType=image\r\nlogoText=Joomla!\r\nsloganText=...because open source matters\r\nja_font=3\r\nja_screen=fluid\r\nja_screen_width=97\r\ntheme_header=\r\ntheme_background=lighter\r\ntheme_elements=black\r\nhorNav=1\r\nhorNavType=css\r\nrightCollapsible=1\r\nrightCollapseDefault=show\r\nexcludeModules=38\r\nshowComponent=1');
 INSERT INTO `#__templates_menu` VALUES ('khepri', '0', '1', 'useRoundedCorners=1\r\nshowSiteName=1\r\nheaderColor=h_green');
 
 # --------------------------------------------------------

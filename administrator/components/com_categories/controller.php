@@ -117,7 +117,18 @@ class CategoriesController extends JController
 		if (!$row->id) {
 			$row->ordering = $row->getNextOrder();
 		}
-	
+		$params		= JRequest::getVar( 'params', null, 'post', 'array' );
+
+		// Build parameter INI string
+		if (is_array($params))
+		{
+			$txt = array ();
+			foreach ($params as $k => $v) {
+				$txt[] = "$k=$v";
+			}
+			$row->params = implode("\n", $txt);
+		}
+ 
 		if (!$row->store()) {
 			JError::raiseError(500, $row->getError() );
 		}

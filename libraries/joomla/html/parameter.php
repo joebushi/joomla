@@ -38,9 +38,9 @@ class JParameter extends JForm
 	 * @param	string Path to the xml setup file
 	 * @since	1.5
 	 */
-	function __construct($data, $path = '')
+	function __construct($data, $path = '', $addDefault = false)
 	{
-		parent::__construct($data, $path, 'param');
+		parent::__construct($data, $path, 'param', $addDefault);
 	}
 
 	/**
