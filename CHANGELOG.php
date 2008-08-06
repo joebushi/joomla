@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-Aug-2008 Toby Patterson
+ [#10906] Error in JURI::buildQuery if using "param[key]=value" GET parameter
+
 -------------------- 1.5.5 Stable Release [27-July-2008] ---------------------
 
 26-July-2008 Anthony Ferrara
