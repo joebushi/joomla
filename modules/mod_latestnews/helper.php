@@ -33,7 +33,7 @@ class modLatestNewsHelper
 		$aid		= $user->get('aid', 0);
 
 		$contentConfig = &JComponentHelper::getParams( 'com_content' );
-		$access		= !$contentConfig->get('show_noauth');
+		$access		= !$contentConfig->get('shownoauth');
 
 		$nullDate	= $db->getNullDate();
 
@@ -104,12 +104,7 @@ class modLatestNewsHelper
 		$lists	= array();
 		foreach ( $rows as $row )
 		{
-			if($row->access <= $aid)
-			{
-				$lists[$i]->link = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catslug, $row->sectionid));
-			} else {
-				$lists[$i]->link = JRoute::_('index.php?option=com_user&view=login');
-			}
+			$lists[$i]->link = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catslug, $row->sectionid));
 			$lists[$i]->text = htmlspecialchars( $row->title );
 			$i++;
 		}

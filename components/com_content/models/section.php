@@ -114,10 +114,8 @@ class ContentModelSection extends JModel
 				return false;
 			}
 
- 			$mainframe = JFactory::getApplication();
- 			$params = $mainframe->getParams( 'com_content' );
 			// check whether category access level allows access
-			if ($this->_section->access > $user->get('aid', 0) && !$params->get('show_noauth', 0)) {
+			if ($this->_section->access > $user->get('aid', 0)) {
 				JError::raiseError(403, JText::_("ALERTNOTAUTH"));
 				return false;
 			}
@@ -162,10 +160,8 @@ class ContentModelSection extends JModel
 				return false;
 			}
 
-			$mainframe = JFactory::getApplication();
-			$params = $mainframe->getParams('com_content');
 			// check whether category access level allows access
-			if ($this->_section->access > $user->get('aid', 0) && !$params->get('show_noauth', 0)) {
+			if ($this->_section->access > $user->get('aid', 0)) {
 				JError::raiseError(403, JText::_("ALERTNOTAUTH"));
 				return false;
 			}
@@ -193,9 +189,7 @@ class ContentModelSection extends JModel
 			}
 
 			// check whether category access level allows access
-			$mainframe = JFactory::getApplication();
-			$params = $mainframe->getParams('com_content');
-			if ($this->_section->access > $user->get('aid', 0) && !$params->get('show_noauth', 0)) {
+			if ($this->_section->access > $user->get('aid', 0)) {
 				JError::raiseError(403, JText::_("ALERTNOTAUTH"));
 				return false;
 			}
@@ -346,8 +340,17 @@ class ContentModelSection extends JModel
 			$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
 			$query = $this->_buildQuery();
-			$rows = $this->_getList($query, $limitstart, $limit);
+			$Arows = $this->_getList($query, $limitstart, $limit);
 
+			// special handling required as Uncategorized content does not have a section / category id linkage
+			$i = $limitstart;
+			$rows = array();
+			foreach ($Arows as $row)
+			{
+				// check to determine if section or category has proper access rights
+				$rows[$i] = $row;
+				$i ++;
+			}
 			$this->_data[$state] = $rows;
 		}
 		return true;

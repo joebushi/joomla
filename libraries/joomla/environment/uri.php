@@ -482,7 +482,7 @@ class JURI extends JObject
 				continue;
 			}
 
-			$thekey = ( !$akey ) ? $key : $akey.'['.$key.']';
+			$thekey = ( !$akey ) ? $key : $akey.'[]';
 			$out[] = $thekey."=".urlencode($val);
 		}
 

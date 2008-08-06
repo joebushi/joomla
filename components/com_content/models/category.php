@@ -120,10 +120,8 @@ class ContentModelCategory extends JModel
 				return false;
 			}
 
-			$mainframe = JFactory::getApplication();
-			$params = $mainframe->getParams( 'com_content' );
 			// check whether category access level allows access
-			if ($this->_category->access > $user->get('aid', 0) && !$params->get('show_noauth', 0))
+			if ($this->_category->access > $user->get('aid', 0))
 			{
 				JError::raiseError(403, JText::_("ALERTNOTAUTH"));
 				return false;
@@ -168,11 +166,8 @@ class ContentModelCategory extends JModel
 				JError::raiseError(404, JText::_("Resource Not Found"));
 				return false;
 			}
-
-			$mainframe = JFactory::getApplication();
-			$params = $mainframe->getParams( 'com_content' );
 			// check whether category access level allows access
-			if ($this->_category->access > $user->get('aid', 0) && !$params->get('show_noauth', 0)) {
+			if ($this->_category->access > $user->get('aid', 0)) {
 				JError::raiseError(403, JText::_("ALERTNOTAUTH"));
 				return false;
 			}
@@ -200,10 +195,8 @@ class ContentModelCategory extends JModel
 				return false;
 			}
 
-			$mainframe = JFactory::getApplication();
-			$params = $mainframe->getParams( 'com_content' );
 			// check whether category access level allows access
-			if ($this->_category->access > $user->get('aid', 0) && !$params->get('show_noauth', 0))
+			if ($this->_category->access > $user->get('aid', 0))
 			{
 				JError::raiseError(403, JText::_("ALERTNOTAUTH"));
 				return false;
