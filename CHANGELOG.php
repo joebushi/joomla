@@ -38,6 +38,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+08-Aug-2008 Sam Moffatt
+ ^ Typo fix for loading template language
+ + Added start of updater
+
 01-Aug-2008 Sam Moffatt
  + Added extension based language file support
  # Changed libraries/joomla/language/language.php to not overwrite strings with default
