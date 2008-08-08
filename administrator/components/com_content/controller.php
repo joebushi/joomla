@@ -666,7 +666,7 @@ class ContentController extends JController
 
 		// Get metadata string
 		$metadata = JRequest::getVar( 'meta', null, 'post', 'array');
-		if (is_array($metadata))
+		if (is_array($params))
 		{
 			$txt = array();
 			foreach ($metadata as $k => $v) {
