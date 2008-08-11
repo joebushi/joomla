@@ -35,12 +35,12 @@
 		</tbody>
 	</table>
 	<?php else : ?>
-		<?php echo JText::_( 'ERRNODISCOVERED' ); ?>
+		<?php echo JText::_( 'ERRNOUPDATES' ); ?>
 	<?php endif; ?>
 
 	<input type="hidden" name="task" value="manage" />
 	<input type="hidden" name="boxchecked" value="0" />
 	<input type="hidden" name="option" value="com_installer" />
-	<input type="hidden" name="type" value="discover" />
+	<input type="hidden" name="type" value="update" />
 	<?php echo JHTML::_( 'form.token' ); ?>
 </form>

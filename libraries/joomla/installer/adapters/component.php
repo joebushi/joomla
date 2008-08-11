@@ -14,6 +14,7 @@
 
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();
+jimport('joomla.base.adapterinstance');
 
 /**
  * Component installer
@@ -22,21 +23,8 @@ defined('JPATH_BASE') or die();
  * @subpackage	Installer
  * @since		1.5
  */
-class JInstallerComponent extends JObject
+class JInstallerComponent extends JAdapterInstance
 {
-	/**
-	 * Constructor
-	 *
-	 * @access	protected
-	 * @param	object	$parent	Parent object [JInstaller instance]
-	 * @return	void
-	 * @since	1.5
-	 */
-	function __construct(&$parent)
-	{
-		$this->parent =& $parent;
-	}
-
 	/**
 	 * Custom install method for components
 	 *

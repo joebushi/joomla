@@ -48,61 +48,42 @@ ALTER TABLE `jos_extensions` ADD INDEX `type_element`(`type`, `element`),
  ADD INDEX `extension`(`type`,`element`,`folder`,`client_id`);
 
 
-# Migration script; adds modules, plugins and components to the extensions table
- TRUNCATE TABLE jos_extensions; 
- INSERT INTO jos_extensions SELECT 
- 	0,				 		# extension id (regenerate)
- 	name, 					# name
- 	'plugin', 				# type
- 	element, 				# element
- 	folder, 					# folder
- 	client_id, 				# client_id
- 	published,				# enabled 
- 	access, 					# access
- 	iscore,				 	# protected
- 	'', 						# manifestcache
- 	params, 					# params
- 	'', 						# data
- 	checked_out, 			# checked_out
- 	checked_out_time, 		# checked_out_time
- 	ordering					# ordering
- 	FROM jos_plugins; 		# #__extensions replaces the old #__plugins table
- 	
- INSERT INTO jos_extensions SELECT 
- 	0, 						# extension id (regenerate)
- 	name, 					# name
- 	'component', 			# type
- 	`option`, 				# element
- 	'', 						# folder
- 	0, 						# client id (unused for components)
- 	enabled,					# enabled 
- 	0, 						# access
- 	iscore, 					# protected
- 	'', 						# manifest cache
- 	params, 					# params
- 	'', 						# data
- 	'0', 					# checked_out
- 	'0000-00-00 00:00:00', 	# checked_out_time
- 	0						# ordering
- 	FROM jos_components		# #__extensions replaces #__components for install uninstall
- 							# component menu selection still utilises the #__components table
- 	WHERE parent = 0;		# only get top level entries
- 	
- INSERT INTO jos_extensions SELECT
- 	0, 						# extension id (regenerate)
- 	module, 					# name
- 	'module', 				# type
- 	`module`, 				# element
- 	'', 						# folder
- 	client_id,				# client id
- 	1,						# enabled (module instances may be enabled/disabled in #__modules) 
- 	0, 						# access (module instance access controlled in #__modules)
- 	iscore,					# protected
- 	'', 						# manifest cache
- 	'',	 					# params (module instance params controlled in #__modules)
- 	'', 						# data
- 	'0', 					# checked_out (module instance, see #__modules)
- 	'0000-00-00 00:00:00', 	# checked_out_time (module instance, see #__modules)
- 	0						# ordering (module instance, see #__modules)
- 	FROM jos_modules
- 	WHERE id IN (SELECT id FROM jos_modules GROUP BY module ORDER BY id) 	
+# Update Sites
+CREATE TABLE  `jos_updates` (
+  `updateid` int(11) NOT NULL auto_increment,
+  `extensionid` int(11) default '0',
+  `name` varchar(100) default '',
+  `description` text,
+  `element` varchar(100) default '',
+  `type` varchar(20) default '',
+  `folder` varchar(20) default '',
+  `client_id` tinyint(3) default '0',
+  `version` varchar(10) default '',
+  `data` text,
+  PRIMARY KEY  (`updateid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Available Updates';
+
+
+CREATE TABLE  `joomla_update`.`jos_update_sites` (
+  `updatesiteid` int(11) NOT NULL auto_increment,
+  `name` varchar(100) default '',
+  `type` varchar(20) default '',
+  `location` text,
+  `enabled` int(11) default '0',
+  PRIMARY KEY  (`updatesiteid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Update Sites'
+
+CREATE TABLE `jos_update_sites_extensions` (
+  `updatesiteid` INT DEFAULT 0,
+  `extensionid` INT DEFAULT 0,
+  INDEX `newindex`(`updatesiteid`, `extensionid`)
+) ENGINE = MYISAM CHARACTER SET utf8 COMMENT = 'Links extensions to update sites';
+
+CREATE TABLE  `jos_update_categories` (
+  `categoryid` int(11) NOT NULL auto_increment,
+  `name` varchar(20) default '',
+  `description` text,
+  `parent` int(11) default '0',
+  `updatesite` int(11) default '0',
+  PRIMARY KEY  (`categoryid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Update Categories';

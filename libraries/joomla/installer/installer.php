@@ -19,6 +19,7 @@ jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.archive');
 jimport('joomla.filesystem.path');
+jimport('joomla.base.adapter');
 
 /**
  * Joomla base installer class
@@ -28,7 +29,7 @@ jimport('joomla.filesystem.path');
  * @subpackage	Installer
  * @since		1.5
  */
-class JInstaller extends JObject
+class JInstaller extends JAdapter
 {
 	/**
 	 * Array of paths needed by the installer
@@ -61,18 +62,6 @@ class JInstaller extends JObject
 	var $_overwrite = false;
 
 	/**
-	 * A database connector object
-	 * @var object
-	 */
-	var $_db = null;
-
-	/**
-	 * Associative array of package installer handlers
-	 * @var array
-	 */
-	var $_adapters = array();
-
-	/**
 	 * Stack of installation steps
 	 * 	- Used for installation rollback
 	 * @var array
@@ -98,7 +87,7 @@ class JInstaller extends JObject
 	 */
 	function __construct()
 	{
-		$this->_db =& JFactory::getDBO();
+		parent::__construct(dirname(__FILE__),'JInstaller');
 	}
 
 	/**
@@ -179,18 +168,6 @@ class JInstaller extends JObject
 			$this->_upgrade = false;
 		}
 		return $tmp;
-	}	
-
-	/**
-	 * Get the database connector object
-	 *
-	 * @access	public
-	 * @return	object	Database connector object
-	 * @since	1.5
-	 */
-	function &getDBO()
-	{
-		return $this->_db;
 	}
 
 	/**
@@ -247,32 +224,6 @@ class JInstaller extends JObject
 	function pushStep($step)
 	{
 		$this->_stepStack[] = $step;
-	}
-
-	/**
-	 * Set an installer adapter by name
-	 *
-	 * @access	public
-	 * @param	string	$name		Adapter name
-	 * @param	object	$adapter	Installer adapter object
-	 * @return	boolean True if successful
-	 * @since	1.5
-	 */
-	function setAdapter($name, &$adapter = null)
-	{
-		if (!is_object($adapter))
-		{
-			// Try to load the adapter object
-			require_once(dirname(__FILE__).DS.'adapters'.DS.strtolower($name).'.php');
-			$class = 'JInstaller'.ucfirst($name);
-			if (!class_exists($class)) {
-				return false;
-			}
-			$adapter = new $class($this);
-			$adapter->parent =& $this;
-		}
-		$this->_adapters[$name] =& $adapter;
-		return true;
 	}
 
 	/**
@@ -1303,27 +1254,7 @@ class JInstaller extends JObject
 	function generateManifestCache() {
 		return serialize(JApplicationHelper::parseXMLInstallFile($this->getPath('manifest')));
 	}
-	
-	/**
-	 * Loads all adapters
-	 */
-	function loadAllAdapters() {
-		$list = JFolder::files(dirname(__FILE__).DS.'adapters');
-		foreach($list as $filename) {
-			if(JFile::getExt($filename) == 'php') {
-				// Try to load the adapter object
-				require_once(dirname(__FILE__).DS.'adapters'.DS.$filename);
-				$name = JFile::stripExt($filename);
-				$class = 'JInstaller'.ucfirst($name);
-				if (!class_exists($class)) {
-					return false;
-				}
-				$adapter = new $class($this);
-				$adapter->parent =& $this;
-				$this->_adapters[$name] = clone($adapter);
-			}
-		}
-	}
+
 	
 	/**
 	 * Cleans up discovered extensions if they're being installed somehow else

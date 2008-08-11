@@ -16,7 +16,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 /**
- * Extension Manager Manage View
+ * Extension Manager Update View
  *
  * @package		Joomla
  * @subpackage	Installer
@@ -25,16 +25,16 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 include_once(dirname(__FILE__).DS.'..'.DS.'default'.DS.'view.php');
 
-class InstallerViewDiscover extends InstallerViewDefault
+class InstallerViewUpdate extends InstallerViewDefault
 {
 	function display($tpl=null)
 	{
 		/*
 		 * Set toolbar items for the page
 		 */
-		JToolBarHelper::custom( 'discover_install', 'config', 'config', 'Install', true, false);
-		JToolBarHelper::custom( 'discover', 'refresh', 'refresh','Discover',false,false);
-		JToolBarHelper::custom( 'discover_purge', 'trash', 'trash', 'Purge Cache', false,false);
+		JToolBarHelper::custom( 'update', 'config', 'config', 'Update', true, false);
+		JToolBarHelper::custom( 'update_find', 'refresh', 'refresh','Find Updates',false,false);
+		JToolBarHelper::custom( 'update_purge', 'trash', 'trash', 'Purge Cache', false,false);
 		JToolBarHelper::help( 'screen.installer' );
 
 		// Get data from the model

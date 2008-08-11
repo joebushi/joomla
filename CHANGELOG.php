@@ -38,6 +38,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Aug-2008 Sam Moffatt
+ ^ Changed "Install/Uninstall" to be "Extension Manager"
+ 
+
 08-Aug-2008 Sam Moffatt
  ^ Typo fix for loading template language
  + Added start of updater

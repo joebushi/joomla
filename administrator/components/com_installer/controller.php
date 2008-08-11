@@ -213,4 +213,31 @@ class InstallerController extends JController
 		$view->setModel( $model, true );
 		$view->display();
 	}
+	
+	// Should probably use multiple controllers here
+	function update() {
+		// TODO: Fill in with updates
+	}
+	
+	function update_find() {
+		// Find updates
+		// Check for request forgeries
+		JRequest::checkToken() or jexit( 'Invalid Token' );
+
+		$type	= JRequest::getWord('type', 'components');
+		$model	= &$this->getModel( $type );
+		$view	= &$this->getView( $type );
+
+		$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
+		$view->assignRef('ftp', $ftp);
+
+		$result = $model->findUpdates();
+
+		$view->setModel( $model, true );
+		$view->display();
+	}
+	
+	function update_purge() {
+		// Purge updates
+	}
 }

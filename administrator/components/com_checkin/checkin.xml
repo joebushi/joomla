@@ -7,4 +7,5 @@
         <authorUrl>www.joomla.org</authorUrl>
         <version>1.6.0</version>
         <description>Checkin Component</description>
+        <administrator />
 </extension>
