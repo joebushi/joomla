@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+13-August-2008 Anthony Ferrara
+ ^ Remove install check
+
 -------------------- 1.5.6 Stable Release [12-August-2008] ------------------
 
 05-Aug-2008 Toby Patterson
