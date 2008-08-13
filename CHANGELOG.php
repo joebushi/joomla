@@ -38,6 +38,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+13-Aug-2008 Sam Moffatt
+ ^ Work on collection and extension update adapters
+ + Added ability for adapter to add extra update sites to list on the fly 
+
 12-Aug-2008 Sam Moffatt
  + Added stringstream library
  + Added updater and dependency stubs

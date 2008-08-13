@@ -61,20 +61,52 @@ class JUpdater extends JAdapter {
 	 */
 	function findUpdates($eid=0) {
 		$dbo =& $this->getDBO();
-		$result = false;
+		$retval = false;
 		// push it into an array
 		if(!is_array($eid)) {
-			$query = 'SELECT type,location FROM #__update_sites WHERE enabled = 1';
+			$query = 'SELECT DISTINCT type,location FROM #__update_sites WHERE enabled = 1';
 		} else {
-			$query = 'SELECT type,location FROM #__update_sites WHERE updatesiteid IN (SELECT updatesiteid FROM #__update_sites_extensions WHERE extensionid IN ('. implode(',', $eid) .'))';
+			$query = 'SELECT DISTINCT type,location FROM #__update_sites WHERE updatesiteid IN (SELECT updatesiteid FROM #__update_sites_extensions WHERE extensionid IN ('. implode(',', $eid) .'))';
 		}
 		$dbo->setQuery($query);
 		$results = $dbo->loadAssocList();
-		foreach($results as $result) {
+		$result_count = count($results);
+		for($i = 0; $i < $result_count; $i++) {
+			$result =& $results[$i];
 			$this->setAdapter($result['type']);
-			$result = $this->_adapters[$result['type']]->findUpdate($result['location']) ? true : $result;
+			$update_result = $this->_adapters[$result['type']]->findUpdate($result['location']);
+			if(is_array($update_result)) {
+				$results = $this->arrayUnique(array_merge($results, $update_result));
+				$result_count = count($results);
+				$update_result = true;
+			} else if ($retval) {
+				$update_result = true;
+			}
 		}
-		return $result;
+		return $retval;
 	}
 	
+	/**
+	 * Multidimensional array safe unique test
+	 * Borrowed from PHP.net
+	 * @url http://au2.php.net/manual/en/function.array-unique.php
+	 */
+	function arrayUnique($myArray)
+	{
+	    if(!is_array($myArray))
+	           return $myArray;
+	
+	    foreach ($myArray as &$myvalue){
+	        $myvalue=serialize($myvalue);
+	    }
+	
+	    $myArray=array_unique($myArray);
+	
+	    foreach ($myArray as &$myvalue){
+	        $myvalue=unserialize($myvalue);
+	    }
+	
+	    return $myArray;
+	
+	} 	
 }

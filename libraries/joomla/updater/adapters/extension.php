@@ -9,10 +9,6 @@ class JUpdaterExtension extends JAdapterInstance {
 	var $xml_parser;
 	var $_stack = Array();
 	
-	function __destruct() {
-		if($this->xml_parser) xml_parser_free($this->xml_parser);
-	}
-	
     /**
      * Gets the reference to the current direct parent
      *
@@ -71,5 +67,7 @@ class JUpdaterExtension extends JAdapterInstance {
 		                    xml_get_current_line_number($this->xml_parser)));
 		    }
 		}
+		xml_parser_free($this->xml_parser);
+		
 	}
 }
