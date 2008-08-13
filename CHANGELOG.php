@@ -38,10 +38,16 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+12-Aug-2008 Sam Moffatt
+ + Added stringstream library
+ + Added updater and dependency stubs
+ ^ Update view now works
+ + Created an adapter and adapterinstance template
+ + Moved migration SQL to its own file 
+
 10-Aug-2008 Sam Moffatt
  ^ Changed "Install/Uninstall" to be "Extension Manager"
  
-
 08-Aug-2008 Sam Moffatt
  ^ Typo fix for loading template language
  + Added start of updater

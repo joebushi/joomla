@@ -64,7 +64,7 @@ CREATE TABLE  `jos_updates` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Available Updates';
 
 
-CREATE TABLE  `joomla_update`.`jos_update_sites` (
+CREATE TABLE  `jos_update_sites` (
   `updatesiteid` int(11) NOT NULL auto_increment,
   `name` varchar(100) default '',
   `type` varchar(20) default '',

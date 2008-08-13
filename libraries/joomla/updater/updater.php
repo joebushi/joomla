@@ -56,7 +56,7 @@ class JUpdater extends JAdapter {
 	
 	/**
 	 * Finds an update for an extension
-	 * @param int Extension Identifier; if zero use "global" site not an extension one
+	 * @param int Extension Identifier; if zero use all sites
 	 * @return boolean If there are updates or not
 	 */
 	function findUpdates($eid=0) {
