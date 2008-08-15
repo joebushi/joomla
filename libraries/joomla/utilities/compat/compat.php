@@ -22,10 +22,6 @@ defined('JPATH_BASE') or die();
  * @subpackage	Compatibility
  * @since		1.5
  */
-if (version_compare( phpversion(), '5.0' ) < 0) {
-	require_once( JPATH_LIBRARIES.DS.'joomla'.DS.'utilities'.DS.'compat'.DS.'php50x.php');
-}
-
 if (version_compare( phpversion(), '5.1' ) < 0) {
 	require_once( JPATH_LIBRARIES.DS.'joomla'.DS.'utilities'.DS.'compat'.DS.'php51x.php');
 }

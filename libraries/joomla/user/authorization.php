@@ -38,9 +38,9 @@ class JAuthorization
 	}
 
 	/**
-	 * Singelton method to create one unique instance of an manager per specific acl service
+	 * Singelton method to create one unique instance of a manager per specific acl service
 	 * 
-	 * @param string	acl service that should be loaded, default phpgacl
+	 * @param string	acl service that should be loaded, default JACL
 	 * @return object	new instance of the ACLManager
 	 */
 	function getInstance()
@@ -51,7 +51,7 @@ class JAuthorization
 		{
 			$config =& JFactory::getConfig();
 			$driver = $config->getValue('config.aclservice', 'JACL');
-
+			require_once(JPATH_LIBRARIES.DS.'joomla'.DS.'user'.DS.'authorization'.DS.strtolower($driver).'.php');
 			$adapter	= 'JAuthorization'.$driver;
 			$instance	= new $adapter();
 
@@ -131,7 +131,7 @@ class JAuthorizationUsergroup
 		{
 			$config =& JFactory::getConfig();
 			$driver = $config->getValue('config.aclservice', 'JACL');
-
+			require_once(JPATH_LIBRARIES.DS.'joomla'.DS.'user'.DS.'authorization'.DS.strtolower($driver).'.php');
 			$adapter	= 'JAuthorization'.$driver.'Usergroup';
 			$instance	= new $adapter();
 
@@ -250,7 +250,7 @@ class JAuthorizationRule
 		{
 			$config =& JFactory::getConfig();
 			$driver = $config->getValue('config.aclservice', 'JACL');
-
+			require_once(JPATH_LIBRARIES.DS.'joomla'.DS.'user'.DS.'authorization'.DS.strtolower($driver).'.php');
 			$adapter	= 'JAuthorization'.$driver.'Rule';
 			$instance	= new $adapter();
 
@@ -372,7 +372,7 @@ class JAuthorizationAction
 		{
 			$config =& JFactory::getConfig();
 			$driver = $config->getValue('config.aclservice', 'JACL');
-
+			require_once(JPATH_LIBRARIES.DS.'joomla'.DS.'user'.DS.'authorization'.DS.strtolower($driver).'.php');
 			$adapter	= 'JAuthorization'.$driver.'Action';
 			$instance	= new $adapter();
 
@@ -463,7 +463,7 @@ class JAuthorizationContentItem
 		{
 			$config =& JFactory::getConfig();
 			$driver = $config->getValue('config.aclservice', 'JACL');
-
+			require_once(JPATH_LIBRARIES.DS.'joomla'.DS.'user'.DS.'authorization'.DS.strtolower($driver).'.php');
 			$adapter	= 'JAuthorization'.$driver.'ContentItem';
 			$instance	= new $adapter();
 
@@ -552,7 +552,7 @@ class JAuthorizationUser
 		{
 			$config =& JFactory::getConfig();
 			$driver = $config->getValue('config.aclservice', 'JACL');
-
+			require_once(JPATH_LIBRARIES.DS.'joomla'.DS.'user'.DS.'authorization'.DS.strtolower($driver).'.php');
 			$adapter	= 'JAuthorization'.$driver.'User';
 			$instance	= new $adapter();
 
@@ -631,7 +631,7 @@ class JAuthorizationExtension
 		{
 			$config =& JFactory::getConfig();
 			$driver = $config->getValue('config.aclservice', 'JACL');
-
+			require_once(JPATH_LIBRARIES.DS.'joomla'.DS.'user'.DS.'authorization'.DS.strtolower($driver).'.php');
 			$adapter	= 'JAuthorization'.$driver.'Extension';
 			$instance	= new $adapter();
 

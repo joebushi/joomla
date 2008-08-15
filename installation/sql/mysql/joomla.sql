@@ -348,7 +348,6 @@ INSERT INTO `#__plugins` VALUES (30, 'System - Cache', 'cache', 'system', 0, 4, 
 INSERT INTO `#__plugins` VALUES (31, 'System - Log', 'log', 'system', 0, 5, 0, 1, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `#__plugins` VALUES (32, 'System - Remember Me', 'remember', 'system', 0, 6, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `#__plugins` VALUES (33, 'System - Backlink', 'backlink', 'system', 0, 7, 0, 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__plugins` VALUES (34, 'JACL', 'jacl', 'system', 0, 2, 1, 0, 0, 0, '0000-00-00 00:00:00', '');
 
 # --------------------------------------------------------
 

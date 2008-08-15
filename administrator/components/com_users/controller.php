@@ -48,23 +48,6 @@ class UsersController extends JController
 	 */
 	function display( )
 	{
-		switch($this->getTask())
-		{
-			case 'add'     :
-			{	JRequest::setVar( 'hidemainmenu', 1 );
-				JRequest::setVar( 'layout', 'form'  );
-				JRequest::setVar( 'view', 'user' );
-				JRequest::setVar( 'edit', false );
-			} break;
-			case 'edit'    :
-			{
-				JRequest::setVar( 'hidemainmenu', 1 );
-				JRequest::setVar( 'layout', 'form'  );
-				JRequest::setVar( 'view', 'user' );
-				JRequest::setVar( 'edit', true );
-			} break;
-		}
-
 		parent::display();
 	}
 

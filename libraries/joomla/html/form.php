@@ -432,13 +432,18 @@ class JForm extends JRegistry
 			if ($elements = & $xml->document->$elementTagName) {
 				foreach ($elements as $element)
 				{
-					if ($addDefault && ($element->attributes('type') == 'radio' || $element->attributes('type') == 'list')) {
-						$element->addAttribute('default', '');
-						$element->addAttribute('type', 'list');
-						$child = &$element->addChild('option', array('value' => ''));
-						$child->setData('Use Global');
+					if ($addDefault)
+					{
+						foreach($element->_children as &$child)
+						{
+							if($child->attributes('type') == 'radio' || $child->attributes('type') == 'list') {
+								$child->addAttribute('default', '');
+								$child->addAttribute('type', 'list');
+								$subchild = &$child->addChild('option', array('value' => ''));
+								$subchild->setData('Use Global');
+							}
+						}
 					}
-					
 					$this->setXML( $element );
 					$result = true;
 				}
