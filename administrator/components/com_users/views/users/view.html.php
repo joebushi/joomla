@@ -42,13 +42,14 @@ window.onload = function() {
 	
 	tree = new MooTreeControl({
 		div: \'mytree\',
-		grid: true
+		grid: true,
+		theme: \''.JURI::root().'media/system/images/mootree.gif'.'\'
 	},{
 		text: \'Root Node\',
 		open: true
 	});
 	tree.adopt(\'users\');
-	
+	tree.expand();
 }';
 		$document->addScriptDeclaration($javascript);
 		$this->assignRef('usergroups', $usergroups);
@@ -65,7 +66,7 @@ window.onload = function() {
 		}
 foreach($this->usergroups->getChildren() as $usergroups)
 {
-	$html .= '<li><a>'.$usergroups->name.'</a>';
+	$html .= '<li><a href="test.html">'.$usergroups->name.'</a>';
 	$this->usergroups->load($usergroups->id);
 	if($this->usergroups->getChildren())
 	{
