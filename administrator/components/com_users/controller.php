@@ -52,6 +52,14 @@ class UsersController extends JController
 	}
 
 	/**
+	 * Displays a view
+	 */
+	function viewuser( )
+	{
+		echo 'hello';
+	}
+	
+	/**
 	 * Saves the record
 	 */
 	function save()

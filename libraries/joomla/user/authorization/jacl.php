@@ -316,9 +316,26 @@ class JAuthorizationJACLUsergroup extends JAuthorizationUsergroup
 
 	}
 
-	function getUsers()
+	function getUsers($groupID)
 	{
+		if($this->_users == null)
+		{
+			$db =& JFactory::getDBO();
+			$query = 'SELECT gm.*, g.* FROM #__core_acl_groups_aro_map gm LEFT JOIN #__core_acl_aro g ON g.id = gm.aro_id';
+			$db->setQuery($query);
+			$result = $db->loadObjectList();
 
+			foreach($result as $user)
+			{
+				$this->_users[$user->group_id][] = $user;
+			}
+		}
+		if(isset($this->_users[$groupID]))
+		{
+			return $this->_users[$groupID];
+		} else {
+			return array();
+		}
 	}
 
 	function addUser()
