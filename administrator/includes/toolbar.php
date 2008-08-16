@@ -471,7 +471,7 @@ class JToolBarHelper
 	* @param	int		The height of the popup
 	* @param	int		The width of the popup
 	* @param	string	The name of the button
-	* @param	string	An alternative path for the configuation xml relative to JPATH_SITE
+	* @param	string	An alternative path for the accessconfiguration xml relative to JPATH_SITE
 	* @since 1.0
 	*/
 	function preferences($component, $height='150', $width='570', $alt = 'Preferences', $path = '')
@@ -486,6 +486,29 @@ class JToolBarHelper
 		$bar = & JToolBar::getInstance('toolbar');
 		// Add a configuration button
 		$bar->appendButton( 'Popup', 'config', $alt, 'index.php?option=com_config&amp;controller=component&amp;component='.$component.'&amp;path='.$path, $width, $height );
+	}
+	
+	/**
+	* Writes an access configuration button and invokes a cancel operation (eg a checkin)
+	* @param	string	The name of the component, eg, com_content
+	* @param	int		The height of the popup
+	* @param	int		The width of the popup
+	* @param	string	The name of the button
+	* @param	string	An alternative path for the configuation xml relative to JPATH_SITE
+	* @since 1.0
+	*/
+	function accesspreferences($component, $height='400', $width='570', $alt = 'Access Preferences', $path = '')
+	{
+		$user =& JFactory::getUser();
+		if ($user->authorize('com_users', 'access') {
+			return;
+		}
+
+		$component	= urlencode( $component );
+		$path		= urlencode( $path );
+		$bar = & JToolBar::getInstance('toolbar');
+		// Add a configuration button
+		$bar->appendButton( 'Popup', 'config', $alt, 'index.php?option=com_users&amp;view=access&amp;component='.$component.'&amp;path='.$path, $width, $height );
 	}
 }
 
