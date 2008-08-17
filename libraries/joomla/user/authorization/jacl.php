@@ -268,40 +268,121 @@ class JAuthorizationJACLUsergroupHelper extends JAuthorizationUsergroupHelper
 
 	function addGroup($group)
 	{
-		if($this->_id != 0)
+		if(is_a($group, 'JAuthorizationUsergroup'))
 		{
-			$db =& JFactory::getDBO();
-			$query = 'UPDATE #__core_acl_aro_groups'
-					.' SET (parent_id = '.$this->_parent.','
-					.' name = \''.$this->_name.'\','
-					.' value = \''.$this->_name.'\')'
-					.' WHERE id = '.$this->_id;
-			$db->setQuery($query);
-			$db->Query();
-		} else {
-			$db =& JFactory::getDBO();
-			$query = 'INSERT INTO #__core_acl_aro_groups'
+			if($group->getId() != 0)
+			{
+				$db =& JFactory::getDBO();
+				$parent = $group->getParent();
+				$query = 'UPDATE #__core_acl_aro_groups'
+					.' SET (parent_id = '.(int) $parent->getId().','
+					.' name = \''.$db->Quote($group->getName()).'\','
+					.' value = \''.$db->Quote($group->getName()).'\')'
+					.' WHERE id = '.(int)$group->getId();
+				$db->setQuery($query);
+				$db->Query();
+			} else {
+				$db =& JFactory::getDBO();
+				$parent = $group->getParent();
+				$query = 'INSERT INTO #__core_acl_aro_groups'
 					.' (parent_id, name, value)'
-					.' VALUES ('.$this->_parent.',\''.$this->_name.'\',\''.$this->_name.'\');';
-			$db->setQuery($query);
-			$db->Query();
+					.' VALUES ('.(int) $parent->getId().',\''.$db->Quote($group->getName()).'\',\''.$db->Quote($group->getName).'\');';
+				$db->setQuery($query);
+				$db->Query();
+				$group->setId($db->insertid());
+				if(count($group->getUser()))
+				{
+					foreach($group->getUser() as $user)
+					{
+						$this->addUser($group->getId(), $user);
+					}
+				}
+				
+				if(count($group->getChildren()))
+				{
+					foreach($group->getChildren() as $group)
+					{
+						$this->addGroup($group);
+					}
+				}
+			}
+		} else {
+			return false;
 		}
 		return true;
-	
 	}
 
 	function removeGroup($group)
 	{
+		if(is_a($group, 'JAuthorizationUsergroup'))
+		{
+			$db =& JFactory::getDBO();
+			if(count($group->getChildren()))
+			{
+				$parent = $group->getParent();
+				$query = 'UPDATE #__core_acl_aro_groups SET parent_id = '.$parent->getId().' WHERE parent_id = '.$group->getId();
+				$db->setQuery($query);
+				$db->Query();
+			}
+			if(count($group->getUsers()))
+			{
+				foreach($group->getUsers() as $user)
+				{
+					$this->removeUser($group->getId(), $user);
+				}
+			}
+			$query = 'DELETE FROM #__core_acl_aro_groups_map WHERE group_id = '.(int) $group->getId();
+			$db->setQuery($query);
+			$db->Query();
+			$query = 'DELETE FROM #__core_acl_aro_groups WHERE id = '.(int) $group->getId();
+			$db->setQuery($query);
+			$db->Query();
+			return true;
+		}
 		return false;
 	}
 	
 	function addUser($id, $user)
 	{
+		if(is_a($user, 'JAuthorizationUser'))
+		{
+			$db =& JFactory::getDBO();
+			$query = 'INSERT INTO #__core_acl_groups_aro_map (group_id, aro_id) VALUES ('.(int) $id.','.(int)$user->getAccessId().');';
+			$db->setQuery($query);
+			$db->Query();
+			return $db->insertid();
+		}
 		return false;
 	}
 	
 	function removeUser($id, $user)
 	{
+		if(is_a($user, 'JAuthorizationUser'))
+		{
+			$db =& JFactory::getDBO();
+			$query = 'DELETE FROM #__core_acl_groups_aro_map WHERE group_id = '.(int) $id.' AND aro_id = '.(int)$user->getAccessId().';';
+			$db->setQuery($query);
+			$db->Query();
+			return true;
+		}
+		return false;
+	}
+	
+	function getUngroupedUser()
+	{
+		$db =& JFactory::getUser();
+		$query = 'SELECT value FROM #__core_acl_aro WHERE id NOT IN (SELECT aro_id FROM #__core_acl_groups_aro_map)';
+		$db->setQuery($query);
+		$result = $db->loadResultList();
+		if($result)
+		{
+			$users = array();
+			foreach($result as $temp_user)
+			{
+				$users[] = new JAuthorizationUser($temp_user);
+			}
+			return $users;
+		}
 		return false;
 	}
 }

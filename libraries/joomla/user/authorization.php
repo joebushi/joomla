@@ -170,6 +170,12 @@ class JAuthorizationUsergroup
 		return $result;
 	}
 	
+	function getUngroupedUsers()
+	{
+		$engine =& JAuthorizationUsergroupHelper::getInstance();
+		return $engine->getUngroupedUsers();
+	}
+	
 	function addUser($user)
 	{
 		if(is_a($user, 'JAuthorizationUser'))
