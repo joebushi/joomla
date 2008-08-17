@@ -10,7 +10,6 @@
 <legend>Groups &amp; Users</legend>
 <div id="mytree"></div>
 <?php
-$this->usergroups->load('2');
 echo $this->getTree(true);
 ?>
 </fieldset>

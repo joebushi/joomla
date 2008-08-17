@@ -12,8 +12,7 @@ class UsersViewGroupdetail extends JView
 		{
 			return false; 
 		}
-		$group = JAuthorizationUsergroup::getInstance();
-		$group->load(JRequest::getInt('id'));
+		$group = new JAuthorizationUsergroup(JRequest::getInt('id'));
 		$this->assignRef('group', $group);
 		
 		parent::display();	

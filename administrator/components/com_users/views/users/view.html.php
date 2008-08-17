@@ -49,8 +49,7 @@ class UsersViewUsers extends JView
 		JHTML::_('behavior.mootools');
 		$document->addScript(JURI::root().'media/system/js/mootree_packed.js');
 		$document->addStyleSheet(JURI::root().'media/system/css/mootree.css');
-		$usergroups = JAuthorizationUsergroup::getInstance();
-		$usergroups->load();
+		$usergroups = new JAuthorizationUsergroup();
 		$javascript = 'var tree;
 			window.onload = function() {
 	
@@ -83,18 +82,18 @@ class UsersViewUsers extends JView
 		}
 		foreach($this->usergroups->getChildren() as $usergroups)
 		{
-			$html .= '<li><a href="&view=groupdetail&id='.$usergroups->id.'"><!-- icon:_open; -->'.$usergroups->name.'</a>';
-			$this->usergroups->load($usergroups->id);
+			$html .= '<li><a href="&view=groupdetail&id='.$usergroups->getId().'"><!-- icon:_open; -->'.$usergroups->getName().'</a>';
+			$this->usergroups = $usergroups;
 			if($this->usergroups->getChildren())
 			{
 				$html .= $this->getTree();
 			}
 			$html .= '</li>';
-			foreach($this->usergroups->getUsers($usergroups->id) as $user)
+			foreach($this->usergroups->getUsers() as $user)
 			{
-				$html .= '<li><a href="&view=userdetail&id='.$user->value.'">'.$user->name.'</a></li>';
+				$html .= '<li><a href="&view=userdetail&id='.$user->getId().'">'.$user->getName().'</a></li>';
 			}
-			$this->usergroups->load($usergroups->parent);
+			$this->usergroups = $usergroups->getParent();
 		}
 		$html .= '</ul>';
 		return $html;

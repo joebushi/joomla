@@ -500,7 +500,7 @@ class JToolBarHelper
 	function accesspreferences($component, $height='400', $width='570', $alt = 'Access Preferences', $path = '')
 	{
 		$user =& JFactory::getUser();
-		if ($user->authorize('com_users', 'access') {
+		if ($user->authorize('com_users', 'access')) {
 			return;
 		}
 

@@ -207,64 +207,18 @@ class JAuthorizationJACL extends JAuthorization
 	}
 }
 
-class JAuthorizationJACLUsergroup extends JAuthorizationUsergroup
+class JAuthorizationJACLUsergroupHelper extends JAuthorizationUsergroupHelper
 {
+	var $_groups = array();
+	
+	var $_root = 0;
+		
 	function __construct()
-	{
-
-	}
-
-	function getParent()
-	{
-		return $this->_groups[$this->_id]->parent;
-	}
-
-	function getChildren()
-	{
-		if(isset($this->_groups[$this->_id]->children))
-		{
-			return $this->_groups[$this->_id]->children;
-		} else {
-			return false;
-		}
-	}
-
-	function addChild()
-	{
-		
-	}
-
-	function setName($name)
-	{
-		$this->_groups[$this->_id]->name = $name;
-	}
-
-	function getName()
-	{
-		return $this->_groups[$this->_id]->name;
-	}
-
-	function getID()
-	{
-		return $this->_id;
-	}
-
-	function setID()
-	{
-		
-	}
-
-	function removeChild()
-	{
-		
-	}
-
-	function load($groupID = null)
 	{
 		if(!count($this->_groups))
 		{
 			$db =&JFactory::getDBO();
-			$query = 'SELECT g.id, g.parent_id as parent, g.name, COALESCE(gm.users, 0) AS userscount'
+			$query = 'SELECT g.id, g.parent_id as parent, g.name'
 					.' FROM #__core_acl_aro_groups AS g'
 					.' LEFT JOIN (SELECT group_id, COUNT(*) AS users'
 					.' FROM #__core_acl_groups_aro_map'
@@ -275,20 +229,44 @@ class JAuthorizationJACLUsergroup extends JAuthorizationUsergroup
 
 			foreach($this->_groups as &$group)
 			{
+				$group->users = array();
+				if(!isset($group->children))
+				{
+					$group->children = array();
+				}
 				if($group->parent != 0)
 				{
-					$this->_groups[$group->parent]->children[] = &$group;
+					$this->_groups[$group->parent]->children[] = $group->id;
+				} else {
+					$this->_root = $group->id;
 				}
 			}
-		}
-
-		if($groupID != null)
+			$query = 'SELECT * FROM #__core_acl_groups_aro_map';
+			$db->setQuery($query);
+			$results = $db->loadObjectList();
+			foreach($results as $result)
+			{
+				$this->_groups[$result->group_id]->users[] = $result->aro_id;
+			}
+		}		
+	}
+		
+	function getGroup($id)
+	{
+		if($id > 0)
 		{
-			$this->_id = $this->_groups[$groupID]->id;
+			if(isset($this->_groups[$id]))
+			{
+				return $this->_groups[$id];
+			} else {
+				return false;
+			}
+		} else {
+			return $this->_groups[$this->_root];
 		}
 	}
 
-	function store()
+	function addGroup($group)
 	{
 		if($this->_id != 0)
 		{
@@ -309,48 +287,22 @@ class JAuthorizationJACLUsergroup extends JAuthorizationUsergroup
 			$db->Query();
 		}
 		return true;
+	
 	}
 
-	function remove()
+	function removeGroup($group)
 	{
-
+		return false;
 	}
-
-	function getUsers($groupID)
+	
+	function addUser($id, $user)
 	{
-		if($this->_users == null)
-		{
-			$db =& JFactory::getDBO();
-			$query = 'SELECT gm.*, g.* FROM #__core_acl_groups_aro_map gm LEFT JOIN #__core_acl_aro g ON g.id = gm.aro_id';
-			$db->setQuery($query);
-			$result = $db->loadObjectList();
-
-			foreach($result as $user)
-			{
-				$this->_users[$user->group_id][] = $user;
-			}
-		}
-		if(isset($this->_users[$groupID]))
-		{
-			return $this->_users[$groupID];
-		} else {
-			return array();
-		}
+		return false;
 	}
-
-	function addUser()
+	
+	function removeUser($id, $user)
 	{
-
-	}
-
-	function removeUser()
-	{
-
-	}
-
-	function getUsergroups($rootgroup = 2)
-	{
-		return $this->_groups[$rootgroup];
+		return false;
 	}
 }
 

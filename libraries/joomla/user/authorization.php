@@ -98,25 +98,204 @@ class JAuthorization
 
 class JAuthorizationUsergroup
 {
-	var $_groups = array();
-
+	var $_id = null;
+	
 	var $_name = null;
 
-	var $_id = null;
-
 	var $_users = null;
-
-	var $_userscount = 0;
 
 	var $_children = null;
 
 	var $_parent = null;
 
-	function __construct()
+	function __construct($id = null)
 	{
-
+		$engine =& JAuthorizationUsergroupHelper::getInstance();
+		$group =& $engine->getGroup($id);
+		
+		if($group)
+		{
+			$this->_id = $group->id;
+			$this->_name = $group->name;
+			$this->_users = $group->users;
+			$this->_children = $group->children;
+			$this->_parent = $group->parent;
+			return true;
+		} else {
+			return false;
+		}
 	}
 
+	function getID()
+	{
+		return $this->_id;
+	}
+
+	function setID($id = null)
+	{
+		if($id)
+		{
+			$temp = $this->_id;
+			$this->_id = $id;
+			return $temp;
+		} else {
+			return false;
+		}
+	}
+	
+	function getName()
+	{
+		return $this->_name;
+	}
+	
+	function setName($name = null)
+	{
+		if($name)
+		{
+			$temp = $this->_name;
+			$this->_name = $name;
+			return $temp;
+		} else {
+			return false;
+		}
+	}
+	
+	function getUsers()
+	{
+		$result = array();
+		foreach($this->_users as $user)
+		{
+			$result[] = new JAuthorizationUser($user);
+		}
+		return $result;
+	}
+	
+	function addUser($user)
+	{
+		if(is_a($user, 'JAuthorizationUser'))
+		{
+			$engine =& JAuthorizationUsergroupHelper::getInstance();
+			$result = $engine->addUser($this->_id, $user);
+			if($result)
+			{
+				$this->_users[] = $user->getId();
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+	
+	function removeUser($user)
+	{
+		if(is_a($user, 'JAuthorizationUser'))
+		{
+			$engine =& JAuthorizationUsergroupHelper::getInstance();
+			$result = $engine->removeUser($this->_id, $user);
+			if($result)
+			{
+				$users = $this->_users;
+				$this->_users = array();
+				foreach($users as $temp_user)
+				{
+					if($temp_user != $user)
+					{
+						$this->_users[] = $temp_user;
+					}
+				}
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+	
+	function getParent()
+	{
+		return new JAuthorizationUsergroup($this->_parent);
+	}
+	
+	function setParent($parent)
+	{
+		$temp = $this->_parent;
+		$this->_parent = $parent;
+		return $temp;
+	}
+
+	function getChildren()
+	{
+		if(count($this->_children))
+		{
+			$result = array();
+			foreach($this->_children as $child)
+			{
+				$result[] = new JAuthorizationUsergroup($child);
+			}
+			return $result;
+		} else {
+			return false; 
+		}
+	}
+
+	function addChild($group)
+	{
+		if(is_a($group, 'JAuthorizationUsergroup'))
+		{
+			$engine =& JAuthorizationUsergroupHelper::getInstance();
+			$group->setParent($this->_id);
+			$result = $engine->addGroup($group);
+			if($result)
+			{
+				$this->_children[] = $group->getId();
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+
+	function removeChild($group)
+	{
+		if(is_a($group, 'JAuthorizationGroup'))
+		{
+			$engine =& JAuthorizationUsergroupHelper::getInstance();
+			$result = $engine->removeGroup($group);
+			if($result)
+			{
+				$groups = $this->_children;
+				$this->_children = array();
+				foreach($groups as $temp_group)
+				{
+					if($temp_group != $group->getId())
+					{
+						$this->_children[] = $temp_group;
+					}
+				}
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+}
+
+class JAuthorizationUsergroupHelper
+{
+	var $_groups = array();
+		
+	function __construct()
+	{
+		
+	}
+	
 	/**
 	 * Singelton method to create one unique instance of an manager per specific acl service
 	 * 
@@ -127,93 +306,41 @@ class JAuthorizationUsergroup
 	{
 		static $instance;
 
-		if (empty($instances))
+		if (empty($instance))
 		{
 			$config =& JFactory::getConfig();
 			$driver = $config->getValue('config.aclservice', 'JACL');
 			require_once(JPATH_LIBRARIES.DS.'joomla'.DS.'user'.DS.'authorization'.DS.strtolower($driver).'.php');
-			$adapter	= 'JAuthorization'.$driver.'Usergroup';
+			$adapter	= 'JAuthorization'.$driver.'UsergroupHelper';
 			$instance	= new $adapter();
-
 		}
 
 		return $instance;
 	}
-
-
-	function getParent()
+	
+	function getGroup($id)
 	{
-		
+		return false;	
 	}
 
-	function getChildren()
+	function addGroup($group)
 	{
-		
+		return false;
 	}
 
-	function addChild()
+	function removeGroup($group)
 	{
-		
+		return false;
 	}
-
-	function setName()
+	
+	function addUser($id, $user)
 	{
-
+		return false;
 	}
-
-	function getName()
+	
+	function removeUser($id, $user)
 	{
-
-	}
-
-	function getID()
-	{
-
-	}
-
-	function setID()
-	{
-
-	}
-
-	function removeChild()
-	{
-
-	}
-
-	function load()
-	{
-
-	}
-
-	function store()
-	{
-
-	}
-
-	function remove()
-	{
-
-	}
-
-	function getUsers()
-	{
-
-	}
-
-	function addUser()
-	{
-
-	}
-
-	function removeUser()
-	{
-
-	}
-
-	function getUsergroups()
-	{
-
+		return false;
 	}
 }
 
@@ -561,6 +688,11 @@ class JAuthorizationUser
 		return $instance;
 	}
 
+	function getId()
+	{
+		
+	}
+	
 	function load()
 	{
 		return;
