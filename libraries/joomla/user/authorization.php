@@ -14,6 +14,8 @@
 // Don't allow direct linking
 defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
 
+require_once(JPATH_LIBRARIES.DS.'joomla'.DS.'user'.DS.'authorization'.DS.'helper.php');
+
 /**
  * Abstract class representing the manager for all authorization requests.
  * This manager implements a agregated instance of the generic model handling
@@ -165,7 +167,7 @@ class JAuthorizationUsergroup
 		$result = array();
 		foreach($this->_users as $user)
 		{
-			$result[] = new JAuthorizationUser($user);
+			$result[] = new JAuthorizationUser(null, $user);
 		}
 		return $result;
 	}
@@ -184,7 +186,7 @@ class JAuthorizationUsergroup
 			$result = $engine->addUser($this->_id, $user);
 			if($result)
 			{
-				$this->_users[] = $user->getId();
+				$this->_users[] = $user->getAccessId();
 				return true;
 			} else {
 				return false;
@@ -290,63 +292,6 @@ class JAuthorizationUsergroup
 		} else {
 			return false;
 		}
-	}
-}
-
-class JAuthorizationUsergroupHelper
-{
-	var $_groups = array();
-		
-	function __construct()
-	{
-		
-	}
-	
-	/**
-	 * Singelton method to create one unique instance of an manager per specific acl service
-	 * 
-	 * @param string	acl service that should be loaded, default phpgacl
-	 * @return object	new instance of the ACLManager
-	 */
-	function getInstance()
-	{
-		static $instance;
-
-		if (empty($instance))
-		{
-			$config =& JFactory::getConfig();
-			$driver = $config->getValue('config.aclservice', 'JACL');
-			require_once(JPATH_LIBRARIES.DS.'joomla'.DS.'user'.DS.'authorization'.DS.strtolower($driver).'.php');
-			$adapter	= 'JAuthorization'.$driver.'UsergroupHelper';
-			$instance	= new $adapter();
-		}
-
-		return $instance;
-	}
-	
-	function getGroup($id)
-	{
-		return false;	
-	}
-
-	function addGroup($group)
-	{
-		return false;
-	}
-
-	function removeGroup($group)
-	{
-		return false;
-	}
-	
-	function addUser($id, $user)
-	{
-		return false;
-	}
-	
-	function removeUser($id, $user)
-	{
-		return false;
 	}
 }
 
@@ -476,99 +421,72 @@ class JAuthorizationRule
 
 class JAuthorizationAction
 {
-	var $_actions = null;
-
 	var $_id = null;
 
 	var $_extension = null;
 
 	var $_name = null;
 
-	var $_value = null;
+	var $_action = null;
 
-	function __construct()
+	function __construct($extension = null, $item = null)
 	{
-
-	}
-
-	/**
-	 * Singelton method to create one unique instance of an manager per specific acl service
-	 * 
-	 * @param string	acl service that should be loaded, default phpgacl
-	 * @return object	new instance of the ACLManager
-	 */
-	function getInstance()
-	{
-		static $instance;
-
-		if (empty($instances))
+		if($extension != null && $item != null)
 		{
-			$config =& JFactory::getConfig();
-			$driver = $config->getValue('config.aclservice', 'JACL');
-			require_once(JPATH_LIBRARIES.DS.'joomla'.DS.'user'.DS.'authorization'.DS.strtolower($driver).'.php');
-			$adapter	= 'JAuthorization'.$driver.'Action';
-			$instance	= new $adapter();
-
+			$engine = JAuthorizationActionHelper::getInstance();
+			$action = $engine->getAction($extension, $item);
+			$this->_id = $action->id;
+			$this->_extension = $action->extension; 
+			$this->_name = $action->name;
+			$this->_action = $action->action;
 		}
-
-		return $instance;
 	}
-
-	function load()
-	{
-		return;
-	}
-
-	function store()
-	{
-		return;
-	}
-
-	function remove()
-	{
-		return;
-	}
-
+	
 	function getExtension()
 	{
-		return;
+		return $this->_extension;
 	}
 
-	function setExtension()
+	function setExtension($extension)
 	{
-		return;
+		$this->_extension = $extension;
 	}
 
 	function getName()
 	{
-		return;
+		return $this->_name;
 	}
 
-	function setName()
+	function setName($name)
 	{
-		return;
+		$this->_name = $name;
 	}
 
-	function getValue()
+	function getAction()
 	{
-		return;
+		return $this->_action;
 	}
 
-	function setValue()
+	function setAction($action)
 	{
-		return;
+		$this->_action = $action;
 	}
-
-	function getActions()
+	
+	function store()
 	{
-		return;
+		$engine = JAuthorizationActionHelper::getInstance();
+		$engine->store($this);
+	}
+	
+	function delete()
+	{
+		$engine = JAuthorizationActionHelper::getInstance();
+		$engine->delete($this);
 	}
 }
 
 class JAuthorizationContentItem
 {
-	var $_contentitems = null;
-
 	var $_id = null;
 
 	var $_extension = null;
@@ -577,244 +495,175 @@ class JAuthorizationContentItem
 
 	var $_value = null;
 
-	function __construct()
+	function __construct($extension = null, $item = null)
 	{
-
-	}
-
-	/**
-	 * Singelton method to create one unique instance of an manager per specific acl service
-	 * 
-	 * @param string	acl service that should be loaded, default phpgacl
-	 * @return object	new instance of the ACLManager
-	 */
-	function getInstance()
-	{
-		static $instance;
-
-		if (empty($instances))
+		if($extension != null && $item != null)
 		{
-			$config =& JFactory::getConfig();
-			$driver = $config->getValue('config.aclservice', 'JACL');
-			require_once(JPATH_LIBRARIES.DS.'joomla'.DS.'user'.DS.'authorization'.DS.strtolower($driver).'.php');
-			$adapter	= 'JAuthorization'.$driver.'ContentItem';
-			$instance	= new $adapter();
-
+			$engine = JAuthorizationContentItemHelper::getInstance();
+			$contentitem = $engine->getContentItem($extension, $item);
+			$this->_id = $contentitem->id;
+			$this->_extension = $contentitem->extension; 
+			$this->_name = $contentitem->name;
+			$this->_value = $contentitem->value;
 		}
-
-		return $instance;
 	}
-
-	function load()
-	{
-		return;
-	}
-
-	function store()
-	{
-		return;
-	}
-
-	function remove()
-	{
-		return;
-	}
-
+	
 	function getExtension()
 	{
-		return;
+		return $this->_extension;
 	}
 
-	function setExtension()
+	function setExtension($extension)
 	{
-		return;
+		$this->_extension = $extension;
 	}
 
 	function getName()
 	{
-		return;
+		return $this->_name;
 	}
 
-	function setName()
+	function setName($name)
 	{
-		return;
+		$this->_name = $name;
 	}
 
 	function getValue()
 	{
-		return;
+		return $this->_value;
 	}
 
-	function setValue()
+	function setValue($value)
 	{
-		return;
+		$this->_value = $value;
 	}
-
-	function getContentItems()
+	
+	function store()
 	{
-		return;
+		$engine = JAuthorizationContentItemHelper::getInstance();
+		$engine->store($this);
+	}
+	
+	function delete()
+	{
+		$engine = JAuthorizationContentItemHelper::getInstance();
+		$engine->delete($this);
 	}
 }
 
 class JAuthorizationUser
 {
-	var $_users = null;
+	var $_accessid = null;
 
 	var $_id = null;
 
 	var $_name = null;
 
-	var $_value = null;
-
-	function __construct()
+	function __construct($id = null, $accessid = null)
 	{
-
-	}
-
-	/**
-	 * Singelton method to create one unique instance of an manager per specific acl service
-	 * 
-	 * @param string	acl service that should be loaded, default phpgacl
-	 * @return object	new instance of the ACLManager
-	 */
-	function getInstance()
-	{
-		static $instance;
-
-		if (empty($instances))
+		if($id != null || $accessid != null)
 		{
-			$config =& JFactory::getConfig();
-			$driver = $config->getValue('config.aclservice', 'JACL');
-			require_once(JPATH_LIBRARIES.DS.'joomla'.DS.'user'.DS.'authorization'.DS.strtolower($driver).'.php');
-			$adapter	= 'JAuthorization'.$driver.'User';
-			$instance	= new $adapter();
-
+			$engine = JAuthorizationUserHelper::getInstance();
+			$user = $engine->getUser($id, $accessid);
+			$this->_accessid = $user->accessid;
+			$this->_id = $user->id;
+			$this->_name = $user->name;
 		}
-
-		return $instance;
-	}
-
-	function getId()
-	{
-		
 	}
 	
-	function load()
+	function getId()
 	{
-		return;
+		return $this->_id;
 	}
-
-	function store()
+	
+	function setId($id)
 	{
-		return;
+		$this->_id = $id;
 	}
-
-	function remove()
+	
+	function getAccessId($id)
 	{
-		return;
+		return $this->_accessid;
 	}
-
+	
+	function setAccessId($id)
+	{
+		$this->_accessid = $id;
+	}
+	
 	function getName()
 	{
-		return;
-	}
-
-	function setName()
-	{
-		return;
-	}
-
-	function getUserID()
-	{
-		return;
-	}
-
-	function setUserID()
-	{
-		return;
-	}
-
-	function getUsers()
-	{
-		return;
-	}
-}
-
-class JAuthorizationExtension
-{
-	var $_extensions = null;
-
-	var $_id = null;
-
-	var $_name = null;
-
-	var $_value = null;
-
-	function __construct()
-	{
-
-	}
-
-	/**
-	 * Singelton method to create one unique instance of an manager per specific acl service
-	 * 
-	 * @param string	acl service that should be loaded, default phpgacl
-	 * @return object	new instance of the ACLManager
-	 */
-	function getInstance()
-	{
-		static $instance;
-
-		if (empty($instances))
-		{
-			$config =& JFactory::getConfig();
-			$driver = $config->getValue('config.aclservice', 'JACL');
-			require_once(JPATH_LIBRARIES.DS.'joomla'.DS.'user'.DS.'authorization'.DS.strtolower($driver).'.php');
-			$adapter	= 'JAuthorization'.$driver.'Extension';
-			$instance	= new $adapter();
-
-		}
-
-		return $instance;
-	}
-
-	function load()
-	{
-		return;
-	}
-
-	function store()
-	{
-		return;
-	}
-
-	function remove()
-	{
-		return;
-	}
-
-	function getName()
-	{
-		return;
+		return $this->_name;
 	}
 
 	function setName($name)
 	{
-		return;
+		$this->_name = $name;
+	}
+	
+	function store()
+	{
+		$engine = JAuthorizationUserHelper::getInstance();
+		$engine->store($this);
 	}
 
-	function getValue()
+	function delete()
 	{
-		return;
+		$engine = JAuthorizationUserHelper::getInstance();
+		$engine->delete($this);
+	}
+}
+
+
+class JAuthorizationExtension
+{
+	var $_id = null;
+
+	var $_name = null;
+
+	var $_option = null;
+
+	function __construct($option = null)
+	{
+		if($option != null)
+		{
+			$engine = JAuthorizationExtensionHelper::getInstance();
+			$extension = $engine->getExtension($option);
+			$this->_id = $extension->id;
+			$this->_name = $extension->name;
+			$this->_option = $extension->option;
+		}
 	}
 
-	function setValue($value)
+	function getName()
 	{
-		return;
+		return $this->_name;
 	}
 
-	function getExtensions()
+	function setName($name)
 	{
-		return;
+		$this->_name = $name;
+	}
+	
+	function getOption()
+	{
+		return $this->_option;
+	}
+
+	function setOption($option)
+	{
+		$this->_option = $option;
+	}
+
+	function store()
+	{
+		$engine = JAuthorizationExtensionHelper::getInstance();
+		return $engine->store($this);
+	}
+
+	function delete()
+	{
+		$engine = JAuthorizationExtensionHelper::getInstance();
+		return $engine->delete($this);
 	}
 }

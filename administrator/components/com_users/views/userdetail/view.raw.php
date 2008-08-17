@@ -14,7 +14,7 @@ class UsersViewUserdetail extends JView
 		}
 		$user =& JUser::getInstance(JRequest::getInt('id'));
 		
-		$acluser = JAuthorizationUser::getInstance();
+		$acluser = new JAuthorizationUser($user->get('id'));
 		
 		$this->assignRef('user', $user);
 		$this->assignRef('acluser', $acluser);

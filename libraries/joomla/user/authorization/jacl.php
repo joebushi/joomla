@@ -476,415 +476,329 @@ class JAuthorizationJACLRule
 	}
 }
 
-class JAuthorizationJACLAction
+class JAuthorizationJACLUserHelper extends JAuthorizationUserHelper
 {
+	var $_users = array();
+	
 	function __construct()
 	{
-
-	}
-
-	function load($extension = null, $value = null)
-	{
-		if(!is_array($this->_actions))
+		if(!count($this->_users))
 		{
 			$db =& JFactory::getDBO();
-			$query = 'SELECT id, section_value as extension, name, value FROM #__core_acl_aco';
+			$query = 'SELECT id as accessid, value AS id, name FROM #__core_acl_aro';
 			$db->setQuery($query);
-			$actions = $db->loadObjectList();
-			foreach($actions as $action)
+			$this->_users = $db->loadObjectList('id');
+		}
+	}
+	
+	function getUser($id = null, $accessid = null)
+	{
+		if($id)
+		{
+			if(isset($this->_users[$id]))
 			{
-				$this->_actions[$action->extension][$action->value] = $action;
+				return $this->_users[$id];
 			}
 		}
-		if($extension != null && $value != null)
+		if($accessid)
 		{
-			$this->_id = $this->_actions[$extension][$value]->id;
-			$this->_extension = $this->_actions[$extension][$value]->extension;
-			$this->_name = $this->_actions[$extension][$value]->name;
-			$this->_value = $this->_actions[$extension][$value]->value;
-		}
-		return true;
-	}
-
-	function store()
-	{
-		if(!is_null($this->_id))
-		{
-			$db =& JFactory::getDBO();
-			$query = 'UPDATE #__core_acl_aco'
-					.' SET name = \''.$this->_name.'\','
-					.' value = \''.$this->_value.'\','
-					.' section_value = \''.$this->_extension.'\''
-					.' WHERE id = '.$this->_id;
-			$db->setQuery($query);
-			$db->Query();
-		} else {
-			$db =& JFactory::getDBO();
-			$query = 'INSERT INTO #__core_acl_aco'
-					.' (name, value, section_value)'
-					.' VALUES (\''.$this->_name.'\',\''.$this->_value.'\',\''.$this->_extension.'\');';
-			$db->setQuery($query);
-			$db->Query();
-			$this->_id = $db->inserid();
-		}
-		return true;				
-	}
-
-	function remove()
-	{
-		$db =& JFactory::getDBO();
-		$query = 'DELETE FROM #__core_acl_aco WHERE id = '.$this->_id;
-		$db->setQuery($query);
-		$db->Query();
-		$query = 'DELETE FROM #_core_acl_aco_map WHERE section_value = \''.$this->_extension.'\' && value = \''.$this->_value.'\'';
-		$db->setQuery($query);
-		$db->Query();
-	}
-
-	function getExtension()
-	{
-		return $this->_extension;
-	}
-
-	function setExtension($extension)
-	{
-		$this->_extension = $extension;
-		return true;
-	}
-
-	function getName()
-	{
-		return $this->_name;
-	}
-
-	function setName($name)
-	{
-		$this->_name = $name;
-		return true;
-	}
-
-	function getValue()
-	{
-		return $this->_value;
-	}
-
-	function setValue($value)
-	{
-		$this->_value = $value;
-		return true;
-	}
-
-	function getActions()
-	{
-		return $this->_actionss;
-	}}
-
-class JAuthorizationJACLContentItem extends JAuthorizationContentItem
-{
-	function __construct()
-	{
-
-	}
-
-	function load($extension = null, $value = null)
-	{
-		if(!is_array($this->_contentitems))
-		{
-			$db =& JFactory::getDBO();
-			$query = 'SELECT id, section_value as extension, name, value FROM #__core_acl_axo';
-			$db->setQuery($query);
-			$contentItems = $db->loadObjectList();
-			foreach($contentItems as $contentItem)
+			foreach($this->_users as $user)
 			{
-				$this->_contentitems[$contentItem->extension][$contentItem->value] = $contentItem;
+				if($user->accessid == $accessid)
+				{
+					return $user;
+				}
 			}
 		}
-		if($extension != null && $value != null)
+		return false;
+	}
+	
+	function store($user)
+	{
+		if(is_a($user, 'JAuthorizationUser'))
 		{
-			$this->_id = $this->_contentitems[$extension][$value]->id;
-			$this->_extension = $this->_contentitems[$extension][$value]->extension;
-			$this->_name = $this->_contentitems[$extension][$value]->name;
-			$this->_value = $this->_contentitems[$extension][$value]->value;
-		}
-		return true;
-	}
-
-	function store()
-	{
-		if(!is_null($this->_id))
-		{
-			$db =& JFactory::getDBO();
-			$query = 'UPDATE #__core_acl_axo'
-					.' SET name = \''.$this->_name.'\','
-					.' value = \''.$this->_value.'\','
-					.' section_value = \''.$this->_extension.'\''
-					.' WHERE id = '.$this->_id;
-			$db->setQuery($query);
-			$db->Query();
-		} else {
-			$db =& JFactory::getDBO();
-			$query = 'INSERT INTO #__core_acl_axo'
-					.' (name, value, section_value)'
-					.' VALUES (\''.$this->_name.'\',\''.$this->_value.'\',\''.$this->_extension.'\');';
-			$db->setQuery($query);
-			$db->Query();
-			$this->_id = $db->inserid();
-		}
-		return true;				
-	}
-
-	function remove()
-	{
-		$db =& JFactory::getDBO();
-		$query = 'DELETE FROM #__core_acl_axo WHERE id = '.$this->_id;
-		$db->setQuery($query);
-		$db->Query();
-		$query = 'DELETE FROM #_core_acl_axo_map WHERE section_value = \''.$this->_extension.'\' && value = \''.$this->_value.'\'';
-		$db->setQuery($query);
-		$db->Query();
-	}
-
-	function getExtension()
-	{
-		return $this->_extension;
-	}
-
-	function setExtension($extension)
-	{
-		$this->_extension = $extension;
-		return true;
-	}
-
-	function getName()
-	{
-		return $this->_name;
-	}
-
-	function setName($name)
-	{
-		$this->_name = $name;
-		return true;
-	}
-
-	function getValue()
-	{
-		return $this->_value;
-	}
-
-	function setValue($value)
-	{
-		$this->_value = $value;
-		return true;
-	}
-
-	function getContentItems($extension = null)
-	{
-		if($extension != null)
-		{
-			return $this->_contentitems[$extension];
-		}
-		return $this->_contentitems;
-	}
-}
-
-class JAuthorizationJACLUser
-{
-	function __construct()
-	{
-
-	}
-
-	function load($id = null)
-	{
-		if(!is_array($this->_users))
-		{
-			$db =& JFactory::getDBO();
-			$query = 'SELECT id, value, name FROM #__core_acl_aro';
-			$db->setQuery($query);
-			$this->_users = $db->loadObjectList('value');
-		}
-
-		if(is_int($id))
-		{
-			$this->_id = $this->_users[$id]->id;
-			$this->_value = $this->_users[$id]->value;
-			$this->_name = $this->_users[$id]->name;
-			return true;
-		}
-	}
-
-	function store()
-	{
-		if(!is_null($this->_id))
-		{
-			$db =& JFactory::getDBO();
-			$query = 'UPDATE #__core_acl_aro'
-					.' SET name = \''.$this->_name.'\','
-					.' value = \''.$this->_value.'\''
-					.' WHERE id = '.$this->_id;
-			$db->setQuery($query);
-			$db->Query();
-		} else {
-			$db =& JFactory::getDBO();
-			$query = 'INSERT INTO #__core_acl_aco'
+			if($user->getId() > 0)
+			{
+				$db =& JFactory::getDBO();
+				$query = 'UPDATE #__core_acl_aro'
+					.' SET name = \''.$user->getName().'\','
+					.' value = \''.$user->getId().'\''
+					.' WHERE id = '.$user->getAccessid();
+				$db->setQuery($query);
+				$db->Query();
+				return true;
+			} else {
+				$db =& JFactory::getDBO();
+				$query = 'INSERT INTO #__core_acl_aro'
 					.' (name, value)'
-					.' VALUES (\''.$this->_name.'\',\''.$this->_value.'\');';
-			$db->setQuery($query);
-			$db->Query();
-			$this->_id = $db->inserid();
+					.' VALUES (\''.$user->getName().'\',\''.$user->getId().'\');';
+				$db->setQuery($query);
+				$db->Query();
+				$user->setId($db->inserid());
+				return true;
+			}
 		}
-		return true;		
+		return false;		
 	}
-
-	function remove()
+	
+	function delete($user)
 	{
-		$db =& JFactory::getDBO();
-		$query = 'DELETE FROM #__core_acl_aro WHERE id = '.$this->_id;
-		$db->setQuery($query);
-		$db->Query();
-		$query = 'DELETE FROM #__core_acl_groups_aro_map WHERE aro_id = '.$this->_id;
-		$db->setQuery($query);
-		$db->Query();
-	}
-
-	function getName()
-	{
-		return $this->_name;
-	}
-
-	function setName($name)
-	{
-		$this->_name = $name;
-		return true;
-	}
-
-	function getUserID()
-	{
-		return $this->_value;
-	}
-
-	function setUserID($id)
-	{
-		$this->_value = $id;
-		return true;
-	}
-
-	function getUsers($group = null)
-	{
-		$this->_load();
-		return $this->_users;
-	}
-}
-
-class JAuthorizationJACLExtension
-{
-	function __construct()
-	{
-
-	}
-
-	function load($extension)
-	{
-		if(is_null($this->_extensions))
+		if(is_a($user, 'JAuthorizationUser'))
 		{
 			$db =& JFactory::getDBO();
-			$query = 'SELECT id, value, name FROM #__core_acl_aco_sections';
+			$query = 'DELETE FROM #__core_acl_aro WHERE id = '.$user->getAccessid();
 			$db->setQuery($query);
-			$this->_extensions = $db->loadObjectList('value');
-		}
-		if(isset($this->_extensions[$extension]))
-		{
-			$this->_id = $this->_extensions[$extension]->id;
-			$this->_name = $this->_extensions[$extension]->name;
-			$this->_value = $this->_extensions[$extension]->value;
+			$db->Query();
+			$query = 'DELETE FROM #__core_acl_groups_aro_map WHERE aro_id = '.$user->getAccessid();
+			$db->setQuery($query);
+			$db->Query();
 			return true;
 		}
 		return false;
 	}
+}
 
-	function store()
+class JAuthorizationJACLActionHelper extends JAuthorizationActionHelper
+{
+	var $_actions = array();
+	
+	function __construct()
 	{
-		if(!is_null($this->_id))
+		$db =& JFactory::getDBO();
+		$query = 'SELECT id, section as extension, name, value as action FROM #__core_acl_aco';
+		$db->setQuery($query);
+		$actions = $db->loadObjectList();
+		foreach($actions as $action)
+		{
+			$this->_actions[$action->extension.'.'.$action->action] = $action;
+		}
+	}
+	
+	function getAction($extension, $action)
+	{
+		return $this->_actions[$extension.'.'.$action];
+	}
+	
+	function getActions($extension)
+	{
+		$result = array();
+		foreach($this->_actions as $action)
+		{
+			if($action->extension == $extension)
+			{
+				$result[] = $action;
+			}
+		}
+		return $result;
+	}
+	
+	function store($action)
+	{
+		if(is_a($action, 'JAuthorizationAction'))
+		{
+			if($action->getId() > 0)
+			{
+				$db =& JFactory::getDBO();
+				$query = 'UPDATE #__core_acl_aco'
+					.' SET name = \''.$action->getName().'\','
+					.' section = \''.$action->getExtension().'\','
+					.' value = \''.$action->getAction().'\''
+					.' WHERE id = '.$action->getId();
+				$db->setQuery($query);
+				$db->Query();
+				return true;				
+			} else {
+				$db =& JFactory::getDBO();
+				$query = 'INSERT INTO #__core_acl_aco'
+					.' (name, value, extension)'
+					.' VALUES (\''.$action->getName().'\',\''.$action->getAction().'\',\''.$action->getExtension().'\');';
+				$db->setQuery($query);
+				$db->Query();
+				return true;
+			}
+		}
+		return false;		
+	}
+	
+	function delete($action)
+	{
+		if(is_a($contentitem, 'JAuthorizationAction'))
 		{
 			$db =& JFactory::getDBO();
-			$query = 'UPDATE #__core_acl_aco_sections'
-					.' SET name = \''.$this->_name.'\','
-					.' value = \''.$this->_value.'\''
-					.' WHERE id = '.$this->_id;
+			$query = 'DELETE FROM #__core_acl_aco_map WHERE section_value = '.$action->getExtension().' AND value = '.$action->getAction();
 			$db->setQuery($query);
 			$db->Query();
-			$query = 'UPDATE #__core_acl_axo_sections'
-					.' SET name = \''.$this->_name.'\','
-					.' value = \''.$this->_value.'\''
-					.' WHERE id = '.$this->_id;
+			$query = 'DELETE FROM #__core_acl_aco WHERE id = '.$action->getId();
 			$db->setQuery($query);
 			$db->Query();
-		} else {
-			$db =& JFactory::getDBO();
-			$query = 'INSERT INTO #__core_acl_aco_sections'
-					.' (name, value)'
-					.' VALUES (\''.$this->_name.'\',\''.$this->_value.'\');';
-			$db->setQuery($query);
-			$db->Query();
-			$db =& JFactory::getDBO();
-			$query = 'INSERT INTO #__core_acl_axo_sections'
-					.' (name, value)'
-					.' VALUES (\''.$this->_name.'\',\''.$this->_value.'\');';
-			$db->setQuery($query);
-			$db->Query();
+			return true;		
 		}
-		return true;		
+		return false;
 	}
+}
 
-	function remove()
+class JAuthorizationJACLContentItemHelper extends JAuthorizationContentItemHelper
+{
+	var $_contentitems = array();
+	
+	function __construct()
 	{
-		$db =&JFactory::getDBO();
-		$query = 'DELETE FROM #__core_acl_aco_sections WHERE id = '.$this->_id;
+		$db =& JFactory::getDBO();
+		$query = 'SELECT id, section as extension, name, value FROM #__core_acl_axo';
 		$db->setQuery($query);
-		$db->Query();
-		$query = 'DELETE FROM #__core_acl_axo_sections WHERE id = '.$this->_id;
-		$db->setQuery($query);
-		$db->Query();
-		$query = 'DELETE FROM #__core_acl_aco WHERE section_value = \''.$this->_value.'\'';
-		$db->setQuery($query);
-		$db->Query();
-		$query = 'DELETE FROM #__core_acl_axo WHERE section_value = \''.$this->_value.'\'';
-		$db->setQuery($query);
-		$db->Query();
-		$query = 'DELETE FROM #__core_acl_aco_map WHERE section_value = \''.$this->_value.'\'';
-		$db->setQuery($query);
-		$db->Query();
-		$query = 'DELETE FROM #__core_acl_axo_map WHERE section_value = \''.$this->_value.'\'';
-		$db->setQuery($query);
-		$db->Query();
-		return true;
+		$contentitems = $db->loadObjectList();
+		foreach($contentitems as $contentitem)
+		{
+			$this->_contentitems[$contentitem->extension.'.'.$contentitem->value] = $contentitem;
+		}
 	}
-
-	function getName()
+	
+	function getContentItem($extension, $item)
 	{
-		return $this->_name;
+		return $this->_contentitems[$extension.'.'.$item];
 	}
-
-	function setName($name)
+	
+	function getContentItems($extension)
 	{
-		$this->_name = $name;
-		return true;
+		$result = array();
+		foreach($this->_contentitems as $contentitem)
+		{
+			if($contentitem->extension == $extension)
+			{
+				$result[] = $contentitem;
+			}
+		}
+		return $result;
 	}
-
-	function getValue()
+	
+	function store($contentitem)
 	{
-		return $this->_value;
+		if(is_a($contentitem, 'JAuthorizationContentItem'))
+		{
+			if($contentitem->getId() > 0)
+			{
+				$db =& JFactory::getDBO();
+				$query = 'UPDATE #__core_acl_axo'
+					.' SET name = \''.$contentitem->getName().'\','
+					.' section = \''.$contentitem->getExtension().'\','
+					.' value = \''.$contentitem->getValue().'\''
+					.' WHERE id = '.$contentitem->getId();
+				$db->setQuery($query);
+				$db->Query();
+				return true;
+				
+			} else {
+				$db =& JFactory::getDBO();
+				$query = 'INSERT INTO #__core_acl_axo'
+					.' (name, value, extension)'
+					.' VALUES (\''.$contentitem->getName().'\',\''.$contentitem->getOption().'\',\''.$contentitem->getExtension().'\');';
+				$db->setQuery($query);
+				$db->Query();
+				return true;
+			}
+		}
+		return false;		
 	}
-
-	function setValue($value)
+	
+	function delete($contentitem)
 	{
-		$this->_value = $value;
-		return true;
+		if(is_a($contentitem, 'JAuthorizationContentItem'))
+		{
+			$db =& JFactory::getDBO();
+			$query = 'DELETE FROM #__core_acl_axo_map WHERE section_value = '.$contentitem->getExtension().' AND value = '.$contentitem->getValue();
+			$db->setQuery($query);
+			$db->Query();
+			$query = 'DELETE FROM #__core_acl_axo WHERE id = '.$contentitem->getId();
+			$db->setQuery($query);
+			$db->Query();
+			return true;		
+		}
+		return false;
 	}
+}
 
+class JAuthorizationJACLExtensionHelper extends JAuthorizationExtensionHelper
+{
+	var $_extensions = array();
+	
+	function __construct()
+	{
+		$db =& JFactory::getDBO();
+		$query = 'SELECT id, name, value as option FROM #__core_acl_aco_sections';
+		$db->setQuery($query);
+		$this->_extensions = $db->loadObjectList('option');
+	}
+	
+	function getExtension($option)
+	{
+		return $this->_extensions[$option];
+	}
+	
 	function getExtensions()
 	{
-		$this->load();
 		return $this->_extensions;
+	}
+	
+	function store($extension)
+	{
+		if(is_a($extension, 'JAuthorizationExtension'))
+		{
+			if($extension->getId() > 0)
+			{
+				$db =& JFactory::getDBO();
+				$query = 'UPDATE #__core_acl_aco_sections'
+					.' SET name = \''.$extension->getName().'\','
+					.' value = \''.$extension->getOption().'\''
+					.' WHERE id = '.$extension->getId();
+				$db->setQuery($query);
+				$db->Query();
+				$query = 'UPDATE #__core_acl_axo_sections'
+					.' SET name = \''.$extension->getName().'\','
+					.' value = \''.$extension->getOption().'\''
+					.' WHERE id = '.$extension->getId();
+				$db->setQuery($query);
+				$db->Query();
+				return true;
+			} else {
+				$db =& JFactory::getDBO();
+				$query = 'INSERT INTO #__core_acl_aco_sections'
+					.' (name, value)'
+					.' VALUES (\''.$extension->getName().'\',\''.$extension->getOption().'\');';
+				$db->setQuery($query);
+				$db->Query();
+				$db =& JFactory::getDBO();
+				$query = 'INSERT INTO #__core_acl_axo_sections'
+					.' (name, value)'
+					.' VALUES (\''.$extension->getName().'\',\''.$extension->getOption().'\');';
+				$db->setQuery($query);
+				$db->Query();
+				return true;
+			}
+		}
+		return false;		
+	}
+	
+	function delete($extension)
+	{
+		$db =&JFactory::getDBO();
+		$query = 'DELETE FROM #__core_acl_aco_sections WHERE id = '.$extension->getId();
+		$db->setQuery($query);
+		$db->Query();
+		$query = 'DELETE FROM #__core_acl_axo_sections WHERE id = '.$extension->getId();
+		$db->setQuery($query);
+		$db->Query();
+		$query = 'DELETE FROM #__core_acl_aco WHERE section_value = \''.$extension->getOption().'\'';
+		$db->setQuery($query);
+		$db->Query();
+		$query = 'DELETE FROM #__core_acl_axo WHERE section_value = \''.$extension->getOption().'\'';
+		$db->setQuery($query);
+		$db->Query();
+		$query = 'DELETE FROM #__core_acl_aco_map WHERE section_value = \''.$extension->getOption().'\'';
+		$db->setQuery($query);
+		$db->Query();
+		$query = 'DELETE FROM #__core_acl_axo_map WHERE section_value = \''.$extension->getOption().'\'';
+		$db->setQuery($query);
+		$db->Query();
+		return true;
 	}
 }
