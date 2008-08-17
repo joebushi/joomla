@@ -73,13 +73,13 @@ class JQueryBuilderMysql extends JQueryBuilder
      *
      * @var character
      */
-    protected $_quote_text_begin = "'";
+    protected $_text_quote_begin = "'";
     /**
      * Quoting character for text literals: END
      *
      * @var character
      */
-    protected $_quote_text_end = "'";
+    protected $_text_quote_end = "'";
 
 
 

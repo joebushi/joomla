@@ -206,14 +206,14 @@ abstract class JQueryBuilder extends JObject
      *
      * @var character
      */
-    protected $_quote_text_begin = "";
+    protected $_text_quote_begin = "";
 
     /**
      * Quoting character for text literals: END
      *
      * @var character
      */
-    protected $_quote_text_end = "";
+    protected $_text_quote_end = "";
 
 
     /**
@@ -1447,7 +1447,7 @@ abstract class JQueryBuilder extends JObject
      */
     function quote( $text, $escaped = true )
     {
-        //return $this->_quote_text_begin . ($escaped ? $this->_dbo->getEscaped( $text ) : $text) . $this->_quote_text_end;
+        //return $this->_text_quote_begin . ($escaped ? $this->_dbo->getEscaped( $text ) : $text) . $this->_text_quote_end;
     }
 
 
@@ -1467,8 +1467,8 @@ abstract class JQueryBuilder extends JObject
         $query_split = array();
         for($i=0;$i<$end;$i++) {
             $current = substr($queries,$i,1);
-            if ( ($current == $this->_quote_text_begin) ||
-                 ($current == $this->_quote_text_end) ||
+            if ( ($current == $this->_text_quote_begin) ||
+                 ($current == $this->_text_quote_end) ||
                  ($current == $this->_name_quote_begin) ||
                  ($current == $this->_name_quote_end) ) {
                 $n = 2;
@@ -1479,7 +1479,7 @@ abstract class JQueryBuilder extends JObject
                     if ($open) {
                         if (
                                 (($open_char == $this->_name_quote_begin) && ($current == $this->_name_quote_end)) ||
-                                (($open_char == $this->_quote_text_begin) && ($current == $this->_quote_text_end))
+                                (($open_char == $this->_text_quote_begin) && ($current == $this->_text_quote_end))
                             ) {
                             $open = false;
                             $open_char = '';
@@ -1666,6 +1666,7 @@ abstract class JQueryBuilder extends JObject
 
         $result = array();
         foreach ( $this->_sql as $query ) {
+        	//Replace Prefix
             $result[] = $this->replaceString($query, $this->_prefix, $this->_relation_prefix);
         }
 

@@ -163,7 +163,6 @@ abstract class JConnection extends PDO
             $instances[$signature] = & $instance;
         }
 
-        echo "<I>$connectionname</I><BR>";
 
         return $instances[$signature];
     }

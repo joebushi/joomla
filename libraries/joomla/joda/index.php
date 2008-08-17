@@ -94,8 +94,35 @@ $mainframe->triggerEvent('onAfterRender');
 //echo JResponse::toString($mainframe->getCfg('gzip'));
 
 
-
 function test( $test) {
+
+	
+    echo "<B><div style='padding:5px;color:yellow;background:red'>QUERY BUILDER</div><BR>";
+    echo "<TABLE>";
+    
+
+    echo "<TR><TD><P><B><I>Use dataset to obtain a query builder object</I></B></TD>";
+    $dataset1 = JFactory::getDBSet();
+    $qb1 = $dataset1->getQueryBuilder();
+    $qb1->select("*")->from("#__test");
+    
+    echo "<TD>";
+    print_r($qb1->getSQL());
+    echo "</TD></TR>";
+    
+    echo "<TR><TD><P><B><I>Use JFactory to obtain a query builder object</I></B></TD>";
+    $qb2 = JFactory::getQueryBuilder("mysql");
+    $qb2->select("*")->from("#__test");
+
+    echo "<TD>";
+    print_r($qb2->getSQL());
+    echo "</TD></TR>";
+    
+    
+    echo "</TABLE>"; // end of QUERYbuilder section
+    echo "<BR><BR>";
+    
+    echo "<B><div style='padding:5px;color:yellow;background:red'>DATASET</div><BR>";
 
     $dataset = JFactory::getDBSet();
     $users = JFactory::getDBRelation("user");
@@ -170,7 +197,7 @@ function test( $test) {
 
 
 
-echo "<HR><B>Joda Test Drive</B><HR><BR>";
+echo "<HR><B><U>Joda Test Drive</U></B><HR><BR>";
 
 test( 'mysql');
 

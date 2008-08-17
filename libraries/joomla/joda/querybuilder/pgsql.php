@@ -39,18 +39,41 @@ class JQueryBuilderPgsql extends JQueryBuilder {
 		'string' => 'VARCHAR',
 		'float' => 'REAL' );
 
-	/** @var string DEFAULT string for default values in INSERT and UPDATE */
+    /**
+     * DEFAULT string for default values in INSERT and UPDATE
+     *
+     * @var string
+     */
 	protected $_sDefault = 'DEFAULT';
 
-    /**    @var string Name Quote starting char */
-    protected $_name_quote_begin = '"';
+    /**
+     * Name Quote starting char
+     *
+     * @var string
+     */
+	protected $_name_quote_begin = '"';
 
-    /**    @var string Name Quote ending char */
+    /**
+     * Name Quote ending char
+     *
+     * @var string
+     */
     protected $_name_quote_end = '"';
 
-    /** @var Quoting character for text literals */
-    protected $_quote_text = '"';
+    /**
+     * Quoting character for text literals: BEGIN
+     *
+     * @var character
+     */
+    protected $_text_quote_begin = "'";
 
+    /**
+     * Quoting character for text literals: END
+     *
+     * @var character
+     */
+    protected $_text_quote_end = "'";
+    
 	/** @var Array List of SQL reserved keywords */
 	protected $_reservedKeywords = array(
 		'select',
