@@ -387,92 +387,158 @@ class JAuthorizationJACLUsergroupHelper extends JAuthorizationUsergroupHelper
 	}
 }
 
-class JAuthorizationJACLRule
+class JAuthorizationJACLRule extends JAuthorizationRule
 {
 	function __construct()
 	{
 
 	}
-
-	function load($group = null)
-	{
-
-	}
-
-	function store()
-	{
-
-	}
-
-	function remove()
-	{
-
-	}
-
-	function getRules()
-	{
-
-	}
-
-	function getGroups()
+	
+	function authorizeGroup($group, $extension, $action, $contentitem = null)
 	{
 		
 	}
 
-	function addGroup()
+	function addRule($allow = true, $group, $action, $contentitem = null)
 	{
-
-	}
-
-	function removeGroup()
-	{
-
-	}
-
-	function getActions()
-	{
+		if(!is_a($group, 'JAuthorizationUsergroup') || !is_a($action, 'JAuthorizationAction'))
+		{
+			return false;
+		}
 		
+		if($contentitem != null && !is_a($contentitem, 'JAuthorizationContentItem'))
+		{
+			return false;
+		}
+		
+		$db =& JFactory::getDBO();
+		if($contentitem == null)
+		{
+			$query = 'SELECT acl.id FROM #__core_acl_acl acl'
+				.' LEFT JOIN #__core_acl_aro_groups_map arogm ON acl.id = arogm.acl_id'
+				.' WHERE acl.section_value = \'actionrule\' AND arogm.group_id = '.$group->getId().' AND acl.allow = '.($allow ? '1':'0').';';
+			$db->setQuery($query);
+			$acl_id = $db->loadResult();
+			if($acl_id == null)
+			{
+				$query = 'INSERT INTO #__core_acl_acl (section_value, allow, enabled, updated_date)'
+					.' VALUES (\'actionrule\', '.($allow ? '1':'0').', 1, '.time().');';
+				$db->setQuery($query);
+				$db->Query();
+				$acl_id = $db->insertid();
+				$query = 'INSERT INTO #__core_acl_aro_groups_map (acl_id, group_id) VALUES ('.$acl_id.','.$group->getId().');';
+				$db->setQuery($query);
+				$db->Query();
+			}
+			$query = 'INSERT INTO #__core_acl_aco_map (acl_id, section_value, value) VALUES ('.$acl_id.',\''.$action->getExtension().'\',\''.$action->getAction().'\');';
+			$db->setQuery($query);
+			$db->Query();
+			return true;
+		} else {
+			$query = 'SELECT acl.id FROM #__core_acl_acl acl'
+				.' LEFT JOIN #__core_acl_aro_groups_map arogm ON acl.id = arogm.acl_id'
+				.' LEFT JOIN #__core_acl_aco_map acom ON acl.id = acom.acl_id'
+				.' WHERE acl.section_value = \'contentrule\' AND arogm.group_id = '.$group->getId().' AND acl.allow = '.($allow ? '1':'0')
+				.' AND acom.section_value = '.$db->Quote($action->getExtension()).' AND acom.value = '.$db->Quote($action->getAction()).';';
+			$db->setQuery($query);
+			$acl_id = $db->loadResult();
+			if($acl_id == null)
+			{
+				$query = 'INSERT INTO #__core_acl_acl (section_value, allow, enabled, updated_date)'
+					.' VALUES (\'actionrule\', '.($allow ? '1':'0').', 1, '.time().');';
+				$db->setQuery($query);
+				$db->Query();
+				$acl_id = $db->insertid();
+				$query = 'INSERT INTO #__core_acl_aro_groups_map (acl_id, group_id) VALUES ('.$acl_id.','.$group->getId().');';
+				$db->setQuery($query);
+				$db->Query();
+				$query = 'INSERT INTO #__core_acl_aco_map (acl_id, section_value, value) VALUES ('.$acl_id.',\''.$action->getExtension().'\',\''.$action->getAction().'\');';
+				$db->setQuery($query);
+				$db->Query();
+			}
+			$query = 'INSERT INTO #__core_acl_axo_map (acl_id, section_value, value) VALUES ('.$acl_id.',\''.$contentitem->getExtension().'\',\''.$contentitem->getContentItem().'\');';
+			$db->setQuery($query);
+			$db->Query();
+			return true;
+		}
 	}
-
-	function addAction()
+	
+	function removeRule($allow = true, $group, $action, $contentitem = null)
 	{
-
-	}
-
-	function removeAction()
-	{
-
-	}
-
-	function getContentItems()
-	{
-
-	}
-
-	function addContentItem()
-	{
-
-	}
-
-	function removeContentItem()
-	{
-
-	}
-
-
-	function getID()
-	{
-
-	}
-
-	function setID()
-	{
-
-	}
-
-	function allow()
-	{
-
+		if(!is_a($group, 'JAuthorizationUsergroup') || !is_a($action, 'JAuthorizationAction'))
+		{
+			return false;
+		}
+		
+		if($contentitem != null && !is_a($contentitem, 'JAuthorizationContentItem'))
+		{
+			return false;
+		}
+		
+		$db =& JFactory::getDBO();
+		if($contentitem == null)
+		{
+			$query = 'SELECT acl.id FROM #__core_acl_acl acl'
+				.' LEFT JOIN #__core_acl_aro_groups_map arogm ON acl.id = arogm.acl_id'
+				.' LEFT JOIN #__core_acl_aco_map acom ON acl.id = acom.acl_id'
+				.' WHERE acl.section_value = \'actionrule\' AND arogm.group_id = '.$group->getId().' AND acl.allow = '.($allow ? '1':'0')
+				.' AND acom.section_value = '.$db->Quote($action->getExtension()).' AND acom.value = '.$db->Quote($action->getAction()).';';
+			$db->setQuery($query);
+			$acl_id = $db->loadResult();
+			if(!($acl_id > 0))
+			{
+				return false;
+			}
+			$query = 'DELETE FROM #__core_acl_aco_map WHERE acl_id = '.$acl_id.' AND section_value = '.$db->Quote($action->getExtension()).' AND value = '.$db->Quote($action->getAction());
+			$db->setQuery($query);
+			$db->Query();
+			$query = 'SELECT COUNT(value) FROM #__core_acl_aco_map WHERE acl_id = '.$acl_id;
+			$db->setQuery($query);
+			$actions_count = $db->loadResult();
+			if($actions_count == 0)
+			{
+				$query = 'DELETE FROM #__core_acl_aro_groups_map WHERE acl_id = '.$acl_id;
+				$db->setQuery($query);
+				$db->Query();
+				$query = 'DELETE FROM #__core_acl_acl WHERE id = '.$acl_id;
+				$db->setQuery($query);
+				$db->Query();
+			}
+			return true;
+		} else {
+			$query = 'SELECT acl.id FROM #__core_acl_acl acl'
+				.' LEFT JOIN #__core_acl_aro_groups_map arogm ON acl.id = arogm.acl_id'
+				.' LEFT JOIN #__core_acl_aco_map acom ON acl.id = acom.acl_id'
+				.' LEFT JOIN #__core_acl_axo_map axom ON acl.id = axom.acl_id'
+				.' WHERE acl.section_value = \'actionrule\' AND arogm.group_id = '.$group->getId().' AND acl.allow = '.($allow ? '1':'0')
+				.' AND acom.section_value = '.$db->Quote($action->getExtension()).' AND acom.value = '.$db->Quote($action->getAction())
+				.' AND axom.section_value = '.$db->Quote($contentitem->getExtension()).' AND axom.value = '.$db->Quote($contentitem->getContentItem()).';';
+			$db->setQuery($query);
+			$acl_id = $db->loadResult();
+			if(!($acl_id > 0))
+			{
+				return false;
+			}
+			$query = 'DELETE FROM #__core_acl_axo_map WHERE acl_id = '.$acl_id.' AND section_value = '.$db->Quote($contentitem->getExtension()).' AND value = '.$db->Quote($contentitem->getContentItem());
+			$db->setQuery($query);
+			$db->Query();
+			$query = 'SELECT COUNT(value) FROM #__core_acl_axo_map WHERE acl_id = '.$acl_id;
+			$db->setQuery($query);
+			$content_count = $db->loadResult();
+			if($content_count == 0)
+			{
+				$query = 'DELETE FROM #__core_acl_aco_map WHERE acl_id = '.$acl_id;
+				$db->setQuery($query);
+				$db->Query();
+				$query = 'DELETE FROM #__core_acl_aro_groups_map WHERE acl_id = '.$acl_id;
+				$db->setQuery($query);
+				$db->Query();
+				$query = 'DELETE FROM #__core_acl_acl WHERE id = '.$acl_id;
+				$db->setQuery($query);
+				$db->Query();
+			}
+			return true;
+		}
 	}
 }
 

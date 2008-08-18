@@ -297,18 +297,6 @@ class JAuthorizationUsergroup
 
 class JAuthorizationRule
 {
-	var $_rules = null;
-
-	var $_id = null;
-
-	var $_allow = true;
-
-	var $_groups = null;
-
-	var $_actions = null;
-
-	var $_contentitems = null;
-
 	function __construct()
 	{
 
@@ -336,86 +324,20 @@ class JAuthorizationRule
 
 		return $instance;
 	}
-
-	function load()
-	{
-
-	}
-
-	function store()
-	{
-
-	}
-
-	function remove()
-	{
-
-	}
-
-	function getRules()
-	{
-
-	}
-
-	function getGroups()
+	
+	function authorizeGroup($group, $extension, $action, $contentitem = null)
 	{
 		
 	}
 
-	function addGroup()
-	{
-
-	}
-
-	function removeGroup()
-	{
-
-	}
-
-	function getActions()
+	function addRule($allow = true, $group, $action, $contentitem = null)
 	{
 		
 	}
-
-	function addAction()
+	
+	function removeRule($allow = true, $group, $action, $contentitem = null)
 	{
-
-	}
-
-	function removeAction()
-	{
-
-	}
-
-	function getContentItems()
-	{
-
-	}
-
-	function addContentItem()
-	{
-
-	}
-
-	function removeContentItem()
-	{
-
-	}
-
-
-	function getID()
-	{
-
-	}
-
-	function setID()
-	{
-
-	}
-
-	function allow()
-	{
-
+		
 	}
 }
 
