@@ -774,10 +774,11 @@ class JFactory
 
         // Empty connection name is a sign to get some "default" one
         if ( empty( $connectionname ) ) {
-            if ( array_key_exists("main", $connectionsList) ) {
-                $connectionname = "main";
+            if ( array_key_exists("default", $connectionsList) ) {
+                $connectionname = "default";
             }
             else {
+            	// Well... get the first one then
                 $keys = array_keys($connectionsList);
                 $connectionname = $keys[0];
             }

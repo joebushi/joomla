@@ -99,6 +99,11 @@ class ConfigControllerApplication extends ConfigController
 
 		// DATABASE SETTINGS
 
+
+		// JODA SETTINGS
+        //	$lists['drivers']   = JHTML::_('select.genericlist',  array('mysql', 'pgsql'), 'Driver', 'class="inputbox" size="1"', 'value', 'text', $row->editor);
+
+
 		// SERVER SETTINGS
 		$lists['gzip'] 			= JHTML::_('select.booleanlist', 'gzip', 'class="inputbox"', $row->gzip);
 		$errors 				= array (JHTML::_('select.option', -1, JText::_('System Default')), JHTML::_('select.option', 0, JText::_('None')), JHTML::_('select.option', E_ERROR | E_WARNING | E_PARSE, JText::_('Simple')), JHTML::_('select.option', E_ALL, JText::_('Maximum')));
@@ -189,7 +194,7 @@ class ConfigControllerApplication extends ConfigController
 		$options = array();
 		foreach($stores as $store) {
 			$options[] = JHTML::_('select.option', $store, JText::_(ucfirst($store)) );
-		} 
+		}
 		$lists['session_handlers'] = JHTML::_('select.genericlist',  $options, 'session_handler', 'class="inputbox" size="1"', 'value', 'text', $row->session_handler);
 
 		// SHOW EDIT FORM
@@ -323,6 +328,32 @@ class ConfigControllerApplication extends ConfigController
 		$config_array['user']		= JRequest::getVar('user', '', 'post', 'string');
 		$config_array['db']			= JRequest::getVar('db', '', 'post', 'string');
 		$config_array['dbprefix']	= JRequest::getVar('dbprefix', 'jos_', 'post', 'string');
+
+
+		// JODA CONNECTIONS SETTINGS
+		$config_array['connections'] = array();
+		$connames =  JRequest::getVar('conname', 'jos_', 'post', 'array');
+		$condrivers = JRequest::getVar('condriver', 'jos_', 'post', 'array');
+        $conhosts = JRequest::getVar('conhost', 'jos_', 'post', 'array');
+        $conports = JRequest::getVar('conport', 'jos_', 'post', 'array');
+        $condatabases = JRequest::getVar('condatabase', 'jos_', 'post', 'array');
+        $conusers = JRequest::getVar('conuser', 'jos_', 'post', 'array');
+        $conpasswors = JRequest::getVar('conpassword', 'jos_', 'post', 'array');
+        $conprefixes = JRequest::getVar('conprefix', 'jos_', 'post', 'array');
+        $connections_count = sizeof($connames);
+        for ( $i=0; $i < $connections_count; $i++) {
+        	$config_array['connections'][$connames[$i]] = array (
+        	           "host" => $conhosts[$i],
+        	           "port" => $conports[$i],
+        	           "user" => $conusers[$i],
+        	           "password" => $conpasswors[$i],
+        	           "database" => $condatabases[$i],
+        	           "driver" => $condrivers[$i],
+        	           "prefix" => $conprefixes[$i]
+        	       );
+        }
+
+
 
 		// MAIL SETTINGS
 		$config_array['mailer']		= JRequest::getVar('mailer', 'mail', 'post', 'word');
