@@ -239,5 +239,8 @@ class InstallerController extends JController
 	
 	function update_purge() {
 		// Purge updates
+		$model = &$this->getModel('update');
+		$model->purge();
+		$this->setRedirect('index.php?option=com_installer&task=manage&type=update', $model->_message);
 	}
 }

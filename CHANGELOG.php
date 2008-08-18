@@ -38,6 +38,16 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+18-Aug-2008 Sam Moffatt
+ + Added purge cached updates to installer controller
+ ^ Changed jos_extensions state field to use a -1 (discovered), 0 (normal installed), 1 ()
+ ^ Added support for checks against installed extensions or possible new extensions
+ ^ Cleaned up extensions list view
+ + Added find option for extensions
+ ^ Collection updates now work properly
+ + Added Update table
+ ^ Fixed updater to support linking updates to an update site
+
 13-Aug-2008 Sam Moffatt
  ^ Work on collection and extension update adapters
  + Added ability for adapter to add extra update sites to list on the fly 

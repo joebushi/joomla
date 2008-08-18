@@ -52,7 +52,7 @@ class InstallerViewUpdate extends InstallerViewDefault
 	{
 		$item =& $this->items[$index];
 		$item->index	= $index;
-		$item->img		= $item->enabled ? 'tick.png' : 'publish_x.png';
+/*		$item->img		= $item->enabled ? 'tick.png' : 'publish_x.png';
 		$item->task 	= $item->enabled ? 'disable' : 'enable';
 		$item->alt 		= $item->enabled ? JText::_( 'Enabled' ) : JText::_( 'Disabled' );
 		$item->action	= $item->enabled ? JText::_( 'disable' ) : JText::_( 'enable' );
@@ -64,6 +64,7 @@ class InstallerViewUpdate extends InstallerViewDefault
 			$item->cbd		= null;
 			$item->style	= null;
 		}
+*/		
 		$item->author_info = @$item->authorEmail .'<br />'. @$item->authorUrl;
 
 		$this->assignRef('item', $item);

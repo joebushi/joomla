@@ -38,7 +38,9 @@ class JUpdaterExtension extends JAdapterInstance {
 		$this->$tag->_data .= $data;
 	}
 	
-	function findUpdate($url) {
+	function findUpdate($options) {
+		$url = $options['location'];
+		echo '<p>Find update for extension run on <a href="'. $url .'">'. $url .'</a></p>';
 		if(substr($url, -4) != '.xml') {
 			if(substr($url, -1) != '/') {
 				$url .= '/';

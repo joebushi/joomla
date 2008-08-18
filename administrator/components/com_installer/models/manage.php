@@ -114,7 +114,7 @@ class InstallerModelManage extends InstallerModel
 
 		$query = 'SELECT *' .
 				' FROM #__extensions' .
-				' WHERE state > -1' .
+				' WHERE state = 0' . // get only regular non hidden non discovered extensions
 				' ORDER BY protected, type, client_id, folder, name';
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();

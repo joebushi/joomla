@@ -49,6 +49,7 @@ class InstallerModelUpdate extends InstallerModel
 
 		$query = 'SELECT *' .
 				' FROM #__updates' .
+				' WHERE extensionid != 0' . // we only want actual updates
 				' ORDER BY type, client_id, folder, name';
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
@@ -59,14 +60,6 @@ class InstallerModelUpdate extends InstallerModel
 		for($i=0;$i < $numRows; $i++)
 		{
 			$row =& $rows[$i];
-			if(strlen($row->manifestcache)) {
-				$data = unserialize($row->manifestcache);
-				if($data) {
-					foreach($data as $key => $value) {
-						$row->$key = $value;
-					}	
-				}
-			}
 			$row->jname = JString::strtolower(str_replace(" ", "_", $row->name));
 			if(isset($apps[$row->client_id])) {
 				$row->client = ucfirst($apps[$row->client_id]->name);

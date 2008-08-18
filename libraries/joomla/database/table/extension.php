@@ -115,4 +115,15 @@ class JTableExtension extends JTable
 
 		return parent::bind($array, $ignore);
 	}
+	
+	function find($options=Array()) {
+		$dbo =& JFactory::getDBO();
+		$where = Array();
+		foreach($options as $col=>$val) {
+			$where[] = $col .' = '. $dbo->Quote($val);
+		}
+		$query = 'SELECT extensionid FROM #__extensions WHERE '. implode(' AND ', $where);
+		$dbo->setQuery($query);
+		return $dbo->loadResult();
+	}
 }

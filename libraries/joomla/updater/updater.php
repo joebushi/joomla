@@ -64,9 +64,9 @@ class JUpdater extends JAdapter {
 		$retval = false;
 		// push it into an array
 		if(!is_array($eid)) {
-			$query = 'SELECT DISTINCT type,location FROM #__update_sites WHERE enabled = 1';
+			$query = 'SELECT DISTINCT updatesiteid, type, location FROM #__update_sites WHERE enabled = 1';
 		} else {
-			$query = 'SELECT DISTINCT type,location FROM #__update_sites WHERE updatesiteid IN (SELECT updatesiteid FROM #__update_sites_extensions WHERE extensionid IN ('. implode(',', $eid) .'))';
+			$query = 'SELECT DISTINCT updatesiteid, type, location FROM #__update_sites WHERE updatesiteid IN (SELECT updatesiteid FROM #__update_sites_extensions WHERE extensionid IN ('. implode(',', $eid) .'))';
 		}
 		$dbo->setQuery($query);
 		$results = $dbo->loadAssocList();
@@ -74,7 +74,7 @@ class JUpdater extends JAdapter {
 		for($i = 0; $i < $result_count; $i++) {
 			$result =& $results[$i];
 			$this->setAdapter($result['type']);
-			$update_result = $this->_adapters[$result['type']]->findUpdate($result['location']);
+			$update_result = $this->_adapters[$result['type']]->findUpdate($result);
 			if(is_array($update_result)) {
 				$results = $this->arrayUnique(array_merge($results, $update_result));
 				$result_count = count($results);

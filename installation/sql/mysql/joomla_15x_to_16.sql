@@ -47,11 +47,12 @@ ALTER TABLE `jos_extensions` ADD INDEX `type_element`(`type`, `element`),
  ADD INDEX `element_folder_clientid`(`element`, `folder`, `client_id`).
  ADD INDEX `extension`(`type`,`element`,`folder`,`client_id`);
 
-
 # Update Sites
-CREATE TABLE  `jos_updates` (
+CREATE TABLE  `joomla_update`.`jos_updates` (
   `updateid` int(11) NOT NULL auto_increment,
+  `updatesiteid` int(11) default '0',
   `extensionid` int(11) default '0',
+  `categoryid` int(11) default '0',
   `name` varchar(100) default '',
   `description` text,
   `element` varchar(100) default '',
@@ -60,9 +61,9 @@ CREATE TABLE  `jos_updates` (
   `client_id` tinyint(3) default '0',
   `version` varchar(10) default '',
   `data` text,
+  `detailsurl` text,
   PRIMARY KEY  (`updateid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Available Updates';
-
 
 CREATE TABLE  `jos_update_sites` (
   `updatesiteid` int(11) NOT NULL auto_increment,
@@ -71,7 +72,7 @@ CREATE TABLE  `jos_update_sites` (
   `location` text,
   `enabled` int(11) default '0',
   PRIMARY KEY  (`updatesiteid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Update Sites'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Update Sites';
 
 CREATE TABLE `jos_update_sites_extensions` (
   `updatesiteid` INT DEFAULT 0,
