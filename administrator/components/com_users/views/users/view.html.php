@@ -89,10 +89,6 @@ class UsersViewUsers extends JView
 				$html .= $this->getTree();
 			}
 			$html .= '</li>';
-			foreach($this->usergroups->getUsers() as $user)
-			{
-				$html .= '<li><a href="&view=userdetail&id='.$user->getId().'">'.$user->getName().'</a></li>';
-			}
 			$this->usergroups = $usergroups->getParent();
 		}
 		$html .= '</ul>';

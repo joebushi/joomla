@@ -26,7 +26,7 @@ require_once(JPATH_LIBRARIES.DS.'joomla'.DS.'user'.DS.'authorization'.DS.'helper
  * @subpackage	Authorization
  * @author 		Hannes Papenberg
  * @abstract 
- * @since		1.5
+ * @since		1.6
  */
 class JAuthorization
 {
@@ -100,16 +100,49 @@ class JAuthorization
 
 class JAuthorizationUsergroup
 {
+	/**
+	 * ID of the usergroup
+	 *
+	 * @var int
+	 */
 	var $_id = null;
 	
+	/**
+	 * Name of the usergroup
+	 *
+	 * @var string
+	 */
 	var $_name = null;
 
+	/**
+	 * Array of IDs of the access objects representing the users
+	 *
+	 * @var array
+	 */
 	var $_users = null;
 
+	/**
+	 * Array of IDs of the childgroups
+	 *
+	 * @var array
+	 */
 	var $_children = null;
 
+	/**
+	 * parent ID of the group 
+	 *
+	 * @var int
+	 */
 	var $_parent = null;
 
+	/**
+	 * Constructor for the class
+	 * This constructor loads the helper class that retrieves
+	 * the data and if given a group ID, loads the data into the object
+	 *
+	 * @param int $id
+	 * @return boolean
+	 */
 	function __construct($id = null)
 	{
 		$engine =& JAuthorizationUsergroupHelper::getInstance();
@@ -128,11 +161,22 @@ class JAuthorizationUsergroup
 		}
 	}
 
+	/**
+	 * returns the group ID
+	 *
+	 * @return int
+	 */
 	function getID()
 	{
 		return $this->_id;
 	}
 
+	/**
+	 * sets the group ID
+	 *
+	 * @param int $id
+	 * @return int old ID
+	 */
 	function setID($id = null)
 	{
 		if($id)
@@ -145,11 +189,22 @@ class JAuthorizationUsergroup
 		}
 	}
 	
+	/**
+	 * Returns the name of the group
+	 *
+	 * @return string
+	 */
 	function getName()
 	{
 		return $this->_name;
 	}
 	
+	/**
+	 * sets the name of the group
+	 *
+	 * @param string $name
+	 * @return string old name of the group
+	 */
 	function setName($name = null)
 	{
 		if($name)
@@ -162,6 +217,11 @@ class JAuthorizationUsergroup
 		}
 	}
 	
+	/**
+	 * Returns all users that are member of the group
+	 *
+	 * @return array Array of JAuthorizationUser objects 
+	 */
 	function getUsers()
 	{
 		$result = array();
@@ -172,12 +232,23 @@ class JAuthorizationUsergroup
 		return $result;
 	}
 	
+	/**
+	 * Returns all users that are not member of any group
+	 *
+	 * @return array Array of JAuthorizationUser objects
+	 */
 	function getUngroupedUsers()
 	{
 		$engine =& JAuthorizationUsergroupHelper::getInstance();
 		return $engine->getUngroupedUsers();
 	}
 	
+	/**
+	 * Adds a user to the current group
+	 *
+	 * @param JAuthorizationUser $user
+	 * @return bool
+	 */
 	function addUser($user)
 	{
 		if(is_a($user, 'JAuthorizationUser'))
@@ -196,6 +267,12 @@ class JAuthorizationUsergroup
 		}
 	}
 	
+	/**
+	 * removes a user from a group
+	 *
+	 * @param JAuthorizationUser $user
+	 * @return bool
+	 */
 	function removeUser($user)
 	{
 		if(is_a($user, 'JAuthorizationUser'))
@@ -222,18 +299,34 @@ class JAuthorizationUsergroup
 		}
 	}
 	
+	/**
+	 * Returns the parent Group of this group as a JAuthorizationUsergroup object
+	 *
+	 * @return JAuthorizationUsergroup
+	 */
 	function getParent()
 	{
 		return new JAuthorizationUsergroup($this->_parent);
 	}
 	
+	/**
+	 * Sets the parent of the group
+	 *
+	 * @param JAuthorizationUsergroup $parent
+	 * @return int Old ID of the previous usergroup
+	 */
 	function setParent($parent)
 	{
 		$temp = $this->_parent;
-		$this->_parent = $parent;
+		$this->_parent = $parent->getId();
 		return $temp;
 	}
 
+	/**
+	 * Returns all children of a group as JAuthorizationUsergroup objects
+	 *
+	 * @return array Array of JAuthorizationUsergroup objects
+	 */
 	function getChildren()
 	{
 		if(count($this->_children))
@@ -249,6 +342,13 @@ class JAuthorizationUsergroup
 		}
 	}
 
+	/**
+	 * Adds the group in the parameter as a child to the current group
+	 * This is the way to save new groups in the system
+	 *
+	 * @param JAuthorizationUsergroup $group
+	 * @return bool
+	 */
 	function addChild($group)
 	{
 		if(is_a($group, 'JAuthorizationUsergroup'))
@@ -268,6 +368,13 @@ class JAuthorizationUsergroup
 		}
 	}
 
+	/**
+	 * Removes a group out of the system
+	 * All childgroups are re-assigned to the parent group
+	 *
+	 * @param JAuthorizationUsergroup $group
+	 * @return bool
+	 */
 	function removeChild($group)
 	{
 		if(is_a($group, 'JAuthorizationGroup'))
