@@ -111,7 +111,7 @@ class ConfigApplicationView
                 <table class="noshow">
                     <tr>
                         <td width="60%">
-                            <?php require_once($tmplpath.DS.'config_joda.php'); ?>
+                            <?php require_once($tmplpath.DS.'config_joda_connections.php'); ?>
                         </td>
                         <td width="40%">
                         </td>
