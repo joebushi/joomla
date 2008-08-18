@@ -1,5 +1,5 @@
 <fieldset class="adminform">
-	<legend><?php echo JText::_( 'Database Settings' ); ?></legend>
+	<legend><?php echo JText::_( 'Connections' ); ?></legend>
 	<table class="admintable" cellspacing="1">
 		<tbody>
 		<tr>
