@@ -35,7 +35,7 @@ if($controller = JRequest::getWord('controller', 'application')) {
 }
 
 // Create the controller
-$classname	= 'ConfigController'.ucfirst($controller);
+$classname	= 'ConfigController'.ucfirst($controller); 
 $controller	= new $classname( );
 
 JResponse::setHeader( 'Expires', 'Mon, 26 Jul 1997 05:00:00 GMT', true );

@@ -189,7 +189,7 @@ class ConfigControllerApplication extends ConfigController
 		$options = array();
 		foreach($stores as $store) {
 			$options[] = JHTML::_('select.option', $store, JText::_(ucfirst($store)) );
-		}
+		} 
 		$lists['session_handlers'] = JHTML::_('select.genericlist',  $options, 'session_handler', 'class="inputbox" size="1"', 'value', 'text', $row->session_handler);
 
 		// SHOW EDIT FORM

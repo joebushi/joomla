@@ -107,6 +107,21 @@ class ConfigApplicationView
 					</tr>
 				</table>
 			</div>
+            <div id="page-joda">
+                <table class="noshow">
+                    <tr>
+                        <td width="60%">
+                            <?php require_once($tmplpath.DS.'config_server.php'); ?>
+                            <?php require_once($tmplpath.DS.'config_locale.php'); ?>
+                            <?php require_once($tmplpath.DS.'config_ftp.php'); ?>
+                        </td>
+                        <td width="40%">
+                            <?php require_once($tmplpath.DS.'config_database.php'); ?>
+                            <?php require_once($tmplpath.DS.'config_mail.php'); ?>
+                        </td>
+                    </tr>
+                </table>
+            </div>
 		</div>
 		<div class="clr"></div>
 
