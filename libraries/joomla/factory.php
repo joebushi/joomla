@@ -772,27 +772,38 @@ class JFactory
             return null;
         }
 
-        // Empty connection name is a sign to get some "default" one
-        if ( empty( $connectionname ) ) {
-            if ( array_key_exists("default", $connectionsList) ) {
-                $connectionname = "default";
+        // Logic:
+        // If named connection is found, use it.
+        // If not found, use the one with default=true.
+        // Otherwise, report failure
+        $namedConnection = null;
+        $defaultConnection = null;
+        foreach ( $connectionsList as $connection ) {
+            if ( $connection["default"] === 1 ) {
+                $defaultConnection = $connection;
             }
-            else {
-            	// Well... get the first one then
-                $keys = array_keys($connectionsList);
-                $connectionname = $keys[0];
+            if ( $connection["name"] === $connectionname ) {
+            	$namedConnection = $connection;
             }
         }
 
-        // Huh, finally we got a connection info
-        $connectionInfo = $connectionsList[$connectionname];
+        if ( $namedConnection != null ) {
+        	$connectionInfo = $namedConnection;
+        }
+        elseif ( $defaultConnection != null ) {
+        	$connectionInfo = $defaultConnection;
+        }
+        else {
+        	return null;
+        }
+
+        // Huh, finally we got a connection info... lets go
         $host       = $connectionInfo["host"];
         $user       = $connectionInfo["user"];
         $password   = $connectionInfo["password"];
         $database   = $connectionInfo["database"];
         $prefix     = $connectionInfo["prefix"];
         $driver     = $connectionInfo["driver"];
-        $debug      = $connectionInfo["debug"];
         $port       = $connectionInfo["port"];
 
         $options    = array ( 'driver' => $driver, 'host' => $host, 'user' => $user, 'password' => $password, 'database' => $database, 'prefix' => $prefix, "port"=>$port );

@@ -101,7 +101,6 @@ class ConfigControllerApplication extends ConfigController
 
 
 		// JODA SETTINGS
-        //	$lists['drivers']   = JHTML::_('select.genericlist',  array('mysql', 'pgsql'), 'Driver', 'class="inputbox" size="1"', 'value', 'text', $row->editor);
 
 
 		// SERVER SETTINGS
@@ -333,6 +332,7 @@ class ConfigControllerApplication extends ConfigController
 		// JODA CONNECTIONS SETTINGS
 		$config_array['connections'] = array();
 		$connames =  JRequest::getVar('conname', 'jos_', 'post', 'array');
+		$condefault = JRequest::getVar('condefault', 'jos_', 'post', 'string');
 		$condrivers = JRequest::getVar('condriver', 'jos_', 'post', 'array');
         $conhosts = JRequest::getVar('conhost', 'jos_', 'post', 'array');
         $conports = JRequest::getVar('conport', 'jos_', 'post', 'array');
@@ -340,43 +340,38 @@ class ConfigControllerApplication extends ConfigController
         $conusers = JRequest::getVar('conuser', 'jos_', 'post', 'array');
         $conpasswors = JRequest::getVar('conpassword', 'jos_', 'post', 'array');
         $conprefixes = JRequest::getVar('conprefix', 'jos_', 'post', 'array');
+
         $connections_count = sizeof($connames);
-		for ( $i = 1; $i <= 5; $i++ ) {
-	   			$config_array['connections'][""] = array (
-			           "host" => "localhost",
-       		           "port" => "",
-       			       "user" => "",
-       				   "password" => "",
-	       	           "database" => "",
-	    	           "driver" => "",
-			           "prefix" => ""
-       		       );
-				}
+
 		if ( $connections_count <= 0 ) {
-		    	$config_array['connections']["default"] = array (
-				           "host" => "localhost",
-        		           "port" => "",
-        			       "user" => "",
-        				   "password" => "",
-	        	           "database" => "",
-		    	           "driver" => "",
-				           "prefix" => ""
-        		       );
+		    $config_array['connections'] = array (
+		        "name" => "mysql",
+		        "default" => 1,
+                "host" => "localhost",
+        		"port" => "",
+        		"user" => "user",
+        		"password" => "password",
+	        	"database" => "joomla",
+		    	"driver" => "mysql",
+				"prefix" => "jos_",
+                );
 		}
 		else {
-	        for ( $i=0; $i < $connections_count; $i++) {
-		    	$config_array['connections'][$connames[$i]] = array (
-				           "host" => $conhosts[$i],
-        		           "port" => $conports[$i],
-        			       "user" => $conusers[$i],
-        				   "password" => $conpasswors[$i],
-	        	           "database" => $condatabases[$i],
-		    	           "driver" => $condrivers[$i],
-				           "prefix" => $conprefixes[$i]
-        		       );
+	        for ( $i = 0; $i < $connections_count; $i++ ) {
+		    	$connection = array (
+		    	    "name" => $connames[$i],
+                    "default" => ( $condefault == $i ? 1:0  ),
+		    	    "host" => $conhosts[$i],
+                    "port" => $conports[$i],
+                    "user" => $conusers[$i],
+                    "password" => $conpasswors[$i],
+                    "database" => $condatabases[$i],
+                    "driver" => $condrivers[$i],
+                    "prefix" => $conprefixes[$i]
+        		    );
+        		$config_array['connections'][] = $connection;
 	        }
 		}
-
 
 
 		// MAIL SETTINGS

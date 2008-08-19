@@ -104,17 +104,7 @@ class JConfig {
 
 
 	/* Joda Connections */
-	var $connections = array("default" => array(
-                    "host"=>"localhost", 
-                    "user"=>"user", 
-                    "password"=>"password",
-                    "database"=>"joomla",
-                    "prefix"=>"jos_", 
-                    "driver"=>"mysql",
-                    "debug"=>"0", 
-                    "port"=>"3306"
-                    ),
-    );
+    var $connections = array("0" => array("name" => "mysql", "default" => "1", "host" => "localhost", "port" => "3306", "user" => "user", "password" => "password", "database" => "joomlajoda", "driver" => "mysql", "prefix" => "jos_"));
 
 }
 ?>

@@ -3,6 +3,7 @@
 	<table class="admintable" cellspacing="1">
 		<tbody>
         <tr style="font-weight: bold;">
+            <td><?php echo JText::_( 'Default' ); ?></td>
             <td><?php echo JText::_( 'Name' ); ?></td>
             <td><?php echo JText::_( 'Driver' ); ?></td>
             <td><?php echo JText::_( 'Host' ); ?></td>
@@ -14,17 +15,19 @@
         </tr>
         <?php
             $idx = 0;
-            while (list ($cname, $cprops) = each($row->connections) ) {
+            while (list ($id , $cprops) = each($row->connections) ) {
+            	$checked = ( $cprops["default"] == 1 ) ? " CHECKED" : "";
         ?>
 		<tr>
-		    <td><input class="text_area" type="text" name="conname[]" size="20" value="<?php echo $cname; ?>" /></td>
-            <td><input class="text_area" type="text" name="condriver[]" size="12" value="<?php echo $cprops["driver"]; ?>" /></td>
-            <td><input class="text_area" type="text" name="conhost[]" size="30" value="<?php echo $cprops["host"]; ?>" /></td>
-            <td><input class="text_area" type="text" name="conport[]" size="8" value="<?php echo $cprops["port"]; ?>" /></td>
-            <td><input class="text_area" type="text" name="condatabase[]" size="30" value="<?php echo $cprops["database"]; ?>" /></td>
-            <td><input class="text_area" type="text" name="conuser[]" size="20" value="<?php echo $cprops["user"]; ?>" /></td>
-            <td><input class="text_area" type="text" name="conpassword[]" size="20" value="<?php echo $cprops["password"]; ?>" /></td>
-            <td><input class="text_area" type="text" name="conprefix[]" size="20" value="<?php echo $cprops["prefix"]; ?>" /></td>
+            <td><input class="text_area" type="radio" name="condefault" value="<?php echo $id; ?>" <?php echo $checked ?> /></td>
+		    <td><input class="text_area" type="text"  name="conname[]" size="20" value="<?php echo $cprops["name"]; ?>" /></td>
+            <td><input class="text_area" type="text"  name="condriver[]" size="12" value="<?php echo $cprops["driver"]; ?>" /></td>
+            <td><input class="text_area" type="text"  name="conhost[]" size="30" value="<?php echo $cprops["host"]; ?>" /></td>
+            <td><input class="text_area" type="text"  name="conport[]" size="8" value="<?php echo $cprops["port"]; ?>" /></td>
+            <td><input class="text_area" type="text"  name="condatabase[]" size="30" value="<?php echo $cprops["database"]; ?>" /></td>
+            <td><input class="text_area" type="text"  name="conuser[]" size="20" value="<?php echo $cprops["user"]; ?>" /></td>
+            <td><input class="text_area" type="text"  name="conpassword[]" size="20" value="<?php echo $cprops["password"]; ?>" /></td>
+            <td><input class="text_area" type="text"  name="conprefix[]" size="20" value="<?php echo $cprops["prefix"]; ?>" /></td>
 		</tr>
         <?php
             $idx++;
