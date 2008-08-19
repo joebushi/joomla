@@ -710,7 +710,7 @@ class JAuthorizationJACLContentItemHelper extends JAuthorizationContentItemHelpe
 	function __construct()
 	{
 		$db =& JFactory::getDBO();
-		$query = 'SELECT id, section as extension, name, value FROM #__core_acl_axo';
+		$query = 'SELECT id, section_value as extension, name, value FROM #__core_acl_axo';
 		$db->setQuery($query);
 		$contentitems = $db->loadObjectList();
 		foreach($contentitems as $contentitem)
@@ -731,7 +731,7 @@ class JAuthorizationJACLContentItemHelper extends JAuthorizationContentItemHelpe
 		{
 			if($contentitem->extension == $extension)
 			{
-				$result[] = $contentitem;
+				$result[] = new JAuthorizationContentItem($extension, $contentitem->value);
 			}
 		}
 		return $result;

@@ -450,14 +450,40 @@ class JAuthorizationRule
 
 class JAuthorizationAction
 {
+	/**
+	 * ID of the Action object
+	 *
+	 * @var int
+	 */
 	var $_id = null;
 
+	/**
+	 * Extension this action is part of
+	 *
+	 * @var string
+	 */
 	var $_extension = null;
 
+	/**
+	 * Name of the Action
+	 *
+	 * @var string
+	 */
 	var $_name = null;
 
+	/**
+	 * Internal name for the Action
+	 *
+	 * @var string
+	 */
 	var $_action = null;
 
+	/**
+	 * Constructor, loads the given action into the object
+	 *
+	 * @param string $extension
+	 * @param string $item
+	 */
 	function __construct($extension = null, $item = null)
 	{
 		if($extension != null && $item != null)
@@ -577,6 +603,12 @@ class JAuthorizationContentItem
 	{
 		$engine = JAuthorizationContentItemHelper::getInstance();
 		$engine->delete($this);
+	}
+	
+	function getContentItems($extension)
+	{
+		$engine = JAuthorizationContentItemHelper::getInstance();
+		return $engine->getContentItems($extension);
 	}
 }
 

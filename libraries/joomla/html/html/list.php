@@ -30,10 +30,15 @@ class JHTMLList
 	*/
 	function accesslevel( &$row, $extension = 'com_content' )
 	{
-		$aclContent =& JAuthorizationContentItem::getInstance();
-		$aclContent->load();
+		require_once(JPATH_LIBRARIES.DS.'joomla'.DS.'user'.DS.'authorization.php');
+		$aclContent = new JAuthorizationContentItem();
 		$contentItems = $aclContent->getContentItems($extension);
-		$access = JHTML::_('select.genericlist',   $contentItems, 'access', 'class="inputbox" size="3"', 'value', 'name', intval( $row->access ), '', 1 );
+		$options = array();
+		foreach($contentItems as $contentItem)
+		{
+			$options[] = JHTML::_('select.option', $contentItem->getValue(),$contentItem->getName());
+		}
+		$access = JHTML::_('select.genericlist',   $options, 'access', 'class="inputbox" size="3"', 'value', 'text', intval( $row->access ), '', 1 );
 
 		return $access;
 	}

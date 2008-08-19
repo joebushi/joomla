@@ -195,7 +195,7 @@ class JAuthorizationContentItemHelper
 			$config =& JFactory::getConfig();
 			$driver = $config->getValue('config.aclservice', 'JACL');
 			require_once(JPATH_LIBRARIES.DS.'joomla'.DS.'user'.DS.'authorization'.DS.strtolower($driver).'.php');
-			$adapter	= 'JAuthorization'.$driver.'ContentItem';
+			$adapter	= 'JAuthorization'.$driver.'ContentItemHelper';
 			$instance	= new $adapter();
 
 		}

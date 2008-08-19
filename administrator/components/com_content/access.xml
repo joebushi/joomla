@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<access>
+	<extension name="com_content">
+		<action name="Manage" value="manage" />
+		<action name="Edit" value="edit" content="1" />
+		<content name="Public" value="0" />
+		<content name="Registered" value="1" />
+		<content name="Special" value="2" ></content>
+	</extension>
+</access>
