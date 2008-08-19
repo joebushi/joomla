@@ -101,6 +101,16 @@ class ConfigControllerApplication extends ConfigController
 
 
 		// JODA SETTINGS
+        // Enumerate all known database connectors (i.e. mysql. pgsql, mssql, etc.)
+        $dbdrivers = array (
+                    JHTML::_('select.option', "mysql", JText::_('MySQL')),
+                    JHTML::_('select.option', "pgsql", JText::_('PostgreSQL'))
+                    );
+
+		while (list ($id , $cprops) = each($row->connections) ) {
+            $lists["dbdriver"][$id] = JHTML::_('select.genericlist',  $dbdrivers, 'condriver[]', 'class="inputbox" size="1"', 'value', 'text', $cprops["driver"]);
+        }
+
 
 
 		// SERVER SETTINGS

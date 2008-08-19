@@ -775,7 +775,7 @@ class JFactory
         // Logic:
         // If named connection is found, use it.
         // If not found, use the one with default=true.
-        // Otherwise, report failure
+        // Otherwise, report failure: NO named connection and NO default specified! Very undefined!
         $namedConnection = null;
         $defaultConnection = null;
         foreach ( $connectionsList as $connection ) {

@@ -110,10 +110,9 @@ class ConfigApplicationView
             <div id="page-joda">
                 <table class="noshow">
                     <tr>
-                        <td width="60%">
+                        <td>
+                            <?php require_once($tmplpath.DS.'config_joda_general.php'); ?>
                             <?php require_once($tmplpath.DS.'config_joda_connections.php'); ?>
-                        </td>
-                        <td width="40%">
                         </td>
                     </tr>
                 </table>
