@@ -31,72 +31,20 @@ class UsersViewUsers extends JView
 	{
 		global $mainframe, $option;
 
-		if($this->getLayout() == 'list')
+		if($this->getLayout() == 'groups')
 		{
-			JSubMenuHelper::addEntry(JText::_('Groups'), 'index.php?option=com_users&view=users');
-			JSubMenuHelper::addEntry(JText::_('Users'), 'index.php?option=com_users&view=users&layout=list', true);
+			JSubMenuHelper::addEntry(JText::_('Users'), 'index.php?option=com_users&view=users');
+			JSubMenuHelper::addEntry(JText::_('Groups'), 'index.php?option=com_users&view=users&layout=groups', true);
 		} else {
-			JSubMenuHelper::addEntry(JText::_('Groups'), 'index.php?option=com_users&view=users', true);
-			JSubMenuHelper::addEntry(JText::_('Users'), 'index.php?option=com_users&view=users&layout=list');
+			JSubMenuHelper::addEntry(JText::_('Users'), 'index.php?option=com_users&view=users', true);
+			JSubMenuHelper::addEntry(JText::_('Groups'), 'index.php?option=com_users&view=users&layout=groups');
 		}
 		
-		if($this->getLayout() == 'list')
+		if($this->getLayout() == 'groups')
 		{
-			$this->_displayUserList();
+			$this->_displayGroupList();
 			return;
 		}
-		$document = JFactory::getDocument();
-		JHTML::_('behavior.mootools');
-		$document->addScript(JURI::root().'media/system/js/mootree_packed.js');
-		$document->addStyleSheet(JURI::root().'media/system/css/mootree.css');
-		$usergroups = new JAuthorizationUsergroup();
-		$javascript = 'var tree;
-			window.onload = function() {
-	
-			tree = new MooTreeControl({
-				div: \'mytree\',
-				grid: true,
-				theme: \'../media/system/images/mootree.gif\',
-				onSelect: function(node, state) {
-					if (state) var request = new Ajax(\'index.php\', {method: \'post\',postBody: \'option=com_users&format=raw\'+node.data.url,onFailure:function(){}, onSuccess:function(response){$(\'detailuser\').setHTML( response );}}).request();
-				}
-			},{
-				text: \'Root Node\',
-				open: true
-			});
-			tree.adopt(\'trulla\');
-			tree.expand();
-		}';
-		$document->addScriptDeclaration($javascript);
-		$this->assignRef('usergroups', $usergroups);
-		parent::display($tpl);
-	}
-	
-	function getTree($first = false)
-	{
-		if($first)
-		{
-			$html = '<ul id="trulla">';
-		} else {
-			$html = '<ul>';
-		}
-		foreach($this->usergroups->getChildren() as $usergroups)
-		{
-			$html .= '<li><a href="&view=groupdetail&id='.$usergroups->getId().'"><!-- icon:_open; -->'.$usergroups->getName().'</a>';
-			$this->usergroups = $usergroups;
-			if($this->usergroups->getChildren())
-			{
-				$html .= $this->getTree();
-			}
-			$html .= '</li>';
-			$this->usergroups = $usergroups->getParent();
-		}
-		$html .= '</ul>';
-		return $html;
-	}
-
-	function _displayUserList()
-	{
 		global $mainframe, $option;
 
 		$db				=& JFactory::getDBO();
@@ -190,5 +138,57 @@ class UsersViewUsers extends JView
 		$this->assignRef('pagination',	$pagination);
 
 		parent::display();
+	}
+	
+	function getTree($first = false)
+	{
+		if($first)
+		{
+			$html = '<ul id="trulla">';
+		} else {
+			$html = '<ul>';
+		}
+		foreach($this->usergroups->getChildren() as $usergroups)
+		{
+			$html .= '<li><a href="&view=groupdetail&id='.$usergroups->getId().'"><!-- icon:_open; -->'.$usergroups->getName().'</a>';
+			$this->usergroups = $usergroups;
+			if($this->usergroups->getChildren())
+			{
+				$html .= $this->getTree();
+			}
+			$html .= '</li>';
+			$this->usergroups = $usergroups->getParent();
+		}
+		$html .= '</ul>';
+		return $html;
+	}
+
+	function _displayGroupList($tpl = null)
+	{
+		$document = JFactory::getDocument();
+		JHTML::_('behavior.mootools');
+		$document->addScript(JURI::root().'media/system/js/mootree_packed.js');
+		$document->addStyleSheet(JURI::root().'media/system/css/mootree.css');
+		$usergroups = new JAuthorizationUsergroup();
+		$javascript = 'var tree;
+			window.onload = function() {
+	
+			tree = new MooTreeControl({
+				div: \'mytree\',
+				grid: true,
+				theme: \'../media/system/images/mootree.gif\',
+				onSelect: function(node, state) {
+					if (state) var request = new Ajax(\'index.php\', {method: \'post\',postBody: \'option=com_users&format=raw\'+node.data.url,onFailure:function(){}, onSuccess:function(response){$(\'detailuser\').setHTML( response );}}).request();
+				}
+			},{
+				text: \'Root Node\',
+				open: true
+			});
+			tree.adopt(\'trulla\');
+			tree.expand();
+		}';
+		$document->addScriptDeclaration($javascript);
+		$this->assignRef('usergroups', $usergroups);
+		parent::display($tpl);
 	}
 }

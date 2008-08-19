@@ -290,20 +290,20 @@ class JAuthorizationJACLUsergroupHelper extends JAuthorizationUsergroupHelper
 				$db->setQuery($query);
 				$db->Query();
 				$group->setId($db->insertid());
-				if(count($group->getUser()))
+			}
+			if(count($group->getUser()))
+			{
+				foreach($group->getUser() as $user)
 				{
-					foreach($group->getUser() as $user)
-					{
-						$this->addUser($group->getId(), $user);
-					}
+					$this->addUser($group->getId(), $user);
 				}
+			}
 				
-				if(count($group->getChildren()))
+			if(count($group->getChildren()))
+			{
+				foreach($group->getChildren() as $group)
 				{
-					foreach($group->getChildren() as $group)
-					{
-						$this->addGroup($group);
-					}
+					$this->addGroup($group);
 				}
 			}
 		} else {
@@ -317,6 +317,7 @@ class JAuthorizationJACLUsergroupHelper extends JAuthorizationUsergroupHelper
 		if(is_a($group, 'JAuthorizationUsergroup'))
 		{
 			$db =& JFactory::getDBO();
+			//Assign all childgroups to the parent group
 			if(count($group->getChildren()))
 			{
 				$parent = $group->getParent();
@@ -324,6 +325,7 @@ class JAuthorizationJACLUsergroupHelper extends JAuthorizationUsergroupHelper
 				$db->setQuery($query);
 				$db->Query();
 			}
+			//Remove all users from that group
 			if(count($group->getUsers()))
 			{
 				foreach($group->getUsers() as $user)
@@ -331,9 +333,49 @@ class JAuthorizationJACLUsergroupHelper extends JAuthorizationUsergroupHelper
 					$this->removeUser($group->getId(), $user);
 				}
 			}
+			//get all ACLs attached to this group
+			$query = 'SELECT acl_id FROM #__core_acl_aro_groups_map WHERE group_id = '.(int) $group->getId();
+			$db->setQuery($query);
+			$acl_ids = $db->loadResultArray();
+			//delete all mappings to the group
 			$query = 'DELETE FROM #__core_acl_aro_groups_map WHERE group_id = '.(int) $group->getId();
 			$db->setQuery($query);
 			$db->Query();
+			//get all ACLs that are still connected to another group
+			$query = 'SELECT acl_id FROM #__core_acl_aro_groups_map WHERE acl_id IN ('.implode(', ',$acl_ids).');';
+			$db->setQuery($query);
+			$result = $db->loadResultArray();
+			//filter out those ACLs that are not connected to another group
+			if(is_array($result))
+			{
+				$acl_remove = array();
+				foreach($acl_ids as $acl_id)
+				{
+					if(!in_array($acl_id, $result))
+					{
+						$acl_remove[] = $acl_id;  
+					}
+				}
+			} else {
+				if(is_array($acl_ids))
+				{
+					$acl_remove = $acl_ids;
+				} else {
+					$acl_remove = array();
+				}
+			}
+			
+			if(count($acl_remove))
+			{
+				//Delete all mappings to the orphan ACLs and then the ACLs itself
+				$query = 'DELETE FROM #__core_acl_aco_map WHERE acl_id IN ('.implode(', ', $acl_ids).');'
+					.'DELETE FROM #__core_acl_axo_map WHERE acl_id IN ('.implode(', ', $acl_ids).');'
+					.'DELETE FROM #__core_acl_acl WHERE id IN ('.implode(', ', $acl_ids).');';
+				$db->setQuery($query);
+				$db->Query();
+			}
+			
+			//Delete the group
 			$query = 'DELETE FROM #__core_acl_aro_groups WHERE id = '.(int) $group->getId();
 			$db->setQuery($query);
 			$db->Query();

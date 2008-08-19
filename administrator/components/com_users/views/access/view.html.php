@@ -4,7 +4,7 @@ defined('_JEXEC') or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.view');
 
-class usersViewaccess extends JView
+class UsersViewAccess extends JView
 {
 	function display()
 	{
