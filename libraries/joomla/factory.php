@@ -779,10 +779,10 @@ class JFactory
         $namedConnection = null;
         $defaultConnection = null;
         foreach ( $connectionsList as $connection ) {
-            if ( $connection["default"] === 1 ) {
+            if ( $connection["default"] == 1 ) {
                 $defaultConnection = $connection;
             }
-            if ( $connection["name"] === $connectionname ) {
+            if ( $connection["name"] == $connectionname ) {
             	$namedConnection = $connection;
             }
         }
@@ -805,6 +805,7 @@ class JFactory
         $prefix     = $connectionInfo["prefix"];
         $driver     = $connectionInfo["driver"];
         $port       = $connectionInfo["port"];
+
 
         $options    = array ( 'driver' => $driver, 'host' => $host, 'user' => $user, 'password' => $password, 'database' => $database, 'prefix' => $prefix, "port"=>$port );
         return JConnection::getInstance($options, $connectionname);
