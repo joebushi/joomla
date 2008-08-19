@@ -101,5 +101,20 @@ class JConfig {
 
 	/* Feed Settings */
 	var $feed_limit   = 10;
+
+
+	/* Joda Connections */
+	var $connections = array("default" => array(
+                    "host"=>"localhost", 
+                    "user"=>"user", 
+                    "password"=>"password",
+                    "database"=>"joomla",
+                    "prefix"=>"jos_", 
+                    "driver"=>"mysql",
+                    "debug"=>"0", 
+                    "port"=>"3306"
+                    ),
+    );
+
 }
 ?>
