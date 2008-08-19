@@ -38,13 +38,16 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-Aug-2008
+ # [#12010] Remove confusing error message about language files for extension installations ( thanks Amy && Sam)
+
 13-August-2008 Anthony Ferrara
  ^ Remove install check
 
 -------------------- 1.5.6 Stable Release [12-August-2008] ------------------
 
 05-Aug-2008 Toby Patterson
- [#10906] Error in JURI::buildQuery if using "param[key]=value" GET parameter
+ # [#10906] Error in JURI::buildQuery if using "param[key]=value" GET parameter
 
 -------------------- 1.5.5 Stable Release [27-July-2008] ---------------------
 

@@ -286,7 +286,7 @@ class JLanguage extends JObject
 
 		$path = JLanguage::getLanguagePath( $basePath, $lang);
 
-		$filename = ( $extension == 'joomla' ) ?  $lang : $lang . '.' . $extension ;
+		$filename = ( $extension == 'joomla' || $extension == '' ) ?  $lang : $lang . '.' . $extension ;
 		$filename = $path.DS.$filename.'.ini';
 
 		$result = false;
@@ -305,10 +305,10 @@ class JLanguage extends JObject
 			{
 				// No strings, which probably means that the language file does not exist
 				$path		= JLanguage::getLanguagePath( $basePath, $this->_default);
-				$filename	= ( $extension == 'joomla' ) ?  $this->_default : $this->_default . '.' . $extension ;
+				$filename	= ( $extension == 'joomla' || $extension == '' ) ?  $this->_default : $this->_default . '.' . $extension ;
 				$filename	= $path.DS.$filename.'.ini';
 
-				$result = $this->_load( $filename, $extension );
+				$result = $this->_load( $filename, $extension, false );
 			}
 
 		}
@@ -329,7 +329,7 @@ class JLanguage extends JObject
 	* @see		JLanguage::load()
 	* @since	1.5
 	*/
-	function _load( $filename, $extension = 'unknown' )
+	function _load( $filename, $extension = 'unknown', $overwrite = true )
 	{
 		$result	= false;
 
@@ -341,7 +341,7 @@ class JLanguage extends JObject
 
 			if ( is_array( $newStrings) )
 			{
-				$this->_strings = array_merge( $this->_strings, $newStrings);
+				$this->_strings = $overwrite ? array_merge( $this->_strings, $newStrings) : array_merge( $newStrings, $this->_strings);
 				$result = true;
 			}
 		}
