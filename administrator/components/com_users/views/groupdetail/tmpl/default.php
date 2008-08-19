@@ -2,4 +2,6 @@
 <legend>Groupdetails - <?php echo $this->group->getName(); ?></legend>
 Name: <?php echo $this->group->getName(); ?><br />
 ID: <?php echo $this->group->getId(); ?><br />
-Members: <?php echo count($this->group->getUsers()); ?>
+Members: <?php echo count($this->group->getUsers()); ?><br />
+<a href="index.php?option=com_users&view=access&layout=edit">Edit Access</a>
+

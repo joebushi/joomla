@@ -2,7 +2,9 @@
 <access>
 	<extension name="com_content">
 		<action name="Manage" value="manage" />
+		<action name="Create" value="create" content="1" />
 		<action name="Edit" value="edit" content="1" />
+		<action name="Publish" value="publish" content="1" />
 		<content name="Public" value="0" />
 		<content name="Registered" value="1" />
 		<content name="Special" value="2" ></content>

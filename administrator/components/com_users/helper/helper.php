@@ -58,7 +58,8 @@ class AccessParameters extends JRegistry
 	{
 		parent::__construct('_default');
 		
-		$this->loadSetupDirectory(JPATH_ADMINISTRATOR.DS.'components'.DS.$extension, 'access/.*/.xml');
+		$this->loadSetupFile(JPATH_ADMINISTRATOR.DS.'components'.DS.$extension.DS.'access.xml');
+		//$this->loadSetupDirectory(JPATH_ADMINISTRATOR.DS.'components'.DS.$extension, 'access/.*/.xml');
 	}
 	
 	function setXML( &$xml )
@@ -75,9 +76,6 @@ class AccessParameters extends JRegistry
 				}
 			} else {
 				$this->_xml[$group] = $xml;
-			}
-			if ($dir = $xml->attributes( 'addpath' )) {
-				$this->addElementPath( JPATH_ROOT . str_replace('/', DS, $dir) );
 			}
 		}
 	}
@@ -148,20 +146,74 @@ class AccessParameters extends JRegistry
 		return $result;
 	}
 	
-	function render()
+	function render($group)
 	{
+		//var_dump($this->_xml);die;
 		foreach($this->_xml as $extension => $parameters)
 		{
-			foreach($parameters as $parameter)
+			foreach($parameters->children() as $parameter)
 			{
-				if($parameter->getName() == 'action' && $parameter->getAttribute('content'))
+				if($parameter->name() == 'action' && $parameter->attributes('content'))
 				{
 					$this->_html[$extension]['content'][] = $parameter;
-				} elseif($parameter->getName() == 'action') {
+				} elseif($parameter->name() == 'action') {
 					$this->_html[$extension]['action'][] = $parameter;
 				}
 			}
 		}
+		$option1 = new stdClass();
+		$option1->value = '';
+		$option1->text = 'Inherit';
+		$option2 = new stdClass();
+		$option2->value = '0';
+		$option2->text = 'Deny';
+		$option3 = new stdClass();
+		$option3->value = '1';
+		$option3->text = 'Allow';
+		
+		$selection = array($option1, $option2, $option3);
+		
+		foreach($this->_html as $extension => $objects)
+		{
+			$actionoutput = '<table>';
+			foreach($objects['action'] as $action)
+			{
+				$actionoutput .= '<tr><td>'.$action->attributes('name').'</td>';
+				$actionoutput .= '<td>'.JHTML::_('select.radiolist', $selection, $extension.$action->attributes('value')).'</td></tr>';
+			}
+			$actionoutput .= '</table>';
+			$this->_html[$extension]['action'] = $actionoutput;
+		}
+		foreach($this->_html as $extension => $objects)
+		{
+			$contentitems = new JAuthorizationContentItem();
+			$contentitems = $contentitems->getContentItems($extension);
+			$contentoutput = '<table><tr>';
+			$contentoutput .= '<th>Contentitem</th>';
+			foreach($objects['content'] as $action)
+			{
+				$contentoutput .= '<th>'.$action->attributes('name').'</th>';
+			}
+			$contentoutput .= '</tr>';
+			foreach($contentitems as $contentitem)
+			{
+				$contentoutput .= '<tr><td>'.$contentitem->getName().'</td>';
+				foreach($objects['content'] as $action)
+				{
+					$contentoutput .= '<td>'.JHTML::_('select.genericlist', $selection, $extension.'content'.$action->attributes('value'), 'listlength="1"').'</td>';
+				}
+				$contentoutput .= '</tr>';
+			}
+			$contentoutput .= '</table>';
+			$this->_html[$extension]['content'] = $contentoutput;
+		}
+		$result = '';
+		foreach($this->_html as $output)
+		{
+			$result .= $output['action'];
+			$result .= $output['content'];
+		}
+		return $result;
 	}
 	
 	function getChanged()
