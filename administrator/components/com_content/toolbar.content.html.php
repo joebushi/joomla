@@ -79,6 +79,7 @@ class TOOLBAR_content
 		JToolBarHelper::editListX();
 		JToolBarHelper::addNewX();
 		JToolBarHelper::preferences('com_content', '550');
+		JToolBarHelper::accesspreferences('com_content');
 		JToolBarHelper::help( 'screen.content' );
 	}
 }

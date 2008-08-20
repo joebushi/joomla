@@ -17,6 +17,39 @@ defined('_JEXEC') or die( 'Restricted access' );
 
 jimport('joomla.html.form');
 
+class UsersHelper
+{
+	var $_groups = null;
+	
+	var $_html = '';
+	
+	function getGroupTree($groups)
+	{
+		$this->_groups = $groups->getChildren();
+		$this->_html = '<ul id="groups">';
+		$this->_getGroupTree();
+		$this->_html .= '</ul>';
+		return $this->_html;
+	}
+	function _getGroupTree()
+	{
+		$groups = $this->_groups;
+		foreach($groups as $usergroup)
+		{
+			$this->_html .= '<li><a href="&id='.$usergroup->getId().'"><!-- icon:_open; -->'.$usergroup->getName()."</a>\n";
+			if($usergroup->getChildren())
+			{
+				$this->_groups = $usergroup->getChildren();
+				$this->_html .= "<ul>\n";
+				$this->_getGroupTree();
+				$this->_html .= "</ul>\n";
+				$this->_groups = $usergroup->getParent();
+			}
+			$this->_html .= "</li>\n";
+		}
+	}
+}
+
 /**
  * Form handler
  *
@@ -57,6 +90,10 @@ class AccessParameters extends JRegistry
 	function __construct($extension)
 	{
 		parent::__construct('_default');
+		if($extension == '')
+		{
+			$extension = 'com_users';
+		}
 		
 		$this->loadSetupFile(JPATH_ADMINISTRATOR.DS.'components'.DS.$extension.DS.'access.xml');
 		//$this->loadSetupDirectory(JPATH_ADMINISTRATOR.DS.'components'.DS.$extension, 'access/.*/.xml');
@@ -148,7 +185,6 @@ class AccessParameters extends JRegistry
 	
 	function render($group)
 	{
-		//var_dump($this->_xml);die;
 		foreach($this->_xml as $extension => $parameters)
 		{
 			foreach($parameters->children() as $parameter)

@@ -10,7 +10,7 @@
 <legend>Groups &amp; Users</legend>
 <div id="mytree"></div>
 <?php
-echo $this->getTree(true);
+echo $this->usergrouphelper->getGroupTree($this->usergroups);
 ?>
 </fieldset>
 <fieldset id="detailuser" class="col width-60" style="width:60%;float:right;">

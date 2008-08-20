@@ -139,29 +139,6 @@ class UsersViewUsers extends JView
 
 		parent::display();
 	}
-	
-	function getTree($first = false)
-	{
-		if($first)
-		{
-			$html = '<ul id="groups">';
-		} else {
-			$html = '<ul>';
-		}
-		foreach($this->usergroups->getChildren() as $usergroups)
-		{
-			$html .= '<li><a href="&view=groupdetail&id='.$usergroups->getId().'"><!-- icon:_open; -->'.$usergroups->getName().'</a>';
-			$this->usergroups = $usergroups;
-			if($this->usergroups->getChildren())
-			{
-				$html .= $this->getTree();
-			}
-			$html .= '</li>';
-			$this->usergroups = $usergroups->getParent();
-		}
-		$html .= '</ul>';
-		return $html;
-	}
 
 	function _displayGroupList($tpl = null)
 	{
@@ -179,7 +156,7 @@ class UsersViewUsers extends JView
 				grid: true,
 				theme: \'../media/system/images/mootree.gif\',
 				onSelect: function(node, state) {
-					if (state) var request = new Ajax(\'index.php\', {method: \'post\',postBody: \'option=com_users&format=raw\'+node.data.url,onFailure:function(){}, onSuccess:function(response){$(\'detailuser\').setHTML( response );}}).request();
+					if (state) var request = new Ajax(\'index.php\', {method: \'post\',postBody: \'option=com_users&format=raw&view=groupdetail\'+node.data.url,onFailure:function(){}, onSuccess:function(response){$(\'detailuser\').setHTML( response );}}).request();
 				}
 			},{
 				text: \'Root Node\',
@@ -188,8 +165,11 @@ class UsersViewUsers extends JView
 			tree.adopt(\'groups\');
 			tree.expand();
 		}';
+		require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_users'.DS.'helper'.DS.'helper.php');
+		$usergrouphelper = new UsersHelper();
 		$document->addScriptDeclaration($javascript);
 		$this->assignRef('usergroups', $usergroups);
+		$this->assignRef('usergrouphelper', $usergrouphelper);
 		parent::display($tpl);
 	}
 }
