@@ -77,7 +77,11 @@ class AccessParameters extends JRegistry
 	 * @since	1.6
 	 */
 	var $_html = array();
-
+	
+	var $_extensions = array();
+	
+	var $_description = array();
+	
 	/**
 	 * Constructor
 	 *
@@ -87,7 +91,7 @@ class AccessParameters extends JRegistry
 	 * @param	string Tagname used in the XML file
 	 * @since	1.5
 	 */
-	function __construct($extension)
+	function __construct($extension, $group)
 	{
 		parent::__construct('_default');
 		if($extension == '')
@@ -95,8 +99,8 @@ class AccessParameters extends JRegistry
 			$extension = 'com_users';
 		}
 		
-		$this->loadSetupFile(JPATH_ADMINISTRATOR.DS.'components'.DS.$extension.DS.'access.xml');
-		//$this->loadSetupDirectory(JPATH_ADMINISTRATOR.DS.'components'.DS.$extension, 'access/.*/.xml');
+		$this->loadSetupDirectory(JPATH_ADMINISTRATOR.DS.'components'.DS.$extension, '^access(.*?)\.xml$');
+		$this->_render($group);		
 	}
 	
 	function setXML( &$xml )
@@ -183,17 +187,46 @@ class AccessParameters extends JRegistry
 		return $result;
 	}
 	
-	function render($group)
+	function render($group, $extension, $type)
+	{
+		return $this->_html[$group][$extension][$type];
+	}
+	
+	function getExtensions()
+	{
+		return $this->_extensions;
+	}
+	
+	function getDescription($extension)
+	{
+		return $this->_description[$extension];
+	}
+	
+	function getChanged()
+	{
+		
+	}
+	
+	function _render($group)
 	{
 		foreach($this->_xml as $extension => $parameters)
 		{
+			if(!in_array($extension,$this->_extensions))
+			{
+				$this->_extensions[] = $extension;
+			}
+			if($parameters->getElementByPath('description'))
+			{
+				$description = $parameters->getElementByPath('description');
+				$this->_description[$extension] = $description->data();
+			}
 			foreach($parameters->children() as $parameter)
 			{
 				if($parameter->name() == 'action' && $parameter->attributes('content'))
 				{
-					$this->_html[$extension]['content'][] = $parameter;
+					$this->_html[$group][$extension]['content'][] = $parameter;
 				} elseif($parameter->name() == 'action') {
-					$this->_html[$extension]['action'][] = $parameter;
+					$this->_html[$group][$extension]['action'][] = $parameter;
 				}
 			}
 		}
@@ -209,18 +242,18 @@ class AccessParameters extends JRegistry
 		
 		$selection = array($option1, $option2, $option3);
 		
-		foreach($this->_html as $extension => $objects)
+		foreach($this->_html[$group] as $extension => $objects)
 		{
 			$actionoutput = '<table>';
 			foreach($objects['action'] as $action)
 			{
-				$actionoutput .= '<tr><td>'.$action->attributes('name').'</td>';
+				$actionoutput .= "\n<tr><td>".$action->attributes('name')."</td>\n";
 				$actionoutput .= '<td>'.JHTML::_('select.radiolist', $selection, $extension.$action->attributes('value')).'</td></tr>';
 			}
 			$actionoutput .= '</table>';
-			$this->_html[$extension]['action'] = $actionoutput;
+			$this->_html[$group][$extension]['action'] = $actionoutput;
 		}
-		foreach($this->_html as $extension => $objects)
+		foreach($this->_html[$group] as $extension => $objects)
 		{
 			$contentitems = new JAuthorizationContentItem();
 			$contentitems = $contentitems->getContentItems($extension);
@@ -241,19 +274,7 @@ class AccessParameters extends JRegistry
 				$contentoutput .= '</tr>';
 			}
 			$contentoutput .= '</table>';
-			$this->_html[$extension]['content'] = $contentoutput;
+			$this->_html[$group][$extension]['content'] = $contentoutput;
 		}
-		$result = '';
-		foreach($this->_html as $output)
-		{
-			$result .= $output['action'];
-			$result .= $output['content'];
-		}
-		return $result;
-	}
-	
-	function getChanged()
-	{
-		
 	}
 }

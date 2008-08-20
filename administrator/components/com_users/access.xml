@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <access>
 	<extension name="com_content">
+		<description>Some Text</description>
 		<action name="Manage" value="manage" description="something" />
 		<action name="Create" value="create" content="1" description="something" />
 		<action name="Edit" value="edit" content="1" description="something" />

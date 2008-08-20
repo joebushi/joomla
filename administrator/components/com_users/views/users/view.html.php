@@ -152,11 +152,11 @@ class UsersViewUsers extends JView
 			window.onload = function() {
 	
 			tree = new MooTreeControl({
-				div: \'mytree\',
+				div: \'grouplist\',
 				grid: true,
 				theme: \'../media/system/images/mootree.gif\',
 				onSelect: function(node, state) {
-					if (state) var request = new Ajax(\'index.php\', {method: \'post\',postBody: \'option=com_users&format=raw&view=groupdetail\'+node.data.url,onFailure:function(){}, onSuccess:function(response){$(\'detailuser\').setHTML( response );}}).request();
+					if (state) var request = new Ajax(\'index.php\', {method: \'post\',postBody: \'option=com_users&format=raw&view=groupdetail\'+node.data.url,onFailure:function(){}, onSuccess:function(response){$(\'details\').setHTML( response );}}).request();
 				}
 			},{
 				text: \'Root Node\',
