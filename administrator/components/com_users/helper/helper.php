@@ -239,7 +239,8 @@ class AccessParameters extends JRegistry
 		$option3 = new stdClass();
 		$option3->value = '1';
 		$option3->text = 'Allow';
-		
+
+		$access = JAuthorizationRule::getInstance();
 		$selection = array($option1, $option2, $option3);
 		
 		foreach($this->_html[$group] as $extension => $objects)
@@ -248,7 +249,7 @@ class AccessParameters extends JRegistry
 			foreach($objects['action'] as $action)
 			{
 				$actionoutput .= "\n<tr><td>".$action->attributes('name')."</td>\n";
-				$actionoutput .= '<td>'.JHTML::_('select.radiolist', $selection, $extension.$action->attributes('value')).'</td></tr>';
+				$actionoutput .= '<td>'.JHTML::_('select.radiolist', $selection, $extension.$action->attributes('value'), NULL, 'value', 'text', $access->authorizeGroup($group, $extension,$action->attributes('value'))).'</td></tr>';
 			}
 			$actionoutput .= '</table>';
 			$this->_html[$group][$extension]['action'] = $actionoutput;
@@ -269,7 +270,7 @@ class AccessParameters extends JRegistry
 				$contentoutput .= '<tr><td>'.$contentitem->getName().'</td>';
 				foreach($objects['content'] as $action)
 				{
-					$contentoutput .= '<td>'.JHTML::_('select.genericlist', $selection, $extension.'content'.$action->attributes('value'), 'listlength="1"').'</td>';
+					$contentoutput .= '<td>'.JHTML::_('select.genericlist', $selection, $extension.'content'.$action->attributes('value'), 'listlength="1"', 'value', 'text', $access->authorizeGroup($group, $extension,$action->attributes('value'), $contentitem->getValue())).'</td>';
 				}
 				$contentoutput .= '</tr>';
 			}

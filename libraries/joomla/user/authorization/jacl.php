@@ -438,7 +438,22 @@ class JAuthorizationJACLRule extends JAuthorizationRule
 	
 	function authorizeGroup($group, $extension, $action, $contentitem = null)
 	{
+		$db =& JFactory::getDBO();
+		$query = 'SELECT allow '
+			.' FROM #__core_acl_acl acl'
+			.' LEFT JOIN #__core_acl_aro_groups_map agm ON agm.acl_id = acl.id'
+			.' LEFT JOIN #__core_acl_aco_map acom ON acl.id = acom.acl_id'
+			.' LEFT JOIN #__core_acl_axo_map axo ON axo.acl_id = acl.id'
+			.' WHERE (agm.group_id = '.$group.') && (acl.enabled = 1) && '
+			.'( acom.section_value = \''.$extension.'\' ) && '
+			.'( acom.value = \''.$action.'\' ) ';
+		if($contentitem)
+		{
+			$query .= '&& (axo.section_value = \''.$extension.'\') && (axo.value = \''.$contentitem.'\')';
+		}
 		
+		$db->setQuery($query);
+		return $db->loadResult();
 	}
 
 	function addRule($allow = true, $group, $action, $contentitem = null)

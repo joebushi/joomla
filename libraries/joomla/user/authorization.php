@@ -426,7 +426,6 @@ class JAuthorizationRule
 			require_once(JPATH_LIBRARIES.DS.'joomla'.DS.'user'.DS.'authorization'.DS.strtolower($driver).'.php');
 			$adapter	= 'JAuthorization'.$driver.'Rule';
 			$instance	= new $adapter();
-
 		}
 
 		return $instance;
