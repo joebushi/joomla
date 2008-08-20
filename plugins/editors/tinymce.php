@@ -281,57 +281,63 @@ class plgEditorTinymce extends JPlugin
 		$elements 	= implode( ',', $elements );
 
 		$return = $load .
-			"\t<script type=\"text/javascript\">
+		"\t<script type=\"text/javascript\">
 			tinyMCE.init({
-			theme : \"$theme\",
-			language : \"". $langPrefix . "\",
-			mode : \"textareas\",
-			gecko_spellcheck : \"true\",
-			editor_selector : \"mce_editable\",
-			document_base_url : \"". JURI::root() ."\",
-			entities : \"60,lt,62,gt\",
-			relative_urls : $relative_urls,
-			remove_script_host : false,
-			save_callback : \"TinyMCE_Save\",
-			invalid_elements : \"$invalid_elements\",
-			extended_valid_elements : \"a[class|name|href|target|title|onclick|rel],img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name],$elements\",
-			theme_advanced_toolbar_location : \"$toolbar\",
-			theme_advanced_source_editor_height : \"$html_height\",
-			theme_advanced_source_editor_width : \"$html_width\",
-			directionality: \"$text_direction\",
-			force_br_newlines : \"$br_newlines\",
-			force_p_newlines : \"$p_newlines\",
-			$content_css
-			debug : false,
-			cleanup : $cleanup,
-			cleanup_on_startup : $cleanup_startup,
-			safari_warning : false,
-			plugins : \"advlink, advimage, $plugins\",
-			theme_advanced_buttons1_add : \"fontselect\",
-			theme_advanced_buttons2_add : \"$buttons2\",
-			theme_advanced_buttons3_add : \"$buttons3\",
-			theme_advanced_disable : \"help\",
-			plugin_insertdate_dateFormat : \"$format_date\",
-			plugin_insertdate_timeFormat : \"$format_time\",
-			$entities
-			$element_path
-			fullscreen_settings : {
-				theme_advanced_path_location : \"top\"
+				// General options
+				mode : \"textareas\",
+				theme : \"$theme\",
+				plugins : \"advlink, advimage, safari, contextmenu, $plugins\",
+				document_base_url : \"". JURI::root() ."\",
+				force_br_newlines : \"$br_newlines\",
+				force_p_newlines : \"$p_newlines\",
+				cleanup : $cleanup,
+				cleanup_on_startup : $cleanup_startup,
+				safari_warning : false,
+				plugin_insertdate_dateFormat : \"$format_date\",
+				plugin_insertdate_timeFormat : \"$format_time\",
+				$entities
+				$element_path
+				gecko_spellcheck : \"true\",
+				editor_selector : \"mce_editable\",
+				entities : \"60,lt,62,gt\",
+				relative_urls : $relative_urls,
+				remove_script_host : false,
+				save_callback : \"TinyMCE_Save\",
+				invalid_elements : \"$invalid_elements\",				
+				extended_valid_elements : \"a[class|name|href|target|title|onclick|rel],img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name],$elements\",
+				theme_advanced_toolbar_location : \"$toolbar\",
+				theme_advanced_source_editor_height : \"$html_height\",
+				theme_advanced_source_editor_width : \"$html_width\",
+				directionality: \"$text_direction\",
+				debug : false,
+				// Theme options
+				theme_advanced_buttons1_add : \"fontselect\",
+				theme_advanced_buttons2_add : \"$buttons2\",
+				theme_advanced_buttons3_add : \"$buttons3\",
+				theme_advanced_disable : \"help\",
+				theme_advanced_toolbar_location : \"top\",
+				theme_advanced_toolbar_align : \"left\",
+				theme_advanced_statusbar_location : \"bottom\",
+				theme_advanced_resizing : true,
+				// Example content CSS (should be your site CSS)
+				$content_css
+				fullscreen_settings : {
+					theme_advanced_path_location : \"top\"
+				}
+			});
+			function TinyMCE_Save(editor_id, content, node)
+			{
+				base_url = tinyMCE.settings.document_base_url;
+				var vHTML = content;
+				if (true == true){
+					vHTML = vHTML.replace('href\s*=\s*\"?'+base_url+'', 'href=\"', 'gi');
+					vHTML = vHTML.replace('src\s*=\s*\"?'+base_url+'', 'src=\"', 'gi');
+					vHTML = vHTML.replace('mce_real_src\s*=\s*\"?', '', 'gi');
+					vHTML = vHTML.replace('mce_real_href\s*=\s*\"?', '', 'gi');
+				}
+				return vHTML;
 			}
-		});
-		function TinyMCE_Save(editor_id, content, node)
-		{
-			base_url = tinyMCE.settings['document_base_url'];
-			var vHTML = content;
-			if (true == true){
-				vHTML = tinyMCE.regexpReplace(vHTML, 'href\s*=\s*\"?'+base_url+'', 'href=\"', 'gi');
-				vHTML = tinyMCE.regexpReplace(vHTML, 'src\s*=\s*\"?'+base_url+'', 'src=\"', 'gi');
-				vHTML = tinyMCE.regexpReplace(vHTML, 'mce_real_src\s*=\s*\"?', '', 'gi');
-				vHTML = tinyMCE.regexpReplace(vHTML, 'mce_real_href\s*=\s*\"?', '', 'gi');
-			}
-			return vHTML;
-		}
-	</script>";
+		</script>";
 
 		return $return;
 	}
@@ -342,7 +348,7 @@ class plgEditorTinymce extends JPlugin
 	 * @param string 	The name of the editor
 	 */
 	function onGetContent( $editor ) {
-		return "tinyMCE.getContent();";
+		return "tinyMCE.activeEditor.getContent();";
 	}
 
 	/**
@@ -385,7 +391,7 @@ class plgEditorTinymce extends JPlugin
 		}
 
 		$buttons = $this->_displayButtons($name, $buttons);
-		$editor  = "<textarea id=\"$name\" name=\"$name\" cols=\"$col\" rows=\"$row\" style=\"width:{$width}; height:{$height};\" class=\"mce_editable=\">$content</textarea>\n" . $buttons;
+		$editor  = "<textarea id=\"$name\" name=\"$name\" cols=\"$col\" rows=\"$row\" style=\"width:{$width}; height:{$height};\" class=\"mce_editable\">$content</textarea>\n" . $buttons;
 
 		return $editor;
 	}
