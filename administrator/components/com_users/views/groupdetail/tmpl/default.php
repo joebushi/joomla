@@ -52,7 +52,7 @@
 
 <div style="float:left;">
 	<div class="icon">
-		<a href="<?php echo JRoute::_('index.php?option=com_users&view=access&layout=edit&id='.$this->group->getId()); ?>">
+		<a class="modal" href="<?php echo JRoute::_('index.php?option=com_users&view=access&layout=edit&id='.$this->group->getId()); ?>" rel="{handler: 'iframe', size: {x: 400, y: 400}}">
 			<?php /*echo JHTML::_('image.site',  'icon-32-lock.png', '/templates/khepri/images/toolbar/' );*/ ?>
 			<span>Edit Accessrights</span></a>
 	</div>

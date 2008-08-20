@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <access>
 	<extension name="com_content">
-		<action name="Manage" value="manage" />
-		<action name="Create" value="create" content="1" />
-		<action name="Edit" value="edit" content="1" />
-		<action name="Publish" value="publish" content="1" />
+		<action name="Manage" value="manage" description="something" />
+		<action name="Create" value="create" content="1" description="something" />
+		<action name="Edit" value="edit" content="1" description="something" />
+		<action name="Publish" value="publish" content="1" description="something" />
 		<content name="Public" value="0" />
 		<content name="Registered" value="1" />
-		<content name="Special" value="2" ></content>
+		<content name="Special" value="2" />
+		<group name="Something" parent="Registered">
+			<group name="Somethingelse" />
+			<group name="Moderator" />
+		</group>
+		<rule group="Something" action="create" content="0" />
+		<rule group="Something" action="manage" />
 	</extension>
 </access>

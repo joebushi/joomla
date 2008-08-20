@@ -144,7 +144,7 @@ class UsersViewUsers extends JView
 	{
 		if($first)
 		{
-			$html = '<ul id="trulla">';
+			$html = '<ul id="groups">';
 		} else {
 			$html = '<ul>';
 		}
@@ -167,6 +167,7 @@ class UsersViewUsers extends JView
 	{
 		$document = JFactory::getDocument();
 		JHTML::_('behavior.mootools');
+		JHTML::_('behavior.modal');
 		$document->addScript(JURI::root().'media/system/js/mootree_packed.js');
 		$document->addStyleSheet(JURI::root().'media/system/css/mootree.css');
 		$usergroups = new JAuthorizationUsergroup();
@@ -184,7 +185,7 @@ class UsersViewUsers extends JView
 				text: \'Root Node\',
 				open: true
 			});
-			tree.adopt(\'trulla\');
+			tree.adopt(\'groups\');
 			tree.expand();
 		}';
 		$document->addScriptDeclaration($javascript);
