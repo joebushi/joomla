@@ -260,10 +260,10 @@ class HTML_admin_misc
 			readfile( JPATH_SITE.DS.'CHANGELOG.php' );
 			$changelog = ob_get_contents();
 			ob_clean();
-			
+
 			// Strip php tag
 			$changelog = preg_replace('/\<\?php[^\?]*\?\>/','',$changelog);
-			
+
 			// Convert all other HTML entities
 			echo htmlentities($changelog);
 			?>
