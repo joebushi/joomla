@@ -48,7 +48,7 @@ class PollModelPoll extends JModel
 			;
 		$db->setQuery( $query );
 		$db->query();
-		
+
 		$date =& JFactory::getDate();
 
 		$query = 'INSERT INTO #__poll_date'

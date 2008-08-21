@@ -131,7 +131,7 @@ function WeblinksBuildRoute(&$query)
 
 			// Push the catid onto the stack.
 			$segments[] = $query['id'];
-			
+
 			unset($query['view']);
 			unset($query['id']);
 			unset($query['alias']);
@@ -145,8 +145,8 @@ function WeblinksBuildRoute(&$query)
 
 			// Push the catid onto the stack.
 			$segments[] = $query['catid'];
-			
-			
+
+
 			if (isset($query['alias'])) {
 				$query['id'] .= ':'.$query['alias'];
 			}

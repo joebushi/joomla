@@ -180,7 +180,7 @@ class ContentViewArticle extends ContentView
 		// Make sure you are logged in and have the necessary access rights
 		if ($user->get('gid') < 19) {
 			  JResponse::setHeader('HTTP/1.0 403',true);
-              JError::raiseWarning( 403, JText::_('ALERTNOTAUTH') ); 
+              JError::raiseWarning( 403, JText::_('ALERTNOTAUTH') );
 			return;
 		}
 
@@ -224,7 +224,7 @@ class ContentViewArticle extends ContentView
 		$menu  = $menus->getActive();
 		$params->set( 'page_title', $params->get( 'page_title' ) );
 		if (is_object( $menu )) {
-			$menu_params = new JParameter( $menu->params );			
+			$menu_params = new JParameter( $menu->params );
 			if (!$menu_params->get( 'page_title')) {
 				$params->set('page_title',	JText::_( 'Submit an Article' ));
 			}

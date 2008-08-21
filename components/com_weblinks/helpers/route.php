@@ -33,7 +33,7 @@ class WeblinksHelperRoute
 			'category' => (int) $catid,
 			'categories' => null
 		);
-		
+
 		//Find the itemid
 		$itemid = WeblinksHelperRoute::_findItem($needles);
 		$itemid = $itemid ? '&Itemid='.$itemid : '';

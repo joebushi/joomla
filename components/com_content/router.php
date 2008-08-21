@@ -41,7 +41,7 @@ function ContentBuildRoute(&$query)
 		unset($query['catid']);
 		unset($query['id']);
 	}
-	
+
 	if (isset($view) and ($view == 'section' && !empty($query['Itemid']))) {
 		if (($mView != 'section') or ($mView == 'section' and $mId != intval($query['id']))) {
 			$segments[] = 'section';
