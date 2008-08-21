@@ -14,7 +14,7 @@
  * Unobtrusive Form Validation library
  *
  * Inspired by: Chris Campbell <www.particletree.com>
- * 
+ *
  * @package		Joomla
  * @subpackage	Installation
  * @since		1.5
@@ -24,14 +24,14 @@
 JFormValidator = function() { this.constructor.apply(this, arguments);}
 JFormValidator.prototype = {
 
-	constructor: function() 
-	{	
+	constructor: function()
+	{
 		var self = this;
-		
+
 		this.valid		= true;
 		this.vContinue	= true;
 		this.handlers	= Object();
-		
+
 		// Default regexes
 		this.handlers['date']		= { enabled : true,
 									exec : function (value) {
@@ -76,25 +76,25 @@ JFormValidator.prototype = {
 									}
 								  }
 	},
-	
-	registerEvent: function(target,type,args) 
+
+	registerEvent: function(target,type,args)
 	{
 		//use a closure to keep scope
 		var self = this;
-			
-		if (target.addEventListener)   { 
+
+		if (target.addEventListener)   {
     		target.addEventListener(type,onEvent,true);
-		} else if (target.attachEvent) { 
+		} else if (target.attachEvent) {
 	  		target.attachEvent('on'+type,onEvent);
-		} 
-		
+		}
+
 		function onEvent(e)	{
 			e = e||window.event;
 			e.element = target;
 			return self["on"+type](e, args);
 		}
 	},
-	
+
 	attachToForm: function(form)
 	{
 		// Iterate through the form object and attach the validate
@@ -105,7 +105,7 @@ JFormValidator.prototype = {
 		// Attach the validate method to the onsubmit event for the given form
 		form.onsubmit = function(){return validate(this);}
 	},
-	
+
 	validate: function(target)
 	{
 		// Get the value of the target tag.
@@ -122,7 +122,7 @@ JFormValidator.prototype = {
 		var pivot = target.className.indexOf('validate');
 
 		// Make sure we are set to go...
-		this.vContinue = true; 
+		this.vContinue = true;
 
 		// get all the rules from the input box classname
 		if (pivot != -1) {
@@ -156,10 +156,10 @@ JFormValidator.prototype = {
 
 		//validateRequired() checks if it is required and then sends back feedback
 		state = this.validateRequired (required, value, type);
-		
+
 		/**
 		 * If the field is required and blank the fvContinue field will be false
-		 * and we shouldn't bother validating the specific type... it will just 
+		 * and we shouldn't bother validating the specific type... it will just
 		 * cause potential errors.
 		 */
 		if (this.vContinue)
@@ -180,8 +180,8 @@ JFormValidator.prototype = {
 		// Return validation state
 		return state;
 	},
-	
-	validateRequired: function(required, value, type) 
+
+	validateRequired: function(required, value, type)
 	{
 		//check if required if not, continue validation script
 		if (required == "required") {
@@ -197,7 +197,7 @@ JFormValidator.prototype = {
 		}
 	},
 
-	isValid: function(form, element) 
+	isValid: function(form, element)
 	{
 		var valid = true;
 		for (var i=0;i < form.elements.length; i++) {
