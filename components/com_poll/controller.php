@@ -21,7 +21,6 @@ jimport('joomla.application.component.controller');
  * Static class to hold controller functions for the Poll component
  *
  * @static
- * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla
  * @subpackage	Poll
  * @since		1.5

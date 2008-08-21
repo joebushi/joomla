@@ -31,7 +31,6 @@ switch (JRequest::getCmd('task'))
  * Static class to hold controller functions for the Wrapper component
  *
  * @static
- * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla
  * @subpackage	Wrapper
  * @since		1.5
