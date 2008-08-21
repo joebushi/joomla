@@ -20,7 +20,6 @@ jimport( 'joomla.plugin.plugin' );
 /**
  * LDAP Authentication Plugin
  *
- * @author Sam Moffatt <sam.moffatt@joomla.org>
  * @package		Joomla
  * @subpackage	JFramework
  * @since 1.5

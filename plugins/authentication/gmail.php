@@ -20,7 +20,6 @@ jimport( 'joomla.plugin.plugin' );
 /**
  * GMail Authentication Plugin
  *
- * @author Samuel Moffatt <sam.moffatt@joomla.org>
  * @package		Joomla
  * @subpackage	JFramework
  * @since 1.5

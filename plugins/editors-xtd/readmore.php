@@ -19,7 +19,6 @@ jimport( 'joomla.plugin.plugin' );
 /**
  * Editor Readmore buton
  *
- * @author Johan Janssens <johan.janssens@joomla.org>
  * @package Editors-xtd
  * @since 1.5
  */

@@ -19,7 +19,6 @@ jimport( 'joomla.plugin.plugin' );
 /**
  * XStandard Lite for Joomla! WYSIWYG Editor Plugin
  *
- * @author Johan Janssens <johan.janssens@joomla.org>
  * @package Editors
  * @since 1.5
  */

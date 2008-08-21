@@ -20,7 +20,6 @@ jimport( 'joomla.plugin.plugin' );
 /**
  * OpenID Authentication Plugin
  *
- * @author	Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla
  * @subpackage	openID
  * @since 1.5
