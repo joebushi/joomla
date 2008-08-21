@@ -21,7 +21,6 @@ defined('JPATH_BASE') or die();
  * The JElement is the base class for all JElement types
  *
  * @abstract
- * @author 		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage		Parameter
  * @since		1.5

@@ -21,7 +21,6 @@ jimport( 'joomla.event.event' );
  * JPlugin Class
  *
  * @abstract
- * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Plugin
  * @since		1.5

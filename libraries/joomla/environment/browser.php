@@ -22,11 +22,7 @@ defined('JPATH_BASE') or die();
  * environment variable provided by the web server.
  *
  * This class has many influences from the lib/Browser.php code in
- * version 3 of Horde.
- *
- * @author  Chuck Hagenbuch <chuck@horde.org>
- * @author  Jon Parise <jon@horde.org>
- * @author  Johan Janssens <johan.janssens@joomla.org>
+ * version 3 of Horde by Chuck Hagenbuch and Jon Parise
  *
  * @package     Joomla.Framework
  * @subpackage  Environment

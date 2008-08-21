@@ -22,7 +22,6 @@ JLoader::register('JDocumentRenderer', dirname(__FILE__).DS.'renderer.php');
  * Document class, provides an easy interface to parse and display a document
  *
  * @abstract
- * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Document
  * @since		1.5

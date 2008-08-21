@@ -21,7 +21,6 @@ JLoader::register('JButton', dirname(__FILE__).DS.'toolbar'.DS.'button.php');
 /**
  * ToolBar handler
  *
- * @author 		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	HTML
  * @since		1.5

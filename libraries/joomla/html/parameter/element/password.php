@@ -18,7 +18,6 @@ defined('JPATH_BASE') or die();
 /**
  * Renders a password element
  *
- * @author 		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage		Parameter
  * @since		1.5

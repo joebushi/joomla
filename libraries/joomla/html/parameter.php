@@ -23,7 +23,6 @@ JLoader::register('JElement', dirname(__FILE__).DS.'parameter'.DS.'element.php')
 /**
  * Parameter handler
  *
- * @author 		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage		Parameter
  * @since		1.5

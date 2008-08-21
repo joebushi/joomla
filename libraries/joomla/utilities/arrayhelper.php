@@ -16,7 +16,6 @@
  * JArrayHelper is an array utility class for doing all sorts of odds and ends with arrays.
  *
  * @static
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	Utilities
  * @since		1.5

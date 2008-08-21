@@ -21,7 +21,6 @@ jimport( 'joomla.html.parameter');
 /**
  * User class.  Handles all application interaction with a user
  *
- * @author 		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	User
  * @since		1.5

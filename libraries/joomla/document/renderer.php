@@ -19,7 +19,6 @@ defined('JPATH_BASE') or die();
  * Abstract class for a renderer
  *
  * @abstract
- * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Document
  * @since		1.5

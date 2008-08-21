@@ -56,8 +56,6 @@ $GLOBALS['_JERROR_HANDLERS'] = array(
  * 	- Stephan Schmidt		<scst@php-tools.net>
  *
  * @static
- * @author		Louis Landry <louis.landry@joomla.org>
- * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	Error
  * @since		1.5

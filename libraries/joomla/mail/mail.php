@@ -21,7 +21,6 @@ jimport('joomla.mail.helper');
 /**
  * E-Mail Class.  Provides a common interface to send e-mail from the Joomla! Framework
  *
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage		Mail
  * @since		1.5

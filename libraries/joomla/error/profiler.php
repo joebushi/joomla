@@ -21,7 +21,6 @@ defined('JPATH_BASE') or die();
  * Utility class to assist in the process of benchmarking the execution
  * of sections of code to understand where time is being spent.
  *
- * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	Error
  * @since 1.0

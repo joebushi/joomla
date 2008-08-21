@@ -19,7 +19,6 @@ defined('JPATH_BASE') or die();
  * JUtility is a utility functions class
  *
  * @static
- * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	Utilities
  * @since	1.5

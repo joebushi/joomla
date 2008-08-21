@@ -23,7 +23,6 @@ jimport('joomla.filesystem.path');
 /**
  * Joomla base installer class
  *
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Installer
  * @since		1.5
@@ -801,7 +800,7 @@ class JInstaller extends JObject
 		{
 			$path['src']	= $source.DS.$file->data();
 			$path['dest']	= $destination.DS.$file->data();
-			
+
 			// Is this path a file or folder?
 			$path['type']	= ( $file->name() == 'folder') ? 'folder' : 'file';
 

@@ -18,8 +18,6 @@ defined('JPATH_BASE') or die();
 /**
  * Joomla! Cache page type object
  *
- * @author		Johan Janssens <johan.janssens@joomla.org>
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Cache
  * @since		1.5

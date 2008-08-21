@@ -18,7 +18,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 /**
  * Renders a calendar element
  *
- * @author 		Louis Landry
  * @package 	Joomla.Framework
  * @subpackage	Parameter
  * @since		1.5

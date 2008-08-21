@@ -18,7 +18,6 @@ defined('JPATH_BASE') or die();
 /**
  * Renders a filelist element
  *
- * @author 		Andrew Eddie
  * @package 	Joomla.Framework
  * @subpackage		Parameter
  * @since		1.5

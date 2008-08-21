@@ -21,7 +21,6 @@ JLoader::register('JRegistryFormat', dirname(__FILE__).DS.'format.php');
 /**
  * JRegistry class
  *
- * @author 		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	Registry
  * @since 		1.5
