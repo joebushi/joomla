@@ -248,9 +248,9 @@ class JURI extends JObject
 		// Get the scheme
 		if(!isset($root))
 		{
-			$uri	        =& JURI::getInstance();
-			$root['prefix'] = $uri->toString( array('scheme', 'host', 'port'));
-			$root['path']    = JURI::base(true);
+			$uri	        =& JURI::getInstance(JURI::base());
+			$root['prefix'] = $uri->toString( array('scheme', 'host', 'port') );
+			$root['path']   = $uri->toString( array('path') );
 		}
 
 		// Get the scheme
