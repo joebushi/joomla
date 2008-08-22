@@ -329,7 +329,7 @@ class JInstallerModule extends JObject
 
 		// Now we will no longer need the module object, so lets delete it and free up memory
 		$row->delete($row->id);
-		$query = 'DELETE FROM `#__modules` WHERE module = '.$db->Quote($row->module);
+		$query = 'DELETE FROM `#__modules` WHERE module = '.$db->Quote($row->module) . ' AND client_id = ' . $row->client_id;
 		$db->setQuery($query); 
 		$db->Query(); // clean up any other ones that might exist as well
 		unset ($row);
