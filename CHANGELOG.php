@@ -38,17 +38,38 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-19-June-2008 Wilco Jansen
+27-June-2008 Andrew Eddie
+ ^ [11601] Improvement to System Debug plugin
+ # [10842] [patch] mod_latest doesn't use JHTML::_('date')
+ # [11610] Date in popular module in administrator not GMT
+
+26-June-2008 Wilco Jansen
+ # [11190] Unable to delete files with illegal characters
+ # [11571] Old cache file can't be deleted when cache is turned off
+ # [11580] Missing translation for timezone Venezuela
+ # [11463] Dates for votes on poll is not gmt
+ # [11598] JFactory::getUser() error when specifying user who doesn't exist
+ # [11470] registered content doesn't show up in a public view when show unauthorized links is set to true in a section view
+ # [11584] Sort "add module" list in alpha order by column; fix HTML
+
+25-June-2008 Sam Moffatt
+ # [11079] Joomla! LDAP Library doesn't support altering details in LDAP
+
+19/20-June-2008 Wilco Jansen
  # [9729] Category Manager - Uncategorized
  # [9901] Patch - com_weblinks Categories view revised tmpl/default.php
  # [10291] Empty URL Parameters
+ # [10273] HTML entities in changelog break help display in back-end
+ # [10280] New Time Zone in Venezuela
  # [10380] Category description textarea not HTML-quoted
  # [10532] Filter issues in installation and missing or invalid language strings
  # [10877] Error: time connection remains a UTC
+ # [10881] "Article order" missing in language file
  # [10944] josSpoofCheck not passing $alternate to josSpoofValue correctly
+ # [11326] "validName" popup when omitting user name, password or database name in setup wizard
  # [11444] [Patch] "What is OpenID?" not displayed
+ # [11487] Unable to insert image directly after upload without flash uploader
  # [11516] Typo in en-GB.mod_mainmenu.ini
-
  ! Patches provided during the second Pizza Bug and Fun event
 
 19-June-2008 Wilco Jansen

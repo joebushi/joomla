@@ -217,7 +217,7 @@ class JLDAP extends JObject
 
 		foreach ($filters as $search_filter)
 		{
-			$search_result = @ldap_search($resource, $dn, $search_filter);
+			$search_result = ldap_search($resource, $dn, $search_filter);
 			if ($search_result && ($count = @ldap_count_entries($resource, $search_result)) > 0)
 			{
 				for ($i = 0; $i < $count; $i++)
@@ -292,6 +292,7 @@ class JLDAP extends JObject
 	 * @param string attribute The attribute whose value you want to compare
 	 * @param string value The value you want to check against the LDAP attribute
 	 * @return mixed result of comparison (true, false, -1 on error)
+	 * @access public
 	 */
 	function compare($dn, $attribute, $value) {
 		return ldap_compare($this->_resource, $dn, $attribute, $value);
@@ -303,6 +304,7 @@ class JLDAP extends JObject
 	 * @param string dn The DN of the object you want to read
 	 * @param string attribute The attribute values you want to read (Optional)
 	 * @return array of attributes or -1 on error
+	 * @access public
 	 */
 	function read($dn, $attribute = array())
 	{
@@ -317,7 +319,63 @@ class JLDAP extends JObject
 			return $result;
 		}
 	}
-
+	
+	/**
+	 * Deletes a given DN from the tree
+	 *
+	 * @param string dn The DN of the object you want to delete
+	 * @return bool result of operation
+	 * @access public
+	 */
+	function delete($dn) {
+		return ldap_delete($this->_resource, $dn);	
+	}
+	
+	/**
+	 * Create a new DN
+	 * 
+	 * @param string dn The DN where you want to put the object
+	 * @param array entries An array of arrays describing the object to add
+	 * @return bool result of operation 
+	 */
+	function create($dn, $entries) {
+		return ldap_add($this->_resource, $dn, $entries);
+	}
+	
+	/**
+	 * Add an attribute to the given DN
+	 * Note: DN has to exist already
+	 * 
+	 * @param string dn The DN of the entry to add the attribute
+	 * @param array entry An array of arrays with attributes to add
+	 * @return bool Result of operation
+	 */
+	function add($dn, $entry) {
+		return ldap_mod_add($this->_resource, $dn, $entry);
+	}
+	
+	/**
+	 * Rename the entry
+	 *
+	 * @param string dn The DN of the entry at the moment
+	 * @param string newdn The DN of the entry should be (only cn=newvalue)
+	 * @param string newparent The full DN of the parent (null by default)
+	 * @param bool deleteolddn Delete the old values (default)
+	 * @return bool Result of operation
+	 */
+	function rename($dn, $newdn, $newparent, $deleteolddn) {
+		return ldap_rename($this->_resource, $dn, $newdn, $newparent, $deleteolddn);	
+	}
+	
+	/**
+	 * Returns the error message
+	 *
+	 * @return string error message
+	 */
+	function getErrorMsg() {
+		return ldap_error($this->_resource);	
+	}
+	  
 	/**
 	 * Converts a dot notation IP address to net address (e.g. for Netware, etc)
 	 *
@@ -403,5 +461,25 @@ class JLDAP extends JObject
 			$addr .= "address not available.";
 		}
 		return Array('protocol'=>$addrtypes[$addrtype], 'address'=>$addr);
+	}
+	
+	/**
+	 * Generates a LDAP compatible password
+	 * 
+	 * @param string password Clear text password to encrypt
+	 * @param string type Type of password hash, either md5 or SHA
+	 * @return string encrypted password
+	 */
+	function generatePassword($password, $type='md5') {
+		$userpassword = '';
+		switch(strtolower($type)) {
+			case 'sha':
+				$userpassword = '{SHA}' . base64_encode( pack( 'H*', sha1( $password ) ) ); 	
+			case 'md5':
+			default:
+				$userpassword = '{MD5}' . base64_encode( pack( 'H*', md5( $password ) ) );
+				break;
+		}
+		return $userpassword;
 	}
 }

@@ -538,18 +538,18 @@ class HTML_modules
 	/**
 	* Displays a selection list for module types
 	*/
-	function add( &$modules, $client )
+	function add(&$modules, $client)
 	{
  		JHTML::_('behavior.tooltip');
 
 		?>
 		<form action="index.php" method="post" name="adminForm">
 
-		<table class="adminlist" cellpadding="1">
+		<table class="adminlist" cellpadding="1" summary="Add Module">
 		<thead>
 		<tr>
 			<th colspan="4">
-			<?php echo JText::_( 'Modules' ); ?>
+			<?php echo JText::_('Modules'); ?>
 			</th>
 		</tr>
 		</thead>
@@ -561,33 +561,49 @@ class HTML_modules
 		</tfoot>
 		<tbody>
 		<?php
-		$k 		= 0;
-		$x 		= 0;
-		$count 	= count( $modules );
-		for ( $i=0; $i < $count; $i++ ) {
-			$row = &$modules[$i];
-
-			$link = 'index.php?option=com_modules&amp;task=edit&amp;module='. $row->module .'&amp;created=1&amp;client='. $client->id;
-			if ( !$k ) {
-				?>
-				<tr class="<?php echo "row$x"; ?>" valign="top">
-				<?php
-				$x = 1 - $x;
-			}
+		$altRow = 0;
+		$count = count($modules);
+		// Variable-column ready, just pass $cols in.
+		$cols = 2;
+		$pct = floor(100 / $cols);
+		$rows = ceil($count / $cols);
+		$posn = 0;
+		do {
 			?>
-				<td width="50%">
-					<span class="editlinktip hasTip" title="<?php echo JText::_(stripslashes( $row->name)).' :: '.JText::_(stripslashes( $row->descrip )); ?>" name="module" value="<?php echo $row->module; ?>" onclick="isChecked(this.checked);" /><input type="radio" name="module" value="<?php echo $row->module; ?>" id="cb<?php echo $i; ?>"><a href="<?php echo $link;?>"><?php echo JText::_($row->name); ?></a></span>
+			<tr class="<?php echo 'row' . $altRow; ?>" valign="top">
+			<?php
+			$altRow = 1 - $altRow;
+			for ($col = 0; $col < $cols; ++$col) :
+				if (($mod = $posn + $col * $rows) >= $count) :
+					?>
+					<td width="<?php echo $pct; ?>%">&nbsp;</td>
+					<?php
+					continue;
+				endif;
+				$item = &$modules[$mod];
+				$link = 'index.php?option=com_modules&amp;task=edit&amp;module='
+					. $item->module . '&amp;created=1&amp;client=' . $client->id;
+				?>
+				<td width="<?php echo $pct; ?>%">
+					<span class="editlinktip hasTip" title="<?php
+						echo htmlentities(JText::_(stripslashes($item->name))
+							. ' :: ' . JText::_(stripslashes($item->descrip)));
+					?>" name="module" value="<?php
+						echo $item->module;
+					?>" onclick="isChecked(this.checked);">
+					<input type="radio" name="module" value="<?php
+						echo $item->module;
+					?>" id="cb<?php echo $mod; ?>"/><a href="<?php
+						echo $link;
+					?>"><?php echo htmlentities(JText::_($item->name)); ?></a></span>
 				</td>
-			<?php
-			if ( $k ) {
-				?>
-				</tr>
 				<?php
-			}
+			endfor;
+			++$posn;
 			?>
-			<?php
-			$k = 1 - $k;
-		}
+			</tr>
+		<?php
+		} while ($posn < $rows);
 		?>
 		</tbody>
 		</table>
@@ -597,7 +613,7 @@ class HTML_modules
 		<input type="hidden" name="created" value="1" />
 		<input type="hidden" name="task" value="edit" />
 		<input type="hidden" name="boxchecked" value="0" />
-		<?php echo JHTML::_( 'form.token' ); ?>
+		<?php echo JHTML::_('form.token'); ?>
 		</form>
 		<?php
 	}
