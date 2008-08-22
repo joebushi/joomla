@@ -39,6 +39,7 @@ $ -> Language fix or change
 ! -> Note
 
 22-Aug-2008 Toby Patterson
+ # [#10965] Not all instances of module are deleted when module is uninstalled ( Andrzej and Sam )
  # [#11959] Patch: Beez Contact Image, typo in attribute value ( Rene and Elin )
 
 19-Aug-2008 Toby Patterson
