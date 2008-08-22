@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: remind.php 7399 2007-05-14 04:10:09Z eddieajau $
+ * @version		$Id$
  * @package		Joomla
  * @subpackage	User
  * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.

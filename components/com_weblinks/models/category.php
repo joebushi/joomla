@@ -231,4 +231,3 @@ class WeblinksModelCategory extends JModel
 		return $query;
 	}
 }
-?>

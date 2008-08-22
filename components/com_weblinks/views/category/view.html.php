@@ -47,6 +47,9 @@ class WeblinksViewCategory extends JView
 		$category	= &$this->get('category' );
 		$state		= &$this->get('state');
 
+		$model =& JModel::getInstance('categories', 'weblinksmodel');
+		$categories =& $model->getData();
+
 		// Get the page/component configuration
 		$params = &$mainframe->getParams();
 
@@ -62,8 +65,20 @@ class WeblinksViewCategory extends JView
 			$document->addHeadLink(JRoute::_($link.'&type=atom'), 'alternate', 'rel', $attribs);
 		}
 
-		// Set page title per category
-		$document->setTitle( $category->title. ' - '. $params->get( 'page_title'));
+		$menus	= &JSite::getMenu();
+		$menu	= $menus->getActive();
+
+		// because the application sets a default page title, we need to get it
+		// right from the menu item itself
+		if (is_object( $menu )) {
+			$menu_params = new JParameter( $menu->params );
+			if (!$menu_params->get( 'page_title')) {
+				$params->set('page_title', $category->title);
+			}
+		} else {
+			$params->set('page_title',	$category->title);
+		}
+		$document->setTitle( $params->get( 'page_title' ) );
 
 		//set breadcrumbs
 		if(is_object($menu) && $menu->query['view'] != 'category') {
@@ -97,7 +112,7 @@ class WeblinksViewCategory extends JView
 
 		// icon in table display
 		if ( $params->get( 'link_icons' ) <> -1 ) {
-			$image = JHTML::_('image.site',  $params->get('link_icons'), '/images/M_images/', $params->get( 'weblink_icons' ), '/images/M_images/', 'Link' );
+			$image = JHTML::_('image.site',  $params->get('link_icons', 'weblink.png'), '/images/M_images/', $params->get( 'weblink_icons' ), '/images/M_images/', 'Link' );
 		}
 
 		$source = $params->get('snapshot_source');
@@ -141,18 +156,18 @@ class WeblinksViewCategory extends JView
 				// cases are slightly different
 				case 1:
 					// open in a new window
-					$item->link = '<a href="'. $link .'" target="_blank" class="'. $menuclass .'">'. $item->title .'</a>';
+					$item->link = '<a href="'. $link .'" target="_blank" class="'. $menuclass .'">'. $this->escape($item->title) .'</a>';
 					break;
 
 				case 2:
 					// open in a popup window
-					$item->link = "<a href=\"#\" onclick=\"javascript: window.open('". $link ."', '', 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=550'); return false\" class=\"$menuclass\">". $item->title ."</a>\n";
+					$item->link = "<a href=\"#\" onclick=\"javascript: window.open('". $link ."', '', 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=550'); return false\" class=\"$menuclass\">". $this->escape($item->title) ."</a>\n";
 					break;
 
 				default:
 					// formerly case 2
 					// open in parent window
-					$item->link = '<a href="'. $link .'" class="'. $menuclass .'">'. $item->title .'</a>';
+					$item->link = '<a href="'. $link .'" class="'. $menuclass .'">'. $this->escape($item->title) .'</a>';
 					break;
 			}
 
@@ -163,9 +178,17 @@ class WeblinksViewCategory extends JView
 			$k = 1 - $k;
 		}
 
+		$count = count($categories);
+		for($i = 0; $i < $count; $i++)
+		{
+			$cat =& $categories[$i];
+			$cat->link = JRoute::_('index.php?option=com_weblinks&view=category&id='. $cat->slug);
+		}
+
 		$this->assignRef('lists',		$lists);
 		$this->assignRef('params',		$params);
 		$this->assignRef('category',	$category);
+		$this->assignRef('categories', $categories);
 		$this->assignRef('items',		$items);
 		$this->assignRef('pagination',	$pagination);
 
@@ -174,4 +197,3 @@ class WeblinksViewCategory extends JView
 		parent::display($tpl);
 	}
 }
-?>

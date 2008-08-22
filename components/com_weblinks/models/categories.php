@@ -53,7 +53,7 @@ class WeblinksModelCategories extends JModel
 	}
 
 	/**
-	 * Method to get weblink data for the category
+	 * Method to get weblink item data for the category
 	 *
 	 * @access public
 	 * @return array

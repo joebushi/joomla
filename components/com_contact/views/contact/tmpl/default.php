@@ -6,10 +6,10 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 $cparams = JComponentHelper::getParams ('com_media');
 ?>
-<?php if ( $this->params->get( 'show_page_title' ) && !$this->contact->params->get( 'popup' ) ) : ?>
-<div class="componentheading<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-	<?php echo $this->params->get( 'page_title' ); ?>
-</div>
+<?php if ( $this->params->get( 'show_page_title', 1 ) && !$this->contact->params->get( 'popup' ) && $this->params->get('page_title') != $this->contact->name ) : ?>
+	<div class="componentheading<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+		<?php echo $this->params->get( 'page_title' ); ?>
+	</div>
 <?php endif; ?>
 <div id="component-contact">
 <table width="100%" cellpadding="0" cellspacing="0" border="0" class="contentpaneopen<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
@@ -67,7 +67,7 @@ $cparams = JComponentHelper::getParams ('com_media');
 <tr>
 	<td colspan="2">
 	<?php echo JText::_( 'Download information as a' );?>
-		<a href="<?php echo JRoute::_('index.php?option=com_contact&contact_id='.$this->contact->id.'&format=vcard'); ?>">
+		<a href="<?php echo JURI::base(); ?>index.php?option=com_contact&amp;task=vcard&amp;contact_id=<?php echo $this->contact->id; ?>&amp;format=raw&amp;tmpl=component">
 			<?php echo JText::_( 'VCard' );?></a>
 	</td>
 </tr>

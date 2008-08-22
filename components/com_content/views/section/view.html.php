@@ -72,13 +72,28 @@ class ContentViewSection extends ContentView
 			$document->addHeadLink(JRoute::_($link.'&type=atom'), 'alternate', 'rel', $attribs);
 		}
 
+		$menus	= &JSite::getMenu();
+		$menu	= $menus->getActive();
+
+		// because the application sets a default page title, we need to get it
+		// right from the menu item itself
+		if (is_object( $menu )) {
+			$menu_params = new JParameter( $menu->params );
+			if (!$menu_params->get( 'page_title')) {
+				$params->set('page_title',	$section->title);
+			}
+		} else {
+			$params->set('page_title',	$section->title);
+		}
+		$document->setTitle( $params->get( 'page_title' ) );
+
 		// Prepare section description
 		$section->description = JHTML::_('content.prepare', $section->description);
 
 		for($i = 0; $i < count($categories); $i++)
 		{
 			$category =& $categories[$i];
-			$category->link = JRoute::_('index.php?view=category&id='.$category->slug);
+			$category->link = JRoute::_(ContentHelperRoute::getCategoryRoute($category->slug, $category->section).'&layout=default');
 
 			// Prepare category description
 			$category->description = JHTML::_('content.prepare', $category->description);

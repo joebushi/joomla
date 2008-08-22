@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: view.html.php 7399 2007-05-14 04:10:09Z eddieajau $
+ * @version		$Id$
  * @package		Joomla
  * @subpackage	User
  * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
@@ -41,12 +41,35 @@ class UserViewRemind extends JView
 	function display($tpl = null)
 	{
 		jimport('joomla.html.html');
+		$mainframe = &JFactory::getApplication();
+
+		// Get the page/component configuration
+		$params = &$mainframe->getParams();
+
+		$menus	= &JSite::getMenu();
+		$menu	= $menus->getActive();
+
+		// because the application sets a default page title, we need to get it
+		// right from the menu item itself
+		if (is_object( $menu )) {
+			$menu_params = new JParameter( $menu->params );
+			if (!$menu_params->get( 'page_title')) {
+				$params->set('page_title',	JText::_( 'FORGOT_YOUR_USERNAME' ));
+			}
+		} else {
+			$params->set('page_title',	JText::_( 'FORGOT_YOUR_USERNAME' ));
+		}
+		$document	= &JFactory::getDocument();
+		$document->setTitle( $params->get( 'page_title' ) );
+
 
 		// Load the form validation behavior
 		JHTML::_('behavior.formvalidation');
 
 		// Add the tooltip behavior
 		JHTML::_('behavior.tooltip');
+
+		$this->assignRef('params',		$params);
 
 		parent::display($tpl);
 	}

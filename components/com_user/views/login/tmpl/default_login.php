@@ -29,7 +29,7 @@ endif; ?>
 		</div>
 	</td>
 </tr>
-<tr>
+
 </table>
 <fieldset class="input">
 	<p id="com-form-login-username">
