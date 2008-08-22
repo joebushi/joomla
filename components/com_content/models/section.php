@@ -259,17 +259,13 @@ class ContentModelSection extends JModel
 		{
 			$user	=& JFactory::getUser();
 
+			// Get the page/component configuration
 			$params = &$mainframe->getParams();
 
 			$noauth	= !$params->get('show_noauth');
 			$gid		= $user->get('aid', 0);
 			$now		= $mainframe->get('requestTime');
 			$nullDate	= $this->_db->getNullDate();
-
-			// Get the parameters of the active menu item
-			$menu	=& JSite::getMenu();
-			$item    = $menu->getActive();
-			$params	=& $menu->getParams($item->id);
 
 			// Ordering control
 			$orderby = $params->get('orderby', '');
@@ -443,10 +439,9 @@ class ContentModelSection extends JModel
 			$orderby .= $filter_order .' '. $filter_order_Dir.', ';
 		}
 
-		// Get the parameters of the active menu item
-		$menu	=& JSite::getMenu();
-		$item    = $menu->getActive();
-		$params	=& $menu->getParams($item->id);
+		// Get the page/component configuration
+		$app =& JFactory::getApplication();
+		$params =& $app->getParams();
 
 		switch ($state)
 		{

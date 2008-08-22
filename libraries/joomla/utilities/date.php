@@ -181,7 +181,8 @@ class JDate extends JObject
 	function toISO8601($local = false)
 	{
 		$date   = ($local) ? $this->_date + $this->_offset : $this->_date;
-        $offset = ($local) ? sprintf("%+03d", $this->getOffset()).':00' : 'Z';
+		$offset = $this->getOffset();
+        $offset = ($local && $this->_offset) ? sprintf("%+03d:%02d", $offset, abs(($offset-intval($offset))*60) ) : 'Z';
         $date   = ($this->_date !== false) ? date('Y-m-d\TH:i:s', $date).$offset : null;
 		return $date;
 	}
