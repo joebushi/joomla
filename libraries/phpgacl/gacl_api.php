@@ -2163,7 +2163,7 @@ class gacl_api extends gacl {
 		}
 
 		// update value if it is specified.
-		if (!empty($value)) {
+		if ($value !== '' OR $value !== null) {
 			$set[] = 'value='. $this->db->quote($value);
 		}
 
@@ -2840,7 +2840,7 @@ class gacl_api extends gacl {
 		$section_value = trim($section_value);
 		$value = trim($value);
 
-		if (empty($section_value) AND $value !== '') {
+		if (empty($section_value) AND $value === '') {
 			$this->debug_text("get_object_id(): Section Value ($value) AND value ($value) is empty, this is required");
 			return false;
 		}
@@ -3477,7 +3477,7 @@ class gacl_api extends gacl {
 		$name = trim($name);
 		$value = trim($value);
 
-		if (empty($name) AND empty($value) ) {
+		if (empty($name) AND $value === '') {
 			$this->debug_text('get_object_section_section_id(): Both Name ('. $name .') and Value ('. $value .') are empty, you must specify at least one.');
 			return FALSE;
 		}
@@ -3486,7 +3486,7 @@ class gacl_api extends gacl {
 		$where = ' WHERE ';
 
 		// limit by value if specified
-		if (!empty($value)) {
+		if ($value !== '') {
 			$query .= $where .'value='. $this->db->quote($value);
 			$where = ' AND ';
 		}

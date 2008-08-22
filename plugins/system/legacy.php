@@ -48,7 +48,7 @@ class  plgSystemLegacy extends JPlugin
 		// Set global configuration var for legacy mode
 		$config = &JFactory::getConfig();
 		$config->setValue('config.legacy', 1);
-
+		
 		// Import library dependencies
 		require_once(dirname(__FILE__).DS.'legacy'.DS.'classes.php');
 		require_once(dirname(__FILE__).DS.'legacy'.DS.'functions.php');
@@ -253,6 +253,9 @@ class  plgSystemLegacy extends JPlugin
 		 *  @deprecated As of version 1.5
 		 */
 		$GLOBALS['_MAMBOTS'] = new mosMambotHandler();
+		
+		$mosmsg = JRequest::getVar( 'mosmsg' );
+		$mainframe->enqueueMessage( $mosmsg );
 	}
 
 	function onAfterRoute()

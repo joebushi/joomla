@@ -80,8 +80,8 @@ function showMessages( $option )
 	$where[] = ' a.user_id_to='.(int) $user->get('id');
 
 	if ($search != '') {
-		$searchEscaped = $db->Quote( '%'.$db->getEscaped( $search, true ).'%', false );
-		$where[] = '( u.username LIKE '.$searchEscaped.' OR email LIKE '.$searchEscaped.' OR u.name LIKE '.$searchEscaped.' )';
+		$searchEscaped = $db->Quote( '%'.$db->getEscaped( $search, true ).'%', false ); 
+		$where[] = '( a.subject LIKE '.$searchEscaped.' OR a.message LIKE '.$searchEscaped.' )';
 	}
 	if ( $filter_state ) {
 		if ( $filter_state == 'P' ) {
