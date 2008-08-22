@@ -38,7 +38,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-19-Aug-2008
+22-Aug-2008 Toby Patterson
+ [#11959] Patch: Beez Contact Image, typo in attribute value ( Rene and Elin )
+
+19-Aug-2008 Toby Patterson
  # [#12010] Remove confusing error message about language files for extension installations ( thanks Amy && Sam)
 
 13-August-2008 Anthony Ferrara
