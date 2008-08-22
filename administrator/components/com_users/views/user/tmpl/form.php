@@ -24,9 +24,10 @@
 	// clean item data
 	JFilterOutput::objectHTMLSafe( $user, ENT_QUOTES, '' );
 
-	$lvisit = $this->user->get('lastvisitDate');
-	if ($lvisit == "0000-00-00 00:00:00") {
-		$lvisit = JText::_( 'Never');
+	if ($this->user->get('lastvisitDate') == "0000-00-00 00:00:00") {
+		$lvisit = JText::_( 'Never' );
+	} else {
+		$lvisit	= JHTML::_('date', $this->user->get('lastvisitDate'), '%Y-%m-%d %H:%M:%S');
 	}
 ?>
 <script language="javascript" type="text/javascript">
@@ -163,7 +164,7 @@
 						<?php echo JText::_( 'Register Date' ); ?>
 					</td>
 					<td>
-						<?php echo $this->user->get('registerDate');?>
+						<?php echo JHTML::_('date', $this->user->get('registerDate'), '%Y-%m-%d %H:%M:%S');?>
 					</td>
 				</tr>
 				<tr>

@@ -160,7 +160,7 @@ class BannerControllerBanner extends JController
 		// Imagelist
 		$javascript			= 'onchange="changeDisplayImage();"';
 		$directory			= '/images/banners';
-		$lists['imageurl']	= JHTML::_('list.images',  'imageurl', $row->imageurl, $javascript, $directory );
+		$lists['imageurl']	= JHTML::_('list.images',  'imageurl', $row->imageurl, $javascript, $directory, "bmp|gif|jpg|png|swf"  );
 
 		// build list of categories
 		$lists['catid']		= JHTML::_('list.category',  'catid', 'com_banner', intval( $row->catid ) );

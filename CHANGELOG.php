@@ -38,6 +38,41 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-June-2008 Wilco Jansen
+ # [9729] Category Manager - Uncategorized
+ # [9901] Patch - com_weblinks Categories view revised tmpl/default.php
+ # [10291] Empty URL Parameters
+ # [10380] Category description textarea not HTML-quoted
+ # [10532] Filter issues in installation and missing or invalid language strings
+ # [10877] Error: time connection remains a UTC
+ # [10944] josSpoofCheck not passing $alternate to josSpoofValue correctly
+ # [11444] [Patch] "What is OpenID?" not displayed
+ # [11516] Typo in en-GB.mod_mainmenu.ini
+
+ ! Patches provided during the second Pizza Bug and Fun event
+
+19-June-2008 Wilco Jansen
+ # [11225] Expired cache files lead to component not found error message
+ ! Patch provided by Anthony. Also unit tests have been created for the caching layer...yay!
+
+15-June-2008 Wilco Jansen
+ # [9991] Inconsistent use of nameQuote()
+ # [11426] Banners component not able to handle flash banners
+
+8-June-2008 Ian MacLennan
+ # [10363] E_NOLOGIN_BLOCKED visible in error/warning
+
+6-June-2008 Wilco Jansen
+ # [9806] Menu instance seems to be overriden
+ # [11338] Linked category title in JA_Purity category blog causes text to be linked
+ # [10873] Frontend Does Not Respect Global List Length
+ # [11333] Various weblinks fixes, and a little on category manager
+ # [10834] "Umbrella" issue for several mod_newsfeed issues
+ # [11354] Typo in gmail authentication plugin
+
+3-June-2008 Sam Moffatt
+ ^ prop-set all js, ini and css files to LF line ending style and cleaned up mixed line ending styles
+
 1-June-2008 Sam Moffatt
  ^ prop-set all php files to LF line ending style
  ^ Cleaned up a lot of files with mixed line ending styles

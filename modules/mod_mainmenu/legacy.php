@@ -21,7 +21,8 @@ function mosGetMenuLink($mitem, $level = 0, & $params, $open = null)
 {
 	global $Itemid;
 	$txt = '';
-
+	//needed to break reference to prevent altering the actual menu item 
+	$mitem = clone($mitem);
 	// Menu Link is a special type that is a link to another item
 	if ($mitem->type == 'menulink')
 	{

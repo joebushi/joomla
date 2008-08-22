@@ -257,7 +257,7 @@ function showCategories( $section, $option )
 
 	// get list of sections for dropdown filter
 	$javascript = 'onchange="document.adminForm.submit();"';
-	$lists['sectionid']	= JHTML::_('list.section',  'sectionid', $sectionid, $javascript );
+	$lists['sectionid']	= JHTML::_('list.section',  'sectionid', $sectionid, $javascript, 'ordering', false );
 
 	// state filter
 	$lists['state']	= JHTML::_('grid.state',  $filter_state );
