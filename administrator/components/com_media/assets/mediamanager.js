@@ -14,8 +14,6 @@
 /**
  * JMediaManager behavior for media component
  *
- * @author      Johan Janssens <johan.janssens@joomla.org>
- * @author      Louis Landry <louis.landry@joomla.org>
  * @package     Joomla.Extensions
  * @subpackage  Media
  * @since       1.5
