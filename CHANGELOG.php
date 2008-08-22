@@ -45,6 +45,13 @@ $ -> Language fix or change
  # [10126] External link in breadcrumb
  # [10376] Article editing from FrontPage changes the article alias
  # [11331] Breadcrumbs: redundant parameter, and not respecting default values for parameters
+ # [11158] Menu link to unpublished menu item causes fatal error
+ # [11191] Missing mandatory check for several menu item types
+ # [11075] Minor errors in ACL libraries
+ # [11054] Logged in user can view registration form
+ # [11311] JA Purity - templateDetails.xml, params - language
+ # [8512]  HTML in content items matches search words in search component/plugin (AKA the real big issue with search in Joomla!)
+ # [11302] Typos in tpl_ja_purity admin
 
 29-May-2008 Wilco Jansen
  # [10942] Menu does not rebuild sublevel on copy/move (causes menu ordering issues)

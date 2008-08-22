@@ -8,44 +8,7 @@
 	<authorUrl>http://www.joomlart.com</authorUrl>
 	<copyright></copyright>
 	<license>GNU/GPL version 2</license>
-	<description>
-&lt;p&gt;JA Purity designed by JoomlArt.com: highly accessible, elegant and easy template customization.&lt;/p&gt;
-&lt;p&gt;&lt;font size="+1"&gt;&lt;strong&gt;Quick features list&lt;/strong&gt;&lt;/font&gt;&lt;/p&gt;
-&lt;ol&gt;
-  &lt;li&gt; Support Multi color &amp; Multi screen width configuration (Fluid/Narrow/Widescreen/Fixed in pixel or percentage)&lt;/li&gt;
-  &lt;li&gt; Integrated with JA Suckerfish and JA MooMenu.&lt;/li&gt;
-  &lt;li&gt; Option to use Logo as Text or Image&lt;/li&gt;
-  &lt;li&gt;5 module suffixes (_red, _green, _blue, _black, _text )&lt;/li&gt;
-  &lt;li&gt;Well hand-coded typography&lt;/li&gt;
-  &lt;li&gt;Well structured and SEO-optimized source code. Take some minutes to view the index.php and template_css&lt;/li&gt;
-  &lt;li&gt;xHTML and CSS validated&lt;/li&gt;
-  &lt;li&gt;Cross-browser compatibility with Internet Explorer 6+, Firefox, Safari, Opera.&lt;/li&gt;
-  &lt;li&gt;Fast and lightweight&lt;/li&gt;
-  &lt;li&gt;Fully support RTL&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;&lt;font size="+1"&gt;&lt;strong&gt;Instructions&lt;/strong&gt;&lt;/font&gt;&lt;br /&gt;
-  &lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Template Logo&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;Support 2 types of logo: Image and Text.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;&lt;font color="red"&gt;Horizontal Navigation&lt;/font&gt;&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;JA Purity provide embedded dropdown horizontal navigation system. There're 2 style of dopdown menu: JA CSS Suckerfish and JA Moomenu (Template parameter: Horizontal Navigation Type). Follow these steps to enable the dropdown horizon navigation.&lt;/p&gt;
-&lt;ol&gt;
-  &lt;li&gt; Goto Module Manager, click a mainmenu module (Eg: Main Menu).&lt;/li&gt;
-  &lt;li&gt; Select &quot;No&quot; for the module &quot;Show Title&quot;.&lt;/li&gt;
-  &lt;li&gt;Select &quot;hornav&quot; for the module &quot;Position&quot;.&lt;/li&gt;
-  &lt;li&gt;Select &quot;Yes&quot; for parameter &quot;Always show sub-menu Items&quot;&lt;/li&gt;
-  &lt;li&gt;Select &quot;List&quot; for parameter &quot;Menu Style&quot;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;&lt;strong&gt;Template Font Size&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;Choose default font size for the template. On front-page, when user increases/decreases font size, the setting is remember for later visits.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Template Width&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;The template width is very flexible. You could choose the preset width (Narrow/Widescreen) or define your width (Specified in percentage, Specified in pixel)&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Template Styles&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;Template style is combined from 3 main elements: Header Themes, Background Themes and Primary Elements. The template provides 2x2x4=16 predefined styles.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Right modules collapsible function&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;Modules in right could are collapsible. You could enable/disable this function, set modules collapsed/expended by default...&lt;/p&gt;
-&lt;p&gt;&lt;/p&gt;	</description>
-
+	<description>JA PURITY DESCRIPTION</description>
 <files>
 		<filename>component.php</filename>
 		<filename>css/index.html</filename>
@@ -413,7 +376,7 @@
 		
 		<param type="spacer" default="&lt;hr /&gt;&lt;B&gt;Template Width&lt;/B&gt;" />
 		<param name="ja_screen" type="list" default="950" label="Template Width" description="TEMPLATE WIDTH DESCRIPTION">
-			<option value="auto">Auto (fluid)</option>
+			<option value="auto">AUTO</option>
 			<option value="750">Narrow Screen</option>
 			<option value="950">Wide Screen</option>
 			<option value="fluid">SPECIFIED PERCENTAGE</option>
@@ -424,7 +387,7 @@
 		<param type="spacer" default="&lt;hr /&gt;&lt;B&gt;Template Styles&lt;/B&gt;" />
 		<param name="theme_header" type="folderlist" directory="templates/ja_purity/styles/header" default="" label="Header Themes" description="HEADER THEMES DESCRIPTION" />
 		<param name="theme_background" type="folderlist" directory="templates/ja_purity/styles/background" default="" label="Background Themes" description="BACKGROUND THEMES DESCRIPTION" />
-		<param name="theme_elements" type="folderlist" directory="templates/ja_purity/styles/elements" default="" label="Primary Elements" description="Page primary elements themes" />
+		<param name="theme_elements" type="folderlist" directory="templates/ja_purity/styles/elements" default="" label="Primary Elements" description="PRIMARY ELEMENTS DESCRIPTION" />
 		
 		<param type="spacer" default="&lt;hr /&gt;&lt;B&gt;Right modules collapsible function&lt;/B&gt;" />
 		<param name="rightCollapsible" type="radio" default="1" label="Right modules collapsible function" description="RIGHT MODULES COLLAPSIBLE FUNCTION DESCRIPTION">
