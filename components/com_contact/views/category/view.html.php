@@ -102,14 +102,20 @@ class ContactViewCategory extends JView
 			$category =& JTable::getInstance( 'category' );
 		}
 
-		// Set the page title and pathway
-		if ($category->title)
-		{
-			// Add the category breadcrumbs item
-			$document->setTitle(JText::_('Contact').' - '.$category->title);
+		$menus	= &JSite::getMenu();
+		$menu	= $menus->getActive();
+
+		// because the application sets a default page title, we need to get it
+		// right from the menu item itself
+		if (is_object( $menu )) {
+			$menu_params = new JParameter( $menu->params );			
+			if (!$menu_params->get( 'page_title')) {
+				$pparams->set('page_title',	$category->title);
+			}
 		} else {
-			$document->setTitle(JText::_('Contact'));
+			$pparams->set('page_title',	$category->title);
 		}
+		$document->setTitle( $pparams->get( 'page_title' ) );
 
 		// Prepare category description
 		$category->description = JHTML::_('content.prepare', $category->description);

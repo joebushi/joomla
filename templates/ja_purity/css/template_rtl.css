@@ -27,6 +27,7 @@ td.sectiontableheader {
 }
 
 table.contenttoc {
+	float:left;
 	margin: 0 10px 10px 0px;
 }
 

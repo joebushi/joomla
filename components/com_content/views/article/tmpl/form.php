@@ -47,6 +47,9 @@ function submitbutton(pressbutton) {
 }
 //-->
 </script>
+<?php if ($this->params->get('show_page_title', 1)) : ?>
+<div class="componentheading<?php echo $this->params->get('pageclass_sfx')?>"><?php echo $this->escape($this->params->get('page_title')); ?></div>
+<?php endif; ?>
 <form action="<?php echo $this->action ?>" method="post" name="adminForm" onSubmit="setgood();">
 <fieldset>
 <legend><?php echo JText::_('Editor'); ?></legend>

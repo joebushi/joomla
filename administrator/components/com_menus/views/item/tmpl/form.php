@@ -37,7 +37,7 @@ function submitbutton(pressbutton) {
 	else if( document.getElementById('urlparamsid').value == 0 ){
  		alert( "<?php echo JText::_('Please select a Poll', true ); ?>" );
 	} <?php } ?>
-	<?php if( $this->item->type == 'component' && isset($this->item->linkparts['option']) && $this->item->linkparts['option'] == 'com_content' && isset($this->item->linkparts['view']) && $this->item->linkparts['view'] == 'article' ){ ?>
+	<?php if( $this->item->type == 'component' && isset($this->item->linkparts['option']) && $this->item->linkparts['option'] == 'com_content' && isset($this->item->linkparts['view']) && $this->item->linkparts['view'] == 'article' && !isset($this->item->linkparts['layout']) ){ ?>
 	else if( document.getElementById('id_id').value == 0 ){
 		alert( "<?php echo JText::_('Please select an Article', true ); ?>" );
 	} <?php } ?> else {

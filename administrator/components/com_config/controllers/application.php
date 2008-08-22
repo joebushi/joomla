@@ -107,6 +107,7 @@ class ConfigControllerApplication extends ConfigController
                     JHTML::_('select.option', "pgsql", JText::_('PostgreSQL'))
                     );
 
+        // TODO Check for empty array; create a new one having some MAX connections (integer); set default etc.
 		while (list ($id , $cprops) = each($row->connections) ) {
             $lists["dbdriver"][$id] = JHTML::_('select.genericlist',  $dbdrivers, 'condriver[]', 'class="inputbox" size="1"', 'value', 'text', $cprops["driver"]);
         }

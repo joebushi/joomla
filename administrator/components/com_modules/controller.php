@@ -535,9 +535,14 @@ class ModulesController extends JController
 				$lang->load( $module->module, $langbase );
 			}
 		}
-
+		
 		require_once( JPATH_COMPONENT.DS.'helpers'.DS.'xml.php' );
 		ModulesHelperXML::parseXMLModuleFile( $modules, $client );
+
+		$n = count($modules);
+		for ($i = 0; $i < $n; $i++) {
+			$modules[$i]->name = JText::_(stripslashes($modules[$i]->name));
+		}
 
 		// sort array of objects alphabetically by name
 		JArrayHelper::sortObjects( $modules, 'name' );

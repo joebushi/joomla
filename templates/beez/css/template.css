@@ -36,6 +36,11 @@ line-height : 1.4em;
 text-align: left;
 }
 
+/* TOC */
+table.contenttoc{
+	float: right;
+}
+
 /* Tooltips */
 .tool-tip {
 	float: left;

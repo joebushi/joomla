@@ -250,7 +250,7 @@ class JURI extends JObject
 		{
 			$uri	        =& JURI::getInstance(JURI::base());
 			$root['prefix'] = $uri->toString( array('scheme', 'host', 'port') );
-			$root['path']   = $uri->toString( array('path') );
+			$root['path']   = rtrim($uri->toString( array('path') ), '/\\');
 		}
 
 		// Get the scheme

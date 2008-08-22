@@ -38,6 +38,34 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+4-July-2008 Anthony Ferrara
+ # Rollback of language file change (accidental removal of 3 strings)
+
+3-July-2008 Ian MacLennan
+ # [#8369] Issues with Page Title and Menu Item Layouts
+ # [#10766] table align=right breaks rendering in IE and Opera
+ # [#11602] Language file is missing for administrator module mod_feed
+ # [#11646] Corrects in spelling and grammar for en-GB site
+ # [#11659] Sorting of modules in New module screen is wrong
+
+3-July-2008 Anthony Ferrara
+ # [#11647] Corrections (spelling and grammar) to en-GB administrator files (Thanks Ron!)
+ # [#11648] Corrections to en-GB installer (Thanks Ron!)
+ # [#11618] acl check incorrect in com_users for block user and email events
+ # [#11609] Default Article Layout should not have width or colspan="2"
+ # [#9234] Article Layout menu type does not restrict Categories by Section in Article listbox
+ # [#11639] OpenID Javascript throws errors causes conflicts with Mootools functions
+ # [#11627] OnBefore/AfterContentSave Triggers
+
+2-July-2008 Anthony Ferrara
+ # [#11643] Cannot save menu item for Submit New Article (Thanks Jens!)
+ # [#11638] SVN Rev.10473 breaks path on JS includes (Thanks Jens!)
+ # [#11636] [t,297432] htaccess Security Issue
+ # [#11635] [Security BUG 1.5.3] User redirect spam (Thanks Ian!)
+
+30-June-2008 Andrew Eddie
+ # [11637] Fix htmlentities in com_modules
+
 28-June 2008 Anthony Ferrara
  # [#11583] Updated help screen key refs from doc team  (Thanks Chris Davenport)
  ! Patches provided during the second Pizza Bug and Fun event (28/29 june)
@@ -45,10 +73,13 @@ $ -> Language fix or change
 28/29-June 2008 Wilco jansen
  # [9027] Search system use keyword "Search..." if the inputbox empty
  # [10166] Untranslated String in Calendar tool
+ # [11249] Set unpublished menu-item as default
  # [11407] error of time display module pool
  # [11464] Contact router broken on SEF and no Itemid
  # [11562] Help screen key reference for Category Manager needs to be variable
  # [11600] JURI::root does not honour live_site setting
+ # [11632] Registration redirects upon successful submission of form back to blank registration form
+ # [11633] The css for messages in  in milkyway  is incorrect
  ! Patches provided during the second Pizza Bug and Fun event (28/29 june)
 
 27-June-2008 Andrew Eddie

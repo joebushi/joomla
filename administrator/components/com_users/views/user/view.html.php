@@ -31,6 +31,7 @@ class UsersViewUser extends JView
 	{
 		$cid		= JRequest::getVar( 'cid', array(0), '', 'array' );
 		$edit		= JRequest::getVar('edit',true);
+		$me 		= JFactory::getUser();
 		JArrayHelper::toInteger($cid, array(0));
 
 		$db 		=& JFactory::getDBO();
@@ -130,6 +131,7 @@ class UsersViewUser extends JView
 		// build the html select list
 		$lists['sendEmail'] = JHTML::_('select.booleanlist',  'sendEmail', 'class="inputbox" size="1"', $user->get('sendEmail') );
 
+		$this->assignRef('me', 		$me);
 		$this->assignRef('lists',	$lists);
 		$this->assignRef('user',	$user);
 		$this->assignRef('contact',	$contact);
