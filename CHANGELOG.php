@@ -38,8 +38,54 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-Aug-2008
+ # [#12010] Remove confusing error message about language files for extension installations ( thanks Amy && Sam)
+
+13-August-2008 Anthony Ferrara
+ ^ Remove install check
+
+-------------------- 1.5.6 Stable Release [12-August-2008] ------------------
+
+05-Aug-2008 Toby Patterson
+ # [#10906] Error in JURI::buildQuery if using "param[key]=value" GET parameter
+
+-------------------- 1.5.5 Stable Release [27-July-2008] ---------------------
+
+26-July-2008 Anthony Ferrara
+ # [#11973] Section Layout chooses existing Category Blog for drill down using SEF URLs
+ # [#11737] Archive and SEO
+
+22-July-2008 Anthony Ferrara
+ # [#11682] component login error with SEF
+ # [#11888] Archive Article Error With Finish Publishing Date
+ # [#11849] Various problems with com_content router
+ # [#11875] Item user acces overridden in newsflash module
+ # [#11744] searching for article-title doesn't work
+
+21-July-2008 Anthony Ferrara
+ # [#11718] Pagebreak plugin still does not work
+ # [#11844] SEF Plugin breaks Google Webmaster Tools JS 
+
+21-July-2008 Sam Moffatt
+ # [#11818] JA_Purity : CSS style not correctly apply to menu in Hornav position
+ # [#11698] Issue with & in Menu Manager Unique Name
+ # [#10662] Error not warning when there is a submit menu item with the wrong permissions
+ # [#11895] Wrong overlib for login
+ # [#11892] Determining Read more Tag
+ # [#11890] Installing upgrade module results in duplicate module entry
+ # [#11873] Upgrading components deletes old component entry
+ # [#11838] Clean up of some Todos
+ # [#11820] javascript file dtree is corrupt
+ # [#11717] Double Titles with 1.5.4 upgrade
+ # [#11409] Category List view does not have a parameter in XML for number of items
+ # [#10869] newsflash description bad: "random article"?
+ # [#8889] BEEZ - search ONLY fieldset alignment
+
 17-July-2008 Mati Kochen
  # [#10823] mosmsg is ignored - added support in legacy plugin (thanks Ian for code suggestions)
+ 
+16-July-2008 Alan Langford
+ # [#11846] Allow "collapse all" on all instances of JPane
 
 15-July-2008 Anthony Ferrara
  # [#11839] Contact item, setting the bad word param stops all mail

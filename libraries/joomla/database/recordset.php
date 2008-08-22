@@ -65,31 +65,31 @@ class JRecordSet
 		return $this->data;
 	}
 	/**
-	 * TODO: No working
+	 * TODO: Remove for 1.6.  Deprecated
 	 */
 	function absolutepage() {
 		return 1;
 	}
 	/**
-	 * TODO: No working
+	 * TODO: Remove for 1.6.  Deprecated
 	 */
 	function atfirstpage() {
 		return 1;
 	}
 	/**
-	 * TODO: No working
+	 * TODO: Remove for 1.6.  Deprecated
 	 */
 	function atlastpage() {
 		return 1;
 	}
 	/**
-	 * TODO: No working
+	 * TODO: Remove for 1.6.  Deprecated
 	 */
 	function lastpageno() {
 		return 1;
 	}
 	/**
-	 * TODO: No working
+	 * TODO: Remove for 1.6.  Deprecated
 	 */
 	function Close() {
 	}

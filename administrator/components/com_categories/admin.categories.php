@@ -980,7 +980,6 @@ function saveOrder( &$cid, $section )
 		if ($row->ordering != $order[$i]) {
 			$row->ordering = $order[$i];
 			if (!$row->store()) {
-				//TODO - convert to JError
 				JError::raiseError(500, $db->getErrorMsg());
 			}
 		}

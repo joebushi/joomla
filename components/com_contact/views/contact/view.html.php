@@ -68,7 +68,7 @@ class ContactViewContact extends JView
 		// Set the document page title
 		// because the application sets a default page title, we need to get it
 		// right from the menu item itself
-		if (is_object( $menu )) {
+		if (is_object( $menu ) && isset($menu->query['view']) && $menu->query['view'] == 'contact' && isset($menu->query['id']) && $menu->query['id'] == $contact->id) {
 			$menu_params = new JParameter( $menu->params );			
 			if (!$menu_params->get( 'page_title')) {
 				$pparams->set('page_title',	$contact->name);

@@ -715,10 +715,6 @@ class JInstaller extends JObject
 
 				// If the language folder is not present, then the core pack hasn't been installed... ignore
 				if (!JFolder::exists(dirname($path['dest']))) {
-					$appl	 = &JFactory::getApplication();
-					$name	 = JText::_($appl->getName());
-					$warning = JText::sprintf('INSTALLER LANG NOT INSTALLED', $file->data(), $name, $file->attributes('tag') );
-					JError::raiseNotice(200, 'JInstaller::install: '.$warning);
 					continue;
 				}
 			} else {
