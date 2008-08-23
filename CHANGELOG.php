@@ -43,6 +43,7 @@ $ -> Language fix or change
  # [11544] JSite::getParams() doesn't work as expected
  # [11561] Section blog resulting breadcrumbs issue
  # [12080] System generated RSS feeds not rendering correctly for external URLs
+ # [12118] Latest version check &help.j.org at Joomla! Help
  # [12187] Ja_purity default article layout does not display Edit icon for authors
  # [12399] Copying Newsflash Module in Sample Data results in 500 error and duplicate key for menu table
  # [12353] More aritcle links in section blog not working
