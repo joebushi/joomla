@@ -62,9 +62,15 @@ class MediaViewMedia extends JView
 			JHTML::_('behavior.uploader', 'file-upload', array('onAllComplete' => 'function(){ MediaManager.refreshFrame(); }'));
 		}
 
-		$base = str_replace("\\","/",JPATH_ROOT);
+		if(DS == '\\')
+		{
+			$base = str_replace(DS,"\\\\",COM_MEDIA_BASE);
+		} else {
+			$base = COM_MEDIA_BASE;
+		}
+
 		$js = "
-			var basepath = '".COM_MEDIA_BASE."';
+			var basepath = '".$base."';
 			var viewstyle = '".$style."';
 		" ;
 		$document->addScriptDeclaration($js);

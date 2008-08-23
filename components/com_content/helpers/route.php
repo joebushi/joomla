@@ -98,6 +98,17 @@ class ContentHelperRoute
 
 		$menus	= &JApplication::getMenu('site', array());
 		$items	= $menus->getItems('componentid', $component->id);
+		$active = $menus->getActive();
+		
+		if($active)
+		{
+			foreach($needles as $needle => $id)
+			{
+				if ((@$active->query['view'] == $needle) && (@$active->query['id'] == $id) && (@$active->query['option'] == 'com_content')) {
+					return $active;
+				}
+			}
+		}
 
 		$match = null;
 
