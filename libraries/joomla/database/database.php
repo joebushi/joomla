@@ -530,7 +530,7 @@ class JDatabase extends JObject
 	 */
 	function setQuery( $sql, $offset = 0, $limit = 0, $prefix='#__' )
 	{
-		$this->_sql		= $this->replacePrefix( $sql, $prefix );
+		$this->_sql		= $this->replacePrefix( (string)$sql, $prefix );
 		$this->_limit	= (int) $limit;
 		$this->_offset	= (int) $offset;
 	}
