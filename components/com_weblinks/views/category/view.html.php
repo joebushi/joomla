@@ -146,7 +146,7 @@ class WeblinksViewCategory extends JView
 			$item->count	= $i;
 			$k = 1 - $k;
 		}
-		
+
 		$count = count($categories);
 		for($i = 0; $i < $count; $i++)
 		{
@@ -166,4 +166,3 @@ class WeblinksViewCategory extends JView
 		parent::display($tpl);
 	}
 }
-?>

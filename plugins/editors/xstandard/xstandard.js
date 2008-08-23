@@ -19,19 +19,19 @@
  */
 var JXStandard = new Class({
 
-	instances : null,		
+	instances : null,
 
 	initialize: function()
 	{
 	 	this.instances = $ES('object[type=application/x-xstandard]');
-	
+
 	 	var self = this;
 	 	document.adminForm.onsubmit = function() {
 	 		self.save();
 		 }
 	},
 
-	save: function() 
+	save: function()
 	{
 		this.instances.each(function(instance)
 		{

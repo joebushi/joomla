@@ -215,11 +215,11 @@ class JHTMLList
 		$db =& JFactory::getDBO();
 
 		$categories[] = JHTML::_('select.option',  '-1', '- '. JText::_( 'Select Section' ) .' -' );
-		
+
 		if ($uncategorized) {
 			$categories[] = JHTML::_('select.option',  '0', JText::_( 'Uncategorized' ) );
 		}
-		
+
 		$query = 'SELECT id AS value, title AS text'
 		. ' FROM #__sections'
 		. ' WHERE published = 1'

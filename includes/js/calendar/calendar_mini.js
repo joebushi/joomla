@@ -190,4 +190,4 @@ if (((0 == (year%4)) && ( (0 != (year%100)) || (0 == (year%400)))) && month == 1
 (this.getMonth() == date.getMonth()) &&
 (this.getDate() == date.getDate()));}; Date.prototype.print = function (frm) { var str = new String(frm); var m = this.getMonth(); var d = this.getDate(); var y = this.getFullYear(); var wn = this.getWeekNumber(); var w = this.getDay(); var s = new Array(); s["d"] = d; s["dd"] = (d < 10) ? ("0" + d) : d; s["m"] = 1+m; s["mm"] = (m < 9) ? ("0" + (1+m)) : (1+m); s["y"] = y; s["yy"] = new String(y).substr(2, 2); s["w"] = wn; s["ww"] = (wn < 10) ? ("0" + wn) : wn; with (Calendar) { s["D"] = _DN3[w]; s["DD"] = _DN[w]; s["M"] = _MN3[m]; s["MM"] = _MN[m];}
 var re = /(.*)(\W|^)(d|dd|m|mm|y|yy|MM|M|DD|D|w|ww)(\W|$)(.*)/; while (re.exec(str) != null) { str = RegExp.$1 + RegExp.$2 + s[RegExp.$3] + RegExp.$4 + RegExp.$5;}
-return str;}; window.calendar = null; 
+return str;}; window.calendar = null;

@@ -33,7 +33,7 @@ $cparams = JComponentHelper::getParams ('com_media');
 
 	<?php if ($this->contact->image && $this->contact->params->get('show_image')) : ?>
 	<div style="float: right;">
-		<?php echo JHTML::_('image', $cparams->get('image_path').'/'.$this->contact->image, JText::_( 'Contact' ), array('align' => 'middel')); ?>
+		<?php echo JHTML::_('image', $cparams->get('image_path').'/'.$this->contact->image, JText::_( 'Contact' ), array('align' => 'middle')); ?>
 	</div>
 	<?php endif; ?>
 
