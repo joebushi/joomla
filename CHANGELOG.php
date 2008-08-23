@@ -38,6 +38,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+23-Aug-2008 Andrew Eddie
+ ! Partial merge with 10701 (around 1.5.6)
+ - Remove old 1.5 RC sql diffs
+
 25-Jun-2008 Johan Janssens
  - Removed libraries/bitfolge/vcard
  + Added JDocumentVCARD format
