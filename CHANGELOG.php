@@ -39,7 +39,7 @@ $ -> Language fix or change
 ! -> Note
 
 23-Aug-2008 Plamen Petkov
- ! Merge Note: 1.5-stable merged into up to 10777
+ ! Merge Note: 1.5-stable merged into up to  10777
 
 23-Aug-2008 Plamen Petkov
  # Fix "unnamed connection used" (factory.php)
