@@ -229,8 +229,7 @@ INSERT INTO `#__modules_menu` VALUES
 (39, 45),
 (39, 46),
 (39, 47),
-(40, 0),
-(42, 0);
+(40, 0);
 
 --
 -- Dumping data for table `#__newsfeeds`

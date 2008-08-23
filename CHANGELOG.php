@@ -41,11 +41,11 @@ $ -> Language fix or change
 23-Aug-2008 Wilco Jansen
  # [11327] Base path showed in media manager is missing slashes
  # [11561] Section blog resulting breadcrumbs issue
+ # [12399] Copying Newsflash Module in Sample Data results in 500 error and duplicate key for menu table
 
 22-Aug-2008 Toby Patterson
  # [#10965] Not all instances of module are deleted when module is uninstalled ( Andrzej and Sam )
  # [#11561] Patch: Beez Contact Image, typo in attribute value ( Rene and Elin )
- # []
 
 19-Aug-2008 Toby Patterson
  # [#12010] Remove confusing error message about language files for extension installations ( thanks Amy && Sam)
