@@ -39,6 +39,9 @@ $ -> Language fix or change
 ! -> Note
 
 23-Aug-2008 Plamen Petkov
+ ! Merge Note: 1.5-stable merged into up to 10777
+
+23-Aug-2008 Plamen Petkov
  # Fix "unnamed connection used" (factory.php)
  + Add Joda::dummy_connections(): a default set of default named connections
  ^ Make config_joda_connections more template-ish, not a controller-like
