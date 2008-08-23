@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+23-Aug-2008 Plamen Petkov
+ ! Branch 1.5-stable [up to rev.10752/23 Aug 2008] merged into Joda branch (line endings issue skipped)
+
 22-Aug-2008 Toby Patterson
  # [#10965] Not all instances of module are deleted when module is uninstalled ( Andrzej and Sam )
  # [#11959] Patch: Beez Contact Image, typo in attribute value ( Rene and Elin )
