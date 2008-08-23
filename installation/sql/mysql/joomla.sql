@@ -724,7 +724,7 @@ CREATE TABLE `#__weblinks` (
   `approved` tinyint(1) NOT NULL default '1',
   `params` text NOT NULL,
   PRIMARY KEY  (`id`),
-  KEY `catid` (`catid`,`published`,`archived`)
+  KEY `catid` (`catid`,`state`,`archived`)
 ) TYPE=MyISAM CHARACTER SET `utf8`;
 
 # --------------------------------------------------------
