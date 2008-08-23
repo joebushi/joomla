@@ -185,6 +185,45 @@ class Joda extends JObject
      */
     const DEFAULT_RELATION_PREFIX                   = 'jos_';
 
+    /**
+     * Max Named Connections Number
+     *
+     * Defines how many named connections could be defined as a configuration property.
+     * (currently configuration.php)
+     *
+     * @var integer
+     */
+    const MAX_NAMED_CONNECTIONS                   = 10;
+
+    /**
+     * Return an array of dummy connections, some kind of defaults
+     *
+     * This is to normalize the connections configuration and to describe possible properties...
+     * //TODO make it more elegant please
+     *
+     * @return array
+     */
+    static function dummy_connections() {
+    	$tmp = array();
+        for ( $i = 0; $i < self::MAX_NAMED_CONNECTIONS; $i++ ) {
+            $tmp[] = array(
+                           "name" => "",
+                           "default" => 0,
+                           "host" => "localhost",
+                           "port" => "",
+                           "user" => "" ,
+                           "password" => "",
+                           "database" => "",
+                           "driver" => "mysql",
+                           "prefix" => "jos_"
+            );
+        }
+        $tmp[0]["default"] = 1;
+        $tmp[0]["name"] = "default";
+
+        return $tmp;
+    }
+
 
 
 } //Joda

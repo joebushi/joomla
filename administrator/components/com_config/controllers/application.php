@@ -107,10 +107,37 @@ class ConfigControllerApplication extends ConfigController
                     JHTML::_('select.option', "pgsql", JText::_('PostgreSQL'))
                     );
 
-        // TODO Check for empty array; create a new one having some MAX connections (integer); set default etc.
-		while (list ($id , $cprops) = each($row->connections) ) {
-            $lists["dbdriver"][$id] = JHTML::_('select.genericlist',  $dbdrivers, 'condriver[]', 'class="inputbox" size="1"', 'value', 'text', $cprops["driver"]);
+        // Check for empty array; create a new one having some MAX connections (integer); set default etc.
+        $dummy_connections = Joda::dummy_connections(); // @see Joda::dummy_connections()
+
+        // Well, now, take all known (from config) connections, if any, and move them in the above "default" array /dummy one/
+        if ( (isset($row->connections)) && (count($row->connections) > 0) ) {
+            reset($row->connections);
+            $i = 0;
+            foreach ( $row->connections as $c ) {
+                $dummy_connections[$i] = $c;
+                $i++;
+            }
         }
+        $row->connections = $dummy_connections;
+
+        $lists["connections"] = "";
+		while (list ($id , $cprops) = each($row->connections) ) {
+            $dbdriverCombo = JHTML::_('select.genericlist',  $dbdrivers, 'condriver[]', 'class="inputbox" size="1"', 'value', 'text', $cprops["driver"]);
+            $checked = ( $cprops["default"] == 1 ) ? " CHECKED" : "";
+            $lists["connections"] .=
+	            '<tr>' .
+	            '<td><input class="text_area" type="radio" name="condefault" value="'.$id.' " '.$checked.' /></td>' .
+	            '<td><input class="text_area" type="text"  name="conname[]" size="20" value="'.$cprops["name"].'" /></td>'.
+	            '<td>'.$dbdriverCombo.'</td>'.
+	            '<td><input class="text_area" type="text"  name="conhost[]" size="30" value="'.$cprops["host"].'" /></td>'.
+	            '<td><input class="text_area" type="text"  name="conport[]" size="8" value="'.$cprops["port"].'" /></td>'.
+	            '<td><input class="text_area" type="text"  name="condatabase[]" size="30" value="'.$cprops["database"].'" /></td>'.
+	            '<td><input class="text_area" type="text"  name="conuser[]" size="20" value="'.$cprops["user"].'" /></td>'.
+	            '<td><input class="text_area" type="text"  name="conpassword[]" size="20" value="'.$cprops["password"].'" /></td>'.
+	            '<td><input class="text_area" type="text"  name="conprefix[]" size="20" value="'.$cprops["prefix"].'" /></td>'.
+	            '</tr>';
+		} // while
 
 
 

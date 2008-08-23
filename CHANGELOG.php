@@ -38,6 +38,12 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+23-Aug-2008 Plamen Petkov
+ # Fix "unnamed connection used" (factory.php)
+ + Add Joda::dummy_connections(): a default set of default named connections
+ ^ Make config_joda_connections more template-ish, not a controller-like
+ ^ Handle empty config connections, max connections number, etc. (com_config application.php controller)
+
 23-Aug-2008 Wilco Jansen
  # [11327] Base path showed in media manager is missing slashes
  # [11544] JSite::getParams() doesn't work as expected

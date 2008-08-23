@@ -782,7 +782,7 @@ class JFactory
             if ( $connection["default"] == 1 ) {
                 $defaultConnection = $connection;
             }
-            if ( $connection["name"] == $connectionname ) {
+            if ( ($connection["name"] == $connectionname) && ( !empty($connectionname) ) ) {
             	$namedConnection = $connection;
             }
         }
@@ -790,7 +790,7 @@ class JFactory
         if ( $namedConnection != null ) {
         	$connectionInfo = $namedConnection;
         }
-        elseif ( $defaultConnection != null ) {
+        else if ( $defaultConnection != null ) {
         	$connectionInfo = $defaultConnection;
         }
         else {
