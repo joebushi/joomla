@@ -46,6 +46,7 @@ $ -> Language fix or change
  # [12118] Latest version check &help.j.org at Joomla! Help
  # [12187] Ja_purity default article layout does not display Edit icon for authors
  # [12252] Outdated Links in Welcome to Joomla! and Newsfeed Fixes
+ # [12268] Multiple issues with Top menu in JA_Purity
  # [12399] Copying Newsflash Module in Sample Data results in 500 error and duplicate key for menu table
  # [12353] More aritcle links in section blog not working
 
