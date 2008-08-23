@@ -38,12 +38,24 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+23-Aug-2008 Wilco Jansen
+ # [11327] Base path showed in media manager is missing slashes
+ # [11544] JSite::getParams() doesn't work as expected
+ # [11561] Section blog resulting breadcrumbs issue
+ # [12080] System generated RSS feeds not rendering correctly for external URLs
+ # [12118] Latest version check &help.j.org at Joomla! Help
+ # [12187] Ja_purity default article layout does not display Edit icon for authors
+ # [12252] Outdated Links in Welcome to Joomla! and Newsfeed Fixes
+ # [12268] Multiple issues with Top menu in JA_Purity
+ # [12399] Copying Newsflash Module in Sample Data results in 500 error and duplicate key for menu table
+ # [12353] More aritcle links in section blog not working
+
 23-Aug-2008 Plamen Petkov
  ! Branch 1.5-stable [up to rev.10752/23 Aug 2008] merged into Joda branch (line endings issue skipped)
 
 22-Aug-2008 Toby Patterson
  # [#10965] Not all instances of module are deleted when module is uninstalled ( Andrzej and Sam )
- # [#11959] Patch: Beez Contact Image, typo in attribute value ( Rene and Elin )
+ # [#11561] Patch: Beez Contact Image, typo in attribute value ( Rene and Elin )
 
 19-Aug-2008 Toby Patterson
  # [#12010] Remove confusing error message about language files for extension installations ( thanks Amy && Sam)

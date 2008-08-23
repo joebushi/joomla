@@ -228,18 +228,19 @@ class JSite extends JApplication
 	 */
 	function &getParams($option = null)
 	{
-		static $params;
-
-		if (!is_object($params))
+		static $params = array();
+		$hash = '__default';
+		if(!empty($option)) $hash = $option;
+		if (!isset($params[$hash]))
 		{
 			// Get component parameters
 			if (!$option) {
 				$option = JRequest::getCmd('option');
 			}
-			$params = &JComponentHelper::getParams($option);
+			$params[$hash] =& JComponentHelper::getParams($option);
 
 			// Get menu parameters
-			$menus	= &JSite::getMenu();
+			$menus	=& JSite::getMenu();
 			$menu	= $menus->getActive();
 
 			$title       = htmlspecialchars_decode($this->getCfg('sitename' ));
@@ -248,16 +249,16 @@ class JSite extends JApplication
 			// Lets cascade the parameters if we have menu item parameters
 			if (is_object($menu))
 			{
-				$params->merge(new JParameter($menu->params));
+				$params[$hash]->merge(new JParameter($menu->params));
 				$title = $menu->name;
 
 			}
 
-			$params->def( 'page_title'      , $title );
-			$params->def( 'page_description', $description );
+			$params[$hash]->def( 'page_title'      , $title );
+			$params[$hash]->def( 'page_description', $description );
 		}
 
-		return $params;
+		return $params[$hash];
 	}
 
 	/**
