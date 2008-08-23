@@ -242,7 +242,7 @@ class JSite extends JApplication
 			$menus	= &JSite::getMenu();
 			$menu	= $menus->getActive();
 
-			$title       = $this->getCfg('sitename' );
+			$title       = htmlspecialchars_decode($this->getCfg('sitename' ));
 			$description = $this->getCfg('MetaDesc');
 
 			// Lets cascade the parameters if we have menu item parameters
