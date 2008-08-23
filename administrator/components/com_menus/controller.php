@@ -424,7 +424,7 @@ class MenusController extends JController
 		if(!$item->get('published')) {
 			$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menu, JText::_('The Default Menu Item Must Be Published') );
 			return false;
-		} 
+		}
 
 		$model =& $this->getModel( 'List' );
 		if ($model->setHome($id)) {

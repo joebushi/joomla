@@ -190,9 +190,9 @@ class UserController extends JController
 			JError::raiseError( 403, JText::_( 'Access Forbidden' ));
 			return;
 		}
-		
+
 		$user 	=& JFactory::getUser();
-		
+
 		if ( $user->get('guest')) {
 			JRequest::setVar('view', 'register');
 		} else {
@@ -274,7 +274,7 @@ class UserController extends JController
 		} else {
 			$message = JText::_( 'REG_COMPLETE' );
 		}
-		
+
 		$this->setRedirect('index.php', $message);
 	}
 

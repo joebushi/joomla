@@ -283,7 +283,7 @@ class MenusModelList extends JModel
 				if (!$found && $curr->menutype!=$menu) {
 					$curr->parent = 0;
 				}
-			} 
+			}
 			$curr->menutype = $menu;
 			$curr->ordering = '9999';
 			$curr->home		= 0;
@@ -294,7 +294,7 @@ class MenusModelList extends JModel
 			$curr->reorder( 'menutype = '.$this->_db->Quote($curr->menutype).' AND parent = '.(int) $curr->parent );
 		} // foreach
 
-		//Now, we need to rebuild sublevels... 
+		//Now, we need to rebuild sublevels...
 		$this->_rebuildSubLevel();
 		return true;
 	}
@@ -323,7 +323,7 @@ class MenusModelList extends JModel
 						break;
 					} // if
 				}
-			} 
+			}
 			if (!$found) {
 				$row->parent = 0;
 				$row->ordering = $ordering++;
@@ -712,7 +712,7 @@ class MenusModelList extends JModel
 	/*
 	 * Rebuild the sublevel field for items in the menu (if called with 2nd param = 0 or no params, it will rebuild entire menu tree's sublevel
 	 * @param array of menu item ids to change level to
-	 * @param int level to set the menu items to (based on parent 
+	 * @param int level to set the menu items to (based on parent
 	 */
 	function _rebuildSubLevel($cid = array(0), $level = 0)
 	{
@@ -735,7 +735,7 @@ class MenusModelList extends JModel
 			$query	= 'SELECT id FROM #__menu WHERE parent IN ('.$ids.')';
 			$db->setQuery( $query );
 			$cids 	= $db->loadResultArray( 0 );
-		}	
+		}
 		if (!empty( $cids )) {
 			$this->_rebuildSubLevel( $cids, $level + 1 );
 		}

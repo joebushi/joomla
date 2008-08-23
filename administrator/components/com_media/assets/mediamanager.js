@@ -39,7 +39,7 @@ var MediaManager = {
             },{ text: 'Media', open: true, data: { url: 'index.php?option=com_media&view=mediaList&tmpl=component', target: 'folderframe'}});
         this.tree.adopt('media-tree');
     },
-    
+
     submit: function(task)
     {
         form = window.frames['folderframe'].document.getElementById('mediamanager-form');

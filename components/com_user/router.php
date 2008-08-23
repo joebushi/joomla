@@ -23,7 +23,7 @@ function UserBuildRoute(&$query)
 			$menu = &JSite::getMenu();
 			$menuItem = &$menu->getItem( $query['Itemid'] );
 			if(!isset($menuItem->query['view']) || $menuItem->query['view'] != $query['view']) {
-				$segments[] = $query['view'];	
+				$segments[] = $query['view'];
 			}
 		}
 		unset($query['view']);
@@ -46,4 +46,3 @@ function UserParseRoute($segments)
 
 	return $vars;
 }
-?>

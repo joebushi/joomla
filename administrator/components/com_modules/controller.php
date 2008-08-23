@@ -535,7 +535,7 @@ class ModulesController extends JController
 				$lang->load( $module->module, $langbase );
 			}
 		}
-		
+
 		require_once( JPATH_COMPONENT.DS.'helpers'.DS.'xml.php' );
 		ModulesHelperXML::parseXMLModuleFile( $modules, $client );
 

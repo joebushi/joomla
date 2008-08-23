@@ -61,4 +61,3 @@ class UserViewRegister extends JView
 		parent::display($tpl);
 	}
 }
-?>
