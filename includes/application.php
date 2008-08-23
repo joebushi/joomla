@@ -229,7 +229,7 @@ class JSite extends JApplication
 	function &getParams($option = null)
 	{
 		static $params = array();
-		$hash = '__default';Q
+		$hash = '__default';
 		if(!empty($option)) $hash = $option;
 		if (!isset($params[$hash]))
 		{
