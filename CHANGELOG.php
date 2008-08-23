@@ -42,6 +42,7 @@ $ -> Language fix or change
  # [11327] Base path showed in media manager is missing slashes
  # [11544] JSite::getParams() doesn't work as expected
  # [11561] Section blog resulting breadcrumbs issue
+ # [12080] System generated RSS feeds not rendering correctly for external URLs
  # [12399] Copying Newsflash Module in Sample Data results in 500 error and duplicate key for menu table
  # [12353] More aritcle links in section blog not working
 
