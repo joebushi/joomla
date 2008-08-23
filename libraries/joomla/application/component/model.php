@@ -149,12 +149,13 @@ class JModel extends JObject
 	 *
 	 * @access	public
 	 * @param	string	Optional parameter name
+	 * @param   mixed	Optional default value
 	 * @return	object	The property where specified, the state object where omitted
 	 * @since	1.5
 	 */
-	function getState($property = null)
+	function getState($property = null, $default = null)
 	{
-		return $property === null ? $this->_state : $this->_state->get($property);
+		return $property === null ? $this->_state : $this->_state->get($property, $default);
 	}
 
 	/**
