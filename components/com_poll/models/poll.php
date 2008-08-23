@@ -60,5 +60,3 @@ class PollModelPoll extends JModel
 		$db->query();
 	}
 }
-
-?>

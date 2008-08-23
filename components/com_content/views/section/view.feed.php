@@ -70,4 +70,3 @@ class ContentViewSection extends JView
 		}
 	}
 }
-?>

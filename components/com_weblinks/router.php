@@ -265,4 +265,3 @@ function WeblinksParseRoute($segments)
 
 	return $vars;
 }
-?>

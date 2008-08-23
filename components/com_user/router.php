@@ -46,4 +46,3 @@ function UserParseRoute($segments)
 
 	return $vars;
 }
-?>

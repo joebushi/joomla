@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: route.php 9019 2007-09-26 00:40:35Z jinx $
+ * @version		$Id$
  * @package		Joomla
  * @subpackage	Weblinks
  * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.

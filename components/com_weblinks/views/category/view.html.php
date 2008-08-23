@@ -166,4 +166,3 @@ class WeblinksViewCategory extends JView
 		parent::display($tpl);
 	}
 }
-?>

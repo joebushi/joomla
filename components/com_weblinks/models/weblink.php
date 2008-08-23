@@ -291,4 +291,3 @@ class WeblinksModelWeblink extends JModel
 		return true;
 	}
 }
-?>

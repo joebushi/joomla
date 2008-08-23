@@ -30,11 +30,11 @@ class ContentViewArticle extends ContentView
 	{
 		global $mainframe;
 
-		$user		   =& JFactory::getUser();
-		$document	   =& JFactory::getDocument();
-		$dispatcher	   =& JDispatcher::getInstance();
-		$pathway	   =& $mainframe->getPathway();
-		$params 	   =& $mainframe->getParams('com_content');
+		$user		=& JFactory::getUser();
+		$document	=& JFactory::getDocument();
+		$dispatcher	=& JDispatcher::getInstance();
+		$pathway	=& $mainframe->getPathway();
+		$params		=& $mainframe->getParams('com_content');
 
 		// Initialize variables
 		$article	=& $this->get('Article');
@@ -175,8 +175,9 @@ class ContentViewArticle extends ContentView
 		// Initialize variables
 		$document	=& JFactory::getDocument();
 		$user		=& JFactory::getUser();
-		$uri    	=& JFactory::getURI();
+		$uri		=& JFactory::getURI();
 		$params		=& $mainframe->getParams('com_content');
+
 		// Make sure you are logged in and have the necessary access rights
 		if ($user->get('gid') < 19) {
 			  JResponse::setHeader('HTTP/1.0 403',true);
@@ -190,7 +191,6 @@ class ContentViewArticle extends ContentView
 		$isNew		= ($article->id < 1);
 
 		$params->merge($aparams);
-
 
 		// At some point in the future this will come from a request object
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
