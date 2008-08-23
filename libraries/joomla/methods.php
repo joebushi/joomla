@@ -18,7 +18,6 @@ defined('JPATH_BASE') or die();
  * Route handling class
  *
  * @static
- * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla.Framework
  * @since		1.5
  */

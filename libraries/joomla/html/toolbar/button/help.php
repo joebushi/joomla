@@ -18,7 +18,6 @@ defined('JPATH_BASE') or die();
 /**
  * Renders a help popup window button
  *
- * @author 		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage		HTML
  * @since		1.5

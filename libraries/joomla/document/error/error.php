@@ -18,7 +18,6 @@ defined('JPATH_BASE') or die();
 /**
  * DocumentError class, provides an easy interface to parse and display an error page
  *
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Document
  * @since		1.5

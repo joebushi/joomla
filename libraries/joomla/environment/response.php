@@ -27,7 +27,6 @@ $GLOBALS['_JRESPONSE']->body	 = array();
  * response variables.  This includes header and body.
  *
  * @static
- * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Environment
  * @since		1.5

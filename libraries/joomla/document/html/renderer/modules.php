@@ -18,7 +18,6 @@ defined('JPATH_BASE') or die();
 /**
  * JDocument Modules renderer
  *
- * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Document
  * @since		1.5

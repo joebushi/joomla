@@ -21,7 +21,6 @@ jimport( 'joomla.base.observer' );
  * JEvent Class
  *
  * @abstract
- * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Event
  * @since		1.5

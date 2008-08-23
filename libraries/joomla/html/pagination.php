@@ -19,7 +19,6 @@ defined('JPATH_BASE') or die();
  * Pagination Class.  Provides a common interface for content pagination for the
  * Joomla! Framework
  *
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	HTML
  * @since		1.5
@@ -532,7 +531,6 @@ class JPagination extends JObject
 /**
  * Pagination object representing a particular item in the pagination lists
  *
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	HTML
  * @since		1.5

@@ -14,7 +14,6 @@
 /**
  * Switcher behavior for configuration component
  *
- * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Extensions
  * @subpackage	Config
  * @since		1.5

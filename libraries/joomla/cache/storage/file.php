@@ -18,7 +18,6 @@ defined('JPATH_BASE') or die();
 /**
  * File cache storage handler
  *
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Cache
  * @since		1.5
@@ -58,12 +57,12 @@ class JCacheStorageFile extends JCacheStorage
 		$this->_setExpire($id, $group);
 		if (file_exists($path)) {
 			$data = file_get_contents($path);
-			if($data) {		
+			if($data) {
 				// Remove the initial die() statement
 				$data	= preg_replace('/^.*\n/', '', $data);
 			}
 		}
-		
+
 		return $data;
 	}
 
@@ -83,11 +82,11 @@ class JCacheStorageFile extends JCacheStorage
 		$path		= $this->_getFilePath($id, $group);
 		$expirePath	= $path . '_expire';
 		$die		= '<?php die("Access Denied"); ?>'."\n";
-		
+
 		// Prepend a die string
-		
+
 		$data		= $die.$data;
-		
+
 		$fp = @fopen($path, "wb");
 		if ($fp) {
 			if ($this->_locking) {

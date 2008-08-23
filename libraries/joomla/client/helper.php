@@ -14,8 +14,6 @@
  * Client helper class
  *
  * @static
- * @author		Louis Landry <louis.landry@joomla.org>
- * @author		Enno Klasing <friesengeist@gmail.com>
  * @package		Joomla.Framework
  * @subpackage	Client
  * @since		1.5

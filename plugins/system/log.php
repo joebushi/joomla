@@ -19,7 +19,6 @@ jimport( 'joomla.plugin.plugin' );
 /**
  * Joomla! System Logging Plugin
  *
- * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla
  * @subpackage	System
  */

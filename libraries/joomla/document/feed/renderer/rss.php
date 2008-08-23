@@ -19,8 +19,6 @@ defined('JPATH_BASE') or die();
  /**
  * JDocumentRenderer_RSS is a feed that implements RSS 2.0 Specification
  *
- * @author	Johan Janssens <johan.janssens@joomla.org>
- *
  * @package 	Joomla.Framework
  * @subpackage		Document
  * @see http://www.rssboard.org/rss-specification

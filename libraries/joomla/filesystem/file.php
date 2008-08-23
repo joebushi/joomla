@@ -21,7 +21,6 @@ jimport('joomla.filesystem.path');
  * A File handling class
  *
  * @static
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	FileSystem
  * @since		1.5

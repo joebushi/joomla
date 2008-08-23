@@ -20,7 +20,6 @@ jimport( 'joomla.plugin.plugin' );
 /**
  * Joomla Authentication plugin
  *
- * @author Louis Landry <louis.landry@joomla.org>
  * @package		Joomla
  * @subpackage	JFramework
  * @since 1.5

@@ -22,7 +22,6 @@ defined('JPATH_BASE') or die();
  * for the Joomla Framework to access and manipulate a URI.  Second to attain the URI of
  * the current executing script from the server regardless of server.
  *
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Environment
  * @since		1.5

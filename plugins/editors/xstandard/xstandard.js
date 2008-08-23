@@ -13,7 +13,6 @@
 /**
  * JXStandard javascript behavior
  *
- * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla
  * @since		1.5
  * @version     1.0

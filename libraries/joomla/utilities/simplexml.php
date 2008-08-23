@@ -350,7 +350,6 @@ class JSimpleXML extends JObject
  * To loop through all of the direct children of a specific tag for this object, it
  * is probably easier to use the arrays of the specific tag names, as explained above.
  *
- * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	Utilities
  * @since 1.5

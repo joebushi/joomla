@@ -24,7 +24,6 @@ jimport('joomla.filesystem.path');
  * Installer helper class
  *
  * @static
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Installer
  * @since		1.5

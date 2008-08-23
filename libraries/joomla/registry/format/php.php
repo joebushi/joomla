@@ -18,7 +18,6 @@ defined('JPATH_BASE') or die();
 /**
  * PHP class format handler for JRegistry
  *
- * @author 		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage		Registry
  * @since		1.5

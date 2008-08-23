@@ -45,7 +45,6 @@ require_once(JPATH_LIBRARIES.DS.'phputf8'.DS.'utf8.php');
  * All functions assume the validity of utf-8 strings.
  *
  * @static
- * @author 		David Gal <david@joomla.co.il>
  * @package 	Joomla.Framework
  * @subpackage	Utilities
  * @since		1.5
