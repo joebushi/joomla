@@ -27,7 +27,6 @@ Joomla! 1.6, including beta and release candidate versions.
 Our thanks to all those people who've contributed bug reports and
 code fixes.
 
-
 Legend:
 
 * -> Security Fix
@@ -38,9 +37,16 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+COMMITERS
+
+Do not forget to update this page on the wiki when making changes relevant to developers:
+http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
+
 23-Aug-2008 Andrew Eddie
  ! Partial merge with 10701 (around 1.5.6)
  - Remove old 1.5 RC sql diffs
+ ^ JModel::getState will now take an optional second argument to set a default
+ ^ JDatbase::setQuery cast the sql variable to a string allowing for the __toString interface to be used if an object is passed
 
 25-Jun-2008 Johan Janssens
  - Removed libraries/bitfolge/vcard
