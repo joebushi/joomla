@@ -186,11 +186,11 @@ class HTML_admin_misc
 							|
 							<?php echo JHTML::_('link', 'http://www.gnu.org/licenses/gpl-2.0.html', JText::_( 'License' ), array('target' => 'helpFrame')) ?>
 							|
-							<?php echo JHTML::_('link', 'http://help.joomla.org', 'help.joomla.org', array('target' => 'helpFrame')) ?>
+							<?php echo JHTML::_('link', 'http://docs.joomla.org', 'docs.joomla.org', array('target' => 'helpFrame')) ?>
 							|
 							<?php echo JHTML::_('link', 'index.php?option=com_admin&amp;task=changelog&amp;tmpl=component', JText::_( 'Changelog' ), array('target' => 'helpFrame')) ?>
 							|
-							<?php echo JHTML::_('link', 'http://www.joomla.org/content/blogcategory/57/111/', JText::_( 'Latest Version Check' ), array('target' => 'helpFrame')) ?>
+							<?php echo JHTML::_('link', 'http://docs.joomla.org/index.php?title=Joomla_1.5_version_history&printable=true', JText::_( 'Latest Version Check' ), array('target' => 'helpFrame')) ?>
 						</td>
 					</tr>
 				</table>
