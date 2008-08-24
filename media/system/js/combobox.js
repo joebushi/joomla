@@ -1,5 +1,5 @@
 /**
-* @version		$Id: modal.js 5263 2006-10-02 01:25:24Z webImagery $
+* @version		$Id$
 * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
