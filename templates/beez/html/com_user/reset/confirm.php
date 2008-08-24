@@ -1,4 +1,4 @@
-<?php // @version $Id: confirm.php  $
+<?php // @version $Id$
 defined('_JEXEC') or die('Restricted access');
 ?>
 

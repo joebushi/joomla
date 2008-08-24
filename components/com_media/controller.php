@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: media.php 8660 2007-08-30 23:53:21Z louis $
+ * @version		$Id$
  * @package		Joomla
  * @subpackage	Massmail
  * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
