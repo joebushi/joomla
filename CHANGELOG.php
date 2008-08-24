@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+24-Aug-2008 Sam Moffatt
+ # [11970] ja_purity email and print button files misnamed and not used
+
 23-Aug-2008 Wilco Jansen
  # [11327] Base path showed in media manager is missing slashes
  # [11544] JSite::getParams() doesn't work as expected
