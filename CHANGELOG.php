@@ -38,6 +38,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+24-Aug-2008 Plamen Petkov
+ ! Joda branch should be considered now: line-endings clean, prop-sets done (php/css/js/ini files), and ...
+ ! ... and Joomla 1.5-stable branch merged into Joda branch up to rev.10777. DONE.
+
 23-Aug-2008 Plamen Petkov
  ! Merge Note: 1.5-stable merged into up to  10777
 
