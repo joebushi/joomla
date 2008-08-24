@@ -21,6 +21,9 @@
 defined( 'JPATH_BASE' ) or die();
 
 
+//FIXME: Make QueryBuilder returning an array of strings, not A string
+//TODO: Use quoting methods from PDO ?
+//FIXME: replaceString() is or should be DB aware (quoting symbols)
 
 
 /**
@@ -1666,7 +1669,7 @@ abstract class JQueryBuilder extends JObject
 
         $result = array();
         foreach ( $this->_sql as $query ) {
-        	//Replace Prefix
+        	//XXX Replace Prefix ?? Still not decided here or in dataset/connection?
             $result[] = $this->replaceString($query, $this->_prefix, $this->_relation_prefix);
         }
 

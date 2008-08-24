@@ -119,8 +119,10 @@ class ConfigControllerApplication extends ConfigController
                 $i++;
             }
         }
+        // Set back
         $row->connections = $dummy_connections;
 
+        // Prepare the list (HTML code) for template
         $lists["connections"] = "";
 		while (list ($id , $cprops) = each($row->connections) ) {
             $dbdriverCombo = JHTML::_('select.genericlist',  $dbdrivers, 'condriver[]', 'class="inputbox" size="1"', 'value', 'text', $cprops["driver"]);

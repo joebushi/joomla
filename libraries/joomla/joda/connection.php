@@ -21,6 +21,13 @@
 defined( 'JPATH_BASE' ) or die();
 
 
+//FIXME: Start Try/Catch wrapping of queires
+//TODO: Handle "In-Transaction" status
+//TODO: If you need metadata - select * from table where 1=1  (?!?!)
+//TODO: Prepared statements? Optional? Parameters?
+//TODO: Multi-line SQL not allowed (I mean semicolons NOT allowed! /';'/!!!!
+
+
 /**
  * Database Connection Class
  *
@@ -130,6 +137,7 @@ abstract class JConnection extends PDO
     {
         jimport("joomla.joda.statement");
         $dsn = $this->_drivername.":port=".$this->_port.";host=" . $this->_host . ";dbname=" . $this->_database;
+        //TODO: PDO driver options ???? PDO::ATTR_STRINGIFY_FETCHES: Convert numeric values to strings when fetching ???
         parent::__construct($dsn, $this->_user, $this->_password, $this->_driver_options);
         $this->setAttribute(PDO::ATTR_STATEMENT_CLASS, array("JStatement"));
     }
@@ -220,10 +228,11 @@ abstract class JConnection extends PDO
     /**
      * Execute SQL queries.
      *
-     * @param array
-     * @return object JStatement
+     * @param array An array of strings (SQL queries); NO ending semicolons! (';')
+     * @param array Parameter values to bind //XXX: Lot of work on this (parameters binding)
+     * @return boolean Result of the execution
      */
-    function doQuery($sql, $parameters=array())
+    function doQuery( $sql, $parameters=array() )
     {
         $result = false;
         $statement = null;

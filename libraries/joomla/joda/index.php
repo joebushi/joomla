@@ -14,8 +14,6 @@
  * @author      Plamen Petkov <plamendp@zetcom.bg>
 */
 
-
-
 //  Set flag that this is a parent file
 define( '_JEXEC', 1 );
 define( 'JPATH_BASE', "../../../" );
@@ -158,7 +156,8 @@ function test( $test) {
 
 
     echo "<P><B>Transaction</B><HR>";
-    $dataset->setSQL(array("insert into #__groups values(4,'test')"));
+    $query_array = array($qb1->replacePrefix( "insert into #__groups values(4,'test')"));
+    $dataset->setSQL($query_array);
     $dataset->open();
 
 

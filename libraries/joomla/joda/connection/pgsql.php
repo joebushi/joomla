@@ -21,6 +21,9 @@
 defined( 'JPATH_BASE' ) or die();
 
 
+//TODO: Non-standard use of escape strings in Postgresql!!!?!?!?!?! .. i.e. the E'blah-blah\nblah' issue
+
+
 /**
  * PgSQL Connection Class
  *

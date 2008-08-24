@@ -33,6 +33,8 @@ defined( 'JPATH_BASE' ) or die();
 class JDataset extends JObject
 {
 
+	//TODO: make as many as possible properties protected!
+
     /**
      * Connection Object
      *
@@ -113,6 +115,9 @@ class JDataset extends JObject
     function open()
     {
         $this->close();
+
+        //FIXME: Can't decide where to replace the prefix: in dataset/connection methods or outside, in query builder?
+        // Maybe it must be here to use DB-aware quoting methods? .. mess
 
         /*
         // Replace Prefixes

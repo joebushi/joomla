@@ -48,21 +48,6 @@ defined( 'JPATH_BASE' ) or die();
  * @subpackage  Joda
  * @author      Plamen Petkov <plamendp@zetcom.bg>
  *
- * @todo Use PDO::ATTR_STRINGIFY_FETCHES: Convert numeric values to strings when fetching
- * @todo Try/Catch for transaction related issues and queries and all.. :-)
- * @todo Prepared statements? Optional? Parameters?
- * @todo Parameters in doQuery()/Query()
- * @todo Use quoting from PDO in Querybuilder
- * @todo For metadata - select * from table where 1=1  (?!?!)
- * @todo Make QueryBuilder returning array of strings, not A string
- * @todo handle "In-Transaction" status
- * @todo Non-standard use of escape strings in Postgresql!!!?!?!?!?!
- * @todo Multi-line SQL not allowed !!!!
- * @todo replaceString() : make it DB aware (quoting symbols)
- * @todo JDataset properties - make them protected
- * @todo Finish the PREFIX mess
- *
- *
  */
 class Joda extends JObject
 {
