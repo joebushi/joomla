@@ -109,7 +109,7 @@ class ContactViewContact extends JView
 			$contact->email_to = JHTML::_('email.cloak', $contact->email_to);
 		}
 
-		if ($contact->params->get('show_street_adress') || $contact->params->get('show_suburb') || $contact->params->get('show_state') || $contact->params->get('show_postcode') || $contact->params->get('show_country'))
+		if ($contact->params->get('show_street_address') || $contact->params->get('show_suburb') || $contact->params->get('show_state') || $contact->params->get('show_postcode') || $contact->params->get('show_country'))
 		{
 			if (!empty ($contact->address) || !empty ($contact->suburb) || !empty ($contact->state) || !empty ($contact->country) || !empty ($contact->postcode)) {
 				$contact->params->set('address_check', 1);
