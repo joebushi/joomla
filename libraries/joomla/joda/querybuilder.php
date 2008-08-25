@@ -222,9 +222,12 @@ abstract class JQueryBuilder extends JObject
     /**
      * Query Parameters (for Prepared statements)
      *
+     * Ex. array(array(1,2,3), array(4,5,6), array(7,8,9)): execute a single query 3 times
+     *
      * @var array
      */
-    protected $_parameters = array();
+    xxx
+    protected $_query_parameters = array();
 
 
     /**

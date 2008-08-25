@@ -38,8 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-24-Aug-2008 Sam Moffatt
- ! Merge Note: 1.5-stable changes merged (rev. 10778-10792)
+25-Aug-2008 Plamen Petkov
+ + Add debuging to JConnection class
+ ^ Rename some variables/properties  
 
 24-Aug-2008 Sam Moffatt
  # [11970] ja_purity email and print button files misnamed and not used
@@ -47,6 +48,8 @@ $ -> Language fix or change
 24-Aug-2008 Plamen Petkov
  ! Joda branch should be considered now: line-endings clean, prop-sets done (php/css/js/ini files), and ...
  ! ... and Joomla 1.5-stable branch merged into Joda branch up to rev.10777. DONE.
+
+23-Aug-2008 Plamen Petkov
 
 23-Aug-2008 Plamen Petkov
  ! Merge Note: 1.5-stable merged into up to  10777

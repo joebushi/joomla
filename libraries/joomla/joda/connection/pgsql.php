@@ -37,7 +37,7 @@ class JConnectionPgSQL extends JConnection
     protected $_drivername             = "pgsql";
     protected $_port                   = "5432";
     protected $_transaction_isolevel   = Joda::READ_COMMITED;
-    protected $_driver_options         = array();
+    protected $_pdo_driver_options         = array();
 
     /**
     * This driver Transaction Isolation Level Names

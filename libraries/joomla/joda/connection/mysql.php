@@ -34,7 +34,7 @@ class JConnectionMySQL extends JConnection
     protected $_drivername            = "mysql";
     protected $_port                      = "3306";
     protected $_transaction_isolevel  = Joda::REPEATABLE_READ;
-    protected $_driver_options        = array();
+    protected $_pdo_driver_options        = array();
 
     /**
     * This driver Transaction Isolation Level Names

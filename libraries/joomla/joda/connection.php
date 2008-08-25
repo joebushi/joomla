@@ -26,6 +26,7 @@ defined( 'JPATH_BASE' ) or die();
 //TODO: If you need metadata - select * from table where 1=1  (?!?!)
 //TODO: Prepared statements? Optional? Parameters?
 //TODO: Multi-line SQL not allowed (I mean semicolons NOT allowed! /';'/!!!!
+//TODO: Log queries in debug mode
 
 
 /**
@@ -88,7 +89,7 @@ abstract class JConnection extends PDO
      *
      * @var array An array of Key=>Value PDO options
      */
-    protected $_driver_options            = array();
+    protected $_pdo_driver_options            = array();
 
 
     /**
@@ -125,7 +126,26 @@ abstract class JConnection extends PDO
      */
     protected $_relation_prefix = Joda::DEFAULT_RELATION_PREFIX;
 
+    /**
+     * Debug mode
+     *
+     * @var integer
+     */
+    protected $_debug = 0;
 
+    /**
+     * Query counter
+     *
+     * @var integer
+     */
+    protected $_ticker = 0;
+
+    /**
+     * Query log array
+     *
+     * @var array
+     */
+    protected $_log = 0;
 
     /**
      * Class constructor
@@ -138,7 +158,7 @@ abstract class JConnection extends PDO
         jimport("joomla.joda.statement");
         $dsn = $this->_drivername.":port=".$this->_port.";host=" . $this->_host . ";dbname=" . $this->_database;
         //TODO: PDO driver options ???? PDO::ATTR_STRINGIFY_FETCHES: Convert numeric values to strings when fetching ???
-        parent::__construct($dsn, $this->_user, $this->_password, $this->_driver_options);
+        parent::__construct($dsn, $this->_user, $this->_password, $this->_pdo_driver_options);
         $this->setAttribute(PDO::ATTR_STATEMENT_CLASS, array("JStatement"));
     }
 
@@ -229,10 +249,10 @@ abstract class JConnection extends PDO
      * Execute SQL queries.
      *
      * @param array An array of strings (SQL queries); NO ending semicolons! (';')
-     * @param array Parameter values to bind //XXX: Lot of work on this (parameters binding)
+     * @param array An array of Query Parameter.
      * @return boolean Result of the execution
      */
-    function doQuery( $sql, $parameters=array() )
+    function doQuery( $sql, $query_parameters=array() )
     {
         $result = false;
         $statement = null;
@@ -251,19 +271,22 @@ abstract class JConnection extends PDO
     /**
      * Execute SQL queries, enclosing them in a transaction if Autocommit mode is off.
      *
-     * NOTE:Currently Isolation Levels not implemented yet! Using the server default one!
+     * NOTE: Currently Isolation Levels are not implemented! Using the server default one!
      *
      * @param array Arrays of sql queries
-     * @return
+     * @return boolean
      */
     function query($sql)
     {
+
+    	// Clear previous PDO Statement object (if any)
         $this->_statement = null;
 
         $result = false;
 
         if ( ! $this->_autocommit ) {
             $this->beginTransaction();
+
             if ( $this->doQuery($sql) ) {
                 $result = $this->Commit();
             }
