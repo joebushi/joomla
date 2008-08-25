@@ -320,14 +320,14 @@ class JTableUser extends JTable
 	}
 
 	/**
-	* Overloaded bind function
-	*
-	* @access public
-	* @param array $hash named array
-	* @return null|string	null is operation was satisfactory, otherwise returns an error
-	* @see JTable:bind
-	* @since 1.5
-	*/
+	 * Overloaded bind function
+	 *
+	 * @access public
+	 * @param array $hash named array
+	 * @return null|string	null is operation was satisfactory, otherwise returns an error
+	 * @see JTable:bind
+	 * @since 1.5
+	 */
 
 	function bind($array, $ignore = '')
 	{
