@@ -289,6 +289,10 @@ class JDatabaseMySQLi extends JDatabase
 			$command_line = trim( $command_line );
 			if ($command_line != '') {
 				$this->_cursor = mysqli_query( $this->_resource, $command_line );
+				if ($this->_debug) {
+					$this->_ticker++;
+					$this->_log[] = $command_line;
+				}
 				if (!$this->_cursor) {
 					$error = 1;
 					$this->_errorNum .= mysqli_errno( $this->_resource ) . ' ';
