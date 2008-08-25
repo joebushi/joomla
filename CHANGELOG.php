@@ -42,6 +42,12 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+25-Aug-2008 Andrew Eddie
+ + Added JQuery class
+ + Added .invalid styles to admin template for form validation
+ + Added new filters to com_users list
+ + Added support to manage groups in com_users
+
 23-Aug-2008 Andrew Eddie
  ! Partial merge with 10701 (around 1.5.6)
  - Remove old 1.5 RC sql diffs
