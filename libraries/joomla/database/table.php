@@ -723,8 +723,7 @@ class JTable extends JObject
 		if (!$this->checkin()) {
 			return false;
 		}
-		if ($order_filter)
-		{
+		if ($order_filter) {
 			$filter_value = $this->$order_filter;
 			$this->reorder( $order_filter ? $this->_db->nameQuote( $order_filter ).' = '.$this->_db->Quote( $filter_value ) : '' );
 		}
