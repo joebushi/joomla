@@ -321,7 +321,7 @@ class ContentModelArticle extends JModel
 			$article->publish_down = $date->toMySQL();
 		}
 
-		$article->title = trim( JFilterOutput::ampReplace($article->title) );
+		$article->title = trim( $article->title );
 
 		// Publishing state hardening for Authors
 		if (!$user->authorize('com_content', 'publish', 'content', 'all'))

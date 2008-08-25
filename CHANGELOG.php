@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+25-Aug-2008 Toby Patterson
+ # [#10384] Single quote in title is escaped twice when editing an article in frontend ( Arnault, Bill )
+
 24-Aug-2008 Sam Moffatt
  # [11970] ja_purity email and print button files misnamed and not used
 
