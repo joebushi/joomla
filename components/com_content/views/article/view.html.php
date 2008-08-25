@@ -244,9 +244,6 @@ class ContentViewArticle extends ContentView
 			$article->text = $article->introtext;
 		}
 
-		// Ensure the row data is safe html
-		JFilterOutput::objectHTMLSafe( $article);
-
 		$this->assign('action', 	$uri->toString());
 
 		$this->assignRef('article',	$article);

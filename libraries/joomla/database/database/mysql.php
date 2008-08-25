@@ -273,6 +273,10 @@ class JDatabaseMySQL extends JDatabase
 			$command_line = trim( $command_line );
 			if ($command_line != '') {
 				$this->_cursor = mysql_query( $command_line, $this->_resource );
+				if ($this->_debug) {
+					$this->_ticker++;
+					$this->_log[] = $command_line;
+				}
 				if (!$this->_cursor) {
 					$error = 1;
 					$this->_errorNum .= mysql_errno( $this->_resource ) . ' ';
