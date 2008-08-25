@@ -800,7 +800,8 @@ CREATE TABLE `#__core_acl_groups_aro_map` (
   `group_id` int(11) NOT NULL default '0',
   `section_value` varchar(240) NOT NULL default '',
   `aro_id` int(11) NOT NULL default '0',
-  UNIQUE KEY `group_id_aro_id_groups_aro_map` (`group_id`,`section_value`,`aro_id`)
+  UNIQUE KEY `group_id_aro_id_groups_aro_map` (`group_id`,`section_value`,`aro_id`),
+  INDEX `aro_id_group_id_group_aro_map` USING BTREE(`aro_id`, `group_id`)
 ) TYPE=MyISAM CHARACTER SET `utf8`;
 
 # --------------------------------------------------------
