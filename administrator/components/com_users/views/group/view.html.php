@@ -16,7 +16,7 @@ jimport('joomla.application.component.view');
  * @package		Joomla.Administrator
  * @subpackage	com_users
  */
-class UserViewUser extends JView
+class UserViewGroup extends JView
 {
 	/**
 	 * Display the view
@@ -36,10 +36,6 @@ class UserViewUser extends JView
 		}
 		else {
 			// New
-			$config		= &JComponentHelper::getParams( 'com_users' );
-			$acl		= &JFactory::getACL();
-			$newGrp		= $config->get( 'new_usertype' );
-			$item->set( 'gid', $acl->get_group_id( $newGrp, null, 'ARO' ) );
 		}
 
 		$this->_setToolBar();
@@ -54,14 +50,14 @@ class UserViewUser extends JView
 	function _setToolBar()
 	{
 		$isNew = ($this->item->get( 'id' ) == 0);
-		JToolBarHelper::title( JText::_( ($isNew ? 'Add User' : 'Edit User' ) ), 'user' );
+		JToolBarHelper::title( JText::_( ($isNew ? 'Add Group' : 'Edit Group' ) ), 'user' );
 		if (!$isNew) {
-			JToolBarHelper::custom( 'user.save2copy', 'copy.png', 'copy_f2.png', 'Save To Copy', false );
+			JToolBarHelper::custom( 'group.save2copy', 'copy.png', 'copy_f2.png', 'Save To Copy', false );
 		}
-		JToolBarHelper::custom( 'user.save2new', 'new.png', 'new_f2.png', 'Save And New', false );
-		JToolBarHelper::save( 'user.save' );
-		JToolBarHelper::apply( 'user.apply' );
-		JToolBarHelper::cancel( 'user.cancel' );
-		JToolBarHelper::help( 'screen.users.edit' );
+		JToolBarHelper::custom( 'group.save2new', 'new.png', 'new_f2.png', 'Save And New', false );
+		JToolBarHelper::save( 'group.save' );
+		JToolBarHelper::apply( 'group.apply' );
+		JToolBarHelper::cancel( 'group.cancel' );
+		JToolBarHelper::help( 'screen.groups.edit' );
 	}
 }
