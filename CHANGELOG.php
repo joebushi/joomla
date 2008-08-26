@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+26-Aug-2008 Charl van Niekerk
+ # [#9824] alt tags missing for some img tags ( Gergo Erdosi )
+
 25-Aug-2008 Toby Patterson
  # [#10265] & not replaced with &amp; in the external links ( Denis, Hannes )
  # [#10384] Single quote in title is escaped twice when editing an article in frontend ( Arnault, Bill )
