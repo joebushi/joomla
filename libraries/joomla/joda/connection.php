@@ -43,7 +43,7 @@ abstract class JConnection extends PDO
     /**
      * PDO Statement object
      *
-     * Holding the result of the last executed query
+     * Holding the result set (if any) of the last executed query
      *
      * @var object PDOStatement
      */
@@ -152,6 +152,8 @@ abstract class JConnection extends PDO
 
         // set global PDO driver options(apply to all connections)
         $this->setAttribute(PDO::ATTR_STRINGIFY_FETCHES, true);
+        //$this->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
     }
 
     /**
@@ -248,28 +250,34 @@ abstract class JConnection extends PDO
     {
         $result = true;
         $statement = new PDOStatement();
-        foreach ( $sql as $query )
-        {
-        	$statement->closeCursor();
+        foreach ( $sql as $query ) {
+            if ( is_a($statement, "PDOStatement") ) {
+               $statement->closeCursor();
+            }
             $statement = $this->query($query);
+            if ( ! $statement ) {
+                break;
+            }
         }
         $this->_resultset = $statement;
+        $result = is_a($statement, "PDOStatement");
         return $result;
     }
 
 
     /**
-     * Execute SQL queries, enclosing them in a transaction if Autocommit mode is off.
+     * Execute SQL queries
+     *
+     * Enclosing the whole batch in a transaction block if Autocommit mode is off.
      *
      * NOTE: Currently Isolation Levels are not implemented! Using the server default one!
      *
      * @param array Arrays of sql queries
      * @return boolean
      */
-    function doQueries($sql)
+    function execQueries($sql)
     {
         $result = false;
-        print_r($sql);
         if ( ! $this->_autocommit ) {
             $this->beginTransaction();
 

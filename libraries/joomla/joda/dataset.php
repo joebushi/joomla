@@ -105,10 +105,12 @@ class JDataset extends JObject
      *
      * Execute dataset's query strings
      *
+     * @return boolean Success/Failure
      */
     function open()
     {
-    	$this->connection->doQueries($this->_sql);
+    	$result = $this->connection->execQueries($this->_sql);
+    	return $result;
     }
 
 
