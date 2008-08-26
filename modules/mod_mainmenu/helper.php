@@ -309,7 +309,7 @@ class JMenuTree extends JTree
 				break;
 
 			case 'url' :
-				if ((strpos($tmp->link, 'index.php?') !== false) && (strpos($tmp->link, 'Itemid=') === false)) {
+				if ((strpos($tmp->link, 'index.php?') === 0) && (strpos($tmp->link, 'Itemid=') === false)) {
 					$tmp->url = $tmp->link.'&amp;Itemid='.$tmp->id;
 				} else {
 					$tmp->url = $tmp->link;

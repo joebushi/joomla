@@ -39,6 +39,7 @@ $ -> Language fix or change
 ! -> Note
 
 25-Aug-2008 Toby Patterson
+ # [#10265] & not replaced with &amp; in the external links ( Denis, Hannes )
  # [#10384] Single quote in title is escaped twice when editing an article in frontend ( Arnault, Bill )
  # [#11115] queryBatch does not log queries in debugmode ( Ian )
  # [#12441] Street Address is not shown in contacts ( Eduardo, JBS )
