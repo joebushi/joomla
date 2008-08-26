@@ -34,7 +34,6 @@ class JConnectionMySQL extends JConnection
     protected $_drivername            = "mysql";
     protected $_port                      = "3306";
     protected $_transaction_isolevel  = Joda::REPEATABLE_READ;
-    protected $_pdo_driver_options        = array();
 
     /**
     * This driver Transaction Isolation Level Names
@@ -62,6 +61,9 @@ class JConnectionMySQL extends JConnection
         $this->_password = $options["password"];
         $this->_port = $options["port"];
         parent::__construct();
+
+
+        // Set driver/connection specific PDO driver options
 
         // Buffered query must be turn ON, transaction problems arise otherwise.
         // Commit() without fetchAll() brings "There is already active transaction..."

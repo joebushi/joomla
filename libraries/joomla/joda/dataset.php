@@ -33,8 +33,6 @@ defined( 'JPATH_BASE' ) or die();
 class JDataset extends JObject
 {
 
-	//TODO: make as many as possible properties protected!
-
     /**
      * Connection Object
      *
@@ -51,33 +49,6 @@ class JDataset extends JObject
 
 
     /**
-     * Data, the result of the query
-     *
-     * @var array
-     */
-    public $_data = array();
-
-    /**
-     * Result set Fields/Columns metadata
-     *
-     * For more information: {@link http://www.php.net/manual/en/pdostatement.getcolumnmeta.php}
-     *
-     * @var array
-     */
-    public $_fields = array();
-
-
-    /**
-     * The nature of the JDataset->{@link $data} property
-     *
-     * @var integer {@link Joda::DATA_ASTABLE}: as table | {@link Joda::DATA_ASOBJECTS}: as an array of objects
-     */
-    public $datatype = Joda::DATA_ASTABLE;
-
-
-
-
-    /**
      * Description
      *
      * @param
@@ -88,85 +59,6 @@ class JDataset extends JObject
         $this->connection = JFactory::getDBConnection($connectionname);
         $this->Close();
     }
-
-
-
-
-
-    /**
-     * Description
-     *
-     * @param
-     * @return
-     */
-    function close()
-    {
-        $this->_fields = array();
-        $this->_data = array();
-    }
-
-
-    /**
-     * Description
-     *
-     * @param
-     * @return
-     */
-    function open()
-    {
-        $this->close();
-
-        //FIXME: Can't decide where to replace the prefix: in dataset/connection methods or outside, in query builder?
-        // Maybe it must be here to use DB-aware quoting methods? .. mess
-
-        /*
-        // Replace Prefixes
-        $tmp = array();
-        foreach ( $this->_sql as $sql ) {
-            $tmp[] = $this->_querybuilder->replaceString($sql, $this->_prefix, $this->connection->getRelationPrefix());
-        }
-        $this->_sql = $tmp;
-        */
-
-        switch ($this->datatype) {
-
-            case Joda::DATA_ASTABLE:
-                $this->openAsTable();
-                break;
-
-            case Joda::DATA_ASOBJECTS:
-                $this->openAsObjects();
-                break;
-        } // switch
-
-    }
-
-    /**
-     * Description
-     *
-     * @param
-     * @return
-     */
-    function openAsTable()
-    {
-        $this->_data = $this->connection->FetchDataAsTable($this->_sql);
-        $this->_fields = $this->connection->getFieldsMeta();
-    }
-
-
-    /**
-     * Description
-     *
-     * @param
-     * @return
-     */
-    function openAsObjects()
-    {
-        $this->_data = $this->connection->FetchDataAsObjects($this->_sql);
-        $this->_fields = $this->connection->getFieldsMeta();
-    }
-
-
 
     /**
      * Description
@@ -207,6 +99,42 @@ class JDataset extends JObject
         return JFactory::getQueryBuilder($this->connection->getDriverName(), $prefix, $this->connection->getRelationPrefix());
     }
 
+
+    /**
+     * Open dataset
+     *
+     * Execute dataset's query strings
+     *
+     */
+    function open()
+    {
+    	$this->connection->doQueries($this->_sql);
+    }
+
+
+    /**
+     * Close dataset
+     */
+    function close()
+    {
+    }
+
+    /**
+     * Get next row data from dataset
+     */
+    function next()
+    {
+    }
+
+
+    /**
+     * Get next row data from dataset
+     */
+    function fetchAll()
+    {
+        $result = $this->connection->fetchAllAsTable();
+        return $result;
+    }
 
 
 } //JDataset

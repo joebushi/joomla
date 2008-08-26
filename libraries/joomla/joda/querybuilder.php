@@ -220,17 +220,6 @@ abstract class JQueryBuilder extends JObject
 
 
     /**
-     * Query Parameters (for Prepared statements)
-     *
-     * Ex. array(array(1,2,3), array(4,5,6), array(7,8,9)): execute a single query 3 times
-     *
-     * @var array
-     */
-    xxx
-    protected $_query_parameters = array();
-
-
-    /**
      * SQL Strings. NOTE PLEASE: AN ARRAY!!!
      *
      * @var array
@@ -1672,7 +1661,6 @@ abstract class JQueryBuilder extends JObject
 
         $result = array();
         foreach ( $this->_sql as $query ) {
-        	//XXX Replace Prefix ?? Still not decided here or in dataset/connection?
             $result[] = $this->replaceString($query, $this->_prefix, $this->_relation_prefix);
         }
 

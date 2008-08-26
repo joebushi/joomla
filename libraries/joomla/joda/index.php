@@ -130,29 +130,23 @@ function test( $test) {
 
     $qb1 = $dataset->getQueryBuilder();
     $qb2 = $dataset->getQueryBuilder();
-
     $qb1->select('menutype')->from('#__menu');
     $qb2->select('*')->from('#__groups');
-
-    $dataset->setSQL($qb1->getSQL());
+    $sql_array = array_merge($qb1->getSQL(), $qb2->getSQL());
+    $dataset->setSQL($sql_array);
     $dataset->open();
-    print_r($dataset->_data);
-
-    $dataset->setSQL($qb2->getSQL());
-    $dataset->open();
-    echo "<HR>";
-    print_r($dataset->_data);
-
+    $data = $dataset->fetchAll();
+    print_r($data);
 
 
     echo "<P><B>Open sections</B><HR>";
     $sections->open();
-    print_r($sections->_data);
+    //print_r($sections->_data);
 
 
     echo "<P><B>Open Users</B><HR>";
     $users->open();
-    print_r($users->_data);
+    //print_r($users->_data);
 
 
     echo "<P><B>Transaction</B><HR>";
@@ -161,21 +155,6 @@ function test( $test) {
     $dataset->open();
 
 
-
-    echo "<P><B>Fields</B><HR>";
-    $dataset2 = JFactory::getDBSet();
-    $qbf = $dataset2->getQueryBuilder();
-    $s = "select * from #__groups as xx";
-    $s = $qbf->replacePrefix($s);
-    $dataset2->setSQL(array($s));
-    $dataset2->open();
-    echo "RecCount=" . $dataset2->recordCount() . "<BR>";
-    foreach ($dataset2->_fields as $field)
-    {
-        echo $field["name"] . ":";
-        print_r($field);
-        echo "<BR>";
-    }
 
     echo "<P><B>All datasets using the same Connection Instance</B><HR>";
     $dataset2 = JFactory::getDBSet();

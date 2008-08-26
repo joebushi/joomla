@@ -41,13 +41,13 @@ abstract class JConnection extends PDO
 {
 
     /**
-     * PDO Dtatement class.
+     * PDO Statement object
      *
-     * It's an object holding the result of queries, prepared statement, etc.
+     * Holding the result of the last executed query
      *
-     * @var object JStatement
+     * @var object PDOStatement
      */
-    protected $_statement                 = null;
+    protected $_resultset                 = null;
 
     /**
      * Database host name or IP address
@@ -83,14 +83,6 @@ abstract class JConnection extends PDO
      * @var string
      */
     protected $_password                  = "";
-
-    /**
-     * PDO Database Driver Options
-     *
-     * @var array An array of Key=>Value PDO options
-     */
-    protected $_pdo_driver_options            = array();
-
 
     /**
      * Transaction Isolation level used if and when transactions are involved.
@@ -150,16 +142,16 @@ abstract class JConnection extends PDO
     /**
      * Class constructor
      *
-     * @param
+     * @param array Driver specific PDO driver options array, merged to parent's one
      * @return object JConnection
      */
-    function __construct()
+    function __construct($driver_options=array())
     {
-        jimport("joomla.joda.statement");
-        $dsn = $this->_drivername.":port=".$this->_port.";host=" . $this->_host . ";dbname=" . $this->_database;
-        //TODO: PDO driver options ???? PDO::ATTR_STRINGIFY_FETCHES: Convert numeric values to strings when fetching ???
-        parent::__construct($dsn, $this->_user, $this->_password, $this->_pdo_driver_options);
-        $this->setAttribute(PDO::ATTR_STATEMENT_CLASS, array("JStatement"));
+    	$dsn = $this->_drivername.":port=".$this->_port.";host=" . $this->_host . ";dbname=" . $this->_database;
+        parent::__construct($dsn, $this->_user, $this->_password);
+
+        // set global PDO driver options(apply to all connections)
+        $this->setAttribute(PDO::ATTR_STRINGIFY_FETCHES, true);
     }
 
     /**
@@ -252,18 +244,16 @@ abstract class JConnection extends PDO
      * @param array An array of Query Parameter.
      * @return boolean Result of the execution
      */
-    function doQuery( $sql, $query_parameters=array() )
+    protected function _doQueries( $sql )
     {
-        $result = false;
-        $statement = null;
+        $result = true;
+        $statement = new PDOStatement();
         foreach ( $sql as $query )
         {
-            $statement = $this->prepare($query);
-            $result = $statement->execute();
+        	$statement->closeCursor();
+            $statement = $this->query($query);
         }
-
-        $this->_statement = $statement;
-
+        $this->_resultset = $statement;
         return $result;
     }
 
@@ -276,18 +266,14 @@ abstract class JConnection extends PDO
      * @param array Arrays of sql queries
      * @return boolean
      */
-    function query($sql)
+    function doQueries($sql)
     {
-
-    	// Clear previous PDO Statement object (if any)
-        $this->_statement = null;
-
         $result = false;
-
+        print_r($sql);
         if ( ! $this->_autocommit ) {
             $this->beginTransaction();
 
-            if ( $this->doQuery($sql) ) {
+            if ( $this->_doQueries($sql) ) {
                 $result = $this->Commit();
             }
             else
@@ -297,7 +283,7 @@ abstract class JConnection extends PDO
         }
         else
         {
-            $result = $this->doQuery($sql);
+            $result = $this->_doQueries($sql);
         }
 
         return $result;
@@ -311,10 +297,9 @@ abstract class JConnection extends PDO
      * @param
      * @return
      */
-    function fetchDataAsTable($sql)
+    function fetchAllAsTable()
     {
-        $this->query($sql);
-        return $this->_statement->fetchAll(PDO::FETCH_ASSOC);
+        return $this->_resultset->fetchAll(PDO::FETCH_ASSOC);
     }
 
     /**
@@ -323,10 +308,9 @@ abstract class JConnection extends PDO
      * @param
      * @return
      */
-    function fetchDataAsObjects($sql)
+    function fetchAllAsObjects()
     {
-        $this->query($sql);
-        return $this->_statement->fetchAll(PDO::FETCH_OBJ);
+        return $this->_resultset->fetchAll(PDO::FETCH_OBJ);
     }
 
 
@@ -340,13 +324,13 @@ abstract class JConnection extends PDO
     function getFieldsMeta()
     {
         $result = array();
-        $count = $this->_statement->columnCount();
+        $count = $this->_resultset->columnCount();
         if ( $count <= 0 ) {
             return $result;
         }
 
         $i = 0;
-        while ( $fieldmeta = $this->_statement->getColumnMeta($i++) )
+        while ( $fieldmeta = $this->_resultset->getColumnMeta($i++) )
         {
             $result["'".$fieldmeta["name"]."'"] = $fieldmeta;
         }
@@ -362,7 +346,7 @@ abstract class JConnection extends PDO
      */
     function recordCount()
     {
-        return $this->_statement->rowCount();
+        return $this->_resultset->rowCount();
     }
 
 
