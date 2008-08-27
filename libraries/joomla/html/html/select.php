@@ -118,7 +118,7 @@ class JHTMLSelect
 						}
 					}
 				} else {
-					$extra .= ( $k == $selected ? ' selected="selected"' : '' );
+					$extra .= ( (string)$k == (string)$selected  ? ' selected="selected"' : '' );
 				}
 
 				//if flag translate text
@@ -247,7 +247,7 @@ class JHTMLSelect
 					}
 				}
 			} else {
-				$extra .= ($k == $selected ? " checked=\"checked\"" : '');
+				$extra .= ((string)$k == (string)$selected ? " checked=\"checked\"" : '');
 			}
 			$html .= "\n\t<input type=\"radio\" name=\"$name\" id=\"$id_text$k\" value=\"".$k."\"$extra $attribs />";
 			$html .= "\n\t<label for=\"$id_text$k\">$t</label>";

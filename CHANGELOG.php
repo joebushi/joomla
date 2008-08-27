@@ -40,6 +40,7 @@ $ -> Language fix or change
 
 27-Aug-2008 Toby Patterson
  # [#9343] Profiling J1.5 framework ( Dalibor, Hannes )
+ # [#11018] JHTMLSelect makes all items selected when using not numeric keys and selected item is 0
  # [#11255] JMail class ignores JConfig.sendmail path for sendmail ( Ernie, Jens )
  # [#11535] Coding error in metadata handling of com_content controller.php ( John )
  # [#12101] Cache: JCacheStorageFile::gc flawed logic in cache expiry ( Geraint )
