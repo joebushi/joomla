@@ -15,6 +15,8 @@
  *
  */
 
+// TODO Think again on _sql array property?! Array?? Why the hell?
+
 /**
  * Check to ensure this file is within the rest of the framework
  */
@@ -836,6 +838,7 @@ abstract class JQueryBuilder extends JObject
         $matches = array();
         $sections = array();
         $this->_sections = array(); // union, that is, ALL sections
+        reset($this->_SQLTemplates);
         foreach ( $this->_SQLTemplates as $type => $template ) {
             $this->_typeSectionsList[$type] = array();
             $n = preg_match_all( "/%%([^%]+)%%/", $template, $matches, PREG_PATTERN_ORDER );
@@ -922,6 +925,7 @@ abstract class JQueryBuilder extends JObject
     public function resetQuery()
     {
         $this->_initSections();
+        $this->_sql = array();
         $this->_type = self::QT_NONE;
         $this->_distinct = false;
         return $this;
@@ -1654,12 +1658,15 @@ abstract class JQueryBuilder extends JObject
      */
     public function getSQL()
     {
+        $this->_sql = array();
+
         // temporary solution!
         // It's an array!
         $this->_sql[] = $this->toString();
 
 
         $result = array();
+        reset($this->_sql);
         foreach ( $this->_sql as $query ) {
             $result[] = $this->replaceString($query, $this->_prefix, $this->_relation_prefix);
         }

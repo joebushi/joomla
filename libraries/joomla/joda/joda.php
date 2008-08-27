@@ -133,19 +133,6 @@ class Joda extends JObject
     const SERIALIZABLE             = 304;
 
     /**
-     * Retreive data rows as assoc arrays
-     */
-    const DATASTYLE_ASSOC                 = 401;
-
-    /**
-     * Retreive data rows as objects
-     *      *
-     * @var integer
-     */
-    const DATASTYLE_OBJECTS                  = 402;
-
-
-    /**
      * Name of the fallback connection
      *
      * @var string

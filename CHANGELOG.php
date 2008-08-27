@@ -42,6 +42,8 @@ $ -> Language fix or change
 27-Aug-2008 Plamen Petkov
  ! Merge Note: 1.5-stable merged up to rev. 10817
  ! Merge Note: 1.5-stable merged up to rev. 10818
+ + Start minor query execution error handling
+ ^ Handle FETCH styles (Assoc/Objects/etc.)
 
 27-Aug-2008 Toby Patterson
  # [#9343] Profiling J1.5 framework ( Dalibor, Hannes )

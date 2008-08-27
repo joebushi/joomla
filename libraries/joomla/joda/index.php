@@ -127,22 +127,25 @@ function test( $test) {
     $sections = JFactory::getDBRelation("section");
 
     echo "<P><B>Use dataset</B><HR>";
-
     $qb1 = $dataset->getQueryBuilder();
     $qb1->select('menutype')->from('#__menu');
-    $sql_array = $qb1->getSQL();
-    $sql_array = array(
-        "select menutype from jos_menu"
-    );
-    $dataset->setSQL($sql_array);
-    $dataset->connection->enableTransactions();
+    $dataset->setSQL($qb1->getSQL());
+    //$dataset->connection->enableTransactions();
+    $dataset->setFetchStyle(PDO::FETCH_OBJ);
     if ($dataset->open()) {
-    	$dataset->setDataStyle(Joda::DATASTYLE_OBJECTS);
-        $data = $dataset->fetchAllAssoc();
-        echo " Count = " . count($data) . "<BR>";
-        echo "Record Count = " . $dataset->recordCount(). "<BR>";
+        $data = $dataset->fetchAll();
         print_r($data);
     }
+
+
+    echo "<P><B>Insert duplicate key</B><HR>";
+    $sql_array = array();
+
+    $qb1->resetQuery();
+    $qb1->insertinto("test")->fields(array("field1","field3"))->values(array(10,"'TESTME'"));
+    $sql_array= $qb1->getSQL();
+    $dataset->setSQL($qb1->getSQL());
+    $dataset->open();
 
 
     echo "<P><B>Open sections</B><HR>";

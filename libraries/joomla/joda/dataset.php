@@ -49,11 +49,11 @@ class JDataset extends JObject
 
 
     /**
-     * Datastyle (see Joda DATASTYLE_)
+     * Fetch Style to use if not specified
      *
      * @var integer
      */
-    protected $_datastyle = Joda::DATASTYLE_ASSOC;
+    protected $_fetchstyle = PDO::FETCH_ASSOC;
 
 
 
@@ -118,6 +118,7 @@ class JDataset extends JObject
      */
     function open()
     {
+    	print_r($this->_sql);
     	$result = $this->connection->execQueries($this->_sql);
     	return $result;
     }
@@ -135,7 +136,7 @@ class JDataset extends JObject
      */
     function next()
     {
-    	$result = $this->connection->fetchNext($this->_datastyle);
+    	$result = $this->connection->fetchNext($this->_fetchstyle);
     	return $result;
     }
 
@@ -145,7 +146,7 @@ class JDataset extends JObject
      */
     function fetchAll()
     {
-    	$result = $this->connection->fetchAllData($this->_datastyle);
+    	$result = $this->connection->fetchAllData($this->_fetchstyle);
         return $result;
     }
 
@@ -158,7 +159,7 @@ class JDataset extends JObject
      */
     function fetchAllAssoc()
     {
-    	$result = $this->connection->fetchAllData(Joda::DATASTYLE_ASSOC);
+    	$result = $this->connection->fetchAllData(PDO::FETCH_ASSOC);
         return $result;
     }
 
@@ -170,21 +171,19 @@ class JDataset extends JObject
      */
     function fetchAllObjects()
     {
-    	$result = $this->connection->fetchAllData(Joda::DATASTYLE_OBJECTS);
+    	$result = $this->connection->fetchAllData(PDO::FETCH_OBJ);
     	return $result;
     }
 
 
     /**
-     * Set default data style
+     * Set default fetch style
      *
-     * This is in Dataset's terminology
-     *
-     * @param integer (see Joda constants)
+     * @param integer
      */
-    function setDataStyle($datastyle = Joda::DATASTYLE_ASSOC)
+    function setFetchStyle($fetchstyle)
     {
-    	$this->_datastyle = $datastyle;
+    	$this->_fetchstyle = $fetchstyle;
     }
 
 
