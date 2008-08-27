@@ -44,6 +44,7 @@ $ -> Language fix or change
  # [#11535] Coding error in metadata handling of com_content controller.php ( John )
  # [#12101] Cache: JCacheStorageFile::gc flawed logic in cache expiry ( Geraint )
  # [#12146] SEO: User/Developer frontend: $document->setMetadata creates duplicate meta tags. ( Paul, Mickael )
+ # [#12461] Cache: can't Clean Cache File with Cache Manager when change Cache Handler ( Akarawuth )
 
 26-Aug-2008 Charl van Niekerk
  # [#9824] alt tags missing for some img tags ( Gergo Erdosi )

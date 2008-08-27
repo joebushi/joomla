@@ -122,7 +122,7 @@ class CacheData extends JObject
 	 */
 	function cleanCache( $group='' )
 	{
-		$cache =& JFactory::getCache();
+		$cache =& JFactory::getCache('', 'callback', 'file');
 		$cache->clean( $group );
 	}
 
