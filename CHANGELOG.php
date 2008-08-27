@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+27-Aug-2008 Toby Patterson
+ # [#11535] Coding error in metadata handling of com_content controller.php ( John )
+
 26-Aug-2008 Charl van Niekerk
  # [#9824] alt tags missing for some img tags ( Gergo Erdosi )
 
