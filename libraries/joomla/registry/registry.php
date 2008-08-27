@@ -126,7 +126,8 @@ class JRegistry extends JObject
 		{
 			// Get the namespace
 			//$namespace = array_shift($nodes);
-			if (count($nodes)<2) {
+			$count = count($nodes);
+			if ($count < 2) {
 				$namespace	= $this->_defaultNameSpace;
 				$nodes[1]	= $nodes[0];
 			} else {
@@ -135,7 +136,7 @@ class JRegistry extends JObject
 
 			if (isset($this->_registry[$namespace])) {
 				$ns = & $this->_registry[$namespace]['data'];
-				$pathNodes = count($nodes) - 1;
+				$pathNodes = $count - 1;
 
 				//for ($i = 0; $i < $pathNodes; $i ++) {
 				for ($i = 1; $i < $pathNodes; $i ++) {
@@ -165,10 +166,13 @@ class JRegistry extends JObject
 		$nodes = explode('.', $regpath);
 
 		// Get the namespace
-		if (count($nodes)<2) {
+		$count = count($nodes);
+
+		if ($count < 2) {
 			$namespace = $this->_defaultNameSpace;
 		} else {
 			$namespace = array_shift($nodes);
+			$count--;
 		}
 
 		if (!isset($this->_registry[$namespace])) {
@@ -177,7 +181,7 @@ class JRegistry extends JObject
 
 		$ns = & $this->_registry[$namespace]['data'];
 
-		$pathNodes = count($nodes) - 1;
+		$pathNodes = $count - 1;
 
 		if ($pathNodes < 0) {
 			$pathNodes = 0;

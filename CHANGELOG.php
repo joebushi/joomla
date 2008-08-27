@@ -38,14 +38,26 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+27-Aug-2008 Toby Patterson
+ # [#9343] Profiling J1.5 framework ( Dalibor, Hannes )
+ # [#11255] JMail class ignores JConfig.sendmail path for sendmail ( Ernie, Jens )
+ # [#11535] Coding error in metadata handling of com_content controller.php ( John )
+ # [#12101] Cache: JCacheStorageFile::gc flawed logic in cache expiry ( Geraint )
+ # [#12146] SEO: User/Developer frontend: $document->setMetadata creates duplicate meta tags. ( Paul, Mickael )
+
+26-Aug-2008 Charl van Niekerk
+ # [#9824] alt tags missing for some img tags ( Gergo Erdosi )
+
 25-Aug-2008 Plamen Petkov
  + Add debuging to JConnection class
  ^ Rename some variables/properties  
  ! Merge Note: 1.5-stable merged up to rev. 10797
 
 25-Aug-2008 Toby Patterson
+ # [#10265] & not replaced with &amp; in the external links ( Denis, Hannes )
  # [#10384] Single quote in title is escaped twice when editing an article in frontend ( Arnault, Bill )
  # [#11115] queryBatch does not log queries in debugmode ( Ian )
+ # [#12441] Street Address is not shown in contacts ( Eduardo, JBS )
 
 24-Aug-2008 Sam Moffatt
  # [11970] ja_purity email and print button files misnamed and not used
@@ -1648,4 +1660,5 @@ $ -> Language fix or change
  # Fixed Content Router swallows up layout (checks to see if it matches Itemid)
 
 19-Dec-2007 Ian MacLennan
- # Fixed topic 244449 XMLRPC Search plugin doesn't work with weblinks search plugin published-------------------- 1.5.0 Release Candidate 4 Released [19-December-2007] ---------------------
+ # Fixed topic 244449 XMLRPC Search plugin doesn't work with weblinks search plugin published
+ -------------------- 1.5.0 Release Candidate 4 Released [19-December-2007] ---------------------
