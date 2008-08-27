@@ -40,6 +40,7 @@ $ -> Language fix or change
 
 27-Aug-2008 Toby Patterson
  # [#11535] Coding error in metadata handling of com_content controller.php ( John )
+ # [#12101] Cache: JCacheStorageFile::gc flawed logic in cache expiry ( Geraint )
 
 26-Aug-2008 Charl van Niekerk
  # [#9824] alt tags missing for some img tags ( Gergo Erdosi )
