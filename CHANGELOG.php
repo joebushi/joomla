@@ -39,6 +39,7 @@ $ -> Language fix or change
 ! -> Note
 
 27-Aug-2008 Toby Patterson
+ # [#9343] Profiling J1.5 framework ( Dalibor, Hannes )
  # [#11535] Coding error in metadata handling of com_content controller.php ( John )
  # [#12101] Cache: JCacheStorageFile::gc flawed logic in cache expiry ( Geraint )
 
