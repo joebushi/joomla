@@ -608,7 +608,7 @@ class JFactory
 				$mail->useSMTP($smtpauth, $smtphost, $smtpuser, $smtppass);
 				break;
 			case 'sendmail' :
-				$mail->IsSendmail();
+				$mail->useSendmail($sendmail);
 				break;
 			default :
 				$mail->IsMail();
