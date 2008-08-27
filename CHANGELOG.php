@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-Aug-2008 Charl van Niekerk
+ # [#11763] RSS feed produces incorrect publish date ( Hannes )
+
 27-Aug-2008 Toby Patterson
  # [#9343] Profiling J1.5 framework ( Dalibor, Hannes )
  # [#11018] JHTMLSelect makes all items selected when using not numeric keys and selected item is 0 ( Alessandro )
