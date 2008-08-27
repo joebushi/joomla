@@ -129,14 +129,23 @@ function test( $test) {
     echo "<P><B>Use dataset</B><HR>";
 
     $qb1 = $dataset->getQueryBuilder();
-    $qb2 = $dataset->getQueryBuilder();
     $qb1->select('menutype')->from('#__menu');
-    $qb2->select('*')->from('#__groups');
-    $sql_array = array_merge($qb1->getSQL(), $qb2->getSQL());
+    $sql_array = $qb1->getSQL();
+    $sql_array = array(
+    	"select menutype from jos_menu",
+    	"select menutype from jos_menu",
+        "select menutype from jos_menu",
+        "select menutype from jos_menu"
+    );
     $dataset->setSQL($sql_array);
-    $dataset->open();
-    $data = $dataset->fetchAll();
-    print_r($data);
+    $dataset->connection->enableTransactions(); 
+    if ($dataset->open()) {
+    	$dataset->setDataStyle(Joda::DATASTYLE_OBJECTS);
+        $data = $dataset->fetchAllObjects();
+        echo " Count = " . count($data) . "<BR>";
+        echo "Record Count = " . $dataset->recordCount(). "<BR>";
+        print_r($data);
+    }
 
 
     echo "<P><B>Open sections</B><HR>";
@@ -150,18 +159,18 @@ function test( $test) {
 
 
     echo "<P><B>Transaction</B><HR>";
-    $query_array = array($qb1->replacePrefix( "insert into #__groups values(4,'test')"));
-    $dataset->setSQL($query_array);
-    $dataset->open();
+    //$query_array = array($qb1->replacePrefix( "insert into #__groups values(4,'test')"));
+    //$dataset->setSQL($query_array);
+    //$dataset->open();
 
 
 
     echo "<P><B>All datasets using the same Connection Instance</B><HR>";
-    $dataset2 = JFactory::getDBSet();
-    if ($users->connection === $sections->connection)  echo "EQ 1<BR>";
-    if ($dataset->connection === $dataset2->connection)  echo "EQ 2<BR>";
-    if ($users->connection === $dataset->connection)  echo "EQ 3<BR>";
-    if ($users->getQueryBuilder()  === $sections->getQueryBuilder())  echo "EQ 4<BR>";
+    //$dataset2 = JFactory::getDBSet();
+    //if ($users->connection === $sections->connection)  echo "EQ 1<BR>";
+    //if ($dataset->connection === $dataset2->connection)  echo "EQ 2<BR>";
+    //if ($users->connection === $dataset->connection)  echo "EQ 3<BR>";
+    //if ($users->getQueryBuilder()  === $sections->getQueryBuilder())  echo "EQ 4<BR>";
 
 
 }

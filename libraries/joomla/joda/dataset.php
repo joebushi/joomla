@@ -47,7 +47,16 @@ class JDataset extends JObject
      */
     protected $_sql = array();
 
-
+    
+    /**
+     * Datastyle (see Joda DATASTYLE_)
+     *
+     * @var integer
+     */
+    protected $_datastyle = Joda::DATASTYLE_ASSOC;
+    
+    
+    
     /**
      * Description
      *
@@ -126,18 +135,61 @@ class JDataset extends JObject
      */
     function next()
     {
+    	$result = $this->connection->fetchNext($this->_datastyle);
+    	return $result;
     }
 
 
     /**
-     * Get next row data from dataset
+     * Get all data from dataset using the default fetch style
      */
     function fetchAll()
     {
-        $result = $this->connection->fetchAllAsTable();
+    	$result = $this->connection->fetchAllData($this->_datastyle);
         return $result;
     }
 
+    
+    /**
+     * Description
+     *
+     * @param
+     * @return
+     */
+    function fetchAllAssoc()
+    {
+    	$result = $this->connection->fetchAllData(Joda::DATASTYLE_ASSOC);
+        return $result;
+    }
+
+    /**
+     * Description
+     *
+     * @param
+     * @return
+     */
+    function fetchAllObjects()
+    {
+    	$result = $this->connection->fetchAllData(Joda::DATASTYLE_OBJECTS);
+    	return $result;
+    }
+    
+    
+    /**
+     * Set default single data-row data style: Associative array or object
+     * 
+     * This is in Dataset's terminology
+     * 
+     * @param integer (see Joda constants)
+     */
+    function setDataStyle($datastyle = Joda::DATASTYLE_ASSOC)
+    {
+    	$this->_datastyle = $datastyle;
+    }
+
+    
+    
+    
 
 } //JDataset
 

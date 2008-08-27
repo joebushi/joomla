@@ -133,16 +133,16 @@ class Joda extends JObject
     const SERIALIZABLE             = 304;
 
     /**
-     * Retreive data in tabular format (fields and rows)
+     * Retreive data rows as assoc arrays
      */
-    const DATA_ASTABLE                    = 401;
+    const DATASTYLE_ASSOC                 = 401;
 
     /**
-     * Retreive data as an array of anonymous objects
-     *
+     * Retreive data rows as objects
+     *      *
      * @var integer
      */
-    const DATA_ASOBJECTS                  = 402;
+    const DATASTYLE_OBJECTS                  = 402;
 
 
     /**
