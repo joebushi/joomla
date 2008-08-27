@@ -132,16 +132,13 @@ function test( $test) {
     $qb1->select('menutype')->from('#__menu');
     $sql_array = $qb1->getSQL();
     $sql_array = array(
-    	"select menutype from jos_menu",
-    	"select menutype from jos_menu",
-        "select menutype from jos_menu",
         "select menutype from jos_menu"
     );
     $dataset->setSQL($sql_array);
-    $dataset->connection->enableTransactions(); 
+    $dataset->connection->enableTransactions();
     if ($dataset->open()) {
     	$dataset->setDataStyle(Joda::DATASTYLE_OBJECTS);
-        $data = $dataset->fetchAllObjects();
+        $data = $dataset->fetchAllAssoc();
         echo " Count = " . count($data) . "<BR>";
         echo "Record Count = " . $dataset->recordCount(). "<BR>";
         print_r($data);

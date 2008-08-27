@@ -38,19 +38,25 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+
+27-Aug-2008 Plamen Petkov
+ ! Merge Note: 1.5-stable merged up to rev. 10817
+ ! Merge Note: 1.5-stable merged up to rev. 10818
+
 27-Aug-2008 Toby Patterson
  # [#9343] Profiling J1.5 framework ( Dalibor, Hannes )
  # [#11255] JMail class ignores JConfig.sendmail path for sendmail ( Ernie, Jens )
  # [#11535] Coding error in metadata handling of com_content controller.php ( John )
  # [#12101] Cache: JCacheStorageFile::gc flawed logic in cache expiry ( Geraint )
  # [#12146] SEO: User/Developer frontend: $document->setMetadata creates duplicate meta tags. ( Paul, Mickael )
+ # [#12461] Cache: can't Clean Cache File with Cache Manager when change Cache Handler ( Akarawuth )
 
 26-Aug-2008 Charl van Niekerk
  # [#9824] alt tags missing for some img tags ( Gergo Erdosi )
 
 25-Aug-2008 Plamen Petkov
  + Add debuging to JConnection class
- ^ Rename some variables/properties  
+ ^ Rename some variables/properties
  ! Merge Note: 1.5-stable merged up to rev. 10797
 
 25-Aug-2008 Toby Patterson
@@ -59,14 +65,15 @@ $ -> Language fix or change
  # [#11115] queryBatch does not log queries in debugmode ( Ian )
  # [#12441] Street Address is not shown in contacts ( Eduardo, JBS )
 
+24-Aug-2008 Plamen Petkov
+ ! Merge Note: 1.5-stable changes merged (rev. 10778-10792)
+
 24-Aug-2008 Sam Moffatt
  # [11970] ja_purity email and print button files misnamed and not used
 
 24-Aug-2008 Plamen Petkov
  ! Joda branch should be considered now: line-endings clean, prop-sets done (php/css/js/ini files), and ...
  ! ... and Joomla 1.5-stable branch merged into Joda branch up to rev.10777. DONE.
-
-23-Aug-2008 Plamen Petkov
 
 23-Aug-2008 Plamen Petkov
  ! Merge Note: 1.5-stable merged into up to  10777

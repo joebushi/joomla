@@ -139,8 +139,8 @@ abstract class JConnection extends PDO
      */
     protected $_log = 0;
 
-    
-    
+
+
     /**
      * Class constructor
      *
@@ -154,7 +154,7 @@ abstract class JConnection extends PDO
 
         // set global PDO driver options(apply to all connections)
         $this->setAttribute(PDO::ATTR_STRINGIFY_FETCHES, true);
-        $this->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        //$this->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     }
 
@@ -214,7 +214,7 @@ abstract class JConnection extends PDO
      */
     function beginTransaction()
     {
-        parent::beginTransaction();
+        return parent::beginTransaction();
     }
 
     /**
@@ -225,7 +225,7 @@ abstract class JConnection extends PDO
      */
     function commit()
     {
-        parent::commit();
+        return parent::commit();
     }
 
 
@@ -237,7 +237,7 @@ abstract class JConnection extends PDO
      */
     function rollback()
     {
-        parent::rollBack();
+        return parent::rollBack();
     }
 
 
@@ -283,59 +283,59 @@ abstract class JConnection extends PDO
 
         // Start transaction if needed
         if ( ! $this->_autocommit ) {
-        	echo "IN TRANSACTION<BR>";
             $this->beginTransaction();
         }
 
-        // Execute all query strings, set exec_result
+        // Execute all query strings
         $resultset = new PDOStatement();
-        print_r($resultset);
         foreach ( $sql as $query ) {
-        	// Close PDO cursor to prevent query failures. 
-        	// According to PDO Documentation, if data has not been fetched (all), 
+        	// Close PDO cursor to prevent query failures.
+        	// According to PDO Documentation, if data has not been fetched (all),
         	// cursor must be closed before executing next query
             if ( is_a($resultset, "PDOStatement") ) {
                $resultset->closeCursor();
-               echo "HERE 1<br>";
             }
-            
+
             $resultset = $this->query($query);
-            echo "HERE 3 <BR>";
-            print_r($resultset);
-            
+
             // Break on failure
             if ( ! $resultset ) {
-               echo "HERE 2<br>";
+            	throw new Exception('QUERY ERROR!');
             	break;
             }
         }
+
         // Set the Dataset's result set to the last one in execution list.
         $this->_resultset = $resultset;
-        
+
         // It is OK only if the result is a PDOStatement object
         $exec_result = is_a($this->_resultset, "PDOStatement");
-		
-        // So far ... 
-        $result = $exec_result;
-        
-        // Finish transaction if needed
+
+        // Finish transaction if needed and if queries are properly executed
         if ( ! $this->_autocommit ) {
         	if ( $exec_result ) {
-        		$result = $this->Commit();
+        		$exec_result = $this->Commit();
+        		if ( !$exec_result ) {
+        			throw new Exception('COMMIT ERROR!');
+        		}
         	}
         	else {
-        		$result = $this->Rollback();
+        		if ( ! $this->Rollback() ) {
+        			throw new Exception('ROLLBACK ERROR!');
+        			return false;
+        		}
+        		return false;
         	}
         }
-        
-        
-        return $result;
+
+
+        return $exec_result;
     }
 
-    
+
     /**
      * Fetches next data row from the set
-     * 
+     *
      * @param
      * @return
      */
@@ -344,11 +344,11 @@ abstract class JConnection extends PDO
     	$fetch_style = $this->toFetchStyle($datastyle);
     	return $this->_resultset->fetch($fetch_style);
     }
-    
-    
+
+
     /**
      * Fetches all data from result set
-     * 
+     *
      * @param
      * @return
      */
@@ -357,7 +357,7 @@ abstract class JConnection extends PDO
     	$fetch_style = $this->toFetchStyle($datastyle);
         return $this->_resultset->fetchAll($fetch_style);
     }
-    
+
 
 
     /**
@@ -449,7 +449,11 @@ abstract class JConnection extends PDO
 
     /**
      * Translate Joda DATASTYLE to PDO Fetch Style
-     * 
+     *
+     * The idea is: different connectors can provide different fetching styles (PDO Fetch Style).
+     * Joda Datastyle was introduced to provide unified approach.
+     * DOCUTHIS Datastyle idea
+     *
      * @param integer Data Style (see Joda constants)
      */
     function toFetchStyle($datastyle)
@@ -463,9 +467,9 @@ abstract class JConnection extends PDO
         }
     	return $fetchstyle;
     }
-    
 
-    
+
+
 
 
 } //JConnection
