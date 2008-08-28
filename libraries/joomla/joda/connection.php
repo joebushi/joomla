@@ -139,7 +139,13 @@ abstract class JConnection extends PDO
      */
     protected $_log = 0;
 
-
+    /**
+     * Keep the IN-TRANSACTION state
+     *
+     * @var boolean
+     */
+    protected $_in_transaction = false;
+    
 
     /**
      * Class constructor
@@ -206,15 +212,21 @@ abstract class JConnection extends PDO
 
 
     /**
-     * Start a transaction session
+     * Start a transaction session if no transaction is active
      *
      * @param
-     * @return
+     * @return boolean Success/Failure
      */
     function beginTransaction()
-    {
-        return parent::beginTransaction();
+    {	
+    	if ( $this->_in_transaction ) {
+    		return false;
+    	}
+    	else {
+    		return $this->_in_transaction = parent::beginTransaction();
+    	}
     }
+    
 
     /**
      * Commit transaction
@@ -256,7 +268,9 @@ abstract class JConnection extends PDO
 
         // Start transaction if enabled
         if ( ! $this->_autocommit ) {
-            $this->beginTransaction();
+            if ( ! $this->beginTransaction() ) {
+                JError::raiseError( 500, $this->jerrorMessage('Unable to start transaction'));
+            }
         }
 
         // Execute all query strings from array
@@ -272,13 +286,9 @@ abstract class JConnection extends PDO
             // Execute
             $resultset = $this->query($query);
 
-            // Break on failure
+            // Break the loop on failure
             if ( ! $resultset ) {
-	            $error_info = $this->errorInfo();
-	            $error_code = $this->errorCode();
-	            $error_message = $error_info[2];
-            	//JError::setErrorHandling(E_ERROR, 'die'); //force error type to die
-                JError::raiseError( 500, JTEXT::_('Unable to execute SQL query: CODE=') . $error_code . ", MESSAGE: " . $error_message);
+                JError::raiseError( 500, $this->jerrorMessage('Unable to execute SQL query'));
             	break;
             }
         }
@@ -291,24 +301,22 @@ abstract class JConnection extends PDO
         $exec_result = is_a($this->_resultset, "PDOStatement");
 
         // Finish transaction if needed and if queries are properly executed
-        if ( ! $this->_autocommit ) {
+        if ( $this->_in_transaction ) {
         	if ( $exec_result ) {
         		$exec_result = $this->Commit();
         		if (  !$exec_result ) {
-                    $error_info = $this->errorInfo();
-                    $error_code = $this->errorCode();
-                    $error_message = $error_info[2];
-                    JError::raiseError( 500, JTEXT::_('Unable to commit SQL transaction: CODE=') . $error_code . ", MESSAGE: " . $error_message);
+                	JError::raiseError( 500, $this->jerrorMessage('Unable to commit SQL transaction'));
+        		}
+        		else {
+        			$this->_in_transaction = false;
         		}
         	}
         	else {
         		if ( ! $this->Rollback() ) {
-                    $error_message = "FIXME";
-                    $error_info = $this->errorInfo();
-                    $error_code = $this->errorCode();
-                    $error_message = $error_info[2];
-                    JError::raiseError( 500, JTEXT::_('Unable to rollback SQL transaction: CODE=') . $error_code . ", MESSAGE: " . $error_message);
-        			return false;
+                	JError::raiseError( 500, $this->jerrorMessage('Unable to rollback SQL transaction'));
+        		}
+        		else {
+        			$this->_in_transaction = false;
         		}
         		return false;
         	}
@@ -429,6 +437,28 @@ abstract class JConnection extends PDO
     }
 
 
+    /**
+     * Return JTEXT error message
+     *
+     * @param string
+     * @return string
+     */
+    function jerrorMessage($text, $type = "PDO")
+    {
+    	switch ( $type ) {
+    		case ($type=="PDO"):  {
+    			$error_info = $this->errorInfo();
+    			$result = JTEXT::_($text . ": CODE=" . $this->errorCode() . ", MESSAGE: " . $error_info[2]);
+    	    	break;
+    		}
+    		default: {
+    			$result = JTEXT::_($text);
+    		}
+    	
+    	}
+    	return $result;    	
+    }
+    
 
 
 

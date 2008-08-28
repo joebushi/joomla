@@ -86,16 +86,49 @@ class JDataset extends JObject
     /**
      * Set the array of SQL queries to be executed later
      *
-     * @param array Array of SQL queries
+     * @param array|string Array of SQL queries or just a single query string
      * @return
      */
     function setSQL($sql)
     {
-        $this->_sql = $sql;
+    	$tmp = array();
+    	if ( is_string($sql) ) {
+    		$tmp = array($sql);
+    	}
+    	else if ( is_array($sql) ) {
+    		$tmp = $sql;
+    	}
+        $this->_sql = $tmp;
     }
 
 
-
+    /**
+     * Add SQL query or array of queries to be executed later
+     *
+     * @param array|string Array of SQL queries or just a single query string
+     */
+    function addSQL($sql)
+    {
+    	$tmp = array();
+    	if ( is_string($sql) ) {
+    		$tmp = array($sql);
+    	}
+    	else if ( is_array($sql) ) {
+    		$tmp = $sql;
+    	}
+        $this->_sql = array_merge($this->_sql, $tmp);
+    }
+    
+    /**
+     * Return the dataset's SQL queries
+     *
+     * @return array
+     */
+    function getSQL()
+    {
+        return $this->_sql;
+    }
+    
 
     /**
      * Return this object own QueryBuilder

@@ -38,6 +38,11 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-Aug-2008 Plamen Petkov
+ ^ Make JQueryBuilder a Single Query Builder, rather than an array of queries
+ ^ JDataset accepts SQL as a string or array of strings
+ + Add methods to addSQL (additive)
+ + Transaction flow and error reporting improved 
 
 27-Aug-2008 Plamen Petkov
  ! Merge Note: 1.5-stable merged up to rev. 10817

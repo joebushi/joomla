@@ -15,8 +15,6 @@
  *
  */
 
-// TODO Think again on _sql array property?! Array?? Why the hell?
-
 /**
  * Check to ensure this file is within the rest of the framework
  */
@@ -219,14 +217,6 @@ abstract class JQueryBuilder extends JObject
      * @var character
      */
     protected $_text_quote_end = "";
-
-
-    /**
-     * SQL Strings. NOTE PLEASE: AN ARRAY!!!
-     *
-     * @var array
-     */
-    protected $_sql = array();
 
 
     /**
@@ -925,7 +915,6 @@ abstract class JQueryBuilder extends JObject
     public function resetQuery()
     {
         $this->_initSections();
-        $this->_sql = array();
         $this->_type = self::QT_NONE;
         $this->_distinct = false;
         return $this;
@@ -966,7 +955,7 @@ abstract class JQueryBuilder extends JObject
      * @return string SQL Statement
      *
      */
-    public function toString( $subselectname = '' )
+    protected function _toString( $subselectname = '' )
     {
         $sql = "";
 
@@ -1658,20 +1647,7 @@ abstract class JQueryBuilder extends JObject
      */
     public function getSQL()
     {
-        $this->_sql = array();
-
-        // temporary solution!
-        // It's an array!
-        $this->_sql[] = $this->toString();
-
-
-        $result = array();
-        reset($this->_sql);
-        foreach ( $this->_sql as $query ) {
-            $result[] = $this->replaceString($query, $this->_prefix, $this->_relation_prefix);
-        }
-
-
+        $result= $this->replaceString($this->_toString(), $this->_prefix, $this->_relation_prefix);
         return $result;
     }
 

@@ -105,7 +105,7 @@ function test( $test) {
     $qb1->select("*")->from("#__test");
 
     echo "<TD>";
-    print_r($qb1->getSQL());
+    echo $qb1->getSQL();
     echo "</TD></TR>";
 
     echo "<TR><TD><P><B><I>Use JFactory to obtain a query builder object</I></B></TD>";
@@ -113,7 +113,7 @@ function test( $test) {
     $qb2->select("*")->from("#__test");
 
     echo "<TD>";
-    print_r($qb2->getSQL());
+    echo $qb2->getSQL();
     echo "</TD></TR>";
 
 
@@ -129,8 +129,8 @@ function test( $test) {
     echo "<P><B>Use dataset</B><HR>";
     $qb1 = $dataset->getQueryBuilder();
     $qb1->select('menutype')->from('#__menu');
-    $dataset->setSQL($qb1->getSQL());
-    //$dataset->connection->enableTransactions();
+    $dataset->addSQL($qb1->getSQL());
+    $dataset->connection->enableTransactions();
     $dataset->setFetchStyle(PDO::FETCH_OBJ);
     if ($dataset->open()) {
         $data = $dataset->fetchAll();
@@ -142,7 +142,7 @@ function test( $test) {
     $sql_array = array();
 
     $qb1->resetQuery();
-    $qb1->insertinto("test")->fields(array("field1","field3"))->values(array(10,"'TESTME'"));
+    $qb1->insertinto("test")->fields(array("field1","field3"))->values(array(11,"'TESTME'"));
     $sql_array= $qb1->getSQL();
     $dataset->setSQL($qb1->getSQL());
     $dataset->open();
