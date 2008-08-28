@@ -254,7 +254,7 @@ class JAJAXLang extends JObject
 	*/
 	function _($string, $jsSafe = false)
 	{
-		//$key = str_replace( ' ', '_', strtoupper( trim( $string ) ) );echo '<br>'.$key;
+		//$key = str_replace( ' ', '_', strtoupper( trim( $string ) ) );echo '<br />'.$key;
 		$key = strtoupper($string);
 		$key = substr($key, 0, 1) == '_' ? substr($key, 1) : $key;
 		if (isset ($this->_strings[$key])) {
