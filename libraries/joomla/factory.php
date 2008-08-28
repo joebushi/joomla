@@ -792,6 +792,9 @@ class JFactory
         }
         else if ( $defaultConnection != null ) {
         	$connectionInfo = $defaultConnection;
+        	//Obviously, there is no connection name passed
+        	//Set the name to something
+        	$connectionname = "default";
         }
         else {
         	return null;
@@ -816,7 +819,7 @@ class JFactory
 
         $options    = array ( 'driver' => $driver, 'host' => $host, 'user' => $user, 'password' => $password, 'database' => $database, 'prefix' => $prefix, "port"=>$port, "debug" => $debug );
 
-        $instance = JConnection::getInstance($options, $connectionname);
+        $instance = JConnection::getInstance($connectionname, $options);
 
         return $instance;
      }

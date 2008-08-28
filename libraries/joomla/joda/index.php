@@ -150,6 +150,18 @@ function test( $test) {
     $dataset->open();
 
 
+
+    echo "<P><B>Check JConnections Debug</B><HR>";
+    $conn = JFactory::getDBConnection();
+    echo "Connection name: " . $conn->getName();
+    $log = $conn->getLog();
+    print_r($log);
+
+
+
+
+
+
     echo "<P><B>Open sections</B><HR>";
     $sections->open();
     //print_r($sections->_data);

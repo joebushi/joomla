@@ -163,12 +163,12 @@ abstract class JConnection extends PDO
     }
 
     /**
-     * Return an instance of JConnection's descendant class (singleton, based on $options)
+     * Return an instance of JConnection's descendant class (singleton, based on connection name)
      *
      * @param array Options/Configuration
      * @return object JConnection
      */
-    function &getInstance($options, $connectionname)
+    function &getInstance( $connectionname, $options = array())
     {
         static $instances;
 
@@ -176,19 +176,22 @@ abstract class JConnection extends PDO
             $instances = array();
         }
 
-        $signature = serialize( array_merge($options, array($connectionname)) );
+        //$signature = serialize( array_merge($options, array($connectionname)) );
+        $signature = serialize( $connectionname);
 
-        if (empty($instances[$signature])) {
+        if ( empty($instances[$signature]) ) {
             $driver = $options["driver"];
 
             $file = dirname(__FILE__) .DS. "connection" .DS. $driver . ".php";
             require_once($file);
 
             $class = "JConnection" . $driver;
-            $instance = new $class($options);
+            $instance = new $class( $options );
+
             $instance->_name = $connectionname;
             $instance->_relation_prefix = $options["prefix"];
             $instance->debug($options["debug"]);
+
             $instances[$signature] = & $instance;
         }
 
@@ -473,6 +476,28 @@ abstract class JConnection extends PDO
      */
     function debug( $level ) {
         $this->_debug = intval( $level );
+    }
+
+
+    /**
+     * Return query log array
+     *
+     * @return array
+     */
+    function getLog()
+    {
+        return $this->_log;
+    }
+
+
+    /**
+     * Return the name of this named connection
+     *
+     * @return string
+     */
+    function getName()
+    {
+        return $this->_name;
     }
 
 
