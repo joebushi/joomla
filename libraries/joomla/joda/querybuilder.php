@@ -20,8 +20,7 @@
  */
 defined( 'JPATH_BASE' ) or die();
 
-
-//FIXME: Make QueryBuilder returning an array of strings, not A string
+//TODO: Perhaps delete(), select(), insert(), etc. should RESET the query ??
 //TODO: Use quoting methods from PDO ?
 //FIXME: replaceString() is or should be DB aware (quoting symbols)
 

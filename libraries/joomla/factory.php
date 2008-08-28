@@ -798,17 +798,27 @@ class JFactory
         }
 
         // Huh, finally we got a connection info... lets go
-        $host       = $connectionInfo["host"];
-        $user       = $connectionInfo["user"];
-        $password   = $connectionInfo["password"];
-        $database   = $connectionInfo["database"];
-        $prefix     = $connectionInfo["prefix"];
-        $driver     = $connectionInfo["driver"];
-        $port       = $connectionInfo["port"];
+        $host         = $connectionInfo["host"];
+        $user         = $connectionInfo["user"];
+        $password     = $connectionInfo["password"];
+        $database     = $connectionInfo["database"];
+        $prefix       = $connectionInfo["prefix"];
+        $driver       = $connectionInfo["driver"];
+        $port         = $connectionInfo["port"];
+        $conn_debug   = $connectionInfo["debug"];
 
+        //get the debug configuration setting
+        $conf =& JFactory::getConfig();
+        $sys_debug = $conf->getValue('config.debug');
 
-        $options    = array ( 'driver' => $driver, 'host' => $host, 'user' => $user, 'password' => $password, 'database' => $database, 'prefix' => $prefix, "port"=>$port );
-        return JConnection::getInstance($options, $connectionname);
+        // Connection specific debug option overrides the system debug one.
+        $debug = ($conn_debug) ? $sys_debug : 0;
+
+        $options    = array ( 'driver' => $driver, 'host' => $host, 'user' => $user, 'password' => $password, 'database' => $database, 'prefix' => $prefix, "port"=>$port, "debug" => $debug );
+
+        $instance = JConnection::getInstance($options, $connectionname);
+
+        return $instance;
      }
 
 

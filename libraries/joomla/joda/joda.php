@@ -175,7 +175,7 @@ class Joda extends JObject
      *
      * @return array
      */
-    static function dummy_connections() {
+    static function dummy_connections($default=false) {
     	$tmp = array();
         for ( $i = 0; $i < self::MAX_NAMED_CONNECTIONS; $i++ ) {
             $tmp[] = array(
@@ -187,13 +187,19 @@ class Joda extends JObject
                            "password" => "",
                            "database" => "",
                            "driver" => "mysql",
-                           "prefix" => "jos_"
+                           "prefix" => "jos_",
+                           "debug" => 0
             );
         }
         $tmp[0]["default"] = 1;
         $tmp[0]["name"] = "default";
 
-        return $tmp;
+        if ($default) {
+        	return $tmp[0];
+        }
+        else {
+            return $tmp;
+        }
     }
 
 

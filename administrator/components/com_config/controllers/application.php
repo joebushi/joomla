@@ -127,6 +127,7 @@ class ConfigControllerApplication extends ConfigController
 		while (list ($id , $cprops) = each($row->connections) ) {
             $dbdriverCombo = JHTML::_('select.genericlist',  $dbdrivers, 'condriver[]', 'class="inputbox" size="1"', 'value', 'text', $cprops["driver"]);
             $checked = ( $cprops["default"] == 1 ) ? " CHECKED" : "";
+            $debug_checked = ($cprops["debug"] > 0) ? " CHECKED" : "";
             $lists["connections"] .=
 	            '<tr>' .
 	            '<td><input class="text_area" type="radio" name="condefault" value="'.$id.' " '.$checked.' /></td>' .
@@ -138,7 +139,8 @@ class ConfigControllerApplication extends ConfigController
 	            '<td><input class="text_area" type="text"  name="conuser[]" size="20" value="'.$cprops["user"].'" /></td>'.
 	            '<td><input class="text_area" type="text"  name="conpassword[]" size="20" value="'.$cprops["password"].'" /></td>'.
 	            '<td><input class="text_area" type="text"  name="conprefix[]" size="20" value="'.$cprops["prefix"].'" /></td>'.
-	            '</tr>';
+                '<td><input class="text_area" type="checkbox"  name="condebug[]" size="3" value="'.$id.'" '.$debug_checked.' /></td>' .
+            '</tr>';
 		} // while
 
 
@@ -372,30 +374,33 @@ class ConfigControllerApplication extends ConfigController
 
 		// JODA CONNECTIONS SETTINGS
 		$config_array['connections'] = array();
-		$connames =  JRequest::getVar('conname', 'jos_', 'post', 'array');
-		$condefault = JRequest::getVar('condefault', 'jos_', 'post', 'string');
-		$condrivers = JRequest::getVar('condriver', 'jos_', 'post', 'array');
-        $conhosts = JRequest::getVar('conhost', 'jos_', 'post', 'array');
-        $conports = JRequest::getVar('conport', 'jos_', 'post', 'array');
-        $condatabases = JRequest::getVar('condatabase', 'jos_', 'post', 'array');
-        $conusers = JRequest::getVar('conuser', 'jos_', 'post', 'array');
-        $conpasswors = JRequest::getVar('conpassword', 'jos_', 'post', 'array');
-        $conprefixes = JRequest::getVar('conprefix', 'jos_', 'post', 'array');
+		$connames =  JRequest::getVar('conname');
+		$condefault = JRequest::getVar('condefault');
+		$condrivers = JRequest::getVar('condriver');
+        $conhosts = JRequest::getVar('conhost');
+        $conports = JRequest::getVar('conport');
+        $condatabases = JRequest::getVar('condatabase');
+        $conusers = JRequest::getVar('conuser', 'jos_');
+        $conpasswors = JRequest::getVar('conpassword');
+        $conprefixes = JRequest::getVar('conprefix');
+        $condebugs = JRequest::getVar('condebug');
 
         $connections_count = sizeof($connames);
 
+        // Checkbox array workaround
+        $tmp = array();
+        for ( $i=0; $i < $connections_count; $i++ ) {
+        	$tmp[] = 0;
+        }
+        for ( $i=0; $i < count($condebugs); $i++ ) {
+            $tmp[$condebugs[$i]] = 1;
+        }
+        $condebugs = $tmp;
+
+
+
 		if ( $connections_count <= 0 ) {
-		    $config_array['connections'] = array (
-		        "name" => "mysql",
-		        "default" => 1,
-                "host" => "localhost",
-        		"port" => "",
-        		"user" => "user",
-        		"password" => "password",
-	        	"database" => "joomla",
-		    	"driver" => "mysql",
-				"prefix" => "jos_",
-                );
+		    $config_array['connections'] = Joda::dummy_connections();
 		}
 		else {
 	        for ( $i = 0; $i < $connections_count; $i++ ) {
@@ -408,7 +413,8 @@ class ConfigControllerApplication extends ConfigController
                     "password" => $conpasswors[$i],
                     "database" => $condatabases[$i],
                     "driver" => $condrivers[$i],
-                    "prefix" => $conprefixes[$i]
+                    "prefix" => $conprefixes[$i],
+		    	    "debug" => intval($condebugs[$i])
         		    );
         		$config_array['connections'][] = $connection;
 	        }

@@ -20,13 +20,12 @@
  */
 defined( 'JPATH_BASE' ) or die();
 
-
-//FIXME: Start Try/Catch wrapping of queires
-//TODO: Handle "In-Transaction" status
+//TODO: DEBUG!!!
 //TODO: If you need metadata - select * from table where 1=1  (?!?!)
 //TODO: Prepared statements? Optional? Parameters?
 //TODO: Multi-line SQL not allowed (I mean semicolons NOT allowed! /';'/!!!!
 //TODO: Log queries in debug mode
+//TODO: Check if JConnection is really a singleton or is not created again and again etc.
 
 
 /**
@@ -137,7 +136,7 @@ abstract class JConnection extends PDO
      *
      * @var array
      */
-    protected $_log = 0;
+    protected $_log = array();
 
     /**
      * Keep the IN-TRANSACTION state
@@ -145,7 +144,7 @@ abstract class JConnection extends PDO
      * @var boolean
      */
     protected $_in_transaction = false;
-    
+
 
     /**
      * Class constructor
@@ -164,7 +163,7 @@ abstract class JConnection extends PDO
     }
 
     /**
-     * Return an instance of JConnection's descendant class (singleton)
+     * Return an instance of JConnection's descendant class (singleton, based on $options)
      *
      * @param array Options/Configuration
      * @return object JConnection
@@ -189,6 +188,7 @@ abstract class JConnection extends PDO
             $instance = new $class($options);
             $instance->_name = $connectionname;
             $instance->_relation_prefix = $options["prefix"];
+            $instance->debug($options["debug"]);
             $instances[$signature] = & $instance;
         }
 
@@ -218,7 +218,7 @@ abstract class JConnection extends PDO
      * @return boolean Success/Failure
      */
     function beginTransaction()
-    {	
+    {
     	if ( $this->_in_transaction ) {
     		return false;
     	}
@@ -226,7 +226,7 @@ abstract class JConnection extends PDO
     		return $this->_in_transaction = parent::beginTransaction();
     	}
     }
-    
+
 
     /**
      * Commit transaction
@@ -282,6 +282,12 @@ abstract class JConnection extends PDO
             if ( is_a($resultset, "PDOStatement") ) {
                $resultset->closeCursor();
             }
+
+            // Log debug
+	        if ($this->_debug) {
+	            $this->_ticker++;
+	            $this->_log[] = $query;
+	        }
 
             // Execute
             $resultset = $this->query($query);
@@ -454,11 +460,21 @@ abstract class JConnection extends PDO
     		default: {
     			$result = JTEXT::_($text);
     		}
-    	
+
     	}
-    	return $result;    	
+    	return $result;
     }
-    
+
+
+    /**
+     * Sets the debug level on or off
+     *
+     * @param int 0 = off, 1 = on
+     */
+    function debug( $level ) {
+        $this->_debug = intval( $level );
+    }
+
 
 
 

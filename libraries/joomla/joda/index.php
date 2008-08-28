@@ -139,12 +139,14 @@ function test( $test) {
 
 
     echo "<P><B>Insert duplicate key</B><HR>";
-    $sql_array = array();
+    $qb1->resetQuery();
+    $qb1->delete()->from("test");
+    $dataset->addSQL($qb1->getSQL());
 
     $qb1->resetQuery();
     $qb1->insertinto("test")->fields(array("field1","field3"))->values(array(11,"'TESTME'"));
-    $sql_array= $qb1->getSQL();
-    $dataset->setSQL($qb1->getSQL());
+    $dataset->addSQL($qb1->getSQL());
+
     $dataset->open();
 
 

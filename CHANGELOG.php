@@ -39,11 +39,12 @@ $ -> Language fix or change
 ! -> Note
 
 28-Aug-2008 Plamen Petkov
+ + Working on JConnection debug, including Named Connections Debug using connection specific Debug option
  ! Merge Note: 1.5-stable merged up to rev. 10829
  ^ Make JQueryBuilder a Single Query Builder, rather than an array of queries
  ^ JDataset accepts SQL as a string or array of strings
  + Add methods to addSQL (additive)
- + Transaction flow and error reporting improved 
+ + Transaction flow and error reporting improved
 
 28-Aug-2008 Andrew Eddie
  # [#12110] Beez Template - Newsflash - Article URL not provided when "Title Linkable" is Yes
