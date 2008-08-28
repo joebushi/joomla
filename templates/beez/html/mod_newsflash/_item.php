@@ -4,8 +4,8 @@ defined('_JEXEC') or die('Restricted access');
 
 <?php if ($params->get('item_title')) : ?>
 <h4>
-	<?php if ($params->get('link_titles') && $linkOn != '') : ?>
-	<a href="<?php echo JRoute::_($linkOn); ?>" class="contentpagetitle<?php echo $params->get('moduleclass_sfx'); ?>">
+	<?php if ($params->get('link_titles') && (isset($item->linkOn))) : ?>
+	<a href="<?php echo JRoute::_($item->linkOn); ?>" class="contentpagetitle<?php echo $params->get('moduleclass_sfx'); ?>">
 		<?php echo $item->title; ?></a>
 	<?php else :
 		echo $item->title;

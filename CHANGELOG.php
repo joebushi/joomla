@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-Aug-2008 Andrew Eddie
+ # [#12110] Beez Template - Newsflash - Article URL not provided when "Title Linkable" is Yes
+
 28-Aug-2008 Charl van Niekerk
  # [#11763] RSS feed produces incorrect publish date ( Hannes )
 
