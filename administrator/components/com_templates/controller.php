@@ -212,10 +212,9 @@ class TemplatesController
 		jimport('joomla.filesystem.file');
 		if (JFile::exists($file) && count($params))
 		{
-			$txt = null;
-			foreach ($params as $k => $v) {
-				$txt .= "$k=$v\n";
-			}
+			$registry = new JRegistry();
+			$registry->loadArray($params);
+			$txt = $registry->toString();
 
 			// Try to make the params file writeable
 			if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0755')) {

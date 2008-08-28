@@ -41,6 +41,7 @@ $ -> Language fix or change
 28-Aug-2008 Andrew Eddie
  # [#12110] Beez Template - Newsflash - Article URL not provided when "Title Linkable" is Yes
  # [#12033] Menu Separator shows as link instead of plain text when using Legacy Menu Formats
+ # [#12261] textarea parameter type cannot handle more than one line of data
 
 28-Aug-2008 Charl van Niekerk
  # [#11763] RSS feed produces incorrect publish date ( Hannes )
