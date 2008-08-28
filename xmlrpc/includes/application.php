@@ -42,7 +42,7 @@ class JXMLRPC extends JApplication
 	*/
 	function __construct($config = array())
 	{
-		$config['clientId'] = 4;
+		$config['clientId'] = 3;
 		parent::__construct($config);
 
 		//Set the encoding

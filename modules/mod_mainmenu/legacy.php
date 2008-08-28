@@ -43,6 +43,7 @@ function mosGetMenuLink($mitem, $level = 0, & $params, $open = null)
 	switch ($mitem->type)
 	{
 		case 'separator' :
+			$mitem->browserNav = 3;
 			break;
 
 		case 'url' :

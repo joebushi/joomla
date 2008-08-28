@@ -39,23 +39,33 @@ $ -> Language fix or change
 ! -> Note
 
 28-Aug-2008 Plamen Petkov
+ ! Merge Note: 1.5-stable merged up to rev. 10829
  ^ Make JQueryBuilder a Single Query Builder, rather than an array of queries
  ^ JDataset accepts SQL as a string or array of strings
  + Add methods to addSQL (additive)
  + Transaction flow and error reporting improved 
 
+28-Aug-2008 Andrew Eddie
+ # [#12110] Beez Template - Newsflash - Article URL not provided when "Title Linkable" is Yes
+ # [#12033] Menu Separator shows as link instead of plain text when using Legacy Menu Formats
+
+28-Aug-2008 Charl van Niekerk
+ # [#11763] RSS feed produces incorrect publish date ( Hannes )
+
 27-Aug-2008 Plamen Petkov
- ! Merge Note: 1.5-stable merged up to rev. 10817
  ! Merge Note: 1.5-stable merged up to rev. 10818
+ ! Merge Note: 1.5-stable merged up to rev. 10817
  + Start minor query execution error handling
  ^ Handle FETCH styles (Assoc/Objects/etc.)
 
 27-Aug-2008 Toby Patterson
  # [#9343] Profiling J1.5 framework ( Dalibor, Hannes )
+ # [#11018] JHTMLSelect makes all items selected when using not numeric keys and selected item is 0 ( Alessandro )
  # [#11255] JMail class ignores JConfig.sendmail path for sendmail ( Ernie, Jens )
  # [#11535] Coding error in metadata handling of com_content controller.php ( John )
  # [#12101] Cache: JCacheStorageFile::gc flawed logic in cache expiry ( Geraint )
  # [#12146] SEO: User/Developer frontend: $document->setMetadata creates duplicate meta tags. ( Paul, Mickael )
+ # [#12382] XMLrpc client id is to high ( Emil )
  # [#12461] Cache: can't Clean Cache File with Cache Manager when change Cache Handler ( Akarawuth )
 
 26-Aug-2008 Charl van Niekerk
