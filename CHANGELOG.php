@@ -42,6 +42,7 @@ $ -> Language fix or change
  # [10175] JRoute::_() and Application Redirect() Causing CGI Error IIS 6
  # [10691] Section/Category Blog fills top->bottom instead of left->right
  # [10943] Error of menu display according to access right
+ # [10953] Time zone need to be changed
 
 29-Aug-2008 Charl van Niekerk
  # [10458] Pagebreak in article in blog layout does not work - limitstart double usage ( Tim, Arno )
@@ -56,7 +57,7 @@ $ -> Language fix or change
 
 27-Aug-2008 Toby Patterson
  # [9343] Profiling J1.5 framework ( Dalibor, Hannes )
- # [11018] JHTMLSelect makes all items selected when using not numeric keys and selected item is 0 ( Alessandro )
+ # [11018] TMLSelect makes all items selected when using not numeric keys and selected item is 0 ( Alessandro )
  # [11255] JMail class ignores JConfig.sendmail path for sendmail ( Ernie, Jens )
  # [11535] Coding error in metadata handling of com_content controller.php ( John )
  # [12101] Cache: JCacheStorageFile::gc flawed logic in cache expiry ( Geraint )
