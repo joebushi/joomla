@@ -38,8 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-29-Aug-2008 Wilco Jansen
+30-Aug-2008 Wilco Jansen
  # [10175] JRoute::_() and Application Redirect() Causing CGI Error IIS 6
+ # [10691] Section/Category Blog fills top->bottom instead of left->right
 
 29-Aug-2008 Charl van Niekerk
  # [10458] Pagebreak in article in blog layout does not work - limitstart double usage ( Tim, Arno )
