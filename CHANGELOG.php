@@ -38,6 +38,11 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Aug-2008 Plamen Petkov
+ + Added "Joda Queries Logged" to debug plugin
+ ^ Working on Joda Demo component ("Examples")
+
+
 28-Aug-2008 Plamen Petkov
  ! Merge Note: 1.5-stable merged up to rev. 10836
  + Working on JConnection debug, including Named Connections Debug using connection specific Debug option

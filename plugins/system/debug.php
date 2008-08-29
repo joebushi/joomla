@@ -107,6 +107,23 @@ class  plgSystemDebug extends JPlugin
 				echo '</ol>';
 			}
 
+            $conn =& JFactory::getDBConnection();
+            echo '<h4>'.JText::sprintf( 'Joda Queries logged',  $conn->getTicker() ).'</h4>';
+
+            if ($log = $conn->getLog())
+            {
+                echo '<ol>';
+                foreach ($log as $k=>$sql)
+                {
+                    $geshi->set_source($sql);
+                    $text = $geshi->parse_code();
+                    $text = preg_replace($newlineKeywords, '<br />&nbsp;&nbsp;\\0', $text);
+                    echo '<li>'.$text.'</li>';
+                }
+                echo '</ol>';
+            }
+
+
 			if(isset($database))
 			{
 				echo '<h4>'.JText::sprintf( 'Legacy Queries logged',  $database->getTicker() ).'</h4>';

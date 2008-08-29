@@ -26,23 +26,20 @@ jimport( 'joomla.application.component.view');
 
 
 /**
- * Dataset View
+ * Examples View
  *
  * @package     Joomla
  * @subpackage  Jodademo
  *
  */
-class JodaDemoViewDataset extends JView
+class JodaDemoViewExamples extends JView
 {
 	function display($tpl = null)
 	{
-        $model =& $this->getModel();
+		$model =& $this->getModel();
 
         $this->assignRef("test1", $model->Test1());
-
-
-        $test2 = $model->Test2();
-        $this->assignRef("test2", $test2);
+        $this->assignRef("test2", $model->Test2());
 
         parent::display($tpl);
 	}

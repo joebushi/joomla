@@ -18,31 +18,33 @@ defined('_JEXEC') or die( 'Restricted access' );
 jimport( 'joomla.application.component.model' );
 
 /**
- * Dataset Model
+ * Examples Model
  *
  * @package     Joomla
  * @subpackage  Jodademo
  */
-class JodademoModelDataset extends JModel
+class JodademoModelExamples extends JModel
 {
-
     function Test1() { // Just building a simple query
-    	$dataset = JFactory::getDBSet();
+        $dataset = JFactory::getDBSet();
         $qb = $dataset->getQueryBuilder();
         $qb->select("*")->from("#__content");
-        $sql = $qb->getSQL();
-    	return $sql;
+        $text = "";
+        $text = $qb->getSQL();
+        return $text;
     }
 
     function Test2() {  // Getting data from DB
         $dataset = JFactory::getDBSet();
         $qb = $dataset->getQueryBuilder();
-        $qb->select("title")->from("#__content");
-        $dataset->setSQL($qb->getSQL());
+        $qb->select(array("id","title"))->from("#__content");
+        $dataset->addSQL($qb->getSQL());
         $dataset->open();
         $data = $dataset->fetchAll();
-        return $data;
+        $text = "";
+        foreach ( $data as $row ) {
+            $text .= $row["id"] . ":" . $row["title"] . "\n";
+        }
+        return $text;
     }
-
-
 }

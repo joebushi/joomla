@@ -492,6 +492,17 @@ abstract class JConnection extends PDO
 
 
     /**
+     * Return connection tickers
+     *
+     * @return integer
+     */
+    function getTicker()
+    {
+        return $this->_ticker;
+    }
+
+
+    /**
      * Return the name of this named connection
      *
      * @return string

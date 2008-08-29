@@ -1,35 +1,33 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
-<h1>JDataset</h1>
-JDataset is the class that should be used most of the time!
+<h1>Examples</h1>
 <HR>
 <table>
     <tr valign='top'>
-        <td width='50%'>
-<code><pre>
+        <td>
+<pre>
 $dataset = JFactory::getDBSet();
 $qb = $dataset->getQueryBuilder();
 $qb->select("*")->from("#__content");
 $sql = $qb->getSQL();
 echo $sql;
-</pre></code>
+</pre>
         </td>
-        <td><?php echo $this->test1; ?></td>
+        <td><?php echo nl2br($this->test1); ?></td>
     </tr>
 
     <tr valign='top'><td colspan=2><hr></td></tr>
     <tr valign='top'>
         <td>
-<code><pre>
+<pre>
 $dataset = JFactory::getDBSet();
 $qb = $dataset->getQueryBuilder();
 $qb->select("title")->from("#__content");
-$dataset->setSQL($qb->getSQL());
+$dataset->addSQL($qb->getSQL());
 $dataset->open();
 $data = $dataset->fetchAll();
-print_r($data);
-</pre></code>
+</pre>
         </td>
-        <td><?php print_r ($this->test2); ?></td>
+        <td><?php echo nl2br($this->test2); ?></td>
     </tr>
 
 
