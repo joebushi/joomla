@@ -122,7 +122,8 @@ function test( $test) {
 
     echo "<B><div style='padding:5px;color:yellow;background:red'>DATASET</div><BR>";
 
-    $dataset = JFactory::getDBSet();
+    $dataset = JFactory::getDBSet("main2");
+    echo "Connection name:" . $dataset->connection->getName();
     $users = JFactory::getDBRelation("user");
     $sections = JFactory::getDBRelation("section");
 
@@ -152,7 +153,7 @@ function test( $test) {
 
 
     echo "<P><B>Check JConnections Debug</B><HR>";
-    $conn = JFactory::getDBConnection();
+    $conn = JFactory::getDBConnection("main2");
     echo "Connection name: " . $conn->getName();
     $log = $conn->getLog();
     print_r($log);
@@ -203,5 +204,5 @@ echo "<HR><B><U>Joda Test Drive</U></B><HR><BR>";
 test( 'mysql');
 
 
-
-
+?>
+<jdoc:include type="modules" name="debug" />

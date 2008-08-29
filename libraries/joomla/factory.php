@@ -769,7 +769,7 @@ class JFactory
 
         // Empty list is a failure
         if ( empty($connectionsList) ) {
-            return null;
+            JError::raiseError(500, JText::_("Named connections list is empty. Check your configuration!"));
         }
 
         // Logic:
@@ -778,26 +778,33 @@ class JFactory
         // Otherwise, report failure: NO named connection and NO default specified! Very undefined!
         $namedConnection = null;
         $defaultConnection = null;
+        $namedConnectionFound = false;
         foreach ( $connectionsList as $connection ) {
+            //Remember the default connection, if any
             if ( $connection["default"] == 1 ) {
                 $defaultConnection = $connection;
             }
+            //Remember the named connection, if any
             if ( ($connection["name"] == $connectionname) && ( !empty($connectionname) ) ) {
             	$namedConnection = $connection;
+            	$namedConnectionFound = true;
             }
         }
+        
+        // If supplied connection name is not valid (no connection found with this name), error
+        if ( (!empty($connectionname)) && (!$namedConnectionFound) ) {
+            JError::raiseError(500, JText::_("Named connection not found: " . $connectionname));
+        }
 
+        // Use named connection if found, fallback to default one, otherwise - error
         if ( $namedConnection != null ) {
         	$connectionInfo = $namedConnection;
         }
         else if ( $defaultConnection != null ) {
         	$connectionInfo = $defaultConnection;
-        	//Obviously, there is no connection name passed
-        	//Set the name to something
-        	$connectionname = "default";
         }
         else {
-        	return null;
+            JError::raiseError(500, JText::_("Unable to find usable named connection. Check your configuration!"));
         }
 
         // Huh, finally we got a connection info... lets go
@@ -809,6 +816,8 @@ class JFactory
         $driver       = $connectionInfo["driver"];
         $port         = $connectionInfo["port"];
         $conn_debug   = $connectionInfo["debug"];
+        // Take the connection name from the connection just picked up
+        $connectionname = $connectionInfo["name"];
 
         //get the debug configuration setting
         $conf =& JFactory::getConfig();
@@ -819,6 +828,7 @@ class JFactory
 
         $options    = array ( 'driver' => $driver, 'host' => $host, 'user' => $user, 'password' => $password, 'database' => $database, 'prefix' => $prefix, "port"=>$port, "debug" => $debug );
 
+        // Get a connection instance, singleton, based on the connection name (see inside the function)
         $instance = JConnection::getInstance($connectionname, $options);
 
         return $instance;

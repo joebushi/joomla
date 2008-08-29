@@ -107,8 +107,7 @@ class ConfigControllerApplication extends ConfigController
                     JHTML::_('select.option', "pgsql", JText::_('PostgreSQL'))
                     );
 
-        // Check for empty array; create a new one having some MAX connections (integer); set default etc.
-        $dummy_connections = Joda::dummy_connections(); // @see Joda::dummy_connections()
+        $dummy_connections = Joda::dummy_connections(); 
 
         // Well, now, take all known (from config) connections, if any, and move them in the above "default" array /dummy one/
         if ( (isset($row->connections)) && (count($row->connections) > 0) ) {

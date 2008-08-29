@@ -176,6 +176,7 @@ abstract class JConnection extends PDO
             $instances = array();
         }
 
+        // Connections are unique across their names only
         //$signature = serialize( array_merge($options, array($connectionname)) );
         $signature = serialize( $connectionname);
 
