@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="component" version="1.5.0">
+	<name>Joda Demo</name>
+	<author>Plamen Petkov</author>
+	<copyright>Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.</copyright>
+	<creationDate>August 2008</creationDate>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<authorEmail>plamendp@zetcom.bg</authorEmail>
+	<authorUrl></authorUrl>
+	<version>0.0.0</version>
+	<description>Joda Database SQL abstraction Layer Demonstration</description>
+</install>
