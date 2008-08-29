@@ -43,6 +43,7 @@ $ -> Language fix or change
  # [10691] Section/Category Blog fills top->bottom instead of left->right
  # [10943] Error of menu display according to access right
  # [10953] Time zone need to be changed
+ # [11330] Box Width Parameter in mod_search Has No Effect
 
 29-Aug-2008 Charl van Niekerk
  # [10458] Pagebreak in article in blog layout does not work - limitstart double usage ( Tim, Arno )
