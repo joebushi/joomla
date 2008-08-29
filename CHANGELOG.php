@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Aug-2008 Charl van Niekerk
+ # [#10458] Pagebreak in article in blog layout does not work - limitstart double usage ( Tim, Arno )
+
 28-Aug-2008 Andrew Eddie
  # [#12110] Beez Template - Newsflash - Article URL not provided when "Title Linkable" is Yes
  # [#12033] Menu Separator shows as link instead of plain text when using Legacy Menu Formats
