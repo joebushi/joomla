@@ -1,8 +1,7 @@
 <?php
 /**
- * @package    Joomla.Tutorials
+ * @package    Joomla.JodaDemo
  * @subpackage Components
- * @link http://docs.joomla.org/Developing_a_Model-View-Controller_Component_-_Part_1
  * @license    GNU/GPL
  */
 
@@ -17,7 +16,7 @@ jimport('joomla.application.component.controller');
  * @package    Joomla.Tutorials
  * @subpackage Components
  */
-class HelloController extends JController
+class JodaDemoController extends JController
 {
 	/**
 	 * Method to display the view

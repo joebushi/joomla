@@ -1,8 +1,7 @@
 <?php
 /**
- * @package    Joomla.Tutorials
+ * @package    Joomla.JodaDemo
  * @subpackage Components
- * @link http://docs.joomla.org/Developing_a_Model-View-Controller_Component_-_Part_1
  * @license    GNU/GPL
  */
 
@@ -17,11 +16,11 @@ jimport( 'joomla.application.component.view');
  * @package    HelloWorld
  */
 
-class HelloViewHello extends JView
+class JodaDemoViewJodaDemo extends JView
 {
 	function display($tpl = null)
 	{
-		$greeting = "Hello, World!";
+		$greeting = "Hello, World! This is Joda Demonstration!";
 		$this->assignRef( 'greeting', $greeting );
 
 		parent::display($tpl);

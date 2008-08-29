@@ -1,9 +1,7 @@
 <?php
 /**
- * @package    Joomla.Tutorials
+ * @package    Joomla.JodaDemo
  * @subpackage Components
- * components/com_hello/hello.php
- * @link http://docs.joomla.org/Developing_a_Model-View-Controller_Component_-_Part_1
  * @license    GNU/GPL
  */
 
@@ -25,7 +23,7 @@ if ($controller = JRequest::getWord('controller')) {
 }
 
 // Create the controller
-$classname	= 'HelloController'.$controller;
+$classname	= 'JodaDemoController'.$controller;
 $controller	= new $classname();
 
 // Perform the Request task
