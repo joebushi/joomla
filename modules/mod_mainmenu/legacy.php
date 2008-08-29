@@ -274,7 +274,7 @@ function mosShowVIMenu(& $params)
 	$cacheIndex = array();
 	if(is_array($rows) && count($rows)) {
 	    foreach ($rows as $index => $v) {
-		    if ($v->access <= $user->get('gid')) {
+		    if ($v->access <= $user->get('aid')) {
 			    $pt = $v->parent;
 			    $list = @ $children[$pt] ? $children[$pt] : array ();
 			    array_push($list, $v);
