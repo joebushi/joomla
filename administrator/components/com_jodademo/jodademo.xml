@@ -9,4 +9,29 @@
 	<authorUrl></authorUrl>
 	<version>0.0.1</version>
 	<description>Joda Database SQL abstraction Layer Demonstration</description>
+	
+	<files folder="site">
+        <filename>controller.php</filename>
+        <filename>jodademo.php</filename>
+        <filename>index.html</filename>
+        <filename>views/index.html</filename>
+        <filename>views/hello/index.html</filename>
+        <filename>views/hello/view.html.php</filename>
+        <filename>views/hello/tmpl/default.php</filename>
+        <filename>views/hello/tmpl/index.html</filename>
+    </files>
+
+    <administration>
+        <!-- Administration Menu Section -->
+        <menu>Joda Demo</menu>
+
+        <!-- Administration Main File Copy Section -->
+        <files folder="admin">
+            <filename>jodademo.php</filename>
+            <filename>index.html</filename>
+        </files>  
+    </administration>
+	
+	
+	
 </install>

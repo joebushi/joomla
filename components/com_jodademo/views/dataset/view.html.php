@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id$
+ * @version     $Id: controller.php 10786 2008-08-24 06:55:34Z plamendp $
  * @package     Joomla
  * @subpackage  Jodademo
  * @copyright   Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
@@ -26,19 +26,25 @@ jimport( 'joomla.application.component.view');
 
 
 /**
- * Jodademo's Hello View
+ * Jodademo's Dataset View
  *
  * @package     Joomla
  * @subpackage  Jodademo
  *
  */
-class JodaDemoViewHello extends JView
+class JodaDemoViewDataset extends JView
 {
 	function display($tpl = null)
 	{
-		$model =& $this->getModel();
-		$this->assignRef( 'title', $model->getTitle());
-		$this->assignRef( 'intro', $model->getIntro());
+		$title = 'JDataset Class';
+		$links = nl2br("
+		<a href='?option=com_jodademo&view=hello'>Joda Demo Introduction</a>
+		<a href=''>Dir.bg</a>
+        <a href=''>CNN.com</a>
+		<a href=''>Reuters</a>
+        ");
+		$this->assignRef( 'title', $title);
+        $this->assignRef( 'links', $links);
 
 		parent::display($tpl);
 	}
