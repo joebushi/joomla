@@ -26,7 +26,7 @@ jimport( 'joomla.application.component.view');
 
 
 /**
- * Jodademo's Hello View
+ * Hello View
  *
  * @package     Joomla
  * @subpackage  Jodademo
@@ -38,7 +38,7 @@ class JodaDemoViewHello extends JView
 	{
 		$model =& $this->getModel();
 		$this->assignRef( 'title', $model->getTitle());
-		$this->assignRef( 'intro', $model->getIntro());
+		$this->assignRef( 'intro', nl2br($model->getIntro()));
 
 		parent::display($tpl);
 	}

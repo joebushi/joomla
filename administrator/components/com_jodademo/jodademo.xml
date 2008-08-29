@@ -14,6 +14,8 @@
         <filename>controller.php</filename>
         <filename>jodademo.php</filename>
         <filename>index.html</filename>
+        <filename>models/hello.php</filename>
+        <filename>models/index.html</filename>
         <filename>views/index.html</filename>
         <filename>views/hello/index.html</filename>
         <filename>views/hello/view.html.php</filename>

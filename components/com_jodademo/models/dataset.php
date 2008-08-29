@@ -15,35 +15,34 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die( 'Restricted access' );
 
-jimport( 'joomla.application.component.view');
+jimport( 'joomla.application.component.model' );
 
 /**
- * HTML View class Jodademo
+ * Dataset Model
  *
  * @package     Joomla
  * @subpackage  Jodademo
  */
-
-
-/**
- * Dataset View
- *
- * @package     Joomla
- * @subpackage  Jodademo
- *
- */
-class JodaDemoViewDataset extends JView
+class JodademoModelDataset extends JModel
 {
-	function display($tpl = null)
-	{
-        $model =& $this->getModel();
 
-        $this->assignRef("test1", $model->Test1());
+    function Test1() { // Just building a simple query
+    	$dataset = JFactory::getDBSet();
+        $qb = $dataset->getQueryBuilder();
+        $qb->select("*")->from("#__content");
+        $sql = $qb->getSQL();
+    	return $sql;
+    }
+
+    function Test2() {  // Getting data from DB
+        $dataset = JFactory::getDBSet();
+        $qb = $dataset->getQueryBuilder();
+        $qb->select("title")->from("#__content");
+        $dataset->setSQL($qb->getSQL());
+        $dataset->open();
+        $data = $dataset->fetchAll();
+        return $data;
+    }
 
 
-        $test2 = $model->Test2();
-        $this->assignRef("test2", $test2);
-
-        parent::display($tpl);
-	}
 }

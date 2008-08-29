@@ -118,7 +118,7 @@ class JDataset extends JObject
     	}
         $this->_sql = array_merge($this->_sql, $tmp);
     }
-    
+
     /**
      * Return the dataset's SQL queries
      *
@@ -128,7 +128,7 @@ class JDataset extends JObject
     {
         return $this->_sql;
     }
-    
+
 
     /**
      * Return this object own QueryBuilder
@@ -151,7 +151,6 @@ class JDataset extends JObject
      */
     function open()
     {
-    	print_r($this->_sql);
     	$result = $this->connection->execQueries($this->_sql);
     	return $result;
     }
