@@ -117,7 +117,7 @@ else
 {
 ?>
 		<tr>
-			<td>
+			<td colspan="3">
 				<?php echo JText::_( 'No matching results' );?>
 			</td>
 		</tr>
