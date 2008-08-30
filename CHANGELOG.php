@@ -52,6 +52,7 @@ $ -> Language fix or change
  # [12204] ja_purity template - site logo text goes under header background
  # [12229] Article Order Drop-Down List on Front End Shows Archived and Trashed Articles
  # [12259] Help Key Reference Update for Modules: New Screen
+ # [12276] Selection of name/username doesnt work in mod_login
 
 29-Aug-2008 Charl van Niekerk
  # [10458] Pagebreak in article in blog layout does not work - limitstart double usage ( Tim, Arno )

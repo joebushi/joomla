@@ -9,7 +9,11 @@ if ($type == 'logout') : ?>
 <form action="index.php" method="post" name="login" class="log">
 	<?php if ($params->get('greeting')) : ?>
 	<p>
-		<?php echo JText::sprintf('HINAME', $user->get('name')); ?>
+	<?php if ($params->get('name')) : {
+		echo JText::sprintf( 'HINAME', $user->get('name') );
+	} else : {
+		echo JText::sprintf( 'HINAME', $user->get('username') );
+	} endif; ?>
 	</p>
 	<?php endif; ?>
 	<p>
