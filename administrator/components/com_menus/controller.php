@@ -112,7 +112,14 @@ class MenusController extends JController
 	function cancelItem()
 	{
 		global $mainframe;
+		
+		JRequest::checkToken() or jexit( 'Invalid Token' );
+		
 		$menutype = $mainframe->getUserStateFromRequest( 'com_menus.menutype', 'menutype', 'mainmenu', 'string' );
+		
+		$model = $this->getModel('item');
+		$model->checkin();
+		
 		$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menutype);
 	}
 
