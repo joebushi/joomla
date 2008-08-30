@@ -63,6 +63,7 @@ $ -> Language fix or change
    new language files for 1.5.7 need to be validated on this issue.
  # [12442] JA Purity SVN changes can break backwards compatibility with existing sites
  # [12462] Menu item is still locked after closing it
+ # [12492] Preview an edited artcle does not use template editor.css
 
 29-Aug-2008 Charl van Niekerk
  # [10458] Pagebreak in article in blog layout does not work - limitstart double usage ( Tim, Arno )
