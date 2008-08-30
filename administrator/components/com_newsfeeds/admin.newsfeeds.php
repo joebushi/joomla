@@ -458,6 +458,6 @@ function saveOrder(  )
 		$row->reorder('catid = '.(int) $group);
 	}
 
-	$msg 	= 'New ordering saved';
+	$msg 	= JText::_( 'New ordering saved' );
 	$mainframe->redirect( 'index.php?option=com_newsfeeds', $msg );
 }
