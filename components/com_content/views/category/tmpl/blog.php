@@ -17,8 +17,8 @@ $cparams =& JComponentHelper::getParams('com_media');
 	<?php if ($this->params->get('show_description') && $this->category->description) : ?>
 		<?php echo $this->category->description; ?>
 	<?php endif; ?>
-		<br/>
-		<br/>
+		<br />
+		<br />
 	</td>
 </tr>
 <?php endif; ?>
