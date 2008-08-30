@@ -64,6 +64,7 @@ $ -> Language fix or change
  # [12442] JA Purity SVN changes can break backwards compatibility with existing sites
  # [12462] Menu item is still locked after closing it
  # [12492] Preview an edited artcle does not use template editor.css
+ # [12055] Archive intro text is cut to 255 characters - causes formatting problems
 
 29-Aug-2008 Charl van Niekerk
  # [10458] Pagebreak in article in blog layout does not work - limitstart double usage ( Tim, Arno )
