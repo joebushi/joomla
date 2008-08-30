@@ -57,6 +57,7 @@ $ -> Language fix or change
  # [12394] Incorrect colspan in admin mod_latest
  # [12425] When a guest tries to view unauthorized content, redirect should be to login not register
  # [12426] Polls and Search use the wrong view - IIS 7
+ # [12432] Category search plugin not working
 
 29-Aug-2008 Charl van Niekerk
  # [10458] Pagebreak in article in blog layout does not work - limitstart double usage ( Tim, Arno )
