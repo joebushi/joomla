@@ -1275,6 +1275,7 @@ class ContentController extends JController
 			$row->hits						= '0';
 			$row->ordering					= '0';
 			$row->title						= $item->title;
+			$row->alias						= $item->alias;
 			$row->title_alias				= $item->title_alias;
 			$row->introtext					= $item->introtext;
 			$row->fulltext					= $item->fulltext;
