@@ -50,7 +50,7 @@ $ -> Language fix or change
  # [12165] Pagination in com_categories does not respect sectionfilter
  # [12167] Show Search Results" Option in Search Component Not Working
  # [12204] ja_purity template - site logo text goes under header background
-
+ # [12229] Article Order Drop-Down List on Front End Shows Archived and Trashed Articles
 
 29-Aug-2008 Charl van Niekerk
  # [10458] Pagebreak in article in blog layout does not work - limitstart double usage ( Tim, Arno )
