@@ -262,7 +262,7 @@ class MenusModelList extends JModel
 			$curr->id	= NULL;
 			$curr->home	= 0;
 			if ( !$curr->store() ) {
-				$this->setError($row->getError());
+				$this->setError($curr->getError());
 				return false;
 			}
 			$itemref[] = array($id, $curr->id);
@@ -288,7 +288,7 @@ class MenusModelList extends JModel
 			$curr->ordering = '9999';
 			$curr->home		= 0;
 			if ( !$curr->store() ) {
-				$this->setError($row->getError());
+				$this->setError($curr->getError());
 				return false;
 			}
 			$curr->reorder( 'menutype = '.$this->_db->Quote($curr->menutype).' AND parent = '.(int) $curr->parent );

@@ -66,6 +66,7 @@ $ -> Language fix or change
  # [12492] Preview an edited artcle does not use template editor.css
  # [12055] Archive intro text is cut to 255 characters - causes formatting problems
  # [12457] Alias is copied incorrectly, when copying an article
+ # [12460] $row->getError() all over the shop where $row is not initialized
 
 29-Aug-2008 Charl van Niekerk
  # [10458] Pagebreak in article in blog layout does not work - limitstart double usage ( Tim, Arno )

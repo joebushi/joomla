@@ -112,14 +112,14 @@ class MenusController extends JController
 	function cancelItem()
 	{
 		global $mainframe;
-		
+
 		JRequest::checkToken() or jexit( 'Invalid Token' );
-		
+
 		$menutype = $mainframe->getUserStateFromRequest( 'com_menus.menutype', 'menutype', 'mainmenu', 'string' );
-		
+
 		$model = $this->getModel('item');
 		$model->checkin();
-		
+
 		$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menutype);
 	}
 
@@ -576,14 +576,14 @@ class MenusController extends JController
 				$query = 'DELETE FROM #__modules_menu WHERE moduleid = '.(int) $module->id;
 				$db->setQuery( $query );
 				if (!$db->query()) {
-					return JError::raiseWarning( 500, $row->getError() );
+					return JError::raiseWarning( 500, $db->getError() );
 				}
 
 				// ToDO: Changed to become a Joomla! db-object
 				$query = 'INSERT INTO #__modules_menu VALUES ( '.(int) $module->id.', 0 )';
 				$db->setQuery( $query );
 				if (!$db->query()) {
-					return JError::raiseWarning( 500, $row->getError() );
+					return JError::raiseWarning( 500, $db->getError() );
 				}
 			}
 
@@ -612,10 +612,10 @@ class MenusController extends JController
 
 				// check then store data in db
 				if ( !$row->check() ) {
-					return JError::raiseWarning( 500, $row->getError() );
+					return JError::raiseWarning( 500, $db->getError() );
 				}
 				if ( !$row->store() ) {
-					return JError::raiseWarning( 500, $row->getError() );
+					return JError::raiseWarning( 500, $db->getError() );
 				}
 				$row->checkin();
 			}
@@ -758,12 +758,12 @@ class MenusController extends JController
 		$row->params 	= 'menutype='. $menu_name;
 
 		if (!$row->check()) {
-			JError::raiseWarning( 500, $row->getError() );
+			JError::raiseWarning( 500, $db->getError() );
 			$this->setRedirect( 'index.php?option=com_menus' );
 			return;
 		}
 		if (!$row->store()) {
-			JError::raiseWarning( 500, $row->getError() );
+			JError::raiseWarning( 500, $db->getError() );
 			$this->setRedirect( 'index.php?option=com_menus' );
 			return;
 		}
