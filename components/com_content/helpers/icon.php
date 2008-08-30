@@ -63,10 +63,9 @@ class JHTMLIcon
 
 	function email($article, $params, $access, $attribs = array())
 	{
-		//$link	= JURI::base()."index.php?view=article&id=".$article->slug;
-		$uri     =& JURI::getInstance();
-		$base  = $uri->toString( array('scheme', 'host', 'port'));
-		$link    = $base.JRoute::_( "index.php?view=article&id=".$article->slug, false );
+		$uri	=& JURI::getInstance();
+		$base	= $uri->toString( array('scheme', 'host', 'port'));
+		$link	= $base.JRoute::_( ContentHelperRoute::getArticleRoute($article->slug, $article->catslug, $article->sectionid) , false );
 		$url	= 'index.php?option=com_mailto&tmpl=component&link='.base64_encode( $link );
 
 		$status = 'width=400,height=300,menubar=yes,resizable=yes';
