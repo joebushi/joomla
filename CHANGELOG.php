@@ -59,6 +59,9 @@ $ -> Language fix or change
  # [12426] Polls and Search use the wrong view - IIS 7
  # [12432] Category search plugin not working
  # [12438] <BR/> tags do not pass html validation
+ ! There where a dozen mismatches in the language files, so not all <br /> tags have been replaced,
+   new language files for 1.5.7 need to be validated on this issue.
+ # [12442] JA Purity SVN changes can break backwards compatibility with existing sites
 
 29-Aug-2008 Charl van Niekerk
  # [10458] Pagebreak in article in blog layout does not work - limitstart double usage ( Tim, Arno )
