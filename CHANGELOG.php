@@ -38,10 +38,27 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-Aug-2008 Wilco Jansen
+ # [10175] JRoute::_() and Application Redirect() Causing CGI Error IIS 6
+ # [10691] Section/Category Blog fills top->bottom instead of left->right
+ # [10943] Error of menu display according to access right
+ # [10953] Time zone need to be changed
+ # [11330] Box Width Parameter in mod_search Has No Effect
+ # [11621] Warning: strpos() [function.strpos]: Empty delimiter
+ # [11870] show_noauth problem  in 2 module helpers
+ # [12071] SEO: index and follow meta tag in print view
+ # [12165] Pagination in com_categories does not respect sectionfilter
+ # [12167] Show Search Results" Option in Search Component Not Working
+
+30-Aug-2008 Plamen Petkov
+ ! Merge Note: 1.5-stable merged up to rev. 10860
+
+29-Aug-2008 Charl van Niekerk
+ # [10458] Pagebreak in article in blog layout does not work - limitstart double usage ( Tim, Arno )
+
 29-Aug-2008 Plamen Petkov
  + Added "Joda Queries Logged" to debug plugin
  ^ Working on Joda Demo component ("Examples")
-
 
 28-Aug-2008 Plamen Petkov
  ! Merge Note: 1.5-stable merged up to rev. 10836
@@ -53,12 +70,12 @@ $ -> Language fix or change
  + Transaction flow and error reporting improved
 
 28-Aug-2008 Andrew Eddie
- # [#12110] Beez Template - Newsflash - Article URL not provided when "Title Linkable" is Yes
- # [#12033] Menu Separator shows as link instead of plain text when using Legacy Menu Formats
- # [#12261] textarea parameter type cannot handle more than one line of data
+ # [12110] Beez Template - Newsflash - Article URL not provided when "Title Linkable" is Yes
+ # [12033] Menu Separator shows as link instead of plain text when using Legacy Menu Formats
+ # [12261] textarea parameter type cannot handle more than one line of data
 
 28-Aug-2008 Charl van Niekerk
- # [#11763] RSS feed produces incorrect publish date ( Hannes )
+ # [11763] RSS feed produces incorrect publish date ( Hannes )
 
 27-Aug-2008 Plamen Petkov
  ! Merge Note: 1.5-stable merged up to rev. 10818
@@ -67,17 +84,17 @@ $ -> Language fix or change
  ^ Handle FETCH styles (Assoc/Objects/etc.)
 
 27-Aug-2008 Toby Patterson
- # [#9343] Profiling J1.5 framework ( Dalibor, Hannes )
- # [#11018] JHTMLSelect makes all items selected when using not numeric keys and selected item is 0 ( Alessandro )
- # [#11255] JMail class ignores JConfig.sendmail path for sendmail ( Ernie, Jens )
- # [#11535] Coding error in metadata handling of com_content controller.php ( John )
- # [#12101] Cache: JCacheStorageFile::gc flawed logic in cache expiry ( Geraint )
- # [#12146] SEO: User/Developer frontend: $document->setMetadata creates duplicate meta tags. ( Paul, Mickael )
- # [#12382] XMLrpc client id is to high ( Emil )
- # [#12461] Cache: can't Clean Cache File with Cache Manager when change Cache Handler ( Akarawuth )
+ # [9343] Profiling J1.5 framework ( Dalibor, Hannes )
+ # [11018] TMLSelect makes all items selected when using not numeric keys and selected item is 0 ( Alessandro )
+ # [11255] JMail class ignores JConfig.sendmail path for sendmail ( Ernie, Jens )
+ # [11535] Coding error in metadata handling of com_content controller.php ( John )
+ # [12101] Cache: JCacheStorageFile::gc flawed logic in cache expiry ( Geraint )
+ # [12146] SEO: User/Developer frontend: $document->setMetadata creates duplicate meta tags. ( Paul, Mickael )
+ # [12382] XMLrpc client id is to high ( Emil )
+ # [12461] Cache: can't Clean Cache File with Cache Manager when change Cache Handler ( Akarawuth )
 
 26-Aug-2008 Charl van Niekerk
- # [#9824] alt tags missing for some img tags ( Gergo Erdosi )
+ # [9824] alt tags missing for some img tags ( Gergo Erdosi )
 
 25-Aug-2008 Plamen Petkov
  + Add debuging to JConnection class
@@ -85,10 +102,10 @@ $ -> Language fix or change
  ! Merge Note: 1.5-stable merged up to rev. 10797
 
 25-Aug-2008 Toby Patterson
- # [#10265] & not replaced with &amp; in the external links ( Denis, Hannes )
- # [#10384] Single quote in title is escaped twice when editing an article in frontend ( Arnault, Bill )
- # [#11115] queryBatch does not log queries in debugmode ( Ian )
- # [#12441] Street Address is not shown in contacts ( Eduardo, JBS )
+ # [10265] & not replaced with &amp; in the external links ( Denis, Hannes )
+ # [10384] Single quote in title is escaped twice when editing an article in frontend ( Arnault, Bill )
+ # [11115] queryBatch does not log queries in debugmode ( Ian )
+ # [12441] Street Address is not shown in contacts ( Eduardo, JBS )
 
 24-Aug-2008 Plamen Petkov
  ! Merge Note: 1.5-stable changes merged (rev. 10778-10792)

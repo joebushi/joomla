@@ -29,7 +29,7 @@ class ContentViewArticle extends ContentView
 	function display($tpl = null)
 	{
 		global $mainframe;
-
+		
 		$user		=& JFactory::getUser();
 		$document	=& JFactory::getDocument();
 		$dispatcher	=& JDispatcher::getInstance();
@@ -158,6 +158,9 @@ class ContentViewArticle extends ContentView
 		$article->event->afterDisplayContent = trim(implode("\n", $results));
 
 		$print = JRequest::getBool('print');
+		if ($print) {
+      $document->setMetaData('robots', 'noindex, nofollow');
+    }
 
 		$this->assignRef('article', $article);
 		$this->assignRef('params' , $params);

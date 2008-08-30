@@ -162,9 +162,21 @@ function showCategories( $section, $option )
 	;
 	if ($section == 'com_content')
 	{
-		$query .= ' WHERE section > 0';
+		if($sectionid > 0)
+		{
+			$query .= ' WHERE section = '.(int) $sectionid;
+		} else {
+			$query .= ' WHERE section > 0';
+		}
 	} else {
 		$query .= ' WHERE section = '.$db->quote($section);
+	}
+	if ( $filter_state ) {
+		if ( $filter_state == 'P' ) {
+			$query .= ' AND published = 1';
+		} else if ($filter_state == 'U' ) {
+			$query .= ' AND published = 0';
+		}
 	}
 	$db->setQuery( $query );
 	$total = $db->loadResult();

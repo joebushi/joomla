@@ -57,7 +57,12 @@ function plgContentPagebreak( &$row, &$params, $page=0 )
 	}
 
 	$db		=& JFactory::getDBO();
-	$full 	= JRequest::getBool('fullview');
+    $view  = JRequest::getCmd('view');
+    if($view != 'article') {
+        $row->text = preg_replace( $regex, '', $row->text );
+        return;
+     }
+
 
 	if(!$page) {
 		$page = 0;

@@ -82,7 +82,7 @@ function mosGetMenuLink($mitem, $level = 0, & $params, $open = null)
 	if ($params->get('full_active_id'))
 	{
 		// support for `active_menu` of 'Link - Url' if link is relative
-		if ($id == '' && $mitem->type == 'url' && strpos('http', $mitem->link) === false) {
+		if ($id == '' && $mitem->type == 'url' && strpos($mitem->link, 'http') === false) {
 			$url = array();
 			if(strpos($mitem->link, '&amp;') !== false)
 			{
@@ -274,7 +274,7 @@ function mosShowVIMenu(& $params)
 	$cacheIndex = array();
 	if(is_array($rows) && count($rows)) {
 	    foreach ($rows as $index => $v) {
-		    if ($v->access <= $user->get('gid')) {
+		    if ($v->access <= $user->get('aid')) {
 			    $pt = $v->parent;
 			    $list = @ $children[$pt] ? $children[$pt] : array ();
 			    array_push($list, $v);
