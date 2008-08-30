@@ -1669,7 +1669,7 @@ abstract class JQueryBuilder extends JObject
 
     /**
      * This function replaces a string identifier <var>$from</var> with the
-     * string <var>$to</var>
+     * string <var>$to</var> ignoring quoted parts
      *
      * @param string The String
      * @param string Pattern
@@ -1746,12 +1746,7 @@ abstract class JQueryBuilder extends JObject
         return $literal;
     }
 
-
-
-
-
-
-}
+} // class
 
 
 ?>

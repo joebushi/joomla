@@ -28,9 +28,11 @@ class JodademoModelExamples extends JModel
     function Test1() { // Just building a simple query
         $dataset = JFactory::getDBSet();
         $qb = $dataset->getQueryBuilder();
-        $qb->select("*")->from("#__content");
-        $text = "";
-        $text = $qb->getSQL();
+        $qb->select('"#__1234"')->from("#__content");
+        $result = $qb->getSQL();
+
+        $text["explain"] = "Build a query";
+        $text["result"] = $result;
         return $text;
     }
 
@@ -41,10 +43,45 @@ class JodademoModelExamples extends JModel
         $dataset->addSQL($qb->getSQL());
         $dataset->open();
         $data = $dataset->fetchAll();
-        $text = "";
+        $result = "";
         foreach ( $data as $row ) {
-            $text .= $row["id"] . ":" . $row["title"] . "\n";
+            $result .= $row["id"] . ":" . $row["title"] . "\n";
         }
+
+        $text["explain"] = "Getting data from database";
+        $text["result"] = $result;
         return $text;
     }
+
+
+    function Test3() {
+        $dataset = JFactory::getDBSet();
+        $qb = $dataset->getQueryBuilder();
+        $result = $qb->replaceString('select " plamen " #__plam"en " ""#__""test from me', "#__", "jos_");
+
+        $text["explain"] = "REGEX";
+        $text["result"] = $result;
+        return $text;
+    }
+
+
+
+
+
+
+
+
+    function Tests() {
+    	$max_tests = 100;
+
+        $texts = array();
+    	for ($i=1; $i<=100; $i++) {
+    		$method = "test" . "$i";
+            if ( method_exists($this, $method) ) {
+            	$texts["t$i"] = $this->$method();
+            }
+    	}
+        return $texts;
+    }
+
 }

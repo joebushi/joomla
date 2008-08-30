@@ -23,7 +23,7 @@ require_once ( JPATH_BASE .DS.'includes'.DS.'defines.php' );
 require_once ( JPATH_BASE .DS.'includes'.DS.'framework.php' );
 
 
-
+//FIXME Create Joda CHANGELOG.php (inside Joda directory OR in Joomla Top dir?)
 
 JDEBUG ? $_PROFILER->mark( 'afterLoad' ) : null;
 

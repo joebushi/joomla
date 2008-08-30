@@ -38,8 +38,8 @@ class JodaDemoViewExamples extends JView
 	{
 		$model =& $this->getModel();
 
-        $this->assignRef("test1", $model->Test1());
-        $this->assignRef("test2", $model->Test2());
+		$texts = $model->Tests();
+        $this->assignRef("texts", $texts);
 
         parent::display($tpl);
 	}
