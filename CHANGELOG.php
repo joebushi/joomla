@@ -55,6 +55,7 @@ $ -> Language fix or change
  # [12276] Selection of name/username doesnt work in mod_login
  # [12336] Terms impossible to translate in  admin.newsfeeds.php
  # [12394] Incorrect colspan in admin mod_latest
+ # [12425] When a guest tries to view unauthorized content, redirect should be to login not register
 
 29-Aug-2008 Charl van Niekerk
  # [10458] Pagebreak in article in blog layout does not work - limitstart double usage ( Tim, Arno )
