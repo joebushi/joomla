@@ -25,7 +25,12 @@ class TOOLBAR_modules {
 		JToolBarHelper::title( JText::_( 'Module' ) . ': <small><small>[ '. JText::_( 'New' ) .' ]</small></small>', 'module.png' );
 		JToolBarHelper::customX( 'edit', 'forward.png', 'forward_f2.png', 'Next', true );
 		JToolBarHelper::cancel();
-		JToolBarHelper::help( 'screen.modules.new' );
+		if ($client->name == 'site') {
+			JToolBarHelper::help( 'screen.modulessite.edit' );
+		} 
+		else {
+			JToolBarHelper::help( 'screen.modulesadministrator.edit');
+		}
 	}
 
 	/**
