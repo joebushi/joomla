@@ -46,6 +46,7 @@ $ -> Language fix or change
  # [11330] Box Width Parameter in mod_search Has No Effect
  # [11621] Warning: strpos() [function.strpos]: Empty delimiter
  # [11870] show_noauth problem  in 2 module helpers
+ # [12071] SEO: index and follow meta tag in print view
 
 29-Aug-2008 Charl van Niekerk
  # [10458] Pagebreak in article in blog layout does not work - limitstart double usage ( Tim, Arno )
