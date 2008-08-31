@@ -235,10 +235,13 @@ class ContentController extends JController
 		{
 			$msg = $isNew ? JText::_('THANK_SUB') : JText::_('Item successfully saved.');
 		}
-
-
-		$link = JRequest::getString('referer', JURI::base(), 'post');
-		$this->setRedirect($link, $msg);
+		
+		$referer = JRequest::getString('ret',  base64_encode(JURI::base()), 'get');
+		$referer = base64_decode($referer);
+		if (strpos( $referer, 'http' ) !== false && strpos( $referer, JURI::base() ) !== 0) {
+			$referer = '';
+		}
+		$this->setRedirect($referer, $msg);		
 	}
 
 	/**
@@ -262,7 +265,11 @@ class ContentController extends JController
 		}
 
 		// If the task was edit or cancel, we go back to the content item
-		$referer = JRequest::getString('referer', JURI::base(), 'post');
+		$referer = JRequest::getString('ret', base64_encode(JURI::base()), 'get');
+		$referer = base64_decode($referer);
+		if (strpos( $referer, 'http' ) !== false && strpos( $referer, JURI::base() ) !== 0) {
+			$referer = '';
+		}
 		$this->setRedirect($referer);
 	}
 

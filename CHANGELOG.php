@@ -40,7 +40,7 @@ $ -> Language fix or change
 
 31-Aug-2008 Wilco Jansen
  # [12039] Cannot override contact list length
- #
+ # [12481] When saving or cancellig a frontend edit you are redirected to a blank page instead of the article
 
 30-Aug-2008 Wilco Jansen
  # [10175] JRoute::_() and Application Redirect() Causing CGI Error IIS 6
