@@ -38,6 +38,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+31-Aug-2008 Wilco Jansen
+ # [12039] Cannot override contact list length
+ #
+
 30-Aug-2008 Wilco Jansen
  # [10175] JRoute::_() and Application Redirect() Causing CGI Error IIS 6
  # [10691] Section/Category Blog fills top->bottom instead of left->right
