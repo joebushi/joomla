@@ -57,8 +57,44 @@ class JodademoModelExamples extends JModel
     function Test3() {
         $dataset = JFactory::getDBSet();
         $qb = $dataset->getQueryBuilder();
-        $result = $qb->replaceString('select " plamen " #__plam"en " ""#__""test from me', "#__", "jos_");
+        $result = "";
+        //$result = $qb->replaceString('select " plamen " #__plam"en " ""#__""test from me', "#__", "jos_");
 
+        
+        $s = "SELECT '#__field0', '#__field0', `field1`, \"field2\", 'field3\"plus\"' FROM #__TABLE";
+        
+        $q = "'";
+        $nq = "`";
+        
+        $pattern = "/$q([^$q]*)$q/";
+        
+        $matches = array();
+        $b = preg_match_all($pattern, $s, $matches);
+
+        $result = $s . "\n" . $pattern."\n\n";
+        if ($b) {
+            $result .= "Result:\n\n";
+            if ( is_array($matches) ) {
+                $full = $matches[0];
+                $subs_count = count($matches) - 1;
+                
+                $result .= "Full:\n";
+                foreach ($full as $match) {
+                    $result .= $match . "\n"; 
+                }
+                if ( $subs_count > 0 ) {
+                    $result .= "\n\nSub patterns:\n";
+                    for ($i = 1; $i <= $subs_count; $i++ ) {
+                        $submatches = $matches[$i];
+                        $result .= "\n$i:\n";
+                        foreach ( $submatches as $match ){
+                            $result .= $match . "\n"; 
+                        }
+                    }
+                }
+            }
+        }
+        
         $text["explain"] = "REGEX";
         $text["result"] = $result;
         return $text;
