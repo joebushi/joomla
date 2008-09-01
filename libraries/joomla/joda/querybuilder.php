@@ -190,18 +190,18 @@ abstract class JQueryBuilder extends JObject
     protected $_reservedKeywords = array();
 
     /**
-     * Name Quote starting char
+     * Name Quoting characters for identifiers
      *
-     * @var string
+     * @var array
      */
-    protected $_name_quote = '';
+    protected $_name_quotes = array("");
 
     /**
-     * Quoting character for text literals; BEGIN
+     * Quoting characters for text literals
      *
-     * @var character
+     * @var array
      */
-    protected $_text_quote = "";
+    protected $_text_quotes = array("");
 
     /**
      * Prefix-placeholder used in queries, later replaced by the relation prefix
@@ -1404,7 +1404,7 @@ abstract class JQueryBuilder extends JObject
      */
     function nameQuote( $s )
     {
-        $q = $this->_name_quote{0};
+        $q = $this->_name_quotes[0];
         return $q . $s . $q;
     }
 
@@ -1418,7 +1418,7 @@ abstract class JQueryBuilder extends JObject
      */
     function quote( $text, $escaped = true )
     {
-        //return $this->_text_quote . ($escaped ? $this->_dbo->getEscaped( $text ) : $text) . $this->_text_quote;
+        //
     }
 
 
@@ -1436,23 +1436,18 @@ abstract class JQueryBuilder extends JObject
         $open_char = '';
         $end = strlen($queries);
         $query_split = array();
+        $quotes = array_merge($this->_name_quotes, $this->_text_quotes);
         for($i=0;$i<$end;$i++) {
             $current = substr($queries,$i,1);
-            if ( ($current == $this->_text_quote) ||
-                 ($current == $this->_name_quote) ) {
+            if ( in_array($current, $quotes) ) {
                 $n = 2;
                 while(substr($queries,$i - $n + 1, 1) == '\\' && $n < $i) {
                     $n ++;
                 }
                 if ( $n%2==0 ) {
                     if ($open) {
-                        if (
-                                ($current == $this->_name_quote) ||
-                                ($current == $this->_text_quote)
-                            ) {
-                            $open = false;
-                            $open_char = '';
-                        }
+                        $open = false;
+                        $open_char = '';
                     } else {
                         $open = true;
                         $open_char = $current;
@@ -1628,7 +1623,7 @@ abstract class JQueryBuilder extends JObject
      */
     public function getSQL()
     {
-        $result= $this->replaceString($this->_toString(), $this->_prefix, $this->_relation_prefix);
+        $result = $this->replacePrefix( $this->_toString(), $this->_prefix, $this->_relation_prefix );
         return $result;
     }
 
@@ -1644,7 +1639,8 @@ abstract class JQueryBuilder extends JObject
      */
     function replacePrefix( $string, $prefix=Joda::DEFAULT_PREFIX, $relationprefix=Joda::DEFAULT_RELATION_PREFIX )
     {
-        return $this->replaceString( $string, $prefix, $relationprefix );
+    	$result = $this->replaceNonQuotedString($string, $prefix, $relationprefix);
+        return $result;
     }
 
 
@@ -1729,6 +1725,80 @@ abstract class JQueryBuilder extends JObject
     }
 
 
+
+
+    /**
+     * Replace substring that is NOT quoted by text literals quotes (',", etc)
+     * e.g. "'this will not be replaced' this will be replaced"
+     *
+     * @param string The String
+     * @param string String to search
+     * @param string New string
+     */
+    function replaceNonQuotedString($input, $from, $to)
+    {
+
+    	$unique_string = $this->getUniqueString();
+
+    	// Make a string from all text quoting characters
+    	$q = implode("", $this->_text_quotes);
+
+    	// Pattern to match quoted strings (include quotes)
+    	$pattern = '/(['.$q.'])(?:\\\\\1|[\S\s])*?\1/';
+
+    	// Matches placeholder
+        $matches = array();
+
+        // Apply REGEX, keep matching offsets as well
+        $found = preg_match_all($pattern, $input, $matches, PREG_OFFSET_CAPTURE );
+
+        $newstring = $input;
+        if ($found) {
+        	// Array of all matches: array[0..N] of array[0..1] : N: count; 0: match substring, 1: offset of the match
+        	$allmatches = $matches[0];
+        	$shift = 0;
+        	$i = 1;
+            foreach ($allmatches as $match) {
+            	// String to replace the match with
+            	$replacement = $unique_string . $i;
+
+            	// Keep the replacement => match pairs
+            	$replacements[$replacement] = $match[0];
+
+            	// Replacethe match with the replacement string
+            	// $match[1] is the offset in the string
+                $newstring = substr_replace($newstring, $replacement, $match[1]+$shift, strlen($match[0]));
+
+                // Take into an acoount the string lenght difference
+                $shift = $shift + strlen($replacement) - strlen($match[0]);
+                $i++;
+            }
+            $newstring = str_replace($from, $to, $newstring);
+
+            foreach ($replacements as $replacement => $original) {
+            	$newstring = str_replace($replacement, $original, $newstring);
+            }
+        }
+        // If no quoting inside, then .. well.. ok... replace then
+        else {
+            $newstring = str_replace($from, $to, $newstring);
+        }
+
+        return $newstring;
+    }
+
+
+
+    /**
+     * Generate Unique string
+     */
+    function getUniqueString()
+    {
+        $better_token = md5(uniqid(rand(), true));
+        $unique_code = substr($better_token, 16);
+        $uniqueid = $unique_code;
+        return $uniqueid;
+    }
 
 
 

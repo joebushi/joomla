@@ -47,18 +47,18 @@ class JQueryBuilderPgsql extends JQueryBuilder {
 	protected $_sDefault = 'DEFAULT';
 
     /**
-     * Name Quote starting char
+     * Name Quoting characters for identifiers
      *
-     * @var string
+     * @var array
      */
-	protected $_name_quote = '"';
+    protected $_name_quotes = array('"');
 
     /**
-     * Quoting character for text literals: BEGIN
+     * Quoting characters for text literals
      *
-     * @var character
+     * @var array
      */
-    protected $_text_quote = "'";
+    protected $_text_quotes = array("'");
 
 	/** @var Array List of SQL reserved keywords */
 	protected $_reservedKeywords = array(

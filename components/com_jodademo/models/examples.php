@@ -27,18 +27,19 @@ class JodademoModelExamples extends JModel
 {
 
     function Test1() { // Just building a simple query
+    	$result = "";
         $dataset = JFactory::getDBSet();
         $qb = $dataset->getQueryBuilder();
         $qb->select('"#__1234"')->from("#__content");
         $result = $qb->getSQL();
-
         $text["explain"] = "Build a query";
         $text["result"] = $result;
         return $text;
     }
 
     function Test2() {  // Getting data from DB
-        $dataset = JFactory::getDBSet();
+        $result = "";
+    	$dataset = JFactory::getDBSet();
         $qb = $dataset->getQueryBuilder();
         $qb->select(array("id","title"))->from("#__content");
         $dataset->addSQL($qb->getSQL());
@@ -48,7 +49,6 @@ class JodademoModelExamples extends JModel
         foreach ( $data as $row ) {
             $result .= $row["id"] . ":" . $row["title"] . "\n";
         }
-
         $text["explain"] = "Getting data from database";
         $text["result"] = $result;
         return $text;
@@ -56,8 +56,11 @@ class JodademoModelExamples extends JModel
 
 
     function Test3() {
+        $result = "";
+
         $dataset = JFactory::getDBSet();
         $qb = $dataset->getQueryBuilder();
+
         $result = "";
         //$result = $qb->replaceString('select " plamen " #__plam"en " ""#__""test from me', "#__", "jos_");
 
@@ -114,7 +117,14 @@ class JodademoModelExamples extends JModel
 
 
 
+    function Test4()
+    {
+        $result = "";
 
+    	$text["explain"] = "Replace String/Prefix";
+        $text["result"] = $result;
+        return $text;
+    }
 
 
 

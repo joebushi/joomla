@@ -55,26 +55,21 @@ class JQueryBuilderMysql extends JQueryBuilder
 
 
     /**
-     * Name Quote starting char
+     * Name Quoting characters for identifiers
      *
-     * @var string
+     * @var array
      */
-    protected $_name_quote = "`";
+    protected $_name_quotes = array("`");
 
     /**
-     * Quoting character for text literals: BEGIN
+     * Quoting characters for text literals
      *
-     * @var character
+     * @var array
      */
-    protected $_text_quote = "'";
-    /**
-     * Quoting character for text literals: END
-     *
+    protected $_text_quotes = array("'",'"');
 
 
-
-
-	/******************************************************************/
+/******************************************************************/
 	/******************** PROTECTED METHODS ***************************/
 	/******************************************************************/
 
