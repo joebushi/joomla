@@ -25,6 +25,7 @@ jimport( 'joomla.application.component.model' );
  */
 class JodademoModelExamples extends JModel
 {
+    
     function Test1() { // Just building a simple query
         $dataset = JFactory::getDBSet();
         $qb = $dataset->getQueryBuilder();
@@ -63,15 +64,17 @@ class JodademoModelExamples extends JModel
         
         $s = "SELECT '#__field0', '#__field0', `field1`, \"field2\", 'field3\"plus\"' FROM #__TABLE";
         
-        $q = "'";
+        $q = "\"";
         $nq = "`";
         
-        $pattern = "/$q([^$q]*)$q/";
+        $pattern = "/$q(([^$q])*)$q/";
         
         $matches = array();
-        $b = preg_match_all($pattern, $s, $matches);
+        $b = preg_match_all($pattern, $s, $matches, PREG_OFFSET_CAPTURE );
 
         $result = $s . "\n" . $pattern."\n\n";
+        $sn = $s;
+        $sn_result = "";
         if ($b) {
             $result .= "Result:\n\n";
             if ( is_array($matches) ) {
@@ -79,8 +82,14 @@ class JodademoModelExamples extends JModel
                 $subs_count = count($matches) - 1;
                 
                 $result .= "Full:\n";
+                $i=1;
+                $shift = 0;
                 foreach ($full as $match) {
-                    $result .= $match . "\n"; 
+                    $result .=  $match[1] . ": " . $match[0] . "\n";
+                    $replacement = "XXXXXXXXXXXXXX$i";
+                    $sn = substr_replace($sn, $replacement, $match[1]+$shift, strlen($match[0]));
+                    $shift = $shift + strlen($replacement) - strlen($match[0]);
+                    $i++;
                 }
                 if ( $subs_count > 0 ) {
                     $result .= "\n\nSub patterns:\n";
@@ -88,7 +97,7 @@ class JodademoModelExamples extends JModel
                         $submatches = $matches[$i];
                         $result .= "\n$i:\n";
                         foreach ( $submatches as $match ){
-                            $result .= $match . "\n"; 
+                            $result .= $match[1] . ": " . $match[0] . "\n"; 
                         }
                     }
                 }
@@ -96,7 +105,7 @@ class JodademoModelExamples extends JModel
         }
         
         $text["explain"] = "REGEX";
-        $text["result"] = $result;
+        $text["result"] = $result . "\n\n" . $sn;
         return $text;
     }
 
