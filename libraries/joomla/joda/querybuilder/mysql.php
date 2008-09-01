@@ -59,27 +59,17 @@ class JQueryBuilderMysql extends JQueryBuilder
      *
      * @var string
      */
-    protected $_name_quote_begin = "`";
-
-    /**
-     * Name Quote ending char
-     *
-     * @var string
-     */
-    protected $_name_quote_end = "`";
+    protected $_name_quote = "`";
 
     /**
      * Quoting character for text literals: BEGIN
      *
      * @var character
      */
-    protected $_text_quote_begin = "'";
+    protected $_text_quote = "'";
     /**
      * Quoting character for text literals: END
      *
-     * @var character
-     */
-    protected $_text_quote_end = "'";
 
 
 

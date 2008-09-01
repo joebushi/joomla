@@ -25,7 +25,7 @@ jimport( 'joomla.application.component.model' );
  */
 class JodademoModelExamples extends JModel
 {
-    
+
     function Test1() { // Just building a simple query
         $dataset = JFactory::getDBSet();
         $qb = $dataset->getQueryBuilder();
@@ -61,14 +61,15 @@ class JodademoModelExamples extends JModel
         $result = "";
         //$result = $qb->replaceString('select " plamen " #__plam"en " ""#__""test from me', "#__", "jos_");
 
-        
-        $s = "SELECT '#__field0', '#__field0', `field1`, \"field2\", 'field3\"plus\"' FROM #__TABLE";
-        
-        $q = "\"";
-        $nq = "`";
-        
-        $pattern = "/$q(([^$q])*)$q/";
-        
+        $s = "SELECT '#__fi\'eld0', '#__field0', `field1`, \"field2\", 'field3\"plus\"' FROM #__TABLE";
+
+        $q = "'";
+        $qq = '"';
+
+        $pattern = '/(['.$q.$qq.'])(?:\\\\\1|[\S\s])*?\1/';
+
+
+
         $matches = array();
         $b = preg_match_all($pattern, $s, $matches, PREG_OFFSET_CAPTURE );
 
@@ -80,13 +81,14 @@ class JodademoModelExamples extends JModel
             if ( is_array($matches) ) {
                 $full = $matches[0];
                 $subs_count = count($matches) - 1;
-                
+
                 $result .= "Full:\n";
                 $i=1;
                 $shift = 0;
                 foreach ($full as $match) {
                     $result .=  $match[1] . ": " . $match[0] . "\n";
                     $replacement = "XXXXXXXXXXXXXX$i";
+                    $replacements[$replacement] = $match[0];
                     $sn = substr_replace($sn, $replacement, $match[1]+$shift, strlen($match[0]));
                     $shift = $shift + strlen($replacement) - strlen($match[0]);
                     $i++;
@@ -97,13 +99,13 @@ class JodademoModelExamples extends JModel
                         $submatches = $matches[$i];
                         $result .= "\n$i:\n";
                         foreach ( $submatches as $match ){
-                            $result .= $match[1] . ": " . $match[0] . "\n"; 
+                            $result .= $match[1] . ": " . $match[0] . "\n";
                         }
                     }
                 }
             }
         }
-        
+
         $text["explain"] = "REGEX";
         $text["result"] = $result . "\n\n" . $sn;
         return $text;

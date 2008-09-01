@@ -194,29 +194,14 @@ abstract class JQueryBuilder extends JObject
      *
      * @var string
      */
-    protected $_name_quote_begin = '';
-
-    /**
-     * Name Quote ending char
-     *
-     * @var string
-     */
-    protected $_name_quote_end = '';
+    protected $_name_quote = '';
 
     /**
      * Quoting character for text literals; BEGIN
      *
      * @var character
      */
-    protected $_text_quote_begin = "";
-
-    /**
-     * Quoting character for text literals: END
-     *
-     * @var character
-     */
-    protected $_text_quote_end = "";
-
+    protected $_text_quote = "";
 
     /**
      * Prefix-placeholder used in queries, later replaced by the relation prefix
@@ -1419,9 +1404,8 @@ abstract class JQueryBuilder extends JObject
      */
     function nameQuote( $s )
     {
-        $q1 = $this->_name_quote_begin{0};
-        $q2 = $this->_name_quote_end{0};
-        return $q1 . $s . $q2;
+        $q = $this->_name_quote{0};
+        return $q . $s . $q;
     }
 
 
@@ -1434,7 +1418,7 @@ abstract class JQueryBuilder extends JObject
      */
     function quote( $text, $escaped = true )
     {
-        //return $this->_text_quote_begin . ($escaped ? $this->_dbo->getEscaped( $text ) : $text) . $this->_text_quote_end;
+        //return $this->_text_quote . ($escaped ? $this->_dbo->getEscaped( $text ) : $text) . $this->_text_quote;
     }
 
 
@@ -1454,10 +1438,8 @@ abstract class JQueryBuilder extends JObject
         $query_split = array();
         for($i=0;$i<$end;$i++) {
             $current = substr($queries,$i,1);
-            if ( ($current == $this->_text_quote_begin) ||
-                 ($current == $this->_text_quote_end) ||
-                 ($current == $this->_name_quote_begin) ||
-                 ($current == $this->_name_quote_end) ) {
+            if ( ($current == $this->_text_quote) ||
+                 ($current == $this->_name_quote) ) {
                 $n = 2;
                 while(substr($queries,$i - $n + 1, 1) == '\\' && $n < $i) {
                     $n ++;
@@ -1465,8 +1447,8 @@ abstract class JQueryBuilder extends JObject
                 if ( $n%2==0 ) {
                     if ($open) {
                         if (
-                                (($open_char == $this->_name_quote_begin) && ($current == $this->_name_quote_end)) ||
-                                (($open_char == $this->_text_quote_begin) && ($current == $this->_text_quote_end))
+                                ($current == $this->_name_quote) ||
+                                ($current == $this->_text_quote)
                             ) {
                             $open = false;
                             $open_char = '';
@@ -1745,6 +1727,10 @@ abstract class JQueryBuilder extends JObject
         }
         return $literal;
     }
+
+
+
+
 
 } // class
 
