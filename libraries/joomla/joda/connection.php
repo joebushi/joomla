@@ -21,7 +21,7 @@
 defined( 'JPATH_BASE' ) or die();
 
 //TODO: DEBUG!!!
-//TODO: If you need metadata - select * from table where 1=1  (?!?!)
+//TODO: If you need metadata -  select * from table where 1=1  (?!?!)
 //TODO: Prepared statements? Optional? Parameters?
 //TODO: Multi-line SQL not allowed (I mean semicolons NOT allowed! /';'/!!!!
 //TODO: Log queries in debug mode

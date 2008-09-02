@@ -49,7 +49,7 @@ class JDataset extends JObject
 
 
     /**
-     * Fetch Style to use if not specified
+     * Fetch  Style to use if not specified
      *
      * @var integer
      */
