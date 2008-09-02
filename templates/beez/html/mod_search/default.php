@@ -20,12 +20,12 @@ defined('_JEXEC') or die('Restricted access');
 
 			switch ($button_pos) :
 			    case 'top' :
-				    $button = $button.'<br/>';
+				    $button = $button.'<br />';
 				    $output = $button.$output;
 				    break;
 
 			    case 'bottom' :
-				    $button = '<br/>'.$button;
+				    $button = '<br />'.$button;
 				    $output = $output.$button;
 				    break;
 

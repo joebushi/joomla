@@ -1275,6 +1275,7 @@ class ContentController extends JController
 			$row->hits						= '0';
 			$row->ordering					= '0';
 			$row->title						= $item->title;
+			$row->alias						= $item->alias;
 			$row->title_alias				= $item->title_alias;
 			$row->introtext					= $item->introtext;
 			$row->fulltext					= $item->fulltext;
@@ -1447,7 +1448,7 @@ class ContentController extends JController
 
 		// Set page title
 		$document->setTitle(JText::_('Article Preview'));
-		$document->addStyleSheet('../templates/'.$template.'/css/editor.css');
+		$document->addStyleSheet(JURI::root() . 'templates/'.$template.'/css/editor.css');
 		$document->setBase(JUri::root());
 
 		// Render article preview

@@ -35,6 +35,7 @@ class PollController extends JController
 	 */
 	function display()
 	{
+		JRequest::setVar('view','poll'); // force it to be the polls view
 		parent::display();
 	}
 

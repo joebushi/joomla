@@ -351,7 +351,7 @@ class BannerControllerBanner extends JController
 		;
 		$db->setQuery( $query );
 		if (!$db->query()) {
-			return JError::raiseWarning( 500, $row->getError() );
+			return JError::raiseWarning( 500, $db->getError() );
 		}
 		$this->setMessage( JText::sprintf( $publish ? 'Items published' : 'Items unpublished', $n ) );
 	}
@@ -376,7 +376,7 @@ class BannerControllerBanner extends JController
 			;
 			$db->setQuery( $query );
 			if (!$db->query()) {
-				JError::raiseWarning( 500, $row->getError() );
+				JError::raiseWarning( 500, $db->getError() );
 			}
 		}
 

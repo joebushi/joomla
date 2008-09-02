@@ -38,6 +38,11 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+31-Aug-2008 Wilco Jansen
+ # [12039] Cannot override contact list length
+ # [12481] When saving or cancellig a frontend edit you are redirected to a blank page instead of the article
+ # [12536] Warnings for Path to Image Folder and Path to Media Folder
+
 30-Aug-2008 Wilco Jansen
  # [10175] JRoute::_() and Application Redirect() Causing CGI Error IIS 6
  # [10691] Section/Category Blog fills top->bottom instead of left->right
@@ -49,25 +54,28 @@ $ -> Language fix or change
  # [12071] SEO: index and follow meta tag in print view
  # [12165] Pagination in com_categories does not respect sectionfilter
  # [12167] Show Search Results" Option in Search Component Not Working
-
-30-Aug-2008 Plamen Petkov
- ! Merge Note: 1.5-stable merged up to rev. 10860
+ # [12204] ja_purity template - site logo text goes under header background
+ # [12229] Article Order Drop-Down List on Front End Shows Archived and Trashed Articles
+ # [12259] Help Key Reference Update for Modules: New Screen
+ # [12276] Selection of name/username doesnt work in mod_login
+ # [12336] Terms impossible to translate in  admin.newsfeeds.php
+ # [12394] Incorrect colspan in admin mod_latest
+ # [12425] When a guest tries to view unauthorized content, redirect should be to login not register
+ # [12426] Polls and Search use the wrong view - IIS 7
+ # [12432] Category search plugin not working
+ # [12438] <BR/> tags do not pass html validation
+ ! There where a dozen mismatches in the language files, so not all <br /> tags have been replaced,
+   new language files for 1.5.7 need to be validated on this issue.
+ # [12442] JA Purity SVN changes can break backwards compatibility with existing sites
+ # [12462] Menu item is still locked after closing it
+ # [12492] Preview an edited artcle does not use template editor.css
+ # [12055] Archive intro text is cut to 255 characters - causes formatting problems
+ # [12457] Alias is copied incorrectly, when copying an article
+ # [12460] $row->getError() all over the shop where $row is not initialized
+ # [12194] URL: Incorrect SEF URLs for outgoing recommandation e-mails
 
 29-Aug-2008 Charl van Niekerk
  # [10458] Pagebreak in article in blog layout does not work - limitstart double usage ( Tim, Arno )
-
-29-Aug-2008 Plamen Petkov
- + Added "Joda Queries Logged" to debug plugin
- ^ Working on Joda Demo component ("Examples")
-
-28-Aug-2008 Plamen Petkov
- ! Merge Note: 1.5-stable merged up to rev. 10836
- + Working on JConnection debug, including Named Connections Debug using connection specific Debug option
- ! Merge Note: 1.5-stable merged up to rev. 10829
- ^ Make JQueryBuilder a Single Query Builder, rather than an array of queries
- ^ JDataset accepts SQL as a string or array of strings
- + Add methods to addSQL (additive)
- + Transaction flow and error reporting improved
 
 28-Aug-2008 Andrew Eddie
  # [12110] Beez Template - Newsflash - Article URL not provided when "Title Linkable" is Yes
@@ -76,12 +84,6 @@ $ -> Language fix or change
 
 28-Aug-2008 Charl van Niekerk
  # [11763] RSS feed produces incorrect publish date ( Hannes )
-
-27-Aug-2008 Plamen Petkov
- ! Merge Note: 1.5-stable merged up to rev. 10818
- ! Merge Note: 1.5-stable merged up to rev. 10817
- + Start minor query execution error handling
- ^ Handle FETCH styles (Assoc/Objects/etc.)
 
 27-Aug-2008 Toby Patterson
  # [9343] Profiling J1.5 framework ( Dalibor, Hannes )
@@ -96,35 +98,14 @@ $ -> Language fix or change
 26-Aug-2008 Charl van Niekerk
  # [9824] alt tags missing for some img tags ( Gergo Erdosi )
 
-25-Aug-2008 Plamen Petkov
- + Add debuging to JConnection class
- ^ Rename some variables/properties
- ! Merge Note: 1.5-stable merged up to rev. 10797
-
 25-Aug-2008 Toby Patterson
  # [10265] & not replaced with &amp; in the external links ( Denis, Hannes )
  # [10384] Single quote in title is escaped twice when editing an article in frontend ( Arnault, Bill )
  # [11115] queryBatch does not log queries in debugmode ( Ian )
  # [12441] Street Address is not shown in contacts ( Eduardo, JBS )
 
-24-Aug-2008 Plamen Petkov
- ! Merge Note: 1.5-stable changes merged (rev. 10778-10792)
-
 24-Aug-2008 Sam Moffatt
  # [11970] ja_purity email and print button files misnamed and not used
-
-24-Aug-2008 Plamen Petkov
- ! Joda branch should be considered now: line-endings clean, prop-sets done (php/css/js/ini files), and ...
- ! ... and Joomla 1.5-stable branch merged into Joda branch up to rev.10777. DONE.
-
-23-Aug-2008 Plamen Petkov
- ! Merge Note: 1.5-stable merged into up to  10777
-
-23-Aug-2008 Plamen Petkov
- # Fix "unnamed connection used" (factory.php)
- + Add Joda::dummy_connections(): a default set of default named connections
- ^ Make config_joda_connections more template-ish, not a controller-like
- ^ Handle empty config connections, max connections number, etc. (com_config application.php controller)
 
 23-Aug-2008 Wilco Jansen
  # [11327] Base path showed in media manager is missing slashes
@@ -137,9 +118,6 @@ $ -> Language fix or change
  # [12268] Multiple issues with Top menu in JA_Purity
  # [12399] Copying Newsflash Module in Sample Data results in 500 error and duplicate key for menu table
  # [12353] More aritcle links in section blog not working
-
-23-Aug-2008 Plamen Petkov
- ! Branch 1.5-stable [up to rev.10752/23 Aug 2008] merged into Joda branch (line endings issue skipped)
 
 22-Aug-2008 Toby Patterson
  # [#10965] Not all instances of module are deleted when module is uninstalled ( Andrzej and Sam )
@@ -1710,4 +1688,5 @@ $ -> Language fix or change
 
 19-Dec-2007 Ian MacLennan
  # Fixed topic 244449 XMLRPC Search plugin doesn't work with weblinks search plugin published
- -------------------- 1.5.0 Release Candidate 4 Released [19-December-2007] ---------------------
+
+-------------------- 1.5.0 Release Candidate 4 Released [19-December-2007] ---------------------

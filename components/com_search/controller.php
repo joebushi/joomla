@@ -34,6 +34,7 @@ class SearchController extends JController
 	 */
 	function display()
 	{
+		JRequest::setVar('view','search'); // force it to be the polls view
 		parent::display();
 	}
 

@@ -55,7 +55,7 @@ class JodademoModelExamples extends JModel
     }
 
 
-    function Test3() {
+    function noTest3() {
         $result = "";
 
         $dataset = JFactory::getDBSet();
@@ -135,7 +135,9 @@ class JodademoModelExamples extends JModel
     	for ($i=1; $i<=100; $i++) {
     		$method = "test" . "$i";
             if ( method_exists($this, $method) ) {
-            	$texts["t$i"] = $this->$method();
+            	$key = "t$i";
+            	$texts[$key] = $this->$method();
+            	$texts[$key]["explain"] = "Test $i:\n" . $texts[$key]["explain"];
             }
     	}
         return $texts;

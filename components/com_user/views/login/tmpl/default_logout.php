@@ -28,7 +28,7 @@
 </tr>
 </table>
 
-<br/><br/>
+<br /><br />
 
 <input type="hidden" name="option" value="com_user" />
 <input type="hidden" name="task" value="logout" />

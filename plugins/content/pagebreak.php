@@ -47,7 +47,7 @@ function plgContentPagebreak( &$row, &$params, $page=0 )
 	}
 
 	if ($print) {
-		$row->text = preg_replace( $regex, '<BR/>', $row->text );
+		$row->text = preg_replace( $regex, '<br />', $row->text );
 		return true;
 	}
 

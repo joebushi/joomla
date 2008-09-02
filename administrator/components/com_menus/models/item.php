@@ -23,6 +23,13 @@ jimport( 'joomla.application.component.model' );
  */
 class MenusModelItem extends JModel
 {
+	/**
+	* Menu Item ID
+	* 
+	* @var int
+	*/
+	var $_id = null;
+	
 	/** @var object JTable object */
 	var $_table = null;
 
@@ -47,6 +54,18 @@ class MenusModelItem extends JModel
 					$this->_url .= '&'.$k.'='.$v;
 				}
 			}
+		}
+		
+		$this->setId();
+	}
+	
+	function setId()
+	{
+		$array = JRequest::getVar('cid', array(0), '', 'array');
+		$this->_id = (int) $array[0];
+
+		if (!$this->_id) {
+		$this->_id = JRequest::getInt('id', 0);
 		}
 	}
 
@@ -353,6 +372,22 @@ class MenusModelItem extends JModel
 		}
 
 		return true;
+	}
+	
+	function checkin()
+	{
+		if ($this->_id) {
+			$item =& $this->_getTable();
+
+			if(!$item->checkin($this->_id)) {
+				$this->setError($this->_db->getErrorMsg());
+				return false;
+			}
+
+			return true;
+		}
+
+		return false;
 	}
 
 	function store()

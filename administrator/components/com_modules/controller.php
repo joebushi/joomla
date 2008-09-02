@@ -236,7 +236,7 @@ class ModulesController extends JController
 			$query = 'INSERT INTO #__modules_menu (moduleid,menuid) VALUES '.implode( ',', $tuples );
 			$db->setQuery( $query );
 			if (!$db->query()) {
-				return JError::raiseWarning( 500, $row->getError() );
+				return JError::raiseWarning( 500, $db->getError() );
 			}
 		}
 
@@ -298,7 +298,7 @@ class ModulesController extends JController
 		;
 		$db->setQuery( $query );
 		if (!$db->query()) {
-			return JError::raiseWarning( 500, $row->getError() );
+			return JError::raiseWarning( 500, $db->getError() );
 		}
 
 		// check needed to stop a module being assigned to `All`
@@ -310,7 +310,7 @@ class ModulesController extends JController
 			;
 			$db->setQuery( $query );
 			if (!$db->query()) {
-				return JError::raiseWarning( 500, $row->getError() );
+				return JError::raiseWarning( 500, $db->getError() );
 			}
 		}
 		else
@@ -325,7 +325,7 @@ class ModulesController extends JController
 					;
 					$db->setQuery( $query );
 					if (!$db->query()) {
-						return JError::raiseWarning( 500, $row->getError() );
+						return JError::raiseWarning( 500, $db->getError() );
 					}
 				}
 			}

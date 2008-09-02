@@ -80,7 +80,11 @@ class ConfigApplicationView
 								<?php echo $userparams->render('userparams'); ?>
 							</fieldset>
 							<fieldset class="adminform">
-								<legend><?php echo JText::_( 'Media Settings' ); ?></legend>
+								<legend><?php echo JText::_( 'Media Settings' ); ?>
+				<span class="error hasTip" title="<?php echo JText::_( 'Warning' );?>::<?php echo JText::_( 'WARNPATHCHANGES' ); ?>">
+					<?php echo ConfigApplicationView::WarningIcon(); ?>
+				</span>
+								</legend>
 								<?php echo $mediaparams->render('mediaparams'); ?>
 							</fieldset>
 						</td>

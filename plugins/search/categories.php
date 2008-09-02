@@ -107,7 +107,7 @@ function plgSearchCategories( $text, $phrase='', $ordering='', $areas=null )
 
 	$return = array();
 	foreach($rows AS $key => $category) {
-		if(searchHelper::checkNoHTML($category, $text, array('name', 'title', 'text'))) {
+		if(searchHelper::checkNoHTML($category, $searchText, array('name', 'title', 'text'))) {
 			$return[] = $category;
 		}
 	}
