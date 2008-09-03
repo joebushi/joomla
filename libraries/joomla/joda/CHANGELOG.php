@@ -46,7 +46,7 @@ $ -> Language fix or change
  ^ Working on Joda Demo component ("Examples")
 
 28-Aug-2008 Plamen Petkov
- ! Merge Note: 1.5-stable merged up to rev. 10836
+ ! Merge Note: 1.5-stable merged  up to rev. 10836
  + Working on JConnection debug, including Named Connections Debug using connection specific Debug option
  ! Merge Note: 1.5-stable merged up to rev. 10829
  ^ Make JQueryBuilder a Single Query Builder, rather than an array of queries
