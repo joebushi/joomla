@@ -49,7 +49,7 @@ $ -> Language fix or change
  ! Merge Note: 1.5-stable merged  up to rev. 10836
  + Working on JConnection debug, including Named Connections Debug using connection specific Debug option
  ! Merge Note: 1.5-stable merged up to rev. 10829
- ^ Make JQueryBuilder a Single Query Builder, rather than an array of queries
+ ^ Make JQueryBuilder a  Single Query Builder, rather than an array of queries
  ^ JDataset accepts SQL as a string or array of strings
  + Add methods to addSQL (additive)
  + Transaction flow and error reporting improved
