@@ -36,7 +36,7 @@ $ -> Language fix or change
 
 02-Sep-2008 Plamen Petkov  
  ! Merge Note: 1.5-stable merged up to rev. 10882
- ^ Log changes into joda/CHANGELOG.php instead of <Joomla! root>/CHANGELOG.php
+ ^ Log changes into joda/CHANGELOG.php  instead of <Joomla! root>/CHANGELOG.php
 
 30-Aug-2008 Plamen Petkov
  ! Merge Note: 1.5-stable merged up to rev. 10860
