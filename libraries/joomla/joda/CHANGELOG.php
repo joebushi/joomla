@@ -62,7 +62,7 @@ $ -> Language fix or change
 
 25-Aug-2008 Plamen Petkov
  + Add debuging to JConnection class
- ^ Rename some variables/properties
+ ^ Rename some  variables/properties
  ! Merge Note: 1.5-stable merged up to rev. 10797
 
 24-Aug-2008 Plamen Petkov
