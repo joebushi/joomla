@@ -30,14 +30,31 @@ class JodademoModelExamples extends JModel
     	$result = "";
         $dataset = JFactory::getDBSet();
         $qb = $dataset->getQueryBuilder();
-        $qb->select('"#__1234"')->from("#__content");
+        $qb
+            ->select(array("f1"=>"field1", "f2" => "'#__plamen'"))
+            ->from(array("c" => "#__content", "d" => "'#__content'"))
+            ->join("#__categories", "c.catid=cats.id", "cats")
+            ->orderby(array("c" => Joda::SORT_DESC, "title"))
+            ;
+
+
         $result = $qb->getSQL();
+
+
+        $test = "DDD; DDdd; dddddddddd; ddddddd;; dddd11'11XXX\nXXX11'111ddDDDDD";
+        $result = "";
+        $sqls = $qb->splitSQL($test);
+        foreach ( $sqls as $sql ) {
+        	$result .= "\n" . $sql;
+        }
+
+
         $text["explain"] = "Build a query";
         $text["result"] = $result;
         return $text;
     }
 
-    function Test2() {  // Getting data from DB
+    function Test2() {  //  Getting data from DB
         $result = "";
     	$dataset = JFactory::getDBSet();
         $qb = $dataset->getQueryBuilder();

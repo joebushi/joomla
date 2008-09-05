@@ -18,7 +18,7 @@ defined('_JEXEC') or die( 'Restricted access' );
 jimport('joomla.application.component.controller');
 
 /**
- * Jodademo Component Controller
+ * Jodademo Component Controller 
  *
  * @package     Joomla
  * @subpackage  Jodademo

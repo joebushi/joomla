@@ -12,7 +12,7 @@
                 <?php echo nl2br($text["explain"]); ?>
                 </code>
             </td>
-            <td>
+            <td> 
                 <?php echo nl2br($text["result"]); ?>
             </td>
         </tr>

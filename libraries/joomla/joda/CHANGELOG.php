@@ -34,7 +34,23 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-02-Sep-2008 Plamen Petkov  
+05-Sep-2008 Plamen Petkov
+ ! Merge Note: Working Joda merged up to rev. 72
+ ! Note: since 04 Sep 2008 work is done on a phisically separate repository to avoid flooding main Joomlacode.org repo with countless commits!
+   http://www.zetcom.bg/svn/joomla/development/branches/joda (requires authentication; please ask for username)
+   Once in a while that Working Joomla-Joda code is merged to Joomlacode.org Joomla-Joda branch and then
+   Joomla 1.5-STABLE tree is merged into the same Joomlacode.org Joomla-Joda branch:
+              (Work Joomla-Joda) === 1.merge ==>>     (Joomla-Joda ==> 3.commit)   <<== 2.merge == (Joomla! 1.5-STABLE)
+
+04-Sep-2008 Plamen Petkov
+ + Add __toString() to QueryBuilder,  returning the final SQL string (prefix replaced)
+ + Add splitSQL() method to QB
+
+03-Sep-2008 Plamen Petkov
+ ^ Somewhat finished replaceNonQuotedString()
+ ^ QueryBuilder select() accepts null parameters, meaning '*'
+
+02-Sep-2008 Plamen Petkov
  ! Merge Note: 1.5-stable merged up to rev. 10882
  ^ Log changes into joda/CHANGELOG.php  instead of <Joomla! root>/CHANGELOG.php
 
@@ -48,14 +64,14 @@ $ -> Language fix or change
 28-Aug-2008 Plamen Petkov
  ! Merge Note: 1.5-stable merged  up to rev. 10836
  + Working on JConnection debug, including Named Connections Debug using connection specific Debug option
- ! Merge Note: 1.5-stable merged up to rev. 10829
+ ! Merge Note: 1.5-stable  merged up to rev. 10829
  ^ Make JQueryBuilder a  Single Query Builder, rather than an array of queries
  ^ JDataset accepts SQL as a string or array of strings
  + Add methods to addSQL (additive)
  + Transaction flow and error reporting improved
 
 27-Aug-2008 Plamen Petkov
- ! Merge Note: 1.5-stable merged up to rev. 10818
+ ! Merge Note: 1.5-stable merged up to  rev. 10818
  ! Merge Note: 1.5-stable merged up to rev. 10817
  + Start minor query execution error handling
  ^ Handle FETCH styles (Assoc/Objects/etc.)

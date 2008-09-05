@@ -142,14 +142,14 @@ class Joda extends JObject
 
 
     /**
-     * Default Prefix Placeholder to be replaced by Relation Prefix
+     * Default Prefix Placeholder to be replaced by Relation Prefix (e.g. #__)
      *
      * @var string
      */
     const DEFAULT_PREFIX                            = '#__';
 
     /**
-     * Default Relation/Table Prefix.
+     * Default Relation/Table Prefix (e.g. jos_)
      *
      * This is JConnection specific. See {@link JConnection}
      *

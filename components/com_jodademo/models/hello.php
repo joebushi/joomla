@@ -23,7 +23,7 @@ jimport( 'joomla.application.component.model' );
  * @package     Joomla
  * @subpackage  Jodademo
  */
-class JodademoModelHello extends JModel
+class JodademoModelHello extends JModel 
 {
     /**
      *

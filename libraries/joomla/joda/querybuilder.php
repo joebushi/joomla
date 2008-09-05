@@ -22,7 +22,6 @@ defined( 'JPATH_BASE' ) or die();
 
 //TODO: Perhaps delete(), select(), insert(), etc. should RESET the query ??
 //TODO: Use quoting methods from PDO ?
-//FIXME: replaceString() is or should be DB aware (quoting symbols)
 
 
 /**
@@ -204,14 +203,14 @@ abstract class JQueryBuilder extends JObject
     protected $_text_quotes = array("");
 
     /**
-     * Prefix-placeholder used in queries, later replaced by the relation prefix
+     * Prefix-placeholder used in queries, later replaced by the relation prefix (e.g. #__)
      *
      * @var string
      */
     protected $_prefix = "";
 
     /**
-     * Relation/Table name prefix
+     * Relation/Table name prefix (e.g. jos__)
      *
      * @var string
      */
@@ -230,7 +229,11 @@ abstract class JQueryBuilder extends JObject
     }
 
 
-
+    function __toString()
+    {
+        $result = $this->replacePrefix( $this->_toString(), $this->_prefix, $this->_relation_prefix );
+        return $result;
+    }
 
 
     /******************************************************************/
@@ -969,6 +972,9 @@ abstract class JQueryBuilder extends JObject
 
     /**
      *  Add a SELECT expression(s), i.e. the <selectlist>
+     *
+     * Input can be null; in that case '*' is considered by default as SELECT caluse
+     *
      * @param mixed  Expressions (string or array)
      */
     public function select( $input = null )
@@ -979,6 +985,9 @@ abstract class JQueryBuilder extends JObject
         $this->_type = self::QT_SELECT;
         if ( isset($input) ) {
             $this->_select( $input, self::QS_SELECT, true  );
+        }
+        else {
+        	$this->_select( "*", self::QS_SELECT, true  );
         }
         return $this;
     }
@@ -1422,6 +1431,8 @@ abstract class JQueryBuilder extends JObject
     }
 
 
+
+
     /**
      * Splits a string of queries into an array of individual queries
      *
@@ -1429,7 +1440,53 @@ abstract class JQueryBuilder extends JObject
      * @return  array
      *
      */
-    function splitSql( $queries )
+    function splitSql( $input )
+    {
+    	// Replace New Lines with ';'
+        $input = preg_replace('/$/', ';', $input);
+
+        // Hide quoted parts
+        $result = $this->slateQuotedString($input);
+
+        // get the array of ( <UNIQUEID> => <QUOTED-ORIGINAL-SUBSTRING>)
+        $holders = $result["holders"];
+
+        // get the string with NO quoted parts init (slated)
+        $slatedstring = $result["string"];
+
+        // Split into an array of strings, if any
+        $sqls = preg_split('/;/', $slatedstring);
+
+        $result = array();
+
+        // Ok, copy-over back quoted strings
+        // Enmerate SQL strings
+        foreach ( $sqls as $sql ) {
+            // Igfnore empty strings
+        	$sql = trim($sql);
+        	if ($sql !== "") {
+                reset($holders);
+                // Enumerate quoted holders
+                foreach ($holders as $uid => $original) {
+                    $sql = str_replace($uid, $original, $sql);
+                }
+                $result[] = $sql;
+            }
+        }
+
+        return $result;
+    }
+
+
+
+    /**
+     * Splits a string of queries into an array of individual queries
+     *
+     * @param   string Queries to split (; separated)
+     * @return  array
+     *
+     */
+    function splitSqlOld( $queries )
     {
         $start = 0;
         $open = false;
@@ -1649,6 +1706,8 @@ abstract class JQueryBuilder extends JObject
      * This function replaces a string identifier <var>$from</var> with the
      * string <var>$to</var> ignoring quoted parts
      *
+     * NOTE: This function is not used Not used
+     *
      * @param string The String
      * @param string Pattern
      * @param string Replacement
@@ -1728,6 +1787,62 @@ abstract class JQueryBuilder extends JObject
 
 
     /**
+     * Replace quoted substrings with unique identifiers
+     * e.g. "'this will not be slated' and this not" => "sdf787sdf64dsf536728371 and this not"
+     *
+     * @param string The String
+     * @eturn array Array("string" => $newstring, array("<UNIQUEID>" => "<quoted string>"))
+     */
+    function slateQuotedString($input)
+    {
+        // Make a string from all text quoting characters
+        $q = implode("", $this->_text_quotes);
+
+        // Pattern to match quoted strings (include! quotes)
+        $pattern = '/(['.$q.'])(?:\\\\\1|[\S\s])*?\1/';
+
+        // Matches placeholder
+        $matches = array();
+
+        // Apply REGEX, keep matching offsets as well
+        $found = preg_match_all($pattern, $input, $matches, PREG_OFFSET_CAPTURE );
+
+        $newstring = $input;
+        $match_holders = array();
+
+        // Did we find any quoted string?
+        if ($found) {
+            $unique_string = $this->getUniqueString();
+
+            // Array of all matches: array[0..N] of array[0..1] : N: count; 0: match substring, 1: offset of the match
+            $allmatches = $matches[0];
+            $shift = 0;
+            $i = 1;
+            foreach ($allmatches as $match) {
+                // String to replace the match with - match_holder
+                $match_holder = $unique_string . $i;
+
+                // Keep the (match_holder => match) pairs
+                $match_holders[$match_holder] = $match[0];
+
+                // Replace the match with the replacement string (match_holder);
+                // $match[1] is the offset in the string
+                $newstring = substr_replace($newstring, $match_holder, $match[1]+$shift, strlen($match[0]));
+
+                // Take into an acoount the string lenght difference, if any
+                $shift = $shift + strlen($match_holder) - strlen($match[0]);
+                $i++;
+            }
+        }
+
+        // Huh...
+        return array("string" => $newstring, "holders" => $match_holders);
+
+    }
+
+
+
+    /**
      * Replace substring that is NOT quoted by text literals quotes (',", etc)
      * e.g. "'this will not be replaced' this will be replaced"
      *
@@ -1735,53 +1850,23 @@ abstract class JQueryBuilder extends JObject
      * @param string String to search
      * @param string New string
      */
-    function replaceNonQuotedString($input, $from, $to)
+    function replaceNonQuotedString($input, $search, $replace)
     {
+    	$result = $this->slateQuotedString($input);
 
-    	$unique_string = $this->getUniqueString();
+    	// get the array of ( <UNIQUEID> => <QUOTED-ORIGINAL-SUBSTRING>)
+    	$holders = $result["holders"];
 
-    	// Make a string from all text quoting characters
-    	$q = implode("", $this->_text_quotes);
+    	// get the string with NO quoted parts init (slated)
+    	$slatedstring = $result["string"];
 
-    	// Pattern to match quoted strings (include quotes)
-    	$pattern = '/(['.$q.'])(?:\\\\\1|[\S\s])*?\1/';
+    	// Replace what we want to replace
+        $newstring = str_replace($search, $replace, $slatedstring);
 
-    	// Matches placeholder
-        $matches = array();
-
-        // Apply REGEX, keep matching offsets as well
-        $found = preg_match_all($pattern, $input, $matches, PREG_OFFSET_CAPTURE );
-
-        $newstring = $input;
-        if ($found) {
-        	// Array of all matches: array[0..N] of array[0..1] : N: count; 0: match substring, 1: offset of the match
-        	$allmatches = $matches[0];
-        	$shift = 0;
-        	$i = 1;
-            foreach ($allmatches as $match) {
-            	// String to replace the match with
-            	$replacement = $unique_string . $i;
-
-            	// Keep the replacement => match pairs
-            	$replacements[$replacement] = $match[0];
-
-            	// Replacethe match with the replacement string
-            	// $match[1] is the offset in the string
-                $newstring = substr_replace($newstring, $replacement, $match[1]+$shift, strlen($match[0]));
-
-                // Take into an acoount the string lenght difference
-                $shift = $shift + strlen($replacement) - strlen($match[0]);
-                $i++;
-            }
-            $newstring = str_replace($from, $to, $newstring);
-
-            foreach ($replacements as $replacement => $original) {
-            	$newstring = str_replace($replacement, $original, $newstring);
-            }
-        }
-        // If no quoting inside, then .. well.. ok... replace then
-        else {
-            $newstring = str_replace($from, $to, $newstring);
+        // Ok, copy over back quoted strings (now Unique IDs)
+        reset($holders);
+        foreach ($holders as $uid => $original) {
+            $newstring = str_replace($uid, $original, $newstring);
         }
 
         return $newstring;

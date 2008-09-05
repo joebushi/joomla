@@ -29,7 +29,7 @@ jimport( 'joomla.application.component.view');
  * Examples View
  *
  * @package     Joomla
- * @subpackage  Jodademo
+ * @subpackage  Jodademo 
  *
  */
 class JodaDemoViewExamples extends JView

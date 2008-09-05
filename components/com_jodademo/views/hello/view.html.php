@@ -18,7 +18,7 @@ defined('_JEXEC') or die( 'Restricted access' );
 jimport( 'joomla.application.component.view');
 
 /**
- * HTML View class Jodademo
+ * HTML View class Jodademo  
  *
  * @package     Joomla
  * @subpackage  Jodademo
