@@ -42,6 +42,7 @@ $ -> Language fix or change
  # Enabled installation check
  # [12543] pagebreak plugin: undefined variable full
  # [12663] Feeds in com_content don't show up more than once when caching is enabled
+ # [12519] Clean up Outdated Sample Content
 
 31-Aug-2008 Wilco Jansen
  # [12039] Cannot override contact list length
