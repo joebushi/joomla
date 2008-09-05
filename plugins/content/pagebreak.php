@@ -58,11 +58,6 @@ function plgContentPagebreak( &$row, &$params, $page=0 )
 
 	$db		=& JFactory::getDBO();
     $view  = JRequest::getCmd('view');
-    if($view != 'article') {
-        $row->text = preg_replace( $regex, '', $row->text );
-        return;
-     }
-
 
 	if(!$page) {
 		$page = 0;
@@ -70,7 +65,7 @@ function plgContentPagebreak( &$row, &$params, $page=0 )
 
 
 	// check whether plugin has been unpublished
-	if (!JPluginHelper::isEnabled('content', 'pagebreak') || $params->get( 'intro_only' )|| $params->get( 'popup' ) || $full) {
+	if (!JPluginHelper::isEnabled('content', 'pagebreak') || $params->get( 'intro_only' )|| $params->get( 'popup' ) || $view != 'article') {
 		$row->text = preg_replace( $regex, '', $row->text );
 		return;
 	}
