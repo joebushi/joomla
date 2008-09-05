@@ -214,7 +214,7 @@ class JSite extends JApplication
 			}
 			else
 			{
-				JError::raiseError( 403, JText::_('Not Authorised') );
+				JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
 			}
 		}
 	}

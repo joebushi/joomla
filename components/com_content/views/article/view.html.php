@@ -66,10 +66,27 @@ class ContentViewArticle extends ContentView
 		$access->canPublish	= $user->authorize('com_content', 'publish', 'content', 'all');
 
 		// Check to see if the user has access to view the full article
-		if ($article->access <= $user->get('aid', 0)) {
+		$aid	= $user->get('aid');
+
+		if ($article->access <= $aid) {
 			$article->readmore_link = JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catslug, $article->sectionid));;
 		} else {
-			$article->readmore_link = JRoute::_("index.php?option=com_user&task=register");
+			if ( ! $aid )
+			{
+				// Redirect to login
+				$uri		= JFactory::getURI();
+				$return		= $uri->toString();
+
+				$url  = 'index.php?option=com_user&view=login';
+				$url .= '&return='.base64_encode($return);;
+
+				//$url	= JRoute::_($url, false);
+				$mainframe->redirect($url, JText::_('You must login first') );
+			}
+			else{
+				JError::raiseWarning( 403, JText::_('ALERTNOTAUTH') );
+				return;
+			}
 		}
 
 		/*

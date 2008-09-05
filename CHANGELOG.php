@@ -43,6 +43,7 @@ $ -> Language fix or change
  # [12543] pagebreak plugin: undefined variable full
  # [12663] Feeds in com_content don't show up more than once when caching is enabled
  # [12519] Clean up Outdated Sample Content
+ # [12480] When a guest uses a registered article view url a 403 or 404  is thrown
 
 31-Aug-2008 Wilco Jansen
  # [12039] Cannot override contact list length
