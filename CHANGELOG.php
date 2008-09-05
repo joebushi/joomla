@@ -39,6 +39,7 @@ $ -> Language fix or change
 ! -> Note
 
 05-Sep-2008 Wilco Jansen
+ # Enabled installation check
  # [12543] pagebreak plugin: undefined variable full
 
 31-Aug-2008 Wilco Jansen
