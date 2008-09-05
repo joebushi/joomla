@@ -35,8 +35,9 @@ $ -> Language fix or change
 ! -> Note
 
 05-Sep-2008 Plamen Petkov
- ! Merge Note: Working Joda merged up to rev. 72
- ! Note: since 04 Sep 2008 work is done on a phisically separate repository to avoid flooding main Joomlacode.org repo with countless commits!
+ ! Merge WJJ Note: Working Joomla-Joda (WJJ) merged up to rev. 72
+ ! Merge J15 Note: Joomla! 1.5-STABLE (J15) merged up to 10907
+ ! Note: since 01 Sep 2008 work is done on a phisically separate repository to avoid flooding main Joomlacode.org repo with countless commits!
    http://www.zetcom.bg/svn/joomla/development/branches/joda (requires authentication; please ask for username)
    Once in a while that Working Joomla-Joda code is merged to Joomlacode.org Joomla-Joda branch and then
    Joomla 1.5-STABLE tree is merged into the same Joomlacode.org Joomla-Joda branch:

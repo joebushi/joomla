@@ -38,6 +38,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-Sep-2008 Wilco Jansen
+ # Enabled installation check
+ # [12543] pagebreak plugin: undefined variable full
+
 31-Aug-2008 Wilco Jansen
  # [12039] Cannot override contact list length
  # [12481] When saving or cancellig a frontend edit you are redirected to a blank page instead of the article
