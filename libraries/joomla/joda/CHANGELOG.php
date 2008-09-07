@@ -34,21 +34,29 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Sep-2008 Plamen Petkov
+ ! WJJ merged into JJ up to rev80 
+ ! J15 merged into WWJ up to rev10912
+ + Add index.html to all Joda directories
+ + Add posibility to skip installation check for development purpose (see top of both admin's and site's framework.php)
+ - No more index.php in Joda main dir. Use Jodademo Component instead!
+ + Add Joda Demo component to Joomla! schema creation installation file (joomla.sql)
+
 05-Sep-2008 Plamen Petkov
  ! Merge WJJ Note: Working Joomla-Joda (WJJ) merged up to rev. 72
  ! Merge J15 Note: Joomla! 1.5-STABLE (J15) merged up to 10907
+ ! Next merge start: WJJ:76, J15:10908
  ! Note: since 01 Sep 2008 work is done on a phisically separate repository to avoid flooding main Joomlacode.org repo with countless commits!
    http://www.zetcom.bg/svn/joomla/development/branches/joda (requires authentication; please ask for username)
-   Once in a while that Working Joomla-Joda code is merged to Joomlacode.org Joomla-Joda branch and then
-   Joomla 1.5-STABLE tree is merged into the same Joomlacode.org Joomla-Joda branch:
-              (Work Joomla-Joda) === 1.merge ==>>     (Joomla-Joda ==> 3.commit)   <<== 2.merge == (Joomla! 1.5-STABLE)
+   Once in a while J15 is merged into WJJ which is then merged into JJ (the official Joomlacode.org Joomla-Joda branch repo):
+     JJ = commit ( (J15 merge in WJJ) merge in JJ )
 
 04-Sep-2008 Plamen Petkov
  + Add __toString() to QueryBuilder,  returning the final SQL string (prefix replaced)
  + Add splitSQL() method to QB
 
 03-Sep-2008 Plamen Petkov
- ^ Somewhat finished replaceNonQuotedString()
+ ^ Somewhat finished  replaceNonQuotedString()
  ^ QueryBuilder select() accepts null parameters, meaning '*'
 
 02-Sep-2008 Plamen Petkov

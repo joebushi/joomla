@@ -598,7 +598,7 @@ class ContentModelArticle extends JModel
 		 * we are looking for and we have access to it.
 		 */
 		$where = ' WHERE a.id = '. (int) $this->_id;
-		$where .= ' AND a.access <= '. (int) $aid;
+//		$where .= ' AND a.access <= '. (int) $aid;
 
 		if (!$user->authorize('com_content', 'edit', 'content', 'all'))
 		{

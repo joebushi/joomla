@@ -24,14 +24,19 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 /*
  * Installation check, and check on removal of the install directory.
  */
-if (!file_exists( JPATH_CONFIGURATION . DS . 'configuration.php' ) || (filesize( JPATH_CONFIGURATION . DS . 'configuration.php' ) < 10) || file_exists( JPATH_INSTALLATION . DS . 'index.php' )) {
-	if( file_exists( JPATH_INSTALLATION . DS . 'index.php' ) ) {
-		header( 'Location: installation/index.php' );
-		exit();
-	} else {
-		echo 'No configuration file found and no installation code available. Exiting...';
-		exit();
-	}
+
+// SECUTIRY NOTE: JOPT_SKIPINSTALLCHECK is NOT and SHOULD NOT be defined anywhere else by default.
+// Developers can define it on their discretion and their own risk !!! You've been warned!
+if ( JOPT_SKIPINSTALLCHECK !== true ) {
+    if (!file_exists( JPATH_CONFIGURATION . DS . 'configuration.php' ) || (filesize( JPATH_CONFIGURATION . DS . 'configuration.php' ) < 10) || file_exists( JPATH_INSTALLATION . DS . 'index.php' )) {
+	   if( file_exists( JPATH_INSTALLATION . DS . 'index.php' ) ) {
+		  header( 'Location: installation/index.php' );
+		  exit();
+	   } else {
+    		echo 'No configuration file found and no installation code available. Exiting...';
+		  exit();
+	   }
+    }
 }
 
 /*
