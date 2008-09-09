@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+09-Sep-2008 Anthony Ferrara
+ ^ Disabled Installation Check
+
 -------------------- 1.5.7 Stable Release [9-September-2008] ------------------
 
 09-Sep-2008 Wilco Jansen
