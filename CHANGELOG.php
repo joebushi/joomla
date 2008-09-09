@@ -38,6 +38,13 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+-------------------- 1.5.7 Stable Release [9-September-2008] ------------------
+
+09-Sep-2008 Wilco Jansen
+ # Security fixes, thanks JSST!
+ # Changed version tags of default language file to 1.5.7
+ # Change of version file
+
 05-Sep-2008 Wilco Jansen
  # Enabled installation check
  # [12543] pagebreak plugin: undefined variable full
