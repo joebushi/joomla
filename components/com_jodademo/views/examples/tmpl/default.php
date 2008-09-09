@@ -10,10 +10,12 @@
             <td align="LEFT">
                 <code>
                 <?php echo nl2br($text["explain"]); ?>
+                <?php //echo $text["explain"]; ?>
                 </code>
             </td>
             <td> 
                 <?php echo nl2br($text["result"]); ?>
+                <?php //echo $text["result"]; ?>
             </td>
         </tr>
         <tr valign='top'><td colspan=2><hr></td></tr>

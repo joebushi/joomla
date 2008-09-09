@@ -720,6 +720,29 @@ class JInstallationModel extends JModel
 		// Import authentication library
 		jimport( 'joomla.user.helper' );
 
+		// Set Joda connections list (create the first one, the default)
+		$connections = array (
+		  0 => array(
+		          "name" => "default",
+		          "default" => "1",
+		          "host" => $vars["DBhostname"],
+		          "port" => "",
+		          "user" => $vars["DBuserName"],
+		          "password" => $vars["DBpassword"],
+		          "database" => $vars["DBname"],
+		          "driver" => $vars["DBtype"],
+		          "prefix" => $vars["DBPrefix"],
+		          "debug" => "0"
+		       )
+		);
+        ob_start();
+        var_export($connections);
+        $tmpstring = ob_get_contents();
+        ob_end_clean();
+        $tmpstring = preg_replace('/\n/','',$tmpstring);
+		$vars['connections'] = $tmpstring;
+
+
 		// Set some needed variables
 		$vars['siteUrl']		= JURI::root();
 		$vars['secret']			= JUserHelper::genRandomPassword(16);

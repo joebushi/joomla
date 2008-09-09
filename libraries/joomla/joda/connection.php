@@ -111,11 +111,18 @@ abstract class JConnection extends PDO
 
 
     /**
-     * Relation/Table name prefix
+     * Relation/Table name prefix. Loaded from config file.
      *
      * @var string
      */
     protected $_relation_prefix = Joda::DEFAULT_RELATION_PREFIX;
+
+    /**
+     * A Query Builder object to describe SQL and help connection class to manage SQL strings.
+     *
+     * @var object JQueryBuilder
+     */
+    protected $_querybuilder = null;
 
     /**
      * Debug mode
@@ -146,18 +153,22 @@ abstract class JConnection extends PDO
     protected $_in_transaction = false;
 
 
+
+    public $escapequoted = false;
+
+
     /**
      * Class constructor
      *
-     * @param array Driver specific PDO driver options array, merged to parent's one
-     * @return object JConnection
+     * @param array Driver specific options
+     *
      */
     function __construct($driver_options=array())
     {
     	$dsn = $this->_drivername.":port=".$this->_port.";host=" . $this->_host . ";dbname=" . $this->_database;
         parent::__construct($dsn, $this->_user, $this->_password);
 
-        // set global PDO driver options(apply to all connections)
+        // Set global PDO options(apply to all connections)
         $this->setAttribute(PDO::ATTR_STRINGIFY_FETCHES, true);
         //$this->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
@@ -287,14 +298,22 @@ abstract class JConnection extends PDO
                $resultset->closeCursor();
             }
 
-            // Log debug
-	        if ($this->_debug) {
-	            $this->_ticker++;
-	            $this->_log[] = $query;
-	        }
 
-            // Execute
+            // EXECUTE...
+
+            // Escape quoted parts?
+            if ( !$this->escapequoted ) {
+            	// TODO: escaping quoyed strings inside the SQL query
+            	//echo "<BR>" . $this->quote("SELECT '\"testquote' FROM #__table");
+            }
+            // .. but log first
+            if ($this->_debug) {
+                $this->_ticker++;
+                $this->_log[] = $query;
+            }
             $resultset = $this->query($query);
+
+
 
             // Break the loop on failure
             if ( ! $resultset ) {
@@ -512,6 +531,17 @@ abstract class JConnection extends PDO
         return $this->_name;
     }
 
+
+    /**
+     * Set this connection Query Builder compagnion
+     *
+     * @param object JQueryBuilder
+     *
+     */
+    function setQueryBuilder($object)
+    {
+    	$this->_querybuilder = $object;
+    }
 
 
 

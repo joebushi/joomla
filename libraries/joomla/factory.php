@@ -790,7 +790,7 @@ class JFactory
             	$namedConnectionFound = true;
             }
         }
-        
+
         // If supplied connection name is not valid (no connection found with this name), error
         if ( (!empty($connectionname)) && (!$namedConnectionFound) ) {
             JError::raiseError(500, JText::_("Named connection not found: " . $connectionname));
@@ -812,7 +812,7 @@ class JFactory
         $user         = $connectionInfo["user"];
         $password     = $connectionInfo["password"];
         $database     = $connectionInfo["database"];
-        $prefix       = $connectionInfo["prefix"];
+        $prefix       = $connectionInfo["prefix"]; // relation prefix ! (jos_)
         $driver       = $connectionInfo["driver"];
         $port         = $connectionInfo["port"];
         $conn_debug   = $connectionInfo["debug"];

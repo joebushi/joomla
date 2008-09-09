@@ -34,7 +34,16 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+09-Sep-2008 Plamen Petkov
+! WJJ Merged into JJ up to rev 85
+
+08-Sep-2008 Plamen Petkov
+ # Make some JQueryBuilder methods static	
+ # Fine tune relations between JQueryBuilder-Jdataset-JConnection:
+ # Fix stupid UniqueID usage in Query Builder - quoted strings replacing now works fine
+
 07-Sep-2008 Plamen Petkov
+ + Add Joda $connections list creation to installation process!
  ! WJJ merged into JJ up to rev80 
  ! J15 merged into WWJ up to rev10912
  + Add index.html to all Joda directories

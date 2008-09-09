@@ -25,7 +25,7 @@ defined( 'JPATH_BASE' ) or die();
 
 
 /**
- * JQuery Base class
+ * JQueryBuilder Base class
  *
  * @package     Joomla.Framework
  * @subpackage  Joda
@@ -220,7 +220,9 @@ abstract class JQueryBuilder extends JObject
     /**
      * Constructor
      *
-     * @param object DatabaseObject A reference to a database connector
+     * @param string Prefix's placeholder (e.g. #__)
+     * @param string Prefix to replace with (e.g. jos_)
+     * @return object JQueryBuilder
      */
     function __construct( $prefix, $relation_prefix )
     {
@@ -229,10 +231,14 @@ abstract class JQueryBuilder extends JObject
     }
 
 
+    /**
+     * Magic __toString() function (see PHP Manual)
+     *
+     * @return string
+     */
     function __toString()
     {
-        $result = $this->replacePrefix( $this->_toString(), $this->_prefix, $this->_relation_prefix );
-        return $result;
+    	return $this->getSQL();
     }
 
 
@@ -261,7 +267,7 @@ abstract class JQueryBuilder extends JObject
      * @param string  (optional) JOIN condition
      * @param string  (optional) Alias/Correlation
      * @param string  (optional) JOIN type (CROSS, INNER, LEFT, etc)
-     * @return object JQuery
+     * @return object JQueryBuilder
      */
     protected function _join( $fromitem, $condition = '', $alias = '', $jointype = '' )
     {
@@ -316,10 +322,10 @@ abstract class JQueryBuilder extends JObject
      *  Sets the current section we are working on, so that LP()
      *  and RP() /if any/ know about it.
      *
-     * @param mixed    Expression(s)  (string or array)
+     * @param string|array  Expression(s)
      * @param string Inner glue
      * @param string Outer glue
-     * @return object JQuery
+     * @return object JQueryBuilder
      */
     protected function _where( $input, $innerglue = self::GLUEAND, $outerglue = self::GLUEAND )
     {
@@ -340,7 +346,7 @@ abstract class JQueryBuilder extends JObject
      *  Add parethesis to the current section!
      *
      * @param string  Parenthesis type (LP, orLP, RP)
-     * @return object JQuery
+     * @return object JQueryBuilder
      */
     protected function _parenthesis( $parenth )
     {
@@ -420,6 +426,7 @@ abstract class JQueryBuilder extends JObject
      * Cpnvert SELECT-type section to string
      *
      * @param array Select data
+     * @param boolean False/Tru: enclose in (...) ?
      * @return string Select list
      */
     protected function _selectlist_toString( $input, $brackets=false )
@@ -450,6 +457,7 @@ abstract class JQueryBuilder extends JObject
      * Build SQL piece of code
      *
      * @param string Section name
+     * @return boolean
      */
     protected function _qs_select_toString( $section )
     {
@@ -463,6 +471,8 @@ abstract class JQueryBuilder extends JObject
      *
      *
      * @param string Section name
+     * @return boolean
+     *
      */
     protected function _qs_from_toString( $section )
     {
@@ -516,6 +526,7 @@ abstract class JQueryBuilder extends JObject
      * Build SQL piece of code
      *
      * @param string Section name
+     * @return boolean
      */
     protected function _qs_where_toString( $section )
     {
@@ -534,6 +545,7 @@ abstract class JQueryBuilder extends JObject
      * Build SQL piece of code
      *
      * @param string Section name
+     * @return boolean
      */
     protected function _qs_limit_toString( $section )
     {
@@ -555,6 +567,7 @@ abstract class JQueryBuilder extends JObject
      * Build SQL piece of code
      *
      * @param string Section name
+     * @return boolean
      */
     protected function _qs_update_toString( $section )
     {
@@ -574,6 +587,7 @@ abstract class JQueryBuilder extends JObject
      * Build SQL piece of code
      *
      * @param string Section name
+     * @return boolean
      */
     protected function _qs_distinct_toString( $section )
     {
@@ -589,6 +603,7 @@ abstract class JQueryBuilder extends JObject
      * Build SQL piece of code
      *
      * @param string Section name
+     * @return boolean
      */
     protected function _qs_fields_toString( $section)
     {
@@ -601,6 +616,7 @@ abstract class JQueryBuilder extends JObject
      * Build SQL piece of code
      *
      * @param string Section name
+     * @return boolean
      */
     protected function _qs_values_toString( $section )
     {
@@ -631,6 +647,8 @@ abstract class JQueryBuilder extends JObject
      * NOTE: about DEFAULT values: so far MySQL and PgSQL are OK, but
      * soon this function might become abstract
      *
+     * @return boolean
+     *      *
      */
     protected function _qs_fieldvalues_toString( $section )
     {
@@ -683,6 +701,7 @@ abstract class JQueryBuilder extends JObject
      * Build SQL piece of code
      *
      * @param string Section name
+     * @return boolean
      */
     protected function _qs_groupby_toString( $section )
     {
@@ -703,6 +722,7 @@ abstract class JQueryBuilder extends JObject
      * Build SQL piece of code
      *
      * @param string Section name
+     * @return boolean
      */
     protected function _qs_orderby_toString( $section )
     {
@@ -739,6 +759,7 @@ abstract class JQueryBuilder extends JObject
      * Build SQL piece of code
      *
      * @param string Section name
+     * @return boolean
      */
     protected function _qs_insert_toString( $section )
     {
@@ -759,7 +780,7 @@ abstract class JQueryBuilder extends JObject
      * Tricky function to warn developers to define needed class constants and methods
      * based on the query template sections.
      *
-     * @param string Section name
+     * @return array Array of errors, if any
      */
     protected function _checkDevJob()
     {
@@ -785,6 +806,7 @@ abstract class JQueryBuilder extends JObject
      *
      * @param mixed   Item(s) to add (string or array)
      * @param string  Section name to add the item(s) to.
+     * @return boolean
      */
     protected function _select( $input, $section, $aliased=true )
     {
@@ -807,6 +829,7 @@ abstract class JQueryBuilder extends JObject
     /**
      * Initialize sections.
      *
+     * @return object JQueryBuilder
      */
     protected function _initSections()
     {
@@ -880,8 +903,10 @@ abstract class JQueryBuilder extends JObject
     /**
      * Returns a reference to a Query Builder object
      *
-     * @param    array    Array of options
-     * @return    object    Query Builder object
+     * @param string Driver name
+     * @param Table prefix placeholder (#__)
+     * @param Prefix replacement (jos_)
+     * @return object JQueryBuilder
      */
     public function &getInstance($driver, $prefix, $relation_prefix)
     {
@@ -898,6 +923,8 @@ abstract class JQueryBuilder extends JObject
     /**
      * Reset query to its default state and data
      *
+     * @return object JQueryBuilder
+     *
      */
     public function resetQuery()
     {
@@ -912,6 +939,8 @@ abstract class JQueryBuilder extends JObject
      * Reset a single section
      *
      * @param string  The section to reset
+     * @return object JQueryBuilder
+     *
      */
     public function resetSection( $section = null )
     {
@@ -936,7 +965,7 @@ abstract class JQueryBuilder extends JObject
 
 
     /**
-     * Generate a single SQL Statement (one row ending with ';')
+     * Generate a single SQL Statement
      *
      * @param string  An optional, "last minute given" Subselect name
      * @return string SQL Statement
@@ -975,7 +1004,9 @@ abstract class JQueryBuilder extends JObject
      *
      * Input can be null; in that case '*' is considered by default as SELECT caluse
      *
-     * @param mixed  Expressions (string or array)
+     * @param string|array  Expressions (string or array)
+     * @return object JQueryBuilder
+     *
      */
     public function select( $input = null )
     {
@@ -998,6 +1029,8 @@ abstract class JQueryBuilder extends JObject
      *
      * @param mixed  Expressions (string or array)
      * @param string  (optional) The subselect name
+     * @return object JQueryBuilder
+     *
      */
     public function subselect( $input, $subselectname = null )
     {
@@ -1016,16 +1049,18 @@ abstract class JQueryBuilder extends JObject
 
 
     /**
-     *  Set the query Distinct property
-     *
-     *  @param mixed  If null or true, set DISTINCT ON, if false - DISTINCT OFF
+     * Set the query Distinct property
      *
      * Examples
      *     distinct() = DISTINCT ON
      *     distinct(true) = DISTINCT ON
      *     distinct(false) = DISTINCT OFF
      *     distinct(0) = DISTINCT OFF
-     */
+
+     * @param boolean  If null or true, set DISTINCT ON, if false - DISTINCT OFF
+     * @return boolean
+     *
+     *      */
     public function distinct( $distinct = null )
     {
         if ( (! isset($distinct)) || (true == $distinct) ) {
@@ -1041,6 +1076,7 @@ abstract class JQueryBuilder extends JObject
      *  Add <froitems>, namely tables with aliases (if any)
      *
      * @param mixed  Tables (string or array)
+     * @return object JQueryBuilder
      */
     public function from( $input )
     {
@@ -1077,6 +1113,7 @@ abstract class JQueryBuilder extends JObject
      * @param string  From Item (table or sub-select)
      * @param string  (optional) JOIN condition
      * @param string  (optional) Alias/Correlation
+     * @return object JQueryBuilder
      */
     public function join( $fromitem, $condition = '', $alias = '' )
     {
@@ -1090,6 +1127,7 @@ abstract class JQueryBuilder extends JObject
      * @param string  From Item (table or sub-select)
      * @param string  (optional) JOIN condition
      * @param string  (optional) Alias/Correlation
+     * @return object JQueryBuilder
      */
     public function innerjoin( $fromitem, $condition = '', $alias = '' )
     {
@@ -1104,6 +1142,8 @@ abstract class JQueryBuilder extends JObject
      * @param string  From Item (table or sub-select)
      * @param string  (optional) JOIN condition
      * @param string  (optional) Alias/Correlation
+     * @return object JQueryBuilder
+     *
      */
     public function rightjoin( $fromitem, $condition = '', $alias = '' )
     {
@@ -1117,6 +1157,7 @@ abstract class JQueryBuilder extends JObject
      * @param string  From Item (table or sub-select)
      * @param string  (optional) JOIN condition
      * @param string  (optional) Alias/Correlation
+     * @return object JQueryBuilder
      */
     public function leftjoin( $fromitem, $condition = '', $alias = '' )
     {
@@ -1131,6 +1172,7 @@ abstract class JQueryBuilder extends JObject
      * @param string  From Item (table or sub-select)
      * @param string  (optional) JOIN condition
      * @param string  (optional) Alias/Correlation
+     * @return object JQueryBuilder
      */
     public function crossjoin( $fromitem, $condition = '', $alias = '' )
     {
@@ -1155,7 +1197,9 @@ abstract class JQueryBuilder extends JObject
      *
      *  If called with NO arguments just sets the current section to QS_WHERE
      *
-     * @param mixed  (optional) Expression(s)  (string or array)
+     * @param string|array  (optional) Expression(s)  (string or array)
+     * @return object JQueryBuilder
+     *
      */
     public function where( $input = null )
     {
@@ -1169,7 +1213,8 @@ abstract class JQueryBuilder extends JObject
      *  Inner glue = OR and Outer glue = AND
      *  (a=b) AND ((c=d) OR (e=f))
      *
-     * @param mixed  (optional) Expression(s)  (string or array)
+     * @param string|array  (optional) Expression(s)  (string or array)
+     * @return object JQueryBuilder
      *
      */
     public function whereor( $input = null )
@@ -1185,6 +1230,8 @@ abstract class JQueryBuilder extends JObject
      *  (a=b) OR ((c=d) AND (e=f))
      *
      * @param mixed  (optional) Expression(s)  (string or array)
+     * @return object JQueryBuilder
+     *
      */
     public function orwhere( $input = null )
     {
@@ -1199,6 +1246,8 @@ abstract class JQueryBuilder extends JObject
      *  (a=b) OR ((c=d) OR (e=f))
      *
      * @param mixed  (optional) Expression(s)  (string or array)
+     * @return object JQueryBuilder
+     *
      */
     public function orwhereor( $input = null )
     {
@@ -1211,6 +1260,8 @@ abstract class JQueryBuilder extends JObject
      * Add Left Parenthesis.
      * When rendered to string add OR in front if needed
      *
+     * @return object JQueryBuilder
+     *
      */
     public function orlp()
     {
@@ -1222,6 +1273,8 @@ abstract class JQueryBuilder extends JObject
      * Add Left Parenthesis.
      * When rendered add AND in front if needed (most used)
      *
+     * @return object JQueryBuilder
+     *
      */
     public function lp()
     {
@@ -1232,6 +1285,8 @@ abstract class JQueryBuilder extends JObject
 
     /**
      * Add Right Parenthesis
+     *
+     * @return object JQueryBuilder
      *
      */
     public function rp()
@@ -1245,6 +1300,7 @@ abstract class JQueryBuilder extends JObject
      * Add GROUP BY expression
      *
      * @param mixed  (optional) Group by statements (string or array)
+     * @return object JQueryBuilder
      *
      */
     public function groupBy( $input = null )
@@ -1263,6 +1319,7 @@ abstract class JQueryBuilder extends JObject
      * Add ORDER BY
      *
      * @param mixed  (optional) Order by statements (string or array)
+     * @return object JQueryBuilder
      *
      */
     public function orderBy( $input = null )
@@ -1290,6 +1347,7 @@ abstract class JQueryBuilder extends JObject
      *
      * @param integer  The limit
      * @param integer  (optional) The offset
+     * @return object JQueryBuilder
      *
      */
     public function limit( $limit, $offset = 0 )
@@ -1300,9 +1358,11 @@ abstract class JQueryBuilder extends JObject
 
 
     /**
-     *  Set UPDATE section for UPDATE query type
+     * Set UPDATE section for UPDATE query type
      *
-     *  @param string   Table name
+     * @param string   Table name
+     * @return object JQueryBuilder
+     *
      */
     public function update( $table )
     {
@@ -1314,8 +1374,10 @@ abstract class JQueryBuilder extends JObject
 
 
     /**
-     * Start an INSERT-type query and set the table name
-     * @param string Table name
+     * Start INSERT-type query and set the table name
+     *
+     * @param string Table name to insert data into
+     * @return object JQueryBuilder
      */
     public function insertinto( $table )
     {
@@ -1328,9 +1390,11 @@ abstract class JQueryBuilder extends JObject
 
 
     /**
-     * Section consisting list of fields
+     * Add field list
      *
-     * @param mixed  Array of field names or plain string
+     * @param array|string  Array of field names or plain string
+     * @return object JQueryBuilder
+     *
      */
     public function fields( $input )
     {
@@ -1344,6 +1408,7 @@ abstract class JQueryBuilder extends JObject
      * Add a tuple to VALUES section.
      *
      * @param mixed  Array of values or plain string
+     * @return object JQueryBuilder
      */
     public function values( $input )
     {
@@ -1356,9 +1421,10 @@ abstract class JQueryBuilder extends JObject
 
 
     /**
-     *  Values for UPDATE and INSERT query type
+     * Values for UPDATE and INSERT query type
      *
-     *  @param mixed  Associatice array of "fieldname"->"vield value"
+     * @param array  Associatice array of "fieldname"->"vield value"
+     * @return object JQueryBuilder
      */
     public function fieldvalues( $input )
     {
@@ -1371,37 +1437,14 @@ abstract class JQueryBuilder extends JObject
 
 
     /**
-     *  Start a DELETE Query type
-     *
+     * Start a DELETE Query type
+     * @return boolean
      */
     public function delete()
     {
         $this->resetQuery();
         $this->_type = self::QT_DELETE;
         return $this;
-    }
-
-
-
-
-    /**
-     *  Set parameters for prepared statements
-     *
-     * @param array
-     */
-    function setParameters($parameters = array())
-    {
-        $this->_parameters = $parameters;
-    }
-
-    /**
-     *  Get parameters for prepared statements
-     *
-     * @param array
-     */
-    function getParameters()
-    {
-        return $this->_parameters;
     }
 
 
@@ -1424,6 +1467,10 @@ abstract class JQueryBuilder extends JObject
      * @param    string  A string
      * @param    boolean Default true to escape string, false to leave the string unchanged
      * @return   string
+     *
+     * //TODO: hmm.. quoted string using database driver?
+     * // hmm.. NOT here.. in connection??
+     *
      */
     function quote( $text, $escaped = true )
     {
@@ -1435,21 +1482,22 @@ abstract class JQueryBuilder extends JObject
 
     /**
      * Splits a string of queries into an array of individual queries
+     * if separated by semicolon (;)
      *
      * @param   string Queries to split (; separated)
      * @return  array
      *
      */
-    function splitSql( $input )
+    function splitSql( $input, $remove_newlines=false )
     {
     	// Replace New Lines with ';'
         $input = preg_replace('/$/', ';', $input);
 
         // Hide quoted parts
-        $result = $this->slateQuotedString($input);
+        $result = $this->quotedToUID($input, $this->_text_quotes);
 
         // get the array of ( <UNIQUEID> => <QUOTED-ORIGINAL-SUBSTRING>)
-        $holders = $result["holders"];
+        $uids = $result["uids"];
 
         // get the string with NO quoted parts init (slated)
         $slatedstring = $result["string"];
@@ -1464,10 +1512,14 @@ abstract class JQueryBuilder extends JObject
         foreach ( $sqls as $sql ) {
             // Igfnore empty strings
         	$sql = trim($sql);
+        	//echo "<BR>" . $sql;
+            if ( $remove_newlines == true ) {
+                $sql = preg_replace('/\n/','',$sql);
+            }
         	if ($sql !== "") {
-                reset($holders);
-                // Enumerate quoted holders
-                foreach ($holders as $uid => $original) {
+                reset($uids);
+                // Enumerate uids
+                foreach ($uids as $uid => $original) {
                     $sql = str_replace($uid, $original, $sql);
                 }
                 $result[] = $sql;
@@ -1479,46 +1531,6 @@ abstract class JQueryBuilder extends JObject
 
 
 
-    /**
-     * Splits a string of queries into an array of individual queries
-     *
-     * @param   string Queries to split (; separated)
-     * @return  array
-     *
-     */
-    function splitSqlOld( $queries )
-    {
-        $start = 0;
-        $open = false;
-        $open_char = '';
-        $end = strlen($queries);
-        $query_split = array();
-        $quotes = array_merge($this->_name_quotes, $this->_text_quotes);
-        for($i=0;$i<$end;$i++) {
-            $current = substr($queries,$i,1);
-            if ( in_array($current, $quotes) ) {
-                $n = 2;
-                while(substr($queries,$i - $n + 1, 1) == '\\' && $n < $i) {
-                    $n ++;
-                }
-                if ( $n%2==0 ) {
-                    if ($open) {
-                        $open = false;
-                        $open_char = '';
-                    } else {
-                        $open = true;
-                        $open_char = $current;
-                    }
-                }
-            }
-            if(($current == ';' && !$open)|| $i == $end - 1) {
-                $query_split[] = substr($queries, $start, ($i - $start + 1));
-                $start = $i + 1;
-            }
-        }
-
-        return $query_split;
-    }
 
 
 
@@ -1673,10 +1685,9 @@ abstract class JQueryBuilder extends JObject
 
 
     /**
-     * Description
+     * Return final SQL query, the result of the whole job done here
      *
-     * @param
-     * @return  array
+     * @return  string
      */
     public function getSQL()
     {
@@ -1693,150 +1704,75 @@ abstract class JQueryBuilder extends JObject
      * @param string The String
      * @param string Pattern
      * @param string Replacement
+     * @return string
+     *
      */
     function replacePrefix( $string, $prefix=Joda::DEFAULT_PREFIX, $relationprefix=Joda::DEFAULT_RELATION_PREFIX )
     {
-    	$result = $this->replaceNonQuotedString($string, $prefix, $relationprefix);
+    	$result = $this->replaceNonQuotedString($string, $prefix, $relationprefix, $this->_text_quotes);
         return $result;
     }
 
 
 
-    /**
-     * This function replaces a string identifier <var>$from</var> with the
-     * string <var>$to</var> ignoring quoted parts
-     *
-     * NOTE: This function is not used Not used
-     *
-     * @param string The String
-     * @param string Pattern
-     * @param string Replacement
-     */
-    function replaceString( $string, $from, $to )
-    {
-
-        $string = trim( $string );
-
-        $escaped = false;
-        $quoteChar = '';
-
-        $n = strlen( $string );
-
-        $startPos = 0;
-        $literal = '';
-        while ($startPos < $n) {
-            $ip = strpos($string, $from, $startPos);
-            if ($ip === false) {
-                break;
-            }
-
-            $j = strpos( $string, "'", $startPos );
-            $k = strpos( $string, '"', $startPos );
-            if (($k !== FALSE) && (($k < $j) || ($j === FALSE))) {
-                $quoteChar    = '"';
-                $j            = $k;
-            } else {
-                $quoteChar    = "'";
-            }
-
-            if ($j === false) {
-                $j = $n;
-            }
-
-            $literal .= str_replace( $from, $to, substr( $string, $startPos, $j - $startPos ) );
-            $startPos = $j;
-
-            $j = $startPos + 1;
-
-            if ($j >= $n) {
-                break;
-            }
-
-            // quote comes first, find end of quote
-            while (TRUE) {
-                $k = strpos( $string, $quoteChar, $j );
-                $escaped = false;
-                if ($k === false) {
-                    break;
-                }
-                $l = $k - 1;
-                while ($l >= 0 && $string{$l} == '\\') {
-                    $l--;
-                    $escaped = !$escaped;
-                }
-                if ($escaped) {
-                    $j    = $k+1;
-                    continue;
-                }
-                break;
-            }
-            if ($k === FALSE) {
-                // error in the query - no end quote; ignore it
-                break;
-            }
-            $literal .= substr( $string, $startPos, $k - $startPos + 1 );
-            $startPos = $k+1;
-        }
-        if ($startPos < $n) {
-            $literal .= substr( $string, $startPos, $n - $startPos );
-        }
-        return $literal;
-    }
-
-
 
 
     /**
-     * Replace quoted substrings with unique identifiers
+     * Replace quoted substrings with unique identifiers (including quotes!)
      * e.g. "'this will not be slated' and this not" => "sdf787sdf64dsf536728371 and this not"
      *
      * @param string The String
      * @eturn array Array("string" => $newstring, array("<UNIQUEID>" => "<quoted string>"))
+     *
      */
-    function slateQuotedString($input)
+    function quotedToUID($input, $textquotes=array())
     {
         // Make a string from all text quoting characters
-        $q = implode("", $this->_text_quotes);
+        $q = implode("", $textquotes);
 
-        // Pattern to match quoted strings (include! quotes)
-        $pattern = '/(['.$q.'])(?:\\\\\1|[\S\s])*?\1/';
+        // No quoting characters? Ok, no transformation
+        if ( trim($q) == "" ) {
+        	return array("string" => $input, "uids" => array());
+        }
 
-        // Matches placeholder
+        // Pattern to match quoted strings (include! quotes, multiline)
+        $pattern = '/(['.$q.'])(?:\\\\\1|[\S\s])*?\1/m';
+        //$pattern = '/(['.$q.'])((?:\\\\\1|[\S\s])*?)\1/m';
+
         $matches = array();
 
         // Apply REGEX, keep matching offsets as well
         $found = preg_match_all($pattern, $input, $matches, PREG_OFFSET_CAPTURE );
 
         $newstring = $input;
-        $match_holders = array();
+        $uids = array();
 
         // Did we find any quoted string?
         if ($found) {
-            $unique_string = $this->getUniqueString();
-
             // Array of all matches: array[0..N] of array[0..1] : N: count; 0: match substring, 1: offset of the match
-            $allmatches = $matches[0];
+            $allmatches = $matches[0]; // INDEX 0 is very important!!! See REGEX infos
+
             $shift = 0;
             $i = 1;
             foreach ($allmatches as $match) {
                 // String to replace the match with - match_holder
-                $match_holder = $unique_string . $i;
+                $uid = "[" . self::getUniqueString() . "]";
 
-                // Keep the (match_holder => match) pairs
-                $match_holders[$match_holder] = $match[0];
+                // Keep the (uid => match) pairs
+                $uids[$uid] = $match[0];
 
-                // Replace the match with the replacement string (match_holder);
+                // Replace the match with the replacement string (uid);
                 // $match[1] is the offset in the string
-                $newstring = substr_replace($newstring, $match_holder, $match[1]+$shift, strlen($match[0]));
+                $newstring = substr_replace($newstring, $uid, $match[1]+$shift, strlen($match[0]));
 
                 // Take into an acoount the string lenght difference, if any
-                $shift = $shift + strlen($match_holder) - strlen($match[0]);
+                $shift = $shift + strlen($uid) - strlen($match[0]);
                 $i++;
             }
         }
 
         // Huh...
-        return array("string" => $newstring, "holders" => $match_holders);
+        return array("string" => $newstring, "uids" => $uids);
 
     }
 
@@ -1848,24 +1784,25 @@ abstract class JQueryBuilder extends JObject
      *
      * @param string The String
      * @param string String to search
-     * @param string New string
+     * @param string String replacement
+     * @return string
      */
-    function replaceNonQuotedString($input, $search, $replace)
+    function replaceNonQuotedString($input, $search, $replace, $textquotes)
     {
-    	$result = $this->slateQuotedString($input);
+    	$result = self::quotedToUID($input, $textquotes);
 
     	// get the array of ( <UNIQUEID> => <QUOTED-ORIGINAL-SUBSTRING>)
-    	$holders = $result["holders"];
+    	$uids = $result["uids"];
 
     	// get the string with NO quoted parts init (slated)
-    	$slatedstring = $result["string"];
+    	$string = $result["string"];
 
     	// Replace what we want to replace
-        $newstring = str_replace($search, $replace, $slatedstring);
+        $newstring = str_replace($search, $replace, $string);
 
-        // Ok, copy over back quoted strings (now Unique IDs)
-        reset($holders);
-        foreach ($holders as $uid => $original) {
+        // Ok, copy over back quoted strings (currently replaced by Unique IDs)
+        reset($uids);
+        foreach ($uids as $uid => $original) {
             $newstring = str_replace($uid, $original, $newstring);
         }
 
@@ -1876,6 +1813,7 @@ abstract class JQueryBuilder extends JObject
 
     /**
      * Generate Unique string
+     * @return string
      */
     function getUniqueString()
     {

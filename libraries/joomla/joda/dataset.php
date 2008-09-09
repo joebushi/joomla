@@ -56,6 +56,13 @@ class JDataset extends JObject
     protected $_fetchstyle = PDO::FETCH_ASSOC;
 
 
+    /**
+     * Query Builder
+     *
+     * @var object JQueryBuilder
+     */
+    protected $_querybuilder = null;
+
 
     /**
      * Description
@@ -66,6 +73,8 @@ class JDataset extends JObject
     function __construct($connectionname="")
     {
         $this->connection = JFactory::getDBConnection($connectionname);
+        $this->_querybuilder = $this->getNewQueryBuilder();
+        $this->connection->setQueryBuilder($this->_querybuilder);
         $this->Close();
     }
 
@@ -137,6 +146,18 @@ class JDataset extends JObject
      * @return object JQueryBuilder
      */
     function getQueryBuilder($prefix=Joda::DEFAULT_PREFIX)
+    {
+        return JFactory::getQueryBuilder($this->connection->getDriverName(), $prefix, $this->connection->getRelationPrefix());
+    }
+
+
+    /**
+     * Return this object own QueryBuilder
+     *
+     * @param string Prefix placeholder (#__)
+     * @return object JQueryBuilder
+     */
+    function getNewQueryBuilder($prefix=Joda::DEFAULT_PREFIX)
     {
         return JFactory::getQueryBuilder($this->connection->getDriverName(), $prefix, $this->connection->getRelationPrefix());
     }

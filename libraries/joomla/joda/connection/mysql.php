@@ -48,10 +48,10 @@ class JConnectionMySQL extends JConnection
     );
 
     /**
-     * Description
+     * Class constructor
      *
-     * @param
-     * @return
+     * @param array Options
+     *
      */
      function __construct($options)
     {
@@ -62,8 +62,7 @@ class JConnectionMySQL extends JConnection
         $this->_port = $options["port"];
         parent::__construct();
 
-
-        // Set driver/connection specific PDO driver options
+        // Set driver/connection specific PDO options
 
         // Buffered query must be turn ON, transaction problems arise otherwise.
         // Commit() without fetchAll() brings "There is already active transaction..."
