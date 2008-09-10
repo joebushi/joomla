@@ -34,46 +34,47 @@ class JodademoModelExamples extends JModel
 	 */
     function templateTest()
     {
-        $result = "XXX";
-        $text["explain"] = "Array to string: ";
+        $result = "Test Result";
+        $text["title"] = "Test Title";
+        $text["intro"] = "Short Description";
+        $text["code"] = "PHP testing Code";
         $text["result"] = $result;
         return $text;
     }
 
+    
+    function varToString($var) 
+    {
+        ob_start();
+        var_export($var);
+        $string = ob_get_contents();
+        ob_end_clean();
+        return $string;                
+    }
 
 
     function Test1() { // Just building a simple query
     	$result = "";
-        $dataset = JFactory::getDBSet();
-        $qb = $dataset->getQueryBuilder();
-        /*
+        $qb = JFactory::getQueryBuilder("mysql");
+
+        $result = "Simple select:\n";
         $qb
-            ->select(array("f1"=>"field1", "f2" => "'#__plamen'"))
-            ->from(array("c" => "#__content", "d" => "'#__content'"))
-            ->join("#__categories", "c.catid=cats.id", "cats")
-            ->orderby(array("c" => Joda::SORT_DESC, "title"))
-            ;
-*/
-        $result = $qb->getSQL();
+            ->select("*")
+            ->from(array("t" => "#__table"));
 
-
-        $test = "
-INSERT INTO `#__components`
-VALUES (1, 'Banners', 'track_impressions=0\ntrack_clicks=0\ntag_prefix=\n\n', 0, 0, '', 'Banner Management', 'com_banners', 0, 'js/ThemeOffice/component.png', 0, 'track_impressions=0\ntrack_clicks=0\ntag_prefix=\n\n', 1);
-INSERT INTO `#__components` VALUES (9, 'Categories', '', 0, 7, 'option=com_categories&section=com_contact_details', 'Manage contact categories', '', 2, 'js/ThemeOffice/categories.png', 1, 'contact_icons=0\nicon_address=\nicon_email=\nicon_telephone=\nicon_fax=\nicon_misc=\nshow_headings=1\nshow_position=1\nshow_email=0\nshow_telephone=1\nshow_mobile=1\nshow_fax=1\nbannedEmail=\nbannedSubject=\nbannedText=\nsession=1\ncustomReply=0\n\n', 1);
-";
-
-        $result = "";
-        $sqls = $qb->splitSQL($test, true);
-        $tick = 1;
-        foreach ( $sqls as $sql ) {
-            //$sql = preg_replace('/\n/','\\\\n',$sql);
-        	$result .= "\n$tick : " . $sql;
-        	$tick++;
-        }
-
-
-        $text["explain"] = "Split Query String by semicolon: ';'";
+        $result .= $qb->getSQL();
+        
+        
+        
+        
+        $text["title"] = "Using JQueryBuilder as a standalone query builder";
+        $text["intro"] = "JQueryBuilder can be used standalone or be part of JDataset/JConnection/JQueryBuilder triple.\n";
+        $text["intro"] .= "When used standalone a SQL dialect name must be passed to factoring method.\n";
+        $text["code"] = '$qb = JFactory::getQueryBuilder("mysql");';
+        
+        
+        
+        $text["intro"] .= "\n \$qb = JFactory::getQueryBuilder('mysql')";
         $text["result"] = $result;
         return $text;
     }
@@ -90,7 +91,9 @@ INSERT INTO `#__components` VALUES (9, 'Categories', '', 0, 7, 'option=com_categ
         foreach ( $data as $row ) {
             $result .= $row["id"] . ":" . $row["title"] . "\n";
         }
-        $text["explain"] = "Getting data from database";
+        $text["title"] = "Getting data from database";
+        $text["intro"] = "";
+        $text["code"] = "";
         $text["result"] = $result;
         return $text;
     }
@@ -100,24 +103,6 @@ INSERT INTO `#__components` VALUES (9, 'Categories', '', 0, 7, 'option=com_categ
 
 
 
-    function Test4()
-    {
-        $result = "";
-
-        $a = array("0" => array("name" => "default", "default" => "1", "host" => "localhost", "port" => "", "user" => "root", "password" => "Dimana87", "database" => "joomlajoda", "driver" => "mysql", "prefix" => "jos_", "debug" => "0"), "1" => array("name" => "", "default" => "0", "host" => "localhost", "port" => "", "user" => "", "password" => "", "database" => "", "driver" => "mysql", "prefix" => "jos_", "debug" => "0"), "2" => array("name" => "", "default" => "0", "host" => "localhost", "port" => "", "user" => "", "password" => "", "database" => "", "driver" => "mysql", "prefix" => "jos_", "debug" => "0"), "3" => array("name" => "", "default" => "0", "host" => "localhost", "port" => "", "user" => "", "password" => "", "database" => "", "driver" => "mysql", "prefix" => "jos_", "debug" => "0"), "4" => array("name" => "", "default" => "0", "host" => "localhost", "port" => "", "user" => "", "password" => "", "database" => "", "driver" => "mysql", "prefix" => "jos_", "debug" => "0"), "5" => array("name" => "", "default" => "0", "host" => "localhost", "port" => "", "user" => "", "password" => "", "database" => "", "driver" => "mysql", "prefix" => "jos_", "debug" => "0"), "6" => array("name" => "", "default" => "0", "host" => "localhost", "port" => "", "user" => "", "password" => "", "database" => "", "driver" => "mysql", "prefix" => "jos_", "debug" => "0"), "7" => array("name" => "", "default" => "0", "host" => "localhost", "port" => "", "user" => "", "password" => "", "database" => "", "driver" => "mysql", "prefix" => "jos_", "debug" => "0"), "8" => array("name" => "", "default" => "0", "host" => "localhost", "port" => "", "user" => "", "password" => "", "database" => "", "driver" => "mysql", "prefix" => "jos_", "debug" => "0"), "9" => array("name" => "", "default" => "0", "host" => "localhost", "port" => "", "user" => "", "password" => "", "database" => "", "driver" => "mysql", "prefix" => "jos_", "debug" => "0"));
-        ob_start();
-        var_export($a);
-        $string = ob_get_contents();
-        ob_end_clean();
-
-        $string = preg_replace('/\n/','',$string);
-
-        $result = $string;
-
-    	$text["explain"] = "Array to string: ";
-        $text["result"] = $result;
-        return $text;
-    }
 
 
 
@@ -139,7 +124,9 @@ INSERT INTO `#__components` VALUES (9, 'Categories', '', 0, 7, 'option=com_categ
         $result = $tmpstring;
 
 
-        $text["explain"] = "Escaping quoted SQL parts: ";
+        $text["title"] = "Escaping quoted SQL parts: ";
+        $test["intro"] = "";
+        $text["code"] = "";
         $text["result"] = $result;
         return $text;
     }
@@ -155,7 +142,19 @@ INSERT INTO `#__components` VALUES (9, 'Categories', '', 0, 7, 'option=com_categ
             if ( method_exists($this, $method) ) {
             	$key = "t$i";
             	$texts[$key] = $this->$method();
-            	$texts[$key]["explain"] = "Test $i:\n" . $texts[$key]["explain"];
+            	if ( ! isset($texts[$key]["title"]) ) {
+            	    $texts[$key]["title"] = "Title";
+            	}
+            	if ( ! isset($texts[$key]["intro"]) ) {
+            	    $texts[$key]["intro"] = "Description";
+            	}
+            	if ( ! isset($texts[$key]["code"]) ) {
+            	    $texts[$key]["code"] = "PHP testing code";
+            	}
+            	if ( ! isset($texts[$key]["result"]) ) {
+            	    $texts[$key]["result"] = "TestResult";
+            	}
+            	$texts[$key]["title"] = "Test $i:\n" . $texts[$key]["title"];
             }
     	}
         return $texts;

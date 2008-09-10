@@ -1,5 +1,5 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
-<h1>Examples</h1>
+<h1>Joda Database & SQL ABstraction Layer Usage Examples</h1>
 <HR>
 <table width="100%">
 <?php
@@ -8,17 +8,36 @@
     	?>
         <tr valign='top'>
             <td align="LEFT">
-                <code>
-                <?php echo nl2br($text["explain"]); ?>
+                <h4>
+                <?php echo nl2br($text["title"]); ?>
                 <?php //echo $text["explain"]; ?>
-                </code>
-            </td>
-            <td> 
-                <?php echo nl2br($text["result"]); ?>
-                <?php //echo $text["result"]; ?>
+                </h4>
+                <h5>
+                <?php echo nl2br($text["intro"]); ?>
+                </h5>
             </td>
         </tr>
-        <tr valign='top'><td colspan=2><hr></td></tr>
+        <tr>
+            <td>
+            	CODE:<hr>
+            	<code>
+                <?php echo nl2br($text["code"]); ?>
+                </code>
+                <br>
+            </td>
+        </tr>
+        <tr>
+            <td>
+            	<BR><BR><BR><BR>
+            	RESULT:<hr>
+            	<code>
+                <?php echo nl2br($text["result"]); ?>
+                <?php //echo $text["result"]; ?>
+                </code>
+                <br>
+            </td>
+        </tr>
+        <tr valign='top'><td><p>&nbsp;<BR><BR></p></td></tr>
         <?php
     }
 ?>

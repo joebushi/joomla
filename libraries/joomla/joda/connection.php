@@ -49,6 +49,14 @@ abstract class JConnection extends PDO
     protected $_resultset                 = null;
 
     /**
+     * Database driver name
+     *
+     * @var string
+     */
+    protected $_drivername            = "";
+    
+    
+    /**
      * Database host name or IP address
      *
      * @var string
@@ -117,12 +125,6 @@ abstract class JConnection extends PDO
      */
     protected $_relation_prefix = Joda::DEFAULT_RELATION_PREFIX;
 
-    /**
-     * A Query Builder object to describe SQL and help connection class to manage SQL strings.
-     *
-     * @var object JQueryBuilder
-     */
-    protected $_querybuilder = null;
 
     /**
      * Debug mode
@@ -152,7 +154,13 @@ abstract class JConnection extends PDO
      */
     protected $_in_transaction = false;
 
-
+    /**
+     * JQueryBuilder instance for internal (JConnection) use only
+     *
+     * @var object JQueryBuilder
+     */
+    protected $_querybuilder = null;
+    
 
     public $escapequoted = false;
 
@@ -163,10 +171,13 @@ abstract class JConnection extends PDO
      * @param array Driver specific options
      *
      */
-    function __construct($driver_options=array())
+    function __construct()
     {
     	$dsn = $this->_drivername.":port=".$this->_port.";host=" . $this->_host . ";dbname=" . $this->_database;
         parent::__construct($dsn, $this->_user, $this->_password);
+        
+        // Create this connection's QueryBuilder compagnion
+        $this->_querybuilder = JFactory::getQueryBuilder($this->_drivername);
 
         // Set global PDO options(apply to all connections)
         $this->setAttribute(PDO::ATTR_STRINGIFY_FETCHES, true);
@@ -179,7 +190,7 @@ abstract class JConnection extends PDO
      * @param array Options/Configuration
      * @return object JConnection
      */
-    function &getInstance( $connectionname, $options = array())
+    function &getInstance( $connectionname, $options)
     {
         static $instances;
 
@@ -303,10 +314,13 @@ abstract class JConnection extends PDO
 
             // Escape quoted parts?
             if ( !$this->escapequoted ) {
-            	// TODO: escaping quoyed strings inside the SQL query
-            	//echo "<BR>" . $this->quote("SELECT '\"testquote' FROM #__table");
+            	// TODO: escaping quoted strings inside the SQL query
             }
-            // .. but log first
+
+            // Handle prefixes (e.g., those  #__ and jos_ )
+            $query = $this->replacePrefix($query);
+
+            // Log ??
             if ($this->_debug) {
                 $this->_ticker++;
                 $this->_log[] = $query;
@@ -533,16 +547,18 @@ abstract class JConnection extends PDO
 
 
     /**
-     * Set this connection Query Builder compagnion
+     * Replace Prefixes
      *
-     * @param object JQueryBuilder
+     * @param string Input SQL
+     * @param string Relation prefix (e.g. jos_)
+     * @return string
      *
      */
-    function setQueryBuilder($object)
+    function replacePrefix( $string )
     {
-    	$this->_querybuilder = $object;
+        $result = Joda::replaceNonQuotedString($string, Joda::DEFAULT_PREFIX, $this->_relation_prefix, $this->_querybuilder->getTextQuotes());
+        return $result;
     }
-
 
 
 } //JConnection

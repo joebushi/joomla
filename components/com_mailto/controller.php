@@ -32,6 +32,8 @@ class MailtoController extends JController
 	 */
 	function mailto()
 	{
+		$session =& JFactory::getSession();
+		$session->set('com_mailto.formtime', time());
 		JRequest::setVar( 'view', 'mailto' );
 		$this->display();
 	}
@@ -48,8 +50,14 @@ class MailtoController extends JController
 
 		// Check for request forgeries
 		JRequest::checkToken() or jexit( 'Invalid Token' );
-
+		$session =& JFactory::getSession();
 		$db	=& JFactory::getDBO();
+
+		$timeout = $session->get('com_mailto.formtime', 0);
+		if($timeout == 0 || time() - $timeout < 20) {
+			JError::raiseNotice( 500, 'EMAIL_NOT_SENT' );
+			return $this->mailto();
+		}
 
 		jimport( 'joomla.mail.helper' );
 
@@ -58,6 +66,13 @@ class MailtoController extends JController
 		$FromName 	= $mainframe->getCfg('fromname');
 
 		$link 		= base64_decode( JRequest::getVar( 'link', '', 'post', 'base64' ) );
+
+		// Verify that this is a local link
+		if(!JURI::isInternal($link)) {
+			//Non-local url...  
+			JError::raiseNotice( 500, 'EMAIL_NOT_SENT' );
+			return $this->mailto();
+		}
 
 		// An array of e-mail headers we do not want to allow as input
 		$headers = array (	'Content-Type:',

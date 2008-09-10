@@ -203,7 +203,166 @@ class Joda extends JObject
     }
 
 
+    /**
+     * Replace quoted substrings with unique identifiers (including quotes!)
+     * e.g. "'this will not be slated' and this not" => "sdf787sdf64dsf536728371 and this not"
+     *
+     * @param string The String
+     * @eturn array Array("string" => $newstring, array("<UNIQUEID>" => "<quoted string>"))
+     *
+     */
+    static function quotedToUID($input, $textquotes=array())
+    {
+        // Make a string from all text quoting characters
+        $q = implode("", $textquotes);
+
+        // No quoting characters? Ok, no transformation
+        if ( trim($q) == "" ) {
+            return array("string" => $input, "uids" => array());
+        }
+
+        // Pattern to match quoted strings (include! quotes, multiline)
+        $pattern = '/(['.$q.'])(?:\\\\\1|[\S\s])*?\1/m';
+        //$pattern = '/(['.$q.'])((?:\\\\\1|[\S\s])*?)\1/m';
+
+        $matches = array();
+
+        // Apply REGEX, keep matching offsets as well
+        $found = preg_match_all($pattern, $input, $matches, PREG_OFFSET_CAPTURE );
+
+        $newstring = $input;
+        $uids = array();
+
+        // Did we find any quoted string?
+        if ($found) {
+            // Array of all matches: array[0..N] of array[0..1] : N: count; 0: match substring, 1: offset of the match
+            $allmatches = $matches[0]; // INDEX 0 is very important!!! See REGEX infos
+
+            $shift = 0;
+            $i = 1;
+            foreach ($allmatches as $match) {
+                // String to replace the match with - match_holder
+                $uid = "[" . self::getUniqueString() . "]";
+
+                // Keep the (uid => match) pairs
+                $uids[$uid] = $match[0];
+
+                // Replace the match with the replacement string (uid);
+                // $match[1] is the offset in the string
+                $newstring = substr_replace($newstring, $uid, $match[1]+$shift, strlen($match[0]));
+
+                // Take into an acoount the string lenght difference, if any
+                $shift = $shift + strlen($uid) - strlen($match[0]);
+                $i++;
+            }
+        }
+
+        // Huh...
+        return array("string" => $newstring, "uids" => $uids);
+
+    }
+
+
+
+    /**
+     * Generate Unique string
+     * @return string
+     */
+    static function getUniqueString()
+    {
+        $better_token = md5(uniqid(rand(), true));
+        $unique_code = substr($better_token, 16);
+        $uniqueid = $unique_code;
+        return $uniqueid;
+    }
+
+
+    /**
+     * Replace substring that is NOT quoted by text literals quotes (',", etc)
+     * e.g. "'this will not be replaced' this will be replaced"
+     *
+     * @param string The String
+     * @param string String to search
+     * @param string String replacement
+     * @return string
+     */
+    static function replaceNonQuotedString($input, $search, $replace, $textquotes)
+    {
+        $result = Joda::quotedToUID($input, $textquotes);
+
+        // get the array of ( <UNIQUEID> => <QUOTED-ORIGINAL-SUBSTRING>)
+        $uids = $result["uids"];
+
+        // get the string with NO quoted parts init (slated)
+        $string = $result["string"];
+
+        // Replace what we want to replace
+        $newstring = str_replace($search, $replace, $string);
+
+        // Ok, copy over back quoted strings (currently replaced by Unique IDs)
+        reset($uids);
+        foreach ($uids as $uid => $original) {
+            $newstring = str_replace($uid, $original, $newstring);
+        }
+
+        return $newstring;
+    }
+
+
+    /**
+     * Splits a string of queries into an array of individual queries
+     * if separated by semicolon (;)
+     *
+     * @param	string Queries to split (; separated)
+     * @param 	array  Array of possible text quoting characters
+     * @param  	boolean Remove NEW LINES outside quotes?
+     * @return  array
+     *
+     */
+    function splitSql( $input, $text_quotes, $remove_newlines=false )
+    {
+    	// Replace New Lines with ';'
+        $input = preg_replace('/$/', ';', $input);
+
+        // Hide quoted parts
+        $result = Joda::quotedToUID($input, $text_quotes);
+
+        // get the array of ( <UNIQUEID> => <QUOTED-ORIGINAL-SUBSTRING>)
+        $uids = $result["uids"];
+
+        // get the string with NO quoted parts init (slated)
+        $slatedstring = $result["string"];
+
+        // Split into an array of strings, if any
+        $sqls = preg_split('/;/', $slatedstring);
+
+        $result = array();
+
+        // Ok, copy-over back quoted strings
+        // Enmerate SQL strings
+        foreach ( $sqls as $sql ) {
+            // Igfnore empty strings
+        	$sql = trim($sql);
+            if ( $remove_newlines == true ) {
+                $sql = preg_replace('/\n/','',$sql);
+            }
+        	if ($sql !== "") {
+                reset($uids);
+                // Enumerate uids
+                foreach ($uids as $uid => $original) {
+                    $sql = str_replace($uid, $original, $sql);
+                }
+                $result[] = $sql;
+            }
+        }
+
+        return $result;
+    }
+    
+
 
 } //Joda
+
+
 
 ?>

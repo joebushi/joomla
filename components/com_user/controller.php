@@ -117,7 +117,7 @@ class UserController extends JController
 
 		if ($return = JRequest::getVar('return', '', 'method', 'base64')) {
 			$return = base64_decode($return);
-			if (strpos( $return, 'http' ) !== false && strpos( $return, JURI::base() ) !== 0) {
+			if (!JURI::isInternal($return)) {
 				$return = '';
 			}
 		}
@@ -165,7 +165,7 @@ class UserController extends JController
 		{
 			if ($return = JRequest::getVar('return', '', 'method', 'base64')) {
 				$return = base64_decode($return);
-				if (strpos( $return, 'http' ) !== false && strpos( $return, JURI::base() ) !== 0) {
+				if (!JURI::isInternal($return)) {
 					$return = '';
 				}
 			}
@@ -251,7 +251,7 @@ class UserController extends JController
 		if ($useractivation == '1')
 		{
 			jimport('joomla.user.helper');
-			$user->set('activation', md5( JUserHelper::genRandomPassword()) );
+			$user->set('activation', JUtility::getHash( JUserHelper::genRandomPassword()) );
 			$user->set('block', '1');
 		}
 

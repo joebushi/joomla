@@ -34,11 +34,21 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Sep-2008 Plamen Petkov
+ ! WJJ merged into JJ  up to 89
+ ! J15 merged into WJJ up to 10921 (install check removed)
+ ^ Remove JDEV_SKIPINSTALLCHECK from defines (install check removed in 1.4-stable)
+ ^ Finding the right place for QueryBuilder, quoting characters, etc. among other classes
+ ^ Make splitSQL() a static Joda method
+
 09-Sep-2008 Plamen Petkov
-! WJJ Merged into JJ up to rev 85
+ ! WJJ Merged into JJ up to rev 85
+ ^ Moving methods from JQueryBuilder to Joda as static methods for common use
+ ^ Moving final SQL manipulation - in JConnection (replace prefix, split SQL, qtc.)
+ ^ JQueryBuilding won't be aware of any prefixes! JConnections is responsible for that (?!)22:27 ÷. 9.9.2008 ã.
 
 08-Sep-2008 Plamen Petkov
- # Make some JQueryBuilder methods static	
+ # Make some JQueryBuilder methods static
  # Fine tune relations between JQueryBuilder-Jdataset-JConnection:
  # Fix stupid UniqueID usage in Query Builder - quoted strings replacing now works fine
 
@@ -61,7 +71,7 @@ $ -> Language fix or change
      JJ = commit ( (J15 merge in WJJ) merge in JJ )
 
 04-Sep-2008 Plamen Petkov
- + Add __toString() to QueryBuilder,  returning the final SQL string (prefix replaced)
+ + Add __toString() to QueryBuilder,  returning the final SQL string
  + Add splitSQL() method to QB
 
 03-Sep-2008 Plamen Petkov

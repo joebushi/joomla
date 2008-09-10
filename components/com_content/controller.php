@@ -238,7 +238,7 @@ class ContentController extends JController
 		
 		$referer = JRequest::getString('ret',  base64_encode(JURI::base()), 'get');
 		$referer = base64_decode($referer);
-		if (strpos( $referer, 'http' ) !== false && strpos( $referer, JURI::base() ) !== 0) {
+		if (!JURI::isInternal($referer)) {
 			$referer = '';
 		}
 		$this->setRedirect($referer, $msg);		
@@ -267,7 +267,7 @@ class ContentController extends JController
 		// If the task was edit or cancel, we go back to the content item
 		$referer = JRequest::getString('ret', base64_encode(JURI::base()), 'get');
 		$referer = base64_decode($referer);
-		if (strpos( $referer, 'http' ) !== false && strpos( $referer, JURI::base() ) !== 0) {
+		if (!JURI::isInternal($referer)) {
 			$referer = '';
 		}
 		$this->setRedirect($referer);
@@ -289,6 +289,11 @@ class ContentController extends JController
 		$model = & $this->getModel('Article' );
 
 		$model->setId($id);
+		
+		if(!JURI::isInternal($url)) {
+			$url = JRoute::_('index.php?option=com_content&view=article&id='.$id);
+		}
+
 		if ($model->storeVote($rating)) {
 			$this->setRedirect($url, JText::_('Thanks for rating!'));
 		} else {

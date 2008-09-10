@@ -202,32 +202,15 @@ abstract class JQueryBuilder extends JObject
      */
     protected $_text_quotes = array("");
 
-    /**
-     * Prefix-placeholder used in queries, later replaced by the relation prefix (e.g. #__)
-     *
-     * @var string
-     */
-    protected $_prefix = "";
-
-    /**
-     * Relation/Table name prefix (e.g. jos__)
-     *
-     * @var string
-     */
-    protected $_relation_prefix = "";
-
 
     /**
      * Constructor
      *
-     * @param string Prefix's placeholder (e.g. #__)
-     * @param string Prefix to replace with (e.g. jos_)
      * @return object JQueryBuilder
      */
-    function __construct( $prefix, $relation_prefix )
+    function __construct(  )
     {
-        $this->_prefix = $prefix;
-        $this->_relation_prefix = $relation_prefix;
+        //
     }
 
 
@@ -903,17 +886,15 @@ abstract class JQueryBuilder extends JObject
     /**
      * Returns a reference to a Query Builder object
      *
-     * @param string Driver name
-     * @param Table prefix placeholder (#__)
-     * @param Prefix replacement (jos_)
+     * @param string SQL dialect name
      * @return object JQueryBuilder
      */
-    public function &getInstance($driver, $prefix, $relation_prefix)
+    public function &getInstance($sqldialect)
     {
-        $path = dirname(__FILE__) .DS. 'querybuilder' .DS. $driver . '.php';
+        $path = dirname(__FILE__) .DS. 'querybuilder' .DS. $sqldialect . '.php';
         require_once($path);
-        $class = "JQueryBuilder".$driver;
-        $instance =  new $class($prefix, $relation_prefix);
+        $class = "JQueryBuilder".$sqldialect;
+        $instance =  new $class();
         return $instance;
     }
 
@@ -1461,78 +1442,6 @@ abstract class JQueryBuilder extends JObject
     }
 
 
-    /**
-     * Get a quoted database escaped string
-     *
-     * @param    string  A string
-     * @param    boolean Default true to escape string, false to leave the string unchanged
-     * @return   string
-     *
-     * //TODO: hmm.. quoted string using database driver?
-     * // hmm.. NOT here.. in connection??
-     *
-     */
-    function quote( $text, $escaped = true )
-    {
-        //
-    }
-
-
-
-
-    /**
-     * Splits a string of queries into an array of individual queries
-     * if separated by semicolon (;)
-     *
-     * @param   string Queries to split (; separated)
-     * @return  array
-     *
-     */
-    function splitSql( $input, $remove_newlines=false )
-    {
-    	// Replace New Lines with ';'
-        $input = preg_replace('/$/', ';', $input);
-
-        // Hide quoted parts
-        $result = $this->quotedToUID($input, $this->_text_quotes);
-
-        // get the array of ( <UNIQUEID> => <QUOTED-ORIGINAL-SUBSTRING>)
-        $uids = $result["uids"];
-
-        // get the string with NO quoted parts init (slated)
-        $slatedstring = $result["string"];
-
-        // Split into an array of strings, if any
-        $sqls = preg_split('/;/', $slatedstring);
-
-        $result = array();
-
-        // Ok, copy-over back quoted strings
-        // Enmerate SQL strings
-        foreach ( $sqls as $sql ) {
-            // Igfnore empty strings
-        	$sql = trim($sql);
-        	//echo "<BR>" . $sql;
-            if ( $remove_newlines == true ) {
-                $sql = preg_replace('/\n/','',$sql);
-            }
-        	if ($sql !== "") {
-                reset($uids);
-                // Enumerate uids
-                foreach ($uids as $uid => $original) {
-                    $sql = str_replace($uid, $original, $sql);
-                }
-                $result[] = $sql;
-            }
-        }
-
-        return $result;
-    }
-
-
-
-
-
 
 
 
@@ -1691,140 +1600,32 @@ abstract class JQueryBuilder extends JObject
      */
     public function getSQL()
     {
-        $result = $this->replacePrefix( $this->_toString(), $this->_prefix, $this->_relation_prefix );
+        $result = $this->_toString();
         return $result;
     }
 
-
-
-
+    
     /**
-     * Replace Prefixes
+     * Return TEXT quoting characters information
      *
-     * @param string The String
-     * @param string Pattern
-     * @param string Replacement
-     * @return string
-     *
+     * @return  array 
      */
-    function replacePrefix( $string, $prefix=Joda::DEFAULT_PREFIX, $relationprefix=Joda::DEFAULT_RELATION_PREFIX )
+    public function getTextQuotes()
     {
-    	$result = $this->replaceNonQuotedString($string, $prefix, $relationprefix, $this->_text_quotes);
-        return $result;
+        return $this->_text_quotes;
     }
 
-
-
-
-
     /**
-     * Replace quoted substrings with unique identifiers (including quotes!)
-     * e.g. "'this will not be slated' and this not" => "sdf787sdf64dsf536728371 and this not"
+     * Return NAME quoting characters information
      *
-     * @param string The String
-     * @eturn array Array("string" => $newstring, array("<UNIQUEID>" => "<quoted string>"))
-     *
+     * @return  array 
      */
-    function quotedToUID($input, $textquotes=array())
+    public function getNameQuotes()
     {
-        // Make a string from all text quoting characters
-        $q = implode("", $textquotes);
-
-        // No quoting characters? Ok, no transformation
-        if ( trim($q) == "" ) {
-        	return array("string" => $input, "uids" => array());
-        }
-
-        // Pattern to match quoted strings (include! quotes, multiline)
-        $pattern = '/(['.$q.'])(?:\\\\\1|[\S\s])*?\1/m';
-        //$pattern = '/(['.$q.'])((?:\\\\\1|[\S\s])*?)\1/m';
-
-        $matches = array();
-
-        // Apply REGEX, keep matching offsets as well
-        $found = preg_match_all($pattern, $input, $matches, PREG_OFFSET_CAPTURE );
-
-        $newstring = $input;
-        $uids = array();
-
-        // Did we find any quoted string?
-        if ($found) {
-            // Array of all matches: array[0..N] of array[0..1] : N: count; 0: match substring, 1: offset of the match
-            $allmatches = $matches[0]; // INDEX 0 is very important!!! See REGEX infos
-
-            $shift = 0;
-            $i = 1;
-            foreach ($allmatches as $match) {
-                // String to replace the match with - match_holder
-                $uid = "[" . self::getUniqueString() . "]";
-
-                // Keep the (uid => match) pairs
-                $uids[$uid] = $match[0];
-
-                // Replace the match with the replacement string (uid);
-                // $match[1] is the offset in the string
-                $newstring = substr_replace($newstring, $uid, $match[1]+$shift, strlen($match[0]));
-
-                // Take into an acoount the string lenght difference, if any
-                $shift = $shift + strlen($uid) - strlen($match[0]);
-                $i++;
-            }
-        }
-
-        // Huh...
-        return array("string" => $newstring, "uids" => $uids);
-
+        return $this->_name_quotes;
     }
-
-
-
-    /**
-     * Replace substring that is NOT quoted by text literals quotes (',", etc)
-     * e.g. "'this will not be replaced' this will be replaced"
-     *
-     * @param string The String
-     * @param string String to search
-     * @param string String replacement
-     * @return string
-     */
-    function replaceNonQuotedString($input, $search, $replace, $textquotes)
-    {
-    	$result = self::quotedToUID($input, $textquotes);
-
-    	// get the array of ( <UNIQUEID> => <QUOTED-ORIGINAL-SUBSTRING>)
-    	$uids = $result["uids"];
-
-    	// get the string with NO quoted parts init (slated)
-    	$string = $result["string"];
-
-    	// Replace what we want to replace
-        $newstring = str_replace($search, $replace, $string);
-
-        // Ok, copy over back quoted strings (currently replaced by Unique IDs)
-        reset($uids);
-        foreach ($uids as $uid => $original) {
-            $newstring = str_replace($uid, $original, $newstring);
-        }
-
-        return $newstring;
-    }
-
-
-
-    /**
-     * Generate Unique string
-     * @return string
-     */
-    function getUniqueString()
-    {
-        $better_token = md5(uniqid(rand(), true));
-        $unique_code = substr($better_token, 16);
-        $uniqueid = $unique_code;
-        return $uniqueid;
-    }
-
-
-
+    
+    
 } // class
 
 

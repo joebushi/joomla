@@ -73,7 +73,7 @@ class UserModelReset extends JModel
 		}
 
 		// Generate a new token
-		$token = md5(JUserHelper::genRandomPassword());
+		$token = JUtility::getHash(JUserHelper::genRandomPassword());
 
 		$query	= 'UPDATE #__users'
 				. ' SET activation = '.$db->Quote($token)
