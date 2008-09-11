@@ -206,7 +206,8 @@ class JPath
 			$test = $dir.DS.$tmp;
 
 			// Create the test file
-			JFile::write($test, '');
+			$blank = '';
+			JFile::write($test, $blank);
 
 			// Test ownership
 			$return = (fileowner($test) == fileowner($path));

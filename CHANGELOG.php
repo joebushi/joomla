@@ -42,6 +42,9 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+11-Sep-2008 Sam Moffatt
+ ^ Changed behaviour of JFile::write and JFTP::write to use references for the second param 
+
 25-Aug-2008 Andrew Eddie
  + Added JQuery class
  + Added .invalid styles to admin template for form validation

@@ -929,7 +929,7 @@ class JFTP extends JObject
 	 * @param string $buffer Contents to write to the FTP server
 	 * @return boolean True if successful
 	 */
-	function write($remote, $buffer) {
+	function write($remote, &$buffer) {
 
 		// Determine file type
 		$mode = $this->_findMode($remote);

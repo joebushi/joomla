@@ -272,7 +272,7 @@ class JFile
 	 * @return boolean True on success
 	 * @since 1.5
 	 */
-	function write($file, $buffer)
+	function write($file, &$buffer)
 	{
 		// Initialize variables
 		jimport('joomla.client.helper');
