@@ -107,19 +107,19 @@ class ConfigControllerApplication extends ConfigController
                     JHTML::_('select.option', "pgsql", JText::_('PostgreSQL'))
                     );
 
-        $dummy_connections = Joda::dummy_connections(); 
+        $default_connections = Joda::default_connections();
 
         // Well, now, take all known (from config) connections, if any, and move them in the above "default" array /dummy one/
         if ( (isset($row->connections)) && (count($row->connections) > 0) ) {
             reset($row->connections);
             $i = 0;
             foreach ( $row->connections as $c ) {
-                $dummy_connections[$i] = $c;
+                $default_connections[$i] = $c;
                 $i++;
             }
         }
         // Set back
-        $row->connections = $dummy_connections;
+        $row->connections = $default_connections;
 
         // Prepare the list (HTML code) for template
         $lists["connections"] = "";
@@ -399,7 +399,7 @@ class ConfigControllerApplication extends ConfigController
 
 
 		if ( $connections_count <= 0 ) {
-		    $config_array['connections'] = Joda::dummy_connections();
+		    $config_array['connections'] = Joda::default_connections();
 		}
 		else {
 	        for ( $i = 0; $i < $connections_count; $i++ ) {

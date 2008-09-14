@@ -21,7 +21,9 @@
 defined( 'JPATH_BASE' ) or die();
 
 //TODO: Perhaps delete(), select(), insert(), etc. should RESET the query ??
-//TODO: Use quoting methods from PDO ?
+//TODO: Add HAVING clause
+//TODO: Must be noted that programmers should use single-quote as a text quote character and double quote for identifiers
+
 
 
 /**
@@ -193,14 +195,14 @@ abstract class JQueryBuilder extends JObject
      *
      * @var array
      */
-    protected $_name_quotes = array("");
+    protected $_name_quote = "";
 
     /**
      * Quoting characters for text literals
      *
      * @var array
      */
-    protected $_text_quotes = array("");
+    protected $_text_quote = "";
 
 
     /**
@@ -1429,22 +1431,6 @@ abstract class JQueryBuilder extends JObject
     }
 
 
-    /**
-     * Quote an identifier name (field, table, etc)
-     *
-     * @param   string The name
-     * @return  string The quoted name
-     */
-    function nameQuote( $s )
-    {
-        $q = $this->_name_quotes[0];
-        return $q . $s . $q;
-    }
-
-
-
-
-
     /****************** SQL ***************************/
 
 
@@ -1535,6 +1521,20 @@ abstract class JQueryBuilder extends JObject
 
 
     /**
+     * Build a=b SQL expression
+     *
+     * @param string $a
+     * @param string $b
+     * @return string
+     */
+    function sqlEQ($a, $b)
+    {
+    	$result = "$a=$b";
+    	return $result;
+    }
+
+
+    /**
      * SPOC: Generate a MAX(expression)
      *
      * @param    string The expression
@@ -1604,28 +1604,57 @@ abstract class JQueryBuilder extends JObject
         return $result;
     }
 
-    
+
     /**
      * Return TEXT quoting characters information
      *
-     * @return  array 
+     * @return  array
      */
-    public function getTextQuotes()
+    public function getTextQuote()
     {
-        return $this->_text_quotes;
+        return $this->_text_quote;
     }
 
     /**
      * Return NAME quoting characters information
      *
-     * @return  array 
+     * @return  array
      */
-    public function getNameQuotes()
+    public function getNameQuote()
     {
-        return $this->_name_quotes;
+        return $this->_name_quote;
     }
-    
-    
+
+
+    /**
+     * Quote the input string
+     *
+     * @param string $input
+     * @return string
+     */
+    function quote($input)
+    {
+        // First, lets escape all text quotes, if any
+        $input = addcslashes($input, $this->_text_quote);
+        $result = $this->_text_quote . $input . $this->_text_quote;
+        return $result;
+    }
+
+
+    /**
+     * Quote the input string as an SQL identifier
+     *
+     * @param string $input
+     * @return string
+     */
+    function quoteID($input)
+    {
+        // First, lets escape all quotes, if any
+        $input = addcslashes($input, $this->_name_quote);
+        $result = $this->_name_quote . $input . $this->_name_quote;
+        return $result;
+    }
+
 } // class
 
 

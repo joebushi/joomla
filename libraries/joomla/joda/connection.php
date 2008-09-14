@@ -20,12 +20,8 @@
  */
 defined( 'JPATH_BASE' ) or die();
 
-//TODO: DEBUG!!!
 //TODO: If you need metadata -  select * from table where 1=1  (?!?!)
 //TODO: Prepared statements? Optional? Parameters?
-//TODO: Multi-line SQL not allowed (I mean semicolons NOT allowed! /';'/!!!!
-//TODO: Log queries in debug mode
-//TODO: Check if JConnection is really a singleton or is not created again and again etc.
 
 
 /**
@@ -54,8 +50,8 @@ abstract class JConnection extends PDO
      * @var string
      */
     protected $_drivername            = "";
-    
-    
+
+
     /**
      * Database host name or IP address
      *
@@ -160,7 +156,7 @@ abstract class JConnection extends PDO
      * @var object JQueryBuilder
      */
     protected $_querybuilder = null;
-    
+
 
     public $escapequoted = false;
 
@@ -175,7 +171,7 @@ abstract class JConnection extends PDO
     {
     	$dsn = $this->_drivername.":port=".$this->_port.";host=" . $this->_host . ";dbname=" . $this->_database;
         parent::__construct($dsn, $this->_user, $this->_password);
-        
+
         // Create this connection's QueryBuilder compagnion
         $this->_querybuilder = JFactory::getQueryBuilder($this->_drivername);
 
@@ -559,6 +555,17 @@ abstract class JConnection extends PDO
         $result = Joda::replaceNonQuotedString($string, Joda::DEFAULT_PREFIX, $this->_relation_prefix, $this->_querybuilder->getTextQuotes());
         return $result;
     }
+
+    /**
+     * Return a new QueryBuilder
+     *
+     * @return object JQueryBuilder
+     */
+    function getQueryBuilder()
+    {
+        return JFactory::getQueryBuilder($this->_drivername);
+    }
+
 
 
 } //JConnection

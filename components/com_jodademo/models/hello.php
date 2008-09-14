@@ -23,34 +23,9 @@ jimport( 'joomla.application.component.model' );
  * @package     Joomla
  * @subpackage  Jodademo
  */
-class JodademoModelHello extends JModel 
+class JodademoModelHello extends JModel
 {
-    /**
-     *
-     * Gets the Hello Title
-     *
-     * @return string
-     */
-    function getTitle()
-    {
-    	$text = "Welcome to Joda Demonstration Component!";
-        return $text;
-    }
 
-    /**
-     * Gets the Introduction
-     *
-     * @return string
-     */
-    function getIntro()
-    {
-    	$text = "
-    	This is a Joomla Component, specificaly designed to show you what is Joda, why it has been developed, how it works, its pros and cons, how to use it and lot more.
-
-    	Please, keep reading!
-    	";
-        return $text;
-    }
 
 
 }

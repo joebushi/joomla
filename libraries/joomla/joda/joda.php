@@ -170,12 +170,9 @@ class Joda extends JObject
     /**
      * Return an array of dummy connections, some kind of defaults
      *
-     * This is to normalize the connections configuration and to describe possible properties...
-     * //TODO make it more elegant please
-     *
      * @return array
      */
-    static function dummy_connections($default=false) {
+    static function default_connections($default=false) {
     	$tmp = array();
         for ( $i = 0; $i < self::MAX_NAMED_CONNECTIONS; $i++ ) {
             $tmp[] = array(
@@ -211,19 +208,16 @@ class Joda extends JObject
      * @eturn array Array("string" => $newstring, array("<UNIQUEID>" => "<quoted string>"))
      *
      */
-    static function quotedToUID($input, $textquotes=array())
+    static function quotedToUID($input, $quote)
     {
-        // Make a string from all text quoting characters
-        $q = implode("", $textquotes);
-
         // No quoting characters? Ok, no transformation
-        if ( trim($q) == "" ) {
+        if ( trim($quote) == "" ) {
             return array("string" => $input, "uids" => array());
         }
 
         // Pattern to match quoted strings (include! quotes, multiline)
-        $pattern = '/(['.$q.'])(?:\\\\\1|[\S\s])*?\1/m';
-        //$pattern = '/(['.$q.'])((?:\\\\\1|[\S\s])*?)\1/m';
+        $pattern = '/(['.$quote.'])(?:\\\\\1|[\S\s])*?\1/m';
+        //$pattern = '/(['.$quote.'])((?:\\\\\1|[\S\s])*?)\1/m';
 
         $matches = array();
 
@@ -286,9 +280,9 @@ class Joda extends JObject
      * @param string String replacement
      * @return string
      */
-    static function replaceNonQuotedString($input, $search, $replace, $textquotes)
+    static function replaceNonQuotedString($input, $search, $replace, $quote)
     {
-        $result = Joda::quotedToUID($input, $textquotes);
+        $result = Joda::quotedToUID($input, $quote);
 
         // get the array of ( <UNIQUEID> => <QUOTED-ORIGINAL-SUBSTRING>)
         $uids = $result["uids"];
@@ -319,13 +313,13 @@ class Joda extends JObject
      * @return  array
      *
      */
-    function splitSql( $input, $text_quotes, $remove_newlines=false )
+    function splitSql( $input, $text_quote, $remove_newlines=false )
     {
     	// Replace New Lines with ';'
         $input = preg_replace('/$/', ';', $input);
 
         // Hide quoted parts
-        $result = Joda::quotedToUID($input, $text_quotes);
+        $result = Joda::quotedToUID($input, $text_quote);
 
         // get the array of ( <UNIQUEID> => <QUOTED-ORIGINAL-SUBSTRING>)
         $uids = $result["uids"];
@@ -358,8 +352,6 @@ class Joda extends JObject
 
         return $result;
     }
-    
-
 
 } //Joda
 

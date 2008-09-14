@@ -107,21 +107,31 @@ class  plgSystemDebug extends JPlugin
 				echo '</ol>';
 			}
 
-            $conn =& JFactory::getDBConnection();
-            echo '<h4>'.JText::sprintf( 'Joda Queries logged',  $conn->getTicker() ).'</h4>';
+            echo '<h4>'.JText::_( 'Joda Queries logged').'</h4>';
+            $conf =& JFactory::getConfig();
+            $connectionsList = $conf->getValue('config.connections');
 
-            if ($log = $conn->getLog())
-            {
-                echo '<ol>';
-                foreach ($log as $k=>$sql)
-                {
-                    $geshi->set_source($sql);
-                    $text = $geshi->parse_code();
-                    $text = preg_replace($newlineKeywords, '<br />&nbsp;&nbsp;\\0', $text);
-                    echo '<li>'.$text.'</li>';
+            reset($connectionsList);
+            foreach ( $connectionsList as $id => $connectionInfo ) {
+            	if ( $connectionInfo["name"] !== "" ) {
+	                $conn =& JFactory::getDBConnection($connectionInfo["name"]);
+	                if ($log = $conn->getLog())
+	                {
+                        echo "Connection [ID] => name: [$id] => " . $connectionInfo["name"] . ", Count=" . count($log) . "<BR>";
+		                echo '<ol>';
+		                foreach ($log as $k=>$sql)
+		                {
+		                    $geshi->set_source($sql);
+		                    $text = $geshi->parse_code();
+		                    $text = preg_replace($newlineKeywords, '<br />&nbsp;&nbsp;\\0', $text);
+		                    echo '<li>'.$text.'</li>';
+		                }
+		                echo '</ol>';
+		            }
                 }
-                echo '</ol>';
             }
+
+
 
 
 			if(isset($database))

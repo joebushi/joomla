@@ -1,42 +1,40 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
-<h1>Joda Database & SQL ABstraction Layer Usage Examples</h1>
-<HR>
-<table width="100%">
+<h3>Joda Database & SQL Abstraction Layer Usage Examples</h3>
+<p>&nbsp;</p>
+<table class="contentpaneopen">
 <?php
-
     foreach ( $this->texts as $text) {
     	?>
-        <tr valign='top'>
-            <td align="LEFT">
-                <h4>
-                <?php echo nl2br($text["title"]); ?>
-                <?php //echo $text["explain"]; ?>
-                </h4>
-                <h5>
-                <?php echo nl2br($text["intro"]); ?>
-                </h5>
-            </td>
-        </tr>
         <tr>
             <td>
-            	CODE:<hr>
-            	<code>
-                <?php echo nl2br($text["code"]); ?>
-                </code>
-                <br>
+                <h1><?php echo nl2br($text["title"]); ?></h1>
+                <p><?php echo nl2br($text["intro"]); ?></p>
             </td>
         </tr>
+        <?php if ( ! empty($text["code"]) ) { ?>
         <tr>
             <td>
-            	<BR><BR><BR><BR>
-            	RESULT:<hr>
-            	<code>
-                <?php echo nl2br($text["result"]); ?>
-                <?php //echo $text["result"]; ?>
-                </code>
-                <br>
+                <div style='font-weight: bold;'>Code:</div>
+                <div style='background-color: #EEEEEE;  margin-bottom: 20px; border: 1px solid;  padding: 8px 8px 8px 8px'>
+            	   <code>
+                   <?php echo nl2br($text["code"]); ?>
+                   </code>
+                </div>
             </td>
         </tr>
+        <?php } ?>
+        <?php if ( ! empty($text["result"]) ) { ?>
+        <tr>
+            <td>
+                <div style='font-weight: bold;'>Result:</div>
+                <div style='background-color: #EEEEEE;  margin-bottom: 20px; border: 1px solid; padding: 8px 8px 8px 8px'>
+                    <code>
+                    <?php echo nl2br($text["result"]); ?>
+                    </code>
+                </div>
+            </td>
+        </tr>
+        <?php } ?>
         <tr valign='top'><td><p>&nbsp;<BR><BR></p></td></tr>
         <?php
     }

@@ -18,7 +18,7 @@ defined('_JEXEC') or die( 'Restricted access' );
 jimport( 'joomla.application.component.view');
 
 /**
- * HTML View class Jodademo  
+ * HTML View class Jodademo
  *
  * @package     Joomla
  * @subpackage  Jodademo
@@ -37,9 +37,6 @@ class JodaDemoViewHello extends JView
 	function display($tpl = null)
 	{
 		$model =& $this->getModel();
-		$this->assignRef( 'title', $model->getTitle());
-		$this->assignRef( 'intro', nl2br($model->getIntro()));
-
 		parent::display($tpl);
 	}
 }

@@ -12,7 +12,7 @@
             <td><?php echo JText::_( 'User' ); ?></td>
             <td><?php echo JText::_( 'Password' ); ?></td>
             <td><?php echo JText::_( 'Table Prefix' ); ?></td>
-            <td><span class='editlinktip hasTip' title='<?php echo JText::_("Overrides system debug option"); ?>'> <?php echo JText::_( 'Debug' ); ?></span></td>
+            <td><span class='editlinktip hasTip' title='<?php echo JText::_("System debug must be enabled first"); ?>'> <?php echo JText::_( 'Debug' ); ?></span></td>
         </tr>
         <?php echo $lists["connections"]; ?>
 		</tbody>

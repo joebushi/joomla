@@ -34,7 +34,30 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+Joda specific:
+===========================================================
+J15 -> Joomla 1.5 Release Branch at Joomlacode.org
+WJJ -> Working Joomla Joda - a working SVN repository of Joomla Joda development branch.
+	   See: http://zetcom.bg/svn/joomla/development/branches/joda (ask for username plamendp@zetcom.bg)
+JJ  -> Joomla Joda development branch at Joomlacode.org
+
+NOTE: Merging line is:  J15->WWJ->JJ. So, JJ is a result of all work done on Joomla 1.5
+	  release branch plus what's done on the working copy. The result is JJ in sync with
+	  J15 development process. Conflicts are resolved honoring J15 code!
+
+
+14-Sep-2008 Plamen Petkov
+ ! WJJ merged into JJ  up to 98 
+ + Working on Jodademo
+ ^ JConnection has its own JQueryBuilder compagnion
+ ^ System debug plugin enumerates all JConnection connections' query logs
+
+11-Sep-2008 Plamen Petkov
+ + Working on Jodademo
+ ^ Change debug plugin to enumerate all named connection's queries log
+
 10-Sep-2008 Plamen Petkov
+ + Working on Jodademo
  ! WJJ merged into JJ  up to 89
  ! J15 merged into WJJ up to 10921 (install check removed)
  ^ Remove JDEV_SKIPINSTALLCHECK from defines (install check removed in 1.4-stable)
@@ -121,7 +144,7 @@ $ -> Language fix or change
 
 23-Aug-2008 Plamen Petkov
  # Fix "unnamed connection used" (factory.php)
- + Add Joda::dummy_connections(): a default set of default named connections
+ + Add Joda::default_connections(): a default set of default named connections
  ^ Make config_joda_connections more template-ish, not a controller-like
  ^ Handle empty config connections, max connections number, etc. (com_config application.php controller)
 
@@ -134,5 +157,4 @@ $ -> Language fix or change
 
 -------------------- Joda Branch added to Joomla! project tree [23-May-2008] ---------
 
--------------------- Joomla 1.5.3 Stable Release [22-April-2008] ---------------------
--------------------- Joomla 1.5.2 Stable Release [22-March-2008] ---------------------
+-------------------- Joomla 1.5.3 Stable Release [22-April-2008] ----------------------------------------- Joomla 1.5.2 Stable Release [22-March-2008] ---------------------

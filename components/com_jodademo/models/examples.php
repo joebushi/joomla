@@ -42,57 +42,129 @@ class JodademoModelExamples extends JModel
         return $text;
     }
 
-    
-    function varToString($var) 
+
+    function varToString($var)
     {
         ob_start();
         var_export($var);
         $string = ob_get_contents();
         ob_end_clean();
-        return $string;                
+        return $string;
     }
 
 
-    function Test1() { // Just building a simple query
+    function Test1()
+    {
+        $result = "";
+        $text["title"] = "P R I V A T E  T E S T";
+        $text["intro"] = "Short Description";
+        $text["code"] = "PHP testing Code";
+        $text["result"] = $result;
+        return $text;
+    }
+
+
+
+    function Test2() { // Just building a simple query
     	$result = "";
         $qb = JFactory::getQueryBuilder("mysql");
 
-        $result = "Simple select:\n";
+        $result = "";
+
+        // SELECT
         $qb
-            ->select("*")
-            ->from(array("t" => "#__table"));
+		->select( array("f1" => "field1", "f2" => "field2") )
+		->distinct()
+		->from( array("t1" => "table1" ) )
+		->join("table2", "t1.f1=t2.f1", "t2");
 
-        $result .= $qb->getSQL();
-        
-        
-        
-        
+		$select = $qb->getSQL();
+
+		// UPDATE
+		$qb->resetQuery();
+		$qb
+            ->update("table")
+            ->fieldvalues(array(
+                    $qb->quoteID("f1") => $qb->quote('v1'),
+                    "f2" => $qb->quote('v2')
+                    ))
+            ->where("f2=id");
+        $update = $qb->getSQL();
+
+
+        $result .= "$select \n\n\n $update\n";
         $text["title"] = "Using JQueryBuilder as a standalone query builder";
-        $text["intro"] = "JQueryBuilder can be used standalone or be part of JDataset/JConnection/JQueryBuilder triple.\n";
-        $text["intro"] .= "When used standalone a SQL dialect name must be passed to factoring method.\n";
-        $text["code"] = '$qb = JFactory::getQueryBuilder("mysql");';
-        
-        
-        
-        $text["intro"] .= "\n \$qb = JFactory::getQueryBuilder('mysql')";
-        $text["result"] = $result;
+        $text["intro"] = "JQueryBuilder can be used as a standalone SQL query building tool or as part of JDataset/JConnection/JQueryBuilder team.\n";
+        $text["intro"] .= "\nWhen used separately, an SQL dialect name must be passed to the factoring method. \n";
+        $text["intro"] .= "\nOtherwise, the SQL dialect is implicitly derived from the connection. \n";
+        $text["intro"] .= "\nSee example bellow to start understanding the basic usage. \n";
+
+        $text["code"]  =
+'// Create a query builder, always a new object
+$qb = JFactory::getQueryBuilder("mysql");
+
+// Lets make some query
+$qb
+->select( array("f1" => "field1", "f2" => "field2") )
+->distinct()
+->from( array("t1" => "table1" ) )
+->join("table2", "t1.f1=t2.f1", "t2");
+$select = $qb->getSQL();
+
+$qb->resetQuery();
+$qb
+->update("table")
+->fieldvalues(array("f1" => $qb->quote("v1")))
+->where("f2=\'id\'");
+
+echo $select;
+echo $update;
+
+';
+        $text["intro"] .= "\n";
+
+        $text["result"] = $result . "\n\n";
         return $text;
     }
 
-    function Test2() {  //  Getting data from DB
+
+
+
+
+
+    function Test3() {  //  Getting data from DB
         $result = "";
-    	$dataset = JFactory::getDBSet();
-        $qb = $dataset->getQueryBuilder();
-        $qb->select(array("id","title"))->from("#__content");
-        $dataset->addSQL($qb->getSQL());
-        $dataset->open();
-        $data = $dataset->fetchAll();
-        $result = "";
-        foreach ( $data as $row ) {
-            $result .= $row["id"] . ":" . $row["title"] . "\n";
-        }
-        $text["title"] = "Getting data from database";
-        $text["intro"] = "";
+        $text["title"] = "SQL Statements that JQueryBuilder can build";
+        $text["intro"] = "It must be noted that JQueryBuilder, as of this writing, does not isolate
+SQL dialects on 100%! Users are expected to make some effort to follow some kind of 'pseudo' SQL standard or
+maybe we should call it a convention of common SQL sense. That is:
+
+* Use single quote for string literals and double quote for identifiers.
+* Do not use SQL functions in expressions - a wrapping method should be available.
+* Check supported SQL command syntax
+* Do not expect JQueryBuilder to magically remove or correct SQL syntax errors you made!
+* ... to be continued
+
+Supported SQL commands are: SELECT, INSERT, UPDATE and DELETE, limited to the following syntax:
+
+SELECT [DISTINCT] * | expression [ AS output_name ] [, ...]
+[ FROM from_item [, ...] ]
+[ WHERE condition ]
+[ GROUP BY expression [, ...] ]
+[ ORDER BY expression [ASC|DESC] ]
+[ LIMIT-CLAUSE ]
+
+
+UPDATE table
+SET column=expression|DEFAULT [, ...]
+[WHERE condition]
+
+INSERT
+
+DELET
+
+";
+
         $text["code"] = "";
         $text["result"] = $result;
         return $text;
@@ -106,30 +178,6 @@ class JodademoModelExamples extends JModel
 
 
 
-    function Test11()
-    {
-        $result = "";
-
-        $db = JFactory::getDBSet();
-        $qb = $db->getQueryBuilder();
-        $sql = "SELECT 5 * 6 as c;";
-        $db->setSQL($sql);
-        $db->open();
-        $data = $db->fetchAll();
-
-        ob_start();
-        var_export($data);
-        $tmpstring = ob_get_contents();
-        ob_end_clean();
-        $result = $tmpstring;
-
-
-        $text["title"] = "Escaping quoted SQL parts: ";
-        $test["intro"] = "";
-        $text["code"] = "";
-        $text["result"] = $result;
-        return $text;
-    }
 
 
 
@@ -146,15 +194,15 @@ class JodademoModelExamples extends JModel
             	    $texts[$key]["title"] = "Title";
             	}
             	if ( ! isset($texts[$key]["intro"]) ) {
-            	    $texts[$key]["intro"] = "Description";
+            	    $texts[$key]["intro"] = "";
             	}
             	if ( ! isset($texts[$key]["code"]) ) {
-            	    $texts[$key]["code"] = "PHP testing code";
+            	    $texts[$key]["code"] = "";
             	}
             	if ( ! isset($texts[$key]["result"]) ) {
-            	    $texts[$key]["result"] = "TestResult";
+            	    $texts[$key]["result"] = "";
             	}
-            	$texts[$key]["title"] = "Test $i:\n" . $texts[$key]["title"];
+            	//$texts[$key]["title"] = "Test $i:\n" . $texts[$key]["title"];
             }
     	}
         return $texts;

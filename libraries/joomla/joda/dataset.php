@@ -136,7 +136,7 @@ class JDataset extends JObject
      */
     function getQueryBuilder()
     {
-        return JFactory::getQueryBuilder($this->connection->getDriverName());
+        return $this->connection->getQueryBuilder();
     }
 
 
