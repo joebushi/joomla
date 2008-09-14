@@ -15,31 +15,43 @@ if(!defined('DS')) {
 	define( 'DS', DIRECTORY_SEPARATOR );
 }
 
+//Register the autoload function
+spl_autoload_register('JLoader::load');
+
 /**
  * @package		Joomla.Framework
  */
 class JLoader
 {
-	 /**
+	/**
+	 * Holds the registered classes
+	 * 
+	 * var 	array
+	 * @since 1.6
+	 */
+	protected static $_classes = array();
+	
+	/**
+	 * Holds the imported paths
+	 * 
+	 * var 	array
+	 * @since 1.6
+	 */
+	protected static $_paths = array();
+
+	/**
 	 * Loads a class from specified directories.
 	 *
 	 * @param string $name	The class name to look for ( dot notation ).
 	 * @param string $base	Search this directory for the class.
 	 * @param string $key	String used as a prefix to denote the full path of the file ( dot notation ).
-	 * @return void
 	 * @since 1.5
 	 */
-	function import( $filePath, $base = null, $key = 'libraries.' )
+	static public function import( $filePath, $base = null, $key = 'libraries.' )
 	{
-		static $paths;
-
-		if (!isset($paths)) {
-			$paths = array();
-		}
-
 		$keyPath = $key ? $key . $filePath : $filePath;
 
-		if (!isset($paths[$keyPath]))
+		if (!isset(self::$_paths[$keyPath]))
 		{
 			if ( ! $base ) {
 				$base =  dirname( __FILE__ );
@@ -80,10 +92,10 @@ class JLoader
 				$rs   = include($base.DS.$path.'.php');
 			}
 
-			$paths[$keyPath] = $rs;
+			self::$_paths[$keyPath] = $rs;
 		}
 
-		return $paths[$keyPath];
+		return self::$_paths[$keyPath];
 	}
 
 	/**
@@ -94,40 +106,27 @@ class JLoader
 	 * @return	array|boolean  		Array of classes
 	 * @since 	1.5
 	 */
-	function & register ($class = null, $file = null)
+	static public function register ($class = null, $file = null)
 	{
-		static $classes;
-
-		if(!isset($classes)) {
-			$classes    = array();
-		}
-
 		if($class && is_file($file))
 		{
 			// Force to lower case.
 			$class = strtolower($class);
-			$classes[$class] = $file;
-
-			// In php4 we load the class immediately.
-			if((version_compare( phpversion(), '5.0' ) < 0)) {
-				JLoader::load($class);
-			}
-
+			self::$_classes[$class] = $file;
 		}
 
-		return $classes;
+		return self::$_classes;
 	}
 
 
 	/**
 	 * Load the file for a class
 	 *
-	 * @access  public
 	 * @param   string  $class  The class that will be loaded
 	 * @return  boolean True on success
 	 * @since   1.5
 	 */
-	function load( $class )
+	static public function load( $class )
 	{
 		$class = strtolower($class); //force to lower case
 
@@ -146,30 +145,12 @@ class JLoader
 
 
 /**
- * When calling a class that hasn't been defined, __autoload will attempt to
- * include the correct file for that class.
- *
- * This function get's called by PHP. Never call this function yourself.
- *
- * @param 	string 	$class
- * @access 	public
- * @return  boolean
- * @since   1.5
- */
-function __autoload($class)
-{
-	if(JLoader::load($class)) {
-		return true;
-	}
-	return false;
-}
-
-/**
  * Global application exit.
  *
  * This function provides a single exit point for the framework.
  *
  * @param mixed Exit code or string. Defaults to zero.
+ * @since 1.5
  */
 function jexit($message = 0) {
     exit($message);
@@ -178,7 +159,6 @@ function jexit($message = 0) {
 /**
  * Intelligent file importer
  *
- * @access public
  * @param string $path A dot syntax path
  * @since 1.5
  */
