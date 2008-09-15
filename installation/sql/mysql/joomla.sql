@@ -156,6 +156,10 @@ INSERT INTO `#__components` VALUES (30, 'Template Manager', '', 0, 0, '', 'Templ
 INSERT INTO `#__components` VALUES (31, 'User Manager', '', 0, 0, '', 'Users', 'com_users', 0, '', 1, 'allowUserRegistration=1\nnew_usertype=Registered\nuseractivation=1\nfrontend_userparams=1\n\n', 1);
 INSERT INTO `#__components` VALUES (32, 'Cache Manager', '', 0, 0, '', 'Cache', 'com_cache', 0, '', 1, '', 1);
 INSERT INTO `#__components` VALUES (33, 'Control Panel', '', 0, 0, '', 'Control Panel', 'com_cpanel', 0, '', 1, '', 1);
+INSERT INTO `#__components` VALUES (34, 'Contact Directory', 'option=com_contactdirectory', 0, 0, 'option=com_contactdirectory', 'Contact Directory', 'com_contactdirectory', 0, 'js/ThemeOffice/component.png', 0, '', 1);
+INSERT INTO `#__components` VALUES (35, 'Contacts', '', 0, 34, 'option=com_contactdirectory&controller=contact', 'Contacts', 'com_contactdirectory', 0, 'js/ThemeOffice/component.png', 0, '', 1);
+INSERT INTO `#__components` VALUES (36, 'Categories', '', 0, 34, 'option=com_categories&section=com_contactdirectory', 'Categories', 'com_contactdirectory', 1, 'js/ThemeOffice/component.png', 0, '', 1);
+INSERT INTO `#__components` VALUES (37, 'Fields', '', 0, 34, 'option=com_contactdirectory&controller=field', 'Fields', 'com_contactdirectory', 2, 'js/ThemeOffice/component.png', 0, '', 1);
 
 # --------------------------------------------------------
 
@@ -837,3 +841,68 @@ CREATE TABLE #__migration_backlinks (
 ) TYPE=MyISAM CHARACTER SET `utf8`;
 
 # --------------------------------------------------------
+
+#
+# Table structure for table `#__contactdirectory_contacts`
+#
+CREATE TABLE IF NOT EXISTS `#__contactdirectory_contacts` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` varchar(255) NOT NULL default '',
+  `alias` varchar(255) NOT NULL default '',
+  `published` tinyint(1) unsigned NOT NULL default '0',
+  `checked_out` int(11) unsigned NOT NULL default '0',
+  `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
+  `params` text,
+  `user_id` int(11) NOT NULL default '0',
+  `access` tinyint(3) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `id` (`id`)
+) DEFAULT CHARSET=utf8;
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `#__contactdirectory_con_cat_map`
+#
+CREATE TABLE IF NOT EXISTS `#__contactdirectory_con_cat_map` (
+  `contact_id` int(11) NOT NULL,
+  `category_id` int(11) NOT NULL,
+  `ordering` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`contact_id`,`category_id`)
+) DEFAULT CHARSET=utf8;
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `#__contactdirectory_details`
+#
+CREATE TABLE IF NOT EXISTS `#__contactdirectory_details` (
+  `contact_id` int(11) NOT NULL,
+  `field_id` int(11) NOT NULL,
+  `data` text character set utf8 NOT NULL,
+  `show_contact` tinyint(1) NOT NULL default '1',
+  `show_directory` tinyint(1) NOT NULL default '1',
+  PRIMARY KEY  (`contact_id`,`field_id`)
+) DEFAULT CHARSET=utf8;
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `#__contactdirectory_fields`
+#
+CREATE TABLE IF NOT EXISTS `#__contactdirectory_fields` (
+  `id` int(11) NOT NULL auto_increment,
+  `title` varchar(255) NOT NULL default '',
+  `name` varchar(255) NOT NULL,
+  `description` mediumtext,
+  `type` varchar(50) NOT NULL default 'text',
+  `published` tinyint(1) unsigned NOT NULL default '0',
+  `ordering` int(11) NOT NULL default '0',
+  `checked_out` int(11) unsigned NOT NULL default '0',
+  `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
+  `pos` enum('title','top','left','main','right','bottom') NOT NULL default 'main',
+  `access` tinyint(3) unsigned NOT NULL default '0',
+  `params` text,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `id` (`id`)
+) DEFAULT CHARSET=utf8;

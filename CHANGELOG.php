@@ -42,11 +42,16 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+15-Sep-2008 Chantal Bisson
+ + Added com_contactdirectory and language files
+ + Added sql create table queries for com_contactdirectory in the installation
+ + Added sql sample data for com_contactdirectory
+
 14-Sep-2008 Johan Janssens
  ^ Changed __autoload to spl_autoload_register() and refactored JLoader to adhere to E_STRICT
 
 11-Sep-2008 Sam Moffatt
- ^ Changed behaviour of JFile::write and JFTP::write to use references for the second param 
+ ^ Changed behaviour of JFile::write and JFTP::write to use references for the second param
 
 25-Aug-2008 Andrew Eddie
  + Added JQuery class
