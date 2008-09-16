@@ -72,6 +72,32 @@ class JArchiveTar extends JObject
 	var $_metadata = null;
 
 	/**
+	 * Extract a compressed file to a given path (fast!)
+	 * 
+	 * @access	public
+	 * @param	string	$archive		Path to ZIP archive to extract
+	 * @param	string	$destination	Path to extract archive into
+	 * @param	array	$options		Extraction options [unused]
+	 * @return	boolean	True if successful
+	 * @since	1.6
+	 */
+	function fast_extract($archive, $destination, $options = array ()) {
+		// Initialize variables
+		$this->_data = null;
+		$this->_metadata = null;
+
+		if (!$this->_data = JFile::read($archive))
+		{
+			$this->set('error.message', 'Unable to read archive');
+			return JError::raiseWarning(100, $this->get('error.message'));
+		}
+		
+		$len = strlen($this->_data);
+		
+
+	}
+	
+	/**
 	* Extract a ZIP compressed file to a given path
 	*
 	* @access	public
@@ -142,18 +168,23 @@ class JArchiveTar extends JObject
 	{
 		$position = 0;
 		$return_array = array ();
+		$data2 = str_split($data, 512); 
 
-		while ($position < strlen($data))
+		while($entry = array_shift($data2))
 		{
-			$info = @ unpack("a100filename/a8mode/a8uid/a8gid/a12size/a12mtime/a8checksum/Ctypeflag/a100link/a6magic/a2version/a32uname/a32gname/a8devmajor/a8devminor", substr($data, $position));
+			$info = @ unpack("a100filename/a8mode/a8uid/a8gid/a12size/a12mtime/a8checksum/Ctypeflag/a100link/a6magic/a2version/a32uname/a32gname/a8devmajor/a8devminor", $entry);
 			if (!$info) {
 				$this->set('error.message', 'Unable to decompress data');
 				return false;
 			}
 
-			$position += 512;
-			$contents = substr($data, $position, octdec($info['size']));
-			$position += ceil(octdec($info['size']) / 512) * 512;
+			//$position += 512;
+			//$contents = substr($data, $position, octdec($info['size']));
+			$size = ceil(octdec($info['size']) / 512);
+			$contents = '';
+			for($entry_counter = 0; $entry_counter != $size; ++$entry_counter) {
+				$contents .= array_shift($data2); 
+			}
 
 			if ($info['filename']) {
 				$file = array (
