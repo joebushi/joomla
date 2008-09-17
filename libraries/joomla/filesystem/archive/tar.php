@@ -72,32 +72,6 @@ class JArchiveTar extends JObject
 	var $_metadata = null;
 
 	/**
-	 * Extract a compressed file to a given path (fast!)
-	 * 
-	 * @access	public
-	 * @param	string	$archive		Path to ZIP archive to extract
-	 * @param	string	$destination	Path to extract archive into
-	 * @param	array	$options		Extraction options [unused]
-	 * @return	boolean	True if successful
-	 * @since	1.6
-	 */
-	function fast_extract($archive, $destination, $options = array ()) {
-		// Initialize variables
-		$this->_data = null;
-		$this->_metadata = null;
-
-		if (!$this->_data = JFile::read($archive))
-		{
-			$this->set('error.message', 'Unable to read archive');
-			return JError::raiseWarning(100, $this->get('error.message'));
-		}
-		
-		$len = strlen($this->_data);
-		
-
-	}
-	
-	/**
 	* Extract a ZIP compressed file to a given path
 	*
 	* @access	public
@@ -105,7 +79,7 @@ class JArchiveTar extends JObject
 	* @param	string	$destination	Path to extract archive into
 	* @param	array	$options		Extraction options [unused]
 	* @return	boolean	True if successful
-	* @since	1.5
+	* @since 	1.5
 	*/
 	function extract($archive, $destination, $options = array ())
 	{
@@ -129,7 +103,7 @@ class JArchiveTar extends JObject
 			$type	= strtolower( $this->_metadata[$i]['type'] );
 			if ($type == 'file' || $type == 'unix file')
 			{
-				$buffer = $this->_metadata[$i]['data'];
+				$buffer =& $this->_metadata[$i]['data'];
 				$path = JPath::clean($destination.DS.$this->_metadata[$i]['name']);
 				// Make sure the destination folder exists
 				if (!JFolder::create(dirname($path)))
@@ -142,6 +116,7 @@ class JArchiveTar extends JObject
 					$this->set('error.message', 'Unable to write entry');
 					return JError::raiseWarning(100, $this->get('error.message'));
 				}
+				$buffer = ''; // reclaim some memory 
 			}
 		}
 		return true;
@@ -168,10 +143,13 @@ class JArchiveTar extends JObject
 	{
 		$position = 0;
 		$return_array = array ();
-		$data2 = str_split($data, 512); 
-
-		while($entry = array_shift($data2))
+		$data = str_split($data, 512); // bye bye memory!
+		$data2 =& $data;
+		$arr_count = count($data2);
+		//while($entry = array_shift($data2))
+		for($i = 0; $i < $arr_count; $i++)
 		{
+			$entry =& $data2[$i];
 			$info = @ unpack("a100filename/a8mode/a8uid/a8gid/a12size/a12mtime/a8checksum/Ctypeflag/a100link/a6magic/a2version/a32uname/a32gname/a8devmajor/a8devminor", $entry);
 			if (!$info) {
 				$this->set('error.message', 'Unable to decompress data');
@@ -182,8 +160,11 @@ class JArchiveTar extends JObject
 			//$contents = substr($data, $position, octdec($info['size']));
 			$size = ceil(octdec($info['size']) / 512);
 			$contents = '';
-			for($entry_counter = 0; $entry_counter != $size; ++$entry_counter) {
-				$contents .= array_shift($data2); 
+			//for($entry_counter = 0; $entry_counter != $size; ++$entry_counter) {
+				//$contents .= array_shift($data2); 
+			for($k = 0; $k < $size; $k++, ++$i) {
+				$contents .= $data2[$i];
+				unset($data2[$i]); // = '';
 			}
 
 			if ($info['filename']) {
