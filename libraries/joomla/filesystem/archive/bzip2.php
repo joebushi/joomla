@@ -76,6 +76,7 @@ class JArchiveBzip2 extends JObject
 		}
 
 		$buffer = bzdecompress($this->_data);
+		unset($this->_data);
 		if (empty ($buffer)) {
 			$this->set('error.message', 'Unable to decompress data');
 			return JError::raiseWarning(100, $this->get('error.message'));
@@ -85,6 +86,27 @@ class JArchiveBzip2 extends JObject
 			$this->set('error.message', 'Unable to write archive');
 			return JError::raiseWarning(100, $this->get('error.message'));
 		}
+		
+		/*
+		$input =& JFactory::getStream();
+		if(!$input->open($archive)) {
+			$this->set('error.message', 'Unable to read archive');
+			return JError::raiseWarning(100, $this->get('error.message'));
+		}
+		
+		$ouput =& JFactory::getStream();
+		if(!$output->open($destination, 'w')) {
+			$this->set('error.message', 'Unable to write archive');
+			$input->close(); // close the previous file
+			return JError::raiseWarning(100, $this->get('error.message'));
+		}
+		
+		if (!$this->_data = JFile::read($archive)) {
+			$this->set('error.message', 'Unable to read archive');
+			return JError::raiseWarning(100, $this->get('error.message'));
+		}
+			
+		*/
 		return true;
 	}
 }

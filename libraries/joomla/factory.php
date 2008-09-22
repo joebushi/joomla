@@ -710,4 +710,35 @@ class JFactory
 		$doc =& JDocument::getInstance($type, $attributes);
 		return $doc;
 	}
+	
+	/**
+	 * Creates a new stream object with appropriate prefix
+	 * @param boolean Prefix the connections for writing
+	 * @param boolean ftp Use FTP if available for writing; use false to disable
+	 * @param string UA User agent to use
+	 * @param boolean User agent masking (prefix Mozilla)
+	 */
+	function &getStream($prefix=true, $ftp=true,$ua=null, $uamask=false) {
+		// Setup the context; Joomla! UA and overwrite
+		$context = Array();
+		$version = new JVersion();
+		// set the UA for HTTP and overwrite for FTP
+		$context['http']['user_agent'] = $version->getUserAgent($ua, $uamask);
+		$context['ftp']['overwrite'] = true;		
+		if($prefix) {
+			jimport('joomla.client.helper');
+			$FTPOptions = JClientHelper::getCredentials('ftp');
+			if ($FTPOptions['enabled'] == 1 && $ftp) {
+				$prefix = 'ftp://'. $FTPOptions['user'] .':'. $FTPOptions['pass'] .'@'. $FTPOptions['host'];
+				$prefix .= $FTPOptions['port'] ? ':'. $FTPOptions['port'] : '';
+				$prefix .= $FTPOptions['root'];
+			} else {
+				$prefix = JPATH_ROOT.DS;
+			}
+			$retval = new JStream($prefix, JPATH_ROOT, $context);
+		} else {
+			$retval = new JStream('','',$context);
+		}
+		return $retval;
+	}
 }

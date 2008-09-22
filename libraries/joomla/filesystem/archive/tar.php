@@ -87,7 +87,7 @@ class JArchiveTar extends JObject
 		$this->_data = null;
 		$this->_metadata = null;
 
-		if (!$this->_data = JFile::read($archive))
+		if (!$this->_fh = fopen($archive,'rb'))
 		{
 			$this->set('error.message', 'Unable to read archive');
 			return JError::raiseWarning(100, $this->get('error.message'));
@@ -95,28 +95,20 @@ class JArchiveTar extends JObject
 
 		$position = 0;
 		$return_array = array ();
-		$this->_data = str_split($this->_data, 512); // bye bye memory!
-		$data =& $this->_data;
-		$arr_count = count($this->_data);
-		//while($entry = array_shift($data2))
-		for($i = 0; $i < $arr_count; $i++)
-		{
-			$entry =& $this->_data[$i];
+		$i = 0;
+		$chunksize = 512;
+		while($entry = fread($this->_fh, $chunksize)) {
+			//$entry =& $this->_data[$i];
 			$info = @ unpack("a100filename/a8mode/a8uid/a8gid/a12size/a12mtime/a8checksum/Ctypeflag/a100link/a6magic/a2version/a32uname/a32gname/a8devmajor/a8devminor", $entry);
 			if (!$info) {
 				$this->set('error.message', 'Unable to decompress data');
 				return false;
 			}
 
-			//$position += 512;
-			//$contents = substr($data, $position, octdec($info['size']));
-			$size = ceil(octdec($info['size']) / 512);
+			$size = ceil(octdec($info['size']) / $chunksize) * $chunksize;
 			$contents = '';
-			//for($entry_counter = 0; $entry_counter != $size; ++$entry_counter) {
-				//$contents .= array_shift($data2); 
-			for($k = 0; $k < $size; $k++, ++$i) {
-				$contents .= $this->_data[$i];
-				unset($this->_data[$i]); // = '';
+			if($size) { 
+				$contents = fread($this->_fh, $size);
 			}
 
 			if ($info['filename']) {
@@ -163,6 +155,7 @@ class JArchiveTar extends JObject
 					$contents = ''; // reclaim some memory 
 				}
 			}
-		}				
+		}
+		fclose($this->_fh);				
 	}
 }

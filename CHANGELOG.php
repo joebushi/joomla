@@ -38,6 +38,17 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+22-Sep-2008 Sam Moffatt
+ ! Archives (particularly tar and bzip2) may be broken in this revision
+ + Added file system helper class with various FTP, stream and filter related operations
+ + Added stream class to replace old FTP layer system; uses PHP streams instead
+ + Added streams folder to hold custom J! streams
+ + Added support folder to hold support files for custom J! streams
+ ^ Changed JFile::write and JFTP::write to use references to gain back some memory
+ ^ Changed JObject::setProperties to use the set function to set values instead of directly setting them
+ ^ Changed JInstallerHelper's error tracking to check the previous state of track_errors before setting and resetting it
+ + Added JVersion::getUserAgent to hold user agent generation
+
 18-Aug-2008 Sam Moffatt
  + Added purge cached updates to installer controller
  ^ Changed jos_extensions state field to use a -1 (discovered), 0 (normal installed), 1 ()
