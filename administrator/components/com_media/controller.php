@@ -53,6 +53,16 @@ class MediaController extends JController
 				$vLayout = $mainframe->getUserStateFromRequest('media.list.layout', 'layout', 'thumbs', 'word');
 
 				break;
+			case 'studio':
+				$vName = 'studio';
+				$mName = 'studio';
+				$vLayout = JRequest::getCmd( 'layout', 'default' );
+				break;
+			case 'studiothumb':
+				$vName = 'studiothumb';
+				$mName = 'studio';
+				$vLayout = JRequest::getCmd( 'layout', 'default' );
+				break;
 
 			case 'media':
 			default:

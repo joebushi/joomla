@@ -47,7 +47,7 @@ div.imgBorder a:hover {
 div.controls {
 	text-align: center;
 	height: 20px;
-	line-height: 20px;
+	line-height: 40px;
 	background: #f9fcf9;
 	border-top: 1px solid #ddd;
 }

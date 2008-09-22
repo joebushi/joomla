@@ -1,0 +1,92 @@
+/**
+Author : Nakul Ganesh S
+Joomla GSoC 2008
+Mentor : Deborah Susan Clarkson
+*/
+#area,#area2,#area3,#area4,#area5,#area6,#area7 {
+	width: 200px;
+	margin: 5px 0;
+	background: url(images/slider.png) 0 center repeat-x;
+
+}
+ 
+
+#knob,#knob4,#knob5,#knob6,#knob7 {
+	height: 12px;
+	width: 12px;
+	background-image: url(images/red.png);
+}
+#knob2 {
+	height: 12px;
+	width: 12px;
+
+background-image: url(images/green.png);
+}
+#knob3 {
+	height: 12px;
+	width: 12px;
+
+background-image: url(images/blue.png);
+}
+
+body{
+color: #333;
+font-size: 11px;
+font-family: verdana;
+}
+a{
+color: #fff;
+text-decoration: none;
+}
+a:hover{
+color: #DFE44F;
+}
+p{
+margin: 0;
+padding: 5px;
+line-height: 1.5em;
+text-align: justify;
+border: 1px solid #73A405;
+}
+#wrapper{
+width: 600px;
+
+}
+#wrapper1{
+width: 220px;
+position : absolute;
+left:650px;
+top: 40px;
+
+
+
+}
+.box,.box1{
+background: #fff;
+}
+.boxholder,.boxholder1{
+clear: both;
+padding: 5px;
+background: #8DC70A;
+}
+.tab,.tab1{
+float: left;
+height: 32px;
+width: 102px;
+margin: 0 1px 0 0;
+text-align: center;
+background: #8DC70A url(images/greentab.jpg) no-repeat;
+}
+.tabtxt,.tabtxt1{
+margin: 0;
+color: #fff;
+font-size: 12px;
+font-weight: bold;
+padding: 9px 0 0 0;
+}
+
+strong{
+	color: #333;
+font-size: 11px;
+font-family: verdana;
+}

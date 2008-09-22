@@ -52,6 +52,40 @@ class MediaViewMediaList extends JView
 			});
 		});");
 
+		$document->addScriptDeclaration("
+		window.addEvent('domready', function() {
+
+			SqueezeBox.initialize({});
+
+			$$('a.image-edit').each(function(el) {
+				el.addEvent('click', function(e) {
+					new Event(e).stop();
+					window.top.document.preview.fromElement(el);
+					
+				});
+			});
+		});
+		");
+				$document->addScriptDeclaration("
+		window.addEvent('domready', function() {
+
+			SqueezeBox.initialize({});
+
+			$$('a.thumbnail').each(function(el) {
+				el.addEvent('click', function(e) {
+					new Event(e).stop();
+					window.top.document.preview.fromElement(el);
+					
+				});
+			});
+		});
+		");
+		JHTML::_('behavior.modal');
+		$document->addScriptDeclaration("
+		window.addEvent('domready', function() {
+			document.preview = SqueezeBox;
+		});");
+
 		$this->assign('baseURL', JURI::root());
 		$this->assignRef('images', $this->get('images'));
 		$this->assignRef('documents', $this->get('documents'));

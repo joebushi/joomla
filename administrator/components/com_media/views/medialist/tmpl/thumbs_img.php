@@ -1,4 +1,5 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php				JHTML::_('behavior.modal');?>
 		<div class="imgOutline">
 			<div class="imgTotal">
 				<div align="center" class="imgBorder">
@@ -10,6 +11,8 @@
 			</div>
 			<div class="controls">
 				<a class="delete-item" href="index.php?option=com_media&amp;task=file.delete&amp;tmpl=component&amp;folder=<?php echo $this->state->folder; ?>&amp;rm[]=<?php echo $this->_tmp_img->name; ?>" rel="<?php echo $this->_tmp_img->name; ?>"><img src="components/com_media/images/remove.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Delete' ); ?>" /></a>
+				 				<a class="image-edit" rel="{handler:'iframe',size:{x:1100,y:500}}"  href="index.php?option=com_media&amp;task=studio.display&amp;view=studio&amp;tmpl=component&amp;folder=<?php echo $this->state->folder; ?>&amp;im[]=<?php  echo $this->_tmp_img->name; ?>">Edit</a>
+				 				<a class="thumbnail" rel="{handler:'iframe',size:{x:550,y:400}}"  href="index.php?option=com_media&amp;task=studio.display&amp;view=studiothumb&amp;tmpl=component&amp;folder=<?php echo $this->state->folder; ?>&amp;im[]=<?php  echo $this->_tmp_img->name; ?>">TMB</a>
 				<input type="checkbox" name="rm[]" value="<?php echo $this->_tmp_img->name; ?>" />
 			</div>
 			<div class="imginfoBorder">
