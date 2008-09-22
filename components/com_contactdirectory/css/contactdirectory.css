@@ -1,11 +1,11 @@
 .directorybox{
-	border: 1px solid #dddddd; 
+	border: 1px solid #dddddd;
 	margin-top: 15px;
 	margin-bottom: 15px;
 }
 
 .directorytitle{
-	background: #eeeeee; 
+	background: #eeeeee;
 	border-bottom: 1px solid #dddddd;
 	padding: 10px;
 }
@@ -17,12 +17,13 @@
 .directorycategory{
 	font-size: 22px;
 	border-bottom: 2px dotted #999999;
-	padding: 5px; 
+	padding: 5px;
 }
 
 .error{
-	color: #ff0000; 
+	color: #ff0000;
 	background: #ffeeee;
 	padding: 5px;
 	margin: 10px 0 10px 0;
 }
+s

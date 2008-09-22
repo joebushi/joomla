@@ -11,7 +11,7 @@ class ContactdirectoryModelContact extends JModel{
 	var $_data = null;
 	var $_fields = null;
 	var $_categories = null;
-	
+
 	/**
 	 * Constructor
 	 *
@@ -39,7 +39,7 @@ class ContactdirectoryModelContact extends JModel{
 		// Set contact id and wipe data
 		$this->_id		= $id;
 		$this->_data	= null;
-	}	
+	}
 
 	/**
 	 * Method to get a contact
@@ -58,17 +58,17 @@ class ContactdirectoryModelContact extends JModel{
 	function &getFields()
 	{
 		if(!$this->_fields){
-			$query = "SELECT f.title, d.data, f.type, d.show_contact, d.show_directory, f.params "
+			$query = "SELECT f.title, d.data, f.type, f.alias, d.show_contact, d.show_directory, f.params "
 					."FROM #__contactdirectory_fields f "
 					."LEFT JOIN #__contactdirectory_details d ON d.field_id = f.id "
 					."WHERE f.published = 1 AND d.contact_id = '$this->_id'"
 					."ORDER BY f.pos, f.ordering";
 			$this->_db->setQuery($query);
-			$this->_fields = $this->_db->loadObjectList();	
+			$this->_fields = $this->_db->loadObjectList();
 		}
 		return $this->_fields;
 	}
-	
+
 	function &getCategories()
 	{
 		if(!$this->_categories){
@@ -82,7 +82,7 @@ class ContactdirectoryModelContact extends JModel{
 		}
 		return $this->_categories;
 	}
-	
+
 	/**
 	 * Method to load the contact data
 	 *
@@ -102,22 +102,22 @@ class ContactdirectoryModelContact extends JModel{
 		}
 		return true;
 	}
-	
+
 	function _initData(){
 		// Lets load the field data if it doesn't already exist
 		if (empty($this->_data))
 		{
 			$contact = new stdClass();
-			$contact->id	= null;
+			$contact->id = null;
 			$contact->name = '';
 			$contact->alias = '';
 			$contact->published = 0;
 			$contact->checked_out = 0;
 			$contact->checked_out_time	= 0;
-			$contact->params	 = null;
-			$contact->user_id	= 0;
+			$contact->params = null;
+			$contact->user_id = 0;
 			$contact->access = 0;
-			$this->_data				= $contact;
+			$this->_data = $contact;
 			return (boolean) $this->_data;
 		}
 		return true;
@@ -141,8 +141,8 @@ class ContactdirectoryModelContact extends JModel{
 				return $this->_data->checked_out;
 			}
 		}
-	}	
-	
+	}
+
 	/**
 	 * Method to checkin/unlock the contact
 	 *
@@ -189,7 +189,7 @@ class ContactdirectoryModelContact extends JModel{
 			return true;
 		}
 		return false;
-	}	
+	}
 
 	/**
 	 * Method to store the contact
@@ -199,24 +199,24 @@ class ContactdirectoryModelContact extends JModel{
 	 * @since	1.5
 	 */
 	function store($data)
-	{	
+	{
 		$row =& $this->getTable();
-		
+
 		// Bind the form contacts to the contact table
 		if (!$row->bind($data)) {
 			$this->setError($this->_db->getErrorMsg());
 			return false;
-		}		
-		
+		}
+
 		// Create the timestamp for the date
-		$row->checked_out_time = gmdate('Y-m-d H:i:s');		
-		
+		$row->checked_out_time = gmdate('Y-m-d H:i:s');
+
 		// Make sure the contacts table is valid
 		if (!$row->check()) {
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
-		
+
 		// Store the data in the different database tables
 		if (!$row->store($data)) {
 			$this->setError($row->getError());
@@ -224,7 +224,7 @@ class ContactdirectoryModelContact extends JModel{
 		}
 		return $row->id;
 	}
-	
+
 	/**
 	 * Method to remove a contact
 	 *
@@ -247,14 +247,14 @@ class ContactdirectoryModelContact extends JModel{
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
-			
+
 			$query = 'DELETE FROM #__contactdirectory_details WHERE contact_id IN ('.$cids.')';
 			$this->_db->setQuery( $query );
 			if(!$this->_db->query()) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
-			
+
 			$query = 'DELETE FROM #__contactdirectory_con_cat_map WHERE contact_id IN ('.$cids.')';
 			$this->_db->setQuery( $query );
 			if(!$this->_db->query()) {
@@ -292,31 +292,30 @@ class ContactdirectoryModelContact extends JModel{
 			}
 		}
 		return true;
-	}	
-	
+	}
+
 	/**
 	* Set the access of selected menu items
 	*/
-	function setAccess( $cid = array(), $access=0 )
+	function setAccess( $cid = array(), $access = 0 )
 	{
-		$row =& $this->getTable();
-		foreach ($items as $id)
-		{
-			$row->load( $id );
-			$row->access = $access;
+		$user 	=& JFactory::getUser();
 
-			if (!$row->check()) {
-				$this->setError($row->getError());
-				return false;
-			}
-			if (!$row->store()) {
-				$this->setError($row->getError());
+		foreach ($cid as $id)
+		{
+			$query = 'UPDATE #__contactdirectory_contacts'
+				. ' SET access = '.(int) $access
+				. ' WHERE id = '.$id
+				. ' AND ( checked_out = 0 OR ( checked_out = '.(int) $user->get('id').' ) )';
+			$this->_db->setQuery( $query );
+			if (!$this->_db->query()) {
+				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Method to import the contacts
 	 *
@@ -328,30 +327,30 @@ class ContactdirectoryModelContact extends JModel{
 	function import($data = null)
 	{
 		require_once JPATH_COMPONENT.DS.'helpers'.DS.'stringstream.php';
-		
+
 		$i=0;
 		$cols = array();
-				
+
 		StringStreamController::createRef('csv',$data);
 		$file = fopen('string://csv','r');
-		
+
 		while($csv = fgetcsv($file)) {
 			$contact_data = array();
 			$name_bool = false;
 			$cat_bool = false;
-			
-			$query = "SELECT name, params FROM #__contactdirectory_fields WHERE published=1 ";
+
+			$query = "SELECT alias, params FROM #__contactdirectory_fields WHERE published=1 ";
 	        $this->_db->setQuery($query);
 	        $fields = $this->_db->loadObjectList();
 
 	        foreach($fields as $field){
 	        	$field->params = new JParameter($field->params);
 
-	        	$contact_data['fields'][$field->name] = null;
-	        	$contact_data['showContactPage'][$field->name] = 1;
-	        	$contact_data['showContactLists'][$field->name] = 1;
+	        	$contact_data['fields'][$field->alias] = null;
+	        	$contact_data['showContactPage'][$field->alias] = 1;
+	        	$contact_data['showContactLists'][$field->alias] = 1;
 	        }
-	        
+
 			if($i == 0){
 				$cols  = $csv;
 			}else{
@@ -410,7 +409,7 @@ class ContactdirectoryModelContact extends JModel{
 									return false;
 								}
 								$contact_data['showContactPage'][$show[0]] = $show[1];
-							}	
+							}
 						}
 					}
 					elseif($col == 'showContactLists'){
@@ -443,11 +442,11 @@ class ContactdirectoryModelContact extends JModel{
 						$found = false;
 						$required = false;
 						foreach($fields as $field){
-							if($field->name == $col){ 
+							if($field->alias == $col){
 								$found = true;
 								break;
 							}elseif($field->params->get('required') && $csv[$k] == null){
-								$req_field = $field->name;
+								$req_field = $field->alias;
 								$required = true;
 							}
 						}
@@ -478,7 +477,7 @@ class ContactdirectoryModelContact extends JModel{
 					fclose($file);
 					return false;
 				}
-				
+
 				// Save the contact info
 				if(!$this->store($contact_data)){
 					$this->setError( JText::sprintf('STORE_FAILED', $contact_data['name']));

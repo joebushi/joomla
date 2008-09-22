@@ -314,16 +314,49 @@ INSERT INTO `#__weblinks` VALUES
 --
 
 INSERT INTO `#__contactdirectory_fields` (`id`, `title`, `name`, `description`, `type`, `published`, `ordering`, `checked_out`, `checked_out_time`, `pos`, `access`, `params`) VALUES
-(1, 'E-mail', 'e_mail', 'The email address used for receiving emails from the contact form.', 'email', 1, 1, 0, '0000-00-00 00:00:00', 'main', 0, 'required=0\ncss_tag=\nfield_title=0\nchoose_icon=\n\n'),
-(2, 'Contact''s Position', 'contacts_position', '', 'text', 1, 1, 0, '0000-00-00 00:00:00', 'title', 0, 'required=0\ncss_tag=\nfield_title=0\nchoose_icon=\n\n'),
-(3, 'Street Address', 'street_address', '', 'textarea', 1, 2, 0, '0000-00-00 00:00:00', 'main', 0, 'required=0\ncss_tag=\nfield_title=0\nchoose_icon=\n\n'),
-(4, 'Town/Suburb', 'townsuburb', '', 'text', 1, 3, 0, '0000-00-00 00:00:00', 'main', 0, 'required=0\ncss_tag=\nfield_title=0\nchoose_icon=\n\n'),
-(5, 'State/County', 'statecounty', '', 'text', 1, 4, 0, '0000-00-00 00:00:00', 'main', 0, 'required=0\ncss_tag=\nfield_title=0\nchoose_icon=\n\n'),
-(6, 'Postal Code/ZIP', 'postal_codezip', '', 'text', 1, 5, 0, '0000-00-00 00:00:00', 'main', 0, 'required=0\ncss_tag=\nfield_title=0\nchoose_icon=\n\n'),
+(1, 'E-mail', 'email', 'The email address used for receiving emails from the contact form.', 'email', 1, 1, 0, '0000-00-00 00:00:00', 'main', 0, 'required=0\ncss_tag=\nfield_title=0\nchoose_icon=\n\n'),
+(2, 'Contact''s Position', 'position', '', 'text', 1, 1, 0, '0000-00-00 00:00:00', 'title', 0, 'required=0\ncss_tag=\nfield_title=0\nchoose_icon=\n\n'),
+(3, 'Street Address', 'address', '', 'textarea', 1, 2, 0, '0000-00-00 00:00:00', 'main', 0, 'required=0\ncss_tag=\nfield_title=0\nchoose_icon=\n\n'),
+(4, 'Town/Suburb', 'town', '', 'text', 1, 3, 0, '0000-00-00 00:00:00', 'main', 0, 'required=0\ncss_tag=\nfield_title=0\nchoose_icon=\n\n'),
+(5, 'State/County', 'state', '', 'text', 1, 4, 0, '0000-00-00 00:00:00', 'main', 0, 'required=0\ncss_tag=\nfield_title=0\nchoose_icon=\n\n'),
+(6, 'Postal Code/ZIP', 'postal_code', '', 'text', 1, 5, 0, '0000-00-00 00:00:00', 'main', 0, 'required=0\ncss_tag=\nfield_title=0\nchoose_icon=\n\n'),
 (7, 'Country', 'country', '', 'text', 1, 6, 0, '0000-00-00 00:00:00', 'main', 0, 'required=0\ncss_tag=\nfield_title=0\nchoose_icon=\n\n'),
 (8, 'Telephone', 'telephone', '', 'text', 1, 7, 0, '0000-00-00 00:00:00', 'main', 0, 'required=0\ncss_tag=\nfield_title=0\nchoose_icon=\n\n'),
-(9, 'Mobile Phone Number', 'mobile_phone_number', '', 'text', 1, 8, 0, '0000-00-00 00:00:00', 'main', 0, 'required=0\ncss_tag=\nfield_title=0\nchoose_icon=\n\n'),
+(9, 'Mobile Phone Number', 'mobile', '', 'text', 1, 8, 0, '0000-00-00 00:00:00', 'main', 0, 'required=0\ncss_tag=\nfield_title=0\nchoose_icon=\n\n'),
 (10, 'Fax', 'fax', '', 'text', 1, 9, 0, '0000-00-00 00:00:00', 'main', 0, 'required=0\ncss_tag=\nfield_title=0\nchoose_icon=\n\n'),
 (11, 'Web URL', 'web_url', '', 'url', 1, 10, 0, '0000-00-00 00:00:00', 'main', 0, 'required=0\ncss_tag=\nfield_title=0\nchoose_icon=\n\n'),
-(12, 'Miscellaneous Information', 'miscellaneous_information', '', 'editor', 1, 1, 0, '0000-00-00 00:00:00', 'bottom', 0, 'required=0\ncss_tag=\nfield_title=0\nchoose_icon=\n\n'),
-(13, 'Contact Image', 'contact_image', '', 'image', 1, 1, 0, '0000-00-00 00:00:00', 'right', 0, 'required=0\ncss_tag=\nfield_title=3\nchoose_icon=\n\n');
+(12, 'Miscellaneous Information', 'miscellaneous', '', 'editor', 1, 1, 0, '0000-00-00 00:00:00', 'bottom', 0, 'required=0\ncss_tag=\nfield_title=0\nchoose_icon=\n\n'),
+(13, 'Contact Image', 'contact', '', 'image', 1, 1, 0, '0000-00-00 00:00:00', 'right', 0, 'required=0\ncss_tag=\nfield_title=3\nchoose_icon=\n\n');
+
+--
+-- Dumping data for table `#__contactdirectory_contacts`
+--
+
+INSERT INTO `#__contactdirectory_contacts` (`id`, `name`, `alias`, `published`, `checked_out`, `checked_out_time`, `params`, `user_id`, `access`) VALUES
+(1, 'Name', 'name', 1, 0, '0000-00-00 00:00:00', 'show_name=1\nshow_name_directory=1\nshow_email_form=1\nemail_form_pos=bottom\nemail_form_access=0\nemail_description=\nshow_email_copy=1\nbanned_email=\nbanned_subject=\nbanned_text=\nshow_captcha=1\nvalidate_email_form=0\n\n', 0, 0);
+
+--
+-- Dumping data for table `#__contactdirectory_con_cat_map`
+--
+
+INSERT INTO `#__contactdirectory_con_cat_map` (`contact_id`, `category_id`, `ordering`) VALUES
+(1, 34, 1);
+
+--
+-- Dumping data for table `#__contactdirectory_details`
+--
+
+INSERT INTO `#__contactdirectory_details` (`contact_id`, `field_id`, `data`, `show_contact`, `show_directory`) VALUES
+(1, 2, 'Position', 1, 1),
+(1, 1, 'email@email.com', 1, 1),
+(1, 3, '1234, Address St.', 1, 1),
+(1, 4, 'Town', 1, 1),
+(1, 5, 'State', 1, 1),
+(1, 6, 'Postal Code', 1, 1),
+(1, 7, 'Country', 1, 1),
+(1, 8, '999-9999', 1, 1),
+(1, 9, '999-0000', 1, 1),
+(1, 10, '900-9999', 1, 1),
+(1, 11, 'www.web.com', 1, 1),
+(1, 13, '', 1, 1),
+(1, 12, '', 1, 1);

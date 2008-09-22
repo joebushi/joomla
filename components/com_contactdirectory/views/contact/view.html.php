@@ -38,52 +38,59 @@ class ContactdirectoryViewContact extends JView
 		$pparams = &$mainframe->getParams('com_contactdirectory');
 
 		$cparams = JComponentHelper::getParams ('com_media');
-		
+
 		// Push a model into the view
 		$model	= &$this->getModel();
 
 		//get the contact
 		$contact	=& $model->getData($user->get('aid', 0));
-		
+
 		//get the fields
 		$fields =& $model->getFields();
-		
+
 		// check if we have a contact
 		if (!is_object( $contact )) {
 			JError::raiseError( 404, 'CONTACT NOT FOUND' );
 			return;
 		}
-	
+
 		// check if we have the fields
 		if (!is_array($fields)) {
 			JError::raiseError( 404, 'CONTACT NOT FOUND' );
 			return;
 		}
-		
+
 		// Adds parameter handling
 		$contact->params = new JParameter($contact->params);
 		$pparams->merge($contact->params);
-		
+
 		$email = null;
 		foreach($fields as $field){
 			$field->params = new JParameter($field->params);
-			
+
 			if($field->type == 'image'){
 				if($field->data){
-					$field->data = JHTML::_('image', $cparams->get('image_path') . '/'.$field->data, JText::_( 'CONTACT' ), array('align' => 'middle'));
+					if($field->pos == 'right'){
+						$field->data = JHTML::_('image', $cparams->get('image_path') . '/'.$field->data, JText::_( 'CONTACT' ), array('align' => 'right'));
+					}else{
+						$field->data = JHTML::_('image', $cparams->get('image_path') . '/'.$field->data, JText::_( 'CONTACT' ), array('align' => 'left'));
+					}
+
 				}
 			}
-			
+
 			if($field->type == 'textarea'){
 				$field->data = nl2br($field->data);
 			}
-			
+
 			if($field->type == 'url'){
-				$field->data = '<a href="http://'.$field->data.'">'.$field->data.'</a>';
+				if(!empty($field->data)){
+					$field->data = '<a href="http://'.$field->data.'">'.$field->data.'</a>';
+				}
 			}
-			
+
 			// Handle email cloaking
-			if($field->type == 'email' && $field->show_field) {
+			if($field->type == 'email') {
 				jimport('joomla.mail.helper');
 				$field->data = trim($field->data);
 				if(!empty($field->data) && JMailHelper::isEmailAddress($field->data)) {
@@ -95,7 +102,7 @@ class ContactdirectoryViewContact extends JView
 					$email = $field;
 				}
 			}
-			
+
 			// Manage the display mode for the field title
 			switch ($field->params->get('field_title'))
 			{
@@ -140,7 +147,7 @@ class ContactdirectoryViewContact extends JView
 					break;
 			}
 		}
-		
+
 		// Set the document page title
 		$document->setTitle(JText::_('CONTACT').' - '.$contact->name);
 
@@ -155,61 +162,61 @@ class ContactdirectoryViewContact extends JView
 		if($contact->params->get('show_captcha')) {
 			 $captcha = JHTML::image('index.php?option=com_contactdirectory&task=captcha&amp;format=raw&amp;sid=' . md5(uniqid(time())), 'captcha', array('id'=>'captcha-img'));
 		}
-		
+
 		$showFormTitle = false;
 		$showFormTop = false;
 		$showFormLeft = false;
 		$showFormMain = false;
 		$showFormRight = false;
 		$showFormBottom = false;
-		
+
 		if($contact->params->get('email_form_pos') == 'title' &&
-			$contact->params->get('show_email_form') && 
-			($email->data || $contact->user_id) && 
+			$contact->params->get('show_email_form') &&
+			($email->data || $contact->user_id) &&
 			$contact->params->get('email_form_access') <= $user->get('aid', 0)){
 				$showFormTitle = true;
 		}
-		
+
 		if($contact->params->get('email_form_pos') == 'top' &&
-			$contact->params->get('show_email_form') && 
-			($email->data || $contact->user_id) && 
+			$contact->params->get('show_email_form') &&
+			($email->data || $contact->user_id) &&
 			$contact->params->get('email_form_access') <= $user->get('aid', 0)){
 				$showFormTop = true;
 		}
-		
+
 		if($contact->params->get('email_form_pos') == 'left' &&
-			$contact->params->get('show_email_form') && 
-			($email->data || $contact->user_id) && 
+			$contact->params->get('show_email_form') &&
+			($email->data || $contact->user_id) &&
 			$contact->params->get('email_form_access') <= $user->get('aid', 0)){
 				$showFormLeft = true;
 		}
-		
+
 		if($contact->params->get('email_form_pos') == 'main' &&
-			$contact->params->get('show_email_form') && 
-			($email->data || $contact->user_id) && 
+			$contact->params->get('show_email_form') &&
+			($email->data || $contact->user_id) &&
 			$contact->params->get('email_form_access') <= $user->get('aid', 0)){
 				$showFormMain = true;
 		}
-		
+
 		if($contact->params->get('email_form_pos') == 'right' &&
-			$contact->params->get('show_email_form') && 
-			($email->data || $contact->user_id) && 
+			$contact->params->get('show_email_form') &&
+			($email->data || $contact->user_id) &&
 			$contact->params->get('email_form_access') <= $user->get('aid', 0)){
 				$showFormRight = true;
 		}
-		
+
 		if($contact->params->get('email_form_pos') == 'bottom' &&
-			$contact->params->get('show_email_form') && 
-			($email->data || $contact->user_id) && 
+			$contact->params->get('show_email_form') &&
+			($email->data || $contact->user_id) &&
 			$contact->params->get('email_form_access') <= $user->get('aid', 0)){
 				$showFormBottom = true;
 		}
-		
+
 		// Fill up the form with the original data after summit error
 		$data =& $this->get('FormData');
-		
+
 		JHTML::stylesheet('contactdirectory.css', 'components/com_contactdirectory/css/');
-		
+
 		$this->assignRef('contact',	$contact);
 		$this->assignRef('pos_title', $pos_title);
 		$this->assignRef('pos_top',	$pos_top);
@@ -222,7 +229,7 @@ class ContactdirectoryViewContact extends JView
 		$this->assignRef('showFormLeft', $showFormLeft);
 		$this->assignRef('showFormMain', $showFormMain);
 		$this->assignRef('showFormRight', $showFormRight);
-		$this->assignRef('showFormBottom', $showFormBottom);	
+		$this->assignRef('showFormBottom', $showFormBottom);
 		$this->assignRef('params',	$pparams);
 		$this->assignRef('email', $email);
 		$this->assignRef('captcha', $captcha);

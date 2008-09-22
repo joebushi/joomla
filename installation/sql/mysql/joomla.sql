@@ -893,7 +893,7 @@ CREATE TABLE IF NOT EXISTS `#__contactdirectory_details` (
 CREATE TABLE IF NOT EXISTS `#__contactdirectory_fields` (
   `id` int(11) NOT NULL auto_increment,
   `title` varchar(255) NOT NULL default '',
-  `name` varchar(255) NOT NULL,
+  `alias` varchar(255) NOT NULL,
   `description` mediumtext,
   `type` varchar(50) NOT NULL default 'text',
   `published` tinyint(1) unsigned NOT NULL default '0',

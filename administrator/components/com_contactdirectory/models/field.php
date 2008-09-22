@@ -9,7 +9,7 @@ class ContactdirectoryModelField extends JModel{
 
 	var $_id = null;
 	var $_data = null;
-	
+
 	/**
 	 * Constructor
 	 *
@@ -31,13 +31,13 @@ class ContactdirectoryModelField extends JModel{
 	 * @access	public
 	 * @param	int Field identifier
 	 */
-	
+
 	function setId($id)
 	{
 		// Set field id and wipe data
 		$this->_id		= $id;
 		$this->_data	= null;
-	}	
+	}
 
 	/**
 	 * Method to get a field
@@ -52,8 +52,8 @@ class ContactdirectoryModelField extends JModel{
 		if (!$result) $this->_initData();
 
 		return $this->_data;
-	}	
-	
+	}
+
 	/**
 	 * Method to load the field data
 	 *
@@ -103,7 +103,7 @@ class ContactdirectoryModelField extends JModel{
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Tests if field is checked out
 	 *
@@ -122,8 +122,8 @@ class ContactdirectoryModelField extends JModel{
 				return $this->_data->checked_out;
 			}
 		}
-	}	
-	
+	}
+
 	/**
 	 * Method to checkin/unlock the field
 	 *
@@ -170,7 +170,7 @@ class ContactdirectoryModelField extends JModel{
 			return true;
 		}
 		return false;
-	}	
+	}
 
 	/**
 	 * Method to store the field
@@ -196,23 +196,23 @@ class ContactdirectoryModelField extends JModel{
 		if (!$row->id) {
 			$where = 'pos = ' . (int) $row->pos ;
 			$row->ordering = $row->getNextOrder( $where );
-		}		
-		
+		}
+
 		// Make sure the fields table is valid
 		if (!$row->check()) {
 			$this->setError($this->_db->getErrorMsg());
 			return false;
-		}			
+		}
 
 		// Store the fields table to the database
 		if (!$row->store()) {
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
-			
+
 		return $row->id;
-	}	
-	
+	}
+
 	/**
 	 * Method to remove a field
 	 *
@@ -231,12 +231,12 @@ class ContactdirectoryModelField extends JModel{
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
-			
+
 			if($row->id == 1){
 				$this->setError( JText::_('You are not authorized to delete the email field'));
 				return false;
 			}
-			
+
 			$query = 'DELETE FROM #__contactdirectory_fields'
 					. ' WHERE id = '.$row->id;
 			$this->_db->setQuery( $query );
@@ -244,7 +244,7 @@ class ContactdirectoryModelField extends JModel{
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
-			
+
 			$query = 'DELETE FROM #__contactdirectory_details WHERE field_id = '.$row->id;
 			$this->_db->setQuery( $query );
 			if(!$this->_db->query()) {
@@ -337,10 +337,10 @@ class ContactdirectoryModelField extends JModel{
 	/**
 	* Set the access of selected menu items
 	*/
-	function setAccess( $items, $access )
+	function setAccess( $cid = array(), $access = 0 )
 	{
 		$row =& $this->getTable();
-		foreach ($items as $id)
+		foreach ($cid as $id)
 		{
 			$row->load( $id );
 			$row->access = $access;
@@ -355,7 +355,7 @@ class ContactdirectoryModelField extends JModel{
 			}
 		}
 		return true;
-	}	
+	}
 }
 
 ?>

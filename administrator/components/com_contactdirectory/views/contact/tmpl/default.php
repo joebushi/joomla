@@ -17,7 +17,7 @@
 	}
 ?>
 
-<script language="javascript" type="text/javascript">	
+<script language="javascript" type="text/javascript">
 	function submitbutton(pressbutton) {
 		var form = document.adminForm;
 		if (pressbutton == 'cancel') {
@@ -32,18 +32,18 @@
 		if(form.categories.value ==""){
 			alert( "<?php echo JText::_( 'CATEGORY_SELECTED_VALIDATION', true ); ?>" );
 		}
-		<?php 
+		<?php
 			foreach ($this->fields as $this->field) {
 				if($this->field->params->get('required')){;
-					$name = $this->field->name;
+					$alias = $this->field->alias;
 					$title = $this->field->title;
-					echo "else if (form.$name.value == \"\") {"
+					echo "else if (form.$alias.value == \"\") {"
 							."alert( \"The $title is required.\" ); "
 							."}";
 				}
 			}
 		?>
-		
+
 		else {
 			submitform( pressbutton );
 		}
@@ -64,7 +64,7 @@
 				<td>
 					<input class="text_area" type="text" name="name" id="name" size="32" maxlength="250" value="<?php echo $this->contact->name;?>" />
 				</td>
-			</tr>	
+			</tr>
 			<tr>
 				<td width="100" align="right" class="key">
 					<label for="alias"><?php echo JText::_( 'ALIAS' ); ?>:</label>
@@ -72,7 +72,7 @@
 				<td>
 					<input class="text_area" type="text" name="alias" id="alias" size="32" maxlength="250" value="<?php echo $this->contact->alias;?>" />
 				</td>
-			</tr>		
+			</tr>
 			<tr>
 				<td valign="top" align="right" class="key">
 					<label for="published"><?php echo JText::_( 'PUBLISHED' ); ?>:</label>
@@ -90,7 +90,7 @@
 				<td >
 					<?php echo $this->lists['user_id'];?>
 				</td>
-			</tr>		
+			</tr>
 			<tr>
 				<td valign="top" align="right" class="key">
 					<label for="access"><?php echo JText::_( 'ACCESS_LEVEL' ); ?>:</label>
@@ -114,7 +114,7 @@
 					</tr>
 					<?php
 				}
-			?>		
+			?>
 		</table>
 	</fieldset>
 	<fieldset class="adminform">
@@ -143,10 +143,10 @@
 	</fieldset>
 	<fieldset class="adminform">
 		<legend><?php echo JText::_( 'INFORMATION' ); ?></legend>
-		
+
 		<table class="admintable">
 			<?php for($i=0; $i<count($this->fields); $i++)
-				  	{ 
+				  	{
 					  	$field = &$this->fields[$i];
 					  	if($field->params->get('required')){
 							$star = '* ';
@@ -163,20 +163,20 @@
 				<td>
 					<?php
 						if($field->type == 'text' || $field->type == 'email' || $field->type == 'url'){
-							echo  '<input class="text_area" type="text" name="fields['.$field->name.']" 
-										id="'.$field->name.'" size="32" maxlength="250" 
+							echo  '<input class="text_area" type="text" name="fields['.$field->alias.']"
+										id="'.$field->alias.'" size="32" maxlength="250"
 										value="'.$field->data.'" />';
 						}else if($field->type == 'textarea'){
-							echo '<textarea class="inputbox" name="fields['.$field->name.']" 
-									rows="5" cols="50" id="'.$field->name.'">'.
+							echo '<textarea class="inputbox" name="fields['.$field->alias.']"
+									rows="5" cols="50" id="'.$field->alias.'">'.
 									$field->data.'</textarea>';
 						}else if($field->type == 'editor'){
 							$editor =& JFactory::getEditor();
-							echo $editor->display('fields['.$field->name.']', $field->data, '100%', '100%', '50', '5');
+							echo $editor->display('fields['.$field->alias.']', $field->data, '100%', '100%', '50', '5');
 						}else if($field->type == 'image'){
-							echo JHTML::_('list.images',  'fields['.$field->name.']', $field->data );
+							echo JHTML::_('list.images',  'fields['.$field->alias.']', $field->data );
 						}
-					
+
 					?>
 				</td>
 			</tr>
@@ -190,7 +190,7 @@
 		<?php
 			jimport('joomla.html.pane');
 			$pane =& JPane::getInstance('sliders');
-			
+
 			echo $pane->startPane("menu-pane");
 			echo $pane->startPanel(JText :: _('CONTACT_PARAMETERS'), "param-page");
 			echo $this->params->render();
@@ -202,7 +202,7 @@
 				<tr>
 					<td class="paramlist_key" width="40%">
 						<span class="editlinktip">
-							<label id="paramsshow_contact-lbl" for="paramsshow_contact" 
+							<label id="paramsshow_contact-lbl" for="paramsshow_contact"
 									  class="hasTip" title="<?php echo JText::_($this->field->title).'::'.JText::sprintf('CONTACT_PARAMETERS_DESCRIPTION', strtolower(JText::_($this->field->title)));?>">
 									  <?php echo JText::_($this->field->title); ?>
 							</label>
@@ -228,7 +228,7 @@
 				<tr>
 					<td class="paramlist_key" width="40%">
 						<span class="editlinktip">
-							<label id="paramsshow_directory-lbl" for="paramsshow_directory" 
+							<label id="paramsshow_directory-lbl" for="paramsshow_directory"
 									  class="hasTip" title="<?php echo JText::_($this->field->title).'::'.JText::sprintf('DIRECTORY_PARAMETERS_DESCRIPTION', strtolower(JText::_($this->field->title)));?>">
 									  <?php echo JText::_($this->field->title); ?>
 							</label>

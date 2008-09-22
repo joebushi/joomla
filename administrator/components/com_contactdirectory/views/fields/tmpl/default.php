@@ -40,9 +40,12 @@
 			</th>
 			<th width="20">
 				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->items ); ?>);" />
-			</th>			
+			</th>
 			<th class="title">
 				<?php echo JHTML::_('grid.sort',  JText::_('TITLE'), 'f.title', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+			</th>
+			<th class="alias">
+				<?php echo JHTML::_('grid.sort',  JText::_('ALIAS'), 'f.alias', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 			</th>
 			<th width="10%" class="type">
 				<?php echo JHTML::_('grid.sort', JText::_('TYPE'), 'f.type', $this->lists['order_Dir'], $this->lists['order'] ); ?>
@@ -106,6 +109,9 @@
 				<?php
 				}
 				?>
+			</td>
+			<td>
+				<?php echo $row->alias; ?>
 			</td>
 			<td>
 				<?php echo $row->type; ?>

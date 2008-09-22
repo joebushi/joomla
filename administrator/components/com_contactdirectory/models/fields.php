@@ -130,8 +130,8 @@ class ContactdirectoryModelFields extends JModel
 	{
 		global $mainframe, $option;
 
-		$filter_order		= $mainframe->getUserStateFromRequest( $option.'filter_order',		'filter_order',		'f.ordering',	'cmd' );
-		$filter_order_Dir	= $mainframe->getUserStateFromRequest( $option.'filter_order_Dir',	'filter_order_Dir',	'',				'word' );
+		$filter_order = $mainframe->getUserStateFromRequest( $option.'filter_order', 'filter_order', 'f.ordering', 'cmd' );
+		$filter_order_Dir = $mainframe->getUserStateFromRequest( $option.'filter_order_Dir', 'filter_order_Dir',	'',				'word' );
 
 		if ($filter_order == 'f.ordering'){
 			$orderby 	= ' ORDER BY f.pos, f.ordering '.$filter_order_Dir.' , f.title ';
@@ -145,12 +145,12 @@ class ContactdirectoryModelFields extends JModel
 	function _buildContentWhere()
 	{
 		global $mainframe, $option;
-		$db					=& JFactory::getDBO();
-		$filter_state		= $mainframe->getUserStateFromRequest( $option.'filter_state',		'filter_state',		'',				'word' );
-		$filter_order		= $mainframe->getUserStateFromRequest( $option.'filter_order',		'filter_order',		'f.ordering',	'cmd' );
-		$filter_order_Dir	= $mainframe->getUserStateFromRequest( $option.'filter_order_Dir',	'filter_order_Dir',	'',				'word' );
-		$search				= $mainframe->getUserStateFromRequest( $option.'search',			'search',			'',				'string' );
-		$search				= JString::strtolower( $search );
+		$db =& JFactory::getDBO();
+		$filter_state = $mainframe->getUserStateFromRequest( $option.'filter_state', 'filter_state', '', 'word' );
+		$filter_order = $mainframe->getUserStateFromRequest( $option.'filter_order', 'filter_order', 'f.ordering', 'cmd' );
+		$filter_order_Dir = $mainframe->getUserStateFromRequest( $option.'filter_order_Dir', 'filter_order_Dir', '', 'word' );
+		$search = $mainframe->getUserStateFromRequest( $option.'search', 'search', '', 'string' );
+		$search	= JString::strtolower( $search );
 
 		$where = array();
 

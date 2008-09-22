@@ -10,7 +10,7 @@ class TableField extends JTable
 	/** @var string */
 	var $title = '';
 	/** @var string */
-	var $name = '';
+	var $alias = '';
 	/** @var string */
 	var $description = null;
 	/** @var string */
@@ -29,7 +29,7 @@ class TableField extends JTable
 	var $access = 0;
 	/** @var string */
 	var $params	= null;
-	
+
 	/**
 	* @param database A database connector object
 	*/
@@ -37,7 +37,7 @@ class TableField extends JTable
 	{
 		parent::__construct( '#__contactdirectory_fields', 'id', $db );
 	}
-	
+
 	/**
 	* Overloaded bind function
 	*
@@ -73,9 +73,16 @@ class TableField extends JTable
 			$this->setError(JText::_('FIELD_MUST_HAVE_A_TITLE'));
 			return false;
 		}
-		
-		$this->name = JFilterOutput::stringURLSafe($this->title);
-		$this->name = trim(str_replace('-','_',$this->name));
+
+
+		if(empty($this->alias)) {
+			$this->alias = $this->title;
+		}
+		$this->alias = JFilterOutput::stringURLSafe($this->alias);
+		if(trim(str_replace('-','',$this->alias)) == '') {
+			$datenow =& JFactory::getDate();
+			$this->alias = $datenow->toFormat("%Y-%m-%d-%H-%M-%S");
+		}
 
 		$xid = intval($this->_db->loadResult());
 		if ($xid && $xid != intval($this->id)) {
@@ -84,8 +91,8 @@ class TableField extends JTable
 		}
 
 		return true;
-	}	
-	
+	}
+
 	/**
 	 * Overloaded store method
 	 *
@@ -95,34 +102,32 @@ class TableField extends JTable
 	 */
     function store()
     {
-        $k = 'id';
- 
-        if( $this->$k) {
+        if( $this->id ) {
 	        if( !$this->_db->updateObject( '#__contactdirectory_fields', $this, 'id', false ) ) {
-	            $this->setError(get_class( $this ).'::store failed - '.$this->_db->getErrorMsg());
+	            $this->setError(get_class( $this ).'::store failed 1 - '.$this->_db->getErrorMsg());
 	            return false;
 	        }
         } else {
             $ret = $this->_db->insertObject( '#__contactdirectory_fields', $this, 'id' );
             $this->id = $this->_db->insertid();
         	if( !$ret || $this->id == null) {
-	            $this->setError(get_class( $this ).'::store failed - '.$this->_db->getErrorMsg());
+	            $this->setError(get_class( $this ).'::store failed 2 - '.$this->_db->getErrorMsg());
 	            return false;
 	        }
-	        
+
 	        $query = "SELECT id FROM #__contactdirectory_contacts";
 	        $this->_db->setQuery($query);
 	        $contacts = $this->_db->loadObjectList();
-	        
+
 	        foreach ($contacts as $contact){
 	        	$query = "INSERT INTO #__contactdirectory_details VALUES('$contact->id', '$this->id', '', '1', '1')";
 	        	$this->_db->setQuery($query);
 		        if(!$this->_db->query()) {
-					$this->setError(get_class( $this ).'::store failed - '.$this->_db->getErrorMsg());
+					$this->setError(get_class( $this ).'::store failed 3 - '.$this->_db->getErrorMsg());
 					return false;
 				}
 	        }
         }
         return true;
-    }	
+    }
 }

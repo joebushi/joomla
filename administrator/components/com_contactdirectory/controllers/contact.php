@@ -13,13 +13,13 @@ class ContactdirectoryControllerContact extends JController
 {
 	/**
 	 * Display the list of contacts
-	 */	
+	 */
     function display()
     {
     	JRequest::setVar('view', 'contacts');
         parent::display();
     }
-    
+
     function add()
     {
     	JRequest::setVar( 'hidemainmenu', 1 );
@@ -29,10 +29,10 @@ class ContactdirectoryControllerContact extends JController
 		// Checkout the contact
 		$model = $this->getModel('contact');
 		$model->checkout();
-		
+
 		parent::display();
     }
-    
+
     function edit()
     {
     	JRequest::setVar( 'hidemainmenu', 1 );
@@ -42,18 +42,18 @@ class ContactdirectoryControllerContact extends JController
 		// Checkout the contact
 		$model = $this->getModel('contact');
 		$model->checkout();
-		
+
 		parent::display();
     }
-    
+
     function importView()
     {
     	JRequest::setVar( 'hidemainmenu', 1 );
 		JRequest::setVar( 'view'  , 'import');
-		
+
 		parent::display();
     }
-    
+
     function apply()
     {
 		// Check for request forgeries
@@ -68,15 +68,15 @@ class ContactdirectoryControllerContact extends JController
 		if ($id = $model->store($post)) {
 			$msg = JText::_( 'CONTACT_SAVED' );
 		} else {
-			$msg = JText::_( 'ERROR_SAVING_CONTACT' );
+			$msg = $model->getError();//JText::_( 'ERROR_SAVING_CONTACT' );
 		}
 
 		// Check the table in so it can be edited.... we are done with it anyway
 		$model->checkin();
 		$link = 'index.php?option=com_contactdirectory&controller=contact&task=edit&cid[]='. $id;
-		$this->setRedirect($link, $msg);    	
+		$this->setRedirect($link, $msg);
     }
-    
+
 	function save()
 	{
 		// Check for request forgeries
@@ -91,14 +91,14 @@ class ContactdirectoryControllerContact extends JController
 		if ($model->store($post)) {
 			$msg = JText::_( 'CONTACT_SAVED' );
 		} else {
-			$msg = JText::_( 'ERROR_SAVING_CONTACT' );
+			$model->getError();//$msg = JText::_( 'ERROR_SAVING_CONTACT' );
 		}
 		// Check the table in so it can be edited.... we are done with it anyway
 		$model->checkin();
 		$link = 'index.php?option=com_contactdirectory&controller=contact';
 		$this->setRedirect($link, $msg);
 	}
-    
+
 	function remove()
 	{
 		// Check for request forgeries
@@ -171,7 +171,7 @@ class ContactdirectoryControllerContact extends JController
 
 		$this->setRedirect( 'index.php?option=com_contactdirectory&controller=contact' );
 	}
-	
+
 	/**
 	* Save the item(s) to the menu selected
 	*/
@@ -228,14 +228,14 @@ class ContactdirectoryControllerContact extends JController
 		}
 		$this->setRedirect( 'index.php?option=com_contactdirectory&controller=contact', $msg );
 	}
-	
+
 	function import()
 	{
 		$string = JRequest::getVar('importString', null, 'post', 'string', JREQUEST_ALLOWHTML);
 		$file	= JRequest::getVar('importFile', array(), 'files', 'array');
 
 		$model = $this->getModel('contact');
-		
+
 		if(!empty($string)){
 			// import the contacts from the text editor
 			if(!$model->import($string)){

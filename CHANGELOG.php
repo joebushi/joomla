@@ -42,6 +42,14 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+22-Sep-2008 Chantal Bisson
+ ^ Changed the column 'name' in the #__contactdirectory_fields table to 'alias'
+ ^ Changed the fields admin view to show the alias in the list and changed the edit field view to be able to modify the alias
+ + Added sample date for contact in com_contactdirectory
+ # Fixed right psition for image in com_contactdirectory contact view
+ # Fixed notice about $email->data in /components/com_contactdirectory/views/contact/view.html.php on line 203
+ # Fixed changing access level in com_contactdirectory from link in contact manager
+
 15-Sep-2008 Chantal Bisson
  + Added com_contactdirectory and language files
  + Added sql create table queries for com_contactdirectory in the installation
