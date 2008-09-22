@@ -750,6 +750,16 @@ class JFactory
      }
 
 
+     /**
+      * Return list of used connections (JConnection instances)
+      *
+      * @return array of JConnection objects
+      */
+     function getActiveConnections()
+     {
+         jimport('joomla.joda.connection');
+         return JConnection::$instances;
+     }
 
     /**
      * Returns a singleton JConnection instance based on the name of the connection
@@ -759,7 +769,6 @@ class JFactory
      */
      function getDBConnection($connectionname="")
      {
-
         jimport('joomla.joda.connection');
 
         $conf =& JFactory::getConfig();
@@ -774,7 +783,8 @@ class JFactory
 
         // Logic:
         // If named connection is found, use it.
-        // If not found, use the one with default=true.
+        // If connection name is not empty and not found - error
+        // Otherwise (empty name) use the one with default=1.
         // Otherwise, report failure: NO named connection and NO default specified! Very undefined!
         $namedConnection = null;
         $defaultConnection = null;

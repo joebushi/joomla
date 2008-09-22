@@ -46,6 +46,21 @@ NOTE: Merging line is:  J15->WWJ->JJ. So, JJ is a result of all work done on Joo
 	  J15 development process. Conflicts are resolved honoring J15 code!
 
 
+22-Sep-2008 Plamen Petkov
+ * Fix reQuote() mess
+ ! WJJ Merged into JJ up to rev. 108
+
+17-Sep-2008 Plamen Petkov
+ + Add reQuoting scheme in JQueryBuilder
+ + Add splitSQL() in Jconnection execQueries()
+ + Introduce Joda syntax: text quotes and identifier quotes: SINGLE and DOUBLE quotes
+
+15-Sep-2008 Plamen Petkov
+ + JFactory::getActiveConnections()
+ + Keep connections list in a class static property: $instances
+ ^ Debug plugin uses Active Connections idea
+ ^ Working on Jodademo
+
 14-Sep-2008 Plamen Petkov
  ! WJJ merged into JJ  up to 98 
  + Working on Jodademo
@@ -156,5 +171,4 @@ NOTE: Merging line is:  J15->WWJ->JJ. So, JJ is a result of all work done on Joo
 -------------------- Joomla 1.5.4 Stable Release [7-July-2008] -----------------------
 
 -------------------- Joda Branch added to Joomla! project tree [23-May-2008] ---------
-
 -------------------- Joomla 1.5.3 Stable Release [22-April-2008] ----------------------------------------- Joomla 1.5.2 Stable Release [22-March-2008] ---------------------

@@ -35,6 +35,14 @@ defined( 'JPATH_BASE' ) or die();
 abstract class JConnection extends PDO
 {
 
+	/**
+	 * List of all connections created so far. See getInstance()
+	 *
+	 * @var array of JConnections
+	 */
+    public static $instances = array();
+
+
     /**
      * PDO Statement object
      *
@@ -186,19 +194,17 @@ abstract class JConnection extends PDO
      * @param array Options/Configuration
      * @return object JConnection
      */
-    function &getInstance( $connectionname, $options)
+    function &getInstance( $connectionname, $options )
     {
-        static $instances;
 
-        if (!isset( $instances )) {
-            $instances = array();
+        if (!isset( self::$instances )) {
+            self::$instances = array();
         }
 
         // Connections are unique across their names only
-        //$signature = serialize( array_merge($options, array($connectionname)) );
-        $signature = serialize( $connectionname);
+        $signature = serialize( $connectionname );
 
-        if ( empty($instances[$signature]) ) {
+        if ( empty(self::$instances[$signature]) ) {
             $driver = $options["driver"];
 
             $file = dirname(__FILE__) .DS. "connection" .DS. $driver . ".php";
@@ -211,11 +217,11 @@ abstract class JConnection extends PDO
             $instance->_relation_prefix = $options["prefix"];
             $instance->debug($options["debug"]);
 
-            $instances[$signature] = & $instance;
+            self::$instances[$signature] = & $instance;
         }
 
 
-        return $instances[$signature];
+        return self::$instances[$signature];
     }
 
 
@@ -287,6 +293,21 @@ abstract class JConnection extends PDO
     function execQueries($sql)
     {
         $result = false;
+
+        // We accept string or array only
+        if ( !is_array($sql) ) {
+        	if ( !is_string($sql) ) {
+        		JError::raiseError( 500, $this->jerrorMessage('execQueries() accepts string or array only!'));
+        	}
+            $sql = array($sql);
+        }
+
+        // Split each query by ';'
+        $tmp = array();
+        foreach ( $sql as $item ) {
+        	$tmp = array_merge($tmp, Joda::splitSql($item, $this->_querybuilder->getTextQuote()));
+        }
+        $sql = $tmp;
 
         // Start transaction if enabled
         if ( ! $this->_autocommit ) {
@@ -552,7 +573,7 @@ abstract class JConnection extends PDO
      */
     function replacePrefix( $string )
     {
-        $result = Joda::replaceNonQuotedString($string, Joda::DEFAULT_PREFIX, $this->_relation_prefix, $this->_querybuilder->getTextQuotes());
+        $result = Joda::replaceNonQuotedString($string, Joda::DEFAULT_PREFIX, $this->_relation_prefix, $this->_querybuilder->getTextQuote());
         return $result;
     }
 

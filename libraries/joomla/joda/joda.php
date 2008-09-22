@@ -201,11 +201,16 @@ class Joda extends JObject
 
 
     /**
-     * Replace quoted substrings with unique identifiers (including quotes!)
-     * e.g. "'this will not be slated' and this not" => "sdf787sdf64dsf536728371 and this not"
+     * Replace quoted substrings with unique identifiers (including quotes!). 
      *
-     * @param string The String
-     * @eturn array Array("string" => $newstring, array("<UNIQUEID>" => "<quoted string>"))
+     * Analyzes the input string, discovers quoted substring(s) and 
+     * returns structured data for further use (quoting issues)
+     *
+     * @param string The String to handle
+     * @param string The literal quote 
+     * @return array Array(	"string" => <string with quoted substrings replaced by unique IDs>, 
+     * 						"uids"   => array("<UNIQUEID>" => <quoted literals incl. quotes>),
+     * 						"literals" => array("<UNIQUEID>" => "<literals only>"))
      *
      */
     static function quotedToUID($input, $quote)
@@ -215,9 +220,9 @@ class Joda extends JObject
             return array("string" => $input, "uids" => array());
         }
 
-        // Pattern to match quoted strings (include! quotes, multiline)
-        $pattern = '/(['.$quote.'])(?:\\\\\1|[\S\s])*?\1/m';
-        //$pattern = '/(['.$quote.'])((?:\\\\\1|[\S\s])*?)\1/m';
+        // Pattern to match quoted strings 
+        //$pattern = '/(['.$quote.'])(?:\\\\\1|[\S\s])*?\1/m';    // saving quoted [0]
+        $pattern = '/(['.$quote.'])((?:\\\\\1|[\S\s])*?)\1/m';    // saving quoted (all matches) [0] and literals [2]
 
         $matches = array();
 
@@ -226,6 +231,7 @@ class Joda extends JObject
 
         $newstring = $input;
         $uids = array();
+        $literals = array();
 
         // Did we find any quoted string?
         if ($found) {
@@ -233,26 +239,29 @@ class Joda extends JObject
             $allmatches = $matches[0]; // INDEX 0 is very important!!! See REGEX infos
 
             $shift = 0;
-            $i = 1;
+            $i = 0;
             foreach ($allmatches as $match) {
                 // String to replace the match with - match_holder
                 $uid = "[" . self::getUniqueString() . "]";
 
-                // Keep the (uid => match) pairs
+                // Keep the (uid => <quote>literal<quote>) pairs
                 $uids[$uid] = $match[0];
+                
+                // Keep the (uid => literal) pairs  (see the pattern grouping)
+                $literals[$uid] = $matches[2][$i][0];
 
                 // Replace the match with the replacement string (uid);
                 // $match[1] is the offset in the string
                 $newstring = substr_replace($newstring, $uid, $match[1]+$shift, strlen($match[0]));
 
-                // Take into an acoount the string lenght difference, if any
+                // Take into an acoount the string lenght difference, if any, calculate the shift (+/-)
                 $shift = $shift + strlen($uid) - strlen($match[0]);
                 $i++;
             }
         }
 
         // Huh...
-        return array("string" => $newstring, "uids" => $uids);
+        return array("string" => $newstring, "uids" => $uids, "literals" => $literals);
 
     }
 

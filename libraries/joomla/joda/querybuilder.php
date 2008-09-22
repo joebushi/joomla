@@ -21,8 +21,6 @@
 defined( 'JPATH_BASE' ) or die();
 
 //TODO: Perhaps delete(), select(), insert(), etc. should RESET the query ??
-//TODO: Add HAVING clause
-//TODO: Must be noted that programmers should use single-quote as a text quote character and double quote for identifiers
 
 
 
@@ -34,6 +32,13 @@ defined( 'JPATH_BASE' ) or die();
  */
 abstract class JQueryBuilder extends JObject
 {
+
+	/**
+	 * Quotes user MUST use to denote text and identifiers in input expressions!
+	 * (kinda pseudo standard for query builder)
+	 */
+    const SYNTAX_TEXT_QUOTE = "'";
+	const SYNTAX_NAME_QUOTE = '"';
 
     /**
      * Default name for subselects if not specified
@@ -976,6 +981,10 @@ abstract class JQueryBuilder extends JObject
             $sql = $this->sqlSubselect( $sql, $subselectname );
         }
 
+
+        $sql = $this->reQuoteNames($sql);
+        $sql = $this->reQuoteText($sql);
+
         return $sql;
     }
 
@@ -1654,6 +1663,79 @@ abstract class JQueryBuilder extends JObject
         $result = $this->_name_quote . $input . $this->_name_quote;
         return $result;
     }
+
+
+    /**
+     * Change quotes of quoted substrings.
+     * 
+     * This is not just a character replacement! 
+     * It discovers string literals quoted by given quote,
+     * extract literals, strip both enclosing quotes and put the new one around the literal.
+     * Well, at least, that's the final result :-)
+     * 
+     *
+     * @param string $input
+     * @param string $from_quote
+     * @param string $to_quote
+     * @return string
+     */
+    function reQuote($input, $from_quote, $to_quote)
+    {
+        $r = Joda::quotedToUID($input, $from_quote);
+        
+        // If no quoed substring found at all.. bye
+        if ( count($r["uids"]) <= 0 ) {
+        	return $input;
+        }
+        
+        // Input with 'literals' replaced by UIDs
+        $input = $r["string"];
+        
+        // UIDs themselfes
+        $uids = $r["uids"];
+        
+        // Literals (enclosing quotes stripped)
+        $literals = $r["literals"];
+
+        // Enclose literals in new quote and place them back in the string
+        foreach ( $uids as $uid => $quoted ) {
+        	$literal = $literals[$uid];
+			$input = str_replace($uid, $to_quote . $literal . $to_quote, $input);        	
+        }
+        
+        $result = $input;
+    	return $result;
+    }
+
+
+    /**
+     * Change SINGLE quotes to SQL dialect specific TEXT quotes
+     * Assume user is using SINGLE quotes for text literals!
+     *
+     * @param string $input
+     * @return string
+     *      */
+    function reQuoteText($input)
+    {
+        $result = $this->reQuote($input, self::SYNTAX_TEXT_QUOTE, $this->_text_quote);
+    	return $result;
+    }
+
+    /**
+     * Change DOUBLE quotes to SQL dialect specific NAME/IDENTIFIERS quotes
+     * Assume user is using DOUBLE quotes for names/identifiers!
+     *
+     * @param string $input
+     * @return string
+     */
+    function reQuoteNames($input)
+    {
+        $result = $this->reQuote($input, self::SYNTAX_NAME_QUOTE, $this->_name_quote);
+        return $result;
+    }
+
+
+
 
 } // class
 

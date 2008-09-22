@@ -59,6 +59,17 @@ class JodademoModelExamples extends JModel
         $text["title"] = "P R I V A T E  T E S T";
         $text["intro"] = "Short Description";
         $text["code"] = "PHP testing Code";
+
+        $ds = JFactory::getDBSet();
+        $ds2 = JFactory::getDBSet("mysql");
+
+
+        $qb = JFactory::getQueryBuilder("mysql");
+        $qb->select("there is no quoted here 'but this \'is quoted'")->from('no name quoting but "here is the name"');
+        $result = $qb->getSQL();
+        $result = $qb->reQUoteNames($result);
+        
+
         $text["result"] = $result;
         return $text;
     }
@@ -67,60 +78,143 @@ class JodademoModelExamples extends JModel
 
     function Test2() { // Just building a simple query
     	$result = "";
-        $qb = JFactory::getQueryBuilder("mysql");
 
-        $result = "";
+    	// Create a brand new query builder
+    	$qb = JFactory::getQueryBuilder("mysql");
 
-        // SELECT
-        $qb
-		->select( array("f1" => "field1", "f2" => "field2") )
-		->distinct()
-		->from( array("t1" => "table1" ) )
-		->join("table2", "t1.f1=t2.f1", "t2");
+    	// Create a SELECT query statement, fill sections
+    	$qb
+            ->select( array("f1" => "field1", "f2" => "field2") )
+		    ->distinct()
+		    ->from( array("t1" => "table1" ) )
+		    ->join("table2", "t1.f1=t2.f1", "t2");
 
+        // Get the query
 		$select = $qb->getSQL();
 
-		// UPDATE
+		// Reset query builder
 		$qb->resetQuery();
+
+		// Create an UPDATE query statement, fill sections
 		$qb
             ->update("table")
             ->fieldvalues(array(
                     $qb->quoteID("f1") => $qb->quote('v1'),
-                    "f2" => $qb->quote('v2')
+                    "f2" => $qb->quote('v2'),
+                    "pi" => 3.14
                     ))
             ->where("f2=id");
+
+        // Get the query
         $update = $qb->getSQL();
 
+        // Reset query builder
+        $qb->resetQuery();
 
-        $result .= "$select \n\n\n $update\n";
-        $text["title"] = "Using JQueryBuilder as a standalone query builder";
-        $text["intro"] = "JQueryBuilder can be used as a standalone SQL query building tool or as part of JDataset/JConnection/JQueryBuilder team.\n";
-        $text["intro"] .= "\nWhen used separately, an SQL dialect name must be passed to the factoring method. \n";
-        $text["intro"] .= "\nOtherwise, the SQL dialect is implicitly derived from the connection. \n";
-        $text["intro"] .= "\nSee example bellow to start understanding the basic usage. \n";
+        // Create an INSERT query statement, fill sections
+        $qb
+            ->insertinto("table")
+            ->fields(array("f1", "f2", "f3"))
+            ->values(array("v1", "v2", $qb->quote("v3")));
 
-        $text["code"]  =
-'// Create a query builder, always a new object
-$qb = JFactory::getQueryBuilder("mysql");
+        // Get the query
+        $insert = $qb->getSQL();
 
-// Lets make some query
-$qb
-->select( array("f1" => "field1", "f2" => "field2") )
-->distinct()
-->from( array("t1" => "table1" ) )
-->join("table2", "t1.f1=t2.f1", "t2");
-$select = $qb->getSQL();
 
-$qb->resetQuery();
-$qb
-->update("table")
-->fieldvalues(array("f1" => $qb->quote("v1")))
-->where("f2=\'id\'");
+        // Reset query builder
+        $qb->resetQuery();
 
-echo $select;
-echo $update;
+        // Create DELETE query statement, fill sections
+        $qb
+            ->delete()
+            ->from("table")
+            ->where("f1=" . $qb->quote("test"));
 
+        // Get the query
+        $delete = $qb->getSQL();
+
+
+        //MORE
+        $subselect = $qb->subselect($select, "mysubname")->getSQL();
+
+        $qb->resetQuery();
+        $qb->select("*")
+        ->from($subselect);
+
+        $another = $qb->getSQL();
+
+
+        $result .= "$select \n\n\n $update \n\n\n $insert \n\n\n $delete\n\n\n $subselect \n\n\n $another\n";
+
+        $text["title"] = "JQueryBuilder";
+        $text["intro"] = "";
+
+        $text["code"]  = '
+        // Create a brand new query builder
+        $qb = JFactory::getQueryBuilder("mysql");
+
+        // Create a SELECT query statement, fill sections
+        $qb
+            ->select( array("f1" => "field1", "f2" => "field2") )
+            ->distinct()
+            ->from( array("t1" => "table1" ) )
+            ->join("table2", "t1.f1=t2.f1", "t2");
+
+        // Get the query
+        $select = $qb->getSQL();
+
+        // Reset query builder
+        $qb->resetQuery();
+
+        // Create an UPDATE query statement, fill sections
+        $qb
+            ->update("table")
+            ->fieldvalues(array(
+                    $qb->quoteID("f1") => $qb->quote(\'v1\'),
+                    "f2" => $qb->quote(\'v2\'),
+                    "pi" => 3.14
+                    ))
+            ->where("f2=id");
+
+        // Get the query
+        $update = $qb->getSQL();
+
+        // Create an INSERT query statement, fill sections
+        $qb
+            ->insertinto("table")
+            ->fields(array("f1", "f2", "f3"))
+            ->values(array("v1", "v2", $qb->quote("v3")));
+
+        // Get the query
+        $insert = $qb->getSQL();
+
+        // Reset query builder
+        $qb->resetQuery();
+
+        // Create DELETE query statement, fill sections
+        $qb
+            ->delete()
+            ->from("table")
+            ->where("f1=" . $qb->quote("test"));
+
+        // Get the query
+        $delete = $qb->getSQL();
+
+
+        //MORE
+        $subselect = $qb->subselect($select, "mysubname")->getSQL();
+
+        $qb->resetQuery();
+        $qb->select("*")
+        ->from($subselect);
+
+        $another = $qb->getSQL();
+
+        $result .= "$select \n\n\n $update \n\n\n $insert \n\n\n $delete\n\n\n $subselect \n\n\n $another\n";
+
+        echo $result;
 ';
+
         $text["intro"] .= "\n";
 
         $text["result"] = $result . "\n\n";
@@ -134,38 +228,41 @@ echo $update;
 
     function Test3() {  //  Getting data from DB
         $result = "";
-        $text["title"] = "SQL Statements that JQueryBuilder can build";
-        $text["intro"] = "It must be noted that JQueryBuilder, as of this writing, does not isolate
-SQL dialects on 100%! Users are expected to make some effort to follow some kind of 'pseudo' SQL standard or
-maybe we should call it a convention of common SQL sense. That is:
-
-* Use single quote for string literals and double quote for identifiers.
-* Do not use SQL functions in expressions - a wrapping method should be available.
-* Check supported SQL command syntax
-* Do not expect JQueryBuilder to magically remove or correct SQL syntax errors you made!
-* ... to be continued
-
-Supported SQL commands are: SELECT, INSERT, UPDATE and DELETE, limited to the following syntax:
-
-SELECT [DISTINCT] * | expression [ AS output_name ] [, ...]
-[ FROM from_item [, ...] ]
-[ WHERE condition ]
-[ GROUP BY expression [, ...] ]
-[ ORDER BY expression [ASC|DESC] ]
-[ LIMIT-CLAUSE ]
 
 
-UPDATE table
-SET column=expression|DEFAULT [, ...]
-[WHERE condition]
+        $text["title"] = "JDataset";
+        $text["intro"] = "";
 
-INSERT
 
-DELET
+        $ds_def = JFactory::getDBSet();
+        $ds_mysql = JFactory::getDBSet("mysql");
 
-";
+        $sql = "SELECT name FROM #__menu";
+        $ds_def->setSQL($sql);
+        $ds_def->open();
+        $data = $ds_def->fetchAll();
 
-        $text["code"] = "";
+        foreach ($data as $row) {
+        	$result .= "\n" . $row["name"];
+        }
+
+        $text["code"] = '
+        $ds_def = JFactory::getDBSet();
+        // Use named connection (mysql)
+        $ds_mysql = JFactory::getDBSet("mysql");
+
+        $sql = "SELECT name FROM #__menu";
+        $ds_def->setSQL($sql);
+        $ds_def->open();
+        $data = $ds_def->fetchAll();
+
+        foreach ($data as $row) {
+            $result .= "\n" . $row["name"];
+        }
+
+        ';
+
+
         $text["result"] = $result;
         return $text;
     }
