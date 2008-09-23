@@ -31,7 +31,7 @@ defined('_JEXEC') or die('Restricted access');
 <p class="articleinfo">
 	<?php if (!empty ($this->article->modified) && $this->params->get('show_modify_date')) : ?>
 	<span class="modifydate">
-		<?php echo JText::_('Last Updated').' ('.JHTML::_('date', $this->article->modified, JText::_('DATE_FORMAT_LC2')).')'; ?>
+		<?php echo JText::sprintf('LAST_UPDATED2', JHTML::_('date', $this->article->modified, JText::_('DATE_FORMAT_LC2'))); ?>
 	</span>
 	<?php endif; ?>
 

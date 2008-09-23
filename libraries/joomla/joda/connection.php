@@ -20,10 +20,6 @@
  */
 defined( 'JPATH_BASE' ) or die();
 
-//TODO: If you need metadata -  select * from table where 1=1  (?!?!)
-//TODO: Prepared statements? Optional? Parameters?
-
-
 /**
  * Database Connection Class
  *

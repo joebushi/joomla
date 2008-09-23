@@ -21,27 +21,6 @@
 defined( 'JPATH_BASE' ) or die();
 
 /**
- * Ideas for types (taken from PDO::PARAM_* constants):
- *
- * Null
- * Boolean
- * Integer
- * String
- * VarString
- * Blob
- *
- *
- * Antony:
- * int, decimal, float, char, varchar, text, binary, blob, enum
- *
- * Other:
- * Boolean
- *
- */
-
-
-
-/**
  * Joda Class
  *
  * @package     Joomla.Framework
@@ -201,13 +180,11 @@ class Joda extends JObject
 
 
     /**
-     * Replace quoted substrings with unique identifiers (including quotes!). 
-     *
      * Analyzes the input string, discovers quoted substring(s) and 
      * returns structured data for further use (quoting issues)
      *
-     * @param string The String to handle
-     * @param string The literal quote 
+     * @param string Input string to analyze
+     * @param string Quoting character 
      * @return array Array(	"string" => <string with quoted substrings replaced by unique IDs>, 
      * 						"uids"   => array("<UNIQUEID>" => <quoted literals incl. quotes>),
      * 						"literals" => array("<UNIQUEID>" => "<literals only>"))

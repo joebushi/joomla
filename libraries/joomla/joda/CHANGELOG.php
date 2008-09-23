@@ -46,6 +46,10 @@ NOTE: Merging line is:  J15->WWJ->JJ. So, JJ is a result of all work done on Joo
 	  J15 development process. Conflicts are resolved honoring J15 code!
 
 
+23-Sep-2008 Plamen Petkov
+ ! J15 merged into WJJ up to rev.10951
+ ! WJJ merged into JJ up to rev.110
+
 22-Sep-2008 Plamen Petkov
  * Fix reQuote() mess
  ! WJJ Merged into JJ up to rev. 108
@@ -170,5 +174,4 @@ NOTE: Merging line is:  J15->WWJ->JJ. So, JJ is a result of all work done on Joo
 -------------------- Joomla 1.5.5 Stable Release [27-July-2008] ----------------------
 -------------------- Joomla 1.5.4 Stable Release [7-July-2008] -----------------------
 
--------------------- Joda Branch added to Joomla! project tree [23-May-2008] ---------
--------------------- Joomla 1.5.3 Stable Release [22-April-2008] ----------------------------------------- Joomla 1.5.2 Stable Release [22-March-2008] ---------------------
+-------------------- Joda Branch added to Joomla! project tree [23-May-2008] ----------------------------- Joomla 1.5.3 Stable Release [22-April-2008] ----------------------------------------- Joomla 1.5.2 Stable Release [22-March-2008] ---------------------
