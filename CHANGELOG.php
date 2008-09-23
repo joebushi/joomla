@@ -38,7 +38,6 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-
 22-Sep-2008 Ian MacLennan
  # [10254] Remove brackets around date/time in "Last Updated"
  # [12630] Plural/singular issue for Section list
