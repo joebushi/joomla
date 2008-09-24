@@ -122,6 +122,8 @@ class JComponentHelper
 
 		$task = JRequest::getString( 'task' );
 
+		$task = JRequest::getString( 'task' );
+
 		// Load common language files
 		$lang =& JFactory::getLanguage();
 		$lang->load($name);
