@@ -242,6 +242,7 @@ class ContentViewArticle extends JView
 		// Parameters
 		$file 	= JPATH_COMPONENT.DS.'models'.DS.'article.xml';
 		$params = new JParameter( '', $file );
+		$form->loadSetupDirectory(JPATH_COMPONENT.DS.'params', 'article_(.*)\.xml');
 		$active = (intval($row->created_by) ? intval($row->created_by) : $user->get('id'));
 		$params->set('created_by', $active);
 		$params->set('access', $row->access);

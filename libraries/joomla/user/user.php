@@ -303,7 +303,7 @@ class JUser extends JObject
 
 		// Set the default parampath if not set already
 		if( !isset($parampath) ) {
-			$parampath = JPATH_ADMINISTRATOR.DS.'components'.DS.'com_users'.DS.'models';
+			$parampath = JPATH_ADMINISTRATOR.DS.'components'.DS.'com_users'.DS.'params';
 		}
 
 		if($loadsetupfile)
@@ -316,6 +316,8 @@ class JUser extends JObject
 			}
 
 			$this->_params->loadSetupFile($file);
+			$this->_params->loadSetupDirectory($parampath, $type.'_(.*)\.xml');
+			$this->_params->loadSetupDirectory($parampath, 'general_(.*)\.xml');
 		}
 		return $this->_params;
 	}

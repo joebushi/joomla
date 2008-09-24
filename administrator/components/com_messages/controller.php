@@ -34,7 +34,6 @@ class MessagesController extends JController
 		$this->registerTask( 'add',		'display' );
 		$this->registerTask( 'reply',	'display' );
 		$this->registerTask( 'view',	'display' );
-		$this->registerTask( 'config',	'display' );
 	}
 
 	function display( )
@@ -69,26 +68,6 @@ class MessagesController extends JController
 		}
 
 		parent::display();
-	}
-
-	function saveconfig( )
-	{
-		global $mainframe;
-
-		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
-
-		$vars = JRequest::getVar( 'vars', array(), 'post', 'array' );
-
-		$model = $this->getModel('config');
-
-		if ($model->store($vars)) {
-			$msg = JText::_( 'Settings Saved' );
-		} else {
-			$msg = JText::_( 'Error Saving Settings' );
-		}
-
-		$this->setRedirect( 'index.php?option=com_messages', $msg );
 	}
 
 	function save( )
