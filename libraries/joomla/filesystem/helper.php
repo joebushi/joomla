@@ -28,7 +28,7 @@ class JFilesystemHelper {
 	
 	/**
 	 * Remote file size function for streams that don't support it
-	 * @see http://au.php.net/manual/en/function.filesize.php#71098
+	 * @see http://www.php.net/manual/en/function.filesize.php#71098
 	 */
     function remotefsize($url) {
         $sch = parse_url($url, PHP_URL_SCHEME);
@@ -70,7 +70,7 @@ class JFilesystemHelper {
     
 	/**
 	 * Quick FTP chmod
-	 * @see http://au.php.net/manual/en/function.ftp-chmod.php
+	 * @see http://www.php.net/manual/en/function.ftp-chmod.php
 	 */
     function ftpChmod($url, $mode) {
         $sch = parse_url($url, PHP_URL_SCHEME);

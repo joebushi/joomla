@@ -38,6 +38,11 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+24-Sep-2008 Sam Moffatt
+ ^ bzip2 and gzip archive formats now run stream
+ ^ tar archive handler uses streams
+ ^ updated to references to point to www.php.net instead of au.php.net
+
 22-Sep-2008 Sam Moffatt
  ! Archives (particularly tar and bzip2) may be broken in this revision
  + Added file system helper class with various FTP, stream and filter related operations

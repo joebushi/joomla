@@ -87,8 +87,11 @@ class JArchiveTar extends JObject
 		$this->_data = null;
 		$this->_metadata = null;
 
-		if (!$this->_fh = fopen($archive,'rb'))
+		$stream =& JFactory::getStream();
+		//if (!$this->_fh = fopen($archive,'rb'))
+		if(!$stream->open($archive, 'r'))
 		{
+			die('file open failed');
 			$this->set('error.message', 'Unable to read archive');
 			return JError::raiseWarning(100, $this->get('error.message'));
 		}
@@ -96,19 +99,23 @@ class JArchiveTar extends JObject
 		$position = 0;
 		$return_array = array ();
 		$i = 0;
-		$chunksize = 512;
-		while($entry = fread($this->_fh, $chunksize)) {
+		$chunksize = 512; // tar has items in 512 byte packets
+				
+		//while($entry = fread($this->_fh, $chunksize)) {
+		while($entry = $stream->read($chunksize)) {
 			//$entry =& $this->_data[$i];
 			$info = @ unpack("a100filename/a8mode/a8uid/a8gid/a12size/a12mtime/a8checksum/Ctypeflag/a100link/a6magic/a2version/a32uname/a32gname/a8devmajor/a8devminor", $entry);
 			if (!$info) {
+				die('failed to get info!');
 				$this->set('error.message', 'Unable to decompress data');
-				return false;
+				return JError::raiseWarning(100, $this->get('error.message'));
 			}
 
 			$size = ceil(octdec($info['size']) / $chunksize) * $chunksize;
 			$contents = '';
 			if($size) { 
-				$contents = fread($this->_fh, $size);
+				//$contents = fread($this->_fh, $size);
+				$contents = $stream->read($size);
 			}
 
 			if ($info['filename']) {
@@ -144,11 +151,13 @@ class JArchiveTar extends JObject
 					// Make sure the destination folder exists
 					if (!JFolder::create(dirname($path)))
 					{
+						die('destination creation failed');
 						$this->set('error.message', 'Unable to create destination');
 						return JError::raiseWarning(100, $this->get('error.message'));
 					}
 					if (JFile::write($path, $contents) === false)
 					{
+						die('writing failed');
 						$this->set('error.message', 'Unable to write entry');
 						return JError::raiseWarning(100, $this->get('error.message'));
 					}
@@ -156,6 +165,8 @@ class JArchiveTar extends JObject
 				}
 			}
 		}
-		fclose($this->_fh);				
+		//fclose($this->_fh);
+		$stream->close();	
+		return true;			
 	}
 }
