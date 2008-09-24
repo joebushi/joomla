@@ -111,7 +111,6 @@ class JStream extends JObject {
 			$this->processingmethod = 'f';
 			
 		}
-		echo '<p>Opening: '. $filename .'</p>';
 		// Capture PHP errors
 		$php_errormsg = 'Error Unknown';
 		$track_errors = ini_get('track_errors');
