@@ -91,7 +91,6 @@ class JArchiveTar extends JObject
 		//if (!$this->_fh = fopen($archive,'rb'))
 		if(!$stream->open($archive, 'r'))
 		{
-			die('file open failed');
 			$this->set('error.message', 'Unable to read archive');
 			return JError::raiseWarning(100, $this->get('error.message'));
 		}
@@ -106,24 +105,26 @@ class JArchiveTar extends JObject
 			//$entry =& $this->_data[$i];
 			$info = @ unpack("a100filename/a8mode/a8uid/a8gid/a12size/a12mtime/a8checksum/Ctypeflag/a100link/a6magic/a2version/a32uname/a32gname/a8devmajor/a8devminor", $entry);
 			if (!$info) {
-				die('failed to get info!');
 				$this->set('error.message', 'Unable to decompress data');
 				return JError::raiseWarning(100, $this->get('error.message'));
 			}
 
-			$size = ceil(octdec($info['size']) / $chunksize) * $chunksize;
+			$size = octdec($info['size']);
+			$bsize = ceil($size / $chunksize) * $chunksize;
 			$contents = '';
 			if($size) { 
 				//$contents = fread($this->_fh, $size);
-				$contents = $stream->read($size);
+				$contents = substr($stream->read($bsize),0, octdec($info['size']));
 			}
 
 			if ($info['filename']) {
 				$file = array (
 					'attr' => null,
 					'data' => null,
-					'date' => octdec($info['mtime']
-				), 'name' => trim($info['filename']), 'size' => octdec($info['size']), 'type' => isset ($this->_types[$info['typeflag']]) ? $this->_types[$info['typeflag']] : null);
+					'date' => octdec($info['mtime']), 
+					'name' => trim($info['filename']), 
+					'size' => octdec($info['size']), 
+					'type' => isset ($this->_types[$info['typeflag']]) ? $this->_types[$info['typeflag']] : null);
 
 				if (($info['typeflag'] == 0) || ($info['typeflag'] == 0x30) || ($info['typeflag'] == 0x35)) {
 					/* File or folder. */
@@ -151,13 +152,11 @@ class JArchiveTar extends JObject
 					// Make sure the destination folder exists
 					if (!JFolder::create(dirname($path)))
 					{
-						die('destination creation failed');
 						$this->set('error.message', 'Unable to create destination');
 						return JError::raiseWarning(100, $this->get('error.message'));
 					}
 					if (JFile::write($path, $contents) === false)
 					{
-						die('writing failed');
 						$this->set('error.message', 'Unable to write entry');
 						return JError::raiseWarning(100, $this->get('error.message'));
 					}
