@@ -40,7 +40,7 @@
 			return;
 		} else if (!regex.test(DBname.value)) {
 			alert('<jtmpl:translate key="MYSQLDBNAMEINVALIDCHARS" escape="yes">The MySQL Database Name must start with a letter, and be followed by only letters, numbers or underscores</jtmpl:translate>');
-			return;
+			return;		
 		} else if (!regex.test(DBPrefix.value)) {
 			alert('<jtmpl:translate key="MYSQLPREFIXINVALIDCHARS" escape="yes">The MySQL Table Prefix must start with a letter, and be followed by only letters, numbers or underscores</jtmpl:translate>');
 			return;
@@ -134,7 +134,7 @@
 										<label for="vars_dbtype">
 											<jtmpl:translate>Database Type</jtmpl:translate>
 										</label>
-										<br/>
+										<br />
 										<select id="vars_dbtype" name="vars[DBtype]" class="inputbox" size="1">
 										<option value=""><jtmpl:translate>Select Type</jtmpl:translate></option>
 										<jtmpl:tmpl name="dbtype-options">
@@ -153,7 +153,7 @@
 										<label for="vars_dbhostname">
 											<span id="dbhostnamemsg"><jtmpl:translate>Host Name</jtmpl:translate></span>
 										</label>
-										<br/>
+										<br />
 										<input id="vars_dbhostname" class="inputbox validate required none dbhostnamemsg" type="text" name="vars[DBhostname]" value="{VAR_DBHOSTNAME}" />
 									</td>
 									<td>
@@ -167,7 +167,7 @@
 										<label for="vars_dbusername">
 											<span id="dbusernamemsg"><jtmpl:translate>User Name</jtmpl:translate></span>
 										</label>
-										<br/>
+										<br />
 										<input id="vars_dbusername" class="inputbox validate required none dbusernamemsg" type="text" name="vars[DBuserName]" value="{VAR_DBUSERNAME}" />
 									</td>
 									<td>
@@ -181,7 +181,7 @@
 										<label for="vars_dbpassword">
 											<jtmpl:translate>Password</jtmpl:translate>
 										</label>
-										<br/>
+										<br />
 										<input id="vars_dbpassword" class="inputbox" type="password" name="vars[DBpassword]" value="{VAR_DBPASSWORD}" />
 									</td>
 									<td>
@@ -195,7 +195,7 @@
 										<label for="vars_dbname">
 											<span id="dbnamemsg"><jtmpl:translate>Database Name</jtmpl:translate></span>
 										</label>
-										<br/>
+										<br />
 										<input id="vars_dbname" class="inputbox validate required none dbnamemsg" type="text" name="vars[DBname]" value="{VAR_DBNAME}" />
 									</td>
 									<td>
@@ -248,7 +248,7 @@
 										<label for="vars_dbprefix">
 											<jtmpl:translate>Table Prefix</jtmpl:translate>
 										</label>
-										<br/>
+										<br />
 										<input id="vars_dbprefix" class="inputbox" type="text" name="vars[DBPrefix]" value="{VAR_DBPREFIX}" />
 									</td>
 									<td>

@@ -42,7 +42,7 @@ class JInstallation extends JApplication
 	*/
 	function __construct($config = array())
 	{
-		$config['clientId'] = 3;
+		$config['clientId'] = 2;
 		parent::__construct($config);
 
 		JError::setErrorHandling(E_ALL, 'Ignore');

@@ -325,12 +325,6 @@ class JInstallationModel extends JModel
 			$this->setData('errors', $errors);
 			return false;
 		}
-		if (!preg_match( '#^[a-zA-Z]+[a-zA-Z0-9_]*$#', $DBname )) {
-			$this->setError(JText::_('MYSQLDBNAMEINVALIDCHARS'));
-			$this->setData('back', 'dbconfig');
-			$this->setData('errors', $errors);
-			return false;
-		}
 		if (strlen($DBPrefix) > 15) {
 			$this->setError(JText::_('MYSQLPREFIXTOOLONG'));
 			$this->setData('back', 'dbconfig');
