@@ -22,7 +22,7 @@ defined('JPATH_BASE') or die();
  * environment variable provided by the web server.
  *
  * This class has many influences from the lib/Browser.php code in
- * version 3 of Horde.
+ * version 3 of Horde by Chuck Hagenbuch and Jon Parise
  *
  * @author  Chuck Hagenbuch <chuck@horde.org>
  * @author  Jon Parise <jon@horde.org>

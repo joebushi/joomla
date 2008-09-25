@@ -166,7 +166,7 @@ class JDate extends JObject
 	function toRFC822($local = false)
 	{
 		$date = ($local) ? $this->_date + $this->_offset : $this->_date;
-		$date = ($this->_date !== false) ? date('D, d M Y H:i:s O', $date) : null;
+		$date = ($this->_date !== false) ? date('D, d M Y H:i:s', $date).' +0000' : null;
 		return $date;
 	}
 

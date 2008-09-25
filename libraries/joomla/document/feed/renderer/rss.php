@@ -111,9 +111,12 @@ class JDocumentRendererRSS extends JDocumentRenderer
 
 		for ($i=0; $i<count($data->items); $i++)
 		{
+			if ((strpos($data->items[$i]->link, 'http://') === false) and (strpos($data->items[$i]->link, 'https://') === false)) {
+				$data->items[$i]->link = $url.$data->items[$i]->link;
+			}
 			$feed.= "		<item>\n";
 			$feed.= "			<title>".htmlspecialchars(strip_tags($data->items[$i]->title), ENT_COMPAT, 'UTF-8')."</title>\n";
-			$feed.= "			<link>".$url.$data->items[$i]->link."</link>\n";
+			$feed.= "			<link>".$data->items[$i]->link."</link>\n";
 			$feed.= "			<description><![CDATA[".$this->_relToAbs($data->items[$i]->description)."]]></description>\n";
 
 			if ($data->items[$i]->author!="") {

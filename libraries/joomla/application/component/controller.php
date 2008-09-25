@@ -302,7 +302,7 @@ class JController extends JObject
 		$view->setLayout($viewLayout);
 
 		// Display the view
-		if ($cachable) {
+		if ($cachable && $viewType != 'feed') {
 			global $option;
 			$cache =& JFactory::getCache($option, 'view');
 			$cache->get($view, 'display');

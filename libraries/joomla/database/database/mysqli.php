@@ -289,6 +289,10 @@ class JDatabaseMySQLi extends JDatabase
 			$command_line = trim( $command_line );
 			if ($command_line != '') {
 				$this->_cursor = mysqli_query( $this->_resource, $command_line );
+				if ($this->_debug) {
+					$this->_ticker++;
+					$this->_log[] = $command_line;
+				}
 				if (!$this->_cursor) {
 					$error = 1;
 					$this->_errorNum .= mysqli_errno( $this->_resource ) . ' ';
@@ -536,7 +540,7 @@ class JDatabaseMySQLi extends JDatabase
 	 */
 	function insertObject( $table, &$object, $keyName = NULL )
 	{
-		$fmtsql = "INSERT INTO $table ( %s ) VALUES ( %s ) ";
+		$fmtsql = 'INSERT INTO '.$this->nameQuote($table).' ( %s ) VALUES ( %s ) ';
 		$fields = array();
 		foreach (get_object_vars( $object ) as $k => $v) {
 			if (is_array($v) or is_object($v) or $v === NULL) {
@@ -567,7 +571,7 @@ class JDatabaseMySQLi extends JDatabase
 	 */
 	function updateObject( $table, &$object, $keyName, $updateNulls=true )
 	{
-		$fmtsql = "UPDATE $table SET %s WHERE %s";
+		$fmtsql = 'UPDATE '.$this->nameQuote($table).' SET %s WHERE %s';
 		$tmp = array();
 		foreach (get_object_vars( $object ) as $k => $v) {
 			if( is_array($v) or is_object($v) or $k[0] == '_' ) { // internal or NA field

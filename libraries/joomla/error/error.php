@@ -146,8 +146,8 @@ class JError
 			jexit(
 				'JError::raise -> Static method JError::' . $function . ' does not exist.' .
 				' Contact a developer to debug' .
-				'<br/><strong>Error was</strong> ' .
-				'<br/>' . $exception->getMessage()
+				'<br /><strong>Error was</strong> ' .
+				'<br />' . $exception->getMessage()
 			);
 		}
 

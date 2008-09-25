@@ -270,7 +270,7 @@ class JAuthorization extends gacl_api
 			return parent::acl_check( $aco_section_value, $aco_value, $aro_section_value, $aro_value, $axo_section_value, $axo_value, $root_aro_group, $root_axo_group );
 		}
 
-		$this->debug_text( "\n<br> ACO=$aco_section_value:$aco_value, ARO=$aro_section_value:$aro_value, AXO=$axo_section_value|$axo_value" );
+		$this->debug_text( "\n<br /> ACO=$aco_section_value:$aco_value, ARO=$aro_section_value:$aro_value, AXO=$axo_section_value|$axo_value" );
 
 		$acl_result = 0;
 		for ($i=0; $i < $this->acl_count; $i++)

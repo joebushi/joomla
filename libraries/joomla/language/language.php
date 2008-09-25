@@ -145,7 +145,7 @@ class JLanguage extends JObject
 	*/
 	function _($string, $jsSafe = false)
 	{
-		//$key = str_replace( ' ', '_', strtoupper( trim( $string ) ) );echo '<br>'.$key;
+		//$key = str_replace( ' ', '_', strtoupper( trim( $string ) ) );echo '<br />'.$key;
 		$key = strtoupper($string);
 		$key = substr($key, 0, 1) == '_' ? substr($key, 1) : $key;
 
@@ -188,15 +188,16 @@ class JLanguage extends JObject
 			{
 				if ($this->_debug)
 				{
-					$string = '??'.$string.'??';
-
 					$caller	= $this->_getCallerInfo();
+					$caller['string'] = $string;
 
 					if ( ! array_key_exists($key, $this->_orphans ) ) {
 						$this->_orphans[$key] = array();
 					}
 
 					$this->_orphans[$key][] = $caller;
+
+					$string = '??'.$string.'??';
 				}
 			}
 		}
@@ -285,7 +286,7 @@ class JLanguage extends JObject
 
 		$path = JLanguage::getLanguagePath( $basePath, $lang);
 
-		$filename = ( $extension == 'joomla' ) ?  $lang : $lang . '.' . $extension ;
+		$filename = ( $extension == 'joomla' || $extension == '' ) ?  $lang : $lang . '.' . $extension ;
 		$filename = $path.DS.$filename.'.ini';
 
 		$result = false;
@@ -304,10 +305,10 @@ class JLanguage extends JObject
 			{
 				// No strings, which probably means that the language file does not exist
 				$path		= JLanguage::getLanguagePath( $basePath, $this->_default);
-				$filename	= ( $extension == 'joomla' ) ?  $this->_default : $this->_default . '.' . $extension ;
+				$filename	= ( $extension == 'joomla' || $extension == '' ) ?  $this->_default : $this->_default . '.' . $extension ;
 				$filename	= $path.DS.$filename.'.ini';
 
-				$result = $this->_load( $filename, $extension );
+				$result = $this->_load( $filename, $extension, false );
 			}
 
 		}
@@ -328,7 +329,7 @@ class JLanguage extends JObject
 	* @see		JLanguage::load()
 	* @since	1.5
 	*/
-	function _load( $filename, $extension = 'unknown' )
+	function _load( $filename, $extension = 'unknown', $overwrite = true )
 	{
 		$result	= false;
 
@@ -340,7 +341,7 @@ class JLanguage extends JObject
 
 			if ( is_array( $newStrings) )
 			{
-				$this->_strings = array_merge( $this->_strings, $newStrings);
+				$this->_strings = $overwrite ? array_merge( $this->_strings, $newStrings) : array_merge( $newStrings, $this->_strings);
 				$result = true;
 			}
 		}
@@ -382,7 +383,7 @@ class JLanguage extends JObject
 	function _getCallerInfo()
 	{
 			// Try to determine the source if none was provided
-		if ( ! function_exists('debug_backtrace') || extension_loaded('Zend Optimizer') ) {
+		if (!function_exists('debug_backtrace')) {
 			return null;
 		}
 
@@ -391,13 +392,13 @@ class JLanguage extends JObject
 
 		// Search through the backtrace to our caller
 		$continue = true;
-		while ( $continue && next($backtrace) )
+		while ($continue && next($backtrace))
 		{
-			$step		= current($backtrace);
-			$class		= @ $step['class'];
+			$step	= current($backtrace);
+			$class	= @ $step['class'];
 
 			// We're looking for something outside of language.php
-			if ( $class != 'JLanguage' && $class != 'JText') {
+			if ($class != 'JLanguage' && $class != 'JText') {
 				$info['function']	= @ $step['function'];
 				$info['class']		= $class;
 				$info['step']		= prev($backtrace);
@@ -770,4 +771,3 @@ class JLanguage extends JObject
 		return $metadata;
 	}
 }
-

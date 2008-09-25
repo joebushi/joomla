@@ -28,7 +28,7 @@ class JVersion
 	/** @var int Sub Release Level */
 	var $DEV_LEVEL 	= '0';
 	/** @var int build Number */
-	var $BUILD	 	= '';
+	var $BUILD	= '';
 	/** @var string Codename */
 	var $CODENAME 	= 'Sparrow';
 	/** @var string Date */
@@ -40,7 +40,7 @@ class JVersion
 	/** @var string Copyright Text */
 	var $COPYRIGHT 	= 'Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.';
 	/** @var string URL */
-	var $URL 		= '<a href="http://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.';
+	var $URL 	= '<a href="http://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.';
 
 	/**
 	 *
