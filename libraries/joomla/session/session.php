@@ -78,6 +78,12 @@ class JSession extends JObject
 	*/
 	function __construct( $store = 'none', $options = array() )
 	{
+		//Need to destroy any existing sessions started with session.auto_start
+		if (session_id()) {
+			session_unset();
+			session_destroy();
+		}
+
 		//set default sessios save handler
 		ini_set('session.save_handler', 'files');
 
