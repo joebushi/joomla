@@ -89,7 +89,7 @@ class JArchiveTar extends JObject
 
 		$stream =& JFactory::getStream();
 		//if (!$this->_fh = fopen($archive,'rb'))
-		if(!$stream->open($archive, 'r'))
+		if(!$stream->open($archive, 'rb'))
 		{
 			$this->set('error.message', 'Unable to read archive');
 			return JError::raiseWarning(100, $this->get('error.message'));

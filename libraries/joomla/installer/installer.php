@@ -300,6 +300,10 @@ class JInstaller extends JAdapter
 
 		return $retval;
 	}
+	
+	// -----------------------
+	// Adapter functions
+	// -----------------------
 
 	/**
 	 * Package installation method
@@ -330,8 +334,17 @@ class JInstaller extends JAdapter
 			// Add the languages from the package itself
 			$lang =& JFactory::getLanguage();
 			$lang->load('joomla',$path);
+			
+			// Fire the onBeforeExtensionInstall event.
+        	JPluginHelper::importPlugin( 'installer' );
+        	$dispatcher =& JDispatcher::getInstance();
+        	$dispatcher->trigger( 'onBeforeExtensionInstall', array( 'method'=>'install', 'type'=>$type, 'manifest'=>$root ) );
+			
 			// Run the install 
-			return $this->_adapters[$type]->install();
+			$result = $this->_adapters[$type]->install();
+			// Fire the onAfterExtensionInstall
+			$dispatcher->trigger( 'onAfterExtensionInstall', array( 'installer'=>clone($this), 'eid'=> $result ) );
+			if($result !== false) return true; else return false;
 		}
 		return false;
 	}
@@ -366,8 +379,15 @@ class JInstaller extends JAdapter
 			
 			if (is_object($this->_adapters[$this->_extension->type])) {
 				if(method_exists($this->_adapters[$this->_extension->type], 'discover_install')) {
+					// Fire the onBeforeExtensionInstall event.
+	                JPluginHelper::importPlugin( 'installer' );
+	                $dispatcher =& JDispatcher::getInstance();
+	                $dispatcher->trigger( 'onBeforeExtensionInstall', array( 'method'=>'discover_install', 'type'=>$this->_extension->type, 'extension'=>$this->_extension ) );
 					// Run the install 
-					return $this->_adapters[$this->_extension->type]->discover_install();					
+					$result = $this->_adapters[$this->_extension->type]->discover_install();
+					// Fire the onAfterExtensionInstall
+					$dispatcher->trigger( 'onAfterExtensionInstall', array( 'installer'=>clone($this), 'eid'=> $result ) );
+					if($result !== false) return true; else return false;
 				} else {
 					$this->abort(JText::_('Method not supported for this extension type'));
 					return false;
@@ -431,8 +451,15 @@ class JInstaller extends JAdapter
 			// Add the languages from the package itself
 			$lang =& JFactory::getLanguage();
 			$lang->load('joomla',$path);
+			// Fire the onBeforeExtensionUpdate event.
+            JPluginHelper::importPlugin( 'installer' );
+            $dispatcher =& JDispatcher::getInstance();
+            $dispatcher->trigger( 'onBeforeExtensionUpdate', array( 'type'=>$type, 'manifest'=>$root ) );
 			// Run the update
-			return $this->_adapters[$type]->update();
+			$result = $this->_adapters[$type]->update();
+			// Fire the onAfterExtensionUpdate
+			$dispatcher->trigger( 'onAfterExtensionUpdate', array( 'installer'=>clone($this), 'eid'=> $result ) );
+			if($result !== false) return true; else return false;
 		}
 		return false;
 	}
@@ -443,7 +470,7 @@ class JInstaller extends JAdapter
 	 * @access	public
 	 * @param	string	$type	Package type
 	 * @param	mixed	$identifier	Package identifier for adapter
-	 * @param	int		$cid	Application ID
+	 * @param	int		$cid	Application ID; deprecated in 1.6
 	 * @return	boolean	True if successful
 	 * @since	1.5
 	 */
@@ -455,13 +482,24 @@ class JInstaller extends JAdapter
 			}
 		}
 		if (is_object($this->_adapters[$type])) {
-			// We don't load languages here, we get the extension adapter to work it out 
+			// We don't load languages here, we get the extension adapter to work it out
+			// Fire the onBeforeExtensionUninstall event.
+            JPluginHelper::importPlugin( 'installer' );
+            $dispatcher =& JDispatcher::getInstance();
+            $dispatcher->trigger( 'onBeforeExtensionUninstall', array( 'eid' => $identifier ) );
 			// Run the uninstall
-			return $this->_adapters[$type]->uninstall($identifier, $cid);
+			$result = $this->_adapters[$type]->uninstall($identifier);
+			// Fire the onAfterExtensionInstall
+			$dispatcher->trigger( 'onAfterExtensionUninstall', array( 'installer'=>clone($this), 'eid'=> $identifier, 'result' => $result ) );
+			return $result;
 		}
 		return false;
 	}
 
+	// -----------------------
+	// Utility functions
+	// -----------------------
+	
 	/**
 	 * Prepare for installation: this method sets the installation directory, finds
 	 * and checks the installation file and verifies the installation type

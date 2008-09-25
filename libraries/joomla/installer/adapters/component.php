@@ -355,7 +355,7 @@ class JInstallerComponent extends JAdapterInstance
 			$this->parent->set('extension.message', $msg);
 		}
 		
-		return true;
+		return $extension->extensionid;
 	}
 
 	/**

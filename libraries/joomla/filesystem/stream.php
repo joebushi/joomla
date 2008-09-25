@@ -84,7 +84,7 @@ class JStream extends JObject {
 	/**
 	 * Open a stream with some lazy loading smarts
 	 */
-	function open($filename, $mode='r', $use_include_path=false, $context=null, $use_prefix=true, $strip_root=true) {
+	function open($filename, $mode='r', $use_include_path=false, $context=null, $use_prefix=true, $relative=false) {
 		if($use_prefix) {
 			// get rid of binary or t, should be at the end of the string
 			$tmode = trim($mode,'btf123456789');
