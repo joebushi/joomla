@@ -38,6 +38,12 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+25-Sep-2008 Ian MacLennan
+ # [#12778] Remove commercial newsfeeds from joomla installation packages
+ # [#12731] Wrong frontpage article after upgrade to 1.5.7
+ # [#11521] ****Image does not display in Contacts when an image directory is configured
+ # [#12338] URL: mod_login loses ItemID on redirect
+
 22-Sep-2008 Ian MacLennan
  # [10254] Remove brackets around date/time in "Last Updated"
  # [12630] Plural/singular issue for Section list
