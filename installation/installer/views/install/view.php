@@ -82,7 +82,7 @@ class JInstallationView extends JView
 		$this->_template->applyInputFilter('ShortModifiers');
 
 		// load the wrapper and common templates
-		$this->_template->setRoot( JPATH_BASE . DS . 'template' . DS. 'tmpl' );
+		$this->_template->setRoot( dirname(__FILE__) . DS. 'tmpl' );
 		$this->_template->readTemplatesFromFile( $mainHtml );
 
 		if ($bodyHtml) {
