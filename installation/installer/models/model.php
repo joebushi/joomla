@@ -783,7 +783,7 @@ class JInstallationModel extends JModel
 		$tmpl->applyInputFilter('ShortModifiers');
 
 		// load the wrapper and common templates
-		$tmpl->setRoot( JPATH_BASE . DS . 'template' . DS. 'tmpl' );
+		$tmpl->setRoot( JPATH_BASE . DS . 'installer' . DS . 'views' . DS . 'install' . DS. 'tmpl' );
 
 		$tmpl->readTemplatesFromFile('configuration.html');
 		$tmpl->addVars('configuration', $vars, 'var_');
