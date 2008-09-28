@@ -626,12 +626,20 @@ class JFactory
 	 * @param array An array of support template files to load
 	 * @return object JTemplate
 	 * @since 1.5
+	 * @deprecated
 	 */
 	function &_createTemplate($files = array())
 	{
-		jimport('joomla.template.template');
-
-		$conf =& JFactory::getConfig();
+		$conf	= JFactory::getConfig();
+		$legacy	= $conf->getValue('config.legacy');
+		
+		if ( ! $legacy )
+		{
+			$error	= JError::raiseError(0, 'MUSTENABLELEGACY');
+			//return $error;
+		}
+		
+		//jimport('joomla.template.template');
 
 		$tmpl = new JTemplate;
 

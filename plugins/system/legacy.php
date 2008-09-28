@@ -33,8 +33,6 @@ class  plgSystemLegacy extends JPlugin
 	 */
 	function __construct($subject, $config)
 	{
-		global $mainframe;
-
 		// Define the 1.5 legacy mode constant
 		define('_JLEGACY', '1.5');
 

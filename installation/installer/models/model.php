@@ -777,9 +777,9 @@ class JInstallationModel extends JModel
 		/**
 		 * Write the configuration file
 		 */
-		jimport('joomla.template.template');
 
-		$tmpl = new JTemplate();
+		include_once(JPATH_ROOT.DS.'plugins'.DS.'system'.DS.'legacy'.DS.'template'.DS.'template.php');
+		$tmpl = new JTemplate;
 		$tmpl->applyInputFilter('ShortModifiers');
 
 		// load the wrapper and common templates

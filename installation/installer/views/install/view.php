@@ -76,9 +76,9 @@ class JInstallationView extends JView
 	function _createTemplate( $bodyHtml = null, $mainHtml = 'page.html' )
 	{
 
-		jimport('joomla.template.template');
-
-		$this->_template = new JTemplate();
+		include_once(JPATH_ROOT.DS.'plugins'.DS.'system'.DS.'legacy'.DS.'template'.DS.'template.php');
+		
+		$this->_template = new JTemplate;
 		$this->_template->applyInputFilter('ShortModifiers');
 
 		// load the wrapper and common templates
