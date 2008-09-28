@@ -11,6 +11,7 @@
 	<description>Provides legacy support for 1.5 version of Joomla!</description>
 	<files>
 		<filename plugin="legacy">legacy.php</filename>
+		<folder>legacy</folder>
 	</files>
 	<params>
 	</params>
