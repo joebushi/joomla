@@ -42,26 +42,30 @@ class ContactdirectoryController extends JController
 	 * @static
 	 * @since 1.0
 	 */
-	function submit()	{
+	function submit(){
+		global $mainframe;
+
 		JRequest::checkToken() or die( 'Invalid Token' );
 		$user = &JFactory::getUser();
 		$model =& $this->getModel('contact');
-		
+
 		if($model->mailTo($user)) {
 			$msg = JText::_( 'THANK_MESSAGE');
 			$contact = $model->getData($user->get('aid', 0));
-			$link = JRoute::_('index.php?option=com_contactdirectory&view=contact&id='.$contact->id, false);
-			$this->setRedirect($link, $msg);
+			$mainframe->enqueueMessage($msg, "message");
+			$this->display();
+			//$link = JRoute::_('index.php?option=com_contactdirectory&view=contact&id='.$contact->slug, false);
+			//$this->setRedirect($link, $msg);
 		} else {
 			$this->setError($model->getError());
 			$this->display();
 		}
 	}
-	
+
 	/**
 	 * Get the captcha image from securimage library
 	 */
-	function captcha() 
+	function captcha()
 	{
 		require_once JPATH_COMPONENT . DS . 'includes' . DS . 'securimage' . DS . 'securimage.php';
 		@ob_end_clean();
