@@ -42,6 +42,12 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+29-Sep-2008 Chantal Bisson
+ - Removed duplicates of the language files for com_contactdirectory
+ # Fixed notice about $this->type not initialized on line 199 /administrator/components/com_categories/models/categories.php
+ # Fixed notice about $filter not initialized on line 23 /administrator/components/com_categories/views/tmpl/default.php
+ ^ Changed check() contactdirectory/tables/contact.php posible to add contacts with the same name
+
 22-Sep-2008 Chantal Bisson
  ^ Changed the column 'name' in the #__contactdirectory_fields table to 'alias'
  ^ Changed the fields admin view to show the alias in the list and changed the edit field view to be able to modify the alias

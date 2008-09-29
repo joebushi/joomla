@@ -77,15 +77,6 @@ class TableContact extends JTable
 			return false;
 		}
 
-		/** check for existing name*/
-		$query = "SELECT id FROM #__contactdirectory_contacts WHERE name = '$this->name' ";
-		$this->_db->setQuery($query);
-
-		$xid = intval($this->_db->loadResult());
-		if ($xid && $xid != intval($this->id)) {
-			$this->setError(JText::sprintf('WARNNAMETRYAGAIN', JText::_('CONTACT')));
-			return false;
-		}
 		return true;
 	}
 
