@@ -293,13 +293,15 @@ class CategoriesModelCategories extends JModel
 			;
 			$db->setQuery( $query );
 			$this->section_name = $db->loadResult();
+
 			$where 	= ' WHERE c.section = '.$db->Quote($section);
-			$type 	= 'other';
+			$this->type 	= 'other';
 			// special handling for contact component
 			if ( $section == 'com_contact_details' ) {
 				$this->section_name 	= JText::_( 'Contact' );
 			}
 			$this->section_name = JText::sprintf( 'Component:', $this->section_name );
+
 		} else {
 			$this->table 	= $section;
 			$where 	= ' WHERE c.section = '.$db->Quote($section);
@@ -334,6 +336,11 @@ class CategoriesModelCategories extends JModel
 		}
 		if ($search) {
 			$filter .= ' AND LOWER(c.title) LIKE '.$this->_db->Quote('%'.$this->_db->getEscaped( $search, true ).'%');
+		}
+
+		$tablesAllowed = $db->getTableList();
+		if (!in_array($db->getPrefix().$this->table, $tablesAllowed)) {
+			$this->table = 'content';
 		}
 
 		return $where . $filter;
