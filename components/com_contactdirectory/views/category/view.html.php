@@ -24,7 +24,7 @@ jimport('joomla.application.component.view');
 class ContactdirectoryViewCategory extends JView
 {
 	function display($tpl = null)
-	{		
+	{
 		global $mainframe, $option;
 
 		$user	  = &JFactory::getUser();
@@ -39,14 +39,14 @@ class ContactdirectoryViewCategory extends JView
 		$contacts	= $model->getData();
 		$fields = $model->getFields();
 		$pagination = $model->getPagination();
-		
+
 		$alphabet	= $mainframe->getUserStateFromRequest( $option.'alphabet',		'alphabet',	'',	'string' );
 		$search		= $mainframe->getUserStateFromRequest( $option.'search',		'search',	'',	'string' );
 		$search		= JString::strtolower( $search );
-		
+
 		// search filter
 		$lists['search']= $search;
-		
+
 		//add alternate feed link
 		/*if($pparams->get('show_feed_link', 1) == 1)
 		{
@@ -56,31 +56,35 @@ class ContactdirectoryViewCategory extends JView
 			$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
 			$document->addHeadLink(JRoute::_($link.'&type=atom'), 'alternate', 'rel', $attribs);
 		}*/
-	
+
 		for($i=0; $i<count($contacts); $i++){
 			$contacts[$i]->link = JRoute::_('index.php?option=com_contactdirectory&view=contact&catid='.$category->slug.'&id='.$contacts[$i]->slug);
 			$contacts[$i]->fields = $fields[$i];
 			$contacts[$i]->params = new JParameter($contacts[$i]->params);
-			
+
 			foreach($contacts[$i]->fields as $contacts[$i]->field){
 				$contacts[$i]->field->params = new JParameter($contacts[$i]->field->params);
-				
+
 				if($contacts[$i]->field->type == 'image'){
 					if($contacts[$i]->field->data){
-						$contacts[$i]->field->data = JHTML::_('image', $cparams->get('image_path') . '/'.$contacts[$i]->field->data, JText::_( 'CONTACT' ), array('align' => 'middle'));
+						if($contacts[$i]->field->pos == 'right'){
+							$contacts[$i]->field->data = JHTML::_('image', $cparams->get('image_path') . '/'.$contacts[$i]->field->data, JText::_( 'CONTACT' ), array('align' => 'right'));
+						}else{
+							$contacts[$i]->field->data = JHTML::_('image', $cparams->get('image_path') . '/'.$contacts[$i]->field->data, JText::_( 'CONTACT' ), array('align' => 'left'));
+						}
 					}
-					
 				}
-				
+
 				if($contacts[$i]->field->type == 'textarea'){
 					$contacts[$i]->field->data = nl2br($contacts[$i]->field->data);
 				}
-				
+
 				if($contacts[$i]->field->type == 'url'){
-					$link = $contacts[$i]->field->data;
-					$contacts[$i]->field->data = '<a href="http://'.$link.'">'.$link.'</a>';
+					if(!empty($contacts[$i]->field->data)){
+						$contacts[$i]->field->data = '<a href="http://'.$contacts[$i]->field->data.'">'.$contacts[$i]->field->data.'</a>';
+					}
 				}
-			
+
 				// Handle email cloaking
 				if($contacts[$i]->field->type == 'email' && $contacts[$i]->field->show_field) {
 					jimport('joomla.mail.helper');
@@ -91,7 +95,7 @@ class ContactdirectoryViewCategory extends JView
 						$contacts[$i]->field->data = '';
 					}
 				}
-				
+
 				// Manage the display mode for the field title
 				switch ($contacts[$i]->field->params->get('field_title'))
 				{
@@ -114,13 +118,35 @@ class ContactdirectoryViewCategory extends JView
 						$contacts[$i]->field->params->set('marker_title', 	'');
 						break;
 				}
+
+				switch ($contacts[$i]->field->pos){
+					case 'title':
+						$contacts[$i]->pos_title[] = $contacts[$i]->field;
+						break;
+					case 'top':
+						$contacts[$i]->pos_top[] = $contacts[$i]->field;
+						break;
+					case 'left':
+						$contacts[$i]->pos_left[] = $contacts[$i]->field;
+						break;
+					case 'main':
+						$contacts[$i]->pos_main[] = $contacts[$i]->field;
+						break;
+					case 'right':
+						$contacts[$i]->pos_right[] = $contacts[$i]->field;
+						break;
+					case 'bottom':
+						$contacts[$i]->pos_bottom[] = $contacts[$i]->field;
+						break;
+				}
 			}
 		}
 
 		// Set the page title and pathway
 		if ($category->title)
 		{
-			// Add the category breadcrumbs item
+
+		// Add the category breadcrumbs item
 			$document->setTitle(JText::_('CONTACT').' - '.$category->title);
 		} else {
 			$document->setTitle(JText::_('CONTACT'));
@@ -130,17 +156,17 @@ class ContactdirectoryViewCategory extends JView
 		$category->description = JHTML::_('content.prepare', $category->description);
 
 		JHTML::stylesheet('contactdirectory.css', 'components/com_contactdirectory/css/');
-		
+
 		$this->assignRef('contacts', $contacts);
 		$this->assignRef('lists', $lists);
-		$this->assignRef('pagination',	$pagination);
+		$this->assignRef('pagination', $pagination);
 		$this->assignRef('category', $category);
-		$this->assignRef('params',	$pparams);
-		$this->assignRef('user',	$user);
+		$this->assignRef('params', $pparams);
+		$this->assignRef('user', $user);
 		$this->assignRef('cparams', $cparams);
 
 		$this->assign('action', $uri->toString());
-		
+
 		parent::display($tpl);
 	}
 }

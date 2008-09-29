@@ -24,30 +24,30 @@ jimport('joomla.application.component.view');
 class ContactdirectoryViewCategories extends JView
 {
 	function display($tpl = null)
-	{		
+	{
 		global $mainframe, $option;
 
 		$user = &JFactory::getUser();
 		$uri =& JFactory::getURI();
 		$model	= &$this->getModel();
 		$document =& JFactory::getDocument();
-		
+
 		$pparams = &$mainframe->getParams('com_contactdirectory');
 		$cparams =& JComponentHelper::getParams('com_media');
-		
+
 		$categories = $model->getCategories();
 		$contacts	= $model->getData($pparams->get('groupby_cat'));
 		$fields = $model->getFields($pparams->get('groupby_cat'));
-		
+
 		$pagination = $model->getPagination($pparams->get('groupby_cat'));
 
 		$alphabet	= $mainframe->getUserStateFromRequest( $option.'alphabet',		'alphabet',	'',	'string' );
 		$search		= $mainframe->getUserStateFromRequest( $option.'search',		'search',	'',	'string' );
 		$search		= JString::strtolower( $search );
-		
+
 		// search filter
 		$lists['search']= $search;
-		
+
 		//add alternate feed link
 		/*if($pparams->get('show_feed_link', 1) == 1)
 		{
@@ -57,11 +57,11 @@ class ContactdirectoryViewCategories extends JView
 			$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
 			$document->addHeadLink(JRoute::_($link.'&type=atom'), 'alternate', 'rel', $attribs);
 		}*/
-		
+
 		foreach($categories as $category){
 			$category->link = JRoute::_('index.php?option=com_contactdirectory&view=category&catid='.$category->catslug);
 		}
-	
+
 		for($i=0; $i<count($contacts); $i++){
 			if($pparams->get('groupby_cat')){
 				$contacts[$i]->link = JRoute::_('index.php?option=com_contactdirectory&view=contact&catid='.$contacts[$i]->catslug.'&id='.$contacts[$i]->slug);
@@ -70,24 +70,30 @@ class ContactdirectoryViewCategories extends JView
 			}
 			$contacts[$i]->fields = $fields[$i];
 			$contacts[$i]->params = new JParameter($contacts[$i]->params);
-			
+
 			foreach($contacts[$i]->fields as $contacts[$i]->field){
 				$contacts[$i]->field->params = new JParameter($contacts[$i]->field->params);
-				
+
 				if($contacts[$i]->field->type == 'image'){
 					if($contacts[$i]->field->data){
-						$contacts[$i]->field->data = JHTML::_('image', $cparams->get('image_path') . '/'.$contacts[$i]->field->data, JText::_( 'CONTACT' ), array('align' => 'middle'));
+						if($contacts[$i]->field->pos == 'right'){
+							$contacts[$i]->field->data = JHTML::_('image', $cparams->get('image_path') . '/'.$contacts[$i]->field->data, JText::_( 'CONTACT' ), array('align' => 'right'));
+						}else{
+							$contacts[$i]->field->data = JHTML::_('image', $cparams->get('image_path') . '/'.$contacts[$i]->field->data, JText::_( 'CONTACT' ), array('align' => 'left'));
+						}
 					}
-					
 				}
-				
+
+				if($contacts[$i]->field->type == 'textarea'){
+					$contacts[$i]->field->data = nl2br($contacts[$i]->field->data);
+				}
+
 				if($contacts[$i]->field->type == 'url'){
-					$link = $contacts[$i]->field->data;
-					if($link != null){
-						$contacts[$i]->field->data = '<a href="http://'.$link.'">'.$link.'</a>';
+					if(!empty($contacts[$i]->field->data)){
+						$contacts[$i]->field->data = '<a href="http://'.$contacts[$i]->field->data.'">'.$contacts[$i]->field->data.'</a>';
 					}
 				}
-			
+
 				// Handle email cloaking
 				if($contacts[$i]->field->type == 'email' && $contacts[$i]->field->show_field) {
 					jimport('joomla.mail.helper');
@@ -98,7 +104,7 @@ class ContactdirectoryViewCategories extends JView
 						$contacts[$i]->field->data = '';
 					}
 				}
-				
+
 				// Manage the display mode for the field title
 				switch ($contacts[$i]->field->params->get('field_title'))
 				{
@@ -121,19 +127,40 @@ class ContactdirectoryViewCategories extends JView
 						$contacts[$i]->field->params->set('marker_title', 	'');
 						break;
 				}
-				if($pparams->get('groupby_cat')){
-					$data[$contacts[$i]->category] [$i] = $contacts[$i];
-				}else{
-					$data [$i] = $contacts[$i];
+
+				switch ($contacts[$i]->field->pos){
+					case 'title':
+						$contacts[$i]->pos_title[] = $contacts[$i]->field;
+						break;
+					case 'top':
+						$contacts[$i]->pos_top[] = $contacts[$i]->field;
+						break;
+					case 'left':
+						$contacts[$i]->pos_left[] = $contacts[$i]->field;
+						break;
+					case 'main':
+						$contacts[$i]->pos_main[] = $contacts[$i]->field;
+						break;
+					case 'right':
+						$contacts[$i]->pos_right[] = $contacts[$i]->field;
+						break;
+					case 'bottom':
+						$contacts[$i]->pos_bottom[] = $contacts[$i]->field;
+						break;
 				}
-				
+
+				if($pparams->get('groupby_cat')){
+					$data[$contacts[$i]->category][$i] = $contacts[$i];
+				}else{
+					$data[$i] = $contacts[$i];
+				}
 			}
 		}
 
 		$document->setTitle(JText::_('CONTACT'));
 
 		JHTML::stylesheet('contactdirectory.css', 'components/com_contactdirectory/css/');
-		
+
 		$this->assignRef('lists', $lists);
 		$this->assignRef('data', $data);
 		$this->assignRef('pagination',	$pagination);
@@ -141,7 +168,7 @@ class ContactdirectoryViewCategories extends JView
 		$this->assignRef('params',	$pparams);
 		$this->assignRef('user',	$user);
 		$this->assignRef('cparams', $cparams);
-		
+
 		$this->assign('action', $uri->toString());
 
 		parent::display($tpl);

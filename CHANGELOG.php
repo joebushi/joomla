@@ -47,6 +47,7 @@ http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
  # Fixed notice about $this->type not initialized on line 199 /administrator/components/com_categories/models/categories.php
  # Fixed notice about $filter not initialized on line 23 /administrator/components/com_categories/views/tmpl/default.php
  ^ Changed check() contactdirectory/tables/contact.php posible to add contacts with the same name
+ ^ Changed view for category and categories in com_contactdirectory
  # Fixed redirect with router after sending mail in com_contactdirectory
 
 22-Sep-2008 Chantal Bisson
