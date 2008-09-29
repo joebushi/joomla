@@ -180,4 +180,19 @@ class JUtility
 		$result = var_export( $var, true );
 		return '<pre>'.( $htmlSafe ? htmlspecialchars( $result ) : $result).'</pre>';
 	}
+	
+	/**
+	 * Prepend a reference to an element to the beginning of an array. Renumbers numeric keys, so $value is always inserted to $array[0]
+	 * 
+	 * @param $array array
+	 * @param $value mixed
+	 * @return int
+	 * @see http://ww.php.net/manual/en/function.array-unshift.php#40270
+	 */
+	function array_unshift_ref(&$array, &$value)
+	{
+	   $return = array_unshift($array,'');
+	   $array[0] =& $value;
+	   return $return;
+	}
 }

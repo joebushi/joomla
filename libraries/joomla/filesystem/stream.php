@@ -23,7 +23,15 @@
 defined('JPATH_BASE') or die();
 
 jimport('joomla.filesystem.helper');
+jimport('joomla.utility.utility');
 
+/**
+ * Joomla! Stream Class
+ * @see http://au.php.net/manual/en/intro.stream.php PHP Stream Manual
+ * @see http://au.php.net/manual/en/wrappers.php Stream Wrappers
+ * @see http://au.php.net/manual/en/filters.php Stream Filters
+ * @see http://au.php.net/manual/en/transports.php Socket Transports (used by some options, particularly HTTP proxy)
+ */
 class JStream extends JObject {
 	// Publicly settable vars (protected to let our parent read them)
 	/** @var File Mode */
@@ -83,6 +91,12 @@ class JStream extends JObject {
 	
 	/**
 	 * Open a stream with some lazy loading smarts
+	 * @param string Filename
+	 * @param string Mode string to use
+	 * @param bool Use the PHP include path
+	 * @param resource Context to use when opening
+	 * @param bool Use a prefix to open the file
+	 * @param bool Filename is a relative path (if false, strips JPATH_ROOT to make it relative) 
 	 */
 	function open($filename, $mode='r', $use_include_path=false, $context=null, $use_prefix=true, $relative=false) {
 		if($use_prefix) {
@@ -91,10 +105,10 @@ class JStream extends JObject {
 			// check if its a write mode then add the appropriate prefix
 			// get rid of JPATH_ROOT (legacy compat) along the way
 			if(in_array($tmode, JFilesystemHelper::getWriteModes())) {
-				if($strip_root && $this->writeprefix) $filename = str_replace(JPATH_ROOT, '', $filename);
+				if(!$relative && $this->writeprefix) $filename = str_replace(JPATH_ROOT, '', $filename);
 				$filename = $this->writeprefix . $filename;
 			} else {
-				if($strip_root && $this->readprefix) $filename = str_replace(JPATH_ROOT, '', $filename);
+				if(!$relative && $this->readprefix) $filename = str_replace(JPATH_ROOT, '', $filename);
 				$filename = $this->readprefix . $filename;
 			}
 		}
@@ -153,7 +167,7 @@ class JStream extends JObject {
 	 * Attempt to close a file handle
 	 * Will return false if it failed and true on success
 	 * Note: if the file is not open the system will return true
-	 * Note: this function destroys the file handle
+	 * Note: this function destroys the file handle as well
 	 */
 	function close() {
 		if(!$this->_fh) {
@@ -266,6 +280,7 @@ class JStream extends JObject {
 	/**
 	 * Read a file
 	 * Handles user space streams appropriately otherwise any read will return 8192
+	 * @param int length of data to read
 	 * @see http://www.php.net/manual/en/function.fread.php
 	 */
 	function read($length=0) {
@@ -328,10 +343,12 @@ class JStream extends JObject {
 	/**
 	 * Seek the file
 	 * Note: the return value is different to that of fseek
+	 * @param int Offset to use when seeking
+	 * @param int Seek mode to use
 	 * @return boolean True on success, false on failure
 	 * @see http://www.php.net/manual/en/function.fseek.php
 	 */
-	function seek($offset, $whence) { 
+	function seek($offset, $whence=SEEK_SET) { 
 		if(!$this->_fh) {
 			$this->setError(JText::_('File not open'));
 			return false;
@@ -373,6 +390,9 @@ class JStream extends JObject {
 	 * sane number to use most of the time (change the default with 
 	 * JStream::set('chunksize', newsize);)
 	 * Note: This doesn't support gzip/bzip2 writing like reading does
+	 * @param string Reference to the string to write
+	 * @param int Length of the string to write
+	 * @param int Size of chunks to write in 
 	 * @see http://www.php.net/manual/en/function.fwrite.php
 	 */
 	function write(&$string, $length=0, $chunk=0) {
@@ -412,6 +432,7 @@ class JStream extends JObject {
 	
 	/**
 	 * chmod wrapper
+	 * @param mixed Mode to use
 	 */
 	function chmod($mode=0) {
 		if(!isset($this->filename) || !$this->filename) {
@@ -420,6 +441,10 @@ class JStream extends JObject {
 		}
 		// if no mode is set use the default
 		if(!$mode) $mode = $this->filemode;
+		// Convert the mode to a string
+		if (is_int($mode)) {
+			$mode = decoct($mode);
+		}
 		$retval = false;
 		// Capture PHP errors
 		$php_errormsg = '';
@@ -448,34 +473,80 @@ class JStream extends JObject {
 		return $retval;
 	}
 	
-	// TODO: Everything from here down :)
 	// ----------------------------
 	// Stream contexts
 	// ----------------------------
 	
     /**
-     * Rebuilds the context
+     * Builds the context from the array
      */
 	function _buildContext() {
-		$this->_context = stream_context_create($this->_contextOptions);
+		// according to the manual this always works!
+		$this->_context = @stream_context_create($this->_contextOptions);
 	}
 	
 	/**
 	 * Updates the context to the array
-	 * Format is the same as stream_context_create
+	 * Format is the same as the options for stream_context_create
+	 * @param Array Options to create the context with
 	 * @see http://www.php.net/stream_context_create
 	 */
-	function setContext($context) {
-
+	function setContextOptions($context) {
+		$this->_contextOptions = $context;
+		$this->_buildContext();
 	}
 	
+	/**
+	 * Adds a particular options to the context
+	 * @param string The wrapper to use
+	 * @param string The option to set
+	 * @param string The value of the option
+	 * @see http://www.php.net/stream_context_create Stream Context Creation
+	 * @see http://au.php.net/manual/en/context.php Context Options for various streams
+	 */
 	function addContextEntry($wrapper, $name, $value) {
-
+		$this->_contextOptions[$wrapper][$name] = $value;
+		$this->_buildContext();
 	}
 	
+	/**
+	 * Deletes a particular setting from a context
+	 * @param string The wrapper to use
+	 * @param string The option to unset
+	 * @see http://www.php.net/stream_context_create
+	 */
 	function deleteContextEntry($wrapper, $name) {
-
+		if(isset($this->_contextOptions[$wrapper])) {
+			if(isset($this->_contextOptions[$wrapper][$name])) {
+				unset($this->_contextOptions[$wrapper][$name]);
+				if(!count($this->_contextOptions[$wrapper])) {
+					unset($this->_contextOptions[$wrapper]);
+				}
+			}
+		}
+		$this->_buildContext();
 	}    
+	
+	/**
+	 * Applies the current context to the stream
+	 * Use this to change the values of the context after you've opened a stream
+	 */
+	function applyContextToStream() {
+		$retval = false;
+		if($this->_fh) {
+			// Capture PHP errors
+			$php_errormsg = 'Unknown error setting context option';
+			$track_errors = ini_get('track_errors');
+			ini_set('track_errors', true);
+			$retval = @stream_context_set_option($this->_fh, $this->_contextOptions);
+			if(!$retval) {
+				$this->setError($php_errormsg);
+			}
+			// restore error tracking to what it was before
+			ini_set('track_errors',$track_errors);			
+		}
+		return $retval;
+	}
 	
 	// ----------------------------
 	// Stream filters
@@ -483,23 +554,66 @@ class JStream extends JObject {
 
 	/**
 	 * Append a filter to the chain
+	 * @param 
 	 * @see http://www.php.net/manual/en/function.stream-filter-append.php
 	 */	
-	function appendFilter($stream, $filtername, $read_write=STREAM_FILTER_READ, $params=Array() ) {
-		
+	function &appendFilter($filtername, $read_write=STREAM_FILTER_READ, $params=Array() ) {
+		$res = false;
+		if($this->_fh) {
+			// Capture PHP errors
+			$php_errormsg = '';
+			$track_errors = ini_get('track_errors');
+			ini_set('track_errors', true);
+			
+			$res = @stream_filter_append($this->_fh, $filtername, $read_write, $params);
+			if(!$res && $php_errormsg) $this->setError($php_errormsg);
+			else $this->filters[] =& $res;
+			
+			// restore error tracking to what it was before
+			ini_set('track_errors',$track_errors);
+		}
+		return $res;
 	}
 	
-	function prependFilter($stream, $filtername, $read_write=STREAM_FILTER_READ, $params=Array() ) {
-
+	function &prependFilter($filtername, $read_write=STREAM_FILTER_READ, $params=Array() ) {
+		$res = false;
+		if($this->_fh) {
+			// Capture PHP errors
+			$php_errormsg = '';
+			$track_errors = ini_get('track_errors');
+			ini_set('track_errors', true);
+			$res = @stream_filter_prepend($this->_fh, $filername, $read_write, $params);
+			if(!$res && $php_errormsg) $this->setError($php_errormsg); // set the error msg
+			else JUtility::array_unshift_ref($res, $this->filters); // push the new resource onto the filter stack
+			// restore error tracking to what it was before
+			ini_set('track_errors',$track_errors);
+		}
+		return $res;
 	}
 	
 	/**
 	 * Remove a filter, either by resource (handed out from the
 	 * append or prepend function alternatively via getting the
 	 * filter list) 
+	 * @return bool Result of operation
 	 */
-	function removeFilter($resource, $byindex=false) {
-
+	function removeFilter(&$resource, $byindex=false) {
+		$res = false;
+		// Capture PHP errors
+		$php_errormsg = '';
+		$track_errors = ini_get('track_errors');
+		ini_set('track_errors', true);
+		if($byindex) {
+			$res = stream_filter_remove($this->filters[$resource]);
+		} else {
+			$res = stream_filter_remove($resource);
+		}
+		if($res && $php_errormsg) {
+			$this->setError($php_errormsg);
+		}
+		// restore error tracking to what it was before
+		ini_set('track_errors',$track_errors);
+		return $res;
 	}
     
 }

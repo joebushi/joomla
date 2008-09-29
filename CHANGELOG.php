@@ -38,6 +38,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Sep-2008 Sam Moffatt
+ + Added JUtility::array_unshift_ref to allow unshifting of references
+ + Added filter and context support to JStream
+
 24-Sep-2008 Sam Moffatt
  ^ bzip2 and gzip archive formats now run stream
  ^ tar archive handler uses streams
