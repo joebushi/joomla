@@ -20,7 +20,7 @@
 		<td nowrap="nowrap">
 			<?php
 			if ( $this->filter->section == 'com_content') {
-				echo JHTML::_('list.section',  'sectionid', $filter->sectionid, 'onchange="document.adminForm.submit();"' );
+				echo JHTML::_('list.section',  'sectionid', $this->filter->sectionid, 'onchange="document.adminForm.submit();"' );
 			}
 			?>
 			<?php
