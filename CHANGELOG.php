@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Sep-2009 Kevin Devine
+ ! Testing commit access
+
 25-Sep-2008 Ian MacLennan
  # [#12778] Remove commercial newsfeeds from joomla installation packages
  # [#12731] Wrong frontpage article after upgrade to 1.5.7
