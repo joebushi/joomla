@@ -249,7 +249,7 @@ function submitbutton(pressbutton)
 			jimport('joomla.html.pane');
 			$pane =& JPane::getInstance('sliders');
 			echo $pane->startPane("menu-pane");
-			$groups = $form->getGroups();
+			$groups = $this->params->getGroups();
 			if(count($groups)) {
 				foreach($groups as $groupname => $group) {
 					if($groupname == '_default') {
@@ -257,9 +257,9 @@ function submitbutton(pressbutton)
 					} else {
 						$title = ucfirst($groupname);
 					}
-					if($form->getNumParams($groupname)) {
+					if($this->params->getNumParams($groupname)) {
 						echo $pane->startPanel(JText :: _('Parameters - '.$title), $groupname.'-page');
-						echo $form->render('params', $groupname);
+						echo $this->params->render('params', $groupname);
 						echo $pane->endPanel();
 					}
 					

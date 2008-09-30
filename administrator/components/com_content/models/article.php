@@ -492,31 +492,35 @@ class ContentModelArticle extends JModel
 					' WHERE c.id = '.(int) $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
+			
+			if (!$this->_data) {
+				return false;
+			}
 
 			$query = 'SELECT name' .
 					' FROM #__users'.
-					' WHERE id = '. (int) $row->created_by;
+					' WHERE id = '. (int) $this->_data->created_by;
 			$this->_db->setQuery($query);
-			$this->creator = $this->_db->loadResult();
+			$this->_data->creator = $this->_db->loadResult();
 
 			// test to reduce unneeded query
-			if ($this->created_by == $this->modified_by) {
-				$this->modifier = $this->creator;
+			if ($this->_data->created_by == $this->_data->modified_by) {
+				$this->_data->modifier = $this->_data->creator;
 			} else {
 				$query = 'SELECT name' .
 						' FROM #__users' .
-						' WHERE id = '. (int) $this->modified_by;
+						' WHERE id = '. (int) $this->_data->modified_by;
 				$this->_db->setQuery($query);
-				$this->modifier = $this->_db->loadResult();
+				$this->_data->modifier = $this->_db->loadResult();
 			}
 
 			$query = 'SELECT COUNT(content_id)' .
 					' FROM #__content_frontpage' .
 					' WHERE content_id = '. (int) $this->_id;
 			$this->_db->setQuery($query);
-			$this->frontpage = $this->_db->loadResult();
-			if (!$this->frontpage) {
-				$this->frontpage = 0;
+			$this->_data->frontpage = $this->_db->loadResult();
+			if (!$this->_data->frontpage) {
+				$this->_data->frontpage = 0;
 			}
 
 			return (boolean) $this->_data;

@@ -134,10 +134,10 @@ class ContentViewArticle extends JView
 			$row->state = 1;
 			$row->ordering = 0;
 			$row->images = array ();
-			$row->publish_up = $createdate->toUnix();
+			$row->publish_up = $createdate->toMySQL();
 			$row->publish_down = JText::_('Never');
 			$row->creator = '';
-			$row->created = $createdate->toUnix();
+			$row->created = $createdate->toMySQL();
 			$row->modified = $nullDate;
 			$row->modifier = '';
 			$row->frontpage = 0;
@@ -242,7 +242,7 @@ class ContentViewArticle extends JView
 		// Parameters
 		$file 	= JPATH_COMPONENT.DS.'models'.DS.'article.xml';
 		$params = new JParameter( '', $file );
-		$form->loadSetupDirectory(JPATH_COMPONENT.DS.'params', 'article_(.*)\.xml');
+		$params->loadSetupDirectory(JPATH_COMPONENT.DS.'params', 'article_(.*)\.xml');
 		$active = (intval($row->created_by) ? intval($row->created_by) : $user->get('id'));
 		$params->set('created_by', $active);
 		$params->set('access', $row->access);
