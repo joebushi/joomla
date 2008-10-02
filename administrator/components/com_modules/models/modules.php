@@ -219,9 +219,6 @@ class ModulesModelModules extends JModel
 		if ( $this->_filter->type ) {
 			$where[] = 'm.module = '.$this->_db->Quote($this->_filter->type);
 		}
-		if ($this->_filter->catid > 0) {
-			$where[] = 'a.catid = '.(int) $this->_filter->catid;
-		}
 		if ($search) {
 			$where[] = 'LOWER(m.title) LIKE '.$this->_db->Quote( '%'.$this->_db->getEscaped( $search, true ).'%', false );
 		}

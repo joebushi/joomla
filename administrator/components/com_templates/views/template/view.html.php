@@ -55,7 +55,7 @@ class TemplatesViewTemplate extends JView
 		if($client->id == '1')  {
 			$lists['selections'] =  JText::_('Cannot assign an administrator template');
 		} else {
-			$lists['selections'] = TemplatesHelper::createMenuList($$template);
+			$lists['selections'] = TemplatesHelper::createMenuList($template);
 		}
 
 		// Set FTP credentials, if given

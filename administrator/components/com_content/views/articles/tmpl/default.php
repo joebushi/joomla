@@ -230,7 +230,7 @@
 <input type="hidden" name="option" value="com_content" />
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="boxchecked" value="0" />
-<input type="hidden" name="redirect" value="<?php echo $redirect;?>" />
+<input type="hidden" name="redirect" value="<?php echo $this->redirect;?>" />
 <input type="hidden" name="filter_order" value="<?php echo $this->filter->order; ?>" />
 <input type="hidden" name="filter_order_Dir" value="<?php echo $this->filter->order_Dir; ?>" />
 <?php echo JHTML::_( 'form.token' ); ?>
