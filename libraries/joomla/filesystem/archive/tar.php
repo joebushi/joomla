@@ -155,7 +155,7 @@ class JArchiveTar extends JObject
 						$this->set('error.message', 'Unable to create destination');
 						return JError::raiseWarning(100, $this->get('error.message'));
 					}
-					if (JFile::write($path, $contents) === false)
+					if (JFile::write($path, $contents, true) === false)
 					{
 						$this->set('error.message', 'Unable to write entry');
 						return JError::raiseWarning(100, $this->get('error.message'));

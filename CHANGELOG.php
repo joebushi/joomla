@@ -38,9 +38,28 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+02-Oct-2008 Sam Moffatt
+ - Removed File Stream class
+ + Added htaccess.txt file for administrator/backups folder to protect it
+ + Added some todos
+ ! JStream support is complete
+ + Started primitive work on supporting more than just FTP (e.g. SCP)
+ + Added various options to the stream class to handle operations like copies
+ ^ Changed JFile and JFolder to support streams
+ ^ Changed tar and zip archivers to write files out using stream support
+ + Component installer deletes old files
+ ^ Changed component install and update functions to return extension ID 
+
+30-Sep-2008 Sam Moffatt
+ + Added JInstaller::findDeletedFiles
+
 29-Sep-2008 Sam Moffatt
  + Added JUtility::array_unshift_ref to allow unshifting of references
  + Added filter and context support to JStream
+
+25-Sep-2008 Sam Moffatt
+ + Added File Stream class
+ + Added extension installer plugin triggers (see http://docs.joomla.org/Extension_Installer/Triggers)
 
 24-Sep-2008 Sam Moffatt
  ^ bzip2 and gzip archive formats now run stream

@@ -97,6 +97,7 @@ class InstallerModelDiscover extends InstallerModel
 				$result->store(); // put it into the table	
 				//echo '<p>Added: <pre>'.print_r($result,1).'</pre></p>';
 			} else {
+				// TODO: Add extra checks here to add entries that have conflicting elements
 				// an element exists that matches this
 				//echo '<p>Ignored: '. $result->name .'</p>';
 			}

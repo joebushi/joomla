@@ -60,7 +60,7 @@ class JStream extends JObject {
 	/** @var File size */
 	private $_filesize;
 	/** @var Context to use when opening the connection */
-	private $_context;
+	private $_context = null;
 	/** @var Context options; used to rebuild the context */
 	private $_contextOptions;
 	/** @var The mode under which the file was opened */
@@ -99,19 +99,12 @@ class JStream extends JObject {
 	 * @param bool Filename is a relative path (if false, strips JPATH_ROOT to make it relative) 
 	 */
 	function open($filename, $mode='r', $use_include_path=false, $context=null, $use_prefix=true, $relative=false) {
-		if($use_prefix) {
-			// get rid of binary or t, should be at the end of the string
-			$tmode = trim($mode,'btf123456789');
-			// check if its a write mode then add the appropriate prefix
-			// get rid of JPATH_ROOT (legacy compat) along the way
-			if(in_array($tmode, JFilesystemHelper::getWriteModes())) {
-				if(!$relative && $this->writeprefix) $filename = str_replace(JPATH_ROOT, '', $filename);
-				$filename = $this->writeprefix . $filename;
-			} else {
-				if(!$relative && $this->readprefix) $filename = str_replace(JPATH_ROOT, '', $filename);
-				$filename = $this->readprefix . $filename;
-			}
+		$filename = $this->_getFilename($filename, $mode, $use_prefix, $relative);
+		if(!$filename) {
+			$this->setError(JText::_('No filename set'));
+			return false;
 		}
+		$this->filename = $filename;		
 		$this->_openmode = $mode;
 		
 		$url = parse_url($filename);
@@ -126,7 +119,7 @@ class JStream extends JObject {
 			
 		}
 		// Capture PHP errors
-		$php_errormsg = 'Error Unknown';
+		$php_errormsg = 'Error Unknown whilst opening a file';
 		$track_errors = ini_get('track_errors');
 		ini_set('track_errors', true);
 		// Decide which context to use:
@@ -154,7 +147,6 @@ class JStream extends JObject {
 		if(!$this->_fh) {
 			$this->setError($php_errormsg);
 		} else {
-			$this->filename = $filename;
 			$retval = true;
 		}
 		// restore error tracking to what it was before
@@ -414,12 +406,15 @@ class JStream extends JObject {
 			// if the amount remaining is greater than the chunk size, then use the chunk
 			$amount = ($remaining > $chunk) ? $chunk : $remaining;
 			$res = fwrite($this->_fh, $string, $amount);
-			// seek, interestingly returns 0 on success or -1 on failure
-			if(!$res) {
+			// returns false on error or the number of bytes written
+			if($res === false) { // returned error
 				$this->setError($php_errormsg);
 				$retval = false;
 				$remaining = 0;
-			} else {
+			} else if($res === 0) { // wrote nothing? 
+				$remaining = 0;
+				$this->setError('Warning: No data written');
+			} else { // wrote something
 				$remaining -= $res;
 			}
 		} while($remaining);
@@ -434,31 +429,33 @@ class JStream extends JObject {
 	 * chmod wrapper
 	 * @param mixed Mode to use
 	 */
-	function chmod($mode=0) {
-		if(!isset($this->filename) || !$this->filename) {
-			$this->setError(JText::_('Filename not set'));
-			return false;
+	function chmod($filename='', $mode=0) {
+		if(!$filename) {
+			if(!isset($this->filename) || !$this->filename) {
+				$this->setError(JText::_('Filename not set'));
+				return false;
+			}
+			$filename = $this->filename;
 		}
+	
 		// if no mode is set use the default
 		if(!$mode) $mode = $this->filemode;
-		// Convert the mode to a string
-		if (is_int($mode)) {
-			$mode = decoct($mode);
-		}
+		
 		$retval = false;
 		// Capture PHP errors
 		$php_errormsg = '';
 		$track_errors = ini_get('track_errors');
 		ini_set('track_errors', true);
-		$sch = parse_url($this->filename, PHP_URL_SCHEME);
+		$sch = parse_url($filename, PHP_URL_SCHEME);
 		// scheme specific options; ftp's chmod support is fun
 		switch($sch) {
 			case 'ftp': 
 			case 'ftps':
-				$res = JFilesystemHelper::ftpChmod($this->filename, $mode);
+				$res = JFilesystemHelper::ftpChmod($filename, $mode);
 				break;
 			default:
-				$res = chmod($this->filename, $mode);
+				echo '<p>Chmodding '. $filename . ' with ' . decoct($mode) .'</p>';
+				$res = chmod($filename, $mode);
 				break;
 		}
 		// seek, interestingly returns 0 on success or -1 on failure
@@ -482,7 +479,11 @@ class JStream extends JObject {
      */
 	function _buildContext() {
 		// according to the manual this always works!
-		$this->_context = @stream_context_create($this->_contextOptions);
+		if(count($this->_contextOptions)) {
+			$this->_context = @stream_context_create($this->_contextOptions);
+		} else {
+			$this->_context = null;
+		}
 	}
 	
 	/**
@@ -615,5 +616,180 @@ class JStream extends JObject {
 		ini_set('track_errors',$track_errors);
 		return $res;
 	}
-    
+	
+	// ----------------------------
+	// Support operations (copy, move)
+	// ----------------------------   
+
+	/**
+	 * Copy a file from src to dest
+	 */
+	function copy($src, $dest, $context=null, $use_prefix=true, $relative=false) {
+		$res = false;
+		// Capture PHP errors
+		$php_errormsg = '';
+		$track_errors = ini_get('track_errors');
+		ini_set('track_errors', true);
+		
+		$chmodDest = $this->_getFilename($dest, 'w', $use_prefix, $relative);
+		$exists = file_exists($dest);
+		$context_support = version_compare(PHP_VERSION, '5.3', '>='); // 5.3 provides context support
+		if($exists && !$context_support) {
+			// the file exists and there is no context support
+			// this could cause a failure as we may need to overwrite the file
+			// so we write our own copy function that will work with a stream
+			// context; php 5.3 will fix this for us (yay!)
+			// Note: since open processes the filename for us we won't worry about
+			// calling _getFilename
+			$res = $this->open($src);
+			if($res) {
+				$reader = $this->_fh;
+				$res = $this->open($dest, 'w');
+				if($res) {
+					$res = stream_copy_to_stream($reader, $this->_fh);
+					$tmperror = $php_errormsg; // save this in case fclose throws an error
+					@fclose($reader);
+					$php_errormsg = $tmperror; // restore after fclose
+				} else {
+					@fclose($reader); // close the reader off
+					$php_errormsg = JText::_('Failed to open writer') .': '. $this->getError();
+				}
+			} else {
+				if(!$php_errormsg) {
+					$php_errormsg = JText::_('Failed to open reader') .': '. $this->getError();
+				}
+			}
+		} else {
+			// since we're going to open the file directly we need to get the filename
+			// we need to use the same prefix so force everything to write
+			$src = $this->_getFilename($src, 'w', $use_prefix, $relative);
+			$dest = $this->_getFilename($dest, 'w', $use_prefix, $relative);			
+			if($context_support && $context) { // use the provided context
+				$res = @copy($src, $dest, $context);
+			} else if($context_support && $this->_context) { // use the objects context
+				$res = @copy($src, $dest, $this->_context);
+			} else { // don't use any context
+				$res = @copy($src, $dest);
+			}
+		}
+		if(!$res && $php_errormsg) {
+			$this->setError($php_errormsg);
+		} else {
+			$this->chmod($chmodDest);
+		}
+
+		// restore error tracking to what it was before
+		ini_set('track_errors',$track_errors);
+		return $res;		
+	}
+	
+	/**
+	 * Moves a file
+	 */
+	function move($src, $dest, $context=null, $use_prefix=true, $relative=false) {
+		$res = false;
+		// Capture PHP errors
+		$php_errormsg = '';
+		$track_errors = ini_get('track_errors');
+		ini_set('track_errors', true);
+		
+		$src = $this->_getFilename($src, 'w', $use_prefix, $relative);
+		$dest = $this->_getFilename($dest, 'w', $use_prefix, $relative);
+		if($context) { // use the provided context
+			$res = @rename($src, $dest, $context);
+		} else if($this->_context) { // use the objects context
+			$res = @rename($src, $dest, $this->_context);
+		} else { // don't use any context
+			$res = @rename($src, $dest);
+		}
+		if(!$res && $php_errormsg) {
+			$this->setError($php_errormsg());
+		}
+		$this->chmod($dest);
+
+		// restore error tracking to what it was before
+		ini_set('track_errors',$track_errors);
+		return $res;		
+	}
+	
+	/**
+	 * Delete a file
+	 */
+	function delete($filename, $context=null, $use_prefix=true, $relative=false) {
+		$res = false;
+		// Capture PHP errors
+		$php_errormsg = '';
+		$track_errors = ini_get('track_errors');
+		ini_set('track_errors', true);
+		
+		$filename = $this->_getFilename($filename, 'w', $use_prefix, $relative);
+		if($context) { // use the provided context
+			$res = @unlink($filename, $context);
+		} else if($this->_context) { // use the objects context
+			$res = @unlink($filename, $this->_context);
+		} else { // don't use any context
+			$res = @unlink($filename);
+		}
+		if(!$res && $php_errormsg) {
+			$this->setError($php_errormsg());
+		}
+
+		// restore error tracking to what it was before
+		ini_set('track_errors',$track_errors);
+		return $res;		
+	}
+
+	/**
+	 * Upload a file
+	 */
+	function upload($src, $dest, $context=null, $use_prefix=true, $relative=false) {
+		if(is_uploaded_file($src)) { // make sure its an uploaded file
+			return $this->copy($src, $dest, $context, $use_prefix, $relative);
+		} else {
+			$this->setError(JText::_('Not an uploaded file!'));
+			return false;
+		}
+	}
+	
+	// ----------------------------
+	// All in one
+	// ----------------------------   
+	
+	
+	/**
+	 * Writes a chunk of data to a file
+	 */
+	function writeFile($filename, &$buffer) {
+		if($this->open($filename, 'w')) {
+			$result = $this->write($buffer);
+			$this->chmod();
+			$this->close();
+			return $result;
+		}
+		return false;
+	}
+	
+	/**
+	 * Determine the appropriate 'filename' of a file
+	 * @param string Original filename of the file
+	 * @param string Mode string to retrieve the filename
+	 * @param boolean Controls the use of a prefix
+	 * @param boolean Determines if the filename given is relative. Relative paths do not have JPATH_ROOT stripped.
+	 */
+	function _getFilename($filename, $mode, $use_prefix, $relative) {
+		if($use_prefix) {
+			// get rid of binary or t, should be at the end of the string
+			$tmode = trim($mode,'btf123456789');
+			// check if its a write mode then add the appropriate prefix
+			// get rid of JPATH_ROOT (legacy compat) along the way
+			if(in_array($tmode, JFilesystemHelper::getWriteModes())) {
+				if(!$relative && $this->writeprefix) $filename = str_replace(JPATH_ROOT, '', $filename);
+				$filename = $this->writeprefix . $filename;
+			} else {
+				if(!$relative && $this->readprefix) $filename = str_replace(JPATH_ROOT, '', $filename);
+				$filename = $this->readprefix . $filename;
+			}
+		}
+		return $filename;
+	}
 }

@@ -38,7 +38,7 @@ class JFolder
 	 * @return	mixed	JError object on failure or boolean True on success
 	 * @since	1.5
 	 */
-	function copy($src, $dest, $path = '', $force = false)
+	function copy($src, $dest, $path = '', $force = false, $use_streams=false)
 	{
 		// Initialize variables
 		jimport('joomla.client.helper');
@@ -65,7 +65,8 @@ class JFolder
 			return JError::raiseError(-1, JText::_('Unable to create target folder'));
 		}
 
-		if ($FTPOptions['enabled'] == 1)
+		// if we're using ftp and don't have streams enabled
+		if ($FTPOptions['enabled'] == 1 && !$use_streams)
 		{
 			// Connect the FTP client
 			jimport('joomla.client.ftp');
@@ -108,7 +109,7 @@ class JFolder
 				switch (filetype($sfid)) {
 					case 'dir':
 						if ($file != '.' && $file != '..') {
-							$ret = JFolder::copy($sfid, $dfid, null, $force);
+							$ret = JFolder::copy($sfid, $dfid, null, $force, $use_streams);
 							if ($ret !== true) {
 								return $ret;
 							}
@@ -116,8 +117,15 @@ class JFolder
 						break;
 
 					case 'file':
-						if (!@ copy($sfid, $dfid)) {
-							return JError::raiseError(-1, JText::_('Copy failed'));
+						if($use_streams) {
+							$stream =& JFactory::getStream();
+							if(!$stream->copy($sfid, $dfid)) {
+								return JError::raiseError(-1, JText::_('Copy failed').': '. $stream->getError());
+							}
+						} else {
+							if (!@ copy($sfid, $dfid)) {
+								return JError::raiseError(-1, JText::_('Copy failed'));
+							}
 						}
 						break;
 				}
@@ -310,7 +318,7 @@ class JFolder
 	 * @return mixed Error message on false or boolean True on success
 	 * @since 1.5
 	 */
-	function move($src, $dest, $path = '')
+	function move($src, $dest, $path = '', $use_streams=false)
 	{
 		// Initialize variables
 		jimport('joomla.client.helper');
@@ -327,26 +335,34 @@ class JFolder
 		if (JFolder::exists($dest)) {
 			return JText::_('Folder already exists');
 		}
-
-		if ($FTPOptions['enabled'] == 1) {
-			// Connect the FTP client
-			jimport('joomla.client.ftp');
-			$ftp = & JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
-
-			//Translate path for the FTP account
-			$src = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src), '/');
-			$dest = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
-
-			// Use FTP rename to simulate move
-			if (!$ftp->rename($src, $dest)) {
-				return JText::_('Rename failed');
+		if($use_streams) {
+			$stream =& JFactory::getStream();
+			if(!$stream->move($src, $dest)) {
+				return JText::_('Rename failed').': '. $stream->getError();
+				//return JError::raiseError(-1, JText::_('Rename failed').': '. $stream->getError()));
 			}
 			$ret = true;
 		} else {
-			if (!@ rename($src, $dest)) {
-				return JText::_('Rename failed');
+			if ($FTPOptions['enabled'] == 1) {
+				// Connect the FTP client
+				jimport('joomla.client.ftp');
+				$ftp = & JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
+	
+				//Translate path for the FTP account
+				$src = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src), '/');
+				$dest = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
+	
+				// Use FTP rename to simulate move
+				if (!$ftp->rename($src, $dest)) {
+					return JText::_('Rename failed');
+				}
+				$ret = true;
+			} else {
+				if (!@ rename($src, $dest)) {
+					return JText::_('Rename failed');
+				}
+				$ret = true;
 			}
-			$ret = true;
 		}
 		return $ret;
 	}

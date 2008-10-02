@@ -320,12 +320,12 @@ class JInstallerComponent extends JAdapterInstance
 		 * ---------------------------------------------------------------------------------------------
 		 */
 
-		// Add an entry to the extension table
+		// Add an entry to the extension table with a whole heap of defaults
 		$row = & JTable::getInstance('extension');
 		$row->name = $this->get('name');
 		$row->type = 'component';
 		$row->element = $this->get('element');
-		$row->folder = ''; // There is no folder for modules
+		$row->folder = ''; // There is no folder for components
 		$row->enabled = 1;
 		$row->protected = 0;
 		$row->access = 0;
@@ -334,7 +334,7 @@ class JInstallerComponent extends JAdapterInstance
 		$row->manifestcache = $this->parent->generateManifestCache();
 		if (!$row->store()) {
 			// Install failed, roll back changes
-			$this->parent->abort(JText::_('Module').' '.JText::_('Install').': '.$db->stderr(true));
+			$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.$db->stderr(true));
 			return false;
 		}
 
@@ -355,7 +355,7 @@ class JInstallerComponent extends JAdapterInstance
 			$this->parent->set('extension.message', $msg);
 		}
 		
-		return $extension->extensionid;
+		return $row->extensionid;
 	}
 
 	/**
@@ -409,6 +409,33 @@ class JInstallerComponent extends JAdapterInstance
 		$this->parent->setPath('extension_administrator', JPath::clean(JPATH_ADMINISTRATOR.DS."components".DS.$this->get('element')));
 		$this->parent->setPath('extension_root', $this->parent->getPath('extension_administrator')); // copy this as its used as a common base
 		
+		/**
+		 * Hunt for the original XML file 
+		 */
+		$old_manifest = null;
+		$tmpInstaller = new JInstaller(); // create a new installer because _findManifest sets stuff
+		// look in the administrator first
+		$tmpInstaller->setPath('source', $this->parent->getPath('extension_administrator'));
+		if(!$tmpInstaller->_findManifest()) {
+			// then the site
+			$tmpInstaller->setPath('source', $this->parent->getPath('extension_site'));
+			if($tmpInstaller->_findManifest()) {
+				$old_manifest = $tmpInstaller->getManifest();
+				$old_manifest = $old_manifest->document;
+			}
+		} else {
+			$old_manifest = $tmpInstaller->getManifest();
+			$old_manifest = $old_manifest->document;
+		}
+		// should do this above perhaps?
+		if($old_manifest) {
+			$this->oldAdminFiles =& $old_manifest->getElementByPath('administration/files');
+			$this->oldFiles =& $old_manifest->getElementByPath('files');
+		} else {
+			$this->oldAdminFiles = null;
+			$this->oldFiles = null;
+		}
+			
 		/**
 		 * ---------------------------------------------------------------------------------------------
 		 * Basic Checks Section
@@ -500,7 +527,7 @@ class JInstallerComponent extends JAdapterInstance
 		foreach ($this->manifest->children() as $child)
 		{
 			if (is_a($child, 'JSimpleXMLElement') && $child->name() == 'files') {
-				if ($this->parent->parseFiles($child) === false) {
+				if ($this->parent->parseFiles($child, 0, $this->oldFiles) === false) {
 					// Install failed, rollback any changes
 					$this->parent->abort();
 					return false;
@@ -511,7 +538,7 @@ class JInstallerComponent extends JAdapterInstance
 		foreach ($this->adminElement->children() as $child)
 		{
 			if (is_a($child, 'JSimpleXMLElement') && $child->name() == 'files') {
-				if ($this->parent->parseFiles($child, 1) === false) {
+				if ($this->parent->parseFiles($child, 1, $this->oldAdminFiles) === false) {
 					// Install failed, rollback any changes
 					$this->parent->abort();
 					return false;
@@ -619,6 +646,32 @@ class JInstallerComponent extends JAdapterInstance
 		 * ---------------------------------------------------------------------------------------------
 		 */
 
+		// Update an entry to the extension table
+		$row = & JTable::getInstance('extension');
+		$eid = $row->find(Array('element'=>strtolower($this->get('element')), 
+						'type'=>'component'));
+		if($eid) {
+			$row->load($eid);
+		} else {
+			// set the defaults
+			$row->folder = ''; // There is no folder for components
+			$row->enabled = 1;
+			$row->protected = 0;
+			$row->access = 0;
+			$row->client_id = 0;
+			$row->params = $this->parent->getParams();
+		}
+		$row->name = $this->get('name');
+		$row->type = 'component';
+		$row->element = $this->get('element');
+		$row->manifestcache = $this->parent->generateManifestCache();
+		if (!$row->store()) {
+			// Install failed, roll back changes
+			$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.$db->stderr(true));
+			return false;
+		}
+		
+
 		// We will copy the manifest file to its appropriate place.
 		if (!$this->parent->copyManifest()) {
 			// Install failed, rollback changes
@@ -636,7 +689,7 @@ class JInstallerComponent extends JAdapterInstance
 			$this->parent->set('extension.message', $msg);
 		}
 		
-		return true;
+		return $row->extensionid;
 	}	
 	
 	

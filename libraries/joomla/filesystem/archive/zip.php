@@ -203,7 +203,7 @@ class JArchiveZip extends JObject
 					$this->set('error.message', 'Unable to create destination');
 					return false;
 				}
-				if (JFile::write($path, $buffer) === false) {
+				if (JFile::write($path, $buffer, true) === false) {
 					$this->set('error.message', 'Unable to write entry');
 					return false;
 				}

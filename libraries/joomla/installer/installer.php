@@ -661,7 +661,7 @@ class JInstaller extends JAdapter
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function parseFiles($element, $cid=0)
+	function parseFiles($element, $cid=0, $oldFiles=null)
 	{
 		// Initialize variables
 		$copyfiles = array ();
@@ -670,15 +670,9 @@ class JInstaller extends JAdapter
 		jimport('joomla.application.helper');
 		$client =& JApplicationHelper::getClientInfo($cid);
 
-		if (!is_a($element, 'JSimpleXMLElement') || !count($element->children())) {
-			// Either the tag does not exist or has no children therefore we return zero files processed.
-			return 0;
-		}
-
-		// Get the array of file nodes to process
-		$files = $element->children();
-		if (count($files) == 0) {
-			// No files to process
+		// Get the array of file nodes to process; we checked this had children above
+		if (!is_a($element, 'JSimpleXMLElement') || !count($files = $element->children())) {
+			// Either the tag does not exist or has no children (hence no files to process) therefore we return zero files processed.
 			return 0;
 		}
 
@@ -707,6 +701,20 @@ class JInstaller extends JAdapter
 			$source = $this->getPath('source').DS.$folder;
 		} else {
 			$source = $this->getPath('source');
+		}
+		
+		// Work out what files have been deleted
+		if($oldFiles && is_a($oldFiles, 'JSimpleXMLElement')) {
+			$oldEntries = $oldFiles->children();
+			if(count($oldEntries)) {
+				$deletions = $this->findDeletedFiles($oldEntries, $files);
+				foreach($deletions['folders'] as $deleted_folder) {
+					JFolder::delete($destination.DS.$deleted);
+				}
+				foreach($deletions['files'] as $deleted_file) {
+					JFile::delete($destination.DS.$deleted_file);
+				}
+			}
 		}
 
 		// Process each file in the $files array (children of $tagName).
@@ -1035,7 +1043,7 @@ class JInstaller extends JAdapter
 					// Copy the folder or file to the new location.
 					if ( $filetype == 'folder') {
 
-						if (!(JFolder::copy($filesource, $filedest, null, $overwrite))) {
+						if (!(JFolder::copy($filesource, $filedest, null, $overwrite,1))) {
 							JError::raiseWarning(1, 'JInstaller::install: '.JText::sprintf('Failed to copy folder to', $filesource, $filedest));
 							return false;
 						}
@@ -1043,8 +1051,13 @@ class JInstaller extends JAdapter
 						$step = array ('type' => 'folder', 'path' => $filedest);
 					} else {
 
-						if (!(JFile::copy($filesource, $filedest))) {
+						if (!(JFile::copy($filesource, $filedest,null,1))) {
 							JError::raiseWarning(1, 'JInstaller::install: '.JText::sprintf('Failed to copy file to', $filesource, $filedest));
+// TODO: REMOVE ME!
+/*							echo '<p>Copy failed for: '. $filesource .' to '. $filedest.'</p>';
+							$tmpApp =& JFactory::getApplication();
+							print_r($tmpApp->getMessageQueue());
+							die('halting to preserve evidence');*/
 							return false;
 						}
 
@@ -1301,5 +1314,60 @@ class JInstaller extends JAdapter
 		$dbo =& JFactory::getDBO();
 		$dbo->setQuery('DELETE FROM #__extensions WHERE type = '. $dbo->Quote($type).' AND element = '. $dbo->Quote($element) .' AND folder = '. $dbo->Quote($folder). ' AND client_id = '. intval($client).' AND state = -1');
 		return $dbo->Query();
+	}
+	
+	/**
+	 * Compares two "files" entries to find deleted files/folders
+	 * @param array An array of JSimpleXML objects that are the old files
+	 * @param array An array of JSimpleXML objects that are the new files
+	 * @return array An array with the delete files and folders in findDeletedFiles[files] and findDeletedFiles[folders] resepctively 
+	 */
+	function findDeletedFiles($old_files, $new_files) {
+		// The magic find deleted files function!
+		$files = Array(); // the files that are new
+		$folders = Array(); // the folders that are new
+		$containers = Array(); // the folders of the files that are new
+		$files_deleted = Array(); // a list of files to delete
+		$folders_deleted = Array(); // a list of folders to delete
+		foreach($new_files as $file) {
+			switch($file->name()) {
+				case 'folder':
+					$folders[] = $file->data(); // add any folders to the list
+					break;
+				case 'file':
+				default:
+					$files[] = $file->data(); // add any files to the list
+					// now handle the folder part of the file to ensure we get any containers
+					$container_parts = explode('/',dirname($file->data())); // break up the parts of the directory
+					$container = ''; // make sure this is clean and empty
+					foreach($container_parts as $part) { // iterate through each part
+						if(!empty($container)) $container .= '/'; // add a slash if its not empty
+						$container .= $part; // append the folder part
+						if(!in_array($container, $containers)) $containers[] = $container; // add the container if it doesn't already exist
+					}
+					break;
+			}
+		}
+		
+		foreach($old_files as $file) {
+			switch($file->name()) {
+				case 'folder':
+					if(!in_array($file->data(), $folders)) { // look if the folder exists in the new list
+						if(!in_array($file->data(), $containers)) { // check if the folder exists as a container in the new list
+							$folders_deleted[] = $file->data(); // if its not in the new list or a container then delete it
+						}
+					}
+					break;
+				case 'file':
+				default:
+					if(!in_array($file->data(), $files)) { // look if the file exists in the new list
+						if(!in_array(dirname($file->data()), $folders)) { // look if the file is now potentially in a folder
+							$files_deleted[] = $file->data(); // not in a folder, doesn't exist, wipe it out!
+						}
+					}
+					break;
+			}
+		}
+		return Array('files'=>$files_deleted, 'folders'=>$folders_deleted);
 	}
 }

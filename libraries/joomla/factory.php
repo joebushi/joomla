@@ -714,11 +714,12 @@ class JFactory
 	/**
 	 * Creates a new stream object with appropriate prefix
 	 * @param boolean Prefix the connections for writing
-	 * @param boolean ftp Use FTP if available for writing; use false to disable
+	 * @param boolean Use network if available for writing; use false to disable (e.g. FTP, SCP)
 	 * @param string UA User agent to use
 	 * @param boolean User agent masking (prefix Mozilla)
 	 */
-	function &getStream($prefix=true, $ftp=true,$ua=null, $uamask=false) {
+	function &getStream($prefix=true, $use_network=true,$ua=null, $uamask=false) {
+		jimport('joomla.filesystem.stream');
 		// Setup the context; Joomla! UA and overwrite
 		$context = Array();
 		$version = new JVersion();
@@ -728,11 +729,12 @@ class JFactory
 		if($prefix) {
 			jimport('joomla.client.helper');
 			$FTPOptions = JClientHelper::getCredentials('ftp');
-			if ($FTPOptions['enabled'] == 1 && $ftp) {
+			$SCPOptions = JClientHelper::getCredentials('scp');
+			if ($FTPOptions['enabled'] == 1 && $use_network) {
 				$prefix = 'ftp://'. $FTPOptions['user'] .':'. $FTPOptions['pass'] .'@'. $FTPOptions['host'];
 				$prefix .= $FTPOptions['port'] ? ':'. $FTPOptions['port'] : '';
 				$prefix .= $FTPOptions['root'];
-			} else {
+			} else if($SCPOptions['enabled'] == 1 && $use_network) {
 				$prefix = JPATH_ROOT.DS;
 			}
 			$retval = new JStream($prefix, JPATH_ROOT, $context);
