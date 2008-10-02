@@ -75,13 +75,13 @@ class JInstallationModel extends JModel
 	 */
 	function chooseLanguage()
 	{
-		global $mainframe;
+		$appl = JFactory::getApplication();
 
 		$vars	=& $this->getVars();
 
 		jimport('joomla.language.helper');
 		$native = JLanguageHelper::detectLanguage();
-		$forced = $mainframe->getLocalise();
+		$forced = $appl->getLocalise();
 
 		if ( !empty( $forced['lang'] ) ){
 			$native = $forced['lang'];
@@ -104,7 +104,7 @@ class JInstallationModel extends JModel
 	 */
 	function dbConfig()
 	{
-		global $mainframe;
+		$appl = JFactory::getApplication();
 
 		$vars	=& $this->getVars();
 
@@ -114,19 +114,19 @@ class JInstallationModel extends JModel
 
 		$lists	= array ();
 		$files	= array ('mysql', 'mysqli',);
-		$db		= JInstallationHelper::detectDB();
+		$db		= isset($vars['DBtype']) ? $vars['DBtype'] : JInstallationHelper::detectDB();
 		foreach ($files as $file)
 		{
 			$option = array ();
 			$option['text'] = $file;
 			if (strcasecmp($option['text'], $db) == 0)
 			{
-				$option['selected'] = 'selected="true"';
+				$option['selected'] = 'selected="selected"';
 			}
 			$lists['dbTypes'][] = $option;
 		}
 
-		$doc =& JFactory::getDocument();
+		$doc = JFactory::getDocument();
 
 		$this->setData('lists', $lists);
 
@@ -142,12 +142,12 @@ class JInstallationModel extends JModel
 	 */
 	function finish()
 	{
-		global $mainframe;
+		$appl = JFactory::getApplication();
 
 		$vars	=& $this->getVars();
 
-		$vars['siteurl']	= JURI::root();
-		$vars['adminurl']	= $vars['siteurl'].'administrator/';
+		$vars['siteUrl']	= JURI::root();
+		$vars['adminUrl']	= $vars['siteUrl'].'administrator/';
 
 		return true;
 	}
@@ -161,7 +161,7 @@ class JInstallationModel extends JModel
 	 */
 	function ftpConfig($DBcreated = '0')
 	{
-		global $mainframe;
+		$appl = JFactory::getApplication();
 
 		$vars	=& $this->getVars();
 
@@ -275,7 +275,7 @@ class JInstallationModel extends JModel
 	 */
 	function makeDB($vars = false)
 	{
-		global $mainframe;
+		$appl = JFactory::getApplication();
 
 		// Initialize variables
 		if ($vars === false) {
@@ -353,7 +353,7 @@ class JInstallationModel extends JModel
 
 			if ($err = $db->getErrorNum()) {
 				// connection failed
-				$this->setError(JText::sprintf('WARNNOTCONNECTDB', $db->getErrorNum()));
+				$this->setError(JText::sprintf('WARNNOTCONNECTDB', $err ) );
 				$this->setData('back', 'dbconfig');
 				$this->setData('errors', $db->getErrorMsg());
 				return false;
@@ -413,10 +413,8 @@ class JInstallationModel extends JModel
 				}
 			}
 
-			$type = $DBtype;
-			if ($type == 'mysqli') {
-				$type = 'mysql';
-			}
+			// For the install the mysql type will be used
+			$type = 'mysql';
 
 			// set collation and use utf-8 compatibile script if appropriate
 			if ($DButfSupport) {
@@ -449,7 +447,7 @@ class JInstallationModel extends JModel
 
 			// Handle default backend language setting. This feature is available for
 			// localized versions of Joomla! 1.5.
-			$langfiles = $mainframe->getLocaliseAdmin();
+			$langfiles = $appl->getLocaliseAdmin();
 			if (in_array($lang, $langfiles['admin']) || in_array($lang, $langfiles['site'])) {
 				// Determine the language settings
 				$param[] = Array();
@@ -490,7 +488,7 @@ class JInstallationModel extends JModel
 	 */
 	function mainConfig()
 	{
-		global $mainframe;
+		$appl = JFactory::getApplication();
 
 		$vars	=& $this->getVars();
 
@@ -543,6 +541,7 @@ class JInstallationModel extends JModel
 			$vars['siteName'] = stripslashes(stripslashes($vars['siteName']));
 		}
 
+		/*
 		$folders = array (
 			'administrator/backups',
 			'administrator/cache',
@@ -566,14 +565,15 @@ class JInstallationModel extends JModel
 			'templates',
 		);
 
-		// Now lets make sure we have permissions set on the appropriate folders
-		//		foreach ($folders as $folder)
-		//		{
-		//			if (!JInstallationHelper::setDirPerms( $folder, $vars ))
-		//			{
-		//				$lists['folderPerms'][] = $folder;
-		//			}
-		//		}
+		//Now lets make sure we have permissions set on the appropriate folders
+		foreach ($folders as $folder)
+		{
+			if (!JInstallationHelper::setDirPerms( $folder, $vars ))
+			{
+				$lists['folderPerms'][] = $folder;
+			}
+		}
+		*/
 
 		return true;
 	}
@@ -712,7 +712,7 @@ class JInstallationModel extends JModel
 	 */
 	function saveConfig()
 	{
-		global $mainframe;
+		$appl = JFactory::getApplication();
 
 		$vars	=& $this->getVars();
 		$lang	=& JFactory::getLanguage();
@@ -732,7 +732,7 @@ class JInstallationModel extends JModel
 		$vars['log_path']		= JPATH_ROOT.DS.'logs';
 
 		// set default language
-		$forced = $mainframe->getLocalise();
+		$forced = $appl->getLocalise();
 		if ( empty($forced['lang']) ) {
 			$vars['deflang'] = 'en-GB';
 			$vars['bclang'] = 'english';

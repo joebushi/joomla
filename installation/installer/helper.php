@@ -27,7 +27,7 @@ class JInstallationHelper
 	 */
 	function detectDB()
 	{
-		$map = array ('mysql_connect' => 'mysql', 'mysqli_connect' => 'mysqli', 'mssql_connect' => 'mssql');
+		$map = array ('mysqli_connect' => 'mysqli', 'mysql_connect' => 'mysql', 'mssql_connect' => 'mssql');
 		foreach ($map as $f => $db)
 		{
 			if (function_exists($f))
@@ -195,11 +195,12 @@ class JInstallationHelper
 			{
 				$db->setQuery($query);
 				//echo $query .'<br />';
-				$db->query() or die($db->getErrorMsg());
+				$db->query();
 
 				JInstallationHelper::getDBErrors($errors, $db );
 			}
 		}
+		
 		return count($errors);
 	}
 

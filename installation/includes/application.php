@@ -59,9 +59,9 @@ class JInstallation extends JApplication
 	 */
 	function render()
 	{
-		$document	=& JFactory::getDocument();
-		$config		=& JFactory::getConfig();
-		$user		=& JFactory::getUser();
+		$document	= JFactory::getDocument();
+		$config		= JFactory::getConfig();
+		$user		= JFactory::getUser();
 
 		switch($document->getType())
 		{
@@ -143,7 +143,7 @@ class JInstallation extends JApplication
 		}
 
 		//Set the language in the class
-		$conf =& JFactory::getConfig();
+		$conf = JFactory::getConfig();
 		$conf->setValue('config.language', $options['language']);
 		$conf->setValue('config.debug_lang', $forced['debug']);
 	}
@@ -194,7 +194,7 @@ class JInstallation extends JApplication
 		$options = array();
 		$options['name'] = $name;
 
-		$session = &JFactory::getSession($options);
+		$session = JFactory::getSession($options);
 		if (!is_a($session->get('registry'), 'JRegistry')) {
 			// Registry has been corrupted somehow
 			$session->set('registry', new JRegistry('session'));
@@ -209,7 +209,7 @@ class JInstallation extends JApplication
 	 */
 	function getLocalise()
 	{
-		$xml = & JFactory::getXMLParser('Simple');
+		$xml =  JFactory::getXMLParser('Simple');
 
 		if (!$xml->loadFile(JPATH_SITE.DS.'installation'.DS.'localise.xml')) {
 			return 'no file'; //null;

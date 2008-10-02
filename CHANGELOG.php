@@ -42,6 +42,12 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+02-Oct-2008 Toby Patterson
+ - Fixed bug with JFTP and check for connection
+ # [#12699] Refactor installation application
+ - Most patTemplate code removed
+ - Migrator currently broken, may be redesigned, discussion pending
+
 29-Sep-2008 Chantal Bisson
  - Removed duplicates of the language files for com_contactdirectory
  # Fixed notice about $this->type not initialized on line 199 /administrator/components/com_categories/models/categories.php
