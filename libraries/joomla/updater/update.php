@@ -64,7 +64,9 @@ class JUpdate {
 		switch($name) {
 			case 'UPDATE':
 				$ver = new JVersion();
-				if($ver->PRODUCT == $this->_current_update->targetplatform->name && $ver->RELEASE == $this->_current_update->targetplatform->version) {
+				$filter =& JFilterInput::getInstance();
+				$product = strtolower($filter->clean($ver->PRODUCT, 'cmd'));
+				if($product == $this->_current_update->targetplatform->name && $ver->RELEASE == $this->_current_update->targetplatform->version) {
 					if(isset($this->_latest)) {
 						if(version_compare($this->_current_update->version->_data, $this->_latest->version->_data, '>') == 1) {
 							$this->_latest = $this->_current_update;
@@ -81,6 +83,9 @@ class JUpdate {
 						$this->$key = $val;
 					}
 					unset($this->_latest);
+					unset($this->_current_update);
+				} else if(isset($this->_current_update)) {
+					// the update might be for an older version of j!
 					unset($this->_current_update);
 				}
 				break;
@@ -133,7 +138,7 @@ class JUpdate {
 
 		// Was the package downloaded?
 		if (!$p_file) {
-			JError::raiseWarning('SOME_ERROR_CODE', JText::_('Invalid URL').': '. $url);
+			JError::raiseWarning('SOME_ERROR_CODE', JText::_('Package download failed').': '. $url);
 			return false;
 		}
 

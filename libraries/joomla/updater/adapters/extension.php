@@ -39,8 +39,11 @@ class JUpdaterExtension extends JUpdateAdapter {
 		switch($name) {
 			case 'UPDATE':
 				$ver = new JVersion();
-				if($ver->PRODUCT == $this->current_update->targetplatform['NAME'] && $ver->RELEASE == $this->current_update->targetplatform['VERSION']) {
-					unset($this->current_update->targetplatform);
+				$filter =& JFilterInput::getInstance();
+				$product = strtolower($filter->clean($ver->PRODUCT, 'cmd')); // lower case and remove the exclamation mark
+				if($product == $this->current_update->targetplatform['NAME'] && $ver->RELEASE == $this->current_update->targetplatform['VERSION']) {
+					// Target platform isn't a valid field in the update table so unset it to prevent J! from trying to store it
+					unset($this->current_update->targetplatform); 
 					if(isset($this->latest)) {
 						if(version_compare($this->current_update->version, $this->latest->version, '>') == 1) {
 							$this->latest = $this->current_update;

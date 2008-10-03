@@ -44,6 +44,8 @@ $ -> Language fix or change
  + Added SCP support to JFactory::getStream
  ^ Fixed a few JFile::write instance not using stream in the filesystem tree
  ^ Changed some of the warning messages to be more descriptive
+ # Fixed extraneous database in SQL file
+ ^ Added filtering to the product name (from JVersion) when comparing to avoid case or symbol issues in update code
 
 02-Oct-2008 Sam Moffatt
  - Removed File Stream class

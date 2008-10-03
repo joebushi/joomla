@@ -48,7 +48,7 @@ ALTER TABLE `jos_extensions` ADD INDEX `type_element`(`type`, `element`),
  ADD INDEX `extension`(`type`,`element`,`folder`,`client_id`);
 
 # Update Sites
-CREATE TABLE  `joomla_update`.`jos_updates` (
+CREATE TABLE  `jos_updates` (
   `updateid` int(11) NOT NULL auto_increment,
   `updatesiteid` int(11) default '0',
   `extensionid` int(11) default '0',
