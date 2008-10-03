@@ -38,6 +38,13 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+03-Oct-2008 Sam Moffatt
+ + Added extra triggers to example installer plugin
+ ^ Changed installer on onBeforeExtensionInstall trigger call to work as documented
+ + Added SCP support to JFactory::getStream
+ ^ Fixed a few JFile::write instance not using stream in the filesystem tree
+ ^ Changed some of the warning messages to be more descriptive
+
 02-Oct-2008 Sam Moffatt
  - Removed File Stream class
  + Added htaccess.txt file for administrator/backups folder to protect it

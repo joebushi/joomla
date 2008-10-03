@@ -454,7 +454,7 @@ class JStream extends JObject {
 				$res = JFilesystemHelper::ftpChmod($filename, $mode);
 				break;
 			default:
-				echo '<p>Chmodding '. $filename . ' with ' . decoct($mode) .'</p>';
+				//echo '<p>Chmodding '. $filename . ' with ' . decoct($mode) .'</p>';
 				$res = chmod($filename, $mode);
 				break;
 		}

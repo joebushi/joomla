@@ -41,7 +41,23 @@ class plgInstallerExample extends JPlugin {
 	{
 		parent::__construct($subject, $config);
 	}
-
+	
+	function onBeforeExtensionInstall($method, $type, $manifest, $extension) {
+		JError::raiseWarning(-1, 'plgInstallerExample::onBeforeExtensionInstall: Installing '. $type .' from '. $method . ($method == 'install' ? ' with manifest supplied' : ' using discovered extension ID '. $eid));
+	}
+	
+	function onAfterExtensionInstall($installer, $eid) {
+		JError::raiseWarning(-1, 'plgInstallerExample::onAfterExtensionInstall: '. ($eid === false ? 'Failed extension install: '. $installer->getError() : 'Extension install successful') . ($eid ? ' with new extension ID '. $eid : ' with no extension ID detected or multiple extension IDs assigned'));
+	}
+	
+	function onBeforeExtensionUpdate($type, $manifest) {
+		JError::raiseWarning(-1, 'plgInstallerExample::onBeforeExtensionUpdate: Updating a '. $type);
+	}
+	
+	function onAfterExtensionUpdate($installer, $eid) {
+		JError::raiseWarning(-1, 'plgInstallerExample::onAfterExtensionUpdate: '. ($eid === false ? 'Failed extension update: '. $installer->getError() : 'Extension update successful') . ($eid ? ' with updated extension ID '. $eid : ' with no extension ID detected or multiple extension IDs assigned'));
+	}
+	
 	/**
 	 * Example store user method
 	 *
@@ -52,123 +68,10 @@ class plgInstallerExample extends JPlugin {
 	 */
 	function onBeforeExtensionUninstall($eid)
 	{
-		die('tried to uninstall: '. $eid);
+		JError::raiseWarning(-1, 'plgInstallerExample::onBeforeExtensionUninstall: Uninstalling '. $eid);
 	}
-
-	/**
-	 * Example store user method
-	 *
-	 * Method is called after user data is stored in the database
-	 *
-	 * @param 	array		holds the new user data
-	 * @param 	boolean		true if a new user is stored
-	 * @param	boolean		true if user was succesfully stored in the database
-	 * @param	string		message
-	 */
-	function onAfterStoreUser($user, $isnew, $succes, $msg)
-	{
-		global $mainframe;
-
-		// convert the user parameters passed to the event
-		// to a format the external application
-
-		$args = array();
-		$args['username']	= $user['username'];
-		$args['email'] 		= $user['email'];
-		$args['fullname']	= $user['name'];
-		$args['password']	= $user['password'];
-
-		if ($isnew)
-		{
-			// Call a function in the external app to create the user
-			// ThirdPartyApp::createUser($user['id'], $args);
-		}
-		else
-		{
-			// Call a function in the external app to update the user
-			// ThirdPartyApp::updateUser($user['id'], $args);
-		}
-	}
-
-	/**
-	 * Example store user method
-	 *
-	 * Method is called before user data is deleted from the database
-	 *
-	 * @param 	array		holds the user data
-	 */
-	function onBeforeDeleteUser($user)
-	{
-		global $mainframe;
-	}
-
-	/**
-	 * Example store user method
-	 *
-	 * Method is called after user data is deleted from the database
-	 *
-	 * @param 	array		holds the user data
-	 * @param	boolean		true if user was succesfully stored in the database
-	 * @param	string		message
-	 */
-	function onAfterDeleteUser($user, $succes, $msg)
-	{
-		global $mainframe;
-
-	 	// only the $user['id'] exists and carries valid information
-
-		// Call a function in the external app to delete the user
-		// ThirdPartyApp::deleteUser($user['id']);
-	}
-
-	/**
-	 * This method should handle any login logic and report back to the subject
-	 *
-	 * @access	public
-	 * @param 	array 	holds the user data
-	 * @param 	array    extra options
-	 * @return	boolean	True on success
-	 * @since	1.5
-	 */
-	function onLoginUser($user, $options)
-	{
-		// Initialize variables
-		$success = false;
-
-		// Here you would do whatever you need for a login routine with the credentials
-		//
-		// Remember, this is not the authentication routine as that is done separately.
-		// The most common use of this routine would be logging the user into a third party
-		// application.
-		//
-		// In this example the boolean variable $success would be set to true
-		// if the login routine succeeds
-
-		// ThirdPartyApp::loginUser($user['username'], $user['password']);
-
-		return $success;
-	}
-
-	/**
-	 * This method should handle any logout logic and report back to the subject
-	 *
-	 * @access public
-	 * @param array holds the user data
-	 * @return boolean True on success
-	 * @since 1.5
-	 */
-	function onLogoutUser($user)
-	{
-		// Initialize variables
-		$success = false;
-
-		// Here you would do whatever you need for a logout routine with the credentials
-		//
-		// In this example the boolean variable $success would be set to true
-		// if the logout routine succeeds
-
-		// ThirdPartyApp::loginUser($user['username'], $user['password']);
-
-		return $success;
+	
+	function onAfterExtensionUninstall($installer, $eid, $result) {
+		JError::raiseWarning(-1, 'plgInstallerExample::onAfterExtensionUninstall: Uninstallation of '. $eid .' was a '. ($result ? 'success' : 'failure'));
 	}
 }

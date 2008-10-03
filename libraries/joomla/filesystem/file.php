@@ -89,7 +89,7 @@ class JFile
 		if($use_streams) {
 			$stream =& JFactory::getStream();
 			if(!$stream->copy($src, $dest)) {
-				JError::raiseWarning(21, 'JFile::copy: '. $stream->getError());
+				JError::raiseWarning(21, 'JFile::copy('. $src .', '. $dest .'): '. $stream->getError());
 				return false;
 			}
 			return true;
@@ -305,7 +305,7 @@ class JFile
 			$stream =& JFactory::getStream();
 			$stream->set('chunksize', (1024 * 1024 * 1024)); // beef up the chunk size to a meg
 			if(!$stream->writeFile($file, $buffer)) {
-				JError::raiseWarning(21, 'JFile::write: '. $stream->getError());
+				JError::raiseWarning(21, 'JFile::write('. $file.'): '. $stream->getError());
 				return false;
 			}
 			return true;

@@ -338,7 +338,7 @@ class JInstaller extends JAdapter
 			// Fire the onBeforeExtensionInstall event.
         	JPluginHelper::importPlugin( 'installer' );
         	$dispatcher =& JDispatcher::getInstance();
-        	$dispatcher->trigger( 'onBeforeExtensionInstall', array( 'method'=>'install', 'type'=>$type, 'manifest'=>$root ) );
+        	$dispatcher->trigger( 'onBeforeExtensionInstall', array( 'method'=>'install', 'type'=>$type, 'manifest'=>$root, 'extension'=>0 ) );
 			
 			// Run the install 
 			$result = $this->_adapters[$type]->install();
@@ -382,7 +382,7 @@ class JInstaller extends JAdapter
 					// Fire the onBeforeExtensionInstall event.
 	                JPluginHelper::importPlugin( 'installer' );
 	                $dispatcher =& JDispatcher::getInstance();
-	                $dispatcher->trigger( 'onBeforeExtensionInstall', array( 'method'=>'discover_install', 'type'=>$this->_extension->type, 'extension'=>$this->_extension ) );
+	                $dispatcher->trigger( 'onBeforeExtensionInstall', array( 'method'=>'discover_install', 'type'=>$this->_extension->type, 'manifest'=>null, 'extension'=>$this->_extension ) );
 					// Run the install 
 					$result = $this->_adapters[$this->_extension->type]->discover_install();
 					// Fire the onAfterExtensionInstall

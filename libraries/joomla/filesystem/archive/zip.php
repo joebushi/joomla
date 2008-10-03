@@ -237,7 +237,7 @@ class JArchiveZip extends JObject
 					if (zip_entry_open($zip, $file, "r")) {
 						if (substr(zip_entry_name($file), strlen(zip_entry_name($file)) - 1) != "/") {
 							$buffer = zip_entry_read($file, zip_entry_filesize($file));
-							if (JFile::write($destination.DS.zip_entry_name($file), $buffer) === false) {
+							if (JFile::write($destination.DS.zip_entry_name($file), $buffer, true) === false) {
 								$this->set('error.message', 'Unable to write entry');
 								return false;
 							}
@@ -495,7 +495,7 @@ class JArchiveZip extends JObject
 		/* ZIP file comment length. */
 		"\x00\x00";
 
-		if (JFile::write($path, $buffer) === false) {
+		if (JFile::write($path, $buffer, true) === false) {
 			return false;
 		} else {
 			return true;

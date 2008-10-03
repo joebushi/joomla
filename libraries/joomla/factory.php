@@ -718,7 +718,7 @@ class JFactory
 	 * @param string UA User agent to use
 	 * @param boolean User agent masking (prefix Mozilla)
 	 */
-	function &getStream($prefix=true, $use_network=true,$ua=null, $uamask=false) {
+	function &getStream($use_prefix=true, $use_network=true,$ua=null, $uamask=false) {
 		jimport('joomla.filesystem.stream');
 		// Setup the context; Joomla! UA and overwrite
 		$context = Array();
@@ -726,7 +726,7 @@ class JFactory
 		// set the UA for HTTP and overwrite for FTP
 		$context['http']['user_agent'] = $version->getUserAgent($ua, $uamask);
 		$context['ftp']['overwrite'] = true;		
-		if($prefix) {
+		if($use_prefix) {
 			jimport('joomla.client.helper');
 			$FTPOptions = JClientHelper::getCredentials('ftp');
 			$SCPOptions = JClientHelper::getCredentials('scp');
@@ -735,6 +735,10 @@ class JFactory
 				$prefix .= $FTPOptions['port'] ? ':'. $FTPOptions['port'] : '';
 				$prefix .= $FTPOptions['root'];
 			} else if($SCPOptions['enabled'] == 1 && $use_network) {
+				$prefix = 'ssh2.sftp://'. $SCPOptions['user'] .':'. $SCPOptions['pass'] .'@'. $SCPOptions['host'];
+				$prefix .= $SCPOptions['port'] ? ':'. $SCPOptions['port'] : '';
+				$prefix .= $SCPOptions['root'];
+			} else {
 				$prefix = JPATH_ROOT.DS;
 			}
 			$retval = new JStream($prefix, JPATH_ROOT, $context);
