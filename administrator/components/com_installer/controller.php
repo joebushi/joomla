@@ -187,8 +187,7 @@ class InstallerController extends JController
 	 * @return	void
 	 * @since	1.5
 	 */
-	function remove()
-	{
+	function remove() {
 		// Check for request forgeries
 		JRequest::checkToken() or jexit( 'Invalid Token' );
 
@@ -215,8 +214,25 @@ class InstallerController extends JController
 	}
 	
 	// Should probably use multiple controllers here
-	function update() {
-		// TODO: Fill in with updates
+	function update()
+	{
+		// Check for request forgeries
+		JRequest::checkToken() or jexit( 'Invalid Token' );
+
+		$type	= JRequest::getWord('type', 'components');
+		$model	= &$this->getModel( $type );
+		$view	= &$this->getView( $type );
+
+		$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
+		$view->assignRef('ftp', $ftp);
+
+		$uid = JRequest::getVar('uid', array(), '', 'array');
+
+		JArrayHelper::toInteger($uid, array());
+		$result = $model->update($uid);
+
+		$view->setModel( $model, true );
+		$view->display();
 	}
 	
 	function update_find() {
@@ -230,7 +246,7 @@ class InstallerController extends JController
 
 		$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
 		$view->assignRef('ftp', $ftp);
-
+		$model->purge();
 		$result = $model->findUpdates();
 
 		$view->setModel( $model, true );

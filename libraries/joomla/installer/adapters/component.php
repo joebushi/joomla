@@ -337,6 +337,14 @@ class JInstallerComponent extends JAdapterInstance
 			$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.$db->stderr(true));
 			return false;
 		}
+		
+		// Clobber any possible pending updates
+		$update =& JTable::getInstance('update');
+		$uid = $update->find(Array('element'=>$this->get('element'), 
+								'type'=>'component', 
+								'client_id'=>'', 
+								'folder'=>''));
+		if($uid) $update->delete($uid);
 
 		// We will copy the manifest file to its appropriate place.
 		if (!$this->parent->copyManifest()) {
@@ -645,6 +653,28 @@ class JInstallerComponent extends JAdapterInstance
 		 * Finalization and Cleanup Section
 		 * ---------------------------------------------------------------------------------------------
 		 */
+		// Update an entry in the extension table
+		$row = & JTable::getInstance('extension');
+		$eid = $row->find(Array('element'=>$this->get('element'), 
+								'type'=>'component', 
+								'client_id'=>'', 
+								'folder'=>''));
+		$row->load($eid);	
+		$row->name = $this->get('name'); //update the name possibly
+		$row->manifestcache = $this->parent->generateManifestCache(); // and the manifest cache
+		if (!$row->store()) {
+			// Install failed, roll back changes
+			$this->parent->abort(JText::_('Module').' '.JText::_('Install').': '.$db->stderr(true));
+			return false;
+		}
+		
+		// Clobber any possible pending updates
+		$update =& JTable::getInstance('update');
+		$uid = $update->find(Array('element'=>$this->get('element'), 
+								'type'=>'component', 
+								'client_id'=>'', 
+								'folder'=>''));
+		if($uid) $update->delete($uid);
 
 		// Update an entry to the extension table
 		$row = & JTable::getInstance('extension');
@@ -863,6 +893,14 @@ class JInstallerComponent extends JAdapterInstance
 		$this->parent->removeFiles($this->manifest->getElementByPath('media'));
 		$this->parent->removeFiles($this->manifest->getElementByPath('languages'));
 		$this->parent->removeFiles($this->manifest->getElementByPath('administration/languages'), 1);
+
+		 // Clobber any possible pending updates
+		$update =& JTable::getInstance('update');
+		$uid = $update->find(Array('element'=>$row->element, 
+								'type'=>'component', 
+								'client_id'=>'', 
+								'folder'=>''));
+		if($uid) $update->delete($uid);
 
 		// Now we need to delete the installation directories.  This is the final step in uninstalling the component.
 		if (trim($row->element)) {
@@ -1360,6 +1398,14 @@ class JInstallerComponent extends JAdapterInstance
 						 * Finalization and Cleanup Section
 						 * ---------------------------------------------------------------------------------------------
 						 */
+						 
+						 // Clobber any possible pending updates
+						$update =& JTable::getInstance('update');
+						$uid = $update->find(Array('element'=>$this->get('element'), 
+												'type'=>'component', 
+												'client_id'=>'', 
+												'folder'=>''));
+						if($uid) $update->delete($uid);
 
 						// And now we run the postflight
 						ob_start();

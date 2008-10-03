@@ -52,7 +52,7 @@ class JUpdater extends JAdapter {
 			$instance = new JUpdater();
 		}
 		return $instance;
-	}	
+	}
 	
 	/**
 	 * Finds an update for an extension
@@ -76,8 +76,49 @@ class JUpdater extends JAdapter {
 			$this->setAdapter($result['type']);
 			$update_result = $this->_adapters[$result['type']]->findUpdate($result);
 			if(is_array($update_result)) {
-				$results = $this->arrayUnique(array_merge($results, $update_result));
-				$result_count = count($results);
+				if(array_key_exists('update_sites',$update_result) && count($update_result['update_sites'])) {
+					$results = $this->arrayUnique(array_merge($results, $update_result['update_sites']));
+					$result_count = count($results);					
+				}
+				if(array_key_exists('updates', $update_result) && count($update_result['updates'])) {
+					for($k = 0; $k < count($update_result['updates']); $k++) {
+						$current_update =& $update_result['updates'][$k];
+						$update =& JTable::getInstance('update');
+						$extension =& JTable::getInstance('extension');
+						$uid = $update->find(Array('element'=>strtolower($current_update->element), 
+								'type'=>strtolower($current_update->type), 
+								'client_id'=>strtolower($current_update->client_id), 
+								'folder'=>strtolower($current_update->folder)));
+						$eid = $extension->find(Array('element'=>strtolower($current_update->element), 
+								'type'=>strtolower($current_update->type), 
+								'client_id'=>strtolower($current_update->client_id), 
+								'folder'=>strtolower($current_update->folder)));
+						if(!$uid) {
+							// set the extension id
+							if($eid) {
+								// we have an installed extension, check the update is actually newer
+								$extension->load($eid);
+								$data = unserialize($extension->manifestcache);
+								if(version_compare($current_update->version, $data['version'], '>') == 1) {
+									//echo '<p>Storing extension since '. $attrs['VERSION'] .' > ' . $data['version']. '</p>';
+									$current_update->extensionid = $eid;
+									$current_update->store();
+								}
+							} else {
+								// a potentially new extension to be installed
+								//echo '<p>Storing since no equivalent extension is installed</p>';
+								$current_update->store();
+							}				
+						} else {
+							$update->load($uid);
+							// if there is an update, check that the version is newer then replaces
+							if(version_compare($current_update->version, $update->version, '>') == 1) {
+								//echo '<p>Storing extension since '. $attrs['VERSION'] .' > ' . $data['version']. '</p>';
+								$current_update->store();
+							}
+						}//else { echo '<p>Found a matching update for '. $attrs['NAME'] .'</p>';}
+					}
+				}
 				$update_result = true;
 			} else if ($retval) {
 				$update_result = true;
@@ -107,6 +148,15 @@ class JUpdater extends JAdapter {
 	    }
 	
 	    return $myArray;
-	
 	} 	
+	
+	function update($id) {
+		$updaterow =& JTable::getInstance('update');
+		$updaterow->load($id);
+		$update = new JUpdate();
+		if($update->loadFromXML($updaterow->detailsurl)) {
+			return $update->install();
+		}
+		return false;
+	}
 }

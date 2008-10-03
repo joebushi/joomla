@@ -16,6 +16,7 @@
 require_once(dirname(__FILE__).DS.'extension.php');
 jimport('joomla.installer.installer');
 jimport('joomla.updater.updater');
+jimport('joomla.updater.update');
 
 /**
  * Installer Manage Model
@@ -49,7 +50,7 @@ class InstallerModelUpdate extends InstallerModel
 
 		$query = 'SELECT *' .
 				' FROM #__updates' .
-				' WHERE extensionid != 0' . // we only want actual updates
+				//' WHERE extensionid != 0' . // we only want actual updates
 				' ORDER BY type, client_id, folder, name';
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
@@ -83,13 +84,23 @@ class InstallerModelUpdate extends InstallerModel
 	
 	function purge() {
 		$db =& JFactory::getDBO();
-		$db->setQuery('DELETE FROM #__updates');
+		$db->setQuery('TRUNCATE TABLE #__updates');
 		if($db->Query()) {
 			$this->_message = JText::_('Purged updates');
 			return true;
 		} else {
 			$this->_message = JText::_('Failed to purge updates');
 			return false;
+		}
+	}
+	
+	function update($uids) {
+		foreach($uids as $uid) {
+			$update = new JUpdate();
+			$instance =& JTable::getInstance('update');
+			$instance->load($uid);
+			$update->loadFromXML($instance->detailsurl);
+			$update->install();
 		}
 	}
 }

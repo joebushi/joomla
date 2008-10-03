@@ -6,23 +6,19 @@
  
 defined('JPATH_BASE') or die();
  
-jimport('joomla.base.adapterinstance');
-jimport('pasamio.stringstream');
+jimport('joomla.updater.updateadapter');
  
 /**
  * Collection Update Adapater Class
  * @since 1.6
  */
-class JUpdaterCollection extends JAdapterInstance {
-	var $xml_parser;
-	var $_stack = Array('base');
+class JUpdaterCollection extends JUpdateAdapter {
+	
 	var $base;
 	var $parent = Array(0); 
 	var $pop_parent = 0;
 	var $update_sites;
-	var $_updatesiteid = 0;
-	
-	var $_updatecols = Array('NAME', 'ELEMENT', 'TYPE', 'FOLDER', 'CLIENT');
+	var $updates;
 	
 	/**
      * Gets the reference to the current direct parent
@@ -50,13 +46,13 @@ class JUpdaterCollection extends JAdapterInstance {
 		$tag = $this->_getStackLocation();
 		// reset the data
 		eval('$this->'. $tag .'->_data = "";');
-		echo 'Opened: '; print_r($this->_stack); echo '<br />';
-		print_r($attrs); echo '<br />';
+		//echo 'Opened: '; print_r($this->_stack); echo '<br />';
+		//print_r($attrs); echo '<br />';
 		switch($name) {
 			case 'CATEGORY':
 				if(isset($attrs['REF'])) {
 					$this->update_sites[] = Array('type'=>'collection','location'=>$attrs['REF'],'updatesiteid'=>$this->_updatesiteid);
-					echo 'Found new update collection: '. $attrs['NAME'] .'<br />';
+					//echo 'Found new update collection: '. $attrs['NAME'] .'<br />';
 				} else {
 					// This item will have children, so prepare to attach them
 					$this->pop_parent = 1;
@@ -65,7 +61,6 @@ class JUpdaterCollection extends JAdapterInstance {
 			case 'EXTENSION':
 				$update =& JTable::getInstance('update');
 				$update->updatesiteid = $this->_updatesiteid;
-				$extension =& JTable::getInstance('extension');
 				foreach($this->_updatecols AS $col) {
 					// reset the values if it doesn't exist
 					if(!array_key_exists($col, $attrs)) {
@@ -75,55 +70,22 @@ class JUpdaterCollection extends JAdapterInstance {
 						}
 					}
 				}
-				echo '<br /><br />';
+				//echo '<br /><br />';
 				$client = JApplicationHelper::getClientInfo($attrs['CLIENT'],1);
 				$attrs['CLIENT_ID'] = $client->id;
-				$uid = $update->find(Array('element'=>strtolower($attrs['ELEMENT']), 
-						'type'=>strtolower($attrs['TYPE']), 
-						'client_id'=>strtolower($attrs['CLIENT_ID']), 
-						'folder'=>strtolower($attrs['FOLDER'])));
-				$eid = $extension->find(Array('element'=>strtolower($attrs['ELEMENT']), 
-						'type'=>strtolower($attrs['TYPE']), 
-						'client_id'=>strtolower($attrs['CLIENT_ID']), 
-						'folder'=>strtolower($attrs['FOLDER'])));
 				// lower case all of the fields
 				foreach($attrs as $key=>$attr) {
 					$values[strtolower($key)] = $attr;
 				}
-				if(!$uid) {
-					// set the extension id
-					if($eid) {
-						// we have an installed extension, check the update is actually newer
-						$extension->load($eid);
-						$data = unserialize($extension->manifestcache);
-						if(version_compare($attrs['VERSION'], $data['version'], '>') == 1) {
-							//echo '<p>Storing extension since '. $attrs['VERSION'] .' > ' . $data['version']. '</p>';
-							$update->extensionid = $eid;
-							$update->bind($values);
-							$update->store();
-						}	
-					} else {
-						// a potentially new extension to be installed
-						//echo '<p>Storing since no equivalent extension is installed</p>';
-						$update->bind($values);
-						$update->store();
-					}				
-				} else {
-					$update->load($uid);
-					// if there is an update, check that the version is newer then replaces
-					if(version_compare($attrs['VERSION'], $update->version, '>') == 1) {
-						//echo '<p>Storing extension since '. $attrs['VERSION'] .' > ' . $data['version']. '</p>';
-						$update->bind($values);
-						$update->store();
-					}
-				}//else { echo '<p>Found a matching update for '. $attrs['NAME'] .'</p>';}
+				$update->bind($values);
+				$this->updates[] = $update;
 				break;
 		}
 	}
 	
 	function _endElement($parser, $name) {
 		$lastcell = array_pop($this->_stack);
-		echo 'Closed: ' . $lastcell .'; Stack: '. print_r($this->_stack,1) .'<br /><br />';
+		//echo 'Closed: ' . $lastcell .'; Stack: '. print_r($this->_stack,1) .'<br /><br />';
 		//echo 'Closed: '; print_r($this->_stack); echo '<br /><br />';
 		switch($name) {
 			case 'CATEGORY':
@@ -145,7 +107,7 @@ class JUpdaterCollection extends JAdapterInstance {
 	function findUpdate($options) {
 		$url = $options['location'];
 		$this->_updatesiteid = $options['updatesiteid'];
-		echo '<p>Find update for collection run on <a href="'. $url .'">'. $url .'</a></p>';
+		//echo '<p>Find update for collection run on <a href="'. $url .'">'. $url .'</a></p>';
 		if(substr($url, -4) != '.xml') {
 			if(substr($url, -1) != '/') {
 				$url .= '/';
@@ -155,16 +117,13 @@ class JUpdaterCollection extends JAdapterInstance {
 		
 		$this->base = new stdClass();
 		$this->update_sites = Array();
-		
-		$details = @file_get_contents($url);
-		if(!$details) return false;
-		// TODO: Add a 'mark bad' setting here.
-		$file = md5($url);
-		StringStreamController::createRef($file, $details );
+		$this->updates = Array();
 		$dbo =& $this->parent->getDBO();
 		
-		if (!($fp = fopen('string://'. $file, "r"))) {
-		    die("could not open XML input");
+		if (!($fp = @fopen($url, "r"))) {
+			// TODO: Add a 'mark bad' setting here somehow
+		    JError::raiseWarning('101', JText::_('Update') .'::'. JText::_('Collection') .': '. JText::_('Could not open').' '. $url);
+		    return false;
 		}
 		
 		$this->xml_parser = xml_parser_create('');
@@ -180,8 +139,9 @@ class JUpdaterCollection extends JAdapterInstance {
 		    }
 		}
 		// TODO: Decrement the bad counter if non-zero
-		if(count($this->update_sites)) {
+		/*if(count($this->update_sites)) {
 			return $this->update_sites;
-		} else return true;
+		} else return true;*/
+		return Array('update_sites'=>$this->update_sites,'updates'=>$this->updates);
 	}
 }

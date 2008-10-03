@@ -34,7 +34,7 @@ class InstallerViewUpdate extends InstallerViewDefault
 		 */
 		JToolBarHelper::custom( 'update', 'config', 'config', 'Update', true, false);
 		JToolBarHelper::custom( 'update_find', 'refresh', 'refresh','Find Updates',false,false);
-		JToolBarHelper::custom( 'update_purge', 'trash', 'trash', 'Purge Cache', false,false);
+		//JToolBarHelper::custom( 'update_purge', 'trash', 'trash', 'Purge Cache', false,false);
 		JToolBarHelper::help( 'screen.installer' );
 
 		// Get data from the model
@@ -44,7 +44,8 @@ class InstallerViewUpdate extends InstallerViewDefault
 
 		$this->assignRef('items',		$items);
 		$this->assignRef('pagination',	$pagination);
-
+		
+		JHTML::_('behavior.tooltip');
 		parent::display($tpl);
 	}
 

@@ -2,45 +2,75 @@
 
 defined('JPATH_BASE') or die();
 
-jimport('joomla.base.adapterinstance');
-jimport('pasamio.stringstream');
+jimport('joomla.updater.updateadapter');
 
-class JUpdaterExtension extends JAdapterInstance {
-	var $xml_parser;
-	var $_stack = Array();
-	
-    /**
-     * Gets the reference to the current direct parent
-     *
-     * @return object
-     */
-    function _getStackLocation()
-    {
-            $return = '';
-            foreach($this->_stack as $stack) {
-                    $return .= $stack.'->';
-            }
-
-            return rtrim($return, '->');
-    }
+class JUpdaterExtension extends JUpdateAdapter {
 	
 	function _startElement($parser, $name, $attrs = Array()) {
-		array_push($this->_stack, $name);	
+		array_push($this->_stack, $name);
+		$tag = $this->_getStackLocation();
+		// reset the data
+		eval('$this->'. $tag .'->_data = "";');
+		//echo 'Opened: '; print_r($this->_stack); echo '<br />';
+		//print_r($attrs); echo '<br />';
+		switch($name) {
+			case 'UPDATE':
+				$this->current_update =& JTable::getInstance('update');
+				$this->current_update->updatesiteid = $this->_updatesiteid;
+				$this->current_update->detailsurl = $this->_url;
+				break;
+			case 'UPDATES': // don't do anything
+				break;
+			default:
+				if(in_array($name, $this->_updatecols)) {
+					$name = strtolower($name);
+					$this->current_update->$name = '';
+				}
+				if($name == 'TARGETPLATFORM') {
+					$this->current_update->targetplatform = $attrs;
+				}
+				break;
+		}
 	}
 	
 	function _endElement($parser, $name) {
 		array_pop($this->_stack);
+		//echo 'Closing: '. $name .'<br />';
+		switch($name) {
+			case 'UPDATE':
+				$ver = new JVersion();
+				if($ver->PRODUCT == $this->current_update->targetplatform['NAME'] && $ver->RELEASE == $this->current_update->targetplatform['VERSION']) {
+					unset($this->current_update->targetplatform);
+					if(isset($this->latest)) {
+						if(version_compare($this->current_update->version, $this->latest->version, '>') == 1) {
+							$this->latest = $this->current_update;
+						}
+					} else {
+						$this->latest = $this->current_update;
+					}
+				}
+				break;
+			case 'UPDATES':
+				// :D
+				break;
+		}
 	}
 	
 	function _characterData($parser, $data) {
-		$tag = $this->_getStackLocation();
-		if(!isset($this->$tag->_data)) $this->$tag->_data = ''; 
-		$this->$tag->_data .= $data;
+		$tag = $this->_getLastTag();
+		//if(!isset($this->$tag->_data)) $this->$tag->_data = ''; 
+		//$this->$tag->_data .= $data;
+		if(in_array($tag, $this->_updatecols)) {
+			$tag = strtolower($tag);
+			$this->current_update->$tag .= $data;
+		}
 	}
 	
 	function findUpdate($options) {
 		$url = $options['location'];
-		echo '<p>Find update for extension run on <a href="'. $url .'">'. $url .'</a></p>';
+		$this->_url =& $url;
+		$this->_updatesiteid = $options['updatesiteid'];
+		//echo '<p>Find update for extension run on <a href="'. $url .'">'. $url .'</a></p>';
 		if(substr($url, -4) != '.xml') {
 			if(substr($url, -1) != '/') {
 				$url .= '/';
@@ -48,13 +78,13 @@ class JUpdaterExtension extends JAdapterInstance {
 			$url .= 'extension.xml';
 		}
 		
-		$details = file_get_contents($url);
-		$file = md5($url);
-		StringStreamController::createRef($file, $details );
+		
 		$dbo =& $this->parent->getDBO();
 		
-		if (!($fp = fopen('string://'. $file, "r"))) {
-		    die("could not open XML input");
+		if (!($fp = @fopen($url, "r"))) {
+			// TODO: Add a 'mark bad' setting here somehow
+		    JError::raiseWarning('101', JText::_('Update') .'::'. JText::_('Extension') .': '. JText::_('Could not open').' '. $url);
+		    return false;
 		}
 		
 		$this->xml_parser = xml_parser_create('');
@@ -70,6 +100,11 @@ class JUpdaterExtension extends JAdapterInstance {
 		    }
 		}
 		xml_parser_free($this->xml_parser);
-		
+		if(isset($this->latest)) {
+			$updates = Array($this->latest);
+		} else {
+			$updates = Array();
+		}
+		return Array('update_sites'=>Array(),'updates'=>$updates);
 	}
 }

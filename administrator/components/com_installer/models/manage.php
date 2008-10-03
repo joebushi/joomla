@@ -115,6 +115,7 @@ class InstallerModelManage extends InstallerModel
 		$query = 'SELECT *' .
 				' FROM #__extensions' .
 				' WHERE state = 0' . // get only regular non hidden non discovered extensions
+				$this->_buildWhere() .
 				' ORDER BY protected, type, client_id, folder, name';
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
@@ -215,4 +216,46 @@ class InstallerModelManage extends InstallerModel
 
 		return $result;
 	}	
+	
+	function _buildWhere() {
+		$retval = Array();
+		$filter = JRequest::getVar('filter','');
+		if($filter) {
+			$string = '(name LIKE "%'. $filter.'%" OR element LIKE "%'. $filter .'%"';
+			if(intval($filter)) {
+				$string .= ' OR extensionid = '. intval($filter);
+			}
+			
+			$string .= ')';
+			$retval[] = $string;
+		}
+		
+		$hideprotected = JRequest::getBool('hideprotected',0);
+		if($hideprotected) {
+			$retval[] = 'protected != 1';
+		}
+		
+		$type = JRequest::getVar('extensiontype','All');
+		if($type != 'All') {
+			$retval[] = 'type = "'. $type .'"';
+		}
+		
+		$folder = JRequest::getVar('folder','');
+		$valid_folders = Array('plugin','library','All'); // only plugins and libraries have folders
+		if(in_array($type, $valid_folders)) { // if the type supports folders, look for that
+			if($folder != 'All') {
+				if($folder == 'N/A') {
+					$folder = '';
+				}
+				$retval[] = 'folder = "'. $folder .'"';
+			}	
+		} else { // otherwise force it to be a *
+			JRequest::setVar('folder','*'); // reset var
+		}
+		
+		
+		if(count($retval)) {
+			return ' AND '. implode(' AND ', $retval);
+		} else return '';
+	}
 }

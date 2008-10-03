@@ -23,4 +23,5 @@
 			<?php echo @$this->item->author != '' ? $this->item->author : '&nbsp;'; ?>
 		</span>
 	</td>
+	<td><?php echo $this->item->extensionid ?></td>
 </tr>
