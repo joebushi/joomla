@@ -38,7 +38,7 @@ class ContentViewCategory extends JView
 		$category	= & $this->get( 'Category' );
 		$rows 		= & $this->get( 'Data' );
 
-		$doc->link = JRoute::_(ContentHelperRoute::getCategoryRoute($category->id, $cagtegory->sectionid));
+		$doc->link = JRoute::_(ContentHelperRoute::getCategoryRoute($category->id, $category->sectionid));
 
 		foreach ( $rows as $row )
 		{

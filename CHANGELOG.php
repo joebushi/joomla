@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+02-Oct-2008 Ian MacLennan
+ # [#12855] Misspelling of category in components/com_content/views/category/view.feed.php
+
 25-Sep-2008 Ian MacLennan
  # [#12778] Remove commercial newsfeeds from joomla installation packages
  # [#12731] Wrong frontpage article after upgrade to 1.5.7
