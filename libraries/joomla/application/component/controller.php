@@ -321,8 +321,8 @@ class JController extends JObject
 	function redirect()
 	{
 		if ($this->_redirect) {
-			global $mainframe;
-			$mainframe->redirect( $this->_redirect, $this->_message, $this->_messageType );
+			$appl = JFactory::getApplication();
+			$appl->redirect( $this->_redirect, $this->_message, $this->_messageType );
 		}
 		return false;
 	}

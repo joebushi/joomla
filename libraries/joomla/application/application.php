@@ -794,7 +794,7 @@ class JApplication extends JObject
 	 */
 	function isAdmin()
 	{
-		return ($this->_clientId == 1);
+		return ($this->_name == 'administrator');
 	}
 
 	/**
@@ -806,6 +806,6 @@ class JApplication extends JObject
 	 */
 	function isSite()
 	{
-		return ($this->_clientId == 0);
+		return ($this->_name == 'site');
 	}
 }

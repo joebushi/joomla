@@ -49,7 +49,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 	<div id="border-top" class="<?php echo $this->params->get('headerColor','green');?>">
 		<div>
 			<div>
-				<span class="title"><?php echo $this->params->get('showSiteName') ? $mainframe->getCfg( 'sitename' ) : JText::_('Administration'); ?></span>
+				<span class="title"><?php echo $this->params->get('showSiteName') ? $appl->getCfg( 'sitename' ) : JText::_('Administration'); ?></span>
 			</div>
 		</div>
 	</div>

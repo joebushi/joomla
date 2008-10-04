@@ -30,11 +30,12 @@ class JHelp
 	*/
 	function createURL($ref, $useComponent = false)
 	{
-		global $mainframe, $option;
+		global $option;
+		$appl	= JFactory::getApplication();
 
 		$user			=& JFactory::getUser();
 		$userHelpUrl	= $user->getParam( 'helpsite' );
-		$globalHelpUrl 	= $mainframe->getCfg('helpurl');
+		$globalHelpUrl 	= $appl->getCfg('helpurl');
 		$lang			=& JFactory::getLanguage();
 
 		if ($useComponent)

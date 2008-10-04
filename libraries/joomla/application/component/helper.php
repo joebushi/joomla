@@ -62,10 +62,10 @@ class JComponentHelper
 	 */
 	function isEnabled( $component, $strict = false )
 	{
-		global $mainframe;
+		$appl = JFactory::getApplication();
 
 		$result = &JComponentHelper::getComponent( $component, $strict );
-		return ($result->enabled | $mainframe->isAdmin());
+		return ($result->enabled | $appl->isAdmin());
 	}
 
 	/**
@@ -88,7 +88,12 @@ class JComponentHelper
 
 	function renderComponent($name = null, $params = array())
 	{
-		global $mainframe, $option;
+		global $option;
+		$appl	= JFactory::getApplication();
+		
+		//needed for backwards compatibility
+		// @todo if legacy ...
+		$mainframe =& $appl;
 
 		if(empty($name)) {
 			// Throw 404 if no component
@@ -96,8 +101,8 @@ class JComponentHelper
 			return;
 		}
 
-		$scope = $mainframe->scope; //record the scope
-		$mainframe->scope = $name;  //set scope to component name
+		$scope = $appl->scope; //record the scope
+		$appl->scope = $name;  //set scope to component name
 
 		// Build the component path
 		$name = preg_replace('/[^A-Z0-9_\.-]/i', '', $name);
@@ -109,7 +114,7 @@ class JComponentHelper
 		define( 'JPATH_COMPONENT_ADMINISTRATOR',	JPATH_ADMINISTRATOR.DS.'components'.DS.$name);
 
 		// get component path
-		if ( $mainframe->isAdmin() && file_exists(JPATH_COMPONENT.DS.'admin.'.$file.'.php') ) {
+		if ( $appl->isAdmin() && file_exists(JPATH_COMPONENT.DS.'admin.'.$file.'.php') ) {
 			$path = JPATH_COMPONENT.DS.'admin.'.$file.'.php';
 		} else {
 			$path = JPATH_COMPONENT.DS.$file.'.php';
@@ -139,7 +144,7 @@ class JComponentHelper
 
 		// Build the component toolbar
 		jimport( 'joomla.application.helper' );
-		if (($path = JApplicationHelper::getPath( 'toolbar' )) && $mainframe->isAdmin()) {
+		if (($path = JApplicationHelper::getPath( 'toolbar' )) && $appl->isAdmin()) {
 
 			// Get the task again, in case it has changed
 			$task = JRequest::getString( 'task' );
@@ -148,7 +153,7 @@ class JComponentHelper
 			include_once( $path );
 		}
 
-		$mainframe->scope = $scope; //revert the scope
+		$appl->scope = $scope; //revert the scope
 
 		return $contents;
 	}

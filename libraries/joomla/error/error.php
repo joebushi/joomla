@@ -475,9 +475,9 @@ class JError
 	 */
 	function & handleMessage(& $error, $options)
 	{
-		global $mainframe;
+		$appl = JFactory::getApplication();
 		$type = ($error->get('level') == E_NOTICE) ? 'notice' : 'error';
-		$mainframe->enqueueMessage($error->get('message'), $type);
+		$appl->enqueueMessage($error->get('message'), $type);
 		return $error;
 	}
 

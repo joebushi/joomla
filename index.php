@@ -28,6 +28,8 @@ JDEBUG ? $_PROFILER->mark( 'afterLoad' ) : null;
  *
  * NOTE :
  */
+
+
 $mainframe =& JFactory::getApplication('site');
 
 /**
@@ -64,8 +66,7 @@ $mainframe->triggerEvent('onAfterRoute');
  *
  * NOTE :
  */
-$option = JRequest::getCmd('option');
-$mainframe->dispatch($option);
+$mainframe->dispatch();
 
 // trigger the onAfterDispatch events
 JDEBUG ? $_PROFILER->mark('afterDispatch') : null;

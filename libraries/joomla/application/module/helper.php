@@ -121,10 +121,16 @@ class JModuleHelper
 	function renderModule($module, $attribs = array())
 	{
 		static $chrome;
-		global $mainframe, $option;
-
-		$scope = $mainframe->scope; //record the scope
-		$mainframe->scope = $module->module;  //set scope to component name
+		global $option;
+		
+		$appl	= JFactory::getApplication();
+		
+		//needed for backwards compatibility
+		// @todo if legacy ...
+		$mainframe =& $appl;
+		
+		$scope = $appl->scope; //record the scope
+		$appl->scope = $module->module;  //set scope to component name
 
 		// Get module parameters
 		$params = new JParameter( $module->params );
@@ -152,7 +158,7 @@ class JModuleHelper
 		}
 
 		require_once (JPATH_BASE.DS.'templates'.DS.'system'.DS.'html'.DS.'modules.php');
-		$chromePath = JPATH_BASE.DS.'templates'.DS.$mainframe->getTemplate().DS.'html'.DS.'modules.php';
+		$chromePath = JPATH_BASE.DS.'templates'.DS.$appl->getTemplate().DS.'html'.DS.'modules.php';
 		if (!isset( $chrome[$chromePath]))
 		{
 			if (file_exists($chromePath)) {
@@ -187,7 +193,7 @@ class JModuleHelper
 			}
 		}
 
-		$mainframe->scope = $scope; //revert the scope
+		$appl->scope = $scope; //revert the scope
 
 		return $module->content;
 	}
@@ -203,10 +209,10 @@ class JModuleHelper
 	 */
 	function getLayoutPath($module, $layout = 'default')
 	{
-		global $mainframe;
+		$appl = JFactory::getApplication();
 
 		// Build the template and base path for the layout
-		$tPath = JPATH_BASE.DS.'templates'.DS.$mainframe->getTemplate().DS.'html'.DS.$module.DS.$layout.'.php';
+		$tPath = JPATH_BASE.DS.'templates'.DS.$appl->getTemplate().DS.'html'.DS.$module.DS.$layout.'.php';
 		$bPath = JPATH_BASE.DS.'modules'.DS.$module.DS.'tmpl'.DS.$layout.'.php';
 
 		// If the template has a layout override use it
@@ -225,7 +231,8 @@ class JModuleHelper
 	 */
 	function &_load()
 	{
-		global $mainframe, $Itemid;
+		global $Itemid;
+		$appl	= JFactory::getApplication();
 
 		static $modules;
 
@@ -247,7 +254,7 @@ class JModuleHelper
 			. ' LEFT JOIN #__modules_menu AS mm ON mm.moduleid = m.id'
 			. ' WHERE m.published = 1'
 			. ' AND m.access <= '. (int)$aid
-			. ' AND m.client_id = '. (int)$mainframe->getClientId()
+			. ' AND m.client_id = '. (int)$appl->getClientId()
 			. $wheremenu
 			. ' ORDER BY position, ordering';
 

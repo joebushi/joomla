@@ -193,7 +193,7 @@ class JPagination extends JObject
 	 */
 	function getPagesLinks()
 	{
-		global $mainframe;
+		$appl = JFactory::getApplication();
 
 		$lang =& JFactory::getLanguage();
 
@@ -205,7 +205,7 @@ class JPagination extends JObject
 		$itemOverride = false;
 		$listOverride = false;
 
-		$chromePath = JPATH_THEMES.DS.$mainframe->getTemplate().DS.'html'.DS.'pagination.php';
+		$chromePath = JPATH_THEMES.DS.$appl->getTemplate().DS.'html'.DS.'pagination.php';
 		if (file_exists($chromePath))
 		{
 			require_once ($chromePath);
@@ -285,7 +285,7 @@ class JPagination extends JObject
 	 */
 	function getListFooter()
 	{
-		global $mainframe;
+		$appl = JFactory::getApplication();
 
 		$list = array();
 		$list['limit']			= $this->limit;
@@ -295,7 +295,7 @@ class JPagination extends JObject
 		$list['pagescounter']	= $this->getPagesCounter();
 		$list['pageslinks']		= $this->getPagesLinks();
 
-		$chromePath		= JPATH_THEMES.DS.$mainframe->getTemplate().DS.'html'.DS.'pagination.php';
+		$chromePath		= JPATH_THEMES.DS.$appl->getTemplate().DS.'html'.DS.'pagination.php';
 		if (file_exists( $chromePath ))
 		{
 			require_once( $chromePath );
@@ -315,7 +315,7 @@ class JPagination extends JObject
 	 */
 	function getLimitBox()
 	{
-		global $mainframe;
+		$appl = JFactory::getApplication();
 
 		// Initialize variables
 		$limits = array ();
@@ -331,7 +331,7 @@ class JPagination extends JObject
 		$selected = $this->_viewall ? 0 : $this->limit;
 
 		// Build the select list
-		if ($mainframe->isAdmin()) {
+		if ($appl->isAdmin()) {
 			$html = JHTML::_('select.genericlist',  $limits, 'limit', 'class="inputbox" size="1" onchange="submitform();"', 'value', 'text', $selected);
 		} else {
 			$html = JHTML::_('select.genericlist',  $limits, 'limit', 'class="inputbox" size="1" onchange="this.form.submit()"', 'value', 'text', $selected);
@@ -438,8 +438,8 @@ class JPagination extends JObject
 
 	function _item_active(&$item)
 	{
-		global $mainframe;
-		if ($mainframe->isAdmin())
+		$appl = JFactory::getApplication();
+		if ($appl->isAdmin())
 		{
 			if($item->base>0)
 				return "<a title=\"".$item->text."\" onclick=\"javascript: document.adminForm.limitstart.value=".$item->base."; submitform();return false;\">".$item->text."</a>";
@@ -452,8 +452,8 @@ class JPagination extends JObject
 
 	function _item_inactive(&$item)
 	{
-		global $mainframe;
-		if ($mainframe->isAdmin()) {
+		$appl = JFactory::getApplication();
+		if ($appl->isAdmin()) {
 			return "<span>".$item->text."</span>";
 		} else {
 			return "<span class=\"pagenav\">".$item->text."</span>";

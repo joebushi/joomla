@@ -86,8 +86,13 @@ class JSite extends JApplication
 	*
 	* @access public
 	*/
-	function dispatch($component)
+	function dispatch($component=null)
 	{
+		if ( ! $component )
+		{
+			$component = JRequest::getCmd('option');
+		}
+		
 		$document	=& JFactory::getDocument();
 		$user		=& JFactory::getUser();
 		$router     =& $this->getRouter();

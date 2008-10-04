@@ -127,7 +127,8 @@ class JPluginHelper
 			if (file_exists( $path ))
 			{
 				//needed for backwards compatibility
-				global $mainframe;
+				// @todo if legacy ...
+				$mainframe = JFactory::getApplication();
 
 				jimport('joomla.plugin.plugin');
 				require_once( $path );
