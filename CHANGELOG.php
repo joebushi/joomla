@@ -42,6 +42,9 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+04-Oct-2008 Toby Patterson
+ # Fixed final step of installation, completed removal of patTemplates from Installer
+
 02-Oct-2008 Toby Patterson
  - Fixed bug with JFTP and check for connection
  # [#12699] Refactor installation application

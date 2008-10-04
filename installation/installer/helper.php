@@ -631,7 +631,8 @@ class JInstallationHelper
 	 */
 	function uploadSql( &$args, $migration = false, $preconverted = false )
 	{
-		global $mainframe;
+		$appl = JFactory::getApplication();
+		
 		$archive = '';
 		$script = '';
 
@@ -1394,7 +1395,8 @@ class JInstallationHelper
 	 */
 	function setFTPCfg( $vars )
 	{
-		global $mainframe;
+		$appl = JFactory::getApplication();
+		
 		$arr = array();
 		$arr['ftp_enable'] = $vars['ftpEnable'];
 		$arr['ftp_user'] = $vars['ftpUser'];
@@ -1403,20 +1405,21 @@ class JInstallationHelper
 		$arr['ftp_host'] = $vars['ftpHost'];
 		$arr['ftp_port'] = $vars['ftpPort'];
 
-		$mainframe->setCfg( $arr, 'config' );
+		$appl->setCfg( $arr, 'config' );
 	}
 
 	function _chmod( $path, $mode )
 	{
-		global $mainframe;
+		$appl = JFactory::getApplication();
+		
 		$ret = false;
 
 		// Initialize variables
 		$ftpFlag	= true;
-		$ftpRoot	= $mainframe->getCfg('ftp_root');
+		$ftpRoot	= $appl->getCfg('ftp_root');
 
 		// Do NOT use ftp if it is not enabled
-		if ($mainframe->getCfg('ftp_enable') != 1) {
+		if ($appl->getCfg('ftp_enable') != 1) {
 			$ftpFlag = false;
 		}
 
@@ -1424,8 +1427,8 @@ class JInstallationHelper
 		{
 			// Connect the FTP client
 			jimport('joomla.client.ftp');
-			$ftp = & JFTP::getInstance($mainframe->getCfg('ftp_host'), $mainframe->getCfg('ftp_port'));
-			$ftp->login($mainframe->getCfg('ftp_user'), $mainframe->getCfg('ftp_pass'));
+			$ftp = & JFTP::getInstance($appl->getCfg('ftp_host'), $appl->getCfg('ftp_port'));
+			$ftp->login($appl->getCfg('ftp_user'), $appl->getCfg('ftp_pass'));
 
 			//Translate the destination path for the FTP account
 			$path = JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $path), '/');

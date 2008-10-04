@@ -712,147 +712,84 @@ class JInstallationModel extends JModel
 	 */
 	function saveConfig()
 	{
-		$appl = JFactory::getApplication();
-
+		$appl	= JFactory::getApplication();
 		$vars	=& $this->getVars();
-		$lang	=& JFactory::getLanguage();
-
+		$lang	= JFactory::getLanguage();
+		$config	= new JRegistry('config');
+		
 		// Import authentication library
 		jimport( 'joomla.user.helper' );
 
-		// Set some needed variables
-		$vars['siteUrl']		= JURI::root();
-		$vars['secret']			= JUserHelper::genRandomPassword(16);
+		$data				= new stdClass();
+		$data->dbtype 		= $vars['DBtype'];
+		$data->host 		= $vars['DBhostname'];
+		$data->user 		= $vars['DBuserName'];
+		$data->password 	= $vars['DBpassword'];
+		$data->db 			= $vars['DBname'];
+		$data->dbprefix 	= $vars['DBPrefix'];
+		$data->ftp_host 	= $vars['ftpHost'];
+		$data->ftp_port 	= $vars['ftpPort'];
+		$data->ftp_user 	= $vars['ftpUser'];
+		$data->ftp_pass 	= $vars['ftpPassword'];
+		$data->ftp_root 	= rtrim($vars['ftpRoot'], '/');
+		$data->ftp_enable	 = $vars['ftpEnable'];
+		$data->tmp_path		= JPATH_ROOT.DS.'tmp';
+		$data->log_path		= JPATH_ROOT.DS.'logs';
+		$data->mailer 		= 'mail';
+		$data->mailfrom 	= $vars['adminEmail'];
+		$data->fromname 	= $vars['siteName'];
+		$data->sendmail 	= '/usr/sbin/sendmail';
+		$data->smtpauth 	= '0';
+		$data->smtpuser 	= '';
+		$data->smtppass 	= '';
+		$data->smtphost 	= 'localhost';
+		$data->debug 		= 0;
+		$data->caching 		= '0';
+		$data->cachetime	= '900';
+		$data->language  	= $vars['lang'];
+		$data->secret		= JUserHelper::genRandomPassword(16);
+		$data->editor		= 'none';
+		$data->offset		= 0;
+		$data->lifetime		= 15;
+		
+		$data->MetaDesc			= JText::_( 'STDMETADESC' );
+		$data->MetaKeys			= JText::_( 'STDMETAKEYS' );
+		$data->offline_message	= JText::_( 'STDOFFLINEMSG' );
+		$data->error_reporting	= '-1';
+		$data->helpurl			= 'http://help.joomla.org';
 
-		$vars['offline']		= JText::_( 'STDOFFLINEMSG' );
-		$vars['errormsg']		= JText::_( 'STDERRORMSG' );
-		$vars['metadesc']		= JText::_( 'STDMETADESC' );
-		$vars['metakeys']		= JText::_( 'STDMETAKEYS' );
-		$vars['tmp_path']		= JPATH_ROOT.DS.'tmp';
-		$vars['log_path']		= JPATH_ROOT.DS.'logs';
-
-		// set default language
-		$forced = $appl->getLocalise();
-		if ( empty($forced['lang']) ) {
-			$vars['deflang'] = 'en-GB';
-			$vars['bclang'] = 'english';
-		} else {
-			$vars['deflang'] = $forced['lang'];
-			$vars['bclang'] = $lang->getBackwardLang();
-		}
-
-		if ( empty( $forced['helpurl'] ) ) {
-			$vars['helpurl'] = 'http://help.joomla.org';
-		} else {
-			$vars['helpurl'] = $forced['helpurl'];
-		}
-
-		// If FTP has not been enabled, set the value to 0
-		if (!isset($vars['ftpEnable']))
+		$config->loadObject($data);
+		
+		// Update the credentials with the new settings
+		if ( $data->ftp_enable )
 		{
-			$vars['ftpEnable'] = 0;
+			jimport('joomla.client.helper');
+			$oldconfig =& JFactory::getConfig();
+			$oldconfig->setValue('config.ftp_enable', $data->ftp_enable);
+			$oldconfig->setValue('config.ftp_host', $data->ftp_host);
+			$oldconfig->setValue('config.ftp_port', $data->ftp_port);
+			$oldconfig->setValue('config.ftp_user', $data->ftp_user);
+			$oldconfig->setValue('config.ftp_pass', $data->ftp_pass);
+			$oldconfig->setValue('config.ftp_root', $data->ftp_root);
+			JClientHelper::getCredentials('ftp', true);
 		}
-
-		/*
-		 * Trim the last slash from the FTP root, as the FTP root usually replaces JPATH_ROOT.
-		 * If the path had a trailing slash, this would lead to double slashes, like "/joomla//configuration.php"
-		 */
-		if (isset($vars['ftpRoot'])) {
-			$vars['ftpRoot'] = rtrim($vars['ftpRoot'], '/');
-		}
-
-		switch ($vars['DBtype']) {
-
-			case 'mssql' :
-				$vars['ZERO_DATE'] = '1/01/1990';
-				break;
-
-			default :
-				$vars['ZERO_DATE'] = '0000-00-00 00:00:00';
-				break;
-		}
-
-		JInstallationHelper::createAdminUser($vars);
 
 		/**
 		 * Write the configuration file
 		 */
-
-		include_once(JPATH_ROOT.DS.'plugins'.DS.'system'.DS.'legacy'.DS.'template'.DS.'template.php');
-		$tmpl = new JTemplate;
-		$tmpl->applyInputFilter('ShortModifiers');
-
-		// load the wrapper and common templates
-		$tmpl->setRoot( JPATH_BASE . DS . 'installer' . DS . 'views' . DS . 'install' . DS. 'tmpl' );
-
-		$tmpl->readTemplatesFromFile('configuration.html');
-		$tmpl->addVars('configuration', $vars, 'var_');
-
-		if (empty($vars['ftpSavePass'])) {
-			$tmpl->addVar('configuration', 'var_ftpuser', '');
-			$tmpl->addVar('configuration', 'var_ftppassword', '');
-		}
-
-		$buffer = $tmpl->getParsedTemplate('configuration');
-		$path = JPATH_CONFIGURATION.DS.'configuration.php';
-
-		if (file_exists($path)) {
-			$canWrite = is_writable($path);
-		} else {
-			$canWrite = is_writable(JPATH_CONFIGURATION.DS);
-		}
-
-		/*
-		 * If the file exists but isn't writable OR if the file doesn't exist and the parent directory
-		 * is not writable we need to use FTP
-		 */
-		$ftpFlag = false;
-		if ((file_exists($path) && !is_writable($path)) || (!file_exists($path) && !is_writable(dirname($path).'/'))) {
-			$ftpFlag = true;
-		}
-
-		// Check for safe mode
-		if (ini_get('safe_mode'))
+		$fname		= JPATH_CONFIGURATION.DS.'configuration.php';
+		$written	= NULL;
+		
+		// Get the config registry in PHP class format and write it to configuation.php
+		jimport('joomla.filesystem.file');
+		$written = JFile::write($fname, $config->toString('PHP', 'config', array('class' => 'JConfig')));
+		
+		if ( ! $written )
 		{
-			$ftpFlag = true;
+			return false;
 		}
-
-		// Enable/Disable override
-		if (!isset($vars['ftpEnable']) || ($vars['ftpEnable'] != 1))
-		{
-			$ftpFlag = false;
-		}
-
-		if ($ftpFlag == true)
-		{
-			// Connect the FTP client
-			jimport('joomla.client.ftp');
-			jimport('joomla.filesystem.path');
-
-			$ftp = & JFTP::getInstance($vars['ftpHost'], $vars['ftpPort']);
-			$ftp->login($vars['ftpUser'], $vars['ftpPassword']);
-
-			// Translate path for the FTP account
-			$file = JPath::clean(str_replace(JPATH_CONFIGURATION, $vars['ftpRoot'], $path), '/');
-
-			// Use FTP write buffer to file
-			if (!$ftp->write($file, $buffer)) {
-				$this->setData('buffer', $buffer);
-				return false;
-			}
-
-			$ftp->quit();
-
-		}
-		else
-		{
-			if ($canWrite) {
-				file_put_contents($path, $buffer);
-			} else {
-				$this->setData('buffer', $buffer);
-				return true;
-			}
-		}
+		
+		JInstallationHelper::createAdminUser($vars);
 
 		return true;
 	}

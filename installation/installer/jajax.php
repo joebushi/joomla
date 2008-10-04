@@ -142,7 +142,7 @@ class JAJAXHandler
 		$msg = '';
 		$objResponse = new xajaxResponse();
 
-		$vars	= $this->_getVars();
+		$vars	= JAJAXHandler::_getVars();
 		
 		/*
 		 * execute the default sample data file
