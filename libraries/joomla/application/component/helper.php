@@ -86,6 +86,14 @@ class JComponentHelper
 		return $instances[$name];
 	}
 
+	/**
+	 * Render a component
+	 *
+	 * @param	string $name Name of the component
+	 * @param	array $params
+	 * @return	string Output from rendering the component
+	 * @since	1.5
+	 */
 	function renderComponent($name = null, $params = array())
 	{
 		global $option;
