@@ -478,7 +478,7 @@ class JInstaller extends JAdapter
 	{
 		if (!isset($this->_adapters[$type]) || !is_object($this->_adapters[$type])) {
 			if (!$this->setAdapter($type)) {
-				return false;
+				return false; // we failed to get the right adapter
 			}
 		}
 		if (is_object($this->_adapters[$type])) {

@@ -77,8 +77,24 @@ class JUpdaterCollection extends JUpdateAdapter {
 				foreach($attrs as $key=>$attr) {
 					$values[strtolower($key)] = $attr;
 				}
-				$update->bind($values);
-				$this->updates[] = $update;
+				
+				// only add the update if it is on the same platform and release as we are
+				$ver = new JVersion();
+				$filter =& JFilterInput::getInstance();
+				$product = strtolower($filter->clean($ver->PRODUCT, 'cmd')); // lower case and remove the exclamation mark
+				// set defaults, the extension file should clarify in case but it may be only available in one version
+				// this allows an update site to specify a targetplatform
+				// targetplatformversion can be a regexp, so 1.[56] would be valid for an extension that supports 1.5 and 1.6
+				// Note: whilst the version is a regexp here, the targetplatform is not (new extension per platform)
+				//       Additionally, the version is a regexp here and it may also be in an extension file if the extension is
+				//       compatible against multiple versions of the same platform (e.g. a library)
+				if(!isset($values['targetplatform'])) $values['targetplatform'] = $product; // set this to ourself as a default
+				if(!isset($values['targetplatformversion'])) $values['targetplatformversion'] = $ver->RELEASE; // set this to ourself as a default
+				// validate that we can install the extension 
+				if($product == $values['targetplatform'] && preg_match('/'.$values['targetplatformversion'].'/',$ver->RELEASE)) {				
+					$update->bind($values);
+					$this->updates[] = $update;
+				}
 				break;
 		}
 	}

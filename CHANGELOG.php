@@ -38,6 +38,11 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+06-Oct-2008 Sam Moffatt
+ + Added targetplatform and targetplatformversion to collection extension definition
+ ^ Target platform version now supports regexp for both collection and extension updates
+ ^ Changed component discover_install to return extension ID
+
 03-Oct-2008 Sam Moffatt
  + Added extra triggers to example installer plugin
  ^ Changed installer on onBeforeExtensionInstall trigger call to work as documented
