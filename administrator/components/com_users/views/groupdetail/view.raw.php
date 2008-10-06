@@ -10,7 +10,7 @@ class UsersViewGroupdetail extends JView
 	{
 		if(JRequest::getInt('id', 0) == 0)
 		{
-			return false; 
+//			return false; 
 		}
 		$group = new JAuthorizationUsergroup(JRequest::getInt('id'));
 		$this->assignRef('group', $group);

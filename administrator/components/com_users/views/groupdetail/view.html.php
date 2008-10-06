@@ -8,6 +8,8 @@ class UsersViewGroupdetail extends JView
 {
 	function display()
 	{
+		
+		
 		parent::display();	
 	}
 }

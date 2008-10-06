@@ -1,3 +1,4 @@
+
 <?php
 /**
  * @version		$Id$
@@ -38,6 +39,7 @@ class UsersController extends JController
 		// Register Extra tasks
 		$this->registerTask( 'add'  , 	'display'  );
 		$this->registerTask( 'edit'  , 	'display'  );
+		$this->registerTask( 'adduser', 'adduser' );
 		$this->registerTask( 'apply', 	'save'  );
 		$this->registerTask( 'flogout', 'logout');
 		$this->registerTask( 'unblock', 'block' );
@@ -58,6 +60,46 @@ class UsersController extends JController
 	{
 		echo 'hello';
 	}
+
+	function adduser (  )
+	{
+
+	}
+	
+	function deletegroup()
+	{
+		$gid = JRequest::getVar('id', '0');
+		$delgroup = new JAuthorizationUsergroup($gid);
+		$result = JAuthorizationUsergroup::removeChild($delgroup);
+		
+		if($result)
+			$this->setRedirect(JURI::base() . 'index.php?option=com_users&view=users&layout=groups');
+		
+		else JError::raiseError('520', 'Failed to remove group' . $del->getName());
+		
+	}
+
+	function savegroup( )
+	{
+		$parent_id = JRequest::getVar('parent',0,'int');
+		$redirect = JRequest::getVar('redirect', JURI::base() . '/administrator/index.php?option=com_users&view=users&layout=groups');
+
+		if( $parent_id > 0 )
+		{
+	
+			$parentgroup = new JAuthorizationUsergroup($parent_id);
+			$subgroup = new JAuthorizationUsergroup();
+			$subgroup->setName(JRequest::getString('groupname'));
+			$result = $parentgroup->addChild($subgroup);
+			
+			if($result)
+			{
+				$this->setRedirect($redirect);
+			}
+		}
+
+	}
+
 	
 	/**
 	 * Saves the record

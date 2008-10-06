@@ -23,37 +23,38 @@
 </tbody></table>
 </td></tr>
 <?php } ?>
-</tbody>
-</table>
-
+<tr>
+<td colspan="2">
 <div style="float:left;">
 	<div class="icon">
-		<a href="<?php echo JRoute::_('index.php?option=com_users&view=groupdetail&layout=edit&parent='.$this->group->getId()); ?>">
-			<?php /*echo JHTML::_('image.site',  'icon-32-lock.png', '/templates/khepri/images/toolbar/' );*/ ?>
-			<span>Add Childgroup</span></a>
+	<a href="javascript: var request = new Ajax('index.php', {method: 'post',postBody: 'option=com_users&format=raw&view=groupdetail&layout=edit&parent=<? echo $this->group->getId(); ?>',onFailure:function(){}, onSuccess:function(response){$('details').setHTML( response );} }).request();">
+			<?php echo JHTML::_('image.site',  'groups_f2.png', '/images/', '', '', '', array("title"=>"Add Childgroup" )); ?><br/>
+			
+	</a>
 	</div>
 </div>
 
 <div style="float:left;">
 	<div class="icon">
 		<a href="<?php echo JRoute::_('index.php?option=com_users&view=groupdetail&layout=edit&id='.$this->group->getId()); ?>">
-			<?php /*echo JHTML::_('image.site',  'icon-32-lock.png', '/templates/khepri/images/toolbar/' );*/ ?>
-			<span>Edit Group</span></a>
-	</div>
+			<?php echo JHTML::_('image.site',  'groups_f3.png', '/images/', '', '', '', array("title"=>"Edit group" )); ?><br/>	</div>
 </div>
 
 <div style="float:left;">
 	<div class="icon">
 		<a href="<?php echo JRoute::_('index.php?option=com_users&task=deletegroup&id='.$this->group->getId()); ?>">
-			<?php /*echo JHTML::_('image.site',  'icon-32-lock.png', '/templates/khepri/images/toolbar/' );*/ ?>
-			<span>Delete Group</span></a>
-	</div>
+			<?php echo JHTML::_('image.site',  'groups_f4.png', '/images/', '', '', '', array("title"=>"Delete group" )); ?><br/>	</div>
 </div>
 
 <div style="float:left;">
 	<div class="icon">
-		<a class="modal" href="<?php echo JRoute::_('index.php?option=com_users&view=access&layout=edit&id='.$this->group->getId()); ?>" rel="{handler: 'iframe', size: {x: 400, y: 400}}">
-			<?php /*echo JHTML::_('image.site',  'icon-32-lock.png', '/templates/khepri/images/toolbar/' );*/ ?>
-			<span>Edit Accessrights</span></a>
-	</div>
+		<a class="modal" href="<?php echo JRoute::_('index.php?option=com_users&format=raw&view=access&layout=edit&id='.$this->group->getId()); ?>" rel="{handler: 'iframe', size: {x: 400, y: 400}}">
+			<?php echo JHTML::_('image.site',  'groups_f5.png', '/images/', '', '', '', array("title"=>"Access rights" )); ?><br/>	</div>
 </div>
+	
+	
+</td>	
+</tr>
+</tbody>
+</table>
+

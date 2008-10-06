@@ -253,16 +253,11 @@ class JAuthorizationJACLUsergroupHelper extends JAuthorizationUsergroupHelper
 		
 	function getGroup($id)
 	{
-		if($id > 0)
+		if(isset($this->_groups[$id]))
 		{
-			if(isset($this->_groups[$id]))
-			{
-				return $this->_groups[$id];
-			} else {
-				return false;
-			}
+			return $this->_groups[$id];
 		} else {
-			return $this->_groups[$this->_root];
+			return 0;
 		}
 	}
 
@@ -275,35 +270,36 @@ class JAuthorizationJACLUsergroupHelper extends JAuthorizationUsergroupHelper
 				$db =& JFactory::getDBO();
 				$parent = $group->getParent();
 				$query = 'UPDATE #__core_acl_aro_groups'
-					.' SET (parent_id = '.(int) $parent->getId().','
-					.' name = \''.$db->Quote($group->getName()).'\','
-					.' value = \''.$db->Quote($group->getName()).'\')'
+					.' SET parent_id = '.(int) $parent->getId().','
+					.' name = '.$db->Quote($group->getName()).','
+					.' value = '.$db->Quote($group->getName()).''
 					.' WHERE id = '.(int)$group->getId();
 				$db->setQuery($query);
-				$db->Query();
+				if(!$db->Query())
+					JError::raiseError('5xx', $db->ErrorMsg());
 			} else {
 				$db =& JFactory::getDBO();
 				$parent = $group->getParent();
 				$query = 'INSERT INTO #__core_acl_aro_groups'
 					.' (parent_id, name, value)'
-					.' VALUES ('.(int) $parent->getId().',\''.$db->Quote($group->getName()).'\',\''.$db->Quote($group->getName).'\');';
+					.' VALUES ('.(int) $parent->getId().','.$db->Quote($group->getName()).','.$db->Quote($group->getName()).');';
 				$db->setQuery($query);
 				$db->Query();
 				$group->setId($db->insertid());
 			}
-			if(count($group->getUser()))
+			if(count($group->getUsers()))
 			{
-				foreach($group->getUser() as $user)
+				foreach($group->getUsers() as $user)
 				{
 					$this->addUser($group->getId(), $user);
 				}
 			}
 				
-			if(count($group->getChildren()))
+			if(is_array(($group->getChildren())))
 			{
-				foreach($group->getChildren() as $group)
+				foreach($group->getChildren() as $g)
 				{
-					$this->addGroup($group);
+					$this->addGroup($g);
 				}
 			}
 		} else {

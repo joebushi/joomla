@@ -225,11 +225,16 @@ class JAuthorizationUsergroup
 	function getUsers()
 	{
 		$result = array();
-		foreach($this->_users as $user)
+		if(is_array($this->_users))
 		{
-			$result[] = new JAuthorizationUser(null, $user);
+			foreach($this->_users as $user)
+			{
+				$result[] = new JAuthorizationUser(null, $user);
+			}			
+			return $result;
 		}
-		return $result;
+		
+		return null;
 	}
 	
 	/**
@@ -354,7 +359,7 @@ class JAuthorizationUsergroup
 		if(is_a($group, 'JAuthorizationUsergroup'))
 		{
 			$engine =& JAuthorizationUsergroupHelper::getInstance();
-			$group->setParent($this->_id);
+			$group->setParent($this);
 			$result = $engine->addGroup($group);
 			if($result)
 			{
@@ -377,7 +382,7 @@ class JAuthorizationUsergroup
 	 */
 	function removeChild($group)
 	{
-		if(is_a($group, 'JAuthorizationGroup'))
+		if(is_a($group, 'JAuthorizationUsergroup'))
 		{
 			$engine =& JAuthorizationUsergroupHelper::getInstance();
 			$result = $engine->removeGroup($group);
@@ -641,7 +646,7 @@ class JAuthorizationUser
 		$this->_id = $id;
 	}
 	
-	function getAccessId($id)
+	function getAccessId()
 	{
 		return $this->_accessid;
 	}

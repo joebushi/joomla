@@ -13,6 +13,12 @@
 echo $this->usergrouphelper->getGroupTree($this->usergroups);
 ?>
 </fieldset>
+
 <fieldset id="details" class="col width-60" style="width:60%;float:right;">
 <legend>Details</legend>
+<form action="index.php?option=com_users" method="post" name="adminForm">
+<input type="hidden" name="task" value="" />
+
+</form>
+
 </fieldset>

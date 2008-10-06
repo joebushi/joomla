@@ -51,12 +51,12 @@ class UsersViewUsers extends JView
 		$currentUser	=& JFactory::getUser();
 		$acl			=& JFactory::getACL();
 
-		$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order",		'filter_order',		'a.name',	'cmd' );
-		$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'',			'word' );
-		$filter_type		= $mainframe->getUserStateFromRequest( "$option.filter_type",		'filter_type', 		0,			'string' );
-		$filter_logged		= $mainframe->getUserStateFromRequest( "$option.filter_logged",		'filter_logged', 	0,			'int' );
-		$search				= $mainframe->getUserStateFromRequest( "$option.search",			'search', 			'',			'string' );
-		$search				= JString::strtolower( $search );
+		$filter_order = $mainframe->getUserStateFromRequest( "$option.filter_order", 'filter_order', 'a.name', 'cmd' );
+		$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir", 'filter_order_Dir', '', 'word' );
+		$filter_type		= $mainframe->getUserStateFromRequest( "$option.filter_type", 'filter_type', 0, 'string' );
+		$filter_logged		= $mainframe->getUserStateFromRequest( "$option.filter_logged", 'filter_logged', 0, 'int' );
+		$search			= $mainframe->getUserStateFromRequest( "$option.search",'search', '', 'string' );
+		$search			= JString::strtolower( $search );
 
 		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
 		$limitstart = $mainframe->getUserStateFromRequest( $option.'.limitstart', 'limitstart', 0, 'int' );
@@ -147,8 +147,24 @@ class UsersViewUsers extends JView
 		JHTML::_('behavior.modal');
 		$document->addScript(JURI::root().'media/system/js/mootree_packed.js');
 		$document->addStyleSheet(JURI::root().'media/system/css/mootree.css');
-		$usergroups = new JAuthorizationUsergroup();
-		$javascript = 'var tree;
+		$usergroups = new JAuthorizationUsergroup(1);
+		$javascript = <<<EOF
+		
+		function RefreshSqueezeBox()
+		{
+		
+			SqueezeBox.initialize({});
+			
+			$$('a.modal').each(function(el) {
+						el.addEvent('click', function(e) {
+							new Event(e).stop();
+							SqueezeBox.fromElement(el);
+						});
+			});
+		}
+EOF;
+		
+		$javascript .= "\n" . 'var tree;
 			window.onload = function() {
 	
 			tree = new MooTreeControl({
@@ -156,7 +172,7 @@ class UsersViewUsers extends JView
 				grid: true,
 				theme: \'../media/system/images/mootree.gif\',
 				onSelect: function(node, state) {
-					if (state) var request = new Ajax(\'index.php\', {method: \'post\',postBody: \'option=com_users&format=raw&view=groupdetail\'+node.data.url,onFailure:function(){}, onSuccess:function(response){$(\'details\').setHTML( response );}}).request();
+					if (state) var request = new Ajax(\'index.php\', {method: \'post\',postBody: \'option=com_users&format=raw&view=groupdetail\'+node.data.url,onFailure:function(){}, onSuccess:function(response){$(\'details\').setHTML( response ); RefreshSqueezeBox();}}).request();
 				}
 			},{
 				text: \'Root Node\',
