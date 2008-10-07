@@ -38,6 +38,12 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+06-Oct-2008 Ian MacLennan
+ # [#12843] Text 'New ordering saved' cannot be translated in weblinks
+ # [#12734] Missing language string JA Purity
+ # [#12031] File Not Found or Compoent Not Found When SEARCH Button is Pressed
+ # [#12011] E-mail content pop-up window too short in Beez
+
 02-Oct-2008 Ian MacLennan
  # [#12855] Misspelling of category in components/com_content/views/category/view.feed.php
 

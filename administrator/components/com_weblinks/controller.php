@@ -199,7 +199,7 @@ class WeblinksController extends JController
 		$model = $this->getModel('weblink');
 		$model->saveorder($cid, $order);
 
-		$msg = 'New ordering saved';
+		$msg = JText::_( 'New ordering saved' );
 		$this->setRedirect( 'index.php?option=com_weblinks', $msg );
 	}
 }
