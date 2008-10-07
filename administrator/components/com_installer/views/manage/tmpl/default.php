@@ -68,7 +68,7 @@ $lists = $this->lists;
 
 	<input type="hidden" name="task" value="manage" />
 	<input type="hidden" name="boxchecked" value="0" />
-	<input type="hidde9n" name="option" value="com_installer" />
+	<input type="hidden" name="option" value="com_installer" />
 	<input type="hidden" name="type" value="manage" />
 	<?php echo JHTML::_( 'form.token' ); ?>
 </form>
