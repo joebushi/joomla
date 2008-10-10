@@ -43,6 +43,13 @@ class JACLObject EXTENDS JObject {
 		}
 	}
 
+	public function __get($var) {
+		if($var == 'type') {
+			return $this->type;
+		}
+		return null;
+	}
+
 	public function load() {
 		if($this->id == 0) return;
 		$sql = 'SELECT section_value, value, order_value AS order, name, hidden FROM #__core_acl_'.$this->type.' WHERE id = '.(int) $this->id;

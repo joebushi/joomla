@@ -43,6 +43,13 @@ class JACLGroup EXTENDS JObject {
 		}
 	}
 
+	public function __get($var) {
+		if($var == 'type') {
+			return $this->type;
+		}
+		return null;
+	}
+
 	public function load() {
 		if($this->id == 0) return;
 		$sql = 'SELECT id, name, parent_id, value, lft, rgt FROM #__core_acl_'.$this->type.'_groups WHERE id = '.(int) $this->id;
