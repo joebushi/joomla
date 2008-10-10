@@ -18,11 +18,11 @@
 			<valid>Bilder Update</valid>
 		</site>
 		<site name="WebdesignBook (on-the-fly)">
-			<url>http://webdesignbook.net/snapper.php?w=%w&h=%h&url=%u</url>
+			<url>http://webdesignbook.net/snapper.php?w=%w&amp;h=%h&amp;url=%u</url>
 			<website>webdesignbook.net</website>
 			<website-url>http://webdesignbook.net/</website-url>
 			<pic></pic>
-			<submit>http://webdesignbook.net/snapper.php?w=%w&h=%h&url=%u</submit>
+			<submit>http://webdesignbook.net/snapper.php?w=%w&amp;h=%h&amp;url=%u</submit>
 			<valid>CREATOR: gd-jpeg</valid>
 		</site>
 		<site name="SimpleAPI (on-the-fly)">
@@ -34,19 +34,19 @@
 			<valid>SimpleAPI</valid>
 		</site>
 		<site name="M-Software (on-the-fly)">
-			<url>http://www.m-software.de/screenshot/Screenshot.png?scale=6&width=%w&height=%h&url=%u</url>
+			<url>http://www.m-software.de/screenshot/Screenshot.png?scale=6&amp;width=%w&amp;height=%h&amp;url=%u</url>
 			<website>www.m-software.de</website>
 			<website-url>http://www.m-software.de</website-url>
 			<pic><a href="http://www.m-software.de/thumbshots/" target="_blank"><img src="http://www.m-software.de/thumbshots/banner.gif" alt="Free thumbnail preview by M-Software.de" title="Free thumbnail preview by M-Software.de" align="right" border="0" /></a></pic>
-			<submit>http://www.m-software.de/screenshot/Screenshot.png?scale=6&width=%w&height=%h&url=%u</submit>
+			<submit>http://www.m-software.de/screenshot/Screenshot.png?scale=6&amp;width=%w&amp;height=%h&amp;url=%u</submit>
 			<valid>PNG</valid>
 		</site>
 		<site name="ArtViper (on-the-fly)">
-			<url>http://www.artviper.net/screenshots/screener.php?&frameborder=5&q=70&w=%w&h=%h&sdx=1024&sdy=768&url=%u</url>
+			<url>http://www.artviper.net/screenshots/screener.php?&amp;frameborder=5&amp;q=70&amp;w=%w&amp;h=%h&amp;sdx=1024&amp;sdy=768&amp;url=%u</url>
 			<website>www.artviper.net</website>
 			<website-url>http://www.artviper.net/tools.php</website-url>
 			<pic><a href="http://www.artviper.net/tools.php" target="_blank"><img src="http://www.artviper.net/button.gif" alt="Thumbnails by ArtViper.net" title="Thumbnails by ArtViper.net" align="right" border="0" /></a></pic>
-			<submit>http://www.artviper.net/screenshots/screener.php?&frameborder=5&q=70&w=120&h=90&sdx=1024&sdy=768&forceUpdate=1&url=%u</submit>
+			<submit>http://www.artviper.net/screenshots/screener.php?&amp;frameborder=5&amp;q=70&amp;w=120&amp;h=90&amp;sdx=1024&amp;sdy=768&amp;forceUpdate=1&amp;url=%u</submit>
 			<valid>CREATOR</valid>
 		</site>
 		<site name="Thumbzor">
@@ -54,7 +54,7 @@
 			<website>www.thumbzor.com</website>
 			<website-url>http://www.thumbzor.com/</website-url>
 			<pic><a href="http://www.thumbzor.com/" target="_blank"><img src="http://www.thumbzor.com/ZOR1_09.gif" alt="Free thumbnail preview by Thumbzor.com" title="Free thumbnail preview by Thumbzor.com" align="right" border="0" /></a></pic>
-			<submit>http://www.thumbzor.com/reactualise.php?&action=reactualise&url=%u</submit>
+			<submit>http://www.thumbzor.com/reactualise.php?&amp;action=reactualise&amp;url=%u</submit>
 			<valid>Nous avons bien pris en compte votre demande</valid>
 		</site>
 		<site name="ToolBarn (on-the-fly)">
@@ -86,7 +86,7 @@
 			<website>www.webseitentuning.de</website>
 			<website-url>http://www.webseitentuning.de/</website-url>
 			<pic></pic>
-			<submit>http://www.webseitentuning.de/preview.php?submitButtonName=Screenshot%32erstellen&url=%u</submit>
+			<submit>http://www.webseitentuning.de/preview.php?submitButtonName=Screenshot%32erstellen&amp;url=%u</submit>
 			<valid>Thumbshot von %u</valid>
 		</site>
 	</sites>
