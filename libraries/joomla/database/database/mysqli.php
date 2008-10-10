@@ -59,7 +59,7 @@ class JDatabaseMySQLi extends JDatabase
 		$user		= array_key_exists('user', $options)	? $options['user']		: '';
 		$password	= array_key_exists('password',$options)	? $options['password']	: '';
 		$database	= array_key_exists('database',$options)	? $options['database']	: '';
-		$prefix		= array_key_exists('prefix', $options)	? $options['prefix']	: 'jos_';
+		//$prefix		= array_key_exists('prefix', $options)	? $options['prefix']	: 'jos_';
 		$select		= array_key_exists('select', $options)	? $options['select']	: true;
 
 		// Unlike mysql_connect(), mysqli_connect() takes the port and socket

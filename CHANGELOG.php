@@ -42,6 +42,9 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+10-Oct-2008 Sam Moffatt
+ - Commented out useless lines in JDatabaseMySQL and JDatabaseMySQLi
+
 10-Oct-2008 Andrew Eddie
  - Dropped joomla_backward.sql
  ^ Changed installation error_reporting to 2047 while under development
