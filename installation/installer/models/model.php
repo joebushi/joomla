@@ -716,7 +716,7 @@ class JInstallationModel extends JModel
 		$vars	=& $this->getVars();
 		$lang	= JFactory::getLanguage();
 		$config	= new JRegistry('config');
-		
+
 		// Import authentication library
 		jimport( 'joomla.user.helper' );
 
@@ -751,15 +751,16 @@ class JInstallationModel extends JModel
 		$data->editor		= 'none';
 		$data->offset		= 0;
 		$data->lifetime		= 15;
-		
+
 		$data->MetaDesc			= JText::_( 'STDMETADESC' );
 		$data->MetaKeys			= JText::_( 'STDMETAKEYS' );
 		$data->offline_message	= JText::_( 'STDOFFLINEMSG' );
-		$data->error_reporting	= '-1';
+		// @todo: change to -1 before release
+		$data->error_reporting	= '2047';
 		$data->helpurl			= 'http://help.joomla.org';
 
 		$config->loadObject($data);
-		
+
 		// Update the credentials with the new settings
 		if ( $data->ftp_enable )
 		{
@@ -779,16 +780,16 @@ class JInstallationModel extends JModel
 		 */
 		$fname		= JPATH_CONFIGURATION.DS.'configuration.php';
 		$written	= NULL;
-		
+
 		// Get the config registry in PHP class format and write it to configuation.php
 		jimport('joomla.filesystem.file');
 		$written = JFile::write($fname, $config->toString('PHP', 'config', array('class' => 'JConfig')));
-		
+
 		if ( ! $written )
 		{
 			return false;
 		}
-		
+
 		JInstallationHelper::createAdminUser($vars);
 
 		return true;
