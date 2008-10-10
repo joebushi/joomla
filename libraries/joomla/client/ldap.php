@@ -481,4 +481,3 @@ class JLDAP extends JObject
 		return $userpassword;
 	}
 }
-}
