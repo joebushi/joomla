@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Oct-2008 Kevin Devine
+ # [12722] STRIPOS
+
 06-Oct-2008 Ian MacLennan
  # [#12843] Text 'New ordering saved' cannot be translated in weblinks
  # [#12734] Missing language string JA Purity
