@@ -47,6 +47,8 @@ http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
  ^ Changed installation error_reporting to 2047 while under development
  + Added new ACL tables
  ^ Update queries using jos_groups to jos_core_acl_axo_groups
+ - Removed JAuthorization::_mos_add_acl
+ + Added JAuthorization::getUserAccessLevels
 
 04-Oct-2008 Toby Patterson
  # Fixed final step of installation, completed removal of patTemplates from Installer

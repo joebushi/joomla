@@ -520,16 +520,33 @@ class JAuthorization extends gacl_api
 		return $this->db->loadResultArray();
 	}
 
-
 	/**
-	 * Deprecated, use JAuthorisation::addACL() instead.
+	 * Gets the access levels
 	 *
-	 * @since 1.0
-	 * @deprecated As of version 1.5
-	 * @see JAuthorisation::addACL()
+	 * @param	string	The name of the ACL section (usually the component, eg, com_content)
+	 * @param	string	The action (usually 'view' when used in a list context)
+	 * @return	string	Comma separated list of access level ID's
+	 * @since	1.6
 	 */
-	function _mos_add_acl( $aco_section_value, $aco_value, $aro_section_value, $aro_value, $axo_section_value=NULL, $axo_value=NULL, $return_value=NULL ) {
-		$this->addACL($aco_section_value, $aco_value, $aro_section_value, $aro_value, $axo_section_value, $axo_value, $return_value);
+	function getUserAccessLevels( $section, $action = 'view' )
+	{
+		$db		= &JFactory::getDBO();
+		$user	= &JFactory::getUser();
+		$query	= 'SELECT GROUP_CONCAT( DISTINCT axog.value SEPARATOR \',\' )' .
+				' FROM #__core_acl_aco_map AS am' .
+				' INNER JOIN #__core_acl_acl AS acl ON acl.id = am.acl_id' .
+				' INNER JOIN #__core_acl_aro_groups_map AS agm ON agm.acl_id = am.acl_id' .
+				' LEFT JOIN #__core_acl_axo_groups_map AS axogm ON axogm.acl_id = am.acl_id' .
+				' INNER JOIN #__core_acl_axo_groups AS axog ON axog.id = axogm.group_id' .
+				' INNER JOIN #__core_acl_groups_aro_map AS garom ON garom.group_id = agm.group_id' .
+				' INNER JOIN #__core_acl_aro AS aro ON aro.id = garom.aro_id' .
+				' WHERE am.section_value = '.$db->Quote( $section ) .
+				'  AND am.value = '.$db->Quote( $action ) .
+				'  AND acl.enabled = 1' .
+				'  AND acl.allow = 1' .
+				'  AND aro.value = '.(int) $user->id;
+		$db->setQuery( $query );
+		$result	= $db->loadResult();
+		return $result;
 	}
-
 }
