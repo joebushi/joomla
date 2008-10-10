@@ -17,68 +17,61 @@ defined('JPATH_BASE') or die();
 
 class JACL EXTENDS JObject {
 	const GROUP_SWITCH = '_group_';
-	const NATIVE = 0;
-	const PHPGACL = 1;
-	const LEGACY = 2;
-	protected $mode = 0;
 
 	public function __construct() {
 	}
 
-	public function getCheckMode() {
-		return $this->mode;
+	public static function getGroup($id, $type = 'aro') {
+		require_once(JPATH_LIBRARIES.DS.'joomla'.DS.'user'.DS.'acl'.DS.'group.php');
+		$group = new JACLGroup($id, $type);
+		return $group;
 	}
 
-	public function setCheckMode($new) {
-		$old = $this->mode;
-		$this->mode = (int) $new;
-		return $old;
+	public static function getObject($id, $type = 'aro') {
+		require_once(JPATH_LIBRARIES.DS.'joomla'.DS.'user'.DS.'acl'.DS.'object.php');
+		$object = new JACLObject($id, $type);
+		return $object;
+	}
+
+	public static function getRule($id) {
+		require_once(JPATH_LIBRARIES.DS.'joomla'.DS.'user'.DS.'acl'.DS.'rule.php');
+		$rule = new JACLRule($id);
+		return $rule;
+	}
+
+	public static function getSection($id, $type) {
+		require_once(JPATH_LIBRARIES.DS.'joomla'.DS.'user'.DS.'acl'.DS.'objectsection.php');
+		$object = new JACLObjectSection($id, $type);
+		return $object;
 	}
 	
-	public function addACL( $aco_section_value, $aco_value, $aro_section_value, $aro_value, $axo_section_value=NULL, $axo_value=NULL, $return_value=NULL )
-	{
-		//Since it's deprecated, it'll flop us back to legacy mode automatically
-		$this->setCheckMode(self::LEGACY);
-		$this->acl[] = array( $aco_section_value, $aco_value, $aro_section_value, $aro_value, $axo_section_value, $axo_value, $return_value );
-		$this->acl_count++;
-	}
-
-	public function acl_check($args) {
-		if($this->mode == self::LEGACY) {
-			$acl_result = 0;
-			for ($i=0; $i < $this->acl_count; $i++)
-			{
-				$acl =& $this->acl[$i];
-				if (strcasecmp( $aco_section_value, $acl[0] ) == 0) {
-					if (strcasecmp( $aco_value, $acl[1] ) == 0) {
-						if (strcasecmp( $aro_section_value, $acl[2] ) == 0) {
-							if (strcasecmp( $aro_value, $acl[3] ) == 0) {
-								if ($axo_section_value && $acl[4]) {
-									if (strcasecmp( $axo_section_value, $acl[4] ) == 0) {
-										if (strcasecmp( $axo_value, $acl[5] ) == 0) {
-											$acl_result = @$acl[6] ? $acl[6] : 1;
-											break;
-										}
-									}
-								} else {
-									$acl_result = @$acl[6] ? $acl[6] : 1;
-									break;
-								}
-							}
-						}
-					}
-				}
-			}
-			//if legacy grants us access, let it in
-			if($acl_result) return $acl_result;
-			//otherwise, just revert to native...
-		}
+	public function acl_check($aco_section_value, $aco_value, $aro_section_value, $aro_value, $axo_section_value=null, $axo_value=null, $root_aro_group=null, $root_axo_group=null) {
+		$args = array(
+			'aco_section_value'=>$aco_section_value,
+			'aco_value'=>$aco_value,
+			'aro_section_value'=>$aro_section_value,
+			'aro_value'=>$aro_value,
+			'axo_section_value'=>$axo_section_value,
+			'axo_value'=>$axo_value,
+			'root_aro_group'=>$root_aro_group,
+			'root_axo_group'=>$root_axo_group,
+		);
 		$result = $this->query($args);
 		return (bool) $result->allow;
 	}
 
 
-	public function return_value($args) {
+	public function return_value($aco_section_value, $aco_value, $aro_section_value, $aro_value, $axo_section_value=null, $axo_value=null, $root_aro_group=null, $root_axo_group=null) {
+		$args = array(
+			'aco_section_value'=>$aco_section_value,
+			'aco_value'=>$aco_value,
+			'aro_section_value'=>$aro_section_value,
+			'aro_value'=>$aro_value,
+			'axo_section_value'=>$axo_section_value,
+			'axo_value'=>$axo_value,
+			'root_aro_group'=>$root_aro_group,
+			'root_axo_group'=>$root_axo_group,
+		);
 		$result = $this->query($args);
 		return $result->return_value;
 	}

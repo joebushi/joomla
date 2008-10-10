@@ -15,6 +15,10 @@
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();
 
+require_once(JPATH_LIBRARIES.DS.'joomla'.DS.'user'.DS.'acl'.DS.'group.php');
+require_once(JPATH_LIBRARIES.DS.'joomla'.DS.'user'.DS.'acl'.DS.'object.php');
+require_once(JPATH_LIBRARIES.DS.'joomla'.DS.'user'.DS.'acl'.DS.'objectsection.php');
+
 class JACLRule EXTENDS JObject {
 	public $id = 0;
 	public $aco = array();
@@ -104,7 +108,7 @@ class JACLRule EXTENDS JObject {
 		}
 		$this->aro_groups = array_unique($this->aro_groups);
 		$this->axo_groups = array_unique($this->axo_groups);
-		return $this->isConflicting();
+		return (bool) $this->isConflict();
 	}
 
 	public function save() {
@@ -231,7 +235,59 @@ class JACLRule EXTENDS JObject {
 	}
 
 	public function isConflict() {
-		//TODO: Write this!
+		if(empty($this->aco)) {
+			$this->setError('Empty ACO value list');
+			return 2;
+		} elseif(empty($this->aro)) {
+			$this->setError('Empty ARO value list');
+			return 2;
+		}
+		$sql = 'SELECT a.id 
+			FROM #__core_acl_acl AS a
+			LEFT JOIN #__core_acl_aco_map AS ac ON a.id = ac.acl_id
+			LEFT JOIN #__core_acl_aro_map AS ar ON a.id = ar.acl_id
+			LEFT JOIN #__core_acl_axo_map AS ax ON a.id = ax.acl_id
+			LEFT JOIN #__core_acl_axo_groups_map AS axg.acl_id = a.id
+			LEFT JOIN #__core_acl_axo_groups AS xg ON axg.group_id = xg.id
+			';
+
+		foreach($this->aco AS $aco_section_value => $aco_value) {
+			if(empty($aco_value)) continue;
+			$where = array(
+				'ac2'=>'(ac.section_value = '.$this->db->quote($aco_section_value).' AND ac.value IN ('.$this->implodeArray($aco_value).')',
+				);
+			foreach($this->aro AS $aro_section_value => $aro_value) {
+				if(empty($aro_value)) continue;
+				$where['ar2'] = '(ar.section_value = '.$this->db->quote($aro_section_value).' AND ar.value IN ('.$this->implodeArray($aro_value).')';
+				if(!empty($this->axo)) {
+					foreach($this->axo AS $axo_section_value => $axo_value) {
+						if(empty($axo_value)) continue;
+						$where['ax1'] = 'ax.acl_id = a.id';
+						$where['ax2'] = '(ax.section_value = '.$this->db->quote($axo_section_value).' AND ax.value IN ('.$this->implodeArray($axo_value).')';
+						$this->db->setQuery($sql . 'WHERE '.implode(' AND ', $where));
+						$conflict = $this->db->loadResultList();
+						if(is_array($conflict) && !empty($conflict)) {
+							$conflict = array_diff($conflict, array($this->id));
+							if(!empty($conflict)) {
+								return 1;
+							}
+						}
+					}
+				} else {
+					$where['ax1'] = '(ax.section_value IS NULL AND ax.value IS NULL)';
+					$where['ax2'] = 'xg.name IS NULL';
+					$this->db->setQuery($sql . 'WHERE '.implode(' AND ', $where));
+					$conflict = $this->db->loadResultList();
+					if(is_array($conflict) && !empty($conflict)) {
+						$conflict = array_diff($conflict, array($this->id));
+						if(!empty($conflict)) {
+							return 1;
+						}
+					}
+				}
+			}
+		}
+		return 0;
 	}
 
 	public function delete() {

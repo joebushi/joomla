@@ -15,6 +15,8 @@
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();
 
+require_once(JPATH_LIBRARIES.DS.'joomla'.DS.'user'.DS.'acl'.DS.'rule.php');
+
 class JACLObject EXTENDS JObject {
 	public $id = 0;
 	public $section_value = '';

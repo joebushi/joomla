@@ -139,6 +139,8 @@ class JACLGroup EXTENDS JObject {
 			$this->setError('Cannot Delete Non-Existant Object');
 			return false;
 		}
+
+		//TODO: Write This!
 	}
 
 	public function isChildOf($id) {
@@ -149,12 +151,52 @@ class JACLGroup EXTENDS JObject {
 		return false;
 	}
 
-	public static function rebuild($type, $left = 1) {
-
+	public static function rebuild($type, $id = null, $left = 1) {
+		if(strtolower($type) == 'axo') {
+			$type = 'axo';
+		} else {
+			$type = 'aro';
+		}
+		if(empty($id)) {
+			$id = self::getRoot($type);
+			if($id) {
+				$left = 1;
+			} else {
+				return false;
+			}
+		}
+		
+		return (bool) self::rebuildTree($type, $id, $left);
 	}
 
 	protected static function rebuildTree($type, $id, $left = 1) {
+		static $db = null;
+		if(is_null($db)) {
+			$db = JFactory::getDBO();
+		}
+		
+		$right = $left + 1;
 
+		$sql = 'SELECT id FROM #__core_acl_'.$type.'_groups WHERE parent_id = '.(int) $id;
+		$db->setQuery($sql);
+		$rows = $db->loadResultList();
+		if(!empty($rows)) {
+			foreach($rows AS $row) {
+				$right = self::rebuildTree($type, $row, $right);
+				if($right === false) {
+					return false;
+				}
+			}
+		}
+		$sql = 'UPDATE #__core_acl_'.$type.'_groups 
+			SET lft = '.(int) $left.',
+				rgt = '.(int) $right.'
+			WHERE id = '.(int) $id;
+		$db->setQuery($sql);
+		if(!$db->query()) {
+			return false;
+		}
+		return $right + 1;
 	}
 
 	public static function getByValue($value, $type) {
@@ -226,5 +268,22 @@ class JACLGroup EXTENDS JObject {
 		return $db->loadObjectList();
 	}
 
-
+	public static function getRootId($type) {
+		switch(strtolower($type)) {
+			case 'aro':
+			case 'axo':
+				$type = strtolower($type);
+				break;
+			default:
+				return false;
+		}
+		$db = JFactory::getDBO();
+		$sql = 'SELECT id FROM #__core_acl_'.$type.'_groups WHERE parent_id = 0';
+		$db->setQuery($sql);
+		$row = $db->loadResult();
+		if(!$row) {
+			$row = false;
+		}
+		return $row;
+	}	
 }
