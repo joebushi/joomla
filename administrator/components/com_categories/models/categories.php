@@ -226,7 +226,7 @@ class CategoriesModelCategories extends JModel
 		. $this->content_add
 		. ' FROM #__categories AS c'
 		. ' LEFT JOIN #__users AS u ON u.id = c.checked_out'
-		. ' LEFT JOIN #__groups AS g ON g.id = c.access'
+		. ' LEFT JOIN #__core_acl_axo_groups AS g ON g.value = c.access'
 		. ' LEFT JOIN #__'.$this->table.' AS s2 ON s2.catid = c.id AND s2.checked_out > 0'
 		. $this->content_join
 		. $where

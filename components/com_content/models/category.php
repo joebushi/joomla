@@ -366,7 +366,7 @@ class ContentModelCategory extends JModel
 			' FROM #__content AS a' .
 			' LEFT JOIN #__categories AS cc ON a.catid = cc.id' .
 			' LEFT JOIN #__users AS u ON u.id = a.created_by' .
-			' LEFT JOIN #__groups AS g ON a.access = g.id'.
+			' LEFT JOIN #__core_acl_axo_groups AS g ON a.access = g.value'.
 			$voting['join'].
 			$where.
 			$orderby;

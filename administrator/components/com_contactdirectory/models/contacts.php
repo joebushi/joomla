@@ -120,7 +120,7 @@ class ContactdirectoryModelContacts extends JModel
 			. ' FROM #__contactdirectory_contacts AS c '
 			. ' LEFT JOIN #__users AS u ON u.id = c.checked_out '
 			. ' LEFT JOIN #__users AS v ON v.id = c.user_id '
-			. ' LEFT JOIN #__groups AS g ON g.id = c.access '
+			. ' LEFT JOIN #__core_acl_axo_groups AS g ON g.value = c.access '
 			. ' LEFT JOIN #__contactdirectory_con_cat_map AS map ON map.contact_id = c.id '
 			. ' LEFT JOIN #__categories AS cat ON cat.id = map.category_id '
 			. ' LEFT JOIN #__contactdirectory_details AS d ON d.contact_id = c.id '
@@ -151,7 +151,7 @@ class ContactdirectoryModelContacts extends JModel
 		global $mainframe, $option;
 		$db =& JFactory::getDBO();
 		$filter_state = $mainframe->getUserStateFromRequest( $option.'filter_state',	'filter_state', '', 'word' );
-		$filter_catid = $mainframe->getUserStateFromRequest( $option.'filter_catid', 'filter_catid', 0, 'int' );			
+		$filter_catid = $mainframe->getUserStateFromRequest( $option.'filter_catid', 'filter_catid', 0, 'int' );
 		$filter_order = $mainframe->getUserStateFromRequest( $option.'filter_order',	'filter_order', 'map.ordering', 'cmd' );
 		$filter_order_Dir	= $mainframe->getUserStateFromRequest( $option.'filter_order_Dir',	'filter_order_Dir',	'', 'word' );
 		$search	 = $mainframe->getUserStateFromRequest( $option.'search',	'search', '',	'string' );

@@ -98,7 +98,7 @@ function viewTrashContent( $option )
 	. ' FROM #__content AS c'
 	. ' LEFT JOIN #__categories AS cc ON cc.id = c.catid'
 	. ' LEFT JOIN #__sections AS s ON s.id = cc.section AND s.scope = "content"'
-	. ' LEFT JOIN #__groups AS g ON g.id = c.access'
+	. ' LEFT JOIN #__core_acl_axo_groups AS g ON g.value = c.access'
 	. ' LEFT JOIN #__users AS u ON u.id = c.checked_out'
 	. $where
 	;
@@ -113,7 +113,7 @@ function viewTrashContent( $option )
 	. ' FROM #__content AS c'
 	. ' LEFT JOIN #__categories AS cc ON cc.id = c.catid'
 	. ' LEFT JOIN #__sections AS s ON s.id = cc.section AND s.scope="content"'
-	. ' LEFT JOIN #__groups AS g ON g.id = c.access'
+	. ' LEFT JOIN #__core_acl_axo_groups AS g ON g.value = c.access'
 	. ' LEFT JOIN #__users AS u ON u.id = c.checked_out'
 	. $where
 	. $orderby

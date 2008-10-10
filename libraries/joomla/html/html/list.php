@@ -32,9 +32,10 @@ class JHTMLList
 	{
 		$db =& JFactory::getDBO();
 
-		$query = 'SELECT id AS value, name AS text'
-		. ' FROM #__groups'
-		. ' ORDER BY id'
+		$query = 'SELECT value, name AS text'
+		. ' FROM #__core_acl_axo_groups'
+		. ' WHERE value >= 0'
+		. ' ORDER BY value'
 		;
 		$db->setQuery( $query );
 		$groups = $db->loadObjectList();

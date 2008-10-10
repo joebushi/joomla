@@ -235,9 +235,9 @@ class UserModelPrototype extends JModel
 	{
 		$table = $this->getTable();
 		$qt	= 'SELECT g.id' .
-				' FROM #__groups AS g' .
+				' FROM #__core_acl_axo_groups AS g' .
 				' LEFT JOIN '.$table->getTableName().' AS a ON a.id = %d' .
-				' WHERE g.id > a.access' .
+				' WHERE g.level > a.access' .
 				' ORDER BY g.id ASC';
 
 		if (!is_array( $ids )) {

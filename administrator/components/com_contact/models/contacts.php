@@ -156,7 +156,7 @@ class ContactsModelContacts extends JModel
 			. ' FROM #__contact_details AS a '
 			. ' LEFT JOIN #__categories AS cc ON cc.id = a.catid '
 			. ' LEFT JOIN #__users AS u ON u.id = a.checked_out '
-			. ' LEFT JOIN #__groups AS g ON g.id = a.access'
+			. ' LEFT JOIN #__core_acl_axo_groups AS g ON g.value = a.access'
 			. ' LEFT JOIN #__users AS v ON v.id = a.user_id'
 			. $where
 			. $orderby

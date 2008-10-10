@@ -119,7 +119,7 @@ class ContactdirectoryModelFields extends JModel
 		$query = ' SELECT f.*, u.name AS editor, g.name AS groupname '
 			. ' FROM #__contactdirectory_fields AS f '
 			. ' LEFT JOIN #__users AS u ON u.id = f.checked_out '
-			. ' LEFT JOIN #__groups AS g ON g.id = f.access '
+			. ' LEFT JOIN #__core_acl_axo_groups AS g ON g.value = f.access '
 			. $where
 			. $orderby;
 

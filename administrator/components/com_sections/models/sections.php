@@ -200,7 +200,7 @@ class SectionsModelSections extends JModel
 		$query = ' SELECT s.*, u.name AS editor, g.name AS groupname '
 			. ' FROM #__sections AS s '
 			. ' LEFT JOIN #__users AS u ON u.id = s.checked_out '
-			. ' LEFT JOIN #__groups AS g ON g.id = s.access'
+			. ' LEFT JOIN #__core_acl_axo_groups AS g ON g.value = s.access'
 			. $where
 			. $orderby
 		;

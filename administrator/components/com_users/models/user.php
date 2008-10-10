@@ -119,7 +119,7 @@ class UserModelUser extends UserModelPrototype
 			$config	= &JComponentHelper::getParams( 'com_users' );
 			if ($config->get( 'acl_mode' ) == 0) {
 				$query->select( 'g.name AS access_name' );
-				$query->join( 'LEFT', '#__groups AS g ON g.id=a.access' );
+				$query->join( 'LEFT', '#__core_acl_axo_groups AS g ON g.value=a.access' );
 			}
 			else {
 				$query->select( 'g.name AS access_name' );
