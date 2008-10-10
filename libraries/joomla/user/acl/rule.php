@@ -372,6 +372,16 @@ class JACLRule EXTENDS JObject {
 		}
 	}
 
+	protected function implodeArray($arr) {
+		$return = '';
+		$sep = '';
+		foreach($arr AS $value) {
+			$return .= $sep . $this->db->quote($value);
+			$sep = ', ';
+		}
+		return $return;
+	}
+
 	public static function search($args) {
 		$db = JFactory::getDBO();
 		$sql = 'SELECT a.id 

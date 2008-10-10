@@ -22,7 +22,7 @@ defined('JPATH_BASE') or die();
  * @subpackage	Error
  * @since		1.5
  */
-class JException extends JObject
+class JException extends exception 
 {
 	/**
 	 * Error level
@@ -102,8 +102,8 @@ class JException extends JObject
 	 * @param	string	$info		Optional: The additional error information.
 	 * @param	boolean	$backtrace	True if backtrace information is to be collected
 	 */
-    function __construct( $msg, $code = 0, $level = null, $info = null, $backtrace = false )
-    {
+	function __construct( $msg, $code = 0, $level = null, $info = null, $backtrace = false )
+	{
 		$this->level	=	$level;
 		$this->code		=	$code;
 		$this->message	=	$msg;
@@ -120,40 +120,32 @@ class JException extends JObject
 			{
 				++$i;
 				if (isset( $this->backtrace[$i]['file'] )) {
-					$this->file		= $this->backtrace[$i]['file'];
+					$this->file = $this->backtrace[$i]['file'];
 				}
 				if (isset( $this->backtrace[$i]['line'] )) {
-					$this->line		= $this->backtrace[$i]['line'];
+					$this->line = $this->backtrace[$i]['line'];
 				}
 				if (isset( $this->backtrace[$i]['class'] )) {
-					$this->class	= $this->backtrace[$i]['class'];
+					$this->class = $this->backtrace[$i]['class'];
 				}
 				if (isset( $this->backtrace[$i]['function'] )) {
 					$this->function	= $this->backtrace[$i]['function'];
 				}
 				if (isset( $this->backtrace[$i]['type'] )) {
-					$this->type		= $this->backtrace[$i]['type'];
+					$this->type = $this->backtrace[$i]['type'];
 				}
 
-				$this->args		= false;
+				$this->args = false;
 				if (isset( $this->backtrace[$i]['args'] )) {
-					$this->args		= $this->backtrace[$i]['args'];
+					$this->args = $this->backtrace[$i]['args'];
 				}
 				break;
 			}
 		}
-    }
+		parent::__construct($this->message);
+	}
 
-	/**
-	 * Method to get the exception message
-	 *
-	 * @final
-	 * @access	public
-	 * @return	string
-	 * @since	1.5
-	 */
-	function getMessage()
-	{
+	public function __toString() {
 		return $this->message;
 	}
 
@@ -249,4 +241,5 @@ class JException extends JObject
 	{
 		return $this->message;
 	}
+
 }
