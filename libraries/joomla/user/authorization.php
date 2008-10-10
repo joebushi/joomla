@@ -25,186 +25,24 @@ jimport('phpgacl.gacl_api');
  * @subpackage	User
  * @since		1.5
  */
-class JAuthorization extends gacl_api
+class JAuthorization extends JObject 
 {
-	/**
-	 * Access control list
-	 * @var	array
-	 */
-	var $acl       = null;
-
-	/**
-	 * Internal counter
-	 * @var	int
-	 */
-	var $acl_count = 0;
-
-	/**
-	 * The check mode.  0 = Joomla!, 1 = phpGACL
-	 * @var	int
-	 */
-	var $_checkMode = 0;
-
+	const LEGACY = 0;
+	const JACL = 1;
+	protected $mode = 1;
+	protected $acl = array();
+	protected $acl_count = 0;
+	
 	/**
 	 * Constructor
 	 * @param array An arry of options to oeverride the class defaults
 	 */
-	function JAuthorization($options = NULL)
+	public function __construct($options = NULL)
 	{
-		parent::gacl( $options );
+		if(isset($options['mode'])) {
+			$this->setCheckMode($options['mode']);
+		}
 
-		// ARO value is currently the user type,
-		// this changes to user id in proper implementation
-		// No hierarchial inheritance so have to do that the long way
-		$this->acl = array();
-
-		// special ACl with return value to edit user
-		$this->addACL( 'com_user', 'edit', 'users', 'super administrator', null, null, '' );
-		$this->addACL( 'com_user', 'edit', 'users', 'administrator', null, null, '' );
-		$this->addACL( 'com_user', 'edit', 'users', 'manager', null, null, '' );
-		// return value defines xml setup file variant
-		$this->addACL( 'com_user', 'edit', 'users', 'author', null, null, 'author' );
-		$this->addACL( 'com_user', 'edit', 'users', 'editor', null, null, 'author' );
-		$this->addACL( 'com_user', 'edit', 'users', 'publisher', null, null, 'author' );
-		$this->addACL( 'com_user', 'edit', 'users', 'registered', null, null, 'registered' );
-
-		// backend login
-		$this->addACL( 'login', 'administrator', 'users', 'administrator' );
-		$this->addACL( 'login', 'administrator', 'users', 'super administrator' );
-		$this->addACL( 'login', 'administrator', 'users', 'manager' );
-
-		$this->addACL( 'login', 'site', 'users', 'administrator' );
-		$this->addACL( 'login', 'site', 'users', 'super administrator' );
-		$this->addACL( 'login', 'site', 'users', 'manager' );
-
-		$this->addACL( 'login', 'site', 'users', 'registered' );
-		$this->addACL( 'login', 'site', 'users', 'author' );
-		$this->addACL( 'login', 'site', 'users', 'editor' );
-		$this->addACL( 'login', 'site', 'users', 'publisher' );
-		// backend menus
-
-		$this->addACL( 'com_banners', 'manage', 'users', 'super administrator' );
-		$this->addACL( 'com_banners', 'manage', 'users', 'administrator' );
-		$this->addACL( 'com_banners', 'manage', 'users', 'manager' );
-
-		$this->addACL( 'com_checkin', 'manage', 'users', 'super administrator' );
-		$this->addACL( 'com_checkin', 'manage', 'users', 'administrator' );
-
-		$this->addACL( 'com_cache', 'manage', 'users', 'super administrator' );
-		$this->addACL( 'com_cache', 'manage', 'users', 'administrator' );
-
-		$this->addACL( 'com_config', 'manage', 'users', 'super administrator' );
-		//$this->addACL( 'com_config', 'manage', 'users', 'administrator' );
-
-		$this->addACL( 'com_contact', 'manage', 'users', 'super administrator' );
-		$this->addACL( 'com_contact', 'manage', 'users', 'administrator' );
-		$this->addACL( 'com_contact', 'manage', 'users', 'manager' );
-
-		$this->addACL( 'com_components', 'manage', 'users', 'super administrator' );
-		$this->addACL( 'com_components', 'manage', 'users', 'administrator' );
-		$this->addACL( 'com_components', 'manage', 'users', 'manager' );
-
-		$this->addACL( 'com_frontpage', 'manage', 'users', 'super administrator' );
-		$this->addACL( 'com_frontpage', 'manage', 'users', 'administrator' );
-		$this->addACL( 'com_frontpage', 'manage', 'users', 'manager' );
-		$this->addACL( 'com_frontpage', 'edit', 'users', 'manager' );
-
-		// access to installers and base installer
-		$this->addACL( 'com_installer', 'installer', 'users', 'administrator' );
-		$this->addACL( 'com_installer', 'installer', 'users', 'super administrator' );
-
-		$this->addACL( 'com_installer', 'component', 'users', 'administrator' );
-		$this->addACL( 'com_installer', 'component', 'users', 'super administrator' );
-
-		$this->addACL( 'com_installer', 'language', 'users', 'super administrator' );
-		$this->addACL( 'com_installer', 'language', 'users', 'administrator' );
-
-		$this->addACL( 'com_installer', 'module', 'users', 'administrator' );
-		$this->addACL( 'com_installer', 'module', 'users', 'super administrator' );
-
-		$this->addACL( 'com_installer', 'plugin', 'users', 'administrator' );
-		$this->addACL( 'com_installer', 'plugin', 'users', 'super administrator' );
-
-		$this->addACL( 'com_installer', 'template', 'users', 'super administrator' );
-		$this->addACL( 'com_installer', 'template', 'users', 'administrator' );
-
-		$this->addACL( 'com_languages', 'manage', 'users', 'super administrator' );
-
-		$this->addACL( 'com_plugins', 'manage', 'users', 'super administrator' );
-		$this->addACL( 'com_plugins', 'manage', 'users', 'administrator' );
-		// uncomment following to allow managers to edit modules
-		//array( 'administration', 'edit', 'users', 'manager', 'modules', 'all' );
-
-		$this->addACL( 'com_massmail', 'manage', 'users', 'super administrator' );
-
-		$this->addACL( 'com_media', 'manage', 'users', 'super administrator' );
-		$this->addACL( 'com_media', 'manage', 'users', 'administrator' );
-		$this->addACL( 'com_media', 'manage', 'users', 'manager' );
-		$this->addACL( 'com_media', 'popup', 'users', 'super administrator' );
-		$this->addACL( 'com_media', 'popup', 'users', 'administrator' );
-		$this->addACL( 'com_media', 'popup', 'users', 'manager' );
-		$this->addACL( 'com_media', 'popup', 'users', 'registered' );
-		$this->addACL( 'com_media', 'popup', 'users', 'author' );
-		$this->addACL( 'com_media', 'popup', 'users', 'editor' );
-		$this->addACL( 'com_media', 'popup', 'users', 'publisher' );
-
-		$this->addACL( 'com_menus', 'manage', 'users', 'administrator' );
-		$this->addACL( 'com_menus', 'manage', 'users', 'super administrator' );
-
-		$this->addACL( 'com_modules', 'manage', 'users', 'super administrator' );
-		$this->addACL( 'com_modules', 'manage', 'users', 'administrator' );
-
-		$this->addACL( 'com_newsfeeds', 'manage', 'users', 'super administrator' );
-		$this->addACL( 'com_newsfeeds', 'manage', 'users', 'administrator' );
-		$this->addACL( 'com_newsfeeds', 'manage', 'users', 'manager' );
-
-		$this->addACL( 'com_poll', 'manage', 'users', 'super administrator' );
-		$this->addACL( 'com_poll', 'manage', 'users', 'administrator' );
-		$this->addACL( 'com_poll', 'manage', 'users', 'manager' );
-
-		$this->addACL( 'com_templates', 'manage', 'users', 'super administrator' );
-		//$this->addACL( 'com_templates', 'manage', 'user', 'administrator' )
-
-		$this->addACL( 'com_trash', 'manage', 'users', 'administrator' );
-		$this->addACL( 'com_trash', 'manage', 'users', 'super administrator' );
-
-		// email block users property
-		$this->addACL( 'com_users', 'block user', 'users', 'administrator' );
-		$this->addACL( 'com_users', 'block user', 'users', 'super administrator' );
-
-		$this->addACL( 'com_users', 'manage', 'users', 'administrator' );
-		$this->addACL( 'com_users', 'manage', 'users', 'super administrator' );
-
-		$this->addACL( 'com_weblinks', 'manage', 'users', 'super administrator' );
-		$this->addACL( 'com_weblinks', 'manage', 'users', 'administrator' );
-		$this->addACL( 'com_weblinks', 'manage', 'users', 'manager' );
-
-		// email system events
-		$this->addACL( 'com_users', 'email_events', 'users', 'administrator' );
-		$this->addACL( 'com_users', 'email_events', 'users', 'super administrator' );
-		$this->addACL( 'workflow', 'email_events', 'users', 'administrator', null, null );
-		$this->addACL( 'workflow', 'email_events', 'users', 'super administrator', null, null );
-
-		// actions
-		$this->addACL( 'com_content', 'add', 'users', 'author', 'content', 'all' );
-		$this->addACL( 'com_content', 'add', 'users', 'editor', 'content', 'all' );
-		$this->addACL( 'com_content', 'add', 'users', 'publisher', 'content', 'all' );
-		$this->addACL( 'com_content', 'edit', 'users', 'author', 'content', 'own' );
-		$this->addACL( 'com_content', 'edit', 'users', 'editor', 'content', 'all' );
-		$this->addACL( 'com_content', 'edit', 'users', 'publisher', 'content', 'all' );
-		$this->addACL( 'com_content', 'publish', 'users', 'publisher', 'content', 'all' );
-
-		$this->addACL( 'com_content', 'add', 'users', 'manager', 'content', 'all' );
-		$this->addACL( 'com_content', 'edit', 'users', 'manager', 'content', 'all' );
-		$this->addACL( 'com_content', 'publish', 'users', 'manager', 'content', 'all' );
-
-		$this->addACL( 'com_content', 'add', 'users', 'administrator', 'content', 'all' );
-		$this->addACL( 'com_content', 'edit', 'users', 'administrator', 'content', 'all' );
-		$this->addACL( 'com_content', 'publish', 'users', 'administrator', 'content', 'all' );
-
-		$this->addACL( 'com_content', 'add', 'users', 'super administrator', 'content', 'all' );
-		$this->addACL( 'com_content', 'edit', 'users', 'super administrator', 'content', 'all' );
-		$this->addACL( 'com_content', 'publish', 'users', 'super administrator', 'content', 'all' );
 	}
 
 	/**
@@ -222,8 +60,10 @@ class JAuthorization extends gacl_api
 	 */
 	function addACL( $aco_section_value, $aco_value, $aro_section_value, $aro_value, $axo_section_value=NULL, $axo_value=NULL, $return_value=NULL )
 	{
-		$this->acl[] = array( $aco_section_value, $aco_value, $aro_section_value, $aro_value, $axo_section_value, $axo_value, $return_value );
-		$this->acl_count++;
+		if($this->mode == self::LEGACY) {
+			$this->acl[] = array( $aco_section_value, $aco_value, $aro_section_value, $aro_value, $axo_section_value, $axo_value, $return_value );
+			$this->acl_count++;
+		}
 	}
 
 	/**
@@ -232,7 +72,7 @@ class JAuthorization extends gacl_api
 	 */
 	function getCheckMode()
 	{
-		return $this->_checkMode;
+		return $this->mode;
 	}
 
 	/**
@@ -240,13 +80,13 @@ class JAuthorization extends gacl_api
 	 *
 	 * Only used if the full implementation of the phpGACL library is installed and configured
 	 *
-	 * @param	int		0 = Joomla!, 1 = phpGACL native
+	 * @param	int		0 = Native = JACL
 	 * @return	int		The previous value
 	 */
 	function setCheckMode( $value )
 	{
-		$old				= $this->_checkMode;
-		$this->_checkMode	= (int) $value;
+		$old				= $this->mode;
+		$this->mode	= (int) $value;
 		return $old;
 	}
 
@@ -266,8 +106,18 @@ class JAuthorization extends gacl_api
 	*/
 	function acl_check( $aco_section_value, $aco_value, $aro_section_value, $aro_value, $axo_section_value=NULL, $axo_value=NULL, $root_aro_group=NULL, $root_axo_group=NULL )
 	{
-		if ($this->_checkMode === 1) {
-			return parent::acl_check( $aco_section_value, $aco_value, $aro_section_value, $aro_value, $axo_section_value, $axo_value, $root_aro_group, $root_axo_group );
+		if ($this->mode === self::JACL) {
+			$args = array(
+					'aco_section_value'=>$aco_section_value,
+					'aco_value'=>$aco_value,
+					'aro_section_value'=>$aro_section_value,
+					'aro_value'=>$aro_value,
+					'axo_section_value'=>$axo_section_value,
+					'axo_value'=>$axo_value,
+					'root_aro_group'=>$root_aro_group,
+					'root_axo_group'=>$root_axo_group,
+				);
+			return JACL::check($args);
 		}
 
 		$this->debug_text( "\n<br> ACO=$aco_section_value:$aco_value, ARO=$aro_section_value:$aro_value, AXO=$axo_section_value|$axo_value" );
@@ -307,8 +157,9 @@ class JAuthorization extends gacl_api
 	 */
 	function get_group_name($group_id = null, $group_type = 'ARO')
 	{
-		$data = $this->get_group_data( $group_id, 'ARO' );
-		return $data[3];
+		require_once(JPATH_LIBRARIES . DS. 'joomla'.DS.'user'.DS.'acl'.DS.'group.php');
+		$group = new JACLGroup($group_id, $group_type);
+		return $group->name;
 	}
 
 	/**
@@ -321,15 +172,8 @@ class JAuthorization extends gacl_api
 
 	function _getGroup( $type, $value )
 	{
-		$db =& JFactory::getDBO();
-
-		$db->setQuery( 'SELECT g.*'
-			. ' FROM #__core_acl_'.$type.'_groups AS g'
-			. ' INNER JOIN #__core_acl_groups_'.$type.'_map AS gm ON gm.group_id = g.id'
-			. ' INNER JOIN #__core_acl_'.$type.' AS ao ON ao.id = gm.'.$type.'_id'
-			. ' WHERE ao.value='.$db->Quote($value)
-		);
-		$obj = $db->loadObject(  );
+		require_once(JPATH_LIBRARIES . DS. 'joomla'.DS.'user'.DS.'acl'.DS.'group.php');		
+		$obj = JACLGroup::getByValue($value, $type);
 		return $obj;
 	}
 
