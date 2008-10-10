@@ -16,24 +16,74 @@
 defined('JPATH_BASE') or die();
 
 class JACL EXTENDS JObject {
-	protected static $instance = null;
 	const GROUP_SWITCH = '_group_';
+	const NATIVE = 0;
+	const PHPGACL = 1;
+	const LEGACY = 2;
+	protected $mode = 0;
 
-	//Prevent instansicating object
-	private function __construct() {
+	public function __construct() {
+	}
+
+	public function getCheckMode() {
+		return $this->mode;
+	}
+
+	public function setCheckMode($new) {
+		$old = $this->mode;
+		$this->mode = (int) $new;
+		return $old;
 	}
 	
-	public static function check($args) {
-		$result = self::query($args);
+	public function addACL( $aco_section_value, $aco_value, $aro_section_value, $aro_value, $axo_section_value=NULL, $axo_value=NULL, $return_value=NULL )
+	{
+		//Since it's deprecated, it'll flop us back to legacy mode automatically
+		$this->setCheckMode(self::LEGACY);
+		$this->acl[] = array( $aco_section_value, $aco_value, $aro_section_value, $aro_value, $axo_section_value, $axo_value, $return_value );
+		$this->acl_count++;
+	}
+
+	public function acl_check($args) {
+		if($this->mode == self::LEGACY) {
+			$acl_result = 0;
+			for ($i=0; $i < $this->acl_count; $i++)
+			{
+				$acl =& $this->acl[$i];
+				if (strcasecmp( $aco_section_value, $acl[0] ) == 0) {
+					if (strcasecmp( $aco_value, $acl[1] ) == 0) {
+						if (strcasecmp( $aro_section_value, $acl[2] ) == 0) {
+							if (strcasecmp( $aro_value, $acl[3] ) == 0) {
+								if ($axo_section_value && $acl[4]) {
+									if (strcasecmp( $axo_section_value, $acl[4] ) == 0) {
+										if (strcasecmp( $axo_value, $acl[5] ) == 0) {
+											$acl_result = @$acl[6] ? $acl[6] : 1;
+											break;
+										}
+									}
+								} else {
+									$acl_result = @$acl[6] ? $acl[6] : 1;
+									break;
+								}
+							}
+						}
+					}
+				}
+			}
+			//if legacy grants us access, let it in
+			if($acl_result) return $acl_result;
+			//otherwise, just revert to native...
+		}
+		$result = $this->query($args);
 		return (bool) $result->allow;
 	}
 
-	public static function return_value($args) {
-		$result = self::query($args);
+
+	public function return_value($args) {
+		$result = $this->query($args);
 		return $result->return_value;
 	}
 
-	public static function checkArray($args) {
+	public function check_array($args) {
 		if(!isset($args['aro_array']) || !is_array($args['aro_array'])) {
 			$this->setError('aro_array MUST be an array of ids to check');
 			return false;
@@ -55,7 +105,7 @@ class JACL EXTENDS JObject {
 						'aro_section_value'=>$aro_section,
 						'aro_value' => $aro_value,
 						);
-				if(self::check($newArgs)) {
+				if($this->check($newArgs)) {
 					if(!isset($return[$aro_section])) $return[$aro_section] = array();
 					$return[$aro_section][] = $aro_value;
 				}
@@ -64,7 +114,7 @@ class JACL EXTENDS JObject {
 		return $return;
 	}
 
-	public static function query($args) {
+	public function query($args) {
 		ksort($args);
 		$id = 'acl_'.serialize($args);
 		$user = JFactory::getUser();
@@ -197,7 +247,7 @@ class JACL EXTENDS JObject {
 		return $row;
 	}
 
-	public static function getGroups($args, $type = 'aro') {
+	public function getGroups($args, $type = 'aro') {
 		if(strtolower($type) != 'axo') {
 			$type = 'aro';
 		} else {
@@ -207,14 +257,13 @@ class JACL EXTENDS JObject {
 			return array();
 		}
 
-		$db = JFactory::getDBO();
 		$sql = 'SELECT DISTINCT g2.id';
 		if($args[$type.'_section_value'] == self::GROUP_SWITCH) {
 			$sql .= '
 				FROM #__core_acl_'.$type.'_groups AS g1
 				JOIN #__core_acl_'.$type.'_groups AS g2';
 			$where = '
-				WHERE g1.value = '.$db->quote($args[$type.'_value']);
+				WHERE g1.value = '.$this->db->quote($args[$type.'_value']);
 		} else {
 			$sql .= '
 				FROM #__core_acl_'.$type.' AS o
@@ -222,13 +271,13 @@ class JACL EXTENDS JObject {
 				JOIN #__core_acl_'.$type.'_groups AS g1 ON g1.id = gm.group_id = g1.id
 				JOIN #__core_acl_'.$type.'_groups AS g2';
 			$where = '
-				WHERE (o.section_value = '.$db->quote($args[$type.'_section_value']).' AND o.value = '.$db->quote($args[$type.'_value']).')';
+				WHERE (o.section_value = '.$this->db->quote($args[$type.'_section_value']).' AND o.value = '.$this->db->quote($args[$type.'_value']).')';
 		}
 		if(isset($args['root_'.$type.'_group']) && !empty($args['root_'.$type.'_group'])) {
 			$sql .= '
 				JOIN #__core_acl_'.$type.' AS g3';
 			$where .= '
-				AND g3.value = '.$db->quote($args['root_'.$type.'_group']).'
+				AND g3.value = '.$this->db->quote($args['root_'.$type.'_group']).'
 				AND ((g2.lft BETWEEN g3.lft AND g1.lft) AND (g2.rgt BETWEEN g1.rgt AND g3.rgt))';
 		} else {
 			$where .= '
@@ -236,12 +285,159 @@ class JACL EXTENDS JObject {
 		}
 
 		$sql .= $where;
-		$db->setQuery($sql);
-		$rows = $db->loadResultList();
+		$this->db->setQuery($sql);
+		$rows = $this->db->loadResultList();
 		if(!is_array($rows)) {
 			$rows = array();
 		}
 		return $rows;
 	}
 
+	/**
+	 * Gets the 'name' of a group
+	 * @param int The group id
+	 * @param string The type: [ARO]|AXO
+	 * @return string
+	 */
+	public function getGroupName($group_id = null, $group_type = 'ARO')
+	{
+		require_once(JPATH_LIBRARIES.DS.'joomla'.DS.'user'.DS.'acl'.DS.'group.php');
+		$group = new JACLGroup($group_id, $group_type);
+		return $group->name;
+	}
+
+	/**
+	 * @param string The value for the group
+	 * @return object The row from the group table
+	 */
+	public function getAroGroup( $value ) {
+		return $this->getGroup( 'aro', $value );
+	}
+
+	protected function getGroup( $type, $value )
+	{
+		require_once(JPATH_LIBRARIES.DS.'joomla'.DS.'user'.DS.'acl'.DS.'group.php');
+		$obj = JACLGroup::getByValue($value, $type);
+		return $obj;
+	}
+
+	/**
+	 * @param int
+	 * @param string
+	 * @param boolean
+	 * @param boolean Returns the complete html if true
+	 * @return string|array String if html, otherwise an array
+	 */
+	public function get_group_children_tree( $root_id=null, $root_name=null, $inclusive=true, $html=true )
+	{
+		require_once(JPATH_LIBRARIES.DS.'joomla'.DS.'user'.DS.'acl'.DS.'group.php');
+		$tree = JACLGroup::getGroupList('aro', $root_id, $root_name, $inclusive);
+		// first pass get level limits
+		$n = count( $tree );
+		$min = $tree[0]->level;
+		$max = $tree[0]->level;
+		for ($i=0; $i < $n; $i++) {
+			$min = min( $min, $tree[$i]->level );
+			$max = max( $max, $tree[$i]->level );
+		}
+
+		$indents = array();
+		foreach (range( $min, $max ) as $i) {
+			$indents[$i] = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+		}
+		// correction for first indent
+		$indents[$min] = '';
+
+		$list = array();
+		for ($i=$n-1; $i >= 0; $i--) {
+			$shim = '';
+			foreach (range( $min, $tree[$i]->level ) as $j) {
+				$shim .= $indents[$j];
+			}
+
+			if (@$indents[$tree[$i]->level+1] == '.&nbsp;') {
+				$twist = '&nbsp;';
+			} else {
+				$twist = "-&nbsp;";
+			}
+			$groupName = JText::_( $tree[$i]->name );
+			//$list[$i] = $tree[$i]->level.$shim.$twist.$tree[$i]->name;
+			if ($html) {
+				$list[$i] = JHTML::_('select.option',  $tree[$i]->id, $shim.$twist.$groupName );
+			} else {
+				$list[$i] = array( 'value'=>$tree[$i]->id, 'text'=>$shim.$twist.$groupName );
+			}
+			if ($tree[$i]->level < @$tree[$i-1]->level) {
+				$indents[$tree[$i]->level+1] = '.&nbsp;';
+			}
+		}
+
+		ksort($list);
+		return $list;
+	}
+
+	/*======================================================================*\
+		Function:	has_group_parent
+		Purpose:	Checks whether the 'source' group is a child of the 'target'
+	\*======================================================================*/
+	public function is_group_child_of( $grp_src, $grp_tgt, $group_type='ARO' )
+	{
+		require_once(JPATH_LIBRARIES.DS.'joomla'.DS.'user'.DS.'acl'.DS.'group.php');
+		$group = new JACLGroup($grp_src, $group_type);
+		return $group->isChildOf($grp_tgt);
+	}
+
+	/*======================================================================*\
+		Function:	get_group_children()
+		Purpose:	Gets a groups child IDs
+	\*======================================================================*/
+	function get_group_parents($group_id, $group_type = 'ARO', $recurse = 'NO_RECURSE')
+	{
+		$this->debug_text("get_group_parents(): Group_ID: $group_id Group Type: $group_type Recurse: $recurse");
+
+		switch (strtolower(trim($group_type))) {
+			case 'axo':
+				$group_type = 'axo';
+				$table = $this->_db_table_prefix .'axo_groups';
+				break;
+			default:
+				$group_type = 'aro';
+				$table = $this->_db_table_prefix .'aro_groups';
+		}
+
+		if (empty($group_id)) {
+			$this->debug_text("get_group_parents(): ID ($group_id) is empty, this is required");
+			return FALSE;
+		}
+
+		$query = '
+				SELECT		g2.id
+				FROM		'. $table .' g1';
+
+		//FIXME-mikeb: Why is group_id in quotes?
+		switch (strtoupper($recurse)) {
+			case 'RECURSE':
+				$query .= '
+				LEFT JOIN 	'. $table .' g2 ON g1.lft > g2.lft AND g1.lft < g2.rgt
+				WHERE		g1.id='.(int) $group_id;
+				break;
+			case 'RECURSE_INCL':
+				// inclusive resurse
+				$query .= '
+				LEFT JOIN 	'. $table .' g2 ON g1.lft >= g2.lft AND g1.lft <= g2.rgt
+				WHERE		g1.id='.(int) $group_id;
+				break;
+			default:
+				$query .= '
+				WHERE		g1.parent_id='.(int) $group_id;
+		}
+
+		$query .= '
+				ORDER BY	g2.lft';
+
+
+		$this->db->setQuery( $query );
+		return $this->db->loadResultArray();
+	}
+	
 }

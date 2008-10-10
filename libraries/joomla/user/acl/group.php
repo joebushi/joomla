@@ -134,6 +134,14 @@ class JACLGroup EXTENDS JObject {
 		}
 	}
 
+	public function isChildOf($id) {
+		$group = new JACLGroup($id, $this->type);
+		if($group->lft < $this->lft && $group->rgt > $this->rgt) {
+			return true;
+		}
+		return false;
+	}
+
 	public static function rebuild($type, $left = 1) {
 
 	}
@@ -142,7 +150,7 @@ class JACLGroup EXTENDS JObject {
 
 	}
 
-	protected static function getByValue($value, $type) {
+	public static function getByValue($value, $type) {
 		switch(strtolower($type)) {
 			case 'aro':
 			case 'axo':
@@ -166,4 +174,50 @@ class JACLGroup EXTENDS JObject {
 		}
 		return $row;
 	}
+
+	protected static function getGroupList($type, $root_id = null, $root_name = null, $inclusive) {
+		$db = JFactory::getDBO();
+		switch(strtolower($type)) {
+			case 'aro':
+			case 'axo':
+				$type = strtolower($type);
+				break;
+			default:
+				return false;
+		}
+		if($root_id) {
+			$sql = 'SELECT lft, rgt FROM #__core_acl_'.$type.'_groups WHERE id = '.(int)$root_id;
+			$db->setQuery($sql);
+			$root = $db->loadObject();
+		} elseif($root_name) {
+			$sql = 'SELECT lft, rgt FROM #__core_acl_'.$type.'_groups WHERE name = '.$db->quote($root_name);
+			$db->setQuery($sql);
+			$root = $db->loadObject();
+		}
+
+		if(!isset($root) || empty($root)) {
+			$root = new stdclass();
+			$root->lft = 0;
+			$root->rgt = 0;
+		}
+
+		$where = '';
+		if($root->lft + $root->rgt !== 0) {
+			if($inclusive) {
+				$where = ' WHERE g1.lft BETWEEN '.(int) $root->lft.' AND '.(int) $root->rgt;
+			} else {
+				$where = ' WHERE g1.lft > '.(int) $root->lft.' AND g1.lft < '.(int) $root->rgt;
+			}
+		}
+		$sql = 'SELECT g1.id, g1.name, count(g2.name) AS level
+				FROM #__core_acl_'.$type.'_groups AS g1
+				INNER JOIN #__core_acl_'.$type.'_groups AS g2 ON g1.lft BETWEEN g2.lft AND g2.rgt
+				'.$where.'
+				GROUP BY g1.name
+				ORDER BY g1.lft';
+		$db->setQuery($sql);
+		return $db->loadObjectList();
+	}
+
+
 }

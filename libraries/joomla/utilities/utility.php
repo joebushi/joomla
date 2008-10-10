@@ -180,4 +180,27 @@ class JUtility
 		$result = var_export( $var, true );
 		return '<pre>'.( $htmlSafe ? htmlspecialchars( $result ) : $result).'</pre>';
 	}
+
+	/**
+	 * Method to deep count a variable (will recurse through arrays)
+	 * @param   mixed   A variable
+	 * @return  int     Count
+	 * @since   1.6
+	 * @static
+	 */
+	public static function countDeep($var) {
+		$count = 0;
+		if(is_array($var)) {
+			foreach($var AS $val) {
+				$count += $this->countAll($val);
+			}
+			return $count;
+		} elseif(is_object($var)) {
+			$vars = get_object_vars($arg);
+			return $this->countAll($vars);
+		} else {
+			return 1;
+		}
+	}
+
 }
