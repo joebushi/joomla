@@ -1,16 +1,16 @@
 <?php
 /**
  * @version		$Id$
- * @package		Control
- * @copyright	(C) 2008 JXtended LLC. All rights reserved.
- * @license		GNU General Public License
+ * @package		Joomla.Administrator
+ * @subpackage	com_users
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
+ * @license		GNU/GPL, see LICENSE.php
  */
 
 /**
- * @package		x
- * @subpackage	y
+ * @package		Joomla.Administrator
+ * @subpackage	com_users
  */
-
 class AclTableGroup extends JTable
 {
 	/**
