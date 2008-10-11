@@ -42,6 +42,10 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+11-Oct-2008 Andrew Eddie
+ - Merge System-Debug plugin from 1.5
+ - Added com_acl (finally! they all say)
+
 10-Oct-2008 Sam Moffatt
  - Commented out useless lines in JDatabaseMySQL and JDatabaseMySQLi
 
