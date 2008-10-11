@@ -45,8 +45,6 @@ class AccessViewRules extends JView
 
 	/**
 	 * Display the toolbar
-	 *
-	 * @access	private
 	 */
 	private function _setToolBar()
 	{

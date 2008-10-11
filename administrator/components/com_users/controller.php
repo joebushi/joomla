@@ -59,18 +59,6 @@ class UserController extends JController
 				case 'users':
 					$model = $this->getModel( 'user' );
 					break;
-
-				case 'group':
-				case 'groups':
-					$model = $this->getModel( 'group' );
-					$model->setState( 'group_type', 'aro' );
-					break;
-
-				case 'level':
-				case 'levels':
-					$model = $this->getModel( 'group' );
-					$model->setState( 'group_type', 'axo' );
-					break;
 			}
 
 			// Push the model into the view (as default)
@@ -81,9 +69,7 @@ class UserController extends JController
 			$view->assignRef('document', $document);
 			$view->display();
 
-			JSubMenuHelper::addEntry( JText::_( 'Link Users' ),			'index.php?option=com_users&view=users',	$vName == 'users' );
-			JSubMenuHelper::addEntry( JText::_( 'Link Groups' ),		'index.php?option=com_users&view=groups',	$vName == 'groups' );
-			JSubMenuHelper::addEntry( JText::_( 'Link Access Levels' ),	'index.php?option=com_users&view=levels',	$vName == 'levels' );
+			//JSubMenuHelper::addEntry( JText::_( 'Link Users' ),			'index.php?option=com_users&view=users',	$vName == 'users' );
 		}
 	}
 

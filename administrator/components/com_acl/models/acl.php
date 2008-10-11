@@ -65,8 +65,9 @@ class AccessModelACL extends AccessModelPrototypeItem
 			$id = (int) $session->get( 'com_acl.acl.id', $this->getState('id') );
 
 			$table = $this->getTable();
-			if (!$table->load($id)) {
-				$this->setError($table->getError());
+			if ($table->load($id)) {
+				// @todo Cannot tell if JTable::load throw an error on a null return
+				//$this->setError($table->getError());
 			}
 			$this->_item = JArrayHelper::toObject($table->getProperties(1), 'JObject');
 		}
@@ -129,7 +130,7 @@ class AccessModelACL extends AccessModelPrototypeItem
 	function getAXOGroups()
 	{
 		$model = JModel::getInstance( 'Groups', 'AccessModel' );
-		$model->setState('list.group_type',	'axo');
+		$model->setState('list.group_type',	'aro');
 		$model->setState('list.tree',		'1');
 		$model->setState('list.order',		'a.lft');
 		return $model->getList();

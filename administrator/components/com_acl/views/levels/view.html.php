@@ -2,7 +2,7 @@
 /**
  * @version		$Id$
  * @package		Joomla.Administrator
- * @subpackage	com_users
+ * @subpackage	com_acl
  * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
  */
@@ -14,9 +14,9 @@ jimport('joomla.application.component.view');
 
 /**
  * @package		Joomla.Administrator
- * @subpackage	com_users
+ * @subpackage	com_acl
  */
-class UserViewLevels extends JView
+class AccessViewLevels extends JView
 {
 	/**
 	 * Display the view
@@ -26,15 +26,13 @@ class UserViewLevels extends JView
 	function display($tpl = null)
 	{
 		/*
-		$state = $this->get( 'State' );
-		$this->assignRef( 'state', $state );
+		$state		= $this->get( 'State' );
+		$items		= $this->get( 'List' );
+		$pagination	= $this->get( 'Pagination' );
 
-		$items = &$this->get( 'Items' );
-		$this->assignRef( 'items', $items );
-
-		// setup the page navigation footer
-		$pagination	= &$this->get( 'Pagination' );
-		$this->assignRef( 'pagination', $pagination );
+		$this->assignRef( 'state',		$state );
+		$this->assignRef( 'items',		$items );
+		$this->assignRef( 'pagination',	$pagination );
 		*/
 		JError::raiseNotice( 0, 'TODO' );
 
@@ -44,11 +42,10 @@ class UserViewLevels extends JView
 
 	/**
 	 * Display the toolbar
-	 * @access	public
 	 */
-	function _setToolBar()
+	private function _setToolbar()
 	{
-		JToolBarHelper::title( JText::_( 'Access Levels' ), 'user' );
+		JToolBarHelper::title( JText::_( 'Access Control: Access Levels' ), 'user' );
 		JToolBarHelper::custom( 'edit', 'edit.png', 'edit_f2.png', 'Edit', true );
 		JToolBarHelper::custom( 'edit', 'new.png', 'new_f2.png', 'New', false );
 		JToolBarHelper::deleteList( '', 'delete' );

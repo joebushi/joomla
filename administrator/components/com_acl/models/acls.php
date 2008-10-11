@@ -221,7 +221,7 @@ class AccessModelACLs extends AccessModelPrototypeList
 	function getAXOGroups()
 	{
 		$model = JModel::getInstance( 'Group', 'AccessModel' );
-		$model->setState('list.group_type',	'axo');
+		$model->setState('list.group_type',	'aro');
 		$model->setState('list.tree',		'1');
 		$model->setState('list.order',		'a.lft');
 		return $model->getList();

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: aro.php 10963 2008-09-25 04:36:19Z tcp $
+ * @version		$Id$
  * @package		Joomla.Framework
  * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php

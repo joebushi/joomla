@@ -28,6 +28,44 @@ class AccessModelGroups extends AccessModelPrototypeList
 	}
 
 	/**
+	 * Overridden method to lazy load data from the request/session as necessary
+	 *
+	 * @access	public
+	 * @param	string	$key		The key of the state item to return
+	 * @param	mixed	$default	The default value to return if it does not exist
+	 * @return	mixed	The requested value by key
+	 * @since	1.0
+	 */
+	function getState($key=null, $default=null)
+	{
+		if (empty($this->__state_set))
+		{
+			$app 		= &JFactory::getApplication();
+			$type		= $this->_state->get('list.group_type');
+			$context	= 'ac.groups.'.$type;
+
+			$type		= $app->getUserStateFromRequest($context.'.type',		'group_type');
+			$search		= $app->getUserStateFromRequest($context.'.search',		'search');
+			$limit 		= $app->getUserStateFromRequest('global.list.limit',	'limit',			$app->getCfg( 'list_limit' ));
+			$limitstart = $app->getUserStateFromRequest($context.'.limitstart',	'limitstart',		0);
+			$orderCol	= $app->getUserStateFromRequest($context.'.ordercol',	'filter_order',		'a.lft');
+			$orderDirn	= $app->getUserStateFromRequest($context.'.orderdirn',	'filter_order_Dir',	'asc');
+
+			$this->setState('list.search',	$search);
+			$this->setState('list.limit',	$limit);
+			$this->setState('list.start',	$limitstart);
+			if ($orderCol) {
+				$this->setState('list.order',	$orderCol.' '.($orderDirn == 'asc' ? 'asc' : 'desc'));
+			}
+			$this->setState('orderCol',		$orderCol);
+			$this->setState('orderDirn',	$orderDirn);
+
+			$this->__state_set = true;
+		}
+		return parent::getState($key, $default);
+	}
+
+	/**
 	 * Gets a list of objects
 	 *
 	 * @param	boolean	True to resolve foreign keys
@@ -40,7 +78,7 @@ class AccessModelGroups extends AccessModelPrototypeList
 		{
 			$db			= &$this->getDBO();
 			$query		= new JQuery;
-			$type		= strtolower( $this->getState( 'list.group_type' ) );
+			$type		= strtolower($this->getState( 'list.group_type' ));
 			$tree		= $this->getState( 'list.tree');
 			$parentId	= $this->getState( 'list.parent_id');
 			$select		= $this->getState( 'list.select', 'a.*');
@@ -105,4 +143,19 @@ class AccessModelGroups extends AccessModelPrototypeList
 
 		return $this->_list_sql;
 	}
+
+	/**
+	 * Utility method to gets the level of a group
+	 */
+	function getLevel( $id = null, $type = 'aro' )
+	{
+		$model = new AccessModelGroups( array( 'ignore_request' => true ));
+		$model->setState('list.select',		'a.id');
+		$model->setState('list.group_type',	$type);
+		$model->setState('list.tree',		true);
+		$model->setState('list.where',		'a.id = '.(int) $id);
+		$result = $model->getList(false);
+		return isset( $result[0] ) ? $result[0]->level : false;
+	}
+
 }

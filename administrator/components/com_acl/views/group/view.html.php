@@ -2,7 +2,7 @@
 /**
  * @version		$Id$
  * @package		Joomla.Administrator
- * @subpackage	com_users
+ * @subpackage	com_acl
  * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
  */
@@ -14,9 +14,9 @@ jimport('joomla.application.component.view');
 
 /**
  * @package		Joomla.Administrator
- * @subpackage	com_users
+ * @subpackage	com_acl
  */
-class UserViewGroup extends JView
+class AccessViewGroup extends JView
 {
 	/**
 	 * Display the view
@@ -26,35 +26,33 @@ class UserViewGroup extends JView
 	function display($tpl = null)
 	{
 		$state = $this->get( 'State' );
-		$this->assignRef( 'state', $state );
-
 		$item = &$this->get( 'Item' );
-		$this->assignRef( 'item', $item );
 
-		if ($state->get( 'id' )) {
+		if ($item->id) {
 			// Existing
 		}
 		else {
 			// New
 		}
 
-		$this->_setToolBar();
+		$this->assignRef( 'state', $state );
+		$this->assignRef( 'item', $item );
+
+		$this->_setToolbar();
 		parent::display($tpl);
 	}
 
 	/**
 	 * Display the toolbar
-	 *
-	 * @access	private
 	 */
-	function _setToolBar()
+	private function _setToolbar()
 	{
 		$isNew = ($this->item->get( 'id' ) == 0);
-		JToolBarHelper::title( JText::_( ($isNew ? 'Add Group' : 'Edit Group' ) ), 'user' );
+		JToolBarHelper::title( JText::_( ($isNew ? 'Access Control: Add Group' : 'Access Control: Edit Group' ) ), 'user' );
 		if (!$isNew) {
-			JToolBarHelper::custom( 'group.save2copy', 'copy.png', 'copy_f2.png', 'Save To Copy', false );
+			JToolBarHelper::custom( 'group.save2copy', 'copy.png', 'copy_f2.png', 'Toolbar Save To Copy', false );
 		}
-		JToolBarHelper::custom( 'group.save2new', 'new.png', 'new_f2.png', 'Save And New', false );
+		JToolBarHelper::custom( 'group.save2new', 'new.png', 'new_f2.png', 'Toolbar Save And New', false );
 		JToolBarHelper::save( 'group.save' );
 		JToolBarHelper::apply( 'group.apply' );
 		JToolBarHelper::cancel( 'group.cancel' );

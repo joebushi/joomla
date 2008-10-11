@@ -21,12 +21,73 @@ jimport('joomla.application.component.controller');
 class AccessController extends JController
 {
 	/**
+	 * Default display method
+	 */
+	function display()
+	{
+		$document = &JFactory::getDocument();
+
+		// Set the default view name and format from the Request
+		$vName		= JRequest::getWord( 'view', 'rules' );
+		$vFormat	= $document->getType();
+		$lName		= JRequest::getWord( 'layout', 'default' );
+
+		if ($view = &$this->getView( $vName, $vFormat ))
+		{
+			switch ($vName)
+			{
+				case 'group':
+					$model = $this->getModel('group');
+					$model->setState('group_type',	'aro');
+					break;
+
+				case 'groups':
+					$model = $this->getModel('groups');
+					$model->setState('list.group_type',	'aro');
+					$model->setState('list.tree',		true);
+					$model->setState('list.parent_id',	28 );
+					break;
+
+				case 'level':
+					$model = $this->getModel('group');
+					$model->setState('group_type',	'axo');
+					break;
+
+				case 'levels':
+					$model = $this->getModel('groups');
+					$model->setState('list.group_type',	'axo');
+					$model->setState('list.parent_id',	1);
+					break;
+
+				case 'rule':
+					$model = $this->getModel('acl');
+					break;
+
+				default:
+					$model	= &$this->getModel('acls');
+					break;
+			}
+
+			// Push the model into the view (as default)
+			$view->setModel( $model, true );
+			$view->setLayout( $lName );
+			$view->assignRef( 'document', $document );
+			$view->display();
+		}
+
+		// Set up the Linkbar
+		JSubMenuHelper::addEntry( JText::_( 'ACL Link Rules' ),			'index.php?option=com_acl&view=rules',	$vName == 'rules' );
+		JSubMenuHelper::addEntry( JText::_( 'ACL Link Groups' ),		'index.php?option=com_acl&view=groups',	$vName == 'groups' );
+		JSubMenuHelper::addEntry( JText::_( 'ACL Link Access Levels' ),	'index.php?option=com_acl&view=levels',	$vName == 'levels' );
+	}
+
+	/**
 	 * Get an instance of the controller
 	 */
 	function &getInstance()
 	{
 		// Determine the request protocol
-		$protocol = JRequest::getWord( 'protocol' );
+		$protocol = JRequest::getWord('protocol');
 
 		// Get task command from the request
 		$cmd = JRequest::getVar( 'task', null );
@@ -75,41 +136,5 @@ class AccessController extends JController
 		}
 
 		return $controller;
-	}
-
-	/**
-	 * Default display method
-	 */
-	function display()
-	{
-		$document = &JFactory::getDocument();
-
-		// Set the default view name and format from the Request
-		$vName		= JRequest::getWord( 'view', 'rules' );
-		$vFormat	= $document->getType();
-		$lName		= JRequest::getWord( 'layout', 'default' );
-
-		if ($view = &$this->getView( $vName, $vFormat ))
-		{
-			switch ($vName)
-			{
-				case 'rule':
-					$model = $this->getModel( 'acl' );
-					break;
-
-				default:
-					$model	= &$this->getModel( 'acls' );
-					break;
-			}
-
-			// Push the model into the view (as default)
-			$view->setModel( $model, true );
-			$view->setLayout( $lName );
-			$view->assignRef( 'document', $document );
-			$view->display();
-		}
-
-		// Set up the Linkbar
-		JSubMenuHelper::addEntry( JText::_( 'ACL Link Rules' ),	'index.php?option=com_acl&view=rules',	$vName == 'rules' );
 	}
 }

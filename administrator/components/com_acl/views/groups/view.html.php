@@ -2,7 +2,7 @@
 /**
  * @version		$Id$
  * @package		Joomla.Administrator
- * @subpackage	com_users
+ * @subpackage	com_acl
  * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
  */
@@ -14,9 +14,9 @@ jimport('joomla.application.component.view');
 
 /**
  * @package		Joomla.Administrator
- * @subpackage	com_users
+ * @subpackage	com_acl
  */
-class UserViewGroups extends JView
+class AccessViewGroups extends JView
 {
 	/**
 	 * Display the view
@@ -25,14 +25,18 @@ class UserViewGroups extends JView
 	 */
 	function display($tpl = null)
 	{
-		$state = $this->get( 'State' );
-		$this->assignRef( 'state', $state );
+		$state		= $this->get( 'State' );
+		$items		= $this->get( 'List' );
+		$pagination	= $this->get( 'Pagination' );
 
-		$items = &$this->get( 'Items' );
-		$this->assignRef( 'items', $items );
+		// Check for errors.
+		if (count($errors = $this->get('Errors'))) {
+			JError::raiseError(500, implode("\n", $errors));
+			return false;
+		}
 
-		// setup the page navigation footer
-		$pagination	= &$this->get( 'Pagination' );
+		$this->assignRef( 'state',		$state );
+		$this->assignRef( 'items',		$items );
 		$this->assignRef( 'pagination', $pagination );
 
 		$this->_setToolbar();
@@ -41,11 +45,10 @@ class UserViewGroups extends JView
 
 	/**
 	 * Display the toolbar
-	 * @access	public
 	 */
-	function _setToolBar()
+	private function _setToolbar()
 	{
-		JToolBarHelper::title( JText::_( 'User Groups' ), 'user' );
+		JToolBarHelper::title( JText::_( 'Access Control: User Groups' ), 'user' );
 		JToolBarHelper::custom( 'group.edit', 'edit.png', 'edit_f2.png', 'Edit', true );
 		JToolBarHelper::custom( 'group.edit', 'new.png', 'new_f2.png', 'New', false );
 		JToolBarHelper::deleteList( '', 'group.delete' );

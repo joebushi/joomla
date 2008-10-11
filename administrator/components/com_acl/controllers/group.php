@@ -2,7 +2,7 @@
 /**
  * @version		$Id$
  * @package		Joomla.Administrator
- * @subpackage	com_users
+ * @subpackage	com_acl
  * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
  */
@@ -14,9 +14,9 @@ jimport('joomla.application.component.controller');
 
 /**
  * @package		Joomla.Administrator
- * @subpackage	com_users
+ * @subpackage	com_acl
  */
-class UserControllerGroup extends JController
+class AccessControllerGroup extends JController
 {
 	/**
 	 * Constructor
@@ -47,7 +47,7 @@ class UserControllerGroup extends JController
 	 */
 	function &getModel()
 	{
-		return parent::getModel( 'Group', 'UserModel', array( 'ignore_request' => true ) );
+		return parent::getModel( 'Group', 'AccessModel', array( 'ignore_request' => true ) );
 	}
 
 	/**
@@ -60,18 +60,19 @@ class UserControllerGroup extends JController
 	 */
 	function edit()
 	{
-		$cid = JRequest::getVar( 'cid', array(), '', 'array' );
-		$id  = JRequest::getInt( 'id', @$cid[0] );
+		$cid	= JRequest::getVar( 'cid', array(), '', 'array' );
+		$id		= JRequest::getInt( 'id', @$cid[0] );
+		$type	= JRequest::getWord('group_type');
 
 		$session = &JFactory::getSession();
-		$session->set( 'users.group.id', $id );
+		$session->set('com_acl.group.id',	$id);
 
 		if ($id) {
 			// Checkout item
 			//$model = $this->getModel();
 			//$model->checkout( $id );
 		}
-		$this->setRedirect( JRoute::_( 'index.php?option=com_users&view=group&layout=edit', false ) );
+		$this->setRedirect( JRoute::_( 'index.php?option=com_acl&view=group&layout=edit', false ) );
 	}
 
 	/**
@@ -86,9 +87,9 @@ class UserControllerGroup extends JController
 	{
 		$session = &JFactory::getSession();
 		// Clear the session of the item
-		$session->set( 'users.group.id', null );
+		$session->set( 'access.group.id', null );
 
-		$this->setRedirect( JRoute::_('index.php?option=com_users&view=groups', false ) );
+		$this->setRedirect( JRoute::_('index.php?option=com_acl&view=groups', false ) );
 	}
 
 	/**
@@ -104,34 +105,45 @@ class UserControllerGroup extends JController
 
 		// Get the id of the item out of the session.
 		$session	= &JFactory::getSession();
-		$id			= (int) $session->get('users.group.id');
+
+		// Override the automatic filters
+		//$input['username']	= JRequest::getVar('username', '', 'post', 'username');
+
+		// Clear static values
+		// @todo Look at moving these to the table bind method (but check how new user values are handled)
+		//unset( $input['updated_date'] );
+
+		// Get the id of the item out of the session.
+		$session	= &JFactory::getSession();
+		$id			= (int) $session->get('com_acl.group.id');
 		$input['id'] = $id;
 
 		// Get the extensions model and set the post request in its state.
 		$model	= &$this->getModel();
+		$model->setState('group_type', JRequest::getWord('group_type'));
 		$result	= $model->save( $input );
 		$msg	= JError::isError( $result ) ? $result->message : 'Saved';
 
 		if ($this->_task == 'apply') {
-			$session->set( 'users.redirect.id', $model->getState( 'id' ) );
-			$this->setRedirect(JRoute::_('index.php?option=com_users&view=group&layout=edit', false), JText::_($msg));
+			$session->set( 'com_acl.group.id', $model->getState( 'id' ) );
+			$this->setRedirect(JRoute::_('index.php?option=com_acl&view=group&layout=edit', false), JText::_($msg));
 		}
 		else if ($this->_task == 'save2new') {
-			$session->set( 'users.group.id', null );
-			$model->checkin($id);
+			$session->set( 'com_acl.group.id', null );
+			//$model->checkin($id);
 
-			$this->setRedirect(JRoute::_('index.php?option=com_users&view=group&layout=edit', false), JText::_($msg));
+			$this->setRedirect(JRoute::_('index.php?option=com_acl&view=group&layout=edit', false), JText::_($msg));
 		}
 		else {
-			$session->set( 'users.group.id', null );
-			$model->checkin($id);
+			$session->set( 'access.group.id', null );
+			//$model->checkin($id);
 
-			$this->setRedirect(JRoute::_('index.php?option=com_users&view=groups', false), JText::_($msg));
+			$this->setRedirect(JRoute::_('index.php?option=com_acl&view=groups', false), JText::_($msg));
 		}
 	}
 
 	/**
-	 * Deletes a user
+	 * Deletes a group
 	 */
 	function delete()
 	{
@@ -158,6 +170,6 @@ class UserControllerGroup extends JController
 			}
 		}
 
-		$this->setRedirect( 'index.php?option=com_users&view=groups' );
+		$this->setRedirect( 'index.php?option=com_acl&view=groups' );
 	}
 }

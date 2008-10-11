@@ -1,14 +1,15 @@
-<?php /** $Id$ */ defined('_JEXEC') or die('Restricted access'); ?>
-<?php
+<?php /** $Id$ */ defined('_JEXEC') or die('Restricted access');
+
+	JHTML::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 	JHTML::_('behavior.tooltip');
-	$type = $this->state->get( 'group_type' );
+	$type = $this->state->get( 'list.group_type' );
 	$editId = 30;
 ?>
-<form action="<?php echo JRoute::_( 'index.php?option=com_users&view=groups' );?>" method="post" name="adminForm">
+<form action="<?php echo JRoute::_( 'index.php?option=com_acl&view=groups' );?>" method="post" name="adminForm">
 	<fieldset class="filter clearfix">
 		<div class="left">
 			<label for="search"><?php echo JText::_( 'Search' ); ?>:</label>
-			<input type="text" name="search" id="search" value="<?php echo $this->state->search; ?>" size="60" title="<?php echo JText::_( 'Search in name' ); ?>" />
+			<input type="text" name="search" id="search" value="<?php echo $this->state->get('list.search'); ?>" size="60" title="<?php echo JText::_( 'ACL Search in name' ); ?>" />
 			<button type="submit"><?php echo JText::_( 'Search Go' ); ?></button>
 			<button type="button" onclick="document.getElementById('search').value='';this.form.submit();"><?php echo JText::_( 'Search Clear' ); ?></button>
 		</div>
@@ -21,10 +22,10 @@
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->items );?>)" />
 				</th>
 				<th class="left">
-					<?php echo JText::_( 'Col Group Name' ); ?>
+					<?php echo JText::_( 'ACL Col Group Name' ); ?>
 				</th>
 				<th width="10%">
-					<?php echo JText::_( 'Col Users In Group' ); ?>
+					<?php echo JText::_( 'ACL Col Users In Group' ); ?>
 				</th>
 				<th nowrap="nowrap" width="5%">
 					<?php echo JText::_( 'Col ID' ); ?>
@@ -53,7 +54,7 @@
 				</td>
 				<td style="padding-left:<?php echo intval(($item->level-2)*15)+4; ?>px">
 					<?php if ($item->id > $editId) : ?>
-					<a href="<?php echo JRoute::_( 'index.php?option=com_users&task=group.edit&id='.$item->id );?>">
+					<a href="<?php echo JRoute::_( 'index.php?option=com_acl&task=group.edit&id='.$item->id.'&group_type='.$this->state->get('list.group_type'));?>">
 						<?php echo $item->name; ?></a>
 					<?php else : ?>
 					<?php echo $item->name; ?>
@@ -63,7 +64,7 @@
 					<?php echo $item->object_count ? $item->object_count : ''; ?>
 				</td>
 				<td align="center">
-					<span title="<?php echo JText::sprintf( 'Left ID=%d, Right ID=%d', $item->lft, $item->rgt ); ?>">
+					<span title="<?php echo JText::sprintf( 'ACL Left ID Right ID', $item->lft, $item->rgt ); ?>">
 						<?php echo $item->id; ?></span>
 				</td>
 				<td>
@@ -75,10 +76,11 @@
 	</table>
 
 	<input type="hidden" name="task" value="" />
+	<input type="hidden" name="group_type" value="<?php echo $this->state->get('list.group_type');?>" />
 
 	<input type="hidden" name="boxchecked" value="0" />
-	<input type="hidden" name="filter_order" value="<?php echo $this->state->orderCol; ?>" />
-	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->state->orderDirn; ?>" />
+	<input type="hidden" name="filter_order" value="<?php echo $this->state->get('orderCol'); ?>" />
+	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->state->get('orderDirn'); ?>" />
 	<input type="hidden" name="<?php echo JUtility::getToken();?>" value="1" />
 
 </form>

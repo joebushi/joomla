@@ -19,7 +19,7 @@ require_once(dirname(__FILE__).DS.'tree.php');
  * @subpackage		Table
  * @since	1.0
  */
-class JTableAROGroup extends JTableTree
+class JTableAXOGroup extends JTableTree
 {
 	/** @var int Primary key */
 	var $id			= null;
@@ -35,6 +35,6 @@ class JTableAROGroup extends JTableTree
 	 */
 	function __construct( &$db )
 	{
-		parent::__construct( '#__core_acl_aro_groups', 'id', $db );
+		parent::__construct( '#__core_acl_axo_groups', 'id', $db );
 	}
 }

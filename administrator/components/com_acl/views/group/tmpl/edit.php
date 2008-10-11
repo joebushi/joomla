@@ -1,5 +1,6 @@
-<?php /** $Id$ */ defined('_JEXEC') or die('Restricted access'); ?>
-<?php
+<?php /** $Id$ */ defined('_JEXEC') or die('Restricted access');
+
+	JHTML::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 	JHTML::_('behavior.tooltip');
 	JHTML::_('behavior.formvalidation');
 
@@ -21,7 +22,7 @@
 	}
 -->
 </script>
-<form action="<?php echo JRoute::_('index.php?option=com_users'); ?>" method="post" name="adminForm" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_acl'); ?>" method="post" name="adminForm" class="form-validate">
 	<fieldset>
 		<?php if ($id = $this->item->get( 'id' )) : ?>
 		<legend><?php echo JText::sprintf( 'Record #%d', $id ); ?></legend>
@@ -30,19 +31,19 @@
 			<tr>
 				<td width="150" class="key">
 					<label for="name">
-						<?php echo JText::_( 'Parent' ); ?>
+						<?php echo JText::_( 'ACL Parent Group' ); ?>
 					</label>
 				</td>
 				<td>
 					<select name="parent_id" class="inputbox" size="1">
-						<?php echo JHTML::_( 'user.groups', $this->item->get( 'parent_id' ), $parentId );  ?>
+						<?php echo JHTML::_( 'acl.groups', $this->item->get( 'parent_id' ), $parentId );  ?>
 					</select>
 				</td>
 			</tr>
 			<tr>
 				<td width="150" class="key">
 					<label for="name">
-						<?php echo JText::_( 'Name' ); ?>
+						<?php echo JText::_( 'ACL Group Name' ); ?>
 					</label>
 				</td>
 				<td>
@@ -52,7 +53,7 @@
 			<tr>
 				<td class="key">
 					<label for="username">
-						<?php echo JText::_( 'Alias' ); ?>
+						<?php echo JText::_( 'ACL Group Alias' ); ?>
 					</label>
 				</td>
 				<td>
@@ -63,7 +64,7 @@
 
 	</fieldset>
 	<input type="hidden" name="task" value="" />
-	<input type="hidden" name="type" value="<?php echo $this->state->get('type');?>" />
+	<input type="hidden" name="group_type" value="<?php echo $this->state->get('group_type');?>" />
 	<input type="hidden" name="<?php echo JUtility::getToken();?>" value="1" />
 </form>
 

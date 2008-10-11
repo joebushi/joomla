@@ -1,5 +1,5 @@
-<?php /** $Id$ */ defined('_JEXEC') or die('Restricted access'); ?>
-<?php
+<?php /** $Id$ */ defined('_JEXEC') or die('Restricted access');
+
 	JHTML::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 	JHTML::_('behavior.tooltip');
 ?>
@@ -141,10 +141,10 @@
 			?>
 			</td>
 			<td align="center">
-				<?php echo JHTML::_( 'acl.list.allowed', $item->allow, $item->id ); ?>
+				<?php echo JHTML::_( 'acl.allowed', $item->allow, $item->id ); ?>
 			</td>
 			<td align="center">
-				<?php echo JHTML::_( 'acl.list.enabled', $item->enabled, $item->id ); ?>
+				<?php echo JHTML::_( 'acl.enabled', $item->enabled, $item->id ); ?>
 			</td>
 			<td align="center">
 				<?php echo $item->id; ?>

@@ -1,5 +1,5 @@
-<?php /** $Id$ */ defined('_JEXEC') or die('Restricted access'); ?>
-<?php
+<?php /** $Id$ */ defined('_JEXEC') or die('Restricted access');
+
 	JHTML::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 	JHTML::_('behavior.tooltip');
 ?>
@@ -11,7 +11,7 @@
 </style>
 
 <form action="<?php echo JRoute::_( 'index.php?option=com_acl&view=rules' );?>" method="post" name="adminForm">
-	<fieldset class="filter">
+	<fieldset class="filter clearfix">
 		<div class="left">
 			<label for="search"><?php echo JText::_( 'Search' ); ?>:</label>
 			<input type="text" name="search" id="search" value="<?php echo $this->state->get('list.search'); ?>" size="60" title="<?php echo JText::_( 'Search in note' ); ?>" />
@@ -114,10 +114,10 @@
 				<?php endif; ?>
 				</td>
 				<td align="center">
-					<?php echo JHTML::_( 'acl.list.allowed', $item->allow, $item->id ); ?>
+					<?php echo JHTML::_( 'acl.allowed', $item->allow, $item->id ); ?>
 				</td>
 				<td align="center">
-					<?php echo JHTML::_( 'acl.list.enabled', $item->enabled, $item->id ); ?>
+					<?php echo JHTML::_( 'acl.enabled', $item->enabled, $item->id ); ?>
 				</td>
 				<td align="center">
 					<?php echo $item->id; ?>
@@ -129,7 +129,7 @@
 
 	<input type="hidden" name="task" value="" />
 	<input type="hidden" name="boxchecked" value="0" />
-	<input type="hidden" name="filter_order" value="<?php echo $this->state->orderCol; ?>" />
-	<input type="hidden" name="filter_order_Dir" value="" />
+	<input type="hidden" name="filter_order" value="<?php echo $this->state->get('orderCol'); ?>" />
+	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->state->get('orderDirn'); ?>" />
 	<?php echo JHTML::_( 'form.token' ); ?>
 </form>

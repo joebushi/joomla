@@ -19,25 +19,7 @@ jimport( 'joomla.database.query' );
  */
 class UserModelPrototype extends JModel
 {
-	/**
-	 * @access	private
-	 * @var		boolean	Has the state been autoset yet
-	 */
-	var $__state_set = false;
-
-	/**
-	 * Override constructor
-	 *
-	 * @access	protected
-	 * @param	array	Configuration array
-	 */
-	function __construct($config = array())
-	{
-		if (!empty($config['ignore_request'])) {
-			$this->__state_set = true;
-		}
-		parent::__construct($config);
-	}
+	// @todo Upgrade format as is done in com_acl
 
 	/**
 	 * @param	boolean	True to resolve foreign keys
