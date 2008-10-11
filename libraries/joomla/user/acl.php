@@ -17,8 +17,10 @@ defined('JPATH_BASE') or die();
 
 class JACL EXTENDS JObject {
 	const GROUP_SWITCH = '_group_';
+	protected $application = null;
 
 	public function __construct() {
+		$this->application = JFactory::getApplication();
 	}
 
 	public static function getGroup($id, $type = 'aro') {
@@ -62,6 +64,7 @@ class JACL EXTENDS JObject {
 
 
 	public function return_value($aco_section_value, $aco_value, $aro_section_value, $aro_value, $axo_section_value=null, $axo_value=null, $root_aro_group=null, $root_axo_group=null) {
+		
 		$args = array(
 			'aco_section_value'=>$aco_section_value,
 			'aco_value'=>$aco_value,
@@ -78,14 +81,11 @@ class JACL EXTENDS JObject {
 
 	public function check_array($args) {
 		if(!isset($args['aro_array']) || !is_array($args['aro_array'])) {
-			$this->setError('aro_array MUST be an array of ids to check');
-			return false;
+			throw new JException('aro_array must be an array of ids to check', 13111, E_WARNING, $args);
 		} elseif(!isset($args['aco_section_value'])) {
-			$this->setError('Must include aco_section_value in arguments');
-			return false;
+			throw new JException('aco_section_value must be in the argument_array', 13112, E_WARNING, $args);
 		} elseif(!isset($args['aco_value'])) {
-			$this->setError('Must include aco_value in arguments');
-			return false;
+			throw new JException('aco_value must be in the argument_array', 13112, E_WARNING, $args);
 		}
 
 		$return = array();
@@ -123,7 +123,7 @@ class JACL EXTENDS JObject {
 		}
 
 		if(!isset($args['aco_section_value']) || !isset($args['aco_value']) || !isset($args['aro_section_value']) || !isset($args['aro_value'])) {
-			return false;
+			throw new JException('Missing Required Inputs', 13112, E_WARNING, $args);
 		}
 
 		$db = JFactory::getDBO();
@@ -386,7 +386,6 @@ class JACL EXTENDS JObject {
 	\*======================================================================*/
 	function get_group_parents($group_id, $group_type = 'ARO', $recurse = 'NO_RECURSE')
 	{
-		$this->debug_text("get_group_parents(): Group_ID: $group_id Group Type: $group_type Recurse: $recurse");
 
 		switch (strtolower(trim($group_type))) {
 			case 'axo':
@@ -399,8 +398,7 @@ class JACL EXTENDS JObject {
 		}
 
 		if (empty($group_id)) {
-			$this->debug_text("get_group_parents(): ID ($group_id) is empty, this is required");
-			return FALSE;
+			throw new JException('Invalid Input:  Group_id must be populated', 13112, E_WARNING, $args);
 		}
 
 		$query = '

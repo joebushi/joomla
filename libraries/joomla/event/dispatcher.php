@@ -115,71 +115,29 @@ class JDispatcher extends JObservable
 		if ($args === null) {
 			$args = array ();
 		}
-
-		/*
-		 * We need to iterate through all of the registered observers and
-		 * trigger the event for each observer that handles the event.
-		 */
-		foreach ($this->_observers as $observer)
-		{
-			if (is_array($observer))
-			{
-				/*
-				 * Since we have gotten here, we know a little something about
-				 * the observer.  It is a function type observer... lets see if
-				 * it handles our event.
-				 */
-				if ($observer['event'] == $event)
-				{
-					if (function_exists($observer['handler']))
-					{
-						$result[] = call_user_func_array($observer['handler'], $args);
-					}
-					else
-					{
-						/*
-						 * Couldn't find the function that the observer specified..
-						 * wierd, lets throw an error.
-						 */
-						JError::raiseWarning('SOME_ERROR_CODE', 'JDispatcher::trigger: Event Handler Method does not exist.', 'Method called: '.$observer['handler']);
-					}
-				}
-				else
-				{
-					 // Handler doesn't handle this event, move on to next observer.
-					continue;
-				}
+		
+		$event = strtolower($event);
+		if(!isset($this->_methods[$event])) {
+			//No Plugins Associated To Event!
+			return $result;
+		}
+		//Loop through all plugins having a method matching our event
+		foreach($this->_methods[$event] AS $key) {
+			if(!isset($this->_observers[$key])) {
+				//for some reason there's a disconnect...  Continue to next plugin key
+				continue;
 			}
-			elseif (is_object($observer))
-			{
-				/*
-				 * Since we have gotten here, we know a little something about
-				 * the observer.  It is a class type observer... lets see if it
-				 * is an object which has an update method.
-				 */
-				if (method_exists($observer, 'update'))
-				{
-					/*
-					 * Ok, now we know that the observer is both not an array
-					 * and IS an object.  Lets trigger its update method if it
-					 * handles the event and return any results.
-					 */
-					if (method_exists($observer, $event))
-					{
-						$args['event'] = $event;
-						$result[] = $observer->update($args);
-					}
-					else
-					{
-						/*
-						 * Handler doesn't handle this event, move on to next
-						 * observer.
-						 */
-						continue;
-					}
+			if(is_array($this->_observers[$key])) {
+				if(is_callable($this->_observers[$key]['handler'])) {
+					$result[] = call_user_func_array($this->_observers[$key]['handler'], $args);
+				} else {
+					JError::raiseWarning('SOME_ERROR_CODE', 'JDispatcher::trigger: Event Handler Method does not exist.', 'Method called: '.$observer['handler']);
 				}
-				else
-				{
+			} elseif(is_object($this->_observers[$key])) {
+				$args['event'] = $event;
+				if(is_callable(array($this->_observers[$key], 'update'))) {
+					$result[] = $this->_observers[$key]->update($args);
+				} else {
 					/*
 					 * At this point, we know that the registered observer is
 					 * neither a function type observer nor an object type

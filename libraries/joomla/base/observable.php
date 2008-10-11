@@ -32,7 +32,7 @@ class JObservable extends JObject
 	 * @access private
 	 * @var array
 	 */
-	var $_observers = array();
+	protected $_observers = array();
 
 	/**
 	 * The state of the observable object
@@ -40,13 +40,22 @@ class JObservable extends JObject
 	 * @access private
 	 * @var mixed
 	 */
-	var $_state = null;
+	protected $_state = null;
 
+	/**
+	 * A multi dimensional array of [function][] = key for observers
+	 * 
+	 * @access protected
+	 * @var array
+	 */
+	protected $_methods = array();
 
 	/**
 	 * Constructor
+	 *
+	 * @access protected - Make Sure it's not directly instansiated
 	 */
-	function __construct() {
+	protected function __construct() {
 		$this->_observers = array();
 	}
 
@@ -90,6 +99,7 @@ class JObservable extends JObject
 		// Make sure we haven't already attached this object as an observer
 		if (is_object($observer))
 		{
+
 			$class = get_class($observer);
 			foreach ($this->_observers as $check) {
 				if (is_a($check, $class)) {
@@ -97,8 +107,19 @@ class JObservable extends JObject
 				}
 			}
 			$this->_observers[] =& $observer;
+			$methods = get_class_methods($observer);
 		} else {
 			$this->_observers[] =& $observer;
+			$methods = array($observer['event']);
+		}
+		end($this->_observers);
+		$key = key($this->_observers);
+		foreach($methods AS $method) {
+			$method = strtolower($method);
+			if(!isset($this->_methods[$method])) {
+				$this->_methods[$method] = array();
+			}
+			$this->_methods[$method][] = $key;
 		}
 	}
 
@@ -121,6 +142,12 @@ class JObservable extends JObject
 		{
 			unset($this->_observers[$key]);
 			$retval = true;
+			foreach($this->_methods AS &$method) {
+				$k = array_search($key, $method);
+				if($k !== false) {
+					unset($method[$k]);
+				}
+			}
 		}
 		return $retval;
 	}

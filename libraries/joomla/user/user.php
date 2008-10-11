@@ -258,8 +258,16 @@ class JUser extends JObject
 	{
 		// the native calls (Check Mode 1) work on the user id, not the user type
 		$acl	= & JFactory::getACL();
-		$value	= $acl->getCheckMode() == 1 ? $this->id : $this->usertype;
-
+		$value	= $this->id;
+		$results = $this->application->trigger('acl_check', array($acoSection, $aco, 'users', $value, $axoSection, $axo));
+		
+		if(!empty($results)) {
+			foreach($results AS $result) {
+				if($result) {
+					return true;
+				}
+			}
+		}
 		return $acl->acl_check( $acoSection, $aco,	'users', $value, $axoSection, $axo );
 	}
 

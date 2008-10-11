@@ -36,7 +36,7 @@ class JACLGroup EXTENDS JObject {
 				$this->type = strtolower($type);
 				break;
 			default:
-				JError::raiseError(500, 'JACLGroup::__construct() Invalid Type', $type);
+				throw new JException('Invalid Type Attribute Passed To JACLGroup::__construct().  Expecting "aro" or "axo"', 13112, E_WARNING, $type);
 		}
 		if($id != 0) {
 			$this->valid = $this->load();
@@ -63,11 +63,9 @@ class JACLGroup EXTENDS JObject {
 
 	public function save() {
 		if(empty($this->name)) {
-			$this->setError('Section Value field must not be empty');
-			return false;
-		} elseif(empty($this->name)) {
-			$this->setError('Name field must not be empty');
-			return false;
+			throw new JException('Name MUST Be Populated For Save: JACLGroup::Save', 13112, E_WARNING, $this);
+		} elseif(empty($this->value)) {
+			throw new JException('Value Field MUST Be Populated For Save', 13112, E_WARNING, $this);
 		}
 		if($this->id == 0) {
 			//Adding Group!
@@ -93,19 +91,17 @@ class JACLGroup EXTENDS JObject {
 
 			if(!empty($this->parent_id)) {
 				if($this->id == $this->parent_id) {
-					$this->setError('Groups cannot be a parent to themselves');
-					return false;
+					throw new JException('Groups cannot be set to be a parent of themselves', 13112, E_WARNING, $this);
 				}
 				$children = $this->getChildren(true);
 				if(!empty($children) && @in_array($this->parent_id, $children)) {
-					$this->setError('Groups cannot be re-parented to their own children');
-					return false;
+					throw new JException('Groups cannot be set to be a parent of one of their children', 13112, E_WARNING, $this);
 				}
 				unset($children);
 
 				$parent = new JACLGroup($this->parent_id, $this->type);
 				if(!$parent->valid) {
-					$this->setError('Parent group doesn\'t exist');
+					throw new JException('Set Parent Doesn\'t Exist', 13112, E_WARNING, $this);
 				}
 				unset($parent);
 			}
@@ -122,10 +118,7 @@ class JACLGroup EXTENDS JObject {
 			}
 			$sql .= ' WHERE id = '.(int) $this->id;
 			$this->db->setQuery($sql);
-			if(!$this->db->query()) {
-				$this->setError($this->db->getErrorMsg());
-				return false;
-			}
+			$this->db->query();
 			if(isset($set['parent_id'])) {
 				//Parent ID changed, so rebuild the tree!!!
 				return JACLGroup::rebuild($this->type);
@@ -136,8 +129,7 @@ class JACLGroup EXTENDS JObject {
 
 	public function delete($erase = false) {
 		if($this->id == 0) {
-			$this->setError('Cannot Delete Non-Existant Object');
-			return false;
+			throw new JException('Cannot delete an empty group (id = 0)', 13112, E_WARNING, $this);
 		}
 
 		//TODO: Write This!
@@ -162,7 +154,7 @@ class JACLGroup EXTENDS JObject {
 			if($id) {
 				$left = 1;
 			} else {
-				return false;
+				throw new JException('Could not find root group for rebuild', 13112, E_WARNING, $id);
 			}
 		}
 		
@@ -183,9 +175,6 @@ class JACLGroup EXTENDS JObject {
 		if(!empty($rows)) {
 			foreach($rows AS $row) {
 				$right = self::rebuildTree($type, $row, $right);
-				if($right === false) {
-					return false;
-				}
 			}
 		}
 		$sql = 'UPDATE #__core_acl_'.$type.'_groups 
@@ -193,9 +182,7 @@ class JACLGroup EXTENDS JObject {
 				rgt = '.(int) $right.'
 			WHERE id = '.(int) $id;
 		$db->setQuery($sql);
-		if(!$db->query()) {
-			return false;
-		}
+		$db->query();
 		return $right + 1;
 	}
 
@@ -206,7 +193,8 @@ class JACLGroup EXTENDS JObject {
 				$type = strtolower($type);
 				break;
 			default:
-				return false;
+				throw new JException('Invalid Type Attribute Passed To JACLGroup::getByValue().  Expecting "aro" or "axo"', 13112, E_WARNING, $type);
+
 		}
 		$db = JFactory::getDBO();
 		$sql = 'SELECT g.id
@@ -219,7 +207,7 @@ class JACLGroup EXTENDS JObject {
 		if($id) {
 			$row = new JACLGroup($id, $type);
 		} else {
-			$row = false;
+			$row = false	
 		}
 		return $row;
 	}
@@ -232,7 +220,8 @@ class JACLGroup EXTENDS JObject {
 				$type = strtolower($type);
 				break;
 			default:
-				return false;
+				throw new JException('Invalid Type Attribute Passed To JACLGroup::getGroupList().  Expecting "aro" or "axo"', 13112, E_WARNING, $type);
+
 		}
 		if($root_id) {
 			$sql = 'SELECT lft, rgt FROM #__core_acl_'.$type.'_groups WHERE id = '.(int)$root_id;
@@ -275,7 +264,8 @@ class JACLGroup EXTENDS JObject {
 				$type = strtolower($type);
 				break;
 			default:
-				return false;
+				throw new JException('Invalid Type Attribute Passed To JACLGroup::getRootId().  Expecting "aro" or "axo"', 13112, E_WARNING, $type);
+
 		}
 		$db = JFactory::getDBO();
 		$sql = 'SELECT id FROM #__core_acl_'.$type.'_groups WHERE parent_id = 0';
