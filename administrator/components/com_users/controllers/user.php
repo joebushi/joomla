@@ -157,7 +157,7 @@ class UserControllerUser extends JController
 		// Check for request forgeries
 		JRequest::checkToken() or die( 'Invalid Token' );
 
-			// Get items from the request.
+		// Get items from the request.
 		$cid = JRequest::getVar('cid', array(), '', 'array');
 
 		if (empty( $cid )) {
@@ -221,12 +221,6 @@ class UserControllerUser extends JController
 
 		$this->setRedirect( 'index.php?option=com_users&view=users' );
 	}
-
-
-
-	//
-	// Ancilliary methods
-	//
 
 	/**
 	 * Method to run batch opterations.
