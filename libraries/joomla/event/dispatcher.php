@@ -36,7 +36,7 @@ class JDispatcher extends JObservable
 	 *
 	 * @access	protected
 	 */
-	function __construct()
+	protected function __construct()
 	{
 		parent::__construct();
 	}
@@ -52,7 +52,7 @@ class JDispatcher extends JObservable
 	 * @return	JDispatcher	The EventDispatcher object.
 	 * @since	1.5
 	 */
-	function & getInstance()
+	public static function & getInstance()
 	{
 		static $instance;
 
@@ -72,7 +72,7 @@ class JDispatcher extends JObservable
 	 * @return	void
 	 * @since	1.5
 	 */
-	function register($event, $handler)
+	public function register($event, $handler)
 	{
 		// Are we dealing with a class or function type handler?
 		if (function_exists($handler))
@@ -103,7 +103,7 @@ class JDispatcher extends JObservable
 	 * @return	array	An array of results from each function call
 	 * @since	1.5
 	 */
-	function trigger($event, $args = null, $doUnpublished = false)
+	public function trigger($event, $args = null, $doUnpublished = false)
 	{
 		// Initialize variables
 		$result = array ();

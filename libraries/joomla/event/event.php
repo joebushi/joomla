@@ -26,7 +26,7 @@ jimport( 'joomla.base.observer' );
  * @subpackage	Event
  * @since		1.5
  */
-class JEvent extends JObserver
+abstract class JEvent extends JObserver
 {
 
 	/**
@@ -39,7 +39,7 @@ class JEvent extends JObserver
 	 * @param object $subject The object to observe
 	 * @since 1.5
 	 */
-	function JEvent(& $subject) {
+	protected function __construct(& $subject) {
 		parent::__construct($subject);
 	}
 
@@ -51,7 +51,7 @@ class JEvent extends JObserver
 	 * @return mixed Routine return value
 	 * @since 1.5
 	 */
-	function update(& $args)
+	public function update(& $args)
 	{
 		/*
 		 * First lets get the event from the argument array.  Next we will unset the

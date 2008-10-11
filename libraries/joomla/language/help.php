@@ -19,7 +19,7 @@
  * @subpackage	Language
  * @since		1.5
  */
-class JHelp
+abstract class JHelp
 {
 
 	/**
@@ -28,14 +28,14 @@ class JHelp
 	* @param string The name of the popup file (excluding the file extension for an xml file)
 	* @param boolean Use the help file in the component directory
 	*/
-	function createURL($ref, $useComponent = false)
+	public static function createURL($ref, $useComponent = false)
 	{
 		global $mainframe, $option;
 
-		$user			=& JFactory::getUser();
-		$userHelpUrl	= $user->getParam( 'helpsite' );
-		$globalHelpUrl 	= $mainframe->getCfg('helpurl');
-		$lang			=& JFactory::getLanguage();
+		$user = JFactory::getUser();
+		$userHelpUrl = $user->getParam( 'helpsite' );
+		$globalHelpUrl = $mainframe->getCfg('helpurl');
+		$lang = JFactory::getLanguage();
 
 		if ($useComponent)
 		{
@@ -102,7 +102,7 @@ class JHelp
 	 * @param string	Language tag to select (if exists)
 	 * @param array	An array of arrays ( text, value, selected )
 	 */
-	function createSiteList($pathToXml, $selected = null)
+	public static function createSiteList($pathToXml, $selected = null)
 	{
 		$list	= array ();
 		$xml	=& JFactory::getXMLParser('Simple');

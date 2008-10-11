@@ -31,7 +31,7 @@ class JLanguage extends JObject
 	 * @access	protected
 	 * @since	1.5
 	 */
-	var $_debug 	= false;
+	protected $_debug 	= false;
 
 	/**
 	 * The default language
@@ -42,7 +42,7 @@ class JLanguage extends JObject
 	 * @access	protected
 	 * @since	1.5
 	 */
-	var $_default	= 'en-GB';
+	protected $_default	= 'en-GB';
 
 	/**
 	 * An array of orphaned text
@@ -51,7 +51,7 @@ class JLanguage extends JObject
 	 * @access	protected
 	 * @since	1.5
 	 */
-	var $_orphans 	= array();
+	protected $_orphans 	= array();
 
 	/**
 	 * Array holding the language metadata
@@ -60,7 +60,7 @@ class JLanguage extends JObject
 	 * @access	protected
 	 * @since	1.5
 	 */
-	var $_metadata 	= null;
+	protected $_metadata 	= null;
 
 	/**
 	 * The language to load
@@ -69,7 +69,7 @@ class JLanguage extends JObject
 	 * @access	protected
 	 * @since	1.5
 	 */
-	var $_lang = null;
+	protected $_lang = null;
 
 	/**
 	 * List of language files that have been loaded
@@ -78,7 +78,7 @@ class JLanguage extends JObject
 	 * @access	public
 	 * @since	1.5
 	 */
-	var $_paths	= array();
+	protected $_paths	= array();
 
 	/**
 	 * Transaltions
@@ -87,7 +87,7 @@ class JLanguage extends JObject
 	 * @access	protected
 	 * @since	1.5
 	 */
-	var $_strings = null;
+	protected $_strings = null;
 
 	/**
 	 * An array of used text, used during debugging
@@ -96,14 +96,14 @@ class JLanguage extends JObject
 	 * @access	protected
 	 * @since	1.5
 	 */
-	var $_used		= array();
+	protected $_used		= array();
 
 	/**
 	* Constructor activating the default information of the language
 	*
 	* @access	protected
 	*/
-	function __construct($lang = null)
+	protected function __construct($lang = null)
 	{
 		$this->_strings = array ();
 
@@ -127,7 +127,7 @@ class JLanguage extends JObject
 	 * @return	JLanguage  The Language object.
 	 * @since	1.5
 	 */
-	function & getInstance($lang)
+	public static function & getInstance($lang)
 	{
 		$instance = new JLanguage($lang);
 		$reference = & $instance;
@@ -143,7 +143,7 @@ class JLanguage extends JObject
 	* @return	string	The translation of the string
 	* @since	1.5
 	*/
-	function _($string, $jsSafe = false)
+	public function _($string, $jsSafe = false)
 	{
 		//$key = str_replace( ' ', '_', strtoupper( trim( $string ) ) );echo '<br>'.$key;
 		$key = strtoupper($string);
@@ -219,7 +219,7 @@ class JLanguage extends JObject
 	 * @return	string	The transliteration of the string
 	 * @since	1.5
 	 */
-	function transliterate($string)
+	public function transliterate($string)
 	{
 		$string = htmlentities(utf8_decode($string));
 		$string = preg_replace(
@@ -241,7 +241,7 @@ class JLanguage extends JObject
 	 * @return	boolean True if the language exists
 	 * @since	1.5
 	 */
-	function exists($lang, $basePath = JPATH_BASE)
+	public function exists($lang, $basePath = JPATH_BASE)
 	{
 		static	$paths	= array();
 
@@ -277,7 +277,7 @@ class JLanguage extends JObject
 	 * @return	boolean	True, if the file has successfully loaded.
 	 * @since	1.5
 	 */
-	function load( $extension = 'joomla', $basePath = JPATH_BASE, $lang = null, $reload = false )
+	public function load( $extension = 'joomla', $basePath = JPATH_BASE, $lang = null, $reload = false )
 	{
 		if ( ! $lang ) {
 			$lang = $this->_lang;
@@ -328,7 +328,7 @@ class JLanguage extends JObject
 	* @see		JLanguage::load()
 	* @since	1.5
 	*/
-	function _load( $filename, $extension = 'unknown' )
+	protected function _load( $filename, $extension = 'unknown' )
 	{
 		$result	= false;
 
@@ -364,7 +364,7 @@ class JLanguage extends JObject
 	 * @return	mixed The value of the property
 	 * @since	1.5
 	 */
-	function get($property, $default = null)
+	public function get($property, $default = null)
 	{
 		if (isset ($this->_metadata[$property])) {
 			return $this->_metadata[$property];
@@ -379,7 +379,7 @@ class JLanguage extends JObject
 	 * @return	array Caller information
 	 * @since	1.5
 	 */
-	function _getCallerInfo()
+	protected function _getCallerInfo()
 	{
 			// Try to determine the source if none was provided
 		if ( ! function_exists('debug_backtrace') || extension_loaded('Zend Optimizer') ) {
@@ -420,7 +420,7 @@ class JLanguage extends JObject
 	* @return	string Official name element of the language
 	* @since	1.5
 	*/
-	function getName() {
+	public function getName() {
 		return $this->_metadata['name'];
 	}
 
@@ -432,7 +432,7 @@ class JLanguage extends JObject
 	 * @return	array
 	 * @since	1.5
 	 */
-	function getPaths($extension = null)
+	public function getPaths($extension = null)
 	{
 		if ( isset($extension) )
 		{
@@ -454,7 +454,7 @@ class JLanguage extends JObject
 	* @return	string name of pdf font to be used
 	* @since	1.5
 	*/
-	function getPdfFontName() {
+	public function getPdfFontName() {
 		return $this->_metadata['pdffontname'];
 	}
 
@@ -465,7 +465,7 @@ class JLanguage extends JObject
 	* @return	string windows locale encoding
 	* @since	1.5
 	*/
-	function getWinCP() {
+	public function getWinCP() {
 		return $this->_metadata['wincodepage'];
 	}
 
@@ -476,7 +476,7 @@ class JLanguage extends JObject
 	* @return	string backward compatible name
 	* @since	1.5
 	*/
-	function getBackwardLang() {
+	public function getBackwardLang() {
 		return $this->_metadata['backwardlang'];
 	}
 
@@ -487,7 +487,7 @@ class JLanguage extends JObject
 	* @return	string The language tag
 	* @since	1.5
 	*/
-	function getTag() {
+	public function getTag() {
 		return $this->_metadata['tag'];
 	}
 
@@ -498,7 +498,7 @@ class JLanguage extends JObject
 	* @return	string The locale property
 	* @since	1.5
 	*/
-	function getLocale()
+	public function getLocale()
 	{
 		$locales = explode(',', $this->_metadata['locale']);
 
@@ -519,7 +519,7 @@ class JLanguage extends JObject
 	* @return	boolean True is it an RTL language
 	* @since	1.5
 	*/
-	function isRTL() {
+	public function isRTL() {
 		return $this->_metadata['rtl'];
 	}
 
@@ -530,7 +530,7 @@ class JLanguage extends JObject
 	* @return	boolean Previous value
 	* @since	1.5
 	*/
-	function setDebug($debug) {
+	public function setDebug($debug) {
 		$previous	= $this->_debug;
 		$this->_debug = $debug;
 		return $previous;
@@ -543,7 +543,7 @@ class JLanguage extends JObject
 	* @return	boolean True is in debug mode
 	* @since	1.5
 	*/
-	function getDebug() {
+	public function getDebug() {
 		return $this->_debug;
 	}
 
@@ -554,7 +554,7 @@ class JLanguage extends JObject
 	 * @return	string Language code
 	 * @since	1.5
 	 */
-	function getDefault() {
+	public function getDefault() {
 		return $this->_default;
 	}
 
@@ -565,7 +565,7 @@ class JLanguage extends JObject
 	 * @return	string Previous value
 	 * @since	1.5
 	 */
-	function setDefault($lang) {
+	public function setDefault($lang) {
 		$previous	= $this->_default;
 		$this->_default	= $lang;
 		return $previous;
@@ -578,7 +578,7 @@ class JLanguage extends JObject
 	* @return	boolean True is in debug mode
 	* @since	1.5
 	*/
-	function getOrphans() {
+	public function getOrphans() {
 		return $this->_orphans;
 	}
 
@@ -591,7 +591,7 @@ class JLanguage extends JObject
 	 * @return	array	Used strings
 	 * @since	1.5
 	 */
-	function getUsed() {
+	public function getUsed() {
 		return $this->_used;
 	}
 
@@ -603,7 +603,7 @@ class JLanguage extends JObject
 	 * @return	boolean True, if the key exists
 	 * @since	1.5
 	 */
-	function hasKey($key) {
+	public function hasKey($key) {
 		return isset ($this->_strings[strtoupper($key)]);
 	}
 
@@ -617,7 +617,7 @@ class JLanguage extends JObject
 	 * @since	1.5
 	 */
 
-	function getMetadata($lang)
+	public function getMetadata($lang)
 	{
 		$path = JLanguage::getLanguagePath(JPATH_BASE, $lang);
 		$file = $lang.'.xml';
@@ -638,7 +638,7 @@ class JLanguage extends JObject
 	 * @return	array	key/value pair with the language file and real name
 	 * @since	1.5
 	 */
-	function getKnownLanguages($basePath = JPATH_BASE)
+	public static function getKnownLanguages($basePath = JPATH_BASE)
 	{
 		$dir = JLanguage::getLanguagePath($basePath);
 		$knownLanguages = JLanguage::_parseLanguageFiles($dir);
@@ -655,7 +655,7 @@ class JLanguage extends JObject
 	 * @return	string	language related path or null
 	 * @since	1.5
 	 */
-	function getLanguagePath($basePath = JPATH_BASE, $language = null )
+	public static function getLanguagePath($basePath = JPATH_BASE, $language = null )
 	{
 		$dir = $basePath.DS.'language';
 		if (!empty($language)) {
@@ -674,11 +674,11 @@ class JLanguage extends JObject
 	 * @return	string	Previous value
 	 * @since	1.5
 	 */
-	function setLanguage($lang)
+	public function setLanguage($lang)
 	{
-		$previous			= $this->_lang;
-		$this->_lang		= $lang;
-		$this->_metadata	= $this->getMetadata($this->_lang);
+		$previous = $this->_lang;
+		$this->_lang = $lang;
+		$this->_metadata = $this->getMetadata($this->_lang);
 
 		//set locale based on the language tag
 		//TODO : add function to display locale setting in configuration
@@ -694,7 +694,7 @@ class JLanguage extends JObject
 	 * @return	array	Array holding the found languages as filename => real name pairs
 	 * @since	1.5
 	 */
-	function _parseLanguageFiles($dir = null)
+	protected static function _parseLanguageFiles($dir = null)
 	{
 		jimport('joomla.filesystem.folder');
 
@@ -717,7 +717,7 @@ class JLanguage extends JObject
 	 * @return	array	Array holding the found languages as filename => metadata array
 	 * @since	1.5
 	 */
-	function _parseXMLLanguageFiles($dir = null)
+	protected static function _parseXMLLanguageFiles($dir = null)
 	{
 		if ($dir == null) {
 			return null;
@@ -745,7 +745,7 @@ class JLanguage extends JObject
 	 * @return	array	Array holding the found metadata as a key => value pair
 	 * @since	1.5
 	 */
-	function _parseXMLLanguageFile($path)
+	protected static function _parseXMLLanguageFile($path)
 	{
 		$xml = & JFactory::getXMLParser('Simple');
 

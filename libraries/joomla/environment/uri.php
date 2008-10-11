@@ -34,70 +34,70 @@ class JURI extends JObject
 	 *
 	 * @var		string
 	 */
-	var $_uri = null;
+	protected $_uri = null;
 
 	/**
 	 * Protocol
 	 *
 	 * @var		string
 	 */
-	var $_scheme = null;
+	protected $_scheme = null;
 
 	/**
 	 * Host
 	 *
 	 * @var		string
 	 */
-	var $_host = null;
+	protected $_host = null;
 
 	/**
 	 * Port
 	 *
 	 * @var		integer
 	 */
-	var $_port = null;
+	protected $_port = null;
 
 	/**
 	 * Username
 	 *
 	 * @var		string
 	 */
-	var $_user = null;
+	protected $_user = null;
 
 	/**
 	 * Password
 	 *
 	 * @var		string
 	 */
-	var $_pass = null;
+	protected $_pass = null;
 
 	/**
 	 * Path
 	 *
 	 * @var		string
 	 */
-	var $_path = null;
+	protected $_path = null;
 
 	/**
 	 * Query
 	 *
 	 * @var		string
 	 */
-	var $_query = null;
+	protected $_query = null;
 
 	/**
 	 * Anchor
 	 *
 	 * @var		string
 	 */
-	var $_fragment = null;
+	protected $_fragment = null;
 
 	/**
 	 * Query variable hash
 	 *
 	 * @var		array
 	 */
-	var $_vars = array ();
+	protected $_vars = array ();
 
 	/**
 	 * Constructor.
@@ -105,7 +105,7 @@ class JURI extends JObject
 	 *
 	 * @param	string $uri The optional URI string
 	 */
-	function __construct($uri = null)
+	protected function __construct($uri = null)
 	{
 		if ($uri !== null) {
 			$this->parse($uri);
@@ -124,7 +124,7 @@ class JURI extends JObject
 	 * @return	JURI  The URI object.
 	 * @since	1.5
 	 */
-	function &getInstance($uri = 'SERVER')
+	public static function &getInstance($uri = 'SERVER')
 	{
 		static $instances = array();
 
@@ -199,7 +199,7 @@ class JURI extends JObject
 	 * @return	string	The base URI string
 	 * @since	1.5
 	 */
-	function base($pathonly = false)
+	public static function base($pathonly = false)
 	{
 		static $base;
 
@@ -216,7 +216,7 @@ class JURI extends JObject
 					$base['path'] .= '/administrator';
 				}
 			} else {
-				$uri	         =& JURI::getInstance();
+				$uri =& JURI::getInstance();
 				$base['prefix'] = $uri->toString( array('scheme', 'host', 'port'));
 
 				if (strpos(php_sapi_name(), 'cgi') !== false && !empty($_SERVER['REQUEST_URI'])) {
@@ -241,7 +241,7 @@ class JURI extends JObject
 	 * @return	string	The root URI string
 	 * @since	1.5
 	 */
-	function root($pathonly = false, $path = null)
+	public static function root($pathonly = false, $path = null)
 	{
 		static $root;
 
@@ -268,7 +268,7 @@ class JURI extends JObject
 	 * @return	string
 	 * @since	1.5
 	 */
-	function current()
+	public static function current()
 	{
 		static $current;
 
@@ -290,7 +290,7 @@ class JURI extends JObject
 	 * @return	boolean True on success
 	 * @since	1.5
 	 */
-	function parse($uri)
+	public function parse($uri)
 	{
 		//Initialize variables
 		$retval = false;
@@ -334,7 +334,7 @@ class JURI extends JObject
 	 * @return	string The rendered URI string
 	 * @since	1.5
 	 */
-	function toString($parts = array('scheme', 'user', 'pass', 'host', 'port', 'path', 'query', 'fragment'))
+	public function toString($parts = array('scheme', 'user', 'pass', 'host', 'port', 'path', 'query', 'fragment'))
 	{
 		$query = $this->getQuery(); //make sure the query is created
 
@@ -361,7 +361,7 @@ class JURI extends JObject
 	 * @return	string Previous value for the query variable
 	 * @since	1.5
 	 */
-	function setVar($name, $value)
+	public function setVar($name, $value)
 	{
 		$tmp = @$this->_vars[$name];
 		$this->_vars[$name] = $value;
@@ -380,7 +380,7 @@ class JURI extends JObject
 	 * @return	array Query variables
 	 * @since	1.5
 	 */
-	function getVar($name = null, $default=null)
+	public function getVar($name = null, $default=null)
 	{
 		if(isset($this->_vars[$name])) {
 			return $this->_vars[$name];
@@ -395,7 +395,7 @@ class JURI extends JObject
 	 * @param	string $name Name of variable to remove
 	 * @since	1.5
 	 */
-	function delVar($name)
+	public function delVar($name)
 	{
 		if (in_array($name, array_keys($this->_vars)))
 		{
@@ -414,7 +414,7 @@ class JURI extends JObject
 	 * @param	mixed (array|string) $query The query string
 	 * @since	1.5
 	 */
-	function setQuery($query)
+	public function setQuery($query)
 	{
 		if(!is_array($query)) {
 			if(strpos($query, '&amp;') !== false)
@@ -439,7 +439,7 @@ class JURI extends JObject
 	 * @return	string Query string
 	 * @since	1.5
 	 */
-	function getQuery($toArray = false)
+	public function getQuery($toArray = false)
 	{
 		if($toArray) {
 			return $this->_vars;
@@ -447,7 +447,7 @@ class JURI extends JObject
 
 		//If the query is empty build it first
 		if(is_null($this->_query)) {
-			$this->_query = $this->buildQuery($this->_vars);
+			$this->_query = JURI::buildQuery($this->_vars);
 		}
 
 		return $this->_query;
@@ -461,7 +461,7 @@ class JURI extends JObject
 	 * @since	1.5
 	 * @see	parse_str()
 	 */
-	function buildQuery ($params, $akey = null)
+	public static function buildQuery ($params, $akey = null)
 	{
 		if ( !is_array($params) || count($params) == 0 ) {
 			return false;
@@ -497,7 +497,7 @@ class JURI extends JObject
 	 * @return	string The URI scheme
 	 * @since	1.5
 	 */
-	function getScheme() {
+	public function getScheme() {
 		return $this->_scheme;
 	}
 
@@ -509,7 +509,7 @@ class JURI extends JObject
 	 * @param	string $scheme The URI scheme
 	 * @since	1.5
 	 */
-	function setScheme($scheme) {
+	public function setScheme($scheme) {
 		$this->_scheme = $scheme;
 	}
 
@@ -521,7 +521,7 @@ class JURI extends JObject
 	 * @return	string The URI username
 	 * @since	1.5
 	 */
-	function getUser() {
+	public function getUser() {
 		return $this->_user;
 	}
 
@@ -532,7 +532,7 @@ class JURI extends JObject
 	 * @param	string $user The URI username
 	 * @since	1.5
 	 */
-	function setUser($user) {
+	public function setUser($user) {
 		$this->_user = $user;
 	}
 
@@ -544,7 +544,7 @@ class JURI extends JObject
 	 * @return	string The URI password
 	 * @since	1.5
 	 */
-	function getPass() {
+	public function getPass() {
 		return $this->_pass;
 	}
 
@@ -555,7 +555,7 @@ class JURI extends JObject
 	 * @param	string $pass The URI password
 	 * @since	1.5
 	 */
-	function setPass($pass) {
+	public function setPass($pass) {
 		$this->_pass = $pass;
 	}
 
@@ -567,7 +567,7 @@ class JURI extends JObject
 	 * @return	string The URI host
 	 * @since	1.5
 	 */
-	function getHost() {
+	public function getHost() {
 		return $this->_host;
 	}
 
@@ -578,7 +578,7 @@ class JURI extends JObject
 	 * @param	string $host The URI host
 	 * @since	1.5
 	 */
-	function setHost($host) {
+	public function setHost($host) {
 		$this->_host = $host;
 	}
 
@@ -589,7 +589,7 @@ class JURI extends JObject
 	 * @access	public
 	 * @return	int The URI port number
 	 */
-	function getPort() {
+	public function getPort() {
 		return (isset ($this->_port)) ? $this->_port : null;
 	}
 
@@ -600,7 +600,7 @@ class JURI extends JObject
 	 * @param	int $port The URI port number
 	 * @since	1.5
 	 */
-	function setPort($port) {
+	public function setPort($port) {
 		$this->_port = $port;
 	}
 
@@ -611,7 +611,7 @@ class JURI extends JObject
 	 * @return	string The URI path string
 	 * @since	1.5
 	 */
-	function getPath() {
+	public function getPath() {
 		return $this->_path;
 	}
 
@@ -622,7 +622,7 @@ class JURI extends JObject
 	 * @param	string $path The URI path string
 	 * @since	1.5
 	 */
-	function setPath($path) {
+	public function setPath($path) {
 		$this->_path = $this->_cleanPath($path);
 	}
 
@@ -634,7 +634,7 @@ class JURI extends JObject
 	 * @return	string The URI anchor string
 	 * @since	1.5
 	 */
-	function getFragment() {
+	public function getFragment() {
 		return $this->_fragment;
 	}
 
@@ -646,7 +646,7 @@ class JURI extends JObject
 	 * @param	string $anchor The URI anchor string
 	 * @since	1.5
 	 */
-	function setFragment($anchor) {
+	public function setFragment($anchor) {
 		$this->_fragment = $anchor;
 	}
 
@@ -657,7 +657,7 @@ class JURI extends JObject
 	 * @return	boolean True if using SSL via HTTPS
 	 * @since	1.5
 	 */
-	function isSSL() {
+	public function isSSL() {
 		return $this->getScheme() == 'https' ? true : false;
 	}
 
@@ -674,7 +674,7 @@ class JURI extends JObject
 	 * @return	string Cleaned and resolved URI path
 	 * @since	1.5
 	 */
-	function _cleanPath($path)
+	protected function _cleanPath($path)
 	{
 		$path = explode('/', preg_replace('#(/+)#', '/', $path));
 
@@ -708,15 +708,12 @@ class JURI extends JObject
 	/**
 	 * Backwards compatibility function for parse_url function
 	 *
-	 * This function solves different bugs in PHP versions lower then
-	 * 4.4, will be deprecated in future versions.
-	 *
 	 * @access	private
 	 * @return	array Associative array containing the URL parts
 	 * @since	1.5
 	 * @see parse_url()
 	 */
-	function _parseURL($uri)
+	protected function _parseURL($uri)
 	{
 		$parts = array();
 		$parts = @parse_url($uri);

@@ -66,7 +66,7 @@ class JObservable extends JObject
 	 * @return mixed The state of the object
 	 * @since 1.5
 	 */
-	function getState() {
+	public function getState() {
 		return $this->_state;
 	}
 
@@ -77,7 +77,7 @@ class JObservable extends JObject
 	 * @return array Array of return values from the observers
 	 * @since 1.5
 	 */
-	function notify()
+	public function notify()
 	{
 		// Iterate through the _observers array
 		foreach ($this->_observers as $observer) {
@@ -94,7 +94,7 @@ class JObservable extends JObject
 	 * @return void
 	 * @since 1.5
 	 */
-	function attach( &$observer)
+	public function attach( &$observer)
 	{
 		// Make sure we haven't already attached this object as an observer
 		if (is_object($observer))
@@ -131,7 +131,7 @@ class JObservable extends JObject
 	 * @return boolean True if the observer object was detached
 	 * @since 1.5
 	 */
-	function detach( $observer)
+	public function detach( $observer)
 	{
 		// Initialize variables
 		$retval = false;
