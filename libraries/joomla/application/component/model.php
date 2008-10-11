@@ -5,11 +5,6 @@
 * @subpackage	Application
 * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
 */
 
 // Check to ensure this file is within the rest of the framework
@@ -32,25 +27,30 @@ class JModel extends JObject
 	 * The model (base) name
 	 *
 	 * @var string
-	 * @access	protected
 	 */
-	var $_name;
+	protected $_name;
 
 	/**
 	 * Database Connector
 	 *
 	 * @var object
-	 * @access	protected
 	 */
-	var $_db;
+	protected $_db;
 
 	/**
 	 * An state object
 	 *
 	 * @var string
-	 * @access	protected
 	 */
-	var $_state;
+	protected $_state;
+
+	/**
+	 * Indicates if the internal state has been set
+	 *
+	 * @var bool
+	 * @since	1.6
+	 */
+	protected $__state_set	= null;
 
 	/**
 	 * Constructor
@@ -88,6 +88,11 @@ class JModel extends JObject
 			$this->addTablePath($config['table_path']);
 		} else if (defined( 'JPATH_COMPONENT_ADMINISTRATOR' )){
 			$this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables');
+		}
+
+		// set the internal state marker - used to ignore setting state from the request
+		if (!empty($config['ignore_request'])) {
+			$this->__state_set = true;
 		}
 	}
 
