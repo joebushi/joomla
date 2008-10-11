@@ -15,7 +15,7 @@
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();
 
-require_once(JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'databaseinterface.php');
+require_once(JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'interface.php');
 
 /**
  * Database connector class
