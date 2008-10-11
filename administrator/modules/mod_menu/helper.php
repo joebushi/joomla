@@ -62,6 +62,9 @@ class modMenuHelper
 		$menu->addChild(new JMenuNode(JText::_('Site')), true);
 		$menu->addChild(new JMenuNode(JText::_('Control Panel'), 'index.php', 'class:cpanel'));
 		$menu->addSeparator();
+		//if ($canManageACL) {
+			$menu->addChild(new JMenuNode(JText::_('Access Control'), 'index.php?option=com_acl', 'class:config'));
+		//}
 		if ($canManageUsers) {
 			$menu->addChild(new JMenuNode(JText::_('User Manager'), 'index.php?option=com_users&task=view', 'class:user'));
 		}
