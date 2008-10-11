@@ -31,7 +31,7 @@ class JSimpleCrypt extends JObject
 	 * @access	private
 	 * @var		string
 	 */
-	var $_key;
+	private $_key;
 
 	/**
 	 * Object Constructor takes an optional key to be used for encryption/decryption.  If no key is given then the
@@ -42,7 +42,7 @@ class JSimpleCrypt extends JObject
 	 * @return	void
 	 * @since	1.5
 	 */
-	function __construct($key = null)
+	public function __construct($key = null)
 	{
 		if ($key) {
 			$this->_key = (string) $key;
@@ -52,14 +52,14 @@ class JSimpleCrypt extends JObject
 		}
 	}
 
-	function decrypt($s)
+	public function decrypt($s)
 	{
 		$ai = $this->_hexToIntArray($s);
 		(string) $s1 = $this->_xorString($ai);
 		return $s1;
 	}
 
-	function encrypt($s)
+	public function encrypt($s)
 	{
 		$ai = $this->_xorCharString($s);
 		$s1 = "";
@@ -68,7 +68,7 @@ class JSimpleCrypt extends JObject
 		return $s1;
 	}
 
-	function _hexToInt($s, $i)
+	protected function _hexToInt($s, $i)
 	{
 		(int) $j = $i * 2;
 		(string) $s1 = $s;
@@ -135,7 +135,7 @@ class JSimpleCrypt extends JObject
 		return $k;
 	}
 
-	function _hexToIntArray($s)
+	protected function _hexToIntArray($s)
 	{
 		(string) $s1 = $s;
 		(int) $i = strlen($s1);
@@ -148,13 +148,13 @@ class JSimpleCrypt extends JObject
 		return $ai;
 	}
 
-	function _charToInt($c)
+	protected function _charToInt($c)
 	{
 		$ac[0] = $c;
 		return $ac;
 	}
 
-	function _xorString($ai)
+	protected function _xorString($ai)
 	{
 		$s = $this->_key; //
 		(int) $i = strlen($s);
@@ -172,7 +172,7 @@ class JSimpleCrypt extends JObject
 		return $s1;
 	}
 
-	function _intToHex($i)
+	protected function _intToHex($i)
 	{
 		(int) $j = (int) $i / 16;
 		if ((int) $j == 0) {
@@ -186,7 +186,7 @@ class JSimpleCrypt extends JObject
 		return $s;
 	}
 
-	function _xorCharString($s)
+	protected function _xorCharString($s)
 	{
 		$ac = preg_split('//', $s, -1, PREG_SPLIT_NO_EMPTY);
 		(string) $s1 = $this->_key;

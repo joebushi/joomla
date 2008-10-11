@@ -22,7 +22,7 @@ defined('JPATH_BASE') or die();
  * @package 	Joomla.Framework
  * @since		1.5
  */
-class JRoute
+abstract class JRoute
 {
 	/**
 	 * Translates an internal Joomla URL to a humanly readible URL.
@@ -36,19 +36,19 @@ class JRoute
 	 * 		-1: Make URI unsecure using the global unsecure site URI
 	 * @return The translated humanly readible URL
 	 */
-	function _($url, $xhtml = true, $ssl = null)
+	public static function _($url, $xhtml = true, $ssl = null)
 	{
 		// Get the router
-		$app	= &JFactory::getApplication();
-		$router = &$app->getRouter();
+		$app = JFactory::getApplication();
+		$router = $app->getRouter();
 
 		// Make sure that we have our router
-		if (! $router) {
+		if (!$router) {
 			return null;
 		}
 
 		if ( (strpos($url, '&') !== 0 ) && (strpos($url, 'index.php') !== 0) ) {
-            return $url;
+			return $url;
  		}
 
 		// Build route
@@ -65,16 +65,15 @@ class JRoute
 		 * https and need to set our secure URL to the current request URL, if not, and the scheme is
 		 * 'http', then we need to do a quick string manipulation to switch schemes.
 		 */
-		$ssl	= (int) $ssl;
-		if ( $ssl )
+		$ssl = (int) $ssl;
+		if($ssl)
 		{
-			$uri	         =& JURI::getInstance();
+			$uri =& JURI::getInstance();
 
 			// Get additional parts
 			static $prefix;
-			if ( ! $prefix ) {
+			if (!$prefix) {
 				$prefix = $uri->toString( array('host', 'port'));
-				//$prefix .= JURI::base(true);
 			}
 
 			// Determine which scheme we want
@@ -82,11 +81,11 @@ class JRoute
 
 			// Make sure our url path begins with a slash
 			if ( ! preg_match('#^/#', $url) ) {
-				$url	= '/' . $url;
+				$url = '/' . $url;
 			}
 
 			// Build the URL
-			$url	= $scheme . '://' . $prefix . $url;
+			$url = $scheme . '://' . $prefix . $url;
 		}
 
 		if($xhtml) {
@@ -105,7 +104,7 @@ class JRoute
  * @subpackage	Language
  * @since		1.5
  */
-class JText
+abstract class JText
 {
 	/**
 	 * Translates a string into the current language
@@ -116,7 +115,7 @@ class JText
 	 * @since	1.5
 	 *
 	 */
-	function _($string, $jsSafe = false)
+	public static function _($string, $jsSafe = false)
 	{
 		$lang =& JFactory::getLanguage();
 		return $lang->_($string, $jsSafe);
@@ -130,7 +129,7 @@ class JText
 	 * @param	mixed Mixed number of arguments for the sprintf function
 	 * @since	1.5
 	 */
-	function sprintf($string)
+	public static function sprintf($string)
 	{
 		$lang =& JFactory::getLanguage();
 		$args = func_get_args();
@@ -149,7 +148,7 @@ class JText
 	 * @param	mixed Mixed number of arguments for the sprintf function
 	 * @since	1.5
 	 */
-	function printf($string)
+	public static function printf($string)
 	{
 		$lang =& JFactory::getLanguage();
 		$args = func_get_args();

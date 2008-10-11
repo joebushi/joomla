@@ -35,7 +35,7 @@ class JRegistryFormatPHP extends JRegistryFormat {
 	 * @return string Config class formatted string
 	 * @since 1.5
 	 */
-	function objectToString( &$object, $params ) {
+	public function objectToString( &$object, $params ) {
 
 		// Build the object variables string
 		$vars = '';
@@ -44,7 +44,7 @@ class JRegistryFormatPHP extends JRegistryFormat {
 			if (is_scalar($v)) {
 				$vars .= "\tvar $". $k . " = '" . addslashes($v) . "';\n";
 			} elseif (is_array($v)) {
-				$vars .= "\tvar $". $k . " = " . $this->_getArrayString($v) . ";\n";
+				$vars .= "\tvar $". $k . " = " . $this->getArrayString($v) . ";\n";
 			}
 		}
 
@@ -62,11 +62,11 @@ class JRegistryFormatPHP extends JRegistryFormat {
 	 * @return boolean True
 	 * @since 1.5
 	 */
-	function stringToObject() {
+	public function stringToObject() {
 		return true;
 	}
 
-	function _getArrayString($a)
+	protected function getArrayString($a)
 	{
 		$s = 'array(';
 		$i = 0;
@@ -75,7 +75,7 @@ class JRegistryFormatPHP extends JRegistryFormat {
 			$s .= ($i) ? ', ' : '';
 			$s .= '"'.$k.'" => ';
 			if (is_array($v)) {
-				$s .= $this->_getArrayString($v);
+				$s .= $this->getArrayString($v);
 			} else {
 				$s .= '"'.addslashes($v).'"';
 			}

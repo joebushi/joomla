@@ -21,7 +21,7 @@
  * @subpackage	Utilities
  * @since		1.5
  */
-class JArrayHelper
+abstract class JArrayHelper
 {
 	/**
 	 * Function to convert array to integer values
@@ -31,7 +31,7 @@ class JArrayHelper
 	 * @param	mixed	$default	A default value (int|array) to assign if $array is not an array
 	 * @since	1.5
 	 */
-	function toInteger(&$array, $default = null)
+	public static function toInteger(&$array, $default = null)
 	{
 		if (is_array($array)) {
 			foreach ($array as $i => $v) {
@@ -58,7 +58,7 @@ class JArrayHelper
 	 * @return	object	The object mapped from the given array
 	 * @since	1.5
 	 */
-	function toObject(&$array, $class = 'stdClass')
+	public static function toObject(&$array, $class = 'stdClass')
 	{
 		$obj = null;
 		if (is_array($array))
@@ -76,7 +76,7 @@ class JArrayHelper
 		return $obj;
 	}
 
-	function toString( $array = null, $inner_glue = '=', $outer_glue = ' ', $keepOuterKey = false )
+	public static function toString( $array = null, $inner_glue = '=', $outer_glue = ' ', $keepOuterKey = false )
 	{
 		$output = array();
 
@@ -111,7 +111,7 @@ class JArrayHelper
 	 * @return	array	The array mapped from the given object
 	 * @since	1.5
 	 */
-	function fromObject( $p_obj, $recurse = true, $regex = null )
+	public static function fromObject( $p_obj, $recurse = true, $regex = null )
 	{
 		$result = null;
 		if (is_object( $p_obj ))
@@ -151,7 +151,7 @@ class JArrayHelper
 	 * @return	array	Column of values from the source array
 	 * @since	1.5
 	 */
-	function getColumn(&$array, $index)
+	public static function getColumn(&$array, $index)
 	{
 		$result = array ();
 
@@ -183,7 +183,7 @@ class JArrayHelper
 	 * @return	mixed	The value from the source array
 	 * @since	1.5
 	 */
-	function getValue(&$array, $name, $default=null, $type='')
+	public static function getValue(&$array, $name, $default=null, $type='')
 	{
 		// Initialize variables
 		$result = null;
@@ -251,7 +251,7 @@ class JArrayHelper
 	 * @return	array	The sorted array of objects
 	 * @since	1.5
 	 */
-	function sortObjects( &$a, $k, $direction=1 )
+	public static function sortObjects( &$a, $k, $direction=1 )
 	{
 		$GLOBALS['JAH_so'] = array(
 			'key'		=> $k,
@@ -273,7 +273,7 @@ class JArrayHelper
 	 * @since	1.5
 	 * @see		JArrayHelper::sortObjects()
 	 */
-	function _sortObjects( &$a, &$b )
+	protected static function _sortObjects( &$a, &$b )
 	{
 		$params = $GLOBALS['JAH_so'];
 		if ( $a->$params['key'] > $b->$params['key'] ) {
