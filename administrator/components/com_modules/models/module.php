@@ -329,17 +329,22 @@ class ModulesModelModule extends JModel
 		}
 		else
 		{
+            $sign = ($menus == 'deselect') ? -1 : 1;
 			foreach ($selections as $menuid)
 			{
-				// this check for the blank spaces in the select box that have been added for cosmetic reasons
-				if ( (int) $menuid >= 0 ) {
+                /*
+                 * This checks for the blank spaces in the select box that have
+                 * been added for cosmetic reasons.
+                 */
+                $menuid = (int) $menuid;
+                if ($menuid >= 0) {
 					// assign new module to menu item associations
-					$query = 'INSERT INTO #__modules_menu'
-					. ' SET moduleid = '.(int) $row->id .', menuid = '.(int) $menuid
-					;
-					$this->_db->setQuery( $query );
+                    $query = 'INSERT INTO #__modules_menu'
+                    . ' SET moduleid = ' . (int) $row->id . ', menuid = ' . ($sign * $menuid)
+                    ;
+					$this->_db->setQuery($query);
 					if (!$this->_db->query()) {
-						return JError::raiseWarning( 500, $row->getError() );
+						return JError::raiseWarning(500, $row->getError());
 					}
 				}
 			}

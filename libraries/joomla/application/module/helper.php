@@ -234,20 +234,22 @@ class JModuleHelper
 		global $Itemid;
 		$appl	= JFactory::getApplication();
 
-		static $modules;
+        static $clean;
 
-		if (isset($modules)) {
-			return $modules;
-		}
+        if (isset($clean)) {
+            return $clean;
+        }
 
-		$user	=& JFactory::getUser();
-		$db		=& JFactory::getDBO();
+		$user = &JFactory::getUser();
+		$db = &JFactory::getDBO();
 
-		$aid	= $user->get('aid', 0);
+		$aid = $user->get('aid', 0);
 
-		$modules	= array();
+		$modules = array();
 
-		$wheremenu = isset( $Itemid ) ? ' AND ( mm.menuid = '. (int) $Itemid .' OR mm.menuid = 0 )' : '';
+        $wheremenu = isset($Itemid)
+            ? ' AND (mm.menuid = ' . (int)$Itemid . ' OR mm.menuid <= 0)'
+            : '';
 
 		$query = 'SELECT id, title, module, position, content, showtitle, control, params'
 			. ' FROM #__modules AS m'
@@ -258,27 +260,56 @@ class JModuleHelper
 			. $wheremenu
 			. ' ORDER BY position, ordering';
 
-		$db->setQuery( $query );
+		$db->setQuery($query);
 
 		if (null === ($modules = $db->loadObjectList())) {
-			JError::raiseWarning( 'SOME_ERROR_CODE', JText::_( 'Error Loading Modules' ) . $db->getErrorMsg());
+            JError::raiseWarning(
+                'SOME_ERROR_CODE',
+                JText::_('Error Loading Modules') . $db->getErrorMsg()
+            );
 			return false;
 		}
 
-		$total = count($modules);
-		for($i = 0; $i < $total; $i++)
+        // Apply negative selections and eliminate duplicates
+        $negId = $Itemid ? -(int)$Itemid : false;
+        $dups = array();
+        $clean = array();
+        foreach ($modules as $i => $module)
 		{
-			//determine if this is a custom module
-			$file					= $modules[$i]->module;
-			$custom 				= substr( $file, 0, 4 ) == 'mod_' ?  0 : 1;
-			$modules[$i]->user  	= $custom;
-			// CHECK: custom module name is given by the title field, otherwise it's just 'om' ??
-			$modules[$i]->name		= $custom ? $modules[$i]->title : substr( $file, 4 );
-			$modules[$i]->style		= null;
-			$modules[$i]->position	= strtolower($modules[$i]->position);
-		}
+            /*
+             * The module is excluded if there is an explicit prohibition, or if
+             * the Itemid is missing or zero and the module is in exclude mode.
+             */
+            $negHit = $negId === (int)$module->menuid
+                || (!$negId && (int)$module->menuid < 0);
+            if (isset($dups[$module->id])) {
+                /*
+                 * If this item has been excluded, keep the duplicate flag set,
+                 * but remove any item from the cleaned array.
+                 */
+                if ($negHit) {
+                    unset($clean[$module->id]);
+                }
+                continue;
+            }
+            $dups[$module->id] = true;
+            // Only accept modules without explicit exclusions.
+            if (! $negHit) {
+                //determine if this is a custom module
+                $file                = $module->module;
+                $custom              = substr($file, 0, 4) == 'mod_' ?  0 : 1;
+                $module->user        = $custom;
+                // Custom module name is given by the title field, otherwise strip off "com_"
+                $module->name        = $custom ? $module->title : substr($file, 4);
+                $module->style       = null;
+                $module->position    = strtolower($module->position);
+                $clean[$module->id]  = $module;
+            }
+        }
+        // Return to simple indexing that matches the query order.
+        $clean = array_values($clean);
 
-		return $modules;
+        return $clean;
 	}
 
 }

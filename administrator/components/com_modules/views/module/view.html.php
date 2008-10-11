@@ -109,44 +109,75 @@ class ModulesViewModule extends JView
 
 		// get selected pages for $lists['selections']
 		if ( !$isNew ) {
+			$row->pages = 'select';
 			$query = 'SELECT menuid AS value'
 			. ' FROM #__modules_menu'
 			. ' WHERE moduleid = '.(int) $row->id
 			;
 			$db->setQuery( $query );
 			$lookup = $db->loadObjectList();
-			if (empty( $lookup )) {
-				$lookup = array( JHTML::_('select.option',  '-1' ) );
+			$row->pages = 'select';
+			if (empty($lookup)) {
+				$lookup = array(JHTML::_('select.option', '-1'));
 				$row->pages = 'none';
 			} elseif (count($lookup) == 1 && $lookup[0]->value == 0) {
 				$row->pages = 'all';
 			} else {
-				$row->pages = null;
+				/*
+				 * If any menu value is negative, make the type "deselect". This
+				 * has the side-effect of hiding any corruption in the values
+				 * (i.e. a mix of positive and negative).
+				 */
+				foreach ($lookup as $key => $modMenu) {
+					if ($modMenu->value < 0) {
+						$lookup[$key]->value = -$modMenu->value;
+						$row->pages = 'deselect';
+					}
+				}
 			}
 		} else {
-			$lookup = array( JHTML::_('select.option',  0, JText::_( 'All' ) ) );
+			$lookup = array(JHTML::_('select.option', 0, JText::_('All')));
 			$row->pages = 'all';
 		}
 
-		if ( $row->access == 99 || $row->client_id == 1 || $lists['client_id'] ) {
-			$lists['access'] 			= 'Administrator';
-			$lists['showtitle'] 		= 'N/A <input type="hidden" name="showtitle" value="1" />';
-			$lists['selections'] 		= 'N/A';
+		if ($row->access == 99 || $row->client_id == 1 || $lists['client_id']) {
+			$lists['access']            = 'Administrator';
+			$lists['showtitle']         = 'N/A <input type="hidden" name="showtitle" value="1" />';
+			$lists['selections']        = 'N/A';
 		} else {
-			if ( $client->id == '1' ) {
-				$lists['access'] 		= 'N/A';
-				$lists['selections'] 	= 'N/A';
+			if ($client->id == '1') {
+				$lists['access']        = 'N/A';
+				$lists['selections']    = 'N/A';
 			} else {
-				$lists['access'] 		= JHTML::_('list.accesslevel',  $row );
+				$lists['access']        = JHTML::_('list.accesslevel', $row);
 
-				$selections				= JHTML::_('menu.linkoptions');
-				$lists['selections']	= JHTML::_('select.genericlist',   $selections, 'selections[]', 'class="inputbox" size="15" multiple="multiple"', 'value', 'text', $lookup, 'selections' );
+				$selections             = JHTML::_('menu.linkoptions');
+				$lists['selections']    = JHTML::_(
+                    'select.genericlist',
+                    $selections,
+                    'selections[]',
+                    'class="inputbox" size="15" multiple="multiple"',
+                    'value',
+                    'text',
+                    $lookup,
+                    'selections'
+                );
 			}
-			$lists['showtitle'] = JHTML::_('select.booleanlist',  'showtitle', 'class="inputbox"', $row->showtitle );
+			$lists['showtitle'] = JHTML::_(
+                'select.booleanlist', 
+                'showtitle',
+                'class="inputbox"',
+                $row->showtitle 
+            );
 		}
 
 		// build the html select list for published
-		$lists['published'] = JHTML::_('select.booleanlist',  'published', 'class="inputbox"', $row->published );
+		$lists['published'] = JHTML::_(
+            'select.booleanlist', 
+            'published',
+            'class="inputbox"',
+            $row->published 
+        );
 
 		$row->description = '';
 
