@@ -24,8 +24,6 @@ class modMenuHelper
 	 */
 	function buildMenu()
 	{
-		global $mainframe;
-
 		$lang		= & JFactory::getLanguage();
 		$user		= & JFactory::getUser();
 		$db			= & JFactory::getDBO();
