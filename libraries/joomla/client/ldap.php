@@ -21,55 +21,55 @@
  */
 class JLDAP extends JObject
 {
-	/** @var string Hostname of LDAP server
+	/** @public string Hostname of LDAP server
 		@access public */
-	var $host = null;
-	/** @var bool Authorization Method to use
+	public $host = null;
+	/** @public bool Authorization Method to use
 		@access public */
-	var $auth_method = null;
-	/** @var int Port of LDAP server
+	public $auth_method = null;
+	/** @public int Port of LDAP server
 		@access public */
-	var $port = null;
-	/** @var string Base DN (e.g. o=MyDir)
+	public $port = null;
+	/** @public string Base DN (e.g. o=MyDir)
 		@access public */
-	var $base_dn = null;
-	/** @var string User DN (e.g. cn=Users,o=MyDir)
+	public $base_dn = null;
+	/** @public string User DN (e.g. cn=Users,o=MyDir)
 		@access public */
-	var $users_dn = null;
-	/** @var string Search String
+	public $users_dn = null;
+	/** @public string Search String
 		@access public */
-	var $search_string = null;
-	/** @var boolean Use LDAP Version 3
+	public $search_string = null;
+	/** @public boolean Use LDAP Version 3
 		@access public */
-	var $use_ldapV3 = null;
-	/** @var boolean No referrals (server transfers)
+	public $use_ldapV3 = null;
+	/** @public boolean No referrals (server transfers)
 		@access public */
-	var $no_referrals = null;
-	/** @var boolean Negotiate TLS (encrypted communications)
+	public $no_referrals = null;
+	/** @public boolean Negotiate TLS (encrypted communications)
 		@access public */
-	var $negotiate_tls = null;
+	public $negotiate_tls = null;
 
-	/** @var string Username to connect to server
+	/** @public string Username to connect to server
 		@access public */
-	var $username = null;
-	/** @var string Password to connect to server
+	public $username = null;
+	/** @public string Password to connect to server
 		@access public */
-	var $password = null;
+	public $password = null;
 
-	/** @var mixed LDAP Resource Identifier
+	/** @public mixed LDAP Resource Identifier
 		@access private */
-	var $_resource = null;
-	/** @var string Current DN
+	protected $_resource = null;
+	/** @public string Current DN
 		@access private */
-	var $_dn = null;
+	protected $_dn = null;
 
 	/**
 	 * Constructor
 	 *
-	 * @param object An object of configuration variables
+	 * @param object An object of configuration publiciables
 	 * @access public
 	 */
-	function __construct($configObj = null)
+	public function __construct($configObj = null)
 	{
 		if (is_object($configObj))
 		{
@@ -78,11 +78,15 @@ class JLDAP extends JObject
 			{
 				if (substr($var, 0, 1) != '_') {
 					if ($param = $configObj->get($var)) {
-						$this-> $var = $param;
+						$this->$var = $param;
 					}
 				}
 			}
 		}
+	}
+
+	public function __destruct() {
+		return $this->close();
 	}
 
 	/**
@@ -90,7 +94,7 @@ class JLDAP extends JObject
 	 * @return boolean True if successful
 	 * @access public
 	 */
-	function connect()
+	public function connect()
 	{
 		if ($this->host == '') {
 			return false;
@@ -121,7 +125,7 @@ class JLDAP extends JObject
 	 * Close the connection
 	 * @access public
 	 */
-	function close() {
+	public function close() {
 		@ ldap_close($this->_resource);
 	}
 
@@ -131,7 +135,7 @@ class JLDAP extends JObject
 	 * @param string The username
 	 * @access public
 	 */
-	function setDN($username,$nosub = 0)
+	public function setDN($username,$nosub = 0)
 	{
 		if ($this->users_dn == '' || $nosub) {
 			$this->_dn = $username;
@@ -146,14 +150,14 @@ class JLDAP extends JObject
 	 * @return string The current dn
 	 * @access public
 	 */
-	function getDN() {
+	public function getDN() {
 		return $this->_dn;
 	}
 
 	/**
 	 * Anonymously Binds to LDAP Directory
 	 */
-	function anonymous_bind()
+	public function anonymous_bind()
 	{
 		$bindResult = @ldap_bind($this->_resource);
 		return $bindResult;
@@ -167,7 +171,7 @@ class JLDAP extends JObject
 	 * @return boolean Result
 	 * @access public
 	 */
-	function bind($username = null, $password = null, $nosub = 0)
+	public function bind($username = null, $password = null, $nosub = 0)
 	{
 		if (is_null($username)) {
 			$username = $this->username;
@@ -186,7 +190,7 @@ class JLDAP extends JObject
 	 *
 	 * @param string search string of search values
 	 */
-	function simple_search($search)
+	public function simple_search($search)
 	{
 		$results = explode(';', $search);
 		foreach($results as $key=>$result) {
@@ -204,7 +208,7 @@ class JLDAP extends JObject
 	 * @return array Multidimensional array of results
 	 * @access public
 	 */
-	function search($filters, $dnoverride = null)
+	public function search($filters, $dnoverride = null)
 	{
 		$attributes = array ();
 		if ($dnoverride) {
@@ -256,7 +260,7 @@ class JLDAP extends JObject
 	 * @return mixed result of comparison (true, false, -1 on error)
 	 */
 
-	function replace($dn, $attribute) {
+	public function replace($dn, $attribute) {
 		return ldap_mod_replace($this->_resource, $dn, $attribute);
 	}
 
@@ -268,7 +272,7 @@ class JLDAP extends JObject
 	 * @param string attribute The attribute values you want to modify
 	 * @return mixed result of comparison (true, false, -1 on error)
 	 */
-	function modify($dn, $attribute) {
+	public function modify($dn, $attribute) {
 		return ldap_modify($this->_resource, $dn, $attribute);
 	}
 
@@ -279,7 +283,7 @@ class JLDAP extends JObject
 	 * @param string attribute The attribute values you want to remove
 	 * @return mixed result of comparison (true, false, -1 on error)
 	 */
-	function remove($dn, $attribute)
+	public function remove($dn, $attribute)
 	{
 		$resource = $this->_resource;
 		return ldap_mod_del($resource, $dn, $attribute);
@@ -293,7 +297,7 @@ class JLDAP extends JObject
 	 * @param string value The value you want to check against the LDAP attribute
 	 * @return mixed result of comparison (true, false, -1 on error)
 	 */
-	function compare($dn, $attribute, $value) {
+	public function compare($dn, $attribute, $value) {
 		return ldap_compare($this->_resource, $dn, $attribute, $value);
 	}
 
@@ -304,7 +308,7 @@ class JLDAP extends JObject
 	 * @param string attribute The attribute values you want to read (Optional)
 	 * @return array of attributes or -1 on error
 	 */
-	function read($dn, $attribute = array())
+	public function read($dn, $attribute = array())
 	{
 		$base = substr($dn,strpos($dn,',')+1);
 		$cn = substr($dn,0,strpos($dn,','));
@@ -325,7 +329,7 @@ class JLDAP extends JObject
 	 * @return string Net address
 	 * @access public
 	 */
-	function ipToNetAddress($ip)
+	public function ipToNetAddress($ip)
 	{
 		$parts = explode('.', $ip);
 		$address = '1#';
@@ -358,7 +362,7 @@ class JLDAP extends JObject
 	 *	 If addresstype is 8 (UDP) or 9 (TCP) do some additional parsing like still returning the IP address
 	 *	 TODO: Return an extra value with UDP or TCP portnumber
 	 */
-	function LDAPNetAddr($networkaddress)
+	public function LDAPNetAddr($networkaddress)
 	{
 		$addr = "";
 		$addrtype = intval(substr($networkaddress, 0, 1));

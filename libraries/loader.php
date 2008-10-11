@@ -101,7 +101,7 @@ abstract class JLoader
 			JLoader::$classes[$class] = $file;
 		}
 
-		return $classes;
+		return JLoader::$classes;
 	}
 
 

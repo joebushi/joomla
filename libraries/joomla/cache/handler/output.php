@@ -34,7 +34,7 @@ class JCacheOutput extends JCache
 	 * @return	boolean	True if the cache is hit (false else)
 	 * @since	1.5
 	 */
-	function start( $id, $group=null)
+	public function start( $id, $group=null)
 	{
 		// If we have data in cache use that...
 		$data = $this->get($id, $group);
@@ -59,7 +59,7 @@ class JCacheOutput extends JCache
 	 * @return	boolean	True if cache stored
 	 * @since	1.5
 	 */
-	function end()
+	public function end()
 	{
 		// Get data from output buffer and echo it
 		$data = ob_get_contents();
