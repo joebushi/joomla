@@ -719,36 +719,7 @@ class JURI extends JObject
 	function _parseURL($uri)
 	{
 		$parts = array();
-		if (version_compare( phpversion(), '4.4' ) < 0)
-		{
-			$regex = "<^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?>";
-			$matches = array();
-			preg_match($regex, $uri, $matches, PREG_OFFSET_CAPTURE);
-
-			$authority = @$matches[4][0];
-			if (strpos($authority, '@') !== false) {
-				$authority = explode('@', $authority);
-				@list($parts['user'], $parts['pass']) = explode(':', $authority[0]);
-				$authority = $authority[1];
-			}
-
-			if (strpos($authority, ':') !== false) {
-				$authority = explode(':', $authority);
-				$parts['host'] = $authority[0];
-				$parts['port'] = $authority[1];
-			} else {
-				$parts['host'] = $authority;
-			}
-
-			$parts['scheme'] = @$matches[2][0];
-			$parts['path'] = @$matches[5][0];
-			$parts['query'] = @$matches[7][0];
-			$parts['fragment'] = @$matches[9][0];
-		}
-		else
-		{
-			$parts = @parse_url($uri);
-		}
+		$parts = @parse_url($uri);
 		return $parts;
 	}
 
