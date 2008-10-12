@@ -25,13 +25,13 @@ defined('JPATH_BASE') or die();
 class JTableMenuTypes extends JTable
 {
 	/** @var int Primary key */
-	public $id					= null;
+	protected $id					= null;
 	/** @var string */
-	public $menutype			= null;
+	protected $menutype			= null;
 	/** @var string */
-	public $title				= null;
+	protected $title				= null;
 	/** @var string */
-	public $description		= null;
+	protected $description		= null;
 
 	/**
 	 * Constructor

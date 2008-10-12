@@ -70,6 +70,18 @@ abstract class JTable extends JObject
 		$this->_db		=& $db;
 	}
 
+	public function __get($var) {
+		if(isset($this->$var)) {
+			return $this->$var;
+		} else {
+			return null;
+		}
+	}
+
+	public function __set($var, $val) {
+		return $this->bind(array($var=>$val));
+	}
+
 	/**
 	 * Returns a reference to the a Table object, always creating it
 	 *

@@ -26,69 +26,69 @@ defined('JPATH_BASE') or die();
 class JTableContent extends JTable
 {
 	/** @var int Primary key */
-	public $id					= null;
+	protected $id					= null;
 	/** @var string */
-	public $title				= null;
+	protected $title				= null;
 	/** @var string */
-	public $alias				= null;
+	protected $alias				= null;
 	/** @var string */
-	public $title_alias			= null;
+	protected $title_alias			= null;
 	/** @var string */
-	public $introtext			= null;
+	protected $introtext			= null;
 	/** @var string */
-	public $fulltext			= null;
+	protected $fulltext			= null;
 	/** @var int */
-	public $state				= null;
+	protected $state				= null;
 	/** @var int The id of the category section*/
-	public $sectionid			= null;
+	protected $sectionid			= null;
 	/** @var int DEPRECATED */
-	public $mask				= null;
+	protected $mask				= null;
 	/** @var int */
-	public $catid				= null;
+	protected $catid				= null;
 	/** @var datetime */
-	public $created				= null;
+	protected $created				= null;
 	/** @var int User id*/
-	public $created_by			= null;
+	protected $created_by			= null;
 	/** @var string An alias for the author*/
-	public $created_by_alias		= null;
+	protected $created_by_alias		= null;
 	/** @var datetime */
-	public $modified			= null;
+	protected $modified			= null;
 	/** @var int User id*/
-	public $modified_by			= null;
+	protected $modified_by			= null;
 	/** @var boolean */
-	public $checked_out			= 0;
+	protected $checked_out			= 0;
 	/** @var time */
-	public $checked_out_time		= 0;
+	protected $checked_out_time		= 0;
 	/** @var datetime */
-	public $frontpage_up		= null;
+	protected $frontpage_up		= null;
 	/** @var datetime */
-	public $frontpage_down		= null;
+	protected $frontpage_down		= null;
 	/** @var datetime */
-	public $publish_up			= null;
+	protected $publish_up			= null;
 	/** @var datetime */
-	public $publish_down		= null;
+	protected $publish_down		= null;
 	/** @var string */
-	public $images				= null;
+	protected $images				= null;
 	/** @var string */
-	public $urls				= null;
+	protected $urls				= null;
 	/** @var string */
-	public $attribs				= null;
+	protected $attribs				= null;
 	/** @var int */
-	public $version				= null;
+	protected $version				= null;
 	/** @var int */
-	public $parentid			= null;
+	protected $parentid			= null;
 	/** @var int */
-	public $ordering			= null;
+	protected $ordering			= null;
 	/** @var string */
-	public $metakey				= null;
+	protected $metakey				= null;
 	/** @var string */
-	public $metadesc			= null;
+	protected $metadesc			= null;
 	/** @var string */
-	public $metadata			= null;
+	protected $metadata			= null;
 	/** @var int */
-	public $access				= null;
+	protected $access				= null;
 	/** @var int */
-	public $hits				= null;
+	protected $hits				= null;
 
 	/**
 	* @param database A database connector object

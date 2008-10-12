@@ -22,11 +22,11 @@ require_once(dirname(__FILE__).DS.'tree.php');
 class JTableAROGroup extends JTableTree
 {
 	/** @var int Primary key */
-	public $id			= null;
+	protected $id			= null;
 
-	public $name		= null;
+	protected $name		= null;
 
-	public $value		= null;
+	protected $value		= null;
 
 	/**
 	 * Constructor

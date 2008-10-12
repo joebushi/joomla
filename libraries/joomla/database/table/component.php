@@ -25,31 +25,31 @@ defined('JPATH_BASE') or die();
 class JTableComponent extends JTable
 {
 	/** @var int Primary key */
-	public $id					= null;
+	protected $id					= null;
 	/** @var string */
-	public $name				= null;
+	protected $name				= null;
 	/** @var string */
-	public $link				= null;
+	protected $link				= null;
 	/** @var int */
-	public $menuid				= null;
+	protected $menuid				= null;
 	/** @var int */
-	public $parent				= null;
+	protected $parent				= null;
 	/** @var string */
-	public $admin_menu_link	= null;
+	protected $admin_menu_link	= null;
 	/** @var string */
-	public $admin_menu_alt		= null;
+	protected $admin_menu_alt		= null;
 	/** @var string */
-	public $option				= null;
+	protected $option				= null;
 	/** @var string */
-	public $ordering			= null;
+	protected $ordering			= null;
 	/** @var string */
-	public $admin_menu_img		= null;
+	protected $admin_menu_img		= null;
 	/** @var int */
-	public $iscore				= null;
+	protected $iscore				= null;
 	/** @var string */
-	public $params				= null;
+	protected $params				= null;
 	/** @var int */
-	public $enabled			= null;
+	protected $enabled			= null;
 
 	/**
 	* @param database A database connector object

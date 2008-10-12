@@ -29,84 +29,84 @@ class JTablePlugin extends JTable
 	 *
 	 *  @var int
 	 */
-	public $id = null;
+	protected $id = null;
 
 	/**
 	 *
 	 *
 	 * @var varchar
 	 */
-	public $name = null;
+	protected $name = null;
 
 	/**
 	 *
 	 *
 	 * @var varchar
 	 */
-	public $element = null;
+	protected $element = null;
 
 	/**
 	 *
 	 *
 	 * @var varchar
 	 */
-	public $folder = null;
+	protected $folder = null;
 
 	/**
 	 *
 	 *
 	 * @var tinyint unsigned
 	 */
-	public $access = null;
+	protected $access = null;
 
 	/**
 	 *
 	 *
 	 * @var int
 	 */
-	public $ordering = null;
+	protected $ordering = null;
 
 	/**
 	 *
 	 *
 	 * @var tinyint
 	 */
-	public $published = null;
+	protected $published = null;
 
 	/**
 	 *
 	 *
 	 * @var tinyint
 	 */
-	public $iscore = null;
+	protected $iscore = null;
 
 	/**
 	 *
 	 *
 	 * @var tinyint
 	 */
-	public $client_id = null;
+	protected $client_id = null;
 
 	/**
 	 *
 	 *
 	 * @var int unsigned
 	 */
-	public $checked_out = 0;
+	protected $checked_out = 0;
 
 	/**
 	 *
 	 *
 	 * @var datetime
 	 */
-	public $checked_out_time = 0;
+	protected $checked_out_time = 0;
 
 	/**
 	 *
 	 *
 	 * @var text
 	 */
-	public $params = null;
+	protected $params = null;
 
 	protected function __construct(& $db) {
 		parent::__construct('#__plugins', 'id', $db);

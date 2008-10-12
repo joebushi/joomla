@@ -15,31 +15,31 @@ class JTableACL extends JTable
 /**
 	 * @var int unsigned
 	 */
-	public $id = null;
+	protected $id = null;
 	/**
 	 * @var varchar
 	 */
-	public $section_value = null;
+	protected $section_value = null;
 	/**
 	 * @var int unsigned
 	 */
-	public $allow = null;
+	protected $allow = null;
 	/**
 	 * @var int unsigned
 	 */
-	public $enabled = null;
+	protected $enabled = null;
 	/**
 	 * @var varchar
 	 */
-	public $return_value = null;
+	protected $return_value = null;
 	/**
 	 * @var varchar
 	 */
-	public $note = null;
+	protected $note = null;
 	/**
 	 * @var int unsigned
 	 */
-	public $updated_date = null;
+	protected $updated_date = null;
 
 	/*
 	 * Constructor

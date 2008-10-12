@@ -28,55 +28,55 @@ class JTableSession extends JTable
 	 *
 	 * @var int Primary key
 	 */
-	public $session_id			= null;
+	protected $session_id			= null;
 
 	/**
 	 *
 	 * @var string
 	 */
-	public $time				= null;
+	protected $time				= null;
 
 	/**
 	 *
 	 * @var string
 	 */
-	public $userid				= null;
+	protected $userid				= null;
 
 	/**
 	 *
 	 * @var string
 	 */
-	public $usertype			= null;
+	protected $usertype			= null;
 
 	/**
 	 *
 	 * @var string
 	 */
-	public $username			= null;
+	protected $username			= null;
 
 	/**
 	 *
 	 * @var time
 	 */
-	public $gid				= null;
+	protected $gid				= null;
 
 	/**
 	 *
 	 * @var int
 	 */
-	public $guest				= null;
+	protected $guest				= null;
 
 	/**
 	 *
 	 * @var int
 	 */
-	public $client_id			= null;
+	protected $client_id			= null;
 
 	/**
 	 *
 	 * @var string
 	 */
-	public $data				= null;
+	protected $data				= null;
 
 	/**
 	 * Constructor

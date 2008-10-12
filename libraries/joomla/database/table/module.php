@@ -25,37 +25,37 @@ defined('JPATH_BASE') or die();
 class JTableModule extends JTable
 {
 	/** @var int Primary key */
-	public $id					= null;
+	protected $id					= null;
 	/** @var string */
-	public $title				= null;
+	protected $title				= null;
 	/** @var string */
-	public $showtitle			= null;
+	protected $showtitle			= null;
 	/** @var int */
-	public $content			= null;
+	protected $content			= null;
 	/** @var int */
-	public $ordering			= null;
+	protected $ordering			= null;
 	/** @var string */
-	public $position			= null;
+	protected $position			= null;
 	/** @var boolean */
-	public $checked_out		= 0;
+	protected $checked_out		= 0;
 	/** @var time */
-	public $checked_out_time	= 0;
+	protected $checked_out_time	= 0;
 	/** @var boolean */
-	public $published			= null;
+	protected $published			= null;
 	/** @var string */
-	public $module				= null;
+	protected $module				= null;
 	/** @var int */
-	public $numnews			= null;
+	protected $numnews			= null;
 	/** @var int */
-	public $access				= null;
+	protected $access				= null;
 	/** @var string */
-	public $params				= null;
+	protected $params				= null;
 	/** @var string */
-	public $iscore				= null;
+	protected $iscore				= null;
 	/** @var string */
-	public $client_id			= null;
+	protected $client_id			= null;
 	/** @var string */
-	public $control				= null;
+	protected $control				= null;
 
 	/**
 	 * Contructore

@@ -25,33 +25,33 @@ defined('JPATH_BASE') or die();
 class JTableSection extends JTable
 {
 	/** @var int Primary key */
-	public $id					= null;
+	protected $id					= null;
 	/** @var string The menu title for the section (a short name)*/
-	public $title				= null;
+	protected $title				= null;
 	/** @var string The full name for the section*/
-	public $name				= null;
+	protected $name				= null;
 	/** @var string The alias for the section*/
-	public $alias				= null;
+	protected $alias				= null;
 	/** @var string */
-	public $image				= null;
+	protected $image				= null;
 	/** @var string */
-	public $scope				= null;
+	protected $scope				= null;
 	/** @var int */
-	public $image_position		= null;
+	protected $image_position		= null;
 	/** @var string */
-	public $description		= null;
+	protected $description		= null;
 	/** @var boolean */
-	public $published			= null;
+	protected $published			= null;
 	/** @var boolean */
-	public $checked_out		= 0;
+	protected $checked_out		= 0;
 	/** @var time */
-	public $checked_out_time	= 0;
+	protected $checked_out_time	= 0;
 	/** @var int */
-	public $ordering			= null;
+	protected $ordering			= null;
 	/** @var int */
-	public $access				= null;
+	protected $access				= null;
 	/** @var string */
-	public $params				= null;
+	protected $params				= null;
 
 	/**
 	* @param database A database connector object

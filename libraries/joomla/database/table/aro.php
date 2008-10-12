@@ -25,17 +25,17 @@ defined('JPATH_BASE') or die();
 class JTableARO extends JTable
 {
 	/** @var int Primary key */
-	public $id		= null;
+	protected $id		= null;
 
-	public $section_value	= null;
+	protected $section_value	= null;
 
-	public $value			= null;
+	protected $value			= null;
 
-	public $order_value	= null;
+	protected $order_value	= null;
 
-	public $name			= null;
+	protected $name			= null;
 
-	public $hidden			= null;
+	protected $hidden			= null;
 
 	protected function __construct( &$db )
 	{

@@ -25,35 +25,35 @@ defined('JPATH_BASE') or die();
 class JTableCategory extends JTable
 {
 	/** @var int Primary key */
-	public $id					= null;
+	protected $id					= null;
 	/** @var int */
-	public $parent_id			= null;
+	protected $parent_id			= null;
 	/** @var string The menu title for the category (a short name)*/
-	public $title				= null;
+	protected $title				= null;
 	/** @var string The full name for the category*/
-	public $name				= null;
+	protected $name				= null;
 	/** @var string The the alias for the category*/
-	public $alias				= null;
+	protected $alias				= null;
 	/** @var string */
-	public $image				= null;
+	protected $image				= null;
 	/** @var string */
-	public $section				= null;
+	protected $section				= null;
 	/** @var int */
-	public $image_position		= null;
+	protected $image_position		= null;
 	/** @var string */
-	public $description			= null;
+	protected $description			= null;
 	/** @var boolean */
-	public $published			= null;
+	protected $published			= null;
 	/** @var boolean */
-	public $checked_out			= 0;
+	protected $checked_out			= 0;
 	/** @var time */
-	public $checked_out_time		= 0;
+	protected $checked_out_time		= 0;
 	/** @var int */
-	public $ordering			= null;
+	protected $ordering			= null;
 	/** @var int */
-	public $access				= null;
+	protected $access				= null;
 	/** @var string */
-	public $params				= null;
+	protected $params				= null;
 
 	/**
 	* @param database A database connector object

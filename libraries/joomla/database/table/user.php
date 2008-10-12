@@ -29,91 +29,91 @@ class JTableUser extends JTable
 	 *
 	 * @var int
 	 */
-	public $id				= null;
+	protected $id				= null;
 
 	/**
 	 * The users real name (or nickname)
 	 *
 	 * @var string
 	 */
-	public $name			= null;
+	protected $name			= null;
 
 	/**
 	 * The login name
 	 *
 	 * @var string
 	 */
-	public $username		= null;
+	protected $username		= null;
 
 	/**
 	 * The email
 	 *
 	 * @var string
 	 */
-	public $email			= null;
+	protected $email			= null;
 
 	/**
 	 * MD5 encrypted password
 	 *
 	 * @var string
 	 */
-	public $password		= null;
+	protected $password		= null;
 
 	/**
 	 * Description
 	 *
 	 * @var string
 	 */
-	public $usertype		= null;
+	protected $usertype		= null;
 
 	/**
 	 * Description
 	 *
 	 * @var int
 	 */
-	public $block			= null;
+	protected $block			= null;
 
 	/**
 	 * Description
 	 *
 	 * @var int
 	 */
-	public $sendEmail		= null;
+	protected $sendEmail		= null;
 
 	/**
 	 * The group id number
 	 *
 	 * @var int
 	 */
-	public $gid			= null;
+	protected $gid			= null;
 
 	/**
 	 * Description
 	 *
 	 * @var datetime
 	 */
-	public $registerDate	= null;
+	protected $registerDate	= null;
 
 	/**
 	 * Description
 	 *
 	 * @var datetime
 	 */
-	public $lastvisitDate	= null;
+	protected $lastvisitDate	= null;
 
 	/**
 	 * Description
 	 *
 	 * @var string activation hash
 	 */
-	public $activation		= null;
+	protected $activation		= null;
 
 	/**
 	 * Description
 	 *
 	 * @var string
 	 */
-	public $params			= null;
+	protected $params			= null;
 
 	/**
 	* @param database A database connector object

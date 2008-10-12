@@ -25,47 +25,47 @@ defined('JPATH_BASE') or die();
 class JTableMenu extends JTable
 {
 	/** @var int Primary key */
-	public $id					= null;
+	protected $id					= null;
 	/** @var string */
-	public $menutype			= null;
+	protected $menutype			= null;
 	/** @var string */
-	public $name				= null;
+	protected $name				= null;
 	/** @var string */
-	public $alias				= null;
+	protected $alias				= null;
 	/** @var string */
-	public $link				= null;
+	protected $link				= null;
 	/** @var int */
-	public $type				= null;
+	protected $type				= null;
 	/** @var int */
-	public $published			= null;
+	protected $published			= null;
 	/** @var int */
-	public $componentid		= null;
+	protected $componentid		= null;
 	/** @var int */
-	public $parent				= null;
+	protected $parent				= null;
 	/** @var int */
-	public $sublevel			= null;
+	protected $sublevel			= null;
 	/** @var int */
-	public $ordering			= null;
+	protected $ordering			= null;
 	/** @var boolean */
-	public $checked_out		= 0;
+	protected $checked_out		= 0;
 	/** @var datetime */
-	public $checked_out_time	= 0;
+	protected $checked_out_time	= 0;
 	/** @var boolean */
-	public $pollid				= null;
+	protected $pollid				= null;
 	/** @var string */
-	public $browserNav			= null;
+	protected $browserNav			= null;
 	/** @var int */
-	public $access				= null;
+	protected $access				= null;
 	/** @var int */
-	public $utaccess			= null;
+	protected $utaccess			= null;
 	/** @var string */
-	public $params				= null;
+	protected $params				= null;
 	/** @var int Pre-order tree traversal - left value */
-	public $lft				= null;
+	protected $lft				= null;
 	/** @var int Pre-order tree traversal - right value */
-	public $rgt				= null;
+	protected $rgt				= null;
 	/** @var int */
-	public $home				= null;
+	protected $home				= null;
 
 	/**
 	 * Constructor

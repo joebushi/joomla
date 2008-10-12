@@ -15,15 +15,15 @@ abstract class JTableTree extends JTable
 	/**
 	 * @var integer
 	 */
-	public $parent_id = null;
+	protected $parent_id = null;
 	/**
 	 * @var integer
 	 */
-	public $lft = null;
+	protected $lft = null;
 	/**
 	 * @var integer
 	 */
-	public $rgt = null;
+	protected $rgt = null;
 
 	/**
 	 * Inserts a new row if id is zero or updates an existing row in the database table
