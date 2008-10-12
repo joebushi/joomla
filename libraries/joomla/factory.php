@@ -18,8 +18,18 @@
  * @package		Joomla.Framework
  * @since	1.5
  */
-class JFactory
+abstract class JFactory
 {
+	public static $application = null;
+	public static $config = null;
+	public static $session = null;
+	public static $language = null;
+	public static $document = null;
+	public static $acl = null;
+	public static $template = null;
+	public static $database = null;
+	public static $mailer = null;
+
 	/**
 	 * Get a application object
 	 *
@@ -31,11 +41,9 @@ class JFactory
 	 * @param	array	$config 	An optional associative array of configuration settings.
 	 * @return object JApplication
 	 */
-	function &getApplication($id = null, $config = array(), $prefix='J')
+	public static function &getApplication($id = null, $config = array(), $prefix='J')
 	{
-		static $instance;
-
-		if (!is_object($instance))
+		if (!is_object(JFactory::$application))
 		{
 			jimport( 'joomla.application.application' );
 
@@ -43,10 +51,10 @@ class JFactory
 				JError::raiseError(500, 'Application Instantiation Error');
 			}
 
-			$instance = JApplication::getInstance($id, $config, $prefix);
+			JFactory::$application = JApplication::getInstance($id, $config, $prefix);
 		}
 
-		return $instance;
+		return JFactory::$application;
 	}
 
 	/**
@@ -60,20 +68,18 @@ class JFactory
 	 * @param string	The type of the configuration file
 	 * @return object JRegistry
 	 */
-	function &getConfig($file = null, $type = 'PHP')
+	public static function &getConfig($file = null, $type = 'PHP')
 	{
-		static $instance;
-
-		if (!is_object($instance))
+		if (!is_object(JFactory::$config))
 		{
 			if ($file === null) {
 				$file = dirname(__FILE__).DS.'config.php';
 			}
 
-			$instance = JFactory::_createConfig($file, $type);
+			JFactory::$config = JFactory::_createConfig($file, $type);
 		}
 
-		return $instance;
+		return JFactory::$config;
 	}
 
 	/**
@@ -86,15 +92,13 @@ class JFactory
 	 * @param array An array containing session options
 	 * @return object JSession
 	 */
-	function &getSession($options = array())
+	public static function &getSession($options = array())
 	{
-		static $instance;
-
-		if (!is_object($instance)) {
-			$instance = JFactory::_createSession($options);
+		if (!is_object(JFactory::$session)) {
+			JFactory::$session = JFactory::_createSession($options);
 		}
 
-		return $instance;
+		return JFactory::$session;
 	}
 
 	/**
@@ -106,21 +110,19 @@ class JFactory
 	 * @access public
 	 * @return object JLanguage
 	 */
-	function &getLanguage()
+	public static function &getLanguage()
 	{
-		static $instance;
-
-		if (!is_object($instance))
+		if (!is_object(JFactory::$language))
 		{
 			//get the debug configuration setting
 			$conf =& JFactory::getConfig();
 			$debug = $conf->getValue('config.debug_lang');
 
-			$instance = JFactory::_createLanguage();
-			$instance->setDebug($debug);
+			JFactory::$language = JFactory::_createLanguage();
+			JFactory::$language->setDebug($debug);
 		}
 
-		return $instance;
+		return JFactory::$language;
 	}
 
 	/**
@@ -132,15 +134,13 @@ class JFactory
 	 * @access public
 	 * @return object JLanguage
 	 */
-	function &getDocument()
+	public static function &getDocument()
 	{
-		static $instance;
-
-		if (!is_object( $instance )) {
-			$instance = JFactory::_createDocument();
+		if (!is_object(JFactory::$document)) {
+			JFactory::$document = JFactory::_createDocument();
 		}
 
-		return $instance;
+		return JFactory::$document;
 	}
 
 	/**
@@ -154,7 +154,7 @@ class JFactory
 	 * @access public
 	 * @return object JUser
 	 */
-	function &getUser($id = null)
+	public static function &getUser($id = null)
 	{
 		jimport('joomla.user.user');
 
@@ -162,7 +162,7 @@ class JFactory
 		{
 			$session  =& JFactory::getSession();
 			$instance =& $session->get('user');
-			if (!is_a($instance, 'JUser')) {
+			if (!$instance INSTANCEOF JUser) {
 				$instance =& JUser::getInstance();
 			}
 		}
@@ -185,7 +185,7 @@ class JFactory
 	 * @param string The storage method
 	 * @return object JCache
 	 */
-	function &getCache($group = '', $handler = 'callback', $storage = null)
+	public static function &getCache($group = '', $handler = 'callback', $storage = null)
 	{
 		$handler = ($handler == 'function') ? 'callback' : $handler;
 
@@ -196,11 +196,11 @@ class JFactory
 		}
 
 		$options = array(
-			'defaultgroup' 	=> $group,
-			'cachebase' 	=> $conf->getValue('config.cache_path'),
-			'lifetime' 		=> $conf->getValue('config.cachetime') * 60,	// minutes to seconds
-			'language' 		=> $conf->getValue('config.language'),
-			'storage'		=> $storage
+			'defaultgroup' => $group,
+			'cachebase' => $conf->getValue('config.cache_path'),
+			'lifetime' => $conf->getValue('config.cachetime') * 60,	// minutes to seconds
+			'language' => $conf->getValue('config.language'),
+			'storage' => $storage
 		);
 
 		jimport('joomla.cache.cache');
@@ -213,21 +213,21 @@ class JFactory
 	/**
 	 * Get an authorization object
 	 *
-	 * Returns a reference to the global {@link JAuthorization} object, only creating it
+	 * Returns a reference to the global {@link JACL} object, only creating it
 	 * if it doesn't already exist.
 	 *
 	 * @access public
-	 * @return object JAuthorization
+	 * @return object JACL
 	 */
-	function &getACL( )
+	public static function &getACL( )
 	{
-		static $instance;
-
-		if (!is_object($instance)) {
-			$instance = JFactory::_createACL();
+		if (!is_object(JFactory::$acl)) {
+			jimport( 'joomla.user.acl' );
+			$options = array();
+			JFactory::$acl = new JACL();
 		}
 
-		return $instance;
+		return JFactory::$acl;
 	}
 
 	/**
@@ -239,15 +239,13 @@ class JFactory
 	 * @access public
 	 * @return object JTemplate
 	 */
-	function &getTemplate( )
+	public static function &getTemplate( )
 	{
-		static $instance;
-
-		if (!is_object($instance)) {
-			$instance = JFactory::_createTemplate();
+		if (!is_object(JFactory::$template)) {
+			JFactory::$template = JFactory::_createTemplate();
 		}
 
-		return $instance;
+		return JFactory::$template;
 	}
 
 	/**
@@ -258,21 +256,19 @@ class JFactory
 	 *
 	 * @return object JDatabase
 	 */
-	function &getDBO()
+	public static function &getDBO()
 	{
-		static $instance;
-
 		if (!is_object($instance))
 		{
 			//get the debug configuration setting
 			$conf =& JFactory::getConfig();
 			$debug = $conf->getValue('config.debug');
 
-			$instance = JFactory::_createDBO();
-			$instance->debug($debug);
+			JFactory::$database = JFactory::_createDBO();
+			JFactory::$database->debug($debug);
 		}
 
-		return $instance;
+		return JFactory::$database;
 	}
 
 	/**
@@ -284,18 +280,12 @@ class JFactory
 	 * @access public
 	 * @return object JMail
 	 */
-	function &getMailer( )
+	public static function &getMailer( )
 	{
-		static $instance;
-
-		if ( ! is_object($instance) ) {
-			$instance = JFactory::_createMailer();
+		if ( ! is_object(JFactory::$mailer) ) {
+			JFactory::$mailer = JFactory::_createMailer();
 		}
-
-		// Create a copy of this object - do not return the original because it may be used several times
-		// PHP4 copies objects by value whereas PHP5 copies by reference
-		$copy	= (PHP_VERSION < 5) ? $instance : clone($instance);
-
+		$copy	= clone(JFactory::$mailer);
 		return $copy;
 	}
 
@@ -310,8 +300,7 @@ class JFactory
 	 * 		string	['cache_time'] with 'RSS' - feed cache time. If not defined defaults to 3600 sec
 	 * @return object Parsed XML document object
 	 */
-
-	 function &getXMLParser( $type = 'DOM', $options = array())
+	public static function &getXMLParser( $type = 'DOM', $options = array())
 	 {
 		$doc = null;
 
@@ -372,7 +361,7 @@ class JFactory
 	* @param string $editor The editor to load, depends on the editor plugins that are installed
 	* @return object JEditor
 	*/
-	function &getEditor($editor = null)
+	public static function &getEditor($editor = null)
 	{
 		jimport( 'joomla.html.editor' );
 
@@ -395,7 +384,7 @@ class JFactory
 	 * @return object JURI
 	 * @since 1.5
 	 */
-	function &getURI($uri = 'SERVER')
+	public static function &getURI($uri = 'SERVER')
 	{
 		jimport('joomla.environment.uri');
 
@@ -412,7 +401,7 @@ class JFactory
 	 * @return object JDate
 	 * @since 1.5
 	 */
-	function &getDate($time = 'now', $tzOffset = 0)
+	public static function &getDate($time = 'now', $tzOffset = 0)
 	{
 		jimport('joomla.utilities.date');
 		static $instances;
@@ -466,7 +455,7 @@ class JFactory
 	 * @return object JRegistry
 	 * @since 1.5
 	 */
-	function &_createConfig($file, $type = 'PHP')
+	private static function &_createConfig($file, $type = 'PHP')
 	{
 		jimport('joomla.registry.registry');
 
@@ -492,7 +481,7 @@ class JFactory
 	 * @return object JSession
 	 * @since 1.5
 	 */
-	function &_createSession( $options = array())
+	private static function &_createSession( $options = array())
 	{
 		jimport('joomla.session.session');
 
@@ -512,37 +501,13 @@ class JFactory
 	}
 
 	/**
-	 * Create an ACL object
-	 *
-	 * @access private
-	 * @return object JAuthorization
-	 * @since 1.5
-	 */
-	function &_createACL()
-	{
-		//TODO :: take the authorization class out of the application package
-		jimport( 'joomla.user.authorization' );
-
-		$db =&  JFactory::getDBO();
-
-		$options = array(
-			'db'				=> &$db,
-			'db_table_prefix'	=> $db->getPrefix() . 'core_acl_',
-			'debug'				=> 0
-		);
-		$acl = new JAuthorization( $options );
-
-		return $acl;
-	}
-
-	/**
 	 * Create an database object
 	 *
 	 * @access private
 	 * @return object JDatabase
 	 * @since 1.5
 	 */
-	function &_createDBO()
+	private static function &_createDBO()
 	{
 		jimport('joomla.database.database');
 		jimport( 'joomla.database.table' );
@@ -566,7 +531,7 @@ class JFactory
 		}
 
 		if ($db->getErrorNum() > 0) {
-			JError::raiseError(500 , 'JDatabase::getInstance: Could not connect to database <br />' . 'joomla.library:'.$db->getErrorNum().' - '.$db->getErrorMsg() );
+			JError::raiseError(500 , 'JDatabase::getInstance: Could not connect to database <br/>' . 'joomla.library:'.$db->getErrorNum().' - '.$db->getErrorMsg() );
 		}
 
 		$db->debug( $debug );
@@ -580,7 +545,7 @@ class JFactory
 	 * @return object JMail
 	 * @since 1.5
 	 */
-	function &_createMailer()
+	private static function &_createMailer()
 	{
 		jimport('joomla.mail.mail');
 
@@ -608,7 +573,7 @@ class JFactory
 				$mail->useSMTP($smtpauth, $smtphost, $smtpuser, $smtppass);
 				break;
 			case 'sendmail' :
-				$mail->useSendmail($sendmail);
+				$mail->IsSendmail();
 				break;
 			default :
 				$mail->IsMail();
@@ -626,20 +591,12 @@ class JFactory
 	 * @param array An array of support template files to load
 	 * @return object JTemplate
 	 * @since 1.5
-	 * @deprecated
 	 */
-	function &_createTemplate($files = array())
+	private static function &_createTemplate($files = array())
 	{
-		$conf	= JFactory::getConfig();
-		$legacy	= $conf->getValue('config.legacy');
-		
-		if ( ! $legacy )
-		{
-			$error	= JError::raiseError(0, 'MUSTENABLELEGACY');
-			//return $error;
-		}
-		
-		//jimport('joomla.template.template');
+		jimport('joomla.template.template');
+
+		$conf =& JFactory::getConfig();
 
 		$tmpl = new JTemplate;
 
@@ -680,7 +637,7 @@ class JFactory
 	 * @return object JLanguage
 	 * @since 1.5
 	 */
-	function &_createLanguage()
+	private static function &_createLanguage()
 	{
 		jimport('joomla.language.language');
 
@@ -699,7 +656,7 @@ class JFactory
 	 * @return object JDocument
 	 * @since 1.5
 	 */
-	function &_createDocument()
+	private static function &_createDocument()
 	{
 		jimport('joomla.document.document');
 
@@ -721,3 +678,4 @@ class JFactory
 		return $doc;
 	}
 }
+

@@ -15,46 +15,32 @@ if(!defined('DS')) {
 	define( 'DS', DIRECTORY_SEPARATOR );
 }
 
-//Register the autoload function
-spl_autoload_register('JLoader::load');
+spl_autoload_register(array('JLoader','load'));
 
 /**
  * @package		Joomla.Framework
  */
-class JLoader
+abstract class JLoader
 {
-	/**
-	 * Holds the registered classes
-	 * 
-	 * var 	array
-	 * @since 1.6
-	 */
-	protected static $_classes = array();
-	
-	/**
-	 * Holds the imported paths
-	 * 
-	 * var 	array
-	 * @since 1.6
-	 */
-	protected static $_paths = array();
-
-	/**
+	private $paths = array();
+	private $classes = array();
+	 /**
 	 * Loads a class from specified directories.
 	 *
 	 * @param string $name	The class name to look for ( dot notation ).
 	 * @param string $base	Search this directory for the class.
 	 * @param string $key	String used as a prefix to denote the full path of the file ( dot notation ).
+	 * @return void
 	 * @since 1.5
 	 */
-	static public function import( $filePath, $base = null, $key = 'libraries.' )
+	public static function import( $filePath, $base = null, $key = 'libraries.' )
 	{
 		$keyPath = $key ? $key . $filePath : $filePath;
 
-		if (!isset(self::$_paths[$keyPath]))
+		if (!isset(JLoader::$paths[$keyPath]))
 		{
-			if ( ! $base ) {
-				$base =  dirname( __FILE__ );
+			if (!$base) {
+				$base = dirname( __FILE__ );
 			}
 
 			$parts = explode( '.', $filePath );
@@ -71,7 +57,7 @@ class JLoader
 					break;
 			}
 
-			$path  = str_replace( '.', DS, $filePath );
+			$path = str_replace( '.', DS, $filePath );
 
 			if (strpos($filePath, 'joomla') === 0)
 			{
@@ -79,9 +65,9 @@ class JLoader
 				 * If we are loading a joomla class prepend the classname with a
 				 * capital J.
 				 */
-				$classname	= 'J'.$classname;
-				$classes	= JLoader::register($classname, $base.DS.$path.'.php');
-				$rs			= isset($classes[strtolower($classname)]);
+				$classname = 'J'.$classname;
+				$classes = JLoader::register($classname, $base.DS.$path.'.php');
+				$rs = isset($classes[strtolower($classname)]);
 			}
 			else
 			{
@@ -92,10 +78,10 @@ class JLoader
 				$rs   = include($base.DS.$path.'.php');
 			}
 
-			self::$_paths[$keyPath] = $rs;
+			JLoader::$paths[$keyPath] = $rs;
 		}
 
-		return self::$_paths[$keyPath];
+		return JLoader::$paths[$keyPath];
 	}
 
 	/**
@@ -106,43 +92,43 @@ class JLoader
 	 * @return	array|boolean  		Array of classes
 	 * @since 	1.5
 	 */
-	static public function register ($class = null, $file = null)
+	public static function & register ($class = null, $file = null)
 	{
 		if($class && is_file($file))
 		{
 			// Force to lower case.
 			$class = strtolower($class);
-			self::$_classes[$class] = $file;
+			JLoader::$classes[$class] = $file;
 		}
 
-		return self::$_classes;
+		return JLoader::$classes;
 	}
 
 
 	/**
 	 * Load the file for a class
 	 *
+	 * @access  public
 	 * @param   string  $class  The class that will be loaded
 	 * @return  boolean True on success
 	 * @since   1.5
 	 */
-	static public function load( $class )
+	public static function load( $class )
 	{
 		$class = strtolower($class); //force to lower case
 
 		if (class_exists($class)) {
-			  return;
+			  return true;
 		}
 
-		$classes = JLoader::register();
-		if(array_key_exists( strtolower($class), $classes)) {
-			include($classes[$class]);
+		if(array_key_exists( strtolower($class), JLoader::$classes)) {
+			include(JLoader::$classes[$class]);
 			return true;
 		}
 		return false;
 	}
-}
 
+}
 
 /**
  * Global application exit.
@@ -150,7 +136,6 @@ class JLoader
  * This function provides a single exit point for the framework.
  *
  * @param mixed Exit code or string. Defaults to zero.
- * @since 1.5
  */
 function jexit($message = 0) {
     exit($message);
@@ -159,9 +144,11 @@ function jexit($message = 0) {
 /**
  * Intelligent file importer
  *
+ * @access public
  * @param string $path A dot syntax path
  * @since 1.5
  */
 function jimport( $path ) {
 	return JLoader::import($path);
 }
+
