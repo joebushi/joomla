@@ -19,7 +19,7 @@
  * @subpackage	Base
  * @since		1.5
  */
-class JObject
+abstract class JObject
 {
 
 	/**
@@ -29,7 +29,7 @@ class JObject
 	 * @access	protected
 	 * @since	1.0
 	 */
-	var		$_errors		= array();
+	protected $_errors = array();
 
 	/**
 	 * Class constructor, overridden in descendant classes.
@@ -37,7 +37,7 @@ class JObject
 	 * @access	protected
 	 * @since	1.5
 	 */
-	function __construct() {}
+	protected function __construct() {}
 
 
 	/**
@@ -50,7 +50,7 @@ class JObject
 	 * @see		getProperties()
 	 * @since	1.5
  	 */
-	function get($property, $default=null)
+	public function get($property, $default=null)
 	{
 		if(isset($this->$property)) {
 			return $this->$property;
@@ -67,11 +67,10 @@ class JObject
 	 * @see		get()
 	 * @since	1.5
  	 */
-	function getProperties( $public = true )
+	public function getProperties( $public = true )
 	{
 		$vars  = get_object_vars($this);
-
-        if($public)
+		if($public)
 		{
 			foreach ($vars as $key => $value)
 			{
@@ -80,8 +79,7 @@ class JObject
 				}
 			}
 		}
-
-        return $vars;
+		return $vars;
 	}
 
 	/**
@@ -93,7 +91,7 @@ class JObject
 	 * @access	public
 	 * @since	1.5
 	 */
-	function getError($i = null, $toString = true )
+	public function getError($i = null, $toString = true )
 	{
 		// Find the error
 		if ( $i === null) {
@@ -124,7 +122,7 @@ class JObject
 	 * @return	array	Array of error messages or JErrors
 	 * @since	1.5
 	 */
-	function getErrors()
+	public function getErrors()
 	{
 		return $this->_errors;
 	}
@@ -140,7 +138,7 @@ class JObject
 	 * @see		setProperties()
 	 * @since	1.5
 	 */
-	function set( $property, $value = null )
+	public function set( $property, $value = null )
 	{
 		$previous = isset($this->$property) ? $this->$property : null;
 		$this->$property = $value;
@@ -156,7 +154,7 @@ class JObject
 	* @see		set()
 	* @since	1.5
 	*/
-	function setProperties( $properties )
+	public function setProperties( $properties )
 	{
 		$properties = (array) $properties; //cast to an array
 
@@ -179,7 +177,7 @@ class JObject
 	 * @access	public
 	 * @since	1.0
 	 */
-	function setError($error)
+	public function setError($error)
 	{
 		array_push($this->_errors, $error);
 	}
@@ -192,7 +190,7 @@ class JObject
 	 * @return	string This name of this class
 	 * @since	1.5
  	 */
-	function toString()
+	public function toString()
 	{
 		return get_class($this);
 	}

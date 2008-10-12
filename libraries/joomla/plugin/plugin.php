@@ -25,7 +25,7 @@ jimport( 'joomla.event.event' );
  * @subpackage	Plugin
  * @since		1.5
  */
-class JPlugin extends JEvent
+abstract class JPlugin extends JEvent
 {
 	/**
 	 * A JParameter object holding the parameters for the plugin
@@ -34,7 +34,7 @@ class JPlugin extends JEvent
 	 * @access	public
 	 * @since	1.5
 	 */
-	var	$params	= null;
+	public $params = null;
 
 	/**
 	 * The name of the plugin
@@ -42,7 +42,7 @@ class JPlugin extends JEvent
 	 * @var		sring
 	 * @access	protected
 	 */
-	var $_name	= null;
+	protected $_name = null;
 
 	/**
 	 * The plugin type
@@ -50,14 +50,10 @@ class JPlugin extends JEvent
 	 * @var		string
 	 * @access	protected
 	 */
-	var $_type	= null;
+	protected $_type = null;
 
 	/**
 	 * Constructor
-	 *
-	 * For php4 compatability we must not use the __constructor as a constructor for plugins
-	 * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
-	 * This causes problems with cross-referencing necessary for the observer design pattern.
 	 *
 	 * @param object $subject The object to observe
 	 * @param array  $config  An optional associative array of configuration settings.
@@ -65,14 +61,7 @@ class JPlugin extends JEvent
 	 * (this list is not meant to be comprehensive).
 	 * @since 1.5
 	 */
-	function JPlugin(& $subject, $config = array())  {
-		parent::__construct($subject);
-	}
-
-	/**
-	 * Constructor
-	 */
-	function __construct(& $subject, $config = array())
+	protected function __construct(& $subject, $config = array())
 	{
 		//Set the parameters
 		if ( isset( $config['params'] ) ) {
@@ -104,7 +93,7 @@ class JPlugin extends JEvent
 	 * @return	boolean	True, if the file has successfully loaded.
 	 * @since	1.5
 	 */
-	function loadLanguage($extension = '', $basePath = JPATH_BASE)
+	public function loadLanguage($extension = '', $basePath = JPATH_BASE)
 	{
 		if(empty($extension)) {
 			$extension = 'plg_'.$this->_type.'_'.$this->_name;

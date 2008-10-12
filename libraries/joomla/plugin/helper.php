@@ -23,7 +23,7 @@ defined('JPATH_BASE') or die();
 * @subpackage	Plugin
 * @since		1.5
 */
-class JPluginHelper
+abstract class JPluginHelper
 {
 	/**
 	 * Get the plugin data of a specific type if no specific plugin is specified
@@ -34,7 +34,7 @@ class JPluginHelper
 	 * @param string 	$plugin	The plugin name
 	 * @return mixed 	An array of plugin data objects, or a plugin data object
 	 */
-	function &getPlugin($type, $plugin = null)
+	public static function &getPlugin($type, $plugin = null)
 	{
 		$result = array();
 
@@ -70,7 +70,7 @@ class JPluginHelper
 	 * @param string 	$plugin	The plugin name
 	 * @return	boolean
 	 */
-	function isEnabled( $type, $plugin = null )
+	public static function isEnabled( $type, $plugin = null )
 	{
 		$result = &JPluginHelper::getPlugin( $type, $plugin);
 		return (!empty($result));
@@ -85,7 +85,7 @@ class JPluginHelper
 	* @param string 	$plugin	The plugin name
 	* @return boolean True if success
 	*/
-	function importPlugin($type, $plugin = null, $autocreate = true, $dispatcher = null)
+	public static function importPlugin($type, $plugin = null, $autocreate = true, $dispatcher = null)
 	{
 		$result = false;
 
@@ -108,7 +108,7 @@ class JPluginHelper
 	 * @access private
 	 * @return boolean True if success
 	 */
-	function _import( &$plugin, $autocreate = true, $dispatcher = null )
+	protected static function _import( &$plugin, $autocreate = true, $dispatcher = null )
 	{
 		static $paths;
 
@@ -164,7 +164,7 @@ class JPluginHelper
 	 *
 	 * @access private
 	 */
-	function _load()
+	protected static function _load()
 	{
 		static $plugins;
 
