@@ -34,7 +34,7 @@ class JArchiveTar extends JObject
 	 * Tar file types.
 	 * @var array
 	 */
-	var $_types = array (
+	protected $_types = array (
 		0x0 => 'Unix file',
 		0x30 => 'File',
 		0x31 => 'Link',
@@ -50,7 +50,7 @@ class JArchiveTar extends JObject
 	 * Tar file flags.
 	 * @var array
 	 */
-	var $_flags = array (
+	protected $_flags = array (
 		'FTEXT' => 0x01,
 		'FHCRC' => 0x02,
 		'FEXTRA' => 0x04,
@@ -62,13 +62,13 @@ class JArchiveTar extends JObject
 	 * Tar file data buffer
 	 * @var string
 	 */
-	var $_data = null;
+	protected $_data = null;
 
 	/**
 	 * Tar file metadata array
 	 * @var array
 	 */
-	var $_metadata = null;
+	protected $_metadata = null;
 
 	/**
 	* Extract a ZIP compressed file to a given path
@@ -80,7 +80,7 @@ class JArchiveTar extends JObject
 	* @return	boolean	True if successful
 	* @since	1.5
 	*/
-	function extract($archive, $destination, $options = array ())
+	public function extract($archive, $destination, $options = array ())
 	{
 		// Initialize variables
 		$this->_data = null;
@@ -137,7 +137,7 @@ class JArchiveTar extends JObject
 	 * </pre>
 	 * @since	1.5
 	 */
-	function _getTarInfo(& $data)
+	protected function _getTarInfo(& $data)
 	{
 		$position = 0;
 		$return_array = array ();
