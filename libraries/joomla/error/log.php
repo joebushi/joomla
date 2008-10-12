@@ -31,19 +31,19 @@ class JLog extends JObject
 	 * Log File Pointer
 	 * @var	resource
 	 */
-	var $_file;
+	protected $_file;
 
 	/**
 	 * Log File Path
 	 * @var	string
 	 */
-	var $_path;
+	protected $_path;
 
 	/**
 	 * Log Format
 	 * @var	string
 	 */
-	var $_format = "{DATE}\t{TIME}\t{LEVEL}\t{C-IP}\t{STATUS}\t{COMMENT}";
+	protected $_format = "{DATE}\t{TIME}\t{LEVEL}\t{C-IP}\t{STATUS}\t{COMMENT}";
 
 	/**
 	 * Constructor
@@ -53,7 +53,7 @@ class JLog extends JObject
 	 * @param	array	$options	Log file options
 	 * @since	1.5
 	 */
-	function __construct($path, $options)
+	protected function __construct($path, $options)
 	{
 		// Set default values
 		$this->_path = $path;
@@ -72,7 +72,7 @@ class JLog extends JObject
 	 * @return	object	The JLog object.
 	 * @since	1.5
 	 */
-	function & getInstance($file = 'error.php', $options = null, $path = null)
+	public static function &getInstance($file = 'error.php', $options = null, $path = null)
 	{
 		static $instances;
 
@@ -84,7 +84,7 @@ class JLog extends JObject
 		}
 
 		jimport('joomla.filesystem.path');
-		$path = JPath :: clean($path . DS . $file);
+		$path = JPath::clean($path . DS . $file);
 		$sig = md5($path);
 
 		if (!isset ($instances)) {
@@ -106,7 +106,7 @@ class JLog extends JObject
 	 * @return	boolean				True if successful
 	 * @since	1.5
 	 */
-	function setOptions($options) {
+	public function setOptions($options) {
 
 		if (isset ($options['format'])) {
 			$this->_format = $options['format'];
@@ -114,7 +114,7 @@ class JLog extends JObject
 		return true;
 	}
 
-	function addEntry($entry)
+	public function addEntry($entry)
 	{
 		// Set some default field values if not already set.
 		$date =& JFactory::getDate();
@@ -164,7 +164,7 @@ class JLog extends JObject
 	 * @return 	boolean	True on success
 	 * @since	1.5
 	 */
-	function _openLog()
+	protected function _openLog()
 	{
 		// Only open if not already opened...
 		if (is_resource($this->_file)) {
@@ -221,7 +221,7 @@ class JLog extends JObject
 	 * @return 	boolean	True on success
 	 * @since	1.5
 	 */
-	function _closeLog()
+	public function _closeLog()
 	{
 		if (is_resource($this->_file)) {
 			fclose($this->_file);

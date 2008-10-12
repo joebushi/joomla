@@ -22,74 +22,74 @@ defined('JPATH_BASE') or die();
  * @subpackage	Error
  * @since		1.5
  */
-class JException extends JObject
+class JException extends Exception 
 {
 	/**
 	 * Error level
 	 * @var string
 	 */
-	var	$level		= null;
+	public $level		= null;
 
 	/**
 	 * Error code
 	 * @var string
 	 */
-	var	$code		= null;
-
+	public $code		= null;
+ 
 	/**
 	 * Error message
 	 * @var string
 	 */
-	var	$message	= null;
+	public $message	= null;
 
 	/**
 	 * Additional info about the error relevant to the developer
 	 *  - e.g. if a database connect fails, the dsn used
 	 * @var string
 	 */
-	var	$info		= '';
+	public $info		= '';
 
 	/**
 	 * Name of the file the error occurred in [Available if backtrace is enabled]
 	 * @var string
 	 */
-	var	$file		= null;
+	public $file		= null;
 
 	/**
 	 * Line number the error occurred in [Available if backtrace is enabled]
 	 * @var int
 	 */
-	var	$line		= 0;
+	public $line		= 0;
 
 	/**
 	 * Name of the method the error occurred in [Available if backtrace is enabled]
 	 * @var string
 	 */
-	var	$function	= null;
+	public $function	= null;
 
 	/**
 	 * Name of the class the error occurred in [Available if backtrace is enabled]
 	 * @var string
 	 */
-	var	$class		= null;
+	public $class		= null;
 
 	/**
      * Error type
 	 * @var string
 	 */
-	var	$type		= null;
+	public $type		= null;
 
 	/**
 	 * Arguments recieved by the method the error occurred in [Available if backtrace is enabled]
 	 * @var array
 	 */
-	var	$args		= array();
+	public $args		= array();
 
 	/**
 	 * Backtrace information
 	 * @var mixed
 	 */
-	var	$backtrace	= null;
+	public $backtrace	= null;
 
 	/**
 	 * Constructor
@@ -102,8 +102,8 @@ class JException extends JObject
 	 * @param	string	$info		Optional: The additional error information.
 	 * @param	boolean	$backtrace	True if backtrace information is to be collected
 	 */
-    function __construct( $msg, $code = 0, $level = null, $info = null, $backtrace = false )
-    {
+	public function __construct( $msg, $code = 0, $level = null, $info = null, $backtrace = false )
+	{
 		$this->level	=	$level;
 		$this->code		=	$code;
 		$this->message	=	$msg;
@@ -142,19 +142,7 @@ class JException extends JObject
 				break;
 			}
 		}
-    }
-
-	/**
-	 * Method to get the exception message
-	 *
-	 * @final
-	 * @access	public
-	 * @return	string
-	 * @since	1.5
-	 */
-	function getMessage()
-	{
-		return $this->message;
+		parent::__construct($this->message);
 	}
 
 	/**
@@ -165,7 +153,7 @@ class JException extends JObject
 	 * @return	integer
 	 * @since	1.5
 	 */
-	function getCode()
+	public function getCode()
 	{
 		return $this->code;
 	}
@@ -178,7 +166,7 @@ class JException extends JObject
 	 * @return	string
 	 * @since	1.5
 	 */
-	function getFile()
+	public function getFile()
 	{
 		return $this->file;
 	}
@@ -191,7 +179,7 @@ class JException extends JObject
 	 * @return	integer
 	 * @since	1.5
 	 */
-	function getLine()
+	public function getLine()
 	{
 		return $this->line;
 	}
@@ -204,7 +192,7 @@ class JException extends JObject
 	 * @return	array backtrace
 	 * @since	1.5
 	 */
-	function getTrace()
+	public function getTrace()
 	{
 		if (isset( $this ) && isset( $this->backtrace )) {
 			$trace = &$this->backtrace;
@@ -223,7 +211,7 @@ class JException extends JObject
 	 * @return	string Formated string of trace
 	 * @since	1.5
 	 */
-	function getTraceAsString( )
+	public function getTraceAsString( )
 	{
 		//Get the trace array
 		$trace = JException::getTrace();
@@ -245,7 +233,7 @@ class JException extends JObject
 	 * @return	string Error message
 	 * @since	1.5
 	 */
-	function toString()
+	public function toString()
 	{
 		return $this->message;
 	}

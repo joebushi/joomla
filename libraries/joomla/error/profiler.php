@@ -31,19 +31,19 @@ class JProfiler extends JObject
 	 *
 	 * @var int
 	 */
-	var $_start = 0;
+	protected $_start = 0;
 
 	/**
 	 *
 	 * @var string
 	 */
-	var $_prefix = '';
+	protected $_prefix = '';
 
 	/**
 	 *
 	 * @var array
 	 */
-	var $_buffer= null;
+	protected $_buffer= null;
 
 	/**
 	 * Constructor
@@ -51,7 +51,7 @@ class JProfiler extends JObject
 	 * @access protected
 	 * @param string Prefix for mark messages
 	 */
-	function __construct( $prefix = '' )
+	protected function __construct( $prefix = '' )
 	{
 		$this->_start = $this->getmicrotime();
 		$this->_prefix = $prefix;
@@ -69,7 +69,7 @@ class JProfiler extends JObject
 	 * @param string Prefix used to distinguish profiler objects.
 	 * @return JProfiler  The Profiler object.
 	 */
-	function &getInstance($prefix = '')
+	public static function &getInstance($prefix = '')
 	{
 		static $instances;
 
@@ -94,7 +94,7 @@ class JProfiler extends JObject
 	 * @param string A label for the time mark
 	 * @return string Mark enclosed in <div> tags
 	 */
-	function mark( $label )
+	public function mark( $label )
 	{
 		$mark	= $this->_prefix." $label: ";
 		$mark	.= sprintf('%.3f', $this->getmicrotime() - $this->_start) . ' seconds';
@@ -112,7 +112,7 @@ class JProfiler extends JObject
 	 * @access public
 	 * @return float The current time
 	 */
-	function getmicrotime()
+	public function getmicrotime()
 	{
 		list( $usec, $sec ) = explode( ' ', microtime() );
 		return ((float)$usec + (float)$sec);
@@ -125,7 +125,7 @@ class JProfiler extends JObject
 	 * @return int The memory usage
 	 * @link PHP_MANUAL#memory_get_usage
 	 */
-	function getMemory()
+	public function getMemory()
 	{
 		static $isWin;
 
@@ -164,7 +164,7 @@ class JProfiler extends JObject
 	 * @access public
 	 * @return array Array of profiler marks
 	 */
-	function getBuffer() {
+	public function getBuffer() {
 		return $this->_buffer;
 	}
 }
