@@ -25,7 +25,7 @@ defined('JPATH_BASE') or die();
 */
 class JSessionStorageDatabase extends JSessionStorage
 {
-	var $_data = null;
+	protected $_data = null;
 
 	/**
 	 * Open the SessionHandler backend.
@@ -35,7 +35,7 @@ class JSessionStorageDatabase extends JSessionStorage
 	 * @param string $session_name  The name of the session.
 	 * @return boolean  True on success, false otherwise.
 	 */
-	function open($save_path, $session_name)
+	public function open($save_path, $session_name)
 	{
 		return true;
 	}
@@ -46,7 +46,7 @@ class JSessionStorageDatabase extends JSessionStorage
 	 * @access public
 	 * @return boolean  True on success, false otherwise.
 	 */
-	function close()
+	public function close()
 	{
 		return true;
 	}
@@ -59,7 +59,7 @@ class JSessionStorageDatabase extends JSessionStorage
  	 * @param string $id  The session identifier.
  	 * @return string  The session data.
  	 */
-	function read($id)
+	public function read($id)
 	{
 		$db =& JFactory::getDBO();
 		if(!$db->connected()) {
@@ -79,7 +79,7 @@ class JSessionStorageDatabase extends JSessionStorage
 	 * @param string $session_data  The session data.
 	 * @return boolean  True on success, false otherwise.
 	 */
-	function write($id, $session_data)
+	public function write($id, $session_data)
 	{
 		$db =& JFactory::getDBO();
 		if(!$db->connected()) {
@@ -102,7 +102,7 @@ class JSessionStorageDatabase extends JSessionStorage
 	  * @param string $id  The session identifier.
 	  * @return boolean  True on success, false otherwise.
 	  */
-	function destroy($id)
+	public function destroy($id)
 	{
 		$db =& JFactory::getDBO();
 		if(!$db->connected()) {
@@ -121,7 +121,7 @@ class JSessionStorageDatabase extends JSessionStorage
 	 * @param integer $maxlifetime  The maximum age of a session.
 	 * @return boolean  True on success, false otherwise.
 	 */
-	function gc($maxlifetime)
+	public function gc($maxlifetime)
 	{
 		$db =& JFactory::getDBO();
 		if(!$db->connected()) {
@@ -130,6 +130,10 @@ class JSessionStorageDatabase extends JSessionStorage
 
 		$session = & JTable::getInstance('session');
 		$session->purge($maxlifetime);
+		return true;
+	}
+
+	public static function test() {
 		return true;
 	}
 }

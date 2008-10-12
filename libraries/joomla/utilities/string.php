@@ -44,7 +44,7 @@ if (function_exists('iconv') || ((!strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' &&
  * @subpackage	Utilities
  * @since		1.5
  */
-class JString
+abstract class JString
 {
 	/**
 	 * UTF-8 aware alternative to strpos
@@ -58,7 +58,7 @@ class JString
 	 * @return mixed Number of characters before the first match or FALSE on failure
 	 * @see http://www.php.net/strpos
 	 */
-	function strpos($str, $search, $offset = FALSE)
+	public static function strpos($str, $search, $offset = FALSE)
 	{
 		if(strlen($str) && strlen($search))
 		{
@@ -81,7 +81,7 @@ class JString
 	 * @return mixed Number of characters before the last match or FALSE on failure
 	 * @see http://www.php.net/strrpos
 	 */
-	function strrpos($str, $search)
+	public static function strrpos($str, $search)
 	{
 		if ( $offset === FALSE )
 		{
@@ -120,7 +120,7 @@ class JString
 	 * @return mixed string or FALSE if failure
 	 * @see http://www.php.net/substr
 	 */
-	function substr($str, $offset, $length = FALSE)
+	public static function substr($str, $offset, $length = FALSE)
 	{
 	 	if ( $length === FALSE ) {
         	return mb_substr($str, $offset);
@@ -142,7 +142,7 @@ class JString
 	 * @return mixed either string in lowercase or FALSE is UTF-8 invalid
 	 * @see http://www.php.net/strtolower
 	 */
-	function strtolower($str){
+	public static function strtolower($str){
 		return mb_strtolower($str);
 	}
 
@@ -159,7 +159,7 @@ class JString
 	 * @return mixed either string in uppercase or FALSE is UTF-8 invalid
 	 * @see http://www.php.net/strtoupper
 	 */
-	function strtoupper($str){
+	public static function strtoupper($str){
 		return mb_strtoupper($str);
 	}
 
@@ -172,7 +172,7 @@ class JString
 	 * @return int number of UTF-8 characters in string
 	 * @see http://www.php.net/strlen
 	 */
-	function strlen($str){
+	public static function strlen($str){
 		return mb_strlen($str);
 	}
 
@@ -188,7 +188,7 @@ class JString
 	 * @param int optional count value to be passed by referene
 	 * @see http://www.php.net/str_ireplace
 	*/
-	function str_ireplace($search, $replace, $str, $count = NULL)
+	public static function str_ireplace($search, $replace, $str, $count = NULL)
 	{
 		if ( !is_array($search) )
 		{
@@ -246,7 +246,7 @@ class JString
 	 * @return array
 	 * @see http://www.php.net/str_split
 	*/
-	function str_split($str, $split_len = 1)
+	public static function str_split($str, $split_len = 1)
 	{
 		 if ( !preg_match('/^[0-9]+$/',$split_len) || $split_len < 1 ) {
        		return FALSE;
@@ -272,7 +272,7 @@ class JString
 	 * @return int < 0 if str1 is less than str2; > 0 if str1 is greater than str2, and 0 if they are equal.
 	 * @see http://www.php.net/strcasecmp
 	*/
-	function strcasecmp($str1, $str2)
+	public static function strcasecmp($str1, $str2)
 	{
 		 $strX = JString::strtolower($strX);
   	 	 $strY = JString::strtolower($strY);
@@ -292,7 +292,7 @@ class JString
 	 * @return int the length of the initial segment of str1 which does not contain any of the characters in str2
 	 * @see http://www.php.net/strcspn
 	*/
-	function strcspn($str, $mask, $start = NULL, $length = NULL)
+	public static function strcspn($str, $mask, $start = NULL, $length = NULL)
 	{
 		if ( empty($mask) || strlen($mask) == 0 ) {
         	return NULL;
@@ -326,7 +326,7 @@ class JString
 	 * @return string the sub string
 	 * @see http://www.php.net/stristr
 	*/
-	function stristr($str, $search)
+	public static function stristr($str, $search)
 	{
 		if ( strlen($search) == 0 ) {
         	return $str;
@@ -353,7 +353,7 @@ class JString
 	 * @return string The string in reverse character order
 	 * @see http://www.php.net/strrev
 	*/
-	function strrev($str)
+	public static function strrev($str)
 	{
 		 preg_match_all('/./us', $str, $ar);
    	 	 return join('',array_reverse($ar[0]));
@@ -371,7 +371,7 @@ class JString
 	 * @param int length optional
 	 * @see http://www.php.net/strspn
 	*/
-	function strspn($str, $mask, $start = NULL, $length = NULL)
+	public static function strspn($str, $mask, $start = NULL, $length = NULL)
 	{
 		$mask = preg_replace('!([\\\\\\-\\]\\[/^])!','\\\${1}',$mask);
 
@@ -400,7 +400,7 @@ class JString
 	 * @param int length (optional)
 	 * @see http://www.php.net/substr_replace
 	*/
-	function substr_replace($str, $repl, $start, $length = NULL )
+	public static function substr_replace($str, $repl, $start, $length = NULL )
 	{
 		preg_match_all('/./us', $str, $ar);
     	preg_match_all('/./us', $repl, $rar);
@@ -425,7 +425,7 @@ class JString
 	 * @return string the trimmed string
 	 * @see http://www.php.net/ltrim
 	*/
-	function ltrim( $str, $charlist = FALSE )
+	public static function ltrim( $str, $charlist = FALSE )
 	{
 		if($charlist === FALSE) return ltrim($str);
 
@@ -449,7 +449,7 @@ class JString
 	 * @return string the trimmed string
 	 * @see http://www.php.net/rtrim
 	*/
-	function rtrim( $str, $charlist = FALSE )
+	public static function rtrim( $str, $charlist = FALSE )
 	{
 		 if($charlist === FALSE) {
 		 	return rtrim($str);
@@ -475,7 +475,7 @@ class JString
 	 * @return string the trimmed string
 	 * @see http://www.php.net/trim
 	*/
-	function trim( $str, $charlist = FALSE )
+	public static function trim( $str, $charlist = FALSE )
 	{
 		if($charlist === FALSE) {
 			return trim($str);
@@ -494,7 +494,7 @@ class JString
 	 * @return string with first character as upper case (if applicable)
 	 * @see http://www.php.net/ucfirst
 	*/
-	function ucfirst($str)
+	public static function ucfirst($str)
 	{
 		switch ( JString::strlen($str) ) {
         	case 0:
@@ -520,7 +520,7 @@ class JString
 	 * @return string with first char of each word uppercase
 	 * @see http://www.php.net/ucwords
 	*/
-	function ucwords($str)
+	public static function ucwords($str)
 	{
 		 // Note: [\x0c\x09\x0b\x0a\x0d\x20] matches;
     	// form feeds, horizontal tabs, vertical tabs, linefeeds and carriage returns
@@ -538,7 +538,7 @@ class JString
 	 * @see ucwords
 	 * @see strtoupper
 	 */
-	function ucwords_callback($matches)
+	public static function ucwords_callback($matches)
 	{
     	$leadingws = $matches[2];
     	$ucfirst = JString::strtoupper($matches[3]);
@@ -556,7 +556,7 @@ class JString
 	 * @return string Transcoded string
 	 * @since 1.5
 	 */
-	function transcode($source, $from_encoding, $to_encoding)
+	public static function transcode($source, $from_encoding, $to_encoding)
 	{
 		if (is_string($source))
 		{
@@ -579,7 +579,7 @@ class JString
 	 * @see http://hsivonen.iki.fi/php-utf8/
 	 * @see compliant
 	 */
-	function valid($str)
+	public static function valid($str)
 	{
 		$mState = 0;     // cached expected number of octets after the current octet
         	             // until the beginning of the next UTF8 character sequence
@@ -711,7 +711,7 @@ class JString
 	 * @param string UTF-8 string to check
 	 * @return boolean TRUE if string is valid UTF-8
 	 */
-	function compliant($str)
+	public static function compliant($str)
 	{
     	if ( strlen($str) == 0 ) {
         	return TRUE;

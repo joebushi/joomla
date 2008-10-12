@@ -31,109 +31,109 @@ class JUser extends JObject
 	 * Unique id
 	 * @var int
 	 */
-	var $id				= null;
+	public $id				= null;
 
 	/**
 	 * The users real name (or nickname)
 	 * @var string
 	 */
-	var $name			= null;
+	public $name			= null;
 
 	/**
 	 * The login name
 	 * @var string
 	 */
-	var $username		= null;
+	public $username		= null;
 
 	/**
 	 * The email
 	 * @var string
 	 */
-	var $email			= null;
+	public $email			= null;
 
 	/**
 	 * MD5 encrypted password
 	 * @var string
 	 */
-	var $password		= null;
+	public $password		= null;
 
 	/**
 	 * Clear password, only available when a new password is set for a user
 	 * @var string
 	 */
-	var $password_clear	= '';
+	public $password_clear	= '';
 
 	/**
 	 * Description
 	 * @var string
 	 */
-	var $usertype		= null;
+	public $usertype		= null;
 
 	/**
 	 * Description
 	 * @var int
 	 */
-	var $block			= null;
+	public $block			= null;
 
 	/**
 	 * Description
 	 * @var int
 	 */
-	var $sendEmail		= null;
+	public $sendEmail		= null;
 
 	/**
 	 * The group id number
 	 * @var int
 	 */
-	var $gid			= null;
+	public $gid			= null;
 
 	/**
 	 * Description
 	 * @var datetime
 	 */
-	var $registerDate	= null;
+	public $registerDate	= null;
 
 	/**
 	 * Description
 	 * @var datetime
 	 */
-	var $lastvisitDate	= null;
+	public $lastvisitDate	= null;
 
 	/**
 	 * Description
 	 * @var string activation hash
 	 */
-	var $activation		= null;
+	public $activation		= null;
 
 	/**
 	 * Description
 	 * @var string
 	 */
-	var $params			= null;
+	public $params			= null;
 
 	/**
 	 * Description
 	 * @var string integer
 	 */
-	var $aid 		= null;
+	public $aid 		= null;
 
 	/**
 	 * Description
 	 * @var boolean
 	 */
-	var $guest     = null;
+	public $guest     = null;
 
 	/**
 	 * User parameters
 	 * @var object
 	 */
-	var $_params 	= null;
+	protected $_params 	= null;
 
 	/**
 	 * Error message
 	 * @var string
 	 */
-	var $_errorMsg	= null;
+	protected $_errorMsg	= null;
 
 
 	/**
@@ -141,7 +141,7 @@ class JUser extends JObject
 	*
 	* @access 	protected
 	*/
-	function __construct($identifier = 0)
+	protected function __construct($identifier = 0)
 	{
 		// Create the user parameters object
 		$this->_params = new JParameter( '' );
@@ -173,7 +173,7 @@ class JUser extends JObject
 	 * @return 	JUser  			The User object.
 	 * @since 	1.5
 	 */
-	function &getInstance($id = 0)
+	public static function &getInstance($id = 0)
 	{
 		static $instances;
 
@@ -209,7 +209,7 @@ class JUser extends JObject
 	 * @return	mixed				The value or the default if it did not exist
 	 * @since	1.5
 	 */
-	function getParam( $key, $default = null )
+	public function getParam( $key, $default = null )
 	{
 		return $this->_params->get( $key, $default );
 	}
@@ -223,7 +223,7 @@ class JUser extends JObject
 	 * @return	mixed			Set parameter value
 	 * @since	1.5
 	 */
-	function setParam( $key, $value )
+	public function setParam( $key, $value )
 	{
 		return $this->_params->set( $key, $value );
 	}
@@ -237,7 +237,7 @@ class JUser extends JObject
 	 * @return	mixed			Set parameter value
 	 * @since	1.5
 	 */
-	function defParam( $key, $value )
+	public function defParam( $key, $value )
 	{
 		return $this->_params->def( $key, $value );
 	}
@@ -254,7 +254,7 @@ class JUser extends JObject
 	 * @return	boolean	True if authorized
 	 * @since	1.5
 	 */
-	function authorize( $acoSection, $aco, $axoSection = null, $axo = null )
+	public function authorize( $acoSection, $aco, $axoSection = null, $axo = null )
 	{
 		// the native calls (Check Mode 1) work on the user id, not the user type
 		$acl	= & JFactory::getACL();
@@ -271,7 +271,7 @@ class JUser extends JObject
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function setLastVisit($timestamp=null)
+	public function setLastVisit($timestamp=null)
 	{
 		// Create the user table object
 		$table 	=& $this->getTable();
@@ -293,7 +293,7 @@ class JUser extends JObject
 	 * @return	object	The user parameters object
 	 * @since	1.5
 	 */
-	function &getParameters($loadsetupfile = false, $path = null)
+	public function &getParameters($loadsetupfile = false, $path = null)
 	{
 		static $parampath;
 
@@ -330,7 +330,7 @@ class JUser extends JObject
 	 * @param	object	The user parameters object
 	 * @since	1.5
 	 */
-	function setParameters($params )
+	public function setParameters($params )
 	{
 		$this->_params = $params;
 	}
@@ -348,7 +348,7 @@ class JUser extends JObject
 	 * @return	object	The user table object
 	 * @since	1.5
 	 */
-	function &getTable( $type = null, $prefix = 'JTable' )
+	public function &getTable( $type = null, $prefix = 'JTable' )
 	{
 		static $tabletype;
 
@@ -377,7 +377,7 @@ class JUser extends JObject
 	 * @return 	boolean 		True on success
 	 * @since 1.5
 	 */
-	function bind(& $array)
+	public function bind(& $array)
 	{
 		jimport('joomla.user.helper');
 
@@ -489,7 +489,7 @@ class JUser extends JObject
 	 * @return 	boolean 			True on success
 	 * @since 1.5
 	 */
-	function save( $updateOnly = false )
+	public function save( $updateOnly = false )
 	{
 		// Create the user table object
 		$table 	=& $this->getTable();
@@ -559,7 +559,7 @@ class JUser extends JObject
 	 * @return 	boolean 			True on success
 	 * @since 1.5
 	 */
-	function delete( )
+	public function delete( )
 	{
 		JPluginHelper::importPlugin( 'user' );
 
@@ -590,7 +590,7 @@ class JUser extends JObject
 	 * @return 	boolean 			True on success
 	 * @since 1.5
 	 */
-	function load($id)
+	public function load($id)
 	{
 		// Create the user table object
 		$table 	=& $this->getTable();

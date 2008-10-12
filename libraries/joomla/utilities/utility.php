@@ -23,7 +23,7 @@ defined('JPATH_BASE') or die();
  * @subpackage	Utilities
  * @since	1.5
  */
-class JUtility
+abstract class JUtility
 {
 	/**
  	 * Mail function (uses phpMailer)
@@ -41,7 +41,7 @@ class JUtility
  	 * @param mixed $replytoname Reply to name(s)
  	 * @return boolean True on success
   	 */
-	function sendMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=null, $bcc=null, $attachment=null, $replyto=null, $replytoname=null )
+	public static function sendMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=null, $bcc=null, $attachment=null, $replyto=null, $replytoname=null )
 	{
 	 	// Get a JMail instance
 		$mail =& JFactory::getMailer();
@@ -84,7 +84,7 @@ class JUtility
  	 * @param string $author Author of item to approve
  	 * @return boolean True on success
  	 */
-	function sendAdminMail( $adminName, $adminEmail, $email, $type, $title, $author, $url = null )
+	public static function sendAdminMail( $adminName, $adminEmail, $email, $type, $title, $author, $url = null )
 	{
 		$subject = JText::_( 'User Submitted' ) ." '". $type ."'";
 
@@ -106,7 +106,7 @@ class JUtility
  	 * @param string Seed string
  	 * @return string
  	 */
-	function getHash( $seed )
+	public static function getHash( $seed )
 	{
 		$conf =& JFactory::getConfig();
 		return md5( $conf->getValue('config.secret') .  $seed  );
@@ -119,7 +119,7 @@ class JUtility
 	 * @since	1.5
 	 * @static
 	 */
-	function getToken($forceNew = false)
+	public static function getToken($forceNew = false)
 	{
 		$user		= &JFactory::getUser();
 		$session	= &JFactory::getSession();
@@ -134,7 +134,7 @@ class JUtility
  	 * @return	array	Key/Value pairs for the attributes
  	 * @since	1.5
  	 */
-	function parseAttributes( $string )
+	public static function parseAttributes( $string )
 	{
 	 	//Initialize variables
 		$attr		= array();
@@ -161,7 +161,7 @@ class JUtility
 	 * @since	1.5
 	 * @static
 	 */
-	function isWinOS() {
+	public static function isWinOS() {
 		return strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
 	}
 
@@ -174,7 +174,7 @@ class JUtility
 	 * @since	1.5
 	 * @static
 	 */
-	function dump( &$var, $htmlSafe = true )
+	public static function dump( &$var, $htmlSafe = true )
 	{
 		$result = var_export( $var, true );
 		return '<pre>'.( $htmlSafe ? htmlspecialchars( $result ) : $result).'</pre>';

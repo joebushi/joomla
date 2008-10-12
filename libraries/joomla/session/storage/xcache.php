@@ -30,11 +30,11 @@ class JSessionStorageXcache extends JSessionStorage
 	* @access protected
 	* @param array $options optional parameters
 	*/
-	function __construct( $options = array() )
+	protected function __construct( $options = array() )
 	{
-		if (!$this->test()) {
-            return JError::raiseError(404, "The xcache extension isn't available");
-        }
+		if (!self::test()) {
+			return JError::raiseError(404, "The xcache extension isn't available");
+		}
 
 		parent::__construct($options);
 	}
@@ -47,7 +47,7 @@ class JSessionStorageXcache extends JSessionStorage
 	 * @param string $session_name  The name of the session.
 	 * @return boolean  True on success, false otherwise.
 	 */
-	function open($save_path, $session_name)
+	public function open($save_path, $session_name)
 	{
 		return true;
 	}
@@ -58,7 +58,7 @@ class JSessionStorageXcache extends JSessionStorage
 	 * @access public
 	 * @return boolean  True on success, false otherwise.
 	 */
-	function close()
+	public function close()
 	{
 		return true;
 	}
@@ -71,7 +71,7 @@ class JSessionStorageXcache extends JSessionStorage
  	 * @param string $id  The session identifier.
  	 * @return string  The session data.
  	 */
-	function read($id)
+	public function read($id)
 	{
 		$sess_id = 'sess_'.$id;
 
@@ -91,7 +91,7 @@ class JSessionStorageXcache extends JSessionStorage
 	 * @param string $session_data  The session data.
 	 * @return boolean  True on success, false otherwise.
 	 */
-	function write($id, $session_data)
+	public function write($id, $session_data)
 	{
 		$sess_id = 'sess_'.$id;
 		return xcache_set($sess_id, $session_data, ini_get("session.gc_maxlifetime")  );
@@ -105,7 +105,7 @@ class JSessionStorageXcache extends JSessionStorage
 	  * @param string $id  The session identifier.
 	  * @return boolean  True on success, false otherwise.
 	  */
-	function destroy($id)
+	public function destroy($id)
 	{
 		$sess_id = 'sess_'.$id;
 
@@ -123,7 +123,7 @@ class JSessionStorageXcache extends JSessionStorage
 	 * @param integer $maxlifetime  The maximum age of a session.
 	 * @return boolean  True on success, false otherwise.
 	 */
-	function gc($maxlifetime)
+	public function gc($maxlifetime)
 	{
 		return true;
 	}
@@ -135,7 +135,7 @@ class JSessionStorageXcache extends JSessionStorage
 	 * @access public
 	 * @return boolean  True on success, false otherwise.
 	 */
-	function test() {
+	public static function test() {
 		return (extension_loaded('xcache'));
 	}
 }

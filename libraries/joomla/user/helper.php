@@ -23,7 +23,7 @@
  * @subpackage	User
  * @since		1.5
  */
-class JUserHelper
+abstract class JUserHelper
 {
 	/**
 	 * Method to activate a user
@@ -32,7 +32,7 @@ class JUserHelper
 	 * @return 	boolean 			True on success
 	 * @since	1.5
 	 */
-	function activateUser($activation)
+	public static function activateUser($activation)
 	{
 		//Initialize some variables
 		$db = & JFactory::getDBO();
@@ -77,7 +77,7 @@ class JUserHelper
 	 * @param string The username to search on
 	 * @return int The user id or 0 if not found
 	 */
-	function getUserId($username)
+	public static function getUserId($username)
 	{
 		// Initialize some variables
 		$db = & JFactory::getDBO();
@@ -103,7 +103,7 @@ class JUserHelper
 	 *
 	 * @return string  The encrypted password.
 	 */
-	function getCryptedPassword($plaintext, $salt = '', $encryption = 'md5-hex', $show_encrypt = false)
+	public static function getCryptedPassword($plaintext, $salt = '', $encryption = 'md5-hex', $show_encrypt = false)
 	{
 		// Get the salt to use.
 		$salt = JUserHelper::getSalt($encryption, $salt, $plaintext);
@@ -198,7 +198,7 @@ class JUserHelper
 	 *
 	 * @return string  The generated or extracted salt.
 	 */
-	function getSalt($encryption = 'md5-hex', $seed = '', $plaintext = '')
+	public static function getSalt($encryption = 'md5-hex', $seed = '', $plaintext = '')
 	{
 		// Encrypt the password.
 		switch ($encryption)
@@ -279,7 +279,7 @@ class JUserHelper
 	 * @return	string			Random Password
 	 * @since	1.5
 	 */
-	function genRandomPassword($length = 8)
+	public static function genRandomPassword($length = 8)
 	{
 		$salt = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 		$len = strlen($salt);
@@ -306,7 +306,7 @@ class JUserHelper
 	 * @return string  $value converted to the 64 MD5 characters.
 	 * @since 1.5
 	 */
-	function _toAPRMD5($value, $count)
+	private static function _toAPRMD5($value, $count)
 	{
 		/* 64 characters that are valid for APRMD5 passwords. */
 		$APRMD5 = './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
@@ -328,7 +328,7 @@ class JUserHelper
 	 * @return string  Binary data.
 	 * @since 1.5
 	 */
-	function _bin($hex)
+	private static function _bin($hex)
 	{
 		$bin = '';
 		$length = strlen($hex);
