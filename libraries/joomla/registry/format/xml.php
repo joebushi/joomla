@@ -32,7 +32,7 @@ class JRegistryFormatXML extends JRegistryFormat {
 	 * @param string  XML Formatted String
 	 * @return object Data Object
 	 */
-	function stringToObject( $data, $namespace='' ) {
+	public function stringToObject( $data, $namespace='' ) {
 		return true;
 	}
 
@@ -46,7 +46,7 @@ class JRegistryFormatXML extends JRegistryFormat {
 	 * @param array  $param  Parameters used by the formatter
 	 * @return string XML Formatted String
 	 */
-	function objectToString( &$object, $params )
+	public function objectToString( &$object, $params )
 	{
 		$depth = 1;
 		$retval = "<?xml version=\"1.0\" ?>\n<config>\n";
@@ -73,7 +73,7 @@ class JRegistryFormatXML extends JRegistryFormat {
 	 * @param int $depth The depth in the XML tree of the $object node
 	 * @return string XML string
 	 */
-	function _buildXMLstringLevel($object, $depth)
+	protected function _buildXMLstringLevel($object, $depth)
 	{
 		// Initialize variables
 		$retval = '';
