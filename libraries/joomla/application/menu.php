@@ -30,7 +30,7 @@ class JMenu extends JObject
 	 * @access private
 	 * @param array
 	 */
-	var $_items = array ();
+	protected $_items = array ();
 
 	/**
 	 * Identifier of the default menu item
@@ -38,7 +38,7 @@ class JMenu extends JObject
 	 * @access private
 	 * @param integer
 	 */
-	var $_default = 0;
+	protected $_default = 0;
 
 	/**
 	 * Identifier of the active menu item
@@ -46,7 +46,7 @@ class JMenu extends JObject
 	 * @access private
 	 * @param integer
 	 */
-	var $_active = 0;
+	protected $_active = 0;
 
 
 	/**
@@ -55,7 +55,7 @@ class JMenu extends JObject
 	 * @access public
 	 * @return boolean True on success
 	 */
-	function __construct($options = array())
+	protected function __construct($options = array())
 	{
 		$this->load(); //load the menu items
 
@@ -79,7 +79,7 @@ class JMenu extends JObject
 	 * @return JMenu 	A menu object.
 	 * @since	1.5
 	 */
-	function &getInstance($client, $options = array())
+	public static function &getInstance($client, $options = array())
 	{
 		static $instances;
 
@@ -121,7 +121,7 @@ class JMenu extends JObject
 	 * @param int The item id
 	 * @return mixed The item object, or null if not found
 	 */
-	function &getItem($id)
+	public function &getItem($id)
 	{
 		$result = null;
 		if (isset($this->_items[$id])) {
@@ -138,7 +138,7 @@ class JMenu extends JObject
 	 * @access public
 	 * @return True, if succesfull
 	 */
-	function setDefault($id)
+	public function setDefault($id)
 	{
 		if(isset($this->_items[$id])) {
 			$this->_default = $id;
@@ -155,7 +155,7 @@ class JMenu extends JObject
 	 *
 	 * @return object The item object
 	 */
-	function &getDefault()
+	public function &getDefault()
 	{
 		$item =& $this->_items[$this->_default];
 		return $item;
@@ -168,7 +168,7 @@ class JMenu extends JObject
 	 * @access public
 	 * @return If successfull the active item, otherwise null
 	 */
-	function &setActive($id)
+	public function &setActive($id)
 	{
 		if(isset($this->_items[$id]))
 		{
@@ -188,7 +188,7 @@ class JMenu extends JObject
 	 *
 	 * @return object The item object
 	 */
-	function &getActive()
+	public function &getActive()
 	{
 		if ($this->_active) {
 			$item =& $this->_items[$this->_active];
@@ -208,7 +208,7 @@ class JMenu extends JObject
 	 * @param boolean 	If true, only returns the first item found
 	 * @return array
 	 */
-	function getItems($attribute, $value, $firstonly = false)
+	public function getItems($attribute, $value, $firstonly = false)
 	{
 		$items = null;
 
@@ -237,7 +237,7 @@ class JMenu extends JObject
 	 * @param int The item id
 	 * @return object A JParameter object
 	 */
-	function &getParams($id)
+	public function &getParams($id)
 	{
 		$ini = '';
 		if ($menu =& $this->getItem($id)) {
@@ -255,7 +255,7 @@ class JMenu extends JObject
 	 * @param string $name The menu name
 	 * @return array
 	 */
-	function getMenu() {
+	public function getMenu() {
 		return $this->_items;
 	}
 
@@ -268,7 +268,7 @@ class JMenu extends JObject
 	 * @param	integer	$accessid	The users access identifier
 	 * @return	boolean	True if authorized
 	 */
-	function authorize($id, $accessid = 0)
+	public function authorize($id, $accessid = 0)
 	{
 		$menu =& $this->getItem($id);
 		return ((isset($menu->access) ? $menu->access : 0) <= $accessid);
@@ -281,7 +281,7 @@ class JMenu extends JObject
 	 * @access public
 	 * @return array
 	 */
-	function load()
+	public function load()
 	{
 		return array();
 	}

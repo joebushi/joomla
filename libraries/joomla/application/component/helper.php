@@ -23,7 +23,7 @@ defined('JPATH_BASE') or die();
  * @subpackage	Application
  * @since		1.5
  */
-class JComponentHelper
+abstract class JComponentHelper
 {
 	/**
 	 * Get the component info
@@ -33,7 +33,7 @@ class JComponentHelper
 	 * @param 	boolean	$string	If set and a component does not exist, the enabled attribue will be set to false
 	 * @return	object A JComponent object
 	 */
-	function &getComponent( $name, $strict = false )
+	public static function &getComponent( $name, $strict = false )
 	{
 		$result = null;
 		$components = JComponentHelper::_load();
@@ -60,7 +60,7 @@ class JComponentHelper
 	 * @param 	boolean	$string	If set and a component does not exist, false will be returned
 	 * @return	boolean
 	 */
-	function isEnabled( $component, $strict = false )
+	public static function isEnabled( $component, $strict = false )
 	{
 		$appl = JFactory::getApplication();
 
@@ -75,7 +75,7 @@ class JComponentHelper
 	 * @param string $name The component name
 	 * @return object A JParameter object
 	 */
-	function &getParams( $name )
+	public static function &getParams( $name )
 	{
 		static $instances;
 		if (!isset( $instances[$name] ))
@@ -94,7 +94,7 @@ class JComponentHelper
 	 * @return	string Output from rendering the component
 	 * @since	1.5
 	 */
-	function renderComponent($name = null, $params = array())
+	public static function renderComponent($name = null, $params = array())
 	{
 		global $option;
 		$appl	= JFactory::getApplication();
@@ -172,7 +172,7 @@ class JComponentHelper
 	 * @access	private
 	 * @return	array
 	 */
-	function _load()
+	protected static function _load()
 	{
 		static $components;
 

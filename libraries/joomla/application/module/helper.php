@@ -26,7 +26,7 @@ jimport('joomla.application.component.helper');
  * @subpackage	Application
  * @since		1.5
  */
-class JModuleHelper
+abstract class JModuleHelper
 {
 	/**
 	 * Get module by name (real, eg 'Breadcrumbs' or folder, eg 'mod_breadcrumbs')
@@ -36,7 +36,7 @@ class JModuleHelper
 	 * @param	string	$title	The title of the module, optional
 	 * @return	object	The Module object
 	 */
-	function &getModule($name, $title = null )
+	public static function &getModule($name, $title = null )
 	{
 		$result		= null;
 		$modules	=& JModuleHelper::_load();
@@ -80,7 +80,7 @@ class JModuleHelper
 	 * @param string 	$position	The position of the module
 	 * @return array	An array of module objects
 	 */
-	function &getModules($position)
+	public static function &getModules($position)
 	{
 		$position	= strtolower( $position );
 		$result		= array();
@@ -112,16 +112,16 @@ class JModuleHelper
 	 * @param   string 	$module	The module name
 	 * @return	boolean
 	 */
-	function isEnabled( $module )
+	public static function isEnabled( $module )
 	{
 		$result = &JModuleHelper::getModule( $module);
 		return (!is_null($result));
 	}
 
-	function renderModule($module, $attribs = array())
+	public static function renderModule($module, $attribs = array())
 	{
 		static $chrome;
-		global $option;
+		$option = JRequest::getCMD('option');
 		
 		$appl	= JFactory::getApplication();
 		
@@ -207,7 +207,7 @@ class JModuleHelper
 	 * @return	string	The path to the module layout
 	 * @since	1.5
 	 */
-	function getLayoutPath($module, $layout = 'default')
+	public static function getLayoutPath($module, $layout = 'default')
 	{
 		$appl = JFactory::getApplication();
 
@@ -229,16 +229,16 @@ class JModuleHelper
 	 * @access	private
 	 * @return	array
 	 */
-	function &_load()
+	protected static function &_load()
 	{
-		global $Itemid;
+		$Itemid = JRequest::getInt('Itemid');
 		$appl	= JFactory::getApplication();
 
-        static $clean;
+		static $clean;
 
-        if (isset($clean)) {
-            return $clean;
-        }
+		if (isset($clean)) {
+			return $clean;
+		}
 
 		$user = &JFactory::getUser();
 		$db = &JFactory::getDBO();
@@ -247,9 +247,9 @@ class JModuleHelper
 
 		$modules = array();
 
-        $wheremenu = isset($Itemid)
-            ? ' AND (mm.menuid = ' . (int)$Itemid . ' OR mm.menuid <= 0)'
-            : '';
+		$wheremenu = isset($Itemid)
+			? ' AND (mm.menuid = ' . (int)$Itemid . ' OR mm.menuid <= 0)'
+			: '';
 
 		$query = 'SELECT id, title, module, position, content, showtitle, control, params'
 			. ' FROM #__modules AS m'
@@ -263,28 +263,28 @@ class JModuleHelper
 		$db->setQuery($query);
 
 		if (null === ($modules = $db->loadObjectList())) {
-            JError::raiseWarning(
-                'SOME_ERROR_CODE',
-                JText::_('Error Loading Modules') . $db->getErrorMsg()
-            );
+			JError::raiseWarning(
+				'SOME_ERROR_CODE',
+				JText::_('Error Loading Modules') . $db->getErrorMsg()
+			);
 			return false;
 		}
 
-        // Apply negative selections and eliminate duplicates
-        $negId = $Itemid ? -(int)$Itemid : false;
-        $dups = array();
-        $clean = array();
-        foreach ($modules as $i => $module)
+		// Apply negative selections and eliminate duplicates
+		$negId = $Itemid ? -(int)$Itemid : false;
+		$dups = array();
+		$clean = array();
+		foreach ($modules as $i => $module)
 		{
-            /*
-             * The module is excluded if there is an explicit prohibition, or if
-             * the Itemid is missing or zero and the module is in exclude mode.
-             */
-            $negHit = $negId === (int)$module->menuid
-                || (!$negId && (int)$module->menuid < 0);
-            if (isset($dups[$module->id])) {
-                /*
-                 * If this item has been excluded, keep the duplicate flag set,
+			/*
+			 * The module is excluded if there is an explicit prohibition, or if
+			 * the Itemid is missing or zero and the module is in exclude mode.
+			*/
+			$negHit = $negId === (int)$module->menuid
+					|| (!$negId && (int)$module->menuid < 0);
+			if (isset($dups[$module->id])) {
+			/*
+			 * If this item has been excluded, keep the duplicate flag set,
                  * but remove any item from the cleaned array.
                  */
                 if ($negHit) {
