@@ -27,7 +27,6 @@ Joomla! 1.5, including beta and release candidate versions.
 Our thanks to all those people who've contributed bug reports and
 code fixes.
 
-
 Legend:
 
 * -> Security Fix
