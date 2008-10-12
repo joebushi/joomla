@@ -30,9 +30,9 @@ class JButtonHelp extends JButton
 	 * @access	protected
 	 * @var		string
 	 */
-	var $_name = 'Help';
+	protected $_name = 'Help';
 
-	function fetchButton( $type='Help', $ref = '', $com = false )
+	public function fetchButton( $type='Help', $ref = '', $com = false )
 	{
 		$text	= JText::_('Help');
 		$class	= $this->fetchIconClass('help');
@@ -57,7 +57,7 @@ class JButtonHelp extends JButton
 	 * @return		string	Button CSS Id
 	 * @since		1.5
 	 */
-	function fetchId($name)
+	public function fetchId($name)
 	{
 		return $this->_parent->_name.'-'."help";
 	}
@@ -70,7 +70,7 @@ class JButtonHelp extends JButton
 	 * @return	string	JavaScript command string
 	 * @since	1.5
 	 */
-	function _getCommand($ref, $com)
+	protected function _getCommand($ref, $com)
 	{
 		// Get Help URL
 		jimport('joomla.language.help');

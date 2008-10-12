@@ -38,7 +38,7 @@ class JForm extends JRegistry
 	 * @var	string
 	 * @since	1.6
 	 */
-	var $_raw = null;
+	protected $_raw = null;
 
 	/**
 	 * The xml elements
@@ -47,7 +47,7 @@ class JForm extends JRegistry
 	 * @var	object
 	 * @since	1.6
 	 */
-	var $_xml = null;
+	protected $_xml = null;
 
 	/**
 	 * Additional Attributes to the group of XML Data
@@ -56,7 +56,7 @@ class JForm extends JRegistry
 	 * @var	array
 	 * @since	1.6
 	 */
-	var $_xmlAttributes = null;
+	protected $_xmlAttributes = null;
 
 	/**
 	* loaded elements
@@ -65,7 +65,7 @@ class JForm extends JRegistry
 	* @var	array
 	* @since	1.6
 	*/
-	var $_elements = array();
+	protected $_elements = array();
 
 	/**
 	* directories, where element types can be stored
@@ -74,7 +74,7 @@ class JForm extends JRegistry
 	* @var	array
 	* @since	1.6
 	*/
-	var $_elementPath = array();
+	protected $_elementPath = array();
 
 	/**
 	* XML tag-name for the elements
@@ -83,7 +83,7 @@ class JForm extends JRegistry
 	* @var	array
 	* @since	1.6
 	*/
-	var $_elementTagName = '';
+	protected $_elementTagName = '';
 
 	/**
 	 * The HTML elements to render
@@ -92,9 +92,9 @@ class JForm extends JRegistry
 	 * @var		object
 	 * @since	1.6
 	 */
-	var $_html = array();
+	protected $_html = array();
 	
-	var $_hiddenElements = array();
+	protected $_hiddenElements = array();
 
 	/**
 	 * The conditional informations for the params elements
@@ -103,7 +103,7 @@ class JForm extends JRegistry
 	 * @var		object
 	 * @since	1.5
 	 */
-	var $_cond = array();
+	protected $_cond = array();
 
 	/**
 	 * Constructor
@@ -114,7 +114,7 @@ class JForm extends JRegistry
 	 * @param	string Tagname used in the XML file
 	 * @since	1.5
 	 */
-	function __construct($data, $xmldata = '', $xmlelement = 'element', $addDefault = false)
+	protected function __construct($data, $xmldata = '', $xmlelement = 'element', $addDefault = false)
 	{
 		parent::__construct('_default');
 
@@ -146,7 +146,7 @@ class JForm extends JRegistry
 	 * @param	string Name of the class file to overload the JForm class with
 	 * @since	1.6
 	 */
-	function getInstance($data, $xmldata = '', $xmlelement = 'element', $engine = null)
+	public static function getInstance($data, $xmldata = '', $xmlelement = 'element', $engine = null)
 	{
 		if($engine != null)
 		{
@@ -165,7 +165,7 @@ class JForm extends JRegistry
 	 * @return	string The set value
 	 * @since	1.5
 	 */
-	function set($key, $value = '', $group = '_default')
+	public function set($key, $value = '', $group = '_default')
 	{
 		return $this->setValue($group.'.'.$key, (string) $value);
 	}
@@ -179,7 +179,7 @@ class JForm extends JRegistry
 	 * @return	string
 	 * @since	1.5
 	 */
-	function get($key, $default = '', $group = '_default')
+	public function get($key, $default = '', $group = '_default')
 	{
 		$value = $this->getValue($group.'.'.$key);
 		$result = (empty($value) && ($value !== 0) && ($value !== '0')) ? $default : $value;
@@ -196,7 +196,7 @@ class JForm extends JRegistry
 	 * @return	string	The set value
 	 * @since	1.5
 	 */
-	function def($key, $default = '', $group = '_default') {
+	public function def($key, $default = '', $group = '_default') {
 		$value = $this->get($key, (string) $default, $group);
 		return $this->set($key, $value);
 	}
@@ -208,7 +208,7 @@ class JForm extends JRegistry
 	 * @param	object	An XML object
 	 * @since	1.5
 	 */
-	function setXML( &$xml )
+	public function setXML( &$xml )
 	{
 		if (is_object( $xml ))
 		{
@@ -238,7 +238,7 @@ class JForm extends JRegistry
 	 * @access	public
 	 * @since	1.5
 	 */
-	function bind($data, $group = '_default')
+	public function bind($data, $group = '_default')
 	{
 		if ( is_array($data) ) {
 			return $this->loadArray($data, $group);
@@ -259,7 +259,7 @@ class JForm extends JRegistry
 	 * @return	string	HTML
 	 * @since	1.6
 	 */
-	function render($name = 'elements', $group = '_default', $form = true)
+	public function render($name = 'elements', $group = '_default', $form = true)
 	{
 		$this->_html = array();
 		$this->_html[] = '<table width="100%" class="paramlist admintable" cellspacing="1">';
@@ -288,7 +288,7 @@ class JForm extends JRegistry
 	 * @return	array	Array of all parameters, each as array Any array of the label, the form element and the tooltip
 	 * @since	1.5
 	 */
-	function renderToArray($name = 'element', $group = '_default')
+	public function renderToArray($name = 'element', $group = '_default')
 	{
 		if (!isset($this->_xml[$group])) {
 			return false;
@@ -308,7 +308,7 @@ class JForm extends JRegistry
 	 * @return	mixed	Boolean falst if no params exist or integer number of params that exist
 	 * @since	1.5
 	 */
-	function getNumElements($group = '_default')
+	public function getNumElements($group = '_default')
 	{
 		if (!isset($this->_xml[$group]) || !count($this->_xml[$group]->children())) {
 			return false;
@@ -324,7 +324,7 @@ class JForm extends JRegistry
 	 * @return	array	Array of all group names as key and param count as value
 	 * @since	1.5
 	 */
-	function getGroups()
+	public function getGroups()
 	{
 		if (!is_array($this->_xml)) {
 			return false;
@@ -344,7 +344,7 @@ class JForm extends JRegistry
 	 * @return	array
 	 * @since	1.6
 	 */
-	function getGroupAttributes($group = '')
+	public function getGroupAttributes($group = '')
 	{
 		if(isset($this->_xmlAttributes[$group]))
 		{
@@ -363,7 +363,7 @@ class JForm extends JRegistry
 	 * @return	array	Aarray of all parameters, each as array Any array of the label, the form element and the tooltip
 	 * @since	1.5
 	 */
-	function getElements($name = 'elements', $group = '_default')
+	public function getElements($name = 'elements', $group = '_default')
 	{
 		if (!isset($this->_xml[$group])) {
 			return false;
@@ -383,7 +383,7 @@ class JForm extends JRegistry
 	 * @return	array	Any array of the label, the form element and the tooltip
 	 * @since	1.5
 	 */
-	function getElement(&$node, $control_name = 'element', $group = '_default', $form = true)
+	public function getElement(&$node, $control_name = 'element', $group = '_default', $form = true)
 	{
 		//get the type of the parameter
 		$type = $node->attributes('type');
@@ -420,7 +420,7 @@ class JForm extends JRegistry
 	 * @return	object
 	 * @since	1.5
 	 */
-	function loadXML($xml, $addDefault = false)
+	public function loadXML($xml, $addDefault = false)
 	{
 		$elementTagName = $this->_elementTagName.'s';
 		$result = false;
@@ -465,7 +465,7 @@ class JForm extends JRegistry
 	 * @return	object
 	 * @since	1.5
 	 */
-	function loadSetupFile($path, $addDefault = false)
+	public function loadSetupFile($path, $addDefault = false)
 	{
 		static $file;
 
@@ -520,7 +520,7 @@ class JForm extends JRegistry
 	 * @return	object
 	 * @since	1.6
 	 */
-	function loadSetupDirectory($path, $filter = '.xml', $addDefault = false)
+	public function loadSetupDirectory($path, $filter = '.xml', $addDefault = false)
 	{
 		$result = false;
 
@@ -552,7 +552,7 @@ class JForm extends JRegistry
 	 * @return	object
 	 * @since	1.5
 	 */
-	function &loadElement( $type, $new = false )
+	public function &loadElement( $type, $new = false )
 	{
 		$false = false;
 		$signature = md5( $type  );
@@ -603,7 +603,7 @@ class JForm extends JRegistry
 	 * @param	string|array	directory or directories to search.
 	 * @since	1.5
 	 */
-	function addElementPath( $path )
+	public function addElementPath( $path )
 	{
 		// just force path to array
 		settype( $path, 'array' );
@@ -628,7 +628,7 @@ class JForm extends JRegistry
 	}
 
 
-/**	function getConditionalScript() {
+/**	public function getConditionalScript() {
 		if(count($this->_cond) < 1) {
 			return false;
 		}
@@ -648,7 +648,7 @@ $name.$cond.$cond_value.'-cond'
 	}
 **/
 
-	function _render($params, $group, $name = 'params', $cond = '', $cond_value = '', $form = true)
+	protected function _render($params, $group, $name = 'params', $cond = '', $cond_value = '', $form = true)
 	{
 		if($cond != '' && $cond_value != '') {
 			$id_prefix = $name.$cond.$cond_value.'-cond';

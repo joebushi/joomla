@@ -29,9 +29,9 @@ class JElementCalendar extends JElement
 	* @access	protected
 	* @var		string
 	*/
-	var	$_name = 'Calendar';
+	protected $_name = 'Calendar';
 
-	function fetchElement($name, $value, &$node, $control_name)
+	public function fetchElement($name, $value, &$node, $control_name)
 	{
 		JHTML::_('behavior.calendar'); //load the calendar behavior
 

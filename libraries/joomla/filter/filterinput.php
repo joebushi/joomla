@@ -27,15 +27,15 @@ defined('JPATH_BASE') or die();
  */
 class JFilterInput extends JObject
 {
-	var $tagsArray; // default = empty array
-	var $attrArray; // default = empty array
+	public $tagsArray; // default = empty array
+	public $attrArray; // default = empty array
 
-	var $tagsMethod; // default = 0
-	var $attrMethod; // default = 0
+	public $tagsMethod; // default = 0
+	public $attrMethod; // default = 0
 
-	var $xssAuto; // default = 1
-	var $tagBlacklist = array ('applet', 'body', 'bgsound', 'base', 'basefont', 'embed', 'frame', 'frameset', 'head', 'html', 'id', 'iframe', 'ilayer', 'layer', 'link', 'meta', 'name', 'object', 'script', 'style', 'title', 'xml');
-	var $attrBlacklist = array ('action', 'background', 'codebase', 'dynsrc', 'lowsrc'); // also will strip ALL event handlers
+	public $xssAuto; // default = 1
+	public $tagBlacklist = array ('applet', 'body', 'bgsound', 'base', 'basefont', 'embed', 'frame', 'frameset', 'head', 'html', 'id', 'iframe', 'ilayer', 'layer', 'link', 'meta', 'name', 'object', 'script', 'style', 'title', 'xml');
+	public $attrBlacklist = array ('action', 'background', 'codebase', 'dynsrc', 'lowsrc'); // also will strip ALL event handlers
 
 	/**
 	 * Constructor for inputFilter class. Only first parameter is required.
@@ -48,7 +48,7 @@ class JFilterInput extends JObject
 	 * @param	int		$xssAuto	Only auto clean essentials = 0, Allow clean blacklisted tags/attr = 1
 	 * @since	1.5
 	 */
-	function __construct($tagsArray = array(), $attrArray = array(), $tagsMethod = 0, $attrMethod = 0, $xssAuto = 1)
+	protected function __construct($tagsArray = array(), $attrArray = array(), $tagsMethod = 0, $attrMethod = 0, $xssAuto = 1)
 	{
 		// Make sure user defined arrays are in lowercase
 		$tagsArray = array_map('strtolower', (array) $tagsArray);
@@ -77,7 +77,7 @@ class JFilterInput extends JObject
 	 * @return	object	The JFilterInput object.
 	 * @since	1.5
 	 */
-	function & getInstance($tagsArray = array(), $attrArray = array(), $tagsMethod = 0, $attrMethod = 0, $xssAuto = 1)
+	public static function &getInstance($tagsArray = array(), $attrArray = array(), $tagsMethod = 0, $attrMethod = 0, $xssAuto = 1)
 	{
 		static $instances;
 
@@ -105,7 +105,7 @@ class JFilterInput extends JObject
 	 * @since	1.5
 	 * @static
 	 */
-	function clean($source, $type='string')
+	public function clean($source, $type='string')
 	{
 		// Handle the type constraint
 		switch (strtoupper($type))
@@ -148,7 +148,7 @@ class JFilterInput extends JObject
 
 			case 'STRING' :
 				// Check for static usage and assign $filter the proper variable
-				if(isset($this) && is_a( $this, 'JFilterInput' )) {
+				if(isset($this) && $this INSTANCEOF JFilterInput)) {
 					$filter =& $this;
 				} else {
 					$filter =& JFilterInput::getInstance();
@@ -172,7 +172,7 @@ class JFilterInput extends JObject
 
 			default :
 				// Check for static usage and assign $filter the proper variable
-				if(is_object($this) && get_class($this) == 'JFilterInput') {
+				if(is_object($this) && $this INSTANCEOF JFilterInput) {
 					$filter =& $this;
 				} else {
 					$filter =& JFilterInput::getInstance();
@@ -210,7 +210,7 @@ class JFilterInput extends JObject
 	 * @return	boolean True if bad code is detected
 	 * @since	1.5
 	 */
-	function checkAttribute($attrSubSet)
+	public static function checkAttribute($attrSubSet)
 	{
 		$attrSubSet[0] = strtolower($attrSubSet[0]);
 		$attrSubSet[1] = strtolower($attrSubSet[1]);
@@ -225,7 +225,7 @@ class JFilterInput extends JObject
 	 * @return	string	'Cleaned' version of input parameter
 	 * @since	1.5
 	 */
-	function _remove($source)
+	protected function _remove($source)
 	{
 		$loopCounter = 0;
 
@@ -246,7 +246,7 @@ class JFilterInput extends JObject
 	 * @return	string	'Cleaned' version of input parameter
 	 * @since	1.5
 	 */
-	function _cleanTags($source)
+	protected function _cleanTags($source)
 	{
 		/*
 		 * In the beginning we don't really have a tag, so everything is
@@ -412,7 +412,7 @@ class JFilterInput extends JObject
 	 * @return	array	Filtered array of attribute pairs
 	 * @since	1.5
 	 */
-	function _cleanAttributes($attrSet)
+	protected function _cleanAttributes($attrSet)
 	{
 		// Initialize variables
 		$newSet = array();
@@ -489,7 +489,7 @@ class JFilterInput extends JObject
 	 * @return	string	Plaintext string
 	 * @since	1.5
 	 */
-	function _decode($source)
+	protected function _decode($source)
 	{
 		// entity decode
 		$trans_tbl = get_html_translation_table(HTML_ENTITIES);

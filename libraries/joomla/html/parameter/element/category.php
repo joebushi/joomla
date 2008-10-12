@@ -31,9 +31,9 @@ class JElementCategory extends JElement
 	* @access	protected
 	* @var		string
 	*/
-	var	$_name = 'Category';
+	protected $_name = 'Category';
 
-	function fetchElement($name, $value, &$node, $control_name)
+	public function fetchElement($name, $value, &$node, $control_name)
 	{
 		$db = &JFactory::getDBO();
 

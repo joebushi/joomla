@@ -31,9 +31,9 @@ class JElementImageList extends JElement
 	* @access	protected
 	* @var		string
 	*/
-	var	$_name = 'ImageList';
+	protected $_name = 'ImageList';
 
-	function fetchElement($name, $value, &$node, $control_name)
+	public function fetchElement($name, $value, &$node, $control_name)
 	{
 		$filter = '\.png$|\.gif$|\.jpg$|\.bmp$|\.ico$';
 		$node->addAttribute('filter', $filter);

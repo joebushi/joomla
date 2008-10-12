@@ -31,9 +31,9 @@ class JElementLanguages extends JElement
 	* @access	protected
 	* @var		string
 	*/
-	var	$_name = 'Languages';
+	protected $_name = 'Languages';
 
-	function fetchElement($name, $value, &$node, $control_name)
+	public function fetchElement($name, $value, &$node, $control_name)
 	{
 		$user	= & JFactory::getUser();
 

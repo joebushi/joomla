@@ -31,9 +31,9 @@ class JElementRadio extends JElement
 	* @access	protected
 	* @var		string
 	*/
-	var	$_name = 'Radio';
+	protected $_name = 'Radio';
 
-	function fetchElement($name, $value, &$node, $control_name)
+	public function fetchElement($name, $value, &$node, $control_name)
 	{
 		$options = array ();
 		foreach ($node->children() as $option)

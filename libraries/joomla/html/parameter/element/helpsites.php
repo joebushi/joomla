@@ -31,9 +31,9 @@ class JElementHelpsites extends JElement
 	* @access	protected
 	* @var		string
 	*/
-	var	$_name = 'Helpsites';
+	protected $_name = 'Helpsites';
 
-	function fetchElement($name, $value, &$node, $control_name)
+	public function fetchElement($name, $value, &$node, $control_name)
 	{
 		jimport('joomla.language.help');
 

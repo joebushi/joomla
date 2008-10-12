@@ -20,7 +20,7 @@
  * @subpackage	HTML
  * @version		1.5
  */
-class JHTMLBehavior
+abstract class JHTMLBehavior
 {
 	/**
 	 * Method to load the mootools framework into the document head
@@ -32,7 +32,7 @@ class JHTMLBehavior
 	 * @return	void
 	 * @since	1.5
 	 */
-	function mootools($debug = null)
+	public static function mootools($debug = null)
 	{
 		static $loaded;
 
@@ -59,23 +59,23 @@ class JHTMLBehavior
 		return;
 	}
 
-		function caption() {
+	public static function caption() {
 		JHTML::script('caption.js');
 	}
 
-	function formvalidation() {
+	public static function formvalidation() {
 		JHTML::script('validate.js' );
 	}
 
-	function switcher() {
+	public static function switcher() {
 		JHTML::script('switcher.js' );
 	}
 
-	function combobox() {
+	public static function combobox() {
 		JHTML::script('combobox.js' );
 	}
 
-	function tooltip($selector='.hasTip', $params = array())
+	public static function tooltip($selector='.hasTip', $params = array())
 	{
 		static $tips;
 
@@ -117,7 +117,7 @@ class JHTMLBehavior
 	/**
 	* Load Weblink snapshot javascript
 	*/
-	function imagetooltip($width=120, $height=90, $selector='.hasSnapshot', $params = array())
+	public static function imagetooltip($width=120, $height=90, $selector='.hasSnapshot', $params = array())
 	{
 		static $snapshots;
 
@@ -161,7 +161,7 @@ class JHTMLBehavior
 		return;
 	}
 
-	function modal($selector='a.modal', $params = array())
+	public static function modal($selector='a.modal', $params = array())
 	{
 		static $modals;
 		static $included;
@@ -219,7 +219,7 @@ class JHTMLBehavior
 		return;
 	}
 
-	function uploader($id='file-upload', $params = array())
+	public static function uploader($id='file-upload', $params = array())
 	{
 		JHTML::script('swf.js' );
 		JHTML::script('uploader.js' );
@@ -273,7 +273,7 @@ class JHTMLBehavior
 		return;
 	}
 
-	function tree($id, $params = array(), $root = array())
+	public static function tree($id, $params = array(), $root = array())
 	{
 		static $trees;
 
@@ -327,7 +327,7 @@ class JHTMLBehavior
 		return;
 	}
 
-	function calendar()
+	public static function calendar()
 	{
 		$document =& JFactory::getDocument();
 		JHTML::stylesheet('calendar-jos.css', 'media/system/css/', array(' title' => JText::_( 'green' ) ,' media' => 'all' ));
@@ -343,7 +343,7 @@ class JHTMLBehavior
 	/**
 	 * Keep session alive, for example, while editing or creating an article.
 	 */
-	function keepalive()
+	public static function keepalive()
 	{
 		// Include mootools framework
 		JHTMLBehavior::mootools();
@@ -374,7 +374,7 @@ class JHTMLBehavior
 	 * @return	string	JavaScript object notation representation of the array
 	 * @since	1.5
 	 */
-	function _getJSObject($array=array())
+	protected static function _getJSObject($array=array())
 	{
 		// Initialize variables
 		$object = '{';
@@ -407,7 +407,7 @@ class JHTMLBehavior
 	 * @return	string	JavaScript that translates the object
 	 * @since	1.5
 	 */
-	function _calendartranslation()
+	protected static function _calendartranslation()
 	{
 		static $jsscript = 0;
 

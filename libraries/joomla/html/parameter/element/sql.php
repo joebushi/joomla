@@ -31,9 +31,9 @@ class JElementSQL extends JElement
 	* @access	protected
 	* @var		string
 	*/
-	var	$_name = 'SQL';
+	protected $_name = 'SQL';
 
-	function fetchElement($name, $value, &$node, $control_name)
+	public function fetchElement($name, $value, &$node, $control_name)
 	{
 		$db			= & JFactory::getDBO();
 		$db->setQuery($node->attributes('query'));

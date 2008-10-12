@@ -31,9 +31,9 @@ class JElementList extends JElement
 	* @access	protected
 	* @var		string
 	*/
-	var	$_name = 'List';
+	protected $_name = 'List';
 
-	function fetchElement($name, $value, &$node, $control_name)
+	public function fetchElement($name, $value, &$node, $control_name)
 	{
 		$class = ( $node->attributes('class') ? 'class="'.$node->attributes('class').'"' : 'class="inputbox"' );
 

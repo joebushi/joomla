@@ -30,9 +30,9 @@ class JButtonStandard extends JButton
 	 * @access	protected
 	 * @var		string
 	 */
-	var $_name = 'Standard';
+	protected $_name = 'Standard';
 
-	function fetchButton( $type='Standard', $name = '', $text = '', $task = '', $list = true, $hideMenu = false )
+	public function fetchButton( $type='Standard', $name = '', $text = '', $task = '', $list = true, $hideMenu = false )
 	{
 		$i18n_text	= JText::_($text);
 		$class	= $this->fetchIconClass($name);
@@ -54,7 +54,7 @@ class JButtonStandard extends JButton
 	 * @return	string	Button CSS Id
 	 * @since	1.5
 	 */
-	function fetchId( $type='Standard', $name = '', $text = '', $task = '', $list = true, $hideMenu = false )
+	public function fetchId( $type='Standard', $name = '', $text = '', $task = '', $list = true, $hideMenu = false )
 	{
 		return $this->_parent->_name.'-'.$name;
 	}
@@ -70,7 +70,7 @@ class JButtonStandard extends JButton
 	 * @return	string	JavaScript command string
 	 * @since	1.5
 	 */
-	function _getCommand($name, $task, $list, $hide)
+	protected function _getCommand($name, $task, $list, $hide)
 	{
 		$todo		= JString::strtolower(JText::_( $name ));
 		$message	= JText::sprintf( 'Please make a selection from the list to', $todo );

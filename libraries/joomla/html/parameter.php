@@ -37,7 +37,7 @@ class JParameter extends JForm
 	 * @param	string Path to the xml setup file
 	 * @since	1.5
 	 */
-	function __construct($data, $path = '', $addDefault = false)
+	public function __construct($data, $path = '', $addDefault = false)
 	{
 		parent::__construct($data, $path, 'param', $addDefault);
 	}
@@ -50,7 +50,7 @@ class JParameter extends JForm
 	 * @return	string	HTML
 	 * @since	1.5
 	 */
-	function render($name = 'params', $group = '_default', $chrome = 'params', $form = true)
+	public function render($name = 'params', $group = '_default', $chrome = 'params', $form = true)
 	{
 		return parent::render($name, $group, $chrome, $form);
 	}
@@ -63,7 +63,7 @@ class JParameter extends JForm
 	 * @return	array	Array of all parameters, each as array Any array of the label, the form element and the tooltip
 	 * @since	1.5
 	 */
-	function renderToArray($name = 'params', $group = '_default')
+	public function renderToArray($name = 'params', $group = '_default')
 	{
 		return parent::renderToArray($name, $group);
 	}
@@ -75,7 +75,7 @@ class JParameter extends JForm
 	 * @return	mixed	Boolean falst if no params exist or integer number of params that exist
 	 * @since	1.5
 	 */
-	function getNumParams($group = '_default')
+	public function getNumParams($group = '_default')
 	{
 		return parent::getNumElements($group);
 	}
@@ -90,7 +90,7 @@ class JParameter extends JForm
 	 * @return	array	Aarray of all parameters, each as array Any array of the label, the form element and the tooltip
 	 * @since	1.5
 	 */
-	function getParams($name = 'params', $group = '_default')
+	public function getParams($name = 'params', $group = '_default')
 	{
 		return parent::getElements($name, $group);
 	}
@@ -103,7 +103,7 @@ class JParameter extends JForm
 	 * @return	array	Any array of the label, the form element and the tooltip
 	 * @since	1.5
 	 */
-	function getParam(&$node, $control_name = 'params', $group = '_default')
+	public function getParam(&$node, $control_name = 'params', $group = '_default')
 	{
 		return parent::getElement($node, $control_name, $group);
 	}

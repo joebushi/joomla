@@ -31,9 +31,9 @@ class JElementSection extends JElement
 	* @access	protected
 	* @var		string
 	*/
-	var	$_name = 'Section';
+	protected $_name = 'Section';
 
-	function fetchElement($name, $value, &$node, $control_name)
+	public function fetchElement($name, $value, &$node, $control_name)
 	{
 		$db =& JFactory::getDBO();
 

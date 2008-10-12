@@ -31,7 +31,7 @@ class JPagination extends JObject
 	 * @access public
 	 * @var int
 	 */
-	var $limitstart = null;
+	public $limitstart = null;
 
 	/**
 	 * Number of rows to display per page
@@ -39,7 +39,7 @@ class JPagination extends JObject
 	 * @access public
 	 * @var int
 	 */
-	var $limit = null;
+	public $limit = null;
 
 	/**
 	 * Total number of rows
@@ -47,7 +47,7 @@ class JPagination extends JObject
 	 * @access public
 	 * @var int
 	 */
-	var $total = null;
+	public $total = null;
 
 	/**
 	 * View all flag
@@ -55,7 +55,7 @@ class JPagination extends JObject
 	 * @access protected
 	 * @var boolean
 	 */
-	var $_viewall = false;
+	protected $_viewall = false;
 
 	/**
 	 * Constructor
@@ -64,7 +64,7 @@ class JPagination extends JObject
 	 * @param	int		The offset of the item to start at
 	 * @param	int		The number of items to display per page
 	 */
-	function __construct($total, $limitstart, $limit)
+	public function __construct($total, $limitstart, $limit)
 	{
 		// Value/Type checking
 		$this->total		= (int) $total;
@@ -115,7 +115,7 @@ class JPagination extends JObject
 	 * @return	int		Rationalised offset for a row with a given index
 	 * @since	1.5
 	 */
-	function getRowOffset($index)
+	public function getRowOffset($index)
 	{
 		return $index +1 + $this->limitstart;
 	}
@@ -127,7 +127,7 @@ class JPagination extends JObject
 	 * @return	object	Pagination data object
 	 * @since	1.5
 	 */
-	function getData()
+	public function getData()
 	{
 		static $data;
 		if (!is_object($data)) {
@@ -143,7 +143,7 @@ class JPagination extends JObject
 	 * @return	string	Pagination pages counter string
 	 * @since	1.5
 	 */
-	function getPagesCounter()
+	public function getPagesCounter()
 	{
 		// Initialize variables
 		$html = null;
@@ -160,7 +160,7 @@ class JPagination extends JObject
 	 * @return	string	Pagination result set counter string
 	 * @since	1.5
 	 */
-	function getResultsCounter()
+	public function getResultsCounter()
 	{
 		// Initialize variables
 		$html = null;
@@ -191,7 +191,7 @@ class JPagination extends JObject
 	 * @return	string	Pagination page list string
 	 * @since	1.0
 	 */
-	function getPagesLinks()
+	public function getPagesLinks()
 	{
 		$appl = JFactory::getApplication();
 
@@ -283,7 +283,7 @@ class JPagination extends JObject
 	 * @return	string	Pagination footer
 	 * @since	1.0
 	 */
-	function getListFooter()
+	public function getListFooter()
 	{
 		$appl = JFactory::getApplication();
 
@@ -313,7 +313,7 @@ class JPagination extends JObject
 	 * @return	string	The html for the limit # input box
 	 * @since	1.0
 	 */
-	function getLimitBox()
+	public function getLimitBox()
 	{
 		$appl = JFactory::getApplication();
 
@@ -350,7 +350,7 @@ class JPagination extends JObject
 	 * @return	string	Either the icon to move an item up or a space
 	 * @since	1.0
 	 */
-	function orderUpIcon($i, $condition = true, $task = 'orderup', $alt = 'Move Up', $enabled = true)
+	public function orderUpIcon($i, $condition = true, $task = 'orderup', $alt = 'Move Up', $enabled = true)
 	{
 		$alt = JText::_($alt);
 
@@ -381,7 +381,7 @@ class JPagination extends JObject
 	 * @return	string	Either the icon to move an item down or a space
 	 * @since	1.0
 	 */
-	function orderDownIcon($i, $n, $condition = true, $task = 'orderdown', $alt = 'Move Down', $enabled = true)
+	public function orderDownIcon($i, $n, $condition = true, $task = 'orderdown', $alt = 'Move Down', $enabled = true)
 	{
 		$alt = JText::_($alt);
 
@@ -400,7 +400,7 @@ class JPagination extends JObject
 		return $html;
 	}
 
-	function _list_footer($list)
+	protected function _list_footer($list)
 	{
 		// Initialize variables
 		$html = "<div class=\"list-footer\">\n";
@@ -415,7 +415,7 @@ class JPagination extends JObject
 		return $html;
 	}
 
-	function _list_render($list)
+	protected function _list_render($list)
 	{
 		// Initialize variables
 		$html = null;
@@ -436,7 +436,7 @@ class JPagination extends JObject
 		return $html;
 	}
 
-	function _item_active(&$item)
+	protected function _item_active(&$item)
 	{
 		$appl = JFactory::getApplication();
 		if ($appl->isAdmin())
@@ -450,7 +450,7 @@ class JPagination extends JObject
 		}
 	}
 
-	function _item_inactive(&$item)
+	protected function _item_inactive(&$item)
 	{
 		$appl = JFactory::getApplication();
 		if ($appl->isAdmin()) {
@@ -467,7 +467,7 @@ class JPagination extends JObject
 	 * @return	object	Pagination data object
 	 * @since	1.5
 	 */
-	function _buildDataObject()
+	protected function _buildDataObject()
 	{
 		// Initialize variables
 		$data = new stdClass();
@@ -537,11 +537,11 @@ class JPagination extends JObject
  */
 class JPaginationObject extends JObject
 {
-	var $text;
-	var $base;
-	var $link;
+	public $text;
+	public $base;
+	public $link;
 
-	function __construct($text, $base=null, $link=null)
+	public function __construct($text, $base=null, $link=null)
 	{
 		$this->text = $text;
 		$this->base = $base;

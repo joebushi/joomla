@@ -12,6 +12,8 @@
  * See COPYRIGHT.php for copyright notices and details.
  */
 
+JHTML::addIncludePath(JPATH_LIBRARIES.DS.'joomla'.DS.'html'.DS.'html');
+
 /**
  * Utility class for all HTML drawing classes
  *
@@ -20,8 +22,10 @@
  * @subpackage	HTML
  * @since		1.5
  */
-class JHTML
+abstract class JHTML
 {
+	private static $includePath = array();
+
 	/**
 	 * Class loader method
 	 *
@@ -32,7 +36,7 @@ class JHTML
 	 *                  prefix and class are optional and can be used to load custom
 	 *                  html helpers.
 	 */
-	function _( $type )
+	public static function _( $type )
 	{
 		//Initialise variables
 		$prefix = 'JHTML';
@@ -63,7 +67,7 @@ class JHTML
 		if (!class_exists( $className ))
 		{
 			jimport('joomla.filesystem.path');
-			if ($path = JPath::find(JHTML::addIncludePath(), strtolower($file).'.php'))
+			if ($path = JPath::find(JHTML::$includePath, strtolower($file).'.php'))
 			{
 				require_once $path;
 
@@ -102,7 +106,7 @@ class JHTML
 	 * @param	array	An associative array of attributes to add
 	 * @since	1.5
 	 */
-	function link($url, $text, $attribs = null)
+	public static function link($url, $text, $attribs = null)
 	{
 		if (is_array( $attribs )) {
 			$attribs = JArrayHelper::toString( $attribs );
@@ -120,7 +124,7 @@ class JHTML
 	 * @param	array	An associative array of attributes to add
 	 * @since	1.5
 	 */
-	function image($url, $alt, $attribs = null)
+	public static function image($url, $alt, $attribs = null)
 	{
 		if (is_array($attribs)) {
 			$attribs = JArrayHelper::toString( $attribs );
@@ -143,7 +147,7 @@ class JHTML
 	 * @param	string	The message to display if the iframe tag is not supported
 	 * @since	1.5
 	 */
-	function iframe( $url, $name, $attribs = null, $noFrames = '' )
+	public static function iframe( $url, $name, $attribs = null, $noFrames = '' )
 	{
 		if (is_array( $attribs )) {
 			$attribs = JArrayHelper::toString( $attribs );
@@ -161,7 +165,7 @@ class JHTML
 	 * @param	boolean If true, the mootools library will be loaded
 	 * @since	1.5
 	 */
-	function script($filename, $path = 'media/system/js/', $mootools = true)
+	public static function script($filename, $path = 'media/system/js/', $mootools = true)
 	{
 		// Include mootools framework
 		if($mootools) {
@@ -184,7 +188,7 @@ class JHTML
 	 * @param	string 	The relative URL to use for the href attribute
 	 * @since	1.5
 	 */
-	function stylesheet($filename, $path = 'media/system/css/', $attribs = array())
+	public static function stylesheet($filename, $path = 'media/system/css/', $attribs = array())
 	{
 		if(strpos($path, 'http') !== 0) {
 			$path =  JURI::root(true).'/'.$path;
@@ -205,7 +209,7 @@ class JHTML
 	 * @see		strftime
 	 * @since	1.5
 	 */
-	function date($date, $format = null, $offset = NULL)
+	public static function date($date, $format = null, $offset = NULL)
 	{
 		if ( ! $format ) {
 			$format = JText::_('DATE_FORMAT_LC1');
@@ -237,7 +241,7 @@ class JHTML
 	 * @return	string
 	 * @since	1.5
 	 */
-	function tooltip($tooltip, $title='', $image='tooltip.png', $text='', $href='', $link=1)
+	public static function tooltip($tooltip, $title='', $image='tooltip.png', $text='', $href='', $link=1)
 	{
 		$tooltip	= addslashes(htmlspecialchars($tooltip));
 		$title		= addslashes(htmlspecialchars($title));
@@ -275,7 +279,7 @@ class JHTML
 	 * @param	string	The date format
 	 * @param	array	Additional html attributes
 	 */
-	function calendar($value, $name, $id, $format = '%Y-%m-%d', $attribs = null)
+	public static function calendar($value, $name, $id, $format = '%Y-%m-%d', $attribs = null)
 	{
 		JHTML::_('behavior.calendar'); //load the calendar behavior
 
@@ -304,25 +308,19 @@ class JHTML
 	 * @return	array	An array with directory elements
 	 * @since	1.5
 	 */
-	function addIncludePath( $path='' )
+	public static function addIncludePath( $path='' )
 	{
-		static $paths;
-
-		if (!isset($paths)) {
-			$paths = array( JPATH_LIBRARIES.DS.'joomla'.DS.'html'.DS.'html' );
-		}
-
 		// force path to array
 		settype($path, 'array');
 
 		// loop through the path directories
 		foreach ($path as $dir)
 		{
-			if (!empty($dir) && !in_array($dir, $paths)) {
-				array_unshift($paths, JPath::clean( $dir ));
+			if (!empty($dir) && !in_array($dir, JHTML::$includePaths)) {
+				array_unshift(JHTML::$includePaths, JPath::clean( $dir ));
 			}
 		}
 
-		return $paths;
+		return JHTML::$includePaths;
 	}
 }

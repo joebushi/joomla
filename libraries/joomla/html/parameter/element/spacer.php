@@ -31,13 +31,13 @@ class JElementSpacer extends JElement
 	* @access	protected
 	* @var		string
 	*/
-	var	$_name = 'Spacer';
+	protected $_name = 'Spacer';
 
-	function fetchTooltip($label, $description, &$node, $control_name, $name) {
+	public function fetchTooltip($label, $description, &$node, $control_name, $name) {
 		return '&nbsp;';
 	}
 
-	function fetchElement($name, $value, &$node, $control_name)
+	public function fetchElement($name, $value, &$node, $control_name)
 	{
 		if ($value) {
 			return $value;

@@ -31,9 +31,9 @@ class JElementPassword extends JElement
 	* @access	protected
 	* @var		string
 	*/
-	var	$_name = 'Password';
+	protected $_name = 'Password';
 
-	function fetchElement($name, $value, &$node, $control_name)
+	public function fetchElement($name, $value, &$node, $control_name)
 	{
 		$size = ( $node->attributes('size') ? 'size="'.$node->attributes('size').'"' : '' );
 		$class = ( $node->attributes('class') ? 'class="'.$node->attributes('class').'"' : 'class="text_area"' );

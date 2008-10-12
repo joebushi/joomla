@@ -31,16 +31,16 @@ class JElementHidden extends JElement
 	* @access	protected
 	* @var		string
 	*/
-	var	$_name = 'Hidden';
+	protected $_name = 'Hidden';
 
-	function fetchElement($name, $value, &$node, $control_name)
+	public function fetchElement($name, $value, &$node, $control_name)
 	{
 		$class = ( $node->attributes('class') ? 'class="'.$node->attributes('class').'"' : 'class="text_area"' );
 
 		return '<input type="hidden" name="'.$control_name.'['.$name.']" id="'.$control_name.$name.'" value="'.$value.'" '.$class.' />';
 	}
 
-	function fetchTooltip($label, $description, &$xmlElement, $control_name='', $name='') {
+	public function fetchTooltip($label, $description, &$xmlElement, $control_name='', $name='') {
 		return false;
 	}
 }

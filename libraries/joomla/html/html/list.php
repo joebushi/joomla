@@ -23,12 +23,12 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * @subpackage	HTML
  * @since		1.5
  */
-class JHTMLList
+abstract class JHTMLList
 {
 	/**
 	* Build the select list for access level
 	*/
-	function accesslevel( &$row )
+	public static function accesslevel( &$row )
 	{
 		$db =& JFactory::getDBO();
 
@@ -47,7 +47,7 @@ class JHTMLList
 	/**
 	* Build the select list to choose an image
 	*/
-	function images( $name, $active = NULL, $javascript = NULL, $directory = NULL, $extensions =  "bmp|gif|jpg|png" )
+	public static function images( $name, $active = NULL, $javascript = NULL, $directory = NULL, $extensions =  "bmp|gif|jpg|png" )
 	{
 		if ( !$directory ) {
 			$directory = '/images/stories/';
@@ -77,7 +77,7 @@ class JHTMLList
  	 * @param integer The length of the truncated headline
  	 * @since 1.5
  	 */
-	function genericordering( $sql, $chop = '30' )
+	public static function genericordering( $sql, $chop = '30' )
 	{
 		$db =& JFactory::getDBO();
 		$order = array();
@@ -110,7 +110,7 @@ class JHTMLList
 	/**
 	* Build the select list for Ordering of a specified Table
 	*/
-	function specificordering( &$row, $id, $query, $neworder = 0 )
+	public static function specificordering( &$row, $id, $query, $neworder = 0 )
 	{
 		$db =& JFactory::getDBO();
 
@@ -131,7 +131,7 @@ class JHTMLList
 	/**
 	* Select list of active users
 	*/
-	function users( $name, $active, $nouser = 0, $javascript = NULL, $order = 'name', $reg = 1 )
+	public static function users( $name, $active, $nouser = 0, $javascript = NULL, $order = 'name', $reg = 1 )
 	{
 		$db =& JFactory::getDBO();
 
@@ -163,7 +163,7 @@ class JHTMLList
 	/**
 	* Select list of positions - generally used for location of images
 	*/
-	function positions( $name, $active = NULL, $javascript = NULL, $none = 1, $center = 1, $left = 1, $right = 1, $id = false )
+	public static function positions( $name, $active = NULL, $javascript = NULL, $none = 1, $center = 1, $left = 1, $right = 1, $id = false )
 	{
 		if ( $none ) {
 			$pos[] = JHTML::_('select.option',  '', JText::_( 'None' ) );
@@ -186,7 +186,7 @@ class JHTMLList
 	/**
 	* Select list of active categories for components
 	*/
-	function category( $name, $section, $active = NULL, $javascript = NULL, $order = 'ordering', $size = 1, $sel_cat = 1 )
+	public static function category( $name, $section, $active = NULL, $javascript = NULL, $order = 'ordering', $size = 1, $sel_cat = 1 )
 	{
 		$db =& JFactory::getDBO();
 
@@ -211,7 +211,7 @@ class JHTMLList
 	/**
 	* Select list of active sections
 	*/
-	function section( $name, $active = NULL, $javascript = NULL, $order = 'ordering', $uncategorized = true )
+	public static function section( $name, $active = NULL, $javascript = NULL, $order = 'ordering', $uncategorized = true )
 	{
 		$db =& JFactory::getDBO();
 

@@ -31,9 +31,9 @@ class JElementMenuItem extends JElement
 	* @access	protected
 	* @var		string
 	*/
-	var	$_name = 'MenuItem';
+	protected $_name = 'MenuItem';
 
-	function fetchElement($name, $value, &$node, $control_name)
+	public function fetchElement($name, $value, &$node, $control_name)
 	{
 		$db =& JFactory::getDBO();
 

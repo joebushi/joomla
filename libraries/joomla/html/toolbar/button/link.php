@@ -30,9 +30,9 @@ class JButtonLink extends JButton
 	 * @access	protected
 	 * @var		string
 	 */
-	var $_name = 'Link';
+	protected $_name = 'Link';
 
-	function fetchButton( $type='Link', $name = 'back', $text = '', $url = null )
+	public function fetchButton( $type='Link', $name = 'back', $text = '', $url = null )
 	{
 		$text	= JText::_($text);
 		$class	= $this->fetchIconClass($name);
@@ -54,7 +54,7 @@ class JButtonLink extends JButton
 	 * @return	string	Button CSS Id
 	 * @since	1.5
 	 */
-	function fetchId($name)
+	public function fetchId($name)
 	{
 		return $this->_parent->_name.'-'.$name;
 	}
@@ -67,7 +67,7 @@ class JButtonLink extends JButton
 	 * @return	string	JavaScript command string
 	 * @since	1.5
 	 */
-	function _getCommand($url) {
+	protected function _getCommand($url) {
 		return $url;
 	}
 }

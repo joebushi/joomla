@@ -31,9 +31,9 @@ class JElementEditors extends JElement
 	* @access	protected
 	* @var		string
 	*/
-	var	$_name = 'Editors';
+	protected $_name = 'Editors';
 
-	function fetchElement($name, $value, &$node, $control_name)
+	public function fetchElement($name, $value, &$node, $control_name)
 	{
 		$db		= & JFactory::getDBO();
 		$user	= & JFactory::getUser();

@@ -31,9 +31,9 @@ class JElementTimezones extends JElement
 	* @access	protected
 	* @var		string
 	*/
-	var	$_name = 'Timezones';
+	protected $_name = 'Timezones';
 
-	function fetchElement($name, $value, &$node, $control_name)
+	public function fetchElement($name, $value, &$node, $control_name)
 	{
 		if(!strlen($value)) {
 			$conf =& JFactory::getConfig();

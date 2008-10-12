@@ -25,7 +25,7 @@ defined('JPATH_BASE') or die();
  * @subpackage		HTML
  * @since		1.5
  */
-class JButton extends JObject
+abstract class JButton extends JObject
 {
 	/**
 	 * element name
@@ -35,7 +35,7 @@ class JButton extends JObject
 	 * @access	protected
 	 * @var		string
 	 */
-	var $_name = null;
+	protected $_name = null;
 
 	/**
 	 * reference to the object that instantiated the element
@@ -43,14 +43,14 @@ class JButton extends JObject
 	 * @access	protected
 	 * @var		object
 	 */
-	var $_parent = null;
+	protected $_parent = null;
 
 	/**
 	 * Constructor
 	 *
 	 * @access protected
 	 */
-	function __construct($parent = null)
+	public function __construct($parent = null)
 	{
 		$this->_parent = $parent;
 	}
@@ -61,12 +61,12 @@ class JButton extends JObject
 	 * @access	public
 	 * @return	string	type of the parameter
 	 */
-	function getName()
+	public function getName()
 	{
 		return $this->_name;
 	}
 
-	function render( &$definition )
+	public function render( &$definition )
 	{
 		/*
 		 * Initialize some variables
@@ -98,7 +98,7 @@ class JButton extends JObject
 	 * @return	string	CSS class name
 	 * @since	1.5
 	 */
-	function fetchIconClass($identifier)
+	public function fetchIconClass($identifier)
 	{
 		return "icon-32-$identifier";
 	}
@@ -111,7 +111,7 @@ class JButton extends JObject
 	 * @access		public
 	 * @since		1.5
 	 */
-	function fetchId()
+	public function fetchId()
 	{
 		return;
 	}
@@ -125,8 +125,5 @@ class JButton extends JObject
 	 * @access		public
 	 * @since		1.5
 	 */
-	function fetchButton()
-	{
-		return;
-	}
+	abstract public function fetchButton();
 }

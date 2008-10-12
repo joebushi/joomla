@@ -31,9 +31,9 @@ class JElementTextarea extends JElement
 	* @access	protected
 	* @var		string
 	*/
-	var	$_name = 'Textarea';
+	protected $_name = 'Textarea';
 
-	function fetchElement($name, $value, &$node, $control_name)
+	public function fetchElement($name, $value, &$node, $control_name)
 	{
 		$rows = $node->attributes('rows');
 		$cols = $node->attributes('cols');
