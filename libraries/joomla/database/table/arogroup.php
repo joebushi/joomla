@@ -24,20 +24,20 @@ defined('JPATH_BASE') or die();
  */
 class JTableAROGroup extends JTable
 {
-	/** @var int Primary key */
-	var $id			= null;
+	/** @public int Primary key */
+	public $id = null;
 
-	var $parent_id	= null;
+	public $parent_id = null;
 
-	var $name		= null;
+	public $name = null;
 
-	var $value		= null;
+	public $value = null;
 
-	var $lft		= null;
+	public $lft = null;
 
-	var $rgt		= null;
+	public $rgt = null;
 
-	function __construct( &$db )
+	protected function __construct( &$db )
 	{
 		parent::__construct( '#__core_acl_aro_groups', 'group_id', $db );
 	}

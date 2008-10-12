@@ -25,13 +25,13 @@ defined('JPATH_BASE') or die();
 class JTableMenuTypes extends JTable
 {
 	/** @var int Primary key */
-	var $id					= null;
+	public $id = null;
 	/** @var string */
-	var $menutype			= null;
+	public $menutype = null;
 	/** @var string */
-	var $title				= null;
+	public $title = null;
 	/** @var string */
-	var $description		= null;
+	public $description = null;
 
 	/**
 	 * Constructor
@@ -39,7 +39,7 @@ class JTableMenuTypes extends JTable
 	 * @access protected
 	 * @param database A database connector object
 	 */
-	function __construct( &$db )
+	protected function __construct( &$db )
 	{
 		parent::__construct( '#__menu_types', 'id', $db );
 	}
@@ -47,7 +47,7 @@ class JTableMenuTypes extends JTable
 	/**
 	 * @return boolean
 	 */
-	function check()
+	public function check()
 	{
 		if (strstr( $this->menutype, '\'' ))
 		{

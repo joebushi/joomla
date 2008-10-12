@@ -19,21 +19,22 @@
  * @package		Joomla.Framework
  * @subpackage	Database
  * @since		1.5
+ * @deprecated
  */
 class JRecordSet
 {
 	/** @var array */
-	var $data	= null;
+	public $data	= null;
 	/** @var int Index to current record */
-	var $pointer= null;
+	public $pointer= null;
 	/** @var int The number of rows of data */
-	var $count	= null;
+	public $count	= null;
 
 	/**
 	 * Constuctor
 	 * @param array
 	 */
-	function JRecordSet( $data )
+	public function __construct( $data )
 	{
 		$this->data = $data;
 		$this->pointer = 0;
@@ -42,13 +43,13 @@ class JRecordSet
 	/**
 	 * @return int
 	 */
-	function RecordCount() {
+	public function RecordCount() {
 		return $this->count;
 	}
 	/**
 	 * @return mixed A row from the data array or null
 	 */
-	function FetchRow()
+	public function FetchRow()
 	{
 		if ($this->pointer < $this->count) {
 			$result = $this->data[$this->pointer];
@@ -61,36 +62,36 @@ class JRecordSet
 	/**
 	 * @return array
 	 */
-	function GetRows() {
+	public function GetRows() {
 		return $this->data;
 	}
 	/**
 	 * TODO: No working
 	 */
-	function absolutepage() {
+	public function absolutepage() {
 		return 1;
 	}
 	/**
 	 * TODO: No working
 	 */
-	function atfirstpage() {
+	public function atfirstpage() {
 		return 1;
 	}
 	/**
 	 * TODO: No working
 	 */
-	function atlastpage() {
+	public function atlastpage() {
 		return 1;
 	}
 	/**
 	 * TODO: No working
 	 */
-	function lastpageno() {
+	public function lastpageno() {
 		return 1;
 	}
 	/**
 	 * TODO: No working
 	 */
-	function Close() {
+	public function Close() {
 	}
 }

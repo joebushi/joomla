@@ -27,7 +27,7 @@ defined('JPATH_BASE') or die();
  * @since		1.0
  * @tutorial	Joomla.Framework/jtable.cls
  */
-class JTable extends JObject
+abstract class JTable extends JObject
 {
 	/**
 	 * Name of the table in the db schema relating to child class
@@ -35,7 +35,7 @@ class JTable extends JObject
 	 * @var 	string
 	 * @access	protected
 	 */
-	var $_tbl		= '';
+	protected $_tbl	= '';
 
 	/**
 	 * Name of the primary key field in the table
@@ -43,7 +43,7 @@ class JTable extends JObject
 	 * @var		string
 	 * @access	protected
 	 */
-	var $_tbl_key	= '';
+	protected $_tbl_key = '';
 
 	/**
 	 * Database connector
@@ -51,7 +51,7 @@ class JTable extends JObject
 	 * @var		JDatabase
 	 * @access	protected
 	 */
-	var $_db		= null;
+	protected $_db = null;
 
 	/**
 	 * Object constructor to set table and key field
@@ -63,7 +63,7 @@ class JTable extends JObject
 	 * @param string $key name of the primary key field in the table
 	 * @param object $db JDatabase object
 	 */
-	function __construct( $table, $key, &$db )
+	protected function __construct( $table, $key, &$db )
 	{
 		$this->_tbl		= $table;
 		$this->_tbl_key	= $key;
@@ -79,7 +79,7 @@ class JTable extends JObject
 	 * @return database A database object
 	 * @since 1.5
 	*/
-	function &getInstance( $type, $prefix = 'JTable', $config = array() )
+	public static function &getInstance( $type, $prefix = 'JTable', $config = array() )
 	{
 		$false = false;
 
@@ -124,7 +124,7 @@ class JTable extends JObject
 	 *
 	 * @return object A JDatabase based object
 	 */
-	function &getDBO()
+	public function &getDBO()
 	{
 		return $this->_db;
 	}
@@ -135,7 +135,7 @@ class JTable extends JObject
 	 * @param	object	$db	A JDatabase based object
 	 * @return	void
 	 */
-	function setDBO(&$db)
+	public function setDBO(&$db)
 	{
 		$this->_db =& $db;
 	}
@@ -146,7 +146,7 @@ class JTable extends JObject
 	 * @return string
 	 * @since 1.5
 	 */
-	function getTableName()
+	public function getTableName()
 	{
 		return $this->_tbl;
 	}
@@ -157,7 +157,7 @@ class JTable extends JObject
 	 * @return string
 	 * @since 1.5
 	 */
-	function getKeyName()
+	public function getKeyName()
 	{
 		return $this->_tbl_key;
 	}
@@ -166,7 +166,7 @@ class JTable extends JObject
 	 * Resets the default properties
 	 * @return	void
 	 */
-	function reset()
+	public function reset()
 	{
 		$k = $this->_tbl_key;
 		foreach ($this->getProperties() as $name => $value)
@@ -188,7 +188,7 @@ class JTable extends JObject
 	 * @param	$ignore	mixed	An array or space separated list of fields not to bind
 	 * @return	boolean
 	 */
-	function bind( $from, $ignore=array() )
+	public function bind( $from, $ignore=array() )
 	{
 		$fromArray	= is_array( $from );
 		$fromObject	= is_object( $from );
@@ -223,7 +223,7 @@ class JTable extends JObject
 	 * @param	mixed	Optional primary key.  If not specifed, the value of current key is used
 	 * @return	boolean	True if successful
 	 */
-	function load( $oid=null )
+	public function load( $oid=null )
 	{
 		$k = $this->_tbl_key;
 
@@ -263,7 +263,7 @@ class JTable extends JObject
 	 * @access public
 	 * @return boolean True if the object is ok
 	 */
-	function check()
+	public function check()
 	{
 		return true;
 	}
@@ -277,7 +277,7 @@ class JTable extends JObject
 	 * @param boolean If false, null object variables are not updated
 	 * @return null|string null if successful otherwise returns and error message
 	 */
-	function store( $updateNulls=false )
+	public function store( $updateNulls=false )
 	{
 		$k = $this->_tbl_key;
 
@@ -307,7 +307,7 @@ class JTable extends JObject
 	 * @param $dirn
 	 * @param $where
 	 */
-	function move( $dirn, $where='' )
+	public function move( $dirn, $where='' )
 	{
 		if (!in_array( 'ordering',  array_keys($this->getProperties())))
 		{
@@ -393,7 +393,7 @@ class JTable extends JObject
 	 * @access public
 	 * @param string query WHERE clause for selecting MAX(ordering).
 	 */
-	function getNextOrder ( $where='' )
+	public function getNextOrder ( $where='' )
 	{
 		if (!in_array( 'ordering', array_keys($this->getProperties()) ))
 		{
@@ -422,7 +422,7 @@ class JTable extends JObject
 	 * @access public
 	 * @param string Additional where query to limit ordering to a particular subset of records
 	 */
-	function reorder( $where='' )
+	public function reorder( $where='' )
 	{
 		$k = $this->_tbl_key;
 
@@ -484,7 +484,7 @@ class JTable extends JObject
 	 * @param array Optional array to compiles standard joins: format [label=>'Label',name=>'table name',idfield=>'field',joinfield=>'field']
 	 * @return true|false
 	 */
-	function canDelete( $oid=null, $joins=null )
+	public function canDelete( $oid=null, $joins=null )
 	{
 		$k = $this->_tbl_key;
 		if ($oid) {
@@ -548,7 +548,7 @@ class JTable extends JObject
 	 * @access public
 	 * @return true if successful otherwise returns and error message
 	 */
-	function delete( $oid=null )
+	public function delete( $oid=null )
 	{
 		//if (!$this->canDelete( $msg ))
 		//{
@@ -583,7 +583,7 @@ class JTable extends JObject
 	 * @param 	mixed	The primary key value for the row
 	 * @return	boolean	True if successful, or if checkout is not supported
 	 */
-	function checkout( $who, $oid = null )
+	public function checkout( $who, $oid = null )
 	{
 		if (!in_array( 'checked_out', array_keys($this->getProperties()) )) {
 			return true;
@@ -615,7 +615,7 @@ class JTable extends JObject
 	 * @param	mixed	The primary key value for the row
 	 * @return	boolean	True if successful, or if checkout is not supported
 	 */
-	function checkin( $oid=null )
+	public function checkin( $oid=null )
 	{
 		if (!(
 			in_array( 'checked_out', array_keys($this->getProperties()) ) ||
@@ -652,7 +652,7 @@ class JTable extends JObject
 	 * @param $oid
 	 * @param $log
 	 */
-	function hit( $oid=null, $log=false )
+	public function hit( $oid=null, $log=false )
 	{
 		if (!in_array( 'hits', array_keys($this->getProperties()) )) {
 			return;
@@ -686,7 +686,7 @@ class JTable extends JObject
 	 * 							a static function.
 	 * @return boolean
 	 */
-	function isCheckedOut( $with = 0, $against = null)
+	public function isCheckedOut( $with = 0, $against = null)
 	{
 		if(isset($this) && is_a($this, 'JTable') && is_null($against)) {
 			$against = $this->get( 'checked_out' );
@@ -710,7 +710,7 @@ class JTable extends JObject
 	 * @param	mixed	An array or space separated list of fields not to bind
 	 * @returns TRUE if completely successful, FALSE if partially or not succesful.
 	 */
-	function save( $source, $order_filter='', $ignore='' )
+	public function save( $source, $order_filter='', $ignore='' )
 	{
 		if (!$this->bind( $source, $ignore )) {
 			return false;
@@ -742,7 +742,7 @@ class JTable extends JObject
 	 * @param integer The id of the user performnig the operation
 	 * @since 1.0.4
 	 */
-	function publish( $cid=null, $publish=1, $user_id=0 )
+	public function publish( $cid=null, $publish=1, $user_id=0 )
 	{
 		JArrayHelper::toInteger( $cid );
 		$user_id	= (int) $user_id;
@@ -798,7 +798,7 @@ class JTable extends JObject
 	 * @access public
 	 * @param boolean Map foreign keys to text values
 	 */
-	function toXML( $mapKeysToText=false )
+	public function toXML( $mapKeysToText=false )
 	{
 		$xml = '<record table="' . $this->_tbl . '"';
 
@@ -828,12 +828,13 @@ class JTable extends JObject
 	 * Add a directory where JTable should search for table types. You may
 	 * either pass a string or an array of directories.
 	 *
+	 * @static
 	 * @access	public
 	 * @param	string	A path to search.
 	 * @return	array	An array with directory elements
 	 * @since 1.5
 	 */
-	function addIncludePath( $path=null )
+	public static function addIncludePath( $path=null )
 	{
 		static $paths;
 

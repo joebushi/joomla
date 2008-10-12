@@ -26,74 +26,74 @@ defined('JPATH_BASE') or die();
 class JTableContent extends JTable
 {
 	/** @var int Primary key */
-	var $id					= null;
+	public $id = null;
 	/** @var string */
-	var $title				= null;
+	public $title = null;
 	/** @var string */
-	var $alias				= null;
+	public $alias = null;
 	/** @var string */
-	var $title_alias			= null;
+	public $title_alias = null;
 	/** @var string */
-	var $introtext			= null;
+	public $introtext = null;
 	/** @var string */
-	var $fulltext			= null;
+	public $fulltext = null;
 	/** @var int */
-	var $state				= null;
+	public $state = null;
 	/** @var int The id of the category section*/
-	var $sectionid			= null;
+	public $sectionid = null;
 	/** @var int DEPRECATED */
-	var $mask				= null;
+	public $mask = null;
 	/** @var int */
-	var $catid				= null;
+	public $catid = null;
 	/** @var datetime */
-	var $created				= null;
+	public $created = null;
 	/** @var int User id*/
-	var $created_by			= null;
+	public $created_by = null;
 	/** @var string An alias for the author*/
-	var $created_by_alias		= null;
+	public $created_by_alias = null;
 	/** @var datetime */
-	var $modified			= null;
+	public $modified = null;
 	/** @var int User id*/
-	var $modified_by			= null;
+	public $modified_by = null;
 	/** @var boolean */
-	var $checked_out			= 0;
+	public $checked_out = 0;
 	/** @var time */
-	var $checked_out_time		= 0;
+	public $checked_out_time = 0;
 	/** @var datetime */
-	var $frontpage_up		= null;
+	public $frontpage_up = null;
 	/** @var datetime */
-	var $frontpage_down		= null;
+	public $frontpage_down = null;
 	/** @var datetime */
-	var $publish_up			= null;
+	public $publish_up = null;
 	/** @var datetime */
-	var $publish_down		= null;
+	public $publish_down = null;
 	/** @var string */
-	var $images				= null;
+	public $images = null;
 	/** @var string */
-	var $urls				= null;
+	public $urls = null;
 	/** @var string */
-	var $attribs				= null;
+	public $attribs = null;
 	/** @var int */
-	var $version				= null;
+	public $version = null;
 	/** @var int */
-	var $parentid			= null;
+	public $parentid = null;
 	/** @var int */
-	var $ordering			= null;
+	public $ordering = null;
 	/** @var string */
-	var $metakey				= null;
+	public $metakey = null;
 	/** @var string */
-	var $metadesc			= null;
+	public $metadesc = null;
 	/** @var string */
-	var $metadata			= null;
+	public $metadata = null;
 	/** @var int */
-	var $access				= null;
+	public $access = null;
 	/** @var int */
-	var $hits				= null;
+	public $hits = null;
 
 	/**
 	* @param database A database connector object
 	*/
-	function __construct( &$db ) {
+	protected function __construct( &$db ) {
 		parent::__construct( '#__content', 'id', $db );
 	}
 
@@ -105,7 +105,7 @@ class JTableContent extends JTable
 	 * @see JTable::check
 	 * @since 1.5
 	 */
-	function check()
+	public function check()
 	{
 		/*
 		TODO: This filter is too rigorous,need to implement more configurable solution
@@ -147,7 +147,7 @@ class JTableContent extends JTable
 	* Converts record to XML
 	* @param boolean Map foreign keys to text values
 	*/
-	function toXML( $mapKeysToText=false )
+	public function toXML( $mapKeysToText=false )
 	{
 		$db =& JFactory::getDBO();
 

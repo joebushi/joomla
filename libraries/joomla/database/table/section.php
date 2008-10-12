@@ -25,38 +25,38 @@ defined('JPATH_BASE') or die();
 class JTableSection extends JTable
 {
 	/** @var int Primary key */
-	var $id					= null;
+	public $id = null;
 	/** @var string The menu title for the section (a short name)*/
-	var $title				= null;
+	public $title = null;
 	/** @var string The full name for the section*/
-	var $name				= null;
+	public $name = null;
 	/** @var string The alias for the section*/
-	var $alias				= null;
+	public $alias = null;
 	/** @var string */
-	var $image				= null;
+	public $image = null;
 	/** @var string */
-	var $scope				= null;
+	public $scope = null;
 	/** @var int */
-	var $image_position		= null;
+	public $image_position = null;
 	/** @var string */
-	var $description		= null;
+	public $description = null;
 	/** @var boolean */
-	var $published			= null;
+	public $published = null;
 	/** @var boolean */
-	var $checked_out		= 0;
+	public $checked_out = 0;
 	/** @var time */
-	var $checked_out_time	= 0;
+	public $checked_out_time = 0;
 	/** @var int */
-	var $ordering			= null;
+	public $ordering = null;
 	/** @var int */
-	var $access				= null;
+	public $access = null;
 	/** @var string */
-	var $params				= null;
+	public $params = null;
 
 	/**
 	* @param database A database connector object
 	*/
-	function __construct( &$db ) {
+	protected function __construct( &$db ) {
 		parent::__construct( '#__sections', 'id', $db );
 	}
 
@@ -67,7 +67,7 @@ class JTableSection extends JTable
 	 * @see JTable::check
 	 * @since 1.5
 	 */
-	function check()
+	public function check()
 	{
 		// check for valid name
 		if (trim( $this->title ) == '') {
@@ -110,7 +110,7 @@ class JTableSection extends JTable
 	* @see JTable:bind
 	* @since 1.5
 	*/
-	function bind($array, $ignore = '')
+	public function bind($array, $ignore = '')
 	{
 		if (isset( $array['params'] ) && is_array($array['params']))
 		{

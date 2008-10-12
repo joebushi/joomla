@@ -22,31 +22,31 @@ defined('JPATH_BASE') or die();
  * @subpackage	Database
  * @since		1.0
  */
-class JDatabaseMySQL EXTENDS JDatabase IMPLEMENTS JDatabaseInterface
+class JDatabaseMySQL extends JDatabase
 {
 	/**
 	 * The database driver name
 	 *
-	 * @protected string
+	 * @var string
 	 */
-	protected $name			= 'mysql';
+	public $name = 'mysql';
 
 	/**
 	 *  The null/zero date string
 	 *
-	 * @protected string
+	 * @var string
 	 */
-	protected $nullDate		= '0000-00-00 00:00:00';
+	protected $_nullDate = '0000-00-00 00:00:00';
 
 	/**
 	 * Quote for named objects
 	 *
-	 * @protected string
+	 * @var string
 	 */
-	protected $nameQuote		= '`';
+	protected $_nameQuote = '`';
 
 	/**
-	* Database object constructor.  This must be called from JDatabase::getInstance
+	* Database object constructor
 	*
 	* @access	protected
 	* @param	array	List of options used to configure the connection
@@ -55,8 +55,8 @@ class JDatabaseMySQL EXTENDS JDatabase IMPLEMENTS JDatabaseInterface
 	*/
 	protected function __construct( $options )
 	{
-		$host		= array_key_exists('host', $options)	? $options['host']		: 'localhost';
-		$user		= array_key_exists('user', $options)	? $options['user']		: '';
+		$host		= array_key_exists('host', $options)	? $options['host']	: 'localhost';
+		$user		= array_key_exists('user', $options)	? $options['user']	: '';
 		$password	= array_key_exists('password',$options)	? $options['password']	: '';
 		$database	= array_key_exists('database',$options)	? $options['database']	: '';
 		$prefix		= array_key_exists('prefix', $options)	? $options['prefix']	: 'jos_';
@@ -64,15 +64,15 @@ class JDatabaseMySQL EXTENDS JDatabase IMPLEMENTS JDatabaseInterface
 
 		// perform a number of fatality checks, then return gracefully
 		if (!function_exists( 'mysql_connect' )) {
-			$this->errorNum = 1;
-			$this->errorMsg = 'The MySQL adapter "mysql" is not available.';
+			$this->_errorNum = 1;
+			$this->_errorMsg = 'The MySQL adapter "mysql" is not available.';
 			return;
 		}
 
 		// connect to the server
-		if (!($this->resource = @mysql_connect( $host, $user, $password, true ))) {
-			$this->errorNum = 2;
-			$this->errorMsg = 'Could not connect to MySQL';
+		if (!($this->_resource = @mysql_connect( $host, $user, $password, true ))) {
+			$this->_errorNum = 2;
+			$this->_errorMsg = 'Could not connect to MySQL';
 			return;
 		}
 
@@ -94,8 +94,8 @@ class JDatabaseMySQL EXTENDS JDatabase IMPLEMENTS JDatabaseInterface
 	public function __destruct()
 	{
 		$return = false;
-		if (is_resource($this->resource)) {
-			$return = mysql_close($this->resource);
+		if (is_resource($this->_resource)) {
+			$return = mysql_close($this->_resource);
 		}
 		return $return;
 	}
@@ -121,8 +121,8 @@ class JDatabaseMySQL EXTENDS JDatabase IMPLEMENTS JDatabaseInterface
 	 */
 	public function connected()
 	{
-		if(is_resource($this->resource)) {
-			return mysql_ping($this->resource);
+		if(is_resource($this->_resource)) {
+			return mysql_ping($this->_resource);
 		}
 		return false;
 	}
@@ -142,8 +142,10 @@ class JDatabaseMySQL EXTENDS JDatabase IMPLEMENTS JDatabaseInterface
 			return false;
 		}
 
-		if ( !mysql_select_db( $database, $this->resource )) {
-			throw new JException('Could Not Select Databasae', 500, E_ERROR, array('message'=>$this->errorMsg, 'number'=>$this->errorNum));
+		if ( !mysql_select_db( $database, $this->_resource )) {
+			$this->_errorNum = 3;
+			$this->_errorMsg = 'Could not connect to database';
+			return false;
 		}
 
 		// if running mysql 5, set sql-mode to mysql40 - thereby circumventing strict mode problems
@@ -174,7 +176,7 @@ class JDatabaseMySQL EXTENDS JDatabase IMPLEMENTS JDatabaseInterface
 	 */
 	public function setUTF()
 	{
-		mysql_query( "SET NAMES 'utf8'", $this->resource );
+		mysql_query( "SET NAMES 'utf8'", $this->_resource );
 	}
 
 	/**
@@ -188,7 +190,7 @@ class JDatabaseMySQL EXTENDS JDatabase IMPLEMENTS JDatabaseInterface
 	 */
 	public function getEscaped( $text, $extra = false )
 	{
-		$result = mysql_real_escape_string( $text, $this->resource );
+		$result = mysql_real_escape_string( $text, $this->_resource );
 		if ($extra) {
 			$result = addcslashes( $result, '%_' );
 		}
@@ -203,28 +205,32 @@ class JDatabaseMySQL EXTENDS JDatabase IMPLEMENTS JDatabaseInterface
 	 */
 	public function query()
 	{
-		if (!is_resource($this->resource)) {
-			throw new JException('Database Driver Not Connected', 500, E_ERROR);
+		if (!is_resource($this->_resource)) {
+			return false;
 		}
 
-		if ($this->limit > 0 || $this->offset > 0) {
-			$this->sql .= ' LIMIT '.$this->offset.', '.$this->limit;
+		if ($this->_limit > 0 || $this->_offset > 0) {
+			$this->_sql .= ' LIMIT '.$this->_offset.', '.$this->_limit;
 		}
-		if ($this->debug) {
-			$this->ticker++;
-			$this->log[] = $this->sql;
+		if ($this->_debug) {
+			$this->_ticker++;
+			$this->_log[] = $this->_sql;
 		}
-		$this->errorNum = 0;
-		$this->errorMsg = '';
-		$this->cursor = mysql_query( $this->sql, $this->resource );
+		$this->_errorNum = 0;
+		$this->_errorMsg = '';
+		$this->_cursor = mysql_query( $this->_sql, $this->_resource );
 
-		if (!$this->cursor)
+		if (!$this->_cursor)
 		{
-			$this->errorNum = mysql_errno( $this->resource );
-			$this->errorMsg = mysql_error( $this->resource )." SQL=$this->sql";
-			throw new JException('Database Error', 500, E_ERROR, array('message'=>$this->errorMsg, 'number'=>$this->errorNum));
+			$this->_errorNum = mysql_errno( $this->_resource );
+			$this->_errorMsg = mysql_error( $this->_resource )." SQL=$this->_sql";
+
+			if ($this->_debug) {
+				JError::raiseError(500, 'JDatabaseMySQL::query: '.$this->_errorNum.' - '.$this->_errorMsg );
+			}
+			return false;
 		}
-		return $this->cursor;
+		return $this->_cursor;
 	}
 
 	/**
@@ -236,7 +242,7 @@ class JDatabaseMySQL EXTENDS JDatabase IMPLEMENTS JDatabaseInterface
 	 */
 	public function getAffectedRows()
 	{
-		return mysql_affected_rows( $this->resource );
+		return mysql_affected_rows( $this->_resource );
 	}
 
 	/**
@@ -247,32 +253,32 @@ class JDatabaseMySQL EXTENDS JDatabase IMPLEMENTS JDatabaseInterface
 	 */
 	public function queryBatch( $abort_on_error=true, $p_transaction_safe = false)
 	{
-		$this->errorNum = 0;
-		$this->errorMsg = '';
+		$this->_errorNum = 0;
+		$this->_errorMsg = '';
 		if ($p_transaction_safe) {
-			$this->sql = rtrim($this->sql, '; \t\r\n\0');
+			$this->_sql = rtrim($this->_sql, '; \t\r\n\0');
 			$si = $this->getVersion();
 			preg_match_all( "/(\d+)\.(\d+)\.(\d+)/i", $si, $m );
 			if ($m[1] >= 4) {
-				$this->sql = 'START TRANSACTION;' . $this->sql . '; COMMIT;';
+				$this->_sql = 'START TRANSACTION;' . $this->_sql . '; COMMIT;';
 			} else if ($m[2] >= 23 && $m[3] >= 19) {
-				$this->sql = 'BEGIN WORK;' . $this->sql . '; COMMIT;';
+				$this->_sql = 'BEGIN WORK;' . $this->_sql . '; COMMIT;';
 			} else if ($m[2] >= 23 && $m[3] >= 17) {
-				$this->sql = 'BEGIN;' . $this->sql . '; COMMIT;';
+				$this->_sql = 'BEGIN;' . $this->_sql . '; COMMIT;';
 			}
 		}
-		$query_split = $this->splitSql($this->sql);
+		$query_split = $this->splitSql($this->_sql);
 		$error = 0;
 		foreach ($query_split as $command_line) {
 			$command_line = trim( $command_line );
 			if ($command_line != '') {
-				$this->cursor = mysql_query( $command_line, $this->resource );
-				if (!$this->cursor) {
+				$this->_cursor = mysql_query( $command_line, $this->_resource );
+				if (!$this->_cursor) {
 					$error = 1;
-					$this->errorNum .= mysql_errno( $this->resource ) . ' ';
-					$this->errorMsg .= mysql_error( $this->resource )." SQL=$command_line <br />";
+					$this->_errorNum .= mysql_errno( $this->_resource ) . ' ';
+					$this->_errorMsg .= mysql_error( $this->_resource )." SQL=$command_line <br />";
 					if ($abort_on_error) {
-						throw new JException('Database Error', 500, E_ERROR, array('message'=>$this->errorMsg, 'number'=>$this->errorNum));
+						return $this->_cursor;
 					}
 				}
 			}
@@ -288,11 +294,12 @@ class JDatabaseMySQL EXTENDS JDatabase IMPLEMENTS JDatabaseInterface
 	 */
 	public function explain()
 	{
-		$temp = $this->sql;
-		$this->sql = "EXPLAIN {$this->sql}";
+		$temp = $this->_sql;
+		$this->_sql = "EXPLAIN $this->_sql";
 
-		$cur = $this->query();
-		
+		if (!($cur = $this->query())) {
+			return null;
+		}
 		$first = true;
 
 		$buffer = '<table id="explain-sql">';
@@ -315,7 +322,7 @@ class JDatabaseMySQL EXTENDS JDatabase IMPLEMENTS JDatabaseInterface
 		$buffer .= '</tbody></table>';
 		mysql_free_result( $cur );
 
-		$this->sql = $temp;
+		$this->_sql = $temp;
 
 		return $buffer;
 	}
@@ -328,7 +335,7 @@ class JDatabaseMySQL EXTENDS JDatabase IMPLEMENTS JDatabaseInterface
 	 */
 	public function getNumRows( $cur=null )
 	{
-		return mysql_num_rows( $cur ? $cur : $this->cursor );
+		return mysql_num_rows( $cur ? $cur : $this->_cursor );
 	}
 
 	/**
@@ -339,7 +346,9 @@ class JDatabaseMySQL EXTENDS JDatabase IMPLEMENTS JDatabaseInterface
 	 */
 	public function loadResult()
 	{
-		$cur = $this->query();
+		if (!($cur = $this->query())) {
+			return null;
+		}
 		$ret = null;
 		if ($row = mysql_fetch_row( $cur )) {
 			$ret = $row[0];
@@ -355,7 +364,9 @@ class JDatabaseMySQL EXTENDS JDatabase IMPLEMENTS JDatabaseInterface
 	 */
 	public function loadResultArray($numinarray = 0)
 	{
-		$cur = $this->query();
+		if (!($cur = $this->query())) {
+			return null;
+		}
 		$array = array();
 		while ($row = mysql_fetch_row( $cur )) {
 			$array[] = $row[$numinarray];
@@ -372,9 +383,10 @@ class JDatabaseMySQL EXTENDS JDatabase IMPLEMENTS JDatabaseInterface
 	*/
 	public function loadAssoc()
 	{
-		$cur = $this->query();
-
-		$ret = array();
+		if (!($cur = $this->query())) {
+			return null;
+		}
+		$ret = null;
 		if ($array = mysql_fetch_assoc( $cur )) {
 			$ret = $array;
 		}
@@ -387,12 +399,13 @@ class JDatabaseMySQL EXTENDS JDatabase IMPLEMENTS JDatabaseInterface
 	*
 	* @access	public
 	* @param string The field name of a primary key
-	* @return array If <protected>key</protected> is empty as sequential list of returned records.
+	* @return array If <var>key</var> is empty as sequential list of returned records.
 	*/
 	public function loadAssocList( $key='' )
 	{
-		$cur = $this->query();
-
+		if (!($cur = $this->query())) {
+			return null;
+		}
 		$array = array();
 		while ($row = mysql_fetch_assoc( $cur )) {
 			if ($key) {
@@ -413,8 +426,10 @@ class JDatabaseMySQL EXTENDS JDatabase IMPLEMENTS JDatabaseInterface
 	*/
 	public function loadObject( )
 	{
-		$cur = $this->query();
-		$ret = new StdClass();
+		if (!($cur = $this->query())) {
+			return null;
+		}
+		$ret = null;
 		if ($object = mysql_fetch_object( $cur )) {
 			$ret = $object;
 		}
@@ -425,17 +440,18 @@ class JDatabaseMySQL EXTENDS JDatabase IMPLEMENTS JDatabaseInterface
 	/**
 	* Load a list of database objects
 	*
-	* If <protected>key</protected> is not empty then the returned array is indexed by the value
-	* the database key.  Returns <protected>null</protected> if the query fails.
+	* If <var>key</var> is not empty then the returned array is indexed by the value
+	* the database key.  Returns <var>null</var> if the query fails.
 	*
 	* @access	public
 	* @param string The field name of a primary key
-	* @return array If <protected>key</protected> is empty as sequential list of returned records.
+	* @return array If <var>key</var> is empty as sequential list of returned records.
 	*/
 	public function loadObjectList( $key='' )
 	{
-		$cur = $this->query();
-		
+		if (!($cur = $this->query())) {
+			return null;
+		}
 		$array = array();
 		while ($row = mysql_fetch_object( $cur )) {
 			if ($key) {
@@ -456,8 +472,10 @@ class JDatabaseMySQL EXTENDS JDatabase IMPLEMENTS JDatabaseInterface
 	 */
 	public function loadRow()
 	{
-		$cur = $this->query();
-		$ret = array();
+		if (!($cur = $this->query())) {
+			return null;
+		}
+		$ret = null;
 		if ($row = mysql_fetch_row( $cur )) {
 			$ret = $row;
 		}
@@ -470,13 +488,15 @@ class JDatabaseMySQL EXTENDS JDatabase IMPLEMENTS JDatabaseInterface
 	*
 	* @access public
 	* @param string The field name of a primary key
-	* @return array If <protected>key</protected> is empty as sequential list of returned records.
-	* If <protected>key</protected> is not empty then the returned array is indexed by the value
-	* the database key.  Returns <protected>null</protected> if the query fails.
+	* @return array If <var>key</var> is empty as sequential list of returned records.
+	* If <var>key</var> is not empty then the returned array is indexed by the value
+	* the database key.  Returns <var>null</var> if the query fails.
 	*/
 	public function loadRowList( $key=null )
 	{
-		$cur = $this->query();
+		if (!($cur = $this->query())) {
+			return null;
+		}
 		$array = array();
 		while ($row = mysql_fetch_row( $cur )) {
 			if ($key !== null) {
@@ -512,8 +532,9 @@ class JDatabaseMySQL EXTENDS JDatabase IMPLEMENTS JDatabaseInterface
 			$values[] = $this->isQuoted( $k ) ? $this->Quote( $v ) : (int) $v;
 		}
 		$this->setQuery( sprintf( $fmtsql, implode( ",", $fields ) ,  implode( ",", $values ) ) );
-		$this->query();
-
+		if (!$this->query()) {
+			return false;
+		}
 		$id = $this->insertid();
 		if ($keyName && $id) {
 			$object->$keyName = $id;
@@ -563,7 +584,7 @@ class JDatabaseMySQL EXTENDS JDatabase IMPLEMENTS JDatabaseInterface
 	 */
 	public function insertid()
 	{
-		return mysql_insert_id( $this->resource );
+		return mysql_insert_id( $this->_resource );
 	}
 
 	/**
@@ -573,7 +594,7 @@ class JDatabaseMySQL EXTENDS JDatabase IMPLEMENTS JDatabaseInterface
 	 */
 	public function getVersion()
 	{
-		return mysql_get_server_info( $this->resource );
+		return mysql_get_server_info( $this->_resource );
 	}
 
 	/**
