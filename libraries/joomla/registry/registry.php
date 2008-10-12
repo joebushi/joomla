@@ -32,14 +32,14 @@ class JRegistry extends JObject
 	 * Default NameSpace
 	 * @var string
 	 */
-	protected $defaultNameSpace = null;
+	var $_defaultNameSpace = null;
 
 	/**
 	 * Registry Object
 	 *  - actually an array of namespace objects
 	 * @var array
 	 */
-	protected $registry = array ();
+	var $_registry = array ();
 
 	/**
 	 * Constructor
@@ -49,9 +49,9 @@ class JRegistry extends JObject
 	 * @return	void
 	 * @since	1.5
 	 */
-	protected function __construct($namespace = 'default')
+	function __construct($namespace = 'default')
 	{
-		$this->defaultNameSpace = $namespace;
+		$this->_defaultNameSpace = $namespace;
 		$this->makeNameSpace($namespace);
 	}
 
@@ -68,7 +68,7 @@ class JRegistry extends JObject
 	 * @return	object	The JRegistry object.
 	 * @since	1.5
 	 */
-	public static function &getInstance($id, $namespace = 'default')
+	function &getInstance($id, $namespace = 'default')
 	{
 		static $instances;
 
@@ -91,9 +91,9 @@ class JRegistry extends JObject
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	public function makeNameSpace($namespace)
+	function makeNameSpace($namespace)
 	{
-		$this->registry[$namespace] = array('data' => new stdClass());
+		$this->_registry[$namespace] = array('data' => new stdClass());
 		return true;
 	}
 
@@ -104,9 +104,9 @@ class JRegistry extends JObject
 	 * @return	array	List of namespaces
 	 * @since	1.5
 	 */
-	public function getNameSpaces()
+	function getNameSpaces()
 	{
-		return array_keys($this->registry);
+		return array_keys($this->_registry);
 	}
 
 	/**
@@ -118,7 +118,7 @@ class JRegistry extends JObject
 	 * @return	mixed	Value of entry or null
 	 * @since	1.5
 	 */
-	public function getValue($regpath, $default=null)
+	function getValue($regpath, $default=null)
 	{
 		$result = $default;
 
@@ -128,7 +128,7 @@ class JRegistry extends JObject
 			// Get the namespace
 			//$namespace = array_shift($nodes);
 			if (count($nodes)<2) {
-				$namespace	= $this->defaultNameSpace;
+				$namespace	= $this->_defaultNameSpace;
 				$nodes[1]	= $nodes[0];
 			} else {
 				$namespace = $nodes[0];
@@ -160,23 +160,23 @@ class JRegistry extends JObject
 	 * @return 	mixed	Value of old value or boolean false if operation failed
 	 * @since	1.5
 	 */
-	public function setValue($regpath, $value)
+	function setValue($regpath, $value)
 	{
 		// Explode the registry path into an array
 		$nodes = explode('.', $regpath);
 
 		// Get the namespace
 		if (count($nodes)<2) {
-			$namespace = $this->defaultNameSpace;
+			$namespace = $this->_defaultNameSpace;
 		} else {
 			$namespace = array_shift($nodes);
 		}
 
-		if (!isset($this->registry[$namespace])) {
+		if (!isset($this->_registry[$namespace])) {
 			$this->makeNameSpace($namespace);
 		}
 
-		$ns = & $this->registry[$namespace]['data'];
+		$ns = & $this->_registry[$namespace]['data'];
 
 		$pathNodes = count($nodes) - 1;
 
@@ -208,14 +208,14 @@ class JRegistry extends JObject
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	public function loadArray($array, $namespace = null)
+	function loadArray($array, $namespace = null)
 	{
 		// If namespace is not set, get the default namespace
 		if ($namespace == null) {
-			$namespace = $this->defaultNameSpace;
+			$namespace = $this->_defaultNameSpace;
 		}
 
-		if (!isset($this->registry[$namespace])) {
+		if (!isset($this->_registry[$namespace])) {
 			// If namespace does not exist, make it and load the data
 			$this->makeNameSpace($namespace);
 		}
@@ -223,7 +223,7 @@ class JRegistry extends JObject
 		// Load the variables into the registry's default namespace.
 		foreach ($array as $k => $v)
 		{
-			$this->registry[$namespace]['data']->$k = $v;
+			$this->_registry[$namespace]['data']->$k = $v;
 		}
 
 		return true;
@@ -238,14 +238,14 @@ class JRegistry extends JObject
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	public function loadObject(&$object, $namespace = null)
+	function loadObject(&$object, $namespace = null)
 	{
 		// If namespace is not set, get the default namespace
 		if ($namespace == null) {
-			$namespace = $this->defaultNameSpace;
+			$namespace = $this->_defaultNameSpace;
 		}
 
-		if (!isset($this->registry[$namespace])) {
+		if (!isset($this->_registry[$namespace])) {
 			// If namespace does not exist, make it and load the data
 			$this->makeNameSpace($namespace);
 		}
@@ -259,7 +259,7 @@ class JRegistry extends JObject
 		{
 			foreach (get_object_vars($object) as $k => $v) {
 				if (substr($k, 0,1) != '_' || $k == '_name') {
-					$this->registry[$namespace]['data']->$k = $v;
+					$this->_registry[$namespace]['data']->$k = $v;
 				}
 			}
 		}
@@ -277,25 +277,25 @@ class JRegistry extends JObject
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	public function loadFile($file, $format = 'INI', $namespace = null)
+	function loadFile($file, $format = 'INI', $namespace = null)
 	{
 		// Load a file into the given namespace [or default namespace if not given]
 		$handler =& JRegistryFormat::getInstance($format);
 
 		// If namespace is not set, get the default namespace
 		if ($namespace == null) {
-			$namespace = $this->defaultNameSpace;
+			$namespace = $this->_defaultNameSpace;
 		}
 
 		// Get the contents of the file
 		jimport('joomla.filesystem.file');
 		$data = JFile::read($file);
 
-		if (!isset($this->registry[$namespace]))
+		if (!isset($this->_registry[$namespace]))
 		{
 			// If namespace does not exist, make it and load the data
 			$this->makeNameSpace($namespace);
-			$this->registry[$namespace]['data'] = $handler->stringToObject($data);
+			$this->_registry[$namespace]['data'] = $handler->stringToObject($data);
 		}
 		else
 		{
@@ -308,7 +308,7 @@ class JRegistry extends JObject
 			 * with the same name
 			 */
 			foreach (get_object_vars($ns) as $k => $v) {
-				$this->registry[$namespace]['data']->$k = $v;
+				$this->_registry[$namespace]['data']->$k = $v;
 			}
 		}
 
@@ -324,20 +324,20 @@ class JRegistry extends JObject
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	public function loadXML($data, $namespace = null)
+	function loadXML($data, $namespace = null)
 	{
 		// Load a string into the given namespace [or default namespace if not given]
 		$handler =& JRegistryFormat::getInstance('XML');
 
 		// If namespace is not set, get the default namespace
 		if ($namespace == null) {
-			$namespace = $this->defaultNameSpace;
+			$namespace = $this->_defaultNameSpace;
 		}
 
-		if (!isset($this->registry[$namespace])) {
+		if (!isset($this->_registry[$namespace])) {
 			// If namespace does not exist, make it and load the data
 			$this->makeNameSpace($namespace);
-			$this->registry[$namespace]['data'] =& $handler->stringToObject($data);
+			$this->_registry[$namespace]['data'] =& $handler->stringToObject($data);
 		} else {
 			// Get the data in object format
 			$ns =& $handler->stringToObject($data);
@@ -348,7 +348,7 @@ class JRegistry extends JObject
 			 * with the same name
 			 */
 			foreach (get_object_vars($ns) as $k => $v) {
-				$this->registry[$namespace]['data']->$k = $v;
+				$this->_registry[$namespace]['data']->$k = $v;
 			}
 		}
 
@@ -364,20 +364,20 @@ class JRegistry extends JObject
 	 * @return	boolean True on success
 	 * @since	1.5
 	 */
-	public function loadINI($data, $namespace = null)
+	function loadINI($data, $namespace = null)
 	{
 		// Load a string into the given namespace [or default namespace if not given]
 		$handler =& JRegistryFormat::getInstance('INI');
 
 		// If namespace is not set, get the default namespace
 		if ($namespace == null) {
-			$namespace = $this->defaultNameSpace;
+			$namespace = $this->_defaultNameSpace;
 		}
 
 		if (!isset($this->_registry[$namespace])) {
 			// If namespace does not exist, make it and load the data
 			$this->makeNameSpace($namespace);
-			$this->registry[$namespace]['data'] =& $handler->stringToObject($data);
+			$this->_registry[$namespace]['data'] =& $handler->stringToObject($data);
 		} else {
 			// Get the data in object format
 			$ns = $handler->stringToObject($data);
@@ -388,7 +388,7 @@ class JRegistry extends JObject
 			 * with the same name
 			 */
 			foreach (get_object_vars($ns) as $k => $v) {
-				$this->registry[$namespace]['data']->$k = $v;
+				$this->_registry[$namespace]['data']->$k = $v;
 			}
 		}
 
@@ -403,14 +403,14 @@ class JRegistry extends JObject
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	public function merge(&$source)
+	function merge(&$source)
 	{
 		if (is_a($source, 'JRegistry'))
 		{
 			$sns = $source->getNameSpaces();
 			foreach ($sns as $ns)
 			{
-				if (!isset($this->registry[$ns]))
+				if (!isset($this->_registry[$ns]))
 				{
 					// If namespace does not exist, make it and load the data
 					$this->makeNameSpace($ns);
@@ -420,7 +420,7 @@ class JRegistry extends JObject
 				foreach ($source->toArray($ns) as $k => $v)
 				{
 					if ($v != null) {
-						$this->registry[$ns]['data']->$k = $v;
+						$this->_registry[$ns]['data']->$k = $v;
 					}
 				}
 			}
@@ -439,18 +439,18 @@ class JRegistry extends JObject
 	 * @return	string	Namespace in string format
 	 * @since	1.5
 	 */
-	public function toString($format = 'INI', $namespace = null, $params = null)
+	function toString($format = 'INI', $namespace = null, $params = null)
 	{
 		// Return a namespace in a given format
 		$handler =& JRegistryFormat::getInstance($format);
 
 		// If namespace is not set, get the default namespace
 		if ($namespace == null) {
-			$namespace = $this->defaultNameSpace;
+			$namespace = $this->_defaultNameSpace;
 		}
 
 		// Get the namespace
-		$ns = & $this->registry[$namespace]['data'];
+		$ns = & $this->_registry[$namespace]['data'];
 
 		return $handler->objectToString($ns, $params);
 	}
@@ -463,15 +463,15 @@ class JRegistry extends JObject
 	 * @return	array	An associative array holding the namespace data
 	 * @since	1.5
 	 */
-	public function toArray($namespace = null)
+	function toArray($namespace = null)
 	{
 		// If namespace is not set, get the default namespace
 		if ($namespace == null) {
-			$namespace = $this->defaultNameSpace;
+			$namespace = $this->_defaultNameSpace;
 		}
 
 		// Get the namespace
-		$ns = & $this->registry[$namespace]['data'];
+		$ns = & $this->_registry[$namespace]['data'];
 
 		$array = array();
 		foreach (get_object_vars( $ns ) as $k => $v) {
@@ -489,11 +489,11 @@ class JRegistry extends JObject
 	 * @return	object	An an object holding the namespace data
 	 * @since	1.5
 	 */
-	public function toObject($namespace = null)
+	function toObject($namespace = null)
 	{
 		// If namespace is not set, get the default namespace
 		if ($namespace == null) {
-			$namespace = $this->defaultNameSpace;
+			$namespace = $this->_defaultNameSpace;
 		}
 
 		// Get the namespace
@@ -502,8 +502,8 @@ class JRegistry extends JObject
 		return $ns;
 	}
 
-	public function __clone()
+	function __clone()
 	{
-		$this->registry = unserialize(serialize($this->registry));
+		$this->_registry = unserialize(serialize($this->_registry));
 	}
 }

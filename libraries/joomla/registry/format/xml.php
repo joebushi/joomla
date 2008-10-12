@@ -32,7 +32,7 @@ class JRegistryFormatXML extends JRegistryFormat {
 	 * @param string  XML Formatted String
 	 * @return object Data Object
 	 */
-	public function stringToObject( $data, $namespace='' ) {
+	function stringToObject( $data, $namespace='' ) {
 		return true;
 	}
 
@@ -46,7 +46,7 @@ class JRegistryFormatXML extends JRegistryFormat {
 	 * @param array  $param  Parameters used by the formatter
 	 * @return string XML Formatted String
 	 */
-	public function objectToString( &$object, $params )
+	function objectToString( &$object, $params )
 	{
 		$depth = 1;
 		$retval = "<?xml version=\"1.0\" ?>\n<config>\n";
@@ -55,7 +55,7 @@ class JRegistryFormatXML extends JRegistryFormat {
 			if (is_object($item))
 			{
 				$retval .= "\t<group name=\"".$key."\">\n";
-				$retval .= $this->buildXMLstringLevel($item, $depth+1);
+				$retval .= $this->_buildXMLstringLevel($item, $depth+1);
 				$retval .= "\t</group>\n";
 			} else {
 				$retval .= "\t<entry name=\"".$key."\">".$item."</entry>\n";
@@ -73,7 +73,7 @@ class JRegistryFormatXML extends JRegistryFormat {
 	 * @param int $depth The depth in the XML tree of the $object node
 	 * @return string XML string
 	 */
-	protected function buildXMLstringLevel($object, $depth)
+	function _buildXMLstringLevel($object, $depth)
 	{
 		// Initialize variables
 		$retval = '';
@@ -87,7 +87,7 @@ class JRegistryFormatXML extends JRegistryFormat {
 			if (is_object($item))
 			{
 				$retval .= $tab."<group name=\"".$key."\">\n";
-				$retval .= $this->buildXMLstringLevel($item, $depth+1);
+				$retval .= $this->_buildXMLstringLevel($item, $depth+1);
 				$retval .= $tab."</group>\n";
 			} else {
 				$retval .= $tab."<entry name=\"".$key."\">".$item."</entry>\n";

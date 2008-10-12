@@ -24,7 +24,7 @@ defined('JPATH_BASE') or die();
  * @subpackage	Registry
  * @since		1.5
  */
-abstract class JRegistryFormat extends JObject
+class JRegistryFormat extends JObject
 {
 	/**
 	 * Returns a reference to a Format object, only creating it
@@ -35,7 +35,7 @@ abstract class JRegistryFormat extends JObject
 	 * @return	object	Registry format handler
 	 * @since	1.5
 	 */
-	public static function &getInstance($format)
+	function &getInstance($format)
 	{
 		static $instances;
 
@@ -71,7 +71,9 @@ abstract class JRegistryFormat extends JObject
 	 * @return	object	Data Object
 	 * @since	1.5
 	 */
-	public abstract function stringToObject( $data, $namespace='' );
+	function stringToObject( $data, $namespace='' ) {
+		return true;
+	}
 
 	/**
 	 * Converts an object into a formatted string
@@ -82,5 +84,7 @@ abstract class JRegistryFormat extends JObject
 	 * @return	string	Formatted string
 	 * @since	1.5
 	 */
-	public abstract function objectToString( &$object );
+	function objectToString( &$object ) {
+
+	}
 }
