@@ -28,7 +28,7 @@ jimport('joomla.filesystem.path');
  * @subpackage	Installer
  * @since		1.5
  */
-class JInstallerHelper
+abstract class JInstallerHelper
 {
 	/**
 	 * Downloads a package
@@ -39,7 +39,7 @@ class JInstallerHelper
 	 * @return mixed Path to downloaded package or boolean false on failure
 	 * @since 1.5
 	 */
-	function downloadPackage($url, $target = false)
+	public static function downloadPackage($url, $target = false)
 	{
 		$config =& JFactory::getConfig();
 
@@ -105,7 +105,7 @@ class JInstallerHelper
 	 * @return boolean True on success, False on error
 	 * @since 1.5
 	 */
-	function unpack($p_filename)
+	public static function unpack($p_filename)
 	{
 		// Path to the archive
 		$archivename = $p_filename;
@@ -176,7 +176,7 @@ class JInstallerHelper
 	 * @return mixed Extension type string or boolean false on fail
 	 * @since 1.5
 	 */
-	function detectType($p_dir)
+	public static function detectType($p_dir)
 	{
 		// Search the install dir for an xml file
 		$files = JFolder::files($p_dir, '\.xml$', 1, true);
@@ -227,7 +227,7 @@ class JInstallerHelper
 	 * @return mixed String filename or boolean false if failed
 	 * @since 1.5
 	 */
-	function getFilenameFromURL($url)
+	public static function getFilenameFromURL($url)
 	{
 		if (is_string($url)) {
 			$parts = explode('/', $url);
@@ -245,7 +245,7 @@ class JInstallerHelper
 	 * @return boolean True on success
 	 * @since 1.5
 	 */
-	function cleanupInstall($package, $resultdir)
+	public static function cleanupInstall($package, $resultdir)
 	{
 		$config =& JFactory::getConfig();
 
@@ -269,7 +269,7 @@ class JInstallerHelper
 	 * @param string
 	 * @return array
 	 */
-	function splitSql($sql)
+	public static function splitSql($sql)
 	{
 		$db =& JFactory::getDBO();
 		return $db->splitSql($sql);

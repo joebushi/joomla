@@ -32,7 +32,7 @@ class JInstallerTemplate extends JObject
 	 * @return	void
 	 * @since	1.5
 	 */
-	function __construct(&$parent)
+	public function __construct(&$parent)
 	{
 		$this->parent =& $parent;
 	}
@@ -44,7 +44,7 @@ class JInstallerTemplate extends JObject
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function install()
+	public function install()
 	{
 		// Get database connector object
 		$db =& $this->parent->getDBO();
@@ -149,7 +149,7 @@ class JInstallerTemplate extends JObject
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function uninstall( $name, $clientId )
+	public function uninstall( $name, $clientId )
 	{
 		// Initialize variables
 		$retval	= true;

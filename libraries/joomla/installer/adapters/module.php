@@ -32,7 +32,7 @@ class JInstallerModule extends JObject
 	 * @return	void
 	 * @since	1.5
 	 */
-	function __construct(&$parent)
+	public function __construct(&$parent)
 	{
 		$this->parent =& $parent;
 	}
@@ -44,7 +44,7 @@ class JInstallerModule extends JObject
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function install()
+	public function install()
 	{
 		// Get a database connector object
 		$db =& $this->parent->getDBO();
@@ -258,7 +258,7 @@ class JInstallerModule extends JObject
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function uninstall( $id, $clientId )
+	public function uninstall( $id, $clientId )
 	{
 		// Initialize variables
 		$row	= null;
@@ -351,7 +351,7 @@ class JInstallerModule extends JObject
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function _rollback_menu($arg)
+	protected function _rollback_menu($arg)
 	{
 		// Get database connector object
 		$db =& $this->parent->getDBO();
@@ -373,7 +373,7 @@ class JInstallerModule extends JObject
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function _rollback_module($arg)
+	protected function _rollback_module($arg)
 	{
 		// Get database connector object
 		$db =& $this->parent->getDBO();

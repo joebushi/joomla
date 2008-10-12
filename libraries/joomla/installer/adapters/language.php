@@ -29,7 +29,7 @@ class JInstallerLanguage extends JObject
 	 * @access	private
 	 * @var		boolean
 	 */
-	var $_core = false;
+	protected $_core = false;
 
 	/**
 	 * Constructor
@@ -39,7 +39,7 @@ class JInstallerLanguage extends JObject
 	 * @return	void
 	 * @since	1.5
 	 */
-	function __construct(&$parent)
+	public function __construct(&$parent)
 	{
 		$this->parent =& $parent;
 	}
@@ -51,7 +51,7 @@ class JInstallerLanguage extends JObject
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function install()
+	public function install()
 	{
 		$manifest =& $this->parent->getManifest();
 		$this->manifest =& $manifest->document;
@@ -104,7 +104,7 @@ class JInstallerLanguage extends JObject
 	/**
 	 *
 	 */
-	function _install($cname, $basePath, $clientId, &$element)
+	protected function _install($cname, $basePath, $clientId, &$element)
 	{
 		$manifest =& $this->parent->getManifest();
 		$this->manifest =& $manifest->document;
@@ -205,7 +205,7 @@ class JInstallerLanguage extends JObject
 	 * @return	mixed	Return value for uninstall method in component uninstall file
 	 * @since	1.5
 	 */
-	function uninstall($tag, $clientId)
+	public function uninstall($tag, $clientId)
 	{
 		$path = trim($tag);
 		if (!JFolder::exists($path)) {

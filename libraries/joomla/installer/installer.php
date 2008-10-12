@@ -33,51 +33,51 @@ class JInstaller extends JObject
 	 * Array of paths needed by the installer
 	 * @var array
 	 */
-	var $_paths = array();
+	protected $_paths = array();
 
 	/**
 	 * The installation manifest XML object
 	 * @var object
 	 */
-	var $_manifest = null;
+	protected $_manifest = null;
 
 	/**
 	 * True if existing files can be overwritten
 	 * @var boolean
 	 */
-	var $_overwrite = false;
+	protected $_overwrite = false;
 
 	/**
 	 * A database connector object
 	 * @var object
 	 */
-	var $_db = null;
+	protected $_db = null;
 
 	/**
 	 * Associative array of package installer handlers
 	 * @var array
 	 */
-	var $_adapters = array();
+	protected $_adapters = array();
 
 	/**
 	 * Stack of installation steps
 	 * 	- Used for installation rollback
 	 * @var array
 	 */
-	var $_stepStack = array();
+	protected $_stepStack = array();
 
 	/**
 	 * The output from the install/uninstall scripts
 	 * @var string
 	 */
-	var $message = null;
+	public $message = null;
 
 	/**
 	 * Constructor
 	 *
 	 * @access protected
 	 */
-	function __construct()
+	protected function __construct()
 	{
 		$this->_db =& JFactory::getDBO();
 	}
@@ -90,7 +90,7 @@ class JInstaller extends JObject
 	 * @return	object	An installer object
 	 * @since 1.5
 	 */
-	function &getInstance()
+	public static function &getInstance()
 	{
 		static $instance;
 
@@ -107,7 +107,7 @@ class JInstaller extends JObject
 	 * @return	boolean	Allow overwrite switch
 	 * @since	1.5
 	 */
-	function getOverwrite()
+	public function getOverwrite()
 	{
 		return $this->_overwrite;
 	}
@@ -120,7 +120,7 @@ class JInstaller extends JObject
 	 * @return	boolean	Previous value
 	 * @since	1.5
 	 */
-	function setOverwrite($state=false)
+	public function setOverwrite($state=false)
 	{
 		$tmp = $this->_overwrite;
 		if ($state) {
@@ -138,7 +138,7 @@ class JInstaller extends JObject
 	 * @return	object	Database connector object
 	 * @since	1.5
 	 */
-	function &getDBO()
+	public function &getDBO()
 	{
 		return $this->_db;
 	}
@@ -150,7 +150,7 @@ class JInstaller extends JObject
 	 * @return	object	Manifest object
 	 * @since	1.5
 	 */
-	function &getManifest()
+	public function &getManifest()
 	{
 		if (!is_object($this->_manifest)) {
 			$this->_findManifest();
@@ -167,7 +167,7 @@ class JInstaller extends JObject
 	 * @return	string	Path
 	 * @since	1.5
 	 */
-	function getPath($name, $default=null)
+	public function getPath($name, $default=null)
 	{
 		return (!empty($this->_paths[$name])) ? $this->_paths[$name] : $default;
 	}
@@ -181,7 +181,7 @@ class JInstaller extends JObject
 	 * @return	void
 	 * @since	1.5
 	 */
-	function setPath($name, $value)
+	public function setPath($name, $value)
 	{
 		$this->_paths[$name] = $value;
 	}
@@ -194,7 +194,7 @@ class JInstaller extends JObject
 	 * @return	void
 	 * @since	1.5
 	 */
-	function pushStep($step)
+	public function pushStep($step)
 	{
 		$this->_stepStack[] = $step;
 	}
@@ -208,7 +208,7 @@ class JInstaller extends JObject
 	 * @return	boolean True if successful
 	 * @since	1.5
 	 */
-	function setAdapter($name, $adapter = null)
+	public function setAdapter($name, $adapter = null)
 	{
 		if (!is_object($adapter))
 		{
@@ -234,7 +234,7 @@ class JInstaller extends JObject
 	 * @return	boolean	True if successful
 	 * @since	1.5
 	 */
-	function abort($msg=null, $type=null)
+	public function abort($msg=null, $type=null)
 	{
 		// Initialize variables
 		$retval = true;
@@ -295,7 +295,7 @@ class JInstaller extends JObject
 	 * @return	boolean	True if successful
 	 * @since	1.5
 	 */
-	function install($path=null)
+	public function install($path=null)
 	{
 		if ($path && JFolder::exists($path)) {
 			$this->setPath('source', $path);
@@ -342,7 +342,7 @@ class JInstaller extends JObject
 	 * @return	boolean	True if successful
 	 * @since	1.5
 	 */
-	function update($path=null)
+	public function update($path=null)
 	{
 		if ($path && JFolder::exists($path)) {
 			$this->setPath('source', $path);
@@ -389,7 +389,7 @@ class JInstaller extends JObject
 	 * @return	boolean	True if successful
 	 * @since	1.5
 	 */
-	function uninstall($type, $identifier, $cid=0)
+	public function uninstall($type, $identifier, $cid=0)
 	{
 		if (!isset($this->_adapters[$type]) || !is_object($this->_adapters[$type])) {
 			if (!$this->setAdapter($type)) {
@@ -410,7 +410,7 @@ class JInstaller extends JObject
 	 * @return boolean True on success
 	 * @since 1.0
 	 */
-	function setupInstall()
+	public function setupInstall()
 	{
 		// We need to find the installation manifest file
 		if (!$this->_findManifest()) {
@@ -440,7 +440,7 @@ class JInstaller extends JObject
 	 * @return	mixed	Number of queries processed or False on error
 	 * @since	1.5
 	 */
-	function parseQueries($element)
+	public function parseQueries($element)
 	{
 		// Get the database connector object
 		$db = & $this->_db;
@@ -478,7 +478,7 @@ class JInstaller extends JObject
 	 * @return	mixed	Number of queries processed or False on error
 	 * @since	1.5
 	 */
-	function parseSQLFiles($element)
+	public function parseSQLFiles($element)
 	{
 		// Initialize variables
 		$queries = array();
@@ -561,7 +561,7 @@ class JInstaller extends JObject
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function parseFiles($element, $cid=0)
+	public function parseFiles($element, $cid=0)
 	{
 		// Initialize variables
 		$copyfiles = array ();
@@ -648,7 +648,7 @@ class JInstaller extends JObject
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function parseLanguages($element, $cid=0)
+	public function parseLanguages($element, $cid=0)
 	{
 		// Initialize variables
 		$copyfiles = array ();
@@ -748,7 +748,7 @@ class JInstaller extends JObject
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function parseMedia($element, $cid=0)
+	public function parseMedia($element, $cid=0)
 	{
 		// Initialize variables
 		$copyfiles = array ();
@@ -829,7 +829,7 @@ class JInstaller extends JObject
 	 * @return	string	INI string of parameter values
 	 * @since	1.5
 	 */
-	function getParams()
+	public function getParams()
 	{
 		// Get the manifest document root element
 		$root = & $this->_manifest->document;
@@ -873,7 +873,7 @@ class JInstaller extends JObject
 	 * @return	boolean True on success
 	 * @since	1.5
 	 */
-	function copyFiles($files, $overwrite=null)
+	public function copyFiles($files, $overwrite=null)
 	{
 		/*
 		 * To allow for manual override on the overwriting flag, we check to see if
@@ -967,7 +967,7 @@ class JInstaller extends JObject
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function removeFiles($element, $cid=0)
+	public function removeFiles($element, $cid=0)
 	{
 		// Initialize variables
 		$removefiles = array ();
@@ -1066,7 +1066,7 @@ class JInstaller extends JObject
 	 * @return	boolean	True on success, False on error
 	 * @since	1.5
 	 */
-	function copyManifest($cid=1)
+	public function copyManifest($cid=1)
 	{
 		// Get the client info
 		jimport('joomla.application.helper');
@@ -1091,7 +1091,7 @@ class JInstaller extends JObject
 	 * @return boolean True on success, False on error
 	 * @since 1.0
 	 */
-	function _findManifest()
+	protected function _findManifest()
 	{
 		// Get an array of all the xml files from teh installation directory
 		$xmlfiles = JFolder::files($this->getPath('source'), '.xml$', 1, true);
@@ -1137,7 +1137,7 @@ class JInstaller extends JObject
 	 * @return	mixed	A JSimpleXML document, or null if the file failed to parse
 	 * @since	1.5
 	 */
-	function &_isManifest($file)
+	protected function &_isManifest($file)
 	{
 		// Initialize variables
 		$null	= null;
