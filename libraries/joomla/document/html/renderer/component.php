@@ -32,7 +32,7 @@ class JDocumentRendererComponent extends JDocumentRenderer
 	 * @param array 	$params	Associative array of values
 	 * @return string	The output of the script
 	 */
-	function render( $component = null, $params = array(), $content = null )
+	public function render( $component = null, $params = array(), $content = null )
 	{
 		return $content;
 	}

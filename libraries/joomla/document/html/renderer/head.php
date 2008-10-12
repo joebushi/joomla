@@ -32,7 +32,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 	 * @param array 	$params		Associative array of values
 	 * @return string	The output of the script
 	 */
-	function render( $head = null, $params = array(), $content = null )
+	public function render( $head = null, $params = array(), $content = null )
 	{
 		ob_start();
 
@@ -50,7 +50,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 	 * @access public
 	 * @return string
 	 */
-	function fetchHead(&$document)
+	public function fetchHead(&$document)
 	{
 		// get line endings
 		$lnEnd = $document->_getLineEnd();

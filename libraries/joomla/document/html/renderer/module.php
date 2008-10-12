@@ -32,7 +32,7 @@ class JDocumentRendererModule extends JDocumentRenderer
 	 * @param array 		$params		Associative array of values
 	 * @return string	The output of the script
 	 */
-	function render( $module, $params = array(), $content = null )
+	public function render( $module, $params = array(), $content = null )
 	{
 		if (!is_object($module))
 		{

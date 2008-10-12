@@ -31,9 +31,9 @@ class JDocumentVCARD extends JDocument
 	 * @var		array
 	 * @access	public
 	 */
-	var $_properties;
+	protected $_properties;
 
-	var $_filename;
+	protected $_filename;
 
 
 	/**
@@ -42,7 +42,7 @@ class JDocumentVCARD extends JDocument
 	 * @access protected
 	 * @param	array	$options Associative array of options
 	 */
-	function __construct($options = array())
+	protected function __construct($options = array())
 	{
 		parent::__construct($options);
 
@@ -61,7 +61,7 @@ class JDocumentVCARD extends JDocument
 	 * @param array		$params		Associative array of attributes
 	 * @return 	The rendered data
 	 */
-	function render( $cache = false, $params = array())
+	public function render( $cache = false, $params = array())
 	{
 		$data 	= 'BEGIN:VCARD';
 		$data	.= "\r\n";
@@ -89,7 +89,7 @@ class JDocumentVCARD extends JDocument
 	}
 
 	// type may be PREF | WORK | HOME | VOICE | FAX | MSG | CELL | PAGER | BBS | CAR | MODEM | ISDN | VIDEO or any senseful combination, e.g. "PREF;WORK;VOICE"
-	function setPhoneNumber($number, $type='')
+	public function setPhoneNumber($number, $type='')
 	{
 		$key = 'TEL';
 		if ($type!='') {
@@ -101,30 +101,30 @@ class JDocumentVCARD extends JDocument
 	}
 
 	// $type = "GIF" | "JPEG"
-	function setPhoto($type, $photo)
+	public function setPhoto($type, $photo)
 	{
 		$this->_properties["PHOTO;TYPE=$type;ENCODING=BASE64"] = base64_encode($photo);
 	}
 
-	function setFormattedName($name)
+	public function setFormattedName($name)
 	{
 		$this->_properties['FN'] = $this->quoted_printable_encode($name);
 	}
 
-	function setName( $family='', $first='', $additional='', $prefix='', $suffix='' )
+	public function setName( $family='', $first='', $additional='', $prefix='', $suffix='' )
 	{
 		$this->_properties["N"] 	= "$family;$first;$additional;$prefix;$suffix";
 		$this->setFormattedName( trim( "$prefix $first $additional $family $suffix" ) );
 	}
 
 	// $date format is YYYY-MM-DD
-	function setBirthday($date)
+	public function setBirthday($date)
 	{
 		$this->_properties['BDAY'] = $date;
 	}
 
 	// $type may be DOM | INTL | POSTAL | PARCEL | HOME | WORK or any combination of these: e.g. "WORK;PARCEL;POSTAL"
-	function setAddress( $postoffice='', $extended='', $street='', $city='', $region='', $zip='', $country='', $type='HOME;POSTAL' )
+	public function setAddress( $postoffice='', $extended='', $street='', $city='', $region='', $zip='', $country='', $type='HOME;POSTAL' )
 	{
 		$separator = ';';
 
@@ -145,7 +145,7 @@ class JDocumentVCARD extends JDocument
 		$this->_properties[$key] = $return;
 	}
 
-	function setLabel($postoffice='', $extended='', $street='', $city='', $region='', $zip='', $country='', $type='HOME;POSTAL')
+	public function setLabel($postoffice='', $extended='', $street='', $city='', $region='', $zip='', $country='', $type='HOME;POSTAL')
 	{
 		$label = '';
 		if ($postoffice!='') {
@@ -185,18 +185,18 @@ class JDocumentVCARD extends JDocument
 		$this->_properties["LABEL;$type;ENCODING=QUOTED-PRINTABLE"] = $this->quoted_printable_encode($label);
 	}
 
-	function setEmail($address)
+	public function setEmail($address)
 	{
 		$this->_properties['EMAIL;INTERNET'] = $address;
 	}
 
-	function setNote($note)
+	public function setNote($note)
 	{
 		$this->_properties['NOTE;ENCODING=QUOTED-PRINTABLE'] = $this->quoted_printable_encode($note);
 	}
 
 	// $type may be WORK | HOME
-	function setURL($url, $type='')
+	public function setURL($url, $type='')
 	{
 		$key = 'URL';
 		if ($type!='') {
@@ -206,33 +206,33 @@ class JDocumentVCARD extends JDocument
 		$this->_properties[$key] = $url;
 	}
 
-	function setFilename( $filename )
+	public function setFilename( $filename )
 	{
 		$this->_filename = $filename .'.vcf';
 	}
 
-	function setTitle( $title )
+	public function setTitle( $title )
 	{
 		$title 	= trim( $title );
 		$this->_properties['TITLE'] 	= $title;
 	}
 
-	function setOrg( $org )
+	public function setOrg( $org )
 	{
 		$org 	= trim( $org );
 		$this->_properties['ORG'] = $org;
 	}
 
 
-	function encode($string) {
+	public function encode($string) {
 		return $this->escape($this->quoted_printable_encode($string));
 	}
 
-	function escape($string) {
+	public function escape($string) {
 		return str_replace(';',"\;",$string);
 	}
 
-	function quoted_printable_encode($input, $line_max = 76)
+	public function quoted_printable_encode($input, $line_max = 76)
 	{
 		$hex 		= array('0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F');
 		$lines 		= preg_split("/(?:\r\n|\r|\n)/", $input);

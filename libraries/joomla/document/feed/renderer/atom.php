@@ -38,7 +38,7 @@ defined('JPATH_BASE') or die();
 	 * @var		string
 	 * @access	private
 	 */
-	 var $_mime = "application/atom+xml";
+	 protected $_mime = "application/atom+xml";
 
 	/**
 	 * Render the feed
@@ -46,7 +46,7 @@ defined('JPATH_BASE') or die();
 	 * @access public
 	 * @return string
 	 */
-	function render()
+	public function render()
 	{
 		$now	=& JFactory::getDate();
 		$data	=& $this->_doc;

@@ -33,7 +33,7 @@ class JDocumentHTML extends JDocument
 	 * @var	 array
 	 * @access  private
 	 */
-	var $_links = array();
+	protected $_links = array();
 
 	/**
 	 * Array of custom tags
@@ -41,7 +41,7 @@ class JDocumentHTML extends JDocument
 	 * @var	 string
 	 * @access  private
 	 */
-	var $_custom = array();
+	protected $_custom = array();
 
 
 	/**
@@ -50,7 +50,7 @@ class JDocumentHTML extends JDocument
 	 * @access protected
 	 * @param	array	$options Associative array of options
 	 */
-	function __construct($options = array())
+	protected function __construct($options = array())
 	{
 		parent::__construct($options);
 
@@ -71,7 +71,7 @@ class JDocumentHTML extends JDocument
 	 * @access	public
 	 * @return	array	The document head data in array form
 	 */
-	function getHeadData()
+	public function getHeadData()
 	{
 		$data = array();
 		$data['title']		= $this->title;
@@ -93,7 +93,7 @@ class JDocumentHTML extends JDocument
 	 * @access	public
 	 * @param	array	$data	The document head data in array form
 	 */
-	function setHeadData($data)
+	public function setHeadData($data)
 	{
 		$this->title		= (isset($data['title'])) ? $data['title'] : $this->title;
 		$this->description	= (isset($data['description'])) ? $data['description'] : $this->description;
@@ -121,7 +121,7 @@ class JDocumentHTML extends JDocument
 	 * @param	array   $attributes Associative array of remaining attributes.
 	 * @return   void
 	 */
-	function addHeadLink($href, $relation, $relType = 'rel', $attribs = array())
+	public function addHeadLink($href, $relation, $relType = 'rel', $attribs = array())
 	{
 		$attribs = JArrayHelper::toString($attribs);
 		$generatedTag = '<link href="'.$href.'" '.$relType.'="'.$relation.'" '.$attribs;
@@ -140,7 +140,7 @@ class JDocumentHTML extends JDocument
 	 * @param	 string  $relation	Relation of link
 	 * @access	public
 	 */
-	function addFavicon($href, $type = 'image/x-icon', $relation = 'shortcut icon')
+	public function addFavicon($href, $type = 'image/x-icon', $relation = 'shortcut icon')
 	{
 		$href = str_replace( '\\', '/', $href );
 		$this->_links[] = '<link href="'.$href.'" rel="'.$relation.'" type="'.$type.'"';
@@ -154,7 +154,7 @@ class JDocumentHTML extends JDocument
 	 * @return   void
 	 */
 
-	function addCustomTag( $html )
+	public function addCustomTag( $html )
 	{
 		$this->_custom[] = trim( $html );
 	}
@@ -168,7 +168,7 @@ class JDocumentHTML extends JDocument
 	 * @param array   	$attribs Associative array of remaining attributes.
 	 * @return 	The output of the renderer
 	 */
-	function getBuffer($type = null, $name = null, $attribs = array())
+	public function getBuffer($type = null, $name = null, $attribs = array())
 	{
 		$result = null;
 
@@ -201,7 +201,7 @@ class JDocumentHTML extends JDocument
 	 * @param string 	$name		oke The name of the element to render
 	 * @param string 	$content	The content to be set in the buffer
 	 */
-	function setBuffer($contents, $type, $name = null)
+	public function setBuffer($contents, $type, $name = null)
 	{
 		$this->_buffer[$type][$name] = $contents;
 	}
@@ -214,7 +214,7 @@ class JDocumentHTML extends JDocument
 	 * @param array		$params		Associative array of attributes
 	 * @return 	The rendered data
 	 */
-	function render( $caching = false, $params = array())
+	public function render( $caching = false, $params = array())
 	{
 		// check
 		$directory	= isset($params['directory']) ? $params['directory'] : 'templates';
@@ -260,7 +260,7 @@ class JDocumentHTML extends JDocument
 	 * @param  string 	$condition	The condition to use
 	 * @return integer  Number of modules found
 	 */
-	function countModules($condition)
+	public function countModules($condition)
 	{
 		$result = '';
 
@@ -283,7 +283,7 @@ class JDocumentHTML extends JDocument
          * @access public
          * @return integer Number of child menu items
          */
-        function countMenuChildren() {
+        public function countMenuChildren() {
                 static $children;
                 if(!isset($children)) {
                         $dbo =& JFactory::getDBO();
@@ -309,7 +309,7 @@ class JDocumentHTML extends JDocument
 	 * @param string 	$filename	The actual filename
 	 * @return string The contents of the template
 	 */
-	function _loadTemplate($directory, $filename)
+	protected function _loadTemplate($directory, $filename)
 	{
 		global $option;
 		
@@ -357,7 +357,7 @@ class JDocumentHTML extends JDocument
 	 * @param string 	$data		The data too parse
 	 * @return The parsed contents of the template
 	 */
-	function _parseTemplate($data)
+	protected function _parseTemplate($data)
 	{
 		$replace = array();
 		$matches = array();

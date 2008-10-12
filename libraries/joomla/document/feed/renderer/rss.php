@@ -33,7 +33,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 	 * @var		string
 	 * @access	private
 	 */
-	var $_mime = "application/rss+xml";
+	protected $_mime = "application/rss+xml";
 
 	/**
 	 * Render the feed
@@ -41,7 +41,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 	 * @access public
 	 * @return	string
 	 */
-	function render()
+	public function render()
 	{
 		$now	=& JFactory::getDate();
 		$data	=& $this->_doc;

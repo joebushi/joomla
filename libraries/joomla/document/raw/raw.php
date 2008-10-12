@@ -32,7 +32,7 @@ class JDocumentRAW extends JDocument
 	 * @access protected
 	 * @param	array	$options Associative array of options
 	 */
-	function __construct($options = array())
+	protected function __construct($options = array())
 	{
 		parent::__construct($options);
 
@@ -51,7 +51,7 @@ class JDocumentRAW extends JDocument
 	 * @param array		$params		Associative array of attributes
 	 * @return 	The rendered data
 	 */
-	function render( $cache = false, $params = array())
+	public function render( $cache = false, $params = array())
 	{
 		parent::render();
 		return $this->getBuffer();

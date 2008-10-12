@@ -28,7 +28,7 @@ class JDocumentError extends JDocument
 	 * Error Object
 	 * @var	object
 	 */
-	var $_error;
+	protected $_error;
 
 	/**
 	 * Class constructor
@@ -37,7 +37,7 @@ class JDocumentError extends JDocument
 	 * @param	string	$type 		(either html or tex)
 	 * @param	array	$attributes Associative array of attributes
 	 */
-	function __construct($options = array())
+	protected function __construct($options = array())
 	{
 		parent::__construct($options);
 
@@ -56,7 +56,7 @@ class JDocumentError extends JDocument
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function setError($error)
+	protected function setError($error)
 	{
 		if (JError::isError($error)) {
 			$this->_error = & $error;
@@ -73,7 +73,7 @@ class JDocumentError extends JDocument
 	 * @param boolean 	$cache		If true, cache the output
 	 * @param array		$params		Associative array of attributes
 	 */
-	function render( $cache = false, $params = array())
+	public function render( $cache = false, $params = array())
 	{
 		// If no error object is set return null
 		if (!isset($this->_error)) {
@@ -112,7 +112,7 @@ class JDocumentError extends JDocument
 	 * @param string 	$filename	The actual filename
 	 * @return string The contents of the template
 	 */
-	function _loadTemplate($directory, $filename)
+	protected function _loadTemplate($directory, $filename)
 	{
 		$contents = '';
 
@@ -132,7 +132,7 @@ class JDocumentError extends JDocument
 		return $contents;
 	}
 
-	function renderBacktrace()
+	public function renderBacktrace()
 	{
 		$contents	= null;
 		$backtrace	= $this->_error->getTrace();
