@@ -25,37 +25,37 @@ defined('JPATH_BASE') or die();
 class JTableModule extends JTable
 {
 	/** @var int Primary key */
-	var $id					= null;
+	public $id					= null;
 	/** @var string */
-	var $title				= null;
+	public $title				= null;
 	/** @var string */
-	var $showtitle			= null;
+	public $showtitle			= null;
 	/** @var int */
-	var $content			= null;
+	public $content			= null;
 	/** @var int */
-	var $ordering			= null;
+	public $ordering			= null;
 	/** @var string */
-	var $position			= null;
+	public $position			= null;
 	/** @var boolean */
-	var $checked_out		= 0;
+	public $checked_out		= 0;
 	/** @var time */
-	var $checked_out_time	= 0;
+	public $checked_out_time	= 0;
 	/** @var boolean */
-	var $published			= null;
+	public $published			= null;
 	/** @var string */
-	var $module				= null;
+	public $module				= null;
 	/** @var int */
-	var $numnews			= null;
+	public $numnews			= null;
 	/** @var int */
-	var $access				= null;
+	public $access				= null;
 	/** @var string */
-	var $params				= null;
+	public $params				= null;
 	/** @var string */
-	var $iscore				= null;
+	public $iscore				= null;
 	/** @var string */
-	var $client_id			= null;
+	public $client_id			= null;
 	/** @var string */
-	var $control				= null;
+	public $control				= null;
 
 	/**
 	 * Contructore
@@ -63,7 +63,7 @@ class JTableModule extends JTable
 	 * @access protected
 	 * @param database A database connector object
 	 */
-	function __construct( &$db ) {
+	protected function __construct( &$db ) {
 		parent::__construct( '#__modules', 'id', $db );
 	}
 
@@ -74,7 +74,7 @@ class JTableModule extends JTable
 	* @return boolean True if the object is ok
 	* @see JTable:bind
 	*/
-	function check()
+	public function check()
 	{
 		// check for valid name
 		if (trim( $this->title ) == '') {
@@ -94,7 +94,7 @@ class JTableModule extends JTable
 	* @see JTable:bind
 	* @since 1.5
 	*/
-	function bind($array, $ignore = '')
+	public function bind($array, $ignore = '')
 	{
 		if (is_array( $array['params'] ))
 		{

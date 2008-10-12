@@ -15,15 +15,15 @@ abstract class JTableTree extends JTable
 	/**
 	 * @var integer
 	 */
-	var $parent_id = null;
+	public $parent_id = null;
 	/**
 	 * @var integer
 	 */
-	var $lft = null;
+	public $lft = null;
 	/**
 	 * @var integer
 	 */
-	var $rgt = null;
+	public $rgt = null;
 
 	/**
 	 * Inserts a new row if id is zero or updates an existing row in the database table
@@ -34,7 +34,7 @@ abstract class JTableTree extends JTable
 	 * @param boolean If false, null object variables are not updated
 	 * @return null|string null if successful otherwise returns and error message
 	 */
-	function store($updateNulls = false)
+	public function store($updateNulls = false)
 	{
 		if ($result = parent::store($updateNulls)) {
 			$result = $this->rebuild();
@@ -47,7 +47,7 @@ abstract class JTableTree extends JTable
 	 * @param	int	parent id
 	 * @param	int	Left value
 	 */
-	function rebuild( $parent_id = 0, $left = 1 )
+	public function rebuild( $parent_id = 0, $left = 1 )
 	{
 		$db = &$this->_db;
 

@@ -29,96 +29,96 @@ class JTableUser extends JTable
 	 *
 	 * @var int
 	 */
-	var $id				= null;
+	public $id				= null;
 
 	/**
 	 * The users real name (or nickname)
 	 *
 	 * @var string
 	 */
-	var $name			= null;
+	public $name			= null;
 
 	/**
 	 * The login name
 	 *
 	 * @var string
 	 */
-	var $username		= null;
+	public $username		= null;
 
 	/**
 	 * The email
 	 *
 	 * @var string
 	 */
-	var $email			= null;
+	public $email			= null;
 
 	/**
 	 * MD5 encrypted password
 	 *
 	 * @var string
 	 */
-	var $password		= null;
+	public $password		= null;
 
 	/**
 	 * Description
 	 *
 	 * @var string
 	 */
-	var $usertype		= null;
+	public $usertype		= null;
 
 	/**
 	 * Description
 	 *
 	 * @var int
 	 */
-	var $block			= null;
+	public $block			= null;
 
 	/**
 	 * Description
 	 *
 	 * @var int
 	 */
-	var $sendEmail		= null;
+	public $sendEmail		= null;
 
 	/**
 	 * The group id number
 	 *
 	 * @var int
 	 */
-	var $gid			= null;
+	public $gid			= null;
 
 	/**
 	 * Description
 	 *
 	 * @var datetime
 	 */
-	var $registerDate	= null;
+	public $registerDate	= null;
 
 	/**
 	 * Description
 	 *
 	 * @var datetime
 	 */
-	var $lastvisitDate	= null;
+	public $lastvisitDate	= null;
 
 	/**
 	 * Description
 	 *
 	 * @var string activation hash
 	 */
-	var $activation		= null;
+	public $activation		= null;
 
 	/**
 	 * Description
 	 *
 	 * @var string
 	 */
-	var $params			= null;
+	public $params			= null;
 
 	/**
 	* @param database A database connector object
 	*/
-	function __construct( &$db )
+	protected function __construct( &$db )
 	{
 		parent::__construct( '#__users', 'id', $db );
 
@@ -133,7 +133,7 @@ class JTableUser extends JTable
 	 *
 	 * @return boolean True is satisfactory
 	 */
-	function check()
+	public function check()
 	{
 		jimport('joomla.mail.helper');
 
@@ -196,7 +196,7 @@ class JTableUser extends JTable
 		return true;
 	}
 
-	function store( $updateNulls=false )
+	public function store( $updateNulls=false )
 	{
 		$acl =& JFactory::getACL();
 
@@ -240,7 +240,7 @@ class JTableUser extends JTable
 		}
 	}
 
-	function delete( $oid=null )
+	public function delete( $oid=null )
 	{
 		$acl =& JFactory::getACL();
 
@@ -290,7 +290,7 @@ class JTableUser extends JTable
 	 * @param int The timestamp, defaults to 'now'
 	 * @return boolean False if an error occurs
 	 */
-	function setLastVisit( $timeStamp=null, $id=null )
+	public function setLastVisit( $timeStamp=null, $id=null )
 	{
 		// check for User ID
 		if (is_null( $id )) {
@@ -329,7 +329,7 @@ class JTableUser extends JTable
 	 * @since 1.5
 	 */
 
-	function bind($array, $ignore = '')
+	public function bind($array, $ignore = '')
 	{
 		if (key_exists( 'params', $array ) && is_array( $array['params'] )) {
 			$registry = new JRegistry();

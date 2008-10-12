@@ -29,21 +29,21 @@ class JDatabaseMySQL extends JDatabase
 	 *
 	 * @var string
 	 */
-	var $name			= 'mysql';
+	public $name = 'mysql';
 
 	/**
 	 *  The null/zero date string
 	 *
 	 * @var string
 	 */
-	var $_nullDate		= '0000-00-00 00:00:00';
+	protected $_nullDate = '0000-00-00 00:00:00';
 
 	/**
 	 * Quote for named objects
 	 *
 	 * @var string
 	 */
-	var $_nameQuote		= '`';
+	protected $_nameQuote = '`';
 
 	/**
 	* Database object constructor
@@ -53,13 +53,12 @@ class JDatabaseMySQL extends JDatabase
 	* @since	1.5
 	* @see		JDatabase
 	*/
-	function __construct( $options )
+	protected function __construct( $options )
 	{
 		$host		= array_key_exists('host', $options)	? $options['host']		: 'localhost';
 		$user		= array_key_exists('user', $options)	? $options['user']		: '';
 		$password	= array_key_exists('password',$options)	? $options['password']	: '';
 		$database	= array_key_exists('database',$options)	? $options['database']	: '';
-		//$prefix		= array_key_exists('prefix', $options)	? $options['prefix']	: 'jos_';
 		$select		= array_key_exists('select', $options)	? $options['select']	: true;
 
 		// perform a number of fatality checks, then return gracefully
@@ -91,7 +90,7 @@ class JDatabaseMySQL extends JDatabase
 	 * @return boolean
 	 * @since 1.5
 	 */
-	function __destruct()
+	public function __destruct()
 	{
 		$return = false;
 		if (is_resource($this->_resource)) {
@@ -107,7 +106,7 @@ class JDatabaseMySQL extends JDatabase
 	 * @access public
 	 * @return boolean  True on success, false otherwise.
 	 */
-	function test()
+	public static function test()
 	{
 		return (function_exists( 'mysql_connect' ));
 	}
@@ -119,7 +118,7 @@ class JDatabaseMySQL extends JDatabase
 	 * @return	boolean
 	 * @since	1.5
 	 */
-	function connected()
+	public function connected()
 	{
 		if(is_resource($this->_resource)) {
 			return mysql_ping($this->_resource);
@@ -135,7 +134,7 @@ class JDatabaseMySQL extends JDatabase
 	 * @return	boolean True if the database has been successfully selected
 	 * @since	1.5
 	 */
-	function select($database)
+	public function select($database)
 	{
 		if ( ! $database )
 		{
@@ -163,7 +162,7 @@ class JDatabaseMySQL extends JDatabase
 	 * @access	public
 	 * @return boolean True - UTF is supported
 	 */
-	function hasUTF()
+	public function hasUTF()
 	{
 		$verParts = explode( '.', $this->getVersion() );
 		return ($verParts[0] == 5 || ($verParts[0] == 4 && $verParts[1] == 1 && (int)$verParts[2] >= 2));
@@ -174,7 +173,7 @@ class JDatabaseMySQL extends JDatabase
 	 *
 	 * @access	public
 	 */
-	function setUTF()
+	public function setUTF()
 	{
 		mysql_query( "SET NAMES 'utf8'", $this->_resource );
 	}
@@ -188,7 +187,7 @@ class JDatabaseMySQL extends JDatabase
 	 * @access	public
 	 * @abstract
 	 */
-	function getEscaped( $text, $extra = false )
+	public function getEscaped( $text, $extra = false )
 	{
 		$result = mysql_real_escape_string( $text, $this->_resource );
 		if ($extra) {
@@ -203,7 +202,7 @@ class JDatabaseMySQL extends JDatabase
 	 * @access	public
 	 * @return mixed A database resource if successful, FALSE if not.
 	 */
-	function query()
+	public function query()
 	{
 		if (!is_resource($this->_resource)) {
 			return false;
@@ -240,7 +239,7 @@ class JDatabaseMySQL extends JDatabase
 	 * @return int The number of affected rows in the previous operation
 	 * @since 1.0.5
 	 */
-	function getAffectedRows()
+	public function getAffectedRows()
 	{
 		return mysql_affected_rows( $this->_resource );
 	}
@@ -251,7 +250,7 @@ class JDatabaseMySQL extends JDatabase
 	 * @access	public
 	 * @return mixed A database resource if successful, FALSE if not.
 	 */
-	function queryBatch( $abort_on_error=true, $p_transaction_safe = false)
+	public function queryBatch( $abort_on_error=true, $p_transaction_safe = false)
 	{
 		$this->_errorNum = 0;
 		$this->_errorMsg = '';
@@ -296,7 +295,7 @@ class JDatabaseMySQL extends JDatabase
 	 * @access	public
 	 * @return	string
 	 */
-	function explain()
+	public function explain()
 	{
 		$temp = $this->_sql;
 		$this->_sql = "EXPLAIN $this->_sql";
@@ -337,7 +336,7 @@ class JDatabaseMySQL extends JDatabase
 	 * @access	public
 	 * @return int The number of rows returned from the most recent query.
 	 */
-	function getNumRows( $cur=null )
+	public function getNumRows( $cur=null )
 	{
 		return mysql_num_rows( $cur ? $cur : $this->_cursor );
 	}
@@ -348,7 +347,7 @@ class JDatabaseMySQL extends JDatabase
 	 * @access	public
 	 * @return The value returned in the query or null if the query failed.
 	 */
-	function loadResult()
+	public function loadResult()
 	{
 		if (!($cur = $this->query())) {
 			return null;
@@ -366,7 +365,7 @@ class JDatabaseMySQL extends JDatabase
 	 *
 	 * @access	public
 	 */
-	function loadResultArray($numinarray = 0)
+	public function loadResultArray($numinarray = 0)
 	{
 		if (!($cur = $this->query())) {
 			return null;
@@ -385,7 +384,7 @@ class JDatabaseMySQL extends JDatabase
 	* @access	public
 	* @return array
 	*/
-	function loadAssoc()
+	public function loadAssoc()
 	{
 		if (!($cur = $this->query())) {
 			return null;
@@ -405,7 +404,7 @@ class JDatabaseMySQL extends JDatabase
 	* @param string The field name of a primary key
 	* @return array If <var>key</var> is empty as sequential list of returned records.
 	*/
-	function loadAssocList( $key='' )
+	public function loadAssocList( $key='' )
 	{
 		if (!($cur = $this->query())) {
 			return null;
@@ -428,7 +427,7 @@ class JDatabaseMySQL extends JDatabase
 	* @access	public
 	* @return 	object
 	*/
-	function loadObject( )
+	public function loadObject( )
 	{
 		if (!($cur = $this->query())) {
 			return null;
@@ -451,7 +450,7 @@ class JDatabaseMySQL extends JDatabase
 	* @param string The field name of a primary key
 	* @return array If <var>key</var> is empty as sequential list of returned records.
 	*/
-	function loadObjectList( $key='' )
+	public function loadObjectList( $key='' )
 	{
 		if (!($cur = $this->query())) {
 			return null;
@@ -474,7 +473,7 @@ class JDatabaseMySQL extends JDatabase
 	 * @access	public
 	 * @return The first row of the query.
 	 */
-	function loadRow()
+	public function loadRow()
 	{
 		if (!($cur = $this->query())) {
 			return null;
@@ -496,7 +495,7 @@ class JDatabaseMySQL extends JDatabase
 	* If <var>key</var> is not empty then the returned array is indexed by the value
 	* the database key.  Returns <var>null</var> if the query fails.
 	*/
-	function loadRowList( $key=null )
+	public function loadRowList( $key=null )
 	{
 		if (!($cur = $this->query())) {
 			return null;
@@ -521,7 +520,7 @@ class JDatabaseMySQL extends JDatabase
 	 * @param	object	An object whose properties match table fields
 	 * @param	string	The name of the primary key. If provided the object property is updated.
 	 */
-	function insertObject( $table, &$object, $keyName = NULL )
+	public function insertObject( $table, &$object, $keyName = NULL )
 	{
 		$fmtsql = 'INSERT INTO '.$this->nameQuote($table).' ( %s ) VALUES ( %s ) ';
 		$fields = array();
@@ -552,7 +551,7 @@ class JDatabaseMySQL extends JDatabase
 	 * @access public
 	 * @param [type] $updateNulls
 	 */
-	function updateObject( $table, &$object, $keyName, $updateNulls=true )
+	public function updateObject( $table, &$object, $keyName, $updateNulls=true )
 	{
 		$fmtsql = 'UPDATE '.$this->nameQuote($table).' SET %s WHERE %s';
 		$tmp = array();
@@ -586,7 +585,7 @@ class JDatabaseMySQL extends JDatabase
 	 *
 	 * @access public
 	 */
-	function insertid()
+	public function insertid()
 	{
 		return mysql_insert_id( $this->_resource );
 	}
@@ -596,7 +595,7 @@ class JDatabaseMySQL extends JDatabase
 	 *
 	 * @access public
 	 */
-	function getVersion()
+	public function getVersion()
 	{
 		return mysql_get_server_info( $this->_resource );
 	}
@@ -607,7 +606,7 @@ class JDatabaseMySQL extends JDatabase
 	 * @access	public
 	 * @return string Collation in use
 	 */
-	function getCollation ()
+	public function getCollation ()
 	{
 		if ( $this->hasUTF() ) {
 			$this->setQuery( 'SHOW FULL COLUMNS FROM #__content' );
@@ -624,7 +623,7 @@ class JDatabaseMySQL extends JDatabase
 	 * @access	public
 	 * @return array A list of all the tables in the database
 	 */
-	function getTableList()
+	public function getTableList()
 	{
 		$this->setQuery( 'SHOW TABLES' );
 		return $this->loadResultArray();
@@ -637,7 +636,7 @@ class JDatabaseMySQL extends JDatabase
 	 * @param 	array|string 	A table name or a list of table names
 	 * @return 	array A list the create SQL for the tables
 	 */
-	function getTableCreate( $tables )
+	public function getTableCreate( $tables )
 	{
 		settype($tables, 'array'); //force to array
 		$result = array();
@@ -661,7 +660,7 @@ class JDatabaseMySQL extends JDatabase
 	 * @param	boolean			Only return field types, default true
 	 * @return	array An array of fields by table
 	 */
-	function getTableFields( $tables, $typeonly = true )
+	public function getTableFields( $tables, $typeonly = true )
 	{
 		settype($tables, 'array'); //force to array
 		$result = array();

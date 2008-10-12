@@ -25,47 +25,47 @@ defined('JPATH_BASE') or die();
 class JTableMenu extends JTable
 {
 	/** @var int Primary key */
-	var $id					= null;
+	public $id					= null;
 	/** @var string */
-	var $menutype			= null;
+	public $menutype			= null;
 	/** @var string */
-	var $name				= null;
+	public $name				= null;
 	/** @var string */
-	var $alias				= null;
+	public $alias				= null;
 	/** @var string */
-	var $link				= null;
+	public $link				= null;
 	/** @var int */
-	var $type				= null;
+	public $type				= null;
 	/** @var int */
-	var $published			= null;
+	public $published			= null;
 	/** @var int */
-	var $componentid		= null;
+	public $componentid		= null;
 	/** @var int */
-	var $parent				= null;
+	public $parent				= null;
 	/** @var int */
-	var $sublevel			= null;
+	public $sublevel			= null;
 	/** @var int */
-	var $ordering			= null;
+	public $ordering			= null;
 	/** @var boolean */
-	var $checked_out		= 0;
+	public $checked_out		= 0;
 	/** @var datetime */
-	var $checked_out_time	= 0;
+	public $checked_out_time	= 0;
 	/** @var boolean */
-	var $pollid				= null;
+	public $pollid				= null;
 	/** @var string */
-	var $browserNav			= null;
+	public $browserNav			= null;
 	/** @var int */
-	var $access				= null;
+	public $access				= null;
 	/** @var int */
-	var $utaccess			= null;
+	public $utaccess			= null;
 	/** @var string */
-	var $params				= null;
+	public $params				= null;
 	/** @var int Pre-order tree traversal - left value */
-	var $lft				= null;
+	public $lft				= null;
 	/** @var int Pre-order tree traversal - right value */
-	var $rgt				= null;
+	public $rgt				= null;
 	/** @var int */
-	var $home				= null;
+	public $home				= null;
 
 	/**
 	 * Constructor
@@ -73,7 +73,7 @@ class JTableMenu extends JTable
 	 * @access protected
 	 * @param database A database connector object
 	 */
-	function __construct( &$db ) {
+	protected function __construct( &$db ) {
 		parent::__construct( '#__menu', 'id', $db );
 	}
 
@@ -85,7 +85,7 @@ class JTableMenu extends JTable
 	 * @see JTable::check
 	 * @since 1.5
 	 */
-	function check()
+	public function check()
 	{
 		if(empty($this->alias)) {
 			$this->alias = $this->name;
@@ -109,7 +109,7 @@ class JTableMenu extends JTable
 	* @since 1.5
 	*/
 
-	function bind($array, $ignore = '')
+	public function bind($array, $ignore = '')
 	{
 		if (is_array( $array['params'] ))
 		{

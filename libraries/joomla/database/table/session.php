@@ -28,61 +28,61 @@ class JTableSession extends JTable
 	 *
 	 * @var int Primary key
 	 */
-	var $session_id			= null;
+	public $session_id			= null;
 
 	/**
 	 *
 	 * @var string
 	 */
-	var $time				= null;
+	public $time				= null;
 
 	/**
 	 *
 	 * @var string
 	 */
-	var $userid				= null;
+	public $userid				= null;
 
 	/**
 	 *
 	 * @var string
 	 */
-	var $usertype			= null;
+	public $usertype			= null;
 
 	/**
 	 *
 	 * @var string
 	 */
-	var $username			= null;
+	public $username			= null;
 
 	/**
 	 *
 	 * @var time
 	 */
-	var $gid				= null;
+	public $gid				= null;
 
 	/**
 	 *
 	 * @var int
 	 */
-	var $guest				= null;
+	public $guest				= null;
 
 	/**
 	 *
 	 * @var int
 	 */
-	var $client_id			= null;
+	public $client_id			= null;
 
 	/**
 	 *
 	 * @var string
 	 */
-	var $data				= null;
+	public $data				= null;
 
 	/**
 	 * Constructor
 	 * @param database A database connector object
 	 */
-	function __construct( &$db )
+	protected function __construct( &$db )
 	{
 		parent::__construct( '#__session', 'session_id', $db );
 
@@ -91,7 +91,7 @@ class JTableSession extends JTable
 		$this->gid 		= 0;
 	}
 
-	function insert($sessionId, $clientId)
+	public function insert($sessionId, $clientId)
 	{
 		$this->session_id	= $sessionId;
 		$this->client_id	= $clientId;
@@ -107,7 +107,7 @@ class JTableSession extends JTable
 		}
 	}
 
-	function update( $updateNulls = false )
+	public function update( $updateNulls = false )
 	{
 		$this->time = time();
 		$ret = $this->_db->updateObject( $this->_tbl, $this, 'session_id', $updateNulls );
@@ -123,7 +123,7 @@ class JTableSession extends JTable
 	/**
 	 * Destroys the pesisting session
 	 */
-	function destroy($userId, $clientIds = array())
+	public function destroy($userId, $clientIds = array())
 	{
 		$clientIds = implode( ',', $clientIds );
 
@@ -147,7 +147,7 @@ class JTableSession extends JTable
 	* @param int 	Session age in seconds
 	* @return mixed Resource on success, null on fail
 	*/
-	function purge( $maxLifetime = 1440 )
+	public function purge( $maxLifetime = 1440 )
 	{
 		$past = time() - $maxLifetime;
 		$query = 'DELETE FROM '. $this->_tbl .' WHERE ( time < \''. (int) $past .'\' )'; // Index on 'VARCHAR'
@@ -162,7 +162,7 @@ class JTableSession extends JTable
 	 * @param int $userid The identifier of the user
 	 * @return boolean True if a session for this user exists
 	 */
-	function exists($userid)
+	public function exists($userid)
 	{
 		$query = 'SELECT COUNT(userid) FROM #__session'
 			. ' WHERE userid = '. $this->_db->Quote( $userid );
@@ -184,7 +184,7 @@ class JTableSession extends JTable
 	 * @access public
 	 * @return true if successful otherwise returns and error message
 	 */
-	function delete( $oid=null )
+	public function delete( $oid=null )
 	{
 		//if (!$this->canDelete( $msg ))
 		//{

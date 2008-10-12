@@ -15,37 +15,37 @@ class JTableACL extends JTable
 /**
 	 * @var int unsigned
 	 */
-	protected $id = null;
+	public $id = null;
 	/**
 	 * @var varchar
 	 */
-	protected $section_value = null;
+	public $section_value = null;
 	/**
 	 * @var int unsigned
 	 */
-	protected $allow = null;
+	public $allow = null;
 	/**
 	 * @var int unsigned
 	 */
-	protected $enabled = null;
+	public $enabled = null;
 	/**
 	 * @var varchar
 	 */
-	protected $return_value = null;
+	public $return_value = null;
 	/**
 	 * @var varchar
 	 */
-	protected $note = null;
+	public $note = null;
 	/**
 	 * @var int unsigned
 	 */
-	protected $updated_date = null;
+	public $updated_date = null;
 
 	/*
 	 * Constructor
 	 * @param object Database object
 	 */
-	function __construct( &$db )
+	protected function __construct( &$db )
 	{
 		parent::__construct( '#__core_acl_acl', 'id', $db );
 	}
