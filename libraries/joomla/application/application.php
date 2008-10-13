@@ -140,8 +140,7 @@ abstract class JApplication extends JObject
 			}
 			else
 			{
-				$error = JError::raiseError(500, 'Unable to load application: '.$client);
-				return $error;
+				throw new JException('Unable to load application: '.$client, 500, E_ERROR, $info, true);
 			}
 
 			$instances[$client] =& $instance;
@@ -403,7 +402,7 @@ abstract class JApplication extends JObject
 		{
 			$r = null;
 			if ( !preg_match( '/J(.*)/i', get_class( $this ), $r ) ) {
-				JError::raiseError(500, "JApplication::getName() : Can\'t get or parse class name.");
+				throw new JException("JApplication::getName() : Can\'t get or parse class name.", 500, E_ERROR, $name, true);
 			}
 			$name = strtolower( $r[1] );
 		}
@@ -653,10 +652,6 @@ abstract class JApplication extends JObject
 
 		jimport( 'joomla.application.router' );
 		$router =& JRouter::getInstance($name, $options);
-		if (JError::isError($router)) {
-			$null = null;
-			return $null;
-		}
 		return $router;
 	}
 
@@ -676,10 +671,6 @@ abstract class JApplication extends JObject
 
 		jimport( 'joomla.application.pathway' );
 		$pathway =& JPathway::getInstance($name, $options);
-		if (JError::isError($pathway)) {
-			$null = null;
-			return $null;
-		}
 		return $pathway;
 	}
 
@@ -699,10 +690,6 @@ abstract class JApplication extends JObject
 
 		jimport( 'joomla.application.menu' );
 		$menu =& JMenu::getInstance($name, $options);
-		if (JError::isError($menu)) {
-			$null = null;
-			return $null;
-		}
 		return $menu;
 	}
 

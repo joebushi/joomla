@@ -85,8 +85,7 @@ abstract class JPathway extends JObject
 			}
 			else
 			{
-				$error = JError::raiseError( 500, 'Unable to load pathway: '.$client);
-				return $error;
+				throw new JException('Unable to load pathway', 500, E_ERROR, $client, true);
 			}
 
 			$instances[$client] = & $instance;

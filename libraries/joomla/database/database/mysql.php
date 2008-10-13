@@ -63,16 +63,12 @@ class JDatabaseMySQL extends JDatabase
 
 		// perform a number of fatality checks, then return gracefully
 		if (!function_exists( 'mysql_connect' )) {
-			$this->_errorNum = 1;
-			$this->_errorMsg = 'The MySQL adapter "mysql" is not available.';
-			return;
+			throw new JException('The MySQL adapter "mysql" is not available', 1, E_WARNING);
 		}
 
 		// connect to the server
 		if (!($this->_resource = @mysql_connect( $host, $user, $password, true ))) {
-			$this->_errorNum = 2;
-			$this->_errorMsg = 'Could not connect to MySQL';
-			return;
+			throw new JException('Could not connect to MySQL database', 2, E_WARNING, mysql_error(), true);
 		}
 
 		// finalize initialization
@@ -142,9 +138,7 @@ class JDatabaseMySQL extends JDatabase
 		}
 
 		if ( !mysql_select_db( $database, $this->_resource )) {
-			$this->_errorNum = 3;
-			$this->_errorMsg = 'Could not connect to database';
-			return false;
+			throw new JException('Could not selecte database', 3, E_WARNING, $database);
 		}
 
 		// if running mysql 5, set sql-mode to mysql40 - thereby circumventing strict mode problems
@@ -205,7 +199,7 @@ class JDatabaseMySQL extends JDatabase
 	public function query()
 	{
 		if (!is_resource($this->_resource)) {
-			return false;
+			throw new JException('Database not connected', 10, E_WARNING);
 		}
 
 		if ($this->_limit > 0 || $this->_offset > 0) {
@@ -223,11 +217,7 @@ class JDatabaseMySQL extends JDatabase
 		{
 			$this->_errorNum = mysql_errno( $this->_resource );
 			$this->_errorMsg = mysql_error( $this->_resource )." SQL=$this->_sql";
-
-			if ($this->_debug) {
-				JError::raiseError(500, 'JDatabaseMySQL::query: '.$this->_errorNum.' - '.$this->_errorMsg );
-			}
-			return false;
+			throw new JException('Database query error', 11, E_WARNING, array('errorNum'=>$this->_errorNum, 'errorMsg'=>$this->_errorMsg), true);
 		}
 		return $this->_cursor;
 	}
@@ -281,7 +271,7 @@ class JDatabaseMySQL extends JDatabase
 					$this->_errorNum .= mysql_errno( $this->_resource ) . ' ';
 					$this->_errorMsg .= mysql_error( $this->_resource )." SQL=$command_line <br />";
 					if ($abort_on_error) {
-						return $this->_cursor;
+						throw new JException('Database query error', 11, E_WARNING, array('errorNum'=>$this->_errorNum, 'errorMsg'=>$this->_errorMsg), true);
 					}
 				}
 			}
@@ -299,9 +289,10 @@ class JDatabaseMySQL extends JDatabase
 	{
 		$temp = $this->_sql;
 		$this->_sql = "EXPLAIN $this->_sql";
-
-		if (!($cur = $this->query())) {
-			return null;
+		try {
+			$cur = $this->query();
+		} catch(JException $e) {
+			return '';
 		}
 		$first = true;
 
@@ -349,9 +340,7 @@ class JDatabaseMySQL extends JDatabase
 	 */
 	public function loadResult()
 	{
-		if (!($cur = $this->query())) {
-			return null;
-		}
+		$cur = $this->query();
 		$ret = null;
 		if ($row = mysql_fetch_row( $cur )) {
 			$ret = $row[0];
@@ -367,9 +356,7 @@ class JDatabaseMySQL extends JDatabase
 	 */
 	public function loadResultArray($numinarray = 0)
 	{
-		if (!($cur = $this->query())) {
-			return null;
-		}
+		$cur = $this->query();
 		$array = array();
 		while ($row = mysql_fetch_row( $cur )) {
 			$array[] = $row[$numinarray];
@@ -386,10 +373,8 @@ class JDatabaseMySQL extends JDatabase
 	*/
 	public function loadAssoc()
 	{
-		if (!($cur = $this->query())) {
-			return null;
-		}
-		$ret = null;
+		$cur = $this->query();
+		$ret = array();
 		if ($array = mysql_fetch_assoc( $cur )) {
 			$ret = $array;
 		}
@@ -406,9 +391,7 @@ class JDatabaseMySQL extends JDatabase
 	*/
 	public function loadAssocList( $key='' )
 	{
-		if (!($cur = $this->query())) {
-			return null;
-		}
+		$cur = $this->query();
 		$array = array();
 		while ($row = mysql_fetch_assoc( $cur )) {
 			if ($key) {
@@ -429,9 +412,7 @@ class JDatabaseMySQL extends JDatabase
 	*/
 	public function loadObject( )
 	{
-		if (!($cur = $this->query())) {
-			return null;
-		}
+		$cur = $this->query();
 		$ret = null;
 		if ($object = mysql_fetch_object( $cur )) {
 			$ret = $object;
@@ -452,9 +433,7 @@ class JDatabaseMySQL extends JDatabase
 	*/
 	public function loadObjectList( $key='' )
 	{
-		if (!($cur = $this->query())) {
-			return null;
-		}
+		$cur = $this->query();
 		$array = array();
 		while ($row = mysql_fetch_object( $cur )) {
 			if ($key) {
@@ -475,9 +454,7 @@ class JDatabaseMySQL extends JDatabase
 	 */
 	public function loadRow()
 	{
-		if (!($cur = $this->query())) {
-			return null;
-		}
+		$cur = $this->query();
 		$ret = null;
 		if ($row = mysql_fetch_row( $cur )) {
 			$ret = $row;
@@ -497,9 +474,7 @@ class JDatabaseMySQL extends JDatabase
 	*/
 	public function loadRowList( $key=null )
 	{
-		if (!($cur = $this->query())) {
-			return null;
-		}
+		$cur = $this->query();
 		$array = array();
 		while ($row = mysql_fetch_row( $cur )) {
 			if ($key !== null) {
@@ -537,9 +512,7 @@ class JDatabaseMySQL extends JDatabase
 			$values[] = $this->isQuoted( $k ) ? $this->Quote( $v ) : (int) $v;
 		}
 		$this->setQuery( sprintf( $fmtsql, implode( ",", $fields ) ,  implode( ",", $values ) ) );
-		if (!$this->query()) {
-			return false;
-		}
+		$this->query();
 		$id = $this->insertid();
 		if ($keyName && $id) {
 			$object->$keyName = $id;

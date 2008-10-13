@@ -124,8 +124,7 @@ abstract class JModel extends JObject
 
 				if (!class_exists( $modelClass ))
 				{
-					JError::raiseWarning( 0, 'Model class ' . $modelClass . ' not found in file.' );
-					return $result;
+					throw new JException('Model class not found in file', 500, E_ERROR, $modelClass, true);
 				}
 			}
 			else return $result;
@@ -205,7 +204,7 @@ abstract class JModel extends JObject
 		{
 			$r = null;
 			if (!preg_match('/Model(.*)/i', get_class($this), $r)) {
-				JError::raiseError (500, "JModel::getName() : Can't get or parse class name.");
+				throw new JException('Can\'t get or parse class name', 500, E_ERROR, get_class($this), true);
 			}
 			$name = strtolower( $r[1] );
 		}
@@ -233,9 +232,7 @@ abstract class JModel extends JObject
 			return $table;
 		}
 
-		JError::raiseError( 0, 'Table ' . $name . ' not supported. File not found.' );
-		$null = null;
-		return $null;
+		throw new JException('Table not supported.  File not found.', 500, E_ERROR, $name, true);
 	}
 
 	/**

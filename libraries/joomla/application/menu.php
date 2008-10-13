@@ -103,9 +103,7 @@ class JMenu extends JObject
 			}
 			else
 			{
-				//$error = JError::raiseError( 500, 'Unable to load menu: '.$client);
-				$error = null; //Jinx : need to fix this
-				return $error;
+				throw new JException('Unable to load menu client', 500, E_ERROR, $client, true);
 			}
 
 			$instances[$client] = & $instance;

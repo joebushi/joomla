@@ -108,8 +108,7 @@ abstract class JRouter extends JObject
 			}
 			else
 			{
-				$error = JError::raiseError( 500, 'Unable to load router: '.$client);
-				return $error;
+				throw new JException('Unable to load router', 500, E_ERROR, $client, true);
 			}
 
 			$instances[$client] = & $instance;

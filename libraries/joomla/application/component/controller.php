@@ -422,7 +422,7 @@ abstract class JController extends JObject
 		{
 			$r = null;
 			if ( !preg_match( '/(.*)Controller/i', get_class( $this ), $r ) ) {
-				JError::raiseError(500, "JController::getName() : Cannot get or parse class name.");
+				throw new JException('Cannot get or parse class name', 500, E_ERROR, $name, true);
 			}
 			$name = strtolower( $r[1] );
 		}

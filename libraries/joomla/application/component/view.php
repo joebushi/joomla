@@ -190,10 +190,6 @@ abstract class JView extends JObject
 	public function display($tpl = null)
 	{
 		$result = $this->loadTemplate($tpl);
-		if (JError::isError($result)) {
-			return $result;
-		}
-
 		echo $result;
 	}
 
@@ -417,7 +413,7 @@ abstract class JView extends JObject
 		{
 			$r = null;
 			if (!preg_match('/View((view)*(.*(view)?.*))$/i', get_class($this), $r)) {
-				JError::raiseError (500, "JView::getName() : Cannot get or parse class name.");
+				throw new JException('Cannot get or parse class name', 500, E_ERROR, get_class($this), true);
 			}
 			if (strpos($r[3], "view"))
 			{
@@ -571,7 +567,7 @@ abstract class JView extends JObject
 			return $this->_output;
 		}
 		else {
-			return JError::raiseError( 500, 'Layout "' . $file . '" not found' );
+			throw new JException('Layout file not found', 500, E_ERROR, $file, true);
 		}
 	}
 

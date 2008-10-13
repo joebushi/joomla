@@ -187,8 +187,10 @@ abstract class JComponentHelper
 				' FROM #__components' .
 				' WHERE parent = 0';
 		$db->setQuery( $query );
-
-		if (!($components = $db->loadObjectList( 'option' ))) {
+	
+		try {
+			$components = $db->loadObjectList( 'option' );
+		} catch (JException $e) {
 			JError::raiseWarning( 'SOME_ERROR_CODE', "Error loading Components: " . $db->getErrorMsg());
 			return false;
 		}

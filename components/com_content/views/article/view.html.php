@@ -37,7 +37,7 @@ class ContentViewArticle extends ContentView
 
 		// Initialize variables
 		$article	=& $this->get('Article');
-		$aparams		=& $article->parameters;
+		$aparams	= $article->parameters;
 		$params->merge($aparams);
 
 		if($this->getLayout() == 'pagebreak') {
@@ -185,7 +185,7 @@ class ContentViewArticle extends ContentView
 
 		// Initialize variables
 		$article	=& $this->get('Article');
-		$aparams	=& $article->parameters;
+		$aparams	= $article->parameters;
 		$isNew		= ($article->id < 1);
 
 		$params->merge($aparams);
