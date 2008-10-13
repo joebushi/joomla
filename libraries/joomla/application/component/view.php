@@ -193,9 +193,7 @@ abstract class JView extends JObject
 		if(isset($this->_data[$var])) {
 			return $this->_data[$var];
 		}
-		$appl	= JFactory::getApplication();
-		$appl->enqueueMessage('Attempted to access undefined object property '.$var);
-		
+		JError::raiseNotice(0, 'Attempted to access undefined object propery', $var);
 		return $this->$var;
 	}
 
@@ -207,9 +205,7 @@ abstract class JView extends JObject
 	 * @since	1.6
  	 */
 	public function __set($var, $val) {
-		$appl	= JFactory::getApplication();
-		$appl->enqueueMessage('Attempted to set undefined object property '.$var);
-		
+		JError::raiseNotice(0, 'Attempted to set undefined object propery', array('var'=>$var, 'val'=>$val));
 		$this->_data[$var] = $val;
 	}
 	
