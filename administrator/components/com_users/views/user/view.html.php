@@ -18,6 +18,7 @@ jimport('joomla.application.component.view');
  */
 class UserViewUser extends JView
 {
+	public $document = null;
 	/**
 	 * Display the view
 	 *

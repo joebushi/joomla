@@ -31,7 +31,18 @@ class JInstallationView extends JView
 	 * @access	protected
 	 * @since	1.5
 	 */
-	var $_steps		= null;
+	protected $_steps		= null;
+	protected $subtemplate;
+	protected $languages;
+	protected $direction;
+	protected $version;
+	protected $options;
+	protected $settings;
+	protected $encodings;
+	protected $maxupload;
+	protected $buffer;
+
+
 
 	function __construct($config = array() )
 	{

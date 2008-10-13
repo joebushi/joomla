@@ -32,7 +32,7 @@ class JInstallationModel extends JModel
 	 * @access	protected
 	 * @since	1.5
 	 */
-	var	$data		= array();
+	public $data		= array();
 
 	/**
 	 * Array used to store user input created during the installation process
@@ -41,7 +41,9 @@ class JInstallationModel extends JModel
 	 * @access	protected
 	 * @since	1.5
 	 */
-	var	$vars		= array();
+	public $vars		= array();
+
+	public $test;
 
 	/**
 	 * Constructor

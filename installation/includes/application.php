@@ -31,7 +31,8 @@ class JInstallation extends JApplication
 	 * @var string
 	 * @access protected
 	 */
-	var $_siteURL = null;
+	protected $_siteURL = null;
+	protected $_registry = null;
 
 	/**
 	* Class constructor

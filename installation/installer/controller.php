@@ -27,9 +27,10 @@ require_once( dirname(__FILE__).DS.'views'.DS.'install'.DS.'view.php');
 
 class JInstallationController extends JController
 {
-	var $_model		= null;
+	protected $_model		= null;
 
-	var $_view		= null;
+	protected $_view		= null;
+	
 
 	/**
 	 * Constructor

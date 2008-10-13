@@ -18,6 +18,10 @@ jimport('joomla.application.component.view');
  */
 class UserViewUsers extends JView
 {
+	public $document = null;
+	public $state = null;
+	protected $_total = null;
+
 	/**
 	 * Display the view
 	 *
