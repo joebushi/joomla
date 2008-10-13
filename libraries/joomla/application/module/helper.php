@@ -251,7 +251,7 @@ abstract class JModuleHelper
 			? ' AND (mm.menuid = ' . (int)$Itemid . ' OR mm.menuid <= 0)'
 			: '';
 
-		$query = 'SELECT id, title, module, position, content, showtitle, control, params'
+		$query = 'SELECT id, title, module, position, content, showtitle, control, params, mm.menuid'
 			. ' FROM #__modules AS m'
 			. ' LEFT JOIN #__modules_menu AS mm ON mm.moduleid = m.id'
 			. ' WHERE m.published = 1'
