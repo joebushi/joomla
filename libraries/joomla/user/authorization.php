@@ -521,7 +521,7 @@ class JAuthorization extends gacl_api
 	}
 
 	/**
-	 * Gets the access levels
+	 * Get the access levels that the users is permitted to action
 	 *
 	 * @param	string	The name of the ACL section (usually the component, eg, com_content)
 	 * @param	string	The action (usually 'view' when used in a list context)
@@ -532,21 +532,27 @@ class JAuthorization extends gacl_api
 	{
 		$db		= &JFactory::getDBO();
 		$user	= &JFactory::getUser();
-		$query	= 'SELECT GROUP_CONCAT( DISTINCT axog.value SEPARATOR \',\' )' .
-				' FROM #__core_acl_aco_map AS am' .
-				' INNER JOIN #__core_acl_acl AS acl ON acl.id = am.acl_id' .
-				' INNER JOIN #__core_acl_aro_groups_map AS agm ON agm.acl_id = am.acl_id' .
-				' LEFT JOIN #__core_acl_axo_groups_map AS axogm ON axogm.acl_id = am.acl_id' .
-				' INNER JOIN #__core_acl_axo_groups AS axog ON axog.id = axogm.group_id' .
-				' INNER JOIN #__core_acl_groups_aro_map AS garom ON garom.group_id = agm.group_id' .
-				' INNER JOIN #__core_acl_aro AS aro ON aro.id = garom.aro_id' .
-				' WHERE am.section_value = '.$db->Quote( $section ) .
-				'  AND am.value = '.$db->Quote( $action ) .
-				'  AND acl.enabled = 1' .
-				'  AND acl.allow = 1' .
-				'  AND aro.value = '.(int) $user->id;
-		$db->setQuery( $query );
-		$result	= $db->loadResult();
+		if ($id = $user->get('aid')) {
+			$query	= 'SELECT GROUP_CONCAT( DISTINCT axog.value SEPARATOR \',\' )' .
+					' FROM #__core_acl_aco_map AS am' .
+					' INNER JOIN #__core_acl_acl AS acl ON acl.id = am.acl_id' .
+					' INNER JOIN #__core_acl_aro_groups_map AS agm ON agm.acl_id = am.acl_id' .
+					' LEFT JOIN #__core_acl_axo_groups_map AS axogm ON axogm.acl_id = am.acl_id' .
+					' INNER JOIN #__core_acl_axo_groups AS axog ON axog.id = axogm.group_id' .
+					' INNER JOIN #__core_acl_groups_aro_map AS garom ON garom.group_id = agm.group_id' .
+					' INNER JOIN #__core_acl_aro AS aro ON aro.id = garom.aro_id' .
+					' WHERE am.section_value = '.$db->Quote( $section ) .
+					'  AND am.value = '.$db->Quote( $action ) .
+					'  AND acl.enabled = 1' .
+					'  AND acl.allow = 1' .
+					'  AND aro.value = '.(int) $user->id;
+			$db->setQuery( $query );
+			$result	= $db->loadResult();
+		}
+		else {
+			// Save some performance for anon users
+			$result = 0;
+		}
 		return $result;
 	}
 }
