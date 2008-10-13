@@ -525,7 +525,8 @@ class JDatabaseMySQL extends JDatabase
 		$fmtsql = 'INSERT INTO '.$this->nameQuote($table).' ( %s ) VALUES ( %s ) ';
 		$fields = array();
 		$values = array();
-		foreach (get_object_vars( $object ) as $k => $v) {
+		$vars = ($object INSTANCEOF JObject) ? $object->getProperties() : get_object_vars($object);
+		foreach ($vars as $k => $v) {
 			if (is_array($v) or is_object($v) or $v === NULL) {
 				continue;
 			}
@@ -556,7 +557,8 @@ class JDatabaseMySQL extends JDatabase
 	{
 		$fmtsql = 'UPDATE '.$this->nameQuote($table).' SET %s WHERE %s';
 		$tmp = array();
-		foreach (get_object_vars( $object ) as $k => $v)
+		$vars = ($object INSTANCEOF JObject) ? $object->getProperties() : get_object_vars($object);
+		foreach ($vars as $k => $v)
 		{
 			if( is_array($v) or is_object($v) or $k[0] == '_' ) { // internal or NA field
 				continue;
