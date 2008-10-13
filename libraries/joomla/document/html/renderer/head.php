@@ -32,7 +32,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 	 * @param array 	$params		Associative array of values
 	 * @return string	The output of the script
 	 */
-	public function render( $head = null, $params = array(), $content = null )
+	public function render( $head, $params = array(), $content = null )
 	{
 		ob_start();
 
