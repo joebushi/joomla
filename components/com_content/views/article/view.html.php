@@ -26,6 +26,12 @@ require_once (JPATH_COMPONENT.DS.'view.php');
  */
 class ContentViewArticle extends ContentView
 {
+	protected $article = null;
+	protected $params = null;
+	protected $user = null;
+	protected $access = null;
+	protected $print = null;
+
 	function display($tpl = null)
 	{
 		$app			=& JFactory::getApplication();

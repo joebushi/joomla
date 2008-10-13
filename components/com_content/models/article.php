@@ -26,6 +26,8 @@ jimport('joomla.application.component.model');
  */
 class ContentModelArticle extends JModel
 {
+
+	protected $_id = null;
 	/**
 	 * Article data
 	 *
