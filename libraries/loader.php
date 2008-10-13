@@ -22,8 +22,8 @@ spl_autoload_register(array('JLoader','load'));
  */
 abstract class JLoader
 {
-	private $paths = array();
-	private $classes = array();
+	private static $paths = array();
+	private static $classes = array();
 	 /**
 	 * Loads a class from specified directories.
 	 *
