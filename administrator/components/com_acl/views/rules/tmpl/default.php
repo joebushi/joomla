@@ -9,6 +9,9 @@
 	overflow: auto;
 }
 </style>
+<div>
+	<?php echo JText::_('ACL Rules View Desc'); ?>
+</div>
 
 <form action="<?php echo JRoute::_( 'index.php?option=com_acl&view=rules' );?>" method="post" name="adminForm">
 	<fieldset class="filter clearfix">
