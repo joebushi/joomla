@@ -25,13 +25,13 @@ class AccessControllerGroup extends JController
 	{
 		parent::__construct();
 
-		$this->registerTask( 'save2copy',	'save' );
-		$this->registerTask( 'save2new',	'save' );
-		$this->registerTask( 'apply',		'save' );
-		$this->registerTask( 'unpublish',	'publish' );
-		$this->registerTask( 'trash',		'publish' );
-		$this->registerTask( 'orderup',		'ordering' );
-		$this->registerTask( 'orderdown',	'ordering' );
+		$this->registerTask('save2copy',	'save');
+		$this->registerTask('save2new',	'save');
+		$this->registerTask('apply',		'save');
+		$this->registerTask('unpublish',	'publish');
+		$this->registerTask('trash',		'publish');
+		$this->registerTask('orderup',		'ordering');
+		$this->registerTask('orderdown',	'ordering');
 	}
 
 	/**
@@ -39,7 +39,7 @@ class AccessControllerGroup extends JController
 	 */
 	function display()
 	{
-		JError::raiseWarning( 500, 'This controller does not implement a display method' );
+		JError::raiseWarning(500, 'This controller does not implement a display method');
 	}
 
 	/**
@@ -47,7 +47,12 @@ class AccessControllerGroup extends JController
 	 */
 	function &getModel()
 	{
-		return parent::getModel( 'Group', 'AccessModel', array( 'ignore_request' => true ) );
+		return parent::getModel('Group', 'AccessModel', array('ignore_request' => true));
+	}
+
+	protected function _getReturnView($type)
+	{
+		return strtolower($type) == 'axo' ? 'level' : 'group';
 	}
 
 	/**
@@ -60,9 +65,9 @@ class AccessControllerGroup extends JController
 	 */
 	function edit()
 	{
-		$cid	= JRequest::getVar( 'cid', array(), '', 'array' );
-		$id		= JRequest::getInt( 'id', @$cid[0] );
-		$type	= JRequest::getWord('group_type');
+		$cid	= JRequest::getVar('cid', array(), '', 'array');
+		$id		= JRequest::getInt('id', @$cid[0]);
+		$type	= JRequest::getWord('group_type', 'aro');
 
 		$session = &JFactory::getSession();
 		$session->set('com_acl.group.id',	$id);
@@ -70,9 +75,10 @@ class AccessControllerGroup extends JController
 		if ($id) {
 			// Checkout item
 			//$model = $this->getModel();
-			//$model->checkout( $id );
+			//$model->checkout($id);
 		}
-		$this->setRedirect( JRoute::_( 'index.php?option=com_acl&view=group&layout=edit', false ) );
+		$view = $this->_getReturnView($type);
+		$this->setRedirect(JRoute::_('index.php?option=com_acl&view='.$view.'&layout=edit', false));
 	}
 
 	/**
@@ -85,11 +91,13 @@ class AccessControllerGroup extends JController
 	 */
 	function cancel()
 	{
+		$type	= JRequest::getWord('group_type', 'aro');
 		$session = &JFactory::getSession();
 		// Clear the session of the item
-		$session->set( 'access.group.id', null );
+		$session->set('access.group.id', null);
 
-		$this->setRedirect( JRoute::_('index.php?option=com_acl&view=groups', false ) );
+		$view = $this->_getReturnView($type);
+		$this->setRedirect(JRoute::_('index.php?option=com_acl&view='.$view.'s', false));
 	}
 
 	/**
@@ -101,7 +109,8 @@ class AccessControllerGroup extends JController
 		JRequest::checkToken();
 
 		// Get posted form variables.
-		$input = JRequest::get('post');
+		$input	= JRequest::get('post');
+		$type	= JRequest::getWord('group_type');
 
 		// Get the id of the item out of the session.
 		$session	= &JFactory::getSession();
@@ -111,7 +120,7 @@ class AccessControllerGroup extends JController
 
 		// Clear static values
 		// @todo Look at moving these to the table bind method (but check how new user values are handled)
-		//unset( $input['updated_date'] );
+		//unset($input['updated_date']);
 
 		// Get the id of the item out of the session.
 		$session	= &JFactory::getSession();
@@ -120,25 +129,26 @@ class AccessControllerGroup extends JController
 
 		// Get the extensions model and set the post request in its state.
 		$model	= &$this->getModel();
-		$model->setState('group_type', JRequest::getWord('group_type'));
-		$result	= $model->save( $input );
-		$msg	= JError::isError( $result ) ? $result->message : 'Saved';
+		$model->setState('group_type', $type);
+		$result	= $model->save($input);
+		$msg	= JError::isError($result) ? $result->message : 'Saved';
+		$view	= $this->_getReturnView($type);
 
 		if ($this->_task == 'apply') {
-			$session->set( 'com_acl.group.id', $model->getState( 'id' ) );
-			$this->setRedirect(JRoute::_('index.php?option=com_acl&view=group&layout=edit', false), JText::_($msg));
+			$session->set('com_acl.group.id', $model->getState('id'));
+			$this->setRedirect(JRoute::_('index.php?option=com_acl&view='.$view.'&layout=edit', false), JText::_($msg));
 		}
 		else if ($this->_task == 'save2new') {
-			$session->set( 'com_acl.group.id', null );
+			$session->set('com_acl.group.id', null);
 			//$model->checkin($id);
 
-			$this->setRedirect(JRoute::_('index.php?option=com_acl&view=group&layout=edit', false), JText::_($msg));
+			$this->setRedirect(JRoute::_('index.php?option=com_acl&view='.$view.'&layout=edit', false), JText::_($msg));
 		}
 		else {
-			$session->set( 'access.group.id', null );
+			$session->set('access.group.id', null);
 			//$model->checkin($id);
 
-			$this->setRedirect(JRoute::_('index.php?option=com_acl&view=groups', false), JText::_($msg));
+			$this->setRedirect(JRoute::_('index.php?option=com_acl&view='.$view.'s', false), JText::_($msg));
 		}
 	}
 
@@ -148,28 +158,29 @@ class AccessControllerGroup extends JController
 	function delete()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or die('Invalid Token');
 
-			// Get items from the request.
-		$cid = JRequest::getVar('cid', array(), '', 'array');
+		$cid	= JRequest::getVar('cid', array(), '', 'array');
+		$type	= JRequest::getWord('group_type', 'aro');
 
-		if (empty( $cid )) {
-			JError::raiseWarning(500, JText::_( 'No items selected' ));
+		if (empty($cid)) {
+			JError::raiseWarning(500, JText::_('No items selected'));
 		}
 		else {
 			// Get the model.
 			$model = $this->getModel();
 
 			// Make sure the item ids are integers
-			jimport( 'joomla.utilities.arrayhelper' );
-			JArrayHelper::toInteger( $cid );
+			jimport('joomla.utilities.arrayhelper');
+			JArrayHelper::toInteger($cid);
 
 			// Remove the items.
 			if (!$model->delete($cid)) {
-				JError::raiseWarning( 500, $model->getError() );
+				JError::raiseWarning(500, $model->getError());
 			}
 		}
 
-		$this->setRedirect( 'index.php?option=com_acl&view=groups' );
+		$view = $this->_getReturnView($type);
+		$this->setRedirect('index.php?option=com_acl&view='.$view.'s');
 	}
 }

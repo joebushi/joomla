@@ -42,6 +42,9 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+13-Oct-2008 Andrew Eddie
+ + Added support to edit access levels
+
 13-Oct-2008 Toby Patterson
  # Added access methods to JToolBar
  # Fixed bug with rendering cpanel modules

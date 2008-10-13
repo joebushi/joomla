@@ -56,6 +56,7 @@ class AccessController extends JController
 				case 'levels':
 					$model = $this->getModel('groups');
 					$model->setState('list.group_type',	'axo');
+					$model->setState('list.tree',		false);
 					$model->setState('list.parent_id',	1);
 					break;
 
