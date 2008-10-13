@@ -55,7 +55,7 @@ class AccessModelACL extends AccessModelPrototypeItem
 	/**
 	 * @param	boolean	True to resolve foreign data relationship
 	 *
-	 * @return	JObject
+	 * @return	JStdClass
 	 */
 	function &getItem()
 	{
@@ -69,7 +69,7 @@ class AccessModelACL extends AccessModelPrototypeItem
 				// @todo Cannot tell if JTable::load throw an error on a null return
 				//$this->setError($table->getError());
 			}
-			$this->_item = JArrayHelper::toObject($table->getProperties(1), 'JObject');
+			$this->_item = JArrayHelper::toObject($table->getProperties(1), 'JStdClass');
 		}
 		return $this->_item;
 	}
@@ -77,7 +77,7 @@ class AccessModelACL extends AccessModelPrototypeItem
 	/**
 	 * Gets an ACL with extended data
 	 *
-	 * @return	JObject
+	 * @return	JStdClass
 	 */
 	function getExtendedItem()
 	{

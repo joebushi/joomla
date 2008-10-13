@@ -73,7 +73,7 @@ abstract class JModel extends JObject
 		if (array_key_exists('state', $config))  {
 			$this->_state = $config['state'];
 		} else {
-			$this->_state = new JObject();
+			$this->_state = new JStdClass();
 		}
 
 		//set the model dbo

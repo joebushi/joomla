@@ -69,7 +69,7 @@ class UserModelPrototype extends JModel
 	/**
 	 * @param	boolean	True to resolve foreign data relationship
 	 *
-	 * @return	JObject
+	 * @return	JStdClass
 	 */
 	function &getItem( $resolveFKs = true  )
 	{
@@ -88,11 +88,11 @@ class UserModelPrototype extends JModel
 			$sql	= $query->toString();
 			$temp	= $this->_getList( $sql );
 			if (isset( $temp[0] )) {
-				$instances[$key] = JArrayHelper::toObject( JArrayHelper::fromObject( $temp[0] ), 'JObject' );
+				$instances[$key] = JArrayHelper::toObject( JArrayHelper::fromObject( $temp[0] ), 'JStdClass' );
 			}
 			else {
 				$temp = $this->getTable();
-				$instances[$key] = JArrayHelper::toObject( $temp->getProperties( 1 ), 'JObject' );
+				$instances[$key] = JArrayHelper::toObject( $temp->getProperties( 1 ), 'JStdClass' );
 			}
 		}
 		return $instances[$key];

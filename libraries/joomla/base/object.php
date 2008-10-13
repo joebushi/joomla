@@ -19,7 +19,7 @@
  * @subpackage	Base
  * @since		1.5
  */
-class JObject
+abstract class JObject
 {
 
 	/**
@@ -37,7 +37,7 @@ class JObject
 	 * @access	protected
 	 * @since	1.5
 	 */
-	public function __construct() {}
+	protected function __construct() {}
 
 
 	/**

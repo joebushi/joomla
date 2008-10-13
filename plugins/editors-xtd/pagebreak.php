@@ -40,7 +40,7 @@ class plgButtonPagebreak extends JPlugin
 
 		JHTML::_('behavior.modal');
 
-		$button = new JObject();
+		$button = new JStdClass();
 		$button->set('modal', true);
 		$button->set('link', $link);
 		$button->set('text', JText::_('Pagebreak'));

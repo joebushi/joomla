@@ -38,7 +38,7 @@ class AccessModelGroup extends AccessModelPrototypeItem
 	/**
 	 * @param	boolean	True to resolve foreign data relationship
 	 *
-	 * @return	JObject
+	 * @return	JStdClass
 	 */
 	function &getItem()
 	{
@@ -51,7 +51,7 @@ class AccessModelGroup extends AccessModelPrototypeItem
 			if (!$table->load($id)) {
 				$this->setError($table->getError());
 			}
-			$this->_item = JArrayHelper::toObject($table->getProperties(1), 'JObject');
+			$this->_item = JArrayHelper::toObject($table->getProperties(1), 'JStdClass');
 		}
 		return $this->_item;
 	}
