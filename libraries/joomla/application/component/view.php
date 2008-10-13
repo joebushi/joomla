@@ -123,7 +123,7 @@ abstract class JView extends JObject
 	 *
 	 * @access	protected
 	 */
-	protected function __construct($config = array())
+	public function __construct($config = array())
 	{
 		//set the view name
 		if (empty( $this->_name ))

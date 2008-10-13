@@ -30,7 +30,7 @@ abstract class JFile
 {
 	private static $filesystem = null;
 
-	protected static function &getFileSystem() {$backend->chmod($path, $mode);
+	protected static function &getFileSystem() {
 		if(!is_object(JFile::$filesystem)) {
 			JFile::$filesystem = JFileSystem::getInstance();
 		}

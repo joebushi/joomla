@@ -258,7 +258,7 @@ abstract class JFactory
 	 */
 	public static function &getDBO()
 	{
-		if (!is_object($instance))
+		if (!is_object(JFactory::$database))
 		{
 			//get the debug configuration setting
 			$conf =& JFactory::getConfig();

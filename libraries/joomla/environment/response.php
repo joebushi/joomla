@@ -12,14 +12,6 @@
  * See COPYRIGHT.php for copyright notices and details.
  */
 
-/**
- * Create the response global object
- */
-$GLOBALS['_JRESPONSE'] = new stdClass();
-JResponse::$cachable = false;
-JResponse::$headers  = array();
-JResponse::$body	 = array();
-
  /**
  * JResponse Class
  *

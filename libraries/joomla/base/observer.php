@@ -53,5 +53,5 @@ abstract class JObserver extends JObject
 	 * @access public
 	 * @return mixed
 	 */
-	abstract public function update();
+	abstract public function update( &$args );
 }

@@ -47,8 +47,8 @@ class JFilesystemPHP extends JFilesystem
 		return @rename($src, $dest);
 	}
 
-	public function read($src) {
-		return @file_get_contents($src);
+	public function read($src, $include_path=true, $length=0, $offset=0) {
+		return @file_get_contents($src, $include_path, $length, $offset);
 	}
 
 	public function write($file, $buffer) {

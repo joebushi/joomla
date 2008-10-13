@@ -130,7 +130,7 @@ abstract class JError
 
 		$function = 'handle'.ucfirst($handler['mode']);
 		if (is_callable(array('JError', $function))) {
-			$reference =& call_user_func_array(array('JError',$function), array($exception, (isset($handler['options'])) ? $handler['options'] : array()));
+			$reference =& call_user_func_array(array('JError',$function), array(&$exception, (isset($handler['options'])) ? $handler['options'] : array()));
 		} else {
 			// This is required to prevent a very unhelpful white-screen-of-death
 			jexit(

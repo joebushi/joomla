@@ -35,7 +35,7 @@ class JRegistryFormatINI extends JRegistryFormat
 	 * @param array  $param  Parameters used by the formatter
 	 * @return string INI Formatted String
 	 */
-	public function objectToString( &$object )
+	public function objectToString( &$object, $params )
 	{
 
 		// Initialize variables

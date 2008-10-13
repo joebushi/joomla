@@ -61,7 +61,7 @@ abstract class JPlugin extends JEvent
 	 * (this list is not meant to be comprehensive).
 	 * @since 1.5
 	 */
-	protected function __construct(& $subject, $config = array())
+	public function __construct(& $subject, $config = array())
 	{
 		//Set the parameters
 		if ( isset( $config['params'] ) ) {

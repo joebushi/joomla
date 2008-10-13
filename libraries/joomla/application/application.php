@@ -763,7 +763,7 @@ abstract class JApplication extends JObject
 
 		//Session doesn't exist yet, initalise and store it in the session table
 		$session->set('registry',	new JRegistry('session'));
-		$session->set('user',		new JUser());
+		$session->set('user', JUser::getInstance());
 
 		if (!$storage->insert( $session->getId(), $this->getClientId())) {
 			jexit( $storage->getError());

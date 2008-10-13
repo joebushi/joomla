@@ -135,7 +135,7 @@ abstract class JController extends JObject
 	 * 'view_path' (this list is not meant to be comprehensive).
 	 * @since	1.5
 	 */
-	protected function __construct( $config = array() )
+	public function __construct( $config = array() )
 	{
 		//Initialize private variables
 		$this->_redirect	= null;
