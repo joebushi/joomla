@@ -430,6 +430,7 @@ class JDatabaseMySQLi extends JDatabase
 	public function loadObject( )
 	{
 		$cur = $this->query();
+		$ret = null;
 		if ($object = $cur->fetch_object()) {
 			$ret = $object;
 		}

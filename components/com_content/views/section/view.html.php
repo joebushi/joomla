@@ -27,6 +27,15 @@ require_once (JPATH_COMPONENT.DS.'view.php');
  */
 class ContentViewSection extends ContentView
 {
+	protected $total = null;
+	protected $items = null;
+	protected $section = null;
+	protected $categories = null;
+	protected $params = null;
+	protected $user = null;
+	protected $access = null;	
+	protected $pagination = null;
+
 	function display($tpl = null)
 	{
 		global $mainframe, $option;

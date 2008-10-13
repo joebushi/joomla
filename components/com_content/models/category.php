@@ -61,6 +61,8 @@ class ContentModelCategory extends JModel
 	 */
 	var $_siblings = null;
 
+	protected $_content = null;
+
 	/**
 	 * Constructor
 	 *

@@ -128,6 +128,8 @@ abstract class JController extends JObject
 	 */
 	protected $_acoSectionValue 	= null;
 
+	protected $_params = null;
+
 	/**
 	 * Constructor.
 	 *

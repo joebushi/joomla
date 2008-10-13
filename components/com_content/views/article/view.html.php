@@ -31,7 +31,11 @@ class ContentViewArticle extends ContentView
 	protected $user = null;
 	protected $access = null;
 	protected $print = null;
-
+	protected $action = null;
+	protected $lists = null;
+	protected $editor = null;
+	
+	
 	function display($tpl = null)
 	{
 		$app			=& JFactory::getApplication();
