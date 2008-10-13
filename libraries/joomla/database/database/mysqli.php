@@ -579,7 +579,7 @@ class JDatabaseMySQLi extends JDatabase
 	 */
 	public function insertid()
 	{
-		return $this->_resource->insertid;
+		return $this->_resource->insert_id;
 	}
 
 	/**
