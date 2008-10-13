@@ -48,7 +48,7 @@ class JInstallationModel extends JModel
 	 */
 	function __construct($config = array())
 	{
-		$this->_state = new stdClass();
+		$this->_state = new JObject();
 		//set the view name
 		if (empty( $this->_name ))
 		{
