@@ -52,7 +52,7 @@ abstract class JRegistryFormat extends JObject
 				if (file_exists($path)) {
 					require_once($path);
 				} else {
-					JError::raiseError(500,JText::_('Unable to load format class'));
+					throw new JException(JText::_('Unable to load format class'), 500, E_ERROR, $format);
 				}
 			}
 

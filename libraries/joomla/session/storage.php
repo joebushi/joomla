@@ -51,7 +51,7 @@ abstract class JSessionStorage extends JObject
 		static $instances;
 
 		if (!isset ($instances)) {
-			$instances = array ();
+			$instances = array();
 		}
 
 		$name = strtolower(JFilterInput::clean($name, 'word'));

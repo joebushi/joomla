@@ -34,7 +34,7 @@ class JSessionStorageEaccelerator extends JSessionStorage
 	protected function __construct( $options = array() )
 	{
 		if (!self::test()) {
-			return JError::raiseError(404, "The eaccelerator extension is not available");
+			throw new JException("The eaccelerator extension isn't available", 500, E_ERROR);
 		}
 		parent::__construct($options);
 	}

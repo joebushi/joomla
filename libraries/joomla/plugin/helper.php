@@ -195,9 +195,10 @@ abstract class JPluginHelper
 
 		$db->setQuery( $query );
 
-		if (!($plugins = $db->loadObjectList())) {
-			JError::raiseWarning( 'SOME_ERROR_CODE', "Error loading Plugins: " . $db->getErrorMsg());
-			return false;
+		try {
+			$plugins = $db->loadObjectList();
+		} catch (JException $e) {
+			throw new JException('Error loading plugins', 0, E_WARNING, $e);
 		}
 
 		return $plugins;

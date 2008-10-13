@@ -33,7 +33,7 @@ class JSessionStorageXcache extends JSessionStorage
 	protected function __construct( $options = array() )
 	{
 		if (!self::test()) {
-			return JError::raiseError(404, "The xcache extension isn't available");
+			throw new JException("The xcache extension isn't available", 500, E_ERROR);
 		}
 
 		parent::__construct($options);

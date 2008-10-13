@@ -186,9 +186,7 @@ class JUser extends JObject
 		{
 			jimport('joomla.user.helper');
 			if (!$id = JUserHelper::getUserId($id)) {
-				JError::raiseWarning( 'SOME_ERROR_CODE', 'JUser::_load: User '.$id.' does not exist' );
-				$retval = false;
-				return $retval;
+				throw new JException('JUser::_load: User does not exist', 0, E_WARNING, $id);
 			}
 		}
 
@@ -618,10 +616,9 @@ class JUser extends JObject
 		// Create the user table object
 		$table 	=& $this->getTable();
 
-		 // Load the JUserModel object based on the user id or throw a warning.
-		 if(!$table->load($id)) {
-			JError::raiseWarning( 'SOME_ERROR_CODE', 'JUser::_load: Unable to load user with id: '.$id );
-			return false;
+		// Load the JUserModel object based on the user id or throw a warning.
+		if(!$table->load($id)) {
+			throw new JException('JUser::_load: User does not exist', 0, E_WARNING, $id);
 		}
 
 		/*
