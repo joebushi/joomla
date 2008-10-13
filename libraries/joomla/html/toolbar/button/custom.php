@@ -46,6 +46,6 @@ class JButtonCustom extends JButton
 	 */
 	public function fetchId( $type='Custom', $html = '', $id = 'custom' )
 	{
-		return $this->_parent->_name.'-'.$id;
+		return $this->_parent->getName().'-'.$id;
 	}
 }

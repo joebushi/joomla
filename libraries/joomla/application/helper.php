@@ -26,6 +26,33 @@ defined('JPATH_BASE') or die();
 abstract class JApplicationHelper
 {
 	/**
+	 * Return the application option string [main component]
+	 *
+	 * @param	string $default The default option
+	 * @access	public
+	 * @return	string Option
+	 * @since	1.6
+	 */
+	function getComponent($default = NULL)
+	{
+		static $option;
+		
+		if ( $option )
+		{
+			return $option;
+		}
+		
+		$option = strtolower(JRequest::getCmd('option'));
+
+		if(empty($option)) {
+			$option = $default;
+		}
+
+		JRequest::setVar('option', $option);
+		return $option;
+	}
+	
+	/**
 	 * Gets information on a specific client id.  This method will be useful in
 	 * future versions when we start mapping applications in the database.
 	 *

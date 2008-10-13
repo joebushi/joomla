@@ -30,7 +30,7 @@ class JToolBar extends JObject
 	/**
 	 * Toolbar name
 	 *
-	 * @access	private
+	 * @access	protected
 	 * @var		string
 	 */
 	protected $_name = array ();
@@ -38,7 +38,7 @@ class JToolBar extends JObject
 	/**
 	 * Toolbar array
 	 *
-	 * @access	private
+	 * @access	protected
 	 * @var		array
 	 */
 	protected $_bar = array ();
@@ -46,7 +46,7 @@ class JToolBar extends JObject
 	/**
 	 * Loaded buttons
 	 *
-	 * @access	private
+	 * @access	protected
 	 * @var		array
 	 */
 	protected $_buttons = array ();
@@ -54,7 +54,7 @@ class JToolBar extends JObject
 	/**
 	 * Directories, where button types can be stored
 	 *
-	 * @access	private
+	 * @access	protected
 	 * @var		array
 	 */
 	protected $_buttonPath = array ();
@@ -115,6 +115,30 @@ class JToolBar extends JObject
 		$btn = func_get_args();
 		array_push($this->_bar, $btn);
 		return true;
+	}
+	
+	/**
+	 * Get the list of toolbar links
+	 *
+	 * @return	array
+	 * @access	public
+	 * @since	1.6
+	 */
+	public function getItems()
+	{
+		return $this->_bar;
+	}
+	
+	/**
+	 * Get the name of the toolbar
+	 *
+	 * @return	string
+	 * @access	public
+	 * @since	1.6
+	 */
+	public function getName()
+	{
+		return $this->_name;
 	}
 
 	/**

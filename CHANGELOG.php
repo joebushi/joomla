@@ -42,6 +42,11 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+13-Oct-2008 Toby Patterson
+ # Added access methods to JToolBar
+ # Fixed bug with rendering cpanel modules
+ ^ Moved some routing logic out of index.php into JAdministrator::route()
+
 11-Oct-2008 Alan Langford
  + Added ability to specify module appearance in "exclude from list" mode.
 

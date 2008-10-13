@@ -101,12 +101,24 @@ class JAdministrator extends JApplication
 	/**
 	* Dispatch the application
 	*
-	* @access public
+	* @param	string $component Name of component to load
+	* @access	public
+	* @since	1.6
 	*/
-	function dispatch($component)
+	function dispatch($component = NULL)
 	{
 		$document	=& JFactory::getDocument();
 		$user		=& JFactory::getUser();
+		
+		// Get our component
+		if ($user->get('guest')) {
+			$component = 'com_login';
+		}
+		
+		if ( ! $component )
+		{
+			$component = JApplicationHelper::getComponent('com_cpanel');
+		}
 
 		switch($document->getType())
 		{

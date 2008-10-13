@@ -63,8 +63,8 @@ $mainframe->triggerEvent('onAfterRoute');
  *
  * NOTE :
  */
-$option = JAdministratorHelper::findOption();
-$mainframe->dispatch($option);
+
+$mainframe->dispatch();
 
 // trigger the onAfterDispatch events
 JDEBUG ? $_PROFILER->mark('afterDispatch') : null;
@@ -85,4 +85,3 @@ $mainframe->triggerEvent( 'onAfterRender' );
  * RETURN THE RESPONSE
  */
 echo JResponse::toString($mainframe->getCfg('gzip'));
-?>

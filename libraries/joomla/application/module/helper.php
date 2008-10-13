@@ -247,7 +247,7 @@ abstract class JModuleHelper
 
 		$modules = array();
 
-		$wheremenu = isset($Itemid)
+		$wheremenu = !empty($Itemid)
 			? ' AND (mm.menuid = ' . (int)$Itemid . ' OR mm.menuid <= 0)'
 			: '';
 

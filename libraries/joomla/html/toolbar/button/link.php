@@ -56,7 +56,7 @@ class JButtonLink extends JButton
 	 */
 	public function fetchId($name)
 	{
-		return $this->_parent->_name.'-'.$name;
+		return $this->_parent->getName().'-'.$name;
 	}
 
 	/**

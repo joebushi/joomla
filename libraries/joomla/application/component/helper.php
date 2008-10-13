@@ -25,6 +25,7 @@ defined('JPATH_BASE') or die();
  */
 abstract class JComponentHelper
 {
+	
 	/**
 	 * Get the component info
 	 *
