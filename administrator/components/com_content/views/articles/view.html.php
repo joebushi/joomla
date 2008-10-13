@@ -27,6 +27,11 @@ jimport( 'joomla.application.component.view');
  */
 class ContentViewArticles extends JView
 {
+	protected $filter;
+	protected $pagination;
+	protected $rows;
+	protected $redirect;
+
 	function display($tpl = null)
 	{
 		$rows		= & $this->get( 'Data');

@@ -27,6 +27,10 @@ jimport( 'joomla.application.component.view');
  */
 class SectionsViewSection extends JView
 {
+	protected $user;
+	protected $lists;	
+	protected $row;
+
 	function display($tpl = null)
 	{
 		global $mainframe;

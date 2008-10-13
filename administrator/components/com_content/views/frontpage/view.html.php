@@ -27,6 +27,10 @@ jimport( 'joomla.application.component.view');
  */
 class ContentViewFrontpage extends JView
 {
+	protected $user;
+	protected $rows;
+	protected $pagination;
+	protected $filter;
 	function display($tpl = null)
 	{
 		global $mainframe;

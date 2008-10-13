@@ -27,6 +27,13 @@ jimport( 'joomla.application.component.view');
  */
 class ContentViewArticle extends JView
 {
+	protected $lists;
+	protected $row;
+	protected $option;
+	protected $params;
+	protected $contentSection;
+	protected $sectioncategories;
+	
 	function display($tpl = null)
 	{
 		global $mainframe;

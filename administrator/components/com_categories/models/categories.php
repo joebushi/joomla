@@ -53,6 +53,12 @@ class CategoriesModelCategories extends JModel
 	 * @var object
 	 */
 	var $_filter = null;
+	
+	protected $section_name = null;
+	protected $content_add;
+	protected $content_join;
+	protected $table;
+	protected $type;
 
 	/**
 	 * Constructor

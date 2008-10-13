@@ -27,6 +27,9 @@ jimport( 'joomla.application.component.view');
  */
 class CategoriesViewCategory extends JView
 {
+	protected $redirect;
+	protected $lists;
+	protected $row;
 	function display($tpl = null)
 	{
 		global $mainframe;
