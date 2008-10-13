@@ -28,6 +28,7 @@ jimport('joomla.utilities.simplexml');
  */
 class modMainMenuHelper
 {
+
 	function buildXML(&$params)
 	{
 		$menu = new JMenuTree($params);
@@ -160,17 +161,20 @@ class JMenuTree extends JTree
 	/**
 	 * Node/Id Hash for quickly handling node additions to the tree.
 	 */
-	var $_nodeHash = array();
+	protected $_nodeHash = array();
 
 	/**
 	 * Menu parameters
 	 */
-	var $_params = null;
+	protected $_params = null;
 
 	/**
 	 * Menu parameters
 	 */
-	var $_buffer = null;
+	protected $_buffer = null;
+
+	protected $_root;
+	protected $_current;
 
 	function __construct(&$params)
 	{
@@ -352,17 +356,20 @@ class JMenuNode extends JNode
 	/**
 	 * Node Title
 	 */
-	var $title = null;
+	pubilc $title = null;
 
 	/**
 	 * Node Link
 	 */
-	var $link = null;
+	public $link = null;
 
 	/**
 	 * CSS Class for node
 	 */
-	var $class = null;
+	public $class = null;
+
+	public $id = null;
+	public $access = null;
 
 	function __construct($id, $title, $access = null, $link = null, $class = null)
 	{
