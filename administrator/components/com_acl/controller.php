@@ -25,14 +25,14 @@ class AccessController extends JController
 	 */
 	function display()
 	{
-		$document = &JFactory::getDocument();
+		$document	= &JFactory::getDocument();
 
 		// Set the default view name and format from the Request
-		$vName		= JRequest::getWord( 'view', 'rules' );
+		$vName		= JRequest::getWord('view', 'rules');
 		$vFormat	= $document->getType();
-		$lName		= JRequest::getWord( 'layout', 'default' );
+		$lName		= JRequest::getWord('layout', 'default');
 
-		if ($view = &$this->getView( $vName, $vFormat ))
+		if ($view = &$this->getView($vName, $vFormat))
 		{
 			switch ($vName)
 			{
@@ -45,7 +45,7 @@ class AccessController extends JController
 					$model = $this->getModel('groups');
 					$model->setState('list.group_type',	'aro');
 					$model->setState('list.tree',		true);
-					$model->setState('list.parent_id',	28 );
+					$model->setState('list.parent_id',	28);
 					break;
 
 				case 'level':
@@ -60,26 +60,36 @@ class AccessController extends JController
 					$model->setState('list.parent_id',	1);
 					break;
 
+				case 'role':
+					$model = $this->getModel('acl');
+					break;
+
+				case 'roles':
+					$model = $this->getModel('acls');
+					break;
+
 				case 'rule':
 					$model = $this->getModel('acl');
 					break;
 
+				case 'rules':
 				default:
-					$model	= &$this->getModel('acls');
+					$model = $this->getModel('acls');
 					break;
 			}
 
 			// Push the model into the view (as default)
-			$view->setModel( $model, true );
-			$view->setLayout( $lName );
-			$view->assignRef( 'document', $document );
+			$view->setModel($model, true);
+			$view->setLayout($lName);
+			$view->assignRef('document', $document);
 			$view->display();
 		}
 
 		// Set up the Linkbar
-		JSubMenuHelper::addEntry( JText::_( 'ACL Link Rules' ),			'index.php?option=com_acl&view=rules',	$vName == 'rules' );
-		JSubMenuHelper::addEntry( JText::_( 'ACL Link Groups' ),		'index.php?option=com_acl&view=groups',	$vName == 'groups' );
-		JSubMenuHelper::addEntry( JText::_( 'ACL Link Access Levels' ),	'index.php?option=com_acl&view=levels',	$vName == 'levels' );
+		JSubMenuHelper::addEntry(JText::_('ACL Link Rules'),			'index.php?option=com_acl&view=rules',	$vName == 'rules');
+		JSubMenuHelper::addEntry(JText::_('ACL Link Roles'),			'index.php?option=com_acl&view=roles',	$vName == 'roles');
+		JSubMenuHelper::addEntry(JText::_('ACL Link User Groups'),		'index.php?option=com_acl&view=groups',	$vName == 'groups');
+		JSubMenuHelper::addEntry(JText::_('ACL Link Access Levels'),	'index.php?option=com_acl&view=levels',	$vName == 'levels');
 	}
 
 	/**
@@ -91,11 +101,11 @@ class AccessController extends JController
 		$protocol = JRequest::getWord('protocol');
 
 		// Get task command from the request
-		$cmd = JRequest::getVar( 'task', null );
+		$cmd = JRequest::getVar('task', null);
 
 		// If it was a multiple option post get the selected option
-		if (is_array( $cmd )) {
-			$cmd = array_pop( array_keys( $cmd ) );
+		if (is_array($cmd)) {
+			$cmd = array_pop(array_keys($cmd));
 		}
 
 		// Filter the command and instantiate the appropriate controller
@@ -110,8 +120,8 @@ class AccessController extends JController
 			$controllerPath	= JPATH_COMPONENT.DS.'controllers'.DS.$controllerFile.'.php';
 
 			// If the controller file path exists, include it ... else lets die with a 500 error
-			if (file_exists( $controllerPath )) {
-				require_once( $controllerPath );
+			if (file_exists($controllerPath)) {
+				require_once($controllerPath);
 			}
 			else {
 				JError::raiseError(500, 'Invalid Controller');
@@ -126,9 +136,9 @@ class AccessController extends JController
 		}
 
 		// Set the name for the controller and instantiate it
-		$controllerClass = 'AccessController'.ucfirst( $controllerName );
+		$controllerClass = 'AccessController'.ucfirst($controllerName);
 
-		if (class_exists( $controllerClass )) {
+		if (class_exists($controllerClass)) {
 			$controller = new $controllerClass();
 		}
 		else {
