@@ -30,13 +30,13 @@ abstract class JHelp
 	*/
 	public static function createURL($ref, $useComponent = false)
 	{
-		global $option;
-		$appl	= JFactory::getApplication();
+		$component	= JApplicationHelper::getComponentName();
+		$appl		= JFactory::getApplication();
 
-		$user			=& JFactory::getUser();
+		$user			= JFactory::getUser();
 		$userHelpUrl	= $user->getParam( 'helpsite' );
 		$globalHelpUrl 	= $appl->getCfg('helpurl');
-		$lang			=& JFactory::getLanguage();
+		$lang			= JFactory::getLanguage();
 
 		if ($useComponent)
 		{
@@ -44,7 +44,7 @@ abstract class JHelp
 				$ref = $ref . '.html';
 			}
 
-			$url = 'components/' . $option. '/help';
+			$url = 'components/' . $component. '/help';
 			$tag =  $lang->getTag();
 
 			// Check if the file exists within a different language!
@@ -106,7 +106,7 @@ abstract class JHelp
 	public static function createSiteList($pathToXml, $selected = null)
 	{
 		$list	= array ();
-		$xml	=& JFactory::getXMLParser('Simple');
+		$xml	= JFactory::getXMLParser('Simple');
 		$data	= null;
 		if( !empty( $pathToXml ) ) {
 			$data = file_get_contents($pathToXml);

@@ -195,7 +195,7 @@ class JDocumentFeed extends JDocument
 	 */
 	public function render( $cache = false, $params = array())
 	{
-		global $option;
+		$component	= JApplicationHelper::getComponentName();
 
 		// Get the feed type
 		$type = JRequest::getCmd('type', 'rss');
@@ -209,7 +209,7 @@ class JDocumentFeed extends JDocument
 
 		// set filename for rss feeds
 		$file = strtolower( str_replace( '.', '', $type ) );
-		$file = $cache_path.DS.$file.'_'.$option.'.xml';
+		$file = $cache_path.DS.$file.'_'.$component.'.xml';
 
 
 		// Instantiate feed renderer and set the mime encoding

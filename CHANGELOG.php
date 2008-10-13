@@ -47,6 +47,7 @@ http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
 13-Oct-2008 Toby Patterson
  # Added access methods to JToolBar
+ # Removed most usage of keyword global from the framework
  # Fixed bug with rendering cpanel modules
  ^ Moved some routing logic out of index.php into JAdministrator::route()
 

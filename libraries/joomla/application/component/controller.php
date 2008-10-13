@@ -307,8 +307,8 @@ abstract class JController extends JObject
 
 		// Display the view
 		if ($cachable && $viewType != 'feed') {
-			global $option;
-			$cache =& JFactory::getCache($option, 'view');
+			$component	= JApplicationHelper::getComponentName();
+			$cache		= JFactory::getCache($component, 'view');
 			$cache->get($view, 'display');
 		} else {
 			$view->display();

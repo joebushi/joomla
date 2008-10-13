@@ -26,14 +26,14 @@ defined('JPATH_BASE') or die();
 abstract class JApplicationHelper
 {
 	/**
-	 * Return the application option string [main component]
+	 * Return the name of the request component [main component]
 	 *
 	 * @param	string $default The default option
 	 * @access	public
 	 * @return	string Option
 	 * @since	1.6
 	 */
-	function getComponent($default = NULL)
+	function getComponentName($default = NULL)
 	{
 		static $option;
 

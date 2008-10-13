@@ -119,7 +119,7 @@ class JAdministrator extends JApplication
 
 		if ( ! $component )
 		{
-			$component = JApplicationHelper::getComponent('com_cpanel');
+			$component = JApplicationHelper::getComponentName('com_cpanel');
 		}
 
 		switch($document->getType())

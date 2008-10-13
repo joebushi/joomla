@@ -315,7 +315,7 @@ class JDocumentHTML extends JDocument
 	 */
 	public function _loadTemplate($directory, $filename)
 	{
-		global $option;
+		$component	= JApplicationHelper::getComponentName();
 
 		// need for backwards compatibility
 		// @todo if legacy
@@ -329,6 +329,9 @@ class JDocumentHTML extends JDocument
 			//store the file path
 			$this->_file = $directory.DS.$filename;
 
+			// @todo if ( $legacy )
+			$option = $component;
+			
 			//get the file content
 			ob_start();
 			require_once $directory.DS.$filename;

@@ -181,6 +181,34 @@ abstract class JView extends JObject
 	}
 
 	/**
+	 * Provides interception of default php error handling logic for objects.  Enforceing class definitions
+	 *
+	 * @access	public
+	 * @throw Jexception
+	 * @since	1.6
+ 	 */
+	public function __get($var) {
+		$appl	= JFactory::getApplication();
+		$appl->enqueueMessage('Attempted to access undefined object property '.$var);
+		
+		return $this->$var;
+	}
+
+	/**
+	 * Provides interception of default php error handling logic for objects.  Enforceing class definitions
+	 *
+	 * @access	public
+	 * @throw Jexception
+	 * @since	1.6
+ 	 */
+	public function __set($var, $val) {
+		$appl	= JFactory::getApplication();
+		$appl->enqueueMessage('Attempted to set undefined object property '.$var);
+		
+		$this->$var = $val;
+	}
+	
+	/**
 	* Execute and display a template script.
 	*
 	* @param string $tpl The name of the template file to parse;
@@ -527,8 +555,8 @@ abstract class JView extends JObject
 	 */
 	public function loadTemplate( $tpl = null)
 	{
-		$appl	= JFactory::getApplication();
-		global $option;
+		$appl		= JFactory::getApplication();
+		$option		= JApplicationHelper::getComponentName();
 
 		// clear prior output
 		$this->_output = null;
@@ -607,8 +635,8 @@ abstract class JView extends JObject
 	*/
 	protected function _setPath($type, $path)
 	{
-		global $option;
-		$appl	= JFactory::getApplication();
+		$component	= JApplicationHelper::getComponentName();
+		$appl		= JFactory::getApplication();
 
 		// clear out the prior search dirs
 		$this->_path[$type] = array();
@@ -624,8 +652,8 @@ abstract class JView extends JObject
 				// set the alternative template search dir
 				if (isset($appl))
 				{
-					$option = preg_replace('/[^A-Z0-9_\.-]/i', '', $option);
-					$fallback = JPATH_BASE.DS.'templates'.DS.$appl->getTemplate().DS.'html'.DS.$option.DS.$this->getName();
+					$component	= preg_replace('/[^A-Z0-9_\.-]/i', '', $component);
+					$fallback	= JPATH_BASE.DS.'templates'.DS.$appl->getTemplate().DS.'html'.DS.$component.DS.$this->getName();
 					$this->_addPath('template', $fallback);
 				}
 			}	break;

@@ -97,7 +97,7 @@ abstract class JComponentHelper
 	 */
 	public static function renderComponent($name = null, $params = array())
 	{
-		global $option;
+		$component	= JApplicationHelper::getComponentName();
 		$appl	= JFactory::getApplication();
 
 		//needed for backwards compatibility
@@ -136,12 +136,13 @@ abstract class JComponentHelper
 
 		$task = JRequest::getString( 'task' );
 
-		$task = JRequest::getString( 'task' );
-
 		// Load common language files
 		$lang =& JFactory::getLanguage();
 		$lang->load($name);
 
+		// @todo if ( $legacy )
+		$option = $component;
+		
 		// Handle template preview outlining
 		$contents = null;
 
