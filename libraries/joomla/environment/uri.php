@@ -438,7 +438,7 @@ class JURI extends JObject
 	 * @return	string Query string
 	 * @since	1.5
 	 */
-	public static function getQuery($toArray = false)
+	public function getQuery($toArray = false)
 	{
 		if($toArray) {
 			return $this->_vars;

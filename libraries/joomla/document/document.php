@@ -82,7 +82,7 @@ abstract class JDocument extends JObject
 	 * @var		string
 	 * @access	public
 	 */
-	protected $_generator = 'Joomla! 1.5 - Open Source Content Management';
+	public $_generator = 'Joomla! 1.5 - Open Source Content Management';
 
 	/**
 	 * Document modified date
@@ -90,7 +90,7 @@ abstract class JDocument extends JObject
 	 * @var		string
 	 * @access   private
 	 */
-	protected $_mdate = '';
+	public $_mdate = '';
 
 	/**
 	 * Tab string
@@ -98,7 +98,7 @@ abstract class JDocument extends JObject
 	 * @var		string
 	 * @access	private
 	 */
-	protected $_tab = "\11";
+	public $_tab = "\11";
 
 	/**
 	 * Contains the line end string
@@ -106,7 +106,7 @@ abstract class JDocument extends JObject
 	 * @var		string
 	 * @access	private
 	 */
-	protected $_lineEnd = "\12";
+	public $_lineEnd = "\12";
 
 	/**
 	 * Contains the character encoding string
@@ -114,7 +114,7 @@ abstract class JDocument extends JObject
 	 * @var	 string
 	 * @access  private
 	 */
-	protected $_charset = 'utf-8';
+	public $_charset = 'utf-8';
 
 	/**
 	 * Document mime type
@@ -122,7 +122,7 @@ abstract class JDocument extends JObject
 	 * @var		string
 	 * @access	private
 	 */
-	protected $_mime = '';
+	public $_mime = '';
 
 	/**
 	 * Document namespace
@@ -130,7 +130,7 @@ abstract class JDocument extends JObject
 	 * @var		string
 	 * @access   private
 	 */
-	protected $_namespace = '';
+	public $_namespace = '';
 
 	/**
 	 * Document profile
@@ -138,7 +138,7 @@ abstract class JDocument extends JObject
 	 * @var		string
 	 * @access   private
 	 */
-	protected $_profile = '';
+	public $_profile = '';
 
 	/**
 	 * Array of linked scripts
@@ -146,7 +146,7 @@ abstract class JDocument extends JObject
 	 * @var		array
 	 * @access   private
 	 */
-	protected $_scripts = array();
+	public $_scripts = array();
 
 	/**
 	 * Array of scripts placed in the header
@@ -154,7 +154,7 @@ abstract class JDocument extends JObject
 	 * @var  array
 	 * @access   private
 	 */
-	protected $_script = array();
+	public $_script = array();
 
 	 /**
 	 * Array of linked style sheets
@@ -162,7 +162,7 @@ abstract class JDocument extends JObject
 	 * @var	 array
 	 * @access  private
 	 */
-	protected $_styleSheets = array();
+	public $_styleSheets = array();
 
 	/**
 	 * Array of included style declarations
@@ -170,7 +170,7 @@ abstract class JDocument extends JObject
 	 * @var	 array
 	 * @access  private
 	 */
-	protected $_style = array();
+	public $_style = array();
 
 	/**
 	 * Array of meta tags
@@ -178,7 +178,7 @@ abstract class JDocument extends JObject
 	 * @var	 array
 	 * @access  private
 	 */
-	protected $_metaTags = array();
+	public $_metaTags = array();
 
 	/**
 	 * The rendering engine
@@ -186,7 +186,7 @@ abstract class JDocument extends JObject
 	 * @var	 object
 	 * @access  private
 	 */
-	protected $_engine = null;
+	public $_engine = null;
 
 	/**
 	 * The document type
@@ -194,7 +194,7 @@ abstract class JDocument extends JObject
 	 * @var	 string
 	 * @access  private
 	 */
-	protected $_type = null;
+	public $_type = null;
 
 	/**
 	 * Array of buffered output
@@ -202,16 +202,16 @@ abstract class JDocument extends JObject
 	 * @var		mixed (depends on the renderer)
 	 * @access	private
 	 */
-	protected $_buffer = null;
+	public $_buffer = null;
 
 
 	/**
 	* Class constructor
 	*
-	* @access protected
+	* @access public
 	* @param	array	$options Associative array of options
 	*/
-	protected function __construct( $options = array())
+	public function __construct( $options = array())
 	{
 		parent::__construct();
 
@@ -723,7 +723,7 @@ abstract class JDocument extends JObject
 	 * @access	private
 	 * @return	string
 	 */
-	protected function _getTab() {
+	public function _getTab() {
 		return $this->_tab;
 	}
 
@@ -735,7 +735,7 @@ abstract class JDocument extends JObject
 	* @return	object
 	* @since 1.5
 	*/
-	public static function &loadRenderer( $type )
+	public function &loadRenderer( $type )
 	{
 		$null	= null;
 		$class	= 'JDocumentRenderer'.$type;

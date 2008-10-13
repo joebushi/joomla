@@ -70,7 +70,7 @@ abstract class JRegistryFormat extends JObject
 	 * @return	object	Data Object
 	 * @since	1.5
 	 */
-	abstract public function stringToObject( $data, $namespace='' );
+	abstract public function stringToObject( $data, $process_sections=false );
 
 	/**
 	 * Converts an object into a formatted string
@@ -81,5 +81,5 @@ abstract class JRegistryFormat extends JObject
 	 * @return	string	Formatted string
 	 * @since	1.5
 	 */
-	abstract public function objectToString( &$object );
+	abstract public function objectToString( &$object, $params );
 }

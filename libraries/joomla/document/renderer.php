@@ -47,7 +47,7 @@ abstract class JDocumentRenderer extends JObject
 	* @access protected
 	* @param object A reference to the JDocument object that instantiated the renderer
 	*/
-	protected function __construct(&$doc) {
+	public function __construct(&$doc) {
 		$this->_doc =& $doc;
 	}
 

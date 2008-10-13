@@ -31,18 +31,18 @@ class JDocumentVCARD extends JDocument
 	 * @var		array
 	 * @access	public
 	 */
-	protected $_properties;
+	public $_properties;
 
-	protected $_filename;
+	public $_filename;
 
 
 	/**
 	 * Class constructore
 	 *
-	 * @access protected
+	 * @access public
 	 * @param	array	$options Associative array of options
 	 */
-	protected function __construct($options = array())
+	public function __construct($options = array())
 	{
 		parent::__construct($options);
 

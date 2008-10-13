@@ -24,29 +24,29 @@ defined('JPATH_BASE') or die();
  */
 class JDocumentPDF extends JDocument
 {
-	protected $_engine	= null;
+	public $_engine	= null;
 
-	protected $_name		= 'joomla';
+	public $_name		= 'joomla';
 
-	protected $_header	= null;
+	public $_header	= null;
 
-	protected $_margin_header	= 5;
-	protected $_margin_footer	= 10;
-	protected $_margin_top	= 27;
-	protected $_margin_bottom	= 25;
-	protected $_margin_left	= 15;
-	protected $_margin_right	= 15;
+	public $_margin_header	= 5;
+	public $_margin_footer	= 10;
+	public $_margin_top	= 27;
+	public $_margin_bottom	= 25;
+	public $_margin_left	= 15;
+	public $_margin_right	= 15;
 
 	// Scale ratio for images [number of points in user unit]
-	protected $_image_scale	= 4;
+	public $_image_scale	= 4;
 
 	/**
 	 * Class constructore
 	 *
-	 * @access protected
+	 * @access public
 	 * @param	array	$options Associative array of options
 	 */
-	protected function __construct($options = array())
+	public function __construct($options = array())
 	{
 		parent::__construct($options);
 

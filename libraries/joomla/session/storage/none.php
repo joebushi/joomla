@@ -36,7 +36,90 @@ class JSessionStorageNone extends JSessionStorage
 		//let php handle the session storage
 	}
 
-	public static function test() {
-		return true;
+	/**
+	 * Open the SessionHandler backend.
+	 *
+	 * @abstract
+	 * @access public
+	 * @param string $save_path     The path to the session object.
+	 * @param string $session_name  The name of the session.
+	 * @return boolean  True on success, false otherwise.
+	 */
+	public function open($save_path, $session_name)
+	{
+	}
+
+	/**
+	 * Close the SessionHandler backend.
+	 *
+	 * @abstract
+	 * @access public
+	 * @return boolean  True on success, false otherwise.
+	 */
+	public function close()
+	{
+	}
+
+ 	/**
+ 	 * Read the data for a particular session identifier from the
+ 	 * SessionHandler backend.
+ 	 *
+ 	 * @abstract
+ 	 * @access public
+ 	 * @param string $id  The session identifier.
+ 	 * @return string  The session data.
+ 	 */
+	public function read($id)
+	{
+	}
+
+	/**
+	 * Write session data to the SessionHandler backend.
+	 *
+	 * @abstract
+	 * @access public
+	 * @param string $id            The session identifier.
+	 * @param string $session_data  The session data.
+	 * @return boolean  True on success, false otherwise.
+	 */
+	public function write($id, $session_data)
+	{
+	}
+
+	/**
+	  * Destroy the data for a particular session identifier in the
+	  * SessionHandler backend.
+	  *
+	  * @abstract
+	  * @access public
+	  * @param string $id  The session identifier.
+	  * @return boolean  True on success, false otherwise.
+	  */
+	public function destroy($id)
+	{
+	}
+
+	/**
+	 * Garbage collect stale sessions from the SessionHandler backend.
+	 *
+	 * @abstract
+	 * @access public
+	 * @param integer $maxlifetime  The maximum age of a session.
+	 * @return boolean  True on success, false otherwise.
+	 */
+	public function gc($maxlifetime)
+	{
+	}
+
+	/**
+	 * Test to see if the SessionHandler is available.
+	 *
+	 * @abstract
+	 * @static
+	 * @access public
+	 * @return boolean  True on success, false otherwise.
+	 */
+	public static function test()
+	{
 	}
 }

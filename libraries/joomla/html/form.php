@@ -114,7 +114,7 @@ class JForm extends JRegistry
 	 * @param	string Tagname used in the XML file
 	 * @since	1.5
 	 */
-	protected function __construct($data, $xmldata = '', $xmlelement = 'element', $addDefault = false)
+	public function __construct($data, $xmldata = '', $xmlelement = 'element', $addDefault = false)
 	{
 		parent::__construct('_default');
 

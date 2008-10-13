@@ -28,16 +28,16 @@ class JDocumentError extends JDocument
 	 * Error Object
 	 * @var	object
 	 */
-	protected $_error;
+	public $_error;
 
 	/**
 	 * Class constructor
 	 *
-	 * @access protected
+	 * @access public
 	 * @param	string	$type 		(either html or tex)
 	 * @param	array	$attributes Associative array of attributes
 	 */
-	protected function __construct($options = array())
+	public function __construct($options = array())
 	{
 		parent::__construct($options);
 
@@ -56,7 +56,7 @@ class JDocumentError extends JDocument
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	protected function setError($error)
+	public function setError($error)
 	{
 		if (JError::isError($error)) {
 			$this->_error = & $error;
@@ -112,7 +112,7 @@ class JDocumentError extends JDocument
 	 * @param string 	$filename	The actual filename
 	 * @return string The contents of the template
 	 */
-	protected function _loadTemplate($directory, $filename)
+	public function _loadTemplate($directory, $filename)
 	{
 		$contents = '';
 

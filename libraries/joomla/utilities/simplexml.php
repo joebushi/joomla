@@ -376,7 +376,7 @@ class JSimpleXMLElement extends JObject
 	 *
 	 * @var string
 	 */
-	protected $_data = '';
+	public $_data = '';
 
 	/**
 	 * Array of references to the objects of all direct children of this XML object

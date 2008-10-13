@@ -33,7 +33,7 @@ class JDocumentHTML extends JDocument
 	 * @var	 array
 	 * @access  private
 	 */
-	protected $_links = array();
+	public $_links = array();
 
 	/**
 	 * Array of custom tags
@@ -41,16 +41,16 @@ class JDocumentHTML extends JDocument
 	 * @var	 string
 	 * @access  private
 	 */
-	protected $_custom = array();
+	public $_custom = array();
 
 
 	/**
 	 * Class constructor
 	 *
-	 * @access protected
+	 * @access public
 	 * @param	array	$options Associative array of options
 	 */
-	protected function __construct($options = array())
+	public function __construct($options = array())
 	{
 		parent::__construct($options);
 
@@ -309,7 +309,7 @@ class JDocumentHTML extends JDocument
 	 * @param string 	$filename	The actual filename
 	 * @return string The contents of the template
 	 */
-	protected function _loadTemplate($directory, $filename)
+	public function _loadTemplate($directory, $filename)
 	{
 		global $option;
 		
@@ -357,7 +357,7 @@ class JDocumentHTML extends JDocument
 	 * @param string 	$data		The data too parse
 	 * @return The parsed contents of the template
 	 */
-	protected function _parseTemplate($data)
+	public function _parseTemplate($data)
 	{
 		$replace = array();
 		$matches = array();
