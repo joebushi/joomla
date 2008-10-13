@@ -158,7 +158,7 @@ CREATE TABLE IF NOT EXISTS `jos_core_acl_axo_groups` (
   `name` varchar(255) NOT NULL default '',
   `value` int(10) NOT NULL default '0',
   PRIMARY KEY  (`id`,`value`),
-  UNIQUE KEY `jos_core_acl_value_axo_groups` (`value`),
+  INDEX `jos_core_acl_value_axo_groups` (`value`),
   KEY `core_acl_parent_id_axo_groups` (`parent_id`),
   KEY `core_acl_lft_rgt_axo_groups` (`lft`,`rgt`)
 ) ENGINE=MyISAM CHARACTER SET `utf8`;
