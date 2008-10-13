@@ -5,7 +5,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <div class="system-unpublished">
 <?php endif; ?>
 
-<?php if ($this->item->params->get('show_title') || $this->item->params->get('show_pdf_icon') || $this->item->params->get('show_print_icon') || $this->item->params->get('show_email_icon')) : ?>
+<?php if ($this->item->params->get('show_title') || $this->item->params->get('show_pdf_icon') || $this->item->params->get('show_print_icon') || $this->item->params->get('show_email_icon') || $canEdit) : ?>
 <table class="contentpaneopen<?php echo $this->item->params->get( 'pageclass_sfx' ); ?>">
 <tr>
 	<?php if ($this->item->params->get('show_title')) : ?>

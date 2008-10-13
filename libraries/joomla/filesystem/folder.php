@@ -397,9 +397,11 @@ class JFolder
 				if ($isDir) {
 					if ($recurse) {
 						if (is_integer($recurse)) {
-							$recurse--;
+							$arr2 = JFolder::files($dir, $filter, $recurse - 1, $fullpath);
+						} else {
+							$arr2 = JFolder::files($dir, $filter, $recurse, $fullpath);
 						}
-						$arr2 = JFolder::files($dir, $filter, $recurse, $fullpath);
+						
 						$arr = array_merge($arr, $arr2);
 					}
 				} else {
@@ -461,9 +463,11 @@ class JFolder
 				}
 				if ($recurse) {
 					if (is_integer($recurse)) {
-						$recurse--;
+						$arr2 = JFolder::folders($dir, $filter, $recurse - 1, $fullpath);
+					} else {
+						$arr2 = JFolder::folders($dir, $filter, $recurse, $fullpath);
 					}
-					$arr2 = JFolder::folders($dir, $filter, $recurse, $fullpath);
+					
 					$arr = array_merge($arr, $arr2);
 				}
 			}

@@ -100,13 +100,14 @@ class CacheData extends JObject
 	function getRows( $start, $limit )
 	{
 		$i = 0;
-		if (count($this->_items) == 0) {
+		$rows = array();
+		if (!is_array($this->_items)) {
 			return null;
 		}
 
 		foreach ($this->_items as $item)
 		{
-			if ($i >= $start && $i < $start+$limit) {
+			if ( (($i >= $start) && ($i < $start+$limit)) || ($limit == 0) ) {
 				$rows[] = $item;
 			}
 			$i++;

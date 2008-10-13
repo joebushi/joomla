@@ -27,7 +27,7 @@ class modSectionsHelper
 
 		$count	= intval($params->get('count', 20));
 		$contentConfig 	= &JComponentHelper::getParams( 'com_content' );
-		$access	= !$contentConfig->get('shownoauth');
+		$access	= !$contentConfig->get('show_noauth');
 
 		$gid 		= $user->get('aid', 0);
 		$now		= date('Y-m-d H:i:s', time() + $mainframe->getCfg('offset') * 60 * 60);

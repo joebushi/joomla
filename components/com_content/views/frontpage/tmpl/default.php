@@ -66,8 +66,7 @@ if (($numIntroArticles != $startIntroArticles) && ($i < $this->total)) : ?>
 				endfor; ?>
 				</td>
 		<?php endfor; 
-		endif;?>
-		<?php $i = $i + $this->params->get('num_intro_articles') ; ?>
+		endif;?>		
 		</tr>
 		</table>
 	</td>

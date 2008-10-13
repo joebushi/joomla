@@ -37,6 +37,19 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+13-Oct-2008 Ian MacLennan
+ # [#13164] JFolder::files and JFolder::folders don't function properly when using integral search depth
+ # [#13152] Component Directories to be completely deleted upon bogus entry into jos_components
+ # [#13151] Wrong wording in language file
+ # [#13017] Install language with pdf fonts with both admin and site bug (patch included)
+ # [#13015] Frontpage blog wrong number of links
+ # [#12942] A tag of category link is not closed in Section blog view
+ # [#12602] mod_stats shows wrong time
+ # [#12533] Missing method in JRecordSet
+ # [#12424] Correct or Remove Show_noauth parameter from sections module
+ # [#11707] In category blog layout, edit icon not displayed for user who canEdit if show title is 'No'
+ # [#11261] Cache: Undefined variable: rows in /administrator/components/com_cache/cache.class.php on line 114
+
 10-Oct-2008 Kevin Devine
  # [12722] STRIPOS
 

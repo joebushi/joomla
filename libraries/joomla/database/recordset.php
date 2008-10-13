@@ -45,6 +45,14 @@ class JRecordSet
 	function RecordCount() {
 		return $this->count;
 	}
+	
+	/**
+	 * @return int
+	 */
+	function RowCount() {
+		return $this->RecordCount();
+	}
+	
 	/**
 	 * @return mixed A row from the data array or null
 	 */

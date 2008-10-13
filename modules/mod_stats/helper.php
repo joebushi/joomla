@@ -41,7 +41,7 @@ class modStatsHelper
 			$rows[$i]->data 	= $db->getVersion();
 			$i++;
 			$rows[$i]->title 	= JText::_( 'Time' );
-			$rows[$i]->data 	= date( 'H:i', time() + ( $mainframe->getCfg('offset') * 60 * 60 ) );
+			$rows[$i]->data 	= JHTML::_('date', 'now', '%H:%M');
 			$i++;
 			$rows[$i]->title 	= JText::_( 'Caching' );
 			$rows[$i]->data 	=  $mainframe->getCfg('caching') ? JText::_( 'Enabled' ):JText::_( 'Disabled' );
