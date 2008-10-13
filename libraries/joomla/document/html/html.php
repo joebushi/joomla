@@ -43,6 +43,9 @@ class JDocumentHTML extends JDocument
 	 */
 	public $_custom = array();
 
+	public $template = null;
+	public $baseurl = null;
+	public $params = null;
 
 	/**
 	 * Class constructor
