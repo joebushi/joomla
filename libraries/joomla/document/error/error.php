@@ -28,7 +28,13 @@ class JDocumentError extends JDocument
 	 * Error Object
 	 * @var	object
 	 */
-	public $_error;
+	protected $_error;
+	protected $template;
+	protected $baseurl;
+	protected $debug;
+	protected $error;
+	protected $_file;
+	
 
 	/**
 	 * Class constructor
@@ -81,7 +87,7 @@ class JDocumentError extends JDocument
 		}
 
 		//Set the status header
-		JResponse::setHeader('status', $this->_error->code.' '.str_replace( "\n", ' ', $this->_error->message ));
+		JResponse::setHeader('status', $this->_error->get('code').' '.str_replace( "\n", ' ', $this->_error->get('message') ));
 		$file = 'error.php';
 
 		// check template

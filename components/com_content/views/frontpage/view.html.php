@@ -37,7 +37,8 @@ class ContentViewFrontpage extends ContentView
 
 	function display($tpl = null)
 	{
-		global $mainframe, $option;
+		$mainframe = JFactory::getApplication();
+		$option = JRequest::getCmd('option', 'com_content');
 
 		// Initialize variables
 		$user		=& JFactory::getUser();
@@ -50,7 +51,6 @@ class ContentViewFrontpage extends ContentView
 
 		// Get the page/component configuration
 		$params = &$mainframe->getParams();
-
 		// parameters
 		$intro			= $params->def('num_intro_articles',	4);
 		$leading		= $params->def('num_leading_articles',	1);
@@ -108,7 +108,6 @@ class ContentViewFrontpage extends ContentView
 		$this->assignRef('access',		$access);
 		$this->assignRef('params',		$params);
 		$this->assignRef('items',		$items);
-
 		parent::display($tpl);
 	}
 

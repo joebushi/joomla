@@ -22,12 +22,12 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 	<tr>
 		<td align="center">
 			<h1>
-				<?php echo $this->error->code ?> - <?php echo JText::_('An error has occurred') ?>
+				<?php echo $this->error->get('code') ?> - <?php echo JText::_('An error has occurred') ?>
 		</td>
 	</tr>
 	<tr>
 		<td width="39%" align="center">
-			<p><?php echo $this->error->message ?></p>
+			<p><?php echo $this->error->get('message'); ?></p>
 			<p>
 				<?php if($this->debug) :
 					echo $this->renderBacktrace();

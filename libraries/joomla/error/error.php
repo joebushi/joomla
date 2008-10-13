@@ -544,7 +544,7 @@ abstract class JError
 		$document->setError($error);
 
 		@ob_end_clean();
-		$document->setTitle(JText::_('Error').': '.$error->code);
+		$document->setTitle(JText::_('Error').': '.$error->get('code'));
 		$data = $document->render(false, array (
 			'template' => $template,
 			'directory' => JPATH_THEMES,

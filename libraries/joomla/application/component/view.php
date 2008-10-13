@@ -120,6 +120,8 @@ abstract class JView extends JObject
 
 	public $baseurl = '';
 
+	protected $_data = array();
+
 	/**
 	 * Constructor
 	 *
@@ -187,7 +189,10 @@ abstract class JView extends JObject
 	 * @throw Jexception
 	 * @since	1.6
  	 */
-	public function __get($var) {
+	public function &__get($var) {
+		if(isset($this->_data[$var])) {
+			return $this->_data[$var];
+		}
 		$appl	= JFactory::getApplication();
 		$appl->enqueueMessage('Attempted to access undefined object property '.$var);
 		
@@ -205,7 +210,7 @@ abstract class JView extends JObject
 		$appl	= JFactory::getApplication();
 		$appl->enqueueMessage('Attempted to set undefined object property '.$var);
 		
-		$this->$var = $val;
+		$this->_data[$var] = $val;
 	}
 	
 	/**
@@ -334,7 +339,11 @@ abstract class JView extends JObject
 	{
 		if (is_string($key) && substr($key, 0, 1) != '_')
 		{
-			$this->$key =& $val;
+			if(array_key_exists($key, get_object_vars($this))) {
+				$this->$key =& $val;
+			} else {
+				$this->_data[$key] =& $val;
+			}
 			return true;
 		}
 
