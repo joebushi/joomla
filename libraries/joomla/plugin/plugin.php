@@ -84,6 +84,13 @@ abstract class JPlugin extends JEvent
 		parent::__construct($subject);
 	}
 
+	public function __get($var) {
+		if(isset($this->$var)) {
+			return $this->$var;
+		}
+		return null;
+	}
+
 	/**
 	 * Loads the plugin language file
 	 *
