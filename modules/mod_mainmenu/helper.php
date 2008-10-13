@@ -356,7 +356,7 @@ class JMenuNode extends JNode
 	/**
 	 * Node Title
 	 */
-	pubilc $title = null;
+	public $title = null;
 
 	/**
 	 * Node Link
