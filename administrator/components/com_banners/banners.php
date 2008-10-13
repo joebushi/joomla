@@ -17,7 +17,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 // Make sure the user is authorized to view this page
 $user = & JFactory::getUser();
-if (!$user->authorize( 'com_banners', 'manage' )) {
+if (!$user->authorize2( 'com_banners', 'manage' )) {
 	$mainframe->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
 }
 
