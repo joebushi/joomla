@@ -264,6 +264,29 @@ class JUser extends JObject
 	}
 
 	/**
+	 * NOTE: Temporary method to test new access control checks
+	 *
+	 * @access 	public
+	 * @param	string	$acoSection	The ACO section value
+	 * @param	string	$aco		The ACO value
+	 * @param	string	$axoSection	The AXO section value	[optional]
+	 * @param	string	$axo		The AXO value			[optional]
+	 * @return	boolean	True if authorized
+	 * @since	1.5
+	 */
+	public function authorize2( $acoSection, $aco, $axoSection = null, $axo = null )
+	{
+		// the native calls (Check Mode 1) work on the user id, not the user type
+		$acl	= & JFactory::getACL();
+		$old	= $acl->setCheckMode( 1 );
+		$value	= $this->id;
+
+		$result	= $acl->acl_check( $acoSection, $aco,	'users', $value, $axoSection, $axo );
+		$acl->setCheckMode( $old );
+		return $result;
+	}
+
+	/**
 	 * Pass through method to the table for setting the last visit date
 	 *
 	 * @access 	public
