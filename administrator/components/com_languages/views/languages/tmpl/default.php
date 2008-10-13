@@ -118,7 +118,7 @@
 	</tbody>
 	</table>
 
-<input type="hidden" name="option" value="<?php echo $option;?>" />
+<input type="hidden" name="option" value="<?php echo JRequest::getCMD('option', 'com_langauges');?>" />
 <input type="hidden" name="client" value="<?php echo $this->client->id;?>" />
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="boxchecked" value="0" />

@@ -27,6 +27,9 @@ jimport( 'joomla.application.component.view');
  */
 class CacheViewCache extends JView
 {
+	protected $pagination;
+	protected $client;
+	protected $rows;
 	function display($tpl = null)
 	{
 		global $mainframe, $option;

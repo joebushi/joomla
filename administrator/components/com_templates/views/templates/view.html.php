@@ -27,6 +27,9 @@ jimport( 'joomla.application.component.view');
  */
 class TemplatesViewTemplates extends JView
 {
+	protected $rows;
+	protected $pagination;
+	protected $client;
 	function display($tpl = null)
 	{
 		// Get data from the model

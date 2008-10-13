@@ -27,6 +27,12 @@ jimport( 'joomla.application.component.view');
  */
 class ModulesViewModules extends JView
 {
+	protected $client;
+	protected $filter;
+	protected $pagination;
+	protected $rows;
+	protected $user;
+
 	function display($tpl = null)
 	{
 		// Set toolbar items for the page

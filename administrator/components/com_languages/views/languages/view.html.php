@@ -27,6 +27,12 @@ jimport( 'joomla.application.component.view');
  */
 class LanguagesViewLanguages extends JView
 {
+	protected $client;
+	protected $ftp;
+	protected $filter;
+	protected $pagination;
+	protected $rows;
+	protected $user;
 	function display($tpl = null)
 	{
 		// Set toolbar items for the page

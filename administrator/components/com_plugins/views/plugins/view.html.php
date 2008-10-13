@@ -27,6 +27,13 @@ jimport( 'joomla.application.component.view');
  */
 class PluginsViewPlugins extends JView
 {
+	protected $client;
+	protected $user;
+	protected $lists;
+	protected $items;
+	protected $item;
+	protected $pagination;
+
 	function display( $tpl = null )
 	{
 		global $mainframe, $option;

@@ -27,6 +27,8 @@ jimport( 'joomla.application.component.view');
  */
 class CheckinViewCheckin extends JView
 {
+	protected $rows;
+
 	function display($tpl = null)
 	{
 		global $mainframe, $option;
