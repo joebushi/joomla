@@ -26,6 +26,8 @@ jimport('joomla.application.component.helper');
 */
 class JAdministrator extends JApplication
 {
+	protected $JComponentTitle = null;
+
 	/**
 	* Class constructor
 	*

@@ -27,7 +27,9 @@ jimport( 'joomla.application.component.view');
  */
 class LoginViewLogin extends JView
 {
-	function display($tpl = null)
+	protected $module = null;
+
+	public function display($tpl = null)
 	{
 		$module = & JModuleHelper::getModule('mod_login');
 

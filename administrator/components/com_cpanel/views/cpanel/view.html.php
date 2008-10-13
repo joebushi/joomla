@@ -28,7 +28,9 @@ jimport('joomla.application.module.helper');
  */
 class CpanelViewCpanel extends JView
 {
-	function display($tpl = null)
+	protected $modules = null;
+
+	public function display($tpl = null)
 	{
 		// Set toolbar items for the page
 		JToolBarHelper::title( JText::_( 'Control Panel' ), 'cpanel.png' );
