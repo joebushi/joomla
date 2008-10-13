@@ -126,8 +126,11 @@ class modMenuHelper
 
 			$query = 'SELECT *' .
 				' FROM #__components' .
-				' WHERE '.$db->NameQuote( 'option' ).' <> "com_frontpage"' .
-				' AND '.$db->NameQuote( 'option' ).' <> "com_media"' .
+				' WHERE '.$db->NameQuote( 'option' ).' NOT IN (' .
+					$db->Quote('com_acl').','.
+					$db->Quote('com_frontpage').','.
+					$db->Quote('com_media').
+				') AND '.$db->NameQuote( 'option' ).' <> "com_media"' .
 				' AND enabled = 1' .
 				' ORDER BY ordering, name';
 			$db->setQuery($query);
