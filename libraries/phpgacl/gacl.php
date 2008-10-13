@@ -144,7 +144,7 @@ class gacl {
 			$this->db->SetFetchMode(ADODB_FETCH_NUM);
 			$this->db->PConnect($this->_db_host, $this->_db_user, $this->_db_password, $this->_db_name);
 		}
-		$this->db->debug = $this->_debug;
+
 
 		if ( $this->_caching == TRUE ) {
 			if (!class_exists('Hashed_Cache_Lite')) {

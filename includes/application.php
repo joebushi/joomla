@@ -26,6 +26,9 @@ jimport('joomla.application.component.helper');
 */
 class JSite extends JApplication
 {
+
+	protected $setTemplate = null;
+
 	/**
 	* Class constructor
 	*

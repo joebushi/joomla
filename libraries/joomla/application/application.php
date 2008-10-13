@@ -63,6 +63,8 @@ abstract class JApplication extends JObject
 	 */
 	public $scope = null;
 
+	public $requestTime = null;
+
 	/**
 	* Class constructor.
 	*

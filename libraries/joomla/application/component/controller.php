@@ -68,6 +68,8 @@ abstract class JController extends JObject
 	 */
 	protected $_task 		= null;
 
+	protected $_data = null;
+
 	/**
 	 * The mapped task that was performed.
 	 *

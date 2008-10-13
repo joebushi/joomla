@@ -118,6 +118,8 @@ abstract class JView extends JObject
 	 */
 	protected $_charset = 'UTF-8';
 
+	public $baseurl = '';
+
 	/**
 	 * Constructor
 	 *

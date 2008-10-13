@@ -57,6 +57,11 @@ class JPagination extends JObject
 	 */
 	protected $_viewall = false;
 
+	protected $pages_total = 0;
+	protected $pages_current = 0;
+	protected $pages_start = 0;
+	protected $pages_stop = 0;
+
 	/**
 	 * Constructor
 	 *
@@ -88,17 +93,17 @@ class JPagination extends JObject
 		// Set the total pages and current page values
 		if($this->limit > 0)
 		{
-			$this->set( 'pages.total', ceil($this->total / $this->limit));
-			$this->set( 'pages.current', ceil(($this->limitstart + 1) / $this->limit));
+			$this->set( 'pages_total', ceil($this->total / $this->limit));
+			$this->set( 'pages_current', ceil(($this->limitstart + 1) / $this->limit));
 		}
 
 		// Set the pagination iteration loop values
 		$displayedPages	= 10;
-		$this->set( 'pages.start', (floor(($this->get('pages.current') -1) / $displayedPages)) * $displayedPages +1);
-		if ($this->get('pages.start') + $displayedPages -1 < $this->get('pages.total')) {
-			$this->set( 'pages.stop', $this->get('pages.start') + $displayedPages -1);
+		$this->set( 'pages_start', (floor(($this->get('pages_current') -1) / $displayedPages)) * $displayedPages +1);
+		if ($this->get('pages_start') + $displayedPages -1 < $this->get('pages_total')) {
+			$this->set( 'pages_stop', $this->get('pages_start') + $displayedPages -1);
 		} else {
-			$this->set( 'pages.stop', $this->get('pages.total'));
+			$this->set( 'pages_stop', $this->get('pages_total'));
 		}
 
 		// If we are viewing all records set the view all flag to true
@@ -147,8 +152,8 @@ class JPagination extends JObject
 	{
 		// Initialize variables
 		$html = null;
-		if ($this->get('pages.total') > 1) {
-			$html .= JText::_('Page')." ".$this->get('pages.current')." ".JText::_('of')." ".$this->get('pages.total');
+		if ($this->get('pages_total') > 1) {
+			$html .= JText::_('Page')." ".$this->get('pages_current')." ".JText::_('of')." ".$this->get('pages_total');
 		}
 		return $html;
 	}
@@ -482,9 +487,9 @@ class JPagination extends JObject
 		$data->start	= new JPaginationObject(JText::_('Start'));
 		$data->previous	= new JPaginationObject(JText::_('Prev'));
 
-		if ($this->get('pages.current') > 1)
+		if ($this->get('pages_current') > 1)
 		{
-			$page = ($this->get('pages.current') -2) * $this->limit;
+			$page = ($this->get('pages_current') -2) * $this->limit;
 
 			$page = $page == 0 ? '' : $page; //set the empty for removal from route
 
@@ -498,10 +503,10 @@ class JPagination extends JObject
 		$data->next	= new JPaginationObject(JText::_('Next'));
 		$data->end	= new JPaginationObject(JText::_('End'));
 
-		if ($this->get('pages.current') < $this->get('pages.total'))
+		if ($this->get('pages_current') < $this->get('pages_total'))
 		{
-			$next = $this->get('pages.current') * $this->limit;
-			$end  = ($this->get('pages.total') -1) * $this->limit;
+			$next = $this->get('pages_current') * $this->limit;
+			$end  = ($this->get('pages_total') -1) * $this->limit;
 
 			$data->next->base	= $next;
 			$data->next->link	= JRoute::_("&limitstart=".$next);
@@ -510,15 +515,15 @@ class JPagination extends JObject
 		}
 
 		$data->pages = array();
-		$stop = $this->get('pages.stop');
-		for ($i = $this->get('pages.start'); $i <= $stop; $i ++)
+		$stop = $this->get('pages_stop');
+		for ($i = $this->get('pages_start'); $i <= $stop; $i ++)
 		{
 			$offset = ($i -1) * $this->limit;
 
 			$offset = $offset == 0 ? '' : $offset;  //set the empty for removal from route
 
 			$data->pages[$i] = new JPaginationObject($i);
-			if ($i != $this->get('pages.current') || $this->_viewall)
+			if ($i != $this->get('pages_current') || $this->_viewall)
 			{
 				$data->pages[$i]->base	= $offset;
 				$data->pages[$i]->link	= JRoute::_("&limitstart=".$offset);
