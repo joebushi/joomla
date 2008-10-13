@@ -24,6 +24,10 @@ defined('JPATH_BASE') or die();
  */
 class JCacheStorageFile extends JCacheStorage
 {
+
+	protected $_root = null;
+	protected $_hash = null;
+
 	/**
 	* Constructor
 	*
