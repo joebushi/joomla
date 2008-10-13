@@ -23,6 +23,12 @@ jimport( 'joomla.application.component.view');
 */
 class ConfigViewApplication extends JView
 {
+	protected $row;
+	protected $ftp;	
+	protected $lists;
+	protected $userparams;
+	protected $mediaparams;	
+
 	function display($tpl = null)
 	{
 		global $mainframe;

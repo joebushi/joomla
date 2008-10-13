@@ -722,7 +722,7 @@ class JInstallationModel extends JModel
 		// Import authentication library
 		jimport( 'joomla.user.helper' );
 
-		$data				= new stdClass();
+		$data	= new JstdClass();
 		$data->dbtype 		= $vars['DBtype'];
 		$data->host 		= $vars['DBhostname'];
 		$data->user 		= $vars['DBuserName'];
@@ -754,8 +754,22 @@ class JInstallationModel extends JModel
 		$data->offset		= 0;
 		$data->lifetime		= 15;
 
+		$data->list_limit	= 30;
+		$data->debug_lang 	= 0;
+		$data->gzip 		= 0;
+		$data->xmlrpc_server	= 0;
+		$data->cache_handler	= 'file';
+		$data->MetaAuthor 	= '';
+		$data->MetaTitle	= '';
+		$data->sef		= 0;
+		$data->sef_rewrite	= 0;
+		$data->sef_suffix 	= 0;
+		$data->feed_limit 	= 0;
+		$data->session_handler	= 'database';
+
 		$data->MetaDesc			= JText::_( 'STDMETADESC' );
 		$data->MetaKeys			= JText::_( 'STDMETAKEYS' );
+		$data->offline 		= 0;
 		$data->offline_message	= JText::_( 'STDOFFLINEMSG' );
 		// @todo: change to -1 before release
 		$data->error_reporting	= '2047';

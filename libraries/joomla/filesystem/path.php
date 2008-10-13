@@ -42,9 +42,9 @@ abstract class JPath
 
 	private static $filesystem = null;
 
-	protected static function &getFileSystem() {$backend->chmod($path, $mode);
-		if(!is_object(JFile::$filesystem)) {
-			JPath::$filesystem = JPath::getInstance();
+	protected static function &getFileSystem() {
+		if(!is_object(JPath::$filesystem)) {
+			JPath::$filesystem = JFileSystem::getInstance();
 		}
 		return JPath::$filesystem;
 	}
@@ -203,7 +203,7 @@ abstract class JPath
 	 */
 	public static function isOwner($path)
 	{
-		$backend = JFolder::getFileSystem();
+		$backend = JPath::getFileSystem();
 		jimport('joomla.filesystem.file');
 		jimport('joomla.user.helper');
 
