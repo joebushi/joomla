@@ -338,7 +338,7 @@ abstract class JDocument extends JObject
 	 * @access	public
 	 * @param	array	$data	The document head data in array form
 	 */
-	abstract public function setHeadData($data)}
+	abstract public function setHeadData($data);
 
 	/**
 	 * Get the contents of the document buffer

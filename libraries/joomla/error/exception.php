@@ -146,19 +146,6 @@ class JException extends Exception
 	}
 
 	/**
-	 * Method to get the exception code
-	 *
-	 * @final
-	 * @access	public
-	 * @return	integer
-	 * @since	1.5
-	 */
-	public function getCode()
-	{
-		return $this->code;
-	}
-
-	/**
 	 * Method to get the source filename where the exception occured
 	 *
 	 * @final
