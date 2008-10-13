@@ -22,19 +22,19 @@ require_once(dirname(__FILE__).DS.'tree.php');
 class JTableAXOGroup extends JTableTree
 {
 	/** @var int Primary key */
-	protected $id			= null;
+	protected $id = null;
 
-	protected $name		= null;
+	protected $name = null;
 
-	protected $value		= null;
+	protected $value = null;
 
 	/**
 	 * Constructor
 	 *
 	 * @param	JDatabase	$db
 	 */
-	protected function __construct( &$db )
+	protected function __construct(&$db)
 	{
-		parent::__construct( '#__core_acl_axo_groups', 'id', $db );
+		parent::__construct('#__core_acl_axo_groups', 'id', $db);
 	}
 }
