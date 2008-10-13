@@ -222,9 +222,9 @@ abstract class JFactory
 	public static function &getACL( )
 	{
 		if (!is_object(JFactory::$acl)) {
-			jimport( 'joomla.user.acl' );
+			jimport( 'joomla.user.authorization' );
 			$options = array();
-			JFactory::$acl = new JACL();
+			JFactory::$acl = new JAuthorization();
 		}
 
 		return JFactory::$acl;

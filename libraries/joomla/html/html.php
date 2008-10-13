@@ -24,7 +24,7 @@ JHTML::addIncludePath(JPATH_LIBRARIES.DS.'joomla'.DS.'html'.DS.'html');
  */
 abstract class JHTML
 {
-	private static $includePath = array();
+	private static $includePaths = array();
 
 	/**
 	 * Class loader method
@@ -67,7 +67,7 @@ abstract class JHTML
 		if (!class_exists( $className ))
 		{
 			jimport('joomla.filesystem.path');
-			if ($path = JPath::find(JHTML::$includePath, strtolower($file).'.php'))
+			if ($path = JPath::find(JHTML::$includePaths, strtolower($file).'.php'))
 			{
 				require_once $path;
 
