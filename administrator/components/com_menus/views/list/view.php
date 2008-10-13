@@ -24,8 +24,17 @@ jimport('joomla.application.component.view');
  */
 class MenusViewList extends JView
 {
-	var $_name = 'list';
-
+	protected $_name = 'list';
+	protected $items;
+	protected $pagination;
+	protected $lists;
+	protected $user;		
+	protected $menutype;
+	protected $ordering;
+	protected $limitstart = 0;
+	protected $menutypes;
+	protected $MenuList;
+	
 	function display($tpl=null)
 	{
 		global $mainframe;

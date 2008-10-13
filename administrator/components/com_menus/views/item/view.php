@@ -25,7 +25,10 @@ jimport('joomla.html.pane');
  */
 class MenusViewItem extends JView
 {
-	var $_name = 'item';
+	protected $_name = 'item';
+	protected $item;
+	protected $components;
+	protected $expansion;
 
 	function edit($tpl = null)
 	{

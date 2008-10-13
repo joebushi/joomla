@@ -28,6 +28,8 @@ class MenusModelItem extends JModel
 
 	/** @var object JTable object */
 	var $_url = null;
+	
+	protected $_xml;
 
 	/**
 	 * Overridden constructor
