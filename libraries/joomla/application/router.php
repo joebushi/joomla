@@ -375,7 +375,7 @@ abstract class JRouter extends JObject
 		}
 
 		// Decompose link into url component parts
-		$uri = new JURI($url);
+		$uri = JURI::getInstance($url);
 
 		return $uri;
 	}
