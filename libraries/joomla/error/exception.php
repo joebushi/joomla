@@ -22,74 +22,74 @@ defined('JPATH_BASE') or die();
  * @subpackage	Error
  * @since		1.5
  */
-class JException extends Exception 
+class JException extends JObject
 {
 	/**
 	 * Error level
 	 * @var string
 	 */
-	public $level		= null;
+	var	$level		= null;
 
 	/**
 	 * Error code
 	 * @var string
 	 */
-	public $code		= null;
- 
+	var	$code		= null;
+
 	/**
 	 * Error message
 	 * @var string
 	 */
-	public $message	= null;
+	var	$message	= null;
 
 	/**
 	 * Additional info about the error relevant to the developer
 	 *  - e.g. if a database connect fails, the dsn used
 	 * @var string
 	 */
-	public $info		= '';
+	var	$info		= '';
 
 	/**
 	 * Name of the file the error occurred in [Available if backtrace is enabled]
 	 * @var string
 	 */
-	public $file		= null;
+	var	$file		= null;
 
 	/**
 	 * Line number the error occurred in [Available if backtrace is enabled]
 	 * @var int
 	 */
-	public $line		= 0;
+	var	$line		= 0;
 
 	/**
 	 * Name of the method the error occurred in [Available if backtrace is enabled]
 	 * @var string
 	 */
-	public $function	= null;
+	var	$function	= null;
 
 	/**
 	 * Name of the class the error occurred in [Available if backtrace is enabled]
 	 * @var string
 	 */
-	public $class		= null;
+	var	$class		= null;
 
 	/**
      * Error type
 	 * @var string
 	 */
-	public $type		= null;
+	var	$type		= null;
 
 	/**
 	 * Arguments recieved by the method the error occurred in [Available if backtrace is enabled]
 	 * @var array
 	 */
-	public $args		= array();
+	var	$args		= array();
 
 	/**
 	 * Backtrace information
 	 * @var mixed
 	 */
-	public $backtrace	= null;
+	var	$backtrace	= null;
 
 	/**
 	 * Constructor
@@ -102,8 +102,8 @@ class JException extends Exception
 	 * @param	string	$info		Optional: The additional error information.
 	 * @param	boolean	$backtrace	True if backtrace information is to be collected
 	 */
-	public function __construct( $msg, $code = 0, $level = null, $info = null, $backtrace = false )
-	{
+    function __construct( $msg, $code = 0, $level = null, $info = null, $backtrace = false )
+    {
 		$this->level	=	$level;
 		$this->code		=	$code;
 		$this->message	=	$msg;
@@ -142,6 +142,111 @@ class JException extends Exception
 				break;
 			}
 		}
-		parent::__construct($this->message, $this->code);
+    }
+
+	/**
+	 * Method to get the exception message
+	 *
+	 * @final
+	 * @access	public
+	 * @return	string
+	 * @since	1.5
+	 */
+	function getMessage()
+	{
+		return $this->message;
+	}
+
+	/**
+	 * Method to get the exception code
+	 *
+	 * @final
+	 * @access	public
+	 * @return	integer
+	 * @since	1.5
+	 */
+	function getCode()
+	{
+		return $this->code;
+	}
+
+	/**
+	 * Method to get the source filename where the exception occured
+	 *
+	 * @final
+	 * @access	public
+	 * @return	string
+	 * @since	1.5
+	 */
+	function getFile()
+	{
+		return $this->file;
+	}
+
+	/**
+	 * Method to get the source line where the exception occured
+	 *
+	 * @final
+	 * @access	public
+	 * @return	integer
+	 * @since	1.5
+	 */
+	function getLine()
+	{
+		return $this->line;
+	}
+
+	/**
+	 * Method to get the array of the backtrace()
+	 *
+	 * @final
+	 * @access	public
+	 * @return	array backtrace
+	 * @since	1.5
+	 */
+	function getTrace()
+	{
+		if (isset( $this ) && isset( $this->backtrace )) {
+			$trace = &$this->backtrace;
+		} else {
+			$trace = function_exists( 'debug_backtrace' ) ? debug_backtrace() : null;
+		}
+
+		return $trace;
+	}
+
+	/**
+	 * Method to get the formatted backtrace information
+	 *
+	 * @final
+	 * @access	public
+	 * @return	string Formated string of trace
+	 * @since	1.5
+	 */
+	function getTraceAsString( )
+	{
+		//Get the trace array
+		$trace = JException::getTrace();
+
+		$result = '';
+		foreach ($trace as $back)
+		{
+			if (isset($back['file']) && strpos($back['file'], 'error.php') === false) {
+				$result .= '<br />'.$back['file'].':'.$back['line'];
+			}
+		}
+		return $result;
+	}
+
+	/**
+	 * Returns to error message
+	 *
+	 * @access	public
+	 * @return	string Error message
+	 * @since	1.5
+	 */
+	function toString()
+	{
+		return $this->message;
 	}
 }
