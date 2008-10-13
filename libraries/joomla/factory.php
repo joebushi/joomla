@@ -223,8 +223,15 @@ abstract class JFactory
 	{
 		if (!is_object(JFactory::$acl)) {
 			jimport( 'joomla.user.authorization' );
-			$options = array();
-			JFactory::$acl = new JAuthorization();
+		$db =&  JFactory::getDBO();
+
+			$options = array(
+				'db'				=> &$db,
+				'db_table_prefix'	=> $db->getPrefix() . 'core_acl_',
+				'debug'				=> 0
+			);
+
+			JFactory::$acl = new JAuthorization($options);
 		}
 
 		return JFactory::$acl;
