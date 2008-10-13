@@ -15,14 +15,14 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
-	<title><?php echo $this->error->code ?> - <?php echo $this->title; ?></title>
+	<title><?php echo $this->error->get('code') ?> - <?php echo $this->title; ?></title>
 	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/system/css/error.css" type="text/css" />
 </head>
 <body>
 	<div align="center">
 		<div id="outline">
 		<div id="errorboxoutline">
-			<div id="errorboxheader"><?php echo $this->error->code ?> - <?php echo $this->error->message ?></div>
+			<div id="errorboxheader"><?php echo $this->error->get('code') ?> - <?php echo $this->error->get('message') ?></div>
 			<div id="errorboxbody">
 			<p><strong><?php echo JText::_('You may not be able to visit this page because of:'); ?></strong></p>
 				<ol>
@@ -39,9 +39,11 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 			</ul>
 			<p><?php echo JText::_('If difficulties persist, please contact the system administrator of this site.'); ?></p>
 			<div id="techinfo">
-			<p><?php echo $this->error->message; ?></p>
+			<p><?php echo $this->error->get('message'); ?></p>
 			<p>
 				<?php if($this->debug) :
+					print_r($this->error->get('info'));
+					echo '<hr />';
 					echo $this->renderBacktrace();
 				endif; ?>
 			</p>

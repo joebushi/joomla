@@ -60,6 +60,7 @@ abstract class JError
 	 * @param	mixed	&$object	Object to check
 	 * @return	boolean	True if argument is an exception, false otherwise.
 	 * @since	1.5
+w
 	 */
 	public static function isError(& $object)
 	{
@@ -124,7 +125,12 @@ abstract class JError
 
 		// build error object
 		$exception = new JException($msg, $code, $level, $info, $backtrace);
+		return JError::throwError($exception);
+	}
 
+	public static function &throwError(&$exception) {
+		$level = $exception->get('level');
+		
 		// see what to do with this kind of error
 		$handler = JError::getErrorHandling($level);
 
@@ -140,7 +146,6 @@ abstract class JError
 				'<br />' . $exception->getMessage()
 			);
 		}
-
 		//store and return the error
 		JError::$stack[0][] =& $reference;
 		return $reference;

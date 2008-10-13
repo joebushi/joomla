@@ -157,7 +157,7 @@ class JDatabaseMySQLi extends JDatabase
 		}
 
 		if ( !$this->_resource->select_db($database)) {
-			throw new JException('Could not selecte database', 3, E_WARNING, $database);
+			throw new JException('Could not select database', 3, E_WARNING, $this->stderr());
 			return false;
 		}
 
@@ -236,7 +236,7 @@ class JDatabaseMySQLi extends JDatabase
 		{
 			$this->_errorNum = mysqli_errno( $this->_resource );
 			$this->_errorMsg = mysqli_error( $this->_resource )." SQL=$this->_sql";
-			throw new JException('Database query error', 11, E_WARNING, array('errorNum'=>$this->_errorNum, 'errorMsg'=>$this->_errorMsg), true);
+			throw new JException('Database Error', 11, E_WARNING, $this->stderr(true), true);
 		}
 		return $this->_cursor;
 	}

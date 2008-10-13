@@ -30,6 +30,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 			<p><?php echo $this->error->get('message'); ?></p>
 			<p>
 				<?php if($this->debug) :
+					print_r($this->error->get('info'));
+					echo '<hr />';
 					echo $this->renderBacktrace();
 				endif; ?>
 			</p>

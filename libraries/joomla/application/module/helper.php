@@ -262,7 +262,9 @@ abstract class JModuleHelper
 
 		$db->setQuery($query);
 
-		if (null === ($modules = $db->loadObjectList())) {
+		try {
+			$modules = $db->loadObjectList();
+		} catch(JException $e) {
 			JError::raiseWarning(
 				'SOME_ERROR_CODE',
 				JText::_('Error Loading Modules') . $db->getErrorMsg()
