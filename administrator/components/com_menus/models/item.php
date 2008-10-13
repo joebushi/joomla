@@ -101,7 +101,8 @@ class MenusModelItem extends JModel
 					$url = str_replace('&amp;','&',$url);
 				}
 
-				parse_str($url, $table->linkparts);
+				parse_str($url, $parts);
+				$table->linkparts = $parts;
 
 				$db = &$this->getDBO();
 				if ($component = @$table->linkparts['option']) {
