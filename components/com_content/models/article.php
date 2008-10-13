@@ -272,9 +272,9 @@ class ContentModelArticle extends JModel
 	{
 		global $mainframe;
 
-		$article  =& JTable::getInstance('content');
-		$user     =& JFactory::getUser();
-		$dispatcher =& JDispatcher::getInstance();
+		$article	=& JTable::getInstance('content');
+		$user		=& JFactory::getUser();
+		$dispatcher	=& JDispatcher::getInstance();
 		JPluginHelper::importPlugin('content');
 
 		// Bind the form fields to the web link table

@@ -361,26 +361,25 @@ class NewsfeedsModelNewsfeed extends JModel
 		if (empty($this->_data))
 		{
 			$newsfeed = new stdClass();
-			$newsfeed->id					= 0;
-			$newsfeed->catid				= 0;
+			$newsfeed->id				= 0;
+			$newsfeed->catid			= 0;
 			$newsfeed->name				= null;
-			$newsfeed->alias               = null;
+			$newsfeed->alias			= null;
 			$newsfeed->link				= null;
-			$newsfeed->filename				= null;
-			$newsfeed->numarticles			= 0;
-			$newsfeed->cache_time			= 0;
-			$newsfeed->rtl			= 0;
-			$newsfeed->published			= 0;
-			$newsfeed->checked_out			= 0;
+			$newsfeed->filename			= null;
+			$newsfeed->numarticles		= 0;
+			$newsfeed->cache_time		= 0;
+			$newsfeed->rtl				= 0;
+			$newsfeed->published		= 0;
+			$newsfeed->checked_out		= 0;
 			$newsfeed->checked_out_time	= 0;
 			$newsfeed->ordering			= 0;
 			$newsfeed->archived			= 0;
 			$newsfeed->approved			= 0;
 			$newsfeed->category			= null;
-			$this->_data					= $newsfeed;
+			$this->_data				= $newsfeed;
 			return (boolean) $this->_data;
 		}
 		return true;
 	}
-
 }

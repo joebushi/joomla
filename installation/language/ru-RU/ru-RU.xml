@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile version="1.5" client="installation">
-    <name>Russian(RU)</name>
-    <version>1.5.4</version>
-    <creationDate>2008-03-17</creationDate>
-    <author>Joomlaportal.ru</author>
-    <authorEmail>userxp@joomlaportal.ru</authorEmail>
-    <authorUrl>joomlaportal.ru</authorUrl>
-    <copyright>Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.</copyright>
-    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-    <description>Русский языковой файл для web инсталлятора Joomla</description>
+	<name>Russian(RU)</name>
+	<version>1.5.4</version>
+	<creationDate>2008-03-17</creationDate>
+	<author>Joomlaportal.ru</author>
+	<authorEmail>userxp@joomlaportal.ru</authorEmail>
+	<authorUrl>joomlaportal.ru</authorUrl>
+	<copyright>Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>Русский языковой файл для web инсталлятора Joomla</description>
 		<metadata>
 			<name>Русский (CIS)</name>
 			<tag>ru-RU</tag>
@@ -17,5 +17,5 @@
 			<winCodePage>windows-1251</winCodePage>
 			<backwardLang>russian</backwardLang>
 		</metadata>
-    <params />
+	<params />
 </metafile>

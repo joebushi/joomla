@@ -30,7 +30,7 @@ class ContentViewCategory extends JView
 	{
 		global $mainframe;
 
-		$doc     =& JFactory::getDocument();
+		$doc	=& JFactory::getDocument();
 		$params =& $mainframe->getParams();
 
 		// Get some data from the model

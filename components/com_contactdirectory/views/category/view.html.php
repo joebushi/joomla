@@ -27,10 +27,10 @@ class ContactdirectoryViewCategory extends JView
 	{
 		global $mainframe, $option;
 
-		$user	  = &JFactory::getUser();
-		$uri 	  =& JFactory::getURI();
-		$model	  = &$this->getModel();
-		$document =& JFactory::getDocument();
+		$user		= &JFactory::getUser();
+		$uri		= &JFactory::getURI();
+		$model		= &$this->getModel();
+		$document	= &JFactory::getDocument();
 
 		$pparams = &$mainframe->getParams('com_contactdirectory');
 		$cparams =& JComponentHelper::getParams('com_media');

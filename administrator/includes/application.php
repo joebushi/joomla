@@ -109,12 +109,12 @@ class JAdministrator extends JApplication
 	{
 		$document	=& JFactory::getDocument();
 		$user		=& JFactory::getUser();
-		
+
 		// Get our component
 		if ($user->get('guest')) {
 			$component = 'com_login';
 		}
-		
+
 		if ( ! $component )
 		{
 			$component = JApplicationHelper::getComponent('com_cpanel');
@@ -294,6 +294,6 @@ class JAdministrator extends JApplication
 	*/
 	function getSiteURL()
 	{
-	   return JURI::root();
+		return JURI::root();
 	}
 }

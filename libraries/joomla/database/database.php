@@ -284,9 +284,9 @@ abstract class JDatabase extends JObject
 	/**
 	 * Determines if the connection to the server is active.
 	 *
-	 * @access      public
-	 * @return      boolean
-	 * @since       1.5
+	 * @access	public
+	 * @return	boolean
+	 * @since	1.5
 	 */
 	abstract public function connected();
 

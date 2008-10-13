@@ -44,7 +44,7 @@ class ContentViewCategory extends ContentView
 		$params = clone($mainframe->getParams('com_content'));
 
 		// Request variables
-		$layout     = JRequest::getCmd('layout');
+		$layout	 = JRequest::getCmd('layout');
 		$task		= JRequest::getCmd('task');
 
 		// Parameters
@@ -184,7 +184,7 @@ class ContentViewCategory extends ContentView
 			$item->created	= JHTML::_('date', $item->created, $this->params->get('date_format'));
 
 			$item->odd		= $k;
-			$item->count    = $i;
+			$item->count	= $i;
 
 			$this->items[$key] = $item;
 			$k = 1 - $k;
@@ -206,12 +206,12 @@ class ContentViewCategory extends ContentView
 
 		$SiteName	= $mainframe->getCfg('sitename');
 
-		$item 		=& $this->items[$index];
-		$item->text = $item->introtext;
+		$item		=& $this->items[$index];
+		$item->text	= $item->introtext;
 
-		$category	= & $this->get( 'Category' );
-		$item->category = $category->title;
-		$item->section  = $category->sectiontitle;
+		$category		= & $this->get( 'Category' );
+		$item->category	= $category->title;
+		$item->section	= $category->sectiontitle;
 
 		// Get the page/component configuration and article parameters
 		$item->params = clone($params);
@@ -261,10 +261,10 @@ class ContentViewCategory extends ContentView
 		$filter_order		= JRequest::getCmd('filter_order');
 		$filter_order_Dir	= JRequest::getCmd('filter_order_Dir');
 
-		$lists['task']      = 'category';
-		$lists['filter']    = $filter;
-		$lists['order']     = $filter_order;
-		$lists['order_Dir'] = $filter_order_Dir;
+		$lists['task']		= 'category';
+		$lists['filter']	= $filter;
+		$lists['order']		= $filter_order;
+		$lists['order_Dir']	= $filter_order_Dir;
 
 		return $lists;
 	}

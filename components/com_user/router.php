@@ -41,7 +41,7 @@ function UserParseRoute($segments)
 	}
 
 	if($count > 1) {
-		$vars['id']    = $segments[$count - 1];
+		$vars['id']	= $segments[$count - 1];
 	}
 
 	return $vars;

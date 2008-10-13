@@ -19,12 +19,12 @@ function alphabetFilter(val){
 			<?php if ($this->params->get('show_image')) : ?>
 				<img src="<?php echo $this->baseurl .'/'. $this->cparams->get('image_path') . '/'. $this->params->get('image'); ?>" align="<?php echo $this->params->get('image_align'); ?>" hspace="6" alt="<?php echo JText::_( 'DECRIPTION_IMG' ); ?>" />
 			<?php endif;
-					   if ($this->params->get('show_description')) :  
-					   		echo $this->params->get('description'); 
-					   endif; ?>
+				if ($this->params->get('show_description')) :
+					echo $this->params->get('description');
+				endif; ?>
 		</div>
 	<?php endif; ?>
-	
+
 	<form action="<?php echo $this->action; ?>" method="post" name="contactForm">
 	<table  width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
 		<?php if($this->params->get('alphabet') || $this->params->get('search')): ?>
@@ -58,7 +58,7 @@ function alphabetFilter(val){
 					<a href="javascript:alphabetFilter('x')">X</a>
 					<a href="javascript:alphabetFilter('y')">Y</a>
 					<a href="javascript:alphabetFilter('z')">Z</a> |
-					<a href="javascript:alphabetFilter('')">Reset</a>		
+					<a href="javascript:alphabetFilter('')">Reset</a>
 					<input type="text" name="alphabet" id="alpha" value="" style="display:none;"/>
 					<?php endif; ?>
 				</td>

@@ -93,7 +93,7 @@ class JForm extends JRegistry
 	 * @since	1.6
 	 */
 	protected $_html = array();
-	
+
 	protected $_hiddenElements = array();
 
 	/**
@@ -479,7 +479,7 @@ class JForm extends JRegistry
 		{
 			$file[] = $path;
 			$xml = & JFactory::getXMLParser('Simple');
-			
+
 			if ($xml->loadFile($path))
 			{
 				$elementtagname = $this->_elementTagName.'s';
@@ -637,9 +637,9 @@ class JForm extends JRegistry
 		{
 			foreach($conditionals as $name => $values
 			$script .= '$(\''.$group.$name.'\').addEvent(\'onChange\', function() {\n';
-			foreach($values as $value => 
+			foreach($values as $value =>
 				$(\'
-			
+
 
 $this->_cond[$name][$param->attribute('name')][$cond_group->attribute('value')]
 
@@ -668,7 +668,7 @@ $name.$cond.$cond_value.'-cond'
 				if($param->attributes('type') == 'hidden')
 				{
 					$this->_hiddenElements[] = $result[1];
-					
+
 				} else {
 					if($id_prefix != '') {
 						$id = ' id="'.$id_prefix.$this->_cond[$name][$cond][$cond_value].'"';

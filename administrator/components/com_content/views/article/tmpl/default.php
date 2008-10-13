@@ -262,7 +262,7 @@ function submitbutton(pressbutton)
 						echo $this->params->render('params', $groupname);
 						echo $pane->endPanel();
 					}
-					
+
 				}
 			}
 			echo $pane->endPane();		?>

@@ -240,7 +240,7 @@ abstract class JPath
 	 * Searches the directory paths for a given file.
 	 *
 	 * @access	protected
-	  * @param	array|string	$path	An path or array of path to search in
+	 * @param	array|string	$path	An path or array of path to search in
 	 * @param	string	$file	The file name to look for.
 	 * @return	mixed	The full path and file name for the target file, or boolean false if the file is not found in any of the paths.
 	 * @since	1.5

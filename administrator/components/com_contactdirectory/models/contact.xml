@@ -5,7 +5,7 @@
 			<option value="0">HIDE</option>
 			<option value="1">SHOW</option>
 		</param>
-	</params>	
+	</params>
 	<params group="directory">
 		<param name="show_name_directory" type="radio" default="1" label="NAME" description="NAME_DESCRIPTION_DIRECTORY">
 			<option value="0">HIDE</option>
@@ -29,7 +29,7 @@
 			<option value="0">PUBLIC</option>
 			<option value="1">PRIVATE</option>
 			<option value="2">SPECIAL</option>
-		</param> 
+		</param>
 		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="email_description" type="text" size="30" default="" label="DESCRIPTION_EMAIL_TEXT" description="DESCRIPTION_EMAIL_TEXT_DESCRIPTION" />
 		<param name="show_email_copy" type="radio" default="1" label="EMAIL_COPY" description="EMAIL_COPY_DESCRIPTION">

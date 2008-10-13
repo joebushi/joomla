@@ -92,11 +92,11 @@ class JSite extends JApplication
 		{
 			$component = JRequest::getCmd('option');
 		}
-		
+
 		$document	=& JFactory::getDocument();
 		$user		=& JFactory::getUser();
-		$router     =& $this->getRouter();
-		$params     =& $this->getParams();
+		$router	 =& $this->getRouter();
+		$params	 =& $this->getParams();
 
 		switch($document->getType())
 		{
@@ -138,7 +138,7 @@ class JSite extends JApplication
 	function render()
 	{
 		$document =& JFactory::getDocument();
-		$user     =& JFactory::getUser();
+		$user	 =& JFactory::getUser();
 
 		// get the format to render
 		$format = $document->getType();
@@ -151,7 +151,7 @@ class JSite extends JApplication
 			} break;
 
 			case 'html' :
-			default     :
+			default	 :
 			{
 				$template	= $this->getTemplate();
 				$file 		= JRequest::getCmd('tmpl', 'index');
@@ -247,19 +247,18 @@ class JSite extends JApplication
 			$menus	= &JSite::getMenu();
 			$menu	= $menus->getActive();
 
-			$title       = htmlspecialchars_decode($this->getCfg('sitename' ));
-			$description = $this->getCfg('MetaDesc');
+			$title			= htmlspecialchars_decode($this->getCfg('sitename' ));
+			$description	= $this->getCfg('MetaDesc');
 
 			// Lets cascade the parameters if we have menu item parameters
 			if (is_object($menu))
 			{
 				$params->merge(new JParameter($menu->params));
 				$title = $menu->name;
-
 			}
 
-			$params->def( 'page_title'      , $title );
-			$params->def( 'page_description', $description );
+			$params->def('page_title',		$title);
+			$params->def('page_description',$description);
 		}
 
 		return $params;

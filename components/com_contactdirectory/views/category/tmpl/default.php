@@ -21,9 +21,9 @@ function alphabetFilter(val){
 			<?php if ($this->params->get('show_description_image')) : ?>
 				<img src="<?php echo $this->baseurl .'/'. $this->cparams->get('image_path') . '/'. $this->category->image; ?>" align="<?php echo $this->category->image_position; ?>" hspace="6" alt="<?php echo JText::_( 'CONTACT' ); ?>" />
 			<?php endif;
-					   if ($this->params->get('show_description')) :
-					   		echo $this->category->description;
-					   endif; ?>
+				if ($this->params->get('show_description')) :
+					echo $this->category->description;
+				endif; ?>
 		</div>
 	<?php endif; ?>
 
@@ -121,7 +121,7 @@ function alphabetFilter(val){
 						<div class="directoryinfo<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 							<!-- Top Position -->
 							<?php if(isset($this->contact->pos_top) && count($this->contact->pos_top) >= 1): ?>
-			    			<?php foreach($this->contact->pos_top as $this->contact->info):?>
+							<?php foreach($this->contact->pos_top as $this->contact->info):?>
 							<?php if($this->contact->info->data && $this->contact->info->show_field && $this->contact->info->access <= $this->user->get('aid', 0)): ?>
 							<div class="directoryfield<?php echo $this->contact->info->params->get( 'css_tag' ); ?><?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 								<span class="directoryfieldtitle<?php echo $this->contact->info->params->get( 'css_tag' ); ?><?php echo $this->params->get( 'pageclass_sfx' ); ?>">
@@ -131,12 +131,12 @@ function alphabetFilter(val){
 							</div>
 							<?php endif; ?>
 							<?php endforeach; ?>
-					    	<?php endif; ?>
+							<?php endif; ?>
 
-						    <?php if((isset($this->contact->pos_left) && count($this->contact->pos_left) >= 1) || (isset($this->contact->pos_main) && count($this->contact->pos_main) >= 1) || (isset($this->contact->pos_right) && count($this->contact->pos_right) >= 1)): ?>
-						    <table width="100%">
-						    	<tr>
-						    		<!-- Left Position -->
+							<?php if((isset($this->contact->pos_left) && count($this->contact->pos_left) >= 1) || (isset($this->contact->pos_main) && count($this->contact->pos_main) >= 1) || (isset($this->contact->pos_right) && count($this->contact->pos_right) >= 1)): ?>
+							<table width="100%">
+								<tr>
+									<!-- Left Position -->
 									<?php if(isset($this->contact->pos_left) && count($this->contact->pos_left) >= 1): ?>
 									<td valign="top" width="1%">
 										<?php foreach($this->contact->pos_left as $this->contact->info):?>
@@ -165,10 +165,10 @@ function alphabetFilter(val){
 										</div>
 										<?php endif; ?>
 										<?php endforeach; ?>
-						    		</td>
-						    		<?php endif; ?>
+									</td>
+									<?php endif; ?>
 
-						    		<!-- Right Position -->
+									<!-- Right Position -->
 									<?php if(isset($this->contact->pos_right) && count($this->contact->pos_right) >= 1): ?>
 									<td valign="top" width="1%">
 										<?php foreach($this->contact->pos_right as $this->contact->info):?>
@@ -183,13 +183,13 @@ function alphabetFilter(val){
 										<?php endforeach; ?>
 									</td>
 									<?php endif; ?>
-						    	</tr>
-						    </table>
-						    <?php endif; ?>
+								</tr>
+							</table>
+							<?php endif; ?>
 
-					    	<!-- Bottom Position -->
-					    	<?php if(isset($this->contact->pos_bottom) && count($this->contact->pos_bottom) >= 1): ?>
-			    			<?php foreach($this->contact->pos_bottom as $this->contact->info):?>
+							<!-- Bottom Position -->
+							<?php if(isset($this->contact->pos_bottom) && count($this->contact->pos_bottom) >= 1): ?>
+							<?php foreach($this->contact->pos_bottom as $this->contact->info):?>
 							<?php if($this->contact->info->data && $this->contact->info->show_field && $this->contact->info->access <= $this->user->get('aid', 0)): ?>
 							<div class="directoryfield<?php echo $this->contact->info->params->get( 'css_tag' ); ?><?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 								<span class="directoryfieldtitle<?php echo $this->contact->info->params->get( 'css_tag' ); ?><?php echo $this->params->get( 'pageclass_sfx' ); ?>">
@@ -199,7 +199,7 @@ function alphabetFilter(val){
 							</div>
 							<?php endif; ?>
 							<?php endforeach; ?>
-					    	<?php endif; ?>
+							<?php endif; ?>
 						</div>
 						<?php endif; ?>
 					</div>

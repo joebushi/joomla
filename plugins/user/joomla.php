@@ -31,7 +31,7 @@ class plgUserJoomla extends JPlugin
 	 *
 	 * Method is called after user data is deleted from the database
 	 *
-	 * @param 	array	  	holds the user data
+	 * @param 	array		holds the user data
 	 * @param	boolean		true if user was succesfully stored in the database
 	 * @param	string		message
 	 */
@@ -99,8 +99,8 @@ class plgUserJoomla extends JPlugin
 		$instance->set('aid', 1);
 
 		// Fudge Authors, Editors, Publishers and Super Administrators into the special access group
-		if ($acl->is_group_child_of($grp->name, 'Registered')      ||
-		    $acl->is_group_child_of($grp->name, 'Public Backend'))    {
+		if ($acl->is_group_child_of($grp->name, 'Registered') ||
+			$acl->is_group_child_of($grp->name, 'Public Backend'))	{
 			$instance->set('aid', 2);
 		}
 

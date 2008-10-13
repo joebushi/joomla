@@ -138,7 +138,7 @@ function submitbutton(pressbutton) {
 					echo $this->pane->startPanel(JText :: _('Parameters - Basic'), "param-page");
 					echo $this->urlparams->render('urlparams');
 					if($this->params->getNumParams()) :
-						echo $this->params->render(); 
+						echo $this->params->render();
 					endif;
 
 					if(!count($this->params->getNumParams('params')) && !count($this->urlparams->getNumParams('urlparams'))) :
@@ -158,15 +158,15 @@ function submitbutton(pressbutton) {
 							}
 						}
 					}
-					if ($this->comp) : 
+					if ($this->comp) :
 						echo $this->pane->startPanel(JText :: _('Parameters - Component'), "component-page");
 						echo $this->comp->render('params');
 						echo $this->pane->endPanel();
 					endif;
 
-					if ($this->params->getNumParams('state')) : 
+					if ($this->params->getNumParams('state')) :
 						echo $this->pane->startPanel(JText :: _('Parameters - System'), "system-page");
-						echo $this->params->render('params', 'state'); 
+						echo $this->params->render('params', 'state');
 						echo $this->pane->endPanel();
 					endif;
 					echo $this->pane->endPane();

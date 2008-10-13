@@ -43,7 +43,7 @@ class SectionsController extends JController
 	{
 		switch($this->getTask())
 		{
-			case 'add'     :
+			case 'add':
 			{
 				JRequest::setVar( 'hidemainmenu', 1 );
 				JRequest::setVar( 'view'  , 'section');
@@ -53,7 +53,7 @@ class SectionsController extends JController
 				$model = $this->getModel('section');
 				$model->checkout();
 			} break;
-			case 'edit'    :
+			case 'edit':
 			{
 				JRequest::setVar( 'hidemainmenu', 1 );
 				JRequest::setVar( 'view'  , 'section');
@@ -63,7 +63,7 @@ class SectionsController extends JController
 				$model = $this->getModel('section');
 				$model->checkout();
 			} break;
-			case 'copyselect'    :
+			case 'copyselect':
 			{
 				JRequest::setVar( 'hidemainmenu', 1 );
 				JRequest::setVar( 'view'  , 'copyselect');

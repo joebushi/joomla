@@ -277,30 +277,30 @@ class JDocumentHTML extends JDocument
 		return eval($str);
 	}
 
-        /**             
-         * Count the number of child menu items
-         *              
-         * @access public
-         * @return integer Number of child menu items
-         */
-        public function countMenuChildren() {
-                static $children;
-                if(!isset($children)) {
-                        $dbo =& JFactory::getDBO();
-                        $menu =& JSite::getMenu();
-                        $where = Array();
-                        $active = $menu->getActive();
-                        if($active) {
+		/**
+		 * Count the number of child menu items
+		 *
+		 * @access public
+		 * @return integer Number of child menu items
+		 */
+		public function countMenuChildren() {
+				static $children;
+				if(!isset($children)) {
+						$dbo =& JFactory::getDBO();
+						$menu =& JSite::getMenu();
+						$where = Array();
+						$active = $menu->getActive();
+						if($active) {
 				$where[] = 'parent = ' . $active->id;
 				$where[] = 'published = 1';
-                        	$dbo->setQuery('SELECT COUNT(*) FROM #__menu WHERE '. implode(' AND ', $where));
-                        	$children = $dbo->loadResult(); 
-                	} else {
+							$dbo->setQuery('SELECT COUNT(*) FROM #__menu WHERE '. implode(' AND ', $where));
+							$children = $dbo->loadResult();
+					} else {
 				$children = 0;
 			}
 		}
-                return $children;
-        }
+				return $children;
+		}
 
 	/**
 	 * Load a template file
@@ -312,11 +312,11 @@ class JDocumentHTML extends JDocument
 	public function _loadTemplate($directory, $filename)
 	{
 		global $option;
-		
+
 		// need for backwards compatibility
 		// @todo if legacy
 		$mainframe = JFactory::getApplication();
-		
+
 		$contents = '';
 
 		//Check to see if we have a valid template file

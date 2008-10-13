@@ -99,7 +99,7 @@ abstract class JSessionStorage extends JObject
 	 *
 	 * @abstract
 	 * @access public
-	 * @param string $save_path     The path to the session object.
+	 * @param string $save_path	 The path to the session object.
 	 * @param string $session_name  The name of the session.
 	 * @return boolean  True on success, false otherwise.
 	 */
@@ -130,21 +130,21 @@ abstract class JSessionStorage extends JObject
 	 *
 	 * @abstract
 	 * @access public
-	 * @param string $id            The session identifier.
+	 * @param string $id			The session identifier.
 	 * @param string $session_data  The session data.
 	 * @return boolean  True on success, false otherwise.
 	 */
 	abstract public function write($id, $session_data);
 
 	/**
-	  * Destroy the data for a particular session identifier in the
-	  * SessionHandler backend.
-	  *
-	  * @abstract
-	  * @access public
-	  * @param string $id  The session identifier.
-	  * @return boolean  True on success, false otherwise.
-	  */
+	 * Destroy the data for a particular session identifier in the
+	 * SessionHandler backend.
+	 *
+	 * @abstract
+	 * @access public
+	 * @param string $id  The session identifier.
+	 * @return boolean  True on success, false otherwise.
+	 */
 	abstract public function destroy($id);
 
 	/**

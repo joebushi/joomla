@@ -27,7 +27,7 @@ class JDate extends JObject
 	/**
 	 * Unix timestamp
 	 *
-	 * @var     int|boolean
+	 * @var	 int|boolean
 	 * @access  protected
 	 */
 	var $_date = false;
@@ -35,7 +35,7 @@ class JDate extends JObject
 	/**
 	 * Time offset (in seconds)
 	 *
-	 * @var     string
+	 * @var	 string
 	 * @access  protected
 	 */
 	var $_offset = 0;
@@ -130,7 +130,7 @@ class JDate extends JObject
 			$this->_date -= $tzOffset;
 			return;
 		}
-        $this->_date = (strtotime($date) == -1) ? false : strtotime($date);
+		$this->_date = (strtotime($date) == -1) ? false : strtotime($date);
 		if ($this->_date) {
 			$this->_date -= $tzOffset;
 		}
@@ -180,8 +180,8 @@ class JDate extends JObject
 	{
 		$date   = ($local) ? $this->_date + $this->_offset : $this->_date;
 		$offset = $this->getOffset();
-        $offset = ($local && $this->_offset) ? sprintf("%+03d:%02d", $offset, abs(($offset-intval($offset))*60) ) : 'Z';
-        $date   = ($this->_date !== false) ? date('Y-m-d\TH:i:s', $date).$offset : null;
+		$offset = ($local && $this->_offset) ? sprintf("%+03d:%02d", $offset, abs(($offset-intval($offset))*60) ) : 'Z';
+		$date   = ($this->_date !== false) ? date('Y-m-d\TH:i:s', $date).$offset : null;
 		return $date;
 	}
 
@@ -265,16 +265,16 @@ class JDate extends JObject
 		{
 			case 1:  return $abbr ? JText::_('JANUARY_SHORT')   : JText::_('JANUARY');
 			case 2:  return $abbr ? JText::_('FEBRUARY_SHORT')  : JText::_('FEBRUARY');
-			case 3:  return $abbr ? JText::_('MARCH_SHORT')     : JText::_('MARCH');
-			case 4:  return $abbr ? JText::_('APRIL_SHORT')     : JText::_('APRIL');
-			case 5:  return $abbr ? JText::_('MAY_SHORT')       : JText::_('MAY');
-			case 6:  return $abbr ? JText::_('JUNE_SHORT')      : JText::_('JUNE');
-			case 7:  return $abbr ? JText::_('JULY_SHORT')      : JText::_('JULY');
-			case 8:  return $abbr ? JText::_('AUGUST_SHORT')    : JText::_('AUGUST');
-			case 9:  return $abbr ? JText::_('SEPTEMBER_SHORT')  : JText::_('SEPTEMBER');
-			case 10: return $abbr ? JText::_('OCTOBER_SHORT')   : JText::_('OCTOBER');
-			case 11: return $abbr ? JText::_('NOVEMBER_SHORT')  : JText::_('NOVEMBER');
-			case 12: return $abbr ? JText::_('DECEMBER_SHORT')  : JText::_('DECEMBER');
+			case 3:  return $abbr ? JText::_('MARCH_SHORT')		: JText::_('MARCH');
+			case 4:  return $abbr ? JText::_('APRIL_SHORT')		: JText::_('APRIL');
+			case 5:  return $abbr ? JText::_('MAY_SHORT')		: JText::_('MAY');
+			case 6:  return $abbr ? JText::_('JUNE_SHORT')		: JText::_('JUNE');
+			case 7:  return $abbr ? JText::_('JULY_SHORT')		: JText::_('JULY');
+			case 8:  return $abbr ? JText::_('AUGUST_SHORT')	: JText::_('AUGUST');
+			case 9:  return $abbr ? JText::_('SEPTEMBER_SHORT') : JText::_('SEPTEMBER');
+			case 10: return $abbr ? JText::_('OCTOBER_SHORT')	: JText::_('OCTOBER');
+			case 11: return $abbr ? JText::_('NOVEMBER_SHORT')	: JText::_('NOVEMBER');
+			case 12: return $abbr ? JText::_('DECEMBER_SHORT')	: JText::_('DECEMBER');
 		}
 	}
 

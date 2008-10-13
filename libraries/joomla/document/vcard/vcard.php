@@ -261,7 +261,7 @@ class JDocumentVCARD extends JDocument
 				}
 				if ( (strlen($newline) + strlen($c)) >= $line_max ) { // CRLF is not counted
 					$output .= $newline.$escape.$eol; // soft line break; " =\r\n" is okay
-					$newline = "    ";
+					$newline = "	";
 				}
 				$newline .= $c;
 			} // end of for

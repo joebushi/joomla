@@ -94,7 +94,7 @@ class CategoriesViewCategory extends JView
 		if ( $section == 'com_content' ) {
 
 			if (!$row->section && JRequest::getInt('sectionid')) {
-			    $row->section = JRequest::getInt('sectionid');
+				$row->section = JRequest::getInt('sectionid');
 			}
 
 			$query = 'SELECT s.id AS value, s.title AS text'

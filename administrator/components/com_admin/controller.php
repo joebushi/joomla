@@ -53,7 +53,7 @@ class AdminController extends JController
 		{
 			case 'sysinfo':
 			case 'help':
-			case 'changelog'    :
+			case 'changelog':
 				JRequest::setVar( 'view', $task );
 				break;
 		}

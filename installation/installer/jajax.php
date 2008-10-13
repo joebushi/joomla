@@ -65,17 +65,17 @@ class JAJAXHandler
 	function & _getVars()
 	{
 		static $vars;
-		
+
 		if ( ! $vars )
 		{
 			$session	= JFactory::getSession();
 			$registry	= $session->get('registry');
 			$vars	=& $registry->toArray('application');
 		}
-		
+
 		return $vars;
 	}
-	
+
 	/**
 	 * Method to get the path from the FTP root to the Joomla root directory
 	 */
@@ -143,7 +143,7 @@ class JAJAXHandler
 		$objResponse = new xajaxResponse();
 
 		$vars	= JAJAXHandler::_getVars();
-		
+
 		/*
 		 * execute the default sample data file
 		 */

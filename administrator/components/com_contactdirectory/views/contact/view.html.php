@@ -71,10 +71,10 @@ class ContactdirectoryViewContact extends JView
 
 		// build the html list for categories
 		$query = "SELECT id AS value, title AS text"
-		        . " FROM #__categories"
-		        . " WHERE section = 'com_contactdirectory'"
-		        . " AND published = 1"
-		        . " ORDER BY ordering";
+				. " FROM #__categories"
+				. " WHERE section = 'com_contactdirectory'"
+				. " AND published = 1"
+				. " ORDER BY ordering";
 		$db->setQuery( $query );
 		$cat = $db->loadObjectList();
 
@@ -93,7 +93,7 @@ class ContactdirectoryViewContact extends JView
 				."WHERE c.published = 1 AND map.category_id = '$category->id' ORDER BY ordering";
 
 			$order = JHTML::_('list.genericordering', $query );
-            $lists['ordering'.$i] = JHTML::_('select.genericlist', $order, 'ordering[]', 'class="inputbox" size="1"', 'value', 'text', intval( $category->ordering ) );
+			$lists['ordering'.$i] = JHTML::_('select.genericlist', $order, 'ordering[]', 'class="inputbox" size="1"', 'value', 'text', intval( $category->ordering ) );
 			$i++;
 		}
 

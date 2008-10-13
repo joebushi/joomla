@@ -30,7 +30,7 @@
 	 			<option value="0">NO</option>
 	 			<option value="1">YES</option>
 	 		</param>
-		</params>		
+		</params>
 		<advanced>
 			<param name="orderby" type="list" default="order" label="CATEGORY_ORDER" description="CATEGORY_ORDER_DESCRIPTION">
 				<option value="alpha">TITLE_ALPHABETICAL</option>

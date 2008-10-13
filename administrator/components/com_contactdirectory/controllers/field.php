@@ -13,41 +13,41 @@ class ContactdirectoryControllerField extends JController
 {
 	/**
 	 * Display the list of fields
-	 */	
-    function display()
-    {
-    	JRequest::setVar('view', 'fields');
-        parent::display();
-    }
-    
-    function add()
-    {
-    	JRequest::setVar( 'hidemainmenu', 1 );
+	 */
+	function display()
+	{
+		JRequest::setVar('view', 'fields');
+		parent::display();
+	}
+
+	function add()
+	{
+		JRequest::setVar( 'hidemainmenu', 1 );
 		JRequest::setVar( 'view'  , 'field');
 		JRequest::setVar( 'edit', false );
 
 		// Checkout the field
 		$model = $this->getModel('field');
 		$model->checkout();
-		
+
 		parent::display();
-    }
-    
-    function edit()
-    {
-    	JRequest::setVar( 'hidemainmenu', 1 );
+	}
+
+	function edit()
+	{
+		JRequest::setVar( 'hidemainmenu', 1 );
 		JRequest::setVar( 'view'  , 'field');
 		JRequest::setVar( 'edit', true );
 
 		// Checkout the field
 		$model = $this->getModel('field');
 		$model->checkout();
-		
+
 		parent::display();
-    }
-    
-    function apply()
-    {
+	}
+
+	function apply()
+	{
 		// Check for request forgeries
 		JRequest::checkToken() or jexit( 'Invalid Token' );
 
@@ -62,13 +62,13 @@ class ContactdirectoryControllerField extends JController
 		} else {
 			$msg = JText::_( 'ERROR_SAVING_FIELD' );
 		}
-		
+
 		// Check the table in so it can be edited.... we are done with it anyway
 		$model->checkin();
 		$link = 'index.php?option=com_contactdirectory&controller=field&task=edit&cid[]='. $id;
-		$this->setRedirect($link, $msg);    	
-    }
-    
+		$this->setRedirect($link, $msg);
+	}
+
 	function save()
 	{
 		// Check for request forgeries
@@ -91,7 +91,7 @@ class ContactdirectoryControllerField extends JController
 		$link = 'index.php?option=com_contactdirectory&controller=field';
 		$this->setRedirect($link, $msg);
 	}
-    
+
 	function remove()
 	{
 		// Check for request forgeries

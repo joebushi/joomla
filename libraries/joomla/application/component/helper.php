@@ -25,7 +25,7 @@ defined('JPATH_BASE') or die();
  */
 abstract class JComponentHelper
 {
-	
+
 	/**
 	 * Get the component info
 	 *
@@ -99,7 +99,7 @@ abstract class JComponentHelper
 	{
 		global $option;
 		$appl	= JFactory::getApplication();
-		
+
 		//needed for backwards compatibility
 		// @todo if legacy ...
 		$mainframe =& $appl;

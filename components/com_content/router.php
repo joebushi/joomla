@@ -127,7 +127,7 @@ function ContentParseRoute($segments)
 	if(!isset($item))
 	{
 		$vars['view']  = $segments[0];
-		$vars['id']    = $segments[$count - 1];
+		$vars['id']	= $segments[$count - 1];
 		return $vars;
 	}
 
@@ -149,7 +149,7 @@ function ContentParseRoute($segments)
 				$vars['catid'] = $segments[$count-2];
 			}
 
-			$vars['id']    = $segments[$count-1];
+			$vars['id']	= $segments[$count-1];
 
 		} break;
 
@@ -169,20 +169,20 @@ function ContentParseRoute($segments)
 
 		case 'article' :
 		{
-			$vars['id']	  = $segments[$count-1];
-			$vars['view'] = 'article';
+			$vars['id']		= $segments[$count-1];
+			$vars['view']	= 'article';
 		} break;
 
 		case 'archive' :
 		{
 			if($count != 1)
 			{
-				$vars['year']  = $count >= 2 ? $segments[$count-2] : null;
-				$vars['month'] = $segments[$count-1];
-				$vars['view']  = 'archive';
+				$vars['year']	= $count >= 2 ? $segments[$count-2] : null;
+				$vars['month']	= $segments[$count-1];
+				$vars['view']	= 'archive';
 			} else {
-				$vars['id']	  = $segments[$count-1];
-				$vars['view'] = 'article';
+				$vars['id']		= $segments[$count-1];
+				$vars['view']	= 'article';
 			}
 		}
 	}

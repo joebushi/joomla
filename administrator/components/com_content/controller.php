@@ -51,7 +51,7 @@ class ContentController extends JController
 	{
 		switch($this->getTask())
 		{
-			case 'add'     :
+			case 'add':
 			{
 				JRequest::setVar( 'hidemainmenu', 1 );
 				JRequest::setVar( 'view'  , 'article');
@@ -61,7 +61,7 @@ class ContentController extends JController
 				$model = $this->getModel('article');
 				$model->checkout();
 			} break;
-			case 'edit'    :
+			case 'edit':
 			{
 				JRequest::setVar( 'hidemainmenu', 1 );
 				JRequest::setVar( 'view'  , 'article');
@@ -71,20 +71,20 @@ class ContentController extends JController
 				$model = $this->getModel('article');
 				$model->checkout();
 			} break;
-			case 'movesect'     :
-			case 'copy'     :
+			case 'movesect':
+			case 'copy':
 			{
 				JRequest::setVar( 'view'  , 'copyselect');
 			} break;
-			case 'ins_pagebreak'     :
+			case 'ins_pagebreak':
 			{
 				JRequest::setVar( 'view'  , 'pagebreak');
 			} break;
-			case 'preview'     :
+			case 'preview':
 			{
 				JRequest::setVar( 'view'  , 'prevuuw');
 			} break;
-			case 'content'     :
+			case 'content':
 			default:
 			{
 				JRequest::setVar( 'view'  , 'articles');

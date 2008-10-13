@@ -12,7 +12,7 @@
 	JToolBarHelper::editListX();
 	JToolBarHelper::addNewX();
 	JToolBarHelper::custom('importView', 'save.png', 'save_f2.png', JText::_('IMPORT'), false, true);
-	
+
 	//JToolBarHelper::preferences('com_contactdirectory', '500');
 	//JToolBarHelper::help( 'screen.contactmanager' );
 ?>
@@ -43,7 +43,7 @@
 			</th>
 			<th width="20">
 				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->items ); ?>);" />
-			</th>			
+			</th>
 			<th class="title">
 				<?php echo JHTML::_('grid.sort', JText::_( 'NAME' ), 'c.name', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 			</th>
@@ -82,7 +82,7 @@
 		$access 	= JHTML::_('grid.access',   $row, $i );
 		$checked 	= JHTML::_('grid.checkedout',   $row, $i );
 		$published 	= JHTML::_('grid.published', $row, $i );
-		
+
 		$user_link	= JRoute::_( 'index.php?option=com_users&task=editA&cid[]='. $row->user_id );
 
 		$ordering = ($this->lists['order'] == 'c.ordering');

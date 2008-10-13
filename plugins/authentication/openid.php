@@ -32,7 +32,7 @@ class plgAuthenticationOpenID extends JPlugin
 	 *
 	 * @access	public
 	 * @param   array 	$credentials Array holding the user credentials
-	 * @param 	array   $options     Array of extra options (return, entry_url)
+	 * @param 	array   $options	 Array of extra options (return, entry_url)
 	 * @param	object	$response	Authentication response object
 	 * @return	boolean
 	 * @since 1.5
@@ -100,7 +100,7 @@ class plgAuthenticationOpenID extends JPlugin
 			$process_url  = sprintf($entry_url->toString()."&username=%s", $credentials['username']);
 			$process_url .= '&'.JURI::buildQuery($options);
 
-			$trust_url    = $entry_url->toString(array('path', 'host', 'port', 'scheme'));
+			$trust_url	= $entry_url->toString(array('path', 'host', 'port', 'scheme'));
 			$redirect_url = $request->redirectURL($trust_url, $process_url);
 
 			$session->set('trust_url', $trust_url);
@@ -120,8 +120,8 @@ class plgAuthenticationOpenID extends JPlugin
 			{
 				$sreg = $result->extensionResponse('sreg');
 
-				$response->status	      = JAUTHENTICATE_STATUS_SUCCESS;
-				$response->error_message  = '';
+				$response->status 			= JAUTHENTICATE_STATUS_SUCCESS;
+				$response->error_message	= '';
 				$response->email	= isset($sreg['email'])	? $sreg['email']	: "";
 				$response->fullname	= isset($sreg['fullname']) ? $sreg['fullname'] : "";
 				$response->language	= isset($sreg['language']) ? $sreg['language'] : "";

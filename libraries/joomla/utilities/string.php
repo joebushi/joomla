@@ -62,11 +62,11 @@ abstract class JString
 	{
 		if(strlen($str) && strlen($search))
 		{
-	    	if ( $offset === FALSE ) {
-	        	return mb_strpos($str, $search);
-	    	} else {
-	        	return mb_strpos($str, $search, $offset);
-	    	}
+			if ( $offset === FALSE ) {
+				return mb_strpos($str, $search);
+			} else {
+				return mb_strpos($str, $search, $offset);
+			}
 		} else return FALSE;
 	}
 
@@ -85,27 +85,27 @@ abstract class JString
 	{
 		if ( $offset === FALSE )
 		{
-        	# Emulate behaviour of strrpos rather than raising warning
-       	 	if ( empty($str) ) {
-            	return FALSE;
-        	}
-        	return mb_strrpos($str, $search);
-    	}
-    	else
-    	{
-        	if ( !is_int($offset) ) {
-            	trigger_error('utf8_strrpos expects parameter 3 to be long',E_USER_WARNING);
-            	return FALSE;
-        	}
+			# Emulate behaviour of strrpos rather than raising warning
+			if ( empty($str) ) {
+				return FALSE;
+			}
+			return mb_strrpos($str, $search);
+		}
+		else
+		{
+			if ( !is_int($offset) ) {
+				trigger_error('utf8_strrpos expects parameter 3 to be long',E_USER_WARNING);
+				return FALSE;
+			}
 
-        	$str = mb_substr($str, $offset);
+			$str = mb_substr($str, $offset);
 
-        	if ( FALSE !== ( $pos = mb_strrpos($str, $search) ) ) {
-            	return $pos + $offset;
-        	}
+			if ( FALSE !== ( $pos = mb_strrpos($str, $search) ) ) {
+				return $pos + $offset;
+			}
 
-        	return FALSE;
-    	}
+			return FALSE;
+		}
 	}
 
 	/**
@@ -123,10 +123,10 @@ abstract class JString
 	public static function substr($str, $offset, $length = FALSE)
 	{
 	 	if ( $length === FALSE ) {
-        	return mb_substr($str, $offset);
-    	} else {
-        	return mb_substr($str, $offset, $length);
-    	}
+			return mb_substr($str, $offset);
+		} else {
+			return mb_substr($str, $offset, $length);
+		}
 	}
 
 	/**
@@ -192,47 +192,47 @@ abstract class JString
 	{
 		if ( !is_array($search) )
 		{
-        	$slen = strlen($search);
-        	$lendif = strlen($replace) - $slen;
-        	if ( $slen == 0 ) {
-            	return $str;
-        	}
+			$slen = strlen($search);
+			$lendif = strlen($replace) - $slen;
+			if ( $slen == 0 ) {
+				return $str;
+			}
 
-        	$search = JString::strtolower($search);
+			$search = JString::strtolower($search);
 
-        	$search = preg_quote($search, '/');
-        	$lstr = JString::strtolower($str);
-        	$i = 0;
-        	$matched = 0;
-       	 	while ( preg_match('/(.*)'.$search.'/Us',$lstr, $matches) ) {
-            	if ( $i === $count ) {
-                	break;
-            	}
-            	$mlen = strlen($matches[0]);
-            	$lstr = substr($lstr, $mlen);
-            	$str = substr_replace($str, $replace, $matched+strlen($matches[1]), $slen);
-            	$matched += $mlen + $lendif;
-            	$i++;
-        	}
-        	return $str;
+			$search = preg_quote($search, '/');
+			$lstr = JString::strtolower($str);
+			$i = 0;
+			$matched = 0;
+	 	 	while ( preg_match('/(.*)'.$search.'/Us',$lstr, $matches) ) {
+				if ( $i === $count ) {
+					break;
+				}
+				$mlen = strlen($matches[0]);
+				$lstr = substr($lstr, $mlen);
+				$str = substr_replace($str, $replace, $matched+strlen($matches[1]), $slen);
+				$matched += $mlen + $lendif;
+				$i++;
+			}
+			return $str;
 
-    	} else {
+		} else {
 
-        	foreach ( array_keys($search) as $k )
-        	{
-            	if ( is_array($replace) )
-            	{
-                	if ( array_key_exists($k,$replace) ) {
-                    	$str = JString::str_ireplace($search[$k], $replace[$k], $str, $count);
-                	} else {
-                    	$str = JString::str_ireplace($search[$k], '', $str, $count);
-                	}
-            	} else {
-                	$str = JString::str_ireplace($search[$k], $replace, $str, $count);
-            	}
-        	}
-        	return $str;
-    	}
+			foreach ( array_keys($search) as $k )
+			{
+				if ( is_array($replace) )
+				{
+					if ( array_key_exists($k,$replace) ) {
+						$str = JString::str_ireplace($search[$k], $replace[$k], $str, $count);
+					} else {
+						$str = JString::str_ireplace($search[$k], '', $str, $count);
+					}
+				} else {
+					$str = JString::str_ireplace($search[$k], $replace, $str, $count);
+				}
+			}
+			return $str;
+		}
 	}
 
 	/**
@@ -249,16 +249,16 @@ abstract class JString
 	public static function str_split($str, $split_len = 1)
 	{
 		 if ( !preg_match('/^[0-9]+$/',$split_len) || $split_len < 1 ) {
-       		return FALSE;
-    	}
+	 		return FALSE;
+		}
 
-    	$len = JString::strlen($str);
+		$len = JString::strlen($str);
    	 	if ( $len <= $split_len ) {
-        	return array($str);
-    	}
+			return array($str);
+		}
 
-    	preg_match_all('/.{'.$split_len.'}|[^\x00]{1,'.$split_len.'}$/us', $str, $ar);
-    	return $ar[0];
+		preg_match_all('/.{'.$split_len.'}|[^\x00]{1,'.$split_len.'}$/us', $str, $ar);
+		return $ar[0];
 	}
 
 	/**
@@ -276,7 +276,7 @@ abstract class JString
 	{
 		 $strX = JString::strtolower($strX);
   	 	 $strY = JString::strtolower($strY);
-    	return strcmp($strX, $strY);
+		return strcmp($strX, $strY);
 	}
 
 	/**
@@ -295,22 +295,22 @@ abstract class JString
 	public static function strcspn($str, $mask, $start = NULL, $length = NULL)
 	{
 		if ( empty($mask) || strlen($mask) == 0 ) {
-        	return NULL;
-    	}
+			return NULL;
+		}
 
-    	$mask = preg_replace('!([\\\\\\-\\]\\[/^])!','\\\${1}',$mask);
+		$mask = preg_replace('!([\\\\\\-\\]\\[/^])!','\\\${1}',$mask);
 
-    	if ( $start !== NULL || $length !== NULL ) {
-        	$str = JString::substr($str, $start, $length);
-    	}
+		if ( $start !== NULL || $length !== NULL ) {
+			$str = JString::substr($str, $start, $length);
+		}
 
-    	preg_match('/^[^'.$mask.']+/u',$str, $matches);
+		preg_match('/^[^'.$mask.']+/u',$str, $matches);
 
-    	if ( isset($matches[0]) ) {
-        	return utf8_strlen($matches[0]);
-    	}
+		if ( isset($matches[0]) ) {
+			return utf8_strlen($matches[0]);
+		}
 
-    	return 0;
+		return 0;
 	}
 
 	/**
@@ -329,18 +329,18 @@ abstract class JString
 	public static function stristr($str, $search)
 	{
 		if ( strlen($search) == 0 ) {
-        	return $str;
-    	}
+			return $str;
+		}
 
-    	$lstr = JString::strtolower($str);
-    	$lsearch = JString::strtolower($search);
-    	preg_match('|^(.*)'.preg_quote($lsearch).'|Us',$lstr, $matches);
+		$lstr = JString::strtolower($str);
+		$lsearch = JString::strtolower($search);
+		preg_match('|^(.*)'.preg_quote($lsearch).'|Us',$lstr, $matches);
 
-    	if ( count($matches) == 2 ) {
-        	return substr($str, strlen($matches[1]));
-    	}
+		if ( count($matches) == 2 ) {
+			return substr($str, strlen($matches[1]));
+		}
 
-    	return FALSE;
+		return FALSE;
 	}
 
 	/**
@@ -375,17 +375,17 @@ abstract class JString
 	{
 		$mask = preg_replace('!([\\\\\\-\\]\\[/^])!','\\\${1}',$mask);
 
-    	if ( $start !== NULL || $length !== NULL ) {
-        	$str = JString::substr($str, $start, $length);
-    	}
+		if ( $start !== NULL || $length !== NULL ) {
+			$str = JString::substr($str, $start, $length);
+		}
 
-    	preg_match('/^['.$mask.']+/u',$str, $matches);
+		preg_match('/^['.$mask.']+/u',$str, $matches);
 
-    	if ( isset($matches[0]) ) {
-        	return JString::strlen($matches[0]);
-    	}
+		if ( isset($matches[0]) ) {
+			return JString::strlen($matches[0]);
+		}
 
-    	return 0;
+		return 0;
 	}
 
 	/**
@@ -403,12 +403,12 @@ abstract class JString
 	public static function substr_replace($str, $repl, $start, $length = NULL )
 	{
 		preg_match_all('/./us', $str, $ar);
-    	preg_match_all('/./us', $repl, $rar);
-    	if( $length === NULL ) {
-        	$length = JString::strlen($str);
-    	}
-    	array_splice( $ar[0], $start, $length, $rar[0] );
-    	return join('',$ar[0]);
+		preg_match_all('/./us', $repl, $rar);
+		if( $length === NULL ) {
+			$length = JString::strlen($str);
+		}
+		array_splice( $ar[0], $start, $length, $rar[0] );
+		return join('',$ar[0]);
 	}
 
 	/**
@@ -429,10 +429,10 @@ abstract class JString
 	{
 		if($charlist === FALSE) return ltrim($str);
 
-    	//quote charlist for use in a characterclass
-    	$charlist = preg_replace('!([\\\\\\-\\]\\[/^])!','\\\${1}',$charlist);
+		//quote charlist for use in a characterclass
+		$charlist = preg_replace('!([\\\\\\-\\]\\[/^])!','\\\${1}',$charlist);
 
-    	return preg_replace('/^['.$charlist.']+/u','',$str);
+		return preg_replace('/^['.$charlist.']+/u','',$str);
 	}
 
 	/**
@@ -456,9 +456,9 @@ abstract class JString
 		 }
 
    	 	//quote charlist for use in a characterclass
-    	$charlist = preg_replace('!([\\\\\\-\\]\\[/^])!','\\\${1}',$charlist);
+		$charlist = preg_replace('!([\\\\\\-\\]\\[/^])!','\\\${1}',$charlist);
 
-    	return preg_replace('/['.$charlist.']+$/u','',$str);
+		return preg_replace('/['.$charlist.']+$/u','',$str);
 	}
 
 	/**
@@ -481,7 +481,7 @@ abstract class JString
 			return trim($str);
 		}
 
-    	return JString::ltrim(utf8_rtrim($str, $charlist), $charlist);
+		return JString::ltrim(utf8_rtrim($str, $charlist), $charlist);
 	}
 
 	/**
@@ -497,17 +497,17 @@ abstract class JString
 	public static function ucfirst($str)
 	{
 		switch ( JString::strlen($str) ) {
-        	case 0:
-            	return '';
-        	break;
-        	case 1:
-            	return JString::strtoupper($str);
-        	break;
-        	default:
-            	preg_match('/^(.{1})(.*)$/us', $str, $matches);
-            	return JString::strtoupper($matches[1]).$matches[2];
-        	break;
-    	}
+			case 0:
+				return '';
+			break;
+			case 1:
+				return JString::strtoupper($str);
+			break;
+			default:
+				preg_match('/^(.{1})(.*)$/us', $str, $matches);
+				return JString::strtoupper($matches[1]).$matches[2];
+			break;
+		}
 	}
 
 	/**
@@ -523,10 +523,10 @@ abstract class JString
 	public static function ucwords($str)
 	{
 		 // Note: [\x0c\x09\x0b\x0a\x0d\x20] matches;
-    	// form feeds, horizontal tabs, vertical tabs, linefeeds and carriage returns
-    	// This corresponds to the definition of a "word" defined at http://www.php.net/ucwords
-    	$pattern = '/(^|([\x0c\x09\x0b\x0a\x0d\x20]+))([^\x0c\x09\x0b\x0a\x0d\x20]{1})[^\x0c\x09\x0b\x0a\x0d\x20]*/u';
-    	return preg_replace_callback($pattern, 'JString::ucwords_callback',$str);
+		// form feeds, horizontal tabs, vertical tabs, linefeeds and carriage returns
+		// This corresponds to the definition of a "word" defined at http://www.php.net/ucwords
+		$pattern = '/(^|([\x0c\x09\x0b\x0a\x0d\x20]+))([^\x0c\x09\x0b\x0a\x0d\x20]{1})[^\x0c\x09\x0b\x0a\x0d\x20]*/u';
+		return preg_replace_callback($pattern, 'JString::ucwords_callback',$str);
 	}
 
 
@@ -540,10 +540,10 @@ abstract class JString
 	 */
 	public static function ucwords_callback($matches)
 	{
-    	$leadingws = $matches[2];
-    	$ucfirst = JString::strtoupper($matches[3]);
-    	$ucword = JString::substr_replace(ltrim($matches[0]),$ucfirst,0,1);
-    	return $leadingws . $ucword;
+		$leadingws = $matches[2];
+		$ucfirst = JString::strtoupper($matches[3]);
+		$ucword = JString::substr_replace(ltrim($matches[0]),$ucfirst,0,1);
+		return $leadingws . $ucword;
 	}
 
 	/**
@@ -581,119 +581,119 @@ abstract class JString
 	 */
 	public static function valid($str)
 	{
-		$mState = 0;     // cached expected number of octets after the current octet
-        	             // until the beginning of the next UTF8 character sequence
-    	$mUcs4  = 0;     // cached Unicode character
-   	 	$mBytes = 1;     // cached expected number of octets in the current sequence
+		$mState = 0;	 // cached expected number of octets after the current octet
+						 // until the beginning of the next UTF8 character sequence
+		$mUcs4  = 0;	 // cached Unicode character
+   	 	$mBytes = 1;	 // cached expected number of octets in the current sequence
 
-    	$len = strlen($str);
+		$len = strlen($str);
 
-    	for($i = 0; $i < $len; $i++)
-    	{
+		for($i = 0; $i < $len; $i++)
+		{
 			$in = ord($str{$i});
 
-        	if ( $mState == 0)
-        	{
-            	// When mState is zero we expect either a US-ASCII character or a
-            	// multi-octet sequence.
-           	 	if (0 == (0x80 & ($in))) {
-                	// US-ASCII, pass straight through.
-                	$mBytes = 1;
-            	} else if (0xC0 == (0xE0 & ($in))) {
-               	 	// First octet of 2 octet sequence
-                	$mUcs4 = ($in);
-                	$mUcs4 = ($mUcs4 & 0x1F) << 6;
-                	$mState = 1;
-                	$mBytes = 2;
-            	} else if (0xE0 == (0xF0 & ($in))) {
-                	// First octet of 3 octet sequence
-                	$mUcs4 = ($in);
-                	$mUcs4 = ($mUcs4 & 0x0F) << 12;
-                	$mState = 2;
-                	$mBytes = 3;
-            	} else if (0xF0 == (0xF8 & ($in))) {
-                	// First octet of 4 octet sequence
-                	$mUcs4 = ($in);
-                	$mUcs4 = ($mUcs4 & 0x07) << 18;
-                	$mState = 3;
-                	$mBytes = 4;
-            	} else if (0xF8 == (0xFC & ($in))) {
-                	/* First octet of 5 octet sequence.
-                	 *
-                	 * This is illegal because the encoded codepoint must be either
-                	 * (a) not the shortest form or
-                	 * (b) outside the Unicode range of 0-0x10FFFF.
-                	 * Rather than trying to resynchronize, we will carry on until the end
-                	 * of the sequence and let the later error handling code catch it.
-                	 */
-                	$mUcs4 = ($in);
-                	$mUcs4 = ($mUcs4 & 0x03) << 24;
-                	$mState = 4;
-                	$mBytes = 5;
-            	} else if (0xFC == (0xFE & ($in))) {
-                	// First octet of 6 octet sequence, see comments for 5 octet sequence.
-                	$mUcs4 = ($in);
-                	$mUcs4 = ($mUcs4 & 1) << 30;
-                	$mState = 5;
-                	$mBytes = 6;
+			if ( $mState == 0)
+			{
+				// When mState is zero we expect either a US-ASCII character or a
+				// multi-octet sequence.
+		 	 	if (0 == (0x80 & ($in))) {
+					// US-ASCII, pass straight through.
+					$mBytes = 1;
+				} else if (0xC0 == (0xE0 & ($in))) {
+			 	 	// First octet of 2 octet sequence
+					$mUcs4 = ($in);
+					$mUcs4 = ($mUcs4 & 0x1F) << 6;
+					$mState = 1;
+					$mBytes = 2;
+				} else if (0xE0 == (0xF0 & ($in))) {
+					// First octet of 3 octet sequence
+					$mUcs4 = ($in);
+					$mUcs4 = ($mUcs4 & 0x0F) << 12;
+					$mState = 2;
+					$mBytes = 3;
+				} else if (0xF0 == (0xF8 & ($in))) {
+					// First octet of 4 octet sequence
+					$mUcs4 = ($in);
+					$mUcs4 = ($mUcs4 & 0x07) << 18;
+					$mState = 3;
+					$mBytes = 4;
+				} else if (0xF8 == (0xFC & ($in))) {
+					/* First octet of 5 octet sequence.
+					 *
+					 * This is illegal because the encoded codepoint must be either
+					 * (a) not the shortest form or
+					 * (b) outside the Unicode range of 0-0x10FFFF.
+					 * Rather than trying to resynchronize, we will carry on until the end
+					 * of the sequence and let the later error handling code catch it.
+					 */
+					$mUcs4 = ($in);
+					$mUcs4 = ($mUcs4 & 0x03) << 24;
+					$mState = 4;
+					$mBytes = 5;
+				} else if (0xFC == (0xFE & ($in))) {
+					// First octet of 6 octet sequence, see comments for 5 octet sequence.
+					$mUcs4 = ($in);
+					$mUcs4 = ($mUcs4 & 1) << 30;
+					$mState = 5;
+					$mBytes = 6;
 
-            	} else {
-                	/* Current octet is neither in the US-ASCII range nor a legal first
-                 	 * octet of a multi-octet sequence.
-                 	 */
-                	return FALSE;
-            	}
-        	}
-        	else
-        	{
-            	// When mState is non-zero, we expect a continuation of the multi-octet
-           	 	// sequence
-            	if (0x80 == (0xC0 & ($in)))
-            	{
-                	// Legal continuation.
-                	$shift = ($mState - 1) * 6;
-                	$tmp = $in;
-                	$tmp = ($tmp & 0x0000003F) << $shift;
-                	$mUcs4 |= $tmp;
+				} else {
+					/* Current octet is neither in the US-ASCII range nor a legal first
+				 	 * octet of a multi-octet sequence.
+				 	 */
+					return FALSE;
+				}
+			}
+			else
+			{
+				// When mState is non-zero, we expect a continuation of the multi-octet
+		 	 	// sequence
+				if (0x80 == (0xC0 & ($in)))
+				{
+					// Legal continuation.
+					$shift = ($mState - 1) * 6;
+					$tmp = $in;
+					$tmp = ($tmp & 0x0000003F) << $shift;
+					$mUcs4 |= $tmp;
 
-                	/**
-                	 * End of the multi-octet sequence. mUcs4 now contains the final
-                	 * Unicode codepoint to be output
-                	 */
-                	if (0 == --$mState)
-                	{
-                    	/*
-                    	 * Check for illegal sequences and codepoints.
-                    	 */
-                    	// From Unicode 3.1, non-shortest form is illegal
-                    	if (((2 == $mBytes) && ($mUcs4 < 0x0080)) ||
-                        	((3 == $mBytes) && ($mUcs4 < 0x0800)) ||
-                       		((4 == $mBytes) && ($mUcs4 < 0x10000)) ||
-                        	(4 < $mBytes) ||
-                        	// From Unicode 3.2, surrogate characters are illegal
-                       	 	(($mUcs4 & 0xFFFFF800) == 0xD800) ||
-                        	// Codepoints outside the Unicode range are illegal
-                        	($mUcs4 > 0x10FFFF)) {
+					/**
+					 * End of the multi-octet sequence. mUcs4 now contains the final
+					 * Unicode codepoint to be output
+					 */
+					if (0 == --$mState)
+					{
+						/*
+						 * Check for illegal sequences and codepoints.
+						 */
+						// From Unicode 3.1, non-shortest form is illegal
+						if (((2 == $mBytes) && ($mUcs4 < 0x0080)) ||
+							((3 == $mBytes) && ($mUcs4 < 0x0800)) ||
+					 		((4 == $mBytes) && ($mUcs4 < 0x10000)) ||
+							(4 < $mBytes) ||
+							// From Unicode 3.2, surrogate characters are illegal
+					 	 	(($mUcs4 & 0xFFFFF800) == 0xD800) ||
+							// Codepoints outside the Unicode range are illegal
+							($mUcs4 > 0x10FFFF)) {
 								return FALSE;
-                    		}
+							}
 
-                    	//initialize UTF8 cache
-                    	$mState = 0;
-                    	$mUcs4  = 0;
-                    	$mBytes = 1;
-                	}
-            	}
-            	else
-            	{
-                	/**
-                	 *((0xC0 & (*in) != 0x80) && (mState != 0))
-                	 * Incomplete multi-octet sequence.
-                	 */
-                	return FALSE;
-            	}
-        	}
-    	}
-    	return TRUE;
+						//initialize UTF8 cache
+						$mState = 0;
+						$mUcs4  = 0;
+						$mBytes = 1;
+					}
+				}
+				else
+				{
+					/**
+					 *((0xC0 & (*in) != 0x80) && (mState != 0))
+					 * Incomplete multi-octet sequence.
+					 */
+					return FALSE;
+				}
+			}
+		}
+		return TRUE;
 	}
 
 	/**
@@ -713,13 +713,13 @@ abstract class JString
 	 */
 	public static function compliant($str)
 	{
-    	if ( strlen($str) == 0 ) {
-        	return TRUE;
-    	}
-    	// If even just the first character can be matched, when the /u
-    	// modifier is used, then it's valid UTF-8. If the UTF-8 is somehow
-    	// invalid, nothing at all will match, even if the string contains
-    	// some valid sequences
-    	return (preg_match('/^.{1}/us',$str,$ar) == 1);
+		if ( strlen($str) == 0 ) {
+			return TRUE;
+		}
+		// If even just the first character can be matched, when the /u
+		// modifier is used, then it's valid UTF-8. If the UTF-8 is somehow
+		// invalid, nothing at all will match, even if the string contains
+		// some valid sequences
+		return (preg_match('/^.{1}/us',$str,$ar) == 1);
 	}
 }

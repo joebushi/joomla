@@ -115,7 +115,7 @@ class JDispatcher extends JObservable
 		if ($args === null) {
 			$args = array ();
 		}
-		
+
 		$event = strtolower($event);
 		if(!isset($this->_methods[$event]) || empty($this->_methods[$event])) {
 			//No Plugins Associated To Event!

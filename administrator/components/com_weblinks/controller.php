@@ -42,7 +42,7 @@ class WeblinksController extends JController
 
 		switch($this->getTask())
 		{
-			case 'add'     :
+			case 'add':
 			{
 				JRequest::setVar( 'hidemainmenu', 1 );
 				JRequest::setVar( 'layout', 'form'  );
@@ -53,7 +53,7 @@ class WeblinksController extends JController
 				$model = $this->getModel('weblink');
 				$model->checkout();
 			} break;
-			case 'edit'    :
+			case 'edit':
 			{
 				JRequest::setVar( 'hidemainmenu', 1 );
 				JRequest::setVar( 'layout', 'form'  );

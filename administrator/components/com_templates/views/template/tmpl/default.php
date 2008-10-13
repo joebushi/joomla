@@ -106,10 +106,10 @@
 				<td>
 					<?php if ($this->client->id == 1) {
 							echo JText::_('Cannot assign administrator template');
-						  } elseif ($this->row->pages == 'all') {
+						} elseif ($this->row->pages == 'all') {
 							echo JText::_('Cannot assign default template');
 							echo '<input type="hidden" name="default" value="1" />';
-						  } elseif ($this->row->pages == 'none') { ?>
+						} elseif ($this->row->pages == 'none') { ?>
 					<label for="menus-none"><input id="menus-none" type="radio" name="menus" value="none" onclick="disableselections();" checked="checked" /><?php echo JText::_( 'None' ); ?></label>
 					<label for="menus-select"><input id="menus-select" type="radio" name="menus" value="select" onclick="enableselections();" /><?php echo JText::_( 'Select From List' ); ?></label>
 					<?php } else { ?>

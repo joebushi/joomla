@@ -89,8 +89,8 @@
 
 		$link = JRoute::_( 'index.php?option=com_modules&client='. $this->client->id .'&task=edit&cid[]='. $row->id );
 
-		$access     = JHTML::_('grid.access', $row, $i);
-		$checked    = JHTML::_('grid.checkedout', $row, $i);
+		$access		= JHTML::_('grid.access', $row, $i);
+		$checked	= JHTML::_('grid.checkedout', $row, $i);
 		$published  = JHTML::_('grid.published', $row, $i);
 		?>
 		<tr class="<?php echo 'row' . $k; ?>">

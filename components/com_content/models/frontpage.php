@@ -200,7 +200,7 @@ class ContentModelFrontpage extends JModel
 					' OR ( a.catid = 0 AND a.sectionid = 0 ) )';
 
 			$where .= ' AND ( a.publish_up = '.$this->_db->Quote($nullDate).' OR a.publish_up <= '.$this->_db->Quote($now).' )' .
-					  ' AND ( a.publish_down = '.$this->_db->Quote($nullDate).' OR a.publish_down >= '.$this->_db->Quote($now).' )';
+					' AND ( a.publish_down = '.$this->_db->Quote($nullDate).' OR a.publish_down >= '.$this->_db->Quote($now).' )';
 		}
 
 		return $where;

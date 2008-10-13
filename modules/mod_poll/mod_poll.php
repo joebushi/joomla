@@ -26,9 +26,9 @@ $itemid = isset($items[0]) ? '&Itemid='.$items[0]->id : '';
 $poll   = modPollHelper::getPoll($params->get( 'id', 0 ));
 
 if ( $poll && $poll->id ) {
-    $layout = JModuleHelper::getLayoutPath('mod_poll');
-    $tabcnt = 0;
-    $options = modPollHelper::getPollOptions($poll->id);
+	$layout = JModuleHelper::getLayoutPath('mod_poll');
+	$tabcnt = 0;
+	$options = modPollHelper::getPollOptions($poll->id);
 
 	require($layout);
 }

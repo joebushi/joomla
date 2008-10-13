@@ -36,10 +36,10 @@ class JInstallationView extends JView
 	function __construct($config = array() )
 	{
 		$this->_name	= 'install';
-		
+
 		return parent::__construct($config);
 	}
-	
+
 	/**
 	 * Language page
 	 *
@@ -53,12 +53,12 @@ class JInstallationView extends JView
 
 		$model	=& $this->getModel();
 		$lists	=& $model->getData('lists');
-		
+
 		$this->assignRef( 'languages', $lists['langs'] );
 
 		return $this->display();
 	}
-	
+
 	/**
 	 * Set the current step in the display workflow
 	 *
@@ -84,7 +84,7 @@ class JInstallationView extends JView
 	function dbConfig()
 	{
 		$this->_setCurrentStep('dbconfig');
-		
+
 		$model	=& $this->getModel();
 		$lists	=& $model->getData('lists');
 
@@ -93,7 +93,7 @@ class JInstallationView extends JView
 		return $this->display();
 	}
 
-	
+
 	/**
 	 * Display the template
 	 *
@@ -107,7 +107,7 @@ class JInstallationView extends JView
 		$lang	= JFactory::getLanguage();
 
 		$this->assign( 'direction', $lang->isRTL() ? 'rtl' : 'ltr');
-		
+
 		return parent::display($tpl);
 	}
 
@@ -121,7 +121,7 @@ class JInstallationView extends JView
 	function error()
 	{
 		$this->_setCurrentStep('error');
-		
+
 		$model	= $this->getModel();
 		$this->assign('message', $model->getError() );
 		$this->assign('back', $model->getData('back') );
@@ -140,7 +140,7 @@ class JInstallationView extends JView
 	function finish()
 	{
 		$this->_setCurrentStep('finish');
-		
+
 		$model	=& $this->getModel();
 		$this->assign('buffer', $model->getData('buffer') );
 
@@ -185,7 +185,7 @@ class JInstallationView extends JView
 
 		return $this->_steps;
 	}
-	
+
 	/**
 	 * Get a session variable
 	 *
@@ -198,18 +198,18 @@ class JInstallationView extends JView
 	function getSessionVar($name, $default = null)
 	{
 		static $vars;
-		
+
 		if ( ! $vars )
 		{
 			$model	= $this->getModel();
 			$vars	=& $model->getVars();
 		}
-		
+
 		if ( isset($vars[$name]) )
 		{
 			return $vars[$name];
 		}
-		
+
 		return $default;
 	}
 
@@ -243,10 +243,10 @@ class JInstallationView extends JView
 		 */
 		$encodings = array( 'iso-8859-1','iso-8859-2','iso-8859-3','iso-8859-4','iso-8859-5','iso-8859-6','iso-8859-7','iso-8859-8','iso-8859-9','iso-8859-10','iso-8859-13','iso-8859-14','iso-8859-15','cp874','windows-1250','windows-1251','windows-1252','windows-1253','windows-1254','windows-1255','windows-1256','windows-1257','windows-1258','utf-8','big5','euc-jp','euc-kr','euc-tw','iso-2022-cn','iso-2022-jp-2','iso-2022-jp','iso-2022-kr','iso-10646-ucs-2','iso-10646-ucs-4','koi8-r','koi8-ru','ucs2-internal','ucs4-internal','unicode-1-1-utf-7','us-ascii','utf-16' );
 		$this->assign( 'encodings', $encodings );
-		
+
 		$max_upload_size = min(JInstallationHelper::let_to_num(ini_get('post_max_size')), JInstallationHelper::let_to_num(ini_get('upload_max_filesize')));
 		$this->assign( 'maxupload', JText::sprintf('UPLOADFILESIZE',(number_format($max_upload_size/(1024*1024), 2))."MB."));
-		
+
 		return $this->display();
 	}
 
@@ -259,7 +259,7 @@ class JInstallationView extends JView
 	 */
 	function preInstall()
 	{
-		$this->_setCurrentStep('preinstall');		
+		$this->_setCurrentStep('preinstall');
 
 		$model	= $this->getModel();
 		$lists	=& $model->getData('lists');
@@ -284,15 +284,15 @@ class JInstallationView extends JView
 	function removedir()
 	{
 		$this->setLayout('removedir');
-		
+
 		return $this->display();
 	}
 
 
 	function migration() {
-		
+
 		$this->_setCurrentStep('migration');
-		
+
 		return $this->display();
 	}
 }

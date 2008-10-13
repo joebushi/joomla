@@ -34,7 +34,7 @@ class ContactViewContact extends JView
 
 		// Get the parameters of the active menu item
 		$menus	= &JSite::getMenu();
-		$menu    = $menus->getActive();
+		$menu	= $menus->getActive();
 
 		$pparams = &$mainframe->getParams('com_contact');
 

@@ -122,13 +122,13 @@ abstract class JModuleHelper
 	{
 		static $chrome;
 		$option = JRequest::getCMD('option');
-		
+
 		$appl	= JFactory::getApplication();
-		
+
 		//needed for backwards compatibility
 		// @todo if legacy ...
 		$mainframe =& $appl;
-		
+
 		$scope = $appl->scope; //record the scope
 		$appl->scope = $module->module;  //set scope to component name
 
@@ -285,32 +285,30 @@ abstract class JModuleHelper
 			if (isset($dups[$module->id])) {
 			/*
 			 * If this item has been excluded, keep the duplicate flag set,
-                 * but remove any item from the cleaned array.
-                 */
-                if ($negHit) {
-                    unset($clean[$module->id]);
-                }
-                continue;
-            }
-            $dups[$module->id] = true;
-            // Only accept modules without explicit exclusions.
-            if (! $negHit) {
-                //determine if this is a custom module
-                $file                = $module->module;
-                $custom              = substr($file, 0, 4) == 'mod_' ?  0 : 1;
-                $module->user        = $custom;
-                // Custom module name is given by the title field, otherwise strip off "com_"
-                $module->name        = $custom ? $module->title : substr($file, 4);
-                $module->style       = null;
-                $module->position    = strtolower($module->position);
-                $clean[$module->id]  = $module;
-            }
-        }
-        // Return to simple indexing that matches the query order.
-        $clean = array_values($clean);
+				 * but remove any item from the cleaned array.
+				 */
+				if ($negHit) {
+					unset($clean[$module->id]);
+				}
+				continue;
+			}
+			$dups[$module->id] = true;
+			// Only accept modules without explicit exclusions.
+			if (! $negHit) {
+				//determine if this is a custom module
+				$file				= $module->module;
+				$custom				= substr($file, 0, 4) == 'mod_' ?  0 : 1;
+				$module->user		= $custom;
+				// Custom module name is given by the title field, otherwise strip off "com_"
+				$module->name		= $custom ? $module->title : substr($file, 4);
+				$module->style		= null;
+				$module->position	= strtolower($module->position);
+				$clean[$module->id]	= $module;
+			}
+		}
+		// Return to simple indexing that matches the query order.
+		$clean = array_values($clean);
 
-        return $clean;
+		return $clean;
 	}
-
 }
-

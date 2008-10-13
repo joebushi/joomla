@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile version="1.5" client="installation">
-    <name>Belarusian (BY)</name>
-    <version>1.5.4</version>
-    <creationDate>March 2008</creationDate>
-    <author>Dennis Hermacki</author>
-    <authorEmail>dennis@belitsoft.com</authorEmail>
-    <authorUrl>belitsoft.com</authorUrl>
-    <copyright>Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.</copyright>
-    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-    <description>Беларускі моўны файл для web інсталятара Joomla</description>
+	<name>Belarusian (BY)</name>
+	<version>1.5.4</version>
+	<creationDate>March 2008</creationDate>
+	<author>Dennis Hermacki</author>
+	<authorEmail>dennis@belitsoft.com</authorEmail>
+	<authorUrl>belitsoft.com</authorUrl>
+	<copyright>Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>Беларускі моўны файл для web інсталятара Joomla</description>
 		<metadata>
 			<name>Беларуская</name>
 			<tag>be-BY</tag>
@@ -17,5 +17,5 @@
 			<winCodePage>windows-1251</winCodePage>
 			<backwardLang>belarusian</backwardLang>
 		</metadata>
-    <params />
+	<params />
 </metafile>

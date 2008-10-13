@@ -41,13 +41,13 @@ class BannerControllerClient extends JController
 
 		switch($this->getTask())
 		{
-			case 'add'     :
+			case 'add':
 			{
 				JRequest::setVar( 'hidemainmenu', 1 );
 				JRequest::setVar( 'view'  , 'bannerclient');
 				JRequest::setVar( 'edit', false );
 			} break;
-			case 'edit'    :
+			case 'edit':
 			{
 				JRequest::setVar( 'hidemainmenu', 1 );
 				JRequest::setVar( 'view'  , 'bannerclient');

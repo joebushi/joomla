@@ -39,7 +39,7 @@ class NewsfeedsController extends JController
 	{
 		switch($this->getTask())
 		{
-			case 'add'     :
+			case 'add':
 			{
 				JRequest::setVar( 'hidemainmenu', 1 );
 				JRequest::setVar( 'view'  , 'newsfeed');
@@ -49,7 +49,7 @@ class NewsfeedsController extends JController
 				$model = $this->getModel('newsfeed');
 				$model->checkout();
 			} break;
-			case 'edit'    :
+			case 'edit':
 			{
 				JRequest::setVar( 'hidemainmenu', 1 );
 				JRequest::setVar( 'view'  , 'newsfeed');

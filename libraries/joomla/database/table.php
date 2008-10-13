@@ -693,7 +693,7 @@ abstract class JTable extends JObject
 	 * @static
 	 * @access public
 	 * @param integer  $with  	The userid to preform the match with, if an item is checked out
-	 * 				  			by this user the function will return false
+	 * 							by this user the function will return false
 	 * @param integer  $against 	The userid to perform the match against when the function is used as
 	 * 							a static function.
 	 * @return boolean

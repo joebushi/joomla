@@ -74,7 +74,7 @@ class JException extends JObject
 	var	$class		= null;
 
 	/**
-     * Error type
+	 * Error type
 	 * @var string
 	 */
 	var	$type		= null;
@@ -102,8 +102,8 @@ class JException extends JObject
 	 * @param	string	$info		Optional: The additional error information.
 	 * @param	boolean	$backtrace	True if backtrace information is to be collected
 	 */
-    function __construct( $msg, $code = 0, $level = null, $info = null, $backtrace = false )
-    {
+	function __construct( $msg, $code = 0, $level = null, $info = null, $backtrace = false )
+	{
 		$this->level	=	$level;
 		$this->code		=	$code;
 		$this->message	=	$msg;
@@ -142,7 +142,7 @@ class JException extends JObject
 				break;
 			}
 		}
-    }
+	}
 
 	/**
 	 * Method to get the exception message

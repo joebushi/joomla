@@ -76,15 +76,15 @@
 	function JMigration() {
 
 		var frm = this.document.filename;
-		
+
 		if (frm.sqlFile.value == '' && !frm.sqlUploaded.checked) {
 			alert( '<?php echo JText::_('No file selected', true) ?>' );
 			return;
 		}
-		
+
 		frm.migrationupload.value = '1';
 		frm.dataLoaded.value = '1';
-		
+
 		this.document.filename.dataLoaded.value = '1';
 		xajax_instDefault(xajax.getFormValues('filename'));
 	}

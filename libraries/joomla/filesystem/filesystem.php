@@ -113,7 +113,7 @@ abstract class JFileSystem
 				$arr[] = $type;
 			}
 		}
-		return $arr;	
+		return $arr;
 	}
 
 	/*Get JParameter object for given filesystem

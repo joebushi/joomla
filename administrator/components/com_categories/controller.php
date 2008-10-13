@@ -44,7 +44,7 @@ class CategoriesController extends JController
 	{
 		switch($this->getTask())
 		{
-			case 'add'     :
+			case 'add':
 			{
 				JRequest::setVar( 'hidemainmenu', 1 );
 				JRequest::setVar( 'view'  , 'category');
@@ -54,7 +54,7 @@ class CategoriesController extends JController
 				$model = $this->getModel('category');
 				$model->checkout();
 			} break;
-			case 'edit'    :
+			case 'edit':
 			{
 				JRequest::setVar( 'hidemainmenu', 1 );
 				JRequest::setVar( 'view'  , 'category');
@@ -64,8 +64,8 @@ class CategoriesController extends JController
 				$model = $this->getModel('category');
 				$model->checkout();
 			} break;
-			case 'copyselect'    :
-			case 'moveselect'    :
+			case 'copyselect':
+			case 'moveselect':
 			{
 				JRequest::setVar( 'hidemainmenu', 1 );
 				JRequest::setVar( 'view'  , 'copyselect');
@@ -262,9 +262,9 @@ class CategoriesController extends JController
 		JArrayHelper::toInteger($cid, array(0));
 
 		$sectionNew =& JTable::getInstance('section');
-	    $sectionNew->load( $sectionMove );
+		$sectionNew->load( $sectionMove );
 
-	    //Remove the categories was in destination section
+		//Remove the categories was in destination section
 		$cids = implode( ',', $cid );
 
 		$query = 'SELECT id, title'
@@ -280,33 +280,33 @@ class CategoriesController extends JController
 		$cid = array_diff($cid, $scid);
 
 		if ( !empty($cid) ) {
-		    $cids = implode( ',', $cid );
-		    $total = count( $cid );
+			$cids = implode( ',', $cid );
+			$total = count( $cid );
 
-		    $query = 'UPDATE #__categories'
-		    . ' SET section = '.$db->Quote($sectionMove)
-		    . ' WHERE id IN ( '.$cids.' )'
-		    ;
-		    $db->setQuery( $query );
-	    	if ( !$db->query() ) {
-		    	JError::raiseError(500, $db->getErrorMsg() );
-		    }
-		    $query = 'UPDATE #__content'
-		    . ' SET sectionid = '.$db->Quote($sectionMove)
-		    . ' WHERE catid IN ( '.$cids.' )'
-		    ;
-		    $db->setQuery( $query );
-		    if ( !$db->query() ) {
-		    	JError::raiseError(500, $db->getErrorMsg());
-		    }
+			$query = 'UPDATE #__categories'
+			. ' SET section = '.$db->Quote($sectionMove)
+			. ' WHERE id IN ( '.$cids.' )'
+			;
+			$db->setQuery( $query );
+			if ( !$db->query() ) {
+				JError::raiseError(500, $db->getErrorMsg() );
+			}
+			$query = 'UPDATE #__content'
+			. ' SET sectionid = '.$db->Quote($sectionMove)
+			. ' WHERE catid IN ( '.$cids.' )'
+			;
+			$db->setQuery( $query );
+			if ( !$db->query() ) {
+				JError::raiseError(500, $db->getErrorMsg());
+			}
 
 			$msg = JText::sprintf( 'Categories moved to', $sectionNew->title );
 		}
 		if ( !empty($title) && is_array($title) ) {
-		    if ( count($title) == 1 ) {
-			    $msg = JText::sprintf( 'Category already in', implode( ',', $title ), $sectionNew->title );
-		    } else {
-			    $msg = JText::sprintf( 'Categories already in', implode( ',', $title ), $sectionNew->title );
+			if ( count($title) == 1 ) {
+				$msg = JText::sprintf( 'Category already in', implode( ',', $title ), $sectionNew->title );
+			} else {
+				$msg = JText::sprintf( 'Categories already in', implode( ',', $title ), $sectionNew->title );
 			}
 		}
 

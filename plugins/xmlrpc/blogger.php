@@ -501,7 +501,7 @@ class plgXMLRPCBloggerHelper
 		$user->set('aid', 1);
 
 		// Fudge Authors, Editors, Publishers and Super Administrators into the special access group
-		if ($acl->is_group_child_of($grp->name, 'Registered')      ||
+		if ($acl->is_group_child_of($grp->name, 'Registered') ||
 			$acl->is_group_child_of($grp->name, 'Public Backend')) {
  			$user->set('aid', 2);
  		}

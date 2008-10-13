@@ -32,7 +32,7 @@
 	 			<option value="0">NO</option>
 	 			<option value="1">YES</option>
 	 		</param>
-		</params>		
+		</params>
 		<advanced>
 			<param name="orderby" type="list" default="order" label="CONTACTS_ORDER" description="CONTACTS_ORDER_DESCRIPTION">
 				<option value="alpha">Title Alphabetical</option>

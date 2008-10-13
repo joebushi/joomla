@@ -301,10 +301,10 @@ class JArchiveZip extends JObject
 
 			$entries[$name]['type'] = ($info['Internal'] & 0x01) ? 'text' : 'binary';
 			$entries[$name]['attr'] = (($info['External'] & 0x10) ? 'D' : '-') .
-									  (($info['External'] & 0x20) ? 'A' : '-') .
-									  (($info['External'] & 0x03) ? 'S' : '-') .
-									  (($info['External'] & 0x02) ? 'H' : '-') .
-									  (($info['External'] & 0x01) ? 'R' : '-');
+										(($info['External'] & 0x20) ? 'A' : '-') .
+										(($info['External'] & 0x03) ? 'S' : '-') .
+										(($info['External'] & 0x02) ? 'H' : '-') .
+										(($info['External'] & 0x01) ? 'R' : '-');
 		} while (($fhStart = strpos($data, $this->_ctrlDirHeader, $fhStart +46)) !== false);
 
 		// Get details from local file header.
@@ -453,10 +453,8 @@ class JArchiveZip extends JObject
 		$cdrec .= pack('v', 0); /* File comment length. */
 		$cdrec .= pack('v', 0); /* Disk number start. */
 		$cdrec .= pack('v', 0); /* Internal file attributes. */
-		$cdrec .= pack('V', 32); /* External file attributes -
-		                                   'archive' bit set. */
-		$cdrec .= pack('V', $old_offset); /* Relative offset of local
-		                                            header. */
+		$cdrec .= pack('V', 32); /* External file attributes - 'archive' bit set. */
+		$cdrec .= pack('V', $old_offset); /* Relative offset of local header. */
 		$cdrec .= $name; /* File name. */
 		/* Optional extra field, file comment goes here. */
 

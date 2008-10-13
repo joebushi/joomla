@@ -145,14 +145,13 @@
 		<legend><?php echo JText::_( 'INFORMATION' ); ?></legend>
 
 		<table class="admintable">
-			<?php for($i=0; $i<count($this->fields); $i++)
-				  	{
-					  	$field = &$this->fields[$i];
-					  	if($field->params->get('required')){
+			<?php for($i=0; $i<count($this->fields); $i++) {
+					$field = &$this->fields[$i];
+					if($field->params->get('required')){
 							$star = '* ';
-						}else{
-							$star ='';
-						}
+					} else{
+						$star ='';
+					}
 			?>
 			<tr>
 				<td valign="top" align="right" class="key">
@@ -202,9 +201,8 @@
 				<tr>
 					<td class="paramlist_key" width="40%">
 						<span class="editlinktip">
-							<label id="paramsshow_contact-lbl" for="paramsshow_contact"
-									  class="hasTip" title="<?php echo JText::_($this->field->title).'::'.JText::sprintf('CONTACT_PARAMETERS_DESCRIPTION', strtolower(JText::_($this->field->title)));?>">
-									  <?php echo JText::_($this->field->title); ?>
+							<label id="paramsshow_contact-lbl" for="paramsshow_contact" class="hasTip" title="<?php echo JText::_($this->field->title).'::'.JText::sprintf('CONTACT_PARAMETERS_DESCRIPTION', strtolower(JText::_($this->field->title)));?>">
+								<?php echo JText::_($this->field->title); ?>
 							</label>
 						</span>
 					</td>
@@ -228,9 +226,8 @@
 				<tr>
 					<td class="paramlist_key" width="40%">
 						<span class="editlinktip">
-							<label id="paramsshow_directory-lbl" for="paramsshow_directory"
-									  class="hasTip" title="<?php echo JText::_($this->field->title).'::'.JText::sprintf('DIRECTORY_PARAMETERS_DESCRIPTION', strtolower(JText::_($this->field->title)));?>">
-									  <?php echo JText::_($this->field->title); ?>
+							<label id="paramsshow_directory-lbl" for="paramsshow_directory" class="hasTip" title="<?php echo JText::_($this->field->title).'::'.JText::sprintf('DIRECTORY_PARAMETERS_DESCRIPTION', strtolower(JText::_($this->field->title)));?>">
+								<?php echo JText::_($this->field->title); ?>
 							</label>
 						</span>
 					</td>

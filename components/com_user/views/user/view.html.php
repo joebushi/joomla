@@ -74,8 +74,8 @@ class UserViewUser extends JView
 	{
 		global $mainframe;
 
-		$user     =& JFactory::getUser();
-		$params = &$mainframe->getParams();
+		$user	=& JFactory::getUser();
+		$params	= &$mainframe->getParams();
 
 		// check to see if Frontend User Params have been enabled
 		$usersConfig = &JComponentHelper::getParams( 'com_users' );

@@ -75,7 +75,7 @@ class JMenu extends JObject
 	 *
 	 * @access	public
 	 * @param   string  $client  The name of the client
-	 * @param array     $options An associative array of options
+	 * @param array	 $options An associative array of options
 	 * @return JMenu 	A menu object.
 	 * @since	1.5
 	 */

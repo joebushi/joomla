@@ -27,12 +27,12 @@ class ContactViewCategory extends JView
 	{
 		global $mainframe, $option;
 
-		$user	  = &JFactory::getUser();
-		$uri 	  =& JFactory::getURI();
-		$model	  = &$this->getModel();
-		$document =& JFactory::getDocument();
+		$user		= &JFactory::getUser();
+		$uri		= &JFactory::getURI();
+		$model		= &$this->getModel();
+		$document	= &JFactory::getDocument();
 
-		$pparams = &$mainframe->getParams('com_contact');
+		$pparams	= &$mainframe->getParams('com_contact');
 
 		// Selected Request vars
 		$categoryId			= JRequest::getVar('catid',				0,				'', 'int');

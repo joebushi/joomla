@@ -110,7 +110,7 @@ class plgUserExample extends JPlugin
 	 *
 	 * @access	public
 	 * @param 	array 	holds the user data
-	 * @param 	array    extra options
+	 * @param 	array	extra options
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */

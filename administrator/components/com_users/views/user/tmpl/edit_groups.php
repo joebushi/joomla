@@ -1,8 +1,8 @@
 <?php /** $Id$ */ defined('_JEXEC') or die('Restricted access'); ?>
 <?php
 	// Find the correct parent group for the filter list
-    $acl = &JFactory::getACL();
-    $parentId = $acl->get_group_id( 'USERS' );
+	$acl = &JFactory::getACL();
+	$parentId = $acl->get_group_id( 'USERS' );
 ?>
 <fieldset class="adminform">
 	<legend><?php echo JText::_( 'Groups' ); ?></legend>

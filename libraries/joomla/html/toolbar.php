@@ -116,7 +116,7 @@ class JToolBar extends JObject
 		array_push($this->_bar, $btn);
 		return true;
 	}
-	
+
 	/**
 	 * Get the list of toolbar links
 	 *
@@ -128,7 +128,7 @@ class JToolBar extends JObject
 	{
 		return $this->_bar;
 	}
-	
+
 	/**
 	 * Get the name of the toolbar
 	 *

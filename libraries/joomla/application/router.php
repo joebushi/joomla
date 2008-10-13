@@ -192,7 +192,7 @@ abstract class JRouter extends JObject
 	 * Set a router variable, creating it if it doesn't exist
 	 *
 	 * @access	public
-	 * @param	string  $key    The name of the variable
+	 * @param	string  $key	The name of the variable
 	 * @param	mixed   $value  The value of the variable
 	 * @param	boolean $create If True, the variable will be created if it doesn't exist yet
  	 */
@@ -357,7 +357,7 @@ abstract class JRouter extends JObject
 			$vars = array();
 			if(strpos($url, '&amp;') !== false)
 			{
-			   $url = str_replace('&amp;','&',$url);
+				$url = str_replace('&amp;','&',$url);
 			}
 
 			parse_str($url, $vars);

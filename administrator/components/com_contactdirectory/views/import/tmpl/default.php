@@ -24,8 +24,8 @@ JToolBarHelper::cancel();
 	<label for="import_string"><?php echo JText::_('CONTACTS_IMPORT_FROM_STRING'); ?></label><br />
 	<textarea name="importString" rows="15" cols="100" id="import_string"></textarea>
 
-	<input type="hidden" name="controller" value="contact" /> 
-	<input type="hidden" name="option" value="com_contactdirectory" /> 
-	<input type="hidden" name="task" value="" /> 
+	<input type="hidden" name="controller" value="contact" />
+	<input type="hidden" name="option" value="com_contactdirectory" />
+	<input type="hidden" name="task" value="" />
 	<?php echo JHTML::_( 'form.token' ); ?>
 </form>

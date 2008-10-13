@@ -340,7 +340,7 @@ class SectionsModelSection extends JModel
 			$section = new stdClass();
 			$section->id				= 0;
 			$section->name				= null;
-			$section->alias             = null;
+			$section->alias				= null;
 			$section->title				= null;
 			$section->image				= null;
 			$section->image_position	= null;
@@ -357,7 +357,7 @@ class SectionsModelSection extends JModel
 			$section->categories		= 0;
 			$section->active			= 0;
 			$section->trash				= 0;
-			$this->_data					= $section;
+			$this->_data				= $section;
 			return (boolean) $this->_data;
 		}
 		return true;

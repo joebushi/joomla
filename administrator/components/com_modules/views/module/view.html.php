@@ -141,43 +141,43 @@ class ModulesViewModule extends JView
 		}
 
 		if ($row->access == 99 || $row->client_id == 1 || $lists['client_id']) {
-			$lists['access']            = 'Administrator';
-			$lists['showtitle']         = 'N/A <input type="hidden" name="showtitle" value="1" />';
-			$lists['selections']        = 'N/A';
+			$lists['access']			= 'Administrator';
+			$lists['showtitle']		 	= 'N/A <input type="hidden" name="showtitle" value="1" />';
+			$lists['selections']		= 'N/A';
 		} else {
 			if ($client->id == '1') {
-				$lists['access']        = 'N/A';
-				$lists['selections']    = 'N/A';
+				$lists['access']		= 'N/A';
+				$lists['selections']	= 'N/A';
 			} else {
-				$lists['access']        = JHTML::_('list.accesslevel', $row);
+				$lists['access']		= JHTML::_('list.accesslevel', $row);
 
-				$selections             = JHTML::_('menu.linkoptions');
-				$lists['selections']    = JHTML::_(
-                    'select.genericlist',
-                    $selections,
-                    'selections[]',
-                    'class="inputbox" size="15" multiple="multiple"',
-                    'value',
-                    'text',
-                    $lookup,
-                    'selections'
-                );
+				$selections			 = JHTML::_('menu.linkoptions');
+				$lists['selections']	= JHTML::_(
+					'select.genericlist',
+					$selections,
+					'selections[]',
+					'class="inputbox" size="15" multiple="multiple"',
+					'value',
+					'text',
+					$lookup,
+					'selections'
+				);
 			}
 			$lists['showtitle'] = JHTML::_(
-                'select.booleanlist', 
-                'showtitle',
-                'class="inputbox"',
-                $row->showtitle 
-            );
+				'select.booleanlist',
+				'showtitle',
+				'class="inputbox"',
+				$row->showtitle
+			);
 		}
 
 		// build the html select list for published
 		$lists['published'] = JHTML::_(
-            'select.booleanlist', 
-            'published',
-            'class="inputbox"',
-            $row->published 
-        );
+			'select.booleanlist',
+			'published',
+			'class="inputbox"',
+			$row->published
+		);
 
 		$row->description = '';
 

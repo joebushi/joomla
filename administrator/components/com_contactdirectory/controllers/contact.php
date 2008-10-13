@@ -14,15 +14,15 @@ class ContactdirectoryControllerContact extends JController
 	/**
 	 * Display the list of contacts
 	 */
-    function display()
-    {
-    	JRequest::setVar('view', 'contacts');
-        parent::display();
-    }
+	function display()
+	{
+		JRequest::setVar('view', 'contacts');
+		parent::display();
+	}
 
-    function add()
-    {
-    	JRequest::setVar( 'hidemainmenu', 1 );
+	function add()
+	{
+		JRequest::setVar( 'hidemainmenu', 1 );
 		JRequest::setVar( 'view'  , 'contact');
 		JRequest::setVar( 'edit', false );
 
@@ -31,11 +31,11 @@ class ContactdirectoryControllerContact extends JController
 		$model->checkout();
 
 		parent::display();
-    }
+	}
 
-    function edit()
-    {
-    	JRequest::setVar( 'hidemainmenu', 1 );
+	function edit()
+	{
+		JRequest::setVar( 'hidemainmenu', 1 );
 		JRequest::setVar( 'view'  , 'contact');
 		JRequest::setVar( 'edit', true );
 
@@ -44,18 +44,18 @@ class ContactdirectoryControllerContact extends JController
 		$model->checkout();
 
 		parent::display();
-    }
+	}
 
-    function importView()
-    {
-    	JRequest::setVar( 'hidemainmenu', 1 );
+	function importView()
+	{
+		JRequest::setVar( 'hidemainmenu', 1 );
 		JRequest::setVar( 'view'  , 'import');
 
 		parent::display();
-    }
+	}
 
-    function apply()
-    {
+	function apply()
+	{
 		// Check for request forgeries
 		JRequest::checkToken() or jexit( 'Invalid Token' );
 
@@ -75,7 +75,7 @@ class ContactdirectoryControllerContact extends JController
 		$model->checkin();
 		$link = 'index.php?option=com_contactdirectory&controller=contact&task=edit&cid[]='. $id;
 		$this->setRedirect($link, $msg);
-    }
+	}
 
 	function save()
 	{

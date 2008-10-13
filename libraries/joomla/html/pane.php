@@ -225,7 +225,7 @@ class JPaneSliders extends JPane
 		return '<div id="'.$id.'" class="pane-sliders">';
 	}
 
-    /**
+	/**
 	 * Ends the pane
 	 */
 	public function endPane() {

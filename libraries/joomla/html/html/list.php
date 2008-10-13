@@ -61,7 +61,7 @@ abstract class JHTMLList
 		$imageFiles = JFolder::files( JPATH_SITE.DS.$directory );
 		$images 	= array(  JHTML::_('select.option',  '', '- '. JText::_( 'Select Image' ) .' -' ) );
 		foreach ( $imageFiles as $file ) {
-		   if ( eregi( $extensions, $file ) ) {
+			if ( eregi( $extensions, $file ) ) {
 				$images[] = JHTML::_('select.option',  $file );
 			}
 		}

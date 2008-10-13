@@ -57,7 +57,7 @@ abstract class JPathway extends JObject
 	 *
 	 * @access	public
 	 * @param   string  $client  The name of the client
-	 * @param array     $options An associative array of options
+	 * @param array	 $options An associative array of options
 	 * @return JPathway 	A pathway object.
 	 * @since	1.5
 	 */

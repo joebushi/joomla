@@ -40,7 +40,7 @@ class ContactdirectoryModelCategory extends JModel
 		parent::__construct();
 		global $mainframe;
 		$config = JFactory::getConfig();
-		
+
 		// Get the pagination request variables
 		$this->setState('limit', $mainframe->getUserStateFromRequest('com_contactdirectory.limit', 'limit', $config->getValue('config.list_limit'), 'int'));
 		$this->setState('limitstart', JRequest::getVar('limitstart', 0, '', 'int'));
@@ -82,7 +82,7 @@ class ContactdirectoryModelCategory extends JModel
 		}
 		return $this->_data;
 	}
-	
+
 	function getFields()
 	{
 		if(!$this->_fields){
@@ -95,7 +95,7 @@ class ContactdirectoryModelCategory extends JModel
 						." WHERE f.published = 1 AND d.contact_id = $id"
 						." ORDER BY f.pos, f.ordering ";
 				$this->_db->setQuery($query);
-				$this->_fields[] = $this->_db->loadObjectList();	
+				$this->_fields[] = $this->_db->loadObjectList();
 			}
 		}
 		return $this->_fields;
@@ -118,7 +118,7 @@ class ContactdirectoryModelCategory extends JModel
 
 		return $this->_total;
 	}
-	
+
 	function getPagination()
 	{
 		// Load the content if it doesn't already exist
@@ -167,7 +167,7 @@ class ContactdirectoryModelCategory extends JModel
 		if (empty($this->_category))
 		{
 			// Lets get the information for the current category
-			$query =  'SELECT *, ' 
+			$query =  'SELECT *, '
 							.' CASE WHEN CHAR_LENGTH(alias) '
 							.' THEN CONCAT_WS(\':\', id, alias) ELSE id END AS slug '
 							.' FROM #__categories WHERE id = '. (int) $this->_id;
@@ -200,8 +200,8 @@ class ContactdirectoryModelCategory extends JModel
 				foreach($rows as $row){
 					$row->slug = $row->id.':'.$row->alias;
 				}
-			}		
-						
+			}
+
 			$this->_data = $rows;
 		}
 		return true;
@@ -256,7 +256,7 @@ class ContactdirectoryModelCategory extends JModel
 
 		return $orderby;
 	}
-	
+
 	function _buildContentWhere()
 	{
 		global $mainframe, $option;
@@ -264,7 +264,7 @@ class ContactdirectoryModelCategory extends JModel
 		$user		=& JFactory::getUser();
 		$gid		= $user->get('aid', 0);
 		$db					=& JFactory::getDBO();
-		
+
 		$alphabet	= $mainframe->getUserStateFromRequest( $option.'alphabet', 	'alphabet',	'',	'string' );
 		$search		= $mainframe->getUserStateFromRequest( $option.'search',		'search',	'',	'string' );
 		$search		= JString::strtolower( $search );
@@ -272,7 +272,7 @@ class ContactdirectoryModelCategory extends JModel
 		// Get the page/component configuration
 		$params = &$mainframe->getParams();
 
-        $where = ' WHERE 1';
+		$where = ' WHERE 1';
 
 		// Does the user have access to view the items?
 		$where .= ' AND c.access <= '.(int) $gid;

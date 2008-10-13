@@ -247,7 +247,7 @@ class BannerModelBannerClient extends JModel
 			$bannerclient = new stdClass();
 			$bannerclient->id					= 0;
 			$bannerclient->name					= null;
-			$bannerclient->contact              = null;
+			$bannerclient->contact				= null;
 			$bannerclient->email				= null;
 			$bannerclient->extrainfo			= null;
 			$bannerclient->checked_out			= 0;

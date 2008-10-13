@@ -173,13 +173,13 @@ js-calendar
 -----------
 Author:		Mihai Bazon
 Copyright:	Copyright (C) Mihai Bazon, 2002
-License:    GNU Lesser General Public License (LGPL)
+License:	GNU Lesser General Public License (LGPL)
 
 js-jscook-menu
 --------------
 Author:		Heng Yuan
 Copyright:	Copyright (C) 2002-2005 by Heng Yuan
-License:    MIT License
+License:	MIT License
 
 js-overlib
 ----------
@@ -233,13 +233,13 @@ PHPInputfilter
 --------------
 Author:		Daniel Morris
 Copyright:	Copyright (C) Daniel Morris
-License:    GNU General Public License (GPL)
+License:	GNU General Public License (GPL)
 
 PHPMailer
 --------
 Author:		Brent R. Matzelle
 Copyright:	Copyright (C) 2001 - 2003 Brent R. Matzelle
-License:    GNU General Public License (GPL)
+License:	GNU General Public License (GPL)
 
 PHPXMLRPC
 ---------
@@ -345,13 +345,13 @@ js-calendar
 -----------
 Author:		Mihai Bazon
 Copyright:	Copyright (C) Mihai Bazon, 2002
-License:    GNU Lesser General Public License (LGPL)
+License:	GNU Lesser General Public License (LGPL)
 
 js-jscook-menu
 --------------
 Author:		Heng Yuan
 Copyright:	Copyright (C) 2002-2005 by Heng Yuan
-License:    MIT License
+License:	MIT License
 
 js-overlib
 ----------
@@ -399,13 +399,13 @@ PHPInputfilter
 --------------
 Author:		Daniel Morris
 Copyright:	Copyright (C) Daniel Morris
-License:    GNU General Public License (GPL)
+License:	GNU General Public License (GPL)
 
 PHPMailer
 ---------
 Author:		Brent R. Matzelle
 Copyright:	Copyright (C) 2001 - 2003 Brent R. Matzelle
-License:    GNU General Public License (GPL)
+License:	GNU General Public License (GPL)
 
 TinyMCE
 -------

@@ -268,7 +268,7 @@ class ContentModelCategory extends JModel
 
 			// Get the parameters of the active menu item
 			$menu	=& JSite::getMenu();
-			$item    = $menu->getActive();
+			$item	= $menu->getActive();
 			$params	=& $menu->getParams($item->id);
 
 			if ($user->authorize('com_content', 'edit', 'content', 'all'))
@@ -424,14 +424,14 @@ class ContentModelCategory extends JModel
 		$gid		= $user->get('aid', 0);
 
 		$jnow		=& JFactory::getDate();
-		$now			= $jnow->toMySQL();
+		$now		= $jnow->toMySQL();
 
 		// Get the page/component configuration
-		$params = &$mainframe->getParams();
+		$params		= &$mainframe->getParams();
 		$noauth		= !$params->get('show_noauth');
 		$nullDate	= $this->_db->getNullDate();
 
-        $where = ' WHERE 1';
+		$where = ' WHERE 1';
 
 		// Does the user have access to view the items?
 		if ($noauth) {

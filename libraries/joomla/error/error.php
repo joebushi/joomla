@@ -41,8 +41,8 @@ define( 'JERROR_ILLEGAL_MODE', 3 );
 abstract class JError
 {
 	protected static $levels = array(
-		E_NOTICE => 'Notice', 
-		E_WARNING => 'Warning', 
+		E_NOTICE => 'Notice',
+		E_WARNING => 'Warning',
 		E_ERROR => 'Error'
 	);
 	protected static $handlers = array(
@@ -533,7 +533,7 @@ abstract class JError
 	{
 		// Initialize variables
 		jimport('joomla.document.document');
-		$app        = & JFactory::getApplication();
+		$app		= & JFactory::getApplication();
 		$document	= & JDocument::getInstance('error');
 		$config		= & JFactory::getConfig();
 

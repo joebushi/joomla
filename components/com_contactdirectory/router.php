@@ -16,12 +16,12 @@ function ContactdirectoryBuildRoute(&$query)
 	static $items;
 	$segments = array();
 	$itemid	= null;
-	
+
 	// Break up the contact id into numeric and alias values.
 	if (isset($query['id']) && strpos($query['id'], ':')) {
 		list($query['id'], $query['alias']) = explode(':', $query['id'], 2);
 	}
-	
+
 	// Break up the category id into numeric and alias values.
 	if (isset($query['catid']) && strpos($query['catid'], ':')) {
 		list($query['catid'], $query['catalias']) = explode(':', $query['catid'], 2);
@@ -62,7 +62,7 @@ function ContactdirectoryBuildRoute(&$query)
 				}
 			}
 		}
-		
+
 		// If no specific link has been found, search for a general one.
 		if (!$itemid)
 		{
@@ -91,14 +91,14 @@ function ContactdirectoryBuildRoute(&$query)
 				}
 			}
 		}
-		
+
 		// Search for an even more general link.
 		if (!$itemid)
 		{
 			foreach ($items as $item)
 			{
-				if (isset($query['view']) && $query['view'] == 'contact' 
-					&& isset($item->query['view']) && $item->query['view'] == 'categories' 
+				if (isset($query['view']) && $query['view'] == 'contact'
+					&& isset($item->query['view']) && $item->query['view'] == 'categories'
 					&& isset($query['catid']) && isset($query['id']))
 				{
 					// This menu item links to the categories view but we need to append the category and contact id to it.
@@ -107,8 +107,8 @@ function ContactdirectoryBuildRoute(&$query)
 					$segments[]	= isset($query['alias']) ? $query['id'].':'.$query['alias'] : $query['id'];
 					break;
 				}
-				elseif (isset($query['view']) && $query['view'] == 'category' 
-					&& isset($item->query['view']) && $item->query['view'] == 'categories' 
+				elseif (isset($query['view']) && $query['view'] == 'category'
+					&& isset($item->query['view']) && $item->query['view'] == 'categories'
 					&& isset($query['catid']))
 				{
 					// This menu item links to the categories view but we need to append the category id to it.
@@ -132,7 +132,7 @@ function ContactdirectoryBuildRoute(&$query)
 
 			// Push the catid onto the stack.
 			$segments[] = $query['catid'];
-			
+
 			unset($query['view']);
 			unset($query['catid']);
 			unset($query['catalias']);
@@ -146,7 +146,7 @@ function ContactdirectoryBuildRoute(&$query)
 
 			// Push the catid onto the stack.
 			$segments[] = $query['catid'];
-			
+
 			if (isset($query['alias'])) {
 				$query['id'] .= ':'.$query['alias'];
 			}
@@ -192,7 +192,7 @@ function ContactdirectoryBuildRoute(&$query)
 function ContactdirectoryParseRoute($segments)
 {
 	$vars	= array();
-	
+
 	// Get the active menu item.
 	$menu	= &JSite::getMenu();
 	$item	= &$menu->getActive();
@@ -207,7 +207,7 @@ function ContactdirectoryParseRoute($segments)
 			if (isset($segments[0]) && strpos($segments[0], ':')) {
 				list($id, $alias) = explode(':', $segments[0], 2);
 			}
-			
+
 			// Contact view.
 			$vars['view']	= 'contact';
 			$vars['id']		= $id;
@@ -223,7 +223,7 @@ function ContactdirectoryParseRoute($segments)
 			if (isset($segments[1]) && strpos($segments[1], ':')) {
 				list($id, $alias) = explode(':', $segments[1], 2);
 			}
-			
+
 			// Contact view.
 			$vars['view']	= 'contact';
 			$vars['id']		= $id;
@@ -235,7 +235,7 @@ function ContactdirectoryParseRoute($segments)
 			if (isset($segments[0]) && strpos($segments[0], ':')) {
 				list($catid, $catalias) = explode(':', $segments[0], 2);
 			}
-			
+
 			// Category view.
 			$vars['view']	= 'category';
 			$vars['catid']	= $catid;
@@ -251,7 +251,7 @@ function ContactdirectoryParseRoute($segments)
 			if (isset($segments[1]) && strpos($segments[1], ':')) {
 				list($id, $alias) = explode(':', $segments[1], 2);
 			}
-			
+
 			// Contact view.
 			$vars['view']	= 'contact';
 			$vars['id']		= $id;
@@ -263,7 +263,7 @@ function ContactdirectoryParseRoute($segments)
 			if (isset($segments[0]) && strpos($segments[0], ':')) {
 				list($catid, $catalias) = explode(':', $segments[0], 2);
 			}
-			
+
 			// Category view.
 			$vars['view']	= 'category';
 			$vars['catid']	= $catid;

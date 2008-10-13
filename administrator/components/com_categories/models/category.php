@@ -343,7 +343,7 @@ class CategoriesModelCategory extends JModel
 			$category->id				= 0;
 			$category->parent_id		= 0;
 			$category->name				= null;
-			$category->alias             = null;
+			$category->alias			= null;
 			$category->title			= null;
 			$category->image			= null;
 			$category->image_position	= null;

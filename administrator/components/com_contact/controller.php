@@ -39,7 +39,7 @@ class ContactsController extends JController
 	{
 		switch($this->getTask())
 		{
-			case 'add'     :
+			case 'add':
 			{
 				JRequest::setVar( 'hidemainmenu', 1 );
 				JRequest::setVar( 'view'  , 'contact');
@@ -49,7 +49,7 @@ class ContactsController extends JController
 				$model = $this->getModel('contact');
 				$model->checkout();
 			} break;
-			case 'edit'    :
+			case 'edit':
 			{
 				JRequest::setVar( 'hidemainmenu', 1 );
 				JRequest::setVar( 'view'  , 'contact');

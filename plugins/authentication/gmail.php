@@ -31,7 +31,7 @@ class plgAuthenticationGMail extends JPlugin
 	 *
 	 * @access	public
 	 * @param   array 	$credentials Array holding the user credentials
-	 * @param 	array   $options     Array of extra options
+	 * @param 	array   $options	 Array of extra options
 	 * @param	object	$response	Authentication response object
 	 * @return	boolean
 	 * @since 1.5
@@ -76,7 +76,7 @@ class plgAuthenticationGMail extends JPlugin
 
 		if ($success)
 		{
-			$response->status 	     = JAUTHENTICATE_STATUS_SUCCESS;
+			$response->status 		 = JAUTHENTICATE_STATUS_SUCCESS;
 			$response->error_message = '';
 			$response->email 	= $credentials['username'];
 			$response->fullname = $credentials['username'];

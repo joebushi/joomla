@@ -524,8 +524,8 @@ abstract class JApplication extends JObject
 	{
 		// Get the global JAuthentication object
 		jimport( 'joomla.user.authentication');
-		$authenticate = & JAuthentication::getInstance();
-		$response	  = $authenticate->authenticate($credentials, $options);
+		$authenticate	= &JAuthentication::getInstance();
+		$response		= $authenticate->authenticate($credentials, $options);
 
 		if ($response->status === JAUTHENTICATE_STATUS_SUCCESS)
 		{

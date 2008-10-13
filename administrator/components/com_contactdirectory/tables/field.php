@@ -100,34 +100,34 @@ class TableField extends JTable
 	 * @return boolean True on success
 	 * @since 1.0
 	 */
-    function store()
-    {
-        if( $this->id ) {
-	        if( !$this->_db->updateObject( '#__contactdirectory_fields', $this, 'id', false ) ) {
-	            $this->setError(get_class( $this ).'::store failed 1 - '.$this->_db->getErrorMsg());
-	            return false;
-	        }
-        } else {
-            $ret = $this->_db->insertObject( '#__contactdirectory_fields', $this, 'id' );
-            $this->id = $this->_db->insertid();
-        	if( !$ret || $this->id == null) {
-	            $this->setError(get_class( $this ).'::store failed 2 - '.$this->_db->getErrorMsg());
-	            return false;
-	        }
+	function store()
+	{
+		if( $this->id ) {
+			if( !$this->_db->updateObject( '#__contactdirectory_fields', $this, 'id', false ) ) {
+				$this->setError(get_class( $this ).'::store failed 1 - '.$this->_db->getErrorMsg());
+				return false;
+			}
+		} else {
+			$ret = $this->_db->insertObject( '#__contactdirectory_fields', $this, 'id' );
+			$this->id = $this->_db->insertid();
+			if( !$ret || $this->id == null) {
+				$this->setError(get_class( $this ).'::store failed 2 - '.$this->_db->getErrorMsg());
+				return false;
+			}
 
-	        $query = "SELECT id FROM #__contactdirectory_contacts";
-	        $this->_db->setQuery($query);
-	        $contacts = $this->_db->loadObjectList();
+			$query = "SELECT id FROM #__contactdirectory_contacts";
+			$this->_db->setQuery($query);
+			$contacts = $this->_db->loadObjectList();
 
-	        foreach ($contacts as $contact){
-	        	$query = "INSERT INTO #__contactdirectory_details VALUES('$contact->id', '$this->id', '', '1', '1')";
-	        	$this->_db->setQuery($query);
-		        if(!$this->_db->query()) {
+			foreach ($contacts as $contact){
+				$query = "INSERT INTO #__contactdirectory_details VALUES('$contact->id', '$this->id', '', '1', '1')";
+				$this->_db->setQuery($query);
+				if(!$this->_db->query()) {
 					$this->setError(get_class( $this ).'::store failed 3 - '.$this->_db->getErrorMsg());
 					return false;
 				}
-	        }
-        }
-        return true;
-    }
+			}
+		}
+		return true;
+	}
 }

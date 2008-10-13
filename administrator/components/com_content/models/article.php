@@ -492,7 +492,7 @@ class ContentModelArticle extends JModel
 					' WHERE c.id = '.(int) $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
-			
+
 			if (!$this->_data) {
 				return false;
 			}

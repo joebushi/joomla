@@ -235,7 +235,7 @@ class gacl_api extends gacl {
 			$this->debug_text("add_consolidated_acl(): Didn't find any current ACLs with a single ACO. ");
 		}
 		//unset($acl_ids);
-    $acl_ids = array();
+	$acl_ids = array();
 		unset($acl_ids_count);
 
 		//At this point there should be no conflicting ACLs, searching for an existing ACL with the new values.
@@ -1040,7 +1040,7 @@ class gacl_api extends gacl {
 			//Update ACL row, and remove all mappings so they can be re-inserted.
 			$query  = '
 				UPDATE	'. $this->_db_table_prefix .'acl
-				SET             ' . $section_sql . '
+				SET			 ' . $section_sql . '
 						allow='. (int) $allow .',
 						enabled='. (int) $enabled .',
 						return_value='. $this->db->quote($return_value) .',
@@ -2983,15 +2983,15 @@ class gacl_api extends gacl {
 		}
 
 		if (strtoupper($option) == 'RECURSE') {
-		    $query = '
+			$query = '
 				SELECT		DISTINCT g.id AS group_id
 				FROM		'. $map_table .' gm
 				LEFT JOIN	'. $group_table .' g1 ON g1.id=gm.group_id
 				LEFT JOIN	'. $group_table .' g ON g.lft<=g1.lft AND g.rgt>=g1.rgt';
 		} else {
-		    $query = '
-		    	SELECT		gm.group_id
-		    	FROM		'. $map_table .' gm';
+			$query = '
+				SELECT		gm.group_id
+				FROM		'. $map_table .' gm';
 		}
 
 		$query .= '
@@ -3179,7 +3179,7 @@ class gacl_api extends gacl {
 			return false;
 		}
 
-    	$this->db->BeginTrans();
+		$this->db->BeginTrans();
 
 		//Get old value incase it changed, before we do the update.
 		$query = 'SELECT value, section_value FROM '. $table .' WHERE id='. $object_id;
@@ -3223,7 +3223,7 @@ class gacl_api extends gacl {
 			$this->debug_text ('edit_object(): Modified Map Value: '. $value .' Section Value: '. $section_value);
 		}
 
-    	$this->db->CommitTrans();
+		$this->db->CommitTrans();
 
 		return TRUE;
 	}
@@ -3728,7 +3728,7 @@ class gacl_api extends gacl {
 				}
 			}
 
-      $this->db->CommitTrans();
+	  $this->db->CommitTrans();
 			return true;
 		}
 	}
@@ -3896,43 +3896,43 @@ class gacl_api extends gacl {
 	 * @return bool Returns TRUE if successful, FALSE otherwise
 	 *
 	 */
-    function clear_database()
-    {
-        $tablesToClear = array(
-            $this->_db_table_prefix.'acl',
-            $this->_db_table_prefix.'aco',
-            $this->_db_table_prefix.'aco_map',
-            $this->_db_table_prefix.'aco_sections',
-            $this->_db_table_prefix.'aro',
-            $this->_db_table_prefix.'aro_groups',
-            $this->_db_table_prefix.'aro_groups_map',
-            $this->_db_table_prefix.'aro_map',
-            $this->_db_table_prefix.'aro_sections',
-            $this->_db_table_prefix.'axo',
-            $this->_db_table_prefix.'axo_groups',
-            $this->_db_table_prefix.'axo_groups_map',
-            $this->_db_table_prefix.'axo_map',
-            $this->_db_table_prefix.'axo_sections',
-            $this->_db_table_prefix.'groups_aro_map',
-            $this->_db_table_prefix.'groups_axo_map'
-            );
+	function clear_database()
+	{
+		$tablesToClear = array(
+			$this->_db_table_prefix.'acl',
+			$this->_db_table_prefix.'aco',
+			$this->_db_table_prefix.'aco_map',
+			$this->_db_table_prefix.'aco_sections',
+			$this->_db_table_prefix.'aro',
+			$this->_db_table_prefix.'aro_groups',
+			$this->_db_table_prefix.'aro_groups_map',
+			$this->_db_table_prefix.'aro_map',
+			$this->_db_table_prefix.'aro_sections',
+			$this->_db_table_prefix.'axo',
+			$this->_db_table_prefix.'axo_groups',
+			$this->_db_table_prefix.'axo_groups_map',
+			$this->_db_table_prefix.'axo_map',
+			$this->_db_table_prefix.'axo_sections',
+			$this->_db_table_prefix.'groups_aro_map',
+			$this->_db_table_prefix.'groups_axo_map'
+			);
 
-        // Get all the table names and loop
-        $tableNames = $this->db->MetaTables('TABLES');
-        $query = array();
-        foreach ($tableNames as $key => $value){
-                if (in_array($value, $tablesToClear) ) {
-                        $query[] = 'TRUNCATE TABLE '.$value.';';
-                }
-        }
+		// Get all the table names and loop
+		$tableNames = $this->db->MetaTables('TABLES');
+		$query = array();
+		foreach ($tableNames as $key => $value){
+				if (in_array($value, $tablesToClear) ) {
+						$query[] = 'TRUNCATE TABLE '.$value.';';
+				}
+		}
 
-        // Loop the queries and return.
-        foreach ($query as $key => $value){
-                $result = $this->db->Execute($value);
-        }
+		// Loop the queries and return.
+		foreach ($query as $key => $value){
+				$result = $this->db->Execute($value);
+		}
 
 		return TRUE;
-    }
+	}
 
 	/**
 	 * Calculates the start number for a sequence table

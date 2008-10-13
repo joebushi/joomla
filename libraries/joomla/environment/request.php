@@ -113,10 +113,10 @@ abstract class JRequest
 			case 'COOKIE' :
 				$input = &$_COOKIE;
 				break;
-			case 'ENV'    :
+			case 'ENV'	:
 				$input = &$_ENV;
 				break;
-			case 'SERVER'    :
+			case 'SERVER'	:
 				$input = &$_SERVER;
 				break;
 			default:
@@ -319,10 +319,10 @@ abstract class JRequest
 			case 'FILES' :
 				$_FILES[$name] = $value;
 				break;
-			case 'ENV'    :
+			case 'ENV'	:
 				$_ENV['name'] = $value;
 				break;
-			case 'SERVER'    :
+			case 'SERVER'	:
 				$_SERVER['name'] = $value;
 				break;
 		}
@@ -368,27 +368,27 @@ abstract class JRequest
 
 		switch ($hash)
 		{
-			case 'GET' :
+			case 'GET':
 				$input = $_GET;
 				break;
 
-			case 'POST' :
+			case 'POST':
 				$input = $_POST;
 				break;
 
-			case 'FILES' :
+			case 'FILES':
 				$input = $_FILES;
 				break;
 
-			case 'COOKIE' :
+			case 'COOKIE':
 				$input = $_COOKIE;
 				break;
 
-			case 'ENV'    :
+			case 'ENV':
 				$input = &$_ENV;
 				break;
 
-			case 'SERVER'    :
+			case 'SERVER':
 				$input = &$_SERVER;
 				break;
 

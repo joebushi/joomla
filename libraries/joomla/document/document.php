@@ -372,7 +372,7 @@ abstract class JDocument extends JObject
 	{
 		$result = '';
 		$name = strtolower($name);
-		if($name == 'generator') { 
+		if($name == 'generator') {
 			$result = $this->getGenerator();
 		} elseif($name == 'description') {
 			$result = $this->getDescription();
@@ -398,7 +398,7 @@ abstract class JDocument extends JObject
 	public function setMetaData($name, $content, $http_equiv = false)
 	{
 		$name = strtolower($name);
-		if($name == 'generator') { 
+		if($name == 'generator') {
 			$this->setGenerator($content);
 		} elseif($name == 'description') {
 			$this->setDescription($content);

@@ -235,7 +235,7 @@ abstract class JModel extends JObject
 
 		JError::raiseError( 0, 'Table ' . $name . ' not supported. File not found.' );
 		$null = null;
-        return $null;
+		return $null;
 	}
 
 	/**

@@ -13,7 +13,7 @@
 		<name>Esperanto</name>
 		<tag>eo-XX</tag>
 		<rtl>0</rtl>
-    <locale>eo_XX.utf8, eo_XX.UTF-8, eo_EO.utf8, eo_EO.UTF-8, eo, esperanto, eo_EO, epo_EO</locale>
+	<locale>eo_XX.utf8, eo_XX.UTF-8, eo_EO.utf8, eo_EO.UTF-8, eo, esperanto, eo_EO, epo_EO</locale>
 		<winCodePage>utf-8</winCodePage>
 		<backwardLang>esperanto</backwardLang>
 	</metadata>

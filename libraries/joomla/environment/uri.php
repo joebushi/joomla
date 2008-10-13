@@ -215,7 +215,7 @@ class JURI extends JObject
 					$base['path'] .= '/administrator';
 				}
 			} else {
-				$uri	         =& JURI::getInstance();
+				$uri			 =& JURI::getInstance();
 				$base['prefix'] = $uri->toString( array('scheme', 'host', 'port'));
 
 				if (strpos(php_sapi_name(), 'cgi') !== false && !empty($_SERVER['REQUEST_URI'])) {
@@ -247,14 +247,14 @@ class JURI extends JObject
 		// Get the scheme
 		if(!isset($root))
 		{
-			$uri	        =& JURI::getInstance(JURI::base());
+			$uri			=& JURI::getInstance(JURI::base());
 			$root['prefix'] = $uri->toString( array('scheme', 'host', 'port') );
 			$root['path']   = rtrim($uri->toString( array('path') ), '/\\');
 		}
 
 		// Get the scheme
 		if(isset($path)) {
-			$root['path']    = $path;
+			$root['path']	= $path;
 		}
 
 		return $pathonly === false ? $root['prefix'].$root['path'].'/' : $root['path'];
@@ -418,7 +418,7 @@ class JURI extends JObject
 		if(!is_array($query)) {
 			if(strpos($query, '&amp;') !== false)
 			{
-			   $query = str_replace('&amp;','&',$query);
+				$query = str_replace('&amp;','&',$query);
 			}
 			parse_str($query, $this->_vars);
 		}
@@ -660,7 +660,7 @@ class JURI extends JObject
 		return $this->getScheme() == 'https' ? true : false;
 	}
 
-	/** 
+	/**
 	 * Checks if the supplied URL is internal
 	 *
 	 * @access	public

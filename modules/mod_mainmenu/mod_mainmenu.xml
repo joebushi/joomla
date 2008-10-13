@@ -45,9 +45,9 @@
 			<option value="0">No</option>
 			<option value="1">Yes</option>
 		</param>
-		 <param name="menu_images_link" type="radio" default="0" label="Menu Icon Link" description="PARAMMENUICONLINK">
-		      	<option value="0">No</option>
-		      	<option value="1">Yes</option>
-		  </param>
+		<param name="menu_images_link" type="radio" default="0" label="Menu Icon Link" description="PARAMMENUICONLINK">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
 	</params>
 </install>

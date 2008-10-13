@@ -36,12 +36,12 @@ abstract class JApplicationHelper
 	function getComponent($default = NULL)
 	{
 		static $option;
-		
+
 		if ( $option )
 		{
 			return $option;
 		}
-		
+
 		$option = strtolower(JRequest::getCmd('option'));
 
 		if(empty($option)) {
@@ -51,7 +51,7 @@ abstract class JApplicationHelper
 		JRequest::setVar('option', $option);
 		return $option;
 	}
-	
+
 	/**
 	 * Gets information on a specific client id.  This method will be useful in
 	 * future versions when we start mapping applications in the database.

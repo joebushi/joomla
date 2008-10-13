@@ -31,7 +31,7 @@ class JAuthorization extends gacl_api
 	 * Access control list
 	 * @var	array
 	 */
-	var $acl       = null;
+	var $acl = null;
 
 	/**
 	 * Internal counter

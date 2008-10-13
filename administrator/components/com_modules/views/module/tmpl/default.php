@@ -175,21 +175,21 @@ foreach ($this->orders2 as $k=>$items) {
 				</td>
 				<td>
 				<?php if ($this->row->client_id != 1) : ?>
-                    <input id="menus-all" type="radio" name="menus" value="all" onclick="allselections();" <?php
-                        echo ($row->pages == 'all') ? 'checked="checked"' : ''; ?> />
-                    <label for="menus-all"><?php echo JText::_('All'); ?></label>
+					<input id="menus-all" type="radio" name="menus" value="all" onclick="allselections();" <?php
+						echo ($row->pages == 'all') ? 'checked="checked"' : ''; ?> />
+					<label for="menus-all"><?php echo JText::_('All'); ?></label>
 
-                    <input id="menus-none" type="radio" name="menus" value="none" onclick="disableselections();" <?php
-                        echo ($row->pages == 'none') ? 'checked="checked"' : ''; ?> />
-                    <label for="menus-none"><?php echo JText::_('None'); ?></label>
-                    <br />
-                    <input id="menus-select" type="radio" name="menus" value="select" onclick="enableselections();" <?php
-                        echo ($row->pages == 'select') ? 'checked="checked"' : ''; ?> />
-                    <label for="menus-select"><?php echo JText::_('Select From List'); ?></label>
-                    <br />
-                    <input id="menus-deselect" type="radio" name="menus" value="deselect" onclick="enableselections();" <?php
-                        echo ($row->pages == 'deselect') ? 'checked="checked"' : ''; ?> />
-                    <label for="menus-deselect"><?php echo JText::_('Deselect From List'); ?></label>
+					<input id="menus-none" type="radio" name="menus" value="none" onclick="disableselections();" <?php
+						echo ($row->pages == 'none') ? 'checked="checked"' : ''; ?> />
+					<label for="menus-none"><?php echo JText::_('None'); ?></label>
+					<br />
+					<input id="menus-select" type="radio" name="menus" value="select" onclick="enableselections();" <?php
+						echo ($row->pages == 'select') ? 'checked="checked"' : ''; ?> />
+					<label for="menus-select"><?php echo JText::_('Select From List'); ?></label>
+					<br />
+					<input id="menus-deselect" type="radio" name="menus" value="deselect" onclick="enableselections();" <?php
+						echo ($row->pages == 'deselect') ? 'checked="checked"' : ''; ?> />
+					<label for="menus-deselect"><?php echo JText::_('Deselect From List'); ?></label>
 				<?php endif; ?>
 				</td>
 			</tr>
@@ -203,11 +203,11 @@ foreach ($this->orders2 as $k=>$items) {
 			</tr>
 		</table>
 		<?php if ($this->row->client_id != 1) : ?>
-            <?php if ($row->pages == 'all') : ?>
-            <script type="text/javascript">allselections();</script>
-            <?php elseif ($row->pages == 'none') : ?>
-            <script type="text/javascript">disableselections();</script>
-            <?php endif; ?>
+			<?php if ($row->pages == 'all') : ?>
+			<script type="text/javascript">allselections();</script>
+			<?php elseif ($row->pages == 'none') : ?>
+			<script type="text/javascript">disableselections();</script>
+			<?php endif; ?>
 		<?php endif; ?>
 	</fieldset>
 </div>

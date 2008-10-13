@@ -34,15 +34,15 @@ class SearchViewSearch extends JView
 		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'search.php' );
 
 		// Initialize some variables
-		$pathway  =& $mainframe->getPathway();
-		$uri      =& JFactory::getURI();
+		$pathway	=& $mainframe->getPathway();
+		$uri		=& JFactory::getURI();
 
 		$error	= '';
 		$rows	= null;
 		$total	= 0;
 
 		// Get some data from the model
-		$areas      = &$this->get('areas');
+		$areas	  = &$this->get('areas');
 		$state 		= &$this->get('state');
 		$searchword = $state->get('keyword');
 
@@ -145,15 +145,15 @@ class SearchViewSearch extends JView
 				$row = preg_replace($searchRegex, '<span class="highlight">\0</span>', $row );
 
 				$result =& $results[$i];
-			    if ($result->created) {
-				    $created = JHTML::Date ( $result->created );
-			    }
-			    else {
-				    $created = '';
-			    }
+				if ($result->created) {
+					$created = JHTML::Date ( $result->created );
+				}
+				else {
+					$created = '';
+				}
 
-			    $result->created	= $created;
-			    $result->count		= $i + 1;
+				$result->created	= $created;
+				$result->count		= $i + 1;
 			}
 		}
 
@@ -171,7 +171,7 @@ class SearchViewSearch extends JView
 
 		$this->assign('total',			$total);
 		$this->assign('error',			$error);
-		$this->assign('action', 	    $uri->toString());
+		$this->assign('action', 		$uri->toString());
 
 		parent::display($tpl);
 	}

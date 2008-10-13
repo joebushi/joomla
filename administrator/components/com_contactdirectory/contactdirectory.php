@@ -14,16 +14,16 @@ $auth->addACL('com_contactdirectory', 'manage fields', 'users', 'administrator')
 
 // Require specific controller if requested
 if($controller = JRequest::getVar('controller','contact')) {
-    $path = JPATH_COMPONENT.DS.'controllers'.DS.$controller.'.php';
-    if (file_exists($path)) {
-        require_once $path;
-    }else {
+	$path = JPATH_COMPONENT.DS.'controllers'.DS.$controller.'.php';
+	if (file_exists($path)) {
+		require_once $path;
+	}else {
 		JError::raiseError( 500, 'Invalid Controller' );
 	}
 }
 
 // Create the controller
-$controllerClass    = 'ContactdirectoryController'.ucfirst($controller);
+$controllerClass	= 'ContactdirectoryController'.ucfirst($controller);
 if (class_exists( $controllerClass )) {
 	$controller = new $controllerClass();
 }

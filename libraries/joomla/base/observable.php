@@ -44,7 +44,7 @@ class JObservable extends JObject
 
 	/**
 	 * A multi dimensional array of [function][] = key for observers
-	 * 
+	 *
 	 * @access protected
 	 * @var array
 	 */

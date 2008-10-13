@@ -340,16 +340,16 @@ class ContactdirectoryModelContact extends JModel{
 			$cat_bool = false;
 
 			$query = "SELECT alias, params FROM #__contactdirectory_fields WHERE published=1 ";
-	        $this->_db->setQuery($query);
-	        $fields = $this->_db->loadObjectList();
+			$this->_db->setQuery($query);
+			$fields = $this->_db->loadObjectList();
 
-	        foreach($fields as $field){
-	        	$field->params = new JParameter($field->params);
+			foreach($fields as $field){
+				$field->params = new JParameter($field->params);
 
-	        	$contact_data['fields'][$field->alias] = null;
-	        	$contact_data['showContactPage'][$field->alias] = 1;
-	        	$contact_data['showContactLists'][$field->alias] = 1;
-	        }
+				$contact_data['fields'][$field->alias] = null;
+				$contact_data['showContactPage'][$field->alias] = 1;
+				$contact_data['showContactLists'][$field->alias] = 1;
+			}
 
 			if($i == 0){
 				$cols  = $csv;

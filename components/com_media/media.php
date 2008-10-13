@@ -25,7 +25,7 @@ if (!$user->authorize( 'com_media', 'popup' )) {
 $params =& JComponentHelper::getParams('com_media');
 
 // Set the path definitions
-define('COM_MEDIA_BASE',    JPATH_ROOT.DS.$params->get('image_path', 'images'.DS.'stories'));
+define('COM_MEDIA_BASE',	JPATH_ROOT.DS.$params->get('image_path', 'images'.DS.'stories'));
 define('COM_MEDIA_BASEURL', JURI::root(true).'/'.$params->get('image_path', 'images/stories'));
 
 // Load the admin HTML view

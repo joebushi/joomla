@@ -25,8 +25,8 @@ jimport( 'joomla.plugin.plugin');
 class plgSystemSef extends JPlugin
 {
 	/**
-     * Converting the site URL to fit to the HTTP request
-     */
+	 * Converting the site URL to fit to the HTTP request
+	 */
 	function onAfterRender()
 	{
 		$app =& JFactory::getApplication();
@@ -36,36 +36,36 @@ class plgSystemSef extends JPlugin
 		}
 
 		//Replace src links
-      	$base   = JURI::base(true).'/';
+		$base   = JURI::base(true).'/';
 		$buffer = JResponse::getBody();
 
-       	$regex  = '#href="index.php\?([^"]*)#m';
-      	$buffer = preg_replace_callback( $regex, array('plgSystemSEF', 'route'), $buffer );
+		$regex  = '#href="index.php\?([^"]*)#m';
+		$buffer = preg_replace_callback( $regex, array('plgSystemSEF', 'route'), $buffer );
 
-       	$protocols = '[a-zA-Z0-9]+:'; //To check for all unknown protocals (a protocol must contain at least one alpahnumeric fillowed by :
-      	$regex     = '#(src|href)="(?!/|'.$protocols.'|\#)([^"]*)"#m';
-        $buffer    = preg_replace($regex, "$1=\"$base\$2\"", $buffer);
-		$regex     = '#(onclick="window.open\(\')(?!/|'.$protocols.'|\#)([^/]+[^\']*?\')#m';
-		$buffer    = preg_replace($regex, '$1'.$base.'$2', $buffer);
+		$protocols = '[a-zA-Z0-9]+:'; //To check for all unknown protocals (a protocol must contain at least one alpahnumeric fillowed by :
+		$regex	 = '#(src|href)="(?!/|'.$protocols.'|\#)([^"]*)"#m';
+		$buffer	= preg_replace($regex, "$1=\"$base\$2\"", $buffer);
+		$regex	 = '#(onclick="window.open\(\')(?!/|'.$protocols.'|\#)([^/]+[^\']*?\')#m';
+		$buffer	= preg_replace($regex, '$1'.$base.'$2', $buffer);
 
 		JResponse::setBody($buffer);
 		return true;
 	}
 
 	/**
-     * Replaces the matched tags
-     *
-     * @param array An array of matches (see preg_match_all)
-     * @return string
-     */
+	 * Replaces the matched tags
+	 *
+	 * @param array An array of matches (see preg_match_all)
+	 * @return string
+	 */
    	 function route( &$matches )
-     {
-		$original       = $matches[0];
-       	$url            = $matches[1];
+	 {
+		$original	= $matches[0];
+		$url		= $matches[1];
 
 		$url = str_replace('&amp;','&',$url);
 
-       	$route          = JRoute::_('index.php?'.$url);
-      	return 'href="'.$route;
-      }
+		$route		= JRoute::_('index.php?'.$url);
+		return 'href="'.$route;
+	}
 }

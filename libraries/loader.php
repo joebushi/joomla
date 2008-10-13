@@ -138,7 +138,7 @@ abstract class JLoader
  * @param mixed Exit code or string. Defaults to zero.
  */
 function jexit($message = 0) {
-    exit($message);
+	exit($message);
 }
 
 /**

@@ -33,8 +33,8 @@ abstract class JHTML
 	 * Additional include paths are also able to be specified for third-party use
 	 *
 	 * @param	string	The name of helper method to load, (prefix).(class).function
-	 *                  prefix and class are optional and can be used to load custom
-	 *                  html helpers.
+	 *					prefix and class are optional and can be used to load custom
+	 *					html helpers.
 	 */
 	public static function _( $type )
 	{
@@ -288,12 +288,12 @@ abstract class JHTML
 		}
 		$document =& JFactory::getDocument();
 		$document->addScriptDeclaration('window.addEvent(\'domready\', function() {Calendar.setup({
-        inputField     :    "'.$id.'",     // id of the input field
-        ifFormat       :    "'.$format.'",      // format of the input field
-        button         :    "'.$id.'_img",  // trigger for the calendar (button ID)
-        align          :    "Tl",           // alignment (defaults to "Bl")
-        singleClick    :    true
-    });});');
+		inputField	:	"'.$id.'",	 // id of the input field
+		ifFormat	:	"'.$format.'",	  // format of the input field
+		button		:	"'.$id.'_img",  // trigger for the calendar (button ID)
+		align		:	"Tl",		   // alignment (defaults to "Bl")
+		singleClick	:	true
+	});});');
 
 		return '<input type="text" name="'.$name.'" id="'.$id.'" value="'.htmlspecialchars($value, ENT_COMPAT, 'UTF-8').'" '.$attribs.' />'.
 				 '<img class="calendar" src="'.JURI::root(true).'/templates/system/images/calendar.png" alt="calendar" id="'.$id.'_img" />';

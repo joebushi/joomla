@@ -39,7 +39,7 @@ class ContactdirectoryModelCategories extends JModel
 		parent::__construct();
 		global $mainframe;
 		$config = JFactory::getConfig();
-		
+
 		// Get the pagination request variables
 		$this->setState('limit', $mainframe->getUserStateFromRequest('com_contactdirectory.limit', 'limit', $config->getValue('config.list_limit'), 'int'));
 		$this->setState('limitstart', JRequest::getVar('limitstart', 0, '', 'int'));
@@ -61,7 +61,7 @@ class ContactdirectoryModelCategories extends JModel
 		{
 			$query = $this->_buildQuery($groupby_cat);
 			$rows = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
-		
+
 			if($rows != null){
 				foreach($rows as $row) {
 					$row->slug = $row->id.':'.$row->alias;
@@ -84,12 +84,12 @@ class ContactdirectoryModelCategories extends JModel
 						." WHERE f.published = 1 AND d.contact_id = $id"
 						." ORDER BY f.pos, f.ordering ";
 				$this->_db->setQuery($query);
-				$this->_fields[] = $this->_db->loadObjectList();	
+				$this->_fields[] = $this->_db->loadObjectList();
 			}
 		}
 		return $this->_fields;
 	}
-	
+
 	/**
 	 * Method to load category data if it doesn't exist.
 	 *
@@ -104,7 +104,7 @@ class ContactdirectoryModelCategories extends JModel
 		{
 			// Get the page/component configuration
 			$params = &$mainframe->getParams();
-	
+
 			$orderby_params	= $params->def('orderby_cat', 'order');
 			switch ($orderby_params) {
 				case 'alpha' :
@@ -120,7 +120,7 @@ class ContactdirectoryModelCategories extends JModel
 					$orderby = '';
 					break;
 			}
-			
+
 			// Lets get the information for the current category
 			$query = "SELECT *, "
 							." CASE WHEN CHAR_LENGTH(alias) "
@@ -134,7 +134,7 @@ class ContactdirectoryModelCategories extends JModel
 		}
 		return $this->_categories;
 	}
-	
+
 	/**
 	 * Method to get the total number of contact items for the categories
 	 *
@@ -151,7 +151,7 @@ class ContactdirectoryModelCategories extends JModel
 		}
 		return $this->_total;
 	}
-	
+
 	function getPagination($groupby_cat)
 	{
 		// Load the content if it doesn't already exist
@@ -186,7 +186,7 @@ class ContactdirectoryModelCategories extends JModel
 				. ' LEFT JOIN #__categories AS cat ON cat.id = map.category_id '.
 			$where.
 			$orderby;
-			
+
 		}
 		return $query;
 	}
@@ -199,11 +199,11 @@ class ContactdirectoryModelCategories extends JModel
 		$params = &$mainframe->getParams();
 
 		$orderby = ' ORDER BY ';
-		
+
 		if($groupby_cat){
 			$orderby .= ' cat.title, ';
 		}
-		
+
 		$orderby_params	= $params->def('orderby', 'order');
 		switch ($orderby_params) {
 			case 'alpha' :
@@ -218,7 +218,7 @@ class ContactdirectoryModelCategories extends JModel
 		}
 		return $orderby;
 	}
-	
+
 	function _buildContentWhere()
 	{
 		global $mainframe, $option;
@@ -226,7 +226,7 @@ class ContactdirectoryModelCategories extends JModel
 		$user =& JFactory::getUser();
 		$gid	= $user->get('aid', 0);
 		$db =& JFactory::getDBO();
-		
+
 		$alphabet	= $mainframe->getUserStateFromRequest( $option.'alphabet', 	'alphabet',	'',	'string' );
 		$search		= $mainframe->getUserStateFromRequest( $option.'search',		'search',	'',	'string' );
 		$search		= JString::strtolower( $search );
@@ -234,11 +234,11 @@ class ContactdirectoryModelCategories extends JModel
 		// Get the page/component configuration
 		$params = &$mainframe->getParams();
 
-        $where = ' WHERE 1';
+		$where = ' WHERE 1';
 
 		// Does the user have access to view the items?
 		$where .= ' AND c.access <= '.(int) $gid;
-		
+
 		// The category and the contact are published
 		$where .= ' AND c.published = 1 AND cat.published = 1';
 

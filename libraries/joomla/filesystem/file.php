@@ -36,7 +36,7 @@ abstract class JFile
 		}
 		return JFile::$filesystem;
 	}
-		
+
 	/**
 	 * Gets the extension of a file name
 	 *

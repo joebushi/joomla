@@ -48,7 +48,7 @@
 			return;
 		} else if (!regex.test(DBname.value)) {
 			alert('<?php echo JText::_('The MySQL Database Name must start with a letter, and be followed by only letters, numbers or underscores', true ) ?>');
-			return;		
+			return;
 		} else if (!regex.test(DBPrefix.value)) {
 			alert('<?php echo JText::_('The MySQL Table Prefix must start with a letter, and be followed by only letters, numbers or underscores', true ) ?>');
 			return;

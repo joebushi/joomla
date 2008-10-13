@@ -371,7 +371,7 @@ class JInstallationController extends JController
 			$view->error();
 			return false;
 		}
-		
+
 		if (!$model->dumpLoad())
 		{
 			$view->error();

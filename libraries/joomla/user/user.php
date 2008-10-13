@@ -121,7 +121,7 @@ class JUser extends JObject
 	 * Description
 	 * @var boolean
 	 */
-	public $guest     = null;
+	public $guest	 = null;
 
 	/**
 	 * User parameters
@@ -153,11 +153,11 @@ class JUser extends JObject
 		else
 		{
 			//initialise
-			$this->id        = 0;
-			$this->gid       = 0;
+			$this->id		= 0;
+			$this->gid		= 0;
 			$this->sendEmail = 0;
-			$this->aid       = 0;
-			$this->guest     = 1;
+			$this->aid		= 0;
+			$this->guest	= 1;
 		}
 	}
 

@@ -40,7 +40,7 @@ class ContactdirectoryModelContact extends JModel
 		parent::__construct();
 
 		$this->_id	= JRequest::getVar('id', 0, '', 'int');
-		
+
 		$this->_formData = new stdClass();
 		$this->_formData->name = JRequest::getString('name', '', 'post');
 		$this->_formData->email = JRequest::getString('email', '', 'post');
@@ -49,7 +49,7 @@ class ContactdirectoryModelContact extends JModel
 		$this->_formData->email_copy = JRequest::getString('email_copy', '', 'post');
 		$this->_formData->captcha = JRequest::getString('captcha', '', 'post');
 	}
-	
+
 	function &getFormData()
 	{
 		return $this->_formData;
@@ -107,11 +107,11 @@ class ContactdirectoryModelContact extends JModel
 					." WHERE f.published = 1 AND d.contact_id = $this->_id"
 					." ORDER BY f.pos, f.ordering ";
 			$this->_db->setQuery($query);
-			$this->_fields = $this->_db->loadObjectList();	
+			$this->_fields = $this->_db->loadObjectList();
 		}
 		return $this->_fields;
 	}
-	
+
 	function &getEmail()
 	{
 		if(!$this->_email){
@@ -119,11 +119,11 @@ class ContactdirectoryModelContact extends JModel
 							." JOIN  #__contactdirectory_fields f ON d.field_id = f.id "
 							." WHERE f.published = 1 AND d.field_id = 1 AND d.contact_id = $this->_id ";
 			$this->_db->setQuery($query);
-			$this->_email = $this->_db->loadResult();	
+			$this->_email = $this->_db->loadResult();
 		}
 		return $this->_email;
 	}
-	
+
 	function &getCategories()
 	{
 		if(!$this->_categories){
@@ -136,7 +136,7 @@ class ContactdirectoryModelContact extends JModel
 		}
 		return $this->_categories;
 	}
-	
+
 	/**
 	 * Method to load content contact data
 	 *
@@ -184,22 +184,22 @@ class ContactdirectoryModelContact extends JModel
 		}
 		return true;
 	}
-	
+
 	function mailTo($access) {
 		global $mainframe;
-		
+
 		$pparams =& $mainframe->getParams('com_contactsdirectory');
 		$SiteName = $mainframe->getCfg('sitename');
 		$default = JText::sprintf( 'MAILENQUIRY', $SiteName );
-		
+
 		$subject = $this->_formData->subject;
 		if(!$subject) { $subject = $default; }
-		
+
 		$contact =& $this->getData($access);
 		$email_to =& $this->getEmail();
 
 		$cparams =  new JParameter($contact->params);
-		
+
 		if($email_to == '' && $contact->user_id != 0){
 			$contact_user = JUser::getInstance($contact->user_id);
 			$email_to = $contact_user->get('email');
@@ -211,10 +211,10 @@ class ContactdirectoryModelContact extends JModel
 			$this->setError(JText::_('CONTACT_FORM_NC'));
 			return false;
 		}
-		
+
 		JPluginHelper::importPlugin( 'contact' );
 		$dispatcher =& JDispatcher::getInstance();
-				
+
 		if  (!$this->_validateInputs( $contact, $this->_formData->email, $this->_formData->subject, $this->_formData->body, $this->_formData->captcha ) ) {
 			return false;
 		}
@@ -230,14 +230,14 @@ class ContactdirectoryModelContact extends JModel
 		}
 
 		$results	= $dispatcher->trigger( 'onSubmitContact', array( &$contact, &$post ) );
-				
+
 		if (!$pparams->get('custom_reply')) {
 			$MailFrom = $mainframe->getCfg('mailfrom');
 			$FromName = $mainframe->getCfg('fromname');
 
 			$prefix = JText::sprintf('ENQUIRY_TEXT', JURI::base());
 			$body 	= $prefix."\n".$this->_formData->name.' <'.$this->_formData->email.'>'."\r\n\r\n".stripslashes($this->_formData->body);
-			
+
 			$mail = JFactory::getMailer();
 
 			$mail->addRecipient($email_to);
@@ -268,7 +268,7 @@ class ContactdirectoryModelContact extends JModel
 		}
 		return true;
 	}
-	
+
 	function _validateInputs( $contact, $email, $subject, $body, $captcha ) {
 		global $mainframe;
 

@@ -18,8 +18,8 @@
 		<tag>tr-TR</tag>
 		<rtl>0</rtl>
 		<locale>
-			tr_TR.utf8, tr_TR.UTF-8, tr_TR, tr, turkish, 
-			Turkish_Standard, Tur_TR, tr_TR.ISO8859-9, 
+			tr_TR.utf8, tr_TR.UTF-8, tr_TR, tr, turkish,
+			Turkish_Standard, Tur_TR, tr_TR.ISO8859-9,
 			tr_TR.iso88599, tr_TR.UTF-8@euro
 		</locale>
 		<winCodePage>iso-8859-9</winCodePage>
