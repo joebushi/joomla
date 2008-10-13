@@ -304,4 +304,3 @@ class modMenuHelper
 		$menu->renderMenu('menu', 'disabled');
 	}
 }
-?>
