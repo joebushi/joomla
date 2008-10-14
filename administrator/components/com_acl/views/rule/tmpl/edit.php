@@ -96,49 +96,11 @@ ul.checklist li:hover {
 			</tbody>
 		</table>
 
-		<table width="100%">
-			<tbody>
-				<tr valign="top">
-					<td valign="top" width="25%">
-						<fieldset>
-							<legend><?php echo JText::_('ACL Apply User Groups');?></legend>
-							<?php echo $this->loadTemplate('arogroups'); ?>
-						</fieldset>
-					</td>
-					<td valign="top" width="25%">
-						<fieldset>
-							<legend class="hasTip" title="Permissions::Select the permissions that this group will be allowed, or not allowed to do.">
-							<?php echo JText::_('ACL Apply Permissions') ?>
-							</legend>
-							<?php echo $this->loadTemplate('acos'); ?>
-						</fieldset>
-					</td>
-					<?php if ($this->allow_axos) : ?>
-					<td valign="top">
-						<fieldset>
-							<legend class="hasTip" title="Items::These are the items that are associated with the permission">
-							<?php echo JText::_('ACL Apply to Items') ?>
-							</legend>
-							<?php echo $this->loadTemplate('axos'); ?>
-						</fieldset>
-					</td>
-					<td valign="top">
-						<?php if ($this->allow_axo_groups) : ?>
-						<fieldset>
-							<legend class="hasTip" title="Item Groups::These are the item groups that are associated with the permission">
-							<?php echo JText::_('ACL Apply to Access Groups') ?>
-							</legend>
-							<?php echo $this->loadTemplate('axogroups'); ?>
-						</fieldset>
-						<?php endif; ?>
-					</td>
-					<?php endif; ?>
-			</tbody>
-		</table>
-
+		<?php echo $this->loadTemplate('type'.$this->item->acl_type); ?>
 	</fieldset>
 
 	<input type="hidden" name="id" value="<?php echo $this->item->id;?>" />
+	<input type="hidden" name="acl_type" value="<?php echo $this->item->acl_type;?>" />
 	<input type="hidden" name="task" value="" />
 	<input type="hidden" name="<?php echo JUtility::getToken();?>" value="1" />
 </form>

@@ -42,6 +42,10 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+14-Oct-2008 Andrew Eddie
+ ! SCHEMA CHANGE - REINSTALL REQUIRED
+ ^ Broke ACLs into 3 types
+
 13-Oct-2008 Andrew Eddie
  + Added support to edit access levels
 

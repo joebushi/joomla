@@ -38,9 +38,10 @@ class AccessViewRule extends JView
 	 */
 	function display($tpl = null)
 	{
-		$state	= $this->get('State');
-		$item	= $this->get('ExtendedItem');
-		$acl	= $this->get('ACL');
+		$state		= $this->get('State');
+		$item		= $this->get('ExtendedItem');
+		$acl		= $this->get('ACL');
+		$aclType	= $state->get('acl_type', 1);
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -57,39 +58,22 @@ class AccessViewRule extends JView
 			$item->section_value	= 'user';
 			$item->enabled			= 1;
 			$item->allow			= 1;
+			$item->acl_type			= $aclType;
 		}
 
 		$this->assignRef('state',		$state);
 		$this->assignRef('item',		$item);
+		$this->assignRef('acl',			$acl);
 		$this->assignRef('acos',		$this->get('ACOs'));
 		$this->assignRef('aroGroups',	$this->get('AROGroups'));
-		$this->assignRef('axos',		$this->get('AXOs'));
-		$this->assignRef('axoGroups',	$this->get('AXOGroups'));
-		$this->assignRef('acl',		$acl);
-		$this->assign('allow_axo_groups', $state->get('has_axo_groups', false));
-		$this->assign('allow_axos', 0);
-
-		/*
-		// this only happens for 3D rules
-		if (!isset($this->allow_axos)) {
-			$this->assign('allow_axos', 0);
-			$temp	= array();
-			foreach ($this->acos as $aco) {
-				$temp[$aco->value]	= $aco->allow_axos;
-			}
-			// Scan ACO's
-			if (isset($this->acl['aco']) AND isset($this->acl['aco'][$state->option])) {
-				foreach ($this->acl['aco'][$state->option] as $aco) {
-					if (isset($temp[$aco]) && $temp[$aco] == 1) {
-						$this->assign('allow_axos', 1);
-						break;
-					}
-				}
-			}
+		if ($aclType == 2) {
+			$this->assignRef('axos', $this->get('AXOs'));
 		}
-*/
+		else if ($aclType == 3) {
+			$this->assignRef('axoGroups', $this->get('AXOGroups'));
+		}
 
-		$this->_setToolBar();
+		$this->_setToolBar($aclType);
 		parent::display($tpl);
 		JRequest::setVar('hidemainmenu',1);
 	}
@@ -99,17 +83,10 @@ class AccessViewRule extends JView
 	 *
 	 * @access	private
 	 */
-	function _setToolBar()
+	function _setToolBar($type)
 	{
-		// Set the toolbar
-		if (empty($this->item->id)) {
-			$title	= $this->allow_axos ? 'Add Role' : 'Add Rule';
-		}
-		else {
-			$title	= $this->allow_axos ? 'Edit Role' : 'Edit Rule';
-		}
-
-		JToolBarHelper::title(JText::_('Access Control: '.$title));
+		$title = empty($this->item->id) ? 'Edit Rule' : 'Add Rule';
+		JToolBarHelper::title(JText::_('Access Control: '.$title.' Type '.(int) $type));
 		JToolBarHelper::custom('acl.save2new', 'new.png', 'new_f2.png', 'Toolbar Save And New', false,  false);
 		JToolBarHelper::save('acl.save');
 		JToolBarHelper::apply('acl.apply');

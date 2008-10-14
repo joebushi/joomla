@@ -31,6 +31,7 @@ class AccessController extends JController
 		$vName		= JRequest::getWord('view', 'rules');
 		$vFormat	= $document->getType();
 		$lName		= JRequest::getWord('layout', 'default');
+		$type		= JRequest::getInt('type', 1);
 
 		if ($view = &$this->getView($vName, $vFormat))
 		{
@@ -60,21 +61,15 @@ class AccessController extends JController
 					$model->setState('list.parent_id',	1);
 					break;
 
-				case 'role':
-					$model = $this->getModel('acl');
-					break;
-
-				case 'roles':
-					$model = $this->getModel('acls');
-					break;
-
 				case 'rule':
 					$model = $this->getModel('acl');
+					$model->setState('acl_type', $type);
 					break;
 
 				case 'rules':
 				default:
 					$model = $this->getModel('acls');
+					$model->setState('list.acl_type', $type);
 					break;
 			}
 
@@ -86,8 +81,9 @@ class AccessController extends JController
 		}
 
 		// Set up the Linkbar
-		JSubMenuHelper::addEntry(JText::_('ACL Link Rules'),			'index.php?option=com_acl&view=rules',	$vName == 'rules');
-		JSubMenuHelper::addEntry(JText::_('ACL Link Roles'),			'index.php?option=com_acl&view=roles',	$vName == 'roles');
+		JSubMenuHelper::addEntry(JText::_('ACL Link Rules Type 1'),		'index.php?option=com_acl&view=rules&type=1',	$vName == 'rules' AND $type == 1);
+		JSubMenuHelper::addEntry(JText::_('ACL Link Rules Type 2'),		'index.php?option=com_acl&view=rules&type=2',	$vName == 'rules' AND $type == 2);
+		JSubMenuHelper::addEntry(JText::_('ACL Link Rules Type 3'),		'index.php?option=com_acl&view=rules&type=3',	$vName == 'rules' AND $type == 3);
 		JSubMenuHelper::addEntry(JText::_('ACL Link User Groups'),		'index.php?option=com_acl&view=groups',	$vName == 'groups');
 		JSubMenuHelper::addEntry(JText::_('ACL Link Access Levels'),	'index.php?option=com_acl&view=levels',	$vName == 'levels');
 	}

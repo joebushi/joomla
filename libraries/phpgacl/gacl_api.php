@@ -940,7 +940,7 @@ class gacl_api extends gacl {
 	 * @param int ACL ID # Specific Request
 
 	 */
-	function add_acl($aco_array, $aro_array, $aro_group_ids=NULL, $axo_array=NULL, $axo_group_ids=NULL, $allow=1, $enabled=1, $return_value=NULL, $note=NULL, $section_value=NULL, $acl_id=FALSE ) {
+	function add_acl($aco_array, $aro_array, $aro_group_ids=NULL, $axo_array=NULL, $axo_group_ids=NULL, $allow=1, $enabled=1, $return_value=NULL, $note=NULL, $section_value=NULL, $acl_id=FALSE, $aclType = 1 ) {
 
 		$this->debug_text("add_acl():");
 
@@ -1024,7 +1024,7 @@ class gacl_api extends gacl {
 			//the transaction will fail.
 			$this->db->BeginTrans();
 
-			$query = 'INSERT INTO '.$this->_db_table_prefix."acl (id,section_value,allow,enabled,return_value,note,updated_date) VALUES($acl_id,".$this->db->quote($section_value).",$allow,$enabled,".$this->db->quote($return_value).','.$this->db->quote($note).','.time().')';
+			$query = 'INSERT INTO '.$this->_db_table_prefix."acl (id,section_value,allow,enabled,return_value,note,updated_date,acl_type) VALUES($acl_id,".$this->db->quote($section_value).",$allow,$enabled,".$this->db->quote($return_value).','.$this->db->quote($note).','.time().','.(int)$aclType.')';
 			$result = $this->db->Execute($query);
 
 			// Joomla/MySQL
@@ -1045,7 +1045,8 @@ class gacl_api extends gacl {
 						enabled='. (int) $enabled .',
 						return_value='. $this->db->quote($return_value) .',
 						note='. $this->db->quote($note) .',
-						updated_date='. time() .'
+						updated_date='. time() .',
+						acl_type='. (int) $aclType .'
 				WHERE	id='. (int) $acl_id;
 			$result = $this->db->Execute($query);
 

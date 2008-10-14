@@ -40,13 +40,17 @@ class JTableACL extends JTable
 	 * @var int unsigned
 	 */
 	protected $updated_date = null;
+	/**
+	 * @var int unsigned
+	 */
+	protected $acl_type = null;
 
 	/*
 	 * Constructor
 	 * @param object Database object
 	 */
-	protected function __construct( &$db )
+	protected function __construct(&$db)
 	{
-		parent::__construct( '#__core_acl_acl', 'id', $db );
+		parent::__construct('#__core_acl_acl', 'id', $db);
 	}
 }

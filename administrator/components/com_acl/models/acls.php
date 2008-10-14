@@ -142,6 +142,7 @@ class AccessModelACLs extends AccessModelPrototypeList
 			$section	= $this->getState('list.section_value');
 			$search		= $this->getState('list.search');
 			$orderBy	= $this->getState('list.order');
+			$aclType	= $this->getState('list.acl_type');
 
 			$query->select($select);
 			$query->from('#__core_acl_acl AS a');
@@ -172,13 +173,17 @@ class AccessModelACLs extends AccessModelPrototypeList
 				$query->order($db->getEscaped($orderBy));
 			}
 
+			if ($aclType !== null) {
+				$query->where('a.acl_type = '.(int) $aclType);
+			}
+
 			//echo nl2br($query->toString());
 			$this->_list_query = (string) $query;
 		}
 
 		return $this->_list_query;
 	}
-
+/*
 	function getSections()
 	{
 		$model = JModel::getInstance('Section',	'AccessModel');
@@ -195,11 +200,8 @@ class AccessModelACLs extends AccessModelPrototypeList
 		$model->setState('list.object_type',	'aco');
 		$model->setState('list.hidden',			'0');
 		$model->setState('list.order',			'a.section_value,a.order_value,a.name');
-		if ($this->getState('allow_axos')) {
-			$model->setState('list.where',		'a.allow_axos = 1');
-		}
-		else {
-			$model->setState('list.where',		'a.allow_axos = 0');
+		if ($aclType = $this->getState('list.acl_type')) {
+			$model->setState('list.where', 'a.acl_type = '.(int) $aclType);
 		}
 		return $model->getList();
 	}
@@ -227,9 +229,11 @@ class AccessModelACLs extends AccessModelPrototypeList
 	function getAXOGroups()
 	{
 		$model = JModel::getInstance('Group',	'AccessModel');
-		$model->setState('list.group_type',	'aro');
+		$model->setState('list.group_type',	'axo');
 		$model->setState('list.tree',		'1');
 		$model->setState('list.order',		'a.lft');
+		$model->setState('list.parent_id',	1);
 		return $model->getList();
 	}
+*/
 }

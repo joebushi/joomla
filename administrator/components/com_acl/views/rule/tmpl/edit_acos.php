@@ -2,7 +2,6 @@
 
 <ul class="checklist scroll" style="height:280px">
 	<?php foreach ($this->acos as $item) : ?>
-	<?php if ($item->allow_axos == $this->allow_axos) : ?>
 	<li title="<?php echo $item->note;?>">
 		<?php $eid = 'aco_'.$item->section_value.'_'.$item->value; ?>
 		<input type="checkbox" name="aco_array[<?php echo $item->section_value;?>][]" value="<?php echo $item->value;?>" id="<?php echo $eid;?>"
@@ -12,6 +11,5 @@
 			<?php echo $item->name; ?>
 		</label>
 	</li>
-	<?php endif; ?>
 	<?php endforeach; ?>
 </ul>

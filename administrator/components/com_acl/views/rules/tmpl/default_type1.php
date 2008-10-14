@@ -1,11 +1,6 @@
-<?php /** $Id$ */ defined('_JEXEC') or die('Restricted access');
+<?php /** $Id$ */ defined('_JEXEC') or die('Restricted access'); ?>
 
-	JHTML::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
-	JHTML::_('behavior.tooltip');
-?>
-
-<form action="<?php echo JRoute::_('index.php?option=com_acl&view=roles');?>" method="post" name="adminForm">
-	<fieldset class="filter">
+	<fieldset class="filter clearfix">
 		<div class="left">
 			<label for="search"><?php echo JText::_('Search'); ?>:</label>
 			<input type="text" name="search" id="search" value="<?php echo $this->state->get('list.search'); ?>" size="60" title="<?php echo JText::_('Search in note'); ?>" />
@@ -13,6 +8,7 @@
 			<button type="button" onclick="document.getElementById('search').value='';this.form.submit();"><?php echo JText::_('Search Clear'); ?></button>
 		</div>
 	</fieldset>
+
 	<table class="adminlist">
 		<thead>
 			<tr>
@@ -27,9 +23,6 @@
 				</th>
 				<th nowrap="nowrap" align="center">
 					<?php echo JText::_('ACL Col Permissions'); ?>
-				</th>
-				<th nowrap="nowrap" align="center">
-					<?php echo JText::_('ACL Col Applies to Items'); ?>
 				</th>
 				<th width="5%">
 					<?php echo JHTML::_('grid.sort', 'ACL Col Allowed', 'a.allow', $this->state->orderDirn, $this->state->orderCol); ?>
@@ -93,53 +86,22 @@
 					</div>
 				</td>
 				<td align="left" valign="top">
-				<?php if (isset($item->acos)) : ?>
+				<?php if (isset($item->acos) AND !empty($item->acos)) : ?>
 					<div class="scroll" style="height: 75px;">
+						<ol>
 					<?php foreach ($item->acos as $section => $acos) : ?>
 							<?php if (count($acos)) : ?>
-								<ol>
-									<?php foreach ($acos as $name) : ?>
-									<li>
-										<?php echo $name; ?>
-									</li>
-									<?php endforeach; ?>
-								</ol>
+								<?php foreach ($acos as $name) : ?>
+								<li>
+									<strong><?php echo $section; ?></strong>:
+									<?php echo $name; ?>
+								</li>
+								<?php endforeach; ?>
 							<?php endif;
 						endforeach; ?>
+						</ol>
 					</div>
 				<?php endif; ?>
-				</td>
-
-				<td align="left" valign="top">
-				<?php if (isset($item->axos)) : ?>
-					<div class="scroll" style="height: 75px;">
-					<?php foreach ($item->axos as $section => $axos) : ?>
-							<?php if ($n = count($axos)) : ?>
-								<ol>
-									<?php foreach ($axos as $name) : ?>
-									<li>
-										<?php echo $name; ?>
-									</li>
-									<?php endforeach; ?>
-								</ol>
-							<?php endif;
-						endforeach; ?>
-					</div>
-					<?php
-					endif;
-
-					if (isset($item->axoGroups) && count($item->axoGroups)) : ?>
-						<strong><?php echo JText::_('Item Groups');?></strong>
-						<ol>
-							<?php foreach ($item->axoGroups as $name) : ?>
-							<li>
-								<?php echo $name; ?>
-							</li>
-							<?php endforeach; ?>
-						</ol>
-					<?php
-					endif;
-				?>
 				</td>
 				<td align="center">
 					<?php echo JHTML::_('acl.allowed', $item->allow, $item->id); ?>
@@ -155,14 +117,6 @@
 		</tbody>
 	</table>
 
-	<input type="hidden" name="acl_type" value="<?php echo $this->state->get('list.acl_type');?>" />
-	<input type="hidden" name="task" value="" />
-	<input type="hidden" name="boxchecked" value="0" />
-	<input type="hidden" name="filter_order" value="<?php echo $this->state->orderCol; ?>" />
-	<input type="hidden" name="filter_order_Dir" value="" />
-	<?php echo JHTML::_('form.token'); ?>
-</form>
-
-<blockquote>
-	<?php echo JText::_('ACL Rules Type 3 Desc'); ?>
-</blockquote>
+	<blockquote>
+		<?php echo JText::_('ACL Rules Type 1 Desc'); ?>
+	</blockquote>

@@ -37,8 +37,8 @@ class JTableARO extends JTable
 
 	protected $hidden			= null;
 
-	protected function __construct( &$db )
+	protected function __construct(&$db)
 	{
-		parent::__construct( '#__core_acl_aro', 'aro_id', $db );
+		parent::__construct('#__core_acl_aro', 'aro_id', $db);
 	}
 }

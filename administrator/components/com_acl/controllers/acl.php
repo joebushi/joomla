@@ -60,18 +60,21 @@ class AccessControllerACL extends JController
 	 */
 	function edit()
 	{
-		$cid = JRequest::getVar('cid', array(), '', 'array');
-		$id  = JRequest::getInt('id', @$cid[0]);
+		$cid	= JRequest::getVar('cid', array(), '', 'array');
+		$id  	= JRequest::getInt('id', @$cid[0]);
+		$type	= JRequest::getInt('acl_type', 1);
 
 		$session = &JFactory::getSession();
 		$session->set('com_acl.acl.id', $id);
 
 		if ($id) {
+			$model	= $this->getModel();
+			$item	= $model->getItem();
+			$type	= $item->acl_type;
 			// Checkout item
-			//$model = $this->getModel();
 			//$model->checkout($id);
 		}
-		$this->setRedirect(JRoute::_('index.php?option=com_acl&view=rule&layout=edit', false));
+		$this->setRedirect(JRoute::_('index.php?option=com_acl&view=rule&layout=edit&type='.$type, false));
 	}
 
 	/**
@@ -84,7 +87,7 @@ class AccessControllerACL extends JController
 	 */
 	function cancel()
 	{
-		// Checkin item if checked out
+		$type	= JRequest::getInt('acl_type', 1);
 		$session = &JFactory::getSession();
 		//if ($id = (int) $session->get('com_acl.acl.id')) {
 		//	$model = $this->getModel();
@@ -94,7 +97,7 @@ class AccessControllerACL extends JController
 		// Clear the session of the item
 		$session->set('com_acl.acl.id', null);
 
-		$this->setRedirect(JRoute::_('index.php?option=com_acl&view=rules', false));
+		$this->setRedirect(JRoute::_('index.php?option=com_acl&view=rules&type='.$type, false));
 	}
 
 	/**
@@ -106,7 +109,8 @@ class AccessControllerACL extends JController
 		JRequest::checkToken();
 
 		// Get posted form variables.
-		$input = JRequest::get('post');
+		$input	= JRequest::get('post');
+		$type	= JRequest::getInt('acl_type', 1);
 
 		// Get the id of the item out of the session.
 		$session	= &JFactory::getSession();
@@ -126,7 +130,7 @@ class AccessControllerACL extends JController
 		// Get the extensions model and set the post request in its state.
 		$model	= &$this->getModel();
 		$result	= $model->save($input);
-		$msg	= JError::isError($result) ? $result->message : 'Saved';
+		$msg	= JError::isError($result) ? $result->getMessage() : 'Saved';
 
 		if ($this->_task == 'apply') {
 			$session->set('com_acl.acl.id', $model->getState('id'));
@@ -136,13 +140,13 @@ class AccessControllerACL extends JController
 			$session->set('com_acl.acl.id', null);
 			//$model->checkin($id);
 
-			$this->setRedirect(JRoute::_('index.php?option=com_acl&view=rule&layout=edit', false), JText::_($msg));
+			$this->setRedirect(JRoute::_('index.php?option=com_acl&view=rule&layout=edit&type='.$type, false), JText::_($msg));
 		}
 		else {
 			$session->set('com_acl.acl.id', null);
 			//$model->checkin($id);
 
-			$this->setRedirect(JRoute::_('index.php?option=com_acl&view=rules', false), JText::_($msg));
+			$this->setRedirect(JRoute::_('index.php?option=com_acl&view=rules&type='.$type, false), JText::_($msg));
 		}
 	}
 
@@ -154,8 +158,8 @@ class AccessControllerACL extends JController
 		// Check for request forgeries
 		JRequest::checkToken() or die('Invalid Token');
 
-		// Get items to remove from the request.
-		$cid = JRequest::getVar('cid', array(), '', 'array');
+		$cid	= JRequest::getVar('cid', array(), '', 'array');
+		$type	= JRequest::getInt('acl_type', 1);
 
 		if (empty($cid)) {
 			JError::raiseWarning(500, JText::_('No items selected'));
@@ -174,50 +178,6 @@ class AccessControllerACL extends JController
 			}
 		}
 
-		$this->setRedirect('index.php?option=com_acl&view=rules');
+		$this->setRedirect('index.php?option=com_acl&view=rules&type='.$type);
 	}
-
-	/**
-	 * Sets the allow field value on an ACL
-	 */
-	function allow()
-	{
-		// Check for request forgeries
-		JRequest::checkToken() or die('Invalid Token');
-
-		// Set the redirection
-		$this->setRedirect($_SERVER['HTTP_REFERER']);
-
-		$values		= array('allow' => 1, 'deny' => 0);
-		$cid		= JRequest::getVar('cid', null, 'post', 'array');
-		$task		= $this->getTask();
-		$value		= JArrayHelper::getValue($values, $task, 0, 'int');
-
-		$model	= $this->getModel();
-		$result	= $model->allow($cid, $value);
-		$this->setMessage(JError::isError($result) ? $result->getMessage() : '');
-	}
-
-	/**
-	 * Sets the enable field value on an ACL
-	 */
-	function enable()
-	{
-		// Check for request forgeries
-		JRequest::checkToken() or die('Invalid Token');
-
-		// Set the redirection
-		$this->setRedirect($_SERVER['HTTP_REFERER']);
-
-		$values		= array('enable' => 1, 'disable' => 0);
-		$cid		= JRequest::getVar('cid', null, 'post', 'array');
-		$task		= $this->getTask();
-		$value		= JArrayHelper::getValue($values, $task, 0, 'int');
-
-		$model	= $this->getModel();
-		$result	= $model->enable($cid, $value);
-		$this->setMessage(JError::isError($result) ? $result->getMessage() : '');
-	}
-
-
 }

@@ -39,16 +39,16 @@ class AccessViewRules extends JView
 		$this->assignRef('items',		$items);
 		$this->assignRef('pagination', $pagination);
 
-		$this->_setToolBar();
+		$this->_setToolBar($state->get('list.acl_type',1));
 		parent::display($tpl);
 	}
 
 	/**
 	 * Display the toolbar
 	 */
-	private function _setToolBar()
+	private function _setToolBar($type)
 	{
-		JToolBarHelper::title(JText::_('Access Control: Rules'));
+		JToolBarHelper::title(JText::_('Access Control: Rules Type '.(int) $type));
 		JToolBarHelper::custom('acl.edit', 'edit.png', 'edit_f2.png', 'Edit', true);
 		JToolBarHelper::custom('acl.edit', 'new.png', 'new_f2.png', 'ACL New Rule', false);
 		JToolBarHelper::deleteList('','acl.delete');

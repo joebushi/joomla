@@ -104,6 +104,9 @@ class AccessModelACL extends AccessModelPrototypeItem
 		$model->setState('list.object_type',	'aco');
 		$model->setState('list.hidden',			'0');
 		$model->setState('list.order',			's.order_value,a.section_value,a.order_value,a.name');
+		if ($aclType = $this->getState('acl_type')) {
+			$model->setState('list.where', 'a.acl_type = '.(int) $aclType);
+		}
 		return $model->getList();
 	}
 
@@ -130,9 +133,10 @@ class AccessModelACL extends AccessModelPrototypeItem
 	function getAXOGroups()
 	{
 		$model = JModel::getInstance('Groups', 'AccessModel');
-		$model->setState('list.group_type',	'aro');
+		$model->setState('list.group_type',	'axo');
 		$model->setState('list.tree',		'1');
 		$model->setState('list.order',		'a.lft');
+		$model->setState('list.parent_id',	1);
 		return $model->getList();
 	}
 
@@ -152,9 +156,10 @@ class AccessModelACL extends AccessModelPrototypeItem
 		$note			= JArrayHelper::getValue($values, 'note');
 		$sectionValue	= JArrayHelper::getValue($values, 'section_value');
 		$aclId			= JArrayHelper::getValue($values, 'id', 0, 'int');
+		$aclType		= JArrayHelper::getValue($values, 'acl_type', 1, 'int');
 
 		//$acl->_debug = 1;
-		$result = $acl->add_acl($acoArray, $aroArray, $aroGroupIds, $axoArray, $axoGroupIds, $allow, $enabled, $returnValue, $note, $sectionValue, $aclId);
+		$result = $acl->add_acl($acoArray, $aroArray, $aroGroupIds, $axoArray, $axoGroupIds, $allow, $enabled, $returnValue, $note, $sectionValue, $aclId, $aclType);
 
 		if ($result) {
 			$this->setState('id', $result);
