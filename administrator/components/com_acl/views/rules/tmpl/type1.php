@@ -9,9 +9,6 @@
 	overflow: auto;
 }
 </style>
-<div>
-	<?php echo JText::_('ACL Rules View Desc'); ?>
-</div>
 
 <form action="<?php echo JRoute::_('index.php?option=com_acl&view=rules');?>" method="post" name="adminForm">
 	<fieldset class="filter clearfix">
@@ -130,9 +127,14 @@
 		</tbody>
 	</table>
 
+	<input type="hidden" name="acl_type" value="<?php echo $this->state->get('list.acl_type');?>" />
 	<input type="hidden" name="task" value="" />
 	<input type="hidden" name="boxchecked" value="0" />
 	<input type="hidden" name="filter_order" value="<?php echo $this->state->get('orderCol'); ?>" />
 	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->state->get('orderDirn'); ?>" />
 	<?php echo JHTML::_('form.token'); ?>
 </form>
+
+<blockquote>
+	<?php echo JText::_('ACL Rules Type 1 Desc'); ?>
+</blockquote>
