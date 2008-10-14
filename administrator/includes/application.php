@@ -152,7 +152,7 @@ class JAdministrator extends JApplication
 	*/
 	function render()
 	{
-		$component	= JRequest::getCmd('option');
+		$component	= JRequest::getCmd('option', 'com_login');
 		$template	= $this->getTemplate();
 		$file 		= JRequest::getCmd('tmpl', 'index');
 
