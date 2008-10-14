@@ -48,9 +48,9 @@
 		<?php
 			$i = 0;
 			foreach ($this->items as $item) : ?>
-			<tr class="row<?php echo $i % 2; ?>">
+			<tr class="row<?php echo $i++ % 2; ?>">
 				<td style="text-align:center">
-					<?php echo JHTML::_('grid.id', $i++, $item->id); ?>
+					<?php echo JHTML::_('grid.id', $item->id, $item->id); ?>
 				</td>
 				<td>
 					<a href="<?php echo JRoute::_('index.php?option=com_acl&task=acl.edit&id='.$item->id);?>">

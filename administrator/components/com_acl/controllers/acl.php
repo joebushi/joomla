@@ -28,10 +28,8 @@ class AccessControllerACL extends JController
 		$this->registerTask('save2copy',	'save');
 		$this->registerTask('save2new',	'save');
 		$this->registerTask('apply',		'save');
-		$this->registerTask('unpublish',	'publish');
-		$this->registerTask('trash',		'publish');
-		$this->registerTask('orderup',		'ordering');
-		$this->registerTask('orderdown',	'ordering');
+		$this->registerTask('deny',		'allow');
+		$this->registerTask('disable',		'enable');
 	}
 
 	/**
@@ -180,4 +178,45 @@ class AccessControllerACL extends JController
 
 		$this->setRedirect('index.php?option=com_acl&view=rules&type='.$type);
 	}
+
+	/**
+	 * Sets the allow field value on an ACL
+	 */
+	function allow()
+	{
+		// Check for request forgeries
+		JRequest::checkToken() or die('Invalid Token');
+
+		$values	= array('allow' => 1, 'deny' => 0);
+		$type	= JRequest::getInt('acl_type', 1);
+		$cid	= JRequest::getVar('cid', null, 'post', 'array');
+		$task	= $this->getTask();
+		$value	= JArrayHelper::getValue($values, $task, 0, 'int');
+
+		$model	= $this->getModel();
+		$result	= $model->allow($cid, $value);
+		$this->setMessage(JError::isError($result) ? $result->getMessage() : '');
+		$this->setRedirect('index.php?option=com_acl&view=rules&type='.$type);
+	}
+
+	/**
+	 * Sets the enable field value on an ACL
+	 */
+	function enable()
+	{
+		// Check for request forgeries
+		JRequest::checkToken() or die('Invalid Token');
+
+		$values	= array('enable' => 1, 'disable' => 0);
+		$type	= JRequest::getInt('acl_type', 1);
+		$cid	= JRequest::getVar('cid', null, 'post', 'array');
+		$task	= $this->getTask();
+		$value	= JArrayHelper::getValue($values, $task, 0, 'int');
+
+		$model	= $this->getModel();
+		$result	= $model->enable($cid, $value);
+		$this->setMessage(JError::isError($result) ? $result->getMessage() : '');
+		$this->setRedirect('index.php?option=com_acl&view=rules&type='.$type);
+	}
+
 }
