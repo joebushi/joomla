@@ -32,7 +32,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 	 * @param array 	$params		Associative array of values
 	 * @return string	The output of the script
 	 */
-	public function render( $head, $params = array(), $content = null )
+	public function render($head, $params = array(), $content = null)
 	{
 		ob_start();
 
@@ -73,7 +73,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 			{
 				if ($type == 'http-equiv') {
 					$strHtml .= $tab.'<meta http-equiv="'.$name.'" content="'.$content.'"'.$tagEnd.$lnEnd;
-				} elseif ($type == 'standard') {
+				} else if ($type == 'standard') {
 					$strHtml .= $tab.'<meta name="'.$name.'" content="'.$content.'"'.$tagEnd.$lnEnd;
 				}
 			}
@@ -90,7 +90,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 		}
 
 		// Generate stylesheet links
-		foreach ($document->_styleSheets as $strSrc => $strAttr )
+		foreach ($document->_styleSheets as $strSrc => $strAttr)
 		{
 			$strHtml .= $tab . '<link rel="stylesheet" href="'.$strSrc.'" type="'.$strAttr['mime'].'"';
 			if (!is_null($strAttr['media'])){
@@ -108,7 +108,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 			$strHtml .= $tab.'<style type="'.$type.'">'.$lnEnd;
 
 			// This is for full XHTML support.
-			if ($document->_mime == 'text/html' ) {
+			if ($document->_mime == 'text/html') {
 				$strHtml .= $tab.$tab.'<!--'.$lnEnd;
 			} else {
 				$strHtml .= $tab.$tab.'<![CDATA['.$lnEnd;
@@ -117,7 +117,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 			$strHtml .= $content . $lnEnd;
 
 			// See above note
-			if ($document->_mime == 'text/html' ) {
+			if ($document->_mime == 'text/html') {
 				$strHtml .= $tab.$tab.'-->'.$lnEnd;
 			} else {
 				$strHtml .= $tab.$tab.']]>'.$lnEnd;
@@ -136,20 +136,20 @@ class JDocumentRendererHead extends JDocumentRenderer
 			$strHtml .= $tab.'<script type="'.$type.'">'.$lnEnd;
 
 			// This is for full XHTML support.
-			if ($document->_mime != 'text/html' ) {
+			if ($document->_mime != 'text/html') {
 				$strHtml .= $tab.$tab.'<![CDATA['.$lnEnd;
 			}
 
 			$strHtml .= $content.$lnEnd;
 
 			// See above note
-			if ($document->_mime != 'text/html' ) {
+			if ($document->_mime != 'text/html') {
 				$strHtml .= $tab.$tab.'// ]]>'.$lnEnd;
 			}
 			$strHtml .= $tab.'</script>'.$lnEnd;
 		}
 
-		foreach($document->_custom as $custom) {
+		foreach ($document->_custom as $custom) {
 			$strHtml .= $tab.$custom.$lnEnd;
 		}
 

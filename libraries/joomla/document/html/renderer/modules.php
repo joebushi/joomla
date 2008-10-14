@@ -32,7 +32,7 @@ class JDocumentRendererModules extends JDocumentRenderer
 	 * @param array 	$params		Associative array of values
 	 * @return string	The output of the script
 	 */
-	public function render( $position, $params = array(), $content = null )
+	public function render($position, $params = array(), $content = null)
 	{
 		$renderer =&  $this->_doc->loadRenderer('module');
 
