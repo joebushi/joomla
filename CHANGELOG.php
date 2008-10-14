@@ -42,6 +42,9 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+14-Oct-2008 Alan Langford
+ + Added JLanguage::getLanguageIdentifier() plus much rework of class (with supporting unit tests)
+ 
 14-Oct-2008 Andrew Eddie
  ! SCHEMA CHANGE - REINSTALL REQUIRED
  ^ Broke ACLs into 3 types
