@@ -80,7 +80,7 @@ class plgXMLRPCJoomlaServices
 		$results = $mainframe->triggerEvent( 'onSearch', array( $searchword, $phrase, $ordering ) );
 
 		// Iterate through results building the return array
-		require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_search'.DS.'helpers'.DS.'search.php');
+		require_once JPATH_ADMINISTRATOR.DS.'components'.DS.'com_search'.DS.'helpers'.DS.'search.php';
 
 		foreach ($results as $i=>$rows)
 		{

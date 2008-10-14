@@ -10,12 +10,12 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-require_once( JPATH_COMPONENT.DS.'controller.php' );
+require_once JPATH_COMPONENT.DS.'controller.php';
 
 // Import library dependencies
 jimport('joomla.application.component.model');
-JTable::addIncludePath( JPATH_COMPONENT.DS.'tables' );
+JTable::addIncludePath(JPATH_COMPONENT.DS.'tables');
 
 $controller = &AccessController::getInstance();
-$controller->execute( JRequest::getVar('task') );
+$controller->execute(JRequest::getVar('task'));
 $controller->redirect();

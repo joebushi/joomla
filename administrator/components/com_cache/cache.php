@@ -24,10 +24,10 @@ if (!$user->authorize( 'com_cache', 'manage' )) {
 }
 
 // Require the base controller
-require_once (JPATH_COMPONENT.DS.'controller.php');
+require_once JPATH_COMPONENT.DS.'controller.php';
 
-$controller	= new CacheController( );
+$controller	= new CacheController();
 
 // Perform the Request task
-$controller->execute( JRequest::getCmd('task'));
+$controller->execute(JRequest::getCmd('task'));
 $controller->redirect();

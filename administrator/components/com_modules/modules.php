@@ -27,10 +27,10 @@ if (!$user->authorize( 'com_modules', 'manage' )) {
 JHTML::addIncludePath(JPATH_COMPONENT.DS.'classes');
 
 // Require the base controller
-require_once (JPATH_COMPONENT.DS.'controller.php');
+require_once JPATH_COMPONENT.DS.'controller.php';
 
 $controller	= new ModulesController();
 
 // Perform the Request task
-$controller->execute( JRequest::getCmd('task'));
+$controller->execute(JRequest::getCmd('task'));
 $controller->redirect();

@@ -157,12 +157,12 @@ abstract class JModuleHelper
 			$chrome = array();
 		}
 
-		require_once (JPATH_BASE.DS.'templates'.DS.'system'.DS.'html'.DS.'modules.php');
+		require_once JPATH_BASE.DS.'templates'.DS.'system'.DS.'html'.DS.'modules.php';
 		$chromePath = JPATH_BASE.DS.'templates'.DS.$appl->getTemplate().DS.'html'.DS.'modules.php';
 		if (!isset( $chrome[$chromePath]))
 		{
 			if (file_exists($chromePath)) {
-				require_once ($chromePath);
+				require_once $chromePath;
 			}
 			$chrome[$chromePath] = true;
 		}

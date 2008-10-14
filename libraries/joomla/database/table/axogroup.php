@@ -10,7 +10,7 @@
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();
 
-require_once(dirname(__FILE__).DS.'tree.php');
+require_once dirname(__FILE__).DS.'tree.php';
 
 /**
  * AroGroup table

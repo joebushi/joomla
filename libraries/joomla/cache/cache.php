@@ -108,7 +108,7 @@ class JCache extends JObject
 			$path = dirname(__FILE__).DS.'handler'.DS.$type.'.php';
 
 			if (file_exists($path)) {
-				require_once($path);
+				require_once $path;
 			} else {
 				JError::raiseError(500, 'Unable to load Cache Handler: '.$type);
 			}
@@ -137,7 +137,7 @@ class JCache extends JObject
 			$class = 'JCacheStorage'.$name;
 
 			if(!class_exists($class)) {
-				require_once(dirname(__FILE__).DS.'storage'.DS.$name.'.php');
+				require_once dirname(__FILE__).DS.'storage'.DS.$name.'.php';
 			}
 
 			if(call_user_func_array( array( trim($class), 'test' ), null)) {

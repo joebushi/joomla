@@ -13,9 +13,9 @@
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
-require_once( JPATH_COMPONENT.DS.'controller.php' );
+require_once JPATH_COMPONENT.DS.'controller.php';
 
 /**
  * @package		Joomla
@@ -26,10 +26,10 @@ class ConfigControllerApplication extends ConfigController
 	/**
 	 * Custom Constructor
 	 */
-	function __construct( $default = array() )
+	function __construct($default = array())
 	{
-		parent::__construct( $default );
-		$this->registerTask( 'apply', 'save' );
+		parent::__construct($default);
+		$this->registerTask('apply', 'save');
 	}
 
 	/**
@@ -51,7 +51,7 @@ class ConfigControllerApplication extends ConfigController
 		global $mainframe;
 
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JRequest::checkToken() or jexit('Invalid Token');
 
 		// Set FTP credentials, if given
 		jimport('joomla.client.helper');
@@ -63,18 +63,18 @@ class ConfigControllerApplication extends ConfigController
 
 		$userpost['params'] = JRequest::getVar('userparams', array(), 'post', 'array');
 		$userpost['option'] = 'com_users';
-		$table->loadByOption( 'com_users' );
-		$table->bind( $userpost );
+		$table->loadByOption('com_users');
+		$table->bind($userpost);
 
 		// pre-save checks
 		if (!$table->check()) {
-			JError::raiseWarning( 500, $table->getError() );
+			JError::raiseWarning(500, $table->getError());
 			return false;
 		}
 
 		// save the changes
 		if (!$table->store()) {
-			JError::raiseWarning( 500, $table->getError() );
+			JError::raiseWarning(500, $table->getError());
 			return false;
 		}
 
@@ -102,18 +102,18 @@ class ConfigControllerApplication extends ConfigController
 		$mediapost['params']['file_path'] = $file_path;
 		$mediapost['params']['image_path'] = $image_path;
 
-		$table->loadByOption( 'com_media' );
-		$table->bind( $mediapost );
+		$table->loadByOption('com_media');
+		$table->bind($mediapost);
 
 		// pre-save checks
 		if (!$table->check()) {
-			JError::raiseWarning( 500, $table->getError() );
+			JError::raiseWarning(500, $table->getError());
 			return false;
 		}
 
 		// save the changes
 		if (!$table->store()) {
-			JError::raiseWarning( 500, $table->getError() );
+			JError::raiseWarning(500, $table->getError());
 			return false;
 		}
 
@@ -195,21 +195,21 @@ class ConfigControllerApplication extends ConfigController
 		$config->setValue('config.password', $mainframe->getCfg('password'));
 
 		// handling of special characters
-		$sitename			= htmlspecialchars( JRequest::getVar( 'sitename', '', 'post', 'string' ), ENT_COMPAT, 'UTF-8' );
+		$sitename			= htmlspecialchars(JRequest::getVar('sitename', '', 'post', 'string'), ENT_COMPAT, 'UTF-8');
 		$config->setValue('config.sitename', $sitename);
 
-		$MetaDesc			= htmlspecialchars( JRequest::getVar( 'MetaDesc', '', 'post', 'string' ),  ENT_COMPAT, 'UTF-8' );
+		$MetaDesc			= htmlspecialchars(JRequest::getVar('MetaDesc', '', 'post', 'string'),  ENT_COMPAT, 'UTF-8');
 		$config->setValue('config.MetaDesc', $MetaDesc);
 
-		$MetaKeys			= htmlspecialchars( JRequest::getVar( 'MetaKeys', '', 'post', 'string' ),  ENT_COMPAT, 'UTF-8' );
+		$MetaKeys			= htmlspecialchars(JRequest::getVar('MetaKeys', '', 'post', 'string'),  ENT_COMPAT, 'UTF-8');
 		$config->setValue('config.MetaKeys', $MetaKeys);
 
 		// handling of quotes (double and single) and amp characters
 		// htmlspecialchars not used to preserve ability to insert other html characters
-		$offline_message	= JRequest::getVar( 'offline_message', '', 'post', 'string' );
-		$offline_message	= JFilterOutput::ampReplace( $offline_message );
-		$offline_message	= str_replace( '"', '&quot;', $offline_message );
-		$offline_message	= str_replace( "'", '&#039;', $offline_message );
+		$offline_message	= JRequest::getVar('offline_message', '', 'post', 'string');
+		$offline_message	= JFilterOutput::ampReplace($offline_message);
+		$offline_message	= str_replace('"', '&quot;', $offline_message);
+		$offline_message	= str_replace("'", '&#039;', $offline_message);
 		$config->setValue('config.offline_message', $offline_message);
 
 		//purge the database session table (only if we are changing to a db session store)
@@ -275,13 +275,13 @@ class ConfigControllerApplication extends ConfigController
 		jimport('joomla.client.helper');
 		JClientHelper::setCredentialsFromRequest('ftp');
 
-		$this->setRedirect( 'index.php' );
+		$this->setRedirect('index.php');
 	}
 
 	function refreshHelp()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JRequest::checkToken() or jexit('Invalid Token');
 
 		jimport('joomla.filesystem.file');
 
@@ -289,7 +289,7 @@ class ConfigControllerApplication extends ConfigController
 		jimport('joomla.client.helper');
 		JClientHelper::setCredentialsFromRequest('ftp');
 
-		if (($data = file_get_contents('http://help.joomla.org/helpsites-15.xml')) === false ) {
+		if (($data = file_get_contents('http://help.joomla.org/helpsites-15.xml')) === false) {
 			$this->setRedirect('index.php?option=com_config', JText::_('HELPREFRESH ERROR FETCH'), 'error');
 		} else if (!JFile::write(JPATH_BASE.DS.'help'.DS.'helpsites-15.xml', $data)) {
 			$this->setRedirect('index.php?option=com_config', JText::_('HELPREFRESH ERROR STORE'), 'error');

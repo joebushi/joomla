@@ -74,7 +74,7 @@ class WrapperController
 			$row->url = $url;
 		}
 
-		require_once (JPATH_COMPONENT.DS.'views'.DS.'wrapper'.DS.'view.php');
+		require_once JPATH_COMPONENT.DS.'views'.DS.'wrapper'.DS.'view.php';
 		$view = new WrapperViewWrapper();
 
 		$view->assignRef('params'  , $params);

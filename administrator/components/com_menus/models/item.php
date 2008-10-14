@@ -28,7 +28,7 @@ class MenusModelItem extends JModel
 
 	/** @var object JTable object */
 	var $_url = null;
-	
+
 	protected $_xml;
 
 	/**
@@ -131,7 +131,7 @@ class MenusModelItem extends JModel
 
 		if ($return['option'])
 		{
-			require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_menus'.DS.'classes'.DS.'ilink.php');
+			require_once JPATH_ADMINISTRATOR.DS.'components'.DS.'com_menus'.DS.'classes'.DS.'ilink.php';
 			$handler		= new iLink($return['option'], $item->id, $menutype);
 			$return['html'] = $handler->getTree();
 			return $return;

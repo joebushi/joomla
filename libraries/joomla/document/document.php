@@ -285,8 +285,8 @@ abstract class JDocument extends JObject
 			{
 				$path	= dirname(__FILE__).DS.$type.DS.$type.'.php';
 				if (file_exists($path)) {
-					require_once($path);
-				} else {	
+					require_once $path;
+				} else {
 					throw new JException(JText::_('Unable to load document class'), 500, E_ERROR, $class, true);
 				}
 			}
@@ -744,7 +744,7 @@ abstract class JDocument extends JObject
 		{
 			$path = dirname(__FILE__).DS.$this->_type.DS.'renderer'.DS.$type.'.php';
 			if(file_exists($path)) {
-				require_once($path);
+				require_once $path;
 			} else {
 				throw new JException(JText::_('Unable to load renderer class'), 500, E_ERROR, $class, true);
 			}

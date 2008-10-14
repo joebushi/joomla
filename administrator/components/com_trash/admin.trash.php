@@ -23,7 +23,7 @@ if (!$user->authorize( 'com_trash', 'manage' )) {
 	$mainframe->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
 }
 
-require_once( JApplicationHelper::getPath( 'admin_html' ) );
+require_once JApplicationHelper::getPath('admin_html');
 
 $cid = JRequest::getVar( 'cid', array(0), 'post', 'array' );
 $mid = JRequest::getVar( 'mid', array(0), 'post', 'array' );
@@ -259,7 +259,7 @@ function deleteTrash( $cid, $option )
 	{
 		$obj =& JTable::getInstance('content');
 
-		require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_frontpage'.DS.'tables'.DS.'frontpage.php');
+		require_once JPATH_ADMINISTRATOR.DS.'components'.DS.'com_frontpage'.DS.'tables'.DS.'frontpage.php';
 		$fp = new TableFrontPage( $db );
 		foreach ( $cid as $id ) {
 			$id = intval( $id );

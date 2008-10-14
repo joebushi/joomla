@@ -121,7 +121,7 @@ class AccessController extends JController
 
 			// If the controller file path exists, include it ... else lets die with a 500 error
 			if (file_exists($controllerPath)) {
-				require_once($controllerPath);
+				require_once $controllerPath;
 			}
 			else {
 				JError::raiseError(500, 'Invalid Controller');

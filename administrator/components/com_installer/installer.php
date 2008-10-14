@@ -37,7 +37,7 @@ foreach ($subMenus as $name => $extension) {
 	JSubMenuHelper::addEntry(JText::_( $name ), '#" onclick="javascript:document.adminForm.type.value=\''.$extension.'\';submitbutton(\'manage\');', ($extension == $ext));
 }
 
-require_once( JPATH_COMPONENT.DS.'controller.php' );
+require_once JPATH_COMPONENT.DS.'controller.php';
 
 $controller = new InstallerController( array('default_task' => 'installform') );
 //die(JRequest::getCmd('task'));

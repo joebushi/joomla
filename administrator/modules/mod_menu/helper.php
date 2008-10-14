@@ -14,7 +14,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-require_once(dirname(__FILE__).DS.'menu.php');
+require_once dirname(__FILE__).DS.'menu.php';
 
 class modMenuHelper
 {
@@ -46,7 +46,7 @@ class modMenuHelper
 		$canManageUsers		= $user->authorize('com_users', 'manage');
 
 		// Menu Types
-		require_once( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_menus'.DS.'helpers'.DS.'helper.php' );
+		require_once JPATH_ADMINISTRATOR.DS.'components'.DS.'com_menus'.DS.'helpers'.DS.'helper.php';
 		$menuTypes 	= MenusHelper::getMenuTypelist();
 
 		/*

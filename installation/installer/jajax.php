@@ -17,8 +17,8 @@ define( 'JPATH_BASE', dirname(dirname(__FILE__)) );
 define( 'DS', DIRECTORY_SEPARATOR );
 define( 'JXPATH_BASE', JPATH_BASE.DS.'includes' );
 
-require_once ( JPATH_BASE .DS.'includes'.DS.'defines.php' );
-require_once ( JPATH_BASE .DS.'includes'.DS.'framework.php' );
+require_once JPATH_BASE .DS.'includes'.DS.'defines.php';
+require_once JPATH_BASE .DS.'includes'.DS.'framework.php';
 
 // create the mainframe object
 $mainframe = JFactory::getApplication('installation');
@@ -30,11 +30,11 @@ if (file_exists(JPATH_CONFIGURATION.DS.'configuration.php') && (filesize(JPATH_C
 }
 
 // System includes
-require_once( JPATH_LIBRARIES		.DS.'joomla'.DS.'import.php');
+require_once JPATH_LIBRARIES		.DS.'joomla'.DS.'import.php';
 
-require_once( JPATH_BASE . DS. 'installer' . DS . 'helper.php' );
+require_once JPATH_BASE . DS. 'installer' . DS . 'helper.php';
 // Require the xajax library
-require_once (JXPATH_BASE.DS.'xajax'.DS.'xajax.inc.php');
+require_once JXPATH_BASE.DS.'xajax'.DS.'xajax.inc.php';
 $xajax = new xajax();
 $xajax->errorHandlerOn();
 

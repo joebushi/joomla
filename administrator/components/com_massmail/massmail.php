@@ -24,10 +24,10 @@ if (!$user->authorize( 'com_massmail', 'manage' )) {
 }
 
 // Require the base controller
-require_once (JPATH_COMPONENT.DS.'controller.php');
+require_once JPATH_COMPONENT.DS.'controller.php';
 
 $controller	= new MassmailController( );
 
 // Perform the Request task
-$controller->execute( JRequest::getCmd('task'));
+$controller->execute(JRequest::getCmd('task'));
 $controller->redirect();

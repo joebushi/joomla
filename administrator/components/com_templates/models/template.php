@@ -213,7 +213,7 @@ class TemplatesModelTemplate extends JModel
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_data))
 		{
-			require_once(JPATH_COMPONENT.DS.'helpers'.DS.'template.php');
+			require_once JPATH_COMPONENT.DS.'helpers'.DS.'template.php';
 
 			$tBaseDir	= JPath::clean($this->_client->path.DS.'templates');
 

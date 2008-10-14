@@ -153,7 +153,7 @@ class TemplatesModelTemplates extends JModel
 
 	function _loadData()
 	{
-		require_once(JPATH_COMPONENT.DS.'helpers'.DS.'template.php');
+		require_once JPATH_COMPONENT.DS.'helpers'.DS.'template.php';
 
 		$tBaseDir = $this->_client->path.DS.'templates';
 

@@ -131,7 +131,7 @@ abstract class JPluginHelper
 				$mainframe = JFactory::getApplication();
 
 				jimport('joomla.plugin.plugin');
-				require_once( $path );
+				require_once $path;
 				$paths[$path] = true;
 
 				if($autocreate)

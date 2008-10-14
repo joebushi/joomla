@@ -206,7 +206,7 @@ abstract class JDatabase extends JObject
 			$path	= dirname(__FILE__).DS.'database'.DS.$driver.'.php';
 
 			if (file_exists($path)) {
-				require_once($path);
+				require_once $path;
 			} else {
 				JError::setErrorHandling(E_ERROR, 'die'); //force error type to die
 				$error = JError::raiseError( 500, JTEXT::_('Unable to load Database Driver:') .$driver);
@@ -261,7 +261,7 @@ abstract class JDatabase extends JObject
 			$class = 'JDatabase'.ucfirst($name);
 
 			if(!class_exists($class)) {
-				require_once(dirname(__FILE__).DS.'database'.DS.$name.'.php');
+				require_once dirname(__FILE__).DS.'database'.DS.$name.'.php';
 			}
 
 			if(call_user_func_array( array( trim($class), 'test' ), null)) {

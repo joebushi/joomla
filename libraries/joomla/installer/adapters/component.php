@@ -265,7 +265,7 @@ class JInstallerComponent extends JObject
 			if (is_file($this->parent->getPath('extension_administrator').DS.$this->get('install.script'))) {
 				ob_start();
 				ob_implicit_flush(false);
-				require_once ($this->parent->getPath('extension_administrator').DS.$this->get('install.script'));
+				require_once $this->parent->getPath('extension_administrator').DS.$this->get('install.script');
 				if (function_exists('com_install')) {
 					if (com_install() === false) {
 						$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.JText::_('Custom install routine failure'));
@@ -372,7 +372,7 @@ class JInstallerComponent extends JObject
 			if (is_file($this->parent->getPath('extension_administrator').DS.$uninstallfileElement->data())) {
 				ob_start();
 				ob_implicit_flush(false);
-				require_once ($this->parent->getPath('extension_administrator').DS.$uninstallfileElement->data());
+				require_once $this->parent->getPath('extension_administrator').DS.$uninstallfileElement->data();
 				if (function_exists('com_uninstall')) {
 					if (com_uninstall() === false) {
 						JError::raiseWarning(100, JText::_('Component').' '.JText::_('Uninstall').': '.JText::_('Custom Uninstall script unsuccessful'));

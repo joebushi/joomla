@@ -66,7 +66,7 @@ abstract class JFileSystem
 			$path = JPATH_LIBRARIES.DS.'joomla'.DS.'filesystem'.DS.'filesystem'.DS.$type.'.php';
 			$class = 'JFileSystem'.ucfirst($type);
 			if(!class_exists($class) && file_exists($path)) {
-				require_once($path);
+				require_once $path;
 			}
 
 			if(empty($options)) {
@@ -80,7 +80,7 @@ abstract class JFileSystem
 			if(!$force && !$instance->check() && $type != 'php') {
 				JError::raiseNotice('SOME_ERROR_CODE', JText::sprintf('Unable to initialize filesystem %s', $type));
 				$path = JPATH_LIBRARIES.DS.'joomla'.DS.'filesystem'.DS.'filesystem'.DS.'php.php';
-				require_once($path);
+				require_once $path;
 				$instance = new JFileSystemPHP();
 			}
 			if(!$force) {
@@ -107,7 +107,7 @@ abstract class JFileSystem
 			$class = 'JFilesystem'.ucfirst($name);
 			$path = JPATH_LIBRARIES.DS.'joomla'.DS.'filesystem'.DS.'filesystem'.DS.$file;
 			if(!class_exists($class)) {
-				require_once($path);
+				require_once $path;
 			}
 			if($force || call_user_func(array($class, 'test'))) {
 				$arr[] = $type;

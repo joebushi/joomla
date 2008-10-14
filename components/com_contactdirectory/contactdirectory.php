@@ -4,7 +4,7 @@ defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.helper');
 
-require_once(JPATH_COMPONENT.DS.'controller.php');
+require_once JPATH_COMPONENT.DS.'controller.php';
 
 // Create the controller
 $controller = new ContactdirectoryController();

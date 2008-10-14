@@ -13,13 +13,13 @@
 */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
 // Require the base controller
-require_once (JPATH_COMPONENT.DS.'controller.php');
+require_once JPATH_COMPONENT.DS.'controller.php';
 
 // Set the helper directory
-JHTML::addIncludePath( JPATH_COMPONENT.DS.'classes' );
+JHTML::addIncludePath(JPATH_COMPONENT.DS.'classes');
 
 // Require specific controller if requested
 global $controller;
@@ -34,8 +34,8 @@ if($controller = JRequest::getWord('controller', 'application')) {
 
 // Create the controller
 $classname	= 'ContentController'.ucfirst($controller);
-$controller_obj	= new $classname( );
+$controller_obj	= new $classname();
 
 // Perform the Request task
-$controller_obj->execute( JRequest::getCmd('task'));
+$controller_obj->execute(JRequest::getCmd('task'));
 $controller_obj->redirect();

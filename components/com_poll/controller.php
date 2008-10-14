@@ -76,7 +76,7 @@ class PollController extends JController
 		{
 			setcookie( $cookieName, '1', time() + $poll->lag );
 
-			require_once(JPATH_COMPONENT.DS.'models'.DS.'poll.php');
+			require_once JPATH_COMPONENT.DS.'models'.DS.'poll.php';
 			$model = new PollModelPoll();
 			$model->vote( $poll_id, $option_id );
 

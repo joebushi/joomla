@@ -168,7 +168,7 @@ class JInstallationModel extends JModel
 		$vars	=& $this->getVars();
 
 		// Require the xajax library
-		require_once( JPATH_BASE.DS.'includes'.DS.'xajax'.DS.'xajax.inc.php' );
+		require_once JPATH_BASE.DS.'includes'.DS.'xajax'.DS.'xajax.inc.php';
 
 		// Instantiate the xajax object and register the function
 		$xajax = new xajax(JURI::base().'installer/jajax.php');
@@ -505,7 +505,7 @@ class JInstallationModel extends JModel
 		}
 
 		// Require the xajax library
-		require_once( JPATH_BASE.DS.'includes'.DS.'xajax'.DS.'xajax.inc.php' );
+		require_once JPATH_BASE.DS.'includes'.DS.'xajax'.DS.'xajax.inc.php';
 
 		// Instantiate the xajax object and register the function
 		$xajax = new xajax(JURI::base().'installer/jajax.php');

@@ -16,10 +16,10 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 // Require the base controller
-require_once (JPATH_COMPONENT.DS.'controller.php');
+require_once JPATH_COMPONENT.DS.'controller.php';
 
-$controller	= new CategoriesController( );
+$controller	= new CategoriesController();
 
 // Perform the Request task
-$controller->execute( JRequest::getCmd('task'));
+$controller->execute(JRequest::getCmd('task'));
 $controller->redirect();

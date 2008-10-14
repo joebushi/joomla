@@ -22,15 +22,15 @@ defined('_JEXEC') or die('Restricted access');
  */
 
 jimport('joomla.application.component.controller');
-require_once( dirname(__FILE__).DS.'models'.DS.'model.php');
-require_once( dirname(__FILE__).DS.'views'.DS.'install'.DS.'view.php');
+require_once dirname(__FILE__).DS.'models'.DS.'model.php';
+require_once dirname(__FILE__).DS.'views'.DS.'install'.DS.'view.php';
 
 class JInstallationController extends JController
 {
 	protected $_model		= null;
 
 	protected $_view		= null;
-	
+
 
 	/**
 	 * Constructor

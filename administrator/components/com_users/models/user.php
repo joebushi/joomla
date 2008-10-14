@@ -10,7 +10,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-require_once( dirname( __FILE__ ).DS.'_prototype.php' );
+require_once dirname( __FILE__ ).DS.'_prototype.php';
 
 /**
  * @package		Users

@@ -81,7 +81,7 @@ class JInstallation extends JApplication
 
 		// Execute the component
 		ob_start();
-		require_once(JPATH_COMPONENT.DS.'installer.php');
+		require_once JPATH_COMPONENT.DS.'installer.php';
 		$contents = ob_get_contents();
 		ob_end_clean();
 

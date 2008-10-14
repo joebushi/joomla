@@ -213,7 +213,7 @@ class JPagination extends JObject
 		$chromePath = JPATH_THEMES.DS.$appl->getTemplate().DS.'html'.DS.'pagination.php';
 		if (file_exists($chromePath))
 		{
-			require_once ($chromePath);
+			require_once $chromePath;
 			if (function_exists('pagination_item_active') && function_exists('pagination_item_inactive')) {
 				$itemOverride = true;
 			}
@@ -303,7 +303,7 @@ class JPagination extends JObject
 		$chromePath		= JPATH_THEMES.DS.$appl->getTemplate().DS.'html'.DS.'pagination.php';
 		if (file_exists( $chromePath ))
 		{
-			require_once( $chromePath );
+			require_once $chromePath;
 			if (function_exists( 'pagination_list_footer' )) {
 				return pagination_list_footer( $list );
 			}
