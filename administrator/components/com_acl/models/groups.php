@@ -74,7 +74,7 @@ class AccessModelGroups extends AccessModelPrototypeList
 	 */
 	function _getListQuery($resolveFKs = false)
 	{
-		if (empty($this->_list_sql))
+		if (empty($this->_list_query))
 		{
 			$db			= &$this->getDBO();
 			$query		= new JQuery;
@@ -138,10 +138,10 @@ class AccessModelGroups extends AccessModelPrototypeList
 			}
 
 			//echo nl2br($query->toString());
-			$this->_list_sql = (string) $query;
+			$this->_list_query = (string) $query;
 		}
 
-		return $this->_list_sql;
+		return $this->_list_query;
 	}
 
 	/**

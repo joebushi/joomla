@@ -134,7 +134,7 @@ class AccessModelACLs extends AccessModelPrototypeList
 	 */
 	function _getListQuery($resolveFKs = false)
 	{
-		if (empty($this->_list_sql))
+		if (empty($this->_list_query))
 		{
 			$db			= &$this->getDBO();
 			$query		= new JQuery;
@@ -173,15 +173,15 @@ class AccessModelACLs extends AccessModelPrototypeList
 			}
 
 			//echo nl2br($query->toString());
-			$this->_list_sql = (string) $query;
+			$this->_list_query = (string) $query;
 		}
 
-		return $this->_list_sql;
+		return $this->_list_query;
 	}
 
 	function getSections()
 	{
-		$model = JModel::getInstance('Section', 'AccessModel');
+		$model = JModel::getInstance('Section',	'AccessModel');
 		$model->setState('list.select',			'a.value, a.name AS text');
 		$model->setState('list.section_type',	'acl');
 		$model->setState('list.order',			'a.order_value,a.name');
@@ -190,11 +190,17 @@ class AccessModelACLs extends AccessModelPrototypeList
 
 	function getACOs()
 	{
-		$model = JModel::getInstance('object', 'AccessModel');
+		$model = JModel::getInstance('object',	'AccessModel');
 		$model->setState('list.section_value',	$this->getState('section_value'));
 		$model->setState('list.object_type',	'aco');
 		$model->setState('list.hidden',			'0');
 		$model->setState('list.order',			'a.section_value,a.order_value,a.name');
+		if ($this->getState('allow_axos')) {
+			$model->setState('list.where',		'a.allow_axos = 1');
+		}
+		else {
+			$model->setState('list.where',		'a.allow_axos = 0');
+		}
 		return $model->getList();
 	}
 
@@ -210,7 +216,7 @@ class AccessModelACLs extends AccessModelPrototypeList
 
 	function getAXOs()
 	{
-		$model = JModel::getInstance('object', 'AccessModel');
+		$model = JModel::getInstance('object',	'AccessModel');
 		$model->setState('list.section_value',	$this->getState('section_value'));
 		$model->setState('list.object_type',	'axo');
 		$model->setState('list.hidden',			'0');
@@ -220,7 +226,7 @@ class AccessModelACLs extends AccessModelPrototypeList
 
 	function getAXOGroups()
 	{
-		$model = JModel::getInstance('Group', 'AccessModel');
+		$model = JModel::getInstance('Group',	'AccessModel');
 		$model->setState('list.group_type',	'aro');
 		$model->setState('list.tree',		'1');
 		$model->setState('list.order',		'a.lft');

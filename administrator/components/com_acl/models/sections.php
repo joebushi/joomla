@@ -36,7 +36,7 @@ class AccessModelSections extends AccessModelPrototypeList
 	 */
 	function _getListQuery($resolveFKs = false)
 	{
-		if (empty($this->_list_sql))
+		if (empty($this->_list_query))
 		{
 			$db			= &$this->getDBO();
 			$query		= new JQuery;
@@ -72,10 +72,10 @@ class AccessModelSections extends AccessModelPrototypeList
 				$query->order($this->_db->getEscaped($orderBy));
 			}
 
-			$this->_list_sql = (string) $query;
-			//echo nl2br($this->_list_sql);
+			$this->_list_query = (string) $query;
+			//echo nl2br($this->_list_query);
 		}
 
-		return $this->_list_sql;
+		return $this->_list_query;
 	}
 }
