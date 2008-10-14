@@ -25,13 +25,13 @@ class AccessControllerACL extends JController
 	{
 		parent::__construct();
 
-		$this->registerTask( 'save2copy',	'save' );
-		$this->registerTask( 'save2new',	'save' );
-		$this->registerTask( 'apply',		'save' );
-		$this->registerTask( 'unpublish',	'publish' );
-		$this->registerTask( 'trash',		'publish' );
-		$this->registerTask( 'orderup',		'ordering' );
-		$this->registerTask( 'orderdown',	'ordering' );
+		$this->registerTask('save2copy',	'save');
+		$this->registerTask('save2new',	'save');
+		$this->registerTask('apply',		'save');
+		$this->registerTask('unpublish',	'publish');
+		$this->registerTask('trash',		'publish');
+		$this->registerTask('orderup',		'ordering');
+		$this->registerTask('orderdown',	'ordering');
 	}
 
 	/**
@@ -39,7 +39,7 @@ class AccessControllerACL extends JController
 	 */
 	function display()
 	{
-		JError::raiseWarning( 500, 'This controller does not implement a display method' );
+		JError::raiseWarning(500, 'This controller does not implement a display method');
 	}
 
 	/**
@@ -47,7 +47,7 @@ class AccessControllerACL extends JController
 	 */
 	function &getModel()
 	{
-		return parent::getModel( 'ACL', 'AccessModel', array( 'ignore_request' => true ) );
+		return parent::getModel('ACL', 'AccessModel', array('ignore_request' => true));
 	}
 
 	/**
@@ -60,18 +60,18 @@ class AccessControllerACL extends JController
 	 */
 	function edit()
 	{
-		$cid = JRequest::getVar( 'cid', array(), '', 'array' );
-		$id  = JRequest::getInt( 'id', @$cid[0] );
+		$cid = JRequest::getVar('cid', array(), '', 'array');
+		$id  = JRequest::getInt('id', @$cid[0]);
 
 		$session = &JFactory::getSession();
-		$session->set( 'com_acl.acl.id', $id );
+		$session->set('com_acl.acl.id', $id);
 
 		if ($id) {
 			// Checkout item
 			//$model = $this->getModel();
-			//$model->checkout( $id );
+			//$model->checkout($id);
 		}
-		$this->setRedirect( JRoute::_( 'index.php?option=com_acl&view=rule&layout=edit', false ) );
+		$this->setRedirect(JRoute::_('index.php?option=com_acl&view=rule&layout=edit', false));
 	}
 
 	/**
@@ -86,15 +86,15 @@ class AccessControllerACL extends JController
 	{
 		// Checkin item if checked out
 		$session = &JFactory::getSession();
-		//if ($id = (int) $session->get( 'com_acl.acl.id' )) {
+		//if ($id = (int) $session->get('com_acl.acl.id')) {
 		//	$model = $this->getModel();
-		//	$model->checkin( $id );
+		//	$model->checkin($id);
 		//}
 
 		// Clear the session of the item
-		$session->set( 'com_acl.acl.id', null );
+		$session->set('com_acl.acl.id', null);
 
-		$this->setRedirect( JRoute::_('index.php?option=com_acl&view=rules', false ) );
+		$this->setRedirect(JRoute::_('index.php?option=com_acl&view=rules', false));
 	}
 
 	/**
@@ -116,7 +116,7 @@ class AccessControllerACL extends JController
 
 		// Clear static values
 		// @todo Look at moving these to the table bind method (but check how new user values are handled)
-		unset( $input['updated_date'] );
+		unset($input['updated_date']);
 
 		// Get the id of the item out of the session.
 		$session	= &JFactory::getSession();
@@ -125,21 +125,21 @@ class AccessControllerACL extends JController
 
 		// Get the extensions model and set the post request in its state.
 		$model	= &$this->getModel();
-		$result	= $model->save( $input );
-		$msg	= JError::isError( $result ) ? $result->message : 'Saved';
+		$result	= $model->save($input);
+		$msg	= JError::isError($result) ? $result->message : 'Saved';
 
 		if ($this->_task == 'apply') {
-			$session->set( 'com_acl.acl.id', $model->getState( 'id' ) );
+			$session->set('com_acl.acl.id', $model->getState('id'));
 			$this->setRedirect(JRoute::_('index.php?option=com_acl&view=rule&layout=edit', false), JText::_($msg));
 		}
 		else if ($this->_task == 'save2new') {
-			$session->set( 'com_acl.acl.id', null );
+			$session->set('com_acl.acl.id', null);
 			//$model->checkin($id);
 
 			$this->setRedirect(JRoute::_('index.php?option=com_acl&view=rule&layout=edit', false), JText::_($msg));
 		}
 		else {
-			$session->set( 'com_acl.acl.id', null );
+			$session->set('com_acl.acl.id', null);
 			//$model->checkin($id);
 
 			$this->setRedirect(JRoute::_('index.php?option=com_acl&view=rules', false), JText::_($msg));
@@ -152,29 +152,29 @@ class AccessControllerACL extends JController
 	function delete()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or die('Invalid Token');
 
 		// Get items to remove from the request.
 		$cid = JRequest::getVar('cid', array(), '', 'array');
 
-		if (empty( $cid )) {
-			JError::raiseWarning(500, JText::_( 'No items selected' ));
+		if (empty($cid)) {
+			JError::raiseWarning(500, JText::_('No items selected'));
 		}
 		else {
 			// Get the model.
 			$model = $this->getModel();
 
 			// Make sure the item ids are integers
-			jimport( 'joomla.utilities.arrayhelper' );
-			JArrayHelper::toInteger( $cid );
+			jimport('joomla.utilities.arrayhelper');
+			JArrayHelper::toInteger($cid);
 
 			// Remove the items.
 			if (!$model->delete($cid)) {
-				JError::raiseWarning( 500, $model->getError() );
+				JError::raiseWarning(500, $model->getError());
 			}
 		}
 
-		$this->setRedirect( 'index.php?option=com_acl&view=rules' );
+		$this->setRedirect('index.php?option=com_acl&view=rules');
 	}
 
 	/**
@@ -183,19 +183,19 @@ class AccessControllerACL extends JController
 	function allow()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or die('Invalid Token');
 
 		// Set the redirection
-		$this->setRedirect( $_SERVER['HTTP_REFERER'] );
+		$this->setRedirect($_SERVER['HTTP_REFERER']);
 
-		$values		= array( 'allow' => 1, 'deny' => 0 );
-		$cid		= JRequest::getVar( 'cid', null, 'post', 'array' );
+		$values		= array('allow' => 1, 'deny' => 0);
+		$cid		= JRequest::getVar('cid', null, 'post', 'array');
 		$task		= $this->getTask();
-		$value		= JArrayHelper::getValue( $values, $task, 0, 'int' );
+		$value		= JArrayHelper::getValue($values, $task, 0, 'int');
 
 		$model	= $this->getModel();
-		$result	= $model->allow( $cid, $value );
-		$this->setMessage( JError::isError( $result ) ? $result->getMessage() : '' );
+		$result	= $model->allow($cid, $value);
+		$this->setMessage(JError::isError($result) ? $result->getMessage() : '');
 	}
 
 	/**
@@ -204,19 +204,19 @@ class AccessControllerACL extends JController
 	function enable()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or die('Invalid Token');
 
 		// Set the redirection
-		$this->setRedirect( $_SERVER['HTTP_REFERER'] );
+		$this->setRedirect($_SERVER['HTTP_REFERER']);
 
-		$values		= array( 'enable' => 1, 'disable' => 0 );
-		$cid		= JRequest::getVar( 'cid', null, 'post', 'array' );
+		$values		= array('enable' => 1, 'disable' => 0);
+		$cid		= JRequest::getVar('cid', null, 'post', 'array');
 		$task		= $this->getTask();
-		$value		= JArrayHelper::getValue( $values, $task, 0, 'int' );
+		$value		= JArrayHelper::getValue($values, $task, 0, 'int');
 
 		$model	= $this->getModel();
-		$result	= $model->enable( $cid, $value );
-		$this->setMessage( JError::isError( $result ) ? $result->getMessage() : '' );
+		$result	= $model->enable($cid, $value);
+		$this->setMessage(JError::isError($result) ? $result->getMessage() : '');
 	}
 
 

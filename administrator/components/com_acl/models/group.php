@@ -44,7 +44,7 @@ class AccessModelGroup extends AccessModelPrototypeItem
 		if (empty($this->_item))
 		{
 			$session = &JFactory::getSession();
-			$id = (int) $session->get( 'com_acl.group.id', $this->getState('id') );
+			$id = (int) $session->get('com_acl.group.id', $this->getState('id'));
 
 			$table = $this->getTable();
 			if (!$table->load($id)) {
@@ -58,7 +58,7 @@ class AccessModelGroup extends AccessModelPrototypeItem
 	/**
 	 * Save override
 	 */
-	function save( $input )
+	function save($input)
 	{
 		$result	= true;
 		$user	= &JFactory::getUser();
@@ -66,7 +66,7 @@ class AccessModelGroup extends AccessModelPrototypeItem
 		$isNew	= empty($input['id']);
 
 		if (!$table->save($input)) {
-			$result	= JError::raiseWarning( 500, $table->getError() );
+			$result	= JError::raiseWarning(500, $table->getError());
 		}
 		if (strtolower($this->getState('group_type')) == 'axo') {
 			if ($isNew) {

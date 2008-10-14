@@ -4,12 +4,12 @@
 	JHTML::_('behavior.tooltip');
 	JHTML::_('behavior.formvalidation');
 
-	$state	= $this->get( 'State' );
-	$type	= strtoupper( $state->get( 'type' ) );
+	$state	= $this->get('State');
+	$type	= strtoupper($state->get('type'));
 
 	// Find the correct parent group for the filter list
 	$acl = &JFactory::getACL();
-	$parentId = $acl->get_group_id( 'USERS' );
+	$parentId = $acl->get_group_id('USERS');
 ?>
 <script language="javascript" type="text/javascript">
 <!--
@@ -24,26 +24,26 @@
 </script>
 <form action="<?php echo JRoute::_('index.php?option=com_acl'); ?>" method="post" name="adminForm" class="form-validate">
 	<fieldset>
-		<?php if ($id = $this->item->get( 'id' )) : ?>
-		<legend><?php echo JText::sprintf( 'Record #%d', $id ); ?></legend>
+		<?php if ($id = $this->item->get('id')) : ?>
+		<legend><?php echo JText::sprintf('Record #%d', $id); ?></legend>
 		<?php endif; ?>
 		<table class="admintable">
 			<tr>
 				<td width="150" class="key">
 					<label for="name">
-						<?php echo JText::_( 'ACL Parent Group' ); ?>
+						<?php echo JText::_('ACL Parent Group'); ?>
 					</label>
 				</td>
 				<td>
 					<select name="parent_id" class="inputbox" size="1">
-						<?php echo JHTML::_( 'acl.groups', $this->item->get( 'parent_id' ), $parentId );  ?>
+						<?php echo JHTML::_('acl.groups', $this->item->get('parent_id'), $parentId);  ?>
 					</select>
 				</td>
 			</tr>
 			<tr>
 				<td width="150" class="key">
 					<label for="name">
-						<?php echo JText::_( 'ACL Group Name' ); ?>
+						<?php echo JText::_('ACL Group Name'); ?>
 					</label>
 				</td>
 				<td>
@@ -53,7 +53,7 @@
 			<tr>
 				<td class="key">
 					<label for="username">
-						<?php echo JText::_( 'ACL Group Alias' ); ?>
+						<?php echo JText::_('ACL Group Alias'); ?>
 					</label>
 				</td>
 				<td>
@@ -70,10 +70,10 @@
 
 <script type="text/javascript">
 // Attach the onblur event to auto-create the alias
-e = document.getElementById( 'name' );
+e = document.getElementById('name');
 e.onblur = function(){
-	title = document.getElementById( 'name' );
-	alias = document.getElementById( 'value' );
+	title = document.getElementById('name');
+	alias = document.getElementById('value');
 	if (alias.value=='') {
 		alias.value = title.value.replace(/[\s\-]+/g,'-').replace(/&/g,'and').replace(/[^A-Z0-9\-\_]/ig,'').toLowerCase();
 	}

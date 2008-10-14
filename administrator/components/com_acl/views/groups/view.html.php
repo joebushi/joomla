@@ -25,9 +25,9 @@ class AccessViewGroups extends JView
 	 */
 	function display($tpl = null)
 	{
-		$state		= $this->get( 'State' );
-		$items		= $this->get( 'List' );
-		$pagination	= $this->get( 'Pagination' );
+		$state		= $this->get('State');
+		$items		= $this->get('List');
+		$pagination	= $this->get('Pagination');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -35,9 +35,9 @@ class AccessViewGroups extends JView
 			return false;
 		}
 
-		$this->assignRef( 'state',		$state );
-		$this->assignRef( 'items',		$items );
-		$this->assignRef( 'pagination', $pagination );
+		$this->assignRef('state',		$state);
+		$this->assignRef('items',		$items);
+		$this->assignRef('pagination', $pagination);
 
 		$this->_setToolbar();
 		parent::display($tpl);
@@ -48,9 +48,9 @@ class AccessViewGroups extends JView
 	 */
 	private function _setToolbar()
 	{
-		JToolBarHelper::title( JText::_( 'Access Control: User Groups' ), 'user' );
-		JToolBarHelper::custom( 'group.edit', 'edit.png', 'edit_f2.png', 'Edit', true );
-		JToolBarHelper::custom( 'group.edit', 'new.png', 'new_f2.png', 'New', false );
-		JToolBarHelper::deleteList( '', 'group.delete' );
+		JToolBarHelper::title(JText::_('Access Control: User Groups'), 'user');
+		JToolBarHelper::custom('group.edit', 'edit.png', 'edit_f2.png', 'Edit', true);
+		JToolBarHelper::custom('group.edit', 'new.png', 'new_f2.png', 'New', false);
+		JToolBarHelper::deleteList('', 'group.delete');
 	}
 }

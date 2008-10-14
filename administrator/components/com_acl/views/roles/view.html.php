@@ -25,9 +25,9 @@ class AccessViewRoles extends JView
 	 */
 	function display($tpl = null)
 	{
-		$state		= $this->get( 'State' );
-		$items		= $this->get( 'ExtendedItems' );
-		$pagination	= $this->get( 'Pagination' );
+		$state		= $this->get('State');
+		$items		= $this->get('ExtendedItems');
+		$pagination	= $this->get('Pagination');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -35,9 +35,9 @@ class AccessViewRoles extends JView
 			return false;
 		}
 
-		$this->assignRef( 'state',		$state );
-		$this->assignRef( 'items',		$items );
-		$this->assignRef( 'pagination', $pagination );
+		$this->assignRef('state',		$state);
+		$this->assignRef('items',		$items);
+		$this->assignRef('pagination', $pagination);
 
 		$this->_setToolBar();
 		parent::display($tpl);

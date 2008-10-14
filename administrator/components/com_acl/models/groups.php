@@ -21,10 +21,10 @@ class AccessModelGroups extends AccessModelPrototypeList
 	/**
 	 * Valid types
 	 */
-	function isValidType( $type )
+	function isValidType($type)
 	{
-		$types	= array( 'aro', 'axo' );
-		return in_array( strtolower( $type ), $types );
+		$types	= array('aro', 'axo');
+		return in_array(strtolower($type), $types);
 	}
 
 	/**
@@ -46,7 +46,7 @@ class AccessModelGroups extends AccessModelPrototypeList
 
 			$type		= $app->getUserStateFromRequest($context.'.type',		'group_type');
 			$search		= $app->getUserStateFromRequest($context.'.search',		'search');
-			$limit 		= $app->getUserStateFromRequest('global.list.limit',	'limit',			$app->getCfg( 'list_limit' ));
+			$limit 		= $app->getUserStateFromRequest('global.list.limit',	'limit',			$app->getCfg('list_limit'));
 			$limitstart = $app->getUserStateFromRequest($context.'.limitstart',	'limitstart',		0);
 			$orderCol	= $app->getUserStateFromRequest($context.'.ordercol',	'filter_order',		'a.lft');
 			$orderDirn	= $app->getUserStateFromRequest($context.'.orderdirn',	'filter_order_Dir',	'asc');
@@ -74,35 +74,35 @@ class AccessModelGroups extends AccessModelPrototypeList
 	 */
 	function _getListQuery($resolveFKs = false)
 	{
-		if (empty( $this->_list_sql ))
+		if (empty($this->_list_sql))
 		{
 			$db			= &$this->getDBO();
 			$query		= new JQuery;
-			$type		= strtolower($this->getState( 'list.group_type' ));
-			$tree		= $this->getState( 'list.tree');
-			$parentId	= $this->getState( 'list.parent_id');
-			$select		= $this->getState( 'list.select', 'a.*');
-			$search		= $this->getState( 'list.search');
-			$where		= $this->getState( 'list.where');
-			$orderBy	= $this->getState( 'list.order');
+			$type		= strtolower($this->getState('list.group_type'));
+			$tree		= $this->getState('list.tree');
+			$parentId	= $this->getState('list.parent_id');
+			$select		= $this->getState('list.select', 'a.*');
+			$search		= $this->getState('list.search');
+			$where		= $this->getState('list.where');
+			$orderBy	= $this->getState('list.order');
 
 			// Dynamically determine the table
 			$table		= '#__core_acl_'.$type.'_groups';
 
-			$query->select( $select );
-			$query->from( $table.' AS a' );
+			$query->select($select);
+			$query->from($table.' AS a');
 
 			// Add the level in the tree
 			if ($tree) {
-				$query->select( 'COUNT(DISTINCT c2.id) AS level' );
-				$query->join( 'LEFT OUTER', $table.' AS c2 ON a.lft > c2.lft AND a.rgt < c2.rgt' );
-				$query->group( 'a.id' );
+				$query->select('COUNT(DISTINCT c2.id) AS level');
+				$query->join('LEFT OUTER', $table.' AS c2 ON a.lft > c2.lft AND a.rgt < c2.rgt');
+				$query->group('a.id');
 			}
 
 			// Get a subtree below the parent
 			if ($parentId > 0) {
-				$query->join( 'LEFT', $table.' AS p ON p.id = '.(int) $parentId );
-				$query->where( 'a.lft > p.lft AND a.rgt < p.rgt' );
+				$query->join('LEFT', $table.' AS p ON p.id = '.(int) $parentId);
+				$query->where('a.lft > p.lft AND a.rgt < p.rgt');
 			}
 
 			// Resolve associated data
@@ -110,34 +110,34 @@ class AccessModelGroups extends AccessModelPrototypeList
 			{
 				// Count the objects in the user group
 				if ($type == 'aro') {
-					$query->select( 'COUNT(DISTINCT map.aro_id) AS object_count' );
-					$query->join( 'LEFT', '#__core_acl_groups_'.$type.'_map AS map ON map.group_id=a.id' );
-					$query->group( 'a.id' );
+					$query->select('COUNT(DISTINCT map.aro_id) AS object_count');
+					$query->join('LEFT', '#__core_acl_groups_'.$type.'_map AS map ON map.group_id=a.id');
+					$query->group('a.id');
 				}
 				// Count the items in the access level
 				else if ($type == 'axo') {
-					$query->select( 'COUNT(DISTINCT map.axo_id) AS object_count' );
-					$query->join( 'LEFT', '#__core_acl_groups_'.$type.'_map AS map ON map.group_id=a.id' );
-					$query->group( 'a.id' );
+					$query->select('COUNT(DISTINCT map.axo_id) AS object_count');
+					$query->join('LEFT', '#__core_acl_groups_'.$type.'_map AS map ON map.group_id=a.id');
+					$query->group('a.id');
 				}
 			}
 
 			// Search in the group name
 			if ($search) {
-				$serach = $db->Quote( '%'.$db->getEscaped( $search, true ).'%', false );
-				$query->where( 'a.name LIKE '.$serach );
+				$serach = $db->Quote('%'.$db->getEscaped($search, true).'%', false);
+				$query->where('a.name LIKE '.$serach);
 			}
 
 			// An abritrary where clause
 			if ($where) {
-				$query->where( $where );
+				$query->where($where);
 			}
 
 			if ($orderBy) {
-				$query->order( $this->_db->getEscaped( $orderBy ) );
+				$query->order($this->_db->getEscaped($orderBy));
 			}
 
-			//echo nl2br( $query->toString() );
+			//echo nl2br($query->toString());
 			$this->_list_sql = (string) $query;
 		}
 
@@ -147,15 +147,15 @@ class AccessModelGroups extends AccessModelPrototypeList
 	/**
 	 * Utility method to gets the level of a group
 	 */
-	function getLevel( $id = null, $type = 'aro' )
+	function getLevel($id = null, $type = 'aro')
 	{
-		$model = new AccessModelGroups( array( 'ignore_request' => true ));
+		$model = new AccessModelGroups(array('ignore_request' => true));
 		$model->setState('list.select',		'a.id');
 		$model->setState('list.group_type',	$type);
 		$model->setState('list.tree',		true);
 		$model->setState('list.where',		'a.id = '.(int) $id);
 		$result = $model->getList(false);
-		return isset( $result[0] ) ? $result[0]->level : false;
+		return isset($result[0]) ? $result[0]->level : false;
 	}
 
 }

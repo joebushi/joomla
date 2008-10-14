@@ -21,10 +21,10 @@ class AccessModelSections extends AccessModelPrototypeList
 	/**
 	 * Valid types
 	 */
-	function isValidType( $type )
+	function isValidType($type)
 	{
-		$types	= array( 'acl', 'aro', 'aco', 'axo' );
-		return in_array( $type, $types );
+		$types	= array('acl', 'aro', 'aco', 'axo');
+		return in_array($type, $types);
 	}
 
 	/**
@@ -36,7 +36,7 @@ class AccessModelSections extends AccessModelPrototypeList
 	 */
 	function _getListQuery($resolveFKs = false)
 	{
-		if (empty( $this->_list_sql ))
+		if (empty($this->_list_sql))
 		{
 			$db			= &$this->getDBO();
 			$query		= new JQuery;
@@ -46,12 +46,12 @@ class AccessModelSections extends AccessModelPrototypeList
 			$where		= $this->getState('list.where');
 			$orderBy	= $this->getState('list.order');
 
-			if (!$this->isValidType( $type )) {
-				return JError::raiseError( 500, $type.' is not a valid section type' );
+			if (!$this->isValidType($type)) {
+				return JError::raiseError(500, $type.' is not a valid section type');
 			}
 
 			$query->select($select);
-			$query->from( '#__core_acl_'.$type.'_sections AS a' );
+			$query->from('#__core_acl_'.$type.'_sections AS a');
 
 			if ($resolveFKs) {
 				// No foreign keys
@@ -59,21 +59,21 @@ class AccessModelSections extends AccessModelPrototypeList
 
 			// Search in the name
 			if ($search) {
-				$serach = $db->Quote( '%'.$db->getEscaped( $search, true ).'%', false );
-				$query->where( 'a.name LIKE '.$serach );
+				$serach = $db->Quote('%'.$db->getEscaped($search, true).'%', false);
+				$query->where('a.name LIKE '.$serach);
 			}
 
 			// An abritrary where clause
 			if ($where) {
-				$query->where( $where );
+				$query->where($where);
 			}
 
 			if ($orderBy) {
-				$query->order( $this->_db->getEscaped( $orderBy ) );
+				$query->order($this->_db->getEscaped($orderBy));
 			}
 
 			$this->_list_sql = (string) $query;
-			//echo nl2br( $this->_list_sql );
+			//echo nl2br($this->_list_sql);
 		}
 
 		return $this->_list_sql;

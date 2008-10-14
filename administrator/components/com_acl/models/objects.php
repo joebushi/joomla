@@ -21,10 +21,10 @@ class AccessModelObjects extends AccessModelPrototypeList
 	/**
 	 * Valid types
 	 */
-	function isValidType( $type )
+	function isValidType($type)
 	{
-		$types	= array( 'acl', 'aro', 'aco', 'axo' );
-		return in_array( $type, $types );
+		$types	= array('acl', 'aro', 'aco', 'axo');
+		return in_array($type, $types);
 	}
 
 	/**
@@ -36,76 +36,76 @@ class AccessModelObjects extends AccessModelPrototypeList
 	 */
 	function _getListQuery($resolveFKs = false)
 	{
-		if (empty( $this->_list_sql ))
+		if (empty($this->_list_sql))
 		{
 			$db			= &$this->getDBO();
 			$query		= new JQuery;
 			$section	= $this->getState('list.section_value');
 			$type		= strtolower($this->getState('list.object_type'));
-			$groupId	= $this->getState( 'list.group_id');
-			$select		= $this->getState( 'list.select', 'a.*');
-			$search		= $this->getState( 'list.search');
-			$where		= $this->getState( 'list.where');
-			$orderBy	= $this->getState( 'list.order');
+			$groupId	= $this->getState('list.group_id');
+			$select		= $this->getState('list.select', 'a.*');
+			$search		= $this->getState('list.search');
+			$where		= $this->getState('list.where');
+			$orderBy	= $this->getState('list.order');
 
-			$query->select( $select );
-			$query->from( '#__core_acl_'.$type.' AS a' );
+			$query->select($select);
+			$query->from('#__core_acl_'.$type.' AS a');
 
 			if ($resolveFKs)
 			{
 				// If a user object, resolve the username
 				if ($type == 'aro') {
-					$query->select( 'u.username' );
-					$query->join( 'LEFT', '#__users AS u ON u.id = a.value' );
+					$query->select('u.username');
+					$query->join('LEFT', '#__users AS u ON u.id = a.value');
 				}
 
 				// Get the section name of the object
-				$query->select( 's.name AS section_name' );
-				$query->join( 'LEFT', '#__core_acl_'.$type.'_sections AS s ON s.value = a.section_value' );
+				$query->select('s.name AS section_name');
+				$query->join('LEFT', '#__core_acl_'.$type.'_sections AS s ON s.value = a.section_value');
 
 				if ($type == 'aro' OR $type == 'axo') {
 					// Count the number of groups or access levels the item is in
-					$query->select( 'COUNT(map.group_id) AS group_count' );
-					$query->join( 'LEFT', '#__core_acl_groups_'.$type.'_map AS map ON map.'.$type.'_id=a.id' );
-					$query->group( 'a.id' );
+					$query->select('COUNT(map.group_id) AS group_count');
+					$query->join('LEFT', '#__core_acl_groups_'.$type.'_map AS map ON map.'.$type.'_id=a.id');
+					$query->group('a.id');
 
 					// Collect the group names as a new-line seperated string
-					$query->select( 'GROUP_CONCAT(g2.name SEPARATOR '.$db->Quote( "\n" ).') AS group_names' );
-					$query->join( 'LEFT', '#__core_acl_'.$type.'_groups AS g2 ON g2.id = map.group_id' );
+					$query->select('GROUP_CONCAT(g2.name SEPARATOR '.$db->Quote("\n").') AS group_names');
+					$query->join('LEFT', '#__core_acl_'.$type.'_groups AS g2 ON g2.id = map.group_id');
 				}
 			}
 
 			// Filter on a section
 			if ($section) {
-				if (is_array( $section )) {
+				if (is_array($section)) {
 					foreach ($section as $k => $v) {
-						$section[$k] = $db->Quote( $v );
+						$section[$k] = $db->Quote($v);
 					}
-					$query->where( 'a.section_value IN ('.implode( ',', $section ).')' );
+					$query->where('a.section_value IN ('.implode(',', $section).')');
 				}
 				else {
-					$query->where( 'a.section_value = '.$db->Quote( $section ) );
+					$query->where('a.section_value = '.$db->Quote($section));
 				}
 			}
 
 			// Filter by a search
 			if ($search) {
 				// id:123 will search for a specific ID
-				if (strpos( $search, 'id:' ) === 0) {
-					$query->where( 'a.id = '.(int) substr( $search, 3 ) );
+				if (strpos($search, 'id:') === 0) {
+					$query->where('a.id = '.(int) substr($search, 3));
 				}
 				// value:123 will search for a specific value of the `value` field
-				else if (strpos( $search, 'value:' ) === 0) {
-					$query->where( 'a.value = '.$db->Quote( substr( $search, 6 ) ) );
+				else if (strpos($search, 'value:') === 0) {
+					$query->where('a.value = '.$db->Quote(substr($search, 6)));
 				}
 				else {
 					// Otherwise search in the name, and for a user, search in the username
-					$search = $db->Quote( '%'.$db->getEscaped( $search, true ).'%', false );
+					$search = $db->Quote('%'.$db->getEscaped($search, true).'%', false);
 					if ($type == 'aro') {
-						$query->where( '(a.name LIKE '.$search.' OR u.username LIKE '.$search.')' );
+						$query->where('(a.name LIKE '.$search.' OR u.username LIKE '.$search.')');
 					}
 					else {
-						$query->where( 'a.name LIKE '.$search );
+						$query->where('a.name LIKE '.$search);
 					}
 				}
 			}
@@ -113,21 +113,21 @@ class AccessModelObjects extends AccessModelPrototypeList
 			// Filter on the Group ID
 			if ($groupId) {
 				if ($type == 'aro' OR $type == 'axo') {
-					$query->join( 'LEFT', '#__core_acl_groups_'.$type.'_map AS map2 ON map2.'.$type.'_id=a.id' );
-					$query->where( 'map2.group_id = '.(int) $groupId );
+					$query->join('LEFT', '#__core_acl_groups_'.$type.'_map AS map2 ON map2.'.$type.'_id=a.id');
+					$query->where('map2.group_id = '.(int) $groupId);
 				}
 			}
 
 			// An abritrary where clause
 			if ($where) {
-				$query->where( $where );
+				$query->where($where);
 			}
 
 			if ($orderBy) {
-				$query->order( $this->_db->getEscaped( $orderBy ) );
+				$query->order($this->_db->getEscaped($orderBy));
 			}
 
-			//echo nl2br( $query->toString() );
+			//echo nl2br($query->toString());
 			$this->_list_sql = (string) $query;
 		}
 

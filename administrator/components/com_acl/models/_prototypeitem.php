@@ -10,7 +10,7 @@
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();
 
-jimport( 'joomla.application.component.model' );
+jimport('joomla.application.component.model');
 
 /**
  * Extended JModel class for item-based models
@@ -45,7 +45,7 @@ class AccessModelPrototypeItem extends JModel
 	{
 		if ($this->_list_items == null) {
 			// Load the labels data.
-			$this->_list_items = $this->_getList( $this->_getListQuery($resolveFKs), $this->getState('list.start'), $this->getState('list.limit') );
+			$this->_list_items = $this->_getList($this->_getListQuery($resolveFKs), $this->getState('list.start'), $this->getState('list.limit'));
 
 			// Check for a database error.
 			if ($this->_db->getErrorNum()) {

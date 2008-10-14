@@ -12,8 +12,8 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_COMPONENT.DS.'models'.DS.'_prototypeitem.php';
 
-if (!defined('ACCESS_USERS_ARO_ID' )) {
-	define( 'ACCESS_USERS_ARO_ID', 28 );
+if (!defined('ACCESS_USERS_ARO_ID')) {
+	define('ACCESS_USERS_ARO_ID', 28);
 }
 
 /**
@@ -34,7 +34,7 @@ class AccessModelACL extends AccessModelPrototypeItem
 	 */
 	function getTable()
 	{
-		return JTable::getInstance( 'ACL' );
+		return JTable::getInstance('ACL');
 	}
 
 	/**
@@ -47,8 +47,8 @@ class AccessModelACL extends AccessModelPrototypeItem
 		// @todo - surely we can merge this with getExtendedItem (affect the edit view)
 		$acl	= &JFactory::getACL();
 		$sess	= &JFactory::getSession();
-		$id		= (int) $sess->get( 'com_acl.acl.id', $this->getState('id') );
-		$result	= $acl->get_acl( $id );
+		$id		= (int) $sess->get('com_acl.acl.id', $this->getState('id'));
+		$result	= $acl->get_acl($id);
 		return $result;
 	}
 
@@ -62,7 +62,7 @@ class AccessModelACL extends AccessModelPrototypeItem
 		if (empty($this->_item))
 		{
 			$session = &JFactory::getSession();
-			$id = (int) $session->get( 'com_acl.acl.id', $this->getState('id') );
+			$id = (int) $session->get('com_acl.acl.id', $this->getState('id'));
 
 			$table = $this->getTable();
 			if ($table->load($id)) {
@@ -81,15 +81,15 @@ class AccessModelACL extends AccessModelPrototypeItem
 	 */
 	function getExtendedItem()
 	{
-		$item	= array( $this->getItem() );
+		$item	= array($this->getItem());
 		$model	= JModel::getInstance('Acls', 'AccessModel');
-		$item	= $model->getExtendedItems( $item );
+		$item	= $model->getExtendedItems($item);
 		return $item[0];
 	}
 
 	function getSections()
 	{
-		$model = JModel::getInstance( 'Section', 'AccessModel' );
+		$model = JModel::getInstance('Section', 'AccessModel');
 		$model->setState('list.select',			'a.value, a.name AS text');
 		$model->setState('list.section_type',	'acl');
 		$model->setState('list.order',			'a.order_value,a.name');
@@ -99,7 +99,7 @@ class AccessModelACL extends AccessModelPrototypeItem
 	function getACOs()
 	{
 		//Model::addIncludePath(JPATH_COMPONENT.DS.'models');
-		$model = JModel::getInstance( 'objects', 'AccessModel' );
+		$model = JModel::getInstance('objects', 'AccessModel');
 		$model->setState('list.section_value',	$this->getState('section_value'));
 		$model->setState('list.object_type',	'aco');
 		$model->setState('list.hidden',			'0');
@@ -109,7 +109,7 @@ class AccessModelACL extends AccessModelPrototypeItem
 
 	function getAROGroups()
 	{
-		$model = JModel::getInstance( 'Groups', 'AccessModel' );
+		$model = JModel::getInstance('Groups', 'AccessModel');
 		$model->setState('list.group_type',	'aro');
 		$model->setState('list.tree',		'1');
 		$model->setState('list.parent_id',	ACCESS_USERS_ARO_ID);
@@ -119,7 +119,7 @@ class AccessModelACL extends AccessModelPrototypeItem
 
 	function getAXOs()
 	{
-		$model = JModel::getInstance( 'Objects', 'AccessModel' );
+		$model = JModel::getInstance('Objects', 'AccessModel');
 		$model->setState('list.section_value',	$this->getState('section_value'));
 		$model->setState('list.object_type',	'axo');
 		$model->setState('list.hidden',			'0');
@@ -129,96 +129,96 @@ class AccessModelACL extends AccessModelPrototypeItem
 
 	function getAXOGroups()
 	{
-		$model = JModel::getInstance( 'Groups', 'AccessModel' );
+		$model = JModel::getInstance('Groups', 'AccessModel');
 		$model->setState('list.group_type',	'aro');
 		$model->setState('list.tree',		'1');
 		$model->setState('list.order',		'a.lft');
 		return $model->getList();
 	}
 
-	function save( $values )
+	function save($values)
 	{
 		$acl		= &JFactory::getACL();
 
-		$acoArray		= JArrayHelper::getValue( $values, 'aco_array', array(), 'array' );
-		$aroArray		= JArrayHelper::getValue( $values, 'aro_array', array(), 'array' );
-		$aroGroupIds	= JArrayHelper::getValue( $values, 'aro_group_ids', array(), 'array' );
-		$axoArray		= JArrayHelper::getValue( $values, 'axo_array', array(), 'array' );
-		$axoGroupIds	= JArrayHelper::getValue( $values, 'axo_group_ids', array(), 'array' );
+		$acoArray		= JArrayHelper::getValue($values, 'aco_array', array(), 'array');
+		$aroArray		= JArrayHelper::getValue($values, 'aro_array', array(), 'array');
+		$aroGroupIds	= JArrayHelper::getValue($values, 'aro_group_ids', array(), 'array');
+		$axoArray		= JArrayHelper::getValue($values, 'axo_array', array(), 'array');
+		$axoGroupIds	= JArrayHelper::getValue($values, 'axo_group_ids', array(), 'array');
 
-		$allow			= JArrayHelper::getValue( $values, 'allow', 1, 'int' );
-		$enabled		= JArrayHelper::getValue( $values, 'enabled', 1, 'int' );
-		$returnValue	= JArrayHelper::getValue( $values, 'return_value' );
-		$note			= JArrayHelper::getValue( $values, 'note' );
-		$sectionValue	= JArrayHelper::getValue( $values, 'section_value' );
-		$aclId			= JArrayHelper::getValue( $values, 'id', 0, 'int' );
+		$allow			= JArrayHelper::getValue($values, 'allow', 1, 'int');
+		$enabled		= JArrayHelper::getValue($values, 'enabled', 1, 'int');
+		$returnValue	= JArrayHelper::getValue($values, 'return_value');
+		$note			= JArrayHelper::getValue($values, 'note');
+		$sectionValue	= JArrayHelper::getValue($values, 'section_value');
+		$aclId			= JArrayHelper::getValue($values, 'id', 0, 'int');
 
 		//$acl->_debug = 1;
-		$result = $acl->add_acl($acoArray, $aroArray, $aroGroupIds, $axoArray, $axoGroupIds, $allow, $enabled, $returnValue, $note, $sectionValue, $aclId );
+		$result = $acl->add_acl($acoArray, $aroArray, $aroGroupIds, $axoArray, $axoGroupIds, $allow, $enabled, $returnValue, $note, $sectionValue, $aclId);
 
 		if ($result) {
-			$this->setState( 'id', $result );
+			$this->setState('id', $result);
 		}
 		else {
-			$result = JError::raiseWarning( 500, array_pop( $acl->_debugLog ) );
+			$result = JError::raiseWarning(500, array_pop($acl->_debugLog));
 		}
 		return $result;
 	}
 
-	function delete( $ids = array() )
+	function delete($ids = array())
 	{
 		$acl		= &JFactory::getACL();
 		foreach ((array) $ids as $id)
 		{
-			$result		= $acl->del_acl( $id );
+			$result		= $acl->del_acl($id);
 			$acl->_debug = 1;
 			if ($result == false) {
-				JError::raiseWarning( 500, array_pop( $acl->_debugLog ) );
+				JError::raiseWarning(500, array_pop($acl->_debugLog));
 				break;
 			}
 		}
 		return $result;
 	}
 
-	function allow( $ids = array(), $value = 1 )
+	function allow($ids = array(), $value = 1)
 	{
-		if (empty( $ids )) {
-			return JException( 'No items selected' );
+		if (empty($ids)) {
+			return JException('No items selected');
 		}
 		else
 		{
 			$acl	= &JFactory::getACL();
 			$db		= $this->getDBO();
-			JArrayHelper::toInteger( $ids );
+			JArrayHelper::toInteger($ids);
 
 			$query	= 'UPDATE #__core_acl_acl' .
 					' SET allow = '.(int)($value ? 1 : 0) .
-					' WHERE id IN ('.implode( ',', $ids ).')';
-			$db->setQuery( $query );
+					' WHERE id IN ('.implode(',', $ids).')';
+			$db->setQuery($query);
 			if (!$db->query()) {
-				return new JExecption( $db->getErrorMsg() );
+				return new JExecption($db->getErrorMsg());
 			}
 			return true;
 		}
 	}
 
-	function enable( $ids = array(), $value = 1 )
+	function enable($ids = array(), $value = 1)
 	{
-		if (empty( $ids )) {
-			return JException( 'No items selected' );
+		if (empty($ids)) {
+			return JException('No items selected');
 		}
 		else
 		{
 			$acl	= &JFactory::getACL();
 			$db		= $this->getDBO();
-			JArrayHelper::toInteger( $ids );
+			JArrayHelper::toInteger($ids);
 
 			$query	= 'UPDATE #__core_acl_acl' .
 					' SET enabled = '.(int)($value ? 1 : 0) .
-					' WHERE id IN ('.implode( ',', $ids ).')';
-			$db->setQuery( $query );
+					' WHERE id IN ('.implode(',', $ids).')';
+			$db->setQuery($query);
 			if (!$db->query()) {
-				return new JExecption( $db->getErrorMsg() );
+				return new JExecption($db->getErrorMsg());
 			}
 			return true;
 		}

@@ -18,7 +18,7 @@ defined('_JEXEC') or die('Restricted access');
  */
 class AclHelper
 {
-	function getExtendedAcl( $items )
+	function getExtendedAcl($items)
 	{
 
 	}

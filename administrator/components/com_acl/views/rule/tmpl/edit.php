@@ -48,7 +48,7 @@ ul.checklist li:hover {
 <form action="<?php echo JRoute::_('index.php?option=com_acl'); ?>" method="post" name="adminForm" class="form-validate">
 	<fieldset>
 		<?php if ($this->item->id) : ?>
-		<legend><?php echo JText::sprintf( 'Record #%d', $this->item->id ); ?></legend>
+		<legend><?php echo JText::sprintf('Record #%d', $this->item->id); ?></legend>
 		<?php endif; ?>
 
 		<table class="adminform">
@@ -64,7 +64,7 @@ ul.checklist li:hover {
 						<label for="allow" class="block">
 							<?php echo JText::_('ACL Allow'); ?>
 						</label>
-						<?php echo JHTML::_('select.booleanlist',  'allow', '', (int) $this->item->allow ); ?>
+						<?php echo JHTML::_('select.booleanlist',  'allow', '', (int) $this->item->allow); ?>
 					</td>
 					<td width="33%">
 						<label for="note" class="block">
@@ -84,7 +84,7 @@ ul.checklist li:hover {
 						<label for="allow" class="block">
 							<?php echo JText::_('ACL Enabled'); ?>
 						</label>
-						<?php echo JHTML::_('select.booleanlist',  'enabled', '', (int) $this->item->enabled ); ?>
+						<?php echo JHTML::_('select.booleanlist',  'enabled', '', (int) $this->item->enabled); ?>
 					</td>
 					<td>
 						<label for="note" class="block">
@@ -101,34 +101,34 @@ ul.checklist li:hover {
 				<tr valign="top">
 					<td valign="top" width="25%">
 						<fieldset>
-							<legend><?php echo JText::_( 'ACL Apply User Groups' );?></legend>
-							<?php echo $this->loadTemplate( 'arogroups' ); ?>
+							<legend><?php echo JText::_('ACL Apply User Groups');?></legend>
+							<?php echo $this->loadTemplate('arogroups'); ?>
 						</fieldset>
 					</td>
 					<td valign="top" width="25%">
 						<fieldset>
 							<legend class="hasTip" title="Permissions::Select the permissions that this group will be allowed, or not allowed to do.">
-							<?php echo JText::_( 'ACL Apply Permissions' ) ?>
+							<?php echo JText::_('ACL Apply Permissions') ?>
 							</legend>
-							<?php echo $this->loadTemplate( 'acos' ); ?>
+							<?php echo $this->loadTemplate('acos'); ?>
 						</fieldset>
 					</td>
 					<?php if ($this->allow_axos) : ?>
 					<td valign="top">
 						<fieldset>
 							<legend class="hasTip" title="Items::These are the items that are associated with the permission">
-							<?php echo JText::_( 'ACL Apply to Items' ) ?>
+							<?php echo JText::_('ACL Apply to Items') ?>
 							</legend>
-							<?php echo $this->loadTemplate( 'axos' ); ?>
+							<?php echo $this->loadTemplate('axos'); ?>
 						</fieldset>
 					</td>
 					<td valign="top">
 						<?php if ($this->allow_axo_groups) : ?>
 						<fieldset>
 							<legend class="hasTip" title="Item Groups::These are the item groups that are associated with the permission">
-							<?php echo JText::_( 'ACL Apply to Access Groups' ) ?>
+							<?php echo JText::_('ACL Apply to Access Groups') ?>
 							</legend>
-							<?php echo $this->loadTemplate( 'axogroups' ); ?>
+							<?php echo $this->loadTemplate('axogroups'); ?>
 						</fieldset>
 						<?php endif; ?>
 					</td>

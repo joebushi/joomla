@@ -10,19 +10,19 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-jimport( 'joomla.application.component.view' );
+jimport('joomla.application.component.view');
 
 // Helper functions
 
-function aclObjectChecked( &$array, $section, $value )
+function aclObjectChecked(&$array, $section, $value)
 {
 	$values	= @$array[$section];
-	return in_array( $value, (array) $values ) ? 'checked="checked"' : '';
+	return in_array($value, (array) $values) ? 'checked="checked"' : '';
 }
 
-function aclGroupChecked( &$array, $value )
+function aclGroupChecked(&$array, $value)
 {
-	return in_array( $value, (array) $array ) ? 'checked="checked"' : '';
+	return in_array($value, (array) $array) ? 'checked="checked"' : '';
 }
 
 /**
@@ -38,9 +38,9 @@ class AccessViewRule extends JView
 	 */
 	function display($tpl = null)
 	{
-		$state	= $this->get( 'State' );
-		$item	= $this->get( 'ExtendedItem' );
-		$acl	= $this->get( 'ACL' );
+		$state	= $this->get('State');
+		$item	= $this->get('ExtendedItem');
+		$acl	= $this->get('ACL');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -49,7 +49,7 @@ class AccessViewRule extends JView
 		}
 
 		//$layout = $this->getLayout();
-		if ($state->get( 'id' )) {
+		if ($state->get('id')) {
 			// Existing
 		}
 		else {
@@ -59,29 +59,29 @@ class AccessViewRule extends JView
 			$item->allow			= 1;
 		}
 
-		$this->assignRef( 'state',		$state );
-		$this->assignRef( 'item',		$item );
-		$this->assignRef( 'acos',		$this->get( 'ACOs' ) );
-		$this->assignRef( 'aroGroups',	$this->get( 'AROGroups' ) );
-		$this->assignRef( 'axos',		$this->get( 'AXOs' ) );
-		$this->assignRef( 'axoGroups',	$this->get( 'AXOGroups' ) );
-		$this->assignRef( 'acl',		$acl );
-		$this->assign( 'allow_axo_groups', $state->get( 'has_axo_groups', false ) );
-		$this->assign( 'allow_axos', 0 );
+		$this->assignRef('state',		$state);
+		$this->assignRef('item',		$item);
+		$this->assignRef('acos',		$this->get('ACOs'));
+		$this->assignRef('aroGroups',	$this->get('AROGroups'));
+		$this->assignRef('axos',		$this->get('AXOs'));
+		$this->assignRef('axoGroups',	$this->get('AXOGroups'));
+		$this->assignRef('acl',		$acl);
+		$this->assign('allow_axo_groups', $state->get('has_axo_groups', false));
+		$this->assign('allow_axos', 0);
 
 		/*
 		// this only happens for 3D rules
-		if (!isset( $this->allow_axos )) {
-			$this->assign( 'allow_axos', 0 );
+		if (!isset($this->allow_axos)) {
+			$this->assign('allow_axos', 0);
 			$temp	= array();
 			foreach ($this->acos as $aco) {
 				$temp[$aco->value]	= $aco->allow_axos;
 			}
 			// Scan ACO's
-			if (isset( $this->acl['aco'] ) AND isset( $this->acl['aco'][$state->option] )) {
+			if (isset($this->acl['aco']) AND isset($this->acl['aco'][$state->option])) {
 				foreach ($this->acl['aco'][$state->option] as $aco) {
-					if (isset( $temp[$aco] ) && $temp[$aco] == 1) {
-						$this->assign( 'allow_axos', 1 );
+					if (isset($temp[$aco]) && $temp[$aco] == 1) {
+						$this->assign('allow_axos', 1);
 						break;
 					}
 				}

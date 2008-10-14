@@ -25,8 +25,8 @@ class AccessViewGroup extends JView
 	 */
 	function display($tpl = null)
 	{
-		$state = $this->get( 'State' );
-		$item = &$this->get( 'Item' );
+		$state = $this->get('State');
+		$item = &$this->get('Item');
 
 		if ($item->id) {
 			// Existing
@@ -35,8 +35,8 @@ class AccessViewGroup extends JView
 			// New
 		}
 
-		$this->assignRef( 'state', $state );
-		$this->assignRef( 'item', $item );
+		$this->assignRef('state', $state);
+		$this->assignRef('item', $item);
 
 		$this->_setToolbar();
 		parent::display($tpl);
@@ -47,15 +47,15 @@ class AccessViewGroup extends JView
 	 */
 	private function _setToolbar()
 	{
-		$isNew = ($this->item->get( 'id' ) == 0);
-		JToolBarHelper::title( JText::_( ($isNew ? 'Access Control: Add Group' : 'Access Control: Edit Group' ) ), 'user' );
+		$isNew = ($this->item->get('id') == 0);
+		JToolBarHelper::title(JText::_(($isNew ? 'Access Control: Add Group' : 'Access Control: Edit Group')), 'user');
 		if (!$isNew) {
-			JToolBarHelper::custom( 'group.save2copy', 'copy.png', 'copy_f2.png', 'Toolbar Save To Copy', false );
+			JToolBarHelper::custom('group.save2copy', 'copy.png', 'copy_f2.png', 'Toolbar Save To Copy', false);
 		}
-		JToolBarHelper::custom( 'group.save2new', 'new.png', 'new_f2.png', 'Toolbar Save And New', false );
-		JToolBarHelper::save( 'group.save' );
-		JToolBarHelper::apply( 'group.apply' );
-		JToolBarHelper::cancel( 'group.cancel' );
-		JToolBarHelper::help( 'screen.groups.edit' );
+		JToolBarHelper::custom('group.save2new', 'new.png', 'new_f2.png', 'Toolbar Save And New', false);
+		JToolBarHelper::save('group.save');
+		JToolBarHelper::apply('group.apply');
+		JToolBarHelper::cancel('group.cancel');
+		JToolBarHelper::help('screen.groups.edit');
 	}
 }
