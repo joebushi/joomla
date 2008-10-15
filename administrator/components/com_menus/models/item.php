@@ -149,7 +149,7 @@ class MenusModelItem extends JModel
 
 		if ($state =& $this->_getStateXML())
 		{
-			if (is_a($state, 'JSimpleXMLElement'))
+			if ($state INSTANCEOF JSimpleXMLElement)
 			{
 				$sp =& $state->getElementByPath('url');
 				$params->setXML($sp);
@@ -169,7 +169,7 @@ class MenusModelItem extends JModel
 
 		if ($state =& $this->_getStateXML())
 		{
-			if (is_a($state, 'JSimpleXMLElement'))
+			if ($state INSTANCEOF JSimpleXMLElement)
 			{
 				$sp =& $state->getElementByPath('params');
 				$params->setXML($sp);
@@ -186,7 +186,7 @@ class MenusModelItem extends JModel
 
 		if ($state =& $this->_getStateXML())
 		{
-			if (is_a($state, 'JSimpleXMLElement'))
+			if ($state INSTANCEOF JSimpleXMLElement)
 			{
 				$ap =& $state->getElementByPath('advanced');
 				$params->setXML($ap);
@@ -284,7 +284,7 @@ class MenusModelItem extends JModel
 	{
 		$state =& $this->_getStateXML();
 
-		if ( ! is_a($state, 'JSimpleXMLElement'))
+		if (!($state INSTANCEOF JSimpleXMLElement))
 		{
 			return null;
 		}
@@ -310,7 +310,7 @@ class MenusModelItem extends JModel
 		$state =& $this->_getStateXML();
 
 
-		if ( ! is_a($state, 'JSimpleXMLElement'))
+		if (!($state INSTANCEOF JSimpleXMLElement))
 		{
 			return null;
 		}
@@ -620,14 +620,14 @@ class MenusModelItem extends JModel
 				 * HANDLE NO OPTION CASE
 				 */
 				$menus =& $document->getElementByPath('menu');
-				if (is_a($menus, 'JSimpleXMLElement') && $menus->attributes('options') == 'none') {
+				if ($menus INSTANCEOF JSimpleXMLElement && $menus->attributes('options') == 'none') {
 					$xml =& $menus->getElementByPath('state');
 				} else {
 					$xml =& $document->getElementByPath('state');
 				}
 
 				// Handle error case... path doesn't exist
-				if (!is_a($xml, 'JSimpleXMLElement')) {
+				if (!($xml INSTANCEOF JSimpleXMLElement)) {
 					return $document;
 				}
 

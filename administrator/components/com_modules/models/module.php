@@ -179,7 +179,7 @@ class ModulesModelModule extends JModel
 			if ($xml->loadFile($path.DS.'templateDetails.xml'))
 			{
 				$p =& $xml->document->getElementByPath('positions');
-				if (is_a($p, 'JSimpleXMLElement') && count($p->children()))
+				if ($p INSTANCEOF JSimpleXMLElement && count($p->children()))
 				{
 					foreach ($p->children() as $child)
 					{

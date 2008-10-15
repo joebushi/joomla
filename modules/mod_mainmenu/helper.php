@@ -118,7 +118,7 @@ class modMainMenuHelper
 						break;
 					}
 				}
-				if ((!is_a($doc, 'JSimpleXMLElement')) || (!$found) || ($root)) {
+				if ((!($doc INSTANCEOF JSimpleXMLElement)) || (!$found) || ($root)) {
 					$doc = false;
 				}
 			}
