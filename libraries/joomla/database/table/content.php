@@ -140,6 +140,20 @@ class JTableContent extends JTable
 			return false;
 		}
 
+		// clean up keywords -- eliminate extra spaces between phrases
+		// and cr (\r) and lf (\n) characters from string
+		if(!empty($this->metakey)) { // only process if not empty
+			$keys = explode(',', $this->metakey); // create array using commas as delimiter
+			$clean_keys = array();
+			foreach($keys as $key) {
+				if(trim($key)) {  // ignore blank keywords
+					$key = str_replace(array("\n", "\r"), "", trim($key)); // remove \n,\r characters
+					$clean_keys[] = $key;
+				}
+			}
+			$this->metakey = implode(",", $clean_keys); // put array back together delimited by commas
+		}
+
 		return true;
 	}
 

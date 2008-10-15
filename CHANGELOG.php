@@ -39,6 +39,9 @@ $ -> Language fix or change
 
 15-Oct-2008 Kevin Devine
  # [#13076] **Feed module target attribute not validating
+ # [#13064] **Problem with mod_related_items Keyword Matching
+ # [#12550] **nameQuote() mixed order in strpos
+ # [#12625] ** default_form.php in com_search has onClick on button tag which fails XHTML 1.0 Transitional validation
 
 13-Oct-2008 Ian MacLennan
  # [#13164] JFolder::files and JFolder::folders don't function properly when using integral search depth

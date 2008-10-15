@@ -493,7 +493,7 @@ class JDatabase extends JObject
 	function nameQuote( $s )
 	{
 		// Only quote if the name is not using dot-notation
-		if (strpos( '.', $s ) === false)
+		if (strpos( $s, '.' ) === false)
 		{
 			$q = $this->_nameQuote;
 			if (strlen( $q ) == 1) {
