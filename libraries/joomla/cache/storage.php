@@ -25,14 +25,6 @@ defined('JPATH_BASE') or die();
  */
 class JCacheStorage extends JObject
 {
-
-	protected $_application = null;
-	protected $_language = null;
-	protected $_locking = null;
-	protected $_now = 0;
-	protected $_threshold = 0;
-	protected $_lifetime = 0;
-
 	/**
 	* Constructor
 	*
@@ -80,7 +72,7 @@ class JCacheStorage extends JObject
 		{
 			$path = dirname(__FILE__).DS.'storage'.DS.$handler.'.php';
 			if (file_exists($path) ) {
-				require_once $path;
+				require_once($path);
 			} else {
 				return JError::raiseWarning(500, 'Unable to load Cache Storage: '.$handler);
 			}

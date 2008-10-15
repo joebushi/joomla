@@ -26,21 +26,21 @@ JLoader::register('JCacheStorage', dirname(__FILE__).DS.'storage.php');
  * @subpackage	Cache
  * @since		1.5
  */
-class JCache extends JObject
+abstract class JCache extends JObject
 {
 	/**
 	 * Storage Handler
 	 * @access	private
 	 * @var		object
 	 */
-	var $_handler;
+	protected $_handler;
 
 	/**
 	 * Cache Options
 	 * @access	private
 	 * @var		array
 	 */
-	var $_options;
+	protected $_options;
 
 	/**
 	 * Constructor
@@ -48,7 +48,7 @@ class JCache extends JObject
 	 * @access	protected
 	 * @param	array	$options	options
 	 */
-	function __construct($options)
+	protected function __construct($options)
 	{
 		$this->_options =& $options;
 
@@ -97,7 +97,7 @@ class JCache extends JObject
 	 * @return	object	A JCache object
 	 * @since	1.5
 	 */
-	function &getInstance($type = 'output', $options = array())
+	public static function &getInstance($type = 'output', $options = array())
 	{
 		$type = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $type));
 
@@ -108,7 +108,7 @@ class JCache extends JObject
 			$path = dirname(__FILE__).DS.'handler'.DS.$type.'.php';
 
 			if (file_exists($path)) {
-				require_once $path;
+				require_once($path);
 			} else {
 				JError::raiseError(500, 'Unable to load Cache Handler: '.$type);
 			}
@@ -125,7 +125,7 @@ class JCache extends JObject
 	 * @access public
 	 * @return array An array of available storage handlers
 	 */
-	function getStores()
+	public static function getStores()
 	{
 		jimport('joomla.filesystem.folder');
 		$handlers = JFolder::files(dirname(__FILE__).DS.'storage', '.php$');
@@ -137,7 +137,7 @@ class JCache extends JObject
 			$class = 'JCacheStorage'.$name;
 
 			if(!class_exists($class)) {
-				require_once dirname(__FILE__).DS.'storage'.DS.$name.'.php';
+				require_once(dirname(__FILE__).DS.'storage'.DS.$name.'.php');
 			}
 
 			if(call_user_func_array( array( trim($class), 'test' ), null)) {
@@ -306,7 +306,7 @@ class JCache extends JObject
 	 */
 	function &_getStorage()
 	{
-		if ($this->_handler INSTANCEOF JCacheStorage) {
+		if (is_a($this->_handler, 'JCacheStorage')) {
 			return $this->_handler;
 		}
 

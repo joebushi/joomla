@@ -24,10 +24,6 @@ defined('JPATH_BASE') or die();
  */
 class JCacheStorageFile extends JCacheStorage
 {
-
-	protected $_root = null;
-	protected $_hash = null;
-
 	/**
 	* Constructor
 	*
@@ -254,7 +250,7 @@ class JCacheStorageFile extends JCacheStorage
 		if (!is_dir($dir)) {
 
 			// Make sure the index file is there
-			$indexFile	= $dir . DS . 'index.html';
+			$indexFile      = $dir . DS . 'index.html';
 			@ mkdir($dir) && file_put_contents($indexFile, '<html><body bgcolor="#FFFFFF"></body></html>');
 		}
 
