@@ -51,7 +51,11 @@ class JElementEditors extends JElement
 		. ' ORDER BY ordering, name'
 		;
 		$db->setQuery( $query );
-		$editors = $db->loadObjectList();
+		try {
+			$editors = $db->loadObjectList();
+		} catch(JException $e) {
+			$editors = array();
+		}
 
 		array_unshift( $editors, JHTML::_('select.option',  '', '- '. JText::_( 'Select Editor' ) .' -' ) );
 

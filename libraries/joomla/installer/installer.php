@@ -463,7 +463,9 @@ class JInstaller extends JObject
 		foreach ($queries as $query)
 		{
 			$db->setQuery($query->data());
-			if (!$db->query()) {
+			try {
+				$db->query();
+			} catch(JException $e) {
 				JError::raiseWarning(1, 'JInstaller::install: '.JText::_('SQL Error')." ".$db->stderr(true));
 				return false;
 			}
@@ -541,7 +543,9 @@ class JInstaller extends JObject
 					$query = trim($query);
 					if ($query != '' && $query{0} != '#') {
 						$db->setQuery($query);
-						if (!$db->query()) {
+						try {
+							$db->query();
+						} catch(JException $e) {
 							JError::raiseWarning(1, 'JInstaller::install: '.JText::_('SQL Error')." ".$db->stderr(true));
 							return false;
 						}

@@ -174,7 +174,9 @@ class JInstallerModule extends JObject
 				' WHERE module = '.$db->Quote($mname) .
 				' AND client_id = '.(int)$clientId;
 		$db->setQuery($query);
-		if (!$db->Query()) {
+		try {
+			$db->Query();
+		} catch(JException $e) {
 			// Install failed, roll back changes
 			$this->parent->abort(JText::_('Module').' '.JText::_('Install').': '.$db->stderr(true));
 			return false;
@@ -200,7 +202,7 @@ class JInstallerModule extends JObject
 
 			if (!$row->store()) {
 				// Install failed, roll back changes
-				$this->parent->abort(JText::_('Module').' '.JText::_('Install').': '.$db->stderr(true));
+				$this->parent->abort(JText::_('Module').' '.JText::_('Install').': '.$row->getError());
 				return false;
 			}
 
@@ -211,7 +213,9 @@ class JInstallerModule extends JObject
 			// Clean up possible garbage first
 			$query = 'DELETE FROM #__modules_menu WHERE moduleid = '.(int) $row->id;
 			$db->setQuery( $query );
-			if (!$db->query()) {
+			try {
+				$db->query();
+			} catch(JException $e) {
 				// Install failed, roll back changes
 				$this->parent->abort(JText::_('Module').' '.JText::_('Install').': '.$db->stderr(true));
 				return false;
@@ -221,7 +225,9 @@ class JInstallerModule extends JObject
 			$query = 'INSERT INTO `#__modules_menu` ' .
 					' VALUES ('.(int) $row->id.', 0 )';
 			$db->setQuery($query);
-			if (!$db->query()) {
+			try {
+				$db->query();
+			} catch(JException $e) {
 				// Install failed, roll back changes
 				$this->parent->abort(JText::_('Module').' '.JText::_('Install').': '.$db->stderr(true));
 				return false;
@@ -311,7 +317,11 @@ class JInstallerModule extends JObject
 				' WHERE module = '.$db->Quote($row->module) .
 				' AND client_id = '.(int)$row->client_id;
 		$db->setQuery($query);
-		$modules = $db->loadResultArray();
+		try {
+			$modules = $db->loadResultArray();
+		} catch(JException $e) {
+			$modules = array();
+		}
 
 		// Do we have any module copies?
 		if (count($modules)) {
@@ -321,7 +331,9 @@ class JInstallerModule extends JObject
 					' FROM #__modules_menu' .
 					' WHERE moduleid IN ('.$modID.')';
 			$db->setQuery($query);
-			if (!$db->query()) {
+			try {
+				$db->query();
+			} catch(JException $e) {
 				JError::raiseWarning(100, JText::_('Module').' '.JText::_('Uninstall').': '.$db->stderr(true));
 				$retval = false;
 			}
@@ -331,7 +343,11 @@ class JInstallerModule extends JObject
 		$row->delete($row->id);
 		$query = 'DELETE FROM `#__modules` WHERE module = '.$db->Quote($row->module) . ' AND client_id = ' . $row->client_id;
 		$db->setQuery($query);
-		$db->Query(); // clean up any other ones that might exist as well
+		try {
+			$db->Query(); // clean up any other ones that might exist as well
+		} catch(JException $e) {
+			//Ignore the error...
+		}
 		unset ($row);
 
 		// Remove the installation folder
@@ -361,7 +377,11 @@ class JInstallerModule extends JObject
 				' FROM `#__modules_menu`' .
 				' WHERE moduleid='.(int)$arg['id'];
 		$db->setQuery($query);
-		return ($db->query() !== false);
+		try {
+			return $db->query();
+		} catch(JException $e) {
+			return false;
+		}
 	}
 
 	/**
@@ -383,6 +403,10 @@ class JInstallerModule extends JObject
 				' FROM `#__modules`' .
 				' WHERE id='.(int)$arg['id'];
 		$db->setQuery($query);
-		return ($db->query() !== false);
+		try {
+			return $db->query();
+		} catch(JException $e) {
+			return false;
+		}
 	}
 }

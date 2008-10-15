@@ -35,7 +35,6 @@ class JElementMenu extends JElement
 
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
-		$db =& JFactory::getDBO();
 
 		require_once JPATH_ADMINISTRATOR.DS.'components'.DS.'com_menus'.DS.'helpers'.DS.'helper.php';
 		$menuTypes 	= MenusHelper::getMenuTypes();

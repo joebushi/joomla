@@ -173,7 +173,12 @@ class JTableUser extends JTable
 		. ' AND id != '. (int) $this->id;
 		;
 		$this->_db->setQuery( $query );
-		$xid = intval( $this->_db->loadResult() );
+		try {
+			$xid = intval( $this->_db->loadResult() );
+		} catch(JException $e) {
+			$this->setError($e->getMessage());
+			return false;
+		}
 		if ($xid && $xid != intval( $this->id )) {
 			$this->setError(  JText::_('WARNREG_INUSE'));
 			return false;
@@ -187,7 +192,12 @@ class JTableUser extends JTable
 			. ' AND id != '. (int) $this->id
 			;
 		$this->_db->setQuery( $query );
-		$xid = intval( $this->_db->loadResult() );
+		try {
+			$xid = intval( $this->_db->loadResult() );
+		} catch(JException $e) {
+			$this->setError($e->getMessage());
+			return false;
+		}
 		if ($xid && $xid != intval( $this->id )) {
 			$this->setError( JText::_( 'WARNREG_EMAIL_INUSE' ) );
 			return false;
@@ -203,41 +213,36 @@ class JTableUser extends JTable
 		$section_value = 'users';
 		$k = $this->_tbl_key;
 		$key =  $this->$k;
-
-		if ($key)
-		{
-			// existing record
-			$ret = $this->_db->updateObject( $this->_tbl, $this, $this->_tbl_key, $updateNulls );
-
-			// syncronise ACL
-			// single group handled at the moment
-			// trivial to expand to multiple groups
-			$object_id = $acl->get_object_id( $section_value, $this->$k, 'ARO' );
-
-			$groups = $acl->get_object_groups( $object_id, 'ARO' );
-			$acl->del_group_object( $groups[0], $section_value, $this->$k, 'ARO' );
-			$acl->add_group_object( $this->gid, $section_value, $this->$k, 'ARO' );
-
-			$acl->edit_object( $object_id, $section_value, $this->_db->getEscaped( $this->name ), $this->$k, 0, 0, 'ARO' );
-		}
-		else
-		{
-			// new record
-			$ret = $this->_db->insertObject( $this->_tbl, $this, $this->_tbl_key );
-			// syncronise ACL
-			$acl->add_object( $section_value, $this->name, $this->$k, null, null, 'ARO' );
-			$acl->add_group_object( $this->gid, $section_value, $this->$k, 'ARO' );
-		}
-
-		if( !$ret )
-		{
-			$this->setError( strtolower(get_class( $this ))."::". JText::_( 'store failed' ) ."<br />" . $this->_db->getErrorMsg() );
+		try {
+			if ($key)
+			{
+				// existing record
+				$ret = $this->_db->updateObject( $this->_tbl, $this, $this->_tbl_key, $updateNulls );
+	
+				// syncronise ACL
+				// single group handled at the moment
+				// trivial to expand to multiple groups
+				$object_id = $acl->get_object_id( $section_value, $this->$k, 'ARO' );
+	
+				$groups = $acl->get_object_groups( $object_id, 'ARO' );
+				$acl->del_group_object( $groups[0], $section_value, $this->$k, 'ARO' );
+				$acl->add_group_object( $this->gid, $section_value, $this->$k, 'ARO' );
+	
+				$acl->edit_object( $object_id, $section_value, $this->_db->getEscaped( $this->name ), $this->$k, 0, 0, 'ARO' );
+			}
+			else
+			{
+				// new record
+				$ret = $this->_db->insertObject( $this->_tbl, $this, $this->_tbl_key );
+				// syncronise ACL
+				$acl->add_object( $section_value, $this->name, $this->$k, null, null, 'ARO' );
+				$acl->add_group_object( $this->gid, $section_value, $this->$k, 'ARO' );
+			}
+		} catch(JException $e) {
+			$this->setError( strtolower(get_class( $this ))."::". JText::_( 'store failed' ) ."<br />" . $e->getMessage() );
 			return false;
 		}
-		else
-		{
-			return true;
-		}
+		return true;
 	}
 
 	public function delete( $oid=null )
@@ -256,7 +261,8 @@ class JTableUser extends JTable
 		;
 		$this->_db->setQuery( $query );
 
-		if ($this->_db->query()) {
+		try {
+			$this->_db->query();
 			// cleanup related data
 
 			// private messaging
@@ -264,24 +270,18 @@ class JTableUser extends JTable
 			. ' WHERE user_id = '. (int) $this->$k
 			;
 			$this->_db->setQuery( $query );
-			if (!$this->_db->query()) {
-				$this->setError( $this->_db->getErrorMsg() );
-				return false;
-			}
+			$this->_db->query();
+	
 			$query = 'DELETE FROM #__messages'
 			. ' WHERE user_id_to = '. (int) $this->$k
 			;
 			$this->_db->setQuery( $query );
-			if (!$this->_db->query()) {
-				$this->setError( $this->_db->getErrorMsg() );
-				return false;
-			}
-
-			return true;
-		} else {
-			$this->setError( $this->_db->getErrorMsg() );
+			$this->_db->query();
+		} catch(JException $e) {
+			$this->setError($e->getMessage());
 			return false;
 		}
+		return true;
 	}
 
 	/**
@@ -311,8 +311,10 @@ class JTableUser extends JTable
 		. ' WHERE id = '. (int) $id
 		;
 		$this->_db->setQuery( $query );
-		if (!$this->_db->query()) {
-			$this->setError( $this->_db->getErrorMsg() );
+		try {
+			$this->_db->query();
+		} catch(JException $e) {
+			$this->setError( $e->getMessage() );
 			return false;
 		}
 

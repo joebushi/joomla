@@ -475,7 +475,11 @@ class JUser extends JObject
 		. ' WHERE id = ' . (int) $gid
 		;
 		$db->setQuery( $query );
-		$this->set( 'usertype', $db->loadResult());
+		try {
+			$this->set( 'usertype', $db->loadResult());
+		} catch (JException $e) {
+			$this->set( 'usertype', null);
+		}
 
 		if ( array_key_exists('params', $array) )
 		{

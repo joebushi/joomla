@@ -292,24 +292,20 @@ abstract class JTable extends JObject
 	public function store( $updateNulls=false )
 	{
 		$k = $this->_tbl_key;
-
-		if( $this->$k)
-		{
-			$ret = $this->_db->updateObject( $this->_tbl, $this, $this->_tbl_key, $updateNulls );
-		}
-		else
-		{
-			$ret = $this->_db->insertObject( $this->_tbl, $this, $this->_tbl_key );
-		}
-		if( !$ret )
-		{
-			$this->setError(get_class( $this ).'::store failed - '.$this->_db->getErrorMsg());
+		try {
+			if( $this->$k)
+			{
+				$ret = $this->_db->updateObject( $this->_tbl, $this, $this->_tbl_key, $updateNulls );
+			}
+			else
+			{
+				$ret = $this->_db->insertObject( $this->_tbl, $this, $this->_tbl_key );
+			}
+		} catch(JException $e) {
+			$this->setError(get_class( $this ).'::store failed - '.$e->getMessage());
 			return false;
 		}
-		else
-		{
-			return true;
-		}
+		return true;
 	}
 
 	/**
@@ -353,49 +349,46 @@ abstract class JTable extends JObject
 		$this->_db->setQuery( $sql, 0, 1 );
 
 
-		$row = null;
-		$row = $this->_db->loadObject();
-		if (isset($row))
-		{
-			$query = 'UPDATE '. $this->_tbl
-			. ' SET ordering = '. (int) $row->ordering
-			. ' WHERE '. $this->_tbl_key .' = '. $this->_db->Quote($this->$k)
-			;
-			$this->_db->setQuery( $query );
-
-			if (!$this->_db->query())
-			{
-				$err = $this->_db->getErrorMsg();
-				JError::raiseError( 500, $err );
-			}
-
-			$query = 'UPDATE '.$this->_tbl
-			. ' SET ordering = '.(int) $this->ordering
-			. ' WHERE '.$this->_tbl_key.' = '.$this->_db->Quote($row->$k)
-			;
-			$this->_db->setQuery( $query );
-
-			if (!$this->_db->query())
-			{
-				$err = $this->_db->getErrorMsg();
-				JError::raiseError( 500, $err );
-			}
-
-			$this->ordering = $row->ordering;
+		try {
+			$row = $this->_db->loadObject();
+		} catch(JException $e) {
+			$this->setError($e->getMessage());
+			return false;
 		}
-		else
-		{
-			$query = 'UPDATE '. $this->_tbl
-			. ' SET ordering = '.(int) $this->ordering
-			. ' WHERE '. $this->_tbl_key .' = '. $this->_db->Quote($this->$k)
-			;
-			$this->_db->setQuery( $query );
-
-			if (!$this->_db->query())
+		try {
+			if (!empty($row))
 			{
-				$err = $this->_db->getErrorMsg();
-				JError::raiseError( 500, $err );
+				$query = 'UPDATE '. $this->_tbl
+				. ' SET ordering = '. (int) $row->ordering
+				. ' WHERE '. $this->_tbl_key .' = '. $this->_db->Quote($this->$k)
+				;
+				$this->_db->setQuery( $query );
+	
+				$this->_db->query();
+	
+				$query = 'UPDATE '.$this->_tbl
+				. ' SET ordering = '.(int) $this->ordering
+				. ' WHERE '.$this->_tbl_key.' = '.$this->_db->Quote($row->$k)
+				;
+				$this->_db->setQuery( $query );
+	
+				$this->_db->query();
+	
+				$this->ordering = $row->ordering;
 			}
+			else
+			{
+					$query = 'UPDATE '. $this->_tbl
+				. ' SET ordering = '.(int) $this->ordering
+				. ' WHERE '. $this->_tbl_key .' = '. $this->_db->Quote($this->$k)
+				;
+				$this->_db->setQuery( $query );
+		
+				$this->_db->query();
+			}
+		} catch(JException $e) {
+			$this->setError($e->getMessage());
+			return false;
 		}
 	}
 
@@ -418,11 +411,10 @@ abstract class JTable extends JObject
 				($where ? ' WHERE '.$where : '');
 
 		$this->_db->setQuery( $query );
-		$maxord = $this->_db->loadResult();
-
-		if ($this->_db->getErrorNum())
-		{
-			$this->setError($this->_db->getErrorMsg());
+		try {
+			$maxord = $this->_db->loadResult();
+		} catch(JException $e) {
+			$this->setError($e->getMessage());
 			return false;
 		}
 		return $maxord + 1;
@@ -459,9 +451,10 @@ abstract class JTable extends JObject
 		. ' ORDER BY ordering'.$order2
 		;
 		$this->_db->setQuery( $query );
-		if (!($orders = $this->_db->loadObjectList()))
-		{
-			$this->setError($this->_db->getErrorMsg());
+		try {
+			$orders = $this->_db->loadObjectList();
+		} catch(JException $e) {
+			$this->setError($e->getMessage());
 			return false;
 		}
 		// compact the ordering numbers
@@ -477,7 +470,12 @@ abstract class JTable extends JObject
 					. ' WHERE '. $k .' = '. $this->_db->Quote($orders[$i]->$k)
 					;
 					$this->_db->setQuery( $query);
-					$this->_db->query();
+					try {
+						$this->_db->query();
+					} catch(JException $e) {
+						$this->setError($e->getMessage());
+						return false;
+					}
 				}
 			}
 		}
@@ -521,9 +519,10 @@ abstract class JTable extends JObject
 			;
 			$this->_db->setQuery( $query );
 
-			if (!$obj = $this->_db->loadObject())
-			{
-				$this->setError($this->_db->getErrorMsg());
+			try {
+				$obj = $this->_db->loadObject();
+			} catch(JException $e) {
+				$this->setError($e->getMessage());
 				return false;
 			}
 			$msg = array();
@@ -576,13 +575,11 @@ abstract class JTable extends JObject
 				' WHERE '.$this->_tbl_key.' = '. $this->_db->Quote($this->$k);
 		$this->_db->setQuery( $query );
 
-		if ($this->_db->query())
-		{
+		try {
+			$this->_db->query();
 			return true;
-		}
-		else
-		{
-			$this->setError($this->_db->getErrorMsg());
+		} catch (JException $e) {
+			$this->setError($e->getMessage());
 			return false;
 		}
 	}
@@ -616,8 +613,12 @@ abstract class JTable extends JObject
 
 		$this->checked_out = $who;
 		$this->checked_out_time = $time;
-
-		return $this->_db->query();
+		try {
+			return $this->_db->query();
+		} catch(JException $e) {
+			$this->setError($e->getMessage());
+			return false;
+		}
 	}
 
 	/**
@@ -654,7 +655,12 @@ abstract class JTable extends JObject
 		$this->checked_out = 0;
 		$this->checked_out_time = '';
 
-		return $this->_db->query();
+		try {
+			return $this->_db->query();
+		} catch(JException $e) {
+			$this->setError($e->getMessage());
+			return false;
+		}
 	}
 
 	/**
@@ -680,8 +686,14 @@ abstract class JTable extends JObject
 		. ' SET hits = ( hits + 1 )'
 		. ' WHERE '. $this->_tbl_key .'='. $this->_db->Quote($this->$k);
 		$this->_db->setQuery( $query );
-		$this->_db->query();
-		$this->hits++;
+		try {
+			$this->_db->query();
+			$this->hits++;
+		} catch(JException $e) {
+			$this->setError($e->getMessage());
+			return false;
+		}
+		return true;
 	}
 
 	/**
@@ -700,7 +712,7 @@ abstract class JTable extends JObject
 	 */
 	public function isCheckedOut( $with = 0, $against = null)
 	{
-		if(isset($this) && $this INSTANCEOF JTable) && is_null($against)) {
+		if(isset($this) && $this INSTANCEOF JTable && is_null($against)) {
 			$against = $this->get( 'checked_out' );
 		}
 
@@ -785,9 +797,10 @@ abstract class JTable extends JObject
 		}
 
 		$this->_db->setQuery( $query );
-		if (!$this->_db->query())
-		{
-			$this->setError($this->_db->getErrorMsg());
+		try {
+			$this->_db->query();
+		} catch(JException $e) {
+			$this->setError($e->getMessage());
 			return false;
 		}
 

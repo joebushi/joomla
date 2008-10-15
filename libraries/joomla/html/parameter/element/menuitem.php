@@ -50,7 +50,11 @@ class JElementMenuItem extends JElement
 				' FROM #__menu_types' .
 				' ORDER BY title';
 		$db->setQuery( $query );
-		$menuTypes = $db->loadObjectList();
+		try {
+			$menuTypes = $db->loadObjectList();
+		} catch(JException $e) {
+			$menuTypes = array();
+		}
 
 		if ($state = $node->attributes('state')) {
 			$where .= ' AND published = '.(int) $state;
@@ -65,7 +69,11 @@ class JElementMenuItem extends JElement
 				;
 
 		$db->setQuery($query);
-		$menuItems = $db->loadObjectList();
+		try {
+			$menuItems = $db->loadObjectList();
+		} catch(JException $e) {
+			$menuItems = array();
+		}
 
 		// establish the hierarchy of the menu
 		// TODO: use node model

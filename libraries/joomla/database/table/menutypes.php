@@ -70,7 +70,12 @@ class JTableMenuTypes extends JTable
 		}
 
 		$db->setQuery( $query );
-		$menus = $db->loadResultArray();
+		try {
+			$menus = $db->loadResultArray();
+		} catch(JException $e) {
+			$this->setError($e->getMessage());
+			return false;
+		}
 
 		foreach ($menus as $menutype)
 		{

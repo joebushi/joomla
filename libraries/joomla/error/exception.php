@@ -143,6 +143,9 @@ class JException extends Exception
 			}
 		}
 
+		//Store exception for debugging purposes!!!	
+		JError::addToStack($this);
+
 		parent::__construct($msg, (int) $code);
 	}
 

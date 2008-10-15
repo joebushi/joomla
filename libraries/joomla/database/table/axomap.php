@@ -28,14 +28,14 @@ abstract class JTableAxoMap extends JTable
 	 *
 	 * @return	string
 	 */
-	protected abstract function getAxoSection() {}
+	protected abstract function getAxoSection();
 
 	/**
 	 * Abstract method to return the section of the object to insert into the AXO table
 	 *
 	 * @return	string
 	 */
-	protected abstract function getAxoTitle() {}
+	protected abstract function getAxoTitle();
 
 	/**
 	 * Stores the record, adds/updates the AXO Table and maps it to the appropriate AXO Group
@@ -48,49 +48,46 @@ abstract class JTableAxoMap extends JTable
 	{
 		// Control ACL Mode - update the AXO
 		$acl		= &JFactory::getACL();
-		$k			= $this->_tbl_key;
+		$k		= $this->_tbl_key;
 		$key		= $this->$k;
 		$groupId	= $acl->get_group_id($this->access, '', 'AXO');
 		$axoTitle	= $this->getAxoTitle();
 		$axoSection	= $this->getAxoSection();
-
-		if ($key)
-		{
-			// existing record
-			if ($ret = $this->_db->updateObject($this->_tbl, $this, $this->_tbl_key, $updateNulls)) {
-				// consistency check
-				$axoId	= $acl->get_object_id($axoSection, $key, 'AXO');
-				if (!$axoId) {
-					$axoId	= $acl->add_object($axoSection, $axoTitle, $key, null, null, 'AXO');
+	
+		try {
+			if ($key)
+			{
+				// existing record
+				if ($ret = $this->_db->updateObject($this->_tbl, $this, $this->_tbl_key, $updateNulls)) {
+					// consistency check
+					$axoId	= $acl->get_object_id($axoSection, $key, 'AXO');
+					if (!$axoId) {
+						$axoId	= $acl->add_object($axoSection, $axoTitle, $key, null, null, 'AXO');
+					} else {
+						// update the AXO object
+						$ret	= $acl->edit_object($axoId, $axoSection, $axoTitle, $key, 0, 0, 'AXO');
+					}
+	
+					// syncronise ACL - single group handled at the moment
+					if ($groups = $acl->get_object_groups($axoId, 'AXO')) {
+						$acl->del_group_object($groups[0], $axoSection, $key, 'AXO');
+					}
+					$acl->add_group_object($groupId, $axoSection, $key, 'AXO');
 				}
-				else {
-					// update the AXO object
-					$ret	= $acl->edit_object($axoId, $axoSection, $axoTitle, $key, 0, 0, 'AXO');
-				}
-
-				// syncronise ACL - single group handled at the moment
-				if ($groups = $acl->get_object_groups($axoId, 'AXO')) {
-					$acl->del_group_object($groups[0], $axoSection, $key, 'AXO');
-				}
-				$acl->add_group_object($groupId, $axoSection, $key, 'AXO');
 			}
-		}
-		else {
-			// new record
-			if ($ret = $this->_db->insertObject($this->_tbl, $this, $this->_tbl_key)) {
-				$key = $this->$k;
-				// syncronise ACL
-				$acl->add_object($axoSection, $axoTitle, $key, null, null, 'AXO');
-				$acl->add_group_object($groupId, $axoSection, $key, 'AXO');
+			else {
+				// new record
+				if ($ret = $this->_db->insertObject($this->_tbl, $this, $this->_tbl_key)) {
+					$key = $this->$k;
+					// syncronise ACL
+					$acl->add_object($axoSection, $axoTitle, $key, null, null, 'AXO');
+					$acl->add_group_object($groupId, $axoSection, $key, 'AXO');
+				}
 			}
-		}
-
-		if (!$ret) {
-			$this->setError(get_class($this).'::'. JText::_('store failed') .'<br />' . $this->_db->getErrorMsg());
+		} catch(JException $e) {
+			$this->setError(get_class($this).'::'. JText::_('store failed') .'<br />' . $e->getMessage());
 			return false;
 		}
-		else {
-			return true;
-		}
+		return true;
 	}
 }

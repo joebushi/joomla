@@ -80,7 +80,7 @@ class JInstallerPlugin extends JObject
 
 		// Set the installation path
 		$element =& $this->manifest->getElementByPath('files');
-		if ($element INSTANCEOF JSimpleXMLElement) && count($element->children())) {
+		if ($element INSTANCEOF JSimpleXMLElement && count($element->children())) {
 			$files =& $element->children();
 			foreach ($files as $file) {
 				if ($file->attributes($type)) {
@@ -144,7 +144,9 @@ class JInstallerPlugin extends JObject
 				' WHERE folder = '.$db->Quote($group) .
 				' AND element = '.$db->Quote($pname);
 		$db->setQuery($query);
-		if (!$db->Query()) {
+		try {
+			$db->Query();
+		} catch(JException $e) {
 			// Install failed, roll back changes
 			$this->parent->abort(JText::_('Plugin').' '.JText::_('Install').': '.$db->stderr(true));
 			return false;
@@ -311,6 +313,10 @@ class JInstallerPlugin extends JObject
 				' FROM `#__plugins`' .
 				' WHERE id='.(int)$arg['id'];
 		$db->setQuery($query);
-		return ($db->query() !== false);
+		try {
+			return $db->query();
+		} catch(JException $e) {
+			return false;
+		}
 	}
 }

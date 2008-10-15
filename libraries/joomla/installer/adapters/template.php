@@ -46,8 +46,6 @@ class JInstallerTemplate extends JObject
 	 */
 	public function install()
 	{
-		// Get database connector object
-		$db =& $this->parent->getDBO();
 		$manifest =& $this->parent->getManifest();
 		$root =& $manifest->document;
 

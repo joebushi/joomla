@@ -30,8 +30,7 @@ abstract class JHTMLMenu
 	*/
 	public static function ordering( &$row, $id )
 	{
-		$db =& JFactory::getDBO();
-
+		$db = JFactory::getDBO();
 		if ( $id )
 		{
 			$query = 'SELECT ordering AS value, name AS text'
@@ -64,7 +63,11 @@ abstract class JHTMLMenu
 		. ' ORDER BY m.menutype, m.parent, m.ordering'
 		;
 		$db->setQuery( $query );
-		$mitems = $db->loadObjectList();
+		try {
+			$mitems = $db->loadObjectList();
+		} catch(JException $e) {
+			$mitems = array();
+		}
 		$mitems_temp = $mitems;
 
 		// establish the hierarchy of the menu

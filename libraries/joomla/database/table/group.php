@@ -62,7 +62,12 @@ class AclTableGroup extends JTable
 		$query = 'SELECT id FROM '. $this->_tbl .' WHERE parent_id='. $parent_id;
 
 		$db->setQuery( $query );
-		$children = $db->loadResultArray();
+		try {
+			$children = $db->loadResultArray();
+		} catch(JException $e) {
+			$this->setError($e->getMessage());
+			return false;
+		}
 
 		// the right value of this node is the left value + 1
 		$right = $left + 1;
@@ -86,7 +91,10 @@ class AclTableGroup extends JTable
 		$query  = 'UPDATE '. $this->_tbl .' SET lft='. $left .', rgt='. $right .' WHERE id='. $parent_id;
 
 		$db->setQuery( $query );
-		if (!$db->query()) {
+		try {
+			$db->query();
+		} catch(JException $e) {
+			$this->setError($e->getMessage);
 			return false;
 		}
 

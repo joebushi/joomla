@@ -45,7 +45,11 @@ abstract class JUserHelper
 		. ' AND lastvisitDate = '.$db->Quote('0000-00-00 00:00:00');
 		;
 		$db->setQuery( $query );
-		$id = intval( $db->loadResult() );
+		try {
+			$id = intval( $db->loadResult() );
+		} catch(JException $e) {
+			$id = 0;
+		}
 
 		// Is it a valid user to activate?
 		if ($id)
@@ -84,7 +88,11 @@ abstract class JUserHelper
 
 		$query = 'SELECT id FROM #__users WHERE username = ' . $db->Quote( $username );
 		$db->setQuery($query, 0, 1);
-		return $db->loadResult();
+		try {
+			return $db->loadResult();
+		} catch (JException $e) {
+			return 0;
+		}
 	}
 
 	/**

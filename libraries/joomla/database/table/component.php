@@ -72,9 +72,13 @@ class JTableComponent extends JTable
 				' WHERE ' . $db->nameQuote( 'option' ) . '=' . $db->Quote( $option ) .
 				' AND parent = 0';
 		$db->setQuery( $query, 0, 1 );
-		$id = $db->loadResult();
-
-		if ($id === null) {
+		try {
+			$id = $db->loadResult();
+		} catch(JException $e) {
+			$this->setError($e->getMessage());
+			return false;
+		}
+		if (empty($id)) {
 			return false;
 		} else {
 			return $this->load( $id );

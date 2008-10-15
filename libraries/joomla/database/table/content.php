@@ -150,28 +150,32 @@ class JTableContent extends JTable
 	public function toXML( $mapKeysToText=false )
 	{
 		$db =& JFactory::getDBO();
-
-		if ($mapKeysToText) {
-			$query = 'SELECT name'
-			. ' FROM #__sections'
-			. ' WHERE id = '. (int) $this->sectionid
-			;
-			$db->setQuery( $query );
-			$this->sectionid = $db->loadResult();
-
-			$query = 'SELECT name'
-			. ' FROM #__categories'
-			. ' WHERE id = '. (int) $this->catid
-			;
-			$db->setQuery( $query );
-			$this->catid = $db->loadResult();
-
-			$query = 'SELECT name'
-			. ' FROM #__users'
-			. ' WHERE id = ' . (int) $this->created_by
-			;
-			$db->setQuery( $query );
-			$this->created_by = $db->loadResult();
+		try {
+			if ($mapKeysToText) {
+				$query = 'SELECT name'
+				. ' FROM #__sections'
+				. ' WHERE id = '. (int) $this->sectionid
+				;
+				$db->setQuery( $query );
+				$this->sectionid = $db->loadResult();
+	
+				$query = 'SELECT name'
+				. ' FROM #__categories'
+				. ' WHERE id = '. (int) $this->catid
+				;
+				$db->setQuery( $query );
+				$this->catid = $db->loadResult();
+	
+				$query = 'SELECT name'
+				. ' FROM #__users'
+				. ' WHERE id = ' . (int) $this->created_by
+				;
+				$db->setQuery( $query );
+				$this->created_by = $db->loadResult();
+			}
+		} catch(JException $e) {
+			$this->setError($e->getMessage());
+			return false;
 		}
 
 		return parent::toXML( $mapKeysToText );

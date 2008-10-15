@@ -330,7 +330,11 @@ class JAuthorization extends gacl_api
 			. ' WHERE ao.value='.$db->Quote($value)
 			. ' ORDER BY g.id'
 		);
-		$obj = $db->loadObject();
+		try {
+			$obj = $db->loadObject();
+		} catch( JException $e) {
+			$obj = null;
+		}
 		return $obj;
 	}
 
@@ -342,31 +346,35 @@ class JAuthorization extends gacl_api
 		$root->lft = 0;
 		$root->rgt = 0;
 
-		if ($root_id) {
-		} else if ($root_name) {
-			$query	= "SELECT lft, rgt FROM $table WHERE name = ".$db->Quote($root_name);
-			$db->setQuery( $query );
-			$root = $db->loadObject();
-		}
-
-		$where = '';
-		if ($root->lft+$root->rgt <> 0) {
-			if ($inclusive) {
-				$where = ' WHERE g1.lft BETWEEN '.(int) $root->lft.' AND '.(int) $root->rgt;
-			} else {
-				$where = ' WHERE g1.lft > '.(int) $root->lft.' AND g1.lft <'.(int) $root->rgt;
+		try {
+			if ($root_id) {
+			} else if ($root_name) {
+				$query	= "SELECT lft, rgt FROM $table WHERE name = ".$db->Quote($root_name);
+				$db->setQuery( $query );
+				$root = $db->loadObject();
 			}
+	
+			$where = '';
+			if ($root->lft+$root->rgt <> 0) {
+				if ($inclusive) {
+					$where = ' WHERE g1.lft BETWEEN '.(int) $root->lft.' AND '.(int) $root->rgt;
+				} else {
+					$where = ' WHERE g1.lft > '.(int) $root->lft.' AND g1.lft <'.(int) $root->rgt;
+				}
+			}
+	
+			$query	= 'SELECT '. $fields
+					. ' FROM '. $table .' AS g1'
+					. ' INNER JOIN '. $table .' AS g2 ON g1.lft BETWEEN g2.lft AND g2.rgt'
+					. $where
+					. ($groupby ? ' GROUP BY ' . $groupby : '')
+					. ' ORDER BY g1.lft';
+			$db->setQuery( $query );
+
+			return $db->loadObjectList();
+		} catch (JException $e) {
+			return array();
 		}
-
-		$query	= 'SELECT '. $fields
-				. ' FROM '. $table .' AS g1'
-				. ' INNER JOIN '. $table .' AS g2 ON g1.lft BETWEEN g2.lft AND g2.rgt'
-				. $where
-				. ($groupby ? ' GROUP BY ' . $groupby : '')
-				. ' ORDER BY g1.lft';
-		$db->setQuery( $query );
-
-		return $db->loadObjectList();
 	}
 
 	/**
@@ -378,7 +386,6 @@ class JAuthorization extends gacl_api
 	 */
 	function get_group_children_tree( $root_id=null, $root_name=null, $inclusive=true, $html=true )
 	{
-		$db =& JFactory::getDBO();
 
 		$tree = $this->_getBelow( '#__core_acl_aro_groups',
 			'g1.id, g1.name, COUNT(g2.name) AS level',
@@ -463,8 +470,11 @@ class JAuthorization extends gacl_api
 		}
 
 		$db->setQuery($query);
-
-		return $db->loadResult();
+		try {
+			return $db->loadResult();
+		} catch(JException $e) {
+			return null;
+		}
 	}
 
 	/*======================================================================*\
@@ -474,7 +484,7 @@ class JAuthorization extends gacl_api
 	function get_group_parents($group_id, $group_type = 'ARO', $recurse = 'NO_RECURSE')
 	{
 		$this->debug_text("get_group_parents(): Group_ID: $group_id Group Type: $group_type Recurse: $recurse");
-
+		$db = JFactory::getDBO();
 		switch (strtolower(trim($group_type))) {
 			case 'axo':
 				$group_type = 'axo';
@@ -517,7 +527,11 @@ class JAuthorization extends gacl_api
 
 
 		$this->db->setQuery( $query );
-		return $this->db->loadResultArray();
+		try {
+			return $this->db->loadResultArray();
+		} catch (JException $e) {
+			return array();
+		}
 	}
 
 	/**
@@ -547,7 +561,11 @@ class JAuthorization extends gacl_api
 					'  AND acl.allow = 1' .
 					'  AND aro.value = '.(int) $user->id;
 			$db->setQuery( $query );
-			$result	= $db->loadResult();
+			try {
+				$result	= $db->loadResult();
+			} catch(JException $e) {
+				$result = 0;
+			}
 		}
 		else {
 			// Save some performance for anon users

@@ -477,7 +477,11 @@ class JInstallerComponent extends JObject
 				' ORDER BY `parent` ASC';
 
 		$db->setQuery($query);
-		$componentrow = $db->loadAssoc(); // will return null on error
+		try {
+			$componentrow = $db->loadAssoc();
+		} catch(JException $e) {
+			$componentrow = null;
+		}
 		$exists = 0;
 		$oldparams = '';
 
@@ -501,7 +505,9 @@ class JInstallerComponent extends JObject
 				$sql = 'DELETE FROM #__components WHERE `option` = '.$db->Quote($option);
 
 				$db->setQuery($sql);
-				if (!$db->query()) {
+				try {
+					$db->query();
+				} catch(JException $e) {
 					JError::raiseWarning(100, JText::_('Component').' '.JText::_('Install').': '.$db->stderr(true));
 				}
 			}
@@ -534,7 +540,9 @@ class JInstallerComponent extends JObject
 				' '.$db->Quote($db_option).', '.(int) $db_ordering.', '.$db->Quote($db_admin_menu_img).',' .
 				' '.(int) $db_iscore.', '.$db->Quote($db_params).', '.(int) $db_enabled.' )';
 			$db->setQuery($query);
-			if (!$db->query()) {
+			try {
+				$db->query();
+			} catch(JException $e) {
 				// Install failed, rollback changes
 				$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.$db->stderr(true));
 				return false;
@@ -558,7 +566,11 @@ class JInstallerComponent extends JObject
 					' WHERE `option` = '.$db->Quote($option) .
 					' AND parent = 0';
 			$db->setQuery($query);
-			$menuid = $db->loadResult();
+			try {
+				$menuid = $db->loadResult();
+			} catch(JException $e) {	
+				$menuid = null;
+			}
 
 			if (!$menuid) {
 				// No menu entry, lets just enter a component entry to the table.
@@ -581,7 +593,9 @@ class JInstallerComponent extends JObject
 					' '.$db->Quote($db_option).', '.(int) $db_ordering.', '.$db->Quote($db_admin_menu_img).',' .
 					' '.(int) $db_iscore.', '.$db->Quote($db_params).', '.(int) $db_enabled.' )';
 				$db->setQuery($query);
-				if (!$db->query()) {
+				try {
+					$db->query();
+				} catch (JException $e) {
 					// Install failed, rollback changes
 					$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.$db->stderr(true));
 					return false;
@@ -690,7 +704,9 @@ class JInstallerComponent extends JObject
 				'WHERE parent = '.(int)$row->id;
 
 		$db->setQuery($sql);
-		if (!$db->query()) {
+		try {
+			$db->query();
+		} catch(JException $e) {
 			JError::raiseWarning(100, JText::_('Component').' '.JText::_('Uninstall').': '.$db->stderr(true));
 			$retval = false;
 		}
@@ -722,6 +738,10 @@ class JInstallerComponent extends JObject
 				' FROM `#__components` ' .
 				' WHERE id='.(int)$arg['id'];
 		$db->setQuery($query);
-		return ($db->query() !== false);
+		try {
+			return $db->query();
+		} catch(JException $e) {
+			return false;
+		}
 	}
 }

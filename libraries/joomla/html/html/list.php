@@ -38,7 +38,11 @@ abstract class JHTMLList
 		. ' ORDER BY value'
 		;
 		$db->setQuery( $query );
-		$groups = $db->loadObjectList();
+		try {
+			$groups = $db->loadObjectList();
+		} catch(JException $e) {
+			$groups = array();
+		}
 		$access = JHTML::_('select.genericlist',   $groups, 'access', 'class="inputbox" size="3"', 'value', 'text', intval( $row->access ), '', 1 );
 
 		return $access;
@@ -82,15 +86,17 @@ abstract class JHTMLList
 		$db =& JFactory::getDBO();
 		$order = array();
 		$db->setQuery( $sql );
-		if (!($orders = $db->loadObjectList())) {
-			if ($db->getErrorNum()) {
-				echo $db->stderr();
-				return false;
-			} else {
-				$order[] = JHTML::_('select.option',  1, JText::_( 'first' ) );
-				return $order;
-			}
+		try {
+			$order = $db->loadObjectList();
+		} catch(JException $e) {
+			return false;
 		}
+
+		if(empty($orders)) {
+			$order[] = JHTML::_('select.option',  1, JText::_( 'first' ) );
+			return $order;
+		}
+	
 		$order[] = JHTML::_('select.option',  0, '0 '. JText::_( 'first' ) );
 		for ($i=0, $n=count( $orders ); $i < $n; $i++) {
 
@@ -112,8 +118,6 @@ abstract class JHTMLList
 	*/
 	public static function specificordering( &$row, $id, $query, $neworder = 0 )
 	{
-		$db =& JFactory::getDBO();
-
 		if ( $id ) {
 			$order = JHTML::_('list.genericordering',  $query );
 			$ordering = JHTML::_('select.genericlist',   $order, 'ordering', 'class="inputbox" size="1"', 'value', 'text', intval( $row->ordering ) );
@@ -150,7 +154,11 @@ abstract class JHTMLList
 		$db->setQuery( $query );
 		if ( $nouser ) {
 			$users[] = JHTML::_('select.option',  '0', '- '. JText::_( 'No User' ) .' -' );
-			$users = array_merge( $users, $db->loadObjectList() );
+			try {
+				$users = array_merge( $users, $db->loadObjectList() );
+			} catch(JException $e) {
+				//ignore the error here
+			}
 		} else {
 			$users = $db->loadObjectList();
 		}
@@ -199,9 +207,17 @@ abstract class JHTMLList
 		$db->setQuery( $query );
 		if ( $sel_cat ) {
 			$categories[] = JHTML::_('select.option',  '0', '- '. JText::_( 'Select a Category' ) .' -' );
-			$categories = array_merge( $categories, $db->loadObjectList() );
+			try {
+				$categories = array_merge( $categories, $db->loadObjectList() );
+			} catch (JException $e) {
+				//Ignore error
+			}
 		} else {
-			$categories = $db->loadObjectList();
+			try {
+				$categories = $db->loadObjectList();
+			} catch (JException $e) {
+				$categories = array();
+			}
 		}
 
 		$category = JHTML::_('select.genericlist',   $categories, $name, 'class="inputbox" size="'. $size .'" '. $javascript, 'value', 'text', $active );
@@ -227,7 +243,11 @@ abstract class JHTMLList
 		. ' ORDER BY ' . $order
 		;
 		$db->setQuery( $query );
-		$sections = array_merge( $categories, $db->loadObjectList() );
+		try {
+			$sections = array_merge( $categories, $db->loadObjectList() );
+		} catch(JException $e) {
+			//ignore error
+		}
 
 		$category = JHTML::_('select.genericlist',   $sections, $name, 'class="inputbox" size="1" '. $javascript, 'value', 'text', $active );
 

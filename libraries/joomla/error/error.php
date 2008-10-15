@@ -107,6 +107,18 @@ w
 	}
 
 	/**
+	 * Method to add non-JError thrown JExceptions to the JError stack for debugging purposes
+	 * 
+	 * @access 	public
+	 * @param 	object JException
+	 * @return 	void
+	 * @since 	1.6
+	 */
+	public static function addToStack(JException $e) {
+		JError::$stack[] =& $e;
+	}
+
+	/**
 	 * Create a new JException object given the passed arguments
 	 *
 	 * @static

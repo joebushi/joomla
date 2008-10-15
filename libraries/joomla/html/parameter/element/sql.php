@@ -39,6 +39,11 @@ class JElementSQL extends JElement
 		$db->setQuery($node->attributes('query'));
 		$key = ($node->attributes('key_field') ? $node->attributes('key_field') : 'value');
 		$val = ($node->attributes('value_field') ? $node->attributes('value_field') : $name);
-		return JHTML::_('select.genericlist',  $db->loadObjectList(), ''.$control_name.'['.$name.']', 'class="inputbox"', $key, $val, $value, $control_name.$name);
+		try {
+			$options = $db->loadObjectlist();
+		} catch(JException $e) {
+			$options = array();
+		}
+		return JHTML::_('select.genericlist',  $options, ''.$control_name.'['.$name.']', 'class="inputbox"', $key, $val, $value, $control_name.$name);
 	}
 }
