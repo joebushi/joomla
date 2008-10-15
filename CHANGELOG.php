@@ -37,6 +37,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-Oct-2008 Kevin Devine
+ # [#13076] **Feed module target attribute not validating
+
 13-Oct-2008 Ian MacLennan
  # [#13164] JFolder::files and JFolder::folders don't function properly when using integral search depth
  # [#13152] Component Directories to be completely deleted upon bogus entry into jos_components
@@ -51,7 +54,7 @@ $ -> Language fix or change
  # [#11261] Cache: Undefined variable: rows in /administrator/components/com_cache/cache.class.php on line 114
 
 10-Oct-2008 Kevin Devine
- # [12722] STRIPOS
+ # [#12722] STRIPOS
 
 06-Oct-2008 Ian MacLennan
  # [#12843] Text 'New ordering saved' cannot be translated in weblinks
