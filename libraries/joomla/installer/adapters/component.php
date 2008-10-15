@@ -66,7 +66,7 @@ class JInstallerComponent extends JObject
 
 		// Get the component description
 		$description = & $this->manifest->getElementByPath('description');
-		if (is_a($description, 'JSimpleXMLElement')) {
+		if ($description INSTANCEOF JSimpleXMLElement) {
 			$this->parent->set('message', $description->data());
 		} else {
 			$this->parent->set('message', '' );
@@ -88,7 +88,7 @@ class JInstallerComponent extends JObject
 		 */
 
 		// Make sure that we have an admin element
-		if ( ! is_a($this->adminElement, 'JSimpleXMLElement') )
+		if (!$this->adminElement INSTANCEOF JSimpleXMLElement )
 		{
 			JError::raiseWarning(1, JText::_('Component').' '.JText::_('Install').': '.JText::_('The XML file did not contain an administration element'));
 			return false;
@@ -157,7 +157,7 @@ class JInstallerComponent extends JObject
 		// Find files to copy
 		foreach ($this->manifest->children() as $child)
 		{
-			if (is_a($child, 'JSimpleXMLElement') && $child->name() == 'files') {
+			if ($child INSTANCEOF JSimpleXMLElement && $child->name() == 'files') {
 				if ($this->parent->parseFiles($child) === false) {
 					// Install failed, rollback any changes
 					$this->parent->abort();
@@ -168,7 +168,7 @@ class JInstallerComponent extends JObject
 
 		foreach ($this->adminElement->children() as $child)
 		{
-			if (is_a($child, 'JSimpleXMLElement') && $child->name() == 'files') {
+			if ($child INSTANCEOF JSimpleXMLElement && $child->name() == 'files') {
 				if ($this->parent->parseFiles($child, 1) === false) {
 					// Install failed, rollback any changes
 					$this->parent->abort();
@@ -188,7 +188,7 @@ class JInstallerComponent extends JObject
 
 		// If there is an install file, lets copy it.
 		$installScriptElement =& $this->manifest->getElementByPath('installfile');
-		if (is_a($installScriptElement, 'JSimpleXMLElement')) {
+		if ($installScriptElement INSTANCEOF JSimpleXMLElement) {
 			// Make sure it hasn't already been copied (this would be an error in the xml install file)
 			if (!file_exists($this->parent->getPath('extension_administrator').DS.$installScriptElement->data()))
 			{
@@ -205,7 +205,7 @@ class JInstallerComponent extends JObject
 
 		// If there is an uninstall file, lets copy it.
 		$uninstallScriptElement =& $this->manifest->getElementByPath('uninstallfile');
-		if (is_a($uninstallScriptElement, 'JSimpleXMLElement')) {
+		if ($uninstallScriptElement INSTANCEOF JSimpleXMLElement) {
 			// Make sure it hasn't already been copied (this would be an error in the xml install file)
 			if (!file_exists($this->parent->getPath('extension_administrator').DS.$uninstallScriptElement->data()))
 			{
@@ -341,7 +341,7 @@ class JInstallerComponent extends JObject
 
 		// Get the package manifest objecct
 		$manifest =& $this->parent->getManifest();
-		if (!is_a($manifest, 'JSimpleXML')) {
+		if (!$manifest INSTANCEOF JSimpleXML) {
 			// Make sure we delete the folders if no manifest exists
 			JFolder::delete($this->parent->getPath('extension_administrator'));
 			JFolder::delete($this->parent->getPath('extension_site'));
@@ -367,7 +367,7 @@ class JInstallerComponent extends JObject
 
 		// Now lets load the uninstall file if there is one and execute the uninstall function if it exists.
 		$uninstallfileElement =& $this->manifest->getElementByPath('uninstallfile');
-		if (is_a($uninstallfileElement, 'JSimpleXMLElement')) {
+		if ($uninstallfileElement INSTANCEOF JSimpleXMLElement) {
 			// Element exists, does the file exist?
 			if (is_file($this->parent->getPath('extension_administrator').DS.$uninstallfileElement->data())) {
 				ob_start();
@@ -509,7 +509,7 @@ class JInstallerComponent extends JObject
 
 		// Ok, now its time to handle the menus.  Start with the component root menu, then handle submenus.
 		$menuElement = & $this->adminElement->getElementByPath('menu');
-		if (is_a($menuElement, 'JSimpleXMLElement')) {
+		if ($menuElement INSTANCEOF JSimpleXMLElement) {
 
 			$db_name = $menuElement->data();
 			$db_link = "option=".$option;
@@ -603,12 +603,12 @@ class JInstallerComponent extends JObject
 		// Initialize submenu ordering value
 		$ordering = 0;
 		$submenu = $this->adminElement->getElementByPath('submenu');
-		if (!is_a($submenu, 'JSimpleXMLElement') || !count($submenu->children())) {
+		if (!($submenu INSTANCEOF JSimpleXMLElement) || !count($submenu->children())) {
 			return true;
 		}
 		foreach ($submenu->children() as $child)
 		{
-			if (is_a($child, 'JSimpleXMLElement') && $child->name() == 'menu') {
+			if ($child INSTANCEOF JSimpleXMLElement && $child->name() == 'menu') {
 
 				$com =& JTable::getInstance('component');
 				$com->name = $child->data();

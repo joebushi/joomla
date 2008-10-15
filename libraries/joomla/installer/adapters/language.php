@@ -133,7 +133,7 @@ class JInstallerLanguage extends JObject
 		$this->parent->setPath('extension_site', $basePath.DS."language".DS.$this->get('tag'));
 
 		// Do we have a meta file in the file list?  In other words... is this a core language pack?
-		if (is_a($element, 'JSimpleXMLElement') && count($element->children())) {
+		if ($element INSTANCEOF JSimpleXMLElement && count($element->children())) {
 			$files = $element->children();
 			foreach ($files as $file) {
 				if ($file->attributes('file') == 'meta') {
@@ -188,7 +188,7 @@ class JInstallerLanguage extends JObject
 
 		// Get the language description
 		$description = & $root->getElementByPath('description');
-		if (is_a($description, 'JSimpleXMLElement')) {
+		if ($description INSTANCEOF JSimpleXMLElement) {
 			$this->parent->set('message', $description->data());
 		} else {
 			$this->parent->set('message', '' );

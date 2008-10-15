@@ -66,7 +66,7 @@ abstract class JPlugin extends JEvent
 		//Set the parameters
 		if ( isset( $config['params'] ) ) {
 
-			if(is_a($config['params'], 'JParameter')) {
+			if($config['params'] INSTANCEOF JParameter) {
 				$this->params = $config['params'];
 			} else {
 				$this->params = new JParameter($config['params']);

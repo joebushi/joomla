@@ -125,7 +125,7 @@ class JInstallerTemplate extends JObject
 
 		// Get the template description
 		$description = & $root->getElementByPath('description');
-		if (is_a($description, 'JSimpleXMLElement')) {
+		if ($description INSTANCEOF JSimpleXMLElement) {
 			$this->parent->set('message', $description->data());
 		} else {
 			$this->parent->set('message', '' );
@@ -170,7 +170,7 @@ class JInstallerTemplate extends JObject
 		$this->parent->setPath('source', $this->parent->getPath('extension_root'));
 
 		$manifest =& $this->parent->getManifest();
-		if (!is_a($manifest, 'JSimpleXML')) {
+		if (!$manifest INSTANCEOF JSimpleXML) {
 			// Make sure we delete the folders
 			JFolder::delete($this->parent->getPath('extension_root'));
 			JError::raiseWarning(100, JTEXT::_('Template').' '.JTEXT::_('Uninstall').': '.JTEXT::_('Package manifest file invalid or not found'));

@@ -96,7 +96,7 @@ abstract class JHTMLGrid
 		$userid = $user->get('id');
 
 		$result = false;
-		if(is_a($row, 'JTable')) {
+		if($row INSTANCEOF JTable) {
 			$result = $row->isCheckedOut($userid);
 		} else {
 			$result = JTable::isCheckedOut($userid, $row->checked_out);

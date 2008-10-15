@@ -700,7 +700,7 @@ abstract class JTable extends JObject
 	 */
 	public function isCheckedOut( $with = 0, $against = null)
 	{
-		if(isset($this) && is_a($this, 'JTable') && is_null($against)) {
+		if(isset($this) && $this INSTANCEOF JTable) && is_null($against)) {
 			$against = $this->get( 'checked_out' );
 		}
 

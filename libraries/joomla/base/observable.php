@@ -102,7 +102,7 @@ class JObservable extends JObject
 
 			$class = get_class($observer);
 			foreach ($this->_observers as $check) {
-				if (is_a($check, $class)) {
+				if ($check INSTANCEOF $class) {
 					return;
 				}
 			}

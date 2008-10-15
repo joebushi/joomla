@@ -408,7 +408,7 @@ class JRegistry extends JObject
 	 */
 	public function merge(&$source)
 	{
-		if (is_a($source, 'JRegistry'))
+		if ($source INSTANCEOF JRegistry)
 		{
 			$sns = $source->getNameSpaces();
 			foreach ($sns as $ns)

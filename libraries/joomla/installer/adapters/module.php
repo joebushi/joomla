@@ -66,7 +66,7 @@ class JInstallerModule extends JObject
 
 		// Get the component description
 		$description = & $this->manifest->getElementByPath('description');
-		if (is_a($description, 'JSimpleXMLElement')) {
+		if ($description INSTANCEOF JSimpleXMLElement) {
 			$this->parent->set('message', $description->data());
 		} else {
 			$this->parent->set('message', '' );
@@ -98,7 +98,7 @@ class JInstallerModule extends JObject
 
 		// Set the installation path
 		$element =& $this->manifest->getElementByPath('files');
-		if (is_a($element, 'JSimpleXMLElement') && count($element->children())) {
+		if ($element INSTANCEOF JSimpleXMLElement && count($element->children())) {
 			$files =& $element->children();
 			foreach ($files as $file) {
 				if ($file->attributes('module')) {
@@ -292,7 +292,7 @@ class JInstallerModule extends JObject
 		// Get the package manifest objecct
 		$this->parent->setPath('source', $this->parent->getPath('extension_root'));
 		$manifest =& $this->parent->getManifest();
-		if (!is_a($manifest, 'JSimpleXML')) {
+		if (!$manifest INSTANCEOF JSimpleXML) {
 			// Make sure we delete the folders
 			JFolder::delete($this->parent->getPath('extension_root'));
 			JError::raiseWarning(100, 'Module Uninstall: Package manifest file invalid or not found');

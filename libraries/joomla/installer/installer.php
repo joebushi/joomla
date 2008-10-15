@@ -445,7 +445,7 @@ class JInstaller extends JObject
 		// Get the database connector object
 		$db = & $this->_db;
 
-		if (!is_a($element, 'JSimpleXMLElement') || !count($element->children())) {
+		if (!($element INSTANCEOF JSimpleXMLElement) || !count($element->children())) {
 			// Either the tag does not exist or has no children therefore we return zero files processed.
 			return 0;
 		}
@@ -489,7 +489,7 @@ class JInstaller extends JObject
 		}
 		$dbCharset = ($db->hasUTF()) ? 'utf8' : '';
 
-		if (!is_a($element, 'JSimpleXMLElement')) {
+		if (!$element INSTANCEOF JSimpleXMLElement) {
 			// The tag does not exist.
 			return 0;
 		}
@@ -570,7 +570,7 @@ class JInstaller extends JObject
 		jimport('joomla.application.helper');
 		$client =& JApplicationHelper::getClientInfo($cid);
 
-		if (!is_a($element, 'JSimpleXMLElement') || !count($element->children())) {
+		if (!($element INSTANCEOF JSimpleXMLElement) || !count($element->children())) {
 			// Either the tag does not exist or has no children therefore we return zero files processed.
 			return 0;
 		}
@@ -657,7 +657,7 @@ class JInstaller extends JObject
 		jimport('joomla.application.helper');
 		$client =& JApplicationHelper::getClientInfo($cid);
 
-		if (!is_a($element, 'JSimpleXMLElement') || !count($element->children())) {
+		if (!($element INSTANCEOF JSimpleXMLElement) || !count($element->children())) {
 			// Either the tag does not exist or has no children therefore we return zero files processed.
 			return 0;
 		}
@@ -757,7 +757,7 @@ class JInstaller extends JObject
 		jimport('joomla.application.helper');
 		$client =& JApplicationHelper::getClientInfo($cid);
 
-		if (!is_a($element, 'JSimpleXMLElement') || !count($element->children())) {
+		if (!($element INSTANCEOF JSimpleXMLElement) || !count($element->children())) {
 			// Either the tag does not exist or has no children therefore we return zero files processed.
 			return 0;
 		}
@@ -836,7 +836,7 @@ class JInstaller extends JObject
 
 		// Get the element of the tag names
 		$element =& $root->getElementByPath('params');
-		if (!is_a($element, 'JSimpleXMLElement') || !count($element->children())) {
+		if (!($element INSTANCEOF JSimpleXMLElement) || !count($element->children())) {
 			// Either the tag does not exist or has no children therefore we return zero files processed.
 			return null;
 		}
@@ -977,7 +977,7 @@ class JInstaller extends JObject
 		jimport('joomla.application.helper');
 		$client =& JApplicationHelper::getClientInfo($cid);
 
-		if (!is_a($element, 'JSimpleXMLElement') || !count($element->children())) {
+		if (!($element INSTANCEOF JSimpleXMLElement) || !count($element->children())) {
 			// Either the tag does not exist or has no children therefore we return zero files processed.
 			return true;
 		}
