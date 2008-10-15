@@ -77,7 +77,7 @@ class CacheController
 		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'));
 		$limitstart = $mainframe->getUserStateFromRequest( $option.'.limitstart', 'limitstart', 0 );
 
-		$cmData = new CacheData($client->path.DS.'cache');
+		$cmData = new CacheData(JPATH_CACHE);
 
 		jimport('joomla.html.pagination');
 		$pageNav = new JPagination( $cmData->getGroupCount(), $limitstart, $limit );
@@ -92,7 +92,7 @@ class CacheController
 
 		$client	=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
-		$cmData = new CacheData($client->path.DS.'cache');
+		$cmData = new CacheData(JPATH_CACHE);
 		$cmData->cleanCacheList( $cid );
 	}
 }
