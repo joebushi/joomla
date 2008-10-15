@@ -18,7 +18,6 @@ defined('JPATH_BASE') or die();
 /**
  * Joomla! Cache view type object
  *
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Cache
  * @since		1.5
@@ -36,7 +35,7 @@ class JCacheView extends JCache
 	 * @return	boolean	True if the cache is hit (false else)
 	 * @since	1.5
 	 */
-	function get( &$view, $method, $id=false )
+	public function get( &$view, $method, $id=false )
 	{
 		global $mainframe;
 
@@ -144,7 +143,7 @@ class JCacheView extends JCache
 	 * @return	string	MD5 Hash : view cache id
 	 * @since	1.5
 	 */
-	function _makeId(&$view, $method)
+	protected function _makeId(&$view, $method)
 	{
 		return md5(serialize(array(JRequest::getURI(), get_class($view), $method)));
 	}

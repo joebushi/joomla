@@ -24,28 +24,30 @@ defined('JPATH_BASE') or die();
  * @subpackage	Cache
  * @since		1.5
  */
-class JCacheStorage extends JObject
+abstract class JCacheStorage extends JObject
 {
+	protected $_application = null;
+	protected $_language = 'en-GB';
+	protected $_locking = true;
+	protected $_lifetime = null;
+
 	/**
 	* Constructor
 	*
 	* @access protected
 	* @param array $options optional parameters
 	*/
-	function __construct( $options = array() )
+	protected function __construct( $options = array() )
 	{
-		$this->_application	= (isset($options['application'])) ? $options['application'] : null;
-		$this->_language	= (isset($options['language'])) ? $options['language'] : 'en-GB';
-		$this->_locking		= (isset($options['locking'])) ? $options['locking'] : true;
-		$this->_lifetime	= (isset($options['lifetime'])) ? $options['lifetime'] : null;
 		$this->_now			= time();
+		$this->_setOptions($options);
+	}
 
- 		// Set time threshold value
-        if (is_null($this->_lifetime)) {
-            $this->_threshold = 0;
-        } else {
-            $this->_threshold = $this->_now - $this->_lifetime;
-        }
+	protected function _setOptions($options) {
+		$this->_application	= (isset($options['application'])) ? $options['application'] : $this->_application;
+		$this->_language	= (isset($options['language'])) ? $options['language'] : $this->_language;
+		$this->_locking		= (isset($options['locking'])) ? $options['locking'] : $this->_locking;
+		$this->_lifetime	= (isset($options['lifetime'])) ? $options['lifetime'] : $this->_lifetime;
 	}
 
 	/**
@@ -57,13 +59,9 @@ class JCacheStorage extends JObject
 	 * @return	object	A JCacheStorageHandler object
 	 * @since	1.5
 	 */
-	function &getInstance($handler = 'file', $options = array())
+	public static function &getInstance($handler = 'file', $options = array())
 	{
-		static $instances;
-
-		if (!isset ($instances)) {
-			$instances = array ();
-		}
+		static $instances = array();
 
 		$handler = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $handler));
 		if (!isset($instances[$handler]))
@@ -76,14 +74,28 @@ class JCacheStorage extends JObject
 				if (file_exists($path) ) {
 					require_once($path);
 				} else {
-					return JError::raiseWarning(500, 'Unable to load Cache Storage: '.$handler);
+					throw new JException('Unable to load cache storage', 500, E_ERROR, $handler);
 				}
 			}
 
 			$instances[$handler] = new $class($options);
+			if(rand(0,100) === 1) {
+				$instances[$handler]->gc();
+			}
 		}
-		return $instances[$handler];
+		$instance = clone($instances[$handler]);
+		$instance->_setOptions($options);
+		return $instance;
 	}
+
+	/**
+	 * Test to see if the cache storage is available.
+	 *
+	 * @static
+	 * @access public
+	 * @return boolean  True on success, false otherwise.
+	 */
+	abstract public static function test();
 
 	/**
 	 * Get cached data by id and group
@@ -96,10 +108,7 @@ class JCacheStorage extends JObject
 	 * @return	mixed	Boolean false on failure or a cached data string
 	 * @since	1.5
 	 */
-	function get($id, $group, $checkTime)
-	{
-		return;
-	}
+	abstract public function get($id, $group, $checkTime);
 
 	/**
 	 * Store the data to cache by id and group
@@ -112,10 +121,7 @@ class JCacheStorage extends JObject
 	 * @return	boolean	True on success, false otherwise
 	 * @since	1.5
 	 */
-	function store($id, $group, $data)
-	{
-		return true;
-	}
+	abstract public function store($id, $group, $data);
 
 	/**
 	 * Remove a cached data entry by id and group
@@ -127,10 +133,7 @@ class JCacheStorage extends JObject
 	 * @return	boolean	True on success, false otherwise
 	 * @since	1.5
 	 */
-	function remove($id, $group)
-	{
-		return true;
-	}
+	abstract public function remove($id, $group);
 
 	/**
 	 * Clean cache for a group given a mode.
@@ -145,10 +148,7 @@ class JCacheStorage extends JObject
 	 * @return	boolean	True on success, false otherwise
 	 * @since	1.5
 	 */
-	function clean($group, $mode)
-	{
-		return true;
-	}
+	abstract public function clean($group, $mode);
 
 	/**
 	 * Garbage collect expired cache data
@@ -157,21 +157,22 @@ class JCacheStorage extends JObject
 	 * @access public
 	 * @return boolean  True on success, false otherwise.
 	 */
-	function gc()
-	{
-		return true;
-	}
+	abstract public function gc();
 
 	/**
-	 * Test to see if the storage handler is available.
+	 * Get a cache_id string from an id/group pair
 	 *
-	 * @abstract
-	 * @static
-	 * @access public
-	 * @return boolean  True on success, false otherwise.
+	 * @access	protected
+	 * @param	string	$id		The cache data id
+	 * @param	string	$group	The cache data group
+	 * @return	string	The cache_id string
+	 * @since	1.5
 	 */
-	function test()
+	protected function _getCacheId($id, $group)
 	{
-		return true;
+		$name	= md5($this->_application.'-'.$id.'-'.$this->_hash.'-'.$this->_language);
+		return 'cache_'.$group.'-'.$name;
 	}
+
+
 }

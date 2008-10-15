@@ -35,7 +35,7 @@ class JCachePage extends JCache
 	 * @return	boolean	True if the cache is hit (false else)
 	 * @since	1.5
 	 */
-	function get( $id=false, $group='page' )
+	public function get( $id=false, $group='page' )
 	{
 		// Initialize variables
 		$data = false;
@@ -77,13 +77,13 @@ class JCachePage extends JCache
 	 * @return	boolean	True if cache stored
 	 * @since	1.5
 	 */
-	function store()
+	public function store()
 	{
 		$menu =& JSite::getMenu();
 		$active = $menu->getActive();
 		if(is_object($active)) {
 			$params =& $menu->getParams($active->id);
-			if(!JCache::checkParam($params->get('cache'))) {
+			if(!$params->get('cache', 1)) {
 				return false;
 			}
 			$ttl = $params->get('cache_time');
@@ -114,7 +114,7 @@ class JCachePage extends JCache
 	 * @return	string	MD5 Hash : page cache id
 	 * @since	1.5
 	 */
-	function _makeId()
+	protected function _makeId()
 	{
 		return md5(JRequest::getURI());
 	}
@@ -126,10 +126,9 @@ class JCachePage extends JCache
 	 * @return	void
 	 * @since	1.5
 	 */
-	function _noChange()
+	protected function _noChange()
 	{
-		global $mainframe;
-
+		$mainframe = JFactory::getApplication();
 		// Send not modified header and exit gracefully
 		header( 'HTTP/1.x 304 Not Modified', true );
 		$mainframe->close();
@@ -142,7 +141,7 @@ class JCachePage extends JCache
 	 * @return	void
 	 * @since	1.5
 	 */
-	function _setEtag($etag)
+	protected function _setEtag($etag)
 	{
 		JResponse::setHeader( 'ETag', $etag, true );
 	}

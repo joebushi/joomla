@@ -36,19 +36,18 @@ class JDocumentRendererModules extends JDocumentRenderer
 	function render( $position, $params = array(), $content = null )
 	{
 		$contents = '';
-		$cache =& JFactory::getCache('modules', 'object');
 		$user =& JFactory::getUser();
-		if(!isset($params['cache'])) {
-			$cachable = 1;
-		} elseif($params['cache']) {
-			$cachable = 2;
+		if(!isset($params['cache']) || $params['cache'] == true) {
+			$cachable = true;
 		} else {
-			$cachable = 0;
-		}
-		if( JCache::checkParam($cachable) ) {
+			$cachable = false;
+		} 
+
+		if( $cachable ) {
 			//Caching module positions is possible, generate the cache id
+			$cache = JFactory::getCache('modules', 'object');
 			$cacheid = md5(
-				JRequest::getInt('Itemid') 
+				JRequest::getInt('Itemid', 0) 
 				. strtoupper( $position ) 
 				. serialize($params) 
 				. $content 
@@ -61,15 +60,18 @@ class JDocumentRendererModules extends JDocumentRenderer
 			//data isn't there, generate it
 			$renderer =&  $this->_doc->loadRenderer('module');
 			$cachable = true;
+			$ttl = JFactory::getConfig()->getValue('config.cachetime');
 			foreach (JModuleHelper::getModules($position) as $mod)  {
 				$contents .= $renderer->render($mod, $params, $content);
 				$mod_params = new JParameter($mod->params);
-				if( !JCache::checkParam( $mod_params->get('cache') ) ) {
+				if( !$mod_params->get('cache') ) {
 					$cachable = false;
+				} else {
+					$ttl = min($ttl, $mod_params->get('cache_time', $ttl));
 				}
 			}
 			if($cachable) {
-				$cache->store($contents, $cacheid, 'modules');
+				$cache->store($contents, $cacheid, 'modules', $ttl);
 			}
 		} else {
 			$renderer =&  $this->_doc->loadRenderer('module');

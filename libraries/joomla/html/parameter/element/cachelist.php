@@ -38,7 +38,6 @@ class JElementCachelist extends JElement
 		$class = ( $node->attributes('class') ? 'class="'.$node->attributes('class').'"' : 'class="inputbox"' );
 		$options = array(
 			JHTML::_('select.option', 0, JText::_('Disabled')),
-			JHTML::_('select.option', 1, JText::_('Use Default')),
 			JHTML::_('select.option', 2, JText::_('Enabled')),
 		);
 		return JHTML::_('select.genericlist',  $options, ''.$control_name.'['.$name.']', $class, 'value', 'text', $value, $control_name.$name);

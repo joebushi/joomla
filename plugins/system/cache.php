@@ -26,7 +26,7 @@ jimport( 'joomla.plugin.plugin' );
 class  plgSystemCache extends JPlugin
 {
 
-	var $_cache = null;
+	protected $_cache = null;
 
 	/**
 	 * Constructor
@@ -40,14 +40,14 @@ class  plgSystemCache extends JPlugin
 	 * @param 	array   $config  An array that holds the plugin configuration
 	 * @since	1.0
 	 */
-	function plgSystemCache(& $subject, $config)
+	public function __construct(& $subject, $config)
 	{
 		parent::__construct($subject, $config);
 
 		$user =& JFactory::getUser();
 
 		$options = array(
-			'cachebase' 	=> JPATH_BASE.DS.'cache',
+			'cachebase' 	=> JPATH_CACHE,
 			'defaultgroup' 	=> 'page',
 			'lifetime' 		=> $this->params->get('cachetime', 15) * 60,
 			'browsercache'	=> $this->params->get('browsercache', false),
@@ -66,11 +66,11 @@ class  plgSystemCache extends JPlugin
 	* Converting the site URL to fit to the HTTP request
 	*
 	*/
-	function onAfterInitialise()
+	public function onAfterInitialise()
 	{
-		global $mainframe, $_PROFILER;
+		global $_PROFILER;
 
-		 if($mainframe->isAdmin() || JDEBUG) {
+		 if(JFactory::getApplication()->isAdmin() || JDEBUG) {
 		 	return;
 		 }
 
@@ -103,9 +103,7 @@ class  plgSystemCache extends JPlugin
 
 	function onAfterRender()
 	{
-		global $mainframe;
-
-		if($mainframe->isAdmin() || JDEBUG) {
+		if(JFactory::getApplication()->isAdmin() || JDEBUG) {
 			return;
 		}
 

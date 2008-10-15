@@ -18,8 +18,6 @@ defined('JPATH_BASE') or die();
 /**
  * Memcache cache storage handler
  *
- * @author		Louis Landry <louis.landry@joomla.org>
- * @author		Mitch Pirtle
  * @package		Joomla.Framework
  * @subpackage	Cache
  * @since		1.5
@@ -27,22 +25,18 @@ defined('JPATH_BASE') or die();
 class JCacheStorageMemcache extends JCacheStorage
 {
 	/**
-	 * Resource for the current memcached connection.
-	 * @var resource
-	 */
-	var $_db;
-
-	/**
 	 * Use compression?
 	 * @var int
 	 */
-	var $_compress = null;
+	protected $_compress = null;
 
 	/**
 	 * Use persistent connections
 	 * @var boolean
 	 */
-	var $_persistent = false;
+	protected $_persistent = false;
+
+	protected $_hash = '';
 
 	/**
 	 * Constructor
@@ -50,41 +44,66 @@ class JCacheStorageMemcache extends JCacheStorage
 	 * @access protected
 	 * @param array $options optional parameters
 	 */
-	function __construct( $options = array() )
+	protectedfunction __construct( $options = array() )
 	{
-		if (!$this->test()) {
-            return JError::raiseError(404, "The memcache extension is not available");
-        }
-
+		if (!self::test()) {
+			throw new JException('The memcache extension is not available', 0, E_NOTICE);
+		}
 		parent::__construct($options);
 
-		$config =& JFactory::getConfig();
-
-		$params = $config->getValue('config.memcache_settings');
-		if (!is_array($params)) {
-			$params = unserialize(stripslashes($params));
-		}
-
-		if (!$params) {
-			$params = array();
-		}
-
-		$this->_compress	= (isset($params['compression'])) ? $params['compression'] : 0;
-		$this->_persistent	= (isset($params['persistent'])) ? $params['persistent'] : false;
-
-		// This will be an array of loveliness
-		$this->_servers	= (isset($params['servers'])) ? $params['servers'] : array();
-
-		// Create the memcache connection
-		$this->_db = new Memcache;
-		for ($i=0, $n=count($this->_servers); $i < $n; $i++)
-		{
-			$server = $this->_servers[$i];
-			$this->_db->addServer($server['host'], $server['port'], $this->_persistent);
-		}
+		$params =& JCacheStorageMemcache::getConfig();
+		$this->_compress = (isset($params['compression'])) ? $params['compression'] : 0;
 
 		// Get the site hash
-		$this->_hash = $config->getValue('config.secret');
+		$this->_hash = $params['hash'];
+	}
+
+	/**
+	 * return memcache connection object
+	 *
+	 * @static
+	 * @access private
+	 * @return object memcache connection object
+	 */
+	protected static function &getConnection() {
+		static $db = null;
+		if(is_null($db)) {
+			$params =& JCacheStorageMemcache::getConfig();
+			$persistent	= (isset($params['persistent'])) ? $params['persistent'] : false;
+			// This will be an array of loveliness
+			$servers	= (isset($params['servers'])) ? $params['servers'] : array();
+
+			// Create the memcache connection
+			$db = new Memcache;
+			foreach($servers AS $server) {
+				$db->addServer($server['host'], $server['port'], $persistent);
+			}
+		}
+		return $db;
+	}
+
+	/**
+	 * Return memcache related configuration
+	 *
+	 * @static
+	 * @access private
+	 * @return array options
+	 */
+	protected static function &getConfig() {
+		static $params = null;
+		if(is_null($params)) {
+			$config =& JFactory::getConfig();
+			$params = $config->getValue('config.memcache_settings');
+			if (!is_array($params)) {
+				$params = unserialize(stripslashes($params));
+			}
+
+			if (!$params) {
+				$params = array();
+			}
+			$params['hash'] = $config->getValue('config.secret');
+		}
+		return $params;
 	}
 
 	/**
@@ -97,11 +116,11 @@ class JCacheStorageMemcache extends JCacheStorage
 	 * @return	mixed	Boolean false on failure or a cached data string
 	 * @since	1.5
 	 */
-	function get($id, $group, $checkTime)
+	public function get($id, $group, $checkTime)
 	{
+		$db = self::getConnection();
 		$cache_id = $this->_getCacheId($id, $group);
-		$this->_setExpire($cache_id);
-		return $this->_db->get($cache_id);
+		return $db->get($cache_id);
 	}
 
 	/**
@@ -114,11 +133,11 @@ class JCacheStorageMemcache extends JCacheStorage
 	 * @return	boolean	True on success, false otherwise
 	 * @since	1.5
 	 */
-	function store($id, $group, $data)
+	public function store($id, $group, $data)
 	{
+		$db = self::getConnection();
 		$cache_id = $this->_getCacheId($id, $group);
-		$this->_db->set($cache_id.'_expire', time(), 0, 0);
-		return $this->_db->set($cache_id, $data, $this->_compress, 0);
+		return $db->set($cache_id, $data, $this->_compress, $this->_lifetime);
 	}
 
 	/**
@@ -132,9 +151,9 @@ class JCacheStorageMemcache extends JCacheStorage
 	 */
 	function remove($id, $group)
 	{
+		$db = self::getConnection();
 		$cache_id = $this->_getCacheId($id, $group);
-		$this->_db->delete($cache_id.'_expire');
-		return $this->_db->delete($cache_id);
+		return $db->delete($cache_id);
 	}
 
 	/**
@@ -149,7 +168,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	 * @return	boolean	True on success, false otherwise
 	 * @since	1.5
 	 */
-	function clean($group, $mode)
+	public function clean($group, $mode)
 	{
 		return true;
 	}
@@ -160,7 +179,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	 * @access public
 	 * @return boolean  True on success, false otherwise.
 	 */
-	function gc()
+	public function gc()
 	{
 		return true;
 	}
@@ -172,45 +191,10 @@ class JCacheStorageMemcache extends JCacheStorage
 	 * @access public
 	 * @return boolean  True on success, false otherwise.
 	 */
-	function test()
+	public static function test()
 	{
 		return (extension_loaded('memcache') && class_exists('Memcache'));
 	}
 
-	/**
-	 * Set expire time on each call since memcache sets it on cache creation.
-	 *
-	 * @access private
-	 *
-	 * @param string  $key   Cache key to expire.
-	 * @param integer $lifetime  Lifetime of the data in seconds.
-	 */
-	function _setExpire($key)
-	{
-		$lifetime	= $this->_lifetime;
-		$expire		= $this->_db->get($key.'_expire');
-
-		// set prune period
-		if ($expire + $lifetime < time()) {
-			$this->_db->delete($key);
-			$this->_db->delete($key.'_expire');
-		} else {
-			$this->_db->replace($key.'_expire', time());
-		}
-	}
-
-	/**
-	 * Get a cache_id string from an id/group pair
-	 *
-	 * @access	private
-	 * @param	string	$id		The cache data id
-	 * @param	string	$group	The cache data group
-	 * @return	string	The cache_id string
-	 * @since	1.5
-	 */
-	function _getCacheId($id, $group)
-	{
-		$name	= md5($this->_application.'-'.$id.'-'.$this->_hash.'-'.$this->_language);
-		return 'cache_'.$group.'-'.$name;
-	}
 }
+

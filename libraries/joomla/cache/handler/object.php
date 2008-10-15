@@ -35,7 +35,7 @@ class JCacheObject extends JCache
 	 * @return	mixed	cached data (or false if it doesn't exist)
 	 * @since	1.6
 	 */
-	function get( $id, $group = null )
+	public function get( $id, $group = null )
 	{
 		// Get the storage handler and get callback cache data by id and group
 		$cached = false;
@@ -59,7 +59,7 @@ class JCacheObject extends JCache
 	 * @param	int	how long to cache the data for
 	 * @since	1.6
 	 */
-	function store( $data, $id, $group = null, $ttl = 0 ) {
+	public function store( $data, $id, $group = null, $ttl = 0 ) {
 		if($ttl) {
 			$this->setLifetime($ttl);
 		}

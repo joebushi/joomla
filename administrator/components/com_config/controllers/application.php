@@ -156,8 +156,7 @@ class ConfigControllerApplication extends ConfigController
 		// CACHE SETTINGS
 		$caching = array(
 			JHTML::_('select.option', 0, JText::_('Disabled')),
-			JHTML::_('select.option', 1, JText::_('Enabled - Default Off')),
-			JHTML::_('select.option', 2, JText::_('Enabled - Default On')),
+			JHTML::_('select.option', 1, JText::_('Enabled')),
 		);
 		$lists['caching'] 		= JHTML::_('select.genericlist', $caching, 'caching', 'class="inputbox"', 'value', 'text', $row->caching);
 		jimport('joomla.cache.cache');

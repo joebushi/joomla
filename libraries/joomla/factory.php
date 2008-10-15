@@ -187,26 +187,28 @@ class JFactory
 	 */
 	function &getCache($group = '', $handler = 'callback', $storage = null)
 	{
+		static $options = array();
 		$handler = ($handler == 'function') ? 'callback' : $handler;
 
-		$conf =& JFactory::getConfig();
-
-		if(!isset($storage)) {
-			$storage = $conf->getValue('config.cache_handler', 'file');
+		if(empty($options)) {
+			jimport('joomla.cache.cache');
+			$conf =& JFactory::getConfig();
+			if(empty($storage)) {
+				$storage = $conf->getValue('config.cache_handler', 'file');
+			}
+			$options = array(
+				'defaultgroup' 	=> $group,
+				'cachebase' 	=> $conf->getValue('config.cache_path'),
+				'lifetime' 		=> $conf->getValue('config.cachetime') * 60,	// minutes to seconds
+				'language' 		=> $conf->getValue('config.language'),
+				'caching'		=> $conf->getValue('config.caching'),
+				'storage'		=> $storage,
+			);
 		}
+		//if $storage is empty, then this must not be the first call, fallback to the already used option
+		$storage = empty($storage) ? $options['storage'] : $storage;
 
-		$options = array(
-			'defaultgroup' 	=> $group,
-			'cachebase' 	=> $conf->getValue('config.cache_path'),
-			'lifetime' 		=> $conf->getValue('config.cachetime') * 60,	// minutes to seconds
-			'language' 		=> $conf->getValue('config.language'),
-			'storage'		=> $storage
-		);
-
-		jimport('joomla.cache.cache');
-
-		$cache =& JCache::getInstance( $handler, $options );
-		$cache->setCaching($conf->getValue('config.caching'));
+		$cache =& JCache::getInstance( $handler, array_merge($options, array('storage'=>$storage)) );
 		return $cache;
 	}
 
