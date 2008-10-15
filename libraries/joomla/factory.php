@@ -196,6 +196,7 @@ class JFactory
 			if(empty($storage)) {
 				$storage = $conf->getValue('config.cache_handler', 'file');
 			}
+			$appname = JFactory::getApplication()->name();
 			$options = array(
 				'defaultgroup' 	=> $group,
 				'cachebase' 	=> $conf->getValue('config.cache_path'),
@@ -203,6 +204,7 @@ class JFactory
 				'language' 		=> $conf->getValue('config.language'),
 				'caching'		=> $conf->getValue('config.caching'),
 				'storage'		=> $storage,
+				'application'	=> $appname,
 			);
 		}
 		//if $storage is empty, then this must not be the first call, fallback to the already used option
