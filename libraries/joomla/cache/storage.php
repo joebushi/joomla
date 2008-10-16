@@ -25,6 +25,13 @@ defined('JPATH_BASE') or die();
  */
 class JCacheStorage extends JObject
 {
+	protected $_application = null;
+	protected $_language = null;
+	protected $_locking = null;
+	protected $_lifetime = null;
+	protected $_now = null;
+	protected $_threshold = null;
+
 	/**
 	* Constructor
 	*

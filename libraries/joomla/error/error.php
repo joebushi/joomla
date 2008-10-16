@@ -114,8 +114,8 @@ w
 	 * @return 	void
 	 * @since 	1.6
 	 */
-	public static function addToStack(JException $e) {
-		JError::$stack[] =& $e;
+	public static function addToStack(JException &$e) {
+		JError::$stack[0][] =& $e;
 	}
 
 	/**
@@ -141,6 +141,13 @@ w
 	}
 
 	public static function &throwError(&$exception) {
+		static $thrown = false;
+
+		//if thrown is hit again, we've come back to JError in the middle of throwing another JError, so die!
+		if($thrown) jexit('Infinite loop detected in JError');
+		//add loop check
+
+		$thrown = true;
 		$level = $exception->get('level');
 		
 		// see what to do with this kind of error
@@ -158,8 +165,9 @@ w
 				'<br />' . $exception->getMessage()
 			);
 		}
-		//store and return the error
-		JError::$stack[0][] =& $reference;
+		//we don't need to store the error, since JException already does that for us!
+		//remove loop check
+		$thrown = false;
 		return $reference;
 	}
 
