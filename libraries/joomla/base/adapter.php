@@ -26,28 +26,28 @@ class JAdapter extends JObject {
 	 * Associative array of adapters
 	 * @var array
 	 */
-	var $_adapters = array();
+	protected $_adapters = array();
 	/**
 	 * Adapter Folder
 	 * @var string
 	 */
-	var $_adapterfolder = 'adapters';
+	protected $_adapterfolder = 'adapters';
 	/**
 	 * Adapter Class Prefix
 	 * @var string
 	 */
-	var $_classprefix = 'J';
+	protected $_classprefix = 'J';
 	
 	/**
 	 * Base Path for the adapter instance
 	 * @var string
 	 */
-	var $_basepath = null;
+	protected $_basepath = null;
 	/**
 	 * Database Connector Object
 	 * @var object
 	 */
-	var $_db;
+	protected $_db;
 	
 	function __construct($basepath=null,$classprefix=null,$adapterfolder=null) {
 		$this->_basepath = $basepath ? $basepath : dirname(__FILE__);

@@ -658,10 +658,12 @@ class JInstaller extends JAdapter
 	 * @access	public
 	 * @param	object	$element 	The xml node to process
 	 * @param	int		$cid		Application ID of application to install to
+	 * @param 	Array	List of old files (JSimpleXMLElement's)
+	 * @param	Array	List of old MD5 sums (indexed by filename with value as MD5)
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function parseFiles($element, $cid=0, $oldFiles=null)
+	function parseFiles($element, $cid=0, $oldFiles=null, $oldMD5=null)
 	{
 		// Initialize variables
 		$copyfiles = array ();
@@ -715,6 +717,14 @@ class JInstaller extends JAdapter
 					JFile::delete($destination.DS.$deleted_file);
 				}
 			}
+		}
+		
+		// Copy the MD5SUMS file if it exists
+		if(file_exists($source.DS.'MD5SUMS')) {
+			$path['src'] = $source.DS.'MD5SUMS';
+			$path['dest'] = $destination.DS.'MD5SUMS';
+			$path['type'] = 'file';
+			$copyfiles[] = $path;
 		}
 
 		// Process each file in the $files array (children of $tagName).
@@ -1039,7 +1049,6 @@ class JInstaller extends JAdapter
 						JError::raiseWarning(1, 'JInstaller::install: '.JText::sprintf('WARNSAME', $filedest));
 						return false;
 				} else {
-
 					// Copy the folder or file to the new location.
 					if ( $filetype == 'folder') {
 
@@ -1369,5 +1378,22 @@ class JInstaller extends JAdapter
 			}
 		}
 		return Array('files'=>$files_deleted, 'folders'=>$folders_deleted);
+	}
+	
+	/**
+	 * Loads an MD5SUMS file into an associative array
+	 * @param string Filename to load
+	 * @return Array Associative array with filenames as the index and the MD5 as the value
+	 */
+	function loadMD5Sum($filename) {
+		if(!file_exists($filename)) return false; // bail if the file doesn't exist
+		$data = file($filename, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+		$retval = Array();
+		foreach($data as $row) {
+			$results = explode('  ', $row); // split up the data
+			$results[1] = str_replace('./','', $results[1]); // cull any potential prefix
+			$retval[$results[1]] = $results[0]; // throw into the array
+		}
+		return $retval;
 	}
 }

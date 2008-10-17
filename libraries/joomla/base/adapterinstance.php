@@ -4,7 +4,7 @@ class JAdapterInstance extends JObject {
 	
 	/** Parent 
 	 * @var object */
-	var $parent = null;
+	protected $parent = null;
 	
 	
 	/**

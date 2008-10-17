@@ -42,7 +42,7 @@ class plgInstallerExample extends JPlugin {
 		parent::__construct($subject, $config);
 	}
 	
-	function onBeforeExtensionInstall($method, $type, $manifest, $extension) {
+	function onBeforeExtensionInstall($method, $type, $manifest, $eid) {
 		JError::raiseWarning(-1, 'plgInstallerExample::onBeforeExtensionInstall: Installing '. $type .' from '. $method . ($method == 'install' ? ' with manifest supplied' : ' using discovered extension ID '. $eid));
 	}
 	

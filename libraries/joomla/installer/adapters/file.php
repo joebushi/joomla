@@ -15,10 +15,10 @@
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();
 
-jimport( 'joomla.installer.librarymanifest' );
+jimport( 'joomla.installer.filemanifest' );
 
 /**
- * Library installer
+ * File installer
  * 
  * @author 		Sam Moffatt <pasamio@gmail.com>
  * @package		Joomla.Framework
@@ -74,12 +74,12 @@ class JInstallerFile extends JObject
 
 		// Set the installation path
 		$element =& $this->manifest->getElementByPath('files');
-		$group = $this->manifest->getElementByPath('libraryname');
+		$group = $this->manifest->getElementByPath('filename');
 		$group = $group->data();
 		if (!empty($group)) {
-			$this->parent->setPath('extension_root', JPATH_ROOT.DS.'libraries'.DS.implode(DS,explode('/',$group)));
+			$this->parent->setPath('extension_root', JPATH_ROOT.DS.'files'.DS.implode(DS,explode('/',$group)));
 		} else {
-			$this->parent->abort(JText::_('Library').' '.JText::_('Install').': '.JText::_('No library file specified'));
+			$this->parent->abort(JText::_('File').' '.JText::_('Install').': '.JText::_('No file file specified'));
 			return false;
 		}
 
@@ -93,7 +93,7 @@ class JInstallerFile extends JObject
 		$created = false;
 		if (!file_exists($this->parent->getPath('extension_root'))) {
 			if (!$created = JFolder::create($this->parent->getPath('extension_root'))) {
-				$this->parent->abort(JText::_('Library').' '.JText::_('Install').': '.JText::_('Failed to create directory').': "'.$this->parent->getPath('extension_root').'"');
+				$this->parent->abort(JText::_('File').' '.JText::_('Install').': '.JText::_('Failed to create directory').': "'.$this->parent->getPath('extension_root').'"');
 				return false;
 			}
 		}
@@ -123,10 +123,10 @@ class JInstallerFile extends JObject
 		// Lastly, we will copy the manifest file to its appropriate place.
 		$manifest = Array();
 		$manifest['src'] = $this->parent->getPath('manifest');
-		$manifest['dest'] = JPATH_MANIFESTS.DS.'libraries'.DS.basename($this->parent->getPath('manifest'));
+		$manifest['dest'] = JPATH_MANIFESTS.DS.'files'.DS.basename($this->parent->getPath('manifest'));
 		if (!$this->parent->copyFiles(array($manifest), true)) {
 			// Install failed, rollback changes
-			$this->parent->abort(JText::_('Library').' '.JText::_('Install').': '.JText::_('Could not copy setup file'));
+			$this->parent->abort(JText::_('File').' '.JText::_('Install').': '.JText::_('Could not copy setup file'));
 			return false;
 		}
 		return true;
@@ -154,7 +154,7 @@ class JInstallerFile extends JObject
 		$name =& $this->manifest->getElementByPath('name');
 		$name = JFilterInput::clean($name->data(), 'string');
 		$installer = new JInstaller(); // we don't want to compromise this instance!
-		return $installer->uninstall('library', $name, 0 );
+		return $installer->uninstall('file', $name, 0 );
 		// ...and adds new files
 		return $this->install();
 	}
@@ -163,8 +163,8 @@ class JInstallerFile extends JObject
 	 * Custom uninstall method
 	 *
 	 * @access	public
-	 * @param	string	$id	The id of the library to uninstall
-	 * @param	int		$clientId	The id of the client (unused; libraries are global)
+	 * @param	string	$id	The id of the file to uninstall
+	 * @param	int		$clientId	The id of the client (unused; files are global)
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
@@ -173,20 +173,20 @@ class JInstallerFile extends JObject
 		// Initialize variables
 		$row	= null;
 		$retval = true;
-		$manifestFile = JPATH_MANIFESTS.DS.'libraries' . DS . $id .'.xml'; 
+		$manifestFile = JPATH_MANIFESTS.DS.'files' . DS . $id .'.xml'; 
 
-		// Because libraries may not have their own folders we cannot use the standard method of finding an installation manifest
+		// Because files may not have their own folders we cannot use the standard method of finding an installation manifest
 		if (file_exists($manifestFile))
 		{
-			$manifest = new JLibraryManifest($manifestFile);
+			$manifest = new JFileManifest($manifestFile);
 			// Set the plugin root path
-			$this->parent->setPath('extension_root', JPATH_ROOT.DS.'libraries'.DS.$manifest->libraryname);
+			$this->parent->setPath('extension_root', JPATH_ROOT.DS.'files'.DS.$manifest->filename);
 			
 			$xml =& JFactory::getXMLParser('Simple');
 
 			// If we cannot load the xml file return null
 			if (!$xml->loadFile($manifestFile)) {
-				JError::raiseWarning(100, JText::_('Library').' '.JText::_('Uninstall').': '.JText::_('Could not load manifest file'));
+				JError::raiseWarning(100, JText::_('File').' '.JText::_('Uninstall').': '.JText::_('Could not load manifest file'));
 				return false;
 			}
 
@@ -197,7 +197,7 @@ class JInstallerFile extends JObject
 			 */
 			$root =& $xml->document;
 			if ($root->name() != 'install' && $root->name() != 'extension') {
-				JError::raiseWarning(100, JText::_('Library').' '.JText::_('Uninstall').': '.JText::_('Invalid manifest file'));
+				JError::raiseWarning(100, JText::_('File').' '.JText::_('Uninstall').': '.JText::_('Invalid manifest file'));
 				return false;
 			}
 
@@ -205,7 +205,7 @@ class JInstallerFile extends JObject
 			JFile::delete($manifestFile);
 
 		} else {
-			JError::raiseWarning(100, 'Library Uninstall: Manifest File invalid or not found');
+			JError::raiseWarning(100, 'File Uninstall: Manifest File invalid or not found');
 			return false;
 		}
 

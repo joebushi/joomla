@@ -1418,7 +1418,7 @@ class JInstallerComponent extends JAdapterInstance
 			}	
 			return $this->parent->_extension->extensionid;
 		} else {
-			JError::raiseWarning(101, JText::_('Template').' '.JText::_('Discover Install').': '.JText::_('Failed to store extension details'));
+			JError::raiseWarning(101, JText::_('Component').' '.JText::_('Discover Install').': '.JText::_('Failed to store extension details'));
 			return false;
 		}
 	}
