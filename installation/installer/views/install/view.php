@@ -62,8 +62,8 @@ class JInstallationView extends JView
 	{
 		$this->_setCurrentStep('lang');
 
-		$model	=& $this->getModel();
-		$lists	=& $model->getData('lists');
+		$model	= $this->getModel();
+		$lists	= $model->getData('lists');
 
 		$this->assignRef( 'languages', $lists['langs'] );
 
@@ -79,7 +79,7 @@ class JInstallationView extends JView
 	 */
 	function _setCurrentStep($step)
 	{
-		$this->assign( 'subtemplate', $step );
+		$this->_layout	= $step;
 
 		JRequest::setVar('step', $step);
 		
