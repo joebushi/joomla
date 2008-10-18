@@ -337,7 +337,7 @@ class JInstallationHelper
 		{
 			jimport('joomla.database.database');
 			$options	= array ( 'driver' => $driver, 'host' => $host, 'user' => $user, 'password' => $password, 'database' => $database, 'prefix' => $prefix, 'select' => $select	);
-			$db = & JDatabase::getInstance( $options );
+			$db = JDatabase::getInstance( $options );
 		}
 
 		return $db;

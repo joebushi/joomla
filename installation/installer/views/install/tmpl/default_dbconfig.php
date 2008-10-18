@@ -86,9 +86,9 @@
 				<div class="far-right">
 					<?php if ( $this->direction == 'ltr' ) : ?>
 						<div class="button1-right"><div class="prev"><a onclick="submitForm( adminForm, 'license' );" alt="<?php echo JText::_('Previous', true ) ?>"><?php echo JText::_('Previous' ) ?></a></div></div>
-						<div class="button1-left"><div class="next"><a onclick="validateForm( adminForm, 'makedb' );" alt="<?php echo JText::_('Next', true ) ?>"><?php echo JText::_('Next' ) ?></a></div></div>
+						<div class="button1-left"><div class="next"><a onclick="validateForm( adminForm, 'dbtest' );" alt="<?php echo JText::_('Next', true ) ?>"><?php echo JText::_('Next' ) ?></a></div></div>
 					<?php else: ?>
-						<div class="button1-right"><div class="prev"><a onclick="validateForm( adminForm, 'makedb' );" alt="<?php echo JText::_('Next', true ) ?>"><?php echo JText::_('Next' ) ?></a></div></div>
+						<div class="button1-right"><div class="prev"><a onclick="validateForm( adminForm, 'dbtest' );" alt="<?php echo JText::_('Next', true ) ?>"><?php echo JText::_('Next' ) ?></a></div></div>
 						<div class="button1-left"><div class="next"><a onclick="submitForm( adminForm, 'license' );" alt="<?php echo JText::_('Previous', true ) ?>"><?php echo JText::_('Previous' ) ?></a></div></div>
 					<?php endif; ?>
 				</div>
@@ -129,11 +129,6 @@
 							<h3 class="title-smenu" title="<?php echo JText::_('Basic' ) ?>"><?php echo JText::_('Basic Settings' ) ?></h3>
 							<div class="section-smenu">
 								<table class="content2">
-								<tr>
-									<td></td>
-									<td></td>
-									<td></td>
-								</tr>
 								<tr>
 									<td colspan="2">
 										<label for="vars_dbtype">
@@ -210,44 +205,11 @@
 									</td>
 								</tr>
 								</table>
-								<br /><br />
+								<br />
 							</div>
 							<h3 class="title-smenu moofx-toggler" title="<?php echo JText::_('Advanced', true ) ?>"><?php echo JText::_('Advanced settings' ) ?></h3>
 							<div class="section-smenu moofx-slider">
 								<table class="content2">
-								<tr>
-									<td></td>
-									<td></td>
-									<td></td>
-								</tr>
-								<tr>
-									<td>
-										<input id="vars_dbolddel" type="radio" name="vars[DBOld]" value="rm" />
-									</td>
-									<td>
-										<label for="vars_dbolddel">
-											<?php echo JText::_('Drop Existing Tables' ) ?>
-										</label>
-									</td>
-									<td></td>
-								</tr>
-								<tr>
-									<td>
-										<input id="vars_dboldbackup" type="radio" name="vars[DBOld]" value="bu"  checked="checked"/>
-									</td>
-
-									<td>
-										<label for="vars_dboldbackup">
-											<?php echo JText::_('Backup Old Tables' ) ?>
-										</label>
-									</td>
-
-									<td>
-										<em>
-										<?php echo JText::_('Any existing backup tables from former Joomla! installations will be replaced' ) ?>
-										</em>
-									</td>
-								</tr>
 								<tr>
 									<td colspan="2">
 										<label for="vars_dbprefix">
@@ -289,6 +251,7 @@
 <div class="clr"></div>
 
 <input type="hidden" name="task" value="" />
+<input type="hidden" name="previous" value="loaddata" />
 
 </form>
 

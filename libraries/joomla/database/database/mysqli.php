@@ -89,8 +89,8 @@ class JDatabaseMySQLi extends JDatabase
 		// connect to the server
 		$this->_resource = new mysqli($host, $user, $password, null, $port, $socket);
 
-		if($this->_resource->connect_error) {
-			throw new JException('Could not connect to MySQL database', 2, E_WARNING, $this->_resource->connect_error, true);
+		if( $error = mysqli_connect_error() ) {
+			throw new JException('Could not connect to MySQL database', 2, E_WARNING, $error, true);
 		}
 
 		// finalize initialization

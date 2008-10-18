@@ -50,8 +50,8 @@ class JInstallationController extends JController
 	 */
 	function dbconfig()
 	{
-		$model	=& $this->getModel();
-		$view	=& $this->getView();
+		$model	= $this->getModel();
+		$view	= $this->getView();
 
 		if ( ! $model->dbConfig() )
 		{
@@ -90,9 +90,9 @@ class JInstallationController extends JController
 
 			if ( ! $goodEnoughForMe )
 			{
-				$model	=& $this->getModel();
+				$model	= $this->getModel();
 				$model->setError(JText::_('WARNCOOKIESNOTENABLED'));
-				$view	=& $this->getView();
+				$view	= $this->getView();
 				$view->error();
 				return false;
 			}
@@ -109,7 +109,28 @@ class JInstallationController extends JController
 			$appl->setUserState('application.cookietest', 1);
 		}
 
-		parent::execute($task);
+		// Try to execute the specified task
+		try {
+			
+			return parent::execute($task);
+		
+		} catch ( Exception $e )
+		{
+			// Doh!!!
+			$message	= $e->getMessage();
+			
+			// Additional information
+			if ( $info = $e->get('info') )
+			{
+				$message = "$message ( $info )"; 
+			}
+			
+			$model	= $this->getModel();
+			$view	= $this->getView();
+			
+			$model->setError($message);
+			$view->error();
+		}
 	}
 
 	/**
@@ -131,10 +152,10 @@ class JInstallationController extends JController
 	 * @access	public
 	 * @since	1.5
 	 */
-	function ftpconfig()
+	function ftpConfig()
 	{
-		$model	=& $this->getModel();
-		$view	=& $this->getView();
+		$model	= $this->getModel();
+		$view	= $this->getView();
 
 		if ( ! $model->ftpConfig() )
 		{
@@ -145,6 +166,20 @@ class JInstallationController extends JController
 		$view->ftpConfig();
 
 		return true;
+	}
+	
+	function ftpTest()
+	{
+		$model	= $this->getModel();
+		
+		if ( ! $model->ftpTest() )
+		{
+			$view	= $this->getView();
+			$view->error();
+			return false;
+		}
+		
+		return $this->loadData();
 	}
 
 	/**
@@ -178,7 +213,7 @@ class JInstallationController extends JController
 		if ( ! $this->_view )
 		{
 			$this->_view	= new JInstallationView();
-			$model	=& $this->getModel();
+			$model	= $this->getModel();
 			$model->test = "blah";
 			$this->_view->setModel($model, true);
 		}
@@ -195,8 +230,8 @@ class JInstallationController extends JController
 	 */
 	function license()
 	{
-		$model	=& $this->getModel();
-		$view	=& $this->getView();
+		$model	= $this->getModel();
+		$view	= $this->getView();
 
 		if ( ! $model->license() )
 		{
@@ -207,6 +242,18 @@ class JInstallationController extends JController
 		$view->license();
 
 		return true;
+	}
+	
+	/**
+	 * Load data into the system
+	 *
+	 */
+	function loadData()
+	{
+		$model	= $this->getModel();
+		$view	= $this->getView();
+		
+		$view->loadData();
 	}
 
 	/**
@@ -220,8 +267,8 @@ class JInstallationController extends JController
 	 */
 	function lang()
 	{
-		$model	=& $this->getModel();
-		$view	=& $this->getView();
+		$model	= $this->getModel();
+		$view	= $this->getView();
 
 		if ( ! $model->chooseLanguage() )
 		{
@@ -235,18 +282,18 @@ class JInstallationController extends JController
 	}
 
 	/**
-	 *
+	 * Test the database connection
 	 *
 	 * @return	Boolean True if successful
 	 * @access	public
-	 * @since	1.5
+	 * @since	1.6
 	 */
-	function makedb()
+	function dbtest()
 	{
-		$model	=& $this->getModel();
-		$view	=& $this->getView();
+		$model	= $this->getModel();
+		$view	= $this->getView();
 
-		if ( ! $model->makeDB())
+		if ( ! $model->dbTest())
 		{
 			$view->error();
 			return false;
@@ -258,8 +305,9 @@ class JInstallationController extends JController
 			return false;
 		}
 
+	
 		$view->ftpConfig();
-
+		
 		return true;
 	}
 
@@ -273,8 +321,8 @@ class JInstallationController extends JController
 	function mainconfig()
 	{
 
-		$model	=& $this->getModel();
-		$view	=& $this->getView();
+		$model	= $this->getModel();
+		$view	= $this->getView();
 
 		if ( ! $model->mainConfig() )
 		{
@@ -286,7 +334,34 @@ class JInstallationController extends JController
 
 		return true;
 	}
+	
 
+	function installFresh()
+	{
+		$model	= $this->getModel();
+		$view	= $this->getView();
+
+		if ( ! $model->makeDB() )
+		{
+			$view->error();
+			return true;
+		}
+
+		$view->freshInstall();
+
+		return true;
+	}
+	
+	public function installUpgrade()
+	{
+		echo "need to implement installUpgrade";
+	}
+
+	public function installMigrate()
+	{
+		echo "need to implement installMigrate";
+	}
+	
 	/**
 	 * Present a preinstall check
 	 *
@@ -298,8 +373,8 @@ class JInstallationController extends JController
 	 */
 	function preinstall()
 	{
-		$model	=& $this->getModel();
-		$view	=& $this->getView();
+		$model	= $this->getModel();
+		$view	= $this->getView();
 
 		if ( ! $model->preInstall() )
 		{
@@ -321,8 +396,8 @@ class JInstallationController extends JController
 	 */
 	function removedir()
 	{
-		$model	=& $this->getModel();
-		$view	=& $this->getView();
+		$model	= $this->getModel();
+		$view	= $this->getView();
 
 		if ( ! $model->removedir() )
 		{
@@ -344,8 +419,8 @@ class JInstallationController extends JController
 	 */
 	function saveconfig()
 	{
-		$model	=& $this->getModel();
-		$view	=& $this->getView();
+		$model	= $this->getModel();
+		$view	= $this->getView();
 
 		if ( ! $model->saveConfig() )
 		{
@@ -364,10 +439,11 @@ class JInstallationController extends JController
 		return true;
 	}
 
-	function migration() {
-		$model =& $this->getModel();
-
-		$view =& $this->getView();
+	function migration()
+	{
+		$model	= $this->getModel();
+		$view	= $this->getView();
+		
 		if(!$model->checkUpload()) {
 			$view->error();
 			return false;
@@ -383,9 +459,11 @@ class JInstallationController extends JController
 		return true;
 	}
 
-	function postmigrate() {
-		$model =& $this->getModel();
-		$view =& $this->getView();
+	function postmigrate()
+	{
+		$model	= $this->getModel();
+		$view	= $this->getView();
+		
 		if($model->postMigrate()) {
 			// errors!
 		}

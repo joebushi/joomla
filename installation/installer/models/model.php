@@ -165,7 +165,7 @@ class JInstallationModel extends JModel
 	{
 		$appl = JFactory::getApplication();
 
-		$vars	=& $this->getVars();
+		$vars	= $this->getVars();
 
 		// Require the xajax library
 		require_once JPATH_BASE.DS.'includes'.DS.'xajax'.DS.'xajax.inc.php';
@@ -198,6 +198,18 @@ class JInstallationModel extends JModel
 		$doc =& JFactory::getDocument();
 		$doc->addCustomTag($xajax->getJavascript('', 'includes/js/xajax.js', 'includes/js/xajax.js'));
 
+		return true;
+	}
+	
+	public function ftpTest()
+	{
+		$vars	= $this->getVars();
+
+		// get ftp configuration into registry for use in case of safe mode
+		if($vars['ftpEnable']) {
+			return JInstallationHelper::setFTPCfg( $vars );
+		}
+		
 		return true;
 	}
 
@@ -275,7 +287,7 @@ class JInstallationModel extends JModel
 	 * @access	public
 	 * @since	1.5
 	 */
-	function makeDB($vars = false)
+	function dbTest($vars = false)
 	{
 		$appl = JFactory::getApplication();
 
@@ -293,8 +305,6 @@ class JInstallationModel extends JModel
 		$DBpassword = JArrayHelper::getValue($vars, 'DBpassword', '');
 		$DBname 	= JArrayHelper::getValue($vars, 'DBname', '');
 		$DBPrefix 	= JArrayHelper::getValue($vars, 'DBPrefix', 'jos_');
-		$DBOld 		= JArrayHelper::getValue($vars, 'DBOld', 'bu');
-		$DBversion 		= JArrayHelper::getValue($vars, 'DBversion', '');
 
 		// these 3 errors should be caught by the javascript in dbConfig
 		if ($DBtype == '')
@@ -303,7 +313,6 @@ class JInstallationModel extends JModel
 			$this->setData('back', 'dbconfig');
 			$this->setData('errors', $errors);
 			return false;
-			//return JInstallationView::error($vars, JText::_('validType'), 'dbconfig');
 		}
 		if (!$DBhostname || !$DBuserName || !$DBname)
 		{
@@ -311,7 +320,6 @@ class JInstallationModel extends JModel
 			$this->setData('back', 'dbconfig');
 			$this->setData('errors', $errors);
 			return false;
-			//return JInstallationView::error($vars, JText::_('validDBDetails'), 'dbconfig');
 		}
 		if ($DBname == '')
 		{
@@ -319,7 +327,6 @@ class JInstallationModel extends JModel
 			$this->setData('back', 'dbconfig');
 			$this->setData('errors', $errors);
 			return false;
-			//return JInstallationView::error($vars, JText::_('emptyDBName'), 'dbconfig');
 		}
 		if (!preg_match( '#^[a-zA-Z]+[a-zA-Z0-9_]*$#', $DBPrefix )) {
 			$this->setError(JText::_('MYSQLPREFIXINVALIDCHARS'));
@@ -340,6 +347,137 @@ class JInstallationModel extends JModel
 			return false;
 		}
 
+		$db = JInstallationHelper::getDBO($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix, true);
+
+		if ( JError::isError($db) ) {
+			// connection failed
+			$this->setError(JText::sprintf('WARNNOTCONNECTDB', $db->toString()));
+			$this->setData('back', 'dbconfig');
+			$this->setData('errors', $db->toString());
+			return false;
+		}
+
+		if ($err = $db->getErrorNum()) {
+			// connection failed
+			$this->setError(JText::sprintf('WARNNOTCONNECTDB', $err ) );
+			$this->setData('back', 'dbconfig');
+			$this->setData('errors', $db->getErrorMsg());
+			return false;
+		}
+		
+		return true;
+	}
+
+	/**
+	 * Finishes configuration parameters
+	 *
+	 * @return	boolean True if successful
+	 * @access	public
+	 * @since	1.5
+	 */
+	function mainConfig()
+	{
+		
+
+		// Check a few directories are writeable as this may cause issues
+		if(!is_writeable(JPATH_SITE.DS.'tmp') || !is_writeable(JPATH_SITE.DS.'installation'.DS.'sql'.DS.'migration')) {
+			$vars['dircheck'] = JText::_('Some paths may be unwritable');
+		}
+
+		// Require the xajax library
+		require_once JPATH_BASE.DS.'includes'.DS.'xajax'.DS.'xajax.inc.php';
+
+		// Instantiate the xajax object and register the function
+		$xajax = new xajax(JURI::base().'installer/jajax.php');
+		$xajax->registerFunction(array('instDefault', 'JAJAXHandler', 'sampledata'));
+		//		$xajax->debugOn();
+		$xajax->errorHandlerOn();
+		$doc =& JFactory::getDocument();
+		$doc->addCustomTag($xajax->getJavascript('', 'includes/js/xajax.js', 'includes/js/xajax.js'));
+
+		// Deal with possible sql script uploads from this stage
+		$vars['loadchecked'] = 0;
+		if (JRequest::getVar( 'sqlupload', 0, 'post', 'int' ) == 1)
+		{
+			$vars['sqlresponse'] = JInstallationHelper::uploadSql( $vars );
+			$vars['dataloaded'] = '1';
+			$vars['loadchecked'] = 1;
+		}
+		if ((JRequest::getVar( 'migrationupload', 0, 'post', 'int' ) == 1) && (JRequest::getVar( 'migrationUploaded', 0, 'post', 'int' ) == 0))
+		{
+			jexit(print_r(JRequest::getVar( 'migrationUploaded', 0, 'post', 'int' )));
+			$vars['migresponse'] = JInstallationHelper::uploadSql( $vars, true );
+			$vars['dataloaded'] = '1';
+			$vars['loadchecked'] = 2;
+		}
+		if(JRequest::getVar( 'migrationUploaded',0,'post','int') == 1) {
+			$vars['migresponse'] = JInstallationHelper::findMigration( $vars );
+			$vars['dataloaded'] = '1';
+			$vars['loadchecked'] = 2;
+		}
+
+		//		$strip = get_magic_quotes_gpc();
+
+		if (isset ($vars['siteName']))
+		{
+			$vars['siteName'] = stripslashes(stripslashes($vars['siteName']));
+		}
+
+		/*
+		$folders = array (
+			'administrator/backups',
+			'administrator/cache',
+			'administrator/components',
+			'administrator/language',
+			'administrator/modules',
+			'administrator/templates',
+			'cache',
+			'components',
+			'images',
+			'images/banners',
+			'images/stories',
+			'language',
+			'plugins',
+			'plugins/content',
+			'plugins/editors',
+			'plugins/search',
+			'plugins/system',
+			'tmp',
+			'modules',
+			'templates',
+		);
+
+		//Now lets make sure we have permissions set on the appropriate folders
+		foreach ($folders as $folder)
+		{
+			if (!JInstallationHelper::setDirPerms( $folder, $vars ))
+			{
+				$lists['folderPerms'][] = $folder;
+			}
+		}
+		*/
+
+		return true;
+	}
+	
+	function makeDB()
+	{
+
+		$vars	= $this->getVars();
+		$appl	= JFactory::getApplication();
+
+		$errors 	= null;
+		$lang 		= JArrayHelper::getValue($vars, 'lang', 'en-GB');
+		$DBcreated	= JArrayHelper::getValue($vars, 'DBcreated', '0');
+		$DBtype 	= JArrayHelper::getValue($vars, 'DBtype', 'mysql');
+		$DBhostname = JArrayHelper::getValue($vars, 'DBhostname', '');
+		$DBuserName = JArrayHelper::getValue($vars, 'DBuserName', '');
+		$DBpassword = JArrayHelper::getValue($vars, 'DBpassword', '');
+		$DBname 	= JArrayHelper::getValue($vars, 'DBname', '');
+		$DBPrefix 	= JArrayHelper::getValue($vars, 'DBPrefix', 'jos_');
+		$DBOld 		= JArrayHelper::getValue($vars, 'DBOld', 'bu');
+		$DBversion 	= JArrayHelper::getValue($vars, 'DBversion', '');
+		
 		if (!$DBcreated)
 		{
 			$DBselect	= false;
@@ -477,106 +615,7 @@ class JInstallationModel extends JModel
 				}
 			}
 		}
-
-		return true;
-	}
-
-	/**
-	 * Finishes configuration parameters
-	 *
-	 * @return	boolean True if successful
-	 * @access	public
-	 * @since	1.5
-	 */
-	function mainConfig()
-	{
-		$appl = JFactory::getApplication();
-
-		$vars	=& $this->getVars();
-
-		// get ftp configuration into registry for use in case of safe mode
-		if($vars['ftpEnable']) {
-			JInstallationHelper::setFTPCfg( $vars );
-		}
-
-		// Check a few directories are writeable as this may cause issues
-		if(!is_writeable(JPATH_SITE.DS.'tmp') || !is_writeable(JPATH_SITE.DS.'installation'.DS.'sql'.DS.'migration')) {
-			$vars['dircheck'] = JText::_('Some paths may be unwritable');
-		}
-
-		// Require the xajax library
-		require_once JPATH_BASE.DS.'includes'.DS.'xajax'.DS.'xajax.inc.php';
-
-		// Instantiate the xajax object and register the function
-		$xajax = new xajax(JURI::base().'installer/jajax.php');
-		$xajax->registerFunction(array('instDefault', 'JAJAXHandler', 'sampledata'));
-		//		$xajax->debugOn();
-		$xajax->errorHandlerOn();
-		$doc =& JFactory::getDocument();
-		$doc->addCustomTag($xajax->getJavascript('', 'includes/js/xajax.js', 'includes/js/xajax.js'));
-
-		// Deal with possible sql script uploads from this stage
-		$vars['loadchecked'] = 0;
-		if (JRequest::getVar( 'sqlupload', 0, 'post', 'int' ) == 1)
-		{
-			$vars['sqlresponse'] = JInstallationHelper::uploadSql( $vars );
-			$vars['dataloaded'] = '1';
-			$vars['loadchecked'] = 1;
-		}
-		if ((JRequest::getVar( 'migrationupload', 0, 'post', 'int' ) == 1) && (JRequest::getVar( 'migrationUploaded', 0, 'post', 'int' ) == 0))
-		{
-			jexit(print_r(JRequest::getVar( 'migrationUploaded', 0, 'post', 'int' )));
-			$vars['migresponse'] = JInstallationHelper::uploadSql( $vars, true );
-			$vars['dataloaded'] = '1';
-			$vars['loadchecked'] = 2;
-		}
-		if(JRequest::getVar( 'migrationUploaded',0,'post','int') == 1) {
-			$vars['migresponse'] = JInstallationHelper::findMigration( $vars );
-			$vars['dataloaded'] = '1';
-			$vars['loadchecked'] = 2;
-		}
-
-		//		$strip = get_magic_quotes_gpc();
-
-		if (isset ($vars['siteName']))
-		{
-			$vars['siteName'] = stripslashes(stripslashes($vars['siteName']));
-		}
-
-		/*
-		$folders = array (
-			'administrator/backups',
-			'administrator/cache',
-			'administrator/components',
-			'administrator/language',
-			'administrator/modules',
-			'administrator/templates',
-			'cache',
-			'components',
-			'images',
-			'images/banners',
-			'images/stories',
-			'language',
-			'plugins',
-			'plugins/content',
-			'plugins/editors',
-			'plugins/search',
-			'plugins/system',
-			'tmp',
-			'modules',
-			'templates',
-		);
-
-		//Now lets make sure we have permissions set on the appropriate folders
-		foreach ($folders as $folder)
-		{
-			if (!JInstallationHelper::setDirPerms( $folder, $vars ))
-			{
-				$lists['folderPerms'][] = $folder;
-			}
-		}
-		*/
-
+		
 		return true;
 	}
 

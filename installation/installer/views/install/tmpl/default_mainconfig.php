@@ -30,8 +30,6 @@
 
 		if (siteName.value == '' || !valid_site) {
 			alert( '<?php echo JText::_('warnSiteName', true) ?>' );
-		} else if (this.document.filename.migstatus.value == '1' && this.document.filename.dataLoaded.value == '1') {
-			submitForm( frm, task ); // Migration doesn't need email or admin passord
 		} else if (adminEmail.value == '' || !valid_email) {
 			alert( '<?php echo JText::_('warnEmailAddress', true) ?>' );
 		} else if (adminPassword.value == '' || !valid_password) {
@@ -39,54 +37,8 @@
 		} else if (adminPassword.value != confirmAdminPassword.value || !confirm_password) {
 			alert( '<?php echo JText::_('warnAdminPasswordDoesntMatch', true) ?>' );
 		} else {
-			if (this.document.filename.dataLoaded.value == '1' || confirm( '<?php echo JText::_('warnNoData', true) ?>' )) {
-				submitForm( frm, task );
-			} else {
-				return;
-			}
+			submitForm( frm, task );
 		}
-	}
-
-	function selectMode() {
-		var frm = this.document.filename;
-		if(frm.what_to_load[0].checked) {
-			frm.instDefault.disabled = false;
-			frm.sqlFile.disabled = true;
-			frm.oldPrefix.disabled = true;
-			frm.srcEncoding.disabled = true;
-			frm.migrationLoad.disabled = true;
-			frm.migration.disabled = true;
-			frm.sqlUploaded.disabled = true;
-		} else if(frm.what_to_load[1].checked) {
-			frm.instDefault.disabled = true;
-			frm.sqlFile.disabled = false;
-			frm.oldPrefix.disabled = false;
-			frm.srcEncoding.disabled = false;
-			frm.migrationLoad.disabled = false;
-			frm.migration.disabled = false;
-			frm.sqlUploaded.disabled = false;
-		}
-	}
-
-	function JDefault() {
-		this.document.filename.dataLoaded.value = '1';
-		xajax_instDefault(xajax.getFormValues('filename'));
-	}
-
-	function JMigration() {
-
-		var frm = this.document.filename;
-
-		if (frm.sqlFile.value == '' && !frm.sqlUploaded.checked) {
-			alert( '<?php echo JText::_('No file selected', true) ?>' );
-			return;
-		}
-
-		frm.migrationupload.value = '1';
-		frm.dataLoaded.value = '1';
-
-		this.document.filename.dataLoaded.value = '1';
-		xajax_instDefault(xajax.getFormValues('filename'));
 	}
 
 	function clearPasswordFields(frm) {
@@ -237,152 +189,6 @@
 
 			<div class="clr"></div>
 
-			<form enctype="multipart/form-data" action="index.php" method="post" name="filename" id="filename">
-
-				<h2><?php echo JText::_('loadSampleOrMigrate') ?></h2>
-				<div class="install-text">
-					<p><?php echo JText::_('LOADSQLINSTRUCTIONS1') ?></p>
-					<p><?php echo JText::_('LOADSQLINSTRUCTIONS2') ?></p>
-					<p><?php echo JText::_('LOADSQLINSTRUCTIONS3') ?></p>
-					<p><?php echo JText::_('LOADSQLINSTRUCTIONS4') ?></p>
-					<p><?php echo JText::_('LOADSQLINSTRUCTIONS5') ?></p>
-					<p><?php echo JText::_('LOADSQLINSTRUCTIONS6') ?></p>
-					<p><?php echo JText::_('LOADSQLINSTRUCTIONS7') ?></p>
-				</div>
-				<div class="install-body">
-				<div class="t">
-			<div class="t">
-				<div class="t"></div>
-			</div>
-			</div>
-			<div class="m">
-						<fieldset>
-							<table class="content2">
-							<tr>
-								<td width="5%"></td>
-								<td width="25%"></td>
-								<td width="70%"></td>
-							</tr>
-							<tr>
-								<td>
-									<input id="default_sample" type="radio" name="what_to_load" onclick="selectMode();"/>
-								</td>
-								<td>
-									<label for="default_sample">
-										<?php echo JText::_('Install default sample data') ?>
-									</label>
-								</td>
-								<td>
-									<em>
-									<?php echo JText::_('tipInstallDefault') ?>
-									</em>
-								</td>
-							</tr>
-							<tr>
-								<td></td>
-								<td colspan="2">
-									<span id="theDefault"><input class="button" type="button" name="instDefault" value="<?php echo JText::_('clickToInstallDefault') ?>" onclick="JDefault();"/></span>
-								</td>
-							</tr>
-							<tr>
-								<td>&nbsp;</td>
-								<td></td>
-								<td></td>
-							</tr>
-
-							<tr>
-								<td valign="top">
-									<input id="migrate_sql" type="radio" name="what_to_load" onclick="selectMode();"/>
-								</td>
-								<td valign="top">
-									<label for="migrate_sql">
-										<?php echo JText::_('migrateTitle') ?>
-									</label>
-								</td>
-								<td>
-									<em>
-									<?php echo JText::_('tipLoadMigration') ?>
-									</em>
-									<br />
-									<em>
-									<?php echo JText::_('tipLoadSql') ?>
-									</em>
-
-								</td>
-							</tr>
-							<tr>
-								<td></td>
-								<td>
-									<?php echo JText::_('Maximum Upload Size') ?>
-								</td>
-								<td>
-									<p><?php echo $this->maxupload ?></p>
-								</td>
-							</tr>
-							<tr>
-								<td></td>
-								<td>
-									<label for="oldPrefix">
-										<?php echo JText::_('Old table prefix') ?>
-									</label>
-								</td>
-								<td>
-									<input class="inputbox" type="text" id="oldPrefix" name="vars[oldPrefix]" value="" size="24" />
-								</td>
-							</tr>
-							<tr>
-								<td></td>
-								<td>
-									<label for="srcEncoding">
-										<?php echo JText::_('Old site encoding') ?>
-									</label>
-								</td>
-								<td>
-									<!--<input class="inputbox" type="text" id="srcEncoding" name="vars[srcEncoding]" value="" size="24" />-->
-									<select id="srcEncoding" name="vars[srcEncoding]" class="inputbox" >
-									<?php foreach ( $this->encodings as $encoding ) : ?>
-										<option value="<?php echo $encoding ?>" ><?php echo $encoding ?></option>
-									<?php endforeach; ?>
-									</select>
-								</td>
-							</tr>
-							<tr>
-								<td></td>
-								<td valign="top">
-									<label for="migration_script">
-										<?php echo JText::_('Migration Script') ?>
-									</label>
-								</td>
-								<td>
-									<input class="input_box" id="migration_script" name="sqlFile" type="file" size="20"  />
-									<br />
-									<input class="input_box" id="sqlUploaded" name="sqlUploaded" type="checkbox" /><?php echo JText::_('tipUploaded') ?>
-									<br />
-									<input class="input_box" id="migration" name="migration" type="checkbox" /><?php echo JText::_('tipMigration') ?>
-									<br />
-									<input class="button" type="button" name="migrationLoad" value="<?php echo JText::_('Upload and execute') ?>" onclick="JMigration();" />
-									<br /><br />
-									<span id="theMigrationResponse"><?php echo $this->getSessionVar('dircheck') ?> <?php echo $this->getSessionVar('migresponse') ?></span>
-								</td>
-							</tr>
-
-							</table>
-
-						</fieldset>
-					</div>
-				<div class="b">
-					<div class="b">
-						<div class="b"></div>
-					</div>
-				</div>
-			</div>
-  			<input type="hidden" name="task" value="mainconfig" />
-  			<input type="hidden" name="sqlupload" value="0" />
-  			<input type="hidden" name="migrationupload" value="0" />
-			<input type="hidden" name="loadchecked" value="<?php echo $this->getSessionVar('loadchecked') ?>" />
-  			<input type="hidden" name="dataLoaded" value="<?php echo $this->getSessionVar('dataloaded') ?>" />
-  			<input type="hidden" name="migstatus" value="<?php echo $this->getSessionVar('migstatus') ?>" />
-  		</form>
 
 
 		<div class="clr"></div>
@@ -397,15 +203,3 @@
 </div>
 
 <div class="clr"></div>
-
-
-<script language="JavaScript" type="text/javascript">
-	document.filename.what_to_load[document.filename.loadchecked.value].checked = true;
-	selectMode();
-	if(this.document.filename.migstatus.value == '1') {
-		this.document.filename.what_to_load.disabled = 1;
-		this.document.filename.instDefault.disabled = 1;
-		this.document.filename.default_sample.disabled = 1;
-		this.document.filename.migrate_sql.disabled = 1;
-	}
-</script>

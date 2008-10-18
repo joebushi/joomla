@@ -22,7 +22,7 @@ defined('JPATH_BASE') or die();
  * @subpackage	Document
  * @since		1.5
  */
-class JDocumentRendererInstallation extends JDocumentRenderer
+class JDocumentRendererInstallationX extends JDocumentRenderer
 {
 	/**
 	 * Renders a component script and returns the results as a string

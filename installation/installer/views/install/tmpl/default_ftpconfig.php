@@ -17,7 +17,7 @@
 <script language="JavaScript" type="text/javascript">
 <!--
 
-	Window.onDomReady(function(){
+window.addEvent('domready', function() {
 	document.formvalidator.handlers['isftp'] = { enabled : true,
 									exec : function (value) {
 										if (document.getElementById('ftpenable').checked == true) {
@@ -87,9 +87,9 @@
 				<div class="far-right">
 					<?php if ( $this->direction == 'ltr' ) : ?>
 						<div class="button1-right"><div class="prev"><a onclick="submitForm( adminForm, 'dbconfig' );" alt="<?php echo JText::_('Previous', true) ?>"><?php echo JText::_('Previous') ?></a></div></div>
-						<div class="button1-left"><div class="next"><a onclick="validateForm( adminForm, 'mainconfig' );" alt="<?php echo JText::_('Next', true) ?>"><?php echo JText::_('Next') ?></a></div></div>
+						<div class="button1-left"><div class="next"><a onclick="validateForm( adminForm, 'ftpTest' );" alt="<?php echo JText::_('Next', true) ?>"><?php echo JText::_('Next') ?></a></div></div>
 					<?php else : ?>
-						<div class="button1-right"><div class="prev"><a onclick="validateForm( adminForm, 'mainconfig' );" alt="<?php echo JText::_('Next', true) ?>"><?php echo JText::_('Next') ?></a></div></div>
+						<div class="button1-right"><div class="prev"><a onclick="validateForm( adminForm, 'ftpTest' );" alt="<?php echo JText::_('Next', true) ?>"><?php echo JText::_('Next') ?></a></div></div>
 						<div class="button1-left"><div class="next"><a onclick="submitForm( adminForm, 'dbconfig' );" alt="<?php echo JText::_('Previous', true) ?>"><?php echo JText::_('Previous') ?></a></div></div>
 					<?php endif; ?>
 				</div>
@@ -244,7 +244,3 @@
 <input type="hidden" name="task" value="" />
 </form>
 
-<script type="text/javascript">
-	//Element.cleanWhitespace('content');
-	//init();
-</script>

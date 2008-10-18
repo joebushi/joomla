@@ -43,6 +43,16 @@ class JDocumentRAW extends JDocument
 		$this->_type = 'raw';
 	}
 
+	public function getHeadData()
+	{
+		
+	}
+	
+	public function setHeadData($data)
+	{
+		
+	}
+	
 	/**
 	 * Render the document.
 	 *

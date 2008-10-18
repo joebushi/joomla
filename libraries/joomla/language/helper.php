@@ -61,7 +61,7 @@ class JLanguageHelper
  	 * @return	string locale
  	 * @since	1.5
  	 */
-	public function detectLanguage()
+	public static function detectLanguage()
 	{
 		if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE']))
 		{

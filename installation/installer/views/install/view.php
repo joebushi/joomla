@@ -81,6 +81,8 @@ class JInstallationView extends JView
 	{
 		$this->assign( 'subtemplate', $step );
 
+		JRequest::setVar('step', $step);
+		
 		$steps	= & $this->getSteps();
 		$steps[$step] = 'on';
 	}
@@ -131,11 +133,20 @@ class JInstallationView extends JView
 	 */
 	function error()
 	{
-		$this->_setCurrentStep('error');
-
 		$model	= $this->getModel();
+		
+		$back	= $model->getData('back');
+		if ( ! $back )
+		{
+			// Try to figure out what the previous task is
+			$back	= JRequest::getCmd( 'previous' );
+		}
+		
+		// Set the current step
+		$this->_setCurrentStep('error');
+		
 		$this->assign('message', $model->getError() );
-		$this->assign('back', $model->getData('back') );
+		$this->assign('back', $back);
 		$this->assign('errors', $model->getData('errors') );
 
 		return $this->display();
@@ -189,6 +200,7 @@ class JInstallationView extends JView
 				'license' => 'off',
 				'dbconfig' => 'off',
 				'ftpconfig' => 'off',
+				'loaddata' => 'off',
 				'mainconfig' => 'off',
 				'finish' => 'off'
 			);
@@ -237,6 +249,20 @@ class JInstallationView extends JView
 
 		return $this->display();
 	}
+	
+	/**
+	 * The data loading page
+	 *
+	 * @return	boolean True if successful
+	 * @access	public
+	 * @since	1.6
+	 */
+	function loadData()
+	{
+		$this->_setCurrentStep('loaddata');
+
+		return $this->display();
+	}
 
 	/**
 	 * The main configuration page
@@ -259,6 +285,11 @@ class JInstallationView extends JView
 		$this->assign( 'maxupload', JText::sprintf('UPLOADFILESIZE',(number_format($max_upload_size/(1024*1024), 2))."MB."));
 
 		return $this->display();
+	}
+	
+	public function freshInstall()
+	{
+		echo "Blah";
 	}
 
 	/**
