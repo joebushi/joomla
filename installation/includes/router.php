@@ -15,7 +15,7 @@
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();
 
-jimport( 'joomla.application.router' );
+jimport('joomla.application.router');
 
 /**
  * Class to create and parse routes
@@ -44,8 +44,6 @@ class JRouterInstallation extends JObject
 	 */
 	function build($url)
 	{
-		$url = str_replace('&amp;', '&', $url);
-
-		return $url;
+		return str_replace('&amp;', '&', $url);
 	}
 }
