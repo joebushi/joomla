@@ -37,6 +37,14 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-Oct-2008 Ian MacLennan
+ # [#12697] **More sample data changes, including UTF-8 Fixes
+ # [#12724] **Content Router appends ID to item and is different from the menu (revert 11561)
+ # [#12859] **Backend: Disabled Admin Menu = javascript error
+ # [#12864] Issue with JMenu and large sites
+ # [#12950] **Beez template: The password reset doesn't work at all
+ # [#13198] *** Temporary users cannot log out
+
 15-Oct-2008 Kevin Devine
  # [#13076] **Feed module target attribute not validating
  # [#13064] **Problem with mod_related_items Keyword Matching
