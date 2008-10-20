@@ -284,12 +284,13 @@ class JInstaller extends JAdapter
 						if (method_exists($this->_adapters[$type], $method)) {
 							$stepval = $this->_adapters[$type]->$method($step);
 						}
+					} else {
+						$stepval = false; // set it to false
 					}
 					break;
 			}
 
 			// Only set the return value if it is false
-			// TODO: undefined variable error generated here somehow!
 			if ($stepval === false) {
 				$retval = false;
 			}

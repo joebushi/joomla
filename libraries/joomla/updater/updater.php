@@ -89,6 +89,7 @@ class JUpdater extends JAdapter {
 								'type'=>strtolower($current_update->type), 
 								'client_id'=>strtolower($current_update->client_id), 
 								'folder'=>strtolower($current_update->folder)));
+								
 						$eid = $extension->find(Array('element'=>strtolower($current_update->element), 
 								'type'=>strtolower($current_update->type), 
 								'client_id'=>strtolower($current_update->client_id), 
