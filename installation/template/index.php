@@ -1,8 +1,8 @@
 <?php
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
-$step	= JRequest::getCmd('step', 'lang');
+$step = JRequest::getCmd('step', 'lang');
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -46,28 +46,28 @@ $step	= JRequest::getCmd('step', 'lang');
 
 	<div class="m">
 			<h1><?php echo JText::_('Steps') ?></h1>
-			<div class="step-<?php echo ( $step == 'lang' ) ? 'on' : 'off' ?>">
+			<div class="step-<?php echo ($step == 'lang') ? 'on' : 'off' ?>">
 				1 : <?php echo JText::_('Language') ?>
 			</div>
-			<div class="step-<?php echo ( $step == 'preinstall' ) ? 'on' : 'off' ?>">
+			<div class="step-<?php echo ($step == 'preinstall') ? 'on' : 'off' ?>">
 				2 : <?php echo JText::_('Pre-Installation check') ?>
 			</div>
-			<div class="step-<?php echo ( $step == 'license' ) ? 'on' : 'off' ?>">
+			<div class="step-<?php echo ($step == 'license') ? 'on' : 'off' ?>">
 				3 : <?php echo JText::_('License') ?>
 			</div>
-			<div class="step-<?php echo ( $step == 'dbconfig' ) ? 'on' : 'off' ?>">
+			<div class="step-<?php echo ($step == 'dbconfig') ? 'on' : 'off' ?>">
 				4 : <?php echo JText::_('Database') ?>
 			</div>
-			<div class="step-<?php echo ( $step == 'ftpconfig' ) ? 'on' : 'off' ?>">
+			<div class="step-<?php echo ($step == 'ftpconfig') ? 'on' : 'off' ?>">
 				5 : <?php echo JText::_('FTP') ?>
 			</div>
-			<div class="step-<?php echo ( $step == 'loaddata' ) ? 'on' : 'off' ?>">
+			<div class="step-<?php echo ($step == 'loaddata') ? 'on' : 'off' ?>">
 				6 : <?php echo JText::_('Data') ?>
 			</div>
-			<div class="step-<?php echo ( $step == 'mainconfig' ) ? 'on' : 'off' ?>">
+			<div class="step-<?php echo ($step == 'mainconfig') ? 'on' : 'off' ?>">
 				7 : <?php echo JText::_('Configuration') ?>
 			</div>
-			<div class="step-<?php echo ( $step == 'finish' ) ? 'on' : 'off' ?>">
+			<div class="step-<?php echo ($step == 'finish') ? 'on' : 'off' ?>">
 				8 : <?php echo JText::_('Finish') ?>
 			</div>
 		<div class="box"></div>
@@ -89,7 +89,7 @@ $step	= JRequest::getCmd('step', 'lang');
 				<div id="footer3"></div>
 			</div>
 		</div>
-		<div id="copyright"><a href="http://www.joomla.org" target="_blank">Joomla!</a>
+		<div id="copyright"><a href="http://www.joomla.org">Joomla!</a>
 			<?php echo JText::_('ISFREESOFTWARE') ?>
 		</div>
 	</body>
