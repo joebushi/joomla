@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: $
+ * @version		$Id$
  * @package		Joomla
  * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
@@ -160,7 +160,7 @@ class ContentModelArticles extends JModel
 				' FROM #__content AS c' .
 				' LEFT JOIN #__categories AS cc ON cc.id = c.catid' .
 				' LEFT JOIN #__sections AS s ON s.id = c.sectionid' .
-				' LEFT JOIN #__groups AS g ON g.id = c.access' .
+				' LEFT JOIN #__core_acl_axo_groups AS g ON g.value = c.access' .
 				' LEFT JOIN #__users AS u ON u.id = c.checked_out' .
 				' LEFT JOIN #__users AS v ON v.id = c.created_by' .
 				' LEFT JOIN #__content_frontpage AS f ON f.content_id = c.id' .

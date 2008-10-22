@@ -249,17 +249,23 @@ function submitbutton(pressbutton)
 			jimport('joomla.html.pane');
 			$pane =& JPane::getInstance('sliders');
 			echo $pane->startPane("menu-pane");
-			echo $pane->startPanel(JText :: _('Article Parameters'), "param-page");
-			echo $this->params->render('details');
-			echo $pane->endPanel();
-			echo $pane->startPanel(JText :: _('Advanced Parameters'), "param-page");
-			echo $this->params->render('params', 'advanced');
-			echo $pane->endPanel();
-			echo $pane->startPanel(JText :: _('Metadata Parameters'), "param-page");
-			echo $this->params->render('meta', 'metadata');
-			echo $pane->endPanel();
-			echo $pane->endPane();
-		?>
+			$groups = $this->params->getGroups();
+			if(count($groups)) {
+				foreach($groups as $groupname => $group) {
+					if($groupname == '_default') {
+						$title = 'Article';
+					} else {
+						$title = ucfirst($groupname);
+					}
+					if($this->params->getNumParams($groupname)) {
+						echo $pane->startPanel(JText :: _('Parameters - '.$title), $groupname.'-page');
+						echo $this->params->render('params', $groupname);
+						echo $pane->endPanel();
+					}
+
+				}
+			}
+			echo $pane->endPane();		?>
 	</fieldset>
 </div>
 <div class="clr"></div>

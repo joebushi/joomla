@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id: $
+* @version		$Id$
 * @package		Joomla
 * @subpackage	Content
 * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
@@ -27,6 +27,13 @@ jimport( 'joomla.application.component.view');
  */
 class ContentViewArticle extends JView
 {
+	protected $lists;
+	protected $row;
+	protected $option;
+	protected $params;
+	protected $contentSection;
+	protected $sectioncategories;
+	
 	function display($tpl = null)
 	{
 		global $mainframe;
@@ -134,10 +141,10 @@ class ContentViewArticle extends JView
 			$row->state = 1;
 			$row->ordering = 0;
 			$row->images = array ();
-			$row->publish_up = $createdate->toUnix();
+			$row->publish_up = $createdate->toMySQL();
 			$row->publish_down = JText::_('Never');
 			$row->creator = '';
-			$row->created = $createdate->toUnix();
+			$row->created = $createdate->toMySQL();
 			$row->modified = $nullDate;
 			$row->modifier = '';
 			$row->frontpage = 0;
@@ -242,6 +249,7 @@ class ContentViewArticle extends JView
 		// Parameters
 		$file 	= JPATH_COMPONENT.DS.'models'.DS.'article.xml';
 		$params = new JParameter( '', $file );
+		$params->loadSetupDirectory(JPATH_COMPONENT.DS.'params', 'article_(.*)\.xml');
 		$active = (intval($row->created_by) ? intval($row->created_by) : $user->get('id'));
 		$params->set('created_by', $active);
 		$params->set('access', $row->access);

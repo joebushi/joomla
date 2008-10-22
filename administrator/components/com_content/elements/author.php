@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id: author.php 10244 2008-04-29 11:22:52Z roscohead $
+* @version		$Id$
 * @package		Joomla
 * @subpackage	Articles
 * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.

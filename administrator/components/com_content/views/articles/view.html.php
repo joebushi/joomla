@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id: $
+* @version		$Id$
 * @package		Joomla
 * @subpackage	Content
 * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
@@ -27,6 +27,11 @@ jimport( 'joomla.application.component.view');
  */
 class ContentViewArticles extends JView
 {
+	protected $filter;
+	protected $pagination;
+	protected $rows;
+	protected $redirect;
+
 	function display($tpl = null)
 	{
 		$rows		= & $this->get( 'Data');
