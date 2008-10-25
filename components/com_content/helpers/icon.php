@@ -136,7 +136,7 @@ class JHTMLIcon
 	{
 		$url  = 'index.php?view=article';
 		$url .=  @$article->catslug ? '&catid='.$article->catslug : '';
-		$url .= '&id='.$article->slug.'&tmpl=component&print=1&page='.@ $request->limitstart;
+		$url .= '&id='.$article->slug.'&tmpl=component&print=1&layout=default&page='.@ $request->limitstart;
 
 		$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
 

@@ -37,6 +37,19 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+25-Oct-2008 Sam Moffatt
+ # [#13264] **Untranslated Strings in en-GB.tpl_ja_purity.ini
+ # [#13262] Untranslated Strings in Unknown file
+ # [#13253] Untranslated Strings in en-GB.ini
+ # [#13242] print icon on layout "blog category" as first page
+ # [#13233] reset button on article selection for menu item doesn't work
+ # [#13223] Same language string in Section layout of a menu item**
+ # [#13217] **Error in the increase of hits count when editing article in front end
+ # [#12878] error language string in mod_feed.ini
+ # [#12542] **Inconsistent showing of default records in un-install screens (templates/language)
+
+
+
 19-Oct-2008 Ian MacLennan
  # [#12697] **More sample data changes, including UTF-8 Fixes
  # [#12724] **Content Router appends ID to item and is different from the menu (revert 11561)

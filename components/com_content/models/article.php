@@ -145,16 +145,6 @@ class ContentModelArticle extends JModel
 			}
 
 			$this->_loadArticleParams();
-
-			/*
-			 * Record the hit on the article if necessary
-			 */
-			$limitstart	= JRequest::getVar('limitstart',	0, '', 'int');
-			if (!$this->_article->parameters->get('intro_only') && ($limitstart == 0))
-			{
-				$this->hit();
-			}
-
 		}
 		else
 		{
