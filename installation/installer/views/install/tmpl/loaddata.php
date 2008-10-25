@@ -14,6 +14,11 @@
 
 jimport('joomla.html.html');
 
+// Set our step information to render in the template
+JRequest::setVar('step', 'loaddata');
+JRequest::setVar('next', 'mainconfig');
+JRequest::setVar('prev', 'ftpconfig');
+
 ?>
 
 <script type="text/javascript">
@@ -86,37 +91,9 @@ window.addEvent('domready', function() {
 </script>
 
 <form action="index.php" method="post" name="adminForm" id="adminForm" class="form-validate" autocomplete="off">
-<div id="right">
-	<div id="rightpad">
-		<div id="step">
-			<div class="t">
-				<div class="t">
-					<div class="t"></div>
-				</div>
-			</div>
-			<div class="m">
-				<div class="far-right">
-					<?php if ( $this->direction == 'ltr' ) : ?>
-						<div class="button1-right"><div class="prev"><a onclick="submitForm( adminForm, 'ftpconfig' );" alt="<?php echo JText::_('Previous', true ) ?>"><?php echo JText::_('Previous' ) ?></a></div></div>
-						<div class="button1-left"><div class="next"><a onclick="validateForm( adminForm, 'mainconfig' );" alt="<?php echo JText::_('Next', true ) ?>"><?php echo JText::_('Next' ) ?></a></div></div>
-					<?php else: ?>
-						<div class="button1-right"><div class="prev"><a onclick="validateForm( adminForm, 'mainconfig' );" alt="<?php echo JText::_('Next', true ) ?>"><?php echo JText::_('Next' ) ?></a></div></div>
-						<div class="button1-left"><div class="next"><a onclick="submitForm( adminForm, 'ftpconfig' );" alt="<?php echo JText::_('Previous', true ) ?>"><?php echo JText::_('Previous' ) ?></a></div></div>
-					<?php endif; ?>
-				</div>
-				<span class="step"><?php echo JText::_('Load Data' ) ?></span>
-			</div>
-			
-		<div class="b">
-		<div class="b">
-			<div class="b"></div>
-		</div>
-	</div>
-</div>
-
-<input type="hidden" name="task" value="" />
-<input type="hidden" name="previous" value="loaddata" />
-
+	<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
+	<input type="hidden" name="task" value="" />
+	<input type="hidden" name="previous" value="loaddata" />
 </form>
 
 <div id="installer">

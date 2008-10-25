@@ -2,7 +2,10 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$step = JRequest::getCmd('step', 'lang');
+$step = JRequest::getCmd('step');
+$next = JRequest::getCmd('next');
+$prev = JRequest::getCmd('prev');
+$refr = JRequest::getCmd('refresh');
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -37,58 +40,107 @@ $step = JRequest::getCmd('step', 'lang');
 		<div id="content-box">
 			<div id="content-pad">
 				
-<div id="stepbar">
-	<div class="t">
-		<div class="t">
-			<div class="t"></div>
-		</div>
-	</div>
+				<div id="stepbar">
+					<div class="t">
+						<div class="t">
+							<div class="t"></div>
+						</div>
+					</div>
+			
+					<div class="m">
+						<h1><?php echo JText::_('Steps') ?></h1>
+						<div class="step-<?php echo ($step == 'lang') ? 'on' : 'off' ?>">
+							1 : <?php echo JText::_('Language') ?>
+						</div>
+						<div class="step-<?php echo ($step == 'preinstall') ? 'on' : 'off' ?>">
+							2 : <?php echo JText::_('Pre-Installation check') ?>
+						</div>
+						<div class="step-<?php echo ($step == 'license') ? 'on' : 'off' ?>">
+							3 : <?php echo JText::_('License') ?>
+						</div>
+						<div class="step-<?php echo ($step == 'dbconfig') ? 'on' : 'off' ?>">
+							4 : <?php echo JText::_('INSTALL_STEP_DBCONFIG') ?>
+						</div>
+						<div class="step-<?php echo ($step == 'ftpconfig') ? 'on' : 'off' ?>">
+							5 : <?php echo JText::_('INSTALL_STEP_FTPCONFIG') ?>
+						</div>
+						<div class="step-<?php echo ($step == 'loaddata') ? 'on' : 'off' ?>">
+							6 : <?php echo JText::_('INSTALL_STEP_LOADDATA') ?>
+						</div>
+						<div class="step-<?php echo ($step == 'mainconfig') ? 'on' : 'off' ?>">
+							7 : <?php echo JText::_('INSTALL_STEP_MAINCONFIG') ?>
+						</div>
+						<div class="step-<?php echo ($step == 'finish') ? 'on' : 'off' ?>">
+							8 : <?php echo JText::_('INSTALL_STEP_FINISH') ?>
+						</div>
+						<div class="box"></div>
+				  	</div> 
+			
+					<div class="b">
+						<div class="b">
+							<div class="b"></div>
+						</div>
+					</div>
+			
+				</div> <!-- End Step Bar Left Block -->
+	
+				<div id="right">
+					<div id="rightpad">
+						<div id="step">
+							<div class="t">
+								<div class="t">
+									<div class="t"></div>
+								</div>
+							</div>
+							<div class="m">
+								<div class="far-right">
+									<?php if ( $this->direction == 'ltr' ) : ?>
+										<?php if ( $prev ) : ?>
+										<div class="button1-right"><div class="prev"><a onclick="submitForm( adminForm, '<?php echo $prev ?>' );" alt="<?php echo JText::_('Previous', true ) ?>"><?php echo JText::_('Previous') ?></a></div></div>
+										<?php endif; ?>
+										<?php if ( $refr ) : ?>
+										<div class="button1-left"><div class="refresh"><a onclick="submitForm( adminForm, '<?php echo $step ?>' );" alt="<?php echo JText::_('Check Again' ,true ) ?>"><?php echo JText::_('Check Again') ?></a></div></div>
+										<?php endif; ?>
+										<?php if ( $next ) : ?>
+										<div class="button1-left"><div class="next"><a onclick="submitForm( adminForm, '<?php echo $next ?>' );" alt="<?php echo JText::_('Next' ,true ) ?>"><?php echo JText::_('Next') ?></a></div></div>
+										<?php endif; ?>
+									<?php else: ?>
+										<?php if ( $next ) : ?>
+										<div class="button1-right"><div class="prev"><a onclick="submitForm( adminForm, '<?php echo $next ?>' );" alt="<?php echo JText::_('Next' ,true ) ?>"><?php echo JText::_('Next') ?></a></div></div>
+										<?php endif; ?>
+										<?php if ( $next ) : ?>
+										<div class="button1-left"><div class="next"><a onclick="submitForm( adminForm, '<?php echo $prev ?>' );" alt="<?php echo JText::_('Previous' ,true ) ?>"><?php echo JText::_('Previous') ?></a></div></div>
+										<?php endif; ?>
+										<?php if ( $refr ) : ?>
+										<div class="button1-left"><div class="refresh"><a onclick="submitForm( adminForm, '<?php echo $step ?>' );" alt="<?php echo JText::_('Check Again' ,true ) ?>"><?php echo JText::_('Check Again') ?></a></div></div>
+										<?php endif; ?>
+									<?php endif; ?>
+								</div>
+								<span class="step"><?php echo JText::_('INSTALL_STEP_'.strtoupper($step) ) ?></span>
+							</div>
+							<div class="b">
+								<div class="b">
+									<div class="b"></div>
+								</div>
+							</div>
+						</div>
+						
+						<jdoc:include type="installation" />
+					</div>
+				</div>
+			</div>
 
-	<div class="m">
-			<h1><?php echo JText::_('Steps') ?></h1>
-			<div class="step-<?php echo ($step == 'lang') ? 'on' : 'off' ?>">
-				1 : <?php echo JText::_('Language') ?>
-			</div>
-			<div class="step-<?php echo ($step == 'preinstall') ? 'on' : 'off' ?>">
-				2 : <?php echo JText::_('Pre-Installation check') ?>
-			</div>
-			<div class="step-<?php echo ($step == 'license') ? 'on' : 'off' ?>">
-				3 : <?php echo JText::_('License') ?>
-			</div>
-			<div class="step-<?php echo ($step == 'dbconfig') ? 'on' : 'off' ?>">
-				4 : <?php echo JText::_('Database') ?>
-			</div>
-			<div class="step-<?php echo ($step == 'ftpconfig') ? 'on' : 'off' ?>">
-				5 : <?php echo JText::_('FTP') ?>
-			</div>
-			<div class="step-<?php echo ($step == 'loaddata') ? 'on' : 'off' ?>">
-				6 : <?php echo JText::_('Data') ?>
-			</div>
-			<div class="step-<?php echo ($step == 'mainconfig') ? 'on' : 'off' ?>">
-				7 : <?php echo JText::_('Configuration') ?>
-			</div>
-			<div class="step-<?php echo ($step == 'finish') ? 'on' : 'off' ?>">
-				8 : <?php echo JText::_('Finish') ?>
-			</div>
-		<div class="box"></div>
-  	</div>
-
-	<div class="b">
-		<div class="b">
-			<div class="b"></div>
-		</div>
-	</div>
-
-</div>
+			<div class="clr"></div>
 				
-				<jdoc:include type="installation" />
 			</div>
 		</div>
+		
 		<div id="footer1">
 			<div id="footer2">
 				<div id="footer3"></div>
 			</div>
 		</div>
+		
 		<div id="copyright"><a href="http://www.joomla.org">Joomla!</a>
 			<?php echo JText::_('ISFREESOFTWARE') ?>
 		</div>

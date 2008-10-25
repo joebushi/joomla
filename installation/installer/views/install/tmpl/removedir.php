@@ -12,6 +12,9 @@
  * See COPYRIGHT.php for copyright notices and details.
  */
 
+// Set our step information to render in the template
+JRequest::setVar('step', 'remove');
+
 ?>
 
 <div>

@@ -12,36 +12,13 @@
  * See COPYRIGHT.php for copyright notices and details.
  */
 
+// Set our step information to render in the template
+JRequest::setVar('step', 'finish');
+
 ?>
 
 <form action="index.php" method="post" name="adminForm" autocomplete="off">
 
-<div id="right">
-	<div id="rightpad">
-	<div id="step">
-			<div class="t">
-		<div class="t">
-			<div class="t"></div>
-		</div>
-		</div>
-		<div class="m">
-				<div class="far-right">
-					<?php if ( $this->direction == 'ltr' ) : ?>
-						<div class="button1-left"><div class="site"><a onclick="window.location.href='<?php echo $this->getSessionVar('siteUrl') ?>';" alt="<?php echo JText::_('Site', true ) ?>"><?php echo JText::_('Site') ?></a></div></div>
-						<div class="button1-left"><div class="admin"><a onclick="window.location.href='<?php echo $this->getSessionVar('adminUrl') ?>';" alt="<?php echo JText::_('Admin', true ) ?>"><?php echo JText::_('Admin') ?></a></div></div>
-					<?php else: ?>
-						<div class="button1-left"><div class="admin"><a onclick="window.location.href='<?php echo $this->getSessionVar('adminUrl') ?>';" alt="<?php echo JText::_('Admin', true ) ?>"><?php echo JText::_('Admin') ?></a></div></div>
-						<div class="button1-left"><div class="site"><a onclick="window.location.href='<?php echo $this->getSessionVar('siteUrl') ?>';" alt="<?php echo JText::_('Site', true ) ?>"><?php echo JText::_('Site') ?></a></div></div>
-					<?php endif; ?>
-				</div>
-				<span class="step"><?php echo JText::_('Finish') ?></span>
-			</div>
-		<div class="b">
-		<div class="b">
-			<div class="b"></div>
-		</div>
-		</div>
-	</div>
 
 	<div id="installer">
 			<div class="t">
@@ -136,9 +113,5 @@
 			</div>
 		</div>
 		</div>
-	</div>
-</div>
-
-<div class="clr"></div>
 
 </form>

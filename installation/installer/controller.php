@@ -96,6 +96,16 @@ class JInstallationController extends JController
 				$view->error();
 				return false;
 			}
+			
+			// Check for request forgeries.
+			$token = JUtility::getToken();
+			if (!JRequest::getInt($token, 0, 'post')) {
+				$model	= $this->getModel();
+				$model->setError(JText::_('INVALID_SESSION_USE_NAVIGATION'));
+				$view	= $this->getView();
+				$view->error();
+				return false;
+			}
 
 		}
 		else
