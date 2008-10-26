@@ -143,15 +143,22 @@ class JTableContent extends JTable
 		// clean up keywords -- eliminate extra spaces between phrases
 		// and cr (\r) and lf (\n) characters from string
 		if(!empty($this->metakey)) { // only process if not empty
-			$keys = explode(',', $this->metakey); // create array using commas as delimiter
-			$clean_keys = array();
+			$bad_characters = array("\n", "\r", "\"", "<", ">"); // array of characters to remove
+			$after_clean = JString::str_ireplace($bad_characters, "", $this->metakey); // remove bad characters
+			$keys = explode(',', $after_clean); // create array using commas as delimiter
+			$clean_keys = array(); 
 			foreach($keys as $key) {
 				if(trim($key)) {  // ignore blank keywords
-					$key = str_replace(array("\n", "\r"), "", trim($key)); // remove \n,\r characters
-					$clean_keys[] = $key;
+					$clean_keys[] = trim($key);
 				}
 			}
 			$this->metakey = implode(",", $clean_keys); // put array back together delimited by commas
+		}
+		
+		// clean up description -- eliminate quotes and <> brackets
+		if(!empty($this->metadesc)) { // only process if not empty
+			$bad_characters = array("\"", "<", ">");
+			$this->metadesc = JString::str_ireplace($bad_characters, "", $this->metadesc);
 		}
 
 		return true;

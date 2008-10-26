@@ -37,6 +37,17 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+
+25-Oct-2008 Ian MacLennan
+ # [#13323] **New Welcome to Joomla module and Security Newsfeed module in CPANEL
+ # [#12885] **Newsfeed Module Cache is broken
+ # [#13165] please select an item message does not append task to javascript pop up
+ # [#11798] Missing l10n in JApplicationHelper::parseXMLInstallFile() - patch 2 committed only
+ # [#11807] mosMenuCheck missing return statement
+ # [#13297] Missing languagestrings in com_menus.ini
+ # [#13265] **Remove illegal characters in Article Keywords
+ # [#11759] **Bug in menu system when changing menu link type
+
 25-Oct-2008 Sam Moffatt
  # [#13264] **Untranslated Strings in en-GB.tpl_ja_purity.ini
  # [#13262] Untranslated Strings in Unknown file

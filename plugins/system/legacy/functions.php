@@ -603,7 +603,7 @@ function mosMenuCheck( $Itemid, $menu_option, $task, $gid )
 {
 	$user =& JFactory::getUser();
 	$menus =& JSite::getMenu();
-	$menus->authorize($Itemid, $user->get('aid'));
+	return $menus->authorize($Itemid, $user->get('aid'));
 }
 
 /**
