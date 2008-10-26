@@ -74,6 +74,9 @@ class UserViewUser extends JView
 	{
 		global $mainframe;
 
+		// Load the form validation behavior
+		JHTML::_('behavior.formvalidation');
+
 		$user     =& JFactory::getUser();
 		$params = &$mainframe->getParams();
 

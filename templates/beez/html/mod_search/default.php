@@ -8,7 +8,7 @@ defined('_JEXEC') or die('Restricted access');
 		<?php echo JText::_('search') ?>
 	</label>
 	<?php
-		    $output = '<input name="searchword" id="mod_search_searchword" maxlength="20" alt="'.$button_text.'" class="inputbox'.$moduleclass_sfx.'" type="text" size="'.$width.'" value="'.$text.'"  onblur="if(this.value==\'\') this.value=\''.$text.'\';" onfocus="if(this.value==\''.$text.'\') this.value=\'\';" />';
+		    $output = '<input name="searchword" id="mod_search_searchword" maxlength="20" class="inputbox'.$moduleclass_sfx.'" type="text" size="'.$width.'" value="'.$text.'"  onblur="if(this.value==\'\') this.value=\''.$text.'\';" onfocus="if(this.value==\''.$text.'\') this.value=\'\';" />';
 
 			if ($button) :
 			    if ($imagebutton) :

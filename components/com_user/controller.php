@@ -73,12 +73,21 @@ class UserController extends JController
 		$post['username']	= JRequest::getVar('username', '', 'post', 'username');
 		$post['password']	= JRequest::getVar('password', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$post['password2']	= JRequest::getVar('password2', '', 'post', 'string', JREQUEST_ALLOWRAW);
-
+	
+		// get the redirect
+		$return = JURI::base();
+		
 		// do a password safety check
 		if(strlen($post['password']) || strlen($post['password2'])) { // so that "0" can be used as password e.g.
 			if($post['password'] != $post['password2']) {
 				$msg	= JText::_('PASSWORDS_DO_NOT_MATCH');
-				$this->setRedirect($_SERVER['HTTP_REFERER'], $msg);
+				// something is wrong. we are redirecting back to edit form.
+				// TODO: HTTP_REFERER should be replaced with a base64 encoded form field in a later release
+				$return = @$_SERVER['HTTP_REFERER'];
+				if (empty($return) || !JURI::isInternal($return)) {
+					$return = JURI::base();
+				}
+				$this->setRedirect($return, $msg, 'error');
 				return false;
 			}
 		}
@@ -100,7 +109,8 @@ class UserController extends JController
 			$msg	= $model->getError();
 		}
 
-		$this->setRedirect( $_SERVER['HTTP_REFERER'], $msg );
+		
+		$this->setRedirect( $return, $msg );
 	}
 
 	function cancel()
