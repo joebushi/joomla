@@ -37,13 +37,15 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-Oct-2008 Kevin Devine
+ # [#13313] Archive is not getdate - 1.5.7
 
 25-Oct-2008 Ian MacLennan
- # [#12920] **Perform isInternal checking on referer values in User Controller 
+ # [#12920] **Perform isInternal checking on referer values in User Controller
  # [#10954] **Start Publishing is automatically changed upon editing an article when time zone is not set to UTC 00:00
  # [#12798] **Beez Html Folder
  # [#12372] **Secure password is not allowed when editing account details
- 
+
 
 25-Oct-2008 Ian MacLennan
  # [#13323] **New Welcome to Joomla module and Security Newsfeed module in CPANEL
