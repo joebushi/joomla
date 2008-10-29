@@ -50,4 +50,14 @@ class JHTMLContentGrid
 		$categories = array_merge($categories, $db->loadObjectList());
 		return JHTML::_('select.genericlist',  $categories, $name, 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $filter_catid);
 	}
+
+	function type( $name, $filter_typeid )
+	{
+		$types = ContentTypeHelper::getTypes();
+
+		array_unshift($types, JHTML::_('select.option', '0', '- '.JText::_('Select Type').' -', 'id', 'name'));
+
+		$attribs = 'class="inputbox" size="1" onchange="document.adminForm.submit( );"';
+		return JHTML::_('select.genericlist', $types, $name, $attribs, 'id', 'name', $filter_typeid);
+	}
 }

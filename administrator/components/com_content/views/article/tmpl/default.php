@@ -154,6 +154,16 @@ function submitbutton(pressbutton)
 				<?php echo $this->lists['catid']; ?>
 			</td>
 		</tr>
+		<tr colspan="2">
+			<td class="key">
+				<label for="type">
+					<?php echo JText::_( 'Type' ); ?>
+				</label>
+			</td>
+			<td>
+				<?php echo $this->lists['type']; ?>
+			</td>
+		</tr>
 		</table>
 		<table class="admintable">
 		<tr>
@@ -180,6 +190,19 @@ function submitbutton(pressbutton)
 			</td>
 			<td>
 				<?php echo $this->row->id; ?>
+			</td>
+		</tr>
+		<?php // @todo set default type name as Article ?>
+		<tr>
+			<td>
+				<strong><?php echo JText::_( 'Type' ); ?></strong>
+			</td>
+			<td>
+				<?php echo $this->row->typename; ?>
+				<span>
+					<input name="listtypes" class="button" type="button" id="listtypes" value="<?php echo JText::_( 'Change Type' ); ?>" />
+				</span>
+				<span id="types"></span>
 			</td>
 		</tr>
 		<?php

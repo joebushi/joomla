@@ -487,8 +487,9 @@ class ContentModelArticle extends JModel
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_data))
 		{
-			$query = 'SELECT c.* '.
+			$query = 'SELECT c.*, t.id AS typeid, t.name AS typename '.
 					' FROM #__content AS c' .
+					' LEFT JOIN #__content_types AS t ON t.id = c.type' .
 					' WHERE c.id = '.(int) $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
@@ -548,6 +549,7 @@ class ContentModelArticle extends JModel
 			$article->title_alias		= null;
 			$article->introtext 			= null;
 			$article->fulltext			= null;
+			$article->type		 		= null;
 			$article->sectionid	 		= null;
 			$article->catid				= 0;
 			$article->state				= 0;

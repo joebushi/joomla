@@ -62,26 +62,26 @@ class ContentModelArticles extends JModel
 	function __construct()
 	{
 		parent::__construct();
-
-		global $mainframe, $option;
+		$app =& JFactory::getApplication();
 
 		// Get the pagination request variables
-		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
-		$limitstart	= $mainframe->getUserStateFromRequest( $option.'.limitstart', 'limitstart', 0, 'int' );
+		$limit		= $app->getUserStateFromRequest( 'global.list.limit', 'limit', $app->getCfg('list_limit'), 'int' );
+		$limitstart	= $app->getUserStateFromRequest( 'com_content.limitstart', 'limitstart', 0, 'int' );
 
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
 
 		$context			= 'com_content.viewcontent';
 		$filter = new stdClass();
-		$filter->order		= $mainframe->getUserStateFromRequest( $context.'.filter_order',		'filter_order',		'section_name',	'cmd' );
-		$filter->order_Dir	= $mainframe->getUserStateFromRequest( $context.'.filter_order_Dir',	'filter_order_Dir',	'',				'word' );
-		$filter->state		= $mainframe->getUserStateFromRequest( $context.'.filter_state',		'filter_state',		'',				'word' );
-		$filter->catid		= $mainframe->getUserStateFromRequest( $context.'.filter_catid',		'filter_catid',		0,				'int' );
-		$filter->search		= $mainframe->getUserStateFromRequest( $context.'.search',			'search',			'',				'string' );
-		$filter->authorid	= $mainframe->getUserStateFromRequest( $context.'.filter_authorid',	'filter_authorid',	0,	'int' );
+		$filter->order		= $app->getUserStateFromRequest( $context.'.filter_order',		'filter_order',		'section_name',	'cmd' );
+		$filter->order_Dir	= $app->getUserStateFromRequest( $context.'.filter_order_Dir',	'filter_order_Dir',	'',				'word' );
+		$filter->state		= $app->getUserStateFromRequest( $context.'.filter_state',		'filter_state',		'',				'word' );
+		$filter->catid		= $app->getUserStateFromRequest( $context.'.filter_catid',		'filter_catid',		0,				'int' );
+		$filter->search		= $app->getUserStateFromRequest( $context.'.search',			'search',			'',				'string' );
+		$filter->authorid	= $app->getUserStateFromRequest( $context.'.filter_authorid',	'filter_authorid',	0,	'int' );
+		$filter->typeid		= $app->getUserStateFromRequest( $context.'.filter_typeid',		'filter_typeid',	0,	'int' );
 		$filter->section 	= JRequest::getCmd( 'section', 'com_content' );
-		$filter->sectionid	= $mainframe->getUserStateFromRequest( $context.'.filter_sectionid',	'filter_sectionid',	-1,	'int' );
+		$filter->sectionid	= $app->getUserStateFromRequest( $context.'.filter_sectionid',	'filter_sectionid',	-1,	'int' );
 		$this->_filter = $filter;
 	}
 
@@ -156,7 +156,7 @@ class ContentModelArticles extends JModel
 		$where		= $this->_buildContentWhere($this->_filter->section);
 		$orderby	= $this->_buildContentOrderBy($this->_filter->section);
 
-		$query = 'SELECT c.*, g.name AS groupname, cc.title AS name, u.name AS editor, f.content_id AS frontpage, s.title AS section_name, v.name AS author' .
+		$query = 'SELECT c.*, g.name AS groupname, t.name AS typename, cc.title AS name, u.name AS editor, f.content_id AS frontpage, s.title AS section_name, v.name AS author' .
 				' FROM #__content AS c' .
 				' LEFT JOIN #__categories AS cc ON cc.id = c.catid' .
 				' LEFT JOIN #__sections AS s ON s.id = c.sectionid' .
@@ -164,6 +164,7 @@ class ContentModelArticles extends JModel
 				' LEFT JOIN #__users AS u ON u.id = c.checked_out' .
 				' LEFT JOIN #__users AS v ON v.id = c.created_by' .
 				' LEFT JOIN #__content_frontpage AS f ON f.content_id = c.id' .
+				' LEFT JOIN #__content_types AS t ON t.id = c.type' .
 				$where .
 				$orderby;
 
@@ -187,6 +188,10 @@ class ContentModelArticles extends JModel
 		/*
 		 * Add the filter specific information to the where clause
 		 */
+		// Type filter
+		if ($this->_filter->typeid > 0) {
+			$where[] = 'c.type = ' . (int) $this->_filter->typeid;
+		}
 		// Section filter
 		if ($this->_filter->sectionid >= 0) {
 			$where[] = 'c.sectionid = ' . (int) $this->_filter->sectionid;

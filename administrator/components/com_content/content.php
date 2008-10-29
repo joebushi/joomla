@@ -21,6 +21,9 @@ require_once JPATH_COMPONENT.DS.'controller.php';
 // Set the helper directory
 JHTML::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 
+// @todo this is temporary
+require_once JPATH_COMPONENT.DS.'helpers'.DS.'typehelper.php';
+
 // Require specific controller if requested
 if($controllerName = JRequest::getWord('controller', '')) {
 	$path = JPATH_COMPONENT.DS.'controllers'.DS.$controllerName.'.php';

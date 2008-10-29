@@ -26,6 +26,7 @@
 			</td>
 			<td nowrap="nowrap">
 				<?php
+				echo JHTML::_('contentgrid.type', 'filter_typeid', $this->filter->typeid);
 				echo JHTML::_('list.section', 'filter_sectionid', $this->filter->sectionid, 'onchange="document.adminForm.submit();"');
 				echo JHTML::_('contentgrid.category', 'filter_catid', $this->filter->catid, $this->filter->sectionid);
 				echo JHTML::_('contentgrid.author', 'filter_authorid', $this->filter->authorid);
@@ -59,6 +60,9 @@
 			</th>
 			<th width="7%">
 				<?php echo JHTML::_('grid.sort',   'Access', 'groupname', @$this->filter->order_Dir, @$this->filter->order ); ?>
+			</th>
+			<th class="title" width="8%" nowrap="nowrap">
+				<?php echo JHTML::_('grid.sort',   'Type', 'typename', @$this->filter->order_Dir, @$this->filter->order ); ?>
 			</th>
 			<th class="title" width="8%" nowrap="nowrap">
 				<?php echo JHTML::_('grid.sort',   'Section', 'section_name', @$this->filter->order_Dir, @$this->filter->order ); ?>
@@ -198,10 +202,14 @@
 			<td align="center">
 				<?php echo $access;?>
 			</td>
-				<td>
-					<a href="<?php echo $row->sect_link; ?>" title="<?php echo JText::_( 'Edit Section' ); ?>">
-						<?php echo $row->section_name; ?></a>
-				</td>
+			<td>
+				<a href="<?php echo JRoute::_('index.php?option=com_content&controller=types&task=edit&cid[]='.$row->type); ?>" title="<?php echo JText::_( 'Edit Type' ); ?>">
+					<?php echo $row->typename; ?></a>
+			</td>
+			<td>
+				<a href="<?php echo $row->sect_link; ?>" title="<?php echo JText::_( 'Edit Section' ); ?>">
+					<?php echo $row->section_name; ?></a>
+			</td>
 			<td>
 				<a href="<?php echo $row->cat_link; ?>" title="<?php echo JText::_( 'Edit Category' ); ?>">
 					<?php echo $row->name; ?></a>

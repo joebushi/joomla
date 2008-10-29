@@ -60,6 +60,7 @@ class ContentViewArticles extends JView
 
 		JSubMenuHelper::addEntry(JText::_('Articles'), 'index.php?option=com_content', true );
 		JSubMenuHelper::addEntry(JText::_('Front Page'), 'index.php?option=com_content&controller=frontpage' );
+		JSubMenuHelper::addEntry(JText::_('Types'), 'index.php?option=com_content&controller=types' );
 
 		$this->assignRef('redirect',	$redirect);
 		$this->assignRef('rows',		$rows);

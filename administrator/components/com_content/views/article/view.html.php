@@ -33,7 +33,7 @@ class ContentViewArticle extends JView
 	protected $params;
 	protected $contentSection;
 	protected $sectioncategories;
-	
+
 	function display($tpl = null)
 	{
 		global $mainframe;
@@ -235,6 +235,11 @@ class ContentViewArticle extends JView
 
 		// build the html radio buttons for published
 		$lists['state'] = JHTML::_('select.booleanlist', 'state', '', $row->state);
+
+		$types = ContentTypeHelper::getTypes();
+		array_unshift($types, JHTML::_('select.option', '0', '- '.JText::_('Select Type').' -', 'id', 'name'));
+		$attribs = 'class="inputbox" size="1"';
+		$lists['type'] = JHTML::_('select.genericlist', $types, 'type', $attribs, 'id', 'name', $row->type);
 
 		/*
 		 * We need to unify the introtext and fulltext fields and have the
