@@ -37,6 +37,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Oct-2008 Sam Moffatt
+ # [#13387] Incorrect regexp in JTableUser matches too many fields
+
 28-Oct-2008 Kevin Devine
  # [#13313] Archive is not getdate - 1.5.7
 
