@@ -14,11 +14,12 @@ defined('_JEXEC') or die('Restricted access');
 // -->
 </script>
 
-<h1 class="componentheading">
-	<?php echo JText::_( 'Edit Your Details' ); ?>
-</h1>
-
 <form action="index.php" method="post" name="userform" autocomplete="off" class="user">
+
+	<div class="user_name">
+		<label for="username"><?php echo JText::_( 'User Name' ); ?>: </label>
+		<span><?php echo $this->user->get('username'); ?></span>
+	</div>
 
 	<div class="name">
 		<label for="name"><?php echo JText::_( 'Your Name' ); ?>: </label>
@@ -30,10 +31,6 @@ defined('_JEXEC') or die('Restricted access');
 		<input class="inputbox required validate-email" type="text" id="email" name="email" value="<?php echo $this->user->get('email');?>" size="40" />
 	</div>
 
-	<div class="user_name">
-		<label for="username"><?php echo JText::_( 'User Name' ); ?>: </label>
-		<input class="inputbox required" type="text" id="username" name="username" value="<?php echo $this->user->get('username'); ?>" size="40" />
-	</div>
 	<?php if($this->user->get('password')) : ?>
 	<div class="pass">
 		<label for="password"><?php echo JText::_( 'Password' ); ?>: </label>
@@ -51,6 +48,7 @@ defined('_JEXEC') or die('Restricted access');
 
 	<button class="button validate" type="submit" onclick="submitbutton( this.form );return false;"><?php echo JText::_( 'Save' ); ?></button>
 
+	<input type="hidden" name="username" value="<?php echo $this->user->get('username');?>" />
 	<input type="hidden" name="id" value="<?php echo $this->user->get('id');?>" />
 	<input type="hidden" name="gid" value="<?php echo $this->user->get('gid');?>" />
 	<input type="hidden" name="option" value="com_user" />

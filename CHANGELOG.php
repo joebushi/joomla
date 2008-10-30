@@ -37,6 +37,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-Oct-2008 Kevin Devine
+ # [#13326] Beez 'Your Details' page
+ # [#12696] **SEF plugin does not convert object param and onmouseover/onmouseout rollovers
+
 29-Oct-2008 Sam Moffatt
  # [#13387] Incorrect regexp in JTableUser matches too many fields
 
