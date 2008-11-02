@@ -37,6 +37,16 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+
+01-Nov-2008 Ian MacLennan
+ # [#13470] Missing languagestrings in mod_breadcrumbs.ini
+ # [#13440] Later versions of cURL break GMail plugin
+ # [#13432] Description error
+ # [#13412] typo in en-GB.mod_latestnews.ini
+ # [#13388] Admin modules xml does not uninstall ini files
+ # [#13373] Defaut config change to cope with flash10 issue
+ # [#12854] emailcloak whitespace
+
 30-Oct-2008 Kevin Devine
  # [#13326] Beez 'Your Details' page
  # [#12696] **SEF plugin does not convert object param and onmouseover/onmouseout rollovers

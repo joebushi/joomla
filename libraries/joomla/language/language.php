@@ -81,7 +81,7 @@ class JLanguage extends JObject
 	var $_paths	= array();
 
 	/**
-	 * Transaltions
+	 * Translations
 	 *
 	 * @var		array
 	 * @access	protected
@@ -576,7 +576,7 @@ class JLanguage extends JObject
 	* Get the list of orphaned strings if being tracked
 	*
 	* @access	public
-	* @return	boolean True is in debug mode
+	* @return	array Orphaned text
 	* @since	1.5
 	*/
 	function getOrphans() {
