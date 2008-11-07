@@ -37,6 +37,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Nov-2008 Sam Moffatt
+ # [#13590] New installation languages to get into 1.5.8
 
 01-Nov-2008 Ian MacLennan
  # [#13470] Missing languagestrings in mod_breadcrumbs.ini
