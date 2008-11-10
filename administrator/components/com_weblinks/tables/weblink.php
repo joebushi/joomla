@@ -151,6 +151,11 @@ class TableWeblink extends JTable
 			return false;
 		}
 
+		//Remove all HTML tags from the title and description
+		$filter = new JFilterInput(array(), array(), 0, 0);
+		$this->description = $filter->clean($this->description);
+		$this->title = $filter->clean($this->title);
+
 		/** check for valid name */
 		if (trim($this->title) == '') {
 			$this->setError(JText::_('Your Weblink must contain a title.'));

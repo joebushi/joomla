@@ -358,8 +358,9 @@ class ContentModelArticle extends JModel
 		$user	= &JFactory::getUser();
 		$gid	= $user->get( 'gid' );
 
-		$filterGroups	= (array) $config->get( 'filter_groups' );
-		if (in_array( $gid, $filterGroups ))
+		$filterGroups	= $config->get( 'filter_groups' );
+
+		if (is_array($filterGroups) && in_array( $gid, $filterGroups ))
 		{
 			$filterType		= $config->get( 'filter_type' );
 			$filterTags		= preg_split( '#[,\s]+#', trim( $config->get( 'filter_tags' ) ) );
@@ -379,6 +380,10 @@ class ContentModelArticle extends JModel
 			}
 			$article->introtext	= $filter->clean( $article->introtext );
 			$article->fulltext	= $filter->clean( $article->fulltext );
+		} elseif(empty($filterGroups)) {
+			$filter = new JFilterInput(array(), array(), 1, 1);
+			$article->introtext = $filter->clean( $article->introtext );
+			$article->fulltext = $filter->clean( $article->fulltext );
 		}
 
 		// Make sure the article table is valid

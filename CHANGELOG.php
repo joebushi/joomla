@@ -39,6 +39,9 @@ $ -> Language fix or change
 
 -------------------- 1.5.8 Stable Release [10-November-2008] ------------------
 
+10-Nov-2008 Anthony Ferrara
+ # Added security fixes
+
 10-Nov-2008 Wilco Jansen
  # Changed version tags of default language file to 1.5.8 (Wohnaiki)
  # Change of version file
