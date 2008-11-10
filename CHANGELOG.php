@@ -37,6 +37,12 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+-------------------- 1.5.8 Stable Release [10-November-2008] ------------------
+
+10-Nov-2008 Wilco Jansen
+ # Changed version tags of default language file to 1.5.8 (Wohnaiki)
+ # Change of version file
+
 07-Nov-2008 Sam Moffatt
  # [#13590] New installation languages to get into 1.5.8
 

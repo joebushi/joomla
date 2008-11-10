@@ -30,9 +30,9 @@ class JVersion
 	/** @var int build Number */
 	var $BUILD	= '';
 	/** @var string Codename */
-	var $CODENAME 	= 'Wovusani';
+	var $CODENAME 	= 'Wohnaiki';
 	/** @var string Date */
-	var $RELDATE 	= '9-September-2008';
+	var $RELDATE 	= '10-November-2008';
 	/** @var string Time */
 	var $RELTIME 	= '23:00';
 	/** @var string Timezone */
