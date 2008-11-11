@@ -37,6 +37,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Nov-2008 Anthony Ferrara
+ # Removed Install Check
+
 -------------------- 1.5.8 Stable Release [10-November-2008] ------------------
 
 10-Nov-2008 Anthony Ferrara
