@@ -37,6 +37,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+14-Nov-2008 Jui-Yu Tsai
+ # [#13045] Contact category incorrect links
+
 10-Nov-2008 Anthony Ferrara
  # Removed Install Check
 

@@ -48,6 +48,11 @@ function ContactBuildRoute(&$query)
 		{
 			foreach ($items as $item)
 			{
+				if (isset($item->id) && isset($query['Itemid']) 
+				    && $item->id != $query['Itemid'])
+				{
+				    continue;
+				}
 				// Check if this menu item links to this view.
 				if (isset($item->query['view']) && $item->query['view'] == 'contact'
 					&& isset($query['view']) && $query['view'] == 'contact'
@@ -69,6 +74,11 @@ function ContactBuildRoute(&$query)
 		{
 			foreach ($items as $item)
 			{
+				if (isset($item->id) && isset($query['Itemid']) 
+				    && $item->id != $query['Itemid'])
+				{
+				    continue;
+				}
 				if (isset($query['view']) && $query['view'] == 'contact'
 					&& isset($item->query['view']) && $item->query['view'] == 'category')
 				{
