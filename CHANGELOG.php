@@ -37,6 +37,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+18-Nov-2008 Jui-Yu Tsai
+ # [#13673] Front end article submission auto-populates "finish publishing" date with same date as "start publishing"
+
 14-Nov-2008 Jui-Yu Tsai
  # [#13045] Contact category incorrect links
 
