@@ -55,6 +55,7 @@ $ -> Language fix or change
  # [#12887] CSS and XHTML valid error in template JA_Purity///link to css validator broken
  # [#12247] query_batch change a sql in a wrong way
  # [#12115] Cache: plgSystemCache plugin doesn't respect site/page language
+ # [#13616] Changes at help screens
 
 18-Nov-2008 Jui-Yu Tsai
  # [#13673] Front end article submission auto-populates "finish publishing" date with same date as "start publishing"

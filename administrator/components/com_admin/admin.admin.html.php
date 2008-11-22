@@ -175,14 +175,10 @@ class HTML_admin_misc
 							<?php
 							} else {
 							?>
-							<?php echo JHTML::_('link', JURI::base() .'help/'.$langTag.'/joomla.glossary.html', JText::_( 'Glossary' ), array('target' => 'helpFrame')) ?>
-							|
-							<?php echo JHTML::_('link', JURI::base() .'help/'.$langTag.'/joomla.credits.html', JText::_( 'Credits' ), array('target' => 'helpFrame')) ?>
-							|
-							<?php echo JHTML::_('link', JURI::base() .'help/'.$langTag.'/joomla.support.html', JText::_( 'Support' ), array('target' => 'helpFrame')) ?>
-							<?php
-							}
-							?>
+							<?php echo JHTML::_('link', 'http://docs.joomla.org/index.php?title=Glossary&printable=true', JText::_( 'Glossary' ), array('target' => 'helpFrame')) ?> |
+							<?php echo JHTML::_('link', 'http://docs.joomla.org/index.php?title=Joomla.credits.15&printable=true', JText::_( 'Credits' ), array('target' => 'helpFrame')) ?> |
+							<?php echo JHTML::_('link', 'http://docs.joomla.org/index.php?title=Joomla.support.15&printable=true', JText::_( 'Support' ), array('target' => 'helpFrame')) ?>
+							<?php } ?>
 							|
 							<?php echo JHTML::_('link', 'http://www.gnu.org/licenses/gpl-2.0.html', JText::_( 'License' ), array('target' => 'helpFrame')) ?>
 							|
