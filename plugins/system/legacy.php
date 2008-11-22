@@ -257,6 +257,24 @@ class  plgSystemLegacy extends JPlugin
 		$mainframe->enqueueMessage( $mosmsg );
 	}
 
+	/**
+     * Fixes the $my global if the user was restored by the remember me plugin
+     */
+	function onAfterInitialise()
+	{
+		$user	=& JFactory::getUser();
+		if ($user->id) {
+			if ($GLOBALS['my']->id === 0) {
+				$GLOBALS['my']	= (object)$user->getProperties();
+				$GLOBALS['my']->gid = $user->get('aid', 0);
+			}
+		}
+
+		return true;
+	}
+
+
+
 	function onAfterRoute()
 	{
 		global $mainframe;

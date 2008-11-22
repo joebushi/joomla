@@ -37,6 +37,25 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-Nov-2008 Ian MacLennan
+ # [#13770] Remove default filter for super admin users, fix filter whitelist problem
+ # [#13666] Untranslated Strings in admin/mod_feed
+ # [#13662] Legacy Plugin - Login Timeout - Refresh
+ # [#13633] Tooltip language string in com_config
+ # [#13632] Wrong date Last Updated in Beez
+ # [#13626] Untranslated strings in com_contact
+ # [#13617] JMenu getMenu() doc error
+ # [#13611] Inconsistency in login/logout redirection page of mod_login
+ # [#13608] Untranslated Strings in com_weblinks
+ # [#13584] Beez template override for com_search doesn't echo error message
+ # [#13574] JInstallerHelper class function description mistakes
+ # [#13542] 'Change Contact Details' link loads wrong page.
+ # [#13505] onPrepareContent fix for non com_content Components
+ # [#12925] ja_purity default status for the right modules collapsible function does not work
+ # [#12887] CSS and XHTML valid error in template JA_Purity///link to css validator broken
+ # [#12247] query_batch change a sql in a wrong way
+ # [#12115] Cache: plgSystemCache plugin doesn't respect site/page language
+
 18-Nov-2008 Jui-Yu Tsai
  # [#13673] Front end article submission auto-populates "finish publishing" date with same date as "start publishing"
 

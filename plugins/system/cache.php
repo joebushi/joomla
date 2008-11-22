@@ -44,13 +44,15 @@ class  plgSystemCache extends JPlugin
 		parent::__construct($subject, $config);
 
 		$user =& JFactory::getUser();
-
+		//Set the language in the class
+		$config =& JFactory::getConfig();
 		$options = array(
 			'cachebase' 	=> JPATH_BASE.DS.'cache',
 			'defaultgroup' 	=> 'page',
 			'lifetime' 		=> $this->params->get('cachetime', 15) * 60,
 			'browsercache'	=> $this->params->get('browsercache', false),
-			'caching'		=> false
+			'caching'		=> false,
+			'language'		=> $config->getValue('config.language', 'en-GB')
 		);
 
 		jimport('joomla.cache.cache');

@@ -303,12 +303,12 @@ function saveContact( $task )
 	{
 		case 'apply':
 		case 'save2copy':
-			$msg	= JText::sprintf( 'Changes to X saved', 'Contact' );
+			$msg	= JText::sprintf( 'Changes to X saved', JText::_('Contact') );
 			$link	= 'index.php?option=com_contact&task=edit&cid[]='. $row->id .'';
 			break;
 
 		case 'save2new':
-			$msg	= JText::sprintf( 'Changes to X saved', 'Contact' );
+			$msg	= JText::sprintf( 'Changes to X saved', JText::_('Contact') );
 			$link	= 'index.php?option=com_contact&task=edit';
 			break;
 

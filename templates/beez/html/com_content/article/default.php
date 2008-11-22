@@ -27,9 +27,9 @@ defined('_JEXEC') or die('Restricted access');
 </h2>
 <?php endif; ?>
 
-<?php if ((!empty ($this->article->modified) && $this->params->get('show_modify_date')) || ($this->params->get('show_author') && ($this->article->author != "")) || ($this->params->get('show_create_date'))) : ?>
+<?php if ((intval($this->article->modified) !=0 && $this->params->get('show_modify_date')) || ($this->params->get('show_author') && ($this->article->author != "")) || ($this->params->get('show_create_date'))) : ?>
 <p class="articleinfo">
-	<?php if (!empty ($this->article->modified) && $this->params->get('show_modify_date')) : ?>
+	<?php if (intval($this->article->modified) !=0 && $this->params->get('show_modify_date')) : ?>
 	<span class="modifydate">
 		<?php echo JText::sprintf('LAST_UPDATED2', JHTML::_('date', $this->article->modified, JText::_('DATE_FORMAT_LC2'))); ?>
 	</span>

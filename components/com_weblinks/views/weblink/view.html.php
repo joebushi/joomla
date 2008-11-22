@@ -131,10 +131,10 @@ class WeblinksViewWeblink extends JView
 			if (is_object( $menu )) {
 				$menu_params = new JParameter( $menu->params );
 				if (!$menu_params->get( 'page_title')) {
-					$params->set('page_title',	JText::_( JText::_('Submit a Web Link') ));
+					$params->set('page_title', JText::_('Submit a Web Link') );
 				}
 			} else {
-				$params->set('page_title',	JText::_( JText::_('Submit a Web Link') ));
+				$params->set('page_title', JText::_('Submit a Web Link') );
 			}
 
 			$document->setTitle( $params->get( 'page_title' ) );

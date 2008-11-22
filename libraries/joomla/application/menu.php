@@ -252,7 +252,6 @@ class JMenu extends JObject
 	 * Getter for the menu array
 	 *
 	 * @access public
-	 * @param string $name The menu name
 	 * @return array
 	 */
 	function getMenu() {

@@ -459,6 +459,6 @@ class UsersController extends JController
 	function contact()
 	{
 		$contact_id = JRequest::getVar( 'contact_id', '', 'post', 'int' );
-		$this->setRedirect( 'index.php?option=com_contact&atask=edit&cid[]='. $contact_id );
+		$this->setRedirect( 'index.php?option=com_contact&task=edit&cid[]='. $contact_id );
 	}
 }

@@ -22,13 +22,11 @@ class modLoginHelper
 		{
 			$menu =& JSite::getMenu();
 			$item = $menu->getItem($itemid);
-			$url = $item->link.'&Itemid='.$itemid;
+			$url = JRoute::_($item->link.'&Itemid='.$itemid, false);
 		}
 		else
 		{
-			// Redirect to login
-			$uri = JFactory::getURI();
-			$url = $uri->toString();
+			$url = JURI::base(true);
 		}
 
 		return base64_encode($url);
