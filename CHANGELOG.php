@@ -42,6 +42,7 @@ $ -> Language fix or change
  # [#13634] Beez override differences in titles
  # [#13570] Missing h1 text-align in rhuk_milkyway/css/template_rtl.css
  # [#13499] • Cope with ini files wrongly encoded utf8 with bom - patch attached
+ # [#13549] typo in sample_data.sql
 
 21-Nov-2008 Ian MacLennan
  # [#13770] Remove default filter for super admin users, fix filter whitelist problem
