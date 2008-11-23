@@ -114,6 +114,10 @@ div.module_menu ul{
 	padding-left: 0px;
 }
 
+h1 {
+	text-align: right;	
+}
+	
 h2, .contentheading{
 	text-align: right;
 }

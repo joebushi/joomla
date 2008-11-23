@@ -37,6 +37,12 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+23-Nov-2008 Ian MacLennan
+ # [#13794] Space between meta keywords gone after saving article
+ # [#13634] Beez override differences in titles
+ # [#13570] Missing h1 text-align in rhuk_milkyway/css/template_rtl.css
+ # [#13499] • Cope with ini files wrongly encoded utf8 with bom - patch attached
+
 21-Nov-2008 Ian MacLennan
  # [#13770] Remove default filter for super admin users, fix filter whitelist problem
  # [#13666] Untranslated Strings in admin/mod_feed

@@ -14,7 +14,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_user#content'); ?>" method="post" id="josForm" name="josForm" class="form-validate user">
-	<h2 class="componentheading"><?php echo JText::_('Registration'); ?></h2>
 	<?php if(isset($this->message)) :
 		$this->display('message');
 	endif; ?>

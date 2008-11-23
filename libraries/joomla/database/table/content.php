@@ -152,7 +152,7 @@ class JTableContent extends JTable
 					$clean_keys[] = trim($key);
 				}
 			}
-			$this->metakey = implode(",", $clean_keys); // put array back together delimited by commas
+			$this->metakey = implode(", ", $clean_keys); // put array back together delimited by ", "
 		}
 		
 		// clean up description -- eliminate quotes and <> brackets

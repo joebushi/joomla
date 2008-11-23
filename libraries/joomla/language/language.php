@@ -335,6 +335,13 @@ class JLanguage extends JObject
 
 		if ($content = @file_get_contents( $filename ))
 		{
+
+			//Take off BOM if present in the ini file
+			if ( $content[0] == "\xEF" && $content[1] == "\xBB" && $content[2] == "\xBF" )
+            {
+				$content = substr( $content, 3 );
+		  	}
+
 			$registry	= new JRegistry();
 			$registry->loadINI($content);
 			$newStrings	= $registry->toArray( );
