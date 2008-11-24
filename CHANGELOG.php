@@ -43,6 +43,12 @@ $ -> Language fix or change
  # [#13570] Missing h1 text-align in rhuk_milkyway/css/template_rtl.css
  # [#13499] • Cope with ini files wrongly encoded utf8 with bom - patch attached
  # [#13549] typo in sample_data.sql
+ # [#13761] Media Manager Javascript error: Object doesn't support this property or method [IE only]
+ # [#13700] Contact image changes for Beez override
+ # [#13514] Untranslated Strings in en-GB.ini after SVN 11236
+ # [#12939] JFolder::delete bug when folder contain symbolic links on folders
+ # [#12841] Toolbar & Button Mediamanager
+ # [#12730] 'page'-string in plugins/content/pagebreak.php not properly externalized
 
 21-Nov-2008 Ian MacLennan
  # [#13770] Remove default filter for super admin users, fix filter whitelist problem
