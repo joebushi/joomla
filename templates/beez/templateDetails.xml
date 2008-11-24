@@ -87,8 +87,8 @@
 		<filename>html/com_weblinks/category/default.php</filename>
 		<filename>html/com_weblinks/category/default_items.php</filename>
 		<filename>html/com_weblinks/category/index.html</filename>
-		<filename>html/com_weblinks/weblinks/form.php</filename>
-		<filename>html/com_weblinks/weblinks/index.html</filename>
+		<filename>html/com_weblinks/weblink/form.php</filename>
+		<filename>html/com_weblinks/weblink/index.html</filename>
 		<filename>html/com_weblinks/index.html</filename>
 		<filename>html/com_user/user/index.html</filename>
 		<filename>html/com_user/user/default.php</filename>

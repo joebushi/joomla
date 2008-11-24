@@ -37,6 +37,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+24-Nov-2008 Ian MacLennan
+ # [#13859] Bad file reference in the "Beez" template
+ # [#13694] Archive Module count Parameter doesnt work//needs tool tip correction
+
 23-Nov-2008 Ian MacLennan
  # [#13794] Space between meta keywords gone after saving article
  # [#13634] Beez override differences in titles
