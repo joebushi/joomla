@@ -225,21 +225,23 @@ class JDatabaseMySQLi extends JDatabase
 			return false;
 		}
 
+		// Take a local copy so that we don't modify the original query and cause issues later
+		$sql = $this->_sql;
 		if ($this->_limit > 0 || $this->_offset > 0) {
-			$this->_sql .= ' LIMIT '.$this->_offset.', '.$this->_limit;
+			$sql .= ' LIMIT '.$this->_offset.', '.$this->_limit;
 		}
 		if ($this->_debug) {
 			$this->_ticker++;
-			$this->_log[] = $this->_sql;
+			$this->_log[] = $sql;
 		}
 		$this->_errorNum = 0;
 		$this->_errorMsg = '';
-		$this->_cursor = mysqli_query( $this->_resource, $this->_sql );
+		$this->_cursor = mysqli_query( $this->_resource, $sql );
 
 		if (!$this->_cursor)
 		{
 			$this->_errorNum = mysqli_errno( $this->_resource );
-			$this->_errorMsg = mysqli_error( $this->_resource )." SQL=$this->_sql";
+			$this->_errorMsg = mysqli_error( $this->_resource )." SQL=$sql";
 
 			if ($this->_debug) {
 				JError::raiseError(500, 'JDatabaseMySQL::query: '.$this->_errorNum.' - '.$this->_errorMsg );

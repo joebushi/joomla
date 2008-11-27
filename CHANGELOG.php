@@ -37,6 +37,11 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+
+26-Nov-2008 Ian MacLennan
+ # [#13860] Calling JDatabase::Query() or anything invoking JDatabase::Query() more than once causes SQL error
+ # [#12989] 404 - Contact not found - with dropdown in contact view
+
 24-Nov-2008 Ian MacLennan
  # [#13859] Bad file reference in the "Beez" template
  # [#13694] Archive Module count Parameter doesnt work//needs tool tip correction

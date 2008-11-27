@@ -171,8 +171,8 @@ function ContactParseRoute($segments)
 		if (isset($item->query['view']) && $item->query['view'] == 'contact' && isset($segments[0]))
 		{
 			// Break up the contact id into numeric and alias values.
-			if (isset($segments[0]) && strpos($segments[0], ':')) {
-				list($id, $alias) = explode(':', $segments[0], 2);
+			if (isset($segments[1]) && strpos($segments[1], ':')) {
+				list($id, $alias) = explode(':', $segments[1], 2);
 			}
 
 			// Contact view.
