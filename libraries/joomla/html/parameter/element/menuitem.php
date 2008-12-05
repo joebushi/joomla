@@ -115,7 +115,7 @@ class JElementMenuItem extends JElement
 					if ( JRequest::getString('option', '', 'get') == 'com_menus' ) {
 						$currentItemArray = JRequest::getVar('cid', array(0), '', 'array');
 						$currentItemId = (int) $currentItemArray[0];
-						$currentItemType = JRequest::getString('type', '', 'get');
+						$currentItemType = JRequest::getString('type', $item->type, 'get');
 						if ( $currentItemId == $item->id && $currentItemType != $item->type) {
 							$item->type = $currentItemType;
 						}

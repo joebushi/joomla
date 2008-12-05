@@ -37,6 +37,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-Dec-2008 Kevin Devine
+ # [#13909] strpos error on editing alias menu item
+ # [#13901] Editor deletes content when default filter is applied: UTF-8 compatibility not enforced with JInputFilter.
 
 26-Nov-2008 Ian MacLennan
  # [#13860] Calling JDatabase::Query() or anything invoking JDatabase::Query() more than once causes SQL error
