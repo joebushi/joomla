@@ -21,7 +21,7 @@ $cparams = JComponentHelper::getParams ('com_media');
 		<?php echo JText::_( 'Select Contact' ); ?>:
 			<br />
 			<?php echo JHTML::_('select.genericlist',  $this->contacts, 'contact_id', 'class="inputbox" onchange="this.form.submit()"', 'id', 'name', $this->contact->id);?>
-			<option type="hidden" name="option" value="com_contact" />
+			<input type="hidden" name="option" value="com_contact" />
 		</form>
 	</td>
 </tr>

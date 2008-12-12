@@ -37,6 +37,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+
+12-Dec-2008 Kevin Devine
+ # [#12868] Contact form 1.5.7 not valid XHTML 1.0 Transitional (+solution)
+
 05-Dec-2008 Kevin Devine
  # [#13909] strpos error on editing alias menu item
  # [#13901] Editor deletes content when default filter is applied: UTF-8 compatibility not enforced with JInputFilter.

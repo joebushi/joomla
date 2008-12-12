@@ -49,7 +49,11 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 </table>
 <br />
 <?php endif; ?>
-<?php if ( ($this->contact->email_to && $this->contact->params->get( 'show_email' )) || $this->contact->telephone  || $this->contact->fax || $this->contact->mobile || $this->contact->webpage ) : ?>
+<?php if ( ($this->contact->email_to && $this->contact->params->get( 'show_email' )) || 
+			($this->contact->telephone && $this->contact->params->get( 'show_telephone' )) || 
+			($this->contact->fax && $this->contact->params->get( 'show_fax' )) || 
+			($this->contact->mobile && $this->contact->params->get( 'show_mobile' )) || 
+			($this->contact->webpage && $this->contact->params->get( 'show_webpage' )) ) : ?>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <?php if ( $this->contact->email_to && $this->contact->params->get( 'show_email' ) ) : ?>
 <tr>
