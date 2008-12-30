@@ -40,7 +40,7 @@ class JElementSpacer extends JElement
 	function fetchElement($name, $value, &$node, $control_name)
 	{
 		if ($value) {
-			return $value;
+			return JText::_($value);
 		} else {
 			return '<hr />';
 		}

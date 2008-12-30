@@ -29,12 +29,40 @@ class ContentViewArticle extends JView
 	function display($tpl = null)
 	{
 		global $mainframe;
-
+		$user		=& JFactory::getUser();
 		$dispatcher	=& JDispatcher::getInstance();
 
 		// Initialize some variables
 		$article	= & $this->get( 'Article' );
 		$params 	= & $article->parameters;
+
+		// Create a user access object for the current user
+		$access = new stdClass();
+		$access->canEdit	= $user->authorize('com_content', 'edit', 'content', 'all');
+		$access->canEditOwn	= $user->authorize('com_content', 'edit', 'content', 'own');
+		$access->canPublish	= $user->authorize('com_content', 'publish', 'content', 'all');
+
+		// Check to see if the user has access to view the full article
+		$aid	= $user->get('aid');
+
+		if (($article->access > $aid) && ( ! $aid )) {
+			// Redirect to login
+			$uri		= JFactory::getURI();
+			$return		= $uri->toString();
+
+			$url  = 'index.php?option=com_user&view=login';
+			$url .= '&return='.base64_encode($return);;
+
+			//$url	= JRoute::_($url, false);
+			$mainframe->redirect($url, JText::_('You must login first') );
+		}
+		else if ($article->access > $aid) {
+			$document = &JFactory::getDocument();
+			$document->setTitle($article->title);
+			$document->setHeader($this->_getHeaderText($article, $params));
+			echo '<h1>' . JText::_('ALERTNOTAUTH') . '</h1>';
+			return;
+		}
 
 		// process the new plugins
 		JPluginHelper::importPlugin('content', 'image');

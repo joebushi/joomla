@@ -299,12 +299,7 @@ class HTML_newsfeeds
 						<?php echo $lists['ordering']; ?>
 					</td>
 				</tr>
-				<?php
-					$isRtl = '';
-					if ($row->rtl == 1) {
-						$isRtl = 'checked="checked"';
-					}
-				?>
+
 				<tr>
 					<td class="key">
 						<label for="rtl">
@@ -312,7 +307,7 @@ class HTML_newsfeeds
 						</label>
 					</td>
 					<td>
-						<input class="inputbox" type="checkbox" name="rtl" id="rtl" <?php echo $isRtl; ?>  />
+						<?php echo $lists['rtl']; ?>
 					</td>
 				</tr>
 				<tr>

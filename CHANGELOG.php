@@ -37,6 +37,11 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Dec-2008 Ian MacLennan
+ # [#14308] Spacer Values Not Translatable
+ # [#14196] •Non registered users can print full pdf of registered article
+ # [#13490] Fulltext search for Uncategorized and Archived articles
+ # [#11235] **** RTL feeds PARAM not saved in db + rtl feeds not correctly displayed in Milkyway as well as in Beez/solution included
 
 12-Dec-2008 Kevin Devine
  # [#12868] Contact form 1.5.7 not valid XHTML 1.0 Transitional (+solution)
