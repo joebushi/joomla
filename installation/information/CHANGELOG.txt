@@ -21,6 +21,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-Dec-2008 Ian MacLennan
+ # [#12746] Replace PEAR with a GPL alternative - updated Archive_Tar to relicensed BSD version.
+
 30-Dec-2008 Wilco Jansen
  - Removed CHANGELOG.php, COPYRIGHT.php, CREDITS.php, INSTALL.php, LICENSE.php, LICENSES.php from webroot
  ^ Moved informational php files from previous line to text versions in install/information
