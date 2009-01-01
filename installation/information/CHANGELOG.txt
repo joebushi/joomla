@@ -21,6 +21,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+01-Jan-2009 Ian MacLennan
+ # [#12217] Current OpenID used by joomla does not work with Yahoo - OpenID 2.0 protocol is required
+
 30-Dec-2008 Ian MacLennan
  # [#12746] Replace PEAR with a GPL alternative - updated Archive_Tar to relicensed BSD version.
 
