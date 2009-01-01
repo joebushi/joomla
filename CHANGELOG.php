@@ -1,3 +1,19 @@
+<?php
+/**
+* @version		$Id: CHANGELOG.php 11371 2008-12-30 01:31:50Z ian $
+* @package		Joomla
+* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
+* @license		GNU/GPL, see LICENSE.php
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
+* See COPYRIGHT.php for copyright notices and details.
+*/
+
+// no direct access
+defined( '_JEXEC' ) or die( 'Restricted access' );
+?>
 1. Copyright and disclaimer
 ---------------------------
 This application is opensource software released under the GPL.  Please
@@ -21,6 +37,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+01-Jan-2009 Wilco Jansen
+ ! Revert CHANGELOG.php, COPYRIGHT.php, CREDITS.php, INSTALL.php, LICENSE.php, LICENSES.php to webroot
+
 01-Jan-2009 Ian MacLennan
  # [#12217] Current OpenID used by joomla does not work with Yahoo - OpenID 2.0 protocol is required
 
@@ -36,7 +55,7 @@ $ -> Language fix or change
  # [#14308] Spacer Values Not Translatable
  # [#14196] Non registered users can print full pdf of registered article
  # [#13490] Fulltext search for Uncategorized and Archived articles
- # [#11235] **** RTL feeds PARAM not saved in db + rtl feeds not correctly displayed in Milkyway as well as in Beez/solution included
+ # [#11235] RTL feeds PARAM not saved in db + rtl feeds not correctly displayed in Milkyway as well as in Beez/solution included
 
 12-Dec-2008 Kevin Devine
  # [#12868] Contact form 1.5.7 not valid XHTML 1.0 Transitional (+solution)
