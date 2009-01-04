@@ -379,10 +379,9 @@ class ContentModelCategory extends JModel
 		global $mainframe;
 		// Get the page/component configuration
 		$params = &$mainframe->getParams();
-
-		$filter_order		= JRequest::getCmd('filter_order');
-		$filter_order_Dir	= JRequest::getWord('filter_order_Dir');
-
+		$itemid = JRequest::getVar('id') . ':' . JRequest::getVar('Itemid');
+		$filter_order  = $mainframe->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order', 'filter_order', '', 'cmd');
+		$filter_order_Dir = $mainframe->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order_Dir', 'filter_order_Dir', '', 'cmd');
 		$orderby = ' ORDER BY ';
 		if ($filter_order && $filter_order_Dir)
 		{

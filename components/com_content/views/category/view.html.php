@@ -266,9 +266,10 @@ class ContentViewCategory extends ContentView
 	{
 		// Table ordering values
 		$filter				= JRequest::getString('filter');
-		$filter_order		= JRequest::getCmd('filter_order');
-		$filter_order_Dir	= JRequest::getCmd('filter_order_Dir');
-
+		global $mainframe;
+		$itemid = JRequest::getVar('id') . ':' . JRequest::getVar('Itemid');
+		$filter_order  = $mainframe->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order', 'filter_order', '', 'cmd');
+		$filter_order_Dir = $mainframe->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order_Dir', 'filter_order_Dir', '', 'cmd');
 		$lists['task']      = 'category';
 		$lists['filter']    = $filter;
 		$lists['order']     = $filter_order;

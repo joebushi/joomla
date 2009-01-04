@@ -50,6 +50,7 @@ $ -> Language fix or change
  # [#11874] New modules cannot be added when there are no modules in the table for a given client
  # [#10840] Cache:filter on view table category doesn't work if cache is enabled
  # [#14227] Fix for old dev.joomla.org links
+ # [#14398] Category list loses column sort when you navigate to new page
 
 01-Jan-2009 Wilco Jansen
  ! Revert CHANGELOG.php, COPYRIGHT.php, CREDITS.php, INSTALL.php, LICENSE.php, LICENSES.php to webroot
