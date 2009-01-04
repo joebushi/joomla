@@ -1,0 +1,13 @@
+Index: components/com_content/controller.php
+===================================================================
+--- components/com_content/controller.php	(revision 11384)
++++ components/com_content/controller.php	(working copy)
+@@ -44,7 +44,7 @@
+ 
+ 		// View caching logic -- simple... are we logged in?
+ 		$user = &JFactory::getUser();
+-		if ($user->get('id')) {
++		if ($user->get('id') || (JRequest::getVar('view') == 'category' && JRequest::getVar('layout') != 'blog')) {
+ 			parent::display(false);
+ 		} else {
+ 			parent::display(true);

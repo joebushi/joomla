@@ -27,7 +27,7 @@ jimport('joomla.base.observable');
  * @subpackage	Event
  * @since	1.5
  * @see		JPlugin
- * @link http://dev.joomla.org/component/option,com_jd-wiki/Itemid,31/id,tutorials:plugins/ Plugins tutorial
+ * @link http://docs.joomla.org/Tutorial:Plugins Plugin tutorials
  */
 class JDispatcher extends JObservable
 {

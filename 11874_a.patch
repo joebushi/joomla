@@ -1,0 +1,14 @@
+Index: administrator/components/com_modules/controller.php
+===================================================================
+--- administrator/components/com_modules/controller.php	(revision 11332)
++++ administrator/components/com_modules/controller.php	(working copy)
+@@ -407,7 +407,8 @@
+ 		. ' ORDER BY ordering'
+ 		;
+ 		$db->setQuery( $query );
+-		if ( !($orders = $db->loadObjectList()) ) {
++		$orders = $db->loadObjectList();
++		if ($db->getErrorNum()) {
+ 			echo $db->stderr();
+ 			return false;
+ 		}

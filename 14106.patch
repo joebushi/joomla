@@ -1,0 +1,15 @@
+Index: administrator/components/com_plugins/controller.php
+===================================================================
+--- administrator/components/com_plugins/controller.php	(revision 11383)
++++ administrator/components/com_plugins/controller.php	(working copy)
+@@ -41,8 +41,8 @@
+ 		$this->registerTask( 'orderdown' , 	'order' );
+ 
+ 		$this->registerTask( 'accesspublic' 	, 	'access' );
+-		$this->registerTask( 'accessregisterd'  , 	'access' );
+-		$this->registerTask( 'acessspecial' 	, 	'access' );
++		$this->registerTask( 'accessregistered'  , 	'access' );
++		$this->registerTask( 'accessspecial' 	, 	'access' );
+ 
+ 	}
+ 

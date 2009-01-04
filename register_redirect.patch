@@ -1,0 +1,56 @@
+Index: components/com_content/views/category/view.html.php
+===================================================================
+--- components/com_content/views/category/view.html.php	(revision 11384)
++++ components/com_content/views/category/view.html.php	(working copy)
+@@ -179,6 +179,10 @@
+ 			else
+ 			{
+ 				$item->link = JRoute::_('index.php?option=com_user&task=register');
++				$returnURL = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug, $item->sectionid));
++				$fullURL = new JURI($item->link);
++				$fullURL->setVar('return', base64_encode($returnURL));
++				$item->link = $fullURL->toString();
+ 				$item->readmore_register = true;
+ 			}
+ 			$item->created	= JHTML::_('date', $item->created, $this->params->get('date_format'));
+@@ -237,6 +241,10 @@
+ 			else
+ 			{
+ 				$item->readmore_link = JRoute::_('index.php?option=com_user&view=login');
++				$returnURL = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug, $item->sectionid));
++				$fullURL = new JURI($item->readmore_link);
++				$fullURL->setVar('return', base64_encode($returnURL));
++				$item->readmore_link = $fullURL->toString();
+ 				$item->readmore_register = true;
+ 			}
+ 		}
+Index: components/com_content/views/category/tmpl/default_items.php
+===================================================================
+--- components/com_content/views/category/tmpl/default_items.php	(revision 11384)
++++ components/com_content/views/category/tmpl/default_items.php	(working copy)
+@@ -81,6 +81,10 @@
+ 		<?php
+ 			echo $this->escape($item->title).' : ';
+ 			$link = JRoute::_('index.php?option=com_user&view=login');
++			$returnURL = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug, $item->sectionid));
++			$fullURL = new JURI($link);
++			$fullURL->setVar('return', base64_encode($returnURL));
++			$link = $fullURL->toString();
+ 		?>
+ 		<a href="<?php echo $link; ?>">
+ 			<?php echo JText::_( 'Register to read more...' ); ?></a>
+Index: components/com_content/views/section/view.html.php
+===================================================================
+--- components/com_content/views/section/view.html.php	(revision 11384)
++++ components/com_content/views/section/view.html.php	(working copy)
+@@ -161,6 +161,10 @@
+ 			else
+ 			{
+ 				$item->readmore_link = JRoute::_("index.php?option=com_user&view=login");
++				$returnURL = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug, $item->sectionid));
++				$fullURL = new JURI($item->readmore_link);
++				$fullURL->setVar('return', base64_encode($returnURL));
++				$item->readmore_link = $fullURL->toString();
+ 				$item->readmore_register = true;
+ 			}
+ 		}
