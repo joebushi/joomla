@@ -37,6 +37,12 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-Jan-2009 Ian MacLennan
+ # [#14408] Weird characters in LICENSES.php
+ # [#14395] e-mail a friend shows language string not the translation
+ # [#14374] One english remaining string in mod_search
+ # [#11871] vCard displays excess spaces
+
 03-Jan-2009 Ian MacLennan
  # [#14392] Register to read more should redirect to article, not front page.
  # [#14390] Hits Filter in Category List Uses Like Instead of Greater Than or Equal
