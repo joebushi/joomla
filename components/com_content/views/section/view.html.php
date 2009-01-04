@@ -161,6 +161,10 @@ class ContentViewSection extends ContentView
 			else
 			{
 				$item->readmore_link = JRoute::_("index.php?option=com_user&view=login");
+				$returnURL = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug, $item->sectionid));
+				$fullURL = new JURI($item->readmore_link);
+				$fullURL->setVar('return', base64_encode($returnURL));
+				$item->readmore_link = $fullURL->toString();
 				$item->readmore_register = true;
 			}
 		}

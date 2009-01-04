@@ -407,7 +407,8 @@ class ModulesController extends JController
 		. ' ORDER BY ordering'
 		;
 		$db->setQuery( $query );
-		if ( !($orders = $db->loadObjectList()) ) {
+		$orders = $db->loadObjectList();
+		if ($db->getErrorNum()) {
 			echo $db->stderr();
 			return false;
 		}

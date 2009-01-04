@@ -487,6 +487,7 @@ class ContentModelCategory extends JModel
 			{
 				// clean filter variable
 				$filter = JString::strtolower($filter);
+				$hitsFilter = intval($filter);
 				$filter	= $this->_db->Quote( '%'.$this->_db->getEscaped( $filter, true ).'%', false );
 
 				switch ($params->get('filter_type'))
@@ -500,7 +501,7 @@ class ContentModelCategory extends JModel
 						break;
 
 					case 'hits' :
-						$where .= ' AND a.hits LIKE '.$filter;
+						$where .= ' AND a.hits >= '.$hitsFilter. ' ';
 						break;
 				}
 			}

@@ -26,7 +26,7 @@ class TOOLBAR_cache
 	*/
 	function _DEFAULT() {
 
-		JToolBarHelper::title( JText::_( 'Cache Manager' ), 'cache.png' );
+		JToolBarHelper::title( JText::_( 'Cache Manager' ), 'checkin.png' );
 		JToolBarHelper::custom( 'delete', 'delete.png', 'delete_f2.png', 'Delete', true );
 		JToolBarHelper::help( 'screen.cache' );
 	}

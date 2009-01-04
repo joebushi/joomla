@@ -81,6 +81,10 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<?php
 			echo $this->escape($item->title).' : ';
 			$link = JRoute::_('index.php?option=com_user&view=login');
+			$returnURL = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug, $item->sectionid));
+			$fullURL = new JURI($link);
+			$fullURL->setVar('return', base64_encode($returnURL));
+			$link = $fullURL->toString();
 		?>
 		<a href="<?php echo $link; ?>">
 			<?php echo JText::_( 'Register to read more...' ); ?></a>

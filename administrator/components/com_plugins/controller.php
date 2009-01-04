@@ -41,8 +41,8 @@ class PluginsController extends JController
 		$this->registerTask( 'orderdown' , 	'order' );
 
 		$this->registerTask( 'accesspublic' 	, 	'access' );
-		$this->registerTask( 'accessregisterd'  , 	'access' );
-		$this->registerTask( 'acessspecial' 	, 	'access' );
+		$this->registerTask( 'accessregistered'  , 	'access' );
+		$this->registerTask( 'accessspecial' 	, 	'access' );
 
 	}
 

@@ -37,6 +37,19 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+03-Jan-2009 Ian MacLennan
+ # [#14392] Register to read more should redirect to article, not front page.
+ # [#14390] Hits Filter in Category List Uses Like Instead of Greater Than or Equal
+ # [#14313] short php notation in beez as committed in 12798 creates problems on Windows hosting
+ # [#14360] Spacers JAPurity Translatable
+ # [#14171] No image
+ # [#14106] Changing the access for plugins on the plugins list does not work in 1.5.8
+ # [#13811] Wrong license for PHPMailer in CREDITS.php
+ # [#13517] CSS errors in rhuk_milkyway/css/template_rtl.css
+ # [#12023] Aditional Help server is deleted when helper servers are reset
+ # [#11874] New modules cannot be added when there are no modules in the table for a given client
+ # [#10840] Cache:filter on view table category doesn't work if cache is enabled
+
 01-Jan-2009 Wilco Jansen
  ! Revert CHANGELOG.php, COPYRIGHT.php, CREDITS.php, INSTALL.php, LICENSE.php, LICENSES.php to webroot
 

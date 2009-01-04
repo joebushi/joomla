@@ -44,7 +44,7 @@ class ContentController extends JController
 
 		// View caching logic -- simple... are we logged in?
 		$user = &JFactory::getUser();
-		if ($user->get('id')) {
+		if ($user->get('id') || (JRequest::getVar('view') == 'category' && JRequest::getVar('layout') != 'blog')) {
 			parent::display(false);
 		} else {
 			parent::display(true);

@@ -149,37 +149,43 @@ Archive
 -------
 Author:		Vincent Blavet
 Copyright:	Copyright (C) 1997-2003 The PHP Group
-License:	PHP License 3.0
+License:	BSD License
 
 Domit
 -----
 Author:		John Heinstein
 Copyright:	Copyright (C) 2004 John Heinstein. All rights reserved
-License:	GNU Lesser General Public License (LGPL)
+License:	GNU Lesser General Public License (LGPL) 2.1 or later
 
 Feedcreator
 -----------
 Author:		Kai Blankenhorn
 Copyright:	Copyright (C) Kai Blankenhorn
-License:	GNU Lesser General Public License (LGPL)
+License:	GNU Lesser General Public License (LGPL) 2.1 or later
 
 Geshi
 -----
 Author:		Nigel McNie
 Copyright:	Copyright (C) 2004 - 2007 Nigel McNie
-License:	GNU General Public License (GPL)
+License:	GNU General Public License (GPL) 2 or later
 
 js-calendar
 -----------
 Author:		Mihai Bazon
 Copyright:	Copyright (C) Mihai Bazon, 2002
-License:    GNU Lesser General Public License (LGPL)
+License:	GNU Lesser General Public License (LGPL) 2.1 or later
+
+js-dtree
+--------
+Author:		Geir Landrö
+Copyright:	Copyright (c) 2002-2003 Geir Landrö
+License:	Freeware license
 
 js-jscook-menu
 --------------
 Author:		Heng Yuan
 Copyright:	Copyright (C) 2002-2005 by Heng Yuan
-License:    MIT License
+License:	MIT License
 
 js-overlib
 ----------
@@ -187,23 +193,35 @@ Author:		Erik Bosrup
 Copyright:	Copyright (C) Erik Bosrup 1998-2004. All rights reserved.
 License:	Artistic (see http://www.bosrup.com/web/overlib/?License)
 
-js-tabs
--------
+js-squeezebox, js-swiff, js-fancyupload
+---------------------------------------
+Author:		Harald Kirschner
+Copyright:	Copyright (C) Harald Kirschner
+License:	MIT-style license
+
+js-tab-pane
+-----------
 Author:		Erik Arvidsson
 Copyright:	Copyright (C) 1998 - 2003 Erik Arvidsson
 License:	GNU General Public License (GPL)
+
+js-wz-tooltip
+-------------
+Author:		Walter Zorn
+Copyright:	Copyright (c) 2002-2004 Walter Zorn. All rights reserved.
+License:	GNU Lesser General Public License (LGPL) 2.1 or later
 
 Mootools
 --------
 Author:		Valerio Proietti
 Copyright:	Copyright (C) 2007 Valerio Proietti
-License:	MIT-style license
+License:	MIT license
 
-OpenID
-------
+PHP OpenID
+----------
 Author:		Janrain, Inc.
-Copyright:	Copyright (C) 2005 Janrain, Inc.
-License:	GNU Lesser General Public License (LGPL)
+Copyright:	Copyright (C) 2005 - 2008 Janrain, Inc.
+License:	Apache License 2.0
 
 patError
 ------
@@ -227,19 +245,25 @@ PHPGACL
 -------
 Author:		Mike Benoit
 Copyright:	Copyright (C) 2002, 2003 Mike Benoit
-License:	GNU Lesser General Public License (LGPL)
+License:	GNU Lesser General Public License (LGPL) 2.1 or later
 
 PHPInputfilter
 --------------
 Author:		Daniel Morris
 Copyright:	Copyright (C) Daniel Morris
-License:    GNU General Public License (GPL)
+License:	GNU General Public License (GPL)
 
 PHPMailer
 --------
 Author:		Brent R. Matzelle
 Copyright:	Copyright (C) 2001 - 2003 Brent R. Matzelle
-License:    GNU General Public License (GPL)
+License:	GNU Lesser General Public License (LGPL) 2.1
+
+phpUTF8
+-------
+Author:		Harry Fuecks
+Copyright:	Copyright (C) Harry Fuecks
+License:	GNU Lesser General Public License (LGPL) 2.1
 
 PHPXMLRPC
 ---------
@@ -247,20 +271,38 @@ Author:		Edd Dumbill
 Copyright:	Copyright (C) 1999,2000,2002 Edd Dumbill
 License:	BSD License
 
+SimplePie
+---------
+Author:		Ryan Parman and Geoffrey Sneddon
+Copyright:	Copyright (C) 2004-2007, Ryan Parman and Geoffrey Sneddon
+License:	BSD License
+
+TCPDF
+-----
+Author:		Nicola Asuni
+Copyright:	Copyright (C) Nicola Asuni
+License:	GNU Lesser General Public License (LGPL) 2.1
+
 TinyMCE
 -------
 Author:		Moxiecode Systems
 Copyright:	Copyright (C) 2005-2006, Moxiecode Systems AB, All rights reserved.
-License:	GNU Lesser General Public License (LGPL)
+License:	GNU Lesser General Public License (LGPL) 2.1
 
 VCard
 -----
 Author:		Kai Blankenhorn
 Copyright:	Copyright (C) Kai Blankenhorn
-License:	GNU General Public License (GPL)
+License:	GNU General Public License (GPL) 2 or later
 
-FOOOD Icons (Administrator Toolbar)
------------------------------------
+XStandard Lite
+--------------
+Author:		Belus Technology Inc.
+Copyright:	Copyright (c) 2006 Belus Technology Inc.
+License:	Freeware license
+
+FOOOD Icons
+-----------
 Copyright:	2004 iCandy Junior Icons
 License:	http://www.iconaholic.com/help/joomla.html
 Notes:		Please note these icons are NOT OPEN SOURCE but used with permission
