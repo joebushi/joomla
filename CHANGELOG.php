@@ -37,6 +37,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-Jan-2009 Kevin Devine
+ # [#14415] Rhuk Milkyway: Some strings unnecessary
+
 05-Jan-2009 Sam Moffatt
  - Removed extraneous com_statistics language file
 

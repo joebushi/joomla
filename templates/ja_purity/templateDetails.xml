@@ -400,11 +400,5 @@
 		</param>
 		<param name="excludeModules" type="text" default="38" size="50" label="Exclude Modules" description="EXCLUDE MODULES DESCRIPTION" />
 		
-		<param type="spacer"/>
-
-		<param name="showComponent" type="radio" default="1" label="Show Component" description="SHOW COMPONENT DESCRIPTION">
-			<option value="0">No</option>
-			<option value="1">Yes</option>
-		</param>
 	</params>
 </install>
