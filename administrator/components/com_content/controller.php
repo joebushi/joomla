@@ -1297,6 +1297,7 @@ class ContentController extends JController
 			$row->metakey					= $item->metakey;
 			$row->metadesc					= $item->metadesc;
 			$row->access					= $item->access;
+			$row->metadata					= $item->metadata;
 
 			if (!$row->check()) {
 				JError::raiseError( 500, $row->getError() );

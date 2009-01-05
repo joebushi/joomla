@@ -44,6 +44,7 @@ $ -> Language fix or change
  # [#13942] ***The 'modules' view in com_installer does not display author email and url
  # [#14070] Article archive pagination ***
  # [#14339] ***JString bug for strspn()
+ # [#13949] robots & author meta lost on copy ***
 
 05-Jan-2009 Sam Moffatt
  - Removed extraneous com_statistics language file
