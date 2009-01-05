@@ -59,6 +59,18 @@ class ContactViewContact extends JView
 			JError::raiseError( 404, 'Contact not found' );
 			return;
 		}
+		
+		// check if access is registered/special
+		if (($contact->access > $user->get('aid', 0)) || ($contact->category_access > $user->get('aid', 0))) {
+			$uri		= JFactory::getURI();
+			$return		= $uri->toString();
+			
+			$url  = 'index.php?option=com_user&view=login';
+			$url .= '&return='.base64_encode($return);
+			
+			$mainframe->redirect($url, JText::_('You must login first') );
+			
+		}
 
 		$options['category_id']	= $contact->catid;
 		$options['order by']	= 'cd.default_con DESC, cd.ordering ASC';

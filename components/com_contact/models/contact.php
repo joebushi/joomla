@@ -38,7 +38,7 @@ class ContactModelContact extends JModel
 		$groupBy	= @$options['group by'];
 		$orderBy	= @$options['order by'];
 
-		$select = 'a.*, cc.title as category_name, '
+		$select = 'a.*, cc.access as category_access, cc.title as category_name, '
 		. ' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug, '
 		. ' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(\':\', cc.id, cc.alias) ELSE cc.id END AS catslug ';
 		$from	= '#__contact_details AS a';
@@ -48,12 +48,6 @@ class ContactModelContact extends JModel
 		$wheres[] = 'a.id = ' . (int) $id;
 		$wheres[] = 'a.published = 1';
 		$wheres[] = 'cc.published = 1';
-
-		if ($aid !== null)
-		{
-			$wheres[] = 'a.access <= ' . (int) $aid;
-			$wheres[] = 'cc.access <= ' . (int) $aid;
-		}
 
 		/*
 		 * Query to retrieve all categories that belong under the contacts

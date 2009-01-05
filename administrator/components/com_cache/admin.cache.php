@@ -40,7 +40,12 @@ switch ( JRequest::getVar( 'task' ) )
 		CacheController::deleteCache($cid);
 		CacheController::showCache();
 		break;
-
+	case 'purgeadmin':
+		CacheController::showPurgeCache();
+		break;
+	case 'purge':
+		CacheController::purgeCache();
+		break;
 	default :
 		CacheController::showCache();
 		break;
@@ -94,5 +99,18 @@ class CacheController
 
 		$cmData = new CacheData($client->path.DS.'cache');
 		$cmData->cleanCacheList( $cid );
+	}
+	function showPurgeCache()
+	{	
+		// Check for request forgeries
+		CacheView::showPurgeExecute();
+	}
+	function purgeCache()
+	{	
+		// Check for request forgeries
+		JRequest::checkToken() or jexit( 'Invalid Token' );
+		$cache =& JFactory::getCache('');
+		$cache->gc();
+		CacheView::purgeSucess();
 	}
 }

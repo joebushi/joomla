@@ -179,7 +179,8 @@ class JCacheStorageFile extends JCacheStorage
 	 * @return boolean  True on success, false otherwise.
 	 */
 	function gc()
-	{
+	{	
+		jimport('joomla.filesystem.file');
 		$result = true;
 		// files older than lifeTime get deleted from cache
 		$files = JFolder::files($this->_root, '_expire', true, true);

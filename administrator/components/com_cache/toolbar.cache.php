@@ -19,7 +19,14 @@ require_once( JApplicationHelper::getPath( 'toolbar_html' ) );
 
 switch ($task)
 {
-	default:
+		case 'purgeadmin':
+		TOOLBAR_cache::_PURGEADMIN();
+		break;
+		case 'purge':
+		TOOLBAR_cache::_PURGEADMIN();
+		break;
+		default:
 		TOOLBAR_cache::_DEFAULT();
 		break;
+
 }
