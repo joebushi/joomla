@@ -37,6 +37,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-Jan-2009 Sam Moffatt
+ - Removed extraneous com_statistics language file
+
 04-Jan-2009 Ian MacLennan
  # [#14408] Weird characters in LICENSES.php
  # [#14395] e-mail a friend shows language string not the translation
