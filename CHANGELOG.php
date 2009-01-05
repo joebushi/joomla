@@ -46,6 +46,7 @@ $ -> Language fix or change
  # [#14339] ***JString bug for strspn()
  # [#13949] robots & author meta lost on copy ***
  # [#12812] **** 1.5.7. uri.php changes break backend urls if $live_site=Http (note uppercase H) (and proposed fix)
+ # [#14394] Poll error message strange***
 
 05-Jan-2009 Sam Moffatt
  - Removed extraneous com_statistics language file
