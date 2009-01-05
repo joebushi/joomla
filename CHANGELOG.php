@@ -40,6 +40,7 @@ $ -> Language fix or change
 05-Jan-2009 Kevin Devine
  # [#14415] Rhuk Milkyway: Some strings unnecessary
  # [#14389]•String missing in en-GB.com_installer.ini -patch included
+ # [#10680] Blank page:iI vcard is not enabled in the contact parameters, but selected***
 
 05-Jan-2009 Sam Moffatt
  - Removed extraneous com_statistics language file

@@ -214,12 +214,13 @@ class ContactController extends JController
 		JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_contact'.DS.'tables');
 		$contact =& JTable::getInstance('contact', 'Table');
 		$contact->load($contactId);
+		$user =& JFactory::getUser();		
 
 		// Get the contact detail parameters
-		$pparams = &$mainframe->getParams('com_contact');
+		$params = new JParameter($contact->params);
 
-		// Should we show the vcard?
-		if ($pparams->get('allow_vcard', 0))
+		// Show the Vcard if contact parameter indicates (prevents direct access)
+		if (($params->get('allow_vcard', 0)) && ($user->get('aid', 0) >= $contact->access))
 		{
 			// Parse the contact name field and build the nam information for the vcard.
 			$firstname 	= null;
@@ -284,7 +285,7 @@ class ContactController extends JController
 
 			print $output;
 		} else {
-			JError::raiseWarning('SOME_ERROR_CODE', 'ContactController::vCard: '.JText::_('NOTAUTH'));
+			JError::raiseWarning('SOME_ERROR_CODE', 'ContactController::vCard: '.JText::_('ALERTNOTAUTH'));
 			return false;
 		}
 	}
