@@ -282,7 +282,7 @@ class JApplication extends JObject
 		// If we don't start with a http we need to fix this before we proceed
 		// We could validly start with something else (e.g. ftp), though this would
 		// be unlikely and isn't supported by this API
-		if(!preg_match( '#^http#', $url )) {
+		if(!preg_match( '#^http#i', $url )) {
 			$uri =& JURI::getInstance();
 			$prefix = $uri->toString(Array('scheme', 'user', 'pass', 'host', 'port'));
 			if($url[0] == '/') {
