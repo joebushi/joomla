@@ -43,6 +43,7 @@ $ -> Language fix or change
  # [#10680] Blank page:iI vcard is not enabled in the contact parameters, but selected***
  # [#13942] ***The 'modules' view in com_installer does not display author email and url
  # [#14070] Article archive pagination ***
+ # [#14339] ***JString bug for strspn()
 
 05-Jan-2009 Sam Moffatt
  - Removed extraneous com_statistics language file

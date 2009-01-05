@@ -285,7 +285,7 @@ class JString
 	*/
 	function strspn($str, $mask, $start = NULL, $length = NULL)
 	{
-		jimport('phputf8.native.utf8_strspn');
+		jimport('phputf8.strspn');
 		if ( $start === FALSE && $length === FALSE ) {
 			return utf8_strspn($str, $mask);
 		} else if ( $length === FALSE ) {
