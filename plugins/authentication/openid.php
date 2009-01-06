@@ -53,7 +53,8 @@ class plgAuthenticationOpenID extends JPlugin {
 	 * @since 1.5
 	 */
 	function onAuthenticate($credentials, $options, & $response) {
-		global $mainframe;
+		$mainframe =& JFactory::getApplication();
+
 		if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 			define('Auth_OpenID_RAND_SOURCE', null);
 		} else {
@@ -71,7 +72,7 @@ class plgAuthenticationOpenID extends JPlugin {
 				}
 			}
 		}
-		require_once (JPATH_LIBRARIES . DS . 'openid' . DS . 'consumer.php');
+		jimport('openid.consumer');
 		jimport('joomla.filesystem.folder');
 
 		// Access the session data
@@ -132,12 +133,6 @@ class plgAuthenticationOpenID extends JPlugin {
 			unset ($options['entry_url']); //We don't need this anymore
 
 			//Create the url query information
-			$entry_url  = isset($options['entry_url'])  ? $options['entry_url'] : JURI::base();
-			$entry_url  = JURI::getInstance($entry_url);
-
-			unset($options['entry_url']); //We don't need this anymore
-
-			//Create the url query information
 			$options['return'] = isset($options['return']) ? base64_encode($options['return']) : base64_encode(JURI::base());
 			$options[JUtility::getToken()] = 1;
 
@@ -185,16 +180,65 @@ class plgAuthenticationOpenID extends JPlugin {
 				}
 			}
 		}
-		//$result = $consumer->complete(JRequest::get('get'));
 		$result = $consumer->complete($session->get('return_url'));
-		//$result = $consumer->complete();
 		switch ($result->status) {
 			case Auth_OpenID_SUCCESS :
 				{
-			        $sreg_resp = Auth_OpenID_SRegResponse::fromSuccessResponse($result);
+				        $sreg_resp = Auth_OpenID_SRegResponse::fromSuccessResponse($result);
 
-        			$sreg = $sreg_resp->contents();
-					$response->username = $result->getDisplayIdentifier();
+        				$sreg = $sreg_resp->contents();
+					$usermode = $this->params->get('usermode', 2);
+/* in the following code, we deal with the transition from the old openid version to the new openid version
+   In the old version, the username was always taken straight from the login form.  In the new version, we get a
+   username back from the openid provider.  This is necessary for a number of reasons.  First, providers such as
+   yahoo.com allow you to enter only the provider name in the username field (i.e. yahoo.com or flickr.com).  Taking
+   this as the username would obviously cause problems because everybody who had an id from yahoo.com would have username
+   yahoo.com.  Second, it is necessary because with the old way, we rely on the user entering the id the same every time.
+   This is bad because if the user enters the http:// one time and not the second time, they end up as two different users.
+   There are two possible settings here - the first setting, is to always use the new way, which is to get the username from
+   the provider after authentication.  The second setting is to check if the username exists that we got from the provider.  If it
+   doesn't, then we check if the entered username exists.  If it does, then we update the database with the username from the provider
+   and continue happily along with the new username.
+   We had talked about a third option, which would be to always used the old way, but that seems insecure in the case of somebody using
+   a yahoo.com ID.
+*/
+					if ($usermode && $usermode == 1) {
+						$response->username = $result->getDisplayIdentifier();
+					} else {
+						// first, check if the provider provided username exists in the database
+						$db = &JFactory::getDBO();
+						$query = 'SELECT username FROM #__users'.
+							' WHERE username='.$db->Quote($result->getDisplayIdentifier()).
+							' AND password=\'\'';
+						$db->setQuery($query);
+						$dbresult = $db->loadObject();
+						if ($dbresult) {
+							// if so, we set our username value to the provided value
+							$response->username = $result->getDisplayIdentifier();
+						} else {
+							// if it doesn't, we check if the username from the from exists in the database
+							$query = 'SELECT username FROM #__users'.
+								' WHERE username='.$db->Quote( $credentials['username'] ).
+								' AND password=\'\'';
+							$db->setQuery($query);
+							$dbresult = $db->loadObject();
+							if ($dbresult) {
+								// if it does, we update the database
+								$query = 'UPDATE #__users SET username='.$db->Quote($result->getDisplayIdentifier()).
+									' WHERE username='.$db->Quote($credentials['username']);
+								$db->setQuery($query);
+								$db->query();
+								if (!$db->query()) {
+									$response->status = JAUTHENTICATE_STATUS_FAILURE;
+									$response->error_message = $db->getErrorMsg();
+									//break out of the switch if we hit an error with our query
+									break;
+								}
+							}
+							$response->username = $result->getDisplayIdentifier();
+							// we return the username provided by the openid provider
+						}
+					}
 					$response->status = JAUTHENTICATE_STATUS_SUCCESS;
 					$response->error_message = '';
 					if (!isset($sreg['email'])) {
@@ -204,7 +248,7 @@ class plgAuthenticationOpenID extends JPlugin {
 					} else {
 						$response->email = $sreg['email'];
 					}
-					$response->fullname = isset ($sreg['fullname']) ? $sreg['fullname'] : '';
+					$response->fullname = isset ($sreg['fullname']) ? $sreg['fullname'] : $response->username;
 					$response->language = isset ($sreg['language']) ? $sreg['language'] : '';
 					$response->timezone = isset ($sreg['timezone']) ? $sreg['timezone'] : '';
 				}

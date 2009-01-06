@@ -111,6 +111,6 @@ class CacheController
 		JRequest::checkToken() or jexit( 'Invalid Token' );
 		$cache =& JFactory::getCache('');
 		$cache->gc();
-		CacheView::purgeSucess();
+		CacheView::purgeSuccess();
 	}
 }

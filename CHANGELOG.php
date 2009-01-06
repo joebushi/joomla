@@ -37,16 +37,21 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+06-Jan-2009 Ian MacLennan
+ # [#14414] string is unnecessary
+ # [#14433] Fix for openid transition issues
+ # [#14434] Typo in Cache Manager
+
 05-Jan-2009 Kevin Devine
  # [#14415] Rhuk Milkyway: Some strings unnecessary
- # [#14389]•String missing in en-GB.com_installer.ini -patch included
- # [#10680] Blank page:iI vcard is not enabled in the contact parameters, but selected***
- # [#13942] ***The 'modules' view in com_installer does not display author email and url
- # [#14070] Article archive pagination ***
- # [#14339] ***JString bug for strspn()
- # [#13949] robots & author meta lost on copy ***
- # [#12812] **** 1.5.7. uri.php changes break backend urls if $live_site=Http (note uppercase H) (and proposed fix)
- # [#14394] Poll error message strange***
+ # [#14389] String missing in en-GB.com_installer.ini
+ # [#10680] Blank page if vcard is not enabled in the contact parameters, but selected
+ # [#13942] The 'modules' view in com_installer does not display author email and url
+ # [#14070] Article archive pagination
+ # [#14339] JString bug for strspn()
+ # [#13949] robots & author metadata lost on copy
+ # [#12812] 1.5.7. uri.php changes break backend urls if $live_site=Http (note uppercase H)
+ # [#14394] Poll error message strange
 
 05-Jan-2009 Sam Moffatt
  - Removed extraneous com_statistics language file

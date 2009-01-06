@@ -127,14 +127,14 @@ class CacheView
         </form>
          <?php
 	}
-	function purgeSucess(){
+	function purgeSuccess(){
 		?>
         <form action="index.php" method="post" name="adminForm">
         <table class="adminlist" cellspacing="1">
         <thead>
 			<tr>
 				<th align="left" style="text-align: left;">
-					<?php echo JText::_( 'Sucess!' ); ?>
+					<?php echo JText::_( 'Success!' ); ?>
 				</th>
 			</tr>
         </thead>
