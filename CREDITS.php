@@ -24,6 +24,7 @@ Blagovest Dachev
 Andrew Eddie
 Anthony Ferrara
 David Gall
+Gergo Erdosi
 Rey Gigataras
 Wilco Jansen
 Johan Janssens
@@ -42,13 +43,15 @@ Robin Muilwijk
 Hannes Pappenberg
 Toby Patterson
 Nur Aini Rakhmawati
-Steve Reichgut
 Emir Sakic
 Rob Schley
+Amy Stephen
 Marko Schmuck
+Airton Torres
 Jui-Yu Tsai (Ray)
 Charl van Niekerk
 Laurens Vanderput
+Elin Warring
 Arno Zijlstra
 
 Documentation Contributers:
@@ -61,52 +64,56 @@ Chad McKissick
 René Serradeil
 Andy Wallace
 
-Translation contributers:
+Translation contributors:
 -------------------------
+Arabic Algeria (ar-DZ) - Saber Bousba
 Basque (eu-ES) - Basque Translation Team (Basque Language School of Santurtzi) - Abel Camacho, Pedro Lonbide
-Belarusian (be-BY) - Dennis Hermacki
-Bengali (bn-IN) - IndicJoomla! Team - Romit Chatterjee
-Bosnian (bs-BA) - Bosnian Joomla! Community (joomla.ba) - Emir Sakic
-Bulgarian (bg-BG) - Joomla! Bulgaria - Ivo Apostolov
-Catalan (ca-ES) - Joomla! Catalan Countries (joomla.cat) - Damià Verger
-Chinese-Traditional (zh-TW) - Traditional Chinese Translation Team - Eddy Chang
+Belarusian (be-BY) - Dennis Hermatski
+Bengali (bn-BD) – Kamal Sikder
+Bulgarian (bg-BG) - Joomla! Bulgaria - Ivo Apostolov, Yury Boev
+Catalan (ca-ES) - Joomla! Catalan Countries - Damià Verger
+Chinese Simplified (zh-CN) - Johnathan Cheung
+Chinese Traditional (zh-TW) - Traditional Chinese Translation Team - Eddy Chang
 Croatian (hr-HR) - Croatian Translation Team - Klaudia B.
 Czech (cs-CZ) - Czech Translation Team - Svatopluk Vit
 Danish (da-DK) - Danish Translation Team - Ronny Buelund, Mikael Jensen, Ole Bang Ottosen
 Dutch (nl-NL) - Joomla! Nederlands - Vancanneyt Sander
+English (en-US) - Joomla! Project - Jennifer Marriot
 Esperanto (eo-XX) - Esperanto Translation Team - Cindy McKee, Fabien Tschudy
-Finnish (fi-FI) - Finnish Translation Team (joomlaportal.fi) - Markku Suominen
-French (fr-FR) - French Translation Team (joomlafacile.com)
+Finnish (fi-FI) - Finnish Translation Team - Markku Suominen
+French (fr-FR) - French Translation Team - Nicolas Ogier
 German (de-DE)/(de-CH)/(de-AT) - J!German - Jan Erik Zassenhaus, Karin Nikolaj, David Jakob, Antonio Cambule\
-Greek (el-GR) - Greek Joomla Community [joomla.gr] - Aris Ntatsis
-Hebrew (he-IL) - SmartMtK.com for Joomla!Hebrew (joomla.co.il) - Mati (MtK) Kochen
+Greek (el-GR) - Greek Joomla Community - Aris Ntatsis
+Hebrew (he-IL) - Joomla!Hebrew - Mati (MtK) Kochen
 Hindi-Devanagari (hi-IN) - IndicJoomla! Team - Vishal Pahuja
-Hungarian (hu-HU) - Magyar Joomla! Felhasznalok Nemzetkozi Egyesulete (joomla.org.hu) - Jozsef Tamas Herczeg, Annamaria Ban
+Hungarian (hu-HU) - Magyar Joomla! Felhasznalok Nemzetkozi Egyesulete - Jozsef Tamas Herczeg, Annamaria Ban
+Icelandic (is-IS) - Joomlís! - Magnús Guðlaugsson
 Italian (it-IT) - Italian Translation Team - Stefania Gaianigo, Alessandro Rossi
-Japanese (ja-JP) - Japanese Translation Team - Nori Aki
-Korean (ko-KR) - Korean Translation Team - Song S. Kim
-Lao (lo-LA) - Joomla LaiLao Team (LaoOpenSource) - Akarawuth Tamrareang , Viengsakhone phanthanousy , Outhai Saioudom
+Japanese (ja-JP) - Japanese Translation Team - Noriaki Koide
+Laotian (lo-LA) - Joomla LaiLao Team (LaoOpenSource) - Akarawuth Tamrareang , Viengsakhone phanthanousy , Outhai Saioudom
 Latvian (lv-LV) - Joomla Latvian Team - Edgars Piruška, Iveta Rītiņa-Namiķe, Ingars Stepkāns
-Lithuanian (lt-LT) - Lithuanian Translation Team - Stasys
-Montenegrin (sr-ME) - Montenegrin Translation Team (joomlamontenegro.com)
-Norwegian bokmål (nb-NO) - Joomla! i Norge - Coordinators: Jens-Christian Skibakk and Rune Rasmussen
-Persian (fa-IR) - Joomfa Team(Joomla Farsi) - M.Alavi nik, Hamid abolhasani,Amin bagheri,Sayyed Saeed farzad,Sayyed ahmad sayyedi,Vahid Hosein Khani,Omid pileh var
+Lithuanian (lt-LT) - Lithuanian Translation Team - Stasys Svabas
+Macedonian (mk-MK) - ?
+Montenegrin (sr-ME) - Montenegrin Translation Team - Miljan Vujošević
+Norwegian bokmål (nb-NO) - Joomla! i Norge - Jens-Christian Skibakk, Rune Rasmussen
+Persian/Farsi (fa-IR) - Joomfa Team(Joomla Farsi) - M.Alavi nik, Hamid abolhasani,Amin bagheri,Sayyed Saeed farzad,Sayyed ahmad sayyedi,Vahid Hosein Khani,Omid pileh var
 Polish - Poland (pl-PL) - Polskie Centrum Joomla! - Michał Sobkowiak, Stefan Wajda
-Portuguese Brazilian (pt-BR) - Comunidade Joomla! Brasil (joomla.com.br) - Fabricio Elias Costa (FaBMak)
-Portuguese (pt-PT) - Comunidade JoomlaPT.com - Paulo Izidoro
-Romanian (ro-RO) - Romanian Joomla! Community (joomla.ro) - Cosmin Lebu
+Portuguese Brazilian (pt-BR) - Joomla! Brasil - Fabricio Elias Costa (FaBMak)
+Portuguese (pt-PT) - Joomla! Portugal - Paulo Izidoro
+Romanian (ro-RO) - Romanian Joomla! Community - Cosmin Lebu
 Russian (ru-RU) - Russian Translation Team - Serge Litvinov
-Serbian (sr-RS) - Joomla! Serbia team (joomlaserbia.com) - Marko Milenovic
-Sindhi (sd-PK) - Raheel H. Kaghzi
+Serbian (sr-RS) - Joomla! Serbia team - Marko Milenovic
+Sindhi (sd-PK) - Raheel H. Kaghzi, Shafiq-ur-rehman Khatri
+Sinhala (si-LK) - Rashan Anushka
 Slovak (sk-SK) - Slovak Translation Team - Karol Cejka, Viliam Kmec, Alexander Horvath, Marek Sabo
-Spanish (es-ES) TodosJuntos.org - Joomla!'s Spanish Community Translation Team
+Spanish (es-ES) - Joomla!'s Spanish Community Translation Team - Javier Galasse
 Swedish (sv-SE) - Swedish Translation Team (SvenskJoomla!) - Sune Hultman, Christer Gerhardsson
 Syriac (sy-IQ) - Pauls! Dinka
-Tamil (ta-LK) - UoM, LK
-Thai (th-TH) - Joomla LaiThai Team (JoomlaCorner) - Akarawuth Tamrareang , Supachai Teasakul
-Turkish (tr-TR) - Joomla! Turkiye (joomlaturkiye.org) - Oguz Kaan Cagatay Kilinc
+Tamil (ta-LK) - Sri Lanka -UoM, LK, sarves
+Thai (th-TH) - Joomla LaiThai Team (JoomlaCorner) - Akarawuth Tamrareang , Supachai Teasakul, Pisan Chueachatchai
+Turkish (tr-TR) - Joomla! Turkiye - Ümit Kenan Gönüllü, Uğur Uygur
 Ukrainian (uk-UA) - Ukrainian Translation Team - Denys Nosov
-Vietnamese (vi-VN) - Việt Nam Translation Team - Viet Vu Hoang
+Vietnamese (vi-VN) - Việt Nam Translation Team - Viet Hoang Vu
 
 Pizaa Bug and fun Event
 -----------------------

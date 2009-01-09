@@ -37,6 +37,15 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+-------------------- 1.5.9 Stable Release [9-January-2008] ------------------
+
+09-Jan-2009 Wilco Jansen
+ ^ Updated the CREDITS.php file with new list of translators, and some contributers
+ ^ Changed  /installation/template/tmpl/finish.html updated link to community site
+ ^ Updated language packs to 1.5.9 (thanks JM for the huge job of coordinating this)
+ ^ Activated installation check
+ ! Thanks to all who provided the patches and worked hard on testing and documenting this release
+
 06-Jan-2009 Ian MacLennan
  # [#14414] string is unnecessary
  # [#14433] Fix for openid transition issues
