@@ -39,6 +39,9 @@ $ -> Language fix or change
 
 -------------------- 1.5.9 Stable Release [9-January-2008] ------------------
 
+09-Jan-2009 Ian MacLennan
+ # [#14495] Issue 14398 fix doesn't work with SEF off
+
 09-Jan-2009 Wilco Jansen
  ^ Updated the CREDITS.php file with new list of translators, and some contributers
  ^ Changed  /installation/template/tmpl/finish.html updated link to community site
