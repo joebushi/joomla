@@ -82,7 +82,13 @@ class JAdministrator extends JApplication
 	*/
 	function route()
 	{
+		$uri = JURI::getInstance();
 
+		if($this->getCfg('force_ssl') >= 1 && strtolower($uri->getScheme()) != 'https') {
+			//forward to https
+			$uri->setScheme('https');
+			$this->redirect($uri->toString());
+		}
 	}
 
 	/**

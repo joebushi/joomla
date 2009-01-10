@@ -47,6 +47,7 @@ $ -> Language fix or change
  ^ Changed  /installation/template/tmpl/finish.html updated link to community site
  ^ Updated language packs to 1.5.9 (thanks JM for the huge job of coordinating this)
  ^ Activated installation check
+ ^ Implemented security fixes
  ! Thanks to all who provided the patches and worked hard on testing and documenting this release
 
 06-Jan-2009 Ian MacLennan
