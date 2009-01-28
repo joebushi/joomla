@@ -37,7 +37,7 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
--------------------- 1.5.9 Stable Release [9-January-2008] ------------------
+-------------------- 1.5.9 Stable Release [9-January-2009] ------------------
 
 09-Jan-2009 Ian MacLennan
  # [#14495] Issue 14398 fix doesn't work with SEF off
