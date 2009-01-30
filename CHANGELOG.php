@@ -45,6 +45,7 @@ $ -> Language fix or change
  # [#14571] Wrong date in "last updated" in section blog when using beez
  # [#14468] user name word translation not correct in register form.
  # [#14439] Wrong authorEmail in Rhuk Milkyway
+ # [#13973] SEF Background Image Fix Breaks Some Javascript ***
 
 -------------------- 1.5.9 Stable Release [9-January-2009] ------------------
 

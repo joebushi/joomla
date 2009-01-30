@@ -68,8 +68,8 @@ class plgSystemSef extends JPlugin
 		$buffer 	= preg_replace($regex, '$1="this.src=$2'. $base .'$3$4"', $buffer);
 		
 		// Background image
-		$regex 		= '#url\([\'\"]?(?!/|'.$protocols.'|\#)([^\)\'\"]+)[\'\"]?\)#m';
-		$buffer 	= preg_replace($regex, 'url(\''. $base .'$1$2\')', $buffer);
+		$regex 		= '#style\s*=\s*[\'\"](.*):\s*url\s*\([\'\"]?(?!/|'.$protocols.'|\#)([^\)\'\"]+)[\'\"]?\)#m';
+		$buffer 	= preg_replace($regex, 'style="$1: url(\''. $base .'$2$3\')', $buffer);
 		
 		// OBJECT <param name="xx", value="yy">
 		$regex 		= '#<param name="(movie|src|url)" value="(?!/|'.$protocols.'|\#|\')([^"]*)"#m';
