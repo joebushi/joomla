@@ -43,6 +43,7 @@ $ -> Language fix or change
  # [#14491] JString::rtrim method incorrect
  # [#14496] Pagebreak outputs incompatible <BR/> elements (XHTML)
  # [#14571] Wrong date in "last updated" in section blog when using beez
+ # [#14468] user name word translation not correct in register form.
 
 -------------------- 1.5.9 Stable Release [9-January-2009] ------------------
 
