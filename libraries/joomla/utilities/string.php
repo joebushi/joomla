@@ -359,7 +359,7 @@ class JString
 	{
 		jimport('phputf8.trim');
 		if ( $charlist === FALSE ) {
-			return utf8_rltrim( $str );
+			return utf8_rtrim($str);
 		} else {
 			return utf8_rtrim( $str, $charlist );
 		}
