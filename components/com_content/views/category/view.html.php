@@ -57,6 +57,9 @@ class ContentViewCategory extends ContentView
 		$params->def('show_pagination_results',	1);
 		$params->def('show_pagination_limit',	1);
 		$params->def('filter',					1);
+		if (($params->def('filter_type', 'title') != 'hits') && ($params->def('filter_type', 'title') != 'author')) {
+			$params->set('filter_type', 'title');
+		}
 
 		$intro		= $params->get('num_intro_articles');
 		$leading	= $params->get('num_leading_articles');

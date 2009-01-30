@@ -37,6 +37,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+
+29-Jan-2009 Kevin Devine
+ # [#14510] Section List drill down to Category List: Filter doesn't work if global content filters set
+
 -------------------- 1.5.9 Stable Release [9-January-2009] ------------------
 
 09-Jan-2009 Ian MacLennan

@@ -491,16 +491,17 @@ class ContentModelCategory extends JModel
 
 				switch ($params->get('filter_type'))
 				{
-					case 'title' :
-						$where .= ' AND LOWER( a.title ) LIKE '.$filter;
-						break;
-
 					case 'author' :
 						$where .= ' AND ( ( LOWER( u.name ) LIKE '.$filter.' ) OR ( LOWER( a.created_by_alias ) LIKE '.$filter.' ) )';
 						break;
 
 					case 'hits' :
 						$where .= ' AND a.hits >= '.$hitsFilter. ' ';
+						break;
+
+					case 'title' :
+					default : // default to 'title' if parameter is not valid
+						$where .= ' AND LOWER( a.title ) LIKE '.$filter;
 						break;
 				}
 			}
