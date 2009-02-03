@@ -12,6 +12,6 @@ defined('_JEXEC') or die('Invalid Request.');
 require_once(JPATH_COMPONENT.DS.'controller.php');
 
 // Execute the task.
-$controller	= &JController::getInstance('Members');
+$controller	= &JController::getInstance('Menus');
 $controller->execute(JRequest::getVar('task'));
 $controller->redirect();
