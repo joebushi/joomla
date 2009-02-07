@@ -218,6 +218,10 @@ class JMenuTree extends JTree
 		$this->_nodeHash[$nid] =& $node;
 		$this->_current =& $this->_nodeHash[$item->parent];
 
+		if ($item->type == 'menulink' && !empty($item->query['Itemid'])) {
+			$node->mid = $item->query['Itemid'];
+		}
+
 		if ($this->_current) {
 			$this->addChild($node, true);
 		} else {
@@ -251,7 +255,8 @@ class JMenuTree extends JTree
 		$depth++;
 
 		// Start the item
-		$this->_buffer .= '<li access="'.$this->_current->access.'" level="'.$depth.'" id="'.$this->_current->id.'">';
+		$rel = (!empty($this->_current->mid)) ? ' rel="'.$this->_current->mid.'"' : '';
+		$this->_buffer .= '<li access="'.$this->_current->access.'" level="'.$depth.'" id="'.$this->_current->id.'"'.$rel.'>';
 
 		// Append item data
 		$this->_buffer .= $this->_current->link;
@@ -281,7 +286,7 @@ class JMenuTree extends JTree
 		{
 			$menu = &JSite::getMenu();
 			if ($newItem = $menu->getItem($item->query['Itemid'])) {
-    $tmp = clone($newItem);
+    			$tmp = clone($newItem);
 				$tmp->name	 = '<span><![CDATA['.$item->name.']]></span>';
 				$tmp->mid	 = $item->id;
 				$tmp->parent = $item->parent;

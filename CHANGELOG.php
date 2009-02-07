@@ -40,6 +40,7 @@ $ -> Language fix or change
 07-Feb-2009 Kevin Devine
  # [#14865] Directory Persmissions doesn't list correct tmp or log directories
  # [#14896] Changes of menu items aren't applied immediately if caching is enabled
+ # [#14767] Menu alias not respecting "active" setting
 
 29-Jan-2009 Kevin Devine
  # [#14510] Section List drill down to Category List: Filter doesn't work if global content filters set
