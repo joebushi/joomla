@@ -43,7 +43,6 @@ class  plgSystemCache extends JPlugin
 	{
 		parent::__construct($subject, $config);
 
-		$user =& JFactory::getUser();
 		//Set the language in the class
 		$config =& JFactory::getConfig();
 		$options = array(
@@ -57,10 +56,6 @@ class  plgSystemCache extends JPlugin
 
 		jimport('joomla.cache.cache');
 		$this->_cache =& JCache::getInstance( 'page', $options );
-
-		if (!$user->get('aid') && $_SERVER['REQUEST_METHOD'] == 'GET') {
-			$this->_cache->setCaching(true);
-		}
 	}
 
 	/**
@@ -70,11 +65,15 @@ class  plgSystemCache extends JPlugin
 	function onAfterInitialise()
 	{
 		global $mainframe, $_PROFILER;
+		$user = &JFactory::getUser();
 
-		 if($mainframe->isAdmin() || JDEBUG) {
-		 	return;
-		 }
+		if($mainframe->isAdmin() || JDEBUG) {
+			return;
+		}
 
+		if (!$user->get('aid') && $_SERVER['REQUEST_METHOD'] == 'GET') {
+			$this->_cache->setCaching(true);
+		}
 
 		$data  = $this->_cache->get();
 
@@ -82,7 +81,6 @@ class  plgSystemCache extends JPlugin
 		{
 			// the following code searches for a token in the cached page and replaces it with the
 			// proper token.
-			$user	= &JFactory::getUser();
 			$token	= JUtility::getToken();
 			$search = '#<input type="hidden" name="[0-9a-f]{32}" value="1" />#';
 			$replacement = '<input type="hidden" name="'.$token.'" value="1" />';
@@ -110,6 +108,10 @@ class  plgSystemCache extends JPlugin
 			return;
 		}
 
-		$this->_cache->store();
+		$user =& JFactory::getUser();
+		if(!$user->get('aid')) {
+			//We need to check again here, because auto-login plugins have not been fired before the first aid check
+			$this->_cache->store();
+		}
 	}
 }
