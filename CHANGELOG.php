@@ -42,6 +42,7 @@ $ -> Language fix or change
  # [#14896] Changes of menu items aren't applied immediately if caching is enabled
  # [#14767] Menu alias not respecting "active" setting
  # [#14857] Cache Plugin Can Cache Incorrect Data]
+ # [#14948] Little tag error in mod_feed
 
 29-Jan-2009 Kevin Devine
  # [#14510] Section List drill down to Category List: Filter doesn't work if global content filters set
