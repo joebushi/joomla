@@ -7,6 +7,7 @@ defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.filesystem.folder');
 $cparams = JComponentHelper::getParams ('com_media');
+$config =& JFactory::getConfig();
 ?>
 <fieldset class="adminform">
 	<legend><?php echo JText::_( 'Directory Permissions' ); ?></legend>
@@ -66,10 +67,13 @@ $cparams = JComponentHelper::getParams ('com_media');
 			writableCell( 'plugins/system' );
 			writableCell( 'plugins/user' );
 			writableCell( 'plugins/xmlrpc' );
-			writableCell( 'tmp' );
 			writableCell( 'templates' );
 			writableCell( JPATH_SITE.DS.'cache', 0, '<strong>'. JText::_( 'Cache Directory' ) .'</strong> ' );
 			writableCell( JPATH_ADMINISTRATOR.DS.'cache', 0, '<strong>'. JText::_( 'Cache Directory' ) .'</strong> ' );
+			writableCell( $config->getValue('config.log_path', JPATH_ROOT.DS.'log'),0, '<strong>'. JText::_( 'Log Directory' ) .
+							' ($log_path)</strong> ');
+			writableCell( $config->getValue('config.tmp_path', JPATH_ROOT.DS.'tmp'),0, '<strong>'. JText::_( 'Temp Directory' ) .
+							' ($tmp_path)</strong> ');
 			?>
 		</tbody>
 		</table>

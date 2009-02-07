@@ -37,6 +37,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Feb-2009 Kevin Devine
+ # [#14865] Directory Persmissions doesn't list correct tmp or log directories
 
 29-Jan-2009 Kevin Devine
  # [#14510] Section List drill down to Category List: Filter doesn't work if global content filters set
