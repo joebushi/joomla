@@ -384,7 +384,6 @@ class JTable extends JObject
 				JError::raiseError( 500, $err );
 			}
 		}
-		return true;
 	}
 
 	/**

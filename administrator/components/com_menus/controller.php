@@ -78,6 +78,9 @@ class MenusController extends JController
 		// Check for request forgeries
 		JRequest::checkToken() or jexit( 'Invalid Token' );
 
+		$cache = & JFactory::getCache('com_content');
+		$cache->clean();
+
 		$model	=& $this->getModel( 'Item' );
 		$post	= JRequest::get('post');
 		// allow name only to contain html

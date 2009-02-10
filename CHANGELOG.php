@@ -39,7 +39,6 @@ $ -> Language fix or change
 
 07-Feb-2009 Kevin Devine
  # [#14865] Directory Persmissions doesn't list correct tmp or log directories
- # [#14896] Changes of menu items aren't applied immediately if caching is enabled
  # [#14767] Menu alias not respecting "active" setting
  # [#14857] Cache Plugin Can Cache Incorrect Data]
  # [#14948] Little tag error in mod_feed

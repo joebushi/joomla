@@ -150,22 +150,4 @@ class MenusHelper
 		$published = JHTML::_('select.radiolist',  $put, 'published', '', 'value', 'text', $row->published );
 		return $published;
 	}
-	
-	/**
-	* clean system cache
-	*/ 
-	function cleanCache()
-	{
-		global $mainframe;
-		
-		if ($mainframe->getCfg('caching')) {
-			// clean system cache
-			$cache =& JFactory::getCache('_system');
-			$cache->clean();
-			
-			// clean mod_mainmenu cache
-			$cache2 =& JFactory::getCache('mod_mainmenu');
-			$cache2->clean();
-		}
-	}
 }
