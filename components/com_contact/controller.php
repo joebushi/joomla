@@ -214,7 +214,7 @@ class ContactController extends JController
 		JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_contact'.DS.'tables');
 		$contact =& JTable::getInstance('contact', 'Table');
 		$contact->load($contactId);
-		$user =& JFactory::getUser();		
+		$user =& JFactory::getUser();
 
 		// Get the contact detail parameters
 		$params = new JParameter($contact->params);
@@ -328,7 +328,7 @@ class ContactController extends JController
 
 		// Prevent form submission if one of the banned text is discovered in the email field
 		if(false === $this->_checkText($email, $bannedEmail )) {
-			$this->setError( JText::sprintf('MESGHASBANNEDTEXT', 'Email') );
+			$this->setError( JText::sprintf('MESGHASBANNEDTEXT', JText::_('Email')) );
 			return false;
 		}
 
@@ -339,7 +339,7 @@ class ContactController extends JController
 
 		// Prevent form submission if one of the banned text is discovered in the subject field
 		if(false === $this->_checkText($subject, $bannedSubject)) {
-			$this->setError( JText::sprintf('MESGHASBANNEDTEXT', 'Subject') );
+			$this->setError( JText::sprintf('MESGHASBANNEDTEXT',JText::_('Subject')) );
 			return false;
 		}
 
@@ -350,7 +350,7 @@ class ContactController extends JController
 
 		// Prevent form submission if one of the banned text is discovered in the text field
 		if(false === $this->_checkText( $body, $bannedText )) {
-			$this->setError( JText::sprintf('MESGHASBANNEDTEXT', 'Message') );
+			$this->setError( JText::sprintf('MESGHASBANNEDTEXT', JText::_('Message')) );
 			return false;
 		}
 
