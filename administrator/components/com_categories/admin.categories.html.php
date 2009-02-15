@@ -305,7 +305,7 @@ class categories_html
 							</label>
 						</td>
 						<td colspan="2">
-							<input class="text_area" type="text" name="alias" id="alias" value="<?php echo $row->alias; ?>" size="50" maxlength="255" title="<?php echo JText::_( 'A short name to appear in menus' ); ?>" />
+							<input class="text_area" type="text" name="alias" id="alias" value="<?php echo $row->alias; ?>" size="50" maxlength="255" title="<?php echo JText::_( 'ALIASTIP' ); ?>" />
 						</td>
 					</tr>
 					<tr>

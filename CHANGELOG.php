@@ -37,6 +37,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-Feb-2009 Kevin Devine
+ # [#15007] Bad Tooltip Help on Section, Category, and Article Alias
+
 07-Feb-2009 Kevin Devine
  # [#14865] Directory Persmissions doesn't list correct tmp or log directories
  # [#14767] Menu alias not respecting "active" setting
