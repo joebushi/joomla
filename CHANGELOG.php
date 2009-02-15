@@ -39,6 +39,7 @@ $ -> Language fix or change
 
 15-Feb-2009 Kevin Devine
  # [#15007] Bad Tooltip Help on Section, Category, and Article Alias
+ # [#14710] User Details not translated
 
 07-Feb-2009 Kevin Devine
  # [#14865] Directory Persmissions doesn't list correct tmp or log directories

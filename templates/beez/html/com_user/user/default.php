@@ -11,5 +11,5 @@ defined('_JEXEC') or die('Restricted access');
 </h1>
 
 <div class="contentdescription">
-	<?php echo JText::_('WELCOME_DESC'); ?>
+	<?php echo $this->params->get('welcome_desc', JText::_( 'WELCOME_DESC' ));; ?>
 </div>
