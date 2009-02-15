@@ -94,13 +94,13 @@ class MenusViewList extends JView
 		/*
 		 * Set toolbar items for the page
 		 */
-		JToolBarHelper::title( JText::_( 'Copy Menu Items' ) );
+		JToolBarHelper::title( JText::_( 'Menu Items' ) . ': <small><small>[ '. JText::_( 'Copy' ) .' ]</small></small>' );
 		JToolBarHelper::custom( 'doCopy', 'copy.png', 'copy_f2.png', 'Copy', false );
 		JToolBarHelper::cancel('cancelItem');
 		JToolBarHelper::help( 'screen.menus' );
 
 		$document = & JFactory::getDocument();
-		$document->setTitle('Copy Menu Items');
+		$document->setTitle(JText::_('Copy Menu Items'));
 
 		$menutype 	= $mainframe->getUserStateFromRequest( 'com_menus.menutype', 'menutype', 'mainmenu', 'string' );
 
@@ -136,7 +136,7 @@ class MenusViewList extends JView
 		JToolBarHelper::help( 'screen.menus' );
 
 		$document = & JFactory::getDocument();
-		$document->setTitle('Copy Menu Items');
+		$document->setTitle(JText::_('Move Menu Items'));
 
 		$menutype 	= $mainframe->getUserStateFromRequest( 'com_menus.menutype', 'menutype', 'mainmenu', 'string' );
 

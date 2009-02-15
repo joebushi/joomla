@@ -74,7 +74,7 @@ class MenusViewMenus extends JView
 		JToolBarHelper::help( 'screen.menumanager' );
 
 		$document = & JFactory::getDocument();
-		$document->setTitle('Copy Menu Items');
+		$document->setTitle(JText::_('Copy Menu Items'));
 
 		$this->assignRef('items', $items);
 		$this->assignRef('table', $table);
@@ -102,7 +102,7 @@ class MenusViewMenus extends JView
 		$menuItems	= $this->get('MenuItems');
 
 		$document = & JFactory::getDocument();
-		$document->setTitle('Confirm Delete Menu Type: ' . $table->menutype );
+		$document->setTitle(JText::_('Confirm Delete Menu Type') . ': ' . $table->menutype );
 
 
 		$this->assignRef('table', $table);

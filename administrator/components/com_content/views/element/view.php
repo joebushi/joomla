@@ -35,7 +35,7 @@ class ContentViewElement extends JView
 		$nullDate	= $db->getNullDate();
 
 		$document	= & JFactory::getDocument();
-		$document->setTitle('Article Selection');
+		$document->setTitle(JText::_('Article Selection'));
 
 		JHTML::_('behavior.modal');
 
