@@ -42,6 +42,7 @@ $ -> Language fix or change
  # [#14710] User Details not translated
  # [#14720] •Untranslated strings in com_contact with patch
  # [#14944] Copy Menu Items
+ # [#11798] Missing l10n in JApplicationHelper::parseXMLInstallFile()
 
 07-Feb-2009 Kevin Devine
  # [#14865] Directory Persmissions doesn't list correct tmp or log directories

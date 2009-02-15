@@ -233,10 +233,10 @@ class JApplicationHelper
 		$data['type'] = $element ? $xml->document->attributes("type") : '';
 
 		$element = & $xml->document->creationDate[0];
-		$data['creationdate'] = $element ? $element->data() : 'Unknown';
+		$data['creationdate'] = $element ? $element->data() : JText::_('Unknown');
 
 		$element = & $xml->document->author[0];
-		$data['author'] = $element ? $element->data() : 'Unknown';
+		$data['author'] = $element ? $element->data() : JText::_('Unknown');
 
 		$element = & $xml->document->copyright[0];
 		$data['copyright'] = $element ? $element->data() : '';
@@ -286,11 +286,11 @@ class JApplicationHelper
 		$data['type'] = $element ? $xml->document->attributes("type") : '';
 
 		$element = & $xml->document->creationDate[0];
-		$data['creationdate'] = $element ? $element->data() : 'Unknown';
+		$data['creationdate'] = $element ? $element->data() : JText::_('Unknown');
 
 		$element = & $xml->document->author[0];
 
-		$data['author'] = $element ? $element->data() : 'Unknown';
+		$data['author'] = $element ? $element->data() : JText::_('Unknown');
 
 		$element = & $xml->document->copyright[0];
 		$data['copyright'] = $element ? $element->data() : '';
