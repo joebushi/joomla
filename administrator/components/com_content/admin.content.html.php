@@ -41,7 +41,7 @@ class ContentView
 		$now	=& JFactory::getDate();
 
 		//Ordering allowed ?
-		$ordering = ($lists['order'] == 'section_name' || $lists['order'] == 'cc.name');
+		$ordering = ($lists['order'] == 'section_name' || $lists['order'] == 'cc.title' || $lists['order'] == 'c.ordering');
 		JHTML::_('behavior.tooltip');
 		?>
 		<form action="index.php?option=com_content" method="post" name="adminForm">
@@ -84,7 +84,7 @@ class ContentView
 						<?php echo JHTML::_('grid.sort',   'Front Page', 'frontpage', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="8%">
-						<?php echo JHTML::_('grid.sort',   'Order', 'section_name', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php echo JHTML::_('grid.sort',   'Order', 'c.ordering', @$lists['order_Dir'], @$lists['order'] ); ?>
 						<?php echo JHTML::_('grid.order',  $rows ); ?>
 					</th>
 					<th width="7%">
@@ -94,7 +94,7 @@ class ContentView
 						<?php echo JHTML::_('grid.sort',   'Section', 'section_name', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th  class="title" width="8%" nowrap="nowrap">
-						<?php echo JHTML::_('grid.sort',   'Category', 'cc.name', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php echo JHTML::_('grid.sort',   'Category', 'cc.title', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th  class="title" width="8%" nowrap="nowrap">
 						<?php echo JHTML::_('grid.sort',   'Author', 'author', @$lists['order_Dir'], @$lists['order'] ); ?>

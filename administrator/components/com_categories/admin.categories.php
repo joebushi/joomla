@@ -188,7 +188,7 @@ function showCategories( $section, $option )
 		$content_join 	= ' LEFT JOIN #__sections AS z ON z.id = c.section';
 		$where 			= ' WHERE c.section NOT LIKE "%com_%"';
 		if ($filter_order == 'c.ordering'){
-			$order 			= ' ORDER BY  z.title, c.ordering';
+			$order 			= ' ORDER BY  z.title, c.ordering '. $filter_order_Dir;
 		} else {
 			$order 			= ' ORDER BY  '.$filter_order.' '. $filter_order_Dir.', z.title, c.ordering';
 		}

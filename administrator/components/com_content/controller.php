@@ -75,7 +75,11 @@ class ContentController extends JController
 		if (!$filter_order) {
 			$filter_order = 'section_name';
 		}
-		$order = ' ORDER BY '. $filter_order .' '. $filter_order_Dir .', section_name, cc.title, c.ordering';
+		if ($filter_order == 'c.ordering') {
+			$order = ' ORDER BY section_name, cc.title, c.ordering '. $filter_order_Dir;
+		} else {
+			$order = ' ORDER BY '. $filter_order .' '. $filter_order_Dir .', section_name, cc.title, c.ordering';
+		}
 		$all = 1;
 
 		if ($filter_sectionid >= 0) {

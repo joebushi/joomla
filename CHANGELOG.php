@@ -37,6 +37,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-Feb-2009 Wilco Jansen
+ # [#14004] Can't sort categories by "order" column in reverse order
+
 15-Feb-2009 Kevin Devine
  # [#15007] Bad Tooltip Help on Section, Category, and Article Alias
  # [#14710] User Details not translated
