@@ -340,16 +340,13 @@ class CategoriesModelCategory extends JModel
 			$category->name				= null;
 			$category->alias			= null;
 			$category->title			= null;
-			$category->image			= null;
-			$category->image_position	= null;
-			$category->section			= null;
+			$category->extension		= null;
 			$category->description		= null;
 			$category->count			= 0;
 			$category->params			= null;
 			$category->published		= 0;
 			$category->checked_out		= 0;
 			$category->checked_out_time	= 0;
-			$category->ordering			= 0;
 			$category->archived			= 0;
 			$category->approved			= 0;
 			$category->categories		= 0;

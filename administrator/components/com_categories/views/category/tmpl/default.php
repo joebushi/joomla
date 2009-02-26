@@ -1,8 +1,6 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 
 <?php JHtml::_('behavior.tooltip'); ?>
-<?php JRequest::setVar( 'hidemainmenu', 1 ); ?>
-
 
 <?php
 	JRequest::setVar( 'hidemainmenu', 1 );
@@ -23,10 +21,6 @@
 	JToolBarHelper::help( 'screen.categories.edit' );
 
 	$editor =& JFactory::getEditor();
-
-	if ($this->row->image == '') {
-		$this->row->image = 'blank.png';
-	}
 
 	if ( $this->redirect == 'content' ) {
 		$component = 'Content';
@@ -113,7 +107,7 @@ function submitbutton(pressbutton, section) {
 					</label>
 				</td>
 				<td colspan="2">
-					<?php echo $this->lists['section']; ?>
+					<?php /*echo $this->lists['section'];*/ ?>
 				</td>
 			</tr>
 			<tr>
@@ -134,26 +128,6 @@ function submitbutton(pressbutton, section) {
 				</td>
 				<td>
 					<?php echo $this->lists['access']; ?>
-				</td>
-			</tr>
-			<tr>
-				<td class="key">
-					<label for="image">
-						<?php echo JText::_( 'Image' ); ?>:
-					</label>
-				</td>
-				<td>
-					<?php echo $this->lists['image']; ?>
-				</td>
-			</tr>
-			<tr>
-				<td class="key">
-					<label for="image_position">
-						<?php echo JText::_( 'Image Position' ); ?>:
-					</label>
-				</td>
-				<td>
-					<?php echo $this->lists['image_position']; ?>
 				</td>
 			</tr>
 			<tr>
@@ -188,12 +162,25 @@ function submitbutton(pressbutton, section) {
 			</table>
 	</fieldset>
 </div>
+<div class="col width-40">
+	<fieldset class="adminform">
+		<legend><?php echo JText::_( 'Parameters' ); ?></legend>
+
+		<table class="admintable">
+			<tr>
+				<td valign="top" colspan="3">
+					Hello
+				</td>
+			</tr>
+			</table>
+	</fieldset>
+</div>
 <div class="clr"></div>
 
 <input type="hidden" name="option" value="com_categories" />
 <input type="hidden" name="oldtitle" value="<?php echo $this->row->title ; ?>" />
 <input type="hidden" name="id" value="<?php echo $this->row->id; ?>" />
-<input type="hidden" name="sectionid" value="<?php echo $this->row->section; ?>" />
+<input type="hidden" name="extension" value="<?php echo $this->row->extension; ?>" />
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="redirect" value="<?php echo $this->redirect; ?>" />
 <?php echo JHtml::_( 'form.token' ); ?>

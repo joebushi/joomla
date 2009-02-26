@@ -140,6 +140,8 @@ class ContentViewCategory extends ContentView
 		} else {
 			$pagination = new JPagination($total, $limitstart, $limit);
 		}
+		
+		$children = $this->get('Children');
 
 		$this->assign('total',		$total);
 		$this->assign('action', 	$uri->toString());
@@ -147,6 +149,7 @@ class ContentViewCategory extends ContentView
 		$this->assignRef('items',		$items);
 		$this->assignRef('params',		$params);
 		$this->assignRef('category',	$category);
+		$this->assignRef('children', 	$children);
 		$this->assignRef('user',		$user);
 		$this->assignRef('access',		$access);
 		$this->assignRef('pagination',	$pagination);
@@ -181,7 +184,7 @@ class ContentViewCategory extends ContentView
 			// checks if the item is a public or registered/special item
 			if (in_array($item->access, $user->authorisedLevels()))
 			{
-				$item->link	= JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug, $item->sectionid));
+				$item->link	= JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug));
 				$item->readmore_register = false;
 			}
 			else
@@ -219,7 +222,6 @@ class ContentViewCategory extends ContentView
 
 		$category		= & $this->get( 'Category' );
 		$item->category	= $category->title;
-		$item->section	= $category->sectiontitle;
 
 		// Get the page/component configuration and article parameters
 		$item->params = clone($params);
@@ -239,7 +241,7 @@ class ContentViewCategory extends ContentView
 			if (in_array($item->access, $user->authorisedLevels()))
 			{
 				//$item->readmore_link = JRoute::_('index.php?view=article&catid='.$this->category->slug.'&id='.$item->slug);
-				$item->readmore_link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug, $item->sectionid));
+				$item->readmore_link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug));
 				$item->readmore_register = false;
 			}
 			else
