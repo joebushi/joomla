@@ -93,7 +93,8 @@ class JHTMLBehavior
 
 		// Setup options object
 		$opt['maxTitleChars']	= (isset($params['maxTitleChars']) && ($params['maxTitleChars'])) ? (int)$params['maxTitleChars'] : 50 ;
-		$opt['offsets']			= (isset($params['offsets'])) ? (int)$params['offsets'] : null;
+		// offsets needs an array in the format: array('x'=>20, 'y'=>30)
+		$opt['offsets']			= (isset($params['offsets']) && (is_array($params['offsets']))) ? $params['offsets'] : null;
 		$opt['showDelay']		= (isset($params['showDelay'])) ? (int)$params['showDelay'] : null;
 		$opt['hideDelay']		= (isset($params['hideDelay'])) ? (int)$params['hideDelay'] : null;
 		$opt['className']		= (isset($params['className'])) ? $params['className'] : null;

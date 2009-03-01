@@ -49,6 +49,11 @@ class ContentHelper
 		$gid	= $user->get( 'gid' );
 
 		$filterGroups	=  $config->get( 'filter_groups' );
+		
+		// convert to array if one group selected
+		if ( (!is_array($filterGroups) && (int) $filterGroups > 0) ) { 
+			$filterGroups = array($filterGroups);
+		}
 
 		if (is_array($filterGroups) && in_array( $gid, $filterGroups ))
 		{

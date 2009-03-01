@@ -775,7 +775,7 @@ class JInstaller extends JObject
 
 		/*
 		 * Here we set the folder we are going to copy the files to.
-		 * 	Default 'media' Files are copied to the JPATH_BASE/images folder
+		 * 	Default 'media' Files are copied to the JPATH_BASE/media folder
 		 */
 		$folder = ($element->attributes('destination')) ? DS.$element->attributes('destination') : null;
 		$destination = JPath::clean(JPATH_ROOT.DS.'media'.$folder);

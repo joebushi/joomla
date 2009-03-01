@@ -66,7 +66,7 @@ function plgContentProcessPositions ( &$row, &$matches, $count, $regex, $style )
  		$load = trim( $load );
 
 		$modules	= plgContentLoadPosition( $load, $style );
-		$row->text 	= preg_replace( '{'. $matches[0][$i] .'}', $modules, $row->text );
+		$row->text 	= str_replace($matches[0][$i], $modules, $row->text );
  	}
 
   	// removes tags without matching module positions

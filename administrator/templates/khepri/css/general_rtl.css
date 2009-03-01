@@ -117,6 +117,7 @@ body{
 #border-top .title{
 	padding-right: 180px;
 	padding-left: 0px;
+	float: right;
 }
 
 #module-status {

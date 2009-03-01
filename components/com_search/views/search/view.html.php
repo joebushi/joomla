@@ -126,7 +126,7 @@ class SearchViewSearch extends JView
 				}
 				else
 				{
-					$searchwords = preg_split("/\s+/", $searchword);
+					$searchwords = preg_split("/\s+/u", $searchword);
 					$needle = $searchwords[0];
 				}
 

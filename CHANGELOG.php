@@ -37,6 +37,24 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+1-Mar-2009 Ian MacLennan
+ # [#12137] Cache Saving module doesn't clear the module's cache data
+ # [#13111] Inconsistent encoding behaviour - "&amp;" stays as "&amp;" in articles but is converted to "&" in modules 
+ # [#13999] When installing a new module, its title is not translated
+ # [#14059] Case sensitive image extensions
+ # [#14286] Template JA Purity: Link all the text in an article if category is shown
+ # [#14565] Omitted UTF-8 modifier in preg_replace function (com_search)
+ # [#14758] Article HTML filtering doesn't work if only one Filter group is selected
+ # [#14795] JInstallerComponent::_rollback_menu() - Error when getting DB Connector
+ # [#14859] untranslated message installing language files for component
+ # [#14896] Changes of menu items aren't applied immediately if caching is enabled
+ # [#14945] Site Title over Joomla's Logo RTL issue
+ # [#15006] Setting Tooltip Offset Breaks Tooltip
+ # [#15047] installer.php parseMedia pointing to wrong dir.
+ # [#15124] Filter Function on Archived Article Doesn't Work
+ # [#15217] custom <installfile> isn't upgraded on component installation
+ # [#15237] Loadposition Deletes Dollar signs
+
 19-Feb-2009 Wilco Jansen
  # [#14004] Can't sort categories by "order" column in reverse order
 

@@ -194,6 +194,7 @@ class ContentModelArchive extends JModel
 			switch ($params->get('filter_type', 'title'))
 			{
 				case 'title' :
+				     default :
 					$where .= ' AND LOWER( a.title ) LIKE '.$filter;
 					break;
 

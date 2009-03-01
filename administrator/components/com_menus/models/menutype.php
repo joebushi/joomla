@@ -271,6 +271,10 @@ class MenusModelMenutype extends JModel
 			$this->setError( $menuTable->getErrorMsg() );
 			return false;
 		}
+		
+		// clean cache
+		MenusHelper::cleanCache();
+				
 		return true;
 	}
 }

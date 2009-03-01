@@ -254,9 +254,6 @@ class ModulesController extends JController
 
 		global $mainframe;
 
-		$cache = & JFactory::getCache();
-		$cache->clean( 'com_content' );
-
 		// Initialize some variables
 		$db		=& JFactory::getDBO();
 		$client	=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
@@ -331,6 +328,14 @@ class ModulesController extends JController
 			}
 		}
 
+		// clean cache for all 3 front-end user groups (guest, reg, special)
+		$cache =& JFactory::getCache();
+		$cache->remove($row->id . '0', $row->module);
+		$cache->remove($row->id . '1', $row->module);
+		$cache->remove($row->id . '2', $row->module);
+		// clean content cache because of loadposition plugin
+		$cache->clean( 'com_content' );
+		
 		$this->setMessage( JText::_( 'Item saved' ) );
 		switch ($this->getTask())
 		{
@@ -371,7 +376,7 @@ class ModulesController extends JController
 			return JError::raiseWarning( 500, JText::sprintf( 'DESCBEINGEDITTED', JText::_( 'The module' ), $row->title ) );
 		}
 
-		$row->content = htmlspecialchars( str_replace( '&amp;', '&', $row->content ), ENT_COMPAT, 'UTF-8' );
+		$row->content = htmlspecialchars($row->content, ENT_COMPAT, 'UTF-8');
 
 		if ( $cid[0] ) {
 			$row->checkout( $user->get('id') );

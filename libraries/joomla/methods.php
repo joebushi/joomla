@@ -55,7 +55,7 @@ class JRoute
 		$url = $uri->toString(array('path', 'query', 'fragment'));
 
 		// Replace spaces
-		$url = preg_replace('/\s/', '%20', $url);
+		$url = preg_replace('/\s/u', '%20', $url);
 
 		/*
 		 * Get the secure/unsecure URLs.

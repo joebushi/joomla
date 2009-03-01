@@ -62,7 +62,7 @@ class BannerHelper
 	 */
 	function isImage( $url )
 	{
-		$result = preg_match( '#(\.bmp|\.gif|\.jpg|\.jpeg|\.png)$#', $url );
+		$result = preg_match( '#(\.bmp|\.gif|\.jpg|\.jpeg|\.png)$#i', $url );
 		return $result;
 	}
 
@@ -74,7 +74,7 @@ class BannerHelper
 	 */
 	function isFlash( $url )
 	{
-		$result = preg_match( '#\.swf$#', $url );
+		$result = preg_match( '#\.swf$#i', $url );
 		return $result;
 	}
 }
