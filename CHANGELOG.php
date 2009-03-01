@@ -54,6 +54,7 @@ $ -> Language fix or change
  # [#15124] Filter Function on Archived Article Doesn't Work
  # [#15217] custom <installfile> isn't upgraded on component installation
  # [#15237] Loadposition Deletes Dollar signs
+ # [#14660] Short open tag in admin.categories.html.php
 
 19-Feb-2009 Wilco Jansen
  # [#14004] Can't sort categories by "order" column in reverse order
