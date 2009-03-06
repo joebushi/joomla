@@ -314,7 +314,7 @@ class CategoriesController extends JController
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$db =& JFactory::getDBO();
-		$section = JRequest::getCmd( 'section', 'com_content' );
+		$extension = JRequest::getCmd( 'extension', 'com_content' );
 		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
 		if (count( $cid ) < 1) {
@@ -323,12 +323,10 @@ class CategoriesController extends JController
 
 		$cids = implode( ',', $cid );
 
-		if (intval( $section ) > 0) {
-			$table = 'content';
-		} else if (strpos( $section, 'com_' ) === 0) {
-			$table = substr( $section, 4 );
+		if (strpos( $extension, 'com_' ) === 0) {
+			$table = substr( $extension, 4 );
 		} else {
-			$table = $section;
+			$table = $extension;
 		}
 
 		$tablesAllowed = $db->getTableList();
@@ -384,7 +382,7 @@ class CategoriesController extends JController
 			$names = implode( ', ', $name );
 			$msg = JText::sprintf( 'Categories successfully deleted', $names );
 		}
-		$this->setRedirect( 'index.php?option=com_categories&section='.$section, $msg );
+		$this->setRedirect( 'index.php?option=com_categories&extension='.$extension, $msg );
 	}
 
 
@@ -405,8 +403,8 @@ class CategoriesController extends JController
 			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
 		}
 
-		$section = JRequest::getCmd( 'section' );
-		$this->setRedirect( 'index.php?option=com_categories&section='.$section );
+		$extension = JRequest::getCmd( 'extension' );
+		$this->setRedirect( 'index.php?option=com_categories&extension='.$extension );
 	}
 
 
@@ -427,8 +425,8 @@ class CategoriesController extends JController
 			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
 		}
 
-		$section = JRequest::getCmd( 'section' );
-		$this->setRedirect( 'index.php?option=com_categories&section='.$section );
+		$extension = JRequest::getCmd( 'extension' );
+		$this->setRedirect( 'index.php?option=com_categories&extension='.$extension );
 	}
 
 	function cancel()
@@ -437,9 +435,9 @@ class CategoriesController extends JController
 		$model = $this->getModel('category');
 		$model->checkin();
 
-		$redirect = JRequest::getCmd( 'redirect', '', 'post' );
+		$redirect = JRequest::getCmd( 'extension', '', 'post' );
 
-		$this->setRedirect( 'index.php?option=com_categories&section='. $redirect );
+		$this->setRedirect( 'index.php?option=com_categories&extension='. $redirect );
 	}
 
 

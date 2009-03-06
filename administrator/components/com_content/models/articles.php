@@ -72,7 +72,7 @@ class ContentModelArticles extends JModel
 		$filter->order		= $mainframe->getUserStateFromRequest($context.'.filter_order',		'filter_order',		'name',	'cmd');
 		$filter->order_Dir	= $mainframe->getUserStateFromRequest($context.'.filter_order_Dir',	'filter_order_Dir',	'',				'word');
 		$filter->state		= $mainframe->getUserStateFromRequest($context.'.filter_state',		'filter_state',		'',				'word');
-		$filter->catid		= $mainframe->getUserStateFromRequest($context.'.filter_catid',		'filter_catid',		0,				'int');
+		$filter->catid		= $mainframe->getUserStateFromRequest($context.'.filter_catid',		'filter_catid',		-1,				'int');
 		$filter->search		= $mainframe->getUserStateFromRequest($context.'.search',			'search',			'',				'string');
 		$filter->authorid	= $mainframe->getUserStateFromRequest($context.'.filter_authorid',	'filter_authorid',	0,	'int');
 		$this->_filter = $filter;

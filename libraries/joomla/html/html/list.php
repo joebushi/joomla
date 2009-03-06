@@ -251,41 +251,43 @@ abstract class JHtmlList
 	/**
 	 * Select list of active categories for components
 	 */
-	public static function category($name, $section, $active = NULL, $javascript = NULL, $order = 'ordering', $size = 1, $sel_cat = 1)
+	public static function category($name, $extension = 'com_content', $root = NULL, $active = NULL, $javascript = NULL, $size = 1, $sel_cat = 1, $uncat = 0)
 	{
 		$db =& JFactory::getDBO();
 
-		$query = 'SELECT id AS value, title AS text'
-		. ' FROM #__categories'
-		. ' WHERE section = '.$db->Quote($section)
-		. ' AND published = 1'
-		. ' ORDER BY '. $order
-		;
-		$db->setQuery($query);
-		if ($sel_cat) {
-			$categories[] = JHtml::_('select.option',  '0', '- '. JText::_('Select a Category') .' -');
-			try {
-				$categories = array_merge($categories, $db->loadObjectList());
-			} catch (JException $e) {
-				//Ignore error
-			}
+		if($root == NULL)
+		{
+			$root = ' AND cp.lft = 1 ';
 		} else {
-			try {
-				$categories = $db->loadObjectList();
-			} catch (JException $e) {
-				$categories = array();
-			}
+			$root = ' AND cp.id = '. (int) $root.' ';
 		}
+		$extension = ' AND c.extension = '.$db->Quote($extension)
+					.' AND cp.extension = '.$db->Quote($extension).' ';
+		$query = 'SELECT c.id, c.title, c.level'.
+				' FROM #__categories AS c, #__categories AS cp'.
+				' WHERE c.lft BETWEEN cp.lft AND cp.rgt'.
+				$extension.
+				' AND c.level > 0'.$root.
+				' GROUP BY c.id ORDER BY c.lft'; 		
+		$db->setQuery($query);
+		$cat_list = $db->loadObjectList();
 
-		$category = JHtml::_(
-			'select.genericlist',
-			$categories,
-			$name,
-			array(
-				'list.attr' => 'class="inputbox" size="'. $size .'" '. $javascript,
-				'list.select' => $active
-			)
-		);
+		$categories = array();
+		// Uncategorized category mapped to uncategorized section
+		$categories[] = JHtml::_('select.option', '-1', JText::_('Select Category'), 'id', 'title');
+		$categories[] = JHtml::_('select.option', '', '----------', 'id', 'title');
+		if($uncat)
+		{
+			$categories[] = JHtml::_('select.option', 0, JText::_('Uncategorized'), 'id', 'title');
+			$categories[] = JHtml::_('select.option', '', '----------', 'id', 'title');
+		}
+		
+		foreach ($cat_list as $category)
+		{
+			$categories[] = JHtml::_('select.option', $category->id, str_repeat('-', $category->level - 1).$category->title, 'id', 'title');
+		}
+		$category = JHtml::_('select.genericlist',  $categories, $name, 'class="inputbox" size="'. $size .'" '. $javascript, 'id', 'title', $active);
+
 		return $category;
 	}
 

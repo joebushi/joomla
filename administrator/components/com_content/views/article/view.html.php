@@ -125,27 +125,7 @@ class ContentViewArticle extends JView
 			$row->frontpage = 0;
 		}
 
-		$query = 'SELECT c.id, c.title, c.level'.
-				' FROM #__categories AS c, #__categories AS cp'.
-				' WHERE c.lft BETWEEN cp.lft AND cp.rgt'.
-				' AND c.extension = \'com_content\''.
-				' AND cp.extension = \'com_content\''.
-				' AND c.level > 0 AND cp.lft = 1'.
-				' GROUP BY c.id ORDER BY c.lft'; 		
-		$db->setQuery($query);
-		$cat_list = $db->loadObjectList();
-
-		$categories = array();
-		// Uncategorized category mapped to uncategorized section
-		$categories[] = JHtml::_('select.option', '-1', JText::_('Select Category'), 'id', 'title');
-		$categories[] = JHtml::_('select.option', '', '----------', 'id', 'title');
-		$categories[] = JHtml::_('select.option', 0, JText::_('Uncategorized'), 'id', 'title');
-		$categories[] = JHtml::_('select.option', '', '----------', 'id', 'title');
-		foreach ($cat_list as $category)
-		{
-			$categories[] = JHtml::_('select.option', $category->id, str_repeat('-', $category->level - 1).$category->title, 'id', 'title');
-		}
-		$lists['catid'] = JHtml::_('select.genericlist',  $categories, 'catid', 'class="inputbox" size="1"', 'id', 'title', intval($row->catid));
+		$lists['catid'] = JHtml::_('list.category', 'catid', 'com_content', NULL, (int) $row->catid, NULL, 1, 1, 1);
 
 		// build the html select list for ordering
 		$query = 'SELECT ordering AS value, title AS text' .

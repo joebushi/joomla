@@ -107,7 +107,7 @@ class MenuModuleHelper
 
 				$menu->addSeparator();
 				$menu->addChild(new JMenuNode(JText::_('Section Manager'), 'index.php?option=com_sections&scope=content', 'class:section'));
-				$menu->addChild(new JMenuNode(JText::_('Category Manager'), 'index.php?option=com_categories&section=com_content', 'class:category'));
+				$menu->addChild(new JMenuNode(JText::_('Category Manager'), 'index.php?option=com_categories&extension=com_content', 'class:category'));
 				if (JAcl::authorise('core', 'content.manage')) {
 					$menu->addSeparator();
 					$menu->addChild(new JMenuNode(JText::_('Frontpage Manager'), 'index.php?option=com_content&controller=frontpage', 'class:frontpage'));

@@ -78,7 +78,7 @@ class CategoriesModelCategories extends JModel
 		$filter->order_Dir	= $mainframe->getUserStateFromRequest( $option.'filter_order_Dir',	'filter_order_Dir',	'',				'word' );
 		$filter->state		= $mainframe->getUserStateFromRequest( $option.'filter_state',		'filter_state',		'',				'word' );
 		$filter->search		= $mainframe->getUserStateFromRequest( $option.'search',			'search',			'',				'string' );
-		$filter->section 	= JRequest::getCmd( 'section', 'com_content' );
+		$filter->extension 	= JRequest::getCmd( 'extension', 'com_content' );
 		$filter->sectionid	= $mainframe->getUserStateFromRequest( $option.'.'.$filter->section.'.sectionid',		'sectionid',		0,				'int' );
 		$this->_filter = $filter;
 	}
@@ -208,8 +208,8 @@ class CategoriesModelCategories extends JModel
 	function _buildQuery()
 	{
 		// Get the WHERE and ORDER BY clauses for the query
-		$where		= $this->_buildContentWhere($this->_filter->section);
-		$orderby	= $this->_buildContentOrderBy($this->_filter->section);
+		$where		= $this->_buildContentWhere($this->_filter->extension);
+		$orderby	= $this->_buildContentOrderBy($this->_filter->extension);
 
 		$query = 'SELECT  c.*, c.checked_out as checked_out_contact_category, g.name AS groupname, u.name AS editor, COUNT( DISTINCT s2.checked_out ) AS checked_out_count'
 		. $this->content_add
@@ -228,12 +228,12 @@ class CategoriesModelCategories extends JModel
 		return $query;
 	}
 
-	function _buildContentOrderBy($section)
+	function _buildContentOrderBy($extension)
 	{
 		return ' ORDER BY c.lft';
 	}
 
-	function _buildContentWhere($section)
+	function _buildContentWhere($extension)
 	{
 		global $mainframe, $option;
 
@@ -247,7 +247,7 @@ class CategoriesModelCategories extends JModel
 
 		$this->content_add 	= '';
 		$this->content_join 	= '';
-		$this->table = substr( $section, 4 );
+		$this->table = substr( $extension, 4 );
 
 		$where 			= ' WHERE c.lft BETWEEN cp.lft AND cp.rgt'
 						.' AND c.extension = '.$db->Quote($this->extension->option)

@@ -26,7 +26,7 @@
 			</td>
 			<td nowrap="nowrap">
 				<?php
-				echo JHtml::_('contentgrid.category', 'filter_catid', $this->filter->catid);
+				echo JHtml::_('list.category', 'filter_catid', 'com_content', NULL, (int) $this->filter->catid, ' onchange="submitform();"', 1, 1, 1);
 				echo JHtml::_('contentgrid.author', 'filter_authorid', $this->filter->authorid);
 				echo JHtml::_('grid.state', $this->filter->state, 'Published', 'Unpublished', 'Archived');
 				?>
