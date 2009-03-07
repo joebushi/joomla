@@ -71,10 +71,13 @@ class CategoriesViewCategory extends JView
 		// build the html radio buttons for published
 		$published = ($row->id) ? $row->published : 1;
 		$lists['published'] = JHtml::_('select.booleanlist',  'published', 'class="inputbox"', $published );
-
+		jimport('joomla.html.parameters');
+		$params = new JParameter($row->params, JPATH_ADMINISTRATOR.DS.'components'.DS.$extension.DS.'category.xml');
+		
 		$this->assignRef('extension',	$extension);
 		$this->assignRef('lists',		$lists);
 		$this->assignRef('row',			$row);
+		$this->assignRef('params',			$params);
 
 		parent::display($tpl);
 	}
