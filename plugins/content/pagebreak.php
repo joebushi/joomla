@@ -166,6 +166,8 @@ function plgContentCreateTOC( &$row, &$matches, &$page )
 {
 
 	$heading = $row->title;
+	$limitstart = JRequest::getInt('limitstart', 0);
+	$showall = JRequest::getInt('showall', 0);
 
 	// TOC Header
 	$row->toc = '
@@ -178,10 +180,11 @@ function plgContentCreateTOC( &$row, &$matches, &$page )
 	';
 
 	// TOC First Page link
+	$class = ($limitstart === 0 && $showall === 0) ? 'toclink active' : 'toclink';
 	$row->toc .= '
 	<tr>
 		<td>
-		<a href="'. JRoute::_( '&showall=&limitstart=') .'" class="toclink">'
+		<a href="'. JRoute::_( '&showall=&limitstart=') .'" class="'. $class .'">'
 		. $heading .
 		'</a>
 		</td>
@@ -217,10 +220,11 @@ function plgContentCreateTOC( &$row, &$matches, &$page )
 			$title	= JText::sprintf( 'Page #', $i );
 		}
 
+		$class = ($limitstart == $i-1) ? 'toclink active' : 'toclink';
 		$row->toc .= '
 			<tr>
 				<td>
-				<a href="'. $link .'" class="toclink">'
+				<a href="'. $link .'" class="'. $class .'">'
 				. $title .
 				'</a>
 				</td>
@@ -237,10 +241,11 @@ function plgContentCreateTOC( &$row, &$matches, &$page )
 	if ($params->get('showall') )
 	{
 		$link = JRoute::_( '&showall=1&limitstart=');
+		$class = ($showall == 1) ? 'toclink active' : 'toclink';
 		$row->toc .= '
 		<tr>
 			<td>
-				<a href="'. $link .'" class="toclink">'
+				<a href="'. $link .'" class="'. $class .'">'
 				. JText::_( 'All Pages' ) .
 				'</a>
 			</td>

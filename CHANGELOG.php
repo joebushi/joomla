@@ -46,6 +46,7 @@ $ -> Language fix or change
  # [#9701] **Installation of Extensions fails when they include zip files
  # [#15044] **JArchiveZip::_extractNative() fails to discover zip_open() failure
  # [#14525] **pagebreak doesn't work correct if using JCE
+ # [#14558] **Pagebreak Plugin Does Not Keep Track of Active Page
 
 1-Mar-2009 Ian MacLennan
  # [#12137] Cache Saving module doesn't clear the module's cache data
