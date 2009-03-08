@@ -64,14 +64,21 @@ class SearchController extends JController
 			}
 		}
 
-		// set Itemid id for links
-		$menu = &JSite::getMenu();
-		$items	= $menu->getItems('link', 'index.php?option=com_search&view=search');
+		// No need to guess Itemid if it's already present in the URL
+		if (JRequest::getInt('Itemid') > 0) {
+			$post['Itemid'] = JRequest::getInt('Itemid');
+		} else {
 
-		if(isset($items[0])) {
-			$post['Itemid'] = $items[0]->id;
+			// set Itemid id for links
+			$menu = &JSite::getMenu();
+			$items	= $menu->getItems('link', 'index.php?option=com_search&view=search');
+
+			if(isset($items[0])) {
+				$post['Itemid'] = $items[0]->id;
+			}
+
 		}
-
+		
 		unset($post['task']);
 		unset($post['submit']);
 
