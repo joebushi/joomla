@@ -30,7 +30,7 @@ class HTML_modules
 		$user =& JFactory::getUser();
 
 		//Ordering allowed ?
-		$ordering = (($lists['order'] == 'm.position'));
+		$ordering = ($lists['order'] == 'm.ordering' || $lists['order'] == 'm.position');
 
 		JHTML::_('behavior.tooltip');
 		?>
@@ -71,10 +71,10 @@ class HTML_modules
 					<?php echo JHTML::_('grid.sort', 'Published', 'm.published', @$lists['order_Dir'], @$lists['order'] ); ?>
 				</th>
 				<th width="80" nowrap="nowrap">
-					<?php echo JHTML::_('grid.sort', 'Order', 'm.position', @$lists['order_Dir'], @$lists['order'] ); ?>
+					<?php echo JHTML::_('grid.sort', 'Order', 'm.ordering', @$lists['order_Dir'], @$lists['order'] ); ?>
 				</th>
 				<th width="1%">
-					<?php echo JHTML::_('grid.order',  $rows ); ?>
+					<?php if ($ordering) echo JHTML::_('grid.order',  $rows ); ?>
 				</th>
 				<?php
 				if ( $client->id == 0 ) {

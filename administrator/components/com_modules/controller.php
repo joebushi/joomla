@@ -99,7 +99,11 @@ class ModulesController extends JController
 
 		$where 		= ' WHERE ' . implode( ' AND ', $where );
 		$join 		= ' ' . implode( ' ', $joins );
-		$orderby 	= ' ORDER BY '. $filter_order .' '. $filter_order_Dir .', m.ordering ASC';
+		if ($filter_order == 'm.ordering') {
+			$orderby = ' ORDER BY m.position, m.ordering '. $filter_order_Dir;
+		} else {
+			$orderby = ' ORDER BY '. $filter_order .' '. $filter_order_Dir .', m.ordering ASC';
+		}
 
 		// get the total number of records
 		$query = 'SELECT COUNT(DISTINCT m.id)'

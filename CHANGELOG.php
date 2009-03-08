@@ -39,6 +39,7 @@ $ -> Language fix or change
 
 8-Mar-2009 Wilco Jansen
  # [#15300] Missing translation in pagebreak plugin
+ # [#15107] **Save order enabled and creating random results when active sorting column isn't ordering
 
 1-Mar-2009 Ian MacLennan
  # [#12137] Cache Saving module doesn't clear the module's cache data
