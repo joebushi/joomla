@@ -82,7 +82,7 @@ function WeblinksBuildRoute(&$query)
 				}
 				elseif (isset($query['view']) && $query['view'] == 'category'
 					&& isset($item->query['view']) && $item->query['view'] == 'category'
-					&& isset($item->query['id']) && isset($query['id']) && $item->query['id'] != $query['id'])
+					&& isset($item->query['id']) && isset($query['id']) && $item->query['id'] == $query['id'])
 				{
 					// This menu item links to the category view but we need to append the category id to it.
 					$itemid		= $item->id;

@@ -60,6 +60,7 @@ $ -> Language fix or change
  # [#15359] **spambots are still able to see registration page even if registration is turned off
  # [#14071] **menu image alignment
  # [#14875] **JFolder::folders returns unnecessary warning
+ # [#14705] **Web link Router incorrectly grabs wrong category item
 
 1-Mar-2009 Ian MacLennan
  # [#12137] Cache Saving module doesn't clear the module's cache data
