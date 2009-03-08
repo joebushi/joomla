@@ -53,6 +53,7 @@ $ -> Language fix or change
  # [#15354] com_media loads css files from the backend
  # [#15375] Missing language string
  # [#15376] Login redirect no longer returns you to your current page if no redirect specified
+ # [#15233] Search doesn't work with international characters when SEF is enabled
 
 1-Mar-2009 Ian MacLennan
  # [#12137] Cache Saving module doesn't clear the module's cache data
