@@ -85,7 +85,7 @@ class JFile
 
 		//Check src path
 		if (!is_readable($src)) {
-			JError::raiseWarning(21, 'JFile::copy: '.JText::_('Cannot find or read file' . ": '$src'"));
+			JError::raiseWarning(21, 'JFile::copy: ' . JText::_('Cannot find or read file') . ": '$src'");
 			return false;
 		}
 
@@ -194,7 +194,8 @@ class JFile
 
 		//Check src path
 		if (!is_readable($src) && !is_writable($src)) {
-			return JText::_('Cannot find source file');
+			JError::raiseWarning(21, 'JFile::move: ' . JText::_('Cannot find, read or write file') . ": '$src'");
+			return false;
 		}
 
 		if ($FTPOptions['enabled'] == 1) {
