@@ -267,12 +267,12 @@ class ContactController extends JController
 			$v->setNote($contact->misc);
 			$v->setURL( JURI::base(), 'WORK');
 			$v->setTitle($contact->con_position);
-			$v->setOrg($SiteName);
+			$v->setOrg(html_entity_decode($SiteName, ENT_COMPAT, 'UTF-8'));
 
 			$filename = str_replace(' ', '_', $contact->name);
 			$v->setFilename($filename);
 
-			$output = $v->getVCard($SiteName);
+			$output = $v->getVCard(html_entity_decode($SiteName, ENT_COMPAT, 'UTF-8'));
 			$filename = $v->getFileName();
 
 			// Send vCard file headers

@@ -61,6 +61,7 @@ $ -> Language fix or change
  # [#14071] **menu image alignment
  # [#14875] **JFolder::folders returns unnecessary warning
  # [#14705] **Web link Router incorrectly grabs wrong category item
+ # [#15143] **Ampersand in Site Name breaks Position field in vCard
 
 1-Mar-2009 Ian MacLennan
  # [#12137] Cache Saving module doesn't clear the module's cache data
