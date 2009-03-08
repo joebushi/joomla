@@ -42,6 +42,7 @@ $ -> Language fix or change
  # [#15107] **Save order enabled and creating random results when active sorting column isn't ordering
  # [#14818] **filesystem file move doesn't return false when not read- or writable
  # [#14827] **Page break does not work correctly when tables are included in the page sections. The <div></div> pairs are uneven.
+ # [#15137] **sef plugin does not convert data attribute
 
 1-Mar-2009 Ian MacLennan
  # [#12137] Cache Saving module doesn't clear the module's cache data

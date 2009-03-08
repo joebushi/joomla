@@ -71,13 +71,17 @@ class plgSystemSef extends JPlugin
 		$regex 		= '#style\s*=\s*[\'\"](.*):\s*url\s*\([\'\"]?(?!/|'.$protocols.'|\#)([^\)\'\"]+)[\'\"]?\)#m';
 		$buffer 	= preg_replace($regex, 'style="$1: url(\''. $base .'$2$3\')', $buffer);
 		
-		// OBJECT <param name="xx", value="yy">
-		$regex 		= '#<param name="(movie|src|url)" value="(?!/|'.$protocols.'|\#|\')([^"]*)"#m';
-		$buffer 	= preg_replace($regex, '<param name="$1" value="'. $base .'$2"', $buffer);
+		// OBJECT <param name="xx", value="yy"> -- fix it only inside the <param> tag
+		$regex 		= '#(<param\s+)name\s*=\s*"(movie|src|url)"[^>]\s*value\s*=\s*"(?!/|'.$protocols.'|\#|\')([^"]*)"#m';
+		$buffer 	= preg_replace($regex, '$1name="$2" value="' . $base . '$3"', $buffer);
+		
+		// OBJECT <param value="xx", name="yy"> -- fix it only inside the <param> tag
+		$regex 		= '#(<param\s+[^>]*)value\s*=\s*"(?!/|'.$protocols.'|\#|\')([^"]*)"\s*name\s*=\s*"(movie|src|url)"#m';
+		$buffer 	= preg_replace($regex, '<param value="'. $base .'$2" name="$3"', $buffer);
 
-		// OBJECT <param value="xx", name="yy">
-		$regex 		= '#<param value="(?!/|'.$protocols.'|\#|\')([^"]*)" name="(movie|src|url)"#m';
-		$buffer 	= preg_replace($regex, '<param value="'. $base .'$1" name="$2"', $buffer);
+		// OBJECT data="xx" attribute -- fix it only in the object tag
+		$regex = 	'#(<object\s+[^>]*)data\s*=\s*"(?!/|'.$protocols.'|\#|\')([^"]*)"#m';
+		$buffer 	= preg_replace($regex, '$1data="' . $base . '$2"$3', $buffer);
 		
 		JResponse::setBody($buffer);
 		return true;
