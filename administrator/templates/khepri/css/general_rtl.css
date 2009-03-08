@@ -122,6 +122,7 @@ body{
 
 #module-status {
 	float:left;
+	background-position: right 5px;
 }
 
 #module-status span{
