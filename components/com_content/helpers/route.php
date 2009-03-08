@@ -37,7 +37,8 @@ abstract class ContentHelperRoute
 		$link = 'index.php?option=com_content&view=article&id='. $id;
 
 		if(is_array($catids)) {
-			$link .= '&catid='.array_pop($catids).'&path='.implode('/', $catids);
+			$path = '&path='.implode('/', $catids);
+			$link .= '&catid='.array_pop($catids).$path;
 		}
 
 		if($item = ContentHelperRoute::_findItem($needles)) {

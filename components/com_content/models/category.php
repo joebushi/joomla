@@ -361,6 +361,7 @@ class ContentModelCategory extends JModel
 			foreach ($Arows as $row)
 			{
 				// check to determine if section or category has proper access rights
+				$row->path = $this->_category_tree[(int)$row->catid]->path;
 				$rows[$i] = $row;
 				$i ++;
 			}

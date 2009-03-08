@@ -16,10 +16,31 @@ $cparams =& JComponentHelper::getParams('com_media');
 <tr>
 	<td>
 	<ul>
-	<?php 
+	<?php
+	$menu = &JSite::getMenu();
+	$item = $menu->getActive();
+	if($item->query['view'] == 'category')
+	{
+		$id = $item->query['id'];
+	} else {
+		$id = $item->query['catid'];
+	}
 	foreach($this->children as $child)
 	{
-		echo '<li><a href="'.JRoute::_('index.php?option=com_content&view=category&id='.$child->slug.'&path='.implode('/', $child->path)).'">'.$child->title.'</a> ('.$child->numitems.')</li>';
+		$path = '';
+		$divider = '';
+		foreach($child->path as $catid)
+		{
+			if((int) $catid == $id)
+			{
+				$path = '';
+				$divider = '';
+			} else {
+				$path .= $divider.$catid;
+				$divider = '/';
+			}
+		}
+		echo '<li><a href="'.JRoute::_('index.php?option=com_content&view=category&id='.$child->slug.'&path='.$path).'">'.$child->title.'</a> ('.$child->numitems.')</li>';
 	}
 	?>
 	</ul>

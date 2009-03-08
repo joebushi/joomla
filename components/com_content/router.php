@@ -37,26 +37,24 @@ function ContentBuildRoute(&$query)
 		unset($query['id']);
 	}
 
-	if (isset($view) and ($view == 'section' && !empty($query['Itemid']))) {
-		if (($mView != 'section') or ($mView == 'section' and $mId != intval($query['id']))) {
-			$segments[] = 'section';
-			unset($query['Itemid']);
-		}
-	}
-
 	if (isset($view) and $view == 'category') {
 		if ($mId != intval($query['id']) || $mView != $view) {
-			$segments[] = $query['id'];
+			$segments[] = $query['path'];
 		}
 		unset($query['id']);
+		unset($query['path']);
 	}
-
+	
 	if (isset($query['catid'])) {
 		// if we are routing an article or category where the category id matches the menu catid, don't include the category segment
 		if ((($view == 'article') and ($mView != 'category') and ($mView != 'article') and ($mCatid != intval($query['catid'])))) {
-			$segments[] = $query['catid'];
+			//$segments[] = $query['catid'];
+			
 		}
+		$segments[] = $query['path'];
+		
 		unset($query['catid']);
+		unset($query['path']);
 	};
 
 	if(isset($query['id'])) {
@@ -129,29 +127,39 @@ function ContentParseRoute($segments)
 	//Handle View and Identifier
 	switch($item->query['view'])
 	{
-		case 'section' :
-		{
-			if($count == 1) {
-				$vars['view'] = 'category';
-
-				if(isset($item->query['layout']) && $item->query['layout'] == 'blog') {
-					$vars['layout'] = 'blog';
-				}
-			}
-
-			if($count == 2) {
-				$vars['view']  = 'article';
-				$vars['catid'] = $segments[$count-2];
-			}
-
-			$vars['id']	= $segments[$count-1];
-
-		} break;
-
 		case 'category'   :
 		{
-			$vars['id']   = $segments[$count-1];
-			$vars['view'] = 'article';
+			$db = JFactory::getDBO();
+			$query = 'SELECT c.*, '.
+					'CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(":", c.id, c.alias) ELSE c.id END as slug '.
+					'FROM #__categories AS c,'.
+					' (SELECT c.id, MIN(c.lft) as lft, MAX(c.rgt) as rgt'.
+					' FROM #__categories AS c, #__categories AS cp'.
+					' WHERE cp.id = '.$item->query['id'].' AND c.lft BETWEEN cp.lft '.
+					' AND cp.rgt AND c.level > 0 AND c.extension = \'com_content\') AS cp'.
+					' WHERE c.lft BETWEEN cp.lft AND cp.rgt AND c.extension = \'com_content\''.
+					' AND c.published = 1 AND c.access <= 0 GROUP BY c.id ORDER BY c.lft';
+			$db->setQuery($query);
+			$categories = $db->loadObjectList();
+			foreach($segments as $segment)
+			{
+				$vars['id'] = '';
+				foreach($categories as $category)
+				{
+					if($category->slug == $segment)
+					{
+						$vars['id'] = $segment;
+						$vars['view'] = 'category';
+						$vars['path'][] = $segment;
+						continue;
+					}
+				}
+				if($vars['id'] == '')
+				{
+					$vars['id'] = $segment;
+					$vars['view'] = 'article';
+				}
+			}
 
 		} break;
 
