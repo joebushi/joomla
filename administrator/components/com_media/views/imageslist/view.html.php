@@ -34,8 +34,12 @@ class MediaViewImagesList extends JView
 		// Do not allow cache
 		JResponse::allowCache(false);
 
+		$app = JFactory::getApplication();
+		$append = '';
+		if ($app->getClientId() == 1) $append = 'administrator/';
+
 		JHTML::_('behavior.mootools');
-		JHTML::_('stylesheet', 'popup-imagelist.css', 'administrator/components/com_media/assets/');
+		JHTML::_('stylesheet', 'popup-imagelist.css', $append .'components/com_media/assets/');
 
 		$document =& JFactory::getDocument();
 		$document->addScriptDeclaration("var ImageManager = window.parent.ImageManager;");
