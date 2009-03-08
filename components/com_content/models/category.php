@@ -139,6 +139,10 @@ class ContentModelCategory extends JModel
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_total))
 		{
+			if(empty($this->_category))
+			{
+				$this->_loadCategoryTree();
+			}
 			$query = $this->_buildQuery($state, true);
 			$this->_db->setQuery($query);
 			$this->_total[$state] = $this->_db->loadResult();
@@ -159,7 +163,7 @@ class ContentModelCategory extends JModel
 		{
 			$this->_loadCategoryTree();
 		}
-		
+
 		if (empty($this->_category))
 		{
 			JError::raiseError(404, JText::_("Resource Not Found"));
@@ -457,18 +461,20 @@ class ContentModelCategory extends JModel
 		$noauth		= !$params->get('show_noauth');
 		$nullDate	= $this->_db->getNullDate();
 
-		$where = ' WHERE cc.lft BETWEEN '.$this->_category->lft.' AND '.$this->_category->rgt.' AND cc.extension = \'com_content\' ';
+		if($params->get('loadChildren', 0))
+		{
+			$where = ' WHERE cc.lft BETWEEN '.$this->_category->lft.' AND '.$this->_category->rgt.' AND cc.extension = \'com_content\' ';
+		} else {
+			if ($this->_id)
+			{
+				$where .= ' WHERE cc.id = '.(int) $this->_id.' AND cc.extension = \'com_content\'';
+			}			
+		}
 
 		// Does the user have access to view the items?
 		if ($noauth) {
 			$where .= ' AND a.access IN ('.implode(',', $user->authorisedLevels()).')';
 		}
-
-		// First thing we need to do is assert that the articles are in the current category
-/*		if ($this->_id)
-		{
-			$where .= ' AND a.catid = '.(int) $this->_id;
-		}*/
 
 		// Regular Published Content
 		switch ($state)
