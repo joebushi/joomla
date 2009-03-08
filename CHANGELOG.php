@@ -64,6 +64,7 @@ $ -> Language fix or change
  # [#15143] **Ampersand in Site Name breaks Position field in vCard
  # [#14022] **Faulty error handling in JFactory::getXMLParser
  # [#14228] **Article alias field missing from in category views
+ # [#14381] **Incorrect checked out date format in the back-end
 
 1-Mar-2009 Ian MacLennan
  # [#12137] Cache Saving module doesn't clear the module's cache data
