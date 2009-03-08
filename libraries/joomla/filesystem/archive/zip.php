@@ -224,7 +224,7 @@ class JArchiveZip extends JObject
 	function _extractNative($archive, $destination, $options)
 	{
 		if ($zip = zip_open($archive)) {
-			if ($zip) {
+			if (is_resource($zip)) {
 				// Make sure the destination folder exists
 				if (!JFolder::create($destination)) {
 					$this->set('error.message', 'Unable to create destination');
