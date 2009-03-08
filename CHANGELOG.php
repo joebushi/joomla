@@ -45,6 +45,7 @@ $ -> Language fix or change
  # [#15137] **sef plugin does not convert data attribute
  # [#9701] **Installation of Extensions fails when they include zip files
  # [#15044] **JArchiveZip::_extractNative() fails to discover zip_open() failure
+ # [#14525] **pagebreak doesn't work correct if using JCE
 
 1-Mar-2009 Ian MacLennan
  # [#12137] Cache Saving module doesn't clear the module's cache data

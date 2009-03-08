@@ -111,7 +111,7 @@ function plgContentPagebreak( &$row, &$params, $page=0 )
 				$page_text = $page + 1;
 				if ( $page && @$matches[$page-1][2] )
 				{
-					$attrs = JUtility::parseAttributes($matches[$page-1][1]);
+					$attrs = JUtility::parseAttributes($matches[$page-1][0]);
 
 					if ( @$attrs['title'] ) {
 						$row->page_title = $attrs['title'];
