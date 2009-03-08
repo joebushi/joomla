@@ -56,6 +56,7 @@ $ -> Language fix or change
  # [#15233] Search doesn't work with international characters when SEF is enabled
  # [#14514] parameter element id of type folderlist and filelist are not correct
  # [#13285] **Wrong tag-IDs used by openid.js
+ # [#12119] Changing the module's 'Position' drop-down doesn't change the 'Order' drop-down.
 
 1-Mar-2009 Ian MacLennan
  # [#12137] Cache Saving module doesn't clear the module's cache data

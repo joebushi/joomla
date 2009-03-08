@@ -307,12 +307,24 @@ class HTML_modules
 						</td>
 						<td>
 							<input type="text" id="position" class="combobox" name="position" value="<?php echo $row->position; ?>" />
-							<ul id="combobox-position" style="display:none;"><?php
-							$positions = $model->getPositions();
-							for ($i=0,$n=count($positions);$i<$n;$i++) {
-								echo '<li>',$positions[$i],'</li>';
-							}
-							?></ul>
+							<ul id="combobox-position" style="display:none;">
+							<?php
+								$positions = $model->getPositions();
+								foreach ($positions as $position) {
+									echo '<li>'.$position.'</li>';
+								}
+							?>
+							</ul>
+							<script language="javascript" type="text/javascript">
+								window.addEvent('domready', function() { 
+									$('combobox-position-select').addEvent('change', function() {
+										changeDynaList('ordering', orders, document.adminForm.position.value, 0, 0);
+									});
+									$('position').addEvent('change', function() {
+										changeDynaList('ordering', orders, document.adminForm.position.value, 0, 0);
+									});
+								});
+							</script>
 						</td>
 					</tr>
 					<tr>
