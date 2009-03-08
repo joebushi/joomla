@@ -30,6 +30,13 @@ class UserViewRegister extends JView
 	{
 		global $mainframe;
 
+		// Check if registration is allowed
+		$usersConfig = &JComponentHelper::getParams( 'com_users' );
+		if (!$usersConfig->get( 'allowUserRegistration' )) {
+			JError::raiseError( 403, JText::_( 'Access Forbidden' ));
+			return;
+		}
+
 		$pathway  =& $mainframe->getPathway();
 		$document =& JFactory::getDocument();
 		$params	= &$mainframe->getParams();

@@ -57,6 +57,7 @@ $ -> Language fix or change
  # [#14514] parameter element id of type folderlist and filelist are not correct
  # [#13285] **Wrong tag-IDs used by openid.js
  # [#12119] Changing the module's 'Position' drop-down doesn't change the 'Order' drop-down.
+ # [#15359] **spambots are still able to see registration page even if registration is turned off
 
 1-Mar-2009 Ian MacLennan
  # [#12137] Cache Saving module doesn't clear the module's cache data
