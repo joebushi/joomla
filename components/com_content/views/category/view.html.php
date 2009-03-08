@@ -137,7 +137,7 @@ class ContentViewCategory extends ContentView
 		}
 
 		$this->assign('total',		$total);
-		$this->assign('action', 	$uri->toString());
+		$this->assign('action', 	str_replace('&', '&amp;', $uri->toString()));
 
 		$this->assignRef('items',		$items);
 		$this->assignRef('params',		$params);

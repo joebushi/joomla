@@ -49,6 +49,7 @@ $ -> Language fix or change
  # [#14558] **Pagebreak Plugin Does Not Keep Track of Active Page
  # [#14947] **Status Module Icon RTL issue
  # [#15266] Bad URL after redirect when Register to Read More in Section, Category Menu Items
+ # [#15362] Not valid XHTML output in com_content and com_contact
 
 1-Mar-2009 Ian MacLennan
  # [#12137] Cache Saving module doesn't clear the module's cache data
