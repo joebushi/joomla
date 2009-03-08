@@ -48,7 +48,7 @@ class JHTMLBehavior
 		}
 
 		// TODO NOTE: Here we are checking for Konqueror - If they fix thier issue with compressed, we will need to update this
-		$konkcheck = strpos (strtolower($_SERVER['HTTP_USER_AGENT']), "konqueror");
+		$konkcheck = isset($_SERVER['HTTP_USER_AGENT']) ? strpos(strtolower($_SERVER['HTTP_USER_AGENT']), "konqueror") : null;
 
 		if ($debug || $konkcheck) {
 			JHTML::script('mootools-uncompressed.js', 'media/system/js/', false);
