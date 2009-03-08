@@ -26,7 +26,9 @@ class modLoginHelper
 		}
 		else
 		{
-			$url = JURI::base(true);
+			// stay on the same page
+			$uri = JFactory::getURI();
+			$url = $uri->toString(array('path', 'query', 'fragment'));
 		}
 
 		return base64_encode($url);
