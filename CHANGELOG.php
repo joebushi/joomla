@@ -37,9 +37,12 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+8-Mar-2009 Wilco Jansen
+ # [#15300] Missing translation in pagebreak plugin
+
 1-Mar-2009 Ian MacLennan
  # [#12137] Cache Saving module doesn't clear the module's cache data
- # [#13111] Inconsistent encoding behaviour - "&amp;" stays as "&amp;" in articles but is converted to "&" in modules 
+ # [#13111] Inconsistent encoding behaviour - "&amp;" stays as "&amp;" in articles but is converted to "&" in modules
  # [#13999] When installing a new module, its title is not translated
  # [#14059] Case sensitive image extensions
  # [#14286] Template JA Purity: Link all the text in an article if category is shown
