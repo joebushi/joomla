@@ -332,7 +332,7 @@ class JFactory
 						isset( $options['cache_time'] ) ? $options['cache_time'] : 0
 					);
 					$simplepie->handle_content_type();
-					if ($simplepie->data) {
+					if ($simplepie->init()) {
 						$doc = $simplepie;
 					} else {
 						JError::raiseWarning( 'SOME_ERROR_CODE', JText::_('ERROR LOADING FEED DATA') );
