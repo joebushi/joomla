@@ -37,6 +37,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+9-Mar-2009 Wilco Jansen
+ # [#15215] **Inconsistent prefix for index.php in com_user
+
 8-Mar-2009 Wilco Jansen
  # [#15300] Missing translation in pagebreak plugin
  # [#15107] **Save order enabled and creating random results when active sorting column isn't ordering
