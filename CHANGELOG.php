@@ -37,20 +37,23 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+11-Mar-2009
+ # [#14515] Atom feed does not validate
+
 9-Mar-2009 Wilco Jansen
- # [#15215] **Inconsistent prefix for index.php in com_user
+ # [#15215] Inconsistent prefix for index.php in com_user
 
 8-Mar-2009 Wilco Jansen
  # [#15300] Missing translation in pagebreak plugin
- # [#15107] **Save order enabled and creating random results when active sorting column isn't ordering
- # [#14818] **filesystem file move doesn't return false when not read- or writable
- # [#14827] **Page break does not work correctly when tables are included in the page sections. The <div></div> pairs are uneven.
- # [#15137] **sef plugin does not convert data attribute
- # [#9701] **Installation of Extensions fails when they include zip files
- # [#15044] **JArchiveZip::_extractNative() fails to discover zip_open() failure
- # [#14525] **pagebreak doesn't work correct if using JCE
- # [#14558] **Pagebreak Plugin Does Not Keep Track of Active Page
- # [#14947] **Status Module Icon RTL issue
+ # [#15107] Save order enabled and creating random results when active sorting column isn't ordering
+ # [#14818] filesystem file move doesn't return false when not read- or writable
+ # [#14827] Page break does not work correctly when tables are included in the page sections. The <div></div> pairs are uneven.
+ # [#15137] sef plugin does not convert data attribute
+ # [#9701]  Installation of Extensions fails when they include zip files
+ # [#15044] JArchiveZip::_extractNative() fails to discover zip_open() failure
+ # [#14525] pagebreak doesn't work correct if using JCE
+ # [#14558] Pagebreak Plugin Does Not Keep Track of Active Page
+ # [#14947] Status Module Icon RTL issue
  # [#15266] Bad URL after redirect when Register to Read More in Section, Category Menu Items
  # [#15362] Not valid XHTML output in com_content and com_contact
  # [#15354] com_media loads css files from the backend
@@ -58,17 +61,17 @@ $ -> Language fix or change
  # [#15376] Login redirect no longer returns you to your current page if no redirect specified
  # [#15233] Search doesn't work with international characters when SEF is enabled
  # [#14514] parameter element id of type folderlist and filelist are not correct
- # [#13285] **Wrong tag-IDs used by openid.js
+ # [#13285] Wrong tag-IDs used by openid.js
  # [#12119] Changing the module's 'Position' drop-down doesn't change the 'Order' drop-down.
- # [#15359] **spambots are still able to see registration page even if registration is turned off
- # [#14071] **menu image alignment
- # [#14875] **JFolder::folders returns unnecessary warning
- # [#14705] **Web link Router incorrectly grabs wrong category item
- # [#15143] **Ampersand in Site Name breaks Position field in vCard
- # [#14022] **Faulty error handling in JFactory::getXMLParser
- # [#14228] **Article alias field missing from in category views
- # [#14381] **Incorrect checked out date format in the back-end
- # [#15282] **Undefined index HTTP_USER_AGENT in behavior.php
+ # [#15359] spambots are still able to see registration page even if registration is turned off
+ # [#14071] menu image alignment
+ # [#14875] JFolder::folders returns unnecessary warning
+ # [#14705] Web link Router incorrectly grabs wrong category item
+ # [#15143] Ampersand in Site Name breaks Position field in vCard
+ # [#14022] Faulty error handling in JFactory::getXMLParser
+ # [#14228] Article alias field missing from in category views
+ # [#14381] Incorrect checked out date format in the back-end
+ # [#15282] Undefined index HTTP_USER_AGENT in behavior.php
  ! Big thanks to the Joomla Bug Squad for a weekend of hard work!
 
 1-Mar-2009 Ian MacLennan

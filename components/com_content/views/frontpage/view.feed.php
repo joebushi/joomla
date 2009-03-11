@@ -35,6 +35,8 @@ class ContentViewFrontpage extends JView
 		$db			=& JFactory::getDBO();
 		$document	=& JFactory::getDocument();
 		$params =& $mainframe->getParams();
+		$feedEmail = ($mainframe->getCfg('feed_email')) ? $mainframe->getCfg('feed_email') : 'author';
+		$siteEmail = $mainframe->getCfg('mailfrom');
 		$document->link = JRoute::_('index.php?option=com_content&view=frontpage');
 
 		// Get some data from the model
@@ -60,7 +62,13 @@ class ContentViewFrontpage extends JView
 			$item->description 	= $description;
 			$item->date			= $row->created;
 			$item->category   	= 'frontpage';
-
+			$item->author		= $author;
+			if ($feedEmail == 'site') {
+				$item->authorEmail = $siteEmail;
+			}
+			else {
+				$item->authorEmail = $row->author_email;
+			}
 			// loads item info into rss array
 			$document->addItem( $item );
 		}
