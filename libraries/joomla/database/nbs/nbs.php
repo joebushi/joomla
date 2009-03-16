@@ -27,7 +27,7 @@ require_once dirname(__FILE__).DS.'nbs.interface.php';
  * @subpackage	Database.Table
  * @since		2.0
  */
-abstract class JNBSTable extends JBaseTable implements JNBSTableInterface
+abstract class JNBSTable extends JTable implements JNBSTableInterface
 {
 	/**
 	 * NBS adjunct table

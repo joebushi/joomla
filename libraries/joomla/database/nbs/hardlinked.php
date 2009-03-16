@@ -9,7 +9,7 @@
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();
 
-jregister('JBaseTable', 'joomla.database.table.base');
+jimport('joomla.database.table');
 jimport('joomla.database.query');
 require_once dirname(__FILE__).DS.'nbs.interface.php';
 
@@ -26,7 +26,7 @@ require_once dirname(__FILE__).DS.'nbs.interface.php';
  * @subpackage	Database.Table
  * @since		2.0
  */
-abstract class JHardlinkedTable extends JBaseTable implements JNBSTableInterface
+abstract class JHardlinkedTable extends JTable implements JNBSTableInterface
 {
 	/**
 	 * NBS adjunct table

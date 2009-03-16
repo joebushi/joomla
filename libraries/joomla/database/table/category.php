@@ -10,6 +10,8 @@
 // No direct access
 defined('JPATH_BASE') or die();
 
+JLoader::register('JHardlinkedTable', JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'nbs'.DS.'hardlinked.php');
+
 /**
  * Category table
  *
@@ -17,7 +19,7 @@ defined('JPATH_BASE') or die();
  * @subpackage		Table
  * @since	1.0
  */
-class JTableCategory extends JTable
+class JTableCategory extends JHardlinkedTable
 {
 	/** @var int Primary key */
 	protected $id					= null;
