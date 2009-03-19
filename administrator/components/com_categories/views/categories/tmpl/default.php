@@ -104,10 +104,18 @@ for ($i=0, $n=count( $this->rows ); $i < $n; $i++) {
 			<?php echo $published;?>
 		</td>
 		<td class="order">
+			<?php ++$ordering[$row->level];
+			if($row->level < $this->rows[$i-1]->level)
+			{
+				for($e = 0; $e < ($this->rows[$i-1]->level - $row->level); $e++)
+				{
+					$ordering[$row->level + $e + 1] = 0;
+				}
+			} ?>
 			<span><?php echo $this->pagination->orderUpIcon( $i, ($row->level <= @$this->rows[$i-1]->level), 'orderup', 'Move Up', true ); ?></span>
-			<span><?php echo $this->pagination->orderDownIcon( $i, $n, ($row->rgt <= @$this->rows[$i-1]->rgt), 'orderdown', 'Move Down', true ); ?></span>
+			<span><?php echo $this->pagination->orderDownIcon( $i, $n, ($row->rgt != 2 * count($this->rows) + 1 && ($row->level > @$this->rows[$i-1]->level || $row->level <= @$this->rows[$i+1]->level)), 'orderdown', 'Move Down', true ); ?></span>
 			<?php $disabled = true ?  '' : 'disabled="disabled"'; ?>
-			<input type="text" name="order[]" size="5" value="<?php echo $row->level; ?>" <?php echo $disabled ?> class="text_area" style="text-align: center" />
+			<input type="text" name="order[]" size="5" value="<?php echo $ordering[$row->level]; ?>" <?php echo $disabled ?> class="text_area" style="text-align: center" />
 		</td>
 		<td align="center">
 			<?php echo $access;?>
