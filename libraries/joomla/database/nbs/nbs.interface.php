@@ -85,7 +85,7 @@ interface JNBSTableInterface
 	 *			sets them in their own constructor, like 'nbsFields').
 	 * @since	2.0
 	 */
-	public function __construct(array $settings);
+	//public function __construct(array $settings);
 
 	/**
 	 * Determines if the given node is a leaf node

@@ -105,7 +105,7 @@ function submitbutton(pressbutton, section) {
 					<?php echo JText::_('Parent'); ?>:
 				</td>
 				<td>
-					<?php echo JHtml::_('list.category', 'parent', 'com_content', NULL, (int) $this->row->parent, ' onchange="submitform();"', 1, 1, 1); ?>
+					<?php echo JHtml::_('list.category', 'parent', 'com_content', NULL, (int) $this->row->parent, '', 1, 1, 1); ?>
 				</td>
 			</tr>
 			<tr>

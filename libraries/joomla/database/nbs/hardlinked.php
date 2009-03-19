@@ -92,7 +92,7 @@ abstract class JHardlinkedTable extends JTable implements JNBSTableInterface
 	 */
 	public function __construct(array $settings)
 	{
-		parent::__construct($settings);
+		parent::__construct($settings['table'], $settings['key'], $settings['db']);
 
 		$this->_nbsTable =
 			!empty($settings['nbsTable']) ? $settings['nbsTable'] : $settings['table'].'_nbs'
@@ -176,7 +176,7 @@ abstract class JHardlinkedTable extends JTable implements JNBSTableInterface
 		$nbsFields	= (object) $nbsFields;
 
 		// Bind all data fields which are not in the ignore list
-		foreach ($this->getPublicProperties() as $key => $value) {
+		foreach ($this->getProperties() as $key => $value) {
 			if (!in_array($key, $dataIgnore) && isset($dataFields->$key)) {
 				$this->$key = $dataFields->$key;
 			}
@@ -575,9 +575,9 @@ abstract class JHardlinkedTable extends JTable implements JNBSTableInterface
 		}
 
 		// Lock the table so that nothing gets messed with while we insert our node(s)
-		$this->_db->lockTables(
+		/**$this->_db->lockTables(
 			array($this->_nbsTable, $this->_nbsTable=>'parent', $this->_tbl), true
-		);
+		);*/
 
 		// Fetch information about the parent node
 		$parents = $this->getTargetNodes($parent, $where);
@@ -607,13 +607,11 @@ abstract class JHardlinkedTable extends JTable implements JNBSTableInterface
 		$updateRgt .= ' ELSE 0 END';
 
 		// Update the left and right values of all following nodes
-		$query = new JQuery;
-		$query->update($this->_nbsTable);
-		$query->set($this->_nbsLft, $this->_nbsLft.' + '.$updateLft);
-		$query->set($this->_nbsRgt, $this->_nbsRgt.' + '.$updateRgt);
-		$query->where($this->_nbsRgt.' >= ?insert');
-		$query->bind('?insert', $parents[0]->sequenceId);
-		$this->_db->setQuery($query)->query();
+		$query = 'UPDATE '.$this->_nbsTable.' SET (';
+		$query .= $this->_nbsLft.' = '. $this->_nbsLft.' + '.$updateLft.', ';
+		$query .= $this->_nbsRgt.' = '. $this->_nbsRgt.' + '.$updateRgt.')';
+		$query .= ' WHERE '.$this->_nbsRgt.' >= '.$parents[0]->sequenceId;
+		$this->_db->setQuery($query);
 
 		// Insert the data object
 		$this->_db->insertObject($this->_tbl, $this, $this->_tbl_key);
@@ -641,18 +639,13 @@ abstract class JHardlinkedTable extends JTable implements JNBSTableInterface
 		$query = 'INSERT INTO '.$this->_nbsTable.' ('.$fields.') '
 			.' VALUES ('.implode('), (', $values).')'
 		;
-		$this->_db->setQuery($query)->query();
+		$this->_db->setQuery($query);
 		$this->_nbsObject->{$this->_nbsKeyHL} = $this->_db->insertid();
 
 		// Set the ref_id of the new node to the actual Id of the new node
-		$query = new JQuery;
-		$query->update($this->_nbsTable);
-		$query->set($this->_nbsKeyHL, $this->_nbsObject->{$this->_nbsKeyHL});
-		$query->where($this->_nbsKeyHL.' = 0');
-		$this->_db->setQuery($query)->query();
-
-		// Finished the transaction, lets unlock the table
-		$this->_db->unlockTables();
+		$query = 'UPDATE '.$this->_nbsTable.' SET ('.$this->_nbsKeyHL.' = '. $this->_nbsObject->{$this->_nbsKeyHL}.')';
+		$query .= ' WHERE '.$this->_nbsKeyHL.' = 0';
+		$this->_db->setQuery($query);
 
 		return $this->_nbsObject->{$this->_nbsKeyHL};
 	}
@@ -1424,9 +1417,8 @@ abstract class JHardlinkedTable extends JTable implements JNBSTableInterface
 			} else {
 				$query->select($this->_nbsRgt.' + 1 AS sequenceId');
 			}
-			$query->where($this->_nbsKeyHL.' = ?target');
+			$query->where($this->_nbsKeyHL.' = '.$target);
 			$query->order($this->_nbsLft);
-			$query->bind('?target', $target);
 			$this->_db->setQuery($query);
 			$result = $this->_db->loadObjectList();
 		} else {

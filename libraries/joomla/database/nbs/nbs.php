@@ -543,7 +543,7 @@ abstract class JNBSTable extends JTable implements JNBSTableInterface
 		$query->set($this->_nbsRgt, $this->_nbsRgt.' + 2');
 		$query->where($this->_nbsRgt.' >= ?insert');
 		$query->bind('?insert', $parents[0]->sequenceId);
-		$this->_db->setQuery($query)->query();
+		$this->_db->setQuery($query->query());
 
 		// Insert the data object
 		$this->_db->insertObject($this->_tbl, $this, $this->_tbl_key);

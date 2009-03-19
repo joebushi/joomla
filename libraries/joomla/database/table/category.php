@@ -23,20 +23,15 @@ class JTableCategory extends JHardlinkedTable
 {
 	/** @var int Primary key */
 	protected $id					= null;
+	protected $lft					= null;
+	protected $rgt					= null;
 	/** @var int */
-	protected $parent_id			= null;
+	protected $extension			= null;
+	protected $lang					= null;
 	/** @var string The menu title for the category (a short name)*/
 	protected $title				= null;
-	/** @var string The full name for the category*/
-	protected $name				= null;
 	/** @var string The the alias for the category*/
 	protected $alias				= null;
-	/** @var string */
-	protected $image				= null;
-	/** @var string */
-	protected $section				= null;
-	/** @var int */
-	protected $image_position		= null;
 	/** @var string */
 	protected $description			= null;
 	/** @var boolean */
@@ -46,8 +41,6 @@ class JTableCategory extends JHardlinkedTable
 	/** @var time */
 	protected $checked_out_time		= 0;
 	/** @var int */
-	protected $ordering			= null;
-	/** @var int */
 	protected $access				= null;
 	/** @var string */
 	protected $params				= null;
@@ -55,9 +48,9 @@ class JTableCategory extends JHardlinkedTable
 	/**
 	* @param database A database connector object
 	*/
-	protected function __construct(&$db)
+	public function __construct(&$db)
 	{
-		parent::__construct('#__categories', 'id', $db);
+		parent::__construct(array('table' => '#__categories', 'key' => 'id', 'db' => $db, 'nbsTable' => '#__categories'));
 	}
 
 	/**

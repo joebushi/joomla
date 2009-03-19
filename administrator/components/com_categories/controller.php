@@ -78,6 +78,7 @@ class CategoriesController extends JController
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$db			=& JFactory::getDBO();
+		$extension 	= JRequest::getCmd( 'extension', 'com_content' );
 		$menu		= JRequest::getVar( 'menu', 'mainmenu', 'post', 'string' );
 		$menuid		= JRequest::getVar( 'menuid', 0, 'post', 'int' );
 		$oldtitle	= JRequest::getVar( 'oldtitle', '', '', 'post', 'string' );
@@ -96,61 +97,29 @@ class CategoriesController extends JController
 		if (!$row->check()) {
 			JError::raiseError(500, $row->getError() );
 		}
-		if ( $oldtitle ) {
-			if ( $oldtitle <> $row->title ) {
-				$query = 'UPDATE #__menu'
-				. ' SET name = '.$db->Quote($row->title)
-				. ' WHERE name = '.$db->Quote($oldtitle)
-				. ' AND type = "content_category"'
-				;
-				$db->setQuery( $query );
-				$db->query();
+		if($row->id > 0)
+		{
+			if(!$row->update()) {
+				JError::raiseError(500, $row->getError() );
 			}
-		}
-
-		// if new item order last in appropriate group
-		if (!$row->id) {
-			$row->ordering = $row->getNextOrder();
-		}
-
-		if (!$row->store()) {
-			JError::raiseError(500, $row->getError() );
+		} else {
+			if(!$row->insertNode(JRequest::getInt('parent'))) {
+				JError::raiseError(500, $row->getError() );
+			}
 		}
 		$row->checkin();
 
-		// Update Section Count
-		if ($row->section != 'com_contact_details' &&
-			$row->section != 'com_newsfeeds' &&
-			$row->section != 'com_weblinks') {
-			$query = 'UPDATE #__sections SET count=count+1'
-			. ' WHERE id = '.$db->Quote($row->section)
-			;
-			$db->setQuery( $query );
-		}
-
-		if (!$db->query()) {
-			JError::raiseError(500, $db->getErrorMsg() );
-		}
-
 		switch ( $task )
 		{
-			case 'go2menu':
-				$mainframe->redirect( 'index.php?option=com_menus&menutype='. $menu );
-				break;
-
-			case 'go2menuitem':
-				$mainframe->redirect( 'index.php?option=com_menus&menutype='. $menu .'&task=edit&id='. $menuid );
-				break;
-
 			case 'apply':
 				$msg = JText::_( 'Changes to Category saved' );
-				$mainframe->redirect( 'index.php?option=com_categories&section='. $redirect .'&task=edit&cid[]='. $row->id, $msg );
+				$mainframe->redirect( 'index.php?option=com_categories&extension='. $extension .'&task=edit&cid[]='. $row->id, $msg );
 				break;
 
 			case 'save':
 			default:
 				$msg = JText::_( 'Category saved' );
-				$mainframe->redirect( 'index.php?option=com_categories&section='. $redirect, $msg );
+				$mainframe->redirect( 'index.php?option=com_categories&extension='. $extension, $msg );
 				break;
 		}
 	}
