@@ -1,104 +1,47 @@
-<?php
-/**
- * $Id$
- */
-defined( '_JEXEC' ) or die( 'Restricted access' );
-
-$cparams =& JComponentHelper::getParams('com_media');
-?>
-
+<?php // no direct access
+defined('_JEXEC') or die('Restricted access'); ?>
 <?php if ( $this->params->get( 'show_page_title', 1 ) ) : ?>
-<div class="componentheading<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-<?php echo $this->escape($this->params->get('page_title')); ?>
-</div>
+	<div class="componentheading<?php echo $this->params->get('pageclass_sfx')?>"><?php echo $this->escape($this->params->get('page_title')); ?></div>
 <?php endif; ?>
-<div class="contentpane<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-<?php if ($this->category->image || $this->category->description) : ?>
-	<div class="contentdescription<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-	<?php if ($this->params->get('image') != -1 && $this->params->get('image') != '') : ?>
-		<img src="<?php echo $this->baseurl .'/'. $cparams->get('image_path') . '/'. $this->params->get('image'); ?>" align="<?php echo $this->params->get('image_align'); ?>" hspace="6" alt="<?php echo JText::_( 'Contacts' ); ?>" />
-	<?php elseif ($this->category->image) : ?>
-		<img src="<?php echo $this->baseurl .'/'. $cparams->get('image_path') . '/'. $this->category->image; ?>" align="<?php echo $this->category->image_position; ?>" hspace="6" alt="<?php echo JText::_( 'Contacts' ); ?>" />
-	<?php endif; ?>
-	<?php echo $this->category->description; ?>
-	</div>
-<?php endif; ?>
-<script language="javascript" type="text/javascript">
-	function tableOrdering( order, dir, task ) {
-	var form = document.adminForm;
 
-	form.filter_order.value 	= order;
-	form.filter_order_Dir.value	= dir;
-	document.adminForm.submit( task );
-}
-</script>
-<form action="<?php echo $this->action; ?>" method="post" name="adminForm">
-<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
-	<thead>
-		<tr>
-			<td align="right" colspan="6">
-			<?php if ($this->params->get('show_limit')) :
-				echo JText::_('Display Num') .'&nbsp;';
-				echo $this->pagination->getLimitBox();
-			endif; ?>
-			</td>
-		</tr>
-	</thead>
-	<tfoot>
-		<tr>
-			<td align="center" colspan="6" class="sectiontablefooter<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-				<?php echo $this->pagination->getPagesLinks(); ?>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="6" align="right">
-				<?php echo $this->pagination->getPagesCounter(); ?>
-			</td>
-		</tr>
-	</tfoot>
-	<tbody>
-	<?php if ($this->params->get( 'show_headings' )) : ?>
-		<tr>
-			<td width="5" align="right" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-				<?php echo JText::_('Num'); ?>
-			</td>
-			<td height="20" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-				<?php echo JHtml::_('grid.sort',  'Name', 'cd.name', $this->lists['order_Dir'], $this->lists['order'] ); ?>
-			</td>
-			<?php if ( $this->params->get( 'show_position' ) ) : ?>
-			<td height="20" class="sectiontableheader<?php echo  $this->params->get( 'pageclass_sfx' ); ?>">
-				<?php echo JHtml::_('grid.sort',  'Position', 'cd.con_position', $this->lists['order_Dir'], $this->lists['order'] ); ?>
-			</td>
-			<?php endif; ?>
-			<?php if ( $this->params->get( 'show_email' ) ) : ?>
-			<td height="20" width="20%" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-				<?php echo JText::_( 'Email' ); ?>
-			</td>
-			<?php endif; ?>
-			<?php if ( $this->params->get( 'show_telephone' ) ) : ?>
-			<td height="20" width="15%" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-				<?php echo JText::_( 'Phone' ); ?>
-			</td>
-			<?php endif; ?>
-			<?php if ( $this->params->get( 'show_mobile' ) ) : ?>
-			<td height="20" width="15%" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-				<?php echo JText::_( 'Mobile' ); ?>
-			</td>
-			<?php endif; ?>
-			<?php if ( $this->params->get( 'show_fax' ) ) : ?>
-				<td height="20" width="15%" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-					<?php echo JText::_( 'Fax' ); ?>
-				</td>
-			<?php endif; ?>
-		</tr>
-	<?php endif; ?>
+<table width="100%" cellpadding="4" cellspacing="0" border="0" align="center" class="contentpane<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+<?php if ( @$this->category->image || @$this->category->description ) : ?>
+<tr>
+	<td valign="top" class="contentdescription<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+	<?php
+		if ( isset($this->category->image) ) :  echo $this->category->image; endif;
+		echo $this->category->description;
+	?>
+	</td>
+</tr>
+<?php endif; ?>
+<tr>
+	<td>
+	<ul>
+<?php foreach ( $this->categories as $category ) : ?>
+	<li>
+		<a href="<?php echo $category->link ?>" class="category<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+			<?php echo $category->title;?></a>
+		<?php if ( $this->params->get( 'show_cat_items' ) ) : ?>
+		&nbsp;
+		<span class="small">
+			(<?php echo $category->numlinks;?>)
+		</span>
+		<?php endif; ?>
+		<?php if ( $this->params->get( 'show_cat_description' ) && $category->description ) : ?>
+		<br />
+		<?php echo $category->description; ?>
+		<?php endif; ?>
+	</li>
+<?php endforeach; ?>
+</ul>
+</td>
+</tr>
+<?php if(count($this->items)) : ?>
+<tr>
+	<td width="60%" colspan="2">
 	<?php echo $this->loadTemplate('items'); ?>
-</tbody>
+	</td>
+</tr>
+<?php endif; ?>
 </table>
-
-<input type="hidden" name="option" value="com_contact" />
-<input type="hidden" name="catid" value="<?php echo $this->category->id;?>" />
-<input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
-<input type="hidden" name="filter_order_Dir" value="" />
-</form>
-</div>
