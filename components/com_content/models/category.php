@@ -247,16 +247,16 @@ class ContentModelCategory extends JModel
 		
 		$lft = $this->_category_tree[$this->_id]->lft;
 		$rgt = $this->_category_tree[$this->_id]->rgt;
-		$level = $this->_category_tree[$this->_id]->level;
 		$result = array();
 		foreach($this->_category_tree as $category)
 		{
-			if($category->lft > $lft && $category->rgt < $rgt && $category->level == $level + 1)
+			if($category->lft > $lft && $category->rgt < $rgt)
 			{
 				$result[] = $category;
 			}
 		} 
-		return $result;
+		$categories = ContentHelperCategory::getCategory(JRequest::getInt('id'));
+		return $categories->children;
 	}
 	
 	/**
@@ -272,7 +272,7 @@ class ContentModelCategory extends JModel
 		{
 			$user	 =& JFactory::getUser();
 			$app = JFactory::getApplication();
-
+			
 			// Get the page/component configuration
 			$params = &$app->getParams();
 
@@ -306,7 +306,7 @@ class ContentModelCategory extends JModel
 					' FROM #__categories AS c, #__categories AS cp '.
 					' WHERE cp.id = '.JRequest::getInt('id').
 					' AND c.lft BETWEEN cp.lft AND cp.rgt '.
-					' AND c.level > 0 AND c.extension = \'com_content\') AS cp '.
+					' AND c.extension = \'com_content\') AS cp '.
 					' WHERE c.lft BETWEEN cp.lft AND cp.rgt AND c.extension = \'com_content\''.
 					$xwhere2.
 					$xwhere.

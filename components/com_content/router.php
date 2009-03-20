@@ -6,6 +6,8 @@
 * @license		GNU General Public License, see LICENSE.php
 */
 
+require_once(JPATH_SITE.DS.'components'.DS.'com_content'.DS.'helpers'.DS.'category.php');
+
 function ContentBuildRoute(&$query)
 {
 	$segments = array();
@@ -17,9 +19,22 @@ function ContentBuildRoute(&$query)
 	} else {
 		$menuItem = &$menu->getItem($query['Itemid']);
 	}
+
 	$mView	= (empty($menuItem->query['view'])) ? null : $menuItem->query['view'];
-	$mCatid	= (empty($menuItem->query['catid'])) ? null : $menuItem->query['catid'];
+	if(isset($menuItem->query['catid']))
+	{
+		$mCatid	= (empty($menuItem->query['catid'])) ? null : $menuItem->query['catid'];
+	} else {
+		$mCatid	= (empty($menuItem->query['id'])) ? null : $menuItem->query['id'];
+	}
 	$mId	= (empty($menuItem->query['id'])) ? null : $menuItem->query['id'];
+	
+	if($query['view'] == 'category')
+	{
+		$category = ContentHelperCategory::getCategory((int) $query['id']);
+	} elseif ($query['view'] == 'article') {
+		$category = ContentHelperCategory::getCategory((int) $query['catid']);	
+	}
 
 	if(isset($query['view']))
 	{
@@ -37,37 +52,43 @@ function ContentBuildRoute(&$query)
 		unset($query['id']);
 	}
 
-	if (isset($view) and $view == 'category') {
-		if ($mId != intval($query['id']) || $mView != $view) {
-			$segments[] = $query['path'];
+	if (isset($view) && $view == 'category' && $mView == $view && (int) $mCatid != $category->id) {
+		$path = array();
+		for($i = 0; $i < 1;$i++)
+		{
+			$path[] = $category->slug;
+			$category = $category->parent;
+			if($category->id != $mCatid)
+			{
+				$i--;
+			}
 		}
+		$path = array_reverse($path);
+		$segments = array_merge($segments, $path);
 		unset($query['id']);
 		unset($query['path']);
 	}
-	
-	if (isset($query['catid'])) {
-		// if we are routing an article or category where the category id matches the menu catid, don't include the category segment
-		if ((($view == 'article') and ($mView != 'category') and ($mView != 'article') and ($mCatid != intval($query['catid'])))) {
-			//$segments[] = $query['catid'];
-			
-		}
-		$segments[] = $query['path'];
-		
-		unset($query['catid']);
-		unset($query['path']);
-	};
 
-	if(isset($query['id'])) {
+	if(isset($view) && $view == 'article' && isset($query['id'])) {
 		if (empty($query['Itemid'])) {
 			$segments[] = $query['id'];
 		} else {
-			if (isset($menuItem->query['id'])) {
-				if($query['id'] != $mId) {
-					$segments[] = $query['id'];
+			$path = array();
+			$e = 1;
+			for($i = 0; $i < $e;$i++)
+			{
+				$path[] = $category->slug;
+				$category = $category->parent;
+				if($category->id != $mCatid)
+				{
+					$e++;
 				}
-			} else {
-				$segments[] = $query['id'];
 			}
+			$path = array_reverse($path);
+			$segments = array_merge($segments, $path);
+			$segments[] = $query['id'];
+			unset($query['path']);
+			unset($query['catid']);
 		}
 		unset($query['id']);
 	};
@@ -113,6 +134,10 @@ function ContentParseRoute($segments)
 	$menu =& JSite::getMenu();
 	$item =& $menu->getActive();
 
+	if($item->query['view'] == 'category')
+	{
+		$categories = ContentHelperCategory::getCategories($item->query['id']);
+	}
 	// Count route segments
 	$count = count($segments);
 
@@ -129,38 +154,23 @@ function ContentParseRoute($segments)
 	{
 		case 'category'   :
 		{
-			$db = JFactory::getDBO();
-			$query = 'SELECT c.*, '.
-					'CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(":", c.id, c.alias) ELSE c.id END as slug '.
-					'FROM #__categories AS c,'.
-					' (SELECT c.id, MIN(c.lft) as lft, MAX(c.rgt) as rgt'.
-					' FROM #__categories AS c, #__categories AS cp'.
-					' WHERE cp.id = '.$item->query['id'].' AND c.lft BETWEEN cp.lft '.
-					' AND cp.rgt AND c.level > 0 AND c.extension = \'com_content\') AS cp'.
-					' WHERE c.lft BETWEEN cp.lft AND cp.rgt AND c.extension = \'com_content\''.
-					' AND c.published = 1 AND c.access <= 0 GROUP BY c.id ORDER BY c.lft';
-			$db->setQuery($query);
-			$categories = $db->loadObjectList();
+			$categories = array_pop($categories);
+			$categories = $categories->children;
+			$found = 0;
 			foreach($segments as $segment)
 			{
-				$vars['id'] = '';
-				foreach($categories as $category)
-				{
-					if($category->slug == $segment)
-					{
-						$vars['id'] = $segment;
-						$vars['view'] = 'category';
-						$vars['path'][] = $segment;
-						continue;
-					}
-				}
-				if($vars['id'] == '')
+				if(isset($categories[(int) $segment]))
 				{
 					$vars['id'] = $segment;
+					$vars['view'] = 'category';
+					$vars['path'][] = $segment;
+					$categories = $categories[(int) $segment]->children;
+				} else {
+					$vars['id'] = $segment;
 					$vars['view'] = 'article';
+					break;
 				}
 			}
-
 		} break;
 
 		case 'frontpage'   :

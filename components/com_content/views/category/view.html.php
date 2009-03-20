@@ -153,7 +153,6 @@ class ContentViewCategory extends ContentView
 		$this->assignRef('user',		$user);
 		$this->assignRef('access',		$access);
 		$this->assignRef('pagination',	$pagination);
-
 		parent::display($tpl);
 	}
 

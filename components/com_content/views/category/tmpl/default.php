@@ -25,21 +25,11 @@ $cparams =& JComponentHelper::getParams('com_media');
 	} else {
 		$id = $item->query['catid'];
 	}
+	if(is_array($this->children))
 	foreach($this->children as $child)
 	{
 		$path = '';
 		$divider = '';
-		foreach($child->path as $catid)
-		{
-			if((int) $catid == $id)
-			{
-				$path = '';
-				$divider = '';
-			} else {
-				$path .= $divider.$catid;
-				$divider = '/';
-			}
-		}
 		echo '<li><a href="'.JRoute::_('index.php?option=com_content&view=category&id='.$child->slug.'&path='.$path).'">'.$child->title.'</a> ('.$child->numitems.')</li>';
 	}
 	?>

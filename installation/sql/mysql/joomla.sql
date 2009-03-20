@@ -72,12 +72,12 @@ CREATE TABLE  `#__bannertrack` (
 # Table structure for table `#__categories`
 #
 
-CREATE TABLE IF NOT EXISTS `#__categories` (
+CREATE TABLE `#__categories` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `lft` int(11) NOT NULL DEFAULT '0',
   `rgt` int(11) NOT NULL DEFAULT '0',
   `ref_id` int(11) NOT NULL DEFAULT '0',
-  `level` int(11) NOT NULL DEFAULT '0',
+  `parent_id` int(11) NOT NULL DEFAULT '0',
   `extension` varchar(50) NOT NULL DEFAULT '',
   `lang` varchar(5) NOT NULL DEFAULT '',
   `title` varchar(255) NOT NULL,
