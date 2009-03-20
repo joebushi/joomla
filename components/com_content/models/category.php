@@ -169,7 +169,7 @@ class ContentModelCategory extends JModel
 			JError::raiseError(404, JText::_("Resource Not Found"));
 			return false;
 		}
-			
+		$this->_category = ContentHelperCategory::getCategory($this->_id);
 		// Initialize some variables
 		$user = &JFactory::getUser();
 

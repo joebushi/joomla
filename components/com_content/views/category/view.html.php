@@ -120,10 +120,28 @@ class ContentViewCategory extends ContentView
 		$document->setTitle( $params->get( 'page_title' ) );
 
 		//set breadcrumbs
-		if(is_object($menu) && $menu->query['view'] != 'category') {
-			$pathway->addItem($category->title, '');
+		$pathwaycat = $category;
+		$path = array();
+		if(is_object($menu) && $menu->query['id'] != $category->id)
+		{
+			$path[] = array($pathwaycat->title);
+			$pathwaycat = $pathwaycat->parent;
+			while($pathwaycat->id != $menu->query['id'])
+			{
+				$path[] = array($pathwaycat->title, $pathwaycat->slug);
+				$pathwaycat = $pathwaycat->parent;	
+			}
+			$path = array_reverse($path);
+			foreach($path as $element)
+			{
+				if(isset($element[1]))
+				{
+					$pathway->addItem($element[0], 'index.php?option=com_content&view=category&id='.$element[1]);
+				} else {
+					$pathway->addItem($element[0], '');
+				}
+			}
 		}
-
 		// Prepare category description
 		$category->description = JHtml::_('content.prepare', $category->description);
 
