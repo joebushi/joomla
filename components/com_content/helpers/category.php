@@ -76,10 +76,10 @@ abstract class ContentHelperCategory
 			' ORDER BY c.lft';
 		$db->setQuery($query);
 		$results = $db->loadObjectList();
-		//var_dump($results);
 		$categories = array();
 		foreach($results as $result)
 		{
+			$result->children = array();
 			$categories[$result->id] = $result;
 			if($result->parent_id > 0)
 			{

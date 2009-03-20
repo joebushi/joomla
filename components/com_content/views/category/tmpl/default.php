@@ -25,7 +25,7 @@ $cparams =& JComponentHelper::getParams('com_media');
 	} else {
 		$id = $item->query['catid'];
 	}
-	if(isset($this->children))
+	//if(isset($this->children))
 	foreach($this->children as $child)
 	{
 		$path = '';

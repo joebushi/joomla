@@ -91,11 +91,11 @@ for ($i=0, $n=count( $this->rows ); $i < $n; $i++) {
 			<span class="editlinktip hasTip" title="<?php echo JText::_( 'Title' );?>::<?php echo $row->title; ?>">
 			<?php
 			if (  JTable::isCheckedOut($this->user->get ('id'), $row->checked_out )  ) {
-				echo str_repeat('&nbsp;&nbsp;', $row->level).$row->title;
+				echo str_repeat('&nbsp;&nbsp;', $row->depth).$row->title;
 			} else {
 				?>
 				<a href="<?php echo JRoute::_( $link ); ?>">
-					<?php echo str_repeat('&nbsp;&nbsp;', $row->level - 1).$row->title; ?></a>
+					<?php echo str_repeat('&nbsp;&nbsp;', $row->depth).$row->title; ?></a>
 				<?php
 			}
 			?></span>
@@ -104,18 +104,18 @@ for ($i=0, $n=count( $this->rows ); $i < $n; $i++) {
 			<?php echo $published;?>
 		</td>
 		<td class="order">
-			<?php ++$ordering[$row->level];
-			if($row->level < $this->rows[$i-1]->level)
+			<?php ++$ordering[$row->depth];
+			if($row->depth < $this->rows[$i-1]->depth)
 			{
-				for($e = 0; $e < ($this->rows[$i-1]->level - $row->level); $e++)
+				for($e = 0; $e < ($this->rows[$i-1]->depth - $row->depth); $e++)
 				{
-					$ordering[$row->level + $e + 1] = 0;
+					$ordering[$row->depth + $e + 1] = 0;
 				}
 			} ?>
-			<span><?php echo $this->pagination->orderUpIcon( $i, ($row->level <= @$this->rows[$i-1]->level), 'orderup', 'Move Up', true ); ?></span>
-			<span><?php echo $this->pagination->orderDownIcon( $i, $n, ($row->rgt != 2 * count($this->rows) + 1 && ($row->level > @$this->rows[$i-1]->level || $row->level <= @$this->rows[$i+1]->level)), 'orderdown', 'Move Down', true ); ?></span>
+			<span><?php echo $this->pagination->orderUpIcon( $i, ($row->depth <= @$this->rows[$i-1]->depth), 'orderup', 'Move Up', true ); ?></span>
+			<span><?php echo $this->pagination->orderDownIcon( $i, $n, ($row->rgt != 2 * count($this->rows) + 1 && ($row->level > @$this->rows[$i-1]->depth || $row->depth <= @$this->rows[$i+1]->depth)), 'orderdown', 'Move Down', true ); ?></span>
 			<?php $disabled = true ?  '' : 'disabled="disabled"'; ?>
-			<input type="text" name="order[]" size="5" value="<?php echo $ordering[$row->level]; ?>" <?php echo $disabled ?> class="text_area" style="text-align: center" />
+			<input type="text" name="order[]" size="5" value="<?php echo $ordering[$row->depth]; ?>" <?php echo $disabled ?> class="text_area" style="text-align: center" />
 		</td>
 		<td align="center">
 			<?php echo $access;?>

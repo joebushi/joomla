@@ -97,6 +97,20 @@ class CategoriesModelCategories extends JModel
 			$extension = $this->getExtension();
 			$query = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
+			$tempcat = array();
+			foreach($this->_data as $category)
+			{
+				$tempcat[$category->id] = $category;
+				$tempcat[$category->id]->depth = 0;
+				if($category->parent_id != 0)
+				{
+					$tempcat[$category->id]->depth = $tempcat[$category->parent_id]->depth + 1;
+				}
+			}
+			foreach($this->_data as &$category)
+			{
+				$category->depth = $tempcat[$category->id]->depth;
+			}
 			$this->getCategoryTotals();
 		}
 
@@ -217,7 +231,7 @@ class CategoriesModelCategories extends JModel
 		. ' LEFT JOIN #__users AS u ON u.id = c.checked_out'
 		. ' LEFT JOIN #__core_acl_axo_groups AS g ON g.value = c.access'
 		. ' LEFT JOIN #__'.$this->table.' AS s2 ON s2.catid = c.id AND s2.checked_out > 0'
-		. ', #__categories AS cp'
+		//. ', #__categories AS cp'
 		. $this->content_join
 		. $where
 		. ' AND c.published != -2'
@@ -249,16 +263,16 @@ class CategoriesModelCategories extends JModel
 		$this->content_join 	= '';
 		$this->table = substr( $extension, 4 );
 
-		$where 			= ' WHERE c.lft BETWEEN cp.lft AND cp.rgt'
-						.' AND c.extension = '.$db->Quote($this->extension->option)
-						.' AND cp.extension = '.$db->Quote($this->extension->option)
-						.' AND c.level > 0';
+		//$where 			= ' WHERE c.lft BETWEEN cp.lft AND cp.rgt'
+		$where				= ' WHERE '
+						.' c.extension = '.$db->Quote($this->extension->option);
+						//.' AND cp.extension = '.$db->Quote($this->extension->option);
 		
 		if ( $parent_category == 0 )
 		{
-			$where .= ' AND cp.lft = 1';
+		//	$where .= ' AND cp.lft = 1';
 		} else {
-			$where .= ' AND cp.id = '.$parent_category;
+		//	$where .= ' AND cp.id = '.$parent_category;
 		}
 		// allows for viweing of all content categories
 		if ( $this->extension->option == 'com_content' ) {
