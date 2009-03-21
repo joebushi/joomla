@@ -150,15 +150,34 @@ class CategoriesController extends JController
 				
 				$row->lft = $current->lft;
 				$row->rgt = $current->rgt;
+			} elseif($row->parent_id == $current->parent_id && $row->parent_id == 0) {
+				$row->lft = $current->lft;
+				$row->rgt = $current->rgt;
 			}
 		} else {
-			$query = 'SELECT MAX(rgt) FROM #__categories '.
-						'WHERE extension = '.$db->Quote($row->extension);
-			$db->setQuery($query);
-			$rgt = $db->loadResult();
-			$row->lft = $rgt + 1;
-			$row->rgt = $rgt + 2;
-			
+			if($row->parent_id > 0)
+			{
+				$query = 'SELECT lft, rgt FROM #__categories WHERE id = '.(int)$row->parent_id;
+				$db->setQuery($query);
+				$new_parent = $db->loadObject();
+
+				$query = 'UPDATE #__categories SET rgt = rgt + 2 '.
+						'WHERE rgt >= '.$new_parent->rgt.' AND extension = '.$db->Quote($row->extension);
+				$db->setQuery($query);
+				$db->Query();
+				$query = 'UPDATE #__categories SET lft = lft + 2 '.
+						'WHERE lft > '.$new_parent->rgt.' AND extension = '.$db->Quote($row->extension);
+				$db->setQuery($query);
+				$db->Query();
+				$row->lft = $new_parent->rgt;
+				$row->rgt = $new_parent->rgt + 1;
+			} else {
+				$query = 'SELECT MAX(rgt) FROM #__categories WHERE extension = '.$db->Quote($row->extension);
+				$db->setQuery($query);
+				$rgt = $db->loadResult();
+				$row->lft = $rgt + 1;
+				$row->rgt = $rgt + 2;
+			}
 		}
 		if(!$row->store()) {
 			JError::raiseError(500, $row->getError() );

@@ -334,7 +334,6 @@ class JAccess extends JObject
 		$query->where('r.allow = 1');
 
 		$db->setQuery($query->toString());
-
 		$this->_quiet or $this->_log($db->getQuery());
 
 		$ids = $db->loadResultArray();
