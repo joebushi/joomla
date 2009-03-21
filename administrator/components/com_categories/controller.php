@@ -97,15 +97,71 @@ class CategoriesController extends JController
 		if (!$row->check()) {
 			JError::raiseError(500, $row->getError() );
 		}
-		if($row->id > 0)
+		if($row->id != 0)
 		{
-			if(!$row->update()) {
-				JError::raiseError(500, $row->getError() );
+			$query = 'SELECT lft, rgt, parent_id FROM #__categories WHERE id = '.$row->id;
+			$db->setQuery($query);
+			$current = $db->loadObject();
+			if($current->parent_id != $row->parent_id)
+			{
+				$query = 'SELECT lft, rgt FROM #__categories WHERE id = '.(int)$row->parent_id;
+				$db->setQuery($query);
+				$new_parent = $db->loadObject();
+
+				$query = 'UPDATE #__categories SET rgt = rgt + '.($current->rgt - $current->lft).' '.
+						'WHERE rgt >= '.$new_parent->rgt.' AND extension = '.$db->Quote($row->extension);
+				$db->setQuery($query);
+				$db->Query();
+				$query = 'UPDATE #__categories SET lft = lft + '.($current->rgt - $current->lft).' '.
+						'WHERE lft > '.$new_parent->rgt.' AND extension = '.$db->Quote($row->extension);
+				$db->setQuery($query);
+				$db->Query();
+				$query = 'UPDATE #__categories SET ';
+				if($current->lft > $new_parent->rgt)
+				{
+					$query .= 'lft = lft - '.($current->lft - $new_parent->rgt - 1);
+				} else {
+					$query .= 'lft = lft + '.($new_parent->rgt - $current->lft + 1);
+				}
+				$query .= ' WHERE lft BETWEEN '.$current->lft.' AND '.$current->rgt.' AND extension = '.$db->Quote($row->extension);
+				$db->setQuery($query);
+				$db->Query();
+				$query = 'UPDATE #__categories SET ';
+				if($current->lft > $new_parent->rgt)
+				{
+					$query .= 'rgt = rgt - '.($current->lft - $new_parent->rgt - 1);
+				} else {
+					$query .= 'rgt = rgt + '.($new_parent->rgt - $current->lft + 1);
+				}
+				$query .= ' WHERE rgt BETWEEN '.$current->lft.' AND '.$current->rgt.' AND extension = '.$db->Quote($row->extension);
+				$db->setQuery($query);
+				$db->Query();
+				$query = 'UPDATE #__categories SET rgt = rgt - '.($current->rgt - $current->lft).' '.
+						'WHERE rgt >= '.$current->lft.' AND extension = '.$db->Quote($row->extension);
+				$db->setQuery($query);
+				$db->Query();
+				$query = 'UPDATE #__categories SET lft = lft - '.($current->rgt - $current->lft).' '.
+						'WHERE lft > '.$current->rgt.' AND extension = '.$db->Quote($row->extension);
+				$db->setQuery($query);
+				$db->Query();
+				$query = 'SELECT lft, rgt, parent_id FROM #__categories WHERE id = '.$row->id;
+				$db->setQuery($query);
+				$current = $db->loadObject();
+				
+				$row->lft = $current->lft;
+				$row->rgt = $current->rgt;
 			}
 		} else {
-			if(!$row->insertNode(JRequest::getInt('parent'))) {
-				JError::raiseError(500, $row->getError() );
-			}
+			$query = 'SELECT MAX(rgt) FROM #__categories '.
+						'WHERE extension = '.$db->Quote($row->extension);
+			$db->setQuery($query);
+			$rgt = $db->loadResult();
+			$row->lft = $rgt + 1;
+			$row->rgt = $rgt + 2;
+			
+		}
+		if(!$row->store()) {
+			JError::raiseError(500, $row->getError() );
 		}
 		$row->checkin();
 

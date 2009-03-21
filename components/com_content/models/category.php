@@ -227,36 +227,11 @@ class ContentModelCategory extends JModel
 	{
 		return $this->getContent(-1);
 	}
-
-	public function getParent()
-	{
-		
-	}
 	
 	public function getChildren($recursive = 0)
 	{
-		if(empty($this->_category_tree))
-		{
-			$this->_loadCategoryTree();
-		}	
-		
-		if(empty($this->_category_tree))
-		{
-			return false;
-		}
-		
-		$lft = $this->_category_tree[$this->_id]->lft;
-		$rgt = $this->_category_tree[$this->_id]->rgt;
-		$result = array();
-		foreach($this->_category_tree as $category)
-		{
-			if($category->lft > $lft && $category->rgt < $rgt)
-			{
-				$result[] = $category;
-			}
-		} 
-		$categories = ContentHelperCategory::getCategory(JRequest::getInt('id'));
-		return $categories->children;
+		$category = ContentHelperCategory::getCategory($this->_id);
+		return $category->children;
 	}
 	
 	/**
