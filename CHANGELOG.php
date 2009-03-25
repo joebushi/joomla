@@ -37,7 +37,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-11-Mar-2009
+25-Mar-2009 Wilco Jansen
+ ^ Activated installation check and updated version files
+
+11-Mar-2009 Ian MacLennan
  # [#14515] Atom feed does not validate
 
 9-Mar-2009 Wilco Jansen
