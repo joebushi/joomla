@@ -50,6 +50,7 @@ $ -> Language fix or change
  ^ Changed helpsite reference matching installation language file changes
 ^! Moderate Priority: A series of XSS and CSRF faults exist in the administrator application. Affected administrator components include com_admin, com_media, com_search. Both com_admin and com_search contain XSS vulnerabilities, and com_media contains 2 CSRF vulnerabilities.
 ^! Low Priority: A XSS vulnerability exists in the category view of com_content.
+ ^ Updated version tags in translation manifest files
 
 25-Mar-2009 Wilco Jansen
  ^ Activated installation check and updated version files
