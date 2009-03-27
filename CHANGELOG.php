@@ -37,7 +37,7 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
--------------------- 1.5.10 Stable Release [9-January-2009] ------------------
+-------------------- 1.5.10 Stable Release [27-March-2009] ------------------
 
 27-Mar-2009 Anthony Ferrara
  # Fixed a few issues with the language install packs (double &lt; characters, and a missing file)
