@@ -65,7 +65,7 @@ class plgUserExample extends JPlugin {
 	 * @param	boolean		true if user was succesfully stored in the database
 	 * @param	string		message
 	 */
-	function onAfterStoreUser($user, $isnew, $succes, $msg)
+	function onAfterStoreUser($user, $isnew, $success, $msg)
 	{
 		global $mainframe;
 
