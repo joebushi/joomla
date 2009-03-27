@@ -38,6 +38,8 @@ class MediaControllerFolder extends MediaController
 	{
 		global $mainframe;
 
+		JRequest::checkToken('request') or jexit( 'Invalid Token' );
+
 		// Set FTP credentials, if given
 		jimport('joomla.client.helper');
 		JClientHelper::setCredentialsFromRequest('ftp');

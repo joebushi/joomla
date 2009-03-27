@@ -21,7 +21,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<?php if ($this->params->get('filter')) : ?>
 			<td align="left" width="60%" nowrap="nowrap">
 				<?php echo JText::_($this->params->get('filter_type') . ' Filter').'&nbsp;'; ?>
-				<input type="text" name="filter" value="<?php echo $this->lists['filter'];?>" class="inputbox" onchange="document.adminForm.submit();" />
+				<input type="text" name="filter" value="<?php echo $this->escape($this->lists['filter']);?>" class="inputbox" onchange="document.adminForm.submit();" />
 			</td>
 		<?php endif; ?>
 		<?php if ($this->params->get('show_pagination_limit')) : ?>

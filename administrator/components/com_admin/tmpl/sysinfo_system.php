@@ -90,7 +90,7 @@ defined('_JEXEC') or die('Restricted access');
 				<strong><?php echo JText::_( 'User Agent' ); ?>:</strong>
 			</td>
 			<td>
-				<?php echo phpversion() <= "4.2.1" ? getenv( "HTTP_USER_AGENT" ) : $_SERVER['HTTP_USER_AGENT'];?>
+				<?php echo htmlspecialchars(phpversion() <= "4.2.1" ? getenv( "HTTP_USER_AGENT" ) : $_SERVER['HTTP_USER_AGENT'], ENT_QUOTES);?>
 			</td>
 		</tr>
 		</tbody>

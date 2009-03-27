@@ -231,7 +231,7 @@ class JArchiveZip extends JObject
 					return false;
 				}
 				// Read files in the archive
-				while ($file = zip_read($zip))
+				while ($file = @zip_read($zip))
 				{
 					if (zip_entry_open($zip, $file, "r")) {
 						if (substr(zip_entry_name($file), strlen(zip_entry_name($file)) - 1) != "/") {
@@ -247,7 +247,7 @@ class JArchiveZip extends JObject
 						return false;
 					}
 				}
-				zip_close($zip);
+				@zip_close($zip);
 			}
 		} else {
 			$this->set('error.message', 'Unable to open archive');

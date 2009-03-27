@@ -37,6 +37,17 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+-------------------- 1.5.10 Stable Release [9-January-2009] ------------------
+
+27-Mar-2009 Wilco Jansen
+ - Removed mk-MK language pack in installer
+ + Added be-BY, et-EE, gu-IN and ur-PK language pack in installer
+ ^ Updated bg-BG installer language pack
+ ^ Updated CREDITS.php with translators information and other contributors
+ ^ Changed helpsite reference matching installation language file changes
+^! Moderate Priority: A series of XSS and CSRF faults exist in the administrator application. Affected administrator components include com_admin, com_media, com_search. Both com_admin and com_search contain XSS vulnerabilities, and com_media contains 2 CSRF vulnerabilities.
+^! Low Priority: A XSS vulnerability exists in the category view of com_content.
+
 25-Mar-2009 Wilco Jansen
  ^ Activated installation check and updated version files
 

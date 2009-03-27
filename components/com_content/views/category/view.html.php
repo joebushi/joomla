@@ -166,7 +166,7 @@ class ContentViewCategory extends ContentView
 
 		//create paginatiion
 		if ($lists['filter']) {
-			$this->data->link .= '&amp;filter='.$lists['filter'];
+			$this->data->link .= '&amp;filter='.urlencode($lists['filter']);
 		}
 
 		$k = 0;
