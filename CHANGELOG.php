@@ -41,7 +41,7 @@ $ -> Language fix or change
 
 27-Mar-2009 Wilco Jansen
  - Removed mk-MK language pack in installer
- + Added be-BY, et-EE, gu-IN and ur-PK language pack in installer
+ + Added be-BY, et-EE, gu-IN, mn-MN and ur-PK language pack in installer
  ^ Updated bg-BG installer language pack
  ^ Updated CREDITS.php with translators information and other contributors
  ^ Changed helpsite reference matching installation language file changes

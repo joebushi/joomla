@@ -98,6 +98,7 @@ Japanese (ja-JP) - Japanese Translation Team - Noriaki Koide
 Laotian (lo-LA) - Joomla LaiLao Team (LaoOpenSource) - Akarawuth Tamrareang , Viengsakhone phanthanousy , Outhai Saioudom
 Latvian (lv-LV) - Joomla Latvian Team - Edgars Piruška, Iveta Rītiņa-Namiķe, Ingars Stepkāns
 Lithuanian (lt-LT) - Lithuanian Translation Team - Stasys Svabas
+Mongolian (mn-MN) - Mongolian Translation Team, Altansukh T.
 Montenegrin (sr-ME) - Montenegrin Translation Team (joomlamontenegro.com) - Miljan Vujosevic, Dragan Djordjevic
 Norwegian bokmål (nb-NO) - Joomla! i Norge - Jens-Christian Skibakk, Rune Rasmussen
 Persian/Farsi (fa-IR) - Joomfa Team(Joomla Farsi) - M.Alavi nik, Hamid abolhasani,Amin bagheri,Sayyed Saeed farzad,Sayyed ahmad sayyedi,Vahid Hosein Khani,Omid pileh var
