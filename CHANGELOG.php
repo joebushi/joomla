@@ -39,6 +39,9 @@ $ -> Language fix or change
 
 -------------------- 1.5.10 Stable Release [9-January-2009] ------------------
 
+27-Mar-2009 Anthony Ferrara
+ # Fixed a few issues with the language install packs (double &lt; characters, and a missing file)
+
 27-Mar-2009 Wilco Jansen
  - Removed mk-MK language pack in installer
  + Added be-BY, et-EE, gu-IN, mn-MN and ur-PK language pack in installer
