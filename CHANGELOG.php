@@ -40,6 +40,7 @@ $ -> Language fix or change
 
 24-Apr-2009 Kevin Devine
  # [#15446] Atom feed does not validate for Contact Category and Weblinks Category Layouts
+ # [#13890] < Prev and Next > links do not follow SEF rules (duplicate content)
 
 -------------------- 1.5.10 Stable Release [27-March-2009] ------------------
 
