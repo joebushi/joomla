@@ -44,6 +44,7 @@ $ -> Language fix or change
  # [#15691] **Need better control of who can upload files
  # [#16112] Change in Montengrin Language ISO Code
  # [#15551] **Inconsistent prefix for index.php in com_user #2
+ # [#15913] **Change in installation version display (patch included)
 
 -------------------- 1.5.10 Stable Release [27-March-2009] ------------------
 
