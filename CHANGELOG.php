@@ -42,6 +42,7 @@ $ -> Language fix or change
  # [#15446] Atom feed does not validate for Contact Category and Weblinks Category Layouts
  # [#13890] < Prev and Next > links do not follow SEF rules (duplicate content)
  # [#15691] **Need better control of who can upload files
+ # [#16112] Change in Montengrin Language ISO Code
 
 -------------------- 1.5.10 Stable Release [27-March-2009] ------------------
 
