@@ -48,7 +48,18 @@ class plgButtonImage extends JPlugin
 	function onDisplay($name)
 	{
 		global $mainframe;
-
+		$params =& JComponentHelper::getParams('com_media');
+		$ranks = array('publisher', 'editor', 'author', 'registered');
+		$acl = & JFactory::getACL();
+		for($i = 0; $i < $params->get('allowed_media_usergroup', 3); $i++)
+		{
+			$acl->addACL( 'com_media', 'popup', 'users', $ranks[$i] );
+		}
+		//Make sure the user is authorized to view this page
+		$user = & JFactory::getUser();
+		if (!$user->authorize( 'com_media', 'popup' )) {
+			return;
+		}
 		$doc 		=& JFactory::getDocument();
 		$template 	= $mainframe->getTemplate();
 
