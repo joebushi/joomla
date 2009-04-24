@@ -14,7 +14,7 @@ defined('_JEXEC') or die('Restricted access');
 // -->
 </script>
 
-<form action="index.php" method="post" name="userform" autocomplete="off" class="user">
+<form action="<?php echo JRoute::_( 'index.php' ); ?>" method="post" name="userform" autocomplete="off" class="user">
 
 	<div class="user_name">
 		<label for="username"><?php echo JText::_( 'User Name' ); ?>: </label>

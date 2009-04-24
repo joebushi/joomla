@@ -7,7 +7,7 @@ defined('_JEXEC') or die('Restricted access');
 </h2>
 <?php endif; ?>
 
-<form action="index.php?option=com_user&amp;task=requestreset" method="post" class="josForm form-validate">
+<form action="<?php echo JRoute::_( 'index.php?option=com_user&task=requestreset' ); ?>" method="post" class="josForm form-validate">
 	<p><?php echo JText::_('RESET_PASSWORD_REQUEST_DESCRIPTION'); ?></p>
 
 	<label for="email" class="hasTip" title="<?php echo JText::_('RESET_PASSWORD_EMAIL_TIP_TITLE'); ?>::<?php echo JText::_('RESET_PASSWORD_EMAIL_TIP_TEXT'); ?>"><?php echo JText::_('Email Address'); ?>:</label>

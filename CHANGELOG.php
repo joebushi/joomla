@@ -43,6 +43,7 @@ $ -> Language fix or change
  # [#13890] < Prev and Next > links do not follow SEF rules (duplicate content)
  # [#15691] **Need better control of who can upload files
  # [#16112] Change in Montengrin Language ISO Code
+ # [#15551] **Inconsistent prefix for index.php in com_user #2
 
 -------------------- 1.5.10 Stable Release [27-March-2009] ------------------
 
