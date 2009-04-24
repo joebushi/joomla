@@ -84,8 +84,9 @@ class JDocumentRendererRSS extends JDocumentRenderer
 		if ($data->copyright!="") {
 			$feed.= "		<copyright>".htmlspecialchars($data->copyright,ENT_COMPAT, 'UTF-8')."</copyright>\n";
 		}
-		if ($data->editor!="") {
-			$feed.= "		<managingEditor>".htmlspecialchars($data->editor, ENT_COMPAT, 'UTF-8')."</managingEditor>\n";
+		if ($data->editorEmail!="") {
+			$feed.= "		<managingEditor>".htmlspecialchars($data->editorEmail, ENT_COMPAT, 'UTF-8').' ('.
+				htmlspecialchars($data->editor, ENT_COMPAT, 'UTF-8').")</managingEditor>\n";
 		}
 		if ($data->webmaster!="") {
 			$feed.= "		<webMaster>".htmlspecialchars($data->webmaster, ENT_COMPAT, 'UTF-8')."</webMaster>\n";

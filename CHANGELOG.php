@@ -37,6 +37,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+
+24-Apr-2009 Kevin Devine
+ # [#15446] Atom feed does not validate for Contact Category and Weblinks Category Layouts
+
 -------------------- 1.5.10 Stable Release [27-March-2009] ------------------
 
 27-Mar-2009 Anthony Ferrara
