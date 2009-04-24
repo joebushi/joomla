@@ -45,6 +45,7 @@ $ -> Language fix or change
  # [#16112] Change in Montengrin Language ISO Code
  # [#15551] **Inconsistent prefix for index.php in com_user #2
  # [#15913] **Change in installation version display (patch included)
+ # [#15701] **Joomla 1.5.10 breaks package installation due to new installer PHP code
 
 -------------------- 1.5.10 Stable Release [27-March-2009] ------------------
 
