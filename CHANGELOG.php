@@ -43,15 +43,16 @@ $ -> Language fix or change
  # [#15740] At login use of task=register instead of view=register
  # [#15853] Search results pagination broken when two or more search terms, SEF enabled
  # [#15912] Error in KEPRI Template, css for icon 'article'
+ # [#15963] The align attribute in mod_mainmenu helper causes problems with some templates
 
 24-Apr-2009 Kevin Devine
  # [#15446] Atom feed does not validate for Contact Category and Weblinks Category Layouts
  # [#13890] < Prev and Next > links do not follow SEF rules (duplicate content)
- # [#15691] **Need better control of who can upload files
+ # [#15691] Need better control of who can upload files
  # [#16112] Change in Montengrin Language ISO Code
- # [#15551] **Inconsistent prefix for index.php in com_user #2
- # [#15913] **Change in installation version display (patch included)
- # [#15701] **Joomla 1.5.10 breaks package installation due to new installer PHP code
+ # [#15551] Inconsistent prefix for index.php in com_user #2
+ # [#15913] Change in installation version display (patch included)
+ # [#15701] Joomla 1.5.10 breaks package installation due to new installer PHP code
 
 -------------------- 1.5.10 Stable Release [27-March-2009] ------------------
 
