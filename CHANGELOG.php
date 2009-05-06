@@ -42,7 +42,7 @@ $ -> Language fix or change
  # [#15699] Global Configuration Undefined Variable warning
  # [#15740] At login use of task=register instead of view=register
  # [#15853] Search results pagination broken when two or more search terms, SEF enabled
- 
+ # [#15912] Error in KEPRI Template, css for icon 'article'
 
 24-Apr-2009 Kevin Devine
  # [#15446] Atom feed does not validate for Contact Category and Weblinks Category Layouts

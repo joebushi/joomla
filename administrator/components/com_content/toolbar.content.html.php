@@ -64,7 +64,7 @@ class TOOLBAR_content
 	{
 		global $filter_state;
 
-		JToolBarHelper::title( JText::_( 'Article Manager' ), 'addedit.png' );
+		JToolBarHelper::title( JText::_( 'Article Manager' ), 'article.png' );
 		if ($filter_state == 'A' || $filter_state == NULL) {
 			JToolBarHelper::unarchiveList();
 		}
