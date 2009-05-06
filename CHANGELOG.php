@@ -40,6 +40,7 @@ $ -> Language fix or change
 05-May-2009 Ian MacLennan
  # [#15541] Article Catagory Layout incorrectly sorted
  # [#15699] Global Configuration Undefined Variable warning
+ # [#15740] At login use of task=register instead of view=register
 
 24-Apr-2009 Kevin Devine
  # [#15446] Atom feed does not validate for Contact Category and Weblinks Category Layouts
