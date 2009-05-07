@@ -18,21 +18,22 @@
 abstract class JHtmlBehavior
 {
 	/**
-	 * Method to load the mootools framework into the document head
+	 * Method to load the Mootools framework into the document head
 	 *
-	 * - If debugging mode is on an uncompressed version of mootools is included for easier debugging.
+	 * - If debugging mode is on an uncompressed version of Mootools is included for easier debugging.
 	 *
 	 * @static
+	 * @param	string	$type	Mootools file to load
 	 * @param	boolean	$debug	Is debugging mode on? [optional]
 	 * @return	void
-	 * @since	1.5
+	 * @since	1.6
 	 */
-	public static function mootools($debug = null)
+	public static function framework($type = 'core', $debug = null)
 	{
-		static $loaded;
+		static $loaded = array();
 
 		// Only load once
-		if ($loaded) {
+		if (!empty($loaded[$type])) {
 			return;
 		}
 
@@ -43,16 +44,31 @@ abstract class JHtmlBehavior
 		}
 
 		// TODO NOTE: Here we are checking for Konqueror - If they fix thier issue with compressed, we will need to update this
-		$konkcheck = strpos (strtolower($_SERVER['HTTP_USER_AGENT']), "konqueror");
+		$konkcheck = strpos(strtolower($_SERVER['HTTP_USER_AGENT']), "konqueror");
 
-		if ($debug || $konkcheck) {
-			JHtml::script('mootools-uncompressed.js', 'media/system/js/', false);
-		} else {
-			JHtml::script('mootools.js', 'media/system/js/', false);
+		$uncompressed = ($debug || $konkcheck) ? '-uncompressed' : '';
+
+		if ($type != 'core' && empty($loaded['core'])) {
+			self::framework('core');
 		}
-		$loaded = true;
+
+		JHtml::script('mootools-'.$type.$uncompressed.'.js', 'media/system/js/', false);
+		$loaded[$type] = true;
 		return;
 	}
+	
+	/**
+	 * Deprecated. Use JHtmlBehavior::framework() instead.
+	 *
+	 * @static
+	 * @param	boolean	$debug	Is debugging mode on? [optional]
+	 * @return	void
+	 * @since	1.5
+	 */	
+	public static function mootools($debug = null)
+	{
+		self::framework('more', $debug);
+	}	
 
 	public static function caption() {
 		JHtml::script('caption.js');
@@ -438,4 +454,3 @@ Calendar._TT["ABOUT_TIME"] = "\n\n" +
 		}
 	}
 }
-
