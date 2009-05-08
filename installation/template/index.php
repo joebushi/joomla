@@ -11,7 +11,8 @@
 		<link href="template/css/template_rtl.css" rel="stylesheet" type="text/css" />
 		<?php endif; ?>
 
-		<script type="text/javascript" src="../media/system/js/mootools.js"></script>
+		<script type="text/javascript" src="../media/system/js/mootools-core.js"></script>
+		<script type="text/javascript" src="../media/system/js/mootools-more.js"></script>
 		<script type="text/javascript" src="includes/js/installation.js"></script>
 		<script type="text/javascript" src="template/js/validation.js"></script>
 
