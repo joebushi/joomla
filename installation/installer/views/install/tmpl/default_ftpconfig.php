@@ -2,21 +2,21 @@
 
 <script language="JavaScript" type="text/javascript">
 <!--
-
-	Window.addEvent('domready', function(){
-	document.formvalidator.handlers['isftp'] = { enabled : true,
-									exec : function (value) {
-										if (document.getElementById('ftpenable').checked == true) {
-											if (value == '') {
-												return false;
-											} else {
-												return true;
-											}
-										} else {
-											return true;
-										}
-									}
-									}
+	window.addEvent('domready', function(){
+		document.formvalidator.handlers['isftp'] = { 
+		enabled : true,
+		exec : function (value) {
+				if (document.getElementById('ftpenable').checked == true) {
+					if (value == '') {
+						return false;
+					} else {
+						return true;
+					}
+				} else {
+					return true;
+				}
+			}
+		}
 	});
 
 	function validateForm(frm, task) {

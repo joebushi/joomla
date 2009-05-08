@@ -11,30 +11,30 @@
 		<link href="template/css/template_rtl.css" rel="stylesheet" type="text/css" />
 		<?php endif; ?>
 
-		<script type="text/javascript" src="../media/system/js/mootools-core.js"></script>
-		<script type="text/javascript" src="../media/system/js/mootools-more.js"></script>
+		<script type="text/javascript" src="../media/system/js/mootools-core-uncompressed.js"></script>
+		<script type="text/javascript" src="../media/system/js/mootools-more-uncompressed.js"></script>
+		<script type="text/javascript" src="../media/system/js/validate.js"></script>
 		<script type="text/javascript" src="includes/js/installation.js"></script>
-		<script type="text/javascript" src="template/js/validation.js"></script>
 
 		<script type="text/javascript">
-			window.addEvent(
-				'domready', function(){
-					new Accordion(
-						$$('h3.moofx-toggler'),
-						$$('div.moofx-slider'),
-						{
-							onActive: function(toggler, i) {
-								toggler.addClass('moofx-toggler-down');
-							},
-							onBackground: function(toggler, i) {
-								toggler.removeClass('moofx-toggler-down');
-							},
-							duration: 300,
-							opacity: false,
-							alwaysHide:true,
-							show: 1
-						}
-					); });
+			window.addEvent('domready', function(){
+				new Accordion(
+					$$('h3.moofx-toggler'),
+					$$('div.moofx-slider'),
+					{
+						onActive: function(toggler, i) {
+							toggler.addClass('moofx-toggler-down');
+						},
+						onBackground: function(toggler, i) {
+							toggler.removeClass('moofx-toggler-down');
+						},
+						duration: 300,
+						opacity: false,
+						alwaysHide:true,
+						show: 1
+					}
+				);
+			});
   		</script>
 	</head>
 	<body>
