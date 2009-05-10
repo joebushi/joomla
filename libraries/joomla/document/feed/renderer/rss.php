@@ -50,7 +50,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 
 		$uri =& JFactory::getURI();
 		$url = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
-		$syndicationURL =& JRoute::_('&format=feed&type=atom');
+		$syndicationURL =& JRoute::_('&format=feed&type=rss');
 		
 		$feed = "<rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">\n";
 		$feed.= "	<channel>\n";
@@ -59,7 +59,6 @@ class JDocumentRendererRSS extends JDocumentRenderer
 		$feed.= "		<link>".str_replace(' ','%20',$url.$data->link)."</link>\n";
 		$feed.= "		<lastBuildDate>".htmlspecialchars($now->toRFC822(), ENT_COMPAT, 'UTF-8')."</lastBuildDate>\n";
 		$feed.= "		<generator>".$data->getGenerator()."</generator>\n";
-		$feed.= '       <atom:link rel="self" type="application/atom+xml" href="'.str_replace(' ','%20',$url.$syndicationURL).'" />';
 	
 		if ($data->image!=null)
 		{
@@ -122,6 +121,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 			$feed.= "		<item>\n";
 			$feed.= "			<title>".htmlspecialchars(strip_tags($data->items[$i]->title), ENT_COMPAT, 'UTF-8')."</title>\n";
 			$feed.= "			<link>".str_replace(' ','%20',$data->items[$i]->link)."</link>\n";
+			$feed.= "			<guid>".str_replace(' ','%20',$data->items[$i]->link)."</guid>\n";
 			$feed.= "			<description><![CDATA[".$this->_relToAbs($data->items[$i]->description)."]]></description>\n";
 
 			if ($data->items[$i]->authorEmail!="") {
