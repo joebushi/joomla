@@ -374,7 +374,11 @@ class JFile
 	 * @since 1.5
 	 */
 	function getName($file) {
-		$slash = strrpos($file, DS) + 1;
-		return substr($file, $slash);
+		$slash = strrpos($file, DS);
+		if ($slash !== false) {
+			return substr($file, $slash + 1);
+		} else {
+			return $file;
+		}
 	}
 }

@@ -40,6 +40,7 @@ $ -> Language fix or change
 09-May-2009 Kevin Devine
  # [#15909] RSS 2.0 feeds try to turn mailto: links into absolute urls
  # [#16211] **Atom Link in RSS feed causes validation problems
+ # [#16007] **JFile::getName() loses first character
 
 05-May-2009 Ian MacLennan
  # [#15541] Article Catagory Layout incorrectly sorted
