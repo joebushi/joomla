@@ -40,11 +40,12 @@ $ -> Language fix or change
 13-May-2009 Ian MacLennan
  # [#13898] There is no translated description for component/module/plugin/etc. after installation
  # [#15417] db->updateObject function outdated
+ # [#15727] Module cache, id, Itemid
 
 09-May-2009 Kevin Devine
  # [#15909] RSS 2.0 feeds try to turn mailto: links into absolute urls
- # [#16211] **Atom Link in RSS feed causes validation problems
- # [#16007] **JFile::getName() loses first character
+ # [#16211] Atom Link in RSS feed causes validation problems
+ # [#16007] JFile::getName() loses first character
 
 05-May-2009 Ian MacLennan
  # [#15541] Article Catagory Layout incorrectly sorted

@@ -73,13 +73,13 @@ class JDocumentRendererModule extends JDocumentRenderer
 
 		$contents = '';
 		if ($mod_params->get('cache', 0) && $conf->getValue( 'config.caching' ))
-		{
+		{	
 			$cache =& JFactory::getCache( $module->module );
 
 			$cache->setLifeTime( $mod_params->get( 'cache_time', $conf->getValue( 'config.cachetime' ) * 60 ) );
 			$cache->setCacheValidation(true);
 
-			$contents =  $cache->get( array('JModuleHelper', 'renderModule'), array( $module, $params ), $module->id. $user->get('aid', 0) );
+			$contents =  $cache->get( array('JModuleHelper', 'renderModule'), array( $module, $params ), $module->id. $user->get('aid', 0).md5(JRequest::getURI()) );
 		} else {
 			$contents = JModuleHelper::renderModule($module, $params);
 		}
