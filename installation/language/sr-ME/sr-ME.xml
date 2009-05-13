@@ -9,9 +9,9 @@
     <description>Montenegrin language installation for Joomla</description>
     <metadata>
        <name>Montenegrin</name>
-       <tag>sla-ME</tag>
+       <tag>sr-ME</tag>
        <rtl>0</rtl>
-              <locale>sla_ME.utf8</locale>
+              <locale>sr_ME.utf8</locale>
       <winCodePage>utf-8</winCodePage>
       <backwardLang>Montenegrin</backwardLang>
     </metadata>

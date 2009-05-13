@@ -42,6 +42,7 @@ $ -> Language fix or change
  # [#15417] db->updateObject function outdated
  # [#15727] Module cache, id, Itemid
  # [#16314] PHPDoc Comment for JFactory getDocument method Incorrect
+ # [#16349] Revert 16122 and Replace sr-ME language files
 
 09-May-2009 Kevin Devine
  # [#15909] RSS 2.0 feeds try to turn mailto: links into absolute urls
