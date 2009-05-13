@@ -130,7 +130,7 @@ class JFactory
 	 * if it doesn't already exist.
 	 *
 	 * @access public
-	 * @return object JLanguage
+	 * @return object JDocument
 	 */
 	function &getDocument()
 	{
