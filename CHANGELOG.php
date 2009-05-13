@@ -39,6 +39,7 @@ $ -> Language fix or change
 
 13-May-2009 Ian MacLennan
  # [#13898] There is no translated description for component/module/plugin/etc. after installation
+ # [#15417] db->updateObject function outdated
 
 09-May-2009 Kevin Devine
  # [#15909] RSS 2.0 feeds try to turn mailto: links into absolute urls

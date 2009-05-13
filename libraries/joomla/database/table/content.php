@@ -60,10 +60,6 @@ class JTableContent extends JTable
 	/** @var time */
 	var $checked_out_time		= 0;
 	/** @var datetime */
-	var $frontpage_up		= null;
-	/** @var datetime */
-	var $frontpage_down		= null;
-	/** @var datetime */
 	var $publish_up			= null;
 	/** @var datetime */
 	var $publish_down		= null;
