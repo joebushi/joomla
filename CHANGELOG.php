@@ -37,6 +37,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+13-May-2009 Ian MacLennan
+ # [#13898] There is no translated description for component/module/plugin/etc. after installation
+
 09-May-2009 Kevin Devine
  # [#15909] RSS 2.0 feeds try to turn mailto: links into absolute urls
  # [#16211] **Atom Link in RSS feed causes validation problems

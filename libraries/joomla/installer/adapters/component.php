@@ -315,6 +315,11 @@ class JInstallerComponent extends JObject
 			$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.JText::_('Could not copy setup file'));
 			return false;
 		}
+
+		// Load component lang file
+		$lang =& JFactory::getLanguage();
+		$lang->load(strtolower("com_".str_replace(" ", "", $this->get('name'))));
+
 		return true;
 	}
 
