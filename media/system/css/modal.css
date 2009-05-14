@@ -36,16 +36,16 @@
 	height: 30px;
 	right: -15px;
 	top: -15px;
-	background: url(../images/closebox.png) no-repeat center;
+	background: url(../images/modal/closebox.png) no-repeat center;
 	border: none;
 }
 
 .sbox-window-ie6 #sbox-btn-close {
-	background-image: url(../images/closebox.gif);
+	background-image: url(../images/modal/closebox.gif);
 }
 
 .sbox-loading #sbox-content {
-	background-image: url(../images/../images/spinner.gif);
+	background-image: url(../images/modal/spinner.gif);
 	background-repeat: no-repeat;
 	background-position: center;
 }
@@ -99,43 +99,43 @@
 	left: 0;
 	top: -40px;
 	width: 100%;
-	background: url(../images/bg_n.png) repeat-x;
+	background: url(../images/modal/bg_n.png) repeat-x;
 }
 .sbox-bg-ne {
 	right: -33px;
 	top: -40px;
-	background: url(../images/bg_ne.png) no-repeat;
+	background: url(../images/modal/bg_ne.png) no-repeat;
 }
 .sbox-bg-e {
 	right: -33px;
 	top: 0;
 	height: 100%;
-	background: url(../images/bg_e.png) repeat-y;
+	background: url(../images/modal/bg_e.png) repeat-y;
 }
 .sbox-bg-se {
 	right: -33px;
 	bottom: -40px;
-	background: url(../images/bg_se.png) no-repeat;
+	background: url(../images/modal/bg_se.png) no-repeat;
 }
 .sbox-bg-s {
 	left: 0;
 	bottom: -40px;
 	width: 100%;
-	background: url(../images/bg_s.png) repeat-x;
+	background: url(../images/modal/bg_s.png) repeat-x;
 }
 .sbox-bg-sw {
 	left: -33px;
 	bottom: -40px;
-	background: url(../images/bg_sw.png) no-repeat;
+	background: url(../images/modal/bg_sw.png) no-repeat;
 }
 .sbox-bg-w {
 	left: -33px;
 	top: 0;
 	height: 100%;
-	background: url(../images/bg_w.png) repeat-y;
+	background: url(../images/modal/bg_w.png) repeat-y;
 }
 .sbox-bg-nw {
 	left: -33px;
 	top: -40px;
-	background: url(../images/bg_nw.png) no-repeat;
+	background: url(../images/modal/bg_nw.png) no-repeat;
 }

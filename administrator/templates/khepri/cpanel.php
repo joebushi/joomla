@@ -33,8 +33,12 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 <?php endif; ?>
 
 <script type="text/javascript" src="templates/<?php echo  $this->template ?>/js/menu.js"></script>
-<script type="text/javascript" src="templates/<?php echo  $this->template ?>/js/index.js"></script>
-
+<script type="text/javascript">
+	//For IE6 - Background flicker fix
+	try {
+	  document.execCommand('BackgroundImageCache', false, true);
+	} catch(e) {}
+</script>
 </head>
 <body id="minwidth">
 	<div id="border-top" class="<?php echo $this->params->get('headerColor','green');?>">

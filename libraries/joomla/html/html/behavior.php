@@ -56,7 +56,7 @@ abstract class JHtmlBehavior
 		$loaded[$type] = true;
 		return;
 	}
-	
+
 	/**
 	 * Deprecated. Use JHtmlBehavior::framework() instead.
 	 *
@@ -64,11 +64,11 @@ abstract class JHtmlBehavior
 	 * @param	boolean	$debug	Is debugging mode on? [optional]
 	 * @return	void
 	 * @since	1.5
-	 */	
+	 */
 	public static function mootools($debug = null)
 	{
 		self::framework('more', $debug);
-	}	
+	}
 
 	public static function caption() {
 		JHtml::script('caption.js');
@@ -124,7 +124,7 @@ abstract class JHtmlBehavior
 		el.store('tip:title', parts[0]);
 		el.store('tip:text', parts[1]);
 	});
-	var JTooltips = new Tips($$('$selector'), $options); 
+	var JTooltips = new Tips($$('$selector'), $options);
 });";
 		$document->addScriptDeclaration($tooltipInit);
 
@@ -209,6 +209,7 @@ abstract class JHtmlBehavior
 		// Setup options object
 		$opt['ajaxOptions']	= (isset($params['ajaxOptions']) && (is_array($params['ajaxOptions']))) ? $params['ajaxOptions'] : null;
 		$opt['size']		= (isset($params['size']) && (is_array($params['size']))) ? $params['size'] : null;
+		$opt['shadow']		= (isset($params['shadow'])) ? $params['shadow'] : null;
 		$opt['onOpen']		= (isset($params['onOpen'])) ? $params['onOpen'] : null;
 		$opt['onClose']		= (isset($params['onClose'])) ? $params['onClose'] : null;
 		$opt['onUpdate']	= (isset($params['onUpdate'])) ? $params['onUpdate'] : null;
@@ -227,7 +228,7 @@ abstract class JHtmlBehavior
 			SqueezeBox.assign($$('".$selector."'), {
 				parse: 'rel'
 			});
-			
+
 		});");
 
 		// Set static array
