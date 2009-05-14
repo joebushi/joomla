@@ -128,10 +128,10 @@ INSERT INTO `#__components` VALUES (3, 'Clients', '', 0, 1, 'option=com_banners&
 INSERT INTO `#__components` VALUES (4, 'Web Links', 'option=com_weblinks', 0, 0, '', 'Manage Weblinks', 'com_weblinks', 0, 'js/ThemeOffice/component.png', 0, '{"show_comp_description":"1","comp_description":"","show_link_hits":"1","show_link_description":"1","show_other_cats":"1","show_headings":"1","show_numbers":"1","show_report":"1","target":"0","link_icons":"","show_snapshot":"0","snapshot_width":"120","snapshot_height":"90"}', 1);
 INSERT INTO `#__components` VALUES (5, 'Links', '', 0, 4, 'option=com_weblinks', 'View existing weblinks', 'com_weblinks', 1, 'js/ThemeOffice/edit.png', 0, '', 1);
 INSERT INTO `#__components` VALUES (6, 'Categories', '', 0, 4, 'option=com_categories&extension=com_weblinks', 'Manage weblink categories', 'com_weblinks', 2, 'js/ThemeOffice/categories.png', 0, '', 1);
-INSERT INTO `#__components` VALUES (7, 'Contact', 'option=com_contact', 0, 0, 'option=com_contact', 'Contact', 'com_contact', 0, 'js/ThemeOffice/component.png', 0, '', 1);
-INSERT INTO `#__components` VALUES (8, 'Contacts', '', 0, 7, 'option=com_contact&controller=contact', 'Contacts', 'com_contact', 1, '', 0, '', 1);
-INSERT INTO `#__components` VALUES (9, 'Categories', '', 0, 7, 'option=com_categories&extension=com_contact', 'Categories', 'com_contact', 2, '', 0, '', 1);
-INSERT INTO `#__components` VALUES (10, 'Fields', '', 0, 7, 'option=com_contact&controller=field', 'Fields', 'com_contact', 3, '', 0, '', 1);
+INSERT INTO `#__components` VALUES (7, 'Contacts', 'option=com_contacts', 0, 0, 'option=com_contacts', 'Contacts', 'com_contacts', 0, 'js/ThemeOffice/component.png', 0, '', 1);
+INSERT INTO `#__components` VALUES (8, 'Contacts', '', 0, 7, 'option=com_contacts&controller=contact', 'Contacts', 'com_contacts', 1, '', 0, '', 1);
+INSERT INTO `#__components` VALUES (9, 'Categories', '', 0, 7, 'option=com_categories&extension=com_contacts', 'Categories', 'com_contacts', 2, '', 0, '', 1);
+INSERT INTO `#__components` VALUES (10, 'Fields', '', 0, 7, 'option=com_contacts&controller=field', 'Fields', 'com_contacts', 3, '', 0, '', 1);
 INSERT INTO `#__components` VALUES (11, 'News Feeds', 'option=com_newsfeeds', 0, 0, '', 'News Feeds Management', 'com_newsfeeds', 0, 'js/ThemeOffice/component.png', 0, '', 1);
 INSERT INTO `#__components` VALUES (12, 'Feeds', '', 0, 11, 'option=com_newsfeeds', 'Manage News Feeds', 'com_newsfeeds', 1, 'js/ThemeOffice/edit.png', 0, '{"show_headings":"1","show_name":"1","show_articles":"1","show_link":"1","show_cat_description":"1","show_cat_items":"1","show_feed_image":"1","show_feed_description":"1","show_item_description":"1","feed_word_count":"0"}', 1);
 INSERT INTO `#__components` VALUES (13, 'Categories', '', 0, 11, 'option=com_categories&extension=com_newsfeeds', 'Manage Categories', 'com_newsfeeds', 2, 'js/ThemeOffice/categories.png', 0, '', 1);
@@ -154,6 +154,76 @@ INSERT INTO `#__components` VALUES (29, 'Template Manager', '', 0, 0, '', 'Templ
 INSERT INTO `#__components` VALUES (30, 'Cache Manager', '', 0, 0, '', 'Cache', 'com_cache', 0, '', 1, '', 1);
 INSERT INTO `#__components` VALUES (31, 'Control Panel', '', 0, 0, '', 'Control Panel', 'com_cpanel', 0, '', 1, '', 1);
 INSERT INTO `#__components` VALUES (32, 'Members', '', 0, 0, 'option=com_members', 'Member Manager', 'com_members', 0, 'js/ThemeOffice/component.png', 0, '', 1);
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `#__contacts_contacts`
+#
+
+CREATE TABLE IF NOT EXISTS `#__contacts_contacts` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` varchar(255) NOT NULL default '',
+  `alias` varchar(255) NOT NULL default '',
+  `published` tinyint(1) unsigned NOT NULL default '0',
+  `checked_out` int(11) unsigned NOT NULL default '0',
+  `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
+  `params` text,
+  `user_id` int(11) NOT NULL default '0',
+  `access` tinyint(3) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `id` (`id`)
+) TYPE=MyISAM CHARACTER SET `utf8`;
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `#__contacts_con_cat_map`
+#
+
+CREATE TABLE IF NOT EXISTS `#__contacts_con_cat_map` (
+  `contact_id` int(11) NOT NULL,
+  `category_id` int(11) NOT NULL,
+  `ordering` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`contact_id`,`category_id`)
+) TYPE=MyISAM CHARACTER SET `utf8`;
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `#__contacts_details`
+#
+
+CREATE TABLE IF NOT EXISTS `#__contacts_details` (
+  `contact_id` int(11) NOT NULL,
+  `field_id` int(11) NOT NULL,
+  `data` text character set utf8 NOT NULL,
+  `show_contact` tinyint(1) NOT NULL default '1',
+  `show_directory` tinyint(1) NOT NULL default '1',
+  PRIMARY KEY  (`contact_id`,`field_id`)
+) TYPE=MyISAM CHARACTER SET `utf8`;
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `#__contacts_fields`
+#
+
+CREATE TABLE IF NOT EXISTS `#__contacts_fields` (
+  `id` int(11) NOT NULL auto_increment,
+  `title` varchar(255) NOT NULL default '',
+  `description` mediumtext,
+  `type` varchar(50) NOT NULL default 'text',
+  `published` tinyint(1) unsigned NOT NULL default '0',
+  `ordering` int(11) NOT NULL default '0',
+  `checked_out` int(11) unsigned NOT NULL default '0',
+  `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
+  `pos` enum('title','top','left','main','right','bottom') NOT NULL default 'main',
+  `access` tinyint(3) unsigned NOT NULL default '0',
+  `params` text,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `id` (`id`)
+) TYPE=MyISAM CHARACTER SET `utf8`;
 
 # --------------------------------------------------------
 
@@ -293,7 +363,7 @@ INSERT INTO #__extensions VALUES(0,"System - Backlink","plugin","backlink","syst
 INSERT INTO #__extensions VALUES(0,"Banners","component","com_banners","",1,1,0,0,"","track_impressions=0\ntrack_clicks=0\ntag_prefix=\n\n","","",0,"0000-00-00 00:00:00",0,0);
 INSERT INTO #__extensions VALUES(0,"Cache Manager","component","com_cache","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
 INSERT INTO #__extensions VALUES(0,"Configuration Manager","component","com_config","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Contact","component","com_contact","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
+INSERT INTO #__extensions VALUES(0,"Contacts","component","com_contacts","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
 INSERT INTO #__extensions VALUES(0,"Articles","component","com_content","",1,1,0,1,"","show_noauth=0\nshow_title=1\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1\nfeed_summary=0\n\n","","",0,"0000-00-00 00:00:00",0,0);
 INSERT INTO #__extensions VALUES(0,"Control Panel","component","com_cpanel","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
 INSERT INTO #__extensions VALUES(0,"Installation Manager","component","com_installer","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
@@ -587,73 +657,6 @@ CREATE TABLE `#__weblinks` (
   KEY `catid` (`catid`,`state`,`archived`)
 ) TYPE=MyISAM CHARACTER SET `utf8`;
 
-# --------------------------------------------------------
-
-#
-# Table structure for table `#__contact_contacts`
-#
-CREATE TABLE IF NOT EXISTS `#__contact_contacts` (
-  `id` int(11) NOT NULL auto_increment,
-  `name` varchar(255) NOT NULL default '',
-  `alias` varchar(255) NOT NULL default '',
-  `published` tinyint(1) unsigned NOT NULL default '0',
-  `checked_out` int(11) unsigned NOT NULL default '0',
-  `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
-  `params` text NOT NULL,
-  `user_id` int(11) NOT NULL default '0',
-  `access` tinyint(3) unsigned NOT NULL default '0',
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `id` (`id`)
-) DEFAULT CHARSET=utf8;
-
-# --------------------------------------------------------
-
-#
-# Table structure for table `#__contact_con_cat_map`
-#
-CREATE TABLE IF NOT EXISTS `#__contact_con_cat_map` (
-  `contact_id` int(11) NOT NULL,
-  `catid` int(11) NOT NULL,
-  `ordering` int(11) NOT NULL default '0',
-  PRIMARY KEY  (`contact_id`,`catid`)
-) DEFAULT CHARSET=utf8;
-
-# --------------------------------------------------------
-
-#
-# Table structure for table `#__contact_details`
-#
-CREATE TABLE IF NOT EXISTS `#__contact_details` (
-  `contact_id` int(11) NOT NULL,
-  `field_id` int(11) NOT NULL,
-  `data` text character set utf8 NOT NULL,
-  `show_contact` tinyint(1) NOT NULL default '1',
-  `show_directory` tinyint(1) NOT NULL default '1',
-  PRIMARY KEY  (`contact_id`,`field_id`)
-) DEFAULT CHARSET=utf8;
-
-# --------------------------------------------------------
-
-#
-# Table structure for table `#__contact_fields`
-#
-CREATE TABLE IF NOT EXISTS `#__contact_fields` (
-  `id` int(11) NOT NULL auto_increment,
-  `title` varchar(255) NOT NULL default '',
-  `alias` varchar(255) NOT NULL,
-  `description` mediumtext NOT NULL,
-  `type` varchar(50) NOT NULL default 'text',
-  `published` tinyint(1) unsigned NOT NULL default '0',
-  `ordering` int(11) NOT NULL default '0',
-  `checked_out` int(11) unsigned NOT NULL default '0',
-  `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
-  `pos` enum('title','top','left','main','right','bottom') NOT NULL default 'main',
-  `access` tinyint(3) unsigned NOT NULL default '0',
-  `params` text NOT NULL,
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `id` (`id`)
-) DEFAULT CHARSET=utf8;
-
 # Update Sites
 CREATE TABLE  `#__updates` (
   `update_id` int(11) NOT NULL auto_increment,
@@ -791,7 +794,7 @@ INSERT INTO `#__access_actions` VALUES
 (27, 2, 'com_content.article.view', 'JAction_Content_Article_View', 'JAction_Content_Article_View_Desc', 3, 0),
 (28, 2, 'com_content.category.view', 'JAction_Content_Category_View', 'JAction_Content_Category_View_Desc', 3, 0),
 (29, 3, 'com_banners.manage', 'JAction_Banners_Manage', 'JAction_Banners_Manage_Desc', 1, 0),
-(30, 4, 'com_contact.manage', 'JAction_Contact_Manage', 'JAction_Contact_Manage_Desc', 1, 0),
+(30, 4, 'com_contacts.manage', 'JAction_Contacts_Manage', 'JAction_Contacts_Manage_Desc', 1, 0),
 (31, 5, 'com_newsfeeds.manage', 'JAction_Newsfeeds_Manage', 'JAction_Newsfeeds_Manage_Desc', 1, 0),
 (32, 6, 'com_trash.manage', 'JAction_Trash_Manage', 'JAction_Trash_Manage_Desc', 1, 0),
 (33, 7, 'com_weblinks.manage', 'JAction_Weblinks_Manage', 'JAction_Weblinks_Manage_Desc', 1, 0)
@@ -994,7 +997,7 @@ INSERT INTO `#__access_rules` VALUES
 (28, 2, 'com_content', 'com_content.article.view', 'Content', NULL, 0, 1, 1, 3, 0, NULL),
 (29, 2, 'com_content', 'com_content.category.view', 'Content', NULL, 0, 1, 1, 3, 0, NULL),
 (30, 3, 'com_banners', 'com_banners.manage', 'Banners', NULL, 0, 1, 1, 1, 0, NULL),
-(31, 4, 'com_contact', 'com_contact.manage', 'Contact', NULL, 0, 1, 1, 1, 0, NULL),
+(31, 4, 'com_contacts', 'com_contacts.manage', 'Contacts', NULL, 0, 1, 1, 1, 0, NULL),
 (32, 5, 'com_newsfeeds', 'com_newsfeeds.manage', 'Newsfeeds', NULL, 0, 1, 1, 1, 0, NULL),
 (33, 6, 'com_trash', 'com_trash.manage', 'Trash', NULL, 0, 1, 1, 1, 0, NULL),
 (34, 7, 'com_weblinks', 'com_weblinks.manage', 'Weblinks', NULL, 0, 1, 1, 1, 0, NULL)
@@ -1019,7 +1022,7 @@ INSERT INTO `#__access_sections` VALUES
 (1, 'core', 'Core', -1),
 (2, 'com_content', 'Content', 0),
 (3, 'com_banners', 'Banners', 0),
-(4, 'com_contact', 'Contact', 0),
+(4, 'com_contacts', 'Contacts', 0),
 (5, 'com_newsfeeds', 'Newsfeeds', 0),
 (6, 'com_trash', 'Trash', 0),
 (7, 'com_weblinks', 'Weblinks', 0);

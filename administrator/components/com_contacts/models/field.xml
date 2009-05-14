@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<field>
+	<params>
+		<!-- <param name="use" type="list" default="" label="Use" description="Choose where the field will be used">
+			<option value="0">Add to contact info</option>
+			<option value="1">Add to message form</option>
+		</param> -->
+		<param name="required" type="radio" default="0" label="Required" description="Choose if the field is required or not">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>	
+		<param name="css_tag" type="text" default="" label="Class Suffix" description="The class suffix to add to the css tag in order to change the style of the field"/>
+		<param name="field_title" type="list" default="0" label="Field Title" description="Choose if the title of the field will display text, icon, text and icon or none">
+			<option value="0">Text</option>
+			<option value="1">Icon</option>
+			<option value="2">Icon and text</option>
+			<option value="3">None</option>
+		</param>
+		<param name="choose_icon" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Icon" description="The icon that will be displayed for the field"/>
+	</params>
+</field>

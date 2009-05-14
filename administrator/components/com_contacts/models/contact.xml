@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<contact>
+	<params>
+		<param name="show_name" type="radio" default="1" label="Name" description="Show/Hide the name information in the contact form page">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+	</params>	
+	<params group="directory">
+		<param name="show_name_directory" type="radio" default="1" label="Name" description="Show/Hide the name information in the directory">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+	</params>
+	<params group="email">
+		<param name="show_email_form" type="radio" default="1" label="Email Form" description="Show/Hide the email to form">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="email_form_pos" type="list" default="bottom" label="Position" description="The position that the email to form will be displayed">
+			<option value="title">Title</option>
+			<option value="top">Top</option>
+			<option value="left">Left</option>
+			<option value="main">Main</option>
+			<option value="right">Right</option>
+			<option value="bottom">Bottom</option>
+		</param>
+		<param name="email_form_access" type="list" default="0" label="Acces Level" description="The access level of the email to form">
+			<option value="0">Public</option>
+			<option value="1">Private</option>
+			<option value="2">Special</option>
+		</param> 
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="email_description" type="text" size="30" default="" label="Description text" description="The Description text for the e-mail form. If left blank, the _EMAIL_DESCRIPTION language definition will be used instead" />
+		<param name="show_email_copy" type="radio" default="1" label="Email Copy" description="Show/Hide the checkbox to e-mail a copy to the senders address">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="banned_email" type="textarea" default="" label="Banned E-mail" rows="3" cols="30" description="E-mails containing any of the listed text will be banned. Separate different words with semi-colons e.g. ban;text;etc" />
+		<param name="banned_subject" type="textarea" default="" label="Banned Subject" rows="3" cols="30" description="Subjects containing any of the listed text will be banned. Separate different words with semi-colons e.g. ban;text;etc" />
+		<param name="banned_text" type="textarea" default="" label="Banned Text" rows="3" cols="30" description="Text containing any of the listed text will be banned. Separate different words with semi-colons e.g. ban;text;etc" />
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="show_captcha" type="radio" default="1" label="Show Captcha" description="Show anti-spam verification code">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="validate_email_form" type="radio" default="0" label="Validation" description="Validation on field input or on Send">
+			<option value="0">On Field Input</option>
+			<option value="1">On Send</option>
+		</param>
+	</params>
+</contact>

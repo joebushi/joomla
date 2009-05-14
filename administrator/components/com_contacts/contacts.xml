@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<install type="component" version="1.5.0">
+	<name>Contacts</name>
+	<creationDate>August 2008</creationDate>
+	<author>Chantal Bisson</author>
+	<authorEmail>info@chantalbisson.com</authorEmail>
+	<authorUrl>http://www.chantalbisson.com</authorUrl>
+	<copyright>Copyright (C) 2008 Chantal Bisson. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<version>1.5.0</version>
+	<description>This component shows a listing of contact information like a contact directory.</description>
+	<installfile>install.contactdirectory.php</installfile>
+	<uninstallfile></uninstallfile>
+	<install>
+		<sql>
+			<file driver="mysql" charset="utf8">install.mysql.utf8.sql</file>
+			<file driver="mysql">install.mysql.nonutf8.sql</file>
+		</sql>
+	</install>
+	<uninstall>
+		<sql>
+			<file driver="mysql" charset="utf8">uninstall.mysql.utf8.sql</file>
+			<file driver="mysql">uninstall.mysql.nonutf8.sql</file>
+		</sql>
+	</uninstall>
+	<files folder="site">
+		<filename>index.html</filename>
+		<filename>metadata.xml</filename>
+		<filename>router.php</filename>
+		<filename>controller.php</filename>
+		<filename>contactdirectory.php</filename>
+		<filename>css/contactdirectory.css</filename>
+		<filename>css/index.html</filename>
+		<filename>models/contact.php</filename>
+		<filename>models/category.php</filename>
+		<filename>models/categories.php</filename>
+		<filename>models/index.html</filename>
+		<filename>views/index.html</filename>
+		<filename>views/contact/index.html</filename>
+		<filename>views/contact/metadata.xml</filename>
+		<filename>views/contact/view.html.php</filename>
+		<filename>views/contact/tmpl/index.html</filename>
+		<filename>views/contact/tmpl/default.xml</filename>
+		<filename>views/contact/tmpl/default.php</filename>
+		<filename>views/contact/tmpl/default_form.php</filename>
+		<filename>views/category/index.html</filename>
+		<filename>views/category/metadata.xml</filename>
+		<filename>views/category/view.html.php</filename>
+		<filename>views/category/tmpl/index.html</filename>
+		<filename>views/category/tmpl/default.xml</filename>
+		<filename>views/category/tmpl/default.php</filename>
+		<filename>views/categories/index.html</filename>
+		<filename>views/categories/metadata.xml</filename>
+		<filename>views/categories/view.html.php</filename>
+		<filename>views/categories/tmpl/index.html</filename>
+		<filename>views/categories/tmpl/default.xml</filename>
+		<filename>views/categories/tmpl/default.php</filename>
+		<filename>views/categories/tmpl/default_list.php</filename>
+		<filename>views/categories/tmpl/default_groupby.php</filename>
+		<filename>includes/index.html</filename>
+		<filename>includes/securimage/index.html</filename>
+		<filename>includes/securimage/securimage.php</filename>
+		<filename>includes/securimage/securimage_show.php</filename>
+		<filename>includes/securimage/securimage_play.php</filename>
+		<filename>includes/securimage/securimage_example.php</filename>
+		<filename>includes/securimage/README.txt</filename>
+		<filename>includes/securimage/LICENSE.txt</filename>
+		<filename>includes/securimage/example_form.php</filename>
+		<filename>includes/securimage/elephant.ttf</filename>
+		<filename>includes/securimage/artistamp.ttf</filename>
+		<filename>includes/securimage/gdfonts/automatic.gdf</filename>
+		<filename>includes/securimage/gdfonts/bubblebath.gdf</filename>
+		<filename>includes/securimage/gdfonts/caveman.gdf</filename>
+		<filename>includes/securimage/gdfonts/crass.gdf</filename>
+		<filename>includes/securimage/images/audio_icon.gif</filename>
+		<filename>includes/securimage/images/pattern.gif</filename>
+		<filename>includes/securimage/images/refresh.gif</filename>
+	</files>
+	<languages>
+		<language tag="en-GB">languages/site/en-GB.com_contactdirectory.ini</language>
+	</languages>
+	<administration>
+		<menu link="option=com_contactdirectory&amp;controller=contact">Contact Directory</menu>
+		<submenu>
+			<menu link="option=com_contactdirectory&amp;controller=contact">Contacts</menu>
+			<menu link="option=com_categories&amp;section=com_contactdirectory">Categories</menu>
+			<menu link="option=com_contactdirectory&amp;controller=field">Fields</menu>
+		</submenu>
+		<files folder="admin">
+			<filename>index.html</filename>
+			<filename>admin.contactdirectory.php</filename>
+			<filename>install.contactdirectory.php</filename>
+			<filename>install.mysql.nonutf8.sql</filename>
+			<filename>install.mysql.utf8.sql</filename>
+			<filename>uninstall.mysql.nonutf8.sql</filename>
+			<filename>uninstall.mysql.utf8.sql</filename>
+			<filename>controllers/index.html</filename>
+			<filename>controllers/contact.php</filename>
+			<filename>controllers/field.php</filename>
+			<filename>elements/index.html</filename>
+			<filename>elements/contact.php</filename>
+			<filename>models/index.html</filename>
+			<filename>models/contact.php</filename>
+			<filename>models/contacts.php</filename>
+			<filename>models/contact.xml</filename>
+			<filename>models/field.php</filename>
+			<filename>models/fields.php</filename>
+			<filename>models/field.xml</filename>
+			<filename>tables/index.html</filename>
+			<filename>tables/contact.php</filename>
+			<filename>tables/field.php</filename>
+			<filename>views/index.html</filename>
+			<filename>views/contact/index.html</filename>
+			<filename>views/contact/view.html.php</filename>
+			<filename>views/contact/tmpl/index.html</filename>
+			<filename>views/contact/tmpl/default.php</filename>
+			<filename>views/contacts/index.html</filename>
+			<filename>views/contacts/view.html.php</filename>
+			<filename>views/contacts/tmpl/index.html</filename>
+			<filename>views/contacts/tmpl/default.php</filename>
+			<filename>views/field/index.html</filename>
+			<filename>views/field/view.html.php</filename>
+			<filename>views/field/tmpl/index.html</filename>
+			<filename>views/field/tmpl/default.php</filename>
+			<filename>views/fields/index.html</filename>
+			<filename>views/fields/view.html.php</filename>
+			<filename>views/fields/tmpl/index.html</filename>
+			<filename>views/fields/tmpl/default.php</filename>
+		</files>
+		<languages>
+			<language tag="en-GB">languages/admin/en-GB.com_contactdirectory.ini</language>
+		</languages>
+	</administration>
+</install>

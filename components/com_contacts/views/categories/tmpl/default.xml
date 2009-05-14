@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="Contacts Categories Layout">
+		<message>
+			<![CDATA[The Contact Categories Layout displays a list of all the published contacts.]]>
+		</message>
+	</layout>
+	<state>
+		<name>Contacts Categories Layout</name>
+		<description>The Contact Categories Layout displays a list of all the published contacts.</description>
+		<params>
+			 <param name="show_description" type="radio" default="0" label="Show Description" description="Show/Hide the page's description">
+	 			<option value="0">Hide</option>
+	 			<option value="1">Show</option>
+	 		</param>
+	 		<param name="description" type="textarea" default="" label="Description" rows="3" cols="30" description="The page's description" />
+			<param name="show_image" type="radio" default="0" label="Description Image" description="Show/Hide the page's description image">
+	 			<option value="0">Hide</option>
+	 			<option value="1">Show</option>
+	 		</param>
+			<param name="image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Image" description="The image that will be displayed in the description" />
+			<param name="image_align" type="radio" default="right" label="Image Align" description="Alignment of the image">
+				<option value="left">Left</option>
+				<option value="right">Right</option>
+			</param>
+	 		<param name="@spacer" type="spacer" default="" label="" description="" />
+	 		<param name="link" type="radio" default="0" label="Link to contact" description="Add a link to the contact form">
+	 			<option value="0">No</option>
+	 			<option value="1">Yes</option>
+	 		</param>
+	 		<param name="linkcat" type="radio" default="0" label="Link to category" description="Add a link to the category list">
+	 			<option value="0">No</option>
+	 			<option value="1">Yes</option>
+	 		</param>
+		</params>		
+		<advanced>
+			<param name="orderby" type="list" default="order" label="Order Contacts" description="Order that the contacts will be displayed in.">
+				<option value="alpha">Title Alphabetical</option>
+				<option value="ralpha">Title Reverse-Alphabetical</option>
+				<option value="order">Ordering</option>
+			</param>
+			<param name="groupby_cat" type="radio" default="0" label="Group By Category" description="Group the contact by category.">
+				<option value="0">No</option>
+				<option value="1">Yes</option>
+			</param>
+			<param name="orderby_cat" type="list" default="order" label="Order Categories" description="Order that the categories will be displayed in.">
+				<option value="alpha">Title Alphabetical</option>
+				<option value="ralpha">Title Reverse-Alphabetical</option>
+				<option value="order">Ordering</option>
+			</param>
+			<param name="@spacer" type="spacer" default="" label="" description="" />
+			<param name="alphabet" type="radio" default="1" label="Alphabet Filter" description="Show/Hide the Alphabet Filter">
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</param>
+			<param name="search" type="radio" default="1" label="Search Box" description="Show/Hide the Search Box">
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</param>
+			<param name="show_limit" type="radio" default="1" label="Limit Box" description="Show/Hide the Limit Box">
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</param>
+		</advanced>
+	</state>
+</metadata>
+
+
+
+			<!-- <param name="show_feed_link" type="radio" default="1" label="Show a feed link" description="Select whether or not the Feed Links will be displayed.">
+				<option value="0">No</option>
+				<option value="1">Yes</option>
+			</param> -->
