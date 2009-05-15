@@ -38,14 +38,6 @@
 			<option value="1">New Window With Browser Navigation</option>
 			<option value="2">New Window Without Browser Navigation</option>
 		</param>
-		<param name="link_icons" type="imagelist" directory="/images/M_images" default="" label="Icon" description="PARAMICONIMG" />
-		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="show_snapshot" type="radio" default="0" label="Site Snapshot" description="Show/Hide the Site Snapshot on mouseover">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
-		<param name="snapshot_source" type="snapshotsource" default="" label="Snapshot Provider" description="Select the snapshot website to use" />
-		<param name="snapshot_width" type="text" default="120" label="Snapshot Width" description="Enter Snapshot width" />
-		<param name="snapshot_height" type="text" default="90" label="Snapshot Height" description="Enter Snapshot height" />
+		<param name="link_icons" type="imagelist" directory="/images" default="" label="Icon" description="PARAMICONIMG" />
 	</params>
 </config>

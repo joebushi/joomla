@@ -181,7 +181,8 @@ class WeblinksTableWeblink extends JTableAsset
 			return false;
 		}
 
-		if (!(eregi('http://', $this->url) || (eregi('https://', $this->url)) || (eregi('ftp://', $this->url)))) {
+		/** check for URI protocol in the beginning */
+		if (!preg_match('#^(http[s]*|ftp)://#i', $this->url)) {
 			$this->url = 'http://'.$this->url;
 		}
 

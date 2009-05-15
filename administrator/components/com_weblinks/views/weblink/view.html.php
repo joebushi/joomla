@@ -60,8 +60,8 @@ class WeblinksViewWeblink extends JView
 		
 		JToolBarHelper::title(JText::_('Weblinks_Manager_Weblink'));
 		JToolBarHelper::addNew('weblink.save2new', 'JToolbar_Save_and_new');
-		JToolBarHelper::apply('weblink.apply');
 		JToolBarHelper::save('weblink.save');
+		JToolBarHelper::apply('weblink.apply');
 		if (empty($this->item->id))  {
 			JToolBarHelper::cancel('weblink.cancel');
 		}
