@@ -196,7 +196,7 @@ class JDataLoaderSql extends JDataLoad implements JTaskSuspendable {
 			}
 
 			// Execute query if end of query detected (; as last character) AND NOT in parents
-			if (ereg(";$",trim($dumpline)) && !$inparents) {
+			if (substr(trim($dumpline), -1) == ';' && !$inparents) {
 				$this->offset = $this->_stream->tell(); // update the current location when we've finished a query
 				$this->_dbo->setQuery(trim($query));
 				//$line = $this->_dbo->getQuery()."\n";
