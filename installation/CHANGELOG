@@ -28,6 +28,9 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+15-May-2009 Sam Moffatt
+ ^ Updated en-GB XML files to store 'core' language filenames
+
 03-Apr-2009 Ercan Ozkaya
  + Added a table filter to checkin model
  ^ Refactored and merged com_cache with 1.5 up to revision 11722
