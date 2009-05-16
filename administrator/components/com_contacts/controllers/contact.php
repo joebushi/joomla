@@ -1,4 +1,9 @@
 <?php
+/**
+ * @version		$Id$
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
+ */
 
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
@@ -9,6 +14,8 @@ jimport('joomla.application.component.controller');
 /**
  * Contacts Contact Controller
  *
+ * @package		Joomla.Administrator
+ * @subpackage	Contacts
  */
 class ContactsControllerContact extends JController
 {
@@ -105,7 +112,7 @@ class ContactsControllerContact extends JController
 		}
 
 		$model = $this->getModel('Contact');
-		if(!$model->delete($cid)) {
+		if (!$model->delete($cid)) {
 			$msg = $model->getError();
 		}
 
@@ -126,7 +133,7 @@ class ContactsControllerContact extends JController
 		}
 
 		$model = $this->getModel('Contact');
-		if(!$model->publish($cid, 1)) {
+		if (!$model->publish($cid, 1)) {
 			$msg = $model->getError();
 		}
 
@@ -146,7 +153,7 @@ class ContactsControllerContact extends JController
 		}
 
 		$model = $this->getModel('Contact');
-		if(!$model->publish($cid, 0)) {
+		if (!$model->publish($cid, 0)) {
 			$msg = $model->getError();
 		}
 
@@ -216,7 +223,7 @@ class ContactsControllerContact extends JController
 		JArrayHelper::toInteger($cid);
 
 		$model = $this->getModel('Contact');
-		if(!$model->setAccess($cid, 2)) {
+		if (!$model->setAccess($cid, 2)) {
 			$msg = $model->getError();
 		}
 		$this->setRedirect('index.php?option=com_contacts&controller=contact', $msg);

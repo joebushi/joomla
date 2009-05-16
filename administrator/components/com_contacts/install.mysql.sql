@@ -1,6 +1,10 @@
-#
-# Table structure for table `#__contacts_contacts`
-#
+-- $Id$
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__contacts_contacts`
+--
 
 CREATE TABLE IF NOT EXISTS `#__contacts_contacts` (
   `id` int(11) NOT NULL auto_increment,
@@ -14,22 +18,26 @@ CREATE TABLE IF NOT EXISTS `#__contacts_contacts` (
   `access` tinyint(3) unsigned NOT NULL default '0',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `id` (`id`)
-) DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-#
-# Table structure for table `#__contacts_con_cat_map`
-#
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__contacts_con_cat_map`
+--
 
 CREATE TABLE IF NOT EXISTS `#__contacts_con_cat_map` (
   `contact_id` int(11) NOT NULL,
   `category_id` int(11) NOT NULL,
   `ordering` int(11) NOT NULL default '0',
   PRIMARY KEY  (`contact_id`,`category_id`)
-) DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
-#
-# Table structure for table `#__contacts_details`
-#
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__contacts_details`
+--
 
 CREATE TABLE IF NOT EXISTS `#__contacts_details` (
   `contact_id` int(11) NOT NULL,
@@ -38,11 +46,13 @@ CREATE TABLE IF NOT EXISTS `#__contacts_details` (
   `show_contact` tinyint(1) NOT NULL default '1',
   `show_directory` tinyint(1) NOT NULL default '1',
   PRIMARY KEY  (`contact_id`,`field_id`)
-) DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
-#
-# Table structure for table `#__contacts_fields`
-#
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__contacts_fields`
+--
 
 CREATE TABLE IF NOT EXISTS `#__contacts_fields` (
   `id` int(11) NOT NULL auto_increment,
@@ -58,11 +68,13 @@ CREATE TABLE IF NOT EXISTS `#__contacts_fields` (
   `params` text,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `id` (`id`)
-) DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
-#
-# Dumping data for table `#__contacts_fields`
-#
+-- --------------------------------------------------------
+
+--
+-- Dumping data for table `#__contacts_fields`
+--
 
 INSERT INTO `#__contacts_fields` (`title`, `description`, `type`, `published`, `ordering`, `checked_out`, `checked_out_time`, `pos`, `access`, `params`) VALUES
 ('E-mail', 'The email address used for receiving emails from the contact form.', 'email', 1, 1, 0, '0000-00-00 00:00:00', 'main', 0, 'use=0\nrequired=0\ncss_tag=\nfield_title=0\nchoose_icon=\n\n'),
@@ -79,9 +91,11 @@ INSERT INTO `#__contacts_fields` (`title`, `description`, `type`, `published`, `
 ('Miscellaneous Information', '', 'editor', 1, 1, 0, '0000-00-00 00:00:00', 'bottom', 0, 'required=0\ncss_tag=\nfield_title=0\nchoose_icon=\n\n'),
 ('Contact Image', '', 'image', 1, 1, 0, '0000-00-00 00:00:00', 'right', 0, 'required=0\ncss_tag=\nfield_title=0\nchoose_icon=\n\n');
 
-#
-# Dumping data for table `#__categories`
-#
+-- --------------------------------------------------------
+
+--
+-- Dumping data for table `#__categories`
+--
 
 INSERT INTO `#__categories` (`parent_id`, `title`, `name`, `alias`, `image`, `section`, `image_position`, `description`, `published`, `checked_out`, `checked_out_time`, `editor`, `ordering`, `access`, `count`, `params`) VALUES
 (0, 'Contacts', '', 'contacts', '', 'com_contacts', '', '', 1, 0, '0000-00-00 00:00:00', NULL, 1, 0, 0, '');

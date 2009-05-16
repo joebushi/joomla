@@ -1,7 +1,4 @@
-<?php
-/** $Id: default_form.php 10094 2008-03-02 04:35:10Z instance $ */
-defined( '_JEXEC' ) or die( 'Restricted access' );
-?>
+<?php /* $Id$ */ defined('_JEXEC') or die('Restricted access'); ?>
 
 <tr>
 	<td colspan="4">

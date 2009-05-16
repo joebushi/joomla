@@ -1,4 +1,4 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php /* $Id$ */ defined('_JEXEC') or die('Restricted access'); ?>
 
 <?php JHTML::_('behavior.tooltip'); ?>
 
@@ -9,7 +9,7 @@
 	JToolBarHelper::title(   JText::_( 'Field' ).': <small><small>[ ' . $text.' ]</small></small>' );
 	JToolBarHelper::save();
 	JToolBarHelper::apply();
-	if (!$edit)  {
+	if (!$edit) {
 		JToolBarHelper::cancel();
 	} else {
 		// for existing items the button is renamed `close`

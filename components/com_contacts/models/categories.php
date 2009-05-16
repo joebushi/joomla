@@ -1,15 +1,8 @@
 <?php
 /**
- * @version		$Id: categories.php
- * @package		Joomla
- * @subpackage	ContactDirectory
- * @copyright	Copyright (C) 2005 - 2009 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
- * details.
+ * @version		$Id$
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
  */
 
 // Check to ensure this file is included in Joomla!
@@ -18,8 +11,10 @@ defined('_JEXEC') or die( 'Restricted access' );
 jimport('joomla.application.component.model');
 
 /**
- * @package		Joomla
- * @subpackage	ContactDirectory
+ * Contacts Component Categories Model
+ * 
+ * @package		Joomla.Site
+ * @subpackage	Contacts
  */
 class ContactsModelCategories extends JModel
 {
@@ -57,12 +52,11 @@ class ContactsModelCategories extends JModel
 	public function getData($groupby_cat)
 	{
 		// Lets load the content if it doesn't already exist
-		if (empty($this->_data))
-		{
+		if (empty($this->_data)) {
 			$query = $this->_buildQuery($groupby_cat);
 			$rows = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		
-			foreach($rows as $row) {
+			foreach ($rows as $row) {
 				$row->slug = $row->id.':'.$row->alias;
 			}
 			$this->_data = $rows;
@@ -72,7 +66,7 @@ class ContactsModelCategories extends JModel
 
 	public function getFields($groupby_cat)
 	{
-		if(!$this->_fields){
+		if (!$this->_fields) {
 			$this->getData($groupby_cat);
 			for($i=0; $i<count($this->_data); $i++) {
 				$id = $this->_data[$i]->id;
@@ -98,8 +92,7 @@ class ContactsModelCategories extends JModel
 	{
 		$mainframe = JFactory::getApplication();
 
-		if (empty($this->_categories))
-		{
+		if (empty($this->_categories)) {
 			// Get the page/component configuration
 			$params = &$mainframe->getParams();
 	
@@ -139,15 +132,14 @@ class ContactsModelCategories extends JModel
 	public function getTotal($groupby_cat)
 	{
 		// Lets load the content if it doesn't already exist
-		if (empty($this->_total))
-		{
+		if (empty($this->_total)) {
 			$query = $this->_buildQuery($groupby_cat);
 			$this->_total = $this->_getListCount($query);
 		}
 		return $this->_total;
 	}
 	
-	function getPagination($groupby_cat)
+	public function getPagination($groupby_cat)
 	{
 		// Load the content if it doesn't already exist
 		if (empty($this->_pagination)) {
@@ -157,15 +149,15 @@ class ContactsModelCategories extends JModel
 		return $this->_pagination;
 	}
 
-	function _buildQuery($groupby_cat)
+	protected function _buildQuery($groupby_cat)
 	{
 		// Get the WHERE and ORDER BY clauses for the query
-		$where		= $this->_buildContentWhere();
-		$orderby	= $this->_buildContentOrderBy($groupby_cat);
+		$where = $this->_buildContentWhere();
+		$orderby = $this->_buildContentOrderBy($groupby_cat);
 
 		// if the Group By Category parameter is selected, all contacts are returned (even multiples)
 		// if not only the distinct contacts are returned
-		if($groupby_cat){
+		if ($groupby_cat) {
 			$query = ' SELECT c.*, cat.title AS category, '
 				. ' CASE WHEN CHAR_LENGTH(cat.alias) '
 				. ' THEN CONCAT_WS(\':\', cat.id, cat.alias) ELSE cat.id END AS catslug '
@@ -174,9 +166,9 @@ class ContactsModelCategories extends JModel
 				. ' LEFT JOIN #__categories AS cat ON cat.id = map.category_id '.
 				$where.
 				$orderby;
-		}else{
+		} else {
 			$query =' SELECT DISTINCT c.*, '
-				. ' 	CASE WHEN CHAR_LENGTH(cat.alias) '
+				. ' CASE WHEN CHAR_LENGTH(cat.alias) '
 				. ' THEN CONCAT_WS(\':\', cat.id, cat.alias) ELSE cat.id END AS catslug '
 				. ' FROM #__contacts_contacts AS c '
 				. ' LEFT JOIN #__contacts_con_cat_map AS map ON map.contact_id = c.id '
@@ -191,13 +183,14 @@ class ContactsModelCategories extends JModel
 
 	protected function _buildContentOrderBy($groupby_cat)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
+		
 		// Get the page/component configuration
 		$params = &$mainframe->getParams();
 
 		$orderby = ' ORDER BY ';
 		
-		if($groupby_cat){
+		if ($groupby_cat) {
 			$orderby .= ' cat.title, ';
 		}
 		
@@ -221,13 +214,13 @@ class ContactsModelCategories extends JModel
 		$mainframe = JFactory::getApplication();
 		$option = JRequest::getCmd('option');
 
-		$user =& JFactory::getUser();
-		$gid	= $user->get('aid', 0);
-		$db =& JFactory::getDBO();
+		$user = &JFactory::getUser();
+		$gid = $user->get('aid', 0);
+		$db = &JFactory::getDBO();
 		
-		$alphabet	= $mainframe->getUserStateFromRequest( $option.'alphabet', 	'alphabet',	'',	'string' );
-		$search		= $mainframe->getUserStateFromRequest( $option.'search',		'search',	'',	'string' );
-		$search		= JString::strtolower( $search );
+		$alphabet = $mainframe->getUserStateFromRequest($option.'alphabet', 'alphabet', '', 'string');
+		$search = $mainframe->getUserStateFromRequest($option.'search', 'search','', 'string');
+		$search = JString::strtolower($search);
 
 		// Get the page/component configuration
 		$params = &$mainframe->getParams();
@@ -245,7 +238,7 @@ class ContactsModelCategories extends JModel
 			if ($search) {
 				// clean filter variable
 				$search = JString::strtolower($search);
-				$search	= $this->_db->Quote( '%'.$this->_db->getEscaped( $search, true ).'%', false );
+				$search	= $this->_db->Quote('%'.$this->_db->getEscaped($search, true).'%', false);
 
 				$where .= ' AND LOWER( c.name ) LIKE '.$search;
 			}
@@ -254,7 +247,7 @@ class ContactsModelCategories extends JModel
 			if ($alphabet) {
 				// clean filter variable
 				$alphabet = JString::strtolower($alphabet);
-				$alphabet	= $this->_db->Quote( $this->_db->getEscaped( $alphabet, true ).'%', false );
+				$alphabet = $this->_db->Quote($this->_db->getEscaped( $alphabet, true).'%', false);
 
 				$where .= ' AND LOWER( c.name ) LIKE '.$alphabet;
 			}

@@ -1,8 +1,19 @@
 <?php
+/**
+ * @version		$Id$
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
+ */
 
-// no direct access
+// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
+/**
+ * Contact Table class
+ *
+ * @package		Joomla.Administrator
+ * @subpackage	Contacts
+ */
 class TableContact extends JTable
 {
 	/** @var int Primary key */
@@ -27,9 +38,9 @@ class TableContact extends JTable
 	/**
 	* @param database A database connector object
 	*/
-	function __construct(&$db)
+	public function __construct(&$db)
 	{
-		parent::__construct( '#__contacts_contacts', 'id', $db );
+		parent::__construct('#__contacts_contacts', 'id', $db);
 	}
 	
 	/**
@@ -41,9 +52,9 @@ class TableContact extends JTable
 	* @see JTable:bind
 	* @since 1.5
 	*/
-	function bind($array, $ignore = '')
+	public function bind($array, $ignore = '')
 	{
-		if (key_exists( 'params', $array ) && is_array( $array['params'] ))
+		if (key_exists('params', $array) && is_array($array['params']))
 		{
 			$registry = new JRegistry();
 			$registry->loadArray($array['params']);
@@ -62,12 +73,12 @@ class TableContact extends JTable
 	 */
 	function check()
 	{
-		if(empty($this->alias)) {
+		if (empty($this->alias)) {
 			$this->alias = $this->name;
 		}
 		$this->alias = JFilterOutput::stringURLSafe($this->alias);
-		if(trim(str_replace('-','',$this->alias)) == '') {
-			$datenow =& JFactory::getDate();
+		if (trim(str_replace('-','',$this->alias)) == '') {
+			$datenow = &JFactory::getDate();
 			$this->alias = $datenow->toFormat("%Y-%m-%d-%H-%M-%S");
 		}
 		
@@ -98,28 +109,28 @@ class TableContact extends JTable
 	 */
     function store( $data )
     {
-        if( $this->id != null ) {
-	        if( !$this->_db->updateObject( '#__contacts_contacts', $this, 'id', false ) ) {
-	            $this->setError(get_class( $this ).'::store failed - '.$this->_db->getErrorMsg());
+        if($this->id != null) {
+	        if (!$this->_db->updateObject('#__contacts_contacts', $this, 'id', false)) {
+	            $this->setError(get_class($this).'::store failed - '.$this->_db->getErrorMsg());
 	            return false;
 	        }
 	        
 	        $query = "SELECT id FROM #__contacts_fields WHERE published = 1 ORDER BY pos, ordering";
 	        $this->_db->setQuery($query);
 	        $tables = $this->_db->loadObjectList();
-        	if(!$tables) {
-				$this->setError(get_class( $this ).'::store failed - '.$this->_db->getErrorMsg());
+        	if (!$tables) {
+				$this->setError(get_class($this).'::store failed - '.$this->_db->getErrorMsg());
 				return false;
 			}
 	        
 	        $i = 0;
 	        $fields = $data['fields'];
 	        
-	        foreach ($fields as $field){
+	        foreach ($fields as $field) {
 	        	$field = addslashes($field);
 	        	$query = "UPDATE #__contacts_details SET data = '$field', show_contact = ".$data['showContact'.$i].", show_directory = ".$data['showDirectory'.$i]." WHERE contact_id = $this->id AND field_id = ".$tables[$i]->id;
 	        	$this->_db->setQuery($query);
-		        if(!$this->_db->query()) {
+		        if (!$this->_db->query()) {
 					$this->setError(get_class( $this ).'::store failed - '.$this->_db->getErrorMsg());
 					return false;
 				}
@@ -129,8 +140,8 @@ class TableContact extends JTable
 	        $query = "SELECT category_id FROM #__contacts_con_cat_map WHERE contact_id = '$this->id'";
 	        $this->_db->setQuery($query);
 	        $cat_map = $this->_db->loadResultArray();
-        	if(!$cat_map) {
-				$this->setError(get_class( $this ).'::store failed - '.$this->_db->getErrorMsg());
+        	if (!$cat_map) {
+				$this->setError(get_class($this).'::store failed - '.$this->_db->getErrorMsg());
 				return false;
 			}
 	        
@@ -138,21 +149,21 @@ class TableContact extends JTable
 	        $ordering = $data['ordering'];
 	        
 	        $i = 0;
-	        foreach ($categories as $category){
+	        foreach ($categories as $category) {
 	        	$found = false;
-	        	for($k=0; $k<count($cat_map); $k++){
-	        		if($category == $cat_map[$k]){
+	        	for ($k=0; $k<count($cat_map); $k++) {
+	        		if ($category == $cat_map[$k]) {
 	        			$found = true;
 	        			$cat_map[$k] = -1;
 	        			$query = "UPDATE #__contacts_con_cat_map SET ordering = '$ordering[$i]' WHERE contact_id = '$this->id' AND category_id = '$category'";
 		        		$this->_db->setQuery($query);
-			        	if(!$this->_db->query()) {
+			        	if (!$this->_db->query()) {
 							$this->setError(get_class( $this ).'::store failed - '.$this->_db->getErrorMsg());
 							return false;
 						}
 	        		}
 	        	}
-	        	if(!$found){
+	        	if (!$found) {
 			        $query = "SELECT MAX(ordering) FROM #__contacts_con_cat_map WHERE category_id = '$category'";
 			        $this->_db->setQuery( $query );
 			        $maxord = $this->_db->loadResult();
@@ -164,7 +175,7 @@ class TableContact extends JTable
 
 	        		$query = "INSERT INTO #__contacts_con_cat_map VALUES('$this->id', '$category', '$maxord')";
 		        	$this->_db->setQuery($query);
-			        if(!$this->_db->query()) {
+			        if (!$this->_db->query()) {
 						$this->setError(get_class( $this ).'::store failed - '.$this->_db->getErrorMsg());
 						return false;
 					}
@@ -172,12 +183,12 @@ class TableContact extends JTable
 	        	$i++;
 	        }
 	        
-        	for($k=0; $k<count($cat_map); $k++){
-        		if($cat_map[$k] != -1){
+        	for ($k=0; $k<count($cat_map); $k++) {
+        		if ($cat_map[$k] != -1) {
         			$query = "DELETE FROM #__contacts_con_cat_map WHERE category_id = '$cat_map[$k]' AND contact_id = '$this->id'";
 	        		$this->_db->setQuery($query);
-			        if(!$this->_db->query()) {
-						$this->setError(get_class( $this ).'::store failed - '.$this->_db->getErrorMsg());
+			        if (!$this->_db->query()) {
+						$this->setError(get_class($this).'::store failed - '.$this->_db->getErrorMsg());
 						return false;
 					}
         		}
@@ -194,19 +205,16 @@ class TableContact extends JTable
 		        }				
 		            
 		         // compact the ordering numbers
-		        for ($i=0, $n=count( $orders ); $i < $n; $i++)
-		        {
-		            if ($orders[$i]->ordering >= 0)
-		            {
-		                if ($orders[$i]->ordering != $i+1)
-		                {
+		        for ($i=0, $n=count( $orders ); $i < $n; $i++) {
+		            if ($orders[$i]->ordering >= 0) {
+		                if ($orders[$i]->ordering != $i+1) {
 		                    $orders[$i]->ordering = $i+1;
 		                    $query = 'UPDATE #__contacts_con_cat_map SET ordering = '. (int) $orders[$i]->ordering
 		                    				.' WHERE contact_id = '. $this->_db->Quote($orders[$i]->contact_id)
 		                    				.' AND category_id = '.$this->_db->Quote($orders[$i]->category_id);
-		                    $this->_db->setQuery( $query);
-			                if(!$this->_db->query()) {
-								$this->setError(get_class( $this ).'::store failed - '.$this->_db->getErrorMsg());
+		                    $this->_db->setQuery($query);
+			                if (!$this->_db->query()) {
+								$this->setError(get_class($this).'::store failed - '.$this->_db->getErrorMsg());
 								return false;
 							}
 		                }
@@ -215,10 +223,10 @@ class TableContact extends JTable
         	}
 	        
         } else {
-            $ret = $this->_db->insertObject( '#__contacts_contacts', $this, 'id' );
-            $this->id  = $this->_db->insertid();
+            $ret = $this->_db->insertObject('#__contacts_contacts', $this, 'id');
+            $this->id = $this->_db->insertid();
 
-        	if( !$ret || $this->id == null) {
+        	if (!$ret || $this->id == null) {
 	            $this->setError(get_class( $this ).'::store failed - '.$this->_db->getErrorMsg());
 	            return false;
 	        }
@@ -226,20 +234,20 @@ class TableContact extends JTable
         	$query = "SELECT id FROM #__contacts_fields WHERE published = 1 ORDER BY pos, ordering";
 	        $this->_db->setQuery($query);
 	        $tables = $this->_db->loadObjectList();
-        	if(!$tables) {
-				$this->setError(get_class( $this ).'::store failed - '.$this->_db->getErrorMsg());
+        	if (!$tables) {
+				$this->setError(get_class($this).'::store failed - '.$this->_db->getErrorMsg());
 				return false;
 			}
 	        
 	        $i = 0;
 	        $fields = $data['fields'];
 	        
-	        foreach ($fields as $field){
+	        foreach ($fields as $field) {
 	        	$field = addslashes($field);
 	        	$query = "INSERT INTO #__contacts_details VALUES('$this->id', '".$tables[$i]->id."', '$field', '".$data['showContact'.$i]."', '".$data['showDirectory'.$i]."')";
 	        	$this->_db->setQuery($query);
 		        if(!$this->_db->query()) {
-					$this->setError(get_class( $this ).'::store failed - '.$this->_db->getErrorMsg());
+					$this->setError(get_class($this).'::store failed - '.$this->_db->getErrorMsg());
 					return false;
 				}
 				$i++;
@@ -248,15 +256,15 @@ class TableContact extends JTable
 	        $categories = $data['categories'];
 	        
 	        $i = 0;
-	        foreach ($categories as $category){
+	        foreach ($categories as $category) {
 	        	$query = "SELECT MAX(ordering) FROM #__contacts_con_cat_map WHERE category_id = '$category'";
-		        $this->_db->setQuery( $query );
+		        $this->_db->setQuery($query);
 		        $maxord = $this->_db->loadResult();
 		        if ($this->_db->getErrorNum()) {
-					$this->setError(get_class( $this ).'::store failed - '.$this->_db->getErrorMsg());
+					$this->setError(get_class($this).'::store failed - '.$this->_db->getErrorMsg());
 		            return false;
 		        }
-		        if($maxord == -1){
+		        if ($maxord == -1) {
 		        	$maxord += 2;	        		
 		        }
         		$maxord++;
@@ -264,7 +272,7 @@ class TableContact extends JTable
 	        	$query = "INSERT INTO #__contacts_con_cat_map VALUES('$this->id', '$category', '$maxord')";
 	        	$this->_db->setQuery($query);
 	        	if(!$this->_db->query()) {
-					$this->setError(get_class( $this ).'::store failed - '.$this->_db->getErrorMsg());
+					$this->setError(get_class($this).'::store failed - '.$this->_db->getErrorMsg());
 					return false;
 				}        					
 	        }

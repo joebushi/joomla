@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id$ -->
 <contact>
 	<params>
 		<param name="show_name" type="radio" default="1" label="Name" description="Show/Hide the name information in the contact form page">
@@ -40,10 +41,6 @@
 		<param name="banned_subject" type="textarea" default="" label="Banned Subject" rows="3" cols="30" description="Subjects containing any of the listed text will be banned. Separate different words with semi-colons e.g. ban;text;etc" />
 		<param name="banned_text" type="textarea" default="" label="Banned Text" rows="3" cols="30" description="Text containing any of the listed text will be banned. Separate different words with semi-colons e.g. ban;text;etc" />
 		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="show_captcha" type="radio" default="1" label="Show Captcha" description="Show anti-spam verification code">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
 		<param name="validate_email_form" type="radio" default="0" label="Validation" description="Validation on field input or on Send">
 			<option value="0">On Field Input</option>
 			<option value="1">On Send</option>

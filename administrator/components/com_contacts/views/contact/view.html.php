@@ -1,4 +1,9 @@
 <?php
+/**
+ * @version		$Id$
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
+ */
 
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
@@ -7,12 +12,10 @@ defined('_JEXEC') or die('Restricted access');
 jimport( 'joomla.application.component.view');
 
 /**
- * HTML View class for the Contacts component
+ * Contact View
  *
- * @static
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Contacts
- * @since 1.0
  */
 class ContactsViewContact extends JView
 {
@@ -21,10 +24,10 @@ class ContactsViewContact extends JView
 		$mainframe = JFactory::getApplication();
 		$option = JRequest::getCmd('option');
 		
-		$db =& JFactory::getDBO();
-		$uri =& JFactory::getURI();
-		$user =& JFactory::getUser();
-		$model =& $this->getModel();
+		$db = &JFactory::getDBO();
+		$uri = &JFactory::getURI();
+		$user = &JFactory::getUser();
+		$model = &$this->getModel();
 
 		// TODO: ACL
 		/*if (!$user->authorize( 'com_contacts', 'manage contacts' )) {
@@ -38,10 +41,10 @@ class ContactsViewContact extends JView
 		$isNew = ($contact->id < 1);
 		
 		//get the fields
-		$fields =& $this->get('fields');
-		if($fields == null){
+		$fields = &$this->get('fields');
+		if ($fields == null){
 			$query = "SELECT title, type, params FROM #__contacts_fields WHERE published = 1 ORDER BY pos, ordering";
-			$db->setQuery( $query );
+			$db->setQuery($query);
 			$fields = $db->loadObjectList();
 			foreach($fields as $field){
 				$field->show_contact = 1;
@@ -51,25 +54,22 @@ class ContactsViewContact extends JView
 		}
 		
 		//get the categories
-		$categories =& $this->get('categories');
+		$categories = &$this->get('categories');
 
 		// fail if checked out not by 'me'
-		if ($model->isCheckedOut( $user->get('id') )) {
-			$msg = JText::sprintf( 'DESCBEINGEDITTED', JText::_( 'The Contact' ), $contact->name );
-			$mainframe->redirect( 'index.php?option='. $option . '&controller=' . $controller, $msg );
+		if ($model->isCheckedOut($user->get('id'))) {
+			$msg = JText::sprintf('DESCBEINGEDITTED', JText::_('The Contact'), $contact->name);
+			$mainframe->redirect('index.php?option='. $option . '&controller=' . $controller, $msg);
 		}
 
 		// Edit or Create?
-		if (!$isNew)
-		{
+		if (!$isNew) {
 			$model->checkout( $user->get('id') );
-		}
-		else
-		{
+		} else {
 			// initialise new record
 			$contact->published = 1;
-			$contact->approved 	= 1;
-			$contact->order 	= 0;
+			$contact->approved = 1;
+			$contact->order = 0;
 		}
 
 		// build the html list for categories
@@ -82,7 +82,7 @@ class ContactsViewContact extends JView
 		$cat = $db->loadObjectList();
 		
 		$select = array();
-		foreach ($categories as $category){
+		foreach ($categories as $category) {
 			$select[] = $category->id;	
 		}
 		
@@ -111,7 +111,7 @@ class ContactsViewContact extends JView
 		
 		// build the html for the booleanlist Show / Hide Field
 		$i = 0;
-		foreach ($fields as $field){
+		foreach ($fields as $field) {
 			$field->params = new JParameter($field->params);
 			$field->name = JFilterOutput::stringURLSafe($field->title);
 			
@@ -124,16 +124,16 @@ class ContactsViewContact extends JView
 		$lists['user_id'] = JHTML::_('list.users',  'user_id', $contact->user_id, 1, null, 'name', 0 );
 		
 		//clean contact data
-		JFilterOutput::objectHTMLSafe( $contact, ENT_QUOTES, 'description' );
+		JFilterOutput::objectHTMLSafe($contact, ENT_QUOTES, 'description');
 
-		$file 	= JPATH_COMPONENT.DS.'models'.DS.'contact.xml';
-		$params = new JParameter( $contact->params, $file );
+		$file = JPATH_COMPONENT.DS.'models'.DS.'contact.xml';
+		$params = new JParameter($contact->params, $file);
 		 
-		$this->assignRef('lists',		$lists);
-		$this->assignRef('contact',		$contact);
-		$this->assignRef('fields',		$fields);
-		$this->assignRef('categories',	$categories);
-		$this->assignRef('params',		$params);
+		$this->assignRef('lists', $lists);
+		$this->assignRef('contact', $contact);
+		$this->assignRef('fields', $fields);
+		$this->assignRef('categories', $categories);
+		$this->assignRef('params', $params);
 
 		parent::display($tpl);
 	}

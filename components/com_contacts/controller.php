@@ -1,4 +1,9 @@
 <?php
+/**
+ * @version		$Id$
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
+ */
 
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die( 'Restricted access' );
@@ -9,9 +14,8 @@ jimport( 'joomla.application.component.controller' );
  * Contacts Component Controller
  *
  * @static
- * @package		Joomla
- * @subpackage	Contact
- * @since 1.5
+ * @package		Joomla.Site
+ * @subpackage	Contacts
  */
 class ContactsController extends JController
 {
@@ -20,16 +24,16 @@ class ContactsController extends JController
 	 */
 	function display()
 	{
-		$document =& JFactory::getDocument();
+		$document = &JFactory::getDocument();
 
-		$viewName	= JRequest::getCmd( 'view' );
-		$viewType	= $document->getType();
+		$viewName = JRequest::getCmd('view');
+		$viewType = $document->getType();
 
 		$view = &$this->getView($viewName, $viewType);
 
-		$model	= &$this->getModel( $viewName );
-		if (!JError::isError( $model )) {
-			$view->setModel( $model, true );
+		$model = &$this->getModel($viewName);
+		if (!JError::isError($model)) {
+			$view->setModel($model, true);
 		}
 
 		$view->assign('error', $this->getError());
@@ -42,12 +46,14 @@ class ContactsController extends JController
 	 * @static
 	 * @since 1.0
 	 */
-	function submit()	{
-		JRequest::checkToken() or die( 'Invalid Token' );
-		$user = &JFactory::getUser();
-		$model =& $this->getModel('contact');
+	function submit() {
+		// Check for request forgeries
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 		
-		if($model->mailTo($user)) {
+		$user = &JFactory::getUser();
+		$model = &$this->getModel('Contact');
+		
+		if ($model->mailTo($user)) {
 			$msg = JText::_( 'Thank you for your e-mail');
 			$contact = $model->getData($user->get('aid', 0));
 			$link = JRoute::_('index.php?option=com_contacts&view=contact&id='.$contact->id, false);
@@ -56,27 +62,6 @@ class ContactsController extends JController
 			$this->setError($model->getError());
 			$this->display();
 		}
-	}
-	
-	/**
-	 * Get the captcha image from securimage library
-	 */
-	function captcha() 
-	{
-		require_once JPATH_COMPONENT . DS . 'includes' . DS . 'securimage' . DS . 'securimage.php';
-		@ob_end_clean();
-		$img = new securimage();
-		$img->draw_lines = false;
-		$img->arc_linethrough = false;
-		$img->use_transparent_text = true;
-		$img->text_transparency_percentage = 40;
-		$img->text_color = '#0000ff';
-		$img->use_multi_text = false;
-		$img->font_size = 40;
-		$img->bgimg = JPATH_COMPONENT . DS . 'includes' . DS . 'securimage' . DS . 'images' . DS . 'pattern.gif';
-		$img->ttf_file = JPATH_COMPONENT . DS . 'includes' . DS . 'securimage' . DS . 'artistamp.ttf';
-		$img->image_width = 150;
-		$img->show();
 	}
 }
 ?>

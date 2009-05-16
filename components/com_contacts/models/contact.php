@@ -1,25 +1,21 @@
 <?php
 /**
- * @version		$Id: contact.php 10094 2008-03-02 04:35:10Z instance $
- * @package		Joomla
- * @subpackage	Contact
- * @copyright	Copyright (C) 2005 - 2009 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
- * details.
+ * @version		$Id$
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
  */
 
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die( 'Restricted access' );
 
+// Import the JModel class
 jimport('joomla.application.component.model');
 
 /**
- * @package		Joomla
- * @subpackage	Contact
+ * Contacts Component Contact Model
+ * 
+ * @package		Joomla.Site
+ * @subpackage	Contacts
  */
 class ContactsModelContact extends JModel
 {
@@ -39,7 +35,7 @@ class ContactsModelContact extends JModel
 	{
 		parent::__construct();
 
-		$this->_id	= JRequest::getVar('id', 0, '', 'int');
+		$this->_id = JRequest::getVar('id', 0, '', 'int');
 		
 		$this->_formData = new stdClass();
 		$this->_formData->name = JRequest::getString('name', '', 'post');
@@ -47,7 +43,6 @@ class ContactsModelContact extends JModel
 		$this->_formData->subject = JRequest::getString('subject', '', 'post');
 		$this->_formData->body = JRequest::getString('body', '', 'post');
 		$this->_formData->email_copy = JRequest::getString('email_copy', '', 'post');
-		$this->_formData->captcha = JRequest::getString('captcha', '', 'post');
 	}
 	
 	public function &getFormData()
@@ -78,7 +73,7 @@ class ContactsModelContact extends JModel
 			$this->getCategories();
 			$found = false;
 			foreach ($this->_categories as $category) {
-				if($category->published == 1){
+				if ($category->published == 1) {
 					$found = true;
 				}
 			}
@@ -100,12 +95,12 @@ class ContactsModelContact extends JModel
 
 	public function &getFields()
 	{
-		if(!$this->_fields){
+		if (!$this->_fields) {
 			$query = " SELECT f.id, f.title, d.data, f.pos, f.type, d.show_contact AS show_field, f.params, f.access "
-					." FROM #__contacts_fields f "
-					." LEFT JOIN #__contacts_details d ON d.field_id = f.id "
-					." WHERE f.published = 1 AND d.contact_id = $this->_id"
-					." ORDER BY f.pos, f.ordering ";
+				." FROM #__contacts_fields f "
+				." LEFT JOIN #__contacts_details d ON d.field_id = f.id "
+				." WHERE f.published = 1 AND d.contact_id = $this->_id"
+				." ORDER BY f.pos, f.ordering ";
 			$this->_db->setQuery($query);
 			$this->_fields = $this->_db->loadObjectList();	
 		}
@@ -114,10 +109,10 @@ class ContactsModelContact extends JModel
 	
 	public function &getEmail()
 	{
-		if(!$this->_email){
+		if (!$this->_email) {
 			$query = " SELECT d.data FROM #__contacts_details d "
-							." JOIN  #__contacts_fields f ON d.field_id = f.id "
-							." WHERE f.published = 1 AND d.field_id = 1 AND d.contact_id = $this->_id ";
+				." JOIN  #__contacts_fields f ON d.field_id = f.id "
+				." WHERE f.published = 1 AND d.field_id = 1 AND d.contact_id = $this->_id ";
 			$this->_db->setQuery($query);
 			$this->_email = $this->_db->loadResult();	
 		}
@@ -126,11 +121,11 @@ class ContactsModelContact extends JModel
 	
 	public function &getCategories()
 	{
-		if(!$this->_categories){
+		if (!$this->_categories) {
 			$query = " SELECT c.title, c.published, map.category_id AS id, map.ordering "
-					." FROM jos_categories c "
-					." LEFT JOIN jos_contacts_con_cat_map map ON map.category_id = c.id "
-					." WHERE map.contact_id = '$this->_id' ";
+				." FROM jos_categories c "
+				." LEFT JOIN jos_contacts_con_cat_map map ON map.category_id = c.id "
+				." WHERE map.contact_id = '$this->_id' ";
 			$this->_db->setQuery($query);
 			$this->_categories = $this->_db->loadObjectList();
 		}
@@ -147,8 +142,7 @@ class ContactsModelContact extends JModel
 	protected function _loadData()
 	{
 		// Lets load the content if it doesn't already exist
-		if (empty($this->_data))
-		{
+		if (empty($this->_data)) {
 			$query = 'SELECT * FROM #__contacts_contacts WHERE id = '.(int) $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
@@ -167,19 +161,18 @@ class ContactsModelContact extends JModel
 	protected function _initData()
 	{
 		// Lets load the content if it doesn't already exist
-		if (empty($this->_data))
-		{
+		if (empty($this->_data)) {
 			$contact = new stdClass();
-			$contact->id	= 0;
+			$contact->id = 0;
 			$contact->name = null;
 			$contact->alias	= null;
 			$contact->published = 0;
-			$contact->checked_out	= 0;
-			$contact->checked_out_time	= 0;
-			$contact->params	 = null;
-			$contact->user_id	= 0;
+			$contact->checked_out = 0;
+			$contact->checked_out_time = 0;
+			$contact->params = null;
+			$contact->user_id = 0;
 			$contact->access = 0;
-			$this->_data	= $contact;
+			$this->_data = $contact;
 			return (boolean) $this->_data;
 		}
 		return true;
@@ -188,55 +181,53 @@ class ContactsModelContact extends JModel
 	public function mailTo($access) {
 		$mainframe = JFactory::getApplication();
 		
-		$pparams =& $mainframe->getParams('com_contacts');
+		$pparams = &$mainframe->getParams('com_contacts');
 		$SiteName = $mainframe->getCfg('sitename');
 		$default = JText::sprintf( '%s Enquiry', $SiteName );
 		
 		$subject = $this->_formData->subject;
-		if(!$subject) { $subject = $default; }
+		if (!$subject) $subject = $default;
 		
-		$contact =& $this->getData($access);
-		$email_to =& $this->getEmail();
+		$contact = &$this->getData($access);
+		$email_to = &$this->getEmail();
 
-		$cparams =  new JParameter($contact->params);
+		$cparams = new JParameter($contact->params);
 		
-		if($email_to == '' && $contact->user_id != 0){
+		if ($email_to == '' && $contact->user_id != 0) {
 			$contact_user = JUser::getInstance($contact->user_id);
 			$email_to = $contact_user->get('email');
 		}
 
 		jimport('joomla.mail.helper');
-		if (!$this->_formData->email || !$this->_formData->body || (JMailHelper::isEmailAddress($this->_formData->email) == false))
-		{
+		if (!$this->_formData->email || !$this->_formData->body || (JMailHelper::isEmailAddress($this->_formData->email) == false)) {
 			$this->setError(JText::_('Please make sure the form is complete and valid.'));
 			return false;
 		}
 		
-		JPluginHelper::importPlugin( 'contact' );
+		JPluginHelper::importPlugin('contact');
 		$dispatcher =& JDispatcher::getInstance();
 				
-		if  (!$this->_validateInputs( $contact, $this->_formData->email, $this->_formData->subject, $this->_formData->body, $this->_formData->captcha ) ) {
+		if (!$this->_validateInputs($contact, $this->_formData->email, $this->_formData->subject, $this->_formData->body)) {
 			return false;
 		}
 
-		$post = JRequest::get( 'post' );
-		$results	= $dispatcher->trigger( 'onValidateContact', array( &$contact, &$post ) );
+		$post = JRequest::get('post');
+		$results = $dispatcher->trigger('onValidateContact', array(&$contact, &$post));
 
-		foreach ($results as $result)
-		{
-			if (JError::isError( $result )) {
+		foreach ($results as $result) {
+			if (JError::isError($result)) {
 				return false;
 			}
 		}
 
-		$results	= $dispatcher->trigger( 'onSubmitContact', array( &$contact, &$post ) );
+		$results = $dispatcher->trigger('onSubmitContact', array( &$contact, &$post));
 				
 		if (!$pparams->get('custom_reply')) {
 			$MailFrom = $mainframe->getCfg('mailfrom');
 			$FromName = $mainframe->getCfg('fromname');
 
 			$prefix = JText::sprintf('This is an enquiry e-mail via %s from:', JURI::base());
-			$body 	= $prefix."\n".$this->_formData->name.' <'.$this->_formData->email.'>'."\r\n\r\n".stripslashes($this->_formData->body);
+			$body = $prefix."\n".$this->_formData->name.' <'.$this->_formData->email.'>'."\r\n\r\n".stripslashes($this->_formData->body);
 			
 			$mail = JFactory::getMailer();
 
@@ -250,11 +241,10 @@ class ContactsModelContact extends JModel
 			$params = new JParameter($contact->params);
 			$emailcopyCheck = $params->get( 'show_email_copy', 0 );
 
-			if ( $this->_formData->email_copy && $emailcopyCheck )
-			{
-				$copyText 		= JText::sprintf('Copy of:', $contact->name, $SiteName);
-				$copyText 		.= "\r\n\r\n".$body;
-				$copySubject 	= JText::_('Copy of:')." ".$subject;
+			if ( $this->_formData->email_copy && $emailcopyCheck ) {
+				$copyText = JText::sprintf('Copy of:', $contact->name, $SiteName);
+				$copyText .= "\r\n\r\n".$body;
+				$copySubject = JText::_('Copy of:')." ".$subject;
 
 				$mail = JFactory::getMailer();
 
@@ -269,18 +259,17 @@ class ContactsModelContact extends JModel
 		return true;
 	}
 	
-	protected function _validateInputs( $contact, $email, $subject, $body, $captcha ) {
-		global $mainframe;
-
-		$session =& JFactory::getSession();
+	protected function _validateInputs( $contact, $email, $subject, $body) {
+		$mainframe = JFactory::getApplication();
+		$session = &JFactory::getSession();
 
 		$params	= new JParameter($contact->params);
 		$pparams = &$mainframe->getParams('com_contacts');
 
 		$sessionCheck = $pparams->get( 'validate_session', 1 );
-		$sessionName	= $session->getName();
-		if  ( $sessionCheck ) {
-			if ( !isset($_COOKIE[$sessionName]) ) {
+		$sessionName = $session->getName();
+		if  ($sessionCheck) {
+			if (!isset($_COOKIE[$sessionName])) {
 				$this->setError( JText::_('You are not authorised to view this resource.') );
 				return false;
 			}
@@ -290,10 +279,10 @@ class ContactsModelContact extends JModel
 		$paramsEmail = $params->get( 'banned_mail', '' );
 		$bannedEmail = $configEmail . ($paramsEmail ? ';'.$paramsEmail : '');
 
-		if ( $bannedEmail ) {
-			$bannedEmail = explode( ';', $bannedEmail );
+		if ($bannedEmail) {
+			$bannedEmail = explode(';', $bannedEmail);
 			foreach ($bannedEmail as $value) {
-				if ( JString::stristr($email, $value) ) {
+				if (JString::stristr($email, $value)) {
 					$this->setError( JText::sprintf('The %s of your e-mail contains banned text.', 'email') );
 					return false;
 				}
@@ -304,7 +293,7 @@ class ContactsModelContact extends JModel
 		$paramsSubject = $params->get( 'banned_subject', '' );
 		$bannedSubject = $configSubject . ( $paramsSubject ? ';'.$paramsSubject : '');
 
-		if ( $bannedSubject ) {
+		if ($bannedSubject) {
 			$bannedSubject = explode( ';', $bannedSubject );
 			foreach ($bannedSubject as $value) {
 				if ( $value && JString::stristr($subject, $value) ) {
@@ -333,18 +322,7 @@ class ContactsModelContact extends JModel
 			$this->setError( JText::_( 'You cannot enter more than one email address', true ) );
 			return false;
 		}
-		$sc = $params->get('show_captcha');
-		if($sc == '') {
-			$sc = $pparams->get('show_captcha');
-		}
-		if($sc) {
-			require_once JPATH_COMPONENT . DS . 'includes' . DS . 'securimage' . DS . 'securimage.php';
-			$img = new securimage();
-			if($captcha == '' || $img->check($captcha) == false) {
-				$this->setError( JText::_( 'Wrong security code', true ) );
-				return false;
-			}
-		}
+		
 		return true;
 	}
 }

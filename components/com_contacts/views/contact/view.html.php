@@ -1,24 +1,20 @@
 <?php
 /**
- * @version		$Id: view.html.php 10094 2008-03-02 04:35:10Z instance $
- * @package		Joomla
- * @subpackage	Contact
- * @copyright	Copyright (C) 2005 - 2009 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
- * details.
+ * @version		$Id$
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
  */
 
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die( 'Restricted access' );
 
+// Import the JView Class
 jimport('joomla.application.component.view');
 
 /**
- * @package		Joomla
+ * Contact View
+ * 
+ * @package		Joomla.Site
  * @subpackage	Contacts
  */
 class ContactsViewContact extends JView
@@ -27,26 +23,26 @@ class ContactsViewContact extends JView
 	{
 		$mainframe = JFactory::getApplication();
 
-		$user		= &JFactory::getUser();
-		$pathway	= &$mainframe->getPathway();
-		$document	= & JFactory::getDocument();
+		$user = &JFactory::getUser();
+		$pathway = &$mainframe->getPathway();
+		$document = &JFactory::getDocument();
 
 		// Get the parameters of the active menu item
-		$menus	= &JSite::getMenu();
-		$menu    = $menus->getActive();
+		$menus = &JSite::getMenu();
+		$menu = $menus->getActive();
 
 		$pparams = &$mainframe->getParams('com_contacts');
 
 		$cparams = JComponentHelper::getParams ('com_media');
 		
 		// Push a model into the view
-		$model	= &$this->getModel();
+		$model = &$this->getModel();
 
 		//get the contact
-		$contact	=& $model->getData($user->get('aid', 0));
+		$contact = &$model->getData($user->get('aid', 0));
 		
 		//get the fields
-		$fields =& $model->getFields();
+		$fields = &$model->getFields();
 		
 		// check if we have a contact
 		if (!is_object( $contact )) {
@@ -65,57 +61,56 @@ class ContactsViewContact extends JView
 		$pparams->merge($contact->params);
 		
 		$email = null;
-		foreach($fields as $field){
+		foreach ($fields as $field) {
 			$field->params = new JParameter($field->params);
 			
-			if($field->type == 'image'){
-				if($field->data){
+			if ($field->type == 'image') {
+				if ($field->data) {
 					$field->data = JHTML::_('image', $cparams->get('image_path') . '/'.$field->data, JText::_( 'Contact' ), array('align' => 'middle'));
 				}
 			}
 			
-			if($field->type == 'textarea'){
+			if ($field->type == 'textarea') {
 				$field->data = nl2br($field->data);
 			}
 			
-			if($field->type == 'url'){
+			if ($field->type == 'url') {
 				$field->data = '<a href="http://'.$field->data.'">'.$field->data.'</a>';
 			}
 			
 			// Handle email cloaking
-			if($field->type == 'email' && $field->show_field) {
+			if ($field->type == 'email' && $field->show_field) {
 				jimport('joomla.mail.helper');
 				$field->data = trim($field->data);
-				if(!empty($field->data) && JMailHelper::isEmailAddress($field->data)) {
+				if (!empty($field->data) && JMailHelper::isEmailAddress($field->data)) {
 					$field->data = JHTML::_('email.cloak', $field->data);
-				}else{
+				} else {
 					$field->data = '';
 				}
-				if($field->id == 1){
+				if ($field->id == 1) {
 					$email = $field;
 				}
 			}
 			
 			// Manage the display mode for the field title
-			switch ($field->params->get('field_title'))
-			{
+			switch ($field->params->get('field_title')) {
 				case 0 :
 					// text
-					$field->params->set('marker_title', 	JText::_($field->title).": ");
+					$field->params->set('marker_title', JText::_($field->title).": ");
 					break;
 				case 1:
 					//icon and text
-					$image = JHTML::_('image.site', 'arrow.png', 	'/images/M_images/', $field->params->get('choose_icon'), 	'/images/M_images/', JText::_($field->title).": ");
-					$field->params->set('marker_title', 	$image);
+					$image = JHTML::_('image.site', 'arrow.png', '/images/M_images/', $field->params->get('choose_icon'), '/images/M_images/', JText::_($field->title).": ");
+					$field->params->set('marker_title', $image);
 					break;
 				case 2 :
 					// icons
-					$image = JHTML::_('image.site', 'arrow.png', 	'/images/M_images/', $field->params->get('choose_icon'), 	'/images/M_images/', JText::_($field->title).": ");
-					$field->params->set('marker_title', 	$image." ".JText::_($field->title).": ");
+					$image = JHTML::_('image.site', 'arrow.png', '/images/M_images/', $field->params->get('choose_icon'), '/images/M_images/', JText::_($field->title).": ");
+					$field->params->set('marker_title', $image." ".JText::_($field->title).": ");
 					break;
 				case 3 :
 					// none
-					$field->params->set('marker_title', 	'');
+					$field->params->set('marker_title', '');
 					break;
 			}
 
@@ -150,11 +145,6 @@ class ContactsViewContact extends JView
 		}
 
 		JHTML::_('behavior.formvalidation');
-
-		$captcha = null;
-		if($contact->params->get('show_captcha')) {
-			 $captcha = JHTML::image('index.php?option=com_contacts&task=captcha&amp;format=raw&amp;sid=' . md5(uniqid(time())), 'captcha', array('id'=>'captcha-img'));
-		}
 		
 		$showFormTitle = false;
 		$showFormTop = false;
@@ -163,46 +153,52 @@ class ContactsViewContact extends JView
 		$showFormRight = false;
 		$showFormBottom = false;
 		
-		if($contact->params->get('email_form_pos') == 'title' &&
+		if ($contact->params->get('email_form_pos') == 'title' &&
 			$contact->params->get('show_email_form') && 
 			($email->data || $contact->user_id) && 
-			$contact->params->get('email_form_access') <= $user->get('aid', 0)){
-				$showFormTitle = true;
+			$contact->params->get('email_form_access') <= $user->get('aid', 0))
+		{
+			$showFormTitle = true;
 		}
 		
-		if($contact->params->get('email_form_pos') == 'top' &&
+		if ($contact->params->get('email_form_pos') == 'top' &&
 			$contact->params->get('show_email_form') && 
 			($email->data || $contact->user_id) && 
-			$contact->params->get('email_form_access') <= $user->get('aid', 0)){
-				$showFormTop = true;
+			$contact->params->get('email_form_access') <= $user->get('aid', 0))
+		{
+			$showFormTop = true;
 		}
 		
-		if($contact->params->get('email_form_pos') == 'left' &&
+		if ($contact->params->get('email_form_pos') == 'left' &&
 			$contact->params->get('show_email_form') && 
 			($email->data || $contact->user_id) && 
-			$contact->params->get('email_form_access') <= $user->get('aid', 0)){
-				$showFormLeft = true;
+			$contact->params->get('email_form_access') <= $user->get('aid', 0))
+		{
+			$showFormLeft = true;
 		}
 		
-		if($contact->params->get('email_form_pos') == 'main' &&
+		if ($contact->params->get('email_form_pos') == 'main' &&
 			$contact->params->get('show_email_form') && 
 			($email->data || $contact->user_id) && 
-			$contact->params->get('email_form_access') <= $user->get('aid', 0)){
-				$showFormMain = true;
+			$contact->params->get('email_form_access') <= $user->get('aid', 0))
+		{
+			$showFormMain = true;
 		}
 		
-		if($contact->params->get('email_form_pos') == 'right' &&
+		if ($contact->params->get('email_form_pos') == 'right' &&
 			$contact->params->get('show_email_form') && 
 			($email->data || $contact->user_id) && 
-			$contact->params->get('email_form_access') <= $user->get('aid', 0)){
-				$showFormRight = true;
+			$contact->params->get('email_form_access') <= $user->get('aid', 0))
+		{
+			$showFormRight = true;
 		}
 		
-		if($contact->params->get('email_form_pos') == 'bottom' &&
+		if ($contact->params->get('email_form_pos') == 'bottom' &&
 			$contact->params->get('show_email_form') && 
 			($email->data || $contact->user_id) && 
-			$contact->params->get('email_form_access') <= $user->get('aid', 0)){
-				$showFormBottom = true;
+			$contact->params->get('email_form_access') <= $user->get('aid', 0))
+		{
+			$showFormBottom = true;
 		}
 		
 		// Fill up the form with the original data after summit error
@@ -225,8 +221,7 @@ class ContactsViewContact extends JView
 		$this->assignRef('showFormBottom', $showFormBottom);	
 		$this->assignRef('params',	$pparams);
 		$this->assignRef('email', $email);
-		$this->assignRef('captcha', $captcha);
-		$this->assignRef('user',	$user);
+		$this->assignRef('user', $user);
 		$this->assignRef('data', $data);
 
 		parent::display($tpl);

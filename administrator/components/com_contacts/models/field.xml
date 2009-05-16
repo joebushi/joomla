@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id$ -->
 <field>
 	<params>
 		<!-- <param name="use" type="list" default="" label="Use" description="Choose where the field will be used">

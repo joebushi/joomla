@@ -1,8 +1,19 @@
 <?php
+/**
+ * @version		$Id$
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
+ */
 
-// no direct access
+// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
+/**
+ * Field Table class
+ *
+ * @package		Joomla.Administrator
+ * @subpackage	Contacts
+ */
 class TableField extends JTable
 {
 	/** @var int Primary key */
@@ -20,7 +31,7 @@ class TableField extends JTable
 	/** @var int */
 	var $checked_out = 0;
 	/** @var time */
-	var $checked_out_time	= 0;
+	var $checked_out_time = 0;
 	/** @var int */
 	var $pos = 'main';
 	/** @var int */
@@ -31,9 +42,9 @@ class TableField extends JTable
 	/**
 	* @param database A database connector object
 	*/
-	function __construct(&$db)
+	public function __construct(&$db)
 	{
-		parent::__construct( '#__contacts_fields', 'id', $db );
+		parent::__construct('#__contacts_fields', 'id', $db);
 	}
 	
 	/**
@@ -45,10 +56,9 @@ class TableField extends JTable
 	* @see JTable:bind
 	* @since 1.5
 	*/
-	function bind($array, $ignore = '')
+	public function bind($array, $ignore = '')
 	{
-		if (key_exists( 'params', $array ) && is_array( $array['params'] ))
-		{
+		if (key_exists('params', $array) && is_array($array['params'])) {
 			$registry = new JRegistry();
 			$registry->loadArray($array['params']);
 			$array['params'] = $registry->toString();
@@ -64,7 +74,7 @@ class TableField extends JTable
 	 * @return boolean True on success
 	 * @since 1.0
 	 */
-	function check()
+	public function check()
 	{
 		/** check for valid title */
 		if (trim($this->title) == '') {
@@ -88,20 +98,19 @@ class TableField extends JTable
 	 * @return boolean True on success
 	 * @since 1.0
 	 */
-    function store()
-    {
+    public function store() {
         $k = 'id';
  
-        if( $this->$k) {
-	        if( !$this->_db->updateObject( '#__contacts_fields', $this, 'id', false ) ) {
+        if ($this->$k) {
+	        if (!$this->_db->updateObject('#__contacts_fields', $this, 'id', false)) {
 	            $this->setError(get_class( $this ).'::store failed - '.$this->_db->getErrorMsg());
 	            return false;
 	        }
         } else {
-            $ret = $this->_db->insertObject( '#__contacts_fields', $this, 'id' );
+            $ret = $this->_db->insertObject('#__contacts_fields', $this, 'id');
             $this->id = $this->_db->insertid();
-        	if( !$ret || $this->id == null) {
-	            $this->setError(get_class( $this ).'::store failed - '.$this->_db->getErrorMsg());
+        	if (!$ret || $this->id == null) {
+	            $this->setError(get_class($this).'::store failed - '.$this->_db->getErrorMsg());
 	            return false;
 	        }
 	        
@@ -113,7 +122,7 @@ class TableField extends JTable
 	        	$query = "INSERT INTO #__contacts_details VALUES('$contact->id', '$this->id', '', '1', '1')";
 	        	$this->_db->setQuery($query);
 		        if(!$this->_db->query()) {
-					$this->setError(get_class( $this ).'::store failed - '.$this->_db->getErrorMsg());
+					$this->setError(get_class($this).'::store failed - '.$this->_db->getErrorMsg());
 					return false;
 				}
 	        }

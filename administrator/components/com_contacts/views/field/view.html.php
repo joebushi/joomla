@@ -1,4 +1,9 @@
 <?php
+/**
+ * @version		$Id$
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
+ */
 
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
@@ -7,12 +12,10 @@ defined('_JEXEC') or die('Restricted access');
 jimport( 'joomla.application.component.view');
 
 /**
- * HTML View class for the Contacts component
+ * Field View
  *
- * @static
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Contacts
- * @since 1.0
  */
 class ContactsViewField extends JView
 {
@@ -21,10 +24,10 @@ class ContactsViewField extends JView
 		$mainframe = JFactory::getApplication();
 		$option = Jrequest::getCmd('option');
 		
-		$db		=& JFactory::getDBO();
-		$uri 	=& JFactory::getURI();
-		$user 	=& JFactory::getUser();
-		$model	=& $this->getModel();
+		$db = &JFactory::getDBO();
+		$uri = &JFactory::getURI();
+		$user = &JFactory::getUser();
+		$model = &$this->getModel();
 
 		// TODO: ACL
 		/*if (!$user->authorize( 'com_contacts', 'manage fields' )) {
@@ -34,26 +37,23 @@ class ContactsViewField extends JView
 		$lists = array();
 
 		//get the field
-		$field	=& $this->get('data');
-		$isNew	= ($field->id < 1);
+		$field = &$this->get('data');
+		$isNew = ($field->id < 1);
 
 		// fail if checked out not by 'me'
-		if ($model->isCheckedOut( $user->get('id') )) {
-			$msg = JText::sprintf( 'DESCBEINGEDITTED', JText::_( 'The Field' ), $field->title );
-			$mainframe->redirect( 'index.php?option='. $option . '&controller=' . $controller, $msg );
+		if ($model->isCheckedOut($user->get('id'))) {
+			$msg = JText::sprintf('DESCBEINGEDITTED', JText::_( 'The Field' ), $field->title);
+			$mainframe->redirect('index.php?option='. $option . '&controller=' . $controller, $msg);
 		}
 
 		// Edit or Create?
-		if (!$isNew)
-		{
+		if (!$isNew) {
 			$model->checkout( $user->get('id') );
-		}
-		else
-		{
+		} else {
 			// initialise new record
 			$field->published = 1;
-			$field->approved 	= 1;
-			$field->order 	= 0;
+			$field->approved = 1;
+			$field->order = 0;
 		}
 
 		// build the html select list for ordering
@@ -90,24 +90,24 @@ class ContactsViewField extends JView
 			
 		// build the html select list for position
 		$positions = array();
-		$positions[] = JHTML::_('select.option', 'title', 'Title' );
-		$positions[] = JHTML::_('select.option', 'top', 'Top' );
-		$positions[] = JHTML::_('select.option', 'left', 'Left' );
-		$positions[] = JHTML::_('select.option', 'main', 'Main' );
-		$positions[] = JHTML::_('select.option', 'right', 'Right' );
-		$positions[] = JHTML::_('select.option', 'bottom', 'Bottom' );
+		$positions[] = JHTML::_('select.option', 'title', 'Title');
+		$positions[] = JHTML::_('select.option', 'top', 'Top');
+		$positions[] = JHTML::_('select.option', 'left', 'Left');
+		$positions[] = JHTML::_('select.option', 'main', 'Main');
+		$positions[] = JHTML::_('select.option', 'right', 'Right');
+		$positions[] = JHTML::_('select.option', 'bottom', 'Bottom');
 		
 		$lists['pos'] = JHTML::_('select.genericlist', $positions, 'pos', 'class="inputbox"', 'value', 'text', $field->pos );
 				
 		//clean field data
-		JFilterOutput::objectHTMLSafe( $field, ENT_QUOTES, 'description' );
+		JFilterOutput::objectHTMLSafe($field, ENT_QUOTES, 'description');
 
-		$file 	= JPATH_COMPONENT.DS.'models'.DS.'field.xml';
+		$file = JPATH_COMPONENT.DS.'models'.DS.'field.xml';
 		$params = new JParameter( $field->params, $file );
 
-		$this->assignRef('lists',		$lists);
-		$this->assignRef('field',		$field);
-		$this->assignRef('params',		$params);
+		$this->assignRef('lists', $lists);
+		$this->assignRef('field', $field);
+		$this->assignRef('params', $params);
 
 		parent::display($tpl);
 	}

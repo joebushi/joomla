@@ -1,4 +1,10 @@
 <?php
+/**
+ * @version		$Id$
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
+ */
+
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
@@ -8,9 +14,8 @@ jimport('joomla.application.component.model');
 /**
  * Contacts Component Contacts Model
  *
- * @package		Joomla
- * @subpackage	Content
- * @since 1.5
+ * @package		Joomla.Administrator
+ * @subpackage	Contacts
  */
 class ContactsModelContacts extends JModel
 {
@@ -106,7 +111,7 @@ class ContactsModelContacts extends JModel
 		if (empty($this->_pagination))
 		{
 			jimport('joomla.html.pagination');
-			$this->_pagination = new JPagination( $this->getTotal(), $this->getState('limitstart'), $this->getState('limit') );
+			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
 
 		return $this->_pagination;
@@ -134,12 +139,13 @@ class ContactsModelContacts extends JModel
 
 	protected function _buildContentOrderBy()
 	{
-		global $mainframe, $option;
+		$mainframe = JFactory::getApplication();
+		$option = JRequest::getCmd('option');
 
-		$filter_order	= $mainframe->getUserStateFromRequest( $option.'filter_order', 'filter_order',	 'map.ordering',	'cmd' );
-		$filter_order_Dir	= $mainframe->getUserStateFromRequest( $option.'filter_order_Dir', 'filter_order_Dir',	'', 'word' );
+		$filter_order = $mainframe->getUserStateFromRequest($option.'filter_order', 'filter_order', 'map.ordering', 'cmd');
+		$filter_order_Dir = $mainframe->getUserStateFromRequest($option.'filter_order_Dir', 'filter_order_Dir', '', 'word');
 
-		if ($filter_order == 'c.ordering'){
+		if ($filter_order == 'c.ordering') {
 			$orderby = ' ORDER BY map.ordering '.$filter_order_Dir.' , c.name ';
 		} else {
 			$orderby = ' ORDER BY '.$filter_order.' '.$filter_order_Dir.' , map.ordering, c.name ';
@@ -177,7 +183,7 @@ class ContactsModelContacts extends JModel
 			}
 		}
 
-		$where = ( count( $where ) ? ' WHERE '. implode( ' AND ', $where ) : '' );
+		$where = (count( $where) ? ' WHERE '. implode(' AND ', $where) : '');
 		$where .= ' AND d.field_id = 1';
 		return $where;
 	}

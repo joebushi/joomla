@@ -1,7 +1,4 @@
-<?php
-/** $Id: default_form.php 10094 2008-03-02 04:35:10Z instance $ */
-defined( '_JEXEC' ) or die( 'Restricted access' );
-?>
+<?php /* $Id$ */ defined('_JEXEC') or die('Restricted access'); ?>
 
 <?php foreach($this->categories as $this->category): ?>
 	<?php if(isset($this->data[$this->category->title]) && count($this->data[$this->category->title]) > 0): ?>

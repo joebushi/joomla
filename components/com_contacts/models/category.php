@@ -1,25 +1,21 @@
 <?php
 /**
- * @version		$Id: category.php
- * @package		Joomla
- * @subpackage	ContactDirectory
- * @copyright	Copyright (C) 2005 - 2009 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
- * details.
+ * @version		$Id$
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
  */
 
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die( 'Restricted access' );
 
+// Import the JModel class
 jimport('joomla.application.component.model');
 
 /**
- * @package		Joomla
- * @subpackage	ContactDirectory
+ * Contacts Component Category Model
+ * 
+ * @package		Joomla.Site
+ * @subpackage	Contacts
  */
 class ContactsModelCategory extends JModel
 {
@@ -48,7 +44,7 @@ class ContactsModelCategory extends JModel
 		// In case limit has been changed, adjust limitstart accordingly
 		$this->setState('limitstart', ($this->getState('limit') != 0 ? (floor($this->getState('limitstart') / $this->getState('limit')) * $this->getState('limit')) : 0));
 
-		$this->_id	= JRequest::getVar('catid', 0, '', 'int');
+		$this->_id = JRequest::getVar('catid', 0, '', 'int');
 	}
 
 	/**
@@ -61,21 +57,18 @@ class ContactsModelCategory extends JModel
 	public function getData()
 	{
 		// Load the Category data
-		if ($this->_loadCategory() && $this->_loadData())
-		{
+		if ($this->_loadCategory() && $this->_loadData()) {
 			// Initialize some variables
-			$user	=& JFactory::getUser();
+			$user = &JFactory::getUser();
 
 			// Make sure the category is published
-			if (!$this->_category->published)
-			{
+			if (!$this->_category->published) {
 				JError::raiseError(404, JText::_("Resource Not Found"));
 				return false;
 			}
 
 			// check whether category access level allows access
-			if ($this->_category->access > $user->get('aid', 0))
-			{
+			if ($this->_category->access > $user->get('aid', 0)) {
 				JError::raiseError(403, JText::_("You are not authorized to view this resource."));
 				return false;
 			}
@@ -85,9 +78,9 @@ class ContactsModelCategory extends JModel
 	
 	public function getFields()
 	{
-		if(!$this->_fields){
+		if (!$this->_fields) {
 			$this->getData();
-			for($i=0; $i<count($this->_data); $i++) {
+			for ($i=0; $i<count($this->_data); $i++) {
 				$id = $this->_data[$i]->id;
 				$query = " SELECT f.id, f.title, d.data, f.pos, f.type, d.show_directory AS show_field, f.params, f.access "
 						." FROM #__contacts_fields f "
@@ -110,8 +103,7 @@ class ContactsModelCategory extends JModel
 	public function getTotal()
 	{
 		// Lets load the content if it doesn't already exist
-		if (empty($this->_total))
-		{
+		if (empty($this->_total)) {
 			$query = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
@@ -137,8 +129,7 @@ class ContactsModelCategory extends JModel
 	public function getCategory()
 	{
 		// Load the Category data
-		if ($this->_loadCategory())
-		{
+		if ($this->_loadCategory()) {
 			// Initialize some variables
 			$user = &JFactory::getUser();
 
@@ -164,13 +155,12 @@ class ContactsModelCategory extends JModel
 	 */
 	protected function _loadCategory()
 	{
-		if (empty($this->_category))
-		{
+		if (empty($this->_category)) {
 			// Lets get the information for the current category
 			$query =  'SELECT *, ' 
-							.' CASE WHEN CHAR_LENGTH(alias) '
-							.' THEN CONCAT_WS(\':\', id, alias) ELSE id END AS slug '
-							.' FROM #__categories WHERE id = '. (int) $this->_id;
+				.' CASE WHEN CHAR_LENGTH(alias) '
+				.' THEN CONCAT_WS(\':\', id, alias) ELSE id END AS slug '
+				.' FROM #__categories WHERE id = '. (int) $this->_id;
 			$this->_db->setQuery($query);
 			$this->_category = $this->_db->loadObject();
 		}
@@ -191,12 +181,11 @@ class ContactsModelCategory extends JModel
 		}
 
 		// Lets load the contact data if they don't already exist
-		if (empty($this->_data))
-		{
+		if (empty($this->_data)) {
 			$query = $this->_buildQuery();
 			$rows = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 
-			foreach($rows as $row){
+			foreach ($rows as $row) {
 				$row->slug = $row->id.':'.$row->alias;
 			}
 						
@@ -212,8 +201,8 @@ class ContactsModelCategory extends JModel
 		$params = &$mainframe->getParams();
 
 		// Get the WHERE and ORDER BY clauses for the query
-		$where		= $this->_buildContentWhere();
-		$orderby	= $this->_buildContentOrderBy();
+		$where = $this->_buildContentWhere();
+		$orderby = $this->_buildContentOrderBy();
 
 		$query = ' SELECT c.*, cat.title AS category, v.name AS user'
 			. ' FROM #__contacts_contacts AS c '
@@ -260,13 +249,13 @@ class ContactsModelCategory extends JModel
 		$mainframe = JFactory::getApplication();
 		$option = JRequest::getCmd('option');
 
-		$user		=& JFactory::getUser();
-		$gid		= $user->get('aid', 0);
-		$db					=& JFactory::getDBO();
+		$user = &JFactory::getUser();
+		$gid = $user->get('aid', 0);
+		$db	= &JFactory::getDBO();
 		
-		$alphabet	= $mainframe->getUserStateFromRequest( $option.'alphabet', 	'alphabet',	'',	'string' );
-		$search		= $mainframe->getUserStateFromRequest( $option.'search',		'search',	'',	'string' );
-		$search		= JString::strtolower( $search );
+		$alphabet = $mainframe->getUserStateFromRequest( $option.'alphabet', 'alphabet', '', 'string');
+		$search	= $mainframe->getUserStateFromRequest( $option.'search', 'search', '', 'string');
+		$search	= JString::strtolower($search);
 
 		// Get the page/component configuration
 		$params = &$mainframe->getParams();
@@ -289,7 +278,7 @@ class ContactsModelCategory extends JModel
 			if ($search) {
 				// clean filter variable
 				$search = JString::strtolower($search);
-				$search	= $this->_db->Quote( '%'.$this->_db->getEscaped( $search, true ).'%', false );
+				$search	= $this->_db->Quote('%'.$this->_db->getEscaped($search, true).'%', false);
 
 				$where .= ' AND LOWER( c.name ) LIKE '.$search;
 			}
@@ -298,7 +287,7 @@ class ContactsModelCategory extends JModel
 			if ($alphabet) {
 				// clean filter variable
 				$alphabet = JString::strtolower($alphabet);
-				$alphabet	= $this->_db->Quote( $this->_db->getEscaped( $alphabet, true ).'%', false );
+				$alphabet = $this->_db->Quote($this->_db->getEscaped($alphabet, true).'%', false);
 
 				$where .= ' AND LOWER( c.name ) LIKE '.$alphabet;
 			}

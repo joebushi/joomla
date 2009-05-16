@@ -1,48 +1,45 @@
 <?php
 /**
- * @version		$Id: view.html.php 10206 2008-04-17 02:52:39Z instance $
- * @package		Joomla
- * @subpackage	Contact
- * @copyright	Copyright (C) 2005 - 2009 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
- * details.
+ * @version		$Id$
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
+// Import the JView class
 jimport('joomla.application.component.view');
 
 /**
- * @package		Joomla
+ * Categories View
+ * 
+ * @package		Joomla.Site
  * @subpackage	Contacts
  */
-class ContactdirectoryViewCategories extends JView
+class ContactsViewCategories extends JView
 {
 	function display($tpl = null)
-	{		
-		global $mainframe, $option;
+	{
+		$mainframe = JFactory::getApplication();
+		$option = JRequest::getCmd('option');
 
 		$user = &JFactory::getUser();
-		$uri =& JFactory::getURI();
-		$model	= &$this->getModel();
-		$document =& JFactory::getDocument();
+		$uri = &JFactory::getURI();
+		$model = &$this->getModel();
+		$document = &JFactory::getDocument();
 		
 		$pparams = &$mainframe->getParams('com_contactdirectory');
-		$cparams =& JComponentHelper::getParams('com_media');
+		$cparams = &JComponentHelper::getParams('com_media');
 		
 		$categories = $model->getCategories();
-		$contacts	= $model->getData($pparams->get('groupby_cat'));
+		$contacts = $model->getData($pparams->get('groupby_cat'));
 		$fields = $model->getFields($pparams->get('groupby_cat'));
 		$pagination = $model->getPagination($pparams->get('groupby_cat'));
 
-		$alphabet	= $mainframe->getUserStateFromRequest( $option.'alphabet',		'alphabet',	'',	'string' );
-		$search		= $mainframe->getUserStateFromRequest( $option.'search',		'search',	'',	'string' );
-		$search		= JString::strtolower( $search );
+		$alphabet = $mainframe->getUserStateFromRequest($option.'alphabet', 'alphabet', '', 'string');
+		$search = $mainframe->getUserStateFromRequest($option.'search', 'search', '', 'string');
+		$search = JString::strtolower($search);
 		
 		// search filter
 		$lists['search']= $search;
@@ -57,44 +54,43 @@ class ContactdirectoryViewCategories extends JView
 			$document->addHeadLink(JRoute::_($link.'&type=atom'), 'alternate', 'rel', $attribs);
 		}*/
 		
-		foreach($categories as $category){
+		foreach ($categories as $category) {
 			$category->link = JRoute::_('index.php?option=com_contactdirectory&view=category&catid='.$category->catslug);
 		}
 	
-		for($i=0; $i<count($contacts); $i++){
+		for ($i=0; $i<count($contacts); $i++) {
 			$contacts[$i]->link = JRoute::_('index.php?option=com_contactdirectory&view=contact&catid='.$contacts[$i]->catslug.'&id='.$contacts[$i]->slug);
 			$contacts[$i]->fields = $fields[$i];
 			$contacts[$i]->params = new JParameter($contacts[$i]->params);
 			
-			foreach($contacts[$i]->fields as $contacts[$i]->field){
+			foreach ($contacts[$i]->fields as $contacts[$i]->field) {
 				$contacts[$i]->field->params = new JParameter($contacts[$i]->field->params);
 				
-				if($contacts[$i]->field->type == 'image'){
-					if($contacts[$i]->field->data){
+				if ($contacts[$i]->field->type == 'image') {
+					if ($contacts[$i]->field->data) {
 						$contacts[$i]->field->data = JHTML::_('image', $cparams->get('image_path') . '/'.$contacts[$i]->field->data, JText::_( 'Contact' ), array('align' => 'middle'));
 					}
 					
 				}
 				
-				if($contacts[$i]->field->type == 'url'){
+				if ($contacts[$i]->field->type == 'url') {
 					$link = $contacts[$i]->field->data;
 					$contacts[$i]->field->data = '<a href="http://'.$link.'">'.$link.'</a>';
 				}
 			
 				// Handle email cloaking
-				if($contacts[$i]->field->type == 'email' && $contacts[$i]->field->show_field) {
+				if ($contacts[$i]->field->type == 'email' && $contacts[$i]->field->show_field) {
 					jimport('joomla.mail.helper');
 					$contacts[$i]->field->data = trim($contacts[$i]->field->data);
-					if(!empty($contacts[$i]->field->data) && JMailHelper::isEmailAddress($contacts[$i]->field->data)) {
+					if (!empty($contacts[$i]->field->data) && JMailHelper::isEmailAddress($contacts[$i]->field->data)) {
 						$contacts[$i]->field->data = JHTML::_('email.cloak', $contacts[$i]->field->data);
-					}else{
+					} else {
 						$contacts[$i]->field->data = '';
 					}
 				}
 				
 				// Manage the display mode for the field title
-				switch ($contacts[$i]->field->params->get('field_title'))
-				{
+				switch ($contacts[$i]->field->params->get('field_title')) {
 					case 0 :
 						// text
 						$contacts[$i]->field->params->set('marker_title', 	JText::_($contacts[$i]->field->title).": ");
@@ -114,9 +110,9 @@ class ContactdirectoryViewCategories extends JView
 						$contacts[$i]->field->params->set('marker_title', 	'');
 						break;
 				}
-				if($pparams->get('groupby_cat')){
+				if ($pparams->get('groupby_cat')) {
 					$data[$contacts[$i]->category] [$i] = $contacts[$i];
-				}else{
+				} else {
 					$data [$i] = $contacts[$i];
 				}
 				
@@ -125,18 +121,18 @@ class ContactdirectoryViewCategories extends JView
 
 		$document->setTitle(JText::_('Contact'));
 
-		JHTML::stylesheet('contactdirectory.css', 'components/com_contactdirectory/css/');
+		JHTML::stylesheet('contacts.css', 'components/com_contacts/css/');
 		
 		$this->assignRef('lists', $lists);
 		$this->assignRef('data', $data);
-		$this->assignRef('pagination',	$pagination);
+		$this->assignRef('pagination', $pagination);
 		$this->assignRef('categories', $categories);
-		$this->assignRef('params',	$pparams);
-		$this->assignRef('user',	$user);
-		$this->assignRef('cparams',	$cparams);
+		$this->assignRef('params', $pparams);
+		$this->assignRef('user', $user);
+		$this->assignRef('cparams', $cparams);
 
 		$uriString = $uri->toString();
-		$uriString = str_replace ( '&alphabet='.$alphabet, '', $uriString );
+		$uriString = str_replace ('&alphabet='.$alphabet, '', $uriString);
 		$this->assign('action', $uriString);
 
 		parent::display($tpl);

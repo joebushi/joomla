@@ -1,7 +1,4 @@
-<?php
-/** $Id: default_form.php 10094 2008-03-02 04:35:10Z instance $ */
-defined( '_JEXEC' ) or die( 'Restricted access' );
-?>
+<?php /* $Id$ */ defined('_JEXEC') or die('Restricted access'); ?>
 
 <?php
 JHTML::_('behavior.formvalidation');
@@ -69,17 +66,6 @@ if ($this->params->get('validate_email_form')=='1') {
 				<label for="contact_email_copy">
 					<?php echo JText::_( 'E-mail a copy of this message to your own address' ); ?>
 				</label>
-			<?php endif; ?>
-			<?php if ($this->contact->params->get('show_captcha')) : ?>
-			<br />
-			<br />
-				<?php echo $this->captcha; ?>
-				<br />
-				<label for="captcha_code">
-					<?php echo JText::_( 'Enter code displayed above:' ); ?>
-				</label>
-				<br />
-				<input type="text" name="captcha" id="captcha_code" size="5" class="inputbox" value="" />
 			<?php endif; ?>
 			<br />
 			<br />

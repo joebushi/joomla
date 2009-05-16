@@ -1,15 +1,15 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php /* $Id$ */ defined('_JEXEC') or die('Restricted access'); ?>
 
 <?php
 	JHTML::_('behavior.tooltip');
 
 	// Set toolbar items for the page
-	$edit		= JRequest::getVar('edit',true);
+	$edit = JRequest::getVar('edit',true);
 	$text = !$edit ? JText::_( 'New' ) : JText::_( 'Edit' );
 	JToolBarHelper::title(   JText::_( 'Contact' ).': <small><small>[ ' . $text.' ]</small></small>' );
 	JToolBarHelper::save();
 	JToolBarHelper::apply();
-	if (!$edit)  {
+	if (!$edit) {
 		JToolBarHelper::cancel();
 	} else {
 		// for existing items the button is renamed `close`
@@ -258,5 +258,5 @@
 	<input type="hidden" name="option" value="com_contacts" />
 	<input type="hidden" name="cid[]" value="<?php echo $this->contact->id; ?>" />
 	<input type="hidden" name="task" value="" />
-	<?php echo JHTML::_( 'form.token' ); ?>
+	<?php echo JHTML::_('form.token'); ?>
 </form>

@@ -1,27 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
+<!-- $Id$ -->
 <install type="component" version="1.5.0">
 	<name>Contacts</name>
 	<creationDate>August 2008</creationDate>
-	<author>Chantal Bisson</author>
-	<authorEmail>info@chantalbisson.com</authorEmail>
-	<authorUrl>http://www.chantalbisson.com</authorUrl>
-	<copyright>Copyright (C) 2008 Chantal Bisson. All rights reserved.</copyright>
+	<author>Joomla! Project</author>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>http://www.joomla.org</authorUrl>
+	<copyright>Copyright (C) 2005 - 2009 Open Source Matters. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<version>1.5.0</version>
 	<description>This component shows a listing of contact information like a contact directory.</description>
-	<installfile>install.contactdirectory.php</installfile>
+	<installfile>install.contacts.php</installfile>
 	<uninstallfile></uninstallfile>
 	<install>
 		<sql>
-			<file driver="mysql" charset="utf8">install.mysql.utf8.sql</file>
-			<file driver="mysql">install.mysql.nonutf8.sql</file>
+			<file driver="mysql" charset="utf8">install.mysql.sql</file>
 		</sql>
 	</install>
 	<uninstall>
 		<sql>
-			<file driver="mysql" charset="utf8">uninstall.mysql.utf8.sql</file>
-			<file driver="mysql">uninstall.mysql.nonutf8.sql</file>
+			<file driver="mysql" charset="utf8">uninstall.mysql.sql</file>
 		</sql>
 	</uninstall>
 	<files folder="site">
@@ -29,8 +27,8 @@
 		<filename>metadata.xml</filename>
 		<filename>router.php</filename>
 		<filename>controller.php</filename>
-		<filename>contactdirectory.php</filename>
-		<filename>css/contactdirectory.css</filename>
+		<filename>contacts.php</filename>
+		<filename>css/contacts.css</filename>
 		<filename>css/index.html</filename>
 		<filename>models/contact.php</filename>
 		<filename>models/category.php</filename>
@@ -58,43 +56,23 @@
 		<filename>views/categories/tmpl/default.php</filename>
 		<filename>views/categories/tmpl/default_list.php</filename>
 		<filename>views/categories/tmpl/default_groupby.php</filename>
-		<filename>includes/index.html</filename>
-		<filename>includes/securimage/index.html</filename>
-		<filename>includes/securimage/securimage.php</filename>
-		<filename>includes/securimage/securimage_show.php</filename>
-		<filename>includes/securimage/securimage_play.php</filename>
-		<filename>includes/securimage/securimage_example.php</filename>
-		<filename>includes/securimage/README.txt</filename>
-		<filename>includes/securimage/LICENSE.txt</filename>
-		<filename>includes/securimage/example_form.php</filename>
-		<filename>includes/securimage/elephant.ttf</filename>
-		<filename>includes/securimage/artistamp.ttf</filename>
-		<filename>includes/securimage/gdfonts/automatic.gdf</filename>
-		<filename>includes/securimage/gdfonts/bubblebath.gdf</filename>
-		<filename>includes/securimage/gdfonts/caveman.gdf</filename>
-		<filename>includes/securimage/gdfonts/crass.gdf</filename>
-		<filename>includes/securimage/images/audio_icon.gif</filename>
-		<filename>includes/securimage/images/pattern.gif</filename>
-		<filename>includes/securimage/images/refresh.gif</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">languages/site/en-GB.com_contactdirectory.ini</language>
+		<language tag="en-GB">languages/site/en-GB.com_contacts.ini</language>
 	</languages>
 	<administration>
-		<menu link="option=com_contactdirectory&amp;controller=contact">Contact Directory</menu>
+		<menu link="option=com_contacts&amp;controller=contact">Contacts</menu>
 		<submenu>
-			<menu link="option=com_contactdirectory&amp;controller=contact">Contacts</menu>
-			<menu link="option=com_categories&amp;section=com_contactdirectory">Categories</menu>
-			<menu link="option=com_contactdirectory&amp;controller=field">Fields</menu>
+			<menu link="option=com_contacts&amp;controller=contact">Contacts</menu>
+			<menu link="option=com_categories&amp;extension=com_contacts">Categories</menu>
+			<menu link="option=com_contacts&amp;controller=field">Fields</menu>
 		</submenu>
 		<files folder="admin">
 			<filename>index.html</filename>
-			<filename>admin.contactdirectory.php</filename>
-			<filename>install.contactdirectory.php</filename>
-			<filename>install.mysql.nonutf8.sql</filename>
-			<filename>install.mysql.utf8.sql</filename>
-			<filename>uninstall.mysql.nonutf8.sql</filename>
-			<filename>uninstall.mysql.utf8.sql</filename>
+			<filename>contacts.php</filename>
+			<filename>install.contacts.php</filename>
+			<filename>install.mysql.sql</filename>
+			<filename>uninstall.mysql.sql</filename>
 			<filename>controllers/index.html</filename>
 			<filename>controllers/contact.php</filename>
 			<filename>controllers/field.php</filename>
@@ -129,7 +107,8 @@
 			<filename>views/fields/tmpl/default.php</filename>
 		</files>
 		<languages>
-			<language tag="en-GB">languages/admin/en-GB.com_contactdirectory.ini</language>
+			<language tag="en-GB">languages/admin/en-GB.com_contacts.ini</language>
+			<language tag="en-GB">languages/admin/en-GB.com_contacts.menu.ini</language>
 		</languages>
 	</administration>
 </install>

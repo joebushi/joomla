@@ -1,4 +1,9 @@
 <?php
+/**
+ * @version		$Id$
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
+ */
 
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
@@ -6,6 +11,12 @@ defined('_JEXEC') or die('Restricted access');
 // Import the JModel class
 jimport('joomla.application.component.model');
 
+/**
+ * Contacts Component Field Model
+ *
+ * @package		Joomla.Administrator
+ * @subpackage	Contacts
+ */
 class ContactsModelField extends JModel {
 
 	var $_id = null;
@@ -22,8 +33,7 @@ class ContactsModelField extends JModel {
 
 		$array = JRequest::getVar('cid', array(0), '', 'array');
 		$edit	= JRequest::getVar('edit',true);
-		if($edit)
-			$this->setId((int)$array[0]);
+		if ($edit) $this->setId((int)$array[0]);
 	}
 
 	/**
@@ -36,8 +46,8 @@ class ContactsModelField extends JModel {
 	public function setId($id)
 	{
 		// Set field id and wipe data
-		$this->_id		= $id;
-		$this->_data	= null;
+		$this->_id = $id;
+		$this->_data = null;
 	}	
 
 	/**
@@ -65,8 +75,7 @@ class ContactsModelField extends JModel {
 	public function _loadData()
 	{
 		// Lets load the content if it doesn't already exist
-		if (empty($this->_data))
-		{
+		if (empty($this->_data)) {
 			$query = 'SELECT * FROM #__contacts_fields WHERE id = '.(int) $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
@@ -82,24 +91,23 @@ class ContactsModelField extends JModel {
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	public function _initData()
+	private function _initData()
 	{
 		// Lets load the field data if it doesn't already exist
-		if (empty($this->_data))
-		{
+		if (empty($this->_data)) {
 			$field = new stdClass();
 			$field->id = null;
 			$field->title = '';
-			$field->description	 = null;
+			$field->description = null;
 			$field->type = 'text';
 			$field->published = 0;
 			$field->checked_out = 0;
 			$field->checked_out_time = 0;
-			$field->ordering	 = 0;
+			$field->ordering = 0;
 			$field->pos = 'main';
 			$field->access = 0;
 			$field->params = null;
-			$this->_data	= $field;
+			$this->_data = $field;
 			return (boolean) $this->_data;
 		}
 		return true;
@@ -113,10 +121,9 @@ class ContactsModelField extends JModel {
 	 * @return	boolean	True if checked out
 	 * @since	1.5
 	 */
-	public function isCheckedOut( $uid=0 )
+	public function isCheckedOut($uid=0)
 	{
-		if ($this->_loadData())
-		{
+		if ($this->_loadData()) {
 			if ($uid) {
 				return ($this->_data->checked_out && $this->_data->checked_out != $uid);
 			} else {
@@ -134,10 +141,9 @@ class ContactsModelField extends JModel {
 	 */
 	public function checkin()
 	{
-		if ($this->_id)
-		{
-			$field = & $this->getTable();
-			if(! $field->checkin($this->_id)) {
+		if ($this->_id)  {
+			$field = &$this->getTable();
+			if (!$field->checkin($this->_id)) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
@@ -155,16 +161,15 @@ class ContactsModelField extends JModel {
 	 */
 	public function checkout($uid = null)
 	{
-		if ($this->_id)
-		{
+		if ($this->_id) {
 			// Make sure we have a user id to checkout the article with
 			if (is_null($uid)) {
-				$user	=& JFactory::getUser();
-				$uid	= $user->get('id');
+				$user = &JFactory::getUser();
+				$uid = $user->get('id');
 			}
 			// Lets get to it and checkout the thing...
 			$field = & $this->getTable();
-			if(!$field->checkout($uid, $this->_id)) {
+			if (!$field->checkout($uid, $this->_id)) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
@@ -182,7 +187,7 @@ class ContactsModelField extends JModel {
 	 */
 	public function store($data)
 	{
-		$row =& $this->getTable();
+		$row = &$this->getTable();
 
 		// Bind the form fields to the field table
 		if (!$row->bind($data)) {
@@ -223,32 +228,32 @@ class ContactsModelField extends JModel {
 	 */
 	public function delete($cid = array())
 	{
-		$row =& $this->getTable();
+		$row = &$this->getTable();
 
 		// delete field from contacts_field table
-		for( $i=0; $i < count($cid); $i++ )
+		for($i=0; $i < count($cid); $i++)
 		{
 			if (!$row->load( (int) $cid[$i] )) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
 			
-			if($row->id == 1){
-				$this->setError( JText::_('You are not authorized to delete the email field'));
+			if ($row->id == 1) {
+				$this->setError(JText::_('You are not authorized to delete the email field'));
 				return false;
 			}
 			
 			$query = 'DELETE FROM #__contacts_fields'
 					. ' WHERE id = '.$row->id;
 			$this->_db->setQuery( $query );
-			if(!$this->_db->query()) {
+			if (!$this->_db->query()) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
 			
 			$query = 'DELETE FROM #__contacts_details WHERE field_id = '.$row->id;
 			$this->_db->setQuery( $query );
-			if(!$this->_db->query()) {
+			if (!$this->_db->query()) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
@@ -265,18 +270,17 @@ class ContactsModelField extends JModel {
 	 */
 	public function publish($cid = array(), $publish = 1)
 	{
-		$user 	=& JFactory::getUser();
+		$user = &JFactory::getUser();
 
-		if (count( $cid ))
-		{
+		if (count( $cid )) {
 			JArrayHelper::toInteger($cid);
-			$cids = implode( ',', $cid );
+			$cids = implode(',', $cid);
 
 			$query = 'UPDATE #__contacts_fields'
 				. ' SET published = '.(int) $publish
 				. ' WHERE id IN ( '.$cids.' )'
 				. ' AND ( checked_out = 0 OR ( checked_out = '.(int) $user->get('id').' ) )';
-			$this->_db->setQuery( $query );
+			$this->_db->setQuery($query);
 			if (!$this->_db->query()) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
@@ -294,13 +298,13 @@ class ContactsModelField extends JModel {
 	 */
 	public function move($direction)
 	{
-		$row =& $this->getTable();
+		$row = &$this->getTable();
 		if (!$row->load($this->_id)) {
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
 
-		if (!$row->move( $direction, "pos = '$row->pos' AND published != 0" )) {
+		if (!$row->move($direction, "pos = '$row->pos' AND published != 0")) {
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
@@ -316,15 +320,13 @@ class ContactsModelField extends JModel {
 	 */
 	public function saveorder($cid = array(), $order)
 	{
-		$row =& $this->getTable();
+		$row = &$this->getTable();
 
 		// update ordering values
-		for( $i=0; $i < count($cid); $i++ )
-		{
+		for ($i=0; $i < count($cid); $i++) {
 			$row->load( (int) $cid[$i] );
 
-			if ($row->ordering != $order[$i])
-			{
+			if ($row->ordering != $order[$i]) {
 				$row->ordering = $order[$i];
 				if (!$row->store()) {
 					$this->setError($this->_db->getErrorMsg());
@@ -340,10 +342,9 @@ class ContactsModelField extends JModel {
 	*/
 	public function setAccess( $items, $access )
 	{
-		$row =& $this->getTable();
-		foreach ($items as $id)
-		{
-			$row->load( $id );
+		$row = &$this->getTable();
+		foreach ($items as $id) {
+			$row->load($id);
 			$row->access = $access;
 
 			if (!$row->check()) {
@@ -358,5 +359,4 @@ class ContactsModelField extends JModel {
 		return true;
 	}	
 }
-
 ?>

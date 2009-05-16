@@ -1,4 +1,9 @@
 <?php
+/**
+ * @version		$Id$
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
+ */
 
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
@@ -9,6 +14,8 @@ jimport('joomla.application.component.controller');
 /**
  * Contacts Field Controller
  *
+ * @package		Joomla.Administrator
+ * @subpackage	Contacts
  */
 class ContactsControllerField extends JController
 {
@@ -17,7 +24,7 @@ class ContactsControllerField extends JController
 	 */	
     public function display()
     {
-    	JRequest::setVar('view', 'fields');
+    	JRequest::setVar('view', 'Fields');
         parent::display();
     }
     
@@ -28,7 +35,7 @@ class ContactsControllerField extends JController
 		JRequest::setVar('edit', false);
 
 		// Checkout the field
-		$model = $this->getModel('field');
+		$model = $this->getModel('Field');
 		$model->checkout();
 		
 		parent::display();
@@ -37,11 +44,11 @@ class ContactsControllerField extends JController
     public function edit()
     {
     	JRequest::setVar('hidemainmenu', 1);
-		JRequest::setVar('view'  , 'field');
+		JRequest::setVar('view', 'field');
 		JRequest::setVar('edit', true);
 
 		// Checkout the field
-		$model = $this->getModel('field');
+		$model = $this->getModel('Field');
 		$model->checkout();
 		
 		parent::display();
@@ -56,7 +63,7 @@ class ContactsControllerField extends JController
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 		$post['id'] = (int) $cid[0];
 
-		$model = &$this->getModel('field');
+		$model = &$this->getModel('Field');
 
 		if ($id = $model->store($post)) {
 			$msg = JText::_('Field Saved');
@@ -79,7 +86,7 @@ class ContactsControllerField extends JController
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 		$post['id'] = (int) $cid[0];
 
-		$model = $this->getModel('field');
+		$model = $this->getModel('Field');
 
 		if ($model->store($post)) {
 			$msg = JText::_( 'Field Saved' );
@@ -105,7 +112,7 @@ class ContactsControllerField extends JController
 			JError::raiseError(500, JText::_( 'Select an item to delete' ) );
 		}
 
-		$model = $this->getModel('field');
+		$model = $this->getModel('Field');
 		if($model->delete($cid)) {
 			$msg = JText::_( 'Field(s) Deleted' );
 		} else {
@@ -122,19 +129,19 @@ class ContactsControllerField extends JController
 		// Check for request forgeries
 		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
-		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$cid = JRequest::getVar('cid', array(), 'post', 'array');
 		JArrayHelper::toInteger($cid);
 
 		if (count( $cid ) < 1) {
-			JError::raiseError(500, JText::_( 'Select an item to publish' ) );
+			JError::raiseError(500, JText::_('Select an item to publish'));
 		}
 
-		$model = $this->getModel('field');
-		if(!$model->publish($cid, 1)) {
+		$model = $this->getModel('Field');
+		if (!$model->publish($cid, 1)) {
 			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
 		}
 
-		$this->setRedirect( 'index.php?option=com_contacts&controller=field' );
+		$this->setRedirect('index.php?option=com_contacts&controller=field');
 	}
 
 	public function unpublish()
@@ -146,11 +153,11 @@ class ContactsControllerField extends JController
 		JArrayHelper::toInteger($cid);
 
 		if (count( $cid ) < 1) {
-			JError::raiseError(500, JText::_( 'Select an item to unpublish' ) );
+			JError::raiseError(500, JText::_('Select an item to unpublish'));
 		}
 
-		$model = $this->getModel('field');
-		if(!$model->publish($cid, 0)) {
+		$model = $this->getModel('Field');
+		if (!$model->publish($cid, 0)) {
 			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
 		}
 
@@ -163,10 +170,10 @@ class ContactsControllerField extends JController
 		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		// Checkin the field
-		$model = $this->getModel('field');
+		$model = $this->getModel('Field');
 		$model->checkin();
 
-		$this->setRedirect( 'index.php?option=com_contacts&controller=field' );
+		$this->setRedirect('index.php?option=com_contacts&controller=field');
 	}
 
 
@@ -175,10 +182,10 @@ class ContactsControllerField extends JController
 		// Check for request forgeries
 		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
-		$model = $this->getModel('field');
+		$model = $this->getModel('Field');
 		$model->move(-1);
 
-		$this->setRedirect( 'index.php?option=com_contacts&controller=field');
+		$this->setRedirect('index.php?option=com_contacts&controller=field');
 	}
 
 	public function orderdown()
@@ -186,10 +193,10 @@ class ContactsControllerField extends JController
 		// Check for request forgeries
 		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
-		$model = $this->getModel('field');
+		$model = $this->getModel('Field');
 		$model->move(1);
 
-		$this->setRedirect( 'index.php?option=com_contacts&controller=field');
+		$this->setRedirect('index.php?option=com_contacts&controller=field');
 	}
 
 	public function saveorder()
@@ -197,16 +204,16 @@ class ContactsControllerField extends JController
 		// Check for request forgeries
 		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
-		$cid 	= JRequest::getVar( 'cid', array(), 'post', 'array' );
-		$order 	= JRequest::getVar( 'order', array(), 'post', 'array' );
+		$cid 	= JRequest::getVar('cid', array(), 'post', 'array');
+		$order 	= JRequest::getVar('order', array(), 'post', 'array');
 		JArrayHelper::toInteger($cid);
 		JArrayHelper::toInteger($order);
 
-		$model = $this->getModel('field');
+		$model = $this->getModel('Field');
 		$model->saveorder($cid, $order);
 
 		$msg = 'New ordering saved';
-		$this->setRedirect( 'index.php?option=com_contacts&controller=field', $msg );
+		$this->setRedirect('index.php?option=com_contacts&controller=field', $msg);
 	}
 
 	/**
@@ -218,15 +225,14 @@ class ContactsControllerField extends JController
 		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		// Get some variables from the request
-		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$cid	= JRequest::getVar('cid', array(), 'post', 'array');
 		JArrayHelper::toInteger($cid);
 
-		$model = $this->getModel( 'field' );
-		if ($model->setAccess($cid, 0)) {
-		} else {
+		$model = $this->getModel('Field');
+		if (!$model->setAccess($cid, 0)) {
 			$msg = $model->getError();
 		}
-		$this->setRedirect( 'index.php?option=com_contacts&controller=field' );
+		$this->setRedirect('index.php?option=com_contacts&controller=field');
 	}
 
 	/**
@@ -238,15 +244,14 @@ class ContactsControllerField extends JController
 		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		// Get some variables from the request
-		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$cid = JRequest::getVar('cid', array(), 'post', 'array');
 		JArrayHelper::toInteger($cid);
 
-		$model = $this->getModel( 'field' );
-		if ($model->setAccess($cid, 1)) {
-		} else {
+		$model = $this->getModel('Field');
+		if (!$model->setAccess($cid, 1)) {
 			$msg = $model->getError();
 		}
-		$this->setRedirect( 'index.php?option=com_contacts&controller=field' );
+		$this->setRedirect('index.php?option=com_contacts&controller=field');
 	}
 
 	/**
@@ -258,16 +263,14 @@ class ContactsControllerField extends JController
 		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		// Get some variables from the request
-		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$cid	= JRequest::getVar('cid', array(), 'post', 'array');
 		JArrayHelper::toInteger($cid);
 
-		$model = $this->getModel( 'field' );
-		if ($model->setAccess($cid, 2)) {
-		} else {
+		$model = $this->getModel('Field');
+		if (!$model->setAccess($cid, 2)) {
 			$msg = $model->getError();
 		}
-		$this->setRedirect( 'index.php?option=com_contacts&controller=field' );
+		$this->setRedirect('index.php?option=com_contacts&controller=field');
 	}
 }
-
 ?>

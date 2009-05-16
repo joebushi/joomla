@@ -1,7 +1,12 @@
 <?php
+/**
+ * @version		$Id$
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
+ */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
 // Import the JModel class
 jimport('joomla.application.component.model');
@@ -11,7 +16,6 @@ jimport('joomla.application.component.model');
  *
  * @package		Joomla
  * @subpackage	Content
- * @since 1.5
  */
 class ContactsModelFields extends JModel
 {
@@ -49,8 +53,8 @@ class ContactsModelFields extends JModel
 		$option = JRequest::getCmd('option');
 
 		// Get the pagination request variables
-		$limit = $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
-		$limitstart	= $mainframe->getUserStateFromRequest( $option.'.limitstart', 'limitstart', 0, 'int' );
+		$limit = $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
+		$limitstart	= $mainframe->getUserStateFromRequest($option.'.limitstart', 'limitstart', 0, 'int');
 
 		// In case limit has been changed, adjust limitstart accordingly
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
@@ -68,8 +72,7 @@ class ContactsModelFields extends JModel
 	public function getData()
 	{
 		// Lets load the content if it doesn't already exist
-		if (empty($this->_data))
-		{
+		if (empty($this->_data)) {
 			$query = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
@@ -86,8 +89,7 @@ class ContactsModelFields extends JModel
 	public function getTotal()
 	{
 		// Lets load the content if it doesn't already exist
-		if (empty($this->_total))
-		{
+		if (empty($this->_total)) {
 			$query = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
@@ -104,8 +106,7 @@ class ContactsModelFields extends JModel
 	public function getPagination()
 	{
 		// Lets load the content if it doesn't already exist
-		if (empty($this->_pagination))
-		{
+		if (empty($this->_pagination)) {
 			jimport('joomla.html.pagination');
 			$this->_pagination = new JPagination( $this->getTotal(), $this->getState('limitstart'), $this->getState('limit') );
 		}
@@ -116,8 +117,8 @@ class ContactsModelFields extends JModel
 	protected function _buildQuery()
 	{
 		// Get the WHERE and ORDER BY clauses for the query
-		$where		= $this->_buildContentWhere();
-		$orderby	= $this->_buildContentOrderBy();
+		$where = $this->_buildContentWhere();
+		$orderby = $this->_buildContentOrderBy();
 
 		$query = ' SELECT f.*, u.name AS editor, g.title AS groupname '
 			. ' FROM #__contacts_fields AS f '
@@ -134,10 +135,10 @@ class ContactsModelFields extends JModel
 		$mainframe = JFactory::getApplication();
 		$option = JRequest::getCmd('option');
 
-		$filter_order = $mainframe->getUserStateFromRequest( $option.'filter_order',		'filter_order',		'f.ordering',	'cmd' );
-		$filter_order_Dir = $mainframe->getUserStateFromRequest( $option.'filter_order_Dir',	'filter_order_Dir',	'',				'word' );
+		$filter_order = $mainframe->getUserStateFromRequest($option.'filter_order',	'filter_order',	'f.ordering', 'cmd');
+		$filter_order_Dir = $mainframe->getUserStateFromRequest( $option.'filter_order_Dir', 'filter_order_Dir', '', 'word');
 
-		if ($filter_order == 'f.ordering'){
+		if ($filter_order == 'f.ordering') {
 			$orderby = ' ORDER BY f.pos, f.ordering '.$filter_order_Dir.' , f.title ';
 		} else {
 			$orderby = ' ORDER BY '.$filter_order.' '.$filter_order_Dir.' , f.pos, f.ordering, f.title ';
@@ -161,17 +162,17 @@ class ContactsModelFields extends JModel
 		$where = array();
 
 		if ($search) {
-			$where[] = 'LOWER(f.title) LIKE '.$db->Quote( '%'.$db->getEscaped( $search, true ).'%', false );
+			$where[] = 'LOWER(f.title) LIKE '.$db->Quote('%'.$db->getEscaped($search, true).'%', false);
 		}
-		if ( $filter_state ) {
-			if ( $filter_state == 'P' ) {
+		if ($filter_state) {
+			if ($filter_state == 'P') {
 				$where[] = 'f.published = 1';
-			} else if ($filter_state == 'U' ) {
+			} else if ($filter_state == 'U') {
 				$where[] = 'f.published = 0';
 			}
 		}
 
-		$where = ( count( $where ) ? ' WHERE '. implode( ' AND ', $where ) : '' );
+		$where = (count($where) ? ' WHERE '. implode(' AND ', $where) : '');
 
 		return $where;
 	}

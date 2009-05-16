@@ -1,4 +1,4 @@
-<?php defined( '_JEXEC' ) or die( 'Restricted access' ); ?>
+<?php /* $Id$ */ defined('_JEXEC') or die('Restricted access'); ?>
 
 <script type="text/javascript">
 function alphabetFilter(val){
