@@ -699,7 +699,7 @@ class JInstallationHelper
 			return JText::_('WARNUPLOADFAILURE');
 		}
 
-		if (!preg_match('#\.sql$#i', $sqlFile['name'])) {
+		if (!preg_match('#\.sql$#i', $sqlFile['name']))
 		{
 			$archive = JPATH_SITE.DS.'tmp'.DS.$sqlFile['name'];
 		}
