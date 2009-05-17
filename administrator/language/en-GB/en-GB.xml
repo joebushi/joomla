@@ -36,11 +36,8 @@
 	<filename>en-GB.com_newsfeeds.ini</filename>
 	<filename>en-GB.com_newsfeeds.menu.ini</filename>
 	<filename>en-GB.com_plugins.ini</filename>
-	<filename>en-GB.com_poll.ini</filename>
-	<filename>en-GB.com_poll.menu.ini</filename>
 	<filename>en-GB.com_search.ini</filename>
 	<filename>en-GB.com_search.menu.ini</filename>
-	<filename>en-GB.com_sections.ini</filename>
 	<filename>en-GB.com_statistics.ini</filename>
 	<filename>en-GB.com_templates.ini</filename>
 	<filename>en-GB.com_trash.ini</filename>
@@ -82,7 +79,6 @@
 	<filename>en-GB.plg_content_vote.ini</filename>
 	<filename>en-GB.plg_editors_none.ini</filename>
 	<filename>en-GB.plg_editors_tinymce.ini</filename>
-	<filename>en-GB.plg_editors_xstandard.ini</filename>
 	<filename>en-GB.plg_editors-xtd_image.ini</filename>
 	<filename>en-GB.plg_editors-xtd_pagebreak.ini</filename>
 	<filename>en-GB.plg_editors-xtd_readmore.ini</filename>
@@ -90,7 +86,6 @@
 	<filename>en-GB.plg_search_contacts.ini</filename>
 	<filename>en-GB.plg_search_content.ini</filename>
 	<filename>en-GB.plg_search_newsfeeds.ini</filename>
-	<filename>en-GB.plg_search_sections.ini</filename>
 	<filename>en-GB.plg_search_weblinks.ini</filename>
 	<filename>en-GB.plg_system_backlink.ini</filename>
 	<filename>en-GB.plg_system_cache.ini</filename>
