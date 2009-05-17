@@ -57,7 +57,7 @@ class MembersModelMember extends JModelItem
 
 		// Get the form.
 		jimport('joomla.form.form');
-		JForm::addFormPath(JPATH_COMPONENT.DS.'models'.DS.'forms');
+		JForm::addFormPath(dirname(__FILE__).DS.'forms');
 		$form = &JForm::getInstance('jform', 'login', true);
 
 		// Check for an error.

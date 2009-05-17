@@ -35,4 +35,12 @@ abstract class modLoginHelper
 		$user = & JFactory::getUser();
 		return (!$user->get('guest')) ? 'logout' : 'login';
 	}
+	
+	public static function getLoginForm()
+	{
+		JModel::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_members'.DS.'models');
+		$model = JModel::getInstance('Member', 'MembersModel');
+		$form = $model->getLoginForm();
+		return $form;
+	}
 }

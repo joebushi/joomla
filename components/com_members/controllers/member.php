@@ -56,6 +56,29 @@ class MembersControllerMember extends MembersController
 			$app->redirect(JRoute::_('index.php?option=com_members&view=login', false));
 		}
 	}
+	
+	public function logout()
+	{
+		JRequest::checkToken('post') or jexit(JText::_('JInvalid_Token'));
+
+		$app = &JFactory::getApplication();
+		$data = $app->getUserState('members.login.form.data', array());
+
+		// Set the return URL if empty.
+		if (!isset($data['return']) || empty($data['return'])) {
+			$data['return'] = 'index.php?option=com_members';
+		}
+
+		// Perform the logout.
+		$error = $app->logout();
+
+		// Check if the login succeeded.
+		if(!JError::isError($error)) {
+			$app->redirect(JRoute::_($data['return'], false));
+		} else {
+			$app->redirect(JRoute::_('index.php?option=com_members&view=login', false));
+		}
+	}
 
 	/**
 	 * Method to register a user.

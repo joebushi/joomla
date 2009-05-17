@@ -12,11 +12,11 @@ defined('_JEXEC') or die('Restricted access');
 // Include the syndicate functions only once
 require_once dirname(__FILE__).DS.'helper.php';
 
-$params->def('greeting', 1);
-
 $type 	= modLoginHelper::getType();
 $return	= modLoginHelper::getReturnURL($params, $type);
 
-$user =& JFactory::getUser();
+if ($type == 'login') {
+	$form = modLoginHelper::getLoginForm();
+}
 
-require(JModuleHelper::getLayoutPath('mod_login'));
+require JModuleHelper::getLayoutPath('mod_login', $type);
