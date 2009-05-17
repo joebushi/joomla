@@ -36,10 +36,11 @@ class JFormFieldTextarea extends JFormField
 		$rows	= $this->_element->attributes('rows');
 		$cols	= $this->_element->attributes('cols');
 		$class	= $this->_element->attributes('class') ? 'class="'.$this->_element->attributes('class').'"' : 'class="text_area"';
+		$readonly	= $this->_element->attributes('readonly') == 'true' ? ' readonly="readonly"' : '';
 
 		// convert <br /> tags so they are not visible when editing
 		$value	= str_replace('<br />', "\n", $this->value);
 
-		return '<textarea name="'.$this->inputName.'" cols="'.$cols.'" rows="'.$rows.'" '.$class.' id="'.$this->inputId.'" >'.htmlspecialchars($value).'</textarea>';
+		return '<textarea name="'.$this->inputName.'" cols="'.$cols.'" rows="'.$rows.'" '.$class.$readonly.' id="'.$this->inputId.'" >'.htmlspecialchars($value).'</textarea>';
 	}
 }
