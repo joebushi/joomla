@@ -28,6 +28,9 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+24-May-2009 Hannes Papenberg
+ ^ Updated TinyMCE to 3.2.4
+
 15-May-2009 Sam Moffatt
  ^ Updated en-GB XML files to store 'core' language filenames
 

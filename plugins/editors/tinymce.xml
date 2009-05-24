@@ -1,8 +1,8 @@
 <?xml version="1.0" ?>
 <install version="1.5" type="plugin" group="editors">
-	<name>Editor - TinyMCE 2.1</name>
-	<version>2.1.2</version>
-	<creationDate>2005</creationDate>
+	<name>Editor - TinyMCE 3.2</name>
+	<version>3.2.4</version>
+	<creationDate>2009</creationDate>
 	<author>Moxiecode Systems AB</author>
 	<authorEmail>N/A</authorEmail>
 	<authorUrl>tinymce.moxiecode.com/</authorUrl>

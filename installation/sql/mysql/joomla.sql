@@ -348,8 +348,7 @@ INSERT INTO `#__extensions` VALUES(0, 'Content - Code Hightlighter (GeSHi)', 'pl
 INSERT INTO `#__extensions` VALUES(0, 'Content - Load Module', 'plugin', 'loadmodule', 'content', 0, 1, 0, 0, '', '{"enabled":"1","style":"table"}', '', '', 0, '0000-00-00 00:00:00', 6, 0);
 INSERT INTO `#__extensions` VALUES(0, 'Content - Page Navigation', 'plugin', 'pagenavigation', 'content', 0, 1, 0, 0, '', '{"position":"1"}', '', '', 0, '0000-00-00 00:00:00', 2, 0);
 INSERT INTO `#__extensions` VALUES(0, 'Editor - No Editor', 'plugin', 'none', 'editors', 0, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0);
-INSERT INTO `#__extensions` VALUES(0, 'Editor - TinyMCE 2.0', 'plugin', 'tinymce', 'editors', 0, 1, 0, 0, '', '{"theme":"advanced","cleanup_startup":"0","cleanup_save":"2","cleanup_entities":"1","autosave":"0","compressed":"0","relative_urls":"1","text_direction":"ltr","lang_mode":"0","lang_code":"en","invalid_elements":"applet","content_css":"1","content_css_custom":"","newlines":"0","extended_elements":"","toolbar":"top","hr":"1","smilies":"1","table":"1","style":"1","layer":"1","xhtmlxtras":"0","template":"0","directionality":"1","fullscreen":"1","html_height":"550","html_width":"750","preview":"1","element_path":"0","insertdate":"1","format_date":"%Y-%m-%d","inserttime":"1","format_time":"%H:%M:%S"}', '', '', 0, '0000-00-00 00:00:00', 0, 0);
-INSERT INTO `#__extensions` VALUES(0, 'Editor - XStandard Lite 2.0', 'plugin', 'xstandard', 'editors', 0, 0, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0);
+INSERT INTO `#__extensions` VALUES(0, 'Editor - TinyMCE 3.2', 'plugin', 'tinymce', 'editors', 0, 1, 0, 0, '', '{"theme":"advanced","cleanup_startup":"0","cleanup_save":"2","cleanup_entities":"1","autosave":"1","compressed":"0","relative_urls":"0","text_direction":"ltr","lang_mode":"0","lang_code":"en","invalid_elements":"applet","content_css":"1","content_css_custom":"","newlines":"0","extended_elements":"","toolbar":"top","hr":"1","smilies":"1","table":"1","style":"1","layer":"1","xhtmlxtras":"0","template":"0","directionality":"1","fullscreen":"1","html_height":"550","html_width":"750","preview":"1","element_path":"0","insertdate":"1","format_date":"%Y-%m-%d","inserttime":"1","format_time":"%H:%M:%S"}', '', '', 0, '0000-00-00 00:00:00', 0, 0);
 INSERT INTO `#__extensions` VALUES(0, 'Editor Button - Image', 'plugin', 'image', 'editors-xtd', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0);
 INSERT INTO `#__extensions` VALUES(0, 'Editor Button - Pagebreak', 'plugin', 'pagebreak', 'editors-xtd', 0, 1, 0, 0, '', '', '', '', 42, '2009-04-01 10:14:48', 0, 0);
 INSERT INTO `#__extensions` VALUES(0, 'Editor Button - Readmore', 'plugin', 'readmore', 'editors-xtd', 0, 1, 0, 0, '', '', '', '', 42, '2009-04-01 10:14:53', 0, 0);
@@ -910,6 +909,7 @@ CREATE TABLE IF NOT EXISTS `#__access_assets` (
   `section` varchar(100) NOT NULL default '0',
   `name` varchar(100) NOT NULL default '',
   `title` varchar(100) NOT NULL default '',
+  `inherits_from` int(10) unsigned NOT NULL default '0',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `idx_asset_name_lookup` (`section_id`,`name`),
   KEY `idx_asset_section_lookup` (`section`)
