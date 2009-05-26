@@ -38,7 +38,7 @@ class WeblinksViewWeblink extends JView
 			return false;
 		}
 
-		// Bind the label to the form.
+		// Bind the weblink to the form.
 		$form->bind($item);
 
 		$this->assignRef('state',	$state);

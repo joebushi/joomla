@@ -52,13 +52,13 @@ class JFormFieldOrdering extends JFormField
 		// Handle a read only list.
 		if ($readonly) {
 			// Create a disabled list with a hidden input to store the value.
-			$return .= JHTML::_('list.ordering', '', $query, $attributes, $this->value, $this->inputId, $weblinkId ? 0 : 1);
+			$return .= JHTML::_('list.ordering', '', $query, $attributes, $this->value, $weblinkId ? 0 : 1);
 			$return	.= '<input type="hidden" name="'.$this->inputName.'" value="'.$this->value.'" />';
 		}
 		// Handle a regular list.
 		else {
 			// Create a regular list.
-			$return = JHTML::_('list.ordering', $this->inputName, $query, $attributes, $this->value, $this->inputId, $weblinkId ? 0 : 1);
+			$return = JHTML::_('list.ordering', $this->inputName, $query, $attributes, $this->value, $weblinkId ? 0 : 1);
 		}
 
 		return $return;

@@ -173,4 +173,33 @@ class WeblinksModelWeblinks extends JModelList
 
 		return true;
 	}
+
+	public function saveorder($cid = array(), $order)
+	{
+		$table = JTable::getInstance('Weblink', 'WeblinksTable');
+		$groupings = array();
+
+		// update ordering values
+		for ($i=0; $i < count($cid); $i++) {
+			$table->load((int) $cid[$i]);
+			// track categories
+			$groupings[] = $table->catid;
+
+			if ($table->ordering != $order[$i]) {
+				$table->ordering = $order[$i];
+				if (!$table->store()) {
+					$this->setError($this->_db->getErrorMsg());
+					return false;
+				}
+			}
+		}
+
+		// execute updateOrder for each parent group
+		$groupings = array_unique($groupings);
+		foreach ($groupings as $group) {
+			$table->reorder('catid = '.(int) $group);
+		}
+
+		return true;
+	}
 }
