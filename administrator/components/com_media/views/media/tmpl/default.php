@@ -1,9 +1,9 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php defined('_JEXEC') or die; ?>
 <table width="100%" cellspacing="0">
 	<tr valign="top">
 		<td width="200px">
 			<fieldset id="treeview">
-				<legend><?php echo JText::_( 'Folders' ); ?></legend>
+				<legend><?php echo JText::_('Folders'); ?></legend>
 				<div id="media-tree_tree"></div>
 				<?php echo $this->loadTemplate('folders'); ?>
 			</fieldset>
@@ -40,18 +40,18 @@
 
 			<form action="<?php echo JRoute::_('index.php?option=com_media&amp;task=folder.create'); ?>" name="folderForm" id="folderForm" method="post">
 				<fieldset id="folderview">
-					<legend><?php echo JText::_( 'Files' ); ?></legend>
+					<legend><?php echo JText::_('Files'); ?></legend>
 					<div class="path">
 						<input class="inputbox" type="text" id="folderpath" readonly="readonly" />/
 						<input class="inputbox" type="text" id="foldername" name="foldername"  />
 						<input class="update-folder" type="hidden" name="folderbase" id="folderbase" value="<?php echo $this->state->folder; ?>" />
-						<button type="submit"><?php echo JText::_( 'Create Folder' ); ?></button>
+						<button type="submit"><?php echo JText::_('Create Folder'); ?></button>
 					</div>
 					<div class="view">
 						<iframe src="index.php?option=com_media&amp;view=mediaList&amp;tmpl=component&amp;folder=<?php echo $this->state->folder;?>" id="folderframe" name="folderframe" width="100%" marginwidth="0" marginheight="0" scrolling="auto" frameborder="0"></iframe>
 					</div>
 				</fieldset>
-				<?php echo JHtml::_( 'form.token' ); ?>
+				<?php echo JHtml::_('form.token'); ?>
 			</form>
 
 			<form action="<?php echo JRoute::_('index.php?option=com_media'); ?>" name="adminForm" id="mediamanager-form" method="post" enctype="multipart/form-data" >
@@ -63,7 +63,7 @@
 			<!-- File Upload Form -->
 			<form action="<?php echo JRoute::_(JURI::base() . 'index.php?option=com_media&amp;task=file.upload&amp;tmpl=component&amp;' . $this->session->getName().'='.$this->session->getId() . '&amp;' . JUtility::getToken() . '=1'); ?>" id="uploadForm" method="post" enctype="multipart/form-data">
 				<fieldset>
-					<legend><?php echo JText::_( 'Upload File' ); ?> [ <?php echo JText::_( 'Max' ); ?>&nbsp;<?php echo ($this->config->get('upload_maxsize') / 1000000); ?>M ]</legend>
+					<legend><?php echo JText::_('Upload File'); ?> [ <?php echo JText::_('Max'); ?>&nbsp;<?php echo ($this->config->get('upload_maxsize') / 1000000); ?>M ]</legend>
 					<fieldset class="actions">
 						<input type="file" id="file-upload" name="Filedata" />
 						<input type="submit" id="file-upload-submit" value="<?php echo JText::_('Start Upload'); ?>"/>

@@ -1,19 +1,19 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Administrator
-* @subpackage	Content
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	Content
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 /**
-* @package		Joomla.Administrator
-* @subpackage	Content
-*/
+ * @package		Joomla.Administrator
+ * @subpackage	Content
+ */
 class TableFrontPage extends JTable
 {
 	/** @var int Primary key */

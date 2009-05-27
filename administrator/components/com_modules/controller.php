@@ -4,11 +4,11 @@
  * @package		Joomla.Administrator
  * @subpackage	Modules
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
@@ -41,7 +41,7 @@ class ModulesController extends JController
 		// Check for request forgeries
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$client	=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$client	= &JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 		$cid	= JRequest::getVar('cid', array(), 'post', 'array');
 		JArrayHelper::toInteger($cid);
@@ -163,7 +163,7 @@ class ModulesController extends JController
 			$msg = JText::_('Error Deleting');
 		}
 
-		$client	=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$client	= &JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 		$this->setRedirect('index.php?option=com_modules&client='.$client->id, $msg);
 	}
 
@@ -176,7 +176,7 @@ class ModulesController extends JController
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialize some variables
-		$client	=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$client	= &JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 		$task	= $this->getTask();
 		$publish	= ($task == 'publish');
 
@@ -208,7 +208,7 @@ class ModulesController extends JController
 		$model = $this->getModel('module');
 		$model->checkin();
 
-		$client	=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$client	= &JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 		$this->setRedirect('index.php?option=com_modules&client='.$client->id);
 	}
 
@@ -236,7 +236,7 @@ class ModulesController extends JController
 			$msg = $model->getError();
 		}
 
-		$client	=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$client	= &JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 		$this->setRedirect('index.php?option=com_modules&client='.$client->id, $msg);
 	}
 
@@ -249,7 +249,7 @@ class ModulesController extends JController
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialize some variables
-		$client	=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$client	= &JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 		$cid 	= JRequest::getVar('cid', array(), 'post', 'array');
 		JArrayHelper::toInteger($cid);
@@ -306,7 +306,7 @@ class ModulesController extends JController
 		$model = $this->getModel('module');
 		$model->saveorder($cid, $order);
 
-		$client	=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$client	= &JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 		$msg = JText::_('New ordering saved');
 		$this->setRedirect('index.php?option=com_modules&client='.$client->id, $msg);
 	}
@@ -315,7 +315,7 @@ class ModulesController extends JController
 	{
 		JRequest::setVar('view', 'preview');
 
-		$document =& JFactory::getDocument();
+		$document = &JFactory::getDocument();
 		$document->setTitle(JText::_('Module Preview'));
 
 		parent::display();

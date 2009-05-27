@@ -4,36 +4,36 @@
  * @package		Joomla.Administrator
  * @subpackage	Banners
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
 /**
-* @package		Joomla.Administrator
-* @subpackage	Banners
-*/
+ * @package		Joomla.Administrator
+ * @subpackage	Banners
+ */
 class BannerViewBanner extends JView
 {
 	function display($tpl = null)
 	{
-		$user 	=& JFactory::getUser();
-		$model	=& $this->getModel();
+		$user 	= &JFactory::getUser();
+		$model	= &$this->getModel();
 
 		// Set toolbar items for the page
 		$edit		= JRequest::getVar('edit',true);
 		$text = !$edit ? JText::_('New') : JText::_('Edit');
-		JToolBarHelper::title(  JText::_('Banner').': <small><small>[ ' . $text.' ]</small></small>', 'generic.png');
+		JToolBarHelper::title( JText::_('Banner').': <small><small>[ ' . $text.' ]</small></small>', 'generic.png');
 		JToolBarHelper::save('save');
 		JToolBarHelper::apply('apply');
 		JToolBarHelper::cancel('cancel');
 		JToolBarHelper::help('screen.banners.edit');
 
 		//get the banner
-		$item	=& $this->get('data');
+		$item	= &$this->get('data');
 
 		// fail if checked out not by 'me'
 		if ($model->isCheckedOut($user->get('id'))) {

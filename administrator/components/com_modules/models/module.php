@@ -4,11 +4,11 @@
  * @package		Joomla.Administrator
  * @subpackage	Modules
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -56,7 +56,7 @@ class ModulesModelModule extends JModel
 		if ($edit)
 			$this->setId((int)$array[0]);
 
-		$this->_client	=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$this->_client	= &JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 	}
 
 	/**
@@ -117,7 +117,7 @@ class ModulesModelModule extends JModel
 
 			if (file_exists($xmlpath))
 			{
-				$xml =& JFactory::getXMLParser('Simple');
+				$xml = &JFactory::getXMLParser('Simple');
 				if ($xml->loadFile($xmlpath)) {
 					$this->_xml = &$xml;
 				}
@@ -129,10 +129,10 @@ class ModulesModelModule extends JModel
 	function &getParams()
 	{
 		// Get the state parameters
-		$module	=& $this->getData();
+		$module	= &$this->getData();
 		$params	= new JParameter($module->params);
 
-		if ($xml =& $this->_getXML())
+		if ($xml = &$this->_getXML())
 		{
 			if ($ps = & $xml->document->params) {
 				foreach ($ps as $p)
@@ -170,10 +170,10 @@ class ModulesModelModule extends JModel
 		{
 			$path = $this->_client->path.DS.'templates'.DS.$templates[$i]->template;
 
-			$xml =& JFactory::getXMLParser('Simple');
+			$xml = &JFactory::getXMLParser('Simple');
 			if ($xml->loadFile($path.DS.'templateDetails.xml'))
 			{
-				$p =& $xml->document->getElementByPath('positions');
+				$p = &$xml->document->getElementByPath('positions');
 				if ($p INSTANCEOF JSimpleXMLElement && count($p->children()))
 				{
 					foreach ($p->children() as $child)
@@ -204,7 +204,7 @@ class ModulesModelModule extends JModel
 	{
 		if ($this->_id)
 		{
-			$module =& JTable::getInstance('module');
+			$module = &JTable::getInstance('module');
 			if (!$module->load($this->_id)) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
@@ -224,7 +224,7 @@ class ModulesModelModule extends JModel
 	{
 		if ($this->_id)
 		{
-			$module =& JTable::getInstance('module');
+			$module = &JTable::getInstance('module');
 			if (! $module->checkin($this->_id)) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
@@ -247,11 +247,11 @@ class ModulesModelModule extends JModel
 		{
 			// Make sure we have a user id to checkout the article with
 			if (is_null($uid)) {
-				$user	=& JFactory::getUser();
+				$user	= &JFactory::getUser();
 				$uid	= $user->get('id');
 			}
 			// Lets get to it and checkout the thing...
-			$module =& JTable::getInstance('module');
+			$module = &JTable::getInstance('module');
 			if (!$module->checkout($uid, $this->_id)) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
@@ -271,7 +271,7 @@ class ModulesModelModule extends JModel
 	 */
 	function store($data)
 	{
-		$row =& JTable::getInstance('module');
+		$row = &JTable::getInstance('module');
 
 		// Bind the form fields to the web link table
 		if (!$row->bind($data)) {
@@ -394,7 +394,7 @@ class ModulesModelModule extends JModel
 	 */
 	function publish($cid = array(), $publish = 1)
 	{
-		$user 	=& JFactory::getUser();
+		$user 	= &JFactory::getUser();
 
 		if (count($cid))
 		{
@@ -427,7 +427,7 @@ class ModulesModelModule extends JModel
 	{
 		if (count($cid))
 		{
-			$user 	=& JFactory::getUser();
+			$user 	= &JFactory::getUser();
 
 			JArrayHelper::toInteger($cid);
 			$cids = implode(',', $cid);
@@ -456,7 +456,7 @@ class ModulesModelModule extends JModel
 	 */
 	function copy($cid = array())
 	{
-		$row 	=& JTable::getInstance('module');
+		$row 	= &JTable::getInstance('module');
 		$tuples	= array();
 
 		foreach ($cid as $id)
@@ -512,7 +512,7 @@ class ModulesModelModule extends JModel
 	 */
 	function move($direction)
 	{
-		$row =& JTable::getInstance('module');
+		$row = &JTable::getInstance('module');
 		if (!$row->load($this->_id)) {
 			$this->setError($this->_db->getErrorMsg());
 			return false;
@@ -537,7 +537,7 @@ class ModulesModelModule extends JModel
 	{
 		$total		= count($cid);
 
-		$row 		=& JTable::getInstance('module');
+		$row 		= &JTable::getInstance('module');
 		$groupings = array();
 
 		// update ordering values

@@ -1,14 +1,14 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Administrator
-* @subpackage	Installer
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	Installer
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 $user = & JFactory::getUser();
 if (!$user->authorize('core.installer.manage')) {
@@ -26,12 +26,12 @@ $subMenus = array(
 
 foreach ($subMenus as $name => $extension) {
 	// TODO: Rewrite this extension so it acts normally and doesn't require this sort of a hack below
-	JSubMenuHelper::addEntry(JText::_( $name ), '#" onclick="javascript:document.adminForm.type.value=\''.$extension.'\';submitbutton(\'manage\');', (($task != 'manage' && $task == $extension) || ($task == 'manage' && $extension == $ext)));
+	JSubMenuHelper::addEntry(JText::_($name), '#" onclick="javascript:document.adminForm.type.value=\''.$extension.'\';submitbutton(\'manage\');', (($task != 'manage' && $task == $extension) || ($task == 'manage' && $extension == $ext)));
 }
 
 require_once JPATH_COMPONENT.DS.'controller.php';
 
-$controller = new InstallerController( array('default_task' => 'installform') );
+$controller = new InstallerController(array('default_task' => 'installform'));
 //die(JRequest::getCmd('task'));
-$controller->execute( JRequest::getCmd('task') );
+$controller->execute(JRequest::getCmd('task'));
 $controller->redirect();

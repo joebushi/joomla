@@ -4,10 +4,10 @@
  * @package		Joomla.Administrator
  * @subpackage	Checkin
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
-defined('_JEXEC') or die();
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -30,8 +30,8 @@ class CheckinModelCheckin extends JModel
 	 */
 	public function checkin($tables = null)
 	{
-		$app 		=& JFactory::getApplication();
-		$db 		=& $this->_db;
+		$app 		= &JFactory::getApplication();
+		$db 		= &$this->_db;
 		$nullDate 	= $db->getNullDate();
 
 		if (!is_array($tables)) {

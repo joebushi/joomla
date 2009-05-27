@@ -3,11 +3,11 @@
  * @version		$Id$
  * @package		Joomla.Administrator
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 jimport('joomla.database.table');
 
@@ -115,7 +115,7 @@ class TableMessage extends JTable
 	function send($fromId = null, $toId = null, $subject = null, $message = null, $mailfrom = null, $fromname = null)
 	{
 		$mainframe = JFactory::getApplication();
-		$db =& JFactory::getDBO();
+		$db = &JFactory::getDbo();
 
 		if (is_object($this))
 		{
@@ -125,7 +125,7 @@ class TableMessage extends JTable
 			$message	= $message	? $message	: $this->message;
 		}
 
-		$toUser =& JFactory::getUser($toId);
+		$toUser = &JFactory::getUser($toId);
 
 		if (!$toUser->getParam('message_locked', 0))
 		{
@@ -133,7 +133,7 @@ class TableMessage extends JTable
 			$this->user_id_to	= $toId;
 			$this->subject		= $subject;
 			$this->message		= $message;
-			$date =& JFactory::getDate();
+			$date = &JFactory::getDate();
 			$this->date_time	= $date->toMySQL();
 
 			if ($this->store())
@@ -148,7 +148,7 @@ class TableMessage extends JTable
 					$fromname	= $fromObject->name;
 					$mailfrom	= $fromObject->email;
 					$siteURL		= JURI::base();
-					$sitename 		= $mainframe->getCfg( 'sitename' );
+					$sitename 		= $mainframe->getCfg('sitename');
 
 					$query = 'SELECT email' .
 							' FROM #__users' .

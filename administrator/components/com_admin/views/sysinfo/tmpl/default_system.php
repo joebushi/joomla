@@ -1,7 +1,7 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php defined('_JEXEC') or die; ?>
 
 <?php
-$db =& JFactory::getDBO();
+$db = &JFactory::getDbo();
 ?>
 <fieldset class="adminform">
 	<legend><?php echo JText::_('System Information'); ?></legend>

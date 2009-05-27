@@ -4,11 +4,11 @@
  * @package		Joomla.Administrator
  * @subpackage	Categories
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -46,7 +46,7 @@ class CategoriesModelCategory extends JModel
 
 		$array = JRequest::getVar('cid', array(0), '', 'array');
 		$edit	= JRequest::getVar('edit',true);
-		if($edit)
+		if ($edit)
 			$this->setId((int)$array[0]);
 	}
 
@@ -121,7 +121,7 @@ class CategoriesModelCategory extends JModel
 	 * @return	boolean	True if checked out
 	 * @since	1.5
 	 */
-	function isCheckedOut( $uid=0 )
+	function isCheckedOut($uid=0)
 	{
 		if ($this->_loadData())
 		{
@@ -145,7 +145,7 @@ class CategoriesModelCategory extends JModel
 		if ($this->_id)
 		{
 			$category = & $this->getTable();
-			if(! $category->checkin($this->_id)) {
+			if (! $category->checkin($this->_id)) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
@@ -168,12 +168,12 @@ class CategoriesModelCategory extends JModel
 		{
 			// Make sure we have a user id to checkout the category with
 			if (is_null($uid)) {
-				$user	=& JFactory::getUser();
+				$user	= &JFactory::getUser();
 				$uid	= $user->get('id');
 			}
 			// Lets get to it and checkout the thing...
 			$category = & $this->getTable();
-			if(!$category->checkout($uid, $this->_id)) {
+			if (!$category->checkout($uid, $this->_id)) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
@@ -191,7 +191,7 @@ class CategoriesModelCategory extends JModel
 	 */
 	function store($data)
 	{
-		$row =& $this->getTable();
+		$row = &$this->getTable();
 
 		// Bind the form fields to the web link table
 		if (!$row->bind($data)) {
@@ -202,7 +202,7 @@ class CategoriesModelCategory extends JModel
 		// if new item, order last in appropriate group
 		if (!$row->id) {
 			$where = '1 = 1';
-			$row->ordering = $row->getNextOrder( $where );
+			$row->ordering = $row->getNextOrder($where);
 		}
 
 		// Make sure the web link table is valid
@@ -231,18 +231,18 @@ class CategoriesModelCategory extends JModel
 	{
 		$result = false;
 
-		if (count( $cid ))
+		if (count($cid))
 		{
 			JArrayHelper::toInteger($cid);
-			$cids = implode( ',', $cid );
+			$cids = implode(',', $cid);
 			$query = 'SELECT id, lft, rgt '.
 					'FROM #__categories '.
 					'WHERE id IN ('.$cids.') ORDER BY lft ASC';
 			$this->_db->setQuery($query);
 			$categories = $this->_db->loadObjectList();
-			for($i = 1; $i < count($categories); $i++)
+			for ($i = 1; $i < count($categories); $i++)
 			{
-				if($categories[$i-1]->lft > $categories[$i]->lft && $categories[$i-1]->rgt > $categories[$i]->rgt)
+				if ($categories[$i-1]->lft > $categories[$i]->lft && $categories[$i-1]->rgt > $categories[$i]->rgt)
 				{
 					unset($categories[$i]);
 					$i--;
@@ -252,19 +252,19 @@ class CategoriesModelCategory extends JModel
 			{
 				$query = 'DELETE FROM #__categories WHERE lft BETWEEN '.$category->lft.' AND '.$category->rgt;
 				$this->_db->setQuery($query);
-				if(!$this->_db->query()) {
+				if (!$this->_db->query()) {
 					$this->setError($this->_db->getErrorMsg());
 					return false;
 				}
 				$query = 'UPDATE #__categories SET rgt = rgt - '.($category->rgt - $category->lft).' WHERE rgt > '.$category->rgt;
 				$this->_db->setQuery($query);
-				if(!$this->_db->query()) {
+				if (!$this->_db->query()) {
 					$this->setError($this->_db->getErrorMsg());
 					return false;
 				}
 				$query = 'UPDATE #__categories SET lft = lft - '.($category->rgt - $category->lft).' WHERE lft > '.$category->lft;
 				$this->_db->setQuery($query);				
-				if(!$this->_db->query()) {
+				if (!$this->_db->query()) {
 					$this->setError($this->_db->getErrorMsg());
 					return false;
 				}
@@ -283,19 +283,19 @@ class CategoriesModelCategory extends JModel
 	 */
 	function publish($cid = array(), $publish = 1)
 	{
-		$user 	=& JFactory::getUser();
+		$user 	= &JFactory::getUser();
 
-		if (count( $cid ))
+		if (count($cid))
 		{
 			JArrayHelper::toInteger($cid);
-			$cids = implode( ',', $cid );
+			$cids = implode(',', $cid);
 
 			$query = 'UPDATE #__categories'
 				. ' SET published = '.(int) $publish
-				. ' WHERE id IN ( '.$cids.' )'
-				. ' AND ( checked_out = 0 OR ( checked_out = '.(int) $user->get('id').' ) )'
+				. ' WHERE id IN ('.$cids.')'
+				. ' AND (checked_out = 0 OR (checked_out = '.(int) $user->get('id').'))'
 			;
-			$this->_db->setQuery( $query );
+			$this->_db->setQuery($query);
 			if (!$this->_db->query()) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
@@ -314,13 +314,13 @@ class CategoriesModelCategory extends JModel
 	 */
 	function move($direction)
 	{
-		$row =& $this->getTable();
+		$row = &$this->getTable();
 		if (!$row->load($this->_id)) {
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
 
-		if (!$row->move( $direction, ' published >= 0 ' )) {
+		if (!$row->move($direction, ' published >= 0 ')) {
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
@@ -337,13 +337,13 @@ class CategoriesModelCategory extends JModel
 	 */
 	function saveorder($cid, $order)
 	{
-		$row =& $this->getTable();
+		$row = &$this->getTable();
 		$groupings = array();
 
 		// update ordering values
-		for( $i=0; $i < count($cid); $i++ )
+		for ($i=0; $i < count($cid); $i++)
 		{
-			$row->load( (int) $cid[$i] );
+			$row->load((int) $cid[$i]);
 			// track sections
 			$groupings[] = $row->section;
 			if ($row->ordering != $order[$i]) {
@@ -355,7 +355,7 @@ class CategoriesModelCategory extends JModel
 		}
 
 		// execute updateOrder for each parent group
-		$groupings = array_unique( $groupings );
+		$groupings = array_unique($groupings);
 		foreach ($groupings as $group){
 			$row->reorder('section = '.$this->_db->Quote($group));
 		}
@@ -441,19 +441,19 @@ class CategoriesModelCategory extends JModel
 	 */
 	function setAccess($cid = array(), $access = 0)
 	{
-		if (count( $cid ))
+		if (count($cid))
 		{
-			$user 	=& JFactory::getUser();
+			$user 	= &JFactory::getUser();
 
 			JArrayHelper::toInteger($cid);
-			$cids = implode( ',', $cid );
+			$cids = implode(',', $cid);
 
 			$query = 'UPDATE #__categories'
 				. ' SET access = '.(int) $access
-				. ' WHERE id IN ( '.$cids.' )'
-				. ' AND ( checked_out = 0 OR ( checked_out = '.(int) $user->get('id').' ) )'
+				. ' WHERE id IN ('.$cids.')'
+				. ' AND (checked_out = 0 OR (checked_out = '.(int) $user->get('id').'))'
 			;
-			$this->_db->setQuery( $query );
+			$this->_db->setQuery($query);
 			if (!$this->_db->query()) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;

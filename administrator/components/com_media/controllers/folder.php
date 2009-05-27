@@ -4,11 +4,11 @@
  * @package		Joomla.Administrator
  * @subpackage	Media
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
@@ -38,9 +38,9 @@ class MediaControllerFolder extends MediaController
 		JClientHelper::setCredentialsFromRequest('ftp');
 
 		// Get some data from the request
-		$tmpl	= JRequest::getCmd( 'tmpl' );
-		$paths	= JRequest::getVar( 'rm', array(), '', 'array' );
-		$folder = JRequest::getVar( 'folder', '', '', 'path');
+		$tmpl	= JRequest::getCmd('tmpl');
+		$paths	= JRequest::getVar('rm', array(), '', 'array');
+		$folder = JRequest::getVar('folder', '', '', 'path');
 
 		// Initialize variables
 		$msg = array();
@@ -98,9 +98,9 @@ class MediaControllerFolder extends MediaController
 		jimport('joomla.client.helper');
 		JClientHelper::setCredentialsFromRequest('ftp');
 
-		$folder			= JRequest::getCmd( 'foldername', '');
-		$folderCheck	= JRequest::getVar( 'foldername', null, '', 'string', JREQUEST_ALLOWRAW);
-		$parent			= JRequest::getVar( 'folderbase', '', '', 'path' );
+		$folder			= JRequest::getCmd('foldername', '');
+		$folderCheck	= JRequest::getVar('foldername', null, '', 'string', JREQUEST_ALLOWRAW);
+		$parent			= JRequest::getVar('folderbase', '', '', 'path');
 
 		JRequest::setVar('folder', $parent);
 

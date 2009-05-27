@@ -1,6 +1,6 @@
-<?php /** $Id$ */ defined('_JEXEC') or die('Restricted access'); ?>
+<?php /** $Id$ */ defined('_JEXEC') or die; ?>
 <?php $groups = $this->params->getGroups();
-if (count($groups) > 1): 
+if (count($groups) > 1):
 $this->document->addScriptDeclaration('
 window.addEvent("domready", function() {
 	new JSwitcher($("submenu"), $("component-config-document"), {
@@ -16,9 +16,9 @@ endif;
 	<fieldset>
 		<div style="float: right">
 			<button type="button" onclick="submitbutton('component.save');window.top.setTimeout('window.parent.SqueezeBox.close();', 700);">
-				<?php echo JText::_('Save'); ?></button>
+				<?php echo JText::_('Save');?></button>
 			<button type="button" onclick="window.parent.SqueezeBox.close();">
-				<?php echo JText::_('Cancel'); ?></button>
+				<?php echo JText::_('Cancel');?></button>
 		</div>
 		<div class="configuration">
 			<?php echo JText::_($this->component->name) ?>
@@ -36,17 +36,23 @@ endif;
 		</div>
 	</div>
 	<div class="clr"></div>
-	
+
 	<?php foreach ($groups as $group => $count): ?>
 	<fieldset id="page-group-<?php echo $group; ?>" class="configuration-group">
 		<legend><?php echo JText::_($group == '_default' ? 'Configuration' : $group); ?></legend>
 		<?php echo $this->params->render('params', $group); ?>
 	</fieldset>
 	<?php endforeach; ?>
-	
+
 	<?php else: ?>
 	<fieldset>
+<<<<<<< .mine
+		<legend>
+			<?php echo JText::_('Configuration');?>
+		</legend>
+=======
 		<legend><?php echo JText::_('Configuration'); ?></legend>
+>>>>>>> .r11835
 		<?php echo $this->params->render();?>
 	</fieldset>
 	<?php endif; ?>
@@ -57,6 +63,6 @@ endif;
 	<input type="hidden" name="option" value="com_config" />
 	<input type="hidden" name="tmpl" value="component" />
 	<input type="hidden" name="task" value="" />
-	<?php echo JHtml::_( 'form.token' ); ?>
+	<?php echo JHtml::_('form.token'); ?>
 </form>
 </div>

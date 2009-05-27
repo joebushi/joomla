@@ -4,11 +4,11 @@
  * @package		Joomla.Administrator
  * @subpackage	Menus
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
@@ -70,7 +70,7 @@ class MenusViewMenus extends JView
 		/*
 		 * Set toolbar items for the page
 		 */
-		JToolBarHelper::title( JText::_('Copy Menu'));
+		JToolBarHelper::title(JText::_('Copy Menu'));
 		JToolBarHelper::custom('doCopyMenu', 'copy.png', 'copy_f2.png', 'Copy', false);
 		JToolBarHelper::cancel();
 		JToolBarHelper::help('screen.menumanager');
@@ -93,7 +93,7 @@ class MenusViewMenus extends JView
 		/*
 		 * Set toolbar items for the page
 		 */
-		JToolBarHelper::title( JText::_('Menu') . ': <small><small>[ '. JText::_('Delete') .' ]</small></small>');
+		JToolBarHelper::title(JText::_('Menu') . ': <small><small>[ '. JText::_('Delete') .' ]</small></small>');
 		JToolBarHelper::custom('doDeleteMenu', 'delete.png', 'delete_f2.png', 'Delete', false);
 		JToolBarHelper::cancel();
 		JToolBarHelper::help('screen.menumanager.delete');
@@ -121,7 +121,7 @@ class MenusViewMenus extends JView
 		$mainframe = JFactory::getApplication();
 
 		$this->_layout = 'edit';
-		if($edit)
+		if ($edit)
 			$table = &$this->get('Table');
 		else
 			$table= &JTable::getInstance('menuTypes');

@@ -2,11 +2,11 @@
 /**
  * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modelitem');
 
@@ -276,7 +276,7 @@ class WeblinksModelWeblink extends JModelItem
 
 			// Set ordering to the last item if not set
 			if (empty($table->ordering)) {
-				$db = &JFactory::getDBO();
+				$db = &JFactory::getDbo();
 				$db->setQuery('SELECT MAX(ordering) FROM #__weblinks');
 				$max = $db->loadResult();
 

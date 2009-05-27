@@ -1,16 +1,16 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Administrator
-* @subpackage	Templates
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	Templates
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
-jimport( 'joomla.application.component.view');
+jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the Templates component
@@ -30,10 +30,10 @@ class TemplatesViewCsschoose extends JView
 	public function display($tpl = null)
 	{
 
-		JToolBarHelper::title( JText::_( 'Template CSS Editor' ), 'thememanager' );
-		JToolBarHelper::custom( 'edit_css', 'edit.png', 'edit_f2.png', 'Edit', true );
+		JToolBarHelper::title(JText::_('Template CSS Editor'), 'thememanager');
+		JToolBarHelper::custom('edit_css', 'edit.png', 'edit_f2.png', 'Edit', true);
 		JToolBarHelper::cancel('edit');
-		JToolBarHelper::help( 'screen.templates' );
+		JToolBarHelper::help('screen.templates');
 
 		require_once JPATH_COMPONENT.DS.'helpers'.DS.'template.php';
 		
@@ -41,7 +41,7 @@ class TemplatesViewCsschoose extends JView
 		$option 	= JRequest::getCmd('option');
 		$id 		= JRequest::getVar('id', '', 'method', 'int');
 		$template	=  TemplatesHelper::getTemplateName($id);
-		$client		=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$client		= &JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 		// Determine template CSS directory
 		$dir = $client->path.DS.'templates'.DS.$template.DS.'css';

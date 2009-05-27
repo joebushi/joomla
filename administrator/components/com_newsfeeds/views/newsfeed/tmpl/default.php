@@ -1,31 +1,31 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php defined('_JEXEC') or die; ?>
 
 <?php JHtml::_('behavior.tooltip'); ?>
-<?php JRequest::setVar( 'hidemainmenu', 1 ); ?>
+<?php JRequest::setVar('hidemainmenu', 1); ?>
 
 <script language="javascript" type="text/javascript">
 function submitbutton(pressbutton) {
 	var form = document.adminForm;
 	if (pressbutton == 'cancel') {
-		submitform( pressbutton );
+		submitform(pressbutton);
 		return;
 	}
 
 	// do field validation
 	if (form.name.value == '') {
-		alert( "<?php echo JText::_( 'Please fill in the newsfeed name.', true ); ?>" );
+		alert("<?php echo JText::_('Please fill in the newsfeed name.', true); ?>");
 	} else if (form.catid.value == 0) {
-		alert( "<?php echo JText::_( 'Please select a Category.', true ); ?>" );
+		alert("<?php echo JText::_('Please select a Category.', true); ?>");
 	} else if (form.link.value == '') {
-		alert( "<?php echo JText::_( 'Please fill in the newsfeed link.', true ); ?>" );
+		alert("<?php echo JText::_('Please fill in the newsfeed link.', true); ?>");
 	} else if (getSelectedValue('adminForm','catid') < 0) {
-		alert( "<?php echo JText::_( 'Please select a category.', true ); ?>" );
+		alert("<?php echo JText::_('Please select a category.', true); ?>");
 	} else if (form.numarticles.value == "" || form.numarticles.value == 0) {
-		alert( "<?php echo JText::_( 'VALIDARTICLESDISPLAY', true ); ?>" );
+		alert("<?php echo JText::_('VALIDARTICLESDISPLAY', true); ?>");
 	} else if (form.cache_time.value == "" || form.cache_time.value == 0) {
-		alert( "<?php echo JText::_( 'Please fill in the cache refresh time.', true ); ?>" );
+		alert("<?php echo JText::_('Please fill in the cache refresh time.', true); ?>");
 	} else {
-		submitform( pressbutton );
+		submitform(pressbutton);
 	}
 }
 </script>
@@ -34,13 +34,13 @@ function submitbutton(pressbutton) {
 
 <div class="col100">
 	<fieldset class="adminform">
-		<legend><?php echo JText::_( 'Details' ); ?></legend>
+		<legend><?php echo JText::_('Details'); ?></legend>
 
 		<table class="admintable">
 		<tr>
 			<td width="170" class="key">
 				<label for="name">
-					<?php echo JText::_( 'Name' ); ?>
+					<?php echo JText::_('Name'); ?>
 				</label>
 			</td>
 			<td>
@@ -50,7 +50,7 @@ function submitbutton(pressbutton) {
 		<tr>
 			<td width="170" class="key">
 				<label for="name">
-					<?php echo JText::_( 'Alias' ); ?>
+					<?php echo JText::_('Alias'); ?>
 				</label>
 			</td>
 			<td>
@@ -59,16 +59,16 @@ function submitbutton(pressbutton) {
 		</tr>
 		<tr>
 			<td valign="top" align="right" class="key">
-				<?php echo JText::_( 'Published' ); ?>:
+				<?php echo JText::_('Published'); ?>:
 			</td>
 			<td>
-				<?php echo JHtml::_('select.booleanlist',  'published', 'class="inputbox"', $this->newsfeed->published ); ?>
+				<?php echo JHtml::_('select.booleanlist',  'published', 'class="inputbox"', $this->newsfeed->published); ?>
 			</td>
 		</tr>
 		<tr>
 			<td class="key">
 				<label for="catid">
-					<?php echo JText::_( 'Category' ); ?>
+					<?php echo JText::_('Category'); ?>
 				</label>
 			</td>
 			<td>
@@ -78,7 +78,7 @@ function submitbutton(pressbutton) {
 		<tr>
 			<td class="key">
 				<label for="link">
-					<?php echo JText::_( 'Link' ); ?>
+					<?php echo JText::_('Link'); ?>
 				</label>
 			</td>
 			<td>
@@ -88,7 +88,7 @@ function submitbutton(pressbutton) {
 		<tr>
 			<td class="key">
 				<label for="numarticles">
-					<?php echo JText::_( 'Number of Articles' ); ?>
+					<?php echo JText::_('Number of Articles'); ?>
 				</label>
 			</td>
 			<td>
@@ -97,8 +97,8 @@ function submitbutton(pressbutton) {
 		</tr>
 		<tr>
 			<td class="key">
-				<span class="editlinktip hasTip" title="<?php echo JText::_( 'TIPCACHETIME' ); ?>">
-			<?php echo JText::_( 'Cache time' ); ?>
+				<span class="editlinktip hasTip" title="<?php echo JText::_('TIPCACHETIME'); ?>">
+			<?php echo JText::_('Cache time'); ?>
 		</span>
 			</td>
 			<td>
@@ -108,11 +108,11 @@ function submitbutton(pressbutton) {
 		<tr>
 			<td class="key">
 				<label for="ordering">
-					<?php echo JText::_( 'Ordering' ); ?>
+					<?php echo JText::_('Ordering'); ?>
 				</label>
 			</td>
 			<td>
-				<?php echo JHtml::_('list.specificordering',  $this->newsfeed, $this->newsfeed->id, $this->order_query, 1 ); ?>
+				<?php echo JHtml::_('list.specificordering',  $this->newsfeed, $this->newsfeed->id, $this->order_query, 1); ?>
 			</td>
 		</tr>
 		<?php
@@ -124,7 +124,7 @@ function submitbutton(pressbutton) {
 		<tr>
 			<td class="key">
 				<label for="rtl">
-					<?php echo JText::_( 'RTL feed' ); ?>
+					<?php echo JText::_('RTL feed'); ?>
 				</label>
 			</td>
 			<td>

@@ -1,4 +1,4 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php defined('_JEXEC') or die; ?>
 <div style="float:<?php echo $float; ?>;">
 	<div class="icon">
 		<a href="<?php echo JRoute::_($link); ?>">

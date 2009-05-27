@@ -1,4 +1,4 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php defined('_JEXEC') or die; ?>
 
 <script language="javascript" type="text/javascript">
 <!--
@@ -13,8 +13,8 @@ function submitbutton(pressbutton) {
 	if ((type != "separator") && (trim(form.name.value) == "")){
 		alert("<?php echo JText::_('Item must have a title', true); ?>");
 	}
-	<?php if($this->name == "Article Layout"){ ?>
-	else if(document.getElementById('id_id').value == 0){
+	<?php if ($this->name == "Article Layout"){ ?>
+	else if (document.getElementById('id_id').value == 0){
 		alert("<?php echo JText::_('Please select an Article', true); ?>");
 	} <?php } ?> else {
 		submitform(pressbutton);
@@ -150,20 +150,20 @@ function submitbutton(pressbutton) {
 					echo $this->pane->startPane("menu-pane");
 					echo $this->pane->startPanel(JText :: _('Parameters - Basic'), "param-page");
 					echo $this->urlparams->render('urlparams');
-					if($this->params->getNumParams()) :
+					if ($this->params->getNumParams()) :
 						echo $this->params->render();
 					endif;
 
-					if(!count($this->params->getNumParams('params')) && !count($this->urlparams->getNumParams('urlparams'))) :
+					if (!count($this->params->getNumParams('params')) && !count($this->urlparams->getNumParams('urlparams'))) :
 						echo "<div style=\"text-align: center; padding: 5px; \">".JText::_('There are no parameters for this item')."</div>";
 					endif;
 					echo $this->pane->endPanel();
 
 					$groups = $this->params->getGroups();
-					if(count($groups)) {
+					if (count($groups)) {
 						foreach($groups as $groupname => $group) {
-							if($groupname != 'state' && $groupname != '_default') {
-								if($this->params->getNumParams($groupname)) {
+							if ($groupname != 'state' && $groupname != '_default') {
+								if ($this->params->getNumParams($groupname)) {
 									echo $this->pane->startPanel(JText :: _('Parameters - '.ucfirst($groupname)), $groupname.'-page');
 									echo $this->params->render('params', $groupname);
 									echo $this->pane->endPanel();

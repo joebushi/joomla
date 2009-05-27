@@ -4,11 +4,11 @@
  * @package		Joomla.Administrator
  * @subpackage	Messages
  * @copyright	Copyright (C) 2005 - 2007 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -63,17 +63,17 @@ class MessagesModelMessages extends JModel
 		$context			= $option.'.list';
 
 		// Get the pagination request variables
-		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
-		$limitstart	= $mainframe->getUserStateFromRequest( $context.'.limitstart', 'limitstart', 0, 'int' );
+		$limit		= $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
+		$limitstart	= $mainframe->getUserStateFromRequest($context.'.limitstart', 'limitstart', 0, 'int');
 
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
 
 		$filter = new stdClass();
-		$filter->order		= $mainframe->getUserStateFromRequest( $context.'.filter_order',		'filter_order',		'a.date_time',	'cmd' );
-		$filter->order_Dir	= $mainframe->getUserStateFromRequest( $context.'.filter_order_Dir',	'filter_order_Dir',	'',				'word' );
-		$filter->state		= $mainframe->getUserStateFromRequest( $context.'.filter_state',		'filter_state',		'',				'word' );
-		$filter->search		= $mainframe->getUserStateFromRequest( $context.'.search',			'search',			'',				'string' );
+		$filter->order		= $mainframe->getUserStateFromRequest($context.'.filter_order',		'filter_order',		'a.date_time',	'cmd');
+		$filter->order_Dir	= $mainframe->getUserStateFromRequest($context.'.filter_order_Dir',	'filter_order_Dir',	'',				'word');
+		$filter->state		= $mainframe->getUserStateFromRequest($context.'.filter_state',		'filter_state',		'',				'word');
+		$filter->search		= $mainframe->getUserStateFromRequest($context.'.search',			'search',			'',				'string');
 		$this->_filter = $filter;
 	}
 
@@ -125,7 +125,7 @@ class MessagesModelMessages extends JModel
 		if (empty($this->_pagination))
 		{
 			jimport('joomla.html.pagination');
-			$this->_pagination = new JPagination( $this->getTotal(), $this->getState('limitstart'), $this->getState('limit') );
+			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
 
 		return $this->_pagination;
@@ -167,26 +167,26 @@ class MessagesModelMessages extends JModel
 
 	function _buildContentWhere()
 	{
-		$search				= JString::strtolower( $this->_filter->search );
-		$user 				=& JFactory::getUser();
+		$search				= JString::strtolower($this->_filter->search);
+		$user 				= &JFactory::getUser();
 
 		$where = array();
 		$where[] = ' a.user_id_to='.(int) $user->get('id');
 
 		if ($search != '') {
-			$searchEscaped = $db->Quote( '%'.$db->getEscaped( $search, true ).'%', false );
-			$where[] = '( u.username LIKE '.$searchEscaped.' OR email LIKE '.$searchEscaped.' OR u.name LIKE '.$searchEscaped.' )';
+			$searchEscaped = $db->Quote('%'.$db->getEscaped($search, true).'%', false);
+			$where[] = '(u.username LIKE '.$searchEscaped.' OR email LIKE '.$searchEscaped.' OR u.name LIKE '.$searchEscaped.')';
 		}
 
-		if ( $this->_filter->state ) {
-			if ( $this->_filter->state == 'P' ) {
+		if ($this->_filter->state) {
+			if ($this->_filter->state == 'P') {
 				$where[] = 'a.published = 1';
-			} else if ($this->_filter->state == 'U' ) {
+			} else if ($this->_filter->state == 'U') {
 				$where[] = 'a.published = 0';
 			}
 		}
 
-		$where 		= ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' );
+		$where 		= (count($where) ? ' WHERE ' . implode(' AND ', $where) : '');
 
 		return $where;
 	}

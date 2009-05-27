@@ -4,11 +4,11 @@
  * @package		Joomla.Administrator
  * @subpackage	Menus
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -94,14 +94,14 @@ class MenusModelItem extends JModel
 				$url = str_replace('index.php?', '', $table->link);
 				$url = str_replace('&amp;', '&', $url);
 				$table->linkparts = null;
-				if(strpos($url, '&amp;') !== false) {
+				if (strpos($url, '&amp;') !== false) {
 					$url = str_replace('&amp;','&',$url);
 				}
 
 				parse_str($url, $parts);
 				$table->linkparts = $parts;
 
-				$db = &$this->getDBO();
+				$db = &$this->getDbo();
 				if ($component = @$table->linkparts['option']) {
 					$query = 'SELECT `id`' .
 							' FROM `#__components`' .
@@ -180,7 +180,7 @@ class MenusModelItem extends JModel
 			if ($state INSTANCEOF JSimpleXMLElement)
 			{
 				$ap = &$state->getElementByPath('advanced');
-				if($ap) {
+				if ($ap) {
 					$ap->addAttribute('group', 'advanced');
 				}
 			}
@@ -260,7 +260,7 @@ class MenusModelItem extends JModel
 				if ($xml->loadFile($path)) {
 					$document = &$xml->document;
 					$system = $document->getElementByPath('state/params');
-					if($system) {
+					if ($system) {
 						$system->addAttribute('group','state');
 					}
 				}
@@ -345,7 +345,7 @@ class MenusModelItem extends JModel
 
 		// Lets get to it and checkout the thing...
 		$item	= &$this->getItem();
-		if(!$item->checkout($uid, $id[0])) {
+		if (!$item->checkout($uid, $id[0])) {
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
@@ -356,7 +356,7 @@ class MenusModelItem extends JModel
 	function store()
 	{
 		// Initialize variables
-		$db		= &JFactory::getDBO();
+		$db		= &JFactory::getDbo();
 		$row	= &$this->getItem();
 		$post	= $this->_state->get('request');
 
@@ -409,7 +409,7 @@ class MenusModelItem extends JModel
 			$where = "menutype = " . $db->Quote($row->menutype) . " AND published >= 0 AND parent = ".(int) $row->parent;
 			$row->ordering = $row->getNextOrder($where);
 
-			if($row->parent != 0) {
+			if ($row->parent != 0) {
 				$query = 'SELECT sublevel FROM #__menu WHERE id = '. (int) $row->parent;
 				$this->_db->setQuery($query);
 				$row->sublevel = $this->_db->loadResult() + 1;
@@ -425,7 +425,7 @@ class MenusModelItem extends JModel
 				$query	= substr($row->link, $pos+1);
 
 				$temp = array();
-				if(strpos($query, '&amp;') !== false) {
+				if (strpos($query, '&amp;') !== false) {
 					$query = str_replace('&amp;', '&', $query);
 				}
 				parse_str($query, $temp);
@@ -473,7 +473,7 @@ class MenusModelItem extends JModel
 	{
 		JArrayHelper::toInteger($ids);
 
-		$db = &$this->getDBO();
+		$db = &$this->getDbo();
 
 		if (count($ids))
 		{
@@ -509,7 +509,7 @@ class MenusModelItem extends JModel
 	 */
 	function deleteByType($type = '')
 	{
-		$db = &$this->getDBO();
+		$db = &$this->getDbo();
 
 		$query = 'SELECT id' .
 				' FROM #__menu' .
@@ -575,7 +575,7 @@ class MenusModelItem extends JModel
 				}
 				if (!$xmlpath && $linkparts->getVar('option', false)) {
 					$xmlpath = JPATH_ROOT.DS.'components'.DS.$linkparts->getVar('option').DS.'metadata.xml';
-					if(!file_exists($xmlpath)) {
+					if (!file_exists($xmlpath)) {
 						$xmlpath = JApplicationHelper::getPath('com_xml', $linkparts->getVar('option'));
 					}
 				}

@@ -4,11 +4,11 @@
  * @package		Joomla.Administrator
  * @subpackage	com_acl
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 require_once dirname(__FILE__).DS.'_prototypelist.php';
 
@@ -113,7 +113,7 @@ class AccessModelACLs extends AccessModelPrototypeList
 	{
 		if (empty($this->_list_query))
 		{
-			$db			= &$this->getDBO();
+			$db			= &$this->getDbo();
 			$query		= new JQuery;
 			$select		= $this->getState('list.select', 'a.*');
 			$section	= $this->getState('list.section_value');
@@ -212,5 +212,5 @@ class AccessModelACLs extends AccessModelPrototypeList
 		$model->setState('list.parent_id',	1);
 		return $model->getList();
 	}
-*/
+ */
 }

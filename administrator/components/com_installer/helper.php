@@ -4,7 +4,7 @@
  * @package		Joomla.Administrator
  * @subpackage	Menus
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 /**
@@ -23,10 +23,10 @@ class InstallerHelper
 	 * @param string $folder
 	 * @return string
 	 */
-	function writable( $folder )
+	function writable($folder)
 	{
-		return is_writable( JPATH_ROOT.DS.$folder )
-			? '<strong><span class="writable">'.JText::_( 'Writable' ).'</span></strong>'
-			: '<strong><span class="unwritable">'.JText::_( 'Unwritable' ).'</span></strong>';
+		return is_writable(JPATH_ROOT.DS.$folder)
+			? '<strong><span class="writable">'.JText::_('Writable').'</span></strong>'
+			: '<strong><span class="unwritable">'.JText::_('Unwritable').'</span></strong>';
 	}
 }

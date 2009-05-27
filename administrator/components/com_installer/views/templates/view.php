@@ -4,11 +4,11 @@
  * @package		Joomla.Administrator
  * @subpackage	Menus
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 /**
  * Extension Manager Templates View
@@ -31,8 +31,8 @@ class InstallerViewTemplates extends InstallerViewDefault
 		/*
 		 * Set toolbar items for the page
 		 */
-		JToolBarHelper::deleteList( '', 'remove', 'Uninstall' );
-		JToolBarHelper::help( 'screen.installer2' );
+		JToolBarHelper::deleteList('', 'remove', 'Uninstall');
+		JToolBarHelper::help('screen.installer2');
 
 		// Get data from the model
 		$state		= &$this->get('State');
@@ -59,7 +59,7 @@ class InstallerViewTemplates extends InstallerViewDefault
 
 	function loadItem($index=0)
 	{
-		$item =& $this->items[$index];
+		$item = &$this->items[$index];
 		$item->id		= $item->directory;
 		$item->index	= $index;
 

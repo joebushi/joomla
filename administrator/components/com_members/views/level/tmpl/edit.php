@@ -8,7 +8,7 @@
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
-defined('_JEXEC') or die('Invalid Request.');
+defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
@@ -87,7 +87,7 @@ window.addEvent('domready', function(){
 		}
 	});
 });
-*/
+ */
 // -->
 </script>
 

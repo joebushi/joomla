@@ -1,6 +1,6 @@
 <?php
 /** $Id$ */
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 ?>
 
 <form method="post" action="index.php?option=com_users">
@@ -11,19 +11,19 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 					<strong><?php echo '#' ?></strong>
 				</td>
 				<td class="title">
-					<strong><?php echo JText::_( 'Name' ); ?></strong>
+					<strong><?php echo JText::_('Name'); ?></strong>
 				</td>
 				<td class="title">
-					<strong><?php echo JText::_( 'Group' ); ?></strong>
+					<strong><?php echo JText::_('Group'); ?></strong>
 				</td>
 				<td class="title">
-					<strong><?php echo JText::_( 'Client' ); ?></strong>
+					<strong><?php echo JText::_('Client'); ?></strong>
 				</td>
 				<td class="title">
-					<strong><?php echo JText::_( 'Last Activity' ); ?></strong>
+					<strong><?php echo JText::_('Last Activity'); ?></strong>
 				</td>
 				<td class="title">
-					<strong><?php echo JText::_( 'Logout' ); ?></strong>
+					<strong><?php echo JText::_('Logout'); ?></strong>
 				</td>
 			</tr>
 		</thead>
@@ -32,19 +32,19 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 		$i		= 0;
 		$now	= time();
 		foreach ($rows as $row) :
-			$auth = $user->authorize( 'com_users', 'manage' );
+			$auth = $user->authorize('com_users', 'manage');
 			if ($auth) :
 				$link 	= 'index.php?option=com_users&amp;task=edit&amp;cid[]='. $row->userid;
-				$name 	= '<a href="'. $link .'" title="'. JText::_( 'Edit User' ) .'">'. $row->username .'</a>';
+				$name 	= '<a href="'. $link .'" title="'. JText::_('Edit User') .'">'. $row->username .'</a>';
 			else :
 				$name 	= $row->username;
 			endif;
 
-			$clientInfo =& JApplicationHelper::getClientInfo($row->client_id);
+			$clientInfo = &JApplicationHelper::getClientInfo($row->client_id);
 			?>
 			<tr>
 				<td width="5%">
-					<?php echo $pageNav->getRowOffset( $i ); ?>
+					<?php echo $pageNav->getRowOffset($i); ?>
 				</td>
 				<td>
 					<?php echo $name;?>
@@ -56,7 +56,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 					<?php echo $clientInfo->name;?>
 				</td>
 				<td>
-					<?php echo JText::sprintf( 'activity hours', ($now - $row->time)/3600.0 );?>
+					<?php echo JText::sprintf('activity hours', ($now - $row->time)/3600.0);?>
 				</td>
 				<td>
 				<?php if ($auth && $user->get('gid') > 24 && $row->userid != $user->get('id')) : ?>
@@ -73,5 +73,5 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 	<input type="hidden" name="task" value="" />
 	<input type="hidden" name="client" value="" />
 	<input type="hidden" name="cid[]" id="cid_value" value="" />
-	<?php echo JHtml::_( 'form.token' ); ?>
+	<?php echo JHtml::_('form.token'); ?>
 </form>

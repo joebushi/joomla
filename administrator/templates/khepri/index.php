@@ -1,11 +1,11 @@
 <?php
 /**
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo  $this->language; ?>" lang="<?php echo  $this->language; ?>" dir="<?php echo  $this->direction; ?>">
@@ -15,7 +15,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 <link rel="stylesheet" href="templates/system/css/system.css" type="text/css" />
 <link href="templates/<?php echo  $this->template ?>/css/template.css" rel="stylesheet" type="text/css" />
 
-<?php if($this->direction == 'rtl') : ?>
+<?php if ($this->direction == 'rtl') : ?>
 	<link href="templates/<?php echo  $this->template ?>/css/template_rtl.css" rel="stylesheet" type="text/css" />
 <?php endif; ?>
 
@@ -27,7 +27,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 <link href="templates/<?php echo  $this->template ?>/css/ie6.css" rel="stylesheet" type="text/css" />
 <![endif]-->
 
-<?php if($this->params->get('useRoundedCorners')) : ?>
+<?php if ($this->params->get('useRoundedCorners')) : ?>
 	<link rel="stylesheet" type="text/css" href="templates/<?php echo  $this->template ?>/css/rounded.css" />
 <?php else : ?>
 	<link rel="stylesheet" type="text/css" href="templates/<?php echo  $this->template ?>/css/norounded.css" />
@@ -46,7 +46,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 		<div>
 			<div>
 				<span class="version"><?php echo  JText::_('Version') ?> <?php echo  JVERSION; ?></span>
-				<span class="title"><?php echo $this->params->get('showSiteName') ? $mainframe->getCfg( 'sitename' ) : JText::_('Administration'); ?></span>
+				<span class="title"><?php echo $this->params->get('showSiteName') ? $mainframe->getCfg('sitename') : JText::_('Administration'); ?></span>
 			</div>
 		</div>
 	</div>

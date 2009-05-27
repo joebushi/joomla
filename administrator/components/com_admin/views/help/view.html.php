@@ -1,14 +1,14 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Administrator
-* @subpackage	Admin
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	Admin
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
@@ -38,9 +38,9 @@ class AdminViewHelp extends JView
 		$helpsearch = JRequest::getString('helpsearch');
 		$page		= JRequest::getCmd('page', 'joomla.whatsnew15.html');
 		$toc		= AdminViewHelp::getHelpToc($helpsearch);
-		$lang		=& JFactory::getLanguage();
+		$lang		= &JFactory::getLanguage();
 		$langTag = $lang->getTag();
-		if(!JFolder::exists(JPATH_BASE.DS.'help'.DS.$langTag)) {
+		if (!JFolder::exists(JPATH_BASE.DS.'help'.DS.$langTag)) {
 			$langTag = 'en-GB';		// use english as fallback
 		}
 
@@ -69,14 +69,14 @@ class AdminViewHelp extends JView
 	{
 		$mainframe = JFactory::getApplication();
 
-		$lang =& JFactory::getLanguage();
+		$lang = &JFactory::getLanguage();
 		jimport('joomla.filesystem.folder');
 
 		$helpurl		= $mainframe->getCfg('helpurl');
 
 		// Check for files in the actual language
 		$langTag = $lang->getTag();
-		if(!JFolder::exists(JPATH_BASE.DS.'help'.DS.$langTag)) {
+		if (!JFolder::exists(JPATH_BASE.DS.'help'.DS.$langTag)) {
 			$langTag = 'en-GB';		// use english as fallback
 		}
 		$files = JFolder::files(JPATH_BASE.DS.'help'.DS.$langTag, '\.xml$|\.html$');

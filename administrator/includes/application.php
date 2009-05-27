@@ -1,24 +1,24 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Administrator
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.helper');
 
 /**
-* Joomla! Application class
-*
-* Provide many supporting API functions
-*
-* @package		Joomla.Administrator
-* @final
-*/
+ * Joomla! Application class
+ *
+ * Provide many supporting API functions
+ *
+ * @package		Joomla.Administrator
+ * @final
+ */
 class JAdministrator extends JApplication
 {
 	protected $JComponentTitle = null;
@@ -52,23 +52,23 @@ class JAdministrator extends JApplication
 		if (empty($options['language']))
 		{
 			$user = & JFactory::getUser();
-			$lang	= $user->getParam( 'admin_language' );
-			$config =& JFactory::getConfig();
+			$lang	= $user->getParam('admin_language');
+			$config = &JFactory::getConfig();
 
 			// Make sure that the user's language exists
-			if ( $lang && JLanguage::exists($lang) ) {
+			if ($lang && JLanguage::exists($lang)) {
 				$options['language'] = $lang;
 			} else {
 				$params = JComponentHelper::getParams('com_languages');
-				$client	=& JApplicationHelper::getClientInfo($this->getClientId());
+				$client	= &JApplicationHelper::getClientInfo($this->getClientId());
 				$options['language'] = $params->get($client->name, $config->getValue('config.language','en-GB'));
 			}
 		}
 
 		// One last check to make sure we have something
-		if ( ! JLanguage::exists($options['language']) ) {
+		if (! JLanguage::exists($options['language'])) {
 			$lang = $config->getValue('config.language','en-GB');
-			if(JLanguage::exists($lang)) {
+			if (JLanguage::exists($lang)) {
 				$options['language'] = $lang;
 			} else {
 				$options['language'] = 'en-GB'; // as a last ditch fail to english
@@ -97,7 +97,7 @@ class JAdministrator extends JApplication
 	 */
 	function &getRouter()
 	{
-		$router =& parent::getRouter('administrator');
+		$router = &parent::getRouter('administrator');
 		return $router;
 	}
 
@@ -110,8 +110,8 @@ class JAdministrator extends JApplication
 	*/
 	function dispatch($component = NULL)
 	{
-		$document	=& JFactory::getDocument();
-		$user		=& JFactory::getUser();
+		$document	= &JFactory::getDocument();
+		$user		= &JFactory::getUser();
 
 		// Get our component
 		if ($user->get('guest')) {
@@ -127,10 +127,10 @@ class JAdministrator extends JApplication
 		{
 			case 'html' :
 			{
-				$document->setMetaData( 'keywords', $this->getCfg('MetaKeys') );
+				$document->setMetaData('keywords', $this->getCfg('MetaKeys'));
 
-				if ( $user->get('id') ) {
-					$document->addScript( JURI::root(true).'/media/system/js/legacy.js');
+				if ($user->get('id')) {
+					$document->addScript(JURI::root(true).'/media/system/js/legacy.js');
 				}
 
 				JHtml::_('behavior.mootools');
@@ -139,8 +139,8 @@ class JAdministrator extends JApplication
 			default : break;
 		}
 
-		$document->setTitle( htmlspecialchars_decode($this->getCfg('sitename' )). ' - ' .JText::_( 'Administration' ));
-		$document->setDescription( $this->getCfg('MetaDesc') );
+		$document->setTitle(htmlspecialchars_decode($this->getCfg('sitename')). ' - ' .JText::_('Administration'));
+		$document->setDescription($this->getCfg('MetaDesc'));
 
 		$contents = JComponentHelper::renderComponent($component);
 		$document->setBuffer($contents, 'component');
@@ -158,7 +158,7 @@ class JAdministrator extends JApplication
 		$template	= $this->getTemplate(true);
 		$file 		= JRequest::getCmd('tmpl', 'index');
 
-		if($component == 'com_login') {
+		if ($component == 'com_login') {
 			$file = 'login';
 		}
 
@@ -169,10 +169,10 @@ class JAdministrator extends JApplication
 			'params'	=> $template->params
 		);
 
-		$document =& JFactory::getDocument();
+		$document = &JFactory::getDocument();
 		$document->parse($params);
 		$this->triggerEvent('onBeforeRender');
-		$data = $document->render($this->getCfg('caching'), $params );
+		$data = $document->render($this->getCfg('caching'), $params);
 		JResponse::setBody($data);
 		$this->triggerEvent('onAfterRender');
 	}
@@ -180,8 +180,8 @@ class JAdministrator extends JApplication
 	/**
 	* Login authentication function
 	*
-	* @param	array 	Array( 'username' => string, 'password' => string )
-	* @param	array 	Array( 'remember' => boolean )
+	* @param	array 	Array('username' => string, 'password' => string)
+	* @param	array 	Array('remember' => boolean)
 	* @access public
 	* @see JApplication::login
 	*/
@@ -194,17 +194,17 @@ class JAdministrator extends JApplication
 		$options['autoregister'] = false;
 
 		//Set the application login entry point
-		if(!array_key_exists('entry_url', $options)) {
+		if (!array_key_exists('entry_url', $options)) {
 			$options['entry_url'] = JURI::base().'index.php?option=com_user&task=login';
 		}
 
 		$result = parent::login($credentials, $options);
 
-		if(!JError::isError($result))
+		if (!JError::isError($result))
 		{
 			$lang = JRequest::getCmd('lang');
-			$lang = preg_replace( '/[^A-Z-]/i', '', $lang );
-			$this->setUserState( 'application.lang', $lang  );
+			$lang = preg_replace('/[^A-Z-]/i', '', $lang);
+			$this->setUserState('application.lang', $lang );
 
 			JAdministrator::purgeMessages();
 		}
@@ -225,13 +225,13 @@ class JAdministrator extends JApplication
 		if (!isset($template))
 		{
 			// Load the template name from the database
-			$db =& JFactory::getDBO();
+			$db = &JFactory::getDbo();
 			$query = 'SELECT template, params'
 				. ' FROM #__menu_template'
 				. ' WHERE client_id = 1'
 				. ' AND home = 1'
 				;
-			$db->setQuery( $query );
+			$db->setQuery($query);
 			$template = $db->loadObject();
 
 			$template->template = JFilterInput::clean($template->template, 'cmd');
@@ -241,7 +241,7 @@ class JAdministrator extends JApplication
 				$template->params = '{}';
 			}
 		}
-		if($params)
+		if ($params)
 		{
 			return $template;
 		}
@@ -257,8 +257,8 @@ class JAdministrator extends JApplication
 	*/
 	function purgeMessages()
 	{
-		$db		=& JFactory::getDBO();
-		$user	=& JFactory::getUser();
+		$db		= &JFactory::getDbo();
+		$user	= &JFactory::getUser();
 
 		$userid = $user->get('id');
 
@@ -267,11 +267,11 @@ class JAdministrator extends JApplication
 		. ' WHERE user_id = ' . (int) $userid
 		. ' AND cfg_name = "auto_purge"'
 		;
-		$db->setQuery( $query );
-		$config = $db->loadObject( );
+		$db->setQuery($query);
+		$config = $db->loadObject();
 
 		// check if auto_purge value set
-		if (is_object( $config ) and $config->cfg_name == 'auto_purge' )
+		if (is_object($config) and $config->cfg_name == 'auto_purge')
 		{
 			$purge 	= $config->cfg_value;
 		}
@@ -286,14 +286,14 @@ class JAdministrator extends JApplication
 		if ($purge > 0)
 		{
 			// purge old messages at day set in message configuration
-			$past =& JFactory::getDate(time() - $purge * 86400);
+			$past = &JFactory::getDate(time() - $purge * 86400);
 			$pastStamp = $past->toMySQL();
 
 			$query = 'DELETE FROM #__messages'
-			. ' WHERE date_time < ' . $db->Quote( $pastStamp )
+			. ' WHERE date_time < ' . $db->Quote($pastStamp)
 			. ' AND user_id_to = ' . (int) $userid
 			;
-			$db->setQuery( $query );
+			$db->setQuery($query);
 			$db->query();
 		}
 	}

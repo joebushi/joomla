@@ -4,11 +4,11 @@
  * @package		Joomla.Administrator
  * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
@@ -33,12 +33,12 @@ class MediaControllerFile extends MediaController
 		$mainframe = JFactory::getApplication();
 
 		// Check for request forgeries
-		JRequest::checkToken( 'request' ) or jexit(JText::_('JINVALID_TOKEN'));
+		JRequest::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
 
-		$file 		= JRequest::getVar( 'Filedata', '', 'files', 'array' );
-		$folder		= JRequest::getVar( 'folder', '', '', 'path' );
-		$format		= JRequest::getVar( 'format', 'html', '', 'cmd');
-		$return		= JRequest::getVar( 'return-url', null, 'post', 'base64' );
+		$file 		= JRequest::getVar('Filedata', '', 'files', 'array');
+		$folder		= JRequest::getVar('folder', '', '', 'path');
+		$format		= JRequest::getVar('format', 'html', '', 'cmd');
+		$return		= JRequest::getVar('return-url', null, 'post', 'base64');
 		$err		= null;
 
 		// Set FTP credentials, if given
@@ -52,7 +52,7 @@ class MediaControllerFile extends MediaController
 		if (isset($file['name'])) {
 			$filepath = JPath::clean(COM_MEDIA_BASE.DS.$folder.DS.strtolower($file['name']));
 
-			if (!MediaHelper::canUpload( $file, $err )) {
+			if (!MediaHelper::canUpload($file, $err)) {
 				if ($format == 'json') {
 					jimport('joomla.error.log');
 					$log = &JLog::getInstance('upload.error.php');
@@ -136,9 +136,9 @@ class MediaControllerFile extends MediaController
 		JClientHelper::setCredentialsFromRequest('ftp');
 
 		// Get some data from the request
-		$tmpl	= JRequest::getCmd( 'tmpl' );
-		$paths	= JRequest::getVar( 'rm', array(), '', 'array' );
-		$folder = JRequest::getVar( 'folder', '', '', 'path');
+		$tmpl	= JRequest::getCmd('tmpl');
+		$paths	= JRequest::getVar('rm', array(), '', 'array');
+		$folder = JRequest::getVar('folder', '', '', 'path');
 
 		// Initialize variables
 		$msg = array();

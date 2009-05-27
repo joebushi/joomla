@@ -1,11 +1,11 @@
-<?php /** $Id$ */ defined('_JEXEC') or die('Restricted access'); ?>
+<?php /** $Id$ */ defined('_JEXEC') or die; ?>
 <form action="index.php" method="post" name="adminForm">
 <?php
-if(!count($this->messages)) {
+if (!count($this->messages)) {
 	echo '<p>'. JText::_('No warnings detected').'</p>';
 } else {
 	jimport('joomla.html.pane');
-	$pane =& JPane::getInstance('sliders');
+	$pane = &JPane::getInstance('sliders');
 	echo $pane->startPane("warning-pane");
 	foreach($this->messages as $message) {
 		echo $pane->startPanel($message['message'], str_replace(' ','', $message['message']));
@@ -24,5 +24,5 @@ if(!count($this->messages)) {
 	<input type="hidden" name="boxchecked" value="0" />
 	<input type="hidden" name="option" value="com_installer" />
 	<input type="hidden" name="type" value="warnings" />
-	<?php echo JHtml::_( 'form.token' ); ?>
+	<?php echo JHtml::_('form.token'); ?>
 </form>

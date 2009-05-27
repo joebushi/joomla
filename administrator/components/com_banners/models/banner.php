@@ -4,11 +4,11 @@
  * @package		Joomla.Administrator
  * @subpackage	Banners
  * @copyright	Copyright (C) 2005 - 2007 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -131,7 +131,7 @@ class BannerModelBanner extends JModel
 		{
 			// Make sure we have a user id to checkout the banner with
 			if (is_null($uid)) {
-				$user	=& JFactory::getUser();
+				$user	= &JFactory::getUser();
 				$uid	= $user->get('id');
 			}
 			// Lets get to it and checkout the thing...
@@ -214,7 +214,7 @@ class BannerModelBanner extends JModel
 	 */
 	function publish($cid = array(), $publish = 1)
 	{
-		$user 	=& JFactory::getUser();
+		$user 	= &JFactory::getUser();
 
 		if (count($cid))
 		{

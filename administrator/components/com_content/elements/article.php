@@ -1,13 +1,13 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Administrator
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined('_JEXEC') or die;
 
 class JElementArticle extends JElement
 {
@@ -23,11 +23,11 @@ class JElementArticle extends JElement
 	{
 		$mainframe = JFactory::getApplication();
 
-		$db			=& JFactory::getDBO();
-		$doc 		=& JFactory::getDocument();
+		$db			= &JFactory::getDbo();
+		$doc 		= &JFactory::getDocument();
 		$template 	= $mainframe->getTemplate();
 		$fieldName	= $control_name.'['.$name.']';
-		$article =& JTable::getInstance('content');
+		$article = &JTable::getInstance('content');
 		if ($value) {
 			$article->load($value);
 		} else {

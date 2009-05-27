@@ -1,4 +1,4 @@
-<?php /** $Id: default_type1.php 11362 2008-12-22 12:19:58Z eddieajau $ */ defined('_JEXEC') or die('Restricted access'); ?>
+<?php /** $Id: default_type1.php 11362 2008-12-22 12:19:58Z eddieajau $ */ defined('_JEXEC') or die; ?>
 
 	<fieldset class="filter clearfix">
 		<div class="left">

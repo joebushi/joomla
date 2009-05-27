@@ -4,11 +4,11 @@
  * @package		Joomla.Administrator
  * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -172,7 +172,7 @@ class ContentModelArticles extends JModel
 
 	function _buildContentWhere($extension)
 	{
-		$db					=& JFactory::getDBO();
+		$db					= &JFactory::getDbo();
 		$search				= JString::strtolower($this->_filter->search);
 
 		$where[] = 'c.state != -2';

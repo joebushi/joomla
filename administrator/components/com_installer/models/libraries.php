@@ -4,15 +4,15 @@
  * @package		Joomla.Administrator
  * @subpackage	Menus
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Import library dependencies
 require_once(dirname(__FILE__).DS.'extension.php');
-jimport( 'joomla.filesystem.folder' );
-jimport( 'joomla.installer.extension' );
-jimport( 'joomla.installer.librarymanifest' );
-jimport( 'joomla.filesystem.file' );
+jimport('joomla.filesystem.folder');
+jimport('joomla.installer.extension');
+jimport('joomla.installer.librarymanifest');
+jimport('joomla.filesystem.file');
 
 /**
  * Extension Manager Templates Model
@@ -41,8 +41,8 @@ class InstallerModelLibraries extends InstallerModel
 		parent::__construct();
 
 		// Set state variables from the request
-		$this->setState('filter.string', $mainframe->getUserStateFromRequest( "com_installer.libraries.string", 'filter', '', 'string' ));
-		$this->setState('filter.client', $mainframe->getUserStateFromRequest( "com_installer.libraries.client", 'client', -1, 'int' ));
+		$this->setState('filter.string', $mainframe->getUserStateFromRequest("com_installer.libraries.string", 'filter', '', 'string'));
+		$this->setState('filter.client', $mainframe->getUserStateFromRequest("com_installer.libraries.client", 'client', -1, 'int'));
 	}
 
 	/**
@@ -55,19 +55,19 @@ class InstallerModelLibraries extends InstallerModel
 		$file = $files[0];
 
 		foreach($files as $file) {
-			if(strtolower(JFile::getExt($file)) == 'xml') {
+			if (strtolower(JFile::getExt($file)) == 'xml') {
 				$rows[] = new JLibraryManifest(JPATH_MANIFESTS . DS . 'libraries' . DS . $file);
 			}
 		}
 
 		$this->setState('pagination.total', count($rows));
 		// if the offset is greater than the total, then can the offset
-		if($this->_state->get('pagination.offset') < $this->_state->get('pagination.total')) {
+		if ($this->_state->get('pagination.offset') < $this->_state->get('pagination.total')) {
 			$this->setState('pagination.offset',0);
 		}
 
-		if($this->_state->get('pagination.limit') > 0) {
-			$this->_items = array_slice( $rows, $this->_state->get('pagination.offset'), $this->_state->get('pagination.limit') );
+		if ($this->_state->get('pagination.limit') > 0) {
+			$this->_items = array_slice($rows, $this->_state->get('pagination.offset'), $this->_state->get('pagination.limit'));
 		} else {
 			$this->_items = $rows;
 		}
@@ -82,7 +82,7 @@ class InstallerModelLibraries extends InstallerModel
 		$library = new JLibraryManifest();
 		$retval = false;
 		$library->manifest_filename = $file;
-		if($library->loadManifestFromXML(JPATH_MANIFESTS . DS . 'libraries' . DS . $file . '.xml'))
+		if ($library->loadManifestFromXML(JPATH_MANIFESTS . DS . 'libraries' . DS . $file . '.xml'))
 			return $library;
 		else
 			return $retval;

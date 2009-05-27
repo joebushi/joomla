@@ -1,6 +1,6 @@
-<?php defined('_JEXEC') or die('Restricted access');
+<?php defined('_JEXEC') or die;
 
-	$editor		=& JFactory::getEditor();
+	$editor		= &JFactory::getEditor();
 	JHtml::_('behavior.caption');
 ?>
 

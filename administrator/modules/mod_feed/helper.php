@@ -1,13 +1,13 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Administrator
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 /** ensure this file is being included by a parent file */
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 class modFeedHelper
 {
@@ -34,7 +34,7 @@ class modFeedHelper
 			$options['cache_time'] = null;
 		}
 
-		$rssDoc =& JFactory::getXMLparser('RSS', $options);
+		$rssDoc = &JFactory::getXMLparser('RSS', $options);
 
 		if ($rssDoc != false)
 		{
@@ -60,12 +60,12 @@ class modFeedHelper
 			<table cellpadding="0" cellspacing="0" class="moduletable<?php echo $params->get('moduleclass_sfx'); ?>">
 			<?php
 			// feed description
-			if (!is_null( $channel['title'] ) && $rsstitle) {
+			if (!is_null($channel['title']) && $rsstitle) {
 			?>
 				<tr>
 				<td>
 					<strong>
-						<a href="<?php echo str_replace( '&', '&amp;', $channel['link']); ?>" target="_blank">
+						<a href="<?php echo str_replace('&', '&amp;', $channel['link']); ?>" target="_blank">
 						<?php echo $channel['title']; ?></a>
 					</strong>
 				</td>
@@ -95,7 +95,7 @@ class modFeedHelper
 			<?php
 			}
 
-			$actualItems = count( $items );
+			$actualItems = count($items);
 			$setItems = $rssitems;
 
 			if ($setItems > $actualItems) {
@@ -115,7 +115,7 @@ class modFeedHelper
 					?>
 					<li>
 					<?php
-					if ( !is_null( $currItem->get_link() ) ) {
+					if (!is_null($currItem->get_link())) {
 					?>
 						<a href="<?php echo $currItem->get_link(); ?>" target="_child">
 						<?php echo $currItem->get_title(); ?></a>

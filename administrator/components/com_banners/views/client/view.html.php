@@ -4,11 +4,11 @@
  * @package		Joomla.Administrator
  * @subpackage	Banners
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
@@ -20,9 +20,9 @@ class BannerViewClient extends JView
 {
 	function display($tpl = null)
 	{
-		$app	=& JFactory::getApplication();
-		$user	=& JFactory::getUser();
-		$model	=& $this->getModel();
+		$app	= &JFactory::getApplication();
+		$user	= &JFactory::getUser();
+		$model	= &$this->getModel();
 
 		$task = JRequest::getVar('task', '', 'method', 'string');
 
@@ -32,7 +32,7 @@ class BannerViewClient extends JView
 		JToolBarHelper::cancel('cancel');
 		JToolBarHelper::help('screen.banners.client.edit');
 
-		$row		=& $this->get('data');
+		$row		= &$this->get('data');
 		$isNew		= ($row->cid < 1);
 
 		// fail if checked out not by 'me'

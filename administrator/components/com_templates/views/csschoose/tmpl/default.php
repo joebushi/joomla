@@ -1,4 +1,4 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php defined('_JEXEC') or die; ?>
 
 <form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="adminForm">
 
@@ -12,13 +12,13 @@
 <table class="adminlist">
 <tr>
 	<th width="5%" align="left">
-		<?php echo JText::_( 'Num' ); ?>
+		<?php echo JText::_('Num'); ?>
 	</th>
 	<th width="85%" align="left">
 		<?php echo $this->t_dir; ?>
 	</th>
 	<th width="10%">
-		<?php echo JText::_( 'Writable' ); ?>/<?php echo JText::_( 'Unwritable' ); ?>
+		<?php echo JText::_('Writable'); ?>/<?php echo JText::_('Unwritable'); ?>
 	</th>
 </tr>
 <?php
@@ -28,13 +28,13 @@ for ($i = 0, $n = count($this->files); $i < $n; $i++) {
 ?>
 	<tr class="<?php echo 'row'. $k; ?>">
 		<td width="5%">
-			<input type="radio" id="cb<?php echo $i;?>" name="filename" value="<?php echo htmlspecialchars( $file, ENT_COMPAT, 'UTF-8' ); ?>" onClick="isChecked(this.checked);" />
+			<input type="radio" id="cb<?php echo $i;?>" name="filename" value="<?php echo htmlspecialchars($file, ENT_COMPAT, 'UTF-8'); ?>" onClick="isChecked(this.checked);" />
 		</td>
 		<td width="85%">
 			<?php echo $file; ?>
 		</td>
 		<td width="10%">
-			<?php echo is_writable($this->t_dir.DS.$file) ? '<font color="green"> '. JText::_( 'Writable' ) .'</font>' : '<font color="red"> '. JText::_( 'Unwritable' ) .'</font>' ?>
+			<?php echo is_writable($this->t_dir.DS.$file) ? '<font color="green"> '. JText::_('Writable') .'</font>' : '<font color="red"> '. JText::_('Unwritable') .'</font>' ?>
 		</td>
 	</tr>
 <?php

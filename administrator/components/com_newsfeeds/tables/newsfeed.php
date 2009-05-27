@@ -1,19 +1,19 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Administrator
-* @subpackage	Newsfeeds
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	Newsfeeds
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 /**
-* @package		Joomla.Administrator
-* @subpackage	Newsfeeds
-*/
+ * @package		Joomla.Administrator
+ * @subpackage	Newsfeeds
+ */
 class TableNewsFeed extends JTableAsset
 {
 	/** @var int Primary key */
@@ -46,8 +46,8 @@ class TableNewsFeed extends JTableAsset
 	/**
 	 * @param database A database connector object
 	 */
-	function __construct( &$db ) {
-		parent::__construct( '#__newsfeeds', 'id', $db );
+	function __construct(&$db) {
+		parent::__construct('#__newsfeeds', 'id', $db);
 	}
 
 	protected function getAssetSection()
@@ -75,12 +75,12 @@ class TableNewsFeed extends JTableAsset
 	 */
 	function check()
 	{
-		if(empty($this->alias)) {
+		if (empty($this->alias)) {
 			$this->alias = $this->name;
 		}
 		$this->alias = JFilterOutput::stringURLSafe($this->alias);
-		if(trim(str_replace('-','',$this->alias)) == '') {
-			$datenow =& JFactory::getDate();
+		if (trim(str_replace('-','',$this->alias)) == '') {
+			$datenow = &JFactory::getDate();
 			$this->alias = $datenow->toFormat("%Y-%m-%d-%H-%M-%S");
 		}
 

@@ -1,65 +1,65 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php defined('_JEXEC') or die; ?>
 
 <?php JHtml::_('behavior.tooltip'); ?>
 
 <?php
-	JRequest::setVar( 'hidemainmenu', 1 );
-	$cid = JRequest::getVar( 'cid', array(0), '', 'array' );
+	JRequest::setVar('hidemainmenu', 1);
+	$cid = JRequest::getVar('cid', array(0), '', 'array');
 
 	$edit	= JRequest::getVar('edit',true);
-	$text = ( $edit ? JText::_( 'Edit' ) : JText::_( 'New' ) );
+	$text = ($edit ? JText::_('Edit') : JText::_('New'));
 
-	JToolBarHelper::title( JText::_( 'Category' ) .': <small><small>[ '. $text.' ]</small></small>', 'categories.png' );
+	JToolBarHelper::title(JText::_('Category') .': <small><small>[ '. $text.' ]</small></small>', 'categories.png');
 	JToolBarHelper::save();
 	JToolBarHelper::apply();
 	if ($edit) {
 		// for existing articles the button is renamed `close`
-		JToolBarHelper::cancel( 'cancel', 'Close' );
+		JToolBarHelper::cancel('cancel', 'Close');
 	} else {
 		JToolBarHelper::cancel();
 	}
-	JToolBarHelper::help( 'screen.categories.edit' );
+	JToolBarHelper::help('screen.categories.edit');
 
-	$editor =& JFactory::getEditor();
+	$editor = &JFactory::getEditor();
 
-	if ( $this->redirect == 'content' ) {
+	if ($this->redirect == 'content') {
 		$component = 'Content';
 	} else {
-		$component = ucfirst( substr( $this->redirect, 4 ) );
-		if ( $this->redirect == 'com_contact_details' ) {
+		$component = ucfirst(substr($this->redirect, 4));
+		if ($this->redirect == 'com_contact_details') {
 			$component = 'Contact';
 		}
 	}
 
-	JFilterOutput::objectHTMLSafe( $this->row, ENT_QUOTES, 'description' );
+	JFilterOutput::objectHTMLSafe($this->row, ENT_QUOTES, 'description');
 	$cparams = JComponentHelper::getParams ('com_media');
 ?>
 <script language="javascript" type="text/javascript">
 function submitbutton(pressbutton) {
 	var form = document.adminForm;
 	if (pressbutton == 'cancel') {
-		submitform( pressbutton );
+		submitform(pressbutton);
 		return;
 	}
 
-	if ( pressbutton == 'menulink' ) {
-		if ( form.menuselect.value == "" ) {
-			alert( "<?php echo JText::_( 'Please select a Menu', true ); ?>" );
+	if (pressbutton == 'menulink') {
+		if (form.menuselect.value == "") {
+			alert("<?php echo JText::_('Please select a Menu', true); ?>");
 			return;
-		} else if ( form.link_type.value == "" ) {
-			alert( "<?php echo JText::_( 'Please select a menu type', true ); ?>" );
+		} else if (form.link_type.value == "") {
+			alert("<?php echo JText::_('Please select a menu type', true); ?>");
 			return;
-		} else if ( form.link_name.value == "" ) {
-			alert( "<?php echo JText::_( 'Please enter a Name for this menu item', true ); ?>" );
+		} else if (form.link_name.value == "") {
+			alert("<?php echo JText::_('Please enter a Name for this menu item', true); ?>");
 			return;
 		}
 	}
 
-	if ( form.title.value == "" ) {
-		alert("<?php echo JText::_( 'Category must have a title', true ); ?>");
+	if (form.title.value == "") {
+		alert("<?php echo JText::_('Category must have a title', true); ?>");
 	} else {
 		<?php
-		echo $editor->save( 'description' ) ; ?>
+		echo $editor->save('description') ; ?>
 		submitform(pressbutton);
 	}
 }
@@ -123,32 +123,32 @@ function submitbutton(pressbutton) {
 
 <div class="col width-60">
 	<fieldset class="adminform">
-		<legend><?php echo JText::_( 'Details' ); ?></legend>
+		<legend><?php echo JText::_('Details'); ?></legend>
 
 			<table class="admintable">
 			<tr>
 				<td class="key">
 					<label for="title">
-						<?php echo JText::_( 'Title' ); ?>:
+						<?php echo JText::_('Title'); ?>:
 					</label>
 				</td>
 				<td colspan="2">
-					<input class="text_area" type="text" name="title" id="title" value="<?php echo $this->row->title; ?>" size="50" maxlength="50" title="<?php echo JText::_( 'A long name to be displayed in headings' ); ?>" />
+					<input class="text_area" type="text" name="title" id="title" value="<?php echo $this->row->title; ?>" size="50" maxlength="50" title="<?php echo JText::_('A long name to be displayed in headings'); ?>" />
 				</td>
 			</tr>
 			<tr>
 				<td class="key">
 					<label for="alias">
-						<?php echo JText::_( 'Alias' ); ?>:
+						<?php echo JText::_('Alias'); ?>:
 					</label>
 				</td>
 				<td colspan="2">
-					<input class="text_area" type="text" name="alias" id="alias" value="<?php echo $this->row->alias; ?>" size="50" maxlength="255" title="<?php echo JText::_( 'A short name to appear in menus' ); ?>" />
+					<input class="text_area" type="text" name="alias" id="alias" value="<?php echo $this->row->alias; ?>" size="50" maxlength="255" title="<?php echo JText::_('A short name to appear in menus'); ?>" />
 				</td>
 			</tr>
 			<tr>
 				<td width="120" class="key">
-					<?php echo JText::_( 'Published' ); ?>:
+					<?php echo JText::_('Published'); ?>:
 				</td>
 				<td>
 					<?php echo $this->lists['published']; ?>
@@ -165,7 +165,7 @@ function submitbutton(pressbutton) {
 			<tr>
 				<td valign="top" class="key">
 					<label for="access">
-						<?php echo JText::_( 'Access Level' ); ?>:
+						<?php echo JText::_('Access Level'); ?>:
 					</label>
 				</td>
 				<td>
@@ -177,11 +177,11 @@ function submitbutton(pressbutton) {
 				<td>
 				<script language="javascript" type="text/javascript">
 				if (document.forms.adminForm.image.options.value!=''){
-					jsimg='../<?echo $cparams->get('image_path'); ?>/' + getSelectedValue( 'adminForm', 'image' );
+					jsimg='../<?echo $cparams->get('image_path'); ?>/' + getSelectedValue('adminForm', 'image');
 				} else {
 					jsimg='../images/M_images/blank.png';
 				}
-				document.write('<img src=' + jsimg + ' name="imagelib" width="80" height="80" border="2" alt="<?php echo JText::_( 'Preview', true ); ?>" />');
+				document.write('<img src=' + jsimg + ' name="imagelib" width="80" height="80" border="2" alt="<?php echo JText::_('Preview', true); ?>" />');
 				</script>
 				</td>
 			</tr>
@@ -190,14 +190,14 @@ function submitbutton(pressbutton) {
 	</fieldset>
 
 	<fieldset class="adminform">
-		<legend><?php echo JText::_( 'Description' ); ?></legend>
+		<legend><?php echo JText::_('Description'); ?></legend>
 
 		<table class="admintable">
 			<tr>
 				<td valign="top" colspan="3">
 					<?php
 					// parameters : areaname, content, width, height, cols, rows, show xtd buttons
-					echo $editor->display( 'description',  $this->row->description, '550', '300', '60', '20', array('pagebreak', 'readmore') ) ;
+					echo $editor->display('description',  $this->row->description, '550', '300', '60', '20', array('pagebreak', 'readmore')) ;
 					?>
 				</td>
 			</tr>
@@ -212,7 +212,7 @@ function submitbutton(pressbutton) {
 			jimport('joomla.html.pane');
 			$groups = $this->params->getGroups();
 			if (count($groups) && $groups) {
-				$pane =& JPane::getInstance('sliders');
+				$pane = &JPane::getInstance('sliders');
 				echo $pane->startPane("menu-pane");
 				foreach($groups as $groupname => $group) {
 					if ($groupname == '_default') {
@@ -242,5 +242,5 @@ function submitbutton(pressbutton) {
 <input type="hidden" name="extension" value="<?php echo $this->row->extension; ?>" />
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="redirect" value="<?php echo $this->redirect; ?>" />
-<?php echo JHtml::_( 'form.token' ); ?>
+<?php echo JHtml::_('form.token'); ?>
 </form>

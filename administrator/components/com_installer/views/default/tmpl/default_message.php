@@ -5,12 +5,12 @@
 ?>
 <table class="adminform">
 	<tbody>
-		<?php if($message1) : ?>
+		<?php if ($message1) : ?>
 		<tr>
 			<th><?php echo JText::_($message1) ?></th>
 		</tr>
 		<?php endif; ?>
-		<?php if($message2) : ?>
+		<?php if ($message2) : ?>
 		<tr>
 			<td><?php echo $message2; ?></td>
 		</tr>

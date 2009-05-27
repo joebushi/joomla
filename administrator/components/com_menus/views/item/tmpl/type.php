@@ -1,4 +1,4 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php defined('_JEXEC') or die; ?>
 
 <script language="javascript" type="text/javascript">
 	<!--
@@ -18,7 +18,7 @@
 						<li id="internal-node"><div class="node-open"><span></span><a href="#"><?php echo JText::_('Internal Link'); ?></a></div>
 							<ul>
 								<?php for ($i=0,$n=count($this->components);$i<$n;$i++) : ?>
-									<?php if($this->components[$i]->legacy) : ?>
+									<?php if ($this->components[$i]->legacy) : ?>
 										<li><div class="node-open"><span></span><a href="<?php echo JRoute::_('index.php?option=com_menus&amp;task=edit&amp;type=component&amp;url[option]=' . $this->components[$i]->option . '&amp;menutype=' . $this->item->menutype . '&amp;cid[]=' . $this->item->id); ?>" id="<?php echo str_replace('com_', '', $this->components[$i]->option); ?>"><?php echo $this->components[$i]->name; ?></a></div>
 									<?php elseif ($this->expansion['option'] == str_replace('com_', '', $this->components[$i]->option)) : ?>
 										<li <?php echo ($i == $n-1)? 'class="last"' : '' ?>><div class="node-open"><span></span><a id="<?php echo str_replace('com_', '', $this->components[$i]->option); ?>"><?php echo JText::_($this->components[$i]->name); ?></a></div>

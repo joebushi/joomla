@@ -4,11 +4,11 @@
  * @package		Joomla.Administrator
  * @subpackage	Newsfeeds
  * @copyright	Copyright (C) 2005 - 2007 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -46,7 +46,7 @@ class NewsfeedsModelNewsfeed extends JModel
 
 		$array = JRequest::getVar('cid', array(0), '', 'array');
 		$edit	= JRequest::getVar('edit',true);
-		if($edit)
+		if ($edit)
 			$this->setId((int)$array[0]);
 	}
 
@@ -78,13 +78,13 @@ class NewsfeedsModelNewsfeed extends JModel
 
 			// Check to see if the category is published
 			if (!$this->_data->cat_pub) {
-				JError::raiseError( 404, JText::_("Resource Not Found") );
+				JError::raiseError(404, JText::_("Resource Not Found"));
 				return;
 			}
 
 			// Check whether category access level allows access
 			if ($this->_data->cat_access > $user->get('aid', 0)) {
-				JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
+				JError::raiseError(403, JText::_('ALERTNOTAUTH'));
 				return;
 			}
 		}
@@ -101,7 +101,7 @@ class NewsfeedsModelNewsfeed extends JModel
 	 * @return	boolean	True if checked out
 	 * @since	1.5
 	 */
-	function isCheckedOut( $uid=0 )
+	function isCheckedOut($uid=0)
 	{
 		if ($this->_loadData())
 		{
@@ -125,7 +125,7 @@ class NewsfeedsModelNewsfeed extends JModel
 		if ($this->_id)
 		{
 			$newsfeed = & $this->getTable();
-			if(! $newsfeed->checkin($this->_id)) {
+			if (! $newsfeed->checkin($this->_id)) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
@@ -147,12 +147,12 @@ class NewsfeedsModelNewsfeed extends JModel
 		{
 			// Make sure we have a user id to checkout the newsfeed with
 			if (is_null($uid)) {
-				$user	=& JFactory::getUser();
+				$user	= &JFactory::getUser();
 				$uid	= $user->get('id');
 			}
 			// Lets get to it and checkout the thing...
 			$newsfeed = & $this->getTable();
-			if(!$newsfeed->checkout($uid, $this->_id)) {
+			if (!$newsfeed->checkout($uid, $this->_id)) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
@@ -171,7 +171,7 @@ class NewsfeedsModelNewsfeed extends JModel
 	 */
 	function store($data)
 	{
-		$row =& $this->getTable();
+		$row = &$this->getTable();
 
 		// Bind the form fields to the web link table
 		if (!$row->bind($data)) {
@@ -182,7 +182,7 @@ class NewsfeedsModelNewsfeed extends JModel
 		// if new item, order last in appropriate group
 		if (!$row->id) {
 			$where = 'catid = ' . (int) $row->catid ;
-			$row->ordering = $row->getNextOrder( $where );
+			$row->ordering = $row->getNextOrder($where);
 		}
 
 		// Make sure the web link table is valid
@@ -211,14 +211,14 @@ class NewsfeedsModelNewsfeed extends JModel
 	{
 		$result = false;
 
-		if (count( $cid ))
+		if (count($cid))
 		{
 			JArrayHelper::toInteger($cid);
-			$cids = implode( ',', $cid );
+			$cids = implode(',', $cid);
 			$query = 'DELETE FROM #__newsfeeds'
-				. ' WHERE id IN ( '.$cids.' )';
-			$this->_db->setQuery( $query );
-			if(!$this->_db->query()) {
+				. ' WHERE id IN ('.$cids.')';
+			$this->_db->setQuery($query);
+			if (!$this->_db->query()) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
@@ -236,19 +236,19 @@ class NewsfeedsModelNewsfeed extends JModel
 	 */
 	function publish($cid = array(), $publish = 1)
 	{
-		$user 	=& JFactory::getUser();
+		$user 	= &JFactory::getUser();
 
-		if (count( $cid ))
+		if (count($cid))
 		{
 			JArrayHelper::toInteger($cid);
-			$cids = implode( ',', $cid );
+			$cids = implode(',', $cid);
 
 			$query = 'UPDATE #__newsfeeds'
 				. ' SET published = '.(int) $publish
-				. ' WHERE id IN ( '.$cids.' )'
-				. ' AND ( checked_out = 0 OR ( checked_out = '.(int) $user->get('id').' ) )'
+				. ' WHERE id IN ('.$cids.')'
+				. ' AND (checked_out = 0 OR (checked_out = '.(int) $user->get('id').'))'
 			;
-			$this->_db->setQuery( $query );
+			$this->_db->setQuery($query);
 			if (!$this->_db->query()) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
@@ -267,13 +267,13 @@ class NewsfeedsModelNewsfeed extends JModel
 	 */
 	function move($direction)
 	{
-		$row =& $this->getTable();
+		$row = &$this->getTable();
 		if (!$row->load($this->_id)) {
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
 
-		if (!$row->move( $direction, ' catid = '.(int) $row->catid.' AND published >= 0 ' )) {
+		if (!$row->move($direction, ' catid = '.(int) $row->catid.' AND published >= 0 ')) {
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
@@ -290,13 +290,13 @@ class NewsfeedsModelNewsfeed extends JModel
 	 */
 	function saveorder($cid, $order)
 	{
-		$row =& $this->getTable();
+		$row = &$this->getTable();
 		$groupings = array();
 
 		// update ordering values
-		for( $i=0; $i < count($cid); $i++ )
+		for ($i=0; $i < count($cid); $i++)
 		{
-			$row->load( (int) $cid[$i] );
+			$row->load((int) $cid[$i]);
 			// track categories
 			$groupings[] = $row->catid;
 
@@ -311,7 +311,7 @@ class NewsfeedsModelNewsfeed extends JModel
 		}
 
 		// execute updateOrder for each parent group
-		$groupings = array_unique( $groupings );
+		$groupings = array_unique($groupings);
 		foreach ($groupings as $group){
 			$row->reorder('catid = '.(int) $group);
 		}

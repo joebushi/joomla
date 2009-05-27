@@ -4,11 +4,11 @@
  * @package		Joomla.Administrator
  * @subpackage	Menus
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -49,7 +49,7 @@ class MenusModelMenutype extends JModel
 		$mainframe = JFactory::getApplication();
 
 		$menus= array();
-		$db = &$this->getDBO();
+		$db = &$this->getDbo();
 
 		// Preselect some aggregate data
 
@@ -144,7 +144,7 @@ class MenusModelMenutype extends JModel
 			$table->menutype = JRequest::getString('menutype');
 		}
 
-		$db = &$this->getDBO();
+		$db = &$this->getDbo();
 		$query = 'SELECT a.name, a.id' .
 				' FROM #__menu AS a' .
 				' WHERE a.menutype = ' . $db->Quote($table->menutype) .
@@ -165,7 +165,7 @@ class MenusModelMenutype extends JModel
 			$type = $this->_table->menutype;
 		}
 
-		$db = &$this->getDBO();
+		$db = &$this->getDbo();
 		$query = 'SELECT id, title, params' .
 				' FROM #__modules' .
 				' WHERE module = "mod_mainmenu"' .
@@ -214,7 +214,7 @@ class MenusModelMenutype extends JModel
 			$table->load($id);
 		}
 
-		$db = &$this->getDBO();
+		$db = &$this->getDbo();
 
 		// Delete Associations
 		if (!$this->deleteByType($table->menutype)) {
@@ -258,7 +258,7 @@ class MenusModelMenutype extends JModel
 		if (!$type) {
 			return false;
 		}
-		$db = &$this->getDBO();
+		$db = &$this->getDbo();
 		$query = 'DELETE FROM #__menu' .
 				' WHERE menutype = '.$db->Quote($type);
 		$db->setQuery($query);

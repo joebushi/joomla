@@ -4,11 +4,11 @@
  * @package		Joomla.Administrator
  * @subpackage	Menus
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
@@ -174,7 +174,7 @@ class MenusViewList extends JView
 	function &_getViewLists()
 	{
 		$mainframe = JFactory::getApplication();
-		$db		= &JFactory::getDBO();
+		$db		= &JFactory::getDbo();
 
 		$menutype			= $mainframe->getUserStateFromRequest("com_menus.menutype",					'menutype',			'mainmenu',		'string');
 		$filter_order		= $mainframe->getUserStateFromRequest("com_menus.$menutype.filter_order",		'filter_order',		'm.ordering',	'cmd');

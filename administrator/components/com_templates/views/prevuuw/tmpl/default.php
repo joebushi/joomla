@@ -1,4 +1,4 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php defined('_JEXEC') or die; ?>
 
 <style type="text/css">
 .previewFrame {
@@ -12,10 +12,10 @@
 <table class="adminform">
 	<tr>
 		<th width="50%" class="title">
-			<?php echo JText::_( 'Site Preview' ); ?>
+			<?php echo JText::_('Site Preview'); ?>
 		</th>
 		<th width="50%" style="text-align:right">
-			<?php echo JHtml::_('link', $this->url.'index.php?tp='.$this->tp.'&amp;template='.$this->id, JText::_( 'Open in new window' ), array('target' => '_blank')); ?>
+			<?php echo JHtml::_('link', $this->url.'index.php?tp='.$this->tp.'&amp;template='.$this->id, JText::_('Open in new window'), array('target' => '_blank')); ?>
 		</th>
 	</tr>
 	<tr>
@@ -29,5 +29,5 @@
 <input type="hidden" name="option" value="<?php echo $this->option;?>" />
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="client" value="<?php echo $this->client->id;?>" />
-<?php echo JHtml::_( 'form.token' ); ?>
+<?php echo JHtml::_('form.token'); ?>
 </form>

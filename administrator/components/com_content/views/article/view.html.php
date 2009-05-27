@@ -1,14 +1,14 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Administrator
-* @subpackage	Content
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	Content
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
@@ -33,7 +33,7 @@ class ContentViewArticle extends JView
 		$mainframe = JFactory::getApplication();
 
 		// Initialize variables
-		$db				= & JFactory::getDBO();
+		$db				= & JFactory::getDbo();
 		$user			= & JFactory::getUser();
 
 		$cid			= JRequest::getVar('cid', array(0), '', 'array');
@@ -41,10 +41,10 @@ class ContentViewArticle extends JView
 		$id				= JRequest::getVar('id', $cid[0], '', 'int');
 		$option			= JRequest::getCmd('option');
 		$nullDate		= $db->getNullDate();
-		$model	=& $this->getModel();
+		$model	= &$this->getModel();
 
 		//get the content
-		$row	=& $this->get('data');
+		$row	= &$this->get('data');
 		$edit	= JRequest::getVar('edit',true);
 
 		if ($edit) {
@@ -110,7 +110,7 @@ class ContentViewArticle extends JView
 			} else {
 				$row->catid = NULL;
 			}
-			$createdate =& JFactory::getDate();
+			$createdate = &JFactory::getDate();
 			$row->version = 0;
 			$row->state = 1;
 			$row->ordering = 0;
@@ -186,7 +186,7 @@ class ContentViewArticle extends JView
 
 	function _validateDate($date)
 	{
-		$db =& JFactory::getDBO();
+		$db = &JFactory::getDbo();
 
 		if (JHtml::_('date', $date, '%Y') == 1969 || $date == $db->getNullDate()) {
 			$newDate = JText::_('Never');

@@ -1,11 +1,11 @@
 <?php
 /**
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 $app = &JFactory::getApplication();
 ?>
@@ -17,7 +17,7 @@ $app = &JFactory::getApplication();
 <link rel="stylesheet" href="templates/system/css/system.css" type="text/css" />
 <link href="templates/<?php echo $this->template ?>/css/login.css" rel="stylesheet" type="text/css" />
 
-<?php  if($this->direction == 'rtl') : ?>
+<?php  if ($this->direction == 'rtl') : ?>
 	<link href="templates/<?php echo $this->template ?>/css/login_rtl.css" rel="stylesheet" type="text/css" />
 <?php  endif; ?>
 
@@ -29,7 +29,7 @@ $app = &JFactory::getApplication();
 <link href="templates/<?php echo  $this->template ?>/css/ie6.css" rel="stylesheet" type="text/css" />
 <![endif]-->
 
-<?php  if($this->params->get('useRoundedCorners')) : ?>
+<?php  if ($this->params->get('useRoundedCorners')) : ?>
 	<link rel="stylesheet" type="text/css" href="templates/<?php echo $this->template ?>/css/rounded.css" />
 <?php  else : ?>
 	<link rel="stylesheet" type="text/css" href="templates/<?php echo $this->template ?>/css/norounded.css" />
@@ -46,7 +46,7 @@ $app = &JFactory::getApplication();
 	<div id="border-top" class="<?php echo $this->params->get('headerColor','green');?>">
 		<div>
 			<div>
-				<span class="title"><?php echo $this->params->get('showSiteName') ? $app->getCfg( 'sitename' ) : JText::_('Administration'); ?></span>
+				<span class="title"><?php echo $this->params->get('showSiteName') ? $app->getCfg('sitename') : JText::_('Administration'); ?></span>
 			</div>
 		</div>
 	</div>

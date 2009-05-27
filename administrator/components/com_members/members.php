@@ -8,7 +8,7 @@
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
-defined('_JEXEC') or die('Invalid Request.');
+defined('_JEXEC') or die;
 
 require_once(JPATH_COMPONENT.DS.'controller.php');
 

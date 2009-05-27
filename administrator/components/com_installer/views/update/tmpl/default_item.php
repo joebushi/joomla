@@ -1,8 +1,8 @@
 <tr class="<?php echo "row".$this->item->index % 2; ?>" >
-	<td><?php echo $this->pagination->getRowOffset( $this->item->index ); ?></td>
+	<td><?php echo $this->pagination->getRowOffset($this->item->index); ?></td>
 	<td>
 		<input type="checkbox" id="cb<?php echo $this->item->index;?>" name="uid[]" value="<?php echo $this->item->update_id; ?>" onclick="isChecked(this.checked);" />
-		<span class="editlinktip hasTip" title="<?php echo JText::_( 'Description' );?>::<?php echo $this->item->description ? $this->item->description : JText::_('NODESC'); ?>">
+		<span class="editlinktip hasTip" title="<?php echo JText::_('Description');?>::<?php echo $this->item->description ? $this->item->description : JText::_('NODESC'); ?>">
 		<?php echo $this->item->name; ?>
 		</span>
 	</td>

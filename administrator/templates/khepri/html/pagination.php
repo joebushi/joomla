@@ -3,11 +3,11 @@
  * @version		$Id$
  * @package		Joomla.Administrator
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 /**
  * This is a file to add template specific chrome to pagination rendering.
@@ -62,7 +62,7 @@ defined('_JEXEC') or die('Restricted access');
 function pagination_list_footer($list)
 {
 	// Initialize variables
-	$lang =& JFactory::getLanguage();
+	$lang = &JFactory::getLanguage();
 	$html = "<del class=\"container\"><div class=\"pagination\">\n";
 
 	$html .= "\n<div class=\"limit\">".JText::_('Display Num').$list['limitfield']."</div>";
@@ -78,7 +78,7 @@ function pagination_list_footer($list)
 function pagination_list_render($list)
 {
 	// Initialize variables
-	$lang =& JFactory::getLanguage();
+	$lang = &JFactory::getLanguage();
 	$html = null;
 
 	if ($list['start']['active']) {
@@ -93,7 +93,7 @@ function pagination_list_render($list)
 	}
 
 	$html .= "\n<div class=\"button2-left\"><div class=\"page\">";
-	foreach( $list['pages'] as $page ) {
+	foreach($list['pages'] as $page) {
 		$html .= $page['data'];
 	}
 	$html .= "\n</div></div>";
@@ -114,7 +114,7 @@ function pagination_list_render($list)
 
 function pagination_item_active(&$item)
 {
-	if($item->base>0)
+	if ($item->base>0)
 		return "<a href=\"#\" title=\"".$item->text."\" onclick=\"javascript: document.adminForm.limitstart.value=".$item->base."; submitform();return false;\">".$item->text."</a>";
 	else
 		return "<a href=\"#\" title=\"".$item->text."\" onclick=\"javascript: document.adminForm.limitstart.value=0; submitform();return false;\">".$item->text."</a>";

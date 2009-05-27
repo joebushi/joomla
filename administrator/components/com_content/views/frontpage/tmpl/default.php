@@ -1,13 +1,13 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php defined('_JEXEC') or die; ?>
 
 <?php
 	jimport('joomla.utilities.date');
 
 	// Initialize variables
-	$db		=& JFactory::getDBO();
-	$user	=& JFactory::getUser();
-	$config	=& JFactory::getConfig();
-	$now	=& JFactory::getDate();
+	$db		= &JFactory::getDbo();
+	$user	= &JFactory::getUser();
+	$config	= &JFactory::getConfig();
+	$now	= &JFactory::getDate();
 	$nullDate 	= $db->getNullDate();
 
 	JHtml::_('behavior.tooltip');
@@ -85,8 +85,8 @@
 
 		$link = JRoute::_('index.php?option=com_content&task=edit&cid[]='. $row->id);
 
-		$publish_up =& JFactory::getDate($row->publish_up);
-		$publish_down =& JFactory::getDate($row->publish_down);
+		$publish_up = &JFactory::getDate($row->publish_up);
+		$publish_down = &JFactory::getDate($row->publish_down);
 		$publish_up->setOffset($config->getValue('config.offset'));
 		$publish_down->setOffset($config->getValue('config.offset'));
 		if ($now->toUnix() <= $publish_up->toUnix() && $row->state == 1) {
@@ -155,7 +155,7 @@
 			</td>
 			<td>
 				<?php
-				if ( JTable::isCheckedOut($user->get ('id'), $row->checked_out)) {
+				if (JTable::isCheckedOut($user->get ('id'), $row->checked_out)) {
 					echo $row->title;
 				} else {
 					?>

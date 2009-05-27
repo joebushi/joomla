@@ -1,13 +1,13 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Administrator
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 /*
  * Joomla! system checks
@@ -58,7 +58,7 @@ jimport('joomla.utilities.compat.compat');
 // System profiler
 if (JDEBUG) {
 	jimport('joomla.error.profiler');
-	$_PROFILER =& JProfiler::getInstance('Application');
+	$_PROFILER = &JProfiler::getInstance('Application');
 }
 
 // Joomla! library imports

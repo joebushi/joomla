@@ -4,13 +4,13 @@
  * @package		Joomla.Administrator
  * @subpackage	Installer
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
-jimport( 'joomla.application.component.model' );
+jimport('joomla.application.component.model');
 
 /**
  * Extension Manager Abstract Extension Model
@@ -93,7 +93,7 @@ class InstallerModel extends JModel
 		}
 
 		// Get a database connector
-		$db =& JFactory::getDBO();
+		$db = &JFactory::getDbo();
 
 		// Get an installer object for the extension type
 		jimport('joomla.installer.installer');
@@ -102,8 +102,8 @@ class InstallerModel extends JModel
 		// Uninstall the chosen extensions
 		foreach ($eid as $id => $clientId)
 		{
-			$id		= trim( $id );
-			$result	= $installer->uninstall($this->_type, $id, $clientId );
+			$id		= trim($id);
+			$result	= $installer->uninstall($this->_type, $id, $clientId);
 
 			// Build an array of extensions that failed to uninstall
 			if ($result === false) {
@@ -132,6 +132,6 @@ class InstallerModel extends JModel
 
 	function _loadItems()
 	{
-		return JError::raiseError( 500, JText::_('Method Not Implemented'));
+		return JError::raiseError(500, JText::_('Method Not Implemented'));
 	}
 }

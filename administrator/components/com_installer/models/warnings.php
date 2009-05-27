@@ -4,12 +4,12 @@
  * @package		Joomla.Administrator
  * @subpackage	Menus
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Import library dependencies
 require_once(dirname(__FILE__).DS.'extension.php');
-jimport( 'joomla.filesystem.folder' );
+jimport('joomla.filesystem.folder');
 
 /**
  * Extension Manager Templates Model
@@ -45,33 +45,33 @@ class InstallerModelWarnings extends InstallerModel
 	function _loadItems()
 	{
 		static $messages;
-		if($messages) {
+		if ($messages) {
 			return $messages;
 		}
 		$messages = Array();
 		$upload_dir = ini_get('upload_tmp_dir');
-		if(!$upload_dir) {
+		if (!$upload_dir) {
 			$messages[] = Array('message'=>JText::_('PHPUPLOADNOTSET'), 'description'=>JText::_('PHPUPLOADNOTSETDESC'));
 		} else {
-			if(!is_writeable($upload_dir)) {
+			if (!is_writeable($upload_dir)) {
 				$messages[] = Array('message'=>JText::_('PHPUPLOADNOTWRITEABLE'), 'description'=>JText::_('PHPUPLOADNOTWRITEABLEDESC'));
 			}
 		}
 
-		$config =& JFactory::getConfig();
+		$config = &JFactory::getConfig();
 		$tmp_path = $config->getValue('tmp_path');
-		if(!$tmp_path) {
+		if (!$tmp_path) {
 			$messages[] = Array('message'=>JText::_('JOOMLATMPNOTSET'), 'description'=>JText::_('JOOMLATMPNOTSETDESC'));
 		} else {
-			if(!is_writeable($tmp_path)) {
+			if (!is_writeable($tmp_path)) {
 				$messages[] = Array('message'=>JText::_('JOOMLATMPNOTWRITEABLE'), 'description'=>JText::_('JOOMLATMPNOTWRITEABLEDESC'));
 			}
 		}
 
 		$bytes = JUtility::return_bytes(ini_get('memory_limit'));
-		if($bytes < (8 * 1024 * 1024)) {
+		if ($bytes < (8 * 1024 * 1024)) {
 			$messages[] = Array('message'=>JText::_('LOWMEMORYWARN'), 'description'=>JText::_('LOWMEMORYDESC'));
-		} else if($bytes < (16 * 1024 * 1024)) {
+		} else if ($bytes < (16 * 1024 * 1024)) {
 			$messages[] = Array('message'=>JText::_('MEDMEMORYWARN'), 'description'=>JText::_('MEDMEMORYDESC'));
 		}
 		$this->_items = $messages;

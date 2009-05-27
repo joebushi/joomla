@@ -1,4 +1,4 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php defined('_JEXEC') or die; ?>
 
 <?php
 	JHtml::_('behavior.tooltip');
@@ -21,13 +21,13 @@
 </form>
 <form action="<?php echo $page; ?>" method="post" name="adminForm">
 
-<?php if($this->ftp): ?>
+<?php if ($this->ftp): ?>
 <fieldset title="<?php echo JText::_('DESCFTPTITLE'); ?>" class="adminform">
 	<legend><?php echo JText::_('DESCFTPTITLE'); ?></legend>
 
 	<?php echo JText::_('DESCFTP'); ?>
 
-	<?php if(JError::isError($this->ftp)): ?>
+	<?php if (JError::isError($this->ftp)): ?>
 		<p><?php echo JText::_($this->ftp->message); ?></p>
 	<?php endif; ?>
 
@@ -56,12 +56,12 @@
 
 <div class="col width-50">
 	<fieldset class="adminform">
-		<legend><?php echo JText::_( 'Details' ); ?></legend>
+		<legend><?php echo JText::_('Details'); ?></legend>
 
 		<table class="admintable">
 		<tr>
 			<td valign="top" class="key">
-				<?php echo JText::_( 'Name' ); ?>:
+				<?php echo JText::_('Name'); ?>:
 			</td>
 			<td>
 				<strong>
@@ -72,7 +72,7 @@
 		</tr>
 		<tr>
 			<td valign="top" class="key">
-				<?php echo JText::_( 'Description' ); ?>:
+				<?php echo JText::_('Description'); ?>:
 			</td>
 			<td>
 				<?php echo JText::_($this->row->xmldata->description); ?>
@@ -82,7 +82,7 @@
 	</fieldset>
 
 	<fieldset class="adminform">
-		<legend><?php echo JText::_( 'Menu Assignment' ); ?></legend>
+		<legend><?php echo JText::_('Menu Assignment'); ?></legend>
 		<script type="text/javascript">
 			function allselections() {
 				var e = document.getElementById('selections');
@@ -117,23 +117,23 @@
 		<table class="admintable" cellspacing="1">
 			<tr>
 				<td valign="top" class="key">
-					<?php echo JText::_( 'Menus' ); ?>:
+					<?php echo JText::_('Menus'); ?>:
 				</td>
 				<td>
 					<?php if ($this->client->id == 1) {
 							echo JText::_('Cannot assign administrator template');
 						  } elseif ($this->row->pages == 'all') { ?>
-					<label for="menus-none"><input id="menus-none" type="radio" name="menus" value="none" onclick="disableselections();"  /><?php echo JText::_( 'None' ); ?></label>
-					<label for="menus-default"><input id="menus-default" type="radio" name="menus" value="default" onclick="disableselections();" checked="checked" /><?php echo JText::_( 'Default' ); ?></label>
-					<label for="menus-select"><input id="menus-select" type="radio" name="menus" value="select" onclick="enableselections();" /><?php echo JText::_( 'Select From List' ); ?></label>
+					<label for="menus-none"><input id="menus-none" type="radio" name="menus" value="none" onclick="disableselections();"  /><?php echo JText::_('None'); ?></label>
+					<label for="menus-default"><input id="menus-default" type="radio" name="menus" value="default" onclick="disableselections();" checked="checked" /><?php echo JText::_('Default'); ?></label>
+					<label for="menus-select"><input id="menus-select" type="radio" name="menus" value="select" onclick="enableselections();" /><?php echo JText::_('Select From List'); ?></label>
 					<?php } elseif ($this->row->pages == 'none') { ?>
-					<label for="menus-none"><input id="menus-none" type="radio" name="menus" value="none" onclick="disableselections();" checked="checked" /><?php echo JText::_( 'None' ); ?></label>
-					<label for="menus-default"><input id="menus-default" type="radio" name="menus" value="default" onclick="disableselections();" /><?php echo JText::_( 'Default' ); ?></label>
-					<label for="menus-select"><input id="menus-select" type="radio" name="menus" value="select" onclick="enableselections();" /><?php echo JText::_( 'Select From List' ); ?></label>
+					<label for="menus-none"><input id="menus-none" type="radio" name="menus" value="none" onclick="disableselections();" checked="checked" /><?php echo JText::_('None'); ?></label>
+					<label for="menus-default"><input id="menus-default" type="radio" name="menus" value="default" onclick="disableselections();" /><?php echo JText::_('Default'); ?></label>
+					<label for="menus-select"><input id="menus-select" type="radio" name="menus" value="select" onclick="enableselections();" /><?php echo JText::_('Select From List'); ?></label>
 					<?php } else { ?>
-					<label for="menus-none"><input id="menus-none" type="radio" name="menus" value="none" onclick="disableselections();" /><?php echo JText::_( 'None' ); ?></label>
-					<label for="menus-default"><input id="menus-default" type="radio" name="menus" value="default" onclick="disableselections();" /><?php echo JText::_( 'Default' ); ?></label>
-					<label for="menus-select"><input id="menus-select" type="radio" name="menus" value="select" onclick="enableselections();" checked="checked" /><?php echo JText::_( 'Select From List' ); ?></label>
+					<label for="menus-none"><input id="menus-none" type="radio" name="menus" value="none" onclick="disableselections();" /><?php echo JText::_('None'); ?></label>
+					<label for="menus-default"><input id="menus-default" type="radio" name="menus" value="default" onclick="disableselections();" /><?php echo JText::_('Default'); ?></label>
+					<label for="menus-select"><input id="menus-select" type="radio" name="menus" value="select" onclick="enableselections();" checked="checked" /><?php echo JText::_('Select From List'); ?></label>
 					
 					<?php } ?>
 				</td>
@@ -141,7 +141,7 @@
 			<?php if ($this->client->id != 1) : ?>
 			<tr>
 				<td valign="top" class="key">
-					<?php echo JText::_( 'Menu Selection' ); ?>:
+					<?php echo JText::_('Menu Selection'); ?>:
 				</td>
 				<td>
 					<?php echo $this->lists['selections']; ?>
@@ -157,7 +157,7 @@
 
 <div class="col width-50">
 	<fieldset class="adminform">
-		<legend><?php echo JText::_( 'Parameters' ); ?></legend>
+		<legend><?php echo JText::_('Parameters'); ?></legend>
 		<table class="admintable">
 		<tr>
 			<td>
@@ -181,5 +181,5 @@
 <input type="hidden" name="option" value="<?php echo $this->option;?>" />
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="client" value="<?php echo $this->client->id;?>" />
-<?php echo JHtml::_( 'form.token' ); ?>
+<?php echo JHtml::_('form.token'); ?>
 </form>

@@ -4,13 +4,13 @@
  * @package		Joomla.Administrator
  * @subpackage	Templates
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
-jimport( 'joomla.application.component.model' );
+jimport('joomla.application.component.model');
 
 /**
  * @package		Joomla.Administrator
@@ -75,7 +75,7 @@ class TemplatesModelTemplate extends JModel
 		$cid		= array(JFilterInput::clean(@$cid[0], 'int'));
 		$this->setId($cid[0]);
 
-		$this->_client	=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$this->_client	= &JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 	}
 
 	/**
@@ -123,7 +123,7 @@ class TemplatesModelTemplate extends JModel
 
 	function &getTemplate()
 	{
-		if(empty($this->_template)) {
+		if (empty($this->_template)) {
 			require_once JPATH_COMPONENT.DS.'helpers'.DS.'template.php';
 			$this->_template=TemplatesHelper::getTemplateName($this->_id);
 		}
@@ -148,44 +148,44 @@ class TemplatesModelTemplate extends JModel
 		$menutype		= JRequest::getVar('menus', '', 'post', 'string');
 		$description = JRequest::getVar('description', '', 'post', 'string');
 		JArrayHelper::toInteger($menus);
-		if(TemplatesHelper::isTemplateDefault($this->_id)&&$menutype!='default'&&$this->_client->id!=1) {
-			JError::raiseWarning( 500, 'Must have one default template' );
+		if (TemplatesHelper::isTemplateDefault($this->_id)&&$menutype!='default'&&$this->_client->id!=1) {
+			JError::raiseWarning(500, 'Must have one default template');
 			return false;
 		}
 		$query = 'UPDATE #__menu_template SET description='.$this->_db->Quote($description).
 					', params = '.$this->_db->Quote(json_encode($params)).
-					' WHERE id = '.$this->_db->Quote( $this->_id );
+					' WHERE id = '.$this->_db->Quote($this->_id);
 		$this->_db->setQuery($query);
 		if (!$this->_db->query()) {
-			return JError::raiseWarning( 500, $this->_db->getError() );
+			return JError::raiseWarning(500, $this->_db->getError());
 		}
-		if($this->_client->id==1)
+		if ($this->_client->id==1)
 			return true;
-		if($menutype=='default') {
-			$query = 'UPDATE #__menu_template SET home=0 WHERE client_id='.$this->_db->Quote( $this->_client->id );
+		if ($menutype=='default') {
+			$query = 'UPDATE #__menu_template SET home=0 WHERE client_id='.$this->_db->Quote($this->_client->id);
 			$this->_db->setQuery($query);
 			$this->_db->query();
-			$query = 'UPDATE #__menu_template SET home=1 WHERE id='.$this->_db->Quote( $this->_id );
+			$query = 'UPDATE #__menu_template SET home=1 WHERE id='.$this->_db->Quote($this->_id);
 			$this->_db->setQuery($query);
 			$this->_db->query();
 		}
-		if($this->_client->id == '1')	{
+		if ($this->_client->id == '1')	{
 			return true;
 		}
 
-		$query = 'UPDATE #__menu SET template_id=0 WHERE template_id='.$this->_db->Quote( $this->_id );
+		$query = 'UPDATE #__menu SET template_id=0 WHERE template_id='.$this->_db->Quote($this->_id);
 		$this->_db->setQuery($query);
 		if (!$this->_db->query()) {
-			return JError::raiseWarning( 500, $this->_db->getError() );
+			return JError::raiseWarning(500, $this->_db->getError());
 		}
 
 		foreach ($menus as $menuid)	{
 			// If 'None' is not in array
 			if ((int) $menuid >= 0)	{
-				$query = 'UPDATE #__menu SET template_id='.$this->_db->Quote( $this->_id ).' WHERE id='.$this->_db->Quote( $menuid );
+				$query = 'UPDATE #__menu SET template_id='.$this->_db->Quote($this->_id).' WHERE id='.$this->_db->Quote($menuid);
 				$this->_db->setQuery($query);
 				if (!$this->_db->query()) {
-					return JError::raiseWarning( 500, $this->_db->getError() );
+					return JError::raiseWarning(500, $this->_db->getError());
 				}
 			}
 		}
@@ -208,7 +208,7 @@ class TemplatesModelTemplate extends JModel
 			$this->_db->setQuery($query);
 			$this->_db->query();
 			if ($this->_db->getNumRows() == 0) {
-				return JError::raiseWarning( 500, JText::_('Template not found') );
+				return JError::raiseWarning(500, JText::_('Template not found'));
 			}
 			$this->_data=$this->_db->loadObject();
 			require_once JPATH_COMPONENT.DS.'helpers'.DS.'template.php';
@@ -216,15 +216,15 @@ class TemplatesModelTemplate extends JModel
 			$tBaseDir	= JPath::clean($this->_client->path.DS.'templates');
 
 
-			if (!is_dir( $tBaseDir . DS . $this->_template )) {
-				return JError::raiseWarning( 500, JText::_('Template folder not found') );
+			if (!is_dir($tBaseDir . DS . $this->_template)) {
+				return JError::raiseWarning(500, JText::_('Template folder not found'));
 			}
 
-			$lang =& JFactory::getLanguage();
+			$lang = &JFactory::getLanguage();
 			 // 1.5 or Core
-			$lang->load( 'tpl_'.$this->_template, $this->_client->path );
+			$lang->load('tpl_'.$this->_template, $this->_client->path);
 			// 1.6 3PD Templates
-			$lang->load( 'joomla', $this->_client->path.DS.'templates'.DS.$this->_template );
+			$lang->load('joomla', $this->_client->path.DS.'templates'.DS.$this->_template);
 
 			$xml	= $this->_client->path.DS.'templates'.DS.$this->_template.DS.'templateDetails.xml';
 			$this->_data->xmldata	= TemplatesHelper::parseXMLTemplateFile($tBaseDir, $this->_template);
@@ -246,7 +246,7 @@ class TemplatesModelTemplate extends JModel
 
 	function &getStyle()
 	{
-		if(empty($this->_style)) {
+		if (empty($this->_style)) {
 			$query = 'SELECT id,description,home FROM #__menu_template '.
 					'WHERE template = '.$this->_db->Quote($this->_template).
 					' AND client_id = '.$this->_db->Quote($this->_client->id);
@@ -281,14 +281,14 @@ class TemplatesModelTemplate extends JModel
 		$query = 'SELECT COUNT(*) FROM #__menu_template WHERE template = '.$this->_db->Quote($this->_template).
 				' AND client_id = '.$this->_db->Quote($this->_client->id);
 		$this->_db->setQuery($query);
-		if($this->_db->loadResult()==1)
+		if ($this->_db->loadResult()==1)
 		{
-			JError::raiseWarning( 500, JText::_('Template must have at least one style') );
+			JError::raiseWarning(500, JText::_('Template must have at least one style'));
 			return false;
 		}
-		if(TemplatesHelper::isTemplateDefault($this->_id))
+		if (TemplatesHelper::isTemplateDefault($this->_id))
 		{
-			JError::raiseWarning( 500, JText::_('Can not delete default style') );
+			JError::raiseWarning(500, JText::_('Can not delete default style'));
 			return false;
 		}
 		$query = 'DELETE FROM #__menu_template WHERE id = '.$this->_db->Quote($this->_id);
@@ -299,10 +299,10 @@ class TemplatesModelTemplate extends JModel
 	
 	function setAdminDefault()
 	{
-		$query = 'UPDATE #__menu_template SET home=0 WHERE client_id='.$this->_db->Quote( $this->_client->id );
+		$query = 'UPDATE #__menu_template SET home=0 WHERE client_id='.$this->_db->Quote($this->_client->id);
 		$this->_db->setQuery($query);
 		$this->_db->query();
-		$query = 'UPDATE #__menu_template SET home=1 WHERE id='.$this->_db->Quote( $this->_id );
+		$query = 'UPDATE #__menu_template SET home=1 WHERE id='.$this->_db->Quote($this->_id);
 		$this->_db->setQuery($query);
 		$this->_db->query();
 		return true;

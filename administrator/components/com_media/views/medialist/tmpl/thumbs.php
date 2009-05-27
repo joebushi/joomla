@@ -1,4 +1,4 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php defined('_JEXEC') or die; ?>
 <form action="<?php echo JRoute::_('index.php?option=com_media&amp;tmpl=component&amp;folder=' . $this->state->folder); ?>" method="post" id="mediamanager-form" name="mediamanager-form">
 	<div class="manager">
 		<?php echo $this->loadTemplate('up'); ?>
@@ -22,5 +22,5 @@
 	<input type="hidden" name="task" value="" />
 	<input type="hidden" name="username" value="" />
 	<input type="hidden" name="password" value="" />
-	<?php echo JHtml::_( 'form.token' ); ?>
+	<?php echo JHtml::_('form.token'); ?>
 </form>

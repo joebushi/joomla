@@ -1,10 +1,10 @@
-<?php /** $Id$ */ defined('_JEXEC') or die('Restricted access'); ?>
+<?php /** $Id$ */ defined('_JEXEC') or die; ?>
 <fieldset title="<?php echo JText::_('DESCFTPTITLE'); ?>" class="adminform">
 	<legend><?php echo JText::_('DESCFTPTITLE'); ?></legend>
 
 	<?php echo JText::_('DESCFTP'); ?>
 
-	<?php if(JError::isError($this->ftp)): ?>
+	<?php if (JError::isError($this->ftp)): ?>
 		<p><?php echo JText::_($this->ftp->message); ?></p>
 	<?php endif; ?>
 

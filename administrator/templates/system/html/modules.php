@@ -3,11 +3,11 @@
  * @version		$Id$
  * @package		Joomla.Administrator
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 /*
  * none (output raw module content)
@@ -39,14 +39,14 @@ function modChrome_sliders($module, &$params, &$attribs)
 {
 	jimport('joomla.html.pane');
 	// Initialize variables
-	$user		=& JFactory::getUser();
-	$sliders	=& JPane::getInstance('sliders');
+	$user		= &JFactory::getUser();
+	$sliders	= &JPane::getInstance('sliders');
 
-	$editAllComponents 	= $user->authorize( 'administration', 'edit', 'components', 'all' );
+	$editAllComponents 	= $user->authorize('administration', 'edit', 'components', 'all');
 
 	// special handling for components module
-	if ( $module->module != 'mod_components' || ( $module->module == 'mod_components' && $editAllComponents ) ) {
-		$sliders->startPanel( JText::_( $module->title ), 'module' . $module->id );
+	if ($module->module != 'mod_components' || ($module->module == 'mod_components' && $editAllComponents)) {
+		$sliders->startPanel(JText::_($module->title), 'module' . $module->id);
 		echo $module->content;
 		$sliders->endPanel();
 	}
@@ -59,14 +59,14 @@ function modChrome_tabs($module, &$params, &$attribs)
 {
 	jimport('joomla.html.pane');
 	// Initialize variables
-	$user	=& JFactory::getUser();
-	$tabs	=& JPane::getInstance('tabs');
+	$user	= &JFactory::getUser();
+	$tabs	= &JPane::getInstance('tabs');
 
-	$editAllComponents 	= $user->authorize( 'administration', 'edit', 'components', 'all' );
+	$editAllComponents 	= $user->authorize('administration', 'edit', 'components', 'all');
 
 	// special handling for components module
-	if ( $module->module != 'mod_components' || ( $module->module == 'mod_components' && $editAllComponents ) ) {
-			$tabs->startPanel( JText::_( $module->title ), 'module' . $module->id );
+	if ($module->module != 'mod_components' || ($module->module == 'mod_components' && $editAllComponents)) {
+			$tabs->startPanel(JText::_($module->title), 'module' . $module->id);
 			echo $module->content;
 			$tabs->endPanel();
 	}

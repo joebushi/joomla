@@ -1,13 +1,13 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Administrator
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 /**
  * Renders a newsfeed selection element
@@ -29,7 +29,7 @@ class JElementNewsfeed extends JElement
 
 	function fetchElement($name, $value, &$node, $control_name)
 	{
-		$db =& JFactory::getDBO();
+		$db = &JFactory::getDbo();
 
 		$query = 'SELECT a.id, c.title, a.name'
 		. ' FROM #__newsfeeds AS a'
@@ -38,10 +38,10 @@ class JElementNewsfeed extends JElement
 		. ' AND c.published = 1'
 		. ' ORDER BY a.catid, a.name'
 		;
-		$db->setQuery( $query );
-		$options = $db->loadObjectList( );
+		$db->setQuery($query);
+		$options = $db->loadObjectList();
 
-		$n = count( $options );
+		$n = count($options);
 		for ($i = 0; $i < $n; $i++)
 		{
 			$options[$i]->text = $options[$i]->title . '-' . $options[$i]->name;

@@ -4,7 +4,7 @@
  * @package		Joomla.Administrator
  * @subpackage	Menus
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 /**
@@ -19,7 +19,7 @@ class MenusHelper
 	 */
 	function getMenuTypeList()
 	{
-		$db = &JFactory::getDBO();
+		$db = &JFactory::getDbo();
 		$query = 'SELECT a.*, SUM(b.home) AS home' .
 				' FROM #__menu_types AS a' .
 				' LEFT JOIN #__menu AS b ON b.menutype = a.menutype' .
@@ -34,7 +34,7 @@ class MenusHelper
 	 */
 	function getMenuTypes()
 	{
-		$db = &JFactory::getDBO();
+		$db = &JFactory::getDbo();
 		$query = 'SELECT menutype' .
 				' FROM #__menu_types';
 		$db->setQuery($query);
@@ -46,7 +46,7 @@ class MenusHelper
 	 */
 	function getComponentList()
 	{
-		$db = &JFactory::getDBO();
+		$db = &JFactory::getDbo();
 		$query = 'SELECT c.id, c.name, c.link, c.option' .
 				' FROM #__components AS c' .
 				' WHERE c.link <> "" AND parent = 0' .
@@ -61,7 +61,7 @@ class MenusHelper
 	 */
 	function Parent(&$row)
 	{
-		$db = &JFactory::getDBO();
+		$db = &JFactory::getDbo();
 
 		// If a not a new item, lets set the menu item id
 		if ($row->id) {

@@ -1,11 +1,11 @@
 <?php
 /**
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>" >
@@ -25,7 +25,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 		<td width="39%" align="center">
 			<p><?php echo $this->error->get('message'); ?></p>
 			<p>
-				<?php if($this->debug) :
+				<?php if ($this->debug) :
 					print_r($this->error->get('info'));
 					echo '<hr />';
 					echo $this->renderBacktrace();

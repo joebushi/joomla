@@ -1,4 +1,4 @@
-<?php /** $Id: edit.php 11335 2008-12-20 12:00:05Z eddieajau $ */ defined('_JEXEC') or die();
+<?php /** $Id: edit.php 11335 2008-12-20 12:00:05Z eddieajau $ */ defined('_JEXEC') or die;
 
 	JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 	JHtml::_('behavior.tooltip');

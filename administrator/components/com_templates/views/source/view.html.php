@@ -1,16 +1,16 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Administrator
-* @subpackage	Templates
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	Templates
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
-jimport( 'joomla.application.component.view');
+jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the Templates component
@@ -30,23 +30,23 @@ class TemplatesViewSource extends JView
 
 	public function display($tpl = null)
 	{
-		JToolBarHelper::title( JText::_( 'Template HTML Editor' ), 'thememanager' );
-		JToolBarHelper::save( 'save_source' );
-		JToolBarHelper::apply( 'apply_source' );
+		JToolBarHelper::title(JText::_('Template HTML Editor'), 'thememanager');
+		JToolBarHelper::save('save_source');
+		JToolBarHelper::apply('apply_source');
 		JToolBarHelper::cancel('edit');
-		JToolBarHelper::help( 'screen.templates' );
+		JToolBarHelper::help('screen.templates');
 
 		// Initialize some variables
 		$option		= JRequest::getCmd('option');
 
-		$content	=& $this->get('Data');
-		$client		=& $this->get('Client');
-		$template	=& $this->get('Template');
-		$id	=& $this->get('id');
+		$content	= &$this->get('Data');
+		$client		= &$this->get('Client');
+		$template	= &$this->get('Template');
+		$id	= &$this->get('id');
 
 		// Set FTP credentials, if given
 		jimport('joomla.client.helper');
-		$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
+		$ftp = &JClientHelper::setCredentialsFromRequest('ftp');
 
 		$this->assignRef('option',		$option);
 		$this->assignRef('client',		$client);

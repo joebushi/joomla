@@ -4,18 +4,18 @@
  * @package		Joomla.Administrator
  * @subpackage	Media
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 $user = & JFactory::getUser();
 if (!$user->authorize('core.media.manage')) {
 	JFactory::getApplication()->redirect('index.php', JText::_('ALERTNOTAUTH'));
 }
 
-$params =& JComponentHelper::getParams('com_media');
+$params = &JComponentHelper::getParams('com_media');
 
 // Load the admin HTML view
 require_once JPATH_COMPONENT.DS.'helpers'.DS.'media.php';
@@ -24,7 +24,7 @@ require_once JPATH_COMPONENT.DS.'helpers'.DS.'media.php';
 $view = JRequest::getCmd('view',null);
 $popup_upload = JRequest::getCmd('pop_up',null);
 $path = "file_path";
-if(substr(strtolower($view),0,6) == "images" || $popup_upload == 1) $path = "image_path";
+if (substr(strtolower($view),0,6) == "images" || $popup_upload == 1) $path = "image_path";
 define('COM_MEDIA_BASE',	JPATH_ROOT.DS.$params->get($path, 'images'));
 define('COM_MEDIA_BASEURL',	JURI::root().$params->get($path, 'images'));
 

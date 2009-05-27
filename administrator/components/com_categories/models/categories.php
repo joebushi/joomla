@@ -4,11 +4,11 @@
  * @package		Joomla.Administrator
  * @subpackage	Categories
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -68,18 +68,18 @@ class CategoriesModelCategories extends JModel
 		$option = JRequest::getCmd('option');
 
 		// Get the pagination request variables
-		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
-		$limitstart	= $mainframe->getUserStateFromRequest( $option.'.limitstart', 'limitstart', 0, 'int' );
+		$limit		= $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
+		$limitstart	= $mainframe->getUserStateFromRequest($option.'.limitstart', 'limitstart', 0, 'int');
 
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
 
 		$filter = new stdClass();
-		$filter->order		= $mainframe->getUserStateFromRequest( $option.'filter_order',		'filter_order',		'c.ordering',	'cmd' );
-		$filter->order_Dir	= $mainframe->getUserStateFromRequest( $option.'filter_order_Dir',	'filter_order_Dir',	'',				'word' );
-		$filter->state		= $mainframe->getUserStateFromRequest( $option.'filter_state',		'filter_state',		'',				'word' );
-		$filter->search		= $mainframe->getUserStateFromRequest( $option.'search',			'search',			'',				'string' );
-		$filter->extension 	= JRequest::getCmd( 'extension', 'com_content' );
+		$filter->order		= $mainframe->getUserStateFromRequest($option.'filter_order',		'filter_order',		'c.ordering',	'cmd');
+		$filter->order_Dir	= $mainframe->getUserStateFromRequest($option.'filter_order_Dir',	'filter_order_Dir',	'',				'word');
+		$filter->state		= $mainframe->getUserStateFromRequest($option.'filter_state',		'filter_state',		'',				'word');
+		$filter->search		= $mainframe->getUserStateFromRequest($option.'search',			'search',			'',				'string');
+		$filter->extension 	= JRequest::getCmd('extension', 'com_content');
 		$this->_filter = $filter;
 	}
 
@@ -102,7 +102,7 @@ class CategoriesModelCategories extends JModel
 			{
 				$tempcat[$category->id] = $category;
 				$tempcat[$category->id]->depth = 0;
-				if($category->parent_id != 0)
+				if ($category->parent_id != 0)
 				{
 					$tempcat[$category->id]->depth = $tempcat[$category->parent_id]->depth + 1;
 				}
@@ -142,28 +142,28 @@ class CategoriesModelCategories extends JModel
 	 */
 	function getCategoryTotals()
 	{
-		$db =& JFactory::getDBO();
+		$db = &JFactory::getDbo();
 
-		$count = count( $this->_data );
+		$count = count($this->_data);
 		// number of Active Items
-		for ( $i = 0; $i < $count; $i++ ) {
-			$query = 'SELECT COUNT( a.id )'
+		for ($i = 0; $i < $count; $i++) {
+			$query = 'SELECT COUNT(a.id)'
 			. ' FROM #__content AS a'
 			. ' WHERE a.catid = '.(int) $this->_data[$i]->id
 			. ' AND a.state <> -2'
 			;
-			$db->setQuery( $query );
+			$db->setQuery($query);
 			$active = $db->loadResult();
 			$this->_data[$i]->active = $active;
 		}
 		// number of Trashed Items
-		for ( $i = 0; $i < $count; $i++ ) {
-			$query = 'SELECT COUNT( a.id )'
+		for ($i = 0; $i < $count; $i++) {
+			$query = 'SELECT COUNT(a.id)'
 			. ' FROM #__content AS a'
 			. ' WHERE a.catid = '.(int) $this->_data[$i]->id
 			. ' AND a.state = -2'
 			;
-			$db->setQuery( $query );
+			$db->setQuery($query);
 			$trash = $db->loadResult();
 			$this->_data[$i]->trash = $trash;
 		}
@@ -181,7 +181,7 @@ class CategoriesModelCategories extends JModel
 		if (empty($this->_pagination))
 		{
 			jimport('joomla.html.pagination');
-			$this->_pagination = new JPagination( $this->getTotal(), $this->getState('limitstart'), $this->getState('limit') );
+			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
 
 		return $this->_pagination;
@@ -211,7 +211,7 @@ class CategoriesModelCategories extends JModel
 		{
 			$this->extension = new stdClass();
 			$this->extension->option = JRequest::getCmd('extension', 'com_content');
-			$db = JFactory::getDBO();
+			$db = JFactory::getDbo();
 			$db->setQuery('SELECT name FROM #__components WHERE parent = \'0\' AND `option` = '.$db->Quote($this->extension->option));
 			$this->extension->name = $db->loadResult();
 		}
@@ -225,7 +225,7 @@ class CategoriesModelCategories extends JModel
 		$where		= $this->_buildContentWhere($this->_filter->extension);
 		$orderby	= $this->_buildContentOrderBy($this->_filter->extension);
 
-		$query = 'SELECT  c.*, c.checked_out as checked_out_contact_category, u.name AS editor, COUNT( DISTINCT s2.checked_out ) AS checked_out_count'
+		$query = 'SELECT  c.*, c.checked_out as checked_out_contact_category, u.name AS editor, COUNT(DISTINCT s2.checked_out) AS checked_out_count'
 		. $this->content_add
 		. ' FROM #__categories AS c'
 		. ' LEFT JOIN #__users AS u ON u.id = c.checked_out'
@@ -251,43 +251,43 @@ class CategoriesModelCategories extends JModel
 		$mainframe = JFactory::getApplication();
 		$option = JRequest::getCmd('option');
 
-		$db					=& JFactory::getDBO();
-		$search				= JString::strtolower( $this->_filter->search );
+		$db					= &JFactory::getDbo();
+		$search				= JString::strtolower($this->_filter->search);
 		$filter = '';
 		$where = array();
 		$parent_category = JRequest::getInt('parent', 0);
 
-		$where 		= ( count( $where ) ? ' WHERE '. implode( ' AND ', $where ) : '' );
+		$where 		= (count($where) ? ' WHERE '. implode(' AND ', $where) : '');
 
 		$this->content_add 	= '';
 		$this->content_join 	= '';
-		$this->table = substr( $extension, 4 );
+		$this->table = substr($extension, 4);
 
 		//$where 			= ' WHERE c.lft BETWEEN cp.lft AND cp.rgt'
 		$where				= ' WHERE '
 						.' c.extension = '.$db->Quote($this->extension->option);
 						//.' AND cp.extension = '.$db->Quote($this->extension->option);
 		
-		if ( $parent_category == 0 )
+		if ($parent_category == 0)
 		{
 		//	$where .= ' AND cp.lft = 1';
 		} else {
 		//	$where .= ' AND cp.id = '.$parent_category;
 		}
 		// allows for viweing of all content categories
-		if ( $this->extension->option == 'com_content' ) {
+		if ($this->extension->option == 'com_content') {
 			$this->table 			= 'content';
 		}
 
-		if ( $this->_filter->state ) {
-			if ( $this->_filter->state == 'P' ) {
+		if ($this->_filter->state) {
+			if ($this->_filter->state == 'P') {
 				$filter .= ' AND c.published = 1';
-			} else if ($this->_filter->state == 'U' ) {
+			} else if ($this->_filter->state == 'U') {
 				$filter .= ' AND c.published = 0';
 			}
 		}
 		if ($search) {
-			$filter .= ' AND LOWER(c.title) LIKE '.$this->_db->Quote('%'.$this->_db->getEscaped( $search, true ).'%');
+			$filter .= ' AND LOWER(c.title) LIKE '.$this->_db->Quote('%'.$this->_db->getEscaped($search, true).'%');
 		}
 
 		$tablesAllowed = $db->getTableList();

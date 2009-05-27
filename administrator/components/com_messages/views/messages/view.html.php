@@ -1,16 +1,16 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Administrator
-* @subpackage	Messages
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	Messages
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined('_JEXEC') or die;
 
-jimport( 'joomla.application.component.view');
+jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the Messages component
@@ -26,20 +26,20 @@ class MessagesViewMessages extends JView
 	{
 		$mainframe = JFactory::getApplication();
 
-		$db					=& JFactory::getDBO();
-		$user				=& JFactory::getUser();
+		$db					= &JFactory::getDbo();
+		$user				= &JFactory::getUser();
 
 		// Set toolbar items for the page
-		JToolBarHelper::title(  JText::_( 'Private Messaging' ), 'inbox.png' );
+		JToolBarHelper::title( JText::_('Private Messaging'), 'inbox.png');
 		JToolBarHelper::deleteList();
 		JToolBarHelper::addNewX();
-		JToolBarHelper::help( 'screen.messages.inbox' );
+		JToolBarHelper::help('screen.messages.inbox');
 
 		// Get data from the model
-		$rows		= & $this->get( 'Data');
-		$total		= & $this->get( 'Total');
-		$pagination = & $this->get( 'Pagination' );
-		$filter		= & $this->get( 'Filter');
+		$rows		= & $this->get('Data');
+		$total		= & $this->get('Total');
+		$pagination = & $this->get('Pagination');
+		$filter		= & $this->get('Filter');
 
 		$this->assignRef('user',		$user);
 		$this->assignRef('rows',		$rows);

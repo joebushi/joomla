@@ -1,14 +1,14 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Administrator
-* @subpackage	Modules
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	Modules
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
@@ -26,7 +26,7 @@ class ModulesViewSelecttype extends JView
 	{
 		// Initialize some variables
 		$modules	= array();
-		$client		=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$client		= &JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 		JToolBarHelper::title(JText::_('Module') . ': <small><small>[ '. JText::_('New') .' ]</small></small>', 'module.png');
 		JToolBarHelper::customX('edit', 'forward.png', 'forward_f2.png', 'Next', true);
@@ -44,7 +44,7 @@ class ModulesViewSelecttype extends JView
 
 		jimport('joomla.filesystem.folder');
 		$dirs = JFolder::folders($path);
-		$lang =& JFactory::getLanguage();
+		$lang = &JFactory::getLanguage();
 
 		foreach ($dirs as $dir)
 		{

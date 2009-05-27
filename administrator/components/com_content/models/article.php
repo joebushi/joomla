@@ -4,11 +4,11 @@
  * @package		Joomla.Administrator
  * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -133,7 +133,7 @@ class ContentModelArticle extends JModel
 		{
 			// Make sure we have a user id to checkout the article with
 			if (is_null($uid)) {
-				$user	=& JFactory::getUser();
+				$user	= &JFactory::getUser();
 				$uid	= $user->get('id');
 			}
 			// Lets get to it and checkout the thing...
@@ -173,7 +173,7 @@ class ContentModelArticle extends JModel
 
 		// Are we saving from an item edit?
 		if ($row->id) {
-			$datenow =& JFactory::getDate();
+			$datenow = &JFactory::getDate();
 			$row->modified 		= $datenow->toMySQL();
 			$row->modified_by 	= $user->get('id');
 		}
@@ -184,9 +184,9 @@ class ContentModelArticle extends JModel
 			$row->created 	.= ' 00:00:00';
 		}
 
-		$config =& JFactory::getConfig();
+		$config = &JFactory::getConfig();
 		$tzoffset = $config->getValue('config.offset');
-		$date =& JFactory::getDate($row->created, $tzoffset);
+		$date = &JFactory::getDate($row->created, $tzoffset);
 		$row->created = $date->toMySQL();
 
 		// Append time if not added to publish date
@@ -194,7 +194,7 @@ class ContentModelArticle extends JModel
 			$row->publish_up .= ' 00:00:00';
 		}
 
-		$date =& JFactory::getDate($row->publish_up, $tzoffset);
+		$date = &JFactory::getDate($row->publish_up, $tzoffset);
 		$row->publish_up = $date->toMySQL();
 
 		// Handle never unpublish date
@@ -207,7 +207,7 @@ class ContentModelArticle extends JModel
 			if (strlen(trim($row->publish_down)) <= 10) {
 				$row->publish_down .= ' 00:00:00';
 			}
-			$date =& JFactory::getDate($row->publish_down, $tzoffset);
+			$date = &JFactory::getDate($row->publish_down, $tzoffset);
 			$row->publish_down = $date->toMySQL();
 		}
 
@@ -374,7 +374,7 @@ class ContentModelArticle extends JModel
 	 */
 	function setArticleState($cid = array(), $new_state = 1)
 	{
-		$user 	=& JFactory::getUser();
+		$user 	= &JFactory::getUser();
 
 		if (count($cid))
 		{
@@ -579,7 +579,7 @@ class ContentModelArticle extends JModel
 	{
 		if (count($cid))
 		{
-			$user 	=& JFactory::getUser();
+			$user 	= &JFactory::getUser();
 
 			JArrayHelper::toInteger($cid);
 			$cids = implode(',', $cid);

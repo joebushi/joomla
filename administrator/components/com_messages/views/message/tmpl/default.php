@@ -1,4 +1,4 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php defined('_JEXEC') or die; ?>
 
 <?php JHtml::_('behavior.tooltip'); ?>
 
@@ -7,7 +7,7 @@
 <table class="adminform">
 	<tr>
 		<td width="100">
-			<?php echo JText::_( 'From' ); ?>:
+			<?php echo JText::_('From'); ?>:
 		</td>
 		<td width="85%" bgcolor="#ffffff">
 			<?php echo $this->row->user_from;?>
@@ -15,7 +15,7 @@
 	</tr>
 	<tr>
 		<td>
-			<?php echo JText::_( 'Posted' ); ?>:
+			<?php echo JText::_('Posted'); ?>:
 		</td>
 		<td bgcolor="#ffffff">
 			<?php echo $this->row->date_time;?>
@@ -23,7 +23,7 @@
 	</tr>
 	<tr>
 		<td>
-			<?php echo JText::_( 'Subject' ); ?>:
+			<?php echo JText::_('Subject'); ?>:
 		</td>
 		<td bgcolor="#ffffff">
 			<?php echo $this->row->subject;?>
@@ -31,10 +31,10 @@
 	</tr>
 	<tr>
 		<td valign="top">
-			<?php echo JText::_( 'Message' ); ?>:
+			<?php echo JText::_('Message'); ?>:
 		</td>
 		<td width="100%" bgcolor="#ffffff">
-			<pre><?php echo htmlspecialchars( $this->row->message, ENT_COMPAT, 'UTF-8' );?></pre>
+			<pre><?php echo htmlspecialchars($this->row->message, ENT_COMPAT, 'UTF-8');?></pre>
 		</td>
 	</tr>
 </table>
@@ -45,5 +45,5 @@
 <input type="hidden" name="cid[]" value="<?php echo $this->row->message_id; ?>" />
 <input type="hidden" name="userid" value="<?php echo $this->row->user_id_from; ?>" />
 <input type="hidden" name="subject" value="Re: <?php echo $this->row->subject; ?>" />
-<?php echo JHtml::_( 'form.token' ); ?>
+<?php echo JHtml::_('form.token'); ?>
 </form>

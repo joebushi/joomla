@@ -1,14 +1,14 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Administrator
-* @subpackage	Modules
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	Modules
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
@@ -28,8 +28,8 @@ class ModulesViewModule extends JView
 	function display($tpl = null)
 	{
 		// Initialize some variables
-		$db 	=& JFactory::getDBO();
-		$user 	=& JFactory::getUser();
+		$db 	= &JFactory::getDbo();
+		$user 	= &JFactory::getUser();
 
 		$module = JRequest::getVar('module', '', '', 'cmd');
 
@@ -176,7 +176,7 @@ class ModulesViewModule extends JView
 
 		$row->description = '';
 
-		$lang =& JFactory::getLanguage();
+		$lang = &JFactory::getLanguage();
 		if ($client->id != '1') {
 			$lang->load(trim($row->module), JPATH_SITE);
 			$lang->load('joomla', JPATH_SITE.DS.'modules'.DS.trim($row->module));
@@ -205,7 +205,7 @@ class ModulesViewModule extends JView
 		// Check for component metadata.xml file
 		//$path = JApplicationHelper::getPath('mod'.$client->id.'_xml', $row->module);
 		//$params = new JParameter($row->params, $path);
-		//$document =& JFactory::getDocument();
+		//$document = &JFactory::getDocument();
 
 		$this->assignRef('lists',		$lists);
 		$this->assignRef('row',			$row);

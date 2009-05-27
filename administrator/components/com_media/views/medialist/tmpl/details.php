@@ -1,14 +1,14 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php defined('_JEXEC') or die; ?>
 <form action="<?php echo JRoute::_('index.php?option=com_media&amp;tmpl=component&amp;folder=' . $this->state->folder); ?>" method="post" id="mediamanager-form" name="mediamanager-form">
 	<div class="manager">
 	<table width="100%" cellspacing="0">
 	<thead>
 		<tr>
-			<th><?php echo JText::_( 'Preview' ); ?></th>
-			<th><?php echo JText::_( 'Name' ); ?></th>
-			<th><?php echo JText::_( 'Dimensions' ); ?></th>
-			<th><?php echo JText::_( 'Size' ); ?></th>
-			<th><?php echo JText::_( 'Delete' ); ?></th>
+			<th><?php echo JText::_('Preview'); ?></th>
+			<th><?php echo JText::_('Name'); ?></th>
+			<th><?php echo JText::_('Dimensions'); ?></th>
+			<th><?php echo JText::_('Size'); ?></th>
+			<th><?php echo JText::_('Delete'); ?></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -35,5 +35,5 @@
 	<input type="hidden" name="task" value="list" />
 	<input type="hidden" name="username" value="" />
 	<input type="hidden" name="password" value="" />
-	<?php echo JHtml::_( 'form.token' ); ?>
+	<?php echo JHtml::_('form.token'); ?>
 </form>

@@ -4,11 +4,11 @@
  * @package		Joomla.Administrator
  * @subpackage	Menus
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -46,7 +46,7 @@ class MenusModelList extends JModel
 			return $items;
 		}
 
-		$db = &$this->getDBO();
+		$db = &$this->getDbo();
 
 		$menutype			= $mainframe->getUserStateFromRequest("com_menus.menutype",						'menutype',			'mainmenu',		'string');
 		$filter_order		= $mainframe->getUserStateFromRequest('com_menus.'.$menutype.'.filter_order',		'filter_order',		'm.ordering',	'cmd');
@@ -159,8 +159,8 @@ class MenusModelList extends JModel
 					$list[$i]->descrip 	= JText::_('Component');
 					$query 			= parse_url($list[$i]->link);
 					$view = array();
-					if(isset($query['query'])) {
-						if(strpos($query['query'], '&amp;') !== false)
+					if (isset($query['query'])) {
+						if (strpos($query['query'], '&amp;') !== false)
 						{
 							$query['query'] = str_replace('&amp;','&',$query['query']);
 						}
@@ -220,7 +220,7 @@ class MenusModelList extends JModel
 		}
 
 		// Query to list the selected menu items
-		$db = &$this->getDBO();
+		$db = &$this->getDbo();
 		$cids = implode(',', $cid);
 		$query = 'SELECT `id`, `name`' .
 				' FROM `#__menu`' .
@@ -337,7 +337,7 @@ class MenusModelList extends JModel
 
 	function toTrash($items)
 	{
-		$db		= &$this->getDBO();
+		$db		= &$this->getDbo();
 		$nd		= $db->getNullDate();
 		$state	= -2;
 		$row = &$this->getTable();
@@ -379,7 +379,7 @@ class MenusModelList extends JModel
 
 	function fromTrash($items)
 	{
-		$db		= &$this->getDBO();
+		$db		= &$this->getDbo();
 		$nd		= $db->getNullDate();
 		$state	= 0;
 
@@ -413,7 +413,7 @@ class MenusModelList extends JModel
 	*/
 	function setHome($item)
 	{
-		$db = &$this->getDBO();
+		$db = &$this->getDbo();
 
 		// Clear home field for all other items
 		$query = 'UPDATE #__menu' .
@@ -443,7 +443,7 @@ class MenusModelList extends JModel
 	*/
 	function setItemState($items, $state)
 	{
-		if(is_array($items))
+		if (is_array($items))
 		{
 			$row = &$this->getTable();
 			foreach ($items as $id)
@@ -455,7 +455,7 @@ class MenusModelList extends JModel
 
 					if ($state != 1) {
 						// Set any alias menu types to not point to unpublished menu items
-						$db = &$this->getDBO();
+						$db = &$this->getDbo();
 						$query = 'UPDATE #__menu SET link = 0 WHERE type = \'menulink\' AND link = '.(int)$id;
 						$db->setQuery($query);
 						if (!$db->query()) {
@@ -498,7 +498,7 @@ class MenusModelList extends JModel
 			$row->access = $access;
 
 			// Set any alias menu types to not point to unpublished menu items
-			$db = &$this->getDBO();
+			$db = &$this->getDbo();
 			$query = 'UPDATE #__menu SET link = 0 WHERE type = \'menulink\' AND access < '.(int)$access.' AND link = '.(int)$id;
 			$db->setQuery($query);
 			if (!$db->query()) {
@@ -549,7 +549,7 @@ class MenusModelList extends JModel
 		JArrayHelper::toInteger($order);
 
 		// update ordering values
-		for($i=0; $i < $total; $i++) {
+		for ($i=0; $i < $total; $i++) {
 			$row->load($items[$i]);
 			// track parents
 			$groupings[] = $row->parent;
@@ -591,7 +591,7 @@ class MenusModelList extends JModel
 				$this->_addChildren($id, $ids);
 			}
 
-			$db = &$this->getDBO();
+			$db = &$this->getDbo();
 
 			// Delete associated module and template mappings
 			$where = 'WHERE menuid = ' . implode(' OR menuid = ', $ids);
@@ -635,7 +635,7 @@ class MenusModelList extends JModel
 	 */
 	function deleteByType($type = '')
 	{
-		$db = &$this->getDBO();
+		$db = &$this->getDbo();
 
 		$query = 'SELECT id' .
 				' FROM #__menu' .
@@ -657,7 +657,7 @@ class MenusModelList extends JModel
 		$return = true;
 
 		// Get all rows with parent of $id
-		$db = &$this->getDBO();
+		$db = &$this->getDbo();
 		$query = 'SELECT id' .
 				' FROM #__menu' .
 				' WHERE parent = '.(int) $id;

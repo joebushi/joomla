@@ -1,4 +1,4 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php defined('_JEXEC') or die; ?>
 
 <?php
 	$user = & JFactory :: getUser();
@@ -12,37 +12,37 @@
 	<thead>
 		<tr>
 			<th width="5" class="title">
-				<?php echo JText::_( 'Num' ); ?>
+				<?php echo JText::_('Num'); ?>
 			</th>
 			<th class="title" colspan="2">
-				<?php echo JText::_( 'Template Name' ); ?>
+				<?php echo JText::_('Template Name'); ?>
 			</th>
 			<?php
 			if ($this->client->id == 1) {
 			?>
 				<th width="5%">
-					<?php echo JText::_( 'Default' ); ?>
+					<?php echo JText::_('Default'); ?>
 				</th>
 			<?php
 			} else {
 			?>
 				<th width="5%">
-					<?php echo JText::_( 'Default' ); ?>
+					<?php echo JText::_('Default'); ?>
 				</th>
 				<th width="5%">
-					<?php echo JText::_( 'Assigned' ); ?>
+					<?php echo JText::_('Assigned'); ?>
 				</th>
 			<?php
 			}
 			?>
 			<th width="10%" align="center">
-				<?php echo JText::_( 'Version' ); ?>
+				<?php echo JText::_('Version'); ?>
 			</th>
 			<th width="15%" class="title">
-				<?php echo JText::_( 'Date' ); ?>
+				<?php echo JText::_('Date'); ?>
 			</th>
 			<th width="25%"  class="title">
-				<?php echo JText::_( 'Author' ); ?>
+				<?php echo JText::_('Author'); ?>
 			</th>
 		</tr>
 	</thead>
@@ -60,15 +60,15 @@ for ($i = 0, $n = count($this->rows); $i < $n; $i++) {
 	$row = & $this->rows[$i];
 
 	$author_info = @ $row->xmldata->authorEmail . '<br />' . @ $row->xmldata->authorUrl;
-	$img_path = ($this->client->id == 1 ? JURI::root().'administrator' : JFactory::getApplication()->getSiteURL() ).'/templates/'.$row->template.'/template_thumbnail.png';
+	$img_path = ($this->client->id == 1 ? JURI::root().'administrator' : JFactory::getApplication()->getSiteURL()).'/templates/'.$row->template.'/template_thumbnail.png';
 ?>
 		<tr class="<?php echo 'row'. $k; ?>">
 			<td>
-				<?php echo $this->pagination->getRowOffset( $i ); ?>
+				<?php echo $this->pagination->getRowOffset($i); ?>
 			</td>
 			<td width="5">
 			<?php
-			if ( JTable::isCheckedOut($user->get ('id'), $row->xmldata->checked_out )) {
+			if (JTable::isCheckedOut($user->get ('id'), $row->xmldata->checked_out)) {
 			?>
 					&nbsp;
 			<?php
@@ -91,7 +91,7 @@ for ($i = 0, $n = count($this->rows); $i < $n; $i++) {
 				<?php
 				if ($row->home == 1) {
 				?>
-					<img src="templates/khepri/images/menu/icon-16-default.png" alt="<?php echo JText::_( 'Published' ); ?>" />
+					<img src="templates/khepri/images/menu/icon-16-default.png" alt="<?php echo JText::_('Published'); ?>" />
 				<?php
 				} else {
 				?>
@@ -107,7 +107,7 @@ for ($i = 0, $n = count($this->rows); $i < $n; $i++) {
 				<?php
 				if ($row->home == 1) {
 				?>
-						<img src="templates/khepri/images/menu/icon-16-default.png" alt="<?php echo JText::_( 'Default' ); ?>" />
+						<img src="templates/khepri/images/menu/icon-16-default.png" alt="<?php echo JText::_('Default'); ?>" />
 				<?php
 				} else {
 				?>
@@ -120,7 +120,7 @@ for ($i = 0, $n = count($this->rows); $i < $n; $i++) {
 				<?php
 				if ($row->assigned == 1) {
 				?>
-						<img src="images/tick.png" alt="<?php echo JText::_( 'Assigned' ); ?>" />
+						<img src="images/tick.png" alt="<?php echo JText::_('Assigned'); ?>" />
 				<?php
 				} else {
 				?>
@@ -139,7 +139,7 @@ for ($i = 0, $n = count($this->rows); $i < $n; $i++) {
 				<?php echo $row->xmldata->creationdate; ?>
 			</td>
 			<td>
-				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Author Information' );?>::<?php echo $author_info; ?>">
+				<span class="editlinktip hasTip" title="<?php echo JText::_('Author Information');?>::<?php echo $author_info; ?>">
 					<?php echo @$row->xmldata->author != '' ? $row->xmldata->author : '&nbsp;'; ?>
 				</span>
 			</td>
@@ -154,5 +154,5 @@ for ($i = 0, $n = count($this->rows); $i < $n; $i++) {
 <input type="hidden" name="client" value="<?php echo $this->client->id;?>" />
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="boxchecked" value="0" />
-<?php echo JHtml::_( 'form.token' ); ?>
+<?php echo JHtml::_('form.token'); ?>
 </form>

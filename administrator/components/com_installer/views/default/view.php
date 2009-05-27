@@ -4,11 +4,11 @@
  * @package		Joomla.Administrator
  * @subpackage	Menus
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
@@ -38,22 +38,22 @@ class InstallerViewDefault extends JView
 		/*
 		 * Set toolbar items for the page
 		 */
-		JToolBarHelper::title( JText::_( 'Extension Manager'), 'install.png' );
+		JToolBarHelper::title(JText::_('Extension Manager'), 'install.png');
 
 		// Document
 		$document = & JFactory::getDocument();
-		$document->setTitle(JText::_('Extension Manager').' : '.JText::_( $this->getName() ));
+		$document->setTitle(JText::_('Extension Manager').' : '.JText::_($this->getName()));
 
 		// Get data from the model
 		$state		= &$this->get('State');
 
 		// Are there messages to display ?
 		$showMessage	= false;
-		if ( is_object($state) )
+		if (is_object($state))
 		{
 			$message1		= $state->get('message');
 			$message2		= $state->get('extension_message');
-			$showMessage	= ( $message1 || $message2 );
+			$showMessage	= ($message1 || $message2);
 		}
 
 		$this->assign('showMessage',	$showMessage);

@@ -1,16 +1,16 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Administrator
-* @subpackage	Config
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	Config
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
-jimport( 'joomla.application.component.view');
+jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the Plugins component
@@ -22,29 +22,29 @@ jimport( 'joomla.application.component.view');
  */
 class PluginsViewPlugin extends JView
 {
-	function display( $tpl = null )
+	function display($tpl = null)
 	{
 		global $option;
 
-		$db		=& JFactory::getDBO();
-		$user 	=& JFactory::getUser();
+		$db		= &JFactory::getDbo();
+		$user 	= &JFactory::getUser();
 
-		$client = JRequest::getWord( 'client', 'site' );
-		$cid 	= JRequest::getVar( 'cid', array(0), '', 'array' );
+		$client = JRequest::getWord('client', 'site');
+		$cid 	= JRequest::getVar('cid', array(0), '', 'array');
 		JArrayHelper::toInteger($cid, array(0));
 
 		$lists 	= array();
-		$row 	=& JTable::getInstance('extension');
+		$row 	= &JTable::getInstance('extension');
 
 		// load the row from the db table
-		$row->load( $cid[0] );
+		$row->load($cid[0]);
 
 		// fail if checked out not by 'me'
 
-		if ($row->isCheckedOut( $user->get('id') ))
+		if ($row->isCheckedOut($user->get('id')))
 		{
-			$msg = JText::sprintf( 'DESCBEINGEDITTED', JText::_( 'The plugin' ), $row->title );
-			$this->setRedirect( 'index.php?option='. $option .'&client='. $client, $msg, 'error' );
+			$msg = JText::sprintf('DESCBEINGEDITTED', JText::_('The plugin'), $row->title);
+			$this->setRedirect('index.php?option='. $option .'&client='. $client, $msg, 'error');
 			return false;
 		}
 
@@ -59,14 +59,14 @@ class PluginsViewPlugin extends JView
 			$lists['access'] = 'Administrator<input type="hidden" name="access" value="99" />';
 		} else {
 			// build the html select list for the group access
-			$lists['access'] = JHtml::_('list.accesslevel',  $row );
+			$lists['access'] = JHtml::_('list.accesslevel',  $row);
 		}
 
 		if ($cid[0])
 		{
-			$row->checkout( $user->get('id') );
+			$row->checkout($user->get('id'));
 
-			if ( $row->ordering > -10000 && $row->ordering < 10000 )
+			if ($row->ordering > -10000 && $row->ordering < 10000)
 			{
 				// TODO: This should really be in the model that doesn't exist...
 				// build the html select list for ordering
@@ -81,7 +81,7 @@ class PluginsViewPlugin extends JView
 					. ' AND type = "plugin"'
 					. ' ORDER BY ordering'
 				;
-				$order = JHtml::_('list.genericordering',  $query );
+				$order = JHtml::_('list.genericordering',  $query);
 				$lists['ordering'] = JHtml::_(
 					'select.genericlist',
 					$order,
@@ -92,18 +92,18 @@ class PluginsViewPlugin extends JView
 					)
 				);
 			} else {
-				$lists['ordering'] = '<input type="hidden" name="ordering" value="'. $row->ordering .'" />'. JText::_( 'This plugin cannot be reordered' );
+				$lists['ordering'] = '<input type="hidden" name="ordering" value="'. $row->ordering .'" />'. JText::_('This plugin cannot be reordered');
 			}
 
-			$lang =& JFactory::getLanguage();
+			$lang = &JFactory::getLanguage();
 			// Core or 1.5
-			$lang->load( 'plg_' . trim( $row->folder ) . '_' . trim( $row->element ), JPATH_ADMINISTRATOR );
-			$lang->load( 'plg_' . trim( $row->folder ) . '_' . trim( $row->element ), JPATH_SITE ); // handle language files not in admin, mostly core
+			$lang->load('plg_' . trim($row->folder) . '_' . trim($row->element), JPATH_ADMINISTRATOR);
+			$lang->load('plg_' . trim($row->folder) . '_' . trim($row->element), JPATH_SITE); // handle language files not in admin, mostly core
 			// 1.6 3PD Extension
-			$lang->load( 'plg_' . trim( $row->folder ) . '_' . trim( $row->element ), JPATH_SITE . DS . 'plugins'. DS .$row->folder . DS . $row->element);
+			$lang->load('plg_' . trim($row->folder) . '_' . trim($row->element), JPATH_SITE . DS . 'plugins'. DS .$row->folder . DS . $row->element);
 
 			// TODO: Rewrite this (and other instances of parseXMLInstallFile) to use the extensions table
-			$data = JApplicationHelper::parseXMLInstallFile(JApplicationHelper::getPath( 'plg_xml', $row->folder.DS.$row->element ));
+			$data = JApplicationHelper::parseXMLInstallFile(JApplicationHelper::getPath('plg_xml', $row->folder.DS.$row->element));
 
 			$row->description = $data['description'];
 
@@ -116,13 +116,13 @@ class PluginsViewPlugin extends JView
 			$row->ordering 		= 999;
 			$row->enabled 	= 1;
 			$row->description 	= '';
-			$lists['ordering'] = '<input type="hidden" name="ordering" value="'. $row->ordering .'" />'. JText::_( 'This plugin cannot be reordered' );
+			$lists['ordering'] = '<input type="hidden" name="ordering" value="'. $row->ordering .'" />'. JText::_('This plugin cannot be reordered');
 		}
 
-		$lists['enabled'] = JHtml::_('select.booleanlist',  'enabled', 'class="inputbox"', $row->enabled );
+		$lists['enabled'] = JHtml::_('select.booleanlist',  'enabled', 'class="inputbox"', $row->enabled);
 
 		// get params definitions
-		$params = new JParameter( $row->params, JApplicationHelper::getPath( 'plg_xml', $row->folder.DS.$row->element ));
+		$params = new JParameter($row->params, JApplicationHelper::getPath('plg_xml', $row->folder.DS.$row->element));
 
 		$this->assignRef('lists',		$lists);
 		$this->assignRef('plugin',		$row);

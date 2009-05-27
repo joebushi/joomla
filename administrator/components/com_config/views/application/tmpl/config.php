@@ -1,4 +1,4 @@
-<?php /** $Id$ */ defined('_JEXEC') or die('Restricted access');
+<?php /** $Id$ */ defined('_JEXEC') or die;
 	JHtml::_('behavior.mootools');
 	JHtml::_('behavior.tooltip');
 	JHtml::_('behavior.switcher');

@@ -4,11 +4,11 @@
  * @package		Joomla.Administrator
  * @subpackage	Cache
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined('_JEXEC') or die;
 
 /**
  * Model Class used to hold Cache data
@@ -53,12 +53,12 @@ class CacheModelCache extends JModel
 	 */
 	protected function _populateState()
 	{
-		$app =& JFactory::getApplication();
+		$app = &JFactory::getApplication();
 		
 		$clientId = JRequest::getInt('client', 0);
 		$this->setState('clientId', $clientId == 1 ? 1 : 0);
 		
-		$client	=& JApplicationHelper::getClientInfo($clientId);
+		$client	= &JApplicationHelper::getClientInfo($clientId);
 		$this->setState('client', $client);
 		
 		$this->setState('path', $client->path.DS.'cache');
@@ -173,7 +173,7 @@ class CacheModelCache extends JModel
 	 */
 	public function clean($group = '')
 	{
-		$cache =& JFactory::getCache('', 'callback', 'file');
+		$cache = &JFactory::getCache('', 'callback', 'file');
 		$cache->clean($group);
 	}
 
@@ -186,7 +186,7 @@ class CacheModelCache extends JModel
 	
 	public function purge()
 	{
-		$cache =& JFactory::getCache('');
+		$cache = &JFactory::getCache('');
 		return $cache->gc();	
 	}
 }
@@ -197,7 +197,7 @@ class CacheModelCache extends JModel
   * @package		Joomla.Administrator
   * @subpackage	Cache
   * @since		1.5
-  */
+ */
 class CacheItem
 {
 	public $group 	= '';

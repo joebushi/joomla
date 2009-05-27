@@ -1,4 +1,4 @@
-<?php /** $Id: default_type3.php 11362 2008-12-22 12:19:58Z eddieajau $ */ defined('_JEXEC') or die('Restricted access'); ?>
+<?php /** $Id: default_type3.php 11362 2008-12-22 12:19:58Z eddieajau $ */ defined('_JEXEC') or die; ?>
 	<fieldset class="filter">
 		<div class="left">
 			<label for="search"><?php echo JText::_('Search'); ?>:</label>

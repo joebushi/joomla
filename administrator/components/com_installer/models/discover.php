@@ -4,7 +4,7 @@
  * @package		Joomla.Administrator
  * @subpackage	Menus
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Import library dependencies
@@ -40,7 +40,7 @@ class InstallerModelDiscover extends InstallerModel
 		jimport('joomla.filesystem.folder');
 
 		/* Get a database connector */
-		$db =& JFactory::getDBO();
+		$db = &JFactory::getDbo();
 
 		$query = 'SELECT *' .
 				' FROM #__extensions' .
@@ -49,46 +49,46 @@ class InstallerModelDiscover extends InstallerModel
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
 
-		$apps =& JApplicationHelper::getClientInfo();
+		$apps = &JApplicationHelper::getClientInfo();
 
 		$numRows = count($rows);
-		for($i=0;$i < $numRows; $i++)
+		for ($i=0;$i < $numRows; $i++)
 		{
-			$row =& $rows[$i];
-			if(strlen($row->manifest_cache)) {
+			$row = &$rows[$i];
+			if (strlen($row->manifest_cache)) {
 				$data = unserialize($row->manifest_cache);
-				if($data) {
+				if ($data) {
 					foreach($data as $key => $value) {
 						$row->$key = $value;
 					}
 				}
 			}
 			$row->jname = JString::strtolower(str_replace(" ", "_", $row->name));
-			if(isset($apps[$row->client_id])) {
+			if (isset($apps[$row->client_id])) {
 				$row->client = ucfirst($apps[$row->client_id]->name);
 			} else {
 				$row->client = $row->client_id;
 			}
 		}
 		$this->setState('pagination.total', $numRows);
-		if($this->_state->get('pagination.limit') > 0) {
-			$this->_items = array_slice( $rows, $this->_state->get('pagination.offset'), $this->_state->get('pagination.limit') );
+		if ($this->_state->get('pagination.limit') > 0) {
+			$this->_items = array_slice($rows, $this->_state->get('pagination.offset'), $this->_state->get('pagination.limit'));
 		} else {
 			$this->_items = $rows;
 		}
 	}
 
 	function discover() {
-		$installer =& JInstaller::getInstance();
+		$installer = &JInstaller::getInstance();
 		$results = $installer->discover();
 		// Get all templates, including discovered ones
 		$query = 'SELECT * FROM #__extensions';
-		$dbo =& JFactory::getDBO();
+		$dbo = &JFactory::getDbo();
 		$dbo->setQuery($query);
 		$installed = $dbo->loadObjectList('element');
 		foreach($results as $result) {
 			// check if we have a match on the element
-			if(!array_key_exists($result->element, $installed)) {
+			if (!array_key_exists($result->element, $installed)) {
 				// since the element doesn't exist, its definitely new
 				$result->store(); // put it into the table
 				//echo '<p>Added: <pre>'.print_r($result,1).'</pre></p>';
@@ -101,18 +101,18 @@ class InstallerModelDiscover extends InstallerModel
 	}
 
 	function discover_install() {
-		$installer =& JInstaller::getInstance();
+		$installer = &JInstaller::getInstance();
 		$eid = JRequest::getVar('eid',0);
-		if(is_array($eid) || $eid) {
-			if(!is_array($eid)) {
+		if (is_array($eid) || $eid) {
+			if (!is_array($eid)) {
 				$eid = Array($eid);
 			}
 			JArrayHelper::toInteger($eid);
-			$app =& JFactory::getApplication();
+			$app = &JFactory::getApplication();
 			$failed = false;
 			foreach($eid as $id) {
 				$result = $installer->discover_install($id);
-				if(!$result) {
+				if (!$result) {
 					$failed = true;
 					$app->enqueueMessage(JText::_('Discover install failed').': '. $id);
 				}
@@ -121,17 +121,17 @@ class InstallerModelDiscover extends InstallerModel
 			$this->setState('name', $installer->get('name'));
 			$this->setState('message', $installer->message);
 			$this->setState('extension_message', $installer->get('extension_message'));
-			if(!$failed) $app->enqueueMessage(JText::_('Discover install successful'));
+			if (!$failed) $app->enqueueMessage(JText::_('Discover install successful'));
 		} else {
-			$app =& JFactory::getApplication();
+			$app = &JFactory::getApplication();
 			$app->enqueueMessage(JText::_('No extension selected'));
 		}
 	}
 
 	function purge() {
-		$db =& JFactory::getDBO();
+		$db = &JFactory::getDbo();
 		$db->setQuery('DELETE FROM #__extensions WHERE state = -1');
-		if($db->Query()) {
+		if ($db->Query()) {
 			$this->_message = JText::_('Purged discovered extensions');
 			return true;
 		} else {

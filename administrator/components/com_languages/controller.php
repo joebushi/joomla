@@ -4,13 +4,13 @@
  * @package		Joomla.Administrator
  * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
-jimport( 'joomla.application.component.controller' );
+jimport('joomla.application.component.controller');
 
 /**
  * Languages Weblink Controller
@@ -28,28 +28,28 @@ class LanguagesController extends JController
 		// Check for request forgeries
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$cid = JRequest::getVar('cid', array(), 'post', 'array');
 
 		// Initialize some variables
-		$client	=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$client	= &JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 		$params = JComponentHelper::getParams('com_languages');
 		$params->set($client->name, $cid[0]);
 
-		$table =& JTable::getInstance('component');
-		$table->loadByOption( 'com_languages' );
+		$table = &JTable::getInstance('component');
+		$table->loadByOption('com_languages');
 
 		$table->params = $params->toString();
 
 		// pre-save checks
 		if (!$table->check()) {
-			JError::raiseWarning( 500, $table->getError() );
+			JError::raiseWarning(500, $table->getError());
 			return false;
 		}
 
 		// save the changes
 		if (!$table->store()) {
-			JError::raiseWarning( 500, $table->getError() );
+			JError::raiseWarning(500, $table->getError());
 			return false;
 		}
 

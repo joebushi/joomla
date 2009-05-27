@@ -3,11 +3,11 @@
  * @version		$Id$
  * @package		Joomla.Administrator
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 /**
  * This is a file to add template specific chrome to module rendering.  To use it you would
@@ -28,7 +28,7 @@ defined('_JEXEC') or die('Restricted access');
  */
 function modChrome_rounded($module, &$params, &$attribs)
 {
-	if($module->content)
+	if ($module->content)
 	{
 		?>
 		<div id="<?php echo $attribs['id'] ?>">

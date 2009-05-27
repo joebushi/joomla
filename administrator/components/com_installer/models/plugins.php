@@ -4,11 +4,11 @@
  * @package		Joomla.Administrator
  * @subpackage	Menus
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 // Import library dependencies
 require_once dirname(__FILE__).DS.'extension.php';
@@ -40,14 +40,14 @@ class InstallerModelPlugins extends InstallerModel
 		parent::__construct();
 
 		// Set state variables from the request
-		$this->setState('filter.group', $mainframe->getUserStateFromRequest( "com_installer.plugins.group", 'group', '', 'cmd' ));
-		$this->setState('filter.string', $mainframe->getUserStateFromRequest( "com_installer.plugins.string", 'filter', '', 'string' ));
+		$this->setState('filter.group', $mainframe->getUserStateFromRequest("com_installer.plugins.group", 'group', '', 'cmd'));
+		$this->setState('filter.string', $mainframe->getUserStateFromRequest("com_installer.plugins.string", 'filter', '', 'string'));
 	}
 
 	function &getGroups()
 	{
 		// Get a database connector object
-		$db = &$this->getDBO();
+		$db = &$this->getDbo();
 
 		// get list of Positions for dropdown filter
 		$query = 'SELECT folder AS value, folder AS text' .
@@ -55,10 +55,10 @@ class InstallerModelPlugins extends InstallerModel
 				' WHERE type = "plugin"' .
 				' GROUP BY folder' .
 				' ORDER BY folder';
-		$db->setQuery( $query );
+		$db->setQuery($query);
 
-		$types[] = JHtml::_('select.option',  '', JText::_( 'All' ) );
-		$types = array_merge( $types, $db->loadObjectList() );
+		$types[] = JHtml::_('select.option',  '', JText::_('All'));
+		$types = array_merge($types, $db->loadObjectList());
 
 		return $types;
 	}
@@ -69,21 +69,21 @@ class InstallerModelPlugins extends InstallerModel
 		$option = JRequest::getCmd('option');
 
 		// Get a database connector
-		$db = & JFactory::getDBO();
+		$db = & JFactory::getDbo();
 
 		$where = null;
 		if ($this->_state->get('filter.group')) {
 			if ($search = $this->_state->get('filter.string'))
 			{
 				$where = ' WHERE folder = "'.$db->getEscaped($this->_state->get('filter.group')).'"';
-				$where .= ' AND name LIKE '.$db->Quote( '%'.$db->getEscaped( $search, true ).'%', false );
+				$where .= ' AND name LIKE '.$db->Quote('%'.$db->getEscaped($search, true).'%', false);
 			}
 			else {
 				$where = ' WHERE folder = "'.$db->getEscaped($this->_state->get('filter.group')).'"';
 			}
 		} else {
 			if ($search = $this->_state->get('filter.string')) {
-				$where .= ' WHERE name LIKE '.$db->Quote( '%'.$db->getEscaped( $search, true ).'%', false );
+				$where .= ' WHERE name LIKE '.$db->Quote('%'.$db->getEscaped($search, true).'%', false);
 			}
 		}
 
@@ -116,8 +116,8 @@ class InstallerModelPlugins extends InstallerModel
 		}
 
 		$this->setState('pagination.total', $numRows);
-		if($this->_state->get('pagination.limit') > 0) {
-			$this->_items = array_slice( $rows, $this->_state->get('pagination.offset'), $this->_state->get('pagination.limit') );
+		if ($this->_state->get('pagination.limit') > 0) {
+			$this->_items = array_slice($rows, $this->_state->get('pagination.offset'), $this->_state->get('pagination.limit'));
 		} else {
 			$this->_items = $rows;
 		}

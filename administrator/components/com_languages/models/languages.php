@@ -4,11 +4,11 @@
  * @package		Joomla.Administrator
  * @subpackage	Languages
  * @copyright	Copyright (C) 2005 - 2007 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -62,13 +62,13 @@ class LanguagesModelLanguages extends JModel
 		$option = JRequest::getCmd('option');
 
 		// Get the pagination request variables
-		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
-		$limitstart	= $mainframe->getUserStateFromRequest( $option.'.limitstart', 'limitstart', 0, 'int' );
+		$limit		= $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
+		$limitstart	= $mainframe->getUserStateFromRequest($option.'.limitstart', 'limitstart', 0, 'int');
 
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
 
-		$this->_client	=& JApplicationHelper::getClientInfo(JRequest::getVar('client', 0, '', 'int'));
+		$this->_client	= &JApplicationHelper::getClientInfo(JRequest::getVar('client', 0, '', 'int'));
 	}
 
 	/**
@@ -117,7 +117,7 @@ class LanguagesModelLanguages extends JModel
 		if (empty($this->_pagination))
 		{
 			jimport('joomla.html.pagination');
-			$this->_pagination = new JPagination( $this->getTotal(), $this->getState('limitstart'), $this->getState('limit') );
+			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
 
 		return $this->_pagination;
@@ -145,11 +145,11 @@ class LanguagesModelLanguages extends JModel
 		//load folder filesystem class
 		jimport('joomla.filesystem.folder');
 		$path = JLanguage::getLanguagePath($this->_client->path);
-		$dirs = JFolder::folders( $path );
+		$dirs = JFolder::folders($path);
 
 		foreach ($dirs as $dir)
 		{
-			$files = JFolder::files( $path.DS.$dir, '^([-_A-Za-z]*)\.xml$' );
+			$files = JFolder::files($path.DS.$dir, '^([-_A-Za-z]*)\.xml$');
 			foreach ($files as $file)
 			{
 				$rowid++;
@@ -177,14 +177,14 @@ class LanguagesModelLanguages extends JModel
 
 				// if current than set published
 				$params = JComponentHelper::getParams('com_languages');
-				if ( $params->get($this->_client->name, 'en-GB') == $row->language) {
+				if ($params->get($this->_client->name, 'en-GB') == $row->language) {
 					$row->published	= 1;
 				} else {
 					$row->published = 0;
 				}
 
 				$row->checked_out = 0;
-				$row->mosname = JString::strtolower( str_replace( " ", "_", $row->name ) );
+				$row->mosname = JString::strtolower(str_replace(" ", "_", $row->name));
 				$rows[] = $row;
 			}
 		}

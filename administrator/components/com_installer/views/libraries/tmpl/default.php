@@ -5,17 +5,17 @@
  * @package		Joomla.Administrator
  * @subpackage	Installer
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
+defined('_JEXEC') or die; ?>
 <form action="index.php" method="post" name="adminForm">
 <div id="editcell">
 	<table class="adminform">
 		<tbody>
 			<tr>
-				<td width="100%"><?php echo JText::_( 'DESCLIBRARIES' ); ?></td>
+				<td width="100%"><?php echo JText::_('DESCLIBRARIES'); ?></td>
 			</tr>
 		</tbody>
 	</table>
@@ -23,18 +23,18 @@ defined('_JEXEC') or die('Restricted access'); ?>
     <table class="adminlist">
     <thead>
         <tr>
-        	<th class="title" width="10px"><?php echo JText::_( 'Num' ); ?></th>
+        	<th class="title" width="10px"><?php echo JText::_('Num'); ?></th>
             <th class="title">
-                <?php echo JText::_( 'Library' ); ?>
+                <?php echo JText::_('Library'); ?>
             </th>
             <th class="title">
-            	<?php echo JText::_( 'Version' ); ?>
+            	<?php echo JText::_('Version'); ?>
             </th>
             <th class="title">
-            	<?php echo JText::_( 'Author' ); ?>
+            	<?php echo JText::_('Author'); ?>
             </th>
             <th class="title">
-            	<?php echo JText::_( 'Packager' ); ?>
+            	<?php echo JText::_('Packager'); ?>
             </th>
         </tr>
     </thead>
@@ -60,5 +60,5 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<input type="hidden" name="boxchecked" value="0" />
 	<input type="hidden" name="option" value="com_installer" />
 	<input type="hidden" name="type" value="libraries" />
-	<?php echo JHtml::_( 'form.token' ); ?>
+	<?php echo JHtml::_('form.token'); ?>
 </form>

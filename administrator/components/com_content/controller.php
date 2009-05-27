@@ -4,11 +4,11 @@
  * @package		Joomla.Administrator
  * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
@@ -111,7 +111,7 @@ class ContentController extends JController
 		// Check for request forgeries
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$db		= & JFactory::getDBO();
+		$db		= & JFactory::getDbo();
 
 		// Initialize variables
 		$post		= JRequest::get('post');
@@ -197,7 +197,7 @@ class ContentController extends JController
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialize variables
-		$db		= & JFactory::getDBO();
+		$db		= & JFactory::getDbo();
 		$user	= & JFactory::getUser();
 
 		$cid	= JRequest::getVar('cid', array(), 'post', 'array');
@@ -261,7 +261,7 @@ class ContentController extends JController
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialize variables
-		$db		=& JFactory::getDBO();
+		$db		= &JFactory::getDbo();
 
 		$cid	= JRequest::getVar('cid', array(), 'post', 'array');
 		$option	= JRequest::getCmd('option');
@@ -362,7 +362,7 @@ class ContentController extends JController
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialize variables
-		$db			= & JFactory::getDBO();
+		$db			= & JFactory::getDbo();
 		$user		= & JFactory::getUser();
 
 		$cid		= JRequest::getVar('cid', array(0), 'post', 'array');
@@ -440,7 +440,7 @@ class ContentController extends JController
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialize variables
-		$db			= & JFactory::getDBO();
+		$db			= & JFactory::getDbo();
 
 		$cid		= JRequest::getVar('cid', array(), 'post', 'array');
 		$option		= JRequest::getCmd('option');
@@ -572,7 +572,7 @@ class ContentController extends JController
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialize variables
-		$db			= & JFactory::getDBO();
+		$db			= & JFactory::getDbo();
 
 		$cid		= JRequest::getVar('cid', array(0), 'post', 'array');
 		$order		= JRequest::getVar('order', array (0), 'post', 'array');

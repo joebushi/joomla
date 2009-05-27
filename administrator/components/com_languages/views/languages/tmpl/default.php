@@ -1,14 +1,14 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php defined('_JEXEC') or die; ?>
 
 <form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="adminForm">
 
-	<?php if($this->ftp): ?>
+	<?php if ($this->ftp): ?>
 	<fieldset title="<?php echo JText::_('DESCFTPTITLE'); ?>">
 		<legend><?php echo JText::_('DESCFTPTITLE'); ?></legend>
 
 		<?php echo JText::_('DESCFTP'); ?>
 
-		<?php if(JError::isError($ftp)): ?>
+		<?php if (JError::isError($ftp)): ?>
 			<p><?php echo JText::_($ftp->message); ?></p>
 		<?php endif; ?>
 
@@ -39,28 +39,28 @@
 	<thead>
 	<tr>
 		<th width="20">
-			<?php echo JText::_( 'Num' ); ?>
+			<?php echo JText::_('Num'); ?>
 		</th>
 		<th width="30">
 			&nbsp;
 		</th>
 		<th width="25%" class="title">
-			<?php echo JText::_( 'Language' ); ?>
+			<?php echo JText::_('Language'); ?>
 		</th>
 		<th width="5%">
-			<?php echo JText::_( 'Default' ); ?>
+			<?php echo JText::_('Default'); ?>
 		</th>
 		<th width="10%">
-			<?php echo JText::_( 'Version' ); ?>
+			<?php echo JText::_('Version'); ?>
 		</th>
 		<th width="10%">
-			<?php echo JText::_( 'Date' ); ?>
+			<?php echo JText::_('Date'); ?>
 		</th>
 		<th width="20%">
-			<?php echo JText::_( 'Author' ); ?>
+			<?php echo JText::_('Author'); ?>
 		</th>
 		<th width="25%">
-			<?php echo JText::_( 'Author Email' ); ?>
+			<?php echo JText::_('Author Email'); ?>
 		</th>
 	</tr>
 	</thead>
@@ -74,12 +74,12 @@
 	<tbody>
 	<?php
 	$k = 0;
-	for ($i=0, $n=count( $this->rows ); $i < $n; $i++) {
+	for ($i=0, $n=count($this->rows); $i < $n; $i++) {
 		$row = &$this->rows[$i];
 		?>
 		<tr class="<?php echo "row$k"; ?>">
 			<td width="20">
-				<?php echo $this->pagination->getRowOffset( $i ); ?>
+				<?php echo $this->pagination->getRowOffset($i); ?>
 			</td>
 			<td width="20">
 				<input type="radio" id="cb<?php echo $i;?>" name="cid[]" value="<?php echo $row->language; ?>" onclick="isChecked(this.checked);" />
@@ -90,7 +90,7 @@
 			<td width="5%" align="center">
 				<?php
 				if ($row->published == 1) {	 ?>
-					<img src="templates/khepri/images/menu/icon-16-default.png" alt="<?php echo JText::_( 'Default' ); ?>" />
+					<img src="templates/khepri/images/menu/icon-16-default.png" alt="<?php echo JText::_('Default'); ?>" />
 					<?php
 				} else {
 					?>
@@ -122,5 +122,5 @@
 <input type="hidden" name="client" value="<?php echo $this->client->id;?>" />
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="boxchecked" value="0" />
-<?php echo JHtml::_( 'form.token' ); ?>
+<?php echo JHtml::_('form.token'); ?>
 </form>

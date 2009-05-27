@@ -4,11 +4,11 @@
  * @package		Joomla.Administrator
  * @subpackage	com_acl
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 /**
  * HTML Grid Helper
@@ -96,7 +96,7 @@ class JHtmlAclAdmin
 			JHtml::_('select.option', 3, JText::_('Acl Rule Type 3'))
 		);
 
-		return JHTML::_( 'select.genericlist', $options, $name, $attribs, 'value', 'text', $selected );
+		return JHTML::_('select.genericlist', $options, $name, $attribs, 'value', 'text', $selected);
 	}
 
 	/**
@@ -121,7 +121,7 @@ class JHtmlAclAdmin
 			.' WHERE s.hidden = 0'
 			.' AND s.value IN ('
 			.'  SELECT DISTINCT aco.section_value FROM #__core_acl_aco AS aco WHERE aco.acl_type = '.(int) $ruleType
-			.' )'
+			.')'
 			.' GROUP BY s.id'
 			.' ORDER BY s.order_value, s.name'
 		);

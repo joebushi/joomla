@@ -4,8 +4,8 @@
  * @package		Joomla.Administrator
  * @subpackage	Banners
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 /**
  * @package		Joomla.Administrator
@@ -26,7 +26,7 @@ class BannerHelper
 
 		if (!$instance)
 		{
-			$config =& JComponentHelper::getParams('com_banners');
+			$config = &JComponentHelper::getParams('com_banners');
 			$prefix = $config->get('tag_prefix');
 
 			$instance = array();

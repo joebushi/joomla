@@ -4,11 +4,11 @@
  * @package		Joomla.Administrator
  * @subpackage	Messages
  * @copyright	Copyright (C) 2005 - 2007 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -64,14 +64,14 @@ class MessagesModelConfig extends JModel
 
 	function _loadData()
 	{
-		$user				=& JFactory::getUser();
+		$user				= &JFactory::getUser();
 
 		$query = 'SELECT cfg_name, cfg_value'
 			. ' FROM #__messages_cfg'
 			. ' WHERE user_id = '.(int) $user->get('id')
 		;
-		$this->_db->setQuery( $query );
-		$data = $this->_db->loadObjectList( 'cfg_name' );
+		$this->_db->setQuery($query);
+		$data = $this->_db->loadObjectList('cfg_name');
 
 		// initialize values if they do not exist
 		$this->_data['lock'] = isset($data['lock']->cfg_value) ? $data['lock']->cfg_value : 0;
@@ -88,27 +88,27 @@ class MessagesModelConfig extends JModel
 	 */
 	function store($vars)
 	{
-		$user	=& JFactory::getUser();
+		$user	= &JFactory::getUser();
 
 		$query = 'DELETE FROM #__messages_cfg'
 			. ' WHERE user_id = '.(int) $user->get('id')
 		;
-		$this->_db->setQuery( $query );
+		$this->_db->setQuery($query);
 		if ($this->_db->query() === false)
 			return false;
 
 		// Multi-row INSERT query
 		$values = array();
 		foreach ($vars as $k=>$v) {
-			$values[] = '( '.(int) $user->get('id').', '.$this->_db->Quote($k).', '.$this->_db->Quote($this->_db->getEscaped( $v )).' )';
+			$values[] = '('.(int) $user->get('id').', '.$this->_db->Quote($k).', '.$this->_db->Quote($this->_db->getEscaped($v)).')';
 		}
 		if (count($values)) {
 			$query = 'INSERT INTO #__messages_cfg'
-				. ' ( user_id, cfg_name, cfg_value )'
+				. ' (user_id, cfg_name, cfg_value)'
 				. ' VALUES '
-				. implode( ', ', $values )
+				. implode(', ', $values)
 			;
-			$this->_db->setQuery( $query );
+			$this->_db->setQuery($query);
 			if ($this->_db->query() === false)
 				return false;
 		}

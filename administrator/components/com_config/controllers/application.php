@@ -4,11 +4,11 @@
  * @package		Joomla.Administrator
  * @subpackage	Config
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 /**
  * @package		Joomla.Administrator
@@ -118,9 +118,9 @@ class ConfigControllerApplication extends JController
 		$config->setValue('config.offline_message', $offline_message);
 
 		//purge the database session table (only if we are changing to a db session store)
-		if($app->getCfg('session_handler') != 'database' && $config->getValue('session_handler') == 'database')
+		if ($app->getCfg('session_handler') != 'database' && $config->getValue('session_handler') == 'database')
 		{
-			$table =& JTable::getInstance('session');
+			$table = &JTable::getInstance('session');
 			$table->purge(-1);
 		}
 
@@ -128,7 +128,7 @@ class ConfigControllerApplication extends JController
 		$fname = JPATH_CONFIGURATION.DS.'configuration.php';
 
 		// Update the credentials with the new settings
-		$oldconfig =& JFactory::getConfig();
+		$oldconfig = &JFactory::getConfig();
 		$oldconfig->setValue('config.ftp_enable', $data['ftp_enable']);
 		$oldconfig->setValue('config.ftp_host', $data['ftp_host']);
 		$oldconfig->setValue('config.ftp_port', $data['ftp_port']);
@@ -137,7 +137,7 @@ class ConfigControllerApplication extends JController
 		$oldconfig->setValue('config.ftp_root', $data['ftp_root']);
 		JClientHelper::getCredentials('ftp', true);
 
-		if(!$config->get('caching') && $oldconfig->get('caching')) {
+		if (!$config->get('caching') && $oldconfig->get('caching')) {
 			$cache = JFactory::getCache();
 			$cache->clean();
 		}

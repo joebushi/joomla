@@ -1,19 +1,20 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Administrator
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
-if(!class_exists('JAdminSubMenu')) {
+if (!class_exists('JAdminSubMenu'))
+{
 	/**
 	 * Admin Submenu
- 	 *
- 	 * @package	Joomla
+	 *
+	 * @package	Joomla
  	 * @since 1.5
 	 */
 	class JAdminSubMenu
@@ -59,25 +60,30 @@ if(!class_exists('JAdminSubMenu')) {
 				{
 					if (isset ($item[2]) && $item[2] == 1) {
 						$txt .= "<span class=\"nolink active\">".$item[0]."</span>\n";
-					} else {
+					}
+					else {
 						$txt .= "<span class=\"nolink\">".$item[0]."</span>\n";
 					}
-				} elseif (isset ($item[2]) && $item[2] == 1) {
+				}
+				elseif (isset ($item[2]) && $item[2] == 1) {
 					$txt .= "<a class=\"active\" href=\"".JFilterOutput::ampReplace($item[1])."\">".$item[0]."</a>\n";
-				} else {
+				}
+				else {
 					$txt .= "<a href=\"".JFilterOutput::ampReplace($item[1])."\">".$item[0]."</a>\n";
 				}
 				$txt .= "</li>\n";
 			}
+
 			$txt .= "</ul>\n";
+
 			return $txt;
 		}
-	
+
 		function _loadDBList($componentOption)
 		{
-			$db   = &JFactory::getDBO();
+			$db   = &JFactory::getDbo();
 			$lang = &JFactory::getLanguage();
-	
+
 			// 1.5 or Core
 			$lang->load($componentOption.'.menu');
 			// 1.6 3PD extension
@@ -89,13 +95,13 @@ if(!class_exists('JAdminSubMenu')) {
 			' WHERE b.option = ' . $db->Quote($componentOption) .
 			' AND b.parent = 0'.
 			' ORDER BY a.ordering ASC';
-	
+
 			$db->setQuery($query);
 			$items = $db->loadObjectList();
-	
+
 			// Process the items
 			$subMenuList = array();
-	
+
 			foreach ($items as $item)
 			{
 				if (trim($item->admin_menu_link))

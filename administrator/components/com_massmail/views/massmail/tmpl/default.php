@@ -1,4 +1,4 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php defined('_JEXEC') or die; ?>
 
 <?php JHtml::_('behavior.tooltip'); ?>
 
@@ -6,18 +6,18 @@
 	function submitbutton(pressbutton) {
 		var form = document.adminForm;
 		if (pressbutton == 'cancel') {
-			submitform( pressbutton );
+			submitform(pressbutton);
 			return;
 		}
 		// do field validation
 		if (form.mm_subject.value == ""){
-			alert( "<?php echo JText::_( 'Please fill in the subject', true ); ?>" );
+			alert("<?php echo JText::_('Please fill in the subject', true); ?>");
 		} else if (getSelectedValue('adminForm','mm_group') < 0){
-			alert( "<?php echo JText::_( 'Please select a group', true ); ?>" );
+			alert("<?php echo JText::_('Please select a group', true); ?>");
 		} else if (form.mm_message.value == ""){
-			alert( "<?php echo JText::_( 'Please fillin the message', true ); ?>" );
+			alert("<?php echo JText::_('Please fillin the message', true); ?>");
 		} else {
-			submitform( pressbutton );
+			submitform(pressbutton);
 		}
 	}
 </script>
@@ -26,13 +26,13 @@
 
 <div class="col width-30">
 	<fieldset class="adminform">
-		<legend><?php echo JText::_( 'Details' ); ?></legend>
+		<legend><?php echo JText::_('Details'); ?></legend>
 
 		<table class="admintable">
 		<tr>
 			<td class="key">
 				<label for="mm_recurse">
-					<?php echo JText::_( 'Mail to Child Groups' ); ?>:
+					<?php echo JText::_('Mail to Child Groups'); ?>:
 				</label>
 			</td>
 			<td>
@@ -42,7 +42,7 @@
 		<tr>
 			<td class="key">
 				<label for="mm_mode">
-					<?php echo JText::_( 'Send in HTML mode' ); ?>:
+					<?php echo JText::_('Send in HTML mode'); ?>:
 				</label>
 			</td>
 			<td>
@@ -52,7 +52,7 @@
 		<tr>
 			<td valign="top" class="key">
 				<label for="mm_group">
-					<?php echo JText::_( 'Group' ); ?>:
+					<?php echo JText::_('Group'); ?>:
 				</label>
 			</td>
 			<td>
@@ -60,13 +60,13 @@
 		</tr>
 		<tr>
 			<td colspan="2" valign="top">
-				<?php echo JHtml::_('select.genericlist', $this->gtree, 'mm_group', 'size="10"', 'value', 'text', 0 ); ?>
+				<?php echo JHtml::_('select.genericlist', $this->gtree, 'mm_group', 'size="10"', 'value', 'text', 0); ?>
 			</td>
 		</tr>
 		<tr>
 			<td class="key">
-				<label for="mm_bcc" title="<?php echo JText::_( 'Send as Blind Carbon Copy' ); ?>">
-						<?php echo JText::_( 'Recipients as BCC' ); ?>:
+				<label for="mm_bcc" title="<?php echo JText::_('Send as Blind Carbon Copy'); ?>">
+						<?php echo JText::_('Recipients as BCC'); ?>:
 				</label>
 			</td>
 			<td>
@@ -79,13 +79,13 @@
 
 <div class="col width-70">
 	<fieldset class="adminform">
-		<legend><?php echo JText::_( 'Message' ); ?></legend>
+		<legend><?php echo JText::_('Message'); ?></legend>
 
 		<table class="admintable">
 		<tr>
 			<td class="key">
 				<label for="mm_subject">
-					<?php echo JText::_( 'Subject' ); ?>:
+					<?php echo JText::_('Subject'); ?>:
 				</label>
 			</td>
 			<td>
@@ -95,7 +95,7 @@
 		<tr>
 			<td valign="top" class="key">
 				<label for="mm_message">
-					<?php echo JText::_( 'Message' ); ?>:
+					<?php echo JText::_('Message'); ?>:
 				</label>
 			</td>
 			<td id="mm_pane" >

@@ -4,11 +4,11 @@
  * @package		Joomla.Administrator
  * @subpackage	Categories
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined('_JEXEC') or die;
 
 
 /**
@@ -55,7 +55,7 @@ class TableCategory extends JTable
 	*/
 	function __construct(&$db)
 	{
-		parent::__construct( '#__categories', 'id', $db );
+		parent::__construct('#__categories', 'id', $db);
 	}
 
 	/**
@@ -70,7 +70,7 @@ class TableCategory extends JTable
 	{
 		$alias = JFilterOutput::stringURLSafe($this->title);
 
-		if(empty($this->alias) || $this->alias === $alias ) {
+		if (empty($this->alias) || $this->alias === $alias) {
 			$this->alias = $alias;
 		}
 

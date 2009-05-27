@@ -6,7 +6,7 @@
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
-defined('_JEXEC') or die('Invalid Request.');
+defined('_JEXEC') or die;
 
 jimport('joomla.html.html');
 jimport('joomla.form.fields.list');
@@ -26,7 +26,7 @@ class JFormFieldUserGroup extends JFormFieldList
 	protected function _getOptions()
 	{
 		// Get a database object.
-		$db = &JFactory::getDBO();
+		$db = &JFactory::getDbo();
 
 		// Get the user groups from the database.
 		$db->setQuery(

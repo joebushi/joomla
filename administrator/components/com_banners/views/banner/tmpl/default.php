@@ -1,4 +1,4 @@
-<?php defined('_JEXEC') or die('Restricted access');
+<?php defined('_JEXEC') or die;
 
 	JHtml::_('behavior.tooltip');
 	JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');

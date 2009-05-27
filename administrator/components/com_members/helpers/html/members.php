@@ -6,7 +6,7 @@
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
-defined('_JEXEC') or die('Invalid Request.');
+defined('_JEXEC') or die;
 
 /**
  * HTML behavior class
@@ -19,7 +19,7 @@ class JHTMLMembers
 	public static function groups($name, $attribs, $selected)
 	{
 		// Get a database object.
-		$db = &JFactory::getDBO();
+		$db = &JFactory::getDbo();
 
 		// Get the user groups from the database.
 		$db->setQuery(

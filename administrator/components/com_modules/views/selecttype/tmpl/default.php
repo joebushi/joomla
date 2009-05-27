@@ -1,4 +1,4 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php defined('_JEXEC') or die; ?>
 
 <?php
 	JHtml::_('behavior.tooltip');
@@ -45,7 +45,7 @@ for ($i=0; $i < $count; $i++) {
 	<?php
 	$k = 1 - $k;
 }
-if($k) {
+if ($k) {
 	?><tr><td>&nbsp;</td></tr><?php
 }
 ?>

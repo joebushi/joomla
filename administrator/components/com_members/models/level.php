@@ -6,7 +6,7 @@
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
-defined('_JEXEC') or die('Invalid Request.');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modelitem');
 jimport('joomla.access.helper');
@@ -62,7 +62,7 @@ class MembersModelLevel extends JModelItem
 		$levelId = (!empty($levelId)) ? $levelId : (int)$this->getState('level.id');
 		$false	= false;
 
-		$db = &$this->getDBO();
+		$db = &$this->getDbo();
 		$db->setQuery(
 			'SELECT `section_id`' .
 			' FROM `#__access_assetgroups`' .
@@ -133,7 +133,7 @@ class MembersModelLevel extends JModelItem
 
 		if ($isNew)
 		{
-			$db = &$this->getDBO();
+			$db = &$this->getDbo();
 			$db->setQuery(
 				'SELECT `name`' .
 				' FROM `#__access_sections`' .
@@ -159,7 +159,7 @@ class MembersModelLevel extends JModelItem
 			}
 
 			// Update the access level title.
-			$db = &$this->getDBO();
+			$db = &$this->getDbo();
 			$db->setQuery(
 				'UPDATE `#__access_assetgroups`' .
 				' SET `title` = '.$db->Quote($data['title']) .
@@ -189,7 +189,7 @@ class MembersModelLevel extends JModelItem
 		JArrayHelper::toInteger($levelIds);
 
 		// Get a database object.
-		$db = &$this->getDBO();
+		$db = &$this->getDbo();
 
 		// Iterate the items to delete each one.
 		foreach ($levelIds as $levelId)

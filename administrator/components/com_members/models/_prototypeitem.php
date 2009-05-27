@@ -1,14 +1,14 @@
 <?php
 /**
-* @version		$Id: _prototypeitem.php 11476 2009-01-25 06:58:51Z eddieajau $
-* @package		Joomla.Framework
-* @subpackage	Application
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id: _prototypeitem.php 11476 2009-01-25 06:58:51Z eddieajau $
+ * @package		Joomla.Framework
+ * @subpackage	Application
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 jimport('joomla.application.component.model');
 
@@ -64,7 +64,7 @@ class AccessModelPrototypeItem extends JModel
 	function &getListCount($resolveFKs = true)
 	{
 		if ($this->_list_count == null) {
-			$db = &$this->getDBO();
+			$db = &$this->getDbo();
 			$db->setQuery($this->_getListQuery($resolveFKs));
 			if (!$db->query()) {
 				$this->setError($this->_db->getErrorMsg());

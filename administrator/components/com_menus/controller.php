@@ -4,11 +4,11 @@
  * @package		Joomla.Administrator
  * @subpackage	Menus
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
@@ -506,7 +506,7 @@ class MenusController extends JController
 		// Check for request forgeries
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$db		= &JFactory::getDBO();
+		$db		= &JFactory::getDbo();
 		$id		= JRequest::getVar('id', 0, 'post', 'int');
 
 		$oldType = &JTable::getInstance('menutypes');
@@ -675,7 +675,7 @@ class MenusController extends JController
 		// Check for request forgeries
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$db				= &JFactory::getDBO();
+		$db				= &JFactory::getDbo();
 		$type			= JRequest::getVar('type', '', 'post', 'string');
 		$menu_name		= JRequest::getVar('menu_name', 'New Menu', 'post', 'string');
 		$module_name	= JRequest::getVar('module_name', 'New Module', 'post', 'string');

@@ -2,7 +2,7 @@
 /**
  * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 defined('_JEXEC') or die;
@@ -65,7 +65,7 @@ class WeblinksModelWeblinks extends JModelList
 		// Filter by search in title
 		$search = $this->getState('filter.search');
 		if (!empty($search)) {
-			$search = $this->_db->Quote('%'.$this->_db->getEscaped( $search, true ).'%', false);
+			$search = $this->_db->Quote('%'.$this->_db->getEscaped($search, true).'%', false);
 			$query->where('(a.title LIKE '.$search.')');
 		}
 

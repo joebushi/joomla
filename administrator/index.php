@@ -1,10 +1,10 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Administrator
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // Set flag that this is a parent file.
 define('_JEXEC', 1);
@@ -23,7 +23,7 @@ try {
 	/*
 	 * Instantiate the application.
 	 */
-	$mainframe =& JFactory::getApplication('administrator');
+	$mainframe = &JFactory::getApplication('administrator');
 
 	/*
 	 * Initialise the application.

@@ -1,4 +1,4 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php defined('_JEXEC') or die; ?>
 		<tr>
 			<td class="imgTotal">
 				<a href="<?php echo JRoute::_('index.php?option=com_media&amp;view=mediaList&amp;tmpl=component&amp;folder=' . $this->state->parent); ?>" target="folderframe">

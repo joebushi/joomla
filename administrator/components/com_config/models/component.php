@@ -4,13 +4,13 @@
  * @package		Joomla.Administrator
  * @subpackage	Config
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
-jimport( 'joomla.application.component.model' );
+jimport('joomla.application.component.model');
 
 /**
  * @package		Joomla.Administrator
@@ -48,13 +48,13 @@ class ConfigModelComponent extends JModel
 		}
 		return $instance;
 	}
-	
+
 	public function getComponent($componentName = null)
 	{
 		if (is_null($componentName)) {
 			$componentName = $this->getState('component');
 		}
-	
+
 		if (empty($componentName)) {
 			JError::raiseError(500, 'Not a valid component');
 			return false;
@@ -64,10 +64,10 @@ class ConfigModelComponent extends JModel
 		// 1.5 or core
 		$lang->load($componentName);
 		// 1.6 support for component specific languages
-		$lang->load($componentName, JPATH_ADMINISTRATOR.DS.'components'.DS.$componentName);		
-		
+		$lang->load($componentName, JPATH_ADMINISTRATOR.DS.'components'.DS.$componentName);
+
 		$component = JComponentHelper::getComponent($componentName);
-		
+
 		return $component;
 	}
 }

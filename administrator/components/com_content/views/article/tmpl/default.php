@@ -1,4 +1,4 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php defined('_JEXEC') or die; ?>
 
 <?php
 	JRequest::setVar('hidemainmenu', 1);
@@ -6,9 +6,9 @@
 	jimport('joomla.html.pane');
 	JFilterOutput::objectHTMLSafe($row);
 
-	$db		=& JFactory::getDBO();
-	$editor =& JFactory::getEditor();
-	$pane	=& JPane::getInstance('sliders');
+	$db		= &JFactory::getDbo();
+	$editor = &JFactory::getEditor();
+	$pane	= &JPane::getInstance('sliders');
 
 	JHtml::_('behavior.tooltip');
 
@@ -227,7 +227,7 @@ function submitbutton(pressbutton)
 
 		<?php
 			jimport('joomla.html.pane');
-			$pane =& JPane::getInstance('sliders');
+			$pane = &JPane::getInstance('sliders');
 			echo $pane->startPane("menu-pane");
 			$groups = $this->params->getGroups();
 			if (count($groups)) {

@@ -4,11 +4,11 @@
  * @package		Joomla.Administrator
  * @subpackage	Templates
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 /**
  * @package		Joomla.Administrator
@@ -18,7 +18,7 @@ class TemplatesHelper
 {
 	function isTemplateAssigned($id)
 	{
-		$db =& JFactory::getDBO();
+		$db = &JFactory::getDbo();
 		// check if template is assigned
 		$query = 'SELECT COUNT(*)' .
 				' FROM #__menu' .
@@ -29,7 +29,7 @@ class TemplatesHelper
 
 	function isTemplateDefault($id)
 	{
-		$db =& JFactory::getDBO();
+		$db = &JFactory::getDbo();
 		// check if template is assigned
 		$query = 'SELECT home' .
 				' FROM #__menu_template' .
@@ -40,8 +40,8 @@ class TemplatesHelper
 
 	function isTemplateNameAssigned($template,$client_id)
 	{
-		$db =& JFactory::getDBO();
-		if($client_id==1)
+		$db = &JFactory::getDbo();
+		if ($client_id==1)
 			return 0;
 		// check if template is assigned
 		$query = 'SELECT COUNT(*) FROM #__menu'.
@@ -54,7 +54,7 @@ class TemplatesHelper
 
 	function isTemplateNameDefault($template,$client_id)
 	{
-		$db =& JFactory::getDBO();
+		$db = &JFactory::getDbo();
 
 		// check if template is assigned
 		$query = 'SELECT COUNT(*) FROM #__menu_template'.
@@ -76,7 +76,7 @@ class TemplatesHelper
 		// Check that the directory contains an xml file
 		foreach ($templateDirs as $templateDir)
 		{
-			if(!$data = TemplatesHelper::parseXMLTemplateFile($templateBaseDir, $templateDir)){
+			if (!$data = TemplatesHelper::parseXMLTemplateFile($templateBaseDir, $templateDir)){
 				continue;
 			} else {
 				$rows[$templateDir] = $data;
@@ -89,7 +89,7 @@ class TemplatesHelper
 	function parseXMLTemplateFile($templateBaseDir, $templateDir)
 	{
 		// Check of the xml file exists
-		if(!is_file($templateBaseDir.DS.$templateDir.DS.'templateDetails.xml')) {
+		if (!is_file($templateBaseDir.DS.$templateDir.DS.'templateDetails.xml')) {
 			return false;
 		}
 
@@ -114,14 +114,14 @@ class TemplatesHelper
 
 	function createMenuList($id)
 	{
-		$db =& JFactory::getDBO();
+		$db = &JFactory::getDbo();
 		// get selected pages for $menulist
 		$query = 'SELECT id AS value FROM #__menu'.
 				' WHERE template_id = '.$db->Quote($id);
 		$db->setQuery($query);
 		$lookup = $db->loadObjectList();
-		if (empty( $lookup )) {
-			$lookup = array( JHtml::_('select.option',  '-1' ) );
+		if (empty($lookup)) {
+			$lookup = array(JHtml::_('select.option',  '-1'));
 		}
 		// build the html select list
 		$options = JHtml::_('menu.linkoptions');
@@ -140,13 +140,13 @@ class TemplatesHelper
 
 	function getTemplateName($id)
 	{
-		$db =& JFactory::getDBO();
+		$db = &JFactory::getDbo();
 		$query = 'SELECT template FROM #__menu_template'.
 				' WHERE id = '.$db->Quote($id).'';
 		$db->setQuery($query);
 		$db->query();
 		if ($db->getNumRows() == 0) {
-				JError::raiseWarning( 500, JText::_('Template not found') );
+				JError::raiseWarning(500, JText::_('Template not found'));
 				return '';
 		}
 		return $db->loadResult();

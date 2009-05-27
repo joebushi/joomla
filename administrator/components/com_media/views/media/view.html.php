@@ -1,16 +1,16 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Administrator
-* @subpackage	Media
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	Media
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
-jimport( 'joomla.application.component.view');
+jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the Media component
@@ -33,7 +33,7 @@ class MediaViewMedia extends JView
 	{
 		$mainframe = JFactory::getApplication();
 
-		$config =& JComponentHelper::getParams('com_media');
+		$config = &JComponentHelper::getParams('com_media');
 
 		$style = $mainframe->getUserStateFromRequest('media.list.layout', 'layout', 'thumbs', 'word');
 
@@ -44,7 +44,7 @@ class MediaViewMedia extends JView
 			</ul>
 		";
 
-		$document =& JFactory::getDocument();
+		$document = &JFactory::getDocument();
 		$document->setBuffer($listStyle, 'modules', 'submenu');
 
 		JHtml::_('behavior.mootools');
@@ -95,17 +95,17 @@ class MediaViewMedia extends JView
 	function _setToolBar()
 	{
 		// Get the toolbar object instance
-		$bar =& JToolBar::getInstance('toolbar');
+		$bar = &JToolBar::getInstance('toolbar');
 
 		// Set the titlebar text
-		JToolBarHelper::title( JText::_( 'Media Manager' ), 'mediamanager.png');
+		JToolBarHelper::title(JText::_('Media Manager'), 'mediamanager.png');
 
 		// Add a delete button
 		$title = JText::_('Delete');
 		$dhtml = "<a href=\"#\" onclick=\"MediaManager.submit('folder.delete')\" class=\"toolbar\">
 					<span class=\"icon-32-delete\" title=\"$title\" type=\"Custom\"></span>
 					$title</a>";
-		$bar->appendButton( 'Custom', $dhtml, 'delete' );
+		$bar->appendButton('Custom', $dhtml, 'delete');
 
 		JToolBarHelper::preferences('com_media', '550');
 		JToolBarHelper::help('screen.mediamanager');

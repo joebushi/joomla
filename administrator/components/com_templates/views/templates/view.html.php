@@ -1,16 +1,16 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Administrator
-* @subpackage	Templates
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	Templates
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
-jimport( 'joomla.application.component.view');
+jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the Templates component
@@ -29,10 +29,10 @@ class TemplatesViewTemplates extends JView
 	public function display($tpl = null)
 	{
 		// Get data from the model
-		$rows		= & $this->get( 'Data');
-		$total		= & $this->get( 'Total');
-		$pagination = & $this->get( 'Pagination' );
-		$client		= & $this->get( 'Client');
+		$rows		= & $this->get('Data');
+		$total		= & $this->get('Total');
+		$pagination = & $this->get('Pagination');
+		$client		= & $this->get('Client');
 
 		$task = JRequest::getCmd('task');
 
@@ -48,11 +48,11 @@ class TemplatesViewTemplates extends JView
 		}
 
 		// Set toolbar items for the page
-		JToolBarHelper::title( JText::_( 'Template Manager' ), 'thememanager' );
+		JToolBarHelper::title(JText::_('Template Manager'), 'thememanager');
 
-		JToolBarHelper::editListX( 'edit', 'Edit' );
+		JToolBarHelper::editListX('edit', 'Edit');
 		//JToolBarHelper::addNew();
-		JToolBarHelper::help( 'screen.templates' );
+		JToolBarHelper::help('screen.templates');
 
 		//$select[] 			= JHtml::_('select.option', '0', JText::_('Site'));
 		//$select[] 			= JHtml::_('select.option', '1', JText::_('Administrator'));

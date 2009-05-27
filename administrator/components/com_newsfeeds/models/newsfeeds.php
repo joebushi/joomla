@@ -4,11 +4,11 @@
  * @package		Joomla.Administrator
  * @subpackage	Newsfeeds
  * @copyright	Copyright (C) 2005 - 2007 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -62,18 +62,18 @@ class NewsfeedsModelNewsfeeds extends JModel
 		$option = JRequest::getCmd('option');
 
 		// Get the pagination request variables
-		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
-		$limitstart	= $mainframe->getUserStateFromRequest( $option.'.limitstart', 'limitstart', 0, 'int' );
+		$limit		= $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
+		$limitstart	= $mainframe->getUserStateFromRequest($option.'.limitstart', 'limitstart', 0, 'int');
 
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
 
 		$filter = new stdClass();
-		$filter->order		= $mainframe->getUserStateFromRequest( $option.'filter_order',		'filter_order',		'a.ordering',	'cmd' );
-		$filter->order_Dir	= $mainframe->getUserStateFromRequest( $option.'filter_order_Dir',	'filter_order_Dir',	'',				'word' );
-		$filter->state		= $mainframe->getUserStateFromRequest( $option.'filter_state',		'filter_state',		'',				'word' );
-		$filter->catid		= $mainframe->getUserStateFromRequest( $option.'filter_catid',		'filter_catid',		0,				'int' );
-		$filter->search		= $mainframe->getUserStateFromRequest( $option.'search',			'search',			'',				'string' );
+		$filter->order		= $mainframe->getUserStateFromRequest($option.'filter_order',		'filter_order',		'a.ordering',	'cmd');
+		$filter->order_Dir	= $mainframe->getUserStateFromRequest($option.'filter_order_Dir',	'filter_order_Dir',	'',				'word');
+		$filter->state		= $mainframe->getUserStateFromRequest($option.'filter_state',		'filter_state',		'',				'word');
+		$filter->catid		= $mainframe->getUserStateFromRequest($option.'filter_catid',		'filter_catid',		0,				'int');
+		$filter->search		= $mainframe->getUserStateFromRequest($option.'search',			'search',			'',				'string');
 		$this->_filter = $filter;
 	}
 
@@ -125,7 +125,7 @@ class NewsfeedsModelNewsfeeds extends JModel
 		if (empty($this->_pagination))
 		{
 			jimport('joomla.html.pagination');
-			$this->_pagination = new JPagination( $this->getTotal(), $this->getState('limitstart'), $this->getState('limit') );
+			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
 
 		return $this->_pagination;
@@ -177,7 +177,7 @@ class NewsfeedsModelNewsfeeds extends JModel
 		$mainframe = JFactory::getApplication();
 		$option = JRequest::getCmd('option');
 
-		$search = JString::strtolower( $this->_filter->search );
+		$search = JString::strtolower($this->_filter->search);
 
 		$where = array();
 
@@ -185,17 +185,17 @@ class NewsfeedsModelNewsfeeds extends JModel
 			$where[] = 'a.catid = '.(int) $this->_filter->catid;
 		}
 		if ($search) {
-			$where[] = 'LOWER(a.name) LIKE '.$this->_db->Quote('%'.$this->_db->getEscaped( $search, true ).'%', false);
+			$where[] = 'LOWER(a.name) LIKE '.$this->_db->Quote('%'.$this->_db->getEscaped($search, true).'%', false);
 		}
-		if ( $this->_filter->state ) {
-			if ( $this->_filter->state == 'P' ) {
+		if ($this->_filter->state) {
+			if ($this->_filter->state == 'P') {
 				$where[] = 'a.published = 1';
-			} else if ($this->_filter->state == 'U' ) {
+			} else if ($this->_filter->state == 'U') {
 				$where[] = 'a.published = 0';
 			}
 		}
 
-		$where 		= ( count( $where ) ? ' WHERE '. implode( ' AND ', $where ) : '' );
+		$where 		= (count($where) ? ' WHERE '. implode(' AND ', $where) : '');
 
 		return $where;
 	}

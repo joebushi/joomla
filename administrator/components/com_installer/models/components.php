@@ -4,11 +4,11 @@
  * @package		Joomla.Administrator
  * @subpackage	Menus
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 // Import library dependencies
 require_once dirname(__FILE__).DS.'extension.php';
@@ -49,7 +49,7 @@ class InstallerModelComponents extends InstallerModel
 		}
 
 		// Get a database connector
-		$db =& JFactory::getDBO();
+		$db = &JFactory::getDbo();
 
 		// Get a table object for the extension type
 		$table = & JTable::getInstance($this->_type);
@@ -85,7 +85,7 @@ class InstallerModelComponents extends InstallerModel
 		}
 
 		// Get a database connector
-		$db =& JFactory::getDBO();
+		$db = &JFactory::getDbo();
 
 		// Get a table object for the extension type
 		$table = & JTable::getInstance($this->_type);
@@ -109,7 +109,7 @@ class InstallerModelComponents extends InstallerModel
 		jimport('joomla.filesystem.folder');
 
 		/* Get a database connector */
-		$db =& JFactory::getDBO();
+		$db = &JFactory::getDbo();
 
 		$query = 'SELECT *' .
 				' FROM #__components' .
@@ -123,9 +123,9 @@ class InstallerModelComponents extends InstallerModel
 		$siteDir = JPATH_SITE .DS. 'components';
 
 		$numRows = count($rows);
-		for($i=0;$i < $numRows; $i++)
+		for ($i=0;$i < $numRows; $i++)
 		{
-			$row =& $rows[$i];
+			$row = &$rows[$i];
 
 			 /* Get the component folder and list of xml files in folder */
 			$folder = $adminDir.DS.$row->option;
@@ -154,8 +154,8 @@ class InstallerModelComponents extends InstallerModel
 			}
 		}
 		$this->setState('pagination.total', $numRows);
-		if($this->_state->get('pagination.limit') > 0) {
-			$this->_items = array_slice( $rows, $this->_state->get('pagination.offset'), $this->_state->get('pagination.limit') );
+		if ($this->_state->get('pagination.limit') > 0) {
+			$this->_items = array_slice($rows, $this->_state->get('pagination.offset'), $this->_state->get('pagination.limit'));
 		} else {
 			$this->_items = $rows;
 		}

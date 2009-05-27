@@ -4,11 +4,11 @@
  * @package		Joomla.Administrator
  * @subpackage	Frontpage
  * @copyright	Copyright (C) 2005 - 2007 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -234,7 +234,7 @@ class ContentModelFrontpage extends JModel
 		$row = & JTable::getInstance('frontpage', 'Table');
 
 		// update ordering values
-		for($i=0; $i < count($cid); $i++)
+		for ($i=0; $i < count($cid); $i++)
 		{
 			$row->load((int) $cid[$i]);
 

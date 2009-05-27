@@ -6,9 +6,9 @@
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
-defined('_JEXEC') or die('Invalid Request.');
+defined('_JEXEC') or die;
 
-jimport( 'joomla.application.component.controller' );
+jimport('joomla.application.component.controller');
 
 /**
  * This is just for development tests
@@ -69,7 +69,7 @@ class MembersControllerTest extends JController
 
 		$acl->getAssetGroupMap(3);
 		$acl->getAssetGroupMap(3, true);
-*/
+ */
 		$acl->check($user->id, 'core.view', 'com_foobar.1');
 
 	}

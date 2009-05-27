@@ -4,11 +4,11 @@
  * @package		Joomla.Administrator
  * @subpackage	Modules
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 /**
  * @package		Joomla.Administrator
@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restricted access');
  */
 class ModulesHelperXML
 {
-	function parseXMLModuleFile(&$rows )
+	function parseXMLModuleFile(&$rows)
 	{
 		foreach ($rows as $i => $row)
 		{

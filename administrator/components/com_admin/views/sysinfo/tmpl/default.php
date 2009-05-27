@@ -1,4 +1,4 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php defined('_JEXEC') or die; ?>
 
 <form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="adminForm">
 

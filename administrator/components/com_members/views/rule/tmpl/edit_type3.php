@@ -1,4 +1,4 @@
-<?php /** $Id: edit_type3.php 11362 2008-12-22 12:19:58Z eddieajau $ */ defined('_JEXEC') or die(); ?>
+<?php /** $Id: edit_type3.php 11362 2008-12-22 12:19:58Z eddieajau $ */ defined('_JEXEC') or die; ?>
 
 <table width="100%">
 	<tbody>

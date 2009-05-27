@@ -1,35 +1,35 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Administrator
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
-$db =& JFactory::getDBO();
+$db = &JFactory::getDbo();
 $query = 'SELECT a.hits, a.id, a.sectionid, a.title, a.created, u.name'
 . ' FROM #__content AS a'
 . ' LEFT JOIN #__users AS u ON u.id=a.created_by'
 . ' WHERE a.state <> -2'
 . ' ORDER BY hits DESC'
 ;
-$db->setQuery( $query, 0, 10 );
+$db->setQuery($query, 0, 10);
 $rows = $db->loadObjectList();
 ?>
 
 <table class="adminlist">
 <tr>
 	<td class="title">
-		<strong><?php echo JText::_( 'Most Popular Items' ); ?></strong>
+		<strong><?php echo JText::_('Most Popular Items'); ?></strong>
 	</td>
 	<td class="title">
-		<strong><?php echo JText::_( 'Created' ); ?></strong>
+		<strong><?php echo JText::_('Created'); ?></strong>
 	</td>
 	<td class="title">
-		<strong><?php echo JText::_( 'Hits' ); ?></strong>
+		<strong><?php echo JText::_('Hits'); ?></strong>
 	</td>
 </tr>
 <?php

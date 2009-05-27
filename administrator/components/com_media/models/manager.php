@@ -4,11 +4,11 @@
  * @package		Joomla.Administrator
  * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -27,7 +27,7 @@ class MediaModelManager extends JModel
 		static $set;
 
 		if (!$set) {
-			$folder = JRequest::getVar( 'folder', '', '', 'path' );
+			$folder = JRequest::getVar('folder', '', '', 'path');
 			$this->setState('folder', $folder);
 
 			$parent = str_replace("\\", "/", dirname($folder));
@@ -60,9 +60,9 @@ class MediaModelManager extends JModel
 		// Load appropriate language files
 		$lang = & JFactory::getLanguage();
 		$lang->load('', JPATH_ADMINISTRATOR);
-		$lang->load(JRequest::getCmd( 'option' ), JPATH_ADMINISTRATOR);
+		$lang->load(JRequest::getCmd('option'), JPATH_ADMINISTRATOR);
 
-		$document =& JFactory::getDocument();
+		$document = &JFactory::getDocument();
 		$document->setTitle(JText::_('Insert Image'));
 
 		// Build the array of select options for the folder list

@@ -3,20 +3,20 @@
  * @version		$Id$
  * @package		Joomla.Administrator
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 global $task;
 
 // Initialize some variables
-$config		=& JFactory::getConfig();
-$user		=& JFactory::getUser();
-$db			=& JFactory::getDBO();
-$lang		=& JFactory::getLanguage();
-$session	=& JFactory::getSession();
+$config		= &JFactory::getConfig();
+$user		= &JFactory::getUser();
+$db			= &JFactory::getDbo();
+$lang		= &JFactory::getLanguage();
+$session	= &JFactory::getSession();
 
 $sid	= $session->getId();
 $output = array();

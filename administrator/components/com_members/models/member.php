@@ -6,7 +6,7 @@
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
-defined('_JEXEC') or die('Invalid Request.');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modelitem');
 
@@ -317,7 +317,7 @@ class MembersModelMember extends JModelItem
 
 		// Fire the onBeforeStoreUser event.
 		JPluginHelper::importPlugin('user');
-		$dispatcher =& JDispatcher::getInstance();
+		$dispatcher = &JDispatcher::getInstance();
 		$dispatcher->trigger('onBeforeStoreUser', array($old->getProperties(), $isNew));
 
 		// Store the data.

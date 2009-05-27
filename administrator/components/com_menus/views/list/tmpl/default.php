@@ -1,4 +1,4 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php defined('_JEXEC') or die; ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_menus&amp;menutype=' . $this->menutype); ?>" method="post" name="adminForm">
 
@@ -79,7 +79,7 @@
 				<?php echo $checked; ?>
 			</td>
 			<td nowrap="nowrap">
-				<?php if ( JTable::isCheckedOut($this->user->get('id'), $row->checked_out)) : ?>
+				<?php if (JTable::isCheckedOut($this->user->get('id'), $row->checked_out)) : ?>
 				<?php echo $row->treename; ?>
 				<?php else : ?>
 				<span class="editlinktip hasTip" title="<?php echo JText::_('Edit Menu');?>::<?php echo $row->treename; ?>">

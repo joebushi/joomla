@@ -1,22 +1,22 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Administrator
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 /**
-* Joomla! Administrator Application helper class
-*
-* Provide many supporting API functions
-*
-* @package		Joomla.Administrator
-* @final
-*/
+ * Joomla! Administrator Application helper class
+ *
+ * Provide many supporting API functions
+ *
+ * @package		Joomla.Administrator
+ * @final
+ */
 class JAdministratorHelper
 {
 	/**
@@ -38,7 +38,7 @@ class JAdministratorHelper
 			$option = 'com_login';
 		}
 
-		if(empty($option)) {
+		if (empty($option)) {
 			$option = JApplicationHelper::getComponent('com_cpanel');
 		}
 

@@ -4,7 +4,7 @@
  * @package		Joomla.Administrator
  * @subpackage	Menus
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Import library dependencies
@@ -64,7 +64,7 @@ class UpdateModelUpdate extends JModel
 		jimport('joomla.filesystem.folder');
 
 		/* Get a database connector */
-		$db =& JFactory::getDBO();
+		$db = &JFactory::getDbo();
 
 		$query = 'SELECT *' .
 				' FROM #__updates' .
@@ -73,37 +73,37 @@ class UpdateModelUpdate extends JModel
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
 
-		$apps =& JApplicationHelper::getClientInfo();
+		$apps = &JApplicationHelper::getClientInfo();
 
 		$numRows = count($rows);
-		for($i=0;$i < $numRows; $i++)
+		for ($i=0;$i < $numRows; $i++)
 		{
-			$row =& $rows[$i];
+			$row = &$rows[$i];
 			$row->jname = JString::strtolower(str_replace(" ", "_", $row->name));
-			if(isset($apps[$row->client_id])) {
+			if (isset($apps[$row->client_id])) {
 				$row->client = ucfirst($apps[$row->client_id]->name);
 			} else {
 				$row->client = $row->client_id;
 			}
 		}
 		$this->setState('pagination.total', $numRows);
-		if($this->_state->get('pagination.limit') > 0) {
-			$this->_items = array_slice( $rows, $this->_state->get('pagination.offset'), $this->_state->get('pagination.limit') );
+		if ($this->_state->get('pagination.limit') > 0) {
+			$this->_items = array_slice($rows, $this->_state->get('pagination.offset'), $this->_state->get('pagination.limit'));
 		} else {
 			$this->_items = $rows;
 		}
 	}
 
 	function findUpdates($eid=0) {
-		$updater =& JUpdater::getInstance();
+		$updater = &JUpdater::getInstance();
 		$results = $updater->findUpdates($eid);
 		return true;
 	}
 
 	function purge() {
-		$db =& JFactory::getDBO();
+		$db = &JFactory::getDbo();
 		$db->setQuery('TRUNCATE TABLE #__updates');
-		if($db->Query()) {
+		if ($db->Query()) {
 			$this->_message = JText::_('Purged updates');
 			return true;
 		} else {

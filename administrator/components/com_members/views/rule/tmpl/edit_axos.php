@@ -1,4 +1,4 @@
-<?php /** $Id: edit_axos.php 11323 2008-11-28 07:05:20Z eddieajau $ */ defined('_JEXEC') or die();
+<?php /** $Id: edit_axos.php 11323 2008-11-28 07:05:20Z eddieajau $ */ defined('_JEXEC') or die;
 
 	// Get the selected groups from the references
 	$selected = $this->item->references->getAxos();

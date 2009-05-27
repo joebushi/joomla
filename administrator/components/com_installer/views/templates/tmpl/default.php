@@ -6,7 +6,7 @@
 	<table class="adminform">
 		<tbody>
 			<tr>
-				<td width="100%"><?php echo JText::_( 'DESCTEMPLATES' ); ?></td>
+				<td width="100%"><?php echo JText::_('DESCTEMPLATES'); ?></td>
 				<td align="right"><?php echo $this->lists->client; ?></td>
 			</tr>
 		</tbody>
@@ -16,13 +16,13 @@
 	<table class="adminlist" cellspacing="1">
 		<thead>
 			<tr>
-				<th class="title" width="10px"><?php echo JText::_( 'Num' ); ?></th>
-				<th class="title"><?php echo JText::_( 'Template' ); ?></th>
-				<th class="title" width="7%" align="center"><?php echo JText::_( 'Client' ); ?></th>
-				<th class="title" width="10%" align="center"><?php echo JText::_( 'Version' ); ?></th>
-				<th class="title" width="15%"><?php echo JText::_( 'Date' ); ?></th>
-				<th class="title" width="25%"><?php echo JText::_( 'Author' ); ?></th>
-				<th class="title" width="5%"><?php echo JText::_( 'Compatibility' ); ?></th>
+				<th class="title" width="10px"><?php echo JText::_('Num'); ?></th>
+				<th class="title"><?php echo JText::_('Template'); ?></th>
+				<th class="title" width="7%" align="center"><?php echo JText::_('Client'); ?></th>
+				<th class="title" width="10%" align="center"><?php echo JText::_('Version'); ?></th>
+				<th class="title" width="15%"><?php echo JText::_('Date'); ?></th>
+				<th class="title" width="25%"><?php echo JText::_('Author'); ?></th>
+				<th class="title" width="5%"><?php echo JText::_('Compatibility'); ?></th>
 			</tr>
 		</thead>
 		<tfoot>
@@ -40,11 +40,11 @@
 		</tbody>
 	</table>
 	<?php else : ?>
-		<?php echo JText::_( 'There are no custom templates installed' ); ?>
+		<?php echo JText::_('There are no custom templates installed'); ?>
 	<?php endif; ?>
 	<input type="hidden" name="task" value="manage" />
 	<input type="hidden" name="boxchecked" value="0" />
 	<input type="hidden" name="option" value="com_installer" />
 	<input type="hidden" name="type" value="templates" />
-	<?php echo JHtml::_( 'form.token' ); ?>
+	<?php echo JHtml::_('form.token'); ?>
 </form>

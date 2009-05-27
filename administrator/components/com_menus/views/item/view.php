@@ -1,14 +1,14 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Administrator
-* @subpackage	Menus
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	Menus
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 jimport('joomla.html.pane');
@@ -132,9 +132,9 @@ class MenusViewItem extends JView
 
 		// Set toolbar items for the page
 		if (!$item->id) {
-			JToolBarHelper::title( JText::_('Menu Item') .': <small><small>[ '. JText::_('New') .' ]</small></small>', 'menu.png');
+			JToolBarHelper::title(JText::_('Menu Item') .': <small><small>[ '. JText::_('New') .' ]</small></small>', 'menu.png');
 		} else {
-			JToolBarHelper::title( JText::_('Change Menu Item'), 'menu.png');
+			JToolBarHelper::title(JText::_('Change Menu Item'), 'menu.png');
 		}
 
 		// Set toolbar items for the page
@@ -144,7 +144,7 @@ class MenusViewItem extends JView
 		// Add scripts and stylesheets to the document
 		$document	= & JFactory::getDocument();
 
-		if($lang->isRTL()){
+		if ($lang->isRTL()){
 			$document->addStyleSheet('components/com_menus/assets/type_rtl.css');
 		} else {
 			$document->addStyleSheet('components/com_menus/assets/type.css');
@@ -154,7 +154,7 @@ class MenusViewItem extends JView
 		// Load component language files
 		$components	= MenusHelper::getComponentList();
 		$n = count($components);
-		for($i = 0; $i < $n; $i++)
+		for ($i = 0; $i < $n; $i++)
 		{
 			$path = JPATH_SITE.DS.'components'.DS.$components[$i]->option.DS.'views';
 			$components[$i]->legacy = !is_dir($path);

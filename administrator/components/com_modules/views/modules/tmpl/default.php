@@ -1,7 +1,7 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php defined('_JEXEC') or die; ?>
 
 <?php
-	$user =& JFactory::getUser();
+	$user = &JFactory::getUser();
 
 	//Ordering allowed ?
 	$ordering = (($this->filter->order == 'm.position'));

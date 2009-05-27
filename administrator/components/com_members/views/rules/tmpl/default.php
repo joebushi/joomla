@@ -1,4 +1,4 @@
-<?php /** $Id: default.php 11362 2008-12-22 12:19:58Z eddieajau $ */ defined('_JEXEC') or die('Restricted access');
+<?php /** $Id: default.php 11362 2008-12-22 12:19:58Z eddieajau $ */ defined('_JEXEC') or die;
 
 	JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 	JHtml::_('behavior.tooltip');

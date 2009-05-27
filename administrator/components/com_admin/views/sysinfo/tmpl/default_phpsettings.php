@@ -1,4 +1,4 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php defined('_JEXEC') or die; ?>
 
 <fieldset class="adminform">
 	<legend><?php echo JText::_('Relevant PHP Settings'); ?></legend>

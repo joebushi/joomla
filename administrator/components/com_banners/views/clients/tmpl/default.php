@@ -1,4 +1,4 @@
-<?php defined('_JEXEC') or die('Restricted access');
+<?php defined('_JEXEC') or die;
 	JHtml::_('behavior.tooltip');
 ?>
 
@@ -65,7 +65,7 @@
 				</td>
 				<td>
 					<?php
-					if ( JTable::isCheckedOut($this->user->get ('id'), $row->checked_out)) {
+					if (JTable::isCheckedOut($this->user->get ('id'), $row->checked_out)) {
 						echo $row->name;
 					} else {
 						?>

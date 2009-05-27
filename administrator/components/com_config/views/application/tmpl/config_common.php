@@ -1,4 +1,4 @@
-<?php /** $Id$ */ defined('_JEXEC') or die('Restricted access'); ?>
+<?php /** $Id$ */ defined('_JEXEC') or die; ?>
 <fieldset class="adminform">
 	<legend><?php echo $this->label; ?></legend>
 	<table class="admintable" cellspacing="1">

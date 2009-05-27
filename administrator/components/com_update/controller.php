@@ -4,11 +4,11 @@
  * @package		Joomla.Administrator
  * @subpackage	Installer
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 jimport('joomla.client.helper');
@@ -31,13 +31,13 @@ class UpdateController extends JController
 	 */
 	function installform()
 	{
-		$model	= &$this->getModel( 'Install' );
-		$view	= &$this->getView( 'Install');
+		$model	= &$this->getModel('Install');
+		$view	= &$this->getView('Install');
 
-		$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
+		$ftp = &JClientHelper::setCredentialsFromRequest('ftp');
 		$view->assignRef('ftp', $ftp);
 
-		$view->setModel( $model, true );
+		$view->setModel($model, true);
 		$view->display();
 	}
 
@@ -53,10 +53,10 @@ class UpdateController extends JController
 		// Check for request forgeries
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$model	= &$this->getModel( 'Install' );
-		$view	= &$this->getView( 'Install' );
+		$model	= &$this->getModel('Install');
+		$view	= &$this->getView('Install');
 
-		$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
+		$ftp = &JClientHelper::setCredentialsFromRequest('ftp');
 		$view->assignRef('ftp', $ftp);
 
 		if ($model->install()) {
@@ -64,7 +64,7 @@ class UpdateController extends JController
 			$cache->clean();
 		}
 
-		$view->setModel( $model, true );
+		$view->setModel($model, true);
 		$view->display();
 	}
 
@@ -78,13 +78,13 @@ class UpdateController extends JController
 	function manage()
 	{
 		$type	= JRequest::getWord('type', 'components');
-		$model	= &$this->getModel( $type );
-		$view	= &$this->getView( $type );
+		$model	= &$this->getModel($type);
+		$view	= &$this->getView($type);
 
-		$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
+		$ftp = &JClientHelper::setCredentialsFromRequest('ftp');
 		$view->assignRef('ftp', $ftp);
 
-		$view->setModel( $model, true );
+		$view->setModel($model, true);
 		$view->display();
 	}
 
@@ -93,21 +93,21 @@ class UpdateController extends JController
 	 */
 	function discover() {
 		$model = &$this->getModel('discover');
-		$view = &$this->getView( 'discover' );
+		$view = &$this->getView('discover');
 		$model->discover();
-		$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
+		$ftp = &JClientHelper::setCredentialsFromRequest('ftp');
 		$view->assignRef('ftp', $ftp);
-		$view->setModel( $model, true );
+		$view->setModel($model, true);
 		$view->display();
 	}
 
 	function discover_install() {
 		$model = &$this->getModel('discover');
-		$view = &$this->getView( 'discover' );
+		$view = &$this->getView('discover');
 		$model->discover_install();
-		$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
+		$ftp = &JClientHelper::setCredentialsFromRequest('ftp');
 		$view->assignRef('ftp', $ftp);
-		$view->setModel( $model, true );
+		$view->setModel($model, true);
 		$view->display();
 	}
 
@@ -127,13 +127,13 @@ class UpdateController extends JController
 	function enable()
 	{
 		// Check for request forgeries
-		JRequest::checkToken( 'request' ) or jexit(JText::_('JINVALID_TOKEN'));
+		JRequest::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
 
 		$type	= JRequest::getWord('type', 'components');
-		$model	= &$this->getModel( $type );
-		$view	= &$this->getView( $type );
+		$model	= &$this->getModel($type);
+		$view	= &$this->getView($type);
 
-		$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
+		$ftp = &JClientHelper::setCredentialsFromRequest('ftp');
 		$view->assignRef('ftp', $ftp);
 
 		if (method_exists($model, 'enable')) {
@@ -142,7 +142,7 @@ class UpdateController extends JController
 			$model->enable($eid);
 		}
 
-		$view->setModel( $model, true );
+		$view->setModel($model, true);
 		$view->display();
 	}
 
@@ -156,13 +156,13 @@ class UpdateController extends JController
 	function disable()
 	{
 		// Check for request forgeries
-		JRequest::checkToken( 'request' ) or jexit(JText::_('JINVALID_TOKEN'));
+		JRequest::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
 
 		$type	= JRequest::getWord('type', 'components');
-		$model	= &$this->getModel( $type );
-		$view	= &$this->getView( $type );
+		$model	= &$this->getModel($type);
+		$view	= &$this->getView($type);
 
-		$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
+		$ftp = &JClientHelper::setCredentialsFromRequest('ftp');
 		$view->assignRef('ftp', $ftp);
 
 		if (method_exists($model, 'disable')) {
@@ -171,7 +171,7 @@ class UpdateController extends JController
 			$model->disable($eid);
 		}
 
-		$view->setModel( $model, true );
+		$view->setModel($model, true);
 		$view->display();
 	}
 
@@ -188,10 +188,10 @@ class UpdateController extends JController
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$type	= JRequest::getWord('type', 'components');
-		$model	= &$this->getModel( $type );
-		$view	= &$this->getView( $type );
+		$model	= &$this->getModel($type);
+		$view	= &$this->getView($type);
 
-		$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
+		$ftp = &JClientHelper::setCredentialsFromRequest('ftp');
 		$view->assignRef('ftp', $ftp);
 
 		$eid = JRequest::getVar('eid', array(), '', 'array');
@@ -200,12 +200,12 @@ class UpdateController extends JController
 		// Checks there is only one extensions, we're uninstalling components
 		// and then checks that the zero numbered item is set (shouldn't be a zero
 		// if the eid is set to the proper format)
-		if((count($eid) == 1) && ($type == 'components') && (isset($eid[0]))) $eid = array($eid[0] => 0);
+		if ((count($eid) == 1) && ($type == 'components') && (isset($eid[0]))) $eid = array($eid[0] => 0);
 
 		JArrayHelper::toInteger($eid, array());
 		$result = $model->remove($eid);
 
-		$view->setModel( $model, true );
+		$view->setModel($model, true);
 		$view->display();
 	}
 
@@ -220,15 +220,15 @@ class UpdateController extends JController
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$type	= JRequest::getWord('type', 'components');
-		$model	= &$this->getModel( $type );
-		$view	= &$this->getView( $type );
+		$model	= &$this->getModel($type);
+		$view	= &$this->getView($type);
 
-		$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
+		$ftp = &JClientHelper::setCredentialsFromRequest('ftp');
 		$view->assignRef('ftp', $ftp);
 
 		$result = $model->findUpdates();
 
-		$view->setModel( $model, true );
+		$view->setModel($model, true);
 		$view->display();
 	}
 

@@ -4,11 +4,11 @@
  * @package		Joomla.Administrator
  * @subpackage	Banners
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 /**
  * Renders a category element
@@ -29,7 +29,7 @@ class JElementBannerclient extends JElement
 
 	function fetchElement($name, $value, &$node, $control_name)
 	{
-		$db = &JFactory::getDBO();
+		$db = &JFactory::getDbo();
 
 		// This might get a conflict with the dynamic translation - TODO: search for better solution
 		$query = 'SELECT cid, name' .
@@ -48,6 +48,6 @@ class JElementBannerclient extends JElement
             'name',
             $value,
             $control_name.$name
-       );
+      );
 	}
 }

@@ -2,11 +2,11 @@
 /**
  * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 /**
  * Utility class for creating HTML Grids
@@ -19,7 +19,7 @@ class JHtmlContentGrid
 {
 	function author($name, $filter_authorid)
 	{
-		$db			=& JFactory::getDBO();
+		$db			= &JFactory::getDbo();
 		$query = 'SELECT c.created_by, u.name' .
 				' FROM #__content AS c' .
 				' LEFT JOIN #__users AS u ON u.id = c.created_by' .
@@ -43,7 +43,7 @@ class JHtmlContentGrid
 
 	function category($name, $filter_catid)
 	{
-		$db			=& JFactory::getDBO();
+		$db			= &JFactory::getDbo();
 		$cat_filter = null;
 
 		$query = 'SELECT cc.id AS value, cc.title AS text' .

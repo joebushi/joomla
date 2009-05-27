@@ -4,11 +4,11 @@
  * @package		Joomla.Administrator
  * @subpackage	Menus
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 /**
  * Extension Manager Update View
@@ -28,10 +28,10 @@ class UpdateViewUpdate extends JView
 		/*
 		 * Set toolbar items for the page
 		 */
-		JToolBarHelper::custom( 'update', 'config', 'config', 'Update', true, false);
-		JToolBarHelper::custom( 'update_find', 'refresh', 'refresh','Find Updates',false,false);
-		JToolBarHelper::custom( 'update_purge', 'trash', 'trash', 'Purge Cache', false,false);
-		JToolBarHelper::help( 'screen.installer' );
+		JToolBarHelper::custom('update', 'config', 'config', 'Update', true, false);
+		JToolBarHelper::custom('update_find', 'refresh', 'refresh','Find Updates',false,false);
+		JToolBarHelper::custom('update_purge', 'trash', 'trash', 'Purge Cache', false,false);
+		JToolBarHelper::help('screen.installer');
 
 		// Get data from the model
 		$state		= &$this->get('State');
@@ -46,7 +46,7 @@ class UpdateViewUpdate extends JView
 
 	function loadItem($index=0)
 	{
-		$item =& $this->items[$index];
+		$item = &$this->items[$index];
 		$item->index	= $index;
 
 		$item->author_info = @$item->authorEmail .'<br />'. @$item->authorUrl;

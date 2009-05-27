@@ -1,8 +1,8 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php defined('_JEXEC') or die; ?>
 
 <?php
 jimport('joomla.html.pane');
-$pane =& JPane::getInstance('sliders');
+$pane = &JPane::getInstance('sliders');
 echo $pane->startPane('content-pane');
 
 foreach ($this->modules as $module) {

@@ -1,23 +1,23 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php defined('_JEXEC') or die; ?>
 
 <form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="adminForm">
 <table class="adminlist" cellspacing="1">
 	<thead>
 	<tr>
 		<th class="title" width="10">
-			<?php echo JText::_( 'Num' ); ?>
+			<?php echo JText::_('Num'); ?>
 		</th>
 		<th width="20">
-			<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->data );?>);" />
+			<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($this->data);?>);" />
 		</th>
 		<th class="title" nowrap="nowrap">
-			<?php echo JText::_( 'Cache Group' ); ?>
+			<?php echo JText::_('Cache Group'); ?>
 		</th>
 		<th width="5%" align="center" nowrap="nowrap">
-			<?php echo JText::_( 'Number of Files' ); ?>
+			<?php echo JText::_('Number of Files'); ?>
 		</th>
 		<th width="10%" align="center">
-			<?php echo JText::_( 'Size' ); ?>
+			<?php echo JText::_('Size'); ?>
 		</th>
 	</tr>
 	</thead>
@@ -37,7 +37,7 @@
 
 		<tr class="<?php echo "row$rc"; ?>" >
 			<td>
-				<?php echo $this->pagination->getRowOffset( $i ); ?>
+				<?php echo $this->pagination->getRowOffset($i); ?>
 			</td>
 			<td>
 				<input type="checkbox" id="cb<?php echo $i;?>" name="cid[]" value="<?php echo $row->group; ?>" onclick="isChecked(this.checked);" />
@@ -65,5 +65,5 @@
 <input type="hidden" name="boxchecked" value="0" />
 <input type="hidden" name="option" value="com_cache" />
 <input type="hidden" name="client" value="<?php echo $this->client->id;?>" />
-<?php echo JHtml::_( 'form.token' ); ?>
+<?php echo JHtml::_('form.token'); ?>
 </form>

@@ -4,18 +4,18 @@
  * @package		Joomla.Administrator
  * @subpackage	Config
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
 /**
-* @package	Joomla.Administrator
-* @subpackage	Config
-*/
+ * @package	Joomla.Administrator
+ * @subpackage	Config
+ */
 class ConfigViewApplication extends JView
 {
 	public $state;

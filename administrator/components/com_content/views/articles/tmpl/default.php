@@ -1,13 +1,13 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php defined('_JEXEC') or die; ?>
 
 <?php
 	jimport('joomla.utilities.date');
 
 	// Initialize variables
-	$db		=& JFactory::getDBO();
-	$user	=& JFactory::getUser();
-	$config	=& JFactory::getConfig();
-	$now	=& JFactory::getDate();
+	$db		= &JFactory::getDbo();
+	$user	= &JFactory::getUser();
+	$config	= &JFactory::getConfig();
+	$now	= &JFactory::getDate();
 	$nullDate 	= $db->getNullDate();
 
 	//Ordering allowed ?
@@ -156,7 +156,7 @@
 			</td>
 			<td>
 			<?php
-				if ( JTable::isCheckedOut($user->get ('id'), $row->checked_out)) {
+				if (JTable::isCheckedOut($user->get ('id'), $row->checked_out)) {
 					echo $row->title;
 				} else if ($row->state == -1) {
 					echo htmlspecialchars($row->title, ENT_QUOTES, 'UTF-8');

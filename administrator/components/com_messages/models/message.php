@@ -4,11 +4,11 @@
  * @package		Joomla.Administrator
  * @subpackage	Message
  * @copyright	Copyright (C) 2005 - 2007 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -47,7 +47,7 @@ class MessagesModelMessage extends JModel
 		$array = JRequest::getVar('cid', array(0), '', 'array');
 		$edit	= JRequest::getVar('edit',true);
 		// Note: Opposite to most similar models!
-		if(!$edit)
+		if (!$edit)
 			$this->setId((int)$array[0]);
 	}
 
@@ -89,7 +89,7 @@ class MessagesModelMessage extends JModel
 	 */
 	function send($data)
 	{
-		$row =& $this->getTable();
+		$row = &$this->getTable();
 
 		// Bind the form fields to the web link table
 		if (!$row->bind($data)) {
@@ -123,14 +123,14 @@ class MessagesModelMessage extends JModel
 	{
 		$result = false;
 
-		if (count( $cid ))
+		if (count($cid))
 		{
 			JArrayHelper::toInteger($cid);
-			$cids = implode( ',', $cid );
+			$cids = implode(',', $cid);
 			$query = 'DELETE FROM #__messages'
-				. ' WHERE message_id IN ( '.$cids.' )';
-			$this->_db->setQuery( $query );
-			if(!$this->_db->query()) {
+				. ' WHERE message_id IN ('.$cids.')';
+			$this->_db->setQuery($query);
+			if (!$this->_db->query()) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
@@ -205,7 +205,7 @@ class MessagesModelMessage extends JModel
 			. ' SET state = 1'
 			. ' WHERE message_id = '.(int) $this->_id
 		;
-		$this->_db->setQuery( $query );
+		$this->_db->setQuery($query);
 		if ($this->_db->query() === false)
 			return false;
 

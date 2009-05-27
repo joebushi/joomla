@@ -4,13 +4,13 @@
  * @package		Joomla.Administrator
  * @subpackage	Newsfeeds
  * @copyright	Copyright (C) 2005 - 2007 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined('_JEXEC') or die;
 
-jimport( 'joomla.application.component.controller' );
+jimport('joomla.application.component.controller');
 
 /**
  * Newsfeeds Controller
@@ -26,19 +26,19 @@ class NewsfeedsController extends JController
 		parent::__construct($config);
 
 		// Register Extra tasks
-		$this->registerTask( 'add',  'display' );
-		$this->registerTask( 'edit', 'display' );
+		$this->registerTask('add',  'display');
+		$this->registerTask('edit', 'display');
 	}
 
-	function display( )
+	function display()
 	{
 		switch($this->getTask())
 		{
 			case 'add':
 			{
-				JRequest::setVar( 'hidemainmenu', 1 );
-				JRequest::setVar( 'view'  , 'newsfeed');
-				JRequest::setVar( 'edit', false );
+				JRequest::setVar('hidemainmenu', 1);
+				JRequest::setVar('view'  , 'newsfeed');
+				JRequest::setVar('edit', false);
 
 				// Checkout the newsfeed
 				$model = $this->getModel('newsfeed');
@@ -46,9 +46,9 @@ class NewsfeedsController extends JController
 			} break;
 			case 'edit':
 			{
-				JRequest::setVar( 'hidemainmenu', 1 );
-				JRequest::setVar( 'view'  , 'newsfeed');
-				JRequest::setVar( 'edit', true );
+				JRequest::setVar('hidemainmenu', 1);
+				JRequest::setVar('view'  , 'newsfeed');
+				JRequest::setVar('edit', true);
 
 				// Checkout the newsfeed
 				$model = $this->getModel('newsfeed');
@@ -65,15 +65,15 @@ class NewsfeedsController extends JController
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$post	= JRequest::get('post');
-		$cid	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
+		$cid	= JRequest::getVar('cid', array(0), 'post', 'array');
 		$post['id'] = (int) $cid[0];
 
 		$model = $this->getModel('newsfeed');
 
 		if ($model->store($post)) {
-			$msg = JText::_( 'Newsfeed Saved' );
+			$msg = JText::_('Newsfeed Saved');
 		} else {
-			$msg = JText::_( 'Error Saving Newsfeed' );
+			$msg = JText::_('Error Saving Newsfeed');
 		}
 
 		// Check the table in so it can be edited.... we are done with it anyway
@@ -87,19 +87,19 @@ class NewsfeedsController extends JController
 		// Check for request forgeries
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$cid = JRequest::getVar('cid', array(), 'post', 'array');
 		JArrayHelper::toInteger($cid);
 
-		if (count( $cid ) < 1) {
-			JError::raiseError(500, JText::_( 'Select an item to delete' ) );
+		if (count($cid) < 1) {
+			JError::raiseError(500, JText::_('Select an item to delete'));
 		}
 
 		$model = $this->getModel('newsfeed');
-		if(!$model->delete($cid)) {
+		if (!$model->delete($cid)) {
 			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
 		}
 
-		$this->setRedirect( 'index.php?option=com_newsfeeds' );
+		$this->setRedirect('index.php?option=com_newsfeeds');
 	}
 
 
@@ -108,19 +108,19 @@ class NewsfeedsController extends JController
 		// Check for request forgeries
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$cid = JRequest::getVar('cid', array(), 'post', 'array');
 		JArrayHelper::toInteger($cid);
 
-		if (count( $cid ) < 1) {
-			JError::raiseError(500, JText::_( 'Select an item to publish' ) );
+		if (count($cid) < 1) {
+			JError::raiseError(500, JText::_('Select an item to publish'));
 		}
 
 		$model = $this->getModel('newsfeed');
-		if(!$model->publish($cid, 1)) {
+		if (!$model->publish($cid, 1)) {
 			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
 		}
 
-		$this->setRedirect( 'index.php?option=com_newsfeeds' );
+		$this->setRedirect('index.php?option=com_newsfeeds');
 	}
 
 
@@ -129,19 +129,19 @@ class NewsfeedsController extends JController
 		// Check for request forgeries
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$cid = JRequest::getVar('cid', array(), 'post', 'array');
 		JArrayHelper::toInteger($cid);
 
-		if (count( $cid ) < 1) {
-			JError::raiseError(500, JText::_( 'Select an item to unpublish' ) );
+		if (count($cid) < 1) {
+			JError::raiseError(500, JText::_('Select an item to unpublish'));
 		}
 
 		$model = $this->getModel('newsfeed');
-		if(!$model->publish($cid, 0)) {
+		if (!$model->publish($cid, 0)) {
 			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
 		}
 
-		$this->setRedirect( 'index.php?option=com_newsfeeds' );
+		$this->setRedirect('index.php?option=com_newsfeeds');
 	}
 
 	function cancel()
@@ -153,7 +153,7 @@ class NewsfeedsController extends JController
 		$model = $this->getModel('newsfeed');
 		$model->checkin();
 
-		$this->setRedirect( 'index.php?option=com_newsfeeds' );
+		$this->setRedirect('index.php?option=com_newsfeeds');
 	}
 
 
@@ -165,7 +165,7 @@ class NewsfeedsController extends JController
 		$model = $this->getModel('newsfeed');
 		$model->move(-1);
 
-		$this->setRedirect( 'index.php?option=com_newsfeeds');
+		$this->setRedirect('index.php?option=com_newsfeeds');
 	}
 
 	function orderdown()
@@ -176,7 +176,7 @@ class NewsfeedsController extends JController
 		$model = $this->getModel('newsfeed');
 		$model->move(1);
 
-		$this->setRedirect( 'index.php?option=com_newsfeeds');
+		$this->setRedirect('index.php?option=com_newsfeeds');
 	}
 
 	function saveorder()
@@ -184,8 +184,8 @@ class NewsfeedsController extends JController
 		// Check for request forgeries
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$cid 	= JRequest::getVar( 'cid', array(), 'post', 'array' );
-		$order 	= JRequest::getVar( 'order', array(), 'post', 'array' );
+		$cid 	= JRequest::getVar('cid', array(), 'post', 'array');
+		$order 	= JRequest::getVar('order', array(), 'post', 'array');
 		JArrayHelper::toInteger($cid);
 		JArrayHelper::toInteger($order);
 
@@ -193,6 +193,6 @@ class NewsfeedsController extends JController
 		$model->saveorder($cid, $order);
 
 		$msg = 'New ordering saved';
-		$this->setRedirect( 'index.php?option=com_newsfeeds', $msg );
+		$this->setRedirect('index.php?option=com_newsfeeds', $msg);
 	}
 }

@@ -1,16 +1,16 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Administrator
-* @subpackage	Categories
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	Categories
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined('_JEXEC') or die;
 
-jimport( 'joomla.application.component.view');
+jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the Categories component
@@ -33,32 +33,32 @@ class CategoriesViewCopySelect extends JView
 			JError::raiseError(403, 'Request Forbidden');
 		}
 
-		$db =& JFactory::getDBO();
-		$sectionOld = JRequest::getCmd( 'section', 'com_content', 'post' );
+		$db = &JFactory::getDbo();
+		$sectionOld = JRequest::getCmd('section', 'com_content', 'post');
 		$redirect = $sectionOld;
-		$cid 	= JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$cid 	= JRequest::getVar('cid', array(), 'post', 'array');
 		JArrayHelper::toInteger($cid);
 
-		if (count( $cid ) < 1) {
-			JError::raiseError(500, JText::_( 'Select an item to copy', true ));
+		if (count($cid) < 1) {
+			JError::raiseError(500, JText::_('Select an item to copy', true));
 		}
 
 		## query to list selected categories
-		$cids = implode( ',', $cid );
+		$cids = implode(',', $cid);
 		$query = 'SELECT a.title, a.section'
 		. ' FROM #__categories AS a'
-		. ' WHERE a.id IN ( '.$cids.' )'
+		. ' WHERE a.id IN ('.$cids.')'
 		;
-		$db->setQuery( $query );
+		$db->setQuery($query);
 		$items = $db->loadObjectList();
 
 		## query to list items from categories
 		$query = 'SELECT a.title, a.id'
 		. ' FROM #__content AS a'
-		. ' WHERE a.catid IN ( '.$cids.' )'
+		. ' WHERE a.catid IN ('.$cids.')'
 		. ' ORDER BY a.catid, a.title'
 		;
-		$db->setQuery( $query );
+		$db->setQuery($query);
 		$contents = $db->loadObjectList();
 
 		## query to choose section to move to
@@ -67,7 +67,7 @@ class CategoriesViewCopySelect extends JView
 		. ' WHERE a.published = 1'
 		. ' ORDER BY a.name'
 		;
-		$db->setQuery( $query );
+		$db->setQuery($query);
 		$sections = $db->loadObjectList();
 
 		// build the html select list

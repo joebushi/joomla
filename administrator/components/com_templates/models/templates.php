@@ -4,11 +4,11 @@
  * @package		Joomla.Administrator
  * @subpackage	Templates
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -62,7 +62,7 @@ class TemplatesModelTemplates extends JModel
 		$option = JRequest::getCmd('option');
 
 		// Get the pagination request variables
-		$this->_client	=& JApplicationHelper::getClientInfo(JRequest::getVar('client', 0, '', 'int'));
+		$this->_client	= &JApplicationHelper::getClientInfo(JRequest::getVar('client', 0, '', 'int'));
 		$limit		= $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
 		$limitstart = $mainframe->getUserStateFromRequest($option.'.'.$this->_client->id.'.limitstart', 'limitstart', 0, 'int');
 
@@ -100,7 +100,7 @@ class TemplatesModelTemplates extends JModel
 		if (empty($this->_pagination))
 		{
 			jimport('joomla.html.pagination');
-			$this->_pagination = new JPagination( $this->getTotal(), $this->getState('limitstart'), $this->getState('limit') );
+			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
 
 		return $this->_pagination;
@@ -144,7 +144,7 @@ class TemplatesModelTemplates extends JModel
 			$rows = TemplatesHelper::parseXMLTemplateFiles($tBaseDir);		
 			
 			$total= $this->getTotal();
-			for($i = 0; $i < $total; $i++)  {
+			for ($i = 0; $i < $total; $i++)  {
 				$this->_data[$i]->assigned = TemplatesHelper::isTemplateNameAssigned($this->_data[$i]->template,$this->_data[$i]->client_id);
 				$this->_data[$i]->home = TemplatesHelper::isTemplateNameDefault($this->_data[$i]->template,$this->_data[$i]->client_id);
 				$this->_data[$i]->xmldata = $rows[$this->_data[$i]->template];

@@ -1,4 +1,4 @@
-<?php defined('_JEXEC') or die('Restricted access');
+<?php defined('_JEXEC') or die;
 
 	$app = &JFactory::getApplication();
 	$helpUrl = $app->getCfg('helpurl');

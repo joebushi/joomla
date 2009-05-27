@@ -1,11 +1,11 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Administrator
-* @subpackage	Config
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	Config
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 /**
  * Utility class for com_config
@@ -20,7 +20,7 @@ class JHtmlFilter
 {
 	function assigned($client, $selected = null)
 	{
-		$db		=& JFactory::getDBO();
+		$db		= &JFactory::getDbo();
 		// template assignment filter
 		$query = 'SELECT CONCAT(template," - ",description) AS text, id AS value'.
 				' FROM #__menu_template' .
@@ -41,7 +41,7 @@ class JHtmlFilter
 
 	function position($client, $selected = null)
 	{
-		$db		=& JFactory::getDBO();
+		$db		= &JFactory::getDbo();
 
 		// get list of Positions for dropdown filter
 		$query = 'SELECT m.position AS value, m.position AS text'
@@ -66,7 +66,7 @@ class JHtmlFilter
 
 	function type($client, $selected = null)
 	{
-		$db		=& JFactory::getDBO();
+		$db		= &JFactory::getDbo();
 
 		// get list of Positions for dropdown filter
 		$query = 'SELECT module AS value, module AS text'
