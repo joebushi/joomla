@@ -8,7 +8,7 @@
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
-defined('_JEXEC') or die('Restricted Access');
+defined('_JEXEC') or die;
 
 // Check if we need to show the page title.
 if ($this->params->get('show_page_title', 1)):

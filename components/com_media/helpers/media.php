@@ -4,7 +4,7 @@
  * @package		Joomla
  * @subpackage	Media
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 /**
@@ -18,7 +18,7 @@ class MediaHelper
 	 * @param string The filename
 	 * @return boolean
 	 */
-	function isImage( $fileName )
+	function isImage($fileName)
 	{
 		static $imageTypes = 'xcf|odg|gif|jpg|png|bmp';
 		return preg_match("/$imageTypes/i",$fileName);
@@ -29,7 +29,7 @@ class MediaHelper
 	 * @param string The filename
 	 * @return boolean
 	 */
-	function getTypeIcon( $fileName )
+	function getTypeIcon($fileName)
 	{
 		// Get file extension
 		return strtolower(substr($fileName, strrpos($fileName, '.') + 1));
@@ -41,21 +41,21 @@ class MediaHelper
 	 * @param string An error message to be returned
 	 * @return boolean
 	 */
-	function canUpload( $file, &$err )
+	function canUpload($file, &$err)
 	{
-		$params = &JComponentHelper::getParams( 'com_media' );
+		$params = &JComponentHelper::getParams('com_media');
 
 		jimport('joomla.filesystem.file');
 		$format = JFile::getExt($file['name']);
 
-		$allowable = explode( ',', $params->get( 'upload_extensions' ));
+		$allowable = explode(',', $params->get('upload_extensions'));
 
 		if (!in_array($format, $allowable))
 		{
 			$err = 'This file type is not supported';
 			return false;
 		}
-		$maxSize = (int) $params->get( 'upload_maxsize', 0 );
+		$maxSize = (int) $params->get('upload_maxsize', 0);
 		if ($maxSize > 0 && (int) $file['size'] > $maxSize)
 		{
 			$err = 'This file is too large to upload';
@@ -99,7 +99,7 @@ class MediaHelper
 		return "width=\"$width\" height=\"$height\"";
 	}
 
-	function countFiles( $dir )
+	function countFiles($dir)
 	{
 		$total_file = 0;
 		$total_dir = 0;
@@ -119,7 +119,7 @@ class MediaHelper
 			$d->close();
 		}
 
-		return array ( $total_file, $total_dir );
+		return array ($total_file, $total_dir);
 	}
 
 }

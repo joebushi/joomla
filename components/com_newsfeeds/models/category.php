@@ -4,11 +4,11 @@
  * @package		Joomla
  * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -134,7 +134,7 @@ class NewsfeedsModelCategory extends JModel
 		if (empty($this->_pagination))
 		{
 			jimport('joomla.html.pagination');
-			$this->_pagination = new JPagination( $this->getTotal(), $this->getState('limitstart'), $this->getState('limit') );
+			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
 
 		return $this->_pagination;

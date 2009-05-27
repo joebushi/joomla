@@ -1,16 +1,16 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla
-* @subpackage	Weblinks
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla
+ * @subpackage	Weblinks
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
-jimport( 'joomla.application.component.view');
+jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the WebLinks component
@@ -26,13 +26,13 @@ class WeblinksViewWeblink extends JView
 	{
 		$mainframe = JFactory::getApplication();
 
-		if($this->getLayout() == 'form') {
+		if ($this->getLayout() == 'form') {
 			$this->_displayForm($tpl);
 			return;
 		}
 
 		//get the weblink
-		$weblink =& $this->get('data');
+		$weblink = &$this->get('data');
 
 		if ($weblink->url) {
 			// redirects to url if matching id found
@@ -47,22 +47,22 @@ class WeblinksViewWeblink extends JView
 		$mainframe = JFactory::getApplication();
 
 		// Get some objects from the JApplication
-		$pathway	=& $mainframe->getPathway();
-		$document	=& JFactory::getDocument();
-		$model		=& $this->getModel();
-		$user		=& JFactory::getUser();
-		$uri	 	=& JFactory::getURI();
+		$pathway	= &$mainframe->getPathway();
+		$document	= &JFactory::getDocument();
+		$model		= &$this->getModel();
+		$user		= &JFactory::getUser();
+		$uri	 	= &JFactory::getURI();
 		$params = &$mainframe->getParams();
 
 		// Make sure you are logged in and have the necessary access rights
 		if ($user->get('gid') < 19) {
 			JResponse::setHeader('HTTP/1.0 403',true);
-			JError::raiseWarning( 403, JText::_('ALERTNOTAUTH') );
+			JError::raiseWarning(403, JText::_('ALERTNOTAUTH'));
 			return;
 		}
 
 		//get the weblink
-		$weblink	=& $this->get('data');
+		$weblink	= &$this->get('data');
 		$isNew	= ($weblink->id < 1);
 
 		// Check it out
@@ -77,19 +77,19 @@ class WeblinksViewWeblink extends JView
 
 			// because the application sets a default page title, we need to get it
 			// right from the menu item itself
-			if (is_object( $menu )) {
-				$menu_params = new JParameter( $menu->params );
-				if (!$menu_params->get( 'page_title')) {
-					$params->set('page_title',	JText::_( 'Web Links'.' - '.JText::_('Edit') ));
+			if (is_object($menu)) {
+				$menu_params = new JParameter($menu->params);
+				if (!$menu_params->get('page_title')) {
+					$params->set('page_title',	JText::_('Web Links'.' - '.JText::_('Edit')));
 				}
 			} else {
-				$params->set('page_title',	JText::_( 'Web Links'.' - '.JText::_('Edit') ));
+				$params->set('page_title',	JText::_('Web Links'.' - '.JText::_('Edit')));
 			}
 
-			$document->setTitle( $params->get( 'page_title' ) );
+			$document->setTitle($params->get('page_title'));
 
 			//set breadcrumbs
-			if($item->query['view'] != 'weblink')
+			if ($item->query['view'] != 'weblink')
 			{
 				switch ($item->query['view'])
 				{
@@ -122,16 +122,16 @@ class WeblinksViewWeblink extends JView
 
 			// because the application sets a default page title, we need to get it
 			// right from the menu item itself
-			if (is_object( $menu )) {
-				$menu_params = new JParameter( $menu->params );
-				if (!$menu_params->get( 'page_title')) {
-					$params->set('page_title',	JText::_( JText::_('Submit a Web Link') ));
+			if (is_object($menu)) {
+				$menu_params = new JParameter($menu->params);
+				if (!$menu_params->get('page_title')) {
+					$params->set('page_title',	JText::_(JText::_('Submit a Web Link')));
 				}
 			} else {
-				$params->set('page_title',	JText::_( JText::_('Submit a Web Link') ));
+				$params->set('page_title',	JText::_(JText::_('Submit a Web Link')));
 			}
 
-			$document->setTitle( $params->get( 'page_title' ) );
+			$document->setTitle($params->get('page_title'));
 
 			// Add pathway item
 			$pathway->addItem(JText::_('New'), '');
@@ -146,12 +146,12 @@ class WeblinksViewWeblink extends JView
 			. ' WHERE catid = ' . (int) $weblink->catid
 			. ' ORDER BY ordering';
 
-		$lists['ordering'] 			= JHtml::_('list.specificordering',  $weblink, $weblink->id, $query );
+		$lists['ordering'] 			= JHtml::_('list.specificordering',  $weblink, $weblink->id, $query);
 
 		// Radio Buttons: weblink state
-		$lists['state'] 		= JHtml::_('weblink.statelist',  'jform[state]', $weblink->state );
+		$lists['state'] 		= JHtml::_('weblink.statelist',  'jform[state]', $weblink->state);
 
-		JFilterOutput::objectHTMLSafe( $weblink, ENT_QUOTES, 'description' );
+		JFilterOutput::objectHTMLSafe($weblink, ENT_QUOTES, 'description');
 
 		$this->assign('action', 	$uri->toString());
 

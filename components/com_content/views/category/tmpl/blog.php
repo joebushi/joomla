@@ -1,5 +1,5 @@
 <?php // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 JHtml::_('behavior.caption');
 $cparams =& JComponentHelper::getParams('com_media');
 ?>
@@ -30,7 +30,7 @@ $cparams =& JComponentHelper::getParams('com_media');
 		<?php if ($i >= $this->total) : break; endif; ?>
 		<div>
 		<?php
-			$this->item =& $this->getItem($i, $this->params);
+			$this->item = &$this->getItem($i, $this->params);
 			echo $this->loadTemplate('item');
 		?>
 		</div>
@@ -39,7 +39,7 @@ $cparams =& JComponentHelper::getParams('com_media');
 </tr>
 <?php else : $i = $this->pagination->limitstart; endif; ?>
 
-<?php 
+<?php
 $startIntroArticles = $this->pagination->limitstart + $this->params->get('num_leading_articles');
 $numIntroArticles = $startIntroArticles + $this->params->get('num_intro_articles');
 if (($numIntroArticles != $startIntroArticles) && ($i < $this->total)) : ?>
@@ -47,14 +47,14 @@ if (($numIntroArticles != $startIntroArticles) && ($i < $this->total)) : ?>
 	<td valign="top">
 		<table width="100%"  cellpadding="0" cellspacing="0">
 		<tr>
-		<?php  
+		<?php
 			$divider = '';
 			for ($z = 0; $z < $this->params->get('num_columns'); $z ++) :
 				if ($z > 0) : $divider = " column_separator"; endif; ?>
 				<td valign="top" width="<?php echo intval(100 / $this->params->get('num_columns')) ?>%" class="article_column<?php echo $divider ?>">
 				<?php for ($y = 0; $y < ($this->params->get('num_intro_articles') / $this->params->get('num_columns')); $y ++) :
 					if ($i < $this->total && $i < ($numIntroArticles)) :
-						$this->item =& $this->getItem($i, $this->params);
+						$this->item = &$this->getItem($i, $this->params);
 						echo $this->loadTemplate('item');
 						$i ++;
 					endif;

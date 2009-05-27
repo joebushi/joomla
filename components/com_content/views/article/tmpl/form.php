@@ -1,5 +1,5 @@
 <?php // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
+defined('_JEXEC') or die; ?>
 <script language="javascript" type="text/javascript">
 <!--
 function setgood() {
@@ -12,7 +12,7 @@ var sectioncategories = new Array;
 $i = 0;
 foreach ($this->lists['sectioncategories'] as $k=>$items) {
 	foreach ($items as $v) {
-		echo "sectioncategories[".$i++."] = new Array( '$k','".addslashes( $v->id )."','".addslashes( $v->title )."' );\n\t\t";
+		echo "sectioncategories[".$i++."] = new Array('$k','".addslashes($v->id)."','".addslashes($v->title)."');\n\t\t";
 	}
 }
 ?>
@@ -21,7 +21,7 @@ foreach ($this->lists['sectioncategories'] as $k=>$items) {
 function submitbutton(pressbutton) {
 	var form = document.adminForm;
 	if (pressbutton == 'cancel') {
-		submitform( pressbutton );
+		submitform(pressbutton);
 		return;
 	}
 	try {
@@ -31,18 +31,18 @@ function submitbutton(pressbutton) {
 	}
 
 	// do field validation
-	var text = <?php echo $this->editor->getContent( 'text' ); ?>
+	var text = <?php echo $this->editor->getContent('text'); ?>
 	if (form.title.value == '') {
-		return alert ( "<?php echo JText::_( 'Article must have a title', true ); ?>" );
+		return alert ("<?php echo JText::_('Article must have a title', true); ?>");
 	} else if (text == '') {
-		return alert ( "<?php echo JText::_( 'Article must have some text', true ); ?>");
+		return alert ("<?php echo JText::_('Article must have some text', true); ?>");
 	} else if (parseInt('<?php echo $this->article->sectionid;?>')) {
 		// for articles
 		if (form.catid && getSelectedValue('adminForm','catid') < 1) {
-			return alert ( "<?php echo JText::_( 'Please select a category', true ); ?>" );
+			return alert ("<?php echo JText::_('Please select a category', true); ?>");
 		}
 	}
-	<?php echo $this->editor->save( 'text' ); ?>
+	<?php echo $this->editor->save('text'); ?>
 	submitform(pressbutton);
 }
 //-->
@@ -58,7 +58,7 @@ function submitbutton(pressbutton) {
 	<td>
 		<div style="float: left;">
 			<label for="title">
-				<?php echo JText::_( 'Title' ); ?>:
+				<?php echo JText::_('Title'); ?>:
 			</label>
 			<input class="inputbox" type="text" id="title" name="title" size="50" maxlength="100" value="<?php echo $this->escape($this->article->title); ?>" />
 			<input class="inputbox" type="hidden" id="alias" name="alias" value="<?php echo $this->escape($this->article->alias); ?>" />
@@ -85,7 +85,7 @@ echo $this->editor->display('text', $this->article->text, '100%', '400', '70', '
 <tr>
 	<td class="key">
 		<label for="sectionid">
-			<?php echo JText::_( 'Section' ); ?>:
+			<?php echo JText::_('Section'); ?>:
 		</label>
 	</td>
 	<td>
@@ -95,7 +95,7 @@ echo $this->editor->display('text', $this->article->text, '100%', '400', '70', '
 <tr>
 	<td class="key">
 		<label for="catid">
-			<?php echo JText::_( 'Category' ); ?>:
+			<?php echo JText::_('Category'); ?>:
 		</label>
 	</td>
 	<td>
@@ -106,7 +106,7 @@ echo $this->editor->display('text', $this->article->text, '100%', '400', '70', '
 <tr>
 	<td class="key">
 		<label for="state">
-			<?php echo JText::_( 'Published' ); ?>:
+			<?php echo JText::_('Published'); ?>:
 		</label>
 	</td>
 	<td>
@@ -117,7 +117,7 @@ echo $this->editor->display('text', $this->article->text, '100%', '400', '70', '
 <tr>
 	<td width="120" class="key">
 		<label for="frontpage">
-			<?php echo JText::_( 'Show on Front Page' ); ?>:
+			<?php echo JText::_('Show on Front Page'); ?>:
 		</label>
 	</td>
 	<td>
@@ -127,7 +127,7 @@ echo $this->editor->display('text', $this->article->text, '100%', '400', '70', '
 <tr>
 	<td class="key">
 		<label for="created_by_alias">
-			<?php echo JText::_( 'Author Alias' ); ?>:
+			<?php echo JText::_('Author Alias'); ?>:
 		</label>
 	</td>
 	<td>
@@ -137,7 +137,7 @@ echo $this->editor->display('text', $this->article->text, '100%', '400', '70', '
 <tr>
 	<td class="key">
 		<label for="publish_up">
-			<?php echo JText::_( 'Start Publishing' ); ?>:
+			<?php echo JText::_('Start Publishing'); ?>:
 		</label>
 	</td>
 	<td>
@@ -147,7 +147,7 @@ echo $this->editor->display('text', $this->article->text, '100%', '400', '70', '
 <tr>
 	<td class="key">
 		<label for="publish_down">
-			<?php echo JText::_( 'Finish Publishing' ); ?>:
+			<?php echo JText::_('Finish Publishing'); ?>:
 		</label>
 	</td>
 	<td>
@@ -157,7 +157,7 @@ echo $this->editor->display('text', $this->article->text, '100%', '400', '70', '
 <tr>
 	<td valign="top" class="key">
 		<label for="access">
-			<?php echo JText::_( 'Access Level' ); ?>:
+			<?php echo JText::_('Access Level'); ?>:
 		</label>
 	</td>
 	<td>
@@ -167,7 +167,7 @@ echo $this->editor->display('text', $this->article->text, '100%', '400', '70', '
 <tr>
 	<td class="key">
 		<label for="ordering">
-			<?php echo JText::_( 'Ordering' ); ?>:
+			<?php echo JText::_('Ordering'); ?>:
 		</label>
 	</td>
 	<td>
@@ -183,7 +183,7 @@ echo $this->editor->display('text', $this->article->text, '100%', '400', '70', '
 <tr>
 	<td valign="top" class="key">
 		<label for="metadesc">
-			<?php echo JText::_( 'Description' ); ?>:
+			<?php echo JText::_('Description'); ?>:
 		</label>
 	</td>
 	<td>
@@ -193,7 +193,7 @@ echo $this->editor->display('text', $this->article->text, '100%', '400', '70', '
 <tr>
 	<td  valign="top" class="key">
 		<label for="metakey">
-			<?php echo JText::_( 'Keywords' ); ?>:
+			<?php echo JText::_('Keywords'); ?>:
 		</label>
 	</td>
 	<td>
@@ -208,7 +208,7 @@ echo $this->editor->display('text', $this->article->text, '100%', '400', '70', '
 <input type="hidden" name="version" value="<?php echo $this->article->version; ?>" />
 <input type="hidden" name="created_by" value="<?php echo $this->article->created_by; ?>" />
 <input type="hidden" name="referer" value="<?php echo @$_SERVER['HTTP_REFERER']; ?>" />
-<?php echo JHtml::_( 'form.token' ); ?>
+<?php echo JHtml::_('form.token'); ?>
 <input type="hidden" name="task" value="" />
 </form>
 <?php echo JHtml::_('behavior.keepalive'); ?>

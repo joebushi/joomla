@@ -4,11 +4,11 @@
  * @package		Joomla
  * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 // Require the com_content helper library
 require_once JPATH_COMPONENT.DS.'controller.php';
@@ -23,9 +23,9 @@ jimport('joomla.application.component.helper');
 $controller = new ContentController();
 
 // Register Extra tasks
-$controller->registerTask( 'new'  , 	'edit' );
-$controller->registerTask( 'apply', 	'save' );
-$controller->registerTask( 'apply_new', 'save' );
+$controller->registerTask('new'  , 	'edit');
+$controller->registerTask('apply', 	'save');
+$controller->registerTask('apply_new', 'save');
 
 // Perform the Request task
 $controller->execute(JRequest::getVar('task', null, 'default', 'cmd'));

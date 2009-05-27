@@ -4,11 +4,11 @@
  * @package		Joomla
  * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 require_once JPATH_COMPONENT.DS.'view.php';
 
@@ -36,8 +36,8 @@ class ContentViewFrontpage extends ContentView
 		$option = JRequest::getCmd('option', 'com_content');
 
 		// Initialize variables
-		$user		=& JFactory::getUser();
-		$document	=& JFactory::getDocument();
+		$user		= &JFactory::getUser();
+		$document	= &JFactory::getDocument();
 
 		// Request variables
 		$id		= JRequest::getVar('id', null, '', 'int');
@@ -60,8 +60,8 @@ class ContentViewFrontpage extends ContentView
 		JRequest::setVar('limit', (int) $limit);
 
 		//set data model
-		$items =& $this->get('data' );
-		$total =& $this->get('total');
+		$items = &$this->get('data');
+		$total = &$this->get('total');
 
 		// Create a user access object for the user
 		$access				= new stdClass();
@@ -69,7 +69,7 @@ class ContentViewFrontpage extends ContentView
 		$access->canPublish	= $user->authorize('com_content.article.publish');
 
 		//add alternate feed link
-		if($params->get('show_feed_link', 1) == 1)
+		if ($params->get('show_feed_link', 1) == 1)
 		{
 			$link	= '&format=feed&limitstart=';
 			$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
@@ -83,15 +83,15 @@ class ContentViewFrontpage extends ContentView
 
 		// because the application sets a default page title, we need to get it
 		// right from the menu item itself
-		if (is_object( $menu )) {
-			$menu_params = new JParameter( $menu->params );
-			if (!$menu_params->get( 'page_title')) {
-				$params->set('page_title',	 htmlspecialchars_decode($mainframe->getCfg('sitename' )));
+		if (is_object($menu)) {
+			$menu_params = new JParameter($menu->params);
+			if (!$menu_params->get('page_title')) {
+				$params->set('page_title',	 htmlspecialchars_decode($mainframe->getCfg('sitename')));
 			}
 		} else {
-			$params->set('page_title',	 htmlspecialchars_decode($mainframe->getCfg('sitename' )));
+			$params->set('page_title',	 htmlspecialchars_decode($mainframe->getCfg('sitename')));
 		}
-		$document->setTitle( $params->get( 'page_title' ) );
+		$document->setTitle($params->get('page_title'));
 
 		jimport('joomla.html.pagination');
 		$this->pagination = new JPagination($total, $limitstart, $limit - $links);
@@ -110,8 +110,8 @@ class ContentViewFrontpage extends ContentView
 		$mainframe = JFactory::getApplication();
 
 		// Initialize some variables
-		$user		=& JFactory::getUser();
-		$dispatcher	=& JDispatcher::getInstance();
+		$user		= &JFactory::getUser();
+		$dispatcher	= &JDispatcher::getInstance();
 
 		$SiteName	= $mainframe->getCfg('sitename');
 
@@ -120,9 +120,9 @@ class ContentViewFrontpage extends ContentView
 		$linkOn		= null;
 		$linkText	= null;
 
-		$item =& $this->items[$index];
+		$item = &$this->items[$index];
 		$item->text = $item->introtext;
-		if($user->authorize('com_content.article.edit_article'))
+		if ($user->authorize('com_content.article.edit_article'))
 		{
 			$item->edit = $user->authorize('com_content.article.edit', 'article.'.$item->id);
 		} else {

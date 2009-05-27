@@ -1,14 +1,14 @@
 <?php // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
+defined('_JEXEC') or die; ?>
 <script language="javascript" type="text/javascript">
 
-	function tableOrdering( order, dir, task )
+	function tableOrdering(order, dir, task)
 	{
 		var form = document.adminForm;
 
 		form.filter_order.value 	= order;
 		form.filter_order_Dir.value	= dir;
-		document.adminForm.submit( task );
+		document.adminForm.submit(task);
 	}
 </script>
 <form action="<?php echo $this->action; ?>" method="post" name="adminForm">
@@ -39,35 +39,35 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <?php endif; ?>
 <?php if ($this->params->get('show_headings')) : ?>
 <tr>
-	<td class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>" align="right" width="5%">
+	<td class="sectiontableheader<?php echo $this->params->get('pageclass_sfx'); ?>" align="right" width="5%">
 		<?php echo JText::_('Num'); ?>
 	</td>
 	<?php if ($this->params->get('show_title')) : ?>
- 	<td class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>" width="45%">
-		<?php echo JHtml::_('grid.sort',  'Item Title', 'a.title', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+ 	<td class="sectiontableheader<?php echo $this->params->get('pageclass_sfx'); ?>" width="45%">
+		<?php echo JHtml::_('grid.sort',  'Item Title', 'a.title', $this->lists['order_Dir'], $this->lists['order']); ?>
 	</td>
 	<?php endif; ?>
 	<?php if ($this->params->get('show_date')) : ?>
-	<td class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>" width="25%">
-		<?php echo JHtml::_('grid.sort',  'Date', 'a.created', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+	<td class="sectiontableheader<?php echo $this->params->get('pageclass_sfx'); ?>" width="25%">
+		<?php echo JHtml::_('grid.sort',  'Date', 'a.created', $this->lists['order_Dir'], $this->lists['order']); ?>
 	</td>
 	<?php endif; ?>
 	<?php if ($this->params->get('show_author')) : ?>
-	<td class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>"  width="20%">
-		<?php echo JHtml::_('grid.sort',  'Author', 'author', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+	<td class="sectiontableheader<?php echo $this->params->get('pageclass_sfx'); ?>"  width="20%">
+		<?php echo JHtml::_('grid.sort',  'Author', 'author', $this->lists['order_Dir'], $this->lists['order']); ?>
 	</td>
 	<?php endif; ?>
 	<?php if ($this->params->get('show_hits')) : ?>
-	<td align="center" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>" width="5%" nowrap="nowrap">
-		<?php echo JHtml::_('grid.sort',  'Hits', 'a.hits', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+	<td align="center" class="sectiontableheader<?php echo $this->params->get('pageclass_sfx'); ?>" width="5%" nowrap="nowrap">
+		<?php echo JHtml::_('grid.sort',  'Hits', 'a.hits', $this->lists['order_Dir'], $this->lists['order']); ?>
 	</td>
 	<?php endif; ?>
 </tr>
 <?php endif; ?>
 <?php foreach ($this->items as $item) : ?>
-<tr class="sectiontableentry<?php echo ($item->odd +1 ) . $this->params->get( 'pageclass_sfx' ); ?>" >
+<tr class="sectiontableentry<?php echo ($item->odd +1) . $this->params->get('pageclass_sfx'); ?>" >
 	<td align="right">
-		<?php echo $this->pagination->getRowOffset( $item->count ); ?>
+		<?php echo $this->pagination->getRowOffset($item->count); ?>
 	</td>
 	<?php if ($this->params->get('show_title')) : ?>
 	<?php if (!$item->readmore_register) : ?>
@@ -83,7 +83,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			$link = JRoute::_('index.php?option=com_user&task=register');
 		?>
 		<a href="<?php echo $link; ?>">
-			<?php echo JText::_( 'Register to read more...' ); ?></a>
+			<?php echo JText::_('Register to read more...'); ?></a>
 	</td>
 	<?php endif; ?>
 	<?php endif; ?>
@@ -109,7 +109,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<td colspan="5">&nbsp;</td>
 </tr>
 <tr>
-	<td align="center" colspan="4" class="sectiontablefooter<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+	<td align="center" colspan="4" class="sectiontablefooter<?php echo $this->params->get('pageclass_sfx'); ?>">
 		<?php echo $this->pagination->getPagesLinks(); ?>
 	</td>
 </tr>

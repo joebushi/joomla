@@ -4,13 +4,13 @@
  * @package		Joomla
  * @subpackage	Massmail
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
-jimport( 'joomla.application.component.controller' );
+jimport('joomla.application.component.controller');
 
 /**
  * Media Manager Component Controller
@@ -33,13 +33,13 @@ class MediaController extends JController
 		{
 			case 'imagesList':
 				$mName = 'list';
-				$vLayout = JRequest::getCmd( 'layout', 'default' );
+				$vLayout = JRequest::getCmd('layout', 'default');
 
 				break;
 
 			case 'images':
 			default:
-				$vLayout = JRequest::getCmd( 'layout', 'default' );
+				$vLayout = JRequest::getCmd('layout', 'default');
 				$mName = 'manager';
 				$vName = 'images';
 
@@ -50,7 +50,7 @@ class MediaController extends JController
 		$vType		= $document->getType();
 
 		// Get/Create the view
-		$view = &$this->getView( $vName, $vType);
+		$view = &$this->getView($vName, $vType);
 		$view->addTemplatePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.strtolower($vName).DS.'tmpl');
 
 		// Get/Create the model

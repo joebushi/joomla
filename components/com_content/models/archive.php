@@ -4,11 +4,11 @@
  * @package		Joomla
  * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -81,9 +81,9 @@ class ContentModelArchive extends JModel
 	}
 
 	// JModel override to add alternating value for $odd
-	protected function &_getList( $query, $limitstart=0, $limit=0 )
+	protected function &_getList($query, $limitstart=0, $limit=0)
 	{
-		$result =& parent::_getList($query, $limitstart, $limit);
+		$result = &parent::_getList($query, $limitstart, $limit);
 
 		$odd = 1;
 		foreach ($result as $k => $row) {
@@ -94,7 +94,7 @@ class ContentModelArchive extends JModel
 		return $result;
 	}
 
-	protected function _buildQuery( $countOnly = false )
+	protected function _buildQuery($countOnly = false)
 	{
 		$app = JFactory::getApplication();
 		// Get the page/component configuration
@@ -107,12 +107,12 @@ class ContentModelArchive extends JModel
 		$where		= $this->_buildContentWhere();
 		$orderby	= $this->_buildContentOrderBy();
 
-		if(!$countOnly) {
+		if (!$countOnly) {
 			$query = 'SELECT a.id, a.title, a.title_alias, a.introtext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by,'.
 				' a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.attribs, a.hits, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access, cc.title AS category,' .
 				' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug,'.
 				' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(":", cc.id, cc.alias) ELSE cc.id END as catslug,'.
-				' CHAR_LENGTH( a.`fulltext` ) AS readmore, u.name AS author, u.usertype'.$voting['select'];
+				' CHAR_LENGTH(a.`fulltext`) AS readmore, u.name AS author, u.usertype'.$voting['select'];
 		} else {
 			$query = 'SELECT count(*) ';
 		}
@@ -156,21 +156,21 @@ class ContentModelArchive extends JModel
 		$app = JFactory::getApplication();
 
 		// Initialize some variables
-		$user	=& JFactory::getUser();
-		$db		=& JFactory::getDBO();
+		$user	= &JFactory::getUser();
+		$db		= &JFactory::getDbo();
 
 		$where = ' WHERE a.access IN ('.implode(',', $user->authorisedLevels('com_content.article.view')).')';
 		$where .= ' AND cc.access IN ('.implode(',', $user->authorisedLevels('com_content.category.view')).')';
 		$where .= ' AND cc.published = 1';
 
 		$where .= ' AND a.state = \'-1\'';
-		$year	= JRequest::getInt( 'year' );
+		$year	= JRequest::getInt('year');
 		if ($year) {
-			$where .= ' AND YEAR( a.created ) = \''.$year.'\'';
+			$where .= ' AND YEAR(a.created) = \''.$year.'\'';
 		}
-		$month	= JRequest::getInt( 'month' );
+		$month	= JRequest::getInt('month');
 		if ($month) {
-			$where .= ' AND MONTH( a.created ) = \''.$month.'\'';
+			$where .= ' AND MONTH(a.created) = \''.$month.'\'';
 		}
 
 		/*
@@ -181,18 +181,18 @@ class ContentModelArchive extends JModel
 		if ($filter) {
 			// clean filter variable
 			$filter = JString::strtolower($filter);
-			$filter	= $db->Quote( '%'.$db->getEscaped( $filter, true ).'%', false );
+			$filter	= $db->Quote('%'.$db->getEscaped($filter, true).'%', false);
 
 			// Get the page/component configuration
 			$params = &$app->getParams();
 			switch ($params->get('filter_type', 'title'))
 			{
 				case 'title' :
-					$where .= ' AND LOWER( a.title ) LIKE '.$filter;
+					$where .= ' AND LOWER(a.title) LIKE '.$filter;
 					break;
 
 				case 'author' :
-					$where .= ' AND ( ( LOWER( u.name ) LIKE '.$filter.' ) OR ( LOWER( a.created_by_alias ) LIKE '.$filter.' ) )';
+					$where .= ' AND ((LOWER(u.name) LIKE '.$filter.') OR (LOWER(a.created_by_alias) LIKE '.$filter.'))';
 					break;
 
 				case 'hits' :

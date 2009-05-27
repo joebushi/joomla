@@ -4,13 +4,13 @@
  * @package  	Joomla
  * @subpackage	Banners
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
-jimport( 'joomla.application.component.controller' );
+jimport('joomla.application.component.controller');
 
 /**
  * Banners Controller
@@ -23,12 +23,12 @@ class BannersController extends JController
 {
 	function click()
 	{
-		$bid = JRequest::getInt( 'bid', 0 );
+		$bid = JRequest::getInt('bid', 0);
 		if ($bid)
 		{
-			$model = &$this->getModel( 'Banner' );
-			$model->click( $bid );
-			$this->setRedirect( $model->getUrl( $bid ) );
+			$model = &$this->getModel('Banner');
+			$model->click($bid);
+			$this->setRedirect($model->getUrl($bid));
 		}
 	}
 }

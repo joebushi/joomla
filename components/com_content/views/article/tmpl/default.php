@@ -1,5 +1,5 @@
 <?php // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 JHtml::_('behavior.caption'); ?>
 <?php if ($this->params->get('show_page_title', 1) && $this->params->get('page_title') != $this->article->title) : ?>
 	<div class="componentheading<?php echo $this->params->get('pageclass_sfx')?>">
@@ -7,12 +7,12 @@ JHtml::_('behavior.caption'); ?>
 	</div>
 <?php endif; ?>
 <?php if ($this->article->edit || $this->params->get('show_title') || $this->params->get('show_pdf_icon') || $this->params->get('show_print_icon') || $this->params->get('show_email_icon')) : ?>
-<table class="contentpaneopen<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+<table class="contentpaneopen<?php echo $this->params->get('pageclass_sfx'); ?>">
 <tr>
 	<?php if ($this->params->get('show_title')) : ?>
-	<td class="contentheading<?php echo $this->params->get( 'pageclass_sfx' ); ?>" width="100%">
+	<td class="contentheading<?php echo $this->params->get('pageclass_sfx'); ?>" width="100%">
 		<?php if ($this->params->get('link_titles') && $this->article->readmore_link != '') : ?>
-		<a href="<?php echo $this->article->readmore_link; ?>" class="contentpagetitle<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+		<a href="<?php echo $this->article->readmore_link; ?>" class="contentpagetitle<?php echo $this->params->get('pageclass_sfx'); ?>">
 			<?php echo $this->escape($this->article->title); ?></a>
 		<?php else : ?>
 			<?php echo $this->escape($this->article->title); ?>
@@ -26,7 +26,7 @@ JHtml::_('behavior.caption'); ?>
 		</td>
 		<?php endif; ?>
 
-		<?php if ( $this->params->get( 'show_print_icon' )) : ?>
+		<?php if ($this->params->get('show_print_icon')) : ?>
 		<td align="right" width="100%" class="buttonheading">
 		<?php echo JHtml::_('icon.print_popup',  $this->article, $this->params, $this->access); ?>
 		</td>
@@ -55,7 +55,7 @@ JHtml::_('behavior.caption'); ?>
 	echo $this->article->event->afterDisplayTitle;
 endif; ?>
 <?php echo $this->article->event->beforeDisplayContent; ?>
-<table class="contentpaneopen<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+<table class="contentpaneopen<?php echo $this->params->get('pageclass_sfx'); ?>">
 <?php if (($this->params->get('show_section') && $this->article->sectionid) || ($this->params->get('show_category') && $this->article->catid)) : ?>
 <tr>
 	<td>
@@ -91,7 +91,7 @@ endif; ?>
 <tr>
 	<td valign="top">
 		<span class="small">
-			<?php JText::printf( 'Written by', ($this->article->created_by_alias ? $this->article->created_by_alias : $this->article->author) ); ?>
+			<?php JText::printf('Written by', ($this->article->created_by_alias ? $this->article->created_by_alias : $this->article->author)); ?>
 		</span>
 		&nbsp;&nbsp;
 	</td>
@@ -124,10 +124,10 @@ endif; ?>
 </td>
 </tr>
 
-<?php if ( intval($this->article->modified) !=0 && $this->params->get('show_modify_date')) : ?>
+<?php if (intval($this->article->modified) !=0 && $this->params->get('show_modify_date')) : ?>
 <tr>
 	<td class="modifydate">
-		<?php echo JText::_( 'Last Updated' ); ?> ( <?php echo JHtml::_('date', $this->article->modified, JText::_('DATE_FORMAT_LC2')); ?> )
+		<?php echo JText::_('Last Updated'); ?> (<?php echo JHtml::_('date', $this->article->modified, JText::_('DATE_FORMAT_LC2')); ?>)
 	</td>
 </tr>
 <?php endif; ?>

@@ -4,11 +4,11 @@
  * @package		Joomla
  * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -100,7 +100,7 @@ class ContentModelFrontpage extends JModel
 		return true;
 	}
 
-	protected function _buildQuery( $countOnly = false )
+	protected function _buildQuery($countOnly = false)
 	{
 		$app = JFactory::getApplication();
 		// Get the page/component configuration
@@ -113,12 +113,12 @@ class ContentModelFrontpage extends JModel
 		$where	= $this->_buildContentWhere();
 		$orderby = $this->_buildContentOrderBy();
 
-		if(!$countOnly) {
+		if (!$countOnly) {
 			$query = ' SELECT a.id, a.title, a.title_alias, a.introtext, a.fulltext, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by,' .
 				' a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.images, a.attribs, a.urls, a.metakey, a.metadesc, a.access,' .
 				' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug,'.
 				' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(":", cc.id, cc.alias) ELSE cc.id END as catslug,'.
-				' CHAR_LENGTH( a.`fulltext` ) AS readmore,' .
+				' CHAR_LENGTH(a.`fulltext`) AS readmore,' .
 				' u.name AS author, u.usertype, cc.title AS category, a.ordering AS a_ordering, f.ordering AS f_ordering'.
 				$voting['select'];
 		} else {
@@ -160,10 +160,10 @@ class ContentModelFrontpage extends JModel
 	{
 		$app = JFactory::getApplication();
 
-		$user	=& JFactory::getUser();
+		$user	= &JFactory::getUser();
 		$gid	= $user->get('aid', 0);
 
-		$jnow	=& JFactory::getDate();
+		$jnow	= &JFactory::getDate();
 		$now	= $jnow->toMySQL();
 
 		// Get the page/component configuration
@@ -185,10 +185,10 @@ class ContentModelFrontpage extends JModel
 			$where .= ' AND a.state >= 0';
 		} else {
 			$where .= ' AND a.state = 1'.
-					' AND ( cc.published = 1 OR a.catid = 0 )';
+					' AND (cc.published = 1 OR a.catid = 0)';
 
-			$where .= ' AND ( a.publish_up = '.$this->_db->Quote($nullDate).' OR a.publish_up <= '.$this->_db->Quote($now).' )' .
-					' AND ( a.publish_down = '.$this->_db->Quote($nullDate).' OR a.publish_down >= '.$this->_db->Quote($now).' )';
+			$where .= ' AND (a.publish_up = '.$this->_db->Quote($nullDate).' OR a.publish_up <= '.$this->_db->Quote($now).')' .
+					' AND (a.publish_down = '.$this->_db->Quote($nullDate).' OR a.publish_down >= '.$this->_db->Quote($now).')';
 		}
 
 		return $where;

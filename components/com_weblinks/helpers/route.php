@@ -4,11 +4,11 @@
  * @package		Joomla
  * @subpackage	Weblinks
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 // Component Helper
 jimport('joomla.application.component.helper');
@@ -45,7 +45,7 @@ class WeblinksHelperRoute
 
 		if (!$items)
 		{
-			$component =& JComponentHelper::getComponent('com_weblinks');
+			$component = &JComponentHelper::getComponent('com_weblinks');
 			$menu = &JSite::getMenu();
 			$items = $menu->getItems('componentid', $component->id);
 		}
@@ -65,7 +65,7 @@ class WeblinksHelperRoute
 				}
 			}
 
-			if(isset($match)) {
+			if (isset($match)) {
 				break;
 			}
 		}

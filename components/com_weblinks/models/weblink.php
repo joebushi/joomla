@@ -4,11 +4,11 @@
  * @package		Joomla
  * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -82,13 +82,13 @@ class WeblinksModelWeblink extends JModel
 
 			// Check to see if the category is published
 			if (!$this->_data->cat_pub) {
-				JError::raiseError( 404, JText::_("Resource Not Found") );
+				JError::raiseError(404, JText::_("Resource Not Found"));
 				return;
 			}
 
 			// Check whether category access level allows access
 			if ($this->_data->cat_access > $user->get('aid', 0)) {
-				JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
+				JError::raiseError(403, JText::_('ALERTNOTAUTH'));
 				return;
 			}
 		}
@@ -125,7 +125,7 @@ class WeblinksModelWeblink extends JModel
 	 * @return	boolean	True if checked out
 	 * @since	1.5
 	 */
-	function isCheckedOut( $uid=0 )
+	function isCheckedOut($uid=0)
 	{
 		if ($this->_loadData())
 		{
@@ -149,7 +149,7 @@ class WeblinksModelWeblink extends JModel
 		if ($this->_id)
 		{
 			$weblink = & $this->getTable();
-			if(! $weblink->checkin($this->_id)) {
+			if (! $weblink->checkin($this->_id)) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
@@ -172,12 +172,12 @@ class WeblinksModelWeblink extends JModel
 		{
 			// Make sure we have a user id to checkout the article with
 			if (is_null($uid)) {
-				$user	=& JFactory::getUser();
+				$user	= &JFactory::getUser();
 				$uid	= $user->get('id');
 			}
 			// Lets get to it and checkout the thing...
 			$weblink = & $this->getTable();
-			if(!$weblink->checkout($uid, $this->_id)) {
+			if (!$weblink->checkout($uid, $this->_id)) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
@@ -196,7 +196,7 @@ class WeblinksModelWeblink extends JModel
 	 */
 	function store($data)
 	{
-		$row =& $this->getTable();
+		$row = &$this->getTable();
 
 		// Bind the form fields to the web link table
 		if (!$row->bind($data)) {
@@ -210,7 +210,7 @@ class WeblinksModelWeblink extends JModel
 		// if new item, order last in appropriate group
 		if (!$row->id) {
 			$where = 'catid = ' . (int) $row->catid ;
-			$row->ordering = $row->getNextOrder( $where );
+			$row->ordering = $row->getNextOrder($where);
 		}
 		// Make sure the web link table is valid
 		if (!$row->check()) {
@@ -239,7 +239,7 @@ class WeblinksModelWeblink extends JModel
 		if ($this->_id)
 		{
 			$weblink = & $this->getTable();
-			if(!$weblink->load($this->_id)) {
+			if (!$weblink->load($this->_id)) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}

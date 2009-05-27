@@ -4,11 +4,11 @@
  * @package		Joomla
  * @subpackage	MailTo
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
@@ -27,7 +27,7 @@ class MailtoController extends JController
 	 */
 	function mailto()
 	{
-		JRequest::setVar( 'view', 'mailto' );
+		JRequest::setVar('view', 'mailto');
 		$this->display();
 	}
 
@@ -44,15 +44,15 @@ class MailtoController extends JController
 		// Check for request forgeries
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$db	=& JFactory::getDBO();
+		$db	= &JFactory::getDbo();
 
-		jimport( 'joomla.mail.helper' );
+		jimport('joomla.mail.helper');
 
 		$SiteName 	= $mainframe->getCfg('sitename');
 		$MailFrom 	= $mainframe->getCfg('mailfrom');
 		$FromName 	= $mainframe->getCfg('fromname');
 
-		$link 		= base64_decode( JRequest::getVar( 'link', '', 'post', 'base64' ) );
+		$link 		= base64_decode(JRequest::getVar('link', '', 'post', 'base64'));
 
 		// An array of e-mail headers we do not want to allow as input
 		$headers = array (	'Content-Type:',
@@ -66,7 +66,7 @@ class MailtoController extends JController
 						 'sender',
 						 'from',
 						 'subject',
-						 );
+						);
 
 		/*
 		 * Here is the meat and potatoes of the header injection test.  We
@@ -97,27 +97,27 @@ class MailtoController extends JController
 
 		// Check for a valid to address
 		$error	= false;
-		if ( ! $email  || ! JMailHelper::isEmailAddress($email) )
+		if (! $email  || ! JMailHelper::isEmailAddress($email))
 		{
 			$error	= JText::sprintf('EMAIL_INVALID', $email);
-			JError::raiseWarning(0, $error );
+			JError::raiseWarning(0, $error);
 		}
 
 		// Check for a valid from address
-		if ( ! $from || ! JMailHelper::isEmailAddress($from) )
+		if (! $from || ! JMailHelper::isEmailAddress($from))
 		{
 			$error	= JText::sprintf('EMAIL_INVALID', $from);
-			JError::raiseWarning(0, $error );
+			JError::raiseWarning(0, $error);
 		}
 
-		if ( $error )
+		if ($error)
 		{
 			return $this->mailto();
 		}
 
 		// Build the message to send
 		$msg	= JText :: _('EMAIL_MSG');
-		$body	= sprintf( $msg, $SiteName, $sender, $from, $link);
+		$body	= sprintf($msg, $SiteName, $sender, $from, $link);
 
 		// Clean the email data
 		$subject = JMailHelper::cleanSubject($subject);
@@ -125,13 +125,13 @@ class MailtoController extends JController
 		$sender	 = JMailHelper::cleanAddress($sender);
 
 		// Send the email
-		if ( JUtility::sendMail($from, $sender, $email, $subject, $body) !== true )
+		if (JUtility::sendMail($from, $sender, $email, $subject, $body) !== true)
 		{
-			JError::raiseNotice( 500, 'EMAIL_NOT_SENT' );
+			JError::raiseNotice(500, 'EMAIL_NOT_SENT');
 			return $this->mailto();
 		}
 
-		JRequest::setVar( 'view', 'sent' );
+		JRequest::setVar('view', 'sent');
 		$this->display();
 	}
 }

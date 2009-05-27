@@ -3,14 +3,14 @@
  * @version		$Id$
  * @package		Joomla
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 /**
  * @param	array
  * @return	array
  */
-function WrapperBuildRoute( &$query )
+function WrapperBuildRoute(&$query)
 {
 	$segments = array();
 
@@ -25,7 +25,7 @@ function WrapperBuildRoute( &$query )
  * @param	array
  * @return	array
  */
-function WrapperParseRoute( $segments )
+function WrapperParseRoute($segments)
 {
 	$vars = array();
 

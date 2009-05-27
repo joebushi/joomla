@@ -1,17 +1,17 @@
 <?php
 /**
-* version $Id$
-* @package		Joomla
-* @subpackage	Newsfeeds
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*
-*/
+ * version $Id$
+ * @package		Joomla
+ * @subpackage	Newsfeeds
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ *
+ */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
-jimport( 'joomla.application.component.view');
+jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the Newsfeeds component
@@ -23,20 +23,20 @@ jimport( 'joomla.application.component.view');
  */
 class NewsfeedsViewNewsfeed extends JView
 {
-	function display( $tpl = null)
+	function display($tpl = null)
 	{
 		$mainframe = JFactory::getApplication();
 
 		// check if cache directory is writeable
 		$cacheDir = JPATH_BASE.DS.'cache'.DS;
-		if ( !is_writable( $cacheDir ) ) {
-			echo JText::_( 'Cache Directory Unwritable' );
+		if (!is_writable($cacheDir)) {
+			echo JText::_('Cache Directory Unwritable');
 			return;
 		}
 
 		// Get some objects from the JApplication
-		$pathway  =& $mainframe->getPathway();
-		$document =& JFactory::getDocument();
+		$pathway  = &$mainframe->getPathway();
+		$document = &JFactory::getDocument();
 
 		// Get the current menu item
 		$menus	= &JSite::getMenu();
@@ -44,16 +44,16 @@ class NewsfeedsViewNewsfeed extends JView
 		$params	= &$mainframe->getParams();
 
 		//get the newsfeed
-		$newsfeed =& $this->get('data');
+		$newsfeed = &$this->get('data');
 
 		//  get RSS parsed object
 		$options = array();
 		$options['rssUrl']		= $newsfeed->link;
 		$options['cache_time']	= $newsfeed->cache_time;
 
-		$rssDoc =& JFactory::getXMLparser('RSS', $options);
+		$rssDoc = &JFactory::getXMLparser('RSS', $options);
 
-		if ( $rssDoc == false ) {
+		if ($rssDoc == false) {
 			$msg = JText::_('Error: Feed not retrieved');
 			$mainframe->redirect('index.php?option=com_newsfeeds&view=category&id='. $newsfeed->catslug, $msg);
 			return;
@@ -82,42 +82,42 @@ class NewsfeedsViewNewsfeed extends JView
 		// Set page title
 		// because the application sets a default page title, we need to get it
 		// right from the menu item itself
-		if (is_object( $menu )) {
-			$menu_params = new JParameter( $menu->params );
-			if (!$menu_params->get( 'page_title')) {
+		if (is_object($menu)) {
+			$menu_params = new JParameter($menu->params);
+			if (!$menu_params->get('page_title')) {
 				$params->set('page_title',	$newsfeed->name);
 			}
 		} else {
 			$params->set('page_title',	$newsfeed->name);
 		}
-		$document->setTitle( $params->get( 'page_title' ) );
+		$document->setTitle($params->get('page_title'));
 
 		//set breadcrumbs
 		$viewname	= JRequest::getString('view');
-		if ( $viewname == 'categories' ) {
+		if ($viewname == 'categories') {
 			$pathway->addItem($newsfeed->category, 'index.php?view=category&id='.$newsfeed->catslug);
 		}
 		$pathway->addItem($newsfeed->name, '');
 
-		$this->assignRef('params'  , $params   );
-		$this->assignRef('newsfeed', $newsfeed );
+		$this->assignRef('params'  , $params  );
+		$this->assignRef('newsfeed', $newsfeed);
 
 		parent::display($tpl);
 	}
 
 	function limitText($text, $wordcount)
 	{
-		if(!$wordcount) {
+		if (!$wordcount) {
 			return $text;
 		}
 
-		$texts = explode( ' ', $text );
-		$count = count( $texts );
+		$texts = explode(' ', $text);
+		$count = count($texts);
 
-		if ( $count > $wordcount )
+		if ($count > $wordcount)
 		{
 			$text = '';
-			for( $i=0; $i < $wordcount; $i++ ) {
+			for ($i=0; $i < $wordcount; $i++) {
 				$text .= ' '. $texts[$i];
 			}
 			$text .= '...';

@@ -8,7 +8,7 @@
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
-defined('_JEXEC') or die('Restricted Access');
+defined('_JEXEC') or die;
 
 if ($this->user->get('guest')):
 	echo $this->loadTemplate('login');

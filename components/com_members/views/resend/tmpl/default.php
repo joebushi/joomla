@@ -8,7 +8,7 @@
  * @link		http://jxtended.com
  */
 
-defined('_JEXEC') or die('Restricted Access');
+defined('_JEXEC') or die;
 ?>
 
 <form action="<?php echo $this->form->getAction(); ?>" method="post">

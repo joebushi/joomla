@@ -6,7 +6,7 @@
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
-defined('_JEXEC') or die('Restricted Access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 jimport('joomla.event.dispatcher');

@@ -4,11 +4,11 @@
  * @package		Joomla
  * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 // Component Helper
 jimport('joomla.application.component.helper');
@@ -29,7 +29,7 @@ abstract class ContentHelperRoute
 	 */
 	public static function getArticleRoute($id, $catid)
 	{
-		if($catid)
+		if ($catid)
 		{
 			$categoryTree = JCategoryTree::getInstance('com_content');
 			$category = $categoryTree->get($catid);
@@ -52,11 +52,11 @@ abstract class ContentHelperRoute
 		//Create the link
 		$link = 'index.php?option=com_content&view=article&id='. $id;
 
-		if(is_array($catids)) {
+		if (is_array($catids)) {
 			$link .= '&catid='.array_pop($catids);
 		}
 
-		if($item = ContentHelperRoute::_findItem($needles)) {
+		if ($item = ContentHelperRoute::_findItem($needles)) {
 			$link .= '&Itemid='.$item->id;
 		};
 
@@ -82,8 +82,8 @@ abstract class ContentHelperRoute
 		//Create the link
 		$link = 'index.php?option=com_content&view=category&id='.$category->slug;
 
-		if($item = ContentHelperRoute::_findItem($needles)) {
-			if(isset($item->query['layout'])) {
+		if ($item = ContentHelperRoute::_findItem($needles)) {
+			if (isset($item->query['layout'])) {
 				$link .= '&layout='.$item->query['layout'];
 			}
 			$link .= '&Itemid='.$item->id;
@@ -94,7 +94,7 @@ abstract class ContentHelperRoute
 
 	protected static function _findItem($needles)
 	{
-		$component =& JComponentHelper::getComponent('com_content');
+		$component = &JComponentHelper::getComponent('com_content');
 		$app = JFactory::getApplication();
 		$menus	= & $app->getMenu();
 		$items	= $menus->getItems('componentid', $component->id);
@@ -103,7 +103,7 @@ abstract class ContentHelperRoute
 
 		foreach($needles as $needle => $id)
 		{
-			if(is_array($id))
+			if (is_array($id))
 			{
 				foreach($id as $tempid)
 				{				
@@ -126,7 +126,7 @@ abstract class ContentHelperRoute
 				}
 			}
 
-			if(isset($match)) {
+			if (isset($match)) {
 				break;
 			}
 		}

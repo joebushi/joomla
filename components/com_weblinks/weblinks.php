@@ -1,14 +1,14 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla
-* @subpackage	Weblinks
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla
+ * @subpackage	Weblinks
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 // Require the base controller
 require_once JPATH_COMPONENT.DS.'controller.php';
@@ -18,7 +18,7 @@ require_once JPATH_COMPONENT.DS.'helpers'.DS.'query.php';
 JHtml::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'classes');
 
 // Require specific controller if requested
-if($controller = JRequest::getWord('controller')) {
+if ($controller = JRequest::getWord('controller')) {
 	$path = JPATH_COMPONENT.DS.'controllers'.DS.$controller.'.php';
 	if (file_exists($path)) {
 		require_once $path;
@@ -29,7 +29,7 @@ if($controller = JRequest::getWord('controller')) {
 
 // Create the controller
 $classname	= 'WeblinksController'.ucfirst($controller);
-$controller = new $classname( );
+$controller = new $classname();
 
 // Perform the Request task
 $controller->execute(JRequest::getCmd('task'));

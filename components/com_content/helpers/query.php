@@ -4,11 +4,11 @@
  * @package		Joomla
  * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 /**
  * Content Component Query Helper
@@ -99,13 +99,13 @@ abstract class ContentHelperQuery
 	public static function buildVotingQuery($params=null)
 	{
 		if (!$params) {
-			$params = &JComponentHelper::getParams( 'com_content' );
+			$params = &JComponentHelper::getParams('com_content');
 		}
 		$voting = $params->get('show_vote');
 
 		if ($voting) {
 			// calculate voting count
-			$select = ' , ROUND( v.rating_sum / v.rating_count ) AS rating, v.rating_count';
+			$select = ' , ROUND(v.rating_sum / v.rating_count) AS rating, v.rating_count';
 			$join = ' LEFT JOIN #__content_rating AS v ON a.id = v.content_id';
 		} else {
 			$select = '';

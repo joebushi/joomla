@@ -4,11 +4,11 @@
  * @package		Joomla
  * @subpackage	MailTo
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
@@ -28,13 +28,13 @@ class MailtoViewMailto extends JView
 
 	function &getData()
 	{
-		$user =& JFactory::getUser();
+		$user = &JFactory::getUser();
 		$data = new stdClass();
 
-		$data->link = urldecode( JRequest::getVar( 'link', '', 'method', 'base64' ) );
+		$data->link = urldecode(JRequest::getVar('link', '', 'method', 'base64'));
 
 		if ($data->link == '') {
-			JError::raiseError( 403, 'Link is missing' );
+			JError::raiseError(403, 'Link is missing');
 			$false = false;
 			return $false;
 		}

@@ -4,11 +4,11 @@
  * @package		Joomla
  * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 require_once JPATH_COMPONENT.DS.'view.php';
 
@@ -40,10 +40,10 @@ class ContentViewCategory extends ContentView
 		$option = JRequest::getCmd('option');
 
 		// Initialize some variables
-		$user		=& JFactory::getUser();
-		$uri 		=& JFactory::getURI();
-		$document	=& JFactory::getDocument();
-		$pathway	=& $mainframe->getPathway();
+		$user		= &JFactory::getUser();
+		$uri 		= &JFactory::getURI();
+		$document	= &JFactory::getDocument();
+		$pathway	= &$mainframe->getPathway();
 
 		// Get the menu item object
 		$menus = &JSite::getMenu();
@@ -87,12 +87,12 @@ class ContentViewCategory extends ContentView
 		$params->def('show_page_title', 	$contentConfig->get('show_title'));
 
 		// Get some data from the model
-		$items		= & $this->get( 'Data' );
-		$total		= & $this->get( 'Total' );
-		$category	= & $this->get( 'Category' );
+		$items		= & $this->get('Data');
+		$total		= & $this->get('Total');
+		$category	= & $this->get('Category');
 
 		//add alternate feed link
-		if($params->get('show_feed_link', 1) == 1)
+		if ($params->get('show_feed_link', 1) == 1)
 		{
 			$link	= '&format=feed&limitstart=';
 			$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
@@ -110,20 +110,20 @@ class ContentViewCategory extends ContentView
 		// Set page title per category
 		// because the application sets a default page title, we need to get it
 		// right from the menu item itself
-		if (is_object( $menu )) {
-			$menu_params = new JParameter( $menu->params );
-			if (!$menu_params->get( 'page_title')) {
+		if (is_object($menu)) {
+			$menu_params = new JParameter($menu->params);
+			if (!$menu_params->get('page_title')) {
 				$params->set('page_title',	$category->title);
 			}
 		} else {
 			$params->set('page_title',	$category->title);
 		}
-		$document->setTitle( $params->get( 'page_title' ) );
+		$document->setTitle($params->get('page_title'));
 
 		//set breadcrumbs
 		$pathwaycat = $category;
 		$path = array();
-		if(is_object($menu) && $menu->query['id'] != $category->id)
+		if (is_object($menu) && $menu->query['id'] != $category->id)
 		{
 			$path[] = array($pathwaycat->title);
 			$pathwaycat = $pathwaycat->getParent();
@@ -135,7 +135,7 @@ class ContentViewCategory extends ContentView
 			$path = array_reverse($path);
 			foreach($path as $element)
 			{
-				if(isset($element[1]))
+				if (isset($element[1]))
 				{
 					$pathway->addItem($element[0], 'index.php?option=com_content&view=category&id='.$element[1]);
 				} else {
@@ -183,7 +183,7 @@ class ContentViewCategory extends ContentView
 		$user	= &JFactory::getUser();
 		$lists	= $this->_buildSortLists();
 
-		if (!count( $this->items ) )
+		if (!count($this->items))
 		{
 			$this->assign('lists',	$lists);
 			$return = array();
@@ -210,7 +210,7 @@ class ContentViewCategory extends ContentView
 				$item->link = JRoute::_('index.php?option=com_user&task=register');
 				$item->readmore_register = true;
 			}
-			if($user->authorize('com_content.article.edit_article'))
+			if ($user->authorize('com_content.article.edit_article'))
 			{
 				$item->edit = $user->authorize('com_content.article.edit', 'article.'.$item->id);
 			} else {
@@ -236,20 +236,20 @@ class ContentViewCategory extends ContentView
 		$mainframe = JFactory::getApplication();
 
 		// Initialize some variables
-		$user		=& JFactory::getUser();
-		$dispatcher	=& JDispatcher::getInstance();
+		$user		= &JFactory::getUser();
+		$dispatcher	= &JDispatcher::getInstance();
 
 		$SiteName	= $mainframe->getCfg('sitename');
 
-		$item		=& $this->items[$index];
+		$item		= &$this->items[$index];
 		$item->text	= $item->introtext;
-		if($user->authorize('com_content.article.edit_article'))
+		if ($user->authorize('com_content.article.edit_article'))
 		{
 			$item->edit = $user->authorize('com_content.article.edit', 'article.'.$item->id);
 		} else {
 			$item->edit = false;
 		}
-		$category		= & $this->get( 'Category' );
+		$category		= & $this->get('Category');
 		$item->category	= $category->title;
 
 		// Get the page/component configuration and article parameters

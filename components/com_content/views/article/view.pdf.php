@@ -4,13 +4,13 @@
  * @package		Joomla
  * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
-jimport( 'joomla.application.component.view');
+jimport('joomla.application.component.view');
 
 /**
  * HTML Article View class for the Content component
@@ -25,10 +25,10 @@ class ContentViewArticle extends JView
 	{
 		$mainframe = JFactory::getApplication();
 
-		$dispatcher	=& JDispatcher::getInstance();
+		$dispatcher	= &JDispatcher::getInstance();
 
 		// Initialize some variables
-		$article	= & $this->get( 'Article' );
+		$article	= & $this->get('Article');
 		$params 	= & $article->parameters;
 
 		// process the new plugins
@@ -58,7 +58,7 @@ class ContentViewArticle extends JView
 		if ($params->get('show_author')) {
 			// Display Author name
 			$text .= "\n";
-			$text .= JText::sprintf( 'Written by', ($article->created_by_alias ? $article->created_by_alias : $article->author) );
+			$text .= JText::sprintf('Written by', ($article->created_by_alias ? $article->created_by_alias : $article->author));
 		}
 
 		if ($params->get('show_create_date') && $params->get('show_author')) {

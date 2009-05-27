@@ -1,17 +1,17 @@
 <?php
 /**
-* version $Id$
-* @package		Joomla
-* @subpackage	Newsfeeds
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*
-*/
+ * version $Id$
+ * @package		Joomla
+ * @subpackage	Newsfeeds
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ *
+ */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
-jimport( 'joomla.application.component.view');
+jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the Newsfeeds component
@@ -46,21 +46,21 @@ class NewsfeedsViewCategory extends JView
 
 		// because the application sets a default page title, we need to get it
 		// right from the menu item itself
-		if (is_object( $menu )) {
-			$menu_params = new JParameter( $menu->params );
-			if (!$menu_params->get( 'page_title')) {
+		if (is_object($menu)) {
+			$menu_params = new JParameter($menu->params);
+			if (!$menu_params->get('page_title')) {
 				$params->set('page_title',	$category->title);
 			}
 		} else {
 			$params->set('page_title',	$category->title);
 		}
 
-		$document->setTitle( $params->get( 'page_title' ) );
+		$document->setTitle($params->get('page_title'));
 
 		//set breadcrumbs
 		$pathwaycat = $category;
 		$path = array();
-		if(is_object($menu) && $menu->query['id'] != $category->id)
+		if (is_object($menu) && $menu->query['id'] != $category->id)
 		{
 			$path[] = array($pathwaycat->title);
 			$pathwaycat = $pathwaycat->getParent();
@@ -72,7 +72,7 @@ class NewsfeedsViewCategory extends JView
 			$path = array_reverse($path);
 			foreach($path as $element)
 			{
-				if(isset($element[1]))
+				if (isset($element[1]))
 				{
 					$pathway->addItem($element[0], 'index.php?option=com_newsfeeds&view=category&id='.$element[1]);
 				} else {
@@ -85,11 +85,11 @@ class NewsfeedsViewCategory extends JView
 		$category->description = JHtml::_('content.prepare', $category->description);
 
 		$k = 0;
-		for($i = 0; $i <  count($items); $i++)
+		for ($i = 0; $i <  count($items); $i++)
 		{
-			$item =& $items[$i];
+			$item = &$items[$i];
 
-			$item->link = JRoute::_('index.php?view=newsfeed&catid='.$category->slug.'&id='. $item->slug );
+			$item->link = JRoute::_('index.php?view=newsfeed&catid='.$category->slug.'&id='. $item->slug);
 
 			$item->odd		= $k;
 			$item->count	= $i;

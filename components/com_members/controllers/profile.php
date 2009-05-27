@@ -6,7 +6,7 @@
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
-defined('_JEXEC') or die('Restricted Access');
+defined('_JEXEC') or die;
 
 /**
  * Profile controller class for Members.

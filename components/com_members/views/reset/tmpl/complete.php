@@ -8,7 +8,7 @@
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
-defined('_JEXEC') or die('Restricted Access');
+defined('_JEXEC') or die;
 
 JHtml::_('behavior.mootools');
 JHtml::_('behavior.formvalidation');

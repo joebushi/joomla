@@ -4,11 +4,11 @@
  * @package		Joomla
  * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
@@ -30,9 +30,9 @@ class ContentController extends JController
 	function display()
 	{
 		// Set a default view if none exists
-		if ( ! JRequest::getCmd( 'view' ) ) {
+		if (! JRequest::getCmd('view')) {
 			$default	= JRequest::getInt('id') ? 'article' : 'frontpage';
-			JRequest::setVar('view', $default );
+			JRequest::setVar('view', $default);
 		}
 
 		// View caching logic -- simple... are we logged in?
@@ -52,7 +52,7 @@ class ContentController extends JController
 	*/
 	function edit()
 	{
-		$user	=& JFactory::getUser();
+		$user	= &JFactory::getUser();
 
 		// Create a user access object for the user
 		$access					= new stdClass();
@@ -68,14 +68,14 @@ class ContentController extends JController
 
 		// new record
 		if (!($access->canEdit || $access->canEditOwn)) {
-			JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
+			JError::raiseError(403, JText::_("ALERTNOTAUTH"));
 		}
 
-		if( $model->get('id') > 1 && $user->get('gid') <= 19 && $model->get('created_by') != $user->id ) {
-			JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
+		if ($model->get('id') > 1 && $user->get('gid') <= 19 && $model->get('created_by') != $user->id) {
+			JError::raiseError(403, JText::_("ALERTNOTAUTH"));
 		}
 
-		if ( $model->isCheckedOut($user->get('id')))
+		if ($model->isCheckedOut($user->get('id')))
 		{
 			$msg = JText::sprintf('DESCBEINGEDITTED', JText::_('The item'), $model->get('title'));
 			$this->setRedirect(JRoute::_('index.php?view=article&id='.$model->get('id'), false), $msg);
@@ -106,13 +106,13 @@ class ContentController extends JController
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialize variables
-		$db			= & JFactory::getDBO();
+		$db			= & JFactory::getDbo();
 		$user		= & JFactory::getUser();
 		$task		= JRequest::getVar('task', null, 'default', 'cmd');
 
 		// Make sure you are logged in and have the necessary access rights
 		if ($user->get('gid') < 19) {
-			JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
+			JError::raiseError(403, JText::_('ALERTNOTAUTH'));
 			return;
 		}
 
@@ -123,7 +123,7 @@ class ContentController extends JController
 		$access->canPublish		= $user->authorize('com_content', 'publish', 'content', 'all');
 
 		if (!($access->canEdit || $access->canEditOwn)) {
-			JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
+			JError::raiseError(403, JText::_("ALERTNOTAUTH"));
 		}
 
 		//get data from the request
@@ -137,14 +137,14 @@ class ContentController extends JController
 		$isNew = ((int) $post['id'] < 1);
 
 		if ($model->store($post)) {
-			$msg = JText::_( 'Article Saved' );
+			$msg = JText::_('Article Saved');
 
-			if($isNew) {
+			if ($isNew) {
 				$post['id'] = (int) $model->get('id');
 			}
 		} else {
-			$msg = JText::_( 'Error Saving Article' );
-			JError::raiseError( 500, $model->getError() );
+			$msg = JText::_('Error Saving Article');
+			JError::raiseError(500, $model->getError());
 		}
 
 		// manage frontpage items
@@ -159,10 +159,10 @@ class ContentController extends JController
 			{
 				// new entry
 				$query = 'INSERT INTO #__content_frontpage' .
-						' VALUES ( '.(int) $post['id'].', 1 )';
+						' VALUES ('.(int) $post['id'].', 1)';
 				$db->setQuery($query);
 				if (!$db->query()) {
-					JError::raiseError( 500, $db->stderr());
+					JError::raiseError(500, $db->stderr());
 				}
 				$fp->ordering = 1;
 			}
@@ -200,7 +200,7 @@ class ContentController extends JController
 			require_once JPATH_ADMINISTRATOR.DS.'components'.DS.'com_messages'.DS.'tables'.DS.'message.php';
 
 			// load language for messaging
-			$lang =& JFactory::getLanguage();
+			$lang = &JFactory::getLanguage();
 			$lang->load('com_messages');
 
 			$query = 'SELECT id' .
@@ -243,7 +243,7 @@ class ContentController extends JController
 	function cancel()
 	{
 		// Initialize some variables
-		$db		= & JFactory::getDBO();
+		$db		= & JFactory::getDbo();
 		$user	= & JFactory::getUser();
 
 		// Get an article table object and bind post variabes to it [We don't need a full model here]
@@ -272,7 +272,7 @@ class ContentController extends JController
 		$id		= JRequest::getVar('cid', 0, '', 'int');
 
 		// Get/Create the model
-		$model = & $this->getModel('Article' );
+		$model = & $this->getModel('Article');
 
 		$model->setId($id);
 		if ($model->storeVote($rating)) {
@@ -291,16 +291,16 @@ class ContentController extends JController
 	function findkey()
 	{
 		// Initialize variables
-		$db		= & JFactory::getDBO();
+		$db		= & JFactory::getDbo();
 		$keyref	= JRequest::getVar('keyref', null, 'default', 'cmd');
 		JRequest::setVar('keyref', $keyref);
 
 		// If no keyref left, throw 404
-		if( empty($keyref) === true ) {
-			JError::raiseError( 404, JText::_("Key Not Found") );
+		if (empty($keyref) === true) {
+			JError::raiseError(404, JText::_("Key Not Found"));
 		}
 
-		$keyref	= $db->Quote( '%keyref='.$db->getEscaped( $keyref, true ).'%', false );
+		$keyref	= $db->Quote('%keyref='.$db->getEscaped($keyref, true).'%', false);
 		$query	= 'SELECT id' .
 				' FROM #__content' .
 				' WHERE attribs LIKE '.$keyref;
@@ -310,10 +310,10 @@ class ContentController extends JController
 		if ($id > 0)
 		{
 			// Create the view
-			$view =& $this->getView('article', 'html');
+			$view = &$this->getView('article', 'html');
 
 			// Get/Create the model
-			$model =& $this->getModel('Article' );
+			$model = &$this->getModel('Article');
 
 			// Set the id of the article to display
 			$model->setId($id);
@@ -325,7 +325,7 @@ class ContentController extends JController
 			$view->display();
 		}
 		else {
-			JError::raiseError( 404, JText::_( 'Key Not Found' ) );
+			JError::raiseError(404, JText::_('Key Not Found'));
 		}
 	}
 

@@ -1,10 +1,10 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 jimport('joomla.application.categorytree');
 
@@ -21,24 +21,24 @@ function ContentBuildRoute(&$query)
 	}
 
 	$mView	= (empty($menuItem->query['view'])) ? null : $menuItem->query['view'];
-	if(isset($menuItem->query['catid']))
+	if (isset($menuItem->query['catid']))
 	{
 		$mCatid	= (empty($menuItem->query['catid'])) ? null : $menuItem->query['catid'];
 	} else {
 		$mCatid	= (empty($menuItem->query['id'])) ? null : $menuItem->query['id'];
 	}
 	$mId	= (empty($menuItem->query['id'])) ? null : $menuItem->query['id'];
-	if(isset($query['view']))
+	if (isset($query['view']))
 	{
 		$view = $query['view'];
-		if(empty($query['Itemid'])) {
+		if (empty($query['Itemid'])) {
 			$segments[] = $query['view'];
 		}
 		unset($query['view']);
 	}
-	if(isset($view))
+	if (isset($view))
 	{
-		if($view == 'category')
+		if ($view == 'category')
 		{
 			$catid = (int) $query['id'];
 		} elseif ($view == 'article') {
@@ -46,7 +46,7 @@ function ContentBuildRoute(&$query)
 		}
 	}
 	
-	if(isset($catid) && $catid > 0)
+	if (isset($catid) && $catid > 0)
 	{
 		$categoryTree = JCategoryTree::getInstance('com_content');
 		$category = $categoryTree->get($catid);
@@ -73,11 +73,11 @@ function ContentBuildRoute(&$query)
 		unset($query['id']);
 	}
 
-	if(isset($view) && $view == 'article' && isset($query['id'])) {
+	if (isset($view) && $view == 'article' && isset($query['id'])) {
 		if (empty($query['Itemid'])) {
 			$segments[] = $query['id'];
 		} else {
-			if(isset($category))
+			if (isset($category))
 			{
 				$path = array();
 				while((int)$category->id != (int)$mCatid)
@@ -94,31 +94,31 @@ function ContentBuildRoute(&$query)
 		unset($query['id']);
 	};
 
-	if(isset($query['year'])) {
+	if (isset($query['year'])) {
 
-		if(!empty($query['Itemid'])) {
+		if (!empty($query['Itemid'])) {
 			$segments[] = $query['year'];
 			unset($query['year']);
 		}
 	};
 
-	if(isset($query['month'])) {
+	if (isset($query['month'])) {
 
-		if(!empty($query['Itemid'])) {
+		if (!empty($query['Itemid'])) {
 			$segments[] = $query['month'];
 			unset($query['month']);
 		}
 	};
 
-	if(isset($query['layout']))
+	if (isset($query['layout']))
 	{
-		if(!empty($query['Itemid']) && isset($menuItem->query['layout'])) {
+		if (!empty($query['Itemid']) && isset($menuItem->query['layout'])) {
 			if ($query['layout'] == $menuItem->query['layout']) {
 
 				unset($query['layout']);
 			}
 		} else {
-			if($query['layout'] == 'default') {
+			if ($query['layout'] == 'default') {
 				unset($query['layout']);
 			}
 		}
@@ -132,10 +132,10 @@ function ContentParseRoute($segments)
 	$vars = array();
 
 	//Get the active menu item
-	$menu =& JSite::getMenu();
-	$item =& $menu->getActive();
+	$menu = &JSite::getMenu();
+	$item = &$menu->getActive();
 
-	if($item->query['view'] == 'category')
+	if ($item->query['view'] == 'category')
 	{
 		$categoryTree = JCategoryTree::getInstance('com_content');
 		$category = $categoryTree->get((int) $item->query['id']);
@@ -144,7 +144,7 @@ function ContentParseRoute($segments)
 	$count = count($segments);
 
 	//Standard routing for articles
-	if(!isset($item))
+	if (!isset($item))
 	{
 		$vars['view']  = $segments[0];
 		$vars['id']	= $segments[$count - 1];
@@ -162,7 +162,7 @@ function ContentParseRoute($segments)
 			{
 				foreach($categories as $category)
 				{
-					if($category->slug == $segment)
+					if ($category->slug == $segment)
 					{
 						$vars['id'] = $segment;
 						$vars['view'] = 'category';
@@ -171,7 +171,7 @@ function ContentParseRoute($segments)
 						break;
 					}
 				}
-				if($found == 0)
+				if ($found == 0)
 				{
 					$vars['id'] = $segment;
 					$vars['view'] = 'article';
@@ -196,7 +196,7 @@ function ContentParseRoute($segments)
 
 		case 'archive' :
 		{
-			if($count != 1)
+			if ($count != 1)
 			{
 				$vars['year']	= $count >= 2 ? $segments[$count-2] : null;
 				$vars['month']	= $segments[$count-1];

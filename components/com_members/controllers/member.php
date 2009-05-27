@@ -6,7 +6,7 @@
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
-defined('_JEXEC') or die('Restricted Access');
+defined('_JEXEC') or die;
 
 /**
  * Registration controller class for Members.
@@ -47,7 +47,7 @@ class MembersControllerMember extends MembersController
 		$error = $app->login($credentials, $options);
 
 		// Check if the login succeeded.
-		if(!JError::isError($error)) {
+		if (!JError::isError($error)) {
 			$app->setUserState('members.login.form.data', array());
 			$app->redirect(JRoute::_($data['return'], false));
 		} else {

@@ -4,11 +4,11 @@
  * @package		Joomla
  * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -82,13 +82,13 @@ class NewsfeedsModelNewsfeed extends JModel
 
 			// Check to see if the category is published
 			if (!$this->_data->cat_pub) {
-				JError::raiseError( 404, JText::_("Resource Not Found") );
+				JError::raiseError(404, JText::_("Resource Not Found"));
 				return;
 			}
 
 			// Check whether category access level allows access
 			if ($this->_data->cat_access > $user->get('aid', 0)) {
-				JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
+				JError::raiseError(403, JText::_('ALERTNOTAUTH'));
 				return;
 			}
 

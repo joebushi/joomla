@@ -4,13 +4,13 @@
  * @package		Joomla
  * @subpackage	Weblinks
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
-jimport( 'joomla.application.component.view');
+jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the WebLinks component
@@ -29,8 +29,8 @@ class SearchViewSearch extends JView
 		require_once JPATH_COMPONENT.DS.'helpers'.DS.'search.php';
 
 		// Initialize some variables
-		$pathway	=& $mainframe->getPathway();
-		$uri		=& JFactory::getURI();
+		$pathway	= &$mainframe->getPathway();
+		$uri		= &JFactory::getURI();
 
 		$error	= '';
 		$rows	= null;
@@ -48,17 +48,17 @@ class SearchViewSearch extends JView
 
 		// because the application sets a default page title, we need to get it
 		// right from the menu item itself
-		if (is_object( $menu )) {
-			$menu_params = new JParameter( $menu->params );
-			if (!$menu_params->get( 'page_title')) {
-				$params->set('page_title',	JText::_( 'Search' ));
+		if (is_object($menu)) {
+			$menu_params = new JParameter($menu->params);
+			if (!$menu_params->get('page_title')) {
+				$params->set('page_title',	JText::_('Search'));
 			}
 		} else {
-			$params->set('page_title',	JText::_( 'Search' ));
+			$params->set('page_title',	JText::_('Search'));
 		}
 
 		$document	= &JFactory::getDocument();
-		$document->setTitle( $params->get( 'page_title' ) );
+		$document->setTitle($params->get('page_title'));
 
 		// Get the parameters of the active menu item
 		$params	= &$mainframe->getParams();
@@ -82,36 +82,36 @@ class SearchViewSearch extends JView
 				'list.select' => $state->get('ordering'),
 				'option.key' => null
 			)
-	   );
+	  );
 
 		$searchphrases = array();
-		$searchphrases[] = JHtml::_('select.option',  'all', JText::_( 'All words' ) );
-		$searchphrases[] = JHtml::_('select.option',  'any', JText::_( 'Any words' ) );
-		$searchphrases[] = JHtml::_('select.option',  'exact', JText::_( 'Exact phrase' ) );
-		$lists['searchphrase' ]= JHtml::_('select.radiolist',  $searchphrases, 'searchphrase', '', 'value', 'text', $state->get('match') );
+		$searchphrases[] = JHtml::_('select.option',  'all', JText::_('All words'));
+		$searchphrases[] = JHtml::_('select.option',  'any', JText::_('Any words'));
+		$searchphrases[] = JHtml::_('select.option',  'exact', JText::_('Exact phrase'));
+		$lists['searchphrase' ]= JHtml::_('select.radiolist',  $searchphrases, 'searchphrase', '', 'value', 'text', $state->get('match'));
 
 		//limit searchword
 
-		if(SearchHelper::limitSearchWord($searchword)) {
-			$error = JText::_( 'SEARCH_MESSAGE' );
+		if (SearchHelper::limitSearchWord($searchword)) {
+			$error = JText::_('SEARCH_MESSAGE');
 		}
 
 		//sanatise searchword
-		if(SearchHelper::santiseSearchWord($searchword, $state->get('match'))) {
-			$error = JText::_( 'IGNOREKEYWORD' );
+		if (SearchHelper::santiseSearchWord($searchword, $state->get('match'))) {
+			$error = JText::_('IGNOREKEYWORD');
 		}
 
-		if (!$searchword && count( JRequest::get('post') ) ) {
-			//$error = JText::_( 'Enter a search keyword' );
+		if (!$searchword && count(JRequest::get('post'))) {
+			//$error = JText::_('Enter a search keyword');
 		}
 
 		// put the filtered results back into the model
 		// for next release, the checks should be done in the model perhaps...
 		$state->set('keyword', $searchword);
 
-		if(!$error)
+		if (!$error)
 		{
-			$results	= &$this->get('data' );
+			$results	= &$this->get('data');
 			$total		= &$this->get('total');
 			$pagination	= &$this->get('pagination');
 
@@ -132,8 +132,8 @@ class SearchViewSearch extends JView
 					$needle = $searchwords[0];
 				}
 
-				$row = SearchHelper::prepareSearchContent( $row, 200, $needle );
-				$searchwords = array_unique( $searchwords );
+				$row = SearchHelper::prepareSearchContent($row, 200, $needle);
+				$searchwords = array_unique($searchwords);
 				$searchRegex = '#(';
 				$x = 0;
 				foreach ($searchwords as $k => $hlword)
@@ -144,11 +144,11 @@ class SearchViewSearch extends JView
 				}
 				$searchRegex .= ')#iu';
 
-				$row = preg_replace($searchRegex, '<span class="highlight">\0</span>', $row );
+				$row = preg_replace($searchRegex, '<span class="highlight">\0</span>', $row);
 
-				$result =& $results[$i];
+				$result = &$results[$i];
 				if ($result->created) {
-					$created = JHtml::Date ( $result->created );
+					$created = JHtml::Date ($result->created);
 				}
 				else {
 					$created = '';
@@ -159,7 +159,7 @@ class SearchViewSearch extends JView
 			}
 		}
 
-		$this->result	= JText::sprintf( 'TOTALRESULTSFOUND', $total );
+		$this->result	= JText::sprintf('TOTALRESULTSFOUND', $total);
 
 		$this->assignRef('pagination',  $pagination);
 		$this->assignRef('results',		$results);

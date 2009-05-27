@@ -1,29 +1,29 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php defined('_JEXEC') or die; ?>
 <script language="javascript" type="text/javascript">
 function submitbutton(pressbutton)
 {
 	var form = document.adminForm;
 	if (pressbutton == 'cancel') {
-		submitform( pressbutton );
+		submitform(pressbutton);
 		return;
 	}
 
 	// do field validation
 	if (document.getElementById('jformtitle').value == ""){
-		alert( "<?php echo JText::_( 'Weblink item must have a title', true ); ?>" );
+		alert("<?php echo JText::_('Weblink item must have a title', true); ?>");
 	} else if (document.getElementById('jformcatid').value < 1) {
-		alert( "<?php echo JText::_( 'You must select a category.', true ); ?>" );
+		alert("<?php echo JText::_('You must select a category.', true); ?>");
 	} else if (document.getElementById('jformurl').value == ""){
-		alert( "<?php echo JText::_( 'You must have a url.', true ); ?>" );
+		alert("<?php echo JText::_('You must have a url.', true); ?>");
 	} else {
-		submitform( pressbutton );
+		submitform(pressbutton);
 	}
 }
 </script>
 
 <form action="<?php echo $this->action ?>" method="post" name="adminForm" id="adminForm">
-<?php if ( $this->params->def( 'show_page_title', 1 ) ) : ?>
-	<div class="componentheading<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+<?php if ($this->params->def('show_page_title', 1)) : ?>
+	<div class="componentheading<?php echo $this->params->get('pageclass_sfx'); ?>">
 		<?php echo $this->escape($this->params->get('page_title')); ?>
 	</div>
 <?php endif; ?>
@@ -31,7 +31,7 @@ function submitbutton(pressbutton)
 <tr>
 	<td width="10%">
 		<label for="jformtitle">
-			<?php echo JText::_( 'Name' ); ?>:
+			<?php echo JText::_('Name'); ?>:
 		</label>
 	</td>
 	<td width="80%">
@@ -41,7 +41,7 @@ function submitbutton(pressbutton)
 <tr>
 	<td valign="top">
 		<label for="jformcatid">
-			<?php echo JText::_( 'Category' ); ?>:
+			<?php echo JText::_('Category'); ?>:
 		</label>
 	</td>
 	<td>
@@ -51,7 +51,7 @@ function submitbutton(pressbutton)
 <tr>
 	<td valign="top">
 		<label for="jformurl">
-			<?php echo JText::_( 'URL' ); ?>:
+			<?php echo JText::_('URL'); ?>:
 		</label>
 	</td>
 	<td>
@@ -61,7 +61,7 @@ function submitbutton(pressbutton)
 <tr>
 	<td valign="top">
 		<label for="jformstate">
-			<?php echo JText::_( 'State' ); ?>:
+			<?php echo JText::_('State'); ?>:
 		</label>
 	</td>
 	<td>
@@ -71,17 +71,17 @@ function submitbutton(pressbutton)
 <tr>
 	<td valign="top">
 		<label for="jformdescription">
-			<?php echo JText::_( 'Description' ); ?>:
+			<?php echo JText::_('Description'); ?>:
 		</label>
 	</td>
 	<td>
-		<textarea class="inputbox" cols="30" rows="6" id="jformdescription" name="jform[description]" style="width:300px"><?php echo $this->escape( $this->weblink->description);?></textarea>
+		<textarea class="inputbox" cols="30" rows="6" id="jformdescription" name="jform[description]" style="width:300px"><?php echo $this->escape($this->weblink->description);?></textarea>
 	</td>
 </tr>
 <tr>
 	<td class="key">
 		<label for="jformordering">
-			<?php echo JText::_( 'Ordering' ); ?>:
+			<?php echo JText::_('Ordering'); ?>:
 		</label>
 	</td>
 	<td>
@@ -105,5 +105,5 @@ function submitbutton(pressbutton)
 	<input type="hidden" name="option" value="com_weblinks" />
 	<input type="hidden" name="controller" value="weblink" />
 	<input type="hidden" name="task" value="" />
-	<?php echo JHtml::_( 'form.token' ); ?>
+	<?php echo JHtml::_('form.token'); ?>
 </form>

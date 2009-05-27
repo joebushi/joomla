@@ -4,11 +4,11 @@
  * @package		Joomla
  * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
@@ -29,23 +29,23 @@ class WeblinksControllerWeblink extends WeblinksController
 	*/
 	function edit()
 	{
-		$app	=& JFactory::getApplication();
-		$user	=& JFactory::getUser();
+		$app	= &JFactory::getApplication();
+		$user	= &JFactory::getUser();
 
 		// Make sure you are logged in
 		if ($user->get('aid', 0) < 1) {
-			JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
+			JError::raiseError(403, JText::_('ALERTNOTAUTH'));
 			return;
 		}
 
 		JRequest::setVar('view', 'weblink');
 		JRequest::setVar('layout', 'form');
 
-		$model =& $this->getModel('weblink');
+		$model = &$this->getModel('weblink');
 		// fail if checked out not by 'me'
-		if ($model->isCheckedOut( $user->get('id') )) {
-			$msg = JText::sprintf( 'DESCBEINGEDITTED', JText::_( 'The weblink' ), $weblink->title );
-			$app->redirect( 'index.php?option=com_weblinks', $msg );
+		if ($model->isCheckedOut($user->get('id'))) {
+			$msg = JText::sprintf('DESCBEINGEDITTED', JText::_('The weblink'), $weblink->title);
+			$app->redirect('index.php?option=com_weblinks', $msg);
 		}
 
 		parent::display();
@@ -63,12 +63,12 @@ class WeblinksControllerWeblink extends WeblinksController
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get some objects from the JApplication
-		$db		=& JFactory::getDBO();
-		$user	=& JFactory::getUser();
+		$db		= &JFactory::getDbo();
+		$user	= &JFactory::getUser();
 
 		// Must be logged in
 		if ($user->get('id') < 1) {
-			JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
+			JError::raiseError(403, JText::_('ALERTNOTAUTH'));
 			return;
 		}
 
@@ -78,9 +78,9 @@ class WeblinksControllerWeblink extends WeblinksController
 		$model = $this->getModel('weblink');
 
 		if ($model->store($post)) {
-			$msg = JText::_( 'Weblink Saved' );
+			$msg = JText::_('Weblink Saved');
 		} else {
-			$msg = JText::_( 'Error Saving Weblink' );
+			$msg = JText::_('Error Saving Weblink');
 		}
 
 		// Check the table in so it can be edited.... we are done with it anyway
@@ -96,7 +96,7 @@ class WeblinksControllerWeblink extends WeblinksController
 				' AND sendEmail = 1';
 		$db->setQuery($query);
 		if (!$db->query()) {
-			JError::raiseError( 500, $db->stderr(true));
+			JError::raiseError(500, $db->stderr(true));
 			return;
 		}
 		$adminRows = $db->loadObjectList();
@@ -122,7 +122,7 @@ class WeblinksControllerWeblink extends WeblinksController
 
 		// Must be logged in
 		if ($user->get('id') < 1) {
-			JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
+			JError::raiseError(403, JText::_('ALERTNOTAUTH'));
 			return;
 		}
 

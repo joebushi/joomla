@@ -1,14 +1,14 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla
-* @subpackage	Wrapper
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla
+ * @subpackage	Wrapper
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 /*
  * This is our main control structure for the component
@@ -37,7 +37,7 @@ class WrapperController
 		$mainframe = JFactory::getApplication();
 		$option = JRequest::getCmd('option');
 
-		$document =& JFactory::getDocument();
+		$document = &JFactory::getDocument();
 
 		$menus	= &JSite::getMenu();
 		$menu	= $menus->getActive();
@@ -48,18 +48,18 @@ class WrapperController
 		//set page title
 		$document->setTitle($menu->name);
 
-		$url = $params->def( 'url', '' );
+		$url = $params->def('url', '');
 
 		$row = new stdClass();
-		if ( $params->def( 'add_scheme', 1 ) )
+		if ($params->def('add_scheme', 1))
 		{
 			// adds 'http://' if none is set
-			if ( substr( $url, 0, 1 ) == '/' )
+			if (substr($url, 0, 1) == '/')
 			{
 				// relative url in component. use server http_host.
 				$row->url = 'http://'. $_SERVER['HTTP_HOST'] . $url;
 			}
-			elseif ( !strstr( $url, 'http' ) && !strstr( $url, 'https' ) ) {
+			elseif (!strstr($url, 'http') && !strstr($url, 'https')) {
 				$row->url = 'http://'. $url;
 			}
 			else {

@@ -1,17 +1,17 @@
 <?php // no direct acces
-defined('_JEXEC') or die('Restricted access'); ?>
+defined('_JEXEC') or die; ?>
 <div style="direction: <?php echo $this->newsfeed->rtl ? 'rtl' :'ltr'; ?>; text-align: <?php echo $this->newsfeed->rtl ? 'right' :'left'; ?>">
 <?php if ($this->params->get('show_page_title', 1)) : ?>
 	<div class="componentheading<?php echo $this->params->get('pageclass_sfx')?>"><?php echo $this->escape($this->params->get('page_title')); ?></div>
 <?php endif; ?>
-<table width="100%" class="contentpane<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+<table width="100%" class="contentpane<?php echo $this->params->get('pageclass_sfx'); ?>">
 <tr>
-	<td class="contentheading<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+	<td class="contentheading<?php echo $this->params->get('pageclass_sfx'); ?>">
 		<a href="<?php echo $this->newsfeed->channel['link']; ?>">
 			<?php echo str_replace('&apos;', "'", $this->newsfeed->channel['title']); ?></a>
 	</td>
 </tr>
-<?php if ( $this->params->get( 'show_feed_description' ) ) : ?>
+<?php if ($this->params->get('show_feed_description')) : ?>
 <tr>
 	<td>
 		<?php echo str_replace('&apos;', "'", $this->newsfeed->channel['description']); ?>
@@ -20,7 +20,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</td>
 </tr>
 <?php endif; ?>
-<?php if ( isset($this->newsfeed->image['url']) && isset($this->newsfeed->image['title']) && $this->params->get( 'show_feed_image' ) ) : ?>
+<?php if (isset($this->newsfeed->image['url']) && isset($this->newsfeed->image['title']) && $this->params->get('show_feed_image')) : ?>
 <tr>
 	<td>
 		<img src="<?php echo $this->newsfeed->image['url']; ?>" alt="<?php echo $this->newsfeed->image['title']; ?>" />
@@ -30,15 +30,15 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <tr>
 	<td>
 		<ul>
-		<?php foreach ( $this->newsfeed->items as $item ) :  ?>
+		<?php foreach ($this->newsfeed->items as $item) :  ?>
 			<li>
-			<?php if ( !is_null( $item->get_link() ) ) : ?>
+			<?php if (!is_null($item->get_link())) : ?>
 				<a href="<?php echo $item->get_link(); ?>">
 					<?php echo $item->get_title(); ?></a>
 			<?php endif; ?>
-			<?php if ( $this->params->get( 'show_item_description' ) && $item->get_description()) : ?>
+			<?php if ($this->params->get('show_item_description') && $item->get_description()) : ?>
 				<br />
-				<?php $text = $this->limitText($item->get_description(), $this->params->get( 'feed_word_count' ));
+				<?php $text = $this->limitText($item->get_description(), $this->params->get('feed_word_count'));
 					echo str_replace('&apos;', "'", $text);
 				?>
 				<br />

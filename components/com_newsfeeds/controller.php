@@ -4,11 +4,11 @@
  * @package		Joomla
  * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
@@ -30,8 +30,8 @@ class NewsfeedsController extends JController
 	function display()
 	{
 		// Set a default view if none exists
-		if ( ! JRequest::getCmd( 'view' ) ) {
-			JRequest::setVar('view', 'categories' );
+		if (! JRequest::getCmd('view')) {
+			JRequest::setVar('view', 'categories');
 		}
 
 		parent::display();

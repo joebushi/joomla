@@ -1,5 +1,5 @@
 <?php // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
+defined('_JEXEC') or die; ?>
 <script language="javascript" type="text/javascript">
 <!--
 	function submitbutton(pressbutton) {
@@ -7,7 +7,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 
 		// do field validation
 		if (form.mailto.value == "" || form.from.value == "") {
-			alert( '<?php echo JText::_('EMAIL_ERR_NOINFO'); ?>' );
+			alert('<?php echo JText::_('EMAIL_ERR_NOINFO'); ?>');
 			return false;
 		}
 		form.submit();
@@ -69,5 +69,5 @@ $data	= $this->get('data');
 	<input type="hidden" name="task" value="send" />
 	<input type="hidden" name="tmpl" value="component" />
 	<input type="hidden" name="link" value="<?php echo $data->link; ?>" />
-	<?php echo JHtml::_( 'form.token' ); ?>
+	<?php echo JHtml::_('form.token'); ?>
 </form>

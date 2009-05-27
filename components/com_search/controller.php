@@ -4,11 +4,11 @@
  * @package		Joomla
  * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
@@ -38,7 +38,7 @@ class SearchController extends JController
 		$post['ordering']	= JRequest::getWord('ordering', null, 'post');
 		$post['searchphrase']	= JRequest::getWord('searchphrase', 'all', 'post');
 		$post['limit']  = JRequest::getInt('limit', null, 'post');
-		if($post['limit'] === null) unset($post['limit']);
+		if ($post['limit'] === null) unset($post['limit']);
 
 		$areas = JRequest::getVar('areas', null, 'post', 'array');
 		if ($areas) {
@@ -52,7 +52,7 @@ class SearchController extends JController
 		$menu = &JSite::getMenu();
 		$items	= $menu->getItems('link', 'index.php?option=com_search&view=search');
 
-		if(isset($items[0])) {
+		if (isset($items[0])) {
 			$post['Itemid'] = $items[0]->id;
 		}
 

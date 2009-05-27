@@ -4,11 +4,11 @@
  * @package		Joomla
  * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -108,13 +108,13 @@ class ContentModelCategory extends JModel
 		{
 			jimport('joomla.application.categorytree');
 			$categoryTree = JCategoryTree::getInstance('com_content');
-			$this->_category =& $categoryTree->get($this->_id);
+			$this->_category = &$categoryTree->get($this->_id);
 		}
 		// Load the Category data
 		if ($this->_loadData($state))
 		{
 			// Initialize some variables
-			$user	=& JFactory::getUser();
+			$user	= &JFactory::getUser();
 
 			// Make sure the category is published
 			if (!$this->_category->published)
@@ -144,11 +144,11 @@ class ContentModelCategory extends JModel
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_total))
 		{
-			if(empty($this->_category))
+			if (empty($this->_category))
 			{
 				jimport('joomla.application.categorytree');
 				$categoryTree = JCategoryTree::getInstance('com_content');
-				$this->_category =& $categoryTree->get($this->_id);
+				$this->_category = &$categoryTree->get($this->_id);
 			}
 			$query = $this->_buildQuery($state, true);
 			$this->_db->setQuery($query);
@@ -170,7 +170,7 @@ class ContentModelCategory extends JModel
 		{
 			jimport('joomla.application.categorytree');
 			$categoryTree = JCategoryTree::getInstance('com_content');
-			$this->_category =& $categoryTree->get($this->_id);
+			$this->_category = &$categoryTree->get($this->_id);
 		}
 		
 		if (empty($this->_category))
@@ -202,7 +202,7 @@ class ContentModelCategory extends JModel
 	public function getSiblings()
 	{
 		// Initialize some variables
-		$user	=& JFactory::getUser();
+		$user	= &JFactory::getUser();
 
 		// Load the Category data
 		if ($this->_loadCategory() && $this->_loadSiblings())
@@ -289,21 +289,21 @@ class ContentModelCategory extends JModel
 		$where		= $this->_buildContentWhere($state);
 		$orderby	= $this->_buildContentOrderBy($state);
 
-		if(!$countOnly) {
+		if (!$countOnly) {
 			$query = 'SELECT cc.title AS category, a.id, a.title, a.title_alias, a.introtext, a.fulltext, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by,' .
 				' a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.attribs, a.hits, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access,' .
 				' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug,';
-			if($params->get('show_subcategory_content', 0))
+			if ($params->get('show_subcategory_content', 0))
 			{
 				$query .= ' cc.catslug as catslug, ';
 			} else {
 				$query .= ' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(":", cc.id, cc.alias) ELSE cc.id END as catslug,';
 			}
-			$query .= ' CHAR_LENGTH( a.`fulltext` ) AS readmore, u.name AS author, u.usertype'.$voting['select'];
+			$query .= ' CHAR_LENGTH(a.`fulltext`) AS readmore, u.name AS author, u.usertype'.$voting['select'];
 		} else {
 			$query = 'SELECT count(*) ';
 		}
-		if($params->get('show_subcategory_content', 0))
+		if ($params->get('show_subcategory_content', 0))
 		{
 			$subquery = ' RIGHT JOIN (SELECT c.id as id, c.title as title, c.alias as alias,'.
 			' CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(":", c.id, c.alias) ELSE c.id END as catslug'.
@@ -374,16 +374,16 @@ class ContentModelCategory extends JModel
 		// Get the page/component configuration
 		$params = &$app->getParams();
 
-		$user		=& JFactory::getUser();
+		$user		= &JFactory::getUser();
 		$gid		= $user->get('aid', 0);
 
-		$jnow		=& JFactory::getDate();
+		$jnow		= &JFactory::getDate();
 		$now		= $jnow->toMySQL();
 
 		// Get the page/component configuration
 		$noauth		= !$params->get('show_noauth');
 		$nullDate	= $this->_db->getNullDate();
-		if($params->get('show_subcategory_content', 0))
+		if ($params->get('show_subcategory_content', 0))
 		{
 			$where = ' WHERE 1 ';
 		} else {
@@ -405,20 +405,20 @@ class ContentModelCategory extends JModel
 				else
 				{
 					$where .= ' AND a.state = 1' .
-							' AND ( publish_up = '.$this->_db->Quote($nullDate).' OR publish_up <= '.$this->_db->Quote($now).' )' .
-							' AND ( publish_down = '.$this->_db->Quote($nullDate).' OR publish_down >= '.$this->_db->Quote($now).' )';
+							' AND (publish_up = '.$this->_db->Quote($nullDate).' OR publish_up <= '.$this->_db->Quote($now).')' .
+							' AND (publish_down = '.$this->_db->Quote($nullDate).' OR publish_down >= '.$this->_db->Quote($now).')';
 				}
 				break;
 
 			// Archive Content
 			case -1:
 				// Get some request vars specific to this state
-				$year	= JRequest::getInt( 'year', date('Y') );
-				$month	= JRequest::getInt( 'month', date('m') );
+				$year	= JRequest::getInt('year', date('Y'));
+				$month	= JRequest::getInt('month', date('m'));
 
 				$where .= ' AND a.state = -1';
-				$where .= ' AND YEAR( a.created ) = '.(int) $year;
-				$where .= ' AND MONTH( a.created ) = '.(int) $month;
+				$where .= ' AND YEAR(a.created) = '.(int) $year;
+				$where .= ' AND MONTH(a.created) = '.(int) $month;
 				break;
 
 			default:
@@ -437,16 +437,16 @@ class ContentModelCategory extends JModel
 			{
 				// clean filter variable
 				$filter = JString::strtolower($filter);
-				$filter	= $this->_db->Quote( '%'.$this->_db->getEscaped( $filter, true ).'%', false );
+				$filter	= $this->_db->Quote('%'.$this->_db->getEscaped($filter, true).'%', false);
 
 				switch ($params->get('filter_type'))
 				{
 					case 'title' :
-						$where .= ' AND LOWER( a.title ) LIKE '.$filter;
+						$where .= ' AND LOWER(a.title) LIKE '.$filter;
 						break;
 
 					case 'author' :
-						$where .= ' AND ( ( LOWER( u.name ) LIKE '.$filter.' ) OR ( LOWER( a.created_by_alias ) LIKE '.$filter.' ) )';
+						$where .= ' AND ((LOWER(u.name) LIKE '.$filter.') OR (LOWER(a.created_by_alias) LIKE '.$filter.'))';
 						break;
 
 					case 'hits' :

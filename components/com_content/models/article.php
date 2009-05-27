@@ -4,11 +4,11 @@
  * @package		Joomla
  * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -64,7 +64,7 @@ class ContentModelArticle extends JModel
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	public function set( $property, $value=null )
+	public function set($property, $value=null)
 	{
 		if ($this->_loadArticle()) {
 			$this->_article->$property = $value;
@@ -86,7 +86,7 @@ class ContentModelArticle extends JModel
 	public function get($property, $default=null)
 	{
 		if ($this->_loadArticle()) {
-			if(isset($this->_article->$property)) {
+			if (isset($this->_article->$property)) {
 				return $this->_article->$property;
 			}
 		}
@@ -107,12 +107,12 @@ class ContentModelArticle extends JModel
 
 			// Is the category published?
 			if (!$this->_article->cat_pub && $this->_article->catid) {
-				JError::raiseError( 404, JText::_("Article category not published") );
+				JError::raiseError(404, JText::_("Article category not published"));
 			}
 
 			// Do we have access to the category?
 			if ($this->_article->catid && (!in_array($this->_article->cat_access, $user->authorisedLevels()))) {
-				JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
+				JError::raiseError(403, JText::_("ALERTNOTAUTH"));
 			}
 
 			$this->_loadArticleParams();
@@ -129,8 +129,8 @@ class ContentModelArticle extends JModel
 		}
 		else
 		{
-			$user =& JFactory::getUser();
-			$article =& JTable::getInstance('content');
+			$user = &JFactory::getUser();
+			$article = &JTable::getInstance('content');
 			$article->state			= 1;
 			$article->cat_pub		= null;
 			$article->sec_pub		= null;
@@ -138,7 +138,7 @@ class ContentModelArticle extends JModel
 			$article->sec_access	= null;
 			$article->author		= null;
 			$article->created_by	= $user->get('id');
-			$article->parameters	= new JParameter( '' );
+			$article->parameters	= new JParameter('');
 			$article->text			= '';
 			$this->_article			= $article;
 		}
@@ -172,7 +172,7 @@ class ContentModelArticle extends JModel
 	 * @return	boolean	True if checked out
 	 * @since	1.5
 	 */
-	public function isCheckedOut( $uid=0 )
+	public function isCheckedOut($uid=0)
 	{
 		if ($this->_loadArticle())
 		{
@@ -184,7 +184,7 @@ class ContentModelArticle extends JModel
 		} elseif ($this->_id < 1) {
 			return false;
 		} else {
-			JError::raiseWarning( 0, 'Unable to Load Data');
+			JError::raiseWarning(0, 'Unable to Load Data');
 			return false;
 		}
 	}
@@ -220,7 +220,7 @@ class ContentModelArticle extends JModel
 		{
 			// Make sure we have a user id to checkout the article with
 			if (is_null($uid)) {
-				$user	=& JFactory::getUser();
+				$user	= &JFactory::getUser();
 				$uid	= $user->get('id');
 			}
 			// Lets get to it and checkout the thing...
@@ -239,9 +239,9 @@ class ContentModelArticle extends JModel
 	 */
 	public function store($data)
 	{
-		$article	=& JTable::getInstance('content');
-		$user		=& JFactory::getUser();
-		$dispatcher	=& JDispatcher::getInstance();
+		$article	= &JTable::getInstance('content');
+		$user		= &JFactory::getUser();
+		$dispatcher	= &JDispatcher::getInstance();
 		JPluginHelper::importPlugin('content');
 
 		// Bind the form fields to the web link table
@@ -270,25 +270,25 @@ class ContentModelArticle extends JModel
 			$article->publish_up .= ' 00:00:00';
 		}
 
-		$date =& JFactory::getDate($article->publish_up, $mainframe->getCfg('offset'));
+		$date = &JFactory::getDate($article->publish_up, $mainframe->getCfg('offset'));
 		$article->publish_up = $date->toMySQL();
 
 		// Handle never unpublish date
-		if (trim($article->publish_down) == JText::_('Never') || trim( $article->publish_down ) == '')
+		if (trim($article->publish_down) == JText::_('Never') || trim($article->publish_down) == '')
 		{
 			$article->publish_down = $this->_db->getNullDate();;
 		}
 		else
 		{
-			if (strlen(trim( $article->publish_down )) <= 10) {
+			if (strlen(trim($article->publish_down)) <= 10) {
 				$article->publish_down .= ' 00:00:00';
 			}
 
-			$date =& JFactory::getDate($article->publish_down, $mainframe->getCfg('offset'));
+			$date = &JFactory::getDate($article->publish_down, $mainframe->getCfg('offset'));
 			$article->publish_down = $date->toMySQL();
 		}
 
-		$article->title = trim( JFilterOutput::ampReplace($article->title) );
+		$article->title = trim(JFilterOutput::ampReplace($article->title));
 
 		// Publishing state hardening for Authors
 		if (!$user->authorize('com_content.article.publish'))
@@ -330,32 +330,32 @@ class ContentModelArticle extends JModel
 		}
 
 		// Filter settings
-		jimport( 'joomla.application.component.helper' );
-		$config	= JComponentHelper::getParams( 'com_content' );
+		jimport('joomla.application.component.helper');
+		$config	= JComponentHelper::getParams('com_content');
 		$user	= &JFactory::getUser();
-		$gid	= $user->get( 'gid' );
+		$gid	= $user->get('gid');
 
-		$filterGroups	= (array) $config->get( 'filter_groups' );
-		if (in_array( $gid, $filterGroups ))
+		$filterGroups	= (array) $config->get('filter_groups');
+		if (in_array($gid, $filterGroups))
 		{
-			$filterType		= $config->get( 'filter_type' );
-			$filterTags		= preg_split( '#[,\s]+#', trim( $config->get( 'filter_tags' ) ) );
-			$filterAttrs	= preg_split( '#[,\s]+#', trim( $config->get( 'filter_attritbutes' ) ) );
+			$filterType		= $config->get('filter_type');
+			$filterTags		= preg_split('#[,\s]+#', trim($config->get('filter_tags')));
+			$filterAttrs	= preg_split('#[,\s]+#', trim($config->get('filter_attritbutes')));
 			switch ($filterType)
 			{
 				case 'NH':
 					$filter	= new JFilterInput();
 					break;
 				case 'WL':
-					$filter	= new JFilterInput( $filterTags, $filterAttrs, 0, 0 );
+					$filter	= new JFilterInput($filterTags, $filterAttrs, 0, 0);
 					break;
 				case 'BL':
 				default:
-					$filter	= new JFilterInput( $filterTags, $filterAttrs, 1, 1 );
+					$filter	= new JFilterInput($filterTags, $filterAttrs, 1, 1);
 					break;
 			}
-			$article->introtext	= $filter->clean( $article->introtext );
-			$article->fulltext	= $filter->clean( $article->fulltext );
+			$article->introtext	= $filter->clean($article->introtext);
+			$article->fulltext	= $filter->clean($article->fulltext);
 		}
 
 		// Make sure the article table is valid
@@ -368,7 +368,7 @@ class ContentModelArticle extends JModel
 
 		//Trigger OnBeforeContentSave
 		$result = $dispatcher->trigger('onBeforeContentSave', array(&$article, $isNew));
-		if(in_array(false, $result, true)) {
+		if (in_array(false, $result, true)) {
 			$this->setError($article->getError());
 			return false;
 		}
@@ -389,7 +389,7 @@ class ContentModelArticle extends JModel
 		//Trigger OnAfterContentSave
 		$dispatcher->trigger('onAfterContentSave', array(&$article, $isNew));
 
-		$this->_article	=& $article;
+		$this->_article	= &$article;
 
 		return true;
 	}
@@ -404,7 +404,7 @@ class ContentModelArticle extends JModel
 	 */
 	public function storeVote($rate)
 	{
-		if ( $rate >= 1 && $rate <= 5)
+		if ($rate >= 1 && $rate <= 5)
 		{
 			$userIP =  $_SERVER['REMOTE_ADDR'];
 
@@ -417,11 +417,11 @@ class ContentModelArticle extends JModel
 			if (!$rating)
 			{
 				// There are no ratings yet, so lets insert our rating
-				$query = 'INSERT INTO #__content_rating ( content_id, lastip, rating_sum, rating_count )' .
-						' VALUES ( '.(int) $this->_id.', '.$this->_db->Quote($userIP).', '.(int) $rate.', 1 )';
+				$query = 'INSERT INTO #__content_rating (content_id, lastip, rating_sum, rating_count)' .
+						' VALUES ('.(int) $this->_id.', '.$this->_db->Quote($userIP).', '.(int) $rate.', 1)';
 				$this->_db->setQuery($query);
 				if (!$this->_db->query()) {
-					JError::raiseError( 500, $this->_db->stderr());
+					JError::raiseError(500, $this->_db->stderr());
 				}
 			}
 			else
@@ -434,7 +434,7 @@ class ContentModelArticle extends JModel
 							' WHERE content_id = '.(int) $this->_id;
 					$this->_db->setQuery($query);
 					if (!$this->_db->query()) {
-						JError::raiseError( 500, $this->_db->stderr());
+						JError::raiseError(500, $this->_db->stderr());
 					}
 				}
 				else
@@ -444,7 +444,7 @@ class ContentModelArticle extends JModel
 			}
 			return true;
 		}
-		JError::raiseWarning( 'SOME_ERROR_CODE', 'Article Rating:: Invalid Rating:' .$rate, "JModelArticle::storeVote($rate)");
+		JError::raiseWarning('SOME_ERROR_CODE', 'Article Rating:: Invalid Rating:' .$rate, "JModelArticle::storeVote($rate)");
 		return false;
 	}
 
@@ -459,7 +459,7 @@ class ContentModelArticle extends JModel
 	{
 		$app = JFactory::getApplication();
 
-		if($this->_id == '0')
+		if ($this->_id == '0')
 		{
 			return false;
 		}
@@ -487,16 +487,16 @@ class ContentModelArticle extends JModel
 					$where;
 			$this->_db->setQuery($query);
 			$this->_article = $this->_db->loadObject();
-			if ( ! $this->_article ) {
+			if (! $this->_article) {
 				return false;
 			}
 
-			if($this->_article->publish_down == $this->_db->getNullDate()) {
+			if ($this->_article->publish_down == $this->_db->getNullDate()) {
 				$this->_article->publish_down = JText::_('Never');
 			}
 
 			// These attributes need to be defined in order for the voting plugin to work
-			if ( count($voting) && ! isset($this->_article->rating_count) ) {
+			if (count($voting) && ! isset($this->_article->rating_count)) {
 				$this->_article->rating_count	= 0;
 				$this->_article->rating			= 0;
 			}
@@ -548,10 +548,10 @@ class ContentModelArticle extends JModel
 	 */
 	protected function _buildContentWhere()
 	{
-		$user		=& JFactory::getUser();
+		$user		= &JFactory::getUser();
 		$aid		= (int) $user->get('aid', 0);
 
-		$jnow		=& JFactory::getDate();
+		$jnow		= &JFactory::getDate();
 		$now		= $jnow->toMySQL();
 		$nullDate	= $this->_db->getNullDate();
 
@@ -564,16 +564,16 @@ class ContentModelArticle extends JModel
 
 		if (!$user->authorize('com_content.article.edit'))
 		{
-			$where .= ' AND ( ';
-			$where .= ' ( a.created_by = ' . (int) $user->id . ' ) ';
+			$where .= ' AND (';
+			$where .= ' (a.created_by = ' . (int) $user->id . ') ';
 			$where .= '   OR ';
-			$where .= ' ( a.state = 1' .
-					' AND ( a.publish_up = '.$this->_db->Quote($nullDate).' OR a.publish_up <= '.$this->_db->Quote($now).' )' .
-					' AND ( a.publish_down = '.$this->_db->Quote($nullDate).' OR a.publish_down >= '.$this->_db->Quote($now).' )';
-			$where .= '   ) ';
+			$where .= ' (a.state = 1' .
+					' AND (a.publish_up = '.$this->_db->Quote($nullDate).' OR a.publish_up <= '.$this->_db->Quote($now).')' .
+					' AND (a.publish_down = '.$this->_db->Quote($nullDate).' OR a.publish_down >= '.$this->_db->Quote($now).')';
+			$where .= '  ) ';
 			$where .= '   OR ';
-			$where .= ' ( a.state = -1 ) ';
-			$where .= ' ) ';
+			$where .= ' (a.state = -1) ';
+			$where .= ') ';
 		}
 
 		return $where;

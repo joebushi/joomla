@@ -1,10 +1,10 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 jimport('joomla.application.categorytree');
 function NewsfeedsBuildRoute(&$query)
 {
@@ -21,9 +21,9 @@ function NewsfeedsBuildRoute(&$query)
 		$items		= $menu->getItems('componentid', $component->id);
 	}
 
-	if(isset($query['view']))
+	if (isset($query['view']))
 	{
-		if($query['view'] == 'category')
+		if ($query['view'] == 'category')
 		{
 			$catid = (int) $query['id'];
 		} elseif ($query['view'] == 'newsfeed') {
@@ -32,20 +32,20 @@ function NewsfeedsBuildRoute(&$query)
 		$view = $query['view'];
 	}
 	
-	if(isset($catid) && $catid > 0)
+	if (isset($catid) && $catid > 0)
 	{
 		$categoryTree = JCategoryTree::getInstance('com_newsfeeds');
 		$category = $categoryTree->get($catid);
 	}
 	
-	if(isset($category) && count($items))
+	if (isset($category) && count($items))
 	{
 		$path = array();
 		while($category instanceof JCategoryNode)
 		{
 			foreach($items as $item)
 			{
-				if($item->query['view'] == 'newsfeed'
+				if ($item->query['view'] == 'newsfeed'
 					&& $view == 'newsfeed'
 					&& (int)$item->query['id'] == (int)$query['id'])
 				{
@@ -56,14 +56,14 @@ function NewsfeedsBuildRoute(&$query)
 			}
 			foreach($items as $item)
 			{
-				if($item->query['view'] == 'category' 
+				if ($item->query['view'] == 'category' 
 					&& (int)$item->query['id'] == (int)$category->id)
 				{
 					$itemid = $item->id;
 					break;
 				}
 			}
-			if($itemid > 0)
+			if ($itemid > 0)
 			{
 				break;
 			} else {
@@ -71,7 +71,7 @@ function NewsfeedsBuildRoute(&$query)
 				$category = $category->getParent();
 			}
 		}
-		if($itemid > 0)
+		if ($itemid > 0)
 		{
 			$query['Itemid'] = $itemid;
 		}
@@ -79,13 +79,13 @@ function NewsfeedsBuildRoute(&$query)
 		$segments = array_merge($segments, $path);
 	}
 
-	if(isset($view) && $view == 'newsfeed' && $itemid > 0)
+	if (isset($view) && $view == 'newsfeed' && $itemid > 0)
 	{
-		if(!$menuitem)
+		if (!$menuitem)
 		$segments[] = $query['id'];
 	}
 
-	if($itemid == 0 && isset($query['id']))
+	if ($itemid == 0 && isset($query['id']))
 	{
 		$segments[] = $query['id'];
 	}
@@ -109,7 +109,7 @@ function NewsfeedsParseRoute($segments)
 	// Check if we have a valid menu item.
 	if (is_object($item))
 	{
-		if($item->query['view'] == 'category')
+		if ($item->query['view'] == 'category')
 		{
 			$categorytree = JCategoryTree::getInstance('com_newsfeeds');
 			$category = $categorytree->get($item->query['id']);
@@ -118,14 +118,14 @@ function NewsfeedsParseRoute($segments)
 				$found = 0;
 				foreach($category->getChildren() as $child)
 				{
-					if($segment == $child->slug)
+					if ($segment == $child->slug)
 					{
 						$found = 1;
 						$category = $child;
 						break;
 					}
 				}
-				if($found == 0)
+				if ($found == 0)
 				{
 					$vars['id'] = $segment;
 					$vars['catid'] = $category->slug;

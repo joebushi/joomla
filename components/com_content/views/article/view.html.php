@@ -4,11 +4,11 @@
  * @package		Joomla
  * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 require_once JPATH_COMPONENT.DS.'view.php';
 
@@ -33,36 +33,36 @@ class ContentViewArticle extends ContentView
 
 	function display($tpl = null)
 	{
-		$app			=& JFactory::getApplication();
-		$user		=& JFactory::getUser();
-		$document	=& JFactory::getDocument();
-		$dispatcher	=& JDispatcher::getInstance();
-		$pathway	=& $app->getPathway();
+		$app			= &JFactory::getApplication();
+		$user		= &JFactory::getUser();
+		$document	= &JFactory::getDocument();
+		$dispatcher	= &JDispatcher::getInstance();
+		$pathway	= &$app->getPathway();
 		$params		= JComponentHelper::getParams('com_content');
 
 		// Initialize variables
-		$article	=& $this->get('Article');
+		$article	= &$this->get('Article');
 		$aparams	= $article->parameters;
 		$params->merge($aparams);
 
-		if($this->getLayout() == 'pagebreak') {
+		if ($this->getLayout() == 'pagebreak') {
 			$this->_displayPagebreak($tpl);
 			return;
 		}
 
-		if($this->getLayout() == 'form') {
+		if ($this->getLayout() == 'form') {
 			$this->_displayForm($tpl);
 			return;
 		}
 
 		if (($article->id == 0))
 		{
-			$id = JRequest::getVar( 'id', '', 'default', 'int' );
-			return JError::raiseError( 404, JText::sprintf( 'Article # not found', $id ) );
+			$id = JRequest::getVar('id', '', 'default', 'int');
+			return JError::raiseError(404, JText::sprintf('Article # not found', $id));
 		}
 
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
-		if($user->authorize('com_content.article.edit_article'))
+		if ($user->authorize('com_content.article.edit_article'))
 		{
 			$article->edit = $user->authorize('com_content.article.edit', 'article.'.$item->id);
 		} else {
@@ -95,18 +95,18 @@ class ContentViewArticle extends ContentView
 		$menus = &JSite::getMenu();
 		$menu  = $menus->getActive();
 
-		if (is_object( $menu ) && isset($menu->query['view']) && $menu->query['view'] == 'article' && isset($menu->query['id']) && $menu->query['id'] == $article->id) {
-			$menu_params = new JParameter( $menu->params );
-			if (!$menu_params->get( 'page_title')) {
+		if (is_object($menu) && isset($menu->query['view']) && $menu->query['view'] == 'article' && isset($menu->query['id']) && $menu->query['id'] == $article->id) {
+			$menu_params = new JParameter($menu->params);
+			if (!$menu_params->get('page_title')) {
 				$params->set('page_title',	$article->title);
 			}
 		} else {
 			$params->set('page_title',	$article->title);
 		}
-		$document->setTitle( $params->get( 'page_title' ) );
+		$document->setTitle($params->get('page_title'));
 
 		if ($article->metadesc) {
-			$document->setDescription( $article->metadesc );
+			$document->setDescription($article->metadesc);
 		}
 		if ($article->metakey) {
 			$document->setMetadata('keywords', $article->metakey);
@@ -142,7 +142,7 @@ class ContentViewArticle extends ContentView
 		$categorytree = JCategoryTree::getInstance('com_content');
 		$pathwaycat = $categorytree->get($article->catid);
 		$path = array();
-		if(is_object($menu) && $menu->query['view'] != 'article' && $menu->query['id'] != $pathwaycat->id)
+		if (is_object($menu) && $menu->query['view'] != 'article' && $menu->query['id'] != $pathwaycat->id)
 		{
 			while($pathwaycat->id != $menu->query['id'])
 			{
@@ -152,7 +152,7 @@ class ContentViewArticle extends ContentView
 			$path = array_reverse($path);
 			foreach($path as $element)
 			{
-				if(isset($element[1]))
+				if (isset($element[1]))
 				{
 					$pathway->addItem($element[0], 'index.php?option=com_content&view=category&id='.$element[1]);
 				} else {
@@ -189,21 +189,21 @@ class ContentViewArticle extends ContentView
 	function _displayForm($tpl)
 	{
 		// Initialize variables
-		$app		=& JFactory::getApplication();
-		$document	=& JFactory::getDocument();
-		$user		=& JFactory::getUser();
-		$uri		=& JFactory::getURI();
+		$app		= &JFactory::getApplication();
+		$document	= &JFactory::getDocument();
+		$user		= &JFactory::getUser();
+		$uri		= &JFactory::getURI();
 		$params		= JComponentHelper::getParams('com_content');
 
 		// Make sure you are logged in and have the necessary access rights
 		if ($user->get('gid') < 19) {
 			JResponse::setHeader('HTTP/1.0 403',true);
-			JError::raiseWarning( 403, JText::_('ALERTNOTAUTH') );
+			JError::raiseWarning(403, JText::_('ALERTNOTAUTH'));
 			return;
 		}
 
 		// Initialize variables
-		$article	=& $this->get('Article');
+		$article	= &$this->get('Article');
 		$aparams	= $article->parameters;
 		$isNew		= ($article->id < 1);
 
@@ -219,7 +219,7 @@ class ContentViewArticle extends ContentView
 		{
 			// TODO: Do we allow non-sectioned articles from the frontend??
 			$article->sectionid = JRequest::getVar('sectionid', 0, '', 'int');
-			$db = JFactory::getDBO();
+			$db = JFactory::getDbo();
 			$db->setQuery('SELECT title FROM #__sections WHERE id = '.(int) $article->sectionid);
 			$article->section = $db->loadResult();
 		}
@@ -228,7 +228,7 @@ class ContentViewArticle extends ContentView
 		$lists = $this->_buildEditLists();
 
 		// Load the JEditor object
-		$editor =& JFactory::getEditor();
+		$editor = &JFactory::getEditor();
 
 		// Build the page title string
 		$title = $article->id ? JText::_('Edit') : JText::_('New');
@@ -239,19 +239,19 @@ class ContentViewArticle extends ContentView
 		// Get the menu item object
 		$menus = &JSite::getMenu();
 		$menu  = $menus->getActive();
-		$params->set( 'page_title', $params->get( 'page_title' ) );
-		if (is_object( $menu )) {
-			$menu_params = new JParameter( $menu->params );
-			if (!$menu_params->get( 'page_title')) {
-				$params->set('page_title',	JText::_( 'Submit an Article' ));
+		$params->set('page_title', $params->get('page_title'));
+		if (is_object($menu)) {
+			$menu_params = new JParameter($menu->params);
+			if (!$menu_params->get('page_title')) {
+				$params->set('page_title',	JText::_('Submit an Article'));
 			}
 		} else {
-			$params->set('page_title', JText::_( 'Submit an Article' ));
+			$params->set('page_title', JText::_('Submit an Article'));
 		}
-		$document->setTitle( $params->get( 'page_title' ) );
+		$document->setTitle($params->get('page_title'));
 
 		// get pathway
-		$pathway =& $app->getPathway();
+		$pathway = &$app->getPathway();
 		$pathway->addItem($title, '');
 
 		// Unify the introtext and fulltext fields and separated the fields by the {readmore} tag
@@ -262,7 +262,7 @@ class ContentViewArticle extends ContentView
 		}
 
 		// Ensure the row data is safe html
-		JFilterOutput::objectHTMLSafe( $article);
+		JFilterOutput::objectHTMLSafe($article);
 
 		$this->assign('action', 	$uri->toString());
 
@@ -280,9 +280,9 @@ class ContentViewArticle extends ContentView
 	{
 		// Get the article and database connector from the model
 		$article = & $this->get('Article');
-		$db 	 = & JFactory::getDBO();
+		$db 	 = & JFactory::getDbo();
 
-		$javascript = "onchange=\"changeDynaList( 'catid', sectioncategories, document.adminForm.sectionid.options[document.adminForm.sectionid.selectedIndex].value, 0, 0);\"";
+		$javascript = "onchange=\"changeDynaList('catid', sectioncategories, document.adminForm.sectionid.options[document.adminForm.sectionid.selectedIndex].value, 0, 0);\"";
 
 		$query = 'SELECT s.id, s.title' .
 				' FROM #__sections AS s' .
@@ -318,12 +318,12 @@ class ContentViewArticle extends ContentView
 
 		$sectioncategories = array ();
 		$sectioncategories[-1] = array ();
-		$sectioncategories[-1][] = JHtml::_('select.option', '-1', JText::_( 'Select Category' ), 'id', 'title');
+		$sectioncategories[-1][] = JHtml::_('select.option', '-1', JText::_('Select Category'), 'id', 'title');
 		$section_list = implode('\', \'', $section_list);
 
 		$query = 'SELECT id, title, section' .
 				' FROM #__categories' .
-				' WHERE section IN ( \''.$section_list.'\' )' .
+				' WHERE section IN (\''.$section_list.'\')' .
 				' ORDER BY ordering';
 		$db->setQuery($query);
 		$cat_list = $db->loadObjectList();
@@ -351,11 +351,11 @@ class ContentViewArticle extends ContentView
 
 		$categories = array();
 		foreach ($cat_list as $cat) {
-			if($cat->section == $article->sectionid)
+			if ($cat->section == $article->sectionid)
 				$categories[] = $cat;
 		}
 
-		$categories[] = JHtml::_('select.option', '-1', JText::_( 'Select Category' ), 'id', 'title');
+		$categories[] = JHtml::_('select.option', '-1', JText::_('Select Category'), 'id', 'title');
 		$lists['sectioncategories'] = $sectioncategories;
 		$lists['catid'] = JHtml::_('select.genericlist',  $categories, 'catid',
 			array(
@@ -374,7 +374,7 @@ class ContentViewArticle extends ContentView
 		$lists['state'] = JHtml::_('select.booleanlist', 'state', '', $article->state);
 
 		// Radio Buttons: Should the article be added to the frontpage
-		if($article->id) {
+		if ($article->id) {
 			$query = 'SELECT content_id FROM #__content_frontpage WHERE content_id = '. (int) $article->id;
 			$db->setQuery($query);
 			$article->frontpage = $db->loadResult();
@@ -392,7 +392,7 @@ class ContentViewArticle extends ContentView
 
 	function _displayPagebreak($tpl)
 	{
-		$document =& JFactory::getDocument();
+		$document = &JFactory::getDocument();
 		$document->setTitle(JText::_('PGB ARTICLE PAGEBRK'));
 
 		parent::display($tpl);

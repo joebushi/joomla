@@ -1,16 +1,16 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla
-* @subpackage	Weblinks
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla
+ * @subpackage	Weblinks
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // Check to ensure this file is included in Joomla!
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
-jimport( 'joomla.application.component.view');
+jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the WebLinks component
@@ -26,28 +26,28 @@ class WeblinksViewCategory extends JView
 	{
 		$mainframe = JFactory::getApplication();
 
-		$document =& JFactory::getDocument();
+		$document = &JFactory::getDocument();
 
 		$document->link = JRoute::_('index.php?option=com_weblinks&view=category&id='.JRequest::getVar('id',null, '', 'int'));
 
 		JRequest::setVar('limit', $mainframe->getCfg('feed_limit'));
 
 		// Get some data from the model
-		$items		=& $this->get( 'data' );
-		$category	=& $this->get( 'category' );
+		$items		= &$this->get('data');
+		$category	= &$this->get('category');
 
-		foreach ( $items as $item )
+		foreach ($items as $item)
 		{
 			// strip html from feed item title
-			$title = $this->escape( $item->title );
-			$title = html_entity_decode( $title );
+			$title = $this->escape($item->title);
+			$title = html_entity_decode($title);
 
 			// url link to article
-			$link = JRoute::_('index.php?option=com_weblinks&view=weblink&id='. $item->id );
+			$link = JRoute::_('index.php?option=com_weblinks&view=weblink&id='. $item->id);
 
 			// strip html from feed item description text
 			$description = $item->description;
-			$date = ( $item->date ? date( 'r', strtotime($item->date) ) : '' );
+			$date = ($item->date ? date('r', strtotime($item->date)) : '');
 
 			// load individual item creator class
 			$feeditem = new JFeedItem();
@@ -58,7 +58,7 @@ class WeblinksViewCategory extends JView
 			$feeditem->category   	= 'Weblinks';
 
 			// loads item info into rss array
-			$document->addItem( $feeditem );
+			$document->addItem($feeditem);
 		}
 	}
 }

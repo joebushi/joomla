@@ -1,16 +1,16 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla
-* @subpackage	Weblinks
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla
+ * @subpackage	Weblinks
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // Check to ensure this file is included in Joomla!
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
-jimport( 'joomla.application.component.view');
+jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the WebLinks component
@@ -22,7 +22,7 @@ jimport( 'joomla.application.component.view');
  */
 class WeblinksViewCategory extends JView
 {
-	function display( $tpl = null )
+	function display($tpl = null)
 	{
 		$mainframe = JFactory::getApplication();
 
@@ -36,14 +36,14 @@ class WeblinksViewCategory extends JView
 		$menu  = $menus->getActive();
 
 		// Get some data from the model
-		$items		= &$this->get('data' );
+		$items		= &$this->get('data');
 		$total		= &$this->get('total');
 		$pagination	= &$this->get('pagination');
-		$category	= &$this->get('category' );
+		$category	= &$this->get('category');
 		$state		= &$this->get('state');
 
-		$model =& JModel::getInstance('categories', 'weblinksmodel');
-		$categories =& $model->getData();
+		$model = &JModel::getInstance('categories', 'weblinksmodel');
+		$categories = &$model->getData();
 
 		// Get the page/component configuration
 		$params = &$mainframe->getParams();
@@ -51,7 +51,7 @@ class WeblinksViewCategory extends JView
 		$category->total = $total;
 
 		// Add alternate feed link
-		if($params->get('show_feed_link', 1) == 1)
+		if ($params->get('show_feed_link', 1) == 1)
 		{
 			$link	= '&view=category&id='.$category->slug.'&format=feed&limitstart=';
 			$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
@@ -65,18 +65,18 @@ class WeblinksViewCategory extends JView
 
 		// because the application sets a default page title, we need to get it
 		// right from the menu item itself
-		if (is_object( $menu )) {
-			$menu_params = new JParameter( $menu->params );
-			if (!$menu_params->get( 'page_title')) {
+		if (is_object($menu)) {
+			$menu_params = new JParameter($menu->params);
+			if (!$menu_params->get('page_title')) {
 				$params->set('page_title', $category->title);
 			}
 		} else {
 			$params->set('page_title',	$category->title);
 		}
-		$document->setTitle( $params->get( 'page_title' ) );
+		$document->setTitle($params->get('page_title'));
 
 		//set breadcrumbs
-		if(is_object($menu) && $menu->query['view'] != 'category') {
+		if (is_object($menu) && $menu->query['view'] != 'category') {
 			$pathway->addItem($category->title, '');
 		}
 
@@ -96,7 +96,7 @@ class WeblinksViewCategory extends JView
 		$params->def('snapshot_height', '90');
 
 		// Define image tag attributes
-		if (isset( $category->image ) && $category->image != '')
+		if (isset($category->image) && $category->image != '')
 		{
 			$attribs = array();
 			$attribs['align']  = $category->image_position;
@@ -107,15 +107,15 @@ class WeblinksViewCategory extends JView
 		}
 
 		// icon in table display
-		if ( $params->get( 'link_icons' ) <> -1 ) {
-			$image = JHtml::_('image.site',  $params->get('link_icons', 'weblink.png'), '/images/M_images/', $params->get( 'weblink_icons' ), '/images/M_images/', 'Link' );
+		if ($params->get('link_icons') <> -1) {
+			$image = JHtml::_('image.site',  $params->get('link_icons', 'weblink.png'), '/images/M_images/', $params->get('weblink_icons'), '/images/M_images/', 'Link');
 		}
 
 		$source = $params->get('snapshot_source');
 		$source_url = '';
 		if ($source) {
 			JModel::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_weblinks'.DS.'models');
-			$model =& JModel::getInstance('snapshotsources','WeblinksModel');
+			$model = &JModel::getInstance('snapshotsources','WeblinksModel');
 			$sites = $model->getData();
 			foreach ($sites as $site) {
 				if ($source == $site->name) $source_url = $site->url;
@@ -127,11 +127,11 @@ class WeblinksViewCategory extends JView
 
 		$k = 0;
 		$count = count($items);
-		for($i = 0; $i < $count; $i++)
+		for ($i = 0; $i < $count; $i++)
 		{
-			$item =& $items[$i];
+			$item = &$items[$i];
 
-			$link = JRoute::_( 'index.php?view=weblink&catid='.$category->slug.'&id='. $item->slug);
+			$link = JRoute::_('index.php?view=weblink&catid='.$category->slug.'&id='. $item->slug);
 
 			$item->report_link = JRoute::_('index.php?task=report&id='. $item->slug);
 			if ($source_url) {
@@ -146,7 +146,7 @@ class WeblinksViewCategory extends JView
 				$params->set('show_snapshot', '0');
 			}
 
-			$menuclass = 'category'.$params->get( 'pageclass_sfx' );
+			$menuclass = 'category'.$params->get('pageclass_sfx');
 
 			$itemParams = new JParameter($item->params);
 			switch ($itemParams->get('target', $params->get('target')))
@@ -177,9 +177,9 @@ class WeblinksViewCategory extends JView
 		}
 
 		$count = count($categories);
-		for($i = 0; $i < $count; $i++)
+		for ($i = 0; $i < $count; $i++)
 		{
-			$cat =& $categories[$i];
+			$cat = &$categories[$i];
 			$cat->link = JRoute::_('index.php?option=com_weblinks&view=category&id='. $cat->slug);
 		}
 
