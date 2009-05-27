@@ -4,13 +4,13 @@
  * @package		Joomla
  * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // Check to ensure this file is included in Joomla!
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
-jimport( 'joomla.plugin.plugin' );
+jimport('joomla.plugin.plugin');
 
 /**
  * Example Content Plugin
@@ -30,7 +30,7 @@ class plgContentExample extends JPlugin
 	 * @param 	object		The article params
 	 * @param 	int			The 'page' number
 	 */
-	function onPrepareContent( &$article, &$params, $limitstart )
+	function onPrepareContent(&$article, &$params, $limitstart)
 	{
 		$mainframe = JFactory::getApplication();
 
@@ -46,7 +46,7 @@ class plgContentExample extends JPlugin
 	 * @param 	int			The 'page' number
 	 * @return	string
 	 */
-	function onAfterDisplayTitle( &$article, &$params, $limitstart )
+	function onAfterDisplayTitle(&$article, &$params, $limitstart)
 	{
 		$mainframe = JFactory::getApplication();
 
@@ -63,7 +63,7 @@ class plgContentExample extends JPlugin
 	 * @param 	int			The 'page' number
 	 * @return	string
 	 */
-	function onBeforeDisplayContent( &$article, &$params, $limitstart )
+	function onBeforeDisplayContent(&$article, &$params, $limitstart)
 	{
 		$mainframe = JFactory::getApplication();
 
@@ -80,7 +80,7 @@ class plgContentExample extends JPlugin
 	 * @param 	int			The 'page' number
 	 * @return	string
 	 */
-	function onAfterDisplayContent( &$article, &$params, $limitstart )
+	function onAfterDisplayContent(&$article, &$params, $limitstart)
 	{
 		$mainframe = JFactory::getApplication();
 

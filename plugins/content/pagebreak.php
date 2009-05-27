@@ -1,32 +1,32 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 /**
-* Page break plugin
-*
-* <b>Usage:</b>
-* <code><hr class="system-pagebreak" /></code>
-* <code><hr class="system-pagebreak" title="The page title" /></code>
-* or
-* <code><hr class="system-pagebreak" alt="The first page" /></code>
-* or
-* <code><hr class="system-pagebreak" title="The page title" alt="The first page" /></code>
-* or
-* <code><hr class="system-pagebreak" alt="The first page" title="The page title" /></code>
-*
-*/
+ * Page break plugin
+ *
+ * <b>Usage:</b>
+ * <code><hr class="system-pagebreak" /></code>
+ * <code><hr class="system-pagebreak" title="The page title" /></code>
+ * or
+ * <code><hr class="system-pagebreak" alt="The first page" /></code>
+ * or
+ * <code><hr class="system-pagebreak" title="The page title" alt="The first page" /></code>
+ * or
+ * <code><hr class="system-pagebreak" alt="The first page" title="The page title" /></code>
+ *
+ */
 class plgContentPagebreak extends JPlugin
 {
 
-	public function onPrepareContent( &$row, &$params, $page=0 )
+	public function onPrepareContent(&$row, &$params, $page=0)
 	{
 		// expression to search for
 		$regex = '#<hr(.*)class=\"system-pagebreak\"(.*)\/>#iU';
@@ -39,66 +39,66 @@ class plgContentPagebreak extends JPlugin
 		}
 
 		if ($print) {
-			$row->text = preg_replace( $regex, '<BR/>', $row->text );
+			$row->text = preg_replace($regex, '<BR/>', $row->text);
 			return true;
 		}
 
 		//simple performance check to determine whether bot should process further
-		if ( JString::strpos( $row->text, 'class="system-pagebreak' ) === false ) {
+		if (JString::strpos($row->text, 'class="system-pagebreak') === false) {
 			return true;
 		}
 
-		$db		=& JFactory::getDBO();
+		$db		= &JFactory::getDbo();
 		$full 	= JRequest::getBool('fullview');
 
-		if(!$page) {
+		if (!$page) {
 			$page = 0;
 		}
 
-		if ($params->get( 'intro_only' )|| $params->get( 'popup' ) || $full) {
-			$row->text = preg_replace( $regex, '', $row->text );
+		if ($params->get('intro_only')|| $params->get('popup') || $full) {
+			$row->text = preg_replace($regex, '', $row->text);
 			return;
 		}
 
 		// find all instances of plugin and put in $matches
 		$matches = array();
-		preg_match_all( $regex, $row->text, $matches, PREG_SET_ORDER );
+		preg_match_all($regex, $row->text, $matches, PREG_SET_ORDER);
 
-		if (($showall && $this->params->get('showall', 1) ))
+		if (($showall && $this->params->get('showall', 1)))
 		{
-			$hasToc = $this->params->get( 'multipage_toc', 1 );
-			if ( $hasToc ) {
+			$hasToc = $this->params->get('multipage_toc', 1);
+			if ($hasToc) {
 				// display TOC
 				$page = 1;
-				$this->_createToc( $row, $matches, $page );
+				$this->_createToc($row, $matches, $page);
 			} else {
 				$row->toc = '';
 			}
-			$row->text = preg_replace( $regex, '<BR/>', $row->text );
+			$row->text = preg_replace($regex, '<BR/>', $row->text);
 			return true;
 		}
 
 		// split the text around the plugin
-		$text = preg_split( $regex, $row->text );
+		$text = preg_split($regex, $row->text);
 
 		// count the number of pages
-		$n = count( $text );
+		$n = count($text);
 
 		// we have found at least one plugin, therefore at least 2 pages
 		if ($n > 1)
 		{
-			$title	= $this->params->get( 'title', 1 );
-			$hasToc = $this->params->get( 'multipage_toc', 1 );
+			$title	= $this->params->get('title', 1);
+			$hasToc = $this->params->get('multipage_toc', 1);
 			// adds heading or title to <site> Title
-			if ( $title )
+			if ($title)
 			{
-				if ( $page ) {
+				if ($page) {
 					$page_text = $page + 1;
-					if ( $page && @$matches[$page-1][2] )
+					if ($page && @$matches[$page-1][2])
 					{
 						$attrs = JUtility::parseAttributes($matches[$page-1][1]);
 
-						if ( @$attrs['title'] ) {
+						if (@$attrs['title']) {
 							$row->page_title = $attrs['title'];
 						}
 					}
@@ -109,15 +109,15 @@ class plgContentPagebreak extends JPlugin
 			$row->text = '';
 
 			// display TOC
-			if ( $hasToc ) {
-				$this->_createToc( $row, $matches, $page );
+			if ($hasToc) {
+				$this->_createToc($row, $matches, $page);
 			} else {
 				$row->toc = '';
 			}
 
 			// traditional mos page navigation
 			jimport('joomla.html.pagination');
-			$pageNav = new JPagination( $n, $page, 1 );
+			$pageNav = new JPagination($n, $page, 1);
 
 			// page counter
 			$row->text .= '<div class="pagenavcounter">';
@@ -132,8 +132,8 @@ class plgContentPagebreak extends JPlugin
 			$row->text .= '<div class="pagenavbar">';
 
 			// adds navigation between pages to bottom of text
-			if ( $hasToc ) {
-				$this->_createNavigation( $row, $page, $n );
+			if ($hasToc) {
+				$this->_createNavigation($row, $page, $n);
 			}
 
 			// page links shown at bottom of page if TOC disabled
@@ -147,7 +147,7 @@ class plgContentPagebreak extends JPlugin
 		return true;
 	}
 
-	protected function _createTOC( &$row, &$matches, &$page )
+	protected function _createTOC(&$row, &$matches, &$page)
 	{
 
 		$heading = $row->title;
@@ -157,7 +157,7 @@ class plgContentPagebreak extends JPlugin
 		<table cellpadding="0" cellspacing="0" class="contenttoc" align="right">
 		<tr>
 			<th>'
-			. JText::_( 'Article Index' ) .
+			. JText::_('Article Index') .
 			'</th>
 		</tr>
 		';
@@ -166,7 +166,7 @@ class plgContentPagebreak extends JPlugin
 		$row->toc .= '
 		<tr>
 			<td>
-			<a href="'. JRoute::_( '&showall=&limitstart=') .'" class="toclink">'
+			<a href="'. JRoute::_('&showall=&limitstart=') .'" class="toclink">'
 			. $heading .
 			'</a>
 			</td>
@@ -175,31 +175,31 @@ class plgContentPagebreak extends JPlugin
 
 		$i = 2;
 
-		foreach ( $matches as $bot )
+		foreach ($matches as $bot)
 		{
-			$link = JRoute::_( '&showall=&limitstart='. ($i-1) );
+			$link = JRoute::_('&showall=&limitstart='. ($i-1));
 
 
-			if ( @$bot[0] )
+			if (@$bot[0])
 			{
 				$attrs2 = JUtility::parseAttributes($bot[0]);
 
-				if ( @$attrs2['alt'] )
+				if (@$attrs2['alt'])
 				{
-					$title	= stripslashes( $attrs2['alt'] );
+					$title	= stripslashes($attrs2['alt']);
 				}
-				elseif ( @$attrs2['title'] )
+				elseif (@$attrs2['title'])
 				{
-					$title	= stripslashes( $attrs2['title'] );
+					$title	= stripslashes($attrs2['title']);
 				}
 				else
 				{
-					$title	= JText::sprintf( 'Page #', $i );
+					$title	= JText::sprintf('Page #', $i);
 				}
 			}
 			else
 			{
-				$title	= JText::sprintf( 'Page #', $i );
+				$title	= JText::sprintf('Page #', $i);
 			}
 
 			$row->toc .= '
@@ -214,14 +214,14 @@ class plgContentPagebreak extends JPlugin
 			$i++;
 		}
 
-		if ($this->params->get('showall') )
+		if ($this->params->get('showall'))
 		{
-			$link = JRoute::_( '&showall=1&limitstart=');
+			$link = JRoute::_('&showall=1&limitstart=');
 			$row->toc .= '
 			<tr>
 				<td>
 					<a href="'. $link .'" class="toclink">'
-					. JText::_( 'All Pages' ) .
+					. JText::_('All Pages') .
 					'</a>
 				</td>
 			</tr>
@@ -230,35 +230,35 @@ class plgContentPagebreak extends JPlugin
 		$row->toc .= '</table>';
 	}
 
-	protected function _createNavigation( &$row, $page, $n )
+	protected function _createNavigation(&$row, $page, $n)
 	{
 		$pnSpace = "";
-		if (JText::_( '&lt' ) || JText::_( '&gt' )) $pnSpace = " ";
+		if (JText::_('&lt') || JText::_('&gt')) $pnSpace = " ";
 
-		if ( $page < $n-1 )
+		if ($page < $n-1)
 		{
 			$page_next = $page + 1;
 
-			$link_next = JRoute::_( '&limitstart='. ( $page_next ) );
+			$link_next = JRoute::_('&limitstart='. ($page_next));
 			// Next >>
-			$next = '<a href="'. $link_next .'">' . JText::_( 'Next' ) . $pnSpace . JText::_( '&gt' ) . JText::_( '&gt' ) .'</a>';
+			$next = '<a href="'. $link_next .'">' . JText::_('Next') . $pnSpace . JText::_('&gt') . JText::_('&gt') .'</a>';
 		}
 		else
 		{
-			$next = JText::_( 'Next' );
+			$next = JText::_('Next');
 		}
 
-		if ( $page > 0 )
+		if ($page > 0)
 		{
 			$page_prev = $page - 1 == 0 ? "" : $page - 1;
 
-			$link_prev = JRoute::_(  '&limitstart='. ( $page_prev) );
+			$link_prev = JRoute::_( '&limitstart='. ($page_prev));
 			// << Prev
-			$prev = '<a href="'. $link_prev .'">'. JText::_( '&lt' ) . JText::_( '&lt' ) . $pnSpace . JText::_( 'Prev' ) .'</a>';
+			$prev = '<a href="'. $link_prev .'">'. JText::_('&lt') . JText::_('&lt') . $pnSpace . JText::_('Prev') .'</a>';
 		}
 		else
 		{
-			$prev = JText::_( 'Prev' );
+			$prev = JText::_('Prev');
 		}
 
 		$row->text .= '<div>' . $prev . ' - ' . $next .'</div>';

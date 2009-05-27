@@ -62,12 +62,12 @@ class Auth_OpenID_Association {
                             'issued',
                             'lifetime',
                             'assoc_type'
-                            );
+                           );
 
     var $_macs = array(
                        'HMAC-SHA1' => 'Auth_OpenID_HMACSHA1',
                        'HMAC-SHA256' => 'Auth_OpenID_HMACSHA256'
-                       );
+                      );
 
     /**
      * This is an alternate constructor (factory method) used by the
@@ -192,7 +192,7 @@ class Auth_OpenID_Association {
                      'issued' => strval(intval($this->issued)),
                      'lifetime' => strval(intval($this->lifetime)),
                      'assoc_type' => $this->assoc_type
-                     );
+                    );
 
         assert(array_keys($data) == $this->assoc_keys);
 

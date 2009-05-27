@@ -1,10 +1,10 @@
 <?php
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 
-if ( ! defined('modMainMenuXMLCallbackDefined') )
+if (! defined('modMainMenuXMLCallbackDefined'))
 {
 function modMainMenuXMLCallback(&$node, $args)
 {

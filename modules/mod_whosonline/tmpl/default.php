@@ -1,5 +1,5 @@
 <?php // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 if ($showmode == 0 || $showmode == 2) :
 	if ($count['guest'] != 0 || $count['user'] != 0) :
@@ -27,7 +27,7 @@ if ($showmode == 0 || $showmode == 2) :
 	endif;
 endif;
 
-if(($showmode > 0) && count($names)) : ?>
+if (($showmode > 0) && count($names)) : ?>
 	<ul>
 <?php foreach($names as $name) : ?>
 		<li><strong><?php echo $name->username; ?></strong></li>

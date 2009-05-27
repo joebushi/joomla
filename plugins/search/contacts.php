@@ -2,17 +2,17 @@
 /**
  * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die('Restricted access');
+// no direct access
+defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
 
 /**
  * Contacts Search class
- * 
+ *
  * @package		Joomla.Site
  * @subpackage	Contacts
  */
@@ -45,8 +45,8 @@ class plgSearchContacts extends JPlugin
 	*/
 	public function onSearch($text, $phrase='', $ordering='', $areas=null)
 	{
-		$db = JFactory::getDBO();
-		$user = JFactory::getUser();
+		$db		= JFactory::getDbo();
+		$user	= JFactory::getUser();
 
 		if (is_array($areas)) {
 			if (!array_intersect($areas, array_keys($this->areas))) {
@@ -79,23 +79,23 @@ class plgSearchContacts extends JPlugin
 				$order = 'c.name DESC';
 		}
 
-		$text = $db->Quote( '%'.$db->getEscaped( $text, true ).'%', false );
+		$text	= $db->Quote('%'.$db->getEscaped($text, true).'%', false);
 
 		$query = 'SELECT DISTINCT c.name AS title, "" AS created,'
 		. ' CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(\':\', c.id, c.alias) ELSE c.id END as slug, '
 		. ' CASE WHEN CHAR_LENGTH(cat.alias) THEN CONCAT_WS(\':\', cat.id, cat.alias) ELSE cat.id END AS catslug, '
 		. ' "" AS text,'
-		. ' CONCAT_WS( " / ", '.$db->Quote($section).', cat.title ) AS section,'
+		. ' CONCAT_WS(" / ", '.$db->Quote($section).', cat.title) AS section,'
 		. ' "2" AS browsernav'
 		. ' FROM #__contacts_contacts AS c'
 		. ' LEFT JOIN #__contacts_con_cat_map AS map ON map.contact_id = c.id '
 		. ' LEFT JOIN #__categories AS cat ON cat.id = map.category_id '
 		. ' LEFT JOIN #__contacts_details AS d ON d.contact_id = c.id '
-		. ' WHERE ( d.data LIKE ' . $text . ' OR c.name LIKE ' . $text . ' ) '
+		. ' WHERE (d.data LIKE ' . $text . ' OR c.name LIKE ' . $text . ') '
 		. ' AND c.published = 1'
 		. ' AND cat.published = 1'
-		. ' AND c.access <= '.(int) $user->get( 'aid' )
-		. ' AND cat.access <= '.(int) $user->get( 'aid' )
+		. ' AND c.access <= '.(int) $user->get('aid')
+		. ' AND cat.access <= '.(int) $user->get('aid')
 		. ' GROUP BY c.id'
 		. ' ORDER BY '. $order
 		;

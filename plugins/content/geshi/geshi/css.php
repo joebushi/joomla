@@ -47,7 +47,7 @@
  *
  ************************************************************************************/
 
-defined('GESHI_CAPS_NO_CHANGE') or die();
+defined('GESHI_CAPS_NO_CHANGE') or die;
 
 $language_data = array (
 	'LANG_NAME' => 'CSS',
@@ -89,7 +89,7 @@ $language_data = array (
             'vertical-align', 'visibility', 'voice-family', 'volume',
             'white-space', 'widows', 'width', 'word-spacing', 'z-index',
             'bottom', 'left', 'height'
-        ),
+       ),
 		2 => array(
              'above', 'absolute', 'always', 'armenian', 'aural', 'auto',
              'avoid', 'baseline', 'behind', 'below', 'bidi-override', 'blink',
@@ -128,8 +128,8 @@ $language_data = array (
              'white', 'wider', 'x-fast', 'x-high', 'x-large', 'x-loud',
              'x-low', 'x-small', 'x-soft', 'xx-large', 'xx-small', 'yellow',
              'yes'
-            )
-        ),
+           )
+       ),
 	'SYMBOLS' => array(
 		'(', ')', '{', '}', ':', ';'
 		),
@@ -192,7 +192,7 @@ $language_data = array (
             GESHI_BEFORE    => '\\1',
             GESHI_AFTER     => '\\3',
             GESHI_MODIFIERS => 'si'
-        )
+       )
 		),
 	'STRICT_MODE_APPLIES' => GESHI_NEVER,
 	'SCRIPT_DELIMITERS' => array(

@@ -248,7 +248,7 @@ function Auth_OpenID_AX_toTypeURIs(&$namespace_map, $alias_list_s)
                 return new Auth_OpenID_AX_Error(
                   sprintf('No type is defined for attribute name %s',
                           $alias)
-                  );
+                 );
             } else {
                 $uris[] = $type_uri;
             }
@@ -329,7 +329,7 @@ class Auth_OpenID_AX_FetchRequest extends Auth_OpenID_AX_Message {
                     return new Auth_OpenID_AX_Error(
                       sprintf("Could not add alias %s for URI %s",
                               $attribute->alias, $type_uri
-                      ));
+                     ));
                 }
             }
 
@@ -449,7 +449,7 @@ class Auth_OpenID_AX_FetchRequest extends Auth_OpenID_AX_Message {
                     return new Auth_OpenID_AX_Error(
                       sprintf("Could not add alias %s for URI %s",
                               $alias, $type_uri)
-                      );
+                     );
                 }
 
                 $count_s = Auth_OpenID::arrayGet($ax_args, 'count.' . $alias);
@@ -484,7 +484,7 @@ class Auth_OpenID_AX_FetchRequest extends Auth_OpenID_AX_Message {
                          Auth_OpenID::arrayGet($ax_args, 'required'));
 
         foreach ($required as $type_uri) {
-            $attrib =& $this->requested_attributes[$type_uri];
+            $attrib = &$this->requested_attributes[$type_uri];
             $attrib->required = true;
         }
 
@@ -562,7 +562,7 @@ class Auth_OpenID_AX_KeyValueMessage extends Auth_OpenID_AX_Message {
             $this->data[$type_uri] = array();
         }
 
-        $values =& $this->data[$type_uri];
+        $values = &$this->data[$type_uri];
         $values[] = $value;
     }
 
@@ -575,7 +575,7 @@ class Auth_OpenID_AX_KeyValueMessage extends Auth_OpenID_AX_Message {
      */
     function setValues($type_uri, &$values)
     {
-        $this->data[$type_uri] =& $values;
+        $this->data[$type_uri] = &$values;
     }
 
     /**
@@ -644,7 +644,7 @@ class Auth_OpenID_AX_KeyValueMessage extends Auth_OpenID_AX_Message {
                     return new Auth_OpenID_AX_Error(
                       sprintf("Could not add alias %s for URI %s",
                               $alias, $type_uri)
-                      );
+                     );
                 }
             }
         }
@@ -664,7 +664,7 @@ class Auth_OpenID_AX_KeyValueMessage extends Auth_OpenID_AX_Message {
                       sprintf("Integer value expected for %s, got %s",
                               'count. %s' . $alias, $count_s,
                               Auth_OpenID_AX_UNLIMITED_VALUES)
-                                                    );
+                                                   );
                 }
 
                 $values = array();
@@ -730,7 +730,7 @@ class Auth_OpenID_AX_KeyValueMessage extends Auth_OpenID_AX_Message {
             return new Auth_OpenID_AX_Error(
               sprintf('More than one value present for %s',
                       $type_uri)
-              );
+             );
         }
     }
 
@@ -758,7 +758,7 @@ class Auth_OpenID_AX_KeyValueMessage extends Auth_OpenID_AX_Message {
             return new Auth_OpenID_AX_Error(
               sprintf("Type URI %s not found in response",
                       $type_uri)
-              );
+             );
         }
     }
 
@@ -780,7 +780,7 @@ class Auth_OpenID_AX_KeyValueMessage extends Auth_OpenID_AX_Message {
             return new Auth_OpenID_AX_Error(
               sprintf("Type URI %s not found in response",
                       $type_uri)
-              );
+             );
         }
     }
 }
@@ -824,7 +824,7 @@ class Auth_OpenID_AX_FetchResponse extends Auth_OpenID_AX_KeyValueMessage {
                     return new Auth_OpenID_AX_Error(
                       sprintf("Response attribute not present in request: %s",
                               $type_uri)
-                      );
+                     );
                 }
             }
 
@@ -841,7 +841,7 @@ class Auth_OpenID_AX_FetchResponse extends Auth_OpenID_AX_KeyValueMessage {
                         return new Auth_OpenID_AX_Error(
                           sprintf("Could not add alias %s for URI %s",
                                   $attr_info->alias, $attr_info->type_uri)
-                          );
+                         );
                     }
                 }
 
@@ -858,7 +858,7 @@ class Auth_OpenID_AX_FetchResponse extends Auth_OpenID_AX_KeyValueMessage {
                       sprintf("More than the number of requested values " .
                               "were specified for %s",
                               $attr_info->type_uri)
-                      );
+                     );
                 }
             }
         }

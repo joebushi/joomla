@@ -1,5 +1,5 @@
 <?php // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
+defined('_JEXEC') or die; ?>
 <ul class="latestnews<?php echo $params->get('moduleclass_sfx'); ?>">
 <?php foreach ($list as $item) :  ?>
 	<li class="latestnews<?php echo $params->get('moduleclass_sfx'); ?>">

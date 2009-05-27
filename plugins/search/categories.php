@@ -3,11 +3,11 @@
  * @version		$Id$
  * @package		Joomla
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
 
@@ -40,27 +40,27 @@ class plgSearchCategories extends JPlugin
 	 * @param string ordering option, newest|oldest|popular|alpha|category
 	 * @param mixed An array if restricted to areas, null if search all
 	 */
-	public function onSearch( $text, $phrase='', $ordering='', $areas=null )
+	public function onSearch($text, $phrase='', $ordering='', $areas=null)
 	{
-		$db		= JFactory::getDBO();
+		$db		= JFactory::getDbo();
 		$user	= JFactory::getUser();
 
 		require_once JPATH_SITE.DS.'components'.DS.'com_content'.DS.'helpers'.DS.'route.php';
 
-		if (is_array( $areas )) {
-			if (!array_intersect( $areas, array_keys( $this->areas ) )) {
+		if (is_array($areas)) {
+			if (!array_intersect($areas, array_keys($this->areas))) {
 				return array();
 			}
 		}
 
-		$limit = $this->params->def( 'search_limit', 50 );
+		$limit = $this->params->def('search_limit', 50);
 
-		$text = trim( $text );
-		if ( $text == '' ) {
+		$text = trim($text);
+		if ($text == '') {
 			return array();
 		}
 
-		switch ( $ordering ) {
+		switch ($ordering) {
 			case 'alpha':
 				$order = 'a.name ASC';
 				break;
@@ -73,16 +73,16 @@ class plgSearchCategories extends JPlugin
 				$order = 'a.name DESC';
 		}
 
-		$text	= $db->Quote( '%'.$db->getEscaped( $text, true ).'%', false );
+		$text	= $db->Quote('%'.$db->getEscaped($text, true).'%', false);
 		$query	= 'SELECT a.title, a.description AS text, "" AS created,'
 		. ' "2" AS browsernav,'
 		. ' s.id AS secid, a.id AS catid,'
 		. ' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug'
 		. ' FROM #__categories AS a'
 		. ' INNER JOIN #__sections AS s ON s.id = a.section'
-		. ' WHERE ( a.name LIKE '.$text
+		. ' WHERE (a.name LIKE '.$text
 		. ' OR a.title LIKE '.$text
-		. ' OR a.description LIKE '.$text.' )'
+		. ' OR a.description LIKE '.$text.')'
 		. ' AND a.published = 1'
 		. ' AND s.published = 1'
 		. ' AND a.access <= '.(int) $user->get('aid')
@@ -90,13 +90,13 @@ class plgSearchCategories extends JPlugin
 		. ' GROUP BY a.id'
 		. ' ORDER BY '. $order
 		;
-		$db->setQuery( $query, 0, $limit );
+		$db->setQuery($query, 0, $limit);
 		$rows = $db->loadObjectList();
 
-		$count = count( $rows );
-		for ( $i = 0; $i < $count; $i++ ) {
+		$count = count($rows);
+		for ($i = 0; $i < $count; $i++) {
 			$rows[$i]->href = ContentHelperRoute::getCategoryRoute($rows[$i]->slug, $rows[$i]->secid);
-			$rows[$i]->section 	= JText::_( 'Category' );
+			$rows[$i]->section 	= JText::_('Category');
 		}
 
 		return $rows;

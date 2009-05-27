@@ -1,19 +1,19 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
 
 class plgContentPagenavigation extends JPlugin
 {
-	public function onBeforeDisplayContent( &$row, &$params, $page=0 )
+	public function onBeforeDisplayContent(&$row, &$params, $page=0)
 	{
 		$view		= JRequest::getCmd('view');
 
@@ -21,11 +21,11 @@ class plgContentPagenavigation extends JPlugin
 		{
 
 			$html 		= '';
-			$db 		= & JFactory::getDBO();
+			$db 		= & JFactory::getDbo();
 			$user		= & JFactory::getUser();
 			$nullDate	= $db->getNullDate();
 
-			$date		=& JFactory::getDate();
+			$date		= &JFactory::getDate();
 			$config 	= & JFactory::getConfig();
 			$now 		= $date->toMySQL();
 
@@ -43,7 +43,7 @@ class plgContentPagenavigation extends JPlugin
 				$order_method = $params->get('orderby', '');
 			}
 			// additional check for invalid sort ordering
-			if ( $order_method == 'front' ) {
+			if ($order_method == 'front') {
 				$order_method = '';
 			}
 
@@ -95,9 +95,9 @@ class plgContentPagenavigation extends JPlugin
 					break;
 			}
 
-			$xwhere = ' AND ( a.state = 1 OR a.state = -1 )' .
-			' AND ( publish_up = '.$db->Quote($nullDate).' OR publish_up <= '.$db->Quote($now).' )' .
-			' AND ( publish_down = '.$db->Quote($nullDate).' OR publish_down >= '.$db->Quote($now).' )';
+			$xwhere = ' AND (a.state = 1 OR a.state = -1)' .
+			' AND (publish_up = '.$db->Quote($nullDate).' OR publish_up <= '.$db->Quote($now).')' .
+			' AND (publish_down = '.$db->Quote($nullDate).' OR publish_down >= '.$db->Quote($now).')';
 
 			// array of articles in same category correctly ordered
 			$query = 'SELECT a.id,'
@@ -114,7 +114,7 @@ class plgContentPagenavigation extends JPlugin
 			$list = $db->loadObjectList('id');
 
 			// this check needed if incorrect Itemid is given resulting in an incorrect result
-			if ( !is_array($list) ) {
+			if (!is_array($list)) {
 				$list = array();
 			}
 
@@ -168,7 +168,7 @@ class plgContentPagenavigation extends JPlugin
 					$html .= '
 					<th class="pagenav_prev">
 						<a href="'. $row->prev .'">'
-							. JText::_( '&lt' ) . $pnSpace . JText::_( 'Prev' ) . '</a>
+							. JText::_('&lt') . $pnSpace . JText::_('Prev') . '</a>
 					</th>'
 					;
 				}
@@ -187,7 +187,7 @@ class plgContentPagenavigation extends JPlugin
 					$html .= '
 					<th class="pagenav_next">
 						<a href="'. $row->next .'">'
-							. JText::_( 'Next' ) . $pnSpace . JText::_( '&gt' ) .'</a>
+							. JText::_('Next') . $pnSpace . JText::_('&gt') .'</a>
 					</th>'
 					;
 				}

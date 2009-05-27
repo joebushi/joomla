@@ -1,8 +1,8 @@
 <?php // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
+defined('_JEXEC') or die; ?>
 <div style="direction: <?php echo $rssrtl ? 'rtl' :'ltr'; ?>; text-align: <?php echo $rssrtl ? 'right' :'left'; ?>">
 <?php
-if( $feed != false )
+if ($feed != false)
 {
 	//image handling
 	$iUrl 	= isset($feed->image->url)   ? $feed->image->url   : null;
@@ -11,12 +11,12 @@ if( $feed != false )
 	<table cellpadding="0" cellspacing="0" class="moduletable<?php echo $params->get('moduleclass_sfx'); ?>">
 	<?php
 	// feed description
-	if (!is_null( $feed->title ) && $params->get('rsstitle', 1)) {
+	if (!is_null($feed->title) && $params->get('rsstitle', 1)) {
 		?>
 		<tr>
 			<td>
 				<strong>
-					<a href="<?php echo str_replace( '&', '&amp', $feed->link ); ?>">
+					<a href="<?php echo str_replace('&', '&amp', $feed->link); ?>">
 						<?php echo $feed->title; ?></a>
 				</strong>
 			</td>
@@ -42,7 +42,7 @@ if( $feed != false )
 	<?php
 	}
 
-	$actualItems = count( $feed->items );
+	$actualItems = count($feed->items);
 	$setItems	= $params->get('rssitems', 5);
 
 	if ($setItems > $actualItems) {
@@ -53,7 +53,7 @@ if( $feed != false )
 	?>
 	<tr>
 		<td>
-			<ul class="newsfeed<?php echo $params->get( 'moduleclass_sfx'); ?>"  >
+			<ul class="newsfeed<?php echo $params->get('moduleclass_sfx'); ?>"  >
 			<?php
 			$words = $params->def('word_count', 0);
 			for ($j = 0; $j < $totalItems; $j ++)
@@ -63,7 +63,7 @@ if( $feed != false )
 				?>
 				<li>
 				<?php
-				if ( !is_null( $currItem->get_link() ) ) {
+				if (!is_null($currItem->get_link())) {
 				?>
 					<a href="<?php echo $currItem->get_link(); ?>" target="_child">
 					<?php echo $currItem->get_title(); ?></a>

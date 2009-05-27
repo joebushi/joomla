@@ -47,7 +47,7 @@
  *
  ************************************************************************************/
 
-defined('GESHI_COMMENTS') or die();
+defined('GESHI_COMMENTS') or die;
 
 $language_data = array (
 	'LANG_NAME' => 'SQL',

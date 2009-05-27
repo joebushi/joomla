@@ -47,7 +47,7 @@ class Auth_OpenID_PostgreSQLStore extends Auth_OpenID_SQLStore {
                   'update_assoc' => "UPDATE %s SET secret = '!', issued = ?, ".
                   "lifetime = ?, assoc_type = ? WHERE server_url = ? AND ".
                   "handle = ?"
-                  );
+                 );
 
         $this->sql['get_assocs'] =
             "SELECT handle, secret, issued, lifetime, assoc_type FROM %s ".

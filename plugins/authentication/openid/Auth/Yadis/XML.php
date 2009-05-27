@@ -313,7 +313,7 @@ $__Auth_Yadis_defaultParser = null;
 function Auth_Yadis_setDefaultParser(&$parser)
 {
     global $__Auth_Yadis_defaultParser;
-    $__Auth_Yadis_defaultParser =& $parser;
+    $__Auth_Yadis_defaultParser = &$parser;
 }
 
 function Auth_Yadis_getSupportedExtensions()
@@ -323,7 +323,7 @@ function Auth_Yadis_getSupportedExtensions()
                        'libname' => array('dom.so', 'dom.dll')),
                  'domxml' => array('classname' => 'Auth_Yadis_domxml',
                        'libname' => array('domxml.so', 'php_domxml.dll')),
-                 );
+                );
 }
 
 /**

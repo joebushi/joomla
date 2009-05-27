@@ -4,13 +4,13 @@
  * @package		Joomla
  * @subpackage	JFramework
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // Check to ensure this file is included in Joomla!
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
-jimport( 'joomla.plugin.plugin' );
+jimport('joomla.plugin.plugin');
 
 /**
  * Example Authentication Plugin
@@ -31,7 +31,7 @@ class plgAuthenticationExample extends JPlugin
 	 * @return	boolean
 	 * @since	1.5
 	 */
-	function onAuthenticate( $credentials, $options, &$response )
+	function onAuthenticate($credentials, $options, &$response)
 	{
 		/*
 		 * Here you would do whatever you need for an authentication routine with the credentials
@@ -48,7 +48,7 @@ class plgAuthenticationExample extends JPlugin
 			$response->error_message	= '';
 			// You may also define other variables:
 			/*
-			$yourUser					= YourClass::getUser( $credentials );
+			$yourUser					= YourClass::getUser($credentials);
 			$response->email			= $yourUser->email;
 			$response->fullname			= $yourUser->name;
 			*/

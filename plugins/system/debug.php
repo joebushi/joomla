@@ -1,13 +1,13 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
 
@@ -43,9 +43,9 @@ class  plgSystemDebug extends JPlugin
 		global $_PROFILER;
 
 		// Do not render if debugging is not enabled
-		if(!JDEBUG) { return; }
+		if (!JDEBUG) { return; }
 
-		$document	=& JFactory::getDocument();
+		$document	= &JFactory::getDocument();
 		$doctype	= $document->getType();
 
 		// Only render for HTML output
@@ -58,12 +58,12 @@ class  plgSystemDebug extends JPlugin
 			return;
 		}
 
-		$profiler	=& $_PROFILER;
+		$profiler	= &$_PROFILER;
 
 		ob_start();
 		echo '<div id="system-debug" class="profiler">';
 		$errors = JError::getErrors();
-		if(!empty($errors)) {
+		if (!empty($errors)) {
 			echo '<h4>'.JText::_('Errors').'</h4><ol>';
 			while($error = JError::getError(true)) {
 				echo '<li>'.$error->getMessage().'<br /><h4>'.JText::_('Info').'</h4><pre>'.print_r($error->get('info'), true).'</pre><br /><h4>'.JText::_('Backtrace').'</h4>'.JError::renderBacktrace($error).'</li>';
@@ -86,7 +86,7 @@ class  plgSystemDebug extends JPlugin
 		if ($this->params->get('queries', 1)) {
 			$newlineKeywords = '#\s+(FROM|LEFT|INNER|OUTER|WHERE|SET|VALUES|ORDER|GROUP|HAVING|LIMIT|ON|AND)\s+#i';
 
-			$db	=& JFactory::getDBO();
+			$db	= &JFactory::getDbo();
 
 			echo '<h4>'.JText::sprintf('Queries logged',  $db->getTicker()).'</h4>';
 

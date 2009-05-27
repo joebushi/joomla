@@ -40,7 +40,7 @@
  *
  ************************************************************************************/
 
-defined('GESHI_CAPS_NO_CHANGE') or die();
+defined('GESHI_CAPS_NO_CHANGE') or die;
 
 $language_data = array (
 	'LANG_NAME' => 'INI',

@@ -48,7 +48,7 @@
  *
  ************************************************************************************/
 
-defined('GESHI_CAPS_NO_CHANGE') or die();
+defined('GESHI_CAPS_NO_CHANGE') or die;
 
 $language_data = array (
     'LANG_NAME' => 'PHP',
@@ -63,7 +63,7 @@ $language_data = array (
             'for', 'foreach', 'as', 'if', 'elseif', 'else', 'while', 'do', 'endwhile',
             'endif', 'switch', 'case', 'endswitch', 'endfor', 'endforeach',
             'return', 'break', 'continue'
-            ),
+           ),
         2 => array(
             'null', '__LINE__', '__FILE__',
             'false', '&lt;?php', '?&gt;', '&lt;?',
@@ -77,7 +77,7 @@ $language_data = array (
             'PHP_OUTPUT_HANDLER_END', 'E_ERROR', 'E_WARNING', 'E_PARSE', 'E_NOTICE',
             'E_CORE_ERROR', 'E_CORE_WARNING', 'E_COMPILE_ERROR', 'E_COMPILE_WARNING', 'E_USER_ERROR',
             'E_USER_WARNING', 'E_USER_NOTICE', 'E_ALL'
-            ),
+           ),
         3 => array(
             'zlib_get_coding_type','zend_version','zend_logo_guid','yp_order','yp_next',
             'yp_match','yp_master','yp_get_default_domain','yp_first','yp_errno','yp_err_string',
@@ -257,69 +257,69 @@ $language_data = array (
             'aggregate_methods_by_list','aggregate_methods','aggregate','addslashes','addcslashes','acosh',
             'acos','abs','_','echo', 'print', 'global', 'static', 'exit', 'array', 'empty',
             'eval', 'isset', 'unset', 'die', 'list'
-            )
-        ),
+           )
+       ),
     'SYMBOLS' => array(
         '(', ')', '[', ']', '{', '}', '!', '@', '%', '&', '*', '|', '/', '<', '>'
-        ),
+       ),
     'CASE_SENSITIVE' => array(
         GESHI_COMMENTS => false,
         1 => false,
         2 => false,
         3 => false,
-        ),
+       ),
     'STYLES' => array(
         'KEYWORDS' => array(
             1 => 'color: #b1b100;',
             2 => 'color: #000000; font-weight: bold;',
             3 => 'color: #000066;'
-            ),
+           ),
         'COMMENTS' => array(
             1 => 'color: #808080; font-style: italic;',
             2 => 'color: #808080; font-style: italic;',
             'MULTI' => 'color: #808080; font-style: italic;'
-            ),
+           ),
         'ESCAPE_CHAR' => array(
             0 => 'color: #000099; font-weight: bold;'
-            ),
+           ),
         'BRACKETS' => array(
             0 => 'color: #66cc66;'
-            ),
+           ),
         'STRINGS' => array(
             0 => 'color: #ff0000;'
-            ),
+           ),
         'NUMBERS' => array(
             0 => 'color: #cc66cc;'
-            ),
+           ),
         'METHODS' => array(
             1 => 'color: #006600;',
             2 => 'color: #006600;'
-            ),
+           ),
         'SYMBOLS' => array(
             0 => 'color: #66cc66;'
-            ),
+           ),
         'REGEXPS' => array(
             0 => 'color: #0000ff;',
             1 => 'color: #ff0000'
-            ),
+           ),
         'SCRIPT' => array(
             0 => '',
             1 => '',
             2 => '',
             3 => ''
-            )
-        ),
+           )
+       ),
     'URLS' => array(
         1 => '',
         2 => '',
         3 => 'http://www.php.net/{FNAME}',
         4 => ''
-        ),
+       ),
     'OOLANG' => true,
     'OBJECT_SPLITTERS' => array(
         1 => '-&gt;',
         2 => '::'
-        ),
+       ),
     'REGEXPS' => array(
         0 => "[\\$]{1,2}[a-zA-Z_][a-zA-Z0-9_]*",
         1 => array(
@@ -328,29 +328,29 @@ $language_data = array (
             GESHI_BEFORE => '\1\2',
             GESHI_AFTER => '\4\5',
             GESHI_MODIFIERS => 'siU'
-            )
-        ),
+           )
+       ),
     'STRICT_MODE_APPLIES' => GESHI_MAYBE,
     'SCRIPT_DELIMITERS' => array(
         0 => array(
             '<?php' => '?>'
-            ),
+           ),
         1 => array(
             '<?' => '?>'
-            ),
+           ),
         2 => array(
             '<%' => '%>'
-            ),
+           ),
         3 => array(
             '<script language="php">' => '</script>'
-            )
-        ),
+           )
+       ),
     'HIGHLIGHT_STRICT_BLOCK' => array(
         0 => true,
         1 => true,
         2 => true,
         3 => true
-        )
+       )
 );
 
 ?>

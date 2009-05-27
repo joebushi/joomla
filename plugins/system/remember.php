@@ -1,15 +1,15 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
-jimport( 'joomla.plugin.plugin' );
+jimport('joomla.plugin.plugin');
 
 /**
  * Joomla! System Remember Me Plugin
@@ -49,7 +49,7 @@ class plgSystemRemember extends JPlugin
 				$options['action']	= 'core.site.login';
 				if (!$appl->login(@unserialize($str), $options)) {
 					// Clear the remember me cookie
-					setcookie( JUtility::getHash('JLOGIN_REMEMBER'), false, time() - 86400, '/' );
+					setcookie(JUtility::getHash('JLOGIN_REMEMBER'), false, time() - 86400, '/');
 				}
 			}
 		}

@@ -30,7 +30,7 @@
  *
  ************************************************************************************/
 
-defined('GESHI_COMMENTS') or die();
+defined('GESHI_COMMENTS') or die;
 
 $language_data = array (
   'LANG_NAME' => 'MySQL',
@@ -84,7 +84,7 @@ $language_data = array (
   'UNIX_TIMESTAMP', 'UTC_DATE', 'UTC_TIME', 'UTC_TIMESTAMP', 'WEEKDAY', 'WEEKOFYEAR',
   'YEARWEEK',
 
-   ),
+  ),
    2 => array(
    'INTEGER', 'SMALLINT', 'DECIMAL', 'NUMERIC', 'FLOAT', 'REAL', 'DOUBLE PRECISION',
    'DOUBLE', 'INT', 'DEC', 'BIT' ,'TINYINT', 'SMALLINT', 'MEDIUMINT', 'BIGINT',
@@ -92,21 +92,21 @@ $language_data = array (
    'CHAR', 'VARCHAR', 'BINARY', 'CHARACTER VARYING', 'VARBINARY', 'TINYBLOB', 'TINYTEXT',
    'BLOB', 'TEXT','MEDIUMBLOB', 'MEDIUMTEXT', 'LONGBLOB', 'LONGTEXT', 'ENUM', 'SET',
    'SERIAL DEFAULT VALUE', 'SERIAL', 'FIXED'
-   ),
+  ),
    3 => array(
    'ZEROFILL', 'NOT NULL', 'UNSIGNED', 'AUTO_INCREMENT', 'UNIQUE', 'NOT', 'NULL', 'CHARACTER SET', 'CHARSET',
    'ASCII', 'UNICODE', 'NATIONAL', 'BOTH', 'LEADING', 'TRAILING','DEFAULT'
-   ),
+  ),
    4 => array(
    'MICROSECOND', 'SECOND', 'MINUTE', 'HOUR', 'DAY', 'WEEK', 'MONTH', 'QUARTER', 'YEAR', 'SECOND_MICROSECOND',
    'MINUTE_MICROSECOND', 'MINUTE_SECOND', 'HOUR_MICROSECOND', 'HOUR_SECOND', 'HOUR_MINUTE', 'DAY_MICROSECOND',
    'DAY_SECOND', 'DAY_MINUTE', 'DAY_HOUR', 'YEAR_MONTH'
-   ),
+  ),
    5 => array(
    'OR', 'XOR', 'AND', 'NOT', 'BETWEEN', 'IS', 'LIKE', 'REGEXP', 'IN', 'DIV',
     'MOD', 'BINARY', 'COLLATE', 'LIMIT', 'OFFSET'
-   ),
-   ),
+  ),
+  ),
    'SYMBOLS' => array(
    ':=',
    '||', 'OR', 'XOR',
@@ -124,7 +124,7 @@ $language_data = array (
    '!',
    'BINARY', 'COLLATE',
    '(', ')',
-   ),
+  ),
    'CASE_SENSITIVE' => array(
    GESHI_COMMENTS => false,
    1 => false,
@@ -132,7 +132,7 @@ $language_data = array (
    3 => false,
    4 => false,
    5 => false
-   ),
+  ),
    'STYLES' => array(
    'KEYWORDS' => array(
    1 => 'color: #993333; font-weight: bold;',
@@ -140,44 +140,44 @@ $language_data = array (
    3 => 'color: #aa3399; font-weight: bold;',
    4 => 'color: #33aa99; font-weight: bold;',
    5 => 'color: #993333; font-weight: bold;'
-   ),
+  ),
    'COMMENTS' => array(
    'MULTI' => 'color: #808080; font-style: italic;',
    1 => 'color: #808080; font-style: italic;',
    2 => 'color: #808080; font-style: italic;'
-   ),
+  ),
    'ESCAPE_CHAR' => array(
    0 => 'color: #000099; font-weight: bold;'
-   ),
+  ),
    'BRACKETS' => array(
    0 => 'color: #66cc66;'
-   ),
+  ),
    'STRINGS' => array(
    0 => 'color: #ff0000;'
-   ),
+  ),
    'NUMBERS' => array(
    0 => 'color: #cc66cc;'
-   ),
+  ),
    'METHODS' => array(
-   ),
+  ),
    'SYMBOLS' => array(
    0 => 'color: #66cc66;'
-   ),
+  ),
    'SCRIPT' => array(
-   ),
+  ),
    'REGEXPS' => array(
-   )
-   ),
+  )
+  ),
    'OOLANG' => false,
    'OBJECT_SPLITTERS' => array(
-   ),
+  ),
    'REGEXPS' => array(
-   ),
+  ),
    'STRICT_MODE_APPLIES' => GESHI_NEVER,
    'SCRIPT_DELIMITERS' => array(
-   ),
+  ),
    'HIGHLIGHT_STRICT_BLOCK' => array(
-   )
+  )
 );
 
 ?>

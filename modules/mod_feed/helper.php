@@ -1,10 +1,10 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Direct Access to this location is not allowed.');
@@ -26,7 +26,7 @@ class modFeedHelper
 			$options['cache_time'] = null;
 		}
 
-		$rssDoc =& JFactory::getXMLparser('RSS', $options);
+		$rssDoc = &JFactory::getXMLparser('RSS', $options);
 
 		$feed = new stdclass();
 

@@ -265,12 +265,12 @@ class Auth_OpenID_Consumer {
             $session = new Auth_Yadis_PHPSession();
         }
 
-        $this->session =& $session;
+        $this->session = &$session;
 
         if ($consumer_cls !== null) {
-            $this->consumer =& new $consumer_cls($store);
+            $this->consumer = &new $consumer_cls($store);
         } else {
-            $this->consumer =& new Auth_OpenID_GenericConsumer($store);
+            $this->consumer = &new Auth_OpenID_GenericConsumer($store);
         }
 
         $this->_token_key = $this->session_key_prefix . $this->_token_suffix;
@@ -339,7 +339,7 @@ class Auth_OpenID_Consumer {
                                            $this->consumer->fetcher);
 
         // Reset the 'stale' attribute of the manager.
-        $m =& $disco->getManager();
+        $m = &$disco->getManager();
         if ($m) {
             $m->stale = false;
             $disco->session->set($disco->session_key,
@@ -467,7 +467,7 @@ class Auth_OpenID_DiffieHellmanSHA1ConsumerSession {
 
     function getRequest()
     {
-        $math =& Auth_OpenID_getMathLib();
+        $math = &Auth_OpenID_getMathLib();
 
         $cpub = $math->longToBase64($this->dh->public);
 
@@ -496,7 +496,7 @@ class Auth_OpenID_DiffieHellmanSHA1ConsumerSession {
             return null;
         }
 
-        $math =& Auth_OpenID_getMathLib();
+        $math = &Auth_OpenID_getMathLib();
 
         $spub = $math->base64ToLong($response->getArg(Auth_OpenID_OPENID_NS,
                                                       'dh_server_public'));
@@ -613,8 +613,8 @@ class Auth_OpenID_GenericConsumer {
      */
     function Auth_OpenID_GenericConsumer(&$store)
     {
-        $this->store =& $store;
-        $this->negotiator =& Auth_OpenID_getDefaultNegotiator();
+        $this->store = &$store;
+        $this->negotiator = &Auth_OpenID_getDefaultNegotiator();
         $this->_use_assocs = ($this->store ? true : false);
 
         $this->fetcher = Auth_Yadis_Yadis::getHTTPFetcher();
@@ -660,7 +660,7 @@ class Auth_OpenID_GenericConsumer {
                               'error' => '_complete_error',
                               'setup_needed' => '_complete_setup_needed',
                               'id_res' => '_complete_id_res',
-                              );
+                             );
 
         $method = Auth_OpenID::arrayGet($mode_methods, $mode,
                                         '_completeInvalid');
@@ -1289,7 +1289,7 @@ class Auth_OpenID_GenericConsumer {
 
             Auth_OpenID_OPENID1_NS => array_merge($basic_fields,
                                                   array('identity'))
-            );
+           );
 
         $require_sigs = array(
             Auth_OpenID_OPENID2_NS => array_merge($basic_sig_fields,
@@ -1298,7 +1298,7 @@ class Auth_OpenID_GenericConsumer {
                                                         'assoc_handle')),
             Auth_OpenID_OPENID1_NS => array_merge($basic_sig_fields,
                                                   array('nonce'))
-            );
+           );
 
         foreach ($require_fields[$message->getOpenIDNamespace()] as $field) {
             if (!$message->hasKey(Auth_OpenID_OPENID_NS, $field)) {
@@ -1750,7 +1750,7 @@ class Auth_OpenID_AuthRequest {
     function Auth_OpenID_AuthRequest(&$endpoint, $assoc)
     {
         $this->assoc = $assoc;
-        $this->endpoint =& $endpoint;
+        $this->endpoint = &$endpoint;
         $this->return_to_args = array();
         $this->message = new Auth_OpenID_Message(
             $endpoint->preferredNamespace());

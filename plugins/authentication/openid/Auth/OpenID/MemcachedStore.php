@@ -75,7 +75,7 @@ class Auth_OpenID_MemcachedStore extends Auth_OpenID_OpenIDStore {
             $serverKey,
             $serverAssociations,
             $this->compress
-        );
+       );
         // save association itself
         $this->connection->set(
             $associationKey,
@@ -152,7 +152,7 @@ class Auth_OpenID_MemcachedStore extends Auth_OpenID_OpenIDStore {
             $serverKey,
             $serverAssociations,
             $this->compress
-        );
+       );
 
         // delete association 
         return $this->connection->delete($associationKey);

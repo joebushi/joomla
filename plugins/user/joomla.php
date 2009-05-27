@@ -1,14 +1,14 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla
-* @subpackage	JFramework
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla
+ * @subpackage	JFramework
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
 
@@ -38,7 +38,7 @@ class plgUserJoomla extends JPlugin
 
 		try
 		{
-			$db =& JFactory::getDBO();
+			$db = &JFactory::getDbo();
 			$db->setQuery('DELETE FROM #__session WHERE userid = '.(int) $user['id']);
 			$db->query();
 
@@ -72,10 +72,10 @@ class plgUserJoomla extends JPlugin
 	{
 		jimport('joomla.user.helper');
 
-		$instance =& $this->_getUser($user, $options);
+		$instance = &$this->_getUser($user, $options);
 
 		// if _getUser returned an error, then pass it back.
-		if (JError::isError( $instance )) {
+		if (JError::isError($instance)) {
 			return $instance;
 		}
 
@@ -85,7 +85,7 @@ class plgUserJoomla extends JPlugin
 		}
 
 		// Get an ACL object
-		$acl =& JFactory::getACL();
+		$acl = &JFactory::getACL();
 // @todo Fix these groups
 /**		// Get the user group from the ACL
 
@@ -96,13 +96,13 @@ if ($instance->get('tmp_user') == 1) {
 		} else {
 			//$grp = $acl->getAroGroup($instance->get('id'));
 		}
-*/
+ */
 		//Authorise the user based on the group information
 		if (!isset($options['group'])) {
 			$options['group'] = 'USERS';
 		}
 
-		//if (!$acl->is_group_child_of( $grp->name, $options['group'])) {
+		//if (!$acl->is_group_child_of($grp->name, $options['group'])) {
 		//	return JError::raiseWarning('SOME_ERROR_CODE', JText::_('E_NOLOGIN_ACCESS'));
 		//}
 
@@ -120,16 +120,16 @@ if ($instance->get('tmp_user') == 1) {
 		}
 
 		//Mark the user as logged in
-		$instance->set( 'guest', 0);
+		$instance->set('guest', 0);
 		$instance->set('aid', 1);
 
 		// Register the needed session variables
-		$session =& JFactory::getSession();
+		$session = &JFactory::getSession();
 		$session->set('user', $instance);
 
 		// Get the session object
 		$table = & JTable::getInstance('session');
-		$table->load( $session->getId() );
+		$table->load($session->getId());
 
 		$table->guest 		= $instance->get('guest');
 		$table->username 	= $instance->get('username');
@@ -158,7 +158,7 @@ if ($instance->get('tmp_user') == 1) {
 		//Make sure we're a valid user first
 		if ($user['id'] == 0) return true;
 
-		$my =& JFactory::getUser();
+		$my = &JFactory::getUser();
 		//Check to see if we're deleting the current session
 		if ($my->get('id') == $user['id'])
 		{
@@ -166,7 +166,7 @@ if ($instance->get('tmp_user') == 1) {
 			$my->setLastVisit();
 
 			// Destroy the php session for this user
-			$session =& JFactory::getSession();
+			$session = &JFactory::getSession();
 			$session->destroy();
 		} else {
 			// Force logout all users with that userid
@@ -197,18 +197,18 @@ if ($instance->get('tmp_user') == 1) {
 
 		//TODO : move this out of the plugin
 		jimport('joomla.application.component.helper');
-		$config   = &JComponentHelper::getParams( 'com_users' );
-		$usertype = $config->get( 'new_usertype', 'Registered' );
+		$config   = &JComponentHelper::getParams('com_users');
+		$usertype = $config->get('new_usertype', 'Registered');
 
-		$acl =& JFactory::getACL();
+		$acl = &JFactory::getACL();
 
-		$instance->set( 'id'			, 0 );
-		$instance->set( 'name'			, $user['fullname'] );
-		$instance->set( 'username'		, $user['username'] );
-		$instance->set( 'password_clear'	, $user['password_clear'] );
-		$instance->set( 'email'			, $user['email'] );	// Result should contain an email (check)
-		$instance->set( 'gid'			, $acl->get_group_id( '', $usertype));
-		$instance->set( 'usertype'		, $usertype );
+		$instance->set('id'			, 0);
+		$instance->set('name'			, $user['fullname']);
+		$instance->set('username'		, $user['username']);
+		$instance->set('password_clear'	, $user['password_clear']);
+		$instance->set('email'			, $user['email']);	// Result should contain an email (check)
+		$instance->set('gid'			, $acl->get_group_id('', $usertype));
+		$instance->set('usertype'		, $usertype);
 
 		//If autoregister is set let's register the user
 		$autoregister = isset($options['autoregister']) ? $options['autoregister'] :  $this->params->get('autoregister', 1);
@@ -220,7 +220,7 @@ if ($instance->get('tmp_user') == 1) {
 			}
 		} else {
 			// No existing user and autoregister off, this is a temporary user.
-			$instance->set( 'tmp_user', true );
+			$instance->set('tmp_user', true);
 		}
 
 		return $instance;

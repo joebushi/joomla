@@ -3,13 +3,13 @@
  * @version		$Id$
  * @package		Joomla
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
-jimport( 'joomla.plugin.plugin' );
+jimport('joomla.plugin.plugin');
 
 /**
  * Editor Image buton
@@ -22,13 +22,13 @@ class plgButtonImage extends JPlugin
 	/**
 	 * Display the button
 	 *
-	 * @return array A two element array of ( imageName, textToInsert )
+	 * @return array A two element array of (imageName, textToInsert)
 	 */
 	function onDisplay($name)
 	{
 		$mainframe = JFactory::getApplication();
 
-		$doc 		=& JFactory::getDocument();
+		$doc 		= &JFactory::getDocument();
 
 		$link = 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;e_name='.$name;
 

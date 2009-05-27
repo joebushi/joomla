@@ -41,7 +41,7 @@
  *
  ************************************************************************************/
 
-defined('GESHI_CAPS_NO_CHANGE') or die();
+defined('GESHI_CAPS_NO_CHANGE') or die;
 
 $language_data = array (
 	'LANG_NAME' => 'Diff',
@@ -70,7 +70,7 @@ $language_data = array (
 			2 => 'color: #dd6611;',
 			),
 		'COMMENTS' => array(
-            ),
+           ),
 		'ESCAPE_CHAR' => array(
             0 => ''
 			),
@@ -103,7 +103,7 @@ $language_data = array (
 			7 => 'color: #991111;',
             8 => 'color: #00b000;',
 			9 => 'color: #888822;',
-                        ),
+                       ),
 		),
 	'URLS' => array(
 		),

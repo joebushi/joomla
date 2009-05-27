@@ -1,5 +1,5 @@
 <?php // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
+defined('_JEXEC') or die; ?>
 <table class="moduletable<?php echo $params->get('moduleclass_sfx') ?>">
 	<tr>
 	<?php foreach ($list as $item) : ?>

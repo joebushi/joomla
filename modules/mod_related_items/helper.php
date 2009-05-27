@@ -1,13 +1,13 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 require_once JPATH_SITE.DS.'components'.DS.'com_content'.DS.'helpers'.DS.'route.php';
 
@@ -17,8 +17,8 @@ class modRelatedItemsHelper
 	{
 		$mainframe = JFactory::getApplication();
 
-		$db					=& JFactory::getDBO();
-		$user				=& JFactory::getUser();
+		$db					= &JFactory::getDbo();
+		$user				= &JFactory::getUser();
 
 		$option				= JRequest::getCmd('option');
 		$view				= JRequest::getCmd('view');
@@ -32,7 +32,7 @@ class modRelatedItemsHelper
 		$nullDate			= $db->getNullDate();
 
 
-		$date =& JFactory::getDate();
+		$date = &JFactory::getDate();
 		$now  = $date->toMySQL();
 
 		$related			= array();
@@ -74,9 +74,9 @@ class modRelatedItemsHelper
 							' AND a.state = 1' .
 							' AND a.access IN (' .implode(',', $user->authorisedLevels('com_content.article.view')). ')'.
 							' AND cc.access IN (' .implode(',', $user->authorisedLevels('com_content.category.view')).')'.
-							' AND ( a.metakey LIKE "%'.implode('%" OR a.metakey LIKE "%', $likes).'%" )' .
-							' AND ( a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).' )' .
-							' AND ( a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).' )';
+							' AND (a.metakey LIKE "%'.implode('%" OR a.metakey LIKE "%', $likes).'%")' .
+							' AND (a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).')' .
+							' AND (a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).')';
 					$db->setQuery($query);
 					$temp = $db->loadObjectList();
 

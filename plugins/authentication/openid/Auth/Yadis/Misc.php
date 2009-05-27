@@ -29,7 +29,7 @@ function Auth_Yadis_getUCSChars()
                  array(0xC0000, 0xCFFFD),
                  array(0xD0000, 0xDFFFD),
                  array(0xE1000, 0xEFFFD)
-                 );
+                );
 }
 
 function Auth_Yadis_getIPrivateChars()
@@ -38,7 +38,7 @@ function Auth_Yadis_getIPrivateChars()
                  array(0xE000, 0xF8FF),
                  array(0xF0000, 0xFFFFD),
                  array(0x100000, 0x10FFFD)
-                 );
+                );
 }
 
 function Auth_Yadis_pct_escape_unicode($char_match)

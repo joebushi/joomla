@@ -232,7 +232,7 @@ class Auth_OpenID_SQLStore extends Auth_OpenID_OpenIDStore {
                                    'get_assoc',
                                    'get_assocs',
                                    'remove_assoc'
-                                   );
+                                  );
 
         foreach ($required_sql_keys as $key) {
             if (!array_key_exists($key, $this->sql)) {
@@ -256,7 +256,7 @@ class Auth_OpenID_SQLStore extends Auth_OpenID_OpenIDStore {
                                     'keys' => array('nonce_table',
                                                     'add_nonce',
                                                     'clean_nonce')
-                                    ),
+                                   ),
                               array(
                                     'value' => $this->associations_table_name,
                                     'keys' => array('assoc_table',
@@ -265,8 +265,8 @@ class Auth_OpenID_SQLStore extends Auth_OpenID_OpenIDStore {
                                                     'get_assocs',
                                                     'remove_assoc',
                                                     'clean_assoc')
-                                    )
-                              );
+                                   )
+                             );
 
         foreach ($replacements as $item) {
             $value = $item['value'];
@@ -353,7 +353,7 @@ class Auth_OpenID_SQLStore extends Auth_OpenID_OpenIDStore {
                                             $association->issued,
                                             $association->lifetime,
                                             $association->assoc_type
-                                            ))) {
+                                           ))) {
             $this->connection->commit();
         } else {
             $this->connection->rollback();
@@ -481,7 +481,7 @@ class Auth_OpenID_SQLStore extends Auth_OpenID_OpenIDStore {
     {
         global $Auth_OpenID_SKEW;
 
-        if ( abs($timestamp - time()) > $Auth_OpenID_SKEW ) {
+        if (abs($timestamp - time()) > $Auth_OpenID_SKEW) {
             return False;
         }
 

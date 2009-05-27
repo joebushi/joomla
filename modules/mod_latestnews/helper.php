@@ -1,13 +1,13 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 require_once JPATH_SITE.DS.'components'.DS.'com_content'.DS.'helpers'.DS.'route.php';
 
@@ -17,29 +17,29 @@ class modLatestNewsHelper
 	{
 		$mainframe = JFactory::getApplication();
 
-		$db			=& JFactory::getDBO();
-		$user		=& JFactory::getUser();
+		$db			= &JFactory::getDbo();
+		$user		= &JFactory::getUser();
 		$userId		= (int) $user->get('id');
 
 		$count		= (int) $params->get('count', 5);
-		$catid		= trim( $params->get('catid') );
+		$catid		= trim($params->get('catid'));
 		$show_front	= $params->get('show_front', 1);
 
-		$contentConfig = &JComponentHelper::getParams( 'com_content' );
+		$contentConfig = &JComponentHelper::getParams('com_content');
 		$access		= !$contentConfig->get('shownoauth');
 
 		$nullDate	= $db->getNullDate();
 
-		$date =& JFactory::getDate();
+		$date = &JFactory::getDate();
 		$now = $date->toMySQL();
 
 		$where		= 'a.state = 1'
-			. ' AND ( a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).' )'
-			. ' AND ( a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).' )'
+			. ' AND (a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).')'
+			. ' AND (a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).')'
 			;
 
 		// User Filter
-		switch ($params->get( 'user_id' ))
+		switch ($params->get('user_id'))
 		{
 			case 'by_me':
 				$where .= ' AND (created_by = ' . (int) $userId . ' OR modified_by = ' . (int) $userId . ')';
@@ -50,7 +50,7 @@ class modLatestNewsHelper
 		}
 
 		// Ordering
-		switch ($params->get( 'ordering' ))
+		switch ($params->get('ordering'))
 		{
 			case 'm_dsc':
 				$ordering		= 'a.modified DESC, a.created DESC';
@@ -63,9 +63,9 @@ class modLatestNewsHelper
 
 		if ($catid)
 		{
-			$ids = explode( ',', $catid );
-			JArrayHelper::toInteger( $ids );
-			$catCondition = ' AND (cc.id=' . implode( ' OR cc.id=', $ids ) . ')';
+			$ids = explode(',', $catid);
+			JArrayHelper::toInteger($ids);
+			$catCondition = ' AND (cc.id=' . implode(' OR cc.id=', $ids) . ')';
 		}
 
 		// Content Items only
@@ -86,10 +86,10 @@ class modLatestNewsHelper
 
 		$i		= 0;
 		$lists	= array();
-		foreach ( $rows as $row )
+		foreach ($rows as $row)
 		{
 			$lists[$i]->link = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catslug));
-			$lists[$i]->text = htmlspecialchars( $row->title );
+			$lists[$i]->text = htmlspecialchars($row->title);
 			$i++;
 		}
 

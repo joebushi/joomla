@@ -1,4 +1,4 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php defined('_JEXEC') or die; ?>
 
 <?php foreach ($list as $item) :
 	modNewsFlashHelper::renderItem($item, $params, $access);

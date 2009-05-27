@@ -1,16 +1,16 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla
-* @subpackage	JFramework
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla
+ * @subpackage	JFramework
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
-jimport( 'joomla.plugin.plugin' );
+jimport('joomla.plugin.plugin');
 
 /**
  * Joomla Authentication plugin
@@ -31,7 +31,7 @@ class plgAuthenticationJoomla extends JPlugin
 	 * @return	boolean
 	 * @since 1.5
 	 */
-	function onAuthenticate( $credentials, $options, &$response )
+	function onAuthenticate($credentials, $options, &$response)
 	{
 		jimport('joomla.user.helper');
 
@@ -48,18 +48,18 @@ class plgAuthenticationJoomla extends JPlugin
 		$conditions = '';
 
 		// Get a database object
-		$db =& JFactory::getDBO();
+		$db = &JFactory::getDbo();
 
 		$query = 'SELECT `id`, `password`, `gid`'
 			. ' FROM `#__users`'
-			. ' WHERE username=' . $db->Quote( $credentials['username'] )
+			. ' WHERE username=' . $db->Quote($credentials['username'])
 			;
-		$db->setQuery( $query );
+		$db->setQuery($query);
 		$result = $db->loadObject();
 
 		if ($result)
 		{
-			$parts	= explode( ':', $result->password );
+			$parts	= explode(':', $result->password);
 			$crypt	= $parts[0];
 			$salt	= @$parts[1];
 			$testcrypt = JUserHelper::getCryptedPassword($credentials['password'], $salt);

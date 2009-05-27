@@ -1,22 +1,22 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
-jimport( 'joomla.plugin.plugin');
+jimport('joomla.plugin.plugin');
 
 /**
-* Joomla! SEF Plugin
-*
-* @package 		Joomla
-* @subpackage	System
-*/
+ * Joomla! SEF Plugin
+ *
+ * @package 		Joomla
+ * @subpackage	System
+ */
 class plgSystemSef extends JPlugin
 {
 	/**
@@ -24,9 +24,9 @@ class plgSystemSef extends JPlugin
 	 */
 	public function onAfterRender()
 	{
-		$app =& JFactory::getApplication();
+		$app = &JFactory::getApplication();
 
-		if($app->getName() != 'site') {
+		if ($app->getName() != 'site') {
 			return true;
 		}
 
@@ -35,7 +35,7 @@ class plgSystemSef extends JPlugin
 		$buffer = JResponse::getBody();
 
 		$regex  = '#href="index.php\?([^"]*)#m';
-		$buffer = preg_replace_callback( $regex, array($this, 'route'), $buffer );
+		$buffer = preg_replace_callback($regex, array($this, 'route'), $buffer);
 
 		$protocols = '[a-zA-Z0-9]+:'; //To check for all unknown protocals (a protocol must contain at least one alpahnumeric fillowed by :
 		$regex	 = '#(src|href)="(?!/|'.$protocols.'|\#)([^"]*)"#m';
@@ -53,7 +53,7 @@ class plgSystemSef extends JPlugin
 	 * @param array An array of matches (see preg_match_all)
 	 * @return string
 	 */
-   	 protected function route( &$matches )
+   	 protected function route(&$matches)
 	 {
 		$original	= $matches[0];
 		$url		= $matches[1];

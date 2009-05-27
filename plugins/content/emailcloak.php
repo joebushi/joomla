@@ -1,13 +1,13 @@
 <?php
 /**
-* @version		$Id$
-* @package		oomla
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		oomla
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
 
@@ -118,7 +118,7 @@ class plgContentEmailcloak extends JPlugin
 			$mail = $regs[1][0] . $regs[2][0];
 			$mailText = $regs[3][0];
 			// Needed for handling of Body parameter
-			$mail = str_replace( '&amp;', '&', $mail );
+			$mail = str_replace('&amp;', '&', $mail);
 
 			// Check to see if mail text is different from mail addy
 			$replacement = JHtml::_('email.cloak', $mail, $mode, $mailText);

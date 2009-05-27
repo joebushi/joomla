@@ -1,15 +1,15 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
-jimport( 'joomla.plugin.plugin' );
+jimport('joomla.plugin.plugin');
 
 /**
  * Joomla! Page Cache Plugin
@@ -32,7 +32,7 @@ class  plgSystemCache extends JPlugin
 	 */
 	function __construct($subject, $config)
 	{
-		$user =& JFactory::getUser();
+		$user = &JFactory::getUser();
 
 		$options = array(
 			'cachebase' 	=> JPATH_BASE.DS.'cache',
@@ -43,7 +43,7 @@ class  plgSystemCache extends JPlugin
 		);
 
 		jimport('joomla.cache.cache');
-		$this->_cache =& JCache::getInstance( 'page', $options );
+		$this->_cache = &JCache::getInstance('page', $options);
 
 		if (!$user->get('aid') && $_SERVER['REQUEST_METHOD'] == 'GET') {
 			$this->_cache->setCaching(true);
@@ -60,14 +60,14 @@ class  plgSystemCache extends JPlugin
 	{
 		global $mainframe, $_PROFILER;
 
-		 if($mainframe->isAdmin() || JDEBUG) {
+		 if ($mainframe->isAdmin() || JDEBUG) {
 		 	return;
 		 }
 
 
 		$data  = $this->_cache->get();
 
-		if($data !== false)
+		if ($data !== false)
 		{
 			// the following code searches for a token in the cached page and replaces it with the
 			// proper token.
@@ -76,7 +76,7 @@ class  plgSystemCache extends JPlugin
 			$token	= JUtility::getToken();
 			$search = '#<input type="hidden" name="[0-9a-f]{32}" value="1" />#';
 			$replacement = '<input type="hidden" name="'.$token.'" value="1" />';
-			$data = preg_replace( $search, $replacement, $data );
+			$data = preg_replace($search, $replacement, $data);
 
 			JResponse::setBody($data);
 
@@ -84,10 +84,10 @@ class  plgSystemCache extends JPlugin
 
 			echo JResponse::toString($mainframe->getCfg('gzip'));
 
-			if(JDEBUG)
+			if (JDEBUG)
 			{
 				$_PROFILER->mark('afterCache');
-				echo implode( '', $_PROFILER->getBuffer());
+				echo implode('', $_PROFILER->getBuffer());
 			}
 
 			$mainframe->close();
@@ -98,7 +98,7 @@ class  plgSystemCache extends JPlugin
 	{
 		$mainframe = JFactory::getApplication();
 
-		if($mainframe->isAdmin() || JDEBUG) {
+		if ($mainframe->isAdmin() || JDEBUG) {
 			return;
 		}
 

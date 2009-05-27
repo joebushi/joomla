@@ -1,13 +1,13 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 class modBreadCrumbsHelper
 {
@@ -16,7 +16,7 @@ class modBreadCrumbsHelper
 		$mainframe = JFactory::getApplication();
 
 		// Get the PathWay object from the application
-		$pathway =& $mainframe->getPathway();
+		$pathway = &$mainframe->getPathway();
 		$items   = $pathway->getPathWay();
 
 		$count = count($items);
@@ -49,14 +49,14 @@ class modBreadCrumbsHelper
 	{
 		$mainframe = JFactory::getApplication();
 
-		$lang =& JFactory::getLanguage();
+		$lang = &JFactory::getLanguage();
 
 		/**
 	 	* If a custom separator has not been provided we try to load a template
 	 	* specific one first, and if that is not present we load the default separator
 	 	*/
 		if ($custom == null) {
-			if($lang->isRTL()){
+			if ($lang->isRTL()){
 				$_separator = JHtml::_('image.site', 'arrow_rtl.png');
 			}
 			else{

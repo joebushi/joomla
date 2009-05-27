@@ -118,7 +118,7 @@ class Auth_OpenID_Parse {
                                             'lt' => '<',
                                             'gt' => '>',
                                             'quot' => '"'
-                                            );
+                                           );
 
         $this->_attr_find = sprintf("/%s/%s",
                                     $this->_attr_find,

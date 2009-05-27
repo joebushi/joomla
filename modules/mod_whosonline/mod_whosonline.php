@@ -1,18 +1,18 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 // Include the whosonline functions only once
 require_once dirname(__FILE__).DS.'helper.php';
 
-$showmode = $params->get( 'showmode', 0 );
+$showmode = $params->get('showmode', 0);
 
 if ($showmode == 0 || $showmode == 2) {
 	$count 	= modWhosonlineHelper::getOnlineCount();

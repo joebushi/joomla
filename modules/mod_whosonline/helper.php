@@ -1,19 +1,19 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 class modWhosonlineHelper {
 
 	// show online count
 	function getOnlineCount() {
-		$db			=& JFactory::getDBO();
+		$db			= &JFactory::getDbo();
 		$sessions	= null;
 		// calculate number of guests and members
 		$result		= array();
@@ -27,7 +27,7 @@ class modWhosonlineHelper {
 		$sessions = $db->loadObjectList();
 
 		if ($db->getErrorNum()) {
-			JError::raiseWarning( 500, $db->stderr() );
+			JError::raiseWarning(500, $db->stderr());
 		}
 
 		if (count($sessions)) {
@@ -51,7 +51,7 @@ class modWhosonlineHelper {
 
 	// show online member names
 	function getOnlineMemberNames() {
-		$db		=& JFactory::getDBO();
+		$db		= &JFactory::getDbo();
 		$result	= null;
 
 		$query = 'SELECT DISTINCT a.username' .
@@ -62,7 +62,7 @@ class modWhosonlineHelper {
 		$result = $db->loadObjectList();
 
 		if ($db->getErrorNum()) {
-			JError::raiseWarning( 500, $db->stderr() );
+			JError::raiseWarning(500, $db->stderr());
 		}
 
 		return $result;

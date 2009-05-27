@@ -14,7 +14,7 @@
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
 
@@ -31,7 +31,7 @@ class plgAuthenticationOpenID extends JPlugin {
 	 * Constructor
 	 *
 	 * For php4 compatability we must not use the __constructor as a constructor for plugins
-	 * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
+	 * because func_get_args (void) returns a copy of all passed arguments NOT references.
 	 * This causes problems with cross-referencing necessary for the observer design pattern.
 	 *
 	 * @param 	object $subject The object to observe
@@ -53,7 +53,7 @@ class plgAuthenticationOpenID extends JPlugin {
 	 * @since 1.5
 	 */
 	function onAuthenticate($credentials, $options, & $response) {
-		$mainframe =& JFactory::getApplication();
+		$mainframe = &JFactory::getApplication();
 
 		if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 			define('Auth_OpenID_RAND_SOURCE', null);
@@ -109,15 +109,15 @@ class plgAuthenticationOpenID extends JPlugin {
 				$auth_request->addExtension($sreg_request);
 			}
 			$policy_uris = array();
-			if ($this->params->get( 'phishing-resistant', 0)) {
+			if ($this->params->get('phishing-resistant', 0)) {
 				$policy_uris[] = 'http://schemas.openid.net/pape/policies/2007/06/phishing-resistant';
 			}
 
-			if ($this->params->get( 'multi-factor', 0)) {
+			if ($this->params->get('multi-factor', 0)) {
 				$policy_uris[] = 'http://schemas.openid.net/pape/policies/2007/06/multi-factor';
 			}
 
-			if ($this->params->get( 'multi-factor-physical', 0)) {
+			if ($this->params->get('multi-factor-physical', 0)) {
 				$policy_uris[] = 'http://schemas.openid.net/pape/policies/2007/06/multi-factor-physical';
 			}
 
@@ -139,7 +139,7 @@ class plgAuthenticationOpenID extends JPlugin {
 			$process_url  = sprintf($entry_url->toString()."?option=com_user&task=login&username=%s", $credentials['username']);
 			$process_url .= '&'.JURI::buildQuery($options);
 
-			$session->set('return_url', $process_url );
+			$session->set('return_url', $process_url);
 
 			$trust_url = $entry_url->toString(array (
 				'path',
@@ -201,12 +201,12 @@ class plgAuthenticationOpenID extends JPlugin {
    and continue happily along with the new username.
    We had talked about a third option, which would be to always used the old way, but that seems insecure in the case of somebody using
    a yahoo.com ID.
-*/
+ */
 					if ($usermode && $usermode == 1) {
 						$response->username = $result->getDisplayIdentifier();
 					} else {
 						// first, check if the provider provided username exists in the database
-						$db = &JFactory::getDBO();
+						$db = &JFactory::getDbo();
 						$query = 'SELECT username FROM #__users'.
 							' WHERE username='.$db->Quote($result->getDisplayIdentifier()).
 							' AND password=\'\'';
@@ -218,7 +218,7 @@ class plgAuthenticationOpenID extends JPlugin {
 						} else {
 							// if it doesn't, we check if the username from the from exists in the database
 							$query = 'SELECT username FROM #__users'.
-								' WHERE username='.$db->Quote( $credentials['username'] ).
+								' WHERE username='.$db->Quote($credentials['username']).
 								' AND password=\'\'';
 							$db->setQuery($query);
 							$dbresult = $db->loadObject();
@@ -242,8 +242,8 @@ class plgAuthenticationOpenID extends JPlugin {
 					$response->status = JAUTHENTICATE_STATUS_SUCCESS;
 					$response->error_message = '';
 					if (!isset($sreg['email'])) {
-						$response->email = str_replace( array('http://', 'https://'), '', $response->username );
-						$response->email = str_replace( '/', '-', $response->email );
+						$response->email = str_replace(array('http://', 'https://'), '', $response->username);
+						$response->email = str_replace('/', '-', $response->email);
 						$response->email .= '@openid.';
 					} else {
 						$response->email = $sreg['email'];

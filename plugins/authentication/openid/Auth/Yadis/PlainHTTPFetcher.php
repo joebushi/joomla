@@ -109,7 +109,7 @@ class Auth_Yadis_PlainHTTPFetcher extends Auth_Yadis_HTTPFetcher {
             $data = "";
             $kilobytes = 0;
             while (!feof($sock) &&
-                   $kilobytes < Auth_OpenID_FETCHER_MAX_RESPONSE_KB ) {
+                   $kilobytes < Auth_OpenID_FETCHER_MAX_RESPONSE_KB) {
                 $data .= fgets($sock, 1024);
                 $kilobytes += 1;
             }

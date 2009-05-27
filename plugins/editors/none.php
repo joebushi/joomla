@@ -3,13 +3,13 @@
  * @version		$Id$
  * @package		Joomla
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
-jimport( 'joomla.plugin.plugin' );
+jimport('joomla.plugin.plugin');
 
 /**
  * No WYSIWYG Editor Plugin
@@ -56,7 +56,7 @@ class plgEditorNone extends JPlugin
 	 *
 	 * @param string 	The name of the editor
 	 */
-	function onSave( $editor ) {
+	function onSave($editor) {
 		return;
 	}
 
@@ -65,8 +65,8 @@ class plgEditorNone extends JPlugin
 	 *
 	 * @param string 	The name of the editor
 	 */
-	function onGetContent( $editor ) {
-		return "document.getElementById( '$editor' ).value;\n";
+	function onGetContent($editor) {
+		return "document.getElementById('$editor').value;\n";
 	}
 
 	/**
@@ -74,8 +74,8 @@ class plgEditorNone extends JPlugin
 	 *
 	 * @param string 	The name of the editor
 	 */
-	function onSetContent( $editor, $html ) {
-		return "document.getElementById( '$editor' ).value = $html;\n";
+	function onSetContent($editor, $html) {
+		return "document.getElementById('$editor').value = $html;\n";
 	}
 
 	/**
@@ -89,13 +89,13 @@ class plgEditorNone extends JPlugin
 	 * @param int The number of columns for the editor area
 	 * @param int The number of rows for the editor area
 	 */
-	function onDisplay( $name, $content, $width, $height, $col, $row, $buttons = true )
+	function onDisplay($name, $content, $width, $height, $col, $row, $buttons = true)
 	{
 		// Only add "px" to width and height if they are not given as a percentage
-		if (is_numeric( $width )) {
+		if (is_numeric($width)) {
 			$width .= 'px';
 		}
-		if (is_numeric( $height )) {
+		if (is_numeric($height)) {
 			$height .= 'px';
 		}
 
@@ -109,8 +109,8 @@ class plgEditorNone extends JPlugin
 	{
 		$doc = & JFactory::getDocument();
 
-		$js= "\tfunction jInsertEditorText( text, editor ) {
-			insertAtCursor( document.getElementById(editor), text );
+		$js= "\tfunction jInsertEditorText(text, editor) {
+			insertAtCursor(document.getElementById(editor), text);
 		}";
 		$doc->addScriptDeclaration($js);
 
@@ -133,7 +133,7 @@ class plgEditorNone extends JPlugin
 			}
 		}
 
-		if(!empty($buttons))
+		if (!empty($buttons))
 		{
 			$results = $this->_subject->getButtons($name, $buttons);
 
@@ -146,7 +146,7 @@ class plgEditorNone extends JPlugin
 				/*
 				 * Results should be an object
 				 */
-				if ( $button->get('name') )
+				if ($button->get('name'))
 				{
 					$modal		= ($button->get('modal')) ? 'class="modal-button"' : null;
 					$href		= ($button->get('link')) ? 'href="'.$button->get('link').'"' : null;

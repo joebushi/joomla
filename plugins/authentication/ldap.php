@@ -1,16 +1,16 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla
-* @subpackage	JFramework
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla
+ * @subpackage	JFramework
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
-jimport( 'joomla.plugin.plugin' );
+jimport('joomla.plugin.plugin');
 
 /**
  * LDAP Authentication Plugin
@@ -32,7 +32,7 @@ class plgAuthenticationLdap extends JPlugin
 	 * @return	object	boolean
 	 * @since 1.5
 	 */
-	function onAuthenticate( $credentials, $options, &$response )
+	function onAuthenticate($credentials, $options, &$response)
 	{
 		// Initialize variables
 		$userdetails = null;
@@ -70,11 +70,11 @@ class plgAuthenticationLdap extends JPlugin
 			{
 				// Bind using Connect Username/password
 				// Force anon bind to mitigate misconfiguration like [#7119]
-				if(strlen($this->params->get('username'))) $bindtest = $ldap->bind();
+				if (strlen($this->params->get('username'))) $bindtest = $ldap->bind();
 				else $bindtest = $ldap->anonymous_bind();
 
 
-				if($bindtest)
+				if ($bindtest)
 				{
 					// Search for users DN
 					$binddata = $ldap->simple_search(str_replace("[search]", $credentials['username'], $this->params->get('search_string')));
@@ -98,7 +98,7 @@ class plgAuthenticationLdap extends JPlugin
 			}	break;
 		}
 
-		if(!$success)
+		if (!$success)
 		{
 			$response->status = JAUTHENTICATE_STATUS_FAILURE;
 			$response->error_message = 'Incorrect username/password';
@@ -114,7 +114,7 @@ class plgAuthenticationLdap extends JPlugin
 				$response->email = $userdetails[0][$ldap_email][0];
 			}
 
-			if(isset($userdetails[0][$ldap_fullname][0])) {
+			if (isset($userdetails[0][$ldap_fullname][0])) {
 				$response->fullname = $userdetails[0][$ldap_fullname][0];
 			} else {
 				$response->fullname = $credentials['username'];

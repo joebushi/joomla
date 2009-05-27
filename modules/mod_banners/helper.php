@@ -1,13 +1,13 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 require_once JPATH_ADMINISTRATOR.DS.'components'.DS.'com_banners'.DS.'helpers'.DS.'banner.php';
 
@@ -18,42 +18,42 @@ abstract class modBannersHelper
 		$model		= modBannersHelper::getModel();
 
 		// Model Variables
-		$vars['cid']		= (int) $params->get( 'cid' );
-		$vars['catid']		= (int) $params->get( 'catid' );
-		$vars['limit']		= (int) $params->get( 'count', 1 );
-		$vars['ordering']	= $params->get( 'ordering' );
+		$vars['cid']		= (int) $params->get('cid');
+		$vars['catid']		= (int) $params->get('catid');
+		$vars['limit']		= (int) $params->get('count', 1);
+		$vars['ordering']	= $params->get('ordering');
 
-		if ($params->get( 'tag_search' ))
+		if ($params->get('tag_search'))
 		{
-			$document		=& JFactory::getDocument();
-			$keywords		=  $document->getMetaData( 'keywords' );
+			$document		= &JFactory::getDocument();
+			$keywords		=  $document->getMetaData('keywords');
 
-			$vars['tag_search'] = BannerHelper::getKeywords( $keywords );
+			$vars['tag_search'] = BannerHelper::getKeywords($keywords);
 		}
 
-		$banners = $model->getList( $vars );
-		$model->impress( $banners );
+		$banners = $model->getList($vars);
+		$model->impress($banners);
 
 		return $banners;
 	}
 
 	public static function getModel()
 	{
-		if (!class_exists( 'BannersModelBanner' ))
+		if (!class_exists('BannersModelBanner'))
 		{
 			// Build the path to the model based upon a supplied base path
 			$path = JPATH_SITE.DS.'components'.DS.'com_banners'.DS.'models'.DS.'banner.php';
 			$false = false;
 
 			// If the model file exists include it and try to instantiate the object
-			if (file_exists( $path )) {
+			if (file_exists($path)) {
 				require_once $path;
-				if (!class_exists( 'BannersModelBanner' )) {
-					JError::raiseWarning( 0, 'Model class BannersModelBanner not found in file.' );
+				if (!class_exists('BannersModelBanner')) {
+					JError::raiseWarning(0, 'Model class BannersModelBanner not found in file.');
 					return $false;
 				}
 			} else {
-				JError::raiseWarning( 0, 'Model BannersModelBanner not supported. File not found.' );
+				JError::raiseWarning(0, 'Model BannersModelBanner not supported. File not found.');
 				return $false;
 			}
 		}
@@ -64,22 +64,22 @@ abstract class modBannersHelper
 
 	public static function renderBanner($params, &$item)
 	{
-		$link = JRoute::_( 'index.php?option=com_banners&task=click&bid='. $item->bid );
+		$link = JRoute::_('index.php?option=com_banners&task=click&bid='. $item->bid);
 		$baseurl = JURI::base();
 
 		$html = '';
 		if (trim($item->custombannercode))
 		{
 			// template replacements
-			$html = str_replace( '{CLICKURL}', $link, $item->custombannercode );
-			$html = str_replace( '{NAME}', $item->name, $html );
+			$html = str_replace('{CLICKURL}', $link, $item->custombannercode);
+			$html = str_replace('{NAME}', $item->name, $html);
 		}
-		else if (BannerHelper::isImage( $item->imageurl ))
+		else if (BannerHelper::isImage($item->imageurl))
 		{
 			$image 	= '<img src="'.$baseurl.'images/banners/'.$item->imageurl.'" alt="'.JText::_('Banner').'" />';
 			if ($item->clickurl)
 			{
-				switch ($params->get( 'target', 1 ))
+				switch ($params->get('target', 1))
 				{
 					// cases are slightly different
 					case 1:
@@ -105,7 +105,7 @@ abstract class modBannersHelper
 				$html = $image;
 			}
 		}
-		else if (BannerHelper::isFlash( $item->imageurl ))
+		else if (BannerHelper::isFlash($item->imageurl))
 		{
 			$imageurl = $baseurl."images/banners/".$item->imageurl;
 			$html =	"<object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0\" border=\"5\">

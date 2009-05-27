@@ -3,11 +3,11 @@
  * @version		$Id$
  * @package		Joomla
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
 
@@ -38,29 +38,29 @@ class plgSearchContent extends JPlugin
 	 * @param string ordering option, newest|oldest|popular|alpha|category
 	 * @param mixed An array if the search it to be restricted to areas, null if search all
 	 */
-	public function onSearch( $text, $phrase='', $ordering='', $areas=null )
+	public function onSearch($text, $phrase='', $ordering='', $areas=null)
 	{
-		$db		= JFactory::getDBO();
+		$db		= JFactory::getDbo();
 		$user	= JFactory::getUser();
 
 		require_once JPATH_SITE.DS.'components'.DS.'com_content'.DS.'helpers'.DS.'route.php';
 
-		if (is_array( $areas )) {
-			if (!array_intersect( $areas, array_keys( $this->areas ) )) {
+		if (is_array($areas)) {
+			if (!array_intersect($areas, array_keys($this->areas))) {
 				return array();
 			}
 		}
 
-		$sContent 		= $this->params->get( 'search_content', 		1 );
-		$sUncategorised = $this->params->get( 'search_uncategorised', 	1 );
-		$sArchived 		= $this->params->get( 'search_archived', 		1 );
-		$limit 			= $this->params->def( 'search_limit', 		50 );
+		$sContent 		= $this->params->get('search_content', 		1);
+		$sUncategorised = $this->params->get('search_uncategorised', 	1);
+		$sArchived 		= $this->params->get('search_archived', 		1);
+		$limit 			= $this->params->def('search_limit', 		50);
 
 		$nullDate = $db->getNullDate();
 		$date = JFactory::getDate();
 		$now = $date->toMySQL();
 
-		$text = trim( $text );
+		$text = trim($text);
 		if ($text == '') {
 			return array();
 		}
@@ -68,32 +68,32 @@ class plgSearchContent extends JPlugin
 		$wheres = array();
 		switch ($phrase) {
 			case 'exact':
-				$text		= $db->Quote( '%'.$db->getEscaped( $text, true ).'%', false );
+				$text		= $db->Quote('%'.$db->getEscaped($text, true).'%', false);
 				$wheres2 	= array();
 			$wheres2[] 	= 'LOWER(a.title) LIKE '.$text;
 			$wheres2[] 	= 'LOWER(a.introtext) LIKE '.$text;
 			$wheres2[] 	= 'LOWER(a.`fulltext`) LIKE '.$text;
 			$wheres2[] 	= 'LOWER(a.metakey) LIKE '.$text;
 			$wheres2[] 	= 'LOWER(a.metadesc) LIKE '.$text;
-			$where 		= '(' . implode( ') OR (', $wheres2 ) . ')';
+			$where 		= '(' . implode(') OR (', $wheres2) . ')';
 			break;
 
 			case 'all':
 			case 'any':
 			default:
-				$words = explode( ' ', $text );
+				$words = explode(' ', $text);
 				$wheres = array();
 				foreach ($words as $word) {
-					$word		= $db->Quote( '%'.$db->getEscaped( $word, true ).'%', false );
+					$word		= $db->Quote('%'.$db->getEscaped($word, true).'%', false);
 					$wheres2 	= array();
 					$wheres2[] 	= 'LOWER(a.title) LIKE '.$word;
 					$wheres2[] 	= 'LOWER(a.introtext) LIKE '.$word;
 					$wheres2[] 	= 'LOWER(a.`fulltext`) LIKE '.$word;
 					$wheres2[] 	= 'LOWER(a.metakey) LIKE '.$word;
 					$wheres2[] 	= 'LOWER(a.metadesc) LIKE '.$word;
-					$wheres[] 	= implode( ' OR ', $wheres2 );
+					$wheres[] 	= implode(' OR ', $wheres2);
 				}
-				$where = '(' . implode( ($phrase == 'all' ? ') AND (' : ') OR ('), $wheres ) . ')';
+				$where = '(' . implode(($phrase == 'all' ? ') AND (' : ') OR ('), $wheres) . ')';
 				break;
 		}
 
@@ -124,12 +124,12 @@ class plgSearchContent extends JPlugin
 		$rows = array();
 
 		// search articles
-		if ( $sContent && $limit > 0 )
+		if ($sContent && $limit > 0)
 		{
 			$query = 'SELECT a.title AS title,'
 			. ' a.created AS created,'
 			. ' CONCAT(a.introtext, a.`fulltext`) AS text,'
-			. ' CONCAT_WS( "/", u.title, b.title ) AS section,'
+			. ' CONCAT_WS("/", u.title, b.title) AS section,'
 			. ' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug,'
 			. ' CASE WHEN CHAR_LENGTH(b.alias) THEN CONCAT_WS(":", b.id, b.alias) ELSE b.id END as catslug,'
 			. ' u.id AS sectionid,'
@@ -137,23 +137,23 @@ class plgSearchContent extends JPlugin
 			. ' FROM #__content AS a'
 			. ' INNER JOIN #__categories AS b ON b.id=a.catid'
 			. ' INNER JOIN #__sections AS u ON u.id = a.sectionid'
-			. ' WHERE ( '.$where.' )'
+			. ' WHERE ('.$where.')'
 			. ' AND a.state = 1'
 			. ' AND u.published = 1'
 			. ' AND b.published = 1'
-			. ' AND a.access <= '.(int) $user->get( 'aid' )
-			. ' AND b.access <= '.(int) $user->get( 'aid' )
-			. ' AND u.access <= '.(int) $user->get( 'aid' )
-			. ' AND ( a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).' )'
-			. ' AND ( a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).' )'
+			. ' AND a.access <= '.(int) $user->get('aid')
+			. ' AND b.access <= '.(int) $user->get('aid')
+			. ' AND u.access <= '.(int) $user->get('aid')
+			. ' AND (a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).')'
+			. ' AND (a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).')'
 			. ' GROUP BY a.id'
 			. ' ORDER BY '. $order
 			;
-			$db->setQuery( $query, 0, $limit );
+			$db->setQuery($query, 0, $limit);
 			$list = $db->loadObjectList();
 			$limit -= count($list);
 
-			if(isset($list))
+			if (isset($list))
 			{
 				foreach($list as $key => $item)
 				{
@@ -164,7 +164,7 @@ class plgSearchContent extends JPlugin
 		}
 
 		// search uncategorised content
-		if ( $sUncategorised && $limit > 0 )
+		if ($sUncategorised && $limit > 0)
 		{
 			$query = 'SELECT id, a.title AS title, a.created AS created,'
 			. ' a.introtext AS text,'
@@ -172,18 +172,18 @@ class plgSearchContent extends JPlugin
 			. ' FROM #__content AS a'
 			. ' WHERE ('.$where.')'
 			. ' AND a.state = 1'
-			. ' AND a.access <= '.(int) $user->get( 'aid' )
+			. ' AND a.access <= '.(int) $user->get('aid')
 			. ' AND a.sectionid = 0'
 			. ' AND a.catid = 0'
-			. ' AND ( a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).' )'
-			. ' AND ( a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).' )'
+			. ' AND (a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).')'
+			. ' AND (a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).')'
 			. ' ORDER BY '. ($morder ? $morder : $order)
 			;
-			$db->setQuery( $query, 0, $limit );
+			$db->setQuery($query, 0, $limit);
 			$list2 = $db->loadObjectList();
 			$limit -= count($list2);
 
-			if(isset($list2))
+			if (isset($list2))
 			{
 				foreach($list2 as $key => $item)
 				{
@@ -195,9 +195,9 @@ class plgSearchContent extends JPlugin
 		}
 
 		// search archived content
-		if ( $sArchived && $limit > 0 )
+		if ($sArchived && $limit > 0)
 		{
-			$searchArchived = JText::_( 'Archived' );
+			$searchArchived = JText::_('Archived');
 
 			$query = 'SELECT a.title AS title,'
 			. ' a.created AS created,'
@@ -207,23 +207,23 @@ class plgSearchContent extends JPlugin
 			. ' u.id AS sectionid,'
 			. ' "2" AS browsernav'
 			. ' FROM #__content AS a'
-			. ' INNER JOIN #__categories AS b ON b.id=a.catid AND b.access <= ' .$user->get( 'gid' )
+			. ' INNER JOIN #__categories AS b ON b.id=a.catid AND b.access <= ' .$user->get('gid')
 			. ' INNER JOIN #__sections AS u ON u.id = a.sectionid'
-			. ' WHERE ( '.$where.' )'
+			. ' WHERE ('.$where.')'
 			. ' AND a.state = -1'
 			. ' AND u.published = 1'
 			. ' AND b.published = 1'
-			. ' AND a.access <= '.(int) $user->get( 'aid' )
-			. ' AND b.access <= '.(int) $user->get( 'aid' )
-			. ' AND u.access <= '.(int) $user->get( 'aid' )
-			. ' AND ( a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).' )'
-			. ' AND ( a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).' )'
+			. ' AND a.access <= '.(int) $user->get('aid')
+			. ' AND b.access <= '.(int) $user->get('aid')
+			. ' AND u.access <= '.(int) $user->get('aid')
+			. ' AND (a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).')'
+			. ' AND (a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).')'
 			. ' ORDER BY '. $order
 			;
-			$db->setQuery( $query, 0, $limit );
+			$db->setQuery($query, 0, $limit);
 			$list3 = $db->loadObjectList();
 
-			if(isset($list3))
+			if (isset($list3))
 			{
 				foreach($list3 as $key => $item)
 				{
@@ -235,7 +235,7 @@ class plgSearchContent extends JPlugin
 		}
 
 		$results = array();
-		if(count($rows))
+		if (count($rows))
 		{
 			foreach($rows as $row)
 			{

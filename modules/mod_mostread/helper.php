@@ -1,13 +1,13 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 require_once JPATH_SITE.DS.'components'.DS.'com_content'.DS.'helpers'.DS.'route.php';
 
@@ -17,24 +17,24 @@ class modMostReadHelper
 	{
 		$mainframe = JFactory::getApplication();
 
-		$db			=& JFactory::getDBO();
-		$user		=& JFactory::getUser();
+		$db			= &JFactory::getDbo();
+		$user		= &JFactory::getUser();
 
 		$count		= intval($params->get('count', 5));
 		$catid		= trim($params->get('catid'));
 		$show_front	= $params->get('show_front', 1);
 
-		$contentConfig = &JComponentHelper::getParams( 'com_content' );
+		$contentConfig = &JComponentHelper::getParams('com_content');
 		$access		= !$contentConfig->get('shownoauth');
 
 		$nullDate	= $db->getNullDate();
-		$date =& JFactory::getDate();
+		$date = &JFactory::getDate();
 		$now  = $date->toMySQL();
 
 		if ($catid) {
-			$ids = explode( ',', $catid );
-			JArrayHelper::toInteger( $ids );
-			$catCondition = ' AND (cc.id=' . implode( ' OR cc.id=', $ids ) . ')';
+			$ids = explode(',', $catid);
+			JArrayHelper::toInteger($ids);
+			$catCondition = ' AND (cc.id=' . implode(' OR cc.id=', $ids) . ')';
 		}
 
 		//Content Items only
@@ -45,8 +45,8 @@ class modMostReadHelper
 			' LEFT JOIN #__content_frontpage AS f ON f.content_id = a.id' .
 			' INNER JOIN #__categories AS cc ON cc.id = a.catid' .
 			' WHERE a.state = 1' .
-			' AND ( a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).' )' .
-			' AND ( a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).' )'.
+			' AND (a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).')' .
+			' AND (a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).')'.
 			($access ? ' AND a.access IN (' .implode(',', $user->authorisedLevels('com_content.article.view')). ') AND cc.access IN (' .implode(',', $user->authorisedLevels('com_content.category.view')).')' : '').
 			($catid ? $catCondition : '').
 			($show_front == '0' ? ' AND f.content_id IS NULL' : '').
@@ -57,10 +57,10 @@ class modMostReadHelper
 
 		$i		= 0;
 		$lists	= array();
-		foreach ( $rows as $row )
+		foreach ($rows as $row)
 		{
 			$lists[$i]->link = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catslug));
-			$lists[$i]->text = htmlspecialchars( $row->title );
+			$lists[$i]->text = htmlspecialchars($row->title);
 			$i++;
 		}
 

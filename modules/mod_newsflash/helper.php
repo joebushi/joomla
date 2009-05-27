@@ -1,13 +1,13 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 require_once JPATH_SITE.DS.'components'.DS.'com_content'.DS.'helpers'.DS.'route.php';
 
@@ -17,7 +17,7 @@ class modNewsFlashHelper
 	{
 		$mainframe = JFactory::getApplication();
 
-		$user 	=& JFactory::getUser();
+		$user 	= &JFactory::getUser();
 
 		$item->text 	= $item->introtext;
 		$item->groups 	= '';
@@ -44,7 +44,7 @@ class modNewsFlashHelper
 		}
 
 		if (!$params->get('image')) {
-			$item->text = preg_replace( '/<img[^>]*>/', '', $item->text );
+			$item->text = preg_replace('/<img[^>]*>/', '', $item->text);
 		}
 
 		$results = $mainframe->triggerEvent('onAfterDisplayTitle', array (&$item, &$params, 1));
@@ -60,16 +60,16 @@ class modNewsFlashHelper
 	{
 		$mainframe = JFactory::getApplication();
 
-		$db 	=& JFactory::getDBO();
-		$user 	=& JFactory::getUser();
+		$db 	= &JFactory::getDbo();
+		$user 	= &JFactory::getUser();
 
 		$catid 	= (int) $params->get('catid', 0);
 		$items 	= (int) $params->get('items', 0);
 
-		$contentConfig	= &JComponentHelper::getParams( 'com_content' );
+		$contentConfig	= &JComponentHelper::getParams('com_content');
 		$noauth			= !$contentConfig->get('shownoauth');
 
-		$date =& JFactory::getDate();
+		$date = &JFactory::getDate();
 		$now = $date->toMySQL();
 
 		$nullDate = $db->getNullDate();
@@ -82,8 +82,8 @@ class modNewsFlashHelper
 			' INNER JOIN #__categories AS cc ON cc.id = a.catid' .
 			' WHERE a.state = 1 ' .
 			($noauth ? ' AND a.access IN (' .implode(',', $user->authorisedLevels('com_content.article.view')). ') AND cc.access IN (' .implode(',', $user->authorisedLevels('com_content.category.view')).')' : '').
-			' AND (a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).' ) ' .
-			' AND (a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).' )' .
+			' AND (a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).') ' .
+			' AND (a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).')' .
 			' AND cc.id = '. (int) $catid .
 			' AND cc.published = 1' .
 			' ORDER BY a.ordering';

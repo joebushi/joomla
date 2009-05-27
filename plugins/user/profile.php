@@ -1,11 +1,11 @@
 <?php
 /**
-* @version		$Id$
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
-defined('JPATH_BASE') or die('Restricted Access');
+defined('JPATH_BASE') or die;
 
 $lang = &JFactory::getLanguage();
 $lang->load('plg_user_profile');
@@ -99,7 +99,7 @@ class plgUserProfile extends JPlugin
 	function onPrepareUserProfileData($userId, &$data)
 	{
 		// Load the profile data from the database.
-		$db = &JFactory::getDBO();
+		$db = &JFactory::getDbo();
 		$db->setQuery(
 			'SELECT profile_key, profile_value FROM #__user_profiles' .
 			' WHERE user_id = '.(int)$userId .
@@ -131,7 +131,7 @@ class plgUserProfile extends JPlugin
 	function onPrepareUserProfile($userId, &$data)
 	{
 		// Load the profile data from the database.
-		$db = &JFactory::getDBO();
+		$db = &JFactory::getDbo();
 		$db->setQuery(
 			'SELECT profile_key, profile_value FROM #__user_profiles' .
 			' WHERE user_id = '.(int)$userId .
@@ -161,7 +161,7 @@ class plgUserProfile extends JPlugin
 		{
 			try
 			{
-				$db = &JFactory::getDBO();
+				$db = &JFactory::getDbo();
 				$db->setQuery('DELETE FROM #__user_profiles WHERE user_id = '.$userId);
 				$db->query();
 

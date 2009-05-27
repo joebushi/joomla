@@ -58,7 +58,7 @@ class Auth_Yadis_ParseHTML {
                                             'lt' => '<',
                                             'gt' => '>',
                                             'quot' => '"'
-                                            );
+                                           );
 
         $this->_ent_replace =
             sprintf("&(%s);", implode("|",
@@ -171,7 +171,7 @@ class Auth_Yadis_ParseHTML {
         foreach ($key_tags as $pat) {
             $matches = array();
             preg_match($pat, $html_string, $matches, PREG_OFFSET_CAPTURE);
-            if($matches) {
+            if ($matches) {
                 $key_tags_pos[] = $matches[0][1];
             } else {
                 $key_tags_pos[] = null;

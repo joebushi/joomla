@@ -45,7 +45,7 @@
 	if (!$isJS) {
 		echo getFileContents("tiny_mce_gzip.js");
 		echo "tinyMCE_GZ.init({});";
-		die();
+		die;
 	}
 
 	// Setup cache info
@@ -81,7 +81,7 @@
 			header("Content-Encoding: " . $enc);
 
 		echo getFileContents($cacheFile);
-		die();
+		die;
 	}
 
 	// Add core
@@ -98,7 +98,7 @@
 
 	// Add themes
 	foreach ($themes as $theme) {
-		$content .= getFileContents( "themes/" . $theme . "/editor_template" . $suffix . ".js");
+		$content .= getFileContents("themes/" . $theme . "/editor_template" . $suffix . ".js");
 
 		foreach ($languages as $lang)
 			$content .= getFileContents("themes/" . $theme . "/langs/" . $lang . ".js");

@@ -66,7 +66,7 @@ class Auth_Yadis_ParanoidHTTPFetcher extends Auth_Yadis_HTTPFetcher {
     function supportsSSL()
     {
         $v = curl_version();
-        if(is_array($v)) {
+        if (is_array($v)) {
             return in_array('https', $v['protocols']);
         } elseif (is_string($v)) {
             return preg_match('/OpenSSL/i', $v);
@@ -118,7 +118,7 @@ class Auth_Yadis_ParanoidHTTPFetcher extends Auth_Yadis_HTTPFetcher {
             }
 
             $cv = curl_version();
-            if(is_array($cv)) {
+            if (is_array($cv)) {
               $curl_user_agent = 'curl/'.$cv['version'];
             } else {
               $curl_user_agent = $cv;
