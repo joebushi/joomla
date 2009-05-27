@@ -1,14 +1,14 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @subpackage	Application
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Application
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 /**
  * Base class for a Joomla Model
@@ -78,7 +78,7 @@ abstract class JModel extends JClass
 		if (array_key_exists('dbo', $config))  {
 			$this->_db = $config['dbo'];
 		} else {
-			$this->_db = &JFactory::getDBO();
+			$this->_db = &JFactory::getDbo();
 		}
 
 		// set the default view search path
@@ -182,7 +182,7 @@ abstract class JModel extends JClass
 	 *
 	 * @return	object JDatabase connector object
 	 */
-	public function &getDBO()
+	public function &getDbo()
 	{
 		return $this->_db;
 	}
@@ -195,7 +195,7 @@ abstract class JModel extends JClass
 	 */
 	public function setDBO(&$db)
 	{
-		$this->_db =& $db;
+		$this->_db = &$db;
 	}
 
 	/**
@@ -323,10 +323,10 @@ abstract class JModel extends JClass
 
 		//Make sure we are returning a DBO object
 		if (!array_key_exists('dbo', $config))  {
-			$config['dbo'] =& $this->getDBO();;
+			$config['dbo'] = &$this->getDbo();;
 		}
 
-		$instance =& JTable::getInstance($name, $prefix, $config);
+		$instance = &JTable::getInstance($name, $prefix, $config);
 		return $instance;
 	}
 

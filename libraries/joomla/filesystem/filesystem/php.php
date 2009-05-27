@@ -4,8 +4,8 @@
  * @package		Joomla.Framework
  * @subpackage	FileSystem
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 /**
  * PHP Filesystem backend class
@@ -43,7 +43,7 @@ class JFilesystemPHP extends JFilesystem
 	}
 
 	public function read($src, $include_path=true, $length=-1, $offset=0) {
-		if($length > 0) {
+		if ($length > 0) {
 			return @file_get_contents($src, $include_path, null, $offset, $length);	
 		} else {
 			return @file_get_contents($src, $include_path, null, $offset);

@@ -4,11 +4,11 @@
  * @package		Joomla.Framework
  * @subpackage	Mail
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 /**
  * E-Mail helper class, provides static methods to perform various tasks relevant
@@ -129,7 +129,7 @@ abstract class JMailHelper
 		}
 
 		// Check the domain
-		$domain_array	= explode(".", rtrim( $domain, '.' ));
+		$domain_array	= explode(".", rtrim($domain, '.'));
 		$regex		= '/^[A-Za-z0-9-]{0,63}$/';
 		foreach ($domain_array as $domain) {
 

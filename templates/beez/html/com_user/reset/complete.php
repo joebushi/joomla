@@ -1,5 +1,5 @@
 <?php // @version $Id: complete.php  $
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 ?>
 
 <div class="componentheading">
@@ -32,5 +32,5 @@ defined('_JEXEC') or die('Restricted access');
 	</table>
 
 	<button type="submit" class="validate"><?php echo JText::_('Submit'); ?></button>
-	<?php echo JHtml::_( 'form.token' ); ?>
+	<?php echo JHtml::_('form.token'); ?>
 </form>

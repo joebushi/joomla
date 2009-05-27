@@ -4,11 +4,11 @@
  * @package		JLibMan
  * @subpackage	Installer
  * @copyright 	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 jimport('joomla.installer.librarymanifest');
 jimport('joomla.base.adapterinstance');
@@ -33,8 +33,8 @@ class JInstallerLibrary extends JAdapterInstance
 	function install()
 	{
 		// Get the extension manifest object
-		$manifest =& $this->parent->getManifest();
-		$this->manifest =& $manifest->document;
+		$manifest = &$this->parent->getManifest();
+		$this->manifest = &$manifest->document;
 
 		/**
 		 * ---------------------------------------------------------------------------------------------
@@ -43,13 +43,13 @@ class JInstallerLibrary extends JAdapterInstance
 		 */
 
 		// Set the extensions name
-		$name =& $this->manifest->getElementByPath('name');
+		$name = &$this->manifest->getElementByPath('name');
 		$name = JFilterInput::clean($name->data(), 'string');
 		$element = str_replace('.xml','',basename($this->parent->getPath('manifest')));
 		$this->set('name', $name);
 		$this->set('element', $element);
 
-		$db =& $this->parent->getDBO();
+		$db = &$this->parent->getDbo();
 		$db->setQuery('SELECT extension_id FROM #__extensions WHERE type="library" AND element = "'. $element .'"');
 		$result = $db->loadResult();
 		if ($result) { // already installed, can we upgrade?
@@ -74,7 +74,7 @@ class JInstallerLibrary extends JAdapterInstance
 		}
 
 		// Set the installation path
-		$element =& $this->manifest->getElementByPath('files');
+		$element = &$this->manifest->getElementByPath('files');
 		$group = $this->manifest->getElementByPath('libraryname');
 		$group = $group->data();
 		if (!empty($group)) {
@@ -165,8 +165,8 @@ class JInstallerLibrary extends JAdapterInstance
 	function update() {
 		// since this is just files, an update removes old files
 		// Get the extension manifest object
-		$manifest =& $this->parent->getManifest();
-		$this->manifest =& $manifest->document;
+		$manifest = &$this->parent->getManifest();
+		$this->manifest = &$manifest->document;
 
 		/**
 		 * ---------------------------------------------------------------------------------------------
@@ -175,13 +175,13 @@ class JInstallerLibrary extends JAdapterInstance
 		 */
 
 		// Set the extensions name
-		$name =& $this->manifest->getElementByPath('name');
+		$name = &$this->manifest->getElementByPath('name');
 		$name = JFilterInput::clean($name->data(), 'string');
 		$element = str_replace('.xml','',basename($this->parent->getPath('manifest')));
 		$this->set('name', $name);
 		$this->set('element', $element);
 		$installer = new JInstaller(); // we don't want to compromise this instance!
-		$db =& $this->parent->getDBO();
+		$db = &$this->parent->getDbo();
 		$db->setQuery('SELECT extension_id FROM #__extensions WHERE type="library" AND element = "'. $element .'"');
 		$result = $db->loadResult();
 		if ($result) { // already installed, which would make sense
@@ -228,7 +228,7 @@ class JInstallerLibrary extends JAdapterInstance
 			// Set the plugin root path
 			$this->parent->setPath('extension_root', JPATH_ROOT.DS.'libraries'.DS.$manifest->libraryname);
 
-			$xml =& JFactory::getXMLParser('Simple');
+			$xml = &JFactory::getXMLParser('Simple');
 
 			// If we cannot load the xml file return null
 			if (!$xml->loadFile($manifestFile)) {
@@ -241,7 +241,7 @@ class JInstallerLibrary extends JAdapterInstance
 			 * @todo: Remove backwards compatability in a future version
 			 * Should be 'extension', but for backward compatability we will accept 'install'.
 			 */
-			$root =& $xml->document;
+			$root = &$xml->document;
 			if ($root->name() != 'install' && $root->name() != 'extension') {
 				JError::raiseWarning(100, JText::_('Library').' '.JText::_('Uninstall').': '.JText::_('Invalid manifest file'));
 				return false;
@@ -287,7 +287,7 @@ class JInstallerLibrary extends JAdapterInstance
 		$file_list = JFolder::files(JPATH_MANIFESTS.DS.'libraries','\.xml$');
 		foreach($file_list as $file) {
 			$file = JFile::stripExt($file);
-			$extension =& JTable::getInstance('extension');
+			$extension = &JTable::getInstance('extension');
 			$extension->type = 'library';
 			$extension->client_id = 0;
 			$extension->element = $file;

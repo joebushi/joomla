@@ -1,13 +1,13 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 /*
  * Joomla! system checks
@@ -20,7 +20,7 @@ defined('_JEXEC') or die('Restricted access');
  * Installation check, and check on removal of the install directory.
  */
 if (!file_exists(JPATH_CONFIGURATION . DS . 'configuration.php') || (filesize(JPATH_CONFIGURATION . DS . 'configuration.php') < 10) /* || file_exists(JPATH_INSTALLATION . DS . 'index.php')*/) {
-	if(file_exists(JPATH_INSTALLATION . DS . 'index.php')) {
+	if (file_exists(JPATH_INSTALLATION . DS . 'index.php')) {
 		header('Location: installation/index.php');
 		exit();
 	} else {
@@ -63,7 +63,7 @@ jimport('joomla.utilities.compat.compat');
 // System profiler
 if (JDEBUG) {
 	jimport('joomla.error.profiler');
-	$_PROFILER =& JProfiler::getInstance('Application');
+	$_PROFILER = &JProfiler::getInstance('Application');
 }
 
 // Joomla! library imports;

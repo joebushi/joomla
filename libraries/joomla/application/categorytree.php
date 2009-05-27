@@ -4,11 +4,11 @@
  * @package		Joomla.Framework
  * @subpackage	Application
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 jimport('joomla.base.tree');
 /**
@@ -38,15 +38,15 @@ class JCategoryTree
 	
 	public static function &getInstance($extension, $options = array())
 	{
-		if(isset(self::$instances[$extension]))
+		if (isset(self::$instances[$extension]))
 		{
 			return self::$instances[$extension];
 		}
 		$classname = ucfirst(substr($extension,4)).'Categories';
-		if(!class_exists($classname))
+		if (!class_exists($classname))
 		{
 			$path = JPATH_SITE.DS.'components'.DS.$extension.DS.'helpers'.DS.'category.php';
-			if(is_file($path))
+			if (is_file($path))
 			{
 				require_once($path);
 			} else {
@@ -60,15 +60,15 @@ class JCategoryTree
 	public function get($id)
 	{
 		$id = (int) $id;
-		if($id == 0)
+		if ($id == 0)
 		{
 			return false;
 		}
-		if(!isset($this->_nodes[$id]))
+		if (!isset($this->_nodes[$id]))
 		{
 			$this->_load($id);
 		}
-		if($this->_nodes[$id] instanceof JCategoryNode)
+		if ($this->_nodes[$id] instanceof JCategoryNode)
 		{
 			return $this->_nodes[$id];
 		} else {
@@ -78,19 +78,19 @@ class JCategoryTree
 	
 	protected function _load($id)
 	{
-		$db	=& JFactory::getDBO();
-		$user =& JFactory::getUser();
+		$db	= &JFactory::getDbo();
+		$user = &JFactory::getUser();
 		$subquery = 'SELECT c.id, c.lft, c.rgt'.
 			' FROM #__categories AS c'.
 			' JOIN #__categories AS cp ON cp.lft >= c.lft AND c.rgt >= cp.rgt'.
 			' WHERE c.extension = '.$db->Quote($this->_extension).
 			' AND cp.id = '.$id.' AND c.parent_id = 0';
 
-		$query = 'SELECT c.*, COUNT( b.id ) AS numitems, ' .
+		$query = 'SELECT c.*, COUNT(b.id) AS numitems, ' .
 			' CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(":", c.id, c.alias) ELSE c.id END as slug'.
 			' FROM #__categories AS c' .
 			' LEFT JOIN '.$this->_table.' AS b ON b.catid = c.id ';
-		if($id != 0)
+		if ($id != 0)
 		{
 			$query .= ' JOIN ('.$subquery.') AS cp ON c.lft >= cp.lft AND c.rgt <= cp.rgt';
 		}
@@ -101,7 +101,7 @@ class JCategoryTree
 		$db->setQuery($query);
 		$results = $db->loadObjectList();
 
-		if(count($results))
+		if (count($results))
 		{
 			foreach($results as $result)
 			{
@@ -151,10 +151,10 @@ class JCategoryNode extends JObject
 	
 	public function __construct($category = null)
 	{
-		if($category)
+		if ($category)
 		{
 			$this->setProperties($category);
-			if($this->parent_id > 0)
+			if ($this->parent_id > 0)
 			{
 				$categoryTree = JCategoryTree::getInstance($this->extension);
 				$parentNode = &$categoryTree->get($this->parent_id);

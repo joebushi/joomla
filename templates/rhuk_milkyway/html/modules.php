@@ -3,11 +3,11 @@
  * @version		$Id$
  * @package		Joomla
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 /**
  * This is a file to add template specific chrome to module rendering.  To use it you would
@@ -31,7 +31,7 @@ function modChrome_slider($module, &$params, &$attribs)
 	jimport('joomla.html.pane');
 	// Initialize variables
 	$sliders = & JPane::getInstance('sliders');
-	$sliders->startPanel( JText::_( $module->title ), 'module' . $module->id );
+	$sliders->startPanel(JText::_($module->title), 'module' . $module->id);
 	echo $module->content;
 	$sliders->endPanel();
 }

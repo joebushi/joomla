@@ -4,11 +4,11 @@
  * @package		Joomla.Installation
  * @subpackage	Installation
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 /**
  * @package		Joomla.Installation
@@ -55,8 +55,8 @@ class JInstallationView extends JView
 	{
 		$this->_setCurrentStep('lang');
 
-		$model	=& $this->getModel();
-		$lists	=& $model->getData('lists');
+		$model	= &$this->getModel();
+		$lists	= &$model->getData('lists');
 
 		$this->assignRef('languages', $lists['langs']);
 
@@ -89,8 +89,8 @@ class JInstallationView extends JView
 	{
 		$this->_setCurrentStep('dbconfig');
 
-		$model	=& $this->getModel();
-		$lists	=& $model->getData('lists');
+		$model	= &$this->getModel();
+		$lists	= &$model->getData('lists');
 
 		$this->assignRef('options', $lists['dbTypes']);
 
@@ -145,7 +145,7 @@ class JInstallationView extends JView
 	{
 		$this->_setCurrentStep('finish');
 
-		$model	=& $this->getModel();
+		$model	= &$this->getModel();
 		$this->assign('buffer', $model->getData('buffer'));
 
 		return $this->display();
@@ -204,7 +204,7 @@ class JInstallationView extends JView
 
 		if (!$vars) {
 			$model	= $this->getModel();
-			$vars	=& $model->getVars();
+			$vars	= &$model->getVars();
 		}
 
 		if (isset($vars[$name])) {
@@ -263,7 +263,7 @@ class JInstallationView extends JView
 		$this->_setCurrentStep('preinstall');
 
 		$model	= $this->getModel();
-		$lists	=& $model->getData('lists');
+		$lists	= &$model->getData('lists');
 
 		$version	= new JVersion();
 

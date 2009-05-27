@@ -1,14 +1,14 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @subpackage	Parameter
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Parameter
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 /**
  * Renders a spacer element
@@ -28,7 +28,8 @@ class JElementSpacer extends JElement
 	*/
 	protected $_name = 'Spacer';
 
-	public function fetchTooltip($label, $description, &$node, $control_name, $name) {
+	public function fetchTooltip($label, $description, &$node, $control_name, $name)
+	{
 		return '&nbsp;';
 	}
 

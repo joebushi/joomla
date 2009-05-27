@@ -1,14 +1,14 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @subpackage		HTML
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage		HTML
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 /**
  * Utility class working with menu select lists
@@ -25,7 +25,7 @@ abstract class JHtmlMenu
 	*/
 	public static function ordering(&$row, $id)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		if ($id)
 		{
 			$query = 'SELECT ordering AS value, name AS text'
@@ -54,7 +54,7 @@ abstract class JHtmlMenu
 	*/
 	public static function linkoptions($all=false, $unassigned=false)
 	{
-		$db =& JFactory::getDBO();
+		$db = &JFactory::getDbo();
 
 		// get a list of the menu items
 		$query = 'SELECT m.id, m.parent, m.name, m.menutype'

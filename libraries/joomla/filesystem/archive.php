@@ -4,8 +4,8 @@
  * @package		Joomla.Framework
  * @subpackage	FileSystem
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 /**
  * An Archive handling class
@@ -37,13 +37,13 @@ abstract class JArchive
 		switch ($ext)
 		{
 			case 'zip':
-				$adapter =& JArchive::getAdapter('zip');
+				$adapter = &JArchive::getAdapter('zip');
 				if ($adapter) {
 					$result = $adapter->extract($archivename, $extractdir);
 				}
 				break;
 			case 'tar':
-				$adapter =& JArchive::getAdapter('tar');
+				$adapter = &JArchive::getAdapter('tar');
 				if ($adapter) {
 					$result = $adapter->extract($archivename, $extractdir);
 				}
@@ -52,10 +52,10 @@ abstract class JArchive
 				$untar = true;	// This format is a tarball gzip'd
 			case 'gz'   :	// This may just be an individual file (e.g. sql script)
 			case 'gzip' :
-				$adapter =& JArchive::getAdapter('gzip');
+				$adapter = &JArchive::getAdapter('gzip');
 				if ($adapter)
 				{
-					$config =& JFactory::getConfig();
+					$config = &JFactory::getConfig();
 					$tmpfname = $config->getValue('config.tmp_path').DS.uniqid('gzip');
 					$gzresult = $adapter->extract($archivename, $tmpfname);
 					if (JError::isError($gzresult))
@@ -66,7 +66,7 @@ abstract class JArchive
 					if ($untar)
 					{
 						// Try to untar the file
-						$tadapter =& JArchive::getAdapter('tar');
+						$tadapter = &JArchive::getAdapter('tar');
 						if ($tadapter) {
 							$result = $tadapter->extract($tmpfname, $extractdir);
 						}
@@ -84,10 +84,10 @@ abstract class JArchive
 				$untar = true; // This format is a tarball bzip2'd
 			case 'bz2'  :	// This may just be an individual file (e.g. sql script)
 			case 'bzip2':
-				$adapter =& JArchive::getAdapter('bzip2');
+				$adapter = &JArchive::getAdapter('bzip2');
 				if ($adapter)
 				{
-					$config =& JFactory::getConfig();
+					$config = &JFactory::getConfig();
 					$tmpfname = $config->getValue('config.tmp_path').DS.uniqid('bzip2');
 					$bzresult = $adapter->extract($archivename, $tmpfname);
 					if (JError::isError($bzresult))
@@ -98,7 +98,7 @@ abstract class JArchive
 					if ($untar)
 					{
 						// Try to untar the file
-						$tadapter =& JArchive::getAdapter('tar');
+						$tadapter = &JArchive::getAdapter('tar');
 						if ($tadapter) {
 							$result = $tadapter->extract($tmpfname, $extractdir);
 						}

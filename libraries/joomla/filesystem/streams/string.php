@@ -11,7 +11,7 @@
  *
  * @package stringstream
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  * @version SVN: $Id$
  */
 
@@ -31,7 +31,7 @@ class JStreamString {
 	private $_stat;
 
 	function stream_open($path, $mode, $options, &$opened_path) {
-		$this->_currentstring =& JStringController::getRef(str_replace('string://','',$path));
+		$this->_currentstring = &JStringController::getRef(str_replace('string://','',$path));
 		if ($this->_currentstring) {
 			$this->_len = strlen(&$this->_currentstring);
 			$this->_pos = 0;
@@ -48,7 +48,7 @@ class JStreamString {
 
 	function url_stat($path, $flags=0) {
 		$now = time();
-		$string =& JStringController::getRef(str_replace('string://','',$path));
+		$string = &JStringController::getRef(str_replace('string://','',$path));
 		$stat = Array(
 						'dev'=> 0,
 						'ino'=> 0,

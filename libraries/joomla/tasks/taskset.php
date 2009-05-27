@@ -4,11 +4,11 @@
  * @package		Joomla.Framework
  * @subpackage	Task
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 jimport('joomla.tasks.task');
 
 /**
@@ -31,7 +31,7 @@ class JTaskSet extends JTable {
 
 	function __construct(& $database) {
 		parent::__construct('#__tasksets', 'tasksetid', $database);
-		$app =& JFactory::getApplication();
+		$app = &JFactory::getApplication();
 		$this->_startTime = $app->get('startTime', JProfiler::getmicrotime());
 		$max_php_run = ini_get('max_execution_time');
 		if ($max_php_run > 0) {
@@ -75,7 +75,7 @@ class JTaskSet extends JTable {
 
 	function run($callback, &$context=null) {
 		while($task = $this->getNextTask()) $task->execute($callback, $context);
-		$app =& JFactory::getApplication();
+		$app = &JFactory::getApplication();
 		$this->delete();
 		if (!$this->landing_page) $this->landing_page = 'index.php';
 		$app->redirect($this->landing_page);
@@ -88,7 +88,7 @@ class JTaskSet extends JTable {
 	}
 
 	public function addTask($obj) {
-		$task =& $this->createTask();
+		$task = &$this->createTask();
 		$task->store();
 		$task->setInstance($obj);
 		$obj->setTask($task);
@@ -138,7 +138,7 @@ class JTaskSet extends JTable {
 	}
 
 	public function redirect() {
-		$app =& JFactory::getApplication();
+		$app = &JFactory::getApplication();
 		$app->redirect($this->landing_page);
 	}
 }

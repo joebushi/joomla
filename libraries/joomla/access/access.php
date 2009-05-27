@@ -5,7 +5,7 @@
  * @subpackage	Access
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @copyright	Copyright (C) 2008 - 2009 JXtended, LLC. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 defined('JPATH_BASE') or die;
@@ -212,7 +212,7 @@ class JAccess extends JObject
 	public function getUserGroupMap($userId, $recursive = false)
 	{
 		// Get a database object.
-		$db	= &JFactory::getDBO();
+		$db	= &JFactory::getDbo();
 
 		// First find the usergroups that this user is in
 		$query = new JQuery;
@@ -245,7 +245,7 @@ class JAccess extends JObject
 	public function getAssetGroupMap($assetId, $recursive = false)
 	{
 		// Get a database object.
-		$db	= &JFactory::getDBO();
+		$db	= &JFactory::getDbo();
 
 		// First find the usergroups that this user is in
 		$query = new JQuery;
@@ -277,7 +277,7 @@ class JAccess extends JObject
 		$inGroupIds = $this->getUserGroupMap($userId, true);
 
 		// Get a database object.
-		$db	= &JFactory::getDBO();
+		$db	= &JFactory::getDbo();
 
 		$query = 'SELECT a.name FROM #__access_actions AS a'
 				.' INNER JOIN #__access_action_rule_map AS arm ON arm.action_id = a.id'
@@ -343,7 +343,7 @@ class JAccess extends JObject
 		$inGroupIds = $this->getUserGroupMap($userId, true);
 
 		// Get a database object.
-		$db	= &JFactory::getDBO();
+		$db	= &JFactory::getDbo();
 
 		// Build the base query.
 		$query	= new JQuery;
@@ -399,7 +399,7 @@ class JAccess extends JObject
 	public function getAvailablePermissions($section, $type = JPERMISSION_ACTION)
 	{
 		// Get a database object.
-		$db = &JFactory::getDBO();
+		$db = &JFactory::getDbo();
 
 		// Check to see if the section exists.
 		$db->setQuery(

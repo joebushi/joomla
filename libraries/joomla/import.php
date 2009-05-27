@@ -1,13 +1,13 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 /**
  * Load the loader class
@@ -26,10 +26,10 @@ JLoader::import('joomla.base.object');
 
 
 //Environment classes
-JLoader::import('joomla.environment.request'  );
+JLoader::import('joomla.environment.request' );
 JRequest::clean();
 
-JLoader::import('joomla.environment.response' );
+JLoader::import('joomla.environment.response');
 
 //Factory class and methods
 JLoader::import('joomla.factory' 				);

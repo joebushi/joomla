@@ -48,35 +48,35 @@
  * @link http://www.tcpdf.org
  * @license http://www.gnu.org/copyleft/lesser.html LGPL
  * @since 2.1.000 (2008-01-08)
-*/
+ */
 
 /**
-* Left-to-Right Mark
-*/
+ * Left-to-Right Mark
+ */
 define('K_LRM', 8206);
 /**
-* Right-to-Left Mark
-*/
+ * Right-to-Left Mark
+ */
 define('K_RLM', 8207);
 /**
-* Left-to-Right Embedding
-*/
+ * Left-to-Right Embedding
+ */
 define('K_LRE', 8234);
 /**
-* Right-to-Left Embedding
-*/
+ * Right-to-Left Embedding
+ */
 define('K_RLE', 8235);
 /**
-* Pop Directional Format
-*/
+ * Pop Directional Format
+ */
 define('K_PDF', 8236);
 /**
-* Left-to-Right Override
-*/
+ * Left-to-Right Override
+ */
 define('K_LRO', 8237);
 /**
-* Right-to-Left Override
-*/
+ * Right-to-Left Override
+ */
 define('K_RLO', 8238);
 
 /*

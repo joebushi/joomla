@@ -1,5 +1,5 @@
 <?php // @version $Id$
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 ?>
 
 <script type="text/javascript">
@@ -7,32 +7,32 @@ function submitbutton(pressbutton)
 {
 	var form = document.adminForm;
 	if (pressbutton == 'cancel') {
-		submitform( pressbutton );
+		submitform(pressbutton);
 		return;
 	}
 
 	// do field validation
 	if (document.getElementById('jformtitle').value == ""){
-		alert( "<?php echo JText::_( 'Weblink item must have a title', true ); ?>" );
+		alert("<?php echo JText::_('Weblink item must have a title', true); ?>");
 	} else if (document.getElementById('jformcatid').value < 1) {
-		alert( "<?php echo JText::_( 'You must select a category.', true ); ?>" );
+		alert("<?php echo JText::_('You must select a category.', true); ?>");
 	} else if (document.getElementById('jformurl').value == ""){
-		alert( "<?php echo JText::_( 'You must have a url.', true ); ?>" );
+		alert("<?php echo JText::_('You must have a url.', true); ?>");
 	} else {
-		submitform( pressbutton );
+		submitform(pressbutton);
 	}
 }
 </script>
 
 <form action="<?php JRoute::_('index.php') ?>" method="post" name="adminForm" id="adminForm">
 <div class="componentheading">
-	<?php echo JText::_( 'Submit A Web Link' );?>
+	<?php echo JText::_('Submit A Web Link');?>
 </div>
 <table cellpadding="4" cellspacing="1" border="10" width="100%">
 <tr>
 	<td width="10%">
 		<label for="jformtitle">
-			<?php echo JText::_( 'Name' ); ?>:
+			<?php echo JText::_('Name'); ?>:
 		</label>
 	</td>
 	<td width="80%">
@@ -42,7 +42,7 @@ function submitbutton(pressbutton)
 <tr>
 	<td valign="top">
 		<label for="jformcatid">
-			<?php echo JText::_( 'Category' ); ?>:
+			<?php echo JText::_('Category'); ?>:
 		</label>
 	</td>
 	<td>
@@ -52,7 +52,7 @@ function submitbutton(pressbutton)
 <tr>
 	<td valign="top">
 		<label for="jformurl">
-			<?php echo JText::_( 'URL' ); ?>:
+			<?php echo JText::_('URL'); ?>:
 		</label>
 	</td>
 	<td>
@@ -62,11 +62,11 @@ function submitbutton(pressbutton)
 <tr>
 	<td valign="top">
 		<label for="jformdescription">
-			<?php echo JText::_( 'Description' ); ?>:
+			<?php echo JText::_('Description'); ?>:
 		</label>
 	</td>
 	<td>
-		<textarea class="inputbox" cols="30" rows="6" id="jformdescription" name="jform[description]" style="width:300px"><?php echo htmlspecialchars( $this->weblink->description, ENT_QUOTES );?></textarea>
+		<textarea class="inputbox" cols="30" rows="6" id="jformdescription" name="jform[description]" style="width:300px"><?php echo htmlspecialchars($this->weblink->description, ENT_QUOTES);?></textarea>
 	</td>
 </tr>
 </table>
@@ -87,5 +87,5 @@ function submitbutton(pressbutton)
 	<input type="hidden" name="controller" value="weblink" />
 	<input type="hidden" name="task" value="" />
 	<input type="hidden" name="Returnid" value="<?php echo $this->returnid; ?>" />
-	<?php echo JHtml::_( 'form.token' ); ?>
+	<?php echo JHtml::_('form.token'); ?>
 </form>

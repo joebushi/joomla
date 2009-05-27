@@ -20,7 +20,7 @@
  */
 
 // Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 jimport('joomla.filesystem.helper');
 jimport('joomla.utilities.utility');
@@ -647,7 +647,7 @@ class JStream extends JClass {
 
 			$res = @stream_filter_append($this->_fh, $filtername, $read_write, $params);
 			if (!$res && $php_errormsg) $this->setError($php_errormsg);
-			else $this->filters[] =& $res;
+			else $this->filters[] = &$res;
 
 			// restore error tracking to what it was before
 			ini_set('track_errors',$track_errors);

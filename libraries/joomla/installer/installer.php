@@ -4,11 +4,11 @@
  * @package		Joomla.Framework
  * @subpackage	Installer
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
@@ -263,7 +263,7 @@ class JInstaller extends JAdapter
 
 				case 'extension' :
 					// Get database connector object
-					$db =& $this->getDBO();
+					$db = &$this->getDbo();
 
 					// Remove the entry from the #__extensions table
 					$query = 'DELETE FROM `#__extensions` WHERE extension_id = '.(int)$step['id'];
@@ -323,7 +323,7 @@ class JInstaller extends JAdapter
 			return false;
 		}
 
-		$root		=& $this->manifest->document;
+		$root		= &$this->manifest->document;
 		$type = $root->attributes('type');
 
 
@@ -344,12 +344,12 @@ class JInstaller extends JAdapter
 
 		if (is_object($this->_adapters[$type])) {
 			// Add the languages from the package itself
-			$lang =& JFactory::getLanguage();
+			$lang = &JFactory::getLanguage();
 			$lang->load('joomla',$path);
 
 			// Fire the onBeforeExtensionInstall event.
 			JPluginHelper::importPlugin('installer');
-			$dispatcher =& JDispatcher::getInstance();
+			$dispatcher = &JDispatcher::getInstance();
 			$dispatcher->trigger('onBeforeExtensionInstall', array('method'=>'install', 'type'=>$type, 'manifest'=>$root, 'extension'=>0));
 
 			// Run the install
@@ -372,7 +372,7 @@ class JInstaller extends JAdapter
 	function discover_install($eid=null)
 	{
 		if ($eid) {
-			$this->extension =& JTable::getInstance('extension');
+			$this->extension = &JTable::getInstance('extension');
 			if (!$this->extension->load($eid)) {
 				$this->abort(JText::_('Failed to load extension details'));
 				return false;
@@ -393,7 +393,7 @@ class JInstaller extends JAdapter
 				if (method_exists($this->_adapters[$this->extension->type], 'discover_install')) {
 					// Fire the onBeforeExtensionInstall event.
 	                JPluginHelper::importPlugin('installer');
-	                $dispatcher =& JDispatcher::getInstance();
+	                $dispatcher = &JDispatcher::getInstance();
 	                $dispatcher->trigger('onBeforeExtensionInstall', array('method'=>'discover_install', 'type'=>$this->extension->get('type'), 'manifest'=>null, 'extension'=>$this->extension->get('extension_id')));
 	                
 					// Run the install
@@ -457,7 +457,7 @@ class JInstaller extends JAdapter
 			return $this->abort(JText::_('Unable to detect manifest file'));
 		}
 
-		$root		=& $this->manifest->document;
+		$root		= &$this->manifest->document;
 		$type = $root->attributes('type');
 
 		$version        = $root->attributes('version');
@@ -476,11 +476,11 @@ class JInstaller extends JAdapter
 
 		if (is_object($this->_adapters[$type])) {
 			// Add the languages from the package itself
-			$lang =& JFactory::getLanguage();
+			$lang = &JFactory::getLanguage();
 			$lang->load('joomla',$path);
 			// Fire the onBeforeExtensionUpdate event.
 			JPluginHelper::importPlugin('installer');
-			$dispatcher =& JDispatcher::getInstance();
+			$dispatcher = &JDispatcher::getInstance();
 			$dispatcher->trigger('onBeforeExtensionUpdate', array('type'=>$type, 'manifest'=>$root));
 			// Run the update
 			$result = $this->_adapters[$type]->update();
@@ -512,7 +512,7 @@ class JInstaller extends JAdapter
 			// We don't load languages here, we get the extension adapter to work it out
 			// Fire the onBeforeExtensionUninstall event.
             JPluginHelper::importPlugin('installer');
-            $dispatcher =& JDispatcher::getInstance();
+            $dispatcher = &JDispatcher::getInstance();
             $dispatcher->trigger('onBeforeExtensionUninstall', array('eid' => $identifier));
 			// Run the uninstall
 			$result = $this->_adapters[$type]->uninstall($identifier);
@@ -525,7 +525,7 @@ class JInstaller extends JAdapter
 
 	function refreshManifestCache($eid) {
 		if ($eid) {
-			$this->extension =& JTable::getInstance('extension');
+			$this->extension = &JTable::getInstance('extension');
 			if (!$this->extension->load($eid)) {
 				$this->abort(JText::_('Failed to load extension details'));
 				return false;
@@ -579,7 +579,7 @@ class JInstaller extends JAdapter
 		}
 
 		// Load the adapter(s) for the install manifest
-		$root =& $this->manifest->document;
+		$root = &$this->manifest->document;
 		$type = $root->attributes('type');
 
 		// Lazy load the adapter
@@ -737,7 +737,7 @@ class JInstaller extends JAdapter
 
 		// Get the client info
 		jimport('joomla.application.helper');
-		$client =& JApplicationHelper::getClientInfo($cid);
+		$client = &JApplicationHelper::getClientInfo($cid);
 
 		// Get the array of file nodes to process; we checked this had children above
 		if (!is_a($element, 'JSimpleXMLElement') || !count($files = $element->children())) {
@@ -841,7 +841,7 @@ class JInstaller extends JAdapter
 
 		// Get the client info
 		jimport('joomla.application.helper');
-		$client =& JApplicationHelper::getClientInfo($cid);
+		$client = &JApplicationHelper::getClientInfo($cid);
 
 		if (!($element INSTANCEOF JSimpleXMLElement) || !count($element->children())) {
 			// Either the tag does not exist or has no children therefore we return zero files processed.
@@ -895,7 +895,7 @@ class JInstaller extends JAdapter
 				$path['src']	= $source.DS.$file->data();
 				if ($file->attributes('client') != '') {
 					// override the client
-					$langclient =& JApplicationHelper::getClientInfo($file->attributes('client'), true);
+					$langclient = &JApplicationHelper::getClientInfo($file->attributes('client'), true);
 					$path['dest'] = $langclient->path.DS.'language'.DS.$file->attributes('tag').DS.basename($file->data());
 				} else {
 					// use the default client
@@ -949,7 +949,7 @@ class JInstaller extends JAdapter
 
 		// Get the client info
 		jimport('joomla.application.helper');
-		$client =& JApplicationHelper::getClientInfo($cid);
+		$client = &JApplicationHelper::getClientInfo($cid);
 
 		if (!($element INSTANCEOF JSimpleXMLElement) || !count($element->children())) {
 			// Either the tag does not exist or has no children therefore we return zero files processed.
@@ -1027,7 +1027,7 @@ class JInstaller extends JAdapter
 		$root = & $this->manifest->document;
 
 		// Get the element of the tag names
-		$element =& $root->getElementByPath('params');
+		$element = &$root->getElementByPath('params');
 		if (!($element INSTANCEOF JSimpleXMLElement) || !count($element->children())) {
 			// Either the tag does not exist or has no children therefore we return zero files processed.
 			return null;
@@ -1127,7 +1127,7 @@ class JInstaller extends JAdapter
 							JError::raiseWarning(1, 'JInstaller::install: '.JText::sprintf('Failed to copy file to', $filesource, $filedest));
 // TODO: REMOVE ME!
 /*							echo '<p>Copy failed for: '. $filesource .' to '. $filedest.'</p>';
-							$tmpApp =& JFactory::getApplication();
+							$tmpApp = &JFactory::getApplication();
 							print_r($tmpApp->getMessageQueue());
 							die('halting to preserve evidence');*/
 							return false;
@@ -1172,7 +1172,7 @@ class JInstaller extends JAdapter
 		// Get the client info if we're using a specific client
 		jimport('joomla.application.helper');
 		if ($cid > -1) {
-			$client =& JApplicationHelper::getClientInfo($cid);	
+			$client = &JApplicationHelper::getClientInfo($cid);	
 		} else {
 			$client = null;
 		}
@@ -1286,7 +1286,7 @@ class JInstaller extends JAdapter
 	{
 		// Get the client info
 		jimport('joomla.application.helper');
-		$client =& JApplicationHelper::getClientInfo($cid);
+		$client = &JApplicationHelper::getClientInfo($cid);
 
 		$path['src'] = $this->getPath('manifest');
 
@@ -1320,7 +1320,7 @@ class JInstaller extends JAdapter
 				if (!is_null($manifest)) {
 
 					// If the root method attribute is set to upgrade, allow file overwrite
-					$root =& $manifest->document;
+					$root = &$manifest->document;
 					if ($root->attributes('method') == 'upgrade') {
 						$this->_upgrade = true;
 						$this->_overwrite = true;
@@ -1332,7 +1332,7 @@ class JInstaller extends JAdapter
 					}
 
 					// Set the manifest object and path
-					$this->manifest =& $manifest;
+					$this->manifest = &$manifest;
 					$this->setPath('manifest', $file);
 
 					// Set the installation source path to that of the manifest file
@@ -1363,7 +1363,7 @@ class JInstaller extends JAdapter
 	{
 		// Initialize variables
 		$null	= null;
-		$xml	=& JFactory::getXMLParser('Simple');
+		$xml	= &JFactory::getXMLParser('Simple');
 
 		// If we cannot load the xml file return null
 		if (!$xml->loadFile($file)) {
@@ -1377,7 +1377,7 @@ class JInstaller extends JAdapter
 		 * @todo: Remove backwards compatability in a future version
 		 * Should be 'extension', but for backward compatability we will accept 'extension' or 'install'.
 		 */
-		$root =& $xml->document;
+		$root = &$xml->document;
 		// 1.5 uses 'install'
 		// 1.6 uses 'extension'
 		if (!is_object($root) || ($root->name() != 'install' && $root->name() != 'extension')) {
@@ -1403,7 +1403,7 @@ class JInstaller extends JAdapter
 	 * Cleans up discovered extensions if they're being installed somehow else
 	 */
 	public function cleanDiscoveredExtension($type, $element, $folder='', $client=0) {
-		$dbo =& JFactory::getDBO();
+		$dbo = &JFactory::getDbo();
 		$dbo->setQuery('DELETE FROM #__extensions WHERE type = '. $dbo->Quote($type).' AND element = '. $dbo->Quote($element) .' AND folder = '. $dbo->Quote($folder). ' AND client_id = '. intval($client).' AND state = -1');
 		return $dbo->Query();
 	}

@@ -1,23 +1,23 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @subpackage	Plugin
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Plugin
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 /**
-* Plugin helper class
-*
-* @static
-* @package		Joomla.Framework
-* @subpackage	Plugin
-* @since		1.5
-*/
+ * Plugin helper class
+ *
+ * @static
+ * @package		Joomla.Framework
+ * @subpackage	Plugin
+ * @since		1.5
+ */
 abstract class JPluginHelper
 {
 	/**
@@ -36,7 +36,7 @@ abstract class JPluginHelper
 		$plugins = JPluginHelper::_load();
 
 		$total = count($plugins);
-		for($i = 0; $i < $total; $i++)
+		for ($i = 0; $i < $total; $i++)
 		{
 			if (is_null($plugin))
 			{
@@ -87,7 +87,7 @@ abstract class JPluginHelper
 		$plugins = JPluginHelper::_load();
 
 		$total = count($plugins);
-		for($i = 0; $i < $total; $i++) {
+		for ($i = 0; $i < $total; $i++) {
 			if ($plugins[$i]->type == $type && ($plugins[$i]->name == $plugin ||  $plugin === null)) {
 				JPluginHelper::_import($plugins[$i], $autocreate, $dispatcher);
 				$result = true;
@@ -142,7 +142,7 @@ abstract class JPluginHelper
 					if (class_exists($className))
 					{
 						// load plugin parameters
-						$plugin =& JPluginHelper::getPlugin($plugin->type, $plugin->name);
+						$plugin = &JPluginHelper::getPlugin($plugin->type, $plugin->name);
 
 						// create the plugin
 						$instance = new $className($dispatcher, (array)($plugin));
@@ -169,8 +169,8 @@ abstract class JPluginHelper
 			return $plugins;
 		}
 
-		$db		=& JFactory::getDBO();
-		$user	=& JFactory::getUser();
+		$db		= &JFactory::getDbo();
+		$user	= &JFactory::getUser();
 
 		if (isset($user))
 		{

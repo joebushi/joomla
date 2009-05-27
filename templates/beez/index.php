@@ -1,10 +1,10 @@
 <?php
 /**
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 $url = clone(JURI::getInstance());
 $showRightColumn = $this->countModules('user1 or user2 or right or top');
@@ -21,7 +21,7 @@ $showRightColumn &= JRequest::getCmd('task') != 'edit'
 	<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/beez/css/layout.css" type="text/css" media="screen,projection" />
 	<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/beez/css/print.css" type="text/css" media="Print" />
 	<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/beez/css/general.css" type="text/css" />
-	<?php if($this->direction == 'rtl') : ?>
+	<?php if ($this->direction == 'rtl') : ?>
 	<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/beez/css/template_rtl.css" type="text/css" />
 	<?php endif; ?>
 	<!--[if lte IE 6]>

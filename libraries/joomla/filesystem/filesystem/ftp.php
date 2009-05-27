@@ -4,8 +4,8 @@
  * @package		Joomla.Framework
  * @subpackage	FileSystem
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 /**
  * FTP Filesystem backend class
@@ -37,7 +37,7 @@ class JFilesystemFTP extends JFilesystem
 		if (!$this->_options['enabled']) {
 			return $ret;
 		}
-		$config =& JFactory::getConfig();
+		$config = &JFactory::getConfig();
 		$path = $config->get('config.tmp_path');
 		$file = md5(rand(0,10000)).'_tmp';
 		if ($this->write($path . DS . $file, 'write test')) {
@@ -119,7 +119,7 @@ class JFilesystemFTP extends JFilesystem
 		if (!is_object($obj)) {
 			jimport('joomla.client.ftp');
 
-			$obj =& JFTP::getInstance($this->_options['host'], $this->_options['port'], null, $this->_options['user'], $this->_options['pass']);
+			$obj = &JFTP::getInstance($this->_options['host'], $this->_options['port'], null, $this->_options['user'], $this->_options['pass']);
 
 		}
 		return $obj;

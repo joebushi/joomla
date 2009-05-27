@@ -1,12 +1,12 @@
 <?php // @version $Id$
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 ?>
 
 <?php if (($this->contact->params->get('address_check') > 0) && ($this->contact->address || $this->contact->suburb || $this->contact->state || $this->contact->country || $this->contact->postcode)) : ?>
 <div class="contact_address">
 	<address>
 
-	<?php if ( $this->contact->params->get('address_check') > 0) : ?>
+	<?php if ($this->contact->params->get('address_check') > 0) : ?>
 	<span class="marker"><?php echo $this->contact->params->get('marker_address'); ?></span>
 	<?php endif; ?>
 
@@ -34,7 +34,7 @@ defined('_JEXEC') or die('Restricted access');
 </div>
 <?php endif; ?>
 
-<?php if (($this->contact->email_to && $this->contact->params->get('show_email')) || $this->contact->telephone || $this->contact->fax ) : ?>
+<?php if (($this->contact->email_to && $this->contact->params->get('show_email')) || $this->contact->telephone || $this->contact->fax) : ?>
 
 	<?php if ($this->contact->email_to && $this->contact->params->get('show_email')) : ?>
 	<p><span class="marker"><?php echo $this->contact->params->get('marker_email'); ?></span>
@@ -51,8 +51,8 @@ defined('_JEXEC') or die('Restricted access');
 	<?php echo nl2br($this->contact->fax); ?></p>
 	<?php endif; ?>
 
-	<?php if ( $this->contact->mobile && $this->contact->params->get( 'show_mobile' ) ) :?>
-	<p><span class="marker"><?php echo $this->contact->params->get( 'marker_mobile' ); ?></span>
+	<?php if ($this->contact->mobile && $this->contact->params->get('show_mobile')) :?>
+	<p><span class="marker"><?php echo $this->contact->params->get('marker_mobile'); ?></span>
 	<?php echo nl2br($this->contact->mobile); ?></p>
 	<?php endif; ?>
 

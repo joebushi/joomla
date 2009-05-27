@@ -2,7 +2,7 @@
 /**
  * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 /**
@@ -35,7 +35,7 @@ abstract class JClientHelper
 		if (!isset($credentials[$client]) || $force)
 		{
 			// Initialize variables
-			$config =& JFactory::getConfig();
+			$config = &JFactory::getConfig();
 
 			// Fetch the client layer configuration options for the specific client
 			switch ($client)
@@ -66,7 +66,7 @@ abstract class JClientHelper
 			// If user and pass are not set in global config lets see if its in the session
 			if ($options['enabled'] == true && ($options['user'] == '' || $options['pass'] == ''))
 			{
-				$session =& JFactory::getSession();
+				$session = &JFactory::getSession();
 				$options['user'] = $session->get($client.'.user', null, 'JClientHelper');
 				$options['pass'] = $session->get($client.'.pass', null, 'JClientHelper');
 			}
@@ -102,7 +102,7 @@ abstract class JClientHelper
 		switch ($client)
 		{
 			case 'ftp':
-				$config =& JFactory::getConfig();
+				$config = &JFactory::getConfig();
 				$options = array(
 					'enabled'	=> $config->getValue('config.ftp_enable'),
 					'host'		=> $config->getValue('config.ftp_host'),
@@ -112,7 +112,7 @@ abstract class JClientHelper
 				if ($options['enabled'])
 				{
 					jimport('joomla.client.ftp');
-					$ftp =& JFTP::getInstance($options['host'], $options['port']);
+					$ftp = &JFTP::getInstance($options['host'], $options['port']);
 
 					// Test the conection and try to log in
 					if ($ftp->isConnected())
@@ -131,7 +131,7 @@ abstract class JClientHelper
 
 		if ($return) {
 			// Save valid credentials to the session
-			$session =& JFactory::getSession();
+			$session = &JFactory::getSession();
 			$session->set($client.'.user', $user, 'JClientHelper');
 			$session->set($client.'.pass', $pass, 'JClientHelper');
 
@@ -159,7 +159,7 @@ abstract class JClientHelper
 		switch ($client)
 		{
 			case 'ftp':
-				$config =& JFactory::getConfig();
+				$config = &JFactory::getConfig();
 				$options = array(
 					'enabled'	=> $config->getValue('config.ftp_enable'),
 					'user'		=> $config->getValue('config.ftp_user'),
@@ -189,7 +189,7 @@ abstract class JClientHelper
 		else
 		{
 			// Check if login credentials are available in the session
-			$session =& JFactory::getSession();
+			$session = &JFactory::getSession();
 			$user = $session->get($client.'.user', null, 'JClientHelper');
 			$pass = $session->get($client.'.pass', null, 'JClientHelper');
 			if ($user != '' && $pass != '') {
@@ -222,7 +222,7 @@ abstract class JClientHelper
 			if (JClientHelper::setCredentials($client, $user, $pass)) {
 				$return = false;
 			} else {
-				$return =& JError::raiseWarning(1209, 'JClientHelper::setCredentialsFromRequest failed', $client);
+				$return = &JError::raiseWarning(1209, 'JClientHelper::setCredentialsFromRequest failed', $client);
 			}
 		}
 		else

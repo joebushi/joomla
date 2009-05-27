@@ -4,11 +4,11 @@
  * @package		Joomla.Framework
  * @subpackage	HTML
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 jimport('joomla.registry.registry');
 
@@ -27,7 +27,6 @@ class JParameter extends JRegistry
 	/**
 	 * The raw params string
 	 *
-	 * @access	protected
 	 * @var		string
 	 * @since	1.5
 	 */
@@ -36,7 +35,6 @@ class JParameter extends JRegistry
 	/**
 	 * The xml params element
 	 *
-	 * @access	protected
 	 * @var		object
 	 * @since	1.5
 	 */
@@ -45,7 +43,6 @@ class JParameter extends JRegistry
 	/**
 	* loaded elements
 	*
-	* @access	protected
 	* @var		array
 	* @since	1.5
 	*/
@@ -54,7 +51,6 @@ class JParameter extends JRegistry
 	/**
 	* directories, where element types can be stored
 	*
-	* @access	protected
 	* @var		array
 	* @since	1.5
 	*/
@@ -63,7 +59,6 @@ class JParameter extends JRegistry
 	/**
 	 * Constructor
 	 *
-	 * @access	public
 	 * @param	string	The raw parms text
 	 * @param	string	Path to the xml setup file
 	 * @since	1.5
@@ -126,7 +121,8 @@ class JParameter extends JRegistry
 	 * @return	string	The set value
 	 * @since	1.5
 	 */
-	public function def($key, $default = '', $group = '_default') {
+	public function def($key, $default = '', $group = '_default')
+	{
 		$value = $this->get($key, (string) $default, $group);
 		return $this->set($key, $value);
 	}
@@ -311,7 +307,7 @@ class JParameter extends JRegistry
 		//remove any occurance of a mos_ prefix
 		$type = str_replace('mos_', '', $type);
 
-		$element =& $this->loadElement($type);
+		$element = &$this->loadElement($type);
 
 		// error happened
 		if ($element === false)
@@ -375,7 +371,7 @@ class JParameter extends JRegistry
 	public function &loadElement($type, $new = false)
 	{
 		$false = false;
-		$signature = md5($type );
+		$signature = md5($type);
 
 		if ((isset($this->_elements[$signature]) && !is_a($this->_elements[$signature], '__PHP_Incomplete_Class'))  && $new === false) {
 			return	$this->_elements[$signature];

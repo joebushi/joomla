@@ -1,27 +1,27 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @subpackage	Application
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Application
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 /**
-* Base class for a Joomla! application.
-*
-* Acts as a Factory class for application specific objects and provides many
-* supporting API functions. Derived clases should supply the route(), dispatch()
-* and render() functions.
-*
-* @abstract
-* @package		Joomla.Framework
-* @subpackage	Application
-* @since		1.5
-*/
+ * Base class for a Joomla! application.
+ *
+ * Acts as a Factory class for application specific objects and provides many
+ * supporting API functions. Derived clases should supply the route(), dispatch()
+ * and render() functions.
+ *
+ * @abstract
+ * @package		Joomla.Framework
+ * @subpackage	Application
+ * @since		1.5
+ */
 
 abstract class JApplication extends JClass
 {
@@ -140,7 +140,7 @@ abstract class JApplication extends JClass
 		{
 			//Load the router object
 			jimport('joomla.application.helper');
-			$info =& JApplicationHelper::getClientInfo($client, true);
+			$info = &JApplicationHelper::getClientInfo($client, true);
 
 			$path = $info->path.DS.'includes'.DS.'application.php';
 			if (file_exists($path))
@@ -156,7 +156,7 @@ abstract class JApplication extends JClass
 				throw new JException('Unable to load application: '.$client, 1050, E_ERROR, $info, true);
 			}
 
-			$instances[$client] =& $instance;
+			$instances[$client] = &$instance;
 		}
 
 		return $instances[$client];
@@ -173,7 +173,7 @@ abstract class JApplication extends JClass
 		jimport('joomla.plugin.helper');
 
 		//Set the language in the class
-		$config =& JFactory::getConfig();
+		$config = &JFactory::getConfig();
 
 		// Check that we were given a language in the array (since by default may be blank)
 		if (isset($options['language'])) {
@@ -181,7 +181,7 @@ abstract class JApplication extends JClass
 		}
 
 		// Set user specific editor
-		$user	 =& JFactory::getUser();
+		$user	 = &JFactory::getUser();
 		$editor	 = $user->getParam('editor', $this->getCfg('editor'));
 		$editor = JPluginHelper::isEnabled('editors', $editor) ? $editor : $this->getCfg('editor');
 		$config->setValue('config.editor', $editor);
@@ -206,7 +206,7 @@ abstract class JApplication extends JClass
 		// get the full request URI
 		$uri = clone(JURI::getInstance());
 
-		$router =& $this->getRouter();
+		$router = &$this->getRouter();
 		$result = $router->parse($uri);
 
 		JRequest::set($result, 'get', false);
@@ -226,7 +226,7 @@ abstract class JApplication extends JClass
 	*/
  	public function dispatch($component = null)
  	{
-		$document =& JFactory::getDocument();
+		$document = &JFactory::getDocument();
 
 		$document->setTitle($this->getCfg('sitename'));
 		$document->setDescription($this->getCfg('MetaDesc'));
@@ -257,7 +257,7 @@ abstract class JApplication extends JClass
 			'params'	=> $template->params
 		);
 
-		$document =& JFactory::getDocument();
+		$document = &JFactory::getDocument();
 		$document->parse($params);
 		$this->triggerEvent('onBeforeRender');
 		$data = $document->render($this->getCfg('caching'), $params);
@@ -307,7 +307,7 @@ abstract class JApplication extends JClass
 		// We could validly start with something else (e.g. ftp), though this would
 		// be unlikely and isn't supported by this API
 		if (strpos($url, 'http') !== 0) {
-			$uri =& JURI::getInstance();
+			$uri = &JURI::getInstance();
 			$prefix = $uri->toString(Array('scheme', 'user', 'pass', 'host', 'port'));
 			if ($url[0] == '/') {
 				// we just need the prefix since we have a path relative to the root
@@ -330,7 +330,7 @@ abstract class JApplication extends JClass
 		// Persist messages if they exist
 		if (count($this->_messageQueue))
 		{
-			$session =& JFactory::getSession();
+			$session = &JFactory::getSession();
 			$session->set('application.queue', $this->_messageQueue);
 		}
 
@@ -362,7 +362,7 @@ abstract class JApplication extends JClass
 		// For empty queue, if messages exists in the session, enqueue them first
 		if (!count($this->_messageQueue))
 		{
-			$session =& JFactory::getSession();
+			$session = &JFactory::getSession();
 			$sessionQueue = $session->get('application.queue');
 			if (count($sessionQueue)) {
 				$this->_messageQueue = $sessionQueue;
@@ -385,7 +385,7 @@ abstract class JApplication extends JClass
 		// For empty queue, if messages exists in the session, enqueue them
 		if (!count($this->_messageQueue))
 		{
-			$session =& JFactory::getSession();
+			$session = &JFactory::getSession();
 			$sessionQueue = $session->get('application.queue');
 			if (count($sessionQueue)) {
 				$this->_messageQueue = $sessionQueue;
@@ -405,7 +405,7 @@ abstract class JApplication extends JClass
 	 */
 	public function getCfg($varname)
 	{
-		$config =& JFactory::getConfig();
+		$config = &JFactory::getConfig();
 		return $config->getValue('config.' . $varname);
 	}
 
@@ -444,8 +444,8 @@ abstract class JApplication extends JClass
 	 */
 	public function getUserState($key)
 	{
-		$session	=& JFactory::getSession();
-		$registry	=& $session->get('registry');
+		$session	= &JFactory::getSession();
+		$registry	= &$session->get('registry');
 		if (!is_null($registry)) {
 			return $registry->getValue($key);
 		}
@@ -462,8 +462,8 @@ abstract class JApplication extends JClass
 	*/
 	public function setUserState($key, $value)
 	{
-		$session	=& JFactory::getSession();
-		$registry	=& $session->get('registry');
+		$session	= &JFactory::getSession();
+		$registry	= &$session->get('registry');
 		if (!is_null($registry)) {
 			return $registry->setValue($key, $value);
 		}
@@ -507,7 +507,7 @@ abstract class JApplication extends JClass
 	 */
 	public function registerEvent($event, $handler)
 	{
-		$dispatcher =& JDispatcher::getInstance();
+		$dispatcher = &JDispatcher::getInstance();
 		$dispatcher->register($event, $handler);
 	}
 
@@ -522,7 +522,7 @@ abstract class JApplication extends JClass
 	 */
 	public function triggerEvent($event, $args=null)
 	{
-		$dispatcher =& JDispatcher::getInstance();
+		$dispatcher = &JDispatcher::getInstance();
 		return $dispatcher->trigger($event, $args);
 	}
 
@@ -675,7 +675,7 @@ abstract class JApplication extends JClass
 		}
 
 		jimport('joomla.application.router');
-		$router =& JRouter::getInstance($name, $options);
+		$router = &JRouter::getInstance($name, $options);
 		return $router;
 	}
 
@@ -694,7 +694,7 @@ abstract class JApplication extends JClass
 		}
 
 		jimport('joomla.application.pathway');
-		$pathway =& JPathway::getInstance($name, $options);
+		$pathway = &JPathway::getInstance($name, $options);
 		return $pathway;
 	}
 
@@ -713,7 +713,7 @@ abstract class JApplication extends JClass
 		}
 
 		jimport('joomla.application.menu');
-		$menu =& JMenu::getInstance($name, $options);
+		$menu = &JMenu::getInstance($name, $options);
 		return $menu;
 	}
 
@@ -734,7 +734,7 @@ abstract class JApplication extends JClass
 		$config = new JConfig();
 
 		// Get the global configuration object
-		$registry =& JFactory::getConfig();
+		$registry = &JFactory::getConfig();
 
 		// Load the configuration values into the registry
 		$registry->loadObject($config);
@@ -760,7 +760,7 @@ abstract class JApplication extends JClass
 		$options = array();
 		$options['name'] = $name;
 
-		$session =& JFactory::getSession($options);
+		$session = &JFactory::getSession($options);
 
 		jimport('joomla.database.table');
 		$storage = & JTable::getInstance('session');

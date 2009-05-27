@@ -1,14 +1,14 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @subpackage	Utilities
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Utilities
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 /**
  * SimpleXML implementation.
@@ -524,10 +524,10 @@ class JSimpleXMLElement extends JObject
 		$child = new $classname($name, $attrs, $level);
 
 		//Add the reference of it to the end of an array member named for the elements name
-		$this->{$name}[] =& $child;
+		$this->{$name}[] = &$child;
 
 		//Add the reference to the children array member
-		$this->_children[] =& $child;
+		$this->_children[] = &$child;
 
 		//return the new child
 		return $child;
@@ -561,7 +561,7 @@ class JSimpleXMLElement extends JObject
 	 */
 	public function &getElementByPath($path)
 	{
-		$tmp	=& $this;
+		$tmp	= &$this;
 		$false	= false;
 		$parts	= explode('/', trim($path, '/'));
 
@@ -572,7 +572,7 @@ class JSimpleXMLElement extends JObject
 			{
 				if ($child->_name == $node)
 				{
-					$tmp =& $child;
+					$tmp = &$child;
 					$found = true;
 					break;
 				}
@@ -583,9 +583,9 @@ class JSimpleXMLElement extends JObject
 		}
 
 		if ($found) {
-			$ref =& $tmp;
+			$ref = &$tmp;
 		} else {
-			$ref =& $false;
+			$ref = &$false;
 		}
 		return $ref;
 	}
@@ -602,7 +602,7 @@ class JSimpleXMLElement extends JObject
 		$callback($this, $args);
 		// Map to all children
 		if ($n = count($this->_children)) {
-			for($i=0;$i<$n;$i++)
+			for ($i=0;$i<$n;$i++)
 			{
 				$this->_children[$i]->map($callback, $args);
 			}

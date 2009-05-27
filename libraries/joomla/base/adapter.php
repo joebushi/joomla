@@ -4,8 +4,8 @@
  * @package		Joomla.Framework
  * @subpackage	Base
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 /**
  * Adapter Class
@@ -57,7 +57,7 @@ class JAdapter extends JClass {
 		$this->_basepath = $basepath;
 		$this->_classprefix = $classprefix ? $classprefix : 'J';
 		$this->_adapterfolder = $adapterfolder ? $adapterfolder : 'adapters';
-		$this->_db =& JFactory::getDBO();
+		$this->_db = &JFactory::getDbo();
 	}
 
 	/**
@@ -67,7 +67,7 @@ class JAdapter extends JClass {
 	 * @return	object	Database connector object
 	 * @since	1.5
 	 */
-	public function &getDBO()
+	public function &getDbo()
 	{
 		return $this->_db;
 	}
@@ -93,7 +93,7 @@ class JAdapter extends JClass {
 			}
 			$adapter = new $class($this, $this->_db);
 		}
-		$this->_adapters[$name] =& $adapter;
+		$this->_adapters[$name] = &$adapter;
 		return true;
 	}
 

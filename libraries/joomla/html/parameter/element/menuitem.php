@@ -1,14 +1,14 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @subpackage	Parameter
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Parameter
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 /**
  * Renders a menu item element
@@ -30,7 +30,7 @@ class JElementMenuItem extends JElement
 
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
-		$db =& JFactory::getDBO();
+		$db = &JFactory::getDbo();
 
 		$menuType = $this->_parent->get('menu_type');
 		if (!empty($menuType)) {

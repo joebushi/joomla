@@ -1,6 +1,6 @@
-<?php /** $Id$ */ defined('_JEXEC') or die('Restricted access');
+<?php /** $Id$ */ defined('_JEXEC') or die;
 
-	$languages	=& $this->languages;
+	$languages	= &$this->languages;
 ?>
 
 <script language="JavaScript" type="text/javascript">

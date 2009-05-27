@@ -4,11 +4,11 @@
  * @package		Joomla.Framework
  * @subpackage	Application
  * @copyright Copyright Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 /**
  * Base class for a Joomla View
@@ -299,7 +299,7 @@ abstract class JView extends JClass
 	 * $view->assignRef('var1', $ref);
 	 *
 	 * // assign directly
-	 * $view->ref =& $var1;
+	 * $view->ref = &$var1;
 	 * </code>
 	 *
 	 * @param string $key The name for the reference in the view.
@@ -313,9 +313,9 @@ abstract class JView extends JClass
 		if (is_string($key) && substr($key, 0, 1) != '_')
 		{
 			if (array_key_exists($key, get_object_vars($this))) {
-				$this->$key =& $val;
+				$this->$key = &$val;
 			} else {
-				$this->_data[$key] =& $val;
+				$this->_data[$key] = &$val;
 			}
 			return true;
 		}

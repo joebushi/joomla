@@ -3,7 +3,7 @@
  * @version		$Id$
  * @package		Joomla.Framework
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 /**
@@ -58,7 +58,7 @@ class JTableBackup extends JTable
 		try {
 			$results = $this->_db->loadAssocList();
 			foreach($results as $result) {
-				$tmp =& JTable::getInstance('backupentry');
+				$tmp = &JTable::getInstance('backupentry');
 				$tmp->setProperties($result);
 				// restore the two serialized fields
 				$tmp->set('data', unserialize($tmp->get('data')));
@@ -108,7 +108,7 @@ class JTableBackup extends JTable
 			{
 				$ret = $this->_db->insertObject($this->_tbl, $this, $this->_tbl_key);
 			}
-			for($i = 0; $i < count($this->_entries); $i++) {
+			for ($i = 0; $i < count($this->_entries); $i++) {
 				$this->_entries[$i]->backupid = $this->backupid;
 				$this->_entries[$i]->store();
 			}
@@ -120,11 +120,11 @@ class JTableBackup extends JTable
 	}
 
 	public function &addEntry($name, $type, $params) {
-		$entry =& JTable::getInstance('backupentry');
+		$entry = &JTable::getInstance('backupentry');
 		$entry->name = $name;
 		$entry->type = $type;
 		$entry->params = $params;
-		$this->_entries[] =& $entry;
+		$this->_entries[] = &$entry;
 		return $entry;
 	}
 

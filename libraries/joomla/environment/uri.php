@@ -4,11 +4,11 @@
  * @package		Joomla.Framework
  * @subpackage	Environment
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 /**
  * JURI Class
@@ -111,7 +111,7 @@ class JURI extends JClass
 	 * if it doesn't already exist.
 	 *
 	 * This method must be invoked as:
-	 * 		<pre>  $uri =& JURI::getInstance([$uri]);</pre>
+	 * 		<pre>  $uri = &JURI::getInstance([$uri]);</pre>
 	 *
 	 * @static
 	 * @param	string $uri The URI to parse.  [optional: if null uses script URI]
@@ -200,17 +200,17 @@ class JURI extends JClass
 		// Get the base request path
 		if (!isset($base))
 		{
-			$config =& JFactory::getConfig();
+			$config = &JFactory::getConfig();
 			$live_site = $config->getValue('config.live_site');
 			if (trim($live_site) != '') {
-				$uri =& JURI::getInstance($live_site);
+				$uri = &JURI::getInstance($live_site);
 				$base['prefix'] = $uri->toString(array('scheme', 'host', 'port'));
 				$base['path'] = rtrim($uri->toString(array('path')), '/\\');
 				if (JPATH_BASE == JPATH_ADMINISTRATOR) {
 					$base['path'] .= '/administrator';
 				}
 			} else {
-				$uri			 =& JURI::getInstance();
+				$uri			 = &JURI::getInstance();
 				$base['prefix'] = $uri->toString(array('scheme', 'host', 'port'));
 
 				if (strpos(php_sapi_name(), 'cgi') !== false && !empty($_SERVER['REQUEST_URI'])) {
@@ -242,7 +242,7 @@ class JURI extends JClass
 		// Get the scheme
 		if (!isset($root))
 		{
-			$uri			=& JURI::getInstance(JURI::base());
+			$uri			= &JURI::getInstance(JURI::base());
 			$root['prefix'] = $uri->toString(array('scheme', 'host', 'port'));
 			$root['path']   = rtrim($uri->toString(array('path')), '/\\');
 		}
@@ -664,7 +664,7 @@ class JURI extends JClass
 	 * @since	1.5
 	 */
 	public static function isInternal($url) {
-		$uri =& JURI::getInstance($url);
+		$uri = &JURI::getInstance($url);
 		$base = $uri->toString(array('scheme', 'host', 'port', 'path'));
 		$host = $uri->toString(array('scheme', 'host', 'port'));
 		if (stripos($base, JURI::base()) !== 0 && !empty($host)) {

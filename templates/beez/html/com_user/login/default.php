@@ -1,4 +1,4 @@
 <?php // @version $Id$
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
-echo $this->loadTemplate( $this->type );
+echo $this->loadTemplate($this->type);

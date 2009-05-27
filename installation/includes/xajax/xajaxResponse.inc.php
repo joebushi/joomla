@@ -34,7 +34,7 @@
    | Online documentation for this class is available on the xajax wiki at:   |
    | http://wiki.xajaxproject.org/Documentation:xajaxResponse.inc.php         |
    ----------------------------------------------------------------------------
-*/
+ */
 
 // The xajaxResponse class is used to created responses to be sent back to your
 // webpage.  A response contains one or more command messages for updating your page.

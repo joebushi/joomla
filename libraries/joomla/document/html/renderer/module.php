@@ -1,14 +1,14 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @subpackage	Document
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Document
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 /**
  * JDocument Module renderer
@@ -33,7 +33,7 @@ class JDocumentRendererModule extends JDocumentRenderer
 		{
 			$title	= isset($params['title']) ? $params['title'] : null;
 
-			$module =& JModuleHelper::getModule($module, $title);
+			$module = &JModuleHelper::getModule($module, $title);
 
 			if (!is_object($module))
 			{
@@ -55,8 +55,8 @@ class JDocumentRendererModule extends JDocumentRenderer
 		}
 
 		// get the user and configuration object
-		$user =& JFactory::getUser();
-		$conf =& JFactory::getConfig();
+		$user = &JFactory::getUser();
+		$conf = &JFactory::getConfig();
 
 		// set the module content
 		if (!is_null($content)) {
@@ -69,7 +69,7 @@ class JDocumentRendererModule extends JDocumentRenderer
 		$contents = '';
 		if ($mod_params->get('cache', 0) && $conf->getValue('config.caching'))
 		{
-			$cache =& JFactory::getCache($module->module);
+			$cache = &JFactory::getCache($module->module);
 
 			$cache->setLifeTime($mod_params->get('cache_time', $conf->getValue('config.cachetime') * 60));
 			$cache->setCaching(true);

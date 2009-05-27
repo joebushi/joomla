@@ -932,16 +932,16 @@ class idna_convert
                 $out_len++;
                 $output[$out_len] = 0;
             }
-            $output[$out_len] += ord($input{$i}) << (8 * (3 - ($i % 4) ) );
+            $output[$out_len] += ord($input{$i}) << (8 * (3 - ($i % 4)));
         }
         return $output;
     }
 }
 
 /**
-* Adapter class for aligning the API of idna_convert with that of Net_IDNA
-* @author  Matthias Sommerfeld <mso@phlylabs.de>
-*/
+ * Adapter class for aligning the API of idna_convert with that of Net_IDNA
+ * @author  Matthias Sommerfeld <mso@phlylabs.de>
+ */
 class Net_IDNA_php4 extends idna_convert
 {
     /**

@@ -5,16 +5,16 @@
  * @package		Joomla.Installation
  * @subpackage	Installation
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 // Man, there must be an easier way to do this!
 // JFactory::getDbo is used by Acl API and the DB config was not set
 // hence the following "stuff"
-$config =& JFactory::getConfig();
+$config = &JFactory::getConfig();
 $config->setValue('config.dbtype', JArrayHelper::getValue($vars, 'DBtype', 'mysql'));
 $config->setValue('config.host', JArrayHelper::getValue($vars, 'DBhostname', ''));
 $config->setValue('config.user', JArrayHelper::getValue($vars, 'DBuserName', ''));

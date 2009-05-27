@@ -1,14 +1,14 @@
 <?php
 /**
-* @version		$Id:timezones.php 6961 2007-03-15 16:06:53Z tcp $
-* @package		Joomla.Framework
-* @subpackage	Parameter
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id:timezones.php 6961 2007-03-15 16:06:53Z tcp $
+ * @package		Joomla.Framework
+ * @subpackage	Parameter
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 /**
  * Renders a timezones element
@@ -31,7 +31,7 @@ class JElementTimezones extends JElement
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
 		if (!strlen($value)) {
-			$conf =& JFactory::getConfig();
+			$conf = &JFactory::getConfig();
 			$value = $conf->getValue('config.offset');
 		}
 

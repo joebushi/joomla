@@ -1,10 +1,10 @@
 <?php
 /**
-* @version $Id$
-* @package		Joomla.Framework
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version $Id$
+ * @package		Joomla.Framework
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 if (!defined('DS')) {
 	define('DS', DIRECTORY_SEPARATOR);
@@ -74,7 +74,7 @@ abstract class JLoader
 				 * if the file exists or set it to false if not
 				 */
 				$filename = $base.DS.$path.'.php';
-				if(is_file($filename)) {
+				if (is_file($filename)) {
 					$rs   = include($filename);
 				} else {
 					$rs   = false; // if the file doesn't exist fail

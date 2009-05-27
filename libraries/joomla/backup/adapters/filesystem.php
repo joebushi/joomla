@@ -4,10 +4,10 @@
  * @package		Joomla.Framework
  * @subpackage	Backup
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
  
-defined('JPATH_ROOT') or die();
+defined('JPATH_ROOT') or die;
 
 jimport('joomla.base.adapterinstance');
 jimport('joomla.tasks.tasksuspendable');
@@ -85,7 +85,7 @@ class JBackupFilesystem extends JAdapterInstance implements JTaskSuspendable, JB
 	 * @param JTask A reference to the task for this object
 	 */ 
 	public function setTask(&$task) {
-		$this->task =& $task;
+		$this->task = &$task;
 	}
 	
 	/**
@@ -173,7 +173,7 @@ class JBackupFilesystem extends JAdapterInstance implements JTaskSuspendable, JB
 	 * Find folders in the source
 	 */
 	private function _findFolders() {
-		$options =& $this->state['options'];
+		$options = &$this->state['options'];
 		if (!is_array($options['source'])) {
 			$folders = JFolder::folders($options['source'], $options['filter'], true, true, $options['exclude'], $options['excludefilter']);
 		} else {
@@ -197,7 +197,7 @@ class JBackupFilesystem extends JAdapterInstance implements JTaskSuspendable, JB
 	 * Process directories looking for files in folders
 	 */
 	private function _processDirectories() {
-		$options =& $this->state['options'];
+		$options = &$this->state['options'];
 		// get the last item on the stack but don't remove it until we're done
 		while($directory = end($this->stack)) {
 			// if the files list is empty, populate
@@ -238,33 +238,33 @@ class JBackupFilesystem extends JAdapterInstance implements JTaskSuspendable, JB
 	 */
 	public function restore($options=Array()) {
 		// If the task isn't set in the state, set it
-		if(!$this->state['task']) {
+		if (!$this->state['task']) {
 			$this->state['task'] = 'initialised';
 			// validate there is a destination around
-			if(!array_key_exists('destination', $options)) {
+			if (!array_key_exists('destination', $options)) {
 				return false; // bad fugu!
 			}
 			
-			if(!file_exists($options['destination'])) {
+			if (!file_exists($options['destination'])) {
 				return false; // the destination of the backup doesn't exist, can't restore
 			}
 			
 			
-			if(!array_key_exists('source', $options)) {
+			if (!array_key_exists('source', $options)) {
 				return false; // we don't know where to dump stuff again
 			}
 			
-			if(!array_key_exists('mode', $options)) {
+			if (!array_key_exists('mode', $options)) {
 				$options['mode'] = 'merge';
 			}
 			
 			// convert the source to an array if it isn't already
-			if(!is_array($options['source'])) {
+			if (!is_array($options['source'])) {
 				$options['source'] = array($options['source']);
 			}
 			
 			// Replace mode works ala Mac OS X copying; the original folder is removed
-			if($options['mode'] == 'replace') {
+			if ($options['mode'] == 'replace') {
 				foreach($options['source'] as $source) {
 					// delete the folder
 					JFolder::delete($source);

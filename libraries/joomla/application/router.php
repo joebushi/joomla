@@ -1,14 +1,14 @@
 <?php
 /**
-* @version		$Id:router.php 8876 2007-09-13 22:54:03Z jinx $
-* @package		Joomla.Framework
-* @subpackage	Application
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id:router.php 8876 2007-09-13 22:54:03Z jinx $
+ * @package		Joomla.Framework
+ * @subpackage	Application
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 /**
  * Set the available masks for the routing mode
@@ -90,7 +90,7 @@ abstract class JRouter extends JClass
 		if (!isset($instances[$client]) || empty($instances[$client]))
 		{
 			//Load the router object
-			$info =& JApplicationHelper::getClientInfo($client, true);
+			$info = &JApplicationHelper::getClientInfo($client, true);
 
 			$path = $info->path.DS.'includes'.DS.'router.php';
 			if (file_exists($path))
@@ -146,7 +146,7 @@ abstract class JRouter extends JClass
 	public function &build($url)
 	{
 		//Create the URI object
-		$uri =& $this->_createURI($url);
+		$uri = &$this->_createURI($url);
 
 		//Process the uri information based on custom defined rules
 		$this->_processBuildRules($uri);
@@ -384,7 +384,7 @@ abstract class JRouter extends JClass
 	protected function _encodeSegments($segments)
 	{
 		$total = count($segments);
-		for($i=0; $i<$total; $i++) {
+		for ($i=0; $i<$total; $i++) {
 			$segments[$i] = str_replace(':', '-', $segments[$i]);
 		}
 
@@ -401,7 +401,7 @@ abstract class JRouter extends JClass
 	protected function _decodeSegments($segments)
 	{
 		$total = count($segments);
-		for($i=0; $i<$total; $i++)  {
+		for ($i=0; $i<$total; $i++)  {
 			$segments[$i] = preg_replace('/-/', ':', $segments[$i], 1);
 		}
 

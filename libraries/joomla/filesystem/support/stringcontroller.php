@@ -10,7 +10,7 @@
  *
  * @package stringstream
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  * @version SVN: $Id$
  */
 
@@ -23,13 +23,13 @@ class JStringController {
 	}
 
 	function createRef($reference, &$string) {
-		$ref =& JStringController::_getArray();
-		$ref[$reference] =& $string;
+		$ref = &JStringController::_getArray();
+		$ref[$reference] = &$string;
 	}
 
 
 	function &getRef($reference) {
-		$ref =& JStringController::_getArray();
+		$ref = &JStringController::_getArray();
 		if (isset($ref[$reference])) {
 			return $ref[$reference];
 		} else {

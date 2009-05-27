@@ -12,12 +12,12 @@
  * @package Joomla.Framework
  * @subpackage Database.Loader
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  * @version SVN: $Id$
  */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 jimport('joomla.tasks.task');
 jimport('joomla.tasks.tasksuspendable');
@@ -57,7 +57,7 @@ class JDataLoaderSql extends JDataLoad implements JTaskSuspendable {
 			return false;
 		}
 
-		$this->_stream =& JFactory::getStream();
+		$this->_stream = &JFactory::getStream();
 		$this->setProperties($options);
 		if (!$this->_stream->open($this->filename)) {
 			$this->setError(43, 'Failed to open file: '. $this->_stream->getError());
@@ -65,10 +65,10 @@ class JDataLoaderSql extends JDataLoad implements JTaskSuspendable {
 		}
 
 		// Open up log file
-		//$this->_logger =& JFactory::getStream();
+		//$this->_logger = &JFactory::getStream();
 		//$this->_logger->open('/tmp/datalog','a');
 
-		$this->_dbo =& JFactory::getDBO();
+		$this->_dbo = &JFactory::getDbo();
 
 
 		if ($this->taskset || $this->taskid) {

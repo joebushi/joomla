@@ -4,11 +4,11 @@
  * @package		Joomla.Framework
  * @subpackage	Registry
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 /**
  * XML Format for JRegistry
@@ -72,7 +72,7 @@ class JRegistryFormatXML extends JRegistryFormat {
 		// Initialize variables
 		$retval = '';
 		$tab	= '';
-		for($i=1;$i <= $depth; $i++) {
+		for ($i=1;$i <= $depth; $i++) {
 			$tab .= "\t";
 		}
 

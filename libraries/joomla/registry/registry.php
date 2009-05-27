@@ -4,11 +4,11 @@
  * @package		Joomla.Framework
  * @subpackage	Registry
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 //Register the session storage class with the loader
 JLoader::register('JRegistryFormat', dirname(__FILE__).DS.'format.php');
@@ -54,9 +54,8 @@ class JRegistry extends JClass
 	 * if it doesn't already exist.
 	 *
 	 * This method must be invoked as:
-	 * 		<pre>$registry =& JRegistry::getInstance($id[, $namespace]);</pre>
+	 * 		<pre>$registry = &JRegistry::getInstance($id[, $namespace]);</pre>
 	 *
-	 * @static
 	 * @param	string	$id			An ID for the registry instance
 	 * @param	string	$namespace	The default namespace for the registry object [optional]
 	 * @return	object	The JRegistry object.
@@ -80,7 +79,6 @@ class JRegistry extends JClass
 	/**
 	 * Create a namespace
 	 *
-	 * @access	public
 	 * @param	string	$namespace	Name of the namespace to create
 	 * @return	boolean	True on success
 	 * @since	1.5
@@ -135,7 +133,7 @@ class JRegistry extends JClass
 
 				//for ($i = 0; $i < $pathNodes; $i ++) {
 				for ($i = 1; $i < $pathNodes; $i ++) {
-					if ((isset($ns->$nodes[$i]))) $ns =& $ns->$nodes[$i];
+					if ((isset($ns->$nodes[$i]))) $ns = &$ns->$nodes[$i];
 				}
 
 				if (isset($ns->$nodes[$i])) {
@@ -188,11 +186,11 @@ class JRegistry extends JClass
 			if (!isset($ns->$nodes[$i])) {
 				$ns->$nodes[$i] = new stdClass();
 			}
-			$ns =& $ns->$nodes[$i];
+			$ns = &$ns->$nodes[$i];
 		}
 
 		// Get the old value if exists so we can return it
-		$ns->$nodes[$i] =& $value;
+		$ns->$nodes[$i] = &$value;
 
 		return $ns->$nodes[$i];
 	}
@@ -278,7 +276,7 @@ class JRegistry extends JClass
 	public function loadFile($file, $format = 'JSON', $namespace = null)
 	{
 		// Load a file into the given namespace [or default namespace if not given]
-		$handler =& JRegistryFormat::getInstance($format);
+		$handler = &JRegistryFormat::getInstance($format);
 
 		// If namespace is not set, get the default namespace
 		if ($namespace == null) {
@@ -325,7 +323,7 @@ class JRegistry extends JClass
 	public function loadXML($data, $namespace = null)
 	{
 		// Load a string into the given namespace [or default namespace if not given]
-		$handler =& JRegistryFormat::getInstance('XML');
+		$handler = &JRegistryFormat::getInstance('XML');
 
 		// If namespace is not set, get the default namespace
 		if ($namespace == null) {
@@ -335,10 +333,10 @@ class JRegistry extends JClass
 		if (!isset($this->_registry[$namespace])) {
 			// If namespace does not exist, make it and load the data
 			$this->makeNameSpace($namespace);
-			$this->_registry[$namespace]['data'] =& $handler->stringToObject($data);
+			$this->_registry[$namespace]['data'] = &$handler->stringToObject($data);
 		} else {
 			// Get the data in object format
-			$ns =& $handler->stringToObject($data);
+			$ns = &$handler->stringToObject($data);
 
 			/*
 			 * We want to leave groups that are already in the namespace and add the
@@ -365,7 +363,7 @@ class JRegistry extends JClass
 	public function loadINI($data, $namespace = null)
 	{
 		// Load a string into the given namespace [or default namespace if not given]
-		$handler =& JRegistryFormat::getInstance('INI');
+		$handler = &JRegistryFormat::getInstance('INI');
 
 		// If namespace is not set, get the default namespace
 		if ($namespace == null) {
@@ -375,7 +373,7 @@ class JRegistry extends JClass
 		if (!isset($this->_registry[$namespace])) {
 			// If namespace does not exist, make it and load the data
 			$this->makeNameSpace($namespace);
-			$this->_registry[$namespace]['data'] =& $handler->stringToObject($data);
+			$this->_registry[$namespace]['data'] = &$handler->stringToObject($data);
 		} else {
 			// Get the data in object format
 			$ns = $handler->stringToObject($data);
@@ -396,7 +394,6 @@ class JRegistry extends JClass
 	/**
 	 * Load an JSON string into the registry into the given namespace [or default if a namespace is not given]
 	 *
-	 * @access	public
 	 * @param	string	$data		JSON formatted string to load into the registry
 	 * @param	string	$namespace	Namespace to load the INI string into [optional]
 	 * @return	boolean True on success
@@ -405,7 +402,7 @@ class JRegistry extends JClass
 	public function loadJSON($data, $namespace = null)
 	{
 		// Load a string into the given namespace [or default namespace if not given]
-		$handler =& JRegistryFormat::getInstance('JSON');
+		$handler = &JRegistryFormat::getInstance('JSON');
 
 		// If namespace is not set, get the default namespace
 		if ($namespace == null) {
@@ -415,7 +412,7 @@ class JRegistry extends JClass
 		if (!isset($this->_registry[$namespace])) {
 			// If namespace does not exist, make it and load the data
 			$this->makeNameSpace($namespace);
-			$this->_registry[$namespace]['data'] =& $handler->stringToObject($data);
+			$this->_registry[$namespace]['data'] = &$handler->stringToObject($data);
 		} else {
 			// Get the data in object format
 			$ns = $handler->stringToObject($data);
@@ -480,7 +477,7 @@ class JRegistry extends JClass
 	public function toString($format = 'JSON', $namespace = null, $params = null)
 	{
 		// Return a namespace in a given format
-		$handler =& JRegistryFormat::getInstance($format);
+		$handler = &JRegistryFormat::getInstance($format);
 
 		// If namespace is not set, get the default namespace
 		if ($namespace == null) {

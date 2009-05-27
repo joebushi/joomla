@@ -1,14 +1,14 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @subpackage	Application
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Application
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 // Import library dependencies
 jimport('joomla.application.component.helper');
@@ -34,7 +34,7 @@ abstract class JModuleHelper
 	public static function &getModule($name, $title = null)
 	{
 		$result		= null;
-		$modules	=& JModuleHelper::_load();
+		$modules	= &JModuleHelper::_load();
 		$total		= count($modules);
 		for ($i = 0; $i < $total; $i++)
 		{
@@ -44,7 +44,7 @@ abstract class JModuleHelper
 				// Match the title if we're looking for a specific instance of the module
 				if (! $title || $modules[$i]->title == $title)
 				{
-					$result =& $modules[$i];
+					$result = &$modules[$i];
 					break;	// Found it
 				}
 			}
@@ -80,12 +80,12 @@ abstract class JModuleHelper
 		$position	= strtolower($position);
 		$result		= array();
 
-		$modules =& JModuleHelper::_load();
+		$modules = &JModuleHelper::_load();
 
 		$total = count($modules);
-		for($i = 0; $i < $total; $i++) {
+		for ($i = 0; $i < $total; $i++) {
 			if ($modules[$i]->position == $position) {
-				$result[] =& $modules[$i];
+				$result[] = &$modules[$i];
 			}
 		}
 		if (count($result) == 0) {
@@ -122,7 +122,7 @@ abstract class JModuleHelper
 
 		//needed for backwards compatibility
 		// @todo if legacy ...
-		$mainframe =& $appl;
+		$mainframe = &$appl;
 
 		$scope = $appl->scope; //record the scope
 		$appl->scope = $module->module;  //set scope to component name
@@ -137,7 +137,7 @@ abstract class JModuleHelper
 		// Load the module
 		if (!$module->user && file_exists($path) && empty($module->content))
 		{
-			$lang =& JFactory::getLanguage();
+			$lang = &JFactory::getLanguage();
 			// 1.5 or Core
 			$lang->load($module->module);
 			// 1.6 3PD
@@ -240,7 +240,7 @@ abstract class JModuleHelper
 		}
 
 		$user = &JFactory::getUser();
-		$db = &JFactory::getDBO();
+		$db = &JFactory::getDbo();
 
 		$aid = $user->get('aid', 0);
 

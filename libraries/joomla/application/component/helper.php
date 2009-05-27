@@ -1,14 +1,14 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @subpackage	Application
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Application
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 /**
  * Component helper class
@@ -97,7 +97,7 @@ abstract class JComponentHelper
 
 		//needed for backwards compatibility
 		// @todo if legacy ...
-		$mainframe =& $appl;
+		$mainframe = &$appl;
 
 		if (empty($name)) {
 			// Throw 404 if no component
@@ -132,7 +132,7 @@ abstract class JComponentHelper
 		$task = JRequest::getString('task');
 
 		// Load common language files
-		$lang =& JFactory::getLanguage();
+		$lang = &JFactory::getLanguage();
 		// 1.5 3PD or Core files
 		$lang->load($name);
 		// 1.6 3PD
@@ -180,7 +180,7 @@ abstract class JComponentHelper
 			return $components;
 		}
 
-		$db = &JFactory::getDBO();
+		$db = &JFactory::getDbo();
 
 		$query = 'SELECT *' .
 				' FROM #__components' .

@@ -4,11 +4,11 @@
  * @package		Joomla.Framework
  * @subpackage	Installer
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
@@ -36,7 +36,7 @@ abstract class JInstallerHelper
 	 */
 	public static function downloadPackage($url, $target = false)
 	{
-		$config =& JFactory::getConfig();
+		$config = &JFactory::getConfig();
 
 		// Capture PHP errors
 		$php_errormsg = 'Error Unknown';
@@ -247,7 +247,7 @@ abstract class JInstallerHelper
 	 */
 	public static function cleanupInstall($package, $resultdir)
 	{
-		$config =& JFactory::getConfig();
+		$config = &JFactory::getConfig();
 
 		// Does the unpacked extension directory exist?
 		if (is_dir($resultdir)) {
@@ -271,7 +271,7 @@ abstract class JInstallerHelper
 	 */
 	public static function splitSql($sql)
 	{
-		$db =& JFactory::getDBO();
+		$db = &JFactory::getDbo();
 		return $db->splitSql($sql);
 	}
 }

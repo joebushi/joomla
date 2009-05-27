@@ -1,14 +1,14 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @subpackage	Parameter
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Parameter
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 /**
  * Renders a editors element
@@ -30,7 +30,7 @@ class JElementEditors extends JElement
 
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
-		$db		= & JFactory::getDBO();
+		$db		= & JFactory::getDbo();
 		$user	= & JFactory::getUser();
 
 		//TODO: change to acl_check method

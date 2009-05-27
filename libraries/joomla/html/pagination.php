@@ -4,11 +4,11 @@
  * @package		Joomla.Framework
  * @subpackage	HTML
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 /**
  * Pagination Class.  Provides a common interface for content pagination for the
@@ -195,7 +195,7 @@ class JPagination extends JClass
 	{
 		$appl = JFactory::getApplication();
 
-		$lang =& JFactory::getLanguage();
+		$lang = &JFactory::getLanguage();
 
 		// Build the page navigation list
 		$data = $this->_buildDataObject();

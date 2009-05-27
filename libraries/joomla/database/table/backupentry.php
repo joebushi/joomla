@@ -3,7 +3,7 @@
  * @version		$Id$
  * @package		Joomla.Framework
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 /**
@@ -63,7 +63,7 @@ class JTableBackupEntry extends JTable
 	 */
 	public function load($oid = null) {
 		 $res = parent::load($oid);
-		 if($res) {
+		 if ($res) {
 		 	$this->data = unserialize($this->data);
 		 	$this->params = unserialize($this->params);
 		 }

@@ -1,14 +1,14 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @subpackage	Document
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Document
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 //Register the renderer class with the loader
 JLoader::register('JDocumentRenderer', dirname(__FILE__).DS.'renderer.php');
@@ -287,7 +287,7 @@ abstract class JDocument extends JClass
 			}
 
 			$instance	= new $class($attributes);
-			$instances[$signature] =& $instance;
+			$instances[$signature] = &$instance;
 
 			if (!is_null($ntype))
 			{

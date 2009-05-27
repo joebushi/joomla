@@ -4,11 +4,11 @@
  * @package		JLibMan
  * @subpackage	Installer
  * @copyright 	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 jimport('joomla.installer.filemanifest');
 jimport('joomla.base.adapterinstance');
@@ -33,8 +33,8 @@ class JInstallerFiles extends JAdapterInstance
 	function install()
 	{
 		// Get the extension manifest object
-		$manifest =& $this->parent->getManifest();
-		$this->manifest =& $manifest->document;
+		$manifest = &$this->parent->getManifest();
+		$this->manifest = &$manifest->document;
 
 		/**
 		 * ---------------------------------------------------------------------------------------------
@@ -43,7 +43,7 @@ class JInstallerFiles extends JAdapterInstance
 		 */
 
 		// Set the extensions name
-		$name =& $this->manifest->getElementByPath('name');
+		$name = &$this->manifest->getElementByPath('name');
 		$name = JFilterInput::clean($name->data(), 'string');
 		$this->set('name', $name);
 
@@ -56,7 +56,7 @@ class JInstallerFiles extends JAdapterInstance
 		}
 
 		// Set the installation path
-		$element =& $this->manifest->getElementByPath('files');
+		$element = &$this->manifest->getElementByPath('files');
 		$group = $this->manifest->getElementByPath('filename');
 		$group = $group->data();
 		if (!empty($group)) {
@@ -124,8 +124,8 @@ class JInstallerFiles extends JAdapterInstance
 	function update() {
 		// since this is just files, an update removes old files
 		// Get the extension manifest object
-		$manifest =& $this->parent->getManifest();
-		$this->manifest =& $manifest->document;
+		$manifest = &$this->parent->getManifest();
+		$this->manifest = &$manifest->document;
 
 		/**
 		 * ---------------------------------------------------------------------------------------------
@@ -134,7 +134,7 @@ class JInstallerFiles extends JAdapterInstance
 		 */
 
 		// Set the extensions name
-		$name =& $this->manifest->getElementByPath('name');
+		$name = &$this->manifest->getElementByPath('name');
 		$name = JFilterInput::clean($name->data(), 'string');
 		$installer = new JInstaller(); // we don't want to compromise this instance!
 		$installer->uninstall('file', $name, 0);
@@ -165,7 +165,7 @@ class JInstallerFiles extends JAdapterInstance
 			// Set the plugin root path
 			$this->parent->setPath('extension_root', JPATH_ROOT.DS.'files'.DS.$manifest->filename);
 
-			$xml =& JFactory::getXMLParser('Simple');
+			$xml = &JFactory::getXMLParser('Simple');
 
 			// If we cannot load the xml file return null
 			if (!$xml->loadFile($manifestFile)) {
@@ -178,7 +178,7 @@ class JInstallerFiles extends JAdapterInstance
 			 * @todo: Remove backwards compatability in a future version
 			 * Should be 'extension', but for backward compatability we will accept 'install'.
 			 */
-			$root =& $xml->document;
+			$root = &$xml->document;
 			if ($root->name() != 'install' && $root->name() != 'extension') {
 				JError::raiseWarning(100, JText::_('File').' '.JText::_('Uninstall').': '.JText::_('Invalid manifest file'));
 				return false;

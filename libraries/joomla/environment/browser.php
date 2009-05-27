@@ -1,14 +1,14 @@
 <?php
 /**
-* @version      $Id$
-* @package      Joomla.Framework
-* @subpackage   Environment
-* @copyright    Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license      GNU General Public License, see LICENSE.php
-*/
+ * @version      $Id$
+ * @package      Joomla.Framework
+ * @subpackage   Environment
+ * @copyright    Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license      GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 /**
  * Browser class, provides capability information about the current web client.
@@ -131,7 +131,7 @@ class JBrowser extends JClass
         'webbandit',
         'www.almaden.ibm.com/cs/crawler',
         'ZyBorg',
-   );
+  );
 
     /**
      * Is this a mobile browser?
@@ -166,7 +166,7 @@ class JBrowser extends JClass
         'xhtml+xml'     => false,
         'mathml'        => false,
         'svg'           => false
-   );
+  );
 
     /**
      * Quirks
@@ -190,7 +190,7 @@ class JBrowser extends JClass
         'scrollbar_in_way'              => false,
         'scroll_tds'                    => false,
         'windowed_controls'             => false,
-   );
+  );
 
     /**
      * List of viewable image MIME subtypes.

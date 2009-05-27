@@ -3,10 +3,10 @@
  * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @copyright	Copyright (C) 2008 - 2009 JXtended, LLC. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
-defined('JPATH_BASE') or die('Restricted Access');
+defined('JPATH_BASE') or die;
 
 jimport('joomla.html.html');
 require_once dirname(__FILE__).DS.'list.php';
@@ -35,7 +35,7 @@ class JFormFieldAccessSections extends JFormFieldList
 	protected function _getOptions()
 	{
 		// Get the user groups from the database.
-		$db = &JFactory::getDBO();
+		$db = &JFactory::getDbo();
 		$db->setQuery(
 			'SELECT `id` AS value, `title` AS text' .
 			' FROM `#__access_sections`' .

@@ -1,11 +1,11 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @subpackage	HTML
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	HTML
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 /**
  * Utility class for creating HTML Grids
@@ -87,7 +87,7 @@ abstract class JHtmlGrid
 
 	public static function checkedOut(&$row, $i, $identifier = 'id')
 	{
-		$user   =& JFactory::getUser();
+		$user   = &JFactory::getUser();
 		$userid = $user->get('id');
 
 		$result = false;

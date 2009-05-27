@@ -1,5 +1,5 @@
 <?php // @version $Id$
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 $cparams = JComponentHelper::getParams ('com_media');
 ?>
 
@@ -14,7 +14,7 @@ $cparams = JComponentHelper::getParams ('com_media');
 
 	<?php if ($this->params->get('image') != -1 && $this->params->get('image') != '') : ?>
 	<img src="<?php echo $this->baseurl . $cparams->get('image_path').'/'.$this->params->get('image'); ?>" class="image_<?php echo $this->params->get('image_align'); ?>" alt="<?php echo JText::_('Contacts'); ?>" />
-	<?php elseif($this->category->image): ?>
+	<?php elseif ($this->category->image): ?>
 	<img src="<?php echo $this->baseurl . $cparams->get('image_path').'/'.$this->category->image; ?>" class="image_<?php echo $this->category->image_position; ?>" alt="<?php echo JText::_('Contacts'); ?>" />
 	<?php endif; ?>
 
@@ -28,13 +28,13 @@ $cparams = JComponentHelper::getParams ('com_media');
 <?php endif; ?>
 
 <script language="javascript" type="text/javascript">
-function tableOrdering( order, dir, task )
+function tableOrdering(order, dir, task)
 {
 	var form = document.adminForm;
 
 	form.filter_order.value	 = order;
 	form.filter_order_Dir.value	= dir;
-	document.adminForm.submit( task );
+	document.adminForm.submit(task);
 }
 </script>
 
@@ -62,12 +62,12 @@ function tableOrdering( order, dir, task )
 
 		<?php if ($this->params->get('show_position')) : ?>
 		<th id="Position" class="sectiontableheader<?php echo $this->params->get('pageclass_sfx'); ?>">
-			<?php echo JHtml::_('grid.sort', 'Position', 'cd.con_position', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+			<?php echo JHtml::_('grid.sort', 'Position', 'cd.con_position', $this->lists['order_Dir'], $this->lists['order']); ?>
 		</th>
 		<?php endif; ?>
 
 		<th id="Name" class="sectiontableheader<?php echo $this->params->get('pageclass_sfx'); ?>">
-			<?php echo JHtml::_('grid.sort', 'Name', 'cd.name', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+			<?php echo JHtml::_('grid.sort', 'Name', 'cd.name', $this->lists['order_Dir'], $this->lists['order']); ?>
 		</th>
 
 		<?php if ($this->params->get('show_email')) : ?>
@@ -76,7 +76,7 @@ function tableOrdering( order, dir, task )
 		</th>
 		<?php endif; ?>
 
-		<?php if ( $this->params->get('show_telephone')) : ?>
+		<?php if ($this->params->get('show_telephone')) : ?>
 		<th id="Phone" class="sectiontableheader<?php echo $this->params->get('pageclass_sfx'); ?>">
 			<?php echo JText::_('Phone'); ?>
 		</th>
@@ -88,7 +88,7 @@ function tableOrdering( order, dir, task )
 		</th>
 		<?php endif; ?>
 
-		<?php if ( $this->params->get('show_fax')) : ?>
+		<?php if ($this->params->get('show_fax')) : ?>
 		<th id="Fax" class="sectiontableheader<?php echo $this->params->get('pageclass_sfx'); ?>">
 			<?php echo JText::_('Fax'); ?>
 		</th>

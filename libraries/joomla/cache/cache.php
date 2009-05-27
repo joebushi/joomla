@@ -4,11 +4,11 @@
  * @package		Joomla.Framework
  * @subpackage	Cache
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 //Register the session storage class with the loader
 JLoader::register('JCacheStorage', dirname(__FILE__).DS.'storage.php');
@@ -45,7 +45,7 @@ class JCache extends JClass
 	 */
 	protected function __construct($options)
 	{
-		$this->_options =& $options;
+		$this->_options = &$options;
 
 		// Get the default group and caching
 		if (isset($options['language'])) {
@@ -183,10 +183,10 @@ class JCache extends JClass
 	{
 		// Get the default group
 		$group = ($group) ? $group : $this->_options['defaultgroup'];
-		if(!$this->_options['caching']) return false;
+		if (!$this->_options['caching']) return false;
 		// Get the storage handler
 		try {
-			$handler =& JCacheStorage::getInstance($this->_options['storage'], $this->_options);
+			$handler = &JCacheStorage::getInstance($this->_options['storage'], $this->_options);
 			return $handler->get($id, $group, (isset($this->_options['checkTime']))? $this->_options['checkTime'] : true);
 		} catch(JException $e) {
 			return false;
@@ -207,13 +207,13 @@ class JCache extends JClass
 	{
 		// Get the default group
 		$group = ($group) ? $group : $this->_options['defaultgroup'];
-		if(!$this->_options['caching']) return false;
+		if (!$this->_options['caching']) return false;
 
 		// Get the storage handler and store the cached data
 		try {
-			$handler =& JCacheStorage::getInstance($this->_options['storage'], $this->_options);
+			$handler = &JCacheStorage::getInstance($this->_options['storage'], $this->_options);
 			return $handler->store($id, $group, $data);
-		} catch(JException $e ) {
+		} catch(JException $e) {
 			return false;
 		}
 	}
@@ -235,7 +235,7 @@ class JCache extends JClass
 
 		// Get the storage handler
 		try {
-			$handler =& JCacheStorage::getInstance($this->_options['storage'], $this->_options);
+			$handler = &JCacheStorage::getInstance($this->_options['storage'], $this->_options);
 			return $handler->remove($id, $group);
 		} catch(JException $e) {
 			return false;
@@ -261,7 +261,7 @@ class JCache extends JClass
 
 		// Get the storage handler
 		try {
-			$handler =& JCacheStorage::getInstance($this->_options['storage'], $this->_options);
+			$handler = &JCacheStorage::getInstance($this->_options['storage'], $this->_options);
 			return $handler->clean($group, $mode);
 		} catch(JException $e) {
 			return false;
@@ -279,7 +279,7 @@ class JCache extends JClass
 	{
 		// Get the storage handler
 		try {
-			$handler =& JCacheStorage::getInstance($this->_options['storage'], $this->_options);
+			$handler = &JCacheStorage::getInstance($this->_options['storage'], $this->_options);
 			return $handler->gc();
 		} catch(JException $e) {
 			return false;

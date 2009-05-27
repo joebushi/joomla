@@ -1,14 +1,14 @@
 <?php
 /**
-* @version		$Id:observer.php 6961 2007-03-15 16:06:53Z tcp $
-* @package		Joomla.Framework
-* @subpackage	Base
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id:observer.php 6961 2007-03-15 16:06:53Z tcp $
+ * @package		Joomla.Framework
+ * @subpackage	Base
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 /**
  * Abstract observable class to implement the observer design pattern
@@ -103,13 +103,13 @@ class JObservable extends JClass
 					return;
 				}
 			}
-			$this->_observers[] =& $observer;
+			$this->_observers[] = &$observer;
 			$methods = get_class_methods($observer);
 		} else {
 			if (!isset($observer['handler']) || !isset($observer['event']) || !is_callable($observer['handler'])) {
 				return;
 			}
-			$this->_observers[] =& $observer;
+			$this->_observers[] = &$observer;
 			$methods = array($observer['event']);
 		}
 		end($this->_observers);

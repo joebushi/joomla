@@ -1,13 +1,13 @@
 <?php // @version $Id$
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 ?>
 
 <dl class="poll">
-	<dt><?php echo JText::_( 'Number of Voters' ); ?></dt>
+	<dt><?php echo JText::_('Number of Voters'); ?></dt>
 	<dd><?php echo $this->votes[0]->voters; ?></dd>
-	<dt><?php echo JText::_( 'First Vote' ); ?></dt>
+	<dt><?php echo JText::_('First Vote'); ?></dt>
 	<dd><?php echo $this->first_vote; ?></dd>
-	<dt><?php echo JText::_( 'Last Vote' ); ?></dt>
+	<dt><?php echo JText::_('Last Vote'); ?></dt>
 	<dd><?php echo $this->last_vote; ?></dd>
 </dl>
 
@@ -17,11 +17,11 @@ defined('_JEXEC') or die('Restricted access');
 
 <table class="pollstableborder">
 	<tr>
-		<th id="itema" class="td_1"><?php echo JText::_( 'Hits' ); ?></th>
-		<th id="itemb" class="td_2"><?php echo JText::_( 'Percent' ); ?></th>
-		<th id="itemc" class="td_3"><?php echo JText::_( 'Graph' ); ?></th>
+		<th id="itema" class="td_1"><?php echo JText::_('Hits'); ?></th>
+		<th id="itemb" class="td_2"><?php echo JText::_('Percent'); ?></th>
+		<th id="itemc" class="td_3"><?php echo JText::_('Graph'); ?></th>
 	</tr>
-	<?php for ( $row = 0; $row < count( $this->votes ); $row++ ) :
+	<?php for ($row = 0; $row < count($this->votes); $row++) :
 		$vote = $this->votes[$row];
 	?>
 	<tr>

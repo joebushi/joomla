@@ -1,14 +1,14 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @subpackage	Document
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Document
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 /**
  * Abstract class for a renderer
@@ -43,7 +43,7 @@ abstract class JDocumentRenderer extends JClass
 	* @param object A reference to the JDocument object that instantiated the renderer
 	*/
 	public function __construct(&$doc) {
-		$this->_doc =& $doc;
+		$this->_doc = &$doc;
 	}
 
 	/**

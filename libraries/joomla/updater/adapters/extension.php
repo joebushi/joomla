@@ -1,6 +1,6 @@
 <?php
 
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 jimport('joomla.updater.updateadapter');
 
@@ -15,7 +15,7 @@ class JUpdaterExtension extends JUpdateAdapter {
 		//print_r($attrs); echo '<br />';
 		switch($name) {
 			case 'UPDATE':
-				$this->current_update =& JTable::getInstance('update');
+				$this->current_update = &JTable::getInstance('update');
 				$this->current_update->update_site_id = $this->_update_site_id;
 				$this->current_update->detailsurl = $this->_url;
 				break;
@@ -39,7 +39,7 @@ class JUpdaterExtension extends JUpdateAdapter {
 		switch($name) {
 			case 'UPDATE':
 				$ver = new JVersion();
-				$filter =& JFilterInput::getInstance();
+				$filter = &JFilterInput::getInstance();
 				$product = strtolower($filter->clean($ver->PRODUCT, 'cmd')); // lower case and remove the exclamation mark
 				// check that the product matches and that the version matches (optionally a regexp)
 				if ($product == $this->current_update->targetplatform['NAME'] && preg_match('/'.$this->current_update->targetplatform['VERSION'].'/',$ver->RELEASE)) {
@@ -72,7 +72,7 @@ class JUpdaterExtension extends JUpdateAdapter {
 
 	public function findUpdate($options) {
 		$url = $options['location'];
-		$this->_url =& $url;
+		$this->_url = &$url;
 		$this->_update_site_id = $options['update_site_id'];
 		//echo '<p>Find update for extension run on <a href="'. $url .'">'. $url .'</a></p>';
 		if (substr($url, -4) != '.xml') {
@@ -83,7 +83,7 @@ class JUpdaterExtension extends JUpdateAdapter {
 		}
 
 
-		$dbo =& $this->parent->getDBO();
+		$dbo = &$this->parent->getDbo();
 
 		if (!($fp = @fopen($url, "r"))) {
 			// TODO: Add a 'mark bad' setting here somehow

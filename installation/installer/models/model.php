@@ -5,11 +5,11 @@
  * @package		Joomla.Installation
  * @subpackage	Installation
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -137,7 +137,7 @@ class JInstallationModel extends JModel
 	function finish()
 	{
 		$appl	= JFactory::getApplication();
-		$vars	=& $this->getVars();
+		$vars	= &$this->getVars();
 
 		$vars['siteUrl']	= JURI::root();
 		$vars['adminUrl']	= $vars['siteUrl'].'administrator/';
@@ -155,7 +155,7 @@ class JInstallationModel extends JModel
 	function ftpConfig($DBcreated = '0')
 	{
 		$appl	= JFactory::getApplication();
-		$vars	=& $this->getVars();
+		$vars	= &$this->getVars();
 		// Require the xajax library
 		require_once JPATH_BASE.DS.'includes'.DS.'xajax'.DS.'xajax.inc.php';
 
@@ -184,7 +184,7 @@ class JInstallationModel extends JModel
 			$vars['ftpPassword'] = '';
 		}
 
-		$doc =& JFactory::getDocument();
+		$doc = &JFactory::getDocument();
 		$doc->addCustomTag($xajax->getJavascript('', 'includes/js/xajax.js', 'includes/js/xajax.js'));
 
 		return true;
@@ -234,8 +234,8 @@ class JInstallationModel extends JModel
 			// get a recursively slash stripped version of post
 			$post		= (array) JRequest::get('post');
 			$postVars	= JArrayHelper::getValue($post, 'vars', array(), 'array');
-			$session	=& JFactory::getSession();
-			$registry	=& $session->get('registry');
+			$session	= &JFactory::getSession();
+			$registry	= &$session->get('registry');
 			$registry->loadArray($postVars, 'application');
 			$this->vars	= $registry->toArray('application');
 		}
@@ -331,7 +331,7 @@ class JInstallationModel extends JModel
 		if (!$DBcreated)
 		{
 			$DBselect	= false;
-			$db = & JInstallationHelper::getDBO($DBtype, $DBhostname, $DBuserName, $DBpassword, null, $DBPrefix, $DBselect);
+			$db = & JInstallationHelper::getDbo($DBtype, $DBhostname, $DBuserName, $DBpassword, null, $DBPrefix, $DBselect);
 
 			if (JError::isError($db)) {
 				// connection failed
@@ -368,7 +368,7 @@ class JInstallationModel extends JModel
 				{
 					// make the new connection to the new database
 					//$db = NULL;
-					//$db = & JInstallationHelper::getDBO($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
+					//$db = & JInstallationHelper::getDbo($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
 					$info = $e->get('info');
 					$this->setError(JText::sprintf('WARNCREATEDB', $DBname));
 					$this->setData('back',		'dbconfig');
@@ -387,7 +387,7 @@ class JInstallationModel extends JModel
 					$db->select($DBname);
 					// make the new connection to the new database
 					//$db = NULL;
-					//$db = & JInstallationHelper::getDBO($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
+					//$db = & JInstallationHelper::getDbo($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
 				} else {
 					$this->setError(JText::sprintf('WARNCREATEDB', $DBname));
 					$this->setData('back', 'dbconfig');
@@ -403,7 +403,7 @@ class JInstallationModel extends JModel
 			}
 			*/
 
-			$db = &JInstallationHelper::getDBO($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
+			$db = &JInstallationHelper::getDbo($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
 
 			if ($DBOld == 'rm') {
 				if (JInstallationHelper::deleteDatabase($db, $DBname, $DBPrefix, $errors)) {
@@ -792,7 +792,7 @@ class JInstallationModel extends JModel
 		if ($data->ftp_enable)
 		{
 			jimport('joomla.client.helper');
-			$oldconfig =& JFactory::getConfig();
+			$oldconfig = &JFactory::getConfig();
 			$oldconfig->setValue('config.ftp_enable', $data->ftp_enable);
 			$oldconfig->setValue('config.ftp_host', $data->ftp_host);
 			$oldconfig->setValue('config.ftp_port', $data->ftp_port);
@@ -891,7 +891,7 @@ class JInstallationModel extends JModel
 
 		// If migration perform manipulations on script file before population
 		if ($migration == true) {
-			$db		= &JInstallationHelper::getDBO($vars['DBtype'], $vars['DBhostname'], $vars['DBuserName'], $vars['DBpassword'], $vars['DBname'], $vars['DBPrefix']);
+			$db		= &JInstallationHelper::getDbo($vars['DBtype'], $vars['DBhostname'], $vars['DBuserName'], $vars['DBpassword'], $vars['DBname'], $vars['DBPrefix']);
 			$script	= JInstallationHelper::preMigrate($script, $vars, $db);
 
 			if ($script == false) {
@@ -915,7 +915,7 @@ class JInstallationModel extends JModel
 	{
 		$migErrors	= null;
 		$args		= &$this->getVars();
-		$db			= &JInstallationHelper::getDBO($args['DBtype'], $args['DBhostname'], $args['DBuserName'], $args['DBpassword'], $args['DBname'], $args['DBPrefix']);
+		$db			= &JInstallationHelper::getDbo($args['DBtype'], $args['DBhostname'], $args['DBuserName'], $args['DBpassword'], $args['DBname'], $args['DBPrefix']);
 		$migResult	= JInstallationHelper::postMigrate($db, $migErrors, $args);
 
 		if (!$migResult) {

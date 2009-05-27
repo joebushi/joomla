@@ -4,11 +4,11 @@
  * @package		Joomla.Framework
  * @subpackage	Cache
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 /**
  * File cache storage handler
@@ -32,7 +32,7 @@ class JCacheStorageFile extends JCacheStorage
 	{
 		parent::__construct($options);
 
-		$config		=& JFactory::getConfig();
+		$config		= &JFactory::getConfig();
 		$this->_root	= $options['cachebase'];
 		$this->_hash	= $config->getValue('config.secret');
 	}
@@ -202,7 +202,7 @@ class JCacheStorageFile extends JCacheStorage
 	 */
 	public static function test()
 	{
-		$config	=& JFactory::getConfig();
+		$config	= &JFactory::getConfig();
 		$root	= $config->getValue('config.cache_path', JPATH_ROOT.DS.'cache');
 		return is_writable($root);
 	}

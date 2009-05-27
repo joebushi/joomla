@@ -4,11 +4,11 @@
  * @package		Joomla.Framework
  * @subpackage	Installer
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 jimport('joomla.base.adapterinstance');
 
 /**
@@ -38,11 +38,11 @@ class JInstallerPlugin extends JAdapterInstance
 	public function install()
 	{
 		// Get a database connector object
-		$db =& $this->parent->getDBO();
+		$db = &$this->parent->getDbo();
 
 		// Get the extension manifest object
-		$manifest =& $this->parent->getManifest();
-		$this->manifest =& $manifest->document;
+		$manifest = &$this->parent->getManifest();
+		$this->manifest = &$manifest->document;
 
 		/**
 		 * ---------------------------------------------------------------------------------------------
@@ -51,7 +51,7 @@ class JInstallerPlugin extends JAdapterInstance
 		 */
 
 		// Set the extensions name
-		$name =& $this->manifest->getElementByPath('name');
+		$name = &$this->manifest->getElementByPath('name');
 		$name = JFilterInput::clean($name->data(), 'string');
 		$this->set('name', $name);
 
@@ -70,9 +70,9 @@ class JInstallerPlugin extends JAdapterInstance
 		$type = $this->manifest->attributes('type');
 
 		// Set the installation path
-		$plugin_files =& $this->manifest->getElementByPath('files');
+		$plugin_files = &$this->manifest->getElementByPath('files');
 		if ($plugin_files INSTANCEOF JSimpleXMLElement && count($plugin_files->children())) {
-			$files =& $plugin_files->children();
+			$files = &$plugin_files->children();
 			foreach ($files as $file) {
 				if ($file->attributes($type)) {
 					$element = $file->attributes($type);
@@ -117,7 +117,7 @@ class JInstallerPlugin extends JAdapterInstance
 				// force these one
 				$this->parent->setOverwrite(true);
 				$this->parent->setUpgrade(true);
-				if($id) { // if there is a matching extension mark this as an update; semantics really
+				if ($id) { // if there is a matching extension mark this as an update; semantics really
 					$this->route = 'Update';	
 				}
 			} else if (!$this->parent->getOverwrite()) { // overwrite is set
@@ -133,7 +133,7 @@ class JInstallerPlugin extends JAdapterInstance
 		 * ---------------------------------------------------------------------------------------------
 		 */
 		// If there is an manifest class file, lets load it; we'll copy it later (don't have dest yet)
-		$this->scriptElement =& $this->manifest->getElementByPath('scriptfile');
+		$this->scriptElement = &$this->manifest->getElementByPath('scriptfile');
 		if (is_a($this->scriptElement, 'JSimpleXMLElement')) {
 			$manifestScript = $this->scriptElement->data();
 			$manifestScriptFile = $this->parent->getPath('source').DS.$manifestScript;
@@ -335,7 +335,7 @@ class JInstallerPlugin extends JAdapterInstance
 		// Initialize variables
 		$row	= null;
 		$retval = true;
-		$db		=& $this->parent->getDBO();
+		$db		= &$this->parent->getDbo();
 
 		// First order of business will be to load the module object table from the database.
 		// This should give us the necessary information to proceed.
@@ -369,11 +369,11 @@ class JInstallerPlugin extends JAdapterInstance
 
 		// Because plugins don't have their own folders we cannot use the standard method of finding an installation manifest
 		// Since 1.6 they do, however until we move to 1.7 and remove 1.6 legacy we still need to use this method
-		// when we get there it'll be something like "$manifest =& $this->parent->getManifest();"
+		// when we get there it'll be something like "$manifest = &$this->parent->getManifest();"
 		$manifestFile = $this->parent->getPath('extension_root').DS.$row->element.'.xml';
 		if (file_exists($manifestFile))
 		{
-			$xml =& JFactory::getXMLParser('Simple');
+			$xml = &JFactory::getXMLParser('Simple');
 
 			// If we cannot load the xml file return null
 			if (!$xml->loadFile($manifestFile)) {
@@ -386,8 +386,8 @@ class JInstallerPlugin extends JAdapterInstance
 			 * @todo: Remove backwards compatability in a future version
 			 * Should be 'extension', but for backward compatability we will accept 'install'.
 			 */
-			$root =& $xml->document;
-			$this->manifest =& $xml->document;
+			$root = &$xml->document;
+			$this->manifest = &$xml->document;
 			if ($root->name() != 'install' && $root->name() != 'extension') {
 				JError::raiseWarning(100, JText::_('Plugin').' '.JText::_('Uninstall').': '.JText::_('Invalid manifest file'));
 				return false;
@@ -399,7 +399,7 @@ class JInstallerPlugin extends JAdapterInstance
 			 * ---------------------------------------------------------------------------------------------
 			 */
 			// If there is an manifest class file, lets load it; we'll copy it later (don't have dest yet)
-			$this->scriptElement =& $this->manifest->getElementByPath('scriptfile');
+			$this->scriptElement = &$this->manifest->getElementByPath('scriptfile');
 			if (is_a($this->scriptElement, 'JSimpleXMLElement')) {
 				$manifestScript = $this->scriptElement->data();
 				$manifestScriptFile = $this->parent->getPath('source').DS.$manifestScript;
@@ -492,7 +492,7 @@ class JInstallerPlugin extends JAdapterInstance
 			foreach($file_list as $file) {
 				$file = JFile::stripExt($file);
 				if ($file == 'example') continue; // ignore example plugins
-				$extension =& JTable::getInstance('extension');
+				$extension = &JTable::getInstance('extension');
 				$extension->type = 'plugin';
 				$extension->client_id = 0;
 				$extension->element = $file;
@@ -507,7 +507,7 @@ class JInstallerPlugin extends JAdapterInstance
 				foreach($file_list as $file) {
 					$file = JFile::stripExt($file);
 					if ($file == 'example') continue; // ignore example plugins
-					$extension =& JTable::getInstance('extension');
+					$extension = &JTable::getInstance('extension');
 					$extension->type = 'plugin';
 					$extension->client_id = 0;
 					$extension->element = $file;
@@ -534,7 +534,7 @@ class JInstallerPlugin extends JAdapterInstance
 		// Similar to modules and templates, rather easy
 		// If its not in the extensions table we just add it
 		$client = JApplicationHelper::getClientInfo($this->parent->extension->client_id);
-		if(is_dir($client->path . DS . 'plugins'. DS . $this->parent->extension->folder . DS . $this->parent->extension->element)) {
+		if (is_dir($client->path . DS . 'plugins'. DS . $this->parent->extension->folder . DS . $this->parent->extension->element)) {
 			$manifestPath = $client->path . DS . 'plugins'. DS . $this->parent->extension->folder . DS . $this->parent->extension->element . DS . $this->parent->extension->element . '.xml';
 		} else {
 			$manifestPath = $client->path . DS . 'plugins'. DS . $this->parent->extension->folder . DS . $this->parent->extension->element . '.xml';	

@@ -4,11 +4,11 @@
  * @package		Joomla.Framework
  * @subpackage	Cache
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 /**
  * Memcache cache storage handler
@@ -52,9 +52,9 @@ class JCacheStorageMemcache extends JCacheStorage
 		}
 		parent::__construct($options);
 
-		$params =& JCacheStorageMemcache::getConfig();
+		$params = &JCacheStorageMemcache::getConfig();
 		$this->_compress = (isset($params['compression'])) ? $params['compression'] : 0;
-		$this->_db =& JCacheStorageMemcache::getConnection();
+		$this->_db = &JCacheStorageMemcache::getConnection();
 
 		// Get the site hash
 		$this->_hash = $params['hash'];
@@ -70,7 +70,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	protected static function &getConnection() {
 		static $db = null;
 		if (is_null($db)) {
-			$params =& JCacheStorageMemcache::getConfig();
+			$params = &JCacheStorageMemcache::getConfig();
 			$persistent	= (isset($params['persistent'])) ? $params['persistent'] : false;
 			// This will be an array of loveliness
 			$servers	= (isset($params['servers'])) ? $params['servers'] : array();
@@ -94,7 +94,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	protected static function &getConfig() {
 		static $params = null;
 		if (is_null($params)) {
-			$config =& JFactory::getConfig();
+			$config = &JFactory::getConfig();
 			$params = $config->getValue('config.memcache_settings');
 			if (!is_array($params)) {
 				$params = unserialize(stripslashes($params));

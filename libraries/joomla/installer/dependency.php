@@ -5,7 +5,7 @@
  */
 
 // Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 /**
  * Dependency Checker
@@ -29,13 +29,13 @@ class JDependency {
 	}
 	
 	private function _buildTree() {
-		$dbo = JFactory::getDBO();
+		$dbo = JFactory::getDbo();
 		$dbo->setQuery('SELECT type, element, folder, manifest_cache, client_id FROM #__extensions WHERE state > 0');
 		$results = $dbo->loadObjectList();
 		$rc = count($results); $i = 0;
 		do {
 			$result = $result[$i];
-			if(!$result->manifest_cache) {
+			if (!$result->manifest_cache) {
 				$path_opt = JDependency::getPathType($result->type, $result->element, $result->folder, $result->client_id);
 				$result->manifest_cache = serialize(JApplicationHelper::parseXMLInstallFile(JApplicationHelper::getPath($path_opt['variable'], $path_opt['user_option'])));
 			}
@@ -49,7 +49,7 @@ class JDependency {
 	 */
 	public static function getCurrentPlatform() {
 		$version = new JVersion();
-		$filter =& JFilterInput::getInstance();
+		$filter = &JFilterInput::getInstance();
 		$name = strtolower($filter->clean($version->PRODUCT, 'cmd'));
 		return Array('name'=>$name, 'version'=>$version->getShortVersion());
 	}

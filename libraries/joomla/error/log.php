@@ -4,11 +4,11 @@
  * @package		Joomla.Framework
  * @subpackage	Error
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 /**
  * Joomla! Logging class
@@ -74,7 +74,7 @@ class JLog extends JClass
 		// Set default path if not set
 		if (!$path)
 		{
-			$config =& JFactory::getConfig();
+			$config = &JFactory::getConfig();
 			$path = $config->getValue('config.log_path');
 		}
 
@@ -112,7 +112,7 @@ class JLog extends JClass
 	public function addEntry($entry)
 	{
 		// Set some default field values if not already set.
-		$date =& JFactory::getDate();
+		$date = &JFactory::getDate();
 		if (!isset ($entry['date'])) {
 
 			$entry['date'] = $date->toFormat("%Y-%m-%d");
@@ -166,7 +166,7 @@ class JLog extends JClass
 			return true;
 		}
 
-		$now =& JFactory::getDate();
+		$now = &JFactory::getDate();
 		$date = $now->toMySQL();
 
 		if (!file_exists($this->_path))

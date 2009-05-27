@@ -3,7 +3,7 @@
  * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @copyright	Copyright (C) 2008 - 2009 JXtended, LLC. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 defined('JPATH_BASE') or die;
@@ -226,7 +226,7 @@ abstract class JHtmlAccess
 				' GROUP BY a.id' .
 				' ORDER BY a.left_id ASC'
 			);
-			
+
 			try {
 				$cache = $db->loadObjectList();
 			}
@@ -235,7 +235,8 @@ abstract class JHtmlAccess
 				return null;
 			}
 
-			foreach ($cache as $i => $group) {
+			foreach ($cache as $i => $group)
+			{
 				$cache[$i]->value	= $group->id;
 				// We are not exposing any hierarchy in access levels yet.
 				//$cache[$i]->text	= str_pad($group->title, strlen($group->title) + 2*($group->level), '- ', STR_PAD_LEFT);
@@ -248,9 +249,9 @@ abstract class JHtmlAccess
 			$cache,
 			$name,
 			array(
-				'id' => 'assetgroups_'.$count,
-				'list.attr' => (is_null($attribs) ? 'class="inputbox" size="3"' : $attribs),
-				'list.select' => (int) $selected,
+				'id' =>				'assetgroups_'.$count,
+				'list.attr' =>		(is_null($attribs) ? 'class="inputbox" size="3"' : $attribs),
+				'list.select' =>	(int) $selected,
 				'list.translate' => true
 			)
 		);

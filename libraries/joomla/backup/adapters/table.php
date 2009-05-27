@@ -1,6 +1,6 @@
 <?php
 
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 jimport('joomla.base.adapterinstance');
 jimport('joomla.tasks.tasksuspendable');
@@ -23,7 +23,7 @@ class JBackupTable extends JAdapterInstance implements JTaskSuspendable, JBackup
 	}
 	
 	public function setTask(&$task) {
-		$this->task =& $task;
+		$this->task = &$task;
 	}
 
 	public function suspendTask() {
@@ -45,8 +45,8 @@ class JBackupTable extends JAdapterInstance implements JTaskSuspendable, JBackup
 	 * @return bool Result of backups, true on success, false on failure
 	 */
 	public function backup($options=Array()) {
-		$db =& JFactory::getDBO();
-		$config =& JFactory::getConfig();
+		$db = &JFactory::getDbo();
+		$config = &JFactory::getConfig();
 		$prefix = $config->getValue('config.dbprefix'); // should we get this from the db?
 		// force this into an array if it isn't; lets not let someone break something
 		if (!is_array($options)) $options = Array();
@@ -92,8 +92,8 @@ class JBackupTable extends JAdapterInstance implements JTaskSuspendable, JBackup
 	 * @return bool Result of the restore: true on success, false on failure
 	 */
 	function restore($options=Array()) {
-		$db =& JFactory::getDBO();
-		$config =& JFactory::getConfig();
+		$db = &JFactory::getDbo();
+		$config = &JFactory::getConfig();
 		$prefix = $config->getValue('config.dbprefix');
 		$tables = $db->getTableList(); // grab this here so we can use it later
 		// force this into an array if it isn't; lets not let someone break something
@@ -136,8 +136,8 @@ class JBackupTable extends JAdapterInstance implements JTaskSuspendable, JBackup
 	 * @return bool
 	 */
 	public function remove($options=Array()) {
-		$db =& JFactory::getDBO();
-		$config =& JFactory::getConfig();
+		$db = &JFactory::getDbo();
+		$config = &JFactory::getConfig();
 		$prefix = $config->getValue('config.dbprefix');
 		$tables = $db->getTableList(); // grab this here so we can use it later
 		// force this into an array if it isn't; lets not let someone break something

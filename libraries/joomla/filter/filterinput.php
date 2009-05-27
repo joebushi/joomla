@@ -4,11 +4,11 @@
  * @package		Joomla.Framework
  * @subpackage	Filter
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 /**
  * JFilterInput is a class for filtering input from any data source
@@ -149,9 +149,9 @@ class JFilterInput extends JClass
 				// Check for static usage and assign $filter the proper variable
 				// NOTE:  Calling ::clean() as a static method is deprecated.  Use JFilterInput::_() instead
 				if (isset($this) && $this INSTANCEOF JFilterInput) {
-					$filter =& $this;
+					$filter = &$this;
 				} else {
-					$filter =& JFilterInput::getInstance();
+					$filter = &JFilterInput::getInstance();
 				}
 				$result = (string) $filter->_remove($filter->_decode((string) $source));
 				break;
@@ -173,9 +173,9 @@ class JFilterInput extends JClass
 			default :
 				// Check for static usage and assign $filter the proper variable
 				if (is_object($this) && $this INSTANCEOF JFilterInput) {
-					$filter =& $this;
+					$filter = &$this;
 				} else {
-					$filter =& JFilterInput::getInstance();
+					$filter = &JFilterInput::getInstance();
 				}
 				// Are we dealing with an array?
 				if (is_array($source)) {

@@ -5,7 +5,7 @@
  * @subpackage	Access
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @copyright	Copyright (C) 2008 - 2009 JXtended, LLC. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 defined('JPATH_BASE') or die;
@@ -113,7 +113,7 @@ class JSimpleRule extends JModel
 		// Load the action by name if necessary.
 		if (!is_int($section))
 		{
-			$db = &$this->getDBO();
+			$db = &$this->getDbo();
 			$db->setQuery(
 				'SELECT `id`' .
 				' FROM `#__access_sections`' .
@@ -123,7 +123,7 @@ class JSimpleRule extends JModel
 		}
 		else {
 			$sectionId = (int)$section;
-			$db = &$this->getDBO();
+			$db = &$this->getDbo();
 			$db->setQuery(
 				'SELECT `name`' .
 				' FROM `#__access_sections`' .
@@ -179,7 +179,7 @@ class JSimpleRule extends JModel
 		// Load the action by name if necessary.
 		if (!is_int($action))
 		{
-			$db = &$this->getDBO();
+			$db = &$this->getDbo();
 			$db->setQuery(
 				'SELECT `id`' .
 				' FROM `#__access_actions`' .
@@ -189,7 +189,7 @@ class JSimpleRule extends JModel
 		}
 		else {
 			$actionId = (int)$action;
-			$db = &$this->getDBO();
+			$db = &$this->getDbo();
 			$db->setQuery(
 				'SELECT `name`' .
 				' FROM `#__access_actions`' .
@@ -233,7 +233,7 @@ class JSimpleRule extends JModel
 		// Load the asset id by name if necessary.
 		if (!is_int($asset))
 		{
-			$db = &$this->getDBO();
+			$db = &$this->getDbo();
 			$db->setQuery(
 				'SELECT `id`' .
 				' FROM `#__access_assets`' .
@@ -244,7 +244,7 @@ class JSimpleRule extends JModel
 		}
 		else {
 			$assetId = (int)$asset;
-			$db = &$this->getDBO();
+			$db = &$this->getDbo();
 			$db->setQuery(
 				'SELECT `id`' .
 				' FROM `#__access_assets`' .
@@ -298,7 +298,7 @@ class JSimpleRule extends JModel
 		$ids = implode(',', $groups);
 
 		// Get the group ids that exist in the database.
-		$db = &$this->getDBO();
+		$db = &$this->getDbo();
 		$db->setQuery(
 			'SELECT `id`' .
 			' FROM `#__usergroups`' .
@@ -349,7 +349,7 @@ class JSimpleRule extends JModel
 		$ids = implode(',', $users);
 
 		// Get the user ids that exist in the database.
-		$db = &$this->getDBO();
+		$db = &$this->getDbo();
 		$db->setQuery(
 			'SELECT `id`' .
 			' FROM `#__users`' .
@@ -399,7 +399,7 @@ class JSimpleRule extends JModel
 		}
 
 		// Get a database object.
-		$db = &$this->getDBO();
+		$db = &$this->getDbo();
 
 		// Delete any action maps for this rule.
 		$db->setQuery(
@@ -478,7 +478,7 @@ class JSimpleRule extends JModel
 			return false;
 		}
 
-		$db = &$this->getDBO();
+		$db = &$this->getDbo();
 		$db->setQuery(
 			'SELECT `section_id`' .
 			' FROM `#__access_actions`' .
@@ -600,7 +600,7 @@ class JSimpleRule extends JModel
 		}
 
 		// Check to see if a row already exists for this rule.
-		$db = &$this->getDBO();
+		$db = &$this->getDbo();
 		$db->setQuery(
 			'SELECT `id`' .
 			' FROM `#__access_rules`' .

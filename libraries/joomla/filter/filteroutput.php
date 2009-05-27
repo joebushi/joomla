@@ -4,7 +4,7 @@
  * @package		Joomla.Framework
  * @subpackage	Filter
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 /**
@@ -79,7 +79,7 @@ abstract class JFilterOutput
 		//remove any '-' from the string they will be used as concatonater
 		$str = str_replace('-', ' ', $string);
 
-		$lang =& JFactory::getLanguage();
+		$lang = &JFactory::getLanguage();
 		$str = $lang->transliterate($str);
 
 		// remove any duplicate whitespace, and ensure all characters are alphanumeric

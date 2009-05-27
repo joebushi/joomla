@@ -5,7 +5,7 @@
  * @subpackage	Access
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @copyright	Copyright (C) 2008 - 2009 JXtended, LLC. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 defined('JPATH_BASE') or die;
@@ -99,7 +99,7 @@ class JAccessHelper
 		if (empty($cache[$section]))
 		{
 			// Get a database object.
-			$db = &JFactory::getDBO();
+			$db = &JFactory::getDbo();
 
 			// Check to see if the section exists.
 			$db->setQuery(
@@ -170,7 +170,7 @@ class JAccessHelper
 		$name = JAccessHelper::_sanitizeName($name);
 
 		// Get a database object.
-		$db = &JFactory::getDBO();
+		$db = &JFactory::getDbo();
 
 		// Check to see if the section already exists.
 		$db->setQuery(
@@ -236,7 +236,7 @@ class JAccessHelper
 		$name = JAccessHelper::_sanitizeName($name);
 
 		// Get a database object.
-		$db = &JFactory::getDBO();
+		$db = &JFactory::getDbo();
 
 		// Get the section id by name.
 		$db->setQuery(
@@ -365,7 +365,7 @@ class JAccessHelper
 		}
 
 		// Get a database object.
-		$db = &JFactory::getDBO();
+		$db = &JFactory::getDbo();
 
 		// Check to see if the section exists.
 		$db->setQuery(
@@ -450,7 +450,7 @@ class JAccessHelper
 		$name = JAccessHelper::_sanitizeName($name);
 
 		// Get a database object.
-		$db = &JFactory::getDBO();
+		$db = &JFactory::getDbo();
 
 		// Get the id for the action.
 		$db->setQuery(
@@ -511,7 +511,7 @@ class JAccessHelper
 			$section = JAccessHelper::_sanitizeName($section);
 
 			// Get a database object.
-			$db = &JFactory::getDBO();
+			$db = &JFactory::getDbo();
 
 			// Check to see if the section already exists.
 			$db->setQuery(
@@ -575,7 +575,7 @@ class JAccessHelper
 		$section = JAccessHelper::_sanitizeName($section);
 
 		// Get a database object.
-		$db = &JFactory::getDBO();
+		$db = &JFactory::getDbo();
 
 		// Check to see if the usergroup exists.
 		$db->setQuery(
@@ -639,7 +639,7 @@ class JAccessHelper
 		}
 
 		// Get a database object.
-		$db = &JFactory::getDBO();
+		$db = &JFactory::getDbo();
 
 		// Check to see if the action already exists.
 		$db->setQuery(
@@ -701,7 +701,7 @@ class JAccessHelper
 		$section = JAccessHelper::_sanitizeName($section);
 
 		// Get a database object.
-		$db = &JFactory::getDBO();
+		$db = &JFactory::getDbo();
 
 		// Check to see if the section already exists.
 		$db->setQuery(
@@ -807,7 +807,7 @@ class JAccessHelper
 		$groupId = $model->getAssetGroupId();
 
 		// Get a database object.
-		$db = &JFactory::getDBO();
+		$db = &JFactory::getDbo();
 
 		// Delete any asset maps to the assetgroup.
 		$db->setQuery(
@@ -905,7 +905,7 @@ class JAccessHelper
 	public static function _rebuildGroupsTree($type = 'user', $parentId = 0, $left = 0)
 	{
 		// Get a database object.
-		$db = &JFactory::getDBO();
+		$db = &JFactory::getDbo();
 
 		$table = ($type == 'user') ? '#__usergroups' : '#__access_assetgroups';
 
@@ -1055,7 +1055,7 @@ class JAccessHelper
 				if ($assets[$id]->group_id !== $items[$id]->access) {
 					JAccessHelper::registerAssetInGroups((int) $assets[$id]->id, $groups[$items[$id]->access]->id);
 				}
-*/
+ */
 			}
 		}
 

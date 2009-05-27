@@ -46,7 +46,7 @@
  * @link http://www.tcpdf.org
  * @license http://www.gnu.org/copyleft/lesser.html LGPL
  * @since 2.9.000 (2008-03-26)
-*/
+ */
 
 /**
  * Array of WEB safe colors

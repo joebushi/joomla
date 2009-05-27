@@ -3,11 +3,11 @@
  * @version		$Id$
  * @package		Joomla
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 /**
  * This is a file to add template specific chrome to pagination rendering.
@@ -80,15 +80,15 @@ function pagination_list_render($list)
 	$html .= '<span>&laquo;</span>'.$list['start']['data'];
 	$html .= $list['previous']['data'];
 
-	foreach( $list['pages'] as $page )
+	foreach($list['pages'] as $page)
 	{
-		if($page['data']['active']) {
+		if ($page['data']['active']) {
 			$html .= '<strong>';
 		}
 
 		$html .= $page['data'];
 
-		if($page['data']['active']) {
+		if ($page['data']['active']) {
 			$html .= '</strong>';
 		}
 	}

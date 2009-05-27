@@ -4,11 +4,11 @@
  * @package		Joomla.Framework
  * @subpackage	FileSystem
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 /**
  * Tar format adapter for the JArchive class
@@ -85,7 +85,7 @@ class JArchiveTar extends JObject
 		$this->_data = null;
 		$this->_metadata = null;
 
-		$stream =& JFactory::getStream();
+		$stream = &JFactory::getStream();
 		if (!$stream->open($archive, 'rb'))
 		{
 			$this->set('error.message', 'Unable to read archive');
@@ -98,7 +98,7 @@ class JArchiveTar extends JObject
 		$chunksize = 512; // tar has items in 512 byte packets
 
 		while($entry = $stream->read($chunksize)) {
-			//$entry =& $this->_data[$i];
+			//$entry = &$this->_data[$i];
 			$info = @ unpack("a100filename/a8mode/a8uid/a8gid/a12size/a12mtime/a8checksum/Ctypeflag/a100link/a6magic/a2version/a32uname/a32gname/a8devmajor/a8devminor", $entry);
 			if (!$info) {
 				$this->set('error.message', 'Unable to decompress data');

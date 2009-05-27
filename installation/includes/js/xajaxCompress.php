@@ -20,13 +20,13 @@ function xajaxCompressJavascript($sJS)
 	$escaped = false;
 	$quoteChar = "";
 
-	for($i=0;$i<count($lines);$i++)
+	for ($i=0;$i<count($lines);$i++)
 	{
 		$line = $lines[$i];
 		$inNormalComment = false;
 
 		//loop through line's characters and take out any literal strings, replace them with ___i___ where i is the index of this string
-		for($j=0;$j<strlen($line);$j++)
+		for ($j=0;$j<strlen($line);$j++)
 		{
 			$c = substr($line,$j,1);
 			$d = substr($line,$j,2);
@@ -104,7 +104,7 @@ function xajaxCompressJavascript($sJS)
 	$lines = explode("\n",$clean);
 
 	//now process each line at a time
-	for($i=0;$i<count($lines);$i++)
+	for ($i=0;$i<count($lines);$i++)
 	{
 		$line = $lines[$i];
 
@@ -136,7 +136,7 @@ function xajaxCompressJavascript($sJS)
 	$sJS = preg_replace("/[\n]*\{[\n]*/","{",$sJS);
 
 	//finally loop through and replace all the literal strings:
-	for($i=0;$i<count($literal_strings);$i++)
+	for ($i=0;$i<count($literal_strings);$i++)
 		$sJS = str_replace("___".$i."___",$literal_strings[$i],$sJS);
 
 	return $sJS;

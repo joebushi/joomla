@@ -1,12 +1,12 @@
 <?php
 /**
-* @version		$Id$
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 /**
  * Users table
@@ -160,7 +160,7 @@ class JTableUser extends JTable
 
 		if ($this->registerDate == null) {
 			// Set the registration timestamp
-			$now =& JFactory::getDate();
+			$now = &JFactory::getDate();
 			$this->registerDate = $now->toMySQL();
 		}
 
@@ -225,7 +225,7 @@ class JTableUser extends JTable
 		}
 
 		// if no timestamp value is passed to functon, than current time is used
-		$date =& JFactory::getDate($timeStamp);
+		$date = &JFactory::getDate($timeStamp);
 
 		// updates user lastvistdate field with date and time
 		$query = 'UPDATE '. $this->_tbl

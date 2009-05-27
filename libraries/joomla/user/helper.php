@@ -1,9 +1,9 @@
 <?php
 /**
-* @version		$Id:helper.php 6961 2007-03-15 16:06:53Z tcp $
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id:helper.php 6961 2007-03-15 16:06:53Z tcp $
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 /**
  * Authorization helper class, provides static methods to perform various tasks relevant
@@ -38,7 +38,7 @@ abstract class JUserHelper
 			if (!array_key_exists($groupId, $user->groups))
 			{
 				// Get the title of the group.
-				$db	= &JFactory::getDBO();
+				$db	= &JFactory::getDbo();
 				$db->setQuery(
 					'SELECT `title`' .
 					' FROM `#__usergroups`' .
@@ -149,7 +149,7 @@ abstract class JUserHelper
 		$user->groups = array_fill_keys(array_values($groups), null);
 
 		// Get the titles for the user groups.
-		$db = &JFactory::getDBO();
+		$db = &JFactory::getDbo();
 		$db->setQuery(
 			'SELECT `id`, `title`' .
 			' FROM `#__usergroups`' .
@@ -195,7 +195,7 @@ abstract class JUserHelper
 	public static function activateUser($activation)
 	{
 		//Initialize some variables
-		$db = & JFactory::getDBO();
+		$db = & JFactory::getDbo();
 
 		// Lets get the id of the user we want to activate
 		$query = 'SELECT id'
@@ -244,7 +244,7 @@ abstract class JUserHelper
 	public static function getUserId($username)
 	{
 		// Initialize some variables
-		$db = & JFactory::getDBO();
+		$db = & JFactory::getDbo();
 
 		$query = 'SELECT id FROM #__users WHERE username = ' . $db->Quote($username);
 		$db->setQuery($query, 0, 1);

@@ -4,8 +4,8 @@
  * @package		Joomla.Framework
  * @subpackage	Base
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 /**
  * Object class, directly instantiatable
@@ -105,10 +105,10 @@ class JObject
 		}
 
 		// Check if only the string is requested
-		if($toString && is_object($error)) {
+		if ($toString && is_object($error)) {
 			if ($error INSTANCEOF JException || $error INSTANCEOF JObject) {
 				return $error->toString();
-			} elseif($error INSTANCEOF Exception) {
+			} elseif ($error INSTANCEOF Exception) {
 				return $error->getMessage();
 			}
 		} 

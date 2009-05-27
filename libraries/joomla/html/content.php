@@ -4,11 +4,11 @@
  * @package		Joomla.Framework
  * @subpackage	HTML
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // No direct access
-defined('_JEXEC') or die();
+defined('_JEXEC') or die;
 
 /**
  * JContent class
@@ -127,26 +127,26 @@ defined('_JEXEC') or die();
 	
 	public static function &getInstance($name = '', $include_path = '') {
 		static $cache = array();
-		if(!isset($cache[$name])) {
+		if (!isset($cache[$name])) {
 			$type = $name;
 			$scope = '';
-			if(strpos($name, '.') !== false) {
+			if (strpos($name, '.') !== false) {
 				$parts = explode('.', $name, 2);
-				if(isset($parts[1])) {
+				if (isset($parts[1])) {
 					$type = $parts[1];
 					$scope = preg_replace('#[^A-Z0-9_-]#i', '', $parts[0]);
 				}
 			}
 			$type = preg_replace('#[^A-Z0-9_-]#i', '', $type);
 			$class = 'JContent'.ucfirst($scope).ucfirst($type);
-			if(!class_exists($class)) {
+			if (!class_exists($class)) {
 				//we must find the class
 				$base = empty($include_path) ? $include_path : JPATH_ROOT;
-				if(file_exists($base.DS.$type.'.php')) {
+				if (file_exists($base.DS.$type.'.php')) {
 					require_once($base.DS.$type.'.php');
-				} elseif(file_exists($base.DS.'content'.DS.$type.'.php')) {
+				} elseif (file_exists($base.DS.'content'.DS.$type.'.php')) {
 					require_once($base.DS.'content'.DS.$type.'.php');
-				} elseif(file_exists($base.DS.'components'.DS.'com_'.$scope.DS.'content'.DS.$type.'.php')) {
+				} elseif (file_exists($base.DS.'components'.DS.'com_'.$scope.DS.'content'.DS.$type.'.php')) {
 					require_once($base.DS.'components'.DS.'com_'.$scope.DS.'content'.DS.$type.'.php');
 				} else {
 					throw new JException('Could not find JContent include file for Scope: '.$scope.', Type: '.$type);
@@ -189,7 +189,7 @@ defined('_JEXEC') or die();
  		}
 
  		foreach($array AS $key => $value) {
- 			if(isset($this->$key)) {
+ 			if (isset($this->$key)) {
  				//force types...
  				switch(getType($this->$key)) {
 					case 'array':
@@ -213,9 +213,9 @@ defined('_JEXEC') or die();
  	}
  	
  	public function getDisplay($defaults = array()) {
- 		if(is_object($defaults)) {
+ 		if (is_object($defaults)) {
  			$positions = $defaults;
- 		} elseif(is_array($defaults)) {
+ 		} elseif (is_array($defaults)) {
  			$positions = new stdclass();
  			foreach($defaults AS $value) {
  				$positions->$value = '';

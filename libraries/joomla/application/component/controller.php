@@ -1,14 +1,14 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @subpackage	Application
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Application
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 /**
  * Base class for a Joomla Controller
@@ -332,7 +332,7 @@ abstract class JController extends JClass
 	 */
 	public function display($cachable=false)
 	{
-		$document =& JFactory::getDocument();
+		$document = &JFactory::getDocument();
 
 		$viewType	= $document->getType();
 		$viewName	= JRequest::getCmd('view', $this->getName());
@@ -403,7 +403,7 @@ abstract class JController extends JClass
 			{
 				if ($item = $menu->getActive())
 				{
-					$params	=& $menu->getParams($item->id);
+					$params	= &$menu->getParams($item->id);
 					// Set Default State Data
 					$model->setState('parameters.menu', $params);
 				}
@@ -607,7 +607,7 @@ abstract class JController extends JClass
 		$modelName	 = preg_replace('/[^A-Z0-9_]/i', '', $name);
 		$classPrefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
 
-		$result =& JModel::getInstance($modelName, $classPrefix, $config);
+		$result = &JModel::getInstance($modelName, $classPrefix, $config);
 		return $result;
 	}
 

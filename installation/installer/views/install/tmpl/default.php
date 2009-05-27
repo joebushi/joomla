@@ -1,4 +1,4 @@
-<?php /** $Id$ */ defined('_JEXEC') or die('Restricted access');
+<?php /** $Id$ */ defined('_JEXEC') or die;
 	$steps	= $this->getSteps();
 ?>
 

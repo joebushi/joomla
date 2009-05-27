@@ -1,4 +1,4 @@
-<?php /** $Id$ */ defined('_JEXEC') or die('Restricted access'); ?>
+<?php /** $Id$ */ defined('_JEXEC') or die; ?>
 
 <form action="index.php" method="post" name="adminForm" autocomplete="off">
 	<div id="right">

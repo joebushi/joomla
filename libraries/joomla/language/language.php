@@ -1,14 +1,14 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @subpackage	Language
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Language
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 /**
  * Languages/translation handler class
@@ -100,11 +100,11 @@ class JLanguage extends JClass
 		$this->setLanguage($lang);
 
 		$filename = JPATH_BASE.DS.'language'.DS.'overrides'.DS.$lang.'.override.ini';
-		if ($contents = @file_get_contents( $filename ))
+		if ($contents = @file_get_contents($filename))
 		{
 			$registry	= new JRegistry();
 			$registry->loadINI($contents);
-			$this->_override = $registry->toArray( );
+			$this->_override = $registry->toArray();
 			unset($registry);
 			unset($contents);
 		}
@@ -319,7 +319,7 @@ class JLanguage extends JClass
 				$this->_strings = $overwrite ? array_merge($this->_strings, $newStrings)
 					: array_merge($newStrings, $this->_strings);
 
-				$this->_strings = array_merge( $this->_strings, $this->_override); // add overrides
+				$this->_strings = array_merge($this->_strings, $this->_override); // add overrides
 
 				$result = true;
 			}

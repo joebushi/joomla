@@ -4,11 +4,11 @@
  * @package		Joomla.Framework
  * @subpackage	Document
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 
 
@@ -43,8 +43,8 @@ defined('JPATH_BASE') or die();
 	 */
 	public function render($name, $params = array(), $content = null)
 	{
-		$now	=& JFactory::getDate();
-		$data	=& $this->_doc;
+		$now	= &JFactory::getDate();
+		$data	= &$this->_doc;
 
 		$feed = "<feed xmlns=\"http://www.w3.org/2005/Atom\" xml:base=\"".$data->getBase()."\"";
 		if ($data->language!="") {
@@ -75,7 +75,7 @@ defined('JPATH_BASE') or die();
 			if ($data->items[$i]->date=="") {
 				$data->items[$i]->date = $now->toUnix();
 			}
-			$itemDate =& JFactory::getDate($data->items[$i]->date);
+			$itemDate = &JFactory::getDate($data->items[$i]->date);
 			$feed.= "		<published>".htmlspecialchars($itemDate->toISO8601(), ENT_COMPAT, 'UTF-8')."</published>\n";
 			$feed.= "		<updated>".htmlspecialchars($itemDate->toISO8601(),ENT_COMPAT, 'UTF-8')."</updated>\n";
 			$feed.= "		<id>".htmlspecialchars($data->items[$i]->link, ENT_COMPAT, 'UTF-8')."</id>\n";

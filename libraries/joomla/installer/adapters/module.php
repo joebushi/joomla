@@ -4,11 +4,11 @@
  * @package		Joomla.Framework
  * @subpackage	Installer
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 jimport('joomla.base.adapterinstance');
 
 /**
@@ -43,11 +43,11 @@ class JInstallerModule extends JAdapterInstance
 		}*/
 
 		// Get a database connector object
-		$db =& $this->parent->getDBO();
+		$db = &$this->parent->getDbo();
 
 		// Get the extension manifest object
-		$manifest =& $this->parent->getManifest();
-		$this->manifest =& $manifest->document;
+		$manifest = &$this->parent->getManifest();
+		$this->manifest = &$manifest->document;
 
 		/**
 		 * ---------------------------------------------------------------------------------------------
@@ -56,7 +56,7 @@ class JInstallerModule extends JAdapterInstance
 		 */
 
 		// Set the extensions name
-		$name =& $this->manifest->getElementByPath('name');
+		$name = &$this->manifest->getElementByPath('name');
 		$name = JFilterInput::clean($name->data(), 'string');
 		$this->set('name', $name);
 
@@ -77,7 +77,7 @@ class JInstallerModule extends JAdapterInstance
 		if ($cname = $this->manifest->attributes('client')) {
 			// Attempt to map the client to a base path
 			jimport('joomla.application.helper');
-			$client =& JApplicationHelper::getClientInfo($cname, true);
+			$client = &JApplicationHelper::getClientInfo($cname, true);
 			if ($client === false) {
 				$this->parent->abort(JText::_('Module').' '.JText::_($this->route).': '.JText::_('Unknown client type').' ['.$client->name.']');
 				return false;
@@ -93,9 +93,9 @@ class JInstallerModule extends JAdapterInstance
 
 		// Set the installation path
 		$element = '';
-		$module_files =& $this->manifest->getElementByPath('files');
+		$module_files = &$this->manifest->getElementByPath('files');
 		if ($module_files INSTANCEOF JSimpleXMLElement && count($module_files->children())) {
-			$files =& $module_files->children();
+			$files = &$module_files->children();
 			foreach ($files as $file) {
 				if ($file->attributes('module')) {
 					$element = $file->attributes('module');
@@ -146,7 +146,7 @@ class JInstallerModule extends JAdapterInstance
 				// force these one
 				$this->parent->setOverwrite(true);
 				$this->parent->setUpgrade(true);
-				if($id) { // if there is a matching extension mark this as an update; semantics really
+				if ($id) { // if there is a matching extension mark this as an update; semantics really
 					$this->route = 'Update';	
 				}
 			} else if (!$this->parent->getOverwrite()) { // overwrite is set
@@ -162,7 +162,7 @@ class JInstallerModule extends JAdapterInstance
 		 * ---------------------------------------------------------------------------------------------
 		 */
 		// If there is an manifest class file, lets load it; we'll copy it later (don't have dest yet)
-		$this->scriptElement =& $this->manifest->getElementByPath('scriptfile');
+		$this->scriptElement = &$this->manifest->getElementByPath('scriptfile');
 		if (is_a($this->scriptElement, 'JSimpleXMLElement')) {
 			$manifestScript = $this->scriptElement->data();
 			$manifestScriptFile = $this->parent->getPath('source').DS.$manifestScript;
@@ -250,7 +250,7 @@ class JInstallerModule extends JAdapterInstance
 		// Was there a module already installed with the same name?
 		if ($id) {
 			// load the entry and update the manifest_cache
-			$row =& JTable::getInstance('extension');
+			$row = &JTable::getInstance('extension');
 			$row->load($id);
 			$row->name = $this->get('name'); // update name
 			$row->manifest_cache = $this->parent->generateManifestCache(); // update manifest
@@ -364,7 +364,7 @@ class JInstallerModule extends JAdapterInstance
 		$site_info = JApplicationHelper::getClientInfo('site', true);
 		$admin_info = JApplicationHelper::getClientInfo('administrator', true);
 		foreach($site_list as $module) {
-			$extension =& JTable::getInstance('extension');
+			$extension = &JTable::getInstance('extension');
 			$extension->set('type',  'module');
 			$extension->set('client_id', $site_info->id);
 			$extension->set('element', $module);
@@ -373,7 +373,7 @@ class JInstallerModule extends JAdapterInstance
 			$results[] = clone($extension);
 		}
 		foreach($admin_list as $module) {
-			$extension =& JTable::getInstance('extension');
+			$extension = &JTable::getInstance('extension');
 			$extension->set('type', 'module');
 			$extension->set('client_id', $admin_info->id);
 			$extension->set('element', $module);
@@ -443,7 +443,7 @@ class JInstallerModule extends JAdapterInstance
 		// Initialize variables
 		$row	= null;
 		$retval = true;
-		$db		=& $this->parent->getDBO();
+		$db		= &$this->parent->getDbo();
 
 		// First order of business will be to load the module object table from the database.
 		// This should give us the necessary information to proceed.
@@ -463,7 +463,7 @@ class JInstallerModule extends JAdapterInstance
 		// Get the extension root path
 		jimport('joomla.application.helper');
 		$element = $row->element;
-		$client =& JApplicationHelper::getClientInfo($row->client_id);
+		$client = &JApplicationHelper::getClientInfo($row->client_id);
 		if ($client === false) {
 			$this->parent->abort(JText::_('Module').' '.JText::_('Uninstall').': '.JText::_('Unknown client type').' ['.$row->client_id.']');
 			return false;
@@ -472,11 +472,11 @@ class JInstallerModule extends JAdapterInstance
 
 		// Get the package manifest objecct
 		$this->parent->setPath('source', $this->parent->getPath('extension_root'));
-		$manifest =& $this->parent->getManifest();
-		$this->manifest =& $manifest->document;
+		$manifest = &$this->parent->getManifest();
+		$this->manifest = &$manifest->document;
 
 		// If there is an manifest class file, lets load it
-		$this->scriptElement =& $this->manifest->getElementByPath('scriptfile');
+		$this->scriptElement = &$this->manifest->getElementByPath('scriptfile');
 		if (is_a($this->scriptElement, 'JSimpleXMLElement')) {
 			$manifestScript = $this->scriptElement->data();
 			$manifestScriptFile = $this->parent->getPath('extension_root').DS.$manifestScript;
@@ -524,7 +524,7 @@ class JInstallerModule extends JAdapterInstance
 		}
 
 		// Remove other files
-		$root =& $manifest->document;
+		$root = &$manifest->document;
 		$this->parent->removeFiles($root->getElementByPath('media'));
 		$this->parent->removeFiles($root->getElementByPath('languages'), $row->client_id);
 
@@ -604,7 +604,7 @@ class JInstallerModule extends JAdapterInstance
 	protected function _rollback_menu($arg)
 	{
 		// Get database connector object
-		$db =& $this->parent->getDBO();
+		$db = &$this->parent->getDbo();
 
 		// Remove the entry from the #__modules_menu table
 		$query = 'DELETE' .
@@ -630,7 +630,7 @@ class JInstallerModule extends JAdapterInstance
 	protected function _rollback_module($arg)
 	{
 		// Get database connector object
-		$db =& $this->parent->getDBO();
+		$db = &$this->parent->getDbo();
 
 		// Remove the entry from the #__modules table
 		$query = 'DELETE' .

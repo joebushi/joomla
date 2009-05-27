@@ -1,11 +1,11 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @subpackage	HTML
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	HTML
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 /**
  * Utility class for javascript behaviors
@@ -116,7 +116,7 @@ abstract class JHtmlBehavior
 		$options = JHtmlBehavior::_getJSObject($opt);
 
 		// Attach tooltips to document
-		$document =& JFactory::getDocument();
+		$document = &JFactory::getDocument();
 		$tooltipInit = "window.addEvent('domready', function() {
 	$$('$selector').each(function(el) {
 		var title = el.get('title');
@@ -185,7 +185,7 @@ abstract class JHtmlBehavior
 		static $modals;
 		static $included;
 
-		$document =& JFactory::getDocument();
+		$document = &JFactory::getDocument();
 
 		// Load the necessary files if they haven't yet been loaded
 		if (!isset($included)) {
@@ -277,7 +277,7 @@ abstract class JHtmlBehavior
 		$options = JHtmlBehavior::_getJSObject($opt);
 
 		// Attach tooltips to document
-		$document =& JFactory::getDocument();
+		$document = &JFactory::getDocument();
 		$uploaderInit = 'sBrowseCaption=\''.JText::_('Browse Files', true).'\';
 				sRemoveToolTip=\''.JText::_('Remove from queue', true).'\';
 				window.addEvent(\'load\', function(){
@@ -336,7 +336,7 @@ abstract class JHtmlBehavior
 			tree'.$treeName.'.adopt(\''.$id.'\');})';
 
 		// Attach tooltips to document
-		$document =& JFactory::getDocument();
+		$document = &JFactory::getDocument();
 		$document->addScriptDeclaration($js);
 
 		// Set static array
@@ -346,7 +346,7 @@ abstract class JHtmlBehavior
 
 	public static function calendar()
 	{
-		$document =& JFactory::getDocument();
+		$document = &JFactory::getDocument();
 		JHtml::stylesheet('calendar-jos.css', 'media/system/css/', array(' title' => JText::_('green') ,' media' => 'all'));
 		JHtml::script('calendar.js', 'media/system/js/');
 		JHtml::script('calendar-setup.js', 'media/system/js/');
@@ -365,12 +365,12 @@ abstract class JHtmlBehavior
 		// Include mootools framework
 		JHtmlBehavior::mootools();
 
-		$config 	 =& JFactory::getConfig();
+		$config 	 = &JFactory::getConfig();
 		$lifetime 	 = ($config->getValue('lifetime') * 60000);
 		$refreshTime =  ($lifetime <= 60000) ? 30000 : $lifetime - 60000;
 		//refresh time is 1 minute less than the liftime assined in the configuration.php file
 
-		$document =& JFactory::getDocument();
+		$document = &JFactory::getDocument();
 		$script  = '';
 		$script .= 'function keepAlive() {';
 		$script .=  '	var myAjax = new Ajax("index.php", { method: "get" }).request();';

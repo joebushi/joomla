@@ -4,11 +4,11 @@
  * @package		Joomla.Framework
  * @subpackage	Base
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 /**
  * Tree Class.
@@ -39,18 +39,18 @@ class JTree extends JClass
 	{
 		$this->_current->addChild($node);
 		if ($setCurrent) {
-			$this->_current =& $node;
+			$this->_current = &$node;
 		}
 	}
 
 	public function getParent()
 	{
-		$this->_current =& $this->_current->getParent();
+		$this->_current = &$this->_current->getParent();
 	}
 
 	public function reset()
 	{
-		$this->_current =& $this->_root;
+		$this->_current = &$this->_root;
 	}
 }
 

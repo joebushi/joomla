@@ -5,11 +5,11 @@
  * @package		Joomla.Installation
  * @subpackage	Installation
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 /**
  * @package		Joomla.Installation
@@ -279,7 +279,7 @@ class JInstallationHelper
 
 		$vars['adminLogin'] = 'admin';
 
-		$db = & JInstallationHelper::getDBO($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
+		$db = & JInstallationHelper::getDbo($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
 
 		// create the admin user
 		$installdate 	= date('Y-m-d H:i:s');
@@ -333,7 +333,7 @@ class JInstallationHelper
 		}
 	}
 
-	function & getDBO($driver, $host, $user, $password, $database, $prefix, $select = true)
+	function & getDbo($driver, $host, $user, $password, $database, $prefix, $select = true)
 	{
 		static $db;
 
@@ -392,7 +392,7 @@ class JInstallationHelper
 		$ftpPaths = array();
 
 		// Connect and login to the FTP server (using binary transfer mode to be able to compare files)
-		$ftp =& JFTP::getInstance($host, $port, array('type'=>FTP_BINARY));
+		$ftp = &JFTP::getInstance($host, $port, array('type'=>FTP_BINARY));
 		if (!$ftp->isConnected()) {
 			return JError::raiseError('31', 'NOCONNECT');
 		}
@@ -719,7 +719,7 @@ class JInstallationHelper
 			$script = $package['folder'].DS.$package['script'];
 		}
 
-		$db = & JInstallationHelper::getDBO($args['DBtype'], $args['DBhostname'], $args['DBuserName'], $args['DBpassword'], $args['DBname'], $args['DBPrefix']);
+		$db = & JInstallationHelper::getDbo($args['DBtype'], $args['DBhostname'], $args['DBuserName'], $args['DBpassword'], $args['DBname'], $args['DBPrefix']);
 
 		/*
 		 * If migration perform manipulations on script file before population
@@ -930,7 +930,7 @@ class JInstallationHelper
 		{
 			$parts = ceil($tfilesize / $maxread);
 			file_put_contents($newFile, ''); // cleanse the file first
-			for($i = 0; $i < $parts; $i++) {
+			for ($i = 0; $i < $parts; $i++) {
 				$buffer = JFile::read($scriptName, false, $maxread, $maxread,($i * $maxread));
 				// Lets try and read a portion of the file
 				JInstallationHelper::replaceBuffer($buffer, $oldPrefix, $newPrefix, $srcEncoding);

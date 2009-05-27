@@ -4,11 +4,11 @@
  * @package		Joomla.Framework
  * @subpackage	Backup
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 jimport('joomla.base.adapter');
 jimport('joomla.tasks.taskset');
@@ -39,7 +39,7 @@ class JBackup extends JAdapter {
 	public function __construct(&$db, $backupid=0, $tasksetid=0)
 	{
 		parent::__construct(dirname(__FILE__),'JBackup');
-		$this->_db =& $db;
+		$this->_db = &$db;
 		$this->setBackupID($backupid);
 		$this->setTaskSetID($tasksetid);
 	}
@@ -53,7 +53,7 @@ class JBackup extends JAdapter {
 	 * @return	boolean	result of operation; this will be false for invalid data
 	 */
 	public function setMode($mode, $backupid=0) {
-		$this->_backup =& JTable::getInstance('backup');
+		$this->_backup = &JTable::getInstance('backup');
 		switch($mode) {
 			case 'backup':
 				// clear the backup data
@@ -93,7 +93,7 @@ class JBackup extends JAdapter {
 	 * Also attempts to load the backup if its valid
 	 */
 	public function setBackupID($backupid) {
-		$this->_backup =& JTable::getInstance('backup');
+		$this->_backup = &JTable::getInstance('backup');
 		if ($backupid) {
 			$this->_backup->load($backupid);
 			$this->entries = $this->_backup->getEntries();
@@ -114,7 +114,7 @@ class JBackup extends JAdapter {
 	 * @param mixed	$taskset
 	 */
 	public function setTaskSet(&$taskset) {
-		$this->_taskset =& $taskset;
+		$this->_taskset = &$taskset;
 		if (!$this->_backup && intval($taskset->fkey)) {
 			$this->_backup->load(intval($tasket->fkey));
 		}
@@ -186,7 +186,7 @@ class JBackup extends JAdapter {
 		// Called from the execute function and needs the backup to have been stored appropriately
 		$destination = JPATH_BACKUPS.DS.$this->_backup->get('backupid');
 		JFolder::create($destination);
-		$entries =& $this->_backup->getEntries();
+		$entries = &$this->_backup->getEntries();
 		$this->_taskset = new JTaskSet($this->_db);
 		$this->_taskset->set('tasksetname', ucfirst($this->_mode) .' run ' . $this->_backup->get('start'));
 		$this->_taskset->set('extensionid', '139'); // TODO: Swap this in with something better
@@ -234,7 +234,7 @@ class JBackup extends JAdapter {
 		}
 		
 		//print_r($this->_taskset);
-		while($task =& $this->_taskset->getNextTask()) {
+		while($task = &$this->_taskset->getNextTask()) {
 			//echo '<p>Processing task</p>';
 			$type = $task->get('type','');
 			if (!$type) {
@@ -242,7 +242,7 @@ class JBackup extends JAdapter {
 				$task->delete();
 				continue;
 			}
-			$instance =& $this->getAdapter($task->type);
+			$instance = &$this->getAdapter($task->type);
 			if (!$instance) {
 				JError::raiseWarning(42, JText::_('Failed to load backup adapter for task').': '. $task->type);
 				$task->delete();

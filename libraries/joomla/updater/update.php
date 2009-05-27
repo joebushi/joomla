@@ -4,11 +4,11 @@
  * @package		Joomla.Framework
  * @subpackage	Update
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 /**
  * Update class.
@@ -100,7 +100,7 @@ class JUpdate extends JObject {
 		switch($name) {
 			case 'UPDATE': // closing update, find the latest version and check
 				$ver = new JVersion();
-				$filter =& JFilterInput::getInstance();
+				$filter = &JFilterInput::getInstance();
 				$product = strtolower($filter->clean($ver->PRODUCT, 'cmd'));
 				if ($product == $this->_current_update->targetplatform->name && $ver->RELEASE == $this->_current_update->targetplatform->version) {
 					if (isset($this->_latest)) {
@@ -182,14 +182,14 @@ class JUpdate extends JObject {
 			return false;
 		}
 
-		$config =& JFactory::getConfig();
+		$config = &JFactory::getConfig();
 		$tmp_dest 	= $config->getValue('config.tmp_path');
 
 		// Unpack the downloaded package file
 		$package = JInstallerHelper::unpack($tmp_dest.DS.$p_file);
 
 		// Get an installer instance
-		$installer =& JInstaller::getInstance();
+		$installer = &JInstaller::getInstance();
 
 		// Install the package
 		if (!$installer->install($package['dir'])) {
@@ -212,7 +212,7 @@ class JUpdate extends JObject {
 
 		// Cleanup the install files
 		if (!is_file($package['packagefile'])) {
-			$config =& JFactory::getConfig();
+			$config = &JFactory::getConfig();
 			$package['packagefile'] = $config->getValue('config.tmp_path').DS.$package['packagefile'];
 		}
 

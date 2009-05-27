@@ -1,5 +1,5 @@
 <?php // @version $Id$
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 ?>
 
 <?php JHtml::_('stylesheet', 'poll_bars.css', 'components/com_poll/assets/'); ?>
@@ -10,13 +10,13 @@ defined('_JEXEC') or die('Restricted access');
 </h1>
 <?php endif; ?>
 
-<div class="poll<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+<div class="poll<?php echo $this->params->get('pageclass_sfx'); ?>">
 	<form action="index.php" method="post" name="poll" id="poll">
 		<label for="id">
-			<?php echo JText::_( 'Select Poll' ); ?>&nbsp;<?php echo $this->lists['polls']; ?>
+			<?php echo JText::_('Select Poll'); ?>&nbsp;<?php echo $this->lists['polls']; ?>
 		</label>
 	</form>
 	<?php if (count($this->votes)) :
-		echo $this->loadTemplate( 'graph' );
+		echo $this->loadTemplate('graph');
 	endif; ?>
 </div>

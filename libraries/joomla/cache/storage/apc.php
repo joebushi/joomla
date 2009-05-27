@@ -4,11 +4,11 @@
  * @package		Joomla.Framework
  * @subpackage	Cache
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 /**
  * APC cache storage handler
@@ -31,7 +31,7 @@ class JCacheStorageApc extends JCacheStorage
 	{
 		parent::__construct($options);
 
-		$config	=& JFactory::getConfig();
+		$config	= &JFactory::getConfig();
 		$this->_hash	= $config->getValue('config.secret');
 	}
 

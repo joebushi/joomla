@@ -4,11 +4,11 @@
  * @package		Joomla.Framework
  * @subpackage	Utilities
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 /**
  * JUtility is a utility functions class
@@ -39,7 +39,7 @@ abstract class JUtility
 	public static function sendMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=null, $bcc=null, $attachment=null, $replyto=null, $replytoname=null)
 	{
 	 	// Get a JMail instance
-		$mail =& JFactory::getMailer();
+		$mail = &JFactory::getMailer();
 
 		$mail->setSender(array($from, $fromname));
 		$mail->setSubject($subject);
@@ -87,7 +87,7 @@ abstract class JUtility
 		$message .= JText::_('MAIL_MSG') ."\n";
 
 	 	// Get a JMail instance
-		$mail =& JFactory::getMailer();
+		$mail = &JFactory::getMailer();
 		$mail->addRecipient($adminEmail);
 		$mail->setSubject($subject);
 		$mail->setBody($message);
@@ -103,8 +103,8 @@ abstract class JUtility
  	 */
 	public static function getHash($seed)
 	{
-		$conf =& JFactory::getConfig();
-		return md5($conf->getValue('config.secret') .  $seed );
+		$conf = &JFactory::getConfig();
+		return md5($conf->getValue('config.secret') .  $seed);
 	}
 
 	/**
@@ -141,7 +141,7 @@ abstract class JUtility
 		if (is_array($attr))
 		{
 			$numPairs = count($attr[1]);
-			for($i = 0; $i < $numPairs; $i++)
+			for ($i = 0; $i < $numPairs; $i++)
 			{
 				$retarray[$attr[1][$i]] = $attr[2][$i];
 			}
@@ -186,7 +186,7 @@ abstract class JUtility
 	function array_unshift_ref(&$array, &$value)
 	{
 	   $return = array_unshift($array,'');
-	   $array[0] =& $value;
+	   $array[0] = &$value;
 	   return $return;
 	}
 

@@ -1,14 +1,14 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @subpackage	Database
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Database
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 /**
  * Database connector class
@@ -200,7 +200,7 @@ abstract class JDatabase extends JClass
 			$driver = preg_replace('/[^A-Z0-9_\.-]/i', '', $driver);
 			$path	= dirname(__FILE__).DS.'database'.DS.$driver.'.php';
 			$adapter	= 'JDatabase'.$driver;
-			if(!class_exists($adapter)) {
+			if (!class_exists($adapter)) {
 				if (file_exists($path)) {
 					require_once $path;
 				} else {
@@ -267,7 +267,6 @@ abstract class JDatabase extends JClass
 	/**
 	 * Determines if the connection to the server is active.
 	 *
-	 * @access	public
 	 * @return	boolean
 	 * @since	1.5
 	 */
@@ -323,7 +322,7 @@ abstract class JDatabase extends JClass
 		$open_char = '';
 		$end = strlen($queries);
 		$query_split = array();
-		for($i=0;$i<$end;$i++) {
+		for ($i=0;$i<$end;$i++) {
 			$current = substr($queries,$i,1);
 			if (($current == '"' || $current == '\'')) {
 				$n = 2;

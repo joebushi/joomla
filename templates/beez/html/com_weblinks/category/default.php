@@ -1,5 +1,5 @@
 <?php // @version $Id$
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 ?>
 
 <?php if ($this->params->get('show_page_title', 1)) : ?>
@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 <div class="weblinks<?php echo $this->params->get('pageclass_sfx'); ?>">
 
-	<?php if ( $this->category->image || $this->category->description) : ?>
+	<?php if ($this->category->image || $this->category->description) : ?>
 	<div class="contentdescription<?php echo $this->params->get('pageclass_sfx'); ?>">
 
 		<?php if ($this->category->image) :

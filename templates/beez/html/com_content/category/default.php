@@ -1,5 +1,5 @@
 <?php // @version $Id$
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 $cparams = JComponentHelper::getParams ('com_media');
 ?>
 
@@ -25,7 +25,7 @@ $cparams = JComponentHelper::getParams ('com_media');
 </div>
 <?php endif; ?>
 
-<?php $this->items =& $this->getItems();
+<?php $this->items = &$this->getItems();
 echo $this->loadTemplate('items'); ?>
 
 <?php if ($this->access->canEdit || $this->access->canEditOwn) :

@@ -4,7 +4,7 @@
  * Handles retrieving updates from collections
  */
 
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 jimport('joomla.updater.updateadapter');
 
@@ -70,7 +70,7 @@ class JUpdaterCollection extends JUpdateAdapter {
 				}
 				break;
 			case 'EXTENSION':
-				$update =& JTable::getInstance('update');
+				$update = &JTable::getInstance('update');
 				$update->update_site_id = $this->_update_site_id;
 				foreach($this->_updatecols AS $col) {
 					// reset the values if it doesn't exist
@@ -90,7 +90,7 @@ class JUpdaterCollection extends JUpdateAdapter {
 
 				// only add the update if it is on the same platform and release as we are
 				$ver = new JVersion();
-				$filter =& JFilterInput::getInstance();
+				$filter = &JFilterInput::getInstance();
 				$product = strtolower($filter->clean($ver->PRODUCT, 'cmd')); // lower case and remove the exclamation mark
 				// set defaults, the extension file should clarify in case but it may be only available in one version
 				// this allows an update site to specify a targetplatform
@@ -148,7 +148,7 @@ class JUpdaterCollection extends JUpdateAdapter {
 		$this->base = new stdClass();
 		$this->update_sites = Array();
 		$this->updates = Array();
-		$dbo =& $this->parent->getDBO();
+		$dbo = &$this->parent->getDbo();
 
 		if (!($fp = @fopen($url, "r"))) {
 			// TODO: Add a 'mark bad' setting here somehow

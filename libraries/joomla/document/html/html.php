@@ -1,14 +1,14 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @subpackage	Document
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Document
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 jimport('joomla.application.module.helper');
 
@@ -194,7 +194,7 @@ class JDocumentHTML extends JDocument
 			return null;
 		}
 
-		$renderer =& $this->loadRenderer($type);
+		$renderer = &$this->loadRenderer($type);
 		$this->setBuffer($renderer->render($name, $attribs, $result), $type, $name);
 		
 		return $this->_buffer[$type][$name];
@@ -257,7 +257,7 @@ class JDocumentHTML extends JDocument
 		$result = '';
 
 		$words = explode(' ', $condition);
-		for($i = 0; $i < count($words); $i+=2)
+		for ($i = 0; $i < count($words); $i+=2)
 		{
 			// odd parts (modules)
 			$name		= strtolower($words[$i]);
@@ -278,8 +278,8 @@ class JDocumentHTML extends JDocument
 	public function countMenuChildren() {
 		static $children;
 		if (!isset($children)) {
-			$dbo =& JFactory::getDBO();
-			$menu =& JSite::getMenu();
+			$dbo = &JFactory::getDbo();
+			$menu = &JSite::getMenu();
 			$where = Array();
 			$active = $menu->getActive();
 			if ($active) {
@@ -369,7 +369,7 @@ class JDocumentHTML extends JDocument
 		$params = new JParameter($params['params']);
 
 		// Load the language file for the template
-		$lang =& JFactory::getLanguage();
+		$lang = &JFactory::getLanguage();
 		// 1.5 or core
 		$lang->load('tpl_'.$template);
 		// 1.6
@@ -403,7 +403,7 @@ class JDocumentHTML extends JDocument
 
 			$count = count($matches[1]);
 
-			for($i = 0; $i < $count; $i++)
+			for ($i = 0; $i < $count; $i++)
 			{
 				$attribs = JUtility::parseAttributes($matches[2][$i]);
 				$type  = $matches[1][$i];

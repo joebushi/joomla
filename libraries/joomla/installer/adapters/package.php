@@ -4,12 +4,12 @@
  * @package		Joomla.Framework
  * @subpackage	Installer
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  * @version SVN: $Id$
  */
 
 // Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 jimport('joomla.base.adapterinstance');
 
 /**
@@ -32,8 +32,8 @@ class JInstallerPackage extends JAdapterInstance
 	function install()
 	{
 		// Get the extension manifest object
-		$manifest =& $this->parent->getManifest();
-		$this->manifest =& $manifest->document;
+		$manifest = &$this->parent->getManifest();
+		$this->manifest = &$manifest->document;
 
 		/**
 		 * ---------------------------------------------------------------------------------------------
@@ -42,7 +42,7 @@ class JInstallerPackage extends JAdapterInstance
 		 */
 
 		// Set the extensions name
-		$name =& $this->manifest->getElementByPath('packagename');
+		$name = &$this->manifest->getElementByPath('packagename');
 		$name = JFilterInput::clean($name->data(), 'cmd');
 		$this->set('name', $name);
 
@@ -55,7 +55,7 @@ class JInstallerPackage extends JAdapterInstance
 		}
 
 		// Set the installation path
-		$element =& $this->manifest->getElementByPath('files');
+		$element = &$this->manifest->getElementByPath('files');
 		$group = $this->manifest->getElementByPath('packagename');
 		$group = $group->data();
 		if (!empty($group)) {
@@ -166,7 +166,7 @@ class JInstallerPackage extends JAdapterInstance
 		// Because libraries may not have their own folders we cannot use the standard method of finding an installation manifest
 		if (file_exists($manifestFile))
 		{
-			$xml =& JFactory::getXMLParser('Simple');
+			$xml = &JFactory::getXMLParser('Simple');
 
 			// If we cannot load the xml file return null
 			if (!$xml->loadFile($manifestFile)) {
@@ -179,7 +179,7 @@ class JInstallerPackage extends JAdapterInstance
 			 * @todo: Remove backwards compatability in a future version
 			 * Should be 'extension', but for backward compatability we will accept 'install'.
 			 */
-			$root =& $xml->document;
+			$root = &$xml->document;
 			if ($root->name() != 'install' && $root->name() != 'extension') {
 				JError::raiseWarning(100, JText::_('Package').' '.JText::_('Uninstall').': '.JText::_('Invalid manifest file'));
 				return false;
@@ -216,7 +216,7 @@ class JInstallerPackage extends JAdapterInstance
 	function _getExtensionID($type, $id, $client, $group) {
 		// TODO: Rewrite this to handle #__extensions for more than just plugins
 		// TODO-UPDATE
-		$db		=& $this->parent->getDBO();
+		$db		= &$this->parent->getDbo();
 		$result = $id;
 		switch($type) {
 			case 'plugin':
@@ -234,7 +234,7 @@ class JInstallerPackage extends JAdapterInstance
 			case 'language':
 				// A language is a complex beast
 				// its actually a path!
-				$clientInfo =& JApplicationHelper::getClientInfo($this->_state->get('filter.client'));
+				$clientInfo = &JApplicationHelper::getClientInfo($this->_state->get('filter.client'));
 				$client = $clientInfo->name;
 				$langBDir = JLanguage::getLanguagePath($clientInfo->path);
 				$result = $langBDir . DS . $id;

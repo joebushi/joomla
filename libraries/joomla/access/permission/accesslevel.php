@@ -5,7 +5,7 @@
  * @subpackage	Access
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @copyright	Copyright (C) 2008 - 2009 JXtended, LLC. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 defined('JPATH_BASE') or die;
@@ -145,7 +145,7 @@ class JAccessLevel extends JModel
 		// Load the action by name if necessary.
 		if (!is_int($section))
 		{
-			$db = &$this->getDBO();
+			$db = &$this->getDbo();
 			$db->setQuery(
 				'SELECT `id`' .
 				' FROM `#__access_sections`' .
@@ -155,7 +155,7 @@ class JAccessLevel extends JModel
 		}
 		else {
 			$sectionId = (int)$section;
-			$db = &$this->getDBO();
+			$db = &$this->getDbo();
 			$db->setQuery(
 				'SELECT `name`' .
 				' FROM `#__access_sections`' .
@@ -223,7 +223,7 @@ class JAccessLevel extends JModel
 		// Load the action by name if necessary.
 		if (!is_int($action))
 		{
-			$db = &$this->getDBO();
+			$db = &$this->getDbo();
 			$db->setQuery(
 				'SELECT `id`' .
 				' FROM `#__access_actions`' .
@@ -233,7 +233,7 @@ class JAccessLevel extends JModel
 		}
 		else {
 			$actionId = (int)$action;
-			$db = &$this->getDBO();
+			$db = &$this->getDbo();
 			$db->setQuery(
 				'SELECT `name`' .
 				' FROM `#__access_actions`' .
@@ -289,7 +289,7 @@ class JAccessLevel extends JModel
 		// Load the asset group id by name if necessary.
 		if (!is_int($assetGroup))
 		{
-			$db = &$this->getDBO();
+			$db = &$this->getDbo();
 			$db->setQuery(
 				'SELECT `id`' .
 				' FROM `#__access_assetgroups`' .
@@ -300,7 +300,7 @@ class JAccessLevel extends JModel
 		}
 		else {
 			$assetGroupId = (int)$assetGroup;
-			$db = &$this->getDBO();
+			$db = &$this->getDbo();
 			$db->setQuery(
 				'SELECT `title`' .
 				' FROM `#__access_assetgroups`' .
@@ -350,7 +350,7 @@ class JAccessLevel extends JModel
 		$ids = implode(',', $groups);
 
 		// Get the group ids that exist in the database.
-		$db = &$this->getDBO();
+		$db = &$this->getDbo();
 		$db->setQuery(
 			'SELECT `id`' .
 			' FROM `#__usergroups`' .
@@ -401,7 +401,7 @@ class JAccessLevel extends JModel
 		$ids = implode(',', $users);
 
 		// Get the user ids that exist in the database.
-		$db = &$this->getDBO();
+		$db = &$this->getDbo();
 		$db->setQuery(
 			'SELECT `id`' .
 			' FROM `#__users`' .
@@ -457,7 +457,7 @@ class JAccessLevel extends JModel
 		}
 
 		// Get a database object.
-		$db = &$this->getDBO();
+		$db = &$this->getDbo();
 
 		// Delete any action maps for this rule.
 		$db->setQuery(
@@ -554,7 +554,7 @@ class JAccessLevel extends JModel
 		$this->_rule_name = $this->_action_name.'.'.$this->_asset_group_id;
 
 		// Attempt to load the rule id.
-		$db = &$this->getDBO();
+		$db = &$this->getDbo();
 		$db->setQuery(
 			'SELECT `id`' .
 			' FROM `#__access_rules`' .
@@ -637,7 +637,7 @@ class JAccessLevel extends JModel
 		$this->_rule_name = $this->_action_name.'.'.$this->_asset_group_id;
 
 		// Check to see if a rule already exists for this access level.
-		$db = &$this->getDBO();
+		$db = &$this->getDbo();
 		$db->setQuery(
 			'SELECT `id`' .
 			' FROM `#__access_rules`' .

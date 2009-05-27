@@ -2787,7 +2787,7 @@ if (!class_exists('TCPDF', false)) {
 				//Search existing encodings
 				$d = 0;
 				$nb = count($this->diffs);
-				for($i=1; $i <= $nb; ++$i) {
+				for ($i=1; $i <= $nb; ++$i) {
 					if ($this->diffs[$i] == $diff) {
 						$d = $i;
 						break;
@@ -3666,7 +3666,7 @@ if (!class_exists('TCPDF', false)) {
 			$linebreak = false;
 			// for each character
 			while ($i < $nb) {
-				if (($maxh > 0) AND ($this->y >= $maxy) ) {
+				if (($maxh > 0) AND ($this->y >= $maxy)) {
 					$firstline = true;
 				}
 				//Get the current character
@@ -4311,7 +4311,7 @@ if (!class_exists('TCPDF', false)) {
 			$img = imagecreatefrompng($file);
 			$imgalpha = imagecreate($wpx, $hpx);
 			// generate gray scale pallete
-			for($c = 0; $c < 256; ++$c) {
+			for ($c = 0; $c < 256; ++$c) {
 				ImageColorAllocate($imgalpha, $c, $c, $c);
 			}
 			// extract alpha channel
@@ -4646,10 +4646,10 @@ if (!class_exists('TCPDF', false)) {
 			}
 			$pagegroupnum = 0;
 			$filter = ($this->compress) ? '/Filter /FlateDecode ' : '';
-			for($n=1; $n <= $nb; ++$n) {
+			for ($n=1; $n <= $nb; ++$n) {
 				$temppage = $this->getPageBuffer($n);
 				if (!empty($this->pagegroups)) {
-					if(isset($this->newpagegroup[$n])) {
+					if (isset($this->newpagegroup[$n])) {
 						$pagegroupnum = 0;
 					}
 					++$pagegroupnum;
@@ -4746,7 +4746,7 @@ if (!class_exists('TCPDF', false)) {
 			$this->_out('1 0 obj');
 			$this->_out('<</Type /Pages');
 			$kids='/Kids [';
-			for($i=0; $i < $nb; ++$i) {
+			for ($i=0; $i < $nb; ++$i) {
 				$kids .= (3 + (2 * $i)).' 0 R ';
 			}
 			$this->_out($kids.']');
@@ -4954,7 +4954,7 @@ if (!class_exists('TCPDF', false)) {
 							break;
 						}
 						case 'link': {
-							if(is_string($pl['txt'])) {
+							if (is_string($pl['txt'])) {
 								// external URI link
 								$annots .= ' /A <</S /URI /URI '.$this->_datastring($pl['txt']).'>>';
 							} else {
@@ -5205,7 +5205,7 @@ if (!class_exists('TCPDF', false)) {
 					$this->_newobj();
 					$cw = &$font['cw'];
 					$s = '[';
-					for($i = 32; $i < 256; ++$i) {
+					for ($i = 32; $i < 256; ++$i) {
 						$s .= $cw[$i].' ';
 					}
 					$this->_out($s.']');
@@ -5514,7 +5514,7 @@ if (!class_exists('TCPDF', false)) {
 				if (isset($info['trns']) AND is_array($info['trns'])) {
 					$trns='';
 					$count_info = count($info['trns']);
-					for($i=0; $i < $count_info; ++$i) {
+					for ($i=0; $i < $count_info; ++$i) {
 						$trns .= $info['trns'][$i].' '.$info['trns'][$i].' ';
 					}
 					$this->_out('/Mask ['.$trns.']');
@@ -5825,7 +5825,7 @@ if (!class_exists('TCPDF', false)) {
 			$this->_out('xref');
 			$this->_out('0 '.($this->n + 1));
 			$this->_out('0000000000 65535 f ');
-			for($i=1; $i <= $this->n; ++$i) {
+			for ($i=1; $i <= $this->n; ++$i) {
 				$this->_out(sprintf('%010d 00000 n ',$this->offsets[$i]));
 			}
 			foreach ($this->embeddedfiles as $filename => $filedata) {
@@ -6058,15 +6058,15 @@ if (!class_exists('TCPDF', false)) {
 		 *
 		 *   ABFN notation:
 		 *   ---------------------------------------------------------------------
-		 *   UTF8-octets = *( UTF8-char )
+		 *   UTF8-octets = *(UTF8-char)
 		 *   UTF8-char   = UTF8-1 / UTF8-2 / UTF8-3 / UTF8-4
 		 *   UTF8-1      = %x00-7F
 		 *   UTF8-2      = %xC2-DF UTF8-tail
 		 *
-		 *   UTF8-3      = %xE0 %xA0-BF UTF8-tail / %xE1-EC 2( UTF8-tail ) /
-		 *                 %xED %x80-9F UTF8-tail / %xEE-EF 2( UTF8-tail )
-		 *   UTF8-4      = %xF0 %x90-BF 2( UTF8-tail ) / %xF1-F3 3( UTF8-tail ) /
-		 *                 %xF4 %x80-8F 2( UTF8-tail )
+		 *   UTF8-3      = %xE0 %xA0-BF UTF8-tail / %xE1-EC 2(UTF8-tail) /
+		 *                 %xED %x80-9F UTF8-tail / %xEE-EF 2(UTF8-tail)
+		 *   UTF8-4      = %xF0 %x90-BF 2(UTF8-tail) / %xF1-F3 3(UTF8-tail) /
+		 *                 %xF4 %x80-8F 2(UTF8-tail)
 		 *   UTF8-tail   = %x80-BF
 		 *   ---------------------------------------------------------------------
 		 * </pre>
@@ -6081,7 +6081,7 @@ if (!class_exists('TCPDF', false)) {
 				// split string into array of equivalent codes
 				$strarr = array();
 				$strlen = strlen($str);
-				for($i=0; $i < $strlen; ++$i) {
+				for ($i=0; $i < $strlen; ++$i) {
 					$strarr[] = ord($str{$i});
 				}
 				return $strarr;
@@ -6091,7 +6091,7 @@ if (!class_exists('TCPDF', false)) {
 			$numbytes  = 1; // number of octetc needed to represent the UTF-8 character
 			$str .= ''; // force $str to be a string
 			$length = strlen($str);
-			for($i = 0; $i < $length; ++$i) {
+			for ($i = 0; $i < $length; ++$i) {
 				$char = ord($str{$i}); // get one string character at time
 				if (count($bytes) == 0) { // get starting octect
 					if ($char <= 0x7F) {
@@ -6117,7 +6117,7 @@ if (!class_exists('TCPDF', false)) {
 					if (count($bytes) == $numbytes) {
 						// compose UTF-8 bytes to a single unicode value
 						$char = $bytes[0];
-						for($j = 1; $j < $numbytes; ++$j) {
+						for ($j = 1; $j < $numbytes; ++$j) {
 							$char += ($bytes[$j] << (($numbytes - $j - 1) * 0x06));
 						}
 						if ((($char >= 0xD800) AND ($char <= 0xDFFF)) OR ($char >= 0x10FFFF)) {
@@ -7804,7 +7804,7 @@ if (!class_exists('TCPDF', false)) {
 					//	a. If this new level would be valid, then this embedding code is valid. Remember (push) the current embedding level and override status. Reset the current level to this new level, and reset the override status to neutral.
 					//	b. If the new level would not be valid, then this code is invalid. Do not change the current level or override status.
 					$next_level = $cel + 2 - ($cel % 2);
-					if ( $next_level < 62 ) {
+					if ($next_level < 62) {
 						$remember[] = array('num' => K_LRE, 'cel' => $cel, 'dos' => $dos);
 						$cel = $next_level;
 						$dos = 'N';
@@ -7828,7 +7828,7 @@ if (!class_exists('TCPDF', false)) {
 					//	a. If this new level would be valid, then this embedding code is valid. Remember (push) the current embedding level and override status. Reset the current level to this new level, and reset the override status to left-to-right.
 					//	b. If the new level would not be valid, then this code is invalid. Do not change the current level or override status.
 					$next_level = $cel + 2 - ($cel % 2);
-					if ( $next_level < 62 ) {
+					if ($next_level < 62) {
 						$remember[] = array('num' => K_LRO, 'cel' => $cel, 'dos' => $dos);
 						$cel = $next_level;
 						$dos = 'L';
@@ -7838,7 +7838,7 @@ if (!class_exists('TCPDF', false)) {
 				} elseif ($ta[$i] == K_PDF) {
 					// X7. With each PDF, determine the matching embedding or override code. If there was a valid matching code, restore (pop) the last remembered (pushed) embedding level and directional override.
 					if (count($remember)) {
-						$last = count($remember ) - 1;
+						$last = count($remember) - 1;
 						if (($remember[$last]['num'] == K_RLE) OR 
 							  ($remember[$last]['num'] == K_LRE) OR 
 							  ($remember[$last]['num'] == K_RLO) OR 
@@ -8455,7 +8455,7 @@ if (!class_exists('TCPDF', false)) {
 				$x = $x - $w;
 			}
 			// the followind avoid fields duplication after saving the document
-			$this->javascript .= "if(getField('tcpdfdocsaved').value != 'saved') {";
+			$this->javascript .= "if (getField('tcpdfdocsaved').value != 'saved') {";
 			$k = $this->k;
 			$this->javascript .= sprintf("f".$name."=this.addField('%s','%s',%d,[%.2f,%.2f,%.2f,%.2f]);", $name, $type, $this->PageNo()-1, $x*$k, ($this->h-$y)*$k+1, ($x+$w)*$k, ($this->h-$y-$h)*$k+1)."\n";
 			$this->javascript .= 'f'.$name.'.textSize='.$this->FontSizePt.";\n";
@@ -9100,10 +9100,10 @@ if (!class_exists('TCPDF', false)) {
 			//build the data stream
 			$this->gradients[$n]['stream'] = '';
 			$count_patch = count($patch_array);
-			for($i=0; $i < $count_patch; ++$i) {
+			for ($i=0; $i < $count_patch; ++$i) {
 				$this->gradients[$n]['stream'] .= chr($patch_array[$i]['f']); //start with the edge flag as 8 bit
 				$count_points = count($patch_array[$i]['points']);
-				for($j=0; $j < $count_points; ++$j) {
+				for ($j=0; $j < $count_points; ++$j) {
 					//each point as 16 bit
 					$patch_array[$i]['points'][$j] = (($patch_array[$i]['points'][$j] - $coords_min) / ($coords_max - $coords_min)) * $bpcd;
 					if ($patch_array[$i]['points'][$j] < 0) {
@@ -9116,7 +9116,7 @@ if (!class_exists('TCPDF', false)) {
 					$this->gradients[$n]['stream'] .= chr(floor($patch_array[$i]['points'][$j] % 256));
 				}
 				$count_cols = count($patch_array[$i]['colors']);
-				for($j=0; $j < $count_cols; ++$j) {
+				for ($j=0; $j < $count_cols; ++$j) {
 					//each color component as 8 bit
 					$this->gradients[$n]['stream'] .= chr($patch_array[$i]['colors'][$j]['r']);
 					$this->gradients[$n]['stream'] .= chr($patch_array[$i]['colors'][$j]['g']);
@@ -9236,7 +9236,7 @@ if (!class_exists('TCPDF', false)) {
 		* @since 3.1.000 (2008-06-09)
 		* @access protected
 		*/
-		protected function _outarc($x1, $y1, $x2, $y2, $x3, $y3 ) {
+		protected function _outarc($x1, $y1, $x2, $y2, $x3, $y3) {
 			$h = $this->h;
 			$this->_out(sprintf('%.2f %.2f %.2f %.2f %.2f %.2f c', $x1*$this->k, ($h-$y1)*$this->k, $x2*$this->k, ($h-$y2)*$this->k, $x3*$this->k, ($h-$y3)*$this->k));
 		}
@@ -9276,7 +9276,7 @@ if (!class_exists('TCPDF', false)) {
 			$b = $b / 360 * 2 * M_PI;
 			$a = $a / 360 * 2 * M_PI;
 			$d = $b - $a;
-			if ($d == 0 ) {
+			if ($d == 0) {
 				$d = 2 * M_PI;
 			}
 			$k = $this->k;
@@ -9307,7 +9307,7 @@ if (!class_exists('TCPDF', false)) {
 				$this->_outarc($xc+$r*cos($a)+$MyArc*cos(M_PI/2+$a), $yc-$r*sin($a)-$MyArc*sin(M_PI/2+$a), $xc+$r*cos($b)+$MyArc*cos($b-M_PI/2), $yc-$r*sin($b)-$MyArc*sin($b-M_PI/2), $xc+$r*cos($b), $yc-$r*sin($b));
 				$a = $b;
 				$b = $a + $d/4;
-				$this->_outarc($xc+$r*cos($a)+$MyArc*cos(M_PI/2+$a), $yc-$r*sin($a)-$MyArc*sin(M_PI/2+$a), $xc+$r*cos($b)+$MyArc*cos($b-M_PI/2), $yc-$r*sin($b)-$MyArc*sin($b-M_PI/2), $xc+$r*cos($b), $yc-$r*sin($b) );
+				$this->_outarc($xc+$r*cos($a)+$MyArc*cos(M_PI/2+$a), $yc-$r*sin($a)-$MyArc*sin(M_PI/2+$a), $xc+$r*cos($b)+$MyArc*cos($b-M_PI/2), $yc-$r*sin($b)-$MyArc*sin($b-M_PI/2), $xc+$r*cos($b), $yc-$r*sin($b));
 				$a = $b;
 				$b = $a + $d/4;
 				$this->_outarc($xc+$r*cos($a)+$MyArc*cos(M_PI/2+$a), $yc-$r*sin($a)-$MyArc*sin(M_PI/2+$a), $xc+$r*cos($b)+$MyArc*cos($b-M_PI/2), $yc-$r*sin($b)-$MyArc*sin($b-M_PI/2), $xc+$r*cos($b), $yc-$r*sin($b));
@@ -11456,11 +11456,11 @@ if (!class_exists('TCPDF', false)) {
 			switch($tag['value']) {
 				case 'tr': {
 					$table_el = $dom[($dom[$key]['parent'])]['parent'];
-					if(!isset($parent['endy'])) {
+					if (!isset($parent['endy'])) {
 						$dom[($dom[$key]['parent'])]['endy'] = $this->y;
 						$parent['endy'] = $this->y;
 					}
-					if(!isset($parent['endpage'])) {
+					if (!isset($parent['endpage'])) {
 						$dom[($dom[$key]['parent'])]['endpage'] = $this->page;
 						$parent['endpage'] = $this->page;
 					}
@@ -12699,10 +12699,10 @@ if (!class_exists('TCPDF', false)) {
 			$page_last = $this->getPage();
 			$numpages = $page_last - $page_first + 1;
 			if (!empty($page)) {
-				for($p = $page_first; $p <= $page_last; ++$p) {
+				for ($p = $page_first; $p <= $page_last; ++$p) {
 					// get page data
 					$temppage = $this->getPageBuffer($p);
-					for($n = 1; $n <= $this->numpages; ++$n) {
+					for ($n = 1; $n <= $this->numpages; ++$n) {
 						// update page numbers
 						$k = '{#'.$n.'}';
 						$ku = '{'.$k.'}';

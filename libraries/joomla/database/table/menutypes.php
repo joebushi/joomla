@@ -4,11 +4,11 @@
  * @package		Joomla.Framework
  * @subpackage	Table
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 /**
  * Menu Types table
@@ -55,7 +55,7 @@ class JTableMenuTypes extends JTable
 			$this->title = $this->menutype;
 		}
 
-		$db		=& JFactory::getDBO();
+		$db		= &JFactory::getDbo();
 
 		// check for unique menutype for new menu copy
 		$query = 'SELECT menutype' .

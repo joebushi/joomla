@@ -4,11 +4,11 @@
  * @package		Joomla.Framework
  * @subpackage	Error
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 // Error Definition: Illegal Options
 define('JERROR_ILLEGAL_OPTIONS', 1);
@@ -110,7 +110,7 @@ w
 	 * @since 	1.6
 	 */
 	public static function addToStack(JException &$e) {
-		JError::$stack[0][] =& $e;
+		JError::$stack[0][] = &$e;
 	}
 
 	/**
@@ -150,7 +150,7 @@ w
 
 		$function = 'handle'.ucfirst($handler['mode']);
 		if (is_callable(array('JError', $function))) {
-			$reference =& call_user_func_array(array('JError',$function), array(&$exception, (isset($handler['options'])) ? $handler['options'] : array()));
+			$reference = &call_user_func_array(array('JError',$function), array(&$exception, (isset($handler['options'])) ? $handler['options'] : array()));
 		} else {
 			// This is required to prevent a very unhelpful white-screen-of-death
 			jexit(
@@ -598,7 +598,7 @@ w
                         echo    '               <td class="TD"><strong>Function</strong></td>';
                         echo    '               <td class="TD"><strong>Location</strong></td>';
                         echo    '       </tr>';
-                        for($i = count($backtrace)-1; $i >= 0 ; $i--)
+                        for ($i = count($backtrace)-1; $i >= 0 ; $i--)
                         {
                                 echo    '       <tr>';
                                 echo    '               <td class="TD">'.$j.'</td>';

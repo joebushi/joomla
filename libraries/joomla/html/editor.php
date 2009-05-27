@@ -4,11 +4,11 @@
  * @package		Joomla.Framework
  * @subpackage	HTML
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 jimport('joomla.event.dispatcher');
 
@@ -38,7 +38,6 @@ class JEditor extends JObservable
 	/**
 	 * constructor
 	 *
-	 * @access	protected
 	 * @param	string	The editor name
 	 */
 	protected function __construct($editor = 'none')
@@ -53,7 +52,6 @@ class JEditor extends JObservable
 	 * This method must be invoked as:
 	 * 		<pre>  $editor = &JEditor::getInstance([$editor);</pre>
 	 *
-	 * @access	public
 	 * @param	string	$editor  The editor to use.
 	 * @return	JEditor	The Editor object.
 	 */
@@ -95,7 +93,7 @@ class JEditor extends JObservable
 			}
 		}
 
-		$document =& JFactory::getDocument();
+		$document = &JFactory::getDocument();
 		$document->addCustomTag($return);
 	}
 
@@ -225,7 +223,6 @@ class JEditor extends JObservable
 	 * Get the editor buttons
 	 *
 	 * @param	mixed	$buttons Can be boolean or array, if boolean defines if the buttons are displayed, if array defines a list of buttons not to show.
-	 * @access public
 	 * @since 1.5
 	 */
 	 public function getButtons($editor, $buttons = true)
@@ -262,7 +259,6 @@ class JEditor extends JObservable
 	/**
 	 * Load the editor
 	 *
-	 * @access	private
 	 * @param	array	Associative array of editor config paramaters
 	 * @since	1.5
 	 */
@@ -290,7 +286,7 @@ class JEditor extends JObservable
 		require_once $path;
 
 		// Get the plugin
-		$plugin   =& JPluginHelper::getPlugin('editors', $this->_name);
+		$plugin   = &JPluginHelper::getPlugin('editors', $this->_name);
 		$params   = new JParameter($plugin->params);
 		$params->loadArray($config);
 		$plugin->params = $params;

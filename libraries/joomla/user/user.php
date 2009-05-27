@@ -4,11 +4,11 @@
  * @package		Joomla.Framework
  * @subpackage	User
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 jimport('joomla.html.parameter');
 
 /**
@@ -171,7 +171,7 @@ class JUser extends JClass
 	 * doesn't already exist.
 	 *
 	 * This method must be invoked as:
-	 * 		<pre>  $user =& JUser::getInstance($id);</pre>
+	 * 		<pre>  $user = &JUser::getInstance($id);</pre>
 	 *
 	 * @access 	public
 	 * @param 	int 	$id 	The user to load - Can be an integer or string - If string, it is converted to ID automatically.
@@ -259,7 +259,7 @@ class JUser extends JClass
 	 */
 	public function authorize($action, $assetname = null)
 	{
-		if($assetname)
+		if ($assetname)
 		{
 			$acl	= & JFactory::getACL();
 			return $acl->check($this->id, $action, $assetname);
@@ -308,7 +308,7 @@ class JUser extends JClass
 	public function setLastVisit($timestamp=null)
 	{
 		// Create the user table object
-		$table 	=& $this->getTable();
+		$table 	= &$this->getTable();
 		$table->load($this->id);
 
 		return $table->setLastVisit($timestamp);
@@ -399,7 +399,7 @@ class JUser extends JClass
 		}
 
 		// Create the user table object
-		$table 	=& JTable::getInstance($tabletype['name'], $tabletype['prefix']);
+		$table 	= &JTable::getInstance($tabletype['name'], $tabletype['prefix']);
 		return $table;
 	}
 
@@ -427,7 +427,7 @@ class JUser extends JClass
 
 			// Set the registration timestamp
 
-			$now =& JFactory::getDate();
+			$now = &JFactory::getDate();
 			$this->set('registerDate', $now->toMySQL());
 
 			// Check that username is not greater than 25 characters
@@ -465,7 +465,7 @@ class JUser extends JClass
 		}
 
 		// TODO: this will be deprecated as of the ACL implementation
-		$db =& JFactory::getDBO();
+		$db = &JFactory::getDbo();
 
 		$gid = array_key_exists('gid', $array) ? $array['gid'] : $this->get('gid');
 
@@ -481,7 +481,7 @@ class JUser extends JClass
 		catch (JException $e) {
 			$this->set('usertype', null);
 		}
-**/
+ **/
 		if (array_key_exists('params', $array))
 		{
 			$params	= '';
@@ -518,7 +518,7 @@ class JUser extends JClass
 	public function save($updateOnly = false)
 	{
 		// Create the user table object
-		$table 	=& $this->getTable();
+		$table 	= &$this->getTable();
 		$this->params = $this->_params->toString();
 		$table->bind($this->getProperties());
 
@@ -532,7 +532,7 @@ class JUser extends JClass
 		//
 		// @todo ACL - this needs to be acl checked
 		//
-		$my =& JFactory::getUser();
+		$my = &JFactory::getUser();
 		if ($this->get('gid') == 25 && $my->get('gid') != 25)
 		{
 			// disallow creation of Super Admin by non Super Admin users
@@ -561,7 +561,7 @@ class JUser extends JClass
 
 		// Fire the onBeforeStoreUser event.
 		JPluginHelper::importPlugin('user');
-		$dispatcher =& JDispatcher::getInstance();
+		$dispatcher = &JDispatcher::getInstance();
 		$dispatcher->trigger('onBeforeStoreUser', array($old->getProperties(), $isnew));
 
 		//Store the user data in the database
@@ -593,11 +593,11 @@ class JUser extends JClass
 		JPluginHelper::importPlugin('user');
 
 		//trigger the onBeforeDeleteUser event
-		$dispatcher =& JDispatcher::getInstance();
+		$dispatcher = &JDispatcher::getInstance();
 		$dispatcher->trigger('onBeforeDeleteUser', array($this->getProperties()));
 
 		// Create the user table object
-		$table 	=& $this->getTable();
+		$table 	= &$this->getTable();
 
 		$result = false;
 		if (!$result = $table->delete($this->id)) {
@@ -622,7 +622,7 @@ class JUser extends JClass
 	public function load($id)
 	{
 		// Create the user table object
-		$table 	=& $this->getTable();
+		$table 	= &$this->getTable();
 
 		// Load the JUserModel object based on the user id or throw a warning.
 		if (!$table->load($id)) {

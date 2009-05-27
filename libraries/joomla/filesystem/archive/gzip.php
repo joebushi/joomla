@@ -4,11 +4,11 @@
  * @package		Joomla.Framework
  * @subpackage	FileSystem
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 /**
  * Gzip format adapter for the JArchive class
@@ -87,14 +87,14 @@ class JArchiveGzip extends JObject
 		return true;
 		*/
 		// New style! streams!
-		$input =& JFactory::getStream();
+		$input = &JFactory::getStream();
 		$input->set('processingmethod','gz'); // use gz
 		if (!$input->open($archive)) {
 			$this->set('error.message', 'Unable to read archive (gz)');
 			return JError::raiseWarning(100, $this->get('error.message'));
 		}
 
-		$output =& JFactory::getStream();
+		$output = &JFactory::getStream();
 		if (!$output->open($destination, 'w')) {
 			$this->set('error.message', 'Unable to write archive (gz)');
 			$input->close(); // close the previous file

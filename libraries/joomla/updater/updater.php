@@ -6,11 +6,11 @@
  * @package		Joomla.Framework
  * @subpackage	Updater
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
@@ -55,7 +55,7 @@ class JUpdater extends JAdapter {
 	 * @return boolean If there are updates or not
 	 */
 	public function findUpdates($eid=0) {
-		$dbo =& $this->getDBO();
+		$dbo = &$this->getDbo();
 		$retval = false;
 		// push it into an array
 		if (!is_array($eid)) {
@@ -66,8 +66,8 @@ class JUpdater extends JAdapter {
 		$dbo->setQuery($query);
 		$results = $dbo->loadAssocList();
 		$result_count = count($results);
-		for($i = 0; $i < $result_count; $i++) {
-			$result =& $results[$i];
+		for ($i = 0; $i < $result_count; $i++) {
+			$result = &$results[$i];
 			$this->setAdapter($result['type']);
 			$update_result = $this->_adapters[$result['type']]->findUpdate($result);
 			if (is_array($update_result)) {
@@ -76,10 +76,10 @@ class JUpdater extends JAdapter {
 					$result_count = count($results);
 				}
 				if (array_key_exists('updates', $update_result) && count($update_result['updates'])) {
-					for($k = 0; $k < count($update_result['updates']); $k++) {
-						$current_update =& $update_result['updates'][$k];
-						$update =& JTable::getInstance('update');
-						$extension =& JTable::getInstance('extension');
+					for ($k = 0; $k < count($update_result['updates']); $k++) {
+						$current_update = &$update_result['updates'][$k];
+						$update = &JTable::getInstance('update');
+						$extension = &JTable::getInstance('extension');
 						$uid = $update->find(Array('element'=>strtolower($current_update->element),
 								'type'=>strtolower($current_update->type),
 								'client_id'=>strtolower($current_update->client_id),
@@ -147,7 +147,7 @@ class JUpdater extends JAdapter {
 	}
 
 	public function update($id) {
-		$updaterow =& JTable::getInstance('update');
+		$updaterow = &JTable::getInstance('update');
 		$updaterow->load($id);
 		$update = new JUpdate();
 		if ($update->loadFromXML($updaterow->detailsurl)) {

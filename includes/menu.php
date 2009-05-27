@@ -4,11 +4,11 @@
  * @package		Joomla.Framework
  * @subpackage	Application
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 /**
  * JMenu class
@@ -28,7 +28,7 @@ class JMenuSite extends JMenu
 	function load()
 	{
 		// Initialize some variables
-		$db		= & JFactory::getDBO();
+		$db		= & JFactory::getDbo();
 
 		$sql	= 'SELECT m.*, c.`option` as component' .
 				' FROM #__menu AS m' .
@@ -47,7 +47,7 @@ class JMenuSite extends JMenu
 			//Get parent information
 			$parent_route = '';
 			$parent_tree  = array();
-			if(($parent = $menus[$key]->parent) && (isset($menus[$parent])) &&
+			if (($parent = $menus[$key]->parent) && (isset($menus[$parent])) &&
 				(is_object($menus[$parent])) && (isset($menus[$parent]->route)) && isset($menus[$parent]->tree)) {
 				$parent_route = $menus[$parent]->route.'/';
 				$parent_tree  = $menus[$parent]->tree;
@@ -63,7 +63,7 @@ class JMenuSite extends JMenu
 
 			//Create the query array
 			$url = str_replace('index.php?', '', $menus[$key]->link);
-			if(strpos($url, '&amp;') !== false)
+			if (strpos($url, '&amp;') !== false)
 			{
 				$url = str_replace('&amp;','&',$url);
 			}

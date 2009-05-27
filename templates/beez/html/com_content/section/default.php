@@ -1,5 +1,5 @@
 <?php // @version $Id$
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 $cparams = JComponentHelper::getParams ('com_media');
 ?>
 
@@ -36,7 +36,7 @@ $cparams = JComponentHelper::getParams ('com_media');
 
 			<?php if ($this->params->get('show_cat_num_articles')) : ?>
 			<span class="small">
-				( <?php echo $category->numitems.' '.JText::_('items'); ?> )
+				(<?php echo $category->numitems.' '.JText::_('items'); ?>)
 			</span>
 			<?php endif; ?>
 

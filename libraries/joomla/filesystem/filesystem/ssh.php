@@ -4,8 +4,8 @@
  * @package		Joomla.Framework
  * @subpackage	FileSystem
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 /**
  * SSH Filesystem backend class
@@ -31,7 +31,7 @@ class JFilesystemSSH extends JFilesystem
 	public function check() {
 		$ret = JFileSystemSSH::test();
 		if ($ret) {
-			$config =& JFactory::getConfig();
+			$config = &JFactory::getConfig();
 			$path = $config->get('config.tmp_path');
 			$file = md5(rand(0,10000)).'_tmp';
 			if ($this->write($path . DS . $file, 'write test')) {
@@ -45,25 +45,25 @@ class JFilesystemSSH extends JFilesystem
 	}
 
 	public function copy($src, $dest) {
-		$con =& $this->_getSSH();
+		$con = &$this->_getSSH();
 		return ssh2_scp_send($this->_makePath($src), $this->_makePath($dest));
 	}
 
 	public function delete($src) {
-		$con =& $this->_getSFTP();
+		$con = &$this->_getSFTP();
 		return ssh2_sftp_unlink($con, $this->_makePath($src));
 	}
 
 	public function rename($src, $dest) {
-		$con =& $this->_getSFTP();
+		$con = &$this->_getSFTP();
 		return ssh2_sftp_rename($con, $this->_makePath($src), $this->_makePath($dest));
 	}
 
 	public function read($src) {
-		$config =& JFactory::getConfig();
+		$config = &JFactory::getConfig();
 		$path = $config->get('config.tmp_path');
 		$file = md5(rand(0,10000)).'_tmp';
-		$con =& $this->_getSSH();
+		$con = &$this->_getSSH();
 		$buffer = false;
 		if (ssh2_scp_recv($con, $this->_makePath($src), $path . DS . $file)) {
 			$buffer = @file_get_contents($path. DS . $file);
@@ -75,12 +75,12 @@ class JFilesystemSSH extends JFilesystem
 
 	public function write($src, &$buffer) {
 		//write to temp file
-		$config =& JFactory::getConfig();
+		$config = &JFactory::getConfig();
 		$path = $config->get('config.tmp_path');
 		$file = md5(rand(0,10000)).'_tmp';
 		$ret = false;
 		if (@file_put_contents($path . DS . $file, $buffer)) {
-			$con =& $this->_getSSH();
+			$con = &$this->_getSSH();
 			$ret = ssh2_scp_send($con, $path . DS . $file, $this->_makePath($src));
 			@unlink($path . DS . $file);
 		}
@@ -112,12 +112,12 @@ class JFilesystemSSH extends JFilesystem
 	}
 
 	public function mkdir($path) {
-		$con =& $this->_getSFTP();
+		$con = &$this->_getSFTP();
 		return ssh2_sftp_mkdir($con, $this->_makePath($path));
 	}
 
 	public function rmdir($path) {
-		$con =& $this->_getSFTP();
+		$con = &$this->_getSFTP();
 		return ssh2_sftp_rmdir($con, $this->_makePath($path));
 	}
 
@@ -144,7 +144,7 @@ class JFilesystemSSH extends JFilesystem
 		static $obj = null;
 		if (!is_resource($obj)) {
 			$obj = false;
-			$con =& $this->_getSSH;
+			$con = &$this->_getSSH;
 			if ($con) {
 				$obj = ssh2_sftp($con);
 			}

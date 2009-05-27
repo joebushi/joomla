@@ -1,23 +1,23 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Installation
-* @subpackage	Installation
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla.Installation
+ * @subpackage	Installation
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 /**
-* Joomla! Application class
-*
-* Provide many supporting API functions
-*
-* @package		Joomla.Installation
-* @final
-*/
+ * Joomla! Application class
+ *
+ * Provide many supporting API functions
+ *
+ * @package		Joomla.Installation
+ * @final
+ */
 class JInstallation extends JApplication
 {
 	/**
@@ -183,7 +183,7 @@ class JInstallation extends JApplication
 	*/
 	function getTemplate($params = false)
 	{
-		if($params)
+		if ($params)
 		{
 			$template = new stdClass();
 			$template->template = 'template';

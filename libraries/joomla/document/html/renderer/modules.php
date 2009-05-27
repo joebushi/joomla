@@ -1,14 +1,14 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @subpackage	Document
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Document
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 /**
  * JDocument Modules renderer
@@ -29,7 +29,7 @@ class JDocumentRendererModules extends JDocumentRenderer
 	 */
 	public function render($position, $params = array(), $content = null)
 	{
-		$renderer =&  $this->_doc->loadRenderer('module');
+		$renderer = & $this->_doc->loadRenderer('module');
 
 		$contents = '';
 		foreach (JModuleHelper::getModules($position) as $mod)  {

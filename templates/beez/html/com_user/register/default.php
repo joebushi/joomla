@@ -1,5 +1,5 @@
 <?php // @version $Id$
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 ?>
 
 <script type="text/javascript">
@@ -10,7 +10,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 <form action="<?php echo JRoute::_('index.php?option=com_user#content'); ?>" method="post" id="josForm" name="josForm" class="form-validate user">
 	<h2 class="componentheading"><?php echo JText::_('Registration'); ?></h2>
-	<?php if(isset($this->message)) :
+	<?php if (isset($this->message)) :
 		$this->display('message');
 	endif; ?>
 	<fieldset>
@@ -42,5 +42,5 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 	<input type="hidden" name="task" value="register_save" />
 	<input type="hidden" name="id" value="0" />
 	<input type="hidden" name="gid" value="0" />
-	<?php echo JHtml::_( 'form.token' ); ?>
+	<?php echo JHtml::_('form.token'); ?>
 </form>

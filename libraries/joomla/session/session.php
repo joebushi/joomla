@@ -1,30 +1,30 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @subpackage	Session
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Session
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 //Register the session storage class with the loader
 JLoader::register('JSessionStorage', dirname(__FILE__).DS.'storage.php');
 
 /**
-* Class for managing HTTP sessions
-*
-* Provides access to session-state values as well as session-level
-* settings and lifetime management methods.
-* Based on the standart PHP session handling mechanism it provides
-* for you more advanced features such as expire timeouts.
-*
-* @package		Joomla.Framework
-* @subpackage	Session
-* @since		1.5
-*/
+ * Class for managing HTTP sessions
+ *
+ * Provides access to session-state values as well as session-level
+ * settings and lifetime management methods.
+ * Based on the standart PHP session handling mechanism it provides
+ * for you more advanced features such as expire timeouts.
+ *
+ * @package		Joomla.Framework
+ * @subpackage	Session
+ * @since		1.5
+ */
 class JSession extends JClass
 {
 	/**
@@ -83,7 +83,7 @@ class JSession extends JClass
 		ini_set('session.use_trans_sid', '0');
 
 		//create handler
-		$this->_store =& JSessionStorage::getInstance($store, $options);
+		$this->_store = &JSessionStorage::getInstance($store, $options);
 
 		//set options
 		$this->_setOptions($options);
@@ -563,7 +563,7 @@ class JSession extends JClass
 		$max			=	strlen($chars) - 1;
 		$token			=	'';
 		$name 			=  session_name();
-		for($i = 0; $i < $length; ++$i) {
+		for ($i = 0; $i < $length; ++$i) {
 			$token .=	$chars[ (rand(0, $max)) ];
 		}
 
@@ -673,7 +673,7 @@ class JSession extends JClass
 		// check if session has expired
 		if ($this->_expire)
 		{
-			$curTime =	$this->get('session.timer.now' , 0 );
+			$curTime =	$this->get('session.timer.now' , 0);
 			$maxTime =	$this->get('session.timer.last', 0) +  $this->_expire;
 
 			// empty session variables

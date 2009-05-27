@@ -4,11 +4,11 @@
  * @package		Joomla.Framework
  * @subpackage	Mail
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 jimport('phpmailer.phpmailer');
 jimport('joomla.mail.helper');
@@ -38,7 +38,7 @@ class JMail extends PHPMailer
 	 * if it doesn't already exist.
 	 *
 	 * This method must be invoked as:
-	 * 		<pre>  $mail =& JMail::getInstance();</pre>
+	 * 		<pre>  $mail = &JMail::getInstance();</pre>
 	 *
 	 * NOTE: If you need an instance to use that does not have the global configuration
 	 * values, use an id string that is not 'Joomla'.
@@ -79,7 +79,7 @@ class JMail extends PHPMailer
 		if ($result == false)
 		{
 			// TODO: Set an appropriate error number
-			$result =& JError::raiseNotice(500, JText::_($this->ErrorInfo));
+			$result = &JError::raiseNotice(500, JText::_($this->ErrorInfo));
 		}
 		return $result;
 	}

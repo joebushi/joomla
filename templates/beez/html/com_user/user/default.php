@@ -1,5 +1,5 @@
 <?php // @version $Id: default.php  $
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 ?>
 
 <h1 class="componentheading">

@@ -4,11 +4,11 @@
  * @package		Joomla.Framework
  * @subpackage	Table
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 JLoader::register('JTableAsset', dirname(__FILE__).DS.'table'.DS.'asset.php');
 
@@ -29,7 +29,6 @@ abstract class JTable extends JClass
 	 * Name of the table in the db schema relating to child class
 	 *
 	 * @var 	string
-	 * @access	protected
 	 */
 	protected $_tbl	= '';
 
@@ -37,7 +36,6 @@ abstract class JTable extends JClass
 	 * Name of the primary key field in the table
 	 *
 	 * @var		string
-	 * @access	protected
 	 */
 	protected $_tbl_key = '';
 
@@ -45,7 +43,6 @@ abstract class JTable extends JClass
 	 * Database connector
 	 *
 	 * @var		JDatabase
-	 * @access	protected
 	 */
 	protected $_db = null;
 
@@ -54,7 +51,6 @@ abstract class JTable extends JClass
 	 *
 	 * Can be overloaded/supplemented by the child class
 	 *
-	 * @access protected
 	 * @param string $table name of the table in the db schema relating to child class
 	 * @param string $key name of the primary key field in the table
 	 * @param object $db JDatabase object
@@ -63,7 +59,7 @@ abstract class JTable extends JClass
 	{
 		$this->_tbl		= $table;
 		$this->_tbl_key	= $key;
-		$this->_db		=& $db;
+		$this->_db		= &$db;
 	}
 
 	public function __get($var) {
@@ -114,9 +110,9 @@ abstract class JTable extends JClass
 
 		//Make sure we are returning a DBO object
 		if (array_key_exists('dbo', $config))  {
-			$db =& $config['dbo'];
+			$db = &$config['dbo'];
 		} else {
-			$db = & JFactory::getDBO();
+			$db = & JFactory::getDbo();
 		}
 
 		$instance = new $tableClass($db);
@@ -130,7 +126,7 @@ abstract class JTable extends JClass
 	 *
 	 * @return object A JDatabase based object
 	 */
-	public function &getDBO()
+	public function &getDbo()
 	{
 		return $this->_db;
 	}
@@ -141,9 +137,9 @@ abstract class JTable extends JClass
 	 * @param	object	$db	A JDatabase based object
 	 * @return	void
 	 */
-	public function setDBO(&$db)
+	public function setDbo(&$db)
 	{
-		$this->_db =& $db;
+		$this->_db = &$db;
 	}
 
 	/**
@@ -189,7 +185,6 @@ abstract class JTable extends JClass
 	 *
 	 * Can be overloaded/supplemented by the child class
 	 *
-	 * @access	public
 	 * @param	$from	mixed	An associative array or object
 	 * @param	$ignore	mixed	An array or space separated list of fields not to bind
 	 * @return	boolean
@@ -243,7 +238,7 @@ abstract class JTable extends JClass
 		}
 		$this->reset();
 
-		$db =& $this->getDBO();
+		$db = &$this->getDbo();
 
 		$query = 'SELECT *'
 		. ' FROM '.$this->_tbl
@@ -269,7 +264,6 @@ abstract class JTable extends JClass
 	 *
 	 * Can be overloaded/supplemented by the child class
 	 *
-	 * @access public
 	 * @return boolean True if the object is ok
 	 */
 	public function check()
@@ -282,7 +276,6 @@ abstract class JTable extends JClass
 	 *
 	 * Can be overloaded/supplemented by the child class
 	 *
-	 * @access public
 	 * @param boolean If false, null object variables are not updated
 	 * @return null|string null if successful otherwise returns and error message
 	 */
@@ -308,7 +301,6 @@ abstract class JTable extends JClass
 	/**
 	 * Description
 	 *
-	 * @access public
 	 * @param $dirn
 	 * @param $where
 	 */
@@ -385,7 +377,6 @@ abstract class JTable extends JClass
 	/**
 	 * Returns the ordering value to place a new item last in its group
 	 *
-	 * @access public
 	 * @param string query WHERE clause for selecting MAX(ordering).
 	 */
 	public function getNextOrder ($where='')
@@ -412,7 +403,6 @@ abstract class JTable extends JClass
 	/**
 	 * Compacts the ordering sequence of the selected records
 	 *
-	 * @access public
 	 * @param string Additional where query to limit ordering to a particular subset of records
 	 */
 	public function reorder($where='')
@@ -470,7 +460,6 @@ abstract class JTable extends JClass
 	 *
 	 * can be overloaded/supplemented by the child class
 	 *
-	 * @access public
 	 * @param string $msg Error message returned
 	 * @param int Optional key index
 	 * @param array Optional array to compiles standard joins: format [label=>'Label',name=>'table name',idfield=>'field',joinfield=>'field']
@@ -538,7 +527,6 @@ abstract class JTable extends JClass
 	 *
 	 * can be overloaded/supplemented by the child class
 	 *
-	 * @access public
 	 * @return true if successful otherwise returns and error message
 	 */
 	public function delete($oid=null)
@@ -569,7 +557,6 @@ abstract class JTable extends JClass
 	/**
 	 * Checks out a row
 	 *
-	 * @access public
 	 * @param	integer	The id of the user
 	 * @param 	mixed	The primary key value for the row
 	 * @return	boolean	True if successful, or if checkout is not supported
@@ -585,7 +572,7 @@ abstract class JTable extends JClass
 			$this->$k = $oid;
 		}
 
-		$date =& JFactory::getDate();
+		$date = &JFactory::getDate();
 		$time = $date->toMysql();
 
 		$query = 'UPDATE '.$this->_db->nameQuote($this->_tbl) .
@@ -606,7 +593,6 @@ abstract class JTable extends JClass
 	/**
 	 * Checks in a row
 	 *
-	 * @access	public
 	 * @param	mixed	The primary key value for the row
 	 * @return	boolean	True if successful, or if checkout is not supported
 	 */
@@ -648,7 +634,6 @@ abstract class JTable extends JClass
 	/**
 	 * Description
 	 *
-	 * @access public
 	 * @param $oid
 	 * @param $log
 	 */
@@ -685,7 +670,6 @@ abstract class JTable extends JClass
 	 * a value for the $against parameter.
 	 *
 	 * @static
-	 * @access public
 	 * @param integer  $with  	The userid to preform the match with, if an item is checked out
 	 * 							by this user the function will return false
 	 * @param integer  $against 	The userid to perform the match against when the function is used as
@@ -703,14 +687,13 @@ abstract class JTable extends JClass
 			return  false;
 		}
 
-		$session =& JTable::getInstance('session');
+		$session = &JTable::getInstance('session');
 		return $session->exists($against);
 	}
 
 	/**
 	 * Generic save function
 	 *
-	 * @access	public
 	 * @param	array	Source array for binding to class vars
 	 * @param	string	Filter for the order updating
 	 * @param	mixed	An array or space separated list of fields not to bind
@@ -742,7 +725,6 @@ abstract class JTable extends JClass
 	/**
 	 * Generic Publish/Unpublish function
 	 *
-	 * @access public
 	 * @param array An array of id numbers
 	 * @param integer 0 if unpublishing, 1 if publishing
 	 * @param integer The id of the user performnig the operation
@@ -801,7 +783,6 @@ abstract class JTable extends JClass
 	/**
 	 * Export item list to xml
 	 *
-	 * @access public
 	 * @param boolean Map foreign keys to text values
 	 */
 	public function toXML($mapKeysToText=false)
@@ -834,8 +815,6 @@ abstract class JTable extends JClass
 	 * Add a directory where JTable should search for table types. You may
 	 * either pass a string or an array of directories.
 	 *
-	 * @static
-	 * @access	public
 	 * @param	string	A path to search.
 	 * @return	array	An array with directory elements
 	 * @since 1.5

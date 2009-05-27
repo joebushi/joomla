@@ -4,11 +4,11 @@
  * @package		Joomla.Framework
  * @subpackage	HTML
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 /**
  * JPane abstract class
@@ -160,7 +160,7 @@ class JPaneTabs extends JPane
 		// Include mootools framework
 		JHtml::_('behavior.mootools');
 
-		$document =& JFactory::getDocument();
+		$document = &JFactory::getDocument();
 
 		$options = '{';
 		$opt['onActive']		= (isset($params['onActive'])) ? $params['onActive'] : null ;
@@ -258,7 +258,7 @@ class JPaneSliders extends JPane
 		// Include mootools framework
 		JHtml::_('behavior.mootools');
 
-		$document =& JFactory::getDocument();
+		$document = &JFactory::getDocument();
 
 		$options = '{';
 		$opt['onActive']	 = 'function(toggler, i) { toggler.addClass(\'jpane-toggler-down\'); toggler.removeClass(\'jpane-toggler\'); }';

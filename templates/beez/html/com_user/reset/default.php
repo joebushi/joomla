@@ -1,5 +1,5 @@
 <?php // @version $Id: default.php  $
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 ?>
 
 <h1 class="componentheading"><?php echo JText::_('FORGOT_YOUR_PASSWORD'); ?></h1>
@@ -11,5 +11,5 @@ defined('_JEXEC') or die('Restricted access');
 	<input id="email" name="email" type="text" class="required validate-email" />
 
 	<button type="submit" class="validate"><?php echo JText::_('Submit'); ?></button>
-	<?php echo JHtml::_( 'form.token' ); ?>
+	<?php echo JHtml::_('form.token'); ?>
 </form>

@@ -4,8 +4,8 @@
  * @package		Joomla.Installation
  * @subpackage	Installation
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 define('_JEXEC', 1);
 define('JPATH_BASE', dirname(dirname(__FILE__)));
@@ -65,7 +65,7 @@ class JAJAXHandler
 		{
 			$session	= JFactory::getSession();
 			$registry	= $session->get('registry');
-			$vars	=& $registry->toArray('application');
+			$vars	= &$registry->toArray('application');
 		}
 
 		return $vars;
@@ -147,7 +147,7 @@ class JAJAXHandler
 		}
 		$dbsample = '../sql'.DS.$type.DS.'sample_data.sql';
 
-		$db = & JInstallationHelper::getDBO($vars['DBtype'], $vars['DBhostname'], $vars['DBuserName'], $vars['DBpassword'], $vars['DBname'], $vars['DBPrefix']);
+		$db = & JInstallationHelper::getDbo($vars['DBtype'], $vars['DBhostname'], $vars['DBuserName'], $vars['DBpassword'], $vars['DBname'], $vars['DBPrefix']);
 		$result = JInstallationHelper::populateDatabase($db, $dbsample, $errors);
 
 		/*

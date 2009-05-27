@@ -1,5 +1,5 @@
 <?php // @version $Id$
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 $cparams = JComponentHelper::getParams ('com_media');
 ?>
 
@@ -33,13 +33,13 @@ $cparams = JComponentHelper::getParams ('com_media');
 
 	<?php if ($this->contact->image && $this->contact->params->get('show_image')) : ?>
 	<div style="float: right;">
-		<?php echo JHtml::_('image', $cparams->get('image_path').'/'.$this->contact->image, JText::_( 'Contact' ), array('align' => 'middel')); ?>
+		<?php echo JHtml::_('image', $cparams->get('image_path').'/'.$this->contact->image, JText::_('Contact'), array('align' => 'middel')); ?>
 	</div>
 	<?php endif; ?>
 
 	<?php echo $this->loadTemplate('address'); ?>
 
-	<?php if ( $this->contact->params->get('allow_vcard')) : ?>
+	<?php if ($this->contact->params->get('allow_vcard')) : ?>
 	<p>
 		<?php echo JText::_('Download information as a'); ?>
 		<a href="<?php echo JRoute::_('index.php?option=com_contact&contact_id='.$this->contact->id.'&format=vcard'); ?>">

@@ -1,5 +1,5 @@
 <?php // @version $Id$
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 ?>
 
 <?php if ($this->params->get('show_page_title')) : ?>
@@ -14,7 +14,7 @@ defined('_JEXEC') or die('Restricted access');
 	$rowcount = $this->params->def('num_leading_articles', 1);
 	for ($y = 0; $y < $rowcount && $i < $this->total; $y++, $i++) : ?>
 		<div class="leading<?php echo $this->params->get('pageclass_sfx'); ?>">
-			<?php $this->item =& $this->getItem($i, $this->params);
+			<?php $this->item = &$this->getItem($i, $this->params);
 			echo $this->loadTemplate('item'); ?>
 		</div>
 		<span class="leading_separator<?php echo $this->params->get('pageclass_sfx'); ?>">&nbsp;</span>
@@ -32,7 +32,7 @@ defined('_JEXEC') or die('Restricted access');
 			<div class="article_row<?php echo $this->params->get('pageclass_sfx'); ?>">
 				<?php for ($z = 0; $z < $colcount && $ii < $introcount && $i < $this->total; $z++, $i++, $ii++) : ?>
 					<div class="article_column column<?php echo $z + 1; ?> cols<?php echo $colcount; ?>" >
-						<?php $this->item =& $this->getItem($i, $this->params);
+						<?php $this->item = &$this->getItem($i, $this->params);
 						echo $this->loadTemplate('item'); ?>
 					</div>
 					<span class="article_separator">&nbsp;</span>
@@ -51,7 +51,7 @@ defined('_JEXEC') or die('Restricted access');
 	<?php endif; ?>
 
 	<?php if ($this->params->def('show_pagination', 2) == 1  || ($this->params->get('show_pagination') == 2 && $this->pagination->get('pages.total') > 1)) : ?>
-		<?php if( $this->pagination->get('pages.total') > 1 ) : ?>
+		<?php if ($this->pagination->get('pages.total') > 1) : ?>
 		<p class="counter">
 			<?php echo $this->pagination->getPagesCounter(); ?>
 		</p>

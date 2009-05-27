@@ -4,11 +4,11 @@
  * @package		Joomla.Framework
  * @subpackage	Task
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 jimport('joomla.error.profiler');
 
 /**
@@ -38,7 +38,7 @@ class JTask extends JTable {
 			$this->tasksetid = $tasksetid;
 			$this->data = $data;
 			if ($parent != null) {
-				$this->_parent =& $parent;
+				$this->_parent = &$parent;
 			} else if ($tasksetid) {
 				$this->_parent = new JTaskSet($db);
 				$this->_parent->load($tasksetid);
@@ -52,7 +52,7 @@ class JTask extends JTable {
 	}
 
 	public function setInstance(&$instance, $restore=false) {
-		$this->_instance =& $instance;
+		$this->_instance = &$instance;
 		$this->_instance->setTask($this);
 		if ($restore) {
 			$this->_instance->restoreTask($this->data);
@@ -102,7 +102,7 @@ class JTask extends JTable {
 		// mark:javascript autoprogress
 		echo "<script language=\"JavaScript\" type=\"text/javascript\">window.setTimeout('location.href=\"" . $link . "\";',1000);</script>\n";
 		echo '</div>';
-		$mainframe =& JFactory::getApplication();
+		$mainframe = &JFactory::getApplication();
 		$mainframe->close();
 	}
 }

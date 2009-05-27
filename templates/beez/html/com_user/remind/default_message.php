@@ -1,5 +1,5 @@
 <?php // @version $Id: default_message.php$
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 ?>
 
 <div class="componentheading">

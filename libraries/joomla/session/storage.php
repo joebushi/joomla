@@ -1,24 +1,24 @@
 <?php
 /**
-* @version		$Id:sessionstorage.php 6961 2007-03-15 16:06:53Z tcp $
-* @package		Joomla.Framework
-* @subpackage	Session
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id:sessionstorage.php 6961 2007-03-15 16:06:53Z tcp $
+ * @package		Joomla.Framework
+ * @subpackage	Session
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 /**
-* Custom session storage handler for PHP
-*
-* @abstract
-* @package		Joomla.Framework
-* @subpackage	Session
-* @since		1.5
-* @see http://www.php.net/manual/en/function.session-set-save-handler.php
-*/
+ * Custom session storage handler for PHP
+ *
+ * @abstract
+ * @package		Joomla.Framework
+ * @subpackage	Session
+ * @since		1.5
+ * @see http://www.php.net/manual/en/function.session-set-save-handler.php
+ */
 abstract class JSessionStorage extends JClass
 {
 	/**

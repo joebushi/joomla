@@ -1,6 +1,6 @@
 <?php
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 //TODO: Rewrite this so its cleaner
 
@@ -273,7 +273,7 @@ if (!$error && isset ($_REQUEST["start"]) && isset ($_REQUEST["foffset"]) && ere
 		//$migration 		= JArrayHelper::getValue($vars, 'migration', '0');
 		$migration = JRequest::getVar('migration', 0, 'post', 'bool');
 
-			$db = & JInstallationHelper::getDBO($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
+			$db = & JInstallationHelper::getDbo($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
 			if (JError::isError($db)) jexit(JText::_('CONNECTION FAIL'));
 
 			// Execute query if end of query detected (; as last character) AND NOT in parents

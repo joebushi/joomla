@@ -1,6 +1,6 @@
 <?php
 
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 jimport('joomla.base.adapterinstance');
 jimport('joomla.tasks.tasksuspendable');
@@ -53,7 +53,7 @@ class JBackupSql extends JAdapterInstance implements JTaskSuspendable, JBackupAd
 	 * @param JTask A task object to set for this instance
 	 */
 	public function setTask(&$task) {
-		$this->task =& $task;
+		$this->task = &$task;
 	}
 
 	/**
@@ -98,7 +98,7 @@ class JBackupSql extends JAdapterInstance implements JTaskSuspendable, JBackupAd
 		
 		$this->db->setQuery('SET sql_quote_show_create = 1;');
 		$this->db->Query();
-		$config =& JFactory::getConfig();
+		$config = &JFactory::getConfig();
 		$prefix = $config->getValue('config.dbprefix');
 		$tables = $this->db->getTableList(); // load all tables in database
 		// check if this is set and contains rows otherwise set it to all of the tables
@@ -111,7 +111,7 @@ class JBackupSql extends JAdapterInstance implements JTaskSuspendable, JBackupAd
 				}
 			}
 		}
-		$output =& JFactory::getStream();
+		$output = &JFactory::getStream();
 		$filename = $options['destination'].DS.$options['filename'];
 		// TODO: Change this to 'a' when we resume a task
 		if (!$output->open($filename,'w')) return false;
@@ -169,7 +169,7 @@ class JBackupSql extends JAdapterInstance implements JTaskSuspendable, JBackupAd
 		if (!isset($options['destination'])) return false; // if we don't have a dest bail
 		if (!isset($options['filename'])) $options['filename'] = 'data.sql'; // and this
 		jimport('joomla.database.dataload');
-		$loader =& JDataLoad::getInstance(Array('driver'=>'sql','filename'=>$options['destination'].DS.$options['filename']));
+		$loader = &JDataLoad::getInstance(Array('driver'=>'sql','filename'=>$options['destination'].DS.$options['filename']));
 		if ($loader INSTANCEOF JException) {
 			JError::raiseWarning(1001, JText::sprintf('Failed to create data load adapter "%s"', 'sql'));
 			return false;

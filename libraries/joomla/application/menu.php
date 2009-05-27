@@ -4,11 +4,11 @@
  * @package		Joomla.Framework
  * @subpackage	Application
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 /**
  * JMenu class
@@ -85,7 +85,7 @@ class JMenu extends JClass
 		if (empty($instances[$client]))
 		{
 			//Load the router object
-			$info =& JApplicationHelper::getClientInfo($client, true);
+			$info = &JApplicationHelper::getClientInfo($client, true);
 
 			$path = $info->path.DS.'includes'.DS.'menu.php';
 			if (file_exists($path))
@@ -150,7 +150,7 @@ class JMenu extends JClass
 	 */
 	public function &getDefault()
 	{
-		$item =& $this->_items[$this->_default];
+		$item = &$this->_items[$this->_default];
 		return $item;
 	}
 
@@ -184,7 +184,7 @@ class JMenu extends JClass
 	public function &getActive()
 	{
 		if ($this->_active) {
-			$item =& $this->_items[$this->_active];
+			$item = &$this->_items[$this->_active];
 			return $item;
 		}
 
@@ -233,7 +233,7 @@ class JMenu extends JClass
 	public function &getParams($id)
 	{
 		$ini = '';
-		if ($menu =& $this->getItem($id)) {
+		if ($menu = &$this->getItem($id)) {
 			$ini = $menu->params;
 		}
 		$result = new JParameter($ini);
@@ -263,8 +263,8 @@ class JMenu extends JClass
 	 */
 	public function authorize($id, $accessid = 0)
 	{
-		$menu =& $this->getItem($id);
-		$user =& JFactory::getUser();
+		$menu = &$this->getItem($id);
+		$user = &JFactory::getUser();
 		return (in_array((isset($menu->access) ? $menu->access : 0), $user->authorisedLevels('core.menu.view')));
 	}
 

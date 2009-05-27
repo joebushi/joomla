@@ -1,14 +1,14 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @subpackage		HTML
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage		HTML
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 /**
  * Utility class for creating different select lists
@@ -43,8 +43,8 @@ abstract class JHtmlList
 		}
 
 		jimport('joomla.filesystem.folder');
-		$imageFiles = JFolder::files(JPATH_SITE.DS.$directory);
-		$images = array(JHtml::_('select.option',  '', '- '. JText::_('Select Image') .' -'));
+		$imageFiles	= JFolder::files(JPATH_SITE.DS.$directory);
+		$images		= array(JHtml::_('select.option',  '', '- '. JText::_('Select Image') .' -'));
 		foreach ($imageFiles as $file) {
 			if (preg_match('#('.$extensions.')$#', $file)) {
 				$images[] = JHtml::_('select.option', $file);
@@ -73,7 +73,7 @@ abstract class JHtmlList
  	 */
 	public static function genericordering($sql, $chop = '30')
 	{
-		$db			=& JFactory::getDBO();
+		$db			= &JFactory::getDbo();
 		$options	= array();
 		$db->setQuery($sql);
 		try {
@@ -171,7 +171,7 @@ abstract class JHtmlList
 	 */
 	public static function users($name, $active, $nouser = 0, $javascript = NULL, $order = 'name', $reg = 1)
 	{
-		$db =& JFactory::getDBO();
+		$db = &JFactory::getDbo();
 
 		$and = '';
 		if ($reg) {
@@ -218,7 +218,8 @@ abstract class JHtmlList
 		$left = 1,
 		$right = 1,
 		$id = false
-	) {
+	)
+	{
 		$pos = array();
 		if ($none) {
 			$pos[''] = JText::_('None');
@@ -253,10 +254,10 @@ abstract class JHtmlList
 	 */
 	public static function category($name, $extension = 'com_content', $action = 'com_content.view', $root = NULL, $active = -1, $javascript = NULL, $size = 1, $sel_cat = 1, $uncat = 0)
 	{
-		$db =& JFactory::getDBO();
-		$user =& JFactory::getUser();
+		$db = &JFactory::getDbo();
+		$user = &JFactory::getUser();
 
-		if($root == NULL)
+		if ($root == NULL)
 		{
 			$root = '';
 		} else {
@@ -275,7 +276,7 @@ abstract class JHtmlList
 		$i = 0;
 		foreach($cat_list as &$cat)
 		{
-			if(isset($depth[$cat->parent_id]))
+			if (isset($depth[$cat->parent_id]))
 			{
 				$cat->depth = $depth[$cat->parent_id] + 1;
 			}
@@ -283,12 +284,12 @@ abstract class JHtmlList
 		}
 		$categories = array();
 		
-		if($sel_cat)
+		if ($sel_cat)
 		{
 			$categories[] = JHtml::_('select.option', '-1', JText::_('Select Category'), 'id', 'title');
 			$categories[] = JHtml::_('select.option', '', '----------', 'id', 'title');
 		}
-		if($uncat)
+		if ($uncat)
 		{
 			$categories[] = JHtml::_('select.option', 0, JText::_('Uncategorized'), 'id', 'title');
 			$categories[] = JHtml::_('select.option', '', '----------', 'id', 'title');

@@ -4,8 +4,8 @@
  * @package		Joomla.Framework
  * @subpackage	HTML
  * @copyright	Copyright (C) 2005 - 2007 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 JHtml::addIncludePath(JPATH_LIBRARIES.DS.'joomla'.DS.'html'.DS.'html');
 
@@ -34,7 +34,7 @@ abstract class JHtml
         'format.depth' => 0,
         'format.eol' => "\n",
         'format.indent' => "\t"
-  );
+ );
 
 	private static $includePaths = array();
 
@@ -198,7 +198,8 @@ abstract class JHtml
      *
      * @param array Option key/value pairs.
      */
-    public static function setFormatOptions($options) {
+    public static function setFormatOptions($options)
+	{
         foreach ($options as $key => $val) {
             if (isset(self::$formatOptions[$key])) {
                 self::$formatOptions[$key] = $val;
@@ -266,7 +267,8 @@ abstract class JHtml
 	 */
 	public static function tooltip(
 		$tooltip, $title = '', $image = 'tooltip.png', $text = '', $href = '', $link = 1
-	) {
+	)
+	{
 		$tooltip = addslashes(htmlspecialchars($tooltip));
 		$title = addslashes(htmlspecialchars($title));
 

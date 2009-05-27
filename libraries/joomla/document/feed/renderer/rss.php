@@ -4,11 +4,11 @@
  * @package		Joomla.Framework
  * @subpackage	Document
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 
  /**
@@ -38,10 +38,10 @@ class JDocumentRendererRSS extends JDocumentRenderer
 	 */
 	public function render($name, $params = array(), $content = null)
 	{
-		$now	=& JFactory::getDate();
-		$data	=& $this->_doc;
+		$now	= &JFactory::getDate();
+		$data	= &$this->_doc;
 
-		$uri =& JFactory::getURI();
+		$uri = &JFactory::getURI();
 		$url = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
 
 		$feed = "<rss version=\"2.0\">\n";
@@ -82,7 +82,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 			$feed.= "		<webMaster>".htmlspecialchars($data->webmaster, ENT_COMPAT, 'UTF-8')."</webMaster>\n";
 		}
 		if ($data->pubDate!="") {
-			$pubDate =& JFactory::getDate($data->pubDate);
+			$pubDate = &JFactory::getDate($data->pubDate);
 			$feed.= "		<pubDate>".htmlspecialchars($pubDate->toRFC822(),ENT_COMPAT, 'UTF-8')."</pubDate>\n";
 		}
 		if ($data->category!="") {
@@ -127,7 +127,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 				$feed.= "			<comments>".htmlspecialchars($data->items[$i]->comments, ENT_COMPAT, 'UTF-8')."</comments>\n";
 			}
 			if ($data->items[$i]->date!="") {
-			$itemDate =& JFactory::getDate($data->items[$i]->date);
+			$itemDate = &JFactory::getDate($data->items[$i]->date);
 				$feed.= "			<pubDate>".htmlspecialchars($itemDate->toRFC822(), ENT_COMPAT, 'UTF-8')."</pubDate>\n";
 			}
 			if ($data->items[$i]->guid!="") {

@@ -4,7 +4,7 @@
  * @package		Joomla.Framework
  * @subpackage	Base
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 /**
@@ -35,7 +35,7 @@ class JAdapterInstance extends JClass {
 	 */
 	public function __construct(&$parent, &$db)
 	{
-		$this->parent =& $parent;
-		$this->db =& $db ? $db : JFactory::getDBO(); // pull in the global dbo in case
+		$this->parent = &$parent;
+		$this->db = &$db ? $db : JFactory::getDbo(); // pull in the global dbo in case
 	}
 }

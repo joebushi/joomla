@@ -4,11 +4,11 @@
  * @package		Joomla.Framework
  * @subpackage	HTML
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 //Register the session storage class with the loader
 JLoader::register('JButton', dirname(__FILE__).DS.'toolbar'.DS.'button.php');
@@ -25,7 +25,6 @@ class JToolBar extends JClass
 	/**
 	 * Toolbar name
 	 *
-	 * @access	protected
 	 * @var		string
 	 */
 	protected $_name = array ();
@@ -33,7 +32,6 @@ class JToolBar extends JClass
 	/**
 	 * Toolbar array
 	 *
-	 * @access	protected
 	 * @var		array
 	 */
 	protected $_bar = array ();
@@ -41,7 +39,6 @@ class JToolBar extends JClass
 	/**
 	 * Loaded buttons
 	 *
-	 * @access	protected
 	 * @var		array
 	 */
 	protected $_buttons = array ();
@@ -49,7 +46,6 @@ class JToolBar extends JClass
 	/**
 	 * Directories, where button types can be stored
 	 *
-	 * @access	protected
 	 * @var		array
 	 */
 	protected $_buttonPath = array ();
@@ -116,7 +112,6 @@ class JToolBar extends JClass
 	 * Get the list of toolbar links
 	 *
 	 * @return	array
-	 * @access	public
 	 * @since	1.6
 	 */
 	public function getItems()
@@ -128,7 +123,6 @@ class JToolBar extends JClass
 	 * Get the name of the toolbar
 	 *
 	 * @return	string
-	 * @access	public
 	 * @since	1.6
 	 */
 	public function getName()

@@ -1,14 +1,14 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @subpackage	Table
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Table
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 /**
  * Update table
@@ -103,7 +103,7 @@ class JTableUpdate extends JTable
 	}
 
 	function find($options=Array()) {
-		$dbo =& JFactory::getDBO();
+		$dbo = &JFactory::getDbo();
 		$where = Array();
 		foreach($options as $col=>$val) {
 			$where[] = $col .' = '. $dbo->Quote($val);

@@ -1,14 +1,14 @@
 <?php
 /**
-* @version		$Id:template.php 6961 2007-03-15 16:06:53Z tcp $
-* @package		Joomla.Framework
-* @subpackage	Installer
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id:template.php 6961 2007-03-15 16:06:53Z tcp $
+ * @package		Joomla.Framework
+ * @subpackage	Installer
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 jimport('joomla.installer.extension');
 jimport('joomla.base.adapterinstance');
 
@@ -33,14 +33,14 @@ class JInstallerTemplate extends JAdapterInstance
 	 */
 	public function install()
 	{
-		$manifest =& $this->parent->getManifest();
-		$root =& $manifest->document;
+		$manifest = &$this->parent->getManifest();
+		$root = &$manifest->document;
 
 		// Get the client application target
 		if ($cname = $root->attributes('client')) {
 			// Attempt to map the client to a base path
 			jimport('joomla.application.helper');
-			$client =& JApplicationHelper::getClientInfo($cname, true);
+			$client = &JApplicationHelper::getClientInfo($cname, true);
 			if ($client === false) {
 				$this->parent->abort(JText::_('Template').' '.JText::_('Install').': '.JText::_('Unknown client type').' ['.$cname.']');
 				return false;
@@ -55,14 +55,14 @@ class JInstallerTemplate extends JAdapterInstance
 		}
 
 		// Set the extensions name
-		$name =& $root->getElementByPath('name');
+		$name = &$root->getElementByPath('name');
 		$name = JFilterInput::clean($name->data(), 'cmd');
 		
 		$element = strtolower(str_replace(" ", "_", $name));
 		$this->set('name', $name);
 		$this->set('element',$element);
 		
-		$db =& $this->parent->getDBO();
+		$db = &$this->parent->getDbo();
 		$db->setQuery('SELECT extension_id FROM #__extensions WHERE type="template" AND element = "'. $element .'"');
 		$result = $db->loadResult();
 		// TODO: Rewrite this! We shouldn't uninstall a template, we should back up the params as well
@@ -217,17 +217,17 @@ class JInstallerTemplate extends JAdapterInstance
 		}
 
 		// Deny remove default template
-		$db =& $this->parent->getDBO();
+		$db = &$this->parent->getDbo();
 		$query = 'SELECT COUNT(*) FROM #__menu_template'.
 				' WHERE home = 1 AND template = '.$db->Quote($name);
 		$db->setQuery($query);
-		if($db->loadResult() != 0) {
+		if ($db->loadResult() != 0) {
 			JError::raiseWarning(100, JText::_('Template').' '.JText::_('Uninstall').': '.JText::_('Cannot remove default template'));
 			return false;
 		}
 		
 		// Get the template root path
-		$client =& JApplicationHelper::getClientInfo($clientId);
+		$client = &JApplicationHelper::getClientInfo($clientId);
 		if (!$client) {
 			JError::raiseWarning(100, JText::_('Template').' '.JText::_('Uninstall').': '.JText::_('Invalid application'));
 			return false;
@@ -235,7 +235,7 @@ class JInstallerTemplate extends JAdapterInstance
 		$this->parent->setPath('extension_root', $client->path.DS.'templates'.DS.$name);
 		$this->parent->setPath('source', $this->parent->getPath('extension_root'));
 
-		$manifest =& $this->parent->getManifest();
+		$manifest = &$this->parent->getManifest();
 		if (!$manifest INSTANCEOF JSimpleXML) {
 			// kill the extension entry
 			$row->delete($row->extension_id);
@@ -245,7 +245,7 @@ class JInstallerTemplate extends JAdapterInstance
 			JError::raiseWarning(100, JTEXT::_('Template').' '.JTEXT::_('Uninstall').': '.JTEXT::_('Package manifest file invalid or not found'));
 			return false;
 		}
-		$root =& $manifest->document;
+		$root = &$manifest->document;
 
 		// Remove files
 		$this->parent->removeFiles($root->getElementByPath('media'), $clientId);
@@ -292,7 +292,7 @@ class JInstallerTemplate extends JAdapterInstance
 		$admin_info = JApplicationHelper::getClientInfo('administrator', true);
 		foreach($site_list as $template) {
 			if ($template == 'system') continue; // ignore special system template
-			$extension =& JTable::getInstance('extension');
+			$extension = &JTable::getInstance('extension');
 			$extension->type = 'template';
 			$extension->client_id = $site_info->id;
 			$extension->element = $template;
@@ -302,7 +302,7 @@ class JInstallerTemplate extends JAdapterInstance
 		}
 		foreach($admin_list as $template) {
 			if ($template == 'system') continue; // ignore special system template
-			$extension =& JTable::getInstance('extension');
+			$extension = &JTable::getInstance('extension');
 			$extension->type = 'template';
 			$extension->client_id = $admin_info->id;
 			$extension->element = $template;

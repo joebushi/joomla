@@ -4,11 +4,11 @@
  * @package		Joomla.Framework
  * @subpackage	Registry
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 /**
  * Abstract Format for JRegistry
@@ -24,7 +24,6 @@ abstract class JRegistryFormat extends JClass
 	 * Returns a reference to a Format object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @static
 	 * @param	string	$format	The format to load
 	 * @return	object	Registry format handler
 	 * @since	1.5
@@ -60,8 +59,6 @@ abstract class JRegistryFormat extends JClass
 	/**
 	 * Converts an XML formatted string into an object
 	 *
-	 * @abstract
-	 * @access	public
 	 * @param	string	$data	Formatted string
 	 * @return	object	Data Object
 	 * @since	1.5
@@ -71,8 +68,6 @@ abstract class JRegistryFormat extends JClass
 	/**
 	 * Converts an object into a formatted string
 	 *
-	 * @abstract
-	 * @access	public
 	 * @param	object	$object	Data Source Object
 	 * @return	string	Formatted string
 	 * @since	1.5
