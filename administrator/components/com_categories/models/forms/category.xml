@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<!-- $Id$ -->
+<form>
+	<fields>
+		<field
+			name="id"
+			type="hidden"
+			id="id"
+			class="inputbox readonly"
+			label="Category_ID_Label"
+			size="6"
+			default="0"
+			required="true"
+			readonly="true"
+			filter="integer"/>
+
+		<field
+			name="parent_id"
+			type="categories"
+			id="parent_id"
+			class="inputbox"
+			label="Category_Parent_Label"
+			default="1"
+			allow_none="0"
+			filter="integer"/>
+
+		<field
+			name="title"
+			type="text"
+			id="title"
+			class="inputbox validate required"
+			label="Category_Title_Label"
+			size="50"
+			default=""
+			required="true"
+			filter="string"/>
+
+		<field
+			name="alias"
+			type="text"
+			id="alias"
+			class="inputbox"
+			label="Category_Alias_Label"
+			size="50"
+			default=""
+			filter="JFilterOutput::stringUrlSafe"/>
+
+		<field
+			name="path"
+			type="text"
+			id="path"
+			class="readonly"
+			label="Category_PATH_Label"
+			size="30"
+			readonly="true"
+			filter="path"/>
+
+		<field
+			name="description"
+			type="editor"
+			id="body"
+			class="inputbox"
+			label="Category_DESCRIPTION_Label"
+			height="400"
+			rows="10"
+			cols="50"
+			default=""
+			buttons="readmore,pagebreak"
+			filter="safehtml"/>
+
+		<field
+			name="published"
+			type="radio"
+			id="published"
+			class="inputbox"
+			label="Category_PUBLISHED_Label"
+			default="1"
+			required="true"
+			filter="integer">
+			<option
+				value="0">No</option>
+			<option
+				value="1">Yes</option>
+			<option
+				value="-2">Trash</option>
+		</field>
+
+		<field
+			name="ordering"
+			type="categoryordering"
+			id="ordering"
+			class="inputbox"
+			label="Category_ORDERING_Label"
+			size="6"
+			default="-2"
+			allow_first="1"
+			allow_last="1"
+			filter="integer"/>
+
+		<field
+			name="access"
+			type="accesslevels"
+			id="access"
+			class="inputbox"
+			label="Category_ACCESS_Label"
+			default="0"
+			filter="integer"/>
+
+		<field
+			name="hits"
+			type="text"
+			class="readonly"
+			label="Category_HITS_Label"
+			readonly="true"
+			default="0"
+			filter="integer"
+			size="6"/>
+
+		<field
+			name="left_id"
+			type="hidden"
+			label="Category_LEFT ID_Label"
+			filter="integer"/>
+
+		<field
+			name="right_id"
+			type="hidden"
+			label="Category_RIGHT ID_Label"
+			filter="integer"/>
+
+	</fields>
+</form>
