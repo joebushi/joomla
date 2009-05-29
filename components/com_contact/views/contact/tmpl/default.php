@@ -7,12 +7,12 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 $cparams = JComponentHelper::getParams ('com_media');
 ?>
 <?php if ( $this->params->get( 'show_page_title', 1 ) && !$this->contact->params->get( 'popup' ) && $this->params->get('page_title') != $this->contact->name ) : ?>
-	<div class="componentheading<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+	<div class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
 		<?php echo $this->params->get( 'page_title' ); ?>
 	</div>
 <?php endif; ?>
 <div id="component-contact">
-<table width="100%" cellpadding="0" cellspacing="0" border="0" class="contentpaneopen<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+<table width="100%" cellpadding="0" cellspacing="0" border="0" class="contentpaneopen<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
 <?php if ( $this->params->get( 'show_contact_list' ) && count( $this->contacts ) > 1) : ?>
 <tr>
 	<td colspan="2" align="center">
@@ -28,15 +28,15 @@ $cparams = JComponentHelper::getParams ('com_media');
 <?php endif; ?>
 <?php if ( $this->contact->name && $this->contact->params->get( 'show_name' ) ) : ?>
 <tr>
-	<td width="100%" class="contentheading<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-		<?php echo $this->contact->name; ?>
+	<td width="100%" class="contentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
+		<?php echo $this->escape($this->contact->name); ?>
 	</td>
 </tr>
 <?php endif; ?>
 <?php if ( $this->contact->con_position && $this->contact->params->get( 'show_position' ) ) : ?>
 <tr>
 	<td colspan="2">
-	<?php echo $this->contact->con_position; ?>
+	<?php echo $this->escape($this->contact->con_position); ?>
 		<br /><br />
 	</td>
 </tr>

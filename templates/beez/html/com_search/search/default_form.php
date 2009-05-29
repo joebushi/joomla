@@ -2,7 +2,7 @@
 defined('_JEXEC') or die('Restricted access');
 ?>
 
-<form action="<?php echo JRoute::_( 'index.php?option=com_search#content' ) ?>" method="post" class="search_result<?php echo $this->params->get('pageclass_sfx') ?>">
+<form action="<?php echo JRoute::_( 'index.php?option=com_search#content' ) ?>" method="post" class="search_result<?php echo $this->escape($this->params->get('pageclass_sfx')) ?>">
 <a name="form1"></a>
 <h3><?php echo JText::_('search_again'); ?></h3>
 <fieldset class="word">
@@ -30,7 +30,7 @@ defined('_JEXEC') or die('Restricted access');
 </fieldset>
 <?php endif; ?>
 <p>
-	<button name="Search" onClick="this.form.submit()" class="button"><?php echo JText::_( 'Search' );?></button>
+	<button name="Search" onclick="this.form.submit()" class="button"><?php echo JText::_( 'Search' );?></button>
 </p>
 
 

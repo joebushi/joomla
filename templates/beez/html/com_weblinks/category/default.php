@@ -3,16 +3,16 @@ defined('_JEXEC') or die('Restricted access');
 ?>
 
 <?php if ($this->params->get('show_page_title', 1)) : ?>
-<h1 class="componentheading<?php echo $this->params->get('pageclass_sfx'); ?>">
+<h1 class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
 	<?php echo $this->escape($this->params->get('page_title')); ?>
 </h1>
 <?php endif; ?>
 
 
-<div class="weblinks<?php echo $this->params->get('pageclass_sfx'); ?>">
+<div class="weblinks<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
 
 	<?php if ( $this->category->image || $this->category->description) : ?>
-	<div class="contentdescription<?php echo $this->params->get('pageclass_sfx'); ?>">
+	<div class="contentdescription<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
 
 		<?php if ($this->category->image) :
 			echo $this->category->image;

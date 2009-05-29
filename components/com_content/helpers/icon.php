@@ -123,7 +123,7 @@ class JHTMLIcon
 		$overlib .= '&lt;br /&gt;';
 		$overlib .= $date;
 		$overlib .= '&lt;br /&gt;';
-		$overlib .= $author;
+		$overlib .= htmlspecialchars($author, ENT_COMPAT, 'UTF-8');
 
 		$button = JHTML::_('link', JRoute::_($url), $text);
 
