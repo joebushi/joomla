@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<install version="1.6" type="plugin" group="editors">
+	<name>Editor - None</name>
+	<version>1.0</version>
+	<creationDate>May 2009</creationDate>
+	<author></author>
+	<authorEmail>N/A</authorEmail>
+	<authorUrl></authorUrl>
+	<copyright></copyright>
+	<license></license>
+	<description></description>
+	<files>
+		<filename plugin="codemirror">codemirror.php</filename>
+	</files>
+	<params/>
+</install>
