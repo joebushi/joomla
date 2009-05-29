@@ -20,29 +20,22 @@ jimport('joomla.plugin.plugin');
 class plgEditorCodemirror extends JPlugin
 {
 	/**
+	 * Base path for editor files
+	 */
+	protected $_basePath = 'plugins/editors/codemirror/';
+	/**
 	 * Method to handle the onInitEditor event.
 	 *  - Initializes the Editor
 	 *
 	 * @access public
 	 * @return string JavaScript Initialization string
-	 * @since 1.5
 	 */
-	function onInit()
+	public function onInit()
 	{
-		$document = &JFactory::getDocument();
-		$document->addScript(JURI::root().'plugins/editors/codemirror/codemirror.js');
-		$document->addStyleDeclaration("
-		.CodeMirror-line-numbers {
-		width: 2.2em;
-		color: #aaa;
-		background-color: #eee;
-		text-align: right;
-		padding-right: .3em;
-		font-size: 10pt;
-		font-family: monospace;
-		padding-top: .4em;
-		}");
-		
+		JHtml::_('core');
+		JHtml::_('script', 'codemirror.js', $this->_basePath);
+		JHtml::_('stylesheet', 'codemirror.css', $this->_basePath.'css/');
+
 		return '';
 	}
 
@@ -51,9 +44,8 @@ class plgEditorCodemirror extends JPlugin
 	 *
 	 * @param string 	The name of the editor
 	 */
-	function onSave($editor) {
-		// this is handled by Codemirror itself by using an event listener
-		return;
+	public function onSave($editor) {
+		return "document.getElementById('$editor').value = Joomla.editors.instances['$editor'].getCode();\n";
 	}
 
 	/**
@@ -61,7 +53,7 @@ class plgEditorCodemirror extends JPlugin
 	 *
 	 * @param string 	The name of the editor
 	 */
-	function onGetContent($editor) {
+	public function onGetContent($editor) {
 		return "Joomla.editors.instances['$editor'].getCode();\n";
 	}
 
@@ -70,8 +62,20 @@ class plgEditorCodemirror extends JPlugin
 	 *
 	 * @param string 	The name of the editor
 	 */
-	function onSetContent($editor, $html) {
+	public function onSetContent($editor, $html) {
 		return "Joomla.editors.instances['$editor'].setCode($html);\n";
+	}
+
+	public function onGetInsertMethod($name)
+	{
+		$doc = &JFactory::getDocument();
+
+		$js= "\tfunction jInsertEditorText(text, editor) {
+				Joomla.editors.instances[editor].replaceSelection(text);\n
+		}";
+		$doc->addScriptDeclaration($js);
+
+		return true;
 	}
 
 	/**
@@ -85,7 +89,7 @@ class plgEditorCodemirror extends JPlugin
 	 * @param int The number of columns for the editor area
 	 * @param int The number of rows for the editor area
 	 */
-	function onDisplay($name, $content, $width, $height, $col, $row, $buttons = true)
+	public function onDisplay($name, $content, $width, $height, $col, $row, $buttons = true)
 	{
 		// Only add "px" to width and height if they are not given as a percentage
 		if (is_numeric($width)) {
@@ -96,37 +100,32 @@ class plgEditorCodemirror extends JPlugin
 		}
 
 		$buttons = $this->_displayButtons($name, $buttons);
-		$editor  = "<textarea name=\"$name\" id=\"$name\" cols=\"$col\" rows=\"$row\">$content</textarea>" . $buttons;
-		$editor	 .= "<script type=\"text/javascript\">
-			var editor = CodeMirror.fromTextArea('$name', {
-				height: '$height',
-				width: '$width',
-				parserfile: 'parsexml.js',
-				stylesheet: '".JURI::root()."plugins/editors/codemirror/css/xmlcolors.css',
-				path: '".JURI::root()."plugins/editors/codemirror/',
-				continuousScanning: 500,
-				lineNumbers: true,
-				textWrapping: false
-			});
-			Joomla.editors.instances['$name'] = editor;
-		</script>";
+		
+		$options = new stdClass();
+		$options->height = $height;
+		$options->width = $width;
+		$options->path = JURI::root(true).'/'.$this->_basePath;
+		$options->parserfile = 'parsexml.js';
+		$options->stylesheet = JURI::root(true).'/'.$this->_basePath.'css/xmlcolors.css';
+		$options->continuousScanning = 500;
+		if ($this->params->get('linenumbers', 0)) {
+			$options->lineNumbers = true;
+			$options->textWrapping = false;
+		}
+		
+		$html = array();
 
-		return $editor;
+		$html[]	= "<textarea name=\"$name\" id=\"$name\" cols=\"$col\" rows=\"$row\">$content</textarea>";
+		$html[] = $buttons;
+		$html[] = '<script type="text/javascript">';
+		$html[] = 'var editor = CodeMirror.fromTextArea("'.$name.'", '.json_encode($options).');';
+		$html[] = 'Joomla.editors.instances[\'$name\'] = editor;';
+		$html[] = '</script>';
+
+		return implode("\n", $html);
 	}
 
-	function onGetInsertMethod($name)
-	{
-		$doc = & JFactory::getDocument();
-
-		$js= "\tfunction jInsertEditorText(text, editor) {
-				Joomla.editors.instances[editor].replaceSelection(text);\n
-		}";
-		$doc->addScriptDeclaration($js);
-
-		return true;
-	}
-
-	function _displayButtons($name, $buttons)
+	protected function _displayButtons($name, $buttons)
 	{
 		// Load modal popup behavior
 		JHtml::_('behavior.modal', 'a.modal-button');
