@@ -37,6 +37,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-May-2009 Sam Moffatt
+ ^ Updated CREDITS.php with minor fixes from Ole Ottosen
+
 29-May-2009 Ian MacLennan
  # [#15736] Moving $this->escape validation to files which can't be overridden
 
