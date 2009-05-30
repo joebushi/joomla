@@ -1,16 +1,11 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @subpackage	Language
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Language
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 /**
  * Help system class
@@ -32,14 +27,13 @@ class JHelp
 	{
 		global $mainframe, $option;
 
-		$user			=& JFactory::getUser();
-		$userHelpUrl	= $user->getParam( 'helpsite' );
+		$user			= &JFactory::getUser();
+		$userHelpUrl	= $user->getParam('helpsite');
 		$globalHelpUrl 	= $mainframe->getCfg('helpurl');
-		$lang			=& JFactory::getLanguage();
+		$lang			= &JFactory::getLanguage();
 
-		if ($useComponent)
-		{
-			if (!eregi( '\.html$', $ref )) {
+		if ($useComponent) {
+			if (!preg_match('#\.html$#i', $ref)) {
 				$ref = $ref . '.html';
 			}
 
@@ -47,10 +41,10 @@ class JHelp
 			$tag =  $lang->getTag();
 
 			// Check if the file exists within a different language!
-			if( $lang->getTag() != 'en-GB' ) {
+			if ($lang->getTag() != 'en-GB') {
 				$localeURL = JPATH_BASE.DS.$url.DS.$tag.DS.$ref;
-				jimport( 'joomla.filesystem.file' );
-				if( !JFile::exists( $localeURL ) ) {
+				jimport('joomla.filesystem.file');
+				if (!JFile::exists($localeURL)) {
 					$tag = 'en-GB';
 				}
 			}
@@ -58,34 +52,34 @@ class JHelp
 		}
 
 
-		if ( $userHelpUrl )
+		if ($userHelpUrl)
 		{
 			// Online help site as defined in GC
 			$version = new JVersion();
 			$ref .= $version->getHelpVersion();
-			$url = $userHelpUrl . '/index2.php?option=com_content&amp;task=findkey&amp;tmpl=component&amp;keyref=' . urlencode( $ref );
+			$url = $userHelpUrl . '/index2.php?option=com_content&amp;task=findkey&amp;tmpl=component&amp;keyref=' . urlencode($ref);
 		}
-		else if ( $globalHelpUrl )
+		else if ($globalHelpUrl)
 		{
 			// Online help site as defined in GC
 			$version = new JVersion();
 			$ref .= $version->getHelpVersion();
-			$url = $globalHelpUrl . '/index2.php?option=com_content&amp;task=findkey&amp;tmpl=component;1&amp;keyref=' . urlencode( $ref );
+			$url = $globalHelpUrl . '/index2.php?option=com_content&amp;task=findkey&amp;tmpl=component;1&amp;keyref=' . urlencode($ref);
 		}
 		else
 		{
 			// Included html help files
 			$helpURL = 'help/' .$lang->getTag() .'/';
 
-			if (!eregi( '\.html$', $ref )) {
+			if (!eregi('\.html$', $ref)) {
 				$ref = $ref . '.html';
 			}
 
 			// Check if the file exists within a different language!
-			if( $lang->getTag() != 'en-GB' ) {
+			if ($lang->getTag() != 'en-GB') {
 				$localeURL = JPATH_BASE . $helpURL .$ref;
-				jimport( 'joomla.filesystem.file' );
-				if( !JFile::exists( $localeURL ) ) {
+				jimport('joomla.filesystem.file');
+				if (!JFile::exists($localeURL)) {
 					$helpURL = 'help/en-GB/';
 				}
 			}
@@ -100,18 +94,18 @@ class JHelp
 	 *
 	 * @param string	Path to an xml file
 	 * @param string	Language tag to select (if exists)
-	 * @param array	An array of arrays ( text, value, selected )
+	 * @param array	An array of arrays (text, value, selected)
 	 */
 	function createSiteList($pathToXml, $selected = null)
 	{
 		$list	= array ();
-		$xml	=& JFactory::getXMLParser('Simple');
+		$xml	= &JFactory::getXMLParser('Simple');
 		$data	= null;
-		if( !empty( $pathToXml ) ) {
+		if (!empty($pathToXml)) {
 			$data = file_get_contents($pathToXml);
 		}
 
-		if(empty($data))
+		if (empty($data))
 		{
 			$option['text'] = 'English (GB) help.joomla.org';
 			$option['value'] = 'http://help.joomla.org';
@@ -119,7 +113,7 @@ class JHelp
 		}
 		else
 		{
-			if($xml->loadString($data))
+			if ($xml->loadString($data))
 			{
 				// Are there any languages??
 				$elmSites = & $xml->document->sites[0];

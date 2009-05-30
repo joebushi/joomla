@@ -3,13 +3,8 @@
  * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	FileSystem
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 /** boolean True if a Windows based host */
@@ -146,12 +141,12 @@ class JPath
 	function check($path)
 	{
 		if (strpos($path, '..') !== false) {
-			JError::raiseError( 20, 'JPath::check Use of relative paths not permitted'); // don't translate
+			JError::raiseError(20, 'JPath::check Use of relative paths not permitted'); // don't translate
 			jexit();
 		}
 		$path = JPath::clean($path);
 		if (strpos($path, JPath::clean(JPATH_ROOT)) !== 0) {
-			JError::raiseError( 20, 'JPath::check Snooping out of bounds @ '.$path); // don't translate
+			JError::raiseError(20, 'JPath::check Snooping out of bounds @ '.$path); // don't translate
 			jexit();
 		}
 	}
@@ -206,8 +201,7 @@ class JPath
 			$test = $dir.DS.$tmp;
 
 			// Create the test file
-			$blank = '';
-			JFile::write($test, $blank, true);
+			JFile::write($test, '');
 
 			// Test ownership
 			$return = (fileowner($test) == fileowner($path));

@@ -1,27 +1,22 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Installer
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
- * details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+// No direct access
+defined('_JEXEC') or die;
 
-jimport( 'joomla.application.component.model' );
+jimport('joomla.application.component.model');
 
 /**
  * Extension Manager Abstract Extension Model
  *
  * @abstract
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Installer
  * @since		1.5
  */
@@ -98,7 +93,7 @@ class InstallerModel extends JModel
 		}
 
 		// Get a database connector
-		$db =& JFactory::getDBO();
+		$db = &JFactory::getDbo();
 
 		// Get an installer object for the extension type
 		jimport('joomla.installer.installer');
@@ -107,8 +102,8 @@ class InstallerModel extends JModel
 		// Uninstall the chosen extensions
 		foreach ($eid as $id => $clientId)
 		{
-			$id		= trim( $id );
-			$result	= $installer->uninstall($this->_type, $id, $clientId );
+			$id		= trim($id);
+			$result	= $installer->uninstall($this->_type, $id, $clientId);
 
 			// Build an array of extensions that failed to uninstall
 			if ($result === false) {
@@ -137,6 +132,6 @@ class InstallerModel extends JModel
 
 	function _loadItems()
 	{
-		return JError::raiseError( 500, JText::_('Method Not Implemented'));
+		return JError::raiseError(500, JText::_('Method Not Implemented'));
 	}
 }

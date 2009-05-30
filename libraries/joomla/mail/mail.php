@@ -3,17 +3,12 @@
  * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Mail
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+// No direct access
+defined('JPATH_BASE') or die;
 
 jimport('phpmailer.phpmailer');
 jimport('joomla.mail.helper');
@@ -21,7 +16,6 @@ jimport('joomla.mail.helper');
 /**
  * E-Mail Class.  Provides a common interface to send e-mail from the Joomla! Framework
  *
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage		Mail
  * @since		1.5
@@ -44,7 +38,7 @@ class JMail extends PHPMailer
 	 * if it doesn't already exist.
 	 *
 	 * This method must be invoked as:
-	 * 		<pre>  $mail =& JMail::getInstance();</pre>
+	 * 		<pre>  $mail = &JMail::getInstance();</pre>
 	 *
 	 * NOTE: If you need an instance to use that does not have the global configuration
 	 * values, use an id string that is not 'Joomla'.
@@ -75,9 +69,9 @@ class JMail extends PHPMailer
 	 */
 	function &Send()
 	{
-		if ( ( $this->Mailer == 'mail' ) && ! function_exists('mail') )
+		if (($this->Mailer == 'mail') && ! function_exists('mail'))
 		{
-			return JError::raiseNotice( 500, JText::_('MAIL_FUNCTION_DISABLED') );
+			return JError::raiseNotice(500, JText::_('MAIL_FUNCTION_DISABLED'));
 		}
 
 		@ $result = parent::Send();
@@ -85,7 +79,7 @@ class JMail extends PHPMailer
 		if ($result == false)
 		{
 			// TODO: Set an appropriate error number
-			$result =& JError::raiseNotice( 500, JText::_($this->ErrorInfo) );
+			$result = &JError::raiseNotice(500, JText::_($this->ErrorInfo));
 		}
 		return $result;
 	}
@@ -96,7 +90,7 @@ class JMail extends PHPMailer
 	 * @access public
 	 * @param array $from E-Mail address and Name of sender
 	 * 		<pre>
-	 * 			array( [0] => E-Mail Address [1] => Name )
+	 * 			array([0] => E-Mail Address [1] => Name)
 	 * 		</pre>
 	 * @return void
 	 * @since 1.5
@@ -106,14 +100,14 @@ class JMail extends PHPMailer
 		// If $from is an array we assume it has an address and a name
 		if (is_array($from))
 		{
-			$this->From 	= JMailHelper::cleanLine( $from[0] );
-			$this->FromName = JMailHelper::cleanLine( $from[1] );
+			$this->From 	= JMailHelper::cleanLine($from[0]);
+			$this->FromName = JMailHelper::cleanLine($from[1]);
 		// If it is a string we assume it is just the address
 		} elseif (is_string($from)) {
-			$this->From = JMailHelper::cleanLine( $from );
+			$this->From = JMailHelper::cleanLine($from);
 		// If it is neither, we throw a warning
 		} else {
-			JError::raiseWarning( 0, "JMail::  Invalid E-Mail Sender: $from", "JMail::setSender($from)");
+			JError::raiseWarning(0, "JMail::  Invalid E-Mail Sender: $from", "JMail::setSender($from)");
 		}
 	}
 
@@ -126,7 +120,7 @@ class JMail extends PHPMailer
 	 * @since 1.5
 	 */
 	function setSubject($subject) {
-		$this->Subject = JMailHelper::cleanLine( $subject );
+		$this->Subject = JMailHelper::cleanLine($subject);
 	}
 
 	/**
@@ -143,7 +137,7 @@ class JMail extends PHPMailer
 		 * Filter the Body
 		 * TODO: Check for XSS
 		 */
-		$this->Body = JMailHelper::cleanText( $content );
+		$this->Body = JMailHelper::cleanText($content);
 	}
 
 	/**
@@ -160,11 +154,11 @@ class JMail extends PHPMailer
 		if (is_array($recipient))
 		{
 			foreach ($recipient as $to) {
-				$to = JMailHelper::cleanLine( $to );
+				$to = JMailHelper::cleanLine($to);
 				$this->AddAddress($to);
 			}
 		} else {
-			$recipient = JMailHelper::cleanLine( $recipient );
+			$recipient = JMailHelper::cleanLine($recipient);
 			$this->AddAddress($recipient);
 		}
 	}
@@ -184,11 +178,11 @@ class JMail extends PHPMailer
 		{
 			if (is_array($cc)) {
 				foreach ($cc as $to) {
-					$to = JMailHelper::cleanLine( $to );
+					$to = JMailHelper::cleanLine($to);
 					parent::AddCC($to);
 				}
 			} else {
-				$cc = JMailHelper::cleanLine( $cc );
+				$cc = JMailHelper::cleanLine($cc);
 				parent::AddCC($cc);
 			}
 		}
@@ -209,11 +203,11 @@ class JMail extends PHPMailer
 		{
 			if (is_array($bcc)) {
 				foreach ($bcc as $to) {
-					$to = JMailHelper::cleanLine( $to );
+					$to = JMailHelper::cleanLine($to);
 					parent::AddBCC($to);
 				}
 			} else {
-				$bcc = JMailHelper::cleanLine( $bcc );
+				$bcc = JMailHelper::cleanLine($bcc);
 				parent::AddBCC($bcc);
 			}
 		}
@@ -248,7 +242,7 @@ class JMail extends PHPMailer
 	 * @access public
 	 * @param array $reply Either an array or multi-array of form
 	 * 		<pre>
-	 * 			array( [0] => E-Mail Address [1] => Name )
+	 * 			array([0] => E-Mail Address [1] => Name)
 	 * 		</pre>
 	 * @return void
 	 * @since 1.5
@@ -259,13 +253,13 @@ class JMail extends PHPMailer
 		if (is_array($replyto[0]))
 		{
 			foreach ($replyto as $to) {
-				$to0 = JMailHelper::cleanLine( $to[0] );
-				$to1 = JMailHelper::cleanLine( $to[1] );
+				$to0 = JMailHelper::cleanLine($to[0]);
+				$to1 = JMailHelper::cleanLine($to[1]);
 				parent::AddReplyTo($to0, $to1);
 			}
 		} else {
-			$replyto0 = JMailHelper::cleanLine( $replyto[0] );
-			$replyto1 = JMailHelper::cleanLine( $replyto[1] );
+			$replyto0 = JMailHelper::cleanLine($replyto[0]);
+			$replyto1 = JMailHelper::cleanLine($replyto[1]);
 			parent::AddReplyTo($replyto0, $replyto1);
 		}
 	}

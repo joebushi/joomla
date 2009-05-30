@@ -1,20 +1,16 @@
 <?php
 
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @subpackage	Client
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software and parts of it may contain or be derived from the
-* GNU General Public License or other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Client
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 /**
  * LDAP client class
  *
- * @author		Samuel Moffatt <pasamio@gmail.com>
  * @package		Joomla.Framework
  * @subpackage	Client
  * @since		1.5
@@ -135,7 +131,7 @@ class JLDAP extends JObject
 	{
 		if ($this->users_dn == '' || $nosub) {
 			$this->_dn = $username;
-		} else if(strlen($username)) {
+		} else if (strlen($username)) {
 			$this->_dn = str_replace('[username]', $username, $this->users_dn);
 		} else {
 			$this->_dn = '';
@@ -176,7 +172,7 @@ class JLDAP extends JObject
 			$password = $this->password;
 		}
 		$this->setDN($username,$nosub);
-		//if(strlen($this->getDN()))
+		//if (strlen($this->getDN()))
 		$bindResult = @ldap_bind($this->_resource, $this->getDN(), $password);
 		return $bindResult;
 	}
@@ -224,11 +220,11 @@ class JLDAP extends JObject
 				{
 					$attributes[$i] = Array ();
 					if (!$i) {
-						$firstentry = ldap_first_entry($resource, $search_result);
+						$firstentry = @ldap_first_entry($resource, $search_result);
 					} else {
-						$firstentry = ldap_next_entry($resource, $firstentry);
+						$firstentry = @ldap_next_entry($resource, $firstentry);
 					}
-					$attributes_array = ldap_get_attributes($resource, $firstentry); // load user-specified attributes
+					$attributes_array = @ldap_get_attributes($resource, $firstentry); // load user-specified attributes
 					// ldap returns an array of arrays, fit this into attributes result array
 					foreach ($attributes_array as $ki => $ai)
 					{
@@ -241,7 +237,7 @@ class JLDAP extends JObject
 							}
 						}
 					}
-					$attributes[$i]['dn'] = ldap_get_dn($resource, $firstentry);
+					$attributes[$i]['dn'] = @ldap_get_dn($resource, $firstentry);
 				}
 			}
 		}
@@ -257,7 +253,7 @@ class JLDAP extends JObject
 	 */
 
 	function replace($dn, $attribute) {
-		return ldap_mod_replace($this->_resource, $dn, $attribute);
+		return @ldap_mod_replace($this->_resource, $dn, $attribute);
 	}
 
 
@@ -269,7 +265,7 @@ class JLDAP extends JObject
 	 * @return mixed result of comparison (true, false, -1 on error)
 	 */
 	function modify($dn, $attribute) {
-		return ldap_modify($this->_resource, $dn, $attribute);
+		return @ldap_modify($this->_resource, $dn, $attribute);
 	}
 
 	/**
@@ -282,7 +278,7 @@ class JLDAP extends JObject
 	function remove($dn, $attribute)
 	{
 		$resource = $this->_resource;
-		return ldap_mod_del($resource, $dn, $attribute);
+		return @ldap_mod_del($resource, $dn, $attribute);
 	}
 
 	/**
@@ -292,9 +288,10 @@ class JLDAP extends JObject
 	 * @param string attribute The attribute whose value you want to compare
 	 * @param string value The value you want to check against the LDAP attribute
 	 * @return mixed result of comparison (true, false, -1 on error)
+	 * @access public
 	 */
 	function compare($dn, $attribute, $value) {
-		return ldap_compare($this->_resource, $dn, $attribute, $value);
+		return @ldap_compare($this->_resource, $dn, $attribute, $value);
 	}
 
 	/**
@@ -303,19 +300,75 @@ class JLDAP extends JObject
 	 * @param string dn The DN of the object you want to read
 	 * @param string attribute The attribute values you want to read (Optional)
 	 * @return array of attributes or -1 on error
+	 * @access public
 	 */
 	function read($dn, $attribute = array())
 	{
 		$base = substr($dn,strpos($dn,',')+1);
 		$cn = substr($dn,0,strpos($dn,','));
-		$result = ldap_read($this->_resource, $base, $cn);
+		$result = @ldap_read($this->_resource, $base, $cn);
 
 		if ($result) {
-			// TODO: instead of just returning array of attributes, convert to object before returning
-			return ldap_get_entries($this->_resource, $result);
+			return @ldap_get_entries($this->_resource, $result);
 		} else {
 			return $result;
 		}
+	}
+
+	/**
+	 * Deletes a given DN from the tree
+	 *
+	 * @param string dn The DN of the object you want to delete
+	 * @return bool result of operation
+	 * @access public
+	 */
+	function delete($dn) {
+		return @ldap_delete($this->_resource, $dn);
+	}
+
+	/**
+	 * Create a new DN
+	 *
+	 * @param string dn The DN where you want to put the object
+	 * @param array entries An array of arrays describing the object to add
+	 * @return bool result of operation
+	 */
+	function create($dn, $entries) {
+		return @ldap_add($this->_resource, $dn, $entries);
+	}
+
+	/**
+	 * Add an attribute to the given DN
+	 * Note: DN has to exist already
+	 *
+	 * @param string dn The DN of the entry to add the attribute
+	 * @param array entry An array of arrays with attributes to add
+	 * @return bool Result of operation
+	 */
+	function add($dn, $entry) {
+		return @ldap_mod_add($this->_resource, $dn, $entry);
+	}
+
+	/**
+	 * Rename the entry
+	 *
+	 * @param string dn The DN of the entry at the moment
+	 * @param string newdn The DN of the entry should be (only cn=newvalue)
+	 * @param string newparent The full DN of the parent (null by default)
+	 * @param bool deleteolddn Delete the old values (default)
+	 * @return bool Result of operation
+	 */
+	function rename($dn, $newdn, $newparent, $deleteolddn) {
+		return @ldap_rename($this->_resource, $dn, $newdn, $newparent, $deleteolddn);
+	}
+
+	/**
+	 * Returns the error message
+	 *
+	 * @return string error message
+	 */
+	function getErrorMsg() {
+		return @ldap_error($this->_resource);
 	}
 
 	/**
@@ -356,7 +409,6 @@ class JLDAP extends JObject
 	 *				 correctly, however, an IPX address does not seem to.  eDir 8.7 may correct this.
 	 *  Enhancement made by Merijn van de Schoot:
 	 *	 If addresstype is 8 (UDP) or 9 (TCP) do some additional parsing like still returning the IP address
-	 *	 TODO: Return an extra value with UDP or TCP portnumber
 	 */
 	function LDAPNetAddr($networkaddress)
 	{
@@ -364,7 +416,8 @@ class JLDAP extends JObject
 		$addrtype = intval(substr($networkaddress, 0, 1));
 		$networkaddress = substr($networkaddress, 2); // throw away bytes 0 and 1 which should be the addrtype and the "#" separator
 
-		if (($addrtype == 8) || ($addrtype = 9)) {    // if udp or tcp, (TODO fill addrport and) strip portnumber information from address
+		if (($addrtype == 8) || ($addrtype = 9)) {
+			// TODO 1.6: If UDP or TCP, (TODO fill addrport and) strip portnumber information from address
 			$networkaddress = substr($networkaddress, (strlen($networkaddress)-4));
 		}
 
@@ -392,16 +445,36 @@ class JLDAP extends JObject
 			{
 				$byte = substr($networkaddress, $i, 1);
 				$addr .= ord($byte);
-				if ( ($addrtype == 1) || ($addrtype == 8) || ($addrtype = 9) ) { // dot separate IP addresses...
+				if (($addrtype == 1) || ($addrtype == 8) || ($addrtype = 9)) { // dot separate IP addresses...
 					$addr .= ".";
 				}
 			}
-			if ( ($addrtype == 1) || ($addrtype == 8) || ($addrtype = 9) ) { // strip last period from end of $addr
+			if (($addrtype == 1) || ($addrtype == 8) || ($addrtype = 9)) { // strip last period from end of $addr
 				$addr = substr($addr, 0, strlen($addr) - 1);
 			}
 		} else {
 			$addr .= "address not available.";
 		}
 		return Array('protocol'=>$addrtypes[$addrtype], 'address'=>$addr);
+	}
+
+	/**
+	 * Generates a LDAP compatible password
+	 *
+	 * @param string password Clear text password to encrypt
+	 * @param string type Type of password hash, either md5 or SHA
+	 * @return string encrypted password
+	 */
+	function generatePassword($password, $type='md5') {
+		$userpassword = '';
+		switch(strtolower($type)) {
+			case 'sha':
+				$userpassword = '{SHA}' . base64_encode(pack('H*', sha1($password)));
+			case 'md5':
+			default:
+				$userpassword = '{MD5}' . base64_encode(pack('H*', md5($password)));
+				break;
+		}
+		return $userpassword;
 	}
 }

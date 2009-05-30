@@ -1,26 +1,36 @@
-<?php // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
+<?php
+/**
+ * @version		$Id$
+ * @package		Joomla.Site
+ * @subpackage	mod_search
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
+
+// no direct access
+defined('_JEXEC') or die;
+?>
 <form action="index.php" method="post">
 	<div class="search<?php echo $params->get('moduleclass_sfx') ?>">
-		<?php 
-		    $output = '<input name="searchword" id="mod_search_searchword" maxlength="20" alt="'.$button_text.'" class="inputbox'.$moduleclass_sfx.'" type="text" size="'.$width.'" value="'.$text.'"  onblur="if(this.value==\'\') this.value=\''.$text.'\';" onfocus="if(this.value==\''.$text.'\') this.value=\'\';" />';
-			
-			if ($button) : 
+		<?php
+		    $output = '<input name="searchword" id="mod_search_searchword" maxlength="'.$maxlength.'" alt="'.$button_text.'" class="inputbox'.$moduleclass_sfx.'" type="text" size="'.$width.'" value="'.$text.'"  onblur="if (this.value==\'\') this.value=\''.$text.'\';" onfocus="if (this.value==\''.$text.'\') this.value=\'\';" />';
+
+			if ($button) :
 			    if ($imagebutton) :
-			        $button = '<input type="image" value="'.$button_text.'" class="button'.$moduleclass_sfx.'" src="'.$img.'"/>';
+			        $button = '<input type="image" value="'.$button_text.'" class="button'.$moduleclass_sfx.'" src="'.$img.'" onclick="this.form.searchword.focus();"/>';
 			    else :
-			        $button = '<input type="submit" value="'.$button_text.'" class="button'.$moduleclass_sfx.'"/>';
+			        $button = '<input type="submit" value="'.$button_text.'" class="button'.$moduleclass_sfx.'" onclick="this.form.searchword.focus();"/>';
 			    endif;
 			endif;
-			
+
 			switch ($button_pos) :
 			    case 'top' :
-				    $button = $button.'<br/>';
+				    $button = $button.'<br />';
 				    $output = $button.$output;
 				    break;
 
 			    case 'bottom' :
-				    $button = '<br/>'.$button;
+				    $button = '<br />'.$button;
 				    $output = $output.$button;
 				    break;
 
@@ -33,7 +43,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 				    $output = $button.$output;
 				    break;
 			endswitch;
-			
+
 			echo $output;
 		?>
 	</div>

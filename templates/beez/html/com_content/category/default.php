@@ -1,11 +1,11 @@
 <?php // @version $Id$
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 $cparams = JComponentHelper::getParams ('com_media');
 ?>
 
-<?php if ($this->params->get('show_page_title')) : ?>
+<?php if ($this->params->get('show_page_title',1)) : ?>
 <h1 class="componentheading<?php echo $this->params->get('pageclass_sfx'); ?>">
-	<?php echo $this->escape($this->category->title); ?>
+	<?php echo $this->escape($this->params->get('page_title')); ?>
 </h1>
 <?php endif; ?>
 
@@ -25,9 +25,9 @@ $cparams = JComponentHelper::getParams ('com_media');
 </div>
 <?php endif; ?>
 
-<?php $this->items =& $this->getItems();
+<?php $this->items = &$this->getItems();
 echo $this->loadTemplate('items'); ?>
 
 <?php if ($this->access->canEdit || $this->access->canEditOwn) :
-	echo JHTML::_('icon.create', $this->category, $this->params, $this->access);
+	echo JHtml::_('icon.create', $this->category, $this->params, $this->access);
 endif;

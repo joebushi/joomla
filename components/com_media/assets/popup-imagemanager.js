@@ -1,5 +1,5 @@
 /**
-* @version		$Id: popup-imagemanager.js 8656 2007-08-30 22:40:39Z louis $
+* @version		$Id$
 * @package		Joomla
 * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
@@ -13,8 +13,6 @@
 /**
  * JImageManager behavior for media component
  *
- * @author		Johan Janssens <johan.janssens@joomla.org>
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Extensions
  * @subpackage	Media
  * @since		1.5

@@ -1,19 +1,14 @@
 <?php
 /**
-* @version      $Id$
-* @package      Joomla.Framework
-* @subpackage   Environment
-* @copyright    Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license      GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version      $Id$
+ * @package      Joomla.Framework
+ * @subpackage   Environment
+ * @copyright    Copyright (C) 2005 - 2009 Open Source Matters. All rights reserved.
+ * @license      GNU/GPL, see LICENSE.php
+ */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+// No direct access
+defined('JPATH_BASE') or die;
 
 /**
  * Browser class, provides capability information about the current web client.
@@ -22,11 +17,7 @@ defined('JPATH_BASE') or die();
  * environment variable provided by the web server.
  *
  * This class has many influences from the lib/Browser.php code in
- * version 3 of Horde.
- *
- * @author  Chuck Hagenbuch <chuck@horde.org>
- * @author  Jon Parise <jon@horde.org>
- * @author  Johan Janssens <johan.janssens@joomla.org>
+ * version 3 of Horde by Chuck Hagenbuch and Jon Parise
  *
  * @package     Joomla.Framework
  * @subpackage  Environment
@@ -137,7 +128,7 @@ class JBrowser extends JObject
         'webbandit',
         'www.almaden.ibm.com/cs/crawler',
         'ZyBorg',
-    );
+   );
 
     /**
      * Is this a mobile browser?
@@ -172,7 +163,7 @@ class JBrowser extends JObject
         'xhtml+xml'     => false,
         'mathml'        => false,
         'svg'           => false
-    );
+   );
 
     /**
      * Quirks
@@ -196,7 +187,7 @@ class JBrowser extends JObject
         'scrollbar_in_way'              => false,
         'scroll_tds'                    => false,
         'windowed_controls'             => false,
-    );
+   );
 
     /**
      * List of viewable image MIME subtypes.

@@ -1,6 +1,7 @@
 <?php // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
-<?php if ($this->params->get('show_page_title')) : ?>
+defined('_JEXEC') or die;
+JHtml::_('behavior.caption'); ?>
+<?php if ($this->params->get('show_page_title', 1)) : ?>
 <div class="componentheading<?php echo $this->params->get('pageclass_sfx') ?>">
 	<?php echo $this->escape($this->params->get('page_title')); ?>
 </div>
@@ -13,7 +14,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<?php if ($i >= $this->total) : break; endif; ?>
 		<div>
 		<?php
-			$this->item =& $this->getItem($i, $this->params);
+			$this->item = &$this->getItem($i, $this->params);
 			echo $this->loadTemplate('item');
 		?>
 		</div>
@@ -32,6 +33,7 @@ if (($numIntroArticles != $startIntroArticles) && ($i < $this->total)) : ?>
 		<tr>
 		<?php
 			$divider = '';
+			if ($this->params->def('multi_column_order',1)) : // order across as before
 			for ($z = 0; $z < $this->params->def('num_columns', 2); $z ++) :
 				if ($z > 0) : $divider = " column_separator"; endif; ?>
 				<?php
@@ -39,20 +41,33 @@ if (($numIntroArticles != $startIntroArticles) && ($i < $this->total)) : ?>
 				    $cols = ($this->params->get('num_intro_articles', 4) % $this->params->get('num_columns'));
 				?>
 				<td valign="top" width="<?php echo intval(100 / $this->params->get('num_columns')) ?>%" class="article_column<?php echo $divider ?>">
-				<?php 
+				<?php
 				$loop = (($z < $cols)?1:0) + $rows;
-				
+
 				for ($y = 0; $y < $loop; $y ++) :
 					$target = $i + ($y * $this->params->get('num_columns')) + $z;
 					if ($target < $this->total && $target < ($numIntroArticles)) :
-						$this->item =& $this->getItem($target, $this->params);
+						$this->item = &$this->getItem($target, $this->params);
 						echo $this->loadTemplate('item');
 					endif;
-				endfor; 
-				?>
+				endfor;
+						?></td>
+						<?php endfor;
+						$i = $i + $this->params->get('num_intro_articles') ;
+			else : // otherwise, order down columns, like old category blog
+				for ($z = 0; $z < $this->params->get('num_columns'); $z ++) :
+					if ($z > 0) : $divider = " column_separator"; endif; ?>
+					<td valign="top" width="<?php echo intval(100 / $this->params->get('num_columns')) ?>%" class="article_column<?php echo $divider ?>">
+					<?php for ($y = 0; $y < ($this->params->get('num_intro_articles') / $this->params->get('num_columns')); $y ++) :
+					if ($i < $this->total && $i < ($numIntroArticles)) :
+						$this->item = &$this->getItem($i, $this->params);
+						echo $this->loadTemplate('item');
+						$i ++;
+					endif;
+				endfor; ?>
 				</td>
-		<?php endfor; ?>
-		<?php $i = $i + $this->params->get('num_intro_articles') ; ?>
+		<?php endfor;
+		endif;?>
 		</tr>
 		</table>
 	</td>

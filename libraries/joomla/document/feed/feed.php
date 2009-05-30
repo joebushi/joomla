@@ -1,24 +1,18 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @subpackage	Document
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Document
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+// No direct access
+defined('JPATH_BASE') or die;
 
 /**
  * DocumentFeed class, provides an easy interface to parse and display any feed document
  *
- * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Document
  * @since		1.5
@@ -194,7 +188,7 @@ class JDocumentFeed extends JDocument
 	 * @param array		$params		Associative array of attributes
 	 * @return 	The rendered data
 	 */
-	function render( $cache = false, $params = array())
+	function render($cache = false, $params = array())
 	{
 		global $option;
 
@@ -209,12 +203,12 @@ class JDocumentFeed extends JDocument
 		$cache_path = JPATH_BASE.DS.'cache';
 
 		// set filename for rss feeds
-		$file = strtolower( str_replace( '.', '', $type ) );
+		$file = strtolower(str_replace('.', '', $type));
 		$file = $cache_path.DS.$file.'_'.$option.'.xml';
 
 
 		// Instantiate feed renderer and set the mime encoding
-		$renderer =& $this->loadRenderer(($type) ? $type : 'rss');
+		$renderer = &$this->loadRenderer(($type) ? $type : 'rss');
 		if (!is_a($renderer, 'JDocumentRenderer')) {
 			JError::raiseError(404, JText::_('Resource Not Found'));
 		}
@@ -226,7 +220,7 @@ class JDocumentFeed extends JDocument
 		$data	.= "<!-- generator=\"".$this->getGenerator()."\" -->\n";
 
 		 // Generate stylesheet links
-		foreach ($this->_styleSheets as $src => $attr ) {
+		foreach ($this->_styleSheets as $src => $attr) {
 			$data .= "<?xml-stylesheet href=\"$src\" type=\"".$attr['mime']."\"?>\n";
 		}
 
@@ -243,7 +237,7 @@ class JDocumentFeed extends JDocument
 	 * @param object JFeedItem $item The feeditem to add to the feed.
 	 * @access public
 	 */
-	function addItem( &$item )
+	function addItem(&$item)
 	{
 		$item->source = $this->link;
 		$this->items[] = $item;
@@ -253,7 +247,6 @@ class JDocumentFeed extends JDocument
 /**
  * JFeedItem is an internal class that stores feed item information
  *
- * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage		Document
  * @since	1.5
@@ -396,7 +389,6 @@ class JFeedItem extends JObject
 /**
  * JFeedEnclosure is an internal class that stores feed enclosure information
  *
- * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage		Document
  * @since	1.5
@@ -437,7 +429,6 @@ class JFeedEnclosure extends JObject
 /**
  * JFeedImage is an internal class that stores feed image information
  *
- * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage		Document
  * @since	1.5

@@ -3,7 +3,7 @@
 
 	<?php echo JText::_('DESCFTP'); ?>
 
-	<?php if(JError::isError($this->ftp)): ?>
+	<?php if (JError::isError($this->ftp)): ?>
 		<p><?php echo JText::_($this->ftp->message); ?></p>
 	<?php endif; ?>
 

@@ -1,3 +1,9 @@
+/**
+ * @version		$Id$
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
+
 /* Form validation */
 .invalid { border-color: #ff0000; }
 label.invalid { color: #ff0000; }
@@ -83,6 +89,10 @@ label.invalid { color: #ff0000; }
 
 .button2-left .pagebreak {
 	background: url(../images/j_button2_pagebreak.png) 100% 0 no-repeat;
+}
+
+.button2-left .blank {
+	background: url(../images/j_button2_blank.png) 100% 0 no-repeat;
 }
 
 /* Tooltips */

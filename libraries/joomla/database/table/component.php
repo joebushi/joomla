@@ -1,26 +1,19 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @subpackage	Table
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+// No direct access
+defined('JPATH_BASE') or die;
 
 /**
  * Component table
  *
  * @package 	Joomla.Framework
- * @subpackage		Table
- * @since	1.0
+ * @subpackage	Table
+ * @since		1.0
  */
 class JTableComponent extends JTable
 {
@@ -54,8 +47,9 @@ class JTableComponent extends JTable
 	/**
 	* @param database A database connector object
 	*/
-	function __construct( &$db ) {
-		parent::__construct( '#__components', 'id', $db );
+	function __construct(&$db)
+	{
+		parent::__construct('#__components', 'id', $db);
 	}
 
 	/**
@@ -64,20 +58,20 @@ class JTableComponent extends JTable
 	 * @param string The component option value
 	 * @return boolean
 	 */
-	function loadByOption( $option )
+	function loadByOption($option)
 	{
-		$db = &$this->getDBO();
+		$db = &$this->getDbo();
 		$query = 'SELECT id' .
 				' FROM #__components' .
-				' WHERE ' . $db->nameQuote( 'option' ) . '=' . $db->Quote( $option ) .
+				' WHERE ' . $db->nameQuote('option') . '=' . $db->Quote($option) .
 				' AND parent = 0';
-		$db->setQuery( $query, 0, 1 );
+		$db->setQuery($query, 0, 1);
 		$id = $db->loadResult();
 
 		if ($id === null) {
 			return false;
 		} else {
-			return $this->load( $id );
+			return $this->load($id);
 		}
 	}
 
@@ -86,8 +80,8 @@ class JTableComponent extends JTable
 	 */
 	function check()
 	{
-		$this->parent = intval( $this->parent );
-		$this->ordering = intval( $this->ordering );
+		$this->parent = intval($this->parent);
+		$this->ordering = intval($this->ordering);
 		return true;
 	}
 
@@ -102,7 +96,7 @@ class JTableComponent extends JTable
 	*/
 	function bind($array, $ignore = '')
 	{
-		if (is_array( $array['params'] ))
+		if (is_array($array['params']))
 		{
 			$registry = new JRegistry();
 			$registry->loadArray($array['params']);

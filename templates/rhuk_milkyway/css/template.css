@@ -1,3 +1,9 @@
+/**
+ * @version		$Id$
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
+
 /*****************************/
 /*** Core html setup stuff ***/
 /*****************************/
@@ -520,6 +526,7 @@ table.contenttoc {
   margin: 5px;
   border: 1px solid #ccc;
   padding: 5px;
+  float: right;
 }
 
 table.contenttoc td {
@@ -553,7 +560,7 @@ td.sectiontableentry2 {
 table.contentpaneopen, table.contentpane {
 	margin: 0;
 	padding: 0;
-	width: auto;
+	width: 100%;
 }
 
 table.contentpaneopen li {
@@ -776,7 +783,7 @@ td.key {
 /* System Standard Messages */
 #system-message { margin-bottom: 20px; }
 
-#system-message dd.message ul { background: #C3D2E5 url(../../system/images/notice-info.png) 4px center no-repeat;}
+#system-message dd.message ul { background: #C3D2E5 url(../../system/images/notice-info.png) 4px center no-repeat;border-top: 3px solid #DE7A7B; border-bottom: 3px solid #DE7A7B; margin:0px; padding-left: 40px; text-indent:0px;}
 
 /* System Error Messages */
 #system-message dd.error ul { color: #c00; background: #E6C0C0 url(../../system/images/notice-alert.png) 4px center no-repeat; border-top: 3px solid #DE7A7B; border-bottom: 3px solid #DE7A7B; margin:0px; padding-left: 40px; text-indent:0px;}

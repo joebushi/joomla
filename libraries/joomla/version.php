@@ -2,13 +2,8 @@
 /**
  * @version		$Id$
  * @package	Joomla.Framework
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 /**
@@ -24,23 +19,23 @@ class JVersion
 	/** @var int Main Release Level */
 	var $RELEASE 	= '1.6';
 	/** @var string Development Status */
-	var $DEV_STATUS = 'Development Branch';
+	var $DEV_STATUS = 'Dev';
 	/** @var int Sub Release Level */
-	var $DEV_LEVEL 	= 'Update';
+	var $DEV_LEVEL 	= '0';
 	/** @var int build Number */
-	var $BUILD	 	= '';
+	var $BUILD	= '';
 	/** @var string Codename */
-	var $CODENAME 	= 'Update branch';
+	var $CODENAME 	= 'Wohmamni';
 	/** @var string Date */
-	var $RELDATE 	= '??-???-????';
+	var $RELDATE 	= '27-March-2009';
 	/** @var string Time */
-	var $RELTIME 	= '??:??';
+	var $RELTIME 	= '23:00';
 	/** @var string Timezone */
-	var $RELTZ 		= 'GMT';
+	var $RELTZ 	= 'GMT';
 	/** @var string Copyright Text */
-	var $COPYRIGHT 	= 'Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.';
+	var $COPYRIGHT 	= 'Copyright (C) 2005 - 2009 Open Source Matters. All rights reserved.';
 	/** @var string URL */
-	var $URL 		= '<a href="http://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.';
+	var $URL 	= '<a href="http://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.';
 
 	/**
 	 *
@@ -72,7 +67,7 @@ class JVersion
 	function getHelpVersion()
 	{
 		if ($this->RELEASE > '1.0') {
-			return '.' . str_replace( '.', '', $this->RELEASE );
+			return '.' . str_replace('.', '', $this->RELEASE);
 		} else {
 			return '';
 		}
@@ -84,22 +79,7 @@ class JVersion
 	 * @return boolean
 	 * @see http://www.php.net/version_compare
 	 */
-	function isCompatible ( $minimum ) {
-		return (version_compare( JVERSION, $minimum, 'eq' ) == 1);
-	}
-	
-	/**
-	 * Returns the user agent
-	 * @param string name of the component
-	 * @param bool Mask as Mozilla/5.0 or not
-	 * @param bool Add version afterwards to component
-	 * @return string User Agent
-	 */
-	function getUserAgent($component=NULL, $mask=false, $add_version=true) {
-		if($component === NULL) $component = 'Framework';
-		if($add_version) $component .= '/'.$this->RELEASE;
-		// if masked pretend to look like Mozilla 5.0 but still identify ourselves
-		if($mask) return 'Mozilla/5.0 '. $this->PRODUCT .'/'. $this->RELEASE . '.'.$this->DEV_LEVEL . ($component ? ' '. $component : ''); 
-		else return $this->PRODUCT .'/'. $this->RELEASE . '.'.$this->DEV_LEVEL . ($component ? ' '. $component : '');
+	function isCompatible ($minimum) {
+		return (version_compare(JVERSION, $minimum, 'eq') == 1);
 	}
 }

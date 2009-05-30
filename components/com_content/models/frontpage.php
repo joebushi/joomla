@@ -1,27 +1,21 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
+ * @package		Joomla.Site
  * @subpackage	Content
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
- * details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+// No direct access
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
 /**
  * Frontpage Component Model
  *
- * @author	Louis Landry <louis.landry@joomla.org>
- * @package		Joomla
+ * @package		Joomla.Site
  * @subpackage	Content
  * @since 1.5
  */
@@ -54,7 +48,7 @@ class ContentModelFrontpage extends JModel
 		if ($this->_loadData())
 		{
 			// Initialize some variables
-			$user	=& JFactory::getUser();
+			$user	= &JFactory::getUser();
 
 			// raise errors
 		}
@@ -126,19 +120,18 @@ class ContentModelFrontpage extends JModel
 		$where	= $this->_buildContentWhere();
 		$orderby 			= $this->_buildContentOrderBy();
 
-		$query = ' SELECT a.id, a.title, a.title_alias, a.introtext, a.fulltext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by,' .
+		$query = ' SELECT a.id, a.title, a.alias, a.title_alias, a.introtext, a.fulltext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by,' .
 			' a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.images, a.attribs, a.urls, a.metakey, a.metadesc, a.access,' .
 			' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug,'.
 			' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(":", cc.id, cc.alias) ELSE cc.id END as catslug,'.
-			' CHAR_LENGTH( a.`fulltext` ) AS readmore,' .
-			' u.name AS author, u.usertype, g.name AS groups, cc.title AS category, s.title AS section, s.ordering AS s_ordering, cc.ordering AS cc_ordering, a.ordering AS a_ordering, f.ordering AS f_ordering'.
+			' CHAR_LENGTH(a.`fulltext`) AS readmore,' .
+			' u.name AS author, u.usertype, u.email as author_email, cc.title AS category, s.title AS section, s.ordering AS s_ordering, cc.ordering AS cc_ordering, a.ordering AS a_ordering, f.ordering AS f_ordering'.
 			$voting['select'] .
 			' FROM #__content AS a' .
 			' INNER JOIN #__content_frontpage AS f ON f.content_id = a.id' .
 			' LEFT JOIN #__categories AS cc ON cc.id = a.catid'.
 			' LEFT JOIN #__sections AS s ON s.id = a.sectionid'.
 			' LEFT JOIN #__users AS u ON u.id = a.created_by' .
-			' LEFT JOIN #__groups AS g ON a.access = g.id'.
 			$voting['join'].
 			$where
 			.$orderby
@@ -170,12 +163,13 @@ class ContentModelFrontpage extends JModel
 	{
 		global $mainframe;
 
-		$user		=& JFactory::getUser();
-		$gid		= $user->get('aid', 0);
+		$user		= &JFactory::getUser();
+		$groups	= implode(',', $user->authorisedLevels());
+
 		// TODO: Should we be using requestTime here? or is JDate ok?
 		// $now		= $mainframe->get('requestTime');
 
-		$jnow		=& JFactory::getDate();
+		$jnow		= &JFactory::getDate();
 		$now		= $jnow->toMySQL();
 
 		// Get the page/component configuration
@@ -189,19 +183,19 @@ class ContentModelFrontpage extends JModel
 
 		// Does the user have access to view the items?
 		if ($noauth) {
-			$where .= ' AND a.access <= '.(int) $gid;
+			$where .= ' AND a.access IN ('.$groups.')';
 		}
 
-		if ($user->authorize('com_content', 'edit', 'content', 'all')) {
+		if ($user->authorize('com_content.article.edit_article')) {
 			$where .= ' AND a.state >= 0';
 		} else {
 			$where .= ' AND a.state = 1'.
-					' AND (( cc.published = 1'.
-					' AND s.published = 1 )'.
-					' OR ( a.catid = 0 AND a.sectionid = 0 ) )';
+					' AND ((cc.published = 1'.
+					' AND s.published = 1)'.
+					' OR (a.catid = 0 AND a.sectionid = 0))';
 
-			$where .= ' AND ( a.publish_up = '.$this->_db->Quote($nullDate).' OR a.publish_up <= '.$this->_db->Quote($now).' )' .
-					  ' AND ( a.publish_down = '.$this->_db->Quote($nullDate).' OR a.publish_down >= '.$this->_db->Quote($now).' )';
+			$where .= ' AND (a.publish_up = '.$this->_db->Quote($nullDate).' OR a.publish_up <= '.$this->_db->Quote($now).')' .
+					  ' AND (a.publish_down = '.$this->_db->Quote($nullDate).' OR a.publish_down >= '.$this->_db->Quote($now).')';
 		}
 
 		return $where;

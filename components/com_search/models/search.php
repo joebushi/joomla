@@ -1,26 +1,21 @@
 <?php
 /**
- * @version		$Id: category.php 8031 2007-07-17 23:14:23Z jinx $
- * @package		Joomla
+ * @version		$Id$
+ * @package		Joomla.Site
  * @subpackage	Search
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
- * details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
-// Check to ensure this file is included in Joomla!
-defined( '_JEXEC' ) or die( 'Restricted access' );
+// No direct access
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
 /**
  * Search Component Search Model
  *
- * @package		Joomla
+ * @package		Joomla.Site
  * @subpackage	Search
  * @since 1.5
  */
@@ -93,15 +88,15 @@ class SearchModelSearch extends JModel
 	 */
 	function setSearch($keyword, $match = 'all', $ordering = 'newest')
 	{
-		if(isset($keyword)) {
+		if (isset($keyword)) {
 			$this->setState('keyword', $keyword);
 		}
 
-		if(isset($match)) {
+		if (isset($match)) {
 			$this->setState('match', $match);
 		}
 
-		if(isset($ordering)) {
+		if (isset($ordering)) {
 			$this->setState('ordering', $ordering);
 		}
 	}
@@ -132,21 +127,21 @@ class SearchModelSearch extends JModel
 		{
 			$areas = $this->getAreas();
 
-			JPluginHelper::importPlugin( 'search');
-			$dispatcher =& JDispatcher::getInstance();
-			$results = $dispatcher->trigger( 'onSearch', array(
-				$this->getState('keyword'),
-				$this->getState('match'),
-				$this->getState('ordering'),
-				$areas['active']) );
+			JPluginHelper::importPlugin('search');
+			$dispatcher = &JDispatcher::getInstance();
+			$results = $dispatcher->trigger('onSearch', array(
+			$this->getState('keyword'),
+			$this->getState('match'),
+			$this->getState('ordering'),
+			$areas['active']));
 
 			$rows = array();
-			for ($i = 0, $n = count( $results); $i < $n; $i++) {
-				$rows = array_merge( (array)$rows, (array)$results[$i] );
+			foreach($results AS $result) {
+				$rows = array_merge((array) $rows, (array) $result);
 			}
 
 			$this->_total	= count($rows);
-			if($this->getState('limit') > 0) {
+			if ($this->getState('limit') > 0) {
 				$this->_data    = array_splice($rows, $this->getState('limitstart'), $this->getState('limit'));
 			} else {
 				$this->_data = $rows;
@@ -179,7 +174,7 @@ class SearchModelSearch extends JModel
 		if (empty($this->_pagination))
 		{
 			jimport('joomla.html.pagination');
-			$this->_pagination = new JPagination( $this->getTotal(), $this->getState('limitstart'), $this->getState('limit') );
+			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
 
 		return $this->_pagination;
@@ -199,12 +194,12 @@ class SearchModelSearch extends JModel
 		{
 			$areas = array();
 
-			JPluginHelper::importPlugin( 'search');
-			$dispatcher =& JDispatcher::getInstance();
-			$searchareas = $dispatcher->trigger( 'onSearchAreas' );
+			JPluginHelper::importPlugin('search');
+			$dispatcher = &JDispatcher::getInstance();
+			$searchareas = $dispatcher->trigger('onSearchAreas');
 
 			foreach ($searchareas as $area) {
-				$areas = array_merge( $areas, $area );
+				$areas = array_merge($areas, $area);
 			}
 
 			$this->_areas['search'] = $areas;

@@ -1,4 +1,4 @@
-# $Id$
+# $Id: joomla.sql 320 2009-05-27 19:52:28Z rob.schley $
 
 # --------------------------------------------------------
 
@@ -115,7 +115,7 @@ CREATE TABLE `#__components` (
   `admin_menu_img` varchar(255) NOT NULL default '',
   `iscore` tinyint(4) NOT NULL default '0',
   `params` text NOT NULL,
-  `enabled` tinyint(4) NOT NULL default '1',
+  `enabled` tinyint(4) UNSIGNED NOT NULL default '1',
   PRIMARY KEY  (`id`),
   KEY `parent_option` (`parent`, `option`(32))
 ) TYPE=MyISAM CHARACTER SET `utf8`;
@@ -133,7 +133,6 @@ INSERT INTO `#__components` VALUES (6, 'Categories', '', 0, 4, 'option=com_categ
 INSERT INTO `#__components` VALUES (7, 'Contacts', 'option=com_contact', 0, 0, '', 'Edit contact details', 'com_contact', 0, 'js/ThemeOffice/component.png', 1, 'contact_icons=0\nicon_address=\nicon_email=\nicon_telephone=\nicon_fax=\nicon_misc=\nshow_headings=1\nshow_position=1\nshow_email=0\nshow_telephone=1\nshow_mobile=1\nshow_fax=1\nbannedEmail=\nbannedSubject=\nbannedText=\nsession=1\ncustomReply=0\n\n', 1);
 INSERT INTO `#__components` VALUES (8, 'Contacts', '', 0, 7, 'option=com_contact', 'Edit contact details', 'com_contact', 0, 'js/ThemeOffice/edit.png', 1, '', 1);
 INSERT INTO `#__components` VALUES (9, 'Categories', '', 0, 7, 'option=com_categories&section=com_contact_details', 'Manage contact categories', '', 2, 'js/ThemeOffice/categories.png', 1, 'contact_icons=0\nicon_address=\nicon_email=\nicon_telephone=\nicon_fax=\nicon_misc=\nshow_headings=1\nshow_position=1\nshow_email=0\nshow_telephone=1\nshow_mobile=1\nshow_fax=1\nbannedEmail=\nbannedSubject=\nbannedText=\nsession=1\ncustomReply=0\n\n', 1);
-INSERT INTO `#__components` VALUES (10, 'Polls', 'option=com_poll', 0, 0, 'option=com_poll', 'Manage Polls', 'com_poll', 0, 'js/ThemeOffice/component.png', 0, '', 1);
 INSERT INTO `#__components` VALUES (11, 'News Feeds', 'option=com_newsfeeds', 0, 0, '', 'News Feeds Management', 'com_newsfeeds', 0, 'js/ThemeOffice/component.png', 0, '', 1);
 INSERT INTO `#__components` VALUES (12, 'Feeds', '', 0, 11, 'option=com_newsfeeds', 'Manage News Feeds', 'com_newsfeeds', 1, 'js/ThemeOffice/edit.png', 0, 'show_headings=1\nshow_name=1\nshow_articles=1\nshow_link=1\nshow_cat_description=1\nshow_cat_items=1\nshow_feed_image=1\nshow_feed_description=1\nshow_item_description=1\nfeed_word_count=0\n\n', 1);
 INSERT INTO `#__components` VALUES (13, 'Categories', '', 0, 11, 'option=com_categories&section=com_newsfeeds', 'Manage Categories', '', 2, 'js/ThemeOffice/categories.png', 0, '', 1);
@@ -287,24 +286,57 @@ CREATE TABLE `#__core_log_searches` (
 ) TYPE=MyISAM CHARACTER SET `utf8`;
 
 #
-# Table structure for table `#__groups`
+# Table structure for table `#__plugins`
 #
 
-# --------------------------------------------------------
-
-CREATE TABLE `#__groups` (
-  `id` tinyint(3) unsigned NOT NULL default '0',
-  `name` varchar(50) NOT NULL default '',
-  PRIMARY KEY  (`id`)
+CREATE TABLE `#__plugins` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` varchar(100) NOT NULL default '',
+  `element` varchar(100) NOT NULL default '',
+  `folder` varchar(100) NOT NULL default '',
+  `access` tinyint(3) unsigned NOT NULL default '0',
+  `ordering` int(11) NOT NULL default '0',
+  `published` tinyint(3) NOT NULL default '0',
+  `iscore` tinyint(3) NOT NULL default '0',
+  `client_id` tinyint(3) NOT NULL default '0',
+  `checked_out` int(11) unsigned NOT NULL default '0',
+  `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
+  `params` text NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `idx_folder` (`published`,`client_id`,`access`,`folder`)
 ) TYPE=MyISAM CHARACTER SET `utf8`;
 
-#
-# Dumping data for table `#__groups`
-#
-
-INSERT INTO `#__groups` VALUES (0, 'Public');
-INSERT INTO `#__groups` VALUES (1, 'Registered');
-INSERT INTO `#__groups` VALUES (2, 'Special');
+INSERT INTO `#__plugins` VALUES (1, 'Authentication - Joomla', 'joomla', 'authentication', 1, 1, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
+INSERT INTO `#__plugins` VALUES (2, 'Authentication - LDAP', 'ldap', 'authentication', 1, 2, 0, 1, 0, 0, '0000-00-00 00:00:00', 'host=\nport=389\nuse_ldapV3=0\nnegotiate_tls=0\nno_referrals=0\nauth_method=bind\nbase_dn=\nsearch_string=\nusers_dn=\nusername=\npassword=\nldap_fullname=fullName\nldap_email=mail\nldap_uid=uid\n\n');
+INSERT INTO `#__plugins` VALUES (3, 'Authentication - GMail', 'gmail', 'authentication', 1, 4, 0, 0, 0, 0, '0000-00-00 00:00:00', '');
+INSERT INTO `#__plugins` VALUES (4, 'Authentication - OpenID', 'openid', 'authentication', 1, 3, 0, 0, 0, 0, '0000-00-00 00:00:00', '');
+INSERT INTO `#__plugins` VALUES (5, 'User - Joomla!', 'joomla', 'user', 1, 0, 1, 0, 0, 0, '0000-00-00 00:00:00', 'autoregister=1\n\n');
+INSERT INTO `#__plugins` VALUES (6, 'Search - Content','content','search',1,1,1,1,0,0,'0000-00-00 00:00:00','search_limit=50\nsearch_content=1\nsearch_uncategorised=1\nsearch_archived=1\n\n');
+INSERT INTO `#__plugins` VALUES (7, 'Search - Contacts','contacts','search',1,3,1,1,0,0,'0000-00-00 00:00:00','search_limit=50\n\n');
+INSERT INTO `#__plugins` VALUES (8, 'Search - Categories', 'categories', 'search', 1, 4, 1, 0, 0, 0, '0000-00-00 00:00:00', 'search_limit=50\n\n');
+INSERT INTO `#__plugins` VALUES (9, 'Search - Sections', 'sections', 'search', 1, 5, 1, 0, 0, 0, '0000-00-00 00:00:00', 'search_limit=50\n\n');
+INSERT INTO `#__plugins` VALUES (10, 'Search - Newsfeeds', 'newsfeeds', 'search', 0, 6, 1, 0, 0, 0, '0000-00-00 00:00:00', 'search_limit=50\n\n');
+INSERT INTO `#__plugins` VALUES (11, 'Search - Weblinks','weblinks','search',1,2,1,1,0,0,'0000-00-00 00:00:00','search_limit=50\n\n');
+INSERT INTO `#__plugins` VALUES (12, 'Content - Pagebreak','pagebreak','content',1,10000,1,1,0,0,'0000-00-00 00:00:00','enabled=1\ntitle=1\nmultipage_toc=1\nshowall=1\n\n');
+INSERT INTO `#__plugins` VALUES (13, 'Content - Rating','vote','content',1,4,1,1,0,0,'0000-00-00 00:00:00','');
+INSERT INTO `#__plugins` VALUES (14, 'Content - Email Cloaking', 'emailcloak', 'content', 1, 5, 1, 0, 0, 0, '0000-00-00 00:00:00', 'mode=1\n\n');
+INSERT INTO `#__plugins` VALUES (15, 'Content - Code Hightlighter (GeSHi)', 'geshi', 'content', 1, 5, 0, 0, 0, 0, '0000-00-00 00:00:00', '');
+INSERT INTO `#__plugins` VALUES (16, 'Content - Load Module', 'loadmodule', 'content', 1, 6, 1, 0, 0, 0, '0000-00-00 00:00:00', 'enabled=1\nstyle=0\n\n');
+INSERT INTO `#__plugins` VALUES (17, 'Content - Page Navigation','pagenavigation','content',1,2,1,1,0,0,'0000-00-00 00:00:00','position=1\n\n');
+INSERT INTO `#__plugins` VALUES (18, 'Editor - No Editor','none','editors',1,0,1,1,0,0,'0000-00-00 00:00:00','');
+INSERT INTO `#__plugins` VALUES (19, 'Editor - TinyMCE 2.0', 'tinymce', 'editors', 1, 0, 1, 1, 0, 0, '0000-00-00 00:00:00', 'theme=advanced\ncleanup=1\ncleanup_startup=0\nautosave=0\ncompressed=0\nrelative_urls=1\ntext_direction=ltr\nlang_mode=0\nlang_code=en\ninvalid_elements=applet\ncontent_css=1\ncontent_css_custom=\nnewlines=0\ntoolbar=top\nhr=1\nsmilies=1\ntable=1\nstyle=1\nlayer=1\nxhtmlxtras=0\ntemplate=0\ndirectionality=1\nfullscreen=1\nhtml_height=550\nhtml_width=750\npreview=1\ninsertdate=1\nformat_date=%Y-%m-%d\ninserttime=1\nformat_time=%H:%M:%S\n\n');
+INSERT INTO `#__plugins` VALUES (21, 'Editor Button - Image','image','editors-xtd',1,0,1,0,0,0,'0000-00-00 00:00:00','');
+INSERT INTO `#__plugins` VALUES (22, 'Editor Button - Pagebreak','pagebreak','editors-xtd',1,0,1,0,0,0,'0000-00-00 00:00:00','');
+INSERT INTO `#__plugins` VALUES (23, 'Editor Button - Readmore','readmore','editors-xtd',1,0,1,0,0,0,'0000-00-00 00:00:00','');
+INSERT INTO `#__plugins` VALUES (27, 'System - SEF','sef','system',1,1,1,0,0,0,'0000-00-00 00:00:00','');
+INSERT INTO `#__plugins` VALUES (28, 'System - Debug', 'debug', 'system', 1, 2, 1, 0, 0, 0, '0000-00-00 00:00:00', 'queries=1\nmemory=1\nlangauge=1\n\n');
+INSERT INTO `#__plugins` VALUES (29, 'System - Legacy', 'legacy', 'system', 1, 3, 0, 1, 0, 0, '0000-00-00 00:00:00', 'route=0\n\n');
+INSERT INTO `#__plugins` VALUES (30, 'System - Cache', 'cache', 'system', 1, 4, 0, 1, 0, 0, '0000-00-00 00:00:00', 'browsercache=0\ncachetime=15\n\n');
+INSERT INTO `#__plugins` VALUES (31, 'System - Log', 'log', 'system', 1, 5, 0, 1, 0, 0, '0000-00-00 00:00:00', '');
+INSERT INTO `#__plugins` VALUES (32, 'System - Remember Me', 'remember', 'system', 1, 6, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
+INSERT INTO `#__plugins` VALUES (33, 'System - Backlink', 'backlink', 'system', 1, 7, 0, 1, 0, 0, '0000-00-00 00:00:00', '');
+INSERT INTO `#__plugins` VALUES (34, 'System - Redirect', 'redirect', 'system', 1, 8, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
+INSERT INTO `#__plugins` VALUES (35, 'Editor - CodeMirror', 'codemirror', 'editors', 1, 0, 1, 1, 0, 0, '0000-00-00 00:00:00', 'linenumbers=0\n\n');
 
 # --------------------------------------------------------
 
@@ -330,6 +362,7 @@ CREATE TABLE `#__menu` (
   `browserNav` tinyint(4) default 0,
   `access` tinyint(3) unsigned NOT NULL default 0,
   `utaccess` tinyint(3) unsigned NOT NULL default 0,
+  `template_id` int(11) default 0,
   `params` text NOT NULL,
   `lft` int(11) unsigned NOT NULL default 0,
   `rgt` int(11) unsigned NOT NULL default 0,
@@ -339,7 +372,7 @@ CREATE TABLE `#__menu` (
   KEY `menutype` (`menutype`)
 ) TYPE=MyISAM CHARACTER SET `utf8`;
 
-INSERT INTO `#__menu` VALUES (1, 'mainmenu', 'Home', 'home', 'index.php?option=com_content&view=frontpage', 'component', 1, 0, 20, 0, 1, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, 'num_leading_articles=1\nnum_intro_articles=4\nnum_columns=2\nnum_links=4\norderby_pri=\norderby_sec=front\nshow_pagination=2\nshow_pagination_results=1\nshow_feed_link=1\nshow_noauth=\nshow_title=\nlink_titles=\nshow_intro=\nshow_section=\nlink_section=\nshow_category=\nlink_category=\nshow_author=\nshow_create_date=\nshow_modify_date=\nshow_item_navigation=\nshow_readmore=\nshow_vote=\nshow_icons=\nshow_pdf_icon=\nshow_print_icon=\nshow_email_icon=\nshow_hits=\nfeed_summary=\npage_title=\nshow_page_title=1\npageclass_sfx=\nmenu_image=-1\nsecure=0\n\n', 0, 0, 1);
+INSERT INTO `#__menu` VALUES (1, 'mainmenu', 'Home', 'home', 'index.php?option=com_content&view=frontpage', 'component', 1, 0, 20, 0, 1, 0, '0000-00-00 00:00:00', 0, 0, 1, 3, 0, 'num_leading_articles=1\nnum_intro_articles=4\nnum_columns=2\nnum_links=4\norderby_pri=\norderby_sec=front\nshow_pagination=2\nshow_pagination_results=1\nshow_feed_link=1\nshow_noauth=\nshow_title=\nlink_titles=\nshow_intro=\nshow_section=\nlink_section=\nshow_category=\nlink_category=\nshow_author=\nshow_create_date=\nshow_modify_date=\nshow_item_navigation=\nshow_readmore=\nshow_vote=\nshow_icons=\nshow_pdf_icon=\nshow_print_icon=\nshow_email_icon=\nshow_hits=\nfeed_summary=\npage_title=\nshow_page_title=1\npageclass_sfx=\nmenu_image=-1\nsecure=0\n\n', 0, 0, 1);
 
 # --------------------------------------------------------
 
@@ -417,21 +450,26 @@ CREATE TABLE `#__modules` (
   KEY `newsfeeds` (`module`,`published`)
 ) TYPE=MyISAM CHARACTER SET `utf8`;
 
-INSERT INTO `#__modules` VALUES (1, 'Main Menu', '', 1, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_mainmenu', 0, 0, 1, 'menutype=mainmenu\nmoduleclass_sfx=_menu\n', 1, 0, '');
-INSERT INTO `#__modules` VALUES (2, 'Login', '', 1, 'login', 0, '0000-00-00 00:00:00', 1, 'mod_login', 0, 0, 1, '', 1, 1, '');
-INSERT INTO `#__modules` VALUES (3, 'Popular','',3,'cpanel',0,'0000-00-00 00:00:00',1,'mod_popular',0,2,1,'',0, 1, '');
-INSERT INTO `#__modules` VALUES (4, 'Recent added Articles','',4,'cpanel',0,'0000-00-00 00:00:00',1,'mod_latest',0,2,1,'ordering=c_dsc\nuser_id=0\ncache=0\n\n',0, 1, '');
-INSERT INTO `#__modules` VALUES (5, 'Menu Stats','',5,'cpanel',0,'0000-00-00 00:00:00',1,'mod_stats',0,2,1,'',0, 1, '');
-INSERT INTO `#__modules` VALUES (6, 'Unread Messages','',1,'header',0,'0000-00-00 00:00:00',1,'mod_unread',0,2,1,'',1, 1, '');
-INSERT INTO `#__modules` VALUES (7, 'Online Users','',2,'header',0,'0000-00-00 00:00:00',1,'mod_online',0,2,1,'',1, 1, '');
-INSERT INTO `#__modules` VALUES (8, 'Toolbar','',1,'toolbar',0,'0000-00-00 00:00:00',1,'mod_toolbar',0,2,1,'',1, 1, '');
-INSERT INTO `#__modules` VALUES (9, 'Quick Icons','',1,'icon',0,'0000-00-00 00:00:00',1,'mod_quickicon',0,2,1,'',1,1, '');
-INSERT INTO `#__modules` VALUES (10, 'Logged in Users','',2,'cpanel',0,'0000-00-00 00:00:00',1,'mod_logged',0,2,1,'',0,1, '');
-INSERT INTO `#__modules` VALUES (11, 'Footer', '', 0, 'footer', 0, '0000-00-00 00:00:00', 1, 'mod_footer', 0, 0, 1, '', 1, 1, '');
-INSERT INTO `#__modules` VALUES (12, 'Admin Menu','', 1,'menu', 0,'0000-00-00 00:00:00', 1,'mod_menu', 0, 2, 1, '', 0, 1, '');
-INSERT INTO `#__modules` VALUES (13, 'Admin SubMenu','', 1,'submenu', 0,'0000-00-00 00:00:00', 1,'mod_submenu', 0, 2, 1, '', 0, 1, '');
-INSERT INTO `#__modules` VALUES (14, 'User Status','', 1,'status', 0,'0000-00-00 00:00:00', 1,'mod_status', 0, 2, 1, '', 0, 1, '');
-INSERT INTO `#__modules` VALUES (15, 'Title','', 1,'title', 0,'0000-00-00 00:00:00', 1,'mod_title', 0, 2, 1, '', 0, 1, '');
+INSERT INTO `#__modules` VALUES (1, 'Main Menu', '', 1, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_mainmenu', 0, 1, 1, 'menutype=mainmenu\nmoduleclass_sfx=_menu\n', 1, 0, '');
+INSERT INTO `#__modules` VALUES (2, 'Login', '', 1, 'login', 0, '0000-00-00 00:00:00', 1, 'mod_login', 0, 1, 1, '', 1, 1, '');
+INSERT INTO `#__modules` VALUES (3, 'Popular','',3,'cpanel',0,'0000-00-00 00:00:00',1,'mod_popular',0,3,1,'',0, 1, '');
+INSERT INTO `#__modules` VALUES (4, 'Recent added Articles','',4,'cpanel',0,'0000-00-00 00:00:00',1,'mod_latest',0,3,1,'ordering=c_dsc\nuser_id=0\ncache=0\n\n',0, 1, '');
+INSERT INTO `#__modules` VALUES (5, 'Menu Stats','',5,'cpanel',0,'0000-00-00 00:00:00',1,'mod_stats',0,3,1,'',0, 1, '');
+INSERT INTO `#__modules` VALUES (6, 'Unread Messages','',1,'header',0,'0000-00-00 00:00:00',1,'mod_unread',0,3,1,'',1, 1, '');
+INSERT INTO `#__modules` VALUES (7, 'Online Users','',2,'header',0,'0000-00-00 00:00:00',1,'mod_online',0,3,1,'',1, 1, '');
+INSERT INTO `#__modules` VALUES (8, 'Toolbar','',1,'toolbar',0,'0000-00-00 00:00:00',1,'mod_toolbar',0,3,1,'',1, 1, '');
+INSERT INTO `#__modules` VALUES (9, 'Quick Icons','',1,'icon',0,'0000-00-00 00:00:00',1,'mod_quickicon',0,3,1,'',1,1, '');
+INSERT INTO `#__modules` VALUES (10, 'Logged in Users','',2,'cpanel',0,'0000-00-00 00:00:00',1,'mod_logged',0,3,1,'',0,1, '');
+INSERT INTO `#__modules` VALUES (11, 'Footer', '', 0, 'footer', 0, '0000-00-00 00:00:00', 1, 'mod_footer', 0, 1, 1, '', 1, 1, '');
+INSERT INTO `#__modules` VALUES (12, 'Admin Menu','', 1,'menu', 0,'0000-00-00 00:00:00', 1,'mod_menu', 0, 3, 1, '', 0, 1, '');
+INSERT INTO `#__modules` VALUES (13, 'Admin SubMenu','', 1,'submenu', 0,'0000-00-00 00:00:00', 1,'mod_submenu', 0, 3, 1, '', 0, 1, '');
+INSERT INTO `#__modules` VALUES (14, 'User Status','', 1,'status', 0,'0000-00-00 00:00:00', 1,'mod_status', 0, 3, 1, '', 0, 1, '');
+INSERT INTO `#__modules` VALUES (15, 'Title','', 1,'title', 0,'0000-00-00 00:00:00', 1,'mod_title', 0, 3, 1, '', 0, 1, '');
+
+INSERT INTO `#__modules` VALUES
+(16, 'User Menu', '', 4, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_mainmenu', 0, 2, 1, 'menutype=usermenu\nmoduleclass_sfx=_menu\ncache=1', 1, 0, ''),
+(17, 'Login Form', '', 8, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_login', 0, 1, 1, 'greeting=1\nname=0', 1, 0, ''),
+(18, 'Breadcrumbs', '', 1, 'breadcrumb', 0, '0000-00-00 00:00:00', 1, 'mod_breadcrumbs', 0, 1, 1, 'moduleclass_sfx=\ncache=0\nshowHome=1\nhomeText=Home\nshowComponent=1\nseparator=\n\n', 1, 0, '');
 
 # --------------------------------------------------------
 
@@ -449,7 +487,25 @@ CREATE TABLE `#__modules_menu` (
 # Dumping data for table `#__modules_menu`
 #
 
-INSERT INTO `#__modules_menu` VALUES (1,0);
+INSERT INTO `#__modules_menu` VALUES
+(1,0),
+(2,0),
+(3,0),
+(4,0),
+(5,0),
+(6,0),
+(7,0),
+(8,0),
+(9,0),
+(10,0),
+(11,0),
+(12,0),
+(13,0),
+(14,0),
+(15,0),
+(16,0),
+(17,0),
+(18,0);
 
 # --------------------------------------------------------
 
@@ -474,68 +530,6 @@ CREATE TABLE `#__newsfeeds` (
   PRIMARY KEY  (`id`),
   KEY `published` (`published`),
   KEY `catid` (`catid`)
-) TYPE=MyISAM CHARACTER SET `utf8`;
-
-# --------------------------------------------------------
-
-#
-# Table structure for table `#__poll_data`
-#
-
-CREATE TABLE `#__poll_data` (
-  `id` int(11) NOT NULL auto_increment,
-  `pollid` int(11) NOT NULL default '0',
-  `text` text NOT NULL default '',
-  `hits` int(11) NOT NULL default '0',
-  PRIMARY KEY  (`id`),
-  KEY `pollid` (`pollid`,`text`(1))
-) TYPE=MyISAM CHARACTER SET `utf8`;
-
-# --------------------------------------------------------
-
-#
-# Table structure for table `#__poll_date`
-#
-
-CREATE TABLE `#__poll_date` (
-  `id` bigint(20) NOT NULL auto_increment,
-  `date` datetime NOT NULL default '0000-00-00 00:00:00',
-  `vote_id` int(11) NOT NULL default '0',
-  `poll_id` int(11) NOT NULL default '0',
-  PRIMARY KEY  (`id`),
-  KEY `poll_id` (`poll_id`)
-) TYPE=MyISAM CHARACTER SET `utf8`;
-
-# --------------------------------------------------------
-
-#
-# Table structure for table `#__polls`
-#
-
-CREATE TABLE `#__polls` (
-  `id` int(11) unsigned NOT NULL auto_increment,
-  `title` varchar(255) NOT NULL default '',
-  `alias` varchar(255) NOT NULL default '',
-  `voters` int(9) NOT NULL default '0',
-  `checked_out` int(11) NOT NULL default '0',
-  `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
-  `published` tinyint(1) NOT NULL default '0',
-  `access` int(11) NOT NULL default '0',
-  `lag` int(11) NOT NULL default '0',
-  PRIMARY KEY  (`id`)
-) TYPE=MyISAM CHARACTER SET `utf8`;
-
-# --------------------------------------------------------
-
-#
-# Table structure for table `#__poll_menu`
-# !!!DEPRECATED!!!
-#
-
-CREATE TABLE `#__poll_menu` (
-  `pollid` int(11) NOT NULL default '0',
-  `menuid` int(11) NOT NULL default '0',
-  PRIMARY KEY  (`pollid`,`menuid`)
 ) TYPE=MyISAM CHARACTER SET `utf8`;
 
 # --------------------------------------------------------
@@ -577,7 +571,6 @@ CREATE TABLE `#__session` (
   `guest` tinyint(4) default '1',
   `userid` int(11) default '0',
   `usertype` varchar(50) default '',
-  `gid` tinyint(3) unsigned NOT NULL default '0',
   `client_id` tinyint(3) unsigned NOT NULL default '0',
   `data` longtext,
   PRIMARY KEY  (`session_id`(64)),
@@ -601,20 +594,21 @@ CREATE TABLE `#__stats_agents` (
 # --------------------------------------------------------
 
 #
-# Table structure for table `#__templates_menu`
+# Table structure for table `#__menu_template`
 #
 
-CREATE TABLE `#__templates_menu` (
-  `template` varchar(255) NOT NULL default '',
-  `menuid` int(11) NOT NULL default '0',
-  `client_id` tinyint(4) NOT NULL default '0',
-  PRIMARY KEY (`menuid`, `client_id`, `template`(255))
-) TYPE=MyISAM CHARACTER SET `utf8`;
+CREATE TABLE IF NOT EXISTS `#__menu_template` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `template` varchar(255) NOT NULL,
+  `client_id` int(11) NOT NULL,
+  `home` tinyint(1) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `params` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
 
-# Dumping data for table `#__templates_menu`
-
-INSERT INTO `#__templates_menu` VALUES ('rhuk_milkyway', '0', '0');
-INSERT INTO `#__templates_menu` VALUES ('khepri', '0', '1');
+INSERT INTO `#__menu_template` VALUES (1, 'rhuk_milkyway', '0', '1', 'Default', '{"colorVariation":"blue","backgroundVariation":"blue","widthStyle":"fmax"}');
+INSERT INTO `#__menu_template` VALUES (2, 'khepri', '1', '1', 'Default', '{"useRoundedCorners":"1","showSiteName":"0","headerColor":"h_green"}');
 
 # --------------------------------------------------------
 
@@ -631,7 +625,6 @@ CREATE TABLE `#__users` (
   `usertype` varchar(25) NOT NULL default '',
   `block` tinyint(4) NOT NULL default '0',
   `sendEmail` tinyint(4) default '0',
-  `gid` tinyint(3) unsigned NOT NULL default '1',
   `registerDate` datetime NOT NULL default '0000-00-00 00:00:00',
   `lastvisitDate` datetime NOT NULL default '0000-00-00 00:00:00',
   `activation` varchar(100) NOT NULL default '',
@@ -639,7 +632,7 @@ CREATE TABLE `#__users` (
   PRIMARY KEY  (`id`),
   KEY `usertype` (`usertype`),
   KEY `idx_name` (`name`),
-  KEY `gid_block` (`gid`, `block`),
+  KEY `idx_block` (`block`),
   KEY `username` (`username`),
   KEY `email` (`email`)
 ) TYPE=MyISAM CHARACTER SET `utf8`;
@@ -657,223 +650,445 @@ CREATE TABLE `#__weblinks` (
   `title` varchar(250) NOT NULL default '',
   `alias` varchar(255) NOT NULL default '',
   `url` varchar(250) NOT NULL default '',
-  `description` text NOT NULL default '',
+  `description` TEXT NOT NULL,
   `date` datetime NOT NULL default '0000-00-00 00:00:00',
   `hits` int(11) NOT NULL default '0',
-  `published` tinyint(1) NOT NULL default '0',
+  `state` tinyint(1) NOT NULL default '0',
   `checked_out` int(11) NOT NULL default '0',
   `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
   `ordering` int(11) NOT NULL default '0',
   `archived` tinyint(1) NOT NULL default '0',
   `approved` tinyint(1) NOT NULL default '1',
+  `access` int(11) NOT NULL default '1',
   `params` text NOT NULL,
   PRIMARY KEY  (`id`),
-  KEY `catid` (`catid`,`published`,`archived`)
+  KEY `catid` (`catid`,`state`,`archived`)
 ) TYPE=MyISAM CHARACTER SET `utf8`;
 
 # --------------------------------------------------------
 
 #
-# Table structure for table `#__core_acl_aro`
+# Table structure for table `#__redirect_links`
 #
 
-CREATE TABLE `#__core_acl_aro` (
-  `id` int(11) NOT NULL auto_increment,
-  `section_value` varchar(240) NOT NULL default '0',
-  `value` varchar(240) NOT NULL default '',
-  `order_value` int(11) NOT NULL default '0',
-  `name` varchar(255) NOT NULL default '',
-  `hidden` int(11) NOT NULL default '0',
+CREATE TABLE `#__redirect_links` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `old_url` varchar(150) NOT NULL,
+  `new_url` varchar(150) NOT NULL,
+  `referer` varchar(150) NOT NULL,
+  `comment` varchar(255) NOT NULL,
+  `published` tinyint(4) NOT NULL,
+  `created_date` int(11) NOT NULL,
+  `updated_date` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   PRIMARY KEY  (`id`),
-  UNIQUE KEY `#__section_value_value_aro` (`section_value`(100),`value`(100)),
-  KEY `#__gacl_hidden_aro` (`hidden`)
-) TYPE=MyISAM CHARACTER SET `utf8`;
+  UNIQUE KEY `idx_link_old` (`old_url`),
+  KEY `idx_link_updated` (`updated_date`)
+) ENGINE=MyISAM CHARACTER SET `utf8`;
+
 
 # --------------------------------------------------------
 
-#
-# Table structure for table `#__core_acl_aro_map`
-#
 
-CREATE TABLE  `#__core_acl_aro_map` (
-  `acl_id` int(11) NOT NULL default '0',
-  `section_value` varchar(230) NOT NULL default '0',
-  `value` varchar(100) NOT NULL,
-  PRIMARY KEY  (`acl_id`,`section_value`,`value`)
-) TYPE=MyISAM CHARACTER SET `utf8`;
+##########################################################
+##
+## ACCESS CONTROL
+##
+##########################################################
 
-# --------------------------------------------------------
+--
+-- Table structure for table `#__access_actions`
+--
 
-#
-# Table structure for table `#__core_acl_aro_groups`
-#
-CREATE TABLE `#__core_acl_aro_groups` (
-  `id` int(11) NOT NULL auto_increment,
-  `parent_id` int(11) NOT NULL default '0',
-  `name` varchar(255) NOT NULL default '',
-  `lft` int(11) NOT NULL default '0',
-  `rgt` int(11) NOT NULL default '0',
-  `value` varchar(255) NOT NULL default '',
+CREATE TABLE IF NOT EXISTS `#__access_actions` (
+  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Primary Key',
+  `section_id` int(10) unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_sections.id',
+  `name` varchar(100) NOT NULL default '',
+  `title` varchar(100) NOT NULL default '',
+  `description` varchar(1024) NOT NULL,
+  `access_type` tinyint(1) unsigned NOT NULL default '0',
+  `ordering` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id`),
-  KEY `#__gacl_parent_id_aro_groups` (`parent_id`),
-  KEY `#__gacl_lft_rgt_aro_groups` (`lft`,`rgt`)
-) TYPE=MyISAM CHARACTER SET `utf8`;
+  UNIQUE KEY `idx_action_name_lookup` (`section_id`,`name`),
+  KEY `idx_acl_manager_lookup` (`access_type`,`section_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-#
-# Dumping data for table `#__core_acl_aro_groups`
-#
+INSERT INTO `#__access_actions` VALUES 
+(1, 1, 'core.view', 'View', '', 3, 0),
+(2, 1, 'core.checkin.manage', 'JAction_Checkin_Manage', 'JAction_Checkin_Manage_Desc', 1, 0),
+(3, 1, 'core.cache.manage', 'JAction_Cache_Manage', 'JAction_Cache_Manage_Desc', 1, 0),
+(4, 1, 'core.config.manage', 'JAction_Config_Manage', 'JAction_Config_Manage_Desc', 1, 0),
+(5, 1, 'core.installer.manage', 'JAction_Installer_Manage', 'JJAction_Installer_Manage_Desc', 1, 0),
+(6, 1, 'core.languages.manage', 'JAction_Languages_Manage', 'JAction_Languages_Manage_Desc', 1, 0),
+(7, 1, 'core.modules.manage', 'JAction_Modules_Manage', 'JAction_Modules_Manage_Desc', 1, 0),
+(8, 1, 'core.plugins.manage', 'JAction_Plugins_Manage', 'JAction_Plugins_Manage_Desc', 1, 0),
+(9, 1, 'core.templates.manage', 'JAction_Templates_Manage', 'JAction_Templates_Manage_Desc', 1, 0),
+(10, 1, 'core.menus.manage', 'JAction_Menus_Manage', 'JAction_Menus_Manage_Desc', 1, 0),
+(11, 1, 'core.users.manage', 'JAction_Users_Manage', 'JAction_Users_Manage_Desc', 1, 0),
+(12, 1, 'core.media.manage', 'JAction_Media_Manage', 'JAction_Media_Manage_Desc', 1, 0),
+(13, 1, 'core.categories.manage', 'JAction_Categories_Manage', 'JAction_Categories_Manage_Desc', 1, 0),
+(14, 1, 'core.massmail.manage', 'JAction_Massmail_Manage', 'JAction_Massmail_Manage_Desc', 1, 0),
+(15, 1, 'core.messages.manage', 'JAction_Messages_Manage', 'JAction_Messages_Manage_Desc', 1, 0),
+(16, 1, 'core.site.login', 'JAction_Site_Login', 'JAction_Site_Login_Desc', 1, -1),
+(17, 1, 'core.administrator.login', 'JAction_Administrator_Login', 'JAction_Administrator_Login_Desc', 1, -1),
+(18, 1, 'core.root', 'JAction_Root', 'JAction_Root_Desc', 1, -2),
+(19, 1, 'core.plugins.view', 'JAction_Plugins_View', 'JAction_Plugins_View_Desc', 3, 0),
+(21, 1, 'core.menu.view', 'JAction_Menu_View', 'JAction_Menu_View_Desc', 3, 0),
+(22, 2, 'com_content.manage', 'JAction_Content_Manage', 'JAction_Content_Manage_Desc', 1, 0),
+(23, 2, 'com_content.article.edit_article', 'JAction_Content_Edit_Article', 'JAction_Content_Edit_Article_Desc', 1, 0),
+(24, 2, 'com_content.article.edit_own', 'JAction_Content_Edit_Own', 'JAction_Content_Edit_Own_Desc', 1, 0),
+(25, 2, 'com_content.article.publish', 'JAction_Content_Article_Publish', 'JAction_Content_Article_Publish_Desc', 1, 0),
+(26, 2, 'com_content.article.edit', 'JAction_Content_Article_Edit', 'JAction_Content_Article_Edit_Desc', 2, 0),
+(27, 2, 'com_content.article.view', 'JAction_Content_Article_View', 'JAction_Content_Article_View_Desc', 3, 0),
+(28, 2, 'com_content.category.view', 'JAction_Content_Category_View', 'JAction_Content_Category_View_Desc', 3, 0),
+(29, 3, 'com_banners.manage', 'JAction_Banners_Manage', 'JAction_Banners_Manage_Desc', 1, 0),
+(30, 4, 'com_contact.manage', 'JAction_Contact_Manage', 'JAction_Contact_Manage_Desc', 1, 0),
+(31, 5, 'com_newsfeeds.manage', 'JAction_Newsfeeds_Manage', 'JAction_Newsfeeds_Manage_Desc', 1, 0),
+(32, 6, 'com_trash.manage', 'JAction_Trash_Manage', 'JAction_Trash_Manage_Desc', 1, 0),
+(33, 7, 'com_weblinks.manage', 'JAction_Weblinks_Manage', 'JAction_Weblinks_Manage_Desc', 1, 0)
+;
 
-INSERT INTO `#__core_acl_aro_groups` VALUES (17,0,'ROOT',1,22,'ROOT');
-INSERT INTO `#__core_acl_aro_groups` VALUES (28,17,'USERS',2,21,'USERS');
-INSERT INTO `#__core_acl_aro_groups` VALUES (29,28,'Public Frontend',3,12,'Public Frontend');
-INSERT INTO `#__core_acl_aro_groups` VALUES (18,29,'Registered',4,11,'Registered');
-INSERT INTO `#__core_acl_aro_groups` VALUES (19,18,'Author',5,10,'Author');
-INSERT INTO `#__core_acl_aro_groups` VALUES (20,19,'Editor',6,9,'Editor');
-INSERT INTO `#__core_acl_aro_groups` VALUES (21,20,'Publisher',7,8,'Publisher');
-INSERT INTO `#__core_acl_aro_groups` VALUES (30,28,'Public Backend',13,20,'Public Backend');
-INSERT INTO `#__core_acl_aro_groups` VALUES (23,30,'Manager',14,19,'Manager');
-INSERT INTO `#__core_acl_aro_groups` VALUES (24,23,'Administrator',15,18,'Administrator');
-INSERT INTO `#__core_acl_aro_groups` VALUES (25,24,'Super Administrator',16,17,'Super Administrator');
+-- --------------------------------------------------------
 
-# --------------------------------------------------------
+--
+-- Table structure for table `#__access_action_rule_map`
+--
 
-#
-# Table structure for table `#__core_acl_groups_aro_map`
-#
-CREATE TABLE `#__core_acl_groups_aro_map` (
-  `group_id` int(11) NOT NULL default '0',
-  `section_value` varchar(240) NOT NULL default '',
-  `aro_id` int(11) NOT NULL default '0',
-  UNIQUE KEY `group_id_aro_id_groups_aro_map` (`group_id`,`section_value`,`aro_id`)
-) TYPE=MyISAM CHARACTER SET `utf8`;
+CREATE TABLE IF NOT EXISTS `#__access_action_rule_map` (
+  `action_id` int(10) unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_actions.id',
+  `rule_id` int(10) unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_rules.id',
+  PRIMARY KEY  (`action_id`,`rule_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-# --------------------------------------------------------
+INSERT INTO `#__access_action_rule_map` VALUES 
+(1, 1),
+(1, 2),
+(1, 3),
+(16, 4),
+(17, 5),
+(2, 6),
+(3, 7),
+(4, 8),
+(5, 9),
+(6, 10),
+(7, 11),
+(8, 12),
+(9, 13),
+(10, 14),
+(11, 15),
+(12, 16),
+(13, 17),
+(14, 18),
+(15, 19),
+(19, 20),
+(21, 22),
+(22, 23),
+(23, 24),
+(24, 25),
+(25, 26),
+(26, 27),
+(27, 28),
+(28, 29),
+(29, 30),
+(30, 31),
+(31, 32),
+(32, 33),
+(33, 34)
+;
 
-#
-# Table structure for table `#__core_acl_aro_sections`
-#
-CREATE TABLE `#__core_acl_aro_sections` (
-  `id` int(11) NOT NULL auto_increment,
-  `value` varchar(230) NOT NULL default '',
-  `order_value` int(11) NOT NULL default '0',
-  `name` varchar(230) NOT NULL default '',
-  `hidden` int(11) NOT NULL default '0',
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__access_assetgroups`
+--
+
+CREATE TABLE IF NOT EXISTS `#__access_assetgroups` (
+  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Primary Key',
+  `parent_id` int(10) unsigned NOT NULL default '0' COMMENT 'Adjacency List Reference Id',
+  `left_id` int(10) unsigned NOT NULL default '0' COMMENT 'Nested Set Reference Id',
+  `right_id` int(10) unsigned NOT NULL default '0' COMMENT 'Nested Set Reference Id',
+  `title` varchar(100) NOT NULL default '',
+  `section_id` int(10) unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_sections.id',
+  `section` varchar(100) NOT NULL default '0',
   PRIMARY KEY  (`id`),
-  UNIQUE KEY `#__gacl_value_aro_sections` (`value`),
-  KEY `#__gacl_hidden_aro_sections` (`hidden`)
-) TYPE=MyISAM CHARACTER SET `utf8`;
+  UNIQUE KEY `idx_assetgroup_title_lookup` (`section`,`title`),
+  KEY `idx_assetgroup_adjacency_lookup` (`parent_id`),
+  KEY `idx_assetgroup_nested_set_lookup` USING BTREE (`left_id`,`right_id`, `section_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
-INSERT INTO `#__core_acl_aro_sections` VALUES (10,'users',1,'Users',0);
+INSERT INTO `#__access_assetgroups` VALUES 
+(1, 0, 1, 6, 'Public', 1, 'core'),
+(2, 1, 2, 3, 'Registered', 1, 'core'),
+(3, 1, 4, 5, 'Special', 1, 'core');
 
-# --------------------------------------------------------
+-- --------------------------------------------------------
 
-#
-# Table structure for table `#__migration_backlinks`
-#
-CREATE TABLE #__migration_backlinks (
-	`itemid` INT(11) NOT NULL,
-	`name` VARCHAR(100) NOT NULL,
-	`url` TEXT NOT NULL,
-	`sefurl` TEXT NOT NULL,
-	`newurl` TEXT NOT NULL,
-	PRIMARY KEY(`itemid`)
-) TYPE=MyISAM CHARACTER SET `utf8`;
+--
+-- Table structure for table `#__access_assetgroup_rule_map`
+--
 
-# --------------------------------------------------------
-# Table structure for table `#__extensions`
-CREATE TABLE `#__extensions` (
-  `extensionid` INT  NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(100)  NOT NULL,
-  `type` VARCHAR(20)  NOT NULL,
-  `element` VARCHAR(100) NOT NULL,
-  `folder` VARCHAR(100) NOT NULL,
-  `client_id` TINYINT(3) NOT NULL,
-  `enabled` TINYINT(3) NOT NULL DEFAULT '1',
-  `access` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0',  
-  `protected` TINYINT(3) NOT NULL DEFAULT '0', 
-  `manifestcache` TEXT  NOT NULL,
-  `params` TEXT NOT NULL,
-  `custom_data` text NOT NULL,
-  `system_data` text NOT NULL,
-  `checked_out` int(10) unsigned NOT NULL default '0',
-  `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
-  `ordering` int(11) default '0',
-  `state` int(11) default '0',  
-  PRIMARY KEY (`extensionid`)  
-) TYPE=MyISAM CHARACTER SET `utf8`;
+CREATE TABLE IF NOT EXISTS `#__access_assetgroup_rule_map` (
+  `group_id` int(10) unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_assetgroups.id',
+  `rule_id` int(10) unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_rules.id',
+  PRIMARY KEY  (`group_id`,`rule_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+INSERT INTO `jos_access_assetgroup_rule_map` VALUES 
+(1, 1),
+(2, 2),
+(3, 3),
+(1, 20),
+(1, 21),
+(1, 22),
+(1, 27),
+(1, 28),
+(1, 29)
+;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__access_assets`
+--
+
+CREATE TABLE IF NOT EXISTS `#__access_assets` (
+  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Primary Key',
+  `section_id` int(10) unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_sections.id',
+  `section` varchar(100) NOT NULL default '0',
+  `name` varchar(100) NOT NULL default '',
+  `title` varchar(100) NOT NULL default '',
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `idx_asset_name_lookup` (`section_id`,`name`),
+  KEY `idx_asset_section_lookup` (`section`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__access_asset_assetgroup_map`
+--
+
+CREATE TABLE IF NOT EXISTS `#__access_asset_assetgroup_map` (
+  `asset_id` int(10) unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_assets.id',
+  `group_id` int(10) unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_assetgroups.id',
+  PRIMARY KEY  (`asset_id`,`group_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__access_asset_rule_map`
+--
+
+CREATE TABLE IF NOT EXISTS `#__access_asset_rule_map` (
+  `asset_id` int(10) unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_assets.id',
+  `rule_id` int(10) unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_rules.id',
+  PRIMARY KEY  (`asset_id`,`rule_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__access_rules`
+--
+
+CREATE TABLE IF NOT EXISTS `#__access_rules` (
+  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Primary Key',
+  `section_id` int(10) unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_sections.id',
+  `section` varchar(100) NOT NULL default '0',
+  `name` varchar(100) NOT NULL default '',
+  `title` varchar(100) NOT NULL default '',
+  `description` varchar(1024) default NULL,
+  `ordering` int(11) NOT NULL default '0',
+  `allow` tinyint(1) unsigned NOT NULL default '0',
+  `enabled` tinyint(1) unsigned NOT NULL default '0',
+  `access_type` tinyint(1) unsigned NOT NULL default '0',
+  `updated_date` int(10) unsigned NOT NULL default '0',
+  `return` varchar(255) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `idx_rule_name_lookup` (`section_id`,`name`),
+  KEY `idx_access_check` (`enabled`, `allow`),
+  KEY `idx_updated_lookup` (`updated_date`),
+  KEY `idx_action_section_lookup` (`section`),
+  KEY `idx_acl_manager_lookup` (`access_type`,`section_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+INSERT INTO `#__access_rules` VALUES 
+(1, 1, 'core', 'core.view.1', 'SYSTEM', NULL, 0, 1, 1, 3, 0, NULL),
+(2, 1, 'core', 'core.view.2', 'SYSTEM', NULL, 0, 1, 1, 3, 0, NULL),
+(3, 1, 'core', 'core.view.3', 'SYSTEM', NULL, 0, 1, 1, 3, 0, NULL),
+(4, 1, 'core', 'core.site.login', 'SYSTEM', NULL, 0, 1, 1, 1, 0, NULL),
+(5, 1, 'core', 'core.administrator.login', 'SYSTEM', NULL, 0, 1, 1, 1, 0, NULL),
+(6, 1, 'core', 'core.checkin.manage', 'SYSTEM', NULL, 0, 1, 1, 1, 0, NULL),
+(7, 1, 'core', 'core.cache.manage', 'SYSTEM', NULL, 0, 1, 1, 1, 0, NULL),
+(8, 1, 'core', 'core.config.manage', 'SYSTEM', NULL, 0, 1, 1, 1, 0, NULL),
+(9, 1, 'core', 'core.installer.manage', 'SYSTEM', NULL, 0, 1, 1, 1, 0, NULL),
+(10, 1, 'core', 'core.languages.manage', 'SYSTEM', NULL, 0, 1, 1, 1, 0, NULL),
+(11, 1, 'core', 'core.modules.manage', 'SYSTEM', NULL, 0, 1, 1, 1, 0, NULL),
+(12, 1, 'core', 'core.plugins.manage', 'SYSTEM', NULL, 0, 1, 1, 1, 0, NULL),
+(13, 1, 'core', 'core.templates.manage', 'SYSTEM', NULL, 0, 1, 1, 1, 0, NULL),
+(14, 1, 'core', 'core.menus.manage', 'SYSTEM', NULL, 0, 1, 1, 1, 0, NULL),
+(15, 1, 'core', 'core.users.manage', 'SYSTEM', NULL, 0, 1, 1, 1, 0, NULL),
+(16, 1, 'core', 'core.media.manage', 'SYSTEM', NULL, 0, 1, 1, 1, 0, NULL),
+(17, 1, 'core', 'core.categories.manage', 'SYSTEM', NULL, 0, 1, 1, 1, 0, NULL),
+(18, 1, 'core', 'core.massmail.manage', 'SYSTEM', NULL, 0, 1, 1, 1, 0, NULL),
+(19, 1, 'core', 'core.messages.manage', 'SYSTEM', NULL, 0, 1, 1, 1, 0, NULL),
+(20, 1, 'core', 'core.plugins.view', 'SYSTEM', NULL, 0, 1, 1, 3, 0, NULL),
+(21, 1, 'core', 'core.modules.view', 'SYSTEM', NULL, 0, 1, 1, 3, 0, NULL),
+(22, 1, 'core', 'core.menu.view', 'SYSTEM', NULL, 0, 1, 1, 3, 0, NULL),
+(23, 2, 'com_content', 'com_content.manage', 'Content', NULL, 0, 1, 1, 1, 0, NULL),
+(24, 2, 'com_content', 'com_content.article.edit_article', 'Content', NULL, 0, 1, 1, 1, 0, NULL),
+(25, 2, 'com_content', 'com_content.article.edit_own', 'Content', NULL, 0, 1, 1, 1, 0, NULL),
+(26, 2, 'com_content', 'com_content.article.publish', 'Content', NULL, 0, 1, 1, 1, 0, NULL),
+(27, 2, 'com_content', 'com_content.article.edit', 'Content', NULL, 0, 1, 1, 2, 0, NULL),
+(28, 2, 'com_content', 'com_content.article.view', 'Content', NULL, 0, 1, 1, 3, 0, NULL),
+(29, 2, 'com_content', 'com_content.category.view', 'Content', NULL, 0, 1, 1, 3, 0, NULL),
+(30, 3, 'com_banners', 'com_banners.manage', 'Banners', NULL, 0, 1, 1, 1, 0, NULL),
+(31, 4, 'com_contact', 'com_contact.manage', 'Contact', NULL, 0, 1, 1, 1, 0, NULL),
+(32, 5, 'com_newsfeeds', 'com_newsfeeds.manage', 'Newsfeeds', NULL, 0, 1, 1, 1, 0, NULL),
+(33, 6, 'com_trash', 'com_trash.manage', 'Trash', NULL, 0, 1, 1, 1, 0, NULL),
+(34, 7, 'com_weblinks', 'com_weblinks.manage', 'Weblinks', NULL, 0, 1, 1, 1, 0, NULL)
+;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__access_sections`
+--
+
+CREATE TABLE IF NOT EXISTS `#__access_sections` (
+  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Primary Key',
+  `name` varchar(100) NOT NULL default '',
+  `title` varchar(255) NOT NULL default '',
+  `ordering` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `idx_section_name_lookup` (`name`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+INSERT INTO `#__access_sections` VALUES 
+(1, 'core', 'Core', -1),
+(2, 'com_content', 'Content', 0),
+(3, 'com_banners', 'Banners', 0),
+(4, 'com_contact', 'Contact', 0),
+(5, 'com_newsfeeds', 'Newsfeeds', 0),
+(6, 'com_trash', 'Trash', 0),
+(7, 'com_weblinks', 'Weblinks', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__usergroups`
+--
+
+CREATE TABLE IF NOT EXISTS `#__usergroups` (
+  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Primary Key',
+  `parent_id` int(10) unsigned NOT NULL default '0' COMMENT 'Adjacency List Reference Id',
+  `left_id` int(10) unsigned NOT NULL default '0' COMMENT 'Nested Set Reference Id',
+  `right_id` int(10) unsigned NOT NULL default '0' COMMENT 'Nested Set Reference Id',
+  `title` varchar(100) NOT NULL default '',
+  `section_id` int(10) unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_sections.id',
+  `section` varchar(100) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `idx_usergroup_title_lookup` (`section`,`title`),
+  KEY `idx_usergroup_adjacency_lookup` (`parent_id`),
+  KEY `idx_usergroup_nested_set_lookup` USING BTREE (`left_id`,`right_id`, `section_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+INSERT INTO `#__usergroups`
+ (`id` ,`parent_id` ,`left_id` ,`right_id` ,`title` ,`section_id` ,`section`) VALUES
+ (1 , 0, 1, 16, "Public", 1, "core"),
+ (2 , 1, 2, 15, "Registered", 1, "core"),
+ (3 , 2, 3, 8, "Author", 1, "core"),
+ (4 , 3, 4, 7, "Editor", 1, "core"),
+ (5 , 4, 5, 6, "Publisher", 1, "core"),
+ (6 , 2, 9, 14, "Manager", 1, "core"),
+ (7 , 6, 10, 13, "Administrator", 1, "core"),
+ (8 , 7, 11, 12, "Super Administrator", 1, "core");
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__usergroup_rule_map`
+--
+
+CREATE TABLE IF NOT EXISTS `#__usergroup_rule_map` (
+  `group_id` int(10) unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__usergroups.id',
+  `rule_id` int(10) unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_rules.id',
+  PRIMARY KEY  (`group_id`,`rule_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+INSERT INTO `#__usergroup_rule_map` VALUES 
+(1, 1),
+(2, 2),
+(6, 3),
+(2, 4),
+(6, 4),
+(6, 5),
+(6, 6),
+(6, 7),
+(6, 8),
+(6, 9),
+(6, 10),
+(6, 11),
+(6, 12),
+(6, 13),
+(6, 14),
+(6, 15),
+(6, 16),
+(6, 17),
+(6, 18),
+(6, 19),
+(6, 23),
+(6, 30),
+(6, 31),
+(6, 32),
+(6, 33),
+(6, 34),
+(1, 20),
+(1, 21),
+(1, 22),
+(4, 27),
+(6, 27),
+(1, 28),
+(1, 29),
+(5, 26),
+(3, 25),
+(4, 24)
+;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__user_rule_map`
+--
+
+CREATE TABLE IF NOT EXISTS `#__user_rule_map` (
+  `user_id` int(10) unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__users.id',
+  `rule_id` int(10) unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_rules.id',
+  PRIMARY KEY  (`user_id`,`rule_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__user_usergroup_map`
+--
+
+CREATE TABLE IF NOT EXISTS `#__user_usergroup_map` (
+  `user_id` int(10) unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__users.id',
+  `group_id` int(10) unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__usergroups.id',
+  PRIMARY KEY  (`user_id`,`group_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
-# Plugins
-INSERT INTO #__extensions VALUES(0,"Authentication - Joomla","plugin","joomla","authentication",0,1,0,1,"","","","",0,"0000-00-00 00:00:00",1,0);
-INSERT INTO #__extensions VALUES(0,"Authentication - LDAP","plugin","ldap","authentication",0,0,0,1,"","host=\nport=389\nuse_ldapV3=0\nnegotiate_tls=0\nno_referrals=0\nauth_method=bind\nbase_dn=\nsearch_string=\nusers_dn=\nusername=\npassword=\nldap_fullname=fullName\nldap_email=mail\nldap_uid=uid\n\n","","",0,"0000-00-00 00:00:00",2,0);
-INSERT INTO #__extensions VALUES(0,"Authentication - GMail","plugin","gmail","authentication",0,0,0,0,"","","","",0,"0000-00-00 00:00:00",4,0);
-INSERT INTO #__extensions VALUES(0,"Authentication - OpenID","plugin","openid","authentication",0,0,0,0,"","","","",0,"0000-00-00 00:00:00",3,0);
-INSERT INTO #__extensions VALUES(0,"User - Joomla!","plugin","joomla","user",0,1,0,0,"","autoregister=1\n","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Search - Content","plugin","content","search",0,1,0,1,"","search_limit=50\nsearch_content=1\nsearch_uncategorised=1\nsearch_archived=1\n","","",0,"0000-00-00 00:00:00",1,0);
-INSERT INTO #__extensions VALUES(0,"Search - Contacts","plugin","contacts","search",0,1,0,1,"","search_limit=50\n","","",0,"0000-00-00 00:00:00",3,0);
-INSERT INTO #__extensions VALUES(0,"Search - Categories","plugin","categories","search",0,1,0,0,"","search_limit=50\n","","",0,"0000-00-00 00:00:00",4,0);
-INSERT INTO #__extensions VALUES(0,"Search - Sections","plugin","sections","search",0,1,0,0,"","search_limit=50\n","","",0,"0000-00-00 00:00:00",5,0);
-INSERT INTO #__extensions VALUES(0,"Search - Newsfeeds","plugin","newsfeeds","search",0,1,0,0,"","search_limit=50\n","","",0,"0000-00-00 00:00:00",6,0);
-INSERT INTO #__extensions VALUES(0,"Search - Weblinks","plugin","weblinks","search",0,1,0,1,"","search_limit=50\n","","",0,"0000-00-00 00:00:00",2,0);
-INSERT INTO #__extensions VALUES(0,"Content - Pagebreak","plugin","pagebreak","content",0,1,0,1,"","enabled=1\ntitle=1\nmultipage_toc=1\nshowall=1\n","","",0,"0000-00-00 00:00:00",10000,0);
-INSERT INTO #__extensions VALUES(0,"Content - Rating","plugin","vote","content",0,1,0,1,"","","","",0,"0000-00-00 00:00:00",4,0);
-INSERT INTO #__extensions VALUES(0,"Content - Email Cloaking","plugin","emailcloak","content",0,1,0,0,"","mode=1\n","","",0,"0000-00-00 00:00:00",5,0);
-INSERT INTO #__extensions VALUES(0,"Content - Code Hightlighter (GeSHi)","plugin","geshi","content",0,0,0,0,"","","","",0,"0000-00-00 00:00:00",5,0);
-INSERT INTO #__extensions VALUES(0,"Content - Load Module","plugin","loadmodule","content",0,1,0,0,"","enabled=1\nstyle=0\n","","",0,"0000-00-00 00:00:00",6,0);
-INSERT INTO #__extensions VALUES(0,"Content - Page Navigation","plugin","pagenavigation","content",0,1,0,1,"","position=1\n","","",0,"0000-00-00 00:00:00",2,0);
-INSERT INTO #__extensions VALUES(0,"Editor - No Editor","plugin","none","editors",0,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Editor - TinyMCE 2.0","plugin","tinymce","editors",0,1,0,1,"","theme=advanced\ncleanup=1\ncleanup_startup=0\nautosave=0\ncompressed=0\nrelative_urls=1\ntext_direction=ltr\nlang_mode=0\nlang_code=en\ninvalid_elements=applet\ncontent_css=1\ncontent_css_custom=\nnewlines=0\ntoolbar=top\nhr=1\nsmilies=1\ntable=1\nstyle=1\nlayer=1\nxhtmlxtras=0\ntemplate=0\ndirectionality=1\nfullscreen=1\nhtml_height=550\nhtml_width=750\npreview=1\ninsertdate=1\nformat_date=%Y-%m-%d\ninserttime=1\nformat_time=%H:%M:%S\n","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Editor - XStandard Lite 2.0","plugin","xstandard","editors",0,0,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Editor Button - Image","plugin","image","editors-xtd",0,1,0,0,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Editor Button - Pagebreak","plugin","pagebreak","editors-xtd",0,1,0,0,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Editor Button - Readmore","plugin","readmore","editors-xtd",0,1,0,0,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"XML-RPC - Joomla","plugin","joomla","xmlrpc",0,0,0,1,"","","","",0,"0000-00-00 00:00:00",7,0);
-INSERT INTO #__extensions VALUES(0,"XML-RPC - Blogger API","plugin","blogger","xmlrpc",0,0,0,1,"","catid=1\nsectionid=0\n\n","","",0,"0000-00-00 00:00:00",7,0);
-INSERT INTO #__extensions VALUES(0,"System - SEF","plugin","sef","system",0,1,0,0,"","","","",0,"0000-00-00 00:00:00",1,0);
-INSERT INTO #__extensions VALUES(0,"System - Debug","plugin","debug","system",0,1,0,0,"","queries=1\nmemory=1\nlangauge=1\n\n","","",0,"0000-00-00 00:00:00",2,0);
-INSERT INTO #__extensions VALUES(0,"System - Legacy","plugin","legacy","system",0,0,0,1,"","route=0\n\n","","",0,"0000-00-00 00:00:00",3,0);
-INSERT INTO #__extensions VALUES(0,"System - Cache","plugin","cache","system",0,0,0,1,"","browsercache=0\ncachetime=15\n\n","","",0,"0000-00-00 00:00:00",4,0);
-INSERT INTO #__extensions VALUES(0,"System - Log","plugin","log","system",0,0,0,1,"","","","",0,"0000-00-00 00:00:00",5,0);
-INSERT INTO #__extensions VALUES(0,"System - Remember Me","plugin","remember","system",0,1,0,1,"","","","",0,"0000-00-00 00:00:00",6,0);
-INSERT INTO #__extensions VALUES(0,"System - Backlink","plugin","backlink","system",0,0,0,1,"","","","",0,"0000-00-00 00:00:00",7,0);
-# Components
-INSERT INTO #__extensions VALUES(0,"Banners","component","com_banners","",0,1,0,0,"","track_impressions=0\ntrack_clicks=0\ntag_prefix=\n\n","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Cache Manager","component","com_cache","",0,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Configuration Manager","component","com_config","",0,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Contacts","component","com_contact","",0,1,0,1,"","contact_icons=0\nicon_address=\nicon_email=\nicon_telephone=\nicon_fax=\nicon_misc=\nshow_headings=1\nshow_position=1\nshow_email=0\nshow_telephone=1\nshow_mobile=1\nshow_fax=1\nbannedEmail=\nbannedSubject=\nbannedText=\nsession=1\ncustomReply=0\n\n","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Articles","component","com_content","",0,1,0,1,"","show_noauth=0\nshow_title=1\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1\nfeed_summary=0\n\n","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Control Panel","component","com_cpanel","",0,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Installation Manager","component","com_installer","",0,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Language Manager","component","com_languages","",0,1,0,1,"","administrator=en-GB\nsite=en-GB","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Mail To","component","com_mailto","",0,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Mass mail","component","com_massmail","",0,1,0,1,"","mailSubjectPrefix=\nmailBodySuffix=\n\n","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Media Manager","component","com_media","",0,1,0,1,"","upload_extensions=bmp,csv,doc,epg,gif,ico,jpg,odg,odp,ods,odt,pdf,png,ppt,swf,txt,xcf,xls,BMP,CSV,DOC,EPG,GIF,ICO,JPG,ODG,ODP,ODS,ODT,PDF,PNG,PPT,SWF,TXT,XCF,XLS\nupload_maxsize=10000000\nfile_path=images\nimage_path=images/stories\nrestrict_uploads=1\ncheck_mime=1\nimage_extensions=bmp,gif,jpg,png\nignore_extensions=\nupload_mime=image/jpeg,image/gif,image/png,image/bmp,application/x-shockwave\nflash,application/msword,application/excel,application/pdf,application/powerpoint,text/plain,application/x-zip\nupload_mime_illegal=text/html\nenable_flash=1\n\n","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Menu Editor","component","com_menus","",0,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Messaging","component","com_messages","",0,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Modules Manager","component","com_modules","",0,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"News Feeds","component","com_newsfeeds","",0,1,0,0,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Plugin Manager","component","com_plugins","",0,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Polls","component","com_poll","",0,1,0,0,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Search","component","com_search","",0,1,0,1,"","enabled=0\n\n","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Template Manager","component","com_templates","",0,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"User","component","com_user","",0,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"User Manager","component","com_users","",0,1,0,1,"","allowUserRegistration=1\nnew_usertype=Registered\nuseractivation=1\nfrontend_userparams=1\n\n","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Web Links","component","com_weblinks","",0,1,0,0,"","show_comp_description=1\ncomp_description=\nshow_link_hits=1\nshow_link_description=1\nshow_other_cats=1\nshow_headings=1\nshow_page_title=1\nlink_target=0\nlink_icons=\n\n","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Wrapper","component","com_wrapper","",0,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-# Modules
-INSERT INTO #__extensions VALUES(0,"mod_login","module","mod_login","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"mod_popular","module","mod_popular","",1,1,0,0,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"mod_latest","module","mod_latest","",1,1,0,0,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"mod_stats","module","mod_stats","",1,1,0,0,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"mod_unread","module","mod_unread","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"mod_online","module","mod_online","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"mod_toolbar","module","mod_toolbar","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"mod_quickicon","module","mod_quickicon","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"mod_logged","module","mod_logged","",1,1,0,0,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"mod_footer","module","mod_footer","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"mod_menu","module","mod_menu","",1,1,0,0,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"mod_submenu","module","mod_submenu","",1,1,0,0,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"mod_status","module","mod_status","",1,1,0,0,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"mod_title","module","mod_title","",1,1,0,0,"","","","",0,"0000-00-00 00:00:00",0,0);
-# --------------------------------------------------------
+##########################################################
+##
+## CORE ASSET MAPPINGS
+##
+##########################################################
 
+INSERT INTO `jos_access_assets` VALUES 
+(7, 1, 'core', 'plugin.28', 'System - Debug')
+;
+INSERT INTO `jos_access_asset_assetgroup_map` VALUES 
+(7, 1)
+;

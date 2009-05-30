@@ -1,8 +1,18 @@
-<?php // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
-<div style="direction: <?php echo $rssrtl ? 'rtl' :'ltr'; ?>; text-align: <?php echo $rssrtl ? 'right' :'left'; ?>">
 <?php
-if( $feed != false )
+/**
+ * @version		$Id$
+ * @package		Joomla.Site
+ * @subpackage	mod_feed
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
+
+// no direct access
+defined('_JEXEC') or die;
+?>
+<div style="direction: <?php echo $rssrtl ? 'rtl' :'ltr'; ?>; text-align: <?php echo $rssrtl ? 'right' :'left'; ?> ! important">
+<?php
+if ($feed != false)
 {
 	//image handling
 	$iUrl 	= isset($feed->image->url)   ? $feed->image->url   : null;
@@ -11,12 +21,12 @@ if( $feed != false )
 	<table cellpadding="0" cellspacing="0" class="moduletable<?php echo $params->get('moduleclass_sfx'); ?>">
 	<?php
 	// feed description
-	if (!is_null( $feed->title ) && $params->get('rsstitle', 1)) {
+	if (!is_null($feed->title) && $params->get('rsstitle', 1)) {
 		?>
 		<tr>
 			<td>
 				<strong>
-					<a href="<?php echo str_replace( '&', '&amp', $feed->link ); ?>" target="_blank">
+					<a href="<?php echo str_replace('&', '&amp', $feed->link); ?>" target="_blank">
 						<?php echo $feed->title; ?></a>
 				</strong>
 			</td>
@@ -37,12 +47,12 @@ if( $feed != false )
 	if ($params->get('rssimage', 1) && $iUrl) {
 	?>
 		<tr>
-			<td align="center"><image src="<?php echo $iUrl; ?>" alt="<?php echo @$iTitle; ?>"/></td>
+			<td><img src="<?php echo $iUrl; ?>" alt="<?php echo @$iTitle; ?>"/></td>
 		</tr>
 	<?php
 	}
 
-	$actualItems = count( $feed->items );
+	$actualItems = count($feed->items);
 	$setItems    = $params->get('rssitems', 5);
 
 	if ($setItems > $actualItems) {
@@ -53,7 +63,7 @@ if( $feed != false )
 	?>
 	<tr>
 		<td>
-			<ul class="newsfeed<?php echo $params->get( 'moduleclass_sfx'); ?>"  >
+			<ul class="newsfeed<?php echo $params->get('moduleclass_sfx'); ?>"  >
 			<?php
 			$words = $params->def('word_count', 0);
 			for ($j = 0; $j < $totalItems; $j ++)
@@ -63,9 +73,9 @@ if( $feed != false )
 				?>
 				<li>
 				<?php
-				if ( !is_null( $currItem->get_link() ) ) {
+				if (!is_null($currItem->get_link())) {
 				?>
-					<a href="<?php echo $currItem->get_link(); ?>" target="_child">
+					<a href="<?php echo $currItem->get_link(); ?>" target="_blank">
 					<?php echo $currItem->get_title(); ?></a>
 				<?php
 				}
@@ -78,11 +88,11 @@ if( $feed != false )
 					$text = str_replace('&apos;', "'", $text);
 
 					// word limit check
-					if ($words) 
+					if ($words)
 					{
 						$texts = explode(' ', $text);
 						$count = count($texts);
-						if ($count > $words) 
+						if ($count > $words)
 						{
 							$text = '';
 							for ($i = 0; $i < $words; $i ++) {
@@ -92,7 +102,7 @@ if( $feed != false )
 						}
 					}
 					?>
-					<div style="text-align: <?php echo $params->get('rssrtl', 0) ? 'right': 'left'; ?> ! important">
+					<div style="text-align: <?php echo $params->get('rssrtl', 0) ? 'right': 'left'; ?> ! important" class="newsfeed_item<?php echo $params->get('moduleclass_sfx'); ?>"  >
 						<?php echo $text; ?>
 					</div>
 					<?php

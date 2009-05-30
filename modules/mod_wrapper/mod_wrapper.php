@@ -1,30 +1,26 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @package		Joomla.Site
+ * @subpackage	mod_wrapper
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 // Include the syndicate functions only once
-require_once (dirname(__FILE__).DS.'helper.php');
+require_once dirname(__FILE__).DS.'helper.php';
 
 $params = modWrapperHelper::getParams($params);
 
-$load	= $params->get( 'load');
-$url	= $params->get( 'url');
-$target = $params->get( 'target' );
-$width	= $params->get( 'width');
-$height = $params->get( 'height');
-$scroll = $params->get( 'scrolling' );
-$class	= $params->get( 'moduleclass_sfx' );
+$load	= $params->get('load');
+$url	= $params->get('url');
+$target = $params->get('target');
+$width	= $params->get('width');
+$height = $params->get('height');
+$scroll = $params->get('scrolling');
+$class	= $params->get('moduleclass_sfx');
 
-require(JModuleHelper::getLayoutPath('mod_wrapper'));
+require JModuleHelper::getLayoutPath('mod_wrapper');

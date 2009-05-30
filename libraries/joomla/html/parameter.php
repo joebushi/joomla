@@ -3,19 +3,14 @@
  * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Parameter
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+// No direct access
+defined('JPATH_BASE') or die;
 
-jimport( 'joomla.registry.registry' );
+jimport('joomla.registry.registry');
 
 //Register the element class with the loader
 JLoader::register('JElement', dirname(__FILE__).DS.'parameter'.DS.'element.php');
@@ -23,7 +18,6 @@ JLoader::register('JElement', dirname(__FILE__).DS.'parameter'.DS.'element.php')
 /**
  * Parameter handler
  *
- * @author 		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage		Parameter
  * @since		1.5
@@ -33,56 +27,57 @@ class JParameter extends JRegistry
 	/**
 	 * The raw params string
 	 *
-	 * @access	private
 	 * @var		string
 	 * @since	1.5
 	 */
-	var $_raw = null;
+	protected $_raw = null;
 
 	/**
 	 * The xml params element
 	 *
-	 * @access	private
 	 * @var		object
 	 * @since	1.5
 	 */
-	var $_xml = null;
+	protected $_xml = null;
 
 	/**
 	* loaded elements
 	*
-	* @access	private
 	* @var		array
 	* @since	1.5
 	*/
-	var $_elements = array();
+	protected $_elements = array();
 
 	/**
 	* directories, where element types can be stored
 	*
-	* @access	private
 	* @var		array
 	* @since	1.5
 	*/
-	var $_elementPath = array();
+	protected $_elementPath = array();
 
 	/**
 	 * Constructor
 	 *
-	 * @access	protected
 	 * @param	string The raw parms text
 	 * @param	string Path to the xml setup file
 	 * @since	1.5
 	 */
-	function __construct($data, $path = '')
+	public function __construct($data, $path = '')
 	{
 		parent::__construct('_default');
 
 		// Set base path
-		$this->_elementPath[] = dirname( __FILE__ ).DS.'parameter'.DS.'element';
+		$this->_elementPath[] = dirname(__FILE__).DS.'parameter'.DS.'element';
 
-		if (trim( $data )) {
-			$this->loadINI($data);
+		if ($data = trim($data))
+		{
+			if (strpos($data, '{') === 0) {
+				$this->loadJSON($data);
+			}
+			else {
+				$this->loadINI($data);
+			}
 		}
 
 		if ($path) {
@@ -101,7 +96,7 @@ class JParameter extends JRegistry
 	 * @return	string The set value
 	 * @since	1.5
 	 */
-	function set($key, $value = '', $group = '_default')
+	public function set($key, $value = '', $group = '_default')
 	{
 		return $this->setValue($group.'.'.$key, (string) $value);
 	}
@@ -115,7 +110,7 @@ class JParameter extends JRegistry
 	 * @return	string
 	 * @since	1.5
 	 */
-	function get($key, $default = '', $group = '_default')
+	public function get($key, $default = '', $group = '_default')
 	{
 		$value = $this->getValue($group.'.'.$key);
 		$result = (empty($value) && ($value !== 0) && ($value !== '0')) ? $default : $value;
@@ -132,7 +127,8 @@ class JParameter extends JRegistry
 	 * @return	string	The set value
 	 * @since	1.5
 	 */
-	function def($key, $default = '', $group = '_default') {
+	public function def($key, $default = '', $group = '_default')
+	{
 		$value = $this->get($key, (string) $default, $group);
 		return $this->set($key, $value);
 	}
@@ -144,17 +140,17 @@ class JParameter extends JRegistry
 	 * @param	object	An XML object
 	 * @since	1.5
 	 */
-	function setXML( &$xml )
+	public function setXML(&$xml)
 	{
-		if (is_object( $xml ))
+		if (is_object($xml))
 		{
-			if ($group = $xml->attributes( 'group' )) {
+			if ($group = $xml->attributes('group')) {
 				$this->_xml[$group] = $xml;
 			} else {
 				$this->_xml['_default'] = $xml;
 			}
-			if ($dir = $xml->attributes( 'addpath' )) {
-				$this->addElementPath( JPATH_ROOT . str_replace('/', DS, $dir) );
+			if ($dir = $xml->attributes('addpath')) {
+				$this->addElementPath(JPATH_ROOT . str_replace('/', DS, $dir));
 			}
 		}
 	}
@@ -167,14 +163,14 @@ class JParameter extends JRegistry
 	 * @access	public
 	 * @since	1.5
 	 */
-	function bind($data, $group = '_default')
+	public function bind($data, $group = '_default')
 	{
-		if ( is_array($data) ) {
+		if (is_array($data)) {
 			return $this->loadArray($data, $group);
-		} elseif ( is_object($data) ) {
+		} elseif (is_object($data)) {
 			return $this->loadObject($data, $group);
 		} else {
-			return $this->loadINI($data, $group);
+			return $this->loadJSON($data, $group);
 		}
 	}
 
@@ -186,7 +182,7 @@ class JParameter extends JRegistry
 	 * @return	string	HTML
 	 * @since	1.5
 	 */
-	function render($name = 'params', $group = '_default')
+	public function render($name = 'params', $group = '_default')
 	{
 		if (!isset($this->_xml[$group])) {
 			return false;
@@ -233,7 +229,7 @@ class JParameter extends JRegistry
 	 * @return	array	Array of all parameters, each as array Any array of the label, the form element and the tooltip
 	 * @since	1.5
 	 */
-	function renderToArray($name = 'params', $group = '_default')
+	public function renderToArray($name = 'params', $group = '_default')
 	{
 		if (!isset($this->_xml[$group])) {
 			return false;
@@ -253,7 +249,7 @@ class JParameter extends JRegistry
 	 * @return	mixed	Boolean falst if no params exist or integer number of params that exist
 	 * @since	1.5
 	 */
-	function getNumParams($group = '_default')
+	public function getNumParams($group = '_default')
 	{
 		if (!isset($this->_xml[$group]) || !count($this->_xml[$group]->children())) {
 			return false;
@@ -269,7 +265,7 @@ class JParameter extends JRegistry
 	 * @return	array	Array of all group names as key and param count as value
 	 * @since	1.5
 	 */
-	function getGroups()
+	public function getGroups()
 	{
 		if (!is_array($this->_xml)) {
 			return false;
@@ -289,7 +285,7 @@ class JParameter extends JRegistry
 	 * @return	array	Aarray of all parameters, each as array Any array of the label, the form element and the tooltip
 	 * @since	1.5
 	 */
-	function getParams($name = 'params', $group = '_default')
+	public function getParams($name = 'params', $group = '_default')
 	{
 		if (!isset($this->_xml[$group])) {
 			return false;
@@ -309,7 +305,7 @@ class JParameter extends JRegistry
 	 * @return	array	Any array of the label, the form element and the tooltip
 	 * @since	1.5
 	 */
-	function getParam(&$node, $control_name = 'params', $group = '_default')
+	public function getParam(&$node, $control_name = 'params', $group = '_default')
 	{
 		//get the type of the parameter
 		$type = $node->attributes('type');
@@ -317,7 +313,7 @@ class JParameter extends JRegistry
 		//remove any occurance of a mos_ prefix
 		$type = str_replace('mos_', '', $type);
 
-		$element =& $this->loadElement($type);
+		$element = &$this->loadElement($type);
 
 		// error happened
 		if ($element === false)
@@ -343,7 +339,7 @@ class JParameter extends JRegistry
 	 * @return	object
 	 * @since	1.5
 	 */
-	function loadSetupFile($path)
+	public function loadSetupFile($path)
 	{
 		$result = false;
 
@@ -356,7 +352,7 @@ class JParameter extends JRegistry
 				if ($params = & $xml->document->params) {
 					foreach ($params as $param)
 					{
-						$this->setXML( $param );
+						$this->setXML($param);
 						$result = true;
 					}
 				}
@@ -378,19 +374,19 @@ class JParameter extends JRegistry
 	 * @return	object
 	 * @since	1.5
 	 */
-	function &loadElement( $type, $new = false )
+	public function &loadElement($type, $new = false)
 	{
 		$false = false;
-		$signature = md5( $type  );
+		$signature = md5($type);
 
-		if( (isset( $this->_elements[$signature] ) && !is_a($this->_elements[$signature], '__PHP_Incomplete_Class'))  && $new === false ) {
+		if ((isset($this->_elements[$signature]) && !is_a($this->_elements[$signature], '__PHP_Incomplete_Class'))  && $new === false) {
 			return	$this->_elements[$signature];
 		}
 
 		$elementClass	=	'JElement'.$type;
-		if( !class_exists( $elementClass ) )
+		if (!class_exists($elementClass))
 		{
-			if( isset( $this->_elementPath ) ) {
+			if (isset($this->_elementPath)) {
 				$dirs = $this->_elementPath;
 			} else {
 				$dirs = array();
@@ -406,7 +402,7 @@ class JParameter extends JRegistry
 			}
 		}
 
-		if( !class_exists( $elementClass ) ) {
+		if (!class_exists($elementClass)) {
 			return $false;
 		}
 
@@ -429,27 +425,25 @@ class JParameter extends JRegistry
 	 * @param	string|array	directory or directories to search.
 	 * @since	1.5
 	 */
-	function addElementPath( $path )
+	public function addElementPath($path)
 	{
 		// just force path to array
-		settype( $path, 'array' );
+		settype($path, 'array');
 
 		// loop through the path directories
-		foreach ( $path as $dir )
+		foreach ($path as $dir)
 		{
 			// no surrounding spaces allowed!
-			$dir = trim( $dir );
+			$dir = trim($dir);
 
 			// add trailing separators as needed
-			if ( substr( $dir, -1 ) != DIRECTORY_SEPARATOR ) {
+			if (substr($dir, -1) != DIRECTORY_SEPARATOR) {
 				// directory
 				$dir .= DIRECTORY_SEPARATOR;
 			}
 
 			// add to the top of the search dirs
-			array_unshift( $this->_elementPath, $dir );
+			array_unshift($this->_elementPath, $dir);
 		}
-
-
 	}
 }

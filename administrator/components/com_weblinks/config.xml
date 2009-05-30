@@ -23,6 +23,14 @@
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
+		<param name="show_numbers" type="radio" default="1" label="Item Numbers" description="Show/Hide the Item Numbers">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="show_report" type="radio" default="1" label="Report Link" description="Show/Hide the Report Bad Link option">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
 		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="target" type="list" default="0" label="Target" description="Target window when the link is clicked">
 			<option value="0">Parent Window With Browser Navigation</option>

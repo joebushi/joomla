@@ -1,53 +1,49 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Banners
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 /**
-* @package		Joomla
-* @subpackage	Banners
-*/
+ * @package		Joomla.Administrator
+ * @subpackage	Banners
+ */
 class BannersViewBanner
 {
 	function setBannersToolbar()
 	{
-		JToolBarHelper::title( JText::_( 'Banner Manager' ), 'generic.png' );
+		JToolBarHelper::title(JText::_('Banner Manager'), 'generic.png');
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
-		JToolBarHelper::customX( 'copy', 'copy.png', 'copy_f2.png', 'Copy' );
+		JToolBarHelper::customX('copy', 'copy.png', 'copy_f2.png', 'Copy');
 		JToolBarHelper::deleteList();
 		JToolBarHelper::editListX();
 		JToolBarHelper::addNewX();
 		JToolBarHelper::preferences('com_banners', '200');
-		JToolBarHelper::help( 'screen.banners' );
+		JToolBarHelper::help('screen.banners');
 	}
 
-	function banners( &$rows, &$pageNav, &$lists )
+	function banners(&$rows, &$pageNav, &$lists)
 	{
 		BannersViewBanner::setBannersToolbar();
-		$user =& JFactory::getUser();
-		JHTML::_('behavior.tooltip');
+		$user = &JFactory::getUser();
+		$ordering = ($lists['order'] == 'b.ordering');
+		JHtml::_('behavior.tooltip');
 		?>
 		<form action="index.php?option=com_banners" method="post" name="adminForm">
 		<table>
 		<tr>
 			<td align="left" width="100%">
-				<?php echo JText::_( 'Filter' ); ?>:
+				<?php echo JText::_('Filter'); ?>:
 				<input type="text" name="search" id="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
-				<button onclick="this.form.submit();"><?php echo JText::_( 'Go' ); ?></button>
-				<button onclick="document.getElementById('search').value='';this.form.getElementById('filter_catid').value='0';this.form.getElementById('filter_state').value='';this.form.submit();"><?php echo JText::_( 'Filter Reset' ); ?></button>
+				<button onclick="this.form.submit();"><?php echo JText::_('Go'); ?></button>
+				<button onclick="document.getElementById('search').value='';this.form.getElementById('filter_catid').value='0';this.form.getElementById('filter_state').value='';this.form.submit();"><?php echo JText::_('Filter Reset'); ?></button>
 			</td>
 			<td nowrap="nowrap">
 				<?php
@@ -62,41 +58,41 @@ class BannersViewBanner
 			<thead>
 				<tr>
 					<th width="20">
-						<?php echo JText::_( 'Num' ); ?>
+						<?php echo JText::_('Num'); ?>
 					</th>
 					<th width="20">
-						<input type="checkbox" name="toggle" value=""  onclick="checkAll(<?php echo count( $rows ); ?>);" />
+						<input type="checkbox" name="toggle" value=""  onclick="checkAll(<?php echo count($rows); ?>);" />
 					</th>
 					<th nowrap="nowrap" class="title">
-						<?php echo JHTML::_('grid.sort',  'Name', 'b.name', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php echo JHtml::_('grid.sort',  'Name', 'b.name', @$lists['order_Dir'], @$lists['order']); ?>
 					</th>
 					<th width="10%" nowrap="nowrap">
-						<?php echo JHTML::_('grid.sort',   'Client', 'c.name', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php echo JHtml::_('grid.sort',   'Client', 'c.name', @$lists['order_Dir'], @$lists['order']); ?>
 					</th>
 					<th width="10%" nowrap="nowrap">
-						<?php echo JHTML::_('grid.sort',   'Category', 'cc.title', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php echo JHtml::_('grid.sort',   'Category', 'cc.title', @$lists['order_Dir'], @$lists['order']); ?>
 					</th>
 					<th width="5%" nowrap="nowrap">
-						<?php echo JHTML::_('grid.sort',   'Published', 'b.showBanner', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php echo JHtml::_('grid.sort',   'Published', 'b.showBanner', @$lists['order_Dir'], @$lists['order']); ?>
 					</th>
 					<th width="8%" nowrap="nowrap">
-						<?php echo JHTML::_('grid.sort',   'Order', 'b.ordering', @$lists['order_Dir'], @$lists['order'] ); ?>
-						<?php echo JHTML::_('grid.order',  $rows ); ?>
+						<?php echo JHtml::_('grid.sort',   'Order', 'b.ordering', @$lists['order_Dir'], @$lists['order']); ?>
+						<?php if ($ordering) echo JHtml::_('grid.order',  $rows); ?>
 					</th>
 					<th width="5%" nowrap="nowrap">
-						<?php echo JHTML::_('grid.sort',   'Sticky', 'b.Sticky', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php echo JHtml::_('grid.sort',   'Sticky', 'b.Sticky', @$lists['order_Dir'], @$lists['order']); ?>
 					</th>
 					<th width="5%" nowrap="nowrap">
-						<?php echo JHTML::_('grid.sort',   'Impressions', 'b.impmade', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php echo JHtml::_('grid.sort',   'Impressions', 'b.impmade', @$lists['order_Dir'], @$lists['order']); ?>
 					</th>
 					<th width="80">
-						<?php echo JHTML::_('grid.sort',   'Clicks', 'b.clicks', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php echo JHtml::_('grid.sort',   'Clicks', 'b.clicks', @$lists['order_Dir'], @$lists['order']); ?>
 					</th>
 					<th width="5%" nowrap="nowrap">
-						<?php echo JText::_( 'Tags' ); ?>
+						<?php echo JText::_('Tags'); ?>
 					</th>
 					<th width="1%" nowrap="nowrap">
-						<?php echo JHTML::_('grid.sort',   'ID', 'b.bid', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php echo JHtml::_('grid.sort',   'ID', 'b.bid', @$lists['order_Dir'], @$lists['order']); ?>
 					</th>
 				</tr>
 			</thead>
@@ -110,25 +106,25 @@ class BannersViewBanner
 			<tbody>
 			<?php
 			$k = 0;
-			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
+			for ($i=0, $n=count($rows); $i < $n; $i++) {
 				$row = &$rows[$i];
 
 				$row->id	= $row->bid;
-				$link		= JRoute::_( 'index.php?option=com_banners&task=edit&cid[]='. $row->id );
+				$link		= JRoute::_('index.php?option=com_banners&task=edit&cid[]='. $row->id);
 
-				if( $row->imptotal <= 0 ) {
+				if ($row->imptotal <= 0) {
 					$row->imptotal	=  JText::_('unlimited');
 				}
 
-				if ( $row->impmade != 0 ) {
+				if ($row->impmade != 0) {
 					$percentClicks = 100 * $row->clicks/$row->impmade;
 				} else {
 					$percentClicks = 0;
 				}
 
 				$row->published = $row->showBanner;
-				$published		= JHTML::_('grid.published', $row, $i );
-				$checked		= JHTML::_('grid.checkedout',   $row, $i );
+				$published		= JHtml::_('grid.published', $row, $i);
+				$checked		= JHtml::_('grid.checkedout',   $row, $i);
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td align="center">
@@ -138,9 +134,9 @@ class BannersViewBanner
 						<?php echo $checked; ?>
 					</td>
 					<td>
-					<span class="editlinktip hasTip" title="<?php echo JText::_( 'Edit' );?>::<?php echo $row->name; ?>">
+					<span class="editlinktip hasTip" title="<?php echo JText::_('Edit');?>::<?php echo $row->name; ?>">
 						<?php
-						if ( JTable::isCheckedOut($user->get ('id'), $row->checked_out ) ) {
+						if (JTable::isCheckedOut($user->get ('id'), $row->checked_out)) {
 							echo $row->name;
 						} else {
 							?>
@@ -162,17 +158,18 @@ class BannersViewBanner
 						<?php echo $published;?>
 					</td>
 					<td class="order">
-						<input type="text" name="order[]" size="5" value="<?php echo $row->ordering;?>" class="text_area" style="text-align: center" />
+                    	<?php $disabled = $ordering ?  '' : 'disabled="disabled"'; ?>
+						<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" <?php echo $disabled ?> class="text_area" style="text-align: center" />
 					</td>
 					<td align="center">
-						<?php echo $row->sticky ? JText::_( 'Yes' ) : JText::_( 'No' );?>
+						<?php echo $row->sticky ? JText::_('Yes') : JText::_('No');?>
 					</td>
 					<td align="center">
 						<?php echo $row->impmade.' '.JText::_('of').' '.$row->imptotal?>
 					</td>
 					<td align="center">
 						<?php echo $row->clicks;?> -
-						<?php echo sprintf( '%.2f%%', $percentClicks );?>
+						<?php echo sprintf('%.2f%%', $percentClicks);?>
 					</td>
 					<td>
 						<?php echo $row->tags; ?>
@@ -194,27 +191,27 @@ class BannersViewBanner
 		<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
 		<input type="hidden" name="filter_order_Dir" value="<?php echo $lists['order_Dir']; ?>" />
-		<?php echo JHTML::_( 'form.token' ); ?>
+		<?php echo JHtml::_('form.token'); ?>
 		</form>
 		<?php
 	}
 
 	function setBannerToolbar()
 	{
-		$task = JRequest::getVar( 'task', '', 'method', 'string');
+		$task = JRequest::getVar('task', '', 'method', 'string');
 
-		JToolBarHelper::title( $task == 'add' ? JText::_( 'Banner' ) . ': <small><small>[ '. JText::_( 'New' ) .' ]</small></small>' : JText::_( 'Banner' ) . ': <small><small>[ '. JText::_( 'Edit' ) .' ]</small></small>', 'generic.png' );
-		JToolBarHelper::save( 'save' );
+		JToolBarHelper::title($task == 'add' ? JText::_('Banner') . ': <small><small>[ '. JText::_('New') .' ]</small></small>' : JText::_('Banner') . ': <small><small>[ '. JText::_('Edit') .' ]</small></small>', 'generic.png');
+		JToolBarHelper::save('save');
 		JToolBarHelper::apply('apply');
-		JToolBarHelper::cancel( 'cancel' );
-		JToolBarHelper::help( 'screen.banners.edit' );
+		JToolBarHelper::cancel('cancel');
+		JToolBarHelper::help('screen.banners.edit');
 	}
 
-	function banner( &$row, &$lists )
+	function banner(&$row, &$lists)
 	{
 		BannersViewBanner::setBannerToolbar();
-		JRequest::setVar( 'hidemainmenu', 1 );
-		JFilterOutput::objectHTMLSafe( $row, ENT_QUOTES, 'custombannercode' );
+		JRequest::setVar('hidemainmenu', 1);
+		JFilterOutput::objectHTMLSafe($row, ENT_QUOTES, 'custombannercode');
 		?>
 		<script language="javascript" type="text/javascript">
 		<!--
@@ -228,22 +225,22 @@ class BannersViewBanner
 		function submitbutton(pressbutton) {
 			var form = document.adminForm;
 			if (pressbutton == 'cancel') {
-				submitform( pressbutton );
+				submitform(pressbutton);
 				return;
 			}
 			// do field validation
 			if (form.name.value == "") {
-				alert( "<?php echo JText::_( 'You must provide a banner name.', true ); ?>" );
+				alert("<?php echo JText::_('You must provide a banner name.', true); ?>");
 			} else if (getSelectedValue('adminForm','cid') < 1) {
-				alert( "<?php echo JText::_( 'Please select a client.', true ); ?>" );
+				alert("<?php echo JText::_('Please select a client.', true); ?>");
 			/*} else if (!getSelectedValue('adminForm','imageurl')) {
-				alert( "<?php echo JText::_( 'Please select an image.', true ); ?>" );*/
+				alert("<?php echo JText::_('Please select an image.', true); ?>");*/
 			/*} else if (form.clickurl.value == "") {
-				alert( "<?php echo JText::_( 'Please fill in the URL for the banner.', true ); ?>" );*/
-			} else if ( getSelectedValue('adminForm','catid') == 0 ) {
-				alert( "<?php echo JText::_( 'Please select a category.', true ); ?>" );
+				alert("<?php echo JText::_('Please fill in the URL for the banner.', true); ?>");*/
+			} else if (getSelectedValue('adminForm','catid') == 0) {
+				alert("<?php echo JText::_('Please select a category.', true); ?>");
 			} else {
-				submitform( pressbutton );
+				submitform(pressbutton);
 			}
 		}
 		//-->
@@ -252,14 +249,14 @@ class BannersViewBanner
 
 		<div class="col100">
 			<fieldset class="adminform">
-				<legend><?php echo JText::_( 'Details' ); ?></legend>
+				<legend><?php echo JText::_('Details'); ?></legend>
 
 				<table class="admintable">
 				<tbody>
 					<tr>
 						<td width="20%" class="key">
 							<label for="name">
-								<?php echo JText::_( 'Name' ); ?>:
+								<?php echo JText::_('Name'); ?>:
 							</label>
 						</td>
 						<td width="80%">
@@ -269,7 +266,7 @@ class BannersViewBanner
 					<tr>
 						<td width="20%" class="key">
 							<label for="alias">
-								<?php echo JText::_( 'Alias' ); ?>:
+								<?php echo JText::_('Alias'); ?>:
 							</label>
 						</td>
 						<td width="80%">
@@ -278,7 +275,7 @@ class BannersViewBanner
 					</tr>
 					<tr>
 						<td class="key">
-							<?php echo JText::_( 'Show Banner' ); ?>:
+							<?php echo JText::_('Show Banner'); ?>:
 						</td>
 						<td>
 							<?php echo $lists['showBanner']; ?>
@@ -286,7 +283,7 @@ class BannersViewBanner
 					</tr>
 					<tr>
 						<td class="key">
-							<?php echo JText::_( 'Sticky' ); ?>:
+							<?php echo JText::_('Sticky'); ?>:
 						</td>
 						<td>
 							<?php echo $lists['sticky']; ?>
@@ -295,7 +292,7 @@ class BannersViewBanner
 					<tr>
 						<td class="key">
 							<label for="ordering">
-								<?php echo JText::_( 'Ordering' ); ?>:
+								<?php echo JText::_('Ordering'); ?>:
 							</label>
 						</td>
 						<td>
@@ -305,7 +302,7 @@ class BannersViewBanner
 					<tr>
 						<td valign="top" align="right" class="key">
 							<label for="catid">
-								<?php echo JText::_( 'Category' ); ?>:
+								<?php echo JText::_('Category'); ?>:
 							</label>
 						</td>
 						<td>
@@ -315,7 +312,7 @@ class BannersViewBanner
 					<tr>
 						<td class="key">
 							<label for="cid">
-								<?php echo JText::_( 'Client Name' ); ?>:
+								<?php echo JText::_('Client Name'); ?>:
 							</label>
 						</td>
 						<td >
@@ -325,7 +322,7 @@ class BannersViewBanner
 					<tr>
 						<td class="key">
 							<label for="imptotal">
-								<?php echo JText::_( 'Impressions Purchased' ); ?>:
+								<?php echo JText::_('Impressions Purchased'); ?>:
 							</label>
 						</td>
 						<?php
@@ -339,7 +336,7 @@ class BannersViewBanner
 							<input class="inputbox" type="text" name="imptotal" id="imptotal" size="12" maxlength="11" value="<?php echo $row->imptotal;?>" />
 							&nbsp;&nbsp;&nbsp;&nbsp;
 							<label for="unlimited">
-								<?php echo JText::_( 'Unlimited' ); ?>
+								<?php echo JText::_('Unlimited'); ?>
 							</label>
 							<input type="checkbox" name="unlimited" id="unlimited" <?php echo $unlimited;?> />
 						</td>
@@ -347,7 +344,7 @@ class BannersViewBanner
 					<tr>
 						<td class="key">
 							<label for="clickurl">
-								<?php echo JText::_( 'Click URL' ); ?>:
+								<?php echo JText::_('Click URL'); ?>:
 							</label>
 						</td>
 						<td>
@@ -356,18 +353,18 @@ class BannersViewBanner
 					</tr>
 					<tr >
 						<td valign="top" align="right" class="key">
-							<?php echo JText::_( 'Clicks' ); ?>:
+							<?php echo JText::_('Clicks'); ?>:
 						</td>
 						<td colspan="2">
 							<?php echo $row->clicks;?>
 							&nbsp;&nbsp;&nbsp;&nbsp;
-							<input name="reset_hits" type="button" class="button" value="<?php echo JText::_( 'Reset Clicks' ); ?>" onclick="submitbutton('resethits');" />
+							<input name="reset_hits" type="button" class="button" value="<?php echo JText::_('Reset Clicks'); ?>" onclick="submitbutton('resethits');" />
 						</td>
 					</tr>
 					<tr>
 						<td valign="top" class="key">
 							<label for="custombannercode">
-								<?php echo JText::_( 'Custom banner code' ); ?>:
+								<?php echo JText::_('Custom banner code'); ?>:
 							</label>
 						</td>
 						<td>
@@ -377,7 +374,7 @@ class BannersViewBanner
 					<tr>
 						<td valign="top" class="key">
 							<label for="description">
-								<?php echo JText::_( 'Description/Notes' ); ?>:
+								<?php echo JText::_('Description/Notes'); ?>:
 							</label>
 						</td>
 						<td>
@@ -391,7 +388,7 @@ class BannersViewBanner
 					<tr>
 						<td valign="top" class="key">
 							<label for="imageurl">
-								<?php echo JText::_( 'Banner Image Selector' ); ?>:
+								<?php echo JText::_('Banner Image Selector'); ?>:
 							</label>
 						</td>
 						<td >
@@ -399,14 +396,36 @@ class BannersViewBanner
 						</td>
 					</tr>
 					<tr>
+						<td class="key">
+							<label for="width">
+								<?php echo JText::_('Width'); ?>:
+							</label>
+						</td>
+						<td>
+							<input class="inputbox" type="text" name="width" id="width" size="6" value="<?php echo $lists['width'];?>" />
+						</td>
+					</tr>
+					<tr>
+						<td class="key">
+							<label for="height">
+								<?php echo JText::_('Height'); ?>:
+							</label>
+						</td>
+						<td>
+							<input class="inputbox" type="text" name="height" id="height" size="6" value="<?php echo $lists['height'];?>" />
+						</td>
+					</tr>
+					<tr>
 						<td valign="top" class="key">
-							<?php echo JText::_( 'Banner Image' ); ?>:
+							<?php echo JText::_('Banner Image'); ?>:
 						</td>
 						<td valign="top">
 							<?php
-							if (eregi("swf", $row->imageurl)) {
+							if (preg_match("#swf$#i", $row->imageurl)) {
 								?>
-								<img src="images/blank.png" name="imagelib">
+								<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0" border="0" width="<?php echo $lists['width'];?>" height="<?php echo $lists['height'];?>">
+									<param name="movie" value="../images/banners/<?php echo $row->imageurl; ?>"><embed src="../images/banners/<?php echo $row->imageurl; ?>" loop="false" pluginspage="http://www.macromedia.com/go/get/flashplayer" type="application/x-shockwave-flash"  width="<?php echo $lists['width'];?>" height="<?php echo $lists['height'];?>"></embed>
+								</object>
 								<?php
 							} elseif (eregi("gif|jpg|png", $row->imageurl)) {
 								?>
@@ -423,7 +442,7 @@ class BannersViewBanner
 					<tr>
 						<td valign="top" class="key">
 							<label for="tags">
-								<?php echo JText::_( 'Tags' ); ?>:
+								<?php echo JText::_('Tags'); ?>:
 							</label>
 						</td>
 						<td>
@@ -442,7 +461,7 @@ class BannersViewBanner
 		<input type="hidden" name="clicks" value="<?php echo $row->clicks; ?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="impmade" value="<?php echo $row->impmade; ?>" />
-		<?php echo JHTML::_( 'form.token' ); ?>
+		<?php echo JHtml::_('form.token'); ?>
 		</form>
 		<?php
 	}

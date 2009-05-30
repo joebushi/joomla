@@ -1,28 +1,23 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @package		Joomla.Site
+ * @subpackage	mod_breadcrumbs
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 class modBreadCrumbsHelper
 {
 	function getList(&$params)
 	{
-		global $mainframe;
-
 		// Get the PathWay object from the application
-		$pathway =& $mainframe->getPathway();
-		$items   = $pathway->getPathWay();
+		$app		= &JFactory::getApplication();
+		$pathway	= &$app->getPathway();
+		$items		= $pathway->getPathWay();
 
 		$count = count($items);
 		for ($i = 0; $i < $count; $i ++)
@@ -31,7 +26,7 @@ class modBreadCrumbsHelper
 			$items[$i]->link = JRoute::_($items[$i]->link);
 		}
 
-		if ($params->get('showHome'))
+		if ($params->get('showHome', 1))
 		{
 			$item = new stdClass();
 			$item->name = $params->get('homeText', JText::_('Home'));
@@ -52,20 +47,16 @@ class modBreadCrumbsHelper
  	 */
 	function setSeparator($custom = null)
 	{
-		global $mainframe;
+		$lang = &JFactory::getLanguage();
 
-		$lang =& JFactory::getLanguage();
-
-		/**
-	 	* If a custom separator has not been provided we try to load a template
-	 	* specific one first, and if that is not present we load the default separator
-	 	*/
+		// If a custom separator has not been provided we try to load a template
+	 	// specific one first, and if that is not present we load the default separator
 		if ($custom == null) {
-			if($lang->isRTL()){
-				$_separator = JHTML::_('image.site', 'arrow_rtl.png');
+			if ($lang->isRTL()){
+				$_separator = JHtml::_('image.site', 'arrow_rtl.png');
 			}
 			else{
-				$_separator = JHTML::_('image.site', 'arrow.png');
+				$_separator = JHtml::_('image.site', 'arrow.png');
 			}
 		} else {
 			$_separator = $custom;

@@ -1,24 +1,18 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @subpackage	Document
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Document
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+// No direct access
+defined('JPATH_BASE') or die;
 
 /**
  * DocumentError class, provides an easy interface to parse and display an error page
  *
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Document
  * @since		1.5
@@ -74,7 +68,7 @@ class JDocumentError extends JDocument
 	 * @param boolean 	$cache		If true, cache the output
 	 * @param array		$params		Associative array of attributes
 	 */
-	function render( $cache = false, $params = array())
+	function render($cache = false, $params = array())
 	{
 		// If no error object is set return null
 		if (!isset($this->_error)) {
@@ -82,14 +76,14 @@ class JDocumentError extends JDocument
 		}
 
 		//Set the status header
-		JResponse::setHeader('status', $this->_error->code.' '.str_replace( "\n", ' ', $this->_error->message ));
+		JResponse::setHeader('status', $this->_error->getCode().' '.str_replace("\n", ' ', $this->_error->getMessage()));
 		$file = 'error.php';
 
 		// check template
 		$directory	= isset($params['directory']) ? $params['directory'] : 'templates';
 		$template	= isset($params['template']) ? JFilterInput::clean($params['template'], 'cmd') : 'system';
 
-		if ( !file_exists( $directory.DS.$template.DS.$file) ) {
+		if (!file_exists($directory.DS.$template.DS.$file)) {
 			$template = 'system';
 		}
 
@@ -118,7 +112,7 @@ class JDocumentError extends JDocument
 		$contents = '';
 
 		//Check to see if we have a valid template file
-		if ( file_exists( $directory.DS.$filename ) )
+		if (file_exists($directory.DS.$filename))
 		{
 			//store the file path
 			$this->_file = $directory.DS.$filename;
@@ -137,7 +131,7 @@ class JDocumentError extends JDocument
 	{
 		$contents	= null;
 		$backtrace	= $this->_error->getTrace();
-		if( is_array( $backtrace ) )
+		if (is_array($backtrace))
 		{
 			ob_start();
 			$j	=	1;
@@ -150,16 +144,16 @@ class JDocumentError extends JDocument
 			echo  	'		<td class="TD"><strong>Function</strong></td>';
 			echo  	'		<td class="TD"><strong>Location</strong></td>';
 			echo  	'	</tr>';
-			for( $i = count( $backtrace )-1; $i >= 0 ; $i-- )
+			for ($i = count($backtrace)-1; $i >= 0 ; $i--)
 			{
 				echo  	'	<tr>';
 				echo  	'		<td class="TD">'.$j.'</td>';
-				if( isset( $backtrace[$i]['class'] ) ) {
+				if (isset($backtrace[$i]['class'])) {
 					echo  	'	<td class="TD">'.$backtrace[$i]['class'].$backtrace[$i]['type'].$backtrace[$i]['function'].'()</td>';
 				} else {
 					echo  	'	<td class="TD">'.$backtrace[$i]['function'].'()</td>';
 				}
-				if( isset( $backtrace[$i]['file'] ) ) {
+				if (isset($backtrace[$i]['file'])) {
 					echo  	'		<td class="TD">'.$backtrace[$i]['file'].':'.$backtrace[$i]['line'].'</td>';
 				} else {
 					echo  	'		<td class="TD">&nbsp;</td>';

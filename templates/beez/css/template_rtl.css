@@ -2,7 +2,7 @@
  * @version $Id$
  * @package Joomla
  * @subpackage Accessible-Template-Beez
- * @copyright Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
+ * @copyright Copyright (C) 2005 - 2009 Open Source Matters. All rights reserved.
  * @license GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant to the
  * GNU General Public License, and as distributed it includes or is derivative
@@ -342,7 +342,8 @@ form.search_result, form.registration, form.lost_password, .login_form{
 }
 
 .only input{
-	float: left;
+	float: right;
+	margin:0 0 0 10px;
 }
 
 form.registration label, form.lost_password label, .login_form label{

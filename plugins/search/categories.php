@@ -2,22 +2,17 @@
 /**
  * @version		$Id$
  * @package		Joomla
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
-$mainframe->registerEvent( 'onSearch', 'plgSearchCategories' );
-$mainframe->registerEvent( 'onSearchAreas', 'plgSearchCategoryAreas' );
+$mainframe->registerEvent('onSearch', 'plgSearchCategories');
+$mainframe->registerEvent('onSearchAreas', 'plgSearchCategoryAreas');
 
-JPlugin::loadLanguage( 'plg_search_categories' );
+JPlugin::loadLanguage('plg_search_categories');
 
 /**
  * @return array An array of search areas
@@ -41,31 +36,33 @@ function &plgSearchCategoryAreas()
  * @param string ordering option, newest|oldest|popular|alpha|category
  * @param mixed An array if restricted to areas, null if search all
  */
-function plgSearchCategories( $text, $phrase='', $ordering='', $areas=null )
+function plgSearchCategories($text, $phrase='', $ordering='', $areas=null)
 {
-	$db		=& JFactory::getDBO();
-	$user	=& JFactory::getUser();
+	$db		= &JFactory::getDbo();
+	$user	= &JFactory::getUser();
+	$groups	= implode(',', $user->authorisedLevels());
+	$searchText = $text;
 
 	require_once(JPATH_SITE.DS.'components'.DS.'com_content'.DS.'helpers'.DS.'route.php');
 
-	if (is_array( $areas )) {
-		if (!array_intersect( $areas, array_keys( plgSearchCategoryAreas() ) )) {
+	if (is_array($areas)) {
+		if (!array_intersect($areas, array_keys(plgSearchCategoryAreas()))) {
 			return array();
 		}
 	}
 
 	// load plugin params info
- 	$plugin =& JPluginHelper::getPlugin('search', 'categories');
- 	$pluginParams = new JParameter( $plugin->params );
+ 	$plugin = &JPluginHelper::getPlugin('search', 'categories');
+ 	$pluginParams = new JParameter($plugin->params);
 
-	$limit = $pluginParams->def( 'search_limit', 50 );
+	$limit = $pluginParams->def('search_limit', 50);
 
-	$text = trim( $text );
-	if ( $text == '' ) {
+	$text = trim($text);
+	if ($text == '') {
 		return array();
 	}
 
-	switch ( $ordering ) {
+	switch ($ordering) {
 		case 'alpha':
 			$order = 'a.name ASC';
 			break;
@@ -78,31 +75,38 @@ function plgSearchCategories( $text, $phrase='', $ordering='', $areas=null )
 			$order = 'a.name DESC';
 	}
 
-	$text	= $db->Quote( '%'.$db->getEscaped( $text, true ).'%', false );
-	$query	= 'SELECT a.title, a.description AS text, "" AS created,'
+	$text	= $db->Quote('%'.$db->getEscaped($text, true).'%', false);
+	$query	= 'SELECT a.title, a.description AS text, "" AS created, a.name,'
 	. ' "2" AS browsernav,'
 	. ' s.id AS secid, a.id AS catid,'
 	. ' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug'
 	. ' FROM #__categories AS a'
 	. ' INNER JOIN #__sections AS s ON s.id = a.section'
-	. ' WHERE ( a.name LIKE '.$text
+	. ' WHERE (a.name LIKE '.$text
 	. ' OR a.title LIKE '.$text
-	. ' OR a.description LIKE '.$text.' )'
+	. ' OR a.description LIKE '.$text.')'
 	. ' AND a.published = 1'
 	. ' AND s.published = 1'
-	. ' AND a.access <= '.(int) $user->get('aid')
-	. ' AND s.access <= '.(int) $user->get('aid')
+	. ' AND a.access IN ('.$groups.')'
+	. ' AND s.access IN ('.$groups.')'
 	. ' GROUP BY a.id'
 	. ' ORDER BY '. $order
 	;
-	$db->setQuery( $query, 0, $limit );
+	$db->setQuery($query, 0, $limit);
 	$rows = $db->loadObjectList();
 
-	$count = count( $rows );
-	for ( $i = 0; $i < $count; $i++ ) {
+	$count = count($rows);
+	for ($i = 0; $i < $count; $i++) {
 		$rows[$i]->href = ContentHelperRoute::getCategoryRoute($rows[$i]->slug, $rows[$i]->secid);
-		$rows[$i]->section 	= JText::_( 'Category' );
+		$rows[$i]->section 	= JText::_('Category');
 	}
 
-	return $rows;
+	$return = array();
+	foreach($rows AS $key => $category) {
+		if (searchHelper::checkNoHTML($category, $searchText, array('name', 'title', 'text'))) {
+			$return[] = $category;
+		}
+	}
+
+	return $return;
 }

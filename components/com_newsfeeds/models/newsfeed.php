@@ -1,27 +1,21 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
+ * @package		Joomla.Site
  * @subpackage	Content
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
- * details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+// No direct access
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
 /**
  * Newsfeeds Component Newsfeed Model
  *
- * @author Johan Janssens <johan.janssens@joomla.org>
- * @package		Joomla
+ * @package		Joomla.Site
  * @subpackage	Newsfeeds
  * @since 1.5
  */
@@ -78,7 +72,8 @@ class NewsfeedsModelNewsfeed extends JModel
 		if ($this->_loadData())
 		{
 			// Initialize some variables
-			$user = &JFactory::getUser();
+			$user	= &JFactory::getUser();
+			$groups	= $user->authorisedLevels();
 
 			// Make sure the category is published
 			if (!$this->_data->published) {
@@ -88,13 +83,13 @@ class NewsfeedsModelNewsfeed extends JModel
 
 			// Check to see if the category is published
 			if (!$this->_data->cat_pub) {
-				JError::raiseError( 404, JText::_("Resource Not Found") );
+				JError::raiseError(404, JText::_("Resource Not Found"));
 				return;
 			}
 
 			// Check whether category access level allows access
-			if ($this->_data->cat_access > $user->get('aid', 0)) {
-				JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
+			if (!in_array($this->_data->cat_access, $groups)) {
+				JError::raiseError(403, JText::_('ALERTNOTAUTH'));
 				return;
 			}
 

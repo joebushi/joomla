@@ -3,25 +3,18 @@
  * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	HTML
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+// No direct access
+defined('JPATH_BASE') or die;
 
 jimport('joomla.event.dispatcher');
 
 /**
  * JEditor class to handle WYSIWYG editors
  *
- * @author		Louis Landry <louis.landry@joomla.org>
- * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	HTML
  * @since		1.5
@@ -33,22 +26,21 @@ class JEditor extends JObservable
 	 *
 	 * @var	object
 	 */
-	var $_editor = null;
+	protected $_editor = null;
 
 	/**
 	 * Editor Plugin name
 	 *
 	 * @var string
 	 */
-	var $_name = null;
+	protected $_name = null;
 
 	/**
 	 * constructor
 	 *
-	 * @access	protected
 	 * @param	string	The editor name
 	 */
-	function __construct($editor = 'none')
+	public function __construct($editor = 'none')
 	{
 		$this->_name = $editor;
 	}
@@ -60,11 +52,10 @@ class JEditor extends JObservable
 	 * This method must be invoked as:
 	 * 		<pre>  $editor = &JEditor::getInstance([$editor);</pre>
 	 *
-	 * @access	public
 	 * @param	string	$editor  The editor to use.
 	 * @return	JEditor	The Editor object.
 	 */
-	function &getInstance($editor = 'none')
+	public static function &getInstance($editor = 'none')
 	{
 		static $instances;
 
@@ -84,10 +75,10 @@ class JEditor extends JObservable
 	/**
 	 * Initialize the editor
 	 */
-	function initialise()
+	public function initialise()
 	{
 		//check if editor is already loaded
-		if(is_null(($this->_editor))) {
+		if (is_null(($this->_editor))) {
 			return;
 		}
 
@@ -102,7 +93,7 @@ class JEditor extends JObservable
 			}
 		}
 
-		$document =& JFactory::getDocument();
+		$document = &JFactory::getDocument();
 		$document->addCustomTag($return);
 	}
 
@@ -118,19 +109,19 @@ class JEditor extends JObservable
 	 * @param	boolean	True and the editor buttons will be displayed
 	 * @param	array	Associative array of editor parameters
 	 */
-	function display($name, $html, $width, $height, $col, $row, $buttons = true, $params = array())
+	public function display($name, $html, $width, $height, $col, $row, $buttons = true, $params = array())
 	{
 		$this->_loadEditor($params);
 
 		//check if editor is already loaded
-		if(is_null(($this->_editor))) {
+		if (is_null(($this->_editor))) {
 			return;
 		}
 
 		// Backwards compatibility. Width and height should be passed without a semicolon from now on.
 		// If editor plugins need a unit like "px" for CSS styling, they need to take care of that
-		$width	= str_replace( ';', '', $width );
-		$height	= str_replace( ';', '', $height );
+		$width	= str_replace(';', '', $width);
+		$height	= str_replace(';', '', $height);
 
 		// Initialize variables
 		$return = null;
@@ -160,12 +151,12 @@ class JEditor extends JObservable
 	 *
 	 * @param	string	The name of the editor control
 	 */
-	function save( $editor )
+	public function save($editor)
 	{
 		$this->_loadEditor();
 
 		//check if editor is already loaded
-		if(is_null(($this->_editor))) {
+		if (is_null(($this->_editor))) {
 			return;
 		}
 
@@ -187,7 +178,7 @@ class JEditor extends JObservable
 	 *
 	 * @param	string	The name of the editor control
 	 */
-	function getContent( $editor )
+	public function getContent($editor)
 	{
 		$this->_loadEditor();
 
@@ -210,7 +201,7 @@ class JEditor extends JObservable
 	 * @param	string	The name of the editor control
 	 * @param	string	The contents of the text area
 	 */
-	function setContent( $editor, $html )
+	public function setContent($editor, $html)
 	{
 		$this->_loadEditor();
 
@@ -232,14 +223,13 @@ class JEditor extends JObservable
 	 * Get the editor buttons
 	 *
 	 * @param	mixed	$buttons Can be boolean or array, if boolean defines if the buttons are displayed, if array defines a list of buttons not to show.
-	 * @access public
 	 * @since 1.5
 	 */
-	 function getButtons($editor, $buttons = true)
+	 public function getButtons($editor, $buttons = true)
 	 {
 		$result = array();
 
-		if(is_bool($buttons) && !$buttons) {
+		if (is_bool($buttons) && !$buttons) {
 			return $result;
 		}
 
@@ -248,19 +238,21 @@ class JEditor extends JObservable
 
 		foreach($plugins as $plugin)
 		{
-			if(is_array($buttons) &&  in_array($plugin->name, $buttons)) {
+			if (is_array($buttons) &&  in_array($plugin->name, $buttons)) {
 				continue;
 			}
 
 			$isLoaded = JPluginHelper::importPlugin('editors-xtd', $plugin->name, false);
-
 			$className = 'plgButton'.$plugin->name;
-			if(class_exists($className)) {
+
+			if (class_exists($className)) {
 				$plugin = new $className($this, (array)$plugin);
 			}
 
 			// Try to authenticate
-			$result[] = $plugin->onDisplay($editor);
+			if ($temp = $plugin->onDisplay($editor)) {
+				$result[] = $temp;
+			}
 		}
 
 		return $result;
@@ -269,14 +261,13 @@ class JEditor extends JObservable
 	/**
 	 * Load the editor
 	 *
-	 * @access	private
 	 * @param	array	Associative array of editor config paramaters
 	 * @since	1.5
 	 */
-	function _loadEditor($config = array())
+	protected function _loadEditor($config = array())
 	{
 		//check if editor is already loaded
-		if(!is_null(($this->_editor))) {
+		if (!is_null(($this->_editor))) {
 			return;
 		}
 
@@ -286,10 +277,10 @@ class JEditor extends JObservable
 		$name = JFilterInput::clean($this->_name, 'cmd');
 		$path = JPATH_SITE.DS.'plugins'.DS.'editors'.DS.$name.'.php';
 
-		if ( ! JFile::exists($path) )
+		if (! JFile::exists($path))
 		{
 			$message = JText::_('Cannot load the editor');
-			JError::raiseWarning( 500, $message );
+			JError::raiseWarning(500, $message);
 			return false;
 		}
 
@@ -297,14 +288,14 @@ class JEditor extends JObservable
 		require_once $path;
 
 		// Get the plugin
-		$plugin   =& JPluginHelper::getPlugin('editors', $this->_name);
+		$plugin   = &JPluginHelper::getPlugin('editors', $this->_name);
 		$params   = new JParameter($plugin->params);
 		$params->loadArray($config);
 		$plugin->params = $params;
 
 		// Build editor plugin classname
 		$name = 'plgEditor'.$this->_name;
-		if($this->_editor = new $name ($this, (array)$plugin))
+		if ($this->_editor = new $name ($this, (array)$plugin))
 		{
 			// load plugin parameters
 			$this->initialise();

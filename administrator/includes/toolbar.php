@@ -1,26 +1,21 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+// No direct access
+defined('_JEXEC') or die;
 
 jimport('joomla.html.toolbar');
 
 /**
 * Utility class for the button bar
 *
-* @package		Joomla
-*/
+ * @package		Joomla.Administrator
+ */
 class JToolBarHelper
 {
 
@@ -56,7 +51,7 @@ class JToolBarHelper
 	{
 		$bar = & JToolBar::getInstance('toolbar');
 		// Add a spacer
-		$bar->appendButton( 'Separator', 'spacer', $width );
+		$bar->appendButton('Separator', 'spacer', $width);
 	}
 
 	/**
@@ -67,20 +62,20 @@ class JToolBarHelper
 	{
 		$bar = & JToolBar::getInstance('toolbar');
 		// Add a divider
-		$bar->appendButton( 'Separator', 'divider' );
+		$bar->appendButton('Separator', 'divider');
 	}
 
 	/**
 	* Writes a custom option and task button for the button bar
+	*
 	* @param string The task to perform (picked up by the switch($task) blocks
 	* @param string The image to display
 	* @param string The image to display when moused over
 	* @param string The alt text for the icon image
 	* @param boolean True if required to check that a standard list item is checked
-	* @param boolean True if required to include callinh hideMainMenu()
 	* @since 1.0
 	*/
-	function custom($task = '', $icon = '', $iconOver = '', $alt = '', $listSelect = true, $x = false)
+	function custom($task = '', $icon = '', $iconOver = '', $alt = '', $listSelect = true)
 	{
 		$bar = & JToolBar::getInstance('toolbar');
 
@@ -88,19 +83,18 @@ class JToolBarHelper
 		$icon	= preg_replace('#\.[^.]*$#', '', $icon);
 
 		// Add a standard button
-		$bar->appendButton( 'Standard', $icon, $alt, $task, $listSelect, $x );
+		$bar->appendButton('Standard', $icon, $alt, $task, $listSelect);
 	}
 
 	/**
 	* Writes a custom option and task button for the button bar.
-	* Extended version of custom() calling hideMainMenu() before submitbutton().
+	*
 	* @param string The task to perform (picked up by the switch($task) blocks
 	* @param string The image to display
 	* @param string The image to display when moused over
 	* @param string The alt text for the icon image
 	* @param boolean True if required to check that a standard list item is checked
 	* @since 1.0
-		* (NOTE this is being deprecated)
 	*/
 	function customX($task = '', $icon = '', $iconOver = '', $alt = '', $listSelect = true)
 	{
@@ -110,7 +104,7 @@ class JToolBarHelper
 		$icon	= preg_replace('#\.[^.]*$#', '', $icon);
 
 		// Add a standard button
-		$bar->appendButton( 'Standard', $icon, $alt, $task, $listSelect, true );
+		$bar->appendButton('Standard', $icon, $alt, $task, $listSelect);
 	}
 
 	/**
@@ -122,7 +116,7 @@ class JToolBarHelper
 	{
 		$bar = & JToolBar::getInstance('toolbar');
 		// Add a preview button
-		$bar->appendButton( 'Popup', 'preview', 'Preview', "$url&task=preview" );
+		$bar->appendButton('Popup', 'preview', 'Preview', "$url&task=preview");
 	}
 
 	/**
@@ -135,7 +129,7 @@ class JToolBarHelper
 	{
 		$bar = & JToolBar::getInstance('toolbar');
 		// Add a help button
-		$bar->appendButton( 'Help', $ref, $com );
+		$bar->appendButton('Help', $ref, $com);
 	}
 
 	/**
@@ -147,7 +141,7 @@ class JToolBarHelper
 	{
 		$bar = & JToolBar::getInstance('toolbar');
 		// Add a back button
-		$bar->appendButton( 'Link', 'back', $alt, $href );
+		$bar->appendButton('Link', 'back', $alt, $href);
 	}
 
 	/**
@@ -159,7 +153,7 @@ class JToolBarHelper
 	{
 		$bar = & JToolBar::getInstance('toolbar');
 		// Add an upload button
-		$bar->appendButton( 'Popup', 'upload', $alt, "index.php?option=com_media&tmpl=component&task=popupUpload&directory=$directory", 550, 80 );
+		$bar->appendButton('Popup', 'upload', $alt, "index.php?option=com_media&tmpl=component&task=popupUpload&directory=$directory", 640, 520);
 	}
 
 	/**
@@ -172,7 +166,7 @@ class JToolBarHelper
 	{
 		$bar = & JToolBar::getInstance('toolbar');
 		// Add a new button
-		$bar->appendButton( 'Standard', 'new', $alt, $task, false, false );
+		$bar->appendButton('Standard', 'new', $alt, $task, false, false);
 	}
 
 	/**
@@ -186,7 +180,7 @@ class JToolBarHelper
 	{
 		$bar = & JToolBar::getInstance('toolbar');
 		// Add a new button (hide menu)
-		$bar->appendButton( 'Standard', 'new', $alt, $task, false, true );
+		$bar->appendButton('Standard', 'new', $alt, $task, false, true);
 	}
 
 	/**
@@ -199,8 +193,8 @@ class JToolBarHelper
 	{
 		$bar = & JToolBar::getInstance('toolbar');
 		// Add a publish button
-		//$bar->appendButton( 'Publish', false, $alt, $task );
-		$bar->appendButton( 'Standard', 'publish', $alt, $task, false, false );
+		//$bar->appendButton('Publish', false, $alt, $task);
+		$bar->appendButton('Standard', 'publish', $alt, $task, false, false);
 	}
 
 	/**
@@ -213,7 +207,7 @@ class JToolBarHelper
 	{
 		$bar = & JToolBar::getInstance('toolbar');
 		// Add a publish button (list)
-		$bar->appendButton( 'Standard', 'publish', $alt, $task, true, false );
+		$bar->appendButton('Standard', 'publish', $alt, $task, true, false);
 	}
 
 	/**
@@ -226,7 +220,7 @@ class JToolBarHelper
 	{
 		$bar = & JToolBar::getInstance('toolbar');
 		// Add a default button
-		$bar->appendButton( 'Standard', 'default', $alt, $task, true, false );
+		$bar->appendButton('Standard', 'default', $alt, $task, true, false);
 	}
 
 	/**
@@ -239,7 +233,7 @@ class JToolBarHelper
 	{
 		$bar = & JToolBar::getInstance('toolbar');
 		// Add an assign button
-		$bar->appendButton( 'Standard', 'assign', $alt, $task, true, false );
+		$bar->appendButton('Standard', 'assign', $alt, $task, true, false);
 	}
 
 	/**
@@ -252,7 +246,7 @@ class JToolBarHelper
 	{
 		$bar = & JToolBar::getInstance('toolbar');
 		// Add an unpublish button
-		$bar->appendButton( 'Standard', 'unpublish', $alt, $task, false, false );
+		$bar->appendButton('Standard', 'unpublish', $alt, $task, false, false);
 	}
 
 	/**
@@ -266,7 +260,7 @@ class JToolBarHelper
 		$bar = & JToolBar::getInstance('toolbar');
 		// Add an unpublish button (list)
 
-		$bar->appendButton( 'Standard', 'unpublish', $alt, $task, true, false );
+		$bar->appendButton('Standard', 'unpublish', $alt, $task, true, false);
 	}
 
 	/**
@@ -279,7 +273,7 @@ class JToolBarHelper
 	{
 		$bar = & JToolBar::getInstance('toolbar');
 		// Add an archive button
-		$bar->appendButton( 'Standard', 'archive', $alt, $task, true, false );
+		$bar->appendButton('Standard', 'archive', $alt, $task, true, false);
 	}
 
 	/**
@@ -292,7 +286,7 @@ class JToolBarHelper
 	{
 		$bar = & JToolBar::getInstance('toolbar');
 		// Add an unarchive button (list)
-		$bar->appendButton( 'Standard', 'unarchive', $alt, $task, true, false );
+		$bar->appendButton('Standard', 'unarchive', $alt, $task, true, false);
 	}
 
 	/**
@@ -305,7 +299,7 @@ class JToolBarHelper
 	{
 		$bar = & JToolBar::getInstance('toolbar');
 		// Add an edit button
-		$bar->appendButton( 'Standard', 'edit', $alt, $task, true, false );
+		$bar->appendButton('Standard', 'edit', $alt, $task, true, false);
 	}
 
 	/**
@@ -319,7 +313,7 @@ class JToolBarHelper
 	{
 		$bar = & JToolBar::getInstance('toolbar');
 		// Add an edit button (hide)
-		$bar->appendButton( 'Standard', 'edit', $alt, $task, true, true );
+		$bar->appendButton('Standard', 'edit', $alt, $task, true, true);
 	}
 
 	/**
@@ -332,7 +326,7 @@ class JToolBarHelper
 	{
 		$bar = & JToolBar::getInstance('toolbar');
 		// Add an edit html button
-		$bar->appendButton( 'Standard', 'edithtml', $alt, $task, true, false );
+		$bar->appendButton('Standard', 'edithtml', $alt, $task, true, false);
 	}
 
 	/**
@@ -346,7 +340,7 @@ class JToolBarHelper
 	{
 		$bar = & JToolBar::getInstance('toolbar');
 		// Add an edit html button (hide)
-		$bar->appendButton( 'Standard', 'edithtml', $alt, $task, true, true );
+		$bar->appendButton('Standard', 'edithtml', $alt, $task, true, true);
 	}
 
 	/**
@@ -359,7 +353,7 @@ class JToolBarHelper
 	{
 		$bar = & JToolBar::getInstance('toolbar');
 		// Add an edit css button (hide)
-		$bar->appendButton( 'Standard', 'editcss', $alt, $task, true, false );
+		$bar->appendButton('Standard', 'editcss', $alt, $task, true, false);
 	}
 
 	/**
@@ -373,7 +367,7 @@ class JToolBarHelper
 	{
 		$bar = & JToolBar::getInstance('toolbar');
 		// Add an edit css button (hide)
-		$bar->appendButton( 'Standard', 'editcss', $alt, $task, true, true );
+		$bar->appendButton('Standard', 'editcss', $alt, $task, true, true);
 	}
 
 	/**
@@ -388,9 +382,9 @@ class JToolBarHelper
 		$bar = & JToolBar::getInstance('toolbar');
 		// Add a delete button
 		if ($msg) {
-			$bar->appendButton( 'Confirm', $msg, 'delete', $alt, $task, true, false );
+			$bar->appendButton('Confirm', $msg, 'delete', $alt, $task, true, false);
 		} else {
-			$bar->appendButton( 'Standard', 'delete', $alt, $task, true, false );
+			$bar->appendButton('Standard', 'delete', $alt, $task, true, false);
 		}
 	}
 
@@ -407,9 +401,9 @@ class JToolBarHelper
 		$bar = & JToolBar::getInstance('toolbar');
 		// Add a delete button (hide)
 		if ($msg) {
-			$bar->appendButton( 'Confirm', $msg, 'delete', $alt, $task, true, true );
+			$bar->appendButton('Confirm', $msg, 'delete', $alt, $task, true, true);
 		} else {
-			$bar->appendButton( 'Standard', 'delete', $alt, $task, true, true );
+			$bar->appendButton('Standard', 'delete', $alt, $task, true, true);
 		}
 	}
 
@@ -421,7 +415,7 @@ class JToolBarHelper
 	{
 		$bar = & JToolBar::getInstance('toolbar');
 		// Add a trash button
-		$bar->appendButton( 'Standard', 'trash', $alt, $task, $check, false );
+		$bar->appendButton('Standard', 'trash', $alt, $task, $check, false);
 	}
 
 	/**
@@ -435,7 +429,7 @@ class JToolBarHelper
 	{
 		$bar = & JToolBar::getInstance('toolbar');
 		// Add an apply button
-		$bar->appendButton( 'Standard', 'apply', $alt, $task, false, false );
+		$bar->appendButton('Standard', 'apply', $alt, $task, false, false);
 	}
 
 	/**
@@ -449,7 +443,7 @@ class JToolBarHelper
 	{
 		$bar = & JToolBar::getInstance('toolbar');
 		// Add a save button
-		$bar->appendButton( 'Standard', 'save', $alt, $task, false, false );
+		$bar->appendButton('Standard', 'save', $alt, $task, false, false);
 	}
 
 	/**
@@ -462,7 +456,7 @@ class JToolBarHelper
 	{
 		$bar = & JToolBar::getInstance('toolbar');
 		// Add a cancel button
-		$bar->appendButton( 'Standard', 'cancel', $alt, $task, false, false );
+		$bar->appendButton('Standard', 'cancel', $alt, $task, false, false);
 	}
 
 	/**
@@ -476,24 +470,24 @@ class JToolBarHelper
 	*/
 	function preferences($component, $height='150', $width='570', $alt = 'Preferences', $path = '')
 	{
-		$user =& JFactory::getUser();
-		if ($user->get('gid') != 25) {
+		$user = &JFactory::getUser();
+		if (!$user->authorise('core.config.manage')) {
 			return;
 		}
 
-		$component	= urlencode( $component );
-		$path		= urlencode( $path );
+		$component	= urlencode($component);
+		$path		= urlencode($path);
 		$bar = & JToolBar::getInstance('toolbar');
 		// Add a configuration button
-		$bar->appendButton( 'Popup', 'config', $alt, 'index.php?option=com_config&controller=component&component='.$component.'&path='.$path, $width, $height );
+		$bar->appendButton('Popup', 'config', $alt, 'index.php?option=com_config&amp;controller=component&amp;component='.$component.'&amp;path='.$path, $width, $height);
 	}
 }
 
 /**
 * Utility class for the submenu
 *
-* @package		Joomla
-*/
+ * @package		Joomla.Administrator
+ */
 class JSubMenuHelper
 {
 	function addEntry($name, $link = '', $active = false)

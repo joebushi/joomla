@@ -1,22 +1,17 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Banners
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 /**
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Banners
  */
 class TableBannerClient extends JTable
@@ -30,8 +25,8 @@ class TableBannerClient extends JTable
 	var $checked_out_time	= 0;
 	var $editor				= '';
 
-	function __construct( &$_db ) {
-		parent::__construct( '#__bannerclient', 'cid', $_db );
+	function __construct(&$_db) {
+		parent::__construct('#__bannerclient', 'cid', $_db);
 	}
 
 	/**
@@ -46,20 +41,20 @@ class TableBannerClient extends JTable
 	{
 		// check for valid client name
 		if (trim($this->name == '')) {
-			$this->setError(JText::_( 'BNR_CLIENT_NAME' ));
+			$this->setError(JText::_('BNR_CLIENT_NAME'));
 			return false;
 		}
 
 		// check for valid client contact
 		if (trim($this->contact == '')) {
-			$this->setError(JText::_( 'BNR_CONTACT' ));
+			$this->setError(JText::_('BNR_CONTACT'));
 			return false;
 		}
 
 		// check for valid client email
-		jimport( 'joomla.mail.helper' );
-		if (!JMailHelper::isEmailAddress( $this->email )) {
-			$this->setError(JText::_( 'BNR_VALID_EMAIL' ));
+		jimport('joomla.mail.helper');
+		if (!JMailHelper::isEmailAddress($this->email)) {
+			$this->setError(JText::_('BNR_VALID_EMAIL'));
 			return false;
 		}
 

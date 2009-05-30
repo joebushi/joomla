@@ -1,19 +1,14 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
+ * @package		Joomla.Site
  * @subpackage	Content
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
- * details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 // Component Helper
 jimport('joomla.application.component.helper');
@@ -22,7 +17,7 @@ jimport('joomla.application.component.helper');
  * Content Component Route Helper
  *
  * @static
- * @package		Joomla
+ * @package		Joomla.Site
  * @subpackage	Content
  * @since 1.5
  */
@@ -42,11 +37,11 @@ class ContentHelperRoute
 		//Create the link
 		$link = 'index.php?option=com_content&view=article&id='. $id;
 
-		if($catid) {
+		if ($catid) {
 			$link .= '&catid='.$catid;
 		}
 
-		if($item = ContentHelperRoute::_findItem($needles)) {
+		if ($item = ContentHelperRoute::_findItem($needles)) {
 			$link .= '&Itemid='.$item->id;
 		};
 
@@ -62,8 +57,8 @@ class ContentHelperRoute
 		//Create the link
 		$link = 'index.php?option=com_content&view=section&id='.$sectionid;
 
-		if($item = ContentHelperRoute::_findItem($needles)) {
-			if(isset($item->query['layout'])) {
+		if ($item = ContentHelperRoute::_findItem($needles)) {
+			if (isset($item->query['layout'])) {
 				$link .= '&layout='.$item->query['layout'];
 			}
 			$link .= '&Itemid='.$item->id;
@@ -82,8 +77,8 @@ class ContentHelperRoute
 		//Create the link
 		$link = 'index.php?option=com_content&view=category&id='.$catid;
 
-		if($item = ContentHelperRoute::_findItem($needles)) {
-			if(isset($item->query['layout'])) {
+		if ($item = ContentHelperRoute::_findItem($needles)) {
+			if (isset($item->query['layout'])) {
 				$link .= '&layout='.$item->query['layout'];
 			}
 			$link .= '&Itemid='.$item->id;
@@ -94,7 +89,7 @@ class ContentHelperRoute
 
 	function _findItem($needles)
 	{
-		$component =& JComponentHelper::getComponent('com_content');
+		$component = &JComponentHelper::getComponent('com_content');
 
 		$menus	= &JApplication::getMenu('site', array());
 		$items	= $menus->getItems('componentid', $component->id);
@@ -111,7 +106,7 @@ class ContentHelperRoute
 				}
 			}
 
-			if(isset($match)) {
+			if (isset($match)) {
 				break;
 			}
 		}

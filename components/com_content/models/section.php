@@ -1,27 +1,21 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
+ * @package		Joomla.Site
  * @subpackage	Content
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
- * details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+// No direct access
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
 /**
  * Content Component Section Model
  *
- * @author	Louis Landry <louis.landry@joomla.org>
- * @package		Joomla
+ * @package		Joomla.Site
  * @subpackage	Content
  * @since 1.5
  */
@@ -68,7 +62,7 @@ class ContentModelSection extends JModel
 	 *
 	 * @since 1.5
 	 */
-	function __construct( )
+	function __construct()
 	{
 		parent::__construct();
 
@@ -106,7 +100,8 @@ class ContentModelSection extends JModel
 		if ($this->_loadSection() && $this->_loadData($state))
 		{
 			// Initialize some variables
-			$user	=& JFactory::getUser();
+			$user	= &JFactory::getUser();
+			$groups	= $user->authorisedLevels();
 
 			// Make sure the category is published
 			if (!$this->_section->published) {
@@ -115,7 +110,7 @@ class ContentModelSection extends JModel
 			}
 
 			// check whether category access level allows access
-			if ($this->_section->access > $user->get('aid', 0)) {
+			if (!in_array($this->_section->access, $groups)) {
 				JError::raiseError(403, JText::_("ALERTNOTAUTH"));
 				return false;
 			}
@@ -149,7 +144,8 @@ class ContentModelSection extends JModel
 	function getSection()
 	{
 		// Initialize some variables
-		$user	=& JFactory::getUser();
+		$user	= &JFactory::getUser();
+		$groups	= $user->authorisedLevels();
 
 		// Load the Category data
 		if ($this->_loadSection())
@@ -161,7 +157,7 @@ class ContentModelSection extends JModel
 			}
 
 			// check whether category access level allows access
-			if ($this->_section->access > $user->get('aid', 0)) {
+			if (!in_array($this->_section->access, $groups)) {
 				JError::raiseError(403, JText::_("ALERTNOTAUTH"));
 				return false;
 			}
@@ -177,7 +173,8 @@ class ContentModelSection extends JModel
 	function getCategories()
 	{
 		// Initialize some variables
-		$user	=& JFactory::getUser();
+		$user	= &JFactory::getUser();
+		$groups	= $user->authorisedLevels();
 
 		// Load the Category data
 		if ($this->_loadSection() && $this->_loadCategories())
@@ -189,7 +186,7 @@ class ContentModelSection extends JModel
 			}
 
 			// check whether category access level allows access
-			if ($this->_section->access > $user->get('aid', 0)) {
+			if (!in_array($this->_section->access, $groups)) {
 				JError::raiseError(403, JText::_("ALERTNOTAUTH"));
 				return false;
 			}
@@ -257,35 +254,31 @@ class ContentModelSection extends JModel
 		// Lets load the siblings if they don't already exist
 		if (empty($this->_categories))
 		{
-			$user	=& JFactory::getUser();
+			$user	= &JFactory::getUser();
+			$groups	= implode(',', $user->authorisedLevels());
 
+			// Get the page/component configuration
 			$params = &$mainframe->getParams();
 
 			$noauth	= !$params->get('show_noauth');
-			$gid		= $user->get('aid', 0);
 			$now		= $mainframe->get('requestTime');
 			$nullDate	= $this->_db->getNullDate();
-
-			// Get the parameters of the active menu item
-			$menu	=& JSite::getMenu();
-			$item    = $menu->getActive();
-			$params	=& $menu->getParams($item->id);
 
 			// Ordering control
 			$orderby = $params->get('orderby', '');
 			$orderby = ContentHelperQuery::orderbySecondary($orderby);
 
 			// Handle the access permissions part of the main database query
-			if ($user->authorize('com_content', 'edit', 'content', 'all')) {
+			if ($user->authorize('com_content.article.edit_article')) {
 				$xwhere = '';
 				$xwhere2 = ' AND b.state >= 0';
 			} else {
 				$xwhere = ' AND a.published = 1';
 				$xwhere2 = ' AND b.state = 1' .
-						' AND ( b.publish_up = '.$this->_db->Quote($nullDate).' OR b.publish_up <= '.$this->_db->Quote($now).' )' .
-						' AND ( b.publish_down = '.$this->_db->Quote($nullDate).' OR b.publish_down >= '.$this->_db->Quote($now).' )';
+						' AND (b.publish_up = '.$this->_db->Quote($nullDate).' OR b.publish_up <= '.$this->_db->Quote($now).')' .
+						' AND (b.publish_down = '.$this->_db->Quote($nullDate).' OR b.publish_down >= '.$this->_db->Quote($now).')';
 				if ($noauth) {
-					$xwhere2 .= ' AND b.access <= '.(int) $gid;
+					$xwhere2 .= ' AND b.access IN ('.$groups.')';
 				}
  			}
 
@@ -301,12 +294,11 @@ class ContentModelSection extends JModel
 			// Handle the access permissions
 			$access_check = null;
 			if ($noauth) {
-				$access_check = ' AND a.access <= '.(int) $gid;
-				//$access_check .= ' AND b.access <= '.(int) $gid;
+				$access_check = ' AND a.access IN ('.$groups.')';
 			}
 
 			// Query of categories within section
-			$query = 'SELECT a.*, COUNT( b.id ) AS numitems,' .
+			$query = 'SELECT a.*, COUNT(b.id) AS numitems,' .
 					' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug'.
 					' FROM #__categories AS a' .
 					' LEFT JOIN #__content AS b ON b.catid = a.id'.
@@ -373,8 +365,8 @@ class ContentModelSection extends JModel
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_tree))
 		{
-			$user		=& JFactory::getUser();
-			$aid		= $user->get('aid', 0);
+			$user		= &JFactory::getUser();
+			$groups		= implode(',', $user->authorisedLevels());
 			$now		= $mainframe->get('requestTime');
 			$nullDate	= $this->_db->getNullDate();
 
@@ -390,11 +382,11 @@ class ContentModelSection extends JModel
 				' FROM #__categories AS a' .
 				' INNER JOIN #__content AS b ON b.catid = a.id' .
 				' AND b.state = 1' .
-				' AND ( b.publish_up = '.$this->_db->Quote($nullDate).' OR b.publish_up <= '.$this->_db->Quote($now).' )' .
-				' AND ( b.publish_down = '.$this->_db->Quote($nullDate).' OR b.publish_down >= '.$this->_db->Quote($now).' )';
+				' AND (b.publish_up = '.$this->_db->Quote($nullDate).' OR b.publish_up <= '.$this->_db->Quote($now).')' .
+				' AND (b.publish_down = '.$this->_db->Quote($nullDate).' OR b.publish_down >= '.$this->_db->Quote($now).')';
 				' WHERE a.published = 1' .
 				$and .
-				' AND a.access <= '.(int) $aid .
+				' AND a.access IN ('.$groups.')' .
 				' ORDER BY a.catid, a.ordering, b.ordering';
 			$this->_db->setQuery($query);
 			$this->_tree = $this->_db->loadObjectList();
@@ -416,16 +408,15 @@ class ContentModelSection extends JModel
 		$where		= $this->_buildContentWhere($state);
 		$orderby	= $this->_buildContentOrderBy($state);
 
-		$query = 'SELECT a.id, a.title, a.title_alias, a.introtext, a.fulltext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by,' .
+		$query = 'SELECT a.id, a.title, a.alias, a.title_alias, a.introtext, a.fulltext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by,' .
 				' a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.attribs, a.hits, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access,' .
 				' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug,'.
 				' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(":", cc.id, cc.alias) ELSE cc.id END as catslug,'.
-				' CHAR_LENGTH( a.`fulltext` ) AS readmore, u.name AS author, u.usertype, cc.title AS category, g.name AS groups'.$voting['select'] .
+				' CHAR_LENGTH(a.`fulltext`) AS readmore, u.name AS author, u.usertype, cc.title AS category, u.email as author_email'.$voting['select'] .
 				' FROM #__content AS a' .
 				' INNER JOIN #__categories AS cc ON cc.id = a.catid' .
 				' LEFT JOIN #__sections AS s ON s.id = a.sectionid' .
 				' LEFT JOIN #__users AS u ON u.id = a.created_by' .
-				' LEFT JOIN #__groups AS g ON a.access = g.id'.
 				$voting['join'].
 				$where.
 				$orderby;
@@ -443,10 +434,9 @@ class ContentModelSection extends JModel
 			$orderby .= $filter_order .' '. $filter_order_Dir.', ';
 		}
 
-		// Get the parameters of the active menu item
-		$menu	=& JSite::getMenu();
-		$item    = $menu->getActive();
-		$params	=& $menu->getParams($item->id);
+		// Get the page/component configuration
+		$app = &JFactory::getApplication();
+		$params = &$app->getParams();
 
 		switch ($state)
 		{
@@ -474,10 +464,9 @@ class ContentModelSection extends JModel
 	function _buildContentWhere($state = 1)
 	{
 		global $mainframe;
-		$user		=& JFactory::getUser();
-		$aid		= $user->get('aid', 0);
-
-		$jnow		=& JFactory::getDate();
+		$user		= &JFactory::getUser();
+		$groups		= implode(',', $user->authorisedLevels());
+		$jnow		= &JFactory::getDate();
 		$now		= $jnow->toMySQL();
 
 		// Get the page/component configuration
@@ -487,13 +476,17 @@ class ContentModelSection extends JModel
 		$nullDate	= $this->_db->getNullDate();
 
 		// First thing we need to do is assert that the articles are in the current category
-		$where = ' WHERE a.access <= '.(int) $aid;
+		if ($noauth) {
+			$where = ' WHERE a.access IN ('.$groups.')';
+		} else {
+			$where = ' WHERE 1';
+		}
 		if ($this->_id) {
 			$where .= ' AND s.id = '.(int)$this->_id;
 		}
 
-		$where .= ' AND s.access <= '.(int) $aid;
-		$where .= ' AND cc.access <= '.(int) $aid;
+		$where .= ' AND s.access IN ('.$groups.')';
+		$where .= ' AND cc.access IN ('.$groups.')';
 		$where .= ' AND s.published = 1';
 		$where .= ' AND cc.published = 1';
 
@@ -501,24 +494,24 @@ class ContentModelSection extends JModel
 		switch ($state)
 		{
 			case 1:
-				if ($user->authorize('com_content', 'edit', 'content', 'all')) {
+				if ($user->authorize('com_content.article.edit_article')) {
 					$where .= ' AND a.state >= 0';
 				} else {
 					$where .= ' AND a.state = 1' .
-							' AND ( publish_up = '.$this->_db->Quote($nullDate).' OR publish_up <= '.$this->_db->Quote($now).' )' .
-							' AND ( publish_down = '.$this->_db->Quote($nullDate).' OR publish_down >= '.$this->_db->Quote($now).' )';
+							' AND (publish_up = '.$this->_db->Quote($nullDate).' OR publish_up <= '.$this->_db->Quote($now).')' .
+							' AND (publish_down = '.$this->_db->Quote($nullDate).' OR publish_down >= '.$this->_db->Quote($now).')';
 				}
 				break;
 
 			// Archive Content
 			case -1:
 				// Get some request vars specific to this state
-				$year	= JRequest::getInt( 'year', date('Y') );
-				$month	= JRequest::getInt( 'month', date('m') );
+				$year	= JRequest::getInt('year', date('Y'));
+				$month	= JRequest::getInt('month', date('m'));
 
 				$where .= ' AND a.state = -1';
-				$where .= ' AND YEAR( a.created ) = '.(int) $year;
-				$where .= ' AND MONTH( a.created ) = '.(int) $month;
+				$where .= ' AND YEAR(a.created) = '.(int) $year;
+				$where .= ' AND MONTH(a.created) = '.(int) $month;
 				break;
 
 			default:
@@ -536,16 +529,16 @@ class ContentModelSection extends JModel
 			if ($filter) {
 				// clean filter variable
 				$filter = JString::strtolower($filter);
-				$filter	= $this->_db->Quote( '%'.$this->_db->getEscaped( $filter, true ).'%', false );
+				$filter	= $this->_db->Quote('%'.$this->_db->getEscaped($filter, true).'%', false);
 
 				switch ($params->get('filter_type'))
 				{
 					case 'title' :
-						$where .= ' AND LOWER( a.title ) LIKE '.$filter;
+						$where .= ' AND LOWER(a.title) LIKE '.$filter;
 						break;
 
 					case 'author' :
-						$where .= ' AND ( ( LOWER( u.name ) LIKE '.$filter.' ) OR ( LOWER( a.created_by_alias ) LIKE '.$filter.' ) )';
+						$where .= ' AND ((LOWER(u.name) LIKE '.$filter.') OR (LOWER(a.created_by_alias) LIKE '.$filter.'))';
 						break;
 
 					case 'hits' :

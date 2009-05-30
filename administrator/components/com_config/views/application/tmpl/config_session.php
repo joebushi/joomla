@@ -1,11 +1,11 @@
 <fieldset class="adminform">
-	<legend><?php echo JText::_( 'Session Settings' ); ?></legend>
+	<legend><?php echo JText::_('Session Settings'); ?></legend>
 	<table class="admintable" cellspacing="1">
 		<tbody>
 			<tr>
 				<td class="key">
-					<span class="editlinktip hasTip" title="<?php echo JText::_( 'Session Lifetime' ); ?>::<?php echo JText::_( 'TIPAUTOLOGOUTTIMEOF' ); ?>">
-						<?php echo JText::_( 'Session Lifetime' ); ?>
+					<span class="editlinktip hasTip" title="<?php echo JText::_('Session Lifetime'); ?>::<?php echo JText::_('TIPAUTOLOGOUTTIMEOF'); ?>">
+						<?php echo JText::_('Session Lifetime'); ?>
 					</span>
 				</td>
 				<td>
@@ -15,8 +15,8 @@
 			</tr>
 			<tr>
 				<td class="key">
-					<span class="editlinktip hasTip" title="<?php echo JText::_( 'Session Handler' ); ?>::<?php echo JText::_( 'TIPSESSIONHANDLER' ); ?>">
-						<?php echo JText::_( 'Session Handler' ); ?>
+					<span class="editlinktip hasTip" title="<?php echo JText::_('Session Handler'); ?>::<?php echo JText::_('TIPSESSIONHANDLER'); ?>">
+						<?php echo JText::_('Session Handler'); ?>
 					</span>
 				</td>
 				<td>

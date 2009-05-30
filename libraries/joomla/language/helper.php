@@ -1,19 +1,14 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @subpackage	Language
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Language
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+// No direct access
+defined('JPATH_BASE') or die;
 
 /**
  * @package 	Joomla.Framework
@@ -29,7 +24,7 @@ class JLanguageHelper
 	 * @access	public
 	 * @param	string	Client key for the area
 	 * @param	string	Base path to use
-	 * @param	array	An array of arrays ( text, value, selected )
+	 * @param	array	An array of arrays (text, value, selected)
 	 * @since	1.5
 	 */
 	function createLanguageList($actualLanguage, $basePath = JPATH_BASE, $caching = false)
@@ -66,13 +61,13 @@ class JLanguageHelper
 		if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE']))
 		{
 			$systemLangs	= JLanguage::getKnownLanguages();
-			$browserLangs	= explode( ',', $_SERVER['HTTP_ACCEPT_LANGUAGE'] );
+			$browserLangs	= explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
 
 			foreach ($browserLangs as $browserLang)
 			{
 				// slice out the part before ; on first step, the part before - on second, place into array
-				$browserLang = substr( $browserLang, 0, strcspn( $browserLang, ';' ) );
-				$primary_browserLang = substr( $browserLang, 0, 2 );
+				$browserLang = substr($browserLang, 0, strcspn($browserLang, ';'));
+				$primary_browserLang = substr($browserLang, 0, 2);
 
 				foreach($systemLangs as $systemLang => $metadata)
 				{

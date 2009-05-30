@@ -211,7 +211,7 @@ of a php function into an xmlrpc method to be exposed and vice-versa.
 
 PHP objects can be now automatically serialized as xmlrpc struct values and
 correctly deserialized on the other end of the transmission, provided that the
-same class definition is present on both sides and no object members are of
+same class definition is present on both sides and no object users are of
 type resource.
 
 A lot of the existing class methods have been overloaded with extra parameters

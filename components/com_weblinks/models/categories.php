@@ -1,112 +1,101 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
- * @subpackage	Content
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
- * details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
-// Check to ensure this file is included in Joomla!
-defined( '_JEXEC' ) or die( 'Restricted access' );
+// No direct access
+defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
+jimport('joomla.application.component.modellist');
 
 /**
  * Weblinks Component Categories Model
  *
- * @author	Johan Janssens <johan.janssens@joomla.org>
- * @package		Joomla
- * @subpackage	Weblinks
- * @since 1.5
+ * @package		Joomla.Site
+ * @subpackage	com_weblinks
+ * @since		1.5
  */
-class WeblinksModelCategories extends JModel
+class WeblinksModelCategories extends JModelList
 {
 	/**
-	 * Categories data array
+	 * Model context string.
 	 *
-	 * @var array
+	 * @access	protected
+	 * @var		string
 	 */
-	var $_data = null;
+	 protected $_context = 'com_weblinks.categories';
 
 	/**
-	 * Categories total
+	 * Method to build an SQL query to load the list data.
 	 *
-	 * @var integer
+	 * @return	string	An SQL query
+	 * @since	1.6
 	 */
-	var $_total = null;
-
-	/**
-	 * Constructor
-	 *
-	 * @since 1.5
-	 */
-
-	function __construct()
+	protected function _getListQuery()
 	{
-		parent::__construct();
+		$user = &JFactory::getUser();
+		$groups	= implode(',', $user->authorisedLevels());
 
-	}
+		// Create a new query object.
+		$query = new JQuery;
 
-	/**
-	 * Method to get weblink item data for the category
-	 *
-	 * @access public
-	 * @return array
-	 */
-	function getData()
-	{
-		// Lets load the content if it doesn't already exist
-		if (empty($this->_data))
-		{
-			$query = $this->_buildQuery();
-			$this->_data = $this->_getList($query);
+		// Select required fields from the categories.
+		$query->select($this->getState('list.select', 'a.*'));
+		$query->from('`#__categories` AS a');
+		$query->where('a.section = '.$this->_db->quote('com_weblinks'));
+		$query->where('a.access IN ('.$groups.')');
+		$query->where('w.access IN ('.$groups.')');
+		$query->group('a.id');
+
+		// Join over the weblinks.
+		$query->select('COUNT(a.id) AS numlinks');
+		$query->join('LEFT', '#__weblinks AS w ON w.catid = a.id');
+
+		// Filter by state
+		$state = $this->getState('filter.state');
+		if (is_numeric($state)) {
+			$query->where('a.state = '.(int) $state);
 		}
 
-		return $this->_data;
-	}
-
-	/**
-	 * Method to get the total number of weblink items for the category
-	 *
-	 * @access public
-	 * @return integer
-	 */
-	function getTotal()
-	{
-		// Lets load the content if it doesn't already exist
-		if (empty($this->_total))
-		{
-			$query = $this->_buildQuery();
-			$this->_total = $this->_getListCount($query);
-		}
-
-		return $this->_total;
-	}
-
-	function _buildQuery()
-	{
-		$user =& JFactory::getUser();
-		$aid = $user->get('aid', 0);
-
-		//Query to retrieve all categories that belong under the web links section and that are published.
-		$query = 'SELECT cc.*, COUNT(a.id) AS numlinks,'
-			.' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(\':\', cc.id, cc.alias) ELSE cc.id END as slug'
-			.' FROM #__categories AS cc'
-			.' LEFT JOIN #__weblinks AS a ON a.catid = cc.id'
-			.' WHERE a.published = 1'
-			.' AND section = \'com_weblinks\''
-			.' AND cc.published = 1'
-			.' AND cc.access <= '.(int) $aid
-			.' GROUP BY cc.id'
-			.' ORDER BY cc.ordering';
+		// Add the list ordering clause.
+		$query->order($this->_db->getEscaped($this->getState('list.ordering', 'a.ordering')).' '.$this->_db->getEscaped($this->getState('list.direction', 'ASC')));
 
 		return $query;
 	}
+
+	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * This method should only be called once per instantiation and is designed
+	 * to be called on the first call to the getState() method unless the model
+	 * configuration flag to ignore the request is set.
+	 *
+	 * @return	void
+	 * @since	1.6
+	 */
+	protected function _populateState()
+	{
+		// Initialize variables.
+
+		$app	= &JFactory::getApplication();
+		$params	= JComponentHelper::getParams('com_weblinks');
+
+		// List state information
+		$limit 		= $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'));
+		$this->setState('list.limit', $limit);
+
+		$limitstart = $app->getUserStateFromRequest($this->_context.'.limitstart', 'limitstart', 0);
+		$this->setState('list.limitstart', $limitstart);
+
+		$orderCol	= $app->getUserStateFromRequest($this->_context.'.ordercol', 'filter_order', 'a.ordering');
+		$this->setState('list.ordering', $orderCol);
+
+		$orderDirn	= $app->getUserStateFromRequest($this->_context.'.orderdirn', 'filter_order_Dir', 'asc');
+		$this->setState('list.direction', $orderDirn);
+
+		// Load the parameters.
+		$this->setState('params', $params);
+	}
 }
-?>

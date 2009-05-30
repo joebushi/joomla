@@ -3,17 +3,12 @@
  * @version		$Id$
  * @package  Joomla
  * @subpackage	Search
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
- * details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 /**
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Search
  */
 class SearchHelper
@@ -22,7 +17,7 @@ class SearchHelper
 	{
 		$ignored = false;
 
-		$lang =& JFactory::getLanguage();
+		$lang = &JFactory::getLanguage();
 
 		$search_ignore	= array();
 		$tag			= $lang->getTag();
@@ -32,24 +27,24 @@ class SearchHelper
 		}
 
 	 	// check for words to ignore
-		$aterms = explode( ' ', JString::strtolower( $searchword ) );
+		$aterms = explode(' ', JString::strtolower($searchword));
 
 		// first case is single ignored word
-		if ( count( $aterms ) == 1 && in_array( JString::strtolower( $searchword ), $search_ignore ) ) {
+		if (count($aterms) == 1 && in_array(JString::strtolower($searchword), $search_ignore)) {
 			$ignored = true;
 		}
 
 		// filter out search terms that are too small
-		foreach( $aterms AS $aterm ) {
-			if (JString::strlen( $aterm ) < 3) {
+		foreach($aterms AS $aterm) {
+			if (JString::strlen($aterm) < 3) {
 				$search_ignore[] = $aterm;
 			}
 		}
 
 		// next is to remove ignored words from type 'all' or 'any' (not exact) searches with multiple words
-		if ( count( $aterms ) > 1 && $searchphrase != 'exact' ) {
-			$pruned = array_diff( $aterms, $search_ignore );
-			$searchword = implode( ' ', $pruned );
+		if (count($aterms) > 1 && $searchphrase != 'exact') {
+			$pruned = array_diff($aterms, $search_ignore);
+			$searchword = implode(' ', $pruned);
 		}
 
 		return $ignored;
@@ -60,13 +55,13 @@ class SearchHelper
 		$restriction = false;
 
 		// limit searchword to 20 characters
-		if ( JString::strlen( $searchword ) > 20 ) {
-			$searchword 	= JString::substr( $searchword, 0, 19 );
+		if (JString::strlen($searchword) > 20) {
+			$searchword 	= JString::substr($searchword, 0, 19);
 			$restriction 	= true;
 		}
 
 		// searchword must contain a minimum of 3 characters
-		if ( $searchword && JString::strlen( $searchword ) < 3 ) {
+		if ($searchword && JString::strlen($searchword) < 3) {
 			$searchword 	= '';
 			$restriction 	= true;
 		}
@@ -74,36 +69,36 @@ class SearchHelper
 		return $restriction;
 	}
 
-	function logSearch( $search_term )
+	function logSearch($search_term)
 	{
 		global $mainframe;
 
-		$db =& JFactory::getDBO();
+		$db = &JFactory::getDbo();
 
-		$params = &JComponentHelper::getParams( 'com_search' );
+		$params = &JComponentHelper::getParams('com_search');
 		$enable_log_searches = $params->get('enabled');
 
-		$search_term = $db->getEscaped( trim( $search_term) );
+		$search_term = $db->getEscaped(trim($search_term));
 
-		if ( @$enable_log_searches )
+		if (@$enable_log_searches)
 		{
-			$db =& JFactory::getDBO();
+			$db = &JFactory::getDbo();
 			$query = 'SELECT hits'
 			. ' FROM #__core_log_searches'
-			. ' WHERE LOWER( search_term ) = "'.$search_term.'"'
+			. ' WHERE LOWER(search_term) = "'.$search_term.'"'
 			;
-			$db->setQuery( $query );
-			$hits = intval( $db->loadResult() );
-			if ( $hits ) {
+			$db->setQuery($query);
+			$hits = intval($db->loadResult());
+			if ($hits) {
 				$query = 'UPDATE #__core_log_searches'
-				. ' SET hits = ( hits + 1 )'
-				. ' WHERE LOWER( search_term ) = "'.$search_term.'"'
+				. ' SET hits = (hits + 1)'
+				. ' WHERE LOWER(search_term) = "'.$search_term.'"'
 				;
-				$db->setQuery( $query );
+				$db->setQuery($query);
 				$db->query();
 			} else {
-				$query = 'INSERT INTO #__core_log_searches VALUES ( "'.$search_term.'", 1 )';
-				$db->setQuery( $query );
+				$query = 'INSERT INTO #__core_log_searches VALUES ("'.$search_term.'", 1)';
+				$db->setQuery($query);
 				$db->query();
 			}
 		}
@@ -117,16 +112,48 @@ class SearchHelper
 	 * @param string The searchword to select around
 	 * @return string
 	 */
-	function prepareSearchContent( $text, $length = 200, $searchword )
+	function prepareSearchContent($text, $length = 200, $searchword)
 	{
 		// strips tags won't remove the actual jscript
-		$text = preg_replace( "'<script[^>]*>.*?</script>'si", "", $text );
-		$text = preg_replace( '/{.+?}/', '', $text);
-		//$text = preg_replace( '/<a\s+.*?href="([^"]+)"[^>]*>([^<]+)<\/a>/is','\2', $text );
+		$text = preg_replace("'<script[^>]*>.*?</script>'si", "", $text);
+		$text = preg_replace('/{.+?}/', '', $text);
+		//$text = preg_replace('/<a\s+.*?href="([^"]+)"[^>]*>([^<]+)<\/a>/is','\2', $text);
 		// replace line breaking tags with whitespace
-		$text = preg_replace( "'<(br[^/>]*?/|hr[^/>]*?/|/(div|h[1-6]|li|p|td))>'si", ' ', $text );
+		$text = preg_replace("'<(br[^/>]*?/|hr[^/>]*?/|/(div|h[1-6]|li|p|td))>'si", ' ', $text);
 
-		return SearchHelper::_smartSubstr( strip_tags( $text ), $length, $searchword );
+		return SearchHelper::_smartSubstr(strip_tags($text), $length, $searchword);
+	}
+
+	/**
+	 * Checks an object for search terms (after stripping fields of HTML)
+	 *
+	 * @param object The object to check
+	 * @param string Search words to check for
+	 * @param array List of object variables to check against
+	 * @returns boolean True if searchTerm is in object, false otherwise
+	 */
+	function checkNoHtml($object, $searchTerm, $fields) {
+		$searchRegex = array(
+				'#<script[^>]*>.*?</script>#si',
+				'#<style[^>]*>.*?</style>#si',
+				'#<!.*?(--|]])>#si',
+				'#<[^>]*>#i'
+				);
+		$terms = explode(' ', $searchTerm);
+		if (empty($fields)) return false;
+		foreach($fields AS $field) {
+			if (!isset($object->$field)) continue;
+			$text = $object->$field;
+			foreach($searchRegex As $regex) {
+				$text = preg_replace($regex, '', $text);
+			}
+			foreach($terms AS $term) {
+				if (JString::stristr($text, $term) !== false) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	/**

@@ -2,22 +2,17 @@
 /**
  * @version		$Id$
  * @package		Joomla
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
-$mainframe->registerEvent( 'onSearch', 'plgSearchNewsfeedslinks' );
-$mainframe->registerEvent( 'onSearchAreas', 'plgSearchNewsfeedAreas' );
+$mainframe->registerEvent('onSearch', 'plgSearchNewsfeedslinks');
+$mainframe->registerEvent('onSearchAreas', 'plgSearchNewsfeedAreas');
 
-JPlugin::loadLanguage( 'plg_search_newsfeeds' );
+JPlugin::loadLanguage('plg_search_newsfeeds');
 
 /**
  * @return array An array of search areas
@@ -39,25 +34,26 @@ function &plgSearchNewsfeedAreas()
 * @param string mathcing option, exact|any|all
 * @param string ordering option, newest|oldest|popular|alpha|category
  * @param mixed An array if the search it to be restricted to areas, null if search all
-*/
-function plgSearchNewsfeedslinks( $text, $phrase='', $ordering='', $areas=null )
+ */
+function plgSearchNewsfeedslinks($text, $phrase='', $ordering='', $areas=null)
 {
-	$db		=& JFactory::getDBO();
-	$user	=& JFactory::getUser();
+	$db		= &JFactory::getDbo();
+	$user	= &JFactory::getUser();
+	$groups	= implode(',', $user->authorisedLevels());
 
-	if (is_array( $areas )) {
-		if (!array_intersect( $areas, array_keys( plgSearchNewsfeedAreas() ) )) {
+	if (is_array($areas)) {
+		if (!array_intersect($areas, array_keys(plgSearchNewsfeedAreas()))) {
 			return array();
 		}
 	}
 
 	// load plugin params info
- 	$plugin =& JPluginHelper::getPlugin('search', 'newsfeeds');
- 	$pluginParams = new JParameter( $plugin->params );
+ 	$plugin = &JPluginHelper::getPlugin('search', 'newsfeeds');
+ 	$pluginParams = new JParameter($plugin->params);
 
-	$limit = $pluginParams->def( 'search_limit', 50 );
+	$limit = $pluginParams->def('search_limit', 50);
 
-	$text = trim( $text );
+	$text = trim($text);
 	if ($text == '') {
 		return array();
 	}
@@ -65,31 +61,31 @@ function plgSearchNewsfeedslinks( $text, $phrase='', $ordering='', $areas=null )
 	$wheres = array();
 	switch ($phrase) {
 		case 'exact':
-			$text		= $db->Quote( '%'.$db->getEscaped( $text, true ).'%', false );
+			$text		= $db->Quote('%'.$db->getEscaped($text, true).'%', false);
 			$wheres2 	= array();
-			$wheres2[] 	= 'LOWER(a.name) LIKE '.$text;
-			$wheres2[] 	= 'LOWER(a.link) LIKE '.$text;
-			$where 		= '(' . implode( ') OR (', $wheres2 ) . ')';
+			$wheres2[] 	= 'a.name LIKE '.$text;
+			$wheres2[] 	= 'a.link LIKE '.$text;
+			$where 		= '(' . implode(') OR (', $wheres2) . ')';
 			break;
 
 		case 'all':
 		case 'any':
 		default:
-			$words 	= explode( ' ', $text );
+			$words 	= explode(' ', $text);
 			$wheres = array();
 			foreach ($words as $word)
 			{
-				$word		= $db->Quote( '%'.$db->getEscaped( $word, true ).'%', false );
+				$word		= $db->Quote('%'.$db->getEscaped($word, true).'%', false);
 				$wheres2 	= array();
-				$wheres2[] 	= 'LOWER(a.name) LIKE '.$word;
-				$wheres2[] 	= 'LOWER(a.link) LIKE '.$word;
-				$wheres[] 	= implode( ' OR ', $wheres2 );
+				$wheres2[] 	= 'a.name LIKE '.$word;
+				$wheres2[] 	= 'a.link LIKE '.$word;
+				$wheres[] 	= implode(' OR ', $wheres2);
 			}
-			$where = '(' . implode( ($phrase == 'all' ? ') AND (' : ') OR ('), $wheres ) . ')';
+			$where = '(' . implode(($phrase == 'all' ? ') AND (' : ') OR ('), $wheres) . ')';
 			break;
 	}
 
-	switch ( $ordering ) {
+	switch ($ordering) {
 		case 'alpha':
 			$order = 'a.name ASC';
 			break;
@@ -105,22 +101,22 @@ function plgSearchNewsfeedslinks( $text, $phrase='', $ordering='', $areas=null )
 			$order = 'a.name ASC';
 	}
 
-	$searchNewsfeeds = JText::_( 'Newsfeeds' );
+	$searchNewsfeeds = JText::_('Newsfeeds');
 
 	$query = 'SELECT a.name AS title, "" AS created, a.link AS text,'
 	. ' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug, '
 	. ' CASE WHEN CHAR_LENGTH(b.alias) THEN CONCAT_WS(\':\', b.id, b.alias) ELSE b.id END as catslug, '
-	. ' CONCAT_WS( " / ", '. $db->Quote($searchNewsfeeds) .', b.title )AS section,'
+	. ' CONCAT_WS(" / ", '. $db->Quote($searchNewsfeeds) .', b.title)AS section,'
 	. ' "1" AS browsernav'
 	. ' FROM #__newsfeeds AS a'
 	. ' INNER JOIN #__categories AS b ON b.id = a.catid'
-	. ' WHERE ( '. $where .' )'
+	. ' WHERE ('. $where .')'
 	. ' AND a.published = 1'
 	. ' AND b.published = 1'
-	. ' AND b.access <= '. (int) $user->get( 'aid' )
+	. ' AND b.access IN ('.$groups.')'
 	. ' ORDER BY '. $order
 	;
-	$db->setQuery( $query, 0, $limit );
+	$db->setQuery($query, 0, $limit);
 	$rows = $db->loadObjectList();
 
 	foreach($rows as $key => $row) {

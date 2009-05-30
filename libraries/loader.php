@@ -1,18 +1,13 @@
 <?php
 /**
-* @version $Id$
-* @package		Joomla.Framework
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version $Id$
+ * @package		Joomla.Framework
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
-if(!defined('DS')) {
-	define( 'DS', DIRECTORY_SEPARATOR );
+if (!defined('DS')) {
+	define('DS', DIRECTORY_SEPARATOR);
 }
 
 /**
@@ -23,13 +18,13 @@ class JLoader
 	 /**
 	 * Loads a class from specified directories.
 	 *
-	 * @param string $name	The class name to look for ( dot notation ).
+	 * @param string $name	The class name to look for (dot notation).
 	 * @param string $base	Search this directory for the class.
-	 * @param string $key	String used as a prefix to denote the full path of the file ( dot notation ).
+	 * @param string $key	String used as a prefix to denote the full path of the file (dot notation).
 	 * @return void
 	 * @since 1.5
 	 */
-	function import( $filePath, $base = null, $key = 'libraries.' )
+	function import($filePath, $base = null, $key = 'libraries.')
 	{
 		static $paths;
 
@@ -41,17 +36,17 @@ class JLoader
 
 		if (!isset($paths[$keyPath]))
 		{
-			if ( ! $base ) {
-				$base =  dirname( __FILE__ );
+			if (! $base) {
+				$base =  dirname(__FILE__);
 			}
 
-			$parts = explode( '.', $filePath );
+			$parts = explode('.', $filePath);
 
-			$classname = array_pop( $parts );
+			$classname = array_pop($parts);
 			switch($classname)
 			{
 				case 'helper' :
-					$classname = ucfirst(array_pop( $parts )).ucfirst($classname);
+					$classname = ucfirst(array_pop($parts)).ucfirst($classname);
 					break;
 
 				default :
@@ -59,7 +54,7 @@ class JLoader
 					break;
 			}
 
-			$path  = str_replace( '.', DS, $filePath );
+			$path  = str_replace('.', DS, $filePath);
 
 			if (strpos($filePath, 'joomla') === 0)
 			{
@@ -98,18 +93,18 @@ class JLoader
 	{
 		static $classes;
 
-		if(!isset($classes)) {
+		if (!isset($classes)) {
 			$classes    = array();
 		}
 
-		if($class && is_file($file))
+		if ($class && is_file($file))
 		{
 			// Force to lower case.
 			$class = strtolower($class);
 			$classes[$class] = $file;
 
 			// In php4 we load the class immediately.
-			if((version_compare( phpversion(), '5.0' ) < 0)) {
+			if ((version_compare(phpversion(), '5.0') < 0)) {
 				JLoader::load($class);
 			}
 
@@ -127,7 +122,7 @@ class JLoader
 	 * @return  boolean True on success
 	 * @since   1.5
 	 */
-	function load( $class )
+	function load($class)
 	{
 		$class = strtolower($class); //force to lower case
 
@@ -136,7 +131,7 @@ class JLoader
 		}
 
 		$classes = JLoader::register();
-		if(array_key_exists( strtolower($class), $classes)) {
+		if (array_key_exists(strtolower($class), $classes)) {
 			include($classes[$class]);
 			return true;
 		}
@@ -158,7 +153,7 @@ class JLoader
  */
 function __autoload($class)
 {
-	if(JLoader::load($class)) {
+	if (JLoader::load($class)) {
 		return true;
 	}
 	return false;
@@ -182,6 +177,6 @@ function jexit($message = 0) {
  * @param string $path A dot syntax path
  * @since 1.5
  */
-function jimport( $path ) {
+function jimport($path) {
 	return JLoader::import($path);
 }

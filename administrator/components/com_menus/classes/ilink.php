@@ -1,19 +1,14 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Menus
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
- * details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+// No direct access
+defined('_JEXEC') or die;
 
 // Import library dependencies
 jimport('joomla.base.tree');
@@ -23,7 +18,7 @@ jimport('joomla.filesystem.file');
 /**
  * Internal link builder
  *
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Menus
  * @since		1.5
  */
@@ -49,7 +44,7 @@ class iLink extends JTree
 			$this->_menutype = null;
 		}
 
-		$this->_com = preg_replace( '#\W#', '', $component );
+		$this->_com = preg_replace('#\W#', '', $component);
 
 		// Build the tree
 		if (!$this->_getOptions($this->_getXML(JPATH_SITE.'/components/com_'.$this->_com.'/metadata.xml', 'menu'), $this->_root)) {
@@ -116,9 +111,9 @@ class iLink extends JTree
 
 		// Print the url
 		if ($this->_current->hasChildren()) {
-			$this->_output .= "<div class=\"".$classes."\"><span></span><a class=\"hasTip\" title=\"". JText::_( $this->_current->title ) ."::". JText::_( $this->_current->msg ) ."\">". JText::_( $this->_current->title ) ."</a></div>";
+			$this->_output .= "<div class=\"".$classes."\"><span></span><a class=\"hasTip\" title=\"". JText::_($this->_current->title) ."::". JText::_($this->_current->msg) ."\">". JText::_($this->_current->title) ."</a></div>";
 		} else {
-			$this->_output .= "<div class=\"".$classes."\"><span></span><a class=\"hasTip\" href=\"index.php?option=com_menus&amp;task=edit&amp;type=component&amp;".$this->_current->url.$this->_cid.$this->_menutype."\" title=\"". JText::_( $this->_current->title ) ."::". JText::_( $this->_current->msg ) ."\">". JText::_( $this->_current->title ) ."</a></div>";
+			$this->_output .= "<div class=\"".$classes."\"><span></span><a class=\"hasTip\" href=\"index.php?option=com_menus&amp;task=edit&amp;type=component&amp;".$this->_current->url.$this->_cid.$this->_menutype."\" title=\"". JText::_($this->_current->title) ."::". JText::_($this->_current->msg) ."\">". JText::_($this->_current->title) ."</a></div>";
 		}
 
 		// Recurse through children if they exist
@@ -151,7 +146,7 @@ class iLink extends JTree
 
 		// Does the metadata file say no options available?
 		if ($e->attributes('options') == 'none') {
-			$node =& new iLinkNode($e->attributes('name'), $purl, $e->attributes('msg'));
+			$node = &new iLinkNode($e->attributes('name'), $purl, $e->attributes('msg'));
 			$parent->addChild($node);
 			return true;
 		}
@@ -164,10 +159,10 @@ class iLink extends JTree
 			{
 				if ($child->name() == 'option') {
 					$url = $purl.'&amp;url['.$options->attributes('var').']='.$child->attributes('value');
-					$node =& new iLinkNode($child->attributes('name'), $url, $child->attributes('msg'));
+					$node = &new iLinkNode($child->attributes('name'), $url, $child->attributes('msg'));
 					$parent->addChild($node);
 				} elseif ($child->name() == 'default') {
-					$node =& new iLinkNode($child->attributes('name'), $purl, $child->attributes('msg'));
+					$node = &new iLinkNode($child->attributes('name'), $purl, $child->attributes('msg'));
 					$parent->addChild($node);
 				}
 			}
@@ -213,7 +208,7 @@ class iLink extends JTree
 							if ($m) {
 								$message = $m->data();
 							}
-							$node =& new iLinkNode($data->attributes('title'), $url, $message);
+							$node = &new iLinkNode($data->attributes('title'), $url, $message);
 							$this->addChild($node);
 							if ($options = $data->getElementByPath('options')) {
 								$this->_getOptions($data, $node, $url);
@@ -223,7 +218,7 @@ class iLink extends JTree
 						}
 					} else {
 						$onclick = null;
-						$node =& new iLinkNode(ucfirst($view), $url);
+						$node = &new iLinkNode(ucfirst($view), $url);
 						$this->addChild($node);
 						$this->_getLayouts(dirname($xmlpath), $node);
 					}
@@ -240,7 +235,7 @@ class iLink extends JTree
 	{
 		$return = false;
 		$folder	= $path.DS.'tmpl';
-		if (is_dir( $folder ))
+		if (is_dir($folder))
 		{
 			$files = JFolder::files($folder, '.php$');
 			if (count($files)) {
@@ -267,12 +262,12 @@ class iLink extends JTree
 								if ($m) {
 									$message = $m->data();
 								}
-								$child =& new iLinkNode($data->attributes('title'), $url, $message);
+								$child = &new iLinkNode($data->attributes('title'), $url, $message);
 								$node->addChild($child);
 							}
 						} else {
 							// Add default info for the layout
-							$child =& new iLinkNode(ucfirst($layout).' '.JText::_('Layout'), $url);
+							$child = &new iLinkNode(ucfirst($layout).' '.JText::_('Layout'), $url);
 							$node->addChild($child);
 						}
 					}
@@ -287,10 +282,10 @@ class iLink extends JTree
 		// Initialize variables
 		$result = null;
 		// load the xml metadata
-		if (file_exists( $path )) {
-			$xml =& JFactory::getXMLParser('Simple');
+		if (file_exists($path)) {
+			$xml = &JFactory::getXMLParser('Simple');
 			if ($xml->loadFile($path)) {
-				if (isset( $xml->document )) {
+				if (isset($xml->document)) {
 					$result = $xml->document->getElementByPath($xpath);
 				}
 			}
@@ -329,9 +324,9 @@ class iLink extends JTree
 		$source	= $include->attributes('source');
 		$path	= $include->attributes('path');
 
-		preg_match_all( "/{([A-Za-z\-_]+)}/", $source, $tags);
-		if (isset( $tags[1] )) {
-			$n = count( $tags[1] );
+		preg_match_all("/{([A-Za-z\-_]+)}/", $source, $tags);
+		if (isset($tags[1])) {
+			$n = count($tags[1]);
 			for ($i=0; $i < $n; $i++)
 			{
 				$source = str_replace($tags[0][$i], @$this->_vars[$tags[1][$i]], $source);
@@ -339,7 +334,7 @@ class iLink extends JTree
 		}
 
 		// load the source xml file
-		if (file_exists( JPATH_ROOT.$source ))
+		if (file_exists(JPATH_ROOT.$source))
 		{
 			$xml = & JFactory::getXMLParser('Simple');
 			if ($xml->loadFile(JPATH_ROOT.$source))

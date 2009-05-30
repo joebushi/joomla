@@ -3,22 +3,16 @@
  * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Registry
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+// No direct access
+defined('JPATH_BASE') or die;
 
 /**
  * INI format handler for JRegistry
  *
- * @author 		Samuel Moffatt <pasamio@gmail.com>
  * @package 	Joomla.Framework
  * @subpackage		Registry
  * @since		1.5
@@ -36,7 +30,7 @@ class JRegistryFormatINI extends JRegistryFormat
 	 * @param array  $param  Parameters used by the formatter
 	 * @return string INI Formatted String
 	 */
-	function objectToString( &$object, $params )
+	public function objectToString(&$object, $params)
 	{
 
 		// Initialize variables
@@ -44,7 +38,7 @@ class JRegistryFormatINI extends JRegistryFormat
 		$prepend = '';
 
 		// First handle groups (or first level key/value pairs)
-		foreach (get_object_vars( $object ) as $key => $level1)
+		foreach (get_object_vars($object) as $key => $level1)
 		{
 			if (is_object($level1))
 			{
@@ -94,11 +88,11 @@ class JRegistryFormatINI extends JRegistryFormat
 	 * @param boolean add an associative index for each section [in brackets]
 	 * @return object Data Object
 	 */
-	function &stringToObject( $data, $process_sections = false )
+	public function stringToObject($data, $process_sections = false)
 	{
 		static $inistocache;
 
-		if (!isset( $inistocache )) {
+		if (!isset($inistocache)) {
 			$inistocache = array();
 		}
 
@@ -117,7 +111,7 @@ class JRegistryFormatINI extends JRegistryFormat
 			$hash = md5(implode("\n",$lines));
 		}
 
-		if(array_key_exists($hash, $inistocache)) {
+		if (array_key_exists($hash, $inistocache)) {
 			return $inistocache[$hash];
 		}
 
@@ -159,7 +153,7 @@ class JRegistryFormatINI extends JRegistryFormat
 					// property is assumed to be ascii
 					if ($property && $property{0} == '"')
 					{
-						$propLen = strlen( $property );
+						$propLen = strlen($property);
 						if ($property{$propLen-1} == '"') {
 							$property = stripcslashes(substr($property, 1, $propLen - 2));
 						}
@@ -171,14 +165,14 @@ class JRegistryFormatINI extends JRegistryFormat
 
 					if (strpos($value, '|') !== false && preg_match('#(?<!\\\)\|#', $value))
 					{
-						$lines = explode('\n', $value);
+						$newlines = explode('\n', $value);
 						$values = array();
-						foreach($lines as $linekey=>$line) {
+						foreach($newlines as $newlinekey=>$newline) {
 
 							// Explode the value if it is serialized as an arry of value1|value2|value3
-							$parts	= preg_split('/(?<!\\\)\|/', $line);
-							$array	= (strcmp($parts[0], $line) === 0) ? false : true;
-							$parts	= call_user_func_array('str_replace', array('\|', '|', $parts));
+							$parts	= preg_split('/(?<!\\\)\|/', $newline);
+							$array	= (strcmp($parts[0], $newline) === 0) ? false : true;
+							$parts	= str_replace('\|', '|', $parts);
 
 							foreach ($parts as $key => $value)
 							{
@@ -190,35 +184,38 @@ class JRegistryFormatINI extends JRegistryFormat
 								}
 								else if ($value && $value{0} == '"')
 								{
-									$valueLen = strlen( $value );
+									$valueLen = strlen($value);
 									if ($value{$valueLen-1} == '"') {
 										$value = stripcslashes(substr($value, 1, $valueLen - 2));
 									}
 								}
-								if(!isset($values[$linekey])) $values[$linekey] = array();
-								$values[$linekey][] = str_replace('\n', "\n", $value);
+								if (!isset($values[$newlinekey])) $values[$newlinekey] = array();
+								$values[$newlinekey][] = str_replace('\n', "\n", $value);
 							}
 
 							if (!$array) {
-								$values[$linekey] = $values[$linekey][0];
+								$values[$newlinekey] = $values[$newlinekey][0];
 							}
 						}
 
 						if ($process_sections)
 						{
 							if ($sec_name != '') {
-								$obj->$sec_name->$property = $values[$linekey];
+								$obj->$sec_name->$property = $values[$newlinekey];
 							} else {
-								$obj->$property = $values[$linekey];
+								$obj->$property = $values[$newlinekey];
 							}
 						}
 						else
 						{
-							$obj->$property = $values[$linekey];
+							$obj->$property = $values[$newlinekey];
 						}
 					}
 					else
 					{
+						//unescape the \|
+						$value = str_replace('\|', '|', $value);
+
 						if ($value == 'false') {
 							$value = false;
 						}
@@ -227,7 +224,7 @@ class JRegistryFormatINI extends JRegistryFormat
 						}
 						else if ($value && $value{0} == '"')
 						{
-							$valueLen = strlen( $value );
+							$valueLen = strlen($value);
 							if ($value{$valueLen-1} == '"') {
 								$value = stripcslashes(substr($value, 1, $valueLen - 2));
 							}

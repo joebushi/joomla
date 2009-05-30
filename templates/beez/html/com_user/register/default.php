@@ -1,6 +1,11 @@
 <?php // @version $Id$
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 ?>
+<?php if ($this->params->get('show_page_title',1)) : ?>
+<h2 class="componentheading<?php echo $this->params->get('pageclass_sfx') ?>">
+	<?php echo $this->escape($this->params->get('page_title')) ?>
+</h2>
+<?php endif; ?>
 
 <script type="text/javascript">
 	Window.onDomReady(function(){
@@ -8,9 +13,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 	});
 </script>
 
-<form action="<?php echo JRoute::_('index.php?option=com_user#content'); ?>" method="post" id="josForm" name="josForm" class="form-validate user">
-	<h2 class="componentheading"><?php echo JText::_('Registration'); ?></h2>
-	<?php if(isset($this->message)) :
+<form action="<?php echo JRoute::_('index.php?option=com_users#content'); ?>" method="post" id="josForm" name="josForm" class="form-validate user">
+	<?php if (isset($this->message)) :
 		$this->display('message');
 	endif; ?>
 	<fieldset>
@@ -41,6 +45,5 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 	<button class="button validate" type="submit"><?php echo JText::_('Register'); ?></button>
 	<input type="hidden" name="task" value="register_save" />
 	<input type="hidden" name="id" value="0" />
-	<input type="hidden" name="gid" value="0" />
-	<?php echo JHTML::_( 'form.token' ); ?>
+	<?php echo JHtml::_('form.token'); ?>
 </form>

@@ -1,11 +1,11 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php defined('_JEXEC') or die; ?>
 <script type='text/javascript'>
-var image_base_path = '<?php $params =& JComponentHelper::getParams('com_media');
+var image_base_path = '<?php $params = &JComponentHelper::getParams('com_media');
 echo $params->get('image_path', 'images/stories');?>/';
 </script>
 <form action="index.php" id="imageForm" method="post" enctype="multipart/form-data">
 	<div id="messages" style="display: none;">
-		<span id="message"></span><img src="<?php echo JURI::root() ?>/administrator/components/com_media/images/dots.gif" width="22" height="12" alt="..." />
+		<span id="message"></span><img src="<?php echo JURI::base() ?>components/com_media/images/dots.gif" width="22" height="12" alt="..." />
 	</div>
 	<fieldset>
 		<div style="float: left">
@@ -62,5 +62,5 @@ echo $params->get('image_path', 'images/stories');?>/';
 			<li style="display: none" />
 		</ul>
 	</fieldset>
-	<input type="hidden" name="return-url" value="<?php echo base64_encode('index.php?option=com_media&view=images&tmpl=component'); ?>" />
+	<input type="hidden" name="return-url" value="<?php echo base64_encode('index.php?option=com_media&view=images&tmpl=component&e_name='.JRequest::getCmd('e_name')); ?>" />
 </form>

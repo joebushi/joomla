@@ -1,24 +1,18 @@
 <?php
 /**
-* @version		$Id:sql.php 6961 2007-03-15 16:06:53Z tcp $
-* @package		Joomla.Framework
-* @subpackage	Parameter
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id:sql.php 6961 2007-03-15 16:06:53Z tcp $
+ * @package		Joomla.Framework
+ * @subpackage	Parameter
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+// No direct access
+defined('JPATH_BASE') or die;
 
 /**
  * Renders a SQL element
  *
- * @author 		Sam Moffatt <sam.moffatt@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage		Parameter
  * @since		1.5
@@ -32,12 +26,35 @@ class JElementSQL extends JElement
 	* @access	protected
 	* @var		string
 	*/
-	var	$_name = 'SQL';
+	protected $_name = 'SQL';
 
-	function fetchElement($name, $value, &$node, $control_name)
+	public function fetchElement($name, $value, &$node, $control_name)
 	{
-		$db			= & JFactory::getDBO();
+		$db			= & JFactory::getDbo();
 		$db->setQuery($node->attributes('query'));
-		return JHTML::_('select.genericlist',  $db->loadObjectList(), ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', $name, $value, $control_name.$name);
+		$key = ($node->attributes('key_field') ? $node->attributes('key_field') : 'value');
+		$val = ($node->attributes('value_field') ? $node->attributes('value_field') : $name);
+
+		$options = $db->loadObjectlist();
+
+		// Check for an error.
+		if ($db->getErrorNum()) {
+			JError::raiseWarning(500, $db->getErrorMsg());
+			return false;
+		}
+
+		if (!$options) {
+			$options = array();
+		}
+
+		return JHtml::_('select.genericlist', $options, $control_name.'['.$name.']',
+			array(
+				'id' => $control_name.$name,
+				'list.attr' => 'class="inputbox"',
+				'list.select' => $value,
+				'option.key' => $key,
+				'option.text' => $val
+			)
+		);
 	}
 }

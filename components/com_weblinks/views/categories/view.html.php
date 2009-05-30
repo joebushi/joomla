@@ -1,72 +1,88 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla
-* @subpackage	Weblinks
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @package		Joomla.Site
+ * @subpackage	Weblinks
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
-// Check to ensure this file is included in Joomla!
-defined( '_JEXEC' ) or die( 'Restricted access' );
+// No direct access
+defined('_JEXEC') or die;
 
-jimport( 'joomla.application.component.view');
+jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the WebLinks component
  *
  * @static
- * @package		Joomla
+ * @package		Joomla.Site
  * @subpackage	Weblinks
  * @since 1.0
  */
 class WeblinksViewCategories extends JView
 {
-	function display( $tpl = null)
+	public $state;
+	public $items;
+	public $pagination;
+
+	function display($tpl = null)
 	{
-		global $mainframe;
+		$app		= &JFactory::getApplication();
+		$params		= &$app->getParams();
 
-		$document =& JFactory::getDocument();
+		$state		= $this->get('State');
+		$items		= $this->get('Items');
+		$pagination	= $this->get('Pagination');
 
-		$categories	=& $this->get('data');
-		$total		=& $this->get('total');
-		$state		=& $this->get('state');
-
-		// Get the page/component configuration
-		$params = &$mainframe->getParams();
-
-		// Set some defaults if not set for params
-		$params->def('comp_description', JText::_('WEBLINKS_DESC'));
-
-		// Define image tag attributes
-		if ($params->get('image') != -1)
-		{
-			if($params->get('image_align')!="")
-				$attribs['align'] = $params->get('image_align');
-			else
-				$attribs['align'] = '';
-			$attribs['hspace'] = 6;
-
-			// Use the static HTML library to build the image tag
-			$image = JHTML::_('image', 'images/stories/'.$params->get('image'), JText::_('Web Links'), $attribs);
+		// Check for errors.
+		if (count($errors = $this->get('Errors'))) {
+			JError::raiseError(500, implode("\n", $errors));
+			return false;
 		}
 
-		for($i = 0; $i < count($categories); $i++)
+		// PREPARE THE DATA
+
+		// Compute the weblink slug and prepare description (runs content plugins).
+		for ($i = 0, $n = count($items); $i < $n; $i++)
 		{
-			$category =& $categories[$i];
-			$category->link = JRoute::_('index.php?option=com_weblinks&view=category&id='. $category->slug);
+			$item		= &$items[$i];
+			$item->slug	= $item->alias ? ($item->id.':'.$item->alias) : $item->id;
+
+			// TODO: only use if the description is displayed
+			$item->description = JHtml::_('content.prepare', $item->description);
 		}
 
-		$this->assignRef('image',		$image);
 		$this->assignRef('params',		$params);
-		$this->assignRef('categories',	$categories);
+		$this->assignRef('items',		$items);
+		$this->assignRef('pagination',	$pagination);
+
+		$this->_prepareDocument();
 
 		parent::display($tpl);
 	}
+
+	/**
+	 * Prepares the document
+	 */
+	protected function _prepareDocument()
+	{
+		$menus	= &JSite::getMenu();
+
+		// Because the application sets a default page title,
+		// we need to get it from the menu item itself
+		if ($menu = $menus->getActive())
+		{
+			$menuParams = new JParameter($menu->params);
+			if ($title = $menuParams->get('page_title')) {
+				$this->document->setTitle($title);
+			}
+			else {
+				$this->document->setTitle(JText::_('Web Links'));
+			}
+		}
+		else {
+			$this->document->setTitle(JText::_('Web Links'));
+		}
+	}
 }
-?>

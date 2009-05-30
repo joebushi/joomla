@@ -3,22 +3,16 @@
  * @version		$id:$
  * @package		Joomla.Framework
  * @subpackage	Cache
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+// No direct access
+defined('JPATH_BASE') or die;
 
 /**
  * XCache cache storage handler
  *
- * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Cache
  * @since		1.5
@@ -31,11 +25,11 @@ class JCacheStorageXCache extends JCacheStorage
 	* @access protected
 	* @param array $options optional parameters
 	*/
-	function __construct( $options = array() )
+	function __construct($options = array())
 	{
 		parent::__construct($options);
 
-		$config			=& JFactory::getConfig();
+		$config			= &JFactory::getConfig();
 		$this->_hash	= $config->getValue('config.secret');
 	}
 
@@ -54,11 +48,10 @@ class JCacheStorageXCache extends JCacheStorage
 		$cache_id = $this->_getCacheId($id, $group);
 
 		//check if id exists
-		if( !xcache_isset( $cache_id ) ){
+		if (!xcache_isset($cache_id)){
 			return false;
 		}
 
-		$this->_setExpire($cache_id);
 		return xcache_get($cache_id);
 	}
 
@@ -75,7 +68,6 @@ class JCacheStorageXCache extends JCacheStorage
 	function store($id, $group, $data)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
-		xcache_set($cache_id.'_expire', time() );
 		return xcache_set($cache_id, $data, $this->_lifetime);
 	}
 
@@ -92,7 +84,7 @@ class JCacheStorageXCache extends JCacheStorage
 	{
 		$cache_id = $this->_getCacheId($id, $group);
 
-		if( !xcache_isset( $cache_id ) ){
+		if (!xcache_isset($cache_id)){
 			return true;
 		}
 
@@ -126,28 +118,6 @@ class JCacheStorageXCache extends JCacheStorage
 	function test()
 	{
 		return (extension_loaded('xcache'));
-	}
-
-	/**
-	 * Set expire time on each call since memcache sets it on cache creation.
-	 *
-	 * @access private
-	 *
-	 * @param string  $key   Cache key to expire.
-	 * @param integer $lifetime  Lifetime of the data in seconds.
-	 */
-	function _setExpire($key)
-	{
-		$lifetime	= $this->_lifetime;
-		$expire		= xcache_get($key.'_expire');
-
-		// set prune period
-		if ($expire + $lifetime < time()) {
-			xcache_unset($key);
-			xcache_unset($key.'_expire');
-		} else {
-			xcache_set($key.'_expire',  time());
-		}
 	}
 
 	/**

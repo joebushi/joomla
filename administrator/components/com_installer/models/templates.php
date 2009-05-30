@@ -1,25 +1,20 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Menus
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
- * details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Import library dependencies
 require_once(dirname(__FILE__).DS.'extension.php');
-jimport( 'joomla.filesystem.folder' );
+jimport('joomla.filesystem.folder');
 
 /**
  * Extension Manager Templates Model
  *
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Installer
  * @since		1.5
  */
@@ -43,15 +38,15 @@ class InstallerModelTemplates extends InstallerModel
 		parent::__construct();
 
 		// Set state variables from the request
-		$this->setState('filter.string', $mainframe->getUserStateFromRequest( "com_installer.templates.string", 'filter', '', 'string' ));
-		$this->setState('filter.client', $mainframe->getUserStateFromRequest( "com_installer.templates.client", 'client', -1, 'int' ));
+		$this->setState('filter.string', $mainframe->getUserStateFromRequest("com_installer.templates.string", 'filter', '', 'string'));
+		$this->setState('filter.client', $mainframe->getUserStateFromRequest("com_installer.templates.client", 'client', -1, 'int'));
 	}
 
 	function _loadItems()
 	{
 		global $mainframe, $option;
 
-		$db = &JFactory::getDBO();
+		$db = &JFactory::getDbo();
 
 		if ($this->_state->get('filter.client') < 0) {
 			$client = 'all';
@@ -90,7 +85,7 @@ class InstallerModelTemplates extends InstallerModel
 				}
 			}
 		} else {
-			$clientInfo =& JApplicationHelper::getClientInfo($this->_state->get('filter.client'));
+			$clientInfo = &JApplicationHelper::getClientInfo($this->_state->get('filter.client'));
 			$client = $clientInfo->name;
 			$templateDirs = JFolder::folders($clientInfo->path.DS.'templates');
 
@@ -149,15 +144,20 @@ class InstallerModelTemplates extends InstallerModel
 				}
 
 				$row->checked_out = 0;
-				$row->jname = JString::strtolower( str_replace( ' ', '_', $row->name ) );
+				$row->jname = JString::strtolower(str_replace(' ', '_', $row->name));
 
 				$rows[] = $row;
 				$rowid++;
 			}
 		}
 		$this->setState('pagination.total', count($rows));
-		if($this->_state->get('pagination.limit') > 0) {
-			$this->_items = array_slice( $rows, $this->_state->get('pagination.offset'), $this->_state->get('pagination.limit') );
+		// if the offset is greater than the total, then can the offset
+		if ($this->_state->get('pagination.offset') > $this->_state->get('pagination.total')) {
+			$this->setState('pagination.offset',0);
+		}
+
+		if ($this->_state->get('pagination.limit') > 0) {
+			$this->_items = array_slice($rows, $this->_state->get('pagination.offset'), $this->_state->get('pagination.limit'));
 		} else {
 			$this->_items = $rows;
 		}

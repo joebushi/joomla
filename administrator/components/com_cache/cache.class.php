@@ -1,24 +1,19 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Cache
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 /**
  * Class used to hold Cache data
  *
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Cache
  * @since		1.5
  */
@@ -45,7 +40,7 @@ class CacheData extends JObject
 	 *
 	 * @access protected
 	 */
-	function __construct( $path )
+	function __construct($path)
 	{
 		$this->_path = $path;
 		$this->_parse();
@@ -68,11 +63,11 @@ class CacheData extends JObject
 		{
 			$files = array();
 			$files = JFolder::files($this->_path.DS.$folder);
-			$this->_items[$folder] = new CacheItem( $folder );
+			$this->_items[$folder] = new CacheItem($folder);
 
 			foreach ($files as $file)
 			{
-				$this->_items[$folder]->updateSize( filesize( $this->_path.DS.$folder.DS.$file )/ 1024 );
+				$this->_items[$folder]->updateSize(filesize($this->_path.DS.$folder.DS.$file)/ 1024);
 			}
 		}
 	}
@@ -97,16 +92,17 @@ class CacheData extends JObject
 	 * @param Int $limit
 	 * @return Array
 	 */
-	function getRows( $start, $limit )
+	function getRows($start, $limit)
 	{
 		$i = 0;
-		if (count($this->_items) == 0) {
+		$rows = array();
+		if (!is_array($this->_items)) {
 			return null;
 		}
 
 		foreach ($this->_items as $item)
 		{
-			if ($i >= $start && $i < $start+$limit) {
+			if ((($i >= $start) && ($i < $start+$limit)) || ($limit == 0)) {
 				$rows[] = $item;
 			}
 			$i++;
@@ -120,16 +116,16 @@ class CacheData extends JObject
 	 *
 	 * @param String $group
 	 */
-	function cleanCache( $group='' )
+	function cleanCache($group='')
 	{
-		$cache =& JFactory::getCache();
-		$cache->clean( $group );
+		$cache = &JFactory::getCache('', 'callback', 'file');
+		$cache->clean($group);
 	}
 
-	function cleanCacheList( $array )
+	function cleanCacheList($array)
 	{
 		foreach ($array as $group) {
-			$this->cleanCache( $group );
+			$this->cleanCache($group);
 		}
 	}
 }
@@ -137,7 +133,7 @@ class CacheData extends JObject
  /**
   * This Class is used by CacheData to store group cache data.
   *
-  * @package		Joomla
+  * @package		Joomla.Administrator
   * @subpackage	Cache
   * @since		1.5
   */
@@ -147,14 +143,14 @@ class CacheItem
 	var $size 	= 0;
 	var $count 	= 0;
 
-	function CacheItem ( $group )
+	function CacheItem ($group)
 	{
 		$this->group = $group;
 	}
 
-	function updateSize( $size )
+	function updateSize($size)
 	{
-		$this->size = number_format( $this->size + $size, 2 );
+		$this->size = number_format($this->size + $size, 2);
 		$this->count++;
 	}
 }

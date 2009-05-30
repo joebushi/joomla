@@ -1,21 +1,17 @@
 <?php // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
-<?php if ($this->user->authorize('com_content', 'edit', 'content', 'all') || $this->user->authorize('com_content', 'edit', 'content', 'own')) : ?>
-	<div class="contentpaneopen_edit<?php echo $this->item->params->get( 'pageclass_sfx' ); ?>">
-		<?php echo JHTML::_('icon.edit', $this->item, $this->item->params, $this->access); ?>
-	</div>
-<?php endif; ?>
+defined('_JEXEC') or die; ?>
+<?php $canEdit   = ($this->user->authorize('com_content', 'edit', 'content', 'all') || $this->user->authorize('com_content', 'edit', 'content', 'own')); ?>
 <?php if ($this->item->state == 0) : ?>
 <div class="system-unpublished">
 <?php endif; ?>
 
-<?php if ($this->item->params->get('show_title') || $this->item->params->get('show_pdf_icon') || $this->item->params->get('show_print_icon') || $this->item->params->get('show_email_icon')) : ?>
-<table class="contentpaneopen<?php echo $this->item->params->get( 'pageclass_sfx' ); ?>">
+<?php if ($this->item->params->get('show_title') || $this->item->params->get('show_print_icon') || $this->item->params->get('show_email_icon') || $canEdit) : ?>
+<table class="contentpaneopen<?php echo $this->item->params->get('pageclass_sfx'); ?>">
 <tr>
 	<?php if ($this->item->params->get('show_title')) : ?>
-	<td class="contentheading<?php echo $this->item->params->get( 'pageclass_sfx' ); ?>" width="100%">
+	<td class="contentheading<?php echo $this->item->params->get('pageclass_sfx'); ?>" width="100%">
 		<?php if ($this->item->params->get('link_titles') && $this->item->readmore_link != '') : ?>
-		<a href="<?php echo $this->item->readmore_link; ?>" class="contentpagetitle<?php echo $this->item->params->get( 'pageclass_sfx' ); ?>">
+		<a href="<?php echo $this->item->readmore_link; ?>" class="contentpagetitle<?php echo $this->item->params->get('pageclass_sfx'); ?>">
 			<?php echo $this->escape($this->item->title); ?></a>
 		<?php else : ?>
 			<?php echo $this->escape($this->item->title); ?>
@@ -23,23 +19,22 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</td>
 	<?php endif; ?>
 
-	<?php if ($this->item->params->get('show_pdf_icon')) : ?>
+	<?php if ($this->item->params->get('show_print_icon')) : ?>
 	<td align="right" width="100%" class="buttonheading">
-	<?php echo JHTML::_('icon.pdf', $this->item, $this->item->params, $this->access); ?>
-	</td>
-	<?php endif; ?>
-
-	<?php if ( $this->item->params->get( 'show_print_icon' )) : ?>
-	<td align="right" width="100%" class="buttonheading">
-	<?php echo JHTML::_('icon.print_popup', $this->item, $this->item->params, $this->access); ?>
+	<?php echo JHtml::_('icon.print_popup', $this->item, $this->item->params, $this->access); ?>
 	</td>
 	<?php endif; ?>
 
 	<?php if ($this->item->params->get('show_email_icon')) : ?>
 	<td align="right" width="100%" class="buttonheading">
-	<?php echo JHTML::_('icon.email', $this->item, $this->item->params, $this->access); ?>
+	<?php echo JHtml::_('icon.email', $this->item, $this->item->params, $this->access); ?>
 	</td>
 	<?php endif; ?>
+	   <?php if ($canEdit) : ?>
+	   <td align="right" width="100%" class="buttonheading">
+	   <?php echo JHtml::_('icon.edit', $this->item, $this->item->params, $this->access); ?>
+	   </td>
+   <?php endif; ?>
 </tr>
 </table>
 <?php endif; ?>
@@ -47,7 +42,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	echo $this->item->event->afterDisplayTitle;
 endif; ?>
 <?php echo $this->item->event->beforeDisplayContent; ?>
-<table class="contentpaneopen<?php echo $this->item->params->get( 'pageclass_sfx' ); ?>">
+<table class="contentpaneopen<?php echo $this->item->params->get('pageclass_sfx'); ?>">
 <?php if (($this->item->params->get('show_section') && $this->item->sectionid) || ($this->item->params->get('show_category') && $this->item->catid)) : ?>
 <tr>
 	<td>
@@ -84,7 +79,7 @@ endif; ?>
 <tr>
 	<td width="70%"  valign="top" colspan="2">
 		<span class="small">
-			<?php JText::printf( 'Written by', ($this->item->created_by_alias ? $this->item->created_by_alias : $this->item->author) ); ?>
+			<?php JText::printf('Written by', ($this->item->created_by_alias ? $this->item->created_by_alias : $this->item->author)); ?>
 		</span>
 		&nbsp;&nbsp;
 	</td>
@@ -94,7 +89,7 @@ endif; ?>
 <?php if ($this->item->params->get('show_create_date')) : ?>
 <tr>
 	<td valign="top" colspan="2" class="createdate">
-		<?php echo JHTML::_('date', $this->item->created, JText::_('DATE_FORMAT_LC2')); ?>
+		<?php echo JHtml::_('date', $this->item->created, JText::_('DATE_FORMAT_LC2')); ?>
 	</td>
 </tr>
 <?php endif; ?>
@@ -117,10 +112,10 @@ endif; ?>
 </td>
 </tr>
 
-<?php if ( intval($this->item->modified) != 0 && $this->item->params->get('show_modify_date')) : ?>
+<?php if (intval($this->item->modified) != 0 && $this->item->params->get('show_modify_date')) : ?>
 <tr>
 	<td colspan="2"  class="modifydate">
-		<?php echo JText::_( 'Last Updated' ); ?> ( <?php echo JHTML::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC2')); ?> )
+		<?php echo JText::sprintf('LAST_UPDATED2', JHtml::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC2'))); ?>
 	</td>
 </tr>
 <?php endif; ?>

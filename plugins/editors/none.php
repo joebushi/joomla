@@ -2,45 +2,23 @@
 /**
  * @version		$Id$
  * @package		Joomla
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
-jimport( 'joomla.plugin.plugin' );
+jimport('joomla.plugin.plugin');
 
 /**
  * No WYSIWYG Editor Plugin
  *
- * @author Louis Landry <louis.landry@joomla.org>
  * @package Editors
  * @since 1.5
  */
 class plgEditorNone extends JPlugin
 {
-	/**
-	 * Constructor
-	 *
-	 * For php4 compatability we must not use the __constructor as a constructor for plugins
-	 * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
-	 * This causes problems with cross-referencing necessary for the observer design pattern.
-	 *
-	 * @param 	object $subject The object to observe
-	 * @param 	array  $config  An array that holds the plugin configuration
-	 * @since 1.5
-	 */
-	function plgEditorNone(& $subject, $config)
-	{
-		parent::__construct($subject, $config);
-	}
-
 	/**
 	 * Method to handle the onInitEditor event.
 	 *  - Initializes the Editor
@@ -78,7 +56,7 @@ class plgEditorNone extends JPlugin
 	 *
 	 * @param string 	The name of the editor
 	 */
-	function onSave( $editor ) {
+	function onSave($editor) {
 		return;
 	}
 
@@ -87,8 +65,8 @@ class plgEditorNone extends JPlugin
 	 *
 	 * @param string 	The name of the editor
 	 */
-	function onGetContent( $editor ) {
-		return "document.getElementById( '$editor' ).value;\n";
+	function onGetContent($editor) {
+		return "document.getElementById('$editor').value;\n";
 	}
 
 	/**
@@ -96,8 +74,8 @@ class plgEditorNone extends JPlugin
 	 *
 	 * @param string 	The name of the editor
 	 */
-	function onSetContent( $editor, $html ) {
-		return "document.getElementById( '$editor' ).value = $html;\n";
+	function onSetContent($editor, $html) {
+		return "document.getElementById('$editor').value = $html;\n";
 	}
 
 	/**
@@ -111,13 +89,13 @@ class plgEditorNone extends JPlugin
 	 * @param int The number of columns for the editor area
 	 * @param int The number of rows for the editor area
 	 */
-	function onDisplay( $name, $content, $width, $height, $col, $row, $buttons = true )
+	function onDisplay($name, $content, $width, $height, $col, $row, $buttons = true)
 	{
 		// Only add "px" to width and height if they are not given as a percentage
-		if (is_numeric( $width )) {
+		if (is_numeric($width)) {
 			$width .= 'px';
 		}
-		if (is_numeric( $height )) {
+		if (is_numeric($height)) {
 			$height .= 'px';
 		}
 
@@ -131,8 +109,8 @@ class plgEditorNone extends JPlugin
 	{
 		$doc = & JFactory::getDocument();
 
-		$js= "\tfunction jInsertEditorText( text, editor ) {
-			insertAtCursor( document.getElementById(editor), text );
+		$js= "\tfunction jInsertEditorText(text, editor) {
+			insertAtCursor(document.getElementById(editor), text);
 		}";
 		$doc->addScriptDeclaration($js);
 
@@ -142,7 +120,7 @@ class plgEditorNone extends JPlugin
 	function _displayButtons($name, $buttons)
 	{
 		// Load modal popup behavior
-		JHTML::_('behavior.modal', 'a.modal-button');
+		JHtml::_('behavior.modal', 'a.modal-button');
 
 		$args['name'] = $name;
 		$args['event'] = 'onGetInsertMethod';
@@ -155,7 +133,7 @@ class plgEditorNone extends JPlugin
 			}
 		}
 
-		if(!empty($buttons))
+		if (!empty($buttons))
 		{
 			$results = $this->_subject->getButtons($name, $buttons);
 
@@ -168,7 +146,7 @@ class plgEditorNone extends JPlugin
 				/*
 				 * Results should be an object
 				 */
-				if ( $button->get('name') )
+				if ($button->get('name'))
 				{
 					$modal		= ($button->get('modal')) ? 'class="modal-button"' : null;
 					$href		= ($button->get('link')) ? 'href="'.$button->get('link').'"' : null;

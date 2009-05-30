@@ -1,24 +1,18 @@
 <?php
 /**
-* @version		$Id:apc.php 6961 2007-03-15 16:06:53Z tcp $
-* @package		Joomla.Framework
-* @subpackage	Session
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id:apc.php 6961 2007-03-15 16:06:53Z tcp $
+ * @package		Joomla.Framework
+ * @subpackage	Session
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+// No direct access
+defined('JPATH_BASE') or die;
 
 /**
  * XCache session storage handler
  *
- * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Cache
  * @since		1.5
@@ -31,7 +25,7 @@ class JSessionStorageXcache extends JSessionStorage
 	* @access protected
 	* @param array $options optional parameters
 	*/
-	function __construct( $options = array() )
+	function __construct($options = array())
 	{
 		if (!$this->test()) {
             return JError::raiseError(404, "The xcache extension isn't available");
@@ -77,7 +71,7 @@ class JSessionStorageXcache extends JSessionStorage
 		$sess_id = 'sess_'.$id;
 
 		//check if id exists
-		if( !xcache_isset( $sess_id ) ){
+		if (!xcache_isset($sess_id)){
 			return;
 		}
 
@@ -95,7 +89,7 @@ class JSessionStorageXcache extends JSessionStorage
 	function write($id, $session_data)
 	{
 		$sess_id = 'sess_'.$id;
-		return xcache_set($sess_id, $session_data, ini_get("session.gc_maxlifetime")  );
+		return xcache_set($sess_id, $session_data, ini_get("session.gc_maxlifetime") );
 	}
 
 	/**
@@ -110,7 +104,7 @@ class JSessionStorageXcache extends JSessionStorage
 	{
 		$sess_id = 'sess_'.$id;
 
-		if( !xcache_isset( $sess_id ) ){
+		if (!xcache_isset($sess_id)){
 			return true;
 		}
 

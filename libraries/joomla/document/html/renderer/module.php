@@ -1,24 +1,18 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @subpackage	Document
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Document
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+// No direct access
+defined('JPATH_BASE') or die;
 
 /**
  * JDocument Module renderer
  *
- * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Document
  * @since		1.5
@@ -33,11 +27,13 @@ class JDocumentRendererModule extends JDocumentRenderer
 	 * @param array 		$params		Associative array of values
 	 * @return string	The output of the script
 	 */
-	function render( $module, $params = array(), $content = null )
+	function render($module, $params = array(), $content = null)
 	{
 		if (!is_object($module))
 		{
-			$module =& JModuleHelper::getModule($module);
+			$title	= isset($params['title']) ? $params['title'] : null;
+
+			$module = &JModuleHelper::getModule($module, $title);
 
 			if (!is_object($module))
 			{
@@ -59,8 +55,8 @@ class JDocumentRendererModule extends JDocumentRenderer
 		}
 
 		// get the user and configuration object
-		$user =& JFactory::getUser();
-		$conf =& JFactory::getConfig();
+		$user = &JFactory::getUser();
+		$conf = &JFactory::getConfig();
 
 		// set the module content
 		if (!is_null($content)) {
@@ -68,17 +64,16 @@ class JDocumentRendererModule extends JDocumentRenderer
 		}
 
 		//get module parameters
-		$mod_params = new JParameter( $module->params );
+		$mod_params = new JParameter($module->params);
 
 		$contents = '';
-		if ($mod_params->get('cache', 0) && $conf->getValue( 'config.caching' ))
+		if ($mod_params->get('cache', 0) && $conf->getValue('config.caching'))
 		{
-			$cache =& JFactory::getCache( $module->module );
+			$cache = &JFactory::getCache($module->module);
 
-			$cache->setLifeTime( $mod_params->get( 'cache_time', $conf->getValue( 'config.cachetime' ) * 60 ) );
-			$cache->setCacheValidation(true);
+			$cache->setLifeTime($mod_params->get('cache_time', $conf->getValue('config.cachetime') * 60));
 
-			$contents =  $cache->get( array('JModuleHelper', 'renderModule'), array( $module, $params ), $module->id. $user->get('aid', 0) );
+			$contents =  $cache->get(array('JModuleHelper', 'renderModule'), array($module, $params), $module->id. $user->get('aid', 0).md5(JRequest::getURI()));
 		} else {
 			$contents = JModuleHelper::renderModule($module, $params);
 		}

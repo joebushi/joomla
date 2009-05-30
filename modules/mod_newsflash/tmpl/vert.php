@@ -1,8 +1,19 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php
+/**
+ * @version		$Id$
+ * @package		Joomla.Site
+ * @subpackage	mod_newsflash
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
-<?php foreach ($list as $item) :
-	modNewsFlashHelper::renderItem($item, $params, $access);
-	if (count($list) > 1) : ?>
+// no direct access
+defined('_JEXEC') or die;
+?>
+
+<?php for ($i = 0, $n = count($list); $i < $n; $i ++) :
+	modNewsFlashHelper::renderItem($list[$i], $params, $access);
+	if ($n > 1 && (($i < $n - 1) || $params->get('showLastSeparator'))) : ?>
 		<span class="article_separator">&nbsp;</span>
  	<?php endif; ?>
-<?php endforeach; ?>
+<?php endfor; ?>

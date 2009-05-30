@@ -3,22 +3,16 @@
  * @version		$Id:language.php 6961 2007-03-15 16:06:53Z tcp $
  * @package		Joomla.Framework
  * @subpackage	Installer
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+// No direct access
+defined('JPATH_BASE') or die;
 
 /**
  * Language installer
  *
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Installer
  * @since		1.5
@@ -42,7 +36,7 @@ class JInstallerLanguage extends JObject
 	 */
 	function __construct(&$parent)
 	{
-		$this->parent =& $parent;
+		$this->parent = &$parent;
 	}
 
 	/**
@@ -54,21 +48,21 @@ class JInstallerLanguage extends JObject
 	 */
 	function install()
 	{
-		$manifest =& $this->parent->getManifest();
-		$this->manifest =& $manifest->document;
-		$root =& $manifest->document;
+		$manifest = &$this->parent->getManifest();
+		$this->manifest = &$manifest->document;
+		$root = &$manifest->document;
 
 		// Get the client application target
 		if ($root->attributes('client') == 'both')
 		{
-			$siteElement =& $root->getElementByPath('site');
-			$element =& $siteElement->getElementByPath('files');
+			$siteElement = &$root->getElementByPath('site');
+			$element = &$siteElement->getElementByPath('files');
 			if (!$this->_install('site', JPATH_SITE, 0, $element)) {
 				return false;
 			}
 
-			$adminElement =& $root->getElementByPath('administration');
-			$element =& $adminElement->getElementByPath('files');
+			$adminElement = &$root->getElementByPath('administration');
+			$element = &$adminElement->getElementByPath('files');
 			if (!$this->_install('administrator', JPATH_ADMINISTRATOR, 1, $element)) {
 				return false;
 			}
@@ -79,15 +73,15 @@ class JInstallerLanguage extends JObject
 		{
 			// Attempt to map the client to a base path
 			jimport('joomla.application.helper');
-			$client =& JApplicationHelper::getClientInfo($cname, true);
+			$client = &JApplicationHelper::getClientInfo($cname, true);
 			if ($client === null) {
 				$this->parent->abort(JText::_('Language').' '.JText::_('Install').': '.JText::_('Unknown client type').' ['.$cname.']');
 				return false;
 			}
 			$basePath = $client->path;
 			$clientId = $client->id;
-			$element =& $root->getElementByPath('files');
-			
+			$element = &$root->getElementByPath('files');
+
 			return $this->_install($cname, $basePath, $clientId, $element);
 		}
 		else
@@ -96,8 +90,8 @@ class JInstallerLanguage extends JObject
 			$cname = 'site';
 			$basePath = JPATH_SITE;
 			$clientId = 0;
-			$element =& $root->getElementByPath('files');
-			
+			$element = &$root->getElementByPath('files');
+
 			return $this->_install($cname, $basePath, $clientId, $element);
 		}
 	}
@@ -107,21 +101,21 @@ class JInstallerLanguage extends JObject
 	 */
 	function _install($cname, $basePath, $clientId, &$element)
 	{
-		$manifest =& $this->parent->getManifest();
-		$this->manifest =& $manifest->document;
-		$root =& $manifest->document;
+		$manifest = &$this->parent->getManifest();
+		$this->manifest = &$manifest->document;
+		$root = &$manifest->document;
 
 		// Get the language name
 		// Set the extensions name
-		$name =& $this->manifest->getElementByPath('name');
+		$name = &$this->manifest->getElementByPath('name');
 		$name = JFilterInput::clean($name->data(), 'cmd');
 		$this->set('name', $name);
 
 		// Get the Language tag [ISO tag, eg. en-GB]
-		$tag =& $root->getElementByPath('tag');
+		$tag = &$root->getElementByPath('tag');
 
 		// Check if we found the tag - if we didn't, we may be trying to install from an older language package
-		if ( ! $tag )
+		if (! $tag)
 		{
 			$this->parent->abort(JText::_('Language').' '.JText::_('Install').': '.JText::_('NO LANGUAGE TAG?'));
 			return false;
@@ -178,7 +172,7 @@ class JInstallerLanguage extends JObject
 		}
 
 		// Copy all the necessary font files to the common pdf_fonts directory
-		$this->parent->setPath('extension_site', $basePath.DS."language".DS.'pdf_fonts');
+		$this->parent->setPath('extension_site', JPATH_SITE.DS."language".DS.'pdf_fonts');
 		$overwrite = $this->parent->setOverwrite(true);
 		if ($this->parent->parseFiles($root->getElementByPath('fonts')) === false) {
 			// Install failed, rollback changes
@@ -192,7 +186,7 @@ class JInstallerLanguage extends JObject
 		if (is_a($description, 'JSimpleXMLElement')) {
 			$this->parent->set('message', $description->data());
 		} else {
-			$this->parent->set('message', '' );
+			$this->parent->set('message', '');
 		}
 		return true;
 	}

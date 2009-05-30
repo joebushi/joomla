@@ -1,19 +1,12 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Table
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+// No direct access
+defined('JPATH_BASE') or die;
 
 /**
  * Menu Types table
@@ -39,9 +32,9 @@ class JTableMenuTypes extends JTable
 	 * @access protected
 	 * @param database A database connector object
 	 */
-	function __construct( &$db )
+	function __construct(&$db)
 	{
-		parent::__construct( '#__menu_types', 'id', $db );
+		parent::__construct('#__menu_types', 'id', $db);
 	}
 
 	/**
@@ -49,18 +42,18 @@ class JTableMenuTypes extends JTable
 	 */
 	function check()
 	{
-		if (strstr( $this->menutype, '\'' ))
-		{
-			$this->setError(JText::_( 'The menu name cannot contain a \'', true ));
+		$this->menutype = JFilterOutput::stringURLSafe($this->menutype);
+		if (empty($this->menutype)) {
+			$this->setError("Cannot save: Empty menu type");
 			return false;
 		}
 
 		// correct spurious data
-		if (trim( $this->title) == '') {
+		if (trim($this->title) == '') {
 			$this->title = $this->menutype;
 		}
 
-		$db		=& JFactory::getDBO();
+		$db		= &JFactory::getDbo();
 
 		// check for unique menutype for new menu copy
 		$query = 'SELECT menutype' .
@@ -69,14 +62,14 @@ class JTableMenuTypes extends JTable
 			$query .= ' WHERE id != '.(int) $this->id;
 		}
 
-		$db->setQuery( $query );
+		$db->setQuery($query);
 		$menus = $db->loadResultArray();
 
 		foreach ($menus as $menutype)
 		{
 			if ($menutype == $this->menutype)
 			{
-				$this->setError( "Cannot save: Duplicate menu type '$this->menutype'" );
+				$this->setError("Cannot save: Duplicate menu type '{$this->menutype}'");
 				return false;
 			}
 		}

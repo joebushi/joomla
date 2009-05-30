@@ -3,17 +3,12 @@
  * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	FileSystem
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+// No direct access
+defined('JPATH_BASE') or die;
 
 jimport('joomla.filesystem.path');
 
@@ -21,7 +16,6 @@ jimport('joomla.filesystem.path');
  * A File handling class
  *
  * @static
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	FileSystem
  * @since		1.5
@@ -72,8 +66,12 @@ class JFile
 	 * @return boolean True on success
 	 * @since 1.5
 	 */
-	function copy($src, $dest, $path = null, $use_streams=false)
+	function copy($src, $dest, $path = null)
 	{
+		// Initialize variables
+		jimport('joomla.client.helper');
+		$FTPOptions = JClientHelper::getCredentials('ftp');
+
 		// Prepend a base path if it exists
 		if ($path) {
 			$src = JPath::clean($path.DS.$src);
@@ -82,49 +80,36 @@ class JFile
 
 		//Check src path
 		if (!is_readable($src)) {
-			JError::raiseWarning(21, 'JFile::copy: '.JText::_('Cannot find or read file' . ": '$src'"). $path);
+			JError::raiseWarning(21, 'JFile::copy: ' . JText::_('Cannot find or read file') . ": '$src'");
 			return false;
 		}
-		
-		if($use_streams) {
-			$stream =& JFactory::getStream();
-			if(!$stream->copy($src, $dest)) {
-				JError::raiseWarning(21, 'JFile::copy('. $src .', '. $dest .'): '. $stream->getError());
+
+		if ($FTPOptions['enabled'] == 1) {
+			// Connect the FTP client
+			jimport('joomla.client.ftp');
+			$ftp = & JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
+
+			// If the parent folder doesn't exist we must create it
+			if (!file_exists(dirname($dest))) {
+				jimport('joomla.filesystem.folder');
+				JFolder::create(dirname($dest));
+			}
+
+			//Translate the destination path for the FTP account
+			$dest = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
+			if (!$ftp->store($src, $dest)) {
+				// FTP connector throws an error
 				return false;
 			}
-			return true;
+			$ret = true;
 		} else {
-			// Initialize variables
-			jimport('joomla.client.helper');
-			$FTPOptions = JClientHelper::getCredentials('ftp');
-
-			if ($FTPOptions['enabled'] == 1) {
-				// Connect the FTP client
-				jimport('joomla.client.ftp');
-				$ftp = & JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
-	
-				// If the parent folder doesn't exist we must create it
-				if (!file_exists(dirname($dest))) {
-					jimport('joomla.filesystem.folder');
-					JFolder::create(dirname($dest));
-				}
-	
-				//Translate the destination path for the FTP account
-				$dest = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
-				if (!$ftp->store($src, $dest)) {
-					// FTP connector throws an error
-					return false;
-				}
-				$ret = true;
-			} else {
-				if (!@ copy($src, $dest)) {
-					JError::raiseWarning(21, JText::_('Copy failed'));
-					return false;
-				}
-				$ret = true;
+			if (!@ copy($src, $dest)) {
+				JError::raiseWarning(21, JText::_('Copy failed'));
+				return false;
 			}
-			return $ret;
+			$ret = true;
 		}
+		return $ret;
 	}
 
 	/**
@@ -191,8 +176,11 @@ class JFile
 	 * @return boolean True on success
 	 * @since 1.5
 	 */
-	function move($src, $dest, $path = '', $use_streams=false)
+	function move($src, $dest, $path = '')
 	{
+		// Initialize variables
+		jimport('joomla.client.helper');
+		$FTPOptions = JClientHelper::getCredentials('ftp');
 
 		if ($path) {
 			$src = JPath::clean($path.DS.$src);
@@ -200,44 +188,32 @@ class JFile
 		}
 
 		//Check src path
-		if (!is_readable($src)) { // && !is_writable($src)) { // file may not be writable by php if via ftp!
-			return JText::_('Cannot find source file');
+		if (!is_readable($src) && !is_writable($src)) {
+			JError::raiseWarning(21, 'JFile::move: ' . JText::_('Cannot find, read or write file') . ": '$src'");
+			return false;
 		}
 
-		if($use_streams) {
-			$stream =& JFactory::getStream();
-			if(!$stream->move($src, $dest)) {
-				JError::raiseWarning(21, 'JFile::move: '. $stream->getError());
+		if ($FTPOptions['enabled'] == 1) {
+			// Connect the FTP client
+			jimport('joomla.client.ftp');
+			$ftp = & JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
+
+			//Translate path for the FTP account
+			$src	= JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src), '/');
+			$dest	= JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
+
+			// Use FTP rename to simulate move
+			if (!$ftp->rename($src, $dest)) {
+				JError::raiseWarning(21, JText::_('Rename failed'));
 				return false;
 			}
-			return true;
 		} else {
-			// Initialize variables
-			jimport('joomla.client.helper');
-			$FTPOptions = JClientHelper::getCredentials('ftp');
-			
-			if ($FTPOptions['enabled'] == 1) {
-				// Connect the FTP client
-				jimport('joomla.client.ftp');
-				$ftp = & JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
-	
-				//Translate path for the FTP account
-				$src	= JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src), '/');
-				$dest	= JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
-	
-				// Use FTP rename to simulate move
-				if (!$ftp->rename($src, $dest)) {
-					JError::raiseWarning(21, JText::_('Rename failed'));
-					return false;
-				}
-			} else {
-				if (!@ rename($src, $dest)) {
-					JError::raiseWarning(21, JText::_('Rename failed'));
-					return false;
-				}
+			if (!@ rename($src, $dest)) {
+				JError::raiseWarning(21, JText::_('Rename failed'));
+				return false;
 			}
-			return true;
 		}
+		return true;
 	}
 
 	/**
@@ -255,15 +231,15 @@ class JFile
 	{
 		// Initialize variables
 		$data = null;
-		if($amount && $chunksize > $amount) { $chunksize = $amount; }
+		if ($amount && $chunksize > $amount) { $chunksize = $amount; }
 		if (false === $fh = fopen($filename, 'rb', $incpath)) {
 			JError::raiseWarning(21, 'JFile::read: '.JText::_('Unable to open file') . ": '$filename'");
 			return false;
 		}
 		clearstatcache();
-		if($offset) fseek($fh, $offset);
+		if ($offset) fseek($fh, $offset);
 		if ($fsize = @ filesize($filename)) {
-			if($amount && $fsize > $amount) {
+			if ($amount && $fsize > $amount) {
 				$data = fread($fh, $amount);
 			} else {
 				$data = fread($fh, $fsize);
@@ -292,42 +268,31 @@ class JFile
 	 * @return boolean True on success
 	 * @since 1.5
 	 */
-	function write($file, &$buffer, $use_streams=false)
+	function write($file, $buffer)
 	{
+		// Initialize variables
+		jimport('joomla.client.helper');
+		$FTPOptions = JClientHelper::getCredentials('ftp');
 
 		// If the destination directory doesn't exist we need to create it
 		if (!file_exists(dirname($file))) {
 			jimport('joomla.filesystem.folder');
 			JFolder::create(dirname($file));
 		}
-		
-		if($use_streams) {
-			$stream =& JFactory::getStream();
-			$stream->set('chunksize', (1024 * 1024 * 1024)); // beef up the chunk size to a meg
-			if(!$stream->writeFile($file, $buffer)) {
-				JError::raiseWarning(21, 'JFile::write('. $file.'): '. $stream->getError());
-				return false;
-			}
-			return true;
+
+		if ($FTPOptions['enabled'] == 1) {
+			// Connect the FTP client
+			jimport('joomla.client.ftp');
+			$ftp = & JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
+
+			// Translate path for the FTP account and use FTP write buffer to file
+			$file = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $file), '/');
+			$ret = $ftp->write($file, $buffer);
 		} else {
-			// Initialize variables
-			jimport('joomla.client.helper');
-			$FTPOptions = JClientHelper::getCredentials('ftp');
-			
-			if ($FTPOptions['enabled'] == 1) {
-				// Connect the FTP client
-				jimport('joomla.client.ftp');
-				$ftp = & JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
-		
-				// Translate path for the FTP account and use FTP write buffer to file
-				$file = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $file), '/');
-				$ret = $ftp->write($file, $buffer);
-			} else {
-				$file = JPath::clean($file);
-				$ret = file_put_contents($file, $buffer);
-			}
-			return $ret;
+			$file = JPath::clean($file);
+			$ret = file_put_contents($file, $buffer);
 		}
+		return $ret;
 	}
 
 	/**
@@ -338,8 +303,12 @@ class JFile
 	 * @return boolean True on success
 	 * @since 1.5
 	 */
-	function upload($src, $dest, $use_streams=false)
+	function upload($src, $dest)
 	{
+		// Initialize variables
+		jimport('joomla.client.helper');
+		$FTPOptions = JClientHelper::getCredentials('ftp');
+		$ret		= false;
 
 		// Ensure that the path is valid and clean
 		$dest = JPath::clean($dest);
@@ -350,48 +319,34 @@ class JFile
 			jimport('joomla.filesystem.folder');
 			JFolder::create($baseDir);
 		}
-		
-		if($use_streams) {
-			$stream =& JFactory::getStream();
-			if(!$stream->upload($src, $dest)) {
-				JError::raiseWarning(21, 'JFile::upload: '. $stream->getError());
-				return false;
+
+		if ($FTPOptions['enabled'] == 1) {
+			// Connect the FTP client
+			jimport('joomla.client.ftp');
+			$ftp = & JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
+
+			//Translate path for the FTP account
+			$dest = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
+
+			// Copy the file to the destination directory
+			if ($ftp->store($src, $dest)) {
+				$ftp->chmod($dest, 0777);
+				$ret = true;
+			} else {
+				JError::raiseWarning(21, JText::_('WARNFS_ERR02'));
 			}
-			return true;
 		} else {
-			// Initialize variables
-			jimport('joomla.client.helper');
-			$FTPOptions = JClientHelper::getCredentials('ftp');
-			$ret		= false;
-	
-			if ($FTPOptions['enabled'] == 1) {
-				// Connect the FTP client
-				jimport('joomla.client.ftp');
-				$ftp = & JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
-	
-				//Translate path for the FTP account
-				$dest = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
-	
-				// Copy the file to the destination directory
-				if ($ftp->store($src, $dest)) {
-					$ftp->chmod($dest, 0777);
+			if (is_writeable($baseDir) && move_uploaded_file($src, $dest)) { // Short circuit to prevent file permission errors
+				if (JPath::setPermissions($dest)) {
 					$ret = true;
 				} else {
-					JError::raiseWarning(21, JText::_('WARNFS_ERR02'));
+					JError::raiseWarning(21, JText::_('WARNFS_ERR01'));
 				}
 			} else {
-				if (is_writeable($baseDir) && move_uploaded_file($src, $dest)) { // Short circuit to prevent file permission errors
-					if (JPath::setPermissions($dest)) {
-						$ret = true;
-					} else {
-						JError::raiseWarning(21, JText::_('WARNFS_ERR01'));
-					}
-				} else {
-					JError::raiseWarning(21, JText::_('WARNFS_ERR02'));
-				}
+				JError::raiseWarning(21, JText::_('WARNFS_ERR02'));
 			}
-			return $ret;
 		}
+		return $ret;
 	}
 
 	/**
@@ -414,7 +369,11 @@ class JFile
 	 * @since 1.5
 	 */
 	function getName($file) {
-		$slash = strrpos($file, DS) + 1;
-		return substr($file, $slash);
+		$slash = strrpos($file, DS);
+		if ($slash !== false) {
+			return substr($file, $slash + 1);
+		} else {
+			return $file;
+		}
 	}
 }

@@ -1,24 +1,18 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+// No direct access
+defined('JPATH_BASE') or die;
 
 /**
  * Route handling class
  *
  * @static
- * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla.Framework
  * @since		1.5
  */
@@ -47,7 +41,7 @@ class JRoute
 			return null;
 		}
 
-		if ( (strpos($url, '&') !== 0 ) && (strpos($url, 'index.php') !== 0) ) {
+		if ((strpos($url, '&') !== 0) && (strpos($url, 'index.php') !== 0)) {
             return $url;
  		}
 
@@ -56,7 +50,7 @@ class JRoute
 		$url = $uri->toString(array('path', 'query', 'fragment'));
 
 		// Replace spaces
-		$url = preg_replace('/\s/', '%20', $url);
+		$url = preg_replace('/\s/u', '%20', $url);
 
 		/*
 		 * Get the secure/unsecure URLs.
@@ -66,22 +60,22 @@ class JRoute
 		 * 'http', then we need to do a quick string manipulation to switch schemes.
 		 */
 		$ssl	= (int) $ssl;
-		if ( $ssl )
+		if ($ssl)
 		{
-			$uri	         =& JURI::getInstance();
+			$uri	         = &JURI::getInstance();
 
 			// Get additional parts
 			static $prefix;
-			if ( ! $prefix ) {
-				$prefix = $uri->toString( array('host', 'port'));
+			if (! $prefix) {
+				$prefix = $uri->toString(array('host', 'port'));
 				//$prefix .= JURI::base(true);
 			}
 
 			// Determine which scheme we want
-			$scheme	= ( $ssl === 1 ) ? 'https' : 'http';
+			$scheme	= ($ssl === 1) ? 'https' : 'http';
 
 			// Make sure our url path begins with a slash
-			if ( ! preg_match('#^/#', $url) ) {
+			if (! preg_match('#^/#', $url)) {
 				$url	= '/' . $url;
 			}
 
@@ -89,8 +83,8 @@ class JRoute
 			$url	= $scheme . '://' . $prefix . $url;
 		}
 
-		if($xhtml) {
-			$url = str_replace( '&', '&amp;', $url );
+		if ($xhtml) {
+			$url = str_replace('&', '&amp;', $url);
 		}
 
 		return $url;
@@ -118,7 +112,7 @@ class JText
 	 */
 	function _($string, $jsSafe = false)
 	{
-		$lang =& JFactory::getLanguage();
+		$lang = &JFactory::getLanguage();
 		return $lang->_($string, $jsSafe);
 	}
 
@@ -132,7 +126,7 @@ class JText
 	 */
 	function sprintf($string)
 	{
-		$lang =& JFactory::getLanguage();
+		$lang = &JFactory::getLanguage();
 		$args = func_get_args();
 		if (count($args) > 0) {
 			$args[0] = $lang->_($args[0]);
@@ -151,7 +145,7 @@ class JText
 	 */
 	function printf($string)
 	{
-		$lang =& JFactory::getLanguage();
+		$lang = &JFactory::getLanguage();
 		$args = func_get_args();
 		if (count($args) > 0) {
 			$args[0] = $lang->_($args[0]);

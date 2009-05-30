@@ -3,39 +3,32 @@
  * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Registry
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+// No direct access
+defined('JPATH_BASE') or die;
 
 /**
  * Abstract Format for JRegistry
  *
  * @abstract
- * @author 		Samuel Moffatt <pasamio@gmail.com>
  * @package 	Joomla.Framework
  * @subpackage	Registry
  * @since		1.5
  */
-class JRegistryFormat extends JObject
+abstract class JRegistryFormat extends JObject
 {
 	/**
 	 * Returns a reference to a Format object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @static
 	 * @param	string	$format	The format to load
 	 * @return	object	Registry format handler
 	 * @since	1.5
 	 */
-	function &getInstance($format)
+	public static function &getInstance($format)
 	{
 		static $instances;
 
@@ -47,7 +40,7 @@ class JRegistryFormat extends JObject
 		if (empty ($instances[$format]))
 		{
 			$class = 'JRegistryFormat'.$format;
-			if(!class_exists($class))
+			if (!class_exists($class))
 			{
 				$path    = dirname(__FILE__).DS.'format'.DS.$format.'.php';
 				if (file_exists($path)) {
@@ -65,26 +58,18 @@ class JRegistryFormat extends JObject
 	/**
 	 * Converts an XML formatted string into an object
 	 *
-	 * @abstract
-	 * @access	public
 	 * @param	string	$data	Formatted string
 	 * @return	object	Data Object
 	 * @since	1.5
 	 */
-	function stringToObject( $data, $namespace='' ) {
-		return true;
-	}
+	abstract public function stringToObject($data, $namespace='');
 
 	/**
 	 * Converts an object into a formatted string
 	 *
-	 * @abstract
-	 * @access	public
 	 * @param	object	$object	Data Source Object
 	 * @return	string	Formatted string
 	 * @since	1.5
 	 */
-	function objectToString( &$object ) {
-
-	}
+	abstract public function objectToString(&$object, $params);
 }

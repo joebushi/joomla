@@ -1,70 +1,70 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla
-* @subpackage	Weblinks
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+// No direct access
+defined('_JEXEC') or die;
 
-jimport( 'joomla.application.component.view');
+jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the WebLinks component
  *
- * @static
- * @package		Joomla
- * @subpackage	Weblinks
- * @since 1.0
+ * @package		Joomla.Administrator
+ * @subpackage	com_weblinks
+ * @since		1.5
  */
 class WeblinksViewWeblinks extends JView
 {
-	function display($tpl = null)
+	public $state;
+	public $items;
+	public $pagination;
+
+	/**
+	 * Display the view
+	 *
+	 * @return	void
+	 */
+	public function display($tpl = null)
 	{
-		global $mainframe, $option;
+		$state		= $this->get('State');
+		$items		= $this->get('Items');
+		$pagination	= $this->get('Pagination');
 
-		$db		=& JFactory::getDBO();
-		$uri	=& JFactory::getURI();
+		// Check for errors.
+		if (count($errors = $this->get('Errors'))) {
+			JError::raiseError(500, implode("\n", $errors));
+			return false;
+		}
 
-		$filter_state		= $mainframe->getUserStateFromRequest( $option.'filter_state',		'filter_state',		'',				'word' );
-		$filter_catid		= $mainframe->getUserStateFromRequest( $option.'filter_catid',		'filter_catid',		0,				'int' );
-		$filter_order		= $mainframe->getUserStateFromRequest( $option.'filter_order',		'filter_order',		'a.ordering',	'cmd' );
-		$filter_order_Dir	= $mainframe->getUserStateFromRequest( $option.'filter_order_Dir',	'filter_order_Dir',	'',				'word' );
-		$search				= $mainframe->getUserStateFromRequest( $option.'search',			'search',			'',				'string' );
-		$search				= JString::strtolower( $search );
-
-		// Get data from the model
-		$items		= & $this->get( 'Data');
-		$total		= & $this->get( 'Total');
-		$pagination = & $this->get( 'Pagination' );
-
-		// build list of categories
-		$javascript 	= 'onchange="document.adminForm.submit();"';
-		$lists['catid'] = JHTML::_('list.category',  'filter_catid', $option, intval( $filter_catid ), $javascript );
-
-		// state filter
-		$lists['state']	= JHTML::_('grid.state',  $filter_state );
-
-		// table ordering
-		$lists['order_Dir'] = $filter_order_Dir;
-		$lists['order'] = $filter_order;
-
-		// search filter
-		$lists['search']= $search;
-
-		$this->assignRef('user',		JFactory::getUser());
-		$this->assignRef('lists',		$lists);
-		$this->assignRef('items',		$items);
-		$this->assignRef('pagination',	$pagination);
+		$this->assignRef('state',			$state);
+		$this->assignRef('items',			$items);
+		$this->assignRef('pagination',		$pagination);
 
 		parent::display($tpl);
+		$this->_setToolbar();
+	}
+
+	/**
+	 * Setup the Toolbar
+	 */
+	protected function _setToolbar()
+	{
+		JToolBarHelper::title(JText::_('Weblinks_Manager_Weblinks'), 'generic.png');
+		JToolBarHelper::publishList('weblinks.publish');
+		JToolBarHelper::unpublishList('weblinks.unpublish');
+		if ($this->state->get('filter.state') == -2) {
+			JToolBarHelper::deleteList('', 'weblinks.delete', 'JToolbar_Empty_trash');
+		}
+		else {
+			JToolBarHelper::trash('weblinks.trash');
+		}
+		JToolBarHelper::editListX('weblink.edit');
+		JToolBarHelper::addNewX('weblink.add');
+		JToolBarHelper::preferences('com_weblinks', '480', '570', 'JToolbar_Options');
+		JToolBarHelper::help('screen.weblink');
 	}
 }

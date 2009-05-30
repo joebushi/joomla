@@ -1,40 +1,35 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Config
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 /**
-* @package		Joomla
-* @subpackage	Config
-*/
+ * @package		Joomla.Administrator
+ * @subpackage	Config
+ */
 class ConfigApplicationView
 {
-	function showConfig( &$row, &$lists )
+	function showConfig(&$row, &$lists)
 	{
 		global $mainframe;
 
 		// Load tooltips behavior
-		JHTML::_('behavior.tooltip');
-		JHTML::_('behavior.switcher');
+		JHtml::_('behavior.tooltip');
+		JHtml::_('behavior.switcher');
 
 		// Load component specific configurations
-		$table =& JTable::getInstance('component');
-		$table->loadByOption( 'com_users' );
-		$userparams = new JParameter( $table->params, JPATH_ADMINISTRATOR.DS.'components'.DS.'com_users'.DS.'config.xml' );
-		$table->loadByOption( 'com_media' );
-		$mediaparams = new JParameter( $table->params, JPATH_ADMINISTRATOR.DS.'components'.DS.'com_media'.DS.'config.xml' );
+		$table = &JTable::getInstance('component');
+		$table->loadByOption('com_users');
+		$userparams = new JParameter($table->params, JPATH_ADMINISTRATOR.DS.'components'.DS.'com_users'.DS.'config.xml');
+		$table->loadByOption('com_media');
+		$mediaparams = new JParameter($table->params, JPATH_ADMINISTRATOR.DS.'components'.DS.'com_media'.DS.'config.xml');
 
 		// Build the component's submenu
 		$contents = '';
@@ -45,12 +40,23 @@ class ConfigApplicationView
 		ob_end_clean();
 
 		// Set document data
-		$document =& JFactory::getDocument();
+		$document = &JFactory::getDocument();
 		$document->setBuffer($contents, 'modules', 'submenu');
+
+		$document->addScriptDeclaration("
+			document.switcher = null;
+			window.addEvent('domready', function(){
+			 	toggler = $('submenu')
+			  	element = $('config-document')
+			  	if (element) {
+			  		document.switcher = new JSwitcher(toggler, element, {cookieName: toggler.getAttribute('class')});
+			  	}
+			});
+		");
 
 		// Load settings for the FTP layer
 		jimport('joomla.client.helper');
-		$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
+		$ftp = &JClientHelper::setCredentialsFromRequest('ftp');
 		?>
 		<form action="index.php" method="post" name="adminForm">
 		<?php if ($ftp) {
@@ -76,11 +82,15 @@ class ConfigApplicationView
 						<td width="60%">
 							<?php require_once($tmplpath.DS.'config_system.php'); ?>
 							<fieldset class="adminform">
-								<legend><?php echo JText::_( 'User Settings' ); ?></legend>
+								<legend><?php echo JText::_('User Settings'); ?></legend>
 								<?php echo $userparams->render('userparams'); ?>
 							</fieldset>
 							<fieldset class="adminform">
-								<legend><?php echo JText::_( 'Media Settings' ); ?></legend>
+								<legend><?php echo JText::_('Media Settings'); ?>
+				<span class="error hasTip" title="<?php echo JText::_('Warning');?>::<?php echo JText::_('WARNPATHCHANGES'); ?>">
+					<?php echo ConfigApplicationView::WarningIcon(); ?>
+				</span>
+								</legend>
 								<?php echo $mediaparams->render('mediaparams'); ?>
 							</fieldset>
 						</td>
@@ -114,8 +124,9 @@ class ConfigApplicationView
 		<input type="hidden" name="live_site" value="<?php echo isset($row->live_site) ? $row->live_site : ''; ?>" />
 		<input type="hidden" name="option" value="com_config" />
 		<input type="hidden" name="secret" value="<?php echo $row->secret; ?>" />
+		<input type="hidden" name="root_user" value="<?php echo $row->root_user; ?>" />
 		<input type="hidden" name="task" value="" />
-		<?php echo JHTML::_( 'form.token' ); ?>
+		<?php echo JHtml::_('form.token'); ?>
 		</form>
 		<?php
 	}

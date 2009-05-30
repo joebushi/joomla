@@ -1,27 +1,22 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Content
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
- * details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
-jimport( 'joomla.application.component.helper');
-jimport( 'joomla.application.component.model');
+jimport('joomla.application.component.helper');
+jimport('joomla.application.component.model');
 
 /**
  * Content Component Article Model
  *
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Content
  * @since		1.5
  */
@@ -50,13 +45,13 @@ class ContentModelElement extends JModel
 		}
 
 		// Initialize variables
-		$db		=& $this->getDBO();
+		$db		= &$this->getDbo();
 		$filter	= null;
 
 		// Get some variables from the request
-		$sectionid			= JRequest::getVar( 'sectionid', -1, '', 'int' );
+		$sectionid			= JRequest::getVar('sectionid', -1, '', 'int');
 		$redirect			= $sectionid;
-		$option				= JRequest::getCmd( 'option' );
+		$option				= JRequest::getCmd('option');
 		$filter_order		= $mainframe->getUserStateFromRequest('articleelement.filter_order',		'filter_order',		'',	'cmd');
 		$filter_order_Dir	= $mainframe->getUserStateFromRequest('articleelement.filter_order_Dir',	'filter_order_Dir',	'',	'word');
 		$catid				= $mainframe->getUserStateFromRequest('articleelement.catid',				'catid',			0,	'int');
@@ -103,7 +98,7 @@ class ContentModelElement extends JModel
 
 		// Keyword filter
 		if ($search) {
-			$where[] = 'LOWER( c.title ) LIKE '.$db->Quote( '%'.$db->getEscaped( $search, true ).'%', false );
+			$where[] = 'LOWER(c.title) LIKE '.$db->Quote('%'.$db->getEscaped($search, true).'%', false);
 		}
 
 		// Build the where clause of the content record query
@@ -123,11 +118,10 @@ class ContentModelElement extends JModel
 		$this->_page = new JPagination($total, $limitstart, $limit);
 
 		// Get the articles
-		$query = 'SELECT c.*, g.name AS groupname, cc.title as cctitle, u.name AS editor, f.content_id AS frontpage, s.title AS section_name, v.name AS author' .
+		$query = 'SELECT c.*, cc.title as cctitle, u.name AS editor, f.content_id AS frontpage, s.title AS section_name, v.name AS author' .
 				' FROM #__content AS c' .
 				' LEFT JOIN #__categories AS cc ON cc.id = c.catid' .
 				' LEFT JOIN #__sections AS s ON s.id = c.sectionid' .
-				' LEFT JOIN #__groups AS g ON g.id = c.access' .
 				' LEFT JOIN #__users AS u ON u.id = c.checked_out' .
 				' LEFT JOIN #__users AS v ON v.id = c.created_by' .
 				' LEFT JOIN #__content_frontpage AS f ON f.content_id = c.id' .
@@ -138,7 +132,7 @@ class ContentModelElement extends JModel
 
 		// If there is a db query error, throw a HTTP 500 and exit
 		if ($db->getErrorNum()) {
-			JError::raiseError( 500, $db->stderr() );
+			JError::raiseError(500, $db->stderr());
 			return false;
 		}
 

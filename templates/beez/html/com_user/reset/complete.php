@@ -1,12 +1,12 @@
-<?php // @version $Id: complete.php  $
-defined('_JEXEC') or die('Restricted access');
+<?php // @version $Id$
+defined('_JEXEC') or die;
 ?>
 
 <div class="componentheading">
 	<?php echo JText::_('Reset your Password'); ?>
 </div>
 
-<form action="index.php?option=com_user&amp;task=completereset" method="post" class="josForm form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_users&task=completereset'); ?>" method="post" class="josForm form-validate">
 	<table cellpadding="0" cellspacing="0" border="0" width="100%" class="contentpane">
 		<tr>
 			<td colspan="2" height="40">
@@ -32,5 +32,5 @@ defined('_JEXEC') or die('Restricted access');
 	</table>
 
 	<button type="submit" class="validate"><?php echo JText::_('Submit'); ?></button>
-	<?php echo JHTML::_( 'form.token' ); ?>
+	<?php echo JHtml::_('form.token'); ?>
 </form>

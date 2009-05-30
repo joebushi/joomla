@@ -1,12 +1,12 @@
 <fieldset class="adminform">
-	<legend><?php echo JText::_( 'FTP Settings' ); ?></legend>
+	<legend><?php echo JText::_('FTP Settings'); ?></legend>
 	<table class="admintable" cellspacing="1">
 
 		<tbody>
 		<tr>
 			<td width="185" class="key">
-				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Enable FTP' ); ?>::<?php echo JText::_( 'TIPENABLEFTP' ); ?>">
-						<?php echo JText::_( 'Enable FTP' ); ?>
+				<span class="editlinktip hasTip" title="<?php echo JText::_('Enable FTP'); ?>::<?php echo JText::_('TIPENABLEFTP'); ?>">
+						<?php echo JText::_('Enable FTP'); ?>
 					</span>
 			</td>
 			<td>
@@ -15,8 +15,8 @@
 		</tr>
 		<tr>
 			<td class="key">
-				<span class="editlinktip hasTip" title="<?php echo JText::_( 'FTP Host' ); ?>::<?php echo JText::_( 'TIPFTPHOST' ); ?>">
-						<?php echo JText::_( 'FTP Host' ); ?>
+				<span class="editlinktip hasTip" title="<?php echo JText::_('FTP Host'); ?>::<?php echo JText::_('TIPFTPHOST'); ?>">
+						<?php echo JText::_('FTP Host'); ?>
 					</span>
 			</td>
 			<td>
@@ -25,8 +25,8 @@
 		</tr>
 		<tr>
 			<td class="key">
-				<span class="editlinktip hasTip" title="<?php echo JText::_( 'FTP Port' ); ?>::<?php echo JText::_( 'TIPFTPPORT' ); ?>">
-						<?php echo JText::_( 'FTP Port' ); ?>
+				<span class="editlinktip hasTip" title="<?php echo JText::_('FTP Port'); ?>::<?php echo JText::_('TIPFTPPORT'); ?>">
+						<?php echo JText::_('FTP Port'); ?>
 					</span>
 			</td>
 			<td>
@@ -35,8 +35,8 @@
 		</tr>
 		<tr>
 			<td class="key">
-				<span class="editlinktip hasTip" title="<?php echo JText::_( 'FTP Username' ); ?>::<?php echo JText::_( 'TIPFTPUSERNAME' ); ?>">
-						<?php echo JText::_( 'FTP Username' ); ?>
+				<span class="editlinktip hasTip" title="<?php echo JText::_('FTP Username'); ?>::<?php echo JText::_('TIPFTPUSERNAME'); ?>">
+						<?php echo JText::_('FTP Username'); ?>
 					</span>
 			</td>
 			<td>
@@ -45,8 +45,8 @@
 		</tr>
 		<tr>
 			<td class="key">
-				<span class="editlinktip hasTip" title="<?php echo JText::_( 'FTP Password' ); ?>::<?php echo JText::_( 'TIPFTPPASSWORD' ); ?>">
-						<?php echo JText::_( 'FTP Password' ); ?>
+				<span class="editlinktip hasTip" title="<?php echo JText::_('FTP Password'); ?>::<?php echo JText::_('TIPFTPPASSWORD'); ?>">
+						<?php echo JText::_('FTP Password'); ?>
 					</span>
 			</td>
 			<td>
@@ -55,8 +55,8 @@
 		</tr>
 		<tr>
 			<td class="key">
-				<span class="editlinktip hasTip" title="<?php echo JText::_( 'FTP Root' ); ?>::<?php echo JText::_( 'TIPFTPROOT' ); ?>">
-						<?php echo JText::_( 'FTP Root' ); ?>
+				<span class="editlinktip hasTip" title="<?php echo JText::_('FTP Root'); ?>::<?php echo JText::_('TIPFTPROOT'); ?>">
+						<?php echo JText::_('FTP Root'); ?>
 					</span>
 			</td>
 			<td>

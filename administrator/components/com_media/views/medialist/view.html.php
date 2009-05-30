@@ -1,27 +1,22 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla
-* @subpackage	Media
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	Media
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+// No direct access
+defined('_JEXEC') or die;
 
-jimport( 'joomla.application.component.view');
+jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the Media component
  *
  * @static
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Media
  * @since 1.0
  */
@@ -36,14 +31,14 @@ class MediaViewMediaList extends JView
 
 		$style = $mainframe->getUserStateFromRequest('media.list.layout', 'layout', 'thumbs', 'word');
 
-		JHTML::_('behavior.mootools');
+		JHtml::_('behavior.framework', true);
 
 		$document = &JFactory::getDocument();
 		$document->addStyleSheet('components/com_media/assets/medialist-'.$style.'.css');
 
 		$document->addScriptDeclaration("
 		window.addEvent('domready', function() {
-			window.top.document.updateUploader();
+			window.top.document.updateUploader && window.top.document.updateUploader();
 			$$('a.img-preview').each(function(el) {
 				el.addEvent('click', function(e) {
 					new Event(e).stop();

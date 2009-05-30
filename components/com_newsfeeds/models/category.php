@@ -1,27 +1,21 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
+ * @package		Joomla.Site
  * @subpackage	Content
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
- * details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+// No direct access
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
 /**
  * Newsfeeds Component Category Model
  *
- * @author Johan Janssens <johan.janssens@joomla.org>
- * @package		Joomla
+ * @package		Joomla.Site
  * @subpackage	Newsfeeds
  * @since 1.5
  */
@@ -108,7 +102,7 @@ class NewsfeedsModelCategory extends JModel
 			$total = count($this->_data);
 			for($i = 0; $i < $total; $i++)
 			{
-				$item =& $this->_data[$i];
+				$item = &$this->_data[$i];
 				$item->slug = $item->id.'-'.$item->alias;
 			}
 		}
@@ -146,7 +140,7 @@ class NewsfeedsModelCategory extends JModel
 		if (empty($this->_pagination))
 		{
 			jimport('joomla.html.pagination');
-			$this->_pagination = new JPagination( $this->getTotal(), $this->getState('limitstart'), $this->getState('limit') );
+			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
 
 		return $this->_pagination;
@@ -163,7 +157,8 @@ class NewsfeedsModelCategory extends JModel
 		if ($this->_loadCategory())
 		{
 			// Initialize some variables
-			$user = &JFactory::getUser();
+			$user	= &JFactory::getUser();
+			$groups	= $user->authorisedLevels();
 
 			// Make sure the category is published
 			if (!$this->_category->published) {
@@ -171,7 +166,7 @@ class NewsfeedsModelCategory extends JModel
 				return false;
 			}
 			// check whether category access level allows access
-			if ($this->_category->access > $user->get('aid', 0)) {
+			if (!in_array($this->_category->access, $groups)) {
 				JError::raiseError(403, JText::_("ALERTNOTAUTH"));
 				return false;
 			}

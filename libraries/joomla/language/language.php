@@ -1,19 +1,14 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @subpackage	Language
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Language
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+// No direct access
+defined('JPATH_BASE') or die;
 
 /**
  * Languages/translation handler class
@@ -81,7 +76,7 @@ class JLanguage extends JObject
 	var $_paths	= array();
 
 	/**
-	 * Transaltions
+	 * Translations
 	 *
 	 * @var		array
 	 * @access	protected
@@ -107,7 +102,7 @@ class JLanguage extends JObject
 	{
 		$this->_strings = array ();
 
-		if ( $lang == null ) {
+		if ($lang == null) {
 			$lang = $this->_default;
 		}
 
@@ -145,7 +140,7 @@ class JLanguage extends JObject
 	*/
 	function _($string, $jsSafe = false)
 	{
-		//$key = str_replace( ' ', '_', strtoupper( trim( $string ) ) );echo '<br>'.$key;
+		//$key = str_replace(' ', '_', strtoupper(trim($string)));echo '<br />'.$key;
 		$key = strtoupper($string);
 		$key = substr($key, 0, 1) == '_' ? substr($key, 1) : $key;
 
@@ -154,11 +149,11 @@ class JLanguage extends JObject
 			$string = $this->_debug ? "&bull;".$this->_strings[$key]."&bull;" : $this->_strings[$key];
 
 			// Store debug information
-			if ( $this->_debug )
+			if ($this->_debug)
 			{
 				$caller = $this->_getCallerInfo();
 
-				if ( ! array_key_exists($key, $this->_used ) ) {
+				if (! array_key_exists($key, $this->_used)) {
 					$this->_used[$key] = array();
 				}
 
@@ -173,11 +168,11 @@ class JLanguage extends JObject
 				$string = $this->_debug ? '!!'.constant($string).'!!' : constant($string);
 
 				// Store debug information
-				if ( $this->_debug )
+				if ($this->_debug)
 				{
 					$caller = $this->_getCallerInfo();
 
-					if ( ! array_key_exists($key, $this->_used ) ) {
+					if (! array_key_exists($key, $this->_used)) {
 						$this->_used[$key] = array();
 					}
 
@@ -188,15 +183,16 @@ class JLanguage extends JObject
 			{
 				if ($this->_debug)
 				{
-					$string = '??'.$string.'??';
-
 					$caller	= $this->_getCallerInfo();
+					$caller['string'] = $string;
 
-					if ( ! array_key_exists($key, $this->_orphans ) ) {
+					if (! array_key_exists($key, $this->_orphans)) {
 						$this->_orphans[$key] = array();
 					}
 
 					$this->_orphans[$key][] = $caller;
+
+					$string = '??'.$string.'??';
 				}
 			}
 		}
@@ -246,14 +242,14 @@ class JLanguage extends JObject
 		static	$paths	= array();
 
 		// Return false if no language was specified
-		if ( ! $lang ) {
+		if (! $lang) {
 			return false;
 		}
 
 		$path	= $basePath.DS.'language'.DS.$lang;
 
 		// Return previous check results if it exists
-		if ( isset($paths[$path]) )
+		if (isset($paths[$path]))
 		{
 			return $paths[$path];
 		}
@@ -277,19 +273,19 @@ class JLanguage extends JObject
 	 * @return	boolean	True, if the file has successfully loaded.
 	 * @since	1.5
 	 */
-	function load( $extension = 'joomla', $basePath = JPATH_BASE, $lang = null, $reload = false )
+	function load($extension = 'joomla', $basePath = JPATH_BASE, $lang = null, $reload = false)
 	{
-		if ( ! $lang ) {
+		if (! $lang) {
 			$lang = $this->_lang;
 		}
 
-		$path = JLanguage::getLanguagePath( $basePath, $lang);
+		$path = JLanguage::getLanguagePath($basePath, $lang);
 
-		$filename = ( $extension == 'joomla' || $extension == '' ) ?  $lang : $lang . '.' . $extension ;
+		$filename = ($extension == 'joomla' || $extension == '') ?  $lang : $lang . '.' . $extension ;
 		$filename = $path.DS.$filename.'.ini';
 
 		$result = false;
-		if (isset( $this->_paths[$extension][$filename] ) && ! $reload )
+		if (isset($this->_paths[$extension][$filename]) && ! $reload)
 		{
 			// Strings for this file have already been loaded
 			$result = true;
@@ -297,17 +293,17 @@ class JLanguage extends JObject
 		else
 		{
 			// Load the language file
-			$result = $this->_load( $filename, $extension );
+			$result = $this->_load($filename, $extension);
 
 			// Check if there was a problem with loading the file
-			if ( $result === false )
+			if ($result === false)
 			{
 				// No strings, which probably means that the language file does not exist
-				$path		= JLanguage::getLanguagePath( $basePath, $this->_default);
-				$filename	= ( $extension == 'joomla' || $extension == '' ) ?  $this->_default : $this->_default . '.' . $extension ;
+				$path		= JLanguage::getLanguagePath($basePath, $this->_default);
+				$filename	= ($extension == 'joomla' || $extension == '') ?  $this->_default : $this->_default . '.' . $extension ;
 				$filename	= $path.DS.$filename.'.ini';
 
-				$result = $this->_load( $filename, $extension, false );
+				$result = $this->_load($filename, $extension, false);
 			}
 
 		}
@@ -328,25 +324,32 @@ class JLanguage extends JObject
 	* @see		JLanguage::load()
 	* @since	1.5
 	*/
-	function _load( $filename, $extension = 'unknown', $overwrite = true )
+	function _load($filename, $extension = 'unknown', $overwrite = true)
 	{
 		$result	= false;
 
-		if ($content = @file_get_contents( $filename ))
+		if ($content = @file_get_contents($filename))
 		{
+
+			//Take off BOM if present in the ini file
+			if ($content[0] == "\xEF" && $content[1] == "\xBB" && $content[2] == "\xBF")
+            {
+				$content = substr($content, 3);
+		  	}
+
 			$registry	= new JRegistry();
 			$registry->loadINI($content);
-			$newStrings	= $registry->toArray( );
+			$newStrings	= $registry->toArray();
 
-			if ( is_array( $newStrings) )
+			if (is_array($newStrings))
 			{
-				$this->_strings = $overwrite ? array_merge( $this->_strings, $newStrings) : array_merge( $newStrings, $this->_strings);
+				$this->_strings = $overwrite ? array_merge($this->_strings, $newStrings) : array_merge($newStrings, $this->_strings);
 				$result = true;
 			}
 		}
 
 		// Record the result of loading the extension's file.
-		if ( ! isset($this->_paths[$extension])) {
+		if (! isset($this->_paths[$extension])) {
 			$this->_paths[$extension] = array();
 		}
 
@@ -382,7 +385,7 @@ class JLanguage extends JObject
 	function _getCallerInfo()
 	{
 			// Try to determine the source if none was provided
-		if ( ! function_exists('debug_backtrace') ) {
+		if (!function_exists('debug_backtrace')) {
 			return null;
 		}
 
@@ -391,13 +394,13 @@ class JLanguage extends JObject
 
 		// Search through the backtrace to our caller
 		$continue = true;
-		while ( $continue && next($backtrace) )
+		while ($continue && next($backtrace))
 		{
-			$step		= current($backtrace);
-			$class		= @ $step['class'];
+			$step	= current($backtrace);
+			$class	= @ $step['class'];
 
 			// We're looking for something outside of language.php
-			if ( $class != 'JLanguage' && $class != 'JText') {
+			if ($class != 'JLanguage' && $class != 'JText') {
 				$info['function']	= @ $step['function'];
 				$info['class']		= $class;
 				$info['step']		= prev($backtrace);
@@ -434,9 +437,9 @@ class JLanguage extends JObject
 	 */
 	function getPaths($extension = null)
 	{
-		if ( isset($extension) )
+		if (isset($extension))
 		{
-			if ( isset($this->_paths[$extension]) )
+			if (isset($this->_paths[$extension]))
 				return $this->_paths[$extension];
 
 			return null;
@@ -448,39 +451,6 @@ class JLanguage extends JObject
 	}
 
 	/**
-	* Getter for PDF Font Name
-	*
-	* @access	public
-	* @return	string name of pdf font to be used
-	* @since	1.5
-	*/
-	function getPdfFontName() {
-		return $this->_metadata['pdffontname'];
-	}
-
-	/**
-	* Getter for Windows locale code page
-	*
-	* @access	public
-	* @return	string windows locale encoding
-	* @since	1.5
-	*/
-	function getWinCP() {
-		return $this->_metadata['wincodepage'];
-	}
-
-	/**
-	* Getter for backward compatible language name
-	*
-	* @access	public
-	* @return	string backward compatible name
-	* @since	1.5
-	*/
-	function getBackwardLang() {
-		return $this->_metadata['backwardlang'];
-	}
-
-	/**
 	* Get for the language tag (as defined in RFC 3066)
 	*
 	* @access	public
@@ -489,27 +459,6 @@ class JLanguage extends JObject
 	*/
 	function getTag() {
 		return $this->_metadata['tag'];
-	}
-
-	/**
-	* Get locale property
-	*
-	* @access	public
-	* @return	string The locale property
-	* @since	1.5
-	*/
-	function getLocale()
-	{
-		$locales = explode(',', $this->_metadata['locale']);
-
-		for($i = 0; $i < count($locales); $i++ ) {
-			$locale = $locales[$i];
-			$locale = trim($locale);
-			$locales[$i] = $locale;
-		}
-
-		//return implode(',', $locales);
-		return $locales;
 	}
 
 	/**
@@ -575,7 +524,7 @@ class JLanguage extends JObject
 	* Get the list of orphaned strings if being tracked
 	*
 	* @access	public
-	* @return	boolean True is in debug mode
+	* @return	array Orphaned text
 	* @since	1.5
 	*/
 	function getOrphans() {
@@ -623,7 +572,7 @@ class JLanguage extends JObject
 		$file = $lang.'.xml';
 
 		$result = null;
-		if(is_file($path.DS.$file)) {
+		if (is_file($path.DS.$file)) {
 			$result = JLanguage::_parseXMLLanguageFile($path.DS.$file);
 		}
 
@@ -655,7 +604,7 @@ class JLanguage extends JObject
 	 * @return	string	language related path or null
 	 * @since	1.5
 	 */
-	function getLanguagePath($basePath = JPATH_BASE, $language = null )
+	function getLanguagePath($basePath = JPATH_BASE, $language = null)
 	{
 		$dir = $basePath.DS.'language';
 		if (!empty($language)) {
@@ -680,9 +629,6 @@ class JLanguage extends JObject
 		$this->_lang		= $lang;
 		$this->_metadata	= $this->getMetadata($this->_lang);
 
-		//set locale based on the language tag
-		//TODO : add function to display locale setting in configuration
-		$locale = setlocale(LC_TIME, $this->getLocale());
 		return $previous;
 	}
 
@@ -748,7 +694,7 @@ class JLanguage extends JObject
 	function _parseXMLLanguageFile($path)
 	{
 		$xml = & JFactory::getXMLParser('Simple');
-		
+
 		// Load the file
 		if (!$xml || !$xml->loadFile($path)) {
 			return null;
@@ -770,4 +716,3 @@ class JLanguage extends JObject
 		return $metadata;
 	}
 }
-

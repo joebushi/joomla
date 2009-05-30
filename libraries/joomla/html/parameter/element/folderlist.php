@@ -1,24 +1,18 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @subpackage	Parameter
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Parameter
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+// No direct access
+defined('JPATH_BASE') or die;
 
 /**
  * Renders a filelist element
  *
- * @author 		Andrew Eddie
  * @package 	Joomla.Framework
  * @subpackage		Parameter
  * @since		1.5
@@ -32,11 +26,11 @@ class JElementFolderlist extends JElement
 	* @access	protected
 	* @var		string
 	*/
-	var	$_name = 'Folderlist';
+	protected $_name = 'Folderlist';
 
-	function fetchElement($name, $value, &$node, $control_name)
+	public function fetchElement($name, $value, &$node, $control_name)
 	{
-		jimport( 'joomla.filesystem.folder' );
+		jimport('joomla.filesystem.folder');
 
 		// path to images directory
 		$path		= JPATH_ROOT.DS.$node->attributes('directory');
@@ -49,21 +43,27 @@ class JElementFolderlist extends JElement
 		{
 			if ($exclude)
 			{
-				if (preg_match( chr( 1 ) . $exclude . chr( 1 ), $folder )) {
+				if (preg_match(chr(1) . $exclude . chr(1), $folder)) {
 					continue;
 				}
 			}
-			$options[] = JHTML::_('select.option', $folder, $folder);
+			$options[] = JHtml::_('select.option', $folder, $folder);
 		}
 
 		if (!$node->attributes('hide_none')) {
-			array_unshift($options, JHTML::_('select.option', '-1', '- '.JText::_('Do not use').' -'));
+			array_unshift($options, JHtml::_('select.option', '-1', '- '.JText::_('Do not use').' -'));
 		}
 
 		if (!$node->attributes('hide_default')) {
-			array_unshift($options, JHTML::_('select.option', '', '- '.JText::_('Use default').' -'));
+			array_unshift($options, JHtml::_('select.option', '', '- '.JText::_('Use default').' -'));
 		}
 
-		return JHTML::_('select.genericlist',  $options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', 'text', $value, "param$name");
+		return JHtml::_('select.genericlist', $options, $control_name .'['. $name .']',
+			array(
+				'id' => 'param'.$name,
+				'list.attr' => 'class="inputbox"',
+				'list.select' => $value
+			)
+		);
 	}
 }

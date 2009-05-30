@@ -1,88 +1,66 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // Set flag that this is a parent file
-define( '_JEXEC', 1 );
+define('_JEXEC', 1);
 
-define('JPATH_BASE', dirname(__FILE__) );
+define('JPATH_BASE', dirname(__FILE__));
 
 define('DS', DIRECTORY_SEPARATOR);
 
-require_once( JPATH_BASE .DS.'includes'.DS.'defines.php' );
-require_once( JPATH_BASE .DS.'includes'.DS.'framework.php' );
-require_once( JPATH_BASE .DS.'includes'.DS.'helper.php' );
-require_once( JPATH_BASE .DS.'includes'.DS.'toolbar.php' );
+require_once(JPATH_BASE .DS.'includes'.DS.'defines.php');
+require_once(JPATH_BASE .DS.'includes'.DS.'framework.php');
+require_once(JPATH_BASE .DS.'includes'.DS.'helper.php');
+require_once(JPATH_BASE .DS.'includes'.DS.'toolbar.php');
 
-JDEBUG ? $_PROFILER->mark( 'afterLoad' ) : null;
+JDEBUG ? $_PROFILER->mark('afterLoad') : null;
 
-/**
- * CREATE THE APPLICATION
- *
- * NOTE :
+/*
+ * Instantiate the application.
  */
-$mainframe =& JFactory::getApplication('administrator');
+$mainframe = &JFactory::getApplication('administrator');
 
-/**
- * INITIALISE THE APPLICATION
- *
- * NOTE :
+/*
+ * Initialise the application.
  */
 $mainframe->initialise(array(
-	'language' => $mainframe->getUserState( "application.lang", 'lang' )
+	'language' => $mainframe->getUserState('application.lang', 'lang')
 ));
 
-JPluginHelper::importPlugin('system');
-
-// trigger the onAfterInitialise events
+// Mark afterIntialise in the profiler.
 JDEBUG ? $_PROFILER->mark('afterInitialise') : null;
-$mainframe->triggerEvent('onAfterInitialise');
 
-/**
- * ROUTE THE APPLICATION
- *
- * NOTE :
+/*
+ * Route the application.
  */
 $mainframe->route();
 
-// trigger the onAfterRoute events
+// Mark afterRoute in the profiler.
 JDEBUG ? $_PROFILER->mark('afterRoute') : null;
-$mainframe->triggerEvent('onAfterRoute');
 
-/**
- * DISPATCH THE APPLICATION
- *
- * NOTE :
+/*
+ * Dispatch the application.
  */
 $option = JAdministratorHelper::findOption();
 $mainframe->dispatch($option);
 
-// trigger the onAfterDispatch events
+// Mark afterDispatch in the profiler.
 JDEBUG ? $_PROFILER->mark('afterDispatch') : null;
-$mainframe->triggerEvent('onAfterDispatch');
 
-/**
- * RENDER THE APPLICATION
- *
- * NOTE :
+/*
+ * Render the application.
  */
 $mainframe->render();
 
-// trigger the onAfterRender events
-JDEBUG ? $_PROFILER->mark( 'afterRender' ) : null;
-$mainframe->triggerEvent( 'onAfterRender' );
+// Mark afterRender in the profiler.
+JDEBUG ? $_PROFILER->mark('afterRender') : null;
 
-/**
- * RETURN THE RESPONSE
+/*
+ * Return the response.
  */
 echo JResponse::toString($mainframe->getCfg('gzip'));
-?>

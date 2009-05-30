@@ -1,25 +1,19 @@
 <?php
 /**
-* @version		$Id:storage.php 6961 2007-03-15 16:06:53Z tcp $
-* @package		Joomla.Framework
-* @subpackage	Cache
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id:storage.php 6961 2007-03-15 16:06:53Z tcp $
+ * @package		Joomla.Framework
+ * @subpackage	Cache
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+// No direct access
+defined('JPATH_BASE') or die;
 
 /**
  * Abstract cache storage handler
  *
  * @abstract
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Cache
  * @since		1.5
@@ -32,20 +26,22 @@ class JCacheStorage extends JObject
 	* @access protected
 	* @param array $options optional parameters
 	*/
-	function __construct( $options = array() )
+	function __construct($options = array())
 	{
 		$this->_application	= (isset($options['application'])) ? $options['application'] : null;
 		$this->_language	= (isset($options['language'])) ? $options['language'] : 'en-GB';
 		$this->_locking		= (isset($options['locking'])) ? $options['locking'] : true;
 		$this->_lifetime	= (isset($options['lifetime'])) ? $options['lifetime'] : null;
-		$this->_now			= time();
+		$this->_now		= (isset($options['now'])) ? $options['now'] : time();
 
- 		// Set time threshold value
-        if (is_null($this->_lifetime)) {
-            $this->_threshold = 0;
-        } else {
-            $this->_threshold = $this->_now - $this->_lifetime;
-        }
+		// Set time threshold value.  If the lifetime is not set, default to 60 (0 is BAD)
+		// _threshold is now available ONLY as a legacy (it's deprecated).  It's no longer used in the core.
+		if (empty($this->_lifetime)) {
+			$this->_threshold = $this->_now - 60;
+			$this->_lifetime = 60;
+		} else {
+			$this->_threshold = $this->_now - $this->_lifetime;
+		}
 	}
 
 	/**
@@ -59,30 +55,25 @@ class JCacheStorage extends JObject
 	 */
 	function &getInstance($handler = 'file', $options = array())
 	{
-		static $instances;
-
-		if (!isset ($instances)) {
-			$instances = array ();
+		static $now = null;
+		if (is_null($now)) {
+			$now = time();
 		}
-
+		$options['now'] = $now;
+		//We can't cache this since options may change...
 		$handler = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $handler));
-		if (!isset($instances[$handler]))
+		$class   = 'JCacheStorage'.ucfirst($handler);
+		if (!class_exists($class))
 		{
-			$class   = 'JCacheStorage'.ucfirst($handler);
-			if(!class_exists($class))
-			{
-				$path = dirname(__FILE__).DS.'storage'.DS.$handler.'.php';
-
-				if (file_exists($path) ) {
-					require_once($path);
-				} else {
-					return JError::raiseWarning(500, 'Unable to load Cache Storage: '.$handler);
-				}
+			$path = dirname(__FILE__).DS.'storage'.DS.$handler.'.php';
+			if (file_exists($path)) {
+				require_once($path);
+			} else {
+				return JError::raiseWarning(500, 'Unable to load Cache Storage: '.$handler);
 			}
-
-			$instances[$handler] = new $class($options);
 		}
-		return $instances[$handler];
+		$return = new $class($options);
+		return $return;
 	}
 
 	/**

@@ -1,27 +1,21 @@
 <?php
 
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @subpackage	Error
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Error
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+// No direct access
+defined('JPATH_BASE') or die;
 
 
 /**
  * Utility class to assist in the process of benchmarking the execution
  * of sections of code to understand where time is being spent.
  *
- * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	Error
  * @since 1.0
@@ -52,7 +46,7 @@ class JProfiler extends JObject
 	 * @access protected
 	 * @param string Prefix for mark messages
 	 */
-	function __construct( $prefix = '' )
+	function __construct($prefix = '')
 	{
 		$this->_start = $this->getmicrotime();
 		$this->_prefix = $prefix;
@@ -64,7 +58,7 @@ class JProfiler extends JObject
 	 * if it doesn't already exist.
 	 *
 	 * This method must be invoked as:
-	 * 		<pre>  $browser = & JProfiler::getInstance( $prefix );</pre>
+	 * 		<pre>  $browser = & JProfiler::getInstance($prefix);</pre>
 	 *
 	 * @access public
 	 * @param string Prefix used to distinguish profiler objects.
@@ -95,12 +89,12 @@ class JProfiler extends JObject
 	 * @param string A label for the time mark
 	 * @return string Mark enclosed in <div> tags
 	 */
-	function mark( $label )
+	function mark($label)
 	{
 		$mark	= $this->_prefix." $label: ";
 		$mark	.= sprintf('%.3f', $this->getmicrotime() - $this->_start) . ' seconds';
-		if ( function_exists('memory_get_usage') ) {
-			$mark	.= ', '.sprintf('%0.2f', memory_get_usage() / 1048576 ).' MB';
+		if (function_exists('memory_get_usage')) {
+			$mark	.= ', '.sprintf('%0.2f', memory_get_usage() / 1048576).' MB';
 		}
 
 		$this->_buffer[] = $mark;
@@ -115,7 +109,7 @@ class JProfiler extends JObject
 	 */
 	function getmicrotime()
 	{
-		list( $usec, $sec ) = explode( ' ', microtime() );
+		list($usec, $sec) = explode(' ', microtime());
 		return ((float)$usec + (float)$sec);
 	}
 
@@ -130,11 +124,11 @@ class JProfiler extends JObject
 	{
 		static $isWin;
 
-		if (function_exists( 'memory_get_usage' )) {
+		if (function_exists('memory_get_usage')) {
 			return memory_get_usage();
 		} else {
 			// Determine if a windows server
-			if (is_null( $isWin )) {
+			if (is_null($isWin)) {
 				$isWin = (substr(PHP_OS, 0, 3) == 'WIN');
 			}
 
@@ -144,11 +138,11 @@ class JProfiler extends JObject
 
 			if ($isWin) {
 				// Windows workaround
-				@exec( 'tasklist /FI "PID eq ' . $pid . '" /FO LIST', $output );
+				@exec('tasklist /FI "PID eq ' . $pid . '" /FO LIST', $output);
 				if (!isset($output[5])) {
 					$output[5] = null;
 				}
-				return substr( $output[5], strpos( $output[5], ':' ) + 1 );
+				return substr($output[5], strpos($output[5], ':') + 1);
 			} else {
 				@exec("ps -o rss -p $pid", $output);
 				return $output[1] *1024;

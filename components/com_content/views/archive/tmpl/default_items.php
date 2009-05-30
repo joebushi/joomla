@@ -1,8 +1,8 @@
 <?php // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
+defined('_JEXEC') or die; ?>
 <ul id="archive-list" style="list-style: none;">
 <?php foreach ($this->items as $item) : ?>
-	<li class="row<?php echo ($item->odd +1 ); ?>">
+	<li class="row<?php echo ($item->odd +1); ?>">
 		<h4 class="contentheading">
 			<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($item->slug)); ?>">
 				<?php echo $this->escape($item->title); ?></a>
@@ -44,7 +44,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<h5 class="metadata">
 		<?php if ($this->params->get('show_create_date')) : ?>
 			<span class="created-date">
-				<?php echo JText::_('Created').': '.$item->created; ?>
+				<?php echo JText::_('Created') .': '.  JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC2')) ?>
 			</span>
 			<?php endif; ?>
 			<?php if ($this->params->get('show_author')) : ?>
@@ -54,7 +54,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<?php endif; ?>
 		</h5>
 		<div class="intro">
-			<?php echo substr($item->introtext, 0, 255); ?>...
+			<?php echo substr(strip_tags($item->introtext), 0, 255);  ?>...
 		</div>
 	</li>
 <?php endforeach; ?>

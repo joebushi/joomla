@@ -1,26 +1,21 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Media
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
- * details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
-jimport( 'joomla.application.component.controller' );
+jimport('joomla.application.component.controller');
 
 /**
  * Media Manager Component Controller
  *
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Media
  * @version 1.5
  */
@@ -37,14 +32,14 @@ class MediaController extends JController
 		switch ($vName)
 		{
 			case 'images':
-				$vLayout = JRequest::getCmd( 'layout', 'default' );
+				$vLayout = JRequest::getCmd('layout', 'default');
 				$mName = 'manager';
 
 				break;
 
 			case 'imagesList':
 				$mName = 'list';
-				$vLayout = JRequest::getCmd( 'layout', 'default' );
+				$vLayout = JRequest::getCmd('layout', 'default');
 
 				break;
 
@@ -57,7 +52,7 @@ class MediaController extends JController
 			case 'media':
 			default:
 				$vName = 'media';
-				$vLayout = JRequest::getCmd( 'layout', 'default' );
+				$vLayout = JRequest::getCmd('layout', 'default');
 				$mName = 'manager';
 				break;
 		}
@@ -66,7 +61,7 @@ class MediaController extends JController
 		$vType		= $document->getType();
 
 		// Get/Create the view
-		$view = &$this->getView( $vName, $vType);
+		$view = &$this->getView($vName, $vType);
 
 		// Get/Create the model
 		if ($model = &$this->getModel($mName)) {

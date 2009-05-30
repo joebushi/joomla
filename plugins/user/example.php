@@ -3,17 +3,12 @@
  * @version		$Id$
  * @package		Joomla
  * @subpackage	JFramework
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+// No direct access
+defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
 
@@ -24,24 +19,8 @@ jimport('joomla.plugin.plugin');
  * @subpackage	JFramework
  * @since 		1.5
  */
-class plgUserExample extends JPlugin {
-
-	/**
-	 * Constructor
-	 *
-	 * For php4 compatability we must not use the __constructor as a constructor for plugins
-	 * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
-	 * This causes problems with cross-referencing necessary for the observer design pattern.
-	 *
-	 * @param object $subject The object to observe
-	 * @param 	array  $config  An array that holds the plugin configuration
-	 * @since 1.5
-	 */
-	function plgUserExample(& $subject, $config)
-	{
-		parent::__construct($subject, $config);
-	}
-
+class plgUserExample extends JPlugin
+{
 	/**
 	 * Example store user method
 	 *
@@ -52,7 +31,7 @@ class plgUserExample extends JPlugin {
 	 */
 	function onBeforeStoreUser($user, $isnew)
 	{
-		global $mainframe;
+		$mainframe = &JFactory::getApplication();
 	}
 
 	/**
@@ -65,9 +44,9 @@ class plgUserExample extends JPlugin {
 	 * @param	boolean		true if user was succesfully stored in the database
 	 * @param	string		message
 	 */
-	function onAfterStoreUser($user, $isnew, $succes, $msg)
+	function onAfterStoreUser($user, $isnew, $success, $msg)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		// convert the user parameters passed to the event
 		// to a format the external application
@@ -99,7 +78,7 @@ class plgUserExample extends JPlugin {
 	 */
 	function onBeforeDeleteUser($user)
 	{
-		global $mainframe;
+		$mainframe = &JFactory::getApplication();
 	}
 
 	/**
@@ -113,7 +92,7 @@ class plgUserExample extends JPlugin {
 	 */
 	function onAfterDeleteUser($user, $succes, $msg)
 	{
-		global $mainframe;
+		$mainframe = &JFactory::getApplication();
 
 	 	// only the $user['id'] exists and carries valid information
 
@@ -126,7 +105,7 @@ class plgUserExample extends JPlugin {
 	 *
 	 * @access	public
 	 * @param 	array 	holds the user data
-	 * @param 	array    extra options
+	 * @param 	array	extra options
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */

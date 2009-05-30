@@ -3,7 +3,7 @@
  * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Base
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -15,7 +15,6 @@
 /**
  * Object class, allowing __construct in PHP4.
  *
- * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Base
  * @since		1.5
@@ -70,7 +69,7 @@ class JObject
  	 */
 	function get($property, $default=null)
 	{
-		if(isset($this->$property)) {
+		if (isset($this->$property)) {
 			return $this->$property;
 		}
 		return $default;
@@ -85,11 +84,11 @@ class JObject
 	 * @see		get()
 	 * @since	1.5
  	 */
-	function getProperties( $public = true )
+	function getProperties($public = true)
 	{
 		$vars  = get_object_vars($this);
 
-        if($public)
+        if ($public)
 		{
 			foreach ($vars as $key => $value)
 			{
@@ -111,15 +110,15 @@ class JObject
 	 * @access	public
 	 * @since	1.5
 	 */
-	function getError($i = null, $toString = true )
+	function getError($i = null, $toString = true)
 	{
 		// Find the error
-		if ( $i === null) {
+		if ($i === null) {
 			// Default, return the last message
 			$error = end($this->_errors);
 		}
 		else
-		if ( ! array_key_exists($i, $this->_errors) ) {
+		if (! array_key_exists($i, $this->_errors)) {
 			// If $i has been specified but does not exist, return false
 			return false;
 		}
@@ -128,7 +127,7 @@ class JObject
 		}
 
 		// Check if only the string is requested
-		if ( JError::isError($error) && $toString ) {
+		if (JError::isError($error) && $toString) {
 			return $error->toString();
 		}
 
@@ -158,7 +157,7 @@ class JObject
 	 * @see		setProperties()
 	 * @since	1.5
 	 */
-	function set( $property, $value = null )
+	function set($property, $value = null)
 	{
 		$previous = isset($this->$property) ? $this->$property : null;
 		$this->$property = $value;
@@ -174,14 +173,14 @@ class JObject
 	* @see		set()
 	* @since	1.5
 	*/
-	function setProperties( $properties )
+	function setProperties($properties)
 	{
 		$properties = (array) $properties; //cast to an array
 
 		if (is_array($properties))
 		{
 			foreach ($properties as $k => $v) {
-				$this->set($k, $v); // use the set function which might be overriden
+				$this->$k = $v;
 			}
 
 			return true;
@@ -213,16 +212,5 @@ class JObject
 	function toString()
 	{
 		return get_class($this);
-	}
-
-	/**
-	 * Legacy Method, use {@link JObject::getProperties()}  instead
-	 *
-	 * @deprecated as of 1.5
-	 * @since 1.0
-	 */
-	function getPublicProperties()
-	{
-		return $this->getProperties();
 	}
 }

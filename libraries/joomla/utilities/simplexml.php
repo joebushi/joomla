@@ -1,19 +1,14 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @subpackage	Utilities
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Utilities
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+// No direct access
+defined('JPATH_BASE') or die;
 
 /**
  * SimpleXML implementation.
@@ -66,7 +61,7 @@ defined('JPATH_BASE') or die();
  * print $attr['gender']; // f
  *
  * // access children
- * foreach( $xml->root->node->children() as $child ) {
+ * foreach($xml->root->node->children() as $child) {
  *   print $child->data();
  * }
  * </code>
@@ -117,7 +112,7 @@ class JSimpleXML extends JObject
 	 */
 	function __construct($options = null)
 	{
-		if(! function_exists('xml_parser_create')) {
+		if (! function_exists('xml_parser_create')) {
 			return false; //TODO throw warning
 		}
 
@@ -127,9 +122,9 @@ class JSimpleXML extends JObject
 		// check parser resource
 		xml_set_object($this->_parser, $this);
 		xml_parser_set_option($this->_parser, XML_OPTION_CASE_FOLDING, 0);
-		if( is_array($options) )
+		if (is_array($options))
 		{
-			foreach( $options as $option => $value ) {
+			foreach($options as $option => $value) {
 				xml_parser_set_option($this->_parser, $option, $value);
 			}
 		}
@@ -169,12 +164,12 @@ class JSimpleXML extends JObject
 	function loadFile($path, $classname = null)
 	{
 		//Check to see of the path exists
-		if ( !file_exists( $path ) )  {
+		if (!file_exists($path))  {
 			return false;
 		}
 
 		//Get the XML document loaded into a variable
-		$xml = trim( file_get_contents($path) );
+		$xml = trim(file_get_contents($path));
 		if ($xml == '')
 		{
 			return false;
@@ -253,7 +248,7 @@ class JSimpleXML extends JObject
 	 */
 	function _handleError($code, $line, $col)
 	{
-		JError::raiseWarning( 'SOME_ERROR_CODE' , 'XML Parsing Error at '.$line.':'.$col.'. Error '.$code.': '.xml_error_string($code));
+		JError::raiseWarning('SOME_ERROR_CODE' , 'XML Parsing Error at '.$line.':'.$col.'. Error '.$code.': '.xml_error_string($code));
 	}
 
 	/**
@@ -282,10 +277,11 @@ class JSimpleXML extends JObject
 	function _startElement($parser, $name, $attrs = array())
 	{
 		//Check to see if tag is root-level
-		if (count($this->_stack) == 0)
+		$count = count($this->_stack);
+		if ($count == 0)
 		{
 			//If so, set the document as the current tag
-			$classname = get_class( $this ) . 'Element';
+			$classname = get_class($this) . 'Element';
 			$this->document = new $classname($name, $attrs);
 
 			//And start out the stack with the document tag
@@ -298,7 +294,7 @@ class JSimpleXML extends JObject
 			$parent = $this->_getStackLocation();
 
 			//Add the child
-			eval('$this->'.$parent.'->addChild($name, $attrs, '.count($this->_stack).');');
+			eval('$this->'.$parent.'->addChild($name, $attrs, '.$count.');');
 
 			//Update the stack
 			eval('$this->_stack[] = $name.\'[\'.(count($this->'.$parent.'->'.$name.') - 1).\']\';');
@@ -350,7 +346,6 @@ class JSimpleXML extends JObject
  * To loop through all of the direct children of a specific tag for this object, it
  * is probably easier to use the arrays of the specific tag names, as explained above.
  *
- * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	Utilities
  * @since 1.5
@@ -433,7 +428,7 @@ class JSimpleXMLElement extends JObject
 	 */
 	function attributes($attribute = null)
 	{
-		if(!isset($attribute)) {
+		if (!isset($attribute)) {
 			return $this->_attributes;
 		}
 
@@ -515,7 +510,7 @@ class JSimpleXMLElement extends JObject
 	{
 		//If there is no array already set for the tag name being added,
 		//create an empty array for it
-		if(!isset($this->$name)) {
+		if (!isset($this->$name)) {
 			$this->$name = array();
 		}
 
@@ -525,14 +520,14 @@ class JSimpleXMLElement extends JObject
 		}
 
 		//Create the child object itself
-		$classname = get_class( $this );
-		$child = new $classname( $name, $attrs, $level );
+		$classname = get_class($this);
+		$child = new $classname($name, $attrs, $level);
 
 		//Add the reference of it to the end of an array member named for the elements name
-		$this->{$name}[] =& $child;
+		$this->{$name}[] = &$child;
 
 		//Add the reference to the children array member
-		$this->_children[] =& $child;
+		$this->_children[] = &$child;
 
 		//return the new child
 		return $child;
@@ -566,7 +561,7 @@ class JSimpleXMLElement extends JObject
 	 */
 	function &getElementByPath($path)
 	{
-		$tmp	=& $this;
+		$tmp	= &$this;
 		$false	= false;
 		$parts	= explode('/', trim($path, '/'));
 
@@ -577,7 +572,7 @@ class JSimpleXMLElement extends JObject
 			{
 				if ($child->_name == $node)
 				{
-					$tmp =& $child;
+					$tmp = &$child;
 					$found = true;
 					break;
 				}
@@ -588,16 +583,16 @@ class JSimpleXMLElement extends JObject
 		}
 
 		if ($found) {
-			$ref =& $tmp;
+			$ref = &$tmp;
 		} else {
-			$ref =& $false;
+			$ref = &$false;
 		}
 		return $ref;
 	}
 
 	/**
-	 * traverses the tree calling the $callback( JSimpleXMLElement
-	 * $this, mixed $args=array() ) function with each JSimpleXMLElement.
+	 * traverses the tree calling the $callback(JSimpleXMLElement
+	 * $this, mixed $args=array()) function with each JSimpleXMLElement.
 	 *
 	 * @param string $callback function name
 	 * @param array $args
@@ -607,7 +602,7 @@ class JSimpleXMLElement extends JObject
 		$callback($this, $args);
 		// Map to all children
 		if ($n = count($this->_children)) {
-			for($i=0;$i<$n;$i++)
+			for ($i=0;$i<$n;$i++)
 			{
 				$this->_children[$i]->map($callback, $args);
 			}
@@ -640,7 +635,7 @@ class JSimpleXMLElement extends JObject
 		else //Otherwise...
 		{
 			//If there are children
-			if(!empty($this->_children))
+			if (!empty($this->_children))
 			{
 				//Close off the start tag
 				$out .= '>';
@@ -656,7 +651,7 @@ class JSimpleXMLElement extends JObject
 			}
 
 			//If there is data, close off the start tag and add the data
-			elseif(!empty($this->_data))
+			elseif (!empty($this->_data))
 				$out .= '>'.htmlspecialchars($this->_data);
 
 			//Add the end tag

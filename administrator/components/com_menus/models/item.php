@@ -1,28 +1,30 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Menus
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
- * details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+// No direct access
+defined('_JEXEC') or die;
 
-jimport( 'joomla.application.component.model' );
+jimport('joomla.application.component.model');
 
 /**
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Menus
  */
 class MenusModelItem extends JModel
 {
+	/**
+	* Menu Item ID
+	*
+	* @var int
+	*/
+	var $_id = null;
+
 	/** @var object JTable object */
 	var $_table = null;
 
@@ -48,6 +50,18 @@ class MenusModelItem extends JModel
 				}
 			}
 		}
+
+		$this->setId();
+	}
+
+	function setId()
+	{
+		$array = JRequest::getVar('cid', array(0), '', 'array');
+		$this->_id = (int) $array[0];
+
+		if (!$this->_id) {
+		$this->_id = JRequest::getInt('id', 0);
+		}
 	}
 
 	function &getItem()
@@ -57,11 +71,11 @@ class MenusModelItem extends JModel
 			return $item;
 		}
 
-		$table =& $this->_getTable();
+		$table = &$this->_getTable();
 
 		// Load the current item if it has been defined
 		$edit	= JRequest::getVar('edit',true);
-		$cid = JRequest::getVar( 'cid', array(0), '', 'array' );
+		$cid = JRequest::getVar('cid', array(0), '', 'array');
 		JArrayHelper::toInteger($cid, array(0));
 		if ($edit) {
 			$table->load($cid[0]);
@@ -97,26 +111,25 @@ class MenusModelItem extends JModel
 				$url = str_replace('index.php?', '', $table->link);
 				$url = str_replace('&amp;', '&', $url);
 				$table->linkparts = null;
-				if(strpos($url, '&amp;') !== false)
+				if (strpos($url, '&amp;') !== false)
 				{
 				   $url = str_replace('&amp;','&',$url);
 				}
 
 				parse_str($url, $table->linkparts);
 
-				$db = &$this->getDBO();
+				$db = &$this->getDbo();
 				if ($component = @$table->linkparts['option']) {
 					$query = 'SELECT `id`' .
 							' FROM `#__components`' .
 							' WHERE `link` <> \'\'' .
 							' AND `parent` = 0' .
 							' AND `option` = "'.$db->getEscaped($component).'"';
-					$db->setQuery( $query );
+					$db->setQuery($query);
 					$table->componentid = $db->loadResult();
 				}
 				break;
 		}
-
 		$item = $table;
 		return $item;
 	}
@@ -142,14 +155,14 @@ class MenusModelItem extends JModel
 	function &getUrlParams()
 	{
 		// Get the state parameters
-		$item	=& $this->getItem();
+		$item	= &$this->getItem();
 		$params	= new JParameter('');
 
-		if ($state =& $this->_getStateXML())
+		if ($state = &$this->_getStateXML())
 		{
 			if (is_a($state, 'JSimpleXMLElement'))
 			{
-				$sp =& $state->getElementByPath('url');
+				$sp = &$state->getElementByPath('url');
 				$params->setXML($sp);
 				if (isset($item->linkparts) && is_array($item->linkparts)) {
 					$params->loadArray($item->linkparts);
@@ -162,14 +175,14 @@ class MenusModelItem extends JModel
 	function &getStateParams()
 	{
 		// Get the state parameters
-		$item	=& $this->getItem();
+		$item	= &$this->getItem();
 		$params	= new JParameter($item->params);
 
-		if ($state =& $this->_getStateXML())
+		if ($state = &$this->_getStateXML())
 		{
 			if (is_a($state, 'JSimpleXMLElement'))
 			{
-				$sp =& $state->getElementByPath('params');
+				$sp = &$state->getElementByPath('params');
 				$params->setXML($sp);
 			}
 		}
@@ -179,14 +192,14 @@ class MenusModelItem extends JModel
 	function &getAdvancedParams()
 	{
 		// Get the state parameters
-		$item	=& $this->getItem();
+		$item	= &$this->getItem();
 		$params	= new JParameter($item->params);
 
-		if ($state =& $this->_getStateXML())
+		if ($state = &$this->_getStateXML())
 		{
 			if (is_a($state, 'JSimpleXMLElement'))
 			{
-				$ap =& $state->getElementByPath('advanced');
+				$ap = &$state->getElementByPath('advanced');
 				$params->setXML($ap);
 			}
 		}
@@ -202,20 +215,20 @@ class MenusModelItem extends JModel
 		if ($item->type == 'component')
 		{
 			$comp	= &$this->getComponent();
-			$option	= preg_replace( '#\W#', '', $comp->option );
+			$option	= preg_replace('#\W#', '', $comp->option);
 			$path	= JPATH_ADMINISTRATOR.DS.'components'.DS.$option.DS.'config.xml';
 
-			$params = new JParameter( $item->params );
-			if (file_exists( $path ))
+			$params = new JParameter($item->params);
+			if (file_exists($path))
 			{
-				$xml =& JFactory::getXMLParser('Simple');
+				$xml = &JFactory::getXMLParser('Simple');
 				if ($xml->loadFile($path))
 				{
-					$document =& $xml->document;
+					$document = &$xml->document;
 
 					// if hide is set, don't show the component configuration while editing menu item
 					$menu = $document->attributes('menu');
-					if ( isset($menu) && $menu == 'hide' )
+					if (isset($menu) && $menu == 'hide')
 					{
 						$params = null;
 						return $params;
@@ -240,11 +253,11 @@ class MenusModelItem extends JModel
 							}
 						}
 						// Now remove any hidden elements
-						for ($i = 0, $n = count( $hide ); $i < $n; $i++) {
-							$document->params[0]->removeChild( $hide[$i] );
+						for ($i = 0, $n = count($hide); $i < $n; $i++) {
+							$document->params[0]->removeChild($hide[$i]);
 						}
 					}
-					$params->setXML( $document->params[0] );
+					$params->setXML($document->params[0]);
 				}
 			}
 		}
@@ -257,13 +270,13 @@ class MenusModelItem extends JModel
 		$params	= null;
 		$item	= &$this->getItem();
 
-		$params = new JParameter( $item->params );
+		$params = new JParameter($item->params);
 		if ($item->type == 'component') {
 			$path = JPATH_BASE.DS.'components'.DS.'com_menus'.DS.'models'.DS.'metadata'.DS.'component.xml';
-			if (file_exists( $path )) {
-				$xml =& JFactory::getXMLParser('Simple');
+			if (file_exists($path)) {
+				$xml = &JFactory::getXMLParser('Simple');
 				if ($xml->loadFile($path)) {
-					$document =& $xml->document;
+					$document = &$xml->document;
 					$params->setXML($document->getElementByPath('state/params'));
 				}
 			}
@@ -280,15 +293,15 @@ class MenusModelItem extends JModel
 	 */
 	function getStateName()
 	{
-		$state =& $this->_getStateXML();
+		$state = &$this->_getStateXML();
 
-		if ( ! is_a($state, 'JSimpleXMLElement'))
+		if (! is_a($state, 'JSimpleXMLElement'))
 		{
 			return null;
 		}
 
 		$name = null;
-		$sn =& $state->getElementByPath('name');
+		$sn = &$state->getElementByPath('name');
 		if ($sn) {
 			$name = $sn->data();
 		}
@@ -305,16 +318,16 @@ class MenusModelItem extends JModel
 	 */
 	function getStateDescription()
 	{
-		$state =& $this->_getStateXML();
+		$state = &$this->_getStateXML();
 
 
-		if ( ! is_a($state, 'JSimpleXMLElement'))
+		if (! is_a($state, 'JSimpleXMLElement'))
 		{
 			return null;
 		}
 
 		$description = null;
-		$sd =& $state->getElementByPath('description');
+		$sd = &$state->getElementByPath('description');
 		if ($sd) {
 			$description = $sd->data();
 		}
@@ -327,27 +340,27 @@ class MenusModelItem extends JModel
 	 */
 	function &getComponent()
 	{
-		$item		=& $this->getItem();
+		$item		= &$this->getItem();
 		$id			= $item->componentid;
-		$component	= & JTable::getInstance( 'component');
-		$component->load( $id );
+		$component	= & JTable::getInstance('component');
+		$component->load($id);
 		return $component;
 	}
 
 	function checkout($uid = null)
 	{
 		$id = JRequest::getVar('cid', array(0), '', 'array');
-		JArrayHelper::toInteger( $id, array(0) );
+		JArrayHelper::toInteger($id, array(0));
 
 		// Make sure we have a user id to checkout the article with
 		if (is_null($uid)) {
-			$user	=& JFactory::getUser();
+			$user	= &JFactory::getUser();
 			$uid	= $user->get('id');
 		}
 
 		// Lets get to it and checkout the thing...
-		$item	=& $this->getItem();
-		if(!$item->checkout($uid, $id[0])) {
+		$item	= &$this->getItem();
+		if (!$item->checkout($uid, $id[0])) {
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
@@ -355,12 +368,28 @@ class MenusModelItem extends JModel
 		return true;
 	}
 
+	function checkin()
+	{
+		if ($this->_id) {
+			$item = &$this->_getTable();
+
+			if (!$item->checkin($this->_id)) {
+				$this->setError($this->_db->getErrorMsg());
+				return false;
+			}
+
+			return true;
+		}
+
+		return false;
+	}
+
 	function store()
 	{
 		// Initialize variables
-		$db		=& JFactory::getDBO();
-		$row	=& $this->getItem();
-		$post	= $this->_state->get( 'request' );
+		$db		= &JFactory::getDbo();
+		$row	= &$this->getItem();
+		$post	= $this->_state->get('request');
 
 		switch ($post['type'])
 		{
@@ -374,7 +403,7 @@ class MenusModelItem extends JModel
 			case 'component':
 				break;
 		}
-		if (!$row->bind( $post )) {
+		if (!$row->bind($post)) {
 			echo "<script> alert('".$row->getError(true)."'); window.history.go(-1); </script>\n";
 			return false;
 		}
@@ -383,35 +412,35 @@ class MenusModelItem extends JModel
 		{
 			// existing item
 			$query		= 'SELECT menutype FROM #__menu WHERE id = '.(int) $row->id;
-			$this->_db->setQuery( $query );
+			$this->_db->setQuery($query);
 			$oldType	= $this->_db->loadResult();
 			if ($oldType != $row->menutype) {
 				// moved to another menu, disconnect the old parent
 				$row->parent = 0;
 			}
 			$query		= 'SELECT parent FROM #__menu WHERE id = '.(int) $row->id;
-			$this->_db->setQuery( $query );
+			$this->_db->setQuery($query);
 			$oldParent	= $this->_db->loadResult();
 			if ($oldParent != $row->parent) {
 				// we have changed parents, so we have to fix the submenu values
 				if ($row->parent != 0) {
 					$query	= 'SELECT sublevel FROM #__menu WHERE id = '.(int) $row->parent;
-					$this->_db->setQuery( $query );
+					$this->_db->setQuery($query);
 					$sublevel = $this->_db->loadResult() + 1;
 				} else {
 					$sublevel = 0;
 				}
 				$row->sublevel = $sublevel;
-				$this->_setSubLevel( array( (int) $row->id ), $sublevel );
+				$this->_setSubLevel(array((int) $row->id), $sublevel);
 			}
 		}
 		else
 		{
 			// if new item order last in appropriate group
 			$where = "menutype = " . $db->Quote($row->menutype) . " AND published >= 0 AND parent = ".(int) $row->parent;
-			$row->ordering = $row->getNextOrder( $where );
+			$row->ordering = $row->getNextOrder($where);
 
-			if( $row->parent != 0 ) {
+			if ($row->parent != 0) {
 				$query = 'SELECT sublevel FROM #__menu WHERE id = '. (int) $row->parent;
 				$this->_db->setQuery($query);
 				$row->sublevel = $this->_db->loadResult() + 1;
@@ -420,26 +449,29 @@ class MenusModelItem extends JModel
 
 		if (isset($post['urlparams']) && is_array($post['urlparams']))
 		{
-			$pos = strpos( $row->link, '?' );
+			$pos = strpos($row->link, '?');
 			if ($pos !== false)
 			{
-				$prefix = substr( $row->link, 0, $pos );
-				$query	= substr( $row->link, $pos+1 );
+				$prefix = substr($row->link, 0, $pos);
+				$query	= substr($row->link, $pos+1);
 
 				$temp = array();
-				if(strpos($query, '&amp;') !== false) {
+				if (strpos($query, '&amp;') !== false) {
 					$query = str_replace('&amp;', '&', $query);
 				}
-				parse_str( $query, $temp );
-				$temp2 = array_merge( $temp, $post['urlparams'] );
+				parse_str($query, $temp);
+				$temp2 = array_merge($temp, $post['urlparams']);
 
 				$temp3 = array();
 				foreach ($temp2 as $k => $v)
 				{
-					$temp3[] = $k.'='.$v;
+					if ($k && strlen($v))
+					{
+						$temp3[] = $k.'='.$v;
+					}
 				}
 				$url = null;
-				$row->link = $prefix . '?' . implode( '&', $temp3 );
+				$row->link = $prefix . '?' . implode('&', $temp3);
 			}
 		}
 
@@ -456,11 +488,10 @@ class MenusModelItem extends JModel
 		}
 
 		$row->checkin();
-		$row->reorder( 'menutype='.$db->Quote( $row->menutype ).' AND parent='.(int)$row->parent );
+		$row->reorder('menutype='.$db->Quote($row->menutype).' AND parent='.(int)$row->parent);
 
-		// clean menu cache
-		$cache =& JFactory::getCache('mod_mainmenu');
-		$cache->clean();
+		// clean cache
+		MenusHelper::cleanCache();
 
 		return true;
 	}
@@ -471,55 +502,54 @@ class MenusModelItem extends JModel
 	 * Delete one or more menu items
 	 * @param mixed int or array of id values
 	 */
-	function delete( $ids )
+	function delete($ids)
 	{
 		JArrayHelper::toInteger($ids);
 
-		$db = &$this->getDBO();
+		$db = &$this->getDbo();
 
-		if (count( $ids ))
+		if (count($ids))
 		{
 			// Delete associated module and template mappings
-			$where = 'WHERE menuid = ' . implode( ' OR menuid = ', $ids );
+			$where = 'WHERE menuid = ' . implode(' OR menuid = ', $ids);
 
 			$query = 'DELETE FROM #__modules_menu '
 				. $where;
-			$db->setQuery( $query );
+			$db->setQuery($query);
 			if (!$db->query()) {
-				$this->setError( $menuTable->getErrorMsg() );
+				$this->setError($menuTable->getErrorMsg());
 				return false;
 			}
 
 			$query = 'DELETE FROM #__templates_menu '
 				. $where;
-			$db->setQuery( $query );
+			$db->setQuery($query);
 			if (!$db->query()) {
-				$this->setError( $menuTable->getErrorMsg() );
+				$this->setError($menuTable->getErrorMsg());
 				return false;
 			}
 
 			// Set any alias menu types to not point to missing menu items
-			$query = 'UPDATE #__menu SET link = 0 WHERE type = \'menulink\' AND (link = '.implode( ' OR id = ', $ids ).')';
-			$db->setQuery( $query );
+			$query = 'UPDATE #__menu SET link = 0 WHERE type = \'menulink\' AND (link = '.implode(' OR id = ', $ids).')';
+			$db->setQuery($query);
 			if (!$db->query()) {
-				$this->setError( $db->getErrorMsg() );
+				$this->setError($db->getErrorMsg());
 				return false;
 			}
 
 			// Delete the menu items
-			$where = 'WHERE id = ' . implode( ' OR id = ', $ids );
+			$where = 'WHERE id = ' . implode(' OR id = ', $ids);
 
 			$query = 'DELETE FROM #__menu ' . $where;
-			$db->setQuery( $query );
+			$db->setQuery($query);
 			if (!$db->query()) {
-				$this->setError( $db->getErrorMsg() );
+				$this->setError($db->getErrorMsg());
 				return false;
 			}
 		}
 
-		// clean menu cache
-		$cache =& JFactory::getCache('mod_mainmenu');
-		$cache->clean();
+		// clean cache
+		MenusHelper::cleanCache();
 
 		return true;
 	}
@@ -527,23 +557,23 @@ class MenusModelItem extends JModel
 	/**
 	 * Delete menu items by type
 	 */
-	function deleteByType( $type = '' )
+	function deleteByType($type = '')
 	{
-		$db = &$this->getDBO();
+		$db = &$this->getDbo();
 
 		$query = 'SELECT id' .
 				' FROM #__menu' .
-				' WHERE menutype = ' . $db->Quote( $type );
-		$db->setQuery( $query );
+				' WHERE menutype = ' . $db->Quote($type);
+		$db->setQuery($query);
 		$ids = $db->loadResultArray();
 
 		if ($db->getErrorNum())
 		{
-			$this->setError( $db->getErrorMsg() );
+			$this->setError($db->getErrorMsg());
 			return false;
 		}
 
-		return $this->delete( $ids );
+		return $this->delete($ids);
 	}
 
 	/**
@@ -553,7 +583,7 @@ class MenusModelItem extends JModel
 	function &_getTable()
 	{
 		if ($this->_table == null) {
-			$this->_table =& JTable::getInstance( 'menu');
+			$this->_table = &JTable::getInstance('menu');
 		}
 		return $this->_table;
 	}
@@ -600,7 +630,7 @@ class MenusModelItem extends JModel
 				}
 				if (!$xmlpath && isset($item->linkparts['option'])) {
 					$xmlpath = JPATH_ROOT.DS.'components'.DS.$item->linkparts['option'].DS.'metadata.xml';
-					if(!file_exists($xmlpath)) {
+					if (!file_exists($xmlpath)) {
 						$xmlpath = JApplicationHelper::getPath('com_xml', $item->linkparts['option']);
 					}
 				}
@@ -609,19 +639,19 @@ class MenusModelItem extends JModel
 
 		if (file_exists($xmlpath))
 		{
-			$xml =& JFactory::getXMLParser('Simple');
+			$xml = &JFactory::getXMLParser('Simple');
 			if ($xml->loadFile($xmlpath)) {
 				$this->_xml = &$xml;
-				$document =& $xml->document;
+				$document = &$xml->document;
 
 				/*
 				 * HANDLE NO OPTION CASE
 				 */
-				$menus =& $document->getElementByPath('menu');
+				$menus = &$document->getElementByPath('menu');
 				if (is_a($menus, 'JSimpleXMLElement') && $menus->attributes('options') == 'none') {
-					$xml =& $menus->getElementByPath('state');
+					$xml = &$menus->getElementByPath('state');
 				} else {
-					$xml =& $document->getElementByPath('state');
+					$xml = &$document->getElementByPath('state');
 				}
 
 				// Handle error case... path doesn't exist
@@ -641,7 +671,7 @@ class MenusModelItem extends JModel
 
 					foreach ($xml->children() as $child) {
 						if ($child->name() == $switchVal) {
-							$xml =& $child;
+							$xml = &$child;
 							$found = true;
 							break;
 						}
@@ -650,7 +680,7 @@ class MenusModelItem extends JModel
 					if (!$found) {
 						foreach ($xml->children() as $child) {
 							if ($child->name() == $default) {
-								$xml =& $child;
+								$xml = &$child;
 								break;
 							}
 						}
@@ -664,9 +694,9 @@ class MenusModelItem extends JModel
 				if (count($children) == 1)
 				{
 					if ($children[0]->name() == 'include') {
-						$ret =& $this->_getIncludedParams($children[0]);
+						$ret = &$this->_getIncludedParams($children[0]);
 						if ($ret) {
-							$xml =& $ret;
+							$xml = &$ret;
 						}
 					}
 				}
@@ -680,7 +710,7 @@ class MenusModelItem extends JModel
 
 					foreach ($xml->children() as $child) {
 						if ($child->name() == $switchVal) {
-							$xml =& $child;
+							$xml = &$child;
 							$found = true;
 							break;
 						}
@@ -689,7 +719,7 @@ class MenusModelItem extends JModel
 					if (!$found) {
 						foreach ($xml->children() as $child) {
 							if ($child->name() == $default) {
-								$xml =& $child;
+								$xml = &$child;
 								break;
 							}
 						}
@@ -708,7 +738,7 @@ class MenusModelItem extends JModel
 		$path	= $include->attributes('path');
 		$item 	= &$this->getItem();
 
-		preg_match_all( "/{([A-Za-z\-_]+)}/", $source, $tags);
+		preg_match_all("/{([A-Za-z\-_]+)}/", $source, $tags);
 		if (isset($tags[1])) {
 			for ($i=0;$i<count($tags[1]);$i++) {
 				$source = str_replace($tags[0][$i], @$item->linkparts[$tags[1][$i]], $source);
@@ -716,7 +746,7 @@ class MenusModelItem extends JModel
 		}
 
 		// load the source xml file
-		if (file_exists( JPATH_ROOT.$source ))
+		if (file_exists(JPATH_ROOT.$source))
 		{
 			$xml = & JFactory::getXMLParser('Simple');
 
@@ -734,23 +764,23 @@ class MenusModelItem extends JModel
 	 * @param array id values to set
 	 * @param int level to assign to the sublevel
 	 */
-	function _setSubLevel( $cid, $level )
+	function _setSubLevel($cid, $level)
 	{
 		JArrayHelper::toInteger($cid, array(0));
 
-		$ids = implode( ',', $cid );
+		$ids = implode(',', $cid);
 
 		$query	= 'UPDATE #__menu SET sublevel = '.(int) $level
 				.' WHERE id IN ('.$ids.')';
-		$this->_db->setQuery( $query );
+		$this->_db->setQuery($query);
 		$this->_db->query();
 
 		$query	= 'SELECT id FROM #__menu WHERE parent IN ('.$ids.')';
-		$this->_db->setQuery( $query );
-		$cids = $this->_db->loadResultArray( 0 );
+		$this->_db->setQuery($query);
+		$cids = $this->_db->loadResultArray(0);
 
-		if (!empty( $cids )) {
-			$this->_setSubLevel( $cids, $level + 1 );
+		if (!empty($cids)) {
+			$this->_setSubLevel($cids, $level + 1);
 		}
 	}
 }

@@ -1,19 +1,14 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @subpackage	Parameter
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Parameter
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+// No direct access
+defined('JPATH_BASE') or die;
 
 /**
  * Renders a editors element
@@ -31,15 +26,13 @@ class JElementUserGroup extends JElement
 	* @access	protected
 	* @var		string
 	*/
-	var	$_name = 'Editors';
+	protected $_name = 'Editors';
 
-	function fetchElement($name, $value, &$node, $control_name)
+	public function fetchElement($name, $value, &$node, $control_name)
 	{
-		$acl	=& JFactory::getACL();
-		$gtree	= $acl->get_group_children_tree( null, 'USERS', false );
 		$ctrl	= $control_name .'['. $name .']';
-
 		$attribs	= ' ';
+
 		if ($v = $node->attributes('size')) {
 			$attribs	.= 'size="'.$v.'"';
 		}
@@ -52,10 +45,10 @@ class JElementUserGroup extends JElement
 		{
 			$attribs	.= 'multiple="multiple"';
 			$ctrl		.= '[]';
-			//$value		= implode( '|', )
+			//$value		= implode('|',)
 		}
-		//array_unshift( $editors, JHTML::_('select.option',  '', '- '. JText::_( 'Select Editor' ) .' -' ) );
+		//array_unshift($editors, JHtml::_('select.option',  '', '- '. JText::_('Select Editor') .' -'));
 
-		return JHTML::_('select.genericlist',   $gtree, $ctrl, $attribs, 'value', 'text', $value, $control_name.$name );
+		return JHtml::_('access.usergroup', $ctrl, $value, $attribs, false);
 	}
 }

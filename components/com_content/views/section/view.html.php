@@ -1,19 +1,14 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
+ * @package		Joomla.Site
  * @subpackage	Content
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
- * details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+// No direct access
+defined('_JEXEC') or die;
 
 require_once (JPATH_COMPONENT.DS.'view.php');
 
@@ -21,7 +16,7 @@ require_once (JPATH_COMPONENT.DS.'view.php');
  * HTML View class for the Content component
  *
  * @static
- * @package		Joomla
+ * @package		Joomla.Site
  * @subpackage	Content
  * @since 1.5
  */
@@ -32,8 +27,8 @@ class ContentViewSection extends ContentView
 		global $mainframe, $option;
 
 		// Initialize some variables
-		$user		=& JFactory::getUser();
-		$document	=& JFactory::getDocument();
+		$user		= &JFactory::getUser();
+		$document	= &JFactory::getDocument();
 
 		// Get the page/component configuration
 		$params = &$mainframe->getParams();
@@ -51,19 +46,19 @@ class ContentViewSection extends ContentView
 		JRequest::setVar('limit', (int) $limit);
 
 		// Get some data from the model
-		$items		= & $this->get( 'Data');
-		$total		= & $this->get( 'Total');
-		$categories	= & $this->get( 'Categories' );
-		$section	= & $this->get( 'Section' );
+		$items		= & $this->get('Data');
+		$total		= & $this->get('Total');
+		$categories	= & $this->get('Categories');
+		$section	= & $this->get('Section');
 
 		// Create a user access object for the user
 		$access					= new stdClass();
-		$access->canEdit		= $user->authorize('com_content', 'edit', 'content', 'all');
-		$access->canEditOwn		= $user->authorize('com_content', 'edit', 'content', 'own');
-		$access->canPublish		= $user->authorize('com_content', 'publish', 'content', 'all');
+		$access->canEdit		= $user->authorize('com_content.article.edit_article');
+		$access->canEditOwn		= $user->authorize('com_content.article.edit_own');
+		$access->canPublish		= $user->authorize('com_content.article.publish');
 
 		//add alternate feed link
-		if($params->get('show_feed_link', 1) == 1)
+		if ($params->get('show_feed_link', 1) == 1)
 		{
 			$link	= '&format=feed&limitstart=';
 			$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
@@ -72,10 +67,31 @@ class ContentViewSection extends ContentView
 			$document->addHeadLink(JRoute::_($link.'&type=atom'), 'alternate', 'rel', $attribs);
 		}
 
+		$menus	= &JSite::getMenu();
+		$menu	= $menus->getActive();
+
+		// because the application sets a default page title, we need to get it
+		// right from the menu item itself
+		if (is_object($menu)) {
+			$menu_params = new JParameter($menu->params);
+			if (!$menu_params->get('page_title')) {
+				$params->set('page_title',	$section->title);
+			}
+		} else {
+			$params->set('page_title',	$section->title);
+		}
+		$document->setTitle($params->get('page_title'));
+
+		// Prepare section description
+		$section->description = JHtml::_('content.prepare', $section->description);
+
 		for($i = 0; $i < count($categories); $i++)
 		{
-			$category =& $categories[$i];
-			$category->link = JRoute::_('index.php?view=category&id='.$category->slug);
+			$category = &$categories[$i];
+			$category->link = JRoute::_(ContentHelperRoute::getCategoryRoute($category->slug, $category->section).'&layout=default');
+
+			// Prepare category description
+			$category->description = JHtml::_('content.prepare', $category->description);
 		}
 
 		if ($total == 0) {
@@ -98,13 +114,14 @@ class ContentViewSection extends ContentView
 		parent::display($tpl);
 	}
 
-	function &getItem( $index = 0, &$params)
+	function &getItem($index = 0, &$params)
 	{
 		global $mainframe;
 
 		// Initialize some variables
-		$user		=& JFactory::getUser();
-		$dispatcher	=& JDispatcher::getInstance();
+		$user		= &JFactory::getUser();
+		$groups		= $user->authorisedLevels();
+		$dispatcher	= &JDispatcher::getInstance();
 
 		$SiteName	= $mainframe->getCfg('sitename');
 
@@ -113,7 +130,7 @@ class ContentViewSection extends ContentView
 		$linkOn		= null;
 		$linkText	= null;
 
-		$item =& $this->items[$index];
+		$item = &$this->items[$index];
 		$item->text = $item->introtext;
 
 		// Get the page/component configuration and article parameters
@@ -131,7 +148,7 @@ class ContentViewSection extends ContentView
 		if (($item->params->get('show_readmore') && @ $item->readmore) || $item->params->get('link_titles'))
 		{
 			// checks if the item is a public or registered/special item
-			if ($item->access <= $user->get('aid', 0))
+			if (in_array($item->access, $groups))
 			{
 				//$item->readmore_link = JRoute::_("index.php?view=article&id=".$item->slug);
 				$item->readmore_link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug, $item->sectionid));
@@ -139,7 +156,11 @@ class ContentViewSection extends ContentView
 			}
 			else
 			{
-				$item->readmore_link = JRoute::_("index.php?option=com_user&task=register");
+				$item->readmore_link = JRoute::_("index.php?option=com_users&view=login");
+				$returnURL = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug, $item->sectionid),false);
+				$fullURL = new JURI($item->readmore_link);
+				$fullURL->setVar('return', base64_encode($returnURL));
+				$item->readmore_link = $fullURL->toString();
 				$item->readmore_register = true;
 			}
 		}

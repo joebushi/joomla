@@ -1,24 +1,19 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
+ * @package		Joomla.Site
  * @subpackage	MailTo
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
- * details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+// No direct access
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
 /**
- * @package		Joomla
+ * @package		Joomla.Site
  * @subpackage	MailTo
  */
 class MailtoController extends JController
@@ -32,7 +27,9 @@ class MailtoController extends JController
 	 */
 	function mailto()
 	{
-		JRequest::setVar( 'view', 'mailto' );
+		$session = &JFactory::getSession();
+		$session->set('com_mailto.formtime', time());
+		JRequest::setVar('view', 'mailto');
 		$this->display();
 	}
 
@@ -47,17 +44,30 @@ class MailtoController extends JController
 		global $mainframe;
 
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JRequest::checkToken() or jexit('Invalid Token');
+		$session = &JFactory::getSession();
+		$db	= &JFactory::getDbo();
 
-		$db	=& JFactory::getDBO();
+		$timeout = $session->get('com_mailto.formtime', 0);
+		if ($timeout == 0 || time() - $timeout < 20) {
+			JError::raiseNotice(500, JText:: _ ('EMAIL_NOT_SENT'));
+			return $this->mailto();
+		}
 
-		jimport( 'joomla.mail.helper' );
+		jimport('joomla.mail.helper');
 
 		$SiteName 	= $mainframe->getCfg('sitename');
 		$MailFrom 	= $mainframe->getCfg('mailfrom');
 		$FromName 	= $mainframe->getCfg('fromname');
 
-		$link 		= base64_decode( JRequest::getVar( 'link', '', 'post', 'base64' ) );
+		$link 		= base64_decode(JRequest::getVar('link', '', 'post', 'base64'));
+
+		// Verify that this is a local link
+		if (!JURI::isInternal($link)) {
+			//Non-local url...
+			JError::raiseNotice(500, JText:: _ ('EMAIL_NOT_SENT'));
+			return $this->mailto();
+		}
 
 		// An array of e-mail headers we do not want to allow as input
 		$headers = array (	'Content-Type:',
@@ -71,12 +81,12 @@ class MailtoController extends JController
 						 'sender',
 						 'from',
 						 'subject',
-						 );
+						);
 
 		/*
 		 * Here is the meat and potatoes of the header injection test.  We
 		 * iterate over the array of form input and check for header strings.
-		 * If we fine one, send an unauthorized header and die.
+		 * If we find one, send an unauthorized header and die.
 		 */
 		foreach ($fields as $field)
 		{
@@ -102,27 +112,27 @@ class MailtoController extends JController
 
 		// Check for a valid to address
 		$error	= false;
-		if ( ! $email  || ! JMailHelper::isEmailAddress($email) )
+		if (! $email  || ! JMailHelper::isEmailAddress($email))
 		{
 			$error	= JText::sprintf('EMAIL_INVALID', $email);
-			JError::raiseWarning(0, $error );
+			JError::raiseWarning(0, $error);
 		}
 
 		// Check for a valid from address
-		if ( ! $from || ! JMailHelper::isEmailAddress($from) )
+		if (! $from || ! JMailHelper::isEmailAddress($from))
 		{
 			$error	= JText::sprintf('EMAIL_INVALID', $from);
-			JError::raiseWarning(0, $error );
+			JError::raiseWarning(0, $error);
 		}
 
-		if ( $error )
+		if ($error)
 		{
 			return $this->mailto();
 		}
 
 		// Build the message to send
 		$msg	= JText :: _('EMAIL_MSG');
-		$body	= sprintf( $msg, $SiteName, $sender, $from, $link);
+		$body	= sprintf($msg, $SiteName, $sender, $from, $link);
 
 		// Clean the email data
 		$subject = JMailHelper::cleanSubject($subject);
@@ -130,13 +140,13 @@ class MailtoController extends JController
 		$sender	 = JMailHelper::cleanAddress($sender);
 
 		// Send the email
-		if ( JUtility::sendMail($from, $sender, $email, $subject, $body) !== true )
+		if (JUtility::sendMail($from, $sender, $email, $subject, $body) !== true)
 		{
-			JError::raiseNotice( 500, 'EMAIL_NOT_SENT' );
+			JError::raiseNotice(500, JText:: _ ('EMAIL_NOT_SENT'));
 			return $this->mailto();
 		}
 
-		JRequest::setVar( 'view', 'sent' );
+		JRequest::setVar('view', 'sent');
 		$this->display();
 	}
 }

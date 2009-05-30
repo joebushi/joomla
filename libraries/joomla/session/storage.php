@@ -1,30 +1,24 @@
 <?php
 /**
-* @version		$Id:sessionstorage.php 6961 2007-03-15 16:06:53Z tcp $
-* @package		Joomla.Framework
-* @subpackage	Session
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id:sessionstorage.php 6961 2007-03-15 16:06:53Z tcp $
+ * @package		Joomla.Framework
+ * @subpackage	Session
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+// No direct access
+defined('JPATH_BASE') or die;
 
 /**
 * Custom session storage handler for PHP
 *
 * @abstract
-* @author		Johan Janssens <johan.janssens@joomla.org>
-* @package		Joomla.Framework
-* @subpackage	Session
-* @since		1.5
+ * @package		Joomla.Framework
+ * @subpackage	Session
+ * @since		1.5
 * @see http://www.php.net/manual/en/function.session-set-save-handler.php
-*/
+ */
 class JSessionStorage extends JObject
 {
 	/**
@@ -33,7 +27,7 @@ class JSessionStorage extends JObject
 	* @access protected
 	* @param array $options optional parameters
 	*/
-	function __construct( $options = array() )
+	function __construct($options = array())
 	{
 		$this->register($options);
 	}
@@ -59,7 +53,7 @@ class JSessionStorage extends JObject
 		if (empty ($instances[$name]))
 		{
 			$class = 'JSessionStorage'.ucfirst($name);
-			if(!class_exists($class))
+			if (!class_exists($class))
 			{
 				$path = dirname(__FILE__).DS.'storage'.DS.$name.'.php';
 				if (file_exists($path)) {
@@ -82,7 +76,7 @@ class JSessionStorage extends JObject
 	* @access public
 	* @param array $options optional parameters
 	*/
-	function register( $options = array() )
+	function register($options = array())
 	{
 		// use this object as the session handler
 		session_set_save_handler(

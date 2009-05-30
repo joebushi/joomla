@@ -1,14 +1,9 @@
 <?php
 /**
- * @version		$Id: router.php 7380 2007-05-06 21:26:03Z eddieajau $
- * @package		Joomla
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
+ * @version		$Id$
+ * @package		Joomla.Site
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 function ContactBuildRoute(&$query)
@@ -48,6 +43,11 @@ function ContactBuildRoute(&$query)
 		{
 			foreach ($items as $item)
 			{
+				if (isset($item->id) && isset($query['Itemid'])
+				    && $item->id != $query['Itemid'])
+				{
+				    continue;
+				}
 				// Check if this menu item links to this view.
 				if (isset($item->query['view']) && $item->query['view'] == 'contact'
 					&& isset($query['view']) && $query['view'] == 'contact'
@@ -69,6 +69,11 @@ function ContactBuildRoute(&$query)
 		{
 			foreach ($items as $item)
 			{
+				if (isset($item->id) && isset($query['Itemid'])
+				    && $item->id != $query['Itemid'])
+				{
+				    continue;
+				}
 				if (isset($query['view']) && $query['view'] == 'contact'
 					&& isset($item->query['view']) && $item->query['view'] == 'category')
 				{
@@ -102,6 +107,20 @@ function ContactBuildRoute(&$query)
 	// Check if the router found an appropriate itemid.
 	if (!$itemid)
 	{
+		// Check if a catid was specified.
+		if (isset($query['catid']))
+		{
+			if (isset($query['catalias'])) {
+				$query['catid'] .= ':'.$query['catalias'];
+			}
+
+			$segments[] = $query['catid'];
+
+			unset($query['view']);
+			unset($query['catid']);
+			unset($query['catalias']);
+		}
+
 		// Check if a id was specified.
 		if (isset($query['id']))
 		{
@@ -115,30 +134,6 @@ function ContactBuildRoute(&$query)
 			unset($query['view']);
 			unset($query['id']);
 			unset($query['alias']);
-		}
-		elseif (isset($query['catid']))
-		{
-			if (isset($query['catalias'])) {
-				$query['catid'] .= ':'.$query['catalias'];
-			}
-
-			if (isset($query['alias'])) {
-				$query['id'] .= ':'.$query['alias'];
-			}
-
-			// Push the catid onto the stack.
-			$segments[]	= 'category';
-			$segments[] = $query['catid'];
-
-			// Push the id onto the stack.
-			$segments[] = $query['id'];
-
-			// Remove the unnecessary URL segments.
-			unset($query['view']);
-			unset($query['id']);
-			unset($query['alias']);
-			unset($query['catid']);
-			unset($query['catalias']);
 		}
 	}
 	else
@@ -171,8 +166,8 @@ function ContactParseRoute($segments)
 		if (isset($item->query['view']) && $item->query['view'] == 'contact' && isset($segments[0]))
 		{
 			// Break up the contact id into numeric and alias values.
-			if (isset($segments[0]) && strpos($segments[0], ':')) {
-				list($id, $alias) = explode(':', $segments[0], 2);
+			if (isset($segments[1]) && strpos($segments[1], ':')) {
+				list($id, $alias) = explode(':', $segments[1], 2);
 			}
 
 			// Contact view.

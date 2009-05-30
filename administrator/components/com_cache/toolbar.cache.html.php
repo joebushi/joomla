@@ -1,24 +1,19 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Cache
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 /**
-* @package		Joomla
-* @subpackage	Cache
-*/
+ * @package		Joomla.Administrator
+ * @subpackage	Cache
+ */
 class TOOLBAR_cache
 {
 	/**
@@ -26,8 +21,15 @@ class TOOLBAR_cache
 	*/
 	function _DEFAULT() {
 
-		JToolBarHelper::title( JText::_( 'Cache Manager' ), 'cache.png' );
-		JToolBarHelper::custom( 'delete', 'delete.png', 'delete_f2.png', 'Delete', true );
-		JToolBarHelper::help( 'screen.cache' );
+		JToolBarHelper::title(JText::_('Cache Manager - Clean Cache Admin'), 'checkin.png');
+		JToolBarHelper::custom('delete', 'delete.png', 'delete_f2.png', 'Delete', true);
+		JToolBarHelper::help('screen.cache');
+	}
+
+	function _PURGEADMIN() {
+
+		JToolBarHelper::title(JText::_('Cache Manager - Purge Cache Admin'), 'checkin.png');
+		JToolBarHelper::custom('purge', 'delete.png', 'delete_f2.png', 'Purge expired', false);
+		JToolBarHelper::help('screen.cache');
 	}
 }

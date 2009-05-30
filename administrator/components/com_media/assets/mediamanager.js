@@ -1,21 +1,12 @@
 /**
-* @version      $Id$
-* @package      Joomla
-* @copyright    Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license      GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
-
+ * @version		$Id$
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 /**
  * JMediaManager behavior for media component
  *
- * @author      Johan Janssens <johan.janssens@joomla.org>
- * @author      Louis Landry <louis.landry@joomla.org>
  * @package     Joomla.Extensions
  * @subpackage  Media
  * @since       1.5
@@ -36,12 +27,19 @@ var MediaManager = {
         this.tree = new MooTreeControl({ div: 'media-tree_tree', mode: 'folders', grid: true, theme: 'components/com_media/assets/mootree.gif', onClick:
                 function(node){
                     target = $chk(node.data.target) ? node.data.target : '_self';
-                    window.frames[target].location.href = node.data.url;
-                }
+                    
+                    // Get the current URL.
+                   	uri = this._getUriObject(this.frameurl);
+                   	current	= uri.file+'?'+uri.query;
+                    
+                    if (current != node.data.url) {
+                    	window.frames[target].location.href = node.data.url;
+                    }
+                }.bind(this)
             },{ text: 'Media', open: true, data: { url: 'index.php?option=com_media&view=mediaList&tmpl=component', target: 'folderframe'}});
         this.tree.adopt('media-tree');
     },
-    
+
     submit: function(task)
     {
         form = window.frames['folderframe'].document.getElementById('mediamanager-form');
@@ -71,9 +69,9 @@ var MediaManager = {
         }
 
         if (node) {
-            this.tree.select(node, true);
+            this.tree.select(node);
         }
-
+return;
         $(viewstyle).addClass('active');
 
         a = this._getUriObject($('uploadForm').getProperty('action'));
@@ -86,6 +84,7 @@ var MediaManager = {
             }
         }, query);
         a.query = query.join('&');
+        
         if (a.port) {
             $('uploadForm').setProperty('action', a.scheme+'://'+a.domain+':'+a.port+a.path+'?'+a.query);
         } else {
@@ -174,9 +173,9 @@ var MediaManager = {
 };
 
 window.addEvent('domready', function(){
-    // Added to populate data on iframe load
-        MediaManager.initialize();
-        MediaManager.trace = 'start';
-        document.updateUploader = function() { MediaManager.onloadframe(); };
-        MediaManager.onloadframe();
+	// Added to populate data on iframe load
+	MediaManager.initialize();
+	MediaManager.trace = 'start';
+	document.updateUploader = function() { MediaManager.onloadframe(); };
+       // MediaManager.onloadframe();
 });

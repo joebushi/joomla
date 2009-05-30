@@ -1,24 +1,18 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @subpackage	Parameter
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Parameter
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+// No direct access
+defined('JPATH_BASE') or die;
 
 /**
  * Renders a category element
  *
- * @author 		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage		Parameter
  * @since		1.5
@@ -32,11 +26,11 @@ class JElementCategory extends JElement
 	* @access	protected
 	* @var		string
 	*/
-	var	$_name = 'Category';
+	protected $_name = 'Category';
 
-	function fetchElement($name, $value, &$node, $control_name)
+	public function fetchElement($name, $value, &$node, $control_name)
 	{
-		$db = &JFactory::getDBO();
+		$db = &JFactory::getDbo();
 
 		$section	= $node->attributes('section');
 		$class		= $node->attributes('class');
@@ -54,7 +48,7 @@ class JElementCategory extends JElement
 
 		if ($section == 'content') {
 			// This might get a conflict with the dynamic translation - TODO: search for better solution
-			$query = 'SELECT c.id, CONCAT_WS( "/",s.title, c.title ) AS title' .
+			$query = 'SELECT c.id, CONCAT_WS("/",s.title, c.title) AS title' .
 				' FROM #__categories AS c' .
 				' LEFT JOIN #__sections AS s ON s.id=c.section' .
 				' WHERE c.published = 1' .
@@ -69,8 +63,8 @@ class JElementCategory extends JElement
 		}
 		$db->setQuery($query);
 		$options = $db->loadObjectList();
-		array_unshift($options, JHTML::_('select.option', '0', '- '.JText::_('Select Category').' -', 'id', 'title'));
+		array_unshift($options, JHtml::_('select.option', '0', '- '.JText::_('Select Category').' -', 'id', 'title'));
 
-		return JHTML::_('select.genericlist',  $options, ''.$control_name.'['.$name.']', 'class="'.$class.'"', 'id', 'title', $value, $control_name.$name );
+		return JHtml::_('select.genericlist',  $options, ''.$control_name.'['.$name.']', 'class="'.$class.'"', 'id', 'title', $value, $control_name.$name);
 	}
 }

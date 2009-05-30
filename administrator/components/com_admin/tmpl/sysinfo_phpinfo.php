@@ -3,11 +3,11 @@
  * @version		$Id$
  */
 // No direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 ?>
 <fieldset class="adminform">
-	<legend><?php echo JText::_( 'PHP Information' ); ?></legend>
+	<legend><?php echo JText::_('PHP Information'); ?></legend>
 		<table class="adminform">
 		<thead>
 		<tr>

@@ -1,3 +1,9 @@
+/**
+ * @version		$Id$
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
+
 /* white */
 a:link, a:visited {
 	color: #135cae;
@@ -18,6 +24,10 @@ a:hover {
 
 #pillmenu a#active_menu-nav:hover {
   color: #fff;
+}
+
+h3, div.module_menu h3, .componentheading, table.moduletable th {
+  color: #135cae;
 }
 
 h3, .componentheading, table.moduletable th {

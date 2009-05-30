@@ -1,19 +1,14 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @subpackage	HTML
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	HTML
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 /**
  * Utility class working with images
@@ -23,7 +18,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * @subpackage	HTML
  * @since		1.5
  */
-class JHTMLImage
+abstract class JHtmlImage
 {
 	/**
 	* Checks to see if an image exists in the current templates image directory
@@ -39,35 +34,35 @@ class JHTMLImage
 	* @param	array	An associative array of attributes to add
 	* @param	boolean	True (default) to display full tag, false to return just the path
 	*/
-	function site( $file, $folder='/images/M_images/', $altFile=NULL, $altFolder='/images/M_images/', $alt=NULL, $attribs = null, $asTag = 1)
+	public static function site($file, $folder='/images/M_images/', $altFile=NULL, $altFolder='/images/M_images/', $alt=NULL, $attribs = null, $asTag = 1)
 	{
 		static $paths;
-		global $mainframe;
+		$appl = &JFactory::getApplication();
 
 		if (!$paths) {
 			$paths = array();
 		}
 
-		if (is_array( $attribs )) {
-			$attribs = JArrayHelper::toString( $attribs );
+		if (is_array($attribs)) {
+			$attribs = JArrayHelper::toString($attribs);
 		}
 
-		$cur_template = $mainframe->getTemplate();
+		$cur_template = $appl->getTemplate();
 
-		if ( $altFile )
+		if ($altFile)
 		{
 			// $param allows for an alternative file to be used
 			$src = $altFolder . $altFile;
 		}
-		else if ( $altFile == -1 )
+		else if ($altFile == -1)
 		{
 			// Comes from an image list param field with 'Do not use' selected
 			return '';
 		} else {
 			$path = JPATH_SITE .'/templates/'. $cur_template .'/images/'. $file;
-			if (!isset( $paths[$path] ))
+			if (!isset($paths[$path]))
 			{
-				if ( file_exists( JPATH_SITE .'/templates/'. $cur_template .'/images/'. $file ) ) {
+				if (file_exists(JPATH_SITE .'/templates/'. $cur_template .'/images/'. $file)) {
 					$paths[$path] = 'templates/'. $cur_template .'/images/'. $file;
 				} else {
 					// outputs only path to image
@@ -77,7 +72,7 @@ class JHTMLImage
 			$src = $paths[$path];
 		}
 
-		if (substr($src, 0, 1 ) == "/") {
+		if (substr($src, 0, 1) == "/") {
 			$src = substr_replace($src, '', 0, 1);
 		}
 
@@ -86,7 +81,7 @@ class JHTMLImage
 
 		// outputs actual html <img> tag
 		if ($asTag) {
-			return '<img src="'. $src .'" alt="'. html_entity_decode( $alt ) .'" '.$attribs.' />';
+			return '<img src="'. $src .'" alt="'. html_entity_decode($alt) .'" '.$attribs.' />';
 		}
 
 		return $src;
@@ -106,29 +101,29 @@ class JHTMLImage
 	* @param	array	An associative array of attributes to add
 	* @param	boolean	True (default) to display full tag, false to return just the path
 	*/
-	function administrator( $file, $directory='/images/', $param=NULL, $param_directory='/images/', $alt = NULL, $attribs = null, $type = 1 )
+	public static function administrator($file, $directory='/images/', $param=NULL, $param_directory='/images/', $alt = NULL, $attribs = null, $type = 1)
 	{
-		global $mainframe;
+		$appl = &JFactory::getApplication();
 
-		if (is_array( $attribs )) {
-			$attribs = JArrayHelper::toString( $attribs );
+		if (is_array($attribs)) {
+			$attribs = JArrayHelper::toString($attribs);
 		}
 
-		$cur_template = $mainframe->getTemplate();
+		$cur_template = $appl->getTemplate();
 
 		// strip html
-		$alt	= html_entity_decode( $alt );
+		$alt	= html_entity_decode($alt);
 
-		if ( $param ) {
+		if ($param) {
 			$image = $param_directory . $param;
-		} else if ( $param == -1 ) {
+		} else if ($param == -1) {
 			$image = '';
 		} else {
-			if ( file_exists( JPATH_ADMINISTRATOR .'/templates/'. $cur_template .'/images/'. $file ) ) {
+			if (file_exists(JPATH_ADMINISTRATOR .'/templates/'. $cur_template .'/images/'. $file)) {
 				$image = 'templates/'. $cur_template .'/images/'. $file;
 			} else {
 				// compability with previous versions
-				if ( substr($directory, 0, 14 )== "/administrator" ) {
+				if (substr($directory, 0, 14)== "/administrator") {
 					$image = substr($directory,15) . $file;
 				} else {
 					$image = $directory . $file;
@@ -136,7 +131,7 @@ class JHTMLImage
 			}
 		}
 
-		if (substr($image, 0, 1 ) == "/") {
+		if (substr($image, 0, 1) == "/") {
 			$image = substr_replace($image, '', 0, 1);
 		}
 
@@ -144,7 +139,7 @@ class JHTMLImage
 		$image = JURI::base(true).'/'.$image;
 
 		// outputs actual html <img> tag
-		if ( $type ) {
+		if ($type) {
 			$image = '<img src="'. $image .'" alt="'. $alt .'" '.$attribs.' />';
 		}
 

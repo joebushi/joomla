@@ -3,17 +3,12 @@
  * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Error
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+// No direct access
+defined('JPATH_BASE') or die;
 
 /**
  * Joomla! Logging class
@@ -21,7 +16,6 @@ defined('JPATH_BASE') or die();
  * This class is designed to build log files based on the
  * W3C specification at: http://www.w3.org/TR/WD-logfile.html
  *
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	Error
  * @since		1.5
@@ -80,7 +74,7 @@ class JLog extends JObject
 		// Set default path if not set
 		if (!$path)
 		{
-			$config =& JFactory::getConfig();
+			$config = &JFactory::getConfig();
 			$path = $config->getValue('config.log_path');
 		}
 
@@ -118,7 +112,7 @@ class JLog extends JObject
 	function addEntry($entry)
 	{
 		// Set some default field values if not already set.
-		$date =& JFactory::getDate();
+		$date = &JFactory::getDate();
 		if (!isset ($entry['date'])) {
 
 			$entry['date'] = $date->toFormat("%Y-%m-%d");
@@ -172,7 +166,7 @@ class JLog extends JObject
 			return true;
 		}
 
-		$now =& JFactory::getDate();
+		$now = &JFactory::getDate();
 		$date = $now->toMySQL();
 
 		if (!file_exists($this->_path))

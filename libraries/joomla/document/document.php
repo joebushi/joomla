@@ -1,19 +1,13 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @subpackage	Document
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Document
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+defined('JPATH_BASE') or die;
 
 //Register the renderer class with the loader
 JLoader::register('JDocumentRenderer', dirname(__FILE__).DS.'renderer.php');
@@ -22,7 +16,6 @@ JLoader::register('JDocumentRenderer', dirname(__FILE__).DS.'renderer.php');
  * Document class, provides an easy interface to parse and display a document
  *
  * @abstract
- * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Document
  * @since		1.5
@@ -212,7 +205,7 @@ class JDocument extends JObject
 	* @access protected
 	* @param	array	$options Associative array of options
 	*/
-	function __construct( $options = array())
+	function __construct($options = array())
 	{
 		parent::__construct();
 
@@ -260,7 +253,7 @@ class JDocument extends JObject
 	{
 		static $instances;
 
-		if (!isset( $instances )) {
+		if (!isset($instances)) {
 			$instances = array();
 		}
 
@@ -273,7 +266,7 @@ class JDocument extends JObject
 			$ntype	= null;
 
 			// Check if the document type exists
-			if ( ! file_exists($path))
+			if (!file_exists($path))
 			{
 				// Default to the raw format
 				$ntype	= $type;
@@ -282,20 +275,20 @@ class JDocument extends JObject
 
 			// Determine the path and class
 			$class = 'JDocument'.$type;
-			if(!class_exists($class))
+			if (!class_exists($class))
 			{
 				$path	= dirname(__FILE__).DS.$type.DS.$type.'.php';
 				if (file_exists($path)) {
-					require_once($path);
+					require_once $path;
 				} else {
 					JError::raiseError(500,JText::_('Unable to load document class'));
 				}
 			}
 
 			$instance	= new $class($attributes);
-			$instances[$signature] =& $instance;
+			$instances[$signature] = &$instance;
 
-			if ( !is_null($ntype) )
+			if (!is_null($ntype))
 			{
 				// Set the type to the Document type originally requested
 				$instance->setType($ntype);
@@ -376,10 +369,17 @@ class JDocument extends JObject
 	function getMetaData($name, $http_equiv = false)
 	{
 		$result = '';
-		if ($http_equiv == true) {
-			$result = @$this->_metaTags['http-equiv'][$name];
+		$name = strtolower($name);
+		if ($name == 'generator') {
+			$result = $this->getGenerator();
+		} elseif ($name == 'description') {
+			$result = $this->getDescription();
 		} else {
-			$result = @$this->_metaTags['standard'][$name];
+			if ($http_equiv == true) {
+				$result = @$this->_metaTags['http-equiv'][$name];
+			} else {
+				$result = @$this->_metaTags['standard'][$name];
+			}
 		}
 		return $result;
 	}
@@ -395,10 +395,17 @@ class JDocument extends JObject
 	 */
 	function setMetaData($name, $content, $http_equiv = false)
 	{
-		 if ($http_equiv == true) {
-			$this->_metaTags['http-equiv'][$name] = $content;
+		$name = strtolower($name);
+		if ($name == 'generator') {
+			$this->setGenerator($content);
+		} elseif ($name == 'description') {
+			$this->setDescription($content);
 		} else {
-			$this->_metaTags['standard'][$name] = $content;
+			if ($http_equiv == true) {
+				$this->_metaTags['http-equiv'][$name] = $content;
+			} else {
+				$this->_metaTags['standard'][$name] = $content;
+			}
 		}
 	}
 
@@ -726,28 +733,38 @@ class JDocument extends JObject
 	* @return	object
 	* @since 1.5
 	*/
-	function &loadRenderer( $type )
+	function &loadRenderer($type)
 	{
 		$null	= null;
 		$class	= 'JDocumentRenderer'.$type;
 
-		if( !class_exists( $class ) )
+		if (!class_exists($class))
 		{
 			$path = dirname(__FILE__).DS.$this->_type.DS.'renderer'.DS.$type.'.php';
-			if(file_exists($path)) {
-				require_once($path);
+			if (file_exists($path)) {
+				require_once $path;
 			} else {
 				JError::raiseError(500,JText::_('Unable to load renderer class'));
 			}
 		}
 
-		if ( !class_exists( $class ) ) {
+		if (!class_exists($class)) {
 			return $null;
 		}
 
 		$instance = new $class($this);
 		return $instance;
 	}
+
+	/**
+	 * Parses the document and prepares the buffers
+	 *
+	 * @access public
+	 * @return null
+	 */
+	 public function parse($params = array()) {
+	 	return null;
+	 }
 
 	/**
 	 * Outputs the document
@@ -758,12 +775,12 @@ class JDocument extends JObject
 	 * @param array		$params		Associative array of attributes
 	 * @return 	The rendered data
 	 */
-	function render( $cache = false, $params = array())
+	function render($cache = false, $params = array())
 	{
-		JResponse::setHeader( 'Expires', gmdate( 'D, d M Y H:i:s', time() + 900 ) . ' GMT' );
+		JResponse::setHeader('Expires', gmdate('D, d M Y H:i:s', time() + 900) . ' GMT');
 		if ($mdate = $this->getModifiedDate()) {
-			JResponse::setHeader( 'Last-Modified', $mdate /* gmdate( 'D, d M Y H:i:s', time() + 900 ) . ' GMT' */ );
+			JResponse::setHeader('Last-Modified', $mdate /* gmdate('D, d M Y H:i:s', time() + 900) . ' GMT' */);
 		}
-		JResponse::setHeader( 'Content-Type', $this->_mime .  '; charset=' . $this->_charset);
+		JResponse::setHeader('Content-Type', $this->_mime .  '; charset=' . $this->_charset);
 	}
 }

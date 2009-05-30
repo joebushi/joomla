@@ -1,18 +1,13 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
 /** ensure this file is being included by a parent file */
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 class modFeedHelper
 {
@@ -39,7 +34,7 @@ class modFeedHelper
 			$options['cache_time'] = null;
 		}
 
-		$rssDoc =& JFactory::getXMLparser('RSS', $options);
+		$rssDoc = &JFactory::getXMLparser('RSS', $options);
 
 		if ($rssDoc != false)
 		{
@@ -65,12 +60,12 @@ class modFeedHelper
 			<table cellpadding="0" cellspacing="0" class="moduletable<?php echo $params->get('moduleclass_sfx'); ?>">
 			<?php
 			// feed description
-			if (!is_null( $channel['title'] ) && $rsstitle) {
+			if (!is_null($channel['title']) && $rsstitle) {
 			?>
 				<tr>
 				<td>
 					<strong>
-						<a href="<?php echo str_replace( '&', '&amp;', $channel['link']); ?>" target="_blank">
+						<a href="<?php echo str_replace('&', '&amp;', $channel['link']); ?>" target="_blank">
 						<?php echo $channel['title']; ?></a>
 					</strong>
 				</td>
@@ -94,13 +89,13 @@ class modFeedHelper
 			?>
 				<tr>
 					<td align="center">
-						<image src="<?php echo $iUrl; ?>" alt="<?php echo @$iTitle; ?>"/>
+						<img src="<?php echo $iUrl; ?>" alt="<?php echo @$iTitle; ?>"/>
 					</td>
 				</tr>
 			<?php
 			}
 
-			$actualItems = count( $items );
+			$actualItems = count($items);
 			$setItems = $rssitems;
 
 			if ($setItems > $actualItems) {
@@ -120,7 +115,7 @@ class modFeedHelper
 					?>
 					<li>
 					<?php
-					if ( !is_null( $currItem->get_link() ) ) {
+					if (!is_null($currItem->get_link())) {
 					?>
 						<a href="<?php echo $currItem->get_link(); ?>" target="_child">
 						<?php echo $currItem->get_title(); ?></a>

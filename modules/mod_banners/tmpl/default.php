@@ -1,6 +1,16 @@
-<?php // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
-<div class="bannergroup<?php echo $params->get( 'moduleclass_sfx' ) ?>">
+<?php
+/**
+ * @version		$Id$
+ * @package		Joomla.Site
+ * @subpackage	mod_banners
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
+
+// no direct access
+defined('_JEXEC') or die;
+?>
+<div class="bannergroup<?php echo $params->get('moduleclass_sfx') ?>">
 
 <?php if ($headerText) : ?>
 	<div class="bannerheader"><?php echo $headerText ?></div>
@@ -8,14 +18,14 @@ defined('_JEXEC') or die('Restricted access'); ?>
 
 foreach($list as $item) :
 
-	?><div class="banneritem<?php echo $params->get( 'moduleclass_sfx' ) ?>"><?php
+	?><div class="banneritem<?php echo $params->get('moduleclass_sfx') ?>"><?php
 	echo modBannersHelper::renderBanner($params, $item);
 	?><div class="clr"></div>
 	</div>
 <?php endforeach; ?>
 
 <?php if ($footerText) : ?>
-	<div class="bannerfooter<?php echo $params->get( 'moduleclass_sfx' ) ?>">
+	<div class="bannerfooter<?php echo $params->get('moduleclass_sfx') ?>">
 		 <?php echo $footerText ?>
 	</div>
 <?php endif; ?>
