@@ -110,13 +110,13 @@ abstract class JHtmlGrid
 
 		if ($archived == -1)
 		{
-			$href = JText::_($row->groupname);
+			//$href = JText::_($row->groupname);
 		}
 		else
 		{
 			$href = '
 			<a href="javascript:void(0);" onclick="return listItemTask(\'cb'. $i .'\',\''. $task_access .'\')" '. $color_access .'>
-			'. JText::_($row->groupname) .'</a>'
+			'. 'test'/**JText::_($row->groupname)**/ .'</a>'
 			;
 		}
 

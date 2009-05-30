@@ -1,36 +1,46 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Site
+ * @package		Joomla
  * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
-// No direct access
+// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
 
-require_once (JPATH_COMPONENT.DS.'view.php');
+require_once JPATH_COMPONENT.DS.'view.php';
 
 /**
  * HTML Article View class for the Content component
  *
- * @package		Joomla.Site
+ * @package		Joomla
  * @subpackage	Content
  * @since 1.5
  */
 class ContentViewArticle extends ContentView
 {
+	protected $article = null;
+	protected $params = null;
+	protected $user = null;
+	protected $access = null;
+	protected $print = null;
+	protected $action = null;
+	protected $lists = null;
+	protected $editor = null;
+
+
 	function display($tpl = null)
 	{
-		global $mainframe;
+		$app			= &JFactory::getApplication();
 
 		$user		= &JFactory::getUser();
 		$groups		= $user->authorisedLevels();
 		$document	= &JFactory::getDocument();
 		$dispatcher	= &JDispatcher::getInstance();
-		$pathway	= &$mainframe->getPathway();
-		$params		= &$mainframe->getParams('com_content');
+		$pathway	= &$app->getPathway();
+		$params		= JComponentHelper::getParams('com_content');
 
 		// Initialize variables
 		$article	= &$this->get('Article');
@@ -54,6 +64,12 @@ class ContentViewArticle extends ContentView
 		}
 
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
+		if ($user->authorize('com_content.article.edit_article'))
+		{
+			$article->edit = $user->authorize('com_content.article.edit', 'article.'.$item->id);
+		} else {
+			$article->edit = false;
+		}
 
 		if (!$params->get('intro_only') && ($this->getLayout() == 'default') && ($limitstart == 0))
 		{
@@ -63,10 +79,8 @@ class ContentViewArticle extends ContentView
 
 		// Create a user access object for the current user
 		$access = new stdClass();
-		$access->canEdit	= $user->authorise('com_content.article.edit_article');
-		$access->canEditOwn	= $user->authorise('com_content.article.edit_own') && $user->get('id') == $article->created_by;
-		$access->canPublish	= $user->authorise('com_content.article.publish');
-		$access->canManage	= $user->authorise('com_content.manage');
+		$access->canEditOwn	= $user->authorize('com_content.article.edit_own');
+		$access->canPublish	= $user->authorize('com_content.article.publish');
 
 		// Check to see if the user has access to view the full article
 		if (in_array($article->access, $groups)) {
@@ -121,11 +135,11 @@ class ContentViewArticle extends ContentView
 			$document->setMetadata('keywords', $article->metakey);
 		}
 
-		if ($mainframe->getCfg('MetaTitle') == '1') {
-			$document->setMetaData('title', $article->title);
+		if ($app->getCfg('MetaTitle') == '1') {
+			$document->setMetadata('title', $article->title);
 		}
-		if ($mainframe->getCfg('MetaAuthor') == '1') {
-			$document->setMetaData('author', $article->author);
+		if ($app->getCfg('MetaAuthor') == '1') {
+			$document->setMetadata('author', $article->author);
 		}
 
 		$mdata = new JParameter($article->metadata);
@@ -147,18 +161,28 @@ class ContentViewArticle extends ContentView
 		/*
 		 * Handle the breadcrumbs
 		 */
-		if ($menu && $menu->query['view'] != 'article')
+		jimport('joomla.application.categorytree');
+		$categorytree = JCategoryTree::getInstance('com_content');
+		$pathwaycat = $categorytree->get($article->catid);
+		$path = array();
+		if (is_object($menu) && $menu->query['view'] != 'article' && $menu->query['id'] != $pathwaycat->id)
 		{
-			switch ($menu->query['view'])
+			while($pathwaycat->id != $menu->query['id'])
 			{
-				case 'section':
-					$pathway->addItem($article->category, 'index.php?view=category&id='.$article->catslug);
-					$pathway->addItem($article->title, '');
-					break;
-				case 'category':
-					$pathway->addItem($article->title, '');
-					break;
+				$path[] = array($pathwaycat->title, $pathwaycat->slug);
+				$pathwaycat = $pathwaycat->getParent();	
 			}
+			$path = array_reverse($path);
+			foreach($path as $element)
+			{
+				if (isset($element[1]))
+				{
+					$pathway->addItem($element[0], 'index.php?option=com_content&view=category&id='.$element[1]);
+				} else {
+					$pathway->addItem($element[0], '');
+				}
+			}
+			$pathway->addItem($article->title, '');
 		}
 
 		/*
@@ -190,13 +214,13 @@ class ContentViewArticle extends ContentView
 
 	function _displayForm($tpl)
 	{
-		global $mainframe;
-
 		// Initialize variables
+		$app		= &JFactory::getApplication();
+
 		$document	= &JFactory::getDocument();
 		$user		= &JFactory::getUser();
 		$uri		= &JFactory::getURI();
-		$params		= &$mainframe->getParams('com_content');
+		$params		= JComponentHelper::getParams('com_content');
 
 		// Initialize variables
 		$article	= &$this->get('Article');

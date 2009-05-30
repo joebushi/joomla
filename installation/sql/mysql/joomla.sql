@@ -73,28 +73,26 @@ CREATE TABLE  `#__bannertrack` (
 #
 
 CREATE TABLE `#__categories` (
-  `id` int(11) NOT NULL auto_increment,
-  `parent_id` int(11) NOT NULL default 0,
-  `title` varchar(255) NOT NULL default '',
-  `name` varchar(255) NOT NULL default '',
-  `alias` varchar(255) NOT NULL default '',
-  `image` varchar(255) NOT NULL default '',
-  `section` varchar(50) NOT NULL default '',
-  `image_position` varchar(30) NOT NULL default '',
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `lft` int(11) NOT NULL DEFAULT '0',
+  `rgt` int(11) NOT NULL DEFAULT '0',
+  `ref_id` int(11) NOT NULL DEFAULT '0',
+  `parent_id` int(11) NOT NULL DEFAULT '0',
+  `extension` varchar(50) NOT NULL DEFAULT '',
+  `lang` varchar(5) NOT NULL DEFAULT '',
+  `title` varchar(255) NOT NULL,
+  `alias` varchar(255) NOT NULL DEFAULT '',
   `description` text NOT NULL,
-  `published` tinyint(1) NOT NULL default '0',
-  `checked_out` int(11) unsigned NOT NULL default '0',
-  `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
-  `editor` varchar(50) default NULL,
-  `ordering` int(11) NOT NULL default '0',
-  `access` tinyint(3) unsigned NOT NULL default '0',
-  `count` int(11) NOT NULL default '0',
+  `published` tinyint(1) NOT NULL DEFAULT '0',
+  `checked_out` int(11) unsigned NOT NULL DEFAULT '0',
+  `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `access` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `params` text NOT NULL,
-  PRIMARY KEY  (`id`),
-  KEY `cat_idx` (`section`,`published`,`access`),
+  PRIMARY KEY (`id`),
+  KEY `cat_idx` (`extension`,`published`,`access`),
   KEY `idx_access` (`access`),
   KEY `idx_checkout` (`checked_out`)
-) TYPE=MyISAM CHARACTER SET `utf8`;
+) ENGINE=MyISAM CHARACTER SET `utf8`;
 
 # --------------------------------------------------------
 
@@ -530,32 +528,6 @@ CREATE TABLE `#__newsfeeds` (
   PRIMARY KEY  (`id`),
   KEY `published` (`published`),
   KEY `catid` (`catid`)
-) TYPE=MyISAM CHARACTER SET `utf8`;
-
-# --------------------------------------------------------
-
-#
-# Table structure for table `#__sections`
-#
-
-CREATE TABLE `#__sections` (
-  `id` int(11) NOT NULL auto_increment,
-  `title` varchar(255) NOT NULL default '',
-  `name` varchar(255) NOT NULL default '',
-  `alias` varchar(255) NOT NULL default '',
-  `image` TEXT NOT NULL default '',
-  `scope` varchar(50) NOT NULL default '',
-  `image_position` varchar(30) NOT NULL default '',
-  `description` text NOT NULL,
-  `published` tinyint(1) NOT NULL default '0',
-  `checked_out` int(11) unsigned NOT NULL default '0',
-  `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
-  `ordering` int(11) NOT NULL default '0',
-  `access` tinyint(3) unsigned NOT NULL default '0',
-  `count` int(11) NOT NULL default '0',
-  `params` text NOT NULL,
-  PRIMARY KEY  (`id`),
-  KEY `idx_scope` (`scope`)
 ) TYPE=MyISAM CHARACTER SET `utf8`;
 
 # --------------------------------------------------------

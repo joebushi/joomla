@@ -52,27 +52,13 @@ JHtml::_('behavior.caption'); ?>
 endif; ?>
 <?php echo $this->article->event->beforeDisplayContent; ?>
 <table class="contentpaneopen<?php echo $this->params->get('pageclass_sfx'); ?>">
-<?php if (($this->params->get('show_section') && $this->article->sectionid) || ($this->params->get('show_category') && $this->article->catid)) : ?>
+<?php if ($this->params->get('show_category') && $this->article->catid) : ?>
 <tr>
 	<td>
-		<?php if ($this->params->get('show_section') && $this->article->sectionid && isset($this->article->section)) : ?>
-		<span>
-			<?php if ($this->params->get('link_section')) : ?>
-				<?php echo '<a href="'.JRoute::_(ContentHelperRoute::getSectionRoute($this->article->sectionid)).'">'; ?>
-			<?php endif; ?>
-			<?php echo $this->article->section; ?>
-			<?php if ($this->params->get('link_section')) : ?>
-				<?php echo '</a>'; ?>
-			<?php endif; ?>
-				<?php if ($this->params->get('show_category')) : ?>
-				<?php echo ' - '; ?>
-			<?php endif; ?>
-		</span>
-		<?php endif; ?>
 		<?php if ($this->params->get('show_category') && $this->article->catid) : ?>
 		<span>
 			<?php if ($this->params->get('link_category')) : ?>
-				<?php echo '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($this->article->catslug, $this->article->sectionid)).'">'; ?>
+				<?php echo '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($this->article->catslug)).'">'; ?>
 			<?php endif; ?>
 			<?php echo $this->article->category; ?>
 			<?php if ($this->params->get('link_category')) : ?>

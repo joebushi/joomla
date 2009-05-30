@@ -1,29 +1,43 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Site
+ * @package		Joomla
  * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
-// No direct access
+// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
 
-require_once (JPATH_COMPONENT.DS.'view.php');
+require_once JPATH_COMPONENT.DS.'view.php';
 
 /**
  * HTML View class for the Content component
  *
- * @package		Joomla.Site
+ * @package		Joomla
  * @subpackage	Content
  * @since 1.5
  */
 class ContentViewCategory extends ContentView
 {
+	protected $_params = null;
+	public $total = null;
+	public $access = null;
+	public $action = null;
+	public $items = null;
+	public $item = null;
+	public $params = null;
+	public $category = null;
+	public $user = null;
+	public $pagination = null;
+	public $lists = null;
+	public $links = array();
+
 	function display($tpl = null)
 	{
-		global $mainframe, $option;
+		$mainframe = JFactory::getApplication();
+		$option = JRequest::getCmd('option');
 
 		// Initialize some variables
 		$user		= &JFactory::getUser();
@@ -39,7 +53,7 @@ class ContentViewCategory extends ContentView
 		$params = clone($mainframe->getParams('com_content'));
 
 		// Request variables
-		$layout     = JRequest::getCmd('layout');
+		$layout	 = JRequest::getCmd('layout');
 		$task		= JRequest::getCmd('task');
 
 		// Parameters
@@ -52,9 +66,9 @@ class ContentViewCategory extends ContentView
 		$params->def('show_pagination_results',	1);
 		$params->def('show_pagination_limit',	1);
 		$params->def('filter',					1);
-		if (($params->def('filter_type', 'title') != 'hits') && ($params->def('filter_type', 'title') != 'author')) {
-			$params->set('filter_type', 'title');
-		}
+
+
+
 
 		$intro		= $params->get('num_intro_articles');
 		$leading	= $params->get('num_leading_articles');
@@ -110,10 +124,28 @@ class ContentViewCategory extends ContentView
 		$document->setTitle($params->get('page_title'));
 
 		//set breadcrumbs
-		if (is_object($menu) && $menu->query['view'] != 'category') {
-			$pathway->addItem($category->title, '');
+		$pathwaycat = $category;
+		$path = array();
+		if (is_object($menu) && $menu->query['id'] != $category->id)
+		{
+			$path[] = array($pathwaycat->title);
+			$pathwaycat = $pathwaycat->getParent();
+			while($pathwaycat->id != $menu->query['id'])
+			{
+				$path[] = array($pathwaycat->title, $pathwaycat->slug);
+				$pathwaycat = $pathwaycat->getParent();	
+			}
+			$path = array_reverse($path);
+			foreach($path as $element)
+			{
+				if (isset($element[1]))
+				{
+					$pathway->addItem($element[0], 'index.php?option=com_content&view=category&id='.$element[1]);
+				} else {
+					$pathway->addItem($element[0], '');
+				}
+			}
 		}
-
 		// Prepare category description
 		$category->description = JHtml::_('content.prepare', $category->description);
 
@@ -130,13 +162,16 @@ class ContentViewCategory extends ContentView
 		} else {
 			$pagination = new JPagination($total, $limitstart, $limit);
 		}
+		
+		$children = $this->get('Children');
 
 		$this->assign('total',		$total);
-		$this->assign('action', 	str_replace('&', '&amp;', $uri->toString()));
+		$this->assign('action', 	$uri->toString());
 
 		$this->assignRef('items',		$items);
 		$this->assignRef('params',		$params);
 		$this->assignRef('category',	$category);
+		$this->assignRef('children', 	$children);
 		$this->assignRef('user',		$user);
 		$this->assignRef('access',		$access);
 		$this->assignRef('pagination',	$pagination);
@@ -146,7 +181,7 @@ class ContentViewCategory extends ContentView
 
 	function &getItems()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		//create select lists
 		$user	= &JFactory::getUser();
@@ -201,7 +236,7 @@ class ContentViewCategory extends ContentView
 
 	function &getItem($index = 0, &$params)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		// Initialize some variables
 		$user		= &JFactory::getUser();
@@ -212,10 +247,14 @@ class ContentViewCategory extends ContentView
 
 		$item 		= &$this->items[$index];
 		$item->text = $item->introtext;
-
+		if ($user->authorize('com_content.article.edit_article'))
+		{
+			$item->edit = $user->authorize('com_content.article.edit', 'article.'.$item->id);
+		} else {
+			$item->edit = false;
+		}
 		$category	= & $this->get('Category');
 		$item->category = $category->title;
-		$item->section  = $category->sectiontitle;
 
 		// Get the page/component configuration and article parameters
 		$item->params = clone($params);

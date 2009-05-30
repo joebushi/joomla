@@ -8,7 +8,7 @@
 // No direct access
 defined('JPATH_BASE') or die;
 
-jimport('joomla.database.tableasset');
+jimport('joomla.database.tableassetnested');
 
 /**
  * Category table
@@ -17,38 +17,33 @@ jimport('joomla.database.tableasset');
  * @subpackage		Table
  * @since	1.0
  */
-class JTableCategory extends JTableAsset
+class JTableCategory extends JTableAssetNested
 {
 	/** @var int Primary key */
-	var $id					= null;
+	public $id					= null;
+	public $lft					= null;
+	public $rgt					= null;
+	public $ref_id				= null;
+	public $parent_id			= null;
 	/** @var int */
-	var $parent_id			= null;
+	public $extension			= null;
+	public $lang					= null;
 	/** @var string The menu title for the category (a short name)*/
-	var $title				= null;
-	/** @var string The full name for the category*/
-	var $name				= null;
+	public $title				= null;
 	/** @var string The the alias for the category*/
-	var $alias				= null;
+	public $alias				= null;
 	/** @var string */
-	var $image				= null;
-	/** @var string */
-	var $section				= null;
-	/** @var int */
-	var $image_position		= null;
-	/** @var string */
-	var $description			= null;
+	public $description			= null;
 	/** @var boolean */
-	var $published			= null;
+	public $published			= null;
 	/** @var boolean */
-	var $checked_out			= 0;
+	public $checked_out			= 0;
 	/** @var time */
-	var $checked_out_time		= 0;
+	public $checked_out_time		= 0;
 	/** @var int */
-	var $ordering			= null;
-	/** @var int */
-	var $access				= null;
+	public $access				= null;
 	/** @var string */
-	var $params				= null;
+	public $params				= null;
 
 	/**
 	* @param database A database connector object
@@ -113,19 +108,6 @@ class JTableCategory extends JTableAsset
 		}
 
 		// check for existing name
-		/*$query = 'SELECT id'
-		. ' FROM #__categories '
-		. ' WHERE title = '.$this->_db->Quote($this->title)
-		. ' AND section = '.$this->_db->Quote($this->section)
-		;
-		$this->_db->setQuery($query);
-
-		$xid = intval($this->_db->loadResult());
-		if ($xid && $xid != intval($this->id)) {
-			$this->_error = JText::sprintf('WARNNAMETRYAGAIN', JText::_('Category'));
-			return false;
-		}*/
-
 		if (empty($this->alias)) {
 			$this->alias = $this->title;
 		}

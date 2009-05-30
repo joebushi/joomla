@@ -1,13 +1,12 @@
-<?php
 /**
  * @version		$Id$
- * @package		Joomla.Site
+ * @package		Joomla
  * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
-// No direct access
+// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
@@ -15,25 +14,27 @@ jimport('joomla.application.component.model');
 /**
  * Content Component Article Model
  *
- * @package		Joomla.Site
+ * @package		Joomla
  * @subpackage	Content
  * @since 1.5
  */
 class ContentModelArticle extends JModel
 {
+
+	protected $_id = null;
 	/**
 	 * Article data
 	 *
 	 * @var object
 	 */
-	var $_article = null;
+	protected $_article = null;
 
 	/**
 	 * Constructor
 	 *
 	 * @since 1.5
 	 */
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -47,7 +48,7 @@ class ContentModelArticle extends JModel
 	 * @access	public
 	 * @param	int	Article ID number
 	 */
-	function setId($id)
+	public function setId($id)
 	{
 		// Set new article ID and wipe data
 		$this->_id		= $id;
@@ -63,7 +64,7 @@ class ContentModelArticle extends JModel
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function set($property, $value=null)
+	public function set($property, $value=null)
 	{
 		if ($this->_loadArticle()) {
 			$this->_article->$property = $value;
@@ -82,7 +83,7 @@ class ContentModelArticle extends JModel
 	 * @return 	mixed 				The value of the property
 	 * @since	1.5
 	 */
-	function get($property, $default=null)
+	public function get($property, $default=null)
 	{
 		if ($this->_loadArticle()) {
 			if (isset($this->_article->$property)) {
@@ -110,33 +111,8 @@ class ContentModelArticle extends JModel
 				JError::raiseError(404, JText::_("Article category not published"));
 			}
 
-			// Is the section published?
-			if ($this->_article->sectionid)
-			{
-				if ($this->_article->sec_pub === null)
-				{
-					// probably a new item
-					// check the sectionid probably passed in the request
-					$db = &$this->getDbo();
-					$query = 'SELECT published' .
-							' FROM #__sections' .
-							' WHERE id = ' . (int) $this->_article->sectionid;
-					$db->setQuery($query);
-					$this->_article->sec_pub = $db->loadResult();
-				}
-				if (!$this->_article->sec_pub)
-				{
-					JError::raiseError(404, JText::_("Article section not published"));
-				}
-			}
-
 			// Do we have access to the category?
 			if ((!in_array($this->_article->cat_access, $groups)) && $this->_article->catid) {
-				JError::raiseError(403, JText::_("ALERTNOTAUTH"));
-			}
-
-			// Do we have access to the section?
-			if ((!in_array($this->_article->sec_access, $groups)) && $this->_article->sectionid) {
 				JError::raiseError(403, JText::_("ALERTNOTAUTH"));
 			}
 
@@ -170,8 +146,6 @@ class ContentModelArticle extends JModel
 	 */
 	function hit()
 	{
-		global $mainframe;
-
 		if ($this->_id)
 		{
 			$article = & JTable::getInstance('content');
@@ -256,8 +230,6 @@ class ContentModelArticle extends JModel
 	 */
 	function store($data)
 	{
-		global $mainframe;
-
 		$article  = &JTable::getInstance('content');
 		$user     = &JFactory::getUser();
 		$dispatcher = &JDispatcher::getInstance();
@@ -526,10 +498,9 @@ class ContentModelArticle extends JModel
 			$query = 'SELECT a.*, u.name AS author, u.usertype, cc.title AS category, s.title AS section,' .
 					' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug,'.
 					' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(":", cc.id, cc.alias) ELSE cc.id END as catslug,'.
-					' s.published AS sec_pub, cc.published AS cat_pub, s.access AS sec_access, cc.access AS cat_access '.$voting['select'].
+					' cc.published AS cat_pub, cc.access AS cat_access '.$voting['select'].
 					' FROM #__content AS a' .
 					' LEFT JOIN #__categories AS cc ON cc.id = a.catid' .
-					' LEFT JOIN #__sections AS s ON s.id = cc.section AND s.scope = "content"' .
 					' LEFT JOIN #__users AS u ON u.id = a.created_by' .
 					$voting['join'].
 					$where;

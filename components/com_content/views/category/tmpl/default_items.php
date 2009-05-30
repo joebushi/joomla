@@ -127,7 +127,6 @@ defined('_JEXEC') or die; ?>
 </table>
 
 <input type="hidden" name="id" value="<?php echo $this->category->id; ?>" />
-<input type="hidden" name="sectionid" value="<?php echo $this->category->sectionid; ?>" />
 <input type="hidden" name="task" value="<?php echo $this->lists['task']; ?>" />
 <input type="hidden" name="filter_order" value="" />
 <input type="hidden" name="filter_order_Dir" value="" />
