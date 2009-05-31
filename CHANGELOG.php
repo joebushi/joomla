@@ -41,7 +41,7 @@ $ -> Language fix or change
  ^ [#16397] helpsites.xml update
  # [#16500] offline.php with wrong stylesheet
  ^ Updated de-DE installer language pack
- ^ Updated gl-ES installer language pack
+ + Added gl-ES installer language pack
  ^ Updated it-IT installer language pack
  ^ Updated mn-MN installer language pack
  ^ Updated nl-NL installer language pack
