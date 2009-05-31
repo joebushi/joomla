@@ -39,6 +39,7 @@ $ -> Language fix or change
 
 30-May-2009 Ian MacLennan
  ^ [#16397] helpsites.xml update
+ # [#16500] offline.php with wrong stylesheet
 
 30-May-2009 Sam Moffatt
  ^ Updated CREDITS.php with minor fixes from Ole Ottosen
