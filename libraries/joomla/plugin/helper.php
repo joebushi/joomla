@@ -171,16 +171,18 @@ abstract class JPluginHelper
 		if (isset($user))
 		{
 			$query = 'SELECT folder AS type, element AS name, params'
-				. ' FROM #__plugins'
-				. ' WHERE published >= 1'
+				. ' FROM #__extensions'
+				. ' WHERE enabled >= 1'
+				. ' AND type = "plugin"'
 				. ' AND access IN ('.implode(',', $user->authorisedLevels()).')'
 				. ' ORDER BY ordering';
 		}
 		else
 		{
 			$query = 'SELECT folder AS type, element AS name, params'
-				. ' FROM #__plugins'
-				. ' WHERE published >= 1'
+				. ' FROM #__extensions'
+				. ' WHERE enabled >= 1'
+				. ' AND type = "plugin"'
 				. ' ORDER BY ordering';
 		}
 

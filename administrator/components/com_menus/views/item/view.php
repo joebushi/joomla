@@ -51,7 +51,10 @@ class MenusViewItem extends JView
 
 		// Load component language files
 		$component		= &$this->get('Component');
+		// Load 1.5 languages
 		$lang->load($component->option, JPATH_ADMINISTRATOR);
+		// Load 1.6 languages
+		$lang->load('joomla', JPATH_ADMINISTRATOR.DS.'components'.DS.$component->option);
 
 		// Initialize variables
 		$urlparams		= $this->get('UrlParams');
@@ -152,7 +155,11 @@ class MenusViewItem extends JView
 			$path = JPATH_SITE.DS.'components'.DS.$components[$i]->option.DS.'views';
 			$components[$i]->legacy = !is_dir($path);
 
+			// Load 1.5 language files
 			$lang->load($components[$i]->option, JPATH_ADMINISTRATOR);
+			// Load 1.6 language files
+			$lang->load('joomla', JPATH_ADMINISTRATOR.DS.'components'.DS.$components[$i]->option);
+			
 		}
 
 		// Initialize variables
