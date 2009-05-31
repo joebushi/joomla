@@ -40,6 +40,13 @@ $ -> Language fix or change
 30-May-2009 Ian MacLennan
  ^ [#16397] helpsites.xml update
  # [#16500] offline.php with wrong stylesheet
+ ^ Updated de-DE installer language pack
+ ^ Updated gl-ES installer language pack
+ ^ Updated it-IT installer language pack
+ ^ Updated mn-MN installer language pack
+ ^ Updated nl-NL installer language pack
+ ^ Updated sk-SK installer language pack
+ ^ Updated tr-TR installer language pack
 
 30-May-2009 Sam Moffatt
  ^ Updated CREDITS.php with minor fixes from Ole Ottosen
