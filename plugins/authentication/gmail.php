@@ -39,9 +39,20 @@ class plgAuthenticationGMail extends JPlugin
 		{
 			if (strlen($credentials['username']) && strlen($credentials['password']))
 			{
+				$suffix = $this->params->get('suffix', '');
+				$applysuffix = $this->params->get('applysuffix',0);
+				if($suffix && $applysuffix) {
+					$offset = strpos($credentials['username'], '@');
+					if($offset && $applysuffix == 2) {
+						// if we already have an @, get rid of it and replace it
+						$credentials['username'] = substr($credentials['username'], 0, $offset);
+					}
+					// apply the suffix
+					$credentials['username'] .= '@'.$suffix;
+				}
 				$curl = curl_init('https://mail.google.com/mail/feed/atom');
 				curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-				curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
+				curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, $params->get('verify_peer', 0));
 				//curl_setopt($curl, CURLOPT_HEADER, 1);
 				curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
 				curl_setopt($curl, CURLOPT_USERPWD, $credentials['username'].':'.$credentials['password']);

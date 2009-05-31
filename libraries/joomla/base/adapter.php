@@ -49,10 +49,10 @@ class JAdapter extends JObject {
 	 */
 	protected $_db;
 	
-	public function __construct($basepath=null,$classprefix=null,$adapterfolder=null) {
-		$this->_basepath = $basepath ? $basepath : dirname(__FILE__);
+	public function __construct($basepath, $classprefix=null,$adapterfolder=null) {
+		$this->_basepath = $basepath;
 		$this->_classprefix = $classprefix ? $classprefix : 'J';
-		$this->_adapterfolder = $adapterfolder ? $adapterfolder : $this->_adapterfolder;
+		$this->_adapterfolder = $adapterfolder ? $adapterfolder : 'adapters';
 		$this->_db =& JFactory::getDBO();
 	}
 	
@@ -69,11 +69,11 @@ class JAdapter extends JObject {
 	}	
 	
 	/**
-	 * Set an installer adapter by name
+	 * Set an adapter by name
 	 *
 	 * @access	public
 	 * @param	string	$name		Adapter name
-	 * @param	object	$adapter	Installer adapter object
+	 * @param	object	$adapter	Adapter object
 	 * @return	boolean True if successful
 	 * @since	1.5
 	 */

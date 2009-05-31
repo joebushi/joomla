@@ -10,7 +10,7 @@ class JBackupTable extends JAdapterInstance {
 	/**
 	 * Run a back up with a set of tables
 	 * @param $options['tables'] The tables to backup; if blank all tables
-	 * @param $options['prefix'] Table prefix; default is "bak_"
+	 * @param $options['prefix'] Backup Table prefix; default is "bak_"
 	 * @return bool Result of backups, true on success, false on failure
 	 */
 	function backup($options=Array()) {
@@ -19,11 +19,11 @@ class JBackupTable extends JAdapterInstance {
 		$prefix = $config->getValue('config.dbprefix');
 		// force this into an array if it isn't; lets not let someone break something
 		if(!is_array($options)) $options = Array();
-		// check if this is set otherwise set it to all of the tables
-		if(!isset($options['tables'])) {
+		$tables = $db->getTableList(); // load all tables in database
+		// check if this is set and contains rows otherwise set it to all of the tables
+		if(!isset($options['tables']) || !count($options['tables'])) {
 			$options['tables'] = Array();
 			
-			$tables = $db->getTableList(); // default table
 			foreach($tables as $tn) {
 				// make sure we get the right tables based on prefix
 				if (preg_match( "/^".$prefix."/i", $tn )) {
@@ -31,7 +31,7 @@ class JBackupTable extends JAdapterInstance {
 				}
 			}
 		}
-		// set the default prefix
+		// set the default backup prefix
 		if(!isset($options['prefix'])) {
 			$options['prefix'] = 'bak_';
 		}
@@ -87,6 +87,7 @@ class JBackupTable extends JAdapterInstance {
 			// if the backup table exists and the original table exists...
 			if(in_array($baktable, $tables) && in_array($table, $tables)) {
 				// truncate the original and select the backup into it
+				// this should retain keys and the like
 				$db->setQuery('TRUNCATE TABLE '. $table);
 				$db->Query(); // this should always work
 				$db->setQuery('INSERT INTO '. $table .' SELECT * FROM '. $baktable);

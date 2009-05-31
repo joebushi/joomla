@@ -160,30 +160,10 @@ class JLanguage extends JObject
 				$this->_used[$key][] = $caller;
 			}
 
-		}
-		else
-		{
-			if (defined($string))
-			{
-				$string = $this->_debug ? '!!'.constant($string).'!!' : constant($string);
-
-				// Store debug information
+		} else {
 				if ($this->_debug)
 				{
 					$caller = $this->_getCallerInfo();
-
-					if (! array_key_exists($key, $this->_used)) {
-						$this->_used[$key] = array();
-					}
-
-					$this->_used[$key][] = $caller;
-				}
-			}
-			else
-			{
-				if ($this->_debug)
-				{
-					$caller	= $this->_getCallerInfo();
 					$caller['string'] = $string;
 
 					if (! array_key_exists($key, $this->_orphans)) {
@@ -195,7 +175,6 @@ class JLanguage extends JObject
 					$string = '??'.$string.'??';
 				}
 			}
-		}
 
 		if ($jsSafe) {
 			$string = addslashes($string);
@@ -281,7 +260,8 @@ class JLanguage extends JObject
 
 		$path = JLanguage::getLanguagePath($basePath, $lang);
 
-		$filename = ($extension == 'joomla' || $extension == '') ?  $lang : $lang . '.' . $extension ;
+		$internal = $extension == 'joomla' || $extension == '';
+		$filename = $internal ? $lang : $lang . '.' . $extension;
 		$filename = $path.DS.$filename.'.ini';
 
 		$result = false;
@@ -289,9 +269,7 @@ class JLanguage extends JObject
 		{
 			// Strings for this file have already been loaded
 			$result = true;
-		}
-		else
-		{
+		} else {
 			// Load the language file
 			$result = $this->_load($filename, $extension);
 
@@ -300,16 +278,13 @@ class JLanguage extends JObject
 			{
 				// No strings, which probably means that the language file does not exist
 				$path		= JLanguage::getLanguagePath($basePath, $this->_default);
-				$filename	= ($extension == 'joomla' || $extension == '') ?  $this->_default : $this->_default . '.' . $extension ;
+				$filename = $internal ? $this->_default : $this->_default . '.' . $extension;
 				$filename	= $path.DS.$filename.'.ini';
 
 				$result = $this->_load($filename, $extension, false);
 			}
-
 		}
-
 		return $result;
-
 	}
 
 	/**

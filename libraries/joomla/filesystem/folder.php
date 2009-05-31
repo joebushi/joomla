@@ -350,7 +350,7 @@ class JFolder
 			$dest = JPath::clean($path . DS . $dest);
 		}
 
-		if (!JFolder::exists($src) && !is_writable($src)) {
+		if (!JFolder::exists($src)) {
 			return JText::_('Cannot find source folder');
 		}
 		if (JFolder::exists($dest)) {
