@@ -1,15 +1,10 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Menus
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
  */
 
 // no direct access
@@ -18,7 +13,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 /**
  * Extension Manager Manage View
  *
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Installer
  * @since		1.5
  */
@@ -66,7 +61,7 @@ class InstallerViewManage extends InstallerViewDefault
 		array_unshift($folder_list, $item);
 		$lists['folder'] = JHTML::_('select.genericlist', $folder_list, 'folder', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'folder','folder', JRequest::getVar('folder',''), false, true);
 		//$lists['state'] = ''; // published or otherwise?
-		$lists['hideprotected'] = JRequest::getBool('hideprotected', 0);
+		$lists['hideprotected'] = JRequest::getBool('hideprotected', 1);
 		$this->assignRef('lists', $lists);
 
 		parent::display($tpl);

@@ -3,13 +3,8 @@
  * @version		$Id:component.php 6961 2007-03-15 16:06:53Z tcp $
  * @package		Joomla.Framework
  * @subpackage	Installer
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
  */
 
 // Check to ensure this file is within the rest of the framework
@@ -24,18 +19,6 @@ jimport('joomla.base.adapterinstance');
  * @since		1.5
  */
 class JInstallerSQL extends JAdapterInstance
-{
-	/**
-	 * Constructor
-	 *
-	 * @access	protected
-	 * @param	object	$parent	Parent object [JInstaller instance]
-	 * @return	void
-	 * @since	1.5
-	 */
-	function __construct(&$parent)
-	{
-		$this->parent =& $parent;
 	}
 
 	/**
@@ -102,8 +85,8 @@ class JInstallerSQL extends JAdapterInstance
 			if(class_exists($classname)) {
 				// create a new instance
 				$manifestClass = new $classname($this);
-				// and set this so we can copy it later
 				$this->set('manifest.script', $manifestScript);
+				$this->set('manifest_script', $manifestScript);
 				// Note: if we don't find the class, don't bother to copy the file				
 			}
 		}
@@ -220,8 +203,8 @@ class JInstallerSQL extends JAdapterInstance
 					$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.JText::_('Could not copy PHP install file.'));
 					return false;
 				}
-			}
 			$this->set('install.script', $installScriptElement->data());
+			$this->set('install_script', $installScriptElement->data());
 		}
 
 		// Deprecated uninstall, remove after 1.6
@@ -239,10 +222,10 @@ class JInstallerSQL extends JAdapterInstance
 					return false;
 				}
 			}
-		}
-		
 		if($this->get('manifest.script')) {
 			$path['src'] = $this->parent->getPath('source').DS.$this->get('manifest.script');
+			$path['dest'] = $this->parent->getPath('extension_administrator').DS.$this->get('manifest.script');
+			$path['dest'] = $this->parent->getPath('extension_administrator').DS.$this->get('manifest_script');
 			$path['dest'] = $this->parent->getPath('extension_administrator').DS.$this->get('manifest.script');
 			
 			if(!file_exists($path['dest'])) {
@@ -294,12 +277,12 @@ class JInstallerSQL extends JAdapterInstance
 		/*
 		 * If we have an install script, lets include it, execute the custom
 		 * install method, and append the return value from the custom install
-		 * method to the installation message.
-		 */
 		if ($this->get('install.script')) {
 			if (is_file($this->parent->getPath('extension_administrator').DS.$this->get('install.script'))) {
-				ob_start();
-				ob_implicit_flush(false);
+			if (is_file($this->parent->getPath('extension_administrator').DS.$this->get('install_script'))) {
+			if (is_file($this->parent->getPath('extension_administrator').DS.$this->get('install.script'))) {
+				require_once ($this->parent->getPath('extension_administrator').DS.$this->get('install.script'));
+				require_once ($this->parent->getPath('extension_administrator').DS.$this->get('install_script'));
 				// start legacy support
 				require_once ($this->parent->getPath('extension_administrator').DS.$this->get('install.script'));
 				if (function_exists('com_install')) {
@@ -309,8 +292,8 @@ class JInstallerSQL extends JAdapterInstance
 					}
 				}
 				// end legacy support
-				if($manifestClass && method_exists($manifestClass,'install')) $manifestClass->install($this);	
-				$msg = ob_get_contents();
+					$this->parent->set('extension.message', $msg);
+					$this->parent->set('extension_message', $msg);
 				ob_end_clean();
 				if ($msg != '') {
 					$this->parent->set('extension.message', $msg);
@@ -420,8 +403,8 @@ class JInstallerSQL extends JAdapterInstance
 					if (com_uninstall() === false) {
 						JError::raiseWarning(100, JText::_('Component').' '.JText::_('Uninstall').': '.JText::_('Custom Uninstall script unsuccessful'));
 						$retval = false;
-					}
-				}
+					$this->parent->set('extension.message', $msg);
+					$this->parent->set('extension_message', $msg);
 				$msg = ob_get_contents();
 				ob_end_clean();
 				if ($msg != '') {

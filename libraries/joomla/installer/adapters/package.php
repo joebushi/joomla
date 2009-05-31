@@ -1,22 +1,16 @@
 <?php
 /**
  * @version		$Id:plugin.php 6961 2007-03-15 16:06:53Z tcp $
- * @package		JPackageMan
- * @subpackage	Installer
- * @copyright	Copyright (C) 2008 Toowoomba Regional Council/Sam Moffatt
- * @copyright 	Copyright (C) 2005-2007 Open Source Matters (Portions)
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
+ * @package		Joomla.Framework
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
+ * @version SVN: $Id$
  * See COPYRIGHT.php for copyright notices and details.
  */
 
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();
 jimport('joomla.base.adapterinstance');
-
 
 /**
  * Package installer
@@ -250,6 +244,5 @@ class JInstallerPackage extends JAdapterInstance
 		// note: for templates, libraries and packages their unique name is their key
 		// this means they come out the same way they came in
 		return $result;
-	}
 
 }

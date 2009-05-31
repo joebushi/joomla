@@ -113,7 +113,7 @@ class JAdapter extends JObject {
 				if (!class_exists($class)) {
 					return false;
 				}
-				$adapter = new $class($this);
+				$adapter = new $class($this, $this->_db);
 				$this->_adapters[$name] = clone($adapter);
 			}
 		}

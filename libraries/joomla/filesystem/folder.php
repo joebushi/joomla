@@ -275,8 +275,8 @@ class JFolder
 			return false;
 		}
 
-		// Remove all the files in folder if they exist
-		$files = JFolder::files($path, '.', false, true, array());
+		// Remove all the files in folder if they exist; disable all filtering
+		$files = JFolder::files($path, '.', false, true, array(), array());
 		if (!empty($files)) {
 			jimport('joomla.filesystem.file');
 			if (JFile::delete($files) !== true) {
@@ -285,8 +285,8 @@ class JFolder
 			}
 		}
 
-		// Remove sub-folders of folder
-		$folders = JFolder::folders($path, '.', false, true, array());
+		// Remove sub-folders of folder; disable all filtering
+		$folders = JFolder::folders($path, '.', false, true, array(), array());
 		foreach ($folders as $folder) {
 			if (is_link($folder)) {
 				// Don't descend into linked directories, just delete the link.

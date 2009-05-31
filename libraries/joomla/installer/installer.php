@@ -174,7 +174,7 @@ class JInstaller extends JAdapter
 	public function &getManifest()
 	{
 		if (!is_object($this->manifest)) {
-			$this->_findManifest();
+			$this->findManifest();
 		}
 		return $this->manifest;
 	}
@@ -542,7 +542,7 @@ class JInstaller extends JAdapter
 	public function setupInstall()
 	{
 		// We need to find the installation manifest file
-		if (!$this->_findManifest()) {
+		if (!$this->findManifest()) {
 			return false;
 		}
 
@@ -1131,9 +1131,14 @@ class JInstaller extends JAdapter
 		$removefiles = array ();
 		$retval = true;
 
-		// Get the client info
+		// Get the client info if we're using a specific client
 		jimport('joomla.application.helper');
+		if($cid > -1) {
 		$client = &JApplicationHelper::getClientInfo($cid);
+		} else {
+			$client = null;
+		}
+
 
 		if (!($element INSTANCEOF JSimpleXMLElement) || !count($element->children())) {
 			// Either the tag does not exist or has no children therefore we return zero files processed.
@@ -1146,6 +1151,8 @@ class JInstaller extends JAdapter
 			// No files to process
 			return true;
 		}
+
+		$folder = '';
 
 		/*
 		 * Here we set the folder we are going to remove the files from.  There are a few
@@ -1163,7 +1170,11 @@ class JInstaller extends JAdapter
 				break;
 
 			case 'languages':
+				if($client) {
 				$source = $client->path.DS.'language';
+				} else {
+					$source = '';
+				}
 				break;
 
 			default:
@@ -1189,10 +1200,16 @@ class JInstaller extends JAdapter
 			 * would go in the en_US subdirectory of the languages directory.
 			 */
 			if ($file->name() == 'language' && $file->attributes('tag') != '') {
+				if($source) {
 				$path = $source.DS.$file->attributes('tag').DS.basename($file->data());
+				} else {
+					$target_client = JApplicationHelper::getClientInfo($file->attributes('client'), true);
+					$path = $target_client->path.DS.'language'.DS.$file->attributes('tag').DS.basename($file->data()); 
+				}
 
 				// If the language folder is not present, then the core pack hasn't been installed... ignore
 				if (!JFolder::exists(dirname($path))) {
+					JError::raiseWarning(42,'Tried to delete non-existent file at ' . $path);
 					continue;
 				}
 			} else {
@@ -1212,8 +1229,13 @@ class JInstaller extends JAdapter
 			}
 
 			if ($val === false) {
+				JError::raiseWarning(43, 'Failed to delete '. $path);
 				$retval = false;
 			}
+		}
+
+		if(!empty($folder)) {
+			$val = JFolder::delete($source);
 		}
 
 		return $retval;
@@ -1252,7 +1274,7 @@ class JInstaller extends JAdapter
 	 * @return boolean True on success, False on error
 	 * @since 1.0
 	 */
-	protected function _findManifest()
+	public function findManifest()
 	{
 		// Get an array of all the xml files from the installation directory
 		$xmlfiles = JFolder::files($this->getPath('source'), '.xml$', 1, true);

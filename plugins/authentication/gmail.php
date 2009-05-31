@@ -55,7 +55,7 @@ class plgAuthenticationGMail extends JPlugin {
 				}
 				$curl = curl_init('https://mail.google.com/mail/feed/atom');
 				curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-				curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, $params->get('verify_peer', 0));
+				curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, $params->get('verify_peer', 1));
 				//curl_setopt($curl, CURLOPT_HEADER, 1);
 				curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
 				curl_setopt($curl, CURLOPT_USERPWD, $credentials['username'].':'.$credentials['password']);
@@ -81,11 +81,10 @@ class plgAuthenticationGMail extends JPlugin {
 			} else {
 				$message = 'Username or password blank';
 			}
+		} else {
+			$message = 'curl isn\'t insalled';
 		}
-		else {
-			$message = 'curl isn\'t installed';
-		}
-
+		$response->type = 'GMail';
 		if ($success) {
 			$response->status 	     = JAUTHENTICATE_STATUS_SUCCESS;
 			$response->error_message = '';
@@ -98,6 +97,8 @@ class plgAuthenticationGMail extends JPlugin {
 			} else { // the username looks like an email address (probably is) so use that
 			$response->email 	= $credentials['username'];
 			}
+			// reset the username to what we ended up using
+			$response->username = $credentials['username'];
 			$response->fullname = $credentials['username'];
 		} else {
 			$response->status 		= JAUTHENTICATE_STATUS_FAILURE;

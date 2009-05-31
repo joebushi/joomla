@@ -82,7 +82,6 @@ class JArchiveTar extends JObject
 		$this->_metadata = null;
 
 		$stream =& JFactory::getStream();
-		//if (!$this->_fh = fopen($archive,'rb'))
 		if(!$stream->open($archive, 'rb'))
 		{
 			$this->set('error.message', 'Unable to read archive');
@@ -94,7 +93,6 @@ class JArchiveTar extends JObject
 		$i = 0;
 		$chunksize = 512; // tar has items in 512 byte packets
 
-		//while($entry = fread($this->_fh, $chunksize)) {
 		while($entry = $stream->read($chunksize)) {
 			//$entry =& $this->_data[$i];
 			$info = @ unpack("a100filename/a8mode/a8uid/a8gid/a12size/a12mtime/a8checksum/Ctypeflag/a100link/a6magic/a2version/a32uname/a32gname/a8devmajor/a8devminor", $entry);
@@ -158,7 +156,6 @@ class JArchiveTar extends JObject
 				}
 			}
 		}
-		//fclose($this->_fh);
 		$stream->close();	
 		return true;
 	}

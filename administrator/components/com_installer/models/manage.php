@@ -230,7 +230,7 @@ class InstallerModelManage extends InstallerModel
 			$retval[] = $string;
 		}
 		
-		$hideprotected = JRequest::getBool('hideprotected',0);
+		$hideprotected = JRequest::getBool('hideprotected',1);
 		if($hideprotected) {
 			$retval[] = 'protected != 1';
 		}

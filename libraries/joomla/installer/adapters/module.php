@@ -21,21 +21,13 @@ jimport('joomla.base.adapterinstance');
 class JInstallerModule extends JAdapterInstance
 {
 	/** @var string install function routing */
-	var $route = 'Install';
+	protected $route = 'Install';
+	protected $manifest = null;
+	protected $manifest_script = null;
+	protected $name = null;
+	protected $element = null;
+	protected $scriptElement = null;
 	
-	/**
-	 * Constructor
-	 *
-	 * @access	protected
-	 * @param	object	$parent	Parent object [JInstaller instance]
-	 * @return	void
-	 * @since	1.5
-	 */
-	function __construct(&$parent)
-	{
-		$this->parent = &$parent;
-	}
-
 	/**
 	 * Custom install method
 	 *
@@ -103,7 +95,7 @@ class JInstallerModule extends JAdapterInstance
 		// Set the installation path
 		$element = '';
 		$module_files =& $this->manifest->getElementByPath('files');
-		if ($element INSTANCEOF JSimpleXMLElement && count($element->children())) {
+		if ($module_files INSTANCEOF JSimpleXMLElement && count($module_files->children())) {
 			$files =& $module_files->children();
 			foreach ($files as $file) {
 				if ($file->attributes('module')) {

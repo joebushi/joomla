@@ -20,6 +20,18 @@ jimport('joomla.base.adapterinstance');
  */
 class JInstallerComponent extends JAdapterInstance
 {
+	protected $manifest = null;
+	protected $name = null;
+	protected $element = null;
+	protected $scriptElement = null;
+	protected $adminElement	= null;
+	protected $installElement = null;
+	protected $uninstallElement	= null;		
+	protected $oldAdminFiles = null;
+	protected $oldFiles = null;
+	protected $manifest_script = null;
+	protected $install_script = null;
+
 	/**
 	 * Custom install method for components
 	 *
@@ -36,6 +48,7 @@ class JInstallerComponent extends JAdapterInstance
 		$manifest = &$this->parent->getManifest();
 		$this->manifest = &$manifest->document;
 
+
 		/**
 		 * ---------------------------------------------------------------------------------------------
 		 * Manifest Document Setup Section
@@ -46,6 +59,7 @@ class JInstallerComponent extends JAdapterInstance
 		$name = &$this->manifest->getElementByPath('name');
 		$element = strtolower('com_'.JFilterInput::clean($name->data(), 'cmd'));
 		$name = $name->data();
+
 		$this->set('element', $element);
 		$this->set('name', $name);
 
@@ -429,13 +443,13 @@ class JInstallerComponent extends JAdapterInstance
 		 * Hunt for the original XML file 
 		 */
 		$oldmanifest = null;
-		$tmpInstaller = new JInstaller(); // create a new installer because _findManifest sets stuff
+		$tmpInstaller = new JInstaller(); // create a new installer because findManifest sets stuff
 		// look in the administrator first
 		$tmpInstaller->setPath('source', $this->parent->getPath('extension_administrator'));
-		if(!$tmpInstaller->_findManifest()) {
+		if(!$tmpInstaller->findManifest()) {
 			// then the site
 			$tmpInstaller->setPath('source', $this->parent->getPath('extension_site'));
-			if($tmpInstaller->_findManifest()) {
+			if($tmpInstaller->findManifest()) {
 				$old_manifest = $tmpInstaller->getManifest();
 				$old_manifest = $old_manifest->document;
 			}
@@ -443,6 +457,7 @@ class JInstallerComponent extends JAdapterInstance
 			$old_manifest = $tmpInstaller->getManifest();
 			$old_manifest = $old_manifest->document;
 		}
+		
 		// should do this above perhaps?
 		if($old_manifest) {
 			$this->oldAdminFiles =& $old_manifest->getElementByPath('administration/files');
@@ -670,11 +685,6 @@ class JInstallerComponent extends JAdapterInstance
 		$row->load($eid);	
 		$row->name = $this->get('name'); //update the name possibly
 		$row->manifest_cache = $this->parent->generateManifestCache(); // and the manifest cache
-		if (!$row->store()) {
-			// Install failed, roll back changes
-			$this->parent->abort(JText::_('Module').' '.JText::_('Install').': '.$db->stderr(true));
-			return false;
-		}
 
 		// Clobber any possible pending updates
 		$update =& JTable::getInstance('update');
@@ -703,9 +713,10 @@ class JInstallerComponent extends JAdapterInstance
 		$row->type = 'component';
 		$row->element = $this->get('element');
 		$row->manifest_cache = $this->parent->generateManifestCache();
+		
 		if (!$row->store()) {
 			// Install failed, roll back changes
-			$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.$db->stderr(true));
+			$this->parent->abort(JText::_('Component').' '.JText::_('Update').': '.$db->stderr(true));
 			return false;
 		}
 		

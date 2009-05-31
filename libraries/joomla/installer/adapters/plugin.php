@@ -22,18 +22,10 @@ class JInstallerPlugin extends JAdapterInstance
 	/** @var string install function routing */
 	var $route = 'Install';
 
-	/**
-	 * Constructor
-	 *
-	 * @access	protected
-	 * @param	object	$parent	Parent object [JInstaller instance]
-	 * @return	void
-	 * @since	1.5
-	 */
-	function __construct(&$parent)
-	{
-		$this->parent = &$parent;
-	}
+	protected $manifest = null;
+	protected $manifest_script = null;
+	protected $name = null;
+	protected $scriptElement = null;
 
 	/**
 	 * Custom install method
@@ -78,7 +70,7 @@ class JInstallerPlugin extends JAdapterInstance
 
 		// Set the installation path
 		$plugin_files =& $this->manifest->getElementByPath('files');
-		if ($element INSTANCEOF JSimpleXMLElement && count($element->children())) {
+		if ($plugin_files INSTANCEOF JSimpleXMLElement && count($plugin_files->children())) {
 			$files =& $plugin_files->children();
 			foreach ($files as $file) {
 				if ($file->attributes($type)) {
@@ -91,9 +83,10 @@ class JInstallerPlugin extends JAdapterInstance
 		if (!empty ($element) && !empty($group)) {
 			$this->parent->setPath('extension_root', JPATH_ROOT.DS.'plugins'.DS.$group.DS.$element);
 		} else {
-			$this->parent->abort(JText::_('Plugin').' '.JText::_('Install').': '.JText::_('No plugin file specified'));
+			$this->parent->abort(JText::_('Plugin').' '.JText::_($this->route).': '.JText::_('No plugin file specified'));
 			return false;
 		}
+
 
 		/*
 		 * Check if we should enable overwrite settings
@@ -106,13 +99,13 @@ class JInstallerPlugin extends JAdapterInstance
 		$db->setQuery($query);
 		if (!$db->Query()) {
 			// Install failed, roll back changes
-			$this->parent->abort(JText::_('Plugin').' '.JText::_('Install').': '.$db->stderr(true));
+			$this->parent->abort(JText::_('Plugin').' '.JText::_($this->route).': '.$db->stderr(true));
 			return false;
 		}
 		$id = $db->loadResult();
 		
 		// if its on the fs...
-		if(file_exists($this->parent->getPath('extension_root')) && !$this->parent->getOverwrite()) {
+		if(file_exists($this->parent->getPath('extension_root')) && $this->parent->getOverwrite()) {
 			$updateElement = $this->manifest->getElementByPath('update');
 			// upgrade manually set
 			// update function available
@@ -149,7 +142,7 @@ class JInstallerPlugin extends JAdapterInstance
 				// create a new instance
 				$this->parent->manifestClass = new $classname($this);
 				// and set this so we can copy it later
-				$this->set('manifest.script', $manifestScript);
+				$this->set('manifest_script', $manifestScript);
 				// Note: if we don't find the class, don't bother to copy the file				
 			}
 		}		
@@ -171,7 +164,7 @@ class JInstallerPlugin extends JAdapterInstance
 		$created = false;
 		if (!file_exists($this->parent->getPath('extension_root'))) {
 			if (!$created = JFolder::create($this->parent->getPath('extension_root'))) {
-				$this->parent->abort(JText::_('Plugin').' '.JText::_('Install').': '.JText::_('Failed to create directory').': "'.$this->parent->getPath('extension_root').'"');
+				$this->parent->abort(JText::_('Plugin').' '.JText::_($this->route).': '.JText::_('Failed to create directory').': "'.$this->parent->getPath('extension_root').'"');
 				return false;
 			}
 		}
@@ -197,9 +190,9 @@ class JInstallerPlugin extends JAdapterInstance
 		$this->parent->parseLanguages($this->manifest->getElementByPath('languages'), 1);
 
 		// If there is a manifest script, lets copy it.
-		if($this->get('manifest.script')) {
-			$path['src'] = $this->parent->getPath('source').DS.$this->get('manifest.script');
-			$path['dest'] = $this->parent->getPath('extension_root').DS.$this->get('manifest.script');
+		if($this->get('manifest_script')) {
+			$path['src'] = $this->parent->getPath('source').DS.$this->get('manifest_script');
+			$path['dest'] = $this->parent->getPath('extension_root').DS.$this->get('manifest_script');
 			
 			if(!file_exists($path['dest'])) {
 				if (!$this->parent->copyFiles(array ($path))) {
@@ -222,7 +215,7 @@ class JInstallerPlugin extends JAdapterInstance
 			if (!$this->parent->getOverwrite())
 			{
 				// Install failed, roll back changes
-				$this->parent->abort(JText::_('Plugin').' '.JText::_('Install').': '.JText::_('Plugin').' "'.$pname.'" '.JText::_('already exists!'));
+				$this->parent->abort(JText::_('Plugin').' '.JText::_($this->route).': '.JText::_('Plugin').' "'. $this->get('name') .'" '.JText::_('already exists!'));
 				return false;
 			}
 
@@ -250,7 +243,7 @@ class JInstallerPlugin extends JAdapterInstance
 
 			if (!$row->store()) {
 				// Install failed, roll back changes
-				$this->parent->abort(JText::_('Plugin').' '.JText::_('Install').': '.$db->stderr(true));
+				$this->parent->abort(JText::_('Plugin').' '.JText::_($this->route).': '.$db->stderr(true));
 				return false;
 			}
 
@@ -289,7 +282,7 @@ class JInstallerPlugin extends JAdapterInstance
 		// Lastly, we will copy the manifest file to its appropriate place.
 		if (!$this->parent->copyManifest(-1)) {
 			// Install failed, rollback changes
-			$this->parent->abort(JText::_('Plugin').' '.JText::_('Install').': '.JText::_('Could not copy setup file'));
+			$this->parent->abort(JText::_('Plugin').' '.JText::_($this->route).': '.JText::_('Could not copy setup file'));
 			return false;
 		}
 		// And now we run the postflight
@@ -299,7 +292,7 @@ class JInstallerPlugin extends JAdapterInstance
 		$msg .= ob_get_contents(); // append messages
 		ob_end_clean();
 		if ($msg != '') {
-			$this->parent->set('extension.message', $msg);
+			$this->parent->set('extension_message', $msg);
 		}
 
 		// Load plugin language file
@@ -336,7 +329,7 @@ class JInstallerPlugin extends JAdapterInstance
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	public function uninstall($id, $clientId )
+	public function uninstall( $id )
 	{
 		// Initialize variables
 		$row	= null;
@@ -419,7 +412,7 @@ class JInstallerPlugin extends JAdapterInstance
 					// create a new instance
 					$this->parent->manifestClass = new $classname($this);
 					// and set this so we can copy it later
-					$this->set('manifest.script', $manifestScript);
+					$this->set('manifest_script', $manifestScript);
 					// Note: if we don't find the class, don't bother to copy the file				
 				}
 			}		
@@ -460,7 +453,7 @@ class JInstallerPlugin extends JAdapterInstance
 
 			// Remove all media and languages as well
 			$this->parent->removeFiles($root->getElementByPath('media'));
-			$this->parent->removeFiles($root->getElementByPath('languages'), 1);
+			$this->parent->removeFiles($root->getElementByPath('languages'), -1);
 		} else {
 			JError::raiseWarning(100, 'Plugin Uninstall: Manifest File invalid or not found');
 			return false;
@@ -477,7 +470,7 @@ class JInstallerPlugin extends JAdapterInstance
 		}
 
 		if($msg) {
-			$this->parent->set('extension.message',$msg);
+			$this->parent->set('extension_message',$msg);
 		}
 
 		return $retval;
