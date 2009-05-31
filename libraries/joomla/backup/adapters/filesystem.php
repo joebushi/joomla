@@ -1,13 +1,13 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: filesystem.php 11836 2009-05-27 21:44:15Z eddieajau $
  * @package		Joomla.Framework
  * @subpackage	Backup
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
  
-defined('JPATH_ROOT') or die();
+defined('JPATH_ROOT') or die;
 
 jimport('joomla.base.adapterinstance');
 jimport('joomla.tasks.tasksuspendable');
@@ -62,13 +62,13 @@ class JBackupFilesystem extends JAdapterInstance implements JTaskSuspendable, JB
 		$this->options = $options;
 		$this->state = Array('task'=>null,'options'=>Array(),'state'=>'initialised', 'entries'=>Array());
 	}
-	
+
 	/**
 	 * Suspend the filesystem backup (called from a yield)
 	 * @return array Suspended items
 	 */
 	public function suspendTask() {
-	// generate an array that can be fed back to the object
+		// generate an array that can be fed back to the object
 		return Array('options'=>$this->options, 'state'=>$this->state, 'stack'=>$this->stack, 'files'=>$this->files);
 	}
 	
@@ -85,7 +85,7 @@ class JBackupFilesystem extends JAdapterInstance implements JTaskSuspendable, JB
 	 * @param JTask A reference to the task for this object
 	 */ 
 	public function setTask(&$task) {
-		$this->task =& $task;
+		$this->task = &$task;
 	}
 	
 	/**
@@ -100,41 +100,41 @@ class JBackupFilesystem extends JAdapterInstance implements JTaskSuspendable, JB
 	 */
 	public function backup($options=Array()) {
 		// If the task isn't set in the state, set it
-		if(!$this->state['task']) {
+		if (!$this->state['task']) {
 			$this->state['task'] = 'initialised';
 			// validate there is a destination around
-			if(!array_key_exists('destination', $options)) {
+			if (!array_key_exists('destination', $options)) {
 				return false; // bad fugu!
 			}
 			
-			if(!file_exists($options['destination'])) {
-				if(!JFolder::create($options['destination'])) {
+			if (!file_exists($options['destination'])) {
+				if (!JFolder::create($options['destination'])) {
 					JError::raiseError(1000, JText::_('Failed to create backup destination'));
 					return false;
 				}
 			}
 			
 			
-			if(!array_key_exists('source', $options)) {
+			if (!array_key_exists('source', $options)) {
 				return false; // we don't know where to start!
 			}
 			
 			// a list of things we want to exclude
-			if(!array_key_exists('exclude', $options)) {
+			if (!array_key_exists('exclude', $options)) {
 				$options['exclude'] = Array('backups', '.svn', 'CVS', '.DS_Store', '__MACOSX');
 			}
 			// a list of filters we want to match against things we want to exclude
-			if(!array_key_exists('excludefilter', $options)) {
+			if (!array_key_exists('excludefilter', $options)) {
 				// TODO: Check if it needs to be \~ or if just ~ works properly
 				// ignore hidden files and backups
 				$options['excludefilter'] = Array('^\..*', '.*~$');
 			}
 			// where we start backing up from...
-			if(!array_key_exists('root', $options)) {
+			if (!array_key_exists('root', $options)) {
 				$options['root'] = JPATH_ROOT;
 			}
 			// a list of things we want
-			if(!array_key_exists('filter', $options)) {
+			if (!array_key_exists('filter', $options)) {
 				$options['filter'] = '.';
 			}
 			// yay done
@@ -142,11 +142,18 @@ class JBackupFilesystem extends JAdapterInstance implements JTaskSuspendable, JB
 		}
 		
 		// validate that this exists
-		if(!file_exists($options['root'])) {
+		if (!file_exists($options['root'])) {
 			$this->setError('Invalid or non-existent root specified');
 			return false;
 		}
-		
+
+        // If it is not array and it contains file then process file.
+        if (!is_array($options['source']) && file_exists($options['source'])) {
+            $this->_processFile();
+            $this->state['task'] = 'finished';
+            return true;
+        }
+
 		// loop until we're done
 		while($this->state['task'] != 'finished') {
 			switch($this->state['task']) {
@@ -173,8 +180,8 @@ class JBackupFilesystem extends JAdapterInstance implements JTaskSuspendable, JB
 	 * Find folders in the source
 	 */
 	private function _findFolders() {
-		$options =& $this->state['options'];
-		if(!is_array($options['source'])) {
+		$options = &$this->state['options'];
+		if (!is_array($options['source'])) {
 			$folders = JFolder::folders($options['source'], $options['filter'], true, true, $options['exclude'], $options['excludefilter']);
 		} else {
 			$folders = Array();
@@ -183,7 +190,7 @@ class JBackupFilesystem extends JAdapterInstance implements JTaskSuspendable, JB
 			}
 		}
 		
-		if(!is_array($folders)) {
+		if (!is_array($folders)) {
 			$folders = Array();
 		}
 		// ensure that the folder exists
@@ -197,28 +204,28 @@ class JBackupFilesystem extends JAdapterInstance implements JTaskSuspendable, JB
 	 * Process directories looking for files in folders
 	 */
 	private function _processDirectories() {
-		$options =& $this->state['options'];
+		$options = &$this->state['options'];
 		// get the last item on the stack but don't remove it until we're done
 		while($directory = end($this->stack)) {
 			// if the files list is empty, populate
-			if(empty($this->files)) {
+			if (empty($this->files)) {
 				$this->files = JFolder::files($directory, $options['filter'], false, true, $options['exclude'], $options['excludefilter']);
 				rsort($this->files);
 			}
 			$target = $options['destination'].DS.str_replace($options['root'], '', $directory);
 			$res = JFolder::create($target);
-			if(!$res) {
+			if (!$res) {
 				//echo 'Failed to create directory '. $target .'<br />';
 				JError::raiseError(2, JText::sprintf('Failed to create directory: %s', $target));
 				continue;
 			}
 			while(($file = array_pop($this->files)) != null) {
 				$res = JFile::copy($file, $target.DS.basename($file));
-				if(!$res) {
+				if (!$res) {
 					JError::raiseWarning(1, JText::sprintf('Failed to backup "%s"', $file));
 					//echo 'Failed to copy '. $files[$f].' to '. $target .'<br />';
 				}
-				if(count($this->files)) $this->task->yield();
+				if (count($this->files)) $this->task->yield();
 			}
 			// remove the item off the stack
 			array_pop($this->stack);
@@ -238,33 +245,33 @@ class JBackupFilesystem extends JAdapterInstance implements JTaskSuspendable, JB
 	 */
 	public function restore($options=Array()) {
 		// If the task isn't set in the state, set it
-		if(!$this->state['task']) {
+		if (!$this->state['task']) {
 			$this->state['task'] = 'initialised';
 			// validate there is a destination around
-			if(!array_key_exists('destination', $options)) {
+			if (!array_key_exists('destination', $options)) {
 				return false; // bad fugu!
-	}
-	
-			if(!file_exists($options['destination'])) {
-				return false; // the destination of the backup doesn't exist, can't restore
-	}
-	
-	
-			if(!array_key_exists('source', $options)) {
-				return false; // we don't know where to dump stuff again
-}
+			}
 			
-			if(!array_key_exists('mode', $options)) {
+			if (!file_exists($options['destination'])) {
+				return false; // the destination of the backup doesn't exist, can't restore
+			}
+			
+			
+			if (!array_key_exists('source', $options)) {
+				return false; // we don't know where to dump stuff again
+			}
+			
+			if (!array_key_exists('mode', $options)) {
 				$options['mode'] = 'merge';
 			}
 			
 			// convert the source to an array if it isn't already
-			if(!is_array($options['source'])) {
+			if (!is_array($options['source'])) {
 				$options['source'] = array($options['source']);
 			}
 			
 			// Replace mode works ala Mac OS X copying; the original folder is removed
-			if($options['mode'] == 'replace') {
+			if ($options['mode'] == 'replace') {
 				foreach($options['source'] as $source) {
 					// delete the folder
 					JFolder::delete($source);
@@ -272,7 +279,7 @@ class JBackupFilesystem extends JAdapterInstance implements JTaskSuspendable, JB
 					JFolder::create($source);
 				}
 			}
-		
+			
 			// a list of things we want to exclude
 			if (!array_key_exists('exclude', $options)) {
 				$options['exclude'] = Array('backups', '.svn', 'CVS', '.DS_Store', '__MACOSX');
@@ -333,4 +340,53 @@ class JBackupFilesystem extends JAdapterInstance implements JTaskSuspendable, JB
 	public function remove($options=Array()) {
 		return JFolder::delete($options['destination']);
 	}
+
+	/**
+	 * Process file
+	 */
+	private function _processFile() {
+		$options = &$this->state['options'];
+
+        //Get source file along with the path from installable directory
+        $source = str_replace($options['root'], '', $options['source']);
+
+        //Create target file along with complete path.
+        $target = $options['destination'];
+
+        //break the path so that we can creat folder
+        $sFilePath = split("/", $source);
+
+        //Get the file name
+        $fileName = array_pop($sFilePath);
+
+        foreach ($sFilePath as $part) {
+            if(empty($part)) {
+                continue;
+            }
+
+            $target .= DS.$part;
+
+            $res = JFolder::create($target);
+            if (!$res) {
+                //echo 'Failed to create directory '. $target .'<br />';
+                JError::raiseError(2, JText::sprintf('Failed to create directory: %s', $target));
+                continue;
+            }
+        }
+        
+        $target .= DS.$fileName;
+        
+        $res = JFile::copy($options['source'], $target);
+        if (!$res) {
+            JError::raiseWarning(1, JText::sprintf('Failed to backup "%s"', $file));
+            //echo 'Failed to copy '. $files[$f].' to '. $target .'<br />';
+        }
+        
+
+	}
+
+
+    function setState($value = null) {
+        $this->state['task'] = $value;
+    }
 }

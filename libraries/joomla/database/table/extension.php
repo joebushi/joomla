@@ -1,4 +1,4 @@
-<?php
+9<?php
 /**
 * @version		$Id$
 * @package		Joomla.Framework
@@ -21,45 +21,45 @@ defined('JPATH_BASE') or die();
 class JTableExtension extends JTable
 {
 	/** @var int Primary key */
-	protected $extension_id					= null;
+	var $extension_id					= null;
 	/** @var string Friendly name of the extension */
-	protected $name				= null;
+	var $name				= null;
 	/** @var string Type of Extension */
-	protected $type			= null;
+	var $type			= null;
 	/** @var string Unique name of extension */
-	protected $element			= null;
+	var $element			= null;
 	/** @var string Folder/container/group of extension */
-	protected $folder			= null;
+	var $folder			= null;
 	/** @var int Client Unique Identifier (e.g. administrator=1, site=0) */
-	protected $client_id			= null;
+	var $client_id			= null;
 	/** @var boolean Published/Enabled state of the extension */
-	protected $enabled			= 1;
+	var $enabled			= 1;
 	/** @var int Primitive Access Control */
-	protected $access				= 0;
-	/** @var int If the extension is included in the Core (2) or otherwise protected (1); default not protected (0)*/
-	protected $protected			= 0;
+	var $access				= 0;
+	/** @var int If the extension is included in the Core (2) or otherwise var (1); default not var (0)*/
+	var $var			= 0;
 	/** @var string Manifest Cache; cache of the manifest data */
-	protected $manifest_cache		= null;
+	var $manifest_cache		= null;
 	/** @var string Extension parameters */
-	protected $params				= null;
+	var $params				= null;
 	/** @var string Generic extension data field; for extensions private use */
-	protected $custom_data				= null;
+	var $custom_data				= null;
 	/** @var string Generic extension data field; for Joomla! use */
-	protected $system_data				= null;
+	var $system_data				= null;
 	/** @var int Checked Out */
-	protected $checked_out = 0;
+	var $checked_out = 0;
 	/** @var datetime Checked Out Time */
-	protected $checked_out_time = null;
+	var $checked_out_time = null;
 	/** @var int ordering */
-	protected $ordering = 0;
+	var $ordering = 0;
 	/** @var int state State of the extension, either default (0), discovered (-1) */
-	protected $state = 0;
+	var $state = 0;
 	
 
 	/**
 	 * Contructor
 	 *
-	 * @access protected
+	 * @access var
 	 * @param database A database connector object
 	 */
 	function __construct( &$db ) {

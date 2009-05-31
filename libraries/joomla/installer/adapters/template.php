@@ -33,8 +33,6 @@ class JInstallerTemplate extends JAdapterInstance
 	 */
 	public function install()
 	{
-		// Get database connector object
-		$db = &$this->parent->getDbo();
 		$manifest = &$this->parent->getManifest();
 		$root = &$manifest->document;
 
@@ -64,12 +62,12 @@ class JInstallerTemplate extends JAdapterInstance
 		$this->set('name', $name);
 		$this->set('element',$element);
 		
-		$db =& $this->parent->getDBO();
+		$db = &$this->parent->getDbo();
 		$db->setQuery('SELECT extension_id FROM #__extensions WHERE type="template" AND element = "'. $element .'"');
 		$result = $db->loadResult();
 		// TODO: Rewrite this! We shouldn't uninstall a template, we should back up the params as well
-		if($result) { // already installed, can we upgrade?
-			if($this->parent->getOverwrite() || $this->parent->getUpgrade()) { 
+		if ($result) { // already installed, can we upgrade?
+			if ($this->parent->getOverwrite() || $this->parent->getUpgrade()) {
 				// we can upgrade, so uninstall the old one
 				$installer = new JInstaller(); // we don't want to compromise this instance!
 				$installer->uninstall('template', $result);
@@ -143,10 +141,6 @@ class JInstallerTemplate extends JAdapterInstance
 			$this->parent->abort(JText::_('Template').' '.JText::_('Install').': '.JText::_('Could not copy setup file'));
 			return false;
 		}
-		
-		// Load template language file
-		$lang = &JFactory::getLanguage();
-		$lang->load('tpl_'.$name);
 
 		/**
 		 * ---------------------------------------------------------------------------------------------
@@ -170,6 +164,17 @@ class JInstallerTemplate extends JAdapterInstance
 			$this->parent->abort(JText::_('Template').' '.JText::_('Install').': '.$db->stderr(true));
 			return false;
 		}
+		
+		//insert record in #_menu_template
+		$query = 'INSERT INTO #__menu_template'.
+				' (template,client_id,home,description,params)'.
+				' VALUE ('.$db->Quote($row->name).','.
+				$db->Quote($clientId).',0,'.
+				$db->Quote(JText::_('Default')).','.
+				$db->Quote($row->params).
+				')';
+		$db->setQuery($query);
+		$db->query();
 		return $row->get('extension_id');
 	}
 
@@ -182,7 +187,7 @@ class JInstallerTemplate extends JAdapterInstance
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	public function uninstall( $id )
+	public function uninstall($id)
 	{
 		// Initialize variables
 		$retval	= true;
@@ -190,18 +195,17 @@ class JInstallerTemplate extends JAdapterInstance
 		// First order of business will be to load the module object table from the database.
 		// This should give us the necessary information to proceed.
 		$row = & JTable::getInstance('extension');
-		if ( !$row->load((int) $id) || !strlen($row->element)) {
+		if (!$row->load((int) $id) || !strlen($row->element)) {
 			JError::raiseWarning(100, JText::_('ERRORUNKOWNEXTENSION'));
 			return false;
 		}
-		
+
 		// Is the template we are trying to uninstall a core one?
 		// Because that is not a good idea...
 		if ($row->protected) {
 			JError::raiseWarning(100, JText::_('Template').' '.JText::_('Uninstall').': '.JText::sprintf('WARNCOREMODULE', $row->name)."<br />".JText::_('WARNCOREMODULE2'));
 			return false;
 		}
-		
 		$name = $row->element;
 		$clientId = $row->client_id;
 
@@ -212,6 +216,16 @@ class JInstallerTemplate extends JAdapterInstance
 			return false;
 		}
 
+		// Deny remove default template
+		$db = &$this->parent->getDbo();
+		$query = 'SELECT COUNT(*) FROM #__menu_template'.
+				' WHERE home = 1 AND template = '.$db->Quote($name);
+		$db->setQuery($query);
+		if ($db->loadResult() != 0) {
+			JError::raiseWarning(100, JText::_('Template').' '.JText::_('Uninstall').': '.JText::_('Cannot remove default template'));
+			return false;
+		}
+		
 		// Get the template root path
 		$client = &JApplicationHelper::getClientInfo($clientId);
 		if (!$client) {
@@ -245,11 +259,27 @@ class JInstallerTemplate extends JAdapterInstance
 			JError::raiseWarning(100, JText::_('Template').' '.JText::_('Uninstall').': '.JText::_('Directory does not exist, cannot remove files'));
 			$retval = false;
 		}
+		
+		//Set menu that assigned to the template back to default template
+		$query = 'UPDATE #__menu INNER JOIN #__menu_template'.
+				' ON #__menu_template.id = #__menu.template_id'.
+				' SET #__menu.template_id = 0'.
+				' WHERE #__menu_template.template = '.$db->Quote($name).
+				' AND #__menu_template.client_id = '.$db->Quote($clientId);
+		$db->setQuery($query);
+		$db->Query();
+		
+		$query = 'DELETE FROM #__menu_template'.
+				' WHERE template = '.$db->Quote($name).
+				' AND client_id = '.$db->Quote($clientId);
+		$db->setQuery($query);
+		$db->Query();
+		
 		$row->delete($row->extension_id);
 		unset($row);
 		return $retval;
 	}
-	
+
 	/**
 	 * Discover existing but uninstalled templates
 	 * @return Array JExtensionTable list
@@ -261,28 +291,28 @@ class JInstallerTemplate extends JAdapterInstance
 		$site_info = JApplicationHelper::getClientInfo('site', true);
 		$admin_info = JApplicationHelper::getClientInfo('administrator', true);
 		foreach($site_list as $template) {
-			if($template == 'system') continue; // ignore special system template
-			$extension =& JTable::getInstance('extension');
-			$extension->type = 'template';
-			$extension->client_id = $site_info->id;
-			$extension->element = $template;
-			$extension->name = $template;
-			$extension->state = -1;
+			if ($template == 'system') continue; // ignore special system template
+			$extension = &JTable::getInstance('extension');
+			$extension->set('type', 'template');
+			$extension->set('client_id', $site_info->id);
+			$extension->set('element', $template);
+			$extension->set('name', $template);
+			$extension->set('state', -1);
 			$results[] = $extension;
-}
+		}
 		foreach($admin_list as $template) {
-			if($template == 'system') continue; // ignore special system template
-			$extension =& JTable::getInstance('extension');
-			$extension->type = 'template';
-			$extension->client_id = $admin_info->id;
-			$extension->element = $template;
-			$extension->name = $template;
-			$extension->state = -1;
+			if ($template == 'system') continue; // ignore special system template
+			$extension = &JTable::getInstance('extension');
+			$extension->set('type', 'template');
+			$extension->set('client_id', $admin_info->id);
+			$extension->set('element', $template);
+			$extension->set('name', $template);
+			$extension->set('state', -1);
 			$results[] = $extension;
 		}
 		return $results;
 	}
-	
+
 	/**
 	 * Perform an install from a discovered extension
 	 */
@@ -299,7 +329,7 @@ class JInstallerTemplate extends JAdapterInstance
 		$this->parent->extension->name = $manifest_details['name'];
 		$this->parent->extension->enabled = 1;
 		$this->parent->extension->params = $this->parent->getParams();
-		if($this->parent->extension->store()) {
+		if ($this->parent->extension->store()) {
 			return $this->parent->extension->get('extension_id');
 		} else {
 			JError::raiseWarning(101, JText::_('Template').' '.JText::_('Discover Install').': '.JText::_('Failed to store extension details'));

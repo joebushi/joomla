@@ -28,24 +28,11 @@ class JInstallerLanguage extends JAdapterInstance
 	protected $_core = false;
 
 	/**
-	 * Constructor
-	 *
-	 * @access	protected
-	 * @param	object	$parent	Parent object [JInstaller instance]
-	 * @return	void
-	 * @since	1.5
-	 */
-	function __construct(&$parent)
-	{
-		$this->parent = &$parent;
-	}
-
-	/**
 	 * Custom install method
 	 * Note: This behaves badly due to hacks made in the middle of 1.5.x to add
 	 * the ability to install multiple distinct packs in one install. The
 	 * preferred method is to use a package to install multiple language packs. 
-	 *
+	 * 
 	 * @access	public
 	 * @return	boolean	True on success
 	 * @since	1.5
@@ -172,7 +159,7 @@ class JInstallerLanguage extends JAdapterInstance
 					JError::raiseWarning(1, JText::_('Language').' '.JText::_('Install').': '.JText::_('Another component is already using directory').': "'.$this->parent->getPath('extension_site').'"');
 				} else { // if the admin exists say that
 					JError::raiseWarning(1, JText::_('Language').' '.JText::_('Install').': '.JText::_('Another component is already using directory').': "'.$this->parent->getPath('extension_administrator').'"');
-		}
+				}
 				return false;
 			}
 		}
@@ -194,7 +181,7 @@ class JInstallerLanguage extends JAdapterInstance
 		}
 
 		// Copy all the necessary font files to the common pdf_fonts directory
-		$this->parent->setPath('extension_site', JPATH_SITE.DS."language".DS.'pdf_fonts');
+		$this->parent->setPath('extension_site', $basePath.DS.'language'.DS.'pdf_fonts');
 		$overwrite = $this->parent->setOverwrite(true);
 		if ($this->parent->parseFiles($root->getElementByPath('fonts')) === false) {
 			// Install failed, rollback changes
@@ -227,10 +214,10 @@ class JInstallerLanguage extends JAdapterInstance
 			// Install failed, roll back changes
 			$this->parent->abort(JText::_('Language').' '.JText::_('Install').': '.$db->stderr(true));
 			return false;
-	}
+		}
 
 		// Clobber any possible pending updates
-		$update =& JTable::getInstance('update');
+		$update = &JTable::getInstance('update');
 		$uid = $update->find(Array('element'=>$this->get('tag'),
 								'type'=>'language',
 								'client_id'=>'',
@@ -247,31 +234,31 @@ class JInstallerLanguage extends JAdapterInstance
 	 * @since 1.6
 	 */
 	public function update() {
-		$manifest =& $this->parent->getManifest();
-		$this->manifest =& $manifest->document;
-		$root =& $manifest->document;
+		$manifest = &$this->parent->getManifest();
+		$this->manifest = &$manifest->document;
+		$root = &$manifest->document;
 
 		$cname = $root->attributes('client');
 		// Attempt to map the client to a base path
 		jimport('joomla.application.helper');
-		$client =& JApplicationHelper::getClientInfo($cname, true);
+		$client = &JApplicationHelper::getClientInfo($cname, true);
 		if ($client === null) {
 			$this->parent->abort(JText::_('Language').' '.JText::_('Update').': '.JText::_('Unknown client type').' ['.$cname.']');
 			return false;
 		}
 		$basePath = $client->path;
 		$clientId = $client->id;
-		$element =& $root->getElementByPath('files');
+		$element = &$root->getElementByPath('files');
 
 
 		// Get the language name
 		// Set the extensions name
-		$name =& $this->manifest->getElementByPath('name');
+		$name = &$this->manifest->getElementByPath('name');
 		$name = JFilterInput::clean($name->data(), 'cmd');
 		$this->set('name', $name);
 
 		// Get the Language tag [ISO tag, eg. en-GB]
-		$tag =& $root->getElementByPath('tag');
+		$tag = &$root->getElementByPath('tag');
 
 		// Check if we found the tag - if we didn't, we may be trying to install from an older language package
 		if (! $tag)
@@ -339,7 +326,7 @@ class JInstallerLanguage extends JAdapterInstance
 		 * ---------------------------------------------------------------------------------------------
 		 */
 		// Clobber any possible pending updates
-		$update =& JTable::getInstance('update');
+		$update = &JTable::getInstance('update');
 		$uid = $update->find(Array('element'=>$this->get('tag'),
 								'type'=>'language',
 								'client_id'=>$clientId));
@@ -400,7 +387,7 @@ class JInstallerLanguage extends JAdapterInstance
 		
 		// check the element isn't blank to prevent nuking the languages directory...just in case
 		$element = $extension->get('element');
-		if(empty($element)) {
+		if (empty($element)) {
 			JError::raiseWarning(100, JText::_('Language').' '.JText::_('Uninstall').': '.JText::_('Element is empty, cannot uninstall files'));
 			return false;
 		}
@@ -438,18 +425,18 @@ class JInstallerLanguage extends JAdapterInstance
 		$admin_languages = JFolder::folders(JPATH_ADMINISTRATOR.DS.'language');
 		foreach($site_languages as $language) {
 			if (file_exists(JPATH_SITE.DS.'language'.DS.$language.DS.$language.'.xml')) {
-				$extension =& JTable::getInstance('extension');
+				$extension = &JTable::getInstance('extension');
 				$extension->set('type', 'language');
 				$extension->set('client_id', 0);
 				$extension->set('element', $language);
 				$extension->set('name', $language);
 				$extension->set('state', -1);
 				$results[] = $extension;
-}
+			}
 		}
 		foreach($admin_languages as $language) {
 			if (file_exists(JPATH_ADMINISTRATOR.DS.'language'.DS.$language.DS.$language.'.xml')) {
-				$extension =& JTable::getInstance('extension');
+				$extension = &JTable::getInstance('extension');
 				$extension->set('type', 'language');
 				$extension->set('client_id', 1);
 				$extension->set('element', $language);

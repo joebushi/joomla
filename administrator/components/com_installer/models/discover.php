@@ -92,7 +92,7 @@ class InstallerModelDiscover extends InstallerModel
 		$installed = $dbo->loadObjectList('element');
 		foreach($results as $result) {
 			// check if we have a match on the element
-			if(!array_key_exists($result->element, $installed)) {
+			if(!array_key_exists($result->get('element'), $installed)) {
 				// since the element doesn't exist, its definitely new
 				$result->store(); // put it into the table	
 				//echo '<p>Added: <pre>'.print_r($result,1).'</pre></p>';
