@@ -59,7 +59,6 @@ class InstallerViewManage extends InstallerViewDefault
 		$select[] = JHTML::_('select.option', '-1', JText::_('All'));
 		$select[] = JHTML::_('select.option', '0', JText::_('Site'));
 		$select[] = JHTML::_('select.option', '1', JText::_('Admininistrator'));
-		$select[] = JHTML::_('select.option', '3', JText::_('XMLRPC'));
 		$lists['clientid'] = JHTML::_('select.genericlist',  $select, 'client', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $state->get('filter.client'));
 		$dbo->setQuery('SELECT DISTINCT CASE `folder` WHEN "" THEN "N/A" ELSE `folder` END AS folder from #__extensions');
 		$folder_list = $dbo->loadObjectList();

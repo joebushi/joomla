@@ -479,10 +479,12 @@ class JFolder
 	 * @param	boolean	True to return the full path to the folders.
 	 * @param	array	Array with names of folders which should not be shown in
 	 * the result.
+	 * @param	array	Array with regular expressions matching folders which
+	 * should not be shown in the result.
 	 * @return	array	Folders in the given folder.
 	 * @since 1.5
 	 */
-	public static function folders($path, $filter = '.', $recurse = false, $fullpath = false, $exclude = array('.svn', 'CVS','.DS_Store','__MACOSX'), $excludefilter = array('\._.*'))
+	public static function folders($path, $filter = '.', $recurse = false, $fullpath = false, $exclude = array('.svn', 'CVS','.DS_Store','__MACOSX'), $excludefilter = array('\..*'))
 	{
 		// Initialize variables
 		$arr = array();
@@ -499,13 +501,13 @@ class JFolder
 		// read the source directory
 		$handle = opendir($path);
 		if(count($excludefilter)) {
-			$excludefilter = '('. implode('|', $excludefilter) .')';
+			$excludefilter_string = '('. implode('|', $excludefilter) .')';
 		} else {
-			$excludefilter = '';	
+			$excludefilter_string = '';
 		}
 		while (($file = readdir($handle)) !== false)
 		{
-			if (($file != '.') && ($file != '..') && (!in_array($file, $exclude)) && (!$excludefilter || !preg_match($excludefilter, $file))) {
+			if (($file != '.') && ($file != '..') && (!in_array($file, $exclude)) && (empty($excludefilter_string) || !preg_match($excludefilter_string, $file))) {
 				$dir = $path . DS . $file;
 				$isDir = is_dir($dir);
 				if ($isDir) {
@@ -519,9 +521,9 @@ class JFolder
 					}
 					if ($recurse) {
 						if (is_integer($recurse)) {
-							$arr2 = JFolder::folders($dir, $filter, $recurse - 1, $fullpath);
+						$arr2 = JFolder::folders($dir, $filter, $recurse - 1, $fullpath, $exclude, $excludefilter);
 						} else {
-							$arr2 = JFolder::folders($dir, $filter, $recurse, $fullpath);
+						$arr2 = JFolder::folders($dir, $filter, $recurse, $fullpath, $exclude, $excludefilter);
 						}
 
 						$arr = array_merge($arr, $arr2);
