@@ -122,7 +122,7 @@ class JComponentHelper
 		// 1.5 3PD or Core files
 		$lang->load($name);
 		// 1.6 3PD
-		$lang->load('joomla', JPATH_COMPONENT);
+		$lang->load($name, JPATH_COMPONENT);
 
 		// Handle template preview outlining
 		$contents = null;

@@ -2,8 +2,8 @@
 /**
  * @version		$Id: acl.php 11140 2008-10-16 18:17:16Z ircmaxell $
  * @package		Joomla.Framework
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
  */
 
 /**
@@ -60,6 +60,9 @@ class JTableBackup extends JTable
 			foreach($results as $result) {
 				$tmp =& JTable::getInstance('backupentry');
 				$tmp->setProperties($result);
+				// restore the two serialized fields
+				$tmp->set('data', unserialize($tmp->get('data')));
+		 		$tmp->set('params', unserialize($tmp->get('params')));
 				$this->_entries[] = clone($tmp);
 				return true;
 			}

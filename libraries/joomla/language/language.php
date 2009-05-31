@@ -91,7 +91,9 @@ class JLanguage extends JObject
 	 * @access	protected
 	 * @since	1.5
 	 */
-	var $_used		= array();
+	protected $_used = array();
+	protected $_counter 	= 0;
+	protected $_override 	= array();
 
 	/**
 	* Constructor activating the default information of the language
@@ -107,6 +109,17 @@ class JLanguage extends JObject
 		}
 
 		$this->setLanguage($lang);
+
+	$app = & JFactory::getApplication();
+		$filename = JPATH_BASE.DS.'language'.DS.'overrides'.DS.$lang.'.override.ini';
+		if ($contents = @file_get_contents( $filename ))
+		{
+			$registry	= new JRegistry();
+			$registry->loadINI($contents);
+			$this->_override = $registry->toArray( );
+			unset($registry);
+			unset($contents);
+		}
 
 		$this->load();
 	}
@@ -301,6 +314,9 @@ class JLanguage extends JObject
 	*/
 	function _load($filename, $extension = 'unknown', $overwrite = true)
 	{
+
+	$this->_counter++;
+
 		$result	= false;
 
 		if ($content = @file_get_contents($filename))
@@ -318,7 +334,11 @@ class JLanguage extends JObject
 
 			if (is_array($newStrings))
 			{
-				$this->_strings = $overwrite ? array_merge($this->_strings, $newStrings) : array_merge($newStrings, $this->_strings);
+				$this->_strings = $overwrite ? array_merge($this->_strings, $newStrings)
+					: array_merge($newStrings, $this->_strings);
+
+				$this->_strings = array_merge( $this->_strings, $this->_override); // add overrides
+
 				$result = true;
 			}
 		}
