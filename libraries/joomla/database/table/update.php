@@ -1,15 +1,10 @@
 <?php
 /**
-* @version		$Id: module.php 9764 2007-12-30 07:48:11Z ircmaxell $
+* @version		$Id$
 * @package		Joomla.Framework
 * @subpackage	Table
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
+* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+* @license		GNU General Public License, see LICENSE.php
 */
 
 // Check to ensure this file is within the rest of the framework
@@ -26,31 +21,31 @@ defined('JPATH_BASE') or die();
 class JTableUpdate extends JTable
 {
 	/** @var int Primary key */
-	var $update_id				= null;
+	protected $update_id				= null;
 	/** @var int Source update site ID */
-	var $update_site_id			= null;
+	protected $update_site_id			= null;
 	/** @var int Linked extension ID */
-	var $extension_id			= null;
+	protected $extension_id			= null;
 	/** @var int Linked update category ID */
-	var $categoryid				= null;
+	protected $categoryid				= null;
 	/** @var string Friendly name of the extension */
-	var $name				= null;
+	protected $name				= null;
 	/** @var string Description of Extension */
-	var $description			= null;
+	protected $description			= null;
 	/** @var string Unique name of extension */
-	var $element			= null;
+	protected $element			= null;
 	/** @var string Type of Extension */
-	var $type			= null;
+	protected $type			= null;
 	/** @var string Folder/container/group of extension */
-	var $folder			= null;
+	protected $folder			= null;
 	/** @var int Client Unique Identifier (e.g. administrator=1, site=0) */
-	var $client_id			= null;
+	protected $client_id			= null;
 	/** @var string Version string of extension */
-	var $version			= '';
+	protected $version			= '';
 	/** @var string Generic extension data field; for Joomla! use */
-	var $data				= null;		
+	protected $data				= null;
 	/** @var string Extension details URL */
-	var $detailsurl			= null;
+	protected $detailsurl			= null;
 
 	/**
 	 * Contructor

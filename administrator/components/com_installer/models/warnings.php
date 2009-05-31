@@ -1,15 +1,10 @@
 <?php
 /**
- * @version		$Id: templates.php 9764 2007-12-30 07:48:11Z ircmaxell $
- * @package		Joomla
+ * @version		$Id$
+ * @package		Joomla.Administrator
  * @subpackage	Menus
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
- * details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
  */
 
 // Import library dependencies
@@ -19,7 +14,7 @@ jimport( 'joomla.filesystem.folder' );
 /**
  * Extension Manager Templates Model
  *
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Installer
  * @since		1.5
  */
@@ -71,6 +66,13 @@ class InstallerModelWarnings extends InstallerModel
 			if(!is_writeable($tmp_path)) {
 				$messages[] = Array('message'=>JText::_('JOOMLATMPNOTWRITEABLE'), 'description'=>JText::_('JOOMLATMPNOTWRITEABLEDESC'));
 			}
+		}
+
+		$bytes = JUtility::return_bytes(ini_get('memory_limit'));
+		if($bytes < (8 * 1024 * 1024)) {
+			$messages[] = Array('message'=>JText::_('LOWMEMORYWARN'), 'description'=>JText::_('LOWMEMORYDESC'));
+		} else if($bytes < (16 * 1024 * 1024)) {
+			$messages[] = Array('message'=>JText::_('MEDMEMORYWARN'), 'description'=>JText::_('MEDMEMORYDESC'));
 		}
 		$this->_items = $messages;
 	}	

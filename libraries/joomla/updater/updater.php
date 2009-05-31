@@ -2,16 +2,11 @@
 /**
  * Joomla! Update System
  *
- * @version		$Id: installer.php 10609 2008-08-01 06:26:01Z pasamio $
+ * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Updater
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
  */
 
 // Check to ensure this file is within the rest of the framework
@@ -32,7 +27,7 @@ class JUpdater extends JAdapter {
 	/**
 	 * Constructor
 	 */
-	function __construct() {
+	public function __construct() {
 		// adapter base path, class prefix
 		parent::__construct(dirname(__FILE__),'JUpdater');
 	}
@@ -44,7 +39,7 @@ class JUpdater extends JAdapter {
 	 * @static
 	 * @return	object	An installer object
 	 */
-	function &getInstance()
+	public function &getInstance()
 	{
 		static $instance;
 
@@ -59,7 +54,7 @@ class JUpdater extends JAdapter {
 	 * @param int Extension Identifier; if zero use all sites
 	 * @return boolean If there are updates or not
 	 */
-	function findUpdates($eid=0) {
+	public function findUpdates($eid=0) {
 		$dbo =& $this->getDBO();
 		$retval = false;
 		// push it into an array
@@ -133,7 +128,7 @@ class JUpdater extends JAdapter {
 	 * Borrowed from PHP.net
 	 * @url http://au2.php.net/manual/en/function.array-unique.php
 	 */
-	function arrayUnique($myArray)
+	public function arrayUnique($myArray)
 	{
 	    if(!is_array($myArray))
 	           return $myArray;
@@ -151,7 +146,7 @@ class JUpdater extends JAdapter {
 	    return $myArray;
 	} 	
 	
-	function update($id) {
+	public function update($id) {
 		$updaterow =& JTable::getInstance('update');
 		$updaterow->load($id);
 		$update = new JUpdate();

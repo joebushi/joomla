@@ -59,7 +59,7 @@ class InstallerViewManage extends InstallerViewDefault
 		$folder_list = $dbo->loadObjectList();
 		$item->folder = 'All'; // will get translated below
 		array_unshift($folder_list, $item);
-		$lists['folder'] = JHTML::_('select.genericlist', $folder_list, 'folder', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'folder','folder', JRequest::getVar('folder',''), false, true);
+		$lists['folder'] = JHTML::_('select.genericlist', $folder_list, 'folder', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'folder','folder', JRequest::getVar('folder','All'), false, true);
 		//$lists['state'] = ''; // published or otherwise?
 		$lists['hideprotected'] = JRequest::getBool('hideprotected', 1);
 		$this->assignRef('lists', $lists);

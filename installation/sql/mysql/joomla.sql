@@ -1101,8 +1101,8 @@ CREATE TABLE `#__extensions` (
   `folder` VARCHAR(100) NOT NULL,
   `client_id` TINYINT(3) NOT NULL,
   `enabled` TINYINT(3) NOT NULL DEFAULT '1',
-  `access` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0',  
-  `protected` TINYINT(3) NOT NULL DEFAULT '0', 
+  `access` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0',
+  `protected` TINYINT(3) NOT NULL DEFAULT '0',
   `manifest_cache` TEXT  NOT NULL,
   `params` TEXT NOT NULL,
   `custom_data` text NOT NULL,
@@ -1110,7 +1110,7 @@ CREATE TABLE `#__extensions` (
   `checked_out` int(10) unsigned NOT NULL default '0',
   `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
   `ordering` int(11) default '0',
-  `state` int(11) default '0',  
+  `state` int(11) default '0',
   PRIMARY KEY (`extension_id`),
   INDEX `element_clientid`(`element`, `client_id`),
   INDEX `element_folder_clientid`(`element`, `folder`, `client_id`),
@@ -1124,12 +1124,14 @@ INSERT INTO #__extensions VALUES(0,"Authentication - LDAP","plugin","ldap","auth
 INSERT INTO #__extensions VALUES(0,"Authentication - GMail","plugin","gmail","authentication",0,0,0,0,"","","","",0,"0000-00-00 00:00:00",4,0);
 INSERT INTO #__extensions VALUES(0,"Authentication - OpenID","plugin","openid","authentication",0,0,0,0,"","","","",0,"0000-00-00 00:00:00",3,0);
 INSERT INTO #__extensions VALUES(0,"User - Joomla!","plugin","joomla","user",0,1,0,0,"","autoregister=1\n","","",0,"0000-00-00 00:00:00",0,0);
+INSERT INTO #__extensions VALUES(0,"User - Profile","plugin","profile","user",0,1,0,0,"","","","",0,"0000-00-00 00:00:00",0,0);
 INSERT INTO #__extensions VALUES(0,"Search - Content","plugin","content","search",0,1,0,1,"","search_limit=50\nsearch_content=1\nsearch_uncategorised=1\nsearch_archived=1\n","","",0,"0000-00-00 00:00:00",1,0);
 INSERT INTO #__extensions VALUES(0,"Search - Contacts","plugin","contacts","search",0,1,0,1,"","search_limit=50\n","","",0,"0000-00-00 00:00:00",3,0);
 INSERT INTO #__extensions VALUES(0,"Search - Categories","plugin","categories","search",0,1,0,0,"","search_limit=50\n","","",0,"0000-00-00 00:00:00",4,0);
 INSERT INTO #__extensions VALUES(0,"Search - Sections","plugin","sections","search",0,1,0,0,"","search_limit=50\n","","",0,"0000-00-00 00:00:00",5,0);
 INSERT INTO #__extensions VALUES(0,"Search - Newsfeeds","plugin","newsfeeds","search",0,1,0,0,"","search_limit=50\n","","",0,"0000-00-00 00:00:00",6,0);
 INSERT INTO #__extensions VALUES(0,"Search - Weblinks","plugin","weblinks","search",0,1,0,1,"","search_limit=50\n","","",0,"0000-00-00 00:00:00",2,0);
+INSERT INTO #__extensions VALUES(0,"Search - Contact Directory","plugin","contactdirectory","search",0,1,0,1,"","search_limit=50\n","","",0,"0000-00-00 00:00:00",7,0);
 INSERT INTO #__extensions VALUES(0,"Content - Pagebreak","plugin","pagebreak","content",0,1,0,1,"","enabled=1\ntitle=1\nmultipage_toc=1\nshowall=1\n","","",0,"0000-00-00 00:00:00",10000,0);
 INSERT INTO #__extensions VALUES(0,"Content - Rating","plugin","vote","content",0,1,0,1,"","","","",0,"0000-00-00 00:00:00",4,0);
 INSERT INTO #__extensions VALUES(0,"Content - Email Cloaking","plugin","emailcloak","content",0,1,0,0,"","mode=1\n","","",0,"0000-00-00 00:00:00",5,0);
@@ -1142,44 +1144,41 @@ INSERT INTO #__extensions VALUES(0,"Editor - XStandard Lite 2.0","plugin","xstan
 INSERT INTO #__extensions VALUES(0,"Editor Button - Image","plugin","image","editors-xtd",0,1,0,0,"","","","",0,"0000-00-00 00:00:00",0,0);
 INSERT INTO #__extensions VALUES(0,"Editor Button - Pagebreak","plugin","pagebreak","editors-xtd",0,1,0,0,"","","","",0,"0000-00-00 00:00:00",0,0);
 INSERT INTO #__extensions VALUES(0,"Editor Button - Readmore","plugin","readmore","editors-xtd",0,1,0,0,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"XML-RPC - Joomla","plugin","joomla","xmlrpc",0,0,0,1,"","","","",0,"0000-00-00 00:00:00",7,0);
-INSERT INTO #__extensions VALUES(0,"XML-RPC - Blogger API","plugin","blogger","xmlrpc",0,0,0,1,"","catid=1\nsectionid=0\n\n","","",0,"0000-00-00 00:00:00",7,0);
 INSERT INTO #__extensions VALUES(0,"System - SEF","plugin","sef","system",0,1,0,0,"","","","",0,"0000-00-00 00:00:00",1,0);
 INSERT INTO #__extensions VALUES(0,"System - Debug","plugin","debug","system",0,1,0,0,"","queries=1\nmemory=1\nlangauge=1\n\n","","",0,"0000-00-00 00:00:00",2,0);
-INSERT INTO #__extensions VALUES(0,"System - Legacy","plugin","legacy","system",0,0,0,1,"","route=0\n\n","","",0,"0000-00-00 00:00:00",3,0);
 INSERT INTO #__extensions VALUES(0,"System - Cache","plugin","cache","system",0,0,0,1,"","browsercache=0\ncachetime=15\n\n","","",0,"0000-00-00 00:00:00",4,0);
 INSERT INTO #__extensions VALUES(0,"System - Log","plugin","log","system",0,0,0,1,"","","","",0,"0000-00-00 00:00:00",5,0);
 INSERT INTO #__extensions VALUES(0,"System - Remember Me","plugin","remember","system",0,1,0,1,"","","","",0,"0000-00-00 00:00:00",6,0);
 INSERT INTO #__extensions VALUES(0,"System - Backlink","plugin","backlink","system",0,0,0,1,"","","","",0,"0000-00-00 00:00:00",7,0);
 # Components
-INSERT INTO #__extensions VALUES(0,"Banners","component","com_banners","",0,1,0,0,"","track_impressions=0\ntrack_clicks=0\ntag_prefix=\n\n","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Cache Manager","component","com_cache","",0,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Configuration Manager","component","com_config","",0,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Contacts","component","com_contact","",0,1,0,1,"","contact_icons=0\nicon_address=\nicon_email=\nicon_telephone=\nicon_fax=\nicon_misc=\nshow_headings=1\nshow_position=1\nshow_email=0\nshow_telephone=1\nshow_mobile=1\nshow_fax=1\nbannedEmail=\nbannedSubject=\nbannedText=\nsession=1\ncustomReply=0\n\n","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Articles","component","com_content","",0,1,0,1,"","show_noauth=0\nshow_title=1\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1\nfeed_summary=0\n\n","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Control Panel","component","com_cpanel","",0,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Installation Manager","component","com_installer","",0,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Language Manager","component","com_languages","",0,1,0,1,"","administrator=en-GB\nsite=en-GB","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Mail To","component","com_mailto","",0,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Mass mail","component","com_massmail","",0,1,0,1,"","mailSubjectPrefix=\nmailBodySuffix=\n\n","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Media Manager","component","com_media","",0,1,0,1,"","upload_extensions=bmp,csv,doc,epg,gif,ico,jpg,odg,odp,ods,odt,pdf,png,ppt,swf,txt,xcf,xls,BMP,CSV,DOC,EPG,GIF,ICO,JPG,ODG,ODP,ODS,ODT,PDF,PNG,PPT,SWF,TXT,XCF,XLS\nupload_maxsize=10000000\nfile_path=images\nimage_path=images/stories\nrestrict_uploads=1\ncheck_mime=1\nimage_extensions=bmp,gif,jpg,png\nignore_extensions=\nupload_mime=image/jpeg,image/gif,image/png,image/bmp,application/x-shockwave\nflash,application/msword,application/excel,application/pdf,application/powerpoint,text/plain,application/x-zip\nupload_mime_illegal=text/html\nenable_flash=1\n\n","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Menu Editor","component","com_menus","",0,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Messaging","component","com_messages","",0,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Modules Manager","component","com_modules","",0,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"News Feeds","component","com_newsfeeds","",0,1,0,0,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Plugin Manager","component","com_plugins","",0,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Polls","component","com_poll","",0,1,0,0,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Search","component","com_search","",0,1,0,1,"","enabled=0\n\n","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Template Manager","component","com_templates","",0,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"User","component","com_user","",0,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"User Manager","component","com_users","",0,1,0,1,"","allowUserRegistration=1\nnew_usertype=Registered\nuseractivation=1\nfrontend_userparams=1\n\n","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Web Links","component","com_weblinks","",0,1,0,0,"","show_comp_description=1\ncomp_description=\nshow_link_hits=1\nshow_link_description=1\nshow_other_cats=1\nshow_headings=1\nshow_page_title=1\nlink_target=0\nlink_icons=\n\n","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Wrapper","component","com_wrapper","",0,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
+INSERT INTO #__extensions VALUES(0,"Banners","component","com_banners","",1,1,0,0,"","track_impressions=0\ntrack_clicks=0\ntag_prefix=\n\n","","",0,"0000-00-00 00:00:00",0,0);
+INSERT INTO #__extensions VALUES(0,"Cache Manager","component","com_cache","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
+INSERT INTO #__extensions VALUES(0,"Configuration Manager","component","com_config","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
+INSERT INTO #__extensions VALUES(0,"Contacts","component","com_contact","",1,1,0,1,"","contact_icons=0\nicon_address=\nicon_email=\nicon_telephone=\nicon_fax=\nicon_misc=\nshow_headings=1\nshow_position=1\nshow_email=0\nshow_telephone=1\nshow_mobile=1\nshow_fax=1\nbannedEmail=\nbannedSubject=\nbannedText=\nsession=1\ncustomReply=0\n\n","","",0,"0000-00-00 00:00:00",0,0);
+INSERT INTO #__extensions VALUES(0,"Articles","component","com_content","",1,1,0,1,"","show_noauth=0\nshow_title=1\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1\nfeed_summary=0\n\n","","",0,"0000-00-00 00:00:00",0,0);
+INSERT INTO #__extensions VALUES(0,"Control Panel","component","com_cpanel","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
+INSERT INTO #__extensions VALUES(0,"Installation Manager","component","com_installer","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
+INSERT INTO #__extensions VALUES(0,"Language Manager","component","com_languages","",1,1,0,1,"","administrator=en-GB\nsite=en-GB","","",0,"0000-00-00 00:00:00",0,0);
+INSERT INTO #__extensions VALUES(0,"Mail To","component","com_mailto","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
+INSERT INTO #__extensions VALUES(0,"Mass mail","component","com_massmail","",1,1,0,1,"","mailSubjectPrefix=\nmailBodySuffix=\n\n","","",0,"0000-00-00 00:00:00",0,0);
+INSERT INTO #__extensions VALUES(0,"Media Manager","component","com_media","",1,1,0,1,"","upload_extensions=bmp,csv,doc,epg,gif,ico,jpg,odg,odp,ods,odt,pdf,png,ppt,swf,txt,xcf,xls,BMP,CSV,DOC,EPG,GIF,ICO,JPG,ODG,ODP,ODS,ODT,PDF,PNG,PPT,SWF,TXT,XCF,XLS\nupload_maxsize=10000000\nfile_path=images\nimage_path=images\nrestrict_uploads=1\ncheck_mime=1\nimage_extensions=bmp,gif,jpg,png\nignore_extensions=\nupload_mime=image/jpeg,image/gif,image/png,image/bmp,application/x-shockwave\nflash,application/msword,application/excel,application/pdf,application/powerpoint,text/plain,application/x-zip\nupload_mime_illegal=text/html\nenable_flash=1\n\n","","",0,"0000-00-00 00:00:00",0,0);
+INSERT INTO #__extensions VALUES(0,"Menu Editor","component","com_menus","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
+INSERT INTO #__extensions VALUES(0,"Messaging","component","com_messages","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
+INSERT INTO #__extensions VALUES(0,"Modules Manager","component","com_modules","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
+INSERT INTO #__extensions VALUES(0,"News Feeds","component","com_newsfeeds","",1,1,0,0,"","","","",0,"0000-00-00 00:00:00",0,0);
+INSERT INTO #__extensions VALUES(0,"Plugin Manager","component","com_plugins","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
+INSERT INTO #__extensions VALUES(0,"Search","component","com_search","",1,1,0,1,"","enabled=0\n\n","","",0,"0000-00-00 00:00:00",0,0);
+INSERT INTO #__extensions VALUES(0,"Template Manager","component","com_templates","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
+INSERT INTO #__extensions VALUES(0,"User","component","com_user","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
+INSERT INTO #__extensions VALUES(0,"User Manager","component","com_users","",1,1,0,1,"","allowUserRegistration=1\nnew_usertype=Registered\nuseractivation=1\nfrontend_userparams=1\n\n","","",0,"0000-00-00 00:00:00",0,0);
+INSERT INTO #__extensions VALUES(0,"Web Links","component","com_weblinks","",1,1,0,0,"","show_comp_description=1\ncomp_description=\nshow_link_hits=1\nshow_link_description=1\nshow_other_cats=1\nshow_headings=1\nshow_page_title=1\nlink_target=0\nlink_icons=\n\n","","",0,"0000-00-00 00:00:00",0,0);
+INSERT INTO #__extensions VALUES(0,"Wrapper","component","com_wrapper","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
+INSERT INTO #__extensions VALUES(0,"Contact Directory","component","com_contactdirectory","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
+INSERT INTO #__extensions VALUES(0,"Member Manager","component","com_members","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
 # Modules
 INSERT INTO #__extensions VALUES(0,"mod_login","module","mod_login","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
 INSERT INTO #__extensions VALUES(0,"mod_popular","module","mod_popular","",1,1,0,0,"","","","",0,"0000-00-00 00:00:00",0,0);
 INSERT INTO #__extensions VALUES(0,"mod_latest","module","mod_latest","",1,1,0,0,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"mod_stats","module","mod_stats","",1,1,0,0,"","","","",0,"0000-00-00 00:00:00",0,0);
 INSERT INTO #__extensions VALUES(0,"mod_unread","module","mod_unread","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
 INSERT INTO #__extensions VALUES(0,"mod_online","module","mod_online","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
 INSERT INTO #__extensions VALUES(0,"mod_toolbar","module","mod_toolbar","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
@@ -1190,8 +1189,8 @@ INSERT INTO #__extensions VALUES(0,"mod_menu","module","mod_menu","",1,1,0,0,"",
 INSERT INTO #__extensions VALUES(0,"mod_submenu","module","mod_submenu","",1,1,0,0,"","","","",0,"0000-00-00 00:00:00",0,0);
 INSERT INTO #__extensions VALUES(0,"mod_status","module","mod_status","",1,1,0,0,"","","","",0,"0000-00-00 00:00:00",0,0);
 INSERT INTO #__extensions VALUES(0,"mod_title","module","mod_title","",1,1,0,0,"","","","",0,"0000-00-00 00:00:00",0,0);
-# --------------------------------------------------------
 
+# --------------------------------------------------------
 
 # Update Sites
 CREATE TABLE  `#__updates` (
@@ -1234,6 +1233,55 @@ CREATE TABLE  `#__update_categories` (
   `updatesite` int(11) default '0',
   PRIMARY KEY  (`categoryid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Update Categories';
+
+
+CREATE TABLE  `#__tasks` (
+  `taskid` int(10) unsigned NOT NULL auto_increment,
+  `tasksetid` int(10) unsigned NOT NULL default '0',
+  `type` varchar(20) NOT NULL default '',
+  `data` longtext,
+  `offset` int(11) default '0',
+  `total` int(11) default '0',
+  `params` longtext,
+  PRIMARY KEY  (`taskid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Individual tasks';
+
+CREATE TABLE  `#__tasksets` (
+  `tasksetid` int(10) unsigned NOT NULL auto_increment,
+  `tasksetname` varchar(100) default NULL,
+  `extensionid` int(10) unsigned default '0',
+  `execution_page` text,
+  `landing_page` text,
+  `run_time` int(10) unsigned NOT NULL default '0',
+  `max_time` int(10) unsigned NOT NULL default '0',
+  `threshold` int(10) unsigned NOT NULL default '0',
+  `data` text NOT NULL,
+  PRIMARY KEY  (`tasksetid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Task Sets';
+
+
+CREATE TABLE  `#__backups` (
+  `backupid` int(10) unsigned NOT NULL auto_increment,
+  `name` varchar(50) NOT NULL default '',
+  `description` text NOT NULL,
+  `start` datetime NOT NULL default '0000-00-00 00:00:00',
+  `end` datetime NOT NULL default '0000-00-00 00:00:00',
+  `location` text NOT NULL,
+  `data` text NOT NULL,
+  `creator` varchar(50) NOT NULL default '',
+  PRIMARY KEY  (`backupid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Backups';
+
+CREATE TABLE  `#__backup_entries` (
+  `entryid` int(10) unsigned NOT NULL auto_increment,
+  `backupid` int(10) unsigned NOT NULL default '0',
+  `type` varchar(20) NOT NULL default '',
+  `name` varchar(50) NOT NULL default '',
+  `data` text NOT NULL,
+  `params` text NOT NULL,
+  PRIMARY KEY  (`entryid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Backup Entries';
+
 
 
 CREATE TABLE  `#__tasks` (

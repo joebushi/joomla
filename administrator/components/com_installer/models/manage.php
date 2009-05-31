@@ -1,15 +1,10 @@
 <?php
 /**
- * @version		$Id: components.php 9764 2007-12-30 07:48:11Z ircmaxell $
- * @package		Joomla
+ * @version		$Id$
+ * @package		Joomla.Administrator
  * @subpackage	Menus
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
- * details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
  */
 
 // Import library dependencies
@@ -18,7 +13,7 @@ require_once(dirname(__FILE__).DS.'extension.php');
 /**
  * Installer Manage Model
  *
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Installer
  * @since		1.5
  */
@@ -130,6 +125,7 @@ class InstallerModelManage extends InstallerModel
 				$data = unserialize($row->manifest_cache);
 				if($data) {
 					foreach($data as $key => $value) {
+						if($key == 'type') continue; // ignore the type field
 						$row->$key = $value;
 					}	
 				}
@@ -141,6 +137,7 @@ class InstallerModelManage extends InstallerModel
 				$row->client = $row->client_id;
 			}
 		}
+		
 		$this->setState('pagination.total', $numRows);
 		if($this->_state->get('pagination.limit') > 0) {
 			$this->_items = array_slice( $rows, $this->_state->get('pagination.offset'), $this->_state->get('pagination.limit') );
@@ -240,7 +237,7 @@ class InstallerModelManage extends InstallerModel
 			$retval[] = 'type = "'. $type .'"';
 		}
 		
-		$folder = JRequest::getVar('folder','');
+		$folder = JRequest::getVar('folder','All');
 		$valid_folders = Array('plugin','library','All'); // only plugins and libraries have folders
 		if(in_array($type, $valid_folders)) { // if the type supports folders, look for that
 			if($folder != 'All') {

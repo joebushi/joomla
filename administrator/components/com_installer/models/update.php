@@ -1,14 +1,9 @@
 <?php
 /**
- * @version		$Id: components.php 9764 2007-12-30 07:48:11Z ircmaxell $
- * @package		Joomla
- * @subpackage	Menus
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
  * details.
  */
 
@@ -19,7 +14,7 @@ jimport('joomla.updater.updater');
 jimport('joomla.updater.update');
 
 /**
- * Installer Manage Model
+ * @package		Joomla.Administrator
  *
  * @package		Joomla
  * @subpackage	Installer
@@ -95,12 +90,27 @@ class InstallerModelUpdate extends InstallerModel
 	}
 	
 	function update($uids) {
+		$result = true;
 		foreach($uids as $uid) {
 			$update = new JUpdate();
 			$instance =& JTable::getInstance('update');
 			$instance->load($uid);
 			$update->loadFromXML($instance->detailsurl);
-			$update->install();
+			$res = $update->install();
+			if($res) {
+				$msg = JText::sprintf('INSTALLEXT', JText::_($update->get('type','IUnknown')), JText::_('Success'));
+			} else {
+				$msg = JText::sprintf('INSTALLEXT', JText::_($update->get('type','IUnknown')), JText::_('Error'));
 		}
+			$result = $res & $result;
+			// Set some model state values
+			global $mainframe;
+			$mainframe->enqueueMessage($msg);
+			$this->setState('name', $update->get('name'));
+			
+			$this->setState('message', $update->message);
+			$this->setState('extension_message', $update->get('extension_message'));
+
 	}
-}
+		$this->setState('result', $result);
+}}

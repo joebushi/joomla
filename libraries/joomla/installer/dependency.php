@@ -12,6 +12,10 @@ defined('JPATH_BASE') or die();
  * @since 1.6
  */
 class JDependency {
+	/**
+	 * Resolve
+	 */
+	public function resolve() {
 	
 	
 	function getCurrentPlatform() {
@@ -20,4 +24,21 @@ class JDependency {
 		$name = strtolower($filter->clean($version->PRODUCT, 'cmd'));
 		return Array('name'=>$name, 'version'=>$version->getShortVersion());
 	}
+	
+	/**
+	 * Returns path information for a given set of variables
+	 * Used in tandem with JApplicationHelper::getPath
+	 */
+	public static function getPathType($type, $element, $folder, $client) {
+		switch($type) {
+			case 'plugin':
+				return Array('variable'=>'plg_xml', 'path_opt'=>$folder.'/'.$element);
+				break;
+			case 'component':
+				return Array('variable'=>'com_xml', 'path_opt'=>$element);
+				break;
+			case 'module':
+				return Array('variable'=>'mod'.intval($client).'_xml', 'path_opt'=>$element);
+				break;
+}	}
 }

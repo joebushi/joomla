@@ -74,6 +74,9 @@ class JInstaller extends JAdapter
 	 */
 	public $manifest = null;	
 	
+	protected $extension_message = null;
+	
+
 	/**
 	 * Constructor
 	 *
@@ -265,7 +268,7 @@ class JInstaller extends JAdapter
 					// Remove the entry from the #__extensions table
 					$query = 'DELETE' .
 							' FROM `#__extensions`' .
-							' WHERE id = '.(int)$step['id'];
+							' WHERE extension_id = '.(int)$step['id'];
 					$db->setQuery($query);
 					$stepval = $db->Query();
 					break;
@@ -377,7 +380,8 @@ class JInstaller extends JAdapter
 					// Fire the onBeforeExtensionInstall event.
 	                JPluginHelper::importPlugin( 'installer' );
 	                $dispatcher =& JDispatcher::getInstance();
-	                $dispatcher->trigger( 'onBeforeExtensionInstall', array( 'method'=>'discover_install', 'type'=>$this->extension->type, 'manifest'=>null, 'extension'=>$this->extension ) );
+	                $dispatcher->trigger('onBeforeExtensionInstall', array('method'=>'discover_install', 'type'=>$this->extension->get('type'), 'manifest'=>null, 'extension'=>$this->extension->get('extension_id')));
+	                
 					// Run the install 
 					$result = $this->_adapters[$this->extension->type]->discover_install();
 					// Fire the onAfterExtensionInstall
@@ -1361,7 +1365,7 @@ class JInstaller extends JAdapter
 	 * Generates a manifest cache
 	 * @return string serialised manifest data  
 	 */
-	function generateManifestCache() {
+	public function generateManifestCache() {
 		return serialize(JApplicationHelper::parseXMLInstallFile($this->getPath('manifest')));
 }
 
@@ -1369,7 +1373,7 @@ class JInstaller extends JAdapter
 	/**
 	 * Cleans up discovered extensions if they're being installed somehow else
 	 */
-	function cleanDiscoveredExtension($type, $element, $folder='', $client=0) {
+	public function cleanDiscoveredExtension($type, $element, $folder='', $client=0) {
 		$dbo =& JFactory::getDBO();
 		$dbo->setQuery('DELETE FROM #__extensions WHERE type = '. $dbo->Quote($type).' AND element = '. $dbo->Quote($element) .' AND folder = '. $dbo->Quote($folder). ' AND client_id = '. intval($client).' AND state = -1');
 		return $dbo->Query();
@@ -1381,7 +1385,7 @@ class JInstaller extends JAdapter
 	 * @param array An array of JSimpleXML objects that are the new files
 	 * @return array An array with the delete files and folders in findDeletedFiles[files] and findDeletedFiles[folders] resepctively 
 	 */
-	function findDeletedFiles($old_files, $new_files) {
+	public function findDeletedFiles($old_files, $new_files) {
 		// The magic find deleted files function!
 		$files = Array(); // the files that are new
 		$folders = Array(); // the folders that are new

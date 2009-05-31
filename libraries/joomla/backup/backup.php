@@ -21,10 +21,15 @@ jimport('joomla.utilities.date');
  * @since		1.6
  */
 class JBackup extends JAdapter {
+	/** @var JTaskSet a copy of the task set for the backup */
 	private $_taskset;
+	/** @var JTableBackup an instance of this backup */
 	private $_backup;
+	/** @var string The mode of this backup; backup, restore, remove */
 	private $_mode = 'backup'; // this needs to be retained in the task set!
-	protected $execution_page = ''; // 
+	/** @var string Page to redirect to when executing the backup */
+	protected $execution_page = '';
+	/** @var string Landing page to redirect to when the backup is done */
 	protected $landing_page = '';
 	
 	/**
@@ -70,6 +75,11 @@ class JBackup extends JAdapter {
 		return true;
 	}
 	
+	/**
+	 * Set the task set ID for the backup
+	 * Also attempts to load the task set if its valid
+	 * @param int Primary key task set
+	 */
 	public function setTaskSetID($tasksetid) {
 		$this->_taskset = new JTaskSet($this->_db);
 		if ($tasksetid) {
@@ -77,6 +87,10 @@ class JBackup extends JAdapter {
 		} // if its zero create a new taskset; no work required
 	}
 	
+	/**
+	 * Set the backup ID for the backup
+	 * Also attempts to load the backup if its valid
+	 */
 	public function setBackupID($backupid) {
 		$this->_backup =& JTable::getInstance('backup');
 		if($backupid) {
@@ -133,6 +147,10 @@ class JBackup extends JAdapter {
 		return $this->_backup->removeEntry($name, $type);
 	}
 	
+	/**
+	 * Returns the execution
+	 * @return string Location of the execution page
+	 */
 	public function getExecutionPage() {
 		if($this->execution_page) {
 			return $this->execution_page;
@@ -142,6 +160,10 @@ class JBackup extends JAdapter {
 		//return JURI::base().'?option=com_backups';
 	}
 	
+	/**
+	 * Returns the landing page
+	 * @return string
+	 */
 	public function getLandingPage() {
 		if($this->landing_page) {
 			return $this->landing_page;
@@ -153,6 +175,10 @@ class JBackup extends JAdapter {
 	//	return $query ? $url . '?' . $query : $url; // send the user back to where they came from
 	}
 	
+	/**
+	 * Builds the task set for the backup
+	 * @return boolean status of task set build
+	 */
 	private function _buildTaskSet() {
 		jimport('joomla.filesystem.folder');
 		// Set the destination on any backup entries that don't have it
@@ -169,7 +195,7 @@ class JBackup extends JAdapter {
 			JError::raiseWarning(40,JText::_('Failed to store task set'));
 			return false;
 		}
-		//echo '<p>Added new task set for backup</p>';
+
 		foreach($entries as &$entry) {
 			$params = $entry->params; // yay for php5 and automatic references!
 			if(!array_key_exists('destination', $params)) {
@@ -181,8 +207,6 @@ class JBackup extends JAdapter {
 			if(!$task->store()) {
 				die('Failed to store task: '. $this->_db->getErrorMSG());
 			}
-			//echo '<p>Added new task to backup</p>';
-			
 		}
 		unset($entry); // remove this reference
 		return true;

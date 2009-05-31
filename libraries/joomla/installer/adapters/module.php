@@ -38,9 +38,9 @@ class JInstallerModule extends JAdapterInstance
 	public function install()
 	{
 		// if this is an update, set the route accordingly
-		if($this->parent->getUpgrade()) {
+		/*if ($this->parent->getUpgrade()) {
 			$this->route = 'Update';
-		}
+		}*/
 
 		// Get a database connector object
 		$db = &$this->parent->getDbo();
@@ -73,7 +73,6 @@ class JInstallerModule extends JAdapterInstance
 		 * Target Application Section
 		 * ---------------------------------------------------------------------------------------------
 		 */
-
 		// Get the target application
 		if ($cname = $this->manifest->attributes('client')) {
 			// Attempt to map the client to a base path
@@ -112,12 +111,32 @@ class JInstallerModule extends JAdapterInstance
 			return false;
 		}
 
+		// Check to see if a module by the same name is already installed
+		// If it is, then update the table because if the files aren't there
+		// we can assume that it was (badly) uninstalled
+		// If it isn't, add an entry to extensions
+		$query = 'SELECT `extension_id`' .
+				' FROM `#__extensions` ' .
+				' WHERE element = '.$db->Quote($element) .
+				' AND client_id = '.(int)$clientId;
+		$db->setQuery($query);
+		try {
+			$db->Query();
+		} catch(JException $e) {
+			// Install failed, roll back changes
+			$this->parent->abort(JText::_('Module').' '.JText::_($this->route).': '.$db->stderr(true));
+			return false;
+		}
+		$id = $db->loadResult();
+
 		/*
 		 * If the module directory already exists, then we will assume that the
 		 * module is already installed or another module is using that
 		 * directory.
+		 * Check that this is either an issue where its not overwriting or it is
+		 * set to upgrade anyway
 		 */
-		if (file_exists($this->parent->getPath('extension_root'))&&!$this->parent->getOverwrite()) {
+		if (file_exists($this->parent->getPath('extension_root')) && (!$this->parent->getOverwrite() || $this->parent->getUpgrade())) {
 			// look for an update function or update tag			
 			$updateElement = $this->manifest->getElementByPath('update');
 			// upgrade manually set
@@ -127,7 +146,9 @@ class JInstallerModule extends JAdapterInstance
 				// force these one
 				$this->parent->setOverwrite(true);
 				$this->parent->setUpgrade(true);
+				if($id) { // if there is a matching extension mark this as an update; semantics really
 				$this->route = 'Update';
+				}
 			} else if(!$this->parent->getOverwrite()) { // overwrite is set
 				// we didn't have overwrite set, find an udpate function or find an update tag so lets call it safe 
 				$this->parent->abort(JText::_('Module').' '.JText::_($this->route).': '.JText::_('Another module is already using directory').': "'.$this->parent->getPath('extension_root').'"');
@@ -208,21 +229,6 @@ class JInstallerModule extends JAdapterInstance
 		 * ---------------------------------------------------------------------------------------------
 		 */
 
-		// Check to see if a module by the same name is already installed
-		// If it is, then update the table because if the files aren't there
-		// we can assume that it was (badly) uninstalled
-		// If it isn't, add an entry to extensions
-		$query = 'SELECT `extension_id`' .
-				' FROM `#__extensions` ' .
-				' WHERE element = '.$db->Quote($element) .
-				' AND client_id = '.(int)$clientId;
-		$db->setQuery($query);
-		if (!$db->Query()) {
-			// Install failed, roll back changes
-			$this->parent->abort(JText::_('Module').' '.JText::_($this->route).': '.$db->stderr(true));
-			return false;
-		}
-		$id = $db->loadResult();
 
 		// Was there a module already installed with the same name?
 		if ($id) {
@@ -307,11 +313,12 @@ class JInstallerModule extends JAdapterInstance
 		// Load module language file
 		$lang = &JFactory::getLanguage();
 		$lang->load($row->module, $client->path);
-		return true;
+		return $row->get('extension_id');
 	}
 
 	/**
 	 * Custom update method
+	 * This is really a shell for the install system
 	 *
 	 * @access	public
 	 * @return	boolean	True on success
@@ -384,7 +391,7 @@ class JInstallerModule extends JAdapterInstance
 		$this->parent->extension->enabled = 1;
 		$this->parent->extension->params = $this->parent->getParams();
 		if($this->parent->extension->store()) {
-			return true;
+			return $this->parent->extension->get('extension_id');
 		} else {
 			JError::raiseWarning(101, JText::_('Module').' '.JText::_('Discover Install').': '.JText::_('Failed to store extension details'));
 			return false;
