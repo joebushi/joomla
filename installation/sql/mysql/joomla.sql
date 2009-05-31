@@ -1111,7 +1111,10 @@ CREATE TABLE `#__extensions` (
   `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
   `ordering` int(11) default '0',
   `state` int(11) default '0',  
-  PRIMARY KEY (`extensionid`)  
+  PRIMARY KEY (`extension_id`),
+  INDEX `element_clientid`(`element`, `client_id`),
+  INDEX `element_folder_clientid`(`element`, `folder`, `client_id`),
+  INDEX `extension`(`type`,`element`,`folder`,`client_id`)
 ) TYPE=MyISAM CHARACTER SET `utf8`;
 
 
@@ -1236,18 +1239,24 @@ CREATE TABLE  `#__update_categories` (
 CREATE TABLE  `#__tasks` (
   `taskid` int(10) unsigned NOT NULL auto_increment,
   `tasksetid` int(10) unsigned NOT NULL default '0',
+  `type` varchar(20) NOT NULL default '',
   `data` text,
   `offset` int(11) default '0',
   `total` int(11) default '0',
+  `params` text,
   PRIMARY KEY  (`taskid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Individual tasks';
 
 CREATE TABLE  `#__tasksets` (
   `tasksetid` int(10) unsigned NOT NULL auto_increment,
-  `taskname` varchar(100) default '',
+  `tasksetname` varchar(100) default NULL,
   `extensionid` int(10) unsigned default '0',
-  `executionpage` text,
-  `landingpage` text,
+  `execution_page` text,
+  `landing_page` text,
+  `run_time` int(10) unsigned NOT NULL default '0',
+  `max_time` int(10) unsigned NOT NULL default '0',
+  `threshold` int(10) unsigned NOT NULL default '0',
+  `data` text NOT NULL,
   PRIMARY KEY  (`tasksetid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Task Sets';
 
@@ -1269,8 +1278,7 @@ CREATE TABLE  `#__backup_entries` (
   `backupid` int(10) unsigned NOT NULL default '0',
   `type` varchar(20) NOT NULL default '',
   `name` varchar(50) NOT NULL default '',
-  `source` text NOT NULL,
-  `destination` text NOT NULL,
   `data` text NOT NULL,
+  `params` text NOT NULL,
   PRIMARY KEY  (`entryid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Backup Entries';

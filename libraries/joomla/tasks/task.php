@@ -18,10 +18,12 @@ class JTask extends JTable {
 	protected $data = '';
 	protected $offset = 0;
 	protected $total = 0;
+	protected $params = '';
+	protected $type = '';
 	/** The parent task set for this task */
 	private $_parent;
 
-	function __construct(& $db=null, &$parent=null, $taskid = 0, $tasksetid = 0, $data = '') {
+	public function __construct(& $db=null, &$parent=null, $taskid = 0, $tasksetid = 0, $data = '') {
 		if($db != null) {
 		$this->taskid = $taskid;
 		$this->tasksetid = $tasksetid;
@@ -36,10 +38,6 @@ class JTask extends JTable {
 	}
 	}
 	
-	public function setDBO(&$dbo) {
-		$this->_db =& $dbo;
-	}
-	
 	public function setParent(&$parent) {
 		$this->_parent = $parent;
 	}
@@ -52,16 +50,18 @@ class JTask extends JTable {
 		}
 	}
 	
-	function load($pid=null) {
+	public function load($pid=null) {
 		$res = parent::load($pid);
 		if($res) $this->data = unserialize($this->data); // pull the data back out
 		return $res;
 	}
 	
-	function store($updateNulls=false) {
+	public function store($updateNulls=false) {
+		$this->params = serialize($this->params);
 		$this->data = serialize($this->data);
 		$res = parent::store($updateNulls);
 		$this->data = unserialize($this->data);
+		$this->params = unserialize($this->params);
 		return $res;
 	}
 

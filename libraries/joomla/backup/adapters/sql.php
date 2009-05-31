@@ -79,25 +79,25 @@ class JBackupSql extends JAdapterInstance implements JTaskSuspendable {
 				}
 				$this->db->setQuery('SHOW CREATE TABLE '. $table);
 				$create = $this->db->loadRow();
-			$create = $create[1].";\n\n"; // ignore the table name
-			$create = $options['replace_prefix'] ? str_replace($prefix,'#__', $create) : $create;
-			$output->write($create);
+				$create = $create[1].";\n\n"; // ignore the table name
+				$create = $options['replace_prefix'] ? str_replace($prefix,'#__', $create) : $create;
+				$output->write($create);
 			}
 			$this->db->setQuery('SELECT COUNT(*) FROM '. $table);
 			$rows = $this->db->loadResult();
 			$count = 0;
 			if($rows) {
-			do {
+				do {
 					$this->db->setQuery('SELECT * FROM '. $table, $count, 1);
 					$row = $this->db->loadRow();
-				$tablename = $options['replace_prefix'] ? str_replace($prefix,'#__', $table) : $table;
-				$line = 'INSERT INTO `'. $tablename .'` VALUES(';
+					$tablename = $options['replace_prefix'] ? str_replace($prefix,'#__', $table) : $table;
+					$line = 'INSERT INTO `'. $tablename .'` VALUES(';
 					$line .= implode(',', array_map(array($this->db, 'Quote'), $row));
-				$line .= ");\n";
-				$output->write($line);
-				$count++;
+					$line .= ");\n";
+					$output->write($line);
+					$count++;
 					if($this->_task && !($count % $this->yield_amount))  $this->_task->yield(); // check if refresh/reload is required
-			} while(($rows - $count) > 0);
+				} while(($rows - $count) > 0);
 			}
 			$nl = "\n\n\n";
 			$output->write($nl);
@@ -127,8 +127,8 @@ class JBackupSql extends JAdapterInstance implements JTaskSuspendable {
 			if(!$loader->load()) {
 				JError::raiseWarning('100', 'Load failed:'. $loader->getError());
 				return false;
-				}
-			}
+ 			}
+		}
 		return true;
 	}
 	
@@ -143,5 +143,5 @@ class JBackupSql extends JAdapterInstance implements JTaskSuspendable {
 		if(!isset($options['destination'])) return false; // if we don't have a dest bail
 		if(!isset($options['filename'])) $options['filename'] = 'data.sql'; // and this
 		return JFile::delete($options['destination'].DS.$options['filename']);
-				}
-			}
+	}
+}

@@ -29,13 +29,11 @@ class JTableBackupEntry extends JTable
 	 */
 	protected $name = null;
 	/**
-	 * @var varchar
-	 */
-	protected $source = null;
-	/**
 	 * @var text
 	 */
 	protected $data = null;
+	/** @var text */
+	protected $params = null;
 
 	/*
 	 * Constructor
