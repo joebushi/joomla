@@ -27,7 +27,7 @@ class JInstallerComponent extends JAdapterInstance
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function install()
+	public function install()
 	{
 		// Get a database connector object
 		$db = &$this->parent->getDbo();
@@ -96,7 +96,7 @@ class JInstallerComponent extends JAdapterInstance
 			// upgrade manually set
 			// update function available
 			// update tag detected 
-			if($this->parent->getUpgrade() || ($this->parent->_manifestClass && method_exists($this->parent->_manifestClass,'update')) || is_a($updateElement, 'JSimpleXMLElement')) {
+			if($this->parent->getUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'update')) || is_a($updateElement, 'JSimpleXMLElement')) {
 				return $this->update(); // transfer control to the update function
 			} else if(!$this->parent->getOverwrite()) { // overwrite is set
 				// we didn't have overwrite set, find an update function or find an update tag so lets call it safe 
@@ -127,7 +127,7 @@ class JInstallerComponent extends JAdapterInstance
 			$classname = $element.'InstallerScript';
 			if(class_exists($classname)) {
 				// create a new instance
-				$this->parent->_manifestClass = new $classname($this);
+				$this->parent->manifestClass = new $classname($this);
 				// and set this so we can copy it later
 				$this->set('manifest.script', $manifestScript);
 				// Note: if we don't find the class, don't bother to copy the file				
@@ -137,7 +137,7 @@ class JInstallerComponent extends JAdapterInstance
 		// run preflight if possible (since we know we're not an update)
 		ob_start();
 		ob_implicit_flush(false);
-		if($this->parent->_manifestClass && method_exists($this->parent->_manifestClass,'preflight')) $this->parent->_manifestClass->preflight('install', $this);	
+		if($this->parent->manifestClass && method_exists($this->parent->manifestClass,'preflight')) $this->parent->manifestClass->preflight('install', $this);	
 		$msg = ob_get_contents(); // create msg object; first use here
 		ob_end_clean();
 		
@@ -318,7 +318,7 @@ class JInstallerComponent extends JAdapterInstance
 		// Start Joomla! 1.6
 		ob_start();
 		ob_implicit_flush(false);
-		if($this->parent->_manifestClass && method_exists($this->parent->_manifestClass,'install')) $this->parent->_manifestClass->install($this);	
+		if($this->parent->manifestClass && method_exists($this->parent->manifestClass,'install')) $this->parent->manifestClass->install($this);	
 		$msg .= ob_get_contents(); // append messages
 		ob_end_clean();
 
@@ -339,7 +339,7 @@ class JInstallerComponent extends JAdapterInstance
 		$row->access = 0;
 		$row->client_id = 0;
 		$row->params = $this->parent->getParams();
-		$row->manifestcache = $this->parent->generateManifestCache();
+		$row->manifest_cache = $this->parent->generateManifestCache();
 		if (!$row->store()) {
 			// Install failed, roll back changes
 			$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.$db->stderr(true));
@@ -364,14 +364,14 @@ class JInstallerComponent extends JAdapterInstance
 		// And now we run the postflight
 		ob_start();
 		ob_implicit_flush(false);
-		if($this->parent->_manifestClass && method_exists($this->parent->_manifestClass,'postflight')) $this->parent->_manifestClass->postflight('install', $this);	
+		if($this->parent->manifestClass && method_exists($this->parent->manifestClass,'postflight')) $this->parent->manifestClass->postflight('install', $this);	
 		$msg .= ob_get_contents(); // append messages
 		ob_end_clean();
 				if ($msg != '') {
 					$this->parent->set('extension.message', $msg);
 				}
 		
-		return $row->extensionid;
+		return $row->extension_id;
 			}
 
 	/**
@@ -428,7 +428,7 @@ class JInstallerComponent extends JAdapterInstance
 		/**
 		 * Hunt for the original XML file 
 		 */
-		$old_manifest = null;
+		$oldmanifest = null;
 		$tmpInstaller = new JInstaller(); // create a new installer because _findManifest sets stuff
 		// look in the administrator first
 		$tmpInstaller->setPath('source', $this->parent->getPath('extension_administrator'));
@@ -482,7 +482,7 @@ class JInstallerComponent extends JAdapterInstance
 			$classname = $element.'InstallerScript';
 			if(class_exists($classname)) {
 				// create a new instance
-				$this->parent->_manifestClass = new $classname($this);
+				$this->parent->manifestClass = new $classname($this);
 				// and set this so we can copy it later
 				$this->set('manifest.script', $manifestScript);
 				// Note: if we don't find the class, don't bother to copy the file				
@@ -492,7 +492,7 @@ class JInstallerComponent extends JAdapterInstance
 		// run preflight if possible (since we know we're not an update)
 		ob_start();
 		ob_implicit_flush(false);
-		if($this->parent->_manifestClass && method_exists($this->parent->_manifestClass,'preflight')) $this->parent->_manifestClass->preflight('update', $this);	
+		if($this->parent->manifestClass && method_exists($this->parent->manifestClass,'preflight')) $this->parent->manifestClass->preflight('update', $this);	
 		$msg = ob_get_contents(); // create msg object; first use here
 		ob_end_clean();
 		
@@ -652,7 +652,7 @@ class JInstallerComponent extends JAdapterInstance
 		// Start Joomla! 1.6
 		ob_start();
 		ob_implicit_flush(false);
-		if($this->parent->_manifestClass && method_exists($this->parent->_manifestClass,'update')) $this->parent->_manifestClass->update($this);	
+		if($this->parent->manifestClass && method_exists($this->parent->manifestClass,'update')) $this->parent->manifestClass->update($this);	
 		$msg .= ob_get_contents(); // append messages
 		ob_end_clean();
 
@@ -669,7 +669,7 @@ class JInstallerComponent extends JAdapterInstance
 								'folder'=>''));
 		$row->load($eid);	
 		$row->name = $this->get('name'); //update the name possibly
-		$row->manifestcache = $this->parent->generateManifestCache(); // and the manifest cache
+		$row->manifest_cache = $this->parent->generateManifestCache(); // and the manifest cache
 		if (!$row->store()) {
 			// Install failed, roll back changes
 			$this->parent->abort(JText::_('Module').' '.JText::_('Install').': '.$db->stderr(true));
@@ -702,7 +702,7 @@ class JInstallerComponent extends JAdapterInstance
 		$row->name = $this->get('name');
 		$row->type = 'component';
 		$row->element = $this->get('element');
-		$row->manifestcache = $this->parent->generateManifestCache();
+		$row->manifest_cache = $this->parent->generateManifestCache();
 		if (!$row->store()) {
 			// Install failed, roll back changes
 			$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.$db->stderr(true));
@@ -724,14 +724,14 @@ class JInstallerComponent extends JAdapterInstance
 		// And now we run the postflight
 		ob_start();
 		ob_implicit_flush(false);
-		if($this->parent->_manifestClass && method_exists($this->parent->_manifestClass,'postflight')) $this->parent->_manifestClass->postflight('update', $this);	
+		if($this->parent->manifestClass && method_exists($this->parent->manifestClass,'postflight')) $this->parent->manifestClass->postflight('update', $this);	
 		$msg .= ob_get_contents(); // append messages
 		ob_end_clean();
 		if ($msg != '') {
 			$this->parent->set('extension.message', $msg);
 	}
 
-		return $row->extensionid;
+		return $row->extension_id;
 	}	
 	
 	
@@ -743,7 +743,7 @@ class JInstallerComponent extends JAdapterInstance
 	 * @return	mixed	Return value for uninstall method in component uninstall file
 	 * @since	1.0
 	 */
-	function uninstall($id)
+	public function uninstall($id)
 	{
 		// Initialize variables
 		$db = &$this->parent->getDbo();
@@ -829,7 +829,7 @@ class JInstallerComponent extends JAdapterInstance
 			$classname = $row->element.'InstallerScript';
 			if(class_exists($classname)) {
 				// create a new instance
-				$this->parent->_manifestClass = new $classname($this);
+				$this->parent->manifestClass = new $classname($this);
 				// and set this so we can copy it later
 				$this->set('manifest.script', $manifestScript);
 				// Note: if we don't find the class, don't bother to copy the file				
@@ -839,7 +839,7 @@ class JInstallerComponent extends JAdapterInstance
 		ob_start();
 		ob_implicit_flush(false);
 		// run uninstall if possible
-		if($this->parent->_manifestClass && method_exists($this->parent->_manifestClass,'uninstall')) $this->parent->_manifestClass->uninstall($this);	
+		if($this->parent->manifestClass && method_exists($this->parent->manifestClass,'uninstall')) $this->parent->manifestClass->uninstall($this);	
 		$msg = ob_get_contents();
 		ob_end_clean();		
 
@@ -933,7 +933,7 @@ class JInstallerComponent extends JAdapterInstance
 			}
 			
 			// Now we will no longer need the extension object, so lets delete it and free up memory
-			$row->delete($row->extensionid);
+			$row->delete($row->extension_id);
 			unset ($row);
 			
 			return $retval;
@@ -1239,20 +1239,27 @@ class JInstallerComponent extends JAdapterInstance
 	
 	function discover_install() {
 		// Need to find to find where the XML file is since we don't store this normally
-		$client = JApplicationHelper::getClientInfo($this->parent->_extension->client_id);
-		$short_element = str_replace('com_', '', $this->parent->_extension->element);
-		$manifestPath = $client->path . DS . 'components'. DS . $this->parent->_extension->element . DS . $short_element . '.xml';
-		$this->parent->_manifest = $this->parent->_isManifest($manifestPath);
+		$client = JApplicationHelper::getClientInfo($this->parent->extension->client_id);
+		$short_element = str_replace('com_', '', $this->parent->extension->element);
+		$manifestPath = $client->path . DS . 'components'. DS . $this->parent->extension->element . DS . $short_element . '.xml';
+		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
-		$this->parent->setPath('source', $client->path . DS . 'components'. DS . $this->parent->_extension->element);
+		$this->parent->setPath('source', $client->path . DS . 'components'. DS . $this->parent->extension->element);
 		$this->parent->setPath('extension_root', $this->parent->getPath('source'));
+
 		$manifest_details = JApplicationHelper::parseXMLInstallFile($this->parent->getPath('manifest'));
-		$this->parent->_extension->manifestcache = serialize($manifest_details);
-		$this->parent->_extension->state = 0;
-		$this->parent->_extension->name = $manifest_details['name'];
-		$this->parent->_extension->enabled = 1;
-		$this->parent->_extension->params = $this->parent->getParams();
-		if($this->parent->_extension->store()) {
+		$this->parent->extension->manifest_cache = serialize($manifest_details);
+		$this->parent->extension->state = 0;
+		$this->parent->extension->name = $manifest_details['name'];
+		$this->parent->extension->enabled = 1;
+		$this->parent->extension->params = $this->parent->getParams();
+		try {
+			$this->parent->extension->store();
+		} catch(JException $e) {
+			JError::raiseWarning(101, JText::_('Component').' '.JText::_('Discover Install').': '.JText::_('Failed to store extension details'));
+			return false;
+		}
+		
 			// now we need to run any SQL it has, languages, media or menu stuff
 
 			// Get a database connector object
@@ -1324,7 +1331,7 @@ class JInstallerComponent extends JAdapterInstance
 				$classname = $element.'InstallerScript';
 				if(class_exists($classname)) {
 					// create a new instance
-					$this->parent->_manifestClass = new $classname($this);
+				$this->parent->manifestClass = new $classname($this);
 					// and set this so we can copy it later
 					$this->set('manifest.script', $manifestScript);
 					// Note: if we don't find the class, don't bother to copy the file				
@@ -1334,7 +1341,7 @@ class JInstallerComponent extends JAdapterInstance
 			// run preflight if possible (since we know we're not an update)
 			ob_start();
 			ob_implicit_flush(false);
-			if($this->parent->_manifestClass && method_exists($this->parent->_manifestClass,'preflight')) $this->parent->_manifestClass->preflight('discover_install', $this);	
+		if($this->parent->manifestClass && method_exists($this->parent->manifestClass,'preflight')) $this->parent->manifestClass->preflight('discover_install', $this);	
 			$msg = ob_get_contents(); // create msg object; first use here
 			ob_end_clean();
 			
@@ -1401,7 +1408,7 @@ class JInstallerComponent extends JAdapterInstance
 			// Start Joomla! 1.6
 			ob_start();
 			ob_implicit_flush(false);
-			if($this->parent->_manifestClass && method_exists($this->parent->_manifestClass,'install')) $this->parent->_manifestClass->install($this);	
+		if($this->parent->manifestClass && method_exists($this->parent->manifestClass,'install')) $this->parent->manifestClass->install($this);	
 			$msg .= ob_get_contents(); // append messages
 			ob_end_clean();
 	
@@ -1422,15 +1429,30 @@ class JInstallerComponent extends JAdapterInstance
 			// And now we run the postflight
 			ob_start();
 			ob_implicit_flush(false);
-			if($this->parent->_manifestClass && method_exists($this->parent->_manifestClass,'postflight')) $this->parent->_manifestClass->postflight('install', $this);	
+		if($this->parent->manifestClass && method_exists($this->parent->manifestClass,'postflight')) $this->parent->manifestClass->postflight('install', $this);	
 			$msg .= ob_get_contents(); // append messages
 			ob_end_clean();
 			if ($msg != '') {
 				$this->parent->set('extension.message', $msg);
 			}	
-			return $this->parent->_extension->extensionid;
-		} else {
-			JError::raiseWarning(101, JText::_('Component').' '.JText::_('Discover Install').': '.JText::_('Failed to store extension details'));
+		return $this->parent->extension->extension_id;
+	}
+	
+	public function refreshManifestCache() {
+		// Need to find to find where the XML file is since we don't store this normally
+		$client = JApplicationHelper::getClientInfo($this->parent->extension->client_id);
+		$short_element = str_replace('com_', '', $this->parent->extension->element);
+		$manifestPath = $client->path . DS . 'components'. DS . $this->parent->extension->element . DS . $short_element . '.xml';
+		$this->parent->manifest = $this->parent->isManifest($manifestPath);
+		$this->parent->setPath('manifest', $manifestPath);
+
+		$manifest_details = JApplicationHelper::parseXMLInstallFile($this->parent->getPath('manifest'));
+		$this->parent->extension->manifest_cache = serialize($manifest_details);
+		$this->parent->extension->name = $manifest_details['name'];
+		try {
+			return $this->parent->extension->store();
+		} catch(JException $e) {
+			JError::raiseWarning(101, JText::_('Component').' '.JText::_('Refresh Manifest Cache').': '.JText::_('Failed to store extension details'));
 			return false;
 		}
 	}

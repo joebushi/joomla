@@ -270,5 +270,5 @@ class JAuthenticationResponse extends JObject
 	 * @param string $name The type of the response
 	 * @since 1.5
 	 */
-	function __construct() { }
+	public function __construct() { }
 }

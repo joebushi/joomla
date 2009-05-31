@@ -1094,7 +1094,7 @@ INSERT INTO `jos_access_asset_assetgroup_map` VALUES
 # --------------------------------------------------------
 # Table structure for table `#__extensions`
 CREATE TABLE `#__extensions` (
-  `extensionid` INT  NOT NULL AUTO_INCREMENT,
+  `extension_id` INT  NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(100)  NOT NULL,
   `type` VARCHAR(20)  NOT NULL,
   `element` VARCHAR(100) NOT NULL,
@@ -1103,7 +1103,7 @@ CREATE TABLE `#__extensions` (
   `enabled` TINYINT(3) NOT NULL DEFAULT '1',
   `access` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0',  
   `protected` TINYINT(3) NOT NULL DEFAULT '0', 
-  `manifestcache` TEXT  NOT NULL,
+  `manifest_cache` TEXT  NOT NULL,
   `params` TEXT NOT NULL,
   `custom_data` text NOT NULL,
   `system_data` text NOT NULL,
@@ -1188,3 +1188,65 @@ INSERT INTO #__extensions VALUES(0,"mod_submenu","module","mod_submenu","",1,1,0
 INSERT INTO #__extensions VALUES(0,"mod_status","module","mod_status","",1,1,0,0,"","","","",0,"0000-00-00 00:00:00",0,0);
 INSERT INTO #__extensions VALUES(0,"mod_title","module","mod_title","",1,1,0,0,"","","","",0,"0000-00-00 00:00:00",0,0);
 # --------------------------------------------------------
+
+
+# Update Sites
+CREATE TABLE  `#__updates` (
+  `update_id` int(11) NOT NULL auto_increment,
+  `update_site_id` int(11) default '0',
+  `extension_id` int(11) default '0',
+  `categoryid` int(11) default '0',
+  `name` varchar(100) default '',
+  `description` text,
+  `element` varchar(100) default '',
+  `type` varchar(20) default '',
+  `folder` varchar(20) default '',
+  `client_id` tinyint(3) default '0',
+  `version` varchar(10) default '',
+  `data` text,
+  `detailsurl` text,
+  PRIMARY KEY  (`update_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Available Updates';
+
+CREATE TABLE  `#__update_sites` (
+  `update_site_id` int(11) NOT NULL auto_increment,
+  `name` varchar(100) default '',
+  `type` varchar(20) default '',
+  `location` text,
+  `enabled` int(11) default '0',
+  PRIMARY KEY  (`update_site_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Update Sites';
+
+CREATE TABLE `#__update_sites_extensions` (
+  `update_site_id` INT DEFAULT 0,
+  `extension_id` INT DEFAULT 0,
+  INDEX `newindex`(`update_site_id`, `extension_id`)
+) ENGINE = MYISAM CHARACTER SET utf8 COMMENT = 'Links extensions to update sites';
+
+CREATE TABLE  `#__update_categories` (
+  `categoryid` int(11) NOT NULL auto_increment,
+  `name` varchar(20) default '',
+  `description` text,
+  `parent` int(11) default '0',
+  `updatesite` int(11) default '0',
+  PRIMARY KEY  (`categoryid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Update Categories';
+
+
+CREATE TABLE  `#__tasks` (
+  `taskid` int(10) unsigned NOT NULL auto_increment,
+  `tasksetid` int(10) unsigned NOT NULL default '0',
+  `data` text,
+  `offset` int(11) default '0',
+  `total` int(11) default '0',
+  PRIMARY KEY  (`taskid`)
+) ENGINE=MyISAM AUTO_INCREMENT=41 DEFAULT CHARSET=utf8 COMMENT='Individual tasks';
+
+CREATE TABLE  `#__tasksets` (
+  `tasksetid` int(10) unsigned NOT NULL auto_increment,
+  `taskname` varchar(100) default '',
+  `extensionid` int(10) unsigned default '0',
+  `executionpage` text,
+  `landingpage` text,
+  PRIMARY KEY  (`tasksetid`)
+) ENGINE=MyISAM AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 COMMENT='Task Sets';

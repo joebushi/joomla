@@ -32,12 +32,6 @@ class JInstaller extends JAdapter
 	protected $_paths = array();
 
 	/**
-	 * The installation manifest XML object
-	 * @var object
-	 */
-	protected $_manifest = null;
-
-	/**
 	 * True if packakge is an upgrade
 	 * @var boolean
 	 */
@@ -47,7 +41,7 @@ class JInstaller extends JAdapter
 	 * The manifest trigger class
 	 * @var object
 	 */
-	protected $_manifestClass = null;
+	public $manifestClass = null;
 
 	/**
 	 * True if existing files can be overwritten
@@ -66,7 +60,7 @@ class JInstaller extends JAdapter
 	 * Extension Table Entry
 	 * @var JTableExtension
 	 */
-	protected $_extension = null;
+	public $extension = null;
 	
 	/**
 	 * The output from the install/uninstall scripts
@@ -74,6 +68,12 @@ class JInstaller extends JAdapter
 	 */
 	public $message = null;
 
+	/**
+	 * The installation manifest XML object
+	 * @var object
+	 */
+	public $manifest = null;	
+	
 	/**
 	 * Constructor
 	 *
@@ -173,10 +173,10 @@ class JInstaller extends JAdapter
 	 */
 	public function &getManifest()
 	{
-		if (!is_object($this->_manifest)) {
+		if (!is_object($this->manifest)) {
 			$this->_findManifest();
 		}
-		return $this->_manifest;
+		return $this->manifest;
 	}
 
 	/**
@@ -322,7 +322,7 @@ class JInstaller extends JAdapter
 			return false;
 		}
 
-		$root		=& $this->_manifest->document;
+		$root		=& $this->manifest->document;
 		$type = $root->attributes('type');
 		
 		if (is_object($this->_adapters[$type])) {
@@ -355,31 +355,31 @@ class JInstaller extends JAdapter
 	function discover_install($eid=null)
 	{
 		if($eid) {
-			$this->_extension =& JTable::getInstance('extension');
-			if(!$this->_extension->load($eid)) {
+			$this->extension =& JTable::getInstance('extension');
+			if(!$this->extension->load($eid)) {
 				$this->abort(JText::_('Failed to load extension details'));
 				return false;
 			} 
-			if($this->_extension->state != -1) {
-				$this->abort(JText::_('Extension is not valid'));
+			if($this->extension->state != -1) {
+				$this->abort(JText::_('Extension is already installed'));
 				return false;
 			}
 			
 			// Lazy load the adapter
-			if (!isset($this->_adapters[$this->_extension->type]) || !is_object($this->_adapters[$this->_extension->type])) {
-				if (!$this->setAdapter($this->_extension->type)) {
+			if (!isset($this->_adapters[$this->extension->type]) || !is_object($this->_adapters[$this->extension->type])) {
+				if (!$this->setAdapter($this->extension->type)) {
 					return false;
 				}
 			}
 			
-			if (is_object($this->_adapters[$this->_extension->type])) {
-				if(method_exists($this->_adapters[$this->_extension->type], 'discover_install')) {
+			if (is_object($this->_adapters[$this->extension->type])) {
+				if(method_exists($this->_adapters[$this->extension->type], 'discover_install')) {
 					// Fire the onBeforeExtensionInstall event.
 	                JPluginHelper::importPlugin( 'installer' );
 	                $dispatcher =& JDispatcher::getInstance();
-	                $dispatcher->trigger( 'onBeforeExtensionInstall', array( 'method'=>'discover_install', 'type'=>$this->_extension->type, 'manifest'=>null, 'extension'=>$this->_extension ) );
+	                $dispatcher->trigger( 'onBeforeExtensionInstall', array( 'method'=>'discover_install', 'type'=>$this->extension->type, 'manifest'=>null, 'extension'=>$this->extension ) );
 					// Run the install 
-					$result = $this->_adapters[$this->_extension->type]->discover_install();
+					$result = $this->_adapters[$this->extension->type]->discover_install();
 					// Fire the onAfterExtensionInstall
 					$dispatcher->trigger( 'onAfterExtensionInstall', array( 'installer'=>clone($this), 'eid'=> $result ) );
 					if($result !== false) return true; else return false;
@@ -439,7 +439,7 @@ class JInstaller extends JAdapter
 			return $this->abort(JText::_('Unable to detect manifest file'));
 		}
 
-		$root = &$this->_manifest->document;
+		$root		=& $this->manifest->document;
 		$type = $root->attributes('type');
 
 		if (is_object($this->_adapters[$type])) {
@@ -491,6 +491,42 @@ class JInstaller extends JAdapter
 		return false;
 	}
 
+	function refreshManifestCache($eid) {
+		if($eid) {
+			$this->extension =& JTable::getInstance('extension');
+			if(!$this->extension->load($eid)) {
+				$this->abort(JText::_('Failed to load extension details'));
+				return false;
+			} 
+			if($this->extension->state == -1) {
+				$this->abort(JText::_('Refresh Manifest Cache failed').': '.JText::_('Extension is not currently installed'));
+				return false;
+			}
+			
+			// Lazy load the adapter
+			if (!isset($this->_adapters[$this->extension->type]) || !is_object($this->_adapters[$this->extension->type])) {
+				if (!$this->setAdapter($this->extension->type)) {
+					return false;
+				}
+			}
+			
+			
+			if (is_object($this->_adapters[$this->extension->type])) {
+				if(method_exists($this->_adapters[$this->extension->type], 'refreshManifestCache')) {
+					$result = $this->_adapters[$this->extension->type]->refreshManifestCache();
+					if($result !== false) return true; else return false;
+				} else {
+					$this->abort(JText::_('Method not supported for this extension type').': '. $this->extension->type);
+					return false;
+				}
+			}
+			return false;
+		} else {
+			$this->abort(JText::_('Refresh Manifest Cache failed').': '.JText::_('Extension not valid'));
+			return false;
+		}
+	}
+
 	// -----------------------
 	// Utility functions
 	// -----------------------
@@ -511,7 +547,7 @@ class JInstaller extends JAdapter
 		}
 
 		// Load the adapter(s) for the install manifest
-		$root = &$this->_manifest->document;
+		$root =& $this->manifest->document;
 		$type = $root->attributes('type');
 
 		// Lazy load the adapter
@@ -955,7 +991,7 @@ class JInstaller extends JAdapter
 	public function getParams()
 	{
 		// Get the manifest document root element
-		$root = & $this->_manifest->document;
+		$root = & $this->manifest->document;
 
 		// Get the element of the tag names
 		$element = &$root->getElementByPath('params');
@@ -1225,7 +1261,7 @@ class JInstaller extends JAdapter
 			foreach ($xmlfiles as $file)
 			{
 				// Is it a valid joomla installation manifest file?
-				$manifest = $this->_isManifest($file);
+				$manifest = $this->isManifest($file);
 				if (!is_null($manifest)) {
 
 					// If the root method attribute is set to upgrade, allow file overwrite
@@ -1241,7 +1277,7 @@ class JInstaller extends JAdapter
 					}
 
 					// Set the manifest object and path
-					$this->_manifest = &$manifest;
+					$this->manifest =& $manifest;
 					$this->setPath('manifest', $file);
 
 					// Set the installation source path to that of the manifest file
@@ -1268,7 +1304,7 @@ class JInstaller extends JAdapter
 	 * @return	mixed	A JSimpleXML document, or null if the file failed to parse
 	 * @since	1.5
 	 */
-	protected function &_isManifest($file)
+	public function &isManifest($file)
 	{
 		// Initialize variables
 		$null	= null;

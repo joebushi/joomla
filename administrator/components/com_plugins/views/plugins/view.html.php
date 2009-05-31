@@ -22,6 +22,13 @@ jimport( 'joomla.application.component.view');
  */
 class PluginsViewPlugins extends JView
 {
+	protected $client;
+	protected $user;
+	protected $lists;
+	protected $items;
+	protected $item;
+	protected $pagination;
+
 	function display( $tpl = null )
 	{
 		global $mainframe, $option;
@@ -85,14 +92,13 @@ class PluginsViewPlugins extends JView
 
 		jimport('joomla.html.pagination');
 		$pagination = new JPagination( $total, $limitstart, $limit );
-		// TODO: Check for usage of 'id' and replace it with 'extension'
-		// TODO: Check for usage of 'published' and replace it with 'enabled'
-		$query = 'SELECT p.*, p.extensionid AS id, p.enabled AS published, u.name AS editor, ag.title AS groupname'
+
+		$query = 'SELECT p.*, p.extension_id AS id, p.enabled AS published, u.name AS editor, ag.title AS groupname'
 			. ' FROM #__extensions AS p'
 			. ' LEFT JOIN #__users AS u ON u.id = p.checked_out'
 			. ' LEFT JOIN #__access_assetgroups AS ag ON ag.id = p.access'
 			. $where
-			. ' GROUP BY p.extensionid'
+			. ' GROUP BY p.extension_id'
 			. $orderby
 			;
 		$db->setQuery( $query, $pagination->limitstart, $pagination->limit );

@@ -17,7 +17,7 @@ defined('JPATH_BASE') or die;
  * @subpackage	Installer
  * @since		1.5
  */
-class JInstallerPlugin extends JObject
+class JInstallerPlugin extends JAdapterInstance
 {
 	/** @var string install function routing */
 	var $route = 'Install';
@@ -99,7 +99,7 @@ class JInstallerPlugin extends JObject
 		 * Check if we should enable overwrite settings
 		 */
 		// Check to see if a plugin by the same name is already installed
-		$query = 'SELECT `extensionid`' .
+		$query = 'SELECT `extension_id`' .
 				' FROM `#__extensions`' .
 				' WHERE folder = '.$db->Quote($group) .
 				' AND element = '.$db->Quote($element);
@@ -117,7 +117,7 @@ class JInstallerPlugin extends JObject
 			// upgrade manually set
 			// update function available
 			// update tag detected 
-			if($this->parent->getUpgrade() || ($this->parent->_manifestClass && method_exists($this->parent->_manifestClass,'update')) || is_a($updateElement, 'JSimpleXMLElement')) {
+			if($this->parent->getUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'update')) || is_a($updateElement, 'JSimpleXMLElement')) {
 				// force these one
 				$this->parent->setOverwrite(true);
 				$this->parent->setUpgrade(true);
@@ -147,7 +147,7 @@ class JInstallerPlugin extends JObject
 			$classname = 'plg'.$group.$element.'InstallerScript';
 			if(class_exists($classname)) {
 				// create a new instance
-				$this->parent->_manifestClass = new $classname($this);
+				$this->parent->manifestClass = new $classname($this);
 				// and set this so we can copy it later
 				$this->set('manifest.script', $manifestScript);
 				// Note: if we don't find the class, don't bother to copy the file				
@@ -157,7 +157,7 @@ class JInstallerPlugin extends JObject
 		// run preflight if possible (since we know we're not an update)
 		ob_start();
 		ob_implicit_flush(false);
-		if($this->parent->_manifestClass && method_exists($this->parent->_manifestClass,'preflight')) $this->parent->_manifestClass->preflight($this->route, $this);	
+		if($this->parent->manifestClass && method_exists($this->parent->manifestClass,'preflight')) $this->parent->manifestClass->preflight($this->route, $this);	
 		$msg = ob_get_contents(); // create msg object; first use here
 		ob_end_clean();			
 
@@ -241,7 +241,7 @@ class JInstallerPlugin extends JObject
 			$row->params = $this->parent->getParams();
 			$row->custom_data = ''; // custom data
 			$row->system_data = ''; // system data
-			$row->manifestcache = $this->parent->generateManifestCache();
+			$row->manifest_cache = $this->parent->generateManifestCache();
 
 			// Editor plugins are published by default
 			if ($group == 'editors') {
@@ -256,7 +256,7 @@ class JInstallerPlugin extends JObject
 
 			// Since we have created a plugin item, we add it to the installation step stack
 			// so that if we have to rollback the changes we can undo it.
-			$this->parent->pushStep(array ('type' => 'extension', 'id' => $row->extensionid));
+			$this->parent->pushStep(array ('type' => 'extension', 'id' => $row->extension_id));
 		}
 
 		/*
@@ -276,7 +276,7 @@ class JInstallerPlugin extends JObject
 		// Start Joomla! 1.6
 		ob_start();
 		ob_implicit_flush(false);
-		if($this->parent->_manifestClass && method_exists($this->parent->_manifestClass,$this->route)) $this->parent->_manifestClass->{$this->route}($this);	
+		if($this->parent->manifestClass && method_exists($this->parent->manifestClass,$this->route)) $this->parent->manifestClass->{$this->route}($this);	
 		$msg .= ob_get_contents(); // append messages
 		ob_end_clean();		
 
@@ -295,7 +295,7 @@ class JInstallerPlugin extends JObject
 		// And now we run the postflight
 		ob_start();
 		ob_implicit_flush(false);
-		if($this->parent->_manifestClass && method_exists($this->parent->_manifestClass,'postflight')) $this->parent->_manifestClass->postflight($this->route, $this);	
+		if($this->parent->manifestClass && method_exists($this->parent->manifestClass,'postflight')) $this->parent->manifestClass->postflight($this->route, $this);	
 		$msg .= ob_get_contents(); // append messages
 		ob_end_clean();
 		if ($msg != '') {
@@ -417,7 +417,7 @@ class JInstallerPlugin extends JObject
 				$classname = 'plg'.$row->folder.$row->element.'InstallerScript';
 				if(class_exists($classname)) {
 					// create a new instance
-					$this->parent->_manifestClass = new $classname($this);
+					$this->parent->manifestClass = new $classname($this);
 					// and set this so we can copy it later
 					$this->set('manifest.script', $manifestScript);
 					// Note: if we don't find the class, don't bother to copy the file				
@@ -427,7 +427,7 @@ class JInstallerPlugin extends JObject
 			// run preflight if possible (since we know we're not an update)
 			ob_start();
 			ob_implicit_flush(false);
-			if($this->parent->_manifestClass && method_exists($this->parent->_manifestClass,'preflight')) $this->parent->_manifestClass->preflight($this->route, $this);	
+			if($this->parent->manifestClass && method_exists($this->parent->manifestClass,'preflight')) $this->parent->manifestClass->preflight($this->route, $this);	
 			$msg = ob_get_contents(); // create msg object; first use here
 			ob_end_clean();				
 			
@@ -448,7 +448,7 @@ class JInstallerPlugin extends JObject
 			// Start Joomla! 1.6
 			ob_start();
 			ob_implicit_flush(false);
-			if($this->parent->_manifestClass && method_exists($this->parent->_manifestClass,'uninstall')) $this->parent->_manifestClass->uninstall($this);	
+			if($this->parent->manifestClass && method_exists($this->parent->manifestClass,'uninstall')) $this->parent->manifestClass->uninstall($this);	
 			$msg = ob_get_contents(); // append messages
 			ob_end_clean();
 			
@@ -467,7 +467,7 @@ class JInstallerPlugin extends JObject
 		}
 
 		// Now we will no longer need the plugin object, so lets delete it
-		$row->delete($row->extensionid);
+		$row->delete($row->extension_id);
 		unset ($row);
 
 		// If the folder is empty, let's delete it
@@ -523,21 +523,40 @@ class JInstallerPlugin extends JObject
 		// Plugins use the extensions table as their primary store
 		// Similar to modules and templates, rather easy
 		// If its not in the extensions table we just add it
-		$client = JApplicationHelper::getClientInfo($this->parent->_extension->client_id);
-		$manifestPath = $client->path . DS . 'plugins'. DS . $this->parent->_extension->folder . DS . $this->parent->_extension->element . '.xml';
-		$this->parent->_manifest = $this->parent->_isManifest($manifestPath);
+		$client = JApplicationHelper::getClientInfo($this->parent->extension->client_id);
+		$manifestPath = $client->path . DS . 'plugins'. DS . $this->parent->extension->folder . DS . $this->parent->extension->element . '.xml';
+		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
 		$manifest_details = JApplicationHelper::parseXMLInstallFile($this->parent->getPath('manifest'));
-		$this->parent->_extension->manifestcache = serialize($manifest_details);
-		$this->parent->_extension->state = 0;
-		$this->parent->_extension->name = $manifest_details['name'];
-		$this->parent->_extension->enabled = 1;
-		$this->parent->_extension->params = $this->parent->getParams();
-		if($this->parent->_extension->store()) {
+		$this->parent->extension->manifest_cache = serialize($manifest_details);
+		$this->parent->extension->state = 0;
+		$this->parent->extension->name = $manifest_details['name'];
+		$this->parent->extension->enabled = 1;
+		$this->parent->extension->params = $this->parent->getParams();
+		if($this->parent->extension->store()) {
 			return true;
 		} else {
 			JError::raiseWarning(101, JText::_('Plugin').' '.JText::_('Discover Install').': '.JText::_('Failed to store extension details'));
 			return false;
 	}
 }
+	
+	function refreshManifestCache() {
+		// Plugins use the extensions table as their primary store
+		// Similar to modules and templates, rather easy
+		// If its not in the extensions table we just add it
+		$client = JApplicationHelper::getClientInfo($this->parent->extension->client_id);
+		$manifestPath = $client->path . DS . 'plugins'. DS . $this->parent->extension->folder . DS . $this->parent->extension->element . '.xml';
+		$this->parent->manifest = $this->parent->isManifest($manifestPath);
+		$this->parent->setPath('manifest', $manifestPath);
+		$manifest_details = JApplicationHelper::parseXMLInstallFile($this->parent->getPath('manifest'));
+		$this->parent->extension->manifest_cache = serialize($manifest_details);
+
+		$this->parent->extension->name = $manifest_details['name'];
+		if($this->parent->extension->store()) {
+			return true;
+		} else {
+			JError::raiseWarning(101, JText::_('Plugin').' '.JText::_('Refresh Manifest Cache').': '.JText::_('Failed to store extension details'));
+			return false;
+}	}	
 }

@@ -16,6 +16,7 @@
 defined('JPATH_BASE') or die();
 
 jimport( 'joomla.installer.librarymanifest' );
+jimport('joomla.base.adapterinstance');
 
 /**
  * Library installer
@@ -25,7 +26,7 @@ jimport( 'joomla.installer.librarymanifest' );
  * @subpackage	Installer
  * @since		1.6
  */
-class JInstallerLibrary extends JObject
+class JInstallerLibrary extends JAdapterInstance
 {
 	/**
 	 * Constructor
@@ -67,7 +68,7 @@ class JInstallerLibrary extends JObject
 		$this->set('element', $element);
 
 		$db =& $this->parent->getDBO();
-		$db->setQuery('SELECT extensionid FROM #__extensions WHERE type="library" AND element = "'. $element .'"');
+		$db->setQuery('SELECT extension_id FROM #__extensions WHERE type="library" AND element = "'. $element .'"');
 		$result = $db->loadResult();
 		if($result) { // already installed, can we upgrade?
 			if($this->parent->getOverwrite() || $this->parent->getUpgrade()) { 
@@ -146,8 +147,8 @@ class JInstallerLibrary extends JObject
 		$row->protected = 0;
 		$row->access = 0;
 		$row->client_id = 0;
-		$row->params = $this->parent->getParams();
 		$row->data = ''; // custom data
+		$row->params = $this->parent->getParams();
 		$row->manifestcache = $this->parent->generateManifestCache();
 		if (!$row->store()) {
 			// Install failed, roll back changes
@@ -198,7 +199,6 @@ class JInstallerLibrary extends JObject
 		$this->set('name', $name);
 		$this->set('element', $element);
 		$installer = new JInstaller(); // we don't want to compromise this instance!
-		$db =& $this->parent->getDBO();
 		$db->setQuery('SELECT extensionid FROM #__extensions WHERE type="library" AND element = "'. $element .'"');
 		$result = $db->loadResult();
 		if($result) { // already installed, which would make sense
@@ -266,8 +266,8 @@ class JInstallerLibrary extends JObject
 
 			$this->parent->removeFiles($root->getElementByPath('files'), -1);
 			JFile::delete($manifestFile);
-
 		} else {
+			$row->delete($row->extension_id);
 			// remove this row entry since its invalid
 			$row->delete($row->extensionid);
 			unset($row);
@@ -280,10 +280,10 @@ class JInstallerLibrary extends JObject
 		if(JFolder::exists($this->parent->getPath('extension_root'))) {
 			if(is_dir($this->parent->getPath('extension_root'))) {
 				$files = JFolder::files($this->parent->getPath('extension_root'));
-				if (!count($files)) {
 					JFolder::delete($this->parent->getPath('extension_root'));
+		}
 				}
-			}
+		$row->delete($row->extension_id);
 		}
 		
 		$row->delete($row->extensionid);
@@ -331,16 +331,16 @@ class JInstallerLibrary extends JObject
 		 * Thus installation of a library is the process of dumping files 
 		 * in two different places. As such it is impossible to perform
 		 * any operation beyond mere registration of a library under the presumption
-		 * that the files exist in the appropriate location so that come uninstall
-		 * time they can be adequately removed.
 		 */
+		$manifestPath = JPATH_MANIFESTS . DS . 'libraries' . DS . $this->parent->extension->element . '.xml';
+		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$manifestPath = JPATH_MANIFESTS . DS . 'libraries' . DS . $this->parent->_extension->element . '.xml';
-		$this->parent->_manifest = $this->parent->_isManifest($manifestPath);
-		$this->parent->setPath('manifest', $manifestPath);
-		$manifest_details = JApplicationHelper::parseXMLInstallFile($this->parent->getPath('manifest'));
-		$this->parent->_extension->manifestcache = serialize($manifest_details);
-		$this->parent->_extension->state = 0;
-		$this->parent->_extension->name = $manifest_details['name'];
+		$this->parent->extension->manifest_cache = serialize($manifest_details);
+		$this->parent->extension->state = 0;
+		$this->parent->extension->name = $manifest_details['name'];
+		$this->parent->extension->enabled = 1;
+		$this->parent->extension->params = $this->parent->getParams();
+		if($this->parent->extension->store()) {
 		$this->parent->_extension->enabled = 1;
 		$this->parent->_extension->params = $this->parent->getParams();
 		if($this->parent->_extension->store()) {

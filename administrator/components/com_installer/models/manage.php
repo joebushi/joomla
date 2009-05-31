@@ -126,8 +126,8 @@ class InstallerModelManage extends InstallerModel
 		for($i=0;$i < $numRows; $i++)
 		{
 			$row =& $rows[$i];
-			if(strlen($row->manifestcache)) {
-				$data = unserialize($row->manifestcache);
+			if(strlen($row->manifest_cache)) {
+				$data = unserialize($row->manifest_cache);
 				if($data) {
 					foreach($data as $key => $value) {
 						$row->$key = $value;
@@ -223,7 +223,7 @@ class InstallerModelManage extends InstallerModel
 		if($filter) {
 			$string = '(name LIKE "%'. $filter.'%" OR element LIKE "%'. $filter .'%"';
 			if(intval($filter)) {
-				$string .= ' OR extensionid = '. intval($filter);
+				$string .= ' OR extension_id = '. intval($filter);
 			}
 			
 			$string .= ')';
@@ -257,5 +257,26 @@ class InstallerModelManage extends InstallerModel
 		if(count($retval)) {
 			return ' AND '. implode(' AND ', $retval);
 		} else return '';
+	}
+	
+	function refresh($eid) {
+		if (!is_array($eid)) {
+			$eid = array($eid => 0);
+}
+		// Get a database connector
+		$db =& JFactory::getDBO();
+
+		// Get an installer object for the extension type
+		jimport('joomla.installer.installer');
+		$installer = & JInstaller::getInstance();
+		$row =& JTable::getInstance('extension');
+
+		$result = 0;
+		// Uninstall the chosen extensions
+		foreach ($eid as $id)
+		{
+			$result	|= $installer->refreshManifestCache($id);
+		}
+		return $result;
 	}
 }

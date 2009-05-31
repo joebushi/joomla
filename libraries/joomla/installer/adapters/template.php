@@ -10,6 +10,7 @@
 // No direct access
 defined('JPATH_BASE') or die;
 jimport('joomla.installer.extension');
+jimport('joomla.base.adapterinstance');
 
 /**
  * Template installer
@@ -18,7 +19,7 @@ jimport('joomla.installer.extension');
  * @subpackage	Installer
  * @since		1.5
  */
-class JInstallerTemplate extends JObject
+class JInstallerTemplate extends JAdapterInstance
 {
 	/**
 	 * Constructor
@@ -40,7 +41,7 @@ class JInstallerTemplate extends JObject
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function install()
+	public function install()
 	{
 		// Get database connector object
 		$db = &$this->parent->getDbo();
@@ -72,7 +73,7 @@ class JInstallerTemplate extends JObject
 		$this->set('name', $name);
 		$this->set('element',$element);
 		$db =& $this->parent->getDBO();
-		$db->setQuery('SELECT extensionid FROM #__extensions WHERE type="template" AND element = "'. $element .'"');
+		$db->setQuery('SELECT extension_id FROM #__extensions WHERE type="template" AND element = "'. $element .'"');
 		$result = $db->loadResult();
 		// TODO: Rewrite this! We shouldn't uninstall a template, we should back up the params as well
 		if($result) { // already installed, can we upgrade?
@@ -138,7 +139,7 @@ class JInstallerTemplate extends JObject
 
 		// Get the template description
 		$description = & $root->getElementByPath('description');
-		if (is_a($description, 'JSimpleXMLElement')) {
+		if ($description INSTANCEOF JSimpleXMLElement) {
 			$this->parent->set('message', $description->data());
 		} else {
 			$this->parent->set('message', '');
@@ -171,7 +172,7 @@ class JInstallerTemplate extends JObject
 		$row->client_id = 0;
 		$row->params = $this->parent->getParams();
 		$row->data = ''; // custom data
-		$row->manifestcache = $this->parent->generateManifestCache();
+		$row->manifest_cache = $this->parent->generateManifestCache();
 		if (!$row->store()) {
 			// Install failed, roll back changes
 			$this->parent->abort(JText::_('Template').' '.JText::_('Install').': '.$db->stderr(true));
@@ -189,7 +190,7 @@ class JInstallerTemplate extends JObject
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function uninstall( $id )
+	public function uninstall( $id )
 	{
 		// Initialize variables
 		$retval	= true;
@@ -229,9 +230,9 @@ class JInstallerTemplate extends JObject
 		$this->parent->setPath('source', $this->parent->getPath('extension_root'));
 
 		$manifest = &$this->parent->getManifest();
-		if (!is_a($manifest, 'JSimpleXML')) {
+		if (!$manifest INSTANCEOF JSimpleXML) {
 			// kill the extension entry
-			$row->delete($row->extensionid);
+			$row->delete($row->extension_id);
 			unset($row);
 			// Make sure we delete the folders
 			JFolder::delete($this->parent->getPath('extension_root'));
@@ -252,7 +253,7 @@ class JInstallerTemplate extends JObject
 			JError::raiseWarning(100, JText::_('Template').' '.JText::_('Uninstall').': '.JText::_('Directory does not exist, cannot remove files'));
 			$retval = false;
 		}
-		$row->delete($row->extensionid);
+		$row->delete($row->extension_id);
 		unset($row);
 		return $retval;
 	}
@@ -296,17 +297,17 @@ class JInstallerTemplate extends JObject
 	function discover_install() {
 		// Templates are one of the easiest
 		// If its not in the extensions table we just add it
-		$client = JApplicationHelper::getClientInfo($this->parent->_extension->client_id);
-		$manifestPath = $client->path . DS . 'templates'. DS . $this->parent->_extension->element . DS . 'templateDetails.xml';
-		$this->parent->_manifest = $this->parent->_isManifest($manifestPath);
+		$client = JApplicationHelper::getClientInfo($this->parent->extension->client_id);
+		$manifestPath = $client->path . DS . 'templates'. DS . $this->parent->extension->element . DS . 'templateDetails.xml';
+		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
 		$manifest_details = JApplicationHelper::parseXMLInstallFile($this->parent->getPath('manifest'));
-		$this->parent->_extension->manifestcache = serialize($manifest_details);
-		$this->parent->_extension->state = 0;
-		$this->parent->_extension->name = $manifest_details['name'];
-		$this->parent->_extension->enabled = 1;
-		$this->parent->_extension->params = $this->parent->getParams();
-		if($this->parent->_extension->store()) {
+		$this->parent->extension->manifest_cache = serialize($manifest_details);
+		$this->parent->extension->state = 0;
+		$this->parent->extension->name = $manifest_details['name'];
+		$this->parent->extension->enabled = 1;
+		$this->parent->extension->params = $this->parent->getParams();
+		if($this->parent->extension->store()) {
 			return true;
 		} else {
 			JError::raiseWarning(101, JText::_('Template').' '.JText::_('Discover Install').': '.JText::_('Failed to store extension details'));
