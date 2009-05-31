@@ -37,6 +37,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-May-2009 Ian MacLennan
+ ^ [#16397] helpsites.xml update
+
 30-May-2009 Sam Moffatt
  ^ Updated CREDITS.php with minor fixes from Ole Ottosen
 
