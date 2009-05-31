@@ -46,7 +46,7 @@ class JInstallerLanguage extends JObject
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function install()
+	public function install()
 	{
 		$manifest = &$this->parent->getManifest();
 		$this->manifest = &$manifest->document;
@@ -99,7 +99,7 @@ class JInstallerLanguage extends JObject
 	/**
 	 *
 	 */
-	function _install($cname, $basePath, $clientId, &$element)
+	protected function _install($cname, $basePath, $clientId, &$element)
 	{
 		$manifest = &$this->parent->getManifest();
 		$this->manifest = &$manifest->document;
@@ -128,7 +128,7 @@ class JInstallerLanguage extends JObject
 		$this->parent->setPath('extension_site', $basePath.DS."language".DS.$this->get('tag'));
 
 		// Do we have a meta file in the file list?  In other words... is this a core language pack?
-		if (is_a($element, 'JSimpleXMLElement') && count($element->children())) {
+		if ($element INSTANCEOF JSimpleXMLElement && count($element->children())) {
 			$files = $element->children();
 			foreach ($files as $file) {
 				if ($file->attributes('file') == 'meta') {
@@ -183,7 +183,7 @@ class JInstallerLanguage extends JObject
 
 		// Get the language description
 		$description = & $root->getElementByPath('description');
-		if (is_a($description, 'JSimpleXMLElement')) {
+		if ($description INSTANCEOF JSimpleXMLElement) {
 			$this->parent->set('message', $description->data());
 		} else {
 			$this->parent->set('message', '');
@@ -200,7 +200,7 @@ class JInstallerLanguage extends JObject
 	 * @return	mixed	Return value for uninstall method in component uninstall file
 	 * @since	1.5
 	 */
-	function uninstall($tag, $clientId)
+	public function uninstall($tag, $clientId)
 	{
 		$path = trim($tag);
 		if (!JFolder::exists($path)) {

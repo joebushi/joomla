@@ -42,7 +42,7 @@ class JInstallerModule extends JObject
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function install()
+	public function install()
 	{
 		// if this is an update, set the route accordingly
 		if($this->parent->getUpgrade()) {
@@ -69,7 +69,7 @@ class JInstallerModule extends JObject
 
 		// Get the component description
 		$description = & $this->manifest->getElementByPath('description');
-		if (is_a($description, 'JSimpleXMLElement')) {
+		if ($description INSTANCEOF JSimpleXMLElement) {
 			$this->parent->set('message', $description->data());
 		} else {
 			$this->parent->set('message', '');
@@ -102,7 +102,7 @@ class JInstallerModule extends JObject
 		// Set the installation path
 		$element = '';
 		$module_files =& $this->manifest->getElementByPath('files');
-		if (is_a($module_files, 'JSimpleXMLElement') && count($module_files->children())) {
+		if ($element INSTANCEOF JSimpleXMLElement && count($element->children())) {
 			$files =& $module_files->children();
 			foreach ($files as $file) {
 				if ($file->attributes('module')) {
@@ -406,7 +406,7 @@ class JInstallerModule extends JObject
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function uninstall( $id )
+	public function uninstall( $id )
 	{
 		// Initialize variables
 		$row	= null;
@@ -470,7 +470,7 @@ class JInstallerModule extends JObject
 		$msg = ob_get_contents();
 		ob_end_clean();			
 		
-		if (!is_a($manifest, 'JSimpleXML')) {
+		if (!$manifest INSTANCEOF JSimpleXML) {
 			// Make sure we delete the folders
 			JFolder::delete($this->parent->getPath('extension_root'));
 			JError::raiseWarning(100, 'Module Uninstall: Package manifest file invalid or not found');
@@ -557,7 +557,7 @@ class JInstallerModule extends JObject
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function _rollback_menu($arg)
+	protected function _rollback_menu($arg)
 	{
 		// Get database connector object
 		$db = &$this->parent->getDbo();
@@ -579,7 +579,7 @@ class JInstallerModule extends JObject
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function _rollback_module($arg)
+	protected function _rollback_module($arg)
 	{
 		// Get database connector object
 		$db = &$this->parent->getDbo();

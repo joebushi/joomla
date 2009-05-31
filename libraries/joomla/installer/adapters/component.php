@@ -51,7 +51,7 @@ class JInstallerComponent extends JAdapterInstance
 
 		// Get the component description
 		$description = & $this->manifest->getElementByPath('description');
-		if (is_a($description, 'JSimpleXMLElement')) {
+		if ($description INSTANCEOF JSimpleXMLElement) {
 			$this->parent->set('message', $description->data());
 		} else {
 			$this->parent->set('message', '');
@@ -74,7 +74,7 @@ class JInstallerComponent extends JAdapterInstance
 		 */
 
 		// Make sure that we have an admin element
-		if (! is_a($this->adminElement, 'JSimpleXMLElement'))
+		if (!$this->adminElement INSTANCEOF JSimpleXMLElement )
 		{
 			JError::raiseWarning(1, JText::_('Component').' '.JText::_('Install').': '.JText::_('The XML file did not contain an administration element'));
 			return false;
@@ -99,8 +99,12 @@ class JInstallerComponent extends JAdapterInstance
 			if($this->parent->getUpgrade() || ($this->parent->_manifestClass && method_exists($this->parent->_manifestClass,'update')) || is_a($updateElement, 'JSimpleXMLElement')) {
 				return $this->update(); // transfer control to the update function
 			} else if(!$this->parent->getOverwrite()) { // overwrite is set
-				// we didn't have overwrite set, find an udpate function or find an update tag so lets call it safe 
+				// we didn't have overwrite set, find an update function or find an update tag so lets call it safe 
+				if(file_exists($this->parent->getPath('extension_site'))) { // if the site exists say that
 			JError::raiseWarning(1, JText::_('Component').' '.JText::_('Install').': '.JText::_('Another component is already using directory').': "'.$this->parent->getPath('extension_site').'"');
+				} else { // if the admin exists say that
+					JError::raiseWarning(1, JText::_('Component').' '.JText::_('Install').': '.JText::_('Another component is already using directory').': "'.$this->parent->getPath('extension_administrator').'"');
+				}
 			return false;
 		}
 		}
@@ -176,7 +180,7 @@ class JInstallerComponent extends JAdapterInstance
 		// Find files to copy
 		foreach ($this->manifest->children() as $child)
 		{
-			if (is_a($child, 'JSimpleXMLElement') && $child->name() == 'files') {
+			if ($child INSTANCEOF JSimpleXMLElement && $child->name() == 'files') {
 				if ($this->parent->parseFiles($child) === false) {
 					// Install failed, rollback any changes
 					$this->parent->abort();
@@ -187,7 +191,7 @@ class JInstallerComponent extends JAdapterInstance
 
 		foreach ($this->adminElement->children() as $child)
 		{
-			if (is_a($child, 'JSimpleXMLElement') && $child->name() == 'files') {
+			if ($child INSTANCEOF JSimpleXMLElement && $child->name() == 'files') {
 				if ($this->parent->parseFiles($child, 1) === false) {
 					// Install failed, rollback any changes
 					$this->parent->abort();
@@ -784,7 +788,7 @@ class JInstallerComponent extends JAdapterInstance
 
 		// Get the package manifest objecct
 		$manifest = &$this->parent->getManifest();
-		if (!is_a($manifest, 'JSimpleXML')) {
+		if (!$manifest INSTANCEOF JSimpleXML) {
 			// Make sure we delete the folders if no manifest exists
 			JFolder::delete($this->parent->getPath('extension_administrator'));
 			JFolder::delete($this->parent->getPath('extension_site'));
@@ -847,7 +851,7 @@ class JInstallerComponent extends JAdapterInstance
 
 		// Now lets load the uninstall file if there is one and execute the uninstall function if it exists.
 		$uninstallfileElement = &$this->manifest->getElementByPath('uninstallfile');
-		if (is_a($uninstallfileElement, 'JSimpleXMLElement')) {
+		if ($uninstallfileElement INSTANCEOF JSimpleXMLElement) {
 			// Element exists, does the file exist?
 			if (is_file($this->parent->getPath('extension_administrator').DS.$uninstallfileElement->data())) {
 				ob_start();
@@ -947,7 +951,7 @@ class JInstallerComponent extends JAdapterInstance
 	 * @return	boolean	True if successful
 	 * @since	1.5
 	 */
-	function _buildAdminMenus()
+	protected function _buildAdminMenus()
 	{
 		// Get database connector object
 		$db = &$this->parent->getDbo();
@@ -955,7 +959,7 @@ class JInstallerComponent extends JAdapterInstance
 		// Initialize variables
 		$option = $this->get('element');
 
-		// If a component exists with this option in the table than we don't need to add menus
+		// If a component exists with this option in the table then we don't need to add menus
 		// Grab the params for later
 		$query = 'SELECT id, params, enabled' .
 				' FROM #__components' .
@@ -994,7 +998,7 @@ class JInstallerComponent extends JAdapterInstance
 
 		// Ok, now its time to handle the menus.  Start with the component root menu, then handle submenus.
 		$menuElement = & $this->adminElement->getElementByPath('menu');
-		if (is_a($menuElement, 'JSimpleXMLElement')) {
+		if ($menuElement INSTANCEOF JSimpleXMLElement) {
 
 			$db_name = $menuElement->data();
 			$db_link = "option=".$option;
@@ -1088,12 +1092,12 @@ class JInstallerComponent extends JAdapterInstance
 		// Initialize submenu ordering value
 		$ordering = 0;
 		$submenu = $this->adminElement->getElementByPath('submenu');
-		if (!is_a($submenu, 'JSimpleXMLElement') || !count($submenu->children())) {
+		if (!($submenu INSTANCEOF JSimpleXMLElement) || !count($submenu->children())) {
 			return true;
 		}
 		foreach ($submenu->children() as $child)
 		{
-			if (is_a($child, 'JSimpleXMLElement') && $child->name() == 'menu') {
+			if ($child INSTANCEOF JSimpleXMLElement && $child->name() == 'menu') {
 
 				$com = &JTable::getInstance('component');
 				$com->name = $child->data();
@@ -1163,7 +1167,7 @@ class JInstallerComponent extends JAdapterInstance
 	 * @return	boolean	True if successful
 	 * @since	1.5
 	 */
-	function _removeAdminMenus(&$row)
+	protected function _removeAdminMenus(&$row)
 	{
 		// Get database connector object
 		$db = &$this->parent->getDbo();
@@ -1179,12 +1183,6 @@ class JInstallerComponent extends JAdapterInstance
 			JError::raiseWarning(100, JText::_('Component').' '.JText::_('Uninstall').': '.$db->stderr(true));
 			$retval = false;
 		}
-
-		// Next, we will delete the component object
-		if (!$row->delete($row->id)) {
-			JError::raiseWarning(100, JText::_('Component').' '.JText::_('Uninstall').': '.JText::_('Unable to delete the component from the database'));
-			$retval = false;
-		}
 		return $retval;
 	}
 
@@ -1197,7 +1195,7 @@ class JInstallerComponent extends JAdapterInstance
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function _rollback_menu($arg)
+	protected function _rollback_menu($arg)
 	{
 		// Get database connector object
 		$db = &$this->parent->getDbo();

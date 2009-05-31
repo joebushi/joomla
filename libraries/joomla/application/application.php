@@ -58,6 +58,9 @@ class JApplication extends JObject
 	 */
 	var $scope = null;
 
+	public $requestTime = null;
+	public $startTime = null;
+
 	/**
 	* Class constructor.
 	*
@@ -66,6 +69,7 @@ class JApplication extends JObject
 	function __construct($config = array())
 	{
 		jimport('joomla.utilities.utility');
+		jimport('joomla.error.profiler');
 
 		//set the view name
 		$this->_name		= $this->getName();

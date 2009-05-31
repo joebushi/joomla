@@ -27,7 +27,6 @@ $subMenus = array(
 	'Discover' => 'discover',
 	'Warnings' => 'warnings');
 
-//JSubMenuHelper::addEntry(JText::_( 'Install' ), '#" onclick="javascript:document.adminForm.type.value=\'\';submitbutton(\'installer\');', !in_array( $ext, $subMenus));
 foreach ($subMenus as $name => $extension) {
 	// TODO: Rewrite this extension so it acts normally and doesn't require this sort of a hack below
 	JSubMenuHelper::addEntry(JText::_( $name ), '#" onclick="javascript:document.adminForm.type.value=\''.$extension.'\';submitbutton(\'manage\');', (($task != 'manage' && $task == $extension) || ($task == 'manage' && $extension == $ext)));

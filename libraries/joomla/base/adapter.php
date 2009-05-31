@@ -49,7 +49,7 @@ class JAdapter extends JObject {
 	 */
 	protected $_db;
 	
-	function __construct($basepath=null,$classprefix=null,$adapterfolder=null) {
+	public function __construct($basepath=null,$classprefix=null,$adapterfolder=null) {
 		$this->_basepath = $basepath ? $basepath : dirname(__FILE__);
 		$this->_classprefix = $classprefix ? $classprefix : 'J';
 		$this->_adapterfolder = $adapterfolder ? $adapterfolder : $this->_adapterfolder;
@@ -63,7 +63,7 @@ class JAdapter extends JObject {
 	 * @return	object	Database connector object
 	 * @since	1.5
 	 */
-	function &getDBO()
+	public function &getDBO()
 	{
 		return $this->_db;
 	}	
@@ -77,7 +77,7 @@ class JAdapter extends JObject {
 	 * @return	boolean True if successful
 	 * @since	1.5
 	 */
-	function setAdapter($name, &$adapter = null)
+	public function setAdapter($name, &$adapter = null)
 	{
 		if (!is_object($adapter))
 		{
@@ -97,19 +97,19 @@ class JAdapter extends JObject {
 	/**
 	 * Loads all adapters
 	 */
-	function loadAllAdapters() {
+	public function loadAllAdapters() {
 		$list = JFolder::files($this->_basepath.DS.$this->_adapterfolder);
 		foreach($list as $filename) {
 			if(JFile::getExt($filename) == 'php') {
 				// Try to load the adapter object
 				require_once($this->_basepath.DS.$this->_adapterfolder.DS.$filename);
+				
 				$name = JFile::stripExt($filename);
 				$class = $this->_classprefix.ucfirst($name);
 				if (!class_exists($class)) {
 					return false;
 				}
 				$adapter = new $class($this);
-				$adapter->parent =& $this;
 				$this->_adapters[$name] = clone($adapter);
 			}
 		}

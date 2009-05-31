@@ -42,7 +42,7 @@ class JInstallerPlugin extends JObject
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function install()
+	public function install()
 	{
 		// Get a database connector object
 		$db = &$this->parent->getDbo();
@@ -64,7 +64,7 @@ class JInstallerPlugin extends JObject
 
 		// Get the component description
 		$description = & $this->manifest->getElementByPath('description');
-		if (is_a($description, 'JSimpleXMLElement')) {
+		if ($description INSTANCEOF JSimpleXMLElement) {
 			$this->parent->set('message', $description->data());
 		} else {
 			$this->parent->set('message', '');
@@ -78,7 +78,7 @@ class JInstallerPlugin extends JObject
 
 		// Set the installation path
 		$plugin_files =& $this->manifest->getElementByPath('files');
-		if (is_a($plugin_files, 'JSimpleXMLElement') && count($plugin_files->children())) {
+		if ($element INSTANCEOF JSimpleXMLElement && count($element->children())) {
 			$files =& $plugin_files->children();
 			foreach ($files as $file) {
 				if ($file->attributes($type)) {
@@ -292,6 +292,15 @@ class JInstallerPlugin extends JObject
 			$this->parent->abort(JText::_('Plugin').' '.JText::_('Install').': '.JText::_('Could not copy setup file'));
 			return false;
 		}
+		// And now we run the postflight
+		ob_start();
+		ob_implicit_flush(false);
+		if($this->parent->_manifestClass && method_exists($this->parent->_manifestClass,'postflight')) $this->parent->_manifestClass->postflight($this->route, $this);	
+		$msg .= ob_get_contents(); // append messages
+		ob_end_clean();
+		if ($msg != '') {
+			$this->parent->set('extension.message', $msg);
+		}
 
 		// Load plugin language file
 		$lang = &JFactory::getLanguage();
@@ -327,7 +336,7 @@ class JInstallerPlugin extends JObject
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function uninstall($id, $clientId)
+	public function uninstall($id, $clientId )
 	{
 		// Initialize variables
 		$row	= null;
