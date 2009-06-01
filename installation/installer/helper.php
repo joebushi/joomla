@@ -867,12 +867,6 @@ class JInstallationHelper
 			$buffer = str_replace ( $newPrefix.'menu', $newPrefix.'menu_migration', $buffer );
 
 			/*
-			 * rename two aro_acl... field names
-			 */
-			$buffer = preg_replace ( '/group_id(?!.{15,25}aro_id)/', 'id', $buffer );
-			$buffer = preg_replace ( '/aro_id(?=.{1,6}section_value)/', 'id', $buffer );
-
-			/*
 			 * convert to utf-8
 			 */
 			if(function_exists('iconv')) {

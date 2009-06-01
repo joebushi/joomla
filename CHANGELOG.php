@@ -37,6 +37,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+01-Jun-2009 Ian MacLennan
+ # [#16236] Legacy code in installer premigration system causes unrelated errors
+
 30-May-2009 Ian MacLennan
  ^ [#16397] helpsites.xml update
  # [#16500] offline.php with wrong stylesheet
