@@ -15,12 +15,6 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 // Load the tooltip behavior.
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
-
-// Load the default stylesheet.
-JHtml::stylesheet('default.css', 'administrator/components/com_menus/media/css/');
-
-// Build the toolbar.
-$this->buildDefaultToolBar();
 ?>
 
 <script type="text/javascript">
@@ -63,8 +57,8 @@ $this->buildDefaultToolBar();
 				<?php echo $this->form->getInput('published'); ?>
 			</li>
 			<li>
-				<?php echo $this->form->getLabel('componentid'); ?><br />
-				<?php echo $this->form->getInput('componentid'); ?>
+				<?php echo $this->form->getLabel('component_id'); ?><br />
+				<?php echo $this->form->getInput('component_id'); ?>
 			</li>
 			<li>
 				<?php echo $this->form->getLabel('ordering'); ?><br />

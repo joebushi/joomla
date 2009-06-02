@@ -14,7 +14,7 @@
 		<field
 			id="title"
 			name="title"
-			type="name"
+			type="text"
 			label="Menus_Item_Title_Label"
 			description="Menus_Item_Title_Desc"
 			default=""

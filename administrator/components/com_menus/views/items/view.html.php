@@ -22,10 +22,8 @@ class MenusViewItems extends JView
 {
 	/**
 	 * Display the view
-	 *
-	 * @access	public
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$state		= $this->get('State');
 		$items		= $this->get('Items');
@@ -66,13 +64,5 @@ class MenusViewItems extends JView
 
 		JToolBarHelper::custom('item.add', 'new.png', 'new_f2.png', 'New', false);
 		JToolBarHelper::custom('item.edit', 'edit.png', 'edit_f2.png', 'Edit', true);
-
-		JToolBarHelper::divider();
-
-		// We can't use the toolbar helper here because there is no generic popup button.
-		$bar = &JToolBar::getInstance('toolbar');
-		$bar->appendButton('Popup', 'config', 'JToolbar_Options', 'index.php?option=com_menus&view=config&tmpl=component', 570, 500);
-
-		//JToolBarHelper::help('index', true);
 	}
 }

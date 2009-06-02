@@ -16,7 +16,7 @@ jimport('joomla.application.component.view');
  * @subpackage	com_menus
  * @since		1.6
  */
-class MenusViewItem extends JView
+class MenusViewMenu extends JView
 {
 	/**
 	 * Display the view
@@ -52,11 +52,10 @@ class MenusViewItem extends JView
 	protected function _setToolBar()
 	{
 		$isNew	= ($this->item->id == 0);
-		JToolBarHelper::title(JText::_($isNew ? 'Menus_Title_Add_Item' : 'Menus_Title_Edit_Item'));
+		JToolBarHelper::title(JText::_($isNew ? 'Menus_Title_Add_Menu' : 'Menus_Title_Edit_Menu'));
 
-		JToolBarHelper::save('item.save');
-		JToolBarHelper::apply('item.apply');
-		JToolBarHelper::cancel('item.cancel');
-		//JToolBarHelper::help('index', true);
+		JToolBarHelper::save('menu.save');
+		JToolBarHelper::apply('menu.apply');
+		JToolBarHelper::cancel('menu.cancel');
 	}
 }

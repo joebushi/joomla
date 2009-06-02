@@ -14,9 +14,6 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 JHtml::_('behavior.tooltip');
 
-// Load the default stylesheet.
-JHtml::stylesheet('default.css', 'administrator/components/com_menus/media/css/');
-
 $user	= &JFactory::getUser();
 $userId	= $user->get('id');
 $n = count($this->items);

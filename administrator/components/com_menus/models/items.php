@@ -15,14 +15,13 @@ jimport('joomla.database.query');
  *
  * @package		Joomla.Administrator
  * @subpackage	com_menus
- * @version		1.6
+ * @since		1.6
  */
 class MenusModelItems extends JModelList
 {
 	/**
 	 * Model context string.
 	 *
-	 * @access	protected
 	 * @var		string
 	 */
 	protected $_context = 'com_menus.items';
@@ -134,10 +133,6 @@ class MenusModelItems extends JModelList
 	/**
 	 * Method to auto-populate the model state.
 	 *
-	 * This method should only be called once per instantiation and is designed
-	 * to be called on the first call to the getState() method unless the model
-	 * configuration flag to ignore the request is set.
-	 *
 	 * @return	void
 	 */
 	protected function _populateState()
@@ -164,7 +159,6 @@ class MenusModelItems extends JModelList
 		// Load the user parameters.
 		$user = & JFactory::getUser();
 		$this->setState('user',	$user);
-		$this->setState('user.id', (int)$user->id);
-		$this->setState('user.aid', (int)$user->get('aid'));
+		$this->setState('user.id', (int) $user->id);
 	}
 }

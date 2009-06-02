@@ -10,13 +10,13 @@ defined('_JEXEC') or die;
 jimport( 'joomla.application.component.controller' );
 
 /**
- * The Menu Item Controller
+ * The Menu Type Controller
  *
  * @package		Joomla.Administrator
  * @subpackage	com_menus
  * @since		1.6
  */
-class MenusControllerItem extends JController
+class MenusControllerMenu extends JController
 {
 	/**
 	 * Constructor
@@ -26,7 +26,6 @@ class MenusControllerItem extends JController
 		parent::__construct();
 
 		// Register proxy tasks.
-		$this->registerTask('save2new',		'save');
 		$this->registerTask('apply',		'save');
 	}
 
@@ -37,7 +36,7 @@ class MenusControllerItem extends JController
 	 */
 	public function display()
 	{
-		$this->setRedirect(JRoute::_('index.php?option=com_menus', false));
+		$this->setRedirect(JRoute::_('index.php?option=com_menus&view=menus', false));
 	}
 
 	/**
@@ -51,11 +50,11 @@ class MenusControllerItem extends JController
 		$app = &JFactory::getApplication();
 
 		// Clear the menu item edit information from the session.
-		$app->setUserState('com_menus.edit.item.id', null);
-		$app->setUserState('com_menus.edit.item.data', null);
+		$app->setUserState('com_menus.edit.menu.id', null);
+		$app->setUserState('com_menus.edit.menu.data', null);
 
 		// Redirect to the edit screen.
-		$this->setRedirect(JRoute::_('index.php?option=com_menus&view=item&layout=edit', false));
+		$this->setRedirect(JRoute::_('index.php?option=com_menus&view=menu&layout=edit', false));
 	}
 
 	/**
@@ -70,39 +69,13 @@ class MenusControllerItem extends JController
 		$ids	= JRequest::getVar('cid', array(), '', 'array');
 
 		// Get the id of the group to edit.
-		$id			=  (empty($ids) ? JRequest::getInt('item_id') : (int) array_pop($ids));
+		$id		=  (empty($ids) ? JRequest::getInt('menu_id') : (int) array_pop($ids));
 
-		// Get the previous weblink id (if any) and the current weblink id.
-		$previousId	= (int) $app->getUserState('com_menus.edit.item.id');
-
-		// If rows ids do not match, checkin previous row.
-		if (($previousId > 0) && ($id != $previousId))
-		{
-			if (!$model->checkin($previousId))
-			{
-				// Check-in failed, go back to the weblink and display a notice.
-				$message = JText::sprintf('JError_Checkin_failed', $model->getError());
-				$this->setRedirect('index.php?option=com_menus&view=item&layout=edit', $message, 'error');
-				return false;
-			}
-		}
-
-		// Attempt to check-out the new weblink for editing and redirect.
-		if (!$model->checkout($id))
-		{
-			// Check-out failed, go back to the list and display a notice.
-			$message = JText::sprintf('JError_Checkout_failed', $model->getError());
-			$this->setRedirect('index.php?option=com_menus&view=item&item_id='.$id, $message, 'error');
-			return false;
-		}
-		else
-		{
-			// Check-out succeeded, push the new row id into the session.
-			$app->setUserState('com_weblinks.edit.weblink.id',	$id);
-			$app->setUserState('com_weblinks.edit.weblink.data', null);
-			$this->setRedirect('index.php?option=com_menus&view=item&layout=edit');
-			return true;
-		}
+		// Push the new row id into the session.
+		$app->setUserState('com_weblinks.edit.weblink.id',	$id);
+		$app->setUserState('com_weblinks.edit.weblink.data', null);
+		$this->setRedirect('index.php?option=com_menus&view=menu&layout=edit');
+		return true;
 	}
 
 	/**
@@ -118,11 +91,11 @@ class MenusControllerItem extends JController
 		$app = &JFactory::getApplication();
 
 		// Clear the menu item edit information from the session.
-		$app->setUserState('com_menus.edit.item.id', null);
-		$app->setUserState('com_menus.edit.item.data', null);
+		$app->setUserState('com_menus.edit.menu.id', null);
+		$app->setUserState('com_menus.edit.menu.data', null);
 
 		// Redirect to the list screen.
-		$this->setRedirect(JRoute::_('index.php?option=com_menus&view=items', false));
+		$this->setRedirect(JRoute::_('index.php?option=com_menus&view=menus', false));
 	}
 
 	/**
@@ -142,10 +115,10 @@ class MenusControllerItem extends JController
 		$data = JRequest::getVar('jform', array(), 'post', 'array');
 
 		// Populate the row id from the session.
-		$data['id'] = (int) $app->getUserState('com_menus.edit.item.id');
+		$data['id'] = (int) $app->getUserState('com_menus.edit.menu.id');
 
 		// Get the model and attempt to validate the posted data.
-		$model	= &$this->getModel('Item');
+		$model	= &$this->getModel('Menu');
 		$form	= &$model->getForm();
 		if (!$form) {
 			JError::raiseError(500, $model->getError());
@@ -170,10 +143,10 @@ class MenusControllerItem extends JController
 			}
 
 			// Save the data in the session.
-			$app->setUserState('com_menus.edit.item.data', $data);
+			$app->setUserState('com_menus.edit.menu.data', $data);
 
 			// Redirect back to the edit screen.
-			$this->setRedirect(JRoute::_('index.php?option=com_menus&view=item&layout=edit', false));
+			$this->setRedirect(JRoute::_('index.php?option=com_menus&view=menu&layout=edit', false));
 			return false;
 		}
 
@@ -184,20 +157,11 @@ class MenusControllerItem extends JController
 		if ($return === false)
 		{
 			// Save the data in the session.
-			$app->setUserState('com_menus.edit.item.data', $data);
+			$app->setUserState('com_menus.edit.menu.data', $data);
 
 			// Redirect back to the edit screen.
 			$this->setMessage(JText::sprintf('JError_Save_failed', $model->getError()), 'notice');
-			$this->setRedirect(JRoute::_('index.php?option=com_menus&view=item&layout=edit', false));
-			return false;
-		}
-
-		// Save succeeded, check-in the row.
-		if (!$model->checkin())
-		{
-			// Check-in failed, go back to the weblink and display a notice.
-			$message = JText::sprintf('JError_Checkin_saved', $model->getError());
-			$this->setRedirect('index.php?option=com_menus&view=item&layout=edit', $message, 'error');
+			$this->setRedirect(JRoute::_('index.php?option=com_menus&view=menu&layout=edit', false));
 			return false;
 		}
 
@@ -208,25 +172,16 @@ class MenusControllerItem extends JController
 		{
 			case 'apply':
 				// Redirect back to the edit screen.
-				$this->setRedirect(JRoute::_('index.php?option=com_menus&view=item&layout=edit', false));
-				break;
-
-			case 'save2new':
-				// Clear the menu item id and data from the session.
-				$app->setUserState('com_menus.edit.item.id', null);
-				$app->setUserState('com_menus.edit.item.data', null);
-
-				// Redirect back to the edit screen.
-				$this->setRedirect(JRoute::_('index.php?option=com_menus&view=item&layout=edit', false));
+				$this->setRedirect(JRoute::_('index.php?option=com_menus&view=menu&layout=edit', false));
 				break;
 
 			default:
 				// Clear the menu item id and data from the session.
-				$app->setUserState('com_menus.edit.item.id', null);
-				$app->setUserState('com_menus.edit.item.data', null);
+				$app->setUserState('com_menus.edit.menu.id', null);
+				$app->setUserState('com_menus.edit.menu.data', null);
 
 				// Redirect to the list screen.
-				$this->setRedirect(JRoute::_('index.php?option=com_menus&view=items', false));
+				$this->setRedirect(JRoute::_('index.php?option=com_menus&view=menus', false));
 				break;
 		}
 	}

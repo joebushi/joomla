@@ -1,8 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Administrator
- * @subpackage	com_menus
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -23,9 +21,7 @@ class MenusController extends JController
 	/**
 	 * Method to display a view.
 	 *
-	 * @access	public
 	 * @return	void
-	 * @since	1.0
 	 */
 	function display()
 	{

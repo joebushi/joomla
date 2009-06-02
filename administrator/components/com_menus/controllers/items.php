@@ -1,8 +1,6 @@
-<?php
+JController_Save_success<?php
 /**
- * @version		$Id: item.php 11959 2009-06-01 23:09:42Z louis $
- * @package		Joomla.Administrator
- * @subpackage	com_menus
+ * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -16,14 +14,14 @@ jimport( 'joomla.application.component.controller' );
  *
  * @package		Joomla.Administrator
  * @subpackage	com_menus
- * @version		1.6
+ * @since		1.6
  */
 class MenusControllerItems extends JController
 {
 	/**
 	 * Constructor
 	 */
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -37,14 +35,14 @@ class MenusControllerItems extends JController
 	/**
 	 * Display the view
 	 */
-	function display()
+	public function display()
 	{
 	}
 
 	/**
 	 * Proxy for getModel
 	 */
-	function &getModel()
+	public function &getModel()
 	{
 		return parent::getModel('Item', '', array('ignore_request' => true));
 	}
@@ -52,7 +50,7 @@ class MenusControllerItems extends JController
 	/**
 	 * Removes an item
 	 */
-	function delete()
+	public function delete()
 	{
 		// Check for request forgeries
 		JRequest::checkToken() or jExit(JText::_('JInvalid_Token'));
@@ -83,11 +81,9 @@ class MenusControllerItems extends JController
 	/**
 	 * Method to publish a list of taxa
 	 *
-	 * @access	public
 	 * @return	void
-	 * @since	1.0
 	 */
-	function publish()
+	public function publish()
 	{
 		// Check for request forgeries
 		JRequest::checkToken() or jExit(JText::_('JInvalid_Token'));

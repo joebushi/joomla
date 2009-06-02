@@ -42,10 +42,6 @@ class MenusModelItem extends JModelForm
 	/**
 	 * Method to auto-populate the model state.
 	 *
-	 * This method should only be called once per instantiation and is designed
-	 * to be called on the first call to the getState() method unless the model
-	 * configuration flag to ignore the request is set.
-	 *
 	 * @return	void
 	 */
 	protected function _populateState()
@@ -66,12 +62,11 @@ class MenusModelItem extends JModelForm
 	/**
 	 * Method to get a menu item.
 	 *
-	 * @access	public
 	 * @param	integer	The id of the menu item to get.
+	 *
 	 * @return	mixed	Menu item data object on success, false on failure.
-	 * @since	1.0
 	 */
-	public function & getItem($itemId = null)
+	public function &getItem($itemId = null)
 	{
 		// Initialize variables.
 		$itemId = (!empty($itemId)) ? $itemId : (int)$this->getState('item.id');
@@ -86,12 +81,6 @@ class MenusModelItem extends JModelForm
 		// Check for a table object error.
 		if ($return === false && $table->getError()) {
 			$this->serError($table->getError());
-			return $false;
-		}
-
-		// Check for a database error.
-		if ($this->_db->getErrorNum()) {
-			$this->setError($this->_db->getErrorMsg());
 			return $false;
 		}
 
@@ -219,8 +208,13 @@ class MenusModelItem extends JModelForm
 		$table = &$this->getTable();
 
 		// Iterate the items to delete each one.
-		foreach ($itemIds as $itemId) {
-			$table->delete($itemId);
+		foreach ($itemIds as $itemId)
+		{
+			if (!$table->delete($itemId))
+			{
+				$this->setError($table->getError());
+				return false;
+			}
 		}
 
 		// Get the root item.
@@ -230,7 +224,7 @@ class MenusModelItem extends JModelForm
 			' WHERE `parent_id` = 0',
 			0, 1
 		);
-		$rootId	= (int)$this->_db->loadResult();
+		$rootId	= (int) $this->_db->loadResult();
 
 		// Check for a database error.
 		if ($this->_db->getErrorNum()) {
@@ -362,11 +356,10 @@ class MenusModelItem extends JModelForm
 	/**
 	 * Method to perform batch operations on a category or a set of categories.
 	 *
-	 * @access	public
 	 * @param	array	An array of commands to perform.
 	 * @param	array	An array of category ids.
+	 *
 	 * @return	boolean	Returns true on success, false on failure.
-	 * @since	1.0
 	 */
 	function batch($commands, $itemIds)
 	{
