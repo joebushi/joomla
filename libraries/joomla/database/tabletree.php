@@ -362,9 +362,6 @@ class JTableTree extends JTable
 					return false;
 				}
 			}
-
-			// Rebuild the nested set tree.
-			$this->rebuildTree();
 		}
 
 		return true;
@@ -379,15 +376,33 @@ class JTableTree extends JTable
 	 * @return	boolean	True on success
 	 * @since	1.0
 	 */
-	function rebuildTree($parent_id = 0, $left = 0, $level = 0)
+	function rebuildTree($parentId = null, $left = 0, $level = 0)
 	{
 		// get the database object
 		$db = &$this->_db;
 
+		if ($parentId === null)
+		{
+			// Get the root item.
+			$db->setQuery(
+				'SELECT `id`' .
+				' FROM '.$this->_tbl .
+				' WHERE `parent_id` = 0',
+				0, 1
+			);
+			$parentId = (int) $this->_db->loadResult();
+
+			// Check for a database error.
+			if ($this->_db->getErrorNum()) {
+				$this->setError($this->_db->getErrorMsg());
+				return false;
+			}
+		}
+
 		// get all children of this node
 		$db->setQuery(
 			'SELECT id FROM '. $this->_tbl .
-			' WHERE parent_id = '. (int) $parent_id .
+			' WHERE parent_id = '. (int) $parentId .
 			' ORDER BY parent_id, ordering, title'
 		);
 		$children = $db->loadResultArray();
@@ -414,7 +429,7 @@ class JTableTree extends JTable
 			' SET left_id = '. (int) $left .
 			' , right_id = '. (int) $right .
 			' , level = '. (int) $level .
-			' WHERE id = '. (int) $parent_id
+			' WHERE id = '. (int) $parentId
 		);
 		// if there is an update failure, return false to break out of the recursion
 		if (!$db->query()) {
