@@ -343,35 +343,39 @@ INSERT INTO `#__plugins` VALUES (34, 'Editor - CodeMirror', 'codemirror', 'edito
 # Table structure for table `#__menu`
 #
 
-CREATE TABLE `#__menu` (
+CREATE TABLE `jos_menu` (
   `id` int(11) NOT NULL auto_increment,
-  `menutype` varchar(75) default NULL,
-  `name` varchar(255) default NULL,
-  `alias` varchar(255) NOT NULL default '',
-  `link` text,
-  `type` varchar(50) NOT NULL default '',
-  `published` tinyint(1) NOT NULL default 0,
-  `parent` int(11) unsigned NOT NULL default 0,
-  `componentid` int(11) unsigned NOT NULL default 0,
-  `sublevel` int(11) default 0,
-  `ordering` int(11) default 0,
-  `checked_out` int(11) unsigned NOT NULL default 0,
-  `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
-  `pollid` int(11) NOT NULL default 0,
-  `browserNav` tinyint(4) default 0,
-  `access` tinyint(3) unsigned NOT NULL default 0,
-  `utaccess` tinyint(3) unsigned NOT NULL default 0,
-  `template_id` int(11) default 0,
-  `params` text NOT NULL,
-  `lft` int(11) unsigned NOT NULL default 0,
-  `rgt` int(11) unsigned NOT NULL default 0,
-  `home` INTEGER(1) UNSIGNED NOT NULL DEFAULT 0,
+  `menutype` varchar(24) NOT NULL COMMENT 'The type of menu this item belongs to. FK to jos_menu_types.menutype',
+  `name` varchar(255) NOT NULL COMMENT 'The display name of the menu item.',
+  `alias` varchar(255) NOT NULL COMMENT 'The SEF alias of the menu item.',
+  `path` varchar(1024) NOT NULL COMMENT 'The computed path of the menu item based on the alias field.',
+  `link` varchar(1024) NOT NULL COMMENT 'The actually link the menu item refers to.',
+  `type` varchar(16) NOT NULL COMMENT 'The type of link: Component, URL, Alias, Separator',
+  `published` tinyint(4) NOT NULL default '0' COMMENT 'The published state of the menu link.',
+  `parent_id` int(10) unsigned NOT NULL default '0' COMMENT 'The parent menu item in the menu tree.',
+  `componentid` int(11) unsigned NOT NULL default '0',
+  `ordering` int(11) NOT NULL default '0' COMMENT 'The relative ordering of the menu item in the tree.',
+  `checked_out` int(10) unsigned NOT NULL default '0' COMMENT 'FK to jos_users.id',
+  `checked_out_time` timestamp NOT NULL default '0000-00-00 00:00:00' COMMENT 'The time the menu item was checked out.',
+  `browserNav` tinyint(4) NOT NULL default '0' COMMENT 'The click behaviour of the link.',
+  `access` tinyint(3) unsigned NOT NULL default '0' COMMENT 'The access level required to view the menu item.',
+  `template_id` int(11) default '0',
+  `params` varchar(10240) NOT NULL COMMENT 'JSON encoded data for the menu item.',
+  `left_id` int(10) unsigned NOT NULL default '0' COMMENT 'Nested set left_id.',
+  `right_id` int(10) unsigned NOT NULL default '0' COMMENT 'Nested set right_id.',
+  `home` tinyint(3) unsigned NOT NULL default '0' COMMENT 'Indicates if this menu item is the home or default page.',
   PRIMARY KEY  (`id`),
-  KEY `componentid` (`componentid`,`menutype`,`published`,`access`),
-  KEY `menutype` (`menutype`)
-) TYPE=MyISAM CHARACTER SET `utf8`;
+  KEY `idx_componentid` (`componentid`,`menutype`,`published`,`access`),
+  KEY `idx_menutype` (`menutype`),
+  KEY `idx_left_right` (`left_id`,`right_id`),
+  KEY `idx_alias` (`alias`),
+  KEY `idx_path` (`path`(333))
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
-INSERT INTO `#__menu` VALUES (1, 'mainmenu', 'Home', 'home', 'index.php?option=com_content&view=frontpage', 'component', 1, 0, 20, 0, 1, 0, '0000-00-00 00:00:00', 0, 0, 1, 3, 0, 'num_leading_articles=1\nnum_intro_articles=4\nnum_columns=2\nnum_links=4\norderby_pri=\norderby_sec=front\nshow_pagination=2\nshow_pagination_results=1\nshow_feed_link=1\nshow_noauth=\nshow_title=\nlink_titles=\nshow_intro=\nshow_section=\nlink_section=\nshow_category=\nlink_category=\nshow_author=\nshow_create_date=\nshow_modify_date=\nshow_item_navigation=\nshow_readmore=\nshow_vote=\nshow_icons=\nshow_pdf_icon=\nshow_print_icon=\nshow_email_icon=\nshow_hits=\nfeed_summary=\npage_title=\nshow_page_title=1\npageclass_sfx=\nmenu_image=-1\nsecure=0\n\n', 0, 0, 1);
+
+INSERT INTO `jos_menu` VALUES 
+(1, '', 'ROOT', 'root', '', '', '', 1, 0, 0, 0, 0, '0000-00-00 00:00:00', 0, 0, 0, '', 0, 0, 0),
+(2, 'mainmenu', 'Home', 'home', '', 'index.php?option=com_content&view=frontpage', 'component', 1, 1, 20, 1, 0, '0000-00-00 00:00:00', 0, 1, 0, 'show_page_title=1\npage_title=Welcome to the Frontpage\nshow_description=0\nshow_description_image=0\nnum_leading_articles=1\nnum_intro_articles=4\nnum_columns=2\nnum_links=4\nshow_title=1\npageclass_sfx=\nmenu_image=-1\nsecure=0\norderby_pri=\norderby_sec=front\nshow_pagination=2\nshow_pagination_results=1\nshow_noauth=0\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1\n\n', 0, 0, 1);
 
 # --------------------------------------------------------
 

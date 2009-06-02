@@ -2,6 +2,60 @@
 
 # 1.5 to 1.6
 
+-- Menus
+
+ALTER TABLE `jos_menu`
+ DROP COLUMN `sublevel`,
+ DROP COLUMN `pollid`,
+ DROP COLUMN `utaccess`;
+
+ALTER TABLE `jos_menu`
+ MODIFY COLUMN `menutype` VARCHAR(24) NOT NULL COMMENT 'The type of menu this item belongs to. FK to jos_menu_types.menutype';
+
+ALTER TABLE `jos_menu`
+ MODIFY COLUMN `name` VARCHAR(255) NOT NULL COMMENT 'The display name of the menu item.';
+
+ALTER TABLE `jos_menu`
+ MODIFY COLUMN `alias` VARCHAR(255) NOT NULL COMMENT 'The SEF alias of the menu item.';
+
+ALTER TABLE `jos_menu`
+ MODIFY COLUMN `link` VARCHAR(1024) NOT NULL COMMENT 'The actually link the menu item refers to.';
+
+ALTER TABLE `jos_menu`
+ MODIFY COLUMN `type` VARCHAR(16) NOT NULL COMMENT 'The type of link: Component, URL, Alias, Separator';
+
+ALTER TABLE `jos_menu`
+ MODIFY COLUMN `published` TINYINT NOT NULL DEFAULT 0 COMMENT 'The published state of the menu link.';
+
+ALTER TABLE `jos_menu`
+ CHANGE COLUMN `parent` `parent_id` INTEGER UNSIGNED NOT NULL DEFAULT 0 COMMENT 'The parent menu item in the menu tree.';
+
+ALTER TABLE `jos_menu`
+ MODIFY COLUMN `ordering` INTEGER NOT NULL DEFAULT 0 COMMENT 'The relative ordering of the menu item in the tree.';
+
+ALTER TABLE `jos_menu`
+ MODIFY COLUMN `checked_out` INTEGER UNSIGNED NOT NULL DEFAULT 0 COMMENT 'FK to jos_users.id';
+
+ALTER TABLE `jos_menu`
+ MODIFY COLUMN `checked_out_time` TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'The time the menu item was checked out.';
+
+ALTER TABLE `jos_menu`
+ MODIFY COLUMN `browserNav` TINYINT NOT NULL DEFAULT 0 COMMENT 'The click behaviour of the link.';
+
+ALTER TABLE `jos_menu`
+ MODIFY COLUMN `access` TINYINT UNSIGNED NOT NULL DEFAULT 0 COMMENT 'The access level required to view the menu item.';
+
+ALTER TABLE `jos_menu`
+ MODIFY COLUMN `params` VARCHAR(10240) NOT NULL COMMENT 'JSON encoded data for the menu item.';
+
+ALTER TABLE `jos_menu`
+ CHANGE COLUMN `lft` `left_id` INTEGER UNSIGNED NOT NULL DEFAULT 0 COMMENT 'Nested set left_id.',
+ CHANGE COLUMN `rgt` `right_id` INTEGER UNSIGNED NOT NULL DEFAULT 0 COMMENT 'Nested set right_id.';
+
+ALTER TABLE `jos_menu`
+ MODIFY COLUMN `home` TINYINT UNSIGNED NOT NULL DEFAULT 0 COMMENT 'Indicates if this menu item is the home or default page.';
+
+
 -- Reconfigure the back module permissions
 UPDATE `#__categories`
  SET access = access + 1;
