@@ -30,9 +30,7 @@ class MenusModelItems extends JModelList
 	/**
 	 * Method to build an SQL query to load the list data.
 	 *
-	 * @access	protected
 	 * @return	string	An SQL query
-	 * @since	1.0
 	 */
 	protected function _getListQuery()
 	{
@@ -43,17 +41,39 @@ class MenusModelItems extends JModelList
 		$query->select($this->getState('list.select', 'a.*'));
 		$query->from('`#__menu` AS a');
 
-		// Exclude the root category.
-		$query->where('a.id > 1');
-
-		// Add the level in the tree.
-		$query->select('COUNT(DISTINCT p.id) AS level');
-		$query->join('LEFT OUTER', '`#__menu` AS p ON a.left_id > p.left_id AND a.right_id < p.right_id');
-		$query->group('a.id');
+		// Join over the users.
+		$query->select('co.name AS editor');
+		$query->join('LEFT', '`#__users` AS co ON co.id = a.checked_out');
 
 		// Join over the asset groups.
 		$query->select('ag.title AS access_level');
 		$query->join('LEFT', '#__access_assetgroups AS ag ON ag.id = a.access');
+
+		// Self join to find the level in the tree.
+		$query->select('COUNT(DISTINCT p.id) AS level');
+		$query->join('LEFT OUTER', '`#__menu` AS p ON a.left_id > p.left_id AND a.right_id < p.right_id');
+		$query->group('a.id');
+
+		// Exclude the root category.
+		$query->where('a.id > 1');
+
+		// Filter on the published state.
+		$published = $this->getState('filter.published');
+		if (is_numeric($published)) {
+			$query->where('a.published = '.(int) $published);
+		}
+
+		// Filter by search in title, alias or id
+		if ($search = trim($this->getState('filter.search')))
+		{
+			if (stripos($search, 'id:') === 0) {
+				$query->where('a.id = '.(int) substr($search, 3));
+			}
+			else {
+				$search = $this->_db->Quote('%'.$this->_db->getEscaped($search, true).'%');
+				$query->where('a.title LIKE '.$search.' OR a.alias LIKE '.$search);
+			}
+		}
 
 		// Filter the items over the parent id if set.
 		$parentId = $this->getState('filter.parent_id');
@@ -73,26 +93,13 @@ class MenusModelItems extends JModelList
 			$query->where('a.menutype = '.$this->_db->quote($menuType));
 		}
 
-		// If the model is set to check item state, add to the query.
-		$published = $this->getState('filter.published');
-		if (is_numeric($published)) {
-			$query->where('a.published = '.(int) $published);
-		}
-
-		// Filter the items over the search string if set.
-		$search = $this->getState('filter.search');
-		if (!empty($search)) {
-			$query->where('a.title LIKE '.$this->_db->Quote('%'.$this->_db->getEscaped($search, true).'%'));
+		// Filter on the level.
+		if ($level = $this->getState('filter.level')) {
+			$query->where('a.level <= '.(int) $level);
 		}
 
 		// Add the list ordering clause.
 		$query->order($this->_db->getEscaped($this->getState('list.ordering', 'a.left_id')).' '.$this->_db->getEscaped($this->getState('list.direction', 'ASC')));
-
-		// Resolve Foriegn Keys.
-
-		// Checked out editor.
-		$query->select('co.name AS editor');
-		$query->join('LEFT', '`#__users` AS co ON co.id = a.checked_out');
 
 		//echo nl2br(str_replace('#__','jos_',$query->toString())).'<hr/>';
 		return $query;
@@ -105,12 +112,10 @@ class MenusModelItems extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @access	protected
-	 * @param	string		$context	A prefix for the store id.
+	 * @param	string		$id	A prefix for the store id.
 	 * @return	string		A store id.
-	 * @since	1.0
 	 */
-	function _getStoreId($id = '')
+	protected function _getStoreId($id = '')
 	{
 		// Compile the store id.
 		$id	.= ':'.$this->getState('list.start');
@@ -133,36 +138,33 @@ class MenusModelItems extends JModelList
 	 * to be called on the first call to the getState() method unless the model
 	 * configuration flag to ignore the request is set.
 	 *
-	 * @access	protected
 	 * @return	void
-	 * @since	1.0
 	 */
-	function _populateState()
+	protected function _populateState()
 	{
 		// Initialize variables.
-		$app = & JFactory::getApplication('administrator');
+		$app	= &JFactory::getApplication('administrator');
+		$params	= &JComponentHelper::getParams('com_menus');
 
 		// Load the filter state.
-		$this->setState('filter.search',	$app->getUserStateFromRequest($this->_context.'filter.search', 'filter_search', ''));
-		$this->setState('filter.published',	$app->getUserStateFromRequest($this->_context.'filter.published', 'filter_published', 1, 'string'));
-		$this->setState('filter.parent_id',	$app->getUserStateFromRequest($this->_context.'filter.parent_id', 'filter_parent_id', 0, 'int'));
-		$this->setState('filter.menu_id',	$app->getUserStateFromRequest($this->_context.'filter.menu_id', 'filter_menu_id', 0, 'int'));
-		$this->setState('filter.menutype',	$app->getUserStateFromRequest($this->_context.'filter.menutype', 'filter_menutype', 'mainmenu'));
+		$this->setState('filter.search',	$app->getUserStateFromRequest($this->_context.'.filter.search', 'filter_search', ''));
+		$this->setState('filter.published',	$app->getUserStateFromRequest($this->_context.'.filter.published', 'filter_published', 1, 'string'));
+		$this->setState('filter.parent_id',	$app->getUserStateFromRequest($this->_context.'.filter.parent_id', 'filter_parent_id', 0, 'int'));
+		$this->setState('filter.level',		$app->getUserStateFromRequest($this->_context.'.filter.level', 'filter_level', 0, 'int'));
+		$this->setState('filter.menutype',	$app->getUserStateFromRequest($this->_context.'.filter.menutype', 'menutype', 'mainmenu'));
 
 		// Load the list state.
-		$this->setState('list.start', $app->getUserStateFromRequest($this->_context.'list.start', 'limitstart', 0, 'int'));
-		$this->setState('list.limit', $app->getUserStateFromRequest($this->_context.'list.limit', 'limit', $app->getCfg('list_limit', 25), 'int'));
-		$this->setState('list.ordering', 'a.left_id');
-		$this->setState('list.direction', 'ASC');
+		$this->setState('list.start',		$app->getUserStateFromRequest($this->_context.'.list.start', 'limitstart', 0, 'int'));
+		$this->setState('list.limit',		$app->getUserStateFromRequest($this->_context.'.list.limit', 'limit', $app->getCfg('list_limit', 25), 'int'));
+		$this->setState('list.ordering',	$app->getUserStateFromRequest($this->_context.'.list.ordering', 'filter_order', 'a.left_id', 'cmd'));
+		$this->setState('list.direction',	$app->getUserStateFromRequest($this->_context.'.list.direction', 'filter_order_Dir', 'ASC', 'word'));
+
+		$this->setState('params', $params);
 
 		// Load the user parameters.
 		$user = & JFactory::getUser();
 		$this->setState('user',	$user);
 		$this->setState('user.id', (int)$user->id);
 		$this->setState('user.aid', (int)$user->get('aid'));
-
-		// Load the parameters.
-		$params = & JComponentHelper::getParams('com_menus');
-		$this->setState('params', $params);
 	}
 }

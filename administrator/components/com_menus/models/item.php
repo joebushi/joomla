@@ -1,12 +1,11 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Administrator
- * @subpackage	com_menus
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+// No direct access
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modelform');
@@ -43,21 +42,24 @@ class MenusModelItem extends JModelForm
 	/**
 	 * Method to auto-populate the model state.
 	 *
+	 * This method should only be called once per instantiation and is designed
+	 * to be called on the first call to the getState() method unless the model
+	 * configuration flag to ignore the request is set.
+	 *
 	 * @return	void
 	 */
 	protected function _populateState()
 	{
-		// Initialize variables.
-		$app = &JFactory::getApplication('administrator');
+		$app	= &JFactory::getApplication('administrator');
+		$params	= &JComponentHelper::getParams('com_menus');
 
-		// Load the group state.
-		if (!($itemId = (int)$app->getUserState('com_menus.edit.item.id'))) {
-			$itemId = (int)JRequest::getInt('item_id');
+		// Load the User state.
+		if (!($id = (int)$app->getUserState('com_menus.edit.item.id'))) {
+			$id = (int)JRequest::getInt('item_id');
 		}
-		$this->setState('item.id', $itemId);
+		$this->setState('item.id', $id);
 
 		// Load the parameters.
-		$params = &JComponentHelper::getParams('com_menus');
 		$this->setState('params', $params);
 	}
 
@@ -141,21 +143,21 @@ class MenusModelItem extends JModelForm
 	 */
 	public function save($data)
 	{
-		$itemId = (!empty($data['id'])) ? $data['id'] : (int)$this->getState('item.id');
+		$id	= (!empty($data['id'])) ? $data['id'] : (int)$this->getState('item.id');
 		$isNew	= true;
 
-		// Get a group row instance.
+		// Get a row instance.
 		$table = &$this->getTable();
 
 		// Load the row if saving an existing item.
-		if ($itemId > 0) {
-			$table->load($itemId);
+		if ($id > 0) {
+			$table->load($id);
 			$isNew = false;
 		}
 
 		// Bind the data.
 		if (!$table->bind($data)) {
-			$this->setError($table->getError());
+			$this->setError(JText::sprintf('JTable_Error_Bind_failed', $table->getError()));
 			return false;
 		}
 
@@ -276,25 +278,23 @@ class MenusModelItem extends JModelForm
 	}
 
 	/**
-	 * Adjust the category ordering.
+	 * Method to adjust the ordering of a row.
 	 *
-	 * @access	public
-	 * @param	integer	Primary key of the item to adjust.
+	 * @param	int		The numeric id of the row to move.
 	 * @param	integer	Increment, usually +1 or -1
-	 * @return	boolean	True on success.
+	 * @return	boolean	False on failure or error, true otherwise.
 	 * @since	1.0
 	 */
-	function ordering($id, $move = 0)
+	public function ordering($id, $direction = 0)
 	{
 		// Sanitize the id and adjustment.
-		$id = (int) $id;
-		$move = (int) $move;
+		$id	= (!empty($id)) ? $id : (int) $this->getState('item.id');
 
-		// Get a category row instance.
+		// Get a row instance.
 		$table = &$this->getTable();
 
 		// Attempt to adjust the row ordering.
-		if (!$table->ordering($move, $id)) {
+		if (!$table->ordering((int) $direction, $id)) {
 			$this->setError($table->getError());
 			return false;
 		}
@@ -303,62 +303,60 @@ class MenusModelItem extends JModelForm
 	}
 
 	/**
-	 * Method to check in an item.
+	 * Method to checkin a row.
 	 *
-	 * @param	integer	The id of the row to check in.
-	 * @return	boolean	True on success.
+	 * @param	integer	$id The numeric id of a row
+	 * @return	boolean	False on failure or error, true otherwise.
 	 */
-	public function checkin($itemId = null)
+	public function checkin($id = null)
 	{
 		// Initialize variables.
-		$itemId	= (!empty($itemId)) ? $itemId : (int)$this->getState('item.id');
-		$result	= true;
+		$id	= (!empty($id)) ? $id : (int) $this->getState('item.id');
 
 		// Only attempt to check the row in if it exists.
-		if ($itemId)
+		if ($id)
 		{
 			// Get a category row instance.
 			$table = &$this->getTable();
 
 			// Attempt to check the row in.
-			if (!$table->checkin($itemId)) {
+			if (!$table->checkin($id)) {
 				$this->setError($table->getError());
-				$result	= false;
+				return false;
 			}
 		}
 
-		return $result;
+		return true;
 	}
 
 	/**
-	 * Method to check out a item.
+	 * Method to check-out a row for editing.
 	 *
-	 * @param	integer	The id of the row to check out.
-	 * @return	boolean	True on success.
+	 * @param	int		$id	The numeric id of the row to check-out.
+	 * @return	boolean	False on failure or error, true otherwise.
 	 */
-	public function checkout($itemId = null)
+	public function checkout($id = null)
 	{
 		// Initialize variables.
-		$itemId	= (!empty($itemId)) ? $itemId : (int)$this->getState('item.id');
-		$result	= true;
+		$id		= (!empty($id)) ? $id : (int) $this->getState('item.id');
 
 		// Only attempt to check the row in if it exists.
-		if ($itemId)
+		if ($id)
 		{
-			// Get a category row instance.
-			$table = &$this->getTable('Category', 'JTable');
+			// Get a row instance.
+			$table = &$this->getTable();
 
 			// Get the current user object.
 			$user = &JFactory::getUser();
 
 			// Attempt to check the row out.
-			if (!$table->checkout($user->get('id'), $itemId)) {
+			if (!$table->checkout($user->get('id'), $id)) {
 				$this->setError($table->getError());
-				$result	= false;
+				return false;
 			}
 		}
 
-		return $result;
+		return true;
 	}
 
 	/**

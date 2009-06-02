@@ -1,8 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Administrator
- * @subpackage	com_menus
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -22,12 +20,8 @@ class MenusControllerItem extends JController
 {
 	/**
 	 * Constructor
-	 *
-	 * @access	public
-	 * @return	void
-	 * @since	1.0
 	 */
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -141,10 +135,10 @@ class MenusControllerItem extends JController
 		if (!$form) {
 			die('What now?');
 		}
-		$validated = $model->validate($form, $data);
+		$result	= $model->validate($form, $data);
 
 		// Check for validation errors.
-		if ($validated === false)
+		if ($result === false)
 		{
 			// Get the validation messages.
 			$errors	= $model->getErrors();

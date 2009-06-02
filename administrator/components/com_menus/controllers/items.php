@@ -27,8 +27,11 @@ class MenusControllerItems extends JController
 	{
 		parent::__construct();
 
+		// Register proxy tasks.
 		$this->registerTask('unpublish',	'publish');
 		$this->registerTask('trash',		'publish');
+		$this->registerTask('orderup',		'ordering');
+		$this->registerTask('orderdown',	'ordering');
 	}
 
 	/**
@@ -52,13 +55,13 @@ class MenusControllerItems extends JController
 	function delete()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jExit(JText::_('JInvalid_Token'));
 
 		// Get items to remove from the request.
 		$cid	= JRequest::getVar('cid', array(), '', 'array');
 
 		if (!is_array($cid) || count($cid) < 1) {
-			JError::raiseWarning(500, JText::_('Select an item to delete'));
+			JError::raiseWarning(500, JText::_('JError_No_items_selected'));
 		}
 		else {
 			// Get the model.
@@ -70,7 +73,7 @@ class MenusControllerItems extends JController
 
 			// Remove the items.
 			if (!$model->delete($cid)) {
-				JError::raiseWarning(500, $model->getError());
+				$this->setMessage($model->getError());
 			}
 		}
 
@@ -87,7 +90,7 @@ class MenusControllerItems extends JController
 	function publish()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jExit(JText::_('JInvalid_Token'));
 
 		// Get items to publish from the request.
 		$cid	= JRequest::getVar('cid', array(), '', 'array');
@@ -95,8 +98,8 @@ class MenusControllerItems extends JController
 		$task	= $this->getTask();
 		$value	= JArrayHelper::getValue($values, $task, 0, 'int');
 
-		if (!is_array($cid) || count($cid) < 1) {
-			JError::raiseWarning(500, JText::_('Select an item to publish'));
+		if (empty($cid)) {
+			JError::raiseWarning(500, JText::_('JError_No_items_selected'));
 		}
 		else
 		{
@@ -108,10 +111,40 @@ class MenusControllerItems extends JController
 
 			// Publish the items.
 			if (!$model->publish($cid, $value)) {
-				JError::raiseWarning(500, $model->getError());
+				$this->setMessage($model->getError());
 			}
 		}
 
 		$this->setRedirect('index.php?option=com_menus&view=items');
+	}
+
+	/**
+	 * Method to reorder selected rows.
+	 *
+	 * @return	bool	False on failure or error, true on success.
+	 */
+	public function ordering()
+	{
+		JRequest::checkToken() or jExit(JText::_('JInvalid_Token'));
+
+		// Initialize variables.
+		$cid	= JRequest::getVar('cid', null, 'post', 'array');
+		$model	= &$this->getModel('Item');
+
+		// Attempt to move the row.
+		$return = $model->ordering(array_pop($cid), $this->getTask() == 'orderup' ? -1 : 1);
+
+		if ($return === false) {
+			// Reorder failed.
+			$message = JText::sprintf('JError_Reorder_failed', $model->getError());
+			$this->setRedirect('index.php?option=com_menus&view=items', $message, 'error');
+			return false;
+		}
+		else {
+			// Reorder succeeded.
+			$message = JText::_('JSuccess_Item_reordered');
+			$this->setRedirect('index.php?option=com_menus&view=items', $message);
+			return true;
+		}
 	}
 }

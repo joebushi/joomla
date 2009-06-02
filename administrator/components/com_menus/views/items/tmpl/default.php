@@ -25,13 +25,17 @@ $n = count($this->items);
 	<fieldset class="filter">
 		<div class="left">
 			<label for="search"><?php echo JText::_('JSearch_Filter'); ?>:</label>
-			<input type="text" name="filter_search" id="search" value="<?php echo $this->state->get('filter.search'); ?>" size="60" title="<?php echo JText::_('Members_Search_in_title'); ?>" />
+			<input type="text" name="filter_search" id="search" value="<?php echo $this->state->get('filter.search'); ?>" size="60" title="<?php echo JText::_('Menus_Items_search_filter'); ?>" />
 			<button type="submit"><?php echo JText::_('JSearch_Filter_Submit'); ?></button>
 			<button type="button" onclick="$('search').value='';this.form.submit();"><?php echo JText::_('JSearch_Filter_Clear'); ?></button>
 		</div>
 		<div class="right">
 			<?php echo JHtml::_('jgrid.filterPublished', 'filter_published', $this->state->get('filter.published'));?>
-			<?php echo JHtml::_('menu.type', 'filter_menutype', $this->state->get('filter.menutype'), 'class="inputbox" onchange="this.form.submit();"');?>
+			<?php echo JHtml::_('menu.type', 'menutype', $this->state->get('filter.menutype'), 'class="inputbox" onchange="this.form.submit();"');?>
+			<?php //echo JHtml::_('access.assetgroups', 'filter_access', $this->state->get('filter.access'), 'class="inputbox" onchange="this.form.submit();"');?>
+
+			<?php echo JHtml::_('select.integerlist', 0, 4, 1, 'filter_level', 'class="inputbox" onchange="this.form.submit();"', $this->state->get('filter.level'));?>
+
 		</div>
 	</fieldset>
 
@@ -74,23 +78,26 @@ $n = count($this->items);
 			$ordering	= ($this->state->get('list.ordering') == 'a.ordering');
 			$checkedOut	= JTable::isCheckedOut($userId, $item->checked_out);
 			?>
-			<tr class="row<?php echo $i++ % 2; ?>">
+			<tr class="row<?php echo $i % 2; ?>">
 				<td style="text-align:center">
-					<?php echo JHtml::_('grid.id', $item->id, $item->id); ?>
+					<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 				</td>
 				<td style="padding-left:<?php echo intval($item->level*15)+4; ?>px">
+					<?php if ($item->home == 1) : ?>
+						<img src="templates/khepri/images/menu/icon-16-default.png" alt="<?php echo JText::_('Default'); ?>" title="<?php echo JText::_('Default'); ?>" />
+					<?php endif; ?>
 					<?php if ($item->checked_out) : ?>
 						<?php echo JHtml::_('smartgrid.checkedout', $item->editor, $item->checked_out_time); ?>
 					<?php endif; ?>
-					<a href="<?php echo JRoute::_('index.php?option=com_menus&task=item.edit&cid[]='.$item->id);?>">
+					<a href="<?php echo JRoute::_('index.php?option=com_menus&task=item.edit&cid[]='.$item->id);?>" title="<?php echo $this->escape($item->path);?>">
 						<?php echo $item->title; ?></a>
 				</td>
 				<td align="center">
-					<?php echo JHtml::_('jgrid.published', $item->published, $item->id, 'items.');?>
+					<?php echo JHtml::_('jgrid.published', $item->published, $i, 'items.');?>
 				</td>
 				<td class="order">
-					<span><?php echo $this->pagination->orderUpIcon($i, ($item->ordering != 0),'menus.orderup', 'JGrid_Move_Up', $ordering); ?></span>
-					<span><?php echo $this->pagination->orderDownIcon($i, $n, ($item->ordering < $item->max_ordering), 'menus.orderdown', 'JGrid_Move_Down', $ordering); ?></span>
+					<span><?php echo $this->pagination->orderUpIcon($i, true, 'items.orderup', 'JGrid_Move_Up', $ordering); ?></span>
+					<span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, true, 'items.orderdown', 'JGrid_Move_Down', $ordering); ?></span>
 					<?php $disabled = $ordering ?  '' : 'disabled="disabled"'; ?>
 					<input type="text" name="order[]" size="5" value="<?php echo $item->ordering;?>" <?php echo $disabled ?> class="text_area" style="text-align: center" />
 				</td>
@@ -101,7 +108,7 @@ $n = count($this->items);
 					<?php echo $item->id; ?>
 				</td>
 			</tr>
-			<?php endforeach; ?>
+			<?php $i++; endforeach; ?>
 		</tbody>
 	</table>
 
