@@ -62,6 +62,12 @@ ALTER TABLE `jos_menu`
  MODIFY COLUMN `home` TINYINT UNSIGNED NOT NULL DEFAULT 0 COMMENT 'Indicates if this menu item is the home or default page.';
 
 
+ALTER TABLE `jos_menu_types`
+ MODIFY COLUMN `menutype` VARCHAR(24) NOT NULL,
+ MODIFY COLUMN `title` VARCHAR(48) NOT NULL
+ DROP INDEX `menutype`;
+
+
 -- Reconfigure the back module permissions
 UPDATE `#__categories`
  SET access = access + 1;
