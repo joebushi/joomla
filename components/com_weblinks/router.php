@@ -27,7 +27,7 @@ function WeblinksBuildRoute(&$query)
 	if (!$items) {
 		$component	= &JComponentHelper::getComponent('com_weblinks');
 		$menu		= &JSite::getMenu();
-		$items		= $menu->getItems('componentid', $component->id);
+		$items		= $menu->getItems('component_id', $component->id);
 	}
 
 	// Search for an appropriate menu item.

@@ -269,7 +269,7 @@ class JSite extends JApplication
 			if (is_object($menu))
 			{
 				$params[$hash]->merge(new JParameter($menu->params));
-				$title = $menu->name;
+				$title = $menu->title;
 
 			}
 
@@ -319,7 +319,7 @@ class JSite extends JApplication
 			$id = $item->template_id;
 		}
 		$condition = '';
-		
+
 		$tid = JRequest::getInt('template', 0);
 		if ((int) $tid > 0)
 		{

@@ -92,7 +92,7 @@ class ContentHelperRoute
 		$component = &JComponentHelper::getComponent('com_content');
 
 		$menus	= &JApplication::getMenu('site', array());
-		$items	= $menus->getItems('componentid', $component->id);
+		$items	= $menus->getItems('component_id', $component->id);
 
 		$match = null;
 

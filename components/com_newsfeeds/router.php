@@ -27,7 +27,7 @@ function NewsfeedsBuildRoute(&$query)
 	if (!$items) {
 		$component	= &JComponentHelper::getComponent('com_newsfeeds');
 		$menu		= &JSite::getMenu();
-		$items		= $menu->getItems('componentid', $component->id);
+		$items		= $menu->getItems('component_id', $component->id);
 	}
 
 	// Search for an appropriate menu item.

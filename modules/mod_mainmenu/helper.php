@@ -40,7 +40,7 @@ class modMainMenuHelper
 		if (is_array($rows)) {
 			while (count($rows) && !is_null($row = array_shift($rows)))
 			{
-				if (array_key_exists($row->parent, $ids)) {
+				if (array_key_exists($row->parent_id, $ids)) {
 					$row->ionly = $params->get('menu_images_link');
 					$menu->addNode($params, $row);
 
@@ -187,7 +187,7 @@ class JMenuTree extends JTree
 			$nid = $item->id;
 		}
 		$this->_nodeHash[$nid] = &$node;
-		$this->_current = &$this->_nodeHash[$item->parent];
+		$this->_current = &$this->_nodeHash[$item->parent_id];
 
 		if ($item->type == 'menulink' && !empty($item->query['Itemid'])) {
 			$node->mid = $item->query['Itemid'];
@@ -260,7 +260,7 @@ class JMenuTree extends JTree
     			$tmp = clone($newItem);
 				$tmp->name	 = '<span><![CDATA['.$item->name.']]></span>';
 				$tmp->mid	 = $item->id;
-				$tmp->parent = $item->parent;
+				$tmp->parent_id = $item->parent_id;
 			} else {
 				return false;
 			}
