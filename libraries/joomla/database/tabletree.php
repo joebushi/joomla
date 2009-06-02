@@ -66,61 +66,6 @@ class JTableTree extends JTable
 	public $access = null;
 
 	/**
-	 * Method to recursively rebuild the nested set tree.
-	 *
-	 * @access	public
-	 * @param	integer	The root of the tree to rebuild.
-	 * @param	integer	The left id to start with in building the tree.
-	 * @return	boolean	True on success
-	 * @since	1.0
-	 */
-	function rebuild($parent_id = 0, $left = 0, $level = 0)
-	{
-		// get the database object
-		$db = &$this->_db;
-
-		// get all children of this node
-		$db->setQuery(
-			'SELECT id FROM '. $this->_tbl .
-			' WHERE parent_id = '. (int) $parent_id .
-			' ORDER BY parent_id, ordering, title'
-		);
-		$children = $db->loadResultArray();
-
-		// the right value of this node is the left value + 1
-		$right = $left + 1;
-
-		// execute this function recursively over all children
-		for ($i = 0, $n = count($children); $i < $n; $i++)
-		{
-			// $right is the current right value, which is incremented on recursion return
-			$right = $this->rebuild($children[$i], $right, $level + 1);
-
-			// if there is an update failure, return false to break out of the recursion
-			if ($right === false) {
-				return false;
-			}
-		}
-
-		// we've got the left value, and now that we've processed
-		// the children of this node we also know the right value
-		$db->setQuery(
-			'UPDATE '. $this->_tbl .
-			' SET left_id = '. (int) $left .
-			' , right_id = '. (int) $right .
-			' , level = '. (int) $level .
-			' WHERE id = '. (int) $parent_id
-		);
-		// if there is an update failure, return false to break out of the recursion
-		if (!$db->query()) {
-			return false;
-		}
-
-		// return the right value of this node + 1
-		return $right + 1;
-	}
-
-	/**
 	 * Inserts a new row if id is zero or updates an existing row in the database table
 	 *
 	 * @access	public
@@ -195,50 +140,9 @@ class JTableTree extends JTable
 					return false;
 				}
 			}
-
-			// Rebuild the nested set tree.
-			$this->rebuild();
 		}
 
 		return $result;
-	}
-
-	function buildPath($nodeId=null)
-	{
-		// get the node id
-		$nodeId = (empty($nodeId)) ? $this->id : $nodeId;
-
-		// get the database object
-		$db = &$this->_db;
-
-		// get all children of this node
-		$db->setQuery(
-			'SELECT parent.alias FROM '.$this->_tbl.' AS node, '.$this->_tbl.' AS parent' .
-			' WHERE node.left_id BETWEEN parent.left_id AND parent.right_id' .
-			' AND node.id='. (int) $nodeId .
-			' ORDER BY parent.left_id'
-		);
-		$segments = $db->loadResultArray();
-
-		// make sure the root node doesn't appear in the path
-		if ($segments[0] == 'root') {
-			array_shift($segments);
-		}
-
-		// build the path
-		$path = trim(implode('/', $segments), ' /\\');
-
-		$db->setQuery(
-			'UPDATE '. $this->_tbl .
-			' SET path='. $db->Quote($path) .
-			' WHERE id='. (int) $nodeId
-		);
-		// if there is an update failure, return false to break out of the recursion
-		if (!$db->query()) {
-			return false;
-		}
-
-		return true;
 	}
 
 	/**
@@ -461,6 +365,99 @@ class JTableTree extends JTable
 
 			// Rebuild the nested set tree.
 			$this->rebuild();
+		}
+
+		return true;
+	}
+
+	/**
+	 * Method to recursively rebuild the nested set tree.
+	 *
+	 * @access	public
+	 * @param	integer	The root of the tree to rebuild.
+	 * @param	integer	The left id to start with in building the tree.
+	 * @return	boolean	True on success
+	 * @since	1.0
+	 */
+	function rebuildTree($parent_id = 0, $left = 0, $level = 0)
+	{
+		// get the database object
+		$db = &$this->_db;
+
+		// get all children of this node
+		$db->setQuery(
+			'SELECT id FROM '. $this->_tbl .
+			' WHERE parent_id = '. (int) $parent_id .
+			' ORDER BY parent_id, ordering, title'
+		);
+		$children = $db->loadResultArray();
+
+		// the right value of this node is the left value + 1
+		$right = $left + 1;
+
+		// execute this function recursively over all children
+		for ($i = 0, $n = count($children); $i < $n; $i++)
+		{
+			// $right is the current right value, which is incremented on recursion return
+			$right = $this->rebuildTree($children[$i], $right, $level + 1);
+
+			// if there is an update failure, return false to break out of the recursion
+			if ($right === false) {
+				return false;
+			}
+		}
+
+		// we've got the left value, and now that we've processed
+		// the children of this node we also know the right value
+		$db->setQuery(
+			'UPDATE '. $this->_tbl .
+			' SET left_id = '. (int) $left .
+			' , right_id = '. (int) $right .
+			' , level = '. (int) $level .
+			' WHERE id = '. (int) $parent_id
+		);
+		// if there is an update failure, return false to break out of the recursion
+		if (!$db->query()) {
+			return false;
+		}
+
+		// return the right value of this node + 1
+		return $right + 1;
+	}
+
+	function rebuildPath($nodeId=null)
+	{
+		// get the node id
+		$nodeId = (empty($nodeId)) ? $this->id : $nodeId;
+
+		// get the database object
+		$db = &$this->_db;
+
+		// get all children of this node
+		$db->setQuery(
+			'SELECT parent.alias FROM '.$this->_tbl.' AS node, '.$this->_tbl.' AS parent' .
+			' WHERE node.left_id BETWEEN parent.left_id AND parent.right_id' .
+			' AND node.id='. (int) $nodeId .
+			' ORDER BY parent.left_id'
+		);
+		$segments = $db->loadResultArray();
+
+		// make sure the root node doesn't appear in the path
+		if ($segments[0] == 'root') {
+			array_shift($segments);
+		}
+
+		// build the path
+		$path = trim(implode('/', $segments), ' /\\');
+
+		$db->setQuery(
+			'UPDATE '. $this->_tbl .
+			' SET path='. $db->Quote($path) .
+			' WHERE id='. (int) $nodeId
+		);
+		// if there is an update failure, return false to break out of the recursion
+		if (!$db->query()) {
+			return false;
 		}
 
 		return true;

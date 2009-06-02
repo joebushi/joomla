@@ -136,8 +136,12 @@ class MenusControllerItem extends JController
 		$data['id'] = (int) $app->getUserState('com_menus.edit.item.id');
 
 		// Get the model and attempt to validate the posted data.
-		$model = &$this->getModel('Item');
-		$validated = $model->validate($data);
+		$model	= &$this->getModel('Item');
+		$form = &$model->getForm();
+		if (!$form) {
+			die('What now?');
+		}
+		$validated = $model->validate($form, $data);
 
 		// Check for validation errors.
 		if ($validated === false)
@@ -207,36 +211,5 @@ class MenusControllerItem extends JController
 				$this->setRedirect(JRoute::_('index.php?option=com_menus&view=items', false));
 				break;
 		}
-	}
-
-	/**
-	 * Method to delete menu items.
-	 *
-	 * @access	public
-	 * @return	void
-	 * @since	1.0
-	 */
-	function delete()
-	{
-		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
-
-		// Get and sanitize the items to delete.
-		$cid = JRequest::getVar('cid', null, 'post', 'array');
-		JArrayHelper::toInteger($cid);
-
-		// Get the model.
-		$model = &$this->getModel('Item');
-
-		// Attempt to delete the item(s).
-		if (!$model->delete($cid)) {
-			$this->setMessage(JText::sprintf('Menus_Item_Delete_Failed', $model->getError()), 'notice');
-		}
-		else {
-			$this->setMessage(JText::sprintf('Menus_Item_Delete_Success', count($cid)));
-		}
-
-		// Redirect to the list screen.
-		$this->setRedirect(JRoute::_('index.php?option=com_menus&view=items', false));
 	}
 }

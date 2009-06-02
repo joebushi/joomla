@@ -73,16 +73,16 @@ class MenusModelItems extends JModelList
 			$query->where('a.menutype = '.$this->_db->quote($menuType));
 		}
 
+		// If the model is set to check item state, add to the query.
+		$published = $this->getState('filter.published');
+		if (is_numeric($published)) {
+			$query->where('a.published = '.(int) $published);
+		}
+
 		// Filter the items over the search string if set.
 		$search = $this->getState('filter.search');
 		if (!empty($search)) {
 			$query->where('a.title LIKE '.$this->_db->Quote('%'.$this->_db->getEscaped($search, true).'%'));
-		}
-
-		// If the model is set to check item state, add to the query.
-		if ($this->getState('check.state', true)) {
-			$state = $this->getState('filter.state');
-			$query->where('a.published = '.(int)$state);
 		}
 
 		// Add the list ordering clause.
@@ -118,7 +118,7 @@ class MenusModelItems extends JModelList
 		$id	.= ':'.$this->getState('list.ordering');
 		$id	.= ':'.$this->getState('list.direction');
 		$id	.= ':'.$this->getState('check.state');
-		$id	.= ':'.$this->getState('filter.state');
+		$id	.= ':'.$this->getState('filter.published');
 		$id	.= ':'.$this->getState('filter.search');
 		$id	.= ':'.$this->getState('filter.parent_id');
 		$id	.= ':'.$this->getState('filter.menu_id');
@@ -143,11 +143,11 @@ class MenusModelItems extends JModelList
 		$app = & JFactory::getApplication('administrator');
 
 		// Load the filter state.
-		$this->setState('filter.search', $app->getUserStateFromRequest($this->_context.'filter.search', 'filter_search', ''));
-		$this->setState('filter.state', $app->getUserStateFromRequest($this->_context.'filter.state', 'filter_state', 1, 'string'));
-		$this->setState('filter.parent_id', $app->getUserStateFromRequest($this->_context.'filter.parent_id', 'filter_parent_id', 0, 'int'));
-		$this->setState('filter.menu_id', $app->getUserStateFromRequest($this->_context.'filter.menu_id', 'filter_menu_id', 0, 'int'));
-		$this->setState('filter.menutype', $app->getUserStateFromRequest($this->_context.'filter.menutype', 'filter_menutype', 'mainmenu'));
+		$this->setState('filter.search',	$app->getUserStateFromRequest($this->_context.'filter.search', 'filter_search', ''));
+		$this->setState('filter.published',	$app->getUserStateFromRequest($this->_context.'filter.published', 'filter_published', 1, 'string'));
+		$this->setState('filter.parent_id',	$app->getUserStateFromRequest($this->_context.'filter.parent_id', 'filter_parent_id', 0, 'int'));
+		$this->setState('filter.menu_id',	$app->getUserStateFromRequest($this->_context.'filter.menu_id', 'filter_menu_id', 0, 'int'));
+		$this->setState('filter.menutype',	$app->getUserStateFromRequest($this->_context.'filter.menutype', 'filter_menutype', 'mainmenu'));
 
 		// Load the list state.
 		$this->setState('list.start', $app->getUserStateFromRequest($this->_context.'list.start', 'limitstart', 0, 'int'));
@@ -160,13 +160,6 @@ class MenusModelItems extends JModelList
 		$this->setState('user',	$user);
 		$this->setState('user.id', (int)$user->id);
 		$this->setState('user.aid', (int)$user->get('aid'));
-
-		// Load the check parameters.
-		if ($this->_state->get('filter.state') === '*') {
-			$this->setState('check.state', false);
-		} else {
-			$this->setState('check.state', true);
-		}
 
 		// Load the parameters.
 		$params = & JComponentHelper::getParams('com_menus');

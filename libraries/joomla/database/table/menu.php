@@ -165,20 +165,4 @@ class JTableMenu extends JTableTree
 
 		return parent::bind($array, $ignore);
 	}
-
-	/**
-	 * Inserts a new row if id is zero or updates an existing row in the database table
-	 *
-	 * @access	public
-	 * @param	boolean		If false, null object variables are not updated
-	 * @return	boolean 	True successful, false otherwise and an internal error message is set`
-	 */
-	function store($updateNulls = false)
-	{
-		if ($result = parent::store($updateNulls)) {
-			$this->buildPath();
-		}
-
-		return $result;
-	}
 }

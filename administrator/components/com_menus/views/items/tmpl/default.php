@@ -30,6 +30,7 @@ $n = count($this->items);
 			<button type="button" onclick="$('search').value='';this.form.submit();"><?php echo JText::_('JSearch_Filter_Clear'); ?></button>
 		</div>
 		<div class="right">
+			<?php echo JHtml::_('jgrid.filterPublished', 'filter_published', $this->state->get('filter.published'));?>
 			<?php echo JHtml::_('menu.type', 'filter_menutype', $this->state->get('filter.menutype'), 'class="inputbox" onchange="this.form.submit();"');?>
 		</div>
 	</fieldset>
@@ -85,7 +86,7 @@ $n = count($this->items);
 						<?php echo $item->title; ?></a>
 				</td>
 				<td align="center">
-					<?php echo JHtml::_('items.state', $item->published, $i);?>
+					<?php echo JHtml::_('jgrid.published', $item->published, $item->id, 'items.');?>
 				</td>
 				<td class="order">
 					<span><?php echo $this->pagination->orderUpIcon($i, ($item->ordering != 0),'menus.orderup', 'JGrid_Move_Up', $ordering); ?></span>
