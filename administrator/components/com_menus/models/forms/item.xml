@@ -1,41 +1,182 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- $Id$ -->
+	<!-- $Id$ -->
 <form>
 	<fields>
 		<field
-			id="id" name="id" type="hidden"
+			id="id"
+			name="id"
+			type="hidden"
 			default="0"
 			filter="int"
 			required="true"
-			readonly="true"
-		/>
+			readonly="true"/>
 
 		<field
-			id="parent_id" name="parent_id" type="UserGroups"
-			label="Menus_Item_Parent"
-			description="Menus_Item_Parent_Desc"
-			default=""
-			filter="int"
-			required="true"
-			class="inputbox"
-		/>
-
-		<field
-			id="title" name="title" type="text"
-			label="Menus_Item_Title"
+			id="name"
+			name="name"
+			type="name"
+			label="Menus_Item_Title_Label"
 			description="Menus_Item_Title_Desc"
 			default=""
 			class="inputbox"
-			size="40"
-		/>
+			size="40"/>
 
 		<field
-			name="left_id" type="hidden"
-			filter="unset"
-		/>
+			id="alias"
+			name="alias"
+			type="alias"
+			label="Menus_Item_Alias_Label"
+			description="Menus_Item_Alias_Desc"
+			default=""
+			class="inputbox"
+			size="40"/>
+
 		<field
-			name="right_id" type="hidden"
-			filter="unset"
-		/>
+			id="link"
+			name="link"
+			type="link"
+			label="Menus_Item_Link_Label"
+			description="Menus_Item_Link_Desc"
+			default=""
+			class="inputbox"
+			size="40"/>
+
+		<field
+			id="type"
+			name="type"
+			type="type"
+			label="Menus_Item_Type_Label"
+			description="Menus_Item_Type_Desc"
+			default=""
+			class="inputbox"
+			size="40"/>
+
+		<field
+			name="published"
+			type="radio"
+			id="published"
+			class="inputbox"
+			label="Menus_Item_Published_Label"
+			default="1"
+			filter="integer">
+			<option
+				value="0">No</option>
+			<option
+				value="1">Yes</option>
+			<option
+				value="-2">Trash</option>
+		</field>
+
+		<field
+			id="parent_id"
+			name="parent_id"
+			type="text"
+			label="Menus_Item_Parent_Label"
+			description="Menus_Item_Parent_Desc"
+			default=""
+			filter="int"
+			class="inputbox"/>
+
+		<field
+			id="componentid"
+			name="componentid"
+			type="text"
+			label="Menus_Item_Component_Label"
+			description="Menus_Item_Component_Desc"
+			default=""
+			filter="int"
+			class="inputbox"/>
+
+		<field
+			id="ordering"
+			name="ordering"
+			type="text"
+			label="Menus_Item_Ordering_Label"
+			description="Menus_Item_Ordering_Desc"
+			default=""
+			filter="int"
+			class="inputbox"/>
+
+		<field
+			id="browserNav"
+			name="browserNav"
+			type="text"
+			label="Menus_Item_BrowserNav_Label"
+			description="Menus_Item_BrowserNav_Desc"
+			default=""
+			filter="int"
+			class="inputbox"/>
+
+		<field
+			name="access"
+			type="accesslevels"
+			id="access"
+			class="inputbox"
+			label="Category_ACCESS_Label"
+			default="1"
+			filter="integer"/>
+
+
+		<field
+			id="template_id"
+			name="template_id"
+			type="text"
+			label="Menus_Item_Template_Label"
+			description="Menus_Item_Template_Desc"
+			default=""
+			filter="int"
+			class="inputbox"/>
+
+		<field
+			id="params"
+			name="params"
+			type="textarea"
+			label="Menus_Item_params_Label"
+			description="Menus_Item_Params_Desc"
+			default=""
+			rows="3"
+			cols="60"
+			class="inputbox"/>
+
+
+		<field
+			id="home"
+			name="home"
+			type="radio"
+			label="Menus_Item_Home_Label"
+			description="Menus_Item_Home_Desc"
+			default="0"
+			class="inputbox"
+			filter="integer">
+			<option
+				value="0">No</option>
+			<option
+				value="1">Yes</option>
+		</field>
+		
+		<field
+			name="path"
+			type="hidden"
+			filter="unset"/>
+
+		<field
+			name="checked_out"
+			type="hidden"
+			filter="unset"/>
+
+		<field
+			name="checked_out_time"
+			type="hidden"
+			filter="unset"/>
+
+		<field
+			name="left_id"
+			type="hidden"
+			filter="unset"/>
+
+		<field
+			name="right_id"
+			type="hidden"
+			filter="unset"/>
 	</fields>
 </form>

@@ -81,11 +81,11 @@ $n = count($this->items);
 					<?php if ($item->checked_out) : ?>
 						<?php echo JHtml::_('smartgrid.checkedout', $item->editor, $item->checked_out_time); ?>
 					<?php endif; ?>
-					<a href="<?php echo JRoute::_('index.php?option=com_menus&task=menu.edit&cid[]='.$item->id);?>">
+					<a href="<?php echo JRoute::_('index.php?option=com_menus&task=item.edit&cid[]='.$item->id);?>">
 						<?php echo $item->name; ?></a>
 				</td>
 				<td align="center">
-					<?php echo JHtml::_('menu.state', $item->published, $i);?>
+					<?php echo JHtml::_('items.state', $item->published, $i);?>
 				</td>
 				<td class="order">
 					<span><?php echo $this->pagination->orderUpIcon($i, ($item->ordering != 0),'menus.orderup', 'JGrid_Move_Up', $ordering); ?></span>

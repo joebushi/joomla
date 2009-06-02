@@ -25,7 +25,7 @@ class MenusModelItems extends JModelList
 	 * @access	protected
 	 * @var		string
 	 */
-	protected $_context = 'menus.items';
+	protected $_context = 'com_menus.items';
 
 	/**
 	 * Method to build an SQL query to load the list data.

@@ -43,8 +43,48 @@ $this->buildDefaultToolBar();
 				<?php echo $this->form->getInput('parent_id'); ?>
 			</li>
 			<li>
-				<?php echo $this->form->getLabel('title'); ?><br />
-				<?php echo $this->form->getInput('title'); ?>
+				<?php echo $this->form->getLabel('name'); ?><br />
+				<?php echo $this->form->getInput('name'); ?>
+			</li>
+			<li>
+				<?php echo $this->form->getLabel('alias'); ?><br />
+				<?php echo $this->form->getInput('alias'); ?>
+			</li>
+			<li>
+				<?php echo $this->form->getLabel('link'); ?><br />
+				<?php echo $this->form->getInput('link'); ?>
+			</li>
+			<li>
+				<?php echo $this->form->getLabel('type'); ?><br />
+				<?php echo $this->form->getInput('type'); ?>
+			</li>
+			<li>
+				<?php echo $this->form->getLabel('published'); ?><br />
+				<?php echo $this->form->getInput('published'); ?>
+			</li>
+			<li>
+				<?php echo $this->form->getLabel('componentid'); ?><br />
+				<?php echo $this->form->getInput('componentid'); ?>
+			</li>
+			<li>
+				<?php echo $this->form->getLabel('ordering'); ?><br />
+				<?php echo $this->form->getInput('ordering'); ?>
+			</li>
+			<li>
+				<?php echo $this->form->getLabel('browserNav'); ?><br />
+				<?php echo $this->form->getInput('browserNav'); ?>
+			</li>
+			<li>
+				<?php echo $this->form->getLabel('access'); ?><br />
+				<?php echo $this->form->getInput('access'); ?>
+			</li>
+			<li>
+				<?php echo $this->form->getLabel('template_id'); ?><br />
+				<?php echo $this->form->getInput('template_id'); ?>
+			</li>
+			<li>
+				<?php echo $this->form->getLabel('params'); ?><br />
+				<?php echo $this->form->getInput('params'); ?>
 			</li>
 		</ol>
 	</fieldset>

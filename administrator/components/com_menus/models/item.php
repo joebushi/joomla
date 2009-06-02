@@ -25,7 +25,7 @@ class MenusModelItem extends JModelItem
 	 *
 	 * @var		string
 	 */
-	 protected $_context		= 'menus.item';
+	 protected $_context		= 'com_menus.item';
 
 	/**
 	 * Method to auto-populate the model state.
@@ -38,7 +38,7 @@ class MenusModelItem extends JModelItem
 		$app = &JFactory::getApplication('administrator');
 
 		// Load the group state.
-		if (!$itemId = (int)$app->getUserState('com_menus.edit.item.id')) {
+		if (!($itemId = (int)$app->getUserState('com_menus.edit.item.id'))) {
 			$itemId = (int)JRequest::getInt('item_id');
 		}
 		$this->setState('item.id', $itemId);
