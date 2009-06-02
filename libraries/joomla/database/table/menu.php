@@ -17,7 +17,7 @@ jimport('joomla.database.tableasset');
  * @subpackage	Table
  * @since		1.0
  */
-class JTableMenu extends JTableAsset
+class JTableMenu extends JTable
 {
 	/** @var int Primary key */
 	var $id					= null;
@@ -36,33 +36,29 @@ class JTableMenu extends JTableAsset
 	/** @var int */
 	var $componentid		= null;
 	/** @var int */
-	var $parent				= null;
-	/** @var int */
-	var $sublevel			= null;
+	var $parent_id			= null;
 	/** @var int */
 	var $ordering			= null;
 	/** @var boolean */
 	var $checked_out		= 0;
 	/** @var datetime */
 	var $checked_out_time	= 0;
-	/** @var boolean */
-	var $pollid				= null;
 	/** @var string */
 	var $browserNav			= null;
 	/** @var int */
 	var $access				= null;
-	/** @var int */
-	var $utaccess			= null;
 	/** @var string */
 	var $params				= null;
 	/** @var int Pre-order tree traversal - left value */
-	var $lft				= null;
+	var $left_id			= null;
 	/** @var int Pre-order tree traversal - right value */
-	var $rgt				= null;
+	var $right_id			= null;
 	/** @var int */
 	var $home				= null;
 	/** @var int */
 	var $template_id			= null;
+	/** @var text */
+	var $path			= null;
 
 	/**
 	 * Constructor
@@ -75,42 +71,6 @@ class JTableMenu extends JTableAsset
 		parent::__construct('#__menu', 'id', $db);
 
 		$this->access	= (int)JFactory::getConfig()->getValue('access');
-	}
-
-	/**
-	 * Method to return the access section name for the asset table.
-	 *
-	 * @access	public
-	 * @return	string
-	 * @since	1.6
-	 */
-	function getAssetSection()
-	{
-		return 'core';
-	}
-
-	/**
-	 * Method to return the name prefix to use for the asset table.
-	 *
-	 * @access	public
-	 * @return	string
-	 * @since	1.6
-	 */
-	function getAssetNamePrefix()
-	{
-		return 'menu';
-	}
-
-	/**
-	 * Method to return the title to use for the asset table.
-	 *
-	 * @access	public
-	 * @return	string
-	 * @since	1.0
-	 */
-	function getAssetTitle()
-	{
-		return $this->name;
 	}
 
 	/**
