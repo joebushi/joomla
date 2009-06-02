@@ -43,8 +43,8 @@ $this->buildDefaultToolBar();
 				<?php echo $this->form->getInput('parent_id'); ?>
 			</li>
 			<li>
-				<?php echo $this->form->getLabel('name'); ?><br />
-				<?php echo $this->form->getInput('name'); ?>
+				<?php echo $this->form->getLabel('title'); ?><br />
+				<?php echo $this->form->getInput('title'); ?>
 			</li>
 			<li>
 				<?php echo $this->form->getLabel('alias'); ?><br />

@@ -12,8 +12,8 @@
 			readonly="true"/>
 
 		<field
-			id="name"
-			name="name"
+			id="title"
+			name="title"
 			type="name"
 			label="Menus_Item_Title_Label"
 			description="Menus_Item_Title_Desc"
@@ -156,6 +156,11 @@
 		
 		<field
 			name="path"
+			type="hidden"
+			filter="unset"/>
+
+		<field
+			name="level"
 			type="hidden"
 			filter="unset"/>
 

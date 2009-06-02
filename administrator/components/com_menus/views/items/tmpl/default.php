@@ -82,7 +82,7 @@ $n = count($this->items);
 						<?php echo JHtml::_('smartgrid.checkedout', $item->editor, $item->checked_out_time); ?>
 					<?php endif; ?>
 					<a href="<?php echo JRoute::_('index.php?option=com_menus&task=item.edit&cid[]='.$item->id);?>">
-						<?php echo $item->name; ?></a>
+						<?php echo $item->title; ?></a>
 				</td>
 				<td align="center">
 					<?php echo JHtml::_('items.state', $item->published, $i);?>
