@@ -30,6 +30,7 @@ class MenusViewItems extends JView
 		$state		= $this->get('State');
 		$items		= $this->get('Items');
 		$pagination	= $this->get('Pagination');
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
 			JError::raiseError(500, implode("\n", $errors));
@@ -41,16 +42,15 @@ class MenusViewItems extends JView
 		$this->assignRef('pagination',	$pagination);
 
 		parent::display($tpl);
+		$this->_setToolbar();
 	}
 
 	/**
 	 * Build the default toolbar.
 	 *
-	 * @access	protected
 	 * @return	void
-	 * @since	1.0
 	 */
-	function buildDefaultToolBar()
+	protected function _setToolbar()
 	{
 		JToolBarHelper::title(JText::_('Menus_Title_Items'));
 
