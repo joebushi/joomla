@@ -182,4 +182,41 @@ class MenusModelMenu extends JModelForm
 
 		return true;
 	}
+
+	/**
+	 * Gets a list of all mod_mainmenu modules and collates them by menutype
+	 *
+	 * @return	array
+	 */
+	public function &getModules()
+	{
+		$db = &$this->getDbo();
+
+		$db->setQuery(
+			'SELECT id, title, params, position' .
+			' FROM #__modules' .
+			' WHERE module = '.$db->quote('mod_mainmenu')
+		);
+		$modules = $db->loadObjectList();
+
+		$result = array();
+
+		foreach ($modules as &$module)
+		{
+			if ($module->params[0] == '{') {
+				$params = JArrayHelper::toObject(json_decode($module->params, true), 'JObject');
+			}
+			else {
+				$params = new JParameter($module->params);
+			}
+
+			$menuType = $params->get('menutype');
+			if (!isset($result[$menuType])) {
+				$result[$menuType] = array();
+			}
+			$result[$menuType][] = &$module;
+		}
+
+		return $result;
+	}
 }

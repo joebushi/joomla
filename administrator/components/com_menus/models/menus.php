@@ -77,4 +77,18 @@ class MenusModelMenus extends JModelList
 		$this->setState('list.ordering',	$app->getUserStateFromRequest($this->_context.'.list.ordering', 'filter_order', 'a.id', 'cmd'));
 		$this->setState('list.direction',	$app->getUserStateFromRequest($this->_context.'.list.direction', 'filter_order_Dir', 'ASC', 'word'));
 	}
+
+	/**
+	 * Gets a list of all mod_mainmenu modules and collates them by menutype
+	 *
+	 * @return	array
+	 */
+	function &getModules()
+	{
+		$model	= &JModel::getInstance('Menu', 'MenusModel', array('ignore_request' => true));
+		$result	= &$model->getModules();
+
+		return $result;
+	}
+
 }

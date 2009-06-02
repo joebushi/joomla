@@ -25,6 +25,7 @@ class MenusViewMenus extends JView
 	{
 		$state		= $this->get('State');
 		$items		= $this->get('Items');
+		$modules	= $this->get('Modules');
 		$pagination	= $this->get('Pagination');
 
 		// Check for errors.
@@ -35,6 +36,7 @@ class MenusViewMenus extends JView
 
 		$this->assignRef('state',		$state);
 		$this->assignRef('items',		$items);
+		$this->assignRef('modules',		$modules);
 		$this->assignRef('pagination',	$pagination);
 
 		parent::display($tpl);

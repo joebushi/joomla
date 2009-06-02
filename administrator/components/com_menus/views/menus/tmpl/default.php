@@ -14,17 +14,31 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
 // Load the tooltip behavior.
 JHtml::_('behavior.tooltip');
+
+$uri	= &JFactory::getUri();
+$return	= base64_encode($uri->toString());
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_menus&view=menus');?>" method="post" name="adminForm">
 	<table class="adminlist">
 		<thead>
 			<tr>
-				<th width="20">
+				<th width="20" rowspan="2">
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(this)" />
 				</th>
-				<th class="title">
+				<th class="title" rowspan="2">
 					<?php echo JHtml::_('grid.sort',  'JCommon_Heading_Title', 'a.title', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
+				<th width="30%" colspan="3">
+					<?php echo JText::_('JMenus_Heading_Number_menu_items'); ?>
+				</th>
+				<th width="20%" rowspan="2">
+					<?php echo JText::_('JMenus_Heading_Linked_modules'); ?>
+				</th>
+				<th width="1%" nowrap="nowrap" rowspan="2">
+					<?php echo JHtml::_('grid.sort',  'JCommon_Heading_ID', 'a.id', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+				</th>
+			</tr>
+			<tr>
 				<th width="10%">
 					<?php echo JText::_('JMenus_Heading_Published_Items'); ?>
 				</th>
@@ -33,12 +47,6 @@ JHtml::_('behavior.tooltip');
 				</th>
 				<th width="10%">
 					<?php echo JText::_('JMenus_Heading_Trashed_Items'); ?>
-				</th>
-				<th width="1%" nowrap="nowrap">
-					<?php echo JHtml::_('grid.sort',  'JCommon_Heading_ID', 'a.id', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
-				</th>
-				<th width="40%">
-					&nbsp;
 				</th>
 			</tr>
 		</thead>
@@ -61,19 +69,32 @@ JHtml::_('behavior.tooltip');
 					<small>(<?php echo $this->escape($item->menutype);?>)</small>
 				</td>
 				<td align="center">
-					<?php echo $item->count_published; ?>
+					<a href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype='.$item->menutype.'&filter_published=1');?>">
+						( <?php echo $item->count_published; ?> )</a>
 				</td>
 				<td align="center">
-					<?php echo $item->count_unpublished; ?>
+					<a href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype='.$item->menutype.'&filter_published=0');?>">
+						( <?php echo $item->count_unpublished; ?> )</a>
 				</td>
 				<td align="center">
-					<?php echo $item->count_trashed; ?>
+					<a href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype='.$item->menutype.'&filter_published=2');?>">
+						( <?php echo $item->count_trashed; ?> )</a>
+				</td>
+				<td align="left">
+					<?php
+					if (isset($this->modules[$item->menutype])) :
+						foreach ($this->modules[$item->menutype] as &$module) :
+						?>
+						<a href="<?php echo JRoute::_('index.php?option=com_modules&task=module.edit&module_id='.$module->id.'&return='.$return);?>">
+							<?php echo $this->escape($module->title); ?></a>
+						<small>(<?php echo $this->escape($module->position);?>)</small><br />
+						<?php
+						endforeach;
+					endif;
+					?>
 				</td>
 				<td align="center">
 					<?php echo $item->id; ?>
-				</td>
-				<td>
-					&nbsp;
 				</td>
 			</tr>
 			<?php $i++; endforeach; ?>
