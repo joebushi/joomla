@@ -149,62 +149,20 @@ abstract class JTableNestedSets extends JTable {
         // is the primary key null? then prepare the database table for a new row
         if (!$this->{$this->_tbl_key}) :
         
-            // Select the 'rgt' value of the last entry with $this->_parent == $parent
-            $query = "
-                SELECT
-                    ".$this->_db->nameQuote($this->_rgt)." as rgt
-                FROM
-                    ".$this->_db->nameQuote($this->_tbl)."
-                WHERE
-                    ".$this->_db->nameQuote($this->_parent)." = ".$this->_db->Quote($this->{$this->_parent})."
-                ORDER BY
-                    ".$this->_db->nameQuote($this->_rgt)." DESC
-            ";
-            
-            // set the query and set LIMIT to 0,1
-            $this->_db->setQuery($query, 0, 1);
-            
-            /**
-             * load the result into $result
-             * 
-             * @param object $result an JDatabase Object with the following keys
-             * - $this->_rgt (default: 'rgt')
-             * 
-             */
-            $result = $this->_db->loadObject();
-            
-            // the parent ID does not exists
-            if (is_null($result) && $this->{$this->_parent} != 0) :
+            // new entry as "root"
+            if ($this->{$this->_parent} == 0) :
             
                 $query = "
                     SELECT
-                        ".$this->_db->nameQuote($this->_tbl_key)."
+                        ".$this->_db->nameQuote($this->_rgt)." as rgt
                     FROM
                         ".$this->_db->nameQuote($this->_tbl)."
                     WHERE
-                        ".$this->_db->nameQuote($this->_tbl_key)." = ".$this->_db->Quote($this->{$this->_parent})
+                        ".$this->_db->nameQuote($this->_parent)." = ".$this->_db->Quote(0)."
+                    ORDER BY
+                        ".$this->_db->nameQuote($this->_rgt)." DESC"
                 ;
                 
-                $this->_db->setQuery($query);
-                
-                $parent = $this->_db->loadResult();
-                
-                if ($parent != $this->{$this->_parent}) :
-            
-                    $this->setError(get_class($this).'::store failed - Parent ID does not exists');
-                    return false;
-                
-                endif;
-                
-                $query = "
-                    SELECT
-                        ".$this->_db->nameQuote($this->_lft)." as rgt
-                    FROM
-                        ".$this->_db->nameQuote($this->_tbl)."
-                    WHERE
-                        ".$this->_db->nameQuote($this->_tbl_key)." = ".$this->_db->Quote($this->{$this->_parent})
-                ;
-            
                 // set the query and set LIMIT to 0,1
                 $this->_db->setQuery($query, 0, 1);
                 
@@ -212,146 +170,124 @@ abstract class JTableNestedSets extends JTable {
                  * load the result into $result
                  * 
                  * @param object $result an JDatabase Object with the following keys
-                 * - $this->_rgt (default: 'rgt')
+                 * - $result->_rgt (default: 'rgt')
                  * 
                  */
                 $result = $this->_db->loadObject();
+                
+                $this->{$this->_lft} = $result->rgt+1;
+                $this->{$this->_rgt} = $result->rgt+2;
             
-            // the database is empty and we'll add the first row
-            elseif (is_null($result) && $this->{$this->_parent} == 0) :
+            // new entry as "child"
+            elseif ($this->{$this->_parent} > 0) :
             
                 $query = "
                     SELECT
-                        COUNT(*) as count
+                        ".$this->_db->nameQuote($this->_rgt)." as rgt
                     FROM
                         ".$this->_db->nameQuote($this->_tbl)."
                     WHERE
-                        ".$this->_db->nameQuote($this->_parent)." = ".$this->_db->Quote(0)
+                        ".$this->_db->nameQuote($this->_tbl_key)." = ".$this->_db->Quote($this->{$this->_parent})
                 ;
                 
+                // set the query and set LIMIT to 0,1
+                $this->_db->setQuery($query, 0, 1);
+                
+                /**
+                 * load the result into $result
+                 * 
+                 * @param object $result an JDatabase Object with the following keys
+                 * - $result->_rgt (default: 'rgt')
+                 * 
+                 */
+                $result = $this->_db->loadObject();
+                
+                // update all rows with $this->_rgt >= $result->rgt for making space for the new row
+                $query = "
+                    UPDATE
+                        ".$this->_db->nameQuote($this->_tbl)."
+                    SET
+                        ".$this->_db->nameQuote($this->_rgt)." = ".$this->_db->nameQuote($this->_rgt)."+2"."
+                    WHERE
+                        ".$this->_db->nameQuote($this->_rgt)." >= ".$this->_db->Quote($result->rgt)
+                ;
+                
+                // set the query
+                $this->_db->setQuery($query);echo $this->_db->getQuery();
+                
+                // execute the query
+                if (!$this->_db->query()) :
+                
+                    // set Error, if the query fails
+                    $this->setError(get_class($this).'::store failed - Cannot move '.$this->_rgt.' values');
+                    // exit the method with false
+                    return false;
+                
+                endif;
+                
+                // update all rows with $this->_lft >= $result->rgt for making space for the new row
+                $query = "
+                    UPDATE
+                        ".$this->_db->nameQuote($this->_tbl)."
+                    SET
+                        ".$this->_db->nameQuote($this->_lft)." = ".$this->_db->nameQuote($this->_lft)."+2"."
+                    WHERE
+                        ".$this->_db->nameQuote($this->_lft)." > ".$this->_db->Quote($result->rgt)
+                ;
+                
+                // set the query
                 $this->_db->setQuery($query);
                 
-                $count = $this->_db->loadResult();
+                // execute the query
+                if (!$this->_db->query()) :
                 
-                if (!$count) :
+                    // set Error, if the query fails
+                    $this->setError(get_class($this).'::store failed - Cannot move '.$this->_lft.' values');
+                    // exit the method with false
+                    return false;
                 
-                    // set the 'lft' value of the new row
-                    $this->{$this->_lft} = 1;
-                    // calculate the 'rgt' value of the new row
-                    $this->{$this->_rgt} = 2;
-                    // set the 'ordering' value of the new row
-                    //$this->{$this->_ordering} = null;
-                    // set $this->_tbl_key to null for new row
-                    $this->{$this->_tbl_key} = null;
-            
-                    // store/update the row
-                    if (!parent::store($updateNulls)) :
-                    
-                        // exit the method with false
-                        return false;
-                    
-                    endif;
-                    
-                    // true on success
-                    return true;
-                    
-                else :
-                
-                    $query = "
-                        SELECT
-                            ".$this->_db->nameQuote($this->_rgt)." as rgt
-                        FROM
-                            ".$this->_db->nameQuote($this->_tbl)."
-                        WHERE
-                            ".$this->_db->nameQuote($this->_tbl_key)." = ".$this->_db->Quote($this->{$this->_parent})
-                    ;
-                
-                    // set the query and set LIMIT to 0,1
-                    $this->_db->setQuery($query, 0, 1);
-                    
-                    /**
-                     * load the result into $result
-                     * 
-                     * @param object $result an JDatabase Object with the following keys
-                     * - $this->_rgt (default: 'rgt')
-                     * 
-                     */
-                    $result = $this->_db->loadObject();
-                    
                 endif;
+                
+                $this->{$this->_lft} = $result->rgt;
+                $this->{$this->_rgt} = $result->rgt+1;
             
-            endif;
-            
-            // update all rows with $this->_rgt >= $result->rgt for making space for the new row
-            $query = "
-                UPDATE
-                    ".$this->_db->nameQuote($this->_tbl)."
-                SET
-                    ".$this->_db->nameQuote($this->_rgt)." = ".$this->_db->Quote($this->rgt."+2")."
-                WHERE
-                    ".$this->_db->nameQuote($this->_rgt)." >= ".$this->_db->Quote($result->rgt)
-            ;
-            
-            // set the query
-            $this->_db->setQuery($query);
-            
-            // execute the query
-            if (!$this->_db->query()) :
-            
-                // set Error, if the query fails
-                $this->setError(get_class($this).'::store failed - Cannot move '.$this->_rgt.' values');
+             // no parent choosen
+            else :
+                
+                // set Error
+                $this->setError(get_class($this).'::store failed - Please choose a parent category');
                 // exit the method with false
                 return false;
             
             endif;
-            
-            // update all rows with $this->_lft >= $result->rgt for making space for the new row
-            $query = "
-                UPDATE
-                    ".$this->_db->nameQuote($this->_tbl)."
-                SET
-                    ".$this->_db->nameQuote($this->_lft)." = ".$this->_db->Quote($this->lft."+2")."
-                WHERE
-                    ".$this->_db->nameQuote($this->_lft)." >= ".$this->_db->Quote($result->rgt)
-            ;
-            
-            // set the query
-            $this->_db->setQuery($query);
-            
-            // execute the query
-            if (!$this->_db->query()) :
-            
-                // set Error, if the query fails
-                $this->setError(get_class($this).'::store failed - Cannot move '.$this->_lft.' values');
-                // exit the method with false
-                return false;
-            
-            endif;
-            
-            // count the existing rows with $this->_parent == $parent
-            /*$query = "
-                SELECT
-                    COUNT(*) as count
-                FROM
-                    ".$this->_db->nameQuote($this->_tbl)."
-                WHERE
-                    ".$this->_db->nameQuote($this->_parent)." = ".$this->_db->Quote($this->{$this->_parent})
-            ;
-            
-            $this->_db->setQuery($query);
-            
-            $ordering = $this->_db->loadObject();*/
-            
-            // set the 'lft' value of the new row
-            $this->{$this->_lft} = $result->rgt+1;
-            // calculate the 'rgt' value of the new row
-            $this->{$this->_rgt} = $result->rgt+2;
-            // set the 'ordering' value of the new row
-            //$this->{$this->_ordering} = $ordering->count+1;
-            // set $this->_tbl_key to null for new row
-            $this->{$this->_tbl_key} = null;
         
-        // endif for the new row handling
+        // we'll only update a row
+        else :
+        
+            // clone the object
+            $category = clone $this;
+            
+            
+            parent::load();
+            
+            // check, if we have to move the whole category
+            if ($this->{$this->_parent} != $category->{$this->_parent}) :
+            
+                if (!$this->move($category->{$this->_parent}, false)) :
+                
+                    return false;
+                
+                endif;
+                
+                parent::load($category->{$this->_tbl_key});
+            
+                $category->{$this->_lft} = $this->{$this->_lft};
+                $category->{$this->_rgt} = $this->{$this->_rgt};
+            
+            endif;
+            
+            $this->bind($category);
+            
         endif;
         
         // store/update the row
@@ -401,11 +337,11 @@ abstract class JTableNestedSets extends JTable {
             BETWEEN
                 ".$this->_db->Quote($this->{$this->_lft})."
             AND
-                ".$this->_db->Quote($this->{$this->_rgt})
+                ".$this->_db->Quote($this->{$this->_rgt}).")"
         ;
         
         // set the query
-        $this->_db->setQuery($query);
+        $this->_db->setQuery($query);echo $this->_db->getQuery()."<br />";
         
         // load the result
         $result = $this->_db->loadResultArray();
@@ -426,8 +362,8 @@ abstract class JTableNestedSets extends JTable {
             UPDATE
                 ".$this->_db->nameQuote($this->_tbl)."
             SET
-                ".$this->_db->nameQuote($this->_lft)." = ".$this->_db->Quote($this->_lft."*(-1)").",
-                ".$this->_db->nameQuote($this->_rgt)." = ".$this->_db->Quote($this->_rgt."*(-1)")."
+                ".$this->_db->nameQuote($this->_lft)." = ".$this->_db->nameQuote($this->_lft)."*(-1),
+                ".$this->_db->nameQuote($this->_rgt)." = ".$this->_db->nameQuote($this->_rgt)."*(-1)
             WHERE
                 ".$this->_db->nameQuote($this->_lft)."
             BETWEEN
@@ -437,8 +373,8 @@ abstract class JTableNestedSets extends JTable {
         ;
             
         // set the query
-        $this->_db->setQuery($query);
-            
+        $this->_db->setQuery($query);echo $this->_db->getQuery()."<br />";
+        
         // execute the query
         if (!$this->_db->query()) :
         
@@ -459,13 +395,13 @@ abstract class JTableNestedSets extends JTable {
             UPDATE
                 ".$this->_db->nameQuote($this->_tbl)."
             SET
-                ".$this->_db->nameQuote($this->_lft)." = ".$this->_db->Quote($this->_lft."-(".$this->{$this->_rgt}."-".$this->{$this->_lft}."+1)")."
+                ".$this->_db->nameQuote($this->_lft)." = ".$this->_db->nameQuote($this->_lft)."-(".$this->{$this->_rgt}."-".$this->{$this->_lft}."+1)
             WHERE
                ".$this->_db->nameQuote($this->_lft)." > ".$this->_db->Quote($this->{$this->_rgt})
         ;
             
         // set the query
-        $this->_db->setQuery($query);
+        $this->_db->setQuery($query);echo $this->_db->getQuery()."<br />";
             
         // execute the query
         if (!$this->_db->query()) :
@@ -482,13 +418,13 @@ abstract class JTableNestedSets extends JTable {
             UPDATE
                 ".$this->_db->nameQuote($this->_tbl)."
             SET
-                ".$this->_db->nameQuote($this->_rgt)." = ".$this->_db->Quote($this->_rgt."-(".$this->{$this->_rgt}."-".$this->{$this->_lft}."+1)")."
+                ".$this->_db->nameQuote($this->_rgt)." = ".$this->_db->nameQuote($this->_rgt)."-(".$this->{$this->_rgt}."-".$this->{$this->_lft}."+1)
             WHERE
                 ".$this->_db->nameQuote($this->_rgt)." > ".$this->_db->Quote($this->{$this->_rgt})
         ;
             
         // set the query
-        $this->_db->setQuery($query);
+        $this->_db->setQuery($query);echo $this->_db->getQuery()."<br />";
             
         // execute the query
         if (!$this->_db->query()) :
@@ -500,77 +436,115 @@ abstract class JTableNestedSets extends JTable {
         
         endif;
         
-        // load the row with $this->_tbl_key = $parent
-        if (!parent::load($parent)) :
+        // if we move in the tree, then do this
+        if ($parent != 0):
         
-            // set Error, if the query fails
-            $this->setError(get_class($this).'::move failed - Cannot load parent information');
-            // exit the method with false
-            return false;
-        
-        endif;
-        
-        // clear $where
-        unset($where);
-        
-        // should the row be saved as first item of $parent?
-        if ($first) :
+            // load the row with $this->_tbl_key = $parent
+            if (!parent::load($parent)) :
             
-            // then update the specific values
-            $where = $this->_db->nameQuote($this->_lft)." >  ".$this->{$this->_lft};
+                // set Error, if the query fails
+                $this->setError(get_class($this).'::move failed - Cannot load parent information');
+                // exit the method with false
+                return false;
+            
+            endif;
+            
+            // clear $where
+            unset($where);
+            
+            // should the row be saved as first item of $parent?
+            if ($first) :
+                
+                // then update the specific values
+                $where[0] = $this->_db->nameQuote($this->_rgt)." >=  ".$this->{$this->_rgt};
+                $where[1] = $this->_db->nameQuote($this->_lft)." >= ".$this->{$this->_rgt};
+            
+            // or do we want it as least?
+            else :
+                
+                // then update the specific values
+                $where[0] = $this->_db->nameQuote($this->_rgt)." >=  ".$this->{$this->_rgt};
+                $where[1] = $this->_db->nameQuote($this->_lft)." >= ".$this->{$this->_rgt};
+            
+            endif;
+            
+            // generate query for making space for the new row (move $this->_rgt)
+            $query = "
+                UPDATE
+                    ".$this->_db->nameQuote($this->_tbl)."
+                SET
+                    ".$this->_db->nameQuote($this->_rgt)." = ".$this->_db->nameQuote($this->_rgt)."+".$rgt."-".$lft."+1
+                WHERE
+                    ".$where[0]
+            ;
+                
+            // set the query
+            $this->_db->setQuery($query);echo $this->_db->getQuery()."<br />";
+                
+            // execute the query
+            if (!$this->_db->query()) :
+            
+                // set Error, if the query fails
+                $this->setError(get_class($this).'::move failed - Cannot move '.$this->_rgt.' value');
+                // exit the method with false
+                return false;
+            
+            endif;
+            
+            // generate query for making space for the new row (move $this->_lft)
+            $query = "
+                UPDATE
+                    ".$this->_db->nameQuote($this->_tbl)."
+                SET
+                    ".$this->_db->nameQuote($this->_lft)." = ".$this->_db->nameQuote($this->_lft)."+".$rgt."-".$lft."+1
+                WHERE
+                    ".$where[1]
+            ;
+                
+            // set the query
+            $this->_db->setQuery($query);echo $this->_db->getQuery()."<br />";
+                
+            // execute the query
+            if (!$this->_db->query()) :
+            
+                // set Error, if the query fails
+                $this->setError(get_class($this).'::move failed - Cannot move '.$this->_lft.' value');
+                // exit the method with false
+                return false;
+            
+            endif;
         
-        // or do we want it as least?
+            // load the row with $this->_tbl_key = $parent
+            if (!parent::load($parent)) :
+            
+                // set Error, if the query fails
+                $this->setError(get_class($this).'::move failed - Cannot load parent information');
+                // exit the method with false
+                return false;
+            
+            endif;
+        
+        // otherwise get the root informations
         else :
+        
+            $query = "
+                SELECT
+                    ".$this->_db->nameQuote($this->_rgt)." as rgt
+                FROM
+                    ".$this->_db->nameQuote($this->_tbl)."
+                WHERE
+                    ".$this->_db->nameQuote($this->_parent)." = ".$this->_db->Quote(0)."
+                ORDER BY
+                    ".$this->_db->nameQuote($this->_lft)." DESC"
+            ;
             
-            // then update the specific values
-            $where = $this->_db->nameQuote($this->_lft)." >  ".$this->{$this->_rgt};
-        
-        endif;
-        
-        // generate query for making space for the new row (move $this->_rgt)
-        $query = "
-            UPDATE
-                ".$this->_db->nameQuote($this->_tbl)."
-            SET
-                ".$this->_db->nameQuote($this->_rgt)." = ".$this->_db->Quote($this->_rgt."+".$rgt."-".$lft."+1")."
-            WHERE
-                ".$where
-        ;
+            // set the query
+            $this->_db->setQuery($query, 0, 1);echo $this->_db->getQuery()."<br />";
+                
+            $result = $this->_db->loadObject();
             
-        // set the query
-        $this->_db->setQuery($query);
+            $this->{$this->_rgt} = $result->rgt+($rgt-$lft)+2;
             
-        // execute the query
-        if (!$this->_db->query()) :
-        
-            // set Error, if the query fails
-            $this->setError(get_class($this).'::move failed - Cannot move '.$this->_rgt.' value');
-            // exit the method with false
-            return false;
-        
-        endif;
-        
-        // generate query for making space for the new row (move $this->_lft)
-        $query = "
-            UPDATE
-                ".$this->_db->nameQuote($this->_tbl)."
-            SET
-                ".$this->_db->nameQuote($this->_lft)." = ".$this->_db->Quote($this->_rgt."+".$rgt."-".$lft."+1")."
-            WHERE
-                ".$where
-        ;
-            
-        // set the query
-        $this->_db->setQuery($query);
-            
-        // execute the query
-        if (!$this->_db->query()) :
-        
-            // set Error, if the query fails
-            $this->setError(get_class($this).'::move failed - Cannot move '.$this->_lft.' value');
-            // exit the method with false
-            return false;
-        
         endif;
         
         // bring the tree back to the positive are and move $this->_lft to the correct position
@@ -578,44 +552,14 @@ abstract class JTableNestedSets extends JTable {
             UPDATE
                 ".$this->_db->nameQuote($this->_tbl)."
             SET
-                ".$this->_db->nameQuote($this->_lft)." = ".$this->_db->Quote($this->{$this->_lft}."+".$this->_lft."*(-1)-".$lft."+1")."
+                ".$this->_db->nameQuote($this->_rgt)." = ".$this->{$this->_rgt}."-(".$rgt."+".$this->_db->nameQuote($this->_rgt)."+1),
+                ".$this->_db->nameQuote($this->_lft)." = ".$this->{$this->_rgt}."-(".$rgt."+".$this->_db->nameQuote($this->_lft)."+1)
             WHERE
-                ".$this->_db->nameQuote($this->_lft)."
-            BETWEEN
-                ".$this->_db->Quote(-$rgt)."
-            AND
-                ".$this->_db->Quote(-$lft)
+                ".$this->_db->nameQuote($this->_lft)." < ".$this->_db->Quote(0)
         ;
             
         // set the query
-        $this->_db->setQuery($query);
-            
-        // execute the query
-        if (!$this->_db->query()) :
-        
-            // set Error, if the query fails
-            $this->setError(get_class($this).'::move failed - Cannot readd moved tree');
-            // exit the method with false
-            return false;
-        
-        endif;
-        
-        // bring the tree back to the positiv are and move $this->_rgt to the correct position
-        $query = "
-            UPDATE
-                ".$this->_db->nameQuote($this->_tbl)."
-            SET
-                ".$this->_db->nameQuote($this->_rgt)." = ".$this->_db->Quote($this->_lft."+".$rgt."-".$lft)."
-            WHERE
-                ".$this->_db->nameQuote($this->_lft)."
-            BETWEEN
-                ".$this->_db->Quote(-$rgt)."
-            AND
-                ".$this->_db->Quote(-$lft)
-        ;
-            
-        // set the query
-        $this->_db->setQuery($query);
+        $this->_db->setQuery($query);echo $this->_db->getQuery()."<br />";
             
         // execute the query
         if (!$this->_db->query()) :
@@ -933,23 +877,6 @@ abstract class JTableNestedSets extends JTable {
             
         endif;
             
-        /*$query = "
-            UPDATE
-                ".$this->_db->nameQuote($this->_tbl)."
-            SET
-                ".$this->_db->nameQuote($this->_ordering)." = (".$this->_db->nameQuote($this->_ordering)."+"."1)
-            WHERE
-                ".$this->_db->nameQuote($this->_tbl_key)." = ".$this->_db->Quote($return2[0])."
-        ";
-
-        $this->_db->setQuery( $query );
-            
-        if (!$this->_db->query()):
-            
-           return false;
-            
-        endif;*/
-            
         $query = "
             UPDATE
                 ".$this->_db->nameQuote($this->_tbl)."
@@ -967,23 +894,6 @@ abstract class JTableNestedSets extends JTable {
            return false;
             
         endif;
-            
-        /*$query = "
-            UPDATE
-                ".$this->_db->nameQuote($this->_tbl)."
-            SET
-                ".$this->_db->nameQuote($this->_ordering)." = (".$this->_db->nameQuote($this->_ordering)."-1)
-            WHERE
-                ".$this->_db->nameQuote($this->_tbl_key)." = ".$this->_db->Quote($return[0])."
-        ";
-
-        $this->_db->setQuery( $query );
-            
-        if (!$this->_db->query()):
-            
-            return false;
-            
-        endif;*/
 
         return true;
         
@@ -1021,8 +931,9 @@ abstract class JTableNestedSets extends JTable {
             
         $this->_db->setQuery( $query );
         $return = $this->_db->loadResultArray();
+        
         $count1 = count($return);
-            
+         
         if ($count1 < 1) :
             
             return false;
@@ -1049,13 +960,14 @@ abstract class JTableNestedSets extends JTable {
             WHERE
                 n2.".$this->_db->nameQuote($this->_parent)." = n3.".$this->_db->nameQuote($this->_parent)."
             AND 
-                n2.".$this->_db->nameQuote($this->_rgt)." = n3.".$this->_db->nameQuote($this->_lft)."+1
+                n2.".$this->_db->nameQuote($this->_lft)." = n3.".$this->_db->nameQuote($this->_rgt)."+1
             ORDER BY
                 n1.".$this->_db->nameQuote($this->_lft)
         ;
             
         $this->_db->setQuery( $query );
         $return2 = $this->_db->loadResultArray();
+        
         $count2 = count($return2);
         
         if ($count2 < 1) :
@@ -1063,7 +975,7 @@ abstract class JTableNestedSets extends JTable {
             return false;
         
         endif;
-            
+        
         $query = "
             UPDATE
                 ".$this->_db->nameQuote($this->_tbl)."
@@ -1079,27 +991,10 @@ abstract class JTableNestedSets extends JTable {
         $this->_db->setQuery( $query );
             
         if (!$this->_db->query()):
-           
+           echo 3;exit();
             return false;
            
         endif;
-            
-        /*$query = "
-            UPDATE
-                ".$this->_db->nameQuote($this->_tbl)."
-            SET
-                ".$this->_db->nameQuote($this->_ordering)." = (".$this->_db->nameQuote($this->_ordering)."-1)
-            WHERE
-                ".$this->_db->nameQuote($this->_tbl_key)." = ".$this->_db->Quote($return2[0])."
-        ";
-
-        $this->_db->setQuery( $query );
-            
-        if (!$this->_db->query()):
-            
-            return false;
-            
-        endif;*/
             
         $query = "
             UPDATE
@@ -1114,27 +1009,10 @@ abstract class JTableNestedSets extends JTable {
         $this->_db->setQuery( $query );
             
         if (!$this->_db->query()):
-            
+            echo 4;exit();
         return false;
             
         endif;
-            
-        /*$query = "
-            UPDATE
-                ".$this->_db->nameQuote($this->_tbl)."
-            SET
-                ".$this->_db->nameQuote($this->_ordering)." = (".$this->_db->nameQuote($this->_ordering)."+1)
-            WHERE
-                ".$this->_db->nameQuote($this->_tbl_key)." = ".$this->_db->Quote($return[0])
-        ;
-
-        $this->_db->setQuery( $query );
-            
-        if (!$this->_db->query()):
-        
-            return false;
-            
-        endif;*/
 
         return true;
         

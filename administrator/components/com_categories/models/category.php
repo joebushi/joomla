@@ -144,7 +144,7 @@ class CategoriesModelCategory extends JModel
 	{
 		if ($this->_id)
 		{
-			$category = & $this->getTable();
+			$category = & $this->getTable('', 'JTable');
 			if (! $category->checkin($this->_id)) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
@@ -172,7 +172,7 @@ class CategoriesModelCategory extends JModel
 				$uid	= $user->get('id');
 			}
 			// Lets get to it and checkout the thing...
-			$category = & $this->getTable();
+			$category = & $this->getTable('', 'JTable');
 			if (!$category->checkout($uid, $this->_id)) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
