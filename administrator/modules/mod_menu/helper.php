@@ -63,9 +63,7 @@ class MenuModuleHelper
 			if ($enabled)
 			{
 				$menu->addChild(new JMenuNode(JText::_('Menus')), true);
-				$menu->addChild(new JMenuNode(JText::_('Menu Manager'), 'index.php?option=com_menus', 'class:menu'));
-				// @todo Handle trash better
-				$menu->addChild(new JMenuNode(JText::_('Menu Trash'), 'index.php?option=com_trash&task=viewMenu', 'class:trash'));
+				$menu->addChild(new JMenuNode(JText::_('Menu Manager'), 'index.php?option=com_menus&view=menus', 'class:menu'));
 
 				$menu->addSeparator();
 				/*
@@ -84,7 +82,7 @@ class MenuModuleHelper
 
 				if (count($menuTypes)) {
 					foreach ($menuTypes as $menuType) {
-						$menu->addChild(new JMenuNode($menuType->title.($menuType->home ? ' *' : ''), 'index.php?option=com_menus&task=view&menutype='.$menuType->menutype, 'class:menu'));
+						$menu->addChild(new JMenuNode($menuType->title.($menuType->home ? ' *' : ''), 'index.php?option=com_menus&view=items&menutype='.$menuType->menutype, 'class:menu'));
 					}
 				}
 
