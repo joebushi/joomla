@@ -343,17 +343,18 @@ INSERT INTO `#__plugins` VALUES (34, 'Editor - CodeMirror', 'codemirror', 'edito
 # Table structure for table `#__menu`
 #
 
-CREATE TABLE `jos_menu` (
+CREATE TABLE `#__menu` (
   `id` int(11) NOT NULL auto_increment,
   `menutype` varchar(24) NOT NULL COMMENT 'The type of menu this item belongs to. FK to jos_menu_types.menutype',
-  `name` varchar(255) NOT NULL COMMENT 'The display name of the menu item.',
+  `title` varchar(255) NOT NULL COMMENT 'The display title of the menu item.',
   `alias` varchar(255) NOT NULL COMMENT 'The SEF alias of the menu item.',
   `path` varchar(1024) NOT NULL COMMENT 'The computed path of the menu item based on the alias field.',
   `link` varchar(1024) NOT NULL COMMENT 'The actually link the menu item refers to.',
   `type` varchar(16) NOT NULL COMMENT 'The type of link: Component, URL, Alias, Separator',
   `published` tinyint(4) NOT NULL default '0' COMMENT 'The published state of the menu link.',
   `parent_id` int(10) unsigned NOT NULL default '0' COMMENT 'The parent menu item in the menu tree.',
-  `componentid` int(11) unsigned NOT NULL default '0',
+  `level` int(10) unsigned NOT NULL default '0' COMMENT 'The relative level in the tree.',
+  `component_id` int(10) unsigned NOT NULL default '0' COMMENT 'FK to jos_components.id',
   `ordering` int(11) NOT NULL default '0' COMMENT 'The relative ordering of the menu item in the tree.',
   `checked_out` int(10) unsigned NOT NULL default '0' COMMENT 'FK to jos_users.id',
   `checked_out_time` timestamp NOT NULL default '0000-00-00 00:00:00' COMMENT 'The time the menu item was checked out.',
@@ -365,7 +366,7 @@ CREATE TABLE `jos_menu` (
   `right_id` int(10) unsigned NOT NULL default '0' COMMENT 'Nested set right_id.',
   `home` tinyint(3) unsigned NOT NULL default '0' COMMENT 'Indicates if this menu item is the home or default page.',
   PRIMARY KEY  (`id`),
-  KEY `idx_componentid` (`componentid`,`menutype`,`published`,`access`),
+  KEY `idx_componentid` (`component_id`,`menutype`,`published`,`access`),
   KEY `idx_menutype` (`menutype`),
   KEY `idx_left_right` (`left_id`,`right_id`),
   KEY `idx_alias` (`alias`),
@@ -374,8 +375,8 @@ CREATE TABLE `jos_menu` (
 
 
 INSERT INTO `jos_menu` VALUES 
-(1, '', 'ROOT', 'root', '', '', '', 1, 0, 0, 0, 0, '0000-00-00 00:00:00', 0, 0, 0, '', 0, 0, 0),
-(2, 'mainmenu', 'Home', 'home', '', 'index.php?option=com_content&view=frontpage', 'component', 1, 1, 20, 1, 0, '0000-00-00 00:00:00', 0, 1, 0, 'show_page_title=1\npage_title=Welcome to the Frontpage\nshow_description=0\nshow_description_image=0\nnum_leading_articles=1\nnum_intro_articles=4\nnum_columns=2\nnum_links=4\nshow_title=1\npageclass_sfx=\nmenu_image=-1\nsecure=0\norderby_pri=\norderby_sec=front\nshow_pagination=2\nshow_pagination_results=1\nshow_noauth=0\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1\n\n', 0, 0, 1);
+(1, '', 'ROOT', 'root', '', '', '', 1, 0, 1, 0, 0, 0, '0000-00-00 00:00:00', 0, 0, 0, '', 1, 16, 0),
+(2, 'mainmenu', 'Home', 'home', 'home', 'index.php?option=com_content&view=frontpage', 'component', 1, 1, 2, 20, 0, 0, '0000-00-00 00:00:00', 0, 1, 0, 'show_page_title=1\r\npage_title=Welcome to the Frontpage\r\nshow_description=0\r\nshow_description_image=0\r\nnum_leading_articles=1\r\nnum_intro_articles=4\r\nnum_columns=2\r\nnum_links=4\r\nshow_title=1\r\npageclass_sfx=\r\nmenu_image=-1\r\nsecure=0\r\norderby_pri=\r\norderby_sec=front\r\nshow_pagination=2\r\nshow_pagination_results=1\r\nshow_noauth=0\r\nlink_titles=0\r\nshow_intro=1\r\nshow_section=0\r\nlink_section=0\r\nshow_category=0\r\nlink_category=0\r\nshow_author=1\r\nshow_create_date=1\r\nshow_modify_date=1\r\nshow_item_navigation=0\r\nshow_readmore=1\r\nshow_vote=0\r\nshow_icons=1\r\nshow_pdf_icon=1\r\nshow_print_icon=1\r\nshow_email_icon=1\r\nshow_hits=1\r\n\r\n', 2, 3, 1);
 
 # --------------------------------------------------------
 

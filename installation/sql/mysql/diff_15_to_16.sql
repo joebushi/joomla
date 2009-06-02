@@ -13,7 +13,7 @@ ALTER TABLE `jos_menu`
  MODIFY COLUMN `menutype` VARCHAR(24) NOT NULL COMMENT 'The type of menu this item belongs to. FK to jos_menu_types.menutype';
 
 ALTER TABLE `jos_menu`
- MODIFY COLUMN `name` VARCHAR(255) NOT NULL COMMENT 'The display name of the menu item.';
+ CHANGE COLUMN `name` `title` VARCHAR(255) NOT NULL COMMENT 'The display title of the menu item.';
 
 ALTER TABLE `jos_menu`
  MODIFY COLUMN `alias` VARCHAR(255) NOT NULL COMMENT 'The SEF alias of the menu item.';
@@ -29,6 +29,12 @@ ALTER TABLE `jos_menu`
 
 ALTER TABLE `jos_menu`
  CHANGE COLUMN `parent` `parent_id` INTEGER UNSIGNED NOT NULL DEFAULT 0 COMMENT 'The parent menu item in the menu tree.';
+
+ALTER TABLE `jos_menu`
+ ADD COLUMN `level` INT UNSIGNED NOT NULL DEFAULT 0 COMMENT 'The relative level in the tree.' AFTER `parent_id`;
+
+ALTER TABLE `jos_menu`
+ CHANGE COLUMN `componentid` `component_id` INTEGER UNSIGNED NOT NULL DEFAULT 0 COMMENT 'FK to jos_components.id';
 
 ALTER TABLE `jos_menu`
  MODIFY COLUMN `ordering` INTEGER NOT NULL DEFAULT 0 COMMENT 'The relative ordering of the menu item in the tree.';
