@@ -84,7 +84,7 @@ $n = count($this->items);
 						<img src="templates/khepri/images/menu/icon-16-default.png" alt="<?php echo JText::_('Default'); ?>" title="<?php echo JText::_('Default'); ?>" />
 					<?php endif; ?>
 					<?php if ($item->checked_out) : ?>
-						<?php echo JHtml::_('smartgrid.checkedout', $item->editor, $item->checked_out_time); ?>
+						<?php echo JHtml::_('jgrid.checkedout', $item->editor, $item->checked_out_time); ?>
 					<?php endif; ?>
 					<a href="<?php echo JRoute::_('index.php?option=com_menus&task=item.edit&cid[]='.$item->id);?>" title="<?php echo $this->escape($item->path);?>">
 						<?php echo $item->title; ?></a>

@@ -73,8 +73,13 @@ class MenuModuleHelper
 				 */
 
 				// Menu Types
-				require_once JPATH_ADMINISTRATOR.DS.'components'.DS.'com_menus'.DS.'helpers'.DS.'helper.php';
-				$menuTypes 	= MenusHelper::getMenuTypelist();
+				$db = &JFactory::getDbo();
+				$query = 'SELECT a.*, SUM(b.home) AS home' .
+						' FROM #__menu_types AS a' .
+						' LEFT JOIN #__menu AS b ON b.menutype = a.menutype' .
+						' GROUP BY a.id';
+				$db->setQuery($query);
+				$menuTypes = $db->loadObjectList();
 
 
 				if (count($menuTypes)) {

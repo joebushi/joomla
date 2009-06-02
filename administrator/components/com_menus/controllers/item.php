@@ -26,8 +26,8 @@ class MenusControllerItem extends JController
 		parent::__construct();
 
 		// Register proxy tasks.
-		$this->registerTask('save2new',		'save');
-		$this->registerTask('apply',		'save');
+		$this->registerTask('save2new',	'save');
+		$this->registerTask('apply',	'save');
 	}
 
 	/**
@@ -70,10 +70,14 @@ class MenusControllerItem extends JController
 		$ids	= JRequest::getVar('cid', array(), '', 'array');
 
 		// Get the id of the group to edit.
-		$id			=  (empty($ids) ? JRequest::getInt('item_id') : (int) array_pop($ids));
+		$id =  (empty($ids) ? JRequest::getInt('item_id') : (int) array_pop($ids));
 
-		// Get the previous weblink id (if any) and the current weblink id.
+		// Get the previous menu item id (if any) and the current menu item id.
 		$previousId	= (int) $app->getUserState('com_menus.edit.item.id');
+		$app->setUserState('com_menus.edit.item.id', $id);
+
+		// Get the menu item model.
+		$model = &$this->getModel('Item');
 
 		// If rows ids do not match, checkin previous row.
 		if (($previousId > 0) && ($id != $previousId))
@@ -98,8 +102,8 @@ class MenusControllerItem extends JController
 		else
 		{
 			// Check-out succeeded, push the new row id into the session.
-			$app->setUserState('com_weblinks.edit.weblink.id',	$id);
-			$app->setUserState('com_weblinks.edit.weblink.data', null);
+			$app->setUserState('com_menus.edit.weblink.id',	$id);
+			$app->setUserState('com_menus.edit.weblink.data', null);
 			$this->setRedirect('index.php?option=com_menus&view=item&layout=edit');
 			return true;
 		}
@@ -116,6 +120,21 @@ class MenusControllerItem extends JController
 	{
 		// Initialize variables.
 		$app = &JFactory::getApplication();
+
+		// Get the previous menu item id (if any) and the current menu item id.
+		$previousId	= (int) $app->getUserState('com_menus.edit.item.id');
+
+		// Get the menu item model.
+		$model = &$this->getModel('Item');
+
+		// If rows ids do not match, checkin previous row.
+		if (!$model->checkin($previousId))
+		{
+			// Check-in failed, go back to the menu item and display a notice.
+			$message = JText::sprintf('JError_Checkin_failed', $model->getError());
+			$this->setRedirect('index.php?option=com_menus&view=item&layout=edit', $message, 'error');
+			return false;
+		}
 
 		// Clear the menu item edit information from the session.
 		$app->setUserState('com_menus.edit.item.id', null);

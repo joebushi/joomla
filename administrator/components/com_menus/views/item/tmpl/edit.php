@@ -57,10 +57,6 @@ JHtml::_('behavior.formvalidation');
 				<?php echo $this->form->getInput('published'); ?>
 			</li>
 			<li>
-				<?php echo $this->form->getLabel('component_id'); ?><br />
-				<?php echo $this->form->getInput('component_id'); ?>
-			</li>
-			<li>
 				<?php echo $this->form->getLabel('ordering'); ?><br />
 				<?php echo $this->form->getInput('ordering'); ?>
 			</li>
