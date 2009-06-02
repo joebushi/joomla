@@ -8,7 +8,7 @@
 // No direct access
 defined('JPATH_BASE') or die;
 
-jimport('joomla.database.tableasset');
+jimport('joomla.database.tabletree');
 
 /**
  * Menu table
@@ -17,48 +17,98 @@ jimport('joomla.database.tableasset');
  * @subpackage	Table
  * @since		1.0
  */
-class JTableMenu extends JTable
+class JTableMenu extends JTableTree
 {
-	/** @var int Primary key */
-	var $id					= null;
-	/** @var string */
-	var $menutype			= null;
-	/** @var string */
-	var $name				= null;
-	/** @var string */
-	var $alias				= null;
-	/** @var string */
-	var $link				= null;
-	/** @var int */
-	var $type				= null;
-	/** @var int */
-	var $published			= null;
-	/** @var int */
-	var $componentid		= null;
-	/** @var int */
-	var $parent_id			= null;
-	/** @var int */
-	var $ordering			= null;
-	/** @var boolean */
-	var $checked_out		= 0;
-	/** @var datetime */
-	var $checked_out_time	= 0;
-	/** @var string */
-	var $browserNav			= null;
-	/** @var int */
-	var $access				= null;
-	/** @var string */
-	var $params				= null;
-	/** @var int Pre-order tree traversal - left value */
-	var $left_id			= null;
-	/** @var int Pre-order tree traversal - right value */
-	var $right_id			= null;
-	/** @var int */
-	var $home				= null;
-	/** @var int */
-	var $template_id			= null;
-	/** @var text */
-	var $path			= null;
+	/**
+	 * @var int Primary key
+	 */
+	var $id = null;
+
+	/**
+	 * @var string
+	 */
+	var $menutype = null;
+
+	/**
+	 * @var string
+	 */
+	var $title = null;
+
+	/**
+	 * @var string
+	 */
+	var $alias = null;
+
+	/**
+	 * @var string
+	 */
+	var $link = null;
+
+	/**
+	 * @var int
+	 */
+	var $type = null;
+
+	/**
+	 * @var int
+	 */
+	var $published = null;
+
+	/**
+	 * @var int
+	 */
+	var $component_id = null;
+
+	/**
+	 * @var int
+	 */
+	var $parent_id = null;
+
+	/**
+	 * @var int
+	 */
+	var $ordering = null;
+
+	/**
+	 * @var boolean
+	 */
+	var $checked_out = 0;
+
+	/**
+	 * @var datetime
+	 */
+	var $checked_out_time = 0;
+
+	/**
+	 * @var string
+	 */
+	var $browserNav = null;
+
+	/**
+	 * @var int
+	 */
+	var $access = null;
+
+	/**
+	 * @var string
+	 */
+	var $params = null;
+
+	/**
+	 * @var int
+	 */
+	var $home = null;
+
+	/**
+	 * @var int
+	 */
+	var $template_id = null;
+
+	/**
+	 * @var string The full tree path
+	 */
+	public $path = null;
+
 
 	/**
 	 * Constructor
@@ -96,15 +146,14 @@ class JTableMenu extends JTable
 	}
 
 	/**
-	* Overloaded bind function
-	*
-	* @access public
-	* @param array $hash named array
-	* @return null|string	null is operation was satisfactory, otherwise returns an error
-	* @see JTable:bind
-	* @since 1.5
-	*/
-
+	 * Overloaded bind function
+	 *
+	 * @access public
+	 * @param array $hash named array
+	 * @return null|string	null is operation was satisfactory, otherwise returns an error
+	 * @see JTable:bind
+	 * @since 1.5
+	 */
 	function bind($array, $ignore = '')
 	{
 		if (is_array($array['params']))
@@ -115,5 +164,21 @@ class JTableMenu extends JTable
 		}
 
 		return parent::bind($array, $ignore);
+	}
+
+	/**
+	 * Inserts a new row if id is zero or updates an existing row in the database table
+	 *
+	 * @access	public
+	 * @param	boolean		If false, null object variables are not updated
+	 * @return	boolean 	True successful, false otherwise and an internal error message is set`
+	 */
+	function store($updateNulls = false)
+	{
+		if ($result = parent::store($updateNulls)) {
+			$this->buildPath();
+		}
+
+		return $result;
 	}
 }
