@@ -364,7 +364,7 @@ class JTableTree extends JTable
 			}
 
 			// Rebuild the nested set tree.
-			$this->rebuild();
+			$this->rebuildTree();
 		}
 
 		return true;
