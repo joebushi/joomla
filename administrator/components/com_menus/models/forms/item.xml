@@ -150,7 +150,6 @@
 			cols="60"
 			class="inputbox"/>
 
-
 		<field
 			id="home"
 			name="home"

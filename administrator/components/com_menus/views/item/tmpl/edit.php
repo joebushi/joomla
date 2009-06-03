@@ -73,6 +73,10 @@ JHtml::_('behavior.formvalidation');
 				<?php echo $this->form->getInput('access'); ?>
 			</li>
 			<li>
+				<?php echo $this->form->getLabel('home'); ?><br />
+				<?php echo $this->form->getInput('home'); ?>
+			</li>
+			<li>
 				<?php echo $this->form->getLabel('template_id'); ?><br />
 				<?php echo $this->form->getInput('template_id'); ?>
 			</li>
