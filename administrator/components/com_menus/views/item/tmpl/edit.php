@@ -49,6 +49,10 @@ JHtml::_('behavior.formvalidation');
 				<?php echo $this->form->getInput('link'); ?>
 			</li>
 			<li>
+				<?php echo $this->form->getLabel('menutype'); ?><br />
+				<?php echo $this->form->getInput('menutype'); ?>
+			</li>
+			<li>
 				<?php echo $this->form->getLabel('type'); ?><br />
 				<?php echo $this->form->getInput('type'); ?>
 			</li>

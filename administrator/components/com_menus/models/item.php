@@ -50,10 +50,22 @@ class MenusModelItem extends JModelForm
 		$params	= &JComponentHelper::getParams('com_menus');
 
 		// Load the User state.
-		if (!($id = (int)$app->getUserState('com_menus.edit.item.id'))) {
-			$id = (int)JRequest::getInt('item_id');
+		if (!($id = (int) $app->getUserState('com_menus.edit.item.id'))) {
+			$id = (int) JRequest::getInt('item_id');
 		}
-		$this->setState('item.id', $id);
+		if (!($parentId = $app->getUserState('com_menus.edit.item.parent_id'))) {
+			$parentId = JRequest::getInt('parent_id');
+		}
+		if (!($menuType = $app->getUserState('com_menus.edit.item.menutype'))) {
+			$menuType = JRequest::getCmd('menutype', 'mainmenu');
+		}
+		if (!($type = $app->getUserState('com_menus.edit.item.type'))) {
+			$type = JRequest::getCmd('type', 'url');
+		}
+		$this->setState('item.id',			$id);
+		$this->setState('item.parent_id',	$parentId);
+		$this->setState('item.menutype',	$menuType);
+		$this->setState('item.type',		$type);
 
 		// Load the parameters.
 		$this->setState('params', $params);
@@ -82,6 +94,14 @@ class MenusModelItem extends JModelForm
 		if ($return === false && $table->getError()) {
 			$this->serError($table->getError());
 			return $false;
+		}
+
+		// Prime required properties.
+		if (empty($table->id))
+		{
+			$table->parent_id	= $this->getState('item.parent_id');
+			$table->menutype	= $this->getState('item.menutype');
+			$table->type		= $this->getState('item.type');
 		}
 
 		$value = JArrayHelper::toObject($table->getProperties(1), 'JObject');
@@ -162,23 +182,8 @@ class MenusModelItem extends JModelForm
 			return false;
 		}
 
-		// Get the root item.
-		$this->_db->setQuery(
-			'SELECT `id`' .
-			' FROM `#__menu`' .
-			' WHERE `parent_id` = 0',
-			0, 1
-		);
-		$rootId	= (int)$this->_db->loadResult();
-
-		// Check for a database error.
-		if ($this->_db->getErrorNum()) {
-			$this->setError($this->_db->getErrorMsg());
-			return false;
-		}
-
 		// Rebuild the hierarchy.
-		if (!$table->rebuildTree($rootId)) {
+		if (!$table->rebuildTree()) {
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
@@ -217,23 +222,8 @@ class MenusModelItem extends JModelForm
 			}
 		}
 
-		// Get the root item.
-		$this->_db->setQuery(
-			'SELECT `id`' .
-			' FROM `#__menu`' .
-			' WHERE `parent_id` = 0',
-			0, 1
-		);
-		$rootId	= (int) $this->_db->loadResult();
-
-		// Check for a database error.
-		if ($this->_db->getErrorNum()) {
-			$this->setError($this->_db->getErrorMsg());
-			return false;
-		}
-
 		// Rebuild the hierarchy.
-		if (!$table->rebuildTree($rootId)) {
+		if (!$table->rebuildTree()) {
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
@@ -290,6 +280,18 @@ class MenusModelItem extends JModelForm
 		// Attempt to adjust the row ordering.
 		if (!$table->ordering((int) $direction, $id)) {
 			$this->setError($table->getError());
+			return false;
+		}
+
+		// Rebuild the hierarchy.
+		if (!$table->rebuildTree()) {
+			$this->setError($this->_db->getErrorMsg());
+			return false;
+		}
+
+		// Rebuild the tree path.
+		if (!$table->rebuildPath($table->id)) {
+			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
 
@@ -371,11 +373,9 @@ class MenusModelItem extends JModelForm
 		$user = &JFactory::getUser();
 
 		// Get a category row instance.
-		$table = &$this->getTable('Category', 'JTable');
+		$table = &$this->getTable();
 
-		/*
-		 * BUILD OUT BATCH OPERATIONS
-		 */
+		// TODO: BUILD OUT BATCH OPERATIONS
 
 		return true;
 	}

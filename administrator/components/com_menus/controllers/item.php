@@ -51,11 +51,14 @@ class MenusControllerItem extends JController
 		$app = &JFactory::getApplication();
 
 		// Clear the menu item edit information from the session.
-		$app->setUserState('com_menus.edit.item.id', null);
-		$app->setUserState('com_menus.edit.item.data', null);
+		$app->setUserState('com_menus.edit.item.id',	null);
+		$app->setUserState('com_menus.edit.item.data',	null);
+
+		// Check if we are adding for a particular menutype
+		$menuType = $app->getUserStateFromRequest($this->_context.'.filter.menutype', 'menutype', 'mainmenu');
 
 		// Redirect to the edit screen.
-		$this->setRedirect(JRoute::_('index.php?option=com_menus&view=item&layout=edit', false));
+		$this->setRedirect(JRoute::_('index.php?option=com_menus&view=item&layout=edit&menutype='.$menuType, false));
 	}
 
 	/**
@@ -68,11 +71,12 @@ class MenusControllerItem extends JController
 		// Initialize variables.
 		$app	= &JFactory::getApplication();
 		$ids	= JRequest::getVar('cid', array(), '', 'array');
+		$model	= &$this->getModel('Item');
 
 		// Get the id of the group to edit.
 		$id =  (empty($ids) ? JRequest::getInt('item_id') : (int) array_pop($ids));
 
-		// Get the previous menu item id (if any) and the current menu item id.
+		// Get the previous row id (if any) and the current row id.
 		$previousId	= (int) $app->getUserState('com_menus.edit.item.id');
 		$app->setUserState('com_menus.edit.item.id', $id);
 
@@ -84,14 +88,14 @@ class MenusControllerItem extends JController
 		{
 			if (!$model->checkin($previousId))
 			{
-				// Check-in failed, go back to the weblink and display a notice.
+				// Check-in failed, go back to the row and display a notice.
 				$message = JText::sprintf('JError_Checkin_failed', $model->getError());
 				$this->setRedirect('index.php?option=com_menus&view=item&layout=edit', $message, 'error');
 				return false;
 			}
 		}
 
-		// Attempt to check-out the new weblink for editing and redirect.
+		// Attempt to check-out the new row for editing and redirect.
 		if (!$model->checkout($id))
 		{
 			// Check-out failed, go back to the list and display a notice.
@@ -102,8 +106,8 @@ class MenusControllerItem extends JController
 		else
 		{
 			// Check-out succeeded, push the new row id into the session.
-			$app->setUserState('com_menus.edit.weblink.id',	$id);
-			$app->setUserState('com_menus.edit.weblink.data', null);
+			$app->setUserState('com_menus.edit.item.id',	$id);
+			$app->setUserState('com_menus.edit.item.data',	null);
 			$this->setRedirect('index.php?option=com_menus&view=item&layout=edit');
 			return true;
 		}
@@ -137,8 +141,8 @@ class MenusControllerItem extends JController
 		}
 
 		// Clear the menu item edit information from the session.
-		$app->setUserState('com_menus.edit.item.id', null);
-		$app->setUserState('com_menus.edit.item.data', null);
+		$app->setUserState('com_menus.edit.item.id',	null);
+		$app->setUserState('com_menus.edit.item.data',	null);
 
 		// Redirect to the list screen.
 		$this->setRedirect(JRoute::_('index.php?option=com_menus&view=items', false));
@@ -214,7 +218,7 @@ class MenusControllerItem extends JController
 		// Save succeeded, check-in the row.
 		if (!$model->checkin())
 		{
-			// Check-in failed, go back to the weblink and display a notice.
+			// Check-in failed, go back to the item and display a notice.
 			$message = JText::sprintf('JError_Checkin_saved', $model->getError());
 			$this->setRedirect('index.php?option=com_menus&view=item&layout=edit', $message, 'error');
 			return false;
@@ -232,8 +236,8 @@ class MenusControllerItem extends JController
 
 			case 'save2new':
 				// Clear the menu item id and data from the session.
-				$app->setUserState('com_menus.edit.item.id', null);
-				$app->setUserState('com_menus.edit.item.data', null);
+				$app->setUserState('com_menus.edit.item.id',	null);
+				$app->setUserState('com_menus.edit.item.data',	null);
 
 				// Redirect back to the edit screen.
 				$this->setRedirect(JRoute::_('index.php?option=com_menus&view=item&layout=edit', false));
@@ -241,8 +245,8 @@ class MenusControllerItem extends JController
 
 			default:
 				// Clear the menu item id and data from the session.
-				$app->setUserState('com_menus.edit.item.id', null);
-				$app->setUserState('com_menus.edit.item.data', null);
+				$app->setUserState('com_menus.edit.item.id',	null);
+				$app->setUserState('com_menus.edit.item.data',	null);
 
 				// Redirect to the list screen.
 				$this->setRedirect(JRoute::_('index.php?option=com_menus&view=items', false));

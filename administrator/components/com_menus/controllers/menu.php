@@ -72,8 +72,8 @@ class MenusControllerMenu extends JController
 		$id		=  (empty($ids) ? JRequest::getInt('menu_id') : (int) array_pop($ids));
 
 		// Push the new row id into the session.
-		$app->setUserState('com_weblinks.edit.weblink.id',	$id);
-		$app->setUserState('com_weblinks.edit.weblink.data', null);
+		$app->setUserState('com_menus.edit.menu.id',	$id);
+		$app->setUserState('com_menus.edit.menu.data', null);
 		$this->setRedirect('index.php?option=com_menus&view=menu&layout=edit');
 		return true;
 	}
