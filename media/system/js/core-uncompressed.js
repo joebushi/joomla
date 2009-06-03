@@ -201,29 +201,50 @@ function getSelectedValue(frmName, srcListName) {
  * 
  * Checkboxes must have an id attribute in the form cb0, cb1...
  * 
- * @param The
- *            number of box to 'check'
- * @param An
- *            alternative field name
+ * @param	mixed	The number of box to 'check', for a checkbox element
+ * @param	string	An alternative field name
  */
-function checkAll(n, fldName) {
-	if (!fldName) {
-		fldName = 'cb';
-	}
-	var f = document.adminForm;
-	var c = f.toggle.checked;
-	var n2 = 0;
-	for (i = 0; i < n; i++) {
-		cb = eval('f.' + fldName + '' + i);
-		if (cb) {
-			cb.checked = c;
-			n2++;
+function checkAll(checkbox, stub)
+{
+	if (checkbox.form)
+	{
+		c = 0;
+		for (i=0, n=checkbox.form.elements.length; i < n; i++) {
+			e = checkbox.form.elements[i];
+			if (e.type == checkbox.type) {
+				if ((stub && e.name.indexOf( stub ) == 0) || !stub) {
+					e.checked = checkbox.checked;
+					c += (e.checked == true ? 1 : 0);
+				}
+			}
 		}
+		if (checkbox.form.boxchecked) {
+			checkbox.form.boxchecked.value = c;
+		}
+		return true;
 	}
-	if (c) {
-		document.adminForm.boxchecked.value = n2;
-	} else {
-		document.adminForm.boxchecked.value = 0;
+	else
+	{
+		// The old way of doing it
+		if (!stub) {
+			stub = 'cb';
+		}		
+		var f = document.adminForm;
+		var c = f.toggle.checked;
+		var n = checkbox;
+		var n2 = 0;
+		for (i = 0; i < n; i++) {
+			cb = eval('f.' + stub + '' + i);
+			if (cb) {
+				cb.checked = c;
+				n2++;
+			}
+		}
+		if (c) {
+			document.adminForm.boxchecked.value = n2;
+		} else {
+			document.adminForm.boxchecked.value = 0;
+		}
 	}
 }
 
