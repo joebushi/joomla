@@ -109,3 +109,5 @@ JHtml::_('behavior.formvalidation');
 	<?php echo JHtml::_('form.token'); ?>
 </form>
 <div class="clr"></div>
+
+<?php echo $this->loadTemplate('types'); ?>

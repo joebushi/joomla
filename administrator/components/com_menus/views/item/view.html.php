@@ -26,6 +26,7 @@ class MenusViewItem extends JView
 		$state	= $this->get('State');
 		$item	= $this->get('Item');
 		$form	= $this->get('Form');
+		$types	= $this->get('TypeOptions');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -38,6 +39,7 @@ class MenusViewItem extends JView
 		$this->assignRef('state',	$state);
 		$this->assignRef('item',	$item);
 		$this->assignRef('form',	$form);
+		$this->assignRef('types',	$types);
 
 		parent::display($tpl);
 		JRequest::setVar('hidemainmenu', true);

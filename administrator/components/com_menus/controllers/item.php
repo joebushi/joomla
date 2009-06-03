@@ -254,6 +254,22 @@ class MenusControllerItem extends JController
 		}
 	}
 
+	function setType()
+	{
+		// Initialize variables.
+		$app	= &JFactory::getApplication();
+		$ids	= JRequest::getVar('cid', array(), '', 'array');
+		$model	= &$this->getModel('Item');
+
+		// Get the id of the group to edit.
+		$id =  (empty($ids) ? JRequest::getInt('item_id') : (int) array_pop($ids));
+
+		$type = JRequest::getVar('type');
+		$type = json_decode(base64_decode($type));
+
+		var_dump($type);
+	}
+
 	/**
 	 * Method to run batch opterations.
 	 *

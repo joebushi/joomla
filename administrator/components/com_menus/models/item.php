@@ -157,6 +157,8 @@ class MenusModelItem extends JModelForm
 	 */
 	public function getTypeOptions()
 	{
+		jimport('joomla.filesystem.file');
+
 		// Initialize variables.
 		$list = array();
 
