@@ -83,6 +83,29 @@ JHtml::_('behavior.formvalidation');
 		</ol>
 	</fieldset>
 
+	<fieldset style="width:45%; float:left;">
+		<legend><?php echo JText::_('Menu_Item_Options'); ?></legend>
+
+		<table>
+		<?php foreach($this->form->getFields('params') as $field): ?>
+			<?php if ($field->hidden): ?>
+				<?php echo $field->input; ?>
+			<?php else: ?>
+				<tr>
+					<td class="paramlist_key" width="40%">
+						<?php echo $field->label; ?>
+					</td>
+					<td class="paramlist_value">
+						<?php echo $field->input; ?>
+					</td>
+				</tr>
+			<?php endif; ?>
+		<?php endforeach; ?>
+		</table>
+
+	</fieldset>
+
+
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>

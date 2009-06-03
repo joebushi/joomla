@@ -15,7 +15,7 @@
 			id="title"
 			name="title"
 			type="text"
-			label="Menus_Item_Title_Label"
+			label="JCommon_Title_Label"
 			description="Menus_Item_Title_Desc"
 			default=""
 			class="inputbox"
@@ -25,7 +25,7 @@
 			id="alias"
 			name="alias"
 			type="alias"
-			label="Menus_Item_Alias_Label"
+			label="JCommon_Alias_Label"
 			description="Menus_Item_Alias_Desc"
 			default=""
 			class="inputbox"
@@ -65,7 +65,8 @@
 			type="radio"
 			id="published"
 			class="inputbox"
-			label="Menus_Item_Published_Label"
+			label="JCommon_Published_Label"
+			description="JCommon_Published_Desc"
 			default="1"
 			filter="integer">
 			<option
@@ -101,8 +102,8 @@
 			id="ordering"
 			name="ordering"
 			type="text"
-			label="Menus_Item_Ordering_Label"
-			description="Menus_Item_Ordering_Desc"
+			label="JCommon_Ordering_Label"
+			description="JCommon_Ordering_Desc"
 			default=""
 			filter="int"
 			class="inputbox"/>
@@ -122,8 +123,8 @@
 			type="accesslevels"
 			id="access"
 			class="inputbox"
-			label="Menus_Item_Access_Label"
-			description="Menus_Item_Access_Desc"
+			label="JCommon_Access_Label"
+			description="JCommon_Access_Desc"
 			default="1"
 			filter="integer"/>
 
@@ -142,7 +143,7 @@
 			id="params"
 			name="params"
 			type="textarea"
-			label="Menus_Item_params_Label"
+			label="JCommon_params_Label"
 			description="Menus_Item_Params_Desc"
 			default=""
 			rows="3"
@@ -164,7 +165,7 @@
 			<option
 				value="1">Yes</option>
 		</field>
-		
+
 		<field
 			name="path"
 			type="hidden"
@@ -199,55 +200,99 @@
 	<fields
 		group="params"
 		array="true"
-		label="Menu_System_Settings">
+		label="Menu_System_Options">
 
 		<field
-			name="admin_language"
-			type="languages"
-			client="administrator"
-			default=""
-			label="Users_Option_Backend_Language"
-			description="Users_Option_Backend_Language_Desc">
-			<option
-				value="">JOption_Use_Default</option>
-		</field>
+			id="menu-anchor_title"
+			name="menu-anchor_title"
+			type="text"
+			label="Menus_Item_Anchor_Title_Label"
+			description="Menus_item_Anchor_Title_Desc"
+			default=""/>
+
 		<field
-			name="language"
-			type="languages"
-			client="site"
-			default=""
-			label="Users_Option_Frontend_Language"
-			description="Users_Option_Frontend_Language_Desc">
-			<option
-				value="">JOption_Use_Default</option>
-		</field>
+			id="menu-anchor_css"
+			name="menu-anchor_css"
+			type="text"
+			label="Menus_Item_Anchor_CSS_Label"
+			description="Menus_item_Anchor_CSS_Desc"
+			default=""/>
+
 		<field
-			name="editor"
-			type="editors"
-			default=""
-			label="Users_Option_Editor"
-			description="Users_Option_Editor_Desc">
-			<option
-				value="">JOption_Use_Default</option>
-		</field>
+			id="page_title"
+			name="page_title"
+			type="text"
+			label="Menus_Item_Page_Title_Label"
+			description="Menus_Item_Page_Title_Desc"
+			default=""/>
+
 		<field
-			name="helpsite"
-			type="helpsites"
-			default=""
-			label="Users_Option_Helpsite"
-			description="Users_Option_Helpsite_Desc">
+			id="show_page_title"
+			name="show_page_title"
+			type="radio"
+			label="Menus_Item_Show_Page_Title_Label"
+			description="Menus_Item_Show_Page_Title_Desc"
+			default="1"
+			filter="integer">
 			<option
-				value="">JOption_Use_Default</option>
+				value="0">No</option>
+			<option
+				value="1">Yes</option>
 		</field>
+
 		<field
-			name="timezone"
-			type="timezones"
-			default=""
-			label="Users_Option_Timezone"
-			description="Users_Option_Timezone_Desc">
+			id="pageclass_sfx"
+			name="pageclass_sfx"
+			type="text"
+			label="Menus_Item_Page_Class_Label"
+			description="Menus_Item_Page_Class_Desc"
+			default=""/>
+
+		<field
+			id="menu_image"
+			name="menu_image"
+			type="text"
+			label="Menus_Item_Menu_Image_Label"
+			description="Menus_Item_Menu_Image_Desc"
+			default=""/>
+
+		<field
+			id="secure"
+			name="secure"
+			type="radio"
+			label="Menus_Item_Secure_Label"
+			description="Menus_Item_Secure_Desc"
+			default="1"
+			filter="integer">
 			<option
-				value="">JOption_Use_Default</option>
+				value="-1">Off</option>
+			<option
+				value="0">Ignore</option>
+			<option
+				value="1">On</option>
 		</field>
+
+		<field
+			id="menu-meta_description"
+			name="menu-meta_description"
+			type="textarea"
+			label="JCommon_Meta_Description_Label"
+			description="Menus_Item_Meta_Description_Desc"
+			default=""
+			rows="3"
+			cols="40"/>
+
+		<field
+			id="menu-meta_keywords"
+			name="menu-meta_keywords"
+			type="textarea"
+			label="JCommon_Meta_Keywords_Label"
+			description="Menus_Item_Meta_Keywords_Desc"
+			default=""
+			rows="3"
+			cols="40"/>
+
+
 	</fields>
 
 </form>
