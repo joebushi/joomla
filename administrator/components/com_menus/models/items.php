@@ -92,6 +92,11 @@ class MenusModelItems extends JModelList
 			$query->where('a.menutype = '.$this->_db->quote($menuType));
 		}
 
+		// Filter on the access level.
+		if ($access = $this->getState('filter.access')) {
+			$query->where('a.access = '.(int) $access);
+		}
+
 		// Filter on the level.
 		if ($level = $this->getState('filter.level')) {
 			$query->where('a.level <= '.(int) $level);
@@ -145,6 +150,7 @@ class MenusModelItems extends JModelList
 		$this->setState('filter.search',	$app->getUserStateFromRequest($this->_context.'.filter.search', 'filter_search', ''));
 		$this->setState('filter.published',	$app->getUserStateFromRequest($this->_context.'.filter.published', 'filter_published', 1, 'string'));
 		$this->setState('filter.parent_id',	$app->getUserStateFromRequest($this->_context.'.filter.parent_id', 'filter_parent_id', 0, 'int'));
+		$this->setState('filter.access',	$app->getUserStateFromRequest($this->_context.'.filter.access', 'filter_access', 0, 'int'));
 		$this->setState('filter.level',		$app->getUserStateFromRequest($this->_context.'.filter.level', 'filter_level', 0, 'int'));
 		$this->setState('filter.menutype',	$app->getUserStateFromRequest($this->_context.'.filter.menutype', 'menutype', 'mainmenu'));
 

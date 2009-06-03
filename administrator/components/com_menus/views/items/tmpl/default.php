@@ -21,15 +21,21 @@ $n = count($this->items);
 <form action="<?php echo JRoute::_('index.php?option=com_menus&view=items');?>" method="post" name="adminForm">
 	<fieldset class="filter">
 		<div class="left">
-			<label for="search"><?php echo JText::_('JSearch_Filter'); ?>:</label>
+			<label for="search">
+				<?php echo JText::_('JSearch_Filter_Label'); ?>
+			</label>
 			<input type="text" name="filter_search" id="search" value="<?php echo $this->state->get('filter.search'); ?>" size="60" title="<?php echo JText::_('Menus_Items_search_filter'); ?>" />
-			<button type="submit"><?php echo JText::_('JSearch_Filter_Submit'); ?></button>
-			<button type="button" onclick="$('search').value='';this.form.submit();"><?php echo JText::_('JSearch_Filter_Clear'); ?></button>
+
+			<button type="submit">
+				<?php echo JText::_('JSearch_Filter_Submit'); ?></button>
+			<button type="button" onclick="$('search').value='';this.form.submit();">
+				<?php echo JText::_('JSearch_Filter_Clear'); ?></button>
 		</div>
+
 		<div class="right">
+			<?php echo JHtml::_('access.assetgroups', 'filter_access', $this->state->get('filter.access'), 'class="inputbox" onchange="this.form.submit();"', array('title' => ''));?>
 			<?php echo JHtml::_('jgrid.filterPublished', 'filter_published', $this->state->get('filter.published'));?>
 			<?php echo JHtml::_('menu.type', 'menutype', $this->state->get('filter.menutype'), 'class="inputbox" onchange="this.form.submit();"');?>
-			<?php //echo JHtml::_('access.assetgroups', 'filter_access', $this->state->get('filter.access'), 'class="inputbox" onchange="this.form.submit();"');?>
 
 			<?php echo JHtml::_('select.integerlist', 0, 4, 1, 'filter_level', 'class="inputbox" onchange="this.form.submit();"', $this->state->get('filter.level'));?>
 
@@ -56,7 +62,7 @@ $n = count($this->items);
 					<?php echo JHtml::_('grid.sort',  'JCommon_Heading_Access', 'category', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="1%" nowrap="nowrap">
-					<?php echo JHtml::_('grid.sort',  'JCommon_Heading_ID', 'a.id', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort',  'JCommon_Heading_ID', 'a.left_id', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 			</tr>
 		</thead>
@@ -108,6 +114,8 @@ $n = count($this->items);
 			<?php $i++; endforeach; ?>
 		</tbody>
 	</table>
+
+	<?php echo $this->loadTemplate('batch'); ?>
 
 	<input type="hidden" name="task" value="" />
 	<input type="hidden" name="boxchecked" value="0" />

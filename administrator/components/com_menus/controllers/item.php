@@ -253,4 +253,35 @@ class MenusControllerItem extends JController
 				break;
 		}
 	}
+
+	/**
+	 * Method to run batch opterations.
+	 *
+	 * @return	void
+	 */
+	function batch()
+	{
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+
+		// Initialize variables.
+		$app	= &JFactory::getApplication();
+		$model	= &$this->getModel('Item');
+		$vars	= JRequest::getVar('batch', array(), 'post', 'array');
+		$cid	= JRequest::getVar('cid', array(), 'post', 'array');
+
+		// Preset the redirect
+		$this->setRedirect('index.php?option=com_menus&view=items');
+
+		// Attempt to run the batch operation.
+		if ($model->batch($vars, $cid))
+		{
+			$this->setMessage(JText::_('Menus_Batch_success'));
+			return true;
+		}
+		else
+		{
+			$this->setMessage(JText::_(JText::sprintf('Menus_Error_Batch_failed', $model->getError())));
+			return false;
+		}
+	}
 }

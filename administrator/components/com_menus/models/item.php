@@ -216,19 +216,19 @@ class MenusModelItem extends JModelForm
 
 		// Store the data.
 		if (!$table->store()) {
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($table->getError());
 			return false;
 		}
 
 		// Rebuild the hierarchy.
 		if (!$table->rebuildTree()) {
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($table->getError());
 			return false;
 		}
 
 		// Rebuild the tree path.
 		if (!$table->rebuildPath($table->id)) {
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($table->getError());
 			return false;
 		}
 
@@ -403,17 +403,357 @@ class MenusModelItem extends JModelForm
 	 */
 	function batch($commands, $itemIds)
 	{
-		// Sanitize the ids.
-		$itemIds = (array) $itemIds;
+		// Sanitize user ids.
+		$itemIds = array_unique($itemIds);
 		JArrayHelper::toInteger($itemIds);
 
-		// Get the current user object.
-		$user = &JFactory::getUser();
+		// Remove any values of zero.
+		if (array_search(0, $itemIds, true)) {
+			unset($itemIds[array_search(0, $itemIds, true)]);
+		}
 
-		// Get a category row instance.
+		if (empty($itemIds)) {
+			$this->setError(JText::_('JError_No_items_selected'));
+			return false;
+		}
+
+		$done = false;
+
+		if (!empty($commands['assetgroup_id']))
+		{
+			if (!$this->_batchAccess($commands['assetgroup_id'], $itemIds)) {
+				return false;
+			}
+			$done = true;
+		}
+
+		if (!empty($commands['menu_id']))
+		{
+			$cmd = JArrayHelper::getValue($commands, 'move_copy', 'c');
+
+			if ($cmd == 'c' && !$this->_batchCopy($commands['menu_id'], $itemIds)) {
+				return false;
+			}
+			else if ($cmd == 'm' && !$this->_batchMove($commands['menu_id'], $itemIds)) {
+				return false;
+			}
+			$done = true;
+		}
+
+		if (!$done)
+		{
+			$this->setError('Menus_Error_Insufficient_batch_information');
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Batch access level changes for a group of rows.
+	 *
+	 * @param	int		The new value matching an Asset Group ID.
+	 * @param	array	An array of row IDs.
+	 *
+	 * @return	booelan	True if successful, false otherwise and internal error is set.
+	 */
+	protected function _batchAccess($value, $itemIds)
+	{
 		$table = &$this->getTable();
+		foreach ($itemIds as $id)
+		{
+			$table->reset();
+			$table->load($id);
+			$table->access = (int) $value;
+			if (!$table->store())
+			{
+				$this->setError($table->getError());
+				return false;
+			}
+		}
 
-		// TODO: BUILD OUT BATCH OPERATIONS
+		return true;
+	}
+
+	/**
+	 * Batch move menu items to a new menu or parent.
+	 *
+	 * @param	int		The new menu or sub-item.
+	 * @param	array	An array of row IDs.
+	 *
+	 * @return	booelan	True if successful, false otherwise and internal error is set.
+	 */
+	protected function _batchMove($value, $itemIds)
+	{
+		// $value comes as {menutype}.{parent_id}
+		$parts		= explode('.', $value);
+		$menuType	= $parts[0];
+		$parentId	= (int) JArrayHelper::getValue($parts, 1, 0);
+
+		$table	= &$this->getTable();
+		$db		= &$this->getDbo();
+
+		// Check that the parent exists
+		if ($parentId)
+		{
+			if (!$table->load($parentId))
+			{
+				if ($error = $table->getError())
+				{
+					// Fatal error
+					$this->setError($error);
+					return false;
+				}
+				else
+				{
+					// Non-fatal error
+					$this->setError(JText::_('Menus_Batch_Move_parent_not_found'));
+					$parentId = 0;
+				}
+			}
+		}
+
+		// If the parent is 0, set it to the ID of the root item in the tree
+		if (empty($parentId))
+		{
+			if (!$parentId = $table->getRootId()) {
+				$this->setError($this->_db->getErrorMsg());
+				return false;
+			}
+		}
+
+		// We are going to store all the children and just moved the menutype
+		$children = array();
+
+		// Parent exists so we let's proceed
+		foreach ($itemIds as $id)
+		{
+			$table->reset();
+
+			// Check that the row actually exists
+			if (!$table->load($id))
+			{
+				if ($error = $table->getError())
+				{
+					// Fatal error
+					$this->setError($error);
+					return false;
+				}
+				else
+				{
+					// Not fatal error
+					$this->setError(JText::sprintf('Menus_Batch_Move_row_not_found', $id));
+					continue;
+				}
+			}
+
+			// Check if we are moving to a different menu
+			if ($menuType != $table->menutype)
+			{
+				// Find any children to this row.
+				$db->setQuery(
+					'SELECT id' .
+					' FROM #__menu' .
+					' WHERE left_id > '.(int) $table->left_id.' AND right_id < '.(int) $table->right_id
+				);
+				$childIds = $db->loadResultArray();
+
+				// Add child ID's to the array only if they aren't already there.
+				foreach ($childIds as $childId)
+				{
+					if (!in_array($childId, $itemIds)) {
+						$children[] = $childId;
+					}
+				}
+			}
+
+			$table->parent_id	= $parentId;
+			$table->menutype	= $menuType;
+			$table->ordering	= 1;
+			$table->level		= null;
+			$table->left_id		= null;
+			$table->right_id	= null;
+
+			// Store the row.
+			if (!$table->store()) {
+				$this->setError($table->getError());
+				return false;
+			}
+		}
+
+		// Process the child rows
+		if (!empty($children))
+		{
+			$db->setQuery(
+				'UPDATE #__menu' .
+				' SET menutype = '.$db->quote($menuType).
+				' WHERE id IN ('.implode(',', $children).')'
+			);
+			if (!$db->query())
+			{
+				$this->setError($db->getErrorMsg());
+				return false;
+			}
+		}
+
+		// Rebuild the hierarchy.
+		if (!$table->rebuildTree()) {
+			$this->setError($table->getError());
+			return false;
+		}
+
+		// Rebuild the tree path.
+		if (!$table->rebuildPath($table->id)) {
+			$this->setError($table->getError());
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Batch copy menu items to a new menu or parent.
+	 *
+	 * @param	int		The new menu or sub-item.
+	 * @param	array	An array of row IDs.
+	 *
+	 * @return	booelan	True if successful, false otherwise and internal error is set.
+	 */
+	protected function _batchCopy($value, $itemIds)
+	{
+		// $value comes as {menutype}.{parent_id}
+		$parts		= explode('.', $value);
+		$menuType	= $parts[0];
+		$parentId	= (int) JArrayHelper::getValue($parts, 1, 0);
+
+		$table	= &$this->getTable();
+		$db		= &$this->getDbo();
+
+		// Check that the parent exists
+		if ($parentId)
+		{
+			if (!$table->load($parentId))
+			{
+				if ($error = $table->getError())
+				{
+					// Fatal error
+					$this->setError($error);
+					return false;
+				}
+				else
+				{
+					// Non-fatal error
+					$this->setError(JText::_('Menus_Batch_Move_parent_not_found'));
+					$parentId = 0;
+				}
+			}
+		}
+
+		// If the parent is 0, set it to the ID of the root item in the tree
+		if (empty($parentId))
+		{
+			if (!$parentId = $table->getRootId()) {
+				$this->setError($this->_db->getErrorMsg());
+				return false;
+			}
+		}
+
+		// We need to log the parent ID
+		$parents = array();
+
+		// Calculate the emergency stop count as a precaution against a runaway loop bug
+		$db->setQuery(
+			'SELECT COUNT(id)' .
+			' FROM #__menu'
+		);
+		$count = $db->loadResult();
+
+		if ($error = $db->getErrorMsg())
+		{
+			$this->setError($error);
+			return false;
+		}
+
+		// Parent exists so we let's proceed
+		while (!empty($itemIds) && $count > 0)
+		{
+			// Pop the first id off the stack
+			$id = array_shift($itemIds);
+
+			$table->reset();
+
+			// Check that the row actually exists
+			if (!$table->load($id))
+			{
+				if ($error = $table->getError())
+				{
+					// Fatal error
+					$this->setError($error);
+					return false;
+				}
+				else
+				{
+					// Not fatal error
+					$this->setError(JText::sprintf('Menus_Batch_Move_row_not_found', $id));
+					continue;
+				}
+			}
+
+			// Copy is a bit tricky, because we also need to copy the children
+			$db->setQuery(
+				'SELECT id' .
+				' FROM #__menu' .
+				' WHERE left_id > '.(int) $table->left_id.' AND right_id < '.(int) $table->right_id
+			);
+			$childIds = $db->loadResultArray();
+
+			// Add child ID's to the array only if they aren't already there.
+			foreach ($childIds as $childId)
+			{
+				if (!in_array($childId, $itemIds)) {
+					array_push($itemIds, $childId);
+				}
+			}
+
+			// Make a copy of the old ID and Parent ID
+			$oldId				= $table->id;
+			$oldParentId		= $table->parent_id;
+
+			// Reset the id because we are making a copy.
+			$table->id			= 0;
+
+			// If we a copying children, the Old ID will turn up in the parents list
+			// otherwise it's a new top level item
+			$table->parent_id	= isset($parents[$oldParentId]) ? $parents[$oldParentId] : $parentId;
+			$table->menutype	= $menuType;
+			// TODO: Deal with ordering?
+			//$table->ordering	= 1;
+			$table->level		= null;
+			$table->left_id		= null;
+			$table->right_id	= null;
+
+			// Store the row.
+			if (!$table->store()) {
+				$this->setError($table->getError());
+				return false;
+			}
+
+			// Now we log the old 'parent' to the new 'parent'
+			$parents[$oldId] = $table->id;
+			$count--;
+		}
+
+		// Rebuild the hierarchy.
+		if (!$table->rebuildTree()) {
+			$this->setError($table->getError());
+			return false;
+		}
+
+		// Rebuild the tree path.
+		if (!$table->rebuildPath($table->id)) {
+			$this->setError($table->getError());
+			return false;
+		}
 
 		return true;
 	}
