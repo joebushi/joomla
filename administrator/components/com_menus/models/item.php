@@ -104,7 +104,13 @@ class MenusModelItem extends JModelForm
 			$table->type		= $this->getState('item.type');
 		}
 
+		// Convert the params field to an array.
+		$registry = new JRegistry();
+		$registry->loadJSON($table->params);
+		$table->params = $registry->toArray();
+
 		$value = JArrayHelper::toObject($table->getProperties(1), 'JObject');
+
 		return $value;
 	}
 

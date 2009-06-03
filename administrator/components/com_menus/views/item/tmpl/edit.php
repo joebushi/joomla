@@ -76,10 +76,6 @@ JHtml::_('behavior.formvalidation');
 				<?php echo $this->form->getLabel('template_id'); ?><br />
 				<?php echo $this->form->getInput('template_id'); ?>
 			</li>
-			<li>
-				<?php echo $this->form->getLabel('params'); ?><br />
-				<?php echo $this->form->getInput('params'); ?>
-			</li>
 		</ol>
 	</fieldset>
 
@@ -104,7 +100,6 @@ JHtml::_('behavior.formvalidation');
 		</table>
 
 	</fieldset>
-
 
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>
