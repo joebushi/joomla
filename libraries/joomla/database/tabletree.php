@@ -368,6 +368,31 @@ class JTableTree extends JTable
 	}
 
 	/**
+	 * Gets the ID of the root item in the tree
+	 *
+	 * @return	mixed	The ID of the root row, or false and the internal error is set.
+	 */
+	public function getRootId()
+	{
+		// Get the root item.
+		$this->_db->setQuery(
+			'SELECT `id`' .
+			' FROM '.$this->_tbl .
+			' WHERE `parent_id` = 0',
+			0, 1
+		);
+		$parentId = (int) $this->_db->loadResult();
+
+		// Check for a database error.
+		if ($this->_db->getErrorNum()) {
+			$this->setError($this->_db->getErrorMsg());
+			return false;
+		}
+
+		return $parentId;
+	}
+
+	/**
 	 * Method to recursively rebuild the nested set tree.
 	 *
 	 * @access	public
@@ -384,17 +409,7 @@ class JTableTree extends JTable
 		if ($parentId === null)
 		{
 			// Get the root item.
-			$db->setQuery(
-				'SELECT `id`' .
-				' FROM '.$this->_tbl .
-				' WHERE `parent_id` = 0',
-				0, 1
-			);
-			$parentId = (int) $this->_db->loadResult();
-
-			// Check for a database error.
-			if ($this->_db->getErrorNum()) {
-				$this->setError($this->_db->getErrorMsg());
+			if (!$parentId = $this->getRootId()) {
 				return false;
 			}
 		}
