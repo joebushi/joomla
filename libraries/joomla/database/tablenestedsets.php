@@ -213,7 +213,7 @@ abstract class JTableNestedSets extends JTable {
                 ;
                 
                 // set the query
-                $this->_db->setQuery($query);echo $this->_db->getQuery();
+                $this->_db->setQuery($query);
                 
                 // execute the query
                 if (!$this->_db->query()) :
@@ -341,7 +341,7 @@ abstract class JTableNestedSets extends JTable {
         ;
         
         // set the query
-        $this->_db->setQuery($query);echo $this->_db->getQuery()."<br />";
+        $this->_db->setQuery($query);
         
         // load the result
         $result = $this->_db->loadResultArray();
@@ -373,7 +373,7 @@ abstract class JTableNestedSets extends JTable {
         ;
             
         // set the query
-        $this->_db->setQuery($query);echo $this->_db->getQuery()."<br />";
+        $this->_db->setQuery($query);
         
         // execute the query
         if (!$this->_db->query()) :
@@ -401,7 +401,7 @@ abstract class JTableNestedSets extends JTable {
         ;
             
         // set the query
-        $this->_db->setQuery($query);echo $this->_db->getQuery()."<br />";
+        $this->_db->setQuery($query);
             
         // execute the query
         if (!$this->_db->query()) :
@@ -424,7 +424,7 @@ abstract class JTableNestedSets extends JTable {
         ;
             
         // set the query
-        $this->_db->setQuery($query);echo $this->_db->getQuery()."<br />";
+        $this->_db->setQuery($query);
             
         // execute the query
         if (!$this->_db->query()) :
@@ -479,7 +479,7 @@ abstract class JTableNestedSets extends JTable {
             ;
                 
             // set the query
-            $this->_db->setQuery($query);echo $this->_db->getQuery()."<br />";
+            $this->_db->setQuery($query);
                 
             // execute the query
             if (!$this->_db->query()) :
@@ -502,7 +502,7 @@ abstract class JTableNestedSets extends JTable {
             ;
                 
             // set the query
-            $this->_db->setQuery($query);echo $this->_db->getQuery()."<br />";
+            $this->_db->setQuery($query);
                 
             // execute the query
             if (!$this->_db->query()) :
@@ -539,7 +539,7 @@ abstract class JTableNestedSets extends JTable {
             ;
             
             // set the query
-            $this->_db->setQuery($query, 0, 1);echo $this->_db->getQuery()."<br />";
+            $this->_db->setQuery($query, 0, 1);
                 
             $result = $this->_db->loadObject();
             
@@ -559,7 +559,7 @@ abstract class JTableNestedSets extends JTable {
         ;
             
         // set the query
-        $this->_db->setQuery($query);echo $this->_db->getQuery()."<br />";
+        $this->_db->setQuery($query);
             
         // execute the query
         if (!$this->_db->query()) :
@@ -632,7 +632,7 @@ abstract class JTableNestedSets extends JTable {
                 UPDATE
                     ".$this->_db->nameQuote($this->_tbl)."
                 SET
-                    ".$this->_db->nameQuote($this->_lft)." = ".$this->_db->Quote($this->_lft."-(".$this->{$this->_rgt}."-".$this->{$this->_lft}."+1)")."
+                    ".$this->_db->nameQuote($this->_lft)." = ".$this->_db->nameQuote($this->_lft)."-(".$this->{$this->_rgt}."-".$this->{$this->_lft}."+1)
                 WHERE
                     ".$this->_db->nameQuote($this->_lft)." > ".$this->_db->Quote($this->{$this->_rgt})
             ;
@@ -655,7 +655,7 @@ abstract class JTableNestedSets extends JTable {
                 UPDATE
                     ".$this->_db->nameQuote($this->_tbl)."
                 SET
-                    ".$this->_db->nameQuote($this->_rgt)." = ".$this->_db->Quote($this->_rgt."-(".$this->{$this->_rgt}."-".$this->{$this->_lft}."+1)")."
+                    ".$this->_db->nameQuote($this->_rgt)." = ".$this->_db->nameQuote($this->_rgt)."-(".$this->{$this->_rgt}."-".$this->{$this->_lft}."+1)
                 WHERE
                     ".$this->_db->nameQuote($this->_rgt)." > ".$this->_db->Quote($this->{$this->_rgt})
             ;
@@ -689,8 +689,8 @@ abstract class JTableNestedSets extends JTable {
                 UPDATE
                     ".$this->_db->nameQuote($this->_tbl)."
                 SET
-                    ".$this->_db->nameQuote($this->_lft)." = ".$this->_db->Quote($this->_lft."-1").",
-                    ".$this->_db->nameQuote($this->_rgt)." = ".$this->_db->Quote($this->_rgt."-1").",
+                    ".$this->_db->nameQuote($this->_lft)." = ".$this->_db->nameQuote($this->_lft)."-1,
+                    ".$this->_db->nameQuote($this->_rgt)." = ".$this->_db->nameQuote($this->_rgt)."-1,
                     ".$this->_db->nameQuote($this->_parent)." = ".$this->_db->Quote($this->{$this->_parent})."
                 WHERE
                     ".$this->_db->nameQuote($this->_lft)."
@@ -718,7 +718,7 @@ abstract class JTableNestedSets extends JTable {
                 UPDATE
                     ".$this->_db->nameQuote($this->_tbl)."
                 SET
-                    ".$this->_db->nameQuote($this->_lft)." = ".$this->_db->Quote($this->_lft."-2")."
+                    ".$this->_db->nameQuote($this->_lft)." = ".$this->_db->nameQuote($this->_lft)."-2
                 WHERE
                     ".$this->_db->nameQuote($this->_lft)." > ".$this->_db->Quote($this->{$this->_rgt})
             ;
@@ -741,7 +741,7 @@ abstract class JTableNestedSets extends JTable {
                 UPDATE
                     ".$this->_db->nameQuote($this->_tbl)."
                 SET
-                    ".$this->_db->nameQuote($this->_rgt)." = ".$this->_db->Quote($this->_rgt."-2")."
+                    ".$this->_db->nameQuote($this->_rgt)." = ".$this->_db->nameQuote($this->_rgt)."-2
                 WHERE
                     ".$this->_db->nameQuote($this->_rgt)." > ".$this->_db->Quote($this->{$this->_rgt})
             ;
@@ -779,15 +779,15 @@ abstract class JTableNestedSets extends JTable {
     public function orderUp($oid=null) {
         
         // is $oid null?
-        if (is_null($oid)) :
+        if (!is_null($oid)) :
         
             // then set $this->_tbl_key as $oid
-            $oid = $this->{$this->_tbl_key};
+            $this->{$this->_tbl_key} = $oid;
             
         endif;
         
         // check, if $oid exists and is not 0
-        if (!$oid = (int) $oid) :
+        if (!$this->{$this->_tbl_key} = (int) $this->{$this->_tbl_key}) :
         
             // otherwise return false
             return false;
@@ -819,7 +819,7 @@ abstract class JTableNestedSets extends JTable {
         $count1 = count($return);
           
         if ($count1 < 1) :
-           
+
             return false;
            
         endif;
@@ -854,7 +854,7 @@ abstract class JTableNestedSets extends JTable {
         $count2 = count($return2);
             
         if ($count2 < 1) :
-            
+
             return false;
             
         endif;
@@ -872,7 +872,7 @@ abstract class JTableNestedSets extends JTable {
         $this->_db->setQuery( $query );
             
         if (!$this->_db->query()):
-            
+        
             return false;
             
         endif;
@@ -890,7 +890,7 @@ abstract class JTableNestedSets extends JTable {
         $this->_db->setQuery( $query );
             
         if (!$this->_db->query()):
-            
+
            return false;
             
         endif;
@@ -909,6 +909,22 @@ abstract class JTableNestedSets extends JTable {
      * @since       1.6
      */
     public function orderDown($oid=null) {
+        
+        // is $oid null?
+        if (!is_null($oid)) :
+        
+            // then set $this->_tbl_key as $oid
+            $this->{$this->_tbl_key} = $oid;
+            
+        endif;
+        
+        // check, if $this->{$this->_tbl_key} exists and is not 0
+        if (!$this->{$this->_tbl_key} = (int) $this->{$this->_tbl_key}) :
+        
+            // otherwise return false
+            return false;
+            
+        endif;
         
         $query = "
             SELECT
@@ -991,7 +1007,7 @@ abstract class JTableNestedSets extends JTable {
         $this->_db->setQuery( $query );
             
         if (!$this->_db->query()):
-           echo 3;exit();
+        
             return false;
            
         endif;
@@ -1009,8 +1025,8 @@ abstract class JTableNestedSets extends JTable {
         $this->_db->setQuery( $query );
             
         if (!$this->_db->query()):
-            echo 4;exit();
-        return false;
+        
+            return false;
             
         endif;
 
