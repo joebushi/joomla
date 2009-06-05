@@ -102,9 +102,9 @@ class CategoriesModelCategories extends JModel
 			{
 				$tempcat[$category->id] = $category;
 				$tempcat[$category->id]->depth = 0;
-				if ($category->parent_id != 0)
+				if ($category->parent != 0)
 				{
-					$tempcat[$category->id]->depth = $tempcat[$category->parent_id]->depth + 1;
+					$tempcat[$category->id]->depth = $tempcat[$category->parent]->depth + 1;
 				}
 			}
 			foreach($this->_data as &$category)
@@ -225,7 +225,7 @@ class CategoriesModelCategories extends JModel
 		$where		= $this->_buildContentWhere($this->_filter->extension);
 		$orderby	= $this->_buildContentOrderBy($this->_filter->extension);
 
-		$query = 'SELECT  c.*, c.checked_out as checked_out_contact_category, u.name AS editor, COUNT(DISTINCT s2.checked_out) AS checked_out_count'
+		$query = 'SELECT  c.*, c.title as name, c.checked_out as checked_out_contact_category, u.name AS editor, COUNT(DISTINCT s2.checked_out) AS checked_out_count'
 		. $this->content_add
 		. ' FROM #__categories AS c'
 		. ' LEFT JOIN #__users AS u ON u.id = c.checked_out'
@@ -296,5 +296,34 @@ class CategoriesModelCategories extends JModel
 		}
 
 		return $where . $filter;
+	}
+	
+	public function countRows($table, $cid) {
+	    
+	    // load the database Instance
+	    $db = JFactory::getDbo();
+	    
+	    // create the query
+	    $query = "
+	       SELECT
+	           COUNT(*)
+	       FROM
+	           ".$this->_db->nameQuote("#__categories")." as n2
+	       INNER JOIN
+	           ".$this->_db->nameQuote($db->getPrefix().$table)." as n1
+	       ON
+	           n1.".$this->_db->nameQuote("catid")." = n2.".$this->_db->nameQuote("id")."
+	       WHERE
+	           n2.".$this->_db->nameQuote("id")."
+	       IN
+	           ('".implode("','", $cid)."')"
+	    ;
+	    
+	    // set the query
+	    $db->setQuery($query);
+	    
+	    // get the result
+	    return $db->loadResult();
+	    
 	}
 }

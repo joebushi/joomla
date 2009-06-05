@@ -251,22 +251,24 @@ abstract class JHtmlList
 	/**
 	 * Select list of active categories for components
 	 */
-	public static function category($name, $extension = 'com_content', $action = 'com_content.view', $root = NULL, $active = -1, $javascript = NULL, $size = 1, $sel_cat = 1, $uncat = 0)
+	public static function category($name, $extension = 'com_content', $action = 'com_content.view', $filter = NULL, $active = -1, $javascript = NULL, $size = 1, $sel_cat = 1, $uncat = 0)
 	{
 		$db = &JFactory::getDbo();
 		$user = &JFactory::getUser();
 
-		if ($root == NULL)
+		if ($filter == NULL)
 		{
-			$root = '';
-		} else {
-			$root = '';// AND cp.id = '. (int) $root.' ';
+			$filter = '';
+		}
+		else 
+		{
+		    $filter = ' AND c.id NOT IN ('.implode(', ', $filter).')';
 		}
 		
-		$query = 'SELECT c.id, c.title, c.parent_id, 0 as depth'.
+		$query = 'SELECT c.id, c.title, c.parent, 0 as depth'.
 				' FROM #__categories AS c'.
 				' WHERE c.extension = '.$db->Quote($extension).
-				$root.
+				$filter.
 				//' AND c.access IN ('.implode(',', $user->authorisedLevels($action)).')'.
 				' GROUP BY c.id ORDER BY c.lft'; 		
 		$db->setQuery($query);
@@ -277,9 +279,9 @@ abstract class JHtmlList
 		{
 			foreach($cat_list as &$cat)
 			{
-				if (isset($depth[$cat->parent_id]))
+				if (isset($depth[$cat->parent]))
 				{
-					$cat->depth = $depth[$cat->parent_id] + 1;
+					$cat->depth = $depth[$cat->parent] + 1;
 				}
 				$depth[$cat->id] = $cat->depth;
 			}

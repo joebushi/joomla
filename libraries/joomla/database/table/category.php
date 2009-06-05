@@ -24,7 +24,7 @@ class JTableCategory extends JTableAssetNested
 	public $lft					= null;
 	public $rgt					= null;
 	public $ref_id				= null;
-	public $parent_id			= null;
+	public $parent			= null;
 	/** @var int */
 	public $extension			= null;
 	public $lang					= null;

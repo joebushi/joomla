@@ -116,7 +116,7 @@ abstract class JTableNestedSets extends JTable {
      * @return      void
      * @since       1.6
      */
-    public function __construct($table, $key, $db, $lft='lft', $rgt='rgt', $parent='parent_id'/*, $ordering='ordering'*/) {
+    public function __construct($table, $key, $db, $lft='lft', $rgt='rgt', $parent='parent') {
         
         // assign the table name to the class variable $this->_tbl
         $this->_tbl = $table;
@@ -130,8 +130,6 @@ abstract class JTableNestedSets extends JTable {
         $this->_rgt = $rgt;
         // assign the name of the 'parent' field to the class variable $this->_parent
         $this->_parent = $parent;
-        // assign the name of the 'ordering' field to the class variable $this->_ordering
-        //$this->_ordering = $ordering;
         
     }
     
@@ -1131,7 +1129,7 @@ abstract class JTableNestedSets extends JTable {
             AND
                 p.".$this->_db->nameQuote($this->_rgt)."
             WHERE
-                p.".$this->_db->nameQuote($this->_lft)." = ".$this->_db->Quote($oid)."
+                p.".$this->_db->nameQuote($this->_tbl_key)." = ".$this->_db->Quote($oid)."
             ORDER BY
                 c.".$this->_db->nameQuote($this->_lft).", 
                 p.".$this->_db->nameQuote($this->_lft)

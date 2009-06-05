@@ -38,8 +38,20 @@ class CategoriesViewCategory extends JView
 		$cid = JRequest::getVar('cid', array(0), '', 'array');
 		JArrayHelper::toInteger($cid, array(0));
 		$model = &$this->getModel();
+		$table = JTable::getInstance('category');
+		
+		$tree = $table->getTree((int)$cid[0]);
+		
+		if ($tree) {
+    		foreach ($tree as $item) {
+    		    
+    		    $filter[] = $item->id;
+    		    
+    		}
+		}
 
 		//get the data
+		$row = array();
 		$row = &$this->get('data');
 		$form = &$this->get('form');
 		$edit = JRequest::getVar('edit',true);
@@ -51,17 +63,12 @@ class CategoriesViewCategory extends JView
 		}
 
 		if ($edit) {
-			$model->checkout($user->get('id'));
+		    $check = JTable::getInstance('category');
+		    $check->checkout((int)$cid[0], $user->get('id'));
 		} else {
-			$row->published = 1;
+			$check->published = 1;
 		}
-
-		// build the html select list for ordering
-		$query = 'SELECT lft AS value, title AS text'
-		. ' FROM #__categories'
-		. ' WHERE extension = '.$db->Quote($row->extension)
-		. ' ORDER BY lft'
-		;
+		
 		// build the html select list for the group access
 		$lists['access'] = JHtml::_('list.accesslevel',  $row);
 		// build the html radio buttons for published
@@ -70,6 +77,8 @@ class CategoriesViewCategory extends JView
 		jimport('joomla.html.parameters');
 		$params = new JParameter($row->params, JPATH_ADMINISTRATOR.DS.'components'.DS.$extension.DS.'category.xml');
 		
+		
+		$this->assignRef('filter',	$filter);
 		$this->assignRef('extension',	$extension);
 		$this->assignRef('lists',		$lists);
 		$this->assignRef('row',			$row);
