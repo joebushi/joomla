@@ -61,4 +61,25 @@ abstract class JHtmlJGrid
 			$attribs
 		);
 	}
+
+	/**
+	 * Displays a checked-out icon
+	 *
+	 * @param	string	The name of the editor.
+	 * @param	string	The time that the object was checked out.
+	 *
+	 * @return	string	The required HTML.
+	 */
+	function checkedout($editorName, $time)
+	{
+		$text	= addslashes(htmlspecialchars($editorName));
+		$date 	= JHTML::_('date',  $time, '%A, %d %B %Y');
+		$time	= JHTML::_('date',  $time, '%H:%M');
+
+		$hover = '<span class="editlinktip hasTip" title="'. JText::_('Checked Out') .'::'. $text .'<br />'. $date .'<br />'. $time .'">';
+		$checked = $hover .'<img src="images/checked_out.png" alt="'.JText::_('Checked Out').'" /></span>';
+
+		return $checked;
+	}
+
 }

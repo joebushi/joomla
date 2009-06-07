@@ -79,7 +79,6 @@ $n = count($this->items);
 		foreach ($this->items as $i => $item) :
 			$item->max_ordering = 0; //??
 			$ordering	= ($this->state->get('list.ordering') == 'a.ordering');
-			$checkedOut	= JTable::isCheckedOut($userId, $item->checked_out);
 			?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td style="text-align:center">
