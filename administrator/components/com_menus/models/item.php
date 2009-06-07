@@ -234,7 +234,9 @@ class MenusModelItem extends JModelForm
 			return false;
 		}
 
-		return $table->id;
+		$this->setState('item.id', $table->id);
+
+		return true;
 	}
 
 	/**

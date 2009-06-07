@@ -150,7 +150,9 @@ class MenusModelMenu extends JModelForm
 			return false;
 		}
 
-		return $table->id;
+		$this->setState('menu.id', $table->id);
+
+		return true;
 	}
 
 	/**
