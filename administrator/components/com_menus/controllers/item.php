@@ -75,43 +75,37 @@ class MenusControllerItem extends JController
 		$model	= &$this->getModel('Item');
 
 		// Get the id of the group to edit.
-		$id =  (empty($ids) ? JRequest::getInt('item_id') : (int) array_pop($ids));
-
-		// Get the previous row id (if any) and the current row id.
-		$previousId	= (int) $app->getUserState('com_menus.edit.item.id');
-		$app->setUserState('com_menus.edit.item.id', $id);
+		$id		=  (empty($ids) ? JRequest::getInt('item_id') : (int) array_pop($ids));
 
 		// Get the menu item model.
-		$model = &$this->getModel('Item');
+		$model	= &$this->getModel('Item');
 
-		// If rows ids do not match, checkin previous row.
-		if (($previousId > 0) && ($id != $previousId))
+		// Push the new row id into the session.
+		$app->setUserState('com_menus.edit.item.id',	$id);
+		$app->setUserState('com_menus.edit.item.data',	null);
+
+		// Check that this is not a new item.
+		if ($id > 0)
 		{
-			if (!$model->checkin($previousId))
+			$model->setState('item.id', $id);
+			$item = $model->getItem();
+
+			// If not already checked out, do so.
+			if ($item->checked_out == 0)
 			{
-				// Check-in failed, go back to the row and display a notice.
-				$message = JText::sprintf('JError_Checkin_failed', $model->getError());
-				$this->setRedirect('index.php?option=com_menus&view=item&layout=edit', $message, 'error');
-				return false;
+				if (!$model->checkout($id))
+				{
+					// Check-out failed, go back to the list and display a notice.
+					$message = JText::sprintf('JError_Checkout_failed', $model->getError());
+					$this->setRedirect('index.php?option=com_menus&view=item&item_id='.$id, $message, 'error');
+					return false;
+				}
 			}
 		}
 
-		// Attempt to check-out the new row for editing and redirect.
-		if (!$model->checkout($id))
-		{
-			// Check-out failed, go back to the list and display a notice.
-			$message = JText::sprintf('JError_Checkout_failed', $model->getError());
-			$this->setRedirect('index.php?option=com_menus&view=item&item_id='.$id, $message, 'error');
-			return false;
-		}
-		else
-		{
-			// Check-out succeeded, push the new row id into the session.
-			$app->setUserState('com_menus.edit.item.id',	$id);
-			$app->setUserState('com_menus.edit.item.data',	null);
-			$this->setRedirect('index.php?option=com_menus&view=item&layout=edit');
-			return true;
-		}
+		$this->setRedirect('index.php?option=com_menus&view=item&layout=edit');
+
+		return true;
 	}
 
 	/**
