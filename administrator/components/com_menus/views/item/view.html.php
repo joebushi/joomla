@@ -53,12 +53,22 @@ class MenusViewItem extends JView
 	 */
 	protected function _setToolBar()
 	{
-		$isNew	= ($this->item->id == 0);
+		$user		= &JFactory::getUser();
+		$isNew		= ($this->item->id == 0);
 		JToolBarHelper::title(JText::_($isNew ? 'Menus_Title_Add_Item' : 'Menus_Title_Edit_Item'));
 
-		JToolBarHelper::save('item.save');
-		JToolBarHelper::apply('item.apply');
+		// If an existing item, can save to a copy.
+		if (!$isNew) {
+			JToolBarHelper::custom('item.save2copy', 'copy.png', 'copy_f2.png', 'JToolbar_Save_as_copy', false);
+		}
+
+		// If not checked out, can save the item.
+		if (!$this->item->checked_out > 0 && $this->item->checked_out != $user->get('id'))
+		{
+			JToolBarHelper::addNew('item.save2new', 'JToolbar_Save_and_new');
+			JToolBarHelper::save('item.save');
+			JToolBarHelper::apply('item.apply');
+		}
 		JToolBarHelper::cancel('item.cancel');
-		//JToolBarHelper::help('index', true);
 	}
 }

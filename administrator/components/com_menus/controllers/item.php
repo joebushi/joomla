@@ -26,8 +26,9 @@ class MenusControllerItem extends JController
 		parent::__construct();
 
 		// Register proxy tasks.
-		$this->registerTask('save2new',	'save');
-		$this->registerTask('apply',	'save');
+		$this->registerTask('save2copy',	'save');
+		$this->registerTask('save2new',		'save');
+		$this->registerTask('apply',		'save');
 	}
 
 	/**
@@ -159,16 +160,35 @@ class MenusControllerItem extends JController
 		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		// Initialize variables.
-		$app = &JFactory::getApplication();
+		$app	= &JFactory::getApplication();
+		$task	= $this->getTask();
 
 		// Get the posted values from the request.
-		$data = JRequest::getVar('jform', array(), 'post', 'array');
+		$data	= JRequest::getVar('jform', array(), 'post', 'array');
 
 		// Populate the row id from the session.
 		$data['id'] = (int) $app->getUserState('com_menus.edit.item.id');
 
-		// Get the model and attempt to validate the posted data.
+		// Get the model.
 		$model	= &$this->getModel('Item');
+
+		if ($task == 'save2copy')
+		{
+			// Check-in the original row.
+			if (!$model->checkin())
+			{
+				// Check-in failed, go back to the item and display a notice.
+				$message = JText::sprintf('JError_Checkin_saved', $model->getError());
+				$this->setRedirect('index.php?option=com_menus&view=item&layout=edit', $message, 'error');
+				return false;
+			}
+
+			// Reset the ID and then treat the request as for Apply.
+			$data['id']	= 0;
+			$task		= 'apply';
+		}
+
+		// Attempt to validate the posted data.
 		$form	= &$model->getForm();
 		if (!$form) {
 			JError::raiseError(500, $model->getError());
@@ -201,10 +221,7 @@ class MenusControllerItem extends JController
 		}
 
 		// Attempt to save the data.
-		$return	= $model->save($data);
-
-		// Check for errors.
-		if ($return === false)
+		if (!$model->save($data))
 		{
 			// Save the data in the session.
 			$app->setUserState('com_menus.edit.item.data', $data);
@@ -227,15 +244,19 @@ class MenusControllerItem extends JController
 		$this->setMessage(JText::_('JController_Save_success'));
 
 		// Redirect the user and adjust session state based on the chosen task.
-		switch ($this->_task)
+		switch ($task)
 		{
 			case 'apply':
+				// Set the menu id in the session.
+				$app->setUserState('com_menus.edit.item.id',	$model->getState('item.id'));
+				$app->setUserState('com_menus.edit.item.data',	null);
+
 				// Redirect back to the edit screen.
 				$this->setRedirect(JRoute::_('index.php?option=com_menus&view=item&layout=edit', false));
 				break;
 
 			case 'save2new':
-				// Clear the menu item id and data from the session.
+				// Clear the menu item id and data in the session.
 				$app->setUserState('com_menus.edit.item.id',	null);
 				$app->setUserState('com_menus.edit.item.data',	null);
 
@@ -244,7 +265,7 @@ class MenusControllerItem extends JController
 				break;
 
 			default:
-				// Clear the menu item id and data from the session.
+				// Clear the menu item id and data in the session.
 				$app->setUserState('com_menus.edit.item.id',	null);
 				$app->setUserState('com_menus.edit.item.data',	null);
 
