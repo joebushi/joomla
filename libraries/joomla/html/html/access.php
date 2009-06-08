@@ -8,6 +8,8 @@
 
 defined('JPATH_BASE') or die;
 
+jimport('joomla.database.query');
+
 /**
  * Extended Utility class for all HTML drawing classes.
  *
@@ -207,10 +209,11 @@ abstract class JHtmlAccess
 	 * @param	string $name	The name of the select element
 	 * @param	mixed $selected	The selected asset group id
 	 * @param	string $attribs	Optional attributes for the select field
+	 * @param	array $config	An array of options for the control
 	 *
 	 * @return	mixed			An HTML string or null if an error occurs
 	 */
-	public static function assetgroups($name, $selected, $attribs = null)
+	public static function assetgroups($name, $selected, $attribs = null, $config = array())
 	{
 		static $count, $cache;
 
@@ -218,15 +221,16 @@ abstract class JHtmlAccess
 
 		if ($cache == null)
 		{
-			$db = &JFactory::getDbo();
-			$db->setQuery(
-				'SELECT a.*, COUNT(DISTINCT b.id) AS level' .
-				' FROM #__access_assetgroups AS a' .
-				' LEFT JOIN `#__access_assetgroups` AS b ON a.left_id > b.left_id AND a.right_id < b.right_id' .
-				' GROUP BY a.id' .
-				' ORDER BY a.left_id ASC'
-			);
+			$db		= &JFactory::getDbo();
+			$query	= new JQuery;
 
+			$query->select('a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level');
+			$query->from('#__access_assetgroups AS a');
+			$query->join('LEFT', '`#__access_assetgroups` AS b ON a.left_id > b.left_id AND a.right_id < b.right_id');
+			$query->group('a.id');
+			$query->order('a.left_id ASC');
+
+			$db->setQuery($query);
 			$cache = $db->loadObjectList();
 
 			// Check for a database error.
@@ -234,22 +238,19 @@ abstract class JHtmlAccess
 				JError::raiseNotice(500, $db->getErrorMsg());
 				return false;
 			}
+		}
 
-			foreach ($cache as $i => $group)
-			{
-				$cache[$i]->value	= $group->id;
-				// We are not exposing any hierarchy in access levels yet.
-				//$cache[$i]->text	= str_pad($group->title, strlen($group->title) + 2*($group->level), '- ', STR_PAD_LEFT);
-				$cache[$i]->text	= $group->title;
-			}
+		$options = $cache;
+		if (isset($config['title'])) {
+			array_unshift($options, JHtml::_('select.option', '', $config['title']));
 		}
 
 		return JHtml::_(
 			'select.genericlist',
-			$cache,
+			$options,
 			$name,
 			array(
-				'id' =>				'assetgroups_'.$count,
+				'id' =>				isset($config['id']) ? $config['id'] : 'assetgroups_'.$count,
 				'list.attr' =>		(is_null($attribs) ? 'class="inputbox" size="3"' : $attribs),
 				'list.select' =>	(int) $selected,
 				'list.translate' => true
