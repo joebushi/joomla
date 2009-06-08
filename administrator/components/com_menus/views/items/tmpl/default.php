@@ -91,8 +91,10 @@ $n = count($this->items);
 					<?php if ($item->checked_out) : ?>
 						<?php echo JHtml::_('jgrid.checkedout', $item->editor, $item->checked_out_time); ?>
 					<?php endif; ?>
-					<a href="<?php echo JRoute::_('index.php?option=com_menus&task=item.edit&cid[]='.$item->id);?>" title="<?php echo $this->escape($item->path);?>">
-						<?php echo $item->title; ?></a>
+					<a href="<?php echo JRoute::_('index.php?option=com_menus&task=item.edit&cid[]='.$item->id);?>">
+						<?php echo $this->escape($item->title); ?></a>
+					<br /><small title="<?php echo $this->escape($item->path);?>">
+						<?php echo $this->escape($item->alias);?></small>
 				</td>
 				<td align="center">
 					<?php echo JHtml::_('jgrid.published', $item->published, $i, 'items.');?>
@@ -104,10 +106,11 @@ $n = count($this->items);
 					<input type="text" name="order[]" size="5" value="<?php echo $item->ordering;?>" <?php echo $disabled ?> class="text_area" style="text-align: center" />
 				</td>
 				<td align="center">
-					<?php echo $item->access_level; ?>
+					<?php echo $this->escape($item->access_level); ?>
 				</td>
 				<td align="center">
-					<?php echo $item->id; ?>
+					<span title="<?php echo sprintf('%d-%d', $item->left_id, $item->right_id);?>">
+						<?php echo (int) $item->id; ?></span>
 				</td>
 			</tr>
 			<?php $i++; endforeach; ?>
