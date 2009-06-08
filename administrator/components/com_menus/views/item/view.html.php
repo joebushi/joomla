@@ -63,7 +63,7 @@ class MenusViewItem extends JView
 		}
 
 		// If not checked out, can save the item.
-		if ($this->item->checked_out > 0 && $this->item->checked_out != $user->get('id'))
+		if ($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'))
 		{
 			JToolBarHelper::addNew('item.save2new', 'JToolbar_Save_and_new');
 			JToolBarHelper::save('item.save');
