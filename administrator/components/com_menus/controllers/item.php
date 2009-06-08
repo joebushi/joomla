@@ -80,15 +80,10 @@ class MenusControllerItem extends JController
 		// Get the menu item model.
 		$model	= &$this->getModel('Item');
 
-		// Push the new row id into the session.
-		$app->setUserState('com_menus.edit.item.id',	$id);
-		$app->setUserState('com_menus.edit.item.data',	null);
-
 		// Check that this is not a new item.
 		if ($id > 0)
 		{
-			$model->setState('item.id', $id);
-			$item = $model->getItem();
+			$item = $model->getItem($id);
 
 			// If not already checked out, do so.
 			if ($item->checked_out == 0)
@@ -102,6 +97,10 @@ class MenusControllerItem extends JController
 				}
 			}
 		}
+
+		// Push the new row id into the session.
+		$app->setUserState('com_menus.edit.item.id',	$id);
+		$app->setUserState('com_menus.edit.item.data',	null);
 
 		$this->setRedirect('index.php?option=com_menus&view=item&layout=edit');
 
@@ -124,23 +123,24 @@ class MenusControllerItem extends JController
 		$previousId	= (int) $app->getUserState('com_menus.edit.item.id');
 
 		// Get the menu item model.
-		$model = &$this->getModel('Item');
+		$model	= &$this->getModel('Item');
 
 		// If rows ids do not match, checkin previous row.
-		if (!$model->checkin($previousId))
+		if ($model->checkin($previousId))
 		{
-			// Check-in failed, go back to the menu item and display a notice.
+			// Redirect to the list screen.
+			$this->setRedirect(JRoute::_('index.php?option=com_menus&view=items', false));
+		}
+		else
+		{
+			// Check-in failed
 			$message = JText::sprintf('JError_Checkin_failed', $model->getError());
-			$this->setRedirect('index.php?option=com_menus&view=item&layout=edit', $message, 'error');
-			return false;
+			$this->setRedirect('index.php?option=com_menus&view=items', $message, 'error');
 		}
 
 		// Clear the menu item edit information from the session.
 		$app->setUserState('com_menus.edit.item.id',	null);
 		$app->setUserState('com_menus.edit.item.data',	null);
-
-		// Redirect to the list screen.
-		$this->setRedirect(JRoute::_('index.php?option=com_menus&view=items', false));
 	}
 
 	/**

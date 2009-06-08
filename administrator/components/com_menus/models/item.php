@@ -354,8 +354,20 @@ class MenusModelItem extends JModelForm
 		// Only attempt to check the row in if it exists.
 		if ($id)
 		{
-			// Get a category row instance.
+			$user	= &JFactory::getUser();
+
+			// Get an instance of the row to checkin.
 			$table = &$this->getTable();
+			if (!$table->load($id)) {
+				$this->setError($table->getError());
+				return false;
+			}
+
+			// Check if this is the user having previously checked out the row.
+			if ($table->checked_out > 0 && $table->checked_out != $user->get('id')) {
+				$this->setError(JText::_('JError_Checkin_user_mismatch'));
+				return false;
+			}
 
 			// Attempt to check the row in.
 			if (!$table->checkin($id)) {
