@@ -702,9 +702,8 @@ class ContentController extends JController
 			JError::raiseError(500, $db->stderr());
 			return false;
 		}
-jimport('joomla.search.search');
-$search = new JSearch();
-$search->index('com_content', 'article'.$row->id,'en-GB',$row->title, JRequest::getVar('text'), null, null);
+jimport('joomla.utilities.search');
+JSearch::index('com_content', 'article'.$row->id,'en-GB',$row->title, JRequest::getVar('text'), null, null);
 
 		// Check the article and update item order
 		$row->checkin();

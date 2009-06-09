@@ -18,13 +18,8 @@ defined('JPATH_BASE') or die();
  * @since 1.6
  */
 class JSearch
-{	
-	public static function &getInstance($options = array())
-	{
-
-	}
-	
-	public function index($extension, $content_id, $language, $title = null, $body = null, $tags = null, $params = null, $modifier = null)
+{		
+	public static function index($extension, $content_id, $language, $title = null, $body = null, $tags = null, $params = null, $modifier = null)
 	{
 		$db =& JFactory::getDBO();
 		JPluginHelper::importPlugin('search');
@@ -114,7 +109,7 @@ class JSearch
 				$db->Quote($extension).', '
 				.$db->Quote($content_id).', '
 				.$db->Quote($lang).', '
-				.$db->Quote(serialize($params)).');';
+				.$db->Quote($params).');';
 			$db->setQuery($query);
 			$db->Query();
 			$id = $db->insertid();
@@ -132,12 +127,44 @@ class JSearch
 		return true;
 	}
 	
-	public function delete($extension, $contentID = null)
+	public static function delete($extension, $contentID = null, $lang = null)
 	{
+		$db = &JFactory::getDBO();
+		$ids = array();
+		if($contentID != null)
+		{
+			$query = 'SELECT id '
+					.'FROM #__search '
+					.'WHERE content_id = '.$db->Quote($contentID);
+			if($lang != null)
+			{
+				$query .= ' lang = '.$db->Quote($lang);
+			}
+			$db->setQuery($query);
+			$ids = $db->loadResultList();
+			if(!count($ids))
+			{
+				return true;
+			}
+		} else {
+			$query = 'SELECT id FROM #__search WHERE extension = '.$db->Quote($extension);
+			$db->setQuery($query);
+			$ids = $db->loadResultList(); 
+		}
 		
+		if(count($ids))
+		{
+			$query = 'DELETE FROM #__search WHERE id IN ('.implode(',',$ids).')';
+			$db->setQuery($query);
+			$db->Query();
+			$query = 'DELETE FROM #__search_word WHERE content_id IN ('.implode(',',$ids).')';
+			$db->setQuery($query);
+			$db->Query();
+		}
+		return true;
 	}
 	
-	public function find($search, $extension = null, $language = 'en-GB', $limit = 20, $limitstart = 0)
+	public static function find($search, $extension = null, $language = 'en-GB', $limit = 20, $limitstart = 0)
 	{
 		$db =& JFactory::getDBO();
 		JPluginHelper::importPlugin('search');
@@ -186,31 +213,21 @@ class JSearch
 		
 		if(count($result) > 0)
 		{
-			$query = 'SELECT DISTINCT content_id, COUNT(*) AS nb, SUM(score) AS total_score'
-				.' FROM #__search_word'
+			$query = 'SELECT DISTINCT w.content_id AS id, COUNT(w.content_id) AS nb, SUM(w.score) AS total_score,'
+				.' s.content_id, s.extension, s.lang, s.params'
+				.' FROM #__search_word w'
+				.' LEFT JOIN #__search s ON s.id = w.content_id'
 				.' WHERE ';
 			foreach($result as &$word)
 			{
-				$word = 'word = '.$db->Quote($word);
+				$word = 'w.word = '.$db->Quote($word);
 			}
 			$query .= '('.implode(' OR ', $result).')';
-			$query .= ' GROUP BY content_id'
+			$query .= ' GROUP BY w.content_id'
 				.' HAVING nb = '.count($result)
 				.' ORDER BY nb DESC, total_score DESC';
 			$db->setQuery($query);
-			$results = $db->loadObjectList();
-			if($results)
-			{
-				foreach($results as $content_id)
-				{
-					$content_ids[] = $content_id->content_id;
-				}
-				$query = 'SELECT content_id, extension, lang, params'
-					.' FROM #__search'
-					.' WHERE id IN ('.implode(',', $content_ids).')';
-				$db->setQuery($query);
-				$searchresults = $db->loadObjectList();
-			}
+			$searchresults = $db->loadObjectList();
 		}
 		$dispatcher = &JDispatcher::getInstance();
 		$results = $dispatcher->trigger(

@@ -126,9 +126,8 @@ class SearchModelSearch extends JModel
 		{
 			if (JRequest::getVar('searchword') != '')
 			{
-				jimport('joomla.search.search');
-				$search = new JSearch();
-				$this->_data = $search->find(JRequest::getVar('searchword'));
+				jimport('joomla.utilities.search');
+				$this->_data = JSearch::find(JRequest::getVar('searchword'));
 			}
 		}
 
