@@ -24,11 +24,11 @@ $n = count($this->items);
 			<label for="search">
 				<?php echo JText::_('JSearch_Filter_Label'); ?>
 			</label>
-			<input type="text" name="filter_search" id="search" value="<?php echo $this->state->get('filter.search'); ?>" size="60" title="<?php echo JText::_('Menus_Items_search_filter'); ?>" />
+			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->state->get('filter.search'); ?>" size="60" title="<?php echo JText::_('Menus_Items_search_filter'); ?>" />
 
 			<button type="submit">
 				<?php echo JText::_('JSearch_Filter_Submit'); ?></button>
-			<button type="button" onclick="$('search').value='';this.form.submit();">
+			<button type="button" onclick="$('filter_search').value='';this.form.submit();">
 				<?php echo JText::_('JSearch_Filter_Clear'); ?></button>
 		</div>
 
@@ -94,7 +94,7 @@ $n = count($this->items);
 					<a href="<?php echo JRoute::_('index.php?option=com_menus&task=item.edit&cid[]='.$item->id);?>">
 						<?php echo $this->escape($item->title); ?></a>
 					<br /><small title="<?php echo $this->escape($item->path);?>">
-						<?php echo $this->escape($item->alias);?></small>
+						(<?php echo $this->escape($item->alias);?>)</small>
 				</td>
 				<td align="center">
 					<?php echo JHtml::_('jgrid.published', $item->published, $i, 'items.');?>
