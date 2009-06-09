@@ -1091,3 +1091,20 @@ INSERT INTO `jos_access_assets` VALUES
 INSERT INTO `jos_access_asset_assetgroup_map` VALUES 
 (7, 1)
 ;
+
+CREATE TABLE IF NOT EXISTS `#__search` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `extension` varchar(40) NOT NULL,
+  `content_id` varchar(125) NOT NULL,
+  `lang` varchar(7) NOT NULL,
+  `params` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `extension` (`extension`,`content_id`,`lang`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `#__search_word` (
+  `content_id` int(11) NOT NULL,
+  `word` varchar(50) NOT NULL,
+  `score` int(11) NOT NULL,
+  PRIMARY KEY (`content_id`,`word`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;

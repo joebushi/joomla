@@ -122,29 +122,13 @@ class SearchModelSearch extends JModel
 	 */
 	function getData()
 	{
-		// Lets load the content if it doesn't already exist
 		if (empty($this->_data))
 		{
-			$areas = $this->getAreas();
-
-			JPluginHelper::importPlugin('search');
-			$dispatcher = &JDispatcher::getInstance();
-			$results = $dispatcher->trigger('onSearch', array(
-			$this->getState('keyword'),
-			$this->getState('match'),
-			$this->getState('ordering'),
-			$areas['active']));
-
-			$rows = array();
-			foreach($results AS $result) {
-				$rows = array_merge((array) $rows, (array) $result);
-			}
-
-			$this->_total	= count($rows);
-			if ($this->getState('limit') > 0) {
-				$this->_data    = array_splice($rows, $this->getState('limitstart'), $this->getState('limit'));
-			} else {
-				$this->_data = $rows;
+			if (JRequest::getVar('searchword') != '')
+			{
+				jimport('joomla.search.search');
+				$search = new JSearch();
+				$this->_data = $search->find(JRequest::getVar('searchword'));
 			}
 		}
 

@@ -104,7 +104,8 @@ class SearchViewSearch extends JView
 
 		if (!$error)
 		{
-			$results	= &$this->get('data');
+			//$results	= &$this->get('data');
+			$results = array();
 			$total		= &$this->get('total');
 			$pagination	= &$this->get('pagination');
 
@@ -153,6 +154,7 @@ class SearchViewSearch extends JView
 		}
 
 		$this->result	= JText::sprintf('TOTALRESULTSFOUND', $total);
+$results	= &$this->get('data');
 
 		$this->assignRef('pagination',  $pagination);
 		$this->assignRef('results',		$results);
