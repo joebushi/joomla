@@ -97,7 +97,7 @@ $return	= base64_encode($uri->toString());
 					<?php echo $item->id; ?>
 				</td>
 			</tr>
-			<?php $i++; endforeach; ?>
+			<?php endforeach; ?>
 		</tbody>
 	</table>
 

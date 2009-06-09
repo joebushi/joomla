@@ -113,7 +113,7 @@ $n = count($this->items);
 						<?php echo (int) $item->id; ?></span>
 				</td>
 			</tr>
-			<?php $i++; endforeach; ?>
+			<?php endforeach; ?>
 		</tbody>
 	</table>
 
