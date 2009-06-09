@@ -37,6 +37,11 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+
+09-Jun-2009 Ian MacLennan
+ # [#12746] Replace PEAR with a GPL compatible alternative
+
+
 -------------------- 1.5.11 Stable Release [03-June-2009] ------------------
 
 01-Jun-2009 Ian MacLennan
