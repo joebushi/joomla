@@ -17,12 +17,17 @@ class plgSearchContent extends JPlugin
 	{
 		$db = JFactory::getDBO();
 		$user = JFactory::getUser();
+		$ids = array();
 		foreach($results as $result)
 		{
 			if($result->extension = 'com_content')
 			{
 				$ids[] = substr($result->content_id, 7);
 			}
+		}
+		if(!count($ids))
+		{
+			return $results;
 		}
 		$query = 'SELECT * FROM #__content WHERE id IN ('.implode(',', $ids).') AND access IN ('.implode(',', $user->authorisedLevels()).')';
 		$db->setQuery($query);

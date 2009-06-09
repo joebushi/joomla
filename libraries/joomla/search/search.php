@@ -47,7 +47,7 @@ class JSearch
 		if(function_exists('JSearchStopWords'.$lang))
 		{
 			$stopper = 'JSearchStopWords'.$lang;
-			$stopwords = $$stopper();
+			$stopwords = $stopper();
 		} else {
 			$stopwords = array();
 		}
@@ -97,26 +97,28 @@ class JSearch
 				}
 			}
 		}
-		$query = 'SELECT id FROM #__search WHERE content_id = '.$db->Quote($content_id).' AND extension = '.$db->Quote($extension);
+		$query = 'SELECT id FROM #__search WHERE content_id = '.$db->Quote($content_id).' AND extension = '.$db->Quote($extension).' AND lang = '.$db->Quote($lang);
 		$db->setQuery($query);
 		$id = $db->loadResult();
 		if($id > 0)
 		{
-			$query = 'DELETE FROM #__search WHERE id = '.$id;
-			$db->setQuery($query);
-			$db->Query();
 			$query = 'DELETE FROM #__search_word WHERE content_id = '.$id;
 			$db->setQuery($query);
 			$db->Query();
+			
+			$query = 'UPDATE #__search SET params = '.$db->Quote($params).' WHERE content_id = '.$db->Quote($content_id).' AND extension = '.$db->Quote($extension).' AND lang = '.$db->Quote($lang);
+			$db->setQuery($query);
+			$db->Query();			
+		} else {
+			$query = 'INSERT INTO #__search (extension, content_id, lang, params) VALUES ('.
+				$db->Quote($extension).', '
+				.$db->Quote($content_id).', '
+				.$db->Quote($lang).', '
+				.$db->Quote(serialize($params)).');';
+			$db->setQuery($query);
+			$db->Query();
+			$id = $db->insertid();
 		}
-		$query = 'INSERT INTO #__search (extension, content_id, lang, params) VALUES ('.
-			$db->Quote($extension).', '
-			.$db->Quote($content_id).', '
-			.$db->Quote($lang).', '
-			.$db->Quote(serialize($params)).');';
-		$db->setQuery($query);
-		$db->Query();
-		$id = $db->insertid();
 		
 		$query = 'INSERT INTO #__search_word (content_id, word, score) VALUES ';
 		$queryarray = array();
