@@ -40,7 +40,7 @@ $ -> Language fix or change
 
 09-Jun-2009 Ian MacLennan
  # [#12746] Replace PEAR with a GPL compatible alternative
-
+ # [#15541] Article Catagory Layout incorrectly sorted
 
 -------------------- 1.5.11 Stable Release [03-June-2009] ------------------
 

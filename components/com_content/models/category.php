@@ -387,12 +387,6 @@ class ContentModelCategory extends JModel
 		{
 			$orderby .= $filter_order .' '. $filter_order_Dir.', ';
 		}
-	    elseif($filter_order == '' && $filter_order_Dir == '')
-		{
-				$filter_order='a.ordering';
-				$filter_order_Dir='ASC';
-				$orderby .= $filter_order .' '. $filter_order_Dir.', ';
-		}
 
 		if ($filter_order == 'author')
 		{
