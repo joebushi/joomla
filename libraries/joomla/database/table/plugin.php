@@ -19,7 +19,7 @@ jimport('joomla.database.tableasset');
  * @subpackage	Table
  * @since		1.5
  */
-class JTablePlugin extends JTableAsset
+class JTablePlugin extends JTable
 {
 	/**
 	 * Primary Key
@@ -105,11 +105,17 @@ class JTablePlugin extends JTableAsset
 	 */
 	var $params = null;
 
+	/**
+	 * Track rows as assets.
+	 *
+	 * @var		boolean
+	 * @since	1.6
+	 */
+	protected $_trackAssets = true;
+
 	function __construct(& $db)
 	{
 		parent::__construct('#__plugins', 'id', $db);
-
-		$this->access	= (int)JFactory::getConfig()->getValue('access');
 	}
 
 	/**

@@ -17,7 +17,7 @@ jimport('joomla.database.tableasset');
  * @subpackage	Table
  * @since		1.0
  */
-class JTableSection extends JTableAsset
+class JTableSection extends JTable
 {
 	/** @var int Primary key */
 	var $id					= null;
@@ -49,13 +49,19 @@ class JTableSection extends JTableAsset
 	var $params				= null;
 
 	/**
+	 * Track rows as assets.
+	 *
+	 * @var		boolean
+	 * @since	1.6
+	 */
+	protected $_trackAssets = true;
+
+	/**
 	* @param database A database connector object
 	*/
 	function __construct(&$db)
 	{
 		parent::__construct('#__sections', 'id', $db);
-
-		$this->access	= (int)JFactory::getConfig()->getValue('access');
 	}
 
 	/**

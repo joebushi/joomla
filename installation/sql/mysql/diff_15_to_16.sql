@@ -55,8 +55,8 @@ ALTER TABLE `jos_menu`
  MODIFY COLUMN `params` VARCHAR(10240) NOT NULL COMMENT 'JSON encoded data for the menu item.';
 
 ALTER TABLE `jos_menu`
- CHANGE COLUMN `lft` `left_id` INTEGER UNSIGNED NOT NULL DEFAULT 0 COMMENT 'Nested set left_id.',
- CHANGE COLUMN `rgt` `right_id` INTEGER UNSIGNED NOT NULL DEFAULT 0 COMMENT 'Nested set right_id.';
+ CHANGE COLUMN `lft` `left_id` INTEGER NOT NULL DEFAULT 0 COMMENT 'Nested set left_id.',
+ CHANGE COLUMN `rgt` `right_id` INTEGER NOT NULL DEFAULT 0 COMMENT 'Nested set right_id.';
 
 ALTER TABLE `jos_menu`
  MODIFY COLUMN `home` TINYINT UNSIGNED NOT NULL DEFAULT 0 COMMENT 'Indicates if this menu item is the home or default page.';

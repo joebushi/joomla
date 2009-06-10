@@ -362,8 +362,8 @@ CREATE TABLE `#__menu` (
   `access` tinyint(3) unsigned NOT NULL default '0' COMMENT 'The access level required to view the menu item.',
   `template_id` int(11) default '0',
   `params` varchar(10240) NOT NULL COMMENT 'JSON encoded data for the menu item.',
-  `left_id` int(10) unsigned NOT NULL default '0' COMMENT 'Nested set left_id.',
-  `right_id` int(10) unsigned NOT NULL default '0' COMMENT 'Nested set right_id.',
+  `left_id` int(11) NOT NULL default '0' COMMENT 'Nested set left_id.',
+  `right_id` int(11) NOT NULL default '0' COMMENT 'Nested set right_id.',
   `home` tinyint(3) unsigned NOT NULL default '0' COMMENT 'Indicates if this menu item is the home or default page.',
   PRIMARY KEY  (`id`),
   KEY `idx_componentid` (`component_id`,`menutype`,`published`,`access`),
@@ -374,7 +374,7 @@ CREATE TABLE `#__menu` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 
-INSERT INTO `jos_menu` VALUES 
+INSERT INTO `#__menu` VALUES 
 (1, '', 'Menu_Item_Root', 'root', '', '', '', 1, 0, 1, 0, 0, 0, '0000-00-00 00:00:00', 0, 0, 0, '', 1, 16, 0),
 (2, 'mainmenu', 'Home', 'home', 'home', 'index.php?option=com_content&view=frontpage', 'component', 1, 1, 2, 20, 0, 0, '0000-00-00 00:00:00', 0, 1, 0, 'show_page_title=1\r\npage_title=Welcome to the Frontpage\r\nshow_description=0\r\nshow_description_image=0\r\nnum_leading_articles=1\r\nnum_intro_articles=4\r\nnum_columns=2\r\nnum_links=4\r\nshow_title=1\r\npageclass_sfx=\r\nmenu_image=-1\r\nsecure=0\r\norderby_pri=\r\norderby_sec=front\r\nshow_pagination=2\r\nshow_pagination_results=1\r\nshow_noauth=0\r\nlink_titles=0\r\nshow_intro=1\r\nshow_section=0\r\nlink_section=0\r\nshow_category=0\r\nlink_category=0\r\nshow_author=1\r\nshow_create_date=1\r\nshow_modify_date=1\r\nshow_item_navigation=0\r\nshow_readmore=1\r\nshow_vote=0\r\nshow_icons=1\r\nshow_pdf_icon=1\r\nshow_print_icon=1\r\nshow_email_icon=1\r\nshow_hits=1\r\n\r\n', 2, 3, 1);
 
