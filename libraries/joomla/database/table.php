@@ -297,6 +297,11 @@ abstract class JTable extends JObject
 	 */
 	public function bind($src, $ignore = array())
 	{
+		// If the source is empty, ignore it.
+		if (empty($src)) {
+			return true;
+		}
+
 		// If the source value is not an array or object return false.
 		if (!is_object($src) && !is_array($src)) {
 			$this->setError(get_class($this).'::bind failed. Invalid source argument');
@@ -933,9 +938,9 @@ abstract class JTable extends JObject
 		$this->_db->setQuery(
 			'SELECT `'.$this->_tbl_key.'`, `ordering`' .
 			' FROM `'.$this->_tbl.'`' .
-			' WHERE `ordering` >= 0`' .
+			' WHERE `ordering` >= 0' .
 			$where .
-			' ORDER BY `ordering'. $ordering
+			' ORDER BY `ordering`'. $ordering
 		);
 		$rows = $this->_db->loadObjectList();
 
