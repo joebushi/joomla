@@ -57,6 +57,8 @@ class MenusViewItem extends JView
 	{
 		$user		= &JFactory::getUser();
 		$isNew		= ($this->item->id == 0);
+		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
+
 		JToolBarHelper::title(JText::_($isNew ? 'Menus_Title_Add_Item' : 'Menus_Title_Edit_Item'));
 
 		// If an existing item, can save to a copy.

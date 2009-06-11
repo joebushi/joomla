@@ -127,7 +127,6 @@ class MenusControllerItem extends JController
 		// Get the previous row id.
 		$previousId	= (int) $app->getUserState('com_menus.edit.item.id');
 
-
 		// If rows ids do not match, checkin previous row.
 		if ($model->checkin($previousId))
 		{
