@@ -95,8 +95,8 @@ class ContentModelArticle extends JModelForm
 
 		// Convert the params field to an array.
 		$registry = new JRegistry();
-		$registry->loadJSON($table->params);
-		$table->params = $registry->toArray();
+		$registry->loadJSON($table->attribs);
+		$table->attribs = $registry->toArray();
 
 		$value = JArrayHelper::toObject($table->getProperties(1), 'JObject');
 

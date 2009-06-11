@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf8"?>
+	<!-- $Id$ -->
+<form>
+	<fields>
+		<field
+			id="id"
+			name="id"
+			type="hidden"
+			class="inputbox"
+			label="Content_Id_Label"
+			size="10"
+			default="0"
+			required="true"
+			readonly="true"/>
+
+		<field
+			id="title"
+			name="title"
+			type="text"
+			class="inputbox"
+			label="Content_Title_Label"
+			size="30"
+			description="Content_Title_Desc"
+			default=""/>
+
+		<field
+			id="alias"
+			name="alias"
+			type="text"
+			class="inputbox"
+			label="Content_Alias_Label"
+			size="30"
+			description="Content_Alias_Desc"
+			default=""/>
+
+		<field
+			id="title_alias"
+			name="title_alias"
+			type="text"
+			class="inputbox"
+			label="Content_Title_alias_Label"
+			size="30"
+			description="Content_Title_alias_Desc"
+			default=""/>
+
+		<field
+			id="introtext"
+			name="introtext"
+			type="text"
+			class="inputbox"
+			label="Content_Introtext_Label"
+			size="30"
+			description="Content_Introtext_Desc"
+			default=""/>
+
+		<field
+			id="fulltext"
+			name="fulltext"
+			type="text"
+			class="inputbox"
+			label="Content_Fulltext_Label"
+			size="30"
+			description="Content_Fulltext_Desc"
+			default=""/>
+
+		<field
+			id="state"
+			name="state"
+			type="list"
+			label="Content_State_Label"
+			description="Content_State_Desc"
+			class="inputbox"
+			size="1"
+			default="1">
+			<option value="1">
+				JState_Published</option>
+			<option value="0">
+				JState_UnPublished</option>
+			<option value="-1">
+				JState_Archived</option>
+			<option value="-2">
+				JState_Trashed</option>
+		</field>
+
+		<field
+			id="catid"
+			name="catid"
+			type="text"
+			label="Content_Catid_Label"
+			description="Content_Catid_Desc"
+			class="inputbox"
+			size=""
+			default=""/>
+
+		<field
+			id="created"
+			name="created"
+			type="calendar"
+			label="Content_Created_Label"
+			description="Content_Created_Desc"
+			class="readonly"
+			size="16"
+			readonly="true"
+			filter="unset"/>
+
+		<field
+			id="created_by"
+			name="created_by"
+			type="text"
+			label="Content_Created_by_Label"
+			description="Content_Created_by_Desc"
+			/>
+
+		<field
+			id="created_by_alias"
+			name="created_by_alias"
+			type="text"
+			label="Content_Created_by_alias_Label"
+			description="Content_Created_by_alias_Desc"
+			class="inputbox"
+			size="30"
+			default=""/>
+
+		<field
+			id="modified"
+			name="modified"
+			type="text"
+			class="readonly"
+			label="Content_Modified_Label"
+			description="Content_Modified_Desc"
+			size="16"
+			readonly="true"
+			filter="unset" />
+
+		<field
+			name="modified_by"
+			type="hidden"
+			filter="unset"
+			/>
+
+		<field
+			name="checked_out"
+			type="hidden"
+			filter="unset"/>
+
+		<field
+			name="checked_out_time"
+			type="hidden"
+			filter="unset"
+			/>
+
+		<field
+			id="publish_up"
+			name="publish_up"
+			type="calendar"
+			label="Content_Publish_up_Label"
+			description="Content_Publish_up_Desc"
+			class="inputbox"
+			size="30"
+			default=""/>
+
+		<field
+			id="publish_down"
+			name="publish_down"
+			type="calendar"
+			label="Content_Publish_down_Label"
+			description="Content_Publish_down_Desc"
+			class="inputbox"
+			size="30"
+			default=""/>
+
+		<field
+			id="version"
+			name="version"
+			type="text"
+			class="readonly"
+			label="Content_Version_Label"
+			size="6"
+			description="Content_Version_Desc"
+			readonly="true"
+			filter="unset"/>
+
+		<field
+			id="ordering"
+			name="ordering"
+			type="text"
+			label="Content_Ordering_Label"
+			description="Content_Ordering_Desc"
+			class="inputbox"
+			size="6"
+			default="0"/>
+
+		<field
+			id="metakey"
+			name="metakey"
+			type="textarea"
+			label="Content_Metakey_Label"
+			description="Content_Metakey_Desc"
+			class="inputbox"
+			rows="3"
+			cols="30"
+			default=""/>
+
+		<field
+			id="metadesc"
+			name="metadesc"
+			type="textarea"
+			label="Content_Metadesc_Label"
+			description="Content_Metadesc_Desc"
+			class="inputbox"
+			rows="3"
+			cols="30"
+			default=""/>
+
+		<field
+			id="access"
+			name="access"
+			type="accesslevels"
+			label="Content_Access_Label"
+			description="Content_Access_Desc"
+			class="inputbox"
+			size="1"
+			default=""/>
+
+		<field
+			id="hits"
+			name="hits"
+			type="text"
+			label="Content_Hits_Label"
+			description="Content_Hits_Desc"
+			class="readonly"
+			size="6"
+			readonly="true"
+			filter="unset"/>
+
+		<field
+			id="metadata"
+			name="metadata"
+			type="textarea"
+			label="Content_Metadata_Label"
+			description="Content_Metadata_Desc"
+			class="inputbox"
+			rows="3"
+			cols="30"
+			default=""/>
+
+	</fields>
+
+	 <fields group="attribs" array="true" label="Content_Options">
+		<field
+			id="metadata"
+			name="metadata"
+			type="textarea"
+			label="Content_Metadata_Label"
+			description="Content_Metadata_Desc"
+			class="inputbox"
+			rows="3"
+			cols="30"
+			default=""/>
+	</fields>
+</form>
