@@ -179,7 +179,7 @@ abstract class JTable extends JObject
 	 * @return	string	The name of the asset section to track table objects in.
 	 * @since	1.6
 	 */
-	public abstract function getAssetSection()
+	public function getAssetSection()
 	{
 		die('Must provide an implementation of getAssetSection');
 	}
@@ -194,7 +194,7 @@ abstract class JTable extends JObject
 	 * @return	string	The asset name prefix to use for tracking assets.
 	 * @since	1.6
 	 */
-	public abstract function getAssetNamePrefix()
+	public function getAssetNamePrefix()
 	{
 		die('Must provide an implementation of getAssetNamePrefix');
 	}
@@ -209,7 +209,7 @@ abstract class JTable extends JObject
 	 * @return	string	The string to use as the title in the asset table.
 	 * @since	1.6
 	 */
-	public abstract function getAssetTitle()
+	public function getAssetTitle()
 	{
 		die('Must provide an implementation of getAssetTitle');
 	}
@@ -298,8 +298,8 @@ abstract class JTable extends JObject
 	public function bind($src, $ignore = array())
 	{
 		// If the source value is not an array or object return false.
-		if (!is_object($src) || !is_array($src)) {
-			$this->setError(get_class($this).'::bind failed. Invalid from argument');
+		if (!is_object($src) && !is_array($src)) {
+			$this->setError(get_class($this).'::bind failed. Invalid source argument');
 			return false;
 		}
 
