@@ -23,12 +23,12 @@ abstract class JHtmlMenu
 	/**
 	 * @var	array	Cached array of the menus.
 	 */
-	public static $menus = null;
+	protected static $menus = null;
 
 	/**
 	 * @var	array	Cached array of the menus.
 	 */
-	public static $items = null;
+	protected static $items = null;
 
 	/**
 	 * Get a list of the available menus.

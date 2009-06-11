@@ -23,7 +23,7 @@ abstract class JHtmlAccess
 	/**
 	 * @var	array	A cached array of the asset groups
 	 */
-	public static $asset_groups = null;
+	protected static $asset_groups = null;
 
 	/**
 	 * Displays a list of the available access sections
