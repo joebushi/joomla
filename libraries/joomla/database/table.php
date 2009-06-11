@@ -1158,7 +1158,7 @@ abstract class JTable extends JObject
 			$this->published = $state;
 		}
 
-		$this->setError('');
+		$this->_errors = array();
 		return true;
 	}
 
