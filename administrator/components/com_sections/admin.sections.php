@@ -253,7 +253,7 @@ function editSection($edit)
 	// build the html select list for images
 	$lists['image'] 			= JHtml::_('list.images',  'image', $row->image);
 	// build the html select list for the group access
-	$lists['access'] 			= JHtml::_('access.assetgroups', 'access', $row->access);
+	$lists['access'] 			= JHtml::_('access.assetgrouplist', 'access', $row->access);
 	// build the html radio buttons for published
 	$lists['published'] 		= JHtml::_('select.booleanlist',  'published', 'class="inputbox"', $row->published);
 

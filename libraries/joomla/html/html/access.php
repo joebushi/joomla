@@ -21,6 +21,11 @@ jimport('joomla.database.query');
 abstract class JHtmlAccess
 {
 	/**
+	 * @var	array	A cached array of the asset groups
+	 */
+	public static $asset_groups = null;
+
+	/**
 	 * Displays a list of the available access sections
 	 *
 	 * @param	string	The form field name.
@@ -204,22 +209,15 @@ abstract class JHtmlAccess
 	}
 
 	/**
-	 * Displays a Select list of the available asset groups
+	 * Gets a list of the asset groups as an array of JHtml compatible options.
 	 *
-	 * @param	string $name	The name of the select element
-	 * @param	mixed $selected	The selected asset group id
-	 * @param	string $attribs	Optional attributes for the select field
-	 * @param	array $config	An array of options for the control
+	 * @param	array $config	An array of options for the options
 	 *
-	 * @return	mixed			An HTML string or null if an error occurs
+	 * @return	mixed			An array or false if an error occurs
 	 */
-	public static function assetgroups($name, $selected, $attribs = null, $config = array())
+	public static function &assetgroups($config = array())
 	{
-		static $count, $cache;
-
-		$count++;
-
-		if ($cache == null)
+		if (empty(JHtmlAccess::$asset_groups))
 		{
 			$db		= &JFactory::getDbo();
 			$query	= new JQuery;
@@ -231,7 +229,7 @@ abstract class JHtmlAccess
 			$query->order('a.left_id ASC');
 
 			$db->setQuery($query);
-			$cache = $db->loadObjectList();
+			JHtmlAccess::$asset_groups = $db->loadObjectList();
 
 			// Check for a database error.
 			if ($db->getErrorNum()) {
@@ -240,7 +238,24 @@ abstract class JHtmlAccess
 			}
 		}
 
-		$options = $cache;
+		return JHtmlAccess::$asset_groups;
+	}
+
+	/**
+	 * Displays a Select list of the available asset groups
+	 *
+	 * @param	string $name	The name of the select element
+	 * @param	mixed $selected	The selected asset group id
+	 * @param	string $attribs	Optional attributes for the select field
+	 * @param	array $config	An array of options for the control
+	 *
+	 * @return	mixed			An HTML string or null if an error occurs
+	 */
+	public static function assetgrouplist($name, $selected, $attribs = null, $config = array())
+	{
+		static $count;
+
+		$options = JHtmlAccess::assetgroups();
 		if (isset($config['title'])) {
 			array_unshift($options, JHtml::_('select.option', '', $config['title']));
 		}
@@ -250,11 +265,12 @@ abstract class JHtmlAccess
 			$options,
 			$name,
 			array(
-				'id' =>				isset($config['id']) ? $config['id'] : 'assetgroups_'.$count,
+				'id' =>				isset($config['id']) ? $config['id'] : 'assetgroups_'.++$count,
 				'list.attr' =>		(is_null($attribs) ? 'class="inputbox" size="3"' : $attribs),
 				'list.select' =>	(int) $selected,
 				'list.translate' => true
 			)
 		);
 	}
+
 }

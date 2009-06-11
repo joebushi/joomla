@@ -393,7 +393,7 @@ function editCategory($edit)
 	// Imagelist
 	$lists['image'] 			= JHtml::_('list.images',  'image', $row->image);
 	// build the html select list for the group access
-	$lists['access'] 			= JHtml::_('access.assetgroups', 'access', $row->access);
+	$lists['access'] 			= JHtml::_('access.assetgrouplist', 'access', $row->access);
 	// build the html radio buttons for published
 	$published = ($row->id) ? $row->published : 1;
 	$lists['published'] 		= JHtml::_('select.booleanlist',  'published', 'class="inputbox"', $published);

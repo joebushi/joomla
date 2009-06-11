@@ -29,10 +29,10 @@ abstract class JHtmlMenu
 
 		if ($id)
 		{
-			$query = 'SELECT ordering AS value, name AS text'
+			$query = 'SELECT ordering AS value, title AS text'
 			. ' FROM #__menu'
 			. ' WHERE menutype = '.$db->Quote($row->menutype)
-			. ' AND parent = '.(int) $row->parent
+			. ' AND parent_id = '.(int) $row->parent_id
 			. ' AND published != -2'
 			. ' ORDER BY ordering';
 			$order = JHtml::_('list.genericordering',  $query);
@@ -58,10 +58,10 @@ abstract class JHtmlMenu
 		$db = &JFactory::getDbo();
 
 		// get a list of the menu items
-		$query = 'SELECT m.id, m.parent, m.name, m.menutype'
+		$query = 'SELECT m.id, m.parent_id, m.title, m.menutype'
 		. ' FROM #__menu AS m'
 		. ' WHERE m.published = 1'
-		. ' ORDER BY m.menutype, m.parent, m.ordering'
+		. ' ORDER BY m.menutype, m.parent_id, m.ordering'
 		;
 		$db->setQuery($query);
 
@@ -84,13 +84,13 @@ abstract class JHtmlMenu
 		foreach ($mitems as $v)
 		{
 			$id = $v->id;
-			$pt = $v->parent;
+			$pt = $v->parent_id;
 			$list = @$children[$pt] ? $children[$pt] : array();
 			array_push($list, $v);
 			$children[$pt] = $list;
 		}
 		// second pass - get an indent list of the items
-		$list = JHtmlMenu::TreeRecurse(intval($mitems[0]->parent), '', array(), $children, 9999, 0, 0);
+		$list = JHtmlMenu::TreeRecurse(intval($mitems[0]->parent_id), '', array(), $children, 9999, 0, 0);
 
 		// Code that adds menu name to Display of Page(s)
 		$mitems_spacer 	= $mitems_temp[0]->menutype;
@@ -148,12 +148,12 @@ abstract class JHtmlMenu
 					$spacer = '&nbsp;&nbsp;';
 				}
 
-				if ($v->parent == 0) {
-					$txt 	= $v->name;
+				if ($v->parent_id == 0) {
+					$txt 	= $v->title;
 				} else {
-					$txt 	= $pre . $v->name;
+					$txt 	= $pre . $v->title;
 				}
-				$pt = $v->parent;
+				$pt = $v->parent_id;
 				$list[$id] = $v;
 				$list[$id]->treename = "$indent$txt";
 				$list[$id]->children = count(@$children[$id]);

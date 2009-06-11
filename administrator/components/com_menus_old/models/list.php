@@ -70,9 +70,9 @@ class MenusModelList extends JModel
 
 		// just in case filter_order get's messed up
 		if ($filter_order) {
-			$orderby = ' ORDER BY '.$filter_order .' '. $filter_order_Dir .', m.parent, m.ordering';
+			$orderby = ' ORDER BY '.$filter_order .' '. $filter_order_Dir .', m.parent_id, m.ordering';
 		} else {
-			$orderby = ' ORDER BY m.parent, m.ordering';
+			$orderby = ' ORDER BY m.parent_id, m.ordering';
 		}
 
 		// select the records
@@ -81,7 +81,7 @@ class MenusModelList extends JModel
 			$query = 'SELECT m.id' .
 					' FROM #__menu AS m' .
 					' WHERE menutype = '.$db->Quote($menutype) .
-					' AND LOWER(m.name) LIKE '.$db->Quote('%'.$db->getEscaped($search, true).'%', false) .
+					' AND LOWER(m.title) LIKE '.$db->Quote('%'.$db->getEscaped($search, true).'%', false) .
 					$and;
 			$db->setQuery($query);
 			$search_rows = $db->loadResultArray();

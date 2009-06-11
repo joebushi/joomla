@@ -141,7 +141,7 @@ function submitbutton(pressbutton) {
 								<?php echo JText::_('Access Level'); ?>:
 							</td>
 							<td>
-								<?php echo JHtml::_('access.assetgroups', 'access', $this->item->access); ?>
+								<?php echo JHtml::_('access.assetgrouplist', 'access', $this->item->access); ?>
 							</td>
 						</tr>
 						<tr>
