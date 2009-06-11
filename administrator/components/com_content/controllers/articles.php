@@ -25,6 +25,7 @@ class ContentControllerArticles extends JController
 		parent::__construct();
 
 		$this->registerTask('unpublish',	'publish');
+		$this->registerTask('archive',		'publish');
 		$this->registerTask('trash',		'publish');
 	}
 
@@ -38,9 +39,9 @@ class ContentControllerArticles extends JController
 	/**
 	 * Proxy for getModel
 	 */
-	function &getModel()
+	function &getModel($name = 'Article', $prefix = 'ContentModel')
 	{
-		return parent::getModel('Article', '', array('ignore_request' => true));
+		return parent::getModel($name, $prefix, array('ignore_request' => true));
 	}
 
 	/**
@@ -52,21 +53,17 @@ class ContentControllerArticles extends JController
 		JRequest::checkToken() or die('Invalid Token');
 
 		// Get items to remove from the request.
-		$cid	= JRequest::getVar('cid', array(), '', 'array');
+		$ids	= JRequest::getVar('cid', array(), '', 'array');
 
-		if (!is_array($cid) || count($cid) < 1) {
+		if (empty($ids)) {
 			JError::raiseWarning(500, JText::_('Select an item to delete'));
 		}
 		else {
 			// Get the model.
 			$model = $this->getModel();
 
-			// Make sure the item ids are integers
-			jimport('joomla.utilities.arrayhelper');
-			JArrayHelper::toInteger($cid);
-
 			// Remove the items.
-			if (!$model->delete($cid)) {
+			if (!$model->delete($ids)) {
 				JError::raiseWarning(500, $model->getError());
 			}
 		}
@@ -75,9 +72,8 @@ class ContentControllerArticles extends JController
 	}
 
 	/**
-	 * Method to publish a list of taxa
+	 * Method to publish a list of articles.
 	 *
-	 * @access	public
 	 * @return	void
 	 * @since	1.0
 	 */
@@ -87,12 +83,12 @@ class ContentControllerArticles extends JController
 		JRequest::checkToken() or die('Invalid Token');
 
 		// Get items to publish from the request.
-		$cid	= JRequest::getVar('cid', array(), '', 'array');
-		$values	= array('publish' => 1, 'unpublish' => 0, 'trash' => -2);
+		$ids	= JRequest::getVar('cid', array(), '', 'array');
+		$values	= array('publish' => 1, 'unpublish' => 0, 'archive' => -1, 'trash' => -2);
 		$task	= $this->getTask();
 		$value	= JArrayHelper::getValue($values, $task, 0, 'int');
 
-		if (!is_array($cid) || count($cid) < 1) {
+		if (empty($ids)) {
 			JError::raiseWarning(500, JText::_('Select an item to publish'));
 		}
 		else
@@ -100,11 +96,39 @@ class ContentControllerArticles extends JController
 			// Get the model.
 			$model	= $this->getModel();
 
-			// Make sure the item ids are integers
-			JArrayHelper::toInteger($cid);
+			// Publish the items.
+			if (!$model->publish($ids, $value)) {
+				JError::raiseWarning(500, $model->getError());
+			}
+		}
+
+		$this->setRedirect('index.php?option=com_content&view=articles');
+	}
+
+	/**
+	 * Method to toggle the frontpage setting of a list of articles.
+	 *
+	 * @return	void
+	 * @since	1.0
+	 */
+	function frontpage()
+	{
+		// Check for request forgeries
+		JRequest::checkToken() or die('Invalid Token');
+
+		// Get items to publish from the request.
+		$ids	= JRequest::getVar('cid', array(), '', 'array');
+
+		if (empty($ids)) {
+			JError::raiseWarning(500, JText::_('Select an item to publish'));
+		}
+		else
+		{
+			// Get the model.
+			$model	= $this->getModel();
 
 			// Publish the items.
-			if (!$model->publish($cid, $value)) {
+			if (!$model->frontpage($ids)) {
 				JError::raiseWarning(500, $model->getError());
 			}
 		}

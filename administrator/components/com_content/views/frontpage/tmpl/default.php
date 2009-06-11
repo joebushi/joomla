@@ -12,10 +12,8 @@ defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 JHtml::_('behavior.tooltip');
-
-$n = count($this->items);
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_content&view=articles');?>" method="post" name="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_content&view=frontpage');?>" method="post" name="adminForm">
 	<fieldset class="filter clearfix">
 		<div class="left">
 			<label for="search">
@@ -37,7 +35,7 @@ $n = count($this->items);
 
 			<select name="filter_published" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('JCommon_Option_Select_published_state');?></option>
-				<?php echo JHtml::_('select.options', $this->f_published, 'value', 'text', $this->state->get('filter.published'), true);?>
+				<?php echo JHtml::_('select.options', $this->f_published, 'value', 'text', $this->state->get('filter.published'));?>
 			</select>
 		</div>
 	</fieldset>
@@ -55,16 +53,13 @@ $n = count($this->items);
 					<?php echo JHtml::_('grid.sort', 'JCommon_Heading_Published', 'a.state', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="5%">
-					<?php echo JHtml::_('grid.sort', 'Content_Heading_Frontpage', 'a.catid', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
-				</th>
-				<th width="5%">
 					<?php echo JHtml::_('grid.sort', 'JCommon_Heading_Category', 'a.catid', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="5%">
 					<?php echo JHtml::_('grid.sort', 'JCommon_Heading_Created_by', 'a.created_by', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="10%" nowrap="nowrap">
-					<?php echo JHtml::_('grid.sort',  'JCommon_Heading_Ordering', 'a.ordering', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort',  'JCommon_Heading_Ordering', 'fp.ordering', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 					<?php echo JHtml::_('grid.order',  $this->items); ?>
 				</th>
 				<th width="10%">
@@ -89,7 +84,9 @@ $n = count($this->items);
 			</tr>
 		</tfoot>
 		<tbody>
-		<?php foreach ($this->items as $i => $item) :
+		<?php
+		$n = count($this->items);
+		foreach ($this->items as $i => $item) :
 			$item->max_ordering = 0; //??
 			$ordering	= ($this->state->get('list.ordering') == 'a.ordering');
 			?>
@@ -106,14 +103,9 @@ $n = count($this->items);
 					<?php endif; ?>
 					<a href="<?php echo JRoute::_('index.php?option=com_content&task=article.edit&cid[]='.$item->id);?>">
 						<?php echo $this->escape($item->title); ?></a>
-					<br /><small>
-						(<?php echo $this->escape($item->alias); ?>)</small>
 				</td>
 				<td align="center">
-					<?php echo JHtml::_('jgrid.published', $item->state, $i, 'articles.'); ?>
-				</td>
-				<td align="center">
-					<?php echo JHtml::_('content.frontpage', $item->frontpage, $i); ?>
+					<?php echo JHtml::_('jgrid.published', $item->state, $i, 'frontpage.'); ?>
 				</td>
 				<td align="center">
 					<?php echo $this->escape($item->category_title); ?>

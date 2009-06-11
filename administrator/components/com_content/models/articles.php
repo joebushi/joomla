@@ -37,7 +37,7 @@ class ContentModelArticles extends JModelList
 		$query = new JQuery;
 
 		// Select the required fields from the table.
-		$query->select($this->getState('list.select', 'a.*'));
+		$query->select($this->getState('list.select', 'a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.state, a.access, a.created, a.hits, a.ordering'));
 		$query->from('#__content AS a');
 
 		// Join over the users for the checked out user.
@@ -55,6 +55,10 @@ class ContentModelArticles extends JModelList
 		// Join over the users for the author.
 		$query->select('ua.name AS author_name');
 		$query->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
+
+		// Join over the frontpage mapping.
+		$query->select('fp.content_id AS frontpage');
+		$query->join('LEFT', '#__content_frontpage AS fp ON fp.content_id = a.id');
 
 		// Filter by access level.
 		if ($access = $this->getState('filter.access')) {
