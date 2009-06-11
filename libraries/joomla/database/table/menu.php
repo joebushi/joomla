@@ -8,7 +8,7 @@
 // No direct access
 defined('JPATH_BASE') or die;
 
-jimport('joomla.database.tabletree');
+jimport('joomla.database.tablenested');
 
 /**
  * Menu table
@@ -17,7 +17,7 @@ jimport('joomla.database.tabletree');
  * @subpackage	Table
  * @since		1.0
  */
-class JTableMenu extends JTableTree
+class JTableMenu extends JTableNested
 {
 	/**
 	 * @var int Primary key
@@ -120,7 +120,8 @@ class JTableMenu extends JTableTree
 	{
 		parent::__construct('#__menu', 'id', $db);
 
-		$this->access	= (int)JFactory::getConfig()->getValue('access');
+		// Set the default access level.
+		$this->access = (int) JFactory::getConfig()->getValue('access');
 	}
 
 	/**
@@ -134,7 +135,7 @@ class JTableMenu extends JTableTree
 	function check()
 	{
 		if (empty($this->alias)) {
-			$this->alias = $this->name;
+			$this->alias = $this->title;
 		}
 		$this->alias = JFilterOutput::stringURLSafe($this->alias);
 		if (trim(str_replace('-','',$this->alias)) == '') {

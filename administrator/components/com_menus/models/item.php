@@ -241,6 +241,11 @@ class MenusModelItem extends JModelForm
 			$isNew = false;
 		}
 
+		// Set the new parent id if set.
+		if ($table->parent_id != $data['parent_id']) {
+			$table->setLocation($data['parent_id'], 'last-child');
+		}
+
 		// Bind the data.
 		if (!$table->bind($data)) {
 			$this->setError(JText::sprintf('JTable_Error_Bind_failed', $table->getError()));
@@ -255,12 +260,6 @@ class MenusModelItem extends JModelForm
 
 		// Store the data.
 		if (!$table->store()) {
-			$this->setError($table->getError());
-			return false;
-		}
-
-		// Rebuild the hierarchy.
-		if (!$table->rebuildTree()) {
 			$this->setError($table->getError());
 			return false;
 		}
@@ -372,12 +371,6 @@ class MenusModelItem extends JModelForm
 			}
 		}
 
-		// Rebuild the hierarchy.
-		if (!$table->rebuildTree()) {
-			$this->setError($this->_db->getErrorMsg());
-			return false;
-		}
-
 		return true;
 	}
 
@@ -422,25 +415,30 @@ class MenusModelItem extends JModelForm
 		// Sanitize the id and adjustment.
 		$id	= (!empty($id)) ? $id : (int) $this->getState('item.id');
 
+		// If the ordering direction is 0 then we aren't moving anything.
+		if ($direction == 0) {
+			return true;
+		}
+
 		// Get a row instance.
 		$table = &$this->getTable();
 
-		// Attempt to adjust the row ordering.
-		if (!$table->ordering((int) $direction, $id)) {
-			$this->setError($table->getError());
-			return false;
+		// Move the row down in the ordering.
+		if ($direction > 0)
+		{
+			if (!$table->orderDown($id)) {
+				$this->setError($table->getError());
+				return false;
+			}
 		}
 
-		// Rebuild the hierarchy.
-		if (!$table->rebuildTree()) {
-			$this->setError($this->_db->getErrorMsg());
-			return false;
-		}
-
-		// Rebuild the tree path.
-		if (!$table->rebuildPath($table->id)) {
-			$this->setError($this->_db->getErrorMsg());
-			return false;
+		// Move the row up in the ordering.
+		else
+		{
+			if (!$table->orderUp($id)) {
+				$this->setError($table->getError());
+				return false;
+			}
 		}
 
 		return true;
@@ -615,32 +613,21 @@ class MenusModelItem extends JModelForm
 		$table	= &$this->getTable();
 		$db		= &$this->getDbo();
 
-		// Check that the parent exists
+		// Check that the parent exists.
 		if ($parentId)
 		{
 			if (!$table->load($parentId))
 			{
-				if ($error = $table->getError())
-				{
+				if ($error = $table->getError()) {
 					// Fatal error
 					$this->setError($error);
 					return false;
 				}
-				else
-				{
+				else {
 					// Non-fatal error
 					$this->setError(JText::_('Menus_Batch_Move_parent_not_found'));
 					$parentId = 0;
 				}
-			}
-		}
-
-		// If the parent is 0, set it to the ID of the root item in the tree
-		if (empty($parentId))
-		{
-			if (!$parentId = $table->getRootId()) {
-				$this->setError($this->_db->getErrorMsg());
-				return false;
 			}
 		}
 
@@ -650,54 +637,44 @@ class MenusModelItem extends JModelForm
 		// Parent exists so we let's proceed
 		foreach ($itemIds as $id)
 		{
-			$table->reset();
-
 			// Check that the row actually exists
 			if (!$table->load($id))
 			{
-				if ($error = $table->getError())
-				{
+				if ($error = $table->getError()) {
 					// Fatal error
 					$this->setError($error);
 					return false;
 				}
-				else
-				{
+				else {
 					// Not fatal error
 					$this->setError(JText::sprintf('Menus_Batch_Move_row_not_found', $id));
 					continue;
 				}
 			}
 
+			// Set the new location in the tree for the node.
+			$table->setLocation($parentId, 'last-child');
+
 			// Check if we are moving to a different menu
 			if ($menuType != $table->menutype)
 			{
-				// Find any children to this row.
+				// Add the child node ids to the children array.
 				$db->setQuery(
-					'SELECT id' .
-					' FROM #__menu' .
-					' WHERE left_id > '.(int) $table->left_id.' AND right_id < '.(int) $table->right_id
+					'SELECT `id`' .
+					' FROM `#__menu`' .
+					' WHERE `left_id` BETWEEN '.(int) $table->left_id.' AND '.(int) $table->right_id
 				);
-				$childIds = $db->loadResultArray();
-
-				// Add child ID's to the array only if they aren't already there.
-				foreach ($childIds as $childId)
-				{
-					if (!in_array($childId, $itemIds)) {
-						$children[] = $childId;
-					}
-				}
+				$children = array_merge($children, (array) $db->loadResultArray());
 			}
-
-			$table->parent_id	= $parentId;
-			$table->menutype	= $menuType;
-			$table->ordering	= 1;
-			$table->level		= null;
-			$table->left_id		= null;
-			$table->right_id	= null;
 
 			// Store the row.
 			if (!$table->store()) {
+				$this->setError($table->getError());
+				return false;
+			}
+
+			// Rebuild the tree path.
+			if (!$table->rebuildPath()) {
 				$this->setError($table->getError());
 				return false;
 			}
@@ -706,28 +683,23 @@ class MenusModelItem extends JModelForm
 		// Process the child rows
 		if (!empty($children))
 		{
+			// Remove any duplicates and sanitize ids.
+			$children = array_unique($children);
+			JArrayHelper::toInteger($children);
+
+			// Update the menutype field in all nodes where necessary.
 			$db->setQuery(
-				'UPDATE #__menu' .
-				' SET menutype = '.$db->quote($menuType).
-				' WHERE id IN ('.implode(',', $children).')'
+				'UPDATE `#__menu`' .
+				' SET `menutype` = '.$db->quote($menuType).
+				' WHERE `id` IN ('.implode(',', $children).')'
 			);
-			if (!$db->query())
-			{
+			$db->query();
+
+			// Check for a database error.
+			if ($db->getErrorNum()) {
 				$this->setError($db->getErrorMsg());
 				return false;
 			}
-		}
-
-		// Rebuild the hierarchy.
-		if (!$table->rebuildTree()) {
-			$this->setError($table->getError());
-			return false;
-		}
-
-		// Rebuild the tree path.
-		if (!$table->rebuildPath($table->id)) {
-			$this->setError($table->getError());
-			return false;
 		}
 
 		return true;

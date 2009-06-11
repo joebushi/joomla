@@ -116,7 +116,7 @@ class JTableNested extends JTable
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
-		// Get the path from the node to the root.
+		// Get the node and children as a tree.
 		$select = ($diagnostic) ? 'SELECT n.'.$k.', n.parent_id, n.level, n.left_id, n.right_id' : 'SELECT n.*';
 		$this->_db->setQuery(
 			$select .
@@ -1019,6 +1019,60 @@ class JTableNested extends JTable
 
 		// Unlock the table for writing.
 		$this->_unlock();
+
+		return true;
+	}
+
+	/**
+	 * Method to rebuild the row's path field from the alias row values of the
+	 * nodes from the current node to the root node of the tree.
+	 *
+	 * @param	integer	Primary key of the node for which to get the path.
+	 * @return	boolean	True on success.
+	 * @since	1.6
+	 */
+	public function rebuildPath($pk = null)
+	{
+		// If there is no alias or path field, just return true.
+		if (!property_exists($this, 'alias') || !property_exists($this, 'path')) {
+			return true;
+		}
+
+		// Initialize variables.
+		$k = $this->_tbl_key;
+		$pk = (is_null($pk)) ? $this->$k : $pk;
+
+		// Get the aliases for the path from the node to the root node.
+		$this->_db->setQuery(
+			'SELECT p.alias' .
+			' FROM '.$this->_tbl.' AS n, '.$this->_tbl.' AS p' .
+			' WHERE n.left_id BETWEEN p.left_id AND p.right_id' .
+			' AND n.'.$this->_tbl_key.' = '. (int) $pk .
+			' ORDER BY p.left_id'
+		);
+		$segments = $this->_db->loadResultArray();
+
+		// Make sure to remove the root path if it exists in the list.
+		if ($segments[0] == 'root') {
+			array_shift($segments);
+		}
+
+		// Build the path.
+		$path = trim(implode('/', $segments), ' /\\');
+
+		// Update the path field for the node.
+		$this->_db->setQuery(
+			'UPDATE `'.$this->_tbl.'`' .
+			' SET `path` = '.$this->_db->quote($path) .
+			' WHERE `'.$this->_tbl_key.'` = '.(int) $pk
+		);
+		$this->_db->query();
+
+		// Check for a database error.
+		if ($this->_db->getErrorNum()) {
+			$this->setError($this->_db->getErrorMsg());
+			return false;
+		}
 
 		return true;
 	}
