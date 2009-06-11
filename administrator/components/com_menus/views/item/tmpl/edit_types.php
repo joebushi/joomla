@@ -8,7 +8,6 @@
  */
 
 defined('_JEXEC') or die;
-
 ?>
 
 <dl class="menu_types">

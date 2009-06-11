@@ -19,11 +19,14 @@ jimport( 'joomla.application.component.controller' );
 class MenusControllerItem extends JController
 {
 	/**
-	 * Constructor
+	 * Constructor.
+	 *
+	 * @param	array An optional associative array of configuration settings.
+	 * @see		JController
 	 */
-	public public function __construct()
+	public function __construct($config = array())
 	{
-		parent::__construct();
+		parent::__construct($config);
 
 		// Register proxy tasks.
 		$this->registerTask('save2copy',	'save');
@@ -51,7 +54,7 @@ class MenusControllerItem extends JController
 		// Initialize variables.
 		$app = &JFactory::getApplication();
 
-		// Clear the menu item edit information from the session.
+		// Clear the row edit information from the session.
 		$app->setUserState('com_menus.edit.item.id',	null);
 		$app->setUserState('com_menus.edit.item.data',	null);
 
@@ -72,7 +75,6 @@ class MenusControllerItem extends JController
 		// Initialize variables.
 		$app	= &JFactory::getApplication();
 		$ids	= JRequest::getVar('cid', array(), '', 'array');
-		$model	= &$this->getModel('Item');
 
 		// Get the id of the group to edit.
 		$id		=  (empty($ids) ? JRequest::getInt('item_id') : (int) array_pop($ids));
@@ -116,14 +118,15 @@ class MenusControllerItem extends JController
 	 */
 	public function cancel()
 	{
-		// Initialize variables.
-		$app = &JFactory::getApplication();
+		JRequest::checkToken() or jExit(JText::_('JInvalid_Token'));
 
-		// Get the previous menu item id (if any) and the current menu item id.
+		// Initialize variables.
+		$app	= &JFactory::getApplication();
+		$model	= &$this->getModel('Item');
+
+		// Get the previous row id.
 		$previousId	= (int) $app->getUserState('com_menus.edit.item.id');
 
-		// Get the menu item model.
-		$model	= &$this->getModel('Item');
 
 		// If rows ids do not match, checkin previous row.
 		if ($model->checkin($previousId))
@@ -138,7 +141,7 @@ class MenusControllerItem extends JController
 			$this->setRedirect('index.php?option=com_menus&view=items', $message, 'error');
 		}
 
-		// Clear the menu item edit information from the session.
+		// Clear the row edit information from the session.
 		$app->setUserState('com_menus.edit.item.id',	null);
 		$app->setUserState('com_menus.edit.item.data',	null);
 	}
@@ -155,17 +158,17 @@ class MenusControllerItem extends JController
 
 		// Initialize variables.
 		$app	= &JFactory::getApplication();
+		$model	= &$this->getModel('Item');
 		$task	= $this->getTask();
 
 		// Get the posted values from the request.
 		$data	= JRequest::getVar('jform', array(), 'post', 'array');
+		$map	= JRequest::getVar('menuid', array(), 'post', 'array');
 
 		// Populate the row id from the session.
 		$data['id'] = (int) $app->getUserState('com_menus.edit.item.id');
 
-		// Get the model.
-		$model	= &$this->getModel('Item');
-
+		// The save2copy task needs to be handled slightly differently.
 		if ($task == 'save2copy')
 		{
 			// Check-in the original row.
@@ -182,13 +185,16 @@ class MenusControllerItem extends JController
 			$task		= 'apply';
 		}
 
-		// Attempt to validate the posted data.
+		// Validate the posted data.
 		$form	= &$model->getForm();
 		if (!$form) {
 			JError::raiseError(500, $model->getError());
 			return false;
 		}
 		$data	= $model->validate($form, $data);
+
+		// Push the menu id map back into the array
+		$data['map'] = &$map;
 
 		// Check for validation errors.
 		if ($data === false)
@@ -201,7 +207,8 @@ class MenusControllerItem extends JController
 			{
 				if (JError::isError($errors[$i])) {
 					$app->enqueueMessage($errors[$i]->getMessage(), 'notice');
-				} else {
+				}
+				else {
 					$app->enqueueMessage($errors[$i], 'notice');
 				}
 			}
@@ -229,7 +236,7 @@ class MenusControllerItem extends JController
 		// Save succeeded, check-in the row.
 		if (!$model->checkin())
 		{
-			// Check-in failed, go back to the item and display a notice.
+			// Check-in failed, go back to the row and display a notice.
 			$message = JText::sprintf('JError_Checkin_saved', $model->getError());
 			$this->setRedirect('index.php?option=com_menus&view=item&layout=edit', $message, 'error');
 			return false;
@@ -241,7 +248,7 @@ class MenusControllerItem extends JController
 		switch ($task)
 		{
 			case 'apply':
-				// Set the menu id in the session.
+				// Set the row data in the session.
 				$app->setUserState('com_menus.edit.item.id',	$model->getState('item.id'));
 				$app->setUserState('com_menus.edit.item.data',	null);
 
@@ -250,7 +257,7 @@ class MenusControllerItem extends JController
 				break;
 
 			case 'save2new':
-				// Clear the menu item id and data in the session.
+				// Clear the row id and data in the session.
 				$app->setUserState('com_menus.edit.item.id',	null);
 				$app->setUserState('com_menus.edit.item.data',	null);
 
@@ -259,7 +266,7 @@ class MenusControllerItem extends JController
 				break;
 
 			default:
-				// Clear the menu item id and data in the session.
+				// Clear the row id and data in the session.
 				$app->setUserState('com_menus.edit.item.id',	null);
 				$app->setUserState('com_menus.edit.item.data',	null);
 

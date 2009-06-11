@@ -41,8 +41,8 @@ class MenusModelItems extends JModelList
 		$query->from('`#__menu` AS a');
 
 		// Join over the users.
-		$query->select('co.name AS editor');
-		$query->join('LEFT', '`#__users` AS co ON co.id = a.checked_out');
+		$query->select('u.name AS editor');
+		$query->join('LEFT', '`#__users` AS u ON u.id = a.checked_out');
 
 		// Join over the asset groups.
 		$query->select('ag.title AS access_level');

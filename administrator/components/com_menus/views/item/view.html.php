@@ -23,10 +23,11 @@ class MenusViewItem extends JView
 	 */
 	public function display($tpl = null)
 	{
-		$state	= $this->get('State');
-		$item	= $this->get('Item');
-		$form	= $this->get('Form');
-		$types	= $this->get('TypeOptions');
+		$state		= $this->get('State');
+		$item		= $this->get('Item');
+		$form		= $this->get('Form');
+		$types		= $this->get('TypeOptions');
+		$modules	= $this->get('Modules');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -40,6 +41,7 @@ class MenusViewItem extends JView
 		$this->assignRef('item',	$item);
 		$this->assignRef('form',	$form);
 		$this->assignRef('types',	$types);
+		$this->assignRef('modules',	$modules);
 
 		parent::display($tpl);
 		JRequest::setVar('hidemainmenu', true);

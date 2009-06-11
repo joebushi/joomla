@@ -9,6 +9,7 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modelform');
+jimport('joomla.database.query');
 
 /**
  * Menu Item Model for Menus.
@@ -84,7 +85,7 @@ class MenusModelItem extends JModelForm
 		$itemId = (!empty($itemId)) ? $itemId : (int)$this->getState('item.id');
 		$false	= false;
 
-		// Get a menu item row instance.
+		// Get a row instance.
 		$table = &$this->getTable();
 
 		// Attempt to load the row.
@@ -92,7 +93,7 @@ class MenusModelItem extends JModelForm
 
 		// Check for a table object error.
 		if ($return === false && $table->getError()) {
-			$this->serError($table->getError());
+			$this->setError($table->getError());
 			return $false;
 		}
 
@@ -115,7 +116,7 @@ class MenusModelItem extends JModelForm
 	}
 
 	/**
-	 * Method to get the menu item form.
+	 * Method to get the row form.
 	 *
 	 * @return	mixed	JForm object on success, false on failure.
 	 * @since	1.6
@@ -184,6 +185,42 @@ class MenusModelItem extends JModelForm
 	}
 
 	/**
+	 * Get the list of modules not in trash.
+	 *
+	 * @return	mixed	An array of module records (id, title, position), or false on error.
+	 */
+	public function getModules()
+	{
+		$query = new JQuery;
+
+		$query->select('a.id, a.title, a.position, a.published');
+		$query->from('#__modules AS a');
+
+		// Join on the module-to-menu mapping table.
+		// We are only interested if the module is displayed on ALL or THIS menu item (or the inverse ID number).
+		$query->select('map.menuid');
+		$query->join('LEFT', '#__modules_menu AS map ON map.moduleid = a.id AND (map.menuid = 0 OR ABS(map.menuid) = '.(int) $this->getState('item.id').')');
+
+		// Join on the asset groups table.
+		$query->select('ag.title AS access_title');
+		$query->join('LEFT', '#__access_assetgroups AS ag ON ag.id = a.access');
+		$query->where('a.published >= 0');
+		$query->where('a.client_id = 0');
+		$query->order('a.position, a.ordering');
+
+		$this->_db->setQuery($query);
+		$result = $this->_db->loadObjectList();
+
+		if ($error = $this->_db->getError())
+		{
+			$this->setError($error);
+			return false;
+		}
+
+		return $result;
+	}
+
+	/**
 	 * Method to save the form data.
 	 *
 	 * @param	array	The form data.
@@ -236,13 +273,84 @@ class MenusModelItem extends JModelForm
 
 		$this->setState('item.id', $table->id);
 
+		// So this is where things get a little bit insane ...
+
+		// If menuid is 0, there is only one entry in the mapping table.
+		// If menuid is nothing, there could be other entries in the mapping table, but not be zero.
+		// If menuid is positive or negative, there could also be other entries in the table.
+
+		$map = JArrayHelper::getValue($data, 'map', array(), 'array');
+
+		$drops	= array();
+		$adds	= array();
+
+		foreach ($map as $moduleId => $menuId)
+		{
+			$moduleId	= (int) $moduleId;
+
+			// Check that we have a module id.
+			if (empty($moduleId)) {
+				continue;
+			}
+
+			// Check if the menuid is set to ALL
+			if (is_numeric($menuId) && (int) $menuId == 0)
+			{
+				// Drop all other maps for this module.
+				$drops[]	= '(moduleid = '.$moduleId.')';
+
+				// Add the map for this module to show on all pages.
+				$adds[]		= '('.$moduleId.', 0)';
+			}
+			else
+			{
+				// Drop all other maps for this module to ALL pages.
+				$drops[] = '(moduleid = '.$moduleId.' AND menuid = 0)';
+
+				if ($menuId == 1 || $menuId == -1)
+				{
+					// Add the map for this module to show/hide on this page.
+					$adds[] = '('.$moduleId.', '.(int) $table->id * $menuId.')';
+				}
+			}
+		}
+
+		// Preform the drops.
+		if (!empty($drops))
+		{
+			$this->_db->setQuery(
+				'DELETE FROM #__modules_menu' .
+				' WHERE '.implode(' OR ', $drops)
+			);
+			if (!$this->_db->query()) {
+				$this->setError($this->_db->getErrorMsg());
+				return false;
+			}
+			echo $this->_db->getQuery();
+		}
+
+		// Perform the inserts.
+		if (!empty($adds))
+		{
+			$this->_db->setQuery(
+				'INSERT INTO #__modules_menu (moduleid, menuid)' .
+				' VALUES '.implode(',', $adds)
+			);
+			if (!$this->_db->query()) {
+				$this->setError($this->_db->getErrorMsg());
+				return false;
+			}
+			echo $this->_db->getQuery();
+		}
+
 		return true;
 	}
 
 	/**
-	 * Method to delete groups.
+	 * Method to delete rows.
 	 *
 	 * @param	array	An array of item ids.
+	 *
 	 * @return	boolean	Returns true on success, false on failure.
 	 */
 	public function delete($itemIds)
@@ -251,7 +359,7 @@ class MenusModelItem extends JModelForm
 		$itemIds = (array) $itemIds;
 		JArrayHelper::toInteger($itemIds);
 
-		// Get a group row instance.
+		// Get a row instance.
 		$table = &$this->getTable();
 
 		// Iterate the items to delete each one.
@@ -272,7 +380,6 @@ class MenusModelItem extends JModelForm
 
 		return true;
 	}
-
 
 	/**
 	 * Method to publish categories.
@@ -309,7 +416,6 @@ class MenusModelItem extends JModelForm
 	 * @param	int		The numeric id of the row to move.
 	 * @param	integer	Increment, usually +1 or -1
 	 * @return	boolean	False on failure or error, true otherwise.
-	 * @since	1.0
 	 */
 	public function ordering($id, $direction = 0)
 	{

@@ -1,4 +1,4 @@
-JController_Save_success<?php
+<?php
 /**
  * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
@@ -19,11 +19,14 @@ jimport( 'joomla.application.component.controller' );
 class MenusControllerItems extends JController
 {
 	/**
-	 * Constructor
+	 * Constructor.
+	 *
+	 * @param	array An optional associative array of configuration settings.
+	 * @see		JController
 	 */
-	public function __construct()
+	public function __construct($config = array())
 	{
-		parent::__construct();
+		parent::__construct($config);
 
 		// Register proxy tasks.
 		$this->registerTask('unpublish',	'publish');
@@ -56,9 +59,10 @@ class MenusControllerItems extends JController
 		JRequest::checkToken() or jExit(JText::_('JInvalid_Token'));
 
 		// Get items to remove from the request.
-		$cid	= JRequest::getVar('cid', array(), '', 'array');
+		$cid	= JRequest::getVar('cid', array(), 'post', 'array');
+		$n		= count($cid);
 
-		if (!is_array($cid) || count($cid) < 1) {
+		if (!is_array($cid) || $n < 1) {
 			JError::raiseWarning(500, JText::_('JError_No_items_selected'));
 		}
 		else {
@@ -70,7 +74,10 @@ class MenusControllerItems extends JController
 			JArrayHelper::toInteger($cid);
 
 			// Remove the items.
-			if (!$model->delete($cid)) {
+			if ($model->delete($cid)) {
+				$this->setMessage(JText::sprintf('JSuccess_N_items_deleted', $n));
+			}
+			else {
 				$this->setMessage($model->getError());
 			}
 		}
@@ -79,7 +86,7 @@ class MenusControllerItems extends JController
 	}
 
 	/**
-	 * Method to publish a list of taxa
+	 * Method to change the published state of selected rows.
 	 *
 	 * @return	void
 	 */
@@ -106,7 +113,10 @@ class MenusControllerItems extends JController
 			JArrayHelper::toInteger($cid);
 
 			// Publish the items.
-			if (!$model->publish($cid, $value)) {
+			if ($model->publish($cid, $value)) {
+				$this->setMessage($value ? JText::_('JSuccess_N_items_published') : JText::_('JSuccess_N_items_unpublished'));
+			}
+			else {
 				$this->setMessage($model->getError());
 			}
 		}
@@ -125,7 +135,7 @@ class MenusControllerItems extends JController
 
 		// Initialize variables.
 		$cid	= JRequest::getVar('cid', null, 'post', 'array');
-		$model	= &$this->getModel('Item');
+		$model	= &$this->getModel();
 
 		// Attempt to move the row.
 		$return = $model->ordering(array_pop($cid), $this->getTask() == 'orderup' ? -1 : 1);

@@ -84,25 +84,13 @@ JHtml::_('behavior.formvalidation');
 	</fieldset>
 
 	<fieldset style="width:45%; float:left;">
-		<legend><?php echo JText::_('Menu_Item_Options'); ?></legend>
+		<legend><?php echo JText::_('Menus_Item_Options'); ?></legend>
+		<?php echo $this->loadTemplate('options'); ?>
+	</fieldset>
 
-		<table>
-		<?php foreach($this->form->getFields('params') as $field): ?>
-			<?php if ($field->hidden): ?>
-				<?php echo $field->input; ?>
-			<?php else: ?>
-				<tr>
-					<td class="paramlist_key" width="40%">
-						<?php echo $field->label; ?>
-					</td>
-					<td class="paramlist_value">
-						<?php echo $field->input; ?>
-					</td>
-				</tr>
-			<?php endif; ?>
-		<?php endforeach; ?>
-		</table>
-
+	<fieldset style="width:45%; float:left;">
+		<legend><?php echo JText::_('Menus_Item_Module_Assignment'); ?></legend>
+		<?php echo $this->loadTemplate('modules'); ?>
 	</fieldset>
 
 	<input type="hidden" name="task" value="" />
