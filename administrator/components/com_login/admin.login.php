@@ -52,7 +52,6 @@ class LoginController
 		JRequest::checkToken('request') or jexit('Invalid Token');
 
 		$credentials = array();
-
 		$credentials['username'] = JRequest::getVar('username', '', 'method', 'username');
 		$credentials['password'] = JRequest::getVar('passwd', '', 'post', 'string', JREQUEST_ALLOWRAW);
 

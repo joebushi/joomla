@@ -57,7 +57,6 @@ class plgAuthenticationJoomla extends JPlugin
 		$db->setQuery($query);
 		$result = $db->loadObject();
 
-
 		if ($result)
 		{
 			$parts	= explode(':', $result->password);

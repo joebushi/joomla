@@ -383,8 +383,12 @@ class ConfigControllerApplication extends ConfigController
 		//purge the database session table (only if we are changing to a db session store)
 		if ($mainframe->getCfg('session_handler') != 'database' && $config->getValue('session_handler') == 'database')
 		{
-			$table = &JTable::getInstance('session');
-			$table->purge(-1);
+			$db = JFactory::getDBO();
+			$db->setQuery(
+				'DELETE FROM `#__session`' .
+				' WHERE 1'
+			);
+			$db->query();
 		}
 
 		// Get the path of the configuration file

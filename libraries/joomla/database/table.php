@@ -860,17 +860,19 @@ abstract class JTable extends JObject
 
 		// The item is not checked out or is checked out by the same user.
 		if (!$against || ($against == $with)) {
-			return  false;
-		}
-
-		// Get the session table object.
-		$session = & JTable::getInstance('session');
-		if (!$session instanceof JTable) {
 			return false;
 		}
 
+		$db = JFactory::getDBO();
+		$db->setQuery(
+			'SELECT COUNT(userid)' .
+			' FROM `#__session`' .
+			' WHERE `userid` = '.(int) $against
+		);
+		$checkedOut = (boolean) $db->loadResult();
+
 		// If a session exists for the user then it is checked out.
-		return $session->exists($against);
+		return $checkedOut;
 	}
 
 	/**
