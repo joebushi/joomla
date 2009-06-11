@@ -41,6 +41,6 @@ class JFormFieldCalendar extends JFormFieldText
 			$this->value = strftime($format);
 		}
 
-		return JHtml::_('calendar', $this->value, $this->inputName, $this->inputId, $format);
+		return JHtml::calendar($this->value, $this->inputName, $this->inputId, $format);
 	}
 }
