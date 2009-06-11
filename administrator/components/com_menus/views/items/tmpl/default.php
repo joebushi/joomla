@@ -33,12 +33,24 @@ $n = count($this->items);
 		</div>
 
 		<div class="right">
-			<?php echo JHtml::_('access.assetgroups', 'filter_access', $this->state->get('filter.access'), 'class="inputbox" onchange="this.form.submit();"', array('title' => ''));?>
-			<?php echo JHtml::_('jgrid.filterPublished', 'filter_published', $this->state->get('filter.published'));?>
-			<?php echo JHtml::_('menu.type', 'menutype', $this->state->get('filter.menutype'), 'class="inputbox" onchange="this.form.submit();"');?>
+			<select name="filter_access" class="inputbox" onchange="this.form.submit()">
+				<option value=""><?php echo JText::_('JCommon_Option_Select_access_level');?></option>
+				<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'));?>
+			</select>
 
-			<?php echo JHtml::_('select.integerlist', 0, 4, 1, 'filter_level', 'class="inputbox" onchange="this.form.submit();"', $this->state->get('filter.level'));?>
+			<select name="filter_published" class="inputbox" onchange="this.form.submit()">
+				<option value=""><?php echo JText::_('JCommon_Option_Select_published_state');?></option>
+				<?php echo JHtml::_('select.options', $this->f_published, 'value', 'text', $this->state->get('filter.published'), true);?>
+			</select>
 
+			<select name="menutype" class="inputbox" onchange="this.form.submit()">
+				<?php echo JHtml::_('select.options', JHtml::_('menu.menus'), 'value', 'text', $this->state->get('filter.menutype'));?>
+			</select>
+
+			<select name="filter_level" class="inputbox" onchange="this.form.submit()">
+				<option value=""><?php echo JText::_('JMenu_Option_Select_Level');?></option>
+				<?php echo JHtml::_('select.options', $this->f_levels, 'value', 'text', $this->state->get('filter.level'));?>
+			</select>
 		</div>
 	</fieldset>
 

@@ -23,14 +23,17 @@ $published = $this->state->get('filter.published');
 			<label for="batch_access">
 				<?php echo JText::_('Menus_Batch_Access_Label'); ?>
 			</label>
-			<?php echo JHtml::_('access.assetgroups', 'batch[assetgroup_id]', '', 'class="inputbox"', array('title' => '', 'id' => 'batch_access'));?>
+			<?php echo JHtml::_('access.assetgrouplist', 'batch[assetgroup_id]', '', 'class="inputbox"', array('title' => '', 'id' => 'batch_access'));?>
 		</p>
 		<?php if (is_numeric($published)) : ?>
 		<p>
 			<label for="batch_access">
 				<?php echo JText::_('Menus_Batch_Menu_Label'); ?>
 			</label>
-			<?php echo JHtml::_('menu.menus', 'batch[menu_id]', '', 'class="inputbox"', array('title' => '', 'id' => 'batch_menu_id', 'published' => $published));?>
+			<select name="batch[menu_id]" class="inputbox" id="batch_menu_id">
+				<option></option>
+				<?php echo JHtml::_('select.options', JHtml::_('menu.menuitems', array('published' => $published)));?>
+			</select>
 			<?php echo JHTML::_( 'select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm'); ?>
 		</p>
 		<?php endif; ?>

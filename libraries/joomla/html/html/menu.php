@@ -21,8 +21,135 @@ defined('_JEXEC') or die;
 abstract class JHtmlMenu
 {
 	/**
-	* Build the select list for Menu Ordering
-	*/
+	 * @var	array	Cached array of the menus.
+	 */
+	public static $menus = null;
+
+	/**
+	 * @var	array	Cached array of the menus.
+	 */
+	public static $items = null;
+
+	/**
+	 * Get a list of the available menus.
+	 *
+	 * @return	string
+	 * @since	1.6
+	 */
+	public static function menus()
+	{
+		if (empty(self::$menus))
+		{
+			$db = &JFactory::getDbo();
+			$db->setQuery(
+				'SELECT menutype As value, title As text' .
+				' FROM #__menu_types' .
+				' ORDER BY title'
+			);
+			self::$menus = $db->loadObjectList();
+		}
+
+		return self::$menus;
+	}
+
+	/**
+	 * Returns an array of menu items groups by menu.
+	 *
+	 * @param	array	An array of configuration options.
+	 *
+	 * @return	array
+	 */
+	public static function menuitems($config = array())
+	{
+		if (empty(self::$items))
+		{
+			$db = &JFactory::getDbo();
+			$db->setQuery(
+				'SELECT menutype As value, title As text' .
+				' FROM #__menu_types' .
+				' ORDER BY title'
+			);
+			$menus = $db->loadObjectList();
+
+			$query = new JQuery;
+			$query->select('a.id AS value, a.title As text, a.level, a.menutype');
+			$query->from('#__menu AS a');
+			$query->where('a.parent_id > 0');
+			$query->where('a.type <> '.$db->quote('url'));
+
+			// Filter on the published state
+			if (isset($config['published'])) {
+				$query->where('a.published = '.(int) $config['published']);
+			}
+
+			$query->order('a.left_id');
+
+			$db->setQuery($query);
+			$items = $db->loadObjectList();
+
+			// Collate menu items based on menutype
+			$lookup = array();
+			foreach ($items as &$item)
+			{
+				if (!isset($lookup[$item->menutype])) {
+					$lookup[$item->menutype] = array();
+				}
+				$lookup[$item->menutype][] = &$item;
+
+				$item->text = str_repeat('- ',$item->level).$item->text;
+			}
+			self::$items = array();
+
+			foreach ($menus as &$menu)
+			{
+				self::$items[] = JHtml::_('select.optgroup',	$menu->text);
+				self::$items[] = JHtml::_('select.option', $menu->value.'.0', JText::_('Menus_Add_to_this_menu'));
+
+				if (isset($lookup[$menu->value]))
+				{
+					foreach ($lookup[$menu->value] as &$item) {
+						self::$items[] = JHtml::_('select.option', $menu->value.'.'.$item->value, $item->text);
+					}
+				}
+			}
+		}
+
+		return self::$items;
+	}
+
+	/**
+	 * Displays an HTML select list of menu items.
+	 *
+	 * @param	string	The name of the control.
+	 * @param	string	The value of the selected option.
+	 * @param	string	Attributes for the control.
+	 * @param	array	An array of options for the control.
+	 *
+	 * @return	string
+	 */
+	public static function menuitemlist($name, $selected = null, $attribs = null, $config = array())
+	{
+		static $count;
+
+		$options = self::menuitems($config);
+
+		return JHtml::_(
+			'select.genericlist',
+			$options,
+			$name,
+			array(
+				'id' =>				isset($config['id']) ? $config['id'] : 'assetgroups_'.++$count,
+				'list.attr' =>		(is_null($attribs) ? 'class="inputbox" size="1"' : $attribs),
+				'list.select' =>	(int) $selected,
+				'list.translate' => false
+			)
+		);
+	}
+
+
+	/**
+	 * Build the select list for Menu Ordering
+	 */
 	public static function ordering(&$row, $id)
 	{
 		$db = &JFactory::getDbo();
@@ -51,8 +178,8 @@ abstract class JHtmlMenu
 	}
 
 	/**
-	* Build the multiple select list for Menu Links/Pages
-	*/
+	 * Build the multiple select list for Menu Links/Pages
+	 */
 	public static function linkoptions($all=false, $unassigned=false)
 	{
 		$db = &JFactory::getDbo();

@@ -61,6 +61,9 @@ class MenusModelItems extends JModelList
 		if (is_numeric($published)) {
 			$query->where('a.published = '.(int) $published);
 		}
+		else if ($published === '') {
+			$query->where('(a.published = 0 OR a.published = 1)');
+		}
 
 		// Filter by search in title, alias or id
 		if ($search = trim($this->getState('filter.search')))
@@ -149,24 +152,41 @@ class MenusModelItems extends JModelList
 	 */
 	protected function _populateState()
 	{
-		// Initialize variables.
-		$app	= &JFactory::getApplication('administrator');
+		$app = &JFactory::getApplication('administrator');
+
+		$search = $app->getUserStateFromRequest($this->_context.'.search', 'search');
+		$this->setState('filter.search', $search);
+
+		$published 	= $app->getUserStateFromRequest($this->_context.'.published', 'filter_published', '');
+		$this->setState('filter.published', $published);
+
+		$access = $app->getUserStateFromRequest($this->_context.'.filter.access', 'filter_access', 0, 'int');
+		$this->setState('filter.access', $access);
+
+		$parentId = $app->getUserStateFromRequest($this->_context.'.filter.parent_id', 'filter_parent_id', 0, 'int');
+		$this->setState('filter.parent_id',	$parentId);
+
+		$level = $app->getUserStateFromRequest($this->_context.'.filter.level', 'filter_level', 0, 'int');
+		$this->setState('filter.level', $level);
+
+		$menuType = $app->getUserStateFromRequest($this->_context.'.filter.menutype', 'menutype', 'mainmenu');
+		$this->setState('filter.menutype', $menuType);
+
+		// List state information.
+		$limit 		= $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'));
+		$this->setState('list.limit', $limit);
+
+		$limitstart = $app->getUserStateFromRequest($this->_context.'.limitstart', 'limitstart', 0);
+		$this->setState('list.limitstart', $limitstart);
+
+		$orderCol	= $app->getUserStateFromRequest($this->_context.'.ordercol', 'filter_order', 'a.title');
+		$this->setState('list.ordering', $orderCol);
+
+		$orderDirn	= $app->getUserStateFromRequest($this->_context.'.orderdirn', 'filter_order_Dir', 'asc');
+		$this->setState('list.direction', $orderDirn);
+
+		// Component parameters.
 		$params	= &JComponentHelper::getParams('com_menus');
-
-		// Load the filter state.
-		$this->setState('filter.search',	$app->getUserStateFromRequest($this->_context.'.filter.search', 'filter_search', ''));
-		$this->setState('filter.published',	$app->getUserStateFromRequest($this->_context.'.filter.published', 'filter_published', 1, 'string'));
-		$this->setState('filter.parent_id',	$app->getUserStateFromRequest($this->_context.'.filter.parent_id', 'filter_parent_id', 0, 'int'));
-		$this->setState('filter.access',	$app->getUserStateFromRequest($this->_context.'.filter.access', 'filter_access', 0, 'int'));
-		$this->setState('filter.level',		$app->getUserStateFromRequest($this->_context.'.filter.level', 'filter_level', 0, 'int'));
-		$this->setState('filter.menutype',	$app->getUserStateFromRequest($this->_context.'.filter.menutype', 'menutype', 'mainmenu'));
-
-		// Load the list state.
-		$this->setState('list.start',		$app->getUserStateFromRequest($this->_context.'.list.start', 'limitstart', 0, 'int'));
-		$this->setState('list.limit',		$app->getUserStateFromRequest($this->_context.'.list.limit', 'limit', $app->getCfg('list_limit', 25), 'int'));
-		$this->setState('list.ordering',	$app->getUserStateFromRequest($this->_context.'.list.ordering', 'filter_order', 'a.left_id', 'cmd'));
-		$this->setState('list.direction',	$app->getUserStateFromRequest($this->_context.'.list.direction', 'filter_order_Dir', 'ASC', 'word'));
-
 		$this->setState('params', $params);
 
 		// Load the user parameters.
