@@ -68,6 +68,13 @@ class MenusModelItems extends JModelList
 			if (stripos($search, 'id:') === 0) {
 				$query->where('a.id = '.(int) substr($search, 3));
 			}
+			else if (stripos($search, 'link:') === 0)
+			{
+				if ($search = substr($search, 5)) {
+					$search = $this->_db->Quote('%'.$this->_db->getEscaped($search, true).'%');
+					$query->where('a.link LIKE '.$search);
+				}
+			}
 			else {
 				$search = $this->_db->Quote('%'.$this->_db->getEscaped($search, true).'%');
 				$query->where('a.title LIKE '.$search.' OR a.alias LIKE '.$search);
