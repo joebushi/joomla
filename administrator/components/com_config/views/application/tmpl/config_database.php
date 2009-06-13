@@ -52,7 +52,7 @@
 				<input class="text_area" type="text" name="dbprefix" size="10" value="<?php echo $row->dbprefix; ?>" />
 				&nbsp;
 				<span class="error hasTip" title="<?php echo JText::_('Warning');?>::<?php echo JText::_('WARNDONOTCHANGEDATABASETABLESPREFIX'); ?>">
-					<?php echo ConfigApplicationView::WarningIcon(); ?>
+					<?php echo $this->WarningIcon(); ?>
 				</span>
 			</td>
 		</tr>

@@ -22,7 +22,7 @@
 			<td>
 				<?php echo $lists['sef_rewrite']; ?>
 				<span class="error hasTip" title="<?php echo JText::_('Warning');?>::<?php echo JText::_('WARNAPACHEONLY'); ?>">
-					<?php echo ConfigApplicationView::WarningIcon(); ?>
+					<?php echo $this->WarningIcon(); ?>
 				</span>
 			</td>
 		</tr>

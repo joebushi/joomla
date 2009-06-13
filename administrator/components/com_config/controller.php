@@ -21,4 +21,16 @@ jimport('joomla.application.component.controller');
  */
 class ConfigController extends JController
 {
+	/**
+	 * Method to display the view.
+	 * 
+	 * @since	1.6
+	 */
+	public function display()
+	{
+		// Set the default view.
+		JRequest::setVar('view', JRequest::getCmd('view', 'application'));
+		
+		parent::display();
+	}
 }
