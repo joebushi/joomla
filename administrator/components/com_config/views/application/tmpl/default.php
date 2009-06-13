@@ -25,12 +25,8 @@
 			  	}
 			});
 		");
-		
 
 ?>	
-		
-
-
 
 <form action="index.php" method="post" name="adminForm">
 	<?php if ($ftp) {

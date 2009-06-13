@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id: weblink.xml 11845 2009-05-27 23:28:59Z robs $ -->
+<form>
+	
+	<fields group="cache" label="Config_Cache_Settings_Label">
+		<field
+			name="caching"
+			type="radio"
+			default="0"
+			label="Config_Cache_Label"
+			description="Config_Cache_Desc"
+			required="true"
+			filter="integer"
+		>
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</field>
+		
+		<field
+			name="cachetime"
+			type="text"
+			default="15"
+			label="Config_Cache_Time_Label"
+			description="Config_Cache_Time_Desc"
+			required="true"
+			filter="integer"
+		/>
+	</fields>
+	
+	<fields group="debug" label="Config_Debug_Settings_Label">
+		<field
+			name="debug"
+			type="radio"
+			default="0"
+			label="Config_Debug_System_Label"
+			description="Config_Debug_System_Desc"
+			required="true"
+			filter="integer"
+		>
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</field>
+		
+		<field
+			name="debug_lang"
+			type="radio"
+			default="0"
+			label="Config_Debug_Lang_Label"
+			description="Config_Debug_Lang_Desc"
+			required="true"
+			filter="integer"
+		>
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</field>
+	</fields>
+	
+	<fields group="system" label="Config_System_Settings_Label">
+		<field
+			name="secret"
+			type="text"
+			default=""
+			label="Config_Secret_Label"
+			description="Config_Secret_Desc"
+			required="true"
+			readonly="true"
+			filter="alnum"
+		/>
+
+		<field
+			name="log_path"
+			type="path"
+			default=""
+			label="Config_Log_Path_Label"
+			description="Config_Log_Path_Desc"
+			required="true"
+			filter="path"
+			size="50"
+		/>
+		
+		<field
+			name="xmlrpc_server"
+			type="radio"
+			default="0"
+			label="Config_Web_Services_Label"
+			description="Config_Web_Services_Desc"
+			required="true"
+			filter="integer"
+		>
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</field>
+		
+		<field
+			name="helpurl"
+			type="helpserver"
+			default=""
+			label="Config_Help_Server_Label"
+			description="Config_Help_Server_Desc"
+			required="true"
+		/>
+	</fields>
+</form>

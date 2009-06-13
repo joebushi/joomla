@@ -20,18 +20,30 @@ jimport('joomla.application.component.view');
 class ConfigViewApplication extends JView
 {
 	public $state;
-	public $item;
 	public $form;
+	public $data;
 
 	/**
 	 * Method to display the view.
 	 */
 	public function display($tpl = null)
 	{
+		$form	= $this->get('Form');
+		$data	= $this->get('Data');
 		
+		// Check for model errors.
+		if ($errors = $this->get('Errors')) {
+			JError::raiseError(500, implode('<br />', $errors));
+			return false;
+		}
+		
+		// Bind the form to the data.
+		if ($form && $data) {
+			$form->bind($data);
+		}
 		
 		// Get other component parameters.
-		$table = &JTable::getInstance('component');
+		$table = JTable::getInstance('component');
 		
 		// Get the params for com_users.
 		$table->loadByOption('com_users');
@@ -41,11 +53,11 @@ class ConfigViewApplication extends JView
 		$table->loadByOption('com_media');
 		$mediaParams = new JParameter($table->params, JPATH_ADMINISTRATOR.'/components/com_media/config.xml');
 
+		$this->assignRef('form',		$form);
 		$this->assignRef('usersParams', $usersParams);
 		$this->assignRef('mediaParams', $mediaParams);
 
-
-		// Load settings for the FTP layer
+		// Load settings for the FTP layer.
 		jimport('joomla.client.helper');
 		$ftp = &JClientHelper::setCredentialsFromRequest('ftp');
 		
