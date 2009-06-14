@@ -7,13 +7,13 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-require_once(JPATH_COMPONENT.DS.'views'.DS.'application'.DS.'view.php');
+defined('_JEXEC') or die;
 
 /**
  * @package		Joomla.Administrator
  * @subpackage	Config
  */
-class ConfigControllerApplication extends ConfigController
+class ConfigControllerApplication extends JController
 {
 	/**
 	 * Custom Constructor
@@ -208,6 +208,10 @@ class ConfigControllerApplication extends ConfigController
 	 */
 	function save()
 	{
+		var_dump($_REQUEST);
+		exit;
+		
+		
 		global $mainframe;
 
 		// Check for request forgeries

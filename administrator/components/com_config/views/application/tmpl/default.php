@@ -1,4 +1,11 @@
 <?php
+
+JToolBarHelper::title(JText::_('Global Configuration'), 'config.png');
+JToolBarHelper::save('application.save');
+JToolBarHelper::apply('application.apply');
+JToolBarHelper::cancel('application.cancel', 'Close');
+JToolBarHelper::help('screen.config');
+		
 // Load tooltips behavior
 		JHtml::_('behavior.tooltip');
 		JHtml::_('behavior.switcher');
@@ -90,11 +97,7 @@
 	</div>
 	<div class="clr"></div>
 
-	<input type="hidden" name="c" value="global" />
-	<input type="hidden" name="live_site" value="<?php echo isset($this->data->live_site) ? $this->data->live_site : ''; ?>" />
 	<input type="hidden" name="option" value="com_config" />
-	<input type="hidden" name="secret" value="<?php echo $this->data->secret; ?>" />
-	<input type="hidden" name="root_user" value="<?php echo $this->data->root_user; ?>" />
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>
