@@ -74,10 +74,10 @@ class MenusControllerItem extends JController
 	{
 		// Initialize variables.
 		$app	= &JFactory::getApplication();
-		$ids	= JRequest::getVar('cid', array(), '', 'array');
+		$pks	= JRequest::getVar('cid', array(), '', 'array');
 
 		// Get the id of the group to edit.
-		$id		=  (empty($ids) ? JRequest::getInt('item_id') : (int) array_pop($ids));
+		$id		=  (empty($pks) ? JRequest::getInt('item_id') : (int) array_pop($pks));
 
 		// Get the menu item model.
 		$model	= &$this->getModel('Item');
@@ -279,11 +279,11 @@ class MenusControllerItem extends JController
 	{
 		// Initialize variables.
 		$app	= &JFactory::getApplication();
-		$ids	= JRequest::getVar('cid', array(), '', 'array');
+		$pks	= JRequest::getVar('cid', array(), '', 'array');
 		$model	= &$this->getModel('Item');
 
 		// Get the id of the group to edit.
-		$id =  (empty($ids) ? JRequest::getInt('item_id') : (int) array_pop($ids));
+		$id =  (empty($pks) ? JRequest::getInt('item_id') : (int) array_pop($pks));
 
 		$type = JRequest::getVar('type');
 		$type = json_decode(base64_decode($type));

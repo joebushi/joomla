@@ -59,22 +59,19 @@ class MenusControllerItems extends JController
 		JRequest::checkToken() or jExit(JText::_('JInvalid_Token'));
 
 		// Get items to remove from the request.
-		$cid	= JRequest::getVar('cid', array(), 'post', 'array');
-		$n		= count($cid);
+		$pks	= JRequest::getVar('cid', array(), 'post', 'array');
+		$n		= count($pks);
 
-		if (!is_array($cid) || $n < 1) {
+		if (empty($pks)) {
 			JError::raiseWarning(500, JText::_('JError_No_items_selected'));
 		}
-		else {
+		else
+		{
 			// Get the model.
 			$model = $this->getModel();
 
-			// Make sure the item ids are integers
-			jimport('joomla.utilities.arrayhelper');
-			JArrayHelper::toInteger($cid);
-
 			// Remove the items.
-			if ($model->delete($cid)) {
+			if ($model->delete($pks)) {
 				$this->setMessage(JText::sprintf('JSuccess_N_items_deleted', $n));
 			}
 			else {
@@ -96,12 +93,12 @@ class MenusControllerItems extends JController
 		JRequest::checkToken() or jExit(JText::_('JInvalid_Token'));
 
 		// Get items to publish from the request.
-		$cid	= JRequest::getVar('cid', array(), '', 'array');
+		$pks	= JRequest::getVar('cid', array(), '', 'array');
 		$values	= array('publish' => 1, 'unpublish' => 0, 'trash' => -2);
 		$task	= $this->getTask();
 		$value	= JArrayHelper::getValue($values, $task, 0, 'int');
 
-		if (empty($cid)) {
+		if (empty($pks)) {
 			JError::raiseWarning(500, JText::_('JError_No_items_selected'));
 		}
 		else
@@ -109,11 +106,8 @@ class MenusControllerItems extends JController
 			// Get the model.
 			$model	= $this->getModel();
 
-			// Make sure the item ids are integers
-			JArrayHelper::toInteger($cid);
-
 			// Publish the items.
-			if ($model->publish($cid, $value)) {
+			if ($model->publish($pks, $value)) {
 				$this->setMessage($value ? JText::_('JSuccess_N_items_published') : JText::_('JSuccess_N_items_unpublished'));
 			}
 			else {
@@ -134,11 +128,11 @@ class MenusControllerItems extends JController
 		JRequest::checkToken() or jExit(JText::_('JInvalid_Token'));
 
 		// Initialize variables.
-		$cid	= JRequest::getVar('cid', null, 'post', 'array');
+		$pks	= JRequest::getVar('cid', null, 'post', 'array');
 		$model	= &$this->getModel();
 
 		// Attempt to move the row.
-		$return = $model->ordering(array_pop($cid), $this->getTask() == 'orderup' ? -1 : 1);
+		$return = $model->ordering(array_pop($pks), $this->getTask() == 'orderup' ? -1 : 1);
 
 		if ($return === false) {
 			// Reorder failed.
