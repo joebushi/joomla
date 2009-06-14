@@ -35,36 +35,41 @@ JHtml::_('behavior.formvalidation');
 <form action="<?php JRoute::_('index.php?option=com_content'); ?>" method="post" name="adminForm" id="item-form">
 
 	<div class="width-60" style="float:left">
-	<table style="display:block">
-		<tr>
-			<td>
-				<?php echo $this->form->getLabel('title'); ?><br />
-				<?php echo $this->form->getInput('title'); ?>
-			</td>
-			<td>
-				<?php echo $this->form->getLabel('alias'); ?><br />
-				<?php echo $this->form->getInput('alias'); ?>
-			</td>
-			<td>
-				<?php echo $this->form->getLabel('catid'); ?><br />
-				<?php echo $this->form->getInput('catid'); ?>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<?php echo $this->form->getLabel('state'); ?><br />
-				<?php echo $this->form->getInput('state'); ?>
-			</td>
-			<td>
-				<?php echo $this->form->getLabel('version'); ?><br />
-				<?php echo $this->form->getInput('version'); ?>
-			</td>
-			<td>
-				<?php echo $this->form->getLabel('hits'); ?><br />
-				<?php echo $this->form->getInput('hits'); ?>
-			</td>
-		</tr>
-	</table>
+		<table style="display:block">
+			<tr>
+				<td>
+					<?php echo $this->form->getLabel('title'); ?><br />
+					<?php echo $this->form->getInput('title'); ?>
+				</td>
+				<td>
+					<?php echo $this->form->getLabel('alias'); ?><br />
+					<?php echo $this->form->getInput('alias'); ?>
+				</td>
+				<td>
+					<?php echo $this->form->getLabel('catid'); ?><br />
+					<?php echo $this->form->getInput('catid'); ?>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<?php echo $this->form->getLabel('state'); ?><br />
+					<?php echo $this->form->getInput('state'); ?>
+				</td>
+				<td>
+					<?php echo $this->form->getLabel('version'); ?><br />
+					<?php echo $this->form->getInput('version'); ?>
+				</td>
+				<td>
+					<?php echo $this->form->getLabel('hits'); ?><br />
+					<?php echo $this->form->getInput('hits'); ?>
+				</td>
+			</tr>
+		</table>
+		<?php echo $this->form->getLabel('introtext'); ?><br />
+		<?php echo $this->form->getInput('introtext'); ?>
+
+		<?php echo $this->form->getLabel('fulltext'); ?><br />
+		<?php echo $this->form->getInput('fulltext'); ?>
 	</div>
 
 	<div class="width-40" style="float:left">
@@ -115,6 +120,13 @@ JHtml::_('behavior.formvalidation');
 				<?php echo $this->form->getLabel('metakey'); ?><br />
 				<?php echo $this->form->getInput('metakey'); ?>
 			</li>
+
+			<?php foreach($this->form->getFields('metadata') as $field): ?>
+			<li>
+				<?php echo $field->label; ?><br />
+				<?php echo $field->input; ?>
+			</li>
+			<?php endforeach; ?>
 		</ol>
 		<?php echo $pane->endPanel(); ?>
 

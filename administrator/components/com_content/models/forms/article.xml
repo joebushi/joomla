@@ -46,21 +46,21 @@
 		<field
 			id="introtext"
 			name="introtext"
-			type="text"
+			type="editor"
 			class="inputbox"
 			label="Content_Introtext_Label"
-			size="30"
 			description="Content_Introtext_Desc"
+			filter="safehtml"
 			default=""/>
 
 		<field
 			id="fulltext"
 			name="fulltext"
-			type="text"
+			type="editor"
 			class="inputbox"
 			label="Content_Fulltext_Label"
-			size="30"
 			description="Content_Fulltext_Desc"
+			filter="safehtml"
 			default=""/>
 
 		<field
@@ -72,13 +72,17 @@
 			class="inputbox"
 			size="1"
 			default="1">
-			<option value="1">
+			<option
+				value="1">
 				JState_Published</option>
-			<option value="0">
+			<option
+				value="0">
 				JState_UnPublished</option>
-			<option value="-1">
+			<option
+				value="-1">
 				JState_Archived</option>
-			<option value="-2">
+			<option
+				value="-2">
 				JState_Trashed</option>
 		</field>
 
@@ -108,8 +112,7 @@
 			name="created_by"
 			type="text"
 			label="Content_Created_by_Label"
-			description="Content_Created_by_Desc"
-			/>
+			description="Content_Created_by_Desc"/>
 
 		<field
 			id="created_by_alias"
@@ -130,13 +133,12 @@
 			description="Content_Modified_Desc"
 			size="16"
 			readonly="true"
-			filter="unset" />
+			filter="unset"/>
 
 		<field
 			name="modified_by"
 			type="hidden"
-			filter="unset"
-			/>
+			filter="unset"/>
 
 		<field
 			name="checked_out"
@@ -146,8 +148,7 @@
 		<field
 			name="checked_out_time"
 			type="hidden"
-			filter="unset"
-			/>
+			filter="unset"/>
 
 		<field
 			id="publish_up"
@@ -246,16 +247,235 @@
 
 	</fields>
 
-	 <fields group="attribs" array="true" label="Content_Options">
+	<fields
+		group="attribs"
+		array="true"
+		label="Content_Options">
 		<field
-			id="metadata"
-			name="metadata"
-			type="textarea"
-			label="Content_Metadata_Label"
-			description="Content_Metadata_Desc"
-			class="inputbox"
-			rows="3"
-			cols="30"
+			name="show_title"
+			type="list"
+			default=""
+			label="Show Title"
+			description="Show/Hide the items title">
+			<option
+				value="">Use Global</option>
+			<option
+				value="0">No</option>
+			<option
+				value="1">Yes</option>
+		</field>
+
+		<field
+			name="show_title"
+			type="list"
+			label="Show Title"
+			description="Show/Hide the items title"
+			default="">
+			<option
+				value="">Use Global</option>
+			<option
+				value="0">No</option>
+			<option
+				value="1">Yes</option>
+		</field>
+		<field
+			name="link_titles"
+			type="list"
+			label="Linked Titles"
+			description="Make your Item titles linkable"
+			default="">
+			<option
+				value="">Use Global</option>
+			<option
+				value="0">No</option>
+			<option
+				value="1">Yes</option>
+		</field>
+		<field
+			name="show_intro"
+			type="list"
+			label="Intro Text"
+			description="Show/Hide the intro text"
+			default="">
+			<option
+				value="">Use Global</option>
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+		<field
+			name="show_section"
+			type="list"
+			label="Section Name"
+			description="PARAMSECTION"
+			default="">
+			<option
+				value="">Use Global</option>
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+		<field
+			name="link_section"
+			type="list"
+			label="Section Name Linkable"
+			description="PARAMSECTIONLINK"
+			default="">
+			<option
+				value="">Use Global</option>
+			<option
+				value="0">No</option>
+			<option
+				value="1">Yes</option>
+		</field>
+		<field
+			name="show_category"
+			type="list"
+			label="Category Name"
+			description="PARAMCATEG"
+			default="">
+			<option
+				value="">Use Global</option>
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+		<field
+			name="link_category"
+			type="list"
+			label="Category Name Linkable"
+			description="PARAMCATEGLINK"
+			default="">
+			<option
+				value="">Use Global</option>
+			<option
+				value="0">No</option>
+			<option
+				value="1">Yes</option>
+		</field>
+		<field
+			name="show_vote"
+			type="list"
+			label="Item Rating"
+			description="PARAMRATING"
+			default="">
+			<option
+				value="">Use Global</option>
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+		<field
+			name="show_author"
+			type="list"
+			label="Author Names"
+			description="PARAMAUTHOR"
+			default="">
+			<option
+				value="">Use Global</option>
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+		<field
+			name="show_create_date"
+			type="list"
+			label="Created Date and Time"
+			description="PARAMCREATEDATE"
+			default="">
+			<option
+				value="">Use Global</option>
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+		<field
+			name="show_modify_date"
+			type="list"
+			label="Modified Date and Time"
+			description="PARAMMODIFYDATE"
+			default="">
+			<option
+				value="">Use Global</option>
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+		<field
+			name="show_print_icon"
+			type="list"
+			label="Print Icon"
+			description="PARAMPRINT"
+			default="">
+			<option
+				value="">Use Global</option>
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+		<field
+			name="show_email_icon"
+			type="list"
+			label="Email Icon"
+			description="PARAMEMAIL"
+			default="">
+			<option
+				value="">Use Global</option>
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+		<field
+			name="language"
+			type="languages"
+			label="Content language"
+			description="PARAMCONTENTLANGUAGE"
+			client="site"/>
+		<field
+			name="keyref"
+			type="text"
+			label="Key Reference"
+			description="PARAMKEYREF"
+			size="25"
 			default=""/>
+		<field
+			name="readmore"
+			type="text"
+			label="Alternative Read more text"
+			description="PARAMALTREADMORE"
+			size="25"
+			default=""/>
+
+
+	</fields>
+
+	<fields
+		group="metadata"
+		array="true">
+
+		<field
+			name="robots"
+			type="text"
+			size="20"
+			default=""
+			label="Robots"
+			description="METAROBOTS"/>
+		<field
+			name="author"
+			type="text"
+			size="20"
+			default=""
+			label="Author"
+			description="METAAUTHOR"/>
+
 	</fields>
 </form>

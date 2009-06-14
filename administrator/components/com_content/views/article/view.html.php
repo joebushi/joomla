@@ -60,12 +60,12 @@ class ContentViewArticle extends JView
 
 		// If an existing item, can save to a copy.
 		if (!$isNew) {
-			JToolBarHelper::custom('article.save2copy', 'copy.png', 'copy_f2.png', 'Content_Toolbar_Save_To_Copy', false);
+			JToolBarHelper::custom('article.save2copy', 'copy.png', 'copy_f2.png', 'JToolbar_Save_as_Copy', false);
 		}
 
 		// If not checked out, can save the item.
 		if (!$checkedOut) {
-			JToolBarHelper::custom('article.save2new', 'new.png', 'new_f2.png', 'Content_Toolbar_Save_And_New', false);
+			JToolBarHelper::custom('article.save2new', 'new.png', 'new_f2.png', 'JToolbar_Save_and_new', false);
 			JToolBarHelper::save('article.save');
 			JToolBarHelper::apply('article.apply');
 		}

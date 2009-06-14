@@ -50,10 +50,10 @@ class ContentModelArticle extends JModelForm
 		$app	= &JFactory::getApplication('administrator');
 
 		// Load the User state.
-		if (!($id = (int) $app->getUserState('com_content.edit.article.id'))) {
-			$id = (int) JRequest::getInt('item_id');
+		if (!($pk = (int) $app->getUserState('com_content.edit.article.id'))) {
+			$pk = (int) JRequest::getInt('item_id');
 		}
-		$this->setState('article.id',			$id);
+		$this->setState('article.id',			$pk);
 
 		// Load the parameters.
 		$params	= &JComponentHelper::getParams('com_content');
@@ -97,6 +97,11 @@ class ContentModelArticle extends JModelForm
 		$registry = new JRegistry();
 		$registry->loadJSON($table->attribs);
 		$table->attribs = $registry->toArray();
+
+		// Convert the params field to an array.
+		$registry = new JRegistry();
+		$registry->loadJSON($table->metadata);
+		$table->metadata = $registry->toArray();
 
 		$value = JArrayHelper::toObject($table->getProperties(1), 'JObject');
 
@@ -147,15 +152,15 @@ class ContentModelArticle extends JModelForm
 	 */
 	public function save($data)
 	{
-		$id	= (!empty($data['id'])) ? $data['id'] : (int)$this->getState('article.id');
+		$pk		= (!empty($data['id'])) ? $data['id'] : (int)$this->getState('article.id');
 		$isNew	= true;
 
 		// Get a row instance.
 		$table = &$this->getTable();
 
 		// Load the row if saving an existing item.
-		if ($id > 0) {
-			$table->load($id);
+		if ($pk > 0) {
+			$table->load($pk);
 			$isNew = false;
 		}
 
@@ -173,18 +178,6 @@ class ContentModelArticle extends JModelForm
 
 		// Store the data.
 		if (!$table->store()) {
-			$this->setError($table->getError());
-			return false;
-		}
-
-		// Rebuild the hierarchy.
-		if (!$table->rebuildTree()) {
-			$this->setError($table->getError());
-			return false;
-		}
-
-		// Rebuild the tree path.
-		if (!$table->rebuildPath($table->id)) {
 			$this->setError($table->getError());
 			return false;
 		}
@@ -266,12 +259,12 @@ class ContentModelArticle extends JModelForm
 
 		$table = $this->getTable('Frontpage', 'ContentTable');
 
-		foreach ($itemIds as $id)
+		foreach ($itemIds as $pk)
 		{
 			// Toggles go to first place.
-			if ($table->load((int) $id))
+			if ($table->load((int) $pk))
 			{
-				if (!$table->delete($id)) {
+				if (!$table->delete($pk)) {
 					$this->setError($table->getError());
 					return false;
 				}
@@ -282,7 +275,7 @@ class ContentModelArticle extends JModelForm
 				// Because this is a mapping table, we cannot use JTable::store
 				$this->_db->setQuery(
 					'INSERT INTO #__content_frontpage' .
-					' SET content_id = '.(int) $id.
+					' SET content_id = '.(int) $pk.
 					', ordering = 0'
 				);
 				if (!$this->_db->query()) {
@@ -306,16 +299,16 @@ class ContentModelArticle extends JModelForm
 	 * @param	integer	Increment, usually +1 or -1
 	 * @return	boolean	False on failure or error, true otherwise.
 	 */
-	public function ordering($id, $direction = 0)
+	public function ordering($pk, $direction = 0)
 	{
 		// Sanitize the id and adjustment.
-		$id	= (!empty($id)) ? $id : (int) $this->getState('article.id');
+		$pk	= (!empty($pk)) ? $pk : (int) $this->getState('article.id');
 
 		// Get a row instance.
 		$table = &$this->getTable();
 
 		// Attempt to adjust the row ordering.
-		if (!$table->ordering((int) $direction, $id)) {
+		if (!$table->ordering((int) $direction, $pk)) {
 			$this->setError($table->getError());
 			return false;
 		}
@@ -326,22 +319,22 @@ class ContentModelArticle extends JModelForm
 	/**
 	 * Method to checkin a row.
 	 *
-	 * @param	integer	$id The numeric id of a row
+	 * @param	integer	$pk The numeric id of a row
 	 * @return	boolean	False on failure or error, true otherwise.
 	 */
-	public function checkin($id = null)
+	public function checkin($pk = null)
 	{
 		// Initialize variables.
-		$id	= (!empty($id)) ? $id : (int) $this->getState('article.id');
+		$pk	= (!empty($pk)) ? $pk : (int) $this->getState('article.id');
 
 		// Only attempt to check the row in if it exists.
-		if ($id)
+		if ($pk)
 		{
 			$user	= &JFactory::getUser();
 
 			// Get an instance of the row to checkin.
 			$table = &$this->getTable();
-			if (!$table->load($id)) {
+			if (!$table->load($pk)) {
 				$this->setError($table->getError());
 				return false;
 			}
@@ -353,7 +346,7 @@ class ContentModelArticle extends JModelForm
 			}
 
 			// Attempt to check the row in.
-			if (!$table->checkin($id)) {
+			if (!$table->checkin($pk)) {
 				$this->setError($table->getError());
 				return false;
 			}
@@ -365,16 +358,16 @@ class ContentModelArticle extends JModelForm
 	/**
 	 * Method to check-out a row for editing.
 	 *
-	 * @param	int		$id	The numeric id of the row to check-out.
+	 * @param	int		$pk	The numeric id of the row to check-out.
 	 * @return	boolean	False on failure or error, true otherwise.
 	 */
-	public function checkout($id = null)
+	public function checkout($pk = null)
 	{
 		// Initialize variables.
-		$id		= (!empty($id)) ? $id : (int) $this->getState('article.id');
+		$pk		= (!empty($pk)) ? $pk : (int) $this->getState('article.id');
 
 		// Only attempt to check the row in if it exists.
-		if ($id)
+		if ($pk)
 		{
 			// Get a row instance.
 			$table = &$this->getTable();
@@ -383,7 +376,7 @@ class ContentModelArticle extends JModelForm
 			$user = &JFactory::getUser();
 
 			// Attempt to check the row out.
-			if (!$table->checkout($user->get('id'), $id)) {
+			if (!$table->checkout($user->get('id'), $pk)) {
 				$this->setError($table->getError());
 				return false;
 			}
@@ -459,10 +452,10 @@ class ContentModelArticle extends JModelForm
 	protected function _batchAccess($value, $itemIds)
 	{
 		$table = &$this->getTable();
-		foreach ($itemIds as $id)
+		foreach ($itemIds as $pk)
 		{
 			$table->reset();
-			$table->load($id);
+			$table->load($pk);
 			$table->access = (int) $value;
 			if (!$table->store())
 			{
@@ -525,12 +518,12 @@ class ContentModelArticle extends JModelForm
 		$children = array();
 
 		// Parent exists so we let's proceed
-		foreach ($itemIds as $id)
+		foreach ($itemIds as $pk)
 		{
 			$table->reset();
 
 			// Check that the row actually exists
-			if (!$table->load($id))
+			if (!$table->load($pk))
 			{
 				if ($error = $table->getError())
 				{
@@ -541,7 +534,7 @@ class ContentModelArticle extends JModelForm
 				else
 				{
 					// Not fatal error
-					$this->setError(JText::sprintf('Menus_Batch_Move_row_not_found', $id));
+					$this->setError(JText::sprintf('Menus_Batch_Move_row_not_found', $pk));
 					continue;
 				}
 			}
@@ -677,12 +670,12 @@ class ContentModelArticle extends JModelForm
 		while (!empty($itemIds) && $count > 0)
 		{
 			// Pop the first id off the stack
-			$id = array_shift($itemIds);
+			$pk = array_shift($itemIds);
 
 			$table->reset();
 
 			// Check that the row actually exists
-			if (!$table->load($id))
+			if (!$table->load($pk))
 			{
 				if ($error = $table->getError())
 				{
@@ -693,7 +686,7 @@ class ContentModelArticle extends JModelForm
 				else
 				{
 					// Not fatal error
-					$this->setError(JText::sprintf('Menus_Batch_Move_row_not_found', $id));
+					$this->setError(JText::sprintf('Menus_Batch_Move_row_not_found', $pk));
 					continue;
 				}
 			}
