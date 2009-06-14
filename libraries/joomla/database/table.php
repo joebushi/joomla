@@ -19,6 +19,7 @@ defined('JPATH_BASE') or die;
  * @subpackage	Table
  * @since		1.0
  * @tutorial	Joomla.Framework/jtable.cls
+ * @link		http://docs.joomla.org/JTable
  */
 abstract class JTable extends JObject
 {
@@ -87,6 +88,7 @@ abstract class JTable extends JObject
 	 * @param	array	An optional array of configuration values for the JTable object.
 	 * @return	mixed	A JTable object if found or boolean false if one could not be found.
 	 * @since	1.5
+	 * @link	http://docs.joomla.org/JTable/getInstance
 	*/
 	public static function & getInstance($type, $prefix = 'JTable', $config = array())
 	{
@@ -140,6 +142,7 @@ abstract class JTable extends JObject
 	 * @param	mixed	A filesystem path or array of filesystem paths to add.
 	 * @return	array	An array of filesystem paths to find JTable classes in.
 	 * @since	1.5
+	 * @link	http://docs.joomla.org/JTable/addIncludePath
 	 */
 	public static function addIncludePath($path = null)
 	{
@@ -178,6 +181,7 @@ abstract class JTable extends JObject
 	 *
 	 * @return	string	The name of the asset section to track table objects in.
 	 * @since	1.6
+	 * @link	http://docs.joomla.org/JTable/getAssetSection
 	 */
 	public function getAssetSection()
 	{
@@ -193,6 +197,7 @@ abstract class JTable extends JObject
 	 *
 	 * @return	string	The asset name prefix to use for tracking assets.
 	 * @since	1.6
+	 * @link	http://docs.joomla.org/JTable/getAssetNamePrefix
 	 */
 	public function getAssetNamePrefix()
 	{
@@ -208,6 +213,7 @@ abstract class JTable extends JObject
 	 *
 	 * @return	string	The string to use as the title in the asset table.
 	 * @since	1.6
+	 * @link	http://docs.joomla.org/JTable/getAssetTitle
 	 */
 	public function getAssetTitle()
 	{
@@ -219,6 +225,7 @@ abstract class JTable extends JObject
 	 *
 	 * @return	string	The name of the database table being modeled.
 	 * @since	1.5
+	 * @link	http://docs.joomla.org/JTable/getTableName
 	 */
 	public function getTableName()
 	{
@@ -230,6 +237,7 @@ abstract class JTable extends JObject
 	 *
 	 * @return	string	The name of the primary key for the table.
 	 * @since	1.5
+	 * @link	http://docs.joomla.org/JTable/getKeyName
 	 */
 	public function getKeyName()
 	{
@@ -240,6 +248,7 @@ abstract class JTable extends JObject
 	 * Method to get the JDatabase connector object.
 	 *
 	 * @return	object	The internal database connector object.
+	 * @link	http://docs.joomla.org/JTable/getDBO
 	 */
 	public function & getDBO()
 	{
@@ -251,6 +260,7 @@ abstract class JTable extends JObject
 	 *
 	 * @param	object	A JDatabase connector object to be used by the table object.
 	 * @return	boolean	True on success.
+	 * @link	http://docs.joomla.org/JTable/setDBO
 	 */
 	public function setDBO(& $db)
 	{
@@ -270,6 +280,7 @@ abstract class JTable extends JObject
 	 *
 	 * @return	void
 	 * @since	1.0
+	 * @link	http://docs.joomla.org/JTable/reset
 	 */
 	public function reset()
 	{
@@ -294,6 +305,7 @@ abstract class JTable extends JObject
 	 * 					to ignore while binding.
 	 * @return	boolean	True on success.
 	 * @since	1.0
+	 * @link	http://docs.joomla.org/JTable/bind
 	 */
 	public function bind($src, $ignore = array())
 	{
@@ -334,7 +346,7 @@ abstract class JTable extends JObject
 	}
 
 	/**
-	 * Method to load a row from the database by primary key and binds the fields
+	 * Method to load a row from the database by primary key and bind the fields
 	 * to the JTable instance properties.
 	 *
 	 * @param	mixed	An optional primary key value to load the row by.  If not
@@ -342,6 +354,7 @@ abstract class JTable extends JObject
 	 * @param	boolean	True to reset the default values before loading the new row.
 	 * @return	boolean	True if successful.
 	 * @since	1.0
+	 * @link	http://docs.joomla.org/JTable/load
 	 */
 	public function load($pk = null, $reset = true)
 	{
@@ -385,6 +398,7 @@ abstract class JTable extends JObject
 	 *
 	 * @return	boolean	True if the instance is sane and able to be stored in the database.
 	 * @since	1.0
+	 * @link	http://docs.joomla.org/JTable/check
 	 */
 	public function check()
 	{
@@ -401,6 +415,7 @@ abstract class JTable extends JObject
 	 * @param	boolean True to update fields even if they are null.
 	 * @return	boolean	True on success.
 	 * @since	1.0
+	 * @link	http://docs.joomla.org/JTable/store
 	 */
 	public function store($updateNulls = false)
 	{
@@ -535,7 +550,7 @@ abstract class JTable extends JObject
 	 * Method to provide a shortcut to binding, checking and storing a JTable
 	 * instance to the database table.  The method will check a row in once the
 	 * data has been stored and if an ordering filter is present will attempt to
-	 * reorder the table rows based on the filter.  The ordering filter is a instance
+	 * reorder the table rows based on the filter.  The ordering filter is an instance
 	 * property name.  The rows that will be reordered are those whose value matches
 	 * the JTable instance for the property specified.
 	 *
@@ -545,6 +560,7 @@ abstract class JTable extends JObject
 	 * 					to ignore while binding.
 	 * @return	boolean	True on success.
 	 * @since	1.0
+	 * @link	http://docs.joomla.org/JTable/save
 	 */
 	public function save($src, $orderingFilter = '', $ignore = '')
 	{
@@ -587,6 +603,7 @@ abstract class JTable extends JObject
 	 * 					instance property value is used.
 	 * @return	boolean	True on success.
 	 * @since	1.0
+	 * @link	http://docs.joomla.org/JTable/delete
 	 */
 	public function delete($pk = null)
 	{
@@ -703,6 +720,7 @@ abstract class JTable extends JObject
 	 * 					the instance property value is used.
 	 * @return	boolean	True on success.
 	 * @since	1.0
+	 * @link	http://docs.joomla.org/JTable/checkOut
 	 */
 	public function checkOut($userId, $pk = null)
 	{
@@ -754,6 +772,7 @@ abstract class JTable extends JObject
 	 * 					the instance property value is used.
 	 * @return	boolean	True on success.
 	 * @since	1.0
+	 * @link	http://docs.joomla.org/JTable/checkIn
 	 */
 	public function checkIn($pk = null)
 	{
@@ -794,12 +813,13 @@ abstract class JTable extends JObject
 	}
 
 	/**
-	 * Method to increment the hits for a row in if the necessary property/field exists.
+	 * Method to increment the hits for a row if the necessary property/field exists.
 	 *
 	 * @param	mixed	An optional primary key value to increment.  If not set
 	 * 					the instance property value is used.
 	 * @return	boolean	True on success.
 	 * @since	1.0
+	 * @link	http://docs.joomla.org/JTable/hit
 	 */
 	public function hit($pk = null)
 	{
@@ -850,6 +870,7 @@ abstract class JTable extends JObject
 	 * 					is used as a static function.
 	 * @return	boolean	True if checked out.
 	 * @since	1.0
+	 * @link	http://docs.joomla.org/JTable/isCheckedOut
 	 */
 	public function isCheckedOut($with = 0, $against = null)
 	{
@@ -876,13 +897,13 @@ abstract class JTable extends JObject
 	}
 
 	/**
-	 * Method to get the next ordering value for a database table given a SQL WHERE
-	 * clause.  This is useful for placing a new item last in its list of items in
-	 * a table.
+	 * Method to get the next ordering value for a group of rows defined by an SQL WHERE clause.
+	 * This is useful for placing a new item last in a group of items in the table.
 	 *
 	 * @param	string	WHERE clause to use for selecting the MAX(ordering) for the table.
 	 * @return	mixed	Boolean false an failure or the next ordering value as an integer.
 	 * @since	1.0
+	 * @link	http://docs.joomla.org/JTable/getNextOrder
 	 */
 	public function getNextOrder($where = '')
 	{
@@ -914,12 +935,14 @@ abstract class JTable extends JObject
 	}
 
 	/**
-	 * Method to compact the ordering values of rows given an SQL WHERE clause.
+	 * Method to compact the ordering values of rows in a group of rows
+	 * defined by an SQL WHERE clause.
 	 *
 	 * @param	string	WHERE clause to use for limiting the selection of rows to
 	 * 					compact the ordering values.
 	 * @return	mixed	Boolean true on success.
 	 * @since	1.0
+	 * @link	http://docs.joomla.org/JTable/reorder
 	 */
 	public function reorder($where = '')
 	{
@@ -982,7 +1005,7 @@ abstract class JTable extends JObject
 	}
 
 	/**
-	 * Method to move a row in the ordering sequence of rows given an SQL WHERE clause.
+	 * Method to move a row in the ordering sequence of a group of rows defined by an SQL WHERE clause.
 	 * Negative numbers move the row up in the sequence and positive numbers move it down.
 	 *
 	 * @param	integer	The direction and magnitude to move the row in the ordering sequence.
@@ -990,6 +1013,7 @@ abstract class JTable extends JObject
 	 * 					ordering values.
 	 * @return	mixed	Boolean true on success.
 	 * @since	1.0
+	 * @link	http://docs.joomla.org/JTable/move
 	 */
 	public function move($delta, $where = '')
 	{
@@ -1100,6 +1124,7 @@ abstract class JTable extends JObject
 	 * @param	integer The user id of the user performing the operation.
 	 * @return	boolean	True on success.
 	 * @since	1.0.4
+	 * @link	http://docs.joomla.org/JTable/publish
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
 	{
@@ -1170,9 +1195,9 @@ abstract class JTable extends JObject
 	}
 
 	/**
-	 * Generic check for whether dependancies exist for this object in the db schema
+	 * Generic check for whether dependancies exist for this object in the database schema
 	 *
-	 * can be overloaded/supplemented by the child class
+	 * Can be overloaded/supplemented by the child class
 	 *
 	 * @deprecated
 	 * @param	mixed	An optional primary key value check the row for.  If not
@@ -1181,6 +1206,7 @@ abstract class JTable extends JObject
 	 * 					[label => 'Label', name => 'table name' , idfield => 'field', joinfield => 'field']
 	 * @return	boolean	True on success.
 	 * @since	1.0
+	 * @link	http://docs.joomla.org/JTable/canDelete
 	 */
 	public function canDelete($pk = null, $joins = null)
 	{
@@ -1252,6 +1278,7 @@ abstract class JTable extends JObject
 	 * @param	boolean	True to map foreign keys to text values.
 	 * @return	string	XML string representation of the instance.
 	 * @since	1.0
+	 * @link	http://docs.joomla.org/JTable/toXML
 	 */
 	public function toXML($mapKeysToText=false)
 	{
