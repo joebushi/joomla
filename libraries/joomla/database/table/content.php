@@ -220,6 +220,34 @@ class JTableContent extends JTable
 	}
 
 	/**
+	 * Overloaded bind function
+	 *
+	 * @access public
+	 * @param array $hash named array
+	 * @return null|string	null is operation was satisfactory, otherwise returns an error
+	 * @see JTable:bind
+	 * @since 1.5
+	 */
+	function bind($array, $ignore = '')
+	{
+		if (isset($array['attribs']) && is_array($array['attribs']))
+		{
+			$registry = new JRegistry();
+			$registry->loadArray($array['attribs']);
+			$array['attribs'] = $registry->toString();
+		}
+
+		if (isset($array['metadata']) && is_array($array['metadata']))
+		{
+			$registry = new JRegistry();
+			$registry->loadArray($array['metadata']);
+			$array['metadata'] = $registry->toString();
+		}
+
+		return parent::bind($array, $ignore);
+	}
+
+	/**
 	 * Overloaded check function
 	 *
 	 * @access public
@@ -283,6 +311,29 @@ class JTableContent extends JTable
 		}
 
 		return true;
+	}
+
+	/**
+	 * Overriden JTable::store to set modified data and user id.
+	 *
+	 * @param	boolean	True to update fields even if they are null.
+	 * @return	boolean	True on success.
+	 * @since	1.6
+	 */
+	public function store($updateNulls = false)
+	{
+		$date	= &JFactory::getDate();
+		$user	= &JFactory::getUser();
+		if ($this->id)
+		{
+			// Existing item
+			$this->modified		= $date->toMySQL();
+			$this->modified_by	= $user->get('id');
+		}
+
+		// An article created and created_by field can be set by the user, so we don't touch either of these.
+
+		return parent::store($updateNulls);
 	}
 
 	/**
