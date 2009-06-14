@@ -330,8 +330,17 @@ class JTableContent extends JTable
 			$this->modified		= $date->toMySQL();
 			$this->modified_by	= $user->get('id');
 		}
-
-		// An article created and created_by field can be set by the user, so we don't touch either of these.
+		else
+		{
+			// New article. An article created and created_by field can be set by the user,
+			// so we don't touch either of these if they are set.
+			if (!intval($this->created)) {
+				$this->created = $date->toMySQL();
+			}
+			if (empty($this->created_by)) {
+				$this->created_by = $user->get('id');
+			}
+		}
 
 		return parent::store($updateNulls);
 	}
