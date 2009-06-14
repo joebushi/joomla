@@ -113,10 +113,9 @@ class JTableMenu extends JTableNested
 	/**
 	 * Constructor
 	 *
-	 * @access protected
 	 * @param database A database connector object
 	 */
-	function __construct(&$db)
+	public function __construct(&$db)
 	{
 		parent::__construct('#__menu', 'id', $db);
 
@@ -125,14 +124,33 @@ class JTableMenu extends JTableNested
 	}
 
 	/**
+	 * Overloaded bind function
+	 *
+	 * @param	array $hash		named array
+	 * @return	mixed			null is operation was satisfactory, otherwise returns an error
+	 * @see		JTable:bind
+	 * @since	1.5
+	 */
+	public function bind($array, $ignore = '')
+	{
+		if (is_array($array['params']))
+		{
+			$registry = new JRegistry();
+			$registry->loadArray($array['params']);
+			$array['params'] = $registry->toString();
+		}
+
+		return parent::bind($array, $ignore);
+	}
+
+	/**
 	 * Overloaded check function
 	 *
-	 * @access public
-	 * @return boolean
-	 * @see JTable::check
-	 * @since 1.5
+	 * @return	boolean
+	 * @see		JTable::check
+	 * @since	1.5
 	 */
-	function check()
+	public function check()
 	{
 		if (empty($this->alias)) {
 			$this->alias = $this->title;
@@ -144,26 +162,5 @@ class JTableMenu extends JTableNested
 		}
 
 		return true;
-	}
-
-	/**
-	 * Overloaded bind function
-	 *
-	 * @access public
-	 * @param array $hash named array
-	 * @return null|string	null is operation was satisfactory, otherwise returns an error
-	 * @see JTable:bind
-	 * @since 1.5
-	 */
-	function bind($array, $ignore = '')
-	{
-		if (is_array($array['params']))
-		{
-			$registry = new JRegistry();
-			$registry->loadArray($array['params']);
-			$array['params'] = $registry->toString();
-		}
-
-		return parent::bind($array, $ignore);
 	}
 }
