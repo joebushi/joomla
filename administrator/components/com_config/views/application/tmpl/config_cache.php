@@ -1,29 +1,21 @@
 <fieldset class="adminform">
 	<legend><?php echo JText::_('Cache Settings'); ?></legend>
 	<table class="admintable" cellspacing="1">
-
 		<tbody>
-		<tr>
-			<td class="key">
-				<span class="editlinktip hasTip" title="<?php echo JText::_('Cache'); ?>::<?php echo JText::_('TIPCACHE'); ?>">
-					<?php echo JText::_('Cache'); ?>
-				</span>
-			</td>
-			<td>
-				<?php echo $lists['caching']; ?>
-			</td>
-		</tr>
-		<tr>
-			<td class="key">
-				<span class="editlinktip hasTip" title="<?php echo JText::_('Cache Time'); ?>::<?php echo JText::_('TIPCACHETIME'); ?>">
-					<?php echo JText::_('Cache Time'); ?>
-				</span>
-			</td>
-			<td>
-				<input class="text_area" type="text" name="cachetime" size="5" value="<?php echo $row->cachetime; ?>" />
-					<?php echo JText::_('minutes'); ?>
-			</td>
-		</tr>
+			<?php
+			foreach ($this->form->getFields('cache') as $field):
+			?>
+			<tr>
+				<td width="185" class="key">
+					<?php echo $field->label; ?>
+				</td>
+				<td>
+					<?php echo $field->input; ?>
+				</td>
+			</tr>
+			<?php
+			endforeach;
+			?>
 		<tr>
 			<td class="key">
 				<span class="editlinktip hasTip" title="<?php echo JText::_('Cache Handler'); ?>::<?php echo JText::_('TIPCACHEHANDLER'); ?>">

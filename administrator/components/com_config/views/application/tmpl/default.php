@@ -29,7 +29,7 @@
 ?>	
 
 <form action="index.php" method="post" name="adminForm">
-	<?php if ($ftp) {
+	<?php if ($this->ftp) {
 		require_once('ftp.php');
 	} ?>
 	<div id="config-document">
@@ -91,10 +91,10 @@
 	<div class="clr"></div>
 
 	<input type="hidden" name="c" value="global" />
-	<input type="hidden" name="live_site" value="<?php echo isset($row->live_site) ? $row->live_site : ''; ?>" />
+	<input type="hidden" name="live_site" value="<?php echo isset($this->data->live_site) ? $this->data->live_site : ''; ?>" />
 	<input type="hidden" name="option" value="com_config" />
-	<input type="hidden" name="secret" value="<?php echo $row->secret; ?>" />
-	<input type="hidden" name="root_user" value="<?php echo $row->root_user; ?>" />
+	<input type="hidden" name="secret" value="<?php echo $this->data->secret; ?>" />
+	<input type="hidden" name="root_user" value="<?php echo $this->data->root_user; ?>" />
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>

@@ -53,13 +53,15 @@ class ConfigViewApplication extends JView
 		$table->loadByOption('com_media');
 		$mediaParams = new JParameter($table->params, JPATH_ADMINISTRATOR.'/components/com_media/config.xml');
 
-		$this->assignRef('form',		$form);
-		$this->assignRef('usersParams', $usersParams);
-		$this->assignRef('mediaParams', $mediaParams);
-
 		// Load settings for the FTP layer.
 		jimport('joomla.client.helper');
-		$ftp = &JClientHelper::setCredentialsFromRequest('ftp');
+		$ftp = JClientHelper::setCredentialsFromRequest('ftp');
+
+		$this->assignRef('form', $form);
+		$this->assignRef('data', $data);
+		$this->assignRef('ftp',	$ftp);
+		$this->assignRef('usersParams', $usersParams);
+		$this->assignRef('mediaParams', $mediaParams);
 		
 		parent::display($tpl);
 	}
