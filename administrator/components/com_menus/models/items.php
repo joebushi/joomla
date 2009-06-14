@@ -27,9 +27,80 @@ class MenusModelItems extends JModelList
 	protected $_context = 'com_menus.items';
 
 	/**
-	 * Method to build an SQL query to load the list data.
+	 * Method to auto-populate the model state.
 	 *
-	 * @return	string	An SQL query
+	 * @return	void
+	 */
+	protected function _populateState()
+	{
+		$app = &JFactory::getApplication('administrator');
+
+		$search = $app->getUserStateFromRequest($this->_context.'.search', 'search');
+		$this->setState('filter.search', $search);
+
+		$published 	= $app->getUserStateFromRequest($this->_context.'.published', 'filter_published', '');
+		$this->setState('filter.published', $published);
+
+		$access = $app->getUserStateFromRequest($this->_context.'.filter.access', 'filter_access', 0, 'int');
+		$this->setState('filter.access', $access);
+
+		$parentId = $app->getUserStateFromRequest($this->_context.'.filter.parent_id', 'filter_parent_id', 0, 'int');
+		$this->setState('filter.parent_id',	$parentId);
+
+		$level = $app->getUserStateFromRequest($this->_context.'.filter.level', 'filter_level', 0, 'int');
+		$this->setState('filter.level', $level);
+
+		$menuType = $app->getUserStateFromRequest($this->_context.'.filter.menutype', 'menutype', 'mainmenu');
+		$this->setState('filter.menutype', $menuType);
+
+		// List state information.
+		$limit 		= $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'));
+		$this->setState('list.limit', $limit);
+
+		$limitstart = $app->getUserStateFromRequest($this->_context.'.limitstart', 'limitstart', 0);
+		$this->setState('list.limitstart', $limitstart);
+
+		$orderCol	= $app->getUserStateFromRequest($this->_context.'.ordercol', 'filter_order', 'a.title');
+		$this->setState('list.ordering', $orderCol);
+
+		$orderDirn	= $app->getUserStateFromRequest($this->_context.'.orderdirn', 'filter_order_Dir', 'asc');
+		$this->setState('list.direction', $orderDirn);
+
+		// Component parameters.
+		$params	= &JComponentHelper::getParams('com_menus');
+		$this->setState('params', $params);
+	}
+
+	/**
+	 * Method to get a store id based on model configuration state.
+	 *
+	 * This is necessary because the model is used by the component and
+	 * different modules that might need different sets of data or different
+	 * ordering requirements.
+	 *
+	 * @param	string		$id	A prefix for the store id.
+	 * @return	string		A store id.
+	 */
+	protected function _getStoreId($id = '')
+	{
+		// Compile the store id.
+		$id	.= ':'.$this->getState('list.start');
+		$id	.= ':'.$this->getState('list.limit');
+		$id	.= ':'.$this->getState('list.ordering');
+		$id	.= ':'.$this->getState('list.direction');
+		$id	.= ':'.$this->getState('check.state');
+		$id	.= ':'.$this->getState('filter.published');
+		$id	.= ':'.$this->getState('filter.search');
+		$id	.= ':'.$this->getState('filter.parent_id');
+		$id	.= ':'.$this->getState('filter.menu_id');
+
+		return md5($id);
+	}
+
+	/**
+	 * Builds an SQL query to load the list data.
+	 *
+	 * @return	JQuery	A query object.
 	 */
 	protected function _getListQuery()
 	{
@@ -117,81 +188,5 @@ class MenusModelItems extends JModelList
 
 		//echo nl2br(str_replace('#__','jos_',$query->toString())).'<hr/>';
 		return $query;
-	}
-
-	/**
-	 * Method to get a store id based on model configuration state.
-	 *
-	 * This is necessary because the model is used by the component and
-	 * different modules that might need different sets of data or different
-	 * ordering requirements.
-	 *
-	 * @param	string		$id	A prefix for the store id.
-	 * @return	string		A store id.
-	 */
-	protected function _getStoreId($id = '')
-	{
-		// Compile the store id.
-		$id	.= ':'.$this->getState('list.start');
-		$id	.= ':'.$this->getState('list.limit');
-		$id	.= ':'.$this->getState('list.ordering');
-		$id	.= ':'.$this->getState('list.direction');
-		$id	.= ':'.$this->getState('check.state');
-		$id	.= ':'.$this->getState('filter.published');
-		$id	.= ':'.$this->getState('filter.search');
-		$id	.= ':'.$this->getState('filter.parent_id');
-		$id	.= ':'.$this->getState('filter.menu_id');
-
-		return md5($id);
-	}
-
-	/**
-	 * Method to auto-populate the model state.
-	 *
-	 * @return	void
-	 */
-	protected function _populateState()
-	{
-		$app = &JFactory::getApplication('administrator');
-
-		$search = $app->getUserStateFromRequest($this->_context.'.search', 'search');
-		$this->setState('filter.search', $search);
-
-		$published 	= $app->getUserStateFromRequest($this->_context.'.published', 'filter_published', '');
-		$this->setState('filter.published', $published);
-
-		$access = $app->getUserStateFromRequest($this->_context.'.filter.access', 'filter_access', 0, 'int');
-		$this->setState('filter.access', $access);
-
-		$parentId = $app->getUserStateFromRequest($this->_context.'.filter.parent_id', 'filter_parent_id', 0, 'int');
-		$this->setState('filter.parent_id',	$parentId);
-
-		$level = $app->getUserStateFromRequest($this->_context.'.filter.level', 'filter_level', 0, 'int');
-		$this->setState('filter.level', $level);
-
-		$menuType = $app->getUserStateFromRequest($this->_context.'.filter.menutype', 'menutype', 'mainmenu');
-		$this->setState('filter.menutype', $menuType);
-
-		// List state information.
-		$limit 		= $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'));
-		$this->setState('list.limit', $limit);
-
-		$limitstart = $app->getUserStateFromRequest($this->_context.'.limitstart', 'limitstart', 0);
-		$this->setState('list.limitstart', $limitstart);
-
-		$orderCol	= $app->getUserStateFromRequest($this->_context.'.ordercol', 'filter_order', 'a.title');
-		$this->setState('list.ordering', $orderCol);
-
-		$orderDirn	= $app->getUserStateFromRequest($this->_context.'.orderdirn', 'filter_order_Dir', 'asc');
-		$this->setState('list.direction', $orderDirn);
-
-		// Component parameters.
-		$params	= &JComponentHelper::getParams('com_menus');
-		$this->setState('params', $params);
-
-		// Load the user parameters.
-		$user = & JFactory::getUser();
-		$this->setState('user',	$user);
-		$this->setState('user.id', (int) $user->id);
 	}
 }

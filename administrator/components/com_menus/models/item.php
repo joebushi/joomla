@@ -41,59 +41,63 @@ class MenusModelItem extends JModelForm
 	}
 
 	/**
-	 * Method to auto-populate the model state.
+	 * Auto-populate the model state.
 	 *
 	 * @return	void
 	 */
 	protected function _populateState()
 	{
 		$app	= &JFactory::getApplication('administrator');
-		$params	= &JComponentHelper::getParams('com_menus');
 
 		// Load the User state.
-		if (!($id = (int) $app->getUserState('com_menus.edit.item.id'))) {
-			$id = (int) JRequest::getInt('item_id');
+		if (!($pk = (int) $app->getUserState('com_menus.edit.item.id'))) {
+			$pk = (int) JRequest::getInt('item_id');
 		}
+		$this->setState('item.id', $pk);
+
 		if (!($parentId = $app->getUserState('com_menus.edit.item.parent_id'))) {
 			$parentId = JRequest::getInt('parent_id');
 		}
+		$this->setState('item.parent_id', $parentId);
+
 		if (!($menuType = $app->getUserState('com_menus.edit.item.menutype'))) {
 			$menuType = JRequest::getCmd('menutype', 'mainmenu');
 		}
+		$this->setState('item.menutype', $menuType);
+
 		if (!($type = $app->getUserState('com_menus.edit.item.type'))) {
 			$type = JRequest::getCmd('type', 'url');
 		}
-		$this->setState('item.id',			$id);
-		$this->setState('item.parent_id',	$parentId);
-		$this->setState('item.menutype',	$menuType);
-		$this->setState('item.type',		$type);
+		$this->setState('item.type', $type);
 
 		// Load the parameters.
+		$params	= &JComponentHelper::getParams('com_menus');
 		$this->setState('params', $params);
 	}
 
 	/**
 	 * Method to get a menu item.
 	 *
-	 * @param	integer	The id of the menu item to get.
+	 * @param	integer	An optional id of the object to get, otherwise the id from the model state is used.
 	 *
 	 * @return	mixed	Menu item data object on success, false on failure.
 	 */
-	public function &getItem($itemId = null)
+	public function &getItem($pk = null)
 	{
 		// Initialize variables.
-		$itemId = (!empty($itemId)) ? $itemId : (int)$this->getState('item.id');
-		$false	= false;
+		$pk = (!empty($pk)) ? $pk : (int)$this->getState('item.id');
 
-		// Get a row instance.
+		// Get a level row instance.
 		$table = &$this->getTable();
 
 		// Attempt to load the row.
-		$return = $table->load($itemId);
+		$table->load($pk);
 
 		// Check for a table object error.
-		if ($return === false && $table->getError()) {
-			$this->setError($table->getError());
+		if ($error = $table->getError())
+		{
+			$this->setError($error);
+			$false = false;
 			return $false;
 		}
 
@@ -110,9 +114,9 @@ class MenusModelItem extends JModelForm
 		$registry->loadJSON($table->params);
 		$table->params = $registry->toArray();
 
-		$value = JArrayHelper::toObject($table->getProperties(1), 'JObject');
+		$result = JArrayHelper::toObject($table->getProperties(1), 'JObject');
 
-		return $value;
+		return $result;
 	}
 
 	/**
@@ -221,6 +225,76 @@ class MenusModelItem extends JModelForm
 	}
 
 	/**
+	 * Method to checkin a row.
+	 *
+	 * @param	integer	$pk The numeric id of a row
+	 * @return	boolean	False on failure or error, true otherwise.
+	 */
+	public function checkin($pk = null)
+	{
+		// Initialize variables.
+		$pk	= (!empty($pk)) ? $pk : (int) $this->getState('item.id');
+
+		// Only attempt to check the row in if it exists.
+		if ($pk)
+		{
+			$user	= &JFactory::getUser();
+
+			// Get an instance of the row to checkin.
+			$table = &$this->getTable();
+			if (!$table->load($pk)) {
+				$this->setError($table->getError());
+				return false;
+			}
+
+			// Check if this is the user having previously checked out the row.
+			if ($table->checked_out > 0 && $table->checked_out != $user->get('id')) {
+				$this->setError(JText::_('JError_Checkin_user_mismatch'));
+				return false;
+			}
+
+			// Attempt to check the row in.
+			if (!$table->checkin($pk)) {
+				$this->setError($table->getError());
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Method to check-out a row for editing.
+	 *
+	 * @param	int		$pk	The numeric id of the row to check-out.
+	 *
+	 * @return	boolean	False on failure or error, true otherwise.
+	 */
+	public function checkout($pk = null)
+	{
+		// Initialize variables.
+		$pk = (!empty($pk)) ? $pk : (int) $this->getState('item.id');
+
+		// Only attempt to check the row in if it exists.
+		if ($pk)
+		{
+			// Get a row instance.
+			$table = &$this->getTable();
+
+			// Get the current user object.
+			$user = &JFactory::getUser();
+
+			// Attempt to check the row out.
+			if (!$table->checkout($user->get('id'), $pk)) {
+				$this->setError($table->getError());
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
 	 * Method to save the form data.
 	 *
 	 * @param	array	The form data.
@@ -229,15 +303,15 @@ class MenusModelItem extends JModelForm
 	 */
 	public function save($data)
 	{
-		$id	= (!empty($data['id'])) ? $data['id'] : (int)$this->getState('item.id');
+		$pk		= (!empty($data['id'])) ? $data['id'] : (int)$this->getState('item.id');
 		$isNew	= true;
 
 		// Get a row instance.
 		$table = &$this->getTable();
 
 		// Load the row if saving an existing item.
-		if ($id > 0) {
-			$table->load($id);
+		if ($pk > 0) {
+			$table->load($pk);
 			$isNew = false;
 		}
 
@@ -352,19 +426,17 @@ class MenusModelItem extends JModelForm
 	 *
 	 * @return	boolean	Returns true on success, false on failure.
 	 */
-	public function delete($itemIds)
+	public function delete($pks)
 	{
-		// Sanitize the ids.
-		$itemIds = (array) $itemIds;
-		JArrayHelper::toInteger($itemIds);
+		$pks = (array) $pks;
 
 		// Get a row instance.
 		$table = &$this->getTable();
 
 		// Iterate the items to delete each one.
-		foreach ($itemIds as $itemId)
+		foreach ($pks as $pk)
 		{
-			if (!$table->delete($itemId))
+			if (!$table->delete((int) $pk))
 			{
 				$this->setError($table->getError());
 				return false;
@@ -382,20 +454,19 @@ class MenusModelItem extends JModelForm
 	 *
 	 * @return	boolean	True on success.
 	 */
-	function publish($itemIds, $value = 1)
+	function publish($pks, $value = 1)
 	{
-		// Sanitize the ids.
-		$itemIds = (array) $itemIds;
-		JArrayHelper::toInteger($itemIds);
+		$pks = (array) $pks;
 
 		// Get the current user object.
 		$user = &JFactory::getUser();
 
-		// Get a category row instance.
+		// Get an instance of the table row.
 		$table = &$this->getTable();
 
 		// Attempt to publish the items.
-		if (!$table->publish($itemIds, $value, $user->get('id'))) {
+		if (!$table->publish($pks, $value, $user->get('id')))
+		{
 			$this->setError($table->getError());
 			return false;
 		}
@@ -410,10 +481,10 @@ class MenusModelItem extends JModelForm
 	 * @param	integer	Increment, usually +1 or -1
 	 * @return	boolean	False on failure or error, true otherwise.
 	 */
-	public function ordering($id, $direction = 0)
+	public function ordering($pk, $direction = 0)
 	{
 		// Sanitize the id and adjustment.
-		$id	= (!empty($id)) ? $id : (int) $this->getState('item.id');
+		$pk	= (!empty($pk)) ? $pk : (int) $this->getState('item.id');
 
 		// If the ordering direction is 0 then we aren't moving anything.
 		if ($direction == 0) {
@@ -426,7 +497,7 @@ class MenusModelItem extends JModelForm
 		// Move the row down in the ordering.
 		if ($direction > 0)
 		{
-			if (!$table->orderDown($id)) {
+			if (!$table->orderDown($pk)) {
 				$this->setError($table->getError());
 				return false;
 			}
@@ -435,76 +506,7 @@ class MenusModelItem extends JModelForm
 		// Move the row up in the ordering.
 		else
 		{
-			if (!$table->orderUp($id)) {
-				$this->setError($table->getError());
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	/**
-	 * Method to checkin a row.
-	 *
-	 * @param	integer	$id The numeric id of a row
-	 * @return	boolean	False on failure or error, true otherwise.
-	 */
-	public function checkin($id = null)
-	{
-		// Initialize variables.
-		$id	= (!empty($id)) ? $id : (int) $this->getState('item.id');
-
-		// Only attempt to check the row in if it exists.
-		if ($id)
-		{
-			$user	= &JFactory::getUser();
-
-			// Get an instance of the row to checkin.
-			$table = &$this->getTable();
-			if (!$table->load($id)) {
-				$this->setError($table->getError());
-				return false;
-			}
-
-			// Check if this is the user having previously checked out the row.
-			if ($table->checked_out > 0 && $table->checked_out != $user->get('id')) {
-				$this->setError(JText::_('JError_Checkin_user_mismatch'));
-				return false;
-			}
-
-			// Attempt to check the row in.
-			if (!$table->checkin($id)) {
-				$this->setError($table->getError());
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	/**
-	 * Method to check-out a row for editing.
-	 *
-	 * @param	int		$id	The numeric id of the row to check-out.
-	 * @return	boolean	False on failure or error, true otherwise.
-	 */
-	public function checkout($id = null)
-	{
-		// Initialize variables.
-		$id		= (!empty($id)) ? $id : (int) $this->getState('item.id');
-
-		// Only attempt to check the row in if it exists.
-		if ($id)
-		{
-			// Get a row instance.
-			$table = &$this->getTable();
-
-			// Get the current user object.
-			$user = &JFactory::getUser();
-
-			// Attempt to check the row out.
-			if (!$table->checkout($user->get('id'), $id)) {
+			if (!$table->orderUp($pk)) {
 				$this->setError($table->getError());
 				return false;
 			}
@@ -521,18 +523,18 @@ class MenusModelItem extends JModelForm
 	 *
 	 * @return	boolean	Returns true on success, false on failure.
 	 */
-	function batch($commands, $itemIds)
+	function batch($commands, $pks)
 	{
 		// Sanitize user ids.
-		$itemIds = array_unique($itemIds);
-		JArrayHelper::toInteger($itemIds);
+		$pks = array_unique($pks);
+		JArrayHelper::toInteger($pks);
 
 		// Remove any values of zero.
-		if (array_search(0, $itemIds, true)) {
-			unset($itemIds[array_search(0, $itemIds, true)]);
+		if (array_search(0, $pks, true)) {
+			unset($pks[array_search(0, $pks, true)]);
 		}
 
-		if (empty($itemIds)) {
+		if (empty($pks)) {
 			$this->setError(JText::_('JError_No_items_selected'));
 			return false;
 		}
@@ -541,7 +543,7 @@ class MenusModelItem extends JModelForm
 
 		if (!empty($commands['assetgroup_id']))
 		{
-			if (!$this->_batchAccess($commands['assetgroup_id'], $itemIds)) {
+			if (!$this->_batchAccess($commands['assetgroup_id'], $pks)) {
 				return false;
 			}
 			$done = true;
@@ -551,10 +553,10 @@ class MenusModelItem extends JModelForm
 		{
 			$cmd = JArrayHelper::getValue($commands, 'move_copy', 'c');
 
-			if ($cmd == 'c' && !$this->_batchCopy($commands['menu_id'], $itemIds)) {
+			if ($cmd == 'c' && !$this->_batchCopy($commands['menu_id'], $pks)) {
 				return false;
 			}
-			else if ($cmd == 'm' && !$this->_batchMove($commands['menu_id'], $itemIds)) {
+			else if ($cmd == 'm' && !$this->_batchMove($commands['menu_id'], $pks)) {
 				return false;
 			}
 			$done = true;
@@ -577,13 +579,13 @@ class MenusModelItem extends JModelForm
 	 *
 	 * @return	booelan	True if successful, false otherwise and internal error is set.
 	 */
-	protected function _batchAccess($value, $itemIds)
+	protected function _batchAccess($value, $pks)
 	{
 		$table = &$this->getTable();
-		foreach ($itemIds as $id)
+		foreach ($pks as $pk)
 		{
 			$table->reset();
-			$table->load($id);
+			$table->load($pk);
 			$table->access = (int) $value;
 			if (!$table->store())
 			{
@@ -603,7 +605,7 @@ class MenusModelItem extends JModelForm
 	 *
 	 * @return	booelan	True if successful, false otherwise and internal error is set.
 	 */
-	protected function _batchMove($value, $itemIds)
+	protected function _batchMove($value, $pks)
 	{
 		// $value comes as {menutype}.{parent_id}
 		$parts		= explode('.', $value);
@@ -635,10 +637,10 @@ class MenusModelItem extends JModelForm
 		$children = array();
 
 		// Parent exists so we let's proceed
-		foreach ($itemIds as $id)
+		foreach ($pks as $pk)
 		{
 			// Check that the row actually exists
-			if (!$table->load($id))
+			if (!$table->load($pk))
 			{
 				if ($error = $table->getError()) {
 					// Fatal error
@@ -647,7 +649,7 @@ class MenusModelItem extends JModelForm
 				}
 				else {
 					// Not fatal error
-					$this->setError(JText::sprintf('Menus_Batch_Move_row_not_found', $id));
+					$this->setError(JText::sprintf('Menus_Batch_Move_row_not_found', $pk));
 					continue;
 				}
 			}
@@ -713,7 +715,7 @@ class MenusModelItem extends JModelForm
 	 *
 	 * @return	booelan	True if successful, false otherwise and internal error is set.
 	 */
-	protected function _batchCopy($value, $itemIds)
+	protected function _batchCopy($value, $pks)
 	{
 		// $value comes as {menutype}.{parent_id}
 		$parts		= explode('.', $value);
@@ -769,15 +771,15 @@ class MenusModelItem extends JModelForm
 		}
 
 		// Parent exists so we let's proceed
-		while (!empty($itemIds) && $count > 0)
+		while (!empty($pks) && $count > 0)
 		{
 			// Pop the first id off the stack
-			$id = array_shift($itemIds);
+			$pk = array_shift($pks);
 
 			$table->reset();
 
 			// Check that the row actually exists
-			if (!$table->load($id))
+			if (!$table->load($pk))
 			{
 				if ($error = $table->getError())
 				{
@@ -788,7 +790,7 @@ class MenusModelItem extends JModelForm
 				else
 				{
 					// Not fatal error
-					$this->setError(JText::sprintf('Menus_Batch_Move_row_not_found', $id));
+					$this->setError(JText::sprintf('Menus_Batch_Move_row_not_found', $pk));
 					continue;
 				}
 			}
@@ -804,8 +806,8 @@ class MenusModelItem extends JModelForm
 			// Add child ID's to the array only if they aren't already there.
 			foreach ($childIds as $childId)
 			{
-				if (!in_array($childId, $itemIds)) {
-					array_push($itemIds, $childId);
+				if (!in_array($childId, $pks)) {
+					array_push($pks, $childId);
 				}
 			}
 
