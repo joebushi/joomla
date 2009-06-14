@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-// Make sure the user is authorized to view this page.
+// Check if the user is authorized to do this.
 if (!JFactory::getUser()->authorize('core.config.manage')) {
 	$mainframe->redirect('index.php', JText::_('ALERTNOTAUTH'));
 }

@@ -40,7 +40,7 @@ class JModelForm extends JModel
 	 * @return	object		JForm object on success, JException on error.
 	 * @since	1.1
 	 */
-	function &getForm($xml, $options = array(), $clear = false)
+	function &getForm($xml, $name = 'form', $options = array(), $clear = false)
 	{
 		// Handle the optional arguments.
 		$options['array']	= array_key_exists('array', $options) ? $options['array'] : false;
@@ -59,7 +59,7 @@ class JModelForm extends JModel
 		// Get the form.
 		jimport('joomla.form.form');
 		JForm::addFormPath(JPATH_COMPONENT.DS.'models'.DS.'forms');
-		$form = &JForm::getInstance('jform', $xml, $options['file'], $options);
+		$form = &JForm::getInstance($xml, $name, $options['file'], $options);
 
 		// Check for an error.
 		if (JError::isError($form)) {
@@ -78,7 +78,7 @@ class JModelForm extends JModel
 			}
 
 			// Trigger the form preparation event.
-			$results = $dispatcher->trigger($options['event'], array(&$form));
+			$results = $dispatcher->trigger($options['event'], array($form->getName(), $form));
 
 			// Check for errors encountered while preparing the form.
 			if (count($results) && in_array(false, $results, true))

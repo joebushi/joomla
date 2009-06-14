@@ -12,215 +12,93 @@ defined('_JEXEC') or die;
 /**
  * @package		Joomla.Administrator
  * @subpackage	Config
+ * @version		1.6
  */
 class ConfigControllerApplication extends JController
 {
 	/**
-	 * Custom Constructor
+	 * Class Constructor
+	 * 
+	 * @param	array	$config		An optional associative array of configuration settings.
+	 * @return	void
+	 * @since	1.5
 	 */
-	function __construct($default = array())
+	function __construct($config = array())
 	{
-		$default['default_task'] = 'showConfig';
-		parent::__construct($default);
-
+		parent::__construct($config);
+		
+		// Map the apply task to the save method.
 		$this->registerTask('apply', 'save');
 	}
 
-	/**
-	 * Show the configuration edit form
-	 * @param string The URL option
-	 */
-	function showConfig()
-	{
-		// Initialize some variables
-		$db = &JFactory::getDbo();
-		$row = new JConfig();
-
-		// compile list of the languages
-		$langs 		= array ();
-		$menuitems 	= array ();
-		$lists 		= array ();
-
-		// PRE-PROCESS SOME LIST
-
-		// -- Editors --
-
-		// compile list of the editors
-		$query = 'SELECT element AS value, name AS text'
-				.' FROM #__plugins'
-				.' WHERE folder = "editors"'
-				.' AND published = 1'
-				.' ORDER BY ordering, name'
-				;
-		$db->setQuery($query);
-		$edits = $db->loadObjectList();
-
-		// -- Show/Hide --
-
-		$show_hide		= array (JHtml::_('select.option', 1, JText::_('Hide')), JHtml::_('select.option', 0, JText::_('Show')),);
-
-		$show_hide_r 	= array (JHtml::_('select.option', 0, JText::_('Hide')), JHtml::_('select.option', 1, JText::_('Show')),);
-
-		// -- menu items --
-
-		$query = 'SELECT id AS value, name AS text FROM #__menu'
-				.' WHERE (type="content_section" OR type="components" OR type="content_typed")'
-				.' AND published = 1'
-				.' AND access = 0'
-				.' ORDER BY name'
-				;
-		$db->setQuery($query);
-		$menuitems = array_merge($menuitems, $db->loadObjectList());
-
-		// SITE SETTINGS
-		$lists['offline'] = JHtml::_('select.booleanlist', 'offline', 'class="inputbox"', $row->offline);
-		if (!$row->editor) {
-			$row->editor = '';
-		}
-		// build the html select list
-		$lists['editor'] 		= JHtml::_('select.genericlist',  $edits, 'editor', 'class="inputbox" size="1"', 'value', 'text', $row->editor);
-		$lists['access']		= JHtml::_('access.assetgroups', 'access', $row->access, 'class="inputbox" size="1"');
-		$listLimit 				= array (JHtml::_('select.option', 5, 5), JHtml::_('select.option', 10, 10), JHtml::_('select.option', 15, 15), JHtml::_('select.option', 20, 20), JHtml::_('select.option', 25, 25), JHtml::_('select.option', 30, 30), JHtml::_('select.option', 50, 50), JHtml::_('select.option', 100, 100),);
-		$lists['list_limit'] 	= JHtml::_('select.genericlist',  $listLimit, 'list_limit', 'class="inputbox" size="1"', 'value', 'text', ($row->list_limit ? $row->list_limit : 50));
-
-		jimport('joomla.language.help');
-		$helpsites 				= array ();
-		$helpsites 				= JHelp::createSiteList(JPATH_BASE.DS.'help'.DS.'helpsites-15.xml', $row->helpurl);
-		array_unshift($helpsites, JHtml::_('select.option', '', JText::_('local')));
-		$lists['helpsites'] 	= JHtml::_('select.genericlist',  $helpsites, 'helpurl', ' class="inputbox"', 'value', 'text', $row->helpurl);
-
-		// DEBUG
-		$lists['debug'] 		= JHtml::_('select.booleanlist', 'debug', 'class="inputbox"', $row->debug);
-		$lists['debug_lang'] 	= JHtml::_('select.booleanlist', 'debug_lang', 'class="inputbox"', $row->debug_lang);
-
-		// DATABASE SETTINGS
-
-		// SERVER SETTINGS
-		$lists['gzip'] 			= JHtml::_('select.booleanlist', 'gzip', 'class="inputbox"', $row->gzip);
-		$errors 				= array (JHtml::_('select.option', -1, JText::_('System Default')), JHtml::_('select.option', 0, JText::_('None')), JHtml::_('select.option', E_ERROR | E_WARNING | E_PARSE, JText::_('Simple')), JHtml::_('select.option', E_ALL, JText::_('Maximum')));
-		$lists['xmlrpc_server'] = JHtml::_('select.booleanlist', 'xmlrpc_server', 'class="inputbox"', $row->xmlrpc_server);
-		$lists['error_reporting'] = JHtml::_('select.genericlist',  $errors, 'error_reporting', 'class="inputbox" size="1"', 'value', 'text', $row->error_reporting);
-		$lists['enable_ftp'] 	= JHtml::_('select.booleanlist', 'ftp_enable', 'class="inputbox"', intval($row->ftp_enable));
-
-		$forceSSL = array(
-								JHtml::_('select.option', 0, JText::_('None')),
-								JHtml::_('select.option', 1, JText::_('Administrator Only')),
-								JHtml::_('select.option', 2, JText::_('Entire Site')),
-						);
-		$lists['force_ssl'] = JHtml::_('select.genericlist', $forceSSL, 'force_ssl', 'class="inputbox" size="1"', 'value', 'text', @$row->force_ssl);
-
-		// LOCALE SETTINGS
-		$timeoffset = array (	JHtml::_('select.option', -12, JText::_('(UTC -12:00) International Date Line West')),
-								JHtml::_('select.option', -11, JText::_('(UTC -11:00) Midway Island, Samoa')),
-								JHtml::_('select.option', -10, JText::_('(UTC -10:00) Hawaii')),
-								JHtml::_('select.option', -9.5, JText::_('(UTC -09:30) Taiohae, Marquesas Islands')),
-								JHtml::_('select.option', -9, JText::_('(UTC -09:00) Alaska')),
-								JHtml::_('select.option', -8, JText::_('(UTC -08:00) Pacific Time (US &amp; Canada)')),
-								JHtml::_('select.option', -7, JText::_('(UTC -07:00) Mountain Time (US &amp; Canada)')),
-								JHtml::_('select.option', -6, JText::_('(UTC -06:00) Central Time (US &amp; Canada), Mexico City')),
-								JHtml::_('select.option', -5, JText::_('(UTC -05:00) Eastern Time (US &amp; Canada), Bogota, Lima')),
-								JHtml::_('select.option', -4.5, JText::_('(UTC -04:30) Venezuela')),
-								JHtml::_('select.option', -4, JText::_('(UTC -04:00) Atlantic Time (Canada), Caracas, La Paz')),
-								JHtml::_('select.option', -3.5, JText::_('(UTC -03:30) St. John\'s, Newfoundland, Labrador')),
-								JHtml::_('select.option', -3, JText::_('(UTC -03:00) Brazil, Buenos Aires, Georgetown')),
-								JHtml::_('select.option', -2, JText::_('(UTC -02:00) Mid-Atlantic')),
-								JHtml::_('select.option', -1, JText::_('(UTC -01:00) Azores, Cape Verde Islands')),
-								JHtml::_('select.option', 0, JText::_('(UTC 00:00) Western Europe Time, London, Lisbon, Casablanca')),
-								JHtml::_('select.option', 1, JText::_('(UTC +01:00) Amsterdam, Berlin, Brussels, Copenhagen, Madrid, Paris')),
-								JHtml::_('select.option', 2, JText::_('(UTC +02:00) Istanbul, Jerusalem, Kaliningrad, South Africa')),
-								JHtml::_('select.option', 3, JText::_('(UTC +03:00) Baghdad, Riyadh, Moscow, St. Petersburg')),
-								JHtml::_('select.option', 3.5, JText::_('(UTC +03:30) Tehran')),
-								JHtml::_('select.option', 4, JText::_('(UTC +04:00) Abu Dhabi, Muscat, Baku, Tbilisi')),
-								JHtml::_('select.option', 4.5, JText::_('(UTC +04:30) Kabul')),
-								JHtml::_('select.option', 5, JText::_('(UTC +05:00) Ekaterinburg, Islamabad, Karachi, Tashkent')),
-								JHtml::_('select.option', 5.5, JText::_('(UTC +05:30) Bombay, Calcutta, Madras, New Delhi, Colombo')),
-								JHtml::_('select.option', 5.75, JText::_('(UTC +05:45) Kathmandu')),
-								JHtml::_('select.option', 6, JText::_('(UTC +06:00) Almaty, Dhaka')),
-								JHtml::_('select.option', 6.30, JText::_('(UTC +06:30) Yagoon')),
-								JHtml::_('select.option', 7, JText::_('(UTC +07:00) Bangkok, Hanoi, Jakarta')),
-								JHtml::_('select.option', 8, JText::_('(UTC +08:00) Beijing, Perth, Singapore, Hong Kong')),
-								JHtml::_('select.option', 8.75, JText::_('(UTC +08:00) Western Australia')),
-								JHtml::_('select.option', 9, JText::_('(UTC +09:00) Tokyo, Seoul, Osaka, Sapporo, Yakutsk')),
-								JHtml::_('select.option', 9.5, JText::_('(UTC +09:30) Adelaide, Darwin, Yakutsk')),
-								JHtml::_('select.option', 10, JText::_('(UTC +10:00) Eastern Australia, Guam, Vladivostok')),
-								JHtml::_('select.option', 10.5, JText::_('(UTC +10:30) Lord Howe Island (Australia)')),
-								JHtml::_('select.option', 11, JText::_('(UTC +11:00) Magadan, Solomon Islands, New Caledonia')),
-								JHtml::_('select.option', 11.30, JText::_('(UTC +11:30) Norfolk Island')),
-								JHtml::_('select.option', 12, JText::_('(UTC +12:00) Auckland, Wellington, Fiji, Kamchatka')),
-								JHtml::_('select.option', 12.75, JText::_('(UTC +12:45) Chatham Island')),
-								JHtml::_('select.option', 13, JText::_('(UTC +13:00) Tonga')),
-								JHtml::_('select.option', 14, JText::_('(UTC +14:00) Kiribati')),);
-		$lists['offset'] 		= JHtml::_('select.genericlist',  $timeoffset, 'offset', 'class="inputbox" size="1"', 'value', 'text', $row->offset);
-
-		// MAIL SETTINGS
-		$mailer 				= array (JHtml::_('select.option', 'mail', JText::_('PHP mail function')), JHtml::_('select.option', 'sendmail', JText::_('Sendmail')), JHtml::_('select.option', 'smtp', JText::_('SMTP Server')));
-		$lists['mailer'] 		= JHtml::_('select.genericlist',  $mailer, 'mailer', 'class="inputbox" size="1"', 'value', 'text', $row->mailer);
-		$lists['smtpauth'] 		= JHtml::_('select.booleanlist', 'smtpauth', 'class="inputbox"', $row->smtpauth);
-
-		// CACHE SETTINGS
-		$lists['caching'] 		= JHtml::_('select.booleanlist', 'caching', 'class="inputbox"', $row->caching);
-		jimport('joomla.cache.cache');
-		$stores = JCache::getStores();
-		$options = array();
-		foreach($stores as $store) {
-			$options[] = JHtml::_('select.option', $store, JText::_(ucfirst($store)));
-		}
-		$lists['cache_handlers'] = JHtml::_('select.genericlist',  $options, 'cache_handler', 'class="inputbox" size="1"', 'value', 'text', $row->cache_handler);
-
-		// MEMCACHE SETTINGS
-		if (!empty($row->memcache_settings) && !is_array($row->memcache_settings)) {
-			$row->memcache_settings = unserialize(stripslashes($row->memcache_settings));
-		}
-		$lists['memcache_persist'] = JHtml::_('select.booleanlist', 'memcache_settings[persistent]', 'class="inputbox"', @$row->memcache_settings['persistent']);
-		$lists['memcache_compress'] = JHtml::_('select.booleanlist', 'memcache_settings[compression]', 'class="inputbox"', @$row->memcache_settings['compression']);
-
-		// META SETTINGS
-		$lists['MetaAuthor'] 	= JHtml::_('select.booleanlist', 'MetaAuthor', 'class="inputbox"', $row->MetaAuthor);
-		$lists['MetaTitle'] 	= JHtml::_('select.booleanlist', 'MetaTitle', 'class="inputbox"', $row->MetaTitle);
-
-		// SEO SETTINGS
-		$lists['sef'] 			= JHtml::_('select.booleanlist', 'sef', 'class="inputbox"', $row->sef);
-		$lists['sef_rewrite'] 	= JHtml::_('select.booleanlist', 'sef_rewrite', 'class="inputbox"', $row->sef_rewrite);
-		$lists['sef_suffix'] 	= JHtml::_('select.booleanlist', 'sef_suffix', 'class="inputbox"', $row->sef_suffix);
-
-		// FEED SETTINGS
-		$formats	= array (JHtml::_('select.option', 'RSS2.0', JText::_('RSS')), JHtml::_('select.option', 'Atom', JText::_('Atom')));
-		$summary	= array (JHtml::_('select.option', 1, JText::_('Full Text')), JHtml::_('select.option', 0, JText::_('Intro Text')),);
-		$lists['feed_limit']	= JHtml::_('select.genericlist',  $listLimit, 'feed_limit', 'class="inputbox" size="1"', 'value', 'text', ($row->feed_limit ? $row->feed_limit : 10));
-		$emailOptions = array (	JHtml::_('select.option', 'author', JText::_('Author Email')),
-								JHtml::_('select.option', 'site', JText::_('Site Email')));
-		$lists['feed_email'] = JHtml::_('select.genericlist', $emailOptions, 'feed_email', 'class="inputbox" size="1"', 'value', 'text', (@$row->feed_email) ? $row->feed_email : 'author');
-
-		// SESSION SETTINGS
-		$stores = JSession::getStores();
-		$options = array();
-		foreach($stores as $store) {
-			$options[] = JHtml::_('select.option', $store, JText::_(ucfirst($store)));
-		}
-		$lists['session_handlers'] = JHtml::_('select.genericlist',  $options, 'session_handler', 'class="inputbox" size="1"', 'value', 'text', $row->session_handler);
-
-		// SHOW EDIT FORM
-		ConfigApplicationView::showConfig($row, $lists);
-	}
 
 	/**
-	 * Save the configuration
+	 * Method to save the configuration.
+	 * 
+	 * @return	bool	True on success, false on failure.
+	 * @since	1.5
 	 */
-	function save()
+	public function save()
 	{
+		// Check for request forgeries.
+		JRequest::checkToken() or jexit(JText::_('Invalid_Token'));
+		
+		// Check if the user is authorized to do this.
+		if (!JFactory::getUser()->authorize('core.config.manage')) {
+			$mainframe->redirect('index.php', JText::_('ALERTNOTAUTH'));
+		}
+		
+		// Set FTP credentials, if given.
+		jimport('joomla.client.helper');
+		JClientHelper::setCredentialsFromRequest('ftp');
+
+		// Initialize variables.
+		$app	= &JFactory::getApplication();
+		$model	= $this->getModel('Application');
+		$form	= $model->getForm();
+		$data	= JRequest::getVar('jform', array(), 'post', 'array');
+
+		// Validate the posted data.
+		$return = $model->validate($form, $data);
+
+var_dump($return);
+var_dump($model->getErrors());
+exit;
+		// Check for validation errors.
+		if ($return === false) {
+			// Get the validation messages.
+			$errors	= $model->getErrors();
+
+			// Push up to three validation messages out to the user.
+			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++) {
+				if (JError::isError($errors[$i])) {
+					$app->enqueueMessage($errors[$i]->getMessage(), 'notice');
+				} else {
+					$app->enqueueMessage($errors[$i], 'notice');
+				}
+			}
+
+			// Save the data in the session.
+			$app->setUserState('com_weblinks.edit.weblink.data', $data);
+
+			// Redirect back to the edit screen.
+			$this->setRedirect(JRoute::_('index.php?option=com_weblinks&view=weblink&layout=edit&hidemainmenu=1', false));
+			return false;
+		}
+
+		// Attempt to save the weblink.
+		$data	= $return;
+		$return = $model->save($data);
+
+
 		var_dump($_REQUEST);
 		exit;
 		
+
+
 		
-		global $mainframe;
 
-		// Check for request forgeries
-		JRequest::checkToken() or jexit('Invalid Token');
-
-		// Set FTP credentials, if given
-		jimport('joomla.client.helper');
-		JClientHelper::setCredentialsFromRequest('ftp');
-		$ftp = JClientHelper::getCredentials('ftp');
+		
 
 		//Save user and media manager settings
 		$table = &JTable::getInstance('component');

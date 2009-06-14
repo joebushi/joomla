@@ -185,13 +185,13 @@
 	
 	<fields group="locale" label="Config_Locale_Settings_Label">
 		<field
-			name="helpurl"
-			type="helpsites"
-			default="http://help.joomla.org"
-			label="Config_Help_Server_Label"
-			description="Config_Help_Server_Desc"
+			name="offset"
+			type="timezones"
+			default="0"
+			label="Config_Server_Timezone_Label"
+			description="Config_Server_Timezone_Desc"
 			required="true"
-			filter="string"
+			filter="integer"
 		/>
 	</fields>
 	
@@ -236,7 +236,7 @@
 			default="/usr/sbin/sendmail"
 			label="Config_Mail_Sendmail_Path_Label"
 			description="Config_Mail_Sendmail_Path_Desc"
-			filter="path"
+			filter="string"
 			size="30"
 		/>
 		
@@ -380,12 +380,12 @@
 	<fields group="server" label="Config_Server_Settings_Label">
 		<field
 			name="tmp_path"
-			type="path"
+			type="text"
 			default=""
 			label="Config_Temp_Path_Label"
 			description="Config_Temp_Path_Desc"
 			required="true"
-			filter="path"
+			filter="string"
 			size="50"
 		/>
 		
@@ -592,12 +592,12 @@
 
 		<field
 			name="log_path"
-			type="path"
+			type="text"
 			default=""
 			label="Config_Log_Path_Label"
 			description="Config_Log_Path_Desc"
 			required="true"
-			filter="path"
+			filter="string"
 			size="50"
 		/>
 		
@@ -616,7 +616,7 @@
 		
 		<field
 			name="helpurl"
-			type="helpserver"
+			type="helpsites"
 			default=""
 			label="Config_Help_Server_Label"
 			description="Config_Help_Server_Desc"

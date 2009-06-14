@@ -23,7 +23,7 @@ class ConfigModelApplication extends JModelForm
 	public function getForm()
 	{
 		// Get the form.
-		$form = parent::getForm('application', array('array' => true, 'event' => 'onPrepareConfigForm'));
+		$form = parent::getForm('application', 'global_config', array('array' => 'jform', 'event' => 'onPrepareForm'));
 		
 		// Check for an error.
 		if (JError::isError($form)) {
