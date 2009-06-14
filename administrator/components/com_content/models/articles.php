@@ -26,6 +26,67 @@ class ContentModelArticles extends JModelList
 	 */
 	public $_context = 'com_content.articles';
 
+
+	/**
+	 * Overridden method to lazy load data from the request/session as necessary
+	 *
+	 * @access	public
+	 * @param	string	$key		The key of the state item to return
+	 * @param	mixed	$default	The default value to return if it does not exist
+	 * @return	mixed	The requested value by key
+	 * @since	1.0
+	 */
+	function _populateState()
+	{
+		$app = &JFactory::getApplication();
+
+		$search = $app->getUserStateFromRequest($this->_context.'.search', 'search');
+		$this->setState('filter.search', $search);
+
+		$published 	= $app->getUserStateFromRequest($this->_context.'.published', 'filter_published', '');
+		$this->setState('filter.published', $published);
+
+		$access = $app->getUserStateFromRequest($this->_context.'.filter.access', 'filter_access', 0, 'int');
+		$this->setState('filter.access', $access);
+
+		// List state information
+		$limit 		= $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'));
+		$this->setState('list.limit', $limit);
+
+		$limitstart = $app->getUserStateFromRequest($this->_context.'.limitstart', 'limitstart', 0);
+		$this->setState('list.limitstart', $limitstart);
+
+		$orderCol	= $app->getUserStateFromRequest($this->_context.'.ordercol', 'filter_order', 'a.title');
+		$this->setState('list.ordering', $orderCol);
+
+		$orderDirn	= $app->getUserStateFromRequest($this->_context.'.orderdirn', 'filter_order_Dir', 'asc');
+		$this->setState('list.direction', $orderDirn);
+	}
+
+	/**
+	 * Method to get a store id based on model configuration state.
+	 *
+	 * This is necessary because the model is used by the component and
+	 * different modules that might need different sets of data or different
+	 * ordering requirements.
+	 *
+	 * @param	string		$id	A prefix for the store id.
+	 *
+	 * @return	string		A store id.
+	 */
+	public function _getStoreId($id = '')
+	{
+		// Compile the store id.
+		$id	.= ':'.$this->getState('list.start');
+		$id	.= ':'.$this->getState('list.limit');
+		$id	.= ':'.$this->getState('list.ordering');
+		$id	.= ':'.$this->getState('list.direction');
+		$id	.= ':'.$this->getState('filter.search');
+		$id	.= ':'.$this->getState('filter.published');
+
+		return md5($id);
+	}
+
 	/**
 	 * @param	boolean	True to join selected foreign information
 	 *
@@ -91,65 +152,5 @@ class ContentModelArticles extends JModelList
 
 		//echo nl2br(str_replace('#__','jos_',$query->toString()));
 		return $query;
-	}
-
-	/**
-	 * Overridden method to lazy load data from the request/session as necessary
-	 *
-	 * @access	public
-	 * @param	string	$key		The key of the state item to return
-	 * @param	mixed	$default	The default value to return if it does not exist
-	 * @return	mixed	The requested value by key
-	 * @since	1.0
-	 */
-	function _populateState()
-	{
-		$app = &JFactory::getApplication();
-
-		$search = $app->getUserStateFromRequest($this->_context.'.search', 'search');
-		$this->setState('filter.search', $search);
-
-		$published 	= $app->getUserStateFromRequest($this->_context.'.published', 'filter_published', '');
-		$this->setState('filter.published', $published);
-
-		$access = $app->getUserStateFromRequest($this->_context.'.filter.access', 'filter_access', 0, 'int');
-		$this->setState('filter.access', $access);
-
-		// List state information
-		$limit 		= $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'));
-		$this->setState('list.limit', $limit);
-
-		$limitstart = $app->getUserStateFromRequest($this->_context.'.limitstart', 'limitstart', 0);
-		$this->setState('list.limitstart', $limitstart);
-
-		$orderCol	= $app->getUserStateFromRequest($this->_context.'.ordercol', 'filter_order', 'a.title');
-		$this->setState('list.ordering', $orderCol);
-
-		$orderDirn	= $app->getUserStateFromRequest($this->_context.'.orderdirn', 'filter_order_Dir', 'asc');
-		$this->setState('list.direction', $orderDirn);
-	}
-
-	/**
-	 * Method to get a store id based on model configuration state.
-	 *
-	 * This is necessary because the model is used by the component and
-	 * different modules that might need different sets of data or different
-	 * ordering requirements.
-	 *
-	 * @param	string		$id	A prefix for the store id.
-	 *
-	 * @return	string		A store id.
-	 */
-	public function _getStoreId($id = '')
-	{
-		// Compile the store id.
-		$id	.= ':'.$this->getState('list.start');
-		$id	.= ':'.$this->getState('list.limit');
-		$id	.= ':'.$this->getState('list.ordering');
-		$id	.= ':'.$this->getState('list.direction');
-		$id	.= ':'.$this->getState('filter.search');
-		$id	.= ':'.$this->getState('filter.published');
-
-		return md5($id);
 	}
 }

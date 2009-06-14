@@ -125,7 +125,7 @@ class ContentControllerArticles extends JController
 		else
 		{
 			// Get the model.
-			$model	= $this->getModel();
+			$model = $this->getModel();
 
 			// Publish the items.
 			if (!$model->frontpage($ids)) {
