@@ -37,6 +37,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+14-Jun-2009 Ian MacLennan
+ # [#16235] mod_feed Tool tip is incorrect
 
 09-Jun-2009 Ian MacLennan
  # [#12746] Replace PEAR with a GPL compatible alternative
