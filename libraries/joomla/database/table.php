@@ -309,11 +309,6 @@ abstract class JTable extends JObject
 	 */
 	public function bind($src, $ignore = array())
 	{
-		// If the source is empty, ignore it.
-		if (empty($src)) {
-			return true;
-		}
-
 		// If the source value is not an array or object return false.
 		if (!is_object($src) && !is_array($src)) {
 			$this->setError(get_class($this).'::bind failed. Invalid source argument');
@@ -352,7 +347,7 @@ abstract class JTable extends JObject
 	 * @param	mixed	An optional primary key value to load the row by.  If not
 	 * 					set the instance property value is used.
 	 * @param	boolean	True to reset the default values before loading the new row.
-	 * @return	boolean	True if successful.
+	 * @return	boolean	True if successful. False if row not found or on error (internal error state set in that case).
 	 * @since	1.0
 	 * @link	http://docs.joomla.org/JTable/load
 	 */
@@ -383,6 +378,11 @@ abstract class JTable extends JObject
 		// Check for a database error.
 		if ($this->_db->getErrorNum()) {
 			$this->setError($this->_db->getErrorMsg());
+			return false;
+		}
+
+		// Check that we have a result.
+		if (empty($row)) {
 			return false;
 		}
 
