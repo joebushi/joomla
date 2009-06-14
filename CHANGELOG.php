@@ -39,6 +39,7 @@ $ -> Language fix or change
 
 14-Jun-2009 Ian MacLennan
  # [#16235] mod_feed Tool tip is incorrect
+ # [#16511] Language date format isn't correct
 
 09-Jun-2009 Ian MacLennan
  # [#12746] Replace PEAR with a GPL compatible alternative
