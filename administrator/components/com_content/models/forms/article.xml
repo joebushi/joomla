@@ -102,10 +102,10 @@
 			type="calendar"
 			label="Content_Created_Label"
 			description="Content_Created_Desc"
-			class="readonly"
+			class="inputbox"
 			size="16"
-			readonly="true"
-			filter="unset"/>
+			format="%Y-%m-%d %H-%M-%S"
+			/>
 
 		<field
 			id="created_by"
@@ -157,6 +157,7 @@
 			label="Content_Publish_up_Label"
 			description="Content_Publish_up_Desc"
 			class="inputbox"
+			format="%Y-%m-%d %H-%M-%S"
 			size="30"
 			default=""/>
 
@@ -167,6 +168,7 @@
 			label="Content_Publish_down_Label"
 			description="Content_Publish_down_Desc"
 			class="inputbox"
+			format="%Y-%m-%d %H-%M-%S"
 			size="30"
 			default=""/>
 
