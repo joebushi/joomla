@@ -16,17 +16,7 @@
 			<?php
 			endforeach;
 			?>
-		<tr>
-			<td class="key">
-				<span class="editlinktip hasTip" title="<?php echo JText::_('Cache Handler'); ?>::<?php echo JText::_('TIPCACHEHANDLER'); ?>">
-					<?php echo JText::_('Cache Handler'); ?>
-				</span>
-			</td>
-			<td>
-				<?php echo $lists['cache_handlers']; ?>
-			</td>
-		</tr>
-		<?php if ($row->cache_handler == 'memcache' || $row->session_handler == 'memcache') : ?>
+		<?php if ($this->data->cache_handler == 'memcache' || $this->data->session_handler == 'memcache') : ?>
 		<tr>
 			<td class="key">
 				<?php echo JText::_('Memcache Persistent'); ?>

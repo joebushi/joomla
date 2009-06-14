@@ -2,27 +2,20 @@
 	<legend><?php echo JText::_('Session Settings'); ?></legend>
 	<table class="admintable" cellspacing="1">
 		<tbody>
+			<?php
+			foreach ($this->form->getFields('session') as $field):
+			?>
 			<tr>
-				<td class="key">
-					<span class="editlinktip hasTip" title="<?php echo JText::_('Session Lifetime'); ?>::<?php echo JText::_('TIPAUTOLOGOUTTIMEOF'); ?>">
-						<?php echo JText::_('Session Lifetime'); ?>
-					</span>
+				<td width="185" class="key">
+					<?php echo $field->label; ?>
 				</td>
 				<td>
-					<input class="text_area" type="text" name="lifetime" size="10" value="<?php echo $row->lifetime; ?>" />
-					&nbsp;<?php echo JText::_('minutes'); ?>&nbsp;
+					<?php echo $field->input; ?>
 				</td>
 			</tr>
-			<tr>
-				<td class="key">
-					<span class="editlinktip hasTip" title="<?php echo JText::_('Session Handler'); ?>::<?php echo JText::_('TIPSESSIONHANDLER'); ?>">
-						<?php echo JText::_('Session Handler'); ?>
-					</span>
-				</td>
-				<td>
-					<strong><?php echo $lists['session_handlers']; ?></strong>
-				</td>
-			</tr>
+			<?php
+			endforeach;
+			?>
 		</tbody>
 	</table>
 </fieldset>

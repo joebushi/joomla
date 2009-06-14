@@ -24,6 +24,15 @@
 			required="true"
 			filter="integer"
 		/>
+		
+		<field
+			name="cache_handler"
+			type="cachehandlers"
+			default="file"
+			label="Config_Cache_Handler_Label"
+			description="Config_Cache_Handler_Desc"
+			filter="word"
+		/>
 	</fields>
 	
 	<fields group="database" label="Config_Database_Settings_Label">
@@ -177,7 +186,7 @@
 	<fields group="locale" label="Config_Locale_Settings_Label">
 		<field
 			name="helpurl"
-			type="helpserver"
+			type="helpsites"
 			default="http://help.joomla.org"
 			label="Config_Help_Server_Label"
 			description="Config_Help_Server_Desc"
@@ -436,6 +445,28 @@
 			<option value="1">Config_Option_Administrator_Only</option>
 			<option value="2">Config_Option_Entire_Site</option>
 		</field>
+	</fields>
+	
+	<fields group="session" label="Config_Session_Settings_Label">
+		<field
+			name="lifetime"
+			type="text"
+			default="15"
+			label="Config_Session_Time_Label"
+			description="Config_Session_Time_Desc"
+			required="true"
+			filter="integer"
+		/>
+		
+		<field
+			name="session_handler"
+			type="sessionhandlers"
+			default="none"
+			label="Config_Session_Handler_Label"
+			description="Config_Session_Handler_Desc"
+			required="true"
+			filter="word"
+		/>
 	</fields>
 	
 	<fields group="site" label="Config_Site_Settings_Label">
