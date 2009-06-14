@@ -257,8 +257,9 @@ class JEditor extends JObservable
 				$plugin = new $className($this, (array)$plugin);
 			}
 
-			// Try to authenticate
-			$result[] = $plugin->onDisplay($editor);
+			// Try to authenticate -- only add to array if authentication is successful
+			$resultTest = $plugin->onDisplay($editor);
+			if ($resultTest) $result[] =  $resultTest;
 		}
 
 		return $result;

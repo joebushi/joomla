@@ -41,6 +41,7 @@ $ -> Language fix or change
  # [#16235] mod_feed Tool tip is incorrect
  # [#16511] Language date format isn't correct
  # [#16595] Category table view output wrong due to error in file
+ # [#16597] Parameter "Minimum User Level for Media Manager" doesn't work
 
 09-Jun-2009 Ian MacLennan
  # [#12746] Replace PEAR with a GPL compatible alternative
