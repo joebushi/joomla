@@ -22,82 +22,149 @@ require_once (JPATH_COMPONENT.DS.'view.php');
  */
 class ContentViewFrontpage extends ContentView
 {
+	protected $state = null;
+	protected $items = null;
+	protected $params = null;
+	protected $pagination = null;
+
+	protected $lead_items = array();
+	protected $intro_items = array();
+	protected $link_items = array();
+	protected $columns = 1;
+
+	/**
+	 * Display the view
+	 *
+	 * @return	mixed	False on error, null otherwise.
+	 */
 	function display($tpl = null)
 	{
-		global $mainframe, $option;
-
 		// Initialize variables
 		$user		= &JFactory::getUser();
-		$document	= &JFactory::getDocument();
+		$app		= &JFactory::getApplication();
+		$params		= &$app->getParams();
+
+		$state		= $this->get('State');
+		$items		= $this->get('Items');
+		$pagination	= $this->get('Pagination');
+
+		// Check for errors.
+		if (count($errors = $this->get('Errors'))) {
+			JError::raiseWarning(500, implode("\n", $errors));
+			return false;
+		}
+
+		// Get the metrics for the structural page layout.
+		$numLeading	= $params->def('num_leading_articles',	1);
+		$numIntro	= $params->def('num_intro_articles',	4);
+		$numLinks	= $params->def('num_links', 			4);
+
+		// Preprocess the breakdown of leading, intro and linked articles.
+		// This makes it much easier for the designer to just interogate the arrays.
+		$max	= count($this->items);
+
+		// The first group is the leading articles.
+		$limit	= $numLeading;
+		for ($i = 0; $i < $limit && $i < $max; $i++)
+		{
+			$this->lead_items[$i] = &$this->items[$i];
+		}
+
+		// The second group is the intro articles.
+		$limit		= $numLeading + $numIntro;
+		$this->columns	= max(1, $this->params->def('num_columns', 1));
+		$order		= $this->params->def('multi_column_order', 1);
+
+		if ($this->params->def('multi_column_order', 1) || $this->columns == 1)
+		{
+			// Order articles across, then down (or single column mode)
+			for ($i = $numLeading; $i < $limit && $i < $max; $i++)
+			{
+				$this->intro_items[$i] = &$this->items[$i];
+			}
+		}
+		else
+		{
+			// Order articles down, then across
+			$k = $numLeading;
+
+			// Pass over the second group by the number of columns
+			for ($j = 0; $j < $this->columns; $j++)
+			{
+				for ($i = $numLeading + $j; $i < $limit && $i < $max; $i += $this->columns, $k++)
+				{
+					$this->intro_items[$k] = &$this->items[$i];
+				}
+			}
+		}
+
+		// The remainder are the links.
+		for ($i = $numLeading + $numIntro; $i < $max; $i++)
+		{
+			$this->link_items[$i] = &$this->items[$i];
+		}
 
 		// Request variables
 		$id			= JRequest::getVar('id', null, '', 'int');
 		$limit		= JRequest::getVar('limit', 5, '', 'int');
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
-		// Get the page/component configuration
-		$params = &$mainframe->getParams();
-
-		// parameters
-		$intro			= $params->def('num_intro_articles',	4);
-		$leading		= $params->def('num_leading_articles',	1);
-		$links			= $params->def('num_links', 			4);
-
-		$descrip		= $params->def('show_description', 		1);
-		$descrip_image	= $params->def('show_description_image',1);
-
-		$params->set('show_intro', 	1);
-
-		$limit = $intro + $leading + $links;
-		JRequest::setVar('limit', (int) $limit);
-
-		//set data model
-		$items = &$this->get('data');
-		$total = &$this->get('total');
-
 		// Create a user access object for the user
-		$access				= new stdClass();
-		$access->canEdit	= $user->authorize('com_content.article.edit_article');
-		$access->canEditOwn	= $user->authorize('com_content.article.edit_own');
-		$access->canPublish	= $user->authorize('com_content.article.publish');
+		//$access				= new stdClass();
+		//$access->canEdit	= $user->authorize('com_content.article.edit_article');
+		//$access->canEditOwn	= $user->authorize('com_content.article.edit_own');
+		//$access->canPublish	= $user->authorize('com_content.article.publish');
 
-		//add alternate feed link
-		if ($params->get('show_feed_link', 1) == 1)
-		{
-			$link	= '&format=feed&limitstart=';
-			$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-			$document->addHeadLink(JRoute::_($link.'&type=rss'), 'alternate', 'rel', $attribs);
-			$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
-			$document->addHeadLink(JRoute::_($link.'&type=atom'), 'alternate', 'rel', $attribs);
-		}
 
-		$menus	= &JSite::getMenu();
-		$menu	= $menus->getActive();
+		//jimport('joomla.html.pagination');
+		//$this->pagination = new JPagination($total, $limitstart, $limit - $links);
 
-		// because the application sets a default page title, we need to get it
-		// right from the menu item itself
-		if (is_object($menu)) {
-			$menu_params = new JParameter($menu->params);
-			if (!$menu_params->get('page_title')) {
-				$params->set('page_title',	 htmlspecialchars_decode($mainframe->getCfg('sitename')));
-			}
-		} else {
-			$params->set('page_title',	 htmlspecialchars_decode($mainframe->getCfg('sitename')));
-		}
-		$document->setTitle($params->get('page_title'));
 
-		jimport('joomla.html.pagination');
-		$this->pagination = new JPagination($total, $limitstart, $limit - $links);
-
-		$this->assign('total',			$total);
-
-		$this->assignRef('user',		$user);
-		$this->assignRef('access',		$access);
+		//$this->assignRef('user',		$user);
 		$this->assignRef('params',		$params);
 		$this->assignRef('items',		$items);
+		$this->assignRef('pagination',	$pagination);
+
+		$this->_prepareDocument();
 
 		parent::display($tpl);
 	}
+
+	/**
+	 * Prepares the document
+	 */
+	protected function _prepareDocument()
+	{
+		$app	= &JFactory::getApplication();
+		$menus	= &JSite::getMenu();
+		$title	= null;
+
+		// Because the application sets a default page title,
+		// we need to get it from the menu item itself
+		if ($menu = $menus->getActive())
+		{
+			$menuParams = new JParameter($menu->params);
+			$title = $menuParams->get('page_title');
+		}
+		if (empty($title)) {
+			$title	= htmlspecialchars_decode($app->getCfg('sitename'));
+		}
+		$this->document->setTitle($title);
+
+		// Add feed links
+		if ($this->params->get('show_feed_link', 1))
+		{
+			$link = '&format=feed&limitstart=';
+
+			$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
+			$this->document->addHeadLink(JRoute::_($link.'&type=rss'), 'alternate', 'rel', $attribs);
+
+			$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
+			$this->document->addHeadLink(JRoute::_($link.'&type=atom'), 'alternate', 'rel', $attribs);
+		}
+	}
+
+
 
 	function &getItem($index = 0, &$params)
 	{
@@ -157,4 +224,6 @@ class ContentViewFrontpage extends ContentView
 
 		return $item;
 	}
+
+
 }

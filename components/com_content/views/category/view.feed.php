@@ -23,8 +23,7 @@ class ContentViewCategory extends JView
 {
 	function display()
 	{
-		global $mainframe;
-
+		$app		= &JFactory::getApplication();
 		$doc     = &JFactory::getDocument();
 		$params = &$mainframe->getParams();
 		$feedEmail = (@$mainframe->getCfg('feed_email')) ? $mainframe->getCfg('feed_email') : 'author';

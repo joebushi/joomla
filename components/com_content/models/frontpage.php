@@ -10,7 +10,7 @@
 // No direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
+jimport('joomla.application.component.modellist');
 
 /**
  * Frontpage Component Model
@@ -19,107 +19,84 @@ jimport('joomla.application.component.model');
  * @subpackage	Content
  * @since 1.5
  */
-class ContentModelFrontpage extends JModel
+class ContentModelFrontpage extends JModelList
 {
 	/**
-	 * Frontpage data array
+	 * Model context string.
 	 *
-	 * @var array
+	 * @var		string
 	 */
-	var $_data = null;
-
-	/**
-	 * Frontpage total
-	 *
-	 * @var integer
-	 */
-	var $_total = null;
+	public $_context = 'com_content.articles';
 
 
 	/**
-	 * Method to get content item data for the frontpage
+	 * Overridden method to lazy load data from the request/session as necessary
 	 *
-	 * @access public
-	 * @return array
+	 * @access	public
+	 * @param	string	$key		The key of the state item to return
+	 * @param	mixed	$default	The default value to return if it does not exist
+	 * @return	mixed	The requested value by key
+	 * @since	1.0
 	 */
-	function getData()
+	function _populateState()
 	{
-		// Load the Category data
-		if ($this->_loadData())
-		{
-			// Initialize some variables
-			$user	= &JFactory::getUser();
+		$app = &JFactory::getApplication();
 
-			// raise errors
-		}
+		$search = $app->getUserStateFromRequest($this->_context.'.search', 'search');
+		$this->setState('filter.search', $search);
 
-		return $this->_data;
+		$published 	= $app->getUserStateFromRequest($this->_context.'.published', 'filter_published', '');
+		$this->setState('filter.published', $published);
+
+		$access = $app->getUserStateFromRequest($this->_context.'.filter.access', 'filter_access', 0, 'int');
+		$this->setState('filter.access', $access);
+
+		// List state information
+		$limit 		= $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'));
+		$this->setState('list.limit', $limit);
+
+		$limitstart = $app->getUserStateFromRequest($this->_context.'.limitstart', 'limitstart', 0);
+		$this->setState('list.limitstart', $limitstart);
+
+		$orderCol	= $app->getUserStateFromRequest($this->_context.'.ordercol', 'filter_order', 'a.title');
+		$this->setState('list.ordering', $orderCol);
+
+		$orderDirn	= $app->getUserStateFromRequest($this->_context.'.orderdirn', 'filter_order_Dir', 'asc');
+		$this->setState('list.direction', $orderDirn);
 	}
 
 	/**
-	 * Method to get the total number of content items for the frontpage
+	 * Method to get a store id based on model configuration state.
 	 *
-	 * @access public
-	 * @return integer
+	 * This is necessary because the model is used by the component and
+	 * different modules that might need different sets of data or different
+	 * ordering requirements.
+	 *
+	 * @param	string		$id	A prefix for the store id.
+	 *
+	 * @return	string		A store id.
 	 */
-	function getTotal()
+	public function _getStoreId($id = '')
 	{
-		// Lets load the content if it doesn't already exist
-		if (empty($this->_total))
-		{
-			$query = $this->_buildQuery();
-			$this->_total = $this->_getListCount($query);
-		}
+		// Compile the store id.
+		$id	.= ':'.$this->getState('list.start');
+		$id	.= ':'.$this->getState('list.limit');
+		$id	.= ':'.$this->getState('list.ordering');
+		$id	.= ':'.$this->getState('list.direction');
+		$id	.= ':'.$this->getState('filter.search');
+		$id	.= ':'.$this->getState('filter.published');
 
-		return $this->_total;
+		return md5($id);
 	}
 
 	/**
-	 * Method to load content item data for items in the frontpage
-	 * exist.
+	 * @param	boolean	True to join selected foreign information
 	 *
-	 * @access	private
-	 * @return	boolean	True on success
+	 * @return	string
 	 */
-	function _loadData()
+	function _getListQuery($resolveFKs = true)
 	{
-		// Lets load the content if it doesn't already exist
-		if (empty($this->_data))
-		{
-			// Get the pagination request variables
-			$limit		= JRequest::getVar('limit', 0, '', 'int');
-			$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
-
-			$query = $this->_buildQuery();
-			$Arows = $this->_getList($query, $limitstart, $limit);
-
-			// special handling required as Uncategorized content does not have a section / category id linkage
-			$i = $limitstart;
-			$rows = array();
-			foreach ($Arows as $row)
-			{
-				// check to determine if section or category has proper access rights
-				$rows[$i] = $row;
-				$i ++;
-			}
-			$this->_data = $rows;
-		}
-		return true;
-	}
-
-	function _buildQuery()
-	{
-		global $mainframe;
-		// Get the page/component configuration
-		$params = &$mainframe->getParams();
-
-		// Voting is turned on, get voting data as well for the content items
-		$voting	= ContentHelperQuery::buildVotingQuery($params);
-
-		// Get the WHERE and ORDER BY clauses for the query
-		$where	= $this->_buildContentWhere();
-		$orderby 			= $this->_buildContentOrderBy();
-
+/*
 		$query = ' SELECT a.id, a.title, a.alias, a.title_alias, a.introtext, a.fulltext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by,' .
 			' a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.images, a.attribs, a.urls, a.metakey, a.metadesc, a.access,' .
 			' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug,'.
@@ -137,11 +114,6 @@ class ContentModelFrontpage extends JModel
 			.$orderby
 			;
 
-		return $query;
-	}
-
-	function _buildContentOrderBy()
-	{
 		global $mainframe;
 		// Get the page/component configuration
 		$params = &$mainframe->getParams();
@@ -157,47 +129,62 @@ class ContentModelFrontpage extends JModel
 		$orderby = ' ORDER BY '.$primary.' '.$secondary;
 
 		return $orderby;
-	}
+*/
+		// Create a new query object.
+		$query = new JQuery;
 
-	function _buildContentWhere()
-	{
-		global $mainframe;
+		// Select the required fields from the table.
+		$query->select($this->getState(
+			'list.select',
+			'a.id, a.title, a.alias, a.title_alias, a.introtext, a.state, a.catid, a.created, a.created_by, a.created_by_alias,' .
+			' a.modified, a.modified_by,a.publish_up, a.publish_down, a.attribs, a.metadata, a.metakey, a.metadesc, a.access'
+		));
+		$query->from('#__content AS a');
 
-		$user		= &JFactory::getUser();
-		$groups	= implode(',', $user->authorisedLevels());
+		// Join over the users for the checked out user.
+		$query->select('uc.name AS editor');
+		$query->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');
 
-		// TODO: Should we be using requestTime here? or is JDate ok?
-		// $now		= $mainframe->get('requestTime');
+		// Join over the categories.
+		$query->select('c.title AS category_title');
+		$query->join('LEFT', '#__categories AS c ON c.id = a.catid');
 
-		$jnow		= &JFactory::getDate();
-		$now		= $jnow->toMySQL();
+		// Join over the users for the author.
+		$query->select('ua.name AS author_name');
+		$query->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
 
-		// Get the page/component configuration
-		$params = &$mainframe->getParams();
+		// Filter by access level.
+		if ($access = $this->getState('filter.access'))
+		{
+			$user	= &JFactory::getUser();
+			$groups	= implode(',', $user->authorisedLevels());
+			$query->where('a.access IN ('.$groups.')');
 
-		$noauth		= !$params->get('show_noauth');
-		$nullDate	= $this->_db->getNullDate();
-
-		//First thing we need to do is assert that the articles are in the current category
-		$where = ' WHERE 1';
-
-		// Does the user have access to view the items?
-		if ($noauth) {
-			$where .= ' AND a.access IN ('.$groups.')';
+			// TODO: Add the filter for the category??
 		}
 
-		if ($user->authorize('com_content.article.edit_article')) {
-			$where .= ' AND a.state >= 0';
-		} else {
-			$where .= ' AND a.state = 1'.
-					' AND ((cc.published = 1'.
-					' AND s.published = 1)'.
-					' OR (a.catid = 0 AND a.sectionid = 0))';
-
-			$where .= ' AND (a.publish_up = '.$this->_db->Quote($nullDate).' OR a.publish_up <= '.$this->_db->Quote($now).')' .
-					  ' AND (a.publish_down = '.$this->_db->Quote($nullDate).' OR a.publish_down >= '.$this->_db->Quote($now).')';
+		// Filter by published state.
+		$published = $this->getState('filter.published');
+		if (is_numeric($published)) {
+			$query->where('a.state = ' . (int) $published);
+		}
+		else if (is_array($published))
+		{
+			JArrayHelper::toInteger($published);
+			$query->where('a.state IN ('.$published.')');
 		}
 
-		return $where;
+		// Filter by start and end dates.
+		$nullDate	= $this->_db->Quote($this->_db->getNullDate());
+		$nowDate	= $this->_db->Quote(JFactory::getDate()->toMySQL());
+
+		$query->where('(a.publish_up = '.$nullDate.' OR a.publish_up <= '.$nowDate.')');
+		$query->where('(a.publish_down = '.$nullDate.' OR a.publish_down >= '.$nowDate.')');
+
+		// Add the list ordering clause.
+		$query->order($this->_db->getEscaped($this->getState('list.ordering', 'a.title')).' '.$this->_db->getEscaped($this->getState('list.direction', 'ASC')));
+
+		//echo nl2br(str_replace('#__','jos_',$query->toString()));
+		return $query;
 	}
 }

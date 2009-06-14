@@ -23,9 +23,8 @@ class ContentViewCategory extends ContentView
 {
 	function display($tpl = null)
 	{
-		global $mainframe, $option;
-
 		// Initialize some variables
+		$app		= &JFactory::getApplication();
 		$user		= &JFactory::getUser();
 		$uri 		= &JFactory::getURI();
 		$document	= &JFactory::getDocument();

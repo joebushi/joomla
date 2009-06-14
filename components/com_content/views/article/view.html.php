@@ -23,8 +23,7 @@ class ContentViewArticle extends ContentView
 {
 	function display($tpl = null)
 	{
-		global $mainframe;
-
+		$app		= &JFactory::getApplication();
 		$user		= &JFactory::getUser();
 		$groups		= $user->authorisedLevels();
 		$document	= &JFactory::getDocument();
