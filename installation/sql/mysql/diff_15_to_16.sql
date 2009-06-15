@@ -68,6 +68,19 @@ ALTER TABLE `jos_menu_types`
  DROP INDEX `menutype`;
 
 
+ALTER TABLE `jos_content`
+ ADD COLUMN `featured` TINYINT UNSIGNED NOT NULL DEFAULT 0 COMMENT 'Set if article is featured.' AFTER `metadata`;
+
+ALTER TABLE `jos_content`
+ ADD INDEX idx_featured_catid(`featured`, `catid`);
+
+UPDATE `jos_content` AS a
+ SET a.featured = 1
+ WHERE a.id IN (
+ 	SELECT f.content_id
+ 	FROM `jos_content_frontpage` AS f
+ );
+
 -- Reconfigure the back module permissions
 UPDATE `#__categories`
  SET access = access + 1;

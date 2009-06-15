@@ -230,13 +230,15 @@ CREATE TABLE `#__content` (
   `access` int(11) unsigned NOT NULL default '0',
   `hits` int(11) unsigned NOT NULL default '0',
   `metadata` TEXT NOT NULL DEFAULT '',
+  `featured` TINYINT UNSIGNED NOT NULL DEFAULT 0 COMMENT 'Set if article is featured.',
   PRIMARY KEY  (`id`),
   KEY `idx_section` (`sectionid`),
   KEY `idx_access` (`access`),
   KEY `idx_checkout` (`checked_out`),
   KEY `idx_state` (`state`),
   KEY `idx_catid` (`catid`),
-  KEY `idx_createdby` (`created_by`)
+  KEY `idx_createdby` (`created_by`),
+  INDEX idx_featured_catid(`featured`, `catid`)
 ) TYPE=MyISAM CHARACTER SET `utf8`;
 
 # --------------------------------------------------------
