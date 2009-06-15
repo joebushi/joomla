@@ -340,6 +340,7 @@ class JInstaller extends JAdapter
 			
 			// Run the install 
 			$result = $this->_adapters[$type]->install();
+
 			// Fire the onAfterExtensionInstall
 			$dispatcher->trigger( 'onAfterExtensionInstall', array( 'installer'=>clone($this), 'eid'=> $result ) );
 			if($result !== false) return true; else return false;
@@ -1220,9 +1221,6 @@ class JInstaller extends JAdapter
 				$path = $source.DS.$file->data();
 			}
 
-			// Is this path a file or folder?
-			$path['type']	= ( $file->name() == 'folder') ? 'folder' : 'file';
-
 			/*
 			 * Actually delete the files/folders
 			 */
@@ -1449,5 +1447,17 @@ class JInstaller extends JAdapter
 			$retval[$results[1]] = $results[0]; // throw into the array
 		}
 		return $retval;
+	}
+	
+	/**
+	 * Get a group ID from a given name
+	 * @param string Name of group to find
+	 * @return int the group id of the user, false on error
+	 * @todo Find the right place to put this function 
+	 */
+	function getGroupIDFromName($groupname) {
+		$dbo = $this->getDBO();
+		$dbo->setQuery('SELECT id FROM #__usergroups WHERE title = "'. $dbo->getEscpaped($groupname) .'"');
+		return $dbo->loadResult();	
 	}
 }

@@ -60,7 +60,7 @@ class JFolder
 		}
 
 		// if we're using ftp and don't have streams enabled
-		if ($FTPOptions['enabled'] == 1 && !$use_streams)
+		if ($ftpOptions['enabled'] == 1 && !$use_streams)
 		{
 			// Connect the FTP client
 			jimport('joomla.client.ftp');

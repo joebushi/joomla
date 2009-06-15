@@ -270,7 +270,7 @@ class JInstallerModule extends JAdapterInstance
 			$row->set('access', $clientId == 1 ? 2 : 0);
 			$row->set('client_id', $clientId);
 			$row->set('params', $this->parent->getParams());
-			$row->set('data', ''); // custom data
+			$row->set('custom_data', ''); // custom data
 			$row->set('manifest_cache', $this->parent->generateManifestCache());
 
 			if (!$row->store()) {
@@ -574,7 +574,7 @@ class JInstallerModule extends JAdapterInstance
 
 		// Now we will no longer need the module object, so lets delete it and free up memory
 		$row->delete($row->extension_id);
-		$query = 'DELETE FROM `#__modules` WHERE module = '.$db->Quote($row->module) . ' AND client_id = ' . $row->client_id;
+		$query = 'DELETE FROM `#__modules` WHERE module = '.$db->Quote($row->element) . ' AND client_id = ' . $row->client_id;
 		$db->setQuery($query);
 		try {
 			$db->Query(); // clean up any other ones that might exist as well

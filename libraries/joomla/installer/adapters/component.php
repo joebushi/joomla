@@ -365,6 +365,27 @@ class JInstallerComponent extends JAdapterInstance
 			$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.JText::_('Could not copy setup file'));
 			return false;
 		}
+		
+		// Add a new section, register a manage action and create a default rule assigned to managers to manage this extension
+		// Require the access helper library.
+		jimport('joomla.access.helper');
+		jimport('joomla.access.permission.simplerule');
+		
+		// Register the sections
+		JAccessHelper::registerSection($row->get('name'), $row->get('element'));
+
+		// Register Manage Action
+		$action = JAccessHelper::registerAction(JPERMISSION_ACTION, $row->get('element'), 'Manage '. $row->get('name') , 'Ability to manage '. $row->get('name'), 'manage');
+
+		// Load the Simple Rule model
+		$rule		= JSimpleRule::getInstance();
+		$rule->load($action);
+		$gid = $this->parent->getGroupIDFromName('Manager');
+		$rule->setUserGroups($gid);
+		if(!$rule->store()) {
+			// TODO: Remember how I'm supposed to be doing these language keys again...
+			JError::raiseWarning(1, JText::_('JOOMLA_FAILED_TO_ADD_RULE'));
+		}
 
 		// And now we run the postflight
 		ob_start();
@@ -679,6 +700,7 @@ class JInstallerComponent extends JAdapterInstance
 		$row = & JTable::getInstance('extension');
 		$eid = $row->find(Array('element'=>strtolower($this->get('element')),
 						'type'=>'component'));
+		
 		if ($eid) {
 			$row->load($eid);
 		} else {

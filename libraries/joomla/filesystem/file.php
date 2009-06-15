@@ -90,12 +90,12 @@ class JFile
 		} else {
 			// Initialize variables
 			jimport('joomla.client.helper');
-			$FTPOptions = JClientHelper::getCredentials('ftp');
+			$ftpOptions = JClientHelper::getCredentials('ftp');
 
-		if ($FTPOptions['enabled'] == 1) {
+		if ($ftpOptions['enabled'] == 1) {
 			// Connect the FTP client
 			jimport('joomla.client.ftp');
-			$ftp = & JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
+			$ftp = & JFTP::getInstance($ftpOptions['host'], $ftpOptions['port'], null, $ftpOptions['user'], $ftpOptions['pass']);
 
 			// If the parent folder doesn't exist we must create it
 			if (!file_exists(dirname($dest))) {
@@ -104,7 +104,7 @@ class JFile
 			}
 
 			//Translate the destination path for the FTP account
-			$dest = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
+			$dest = JPath::clean(str_replace(JPATH_ROOT, $ftpOptions['root'], $dest), '/');
 			if (!$ftp->store($src, $dest)) {
 				// FTP connector throws an error
 				return false;
@@ -132,7 +132,7 @@ class JFile
 	{
 		// Initialize variables
 		jimport('joomla.client.helper');
-		$FTPOptions = JClientHelper::getCredentials('ftp');
+		$ftpOptions = JClientHelper::getCredentials('ftp');
 
 		if (is_array($file)) {
 			$files = $file;
@@ -141,11 +141,11 @@ class JFile
 		}
 
 		// Do NOT use ftp if it is not enabled
-		if ($FTPOptions['enabled'] == 1)
+		if ($ftpOptions['enabled'] == 1)
 		{
 			// Connect the FTP client
 			jimport('joomla.client.ftp');
-			$ftp = & JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
+			$ftp = & JFTP::getInstance($ftpOptions['host'], $ftpOptions['port'], null, $ftpOptions['user'], $ftpOptions['pass']);
 		}
 
 		foreach ($files as $file)
@@ -160,8 +160,8 @@ class JFile
 			// as long as the owner is either the webserver or the ftp
 			if (@unlink($file)) {
 				// Do nothing
-			} elseif ($FTPOptions['enabled'] == 1) {
-				$file = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $file), '/');
+			} elseif ($ftpOptions['enabled'] == 1) {
+				$file = JPath::clean(str_replace(JPATH_ROOT, $ftpOptions['root'], $file), '/');
 				if (!$ftp->delete($file)) {
 					// FTP connector throws an error
 					return false;
@@ -208,16 +208,16 @@ class JFile
 		} else {
 			// Initialize variables
 			jimport('joomla.client.helper');
-			$FTPOptions = JClientHelper::getCredentials('ftp');
+			$ftpOptions = JClientHelper::getCredentials('ftp');
 			
-		if ($FTPOptions['enabled'] == 1) {
+		if ($ftpOptions['enabled'] == 1) {
 			// Connect the FTP client
 			jimport('joomla.client.ftp');
-			$ftp = & JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
+			$ftp = & JFTP::getInstance($ftpOptions['host'], $ftpOptions['port'], null, $ftpOptions['user'], $ftpOptions['pass']);
 
 			//Translate path for the FTP account
-			$src	= JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src), '/');
-			$dest	= JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
+			$src	= JPath::clean(str_replace(JPATH_ROOT, $ftpOptions['root'], $src), '/');
+			$dest	= JPath::clean(str_replace(JPATH_ROOT, $ftpOptions['root'], $dest), '/');
 
 			// Use FTP rename to simulate move
 			if (!$ftp->rename($src, $dest)) {
@@ -306,15 +306,15 @@ class JFile
 		} else {
 			// Initialize variables
 			jimport('joomla.client.helper');
-			$FTPOptions = JClientHelper::getCredentials('ftp');
+			$ftpOptions = JClientHelper::getCredentials('ftp');
 			
-		if ($FTPOptions['enabled'] == 1) {
+		if ($ftpOptions['enabled'] == 1) {
 			// Connect the FTP client
 			jimport('joomla.client.ftp');
-			$ftp = & JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
+			$ftp = & JFTP::getInstance($ftpOptions['host'], $ftpOptions['port'], null, $ftpOptions['user'], $ftpOptions['pass']);
 
 			// Translate path for the FTP account and use FTP write buffer to file
-			$file = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $file), '/');
+			$file = JPath::clean(str_replace(JPATH_ROOT, $ftpOptions['root'], $file), '/');
 			$ret = $ftp->write($file, $buffer);
 		} else {
 			$file = JPath::clean($file);
@@ -355,16 +355,16 @@ class JFile
 		} else {
 			// Initialize variables
 			jimport('joomla.client.helper');
-			$FTPOptions = JClientHelper::getCredentials('ftp');
+			$ftpOptions = JClientHelper::getCredentials('ftp');
 			$ret		= false;
 	
-		if ($FTPOptions['enabled'] == 1) {
+		if ($ftpOptions['enabled'] == 1) {
 			// Connect the FTP client
 			jimport('joomla.client.ftp');
-			$ftp = & JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
+			$ftp = & JFTP::getInstance($ftpOptions['host'], $ftpOptions['port'], null, $ftpOptions['user'], $ftpOptions['pass']);
 
 			//Translate path for the FTP account
-			$dest = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
+			$dest = JPath::clean(str_replace(JPATH_ROOT, $ftpOptions['root'], $dest), '/');
 
 			// Copy the file to the destination directory
 			if ($ftp->store($src, $dest)) {

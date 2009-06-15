@@ -1,4 +1,4 @@
-9<?php
+<?php
 /**
 * @version		$Id$
 * @package		Joomla.Framework
@@ -37,7 +37,7 @@ class JTableExtension extends JTable
 	/** @var int Primitive Access Control */
 	var $access				= 0;
 	/** @var int If the extension is included in the Core (2) or otherwise var (1); default not var (0)*/
-	var $var			= 0;
+	var $protected			= 0;
 	/** @var string Manifest Cache; cache of the manifest data */
 	var $manifest_cache		= null;
 	/** @var string Extension parameters */

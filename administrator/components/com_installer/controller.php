@@ -62,7 +62,6 @@ class InstallerController extends JController
 
 		$ftp = &JClientHelper::setCredentialsFromRequest('ftp');
 		$view->assignRef('ftp', $ftp);
-
 		if ($model->install()) {
 			$cache = &JFactory::getCache('mod_menu');
 			$cache->clean();
