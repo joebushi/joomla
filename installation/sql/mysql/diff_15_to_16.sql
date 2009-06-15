@@ -68,11 +68,27 @@ ALTER TABLE `jos_menu_types`
  DROP INDEX `menutype`;
 
 
+-- --------------------------------
+-- jos_content
+-- --------------------------------
+
 ALTER TABLE `jos_content`
  ADD COLUMN `featured` TINYINT UNSIGNED NOT NULL DEFAULT 0 COMMENT 'Set if article is featured.' AFTER `metadata`;
 
 ALTER TABLE `jos_content`
  ADD INDEX idx_featured_catid(`featured`, `catid`);
+
+ALTER TABLE `jos_content`
+ ADD COLUMN `language` VARCHAR(10) NOT NULL COMMENT 'The language code for the article.' AFTER `featured`;
+
+ALTER TABLE `jos_content`
+ ADD COLUMN `xreference` VARCHAR(50) NOT NULL COMMENT 'A reference to enable linkages to external data sets.' AFTER `language`;
+
+ALTER TABLE `jos_content`
+ ADD INDEX idx_language(`language`);
+ 
+ALTER TABLE `jos_content`
+ ADD INDEX idx_xreference(`xreference`);
 
 UPDATE `jos_content` AS a
  SET a.featured = 1
@@ -80,6 +96,7 @@ UPDATE `jos_content` AS a
  	SELECT f.content_id
  	FROM `jos_content_frontpage` AS f
  );
+ 
 
 -- Reconfigure the back module permissions
 UPDATE `#__categories`

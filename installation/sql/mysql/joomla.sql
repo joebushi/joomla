@@ -231,6 +231,9 @@ CREATE TABLE `#__content` (
   `hits` int(11) unsigned NOT NULL default '0',
   `metadata` TEXT NOT NULL DEFAULT '',
   `featured` TINYINT UNSIGNED NOT NULL DEFAULT 0 COMMENT 'Set if article is featured.',
+  `language` VARCHAR(10) NOT NULL COMMENT 'The language code for the article.',
+  `xreference` VARCHAR(50) NOT NULL COMMENT 'A reference to enable linkages to external data sets.',
+
   PRIMARY KEY  (`id`),
   KEY `idx_section` (`sectionid`),
   KEY `idx_access` (`access`),
@@ -238,7 +241,9 @@ CREATE TABLE `#__content` (
   KEY `idx_state` (`state`),
   KEY `idx_catid` (`catid`),
   KEY `idx_createdby` (`created_by`),
-  INDEX idx_featured_catid(`featured`, `catid`)
+  INDEX idx_featured_catid(`featured`, `catid`),
+  INDEX idx_language(`language`),
+  INDEX idx_xreference(`xreference`)
 ) TYPE=MyISAM CHARACTER SET `utf8`;
 
 # --------------------------------------------------------
