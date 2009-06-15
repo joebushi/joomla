@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="Article Submission Layout">
+	<layout
+		title="Article Submission Layout">
 		<message>
 			<![CDATA[ARTICLE SUBMISSION LAYOUT DESC]]>
 		</message>
