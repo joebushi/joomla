@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
 <ul>
 <?php foreach ($this->links as $link) : ?>
 	<li>
-			<a class="blogsection" href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($link->slug, $link->catslug, $link->sectionid)); ?>">
+			<a class="blogsection" href="<?php echo JRoute::_(ContentRoute::article($link->slug, $link->catslug, $link->sectionid)); ?>">
 			<?php echo $link->title; ?></a>
 	</li>
 <?php endforeach; ?>

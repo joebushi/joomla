@@ -10,9 +10,8 @@
 // no direct access
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.caption');
-
-
+// TODO: Make this js friendly
+//JHtml::_('behavior.caption');
 
 // If the page class is defined, wrap the whole output in a div.
 $pageClass = $this->params->get('pageclass_sfx');
@@ -30,7 +29,7 @@ $pageClass = $this->params->get('pageclass_sfx');
 <?php if (!empty($this->lead_items)) : ?>
 <ol class="jarticles-lead">
 	<?php foreach ($this->lead_items as &$item) : ?>
-	<li>
+	<li<?php echo $item->state == 0 ? 'system-unpublished' : null; ?>>
 		<?php
 			$this->item = &$item;
 			echo $this->loadTemplate('item');
@@ -45,8 +44,8 @@ $pageClass = $this->params->get('pageclass_sfx');
 ?>
 <?php if (!empty($this->lead_items)) : ?>
 <ol class="jarticles columns-<?php echo (int) $this->columns;?>">
-	<?php foreach ($this->lead_items as &$item) : ?>
-	<li>
+	<?php foreach ($this->intro_items as &$item) : ?>
+	<li<?php echo $item->state == 0 ? 'system-unpublished' : null; ?>>
 		<?php
 			$this->item = &$item;
 			echo $this->loadTemplate('item');

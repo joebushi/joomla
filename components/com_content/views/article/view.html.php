@@ -1,8 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Site
- * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -16,7 +14,7 @@ require_once (JPATH_COMPONENT.DS.'view.php');
  * HTML Article View class for the Content component
  *
  * @package		Joomla.Site
- * @subpackage	Content
+ * @subpackage	com_content
  * @since 1.5
  */
 class ContentViewArticle extends ContentView
@@ -69,7 +67,7 @@ class ContentViewArticle extends ContentView
 
 		// Check to see if the user has access to view the full article
 		if (in_array($article->access, $groups)) {
-			$article->readmore_link = JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catslug, $article->sectionid));;
+			$article->readmore_link = JRoute::_(ContentRoute::article($article->slug, $article->catslug, $article->sectionid));;
 		}
 		else if ($user->get('guest'))
 		{

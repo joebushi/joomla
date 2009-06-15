@@ -63,6 +63,11 @@ class ContentModelFrontpage extends JModelList
 
 		$orderDirn	= $app->getUserStateFromRequest($this->_context.'.orderdirn', 'filter_order_Dir', 'asc');
 		$this->setState('list.direction', $orderDirn);
+
+		$params = $app->getParams();
+		$this->setState('params', $params);
+
+		$this->setState('filter.frontpage', true);
 	}
 
 	/**
@@ -83,8 +88,8 @@ class ContentModelFrontpage extends JModelList
 		$id	.= ':'.$this->getState('list.limit');
 		$id	.= ':'.$this->getState('list.ordering');
 		$id	.= ':'.$this->getState('list.direction');
-		$id	.= ':'.$this->getState('filter.search');
 		$id	.= ':'.$this->getState('filter.published');
+		$id	.= ':'.$this->getState('filter.frontpage');
 
 		return md5($id);
 	}
@@ -137,16 +142,17 @@ class ContentModelFrontpage extends JModelList
 		$query->select($this->getState(
 			'list.select',
 			'a.id, a.title, a.alias, a.title_alias, a.introtext, a.state, a.catid, a.created, a.created_by, a.created_by_alias,' .
-			' a.modified, a.modified_by,a.publish_up, a.publish_down, a.attribs, a.metadata, a.metakey, a.metadesc, a.access'
+			' a.modified, a.modified_by,a.publish_up, a.publish_down, a.attribs, a.metadata, a.metakey, a.metadesc, a.access,' .
+			' LENGTH(a.fulltext) AS readmore'
 		));
 		$query->from('#__content AS a');
 
 		// Join over the users for the checked out user.
-		$query->select('uc.name AS editor');
-		$query->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');
+		//$query->select('uc.name AS editor');
+		//$query->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');
 
 		// Join over the categories.
-		$query->select('c.title AS category_title');
+		$query->select('c.title AS category_title, a.alias AS category_alias, c.access AS category_access');
 		$query->join('LEFT', '#__categories AS c ON c.id = a.catid');
 
 		// Join over the users for the author.
@@ -159,8 +165,7 @@ class ContentModelFrontpage extends JModelList
 			$user	= &JFactory::getUser();
 			$groups	= implode(',', $user->authorisedLevels());
 			$query->where('a.access IN ('.$groups.')');
-
-			// TODO: Add the filter for the category??
+			$query->where('c.access IN ('.$groups.')');
 		}
 
 		// Filter by published state.
@@ -174,6 +179,11 @@ class ContentModelFrontpage extends JModelList
 			$query->where('a.state IN ('.$published.')');
 		}
 
+		// Filter by frontpage.
+		if ($this->getState('filter.frontpage')) {
+			$query->join('INNER', '#__content_frontpage AS fp ON fp.content_id = a.id');
+		}
+
 		// Filter by start and end dates.
 		$nullDate	= $this->_db->Quote($this->_db->getNullDate());
 		$nowDate	= $this->_db->Quote(JFactory::getDate()->toMySQL());
@@ -184,7 +194,47 @@ class ContentModelFrontpage extends JModelList
 		// Add the list ordering clause.
 		$query->order($this->_db->getEscaped($this->getState('list.ordering', 'a.title')).' '.$this->_db->getEscaped($this->getState('list.direction', 'ASC')));
 
-		//echo nl2br(str_replace('#__','jos_',$query->toString()));
+		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;
+	}
+
+	/**
+	 * Method to get a list of articles.
+	 *
+	 * Overriden to inject convert the attribs field into a JParameter object.
+	 *
+	 * @return	mixed	An array of objects on success, false on failure.
+	 */
+	public function &getItems()
+	{
+		$items = &parent::getItems();
+
+		// Contvert the parameter fields into objects.
+		foreach ($items as &$item)
+		{
+			$registry = new JRegistry;
+			$registry->loadJSON($item->attribs);
+			$item->params = clone $this->getState('params');
+			$item->params->merge($registry);
+
+			// TODO: Embed the access controls in here
+			$item->params->set('access-edit', false);
+
+			$access = $this->getState('filter.access');
+			if ($access = $this->getState('filter.access'))
+			{
+				// If the access filter has been set, we already have only the articles this user can view.
+				$item->params->set('access-view', true);
+			}
+			else
+			{
+				// If no access filter is set, the layout takes some responsibility for display of limited information.
+				$user	= &JFactory::getUser();
+				$groups	= $user->authorisedLevels();
+				$item->params->set('access-view', in_array($item->access, $groups) && in_array($item->category_access, $groups));
+			}
+		}
+
+		return $items;
 	}
 }

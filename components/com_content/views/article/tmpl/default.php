@@ -81,7 +81,7 @@ endif; ?>
 		<?php if ($this->params->get('show_category') && $this->article->catid) : ?>
 		<span>
 			<?php if ($this->params->get('link_category')) : ?>
-				<?php echo '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($this->article->catslug, $this->article->sectionid)).'">'; ?>
+				<?php echo '<a href="'.JRoute::_(ContentRoute::category($this->article->catslug, $this->article->sectionid)).'">'; ?>
 			<?php endif; ?>
 			<?php echo $this->article->category; ?>
 			<?php if ($this->params->get('link_category')) : ?>

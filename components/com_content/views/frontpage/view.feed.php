@@ -1,8 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Site
- * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -17,7 +15,7 @@ jimport('joomla.application.component.view');
  *
  * @static
  * @package		Joomla.Site
- * @subpackage	Content
+ * @subpackage	com_content
  * @since 1.5
  */
 class ContentViewFrontpage extends JView
@@ -43,7 +41,7 @@ class ContentViewFrontpage extends JView
 			$title = html_entity_decode($title);
 
 			// url link to article
-			$link = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catslug, $row->sectionid));
+			$link = JRoute::_(ContentRoute::article($row->slug, $row->catslug, $row->sectionid));
 
 			// strip html from feed item description text
 			$description	= ($params->get('feed_summary', 0) ? $row->introtext.$row->fulltext : $row->introtext);

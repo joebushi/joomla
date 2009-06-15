@@ -92,7 +92,7 @@ defined('_JEXEC') or die;
 		<?php
 			echo $this->escape($item->title).' : ';
 			$link = JRoute::_('index.php?option=com_users&view=login');
-			$returnURL = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug, $item->sectionid), false);
+			$returnURL = JRoute::_(ContentRoute::article($item->slug, $item->catslug, $item->sectionid), false);
 			$fullURL = new JURI($link);
 			$fullURL->setVar('return', base64_encode($returnURL));
 			$link = $fullURL->toString();

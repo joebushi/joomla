@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 <?php foreach ($this->items as $item) : ?>
 	<li class="row<?php echo ($item->odd +1); ?>">
 		<h4 class="contentheading">
-			<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($item->slug)); ?>">
+			<a href="<?php echo JRoute::_(ContentRoute::article($item->slug)); ?>">
 				<?php echo $this->escape($item->title); ?></a>
 		</h4>
 
@@ -40,7 +40,7 @@ defined('_JEXEC') or die;
 			<?php if ($this->params->get('show_category') && $item->catid) : ?>
 				<span>
 				<?php if ($this->params->get('link_category')) : ?>
-					<?php echo '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($item->catslug, $item->sectionid)).'">'; ?>
+					<?php echo '<a href="'.JRoute::_(ContentRoute::category($item->catslug, $item->sectionid)).'">'; ?>
 				<?php endif; ?>
 				<?php echo $item->category; ?>
 				<?php if ($this->params->get('link_category')) : ?>

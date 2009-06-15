@@ -1,8 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Site
- * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -16,7 +14,7 @@ require_once (JPATH_COMPONENT.DS.'view.php');
  * HTML View class for the Content component
  *
  * @package		Joomla.Site
- * @subpackage	Content
+ * @subpackage	com_content
  * @since 1.5
  */
 class ContentViewCategory extends ContentView
@@ -171,13 +169,13 @@ class ContentViewCategory extends ContentView
 			// checks if the item is a public or registered/special item
 			if (in_array($item->access, $groups))
 			{
-				$item->link	= JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug, $item->sectionid));
+				$item->link	= JRoute::_(ContentRoute::article($item->slug, $item->catslug, $item->sectionid));
 				$item->readmore_register = false;
 			}
 			else
 			{
 				$item->link = JRoute::_('index.php?option=com_users&task=register');
-				$returnURL = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug, $item->sectionid), false);
+				$returnURL = JRoute::_(ContentRoute::article($item->slug, $item->catslug, $item->sectionid), false);
 				$fullURL = new JURI($item->link);
 				$fullURL->setVar('return', base64_encode($returnURL));
 				$item->link = $fullURL->toString();
@@ -234,13 +232,13 @@ class ContentViewCategory extends ContentView
 			if (in_array($item->access, $groups))
 			{
 				//$item->readmore_link = JRoute::_('index.php?view=article&catid='.$this->category->slug.'&id='.$item->slug);
-				$item->readmore_link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug, $item->sectionid));
+				$item->readmore_link = JRoute::_(ContentRoute::article($item->slug, $item->catslug, $item->sectionid));
 				$item->readmore_register = false;
 			}
 			else
 			{
 				$item->readmore_link = JRoute::_('index.php?option=com_users&view=login');
-				$returnURL = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug, $item->sectionid),false);
+				$returnURL = JRoute::_(ContentRoute::article($item->slug, $item->catslug, $item->sectionid),false);
 				$fullURL = new JURI($item->readmore_link);
 				$fullURL->setVar('return', base64_encode($returnURL));
 				$item->readmore_link = $fullURL->toString();
