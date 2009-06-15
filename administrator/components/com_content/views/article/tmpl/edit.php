@@ -75,7 +75,7 @@ JHtml::_('behavior.formvalidation');
 	<div class="width-40" style="float:left">
 		<?php echo $pane->startPane('content-pane'); ?>
 
-		<?php echo $pane->startPanel(JText::_('JCommon_Publishing_Details'), 'publishing-details'); ?>
+		<?php echo $pane->startPanel(JText::_('Content_Publishing_Details'), 'publishing-details'); ?>
 
 		<ol>
 			<li>
@@ -107,30 +107,9 @@ JHtml::_('behavior.formvalidation');
 				<?php echo $this->form->getInput('modified'); ?>
 			</li>
 		</ol>
-
 		<?php echo $pane->endPanel(); ?>
 
-		<?php echo $pane->startPanel(JText::_('JCommon_Metadata_Options'), 'meta-options'); ?>
-		<ol>
-			<li>
-				<?php echo $this->form->getLabel('metadesc'); ?><br />
-				<?php echo $this->form->getInput('metadesc'); ?>
-			</li>
-			<li>
-				<?php echo $this->form->getLabel('metakey'); ?><br />
-				<?php echo $this->form->getInput('metakey'); ?>
-			</li>
-
-			<?php foreach($this->form->getFields('metadata') as $field): ?>
-			<li>
-				<?php echo $field->label; ?><br />
-				<?php echo $field->input; ?>
-			</li>
-			<?php endforeach; ?>
-		</ol>
-		<?php echo $pane->endPanel(); ?>
-
-		<?php echo $pane->startPanel(JText::_('JCommon_Basic_Options'), 'basic-options'); ?>
+		<?php echo $pane->startPanel(JText::_('Content_Basic_Options'), 'basic-options'); ?>
 		<table>
 		<?php foreach($this->form->getFields('attribs') as $field): ?>
 			<?php if ($field->hidden): ?>
@@ -149,7 +128,33 @@ JHtml::_('behavior.formvalidation');
 		</table>
 		<?php echo $pane->endPanel(); ?>
 
-		<?php echo $pane->startPanel(JText::_('JCommon_Advanced_Options'), 'advanced-options'); ?>
+		<?php echo $pane->startPanel(JText::_('Content_Metadata_Options'), 'meta-options'); ?>
+		<ol>
+			<li>
+				<?php echo $this->form->getLabel('language'); ?><br />
+				<?php echo $this->form->getInput('language'); ?>
+			</li>
+			<li>
+				<?php echo $this->form->getLabel('metadesc'); ?><br />
+				<?php echo $this->form->getInput('metadesc'); ?>
+			</li>
+			<li>
+				<?php echo $this->form->getLabel('metakey'); ?><br />
+				<?php echo $this->form->getInput('metakey'); ?>
+			</li>
+
+			<?php foreach($this->form->getFields('metadata') as $field): ?>
+			<li>
+				<?php echo $field->label; ?><br />
+				<?php echo $field->input; ?>
+			</li>
+			<?php endforeach; ?>
+
+			<li>
+				<?php echo $this->form->getLabel('xreference'); ?><br />
+				<?php echo $this->form->getInput('xreference'); ?>
+			</li>
+		</ol>
 		<?php echo $pane->endPanel(); ?>
 
 		<?php echo $pane->endPane(); ?>
