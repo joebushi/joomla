@@ -61,5 +61,6 @@ class UsersController extends JController
 		JSubMenuHelper::addEntry(JText::_('Users_Submenu_Users'),	'index.php?option=com_users&view=users',	(in_array($vName, array('users','user'))));
 		JSubMenuHelper::addEntry(JText::_('Users_Submenu_Groups'),	'index.php?option=com_users&view=groups',		(in_array($vName, array('groups','group'))));
 		JSubMenuHelper::addEntry(JText::_('Users_Submenu_Levels'),	'index.php?option=com_users&view=levels',		(in_array($vName, array('levels','level'))));
+		JSubMenuHelper::addEntry(JText::_('Users_Submenu_Application'),	'index.php?option=com_users&view=application',		($vName == 'application'));
 	}
 }

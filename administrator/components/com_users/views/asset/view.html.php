@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: view.html.php 11952 2009-06-01 03:21:19Z robs $
  * @package		Joomla.Administrator
  * @subpackage	com_users
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
@@ -12,13 +12,13 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 
 /**
- * The HTML Users configuration view.
+ * The HTML Users asset view.
  *
  * @package		Joomla.Administrator
  * @subpackage	com_users
  * @version		1.0
  */
-class UsersViewConfig extends JView
+class UsersViewAsset extends JView
 {
 	/**
 	 * Method to display the view.
@@ -31,24 +31,9 @@ class UsersViewConfig extends JView
 	 */
 	function display($tpl = null)
 	{
-		// Initialize variables.
-		$user		= &JFactory::getUser();
-
-		// Load the view data.
-		$state		= &$this->get('State');
-		$params		= &$state->get('config');
-
-		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
-			JError::raiseError(500, implode("\n", $errors));
-			return false;
-		}
-
-		// Push out the view data.
-		$this->assignRef('state',	$state);
-		$this->assignRef('config',	$params);
-
-
+		$items = &$this->get('items');
+		
+		$this->assignRef('items', $items);
 		// Render the layout.
 		parent::display($tpl);
 	}

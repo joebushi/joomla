@@ -24,7 +24,7 @@ class ContentView
 	* Writes a list of the articles
 	* @param array An array of article objects
 	*/
-	function showContent(&$rows, &$lists, $page, $redirect)
+	function showContent(&$rows, &$lists, $page)
 	{
 
 		global $mainframe;

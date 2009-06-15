@@ -45,7 +45,6 @@ class ContentController extends JController
 		$filter		= null;
 
 		// Get some variables from the request
-		$redirect			= $sectionid;
 		$option				= JRequest::getCmd('option');
 		$context			= 'com_content.viewcontent';
 		$filter_order		= $mainframe->getUserStateFromRequest($context.'filter_order',		'filter_order',		'',	'cmd');
@@ -65,7 +64,7 @@ class ContentController extends JController
 		//$where[] = "c.state >= 0";
 		$where[] = 'c.state != -2';
 
-		if ($filter_order == 'c.ordering') {
+		if ($filter_order == 'c.ordering' || $filter_order == '') {
 			$order = ' ORDER BY cc.title, c.ordering '. $filter_order_Dir;
 		} else {
 			$order = ' ORDER BY '. $filter_order .' '. $filter_order_Dir .', cc.title, c.ordering';
@@ -164,7 +163,7 @@ class ContentController extends JController
 		// search filter
 		$lists['search'] = $search;
 
-		ContentView::showContent($rows, $lists, $pagination, $redirect);
+		ContentView::showContent($rows, $lists, $pagination);
 	}
 
 	/**
