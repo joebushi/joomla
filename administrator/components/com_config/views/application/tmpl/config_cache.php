@@ -16,7 +16,7 @@
 			<?php
 			endforeach;
 			?>
-		<?php if ($this->data->cache_handler == 'memcache' || $this->data->session_handler == 'memcache') : ?>
+		<?php if ($this->data['cache_handler'] == 'memcache' || $this->data['session_handler'] == 'memcache') : ?>
 		<tr>
 			<td class="key">
 				<?php echo JText::_('Memcache Persistent'); ?>
