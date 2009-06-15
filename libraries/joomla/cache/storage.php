@@ -1,25 +1,19 @@
 <?php
 /**
-* @version		$Id:storage.php 6961 2007-03-15 16:06:53Z tcp $
-* @package		Joomla.Framework
-* @subpackage	Cache
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id:storage.php 6961 2007-03-15 16:06:53Z tcp $
+ * @package		Joomla.Framework
+ * @subpackage	Cache
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+// No direct access
+defined('JPATH_BASE') or die;
 
 /**
  * Abstract cache storage handler
  *
  * @abstract
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Cache
  * @since		1.5
@@ -32,7 +26,7 @@ class JCacheStorage extends JObject
 	* @access protected
 	* @param array $options optional parameters
 	*/
-	function __construct( $options = array() )
+	function __construct($options = array())
 	{
 		$this->_application	= (isset($options['application'])) ? $options['application'] : null;
 		$this->_language	= (isset($options['language'])) ? $options['language'] : 'en-GB';
@@ -52,7 +46,7 @@ class JCacheStorage extends JObject
 
 	/**
 	 * Returns a reference to a cache storage hanlder object, only creating it
-	 * if it doesn't already exist. 
+	 * if it doesn't already exist.
 	 *
 	 * @static
 	 * @param	string	$handler	The cache storage handler to instantiate
@@ -62,17 +56,17 @@ class JCacheStorage extends JObject
 	function &getInstance($handler = 'file', $options = array())
 	{
 		static $now = null;
-		if(is_null($now)) {
+		if (is_null($now)) {
 			$now = time();
 		}
 		$options['now'] = $now;
 		//We can't cache this since options may change...
 		$handler = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $handler));
 		$class   = 'JCacheStorage'.ucfirst($handler);
-		if(!class_exists($class))
+		if (!class_exists($class))
 		{
 			$path = dirname(__FILE__).DS.'storage'.DS.$handler.'.php';
-			if (file_exists($path) ) {
+			if (file_exists($path)) {
 				require_once($path);
 			} else {
 				return JError::raiseWarning(500, 'Unable to load Cache Storage: '.$handler);

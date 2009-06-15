@@ -1,5 +1,5 @@
 <?php // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
+defined('_JEXEC') or die; ?>
 <script language="javascript" type="text/javascript">
 <!--
 	function submitbutton(pressbutton) {
@@ -7,7 +7,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 
 		// do field validation
 		if (form.mailto.value == "" || form.from.value == "") {
-			alert( '<?php echo JText::_('EMAIL_ERR_NOINFO'); ?>' );
+			alert('<?php echo JText::_('EMAIL_ERR_NOINFO'); ?>');
 			return false;
 		}
 		form.submit();
@@ -32,25 +32,25 @@ $data	= $this->get('data');
 
 	<p>
 		<?php echo JText::_('EMAIL_TO'); ?>:
-		<br/>
+		<br />
 		<input type="text" name="mailto" class="inputbox" size="25" value="<?php echo $data->mailto ?>"/>
 	</p>
 
 	<p>
 		<?php echo JText::_('SENDER'); ?>:
-		<br/>
+		<br />
 		<input type="text" name="sender" class="inputbox" value="<?php echo $data->sender ?>" size="25" />
 	</p>
 
 	<p>
 		<?php echo JText::_('YOUR_EMAIL'); ?>:
-		<br/>
+		<br />
 		<input type="text" name="from" class="inputbox" value="<?php echo $data->from ?>" size="25" />
 	</p>
 
 	<p>
 		<?php echo JText::_('SUBJECT'); ?>:
-		<br/>
+		<br />
 		<input type="text" name="subject" class="inputbox" value="<?php echo $data->subject ?>" size="25" />
 	</p>
 
@@ -69,5 +69,5 @@ $data	= $this->get('data');
 	<input type="hidden" name="task" value="send" />
 	<input type="hidden" name="tmpl" value="component" />
 	<input type="hidden" name="link" value="<?php echo $data->link; ?>" />
-	<?php echo JHTML::_( 'form.token' ); ?>
+	<?php echo JHtml::_('form.token'); ?>
 </form>

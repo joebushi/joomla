@@ -1,24 +1,19 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Menus
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 /**
  * Extension Manager Components View
  *
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Installer
  * @since		1.5
  */
@@ -32,8 +27,8 @@ class InstallerViewComponents extends InstallerViewDefault
 		/*
 		 * Set toolbar items for the page
 		 */
-		JToolBarHelper::deleteList( '', 'remove', 'Uninstall' );
-		JToolBarHelper::help( 'screen.installer' );
+		JToolBarHelper::deleteList('', 'remove', 'Uninstall');
+		JToolBarHelper::help('screen.installer');
 
 		// Get data from the model
 		$state		= &$this->get('State');
@@ -48,12 +43,12 @@ class InstallerViewComponents extends InstallerViewDefault
 
 	function loadItem($index=0)
 	{
-		$item =& $this->items[$index];
+		$item = &$this->items[$index];
 		$item->index	= $index;
 		$item->img		= $item->enabled ? 'tick.png' : 'publish_x.png';
 		$item->task 	= $item->enabled ? 'disable' : 'enable';
-		$item->alt 		= $item->enabled ? JText::_( 'Enabled' ) : JText::_( 'Disabled' );
-		$item->action	= $item->enabled ? JText::_( 'disable' ) : JText::_( 'enable' );
+		$item->alt 		= $item->enabled ? JText::_('Enabled') : JText::_('Disabled');
+		$item->action	= $item->enabled ? JText::_('disable') : JText::_('enable');
 
 		if ($item->iscore) {
 			$item->cbd		= 'disabled';

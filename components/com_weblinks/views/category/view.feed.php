@@ -1,27 +1,22 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla
-* @subpackage	Weblinks
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @package		Joomla.Site
+ * @subpackage	Weblinks
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
 
-// Check to ensure this file is included in Joomla!
-defined( '_JEXEC' ) or die( 'Restricted access' );
+// no direct access
+defined('_JEXEC') or die;
 
-jimport( 'joomla.application.component.view');
+jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the WebLinks component
  *
  * @static
- * @package		Joomla
+ * @package		Joomla.Site
  * @subpackage	Weblinks
  * @since 1.0
  */
@@ -31,28 +26,32 @@ class WeblinksViewCategory extends JView
 	{
 		global $mainframe;
 
-		$document =& JFactory::getDocument();
+		$document = &JFactory::getDocument();
 
 		$document->link = JRoute::_('index.php?option=com_weblinks&view=category&id='.JRequest::getVar('id',null, '', 'int'));
 
 		JRequest::setVar('limit', $mainframe->getCfg('feed_limit'));
+		$siteEmail = $mainframe->getCfg('mailfrom');
+		$fromName = $mainframe->getCfg('fromname');
+		$document->editor = $fromName;
+		$document->editorEmail = $siteEmail;
 
 		// Get some data from the model
-		$items		=& $this->get( 'data' );
-		$category	=& $this->get( 'category' );
+		$items		= &$this->get('data');
+		$category	= &$this->get('category');
 
-		foreach ( $items as $item )
+		foreach ($items as $item)
 		{
 			// strip html from feed item title
-			$title = $this->escape( $item->title );
-			$title = html_entity_decode( $title );
+			$title = $this->escape($item->title);
+			$title = html_entity_decode($title);
 
 			// url link to article
-			$link = JRoute::_('index.php?option=com_weblinks&view=weblink&id='. $item->id );
+			$link = JRoute::_('index.php?option=com_weblinks&view=weblink&id='. $item->id);
 
 			// strip html from feed item description text
 			$description = $item->description;
-			$date = ( $item->date ? date( 'r', strtotime($item->date) ) : '' );
+			$date = ($item->date ? date('r', strtotime($item->date)) : '');
 
 			// load individual item creator class
 			$feeditem = new JFeedItem();
@@ -63,7 +62,7 @@ class WeblinksViewCategory extends JView
 			$feeditem->category   	= 'Weblinks';
 
 			// loads item info into rss array
-			$document->addItem( $feeditem );
+			$document->addItem($feeditem);
 		}
 	}
 }

@@ -1,25 +1,18 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @subpackage	Cache
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Cache
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+// No direct access
+defined('JPATH_BASE') or die;
 
 /**
  * Joomla! Cache page type object
  *
- * @author		Johan Janssens <johan.janssens@joomla.org>
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Cache
  * @since		1.5
@@ -35,7 +28,7 @@ class JCachePage extends JCache
 	 * @return	boolean	True if the cache is hit (false else)
 	 * @since	1.5
 	 */
-	function get( $id=false, $group='page' )
+	function get($id=false, $group='page')
 	{
 		// Initialize variables
 		$data = false;
@@ -47,9 +40,9 @@ class JCachePage extends JCache
 
 
 		// If the etag matches the page id ... sent a no change header and exit : utilize browser cache
-		if ( !headers_sent() && isset($_SERVER['HTTP_IF_NONE_MATCH']) ){
+		if (!headers_sent() && isset($_SERVER['HTTP_IF_NONE_MATCH'])){
 			$etag = stripslashes($_SERVER['HTTP_IF_NONE_MATCH']);
-			if( $etag == $id) {
+			if ($etag == $id) {
 				$browserCache = isset($this->_options['browsercache']) ? $this->_options['browsercache'] : false;
 				if ($browserCache) {
 					$this->_noChange();
@@ -120,7 +113,7 @@ class JCachePage extends JCache
 		global $mainframe;
 
 		// Send not modified header and exit gracefully
-		header( 'HTTP/1.x 304 Not Modified', true );
+		header('HTTP/1.x 304 Not Modified', true);
 		$mainframe->close();
 	}
 
@@ -133,6 +126,6 @@ class JCachePage extends JCache
 	 */
 	function _setEtag($etag)
 	{
-		JResponse::setHeader( 'ETag', $etag, true );
+		JResponse::setHeader('ETag', $etag, true);
 	}
 }

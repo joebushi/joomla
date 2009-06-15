@@ -3,20 +3,14 @@
  * @version		$Id:output.php 6961 2007-03-15 16:06:53Z tcp $
  * @package		Joomla.Framework
  * @subpackage	Filter
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
- * details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
  * JFilterOutput
  *
  * @static
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	Filter
  * @since		1.5
@@ -36,23 +30,23 @@ class JFilterOutput
 	*					 to be parsed (eg, for a textarea)
 	* @since 1.5
 	*/
-	function objectHTMLSafe( &$mixed, $quote_style=ENT_QUOTES, $exclude_keys='' )
+	function objectHTMLSafe(&$mixed, $quote_style=ENT_QUOTES, $exclude_keys='')
 	{
-		if (is_object( $mixed ))
+		if (is_object($mixed))
 		{
-			foreach (get_object_vars( $mixed ) as $k => $v)
+			foreach (get_object_vars($mixed) as $k => $v)
 			{
-				if (is_array( $v ) || is_object( $v ) || $v == NULL || substr( $k, 1, 1 ) == '_' ) {
+				if (is_array($v) || is_object($v) || $v == NULL || substr($k, 1, 1) == '_') {
 					continue;
 				}
 
-				if (is_string( $exclude_keys ) && $k == $exclude_keys) {
+				if (is_string($exclude_keys) && $k == $exclude_keys) {
 					continue;
-				} else if (is_array( $exclude_keys ) && in_array( $k, $exclude_keys )) {
+				} else if (is_array($exclude_keys) && in_array($k, $exclude_keys)) {
 					continue;
 				}
 
-				$mixed->$k = htmlspecialchars( $v, $quote_style, 'UTF-8' );
+				$mixed->$k = htmlspecialchars($v, $quote_style, 'UTF-8');
 			}
 		}
 	}
@@ -68,7 +62,7 @@ class JFilterOutput
 	function linkXHTMLSafe($input)
 	{
 		$regex = 'href="([^"]*(&(amp;){0})[^"]*)*?"';
-		return preg_replace_callback( "#$regex#i", array('JFilterOutput', '_ampReplaceCallback'), $input );
+		return preg_replace_callback("#$regex#i", array('JFilterOutput', '_ampReplaceCallback'), $input);
 	}
 
 	/**
@@ -85,7 +79,7 @@ class JFilterOutput
 		//remove any '-' from the string they will be used as concatonater
 		$str = str_replace('-', ' ', $string);
 
-		$lang =& JFactory::getLanguage();
+		$lang = &JFactory::getLanguage();
 		$str = $lang->transliterate($str);
 
 		// remove any duplicate whitespace, and ensure all characters are alphanumeric
@@ -104,14 +98,14 @@ class JFilterOutput
 	* @static
 	* @since 1.5
 	*/
-	function ampReplace( $text )
+	function ampReplace($text)
 	{
-		$text = str_replace( '&&', '*--*', $text );
-		$text = str_replace( '&#', '*-*', $text );
-		$text = str_replace( '&amp;', '&', $text );
-		$text = preg_replace( '|&(?![\w]+;)|', '&amp;', $text );
-		$text = str_replace( '*-*', '&#', $text );
-		$text = str_replace( '*--*', '&&', $text );
+		$text = str_replace('&&', '*--*', $text);
+		$text = str_replace('&#', '*-*', $text);
+		$text = str_replace('&amp;', '&', $text);
+		$text = preg_replace('|&(?![\w]+;)|', '&amp;', $text);
+		$text = str_replace('*-*', '&#', $text);
+		$text = str_replace('*--*', '&&', $text);
 
 		return $text;
 	}
@@ -124,26 +118,26 @@ class JFilterOutput
 	 * @return	string	Replaced string
 	 * @since	1.5
 	 */
-	function _ampReplaceCallback( $m )
+	function _ampReplaceCallback($m)
 	{
 		 $rx = '&(?!amp;)';
-		 return preg_replace( '#'.$rx.'#', '&amp;', $m[0] );
+		 return preg_replace('#'.$rx.'#', '&amp;', $m[0]);
 	}
 
 	/**
 	* Cleans text of all formating and scripting code
 	*/
-	function cleanText ( &$text )
+	function cleanText (&$text)
 	{
-		$text = preg_replace( "'<script[^>]*>.*?</script>'si", '', $text );
-		$text = preg_replace( '/<a\s+.*?href="([^"]+)"[^>]*>([^<]+)<\/a>/is', '\2 (\1)', $text );
-		$text = preg_replace( '/<!--.+?-->/', '', $text );
-		$text = preg_replace( '/{.+?}/', '', $text );
-		$text = preg_replace( '/&nbsp;/', ' ', $text );
-		$text = preg_replace( '/&amp;/', ' ', $text );
-		$text = preg_replace( '/&quot;/', ' ', $text );
-		$text = strip_tags( $text );
-		$text = htmlspecialchars( $text );
+		$text = preg_replace("'<script[^>]*>.*?</script>'si", '', $text);
+		$text = preg_replace('/<a\s+.*?href="([^"]+)"[^>]*>([^<]+)<\/a>/is', '\2 (\1)', $text);
+		$text = preg_replace('/<!--.+?-->/', '', $text);
+		$text = preg_replace('/{.+?}/', '', $text);
+		$text = preg_replace('/&nbsp;/', ' ', $text);
+		$text = preg_replace('/&amp;/', ' ', $text);
+		$text = preg_replace('/&quot;/', ' ', $text);
+		$text = strip_tags($text);
+		$text = htmlspecialchars($text);
 		return $text;
 	}
 }

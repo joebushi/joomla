@@ -3,24 +3,19 @@
  * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Error
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+// No direct access
+defined('JPATH_BASE') or die;
 
 // Error Definition: Illegal Options
-define( 'JERROR_ILLEGAL_OPTIONS', 1 );
+define('JERROR_ILLEGAL_OPTIONS', 1);
 // Error Definition: Callback does not exist
-define( 'JERROR_CALLBACK_NOT_CALLABLE', 2 );
+define('JERROR_CALLBACK_NOT_CALLABLE', 2);
 // Error Definition: Illegal Handler
-define( 'JERROR_ILLEGAL_MODE', 3 );
+define('JERROR_ILLEGAL_MODE', 3);
 
 /*
  * JError exception stack
@@ -40,9 +35,9 @@ $GLOBALS['_JERROR_LEVELS'] = array(
  * Default error handlers
  */
 $GLOBALS['_JERROR_HANDLERS'] = array(
-	E_NOTICE 	=> array( 'mode' => 'message' ),
-	E_WARNING 	=> array( 'mode' => 'message' ),
-	E_ERROR 	=> array( 'mode' => 'callback', 'options' => array('JError','customErrorPage') )
+	E_NOTICE 	=> array('mode' => 'message'),
+	E_WARNING 	=> array('mode' => 'message'),
+	E_ERROR 	=> array('mode' => 'callback', 'options' => array('JError','customErrorPage'))
 );
 
 /**
@@ -56,8 +51,6 @@ $GLOBALS['_JERROR_HANDLERS'] = array(
  * 	- Stephan Schmidt		<scst@php-tools.net>
  *
  * @static
- * @author		Louis Landry <louis.landry@joomla.org>
- * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	Error
  * @since		1.5
@@ -105,6 +98,18 @@ class JError
 	}
 
 	/**
+	 * Method to add non-JError thrown JExceptions to the JError stack for debugging purposes
+	 *
+	 * @access 	public
+	 * @param 	object JException
+	 * @return 	void
+	 * @since 	1.6
+	 */
+	public static function addToStack(JException &$e) {
+		$GLOBALS['_JERROR_STACK'][] =& $e;
+	}
+
+	/**
 	 * Method for retrieving the exception stack
 	 *
 	 * @static
@@ -142,19 +147,19 @@ class JError
 
 		$function = 'handle'.ucfirst($handler['mode']);
 		if (is_callable(array('JError', $function))) {
-			$reference =& JError::$function ($exception, (isset($handler['options'])) ? $handler['options'] : array());
+			$reference = &JError::$function ($exception, (isset($handler['options'])) ? $handler['options'] : array());
 		} else {
 			// This is required to prevent a very unhelpful white-screen-of-death
 			jexit(
 				'JError::raise -> Static method JError::' . $function . ' does not exist.' .
 				' Contact a developer to debug' .
-				'<br/><strong>Error was</strong> ' .
-				'<br/>' . $exception->getMessage()
+				'<br /><strong>Error was</strong> ' .
+				'<br />' . $exception->getMessage()
 			);
 		}
 
 		//store and return the error
-		$GLOBALS['_JERROR_STACK'][] =& $reference;
+		$GLOBALS['_JERROR_STACK'][] = &$reference;
 		return $reference;
 	}
 
@@ -214,7 +219,7 @@ class JError
 	* @return	array	All error handling details
 	* @since	1.5
 	*/
-    function getErrorHandling( $level )
+    function getErrorHandling($level)
     {
 		return $GLOBALS['_JERROR_HANDLERS'][$level];
     }
@@ -324,9 +329,9 @@ class JError
 	* @return	boolean	True on success; false if the level already has been registered
 	* @since	1.5
 	*/
-	function registerErrorLevel( $level, $name, $handler = 'ignore' )
+	function registerErrorLevel($level, $name, $handler = 'ignore')
 	{
-		if( isset($GLOBALS['_JERROR_LEVELS'][$level]) ) {
+		if (isset($GLOBALS['_JERROR_LEVELS'][$level])) {
 			return false;
 		}
 		$GLOBALS['_JERROR_LEVELS'][$level] = $name;
@@ -343,9 +348,9 @@ class JError
 	* @return	mixed	Human readable error level name or boolean false if it doesn't exist
 	* @since	1.5
 	*/
-	function translateErrorLevel( $level )
+	function translateErrorLevel($level)
 	{
-		if( isset($GLOBALS['_JERROR_LEVELS'][$level]) ) {
+		if (isset($GLOBALS['_JERROR_LEVELS'][$level])) {
 			return $GLOBALS['_JERROR_LEVELS'][$level];
 		}
 		return false;
@@ -527,9 +532,9 @@ class JError
 	 *
 	 * @see	raise()
 	 */
-	function &handleCallback( &$error, $options )
+	function &handleCallback(&$error, $options)
 	{
-		$result = call_user_func( $options, $error );
+		$result = call_user_func($options, $error);
 		return $result;
 	}
 
@@ -556,7 +561,7 @@ class JError
 		$document->setError($error);
 
 		@ob_end_clean();
-		$document->setTitle(JText::_('Error').': '.$error->code);
+		$document->setTitle(JText::_('Error').': '.$error->getCode());
 		$data = $document->render(false, array (
 			'template' => $template,
 			'directory' => JPATH_THEMES,

@@ -1,8 +1,8 @@
 <?php
 /**
-* @version $Id$
+ * @version $Id$
 * Modified PHP vCard class v2.0
-*/
+ */
 
 /***************************************************************************
 PHP vCard class v2.0
@@ -47,18 +47,18 @@ function quoted_printable_encode($input, $line_max = 76) {
 		$linlen 	= strlen($line);
 		$newline 	= '';
 
-		for($i = 0; $i < $linlen; $i++) {
+		for ($i = 0; $i < $linlen; $i++) {
 			$c 		= substr($line, $i, 1);
 			$dec 	= ord($c);
 
-			if ( ($dec == 32) && ($i == ($linlen - 1)) ) { // convert space at eol only
+			if (($dec == 32) && ($i == ($linlen - 1))) { // convert space at eol only
 				$c = '=20';
-			} elseif ( ($dec == 61) || ($dec < 32 ) || ($dec > 126) ) { // always encode "\t", which is *not* required
+			} elseif (($dec == 61) || ($dec < 32) || ($dec > 126)) { // always encode "\t", which is *not* required
 				$h2 = floor($dec/16);
 				$h1 = floor($dec%16);
 				$c 	= $escape.$hex["$h2"] . $hex["$h1"];
 			}
-			if ( (strlen($newline) + strlen($c)) >= $line_max ) { // CRLF is not counted
+			if ((strlen($newline) + strlen($c)) >= $line_max) { // CRLF is not counted
 				$output .= $newline.$escape.$eol; // soft line break; " =\r\n" is okay
 				$newline = "    ";
 			}

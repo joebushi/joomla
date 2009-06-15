@@ -1,4 +1,4 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php defined('_JEXEC') or die; ?>
 		<div class="imgOutline">
 			<div class="imgTotal">
 				<div align="center" class="imgBorder">

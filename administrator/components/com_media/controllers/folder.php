@@ -1,19 +1,14 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Media
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
- * details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+// No direct access
+defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
@@ -21,7 +16,7 @@ jimport('joomla.filesystem.folder');
 /**
  * Weblinks Weblink Controller
  *
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Media
  * @since 1.5
  */
@@ -38,14 +33,16 @@ class MediaControllerFolder extends MediaController
 	{
 		global $mainframe;
 
+		JRequest::checkToken('request') or jexit('Invalid Token');
+
 		// Set FTP credentials, if given
 		jimport('joomla.client.helper');
 		JClientHelper::setCredentialsFromRequest('ftp');
 
 		// Get some data from the request
-		$tmpl	= JRequest::getCmd( 'tmpl' );
-		$paths	= JRequest::getVar( 'rm', array(), '', 'array' );
-		$folder = JRequest::getVar( 'folder', '', '', 'path');
+		$tmpl	= JRequest::getCmd('tmpl');
+		$paths	= JRequest::getVar('rm', array(), '', 'array');
+		$folder = JRequest::getVar('folder', '', '', 'path');
 
 		// Initialize variables
 		$msg = array();
@@ -97,15 +94,15 @@ class MediaControllerFolder extends MediaController
 		global $mainframe;
 
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JRequest::checkToken() or jexit('Invalid Token');
 
 		// Set FTP credentials, if given
 		jimport('joomla.client.helper');
 		JClientHelper::setCredentialsFromRequest('ftp');
 
-		$folder			= JRequest::getCmd( 'foldername', '');
-		$folderCheck	= JRequest::getVar( 'foldername', null, '', 'string', JREQUEST_ALLOWRAW);
-		$parent			= JRequest::getVar( 'folderbase', '', '', 'path' );
+		$folder			= JRequest::getCmd('foldername', '');
+		$folderCheck	= JRequest::getVar('foldername', null, '', 'string', JREQUEST_ALLOWRAW);
+		$parent			= JRequest::getVar('folderbase', '', '', 'path');
 
 		JRequest::setVar('folder', $parent);
 

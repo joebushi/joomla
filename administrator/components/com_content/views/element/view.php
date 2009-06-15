@@ -1,26 +1,21 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Content
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
- * details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
 /**
  * HTML Article Element View class for the Content component
  *
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Content
  * @since 1.5
  */
@@ -31,13 +26,13 @@ class ContentViewElement extends JView
 		global $mainframe;
 
 		// Initialize variables
-		$db			= &JFactory::getDBO();
+		$db			= &JFactory::getDbo();
 		$nullDate	= $db->getNullDate();
 
 		$document	= & JFactory::getDocument();
-		$document->setTitle('Article Selection');
+		$document->setTitle(JText::_('Article Selection'));
 
-		JHTML::_('behavior.modal');
+		JHtml::_('behavior.modal');
 
 		$template = $mainframe->getTemplate();
 		$document->addStyleSheet("templates/$template/css/general.css");
@@ -51,21 +46,20 @@ class ContentViewElement extends JView
 
 		$rows = &$this->get('List');
 		$page = &$this->get('Pagination');
-		JHTML::_('behavior.tooltip');
+		JHtml::_('behavior.tooltip');
 		?>
 		<form action="index.php?option=com_content&amp;task=element&amp;tmpl=component&amp;object=id" method="post" name="adminForm">
 
 			<table>
 				<tr>
 					<td width="100%">
-						<?php echo JText::_( 'Filter' ); ?>:
+						<?php echo JText::_('Filter'); ?>:
 						<input type="text" name="search" id="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
-						<button onclick="this.form.submit();"><?php echo JText::_( 'Go' ); ?></button>
-						<button onclick="getElementById('search').value='';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
+						<button onclick="this.form.submit();"><?php echo JText::_('Go'); ?></button>
+						<button onclick="document.getElementById('search').value='';this.form.submit();"><?php echo JText::_('Reset'); ?></button>
 					</td>
 					<td nowrap="nowrap">
 						<?php
-						echo $lists['sectionid'];
 						echo $lists['catid'];
 						?>
 					</td>
@@ -76,25 +70,22 @@ class ContentViewElement extends JView
 			<thead>
 				<tr>
 					<th width="5">
-						<?php echo JText::_( 'Num' ); ?>
+						<?php echo JText::_('Num'); ?>
 					</th>
 					<th class="title">
-						<?php echo JHTML::_('grid.sort',   'Title', 'c.title', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php echo JHtml::_('grid.sort',   'Title', 'c.title', @$lists['order_Dir'], @$lists['order']); ?>
 					</th>
 					<th width="7%">
-						<?php echo JHTML::_('grid.sort',   'Access', 'groupname', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php echo JHtml::_('grid.sort',   'Access', 'groupname', @$lists['order_Dir'], @$lists['order']); ?>
 					</th>
 					<th width="2%" class="title">
-						<?php echo JHTML::_('grid.sort',   'ID', 'c.id', @$lists['order_Dir'], @$lists['order'] ); ?>
-					</th>
-					<th class="title" width="15%" nowrap="nowrap">
-						<?php echo JHTML::_('grid.sort',   'Section', 'section_name', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php echo JHtml::_('grid.sort',   'ID', 'c.id', @$lists['order_Dir'], @$lists['order']); ?>
 					</th>
 					<th  class="title" width="15%" nowrap="nowrap">
-						<?php echo JHTML::_('grid.sort',   'Category', 'cc.title', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php echo JHtml::_('grid.sort',   'Category', 'cc.title', @$lists['order_Dir'], @$lists['order']); ?>
 					</th>
 					<th align="center" width="10">
-						<?php echo JHTML::_('grid.sort',   'Date', 'c.created', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php echo JHtml::_('grid.sort',   'Date', 'c.created', @$lists['order_Dir'], @$lists['order']); ?>
 					</th>
 				</tr>
 			</thead>
@@ -108,17 +99,16 @@ class ContentViewElement extends JView
 			<tbody>
 			<?php
 			$k = 0;
-			for ($i=0, $n=count( $rows ); $i < $n; $i++)
+			for ($i=0, $n=count($rows); $i < $n; $i++)
 			{
 				$row = &$rows[$i];
 
 				$link 	= '';
-				$date	= JHTML::_('date',  $row->created, JText::_('DATE_FORMAT_LC4') );
-				$access	= JHTML::_('grid.access',   $row, $i, $row->state );
+				$date	= JHtml::_('date',  $row->created, JText::_('DATE_FORMAT_LC4'));
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td>
-						<?php echo $page->getRowOffset( $i ); ?>
+						<?php echo $page->getRowOffset($i); ?>
 					</td>
 					<td>
 						<a style="cursor: pointer;" onclick="window.parent.jSelectArticle('<?php echo $row->id; ?>', '<?php echo str_replace(array("'", "\""), array("\\'", ""),$row->title); ?>', '<?php echo JRequest::getVar('object'); ?>');">
@@ -130,9 +120,6 @@ class ContentViewElement extends JView
 					<td>
 						<?php echo $row->id; ?>
 					</td>
-						<td>
-							<?php echo $row->section_name; ?>
-						</td>
 					<td>
 						<?php echo $row->cctitle; ?>
 					</td>
@@ -159,32 +146,22 @@ class ContentViewElement extends JView
 		global $mainframe;
 
 		// Initialize variables
-		$db		= &JFactory::getDBO();
+		$db		= &JFactory::getDbo();
 
 		// Get some variables from the request
-		$sectionid			= JRequest::getVar( 'sectionid', -1, '', 'int' );
 		$redirect			= $sectionid;
-		$option				= JRequest::getCmd( 'option' );
+		$option				= JRequest::getCmd('option');
 		$filter_order		= $mainframe->getUserStateFromRequest('articleelement.filter_order',		'filter_order',		'',	'cmd');
 		$filter_order_Dir	= $mainframe->getUserStateFromRequest('articleelement.filter_order_Dir',	'filter_order_Dir',	'',	'word');
 		$filter_state		= $mainframe->getUserStateFromRequest('articleelement.filter_state',		'filter_state',		'',	'word');
 		$catid				= $mainframe->getUserStateFromRequest('articleelement.catid',				'catid',			0,	'int');
 		$filter_authorid	= $mainframe->getUserStateFromRequest('articleelement.filter_authorid',		'filter_authorid',	0,	'int');
-		$filter_sectionid	= $mainframe->getUserStateFromRequest('articleelement.filter_sectionid',	'filter_sectionid',	-1,	'int');
 		$limit				= $mainframe->getUserStateFromRequest('global.list.limit',					'limit', $mainframe->getCfg('list_limit'), 'int');
 		$limitstart			= $mainframe->getUserStateFromRequest('articleelement.limitstart',			'limitstart',		0,	'int');
 		$search				= $mainframe->getUserStateFromRequest('articleelement.search',				'search',			'',	'string');
 		$search				= JString::strtolower($search);
 
-		// get list of categories for dropdown filter
-		$query = 'SELECT cc.id AS value, cc.title AS text, section FROM #__categories AS cc' .
-				' INNER JOIN #__sections AS s ON s.id = cc.section' .
-				' ORDER BY s.ordering, cc.ordering';
-		$lists['catid'] = ContentHelper::filterCategory($query, $catid);
-
-		// get list of sections for dropdown filter
-		$javascript = 'onchange="document.adminForm.submit();"';
-		$lists['sectionid'] = JHTML::_('list.section', 'filter_sectionid', $filter_sectionid, $javascript);
+		$lists['catid'] = JHTML::_('list.category', 'catid');
 
 		// table ordering
 		$lists['order_Dir']	= $filter_order_Dir;

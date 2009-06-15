@@ -1,9 +1,8 @@
 ##
-# @version $Id$
-# @package Joomla
-# @copyright Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-# @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
-# Joomla! is Free Software
+# @version		$Id$
+# @package		Joomla
+# @copyright	Copyright (C) 2005 - 2009 Open Source Matters. All rights reserved.
+# @license		GNU General Public License version 2 or later; see LICENSE.txt
 ##
 
 
@@ -27,26 +26,6 @@ Options +FollowSymLinks
 
 RewriteEngine On
 
-
-#  Uncomment following line if your webserver's URL
-#  is not directly related to physical file paths.
-#  Update Your Joomla! Directory (just / for root)
-
-# RewriteBase /
-
-
-########## Begin - Joomla! core SEF Section
-#
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_URI} !^/index.php
-RewriteCond %{REQUEST_URI} (/|\.php|\.html|\.htm|\.feed|\.pdf|\.raw|/[^.]*)$  [NC]
-RewriteRule (.*) index.php
-RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
-#
-########## End - Joomla! core SEF Section
-
-
 ########## Begin - Rewrite rules to block out some common exploits
 ## If you experience problems on your site block out the operations listed below
 ## This attempts to block the most common type of exploit `attempts` to Joomla!
@@ -65,3 +44,24 @@ RewriteCond %{QUERY_STRING} _REQUEST(=|\[|\%[0-9A-Z]{0,2})
 RewriteRule ^(.*)$ index.php [F,L]
 #
 ########## End - Rewrite rules to block out some common exploits
+
+#  Uncomment following line if your webserver's URL
+#  is not directly related to physical file paths.
+#  Update Your Joomla! Directory (just / for root)
+
+# RewriteBase /
+
+
+########## Begin - Joomla! core SEF Section
+#
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !^/index.php
+RewriteCond %{REQUEST_URI} (/component/) [OR]
+RewriteCond %{REQUEST_URI} (/|\.php|\.html|\.htm|\.feed|\.pdf|\.raw|/[^.]*)$  [NC]
+RewriteRule (.*) index.php
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
+#
+########## End - Joomla! core SEF Section
+
+

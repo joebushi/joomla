@@ -1,110 +1,112 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla
-* @subpackage	Weblinks
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
+
+jimport('joomla.database.table');
 
 /**
-* Weblink Table class
-*
-* @package		Joomla
-* @subpackage	Weblinks
-* @since 1.0
-*/
-class TableWeblink extends JTable
+ * Weblink Table class
+ *
+ * @package		Joomla.Administrator
+ * @subpackage	com_weblinks
+ * @since		1.5
+ */
+class WeblinksTableWeblink extends JTable
 {
 	/**
 	 * Primary Key
 	 *
 	 * @var int
 	 */
-	var $id = null;
+	public $id = null;
 
 	/**
 	 * @var int
 	 */
-	var $catid = null;
+	public $catid = null;
 
 	/**
 	 * @var int
 	 */
-	var $sid = null;
+	public $sid = null;
 
 	/**
 	 * @var string
 	 */
-	var $title = null;
+	public $title = null;
 
 	/**
 	 * @var string
 	 */
-	var $alias = null;
+	public $alias = null;
 
 	/**
 	 * @var string
 	 */
-	var $url = null;
+	public $url = null;
 
 	/**
 	 * @var string
 	 */
-	var $description = null;
+	public $description = null;
 
 	/**
 	 * @var datetime
 	 */
-	var $date = null;
+	public $date = null;
 
 	/**
 	 * @var int
 	 */
-	var $hits = null;
+	public $hits = null;
 
 	/**
 	 * @var int
 	 */
-	var $published = null;
+	public $state = null;
 
 	/**
 	 * @var boolean
 	 */
-	var $checked_out = 0;
+	public $checked_out = 0;
 
 	/**
 	 * @var time
 	 */
-	var $checked_out_time = 0;
+	public $checked_out_time = 0;
 
 	/**
 	 * @var int
 	 */
-	var $ordering = null;
+	public $ordering = null;
 
 	/**
 	 * @var int
 	 */
-	var $archived = null;
+	public $archived = null;
 
 	/**
 	 * @var int
 	 */
-	var $approved = null;
+	public $approved = null;
+
+	/**
+	 * @var int
+	 */
+	public $access = null;
 
 	/**
 	 * @var string
 	 */
-	var $params = null;
+	public $params = null;
+	
+	protected $_trackAssets = true;
 
 	/**
 	 * Constructor
@@ -112,29 +114,60 @@ class TableWeblink extends JTable
 	 * @param object Database connector object
 	 * @since 1.0
 	 */
-	function __construct(& $db) {
+	public function __construct(& $db)
+	{
 		parent::__construct('#__weblinks', 'id', $db);
 	}
 
-	/**
-	* Overloaded bind function
-	*
-	* @acces public
-	* @param array $hash named array
-	* @return null|string	null is operation was satisfactory, otherwise returns an error
-	* @see JTable:bind
-	* @since 1.5
-	*/
-	function bind($array, $ignore = '')
+	public function getAssetSection()
 	{
-		if (key_exists( 'params', $array ) && is_array( $array['params'] ))
-		{
-			$registry = new JRegistry();
-			$registry->loadArray($array['params']);
-			$array['params'] = $registry->toString();
+		return 'com_weblinks';
+	}
+
+	public function getAssetNamePrefix()
+	{
+		return 'weblink';
+	}
+
+	public function getAssetTitle()
+	{
+		return $this->title;
+	}
+
+	/**
+	 * Loads a weblinks, and any other necessary data
+	 *
+	 * @param	integer		$id		An optional user id.
+	 * @return	boolean		True on success, false on failure.
+	 * @since	1.6
+	 */
+	public function load($id = null)
+	{
+		if ($result = parent::load($id)) {
+			$this->params = json_decode($this->params);
 		}
 
-		return parent::bind($array, $ignore);
+		return $result;
+	}
+
+	/**
+	 * Stores a weblink
+	 *
+	 * @param	boolean		$updateNulls	Toggle whether null values should be updated.
+	 * @return	boolean		True on success, false on failure.
+	 * @since	1.6
+	 */
+	public function store($updateNulls = false)
+	{
+		// Transform the params field
+		if (is_array($this->params)) {
+			$registry = new JRegistry();
+			$registry->loadArray($this->params);
+			$this->params = $registry->toString();
+		}
+
+		// Attempt to store the user data.
+		return parent::store($updateNulls);
 	}
 
 	/**
@@ -144,10 +177,10 @@ class TableWeblink extends JTable
 	 * @return boolean True on success
 	 * @since 1.0
 	 */
-	function check()
+	public function check()
 	{
 		if (JFilterInput::checkAttribute(array ('href', $this->url))) {
-			$this->setError( JText::_('Please provide a valid URL'));
+			$this->setError(JText::_('Please provide a valid URL'));
 			return false;
 		}
 
@@ -171,12 +204,12 @@ class TableWeblink extends JTable
 			return false;
 		}
 
-		if(empty($this->alias)) {
+		if (empty($this->alias)) {
 			$this->alias = $this->title;
 		}
 		$this->alias = JFilterOutput::stringURLSafe($this->alias);
-		if(trim(str_replace('-','',$this->alias)) == '') {
-			$datenow =& JFactory::getDate();
+		if (trim(str_replace('-','',$this->alias)) == '') {
+			$datenow = &JFactory::getDate();
 			$this->alias = $datenow->toFormat("%Y-%m-%d-%H-%M-%S");
 		}
 

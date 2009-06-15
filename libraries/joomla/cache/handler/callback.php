@@ -1,24 +1,18 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @subpackage	Cache
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Cache
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+// No direct access
+defined('JPATH_BASE') or die;
 
 /**
  * Joomla! Cache callback type object
  *
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Cache
  * @since		1.5
@@ -46,7 +40,7 @@ class JCacheCallback extends JCache
 		$args		= func_get_args();
 		$callback	= array_shift($args);
 
-		return $this->get( $callback, $args );
+		return $this->get($callback, $args);
 	}
 
 	/**
@@ -58,16 +52,16 @@ class JCacheCallback extends JCache
 	 * @return	mixed	Result of the callback
 	 * @since	1.5
 	 */
-	function get( $callback, $args, $id=false )
+	function get($callback, $args, $id=false)
 	{
 		// Normalize callback
-		if (is_array( $callback )) {
+		if (is_array($callback)) {
 			// We have a standard php callback array -- do nothing
-		} elseif (strstr( $callback, '::' )) {
+		} elseif (strstr($callback, '::')) {
 			// This is shorthand for a static method callback classname::methodname
-			list( $class, $method ) = explode( '::', $callback );
-			$callback = array( trim($class), trim($method) );
-		} elseif (strstr( $callback, '->' )) {
+			list($class, $method) = explode('::', $callback);
+			$callback = array(trim($class), trim($method));
+		} elseif (strstr($callback, '->')) {
 			/*
 			 * This is a really not so smart way of doing this... we provide this for backward compatability but this
 			 * WILL!!! disappear in a future version.  If you are using this syntax change your code to use the standard
@@ -75,9 +69,9 @@ class JCacheCallback extends JCache
 			 *
 			 * We have to use some silly global notation to pull it off and this is very unreliable
 			 */
-			list( $object_123456789, $method ) = explode('->', $callback);
+			list($object_123456789, $method) = explode('->', $callback);
 			global $$object_123456789;
-			$callback = array( $$object_123456789, $method );
+			$callback = array($$object_123456789, $method);
 		} else {
 			// We have just a standard function -- do nothing
 		}
@@ -90,12 +84,12 @@ class JCacheCallback extends JCache
 		// Get the storage handler and get callback cache data by id and group
 		$data = parent::get($id);
 		if ($data !== false) {
-			$cached = unserialize( $data );
+			$cached = unserialize($data);
 			$output = $cached['output'];
 			$result = $cached['result'];
 		} else {
 			ob_start();
-			ob_implicit_flush( false );
+			ob_implicit_flush(false);
 
 			$result = call_user_func_array($callback, $args);
 			$output = ob_get_contents();
@@ -124,7 +118,7 @@ class JCacheCallback extends JCache
 	 */
 	function _makeId($callback, $args)
 	{
-		if(is_array($callback) && is_object($callback[0])) {
+		if (is_array($callback) && is_object($callback[0])) {
 			$vars = get_object_vars($callback[0]);
 			$vars[] = strtolower(get_class($callback[0]));
 			$callback[0] = $vars;

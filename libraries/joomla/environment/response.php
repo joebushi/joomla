@@ -3,13 +3,8 @@
  * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Environment
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -27,7 +22,6 @@ $GLOBALS['_JRESPONSE']->body	 = array();
  * response variables.  This includes header and body.
  *
  * @static
- * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Environment
  * @since		1.5
@@ -190,16 +184,16 @@ class JResponse
 		$data = JResponse::getBody();
 
 		// Don't compress something if the server is going todo it anyway. Waste of time.
-		if($compress && !ini_get('zlib.output_compression') && ini_get('output_handler')!='ob_gzhandler') {
+		if ($compress && !ini_get('zlib.output_compression') && ini_get('output_handler')!='ob_gzhandler') {
 			$data = JResponse::_compress($data);
 		}
 
 		if (JResponse::allowCache() === false)
 		{
-			JResponse::setHeader( 'Expires', 'Mon, 1 Jan 2001 00:00:00 GMT', true ); 				// Expires in the past
-			JResponse::setHeader( 'Last-Modified', gmdate("D, d M Y H:i:s") . ' GMT', true ); 		// Always modified
-			JResponse::setHeader( 'Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0', false );
-			JResponse::setHeader( 'Pragma', 'no-cache' ); 											// HTTP 1.0
+			JResponse::setHeader('Expires', 'Mon, 1 Jan 2001 00:00:00 GMT', true); 				// Expires in the past
+			JResponse::setHeader('Last-Modified', gmdate("D, d M Y H:i:s") . ' GMT', true); 		// Always modified
+			JResponse::setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0', false);
+			JResponse::setHeader('Pragma', 'no-cache'); 											// HTTP 1.0
 		}
 
 		JResponse::sendHeaders();
@@ -216,7 +210,7 @@ class JResponse
 	* @param	string		data
 	* @return	string		compressed data
 	*/
-	function _compress( $data )
+	function _compress($data)
 	{
 		$encoding = JResponse::_clientEncoding();
 

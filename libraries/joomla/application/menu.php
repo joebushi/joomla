@@ -3,23 +3,16 @@
  * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Application
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+// No direct access
+defined('JPATH_BASE') or die;
 
 /**
  * JMenu class
  *
- * @author Louis Landry   <louis.landry@joomla.org>
- * @author Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Application
  * @since		1.5
@@ -85,17 +78,17 @@ class JMenu extends JObject
 	{
 		static $instances;
 
-		if (!isset( $instances )) {
+		if (!isset($instances)) {
 			$instances = array();
 		}
 
 		if (empty($instances[$client]))
 		{
 			//Load the router object
-			$info =& JApplicationHelper::getClientInfo($client, true);
+			$info = &JApplicationHelper::getClientInfo($client, true);
 
 			$path = $info->path.DS.'includes'.DS.'menu.php';
-			if(file_exists($path))
+			if (file_exists($path))
 			{
 				require_once $path;
 
@@ -105,7 +98,7 @@ class JMenu extends JObject
 			}
 			else
 			{
-				//$error = JError::raiseError( 500, 'Unable to load menu: '.$client);
+				//$error = JError::raiseError(500, 'Unable to load menu: '.$client);
 				$error = null; //Jinx : need to fix this
 				return $error;
 			}
@@ -142,7 +135,7 @@ class JMenu extends JObject
 	 */
 	function setDefault($id)
 	{
-		if(isset($this->_items[$id])) {
+		if (isset($this->_items[$id])) {
 			$this->_default = $id;
 			return true;
 		}
@@ -159,7 +152,7 @@ class JMenu extends JObject
 	 */
 	function &getDefault()
 	{
-		$item =& $this->_items[$this->_default];
+		$item = &$this->_items[$this->_default];
 		return $item;
 	}
 
@@ -172,7 +165,7 @@ class JMenu extends JObject
 	 */
 	function &setActive($id)
 	{
-		if(isset($this->_items[$id]))
+		if (isset($this->_items[$id]))
 		{
 			$this->_active = $id;
 			$result = &$this->_items[$id];
@@ -193,7 +186,7 @@ class JMenu extends JObject
 	function &getActive()
 	{
 		if ($this->_active) {
-			$item =& $this->_items[$this->_active];
+			$item = &$this->_items[$this->_active];
 			return $item;
 		}
 
@@ -216,12 +209,12 @@ class JMenu extends JObject
 
 		foreach ($this->_items as  $item)
 		{
-			if ( ! is_object($item) )
+			if (! is_object($item))
 				continue;
 
 			if ($item->$attribute == $value)
 			{
-				if($firstonly) {
+				if ($firstonly) {
 					return $item;
 				}
 
@@ -242,10 +235,10 @@ class JMenu extends JObject
 	function &getParams($id)
 	{
 		$ini = '';
-		if ($menu =& $this->getItem($id)) {
+		if ($menu = &$this->getItem($id)) {
 			$ini = $menu->params;
 		}
-		$result = new JParameter( $ini );
+		$result = new JParameter($ini);
 
 		return $result;
 	}
@@ -254,7 +247,6 @@ class JMenu extends JObject
 	 * Getter for the menu array
 	 *
 	 * @access public
-	 * @param string $name The menu name
 	 * @return array
 	 */
 	function getMenu() {
@@ -267,13 +259,18 @@ class JMenu extends JObject
 	 *
 	 * @access 	public
 	 * @param	integer	$id			The menu id
-	 * @param	integer	$accessid	The users access identifier
 	 * @return	boolean	True if authorized
 	 */
-	function authorize($id, $accessid = 0)
+	function authorise($id)
 	{
-		$menu =& $this->getItem($id);
-		return ((isset($menu->access) ? $menu->access : 0) <= $accessid);
+		$menu	= &$this->getItem($id);
+		$user	= &JFactory::getUser();
+
+		if ($menu) {
+			return in_array((int) $menu->access, $user->authorisedLevels());
+		} else {
+			return true;
+		}
 	}
 
 	/**

@@ -824,7 +824,7 @@ class FeedCreator extends HtmlDescribable {
 		Header("Content-Type: ".$this->contentType."; charset=".$this->encoding."; filename=".basename($filename));
 		Header("Content-Disposition: inline; filename=".basename($filename));
 		readfile($filename, "r");
-		die();
+		die;
 	}
 
 	/**
@@ -1480,20 +1480,20 @@ class MBOXCreator extends FeedCreator {
 		$eol = "\r\n";
 		$escape = "=";
 		$output = "";
-		while( list(, $line) = each($lines) ) {
+		while(list(, $line) = each($lines)) {
 			//$line = rtrim($line); // remove trailing white space -> no =20\r\n necessary
 			$linlen = strlen($line);
 			$newline = "";
-			for($i = 0; $i < $linlen; $i++) {
+			for ($i = 0; $i < $linlen; $i++) {
 				$c = substr($line, $i, 1);
 				$dec = ord($c);
-				if ( ($dec == 32) && ($i == ($linlen - 1)) ) { // convert space at eol only
+				if (($dec == 32) && ($i == ($linlen - 1))) { // convert space at eol only
 					$c = "=20";
-				} elseif ( ($dec == 61) || ($dec < 32 ) || ($dec > 126) ) { // always encode "\t", which is *not* required
+				} elseif (($dec == 61) || ($dec < 32) || ($dec > 126)) { // always encode "\t", which is *not* required
 					$h2 = floor($dec/16); $h1 = floor($dec%16);
 					$c = $escape.$hex["$h2"].$hex["$h1"];
 				}
-				if ( (strlen($newline) + strlen($c)) >= $line_max ) { // CRLF is not counted
+				if ((strlen($newline) + strlen($c)) >= $line_max) { // CRLF is not counted
 					$output .= $newline.$escape.$eol; // soft line break; " =\r\n" is okay
 					$newline = "";
 				}
@@ -1796,7 +1796,7 @@ class JSCreator extends HTMLCreator {
 *
 * @see https://www.google.com/webmasters/sitemaps/docs/en/protocol.html#sitemapFileRequirements
 * taken from http://phpbb.bitfolge.de/viewtopic.php?t=102
-*/
+ */
 class GoogleSiteMapIndex extends FeedCreator {
 	/**
 	* Builds the Google Sitemap feed's text.
@@ -1810,12 +1810,12 @@ class GoogleSiteMapIndex extends FeedCreator {
 		$feed	.= "			  xsi:schemaLocation=\"http://www.google.com/schemas/sitemap/0.84\n";
 		$feed	.= "			  http://www.google.com/schemas/sitemap/0.84/siteindex.xsd\">\n";
 
-		$total = count( $this->items ) ;
-		for ( $i=0; $i < $total; $i++ ) {
+		$total = count($this->items) ;
+		for ($i=0; $i < $total; $i++) {
 			$feed	.= "  <sitemap>\n";
 			$feed	.= "	<loc>".htmlspecialchars($this->items[$i]->link)."</loc>\n";
-			if ( $this->items[$i]->date != "" ) {
-				$itemDate 	= new FeedDate( $this->items[$i]->date );
+			if ($this->items[$i]->date != "") {
+				$itemDate 	= new FeedDate($this->items[$i]->date);
 				$feed		.= "	<lastmod>".htmlspecialchars($itemDate->iso8601())."</lastmod>\n";
 			}
 			$feed.= "  </sitemap>\n";
@@ -1862,7 +1862,7 @@ $rss->image = $image;
 	$item = new FeedItem();
 	$item->title = "This is an the test title of an item";
 	$item->link = "http://localhost/item/";
-	$item->description = "<b>description in </b><br/>HTML";
+	$item->description = "<b>description in </b><br />HTML";
 
 	//optional
 	//item->descriptionTruncSize = 500;

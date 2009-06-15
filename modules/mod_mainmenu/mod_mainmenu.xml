@@ -3,8 +3,8 @@
 	<name>Menu</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2006</creationDate>
-	<copyright>Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.</copyright>
-	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<copyright>Copyright (C) 2005 - 2009 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.5.0</version>
@@ -14,12 +14,6 @@
 	</files>
 	<params>
 		<param name="menutype" type="mos_menu" default="" label="Menu Name" description="The name of the menu (default is mainmenu)" />
-		<param name="menu_style" type="list" default="list" label="Menu Style" description="The menu style">
-			<option value="list">List</option>
-			<option value="vert_indent">Legacy - Vertical</option>
-			<option value="horiz_flat">Legacy - Horizontal</option>
-			<option value="list_flat">Legacy - Flat List</option>
-		</param>
 		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="startLevel" type="text" default="0" size="5" label="Start Level" description="PARAMSTARTLEVEL" />
 		<param name="endLevel" type="text" default="0" size="5" label="End Level" description="PARAMSTOPLEVEL" />
@@ -54,6 +48,7 @@
 		<param name="menu_images_align" type="radio" default="0" label="Menu Icon Alignment" description="Alignment of the Menu Icons">
 			<option value="0">Left</option>
 			<option value="1">Right</option>
+			<option value="2">None</option>
 		</param>
 		 <param name="menu_images_link" type="radio" default="0" label="Menu Icon Link" description="PARAMMENUICONLINK">
 		      	<option value="0">No</option>

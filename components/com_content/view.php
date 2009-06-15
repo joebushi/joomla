@@ -1,7 +1,7 @@
 <?php
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
-jimport( 'joomla.application.component.view');
+jimport('joomla.application.component.view');
 
 class ContentView extends JView
 {
@@ -10,6 +10,6 @@ class ContentView extends JView
 		parent::__construct($config);
 
 		//Add the helper path to the JHTML library
-		JHTML::addIncludePath(JPATH_COMPONENT.DS.'helpers');
+		JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
 	}
 }

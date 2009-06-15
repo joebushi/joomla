@@ -1,18 +1,13 @@
 <?php
 /**
-* @version		$Id$
-* @package		oomla
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @package		oomla
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 $mainframe->registerEvent('onPrepareContent', 'plgContentEmailCloak');
 
@@ -97,7 +92,7 @@ function plgEmailCloak(&$text, &$params)
 		$mailText = $regs[2][0];
 
 		// Check to see if mail text is different from mail addy
-		$replacement = JHTML::_('email.cloak', $mail, $mode, $mailText);
+		$replacement = JHtml::_('email.cloak', $mail, $mode, $mailText);
 
 		// Replace the found address with the js cloaked email
 		$text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
@@ -112,7 +107,7 @@ function plgEmailCloak(&$text, &$params)
 		$mail = $regs[1][0];
 		$mailText = $regs[2][0];
 
-		$replacement = JHTML::_('email.cloak', $mail, $mode, $mailText, 0);
+		$replacement = JHtml::_('email.cloak', $mail, $mode, $mailText, 0);
 
 		// Replace the found address with the js cloaked email
 		$text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
@@ -127,10 +122,10 @@ function plgEmailCloak(&$text, &$params)
 		$mail = $regs[1][0] . $regs[2][0];
 		$mailText = $regs[3][0];
 		// Needed for handling of Body parameter
-		$mail = str_replace( '&amp;', '&', $mail );
+		$mail = str_replace('&amp;', '&', $mail);
 
 		// Check to see if mail text is different from mail addy
-		$replacement = JHTML::_('email.cloak', $mail, $mode, $mailText);
+		$replacement = JHtml::_('email.cloak', $mail, $mode, $mailText);
 
 		// Replace the found address with the js cloaked email
 		$text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
@@ -147,7 +142,7 @@ function plgEmailCloak(&$text, &$params)
 		// Needed for handling of Body parameter
 		$mail = str_replace('&amp;', '&', $mail);
 
-		$replacement = JHTML::_('email.cloak', $mail, $mode, $mailText, 0);
+		$replacement = JHtml::_('email.cloak', $mail, $mode, $mailText, 0);
 
 		// Replace the found address with the js cloaked email
 		$text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
@@ -157,7 +152,7 @@ function plgEmailCloak(&$text, &$params)
 	$pattern = '~' . $searchEmail . '([^a-z0-9]|$)~i';
 	while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
 		$mail = $regs[1][0];
-		$replacement = JHTML::_('email.cloak', $mail, $mode);
+		$replacement = JHtml::_('email.cloak', $mail, $mode);
 
 		// Replace the found address with the js cloaked email
 		$text = substr_replace($text, $replacement, $regs[1][1], strlen($mail));

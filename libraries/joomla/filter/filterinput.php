@@ -3,17 +3,12 @@
  * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Filter
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
- * details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+// No direct access
+defined('JPATH_BASE') or die;
 
 /**
  * JFilterInput is a class for filtering input from any data source
@@ -21,7 +16,6 @@ defined('JPATH_BASE') or die();
  * Forked from the php input filter library by: Daniel Morris <dan@rootcube.com>
  * Original Contributors: Gianpaolo Racca, Ghislain Picard, Marco Wandschneider, Chris Tobin and Andrew Eddie.
  *
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage		Filter
  * @since		1.5
@@ -131,28 +125,28 @@ class JFilterInput extends JObject
 				break;
 
 			case 'WORD' :
-				$result = (string) preg_replace( '/[^A-Z_]/i', '', $source );
+				$result = (string) preg_replace('/[^A-Z_]/i', '', $source);
 				break;
 
 			case 'ALNUM' :
-				$result = (string) preg_replace( '/[^A-Z0-9]/i', '', $source );
+				$result = (string) preg_replace('/[^A-Z0-9]/i', '', $source);
 				break;
 
 			case 'CMD' :
-				$result = (string) preg_replace( '/[^A-Z0-9_\.-]/i', '', $source );
+				$result = (string) preg_replace('/[^A-Z0-9_\.-]/i', '', $source);
 				$result = ltrim($result, '.');
 				break;
 
 			case 'BASE64' :
-				$result = (string) preg_replace( '/[^A-Z0-9\/+=]/i', '', $source );
+				$result = (string) preg_replace('/[^A-Z0-9\/+=]/i', '', $source);
 				break;
 
 			case 'STRING' :
 				// Check for static usage and assign $filter the proper variable
-				if(isset($this) && is_a( $this, 'JFilterInput' )) {
-					$filter =& $this;
+				if (isset($this) && is_a($this, 'JFilterInput')) {
+					$filter = &$this;
 				} else {
-					$filter =& JFilterInput::getInstance();
+					$filter = &JFilterInput::getInstance();
 				}
 				$result = (string) $filter->_remove($filter->_decode((string) $source));
 				break;
@@ -168,15 +162,15 @@ class JFilterInput extends JObject
 				break;
 
 			case 'USERNAME' :
-				$result = (string) preg_replace( '/[\x00-\x1F\x7F<>"\'%&]/', '', $source );
+				$result = (string) preg_replace('/[\x00-\x1F\x7F<>"\'%&]/', '', $source);
 				break;
 
 			default :
 				// Check for static usage and assign $filter the proper variable
-				if(is_object($this) && get_class($this) == 'JFilterInput') {
-					$filter =& $this;
+				if (is_object($this) && get_class($this) == 'JFilterInput') {
+					$filter = &$this;
 				} else {
-					$filter =& JFilterInput::getInstance();
+					$filter = &JFilterInput::getInstance();
 				}
 				// Are we dealing with an array?
 				if (is_array($source)) {
@@ -499,9 +493,9 @@ class JFilterInput extends JObject
 		}
 		$source = strtr($source, $ttr);
 		// convert decimal
-		$source = preg_replace('/&#(\d+);/me', "chr(\\1)", $source); // decimal notation
+		$source = preg_replace('/&#(\d+);/me', "utf8_encode(chr(\\1))", $source); // decimal notation
 		// convert hex
-		$source = preg_replace('/&#x([a-f0-9]+);/mei', "chr(0x\\1)", $source); // hex notation
+		$source = preg_replace('/&#x([a-f0-9]+);/mei', "utf8_encode(chr(0x\\1))", $source); // hex notation
 		return $source;
 	}
 }

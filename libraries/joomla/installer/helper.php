@@ -3,17 +3,12 @@
  * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Installer
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+// No direct access
+defined('JPATH_BASE') or die;
 
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
@@ -24,7 +19,6 @@ jimport('joomla.filesystem.path');
  * Installer helper class
  *
  * @static
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Installer
  * @since		1.5
@@ -42,7 +36,7 @@ class JInstallerHelper
 	 */
 	function downloadPackage($url, $target = false)
 	{
-		$config =& JFactory::getConfig();
+		$config = &JFactory::getConfig();
 
 		// Capture PHP errors
 		$php_errormsg = 'Error Unknown';
@@ -103,7 +97,7 @@ class JInstallerHelper
 	 *
 	 * @static
 	 * @param string $p_filename The uploaded package filename or install directory
-	 * @return boolean True on success, False on error
+	 * @return Array Two elements - extractdir and packagefile
 	 * @since 1.5
 	 */
 	function unpack($p_filename)
@@ -119,9 +113,9 @@ class JInstallerHelper
 		$archivename = JPath::clean($archivename);
 
 		// do the unpacking of the archive
-		$result = JArchive::extract( $archivename, $extractdir);
+		$result = JArchive::extract($archivename, $extractdir);
 
-		if ( $result === false ) {
+		if ($result === false) {
 			return false;
 		}
 
@@ -187,30 +181,29 @@ class JInstallerHelper
 
 			foreach ($files as $file)
 			{
-				$xmlDoc = & JFactory::getXMLParser();
-				$xmlDoc->resolveErrors(true);
+				$xmlDoc = & JFactory::getXMLParser('Simple');
 
-				if (!$xmlDoc->loadXML($file, false, true))
+				if (!$xmlDoc->loadFile($file))
 				{
-					// Free up memory from DOMIT parser
+					// Free up memory
 					unset ($xmlDoc);
 					continue;
 				}
-				$root = & $xmlDoc->documentElement;
-				if (!is_object($root) || ($root->getTagName() != "install" && $root->getTagName() != 'mosinstall'))
+				$root = & $xmlDoc->document;
+				if (!is_object($root) || ($root->name() != "install" && $root->name() != 'extension'))
 				{
 					unset($xmlDoc);
 					continue;
 				}
 
-				$type = $root->getAttribute('type');
-				// Free up memory from DOMIT parser
+				$type = $root->attributes('type');
+				// Free up memory
 				unset ($xmlDoc);
 				return $type;
 			}
 
 			JError::raiseWarning(1, JText::_('ERRORNOTFINDJOOMLAXMLSETUPFILE'));
-			// Free up memory from DOMIT parser
+			// Free up memory.
 			unset ($xmlDoc);
 			return false;
 		} else
@@ -241,14 +234,14 @@ class JInstallerHelper
 	 * Clean up temporary uploaded package and unpacked extension
 	 *
 	 * @static
-	 * @param string $p_file Path to the uploaded package file
+	 * @param string $package Path to the uploaded package file
 	 * @param string $resultdir Path to the unpacked extension
 	 * @return boolean True on success
 	 * @since 1.5
 	 */
 	function cleanupInstall($package, $resultdir)
 	{
-		$config =& JFactory::getConfig();
+		$config = &JFactory::getConfig();
 
 		// Does the unpacked extension directory exist?
 		if (is_dir($resultdir)) {
@@ -272,7 +265,7 @@ class JInstallerHelper
 	 */
 	function splitSql($sql)
 	{
-		$db =& JFactory::getDBO();
+		$db = &JFactory::getDbo();
 		return $db->splitSql($sql);
 	}
 }

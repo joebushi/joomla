@@ -1,16 +1,13 @@
 <?php
 /**
-* @version		$Id:  $
-* @package		Joomla.Framework
-* @subpackage	HTML
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	HTML
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+JLoader::register('JTableContent', JPATH_LIBRARIES . DS . 'joomla' . DS . 'database' . DS . 'table' . DS . 'content.php');
 
 /**
  * Utility class to fire onPrepareContent for non-article based content.
@@ -19,7 +16,7 @@
  * @subpackage	HTML
  * @since		1.5
  */
-class JHTMLContent
+abstract class JHtmlContent
 {
 	/**
 	 * Fire onPrepareContent for content that isn't part of an article.
@@ -28,15 +25,16 @@ class JHTMLContent
 	 * @param array The content params.
 	 * @return string The content after transformation.
 	 */
-	function prepare($text, $params = null)
+	public static function prepare($text, $params = null)
 	{
 		if ($params === null) {
 			$params = array();
 		}
-		/*
-		 * Create a skeleton of an article
+		/* TODO: Fix this hack
+		 * Create a skeleton of an article. This is a bit of a hack.
 		 */
-		$article = new stdClass();
+		$nodb = null;
+		$article = new JTableContent($nodb);
 		$article->text = $text;
 		JPluginHelper::importPlugin('content');
 		$dispatcher = &JDispatcher::getInstance();

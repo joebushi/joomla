@@ -1,28 +1,23 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
- * details.
+ * @package		Joomla.Administrator
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+// No direct access
+defined('_JEXEC') or die;
 
 jimport('joomla.base.tree');
 
-class JAdminCSSMenu extends JTree
+class JAdminCssMenu extends JTree
 {
 	/**
 	 * CSS string to add to document head
 	 * @var string
 	 */
-	var $_css = null;
+	protected $_css = null;
 
 	function __construct()
 	{
@@ -37,15 +32,13 @@ class JAdminCSSMenu extends JTree
 
 	function renderMenu($id = 'menu', $class = '')
 	{
-		global $mainframe;
-
 		$depth = 1;
 
-		if(!empty($id)) {
+		if (!empty($id)) {
 			$id='id="'.$id.'"';
 		}
 
-		if(!empty($class)) {
+		if (!empty($class)) {
 			$class='class="'.$class.'"';
 		}
 
@@ -80,14 +73,13 @@ class JAdminCSSMenu extends JTree
 			$class = ' class="node"';
 		}
 
-		if($this->_current->class == 'separator') {
+		if ($this->_current->class == 'separator') {
 			$class = ' class="separator"';
 		}
 
-		if($this->_current->class == 'disabled') {
+		if ($this->_current->class == 'disabled') {
 			$class = ' class="disabled"';
 		}
-
 
 		/*
 		 * Print the item
@@ -137,8 +129,6 @@ class JAdminCSSMenu extends JTree
 	 */
 	function getIconClass($identifier)
 	{
-		global $mainframe;
-
 		static $classes;
 
 		// Initialize the known classes array if it does not exist
@@ -167,7 +157,7 @@ class JAdminCSSMenu extends JTree
 					}
 					// Build the CSS class for the icon
 					$class = preg_replace('#\.[^.]*$#', '', basename($identifier));
-					$class = preg_replace( '#\.\.[^A-Za-z0-9\.\_\- ]#', '', $class);
+					$class = preg_replace('#\.\.[^A-Za-z0-9\.\_\- ]#', '', $class);
 
 					$this->_css  .= "\n.icon-16-$class {\n" .
 							"\tbackground: url($identifier) no-repeat;\n" .
@@ -186,29 +176,27 @@ class JMenuNode extends JNode
 	/**
 	 * Node Title
 	 */
-	var $title = null;
+	public $title = null;
 
 	/**
 	 * Node Id
 	 */
-	var $id = null;
-
+	public $id = null;
 
 	/**
 	 * Node Link
 	 */
-	var $link = null;
+	public $link = null;
 
 	/**
 	 * CSS Class for node
 	 */
-	var $class = null;
+	public $class = null;
 
 	/**
 	 * Active Node?
 	 */
-	var $active = false;
-
+	public $active = false;
 
 	function __construct($title, $link = null, $class = null, $active = false)
 	{
@@ -217,6 +205,5 @@ class JMenuNode extends JNode
 		$this->class	= $class;
 		$this->active	= $active;
 		$this->id		= str_replace(" ","-",$title);
-
 	}
 }

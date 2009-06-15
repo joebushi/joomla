@@ -1,32 +1,27 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla
-* @subpackage	Config
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	Config
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 /**
-* @package		Joomla
-* @subpackage	Config
-*/
+ * @package		Joomla.Administrator
+ * @subpackage	Config
+ */
 class TOOLBAR_config
 {
 	function _DEFAULT() {
 
-		JToolBarHelper::title( JText::_( 'Global Configuration' ), 'config.png' );
+		JToolBarHelper::title(JText::_('Global Configuration'), 'config.png');
 		JToolBarHelper::save();
 		JToolBarHelper::apply();
 		JToolBarHelper::cancel('cancel', 'Close');
-		JToolBarHelper::help( 'screen.config' );
+		JToolBarHelper::help('screen.config');
 	}
 }

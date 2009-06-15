@@ -3,19 +3,14 @@
  * @version		$Id$
  * @package		Joomla
  * @subpackage	Content
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
- * details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
-require_once (JPATH_COMPONENT.DS.'view.php');
+require_once JPATH_COMPONENT.DS.'view.php';
 
 /**
  * HTML Article View class for the Content component
@@ -26,51 +21,60 @@ require_once (JPATH_COMPONENT.DS.'view.php');
  */
 class ContentViewArticle extends ContentView
 {
+	protected $article = null;
+	protected $params = null;
+	protected $user = null;
+	protected $access = null;
+	protected $print = null;
+	protected $action = null;
+	protected $lists = null;
+	protected $editor = null;
+
+
 	function display($tpl = null)
 	{
-		global $mainframe;
-
-		$user		   =& JFactory::getUser();
-		$document	   =& JFactory::getDocument();
-		$dispatcher	   =& JDispatcher::getInstance();
-		$pathway	   =& $mainframe->getPathway();
-		$params 	   =& $mainframe->getParams('com_content');
+		$app			= &JFactory::getApplication();
+		$user		= &JFactory::getUser();
+		$document	= &JFactory::getDocument();
+		$dispatcher	= &JDispatcher::getInstance();
+		$pathway	= &$app->getPathway();
+		$params		= JComponentHelper::getParams('com_content');
 
 		// Initialize variables
-		$article	=& $this->get('Article');
-		$aparams		=& $article->parameters;
+		$article	= &$this->get('Article');
+		$aparams	= $article->parameters;
 		$params->merge($aparams);
 
-		// Get the menu item object
-		$menus = &JSite::getMenu();
-		$menu  = $menus->getActive();
-
-		if($this->getLayout() == 'pagebreak') {
+		if ($this->getLayout() == 'pagebreak') {
 			$this->_displayPagebreak($tpl);
 			return;
 		}
 
-		if($this->getLayout() == 'form') {
+		if ($this->getLayout() == 'form') {
 			$this->_displayForm($tpl);
 			return;
 		}
 
 		if (($article->id == 0))
 		{
-			$id = JRequest::getVar( 'id', '', 'default', 'int' );
-			return JError::raiseError( 404, JText::sprintf( 'Article # not found', $id ) );
+			$id = JRequest::getVar('id', '', 'default', 'int');
+			return JError::raiseError(404, JText::sprintf('Article # not found', $id));
 		}
 
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
-
+		if ($user->authorize('com_content.article.edit_article'))
+		{
+			$article->edit = $user->authorize('com_content.article.edit', 'article.'.$item->id);
+		} else {
+			$article->edit = false;
+		}
 		// Create a user access object for the current user
 		$access = new stdClass();
-		$access->canEdit	= $user->authorize('com_content', 'edit', 'content', 'all');
-		$access->canEditOwn	= $user->authorize('com_content', 'edit', 'content', 'own');
-		$access->canPublish	= $user->authorize('com_content', 'publish', 'content', 'all');
+		$access->canEditOwn	= $user->authorize('com_content.article.edit_own');
+		$access->canPublish	= $user->authorize('com_content.article.publish');
 
 		// Check to see if the user has access to view the full article
-		if ($article->access <= $user->get('aid', 0)) {
+		if (in_array($article->access, $user->authorisedLevels('com_content.article.view'))) {
 			$article->readmore_link = JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catslug, $article->sectionid));;
 		} else {
 			$article->readmore_link = JRoute::_("index.php?option=com_user&task=register");
@@ -85,20 +89,34 @@ class ContentViewArticle extends ContentView
 		/*
 		 * Handle the metadata
 		 */
-		$document->setTitle($article->title);
+		// because the application sets a default page title, we need to get it
+		// right from the menu item itself
+		// Get the menu item object
+		$menus = &JSite::getMenu();
+		$menu  = $menus->getActive();
+
+		if (is_object($menu) && isset($menu->query['view']) && $menu->query['view'] == 'article' && isset($menu->query['id']) && $menu->query['id'] == $article->id) {
+			$menu_params = new JParameter($menu->params);
+			if (!$menu_params->get('page_title')) {
+				$params->set('page_title',	$article->title);
+			}
+		} else {
+			$params->set('page_title',	$article->title);
+		}
+		$document->setTitle($params->get('page_title'));
 
 		if ($article->metadesc) {
-			$document->setDescription( $article->metadesc );
+			$document->setDescription($article->metadesc);
 		}
 		if ($article->metakey) {
 			$document->setMetadata('keywords', $article->metakey);
 		}
 
-		if ($mainframe->getCfg('MetaTitle') == '1') {
-			$mainframe->addMetaTag('title', $article->title);
+		if ($app->getCfg('MetaTitle') == '1') {
+			$document->setMetadata('title', $article->title);
 		}
-		if ($mainframe->getCfg('MetaAuthor') == '1') {
-			$mainframe->addMetaTag('author', $article->author);
+		if ($app->getCfg('MetaAuthor') == '1') {
+			$document->setMetadata('author', $article->author);
 		}
 
 		$mdata = new JParameter($article->metadata);
@@ -120,18 +138,28 @@ class ContentViewArticle extends ContentView
 		/*
 		 * Handle the breadcrumbs
 		 */
-		if($menu && $menu->query['view'] != 'article')
+		jimport('joomla.application.categorytree');
+		$categorytree = JCategories::getInstance('com_content');
+		$pathwaycat = $categorytree->get($article->catid);
+		$path = array();
+		if (is_object($menu) && $menu->query['view'] != 'article' && $menu->query['id'] != $pathwaycat->id)
 		{
-			switch ($menu->query['view'])
+			while($pathwaycat->id != $menu->query['id'])
 			{
-				case 'section':
-					$pathway->addItem($article->category, 'index.php?view=category&id='.$article->catslug);
-					$pathway->addItem($article->title, '');
-					break;
-				case 'category':
-					$pathway->addItem($article->title, '');
-					break;
+				$path[] = array($pathwaycat->title, $pathwaycat->slug);
+				$pathwaycat = $pathwaycat->getParent();	
 			}
+			$path = array_reverse($path);
+			foreach($path as $element)
+			{
+				if (isset($element[1]))
+				{
+					$pathway->addItem($element[0], 'index.php?option=com_content&view=category&id='.$element[1]);
+				} else {
+					$pathway->addItem($element[0], '');
+				}
+			}
+			$pathway->addItem($article->title, '');
 		}
 
 		/*
@@ -160,35 +188,38 @@ class ContentViewArticle extends ContentView
 
 	function _displayForm($tpl)
 	{
-		global $mainframe;
-
 		// Initialize variables
-		$document	=& JFactory::getDocument();
-		$user		=& JFactory::getUser();
-		$uri     	 =& JFactory::getURI();
+		$app		= &JFactory::getApplication();
+		$document	= &JFactory::getDocument();
+		$user		= &JFactory::getUser();
+		$uri		= &JFactory::getURI();
+		$params		= JComponentHelper::getParams('com_content');
 
 		// Make sure you are logged in and have the necessary access rights
 		if ($user->get('gid') < 19) {
-			JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
+			JResponse::setHeader('HTTP/1.0 403',true);
+			JError::raiseWarning(403, JText::_('ALERTNOTAUTH'));
 			return;
 		}
 
 		// Initialize variables
-		$article	=& $this->get('Article');
-		$params		=& $article->parameters;
+		$article	= &$this->get('Article');
+		$aparams	= $article->parameters;
 		$isNew		= ($article->id < 1);
+
+		$params->merge($aparams);
 
 		// At some point in the future this will come from a request object
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
 		// Add the Calendar includes to the document <head> section
-		JHTML::_('behavior.calendar');
+		JHtml::_('behavior.calendar');
 
 		if ($isNew)
 		{
 			// TODO: Do we allow non-sectioned articles from the frontend??
 			$article->sectionid = JRequest::getVar('sectionid', 0, '', 'int');
-			$db = JFactory::getDBO();
+			$db = JFactory::getDbo();
 			$db->setQuery('SELECT title FROM #__sections WHERE id = '.(int) $article->sectionid);
 			$article->section = $db->loadResult();
 		}
@@ -197,16 +228,30 @@ class ContentViewArticle extends ContentView
 		$lists = $this->_buildEditLists();
 
 		// Load the JEditor object
-		$editor =& JFactory::getEditor();
+		$editor = &JFactory::getEditor();
 
 		// Build the page title string
 		$title = $article->id ? JText::_('Edit') : JText::_('New');
 
 		// Set page title
-		$document->setTitle($title);
+		// because the application sets a default page title, we need to get it
+		// right from the menu item itself
+		// Get the menu item object
+		$menus = &JSite::getMenu();
+		$menu  = $menus->getActive();
+		$params->set('page_title', $params->get('page_title'));
+		if (is_object($menu)) {
+			$menu_params = new JParameter($menu->params);
+			if (!$menu_params->get('page_title')) {
+				$params->set('page_title',	JText::_('Submit an Article'));
+			}
+		} else {
+			$params->set('page_title', JText::_('Submit an Article'));
+		}
+		$document->setTitle($params->get('page_title'));
 
 		// get pathway
-		$pathway =& $mainframe->getPathWay();
+		$pathway = &$app->getPathway();
 		$pathway->addItem($title, '');
 
 		// Unify the introtext and fulltext fields and separated the fields by the {readmore} tag
@@ -217,7 +262,7 @@ class ContentViewArticle extends ContentView
 		}
 
 		// Ensure the row data is safe html
-		JFilterOutput::objectHTMLSafe( $article);
+		JFilterOutput::objectHTMLSafe($article);
 
 		$this->assign('action', 	$uri->toString());
 
@@ -235,19 +280,26 @@ class ContentViewArticle extends ContentView
 	{
 		// Get the article and database connector from the model
 		$article = & $this->get('Article');
-		$db 	 = & JFactory::getDBO();
+		$db 	 = & JFactory::getDbo();
 
-		$javascript = "onchange=\"changeDynaList( 'catid', sectioncategories, document.adminForm.sectionid.options[document.adminForm.sectionid.selectedIndex].value, 0, 0);\"";
+		$javascript = "onchange=\"changeDynaList('catid', sectioncategories, document.adminForm.sectionid.options[document.adminForm.sectionid.selectedIndex].value, 0, 0);\"";
 
 		$query = 'SELECT s.id, s.title' .
 				' FROM #__sections AS s' .
 				' ORDER BY s.ordering';
 		$db->setQuery($query);
 
-		$sections[] = JHTML::_('select.option', '-1', '- '.JText::_('Select Section').' -', 'id', 'title');
-		$sections[] = JHTML::_('select.option', '0', JText::_('Uncategorized'), 'id', 'title');
+		$sections[] = JHtml::_('select.option', '-1', '- '.JText::_('Select Section').' -', 'id', 'title');
+		$sections[] = JHtml::_('select.option', '0', JText::_('Uncategorized'), 'id', 'title');
 		$sections = array_merge($sections, $db->loadObjectList());
-		$lists['sectionid'] = JHTML::_('select.genericlist',  $sections, 'sectionid', 'class="inputbox" size="1" '.$javascript, 'id', 'title', intval($article->sectionid));
+		$lists['sectionid'] = JHtml::_('select.genericlist',  $sections, 'sectionid', 
+			array(
+				'list.attr' => 'class="inputbox" size="1" '.$javascript,
+				'list.select' => (int) $article->sectionid,
+				'option.key' => 'id',
+				'option.text' => 'title'
+			)
+		);
 
 		foreach ($sections as $section)
 		{
@@ -266,12 +318,12 @@ class ContentViewArticle extends ContentView
 
 		$sectioncategories = array ();
 		$sectioncategories[-1] = array ();
-		$sectioncategories[-1][] = JHTML::_('select.option', '-1', JText::_( 'Select Category' ), 'id', 'title');
+		$sectioncategories[-1][] = JHtml::_('select.option', '-1', JText::_('Select Category'), 'id', 'title');
 		$section_list = implode('\', \'', $section_list);
 
 		$query = 'SELECT id, title, section' .
 				' FROM #__categories' .
-				' WHERE section IN ( \''.$section_list.'\' )' .
+				' WHERE section IN (\''.$section_list.'\')' .
 				' ORDER BY ordering';
 		$db->setQuery($query);
 		$cat_list = $db->loadObjectList();
@@ -293,29 +345,36 @@ class ContentViewArticle extends ContentView
 				}
 			}
 			foreach ($rows2 as $row2) {
-				$sectioncategories[$section->id][] = JHTML::_('select.option', $row2->id, $row2->title, 'id', 'title');
+				$sectioncategories[$section->id][] = JHtml::_('select.option', $row2->id, $row2->title, 'id', 'title');
 			}
 		}
 
 		$categories = array();
 		foreach ($cat_list as $cat) {
-			if($cat->section == $article->sectionid)
+			if ($cat->section == $article->sectionid)
 				$categories[] = $cat;
 		}
 
-		$categories[] = JHTML::_('select.option', '-1', JText::_( 'Select Category' ), 'id', 'title');
+		$categories[] = JHtml::_('select.option', '-1', JText::_('Select Category'), 'id', 'title');
 		$lists['sectioncategories'] = $sectioncategories;
-		$lists['catid'] = JHTML::_('select.genericlist',  $categories, 'catid', 'class="inputbox" size="1"', 'id', 'title', intval($article->catid));
+		$lists['catid'] = JHtml::_('select.genericlist',  $categories, 'catid',
+			array(
+				'list.attr' => 'class="inputbox" size="1"',
+				'list.select' => (int) $article->catid,
+				'option.key' => 'id',
+				'option.text' => 'title'
+			)
+		);
 
 		// Select List: Category Ordering
 		$query = 'SELECT ordering AS value, title AS text FROM #__content WHERE catid = '.(int) $article->catid.' ORDER BY ordering';
-		$lists['ordering'] = JHTML::_('list.specificordering', $article, $article->id, $query, 1);
+		$lists['ordering'] = JHtml::_('list.specificordering', $article, $article->id, $query, 1);
 
 		// Radio Buttons: Should the article be published
-		$lists['state'] = JHTML::_('select.booleanlist', 'state', '', $article->state);
+		$lists['state'] = JHtml::_('select.booleanlist', 'state', '', $article->state);
 
 		// Radio Buttons: Should the article be added to the frontpage
-		if($article->id) {
+		if ($article->id) {
 			$query = 'SELECT content_id FROM #__content_frontpage WHERE content_id = '. (int) $article->id;
 			$db->setQuery($query);
 			$article->frontpage = $db->loadResult();
@@ -323,17 +382,17 @@ class ContentViewArticle extends ContentView
 			$article->frontpage = 0;
 		}
 
-		$lists['frontpage'] = JHTML::_('select.booleanlist', 'frontpage', '', (boolean) $article->frontpage);
+		$lists['frontpage'] = JHtml::_('select.booleanlist', 'frontpage', '', (boolean) $article->frontpage);
 
 		// Select List: Group Access
-		$lists['access'] = JHTML::_('list.accesslevel', $article);
+		$lists['access'] = JHtml::_('list.accesslevel', $article);
 
 		return $lists;
 	}
 
 	function _displayPagebreak($tpl)
 	{
-		$document =& JFactory::getDocument();
+		$document = &JFactory::getDocument();
 		$document->setTitle(JText::_('PGB ARTICLE PAGEBRK'));
 
 		parent::display($tpl);

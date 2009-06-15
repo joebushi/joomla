@@ -1,36 +1,31 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Media
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
- * details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 // Make sure the user is authorized to view this page
 $user = & JFactory::getUser();
-if (!$user->authorize( 'com_media', 'manage' )) {
+if (!$user->authorize('core.media.manage')) {
 	$mainframe->redirect('index.php', JText::_('ALERTNOTAUTH'));
 }
 
-$params =& JComponentHelper::getParams('com_media');
+$params = &JComponentHelper::getParams('com_media');
 
 // Load the admin HTML view
-require_once( JPATH_COMPONENT.DS.'helpers'.DS.'media.php' );
+require_once(JPATH_COMPONENT.DS.'helpers'.DS.'media.php');
 
 // Set the path definitions
 $view = JRequest::getCmd('view',null);
 $popup_upload = JRequest::getCmd('pop_up',null);
 $path = "file_path";
-if(substr(strtolower($view),0,6) == "images" || $popup_upload == 1) $path = "image_path";
+if (substr(strtolower($view),0,6) == "images" || $popup_upload == 1) $path = "image_path";
 define('COM_MEDIA_BASE',    JPATH_ROOT.DS.$params->get($path, 'images/stories'));
 define('COM_MEDIA_BASEURL', JURI::root().$params->get($path, 'images/stories'));
 

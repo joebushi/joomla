@@ -1,5 +1,14 @@
-<?php // no direct access
-defined('_JEXEC') or die('Restricted access');
+<?php
+/**
+ * @version		$Id$
+ * @package		Joomla.Site
+ * @subpackage	mod_whosonline
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+// no direct access
+defined('_JEXEC') or die;
 
 if ($showmode == 0 || $showmode == 2) :
     if ($count['guest'] != 0 || $count['user'] != 0) :
@@ -20,14 +29,14 @@ if ($showmode == 0 || $showmode == 2) :
 		    echo JText::sprintf('member', '1');
 		else :
 		    if ($count['user'] > 1) :
-			    echo JText::sprintf('members', $count['user']);
+			    echo JText::sprintf('users', $count['user']);
 			endif;
 		endif;
 		echo '&nbsp;' . JText::_('online');
     endif;
 endif;
 
-if(($showmode > 0) && count($names)) : ?>
+if (($showmode > 0) && count($names)) : ?>
     <ul>
 <?php foreach($names as $name) : ?>
 	    <li><strong><?php echo $name->username; ?></strong></li>

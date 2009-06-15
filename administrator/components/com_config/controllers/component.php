@@ -1,22 +1,17 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Config
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
- * details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-require_once( JPATH_COMPONENT.DS.'views'.DS.'component'.DS.'view.php' );
+require_once(JPATH_COMPONENT.DS.'views'.DS.'component'.DS.'view.php');
 
 /**
  * Note: this view is intended only to be opened in a popup
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Config
  */
 class ConfigControllerComponent extends JController
@@ -24,12 +19,12 @@ class ConfigControllerComponent extends JController
 	/**
 	 * Custom Constructor
 	 */
-	function __construct( $default = array())
+	function __construct($default = array())
 	{
 		$default['default_task'] = 'edit';
-		parent::__construct( $default );
+		parent::__construct($default);
 
-		$this->registerTask( 'apply', 'save' );
+		$this->registerTask('apply', 'save');
 	}
 
 	/**
@@ -39,30 +34,30 @@ class ConfigControllerComponent extends JController
 	function edit()
 	{
 		JRequest::setVar('tmpl', 'component'); //force the component template
-		$component = JRequest::getCmd( 'component' );
+		$component = JRequest::getCmd('component');
 
-		if (empty( $component ))
+		if (empty($component))
 		{
-			JError::raiseWarning( 500, 'Not a valid component' );
+			JError::raiseWarning(500, 'Not a valid component');
 			return false;
 		}
 
 		// load the component's language file
 		$lang = & JFactory::getLanguage();
-		$lang->load( $component );
+		$lang->load($component);
 
-		$model = $this->getModel('Component' );
-		$table =& JTable::getInstance('component');
+		$model = $this->getModel('Component');
+		$table = &JTable::getInstance('component');
 
-		if (!$table->loadByOption( $component ))
+		if (!$table->loadByOption($component))
 		{
-			JError::raiseWarning( 500, 'Not a valid component' );
+			JError::raiseWarning(500, 'Not a valid component');
 			return false;
 		}
 
-		$view = new ConfigViewComponent( );
+		$view = new ConfigViewComponent();
 		$view->assignRef('component', $table);
-		$view->setModel( $model, true );
+		$view->setModel($model, true);
 		$view->display();
 	}
 
@@ -72,34 +67,34 @@ class ConfigControllerComponent extends JController
 	function save()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JRequest::checkToken() or jexit('Invalid Token');
 
-		$component = JRequest::getCmd( 'component' );
+		$component = JRequest::getCmd('component');
 
-		$table =& JTable::getInstance('component');
-		if (!$table->loadByOption( $component ))
+		$table = &JTable::getInstance('component');
+		if (!$table->loadByOption($component))
 		{
-			JError::raiseWarning( 500, 'Not a valid component' );
+			JError::raiseWarning(500, 'Not a valid component');
 			return false;
 		}
 
-		$post = JRequest::get( 'post' );
+		$post = JRequest::get('post');
 		$post['option'] = $component;
-		$table->bind( $post );
+		$table->bind($post);
 
 		// pre-save checks
 		if (!$table->check()) {
-			JError::raiseWarning( 500, $table->getError() );
+			JError::raiseWarning(500, $table->getError());
 			return false;
 		}
 
 		// save the changes
 		if (!$table->store()) {
-			JError::raiseWarning( 500, $table->getError() );
+			JError::raiseWarning(500, $table->getError());
 			return false;
 		}
 
-		//$this->setRedirect( 'index.php?option=com_config', $msg );
+		//$this->setRedirect('index.php?option=com_config', $msg);
 		$this->edit();
 	}
 
@@ -108,6 +103,6 @@ class ConfigControllerComponent extends JController
 	 */
 	function cancel()
 	{
-		$this->setRedirect( 'index.php' );
+		$this->setRedirect('index.php');
 	}
 }

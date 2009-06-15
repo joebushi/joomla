@@ -1,18 +1,13 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
+ * @package		Joomla.Administrator
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 /**
  * This is a file to add template specific chrome to pagination rendering.
@@ -67,7 +62,7 @@ defined('_JEXEC') or die('Restricted access');
 function pagination_list_footer($list)
 {
 	// Initialize variables
-	$lang =& JFactory::getLanguage();
+	$lang = &JFactory::getLanguage();
 	$html = "<del class=\"container\"><div class=\"pagination\">\n";
 
 	$html .= "\n<div class=\"limit\">".JText::_('Display Num').$list['limitfield']."</div>";
@@ -83,7 +78,7 @@ function pagination_list_footer($list)
 function pagination_list_render($list)
 {
 	// Initialize variables
-	$lang =& JFactory::getLanguage();
+	$lang = &JFactory::getLanguage();
 	$html = null;
 
 	if ($list['start']['active']) {
@@ -98,7 +93,7 @@ function pagination_list_render($list)
 	}
 
 	$html .= "\n<div class=\"button2-left\"><div class=\"page\">";
-	foreach( $list['pages'] as $page ) {
+	foreach($list['pages'] as $page) {
 		$html .= $page['data'];
 	}
 	$html .= "\n</div></div>";
@@ -119,7 +114,7 @@ function pagination_list_render($list)
 
 function pagination_item_active(&$item)
 {
-	if($item->base>0)
+	if ($item->base>0)
 		return "<a href=\"#\" title=\"".$item->text."\" onclick=\"javascript: document.adminForm.limitstart.value=".$item->base."; submitform();return false;\">".$item->text."</a>";
 	else
 		return "<a href=\"#\" title=\"".$item->text."\" onclick=\"javascript: document.adminForm.limitstart.value=0; submitform();return false;\">".$item->text."</a>";

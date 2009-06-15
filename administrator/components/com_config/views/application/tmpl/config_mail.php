@@ -1,12 +1,12 @@
 <fieldset class="adminform">
-	<legend><?php echo JText::_( 'Mail Settings' ); ?></legend>
+	<legend><?php echo JText::_('Mail Settings'); ?></legend>
 	<table class="admintable" cellspacing="1">
 
 		<tbody>
 		<tr>
 			<td width="185" class="key">
-				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Mailer' ); ?>::<?php echo JText::_( 'TIPMAILER' ); ?>">
-						<?php echo JText::_( 'Mailer' ); ?>
+				<span class="editlinktip hasTip" title="<?php echo JText::_('Mailer'); ?>::<?php echo JText::_('TIPMAILER'); ?>">
+						<?php echo JText::_('Mailer'); ?>
 					</span>
 			</td>
 			<td>
@@ -15,8 +15,8 @@
 		</tr>
 		<tr>
 			<td class="key">
-				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Mail From' ); ?>::<?php echo JText::_( 'TIPMAILFROM' ); ?>">
-						<?php echo JText::_( 'Mail From' ); ?>
+				<span class="editlinktip hasTip" title="<?php echo JText::_('Mail From'); ?>::<?php echo JText::_('TIPMAILFROM'); ?>">
+						<?php echo JText::_('Mail From'); ?>
 					</span>
 			</td>
 			<td>
@@ -25,8 +25,8 @@
 		</tr>
 		<tr>
 			<td class="key">
-				<span class="editlinktip hasTip" title="<?php echo JText::_( 'From Name' ); ?>::<?php echo JText::_( 'TIPFROMNAME' ); ?>">
-						<?php echo JText::_( 'From Name' ); ?>
+				<span class="editlinktip hasTip" title="<?php echo JText::_('From Name'); ?>::<?php echo JText::_('TIPFROMNAME'); ?>">
+						<?php echo JText::_('From Name'); ?>
 					</span>
 			</td>
 			<td>
@@ -35,8 +35,8 @@
 		</tr>
 		<tr>
 			<td class="key">
-				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Sendmail Path' ); ?>::<?php echo JText::_( 'TIPSENDMAILPATH' ); ?>">
-						<?php echo JText::_( 'Sendmail Path' ); ?>
+				<span class="editlinktip hasTip" title="<?php echo JText::_('Sendmail Path'); ?>::<?php echo JText::_('TIPSENDMAILPATH'); ?>">
+						<?php echo JText::_('Sendmail Path'); ?>
 					</span>
 			</td>
 			<td>
@@ -45,8 +45,8 @@
 		</tr>
 		<tr>
 			<td class="key">
-				<span class="editlinktip hasTip" title="<?php echo JText::_( 'SMTP Auth' ); ?>::<?php echo JText::_( 'TIPSMTPAUTH' ); ?>">
-						<?php echo JText::_( 'SMTP Auth' ); ?>
+				<span class="editlinktip hasTip" title="<?php echo JText::_('SMTP Auth'); ?>::<?php echo JText::_('TIPSMTPAUTH'); ?>">
+						<?php echo JText::_('SMTP Auth'); ?>
 					</span>
 			</td>
 			<td>
@@ -55,8 +55,8 @@
 		</tr>
 		<tr>
 			<td class="key">
-				<span class="editlinktip hasTip" title="<?php echo JText::_( 'SMTP User' ); ?>::<?php echo JText::_( 'TIPSMTPUSER' ); ?>">
-						<?php echo JText::_( 'SMTP User' ); ?>
+				<span class="editlinktip hasTip" title="<?php echo JText::_('SMTP User'); ?>::<?php echo JText::_('TIPSMTPUSER'); ?>">
+						<?php echo JText::_('SMTP User'); ?>
 					</span>
 			</td>
 			<td>
@@ -65,8 +65,8 @@
 		</tr>
 		<tr>
 			<td class="key">
-				<span class="editlinktip hasTip" title="<?php echo JText::_( 'SMTP Pass' ); ?>::<?php echo JText::_( 'TIPSMTPPASS' ); ?>">
-						<?php echo JText::_( 'SMTP Pass' ); ?>
+				<span class="editlinktip hasTip" title="<?php echo JText::_('SMTP Pass'); ?>::<?php echo JText::_('TIPSMTPPASS'); ?>">
+						<?php echo JText::_('SMTP Pass'); ?>
 					</span>
 			</td>
 			<td>
@@ -75,8 +75,8 @@
 		</tr>
 		<tr>
 			<td class="key">
-				<span class="editlinktip hasTip" title="<?php echo JText::_( 'SMTP Host' ); ?>::<?php echo JText::_( 'TIPSMTPHOST' ); ?>">
-						<?php echo JText::_( 'SMTP Host' ); ?>
+				<span class="editlinktip hasTip" title="<?php echo JText::_('SMTP Host'); ?>::<?php echo JText::_('TIPSMTPHOST'); ?>">
+						<?php echo JText::_('SMTP Host'); ?>
 					</span>
 			</td>
 			<td>

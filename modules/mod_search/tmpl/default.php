@@ -1,9 +1,19 @@
-<?php // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
+<?php
+/**
+ * @version		$Id$
+ * @package		Joomla.Site
+ * @subpackage	mod_search
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+// no direct access
+defined('_JEXEC') or die;
+?>
 <form action="index.php" method="post">
 	<div class="search<?php echo $params->get('moduleclass_sfx') ?>">
 		<?php
-		    $output = '<input name="searchword" id="mod_search_searchword" maxlength="20" alt="'.$button_text.'" class="inputbox'.$moduleclass_sfx.'" type="text" size="'.$width.'" value="'.$text.'"  onblur="if(this.value==\'\') this.value=\''.$text.'\';" onfocus="if(this.value==\''.$text.'\') this.value=\'\';" />';
+		    $output = '<input name="searchword" id="mod_search_searchword" maxlength="'.$maxlength.'" alt="'.$button_text.'" class="inputbox'.$moduleclass_sfx.'" type="text" size="'.$width.'" value="'.$text.'"  onblur="if (this.value==\'\') this.value=\''.$text.'\';" onfocus="if (this.value==\''.$text.'\') this.value=\'\';" />';
 
 			if ($button) :
 			    if ($imagebutton) :
@@ -15,12 +25,12 @@ defined('_JEXEC') or die('Restricted access'); ?>
 
 			switch ($button_pos) :
 			    case 'top' :
-				    $button = $button.'<br/>';
+				    $button = $button.'<br />';
 				    $output = $button.$output;
 				    break;
 
 			    case 'bottom' :
-				    $button = '<br/>'.$button;
+				    $button = '<br />'.$button;
 				    $output = $output.$button;
 				    break;
 

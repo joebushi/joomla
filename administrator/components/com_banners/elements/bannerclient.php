@@ -1,24 +1,19 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Banners
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+// No direct access
+defined('_JEXEC') or die;
 
 /**
  * Renders a category element
  *
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Banners
  * @since		1.5
  */
@@ -34,7 +29,7 @@ class JElementBannerclient extends JElement
 
 	function fetchElement($name, $value, &$node, $control_name)
 	{
-		$db = &JFactory::getDBO();
+		$db = &JFactory::getDbo();
 
 		// This might get a conflict with the dynamic translation - TODO: search for better solution
 		$query = 'SELECT cid, name' .
@@ -42,8 +37,8 @@ class JElementBannerclient extends JElement
 				' ORDER BY name';
 		$db->setQuery($query);
 		$options = $db->loadObjectList();
-		array_unshift($options, JHTML::_('select.option', '0', '- '.JText::_('Select Client').' -', 'cid', 'name'));
+		array_unshift($options, JHtml::_('select.option', '0', '- '.JText::_('Select Client').' -', 'cid', 'name'));
 
-		return JHTML::_('select.genericlist',  $options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'cid', 'name', $value, $control_name.$name );
+		return JHtml::_('select.genericlist',  $options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'cid', 'name', $value, $control_name.$name);
 	}
 }

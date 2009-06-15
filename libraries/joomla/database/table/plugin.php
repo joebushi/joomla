@@ -3,24 +3,21 @@
  * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Table
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+// No direct access
+defined('JPATH_BASE') or die;
+
+jimport('joomla.database.table');
 
 /**
  * Plugin table
  *
  * @package 	Joomla.Framework
- * @subpackage		Table
- * @since	1.0
+ * @subpackage	Table
+ * @since		1.5
  */
 class JTablePlugin extends JTable
 {
@@ -108,8 +105,47 @@ class JTablePlugin extends JTable
 	 */
 	var $params = null;
 
-	function __construct(& $db) {
+	function __construct(& $db)
+	{
 		parent::__construct('#__plugins', 'id', $db);
+
+		$this->access	= (int)JFactory::getConfig()->getValue('access');
+	}
+
+	/**
+	 * Method to return the access section name for the asset table.
+	 *
+	 * @access	public
+	 * @return	string
+	 * @since	1.6
+	 */
+	function getAssetSection()
+	{
+		return 'core';
+	}
+
+	/**
+	 * Method to return the name prefix to use for the asset table.
+	 *
+	 * @access	public
+	 * @return	string
+	 * @since	1.6
+	 */
+	function getAssetNamePrefix()
+	{
+		return 'plugin';
+	}
+
+	/**
+	 * Method to return the title to use for the asset table.
+	 *
+	 * @access	public
+	 * @return	string
+	 * @since	1.0
+	 */
+	function getAssetTitle()
+	{
+		return $this->name;
 	}
 
 	/**
@@ -123,7 +159,7 @@ class JTablePlugin extends JTable
 	*/
 	function bind($array, $ignore = '')
 	{
-		if (isset( $array['params'] ) && is_array($array['params']))
+		if (isset($array['params']) && is_array($array['params']))
 		{
 			$registry = new JRegistry();
 			$registry->loadArray($array['params']);

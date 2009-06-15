@@ -16,7 +16,7 @@
 
 				var tag = "<hr class=\"system-pagebreak\" "+title+" "+alt+"/>";
 
-				window.parent.jInsertEditorText(tag, '<?php echo preg_replace( '#[^A-Z0-9\-\_\[\]]#i', '', JRequest::getVar('e_name') ); ?>');
+				window.parent.jInsertEditorText(tag, '<?php echo preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', JRequest::getVar('e_name')); ?>');
 				window.parent.document.getElementById('sbox-window').close();
 				return false;
 			}
@@ -24,20 +24,20 @@
 
 		<form>
 		<table width="100%" align="center">
-			<tr width="40%">
+			<tr>
 				<td class="key" align="right">
 					<label for="title">
-						<?php echo JText::_( 'PGB PAGE TITLE' ); ?>
+						<?php echo JText::_('PGB PAGE TITLE'); ?>
 					</label>
 				</td>
 				<td>
 					<input type="text" id="title" name="title" />
 				</td>
 			</tr>
-			<tr width="60%">
+			<tr>
 				<td class="key" align="right">
 					<label for="alias">
-						<?php echo JText::_( 'PGB TOC ALIAS PROMPT' ); ?>
+						<?php echo JText::_('PGB TOC ALIAS PROMPT'); ?>
 					</label>
 				</td>
 				<td>
@@ -46,4 +46,4 @@
 			</tr>
 		</table>
 		</form>
-		<button onclick="insertPagebreak();"><?php echo JText::_( 'PGB INS PAGEBRK' ); ?></button>
+		<button onclick="insertPagebreak();"><?php echo JText::_('PGB INS PAGEBRK'); ?></button>

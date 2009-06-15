@@ -1,19 +1,14 @@
 <?php
 /**
-* @version		$Id:template.php 6961 2007-03-15 16:06:53Z tcp $
-* @package		Joomla.Framework
-* @subpackage	Installer
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id:template.php 6961 2007-03-15 16:06:53Z tcp $
+ * @package		Joomla.Framework
+ * @subpackage	Installer
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+// No direct access
+defined('JPATH_BASE') or die;
 
 /**
  * Template installer
@@ -34,7 +29,7 @@ class JInstallerTemplate extends JObject
 	 */
 	function __construct(&$parent)
 	{
-		$this->parent =& $parent;
+		$this->parent = &$parent;
 	}
 
 	/**
@@ -47,15 +42,15 @@ class JInstallerTemplate extends JObject
 	function install()
 	{
 		// Get database connector object
-		$db =& $this->parent->getDBO();
-		$manifest =& $this->parent->getManifest();
-		$root =& $manifest->document;
+		$db = &$this->parent->getDbo();
+		$manifest = &$this->parent->getManifest();
+		$root = &$manifest->document;
 
 		// Get the client application target
 		if ($cname = $root->attributes('client')) {
 			// Attempt to map the client to a base path
 			jimport('joomla.application.helper');
-			$client =& JApplicationHelper::getClientInfo($cname, true);
+			$client = &JApplicationHelper::getClientInfo($cname, true);
 			if ($client === false) {
 				$this->parent->abort(JText::_('Template').' '.JText::_('Install').': '.JText::_('Unknown client type').' ['.$cname.']');
 				return false;
@@ -70,7 +65,7 @@ class JInstallerTemplate extends JObject
 		}
 
 		// Set the extensions name
-		$name =& $root->getElementByPath('name');
+		$name = &$root->getElementByPath('name');
 		$name = JFilterInput::clean($name->data(), 'cmd');
 		$this->set('name', $name);
 
@@ -128,7 +123,7 @@ class JInstallerTemplate extends JObject
 		if (is_a($description, 'JSimpleXMLElement')) {
 			$this->parent->set('message', $description->data());
 		} else {
-			$this->parent->set('message', '' );
+			$this->parent->set('message', '');
 		}
 
 		// Lastly, we will copy the manifest file to its appropriate place.
@@ -137,6 +132,11 @@ class JInstallerTemplate extends JObject
 			$this->parent->abort(JText::_('Template').' '.JText::_('Install').': '.JText::_('Could not copy setup file'));
 			return false;
 		}
+
+		// Load template language file
+		$lang = &JFactory::getLanguage();
+		$lang->load('tpl_'.$name);
+
 		return true;
 	}
 
@@ -149,7 +149,7 @@ class JInstallerTemplate extends JObject
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function uninstall( $name, $clientId )
+	function uninstall($name, $clientId)
 	{
 		// Initialize variables
 		$retval	= true;
@@ -161,7 +161,7 @@ class JInstallerTemplate extends JObject
 		}
 
 		// Get the template root path
-		$client =& JApplicationHelper::getClientInfo( $clientId );
+		$client = &JApplicationHelper::getClientInfo($clientId);
 		if (!$client) {
 			JError::raiseWarning(100, JText::_('Template').' '.JText::_('Uninstall').': '.JText::_('Invalid application'));
 			return false;
@@ -169,14 +169,14 @@ class JInstallerTemplate extends JObject
 		$this->parent->setPath('extension_root', $client->path.DS.'templates'.DS.$name);
 		$this->parent->setPath('source', $this->parent->getPath('extension_root'));
 
-		$manifest =& $this->parent->getManifest();
+		$manifest = &$this->parent->getManifest();
 		if (!is_a($manifest, 'JSimpleXML')) {
 			// Make sure we delete the folders
 			JFolder::delete($this->parent->getPath('extension_root'));
 			JError::raiseWarning(100, JTEXT::_('Template').' '.JTEXT::_('Uninstall').': '.JTEXT::_('Package manifest file invalid or not found'));
 			return false;
 		}
-		$root =& $manifest->document;
+		$root = &$manifest->document;
 
 		// Remove files
 		$this->parent->removeFiles($root->getElementByPath('media'), $clientId);

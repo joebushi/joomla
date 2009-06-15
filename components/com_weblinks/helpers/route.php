@@ -1,19 +1,14 @@
 <?php
 /**
- * @version		$Id: route.php 9019 2007-09-26 00:40:35Z jinx $
- * @package		Joomla
+ * @version		$Id$
+ * @package		Joomla.Site
  * @subpackage	Weblinks
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
- * details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 // Component Helper
 jimport('joomla.application.component.helper');
@@ -22,7 +17,7 @@ jimport('joomla.application.component.helper');
  * Weblinks Component Route Helper
  *
  * @static
- * @package		Joomla
+ * @package		Joomla.Site
  * @subpackage	Weblinks
  * @since 1.5
  */
@@ -33,7 +28,7 @@ class WeblinksHelperRoute
 			'category' => (int) $catid,
 			'categories' => null
 		);
-		
+
 		//Find the itemid
 		$itemid = WeblinksHelperRoute::_findItem($needles);
 		$itemid = $itemid ? '&Itemid='.$itemid : '';
@@ -50,7 +45,7 @@ class WeblinksHelperRoute
 
 		if (!$items)
 		{
-			$component =& JComponentHelper::getComponent('com_weblinks');
+			$component = &JComponentHelper::getComponent('com_weblinks');
 			$menu = &JSite::getMenu();
 			$items = $menu->getItems('componentid', $component->id);
 		}
@@ -70,7 +65,7 @@ class WeblinksHelperRoute
 				}
 			}
 
-			if(isset($match)) {
+			if (isset($match)) {
 				break;
 			}
 		}

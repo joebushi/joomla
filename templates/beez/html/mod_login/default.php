@@ -1,5 +1,5 @@
 <?php // @version $Id$
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 ?>
 
 <?php
@@ -9,18 +9,22 @@ if ($type == 'logout') : ?>
 <form action="index.php" method="post" name="login" class="log">
 	<?php if ($params->get('greeting')) : ?>
 	<p>
-		<?php echo JText::sprintf('HINAME', $user->get('name')); ?>
+	<?php if ($params->get('name')) : {
+		echo JText::sprintf('HINAME', $user->get('name'));
+	} else : {
+		echo JText::sprintf('HINAME', $user->get('username'));
+	} endif; ?>
 	</p>
 	<?php endif; ?>
 	<p>
 		<input type="submit" name="Submit" class="button" value="<?php echo JText::_('BUTTON_LOGOUT'); ?>" />
 	</p>
-	<input type="hidden" name="option" value="com_user" />
+	<input type="hidden" name="option" value="com_users" />
 	<input type="hidden" name="task" value="logout" />
 	<input type="hidden" name="return" value="<?php echo $return; ?>" />
 </form>
 <?php else : ?>
-<form action="<?php echo JRoute::_( 'index.php', true, $params->get('usesecure')); ?>" method="post" name="login" class="form-login">
+<form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure')); ?>" method="post" name="login" class="form-login">
 	<?php if ($params->get('pretext')) : ?>
 	<p>
 		<?php echo $params->get('pretext'); ?>
@@ -42,25 +46,25 @@ if ($type == 'logout') : ?>
 	<input type="checkbox" name="remember" id="mod_login_remember" class="checkbox" value="yes" alt="<?php echo JText::_('Remember me'); ?>" />
 	<input type="submit" name="Submit" class="button" value="<?php echo JText::_('BUTTON_LOGIN'); ?>" />
 	<p>
-		<a href="<?php echo JRoute::_('index.php?option=com_user&view=reset#content'); ?>">
+		<a href="<?php echo JRoute::_('index.php?option=com_users&view=reset#content'); ?>">
 			<?php echo JText::_('FORGOT_YOUR_PASSWORD'); ?></a>
 	</p>
 	<p>
-		<a href="<?php echo JRoute::_('index.php?option=com_user&view=remind#content'); ?>">
+		<a href="<?php echo JRoute::_('index.php?option=com_users&view=remind#content'); ?>">
 			<?php echo JText::_('FORGOT_YOUR_USERNAME'); ?></a>
 	</p>
-	<?php $usersConfig =& JComponentHelper::getParams('com_users');
+	<?php $usersConfig = &JComponentHelper::getParams('com_users');
 	if ($usersConfig->get('allowUserRegistration')) : ?>
 	<p>
 		<?php echo JText::_('No account yet?'); ?>
-		<a href="<?php echo JRoute::_('index.php?option=com_user&task=register#content'); ?>">
+		<a href="<?php echo JRoute::_('index.php?option=com_users&view=registration#content'); ?>">
 			<?php echo JText::_('Register'); ?></a>
 	</p>
 	<?php endif;
 	echo $params->get('posttext'); ?>
-	<input type="hidden" name="option" value="com_user" />
+	<input type="hidden" name="option" value="com_users" />
 	<input type="hidden" name="task" value="login" />
 	<input type="hidden" name="return" value="<?php echo $return; ?>" />
-	<?php echo JHTML::_( 'form.token' ); ?>
+	<?php echo JHtml::_('form.token'); ?>
 </form>
 <?php endif;

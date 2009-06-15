@@ -1,4 +1,4 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php defined('_JEXEC') or die; ?>
 <?php if (count($this->images) > 0 || count($this->folders) > 0) { ?>
 <div class="manager">
 
@@ -18,7 +18,7 @@
 <tr>
 	<td>
 		<div align="center" style="font-size:large;font-weight:bold;color:#CCCCCC;font-family: Helvetica, sans-serif;">
-			<?php echo JText::_( 'No Images Found' ); ?>
+			<?php echo JText::_('No Images Found'); ?>
 		</div>
 	</td>
 </tr>

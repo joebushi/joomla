@@ -1,25 +1,20 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
+ * @package		Joomla.Site
  * @subpackage	Content
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
- * details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 /**
  * Content Component Query Helper
  *
  * @static
- * @package		Joomla
+ * @package		Joomla.Site
  * @subpackage	Content
  * @since 1.5
  */
@@ -104,13 +99,13 @@ class ContentHelperQuery
 	function buildVotingQuery($params=null)
 	{
 		if (!$params) {
-			$params = &JComponentHelper::getParams( 'com_content' );
+			$params = &JComponentHelper::getParams('com_content');
 		}
 		$voting = $params->get('show_vote');
 
 		if ($voting) {
 			// calculate voting count
-			$select = ' , ROUND( v.rating_sum / v.rating_count ) AS rating, v.rating_count';
+			$select = ' , ROUND(v.rating_sum / v.rating_count) AS rating, v.rating_count';
 			$join = ' LEFT JOIN #__content_rating AS v ON a.id = v.content_id';
 		} else {
 			$select = '';

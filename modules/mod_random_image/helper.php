@@ -1,26 +1,21 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @package		Joomla.Site
+ * @subpackage	mod_random_image
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
-
+defined('_JEXEC') or die;
 
 class modRandomImageHelper
 {
 	function getRandomImage(&$params, $images)
 	{
-		$width 		= $params->get( 'width' );
-		$height 	= $params->get( 'height' );
+		$width 		= $params->get('width');
+		$height 	= $params->get('height');
 
 		$i 				= count($images);
 		$random 		= mt_rand(0, $i - 1);
@@ -50,14 +45,14 @@ class modRandomImageHelper
 
 		$image->width 	= $width;
 		$image->height	= $height;
-		$image->folder	= str_replace( '\\', '/', $image->folder );
+		$image->folder	= str_replace('\\', '/', $image->folder);
 
 		return $image;
 	}
 
 	function getImages(&$params, $folder)
 	{
-		$type 		= $params->get( 'type', 'jpg' );
+		$type 		= $params->get('type', 'jpg');
 
 		$files	= array();
 		$images	= array();
@@ -69,7 +64,7 @@ class modRandomImageHelper
 		{
 			if ($handle = opendir($dir)) {
 				while (false !== ($file = readdir($handle))) {
-					if ($file != '.' && $file != '..' && $file != 'CVS' && $file != 'index.html' ) {
+					if ($file != '.' && $file != '..' && $file != 'CVS' && $file != 'index.html') {
 						$files[] = $file;
 					}
 				}
@@ -95,17 +90,17 @@ class modRandomImageHelper
 
 	function getFolder(&$params)
 	{
-		$folder 	= $params->get( 'folder' );
+		$folder 	= $params->get('folder');
 
 		$LiveSite 	= JURI::base();
 
 		// if folder includes livesite info, remove
-		if ( JString::strpos($folder, $LiveSite) === 0 ) {
-			$folder = str_replace( $LiveSite, '', $folder );
+		if (JString::strpos($folder, $LiveSite) === 0) {
+			$folder = str_replace($LiveSite, '', $folder);
 		}
 		// if folder includes absolute path, remove
-		if ( JString::strpos($folder, JPATH_SITE) === 0 ) {
-			$folder= str_replace( JPATH_BASE, '', $folder );
+		if (JString::strpos($folder, JPATH_SITE) === 0) {
+			$folder= str_replace(JPATH_BASE, '', $folder);
 		}
 		$folder = str_replace('\\',DS,$folder);
 		$folder = str_replace('/',DS,$folder);

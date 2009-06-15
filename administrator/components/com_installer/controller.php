@@ -1,19 +1,14 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Installer
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
- * details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+// No direct access
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 jimport('joomla.client.helper');
@@ -21,7 +16,7 @@ jimport('joomla.client.helper');
 /**
  * Installer Controller
  *
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Installer
  * @since		1.5
  */
@@ -38,15 +33,15 @@ class InstallerController extends JController
 	{
 		global $mainframe;
 
-		$model	= &$this->getModel( 'Install' );
-		$model->setState( 'install.directory', $mainframe->getCfg( 'config.tmp_path' ));
+		$model	= &$this->getModel('Install');
+		$model->setState('install.directory', $mainframe->getCfg('config.tmp_path'));
 
-		$view	= &$this->getView( 'Install');
+		$view	= &$this->getView('Install');
 
-		$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
+		$ftp = &JClientHelper::setCredentialsFromRequest('ftp');
 		$view->assignRef('ftp', $ftp);
 
-		$view->setModel( $model, true );
+		$view->setModel($model, true);
 		$view->display();
 	}
 
@@ -60,12 +55,12 @@ class InstallerController extends JController
 	function doInstall()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JRequest::checkToken() or jexit('Invalid Token');
 
-		$model	= &$this->getModel( 'Install' );
-		$view	= &$this->getView( 'Install' );
+		$model	= &$this->getModel('Install');
+		$view	= &$this->getView('Install');
 
-		$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
+		$ftp = &JClientHelper::setCredentialsFromRequest('ftp');
 		$view->assignRef('ftp', $ftp);
 
 		if ($model->install()) {
@@ -73,7 +68,7 @@ class InstallerController extends JController
 			$cache->clean();
 		}
 
-		$view->setModel( $model, true );
+		$view->setModel($model, true);
 		$view->display();
 	}
 
@@ -87,13 +82,13 @@ class InstallerController extends JController
 	function manage()
 	{
 		$type	= JRequest::getWord('type', 'components');
-		$model	= &$this->getModel( $type );
-		$view	= &$this->getView( $type );
+		$model	= &$this->getModel($type);
+		$view	= &$this->getView($type);
 
-		$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
+		$ftp = &JClientHelper::setCredentialsFromRequest('ftp');
 		$view->assignRef('ftp', $ftp);
 
-		$view->setModel( $model, true );
+		$view->setModel($model, true);
 		$view->display();
 	}
 
@@ -107,13 +102,13 @@ class InstallerController extends JController
 	function enable()
 	{
 		// Check for request forgeries
-		JRequest::checkToken( 'request' ) or jexit( 'Invalid Token' );
+		JRequest::checkToken('request') or jexit('Invalid Token');
 
 		$type	= JRequest::getWord('type', 'components');
-		$model	= &$this->getModel( $type );
-		$view	= &$this->getView( $type );
+		$model	= &$this->getModel($type);
+		$view	= &$this->getView($type);
 
-		$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
+		$ftp = &JClientHelper::setCredentialsFromRequest('ftp');
 		$view->assignRef('ftp', $ftp);
 
 		if (method_exists($model, 'enable')) {
@@ -122,7 +117,7 @@ class InstallerController extends JController
 			$model->enable($eid);
 		}
 
-		$view->setModel( $model, true );
+		$view->setModel($model, true);
 		$view->display();
 	}
 
@@ -136,13 +131,13 @@ class InstallerController extends JController
 	function disable()
 	{
 		// Check for request forgeries
-		JRequest::checkToken( 'request' ) or jexit( 'Invalid Token' );
+		JRequest::checkToken('request') or jexit('Invalid Token');
 
 		$type	= JRequest::getWord('type', 'components');
-		$model	= &$this->getModel( $type );
-		$view	= &$this->getView( $type );
+		$model	= &$this->getModel($type);
+		$view	= &$this->getView($type);
 
-		$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
+		$ftp = &JClientHelper::setCredentialsFromRequest('ftp');
 		$view->assignRef('ftp', $ftp);
 
 		if (method_exists($model, 'disable')) {
@@ -151,7 +146,7 @@ class InstallerController extends JController
 			$model->disable($eid);
 		}
 
-		$view->setModel( $model, true );
+		$view->setModel($model, true);
 		$view->display();
 	}
 
@@ -165,13 +160,13 @@ class InstallerController extends JController
 	function remove()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JRequest::checkToken() or jexit('Invalid Token');
 
 		$type	= JRequest::getWord('type', 'components');
-		$model	= &$this->getModel( $type );
-		$view	= &$this->getView( $type );
+		$model	= &$this->getModel($type);
+		$view	= &$this->getView($type);
 
-		$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
+		$ftp = &JClientHelper::setCredentialsFromRequest('ftp');
 		$view->assignRef('ftp', $ftp);
 
 		$eid = JRequest::getVar('eid', array(), '', 'array');
@@ -180,12 +175,12 @@ class InstallerController extends JController
 		// Checks there is only one extensions, we're uninstalling components
 		// and then checks that the zero numbered item is set (shouldn't be a zero
 		// if the eid is set to the proper format)
-		if((count($eid) == 1) && ($type == 'components') && (isset($eid[0]))) $eid = array($eid[0] => 0);
+		if ((count($eid) == 1) && ($type == 'components') && (isset($eid[0]))) $eid = array($eid[0] => 0);
 
 		JArrayHelper::toInteger($eid, array());
 		$result = $model->remove($eid);
 
-		$view->setModel( $model, true );
+		$view->setModel($model, true);
 		$view->display();
 	}
 }

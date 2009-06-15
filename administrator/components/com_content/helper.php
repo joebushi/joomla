@@ -1,74 +1,97 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Content
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
- * details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
  * Content Component Helper
  *
  * @static
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Content
  * @since 1.5
  */
 class ContentHelper
 {
-	function saveContentPrep( &$row )
+	function saveContentPrep(&$row)
 	{
 		// Get submitted text from the request variables
-		$text = JRequest::getVar( 'text', '', 'post', 'string', JREQUEST_ALLOWRAW );
+		$text = JRequest::getVar('text', '', 'post', 'string', JREQUEST_ALLOWRAW);
 
 		// Clean text for xhtml transitional compliance
-		$text		= str_replace( '<br>', '<br />', $text );
+		$text		= str_replace('<br>', '<br />', $text);
 
 		// Search for the {readmore} tag and split the text up accordingly.
-		$tagPos	= JString::strpos( $text, '<hr id="system-readmore" />' );
+		$pattern = '#<hr\s+id=("|\')system-readmore("|\')\s*\/*>#i';
+		$tagPos	= preg_match($pattern, $text);
 
-		if ( $tagPos === false )
+		if ($tagPos == 0)
 		{
 			$row->introtext	= $text;
 		} else
 		{
-			$row->introtext	= JString::substr($text, 0, $tagPos);
-			$row->fulltext	= JString::substr($text, $tagPos + 27 );
+			list($row->introtext, $row->fulltext) = preg_split($pattern, $text, 2);
 		}
 
 		// Filter settings
-		jimport( 'joomla.application.component.helper' );
-		$config	= JComponentHelper::getParams( 'com_content' );
-		$user	= &JFactory::getUser();
-		$gid	= $user->get( 'gid' );
+		jimport('joomla.application.component.helper');
+		$config	= JComponentHelper::getParams('com_content');
 
-		$filterGroups	= (array) $config->get( 'filter_groups' );
-		if (in_array( $gid, $filterGroups ))
+		$filterGroups = $config->get('filter_groups', array());
+		// convert to array if one group selected
+		if ((!is_array($filterGroups) && (int) $filterGroups > 0)) {
+			$filterGroups = array($filterGroups);
+		}
+
+		// Get the user's groups.
+		$user	= &JFactory::getUser();
+		$groups	= $user->get('groups') ? array_keys($user->get('groups')) : array();
+
+		// If the user can manage all content, don't filter.
+		if ($user->authorise('com_content.manage')) {
+			// Don't filter.
+		}
+		// If the user can't manage content, check if they set to be filtered.
+		elseif (is_array($filterGroups) && count($filterGroups))
 		{
-			$filterType		= $config->get( 'filter_type' );
-			$filterTags		= preg_split( '#[,\s]+#', trim( $config->get( 'filter_tags' ) ) );
-			$filterAttrs	= preg_split( '#[,\s]+#', trim( $config->get( 'filter_attritbutes' ) ) );
-			switch ($filterType)
+			foreach ($groups as $group)
 			{
-				case 'NH':
-					$filter	= new JFilterInput();
+				if (in_array($group, $filterGroups))
+				{
+					$filterType		= $config->get('filter_type');
+					$filterTags		= preg_split('#[,\s]+#', trim($config->get('filter_tags')));
+					$filterAttrs	= preg_split('#[,\s]+#', trim($config->get('filter_attritbutes')));
+					switch ($filterType)
+					{
+						case 'NH':
+							$filter	= new JFilterInput();
+							break;
+						case 'WL':
+							$filter	= new JFilterInput($filterTags, $filterAttrs, 0, 0, 0);  // turn off xss auto clean
+							break;
+						case 'BL':
+						default:
+							$filter	= new JFilterInput($filterTags, $filterAttrs, 1, 1);
+							break;
+					}
+
+					$row->introtext	= $filter->clean($row->introtext);
+					$row->fulltext	= $filter->clean($row->fulltext);
+
 					break;
-				case 'WL':
-					$filter	= new JFilterInput( $filterTags, $filterAttrs, 0, 0 );
-					break;
-				case 'BL':
-				default:
-					$filter	= new JFilterInput( $filterTags, $filterAttrs, 1, 1 );
-					break;
+				}
 			}
-			$row->introtext	= $filter->clean( $row->introtext );
-			$row->fulltext	= $filter->clean( $row->fulltext );
+		}
+		// If the user can't manage and the filter settings are empty, use the default filter.
+		else
+		{
+			$filter = new JFilterInput(array(), array(), 1, 1);
+			$row->introtext	= $filter->clean($row->introtext);
+			$row->fulltext	= $filter->clean($row->fulltext);
 		}
 
 		return true;
@@ -83,7 +106,7 @@ class ContentHelper
 		global $mainframe;
 
 		// Initialize variables
-		$db	= & JFactory::getDBO();
+		$db	= & JFactory::getDbo();
 
 		// Instantiate and load an article table
 		$row = & JTable::getInstance('content');
@@ -95,19 +118,4 @@ class ContentHelper
 		$msg = JText::_('Successfully Reset Hit count');
 		$mainframe->redirect('index.php?option=com_content&sectionid='.$redirect.'&task=edit&id='.$id, $msg);
 	}
-
-	function filterCategory($query, $active = NULL)
-	{
-		// Initialize variables
-		$db	= & JFactory::getDBO();
-
-		$categories[] = JHTML::_('select.option', '0', '- '.JText::_('Select Category').' -');
-		$db->setQuery($query);
-		$categories = array_merge($categories, $db->loadObjectList());
-
-		$category = JHTML::_('select.genericlist',  $categories, 'catid', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $active);
-
-		return $category;
-	}
-
 }

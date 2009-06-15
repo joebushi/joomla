@@ -3,17 +3,12 @@
  * @version		$Id:plugin.php 6961 2007-03-15 16:06:53Z tcp $
  * @package		Joomla.Framework
  * @subpackage	Installer
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+// No direct access
+defined('JPATH_BASE') or die;
 
 /**
  * Plugin installer
@@ -34,7 +29,7 @@ class JInstallerPlugin extends JObject
 	 */
 	function __construct(&$parent)
 	{
-		$this->parent =& $parent;
+		$this->parent = &$parent;
 	}
 
 	/**
@@ -47,11 +42,11 @@ class JInstallerPlugin extends JObject
 	function install()
 	{
 		// Get a database connector object
-		$db =& $this->parent->getDBO();
+		$db = &$this->parent->getDbo();
 
 		// Get the extension manifest object
-		$manifest =& $this->parent->getManifest();
-		$this->manifest =& $manifest->document;
+		$manifest = &$this->parent->getManifest();
+		$this->manifest = &$manifest->document;
 
 		/**
 		 * ---------------------------------------------------------------------------------------------
@@ -60,7 +55,7 @@ class JInstallerPlugin extends JObject
 		 */
 
 		// Set the extensions name
-		$name =& $this->manifest->getElementByPath('name');
+		$name = &$this->manifest->getElementByPath('name');
 		$name = JFilterInput::clean($name->data(), 'string');
 		$this->set('name', $name);
 
@@ -69,7 +64,7 @@ class JInstallerPlugin extends JObject
 		if (is_a($description, 'JSimpleXMLElement')) {
 			$this->parent->set('message', $description->data());
 		} else {
-			$this->parent->set('message', '' );
+			$this->parent->set('message', '');
 		}
 
 		/*
@@ -79,9 +74,9 @@ class JInstallerPlugin extends JObject
 		$type = $this->manifest->attributes('type');
 
 		// Set the installation path
-		$element =& $this->manifest->getElementByPath('files');
+		$element = &$this->manifest->getElementByPath('files');
 		if (is_a($element, 'JSimpleXMLElement') && count($element->children())) {
-			$files =& $element->children();
+			$files = &$element->children();
 			foreach ($files as $file) {
 				if ($file->attributes($type)) {
 					$pname = $file->attributes($type);
@@ -162,12 +157,12 @@ class JInstallerPlugin extends JObject
 			}
 
 		} else {
-			$row =& JTable::getInstance('plugin');
+			$row = &JTable::getInstance('plugin');
 			$row->name = $this->get('name');
 			$row->ordering = 0;
 			$row->folder = $group;
 			$row->iscore = 0;
-			$row->access = 0;
+			$row->access = 1;
 			$row->client_id = 0;
 			$row->element = $pname;
 			$row->params = $this->parent->getParams();
@@ -200,6 +195,11 @@ class JInstallerPlugin extends JObject
 			$this->parent->abort(JText::_('Plugin').' '.JText::_('Install').': '.JText::_('Could not copy setup file'));
 			return false;
 		}
+
+		// Load plugin language file
+		$lang = &JFactory::getLanguage();
+		$lang->load('plg_'.$group.'_'.$pname);
+
 		return true;
 	}
 
@@ -212,17 +212,17 @@ class JInstallerPlugin extends JObject
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function uninstall($id, $clientId )
+	function uninstall($id, $clientId)
 	{
 		// Initialize variables
 		$row	= null;
 		$retval = true;
-		$db		=& $this->parent->getDBO();
+		$db		= &$this->parent->getDbo();
 
 		// First order of business will be to load the module object table from the database.
 		// This should give us the necessary information to proceed.
 		$row = & JTable::getInstance('plugin');
-		if ( !$row->load((int) $id) ) {
+		if (!$row->load((int) $id)) {
 			JError::raiseWarning(100, JText::_('ERRORUNKOWNEXTENSION'));
 			return false;
 		}
@@ -247,7 +247,7 @@ class JInstallerPlugin extends JObject
 		$manifestFile = JPATH_ROOT.DS.'plugins'.DS.$row->folder.DS.$row->element.'.xml';
 		if (file_exists($manifestFile))
 		{
-			$xml =& JFactory::getXMLParser('Simple');
+			$xml = &JFactory::getXMLParser('Simple');
 
 			// If we cannot load the xml file return null
 			if (!$xml->loadFile($manifestFile)) {
@@ -260,7 +260,7 @@ class JInstallerPlugin extends JObject
 			 * @todo: Remove backwards compatability in a future version
 			 * Should be 'install', but for backward compatability we will accept 'mosinstall'.
 			 */
-			$root =& $xml->document;
+			$root = &$xml->document;
 			if ($root->name() != 'install' && $root->name() != 'mosinstall') {
 				JError::raiseWarning(100, JText::_('Plugin').' '.JText::_('Uninstall').': '.JText::_('Invalid manifest file'));
 				return false;
@@ -304,7 +304,7 @@ class JInstallerPlugin extends JObject
 	function _rollback_plugin($arg)
 	{
 		// Get database connector object
-		$db =& $this->parent->getDBO();
+		$db = &$this->parent->getDbo();
 
 		// Remove the entry from the #__plugins table
 		$query = 'DELETE' .

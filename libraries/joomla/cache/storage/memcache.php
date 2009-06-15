@@ -3,23 +3,16 @@
  * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Cache
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+// No direct access
+defined('JPATH_BASE') or die;
 
 /**
  * Memcache cache storage handler
  *
- * @author		Louis Landry <louis.landry@joomla.org>
- * @author		Mitch Pirtle
  * @package		Joomla.Framework
  * @subpackage	Cache
  * @since		1.5
@@ -50,36 +43,36 @@ class JCacheStorageMemcache extends JCacheStorage
 	 * @access protected
 	 * @param array $options optional parameters
 	 */
-	function __construct( $options = array() )
+	function __construct($options = array())
 	{
 		if (!$this->test()) {
 			return JError::raiseError(404, "The memcache extension is not available");
 		}
 		parent::__construct($options);
 
-		$params =& JCacheStorageMemcache::getConfig();
+		$params = &JCacheStorageMemcache::getConfig();
 		$this->_compress	= (isset($params['compression'])) ? $params['compression'] : 0;
-		$this->_db =& JCacheStorageMemcache::getConnection();
+		$this->_db = &JCacheStorageMemcache::getConnection();
 
 		// Get the site hash
 		$this->_hash = $params['hash'];
 	}
-	
+
 	/**
 	 * return memcache connection object
 	 *
 	 * @static
 	 * @access private
 	 * @return object memcache connection object
-	 */ 
+	 */
 	function &getConnection() {
 		static $db = null;
-		if(is_null($db)) {
-			$params =& JCacheStorageMemcache::getConfig();
+		if (is_null($db)) {
+			$params = &JCacheStorageMemcache::getConfig();
 			$persistent	= (isset($params['persistent'])) ? $params['persistent'] : false;
 			// This will be an array of loveliness
 			$servers	= (isset($params['servers'])) ? $params['servers'] : array();
-	
+
 			// Create the memcache connection
 			$db = new Memcache;
 			foreach($servers AS $server) {
@@ -98,13 +91,13 @@ class JCacheStorageMemcache extends JCacheStorage
 	 */
 	function &getConfig() {
 		static $params = null;
-		if(is_null($params)) {
-			$config =& JFactory::getConfig();
+		if (is_null($params)) {
+			$config = &JFactory::getConfig();
 			$params = $config->getValue('config.memcache_settings');
 			if (!is_array($params)) {
 				$params = unserialize(stripslashes($params));
 			}
-	
+
 			if (!$params) {
 				$params = array();
 			}

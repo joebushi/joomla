@@ -3,24 +3,18 @@
  * @version		$Id$
  * @package		Joomla
  * @subpackage	Content
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
- * details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
 /**
  * Content Component Archive Model
  *
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla
  * @subpackage	Content
  * @since		1.5
@@ -32,14 +26,14 @@ class ContentModelArchive extends JModel
 	 *
 	 * @var array
 	 */
-	var $_data = array();
+	protected $_data = array();
 
 	/**
 	 * Article total
 	 *
 	 * @var integer
 	 */
-	var $_total = array();
+	protected $_total = 0;
 
 	/**
 	 * Method to get the archived article list
@@ -47,14 +41,14 @@ class ContentModelArchive extends JModel
 	 * @access public
 	 * @return array
 	 */
-	function getData()
+	public function getData()
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_data))
 		{
 			// Get the page/component configuration
-			$params = &$mainframe->getParams();
+			$params = &$app->getParams();
 
 			// Get the pagination request variables
 			$limit		= JRequest::getVar('limit', $params->get('display_num', 20), '', 'int');
@@ -74,22 +68,22 @@ class ContentModelArchive extends JModel
 	 * @access public
 	 * @return integer
 	 */
-	function getTotal()
+	public function getTotal()
 	{
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_total))
 		{
-			$query = $this->_buildQuery();
-			$this->_total = $this->_getListCount($query);
+			$query = $this->_buildQuery(true);
+			$this->_db->setQuery($query);
+			$this->_total = $this->_db->loadResult();
 		}
-
 		return $this->_total;
 	}
 
 	// JModel override to add alternating value for $odd
-	function &_getList( $query, $limitstart=0, $limit=0 )
+	protected function &_getList($query, $limitstart=0, $limit=0)
 	{
-		$result =& parent::_getList($query, $limitstart, $limit);
+		$result = &parent::_getList($query, $limitstart, $limit);
 
 		$odd = 1;
 		foreach ($result as $k => $row) {
@@ -100,11 +94,11 @@ class ContentModelArchive extends JModel
 		return $result;
 	}
 
-	function _buildQuery()
+	protected function _buildQuery($countOnly = false)
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 		// Get the page/component configuration
-		$params = &$mainframe->getParams();
+		$params = &$app->getParams();
 
 		// If voting is turned on, get voting data as well for the content items
 		$voting	= ContentHelperQuery::buildVotingQuery($params);
@@ -113,16 +107,19 @@ class ContentModelArchive extends JModel
 		$where		= $this->_buildContentWhere();
 		$orderby	= $this->_buildContentOrderBy();
 
-		$query = 'SELECT a.id, a.title, a.title_alias, a.introtext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by,'.
-			' a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.attribs, a.hits, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access, cc.title AS category, s.title AS section,' .
-			' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug,'.
-			' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(":", cc.id, cc.alias) ELSE cc.id END as catslug,'.
-			' CHAR_LENGTH( a.`fulltext` ) AS readmore, u.name AS author, u.usertype, g.name AS groups'.$voting['select'] .
+		if (!$countOnly) {
+			$query = 'SELECT a.id, a.title, a.title_alias, a.introtext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by,'.
+				' a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.attribs, a.hits, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access, cc.title AS category,' .
+				' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug,'.
+				' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(":", cc.id, cc.alias) ELSE cc.id END as catslug,'.
+				' CHAR_LENGTH(a.`fulltext`) AS readmore, u.name AS author, u.usertype'.$voting['select'];
+		} else {
+			$query = 'SELECT count(*) ';
+		}
+		$query .=
 			' FROM #__content AS a' .
 			' INNER JOIN #__categories AS cc ON cc.id = a.catid' .
-			' LEFT JOIN #__sections AS s ON s.id = a.sectionid' .
 			' LEFT JOIN #__users AS u ON u.id = a.created_by' .
-			' LEFT JOIN #__groups AS g ON a.access = g.id'.
 			$voting['join'].
 			$where.
 			$orderby;
@@ -130,7 +127,7 @@ class ContentModelArchive extends JModel
 		return $query;
 	}
 
-	function _buildContentOrderBy()
+	protected function _buildContentOrderBy()
 	{
 		$filter_order		= JRequest::getCmd('filter_order');
 		$filter_order_Dir	= JRequest::getWord('filter_order_Dir');
@@ -154,31 +151,26 @@ class ContentModelArchive extends JModel
 		return $orderby;
 	}
 
-	function _buildContentWhere()
+	protected function _buildContentWhere()
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 
 		// Initialize some variables
-		$user	=& JFactory::getUser();
-		$db		=& JFactory::getDBO();
-		$acl =& JFactory::getACL();
-		$aid	= implode($acl->getAllowedContent('com_content', 'view'), ',');
+		$user	= &JFactory::getUser();
+		$db		= &JFactory::getDbo();
 
-		// First thing we need to do is build the access section of the clause
-		$where = ' WHERE a.access IN ('.$aid.')';
-		$where .= ' AND s.access IN ('.$aid.')';
-		$where .= ' AND cc.access IN ('.$aid.')';
-		$where .= ' AND s.published = 1';
+		$where = ' WHERE a.access IN ('.implode(',', $user->authorisedLevels('com_content.article.view')).')';
+		$where .= ' AND cc.access IN ('.implode(',', $user->authorisedLevels('com_content.category.view')).')';
 		$where .= ' AND cc.published = 1';
 
 		$where .= ' AND a.state = \'-1\'';
-		$year	= JRequest::getInt( 'year' );
+		$year	= JRequest::getInt('year');
 		if ($year) {
-			$where .= ' AND YEAR( a.created ) = \''.$year.'\'';
+			$where .= ' AND YEAR(a.created) = \''.$year.'\'';
 		}
-		$month	= JRequest::getInt( 'month' );
+		$month	= JRequest::getInt('month');
 		if ($month) {
-			$where .= ' AND MONTH( a.created ) = \''.$month.'\'';
+			$where .= ' AND MONTH(a.created) = \''.$month.'\'';
 		}
 
 		/*
@@ -189,18 +181,18 @@ class ContentModelArchive extends JModel
 		if ($filter) {
 			// clean filter variable
 			$filter = JString::strtolower($filter);
-			$filter	= $db->Quote( '%'.$db->getEscaped( $filter, true ).'%', false );
+			$filter	= $db->Quote('%'.$db->getEscaped($filter, true).'%', false);
 
 			// Get the page/component configuration
-			$params = &$mainframe->getParams();
+			$params = &$app->getParams();
 			switch ($params->get('filter_type', 'title'))
 			{
 				case 'title' :
-					$where .= ' AND LOWER( a.title ) LIKE '.$filter;
+					$where .= ' AND LOWER(a.title) LIKE '.$filter;
 					break;
 
 				case 'author' :
-					$where .= ' AND ( ( LOWER( u.name ) LIKE '.$filter.' ) OR ( LOWER( a.created_by_alias ) LIKE '.$filter.' ) )';
+					$where .= ' AND ((LOWER(u.name) LIKE '.$filter.') OR (LOWER(a.created_by_alias) LIKE '.$filter.'))';
 					break;
 
 				case 'hits' :

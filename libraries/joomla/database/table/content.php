@@ -1,20 +1,14 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @subpackage	Table
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+// No direct access
+defined('JPATH_BASE') or die;
 
+jimport('joomla.database.table');
 
 /**
  * Content table
@@ -39,7 +33,7 @@ class JTableContent extends JTable
 	var $fulltext			= null;
 	/** @var int */
 	var $state				= null;
-	/** @var int The id of the category section*/
+	/** @var int DEPRECATED */
 	var $sectionid			= null;
 	/** @var int DEPRECATED */
 	var $mask				= null;
@@ -59,10 +53,6 @@ class JTableContent extends JTable
 	var $checked_out			= 0;
 	/** @var time */
 	var $checked_out_time		= 0;
-	/** @var datetime */
-	var $frontpage_up		= null;
-	/** @var datetime */
-	var $frontpage_down		= null;
 	/** @var datetime */
 	var $publish_up			= null;
 	/** @var datetime */
@@ -93,8 +83,47 @@ class JTableContent extends JTable
 	/**
 	* @param database A database connector object
 	*/
-	function __construct( &$db ) {
-		parent::__construct( '#__content', 'id', $db );
+	function __construct(&$db)
+	{
+		parent::__construct('#__content', 'id', $db);
+
+		$this->access	= (int)JFactory::getConfig()->getValue('access');
+	}
+
+	/**
+	 * Method to return the access section name for the asset table.
+	 *
+	 * @access	public
+	 * @return	string
+	 * @since	1.6
+	 */
+	function getAssetSection()
+	{
+		return 'com_content';
+	}
+
+	/**
+	 * Method to return the name prefix to use for the asset table.
+	 *
+	 * @access	public
+	 * @return	string
+	 * @since	1.6
+	 */
+	function getAssetNamePrefix()
+	{
+		return 'article';
+	}
+
+	/**
+	 * Method to return the title to use for the asset table.
+	 *
+	 * @access	public
+	 * @return	string
+	 * @since	1.0
+	 */
+	function getAssetTitle()
+	{
+		return $this->title;
 	}
 
 	/**
@@ -110,34 +139,54 @@ class JTableContent extends JTable
 		/*
 		TODO: This filter is too rigorous,need to implement more configurable solution
 		// specific filters
-		$filter = & JFilterInput::getInstance( null, null, 1, 1 );
-		$this->introtext = trim( $filter->clean( $this->introtext ) );
-		$this->fulltext =  trim( $filter->clean( $this->fulltext ) );
+		$filter = & JFilterInput::getInstance(null, null, 1, 1);
+		$this->introtext = trim($filter->clean($this->introtext));
+		$this->fulltext =  trim($filter->clean($this->fulltext));
 		*/
 
-
-		if(empty($this->title)) {
+		if (empty($this->title)) {
 			$this->setError(JText::_('Article must have a title'));
 			return false;
 		}
 
-		if(empty($this->alias)) {
+		if (empty($this->alias)) {
 			$this->alias = $this->title;
 		}
 		$this->alias = JFilterOutput::stringURLSafe($this->alias);
 
-		if(trim(str_replace('-','',$this->alias)) == '') {
-			$datenow =& JFactory::getDate();
+		if (trim(str_replace('-','',$this->alias)) == '') {
+			$datenow = &JFactory::getDate();
 			$this->alias = $datenow->toFormat("%Y-%m-%d-%H-%M-%S");
 		}
 
-		if (trim( str_replace( '&nbsp;', '', $this->fulltext ) ) == '') {
+		if (trim(str_replace('&nbsp;', '', $this->fulltext)) == '') {
 			$this->fulltext = '';
 		}
 
-		if(empty($this->introtext) && empty($this->fulltext)) {
+		if (empty($this->introtext) && empty($this->fulltext)) {
 			$this->setError(JText::_('Article must have some text'));
 			return false;
+		}
+
+		// clean up keywords -- eliminate extra spaces between phrases
+		// and cr (\r) and lf (\n) characters from string
+		if (!empty($this->metakey)) { // only process if not empty
+			$bad_characters = array("\n", "\r", "\"", "<", ">"); // array of characters to remove
+			$after_clean = JString::str_ireplace($bad_characters, "", $this->metakey); // remove bad characters
+			$keys = explode(',', $after_clean); // create array using commas as delimiter
+			$clean_keys = array();
+			foreach($keys as $key) {
+				if (trim($key)) {  // ignore blank keywords
+					$clean_keys[] = trim($key);
+				}
+			}
+			$this->metakey = implode(", ", $clean_keys); // put array back together delimited by ", "
+		}
+
+		// clean up description -- eliminate quotes and <> brackets
+		if (!empty($this->metadesc)) { // only process if not empty
+			$bad_characters = array("\"", "<", ">");
+			$this->metadesc = JString::str_ireplace($bad_characters, "", $this->metadesc);
 		}
 
 		return true;
@@ -147,33 +196,26 @@ class JTableContent extends JTable
 	* Converts record to XML
 	* @param boolean Map foreign keys to text values
 	*/
-	function toXML( $mapKeysToText=false )
+	function toXML($mapKeysToText=false)
 	{
-		$db =& JFactory::getDBO();
+		$db = &JFactory::getDbo();
 
 		if ($mapKeysToText) {
-			$query = 'SELECT name'
-			. ' FROM #__sections'
-			. ' WHERE id = '. (int) $this->sectionid
-			;
-			$db->setQuery( $query );
-			$this->sectionid = $db->loadResult();
-
 			$query = 'SELECT name'
 			. ' FROM #__categories'
 			. ' WHERE id = '. (int) $this->catid
 			;
-			$db->setQuery( $query );
+			$db->setQuery($query);
 			$this->catid = $db->loadResult();
 
 			$query = 'SELECT name'
 			. ' FROM #__users'
 			. ' WHERE id = ' . (int) $this->created_by
 			;
-			$db->setQuery( $query );
+			$db->setQuery($query);
 			$this->created_by = $db->loadResult();
 		}
 
-		return parent::toXML( $mapKeysToText );
+		return parent::toXML($mapKeysToText);
 	}
 }

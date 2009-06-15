@@ -1,15 +1,10 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Menus
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
- * details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // Import library dependencies
@@ -18,7 +13,7 @@ require_once(dirname(__FILE__).DS.'extension.php');
 /**
  * Installer Components Model
  *
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Installer
  * @since		1.5
  */
@@ -51,7 +46,7 @@ class InstallerModelComponents extends InstallerModel
 		}
 
 		// Get a database connector
-		$db =& JFactory::getDBO();
+		$db = &JFactory::getDbo();
 
 		// Get a table object for the extension type
 		$table = & JTable::getInstance($this->_type);
@@ -87,7 +82,7 @@ class InstallerModelComponents extends InstallerModel
 		}
 
 		// Get a database connector
-		$db =& JFactory::getDBO();
+		$db = &JFactory::getDbo();
 
 		// Get a table object for the extension type
 		$table = & JTable::getInstance($this->_type);
@@ -110,7 +105,7 @@ class InstallerModelComponents extends InstallerModel
 		jimport('joomla.filesystem.folder');
 
 		/* Get a database connector */
-		$db =& JFactory::getDBO();
+		$db = &JFactory::getDbo();
 
 		$query = 'SELECT *' .
 				' FROM #__components' .
@@ -124,9 +119,9 @@ class InstallerModelComponents extends InstallerModel
 		$siteDir = JPATH_SITE .DS. 'components';
 
 		$numRows = count($rows);
-		for($i=0;$i < $numRows; $i++)
+		for ($i=0;$i < $numRows; $i++)
 		{
-			$row =& $rows[$i];
+			$row = &$rows[$i];
 
 			 /* Get the component folder and list of xml files in folder */
 			$folder = $adminDir.DS.$row->option;
@@ -155,14 +150,14 @@ class InstallerModelComponents extends InstallerModel
 			}
 		}
 		$this->setState('pagination.total', $numRows);
-		
+
 		// if the offset is greater than the total, then can the offset
-		if($this->_state->get('pagination.offset') > $this->_state->get('pagination.total')) {
+		if ($this->_state->get('pagination.offset') > $this->_state->get('pagination.total')) {
 			$this->setState('pagination.offset',0);
 		}
-		
-		if($this->_state->get('pagination.limit') > 0) {
-			$this->_items = array_slice( $rows, $this->_state->get('pagination.offset'), $this->_state->get('pagination.limit') );
+
+		if ($this->_state->get('pagination.limit') > 0) {
+			$this->_items = array_slice($rows, $this->_state->get('pagination.offset'), $this->_state->get('pagination.limit'));
 		} else {
 			$this->_items = $rows;
 		}

@@ -1,55 +1,50 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla
-* @subpackage	Config
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	Config
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
-jimport( 'joomla.application.component.view');
+jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the Plugins component
  *
  * @static
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Plugins
  * @since 1.0
  */
 class PluginsViewPlugin extends JView
 {
-	function display( $tpl = null )
+	function display($tpl = null)
 	{
 		global $option;
 
-		$db		=& JFactory::getDBO();
-		$user 	=& JFactory::getUser();
+		$db		= &JFactory::getDbo();
+		$user 	= &JFactory::getUser();
 
-		$client = JRequest::getWord( 'client', 'site' );
-		$cid 	= JRequest::getVar( 'cid', array(0), '', 'array' );
+		$client = JRequest::getWord('client', 'site');
+		$cid 	= JRequest::getVar('cid', array(0), '', 'array');
 		JArrayHelper::toInteger($cid, array(0));
 
 		$lists 	= array();
-		$row 	=& JTable::getInstance('plugin');
+		$row 	= &JTable::getInstance('plugin');
 
 		// load the row from the db table
-		$row->load( $cid[0] );
+		$row->load($cid[0]);
 
 		// fail if checked out not by 'me'
 
-		if ($row->isCheckedOut( $user->get('id') ))
+		if ($row->isCheckedOut($user->get('id')))
 		{
-			$msg = JText::sprintf( 'DESCBEINGEDITTED', JText::_( 'The plugin' ), $row->title );
-			$this->setRedirect( 'index.php?option='. $option .'&client='. $client, $msg, 'error' );
+			$msg = JText::sprintf('DESCBEINGEDITTED', JText::_('The plugin'), $row->title);
+			$this->setRedirect('index.php?option='. $option .'&client='. $client, $msg, 'error');
 			return false;
 		}
 
@@ -64,14 +59,14 @@ class PluginsViewPlugin extends JView
 			$lists['access'] = 'Administrator<input type="hidden" name="access" value="99" />';
 		} else {
 			// build the html select list for the group access
-			$lists['access'] = JHTML::_('list.accesslevel',  $row, 'com_plugins' );
+			$lists['access'] = JHtml::_('access.assetgroups', 'access', $row->access);
 		}
 
 		if ($cid[0])
 		{
-			$row->checkout( $user->get('id') );
+			$row->checkout($user->get('id'));
 
-			if ( $row->ordering > -10000 && $row->ordering < 10000 )
+			if ($row->ordering > -10000 && $row->ordering < 10000)
 			{
 				// build the html select list for ordering
 				$query = 'SELECT ordering AS value, name AS text'
@@ -83,14 +78,14 @@ class PluginsViewPlugin extends JView
 					. ' AND ordering < 10000'
 					. ' ORDER BY ordering'
 				;
-				$order = JHTML::_('list.genericordering',  $query );
-				$lists['ordering'] = JHTML::_('select.genericlist',   $order, 'ordering', 'class="inputbox" size="1"', 'value', 'text', intval( $row->ordering ) );
+				$order = JHtml::_('list.genericordering',  $query);
+				$lists['ordering'] = JHtml::_('select.genericlist',   $order, 'ordering', 'class="inputbox" size="1"', 'value', 'text', intval($row->ordering));
 			} else {
-				$lists['ordering'] = '<input type="hidden" name="ordering" value="'. $row->ordering .'" />'. JText::_( 'This plugin cannot be reordered' );
+				$lists['ordering'] = '<input type="hidden" name="ordering" value="'. $row->ordering .'" />'. JText::_('This plugin cannot be reordered');
 			}
 
-			$lang =& JFactory::getLanguage();
-			$lang->load( 'plg_' . trim( $row->folder ) . '_' . trim( $row->element ), JPATH_ADMINISTRATOR );
+			$lang = &JFactory::getLanguage();
+			$lang->load('plg_' . trim($row->folder) . '_' . trim($row->element), JPATH_ADMINISTRATOR);
 
 			$data = JApplicationHelper::parseXMLInstallFile(JPATH_SITE . DS . 'plugins'. DS .$row->folder . DS . $row->element .'.xml');
 
@@ -103,10 +98,10 @@ class PluginsViewPlugin extends JView
 			$row->description 	= '';
 		}
 
-		$lists['published'] = JHTML::_('select.booleanlist',  'published', 'class="inputbox"', $row->published );
+		$lists['published'] = JHtml::_('select.booleanlist',  'published', 'class="inputbox"', $row->published);
 
 		// get params definitions
-		$params = new JParameter( $row->params, JApplicationHelper::getPath( 'plg_xml', $row->folder.DS.$row->element ), 'plugin' );
+		$params = new JParameter($row->params, JApplicationHelper::getPath('plg_xml', $row->folder.DS.$row->element), 'plugin');
 
 		$this->assignRef('lists',		$lists);
 		$this->assignRef('plugin',		$row);

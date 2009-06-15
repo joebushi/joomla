@@ -3,22 +3,16 @@
  * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Registry
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+// No direct access
+defined('JPATH_BASE') or die;
 
 /**
  * XML Format for JRegistry
  *
- * @author 		Samuel Moffatt <pasamio@gmail.com>
  * @package 	Joomla.Framework
  * @subpackage		Registry
  * @since		1.5
@@ -32,7 +26,8 @@ class JRegistryFormatXML extends JRegistryFormat {
 	 * @param string  XML Formatted String
 	 * @return object Data Object
 	 */
-	function stringToObject( $data, $namespace='' ) {
+	function stringToObject($data, $namespace='')
+	{
 		return true;
 	}
 
@@ -46,11 +41,11 @@ class JRegistryFormatXML extends JRegistryFormat {
 	 * @param array  $param  Parameters used by the formatter
 	 * @return string XML Formatted String
 	 */
-	function objectToString( &$object, $params )
+	public function objectToString(&$object, $params)
 	{
 		$depth = 1;
 		$retval = "<?xml version=\"1.0\" ?>\n<config>\n";
-		foreach (get_object_vars( $object ) as $key=>$item)
+		foreach (get_object_vars($object) as $key=>$item)
 		{
 			if (is_object($item))
 			{
@@ -73,16 +68,16 @@ class JRegistryFormatXML extends JRegistryFormat {
 	 * @param int $depth The depth in the XML tree of the $object node
 	 * @return string XML string
 	 */
-	function _buildXMLstringLevel($object, $depth)
+	protected function _buildXMLstringLevel($object, $depth)
 	{
 		// Initialize variables
 		$retval = '';
 		$tab	= '';
-		for($i=1;$i <= $depth; $i++) {
+		for ($i=1;$i <= $depth; $i++) {
 			$tab .= "\t";
 		}
 
-		foreach (get_object_vars( $object ) as $key=>$item)
+		foreach (get_object_vars($object) as $key=>$item)
 		{
 			if (is_object($item))
 			{

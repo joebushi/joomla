@@ -1,8 +1,9 @@
 <?php // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
+JHtml::_('behavior.caption');
 $cparams =& JComponentHelper::getParams('com_media');
- ?>
-<?php if ($this->params->get('show_page_title')) : ?>
+?>
+<?php if ($this->params->get('show_page_title', 1)) : ?>
 <div class="componentheading<?php echo $this->params->get('pageclass_sfx');?>">
 	<?php echo $this->escape($this->params->get('page_title')); ?>
 </div>
@@ -22,6 +23,18 @@ $cparams =& JComponentHelper::getParams('com_media');
 	</td>
 </tr>
 <?php endif; ?>
+<tr>
+	<td>
+	<ul>
+	<?php
+	foreach($this->children as $child)
+	{
+		echo '<li><a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($child->id)).'">'.$child->title.'</a> ('.$child->numitems.')</li>';
+	}
+	?>
+	</ul>
+	</td>
+</tr>
 <?php if ($this->params->get('num_leading_articles')) : ?>
 <tr>
 	<td valign="top">
@@ -29,7 +42,7 @@ $cparams =& JComponentHelper::getParams('com_media');
 		<?php if ($i >= $this->total) : break; endif; ?>
 		<div>
 		<?php
-			$this->item =& $this->getItem($i, $this->params);
+			$this->item = &$this->getItem($i, $this->params);
 			echo $this->loadTemplate('item');
 		?>
 		</div>
@@ -53,7 +66,7 @@ if (($numIntroArticles != $startIntroArticles) && ($i < $this->total)) : ?>
 				<td valign="top" width="<?php echo intval(100 / $this->params->get('num_columns')) ?>%" class="article_column<?php echo $divider ?>">
 				<?php for ($y = 0; $y < ($this->params->get('num_intro_articles') / $this->params->get('num_columns')); $y ++) :
 					if ($i < $this->total && $i < ($numIntroArticles)) :
-						$this->item =& $this->getItem($i, $this->params);
+						$this->item = &$this->getItem($i, $this->params);
 						echo $this->loadTemplate('item');
 						$i ++;
 					endif;

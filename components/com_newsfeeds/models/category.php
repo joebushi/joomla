@@ -3,24 +3,18 @@
  * @version		$Id$
  * @package		Joomla
  * @subpackage	Content
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
- * details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
 /**
  * Newsfeeds Component Category Model
  *
- * @author Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla
  * @subpackage	Newsfeeds
  * @since 1.5
@@ -54,6 +48,8 @@ class NewsfeedsModelCategory extends JModel
 	 * @var object
 	 */
 	var $_category = null;
+	
+	var $_categories = null;
 
 	/**
 	 * Constructor
@@ -62,7 +58,7 @@ class NewsfeedsModelCategory extends JModel
 	 */
 	function __construct()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		parent::__construct();
 
@@ -104,13 +100,6 @@ class NewsfeedsModelCategory extends JModel
 			$query = $this->_buildQuery();
 
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
-
-			$total = count($this->_data);
-			for($i = 0; $i < $total; $i++)
-			{
-				$item =& $this->_data[$i];
-				$item->slug = $item->id.'-'.$item->alias;
-			}
 		}
 
 		return $this->_data;
@@ -127,8 +116,7 @@ class NewsfeedsModelCategory extends JModel
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_total))
 		{
-			$query = $this->_buildQuery();
-			$this->_total = $this->_getListCount($query);
+			$this->getCategory();
 		}
 
 		return $this->_total;
@@ -146,7 +134,7 @@ class NewsfeedsModelCategory extends JModel
 		if (empty($this->_pagination))
 		{
 			jimport('joomla.html.pagination');
-			$this->_pagination = new JPagination( $this->getTotal(), $this->getState('limitstart'), $this->getState('limit') );
+			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
 
 		return $this->_pagination;
@@ -160,8 +148,11 @@ class NewsfeedsModelCategory extends JModel
 	function getCategory()
 	{
 		// Load the Category data
-		if ($this->_loadCategory())
+		if (empty($this->_category))
 		{
+			jimport('joomla.application.categories');
+			$categoryTree = JCategories::getInstance('com_newsfeeds');
+			$this->_category = $categoryTree->get($this->_id);
 			// Initialize some variables
 			$user = &JFactory::getUser();
 
@@ -175,36 +166,16 @@ class NewsfeedsModelCategory extends JModel
 				JError::raiseError(403, JText::_("ALERTNOTAUTH"));
 				return false;
 			}
+			$this->_total = $this->_category->numitems;
 		}
 		return $this->_category;
 	}
-
-	/**
-	 * Method to load category data if it doesn't exist.
-	 *
-	 * @access	private
-	 * @return	boolean	True on success
-	 */
-	function _loadCategory()
-	{
-		if (empty($this->_category))
-		{
-			// current category info
-			$query = 'SELECT c.*,' .
-				' CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(\':\', c.id, c.alias) ELSE c.id END as slug '.
-				' FROM #__categories AS c' .
-				' WHERE c.id = '. (int) $this->_id .
-				' AND c.section = "com_newsfeeds"';
-			$this->_db->setQuery($query, 0, 1);
-			$this->_category = $this->_db->loadObject();
-		}
-		return true;
-	}
-
+	
 	function _buildQuery()
 	{
 		// We need to get a list of all weblinks in the given category
-		$query = 'SELECT *' .
+		$query = 'SELECT *,' .
+			' CASE WHEN CHAR_LENGTH(alias) THEN CONCAT_WS(":", id, alias) ELSE id END as slug'.
 			' FROM #__newsfeeds' .
 			' WHERE catid = '.(int) $this->_id.
 			' AND published = 1' .
@@ -213,4 +184,3 @@ class NewsfeedsModelCategory extends JModel
 		return $query;
 	}
 }
-?>

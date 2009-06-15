@@ -1,24 +1,19 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Config
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
- * details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+// No direct access
+defined('_JEXEC') or die;
 
-jimport( 'joomla.application.component.view' );
+jimport('joomla.application.component.view');
 
 /**
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Config
  */
 class ConfigViewComponent extends JView
@@ -30,19 +25,19 @@ class ConfigViewComponent extends JView
 	{
 		$model		= &$this->getModel();
 		$params		= &$model->getParams();
-		$component	= JComponentHelper::getComponent(JRequest::getCmd( 'component' ));
+		$component	= JComponentHelper::getComponent(JRequest::getCmd('component'));
 
 		$document = & JFactory::getDocument();
-		$document->setTitle( JText::_('Edit Preferences') );
-		JHTML::_('behavior.tooltip');
+		$document->setTitle(JText::_('Edit Preferences'));
+		JHtml::_('behavior.tooltip');
 ?>
 	<form action="index.php" method="post" name="adminForm" autocomplete="off">
 		<fieldset>
 			<div style="float: right">
-				<button type="button" onclick="submitbutton('save');window.top.setTimeout('window.parent.document.getElementById(\'sbox-window\').close()', 700);">
-					<?php echo JText::_( 'Save' );?></button>
+				<button type="button" onclick="Joomla.submitform('save', this.form);window.top.setTimeout('window.parent.document.getElementById(\'sbox-window\').close()', 700);">
+					<?php echo JText::_('Save');?></button>
 				<button type="button" onclick="window.parent.document.getElementById('sbox-window').close();">
-					<?php echo JText::_( 'Cancel' );?></button>
+					<?php echo JText::_('Cancel');?></button>
 			</div>
 			<div class="configuration" >
 				<?php echo JText::_($this->component->name) ?>
@@ -51,7 +46,7 @@ class ConfigViewComponent extends JView
 
 		<fieldset>
 			<legend>
-				<?php echo JText::_( 'Configuration' );?>
+				<?php echo JText::_('Configuration');?>
 			</legend>
 			<?php echo $params->render();?>
 		</fieldset>
@@ -63,7 +58,7 @@ class ConfigViewComponent extends JView
 		<input type="hidden" name="option" value="com_config" />
 		<input type="hidden" name="tmpl" value="component" />
 		<input type="hidden" name="task" value="" />
-		<?php echo JHTML::_( 'form.token' ); ?>
+		<?php echo JHtml::_('form.token'); ?>
 	</form>
 <?php
 	}

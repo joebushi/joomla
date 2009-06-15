@@ -1,115 +1,130 @@
 <?php
 /**
-* @version		$Id:mod_menu.php 2463 2006-02-18 06:05:38Z webImagery $
-* @package		Joomla
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id:mod_menu.php 2463 2006-02-18 06:05:38Z webImagery $
+ * @package		Joomla.Administrator
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
-require_once(dirname(__FILE__).DS.'menu.php');
+if (!class_exists('JAdminCssMenu')) {
+	require dirname(__FILE__).DS.'menu.php';
+}
 
-class modMenuHelper
+/**
+ * Renders the main administrator menu
+ */
+class MenuModuleHelper
 {
 	/**
 	 * Show the menu
-	 * @param string The current user type
+	 * @param	boolean $enabled	Whether to display in enabled or disabled mode
 	 */
-	function buildMenu()
+	function buildMenu($enabled = true)
 	{
-		global $mainframe;
-
-		$lang		= & JFactory::getLanguage();
-		$user		= & JFactory::getUser();
-		$db			= & JFactory::getDBO();
-
-		// Menu Types
-		require_once( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_menus'.DS.'helpers'.DS.'helper.php' );
-		$menuTypes 	= MenusHelper::getMenuTypelist();
-
-		/*
-		 * Get the menu object
-		 */
+		// Get the menu object
 		$menu = new JAdminCSSMenu();
 
+		$user = &JFactory::getUser();
 		/*
 		 * Site SubMenu
 		 */
-		$menu->addChild(new JMenuNode(JText::_('Site')), true);
-		$menu->addChild(new JMenuNode(JText::_('Control Panel'), 'index.php', 'class:cpanel'));
-		$menu->addSeparator();
-		if ($user->authorize('com_users', 'manage')) {
-			$menu->addChild(new JMenuNode(JText::_('User Manager'), 'index.php?option=com_users&task=view', 'class:user'));
-		}
-		$menu->addChild(new JMenuNode(JText::_('Media Manager'), 'index.php?option=com_media', 'class:media'));
-		$menu->addSeparator();
-		if ($user->authorize('com_config', 'manage')) {
-			$menu->addChild(new JMenuNode(JText::_('Configuration'), 'index.php?option=com_config', 'class:config'));
+		if ($enabled)
+		{
+			$menu->addChild(new JMenuNode(JText::_('Site')), true);
+			$menu->addChild(new JMenuNode(JText::_('Control Panel'), 'index.php', 'class:cpanel'));
 			$menu->addSeparator();
-		}
-		$menu->addChild(new JMenuNode(JText::_('Logout'), 'index.php?option=com_login&task=logout', 'class:logout'));
+			if ($user->authorize('core.users.manage')) {
+				$menu->addChild(new JMenuNode(JText::_('User Manager'), 'index.php?option=com_users', 'class:user'));
+			}
+			if ($user->authorize('core.media.manage')) {
+				$menu->addChild(new JMenuNode(JText::_('Media Manager'), 'index.php?option=com_media', 'class:media'));
+			}
+			$menu->addSeparator();
+			if ($user->authorize('core.config.manage')) {
+				$menu->addChild(new JMenuNode(JText::_('Configuration'), 'index.php?option=com_config', 'class:config'));
+				$menu->addSeparator();
+			}
+			$menu->addChild(new JMenuNode(JText::_('Logout'), 'index.php?option=com_login&task=logout', 'class:logout'));
 
-		$menu->getParent();
+			$menu->getParent();
+		}
+		else {
+			$menu->addChild(new JMenuNode(JText::_('Site'), null, 'disabled'));
+		}
 
 		/*
 		 * Menus SubMenu
 		 */
-		$menu->addChild(new JMenuNode(JText::_('Menus')), true);
-		if ($user->authorize('com_menus', 'manage')) {
-			$menu->addChild(new JMenuNode(JText::_('Menu Manager'), 'index.php?option=com_menus', 'class:menu'));
-		}
-		if ($user->authorize('com_trash', 'manage')) {
-			$menu->addChild(new JMenuNode(JText::_('Menu Trash'), 'index.php?option=com_trash&task=viewMenu', 'class:trash'));
-		}
+		if ($user->authorize('core.menus.manage'))
+		{
+			if ($enabled)
+			{
+				$menu->addChild(new JMenuNode(JText::_('Menus')), true);
+				$menu->addChild(new JMenuNode(JText::_('Menu Manager'), 'index.php?option=com_menus', 'class:menu'));
+				// @todo Handle trash better
+				$menu->addChild(new JMenuNode(JText::_('Menu Trash'), 'index.php?option=com_trash&task=viewMenu', 'class:trash'));
 
-		if($user->authorize('com_menus', 'manage') || $user->authorize('com_trash', 'manage')) {
-			$menu->addSeparator();
-		}
-		/*
-		 * SPLIT HR
-		 */
-		if (count($menuTypes)) {
-			foreach ($menuTypes as $menuType) {
-				$menu->addChild(new JMenuNode($menuType->title.($menuType->home ? ' *' : ''), 'index.php?option=com_menus&task=view&menutype='.$menuType->menutype, 'class:menu'));
+				$menu->addSeparator();
+				/*
+				 * SPLIT HR
+				 */
+
+				// Menu Types
+				require_once JPATH_ADMINISTRATOR.DS.'components'.DS.'com_menus'.DS.'helpers'.DS.'helper.php';
+				$menuTypes 	= MenusHelper::getMenuTypelist();
+
+
+				if (count($menuTypes)) {
+					foreach ($menuTypes as $menuType) {
+						$menu->addChild(new JMenuNode($menuType->title.($menuType->home ? ' *' : ''), 'index.php?option=com_menus&task=view&menutype='.$menuType->menutype, 'class:menu'));
+					}
+				}
+
+				$menu->getParent();
+			}
+			else {
+				$menu->addChild(new JMenuNode(JText::_('Menus'), null, 'disabled'));
 			}
 		}
-
-		$menu->getParent();
 
 		/*
 		 * Content SubMenu
 		 */
-		$menu->addChild(new JMenuNode(JText::_('Content')), true);
-		$menu->addChild(new JMenuNode(JText::_('Article Manager'), 'index.php?option=com_content', 'class:article'));
-		if ($user->authorize('com_trash', 'manage')) {
-			$menu->addChild(new JMenuNode(JText::_('Article Trash'), 'index.php?option=com_trash&task=viewContent', 'class:trash'));
+		if ($user->authorize('com_content.manage'))
+		{
+			if ($enabled)
+			{
+				$menu->addChild(new JMenuNode(JText::_('Content')), true);
+				$menu->addChild(new JMenuNode(JText::_('Article Manager'), 'index.php?option=com_content', 'class:article'));
+				$menu->addChild(new JMenuNode(JText::_('Article Trash'), 'index.php?option=com_trash&task=viewContent', 'class:trash'));
+				$menu->addChild(new JMenuNode(JText::_('Frontpage Manager'), 'index.php?option=com_frontpage', 'class:frontpage'));
+				$menu->addSeparator();
+				$menu->addChild(new JMenuNode(JText::_('Category Manager'), 'index.php?option=com_categories&extension=com_content', 'class:category'));
+				$menu->getParent();
+			}
+			else {
+				$menu->addChild(new JMenuNode(JText::_('Content'), null, 'disabled'));
+			}
 		}
-		$menu->addSeparator();
-		$menu->addChild(new JMenuNode(JText::_('Section Manager'), 'index.php?option=com_sections&scope=content', 'class:section'));
-		$menu->addChild(new JMenuNode(JText::_('Category Manager'), 'index.php?option=com_categories&section=com_content', 'class:category'));
-		$menu->addSeparator();
-		$menu->addChild(new JMenuNode(JText::_('Frontpage Manager'), 'index.php?option=com_frontpage', 'class:frontpage'));
-
-		$menu->getParent();
 
 		/*
 		 * Components SubMenu
 		 */
-		if (1)
+		if ($enabled)
 		{
+			$lang	= &JFactory::getLanguage();
+			$user	= &JFactory::getUser();
+			$db		= &JFactory::getDbo();
+
 			$menu->addChild(new JMenuNode(JText::_('Components')), true);
 
 			$query = 'SELECT *' .
 				' FROM #__components' .
-				' WHERE '.$db->NameQuote( 'option' ).' <> "com_frontpage"' .
-				' AND '.$db->NameQuote( 'option' ).' <> "com_media"' .
+				' WHERE '.$db->NameQuote('option').' <> "com_frontpage"' .
+				' AND '.$db->NameQuote('option').' <> "com_media"' .
 				' AND enabled = 1' .
 				' ORDER BY ordering, name';
 			$db->setQuery($query);
@@ -127,7 +142,8 @@ class modMenuHelper
 					}
 					$subs[$row->parent][] = $row;
 					$langs[$row->option.'.menu'] = true;
-				} elseif (trim($row->admin_menu_link)) {
+				}
+				else if (trim($row->admin_menu_link)) {
 					$langs[$row->option.'.menu'] = true;
 				}
 			}
@@ -142,7 +158,7 @@ class modMenuHelper
 
 			foreach ($comps as $row)
 			{
-				if ($user->authorize($row->option, 'manage'))
+				if ($user->authorize($row->option.'.manage'))
 				{
 					if ($row->parent == 0 && (trim($row->admin_menu_link) || array_key_exists($row->id, $subs)))
 					{
@@ -165,108 +181,96 @@ class modMenuHelper
 			}
 			$menu->getParent();
 		}
+		else {
+			$menu->addChild(new JMenuNode(JText::_('Components'), null, 'disabled'));
+		}
 
 		/*
 		 * Extensions SubMenu
 		 */
-		if ($user->authorize('com_installer', 'manage') || $user->authorize('com_languages', 'manage') || $user->authorize('com_modules', 'manage') || $user->authorize('com_plugins', 'manage') || $user->authorize('com_templates', 'manage'))
-		{
-			$menu->addChild(new JMenuNode(JText::_('Extensions')), true);
+		$im = $user->authorize('core.installer.manage');
+		$mm = $user->authorize('core.modules.manage');
+		$pm = $user->authorize('core.plugins.manage');
+		$tm = $user->authorize('core.templates.manage');
+		$lm = $user->authorize('core.languages.manage');
 
-			if($user->authorize('com_installer', 'manage')) {
-				$menu->addChild(new JMenuNode(JText::_('Install/Uninstall'), 'index.php?option=com_installer', 'class:install'));
-				$menu->addSeparator();
+		if ($im || $mm || $pm || $tm || $lm)
+		{
+			if ($enabled)
+			{
+				$menu->addChild(new JMenuNode(JText::_('Extensions')), true);
+
+				if ($im) {
+					$menu->addChild(new JMenuNode(JText::_('Install/Uninstall'), 'index.php?option=com_installer', 'class:install'));
+					$menu->addSeparator();
+				}
+				if ($mm) {
+					$menu->addChild(new JMenuNode(JText::_('Module Manager'), 'index.php?option=com_modules', 'class:module'));
+				}
+				if ($pm) {
+					$menu->addChild(new JMenuNode(JText::_('Plugin Manager'), 'index.php?option=com_plugins', 'class:plugin'));
+				}
+				if ($tm) {
+					$menu->addChild(new JMenuNode(JText::_('Template Manager'), 'index.php?option=com_templates', 'class:themes'));
+				}
+				if ($lm) {
+					$menu->addChild(new JMenuNode(JText::_('Language Manager'), 'index.php?option=com_languages', 'class:language'));
+				}
+				$menu->getParent();
 			}
-			if ($user->authorize('com_modules', 'manage')) {
-				$menu->addChild(new JMenuNode(JText::_('Module Manager'), 'index.php?option=com_modules', 'class:module'));
+			else {
+				$menu->addChild(new JMenuNode(JText::_('Extensions'), null, 'disabled'));
 			}
-			if ($user->authorize('com_plugins', 'manage')) {
-				$menu->addChild(new JMenuNode(JText::_('Plugin Manager'), 'index.php?option=com_plugins', 'class:plugin'));
-			}
-			if ($user->authorize('com_templates', 'manage')) {
-				$menu->addChild(new JMenuNode(JText::_('Template Manager'), 'index.php?option=com_templates', 'class:themes'));
-			}
-			if ($user->authorize('com_languages', 'manage')) {
-				$menu->addChild(new JMenuNode(JText::_('Language Manager'), 'index.php?option=com_languages', 'class:language'));
-			}
-			$menu->getParent();
 		}
 
 		/*
-		 * System SubMenu
+		 * Tools SubMenu
 		 */
-		if ($user->authorize('com_config', 'manage') || $user->authorize('com_checkin', 'manage'))
+		if ($enabled)
 		{
 			$menu->addChild(new JMenuNode(JText::_('Tools')), true);
 
-			if ($user->authorize('com_messages', 'manage')) {
+			$menu->addChild(new JMenuNode(JText::_('Redirect'), 'index.php?option=com_redirect', 'class:component'));
+			$menu->addSeparator();
+
+			if ($user->authorize('core.messages.manage')) {
 				$menu->addChild(new JMenuNode(JText::_('Read Messages'), 'index.php?option=com_messages', 'class:messages'));
 				$menu->addChild(new JMenuNode(JText::_('Write Message'), 'index.php?option=com_messages&task=add', 'class:messages'));
 				$menu->addSeparator();
 			}
-			if ($user->authorize('com_massmail', 'manage')) {
+			if ($user->authorize('core.massmail.manage')) {
 				$menu->addChild(new JMenuNode(JText::_('Mass Mail'), 'index.php?option=com_massmail', 'class:massmail'));
 				$menu->addSeparator();
 			}
-			if ($user->authorize('com_checkin', 'manage')) {
+			if ($user->authorize('core.checkin.manage')) {
 				$menu->addChild(new JMenuNode(JText::_('Global Checkin'), 'index.php?option=com_checkin', 'class:checkin'));
 				$menu->addSeparator();
 			}
-			$menu->addChild(new JMenuNode(JText::_('Clean Cache'), 'index.php?option=com_cache', 'class:config'));
+			if ($user->authorize('core.cache.manage')) {
+				$menu->addChild(new JMenuNode(JText::_('Clean Cache'), 'index.php?option=com_cache', 'class:config'));
+				$menu->addChild(new JMenuNode(JText::_('Purge Expired Cache'), 'index.php?option=com_cache&view=purge', 'class:config'));
+			}
 
 			$menu->getParent();
+		}
+		else {
+			$menu->addChild(new JMenuNode(JText::_('Tools'),  null, 'disabled'));
 		}
 
 		/*
 		 * Help SubMenu
 		 */
-		$menu->addChild(new JMenuNode(JText::_('Help')), true);
-		$menu->addChild(new JMenuNode(JText::_('Joomla! Help'), 'index.php?option=com_admin&task=help', 'class:help'));
-		$menu->addChild(new JMenuNode(JText::_('System Info'), 'index.php?option=com_admin&task=sysinfo', 'class:info'));
-
-		$menu->getParent();
-
-		$menu->renderMenu('menu', '');
-	}
-
-	/**
-	 * Show an disbaled version of the menu, used in edit pages
-	 *
-	 * @param string The current user type
-	 */
-	function buildDisabledMenu()
-	{
-		$user	 =& JFactory::getUser();
-
-		// Get the menu object
-		$menu = new JAdminCSSMenu();
-
-		// Site SubMenu
-		$menu->addChild(new JMenuNode(JText::_('Site'), null, 'disabled'));
-
-		// Menus SubMenu
-		$menu->addChild(new JMenuNode(JText::_('Menus'), null, 'disabled'));
-
-		// Content SubMenu
-		$menu->addChild(new JMenuNode(JText::_('Content'), null, 'disabled'));
-
-		// Components SubMenu
-		$menu->addChild(new JMenuNode(JText::_('Components'), null, 'disabled'));
-
-		// Extensions SubMenu
-		if ($user->authorize('com_modules', 'manage')) {
-			$menu->addChild(new JMenuNode(JText::_('Extensions'), null, 'disabled'));
+		if ($enabled)
+		{
+			$menu->addChild(new JMenuNode(JText::_('Help')), true);
+			$menu->addChild(new JMenuNode(JText::_('Joomla! Help'), 'index.php?option=com_admin&view=help', 'class:help'));
+			$menu->addChild(new JMenuNode(JText::_('System Info'), 'index.php?option=com_admin&view=sysinfo', 'class:info'));
+			$menu->getParent();
+		}
+		else {
+			$menu->addChild(new JMenuNode(JText::_('Help'),  null, 'disabled'));
 		}
 
-		// System SubMenu
-		if ($user->authorize('com_config', 'manage')) {
-			$menu->addChild(new JMenuNode(JText::_('Tools'),  null, 'disabled'));
-		}
-
-		// Help SubMenu
-		$menu->addChild(new JMenuNode(JText::_('Help'),  null, 'disabled'));
-
-		$menu->renderMenu('menu', 'disabled');
+		$menu->renderMenu('menu', $enabled ? '' : 'disabled');
 	}
 }
-?>

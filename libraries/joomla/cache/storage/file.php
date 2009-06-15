@@ -3,22 +3,16 @@
  * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Cache
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+// No direct access
+defined('JPATH_BASE') or die;
 
 /**
  * File cache storage handler
  *
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Cache
  * @since		1.5
@@ -31,11 +25,11 @@ class JCacheStorageFile extends JCacheStorage
 	* @access protected
 	* @param array $options optional parameters
 	*/
-	function __construct( $options = array() )
+	function __construct($options = array())
 	{
 		parent::__construct($options);
 
-		$config			=& JFactory::getConfig();
+		$config			= &JFactory::getConfig();
 		$this->_root	= $options['cachebase'];
 		$this->_hash	= $config->getValue('config.secret');
 	}
@@ -58,12 +52,12 @@ class JCacheStorageFile extends JCacheStorage
 		$this->_setExpire($id, $group);
 		if (file_exists($path)) {
 			$data = file_get_contents($path);
-			if($data) {		
+			if ($data) {
 				// Remove the initial die() statement
 				$data	= preg_replace('/^.*\n/', '', $data);
 			}
 		}
-		
+
 		return $data;
 	}
 
@@ -83,11 +77,11 @@ class JCacheStorageFile extends JCacheStorage
 		$path		= $this->_getFilePath($id, $group);
 		$expirePath	= $path . '_expire';
 		$die		= '<?php die("Access Denied"); ?>'."\n";
-		
+
 		// Prepend a die string
-		
+
 		$data		= $die.$data;
-		
+
 		$fp = @fopen($path, "wb");
 		if ($fp) {
 			if ($this->_locking) {
@@ -148,7 +142,7 @@ class JCacheStorageFile extends JCacheStorage
 		$return = true;
 		$folder	= $group;
 
-		if(trim($folder) == '') {
+		if (trim($folder) == '') {
 			$mode = 'notgroup';
 		}
 
@@ -181,12 +175,13 @@ class JCacheStorageFile extends JCacheStorage
 	 */
 	function gc()
 	{
+		jimport('joomla.filesystem.file');
 		$result = true;
 		// files older than lifeTime get deleted from cache
 		$files = JFolder::files($this->_root, '_expire', true, true);
 		foreach($files As $file) {
 			$time = @file_get_contents($file);
-			if ($time > $this->_now) {
+			if ($time < $this->_now) {
 				$result |= JFile::delete($file);
 				$result |= JFile::delete(str_replace('_expire', '', $file));
 			}
@@ -203,7 +198,7 @@ class JCacheStorageFile extends JCacheStorage
 	 */
 	function test()
 	{
-		$config	=& JFactory::getConfig();
+		$config	= &JFactory::getConfig();
 		$root	= $config->getValue('config.cache_path', JPATH_ROOT.DS.'cache');
 		return is_writable($root);
 	}
@@ -221,12 +216,12 @@ class JCacheStorageFile extends JCacheStorage
 		$path = $this->_getFilePath($id, $group);
 
 		// set prune period
-		if(file_exists($path.'_expire')) {
+		if (file_exists($path.'_expire')) {
 			$time = @file_get_contents($path.'_expire');
 			if ($time < $this->_now || empty($time)) {
 				$this->remove($id, $group);
 			}
-		} elseif(file_exists($path)) {
+		} elseif (file_exists($path)) {
 			//This means that for some reason there's no expire file, remove it
 			$this->remove($id, $group);
 		}

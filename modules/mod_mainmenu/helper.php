@@ -1,19 +1,12 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
-
+defined('_JEXEC') or die;
 
 jimport('joomla.base.tree');
 jimport('joomla.utilities.simplexml');
@@ -22,8 +15,8 @@ jimport('joomla.utilities.simplexml');
  * mod_mainmenu Helper class
  *
  * @static
- * @package		Joomla
- * @subpackage	Menus
+ * @package		Joomla.Site
+ * @subpackage	mod_mainmenu
  * @since		1.5
  */
 class modMainMenuHelper
@@ -38,13 +31,13 @@ class modMainMenuHelper
 		$maxdepth = $params->get('maxdepth',10);
 
 		// Build Menu Tree root down (orphan proof - child might have lower id than parent)
-		$user =& JFactory::getUser();
+		$user = &JFactory::getUser();
 		$ids = array();
 		$ids[0] = true;
 		$last = null;
 		$unresolved = array();
 		// pop the first item until the array is empty if there is any item
-		if ( is_array($rows)) {
+		if (is_array($rows)) {
 			while (count($rows) && !is_null($row = array_shift($rows)))
 			{
 				if (array_key_exists($row->parent, $ids)) {
@@ -56,11 +49,11 @@ class modMainMenuHelper
 				} else {
 					// no parent yet so push item to back of list
 					// SAM: But if the key isn't in the list and we dont _add_ this is infinite, so check the unresolved queue
-					if(!array_key_exists($row->id, $unresolved) || $unresolved[$row->id] < $maxdepth) {
+					if (!array_key_exists($row->id, $unresolved) || $unresolved[$row->id] < $maxdepth) {
 						array_push($rows, $row);
 						// so let us do max $maxdepth passes
 						// TODO: Put a time check in this loop in case we get too close to the PHP timeout
-						if(!isset($unresolved[$row->id])) $unresolved[$row->id] = 1;
+						if (!isset($unresolved[$row->id])) $unresolved[$row->id] = 1;
 						else $unresolved[$row->id]++;
 					}
 				}
@@ -74,7 +67,7 @@ class modMainMenuHelper
 		static $xmls;
 
 		if (!isset($xmls[$type])) {
-			$cache =& JFactory::getCache('mod_mainmenu');
+			$cache = &JFactory::getCache('mod_mainmenu');
 			$string = $cache->call(array('modMainMenuHelper', 'buildXML'), $params);
 			$xmls[$type] = $string;
 		}
@@ -96,7 +89,7 @@ class modMainMenuHelper
 		{
 			$found = false;
 			$root = true;
-			if(!isset($active)){
+			if (!isset($active)){
 				$doc = false;
 			}
 			else{
@@ -131,41 +124,19 @@ class modMainMenuHelper
 
 	function render(&$params, $callback)
 	{
-		switch ( $params->get( 'menu_style', 'list' ) )
-		{
-			case 'list_flat' :
-				// Include the legacy library file
-				require_once(dirname(__FILE__).DS.'legacy.php');
-				mosShowHFMenu($params, 1);
-				break;
 
-			case 'horiz_flat' :
-				// Include the legacy library file
-				require_once(dirname(__FILE__).DS.'legacy.php');
-				mosShowHFMenu($params, 0);
-				break;
+		// Include the new menu class
+		$xml = modMainMenuHelper::getXML($params->get('menutype'), $params, $callback);
+		if ($xml) {
+			$class = $params->get('class_sfx');
+			$xml->addAttribute('class', 'menu'.$class);
+			if ($tagId = $params->get('tag_id')) {
+				$xml->addAttribute('id', $tagId);
+			}
 
-			case 'vert_indent' :
-				// Include the legacy library file
-				require_once(dirname(__FILE__).DS.'legacy.php');
-				mosShowVIMenu($params);
-				break;
-
-			default :
-				// Include the new menu class
-				$xml = modMainMenuHelper::getXML($params->get('menutype'), $params, $callback);
-				if ($xml) {
-					$class = $params->get('class_sfx');
-					$xml->addAttribute('class', 'menu'.$class);
-					if ($tagId = $params->get('tag_id')) {
-						$xml->addAttribute('id', $tagId);
-					}
-
-					$result = JFilterOutput::ampReplace($xml->toString((bool)$params->get('show_whitespace')));
-					$result = str_replace(array('<ul/>', '<ul />'), '', $result);
-					echo $result;
-				}
-				break;
+			$result = JFilterOutput::ampReplace($xml->toString((bool)$params->get('show_whitespace')));
+			$result = str_replace(array('<ul/>', '<ul />'), '', $result);
+			echo $result;
 		}
 	}
 }
@@ -173,7 +144,7 @@ class modMainMenuHelper
 /**
  * Main Menu Tree Class.
  *
- * @package		Joomla
+ * @package		Joomla.Site
  * @subpackage	Menus
  * @since		1.5
  */
@@ -196,10 +167,10 @@ class JMenuTree extends JTree
 
 	function __construct(&$params)
 	{
-		$this->_params		=& $params;
+		$this->_params		= &$params;
 		$this->_root		= new JMenuNode(0, 'ROOT');
-		$this->_nodeHash[0]	=& $this->_root;
-		$this->_current		=& $this->_root;
+		$this->_nodeHash[0]	= &$this->_root;
+		$this->_current		= &$this->_root;
 	}
 
 	function addNode(&$params, $item)
@@ -215,21 +186,25 @@ class JMenuTree extends JTree
 		} else {
 			$nid = $item->id;
 		}
-		$this->_nodeHash[$nid] =& $node;
-		$this->_current =& $this->_nodeHash[$item->parent];
+		$this->_nodeHash[$nid] = &$node;
+		$this->_current = &$this->_nodeHash[$item->parent];
+
+		if ($item->type == 'menulink' && !empty($item->query['Itemid'])) {
+			$node->mid = $item->query['Itemid'];
+		}
 
 		if ($this->_current) {
 			$this->addChild($node, true);
 		} else {
 			// sanity check
-			JError::raiseError( 500, 'Orphan Error. Could not find parent for Item '.$item->id );
+			JError::raiseError(500, 'Orphan Error. Could not find parent for Item '.$item->id);
 		}
 	}
 
 	function toXML()
 	{
 		// Initialize variables
-		$this->_current =& $this->_root;
+		$this->_current = &$this->_root;
 
 		// Recurse through children if they exist
 		while ($this->_current->hasChildren())
@@ -242,7 +217,7 @@ class JMenuTree extends JTree
 			}
 			$this->_buffer .= '</ul>';
 		}
-		if($this->_buffer == '') { $this->_buffer = '<ul />'; }
+		if ($this->_buffer == '') { $this->_buffer = '<ul />'; }
 		return $this->_buffer;
 	}
 
@@ -251,7 +226,8 @@ class JMenuTree extends JTree
 		$depth++;
 
 		// Start the item
-		$this->_buffer .= '<li access="'.$this->_current->access.'" level="'.$depth.'" id="'.$this->_current->id.'">';
+		$rel = (!empty($this->_current->mid)) ? ' rel="'.$this->_current->mid.'"' : '';
+		$this->_buffer .= '<li access="'.$this->_current->access.'" level="'.$depth.'" id="'.$this->_current->id.'"'.$rel.'>';
 
 		// Append item data
 		$this->_buffer .= $this->_current->link;
@@ -281,7 +257,7 @@ class JMenuTree extends JTree
 		{
 			$menu = &JSite::getMenu();
 			if ($newItem = $menu->getItem($item->query['Itemid'])) {
-    $tmp = clone($newItem);
+    			$tmp = clone($newItem);
 				$tmp->name	 = '<span><![CDATA['.$item->name.']]></span>';
 				$tmp->mid	 = $item->id;
 				$tmp->parent = $item->parent;
@@ -295,8 +271,23 @@ class JMenuTree extends JTree
 
 		$iParams = new JParameter($tmp->params);
 		if ($params->get('menu_images') && $iParams->get('menu_image') && $iParams->get('menu_image') != -1) {
-			$image = '<img src="'.JURI::base(true).'/images/stories/'.$iParams->get('menu_image').'" alt="" />';
-			if($tmp->ionly){
+			switch ($params->get('menu_images_align', 0)){
+				case 0 :
+				$imgalign='align="left"';
+				break;
+
+				case 1 :
+				$imgalign='align="right"';
+				break;
+
+				default :
+				$imgalign='';
+				break;
+			}
+
+
+			$image = '<img src="'.JURI::base(true).'/images/stories/'.$iParams->get('menu_image').'" '.$imgalign.' alt="'.$item->alias.'" />';
+			if ($tmp->ionly){
 				 $tmp->name = null;
 			 }
 		} else {
@@ -309,7 +300,7 @@ class JMenuTree extends JTree
 				break;
 
 			case 'url' :
-				if ((strpos($tmp->link, 'index.php?') !== false) && (strpos($tmp->link, 'Itemid=') === false)) {
+				if ((strpos($tmp->link, 'index.php?') === 0) && (strpos($tmp->link, 'Itemid=') === false)) {
 					$tmp->url = $tmp->link.'&amp;Itemid='.$tmp->id;
 				} else {
 					$tmp->url = $tmp->link;
@@ -366,7 +357,7 @@ class JMenuTree extends JTree
 /**
  * Main Menu Tree Node Class.
  *
- * @package		Joomla
+ * @package		Joomla.Site
  * @subpackage	Menus
  * @since		1.5
  */

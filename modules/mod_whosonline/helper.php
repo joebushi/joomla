@@ -1,26 +1,22 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @package		Joomla.Site
+ * @subpackage	mod_whosonline
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
-class modWhosonlineHelper {
-
+class modWhosonlineHelper
+{
 	// show online count
 	function getOnlineCount() {
-	    $db		  =& JFactory::getDBO();
+	    $db		  = &JFactory::getDbo();
 		$sessions = null;
-		// calculate number of guests and members
+		// calculate number of guests and users
 		$result      = array();
 		$user_array  = 0;
 		$guest_array = 0;
@@ -32,7 +28,7 @@ class modWhosonlineHelper {
 		$sessions = $db->loadObjectList();
 
 		if ($db->getErrorNum()) {
-			JError::raiseWarning( 500, $db->stderr() );
+			JError::raiseWarning(500, $db->stderr());
 		}
 
 		if (count($sessions)) {
@@ -55,8 +51,8 @@ class modWhosonlineHelper {
 	}
 
 	// show online member names
-	function getOnlineMemberNames() {
-	    $db		=& JFactory::getDBO();
+	function getOnlineUserNames() {
+	    $db		= &JFactory::getDbo();
 		$result	= null;
 
 		$query = 'SELECT DISTINCT a.username' .
@@ -67,7 +63,7 @@ class modWhosonlineHelper {
 		$result = $db->loadObjectList();
 
 		if ($db->getErrorNum()) {
-			JError::raiseWarning( 500, $db->stderr() );
+			JError::raiseWarning(500, $db->stderr());
 		}
 
 		return $result;

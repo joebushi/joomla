@@ -1,26 +1,21 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
+ * @package		Joomla.Site
  * @subpackage	Content
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
- * details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+// No direct access
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
 /**
  * Content Component Controller
  *
- * @package		Joomla
+ * @package		Joomla.Site
  * @subpackage	Content
  * @since 1.5
  */
@@ -34,17 +29,15 @@ class ContentController extends JController
 	 */
 	function display()
 	{
-		JHTML::_('behavior.caption');
-
 		// Set a default view if none exists
-		if ( ! JRequest::getCmd( 'view' ) ) {
+		if (! JRequest::getCmd('view')) {
 			$default	= JRequest::getInt('id') ? 'article' : 'frontpage';
-			JRequest::setVar('view', $default );
+			JRequest::setVar('view', $default);
 		}
 
 		// View caching logic -- simple... are we logged in?
 		$user = &JFactory::getUser();
-		if ($user->get('id')) {
+		if ($user->get('id') || (JRequest::getVar('view') == 'category' && JRequest::getVar('layout') != 'blog')) {
 			parent::display(false);
 		} else {
 			parent::display(true);
@@ -59,13 +52,7 @@ class ContentController extends JController
 	*/
 	function edit()
 	{
-		$user	=& JFactory::getUser();
-
-		// Create a user access object for the user
-		$access					= new stdClass();
-		$access->canEdit		= $user->authorize('com_content', 'edit', 'content', 'all');
-		$access->canEditOwn		= $user->authorize('com_content', 'edit', 'content', 'own');
-		$access->canPublish		= $user->authorize('com_content', 'publish', 'content', 'all');
+		$user	= &JFactory::getUser();
 
 		// Create the view
 		$view = & $this->getView('article', 'html');
@@ -73,16 +60,20 @@ class ContentController extends JController
 		// Get/Create the model
 		$model = & $this->getModel('Article');
 
-		// new record
-		if (!($access->canEdit || $access->canEditOwn)) {
-			JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
+		// Create a user access object for the user
+		$access = new stdClass();
+		$access->canEdit	= $user->authorise('com_content.article.edit_article');
+		$access->canEditOwn	= $user->authorise('com_content.article.edit_own') && ($model->get('id') == 0 || $user->get('id') == $model->get('created_by'));
+		$access->canPublish	= $user->authorise('com_content.article.publish');
+		$access->canManage	= $user->authorise('com_content.manage');
+
+		// Check the user's access to edit the article.
+		if (!$access->canEdit && !$access->canEditOwn && !$access->canPublish && !$access->canManage) {
+			JError::raiseError(403, JText::_('ALERTNOTAUTH'));
+			return false;
 		}
 
-		if( $model->get('id') > 1 && $user->get('gid') <= 19 && $model->get('created_by') != $user->id ) {
-			JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
-		}
-
-		if ( $model->isCheckedOut($user->get('id')))
+		if ($model->isCheckedOut($user->get('id')))
 		{
 			$msg = JText::sprintf('DESCBEINGEDITTED', JText::_('The item'), $model->get('title'));
 			$this->setRedirect(JRoute::_('index.php?view=article&id='.$model->get('id'), false), $msg);
@@ -110,28 +101,12 @@ class ContentController extends JController
 	function save()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JRequest::checkToken() or jexit('Invalid Token');
 
 		// Initialize variables
-		$db			= & JFactory::getDBO();
+		$db			= & JFactory::getDbo();
 		$user		= & JFactory::getUser();
 		$task		= JRequest::getVar('task', null, 'default', 'cmd');
-
-		// Make sure you are logged in and have the necessary access rights
-		if ($user->get('gid') < 19) {
-			JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
-			return;
-		}
-
-		// Create a user access object for the user
-		$access					= new stdClass();
-		$access->canEdit		= $user->authorize('com_content', 'edit', 'content', 'all');
-		$access->canEditOwn		= $user->authorize('com_content', 'edit', 'content', 'own');
-		$access->canPublish		= $user->authorize('com_content', 'publish', 'content', 'all');
-
-		if (!($access->canEdit || $access->canEditOwn)) {
-			JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
-		}
 
 		//get data from the request
 		$model = $this->getModel('article');
@@ -143,15 +118,28 @@ class ContentController extends JController
 		//preform access checks
 		$isNew = ((int) $post['id'] < 1);
 
-		if ($model->store($post)) {
-			$msg = JText::_( 'Article Saved' );
+		// Create a user access object for the user
+		$access = new stdClass();
+		$access->canEdit	= $user->authorise('com_content.article.edit_article');
+		$access->canEditOwn	= $user->authorise('com_content.article.edit_own') && ($isNew || $user->get('id') == $model->get('created_by'));
+		$access->canPublish	= $user->authorise('com_content.article.publish');
+		$access->canManage	= $user->authorise('com_content.manage');
 
-			if($isNew) {
+		// Check the user's access to edit the article.
+		if (!$access->canEdit && !$access->canEditOwn && !$access->canPublish && !$access->canManage) {
+			JError::raiseError(403, JText::_('ALERTNOTAUTH'));
+			return false;
+		}
+
+		if ($model->store($post)) {
+			$msg = JText::_('Article Saved');
+
+			if ($isNew) {
 				$post['id'] = (int) $model->get('id');
 			}
 		} else {
-			$msg = JText::_( 'Error Saving Article' );
-			JError::raiseError( 500, $model->getError() );
+			$msg = JText::_('Error Saving Article');
+			JError::raiseError(500, $model->getError());
 		}
 
 		// manage frontpage items
@@ -166,10 +154,10 @@ class ContentController extends JController
 			{
 				// new entry
 				$query = 'INSERT INTO #__content_frontpage' .
-						' VALUES ( '.(int) $post['id'].', 1 )';
+						' VALUES ('.(int) $post['id'].', 1)';
 				$db->setQuery($query);
 				if (!$db->query()) {
-					JError::raiseError( 500, $db->stderr());
+					JError::raiseError(500, $db->stderr());
 				}
 				$fp->ordering = 1;
 			}
@@ -207,7 +195,7 @@ class ContentController extends JController
 			require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_messages'.DS.'tables'.DS.'message.php');
 
 			// load language for messaging
-			$lang =& JFactory::getLanguage();
+			$lang = &JFactory::getLanguage();
 			$lang->load('com_messages');
 
 			$query = 'SELECT id' .
@@ -236,9 +224,12 @@ class ContentController extends JController
 			$msg = $isNew ? JText::_('THANK_SUB') : JText::_('Item successfully saved.');
 		}
 
-
-		$link = JRequest::getString('referer', JURI::base(), 'post');
-		$this->setRedirect($link, $msg);
+		$referer = JRequest::getString('ret',  base64_encode(JURI::base()), 'get');
+		$referer = base64_decode($referer);
+		if (!JURI::isInternal($referer)) {
+			$referer = '';
+		}
+		$this->setRedirect($referer, $msg);
 	}
 
 	/**
@@ -250,19 +241,23 @@ class ContentController extends JController
 	function cancel()
 	{
 		// Initialize some variables
-		$db		= & JFactory::getDBO();
+		$db		= & JFactory::getDbo();
 		$user	= & JFactory::getUser();
 
 		// Get an article table object and bind post variabes to it [We don't need a full model here]
 		$article = & JTable::getInstance('content');
 		$article->bind(JRequest::get('post'));
 
-		if ($user->authorize('com_content', 'edit', 'content', 'all') || ($user->authorize('com_content', 'edit', 'content', 'own') && $article->created_by == $user->get('id'))) {
+		if ($user->authorize('com_content.article.edit_article') || ($user->authorize('com_content.article.edit_own') && $article->created_by == $user->get('id'))) {
 			$article->checkin();
 		}
 
 		// If the task was edit or cancel, we go back to the content item
-		$referer = JRequest::getString('referer', JURI::base(), 'post');
+		$referer = JRequest::getString('ret', base64_encode(JURI::base()), 'get');
+		$referer = base64_decode($referer);
+		if (!JURI::isInternal($referer)) {
+			$referer = '';
+		}
 		$this->setRedirect($referer);
 	}
 
@@ -279,9 +274,14 @@ class ContentController extends JController
 		$id		= JRequest::getVar('cid', 0, '', 'int');
 
 		// Get/Create the model
-		$model = & $this->getModel('Article' );
+		$model = & $this->getModel('Article');
 
 		$model->setId($id);
+
+		if (!JURI::isInternal($url)) {
+			$url = JRoute::_('index.php?option=com_content&view=article&id='.$id);
+		}
+
 		if ($model->storeVote($rating)) {
 			$this->setRedirect($url, JText::_('Thanks for rating!'));
 		} else {
@@ -298,16 +298,16 @@ class ContentController extends JController
 	function findkey()
 	{
 		// Initialize variables
-		$db		= & JFactory::getDBO();
+		$db		= & JFactory::getDbo();
 		$keyref	= JRequest::getVar('keyref', null, 'default', 'cmd');
 		JRequest::setVar('keyref', $keyref);
 
 		// If no keyref left, throw 404
-		if( empty($keyref) === true ) {
-			JError::raiseError( 404, JText::_("Key Not Found") );
+		if (empty($keyref) === true) {
+			JError::raiseError(404, JText::_("Key Not Found"));
 		}
 
-		$keyref	= $db->Quote( '%keyref='.$db->getEscaped( $keyref, true ).'%', false );
+		$keyref	= $db->Quote('%keyref='.$db->getEscaped($keyref, true).'%', false);
 		$query	= 'SELECT id' .
 				' FROM #__content' .
 				' WHERE attribs LIKE '.$keyref;
@@ -317,10 +317,10 @@ class ContentController extends JController
 		if ($id > 0)
 		{
 			// Create the view
-			$view =& $this->getView('article', 'html');
+			$view = &$this->getView('article', 'html');
 
 			// Get/Create the model
-			$model =& $this->getModel('Article' );
+			$model = &$this->getModel('Article');
 
 			// Set the id of the article to display
 			$model->setId($id);
@@ -332,7 +332,7 @@ class ContentController extends JController
 			$view->display();
 		}
 		else {
-			JError::raiseError( 404, JText::_( 'Key Not Found' ) );
+			JError::raiseError(404, JText::_('Key Not Found'));
 		}
 	}
 

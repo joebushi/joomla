@@ -3,17 +3,12 @@
  * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Registry
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+// No direct access
+defined('JPATH_BASE') or die;
 
 //Register the session storage class with the loader
 JLoader::register('JRegistryFormat', dirname(__FILE__).DS.'format.php');
@@ -21,7 +16,6 @@ JLoader::register('JRegistryFormat', dirname(__FILE__).DS.'format.php');
 /**
  * JRegistry class
  *
- * @author 		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	Registry
  * @since 		1.5
@@ -32,14 +26,14 @@ class JRegistry extends JObject
 	 * Default NameSpace
 	 * @var string
 	 */
-	var $_defaultNameSpace = null;
+	protected $_defaultNameSpace = null;
 
 	/**
 	 * Registry Object
 	 *  - actually an array of namespace objects
 	 * @var array
 	 */
-	var $_registry = array ();
+	protected $_registry = array ();
 
 	/**
 	 * Constructor
@@ -49,7 +43,7 @@ class JRegistry extends JObject
 	 * @return	void
 	 * @since	1.5
 	 */
-	function __construct($namespace = 'default')
+	public function __construct($namespace = 'default')
 	{
 		$this->_defaultNameSpace = $namespace;
 		$this->makeNameSpace($namespace);
@@ -60,15 +54,14 @@ class JRegistry extends JObject
 	 * if it doesn't already exist.
 	 *
 	 * This method must be invoked as:
-	 * 		<pre>$registry =& JRegistry::getInstance($id[, $namespace]);</pre>
+	 * 		<pre>$registry = &JRegistry::getInstance($id[, $namespace]);</pre>
 	 *
-	 * @static
 	 * @param	string	$id			An ID for the registry instance
 	 * @param	string	$namespace	The default namespace for the registry object [optional]
 	 * @return	object	The JRegistry object.
 	 * @since	1.5
 	 */
-	function &getInstance($id, $namespace = 'default')
+	public static function &getInstance($id, $namespace = 'default')
 	{
 		static $instances;
 
@@ -86,12 +79,11 @@ class JRegistry extends JObject
 	/**
 	 * Create a namespace
 	 *
-	 * @access	public
 	 * @param	string	$namespace	Name of the namespace to create
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function makeNameSpace($namespace)
+	public function makeNameSpace($namespace)
 	{
 		$this->_registry[$namespace] = array('data' => new stdClass());
 		return true;
@@ -104,7 +96,7 @@ class JRegistry extends JObject
 	 * @return	array	List of namespaces
 	 * @since	1.5
 	 */
-	function getNameSpaces()
+	public function getNameSpaces()
 	{
 		return array_keys($this->_registry);
 	}
@@ -118,7 +110,7 @@ class JRegistry extends JObject
 	 * @return	mixed	Value of entry or null
 	 * @since	1.5
 	 */
-	function getValue($regpath, $default=null)
+	public function getValue($regpath, $default=null)
 	{
 		$result = $default;
 
@@ -127,7 +119,8 @@ class JRegistry extends JObject
 		{
 			// Get the namespace
 			//$namespace = array_shift($nodes);
-			if (count($nodes)<2) {
+			$count = count($nodes);
+			if ($count < 2) {
 				$namespace	= $this->_defaultNameSpace;
 				$nodes[1]	= $nodes[0];
 			} else {
@@ -136,14 +129,14 @@ class JRegistry extends JObject
 
 			if (isset($this->_registry[$namespace])) {
 				$ns = & $this->_registry[$namespace]['data'];
-				$pathNodes = count($nodes) - 1;
+				$pathNodes = $count - 1;
 
 				//for ($i = 0; $i < $pathNodes; $i ++) {
 				for ($i = 1; $i < $pathNodes; $i ++) {
-					if((isset($ns->$nodes[$i]))) $ns =& $ns->$nodes[$i];
+					if ((isset($ns->$nodes[$i]))) $ns = &$ns->$nodes[$i];
 				}
 
-				if(isset($ns->$nodes[$i])) {
+				if (isset($ns->$nodes[$i])) {
 					$result = $ns->$nodes[$i];
 				}
 			}
@@ -160,16 +153,19 @@ class JRegistry extends JObject
 	 * @return 	mixed	Value of old value or boolean false if operation failed
 	 * @since	1.5
 	 */
-	function setValue($regpath, $value)
+	public function setValue($regpath, $value)
 	{
 		// Explode the registry path into an array
 		$nodes = explode('.', $regpath);
 
 		// Get the namespace
-		if (count($nodes)<2) {
+		$count = count($nodes);
+
+		if ($count < 2) {
 			$namespace = $this->_defaultNameSpace;
 		} else {
 			$namespace = array_shift($nodes);
+			$count--;
 		}
 
 		if (!isset($this->_registry[$namespace])) {
@@ -178,7 +174,7 @@ class JRegistry extends JObject
 
 		$ns = & $this->_registry[$namespace]['data'];
 
-		$pathNodes = count($nodes) - 1;
+		$pathNodes = $count - 1;
 
 		if ($pathNodes < 0) {
 			$pathNodes = 0;
@@ -190,11 +186,11 @@ class JRegistry extends JObject
 			if (!isset($ns->$nodes[$i])) {
 				$ns->$nodes[$i] = new stdClass();
 			}
-			$ns =& $ns->$nodes[$i];
+			$ns = &$ns->$nodes[$i];
 		}
 
 		// Get the old value if exists so we can return it
-		$ns->$nodes[$i] =& $value;
+		$ns->$nodes[$i] = &$value;
 
 		return $ns->$nodes[$i];
 	}
@@ -208,7 +204,7 @@ class JRegistry extends JObject
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function loadArray($array, $namespace = null)
+	public function loadArray($array, $namespace = null)
 	{
 		// If namespace is not set, get the default namespace
 		if ($namespace == null) {
@@ -238,7 +234,7 @@ class JRegistry extends JObject
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function loadObject(&$object, $namespace = null)
+	public function loadObject(&$object, $namespace = null)
 	{
 		// If namespace is not set, get the default namespace
 		if ($namespace == null) {
@@ -255,7 +251,7 @@ class JRegistry extends JObject
 		 * groups loaded into the namespace.  This overwrites any existing group
 		 * with the same name
 		 */
-		if (is_object( $object ))
+		if (is_object($object))
 		{
 			foreach (get_object_vars($object) as $k => $v) {
 				if (substr($k, 0,1) != '_' || $k == '_name') {
@@ -272,15 +268,15 @@ class JRegistry extends JObject
 	 *
 	 * @access	public
 	 * @param	string	$file		Path to file to load
-	 * @param	string	$format		Format of the file [optional: defaults to INI]
-	 * @param	string	$namespace	Namespace to load the INI string into [optional]
+	 * @param	string	$format		Format of the file [optional: defaults to JSON]
+	 * @param	string	$namespace	Namespace to load the JSON string into [optional]
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function loadFile($file, $format = 'INI', $namespace = null)
+	public function loadFile($file, $format = 'JSON', $namespace = null)
 	{
 		// Load a file into the given namespace [or default namespace if not given]
-		$handler =& JRegistryFormat::getInstance($format);
+		$handler = &JRegistryFormat::getInstance($format);
 
 		// If namespace is not set, get the default namespace
 		if ($namespace == null) {
@@ -324,10 +320,10 @@ class JRegistry extends JObject
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function loadXML($data, $namespace = null)
+	public function loadXML($data, $namespace = null)
 	{
 		// Load a string into the given namespace [or default namespace if not given]
-		$handler =& JRegistryFormat::getInstance('XML');
+		$handler = &JRegistryFormat::getInstance('XML');
 
 		// If namespace is not set, get the default namespace
 		if ($namespace == null) {
@@ -337,10 +333,10 @@ class JRegistry extends JObject
 		if (!isset($this->_registry[$namespace])) {
 			// If namespace does not exist, make it and load the data
 			$this->makeNameSpace($namespace);
-			$this->_registry[$namespace]['data'] =& $handler->stringToObject($data);
+			$this->_registry[$namespace]['data'] = &$handler->stringToObject($data);
 		} else {
 			// Get the data in object format
-			$ns =& $handler->stringToObject($data);
+			$ns = &$handler->stringToObject($data);
 
 			/*
 			 * We want to leave groups that are already in the namespace and add the
@@ -364,10 +360,10 @@ class JRegistry extends JObject
 	 * @return	boolean True on success
 	 * @since	1.5
 	 */
-	function loadINI($data, $namespace = null)
+	public function loadINI($data, $namespace = null)
 	{
 		// Load a string into the given namespace [or default namespace if not given]
-		$handler =& JRegistryFormat::getInstance('INI');
+		$handler = &JRegistryFormat::getInstance('INI');
 
 		// If namespace is not set, get the default namespace
 		if ($namespace == null) {
@@ -377,7 +373,46 @@ class JRegistry extends JObject
 		if (!isset($this->_registry[$namespace])) {
 			// If namespace does not exist, make it and load the data
 			$this->makeNameSpace($namespace);
-			$this->_registry[$namespace]['data'] =& $handler->stringToObject($data);
+			$this->_registry[$namespace]['data'] = &$handler->stringToObject($data);
+		} else {
+			// Get the data in object format
+			$ns = $handler->stringToObject($data);
+
+			/*
+			 * We want to leave groups that are already in the namespace and add the
+			 * groups loaded into the namespace.  This overwrites any existing group
+			 * with the same name
+			 */
+			foreach (get_object_vars($ns) as $k => $v) {
+				$this->_registry[$namespace]['data']->$k = $v;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Load an JSON string into the registry into the given namespace [or default if a namespace is not given]
+	 *
+	 * @param	string	$data		JSON formatted string to load into the registry
+	 * @param	string	$namespace	Namespace to load the INI string into [optional]
+	 * @return	boolean True on success
+	 * @since	1.5
+	 */
+	public function loadJSON($data, $namespace = null)
+	{
+		// Load a string into the given namespace [or default namespace if not given]
+		$handler = &JRegistryFormat::getInstance('JSON');
+
+		// If namespace is not set, get the default namespace
+		if ($namespace == null) {
+			$namespace = $this->_defaultNameSpace;
+		}
+
+		if (!isset($this->_registry[$namespace])) {
+			// If namespace does not exist, make it and load the data
+			$this->makeNameSpace($namespace);
+			$this->_registry[$namespace]['data'] = &$handler->stringToObject($data);
 		} else {
 			// Get the data in object format
 			$ns = $handler->stringToObject($data);
@@ -403,9 +438,9 @@ class JRegistry extends JObject
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function merge(&$source)
+	public function merge(&$source)
 	{
-		if (is_a($source, 'JRegistry'))
+		if ($source instanceof JRegistry)
 		{
 			$sns = $source->getNameSpaces();
 			foreach ($sns as $ns)
@@ -439,10 +474,10 @@ class JRegistry extends JObject
 	 * @return	string	Namespace in string format
 	 * @since	1.5
 	 */
-	function toString($format = 'INI', $namespace = null, $params = null)
+	public function toString($format = 'JSON', $namespace = null, $params = null)
 	{
 		// Return a namespace in a given format
-		$handler =& JRegistryFormat::getInstance($format);
+		$handler = &JRegistryFormat::getInstance($format);
 
 		// If namespace is not set, get the default namespace
 		if ($namespace == null) {
@@ -463,7 +498,7 @@ class JRegistry extends JObject
 	 * @return	array	An associative array holding the namespace data
 	 * @since	1.5
 	 */
-	function toArray($namespace = null)
+	public function toArray($namespace = null)
 	{
 		// If namespace is not set, get the default namespace
 		if ($namespace == null) {
@@ -474,7 +509,7 @@ class JRegistry extends JObject
 		$ns = & $this->_registry[$namespace]['data'];
 
 		$array = array();
-		foreach (get_object_vars( $ns ) as $k => $v) {
+		foreach (get_object_vars($ns) as $k => $v) {
 			$array[$k] = $v;
 		}
 
@@ -489,7 +524,7 @@ class JRegistry extends JObject
 	 * @return	object	An an object holding the namespace data
 	 * @since	1.5
 	 */
-	function toObject($namespace = null)
+	public function toObject($namespace = null)
 	{
 		// If namespace is not set, get the default namespace
 		if ($namespace == null) {
@@ -502,7 +537,7 @@ class JRegistry extends JObject
 		return $ns;
 	}
 
-	function __clone()
+	public function __clone()
 	{
 		$this->_registry = unserialize(serialize($this->_registry));
 	}

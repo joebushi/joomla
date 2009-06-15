@@ -1,24 +1,19 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
+ * @package		Joomla.Site
  * @subpackage	Contact
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
- * details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+// No direct access
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
 /**
- * @package		Joomla
+ * @package		Joomla.Site
  * @subpackage	Contact
  */
 class ContactModelContact extends JModel
@@ -29,16 +24,16 @@ class ContactModelContact extends JModel
 	 * @return string
 	 * @access protected
 	 */
-	function _getContactQuery( &$options )
+	function _getContactQuery(&$options)
 	{
 		// TODO: Cache on the fingerprint of the arguments
-		$db			=& JFactory::getDBO();
-		$aid		= @$options['aid'];
+		$db			= &JFactory::getDbo();
+		$user		= &JFactory::getUser();
 		$id			= @$options['id'];
 		$groupBy	= @$options['group by'];
 		$orderBy	= @$options['order by'];
 
-		$select = 'a.*, cc.title as category_name, '
+		$select = 'a.*, cc.access as category_access, cc.title as category_name, '
 		. ' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug, '
 		. ' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(\':\', cc.id, cc.alias) ELSE cc.id END AS catslug ';
 		$from	= '#__contact_details AS a';
@@ -48,12 +43,7 @@ class ContactModelContact extends JModel
 		$wheres[] = 'a.id = ' . (int) $id;
 		$wheres[] = 'a.published = 1';
 		$wheres[] = 'cc.published = 1';
-
-		if ($aid !== null)
-		{
-			$wheres[] = 'a.access IN ('.implode($aid, ',').')';
-			$wheres[] = 'cc.access IN ('.implode($aid, ',').')';
-		}
+		$wheres[] = 'a.access IN ('.implode(',', $user->authorisedLevels()).')';
 
 		/*
 		 * Query to retrieve all categories that belong under the contacts
@@ -61,8 +51,8 @@ class ContactModelContact extends JModel
 		 */
 		$query = 'SELECT ' . $select .
 				' FROM ' . $from .
-				' '. implode ( ' ', $joins ) .
-				' WHERE ' . implode( ' AND ', $wheres );
+				' '. implode (' ', $joins) .
+				' WHERE ' . implode(' AND ', $wheres);
 
 		return $query;
 	}
@@ -72,10 +62,10 @@ class ContactModelContact extends JModel
 	 * @param array
 	 * @return mixed Object or null
 	 */
-	function getContact( $options=array() )
+	function getContact($options=array())
 	{
-		$query	= $this->_getContactQuery( $options );
-		$result = $this->_getList( $query );
+		$query	= $this->_getContactQuery($options);
+		$result = $this->_getList($query);
 		return @$result[0];
 	}
 }

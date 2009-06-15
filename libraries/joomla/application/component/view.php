@@ -3,17 +3,12 @@
  * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Application
- * @copyright Copyright Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
+ * @copyright Copyright Copyright (C) 2005 - 2009 Open Source Matters. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+// No direct access
+defined('JPATH_BASE') or die;
 
 /**
  * Base class for a Joomla View
@@ -126,7 +121,7 @@ class JView extends JObject
 	function __construct($config = array())
 	{
 		//set the view name
-		if (empty( $this->_name ))
+		if (empty($this->_name))
 		{
 			if (array_key_exists('name', $config))  {
 				$this->_name = $config['name'];
@@ -293,7 +288,7 @@ class JView extends JObject
 	* $view->assignRef('var1', $ref);
 	*
 	* // assign directly
-	* $view->ref =& $var1;
+	* $view->ref = &$var1;
 	* </code>
 	*
 	* @access public
@@ -308,7 +303,7 @@ class JView extends JObject
 	{
 		if (is_string($key) && substr($key, 0, 1) != '_')
 		{
-			$this->$key =& $val;
+			$this->$key = &$val;
 			return true;
 		}
 
@@ -341,18 +336,18 @@ class JView extends JObject
 	 * @param	string	The name of the model to reference, or the default value [optional]
 	 * @return mixed	The return value of the method
 	 */
-	function &get( $property, $default = null )
+	function &get($property, $default = null)
 	{
 
 		// If $model is null we use the default model
 		if (is_null($default)) {
 			$model = $this->_defaultModel;
 		} else {
-			$model = strtolower( $default );
+			$model = strtolower($default);
 		}
 
 		// First check to make sure the model requested exists
-		if (isset( $this->_models[$model] ))
+		if (isset($this->_models[$model]))
 		{
 			// Model exists, lets build the method name
 			$method = 'get'.ucfirst($property);
@@ -368,7 +363,7 @@ class JView extends JObject
 		}
 
 		// degrade to JObject::get
-		$result = parent::get( $property, $default );
+		$result = parent::get($property, $default);
 		return $result;
 
 	}
@@ -380,12 +375,12 @@ class JView extends JObject
 	 * @param	string	$name	The name of the model (optional)
 	 * @return	mixed			JModel object
 	 */
-	function &getModel( $name = null )
+	function &getModel($name = null)
 	{
 		if ($name === null) {
 			$name = $this->_defaultModel;
 		}
-		return $this->_models[strtolower( $name )];
+		return $this->_models[strtolower($name)];
 	}
 
 	/**
@@ -414,7 +409,7 @@ class JView extends JObject
 	{
 		$name = $this->_name;
 
-		if (empty( $name ))
+		if (empty($name))
 		{
 			$r = null;
 			if (!preg_match('/View((view)*(.*(view)?.*))$/i', get_class($this), $r)) {
@@ -426,7 +421,7 @@ class JView extends JObject
 											"This causes problems when extracting the classname from the name of your objects view. " .
 											"Avoid Object names with the substring 'view'.");
 			}
-			$name = strtolower( $r[3] );
+			$name = strtolower($r[3]);
 		}
 
 		return $name;
@@ -444,7 +439,7 @@ class JView extends JObject
 	 * @param	boolean	$default	Is this the default model?
 	 * @return	object				The added model
 	 */
-	function &setModel( &$model, $default = false )
+	function &setModel(&$model, $default = false)
 	{
 		$name = strtolower($model->getName());
 		$this->_models[$name] = &$model;
@@ -479,10 +474,10 @@ class JView extends JObject
 	 * @return	string	Previous value
 	 * @since	1.5
 	 */
-	function setLayoutExt( $value )
+	function setLayoutExt($value)
 	{
 		$previous	= $this->_layoutExt;
-		if ($value = preg_replace( '#[^A-Za-z0-9]#', '', trim( $value ) )) {
+		if ($value = preg_replace('#[^A-Za-z0-9]#', '', trim($value))) {
 			$this->_layoutExt = $value;
 		}
 		return $previous;
@@ -528,7 +523,7 @@ class JView extends JObject
 	 * automatically searches the template paths and compiles as needed.
 	 * @return string The output of the the template script.
 	 */
-	function loadTemplate( $tpl = null)
+	function loadTemplate($tpl = null)
 	{
 		global $mainframe, $option;
 
@@ -571,7 +566,7 @@ class JView extends JObject
 			return $this->_output;
 		}
 		else {
-			return JError::raiseError( 500, 'Layout "' . $file . '" not found' );
+			return JError::raiseError(500, 'Layout "' . $file . '" not found');
 		}
 	}
 
@@ -583,7 +578,7 @@ class JView extends JObject
 	 * automatically searches the helper paths and compiles as needed.
 	 * @return boolean Returns true if the file was loaded
 	 */
-	function loadHelper( $hlp = null)
+	function loadHelper($hlp = null)
 	{
 		// clean the file name
 		$file = preg_replace('/[^A-Z0-9_\.-]/i', '', $hlp);

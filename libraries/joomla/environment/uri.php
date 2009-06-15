@@ -3,17 +3,12 @@
  * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Environment
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+// No direct access
+defined('JPATH_BASE') or die;
 
 /**
  * JURI Class
@@ -22,7 +17,6 @@ defined('JPATH_BASE') or die();
  * for the Joomla Framework to access and manipulate a URI.  Second to attain the URI of
  * the current executing script from the server regardless of server.
  *
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Environment
  * @since		1.5
@@ -117,7 +111,7 @@ class JURI extends JObject
 	 * if it doesn't already exist.
 	 *
 	 * This method must be invoked as:
-	 * 		<pre>  $uri =& JURI::getInstance([$uri]);</pre>
+	 * 		<pre>  $uri = &JURI::getInstance([$uri]);</pre>
 	 *
 	 * @static
 	 * @param	string $uri The URI to parse.  [optional: if null uses script URI]
@@ -206,18 +200,18 @@ class JURI extends JObject
 		// Get the base request path
 		if (!isset($base))
 		{
-			$config =& JFactory::getConfig();
+			$config = &JFactory::getConfig();
 			$live_site = $config->getValue('config.live_site');
-			if(trim($live_site) != '') {
-				$uri =& JURI::getInstance($live_site);
-				$base['prefix'] = $uri->toString( array('scheme', 'host', 'port'));
-				$base['path'] = rtrim($uri->toString( array('path')), '/\\');
-				if(JPATH_BASE == JPATH_ADMINISTRATOR) {
+			if (trim($live_site) != '') {
+				$uri = &JURI::getInstance($live_site);
+				$base['prefix'] = $uri->toString(array('scheme', 'host', 'port'));
+				$base['path'] = rtrim($uri->toString(array('path')), '/\\');
+				if (JPATH_BASE == JPATH_ADMINISTRATOR) {
 					$base['path'] .= '/administrator';
 				}
 			} else {
-				$uri	         =& JURI::getInstance();
-				$base['prefix'] = $uri->toString( array('scheme', 'host', 'port'));
+				$uri	         = &JURI::getInstance();
+				$base['prefix'] = $uri->toString(array('scheme', 'host', 'port'));
 
 				if (strpos(php_sapi_name(), 'cgi') !== false && !empty($_SERVER['REQUEST_URI'])) {
 					//Apache CGI
@@ -246,15 +240,15 @@ class JURI extends JObject
 		static $root;
 
 		// Get the scheme
-		if(!isset($root))
+		if (!isset($root))
 		{
-			$uri	        =& JURI::getInstance(JURI::base());
-			$root['prefix'] = $uri->toString( array('scheme', 'host', 'port') );
-			$root['path']   = $uri->toString( array('path') );
+			$uri	        = &JURI::getInstance(JURI::base());
+			$root['prefix'] = $uri->toString(array('scheme', 'host', 'port'));
+			$root['path']   = rtrim($uri->toString(array('path')), '/\\');
 		}
 
 		// Get the scheme
-		if(isset($path)) {
+		if (isset($path)) {
 			$root['path']    = $path;
 		}
 
@@ -276,7 +270,7 @@ class JURI extends JObject
 		if (!isset($current))
 		{
 			$uri	 = & JURI::getInstance();
-			$current = $uri->toString( array('scheme', 'host', 'port', 'path'));
+			$current = $uri->toString(array('scheme', 'host', 'port', 'path'));
 		}
 
 		return $current;
@@ -302,12 +296,12 @@ class JURI extends JObject
 		 * Parse the URI and populate the object fields.  If URI is parsed properly,
 		 * set method return value to true.
 		 */
-		if ($_parts = $this->_parseURL($uri)) {
+		if ($_parts = parse_url($uri)) {
 			$retval = true;
 		}
 
 		//We need to replace &amp; with & for parse_str to work right...
-		if(isset ($_parts['query']) && strpos($_parts['query'], '&amp;')) {
+		if (isset ($_parts['query']) && strpos($_parts['query'], '&amp;')) {
 			$_parts['query'] = str_replace('&amp;', '&', $_parts['query']);
 		}
 
@@ -322,7 +316,7 @@ class JURI extends JObject
 
 		//parse the query
 
-		if(isset ($_parts['query'])) parse_str($_parts['query'], $this->_vars);
+		if (isset ($_parts['query'])) parse_str($_parts['query'], $this->_vars);
 		return $retval;
 	}
 
@@ -382,7 +376,7 @@ class JURI extends JObject
 	 */
 	function getVar($name = null, $default=null)
 	{
-		if(isset($this->_vars[$name])) {
+		if (isset($this->_vars[$name])) {
 			return $this->_vars[$name];
 		}
 		return $default;
@@ -416,15 +410,15 @@ class JURI extends JObject
 	 */
 	function setQuery($query)
 	{
-		if(!is_array($query)) {
-			if(strpos($query, '&amp;') !== false)
+		if (!is_array($query)) {
+			if (strpos($query, '&amp;') !== false)
 			{
 			   $query = str_replace('&amp;','&',$query);
 			}
 			parse_str($query, $this->_vars);
 		}
 
-		if(is_array($query)) {
+		if (is_array($query)) {
 			$this->_vars = $query;
 		}
 
@@ -441,12 +435,12 @@ class JURI extends JObject
 	 */
 	function getQuery($toArray = false)
 	{
-		if($toArray) {
+		if ($toArray) {
 			return $this->_vars;
 		}
 
 		//If the query is empty build it first
-		if(is_null($this->_query)) {
+		if (is_null($this->_query)) {
 			$this->_query = $this->buildQuery($this->_vars);
 		}
 
@@ -463,26 +457,26 @@ class JURI extends JObject
 	 */
 	function buildQuery ($params, $akey = null)
 	{
-		if ( !is_array($params) || count($params) == 0 ) {
+		if (!is_array($params) || count($params) == 0) {
 			return false;
 		}
 
 		$out = array();
 
 		//reset in case we are looping
-		if( !isset($akey) && !count($out) )  {
+		if (!isset($akey) && !count($out))  {
 			unset($out);
 			$out = array();
 		}
 
-		foreach ( $params as $key => $val )
+		foreach ($params as $key => $val)
 		{
-			if ( is_array($val) ) {
+			if (is_array($val)) {
 				$out[] = JURI::buildQuery($val,$key);
 				continue;
 			}
 
-			$thekey = ( !$akey ) ? $key : $akey.'[]';
+			$thekey = (!$akey) ? $key : $akey.'['.$key.']';
 			$out[] = $thekey."=".urlencode($val);
 		}
 
@@ -662,6 +656,24 @@ class JURI extends JObject
 	}
 
 	/**
+	 * Checks if the supplied URL is internal
+	 *
+	 * @access	public
+	 * @param 	string $url The URL to check
+	 * @return	boolean True if Internal
+	 * @since	1.5
+	 */
+	function isInternal($url) {
+		$uri = &JURI::getInstance($url);
+		$base = $uri->toString(array('scheme', 'host', 'port', 'path'));
+		$host = $uri->toString(array('scheme', 'host', 'port'));
+		if (stripos($base, JURI::base()) !== 0 && !empty($host)) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
 	 * Resolves //, ../ and ./ from a path and returns
 	 * the result. Eg:
 	 *
@@ -704,53 +716,4 @@ class JURI extends JObject
 
 		return implode('/', $path);
 	}
-
-	/**
-	 * Backwards compatibility function for parse_url function
-	 *
-	 * This function solves different bugs in PHP versions lower then
-	 * 4.4, will be deprecated in future versions.
-	 *
-	 * @access	private
-	 * @return	array Associative array containing the URL parts
-	 * @since	1.5
-	 * @see parse_url()
-	 */
-	function _parseURL($uri)
-	{
-		$parts = array();
-		if (version_compare( phpversion(), '4.4' ) < 0)
-		{
-			$regex = "<^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?>";
-			$matches = array();
-			preg_match($regex, $uri, $matches, PREG_OFFSET_CAPTURE);
-
-			$authority = @$matches[4][0];
-			if (strpos($authority, '@') !== false) {
-				$authority = explode('@', $authority);
-				@list($parts['user'], $parts['pass']) = explode(':', $authority[0]);
-				$authority = $authority[1];
-			}
-
-			if (strpos($authority, ':') !== false) {
-				$authority = explode(':', $authority);
-				$parts['host'] = $authority[0];
-				$parts['port'] = $authority[1];
-			} else {
-				$parts['host'] = $authority;
-			}
-
-			$parts['scheme'] = @$matches[2][0];
-			$parts['path'] = @$matches[5][0];
-			$parts['query'] = @$matches[7][0];
-			$parts['fragment'] = @$matches[9][0];
-		}
-		else
-		{
-			$parts = @parse_url($uri);
-		}
-		return $parts;
-	}
-
-
 }

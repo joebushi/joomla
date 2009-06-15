@@ -717,7 +717,7 @@
 2005-06-23  Gaetano Giunta <giunta.gaetano@sea-aeroportimilano.it>
 
 	* xmlrpc.inc: added new method: xmlrpcval->structmemexists, to check for
-	presence of a wanted struct member without having to loop through all members;
+	presence of a wanted struct member without having to loop through all users;
 	fix wrap_php_functions: correctly return false for php internal functions,
 	whose param list is unknown;
 	let addscalar fail as it should if called on struct vals;
@@ -778,8 +778,8 @@
 
 	* xmlrpc.inc: added method structsize to xmlrpcval class (alias for arraysize)
 
-	* xmlrpc.inc: addarray() now will add extra members to an xmlrpcval object
-	of array type; addstruct() can be used to add members to an xmlrpcval object
+	* xmlrpc.inc: addarray() now will add extra users to an xmlrpcval object
+	of array type; addstruct() can be used to add users to an xmlrpcval object
 	of struct type
 
 	* xmlrpcs.inc: Added member allow_system_funcs to server: controls whether the

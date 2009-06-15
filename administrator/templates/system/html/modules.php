@@ -1,18 +1,13 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
+ * @package		Joomla.Administrator
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 /*
  * none (output raw module content)
@@ -44,14 +39,15 @@ function modChrome_sliders($module, &$params, &$attribs)
 {
 	jimport('joomla.html.pane');
 	// Initialize variables
-	$user		=& JFactory::getUser();
-	$sliders	=& JPane::getInstance('sliders');
+	$user = &JFactory::getUser();
+    // TODO: allowAllClose should default true in J!1.6, so remove the array when it does.
+	$sliders = &JPane::getInstance('sliders', array('allowAllClose' => true));
 
-	$editAllComponents 	= $user->authorize( 'administration', 'edit', 'components', 'all' );
+	$editAllComponents 	= $user->authorize('core.installer.manage');
 
 	// special handling for components module
-	if ( $module->module != 'mod_components' || ( $module->module == 'mod_components' && $editAllComponents ) ) {
-		$sliders->startPanel( JText::_( $module->title ), 'module' . $module->id );
+	if ($module->module != 'mod_components' || ($module->module == 'mod_components' && $editAllComponents)) {
+		$sliders->startPanel(JText::_($module->title), 'module' . $module->id);
 		echo $module->content;
 		$sliders->endPanel();
 	}
@@ -64,14 +60,14 @@ function modChrome_tabs($module, &$params, &$attribs)
 {
 	jimport('joomla.html.pane');
 	// Initialize variables
-	$user	=& JFactory::getUser();
-	$tabs	=& JPane::getInstance('tabs');
+	$user	= &JFactory::getUser();
+	$tabs	= &JPane::getInstance('tabs');
 
-	$editAllComponents 	= $user->authorize( 'administration', 'edit', 'components', 'all' );
+	$editAllComponents 	= $user->authorize('core.installer.manage');
 
 	// special handling for components module
-	if ( $module->module != 'mod_components' || ( $module->module == 'mod_components' && $editAllComponents ) ) {
-			$tabs->startPanel( JText::_( $module->title ), 'module' . $module->id );
+	if ($module->module != 'mod_components' || ($module->module == 'mod_components' && $editAllComponents)) {
+			$tabs->startPanel(JText::_($module->title), 'module' . $module->id);
 			echo $module->content;
 			$tabs->endPanel();
 	}

@@ -1,18 +1,12 @@
 /**
-* @version $Id$
-* @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
-* @license GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
 
 /**
  * Joomla! 1.5 Admin template main css file
  *
- * @author		Andy Miller <andy.miller@joomla.org>
  * @package		Joomla
  * @since		1.5
  * @version    1.0
@@ -73,6 +67,9 @@ legend    {
 input, select { font-size: 10px;  border: 1px solid silver; }
 textarea      { font-size: 11px;  border: 1px solid silver; }
 button        { font-size: 10px;  }
+
+.invalid { color: red; font-weight: bold; }
+input.invalid { border: 1px solid red; }
 
 input.disabled { background-color: #F0F0F0; }
 
@@ -328,6 +325,17 @@ div.width-30 { width: 30%; }
 div.width-60 { width: 60%; }
 div.width-40 { width: 40%; }
 
+/* Some new classes for edit forms */
+
+fieldset ol,ol#property-values{margin:0;padding:0}
+fieldset li,ol#property-values li{list-style:none;margin:0;padding:5px}
+fieldset.filter{border:0;margin:0;padding:0 0 5px}
+fieldset.filter ol{border:0;list-style:none;margin:0;padding:5px 0 0}
+fieldset.filter ol li{float:left;padding:0 5px 0 0}
+fieldset.filter ol li fieldset{border:0;margin:0;padding:0}
+fieldset.filter .left{float:left}
+fieldset.filter .right{float:right}
+
 table.admintable td 					 { padding: 3px; }
 table.admintable td.key,
 table.admintable td.paramlist_key {
@@ -551,7 +559,7 @@ table.noshow fieldset { margin: 15px 7px 7px 7px; }
 .button2-left .blank	 	{ background: url(../images/j_button2_blank.png) 100% 0 no-repeat; }
 
 /* Tooltips */
-.tool-tip {
+.tip {
 	float: left;
 	background: #ffc;
 	border: 1px solid #D4D5AA;
@@ -560,7 +568,7 @@ table.noshow fieldset { margin: 15px 7px 7px 7px; }
 	z-index: 50;
 }
 
-.tool-title {
+.tip-title {
 	padding: 0;
 	margin: 0;
 	font-size: 100%;
@@ -571,7 +579,7 @@ table.noshow fieldset { margin: 15px 7px 7px 7px; }
 	background: url(../images/selector-arrow.png) no-repeat;
 }
 
-.tool-text {
+.tip-text {
 	font-size: 100%;
 	margin: 0;
 }

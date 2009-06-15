@@ -1,8 +1,8 @@
 <?php // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
+defined('_JEXEC') or die; ?>
 <ul id="archive-list" style="list-style: none;">
 <?php foreach ($this->items as $item) : ?>
-	<li class="row<?php echo ($item->odd +1 ); ?>">
+	<li class="row<?php echo ($item->odd +1); ?>">
 		<h4 class="contentheading">
 			<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($item->slug)); ?>">
 				<?php echo $this->escape($item->title); ?></a>

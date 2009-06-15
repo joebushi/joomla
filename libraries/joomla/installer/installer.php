@@ -3,17 +3,12 @@
  * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Installer
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+// No direct access
+defined('JPATH_BASE') or die;
 
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
@@ -23,7 +18,6 @@ jimport('joomla.filesystem.path');
 /**
  * Joomla base installer class
  *
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Installer
  * @since		1.5
@@ -80,7 +74,7 @@ class JInstaller extends JObject
 	 */
 	function __construct()
 	{
-		$this->_db =& JFactory::getDBO();
+		$this->_db = &JFactory::getDbo();
 	}
 
 	/**
@@ -139,7 +133,7 @@ class JInstaller extends JObject
 	 * @return	object	Database connector object
 	 * @since	1.5
 	 */
-	function &getDBO()
+	function &getDbo()
 	{
 		return $this->_db;
 	}
@@ -220,9 +214,9 @@ class JInstaller extends JObject
 				return false;
 			}
 			$adapter = new $class($this);
-			$adapter->parent =& $this;
+			$adapter->parent = &$this;
 		}
-		$this->_adapters[$name] =& $adapter;
+		$this->_adapters[$name] = &$adapter;
 		return true;
 	}
 
@@ -310,24 +304,8 @@ class JInstaller extends JObject
 			return false;
 		}
 
-		/*
-		 * LEGACY CHECK
-		 */
-		$root		=& $this->_manifest->document;
-		$version	= $root->attributes('version');
-		$rootName	= $root->name();
-		$config		= &JFactory::getConfig();
-		if ((version_compare($version, '1.5', '<') || $rootName == 'mosinstall') && !$config->getValue('config.legacy')) {
-			$this->abort(JText::_('MUSTENABLELEGACY'));
-			return false;
-		}
-
+		$root = &$this->_manifest->document;
 		$type = $root->attributes('type');
-
-		// Needed for legacy reasons ... to be deprecated in next minor release
-		if ($type == 'mambot') {
-			$type = 'plugin';
-		}
 
 		if (is_object($this->_adapters[$type])) {
 			return $this->_adapters[$type]->install();
@@ -355,23 +333,8 @@ class JInstaller extends JObject
 			return $this->abort(JText::_('Unable to detect manifest file'));
 		}
 
-		/*
-		 * LEGACY CHECK
-		 */
-		$root		=& $this->_manifest->document;
-		$version	= $root->attributes('version');
-		$rootName	= $root->name();
-		$config		= &JFactory::getConfig();
-		if ((version_compare($version, '1.5', '<') || $rootName == 'mosinstall') && !$config->getValue('config.legacy')) {
-			return $this->abort(JText::_('MUSTENABLELEGACY'));
-		}
-
+		$root = &$this->_manifest->document;
 		$type = $root->attributes('type');
-
-		// Needed for legacy reasons ... to be deprecated in next minor release
-		if ($type == 'mambot') {
-			$type = 'plugin';
-		}
 
 		if (is_object($this->_adapters[$type])) {
 			return $this->_adapters[$type]->update();
@@ -418,13 +381,8 @@ class JInstaller extends JObject
 		}
 
 		// Load the adapter(s) for the install manifest
-		$root =& $this->_manifest->document;
+		$root = &$this->_manifest->document;
 		$type = $root->attributes('type');
-
-		// Needed for legacy reasons ... to be deprecated in next minor release
-		if ($type == 'mambot') {
-			$type = 'plugin';
-		}
 
 		// Lazy load the adapter
 		if (!isset($this->_adapters[$type]) || !is_object($this->_adapters[$type])) {
@@ -516,16 +474,16 @@ class JInstaller extends JObject
 				$fDriver = 'mysql';
 			}
 
-			if( $fCharset == $dbCharset && $fDriver == $dbDriver) {
+			if ($fCharset == $dbCharset && $fDriver == $dbDriver) {
 				$sqlfile = $file->data();
 				// Check that sql files exists before reading. Otherwise raise error for rollback
-				if ( !file_exists( $this->getPath('extension_administrator').DS.$sqlfile ) ) {
+				if (!file_exists($this->getPath('extension_administrator').DS.$sqlfile)) {
 					return false;
 				}
 				$buffer = file_get_contents($this->getPath('extension_administrator').DS.$sqlfile);
 
 				// Graceful exit and rollback if read not successful
-				if ( $buffer === false ) {
+				if ($buffer === false) {
 					return false;
 				}
 
@@ -573,7 +531,7 @@ class JInstaller extends JObject
 
 		// Get the client info
 		jimport('joomla.application.helper');
-		$client =& JApplicationHelper::getClientInfo($cid);
+		$client = &JApplicationHelper::getClientInfo($cid);
 
 		if (!is_a($element, 'JSimpleXMLElement') || !count($element->children())) {
 			// Either the tag does not exist or has no children therefore we return zero files processed.
@@ -620,7 +578,7 @@ class JInstaller extends JObject
 			$path['dest']	= $destination.DS.$file->data();
 
 			// Is this path a file or folder?
-			$path['type']	= ( $file->name() == 'folder') ? 'folder' : 'file';
+			$path['type']	= ($file->name() == 'folder') ? 'folder' : 'file';
 
 			/*
 			 * Before we can add a file to the copyfiles array we need to ensure
@@ -660,7 +618,7 @@ class JInstaller extends JObject
 
 		// Get the client info
 		jimport('joomla.application.helper');
-		$client =& JApplicationHelper::getClientInfo($cid);
+		$client = &JApplicationHelper::getClientInfo($cid);
 
 		if (!is_a($element, 'JSimpleXMLElement') || !count($element->children())) {
 			// Either the tag does not exist or has no children therefore we return zero files processed.
@@ -715,10 +673,6 @@ class JInstaller extends JObject
 
 				// If the language folder is not present, then the core pack hasn't been installed... ignore
 				if (!JFolder::exists(dirname($path['dest']))) {
-					$appl	 = &JFactory::getApplication();
-					$name	 = JText::_($appl->getName());
-					$warning = JText::sprintf('INSTALLER LANG NOT INSTALLED', $file->data(), $name, $file->attributes('tag') );
-					JError::raiseNotice(200, 'JInstaller::install: '.$warning);
 					continue;
 				}
 			} else {
@@ -764,7 +718,7 @@ class JInstaller extends JObject
 
 		// Get the client info
 		jimport('joomla.application.helper');
-		$client =& JApplicationHelper::getClientInfo($cid);
+		$client = &JApplicationHelper::getClientInfo($cid);
 
 		if (!is_a($element, 'JSimpleXMLElement') || !count($element->children())) {
 			// Either the tag does not exist or has no children therefore we return zero files processed.
@@ -780,7 +734,7 @@ class JInstaller extends JObject
 
 		/*
 		 * Here we set the folder we are going to copy the files to.
-		 * 	Default 'media' Files are copied to the JPATH_BASE/images folder
+		 * 	Default 'media' Files are copied to the JPATH_BASE/media folder
 		 */
 		$folder = ($element->attributes('destination')) ? DS.$element->attributes('destination') : null;
 		$destination = JPath::clean(JPATH_ROOT.DS.'media'.$folder);
@@ -805,9 +759,9 @@ class JInstaller extends JObject
 		{
 			$path['src']	= $source.DS.$file->data();
 			$path['dest']	= $destination.DS.$file->data();
-			
+
 			// Is this path a file or folder?
-			$path['type']	= ( $file->name() == 'folder') ? 'folder' : 'file';
+			$path['type']	= ($file->name() == 'folder') ? 'folder' : 'file';
 
 			/*
 			 * Before we can add a file to the copyfiles array we need to ensure
@@ -844,7 +798,7 @@ class JInstaller extends JObject
 		$root = & $this->_manifest->document;
 
 		// Get the element of the tag names
-		$element =& $root->getElementByPath('params');
+		$element = &$root->getElementByPath('params');
 		if (!is_a($element, 'JSimpleXMLElement') || !count($element->children())) {
 			// Either the tag does not exist or has no children therefore we return zero files processed.
 			return null;
@@ -918,7 +872,7 @@ class JInstaller extends JObject
 						/*
 						 * It's okay if the manifest already exists
 						 */
-						if ($this->getPath( 'manifest' ) == $filesource) {
+						if ($this->getPath('manifest') == $filesource) {
 							continue;
 						}
 
@@ -931,7 +885,7 @@ class JInstaller extends JObject
 				} else {
 
 					// Copy the folder or file to the new location.
-					if ( $filetype == 'folder') {
+					if ($filetype == 'folder') {
 
 						if (!(JFolder::copy($filesource, $filedest, null, $overwrite))) {
 							JError::raiseWarning(1, 'JInstaller::install: '.JText::sprintf('Failed to copy folder to', $filesource, $filedest));
@@ -984,7 +938,7 @@ class JInstaller extends JObject
 
 		// Get the client info
 		jimport('joomla.application.helper');
-		$client =& JApplicationHelper::getClientInfo($cid);
+		$client = &JApplicationHelper::getClientInfo($cid);
 
 		if (!is_a($element, 'JSimpleXMLElement') || !count($element->children())) {
 			// Either the tag does not exist or has no children therefore we return zero files processed.
@@ -1079,7 +1033,7 @@ class JInstaller extends JObject
 	{
 		// Get the client info
 		jimport('joomla.application.helper');
-		$client =& JApplicationHelper::getClientInfo($cid);
+		$client = &JApplicationHelper::getClientInfo($cid);
 
 		$path['src'] = $this->getPath('manifest');
 
@@ -1113,13 +1067,13 @@ class JInstaller extends JObject
 				if (!is_null($manifest)) {
 
 					// If the root method attribute is set to upgrade, allow file overwrite
-					$root =& $manifest->document;
+					$root = &$manifest->document;
 					if ($root->attributes('method') == 'upgrade') {
 						$this->_overwrite = true;
 					}
 
 					// Set the manifest object and path
-					$this->_manifest =& $manifest;
+					$this->_manifest = &$manifest;
 					$this->setPath('manifest', $file);
 
 					// Set the installation source path to that of the manifest file
@@ -1150,7 +1104,7 @@ class JInstaller extends JObject
 	{
 		// Initialize variables
 		$null	= null;
-		$xml	=& JFactory::getXMLParser('Simple');
+		$xml	= &JFactory::getXMLParser('Simple');
 
 		// If we cannot load the xml file return null
 		if (!$xml->loadFile($file)) {
@@ -1164,7 +1118,7 @@ class JInstaller extends JObject
 		 * @todo: Remove backwards compatability in a future version
 		 * Should be 'install', but for backward compatability we will accept 'mosinstall'.
 		 */
-		$root =& $xml->document;
+		$root = &$xml->document;
 		if (!is_object($root) || ($root->name() != 'install' && $root->name() != 'mosinstall')) {
 			// Free up xml parser memory and return null
 			unset ($xml);

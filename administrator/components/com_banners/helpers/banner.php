@@ -1,19 +1,14 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Banners
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Banners
  */
 class BannerHelper
@@ -25,27 +20,27 @@ class BannerHelper
 	 * @return array
 	 * @static
 	 */
-	function &getKeywords( $keywords )
+	function &getKeywords($keywords)
 	{
 		static $instance;
 
 		if (!$instance)
 		{
-			$config =& JComponentHelper::getParams( 'com_banners' );
-			$prefix = $config->get( 'tag_prefix' );
+			$config = &JComponentHelper::getParams('com_banners');
+			$prefix = $config->get('tag_prefix');
 
 			$instance = array();
 
-			if (!is_array( $keywords ))
+			if (!is_array($keywords))
 			{
-				$keywords = explode( ',', $keywords );
+				$keywords = explode(',', $keywords);
 			}
 
 			foreach ($keywords as $keyword)
 			{
-				$keyword = trim( $keyword );
+				$keyword = trim($keyword);
 				$regex = '#^' . $prefix . '#';
-				if (preg_match( $regex, $keyword ))
+				if (preg_match($regex, $keyword))
 				{
 					$instance[] = $keyword;
 				}
@@ -60,9 +55,9 @@ class BannerHelper
 	 * @param string
 	 * @return URL
 	 */
-	function isImage( $url )
+	function isImage($url)
 	{
-		$result = preg_match( '#(\.bmp|\.gif|\.jpg|\.jpeg|\.png)$#', $url );
+		$result = preg_match('#(\.bmp|\.gif|\.jpg|\.jpeg|\.png)$#i', $url);
 		return $result;
 	}
 
@@ -72,9 +67,9 @@ class BannerHelper
 	 * @param string
 	 * @return URL
 	 */
-	function isFlash( $url )
+	function isFlash($url)
 	{
-		$result = preg_match( '#\.swf$#', $url );
+		$result = preg_match('#\.swf$#i', $url);
 		return $result;
 	}
 }

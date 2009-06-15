@@ -1,16 +1,16 @@
 <?php // @version: $Id$
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 ?>
 
 <script language="javascript" type="text/javascript">
 <!--
-function tableOrdering( order, dir, task )
+function tableOrdering(order, dir, task)
 {
 var form = document.adminForm;
 
 form.filter_order.value = order;
 form.filter_order_Dir.value = dir;
-document.adminForm.submit( task );
+document.adminForm.submit(task);
 }
 // -->
 </script>
@@ -20,7 +20,7 @@ document.adminForm.submit( task );
 <?php if ($this->params->get('filter')) : ?>
 <div class="filter">
 	<p>
-		<?php echo JText::_('Filter'); ?>&nbsp;
+		<?php echo JText::_($this->params->get('filter_type') . ' ' . 'Filter').'&nbsp;'; ?>
 		<input type="text" name="filter" value="<?php echo $this->lists['filter']; ?>" class="inputbox" onchange="document.adminForm.submit();" />
 	</p>
 </div>
@@ -43,25 +43,25 @@ document.adminForm.submit( task );
 
 		<?php if ($this->params->get('show_title')) : ?>
 		<th class="sectiontableheader<?php echo $this->params->get('pageclass_sfx'); ?>" id="tableOrdering">
-			<?php echo JHTML::_('grid.sort', 'Item Title', 'a.title', $this->lists['order_Dir'], $this->lists['order']); ?>
+			<?php echo JHtml::_('grid.sort', 'Item Title', 'a.title', $this->lists['order_Dir'], $this->lists['order']); ?>
 		</th>
 		<?php endif; ?>
 
 		<?php if ($this->params->get('show_date')) : ?>
 		<th class="sectiontableheader<?php echo $this->params->get('pageclass_sfx'); ?>" id="tableOrdering2">
-			<?php echo JHTML::_('grid.sort', 'Date', 'a.created', $this->lists['order_Dir'], $this->lists['order']); ?>
+			<?php echo JHtml::_('grid.sort', 'Date', 'a.created', $this->lists['order_Dir'], $this->lists['order']); ?>
 		</th>
 		<?php endif; ?>
 
 		<?php if ($this->params->get('show_author')) : ?>
 		<th class="sectiontableheader<?php echo $this->params->get('pageclass_sfx'); ?>" id="author">
-			<?php echo JHTML::_('grid.sort', 'Author', 'author', $this->lists['order_Dir'], $this->lists['order']); ?>
+			<?php echo JHtml::_('grid.sort', 'Author', 'author', $this->lists['order_Dir'], $this->lists['order']); ?>
 		</th>
 		<?php endif; ?>
 
 		<?php if ($this->params->get('show_hits')) : ?>
 		<th align="center" class="sectiontableheader<?php echo $this->params->get('pageclass_sfx'); ?>" width="5%" nowrap="nowrap" id="hits">
-			<?php echo JHTML::_('grid.sort', 'Hits', 'a.hits', $this->lists['order_Dir'], $this->lists['order']); ?>
+			<?php echo JHtml::_('grid.sort', 'Hits', 'a.hits', $this->lists['order_Dir'], $this->lists['order']); ?>
 		</th>
 		<?php endif; ?>
 	</tr>
@@ -78,10 +78,10 @@ document.adminForm.submit( task );
 			<?php if ($item->access <= $this->user->get('aid', 0)) : ?>
 				<a href="<?php echo $item->link; ?>">
 					<?php echo $this->escape($item->title); ?></a>
-				<?php echo JHTML::_('icon.edit', $item, $this->params, $this->access);
+				<?php echo JHtml::_('icon.edit', $item, $this->params, $this->access);
 			else :
 				echo $item->title; ?> :
-				<a href="<?php echo JRoute::_('index.php?option=com_user&task=register'); ?>">
+				<a href="<?php echo JRoute::_('index.php?option=com_users&task=register'); ?>">
 					<?php echo JText::_('Register to read more...'); ?></a>
 			<?php endif; ?>
 		</td>
@@ -120,6 +120,7 @@ endif; ?>
 <input type="hidden" name="id" value="<?php echo $this->category->id; ?>" />
 <input type="hidden" name="sectionid" value="<?php echo $this->category->sectionid; ?>" />
 <input type="hidden" name="task" value="<?php echo $this->lists['task']; ?>" />
-<input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
+<input type="hidden" name="filter_order" value="" />
 <input type="hidden" name="filter_order_Dir" value="" />
+<input type="hidden" name="limitstart" value="0" />
 </form>

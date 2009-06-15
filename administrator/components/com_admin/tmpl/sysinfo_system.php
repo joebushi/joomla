@@ -3,19 +3,19 @@
  * @version		$Id$
  */
 // No direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 ?>
 <fieldset class="adminform">
-	<legend><?php echo JText::_( 'System Information' ); ?></legend>
+	<legend><?php echo JText::_('System Information'); ?></legend>
 		<table class="adminlist">
 		<thead>
 			<tr>
 				<th width="250">
-					<?php echo JText::_( 'Setting' ); ?>
+					<?php echo JText::_('Setting'); ?>
 				</th>
 				<th>
-					<?php echo JText::_( 'Value' ); ?>
+					<?php echo JText::_('Value'); ?>
 				</th>
 			</tr>
 		</thead>
@@ -28,7 +28,7 @@ defined('_JEXEC') or die('Restricted access');
 		<tbody>
 		<tr>
 			<td valign="top">
-				<strong><?php echo JText::_( 'PHP Built On' ); ?>:</strong>
+				<strong><?php echo JText::_('PHP Built On'); ?>:</strong>
 			</td>
 			<td>
 				<?php echo php_uname(); ?>
@@ -36,7 +36,7 @@ defined('_JEXEC') or die('Restricted access');
 		</tr>
 		<tr>
 			<td>
-				<strong><?php echo JText::_( 'Database Version' ); ?>:</strong>
+				<strong><?php echo JText::_('Database Version'); ?>:</strong>
 			</td>
 			<td>
 				<?php echo $db->getVersion(); ?>
@@ -44,7 +44,7 @@ defined('_JEXEC') or die('Restricted access');
 		</tr>
 		<tr>
 			<td>
-				<strong><?php echo JText::_( 'Database Collation' ); ?>:</strong>
+				<strong><?php echo JText::_('Database Collation'); ?>:</strong>
 			</td>
 			<td>
 				<?php echo $db->getCollation(); ?>
@@ -52,7 +52,7 @@ defined('_JEXEC') or die('Restricted access');
 		</tr>
 		<tr>
 			<td>
-				<strong><?php echo JText::_( 'PHP Version' ); ?>:</strong>
+				<strong><?php echo JText::_('PHP Version'); ?>:</strong>
 			</td>
 			<td>
 				<?php echo phpversion(); ?>
@@ -60,7 +60,7 @@ defined('_JEXEC') or die('Restricted access');
 		</tr>
 		<tr>
 			<td>
-				<strong><?php echo JText::_( 'Web Server' ); ?>:</strong>
+				<strong><?php echo JText::_('Web Server'); ?>:</strong>
 			</td>
 			<td>
 				<?php echo HTML_admin_misc::get_server_software(); ?>
@@ -68,7 +68,7 @@ defined('_JEXEC') or die('Restricted access');
 		</tr>
 		<tr>
 			<td>
-				<strong><?php echo JText::_( 'WebServer to PHP Interface' ); ?>:</strong>
+				<strong><?php echo JText::_('WebServer to PHP Interface'); ?>:</strong>
 			</td>
 			<td>
 				<?php echo php_sapi_name(); ?>
@@ -76,7 +76,7 @@ defined('_JEXEC') or die('Restricted access');
 		</tr>
 		<tr>
 			<td>
-				<strong><?php echo JText::_( 'Joomla! Version' ); ?>:</strong>
+				<strong><?php echo JText::_('Joomla! Version'); ?>:</strong>
 			</td>
 			<td>
 				<?php
@@ -87,10 +87,10 @@ defined('_JEXEC') or die('Restricted access');
 		</tr>
 		<tr>
 			<td>
-				<strong><?php echo JText::_( 'User Agent' ); ?>:</strong>
+				<strong><?php echo JText::_('User Agent'); ?>:</strong>
 			</td>
 			<td>
-				<?php echo phpversion() <= "4.2.1" ? getenv( "HTTP_USER_AGENT" ) : $_SERVER['HTTP_USER_AGENT'];?>
+				<?php echo htmlspecialchars(phpversion() <= "4.2.1" ? getenv("HTTP_USER_AGENT") : $_SERVER['HTTP_USER_AGENT'], ENT_QUOTES);?>
 			</td>
 		</tr>
 		</tbody>

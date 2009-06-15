@@ -1,5 +1,5 @@
 <?php // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
+defined('_JEXEC') or die; ?>
 <form action="<?php echo JRoute::_('index.php?view=category&id='.$this->category->slug); ?>" method="post" name="adminForm">
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <?php if ($this->params->get('show_limit')) : ?>
@@ -12,19 +12,19 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</td>
 </tr>
 <?php endif; ?>
-<?php if ( $this->params->get( 'show_headings' ) ) : ?>
+<?php if ($this->params->get('show_headings')) : ?>
 <tr>
-	<td class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>" align="right" width="5">
+	<td class="sectiontableheader<?php echo $this->params->get('pageclass_sfx'); ?>" align="right" width="5">
 		<?php echo JText::_('Num'); ?>
 	</td>
-	<?php if ( $this->params->get( 'show_name' ) ) : ?>
-	<td height="20" width="90%" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-		<?php echo JText::_( 'Feed Name' ); ?>
+	<?php if ($this->params->get('show_name')) : ?>
+	<td height="20" width="90%" class="sectiontableheader<?php echo $this->params->get('pageclass_sfx'); ?>">
+		<?php echo JText::_('Feed Name'); ?>
 	</td>
 	<?php endif; ?>
-	<?php if ( $this->params->get( 'show_articles' ) ) : ?>
-	<td height="20" width="10%" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>" align="center" nowrap="nowrap">
-		<?php echo JText::_( 'Num Articles' ); ?>
+	<?php if ($this->params->get('show_articles')) : ?>
+	<td height="20" width="10%" class="sectiontableheader<?php echo $this->params->get('pageclass_sfx'); ?>" align="center" nowrap="nowrap">
+		<?php echo JText::_('Num Articles'); ?>
 	</td>
 	<?php endif; ?>
  </tr>
@@ -35,10 +35,10 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<?php echo $item->count + 1; ?>
 	</td>
 	<td height="20" width="90%">
-		<a href="<?php echo $item->link; ?>" class="category<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+		<a href="<?php echo $item->link; ?>" class="category<?php echo $this->params->get('pageclass_sfx'); ?>">
 			<?php echo $item->name; ?></a>
 	</td>
-	<?php if ( $this->params->get( 'show_articles' ) ) : ?>
+	<?php if ($this->params->get('show_articles')) : ?>
 	<td height="20" width="10%" align="center">
 		<?php echo $item->numarticles; ?>
 	</td>
@@ -46,7 +46,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 </tr>
 <?php endforeach; ?>
 <tr>
-	<td align="center" colspan="4" class="sectiontablefooter<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+	<td align="center" colspan="4" class="sectiontablefooter<?php echo $this->params->get('pageclass_sfx'); ?>">
 	<?php
 
 		echo $this->pagination->getPagesLinks();

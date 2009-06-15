@@ -1,24 +1,17 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @subpackage	Utilities
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Utilities
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+// No direct access
+defined('JPATH_BASE') or die;
 
 /**
  * JDate is a class that stores a date
- *
- * @author	Johan Janssens <johan.janssens@joomla.org>
  *
  * @package		Joomla.Framework
  * @subpackage	Utilities
@@ -168,7 +161,7 @@ class JDate extends JObject
 	function toRFC822($local = false)
 	{
 		$date = ($local) ? $this->_date + $this->_offset : $this->_date;
-		$date = ($this->_date !== false) ? date('D, d M Y H:i:s O', $date) : null;
+		$date = ($this->_date !== false) ? date('D, d M Y H:i:s', $date).' +0000' : null;
 		return $date;
 	}
 
@@ -182,7 +175,7 @@ class JDate extends JObject
 	{
 		$date   = ($local) ? $this->_date + $this->_offset : $this->_date;
 		$offset = $this->getOffset();
-        $offset = ($local && $this->_offset) ? sprintf("%+03d:%02d", $offset, abs(($offset-intval($offset))*60) ) : 'Z';
+        $offset = ($local && $this->_offset) ? sprintf("%+03d:%02d", $offset, abs(($offset-intval($offset))*60)) : 'Z';
         $date   = ($this->_date !== false) ? date('Y-m-d\TH:i:s', $date).$offset : null;
 		return $date;
 	}
@@ -241,13 +234,13 @@ class JDate extends JObject
 	 */
 	function _strftime($format, $time)
 	{
-		if(strpos($format, '%a') !== false)
+		if (strpos($format, '%a') !== false)
 			$format = str_replace('%a', $this->_dayToString(date('w', $time), true), $format);
-		if(strpos($format, '%A') !== false)
+		if (strpos($format, '%A') !== false)
 			$format = str_replace('%A', $this->_dayToString(date('w', $time)), $format);
-		if(strpos($format, '%b') !== false)
+		if (strpos($format, '%b') !== false)
 			$format = str_replace('%b', $this->_monthToString(date('n', $time), true), $format);
-		if(strpos($format, '%B') !== false)
+		if (strpos($format, '%B') !== false)
 			$format = str_replace('%B', $this->_monthToString(date('n', $time)), $format);
 		$date = strftime($format, $time);
 		return $date;

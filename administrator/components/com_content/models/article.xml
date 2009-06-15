@@ -4,7 +4,7 @@
 	<params addpath="/administrator/components/com_content/elements">
 		<param name="created_by" type="author" default="" label="Author" description="DETAILAUTHOR" />
 		<param name="created_by_alias" type="text" size="20" default="" label="Author Alias" description="DETAILAUTHORALIAS" />
-		<param name="access" type="access" size="20" default="0" extension="com_content" label="Access Level" description="DETAILACCESS" />
+		<param name="access" type="assetgroups" size="20" default="0" label="Access Level" description="DETAILACCESS" />
 		<param name="created" type="calendar" default="" label="Created Date" description="DETAILCREATED" />
 		<param name="publish_up" type="calendar" default="" label="Start Publishing" description="DETAILSTART" />
 		<param name="publish_down" type="calendar" default="" label="Finish Publishing" description="DETAILFINISH" />
@@ -24,16 +24,6 @@
 			<option value="">Use Global</option>
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
-		</param>
-		<param name="show_section" type="list" default="" label="Section Name" description="PARAMSECTION">
-			<option value="">Use Global</option>
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
-		<param name="link_section" type="list" default="" label="Section Name Linkable" description="PARAMSECTIONLINK">
-			<option value="">Use Global</option>
-			<option value="0">No</option>
-			<option value="1">Yes</option>
 		</param>
 		<param name="show_category" type="list" default="" label="Category Name" description="PARAMCATEG">
 			<option value="">Use Global</option>
@@ -61,11 +51,6 @@
 			<option value="1">Show</option>
 		</param>
 		<param name="show_modify_date" type="list" default="" label="Modified Date and Time" description="PARAMMODIFYDATE">
-			<option value="">Use Global</option>
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
-		<param name="show_pdf_icon" type="list" default="" label="PDF Icon" description="PARAMPDF">
 			<option value="">Use Global</option>
 			<option value="0">Hide</option>
 			<option value="1">Show</option>

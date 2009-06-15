@@ -3,17 +3,12 @@
  * @version		$Id:tar.php 6961 2007-03-15 16:06:53Z tcp $
  * @package		Joomla.Framework
  * @subpackage	FileSystem
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+// No direct access
+defined('JPATH_BASE') or die;
 
 /**
  * Tar format adapter for the JArchive class
@@ -24,7 +19,6 @@ defined('JPATH_BASE') or die();
  * @contributor  Michael Slusarz <slusarz@horde.org>
  * @contributor  Michael Cochrane <mike@graftonhall.co.nz>
  *
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	FileSystem
  * @since		1.5
@@ -87,80 +81,42 @@ class JArchiveTar extends JObject
 		$this->_data = null;
 		$this->_metadata = null;
 
-		if (!$this->_data = JFile::read($archive))
+		$stream =& JFactory::getStream();
+		if(!$stream->open($archive, 'rb'))
 		{
 			$this->set('error.message', 'Unable to read archive');
 			return JError::raiseWarning(100, $this->get('error.message'));
 		}
 
-		if (!$this->_getTarInfo($this->_data))
-		{
-			return JError::raiseWarning(100, $this->get('error.message'));
-		}
-
-		for ($i=0,$n=count($this->_metadata);$i<$n;$i++)
-		{
-			$type	= strtolower( $this->_metadata[$i]['type'] );
-			if ($type == 'file' || $type == 'unix file')
-			{
-				$buffer = $this->_metadata[$i]['data'];
-				$path = JPath::clean($destination.DS.$this->_metadata[$i]['name']);
-				// Make sure the destination folder exists
-				if (!JFolder::create(dirname($path)))
-				{
-					$this->set('error.message', 'Unable to create destination');
-					return JError::raiseWarning(100, $this->get('error.message'));
-				}
-				if (JFile::write($path, $buffer) === false)
-				{
-					$this->set('error.message', 'Unable to write entry');
-					return JError::raiseWarning(100, $this->get('error.message'));
-				}
-			}
-		}
-		return true;
-	}
-
-	/**
-	 * Get the list of files/data from a Tar archive buffer.
-	 *
-	 * @access	private
-	 * @param 	string	$data	The Tar archive buffer.
-	 * @return	array	Archive metadata array
-	 * <pre>
-	 * KEY: Position in the array
-	 * VALUES: 'attr'  --  File attributes
-	 *         'data'  --  Raw file contents
-	 *         'date'  --  File modification time
-	 *         'name'  --  Filename
-	 *         'size'  --  Original file size
-	 *         'type'  --  File type
-	 * </pre>
-	 * @since	1.5
-	 */
-	function _getTarInfo(& $data)
-	{
 		$position = 0;
 		$return_array = array ();
+		$i = 0;
+		$chunksize = 512; // tar has items in 512 byte packets
 
-		while ($position < strlen($data))
-		{
-			$info = @ unpack("a100filename/a8mode/a8uid/a8gid/a12size/a12mtime/a8checksum/Ctypeflag/a100link/a6magic/a2version/a32uname/a32gname/a8devmajor/a8devminor", substr($data, $position));
+		while($entry = $stream->read($chunksize)) {
+			//$entry =& $this->_data[$i];
+			$info = @ unpack("a100filename/a8mode/a8uid/a8gid/a12size/a12mtime/a8checksum/Ctypeflag/a100link/a6magic/a2version/a32uname/a32gname/a8devmajor/a8devminor", $entry);
 			if (!$info) {
 				$this->set('error.message', 'Unable to decompress data');
-				return false;
+				return JError::raiseWarning(100, $this->get('error.message'));
 			}
 
-			$position += 512;
-			$contents = substr($data, $position, octdec($info['size']));
-			$position += ceil(octdec($info['size']) / 512) * 512;
+			$size = octdec($info['size']);
+			$bsize = ceil($size / $chunksize) * $chunksize;
+			$contents = '';
+			if($size) { 
+				//$contents = fread($this->_fh, $size);
+				$contents = substr($stream->read($bsize),0, octdec($info['size']));
+			}
 
 			if ($info['filename']) {
 				$file = array (
 					'attr' => null,
 					'data' => null,
-					'date' => octdec($info['mtime']
-				), 'name' => trim($info['filename']), 'size' => octdec($info['size']), 'type' => isset ($this->_types[$info['typeflag']]) ? $this->_types[$info['typeflag']] : null);
+					'date' => octdec($info['mtime']), 
+					'name' => trim($info['filename']), 
+					'size' => octdec($info['size']), 
+					'type' => isset ($this->_types[$info['typeflag']]) ? $this->_types[$info['typeflag']] : null);
 
 				if (($info['typeflag'] == 0) || ($info['typeflag'] == 0x30) || ($info['typeflag'] == 0x35)) {
 					/* File or folder. */
@@ -180,10 +136,27 @@ class JArchiveTar extends JObject
 				} else {
 					/* Some other type. */
 				}
-				$return_array[] = $file;
+				
+				$type = strtolower( $file['type'] );
+				if ($type == 'file' || $type == 'unix file')
+				{
+					$path = JPath::clean($destination.DS.$file['name']);
+					// Make sure the destination folder exists
+					if (!JFolder::create(dirname($path)))
+					{
+						$this->set('error.message', 'Unable to create destination');
+						return JError::raiseWarning(100, $this->get('error.message'));
+			}
+					if (JFile::write($path, $contents, true) === false)
+					{
+						$this->set('error.message', 'Unable to write entry');
+						return JError::raiseWarning(100, $this->get('error.message'));
+		}
+					$contents = ''; // reclaim some memory 
+				}
 			}
 		}
-		$this->_metadata = $return_array;
+		$stream->close();	
 		return true;
 	}
 }

@@ -3,22 +3,16 @@
  * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Registry
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+// No direct access
+defined('JPATH_BASE') or die;
 
 /**
  * PHP class format handler for JRegistry
  *
- * @author 		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage		Registry
  * @since		1.5
@@ -35,16 +29,16 @@ class JRegistryFormatPHP extends JRegistryFormat {
 	 * @return string Config class formatted string
 	 * @since 1.5
 	 */
-	function objectToString( &$object, $params ) {
+	public function objectToString(&$object, $params) {
 
 		// Build the object variables string
 		$vars = '';
-		foreach (get_object_vars( $object ) as $k => $v)
+		foreach (get_object_vars($object) as $k => $v)
 		{
 			if (is_scalar($v)) {
-				$vars .= "\tvar $". $k . " = '" . addslashes($v) . "';\n";
+				$vars .= "\tpublic $". $k . " = '" . addslashes($v) . "';\n";
 			} elseif (is_array($v)) {
-				$vars .= "\tvar $". $k . " = " . $this->_getArrayString($v) . ";\n";
+				$vars .= "\tpublic $". $k . " = " . $this->_getArrayString($v) . ";\n";
 			}
 		}
 
@@ -62,11 +56,12 @@ class JRegistryFormatPHP extends JRegistryFormat {
 	 * @return boolean True
 	 * @since 1.5
 	 */
-	function stringToObject() {
+	function stringToObject($data, $namespace='')
+	{
 		return true;
 	}
 
-	function _getArrayString($a)
+	protected function _getArrayString($a)
 	{
 		$s = 'array(';
 		$i = 0;

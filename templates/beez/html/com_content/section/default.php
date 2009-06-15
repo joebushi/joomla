@@ -1,11 +1,11 @@
 <?php // @version $Id$
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 $cparams = JComponentHelper::getParams ('com_media');
 ?>
 
-<?php if ($this->params->get('show_page_title')) : ?>
+<?php if ($this->params->get('show_page_title',1)) : ?>
 <h1 class="componentheading<?php echo $this->params->get('pageclass_sfx'); ?>">
-	<?php echo $this->escape($this->section->title); ?>
+	<?php echo $this->escape($this->params->get('page_title')); ?>
 </h1>
 <?php endif; ?>
 
@@ -36,7 +36,10 @@ $cparams = JComponentHelper::getParams ('com_media');
 
 			<?php if ($this->params->get('show_cat_num_articles')) : ?>
 			<span class="small">
-				( <?php echo $category->numitems.' '.JText::_('items'); ?> )
+				(<?php if ($category->numitems==1) {
+				echo $category->numitems ." ". JText::_('item');	}
+				else {
+				echo $category->numitems ." ". JText::_('items');} ?>)
 			</span>
 			<?php endif; ?>
 

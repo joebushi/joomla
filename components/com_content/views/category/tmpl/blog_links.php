@@ -1,12 +1,12 @@
 <?php // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
+defined('_JEXEC') or die; ?>
 <div>
-	<strong><?php echo JText::_( 'More Articles...' ); ?></strong>
+	<strong><?php echo JText::_('More Articles...'); ?></strong>
 </div>
 <ul>
 <?php foreach ($this->links as $link) : ?>
 	<li>
-			<a class="blogsection" href="<?php echo JRoute::_('index.php?option=com_content&view=article&id='.$link->slug); ?>">
+			<a class="blogsection" href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($link->slug, $link->catslug)); ?>">
 			<?php echo $link->title; ?></a>
 	</li>
 <?php endforeach; ?>

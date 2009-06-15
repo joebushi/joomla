@@ -1,10 +1,10 @@
 <?php // @version $Id$
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 ?>
 
 <?php if ($this->user->authorize('com_content', 'edit', 'content', 'all') || $this->user->authorize('com_content', 'edit', 'content', 'own')) : ?>
 <div class="contentpaneopen_edit<?php echo $this->item->params->get('pageclass_sfx'); ?>">
-	<?php echo JHTML::_('icon.edit', $this->item, $this->item->params, $this->access); ?>
+	<?php echo JHtml::_('icon.edit', $this->item, $this->item->params, $this->access); ?>
 </div>
 <?php endif; ?>
 
@@ -23,17 +23,14 @@ defined('_JEXEC') or die('Restricted access');
 	echo $this->item->event->afterDisplayTitle;
 endif; ?>
 
-<?php if ($this->item->params->get('show_pdf_icon') || $this->item->params->get('show_print_icon') || $this->item->params->get('show_email_icon')) : ?>
+<?php if ($this->item->params->get('show_print_icon') || $this->item->params->get('show_email_icon')) : ?>
 <p class="buttonheading">
-	<img src="<?php echo $this->baseurl ?>/templates/beez/images/trans.gif" alt="<?php echo JText::_('attention open in a new window'); ?>" />
-	<?php if ($this->item->params->get('show_pdf_icon')) :
-		echo JHTML::_('icon.pdf', $this->item, $this->item->params, $this->access);
-	endif;
-	if ($this->item->params->get('show_print_icon')) :
-		echo JHTML::_('icon.print_popup', $this->item, $this->item->params, $this->access);
+	<img src="<?php echo $this->baseurl ?>/templates/<?php echo $mainframe->getTemplate(); ?>/images/trans.gif" alt="<?php echo JText::_('attention open in a new window'); ?>" />
+	<?php if ($this->item->params->get('show_print_icon')) :
+		echo JHtml::_('icon.print_popup', $this->item, $this->item->params, $this->access);
 	endif;
 	if ($this->item->params->get('show_email_icon')) :
-		echo JHTML::_('icon.email', $this->item, $this->item->params, $this->access);
+		echo JHtml::_('icon.email', $this->item, $this->item->params, $this->access);
 	endif; ?>
 </p>
 <?php endif; ?>
@@ -60,7 +57,7 @@ endif; ?>
                 <?php echo '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->catslug, $this->item->sectionid)).'">'; ?>
             <?php endif; ?>
             <?php echo $this->item->category; ?>
-            <?php if ($this->item->params->get('link_section')) : ?>
+            <?php if ($this->item->params->get('link_category')) : ?>
                 <?php echo '</a>'; ?>
             <?php endif; ?>
         </span>
@@ -68,11 +65,11 @@ endif; ?>
 </p>
 <?php endif; ?>
 
-<?php if ((!empty ($this->item->modified) && $this->item->params->get('show_modify_date')) || ($this->item->params->get('show_author') && ($this->item->author != "")) || ($this->item->params->get('show_create_date'))) : ?>
+<?php if ((intval($this->item->modified) !=0 && $this->item->params->get('show_modify_date')) || ($this->item->params->get('show_author') && ($this->item->author != "")) || ($this->item->params->get('show_create_date'))) : ?>
 <p class="iteminfo">
-	<?php if (!empty ($this->item->modified) && $this->item->params->get('show_modify_date')) : ?>
+	<?php if (intval($this->item->modified) != 0 && $this->item->params->get('show_modify_date')) : ?>
 	<span class="modifydate">
-		<?php echo JText::_('Last Updated').' ('.JHTML::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC2')).')'; ?>
+		<?php echo JText::sprintf('LAST_UPDATED2', JHtml::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC2'))); ?>
 	</span>
 	<?php endif; ?>
 
@@ -84,7 +81,7 @@ endif; ?>
 
 	<?php if ($this->item->params->get('show_create_date')) : ?>
 	<span class="createdate">
-		<?php echo JHTML::_('date', $this->item->created, JText::_('DATE_FORMAT_LC2')); ?>
+		<?php echo JHtml::_('date', $this->item->created, JText::_('DATE_FORMAT_LC2')); ?>
 	</span>
 	<?php endif; ?>
 </p>

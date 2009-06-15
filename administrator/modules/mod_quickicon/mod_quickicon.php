@@ -1,84 +1,66 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
 
-// no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+// Check to ensure this file is included in Joomla!
+defined('_JEXEC') or die;
 
-if (!defined( '_JOS_QUICKICON_MODULE' ))
-{
-	/** ensure that functions are declared only once */
-	define( '_JOS_QUICKICON_MODULE', 1 );
+require_once dirname(__FILE__).DS.'helper.php';
 
-	function quickiconButton( $link, $image, $text )
-	{
-		global $mainframe;
-		$lang		=& JFactory::getLanguage();
-		$template	= $mainframe->getTemplate();
-		?>
-		<div style="float:<?php echo ($lang->isRTL()) ? 'right' : 'left'; ?>;">
-			<div class="icon">
-				<a href="<?php echo $link; ?>">
-					<?php echo JHTML::_('image.site',  $image, '/templates/'. $template .'/images/header/', NULL, NULL, $text ); ?>
-					<span><?php echo $text; ?></span></a>
-			</div>
-		</div>
-		<?php
-	}
+$buttons = array(
+	array(
+		'link' => JRoute::_('index.php?option=com_content&task=add'), 
+		'image' => 'icon-48-article-add.png', 
+		'text' => JText::_('Add New Article')
+	),
+	array(
+		'link' => JRoute::_('index.php?option=com_content'), 
+		'image' => 'icon-48-article.png', 
+		'text' => JText::_('Article Manager')
+	),
+	array(
+		'link' => JRoute::_('index.php?option=com_frontpage'), 
+		'image' => 'icon-48-frontpage.png', 
+		'text' => JText::_('Frontpage Manager')
+	),
+	array(
+		'link' => JRoute::_('index.php?option=com_categories&extension=com_content'), 
+		'image' => 'icon-48-category.png', 
+		'text' => JText::_('Category Manager')
+	),
+	array(
+		'link' => JRoute::_('index.php?option=com_media'), 
+		'image' => 'icon-48-media.png', 
+		'text' => JText::_('Media Manager')
+	),
+	array(
+		'link' => JRoute::_('index.php?option=com_menus'), 
+		'image' => 'icon-48-menumgr.png', 
+		'text' => JText::_('Menu Manager'), 
+		'access' => 'core.menus.manage'
+	),
+	array(
+		'link' => JRoute::_('index.php?option=com_languages'), 
+		'image' => 'icon-48-language.png', 
+		'text' => JText::_('Language Manager'), 
+		'access' => 'core.languages.manage'
+	),
+	array(
+		'link' => JRoute::_('index.php?option=com_users'), 
+		'image' => 'icon-48-user.png', 
+		'text' => JText::_('User Manager'), 
+		'access' => 'core.users.manage'
+	),
+	array(
+		'link' => JRoute::_('index.php?option=com_config'),
+		'image' => 'icon-48-config.png', 
+		'text' => JText::_('Global Configuration'), 
+		'access' => 'core.config.manage'
+	)
+);
 
-	?>
-	<div id="cpanel">
-		<?php
-		$link = 'index.php?option=com_content&amp;task=add';
-		quickiconButton( $link, 'icon-48-article-add.png', JText::_( 'Add New Article' ) );
-
-		$link = 'index.php?option=com_content';
-		quickiconButton( $link, 'icon-48-article.png', JText::_( 'Article Manager' ) );
-
-		$link = 'index.php?option=com_frontpage';
-		quickiconButton( $link, 'icon-48-frontpage.png', JText::_( 'Frontpage Manager' ) );
-
-		$link = 'index.php?option=com_sections&amp;scope=content';
-		quickiconButton( $link, 'icon-48-section.png', JText::_( 'Section Manager' ) );
-
-		$link = 'index.php?option=com_categories&amp;section=com_content';
-		quickiconButton( $link, 'icon-48-category.png', JText::_( 'Category Manager' ) );
-
-		$link = 'index.php?option=com_media';
-		quickiconButton( $link, 'icon-48-media.png', JText::_( 'Media Manager' ) );
-
-		// Get the current JUser object
-		$user = &JFactory::getUser();
-
-		if ( $user->get('gid') > 23 ) {
-			$link = 'index.php?option=com_menus';
-			quickiconButton( $link, 'icon-48-menumgr.png', JText::_( 'Menu Manager' ) );
-		}
-
-		if ( $user->get('gid') > 24 ) {
-			$link = 'index.php?option=com_languages&amp;client=0';
-			quickiconButton( $link, 'icon-48-language.png', JText::_( 'Language Manager' ) );
-		}
-
-		if ( $user->get('gid') > 23 ) {
-			$link = 'index.php?option=com_users';
-			quickiconButton( $link, 'icon-48-user.png', JText::_( 'User Manager' ) );
-		}
-
-		if ( $user->get('gid') > 24 ) {
-			$link = 'index.php?option=com_config';
-			quickiconButton( $link, 'icon-48-config.png', JText::_( 'Global Configuration' ) );
-		}
-		?>
-	</div>
-	<?php
-}
+require JModuleHelper::getLayoutPath('mod_quickicon');

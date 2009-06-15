@@ -1,4 +1,15 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php
+/**
+ * @version		$Id$
+ * @package		Joomla.Site
+ * @subpackage	mod_newsflash
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+// no direct access
+defined('_JEXEC') or die;
+?>
 
 <?php for ($i = 0, $n = count($list); $i < $n; $i ++) :
 	modNewsFlashHelper::renderItem($list[$i], $params, $access);

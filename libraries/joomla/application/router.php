@@ -1,19 +1,14 @@
 <?php
 /**
-* @version		$Id:router.php 8876 2007-09-13 22:54:03Z jinx $
-* @package		Joomla.Framework
-* @subpackage	Application
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id:router.php 8876 2007-09-13 22:54:03Z jinx $
+ * @package		Joomla.Framework
+ * @subpackage	Application
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+// No direct access
+defined('JPATH_BASE') or die;
 
 /**
  * Set the available masks for the routing mode
@@ -25,7 +20,6 @@ define('JROUTER_MODE_SEF', 1);
  * Class to create and parse routes
  *
  * @abstract
- * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	Application
  * @since		1.5
@@ -66,7 +60,7 @@ class JRouter extends JObject
 	 */
 	function __construct($options = array())
 	{
-		if(array_key_exists('mode', $options)) {
+		if (array_key_exists('mode', $options)) {
 			$this->_mode = $options['mode'];
 		} else {
 			$this->_mode = JROUTER_MODE_RAW;
@@ -89,17 +83,17 @@ class JRouter extends JObject
 	{
 		static $instances;
 
-		if (!isset( $instances )) {
+		if (!isset($instances)) {
 			$instances = array();
 		}
 
 		if (empty($instances[$client]))
 		{
 			//Load the router object
-			$info =& JApplicationHelper::getClientInfo($client, true);
+			$info = &JApplicationHelper::getClientInfo($client, true);
 
 			$path = $info->path.DS.'includes'.DS.'router.php';
-			if(file_exists($path))
+			if (file_exists($path))
 			{
 				require_once $path;
 
@@ -109,7 +103,7 @@ class JRouter extends JObject
 			}
 			else
 			{
-				$error = JError::raiseError( 500, 'Unable to load router: '.$client);
+				$error = JError::raiseError(500, 'Unable to load router: '.$client);
 				return $error;
 			}
 
@@ -132,12 +126,12 @@ class JRouter extends JObject
 		$vars = $this->_processParseRules($uri);
 
 		// Parse RAW URL
-		if($this->_mode == JROUTER_MODE_RAW) {
+		if ($this->_mode == JROUTER_MODE_RAW) {
 			$vars += $this->_parseRawRoute($uri);
 		}
 
 		// Parse SEF URL
-		if($this->_mode == JROUTER_MODE_SEF) {
+		if ($this->_mode == JROUTER_MODE_SEF) {
 			$vars += $vars + $this->_parseSefRoute($uri);
 		}
 
@@ -153,13 +147,13 @@ class JRouter extends JObject
 	function &build($url)
 	{
 		//Create the URI object
-		$uri =& $this->_createURI($url);
+		$uri = &$this->_createURI($url);
 
 		//Process the uri information based on custom defined rules
 		$this->_processBuildRules($uri);
 
 		// Build RAW URL
-		if($this->_mode == JROUTER_MODE_RAW) {
+		if ($this->_mode == JROUTER_MODE_RAW) {
 			$this->_buildRawRoute($uri);
 		}
 
@@ -199,7 +193,7 @@ class JRouter extends JObject
  	 */
 	function setVar($key, $value, $create = true) {
 
-		if(!$create && array_key_exists($key, $this->_vars)) {
+		if (!$create && array_key_exists($key, $this->_vars)) {
 			$this->_vars[$key] = $value;
 		} else {
 			$this->_vars[$key] = $value;
@@ -215,7 +209,7 @@ class JRouter extends JObject
  	 */
 	function setVars($vars = array(), $merge = true) {
 
-		if($merge) {
+		if ($merge) {
 			$this->_vars = array_merge($this->_vars, $vars);
 		} else {
 			$this->_vars = $vars;
@@ -232,7 +226,7 @@ class JRouter extends JObject
 	function getVar($key)
 	{
 		$result = null;
-		if(isset($this->_vars[$key])) {
+		if (isset($this->_vars[$key])) {
 			$result = $this->_vars[$key];
 		}
 		return $result;
@@ -353,10 +347,10 @@ class JRouter extends JObject
 	function &_createURI($url)
 	{
 		// Create full URL if we are only appending variables to it
-		if(substr($url, 0, 1) == '&')
+		if (substr($url, 0, 1) == '&')
 		{
 			$vars = array();
-			if(strpos($url, '&amp;') !== false)
+			if (strpos($url, '&amp;') !== false)
 			{
 			   $url = str_replace('&amp;','&',$url);
 			}
@@ -367,7 +361,7 @@ class JRouter extends JObject
 
 			foreach($vars as $key => $var)
 			{
-				if($var == "") {
+				if ($var == "") {
 					unset($vars[$key]);
 				}
 			}
@@ -391,7 +385,7 @@ class JRouter extends JObject
 	function _encodeSegments($segments)
 	{
 		$total = count($segments);
-		for($i=0; $i<$total; $i++) {
+		for ($i=0; $i<$total; $i++) {
 			$segments[$i] = str_replace(':', '-', $segments[$i]);
 		}
 
@@ -408,7 +402,7 @@ class JRouter extends JObject
 	function _decodeSegments($segments)
 	{
 		$total = count($segments);
-		for($i=0; $i<$total; $i++)  {
+		for ($i=0; $i<$total; $i++)  {
 			$segments[$i] = preg_replace('/-/', ':', $segments[$i], 1);
 		}
 

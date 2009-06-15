@@ -1,43 +1,39 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @package		Joomla
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
-$mainframe->registerEvent( 'onBeforeDisplayContent', 'plgContentNavigation' );
+$mainframe->registerEvent('onBeforeDisplayContent', 'plgContentNavigation');
 
-function plgContentNavigation( &$row, &$params, $page=0 )
+function plgContentNavigation(&$row, &$params, $page=0)
 {
 	$view		= JRequest::getCmd('view');
 
 	// Get Plugin info
-	$plugin =& JPluginHelper::getPlugin('content', 'pagenavigation');
+	$plugin = &JPluginHelper::getPlugin('content', 'pagenavigation');
 
 	if ($params->get('show_item_navigation') && ($view == 'article'))
 	{
 
 		$html 		= '';
-		$db 		= & JFactory::getDBO();
+		$db 		= & JFactory::getDbo();
 		$user		= & JFactory::getUser();
+		$groups		= implode(',', $user->authorisedLevels());
 		$nullDate	= $db->getNullDate();
 
-		$date		=& JFactory::getDate();
+		$date		= &JFactory::getDate();
 		$config 	= & JFactory::getConfig();
 		$now 		= $date->toMySQL();
 
 		$uid 		= $row->id;
 		$option 	= 'com_content';
-		$canPublish = $user->authorize('com_content', 'publish', 'content', 'all');
+		$canPublish = $user->authorize('com_content.article.publish');
 
 		// the following is needed as different menu items types utilise a different param to control ordering
 		// for Blogs the `orderby_sec` param is the order controlling param
@@ -49,7 +45,7 @@ function plgContentNavigation( &$row, &$params, $page=0 )
 			$order_method = $params->get('orderby', '');
 		}
 		// additional check for invalid sort ordering
-		if ( $order_method == 'front' ) {
+		if ($order_method == 'front') {
 			$order_method = '';
 		}
 
@@ -101,9 +97,9 @@ function plgContentNavigation( &$row, &$params, $page=0 )
 				break;
 		}
 
-		$xwhere = ' AND ( a.state = 1 OR a.state = -1 )' .
-		' AND ( publish_up = '.$db->Quote($nullDate).' OR publish_up <= '.$db->Quote($now).' )' .
-		' AND ( publish_down = '.$db->Quote($nullDate).' OR publish_down >= '.$db->Quote($now).' )';
+		$xwhere = ' AND (a.state = 1 OR a.state = -1)' .
+		' AND (publish_up = '.$db->Quote($nullDate).' OR publish_up <= '.$db->Quote($now).')' .
+		' AND (publish_down = '.$db->Quote($nullDate).' OR publish_down >= '.$db->Quote($now).')';
 
 		// array of articles in same category correctly ordered
 		$query = 'SELECT a.id,'
@@ -113,14 +109,14 @@ function plgContentNavigation( &$row, &$params, $page=0 )
 		. ' LEFT JOIN #__categories AS cc ON cc.id = a.catid'
 		. ' WHERE a.catid = ' . (int) $row->catid
 		. ' AND a.state = '. (int) $row->state
-		. ($canPublish ? '' : ' AND a.access <= ' .(int) $user->get('aid', 0))
+		. ($canPublish ? '' : ' AND a.access IN ('.$groups.')')
 		. $xwhere
 		. ' ORDER BY '. $orderby;
 		$db->setQuery($query);
 		$list = $db->loadObjectList('id');
 
 		// this check needed if incorrect Itemid is given resulting in an incorrect result
-		if ( !is_array($list) ) {
+		if (!is_array($list)) {
 			$list = array();
 		}
 
@@ -150,13 +146,13 @@ function plgContentNavigation( &$row, &$params, $page=0 )
 		}
 
 		if ($row->prev) {
-			$row->prev = JRoute::_('index.php?option=com_content&view=article&catid='.$row->prev->catslug.'&id='.$row->prev->slug);
+			$row->prev = JRoute::_(ContentHelperRoute::getArticleRoute($row->prev->slug, $row->prev->catslug));
 		} else {
 			$row->prev = '';
 		}
 
 		if ($row->next) {
-			$row->next = JRoute::_('index.php?option=com_content&view=article&catid='.$row->next->catslug.'&id='.$row->next->slug);
+			$row->next = JRoute::_(ContentHelperRoute::getArticleRoute($row->next->slug, $row->next->catslug));
 		} else {
 			$row->next = '';
 		}
@@ -174,7 +170,7 @@ function plgContentNavigation( &$row, &$params, $page=0 )
 				$html .= '
 				<th class="pagenav_prev">
 					<a href="'. $row->prev .'">'
-						. JText::_( '&lt' ) . $pnSpace . JText::_( 'Prev' ) . '</a>
+						. JText::_('&lt') . $pnSpace . JText::_('Prev') . '</a>
 				</th>'
 				;
 			}
@@ -193,7 +189,7 @@ function plgContentNavigation( &$row, &$params, $page=0 )
 				$html .= '
 				<th class="pagenav_next">
 					<a href="'. $row->next .'">'
-						. JText::_( 'Next' ) . $pnSpace . JText::_( '&gt' ) .'</a>
+						. JText::_('Next') . $pnSpace . JText::_('&gt') .'</a>
 				</th>'
 				;
 			}
@@ -203,7 +199,7 @@ function plgContentNavigation( &$row, &$params, $page=0 )
 			;
 
 			// Get the plugin parameters
-			$pluginParams = new JParameter( $plugin->params );
+			$pluginParams = new JParameter($plugin->params);
 			$position 	 = $pluginParams->get('position', 1);
 
 			if ($position) {

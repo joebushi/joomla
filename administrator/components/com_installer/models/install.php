@@ -1,28 +1,23 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Menus
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
- * details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+// No direct access
+defined('_JEXEC') or die;
 
-jimport( 'joomla.application.component.model' );
-jimport( 'joomla.installer.installer' );
+jimport('joomla.application.component.model');
+jimport('joomla.installer.installer');
 jimport('joomla.installer.helper');
 
 /**
  * Extension Manager Install Model
  *
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Installer
  * @since		1.5
  */
@@ -77,10 +72,10 @@ class InstallerModelInstall extends JModel
 		}
 
 		// Get a database connector
-		//$db = & JFactory::getDBO();
+		//$db = & JFactory::getDbo();
 
 		// Get an installer instance
-		$installer =& JInstaller::getInstance();
+		$installer = &JInstaller::getInstance();
 
 		// Install the package
 		if (!$installer->install($package['dir'])) {
@@ -102,7 +97,7 @@ class InstallerModelInstall extends JModel
 
 		// Cleanup the install files
 		if (!is_file($package['packagefile'])) {
-			$config =& JFactory::getConfig();
+			$config = &JFactory::getConfig();
 			$package['packagefile'] = $config->getValue('config.tmp_path').DS.$package['packagefile'];
 		}
 
@@ -117,7 +112,7 @@ class InstallerModelInstall extends JModel
 	function _getPackageFromUpload()
 	{
 		// Get the uploaded file information
-		$userfile = JRequest::getVar('install_package', null, 'files', 'array' );
+		$userfile = JRequest::getVar('install_package', null, 'files', 'array');
 
 		// Make sure that file uploads are enabled in php
 		if (!(bool) ini_get('file_uploads')) {
@@ -132,20 +127,20 @@ class InstallerModelInstall extends JModel
 		}
 
 		// If there is no uploaded file, we have a problem...
-		if (!is_array($userfile) ) {
+		if (!is_array($userfile)) {
 			JError::raiseWarning('SOME_ERROR_CODE', JText::_('No file selected'));
 			return false;
 		}
 
 		// Check if there was a problem uploading the file.
-		if ( $userfile['error'] || $userfile['size'] < 1 )
+		if ($userfile['error'] || $userfile['size'] < 1)
 		{
 			JError::raiseWarning('SOME_ERROR_CODE', JText::_('WARNINSTALLUPLOADERROR'));
 			return false;
 		}
 
 		// Build the appropriate paths
-		$config =& JFactory::getConfig();
+		$config = &JFactory::getConfig();
 		$tmp_dest 	= $config->getValue('config.tmp_path').DS.$userfile['name'];
 		$tmp_src	= $userfile['tmp_name'];
 
@@ -170,7 +165,7 @@ class InstallerModelInstall extends JModel
 	{
 		// Get the path to the package to install
 		$p_dir = JRequest::getString('install_directory');
-		$p_dir = JPath::clean( $p_dir );
+		$p_dir = JPath::clean($p_dir);
 
 		// Did you give us a valid directory?
 		if (!is_dir($p_dir)) {
@@ -205,7 +200,7 @@ class InstallerModelInstall extends JModel
 	function _getPackageFromUrl()
 	{
 		// Get a database connector
-		$db = & JFactory::getDBO();
+		$db = & JFactory::getDbo();
 
 		// Get the URL of the package to install
 		$url = JRequest::getString('install_url');
@@ -225,7 +220,7 @@ class InstallerModelInstall extends JModel
 			return false;
 		}
 
-		$config =& JFactory::getConfig();
+		$config = &JFactory::getConfig();
 		$tmp_dest 	= $config->getValue('config.tmp_path');
 
 		// Unpack the downloaded package file

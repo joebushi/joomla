@@ -1,19 +1,14 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @subpackage	Table
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+// No direct access
+defined('JPATH_BASE') or die;
+
+jimport('joomla.database.tablenested');
 
 /**
  * Category table
@@ -22,45 +17,85 @@ defined('JPATH_BASE') or die();
  * @subpackage		Table
  * @since	1.0
  */
-class JTableCategory extends JTable
+class JTableCategory extends JTableNested
 {
 	/** @var int Primary key */
-	var $id					= null;
+	public $id					= null;
 	/** @var int */
-	var $parent_id			= null;
+	public $lft					= null;
+	/** @var int */
+	public $rgt					= null;
+	/** @var int */
+	public $ref_id				= null;
+	/** @var int */
+	public $parent				= null;
+	/** @var string */
+	public $extension			= null;
+	/** @var string */
+	public $lang				= null;
 	/** @var string The menu title for the category (a short name)*/
-	var $title				= null;
-	/** @var string The full name for the category*/
-	var $name				= null;
+	public $title				= null;
 	/** @var string The the alias for the category*/
-	var $alias				= null;
+	public $alias				= null;
 	/** @var string */
-	var $image				= null;
-	/** @var string */
-	var $section				= null;
-	/** @var int */
-	var $image_position		= null;
-	/** @var string */
-	var $description			= null;
+	public $description			= null;
 	/** @var boolean */
-	var $published			= null;
+	public $published			= null;
 	/** @var boolean */
-	var $checked_out			= 0;
+	public $checked_out			= 0;
 	/** @var time */
-	var $checked_out_time		= 0;
+	public $checked_out_time	= null;
 	/** @var int */
-	var $ordering			= null;
-	/** @var int */
-	var $access				= null;
+	public $access				= null;
 	/** @var string */
-	var $params				= null;
+	public $params				= '';
+	/** @var boolean */
+	protected $_trackAssets 	= true;
 
 	/**
 	* @param database A database connector object
 	*/
-	function __construct( &$db )
+	function __construct(&$db)
 	{
-		parent::__construct( '#__categories', 'id', $db );
+		parent::__construct('#__categories', 'id', $db);
+
+		$this->access	= (int)JFactory::getConfig()->getValue('access');
+	}
+
+	/**
+	 * Method to return the access section name for the asset table.
+	 *
+	 * @access	public
+	 * @return	string
+	 * @since	1.6
+	 */
+	function getAssetSection()
+	{
+		return $this->extension;
+	}
+
+	/**
+	 * Method to return the name prefix to use for the asset table.
+	 *
+	 * @access	public
+	 * @return	string
+	 * @since	1.6
+	 */
+	function getAssetNamePrefix()
+	{
+		return 'category';
+	}
+
+	/**
+	 * Method to return the title to use for the asset table.
+	 *
+	 * @access	public
+	 * @return	string
+	 * @since	1.0
+	 */
+	function getAssetTitle()
+	{
+		return $this->title;
 	}
 
 	/**
@@ -74,31 +109,18 @@ class JTableCategory extends JTable
 	function check()
 	{
 		// check for valid name
-		if (trim( $this->title ) == '') {
-			$this->setError(JText::sprintf( 'must contain a title', JText::_( 'Category') ));
+		if (trim($this->title) == '') {
+			$this->setError(JText::sprintf('must contain a title', JText::_('Category')));
 			return false;
 		}
 
 		// check for existing name
-		/*$query = 'SELECT id'
-		. ' FROM #__categories '
-		. ' WHERE title = '.$this->_db->Quote($this->title)
-		. ' AND section = '.$this->_db->Quote($this->section)
-		;
-		$this->_db->setQuery( $query );
-
-		$xid = intval( $this->_db->loadResult() );
-		if ($xid && $xid != intval( $this->id )) {
-			$this->_error = JText::sprintf( 'WARNNAMETRYAGAIN', JText::_( 'Category') );
-			return false;
-		}*/
-
-		if(empty($this->alias)) {
+		if (empty($this->alias)) {
 			$this->alias = $this->title;
 		}
 		$this->alias = JFilterOutput::stringURLSafe($this->alias);
-		if(trim(str_replace('-','',$this->alias)) == '') {
-			$datenow =& JFactory::getDate();
+		if (trim(str_replace('-','',$this->alias)) == '') {
+			$datenow = &JFactory::getDate();
 			$this->alias = $datenow->toFormat("%Y-%m-%d-%H-%M-%S");
 		}
 

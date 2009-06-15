@@ -3,19 +3,14 @@
  * @version		$Id$
  * @package		Joomla
  * @subpackage	Content
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
- * details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
-require_once (JPATH_COMPONENT.DS.'view.php');
+require_once JPATH_COMPONENT.DS.'view.php';
 
 /**
  * Frontpage View class
@@ -27,22 +22,30 @@ require_once (JPATH_COMPONENT.DS.'view.php');
  */
 class ContentViewFrontpage extends ContentView
 {
+	protected $pagination = null;
+	protected $total = null;
+	protected $access = null;
+	protected $user = null;
+	protected $params = null;
+	protected $items = null;
+	protected $item = null;
+
 	function display($tpl = null)
 	{
-		global $mainframe, $option;
+		$mainframe = JFactory::getApplication();
+		$option = JRequest::getCmd('option', 'com_content');
 
 		// Initialize variables
-		$user		=& JFactory::getUser();
-		$document	=& JFactory::getDocument();
+		$user		= &JFactory::getUser();
+		$document	= &JFactory::getDocument();
 
 		// Request variables
-		$id			= JRequest::getVar('id', null, '', 'int');
+		$id		= JRequest::getVar('id', null, '', 'int');
 		$limit		= JRequest::getVar('limit', 5, '', 'int');
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
 		// Get the page/component configuration
 		$params = &$mainframe->getParams();
-
 		// parameters
 		$intro			= $params->def('num_intro_articles',	4);
 		$leading		= $params->def('num_leading_articles',	1);
@@ -57,17 +60,16 @@ class ContentViewFrontpage extends ContentView
 		JRequest::setVar('limit', (int) $limit);
 
 		//set data model
-		$items =& $this->get('data' );
-		$total =& $this->get('total');
+		$items = &$this->get('data');
+		$total = &$this->get('total');
 
 		// Create a user access object for the user
 		$access				= new stdClass();
-		$access->canEdit	= $user->authorize('com_content', 'edit', 'content', 'all');
-		$access->canEditOwn	= $user->authorize('com_content', 'edit', 'content', 'own');
-		$access->canPublish	= $user->authorize('com_content', 'publish', 'content', 'all');
+		$access->canEditOwn	= $user->authorize('com_content.article.edit_own');
+		$access->canPublish	= $user->authorize('com_content.article.publish');
 
 		//add alternate feed link
-		if($params->get('show_feed_link', 1) == 1)
+		if ($params->get('show_feed_link', 1) == 1)
 		{
 			$link	= '&format=feed&limitstart=';
 			$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
@@ -75,6 +77,21 @@ class ContentViewFrontpage extends ContentView
 			$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
 			$document->addHeadLink(JRoute::_($link.'&type=atom'), 'alternate', 'rel', $attribs);
 		}
+
+		$menus	= &$mainframe->getMenu();
+		$menu	= $menus->getActive();
+
+		// because the application sets a default page title, we need to get it
+		// right from the menu item itself
+		if (is_object($menu)) {
+			$menu_params = new JParameter($menu->params);
+			if (!$menu_params->get('page_title')) {
+				$params->set('page_title',	 htmlspecialchars_decode($mainframe->getCfg('sitename')));
+			}
+		} else {
+			$params->set('page_title',	 htmlspecialchars_decode($mainframe->getCfg('sitename')));
+		}
+		$document->setTitle($params->get('page_title'));
 
 		jimport('joomla.html.pagination');
 		$this->pagination = new JPagination($total, $limitstart, $limit - $links);
@@ -85,17 +102,16 @@ class ContentViewFrontpage extends ContentView
 		$this->assignRef('access',		$access);
 		$this->assignRef('params',		$params);
 		$this->assignRef('items',		$items);
-
 		parent::display($tpl);
 	}
 
 	function &getItem($index = 0, &$params)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		// Initialize some variables
-		$user		=& JFactory::getUser();
-		$dispatcher	=& JDispatcher::getInstance();
+		$user		= &JFactory::getUser();
+		$dispatcher	= &JDispatcher::getInstance();
 
 		$SiteName	= $mainframe->getCfg('sitename');
 
@@ -104,9 +120,14 @@ class ContentViewFrontpage extends ContentView
 		$linkOn		= null;
 		$linkText	= null;
 
-		$item =& $this->items[$index];
+		$item = &$this->items[$index];
 		$item->text = $item->introtext;
-
+		if ($user->authorize('com_content.article.edit_article'))
+		{
+			$item->edit = $user->authorize('com_content.article.edit', 'article.'.$item->id);
+		} else {
+			$item->edit = false;
+		}
 		// Get the page/component configuration and article parameters
 		$item->params = clone($params);
 		$aparams = new JParameter($item->attribs);
@@ -122,9 +143,9 @@ class ContentViewFrontpage extends ContentView
 		if (($item->params->get('show_readmore') && @ $item->readmore) || $item->params->get('link_titles'))
 		{
 			// checks if the item is a public or registered/special item
-			if ($item->access <= $user->get('aid', 0))
+			if (in_array($item->access, $user->authorisedLevels('com_content.article.view')))
 			{
-				$item->readmore_link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug, $item->sectionid));
+				$item->readmore_link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug));
 				$item->readmore_register = false;
 			}
 			else

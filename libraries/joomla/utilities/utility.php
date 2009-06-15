@@ -3,23 +3,17 @@
  * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Utilities
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
- * details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+// No direct access
+defined('JPATH_BASE') or die;
 
 /**
  * JUtility is a utility functions class
  *
  * @static
- * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	Utilities
  * @since	1.5
@@ -42,17 +36,17 @@ class JUtility
  	 * @param mixed $replytoname Reply to name(s)
  	 * @return boolean True on success
   	 */
-	function sendMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=null, $bcc=null, $attachment=null, $replyto=null, $replytoname=null )
+	function sendMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=null, $bcc=null, $attachment=null, $replyto=null, $replytoname=null)
 	{
 	 	// Get a JMail instance
-		$mail =& JFactory::getMailer();
+		$mail = &JFactory::getMailer();
 
 		$mail->setSender(array($from, $fromname));
 		$mail->setSubject($subject);
 		$mail->setBody($body);
 
 		// Are we sending the email as HTML?
-		if ( $mode ) {
+		if ($mode) {
 			$mail->IsHTML(true);
 		}
 
@@ -62,13 +56,13 @@ class JUtility
 		$mail->addAttachment($attachment);
 
 		// Take care of reply email addresses
-		if( is_array( $replyto ) ) {
+		if (is_array($replyto)) {
 			$numReplyTo = count($replyto);
-			for ( $i=0; $i < $numReplyTo; $i++){
-				$mail->addReplyTo( array($replyto[$i], $replytoname[$i]) );
+			for ($i=0; $i < $numReplyTo; $i++){
+				$mail->addReplyTo(array($replyto[$i], $replytoname[$i]));
 			}
-		} elseif( isset( $replyto ) ) {
-			$mail->addReplyTo( array( $replyto, $replytoname ) );
+		} elseif (isset($replyto)) {
+			$mail->addReplyTo(array($replyto, $replytoname));
 		}
 
 		return  $mail->Send();
@@ -85,15 +79,15 @@ class JUtility
  	 * @param string $author Author of item to approve
  	 * @return boolean True on success
  	 */
-	function sendAdminMail( $adminName, $adminEmail, $email, $type, $title, $author, $url = null )
+	function sendAdminMail($adminName, $adminEmail, $email, $type, $title, $author, $url = null)
 	{
-		$subject = JText::_( 'User Submitted' ) ." '". $type ."'";
+		$subject = JText::_('User Submitted') ." '". $type ."'";
 
-		$message = sprintf ( JText::_( 'MAIL_MSG_ADMIN' ), $adminName, $type, $title, $author, $url, $url, 'administrator', $type);
-		$message .= JText::_( 'MAIL_MSG') ."\n";
+		$message = sprintf (JText::_('MAIL_MSG_ADMIN'), $adminName, $type, $title, $author, $url, $url, 'administrator', $type);
+		$message .= JText::_('MAIL_MSG') ."\n";
 
 	 	// Get a JMail instance
-		$mail =& JFactory::getMailer();
+		$mail = &JFactory::getMailer();
 		$mail->addRecipient($adminEmail);
 		$mail->setSubject($subject);
 		$mail->setBody($message);
@@ -107,10 +101,10 @@ class JUtility
  	 * @param string Seed string
  	 * @return string
  	 */
-	function getHash( $seed )
+	function getHash($seed)
 	{
-		$conf =& JFactory::getConfig();
-		return md5( $conf->getValue('config.secret') .  $seed  );
+		$conf = &JFactory::getConfig();
+		return md5($conf->getValue('config.secret') .  $seed );
 	}
 
 	/**
@@ -124,7 +118,7 @@ class JUtility
 	{
 		$user		= &JFactory::getUser();
 		$session	= &JFactory::getSession();
-		$hash		= JUtility::getHash( $user->get( 'id', 0 ).$session->getToken( $forceNew ) );
+		$hash		= JUtility::getHash($user->get('id', 0).$session->getToken($forceNew));
 		return $hash;
 	}
 
@@ -135,19 +129,19 @@ class JUtility
  	 * @return	array	Key/Value pairs for the attributes
  	 * @since	1.5
  	 */
-	function parseAttributes( $string )
+	function parseAttributes($string)
 	{
 	 	//Initialize variables
 		$attr		= array();
 		$retarray	= array();
 
 		// Lets grab all the key/value pairs using a regular expression
-		preg_match_all( '/([\w:-]+)[\s]?=[\s]?"([^"]*)"/i', $string, $attr );
+		preg_match_all('/([\w:-]+)[\s]?=[\s]?"([^"]*)"/i', $string, $attr);
 
 		if (is_array($attr))
 		{
 			$numPairs = count($attr[1]);
-			for($i = 0; $i < $numPairs; $i++ )
+			for ($i = 0; $i < $numPairs; $i++)
 			{
 				$retarray[$attr[1][$i]] = $attr[2][$i];
 			}
@@ -175,9 +169,9 @@ class JUtility
 	 * @since	1.5
 	 * @static
 	 */
-	function dump( &$var, $htmlSafe = true )
+	function dump(&$var, $htmlSafe = true)
 	{
-		$result = var_export( $var, true );
-		return '<pre>'.( $htmlSafe ? htmlspecialchars( $result ) : $result).'</pre>';
+		$result = var_export($var, true);
+		return '<pre>'.($htmlSafe ? htmlspecialchars($result) : $result).'</pre>';
 	}
 }

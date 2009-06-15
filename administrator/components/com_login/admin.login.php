@@ -1,21 +1,16 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Joomla.Extensions
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
-switch ( JRequest::getCmd('task'))
+switch (JRequest::getCmd('task'))
 {
 	case 'login' :
 		LoginController::login();
@@ -35,7 +30,7 @@ switch ( JRequest::getCmd('task'))
  * Static class to hold controller functions for the Login component
  *
  * @static
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Login
  * @since		1.5
  */
@@ -54,7 +49,7 @@ class LoginController
 		global $mainframe;
 
 		// Check for request forgeries
-		JRequest::checkToken('request') or jexit( 'Invalid Token' );
+		JRequest::checkToken('request') or jexit('Invalid Token');
 
 		$credentials = array();
 

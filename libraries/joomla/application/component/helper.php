@@ -1,19 +1,14 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @subpackage	Application
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Application
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+// No direct access
+defined('JPATH_BASE') or die;
 
 /**
  * Component helper class
@@ -33,12 +28,12 @@ class JComponentHelper
 	 * @param 	boolean	$string	If set and a component does not exist, the enabled attribue will be set to false
 	 * @return	object A JComponent object
 	 */
-	function &getComponent( $name, $strict = false )
+	function &getComponent($name, $strict = false)
 	{
 		$result = null;
 		$components = JComponentHelper::_load();
 
-		if (isset( $components[$name] ))
+		if (isset($components[$name]))
 		{
 			$result = &$components[$name];
 		}
@@ -60,11 +55,11 @@ class JComponentHelper
 	 * @param 	boolean	$string	If set and a component does not exist, false will be returned
 	 * @return	boolean
 	 */
-	function isEnabled( $component, $strict = false )
+	function isEnabled($component, $strict = false)
 	{
 		global $mainframe;
 
-		$result = &JComponentHelper::getComponent( $component, $strict );
+		$result = &JComponentHelper::getComponent($component, $strict);
 		return ($result->enabled | $mainframe->isAdmin());
 	}
 
@@ -75,12 +70,12 @@ class JComponentHelper
 	 * @param string $name The component name
 	 * @return object A JParameter object
 	 */
-	function &getParams( $name )
+	function &getParams($name)
 	{
 		static $instances;
-		if (!isset( $instances[$name] ))
+		if (!isset($instances[$name]))
 		{
-			$component = &JComponentHelper::getComponent( $name );
+			$component = &JComponentHelper::getComponent($name);
 			$instances[$name] = new JParameter($component->params);
 		}
 		return $instances[$name];
@@ -90,7 +85,7 @@ class JComponentHelper
 	{
 		global $mainframe, $option;
 
-		if(empty($name)) {
+		if (empty($name)) {
 			// Throw 404 if no component
 			JError::raiseError(404, JText::_("Component Not Found"));
 			return;
@@ -101,57 +96,29 @@ class JComponentHelper
 
 		// Build the component path
 		$name = preg_replace('/[^A-Z0-9_\.-]/i', '', $name);
-		$file = substr( $name, 4 );
+		$file = substr($name, 4);
 
 		// Define component path
-		define( 'JPATH_COMPONENT',					JPATH_BASE.DS.'components'.DS.$name);
-		define( 'JPATH_COMPONENT_SITE',				JPATH_SITE.DS.'components'.DS.$name);
-		define( 'JPATH_COMPONENT_ADMINISTRATOR',	JPATH_ADMINISTRATOR.DS.'components'.DS.$name);
+		define('JPATH_COMPONENT',					JPATH_BASE.DS.'components'.DS.$name);
+		define('JPATH_COMPONENT_SITE',				JPATH_SITE.DS.'components'.DS.$name);
+		define('JPATH_COMPONENT_ADMINISTRATOR',	JPATH_ADMINISTRATOR.DS.'components'.DS.$name);
 
 		// get component path
-		if ( $mainframe->isAdmin() && file_exists(JPATH_COMPONENT.DS.'admin.'.$file.'.php') ) {
+		if ($mainframe->isAdmin() && file_exists(JPATH_COMPONENT.DS.'admin.'.$file.'.php')) {
 			$path = JPATH_COMPONENT.DS.'admin.'.$file.'.php';
 		} else {
 			$path = JPATH_COMPONENT.DS.$file.'.php';
 		}
 
 		// If component disabled throw error
-		if (!JComponentHelper::isEnabled( $name ) || !file_exists($path)) {
-			JError::raiseError( 404, JText::_( 'Component Not Found' ) );
+		if (!JComponentHelper::isEnabled($name) || !file_exists($path)) {
+			JError::raiseError(404, JText::_('Component Not Found'));
 		}
 
-		// Handle legacy globals if enabled
-		if ($mainframe->getCfg('legacy'))
-		{
-			// Include legacy globals
-			global $my, $database, $id, $acl, $task;
-
-			// For backwards compatibility extract the config vars as globals
-			$registry =& JFactory::getConfig();
-			foreach (get_object_vars($registry->toObject()) as $k => $v)
-			{
-				$varname = 'mosConfig_'.$k;
-				$$varname = $v;
-			}
-			$contentConfig = &JComponentHelper::getParams( 'com_content' );
-			foreach (get_object_vars($contentConfig->toObject()) as $k => $v)
-			{
-				$varname = 'mosConfig_'.$k;
-				$$varname = $v;
-			}
-			$usersConfig = &JComponentHelper::getParams( 'com_users' );
-			foreach (get_object_vars($usersConfig->toObject()) as $k => $v)
-			{
-				$varname = 'mosConfig_'.$k;
-				$$varname = $v;
-			}
-
-		}
-
-		$task = JRequest::getString( 'task' );
+		$task = JRequest::getString('task');
 
 		// Load common language files
-		$lang =& JFactory::getLanguage();
+		$lang = &JFactory::getLanguage();
 		$lang->load($name);
 
 		// Handle template preview outlining
@@ -164,14 +131,14 @@ class JComponentHelper
 		ob_end_clean();
 
 		// Build the component toolbar
-		jimport( 'joomla.application.helper' );
-		if (($path = JApplicationHelper::getPath( 'toolbar' )) && $mainframe->isAdmin()) {
+		jimport('joomla.application.helper');
+		if (($path = JApplicationHelper::getPath('toolbar')) && $mainframe->isAdmin()) {
 
 			// Get the task again, in case it has changed
-			$task = JRequest::getString( 'task' );
+			$task = JRequest::getString('task');
 
 			// Make the toolbar
-			include_once( $path );
+			include_once($path);
 		}
 
 		$mainframe->scope = $scope; //revert the scope
@@ -193,15 +160,15 @@ class JComponentHelper
 			return $components;
 		}
 
-		$db = &JFactory::getDBO();
+		$db = &JFactory::getDbo();
 
 		$query = 'SELECT *' .
 				' FROM #__components' .
 				' WHERE parent = 0';
-		$db->setQuery( $query );
+		$db->setQuery($query);
 
-		if (!($components = $db->loadObjectList( 'option' ))) {
-			JError::raiseWarning( 'SOME_ERROR_CODE', "Error loading Components: " . $db->getErrorMsg());
+		if (!($components = $db->loadObjectList('option'))) {
+			JError::raiseWarning('SOME_ERROR_CODE', "Error loading Components: " . $db->getErrorMsg());
 			return false;
 		}
 

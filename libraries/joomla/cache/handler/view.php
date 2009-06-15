@@ -1,24 +1,18 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @subpackage	Cache
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Cache
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+// No direct access
+defined('JPATH_BASE') or die;
 
 /**
  * Joomla! Cache view type object
  *
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Cache
  * @since		1.5
@@ -36,7 +30,7 @@ class JCacheView extends JCache
 	 * @return	boolean	True if the cache is hit (false else)
 	 * @since	1.5
 	 */
-	function get( &$view, $method, $id=false )
+	function get(&$view, $method, $id=false)
 	{
 		global $mainframe;
 
@@ -95,7 +89,7 @@ class JCacheView extends JCache
 
 			// Capture and echo output
 			ob_start();
-			ob_implicit_flush( false );
+			ob_implicit_flush(false);
 			$view->$method();
 			$data = ob_get_contents();
 			ob_end_clean();

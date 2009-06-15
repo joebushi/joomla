@@ -1,5 +1,5 @@
 <?php // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
+defined('_JEXEC') or die; ?>
 <div style="padding: 10px;">
 	<div style="text-align:right">
 		<a href="javascript: void window.close()">

@@ -1,24 +1,19 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
+ * @package		Joomla.Site
  * @subpackage	Contact
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
- * details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+// No direct access
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
 /**
- * @package		Joomla
+ * @package		Joomla.Site
  * @subpackage	Contact
  */
 class ContactModelCategory extends JModel
@@ -29,21 +24,19 @@ class ContactModelCategory extends JModel
 	 * @return string
 	 * @access protected
 	 */
-	function _getCatgoriesQuery( &$options )
+	function _getCatgoriesQuery(&$options)
 	{
 		// TODO: Cache on the fingerprint of the arguments
-		$db		=& JFactory::getDBO();
-		$aid	= @$options['aid'];
+		$db		= &JFactory::getDbo();
+		$user	= &JFactory::getUser();
+		$groups	= implode(',', $user->authorisedLevels());
 
 		$wheres[] = 'a.published = 1';
-		$wheres[] = 'cc.section = ' . $db->Quote( 'com_contact_details' );
+		$wheres[] = 'cc.section = ' . $db->Quote('com_contact_details');
 		$wheres[] = 'cc.published = 1';
 
-		if ($aid !== null)
-		{
-			$wheres[] = 'a.access IN ('.implode($aid, ',').')';
-			$wheres[] = 'cc.access IN ('.implode($aid, ',').')';
-		}
+		$wheres[] = 'a.access IN ('.$groups.')';
+		$wheres[] = 'cc.access <= ('.$groups.')';
 
 		$groupBy	= 'cc.id';
 		$orderBy	= 'cc.ordering' ;
@@ -52,10 +45,10 @@ class ContactModelCategory extends JModel
 		 * Query to retrieve all categories that belong under the contacts
 		 * section and that are published.
 		 */
-		$query = 'SELECT cc.*, COUNT( a.id ) AS numlinks, a.id as cid'.
+		$query = 'SELECT cc.*, COUNT(a.id) AS numlinks, a.id as cid'.
 				' FROM #__categories AS cc'.
 				' LEFT JOIN #__contact_details AS a ON a.catid = cc.id'.
-				' WHERE ' . implode( ' AND ', $wheres ) .
+				' WHERE ' . implode(' AND ', $wheres) .
 				' GROUP BY ' . $groupBy .
 				' ORDER BY ' . $orderBy;
 
@@ -69,11 +62,12 @@ class ContactModelCategory extends JModel
 	 * @return string
 	 * @access protected
 	 */
-	function _getContactsQuery( &$options )
+	function _getContactsQuery(&$options)
 	{
 		// TODO: Cache on the fingerprint of the arguments
-		$db			=& JFactory::getDBO();
-		$aid		= @$options['aid'];
+		$db			= &JFactory::getDbo();
+		$user		= &JFactory::getUser();
+		$groups		= implode(',', $user->authorisedLevels());
 		$catId		= @$options['category_id'];
 		$groupBy	= @$options['group by'];
 		$orderBy	= @$options['order by'];
@@ -93,11 +87,8 @@ class ContactModelCategory extends JModel
 		$wheres[] = 'cc.published = 1';
 		$wheres[] = 'cd.published = 1';
 
-		if (count($aid))
-		{
-			$wheres[] = 'cc.access IN ('.implode($aid, ',').')';
-			$wheres[] = 'cd.access IN ('.implode($aid, ',').')';
-		}
+		$wheres[] = 'cc.access IN ('.$groups.')';
+		$wheres[] = 'cd.access IN ('.$groups.')';
 
 		/*
 		 * Query to retrieve all categories that belong under the contacts
@@ -105,8 +96,8 @@ class ContactModelCategory extends JModel
 		 */
 		$query = 'SELECT ' . $select .
 				' FROM ' . $from .
-				' ' . implode ( ' ', $joins ) .
-				' WHERE ' . implode( ' AND ', $wheres ) .
+				' ' . implode (' ', $joins) .
+				' WHERE ' . implode(' AND ', $wheres) .
 				($groupBy ? ' GROUP BY ' . $groupBy : '').
 				($orderBy ? ' ORDER BY ' . $orderBy : '');
 
@@ -118,10 +109,10 @@ class ContactModelCategory extends JModel
 	 * @param array
 	 * @return array
 	 */
-	function getCategories( $options=array() )
+	function getCategories($options=array())
 	{
-		$query	= $this->_getCatgoriesQuery( $options );
-		return $this->_getList( $query, @$options['limitstart'], @$options['limit'] );
+		$query	= $this->_getCatgoriesQuery($options);
+		return $this->_getList($query, @$options['limitstart'], @$options['limit']);
 	}
 
 	/**
@@ -129,10 +120,10 @@ class ContactModelCategory extends JModel
 	 * @param array
 	 * @return int
 	 */
-	function getCategoryCount( $options=array() )
+	function getCategoryCount($options=array())
 	{
-		$query	= $this->_getCatgoriesQuery( $options );
-		return $this->_getListCount( $query );
+		$query	= $this->_getCatgoriesQuery($options);
+		return $this->_getListCount($query);
 	}
 
 	/**
@@ -140,10 +131,10 @@ class ContactModelCategory extends JModel
 	 * @param array
 	 * @return array
 	 */
-	function getContacts( $options=array() )
+	function getContacts($options=array())
 	{
-		$query	= $this->_getContactsQuery( $options );
-		return $this->_getList( $query, @$options['limitstart'], @$options['limit'] );
+		$query	= $this->_getContactsQuery($options);
+		return $this->_getList($query, @$options['limitstart'], @$options['limit']);
 	}
 
 	/**
@@ -151,9 +142,9 @@ class ContactModelCategory extends JModel
 	 * @param array
 	 * @return int
 	 */
-	function getContactCount( $options=array() )
+	function getContactCount($options=array())
 	{
-		$query	= $this->_getContactsQuery( $options );
-		return $this->_getListCount( $query );
+		$query	= $this->_getContactsQuery($options);
+		return $this->_getListCount($query);
 	}
 }
