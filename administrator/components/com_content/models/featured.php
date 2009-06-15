@@ -16,14 +16,14 @@ require_once dirname(__FILE__).DS.'articles.php';
  * @package		Joomla.Administrator
  * @subpackage	com_content
  */
-class ContentModelFrontpage extends ContentModelArticles
+class ContentModelFeatured extends ContentModelArticles
 {
 	/**
 	 * Model context string.
 	 *
 	 * @var		string
 	 */
-	public $_context = 'com_content.frontpage';
+	public $_context = 'com_content.featured';
 
 	/**
 	 * @param	boolean	True to join selected foreign information
@@ -59,7 +59,6 @@ class ContentModelFrontpage extends ContentModelArticles
 		$query->select('ua.name AS author_name');
 		$query->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
 
-
 		// Filter by access level.
 		if ($access = $this->getState('filter.access')) {
 			$query->where('a.access = ' . (int) $access);
@@ -92,33 +91,4 @@ class ContentModelFrontpage extends ContentModelArticles
 		//echo nl2br(str_replace('#__','jos_',$query->toString()));
 		return $query;
 	}
-
-	/**
-	 * Method to delete rows.
-	 *
-	 * @param	array	An array of item ids.
-	 *
-	 * @return	boolean	Returns true on success, false on failure.
-	 */
-	public function delete($itemIds)
-	{
-		// Sanitize the ids.
-		$itemIds = (array) $itemIds;
-
-		// Get a row instance.
-		$table = &$this->getTable('Frontpage', 'ContentTable');
-
-		// Iterate the items to delete each one.
-		foreach ($itemIds as $itemId)
-		{
-			if (!$table->delete($itemId))
-			{
-				$this->setError($table->getError());
-				return false;
-			}
-		}
-
-		return true;
-	}
-
 }

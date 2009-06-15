@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
  * @package		Joomla.Administrator
  * @subpackage	Content
  */
-class ContentTableFrontpage extends JTable
+class ContentTableFeatured extends JTable
 {
 	/**
 	 * @var int Primary key

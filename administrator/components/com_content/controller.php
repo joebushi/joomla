@@ -62,6 +62,6 @@ class ContentController extends JController
 	{
 		JSubMenuHelper::addEntry(JText::_('Content_Link_Articles'),		'index.php?option=com_content&view=articles',	$vName == 'articles');
 		JSubMenuHelper::addEntry(JText::_('Content_Link_Categories'),	'index.php?option=com_content&view=categories',	$vName == 'categories');
-		JSubMenuHelper::addEntry(JText::_('Content_Link_Frontpage'),	'index.php?option=com_content&view=frontpage',	$vName == 'frontpage');
+		JSubMenuHelper::addEntry(JText::_('Content_Link_Featured'),		'index.php?option=com_content&view=featured',	$vName == 'featured');
 	}
 }

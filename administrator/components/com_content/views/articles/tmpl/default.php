@@ -55,7 +55,7 @@ $n = count($this->items);
 					<?php echo JHtml::_('grid.sort', 'JCommon_Heading_Published', 'a.state', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="5%">
-					<?php echo JHtml::_('grid.sort', 'Content_Heading_Frontpage', 'a.catid', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort', 'Content_Heading_Featured', 'a.catid', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="5%">
 					<?php echo JHtml::_('grid.sort', 'JCommon_Heading_Category', 'a.catid', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
@@ -113,7 +113,7 @@ $n = count($this->items);
 					<?php echo JHtml::_('jgrid.published', $item->state, $i, 'articles.'); ?>
 				</td>
 				<td align="center">
-					<?php echo JHtml::_('content.frontpage', $item->frontpage, $i); ?>
+					<?php echo JHtml::_('content.featured', $item->featured, $i); ?>
 				</td>
 				<td align="center">
 					<?php echo $this->escape($item->category_title); ?>

@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 JHtml::_('behavior.tooltip');
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_content&view=frontpage');?>" method="post" name="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_content&view=featured');?>" method="post" name="adminForm">
 	<fieldset class="filter clearfix">
 		<div class="left">
 			<label for="search">
@@ -35,7 +35,7 @@ JHtml::_('behavior.tooltip');
 
 			<select name="filter_published" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('JCommon_Option_Select_published_state');?></option>
-				<?php echo JHtml::_('select.options', $this->f_published, 'value', 'text', $this->state->get('filter.published'));?>
+				<?php echo JHtml::_('select.options', $this->f_published, 'value', 'text', $this->state->get('filter.published'), true);?>
 			</select>
 		</div>
 	</fieldset>
@@ -105,7 +105,7 @@ JHtml::_('behavior.tooltip');
 						<?php echo $this->escape($item->title); ?></a>
 				</td>
 				<td align="center">
-					<?php echo JHtml::_('jgrid.published', $item->state, $i, 'frontpage.'); ?>
+					<?php echo JHtml::_('jgrid.published', $item->state, $i, 'featured.'); ?>
 				</td>
 				<td align="center">
 					<?php echo $this->escape($item->category_title); ?>

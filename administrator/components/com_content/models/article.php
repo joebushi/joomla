@@ -94,12 +94,12 @@ class ContentModelArticle extends JModelForm
 		}
 
 		// Convert the params field to an array.
-		$registry = new JRegistry();
+		$registry = new JRegistry;
 		$registry->loadJSON($table->attribs);
 		$table->attribs = $registry->toArray();
 
 		// Convert the params field to an array.
-		$registry = new JRegistry();
+		$registry = new JRegistry;
 		$registry->loadJSON($table->metadata);
 		$table->metadata = $registry->toArray();
 
@@ -194,17 +194,17 @@ class ContentModelArticle extends JModelForm
 	 *
 	 * @return	boolean	Returns true on success, false on failure.
 	 */
-	public function delete($itemIds)
+	public function delete($pks)
 	{
 		// Sanitize the ids.
-		$itemIds = (array) $itemIds;
-		JArrayHelper::toInteger($itemIds);
+		$pks = (array) $pks;
+		JArrayHelper::toInteger($pks);
 
 		// Get a row instance.
 		$table = &$this->getTable();
 
 		// Iterate the items to delete each one.
-		foreach ($itemIds as $itemId)
+		foreach ($pks as $itemId)
 		{
 			if (!$table->delete($itemId))
 			{
@@ -224,11 +224,11 @@ class ContentModelArticle extends JModelForm
 	 *
 	 * @return	boolean	True on success.
 	 */
-	function publish($itemIds, $value = 1)
+	function publish($pks, $value = 1)
 	{
 		// Sanitize the ids.
-		$itemIds = (array) $itemIds;
-		JArrayHelper::toInteger($itemIds);
+		$pks = (array) $pks;
+		JArrayHelper::toInteger($pks);
 
 		// Get the current user object.
 		$user = &JFactory::getUser();
@@ -237,7 +237,7 @@ class ContentModelArticle extends JModelForm
 		$table = &$this->getTable();
 
 		// Attempt to publish the items.
-		if (!$table->publish($itemIds, $value, $user->get('id'))) {
+		if (!$table->publish($pks, $value, $user->get('id'))) {
 			$this->setError($table->getError());
 			return false;
 		}
@@ -246,45 +246,74 @@ class ContentModelArticle extends JModelForm
 	}
 
 	/**
-	 * Method to toggle the frontpage setting of articles.
+	 * Method to toggle the featured setting of articles.
 	 *
 	 * @param	array	The ids of the items to toggle.
+	 * @param	int		The value to toggle to.
 	 *
 	 * @return	boolean	True on success.
 	 */
-	function frontpage($itemIds)
+	function featured($pks, $value = 0)
 	{
 		// Sanitize the ids.
-		$itemIds = (array) $itemIds;
+		$pks = (array) $pks;
+		JArrayHelper::toInteger($pks);
 
-		$table = $this->getTable('Frontpage', 'ContentTable');
+		if (empty($pks)) {
+			$this->setError(JText::_('JError_No_items_selected'));
+			return false;
+		}
 
-		foreach ($itemIds as $pk)
+		$table = $this->getTable('Featured', 'ContentTable');
+
+		try
 		{
-			// Toggles go to first place.
-			if ($table->load((int) $pk))
+			$this->_db->setQuery(
+				'UPDATE #__content AS a' .
+				' SET a.featured = '.(int) $value.
+				' WHERE a.id IN ('.implode(',', $pks).')'
+			);
+			if (!$this->_db->query()) {
+				throw new Exception($this->_db->getErrorMsg());
+			}
+
+			// Adjust the mapping table.
+			if ($value == 0)
 			{
-				if (!$table->delete($pk)) {
-					$this->setError($table->getError());
-					return false;
+				// Unfeaturing.
+				$this->_db->setQuery(
+					'DELETE FROM #__content_frontpage' .
+					' WHERE content_id IN ('.implode(',', $pks).')'
+				);
+				if (!$this->_db->query()) {
+					throw new Exception($this->_db->getErrorMsg());
 				}
-				$table->ordering = 0;
 			}
 			else
 			{
-				// Because this is a mapping table, we cannot use JTable::store
+				// Featuring.
+				$tuples = array();
+				foreach ($pks as $i => $pk) {
+					$tuples[] = '('.$pk.', '.(int)($i + 1).')';
+				}
+
 				$this->_db->setQuery(
-					'INSERT INTO #__content_frontpage' .
-					' SET content_id = '.(int) $pk.
-					', ordering = 0'
+					'INSERT INTO #__content_frontpage (`content_id`, `ordering`)' .
+					' VALUES '.implode(',', $tuples)
 				);
 				if (!$this->_db->query()) {
 					$this->setError($this->_db->getErrorMsg());
 					return false;
 				}
 			}
-			$table->reorder();
 		}
+		catch (Exception $e)
+		{
+			$this->setError($e->getMessage());
+			return false;
+		}
+
+		$table->reorder();
 
 		$cache = & JFactory::getCache('com_content');
 		$cache->clean();
@@ -393,18 +422,18 @@ class ContentModelArticle extends JModelForm
 	 *
 	 * @return	boolean	Returns true on success, false on failure.
 	 */
-	function batch($commands, $itemIds)
+	function batch($commands, $pks)
 	{
 		// Sanitize user ids.
-		$itemIds = array_unique($itemIds);
-		JArrayHelper::toInteger($itemIds);
+		$pks = array_unique($pks);
+		JArrayHelper::toInteger($pks);
 
 		// Remove any values of zero.
-		if (array_search(0, $itemIds, true)) {
-			unset($itemIds[array_search(0, $itemIds, true)]);
+		if (array_search(0, $pks, true)) {
+			unset($pks[array_search(0, $pks, true)]);
 		}
 
-		if (empty($itemIds)) {
+		if (empty($pks)) {
 			$this->setError(JText::_('JError_No_items_selected'));
 			return false;
 		}
@@ -413,7 +442,7 @@ class ContentModelArticle extends JModelForm
 
 		if (!empty($commands['assetgroup_id']))
 		{
-			if (!$this->_batchAccess($commands['assetgroup_id'], $itemIds)) {
+			if (!$this->_batchAccess($commands['assetgroup_id'], $pks)) {
 				return false;
 			}
 			$done = true;
@@ -423,10 +452,10 @@ class ContentModelArticle extends JModelForm
 		{
 			$cmd = JArrayHelper::getValue($commands, 'move_copy', 'c');
 
-			if ($cmd == 'c' && !$this->_batchCopy($commands['menu_id'], $itemIds)) {
+			if ($cmd == 'c' && !$this->_batchCopy($commands['menu_id'], $pks)) {
 				return false;
 			}
-			else if ($cmd == 'm' && !$this->_batchMove($commands['menu_id'], $itemIds)) {
+			else if ($cmd == 'm' && !$this->_batchMove($commands['menu_id'], $pks)) {
 				return false;
 			}
 			$done = true;
@@ -449,10 +478,10 @@ class ContentModelArticle extends JModelForm
 	 *
 	 * @return	booelan	True if successful, false otherwise and internal error is set.
 	 */
-	protected function _batchAccess($value, $itemIds)
+	protected function _batchAccess($value, $pks)
 	{
 		$table = &$this->getTable();
-		foreach ($itemIds as $pk)
+		foreach ($pks as $pk)
 		{
 			$table->reset();
 			$table->load($pk);
@@ -475,7 +504,7 @@ class ContentModelArticle extends JModelForm
 	 *
 	 * @return	booelan	True if successful, false otherwise and internal error is set.
 	 */
-	protected function _batchMove($value, $itemIds)
+	protected function _batchMove($value, $pks)
 	{
 		// $value comes as {menutype}.{parent_id}
 		$parts		= explode('.', $value);
@@ -518,7 +547,7 @@ class ContentModelArticle extends JModelForm
 		$children = array();
 
 		// Parent exists so we let's proceed
-		foreach ($itemIds as $pk)
+		foreach ($pks as $pk)
 		{
 			$table->reset();
 
@@ -553,7 +582,7 @@ class ContentModelArticle extends JModelForm
 				// Add child ID's to the array only if they aren't already there.
 				foreach ($childIds as $childId)
 				{
-					if (!in_array($childId, $itemIds)) {
+					if (!in_array($childId, $pks)) {
 						$children[] = $childId;
 					}
 				}
@@ -611,7 +640,7 @@ class ContentModelArticle extends JModelForm
 	 *
 	 * @return	booelan	True if successful, false otherwise and internal error is set.
 	 */
-	protected function _batchCopy($value, $itemIds)
+	protected function _batchCopy($value, $pks)
 	{
 		// $value comes as {menutype}.{parent_id}
 		$parts		= explode('.', $value);
@@ -667,10 +696,10 @@ class ContentModelArticle extends JModelForm
 		}
 
 		// Parent exists so we let's proceed
-		while (!empty($itemIds) && $count > 0)
+		while (!empty($pks) && $count > 0)
 		{
 			// Pop the first id off the stack
-			$pk = array_shift($itemIds);
+			$pk = array_shift($pks);
 
 			$table->reset();
 
@@ -702,8 +731,8 @@ class ContentModelArticle extends JModelForm
 			// Add child ID's to the array only if they aren't already there.
 			foreach ($childIds as $childId)
 			{
-				if (!in_array($childId, $itemIds)) {
-					array_push($itemIds, $childId);
+				if (!in_array($childId, $pks)) {
+					array_push($pks, $childId);
 				}
 			}
 

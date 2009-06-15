@@ -27,6 +27,7 @@ class ContentControllerArticles extends JController
 		$this->registerTask('unpublish',	'publish');
 		$this->registerTask('archive',		'publish');
 		$this->registerTask('trash',		'publish');
+		$this->registerTask('unfeatured',	'featured');
 	}
 
 	/**
@@ -106,18 +107,21 @@ class ContentControllerArticles extends JController
 	}
 
 	/**
-	 * Method to toggle the frontpage setting of a list of articles.
+	 * Method to toggle the featured setting of a list of articles.
 	 *
 	 * @return	void
 	 * @since	1.0
 	 */
-	function frontpage()
+	function featured()
 	{
 		// Check for request forgeries
 		JRequest::checkToken() or die('Invalid Token');
 
 		// Get items to publish from the request.
 		$ids	= JRequest::getVar('cid', array(), '', 'array');
+		$values	= array('featured' => 1, 'unfeatured' => 0);
+		$task	= $this->getTask();
+		$value	= JArrayHelper::getValue($values, $task, 0, 'int');
 
 		if (empty($ids)) {
 			JError::raiseWarning(500, JText::_('Select an item to publish'));
@@ -128,7 +132,7 @@ class ContentControllerArticles extends JController
 			$model = $this->getModel();
 
 			// Publish the items.
-			if (!$model->frontpage($ids)) {
+			if (!$model->featured($ids, $value)) {
 				JError::raiseWarning(500, $model->getError());
 			}
 		}

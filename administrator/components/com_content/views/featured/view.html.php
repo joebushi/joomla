@@ -14,7 +14,7 @@ jimport('joomla.application.component.view');
  * @package		Joomla.Administrator
  * @subpackage	com_content
  */
-class ContentViewFrontpage extends JView
+class ContentViewFeatured extends JView
 {
 	protected $state;
 	protected $items;
@@ -61,13 +61,13 @@ class ContentViewFrontpage extends JView
 	protected function _setToolbar()
 	{
 		$state = $this->get('State');
-		JToolBarHelper::title(JText::_('Content_Frontpage_Title'), 'frontpage.png');
+		JToolBarHelper::title(JText::_('Content_Featured_Title'), 'frontpage.png');
 		if ($state->get('filter.published') != -1) {
-			JToolBarHelper::archiveList('frontpage.archive');
+			JToolBarHelper::archiveList('featured.archive');
 		}
-		JToolBarHelper::custom('frontpage.publish', 'publish.png', 'publish_f2.png', 'Publish', true);
-		JToolBarHelper::custom('frontpage.unpublish', 'unpublish.png', 'unpublish_f2.png', 'Unpublish', true);
-		JToolBarHelper::custom('frontpage.delete','delete.png','delete_f2.png','JToolbar_Remove', true);
+		JToolBarHelper::custom('featured.publish', 'publish.png', 'publish_f2.png', 'Publish', true);
+		JToolBarHelper::custom('featured.unpublish', 'unpublish.png', 'unpublish_f2.png', 'Unpublish', true);
+		JToolBarHelper::custom('featured.delete','delete.png','delete_f2.png','JToolbar_Remove', true);
 		JToolBarHelper::custom('article.edit', 'edit.png', 'edit_f2.png', 'Edit', true);
 		JToolBarHelper::custom('article.edit', 'new.png', 'new_f2.png', 'New', false);
 	}

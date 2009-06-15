@@ -17,7 +17,7 @@ require_once dirname(__FILE__).DS.'articles.php';
  * @package		Joomla.Administrator
  * @subpackage	com_content
  */
-class ContentControllerFrontpage extends ContentControllerArticles
+class ContentControllerFeatured extends ContentControllerArticles
 {
 	/**
 	 * Removes an item
@@ -35,15 +35,15 @@ class ContentControllerFrontpage extends ContentControllerArticles
 		}
 		else {
 			// Get the model.
-			$model = $this->getModel('Frontpage');
+			$model = $this->getModel();
 
 			// Remove the items.
-			if (!$model->delete($ids)) {
+			if (!$model->featured($ids, 0)) {
 				JError::raiseWarning(500, $model->getError());
 			}
 		}
 
-		$this->setRedirect('index.php?option=com_content&view=frontpage');
+		$this->setRedirect('index.php?option=com_content&view=featured');
 	}
 
 	/**
@@ -56,6 +56,6 @@ class ContentControllerFrontpage extends ContentControllerArticles
 	{
 		parent::publish();
 
-		$this->setRedirect('index.php?option=com_content&view=frontpage');
+		$this->setRedirect('index.php?option=com_content&view=featured');
 	}
 }

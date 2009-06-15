@@ -40,7 +40,7 @@ class ContentModelArticles extends JModelList
 	{
 		$app = &JFactory::getApplication();
 
-		$search = $app->getUserStateFromRequest($this->_context.'.search', 'search');
+		$search = $app->getUserStateFromRequest($this->_context.'.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
 		$published 	= $app->getUserStateFromRequest($this->_context.'.published', 'filter_published', '');
@@ -98,7 +98,11 @@ class ContentModelArticles extends JModelList
 		$query = new JQuery;
 
 		// Select the required fields from the table.
-		$query->select($this->getState('list.select', 'a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.state, a.access, a.created, a.hits, a.ordering'));
+		$query->select(
+			$this->getState(
+				'list.select',
+				'a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.state, a.access, a.created, a.hits, a.ordering, a.featured')
+		);
 		$query->from('#__content AS a');
 
 		// Join over the users for the checked out user.
@@ -116,10 +120,6 @@ class ContentModelArticles extends JModelList
 		// Join over the users for the author.
 		$query->select('ua.name AS author_name');
 		$query->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
-
-		// Join over the frontpage mapping.
-		$query->select('fp.content_id AS frontpage');
-		$query->join('LEFT', '#__content_frontpage AS fp ON fp.content_id = a.id');
 
 		// Filter by access level.
 		if ($access = $this->getState('filter.access')) {
@@ -141,7 +141,13 @@ class ContentModelArticles extends JModelList
 			if (stripos($search, 'id:') === 0) {
 				$query->where('a.id = '.(int) substr($search, 3));
 			}
-			else {
+			else if (stripos($search, 'author:') === 0)
+			{
+				$search = $this->_db->Quote('%'.$this->_db->getEscaped(substr($search, 7), true).'%');
+				$query->where('ua.name LIKE '.$search.' OR ua.username LIKE '.$search);
+			}
+			else
+			{
 				$search = $this->_db->Quote('%'.$this->_db->getEscaped($search, true).'%');
 				$query->where('a.title LIKE '.$search.' OR a.alias LIKE '.$search);
 			}
@@ -150,7 +156,7 @@ class ContentModelArticles extends JModelList
 		// Add the list ordering clause.
 		$query->order($this->_db->getEscaped($this->getState('list.ordering', 'a.title')).' '.$this->_db->getEscaped($this->getState('list.direction', 'ASC')));
 
-		//echo nl2br(str_replace('#__','jos_',$query->toString()));
+		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;
 	}
 }
