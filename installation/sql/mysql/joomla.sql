@@ -803,7 +803,7 @@ CREATE TABLE IF NOT EXISTS `#__access_assetgroup_rule_map` (
   PRIMARY KEY  (`group_id`,`rule_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `jos_access_assetgroup_rule_map` VALUES 
+INSERT INTO `#__access_assetgroup_rule_map` VALUES 
 (1, 1),
 (2, 2),
 (3, 3),
@@ -827,7 +827,7 @@ CREATE TABLE IF NOT EXISTS `#__access_assets` (
   `section` varchar(100) NOT NULL default '0',
   `name` varchar(100) NOT NULL default '',
   `title` varchar(100) NOT NULL default '',
-  `parent` int(10) unsigned NOT NULL,
+  `parent` int(10) unsigned NOT NULL default '0',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `idx_asset_name_lookup` (`section_id`,`name`),
   KEY `idx_asset_section_lookup` (`section`)
@@ -1058,9 +1058,9 @@ CREATE TABLE IF NOT EXISTS `#__user_usergroup_map` (
 ##
 ##########################################################
 
-INSERT INTO `jos_access_assets` VALUES 
-(7, 1, 'core', 'plugin.28', 'System - Debug')
+INSERT INTO `#__access_assets` VALUES 
+(7, 1, 'core', 'plugin.28', 'System - Debug', 0)
 ;
-INSERT INTO `jos_access_asset_assetgroup_map` VALUES 
+INSERT INTO `#__access_asset_assetgroup_map` VALUES 
 (7, 1)
 ;

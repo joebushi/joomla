@@ -105,12 +105,12 @@ INSERT INTO `#__weblinks` VALUES
 (6, 3, 0, 'Ohloh Tracking of Joomla!', 'ohloh-tracking-of-joomla', 'http://www.ohloh.net/projects/20', 'Objective reports from Ohloh about Joomla''s development activity. Joomla! has some star developers with serious kudos.', '2007-07-19 09:28:31', 1, 1, 0, '0000-00-00 00:00:00', 6, 0, 1, 1, '{"target":"0"}');
 
 INSERT INTO `#__access_assets` VALUES 
-(1, 7, 'com_weblinks', 'weblink.1', 'Joomla!'),
-(2, 7, 'com_weblinks', 'weblink.4', 'OpenSourceMatters'),
-(3, 7, 'com_weblinks', 'weblink.2', 'php.net'),
-(4, 7, 'com_weblinks', 'weblink.5', 'Joomla! - Forums'),
-(5, 7, 'com_weblinks', 'weblink.3', 'MySQL'),
-(6, 7, 'com_weblinks', 'weblink.6', 'Ohloh Tracking of Joomla!');
+(1, 7, 'com_weblinks', 'weblink.1', 'Joomla!',0),
+(2, 7, 'com_weblinks', 'weblink.4', 'OpenSourceMatters',0),
+(3, 7, 'com_weblinks', 'weblink.2', 'php.net',0),
+(4, 7, 'com_weblinks', 'weblink.5', 'Joomla! - Forums',0),
+(5, 7, 'com_weblinks', 'weblink.3', 'MySQL',0),
+(6, 7, 'com_weblinks', 'weblink.6', 'Ohloh Tracking of Joomla!',0);
 
 INSERT INTO `#__access_asset_assetgroup_map` VALUES 
 (1, 1),
