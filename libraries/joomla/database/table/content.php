@@ -22,150 +22,167 @@ class JTableContent extends JTable
 	/**
 	 * @var int Primary key
 	 */
-	var $id					= null;
+	public $id = null;
 
 	/**
 	 *  @var string
 	 */
-	var $title				= null;
+	public $title = null;
 
 	/**
 	 *  @var string
 	 */
-	var $alias				= null;
+	public $alias= null;
 
 	/**
 	 *  @var string
 	 */
-	var $title_alias			= null;
+	public $title_alias= null;
 
 	/**
 	 *  @var string
 	 */
-	var $introtext			= null;
-
-	/** @var string */
-	var $fulltext			= null;
-
-	/**
-	 *  @var int
-	 */
-	var $state				= null;
-
-	/**
-	 *  @var int The id of the category section
-	 */
-	var $sectionid			= null;
-
-	/**
-	 *  @var int DEPRECATED
-	 */
-	var $mask				= null;
-
-	/**
-	 *  @var int
-	 */
-	var $catid				= null;
-
-	/**
-	 *  @var datetime
-	 */
-	var $created				= null;
-
-	/**
-	 *  @var int User id
-	 */
-	var $created_by			= null;
-
-	/**
-	 *  @var string An alias for the author
-	 */
-	var $created_by_alias		= null;
-
-	/**
-	 *  @var datetime
-	 */
-	var $modified			= null;
-
-	/**
-	 *  @var int User id
-	 */
-	var $modified_by			= null;
-
-	/**
-	 *  @var boolean
-	 */
-	var $checked_out			= 0;
-
-	/**
-	 *  @var time
-	 */
-	var $checked_out_time		= 0;
-
-	/**
-	 *  @var datetime
-	 */
-	var $publish_up			= null;
-
-	/**
-	 *  @var datetime
-	 */
-	var $publish_down		= null;
-
-	/**
-	 *  @var string
-	 */
-	var $images				= null;
-
-	/**
-	 *  @var string
-	 */
-	var $urls				= null;
-
-	/**
-	 *  @var string
-	 */
-	var $attribs				= null;
-
-	/**
-	 *  @var int
-	 */
-	var $version				= null;
-
-	/**
-	 *  @var int
-	 */
-	var $parentid			= null;
-
-	/**
-	 *  @var int
-	 */
-	var $ordering			= null;
-
-	/**
-	 *  @var string
-	 */
-	var $metakey				= null;
-
-	/**
-	 *  @var string
-	 */
-	var $metadesc			= null;
+	public $introtext = null;
 
 	/**
 	 * @var string
 	 */
-	var $metadata			= null;
+	public $fulltext = null;
+
+	/**
+	 *  @var int
+	 */
+	public $state = null;
+
+	/**
+	 *  @var int The id of the category section
+	 */
+	public $sectionid = null;
+
+	/**
+	 *  @var int DEPRECATED
+	 */
+	public $mask = null;
+
+	/**
+	 *  @var int
+	 */
+	public $catid = null;
+
+	/**
+	 *  @var datetime
+	 */
+	public $created = null;
+
+	/**
+	 *  @var int User id
+	 */
+	public $created_by = null;
+
+	/**
+	 *  @var string An alias for the author
+	 */
+	public $created_by_alias = null;
+
+	/**
+	 *  @var datetime
+	 */
+	public $modified = null;
+
+	/**
+	 *  @var int User id
+	 */
+	public $modified_by = null;
+
+	/**
+	 *  @var boolean
+	 */
+	public $checked_out = 0;
+
+	/**
+	 *  @var time
+	 */
+	public $checked_out_time = 0;
+
+	/**
+	 *  @var datetime
+	 */
+	public $publish_up = null;
+
+	/**
+	 *  @var datetime
+	 */
+	public $publish_down = null;
+
+	/**
+	 *  @var string
+	 */
+	public $images = null;
+
+	/**
+	 *  @var string
+	 */
+	public $urls = null;
+
+	/**
+	 *  @var string
+	 */
+	public $attribs = null;
+
+	/**
+	 *  @var int
+	 */
+	public $version = null;
+
+	/**
+	 *  @var int
+	 */
+	public $parentid = null;
+
+	/**
+	 *  @var int
+	 */
+	public $ordering = null;
+
+	/**
+	 *  @var string
+	 */
+	public $metakey = null;
+
+	/**
+	 *  @var string
+	 */
+	public $metadesc = null;
+
+	/**
+	 * @var string
+	 */
+	public $metadata = null;
 
 	/**
 	 * @var int
 	 */
-	var $access				= null;
+	public $access = null;
 
 	/**
 	 * @var int
 	 */
-	var $hits				= null;
+	public $hits = null;
+
+	/**
+	 * @var int
+	 */
+	public $featured = null;
+
+	/**
+	 * @var varchar
+	 */
+	public $language = null;
+
+	/**
+	 * @var varchar
+	 */
+	public $xreference = null;
 
 	/**
 	 * Track rows as assets.
