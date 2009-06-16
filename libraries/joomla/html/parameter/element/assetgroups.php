@@ -19,7 +19,7 @@ require_once dirname(__FILE__).DS.'list.php';
  * @subpackage	Parameter
  * @since		1.6
  */
-class JElementAssetGroups extends JElementList
+class JElementAssetGroups extends JElement
 {
 	/**
 	* Element name
@@ -35,7 +35,7 @@ class JElementAssetGroups extends JElementList
 	 * @param	object $node
 	 * @return	array
 	 */
-	protected function _getOptions(&$node)
+	public function fetchElement($name, $value, &$node, $control_name)
 	{
 		$db = &JFactory::getDbo();
 		$db->setQuery(
@@ -44,6 +44,6 @@ class JElementAssetGroups extends JElementList
 			.' ORDER BY left_id'
 		);
 		$options = $db->loadObjectList();
-		return $options;
+		return JHTML::_('access.assetgroups', 'access', $value);
 	}
 }

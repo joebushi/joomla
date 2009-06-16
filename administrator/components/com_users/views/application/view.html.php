@@ -31,6 +31,23 @@ class UsersViewApplication extends JView
 	 */
 	function display($tpl = null)
 	{
+		$items = &$this->get('items');
+		$usergroups = &$this->get('usergroups');
+		JHtml::_('behavior.switcher');
+		$document =& JFactory::getDocument();
+		$document->addScriptDeclaration("
+			document.switcher = null;
+			window.addEvent('domready', function(){
+			 	toggler = $('submenu')
+			  	element = $('access-document')
+			  	if (element) {
+			  		document.switcher = new JSwitcher(toggler, element, {cookieName: toggler.getAttribute('class')});
+			  	}
+			});
+		");
+		
+		$this->assignRef('items', $items);
+		$this->assignRef('usergroups', $usergroups);
 		// Render the layout.
 		parent::display($tpl);
 	}

@@ -18,5 +18,21 @@ jimport('joomla.application.component.modelitem');
  */
 class UsersModelApplication extends JModelItem
 {
-	
+	function getItems()
+	{
+		$xml = JFactory::getXMLParser('simple');
+		
+		
+		$xml->loadFile(JPATH_ADMINISTRATOR.DS.'components'.DS.JRequest::getVar('component').DS.'access.xml');
+		return $xml->document;
+	}
+	function getUsergroups()
+	{
+		$db =&JFactory::getDBO();
+		$query = 'SELECT * FROM #__usergroups ORDER BY left_id';
+		$db->setQuery($query);
+		$groups = $db->loadObjectList();
+
+		return $groups;
+	}
 }

@@ -493,8 +493,8 @@ class JToolBarHelper
 	*/
 	function accesspreferences($component, $alt = 'Access Preferences', $path = '')
 	{
-		$width = 570;
-		$height = 200;
+		$width = 680;
+		$height = 500;
 		$user = &JFactory::getUser();
 		if (!$user->authorise('core.config.manage')) {
 			return;

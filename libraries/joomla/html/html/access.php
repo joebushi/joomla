@@ -94,6 +94,7 @@ abstract class JHtmlAccess
 			array_unshift($options, JHtml::_('select.option', '', JText::_('JOption_Access_Show_All_Groups')));
 		}
 
+		
 		return JHtml::_('select.genericlist', $options, $name,
 			array(
 				'list.attr' => $attribs,
@@ -244,7 +245,7 @@ abstract class JHtmlAccess
 			}
 		}
 
-		return JHtml::_(
+		$output = JHtml::_(
 			'select.genericlist',
 			$cache,
 			$name,
@@ -255,5 +256,7 @@ abstract class JHtmlAccess
 				'list.translate' => true
 			)
 		);
+		$output .= '<a class="modal" rel="{handler: \'iframe\', size: {x: 400, y: 400}}" href="'.JRoute::_('index.php?option=com_users&view=asset&tmpl=component&component='.JRequest::getVar('option')).'">Access</a>';
+		return $output;
 	}
 }

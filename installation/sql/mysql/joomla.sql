@@ -827,6 +827,7 @@ CREATE TABLE IF NOT EXISTS `#__access_assets` (
   `section` varchar(100) NOT NULL default '0',
   `name` varchar(100) NOT NULL default '',
   `title` varchar(100) NOT NULL default '',
+  `parent` int(10) unsigned NOT NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `idx_asset_name_lookup` (`section_id`,`name`),
   KEY `idx_asset_section_lookup` (`section`)
