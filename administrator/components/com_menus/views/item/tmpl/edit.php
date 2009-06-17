@@ -33,6 +33,10 @@ JHtml::_('behavior.formvalidation');
 		<legend><?php echo JText::_('Menus_Item_Details');?></legend>
 		<ol>
 			<li>
+				<?php echo $this->form->getLabel('menutype'); ?><br />
+				<?php echo $this->form->getInput('menutype'); ?>
+			</li>
+			<li>
 				<?php echo $this->form->getLabel('parent_id'); ?><br />
 				<?php echo $this->form->getInput('parent_id'); ?>
 			</li>
@@ -47,10 +51,6 @@ JHtml::_('behavior.formvalidation');
 			<li>
 				<?php echo $this->form->getLabel('link'); ?><br />
 				<?php echo $this->form->getInput('link'); ?>
-			</li>
-			<li>
-				<?php echo $this->form->getLabel('menutype'); ?><br />
-				<?php echo $this->form->getInput('menutype'); ?>
 			</li>
 			<li>
 				<?php echo $this->form->getLabel('type'); ?><br />
@@ -97,5 +97,3 @@ JHtml::_('behavior.formvalidation');
 	<?php echo JHtml::_('form.token'); ?>
 </form>
 <div class="clr"></div>
-
-<?php echo $this->loadTemplate('types'); ?>

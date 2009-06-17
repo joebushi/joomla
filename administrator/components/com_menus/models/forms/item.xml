@@ -54,11 +54,12 @@
 		<field
 			id="type"
 			name="type"
-			type="text"
+			type="menutype"
 			label="Menus_Item_Type_Label"
 			description="Menus_Item_Type_Desc"
 			default=""
-			class="inputbox"/>
+			class="inputbox"
+			size="40" />
 
 		<field
 			name="published"

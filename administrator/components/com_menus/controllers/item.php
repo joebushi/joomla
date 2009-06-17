@@ -57,6 +57,7 @@ class MenusControllerItem extends JController
 		// Clear the row edit information from the session.
 		$app->setUserState('com_menus.edit.item.id',	null);
 		$app->setUserState('com_menus.edit.item.data',	null);
+		$app->setUserState('com_menus.edit.item.type',	null);
 
 		// Check if we are adding for a particular menutype
 		$menuType = $app->getUserStateFromRequest($this->_context.'.filter.menutype', 'menutype', 'mainmenu');
@@ -103,6 +104,7 @@ class MenusControllerItem extends JController
 		// Push the new row id into the session.
 		$app->setUserState('com_menus.edit.item.id',	$id);
 		$app->setUserState('com_menus.edit.item.data',	null);
+		$app->setUserState('com_menus.edit.item.type',	null);
 
 		$this->setRedirect('index.php?option=com_menus&view=item&layout=edit');
 
@@ -143,6 +145,7 @@ class MenusControllerItem extends JController
 		// Clear the row edit information from the session.
 		$app->setUserState('com_menus.edit.item.id',	null);
 		$app->setUserState('com_menus.edit.item.data',	null);
+		$app->setUserState('com_menus.edit.item.type',	null);
 	}
 
 	/**
@@ -250,6 +253,7 @@ class MenusControllerItem extends JController
 				// Set the row data in the session.
 				$app->setUserState('com_menus.edit.item.id',	$model->getState('item.id'));
 				$app->setUserState('com_menus.edit.item.data',	null);
+				$app->setUserState('com_menus.edit.item.type',	null);
 
 				// Redirect back to the edit screen.
 				$this->setRedirect(JRoute::_('index.php?option=com_menus&view=item&layout=edit', false));
@@ -259,6 +263,7 @@ class MenusControllerItem extends JController
 				// Clear the row id and data in the session.
 				$app->setUserState('com_menus.edit.item.id',	null);
 				$app->setUserState('com_menus.edit.item.data',	null);
+				$app->setUserState('com_menus.edit.item.type',	null);
 
 				// Redirect back to the edit screen.
 				$this->setRedirect(JRoute::_('index.php?option=com_menus&view=item&layout=edit', false));
@@ -268,6 +273,7 @@ class MenusControllerItem extends JController
 				// Clear the row id and data in the session.
 				$app->setUserState('com_menus.edit.item.id',	null);
 				$app->setUserState('com_menus.edit.item.data',	null);
+				$app->setUserState('com_menus.edit.item.type',	null);
 
 				// Redirect to the list screen.
 				$this->setRedirect(JRoute::_('index.php?option=com_menus&view=items', false));
@@ -279,16 +285,15 @@ class MenusControllerItem extends JController
 	{
 		// Initialize variables.
 		$app	= &JFactory::getApplication();
-		$pks	= JRequest::getVar('cid', array(), '', 'array');
-		$model	= &$this->getModel('Item');
 
-		// Get the id of the group to edit.
-		$id =  (empty($pks) ? JRequest::getInt('item_id') : (int) array_pop($pks));
-
+		// Get the type.
 		$type = JRequest::getVar('type');
 		$type = json_decode(base64_decode($type));
 
-		var_dump($type);
+		$string = $type->title.'::'.http_build_query($type->request);
+		$app->setUserState('com_menus.edit.item.type', $string);
+
+		$this->setRedirect('index.php?option=com_menus&view=item&layout=edit');
 	}
 
 	/**
