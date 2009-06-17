@@ -290,7 +290,7 @@ class MenusControllerItem extends JController
 		$type = JRequest::getVar('type');
 		$type = json_decode(base64_decode($type));
 
-		$string = $type->title.'::'.http_build_query($type->request);
+		$string = $type->title.((isset($type->request)) ? '::'.http_build_query($type->request) : '');
 		$app->setUserState('com_menus.edit.item.type', $string);
 
 		$this->setRedirect('index.php?option=com_menus&view=item&layout=edit');

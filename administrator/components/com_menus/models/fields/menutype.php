@@ -49,6 +49,10 @@ class JFormFieldMenuType extends JFormFieldList
 				$value = JText::_('Menu_Alias');
 				break;
 
+			case 'separator':
+				$value = JText::_('Menu_Separator');
+				break;
+
 			default:
 				$value = htmlspecialchars(substr($this->value, 0, strpos($this->value, '::')));
 				break;
@@ -92,6 +96,21 @@ class JFormFieldMenuType extends JFormFieldList
 		$types = $this->_getTypeOptions();
 
 		$html[] = '<dl class="menu_types">';
+
+		$html[] = '	<dt>'.JText::_('System').'</dt>';
+		$html[] = '	<dd>';
+		$html[] = '		<ul>';
+		$html[] = '			<li>';
+		$html[] = '				<a class="choose_type" href="index.php?option=com_menus&amp;task=item.setType&amp;type='.base64_encode(json_encode(array('title'=>'url'))).'" title="'.JText::_('Menu_External_URL_Desc').'">'.JText::_('Menu_External_URL').'</a>';
+		$html[] = '			</li>';
+		$html[] = '			<li>';
+		$html[] = '				<a class="choose_type" href="index.php?option=com_menus&amp;task=item.setType&amp;type='.base64_encode(json_encode(array('title'=>'alias'))).'" title="'.JText::_('Menu_Alias_Desc').'">'.JText::_('Menu_Alias').'</a>';
+		$html[] = '			</li>';
+		$html[] = '			<li>';
+		$html[] = '				<a class="choose_type" href="index.php?option=com_menus&amp;task=item.setType&amp;type='.base64_encode(json_encode(array('title'=>'separator'))).'" title="'.JText::_('Menu_Separator_Desc').'">'.JText::_('Menu_Separator').'</a>';
+		$html[] = '			</li>';
+		$html[] = '		</ul>';
+		$html[] = '	</dd>';
 
 		foreach ($types as $name => $list)
 		{

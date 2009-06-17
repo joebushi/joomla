@@ -109,7 +109,7 @@ class MenusModelItem extends JModelForm
 			$table->type		= $this->getState('item.type');
 		}
 
-		if ($table->type != 'url' && $table->type != 'alias') {
+		if ($table->type != 'url' && $table->type != 'alias' && $table->type != 'separator') {
 			$type = explode('::', $table->type, 2);
 			if (strpos($table->link, $type[1]) === false) {
 				$table->link = 'index.php?'.$type[1];
