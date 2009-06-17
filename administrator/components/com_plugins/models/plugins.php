@@ -41,15 +41,18 @@ class PluginsModelPlugins extends JModelList
 
 		// Select all fields from the table.
 		$query->select($this->getState('list.select', '*'));
-		$query->from('`#__plugins`');
+		$query->from('`#__plugins` AS p');
 
 		// Filter the items over the search string if set.
 		$search = $this->getState('filter.search');
 		if (!empty($search)) {
-			$query->where(
-				''
-			);
+			$search = $this->_db->Quote('%'.$this->_db->getEscaped($search, true).'%', false);
+			$query->where('(p.name LIKE '.$search.')');
 		}
+		
+		// Join over the asset groups.
+		$query->select('ag.title AS access_level');
+		$query->join('LEFT', '#__access_assetgroups AS ag ON ag.id = p.access');
 
 		// Filter the items over the published state if set.
 		if ($this->getState('check.state')) {
@@ -62,7 +65,6 @@ class PluginsModelPlugins extends JModelList
 		// Add the list ordering clause.
 		$query->order($this->_db->getEscaped($this->getState('list.ordering', 'p.name')).' '.$this->_db->getEscaped($this->getState('list.direction', 'ASC')));
 
-		//echo nl2br(str_replace('#__','jos_',$query->toString())).'<hr/>';
 		return $query;
 	}
 
@@ -118,10 +120,6 @@ class PluginsModelPlugins extends JModelList
 		$this->setState('list.limit', $app->getUserStateFromRequest($context.'list.limit', 'limit', $app->getCfg('list_limit', 25), 'int'));
 		$this->setState('list.ordering', $app->getUserStateFromRequest($context.'list.ordering', 'filter_order', 'folder', 'cmd'));
 		$this->setState('list.direction', $app->getUserStateFromRequest($context.'list.direction', 'filter_order_Dir', 'ASC', 'word'));
-
-		// Load the user parameters.
-		$this->setState('user',	$user);
-		$this->setState('user.id', (int)$user->id);
 
 		// Load the check parameters.
 		if ($this->_state->get('filter.state') === '*') {

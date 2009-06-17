@@ -17,9 +17,14 @@ JHtml::_('behavior.tooltip');
 JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 ?>
 
-<form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_plugins'); ?>" method="post" name="adminForm">
 	<fieldset class="filter">
-		<div class="left"></div>
+		<div class="left">
+			<label for="search"><?php echo JText::_('JSearch_Filter'); ?>:</label>
+			<input type="text" name="filter_search" id="search" value="<?php echo $this->state->get('filter.search'); ?>" size="60" title="<?php echo JText::_('Plugins_Search_in_name'); ?>" />
+			<button type="submit"><?php echo JText::_('JSearch_Filter_Submit'); ?></button>
+			<button type="button" onclick="$('search').value='';this.form.submit();"><?php echo JText::_('JSearch_Filter_Clear'); ?></button>
+		</div>
 		<div class="right">
 			<ol>
 				<li>
@@ -89,7 +94,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 				</td>
 				<td>
 					<span class="editlinktip hasTip" title="<?php echo JText::_('JCommon_Edit_item');?>::<?php echo $item->name; ?>">
-						<a href="<?php echo JRoute::_('index.php?option=com_plugins&taskplugin.edit&id='.(int) $item->id); ?>">
+						<a href="<?php echo JRoute::_('index.php?option=com_plugins&task=plugin.edit&cid[]='.(int) $item->id); ?>">
 							<?php echo $item->name; ?>
 						</a>
 					</span>
@@ -104,7 +109,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 					<input type="text" name="order[]" size="5" value="<?php echo $item->ordering;?>" <?php echo $disabled ?> class="text_area" style="text-align: center" />
 				</td>
 				<td align="center">
-					<?php echo $item->access; ?>
+					<?php echo $item->access_level; ?>
 				</td>
 				<td align="center">
 					<?php echo $item->folder; ?>
@@ -113,12 +118,17 @@ JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 					<?php echo $item->element; ?>
 				</td>
 				<td align="center">
-					<?php echo $item->id; ?>
+					<?php echo (int) $item->id; ?>
 				</td>
 			</tr>
 			<?php endforeach; ?>
 		</tbody>
-		
-		
 	</table>
+	
+	<input type="hidden" name="option" value="com_plugins" />
+	<input type="hidden" name="task" value="" />
+	<input type="hidden" name="boxchecked" value="0" />
+	<input type="hidden" name="filter_order" value="<?php echo $this->state->get('list.ordering'); ?>" />
+	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->state->get('list.direction'); ?>" />
+	<?php echo JHtml::_('form.token'); ?>
 </form>

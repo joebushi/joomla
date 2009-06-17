@@ -25,8 +25,8 @@ class JHtmlPlugin
 	{
 		// Array of image, task, title, action
 		$states	= array(
-			1	=> array('tick.png',		'weblinks.unpublish',	'JState_Published',			'JState_UnPublish_Item'),
-			0	=> array('publish_x.png',	'weblinks.publish',		'JState_UnPublished',		'JState_Publish_Item'),
+			1	=> array('tick.png', 'plugin.unpublish', 'JState_Published', 'JState_UnPublish_Item'),
+			0	=> array('publish_x.png', 'plugin.publish', 'JState_UnPublished', 'JState_Publish_Item'),
 		);
 		$state	= JArrayHelper::getValue($states, (int) $value, $states[0]);
 		$html	= '<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$i.'\',\''.$state[1].'\')" title="'.JText::_($state[3]).'">'
