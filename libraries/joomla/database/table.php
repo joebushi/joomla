@@ -588,7 +588,7 @@ abstract class JTable extends JObject
 						if($value == 1)
 						{
 							$rule = JSimpleRule::getInstance();
-							$rule->setAction($action);
+							$rule->setAction($asset->section.'.'.$action);
 							$rule->setUserGroups(array($group));
 							$rule->setAsset($asset->id);
 							$rule->setSection($asset->section);
@@ -597,7 +597,7 @@ abstract class JTable extends JObject
 							$query = 'INSERT INTO #__access_asset_rule_map VALUES ';
 							foreach($childassets as $child)
 							{
-								$queryparts[] = '('.$rule_id.','.$child.')';
+								$queryparts[] = '('.$child.','.$rule_id.')';
 							}
 						}
 					}
