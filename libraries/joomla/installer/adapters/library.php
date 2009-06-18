@@ -130,7 +130,7 @@ class JInstallerLibrary extends JAdapterInstance
 		$row->access = 0;
 		$row->client_id = 0;
 		$row->params = $this->parent->getParams();
-		$row->data = ''; // custom data
+		$row->custom_data = ''; // custom data
 		$row->manifest_cache = $this->parent->generateManifestCache();
 		if (!$row->store()) {
 			// Install failed, roll back changes
