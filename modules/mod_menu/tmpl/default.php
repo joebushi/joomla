@@ -19,12 +19,12 @@ for ($i=0,$n=count($list); $i<$n; $i++)
 	$item = $list[$i];
 
 	// The next item is deeper.
-	if (isset($list[$i+1]) && ($item->level < $list[$i+1]->level))
+	if ($item->deeper)
 	{
 		echo "\n\t<li>";
 	}
 	// The next item is shallower.
-	elseif (isset($list[$i+1]) && ($item->level > $list[$i+1]->level))
+	elseif ($item->shallower)
 	{
 		echo "\n\t<li>";
 
@@ -38,15 +38,15 @@ for ($i=0,$n=count($list); $i<$n; $i++)
 	require JModuleHelper::getLayoutPath('mod_menu', 'default_item');
 
 	// The next item is deeper.
-	if (isset($list[$i+1]) && ($item->level < $list[$i+1]->level))
+	if ($item->deeper)
 	{
 		echo "\n\t<ul>";
 	}
 	// The next item is shallower.
-	elseif (isset($list[$i+1]) && ($item->level > $list[$i+1]->level))
+	elseif ($item->shallower)
 	{
 		echo "\n\t</li>";
-		echo str_repeat("\n\t</ul>\n\t</li>", ($item->level - $list[$i+1]->level));
+		echo str_repeat("\n\t</ul>\n\t</li>", $item->level_diff);
 	}
 	// The next item is on the same level.
 	else {

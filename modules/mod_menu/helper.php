@@ -44,7 +44,15 @@ class modMenuHelper
 		// Check for a database error.
 		if ($db->getErrorNum()) {
 			JError::raiseWarning($db->getErrorMsg());
-			return false;
+			return array();
+		}
+
+		// Set some values to make nested HTML rendering easier.
+		for ($i=0,$n=count($list); $i<$n; $i++)
+		{
+			$list[$i]->deeper = (isset($list[$i+1]) && ($list[$i]->level < $list[$i+1]->level));
+			$list[$i]->shallower = (isset($list[$i+1]) && ($list[$i]->level > $list[$i+1]->level));
+			$list[$i]->level_diff = (isset($list[$i+1])) ? ($list[$i]->level - $list[$i+1]->level) : 0;
 		}
 
 		return $list;
