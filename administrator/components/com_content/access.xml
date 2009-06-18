@@ -1,7 +1,7 @@
 <access section="com_content">
 	<action name="JContent_manage" value="manage" description="DESC_MANAGE_CONTENT" />
 	<action name="JContent_aclmanage" value="aclmanage" description="DESC_ACLMANAGE_CONTENT" >
-		<depends value="true">aclmanage</depends>
+		<depends value="true">manage</depends>
 	</action>
 	<asset name="category">
 		<action name="JContent_manage" value="manage" description="DESC_MANAGE_CONTENT" />
