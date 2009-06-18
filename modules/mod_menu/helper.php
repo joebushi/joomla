@@ -26,7 +26,7 @@ class modMenuHelper
 		$query->select('n.*');
 		$query->from('#__menu AS n, #__menu AS p');
 		$query->where('n.left_id BETWEEN p.left_id AND p.right_id');
-		$query->where('p.id = 1');
+		$query->where('p.left_id = 0');
 		$query->order('n.left_id');
 
 		// Filter over the appropriate menu.
