@@ -25,7 +25,8 @@ class modMenuHelper
 		$query = new JQuery;
 		$query->select('n.*');
 		$query->from('#__menu AS n, #__menu AS p');
-		$query->where('n.left_id BETWEEN p.left_id AND p.right_id');
+		$query->where('n.left_id > p.left_id');
+		$query->where('n.left_id < p.right_id');
 		$query->where('p.left_id = 0');
 		$query->order('n.left_id');
 
@@ -40,7 +41,6 @@ class modMenuHelper
 		$db->setQuery($query);
 		$list = $db->loadObjectList();
 
-//var_dump($params->toArray());
 		// Check for a database error.
 		if ($db->getErrorNum()) {
 			JError::raiseWarning($db->getErrorMsg());
