@@ -80,6 +80,7 @@ class JTableContent extends JTable
 	/** @var int */
 	var $hits				= null;
 
+	var $_trackAssets = true;
 	/**
 	* @param database A database connector object
 	*/
@@ -124,6 +125,11 @@ class JTableContent extends JTable
 	function getAssetTitle()
 	{
 		return $this->title;
+	}
+	
+	function getAssetParent()
+	{
+		return 'category.'.$this->catid;
 	}
 
 	/**

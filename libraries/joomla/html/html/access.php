@@ -202,6 +202,59 @@ abstract class JHtmlAccess
 		return implode("\n", $html);
 	}
 
+	public static function asset($component, $assettype)
+	{
+		$xml = JFactory::getXMLParser('simple');
+		$xml->loadFile(JPATH_ADMINISTRATOR.DS.'components'.DS.$component.DS.'access.xml');
+		$data = $xml->document;
+		$db =&JFactory::getDBO();
+		$query = 'SELECT * FROM #__usergroups ORDER BY left_id';
+		$db->setQuery($query);
+		$groups = $db->loadObjectList();
+		JHtml::_('behavior.switcher');
+		$document =& JFactory::getDocument();
+		$document->addScriptDeclaration("
+			document.switcher = null;
+			window.addEvent('domready', function(){
+			 	toggler = $('submenu')
+			  	element = $('access-document')
+			  	if (element) {
+			  		document.switcher = new JSwitcher(toggler, element, {cookieName: toggler.getAttribute('class')});
+			  	}
+			});
+		");
+		$output = JHTML::_('select.booleanlist', 'inherit');
+		$output .= '<fieldset><legend>'.JText::_('Usergroups').'</legend>';
+		$output .= '<ul id="submenu">';
+		foreach($groups as $usergroup)
+		{
+			$output .= '<li><a id="'.$usergroup->title.'">'.$usergroup->title.'</a></li>';
+		}
+		$output .= '</ul></fieldset>';
+		$output .= '<div id="access-document">';
+		foreach($groups as $usergroup)
+		{
+			$output .= '<div  id="page-'.$usergroup->title.'">';
+			$output .= '<fieldset class="noshow">';
+			$output .= '<legend>'.$usergroup->title.'</legend>';
+			$output .= '<table>';
+			foreach($data->children() as $item)
+			{
+				if($item->name() == 'asset')
+				{
+					foreach($item->children() as $item2)
+					{
+						$output .= '<tr><td>'.$item2->attributes('name').'</td>';
+						$output .= '<td>'.JHTML::_('select.booleanlist', 'accessrules['.$usergroup->id.']['.$item2->attributes('value').']').'</td></tr>';
+					}
+				}
+			}
+			$output .= '</table></fieldset></div>';
+		}
+		$output .= '</div>';
+		return $output;
+	}
+	
 	/**
 	 * Displays a Select list of the available asset groups
 	 *

@@ -580,6 +580,7 @@ abstract class JTable extends JObject
 			} else {
 				$rules = JRequest::getVar('accessrules', array());
 				jimport('joomla.access.permission.simplerule');
+				$queryparts = array();
 				foreach($rules as $group => $actions)
 				{
 					foreach($actions as $action => $value)
@@ -590,23 +591,20 @@ abstract class JTable extends JObject
 							$rule->setAction($action);
 							$rule->setUserGroups(array($group));
 							$rule->setAsset($asset->id);
+							$rule->setSection($asset->section);
 							$rule->store();
 							$rule_id = $rule->getRule();
 							$query = 'INSERT INTO #__access_asset_rule_map VALUES ';
-							$queryparts = array();
-							foreach($rules as $rule)
+							foreach($childassets as $child)
 							{
-								foreach($childassets as $child)
-								{
-									$queryparts[] = '('.$rule_id.','.$child.')';
-								}
+								$queryparts[] = '('.$rule_id.','.$child.')';
 							}
-							$query .= implode(',', $queryparts);
-							$this->_db->setQuery($query);
-							$this->_db->Query();
 						}
 					}
 				}
+				$query .= implode(',', $queryparts);
+				$this->_db->setQuery($query);
+				$this->_db->Query();
 			}
 		}
 
