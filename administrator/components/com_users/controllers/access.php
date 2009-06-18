@@ -31,8 +31,35 @@ class UsersControllerAccess extends JController
 	
 	public function saveAccess()
 	{
-		echo "works";
-		die;
+		$component = JRequest::getVar('component');
+		$db =& JFactory::getDBO();
+		$query = 'SELECT id FROM #__access_rules WHERE section = '.$db->Quote($component).' AND access_type = 1';
+		$db->setQuery($query);
+		$rules = $db->loadResultArray();
+		$query = 'DELETE FROM #__access_rules WHERE id IN ('.implode(',', $rules).');';
+		$query = 'DELETE FROM #__access_action_rule_map WHERE rule_id IN ('.implode(',', $rules).');';
+		$query = 'DELETE FROM #__usergroup_rule_map WHERE rule_id IN ('.implode(',', $rules).');';
+		$db->setQuery($query);
+		$db->Query();
+		$rules = JRequest::getVar('accessrules', array());
+		$component = JRequest::getVar('component');
+		jimport('joomla.access.permission.simplerule');
+		foreach($rules as $group => $actions)
+		{
+			foreach($actions as $action => $value)
+			{
+				if($value == 1)
+				{
+					$rule = JSimpleRule::getInstance();
+					$rule->setAction($component.'.'.$action);
+					$rule->setUserGroups(array($group));
+					$rule->setSection($component);
+					$rule->store();
+				}
+			}
+		}
+
+		return true;	
 	}
 }
 ?>

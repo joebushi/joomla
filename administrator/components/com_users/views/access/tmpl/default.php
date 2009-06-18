@@ -29,7 +29,7 @@ foreach($this->usergroups as $usergroup)
 		if($item->name() == 'action')
 		{
 			echo'<tr><td>'.$item->attributes('name').'</td>';
-			echo '<td>'.JHTML::_('select.booleanlist', JRequest::getVar('component').'['.$usergroup->title.']['.$item->attributes('value').']').'</td></tr>';
+			echo '<td>'.JHTML::_('select.booleanlist', 'accessrules['.$usergroup->id.']['.$item->attributes('value').']').'</td></tr>';
 		}
 	}
 	echo '</table></fieldset></div>';

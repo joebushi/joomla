@@ -70,7 +70,6 @@
 		<param name="readmore" type="text" size="25" default="" label="Alternative Read more text" description="PARAMALTREADMORE" />
 	</params>
 	<params group="metadata">
-		<param name="accessrules" type="asset" component="com_content" assettype="category" default="" label="Description" description="METADESC" />
 		<param name="description" type="textarea" rows="5" cols="30" default="" label="Description" description="METADESC" />
 		<param name="keywords" type="textarea" rows="5" cols="30" default="" label="Keywords" description="METAKEYS" />
 		<param name="robots" type="text" size="20" default="" label="Robots" description="METAROBOTS" />
