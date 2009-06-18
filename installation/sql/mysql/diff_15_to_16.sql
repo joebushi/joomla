@@ -137,3 +137,8 @@ DROP TABLE `#__core_acl_groups_aro_map`;
 DROP TABLE `#__core_acl_aro_sections`;
 
 INSERT INTO `#__plugins` VALUES (NULL, 'Editor - CodeMirror', 'codemirror', 'editors', 1, 0, 1, 1, 0, 0, '0000-00-00 00:00:00', 'linenumbers=0\n\n');
+
+UPDATE `#__menu`
+ SET menutype = 'mod_menu'
+ WHERE menutype = 'mod_mainmenu';
+
