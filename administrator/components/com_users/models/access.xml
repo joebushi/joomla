@@ -1,0 +1,9 @@
+<access section="core">
+	<action name="JContent_manage" value="manage" description="DESC_MANAGE_CONTENT" />
+	<action name="JContent_aclmanage" value="aclmanage" description="DESC_ACLMANAGE_CONTENT" >
+		<depends value="true">manage</depends>
+	</action>
+	<group name="Moderator" parent="root">
+		<groupaction name="manage" />
+	</group>
+</access>

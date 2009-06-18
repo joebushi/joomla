@@ -20,11 +20,27 @@ class UsersModelApplication extends JModelItem
 {
 	function getItems()
 	{
+		$db =& JFactory::getDBO();
 		$xml = JFactory::getXMLParser('simple');
-		
-		
-		$xml->loadFile(JPATH_ADMINISTRATOR.DS.'components'.DS.JRequest::getVar('component').DS.'access.xml');
-		return $xml->document;
+		$xml->loadFile(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_users'.DS.'models'.DS.'access.xml');
+		$root = $xml->document;
+		$query = 'SELECT * FROM #__access_sections WHERE name != \'core\'';
+		$db->setQuery($query);
+		$sections = $db->loadObjectList();
+		foreach($sections as $section)
+		{
+			$attribs = array();
+			$attribs['value'] = $section->name.'.manage';
+			$attribs['name'] = ucfirst($section->name.'_manage');
+			$attribs['description'] = strtoupper('DESC_MANAGE_'.$section->name);
+			$root->addchild('action', $attribs);
+			$attribs = array();
+			$attribs['value'] = $section->name.'.aclmanage';
+			$attribs['name'] = ucfirst($section->name.'_aclmanage');
+			$attribs['description'] = strtoupper('DESC_ACLMANAGE_'.$section->name);
+			$root->addchild('action', $attribs);
+		}
+		return $root;
 	}
 	function getUsergroups()
 	{

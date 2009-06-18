@@ -1,10 +1,4 @@
 <form action="index.php" method="post" name="adminForm">
-<div style="float: right">
-				<button type="button" onclick="Joomla.submitform('application.saveAccess', this.form);window.top.setTimeout('window.parent.document.getElementById(\'sbox-window\').close()', 700);">
-					<?php echo JText::_('Save');?></button>
-				<button type="button" onclick="window.parent.document.getElementById('sbox-window').close();">
-					<?php echo JText::_('Cancel');?></button>
-			</div>
 <fieldset style="width:40%;float:left;">
 <legend><?php echo JText::_('Usergroups'); ?></legend>
 <ul id="submenu">
@@ -29,7 +23,7 @@ foreach($this->usergroups as $usergroup)
 		if($item->name() == 'action')
 		{
 			echo'<tr><td>'.$item->attributes('name').'</td>';
-			echo '<td>'.JHTML::_('select.booleanlist', JRequest::getVar('component').'['.$usergroup->title.']['.$item->attributes('value').']').'</td></tr>';
+			echo '<td>'.JHTML::_('select.booleanlist', 'accessrules['.$usergroup->id.']['.$item->attributes('value').']').'</td></tr>';
 		}
 	}
 	echo '</table></fieldset></div>';
