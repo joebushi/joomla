@@ -32,7 +32,8 @@ class modMenuHelper
 		// Filter over the appropriate menu.
 		$query->where('n.menutype = '.$db->quote($params->get('menutype', 'mainmenu')));
 
-		// Filter over authorized access levels.
+		// Filter over authorized access levels and publishing state.
+		$query->where('n.published = 1');
 		$query->where('n.access IN ('.implode(',', (array) $user->authorisedLevels()).')');
 
 		// Get the list of menu items.
