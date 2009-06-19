@@ -98,6 +98,11 @@ class JTableCategory extends JTableNested
 		return $this->title;
 	}
 
+	function getAssetParent()
+	{
+		return 'category.'.$this->parent;
+	}
+	
 	/**
 	 * Overloaded check function
 	 *

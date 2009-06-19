@@ -4,7 +4,10 @@
 		<depends value="true">manage</depends>
 	</action>
 	<asset name="category">
-		<action name="JContent_manage" value="article.edit" description="DESC_MANAGE_CONTENT" />
+		<action name="JContent_create" value="create" description="DESC_CREATE_CONTENT" />
+		<action name="JContent_edit" value="edit" description="DESC_EDIT_CONTENT" />
+		<action name="JContent_publish" value="publish" description="DESC_PUBLISH_CONTENT" />
+		<action name="JContent_delete" value="delete" description="DESC_DELETE_CONTENT" />
 	</asset>
 	<group name="Moderator" parent="root">
 		<groupaction name="manage" />
