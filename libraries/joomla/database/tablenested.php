@@ -1185,8 +1185,8 @@ class JTableNested extends JTable
 				$data->left_where = 'right_id > '.$referenceNode->right_id;
 				$data->right_where = 'right_id >= '.$referenceNode->right_id;
 
-				$data->new_left_id		= $referenceNode->right_id - $nodeWidth;
-				$data->new_right_id		= $referenceNode->right_id - 1;
+				$data->new_left_id		= $referenceNode->right_id;
+				$data->new_right_id		= $referenceNode->right_id + $nodeWidth - 1;
 				$data->new_parent_id	= $referenceNode->$k;
 				$data->new_level		= $referenceNode->level + 1;
 				break;
