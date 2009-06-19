@@ -216,7 +216,7 @@ abstract class JHtmlAccess
 		$document->addScriptDeclaration("
 			document.switcher = null;
 			window.addEvent('domready', function(){
-			 	toggler = $('submenu')
+			 	toggler = $('access-usergroups')
 			  	element = $('access-document')
 			  	if (element) {
 			  		document.switcher = new JSwitcher(toggler, element, {cookieName: toggler.getAttribute('class')});
@@ -225,7 +225,7 @@ abstract class JHtmlAccess
 		");
 		$output = JHTML::_('select.booleanlist', 'inherit');
 		$output .= '<fieldset><legend>'.JText::_('Usergroups').'</legend>';
-		$output .= '<ul id="submenu">';
+		$output .= '<ul id="access-usergroups">';
 		foreach($groups as $usergroup)
 		{
 			$output .= '<li><a id="'.$usergroup->title.'">'.$usergroup->title.'</a></li>';

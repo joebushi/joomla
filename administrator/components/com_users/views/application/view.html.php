@@ -31,6 +31,7 @@ class UsersViewApplication extends JView
 	 */
 	function display($tpl = null)
 	{
+		JToolBarHelper::save('application.saveaccess');
 		$items = &$this->get('items');
 		$usergroups = &$this->get('usergroups');
 		JHtml::_('behavior.switcher');
@@ -38,7 +39,7 @@ class UsersViewApplication extends JView
 		$document->addScriptDeclaration("
 			document.switcher = null;
 			window.addEvent('domready', function(){
-			 	toggler = $('submenu')
+			 	toggler = $('access-usergroups')
 			  	element = $('access-document')
 			  	if (element) {
 			  		document.switcher = new JSwitcher(toggler, element, {cookieName: toggler.getAttribute('class')});

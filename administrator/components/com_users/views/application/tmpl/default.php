@@ -1,7 +1,7 @@
 <form action="index.php" method="post" name="adminForm">
 <fieldset style="width:40%;float:left;">
 <legend><?php echo JText::_('Usergroups'); ?></legend>
-<ul id="submenu">
+<ul id="access-usergroups">
 <?php
 foreach($this->usergroups as $usergroup)
 {
