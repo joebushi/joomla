@@ -1182,8 +1182,8 @@ class JTableNested extends JTable
 				break;
 
 			case 'last-child':
-				$data->left_where = 'right_id >= '.$referenceNode->right_id;
-				$data->right_where = 'right_id > '.$referenceNode->right_id;
+				$data->left_where = 'right_id > '.$referenceNode->right_id;
+				$data->right_where = 'right_id >= '.$referenceNode->right_id;
 
 				$data->new_left_id		= $referenceNode->right_id - $nodeWidth;
 				$data->new_right_id		= $referenceNode->right_id - 1;
