@@ -15,7 +15,7 @@ defined('_JEXEC') or die('Restricted access');
 	<?php echo $this->escape($this->poll->title); ?>
 </h3>
 
-<table class="pollstableborder">
+<table class="pollstableborder"><?php JPlugin::loadLanguage( 'tpl_beez' ); ?>
 	<tr>
 		<th id="itema" class="td_1"><?php echo JText::_( 'Hits' ); ?></th>
 		<th id="itemb" class="td_2"><?php echo JText::_( 'Percent' ); ?></th>

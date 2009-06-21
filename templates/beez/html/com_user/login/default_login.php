@@ -39,7 +39,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 	</fieldset>
 	<p>
 		<a href="<?php echo JRoute::_( 'index.php?option=com_user&view=reset#content' ); ?>">
-			<?php echo JText::_('Lost Password?'); ?></a>
+			<?php JPlugin::loadLanguage( 'tpl_beez' ); echo JText::_('Lost Password?'); ?></a>
 		<?php if ( $this->params->get( 'registration' ) ) : ?>
 		<?php echo JText::_('No account yet?'); ?>
 		<a href="<?php echo JRoute::_( 'index.php?option=com_user&view=register#content' ); ?>">

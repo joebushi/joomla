@@ -41,6 +41,7 @@ $ -> Language fix or change
  # [#14540] Component Contact at Beez
  # [#16686] pagebreak - duplicate title, not respecting show titles
  # [#16779] JA_Purity: Anchor tag for Category Title not closed in Front Page Blog Layout
+ # [#16820] Untranslated strings in Beez template
 
 14-Jun-2009 Ian MacLennan
  # [#16235] mod_feed Tool tip is incorrect
