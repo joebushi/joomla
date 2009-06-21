@@ -152,7 +152,12 @@ class JInstallationModelSetup extends JModel
 		return $list;
 	}
 
-	function getPhpOptions()
+	/**
+	 * Gets PHP options.
+	 * 
+	 * @return	array
+	 */
+	public function getPhpOptions()
 	{
 		// Initialize variables.
 		$options = array();
@@ -206,14 +211,19 @@ class JInstallationModelSetup extends JModel
 		// Check for configuration file writeable.
 		$option = new stdClass;
 		$option->label  = 'configuration.php '.JText::_('writable');
-		$option->state  = ((@ file_exists('../configuration.php') && @ is_writable('../configuration.php')) || is_writable('../'));
+		$option->state  = ((@file_exists('../configuration.php') && @is_writable('../configuration.php')) || is_writable('../'));
 		$option->notice = ($option->state) ? null : JText::_('NOTICEYOUCANSTILLINSTALL');
 		$options[] = $option;
 
 		return $options;
 	}
 
-	function getPhpSettings()
+	/**
+	 * Gets PHP Settings.
+	 * 
+	 * @return	array
+	 */
+	public function getPhpSettings()
 	{
 		// Initialize variables
 		$settings = array();
@@ -221,49 +231,49 @@ class JInstallationModelSetup extends JModel
 		// Check for safe mode.
 		$setting = new stdClass;
 		$setting->label = JText::_('Safe Mode');
-		$setting->state = (ini_get('safe_mode') == '1' ? true : false);
+		$setting->state = (bool) ini_get('safe_mode');
 		$setting->recommended = false;
 		$settings[] = $setting;
 
 		// Check for display errors.
 		$setting = new stdClass;
 		$setting->label = JText::_('Display Errors');
-		$setting->state = (ini_get('display_errors') == '1' ? true : false);
+		$setting->state = (bool) ini_get('display_errors');
 		$setting->recommended = false;
 		$settings[] = $setting;
 
 		// Check for file uploads.
 		$setting = new stdClass;
 		$setting->label = JText::_('File Uploads');
-		$setting->state = (ini_get('file_uploads') == '1' ? true : false);
+		$setting->state = (booL) ini_get('file_uploads');
 		$setting->recommended = true;
 		$settings[] = $setting;
 
 		// Check for magic quotes.
 		$setting = new stdClass;
 		$setting->label = JText::_('Magic Quotes Runtime');
-		$setting->state = (ini_get('magic_quotes_runtime') == '1' ? true : false);
+		$setting->state = (booL) ini_get('magic_quotes_runtime');
 		$setting->recommended = false;
 		$settings[] = $setting;
 
 		// Check for register globals.
 		$setting = new stdClass;
 		$setting->label = JText::_('Register Globals');
-		$setting->state = (ini_get('register_globals') == '1' ? true : false);
+		$setting->state = (bool) ini_get('register_globals');
 		$setting->recommended = false;
 		$settings[] = $setting;
 
 		// Check for output buffering.
 		$setting = new stdClass;
 		$setting->label = JText::_('Output Buffering');
-		$setting->state = (ini_get('output_buffering') == '1' ? true : false);
+		$setting->state = (bool) ini_get('output_buffering');
 		$setting->recommended = false;
 		$settings[] = $setting;
 
 		// Check for session auto-start.
 		$setting = new stdClass;
 		$setting->label = JText::_('Session auto start');
-		$setting->state = (ini_get('session.auto_start') == '1' ? true : false);
+		$setting->state = (bool) ini_get('session.auto_start');
 		$setting->recommended = false;
 		$settings[] = $setting;
 
@@ -273,15 +283,14 @@ class JInstallationModelSetup extends JModel
 	/**
 	 * Method to validate the form data.
 	 *
-	 * @access	public
-	 * @param	array	The form data.
-	 * @return	mixed	Array of filtered data if valid, false otherwise.
+	 * @param	array		The form data.
+	 * @return	array|bool	Array of filtered data if valid, false otherwise.
 	 * @since	1.6
 	 */
-	function validate($data, $view = null)
+	public function validate($data, $view = null)
 	{
 		// Get the form.
-		$form = & $this->getForm($view);
+		$form = &$this->getForm($view);
 
 		// Check for an error.
 		if ($form === false) {
@@ -289,7 +298,7 @@ class JInstallationModelSetup extends JModel
 		}
 
 		// Filter and validate the form data.
-		$data	= $form->filter($data);
+		$data = $form->filter($data);
 		$return	= $form->validate($data);
 
 		// Check for an error.
