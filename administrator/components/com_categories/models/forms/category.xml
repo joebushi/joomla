@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<!-- $Id$ -->
+<form>
+	<fields>
+		<field
+			name="id"
+			type="hidden"
+			default="0"
+			required="true"
+			readonly="true"/>
+
+		<field
+			name="parent_id"
+			type="categoryparent"
+			label="Categories_Parent_Label"
+			description="Categories_Parent_Desc"
+			class="inputbox"/>
+
+		<field
+			name="lft"
+			type="hidden"
+			filter="unset"/>
+
+		<field
+			name="rgt"
+			type="hidden"
+			filter="unset"/>
+
+		<field
+			name="level"
+			type="hidden"
+			filter="unset"/>
+
+		<field
+			name="path"
+			type="text"
+			label="Categories_Path_Label"
+			description="Categories_Path_Desc"
+			class="readonly"
+			size="40"
+			readonly="true"/>
+
+		<field
+			name="extension"
+			type="text"
+			label="Categories_Extension_Label"
+			description="Categories_Extension_Desc"
+			class="readonly"
+			size="40"
+			readonly="true"/>
+
+		<field
+			name="title"
+			type="text"
+			label="Categories_Title"
+			description="Categories_Title_Desc"
+			class="inputbox"
+			size="40"
+			required="true"/>
+
+		<field
+			name="alias"
+			type="text"
+			label="Categories_Alias"
+			description="Categories_Alias_Desc"
+			class="inputbox"
+			size="40"/>
+
+		<field
+			name="description"
+			type="editor"
+			label="Categories_Description_Label"
+			description="Categories_Description_Desc"
+			class="inputbox"
+			buttons="readmore,pagebreak"/>
+
+		<field
+			name="published"
+			type="radio"
+			class="inputbox"
+			default="1"
+			label="Categories_Published_Label"
+			description="Categories_Published_Desc">
+			<option
+				value="0">JOption_Unpublished</option>
+			<option
+				value="1">JOption_Published</option>
+			<option
+				value="-2">JOption_Trash</option>
+		</field>
+
+		<field
+			name="ordering"
+			type="Ordering"
+			label="Categories_Ordering"
+			description="Categories_Ordering_Desc"
+			class="inputbox"
+			default="0"/>
+
+		<field
+			name="checked_out"
+			type="hidden"
+			filter="unset"/>
+
+		<field
+			name="checked_out_time"
+			type="hidden"
+			filter="unset"/>
+
+		<field
+			name="access"
+			type="accesslevels"
+			label="Categories_Access_Label"
+			description="Categories_Access_Desc"
+			class="inputbox"/>
+
+		<field
+			name="metadesc"
+			type="textarea"
+			label="JCommon_Meta_Description_Label"
+			description="Categories_Item_Meta_Description_Desc"
+			default=""
+			rows="3"
+			cols="40"/>
+
+		<field
+			name="metakey"
+			type="textarea"
+			label="JCommon_Meta_Keywords_Label"
+			description="Categories_Item_Meta_Keywords_Desc"
+			default=""
+			rows="3"
+			cols="40"/>
+
+		<field
+			name="created_user_id"
+			type="hidden"
+			filter="unset"/>
+
+		<field
+			name="created_time"
+			type="hidden"
+			filter="unset"/>
+
+		<field
+			name="modified_user_id"
+			type="hidden"
+			filter="unset"/>
+
+		<field
+			name="modified_time"
+			type="hidden"
+			filter="unset"/>
+
+		<field
+			name="hits"
+			type="hidden"
+			filter="unset"/>
+
+		<field
+			name="language"
+			type="language"
+			label="Categories_Language_Label"
+			description="Categories_Language_Desc"
+			class="inputbox"/>
+	</fields>
+
+	<fields
+		group="params"
+		array="true"
+		label="Categories_Options">
+
+		<field
+			name="target"
+			type="List"
+			default="0"
+			label="Categories_Target"
+			description="Categories_Target_Desc">
+			<option
+				value="0">JBrowserTarget_Parent</option>
+			<option
+				value="1">JBrowserTarget_New</option>
+			<option
+				value="2">JBrowserTarget_Popup</option>
+			<option
+				value="3">JBrowserTarget_Modal</option>
+		</field>
+	</fields>
+
+	<fields
+		group="metadata"
+		array="true">
+
+		<field
+			name="robots"
+			type="text"
+			label="Categories_Metadata_Robots_Label"
+			description="Categories_Metadata_Robots_Desc"
+			size="20"/>
+
+		<field
+			name="author"
+			type="text"
+			label="Categories_Metadata_Author_Label"
+			description="Categories_Metadata_Author_Desc"
+			size="20"/>
+
+	</fields>
+
+</form>

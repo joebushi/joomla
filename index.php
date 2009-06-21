@@ -1,90 +1,64 @@
 <?php
 /**
-* @version $Id: index.php 137 2005-09-12 10:21:17Z eddieajau $
-* @package Joomla
-* @subpackage Installation
-* @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
-* @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-* Joomla! is free software and parts of it may contain or be derived from the
-* GNU General Public License or other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @package		Joomla.Site
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
 
-define( '_VALID_MOS', 1 );
+// Set flag that this is a parent file.
+define('_JEXEC', 1);
+define('JPATH_BASE', dirname(__FILE__));
+define('DS', DIRECTORY_SEPARATOR);
 
-if (file_exists( '../configuration.php' ) && filesize( '../configuration.php' ) > 10) {
-	header( 'Location: ../index.php' );
-	exit();
-}
+require_once JPATH_BASE.DS.'includes'.DS.'defines.php';
+require_once JPATH_BASE.DS.'includes'.DS.'framework.php';
 
-error_reporting( E_ALL );
+// Mark afterLoad in the profiler.
+JDEBUG ? $_PROFILER->mark('afterLoad') : null;
 
-// include support libraries
-require_once( 'installation.functions.php' );
-require_once( 'installation.class.php' );
-require_once( 'installation.html.php' );
+/*
+ * Instantiate the application.
+ */
+$mainframe = &JFactory::getApplication('site');
 
-$mosConfig_absolute_path = getAbsolutePath();
-if (phpversion() < '4.2.0') {
-	require_once( $mosConfig_absolute_path . '/includes/compat.php41x.php' );
-}
-if (phpversion() < '4.3.0') {
-	require_once( $mosConfig_absolute_path . '/includes/compat.php42x.php' );
-}
-if (in_array( 'globals', array_keys( array_change_key_case( $_REQUEST, CASE_LOWER ) ) ) ) {
-	die( 'Fatal error.  Global variable hack attempted.' );
-}
-if (version_compare( phpversion(), '5.0' ) < 0) {
-	require_once( $mosConfig_absolute_path . '/includes/compat.php50x.php' );
-}
+/*
+ * Initialise the application.
+ */
+$mainframe->initialise();
 
-require_once( $mosConfig_absolute_path . '/includes/version.php' );
-require_once( $mosConfig_absolute_path . '/includes/mambo.factory.php' );
-require_once( $mosConfig_absolute_path . '/includes/mambo.files.php' );
-require_once( $mosConfig_absolute_path . '/includes/mamboxml.php' );
+// Mark afterIntialise in the profiler.
+JDEBUG ? $_PROFILER->mark('afterInitialise') : null;
 
-$vars = mosGetParam( $_POST, 'vars', array() );
-$_LANG =& mosFactory::getLanguage();
+/*
+ * Route the application.
+ */
+$mainframe->route();
 
-$mosConfig_lang = mosGetParam( $vars, 'lang', detectLanguage() );
-$_LANG->_load( $mosConfig_absolute_path . '/installation/language/' . $mosConfig_lang . '.ini' );
+// authorization
+$Itemid = JRequest::getInt('Itemid');
+$mainframe->authorize($Itemid);
 
-$task = mosGetParam( $_REQUEST, 'task', '' );
+// Mark afterRoute in the profiler.
+JDEBUG ? $_PROFILER->mark('afterRoute') : null;
 
-header( 'Cache-Control: no-cache, must-revalidate');	// HTTP/1.1
-header( 'Pragma: no-cache');	// HTTP/1.0
+/*
+ * Dispatch the application.
+ */
+$mainframe->dispatch();
 
-switch ($task) {
-	case 'preinstall':
-		installationTasks::preInstall();
-		break;
+// Mark afterDispatch in the profiler.
+JDEBUG ? $_PROFILER->mark('afterDispatch') : null;
 
-	case 'license':
-		installationTasks::license();
-		break;
+/*
+ * Render the application.
+ */
+$mainframe->render();
 
-	case 'dbconfig':
-		installationTasks::dbConfig();
-		break;
+// Mark afterRender in the profiler.
+JDEBUG ? $_PROFILER->mark('afterRender') : null;
 
-	case 'makedb':
-		if (installationTasks::makeDB()) {
-			installationTasks::mainConfig( 1 );
-		}
-		break;
-
-	case 'mainconfig':
-		installationTasks::mainConfig();
-		break;
-
-	case 'saveconfig':
-		$buffer = installationTasks::saveConfig();
-		installationTasks::finish( $buffer );
-		break;
-
-	case 'lang':
-	default:
-		installationTasks::chooseLanguage();
-		break;
-}
-?>
+/*
+ * Return the response.
+ */
+echo JResponse::toString($mainframe->getCfg('gzip'));
