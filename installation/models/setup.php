@@ -18,7 +18,7 @@ jimport('joomla.application.component.model');
  */
 class JInstallationModelSetup extends JModel
 {
-	function getOptions()
+	public function getOptions()
 	{
 		// Get the current setup options from the session.
 		$session = & JFactory::getSession();
@@ -27,10 +27,10 @@ class JInstallationModelSetup extends JModel
 		return $options;
 	}
 
-	function storeOptions($options)
+	public function storeOptions($options)
 	{
 		// Get the current setup options from the session.
-		$session = & JFactory::getSession();
+		$session = &JFactory::getSession();
 		$old = $session->get('setup.options', array());
 
 		// Merge the new setup options into the current ones and store in the session.
@@ -38,8 +38,8 @@ class JInstallationModelSetup extends JModel
 		$session->set('setup.options', $options);
 
 		// If the setup language is set in the options, set it separately in the session.
-		if (!empty($options['lang'])) {
-			$session->set('setup.language', $options['lang']);
+		if (!empty($options['language'])) {
+			$session->set('setup.language', $options['language']);
 		}
 
 		return $options;
@@ -48,11 +48,10 @@ class JInstallationModelSetup extends JModel
 	/**
 	 * Method to get the link form.
 	 *
-	 * @access	public
 	 * @return	mixed	JForm object on success, false on failure.
 	 * @since	1.6
 	 */
-	function & getForm($view = null)
+	public function &getForm($view = null)
 	{
 		// Initialize variables.
 		$false = false;
@@ -84,7 +83,7 @@ class JInstallationModelSetup extends JModel
 		return $form;
 	}
 
-	function getDboptions()
+	public function getDboptions()
 	{
 		// Initialize variables.
 		$options = array();
@@ -126,16 +125,12 @@ class JInstallationModelSetup extends JModel
 	 * Generate a panel of language choices for the user to select their language
 	 *
 	 * @return	boolean True if successful
-	 * @access	public
 	 * @since	1.5
 	 */
-	function getLanguages()
+	public function getLanguages()
 	{
 		// Initialize variables.
-		$app = & JFactory::getApplication();
-
-		// Get existing values from the session.
-		//$vars	= & $this->getVars();
+		$app = &JFactory::getApplication();
 
 		// Detect the native language.
 		jimport('joomla.language.helper');
@@ -143,9 +138,9 @@ class JInstallationModelSetup extends JModel
 
 		// Get a forced language if it exists.
 		$forced = $app->getLocalise();
-		if (!empty($forced['lang']))
+		if (!empty($forced['language']))
 		{
-			$native = $forced['lang'];
+			$native = $forced['language'];
 		}
 
 		// Get the list of available languages.
