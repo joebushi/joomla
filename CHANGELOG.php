@@ -39,6 +39,7 @@ $ -> Language fix or change
 
 20-Jun-2009 Ian MacLennan
  # [#14540] Component Contact at Beez
+ # [#16686] pagebreak - duplicate title, not respecting show titles
 
 14-Jun-2009 Ian MacLennan
  # [#16235] mod_feed Tool tip is incorrect
