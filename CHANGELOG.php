@@ -37,6 +37,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+20-Jun-2009 Ian MacLennan
+ # [#14540] Component Contact at Beez
+
 14-Jun-2009 Ian MacLennan
  # [#16235] mod_feed Tool tip is incorrect
  # [#16511] Language date format isn't correct
