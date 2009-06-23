@@ -298,22 +298,24 @@ class JMail extends PHPMailer
 	 * @param string $host SMTP Host [optional]
 	 * @param string $user SMTP Username [optional]
 	 * @param string $pass SMTP Password [optional]
+	 * @param string $secure SMTP Secure ssl,tls [optinal]
+	 * @param string $port SMTP Port [optional]
 	 * @return boolean True on success
 	 * @since 1.5
 	 */
-	function useSMTP($auth = null, $host = null, $user = null, $pass = null)
+	function useSMTP($auth = null, $host = null, $user = null, $pass = null,$secure = null, $port = 25)
 	{
 		$this->SMTPAuth = $auth;
 		$this->Host 	= $host;
 		$this->Username = $user;
 		$this->Password = $pass;
+		$this->Port     = $port;
+		if ($secure == 'ssl' || $secure == 'tls') {
+			$this->SMTPSecure = $secure;
+		}
 
 		if ($this->SMTPAuth !== null && $this->Host !== null && $this->Username !== null && $this->Password !== null) {
 			$this->IsSMTP();
-			return true;
-		} else {
-			$this->IsMail();
-			return false;
 		}
 	}
 }

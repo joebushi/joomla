@@ -105,7 +105,7 @@ class ConfigControllerApplication extends ConfigController
 		$lists['xmlrpc_server'] = JHTML::_('select.booleanlist', 'xmlrpc_server', 'class="inputbox"', $row->xmlrpc_server);
 		$lists['error_reporting'] = JHTML::_('select.genericlist',  $errors, 'error_reporting', 'class="inputbox" size="1"', 'value', 'text', $row->error_reporting);
 		$lists['enable_ftp'] 	= JHTML::_('select.booleanlist', 'ftp_enable', 'class="inputbox"', intval($row->ftp_enable));
-		
+
 		$forceSSL = array(
 								JHTML::_('select.option', 0, JText::_('None')),
 								JHTML::_('select.option', 1, JText::_('Administrator Only')),
@@ -159,6 +159,8 @@ class ConfigControllerApplication extends ConfigController
 		// MAIL SETTINGS
 		$mailer 				= array (JHTML::_('select.option', 'mail', JText::_('PHP mail function')), JHTML::_('select.option', 'sendmail', JText::_('Sendmail')), JHTML::_('select.option', 'smtp', JText::_('SMTP Server')));
 		$lists['mailer'] 		= JHTML::_('select.genericlist',  $mailer, 'mailer', 'class="inputbox" size="1"', 'value', 'text', $row->mailer);
+        $smtpsecure 			= array (JHTML::_('select.option', 'none', JText::_('None')), JHTML::_('select.option', 'ssl', 'SSL'), JHTML::_('select.option', 'tls', 'TLS'));
+        $lists['smtpsecure'] 	= JHTML::_('select.genericlist',  $smtpsecure, 'smtpsecure', 'class="inputbox" size="1"', 'value', 'text', $row->smtpsecure);
 		$lists['smtpauth'] 		= JHTML::_('select.booleanlist', 'smtpauth', 'class="inputbox"', $row->smtpauth);
 
 		// CACHE SETTINGS
@@ -343,6 +345,9 @@ class ConfigControllerApplication extends ConfigController
 		$config_array['fromname']	= JRequest::getVar('fromname', 'Joomla 1.5', 'post', 'string');
 		$config_array['sendmail']	= JRequest::getVar('sendmail', '/usr/sbin/sendmail', 'post', 'string');
 		$config_array['smtpauth']	= JRequest::getVar('smtpauth', 0, 'post', 'int');
+		$config_array['smtpsecure']	= JRequest::getVar('smtpsecure', 'none', 'post', 'word');
+		$smtpport		        	= JRequest::getVar('smtpport', '', 'post', 'int');
+		$config_array['smtpport']	= $smtpport ? $smtpport : '25';
 		$config_array['smtpuser']	= JRequest::getVar('smtpuser', '', 'post', 'string');
 		$config_array['smtppass']	= JRequest::getVar('smtppass', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$config_array['smtphost']	= JRequest::getVar('smtphost', '', 'post', 'string');

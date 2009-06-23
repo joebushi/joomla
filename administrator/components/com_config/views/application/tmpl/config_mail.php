@@ -53,6 +53,26 @@
 				<?php echo $lists['smtpauth']; ?>
 			</td>
 		</tr>
+        <tr>
+ 			<td class="key">
+   				<span class="editlinktip hasTip" title="<?php echo JText::_( 'SMTP Security' ); ?>::<?php echo JText::_( 'TIPSMTPSECURITY' ); ?>">
+	    				<?php echo JText::_( 'SMTP Security' ); ?>
+				</span>
+			</td>
+			<td>
+				<?php echo $lists['smtpsecure']; ?>
+			</td>
+		</tr>
+		<tr>
+			<td class="key">
+				<span class="editlinktip hasTip" title="<?php echo JText::_( 'SMTP Port' ); ?>::<?php echo JText::_( 'TIPSMTPPORT' ); ?>">
+					<?php echo JText::_( 'SMTP Port' ); ?>
+				</span>
+			</td>
+			<td>
+				<input class="text_area" type="text" name="smtpport" size="30" value="<?php echo $row->smtpport; ?>" />
+			</td>
+		</tr>
 		<tr>
 			<td class="key">
 				<span class="editlinktip hasTip" title="<?php echo JText::_( 'SMTP User' ); ?>::<?php echo JText::_( 'TIPSMTPUSER' ); ?>">
