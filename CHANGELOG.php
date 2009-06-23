@@ -37,6 +37,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+23-Jun-2009 Ian MacLennan
+ # [#12376] Update to TinyMCE 3.2.4.1
+
 22-Jun-2009 Ian MacLennan
  # [#12886] PHPMailer version used in 1.5 does not allow secure connection to SMTP servers
 
