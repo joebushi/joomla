@@ -114,57 +114,64 @@ class ConfigControllerApplication extends ConfigController
 		$lists['force_ssl'] = JHTML::_('select.genericlist', $forceSSL, 'force_ssl', 'class="inputbox" size="1"', 'value', 'text', @$row->force_ssl);
 
 		// LOCALE SETTINGS
-		$timeoffset = array (	JHTML::_('select.option', -12, JText::_('(UTC -12:00) International Date Line West')),
-								JHTML::_('select.option', -11, JText::_('(UTC -11:00) Midway Island, Samoa')),
-								JHTML::_('select.option', -10, JText::_('(UTC -10:00) Hawaii')),
-								JHTML::_('select.option', -9.5, JText::_('(UTC -09:30) Taiohae, Marquesas Islands')),
-								JHTML::_('select.option', -9, JText::_('(UTC -09:00) Alaska')),
-								JHTML::_('select.option', -8, JText::_('(UTC -08:00) Pacific Time (US &amp; Canada)')),
-								JHTML::_('select.option', -7, JText::_('(UTC -07:00) Mountain Time (US &amp; Canada)')),
-								JHTML::_('select.option', -6, JText::_('(UTC -06:00) Central Time (US &amp; Canada), Mexico City')),
-								JHTML::_('select.option', -5, JText::_('(UTC -05:00) Eastern Time (US &amp; Canada), Bogota, Lima')),
-								JHTML::_('select.option', -4.5, JText::_('(UTC -04:30) Venezuela')),
-								JHTML::_('select.option', -4, JText::_('(UTC -04:00) Atlantic Time (Canada), Caracas, La Paz')),
-								JHTML::_('select.option', -3.5, JText::_('(UTC -03:30) St. John\'s, Newfoundland, Labrador')),
-								JHTML::_('select.option', -3, JText::_('(UTC -03:00) Brazil, Buenos Aires, Georgetown')),
-								JHTML::_('select.option', -2, JText::_('(UTC -02:00) Mid-Atlantic')),
-								JHTML::_('select.option', -1, JText::_('(UTC -01:00) Azores, Cape Verde Islands')),
-								JHTML::_('select.option', 0, JText::_('(UTC 00:00) Western Europe Time, London, Lisbon, Casablanca')),
-								JHTML::_('select.option', 1, JText::_('(UTC +01:00) Amsterdam, Berlin, Brussels, Copenhagen, Madrid, Paris')),
-								JHTML::_('select.option', 2, JText::_('(UTC +02:00) Istanbul, Jerusalem, Kaliningrad, South Africa')),
-								JHTML::_('select.option', 3, JText::_('(UTC +03:00) Baghdad, Riyadh, Moscow, St. Petersburg')),
-								JHTML::_('select.option', 3.5, JText::_('(UTC +03:30) Tehran')),
-								JHTML::_('select.option', 4, JText::_('(UTC +04:00) Abu Dhabi, Muscat, Baku, Tbilisi')),
-								JHTML::_('select.option', 4.5, JText::_('(UTC +04:30) Kabul')),
-								JHTML::_('select.option', 5, JText::_('(UTC +05:00) Ekaterinburg, Islamabad, Karachi, Tashkent')),
-								JHTML::_('select.option', 5.5, JText::_('(UTC +05:30) Bombay, Calcutta, Madras, New Delhi, Colombo')),
-								JHTML::_('select.option', 5.75, JText::_('(UTC +05:45) Kathmandu')),
-								JHTML::_('select.option', 6, JText::_('(UTC +06:00) Almaty, Dhaka')),
-								JHTML::_('select.option', 6.30, JText::_('(UTC +06:30) Yagoon')),
-								JHTML::_('select.option', 7, JText::_('(UTC +07:00) Bangkok, Hanoi, Jakarta')),
-								JHTML::_('select.option', 8, JText::_('(UTC +08:00) Beijing, Perth, Singapore, Hong Kong')),
-								JHTML::_('select.option', 8.75, JText::_('(UTC +08:00) Western Australia')),
-								JHTML::_('select.option', 9, JText::_('(UTC +09:00) Tokyo, Seoul, Osaka, Sapporo, Yakutsk')),
-								JHTML::_('select.option', 9.5, JText::_('(UTC +09:30) Adelaide, Darwin, Yakutsk')),
-								JHTML::_('select.option', 10, JText::_('(UTC +10:00) Eastern Australia, Guam, Vladivostok')),
-								JHTML::_('select.option', 10.5, JText::_('(UTC +10:30) Lord Howe Island (Australia)')),
-								JHTML::_('select.option', 11, JText::_('(UTC +11:00) Magadan, Solomon Islands, New Caledonia')),
-								JHTML::_('select.option', 11.30, JText::_('(UTC +11:30) Norfolk Island')),
-								JHTML::_('select.option', 12, JText::_('(UTC +12:00) Auckland, Wellington, Fiji, Kamchatka')),
-								JHTML::_('select.option', 12.75, JText::_('(UTC +12:45) Chatham Island')),
-								JHTML::_('select.option', 13, JText::_('(UTC +13:00) Tonga')),
-								JHTML::_('select.option', 14, JText::_('(UTC +14:00) Kiribati')),);
-		$lists['offset'] 		= JHTML::_('select.genericlist',  $timeoffset, 'offset', 'class="inputbox" size="1"', 'value', 'text', $row->offset);
+		$timeoffset = array (	
+			JHTML::_('select.option', -12, JText::_('(UTC -12:00) International Date Line West')),
+			JHTML::_('select.option', -11, JText::_('(UTC -11:00) Midway Island, Samoa')),
+			JHTML::_('select.option', -10, JText::_('(UTC -10:00) Hawaii')),
+			JHTML::_('select.option', -9.5, JText::_('(UTC -09:30) Taiohae, Marquesas Islands')),
+			JHTML::_('select.option', -9, JText::_('(UTC -09:00) Alaska')),
+			JHTML::_('select.option', -8, JText::_('(UTC -08:00) Pacific Time (US &amp; Canada)')),
+			JHTML::_('select.option', -7, JText::_('(UTC -07:00) Mountain Time (US &amp; Canada)')),
+			JHTML::_('select.option', -6, JText::_('(UTC -06:00) Central Time (US &amp; Canada), Mexico City')),
+			JHTML::_('select.option', -5, JText::_('(UTC -05:00) Eastern Time (US &amp; Canada), Bogota, Lima')),
+			JHTML::_('select.option', -4.5, JText::_('(UTC -04:30) Venezuela')),
+			JHTML::_('select.option', -4, JText::_('(UTC -04:00) Atlantic Time (Canada), Caracas, La Paz')),
+			JHTML::_('select.option', -3.5, JText::_('(UTC -03:30) St. John\'s, Newfoundland, Labrador')),
+			JHTML::_('select.option', -3, JText::_('(UTC -03:00) Brazil, Buenos Aires, Georgetown')),
+			JHTML::_('select.option', -2, JText::_('(UTC -02:00) Mid-Atlantic')),
+			JHTML::_('select.option', -1, JText::_('(UTC -01:00) Azores, Cape Verde Islands')),
+			JHTML::_('select.option', 0, JText::_('(UTC 00:00) Western Europe Time, London, Lisbon, Casablanca')),
+			JHTML::_('select.option', 1, JText::_('(UTC +01:00) Amsterdam, Berlin, Brussels, Copenhagen, Madrid, Paris')),
+			JHTML::_('select.option', 2, JText::_('(UTC +02:00) Istanbul, Jerusalem, Kaliningrad, South Africa')),
+			JHTML::_('select.option', 3, JText::_('(UTC +03:00) Baghdad, Riyadh, Moscow, St. Petersburg')),
+			JHTML::_('select.option', 3.5, JText::_('(UTC +03:30) Tehran')),
+			JHTML::_('select.option', 4, JText::_('(UTC +04:00) Abu Dhabi, Muscat, Baku, Tbilisi')),
+			JHTML::_('select.option', 4.5, JText::_('(UTC +04:30) Kabul')),
+			JHTML::_('select.option', 5, JText::_('(UTC +05:00) Ekaterinburg, Islamabad, Karachi, Tashkent')),
+			JHTML::_('select.option', 5.5, JText::_('(UTC +05:30) Bombay, Calcutta, Madras, New Delhi, Colombo')),
+			JHTML::_('select.option', 5.75, JText::_('(UTC +05:45) Kathmandu')),
+			JHTML::_('select.option', 6, JText::_('(UTC +06:00) Almaty, Dhaka')),
+			JHTML::_('select.option', 6.30, JText::_('(UTC +06:30) Yagoon')),
+			JHTML::_('select.option', 7, JText::_('(UTC +07:00) Bangkok, Hanoi, Jakarta')),
+			JHTML::_('select.option', 8, JText::_('(UTC +08:00) Beijing, Perth, Singapore, Hong Kong')),
+			JHTML::_('select.option', 8.75, JText::_('(UTC +08:00) Western Australia')),
+			JHTML::_('select.option', 9, JText::_('(UTC +09:00) Tokyo, Seoul, Osaka, Sapporo, Yakutsk')),
+			JHTML::_('select.option', 9.5, JText::_('(UTC +09:30) Adelaide, Darwin, Yakutsk')),
+			JHTML::_('select.option', 10, JText::_('(UTC +10:00) Eastern Australia, Guam, Vladivostok')),
+			JHTML::_('select.option', 10.5, JText::_('(UTC +10:30) Lord Howe Island (Australia)')),
+			JHTML::_('select.option', 11, JText::_('(UTC +11:00) Magadan, Solomon Islands, New Caledonia')),
+			JHTML::_('select.option', 11.30, JText::_('(UTC +11:30) Norfolk Island')),
+			JHTML::_('select.option', 12, JText::_('(UTC +12:00) Auckland, Wellington, Fiji, Kamchatka')),
+			JHTML::_('select.option', 12.75, JText::_('(UTC +12:45) Chatham Island')),
+			JHTML::_('select.option', 13, JText::_('(UTC +13:00) Tonga')),
+			JHTML::_('select.option', 14, JText::_('(UTC +14:00) Kiribati')),);
+		$lists['offset'] = JHTML::_('select.genericlist',  $timeoffset, 'offset', 'class="inputbox" size="1"', 'value', 'text', $row->offset);
 
 		// MAIL SETTINGS
-		$mailer 				= array (JHTML::_('select.option', 'mail', JText::_('PHP mail function')), JHTML::_('select.option', 'sendmail', JText::_('Sendmail')), JHTML::_('select.option', 'smtp', JText::_('SMTP Server')));
-		$lists['mailer'] 		= JHTML::_('select.genericlist',  $mailer, 'mailer', 'class="inputbox" size="1"', 'value', 'text', $row->mailer);
-        $smtpsecure 			= array (JHTML::_('select.option', 'none', JText::_('None')), JHTML::_('select.option', 'ssl', 'SSL'), JHTML::_('select.option', 'tls', 'TLS'));
-        $lists['smtpsecure'] 	= JHTML::_('select.genericlist',  $smtpsecure, 'smtpsecure', 'class="inputbox" size="1"', 'value', 'text', $row->smtpsecure);
-		$lists['smtpauth'] 		= JHTML::_('select.booleanlist', 'smtpauth', 'class="inputbox"', $row->smtpauth);
+		$mailer = array (
+			JHTML::_('select.option', 'mail', JText::_('PHP mail function')), 
+			JHTML::_('select.option', 'sendmail', JText::_('Sendmail')),
+			JHTML::_('select.option', 'smtp', JText::_('SMTP Server')));
+		$lists['mailer'] = JHTML::_('select.genericlist',  $mailer, 'mailer', 'class="inputbox" size="1"', 'value', 'text', $row->mailer);
+		$smtpsecure = array (
+			JHTML::_('select.option', 'none', JText::_('None')),
+			JHTML::_('select.option', 'ssl', 'SSL'),
+			JHTML::_('select.option', 'tls', 'TLS'));
+		$lists['smtpsecure'] = JHTML::_('select.genericlist',  $smtpsecure, 'smtpsecure', 'class="inputbox" size="1"', 'value', 'text', (isset($row->smtpsecure) ? $row->smtpsecure : ''));
+		$lists['smtpauth'] = JHTML::_('select.booleanlist', 'smtpauth', 'class="inputbox"', $row->smtpauth);
 
 		// CACHE SETTINGS
-		$lists['caching'] 		= JHTML::_('select.booleanlist', 'caching', 'class="inputbox"', $row->caching);
+		$lists['caching'] = JHTML::_('select.booleanlist', 'caching', 'class="inputbox"', $row->caching);
 		jimport('joomla.cache.cache');
 		$stores = JCache::getStores();
 		$options = array();
@@ -185,7 +192,7 @@ class ConfigControllerApplication extends ConfigController
 		$lists['MetaTitle'] 	= JHTML::_('select.booleanlist', 'MetaTitle', 'class="inputbox"', $row->MetaTitle);
 
 		// SEO SETTINGS
-		$lists['sef'] 			= JHTML::_('select.booleanlist', 'sef', 'class="inputbox"', $row->sef);
+		$lists['sef'] 		= JHTML::_('select.booleanlist', 'sef', 'class="inputbox"', $row->sef);
 		$lists['sef_rewrite'] 	= JHTML::_('select.booleanlist', 'sef_rewrite', 'class="inputbox"', $row->sef_rewrite);
 		$lists['sef_suffix'] 	= JHTML::_('select.booleanlist', 'sef_suffix', 'class="inputbox"', $row->sef_suffix);
 
@@ -336,7 +343,7 @@ class ConfigControllerApplication extends ConfigController
 		$config_array['dbtype']		= JRequest::getVar('dbtype', 'mysql', 'post', 'word');
 		$config_array['host']		= JRequest::getVar('host', 'localhost', 'post', 'string');
 		$config_array['user']		= JRequest::getVar('user', '', 'post', 'string');
-		$config_array['db']			= JRequest::getVar('db', '', 'post', 'string');
+		$config_array['db']		= JRequest::getVar('db', '', 'post', 'string');
 		$config_array['dbprefix']	= JRequest::getVar('dbprefix', 'jos_', 'post', 'string');
 
 		// MAIL SETTINGS
@@ -346,7 +353,7 @@ class ConfigControllerApplication extends ConfigController
 		$config_array['sendmail']	= JRequest::getVar('sendmail', '/usr/sbin/sendmail', 'post', 'string');
 		$config_array['smtpauth']	= JRequest::getVar('smtpauth', 0, 'post', 'int');
 		$config_array['smtpsecure']	= JRequest::getVar('smtpsecure', 'none', 'post', 'word');
-		$smtpport		        	= JRequest::getVar('smtpport', '', 'post', 'int');
+		$smtpport	        	= JRequest::getVar('smtpport', '', 'post', 'int');
 		$config_array['smtpport']	= $smtpport ? $smtpport : '25';
 		$config_array['smtpuser']	= JRequest::getVar('smtpuser', '', 'post', 'string');
 		$config_array['smtppass']	= JRequest::getVar('smtppass', '', 'post', 'string', JREQUEST_ALLOWRAW);

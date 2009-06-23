@@ -70,7 +70,7 @@
 				</span>
 			</td>
 			<td>
-				<input class="text_area" type="text" name="smtpport" size="30" value="<?php echo $row->smtpport; ?>" />
+				<input class="text_area" type="text" name="smtpport" size="30" value="<?php echo (isset($row->smtpport) ? $row->smtpport : ''); ?>" />
 			</td>
 		</tr>
 		<tr>
