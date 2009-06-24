@@ -47,7 +47,10 @@ class UserViewLogin extends JView
 		$type = (!$user->get('guest')) ? 'logout' : 'login';
 
 		// Set some default page parameters if not set
-		$params->def( 'page_title', 				1 );
+		$params->def( 'show_page_title', 				1 );
+		if (!$params->get( 'page_title')) {
+				$params->set('page_title',	JText::_( 'Login' ));
+			}
 		if(!$item)
 		{
 			$params->def( 'header_login', 			'' );
