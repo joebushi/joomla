@@ -556,7 +556,7 @@ class TemplatesView
 	{
 		JRequest::setVar( 'hidemainmenu', 1 );
 
-		$css_path = $client->path . $filename;
+		$css_path = $client->path.DS.'templates'.DS.$template.DS.'css'.DS.$filename;
 
 ?>
 		<form action="index.php" method="post" name="adminForm">
