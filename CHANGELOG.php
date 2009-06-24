@@ -42,6 +42,7 @@ $ -> Language fix or change
  # [#16593] JFile::upload() uses chmod 777 in FTP mode
  # [#15673] Different time create date and start publishing in beez
  # [#16601] Section filter on article manager showing non content sections as well 
+ # [#16607] Mod Newsflash read more link broken with Beez template
 
 23-Jun-2009 Ian MacLennan
  # [#12376] Update to TinyMCE 3.2.4.1

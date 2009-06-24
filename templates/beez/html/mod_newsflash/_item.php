@@ -21,9 +21,9 @@ endif; ?>
 echo JFilterOutput::ampReplace($item->text);
 
 $itemparams=new JParameter($item->attribs);
-$readmoretxt=$itemparams->get('readmore',JText::_('Read more'));
+$readmoretxt=$itemparams->get('readmore',JText::_('Read more text'));
 if (isset($item->linkOn) && $item->readmore && $params->get('readmore')) : ?>
 <a href="<?php echo $item->linkOn; ?>" class="readon">
-	<?php echo $readmoretxt; ?></a>
+	<?php echo $readmoretxt.' ' . $item->title; ?></a>
 <?php endif; ?>
 <span class="article_separator">&nbsp;</span>
