@@ -659,7 +659,7 @@ class plgEditorTinymce extends JPlugin
 	{
 		$return  = '';
 		$return .= "\n<div style=\"margin-top:-5px\">\n";
-		$return .= "<div class=\"button2-left\"><div class=\"blank\"><a href=\"#\" onclick=\"javascript:tinyMCE.execCommand('mceToggleEditor', false, '$name');return false;\" title=\"Toggle editor\">Toggle editor</a></div></div>";
+		$return .= "<div class=\"button2-left\"><div class=\"blank\"><a href=\"#\" onclick=\"javascript:tinyMCE.execCommand('mceToggleEditor', false, '$name');return false;\" title=\"".JText::_('Toggle editor')."\">".JText::_('Toggle editor')."</a></div></div>";
 		$return .= "</div>\n";
 		return $return;
 	}
