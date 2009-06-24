@@ -46,6 +46,7 @@ $ -> Language fix or change
  # [#16719] JHTML::tooltip quote problem
  # [#16753] CSS file is not updated when you edit the joomla
  # [#16890] Page title isn't displayed at Default login page
+ # [#16896] Modified Date disappears in 1.5.11
 
 23-Jun-2009 Ian MacLennan
  # [#12376] Update to TinyMCE 3.2.4.1
