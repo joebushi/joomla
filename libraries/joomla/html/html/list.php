@@ -210,7 +210,7 @@ class JHTMLList
 	/**
 	* Select list of active sections
 	*/
-	function section( $name, $active = NULL, $javascript = NULL, $order = 'ordering', $uncategorized = true )
+	function section( $name, $active = NULL, $javascript = NULL, $order = 'ordering', $uncategorized = true, $scope = 'content' )
 	{
 		$db =& JFactory::getDBO();
 
@@ -223,6 +223,7 @@ class JHTMLList
 		$query = 'SELECT id AS value, title AS text'
 		. ' FROM #__sections'
 		. ' WHERE published = 1'
+		. ' AND scope = ' . $db->Quote($scope)
 		. ' ORDER BY ' . $order
 		;
 		$db->setQuery( $query );
