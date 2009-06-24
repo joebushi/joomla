@@ -43,6 +43,7 @@ $ -> Language fix or change
  # [#15673] Different time create date and start publishing in beez
  # [#16601] Section filter on article manager showing non content sections as well 
  # [#16607] Mod Newsflash read more link broken with Beez template
+ # [#16719] JHTML::tooltip quote problem
 
 23-Jun-2009 Ian MacLennan
  # [#12376] Update to TinyMCE 3.2.4.1
