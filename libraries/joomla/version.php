@@ -24,21 +24,21 @@ class JVersion
 	/** @var int Main Release Level */
 	var $RELEASE 	= '1.5';
 	/** @var string Development Status */
-	var $DEV_STATUS = 'Production/Stable';
+	var $DEV_STATUS = 'Release Candidate';
 	/** @var int Sub Release Level */
-	var $DEV_LEVEL 	= '11';
+	var $DEV_LEVEL 	= '12';
 	/** @var int build Number */
 	var $BUILD	= '';
 	/** @var string Codename */
-	var $CODENAME 	= 'Vea';
+	var $CODENAME 	= 'wojmamni ama woi';
 	/** @var string Date */
-	var $RELDATE 	= '03-June-2009';
+	var $RELDATE 	= '24-June-2009';
 	/** @var string Time */
-	var $RELTIME 	= '03:30';
+	var $RELTIME 	= '19:30';
 	/** @var string Timezone */
 	var $RELTZ 	= 'GMT';
 	/** @var string Copyright Text */
-	var $COPYRIGHT 	= 'Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.';
+	var $COPYRIGHT 	= 'Copyright (C) 2005 - 2009 Open Source Matters. All rights reserved.';
 	/** @var string URL */
 	var $URL 	= '<a href="http://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.';
 

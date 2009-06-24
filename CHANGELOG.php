@@ -37,8 +37,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+-------------------- 1.5.12 Release Candidate [24-June-2009] ------------------
+
 24-Jun-2009 Ian MacLennan
- # [#16950] Lots of missing language strings in TinyMCE v3
+ $ [#16950] Lots of missing language strings in TinyMCE v3
  # [#16593] JFile::upload() uses chmod 777 in FTP mode
  # [#15673] Different time create date and start publishing in beez
  # [#16601] Section filter on article manager showing non content sections as well 
@@ -47,6 +49,7 @@ $ -> Language fix or change
  # [#16753] CSS file is not updated when you edit the joomla
  # [#16890] Page title isn't displayed at Default login page
  # [#16896] Modified Date disappears in 1.5.11
+ $ Added language string for Toggle Editor
 
 23-Jun-2009 Ian MacLennan
  # [#12376] Update to TinyMCE 3.2.4.1
