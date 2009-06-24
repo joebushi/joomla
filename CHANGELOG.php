@@ -39,7 +39,8 @@ $ -> Language fix or change
 
 24-Jun-2009 Ian MacLennan
  # [#16950] Lots of missing language strings in TinyMCE v3
- # [#16593] JFile::upload() uses chmod 777 in FTP mode 
+ # [#16593] JFile::upload() uses chmod 777 in FTP mode
+ # [#15673] Different time create date and start publishing in beez
 
 23-Jun-2009 Ian MacLennan
  # [#12376] Update to TinyMCE 3.2.4.1
