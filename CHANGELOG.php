@@ -50,6 +50,7 @@ $ -> Language fix or change
  # [#16890] Page title isn't displayed at Default login page
  # [#16896] Modified Date disappears in 1.5.11
  $ Added language string for Toggle Editor
+ ^ Updated LICENSES.php and CREDITS.php to reflect library license changes and updates
 
 23-Jun-2009 Ian MacLennan
  # [#12376] Update to TinyMCE 3.2.4.1
