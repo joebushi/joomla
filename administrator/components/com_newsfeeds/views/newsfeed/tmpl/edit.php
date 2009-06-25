@@ -75,6 +75,30 @@ JHtml::_('behavior.formvalidation');
 	</fieldset>
 </div>
 
+<div class="col width-40">
+	<fieldset>
+		<legend><?php echo JText::_('Newsfeeds_Options'); ?></legend>
+
+		<table>
+		<?php foreach($this->form->getFields('params') as $field): ?>
+			<?php if ($field->hidden): ?>
+				<?php echo $field->input; ?>
+			<?php else: ?>
+				<tr>
+					<td class="paramlist_key" width="40%">
+						<?php echo $field->label; ?>
+					</td>
+					<td class="paramlist_value">
+						<?php echo $field->input; ?>
+					</td>
+				</tr>
+			<?php endif; ?>
+		<?php endforeach; ?>
+		</table>
+
+	</fieldset>
+</div>
+
 <div class="clr"></div>
 
 	<input type="hidden" name="task" value="" />
