@@ -37,6 +37,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-Jun-2009 Ian MacLennan
+ + Added mk-MK installer language pack
+
 27-Jun-2009 Ian MacLennan
  # [#17005] Installer SQL shows TinyMCE as version 2.0
 
