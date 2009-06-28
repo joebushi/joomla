@@ -37,6 +37,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+27-Jun-2009 Ian MacLennan
+ # [#17005] Installer SQL shows TinyMCE as version 2.0
+
 -------------------- 1.5.12 Release Candidate [24-June-2009] ------------------
 
 24-Jun-2009 Ian MacLennan
