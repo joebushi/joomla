@@ -37,6 +37,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Jun-2009 Ian MacLennan
+ # [#16977] Incomplete language definitions in TinyMCE 3.2
+
 28-Jun-2009 Ian MacLennan
  + Added mk-MK installer language pack
 

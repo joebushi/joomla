@@ -91,7 +91,7 @@
  			<option value="0">Off</option>
  			<option value="1">On</option>
  		</param>
- 		<param name="@spacer" type="spacer" default="" label="" description="" />
+ 		<param name="@spacer" type="spacer" default="Params Extended Mode" label="" description="" />
  		<param name="fonts" type="radio" default="1" label="Fonts" description="PARAMFONTS">
  			<option value="0">Hide</option>
  			<option value="1">Show</option>
