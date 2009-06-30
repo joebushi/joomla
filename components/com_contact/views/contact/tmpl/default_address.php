@@ -115,7 +115,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 		<?php echo $this->contact->params->get( 'marker_misc' ); ?>
 	</td>
 	<td>
-		<?php echo $this->escape($this->contact->misc); ?>
+		<?php echo nl2br($this->contact->misc); ?>
 	</td>
 </tr>
 </table>

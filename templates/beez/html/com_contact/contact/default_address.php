@@ -88,7 +88,7 @@ endif; ?>
 <?php if ($this->contact->misc && $this->contact->params->get('show_misc')) : ?>
 <p>
   <?php if (( $this->contact->params->get('contact_icons') ==0) || ( $this->contact->params->get('contact_icons') ==1)): ?>
-  <span class="marker"><?php echo $this->contact->params->get('marker_misc'); ?></span> <?php echo $this->escape($this->contact->misc); ?>
+  <span class="marker"><?php echo $this->contact->params->get('marker_misc'); ?></span> <?php echo nl2br($this->contact->misc); ?>
   <?php endif; ?>
 </p>
 <?php endif; ?>
