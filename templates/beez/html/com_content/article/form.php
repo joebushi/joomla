@@ -195,7 +195,7 @@ echo $this->editor->display('text', $this->article->text, '100%', '400', '70', '
 	<input type="hidden" name="id" value="<?php echo $this->article->id; ?>" />
 	<input type="hidden" name="version" value="<?php echo $this->article->version; ?>" />
 	<input type="hidden" name="created_by" value="<?php echo $this->article->created_by; ?>" />
-	<input type="hidden" name="referer" value="<?php echo @$_SERVER['HTTP_REFERER']; ?>" />
+	<input type="hidden" name="referer" value="<?php echo str_replace(array('"', '<', '>', "'"), '', @$_SERVER['HTTP_REFERER']); ?>" />
 	<input type="hidden" name="task" value="" />
 	<?php echo JHTML::_( 'form.token' ); ?>
 </form>

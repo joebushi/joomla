@@ -657,7 +657,7 @@ class JFactory
 		}
 
 		$tmpl->addGlobalVar( 'option', 				$GLOBALS['option'] );
-		$tmpl->addGlobalVar( 'self', 				$_SERVER['PHP_SELF'] );
+		$tmpl->addGlobalVar( 'self', 				str_replace(array('"', '<', '>', "'"), '', $_SERVER["PHP_SELF"]) );
 		$tmpl->addGlobalVar( 'uri_query', 			$_SERVER['QUERY_STRING'] );
 		$tmpl->addGlobalVar( 'REQUEST_URI',			JRequest::getURI() );
 		if (isset($GLOBALS['Itemid'])) {

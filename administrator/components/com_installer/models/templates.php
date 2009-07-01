@@ -12,6 +12,9 @@
  * details.
  */
 
+// no direct access
+defined( '_JEXEC' ) or die( 'Restricted access' );
+
 // Import library dependencies
 require_once(dirname(__FILE__).DS.'extension.php');
 jimport( 'joomla.filesystem.folder' );

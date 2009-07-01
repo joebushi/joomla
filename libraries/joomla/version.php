@@ -24,17 +24,17 @@ class JVersion
 	/** @var int Main Release Level */
 	var $RELEASE 	= '1.5';
 	/** @var string Development Status */
-	var $DEV_STATUS = 'Release Candidate';
+	var $DEV_STATUS = 'Stable';
 	/** @var int Sub Release Level */
 	var $DEV_LEVEL 	= '12';
 	/** @var int build Number */
 	var $BUILD	= '';
 	/** @var string Codename */
-	var $CODENAME 	= 'wojmamni ama woi';
+	var $CODENAME 	= 'Wojmamni Ama Woi';
 	/** @var string Date */
-	var $RELDATE 	= '24-June-2009';
+	var $RELDATE 	= '01-July-2009';
 	/** @var string Time */
-	var $RELTIME 	= '19:30';
+	var $RELTIME 	= '02:00';
 	/** @var string Timezone */
 	var $RELTZ 	= 'GMT';
 	/** @var string Copyright Text */

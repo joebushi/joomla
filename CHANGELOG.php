@@ -37,6 +37,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+-------------------- 1.5.12 Stable Release [30-June-2009] ------------------
+
 29-Jun-2009 Ian MacLennan
  # [#16977] Incomplete language definitions in TinyMCE 3.2
  # [#17006] Revert escaping of html in contact miscellaneous information.

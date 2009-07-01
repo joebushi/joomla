@@ -12,6 +12,9 @@
  * details.
  */
 
+// no direct access
+defined( '_JEXEC' ) or die( 'Restricted access' );
+
 require_once( JPATH_COMPONENT.DS.'views'.DS.'component'.DS.'view.php' );
 
 /**

@@ -243,7 +243,7 @@ class mosHTML
 				<?php
 				if ( $_SERVER['HTTP_REFERER'] != "") {
 					echo '<noscript>';
-					echo '<a href="'. $_SERVER['HTTP_REFERER'] .'"><span class="small">'. JText::_( 'BACK' ) .'</span></a>';
+					echo '<a href="'. str_replace(array('"', '<', '>', "'"), '', $_SERVER['HTTP_REFERER']) .'"><span class="small">'. JText::_( 'BACK' ) .'</span></a>';
 					echo '</noscript>';
 				}
 				?>

@@ -10,6 +10,8 @@
  * Notice: This script defaults the button_tile_map option to true for extra performance.
  */
 
+	defined('_JEXEC') or die('Restricted access');
+
 	// Set the error reporting to minimal.
 	@error_reporting(E_ERROR | E_WARNING | E_PARSE);
 

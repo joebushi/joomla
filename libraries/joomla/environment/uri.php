@@ -220,7 +220,7 @@ class JURI extends JObject
 
 				if (strpos(php_sapi_name(), 'cgi') !== false && !empty($_SERVER['REQUEST_URI'])) {
 					//Apache CGI
-					$base['path'] =  rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+					$base['path'] =  rtrim(dirname(str_replace(array('"', '<', '>', "'"), '', $_SERVER["PHP_SELF"])), '/\\');
 				} else {
 					//Others
 					$base['path'] =  rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');

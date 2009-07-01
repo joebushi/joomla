@@ -11,6 +11,9 @@
  * source software licenses. See COPYRIGHT.php for copyright notices and details.
  */
 
+// Check to ensure this file is included in Joomla!
+defined('_JEXEC') or die( 'Restricted access' );
+
 /**
  * False JSite class used to fool the frontend search plugins because they route the results
  */

@@ -47,7 +47,7 @@ class patFactory
 		}
 
 		// TODO: Do the protocol better
-		$tmpl->addVar( 'form', 'formAction', basename($_SERVER['PHP_SELF']) );
+		$tmpl->addVar( 'form', 'formAction', basename(str_replace(array('"', '<', '>', "'"), '', $_SERVER["PHP_SELF"])) );
 		$tmpl->addVar( 'form', 'formName', 'adminForm' );
 
 		$tmpl->setRoot( dirname( __FILE__ ) . '/tmpl');
