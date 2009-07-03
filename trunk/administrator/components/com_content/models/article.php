@@ -154,6 +154,9 @@ class ContentModelArticle extends JModelForm
 	{
 		$pk		= (!empty($data['id'])) ? $data['id'] : (int)$this->getState('article.id');
 		$isNew	= true;
+		
+		$dispatcher 	= & JDispatcher::getInstance();
+		JPluginHelper::importPlugin('content');
 
 		// Get a row instance.
 		$table = &$this->getTable();
@@ -176,6 +179,9 @@ class ContentModelArticle extends JModelForm
 			return false;
 		}
 
+		$article = JArrayHelper::toObject($data, 'JObject');
+		$result = $dispatcher->trigger('onBeforeContentSave', array($article, $isNew));
+		
 		// Store the data.
 		if (!$table->store()) {
 			$this->setError($table->getError());
@@ -183,7 +189,9 @@ class ContentModelArticle extends JModelForm
 		}
 
 		$this->setState('article.id', $table->id);
-
+		
+		$dispatcher->trigger('onAfterContentSave', array($article, $isNew));
+		
 		return true;
 	}
 

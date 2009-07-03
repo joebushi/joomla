@@ -563,6 +563,18 @@ CREATE TABLE `#__content_frontpage` (
 # --------------------------------------------------------
 
 #
+# Table structure for table `#__content_keyword_article_map`
+#
+
+CREATE TABLE `#__content_keyword_article_map` (
+  `keyword` varchar(255) NOT NULL,
+  `article_id` int(11) NOT NULL,
+  PRIMARY KEY (`keyword`,`article_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+# --------------------------------------------------------
+
+#
 # Table structure for table `#__content_rating`
 #
 
@@ -646,6 +658,7 @@ INSERT INTO `#__extensions` VALUES(0, 'Content - Pagebreak', 'plugin', 'pagebrea
 INSERT INTO `#__extensions` VALUES(0, 'Content - Rating', 'plugin', 'vote', 'content', 0, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 4, 0);
 INSERT INTO `#__extensions` VALUES(0, 'Content - Email Cloaking', 'plugin', 'emailcloak', 'content', 0, 1, 1, 0, '', '{"mode":"1"}', '', '', 0, '0000-00-00 00:00:00', 5, 0);
 INSERT INTO `#__extensions` VALUES(0, 'Content - Load Module', 'plugin', 'loadmodule', 'content', 0, 1, 1, 0, '', '{"style":"none"}', '', '', 0, '0000-00-00 00:00:00', 6, 0);
+INSERT INTO `#__extensions` VALUES(0, 'Content - Keyword Save', 'plugin', 'keyword', 'content', 0, 1, 1, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 7, 0);
 INSERT INTO `#__extensions` VALUES(0, 'Content - Page Navigation', 'plugin', 'pagenavigation', 'content', 0, 1, 1, 0, '', '{"position":"1"}', '', '', 0, '0000-00-00 00:00:00', 2, 0);
 INSERT INTO `#__extensions` VALUES(0, 'Editor - No Editor', 'plugin', 'none', 'editors', 0, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0);
 INSERT INTO `#__extensions` VALUES(0, 'Editor - CodeMirror', 'plugin', 'codemirror', 'editors', 0, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0);

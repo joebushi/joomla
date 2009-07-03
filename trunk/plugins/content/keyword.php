@@ -44,7 +44,7 @@ class plgContentKeyword extends JPlugin
 	 * @param 	bool		If the content is just about to be created
 	 * @return	bool		If false, abort the save
 	 */
-	function onBeforeContentSave( &$article, $isNew )
+	function onBeforeContentSave( $article, $isNew )
 	{
 		global $mainframe;
 		$db	=& JFactory::getDBO();
