@@ -152,14 +152,14 @@ class ContentModelArticle extends JModelForm
 	 */
 	public function save($data)
 	{
-		$pk		= (!empty($data['id'])) ? $data['id'] : (int)$this->getState('article.id');
-		$isNew	= true;
-		
-		$dispatcher 	= & JDispatcher::getInstance();
-		JPluginHelper::importPlugin('content');
+		// Initialise variables;
+		$dispatcher = & JDispatcher::getInstance();
+		$table		= &$this->getTable();
+		$pk			= (!empty($data['id'])) ? $data['id'] : (int)$this->getState('article.id');
+		$isNew		= true;
 
-		// Get a row instance.
-		$table = &$this->getTable();
+		// Include the content plugins for the onSave events.
+		JPluginHelper::importPlugin('content');
 
 		// Load the row if saving an existing item.
 		if ($pk > 0) {
@@ -179,19 +179,29 @@ class ContentModelArticle extends JModelForm
 			return false;
 		}
 
-		$article = JArrayHelper::toObject($data, 'JObject');
-		$result = $dispatcher->trigger('onBeforeContentSave', array($article, $isNew));
-		
+		// Increment the content version number
+		$table->version++;
+
+		$result = $dispatcher->trigger('onBeforeContentSave', array(&$table, $isNew));
+		if (in_array(false, $result, true)) {
+			JError::raiseError(500, $row->getError());
+			return false;
+		}
+
 		// Store the data.
 		if (!$table->store()) {
 			$this->setError($table->getError());
 			return false;
 		}
 
+		// Clean the cache.
+		$cache = &JFactory::getCache('com_content');
+		$cache->clean();
+
+		$dispatcher->trigger('onAfterContentSave', array(&$table, $isNew));
+
 		$this->setState('article.id', $table->id);
-		
-		$dispatcher->trigger('onAfterContentSave', array($article, $isNew));
-		
+
 		return true;
 	}
 
