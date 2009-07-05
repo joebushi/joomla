@@ -14,18 +14,12 @@ defined( '_JEXEC' ) or die;
  * @since		1.6
  */
 class MessagesController extends JController
-{
-	public function __construct($config = array())
-	{
-		parent::__construct($config);
-		// TODO: add registerTask functions here.
-	}
-	
+{	
 	public function add()
 	{
 		$this->setRedirect(JRoute::_('index.php?option=com_messages&view=message&layout=edit', false));
 	}
-	
+
 	public function saveconfig()
 	{
 		// Check for request forgeries
