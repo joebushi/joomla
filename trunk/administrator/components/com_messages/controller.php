@@ -55,7 +55,7 @@ class MessagesController extends JController
 			return true;		
 		} else {
 			$message = JText::sprintf('JError_Occurred', $model->getError());
-			$this->setRedirect('index.php?option=com_weblinks&view=weblinks', $message, 'error');
+			$this->setRedirect('index.php?option=com_messages&view=messages', $message, 'error');
 			return false;
 		}
 	}
