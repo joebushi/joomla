@@ -37,6 +37,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+
+06-Jul-2009 Sam Moffatt
+ # [#17058] Incorrect _JEXEC check breaks TinyMCE JS when using compressed mode
+
 -------------------- 1.5.12 Stable Release [30-June-2009] ------------------
 
 29-Jun-2009 Ian MacLennan
