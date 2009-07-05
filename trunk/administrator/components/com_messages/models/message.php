@@ -68,6 +68,8 @@ class MessagesModelMessage extends JModel
 		$access	= &JFactory::getACL();
 		$groups	= array();
 
+		$userid = JRequest::getInt('userid', 0);
+
 		// Include user in groups that have access to log in to the administrator.
 		$return = $access->getAuthorisedUsergroups('core.administrator.login', true);
 		if (count($return)) {
@@ -104,7 +106,7 @@ class MessagesModelMessage extends JModel
 			$options = array_merge($options, $users);
 		}
 
-		return JHtml::_('select.genericlist', $options, 'user_id_to', 'class="inputbox" size="1"', 'value', 'text', $user);
+		return JHtml::_('select.genericlist', $options, 'user_id_to', 'class="inputbox" size="1"', 'value', 'text', $userid);
 	}
 
 	/**

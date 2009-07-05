@@ -68,6 +68,7 @@ class MessagesModelMessages extends JModelList
 		$query = new JQuery;
 
 		$query->select($this->getState('list.select', 'a.*'));
+		$query->select('u.name AS user_from');
 		$query->from('#__messages AS a');
 
 		$query->join('INNER', '#__users AS u ON u.id = a.user_id_from');
