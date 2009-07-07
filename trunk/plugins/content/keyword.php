@@ -15,6 +15,9 @@ jimport( 'joomla.plugin.plugin' );
 class plgContentKeyword extends JPlugin
 {
 	static $_map_table = '#__content_keyword_article_map';
+	static $authorTag = 'authid::';
+	static $aliasTag = 'alias::';
+	static $categoryTag = 'catid::';
 
 	/**
 	 * Constructor
@@ -44,30 +47,37 @@ class plgContentKeyword extends JPlugin
 	 * @param 	bool		If the content is just about to be created
 	 * @return	bool		If false, abort the save
 	 */
-	function onBeforeContentSave( $article, $isNew )
+	function onAfterContentSave( $article, $isNew )
 	{
 		global $mainframe;
 		$db	=& JFactory::getDBO();
 		// delete the old rows
 		self::_deleteOldRows($article->id);
-		if ($article->metakey) {
+		$result = true;
+		if ($article->metakey)
+		{
 			$keyArray = explode(',', $article->metakey);
 			$keysInserted = array();
-			foreach ($keyArray as $thisKey) {
+			foreach ($keyArray as $thisKey)
+			{
 				$thisKey = trim($thisKey);
-				if (!in_array(strtoupper($thisKey), $keysInserted)) {
+				if (!in_array(strtoupper($thisKey), $keysInserted))
+				{
 					$object = new KeywordMapRow($thisKey, $article->id);
-					if ($db->insertObject(self::$_map_table, $object)) {
-						$result = true;
-					} else {
-						$result = false;
-					}
+					$result = ($db->insertObject(self::$_map_table, $object) && $result);
 					$keysInserted[] = strtoupper($thisKey);
 				}
 			}
 		}
-		else {
-			$result = true;
+		// insert author, author alias, and category rows into keyword table
+		$object = new KeywordMapRow(self::$categoryTag . $article->catid, $article->id);
+		$db->insertObject(self::$_map_table, $object);
+		$object = new KeywordMapRow(self::$authorTag . $article->created_by, $article->id);
+		$db->insertObject(self::$_map_table, $object);
+		if ($article->created_by_alias)
+		{
+			$object = new KeywordMapRow(self::$aliasTag . $article->created_by_alias, $article->id);
+			$result = ($db->insertObject(self::$_map_table, $object) && $result);
 		}
 		return $result;
 	}
