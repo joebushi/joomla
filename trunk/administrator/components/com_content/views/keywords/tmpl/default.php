@@ -15,6 +15,9 @@ JHtml::_('behavior.tooltip');
 
 $n = count($this->items);
 ?>
+<p>
+<?php echo JText::_('KEYWORDS_REBUILD_DESC')?>
+</p>
 <form action="<?php echo JRoute::_('index.php?option=com_content&view=articles');?>" method="post" name="adminForm">
 	<fieldset class="filter clearfix">
 		<div class="left">

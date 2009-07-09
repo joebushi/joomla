@@ -25,6 +25,11 @@ class ContentModelKeywords extends JModelList
 	 * @var		string
 	 */
 	public $_context = 'com_content.keywords';
+	static $_map_table = '#__content_keyword_article_map';
+	static $_authorTag = 'authid::';
+	static $_aliasTag = 'alias::';
+	static $_categoryTag = 'catid::';
+	static $_rowCount = 0;
 
 	/**
 	 * Method to auto-populate the model state.
@@ -97,7 +102,7 @@ class ContentModelKeywords extends JModelList
 
 		// Select the required fields from the table.
 		$query->select(
-			$this->getState(
+		$this->getState(
 				'list.select',
 				'a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.state, a.access, a.created, a.hits, a.ordering, a.featured')
 		);
@@ -162,5 +167,82 @@ class ContentModelKeywords extends JModelList
 
 		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;
+	}
+	/**
+	 * function rebuild - rebuilds the jos_content_keyword_article_map table
+	 * this table is used in the related items module to find articles with matching keywords, author, or category
+	 * @return - true if successful, false if not
+	 */
+	function rebuild() {
+		global $mainframe;
+		$result = true; // set return value
+		$db	=& JFactory::getDBO();
+		// clear the table
+		$deleteQuery = 'DELETE FROM ' . self::$_map_table;
+		$db->setQuery($deleteQuery);
+		if (!$db->query()) {
+			$result = false;
+		}
+
+		// now insert the rows for each article
+		$query = 'SELECT id, metakey, catid, created_by, created_by_alias '.
+				' FROM #__content ';
+		$db->setQuery($query);
+		$articleList = $db->loadObjectList();
+		foreach ($articleList as $article)
+		{
+			if ($article->metakey) // process keywords if present
+			{
+				$keyArray = explode(',', $article->metakey);
+				$keysInserted = array();
+				foreach ($keyArray as $thisKey)
+				{
+					$thisKey = trim($thisKey);
+					if (!in_array(strtoupper($thisKey), $keysInserted))
+					{
+						if (!self::_insertRow($db, $thisKey, $article->id))
+						{
+							$result = false;
+						}
+						$keysInserted[] = strtoupper($thisKey);
+					}
+				}
+			}
+			// process author, alias, and category
+			$authorTag = self::$_authorTag . $article->created_by;
+			if (!self::_insertRow($db, $authorTag, $article->id))
+			{
+				$result = false;
+			}
+			$categoryTag = self::$_categoryTag . $article->catid;
+			if (!self::_insertRow($db, $categoryTag, $article->id))
+			{
+				$result = false;
+			}
+			if ($article->created_by_alias)
+			{
+				$aliasTag = self::$_aliasTag . $article->created_by_alias;
+				if (!self::_insertRow($db, $aliasTag, $article->id))
+				{
+					$result = false;
+				}
+			}
+		}
+		$count = count($articleList);
+		return array($result, $count, self::$_rowCount);
+	}
+	/**
+	 * Utility method to insert rows into table
+	 * @param $db - JDatabase object
+	 * @param $keyword - keyword
+	 * @param $id - article id
+	 * @return - true if successfult
+	 */
+	protected function _insertRow($db, $keyword, $id) {
+		$insertQuery = 'INSERT INTO ' . self::$_map_table .
+			' VALUES (' . $db->Quote($keyword).','.$db->Quote($id).')';
+		$db->setQuery($insertQuery);
+		self::$_rowCount += 1;
+		return $db->query();
 	}
 }

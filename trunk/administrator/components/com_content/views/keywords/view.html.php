@@ -38,7 +38,6 @@ class ContentViewKeywords extends JView
 		$this->assignRef('state',		$state);
 		$this->assignRef('items',		$items);
 		$this->assignRef('pagination',	$pagination);
-
 		$this->_setToolbar();
 		parent::display($tpl);
 	}
@@ -52,22 +51,7 @@ class ContentViewKeywords extends JView
 	{
 		$state = $this->get('State');
 		JToolBarHelper::title(JText::_('Content_Keywords_Title'), 'article.png');
-		if ($state->get('filter.published') != -1) {
-			JToolBarHelper::archiveList('articles.archive');
-		}
-		JToolBarHelper::custom('articles.publish', 'publish.png', 'publish_f2.png', 'Publish', true);
-		JToolBarHelper::custom('articles.unpublish', 'unpublish.png', 'unpublish_f2.png', 'Unpublish', true);
-		if ($state->get('filter.published') == -2) {
-			JToolBarHelper::deleteList('', 'articles.delete');
-		}
-		else {
-			JToolBarHelper::trash('articles.trash');
-		}
-		JToolBarHelper::divider();
-		JToolBarHelper::custom('article.edit', 'edit.png', 'edit_f2.png', 'Edit', true);
-		JToolBarHelper::custom('article.edit', 'new.png', 'new_f2.png', 'New', false);
-		JToolBarHelper::divider();
-		JToolBarHelper::preferences('com_content');
+		JToolBarHelper::custom('keywords.rebuild', 'config.png', 'config_f2.png', 'Rebuild', false);
 		JToolBarHelper::help('screen.content.articles');
 	}
 }

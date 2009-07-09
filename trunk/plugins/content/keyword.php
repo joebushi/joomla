@@ -15,9 +15,9 @@ jimport( 'joomla.plugin.plugin' );
 class plgContentKeyword extends JPlugin
 {
 	static $_map_table = '#__content_keyword_article_map';
-	static $authorTag = 'authid::';
-	static $aliasTag = 'alias::';
-	static $categoryTag = 'catid::';
+	static $_authorTag = 'authid::';
+	static $_aliasTag = 'alias::';
+	static $_categoryTag = 'catid::';
 
 	/**
 	 * Constructor
@@ -70,13 +70,13 @@ class plgContentKeyword extends JPlugin
 			}
 		}
 		// insert author, author alias, and category rows into keyword table
-		$object = new KeywordMapRow(self::$categoryTag . $article->catid, $article->id);
+		$object = new KeywordMapRow(self::$_categoryTag . $article->catid, $article->id);
 		$db->insertObject(self::$_map_table, $object);
-		$object = new KeywordMapRow(self::$authorTag . $article->created_by, $article->id);
+		$object = new KeywordMapRow(self::$_authorTag . $article->created_by, $article->id);
 		$db->insertObject(self::$_map_table, $object);
 		if ($article->created_by_alias)
 		{
-			$object = new KeywordMapRow(self::$aliasTag . $article->created_by_alias, $article->id);
+			$object = new KeywordMapRow(self::$_aliasTag . $article->created_by_alias, $article->id);
 			$result = ($db->insertObject(self::$_map_table, $object) && $result);
 		}
 		return $result;

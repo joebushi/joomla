@@ -21,13 +21,13 @@ class modRelatedItemsHelper
 	 * @access public
 	 * @var string array
 	 */
-	static $mainArticleKeywords = null;
-	static $mainArticleAlias = null;
-	static $mainArticleAuthor = null;
-	static $mainArticleCategory = null;
-	static $authorTag = 'authid::';
-	static $aliasTag = 'alias::';
-	static $categoryTag = 'catid::';
+	static $_mainArticleKeywords = null;
+	static $_mainArticleAlias = null;
+	static $_mainArticleAuthor = null;
+	static $_mainArticleCategory = null;
+	static $_authorTag = 'authid::';
+	static $_aliasTag = 'alias::';
+	static $_categoryTag = 'catid::';
 
 	function getList($params)
 	{
@@ -114,13 +114,13 @@ class modRelatedItemsHelper
 
 				// save main article attributes in static variables
 
-				self::$mainArticleAlias = $mainArticle->created_by_alias;
-				self::$mainArticleAuthor = $mainArticle->author;
+				self::$_mainArticleAlias = $mainArticle->created_by_alias;
+				self::$_mainArticleAuthor = $mainArticle->author;
 				if ($mainArticle->catid == 0) {
-					self::$mainArticleCategory = JText::_('Uncategorized');
+					self::$_mainArticleCategory = JText::_('Uncategorized');
 				}
 				else {
-					self::$mainArticleCategory = $mainArticle->category_title;
+					self::$_mainArticleCategory = $mainArticle->category_title;
 				}
 				$likes = array ();
 
@@ -132,15 +132,15 @@ class modRelatedItemsHelper
 					}
 				}
 				if ($matchAuthor) {
-					$likes[] = "'" . self::$authorTag . $mainArticle->created_by . "'";
+					$likes[] = "'" . self::$_authorTag . $mainArticle->created_by . "'";
 				}
-				if ($matchAuthorAlias && self::$mainArticleAlias) {
-					$likes[] = "'" . self::$aliasTag . $mainArticle->created_by_alias . "'";
+				if ($matchAuthorAlias && self::$_mainArticleAlias) {
+					$likes[] = "'" . self::$_aliasTag . $mainArticle->created_by_alias . "'";
 				}
 				if ($matchCategory) {
-					$likes[] = "'" . self::$categoryTag . $mainArticle->catid . "'";
+					$likes[] = "'" . self::$_categoryTag . $mainArticle->catid . "'";
 				}
-				self::$mainArticleKeywords = $keys;
+				self::$_mainArticleKeywords = $keys;
 
 				$keywordList = implode(',', $likes);
 				if ($keywordList)
@@ -364,7 +364,7 @@ class modRelatedItemsHelper
 			$keywordArray = self::getKeywordArray($item);
 			foreach ($keywordArray as $matchWord) // loop through match list for the article
 			{
-				foreach (self::$mainArticleKeywords as $nextKey) // loop through the key words for the main aritcle
+				foreach (self::$_mainArticleKeywords as $nextKey) // loop through the key words for the main aritcle
 				{
 					// find main article match. this eliminates duplcates
 					// based on upper and lower case
@@ -373,14 +373,14 @@ class modRelatedItemsHelper
 						$thisWord = trim($nextKey);
 					}
 				}
-				if (($matchAuthorAlias) && (self::$mainArticleAlias)
-				&& (JString::strtoupper(self::$mainArticleAlias) == JString::strtoupper($matchWord))) {
-					$thisWord = self::$mainArticleAlias;
+				if (($matchAuthorAlias) && (self::$_mainArticleAlias)
+				&& (JString::strtoupper(self::$_mainArticleAlias) == JString::strtoupper($matchWord))) {
+					$thisWord = self::$_mainArticleAlias;
 				}
-				else if (($matchAuthor) && (self::$mainArticleAuthor == $matchWord)) {
+				else if (($matchAuthor) && (self::$_mainArticleAuthor == $matchWord)) {
 					$thisWord = $item->author;
 				}
-				if (($matchCategory) && (self::$mainArticleCategory == $matchWord)) {
+				if (($matchCategory) && (self::$_mainArticleCategory == $matchWord)) {
 					$thisWord = $item->category_title;
 				}
 
@@ -398,10 +398,10 @@ class modRelatedItemsHelper
 	 * @return array of keywords with tags converted to values
 	 */
 	static function getKeywordArray($item) {
-		$keywordSearch = array(self::$categoryTag . $item->catid, self::$authorTag . $item->created_by,
-				self::$aliasTag . $item->created_by_alias);
-		$keywordReplace = array(self::$mainArticleCategory, self::$mainArticleAuthor,
-		self::$mainArticleAlias);
+		$keywordSearch = array(self::$_categoryTag . $item->catid, self::$_authorTag . $item->created_by,
+				self::$_aliasTag . $item->created_by_alias);
+		$keywordReplace = array(self::$_mainArticleCategory, self::$_mainArticleAuthor,
+		self::$_mainArticleAlias);
 		$keywordList = str_replace($keywordSearch, $keywordReplace, $item->keyword_list);
 		$returnArray = explode(',',$keywordList);
 		natcasesort($returnArray);

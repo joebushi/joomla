@@ -45,95 +45,24 @@ class ContentControllerKeywords extends JController
 	/**
 	 * Removes an item
 	 */
-	function delete()
+	function rebuild()
 	{
 		// Check for request forgeries
 		JRequest::checkToken() or die('Invalid Token');
 
-		// Get items to remove from the request.
-		$ids	= JRequest::getVar('cid', array(), '', 'array');
+		$model = $this->getModel('keywords');
+		$returnArray = $model->rebuild();
 
-		if (empty($ids)) {
-			JError::raiseWarning(500, JText::_('Select an item to delete'));
-		}
-		else {
-			// Get the model.
-			$model = $this->getModel();
+		$msg = JText::_('Article keyword map table has been rebuilt.  ') .
+			JText::_('  Articles read: ') . $returnArray[1] . JText::_('  Rows added: ') . $returnArray[2];
+		$msg = JText::sprintf('KEYWORDS_REBUILD_SUCCESS', $returnArray[1], $returnArray[2]);
+		$msgType = 'message';
 
-			// Remove the items.
-			if (!$model->delete($ids)) {
-				JError::raiseWarning(500, $model->getError());
-			}
+		if ($returnArray[0] === false) {
+			$msg = JText::_('Error re-building article keyword map table.');
+			$msgType = 'error';
 		}
 
-		$this->setRedirect('index.php?option=com_content&view=articles');
-	}
-
-	/**
-	 * Method to publish a list of articles.
-	 *
-	 * @return	void
-	 * @since	1.0
-	 */
-	function publish()
-	{
-		// Check for request forgeries
-		JRequest::checkToken() or die('Invalid Token');
-
-		// Get items to publish from the request.
-		$ids	= JRequest::getVar('cid', array(), '', 'array');
-		$values	= array('publish' => 1, 'unpublish' => 0, 'archive' => -1, 'trash' => -2);
-		$task	= $this->getTask();
-		$value	= JArrayHelper::getValue($values, $task, 0, 'int');
-
-		if (empty($ids)) {
-			JError::raiseWarning(500, JText::_('Select an item to publish'));
-		}
-		else
-		{
-			// Get the model.
-			$model	= $this->getModel();
-
-			// Publish the items.
-			if (!$model->publish($ids, $value)) {
-				JError::raiseWarning(500, $model->getError());
-			}
-		}
-
-		$this->setRedirect('index.php?option=com_content&view=articles');
-	}
-
-	/**
-	 * Method to toggle the featured setting of a list of articles.
-	 *
-	 * @return	void
-	 * @since	1.0
-	 */
-	function featured()
-	{
-		// Check for request forgeries
-		JRequest::checkToken() or die('Invalid Token');
-
-		// Get items to publish from the request.
-		$ids	= JRequest::getVar('cid', array(), '', 'array');
-		$values	= array('featured' => 1, 'unfeatured' => 0);
-		$task	= $this->getTask();
-		$value	= JArrayHelper::getValue($values, $task, 0, 'int');
-
-		if (empty($ids)) {
-			JError::raiseWarning(500, JText::_('Select an item to publish'));
-		}
-		else
-		{
-			// Get the model.
-			$model = $this->getModel();
-
-			// Publish the items.
-			if (!$model->featured($ids, $value)) {
-				JError::raiseWarning(500, $model->getError());
-			}
-		}
-
-		$this->setRedirect('index.php?option=com_content&view=articles');
+		$this->setRedirect('index.php?option=com_content&view=keywords', $msg, $msgType);
 	}
 }

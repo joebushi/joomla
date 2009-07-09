@@ -226,7 +226,19 @@ class ContentModelArticle extends JModelForm
 				return false;
 			}
 		}
-
+		
+		// Remove rows from jos_content_article_keyword_map table
+		$articleIds = implode(',', $pks );
+		$deleteQuery = 'DELETE FROM #__content_keyword_article_map ' . 
+			' WHERE article_id IN (' . $articleIds . ')';
+		global $mainframe;
+		$db	=& JFactory::getDBO();
+		$db->setQuery($deleteQuery);
+		if (!$db->query($deleteQuery)) 
+		{
+			$this->setError($table->getError());
+			return false;
+		}
 		return true;
 	}
 
