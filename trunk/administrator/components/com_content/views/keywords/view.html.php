@@ -51,6 +51,7 @@ class ContentViewKeywords extends JView
 	{
 		$state = $this->get('State');
 		JToolBarHelper::title(JText::_('Content_Keywords_Title'), 'article.png');
+		JToolBarHelper::custom('keywords.repair', 'config.png', 'config_f2.png', 'Audit & Repair', false);
 		JToolBarHelper::custom('keywords.rebuild', 'config.png', 'config_f2.png', 'Rebuild', false);
 		JToolBarHelper::help('screen.content.articles');
 	}

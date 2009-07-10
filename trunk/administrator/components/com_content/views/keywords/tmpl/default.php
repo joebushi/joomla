@@ -14,11 +14,23 @@ JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 JHtml::_('behavior.tooltip');
 
 $n = count($this->items);
+
+// build tag options
+$tagOptions = array();
+$tagOptions[] = JHtml::_('select.option', 'keywords', 'JOption_Keywords_Only' );
+$tagOptions[] = JHtml::_('select.option', 'tags', 'JOption_Keyword_Tags_Only' );
+$tagOptions[] = JHtml::_('select.option', 'all', 'JOption_Keywords_All' );
 ?>
+<p>
+<?php echo JText::_('KEYWORDS_REPAIR_DESC')?>
+</p>
 <p>
 <?php echo JText::_('KEYWORDS_REBUILD_DESC')?>
 </p>
-<form action="<?php echo JRoute::_('index.php?option=com_content&view=articles');?>" method="post" name="adminForm">
+<p>
+<?php echo JText::_('KEYWORDS_PLUGIN_DESC')?>
+</p>
+<form action="<?php echo JRoute::_('index.php?option=com_content&view=keywords');?>" method="post" name="adminForm">
 	<fieldset class="filter clearfix">
 		<div class="left">
 			<label for="search">
@@ -33,11 +45,10 @@ $n = count($this->items);
 		</div>
 
 		<div class="right">
-			<select name="filter_access" class="inputbox" onchange="this.form.submit()">
-				<option value=""><?php echo JText::_('JOption_Select_Access');?></option>
-				<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'));?>
-			</select>
-
+			<select name="filter_tags" class="inputbox" onchange="this.form.submit()">
+				<option value=""><?php echo JText::_('JOption_Select_Tags');?></option>
+				<?php echo JHtml::_('select.options', $tagOptions, 'value', 'text', $this->state->get('filter.tags'), true);?>
+			</select>			
 			<select name="filter_published" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('JOption_Select_Published');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true);?>
@@ -53,39 +64,23 @@ $n = count($this->items);
 	<table class="adminlist">
 		<thead>
 			<tr>
-				<th width="20">
-					<input type="checkbox" name="toggle" value="" onclick="checkAll(this)" />
-				</th>
 				<th class="title">
-					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_Title', 'a.title', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
-				</th>
-				<th width="5%">
-					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_Published', 'a.state', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
-				</th>
-				<th width="5%">
-					<?php echo JHtml::_('grid.sort', 'Content_Heading_Featured', 'a.featured', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
-				</th>
-				<th width="5%">
-					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_Category', 'a.catid', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
-				</th>
-				<th width="5%">
-					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_Created_by', 'a.created_by', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
-				</th>
-				<th width="10%" nowrap="nowrap">
-					<?php echo JHtml::_('grid.sort',  'JGrid_Heading_Ordering', 'a.ordering', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
-					<?php echo JHtml::_('grid.order',  $this->items); ?>
+					<?php echo JHtml::_('grid.sort', 'Keyword', 'm.keyword', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="10%">
-					<?php echo JHtml::_('grid.sort',  'JGrid_Heading_Access', 'category', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort', 'Total Articles', 'total_articles', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
-				<th width="5%">
-					<?php echo JHtml::_('grid.sort',  'Content_Heading_Date', 'a.created', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+				<th width="10%">
+					<?php echo JHtml::_('grid.sort', 'Published', 'published_articles', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
-				<th width="5%">
-					<?php echo JHtml::_('grid.sort',  'JGrid_Heading_Hits', 'a.hits', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+				<th width="10%">
+					<?php echo JHtml::_('grid.sort', 'Unpublished', 'unpublished_articles', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
-				<th width="1%" nowrap="nowrap">
-					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_ID', 'a.id', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+				<th width="10%">
+					<?php echo JHtml::_('grid.sort',  'Archived', 'archived_articles', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+				</th>
+				<th width="10%">
+					<?php echo JHtml::_('grid.sort',  'Trashed', 'trashed_articles', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 			</tr>
 		</thead>
@@ -98,51 +93,26 @@ $n = count($this->items);
 		</tfoot>
 		<tbody>
 		<?php foreach ($this->items as $i => $item) :
-			$item->max_ordering = 0; //??
-			$ordering	= ($this->state->get('list.ordering') == 'a.ordering');
+			$ordering	= ($this->state->get('list.ordering') == 'm.keyword');
 			?>
 			<tr class="row<?php echo $i % 2; ?>">
-				<td style="text-align:center">
-					<?php echo JHtml::_('grid.id', $i, $item->id); ?>
-				</td>
-				<td>
-					<?php if ($item->checked_out) : ?>
-						<?php echo JHtml::_('jgrid.checkedout', $item->editor, $item->checked_out_time); ?>
-					<?php endif; ?>
-					<a href="<?php echo JRoute::_('index.php?option=com_content&task=article.edit&cid[]='.$item->id);?>">
-						<?php echo $this->escape($item->title); ?></a>
-					<br /><small>
-						(<?php echo $this->escape($item->alias); ?>)</small>
+				<td align="left">
+					<?php echo $item->keyword; ?>
 				</td>
 				<td align="center">
-					<?php echo JHtml::_('jgrid.published', $item->state, $i, 'articles.'); ?>
+					<?php echo $item->total_articles; ?>
 				</td>
 				<td align="center">
-					<?php echo JHtml::_('content.featured', $item->featured, $i); ?>
+					<?php echo $item->published_articles; ?>
 				</td>
 				<td align="center">
-					<?php echo $this->escape($item->category_title); ?>
+					<?php echo $item->unpublished_articles; ?>
 				</td>
 				<td align="center">
-					<?php echo $this->escape($item->author_name); ?>
+					<?php echo $item->archived_articles; ?>
 				</td>
-				<td class="order">
-					<span><?php echo $this->pagination->orderUpIcon($i, true, 'items.orderup', 'JGrid_Move_Up', $ordering); ?></span>
-					<span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, true, 'items.orderdown', 'JGrid_Move_Down', $ordering); ?></span>
-					<?php $disabled = $ordering ?  '' : 'disabled="disabled"'; ?>
-					<input type="text" name="order[]" size="5" value="<?php echo $item->ordering;?>" <?php echo $disabled ?> class="text_area" style="text-align: center" />
-				</td>
-				<td align="center">
-					<?php echo $this->escape($item->access_level); ?>
-				</td>
-				<td align="center">
-					<?php echo JHtml::date($item->created, '%Y.%m.%d'); ?>
-				</td>
-				<td align="center">
-					<?php echo (int) $item->hits; ?>
-				</td>
-				<td align="center">
-					<?php echo (int) $item->id; ?>
+				<td align="right">
+					<?php echo $item->trashed_articles; ?>
 				</td>
 			</tr>
 			<?php endforeach; ?>

@@ -36,12 +36,7 @@ class plgContentKeyword extends JPlugin
 	}
 
 	/**
-	 * Example before save content method
-	 *
-	 * Method is called right before content is saved into the database.
-	 * Article object is passed by reference, so any changes will be saved!
-	 * NOTE:  Returning false will abort the save with an error.
-	 * 	You can set the error by calling $article->setError($message)
+	 * Add or update $_map_table rows when content is saved
 	 *
 	 * @param 	object		A JTableContent object
 	 * @param 	bool		If the content is just about to be created
@@ -81,6 +76,23 @@ class plgContentKeyword extends JPlugin
 		}
 		return $result;
 	}
+	
+	/**
+	 * Delete $_map_table rows when content is deleted
+	 *
+	 * @param 	integer		An article id
+	 * @return	bool		If false, abort the delete
+	 */
+	function onAfterContentDelete ($id) {
+		$result = self::_deleteOldRows($id); 
+		return $result;
+	}
+	
+	/**
+	 * 
+	 * @param 	int			Article id. All keywords for this id are deleted.
+	 * @return 	bool 		true if successful
+	 */
 
 	static function _deleteOldRows($id) {
 		global $mainframe;
@@ -88,11 +100,7 @@ class plgContentKeyword extends JPlugin
 		$query = 'DELETE FROM '. self::$_map_table .
 				' WHERE article_id = ' . $db->Quote($id);
 		$db->setQuery($query);
-		if ($db->query($query)) {
-			$result = true;
-		} else {
-			$result = false;
-		}
+		$result = $db->query($query);
 		return $result;
 	}
 }

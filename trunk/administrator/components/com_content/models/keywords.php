@@ -43,8 +43,8 @@ class ContentModelKeywords extends JModelList
 		$search = $app->getUserStateFromRequest($this->_context.'.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$access = $app->getUserStateFromRequest($this->_context.'.filter.access', 'filter_access', 0, 'int');
-		$this->setState('filter.access', $access);
+		$tags = $app->getUserStateFromRequest($this->_context.'.tags', 'filter_tags', '');
+		$this->setState('filter.tags', $tags);
 
 		$published = $app->getUserStateFromRequest($this->_context.'.published', 'filter_published', '');
 		$this->setState('filter.published', $published);
@@ -59,7 +59,7 @@ class ContentModelKeywords extends JModelList
 		$limitstart = $app->getUserStateFromRequest($this->_context.'.limitstart', 'limitstart', 0);
 		$this->setState('list.limitstart', $limitstart);
 
-		$orderCol = $app->getUserStateFromRequest($this->_context.'.ordercol', 'filter_order', 'a.title');
+		$orderCol = $app->getUserStateFromRequest($this->_context.'.ordercol', 'filter_order', 'm.keyword');
 		$this->setState('list.ordering', $orderCol);
 
 		$orderDirn = $app->getUserStateFromRequest($this->_context.'.orderdirn', 'filter_order_Dir', 'asc');
@@ -104,30 +104,19 @@ class ContentModelKeywords extends JModelList
 		$query->select(
 		$this->getState(
 				'list.select',
-				'a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.state, a.access, a.created, a.hits, a.ordering, a.featured')
+				'm.keyword, COUNT(m.article_id) as total_articles,' . 
+				'SUM(CASE WHEN a.state = 1 THEN 1 ELSE 0 END) AS published_articles,' . 
+				'SUM(CASE WHEN a.state = 0 THEN 1 ELSE 0 END) AS unpublished_articles,' . 
+				'SUM(CASE WHEN a.state = -1 THEN 1 ELSE 0 END) AS archived_articles,' .
+				'SUM(CASE WHEN a.state = -2 THEN 1 ELSE 0 END) AS trashed_articles')
 		);
-		$query->from('#__content AS a');
+		$query->from('#__content_keyword_article_map AS m');
 
-		// Join over the users for the checked out user.
-		$query->select('uc.name AS editor');
-		$query->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');
+		// Join with article table
+		$query->join('LEFT', '#__content AS a ON m.article_id = a.id');
 
-		// Join over the asset groups.
-		$query->select('ag.title AS access_level');
-		$query->join('LEFT', '#__access_assetgroups AS ag ON ag.id = a.access');
-
-		// Join over the categories.
-		$query->select('c.title AS category_title');
-		$query->join('LEFT', '#__categories AS c ON c.id = a.catid');
-
-		// Join over the users for the author.
-		$query->select('ua.name AS author_name');
-		$query->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
-
-		// Filter by access level.
-		if ($access = $this->getState('filter.access')) {
-			$query->where('a.access = ' . (int) $access);
-		}
+		// add grouping
+		$query->group('m.keyword');
 
 		// Filter by published state
 		$published = $this->getState('filter.published');
@@ -141,37 +130,50 @@ class ContentModelKeywords extends JModelList
 		// Filter by category.
 		$categoryId = $this->getState('filter.category_id');
 		if (is_numeric($categoryId)) {
-			$query->where('a.state = ' . (int) $published);
+			$query->where('a.catid = ' . (int) $categoryId);
 		}
 
 		// Filter by search in title
 		$search = $this->getState('filter.search');
 		if (!empty($search)) {
-			if (stripos($search, 'id:') === 0) {
-				$query->where('a.id = '.(int) substr($search, 3));
-			}
-			else if (stripos($search, 'author:') === 0)
-			{
-				$search = $this->_db->Quote('%'.$this->_db->getEscaped(substr($search, 7), true).'%');
-				$query->where('ua.name LIKE '.$search.' OR ua.username LIKE '.$search);
-			}
-			else
-			{
-				$search = $this->_db->Quote('%'.$this->_db->getEscaped($search, true).'%');
-				$query->where('a.title LIKE '.$search.' OR a.alias LIKE '.$search);
+			$search = $this->_db->Quote('%'.$this->_db->getEscaped($search, true).'%');
+			$query->where('m.keyword LIKE '.$search);
+		}
+
+		// Filter by tags or keywords
+		$tags = $this->getState('filter.tags');
+		if (!empty($tags)) {
+			switch ($tags) {
+				case 'keywords':
+					$search = $this->_db->Quote(self::$_aliasTag . '%');
+					$query->where('m.keyword NOT LIKE ' . $search);
+					$search = $this->_db->Quote(self::$_authorTag . '%');
+					$query->where('m.keyword NOT LIKE ' . $search);
+					$search = $this->_db->Quote(self::$_categoryTag . '%');
+					$query->where('m.keyword NOT LIKE ' . $search);
+					break;
+				case 'tags':
+					$search1 = $this->_db->Quote(self::$_aliasTag . '%');
+					$search2 = $this->_db->Quote(self::$_authorTag . '%');
+					$search3 = $this->_db->Quote(self::$_categoryTag . '%');
+					$query->where('(m.keyword LIKE ' . $search1 . 'OR m.keyword LIKE ' . $search2 . 
+						' OR m.keyword LIKE ' . $search3 . ')');
+					break;
+				case 'all':
+				default:
+					break;
 			}
 		}
 
 		// Add the list ordering clause.
-		$query->order($this->_db->getEscaped($this->getState('list.ordering', 'a.title')).' '.$this->_db->getEscaped($this->getState('list.direction', 'ASC')));
+		$query->order($this->_db->getEscaped($this->getState('list.ordering', 'm.keyword')).' '.$this->_db->getEscaped($this->getState('list.direction', 'ASC')));
 
-		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;
 	}
 	/**
 	 * function rebuild - rebuilds the jos_content_keyword_article_map table
 	 * this table is used in the related items module to find articles with matching keywords, author, or category
-	 * @return - true if successful, false if not
+	 * @return array(): element 0 = true if method successful; element 1 = count of articles; element 2 = count of keywords
 	 */
 	function rebuild() {
 		global $mainframe;
@@ -231,6 +233,11 @@ class ContentModelKeywords extends JModelList
 		$count = count($articleList);
 		return array($result, $count, self::$_rowCount);
 	}
+	
+	/**
+	 * Function
+	 */
+	
 	/**
 	 * Utility method to insert rows into table
 	 * @param $db - JDatabase object

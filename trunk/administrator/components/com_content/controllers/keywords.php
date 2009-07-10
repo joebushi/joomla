@@ -52,9 +52,6 @@ class ContentControllerKeywords extends JController
 
 		$model = $this->getModel('keywords');
 		$returnArray = $model->rebuild();
-
-		$msg = JText::_('Article keyword map table has been rebuilt.  ') .
-			JText::_('  Articles read: ') . $returnArray[1] . JText::_('  Rows added: ') . $returnArray[2];
 		$msg = JText::sprintf('KEYWORDS_REBUILD_SUCCESS', $returnArray[1], $returnArray[2]);
 		$msgType = 'message';
 

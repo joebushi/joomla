@@ -210,6 +210,10 @@ class ContentModelArticle extends JModelForm
 	 */
 	public function delete($pks)
 	{
+		$dispatcher = & JDispatcher::getInstance();
+		// Include the content plugins for the onSave events.
+		JPluginHelper::importPlugin('content');
+		
 		// Sanitize the ids.
 		$pks = (array) $pks;
 		JArrayHelper::toInteger($pks);
@@ -220,25 +224,24 @@ class ContentModelArticle extends JModelForm
 		// Iterate the items to delete each one.
 		foreach ($pks as $itemId)
 		{
+			$table->load($itemId); // get article for onBeforeContentDelete event
+			$result = $dispatcher->trigger('onBeforeContentDelete', array($table));
+			if (in_array(false, $result, true)) 
+			{
+				JError::raiseError(500, $row->getError());
+				return false;
+			}
+			
+			// delete row
 			if (!$table->delete($itemId))
 			{
 				$this->setError($table->getError());
 				return false;
 			}
+			
+			$dispatcher->trigger('onAfterContentDelete', array($itemId));
 		}
 		
-		// Remove rows from jos_content_article_keyword_map table
-		$articleIds = implode(',', $pks );
-		$deleteQuery = 'DELETE FROM #__content_keyword_article_map ' . 
-			' WHERE article_id IN (' . $articleIds . ')';
-		global $mainframe;
-		$db	=& JFactory::getDBO();
-		$db->setQuery($deleteQuery);
-		if (!$db->query($deleteQuery)) 
-		{
-			$this->setError($table->getError());
-			return false;
-		}
 		return true;
 	}
 
