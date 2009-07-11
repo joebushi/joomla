@@ -43,7 +43,7 @@ class ContentControllerKeywords extends JController
 	}
 
 	/**
-	 * Removes an item
+	 * Rebuilds the jos_content_keyword_article_map table
 	 */
 	function rebuild()
 	{
@@ -61,5 +61,40 @@ class ContentControllerKeywords extends JController
 		}
 
 		$this->setRedirect('index.php?option=com_content&view=keywords', $msg, $msgType);
+	}
+	/**
+	 * Repairs the jos_content_keyword_article_map table
+	 */
+	function repair()
+	{
+		// Check for request forgeries
+		JRequest::checkToken() or die('Invalid Token');
+
+		$model = $this->getModel('keywords');
+		$returnArray = $model->repair();
+		$result = $returnArray['success'];
+		$repaired = $returnArray['repaired'];
+		$good = $returnArray['good'];
+		$unmatched = $returnArray['unmatched'];
+		$totalArticles = $repaired + $good;
+		if (!$unmatched && !$repaired && $result) 
+		{
+			$msg = JText::sprintf('KEYWORDS_REPAIR_NOCHANGES', $totalArticles);
+			$msgType = 'message';
+		}
+		else if ($result)
+		{
+			$msg = 	$msg = JText::sprintf('KEYWORDS_REPAIR_WITHCHANGES', $good, 
+				$repaired, $unmatched);
+			$msgType = 'message';
+		}
+		else 
+		{
+			$msg = JText::_('Error repairing article keyword map table.');
+			$msgType = 'error';
+		}
+
+		$this->setRedirect('index.php?option=com_content&view=keywords', $msg, $msgType);
+		
 	}
 }

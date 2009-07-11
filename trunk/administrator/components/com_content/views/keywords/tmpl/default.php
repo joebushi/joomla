@@ -111,7 +111,7 @@ $tagOptions[] = JHtml::_('select.option', 'all', 'JOption_Keywords_All' );
 				<td align="center">
 					<?php echo $item->archived_articles; ?>
 				</td>
-				<td align="right">
+				<td align="center">
 					<?php echo $item->trashed_articles; ?>
 				</td>
 			</tr>

@@ -94,14 +94,13 @@ class plgContentKeyword extends JPlugin
 	 * @return 	bool 		true if successful
 	 */
 
-	static function _deleteOldRows($id) {
+	static protected function _deleteOldRows($id) {
 		global $mainframe;
 		$db	=& JFactory::getDBO();
 		$query = 'DELETE FROM '. self::$_map_table .
-				' WHERE article_id = ' . $db->Quote($id);
+				' WHERE article_id = ' . (int) $id;
 		$db->setQuery($query);
-		$result = $db->query($query);
-		return $result;
+		return $db->query();
 	}
 }
 
