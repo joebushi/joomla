@@ -97,19 +97,34 @@ abstract class JPane extends JObject
 class JPaneTabs extends JPane
 {
 	/**
+	 * @var array array of loaded panes
+	 */
+	protected static $loaded=array();
+	
+	/**
+	 * @var string name of pane
+	 */
+	protected $name=null;
+	
+	/**
 	 * Constructor
 	 *
-	 * @param	array 	$params		Associative array of values
+	 * @param array $params array of params to construct the pane
 	 */
 	function __construct($params = array())
 	{
-		static $loaded = false;
-
 		parent::__construct($params);
+		
+		if (array_key_exists('name',$params)) {
+			$this->name = $params['name'];
+		}
+		else {
+			$this->name = 'default';
+		}
 
-		if (!$loaded) {
+		if (!array_key_exists($this->name,$loaded)) {
 			$this->_loadBehavior($params);
-			$loaded = true;
+			$loaded[$this->name] = true;
 		}
 	}
 
@@ -120,7 +135,7 @@ class JPaneTabs extends JPane
 	 */
 	public function startPane($id)
 	{
-		return '<dl class="tabs" id="'.$id.'">';
+		return '<div class="'.$this->name.'"><dl class="tabs" id="'.$id.'">';
 	}
 
 	/**
@@ -128,7 +143,7 @@ class JPaneTabs extends JPane
 	 */
 	public function endPane()
 	{
-		return "</dl>";
+		return "</dl></div>";
 	}
 
 	/**
@@ -177,7 +192,7 @@ class JPaneTabs extends JPane
 		}
 		$options .= '}';
 
-		$js = '		window.addEvent(\'domready\', function(){ $$(\'dl.tabs\').each(function(tabs){ new JTabs(tabs, '.$options.'); }); });';
+		$js = '		window.addEvent(\'domready\', function(){ $$(\'.'.$this->name.' dl.tabs\').each(function(tabs){ new JTabs(tabs, '.$options.'); }); });';
 
 		$document->addScriptDeclaration($js);
 		$document->addScript(JURI::root(true). '/media/system/js/tabs.js');
@@ -194,19 +209,34 @@ class JPaneTabs extends JPane
 class JPaneSliders extends JPane
 {
 	/**
+	 * @var array array of loaded panes
+	 */
+	protected static $loaded=array();
+	
+	/**
+	 * @var string name of pane
+	 */
+	protected $name=null;
+	
+	/**
 	 * Constructor
 	 *
-	 * @param int useCookies, if set to 1 cookie will hold last used tab between page refreshes
+	 * @param array $params array of params to construct the pane
 	 */
 	function __construct($params = array())
 	{
-		static $loaded = false;
-
 		parent::__construct($params);
+		
+		if (array_key_exists('name',$params)) {
+			$this->name = $params['name'];
+		}
+		else {
+			$this->name = 'default';
+		}
 
-		if (!$loaded) {
+		if (!array_key_exists($this->name,$loaded)) {
 			$this->_loadBehavior($params);
-			$loaded = true;
+			$loaded[$this->name] = true;
 		}
 	}
 
@@ -217,7 +247,7 @@ class JPaneSliders extends JPane
 	 */
 	public function startPane($id)
 	{
-		return '<div id="'.$id.'" class="pane-sliders">';
+		return '<div class="'.$this->name.'"><div id="'.$id.'" class="pane-sliders">';
 	}
 
 	/**
@@ -225,7 +255,7 @@ class JPaneSliders extends JPane
 	 */
 	public function endPane()
 	{
-		return '</div>';
+		return '</div></div>';
 	}
 
 	/**
@@ -280,7 +310,7 @@ class JPaneSliders extends JPane
 		}
 		$options .= '}';
 
-		$js = '		window.addEvent(\'domready\', function(){ new Accordion($$(\'.panel h3.jpane-toggler\'), $$(\'.panel div.jpane-slider\'), '.$options.'); });';
+		$js = '		window.addEvent(\'domready\', function(){ new Accordion($$(\'.'.$this->name.' .panel h3.jpane-toggler\'), $$(\'.'.$this->name.' div.jpane-slider\'), '.$options.'); });';
 
 		$document->addScriptDeclaration($js);
 	}

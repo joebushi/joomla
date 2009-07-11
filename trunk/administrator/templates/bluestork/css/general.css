@@ -327,7 +327,7 @@ div.current dd {
 }
 
 #cpanel img  { padding: 10px 0; margin: 0 auto; }
-#cpanel span { display: block; text-align: center; }
+#cpanel .icon span { display: block; text-align: center; }
 
 /* standard form style table */
 div.col { float: left; }
