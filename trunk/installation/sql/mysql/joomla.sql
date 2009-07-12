@@ -457,6 +457,7 @@ INSERT INTO `#__components` VALUES
  (35, 'Articles', '', 0, 20, 'option=com_content&view=articles', 'com_content_Articles', 'com_content', 1, '', 1, '{}', 1),
  (36, 'Categories', '', 0, 20, 'option=com_categories&view=categories&extension=com_content', 'com_content_Categories', 'com_content', 2, '', 1, '{}', 1),
  (37, 'Featured', '', 0, 20, 'option=com_content&view=featured', 'com_content_Featured', 'com_content', 3, '', 1, '{}', 1);
+INSERT INTO `#__components` VALUES (34, 'Quick Icons', '', 0, 0, '', 'Quick Icons', 'com_quickicons', 0, '', 1, '', 1);
 
 
 # --------------------------------------------------------
@@ -1248,5 +1249,86 @@ CREATE TABLE `#__weblinks` (
   PRIMARY KEY  (`id`),
   KEY `catid` (`catid`,`state`,`archived`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__quickicons_sections`
+--
+
+
+CREATE TABLE IF NOT EXISTS `#__quickicons_sections` (
+  `id` int(11) NOT NULL auto_increment,
+  `key` CHAR(100) NOT NULL default '',
+  `name` VARCHAR(255) NOT NULL default '',
+  `ordering` int(10) unsigned NOT NULL default '0',
+  `published` tinyint(1) unsigned NOT NULL default '0',
+  PRIMARY KEY (`id`),
+  KEY (`key`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+INSERT INTO `#__quickicons_sections` (`key`, `name`, `ordering`, `published`)
+VALUES ('system', 'Com_Quickicons_General','1','1');
+
+INSERT INTO `#__quickicons_sections` (`key`, `name`, `ordering`, `published`)
+VALUES ('com_content', 'Com_Quickicons_Content','2','1');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__quickicons`
+--
+
+CREATE TABLE IF NOT EXISTS `#__quickicons` (
+  `id` int(11) NOT NULL auto_increment,
+  `sid` int(11) NOT NULL default '0',
+  `text` varchar(64) NOT NULL default '',
+  `link` varchar(255) NOT NULL default '',
+  `image` varchar(255) NOT NULL default '',
+  `ordering` int(10) unsigned NOT NULL default '0',
+  `published` tinyint(1) unsigned NOT NULL default '0',
+  `title` varchar(64) NOT NULL default '',
+  `component` varchar(255) NOT NULL default '',
+  `key` varchar(64) NOT NULL default '',
+  `access` varchar(100) NOT NULL default '',
+  `default_path` VARCHAR(255) NOT NULL default '',
+  `template_path` VARCHAR(255) NOT NULL default '',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+INSERT INTO `#__quickicons`
+(`sid`, `text` ,`link` ,`image` ,`ordering` ,`published` ,`title` ,`component` ,`key` ,`access`,`template_path` )
+VALUES
+('1', 'Com_Media_Quickicon', 'index.php?option=com_media', 'icon-48-media.png', '1', '1', 'Com_Media_Quickicon_Desc', 'com_media', 'Com_Media_Quickicon_Alt_key', '', 'images/header');
+INSERT INTO `#__quickicons`
+(`sid`, `text` ,`link` ,`image` ,`ordering` ,`published` ,`title` ,`component` ,`key` ,`access`,`template_path` )
+VALUES
+('1', 'Com_Menus_Quickicon', 'index.php?option=com_menus', 'icon-48-menumgr.png', '2', '1', 'Com_Menus_Quickicon_Desc', 'com_menus', 'Com_Menus_Quickicon_Alt_key', 'core.menus.manage', 'images/header');
+INSERT INTO `#__quickicons`
+(`sid`, `text` ,`link` ,`image` ,`ordering` ,`published` ,`title` ,`component` ,`key` ,`access`,`template_path` )
+VALUES
+('1', 'Com_Languages_Quickicon', 'index.php?option=com_languages', 'icon-48-language.png', '3', '1', 'Com_Languages_Quickicon_Desc', 'com_languages', 'Com_Languages_Quickicon_Alt_key', 'core.languages.manage', 'images/header');
+INSERT INTO `#__quickicons`
+(`sid`, `text` ,`link` ,`image` ,`ordering` ,`published` ,`title` ,`component` ,`key` ,`access`,`template_path` )
+VALUES
+('1', 'Com_Users_Quickicon', 'index.php?option=com_users', 'icon-48-user.png', '4', '1', 'Com_Users_Quickicon_Desc', 'com_languages', 'Com_Users_Quickicon_Alt_key', 'core.users.manage', 'images/header');
+INSERT INTO `#__quickicons`
+(`sid`, `text` ,`link` ,`image` ,`ordering` ,`published` ,`title` ,`component` ,`key` ,`access`,`template_path` )
+VALUES
+('1', 'Com_Config_Quickicon', 'index.php?option=com_config', 'icon-48-config.png', '5', '1', 'Com_Config_Quickicon_Desc', 'com_languages', 'Com_Config_Quickicon_Alt_key', 'core.config.manage', 'images/header');
+
+INSERT INTO `#__quickicons`
+(`sid`, `text` ,`link` ,`image` ,`ordering` ,`published` ,`title` ,`component` ,`key` ,`access`,`template_path` )
+VALUES
+('2', 'Com_Content_Quickicon_New_article', 'index.php?option=com_content&task=article.add', 'icon-48-article-add.png', '1', '1', 'Com_Content_Quickicon_New_article_Desc', 'com_content', 'Com_Content_Quickicon_New_article_Alt_key', '', 'images/header');
+INSERT INTO `#__quickicons`
+(`sid`, `text` ,`link` ,`image` ,`ordering` ,`published` ,`title` ,`component` ,`key` ,`access`,`template_path` )
+VALUES
+('2', 'Com_Content_Quickicon_Article_Manager', 'index.php?option=com_content', 'icon-48-article.png', '2', '1', 'Com_Content_Quickicon_Article_Manager_Desc', 'com_content', 'Com_Content_Quickicon_Article_Manager_Alt_key', '', 'images/header');
+INSERT INTO `#__quickicons`
+(`sid`, `text` ,`link` ,`image` ,`ordering` ,`published` ,`title` ,`component` ,`key` ,`access`,`template_path` )
+VALUES
+('2', 'Com_Content_Quickicon_Category_Manager', 'index.php?option=com_categories&extension=com_content', 'icon-48-category.png', '3', '1', 'Com_Content_Quickicon_Category_Manager_Desc', 'com_content', 'Com_Content_Quickicon_Category_Manager_Alt_key', '', 'images/header');
 
 # --------------------------------------------------------
