@@ -65,11 +65,11 @@ abstract class JHtmlQuickIcons
 		return $html;
 	}
 	/**
-	 * @param	int $sid section id
+	 * @param	string $skey section key
 	 * @access	public
 	 * @return string html code
 	 */
-	function quickicons($sid)
+	function quickicons($skey)
 	{
 		$lang = &JFactory::getLanguage();
 		$lang->load('com_quickicons');
@@ -78,7 +78,7 @@ abstract class JHtmlQuickIcons
 		$query = new JQuery();
 		$query->select('*');
 		$query->from('`#__quickicons`');
-		$query->where('`sid` = '. $db->Quote($sid));
+		$query->where('`skey` = '. $db->Quote($skey));
 		$query->where('`published` = 1');
 		$query->order('`ordering` ASC');
 		$db->setQuery($query->toString());

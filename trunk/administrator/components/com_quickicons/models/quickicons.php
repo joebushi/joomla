@@ -147,10 +147,10 @@ class QuickIconsModelQuickIcons extends JModelList
 	 */
 	protected function _getListQuery() {
 		$query = new JQuery();
-		$query->select('q.id as id, q.text as name, s.name as section, a.title as access, q.published as published, q.ordering as ordering, s.ordering as s_ordering, q.sid as sid');
+		$query->select('q.id as id, q.text as name, s.name as section, a.title as access, q.published as published, q.ordering as ordering, s.ordering as s_ordering, s.id as sid');
 		$query->from('`#__quickicons` AS q');
 		$query->join('LEFT', '#__access_actions AS a ON a.name=q.access');
-		$query->join('LEFT', '#__quickicons_sections AS s ON s.id=q.sid');
+		$query->join('LEFT', '#__quickicons_sections AS s ON s.key=q.skey');
 		$query->order('`s_ordering` ASC');
 		$query->order('`ordering` ASC');
 		return $query;

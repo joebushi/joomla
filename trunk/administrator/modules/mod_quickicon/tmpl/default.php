@@ -11,9 +11,9 @@ $pane = &JPane::getInstance('sliders',array('name'=>'quickicons'));
 echo $pane->startPane('quickicons-pane');
 
 	foreach($sections as $section):
-		$html = JHtml::_('quickicons.quickicons',$section->id);
+		$html = JHtml::_('quickicons.quickicons',$section->key);
 		if (!empty($html)):
-			echo $pane->startPanel(JText::_($section->name), 'quickicons-panel-'.$section->id);
+			echo $pane->startPanel(JText::_($section->name), 'quickicons-panel-'.$section->key);
 				echo $html;
 			echo $pane->endPanel();
 		endif;
