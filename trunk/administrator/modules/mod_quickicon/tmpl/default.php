@@ -4,21 +4,26 @@
 $lang = &JFactory::getLanguage();
 $lang->load('com_quickicons');
 JHtml::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_quickicons'.DS.'helpers'.DS.'html');
-jimport('joomla.html.pane');
+
+if (count($sections)==1):
+	echo JHtml::_('quickicons.quickicons',$sections[0]->key);
+elseif (!empty($sections)):
+	jimport('joomla.html.pane');
 	
-$pane = &JPane::getInstance('sliders',array('name'=>'quickicons'));
+	$pane = &JPane::getInstance('sliders',array('name'=>'quickicons'));
 
-echo $pane->startPane('quickicons-pane');
+	echo $pane->startPane('quickicons-pane');
 
-	foreach($sections as $section):
-		$html = JHtml::_('quickicons.quickicons',$section->key);
-		if (!empty($html)):
-			echo $pane->startPanel(JText::_($section->name), 'quickicons-panel-'.$section->key);
-				echo $html;
-			echo $pane->endPanel();
-		endif;
-	endforeach;
+		foreach($sections as $section):
+			$html = JHtml::_('quickicons.quickicons',$section->key);
+			if (!empty($html)):
+				echo $pane->startPanel(JText::_($section->name), 'quickicons-panel-'.$section->key);
+					echo $html;
+				echo $pane->endPanel();
+			endif;
+		endforeach;
 
-echo $pane->endPane();
+	echo $pane->endPane();
+endif;
 ?>
 </div>

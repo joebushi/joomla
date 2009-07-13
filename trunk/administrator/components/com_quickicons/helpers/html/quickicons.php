@@ -44,11 +44,11 @@ abstract class JHtmlQuickIcons
 		if (!empty($template_path)&&
 			file_exists(JPATH_ADMINISTRATOR.DS.'templates'.DS.$template.DS.implode(DS,explode('/',$template_path)).DS.$file))
 		{
-			$path = 'templates/'.$template.'/'.$template_path.'/'.$file;
+			$path = 'templates/'.$template.'/'.$template_path.'/';
 		}
 		else
 		{
-			$path = $default_path;
+			$path = $default_path.'/';
 		}
 		
 		$html ='<div style="float:'.$float.'">';
