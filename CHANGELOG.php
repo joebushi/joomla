@@ -43,6 +43,7 @@ $ -> Language fix or change
  # [#16073] Front End Account Creation does not save 'usertype' in jos_users table
  # [#16726] Edit icon does not appear in correct area (buttonheading)
  # [#17008] Untranslated error message in Media Manager
+ # [#17053] 1.5.12 Media Manager showing upload Error
 
 06-Jul-2009 Sam Moffatt
  # [#17058] Incorrect _JEXEC check breaks TinyMCE JS when using compressed mode
