@@ -41,6 +41,7 @@ $ -> Language fix or change
 22-Jul-2009 Ian MacLennan
  # [#15548] Plugin content/emailcloak: package oomla
  # [#16073] Front End Account Creation does not save 'usertype' in jos_users table
+ # [#16726] Edit icon does not appear in correct area (buttonheading)
 
 06-Jul-2009 Sam Moffatt
  # [#17058] Incorrect _JEXEC check breaks TinyMCE JS when using compressed mode
