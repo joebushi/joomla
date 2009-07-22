@@ -38,6 +38,9 @@ $ -> Language fix or change
 ! -> Note
 
 
+22-Jul-2009 Ian MacLennan
+ # [#15548] Plugin content/emailcloak: package oomla
+
 06-Jul-2009 Sam Moffatt
  # [#17058] Incorrect _JEXEC check breaks TinyMCE JS when using compressed mode
 
