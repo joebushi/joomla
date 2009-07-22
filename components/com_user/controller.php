@@ -250,7 +250,7 @@ class UserController extends JController
 
 		// Set some initial user values
 		$user->set('id', 0);
-		$user->set('usertype', '');
+		$user->set('usertype', $newUsertype);
 		$user->set('gid', $authorize->get_group_id( '', $newUsertype, 'ARO' ));
 
 		$date =& JFactory::getDate();
