@@ -18,6 +18,10 @@
  * @subpackage	Client
  * @since		1.5
  */
+
+// no direct access
+defined('_JEXEC') or die('Restricted access');
+
 class JLDAP extends JObject
 {
 	/** @var string Hostname of LDAP server

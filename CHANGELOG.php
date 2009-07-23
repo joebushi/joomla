@@ -38,6 +38,8 @@ $ -> Language fix or change
 ! -> Note
 
 
+-------------------- 1.5.13 Stable Release [22-July-2009] ------------------
+
 22-Jul-2009 Ian MacLennan
  # [#15548] Plugin content/emailcloak: package oomla
  # [#16073] Front End Account Creation does not save 'usertype' in jos_users table
