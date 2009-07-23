@@ -37,6 +37,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+23-Jul-2009 Gergo Erdosi
+ # [#17319] Media Manager is broken
 
 -------------------- 1.5.13 Stable Release [22-July-2009] ------------------
 

@@ -88,6 +88,9 @@ class MediaViewMedia extends JView
 		$this->assign('require_ftp', $ftp);
 		$this->assign('folders_id', ' id="media-tree"');
 		$this->assign('folders', $this->get('folderTree'));
+		
+		$user =& JFactory::getUser();
+		$this->assignRef('user', $user);
 
 		// Set the toolbar
 		$this->_setToolBar();
