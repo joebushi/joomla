@@ -492,6 +492,8 @@ class plgEditorTinymce extends JPlugin
 				plugins : \"$plugins\",
 				$skin
 				theme : \"$theme[$mode]\",
+				// Callbacks
+				$file_browser_callback
 				// Cleanup/Output
 				cleanup : $cleanup,
 				cleanup_on_startup : $cleanup_startup,
