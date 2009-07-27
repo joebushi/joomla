@@ -18,10 +18,10 @@ $app = &JFactory::getApplication();
 <jdoc:include type="head" />
 
 <link rel="stylesheet" href="templates/system/css/system.css" type="text/css" />
-<link href="templates/<?php echo $this->template ?>/css/login.css" rel="stylesheet" type="text/css" />
+<link href="templates/<?php echo $this->template ?>/css/template.css" rel="stylesheet" type="text/css" />
 
 <?php  if ($this->direction == 'rtl') : ?>
-	<link href="templates/<?php echo $this->template ?>/css/login_rtl.css" rel="stylesheet" type="text/css" />
+	<link href="templates/<?php echo $this->template ?>/css/template_rtl.css" rel="stylesheet" type="text/css" />
 <?php  endif; ?>
 
 <!--[if IE 7]>
@@ -46,7 +46,7 @@ $app = &JFactory::getApplication();
 </script>
 </head>
 <body onload="javascript:setFocus()">
-	<div id="border-top" class="<?php echo $this->params->get('headerColor','green');?>">
+	<div id="border-top" class="h_blue">
 		<div>
 			<div>
 				<span class="title"><?php echo $this->params->get('showSiteName') ? $app->getCfg('sitename') : JText::_('Administration'); ?></span>

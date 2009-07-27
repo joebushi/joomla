@@ -9,6 +9,7 @@
 
 // no direct access
 defined('_JEXEC') or die;
+$app	= &JFactory::getApplication();
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo  $this->language; ?>" lang="<?php echo  $this->language; ?>" dir="<?php echo  $this->direction; ?>" id="minwidth" >
@@ -36,6 +37,16 @@ defined('_JEXEC') or die;
 	<link rel="stylesheet" type="text/css" href="templates/<?php echo  $this->template ?>/css/norounded.css" />
 <?php endif; ?>
 
+<?php if ($this->params->get('textBig')) : ?>
+	<link rel="stylesheet" type="text/css" href="templates/<?php echo  $this->template ?>/css/textbig.css" />
+<?php endif; ?>
+
+<?php if ($this->params->get('highContrast')) : ?>
+	<link rel="stylesheet" type="text/css" href="templates/<?php echo  $this->template ?>/css/highcontrast.css" />
+<?php endif; ?>
+
+
+
 <?php if (JModuleHelper::isEnabled('menu')) : ?>
 	<script type="text/javascript" src="templates/<?php echo  $this->template ?>/js/menu.js"></script>
 <?php endif; ?>
@@ -48,11 +59,11 @@ defined('_JEXEC') or die;
 
 </head>
 <body id="minwidth-body">
-	<div id="border-top" class="<?php echo $this->params->get('headerColor','blue');?>">
+	<div id="border-top" class="h_blue">
 		<div>
 			<div>
 				<span class="logo"><img src="templates/<?php echo  $this->template ?>/images/logo.png" alt="Joomla!" /></span>
-				<span class="title"><?php echo $this->params->get('showSiteName') ? $mainframe->getCfg('sitename') : JText::_('Administration'); ?></span>
+				<span class="title"><?php echo $this->params->get('showSiteName') ? $app->getCfg('sitename') : JText::_('Administration'); ?></span>
 			</div>
 		</div>
 	</div>
