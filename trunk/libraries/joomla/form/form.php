@@ -884,13 +884,18 @@ class JForm extends JObject
 		$this->_fieldsets[$group] = array();
 
 		// Get the fieldset label.
-		if ($xml->attributes('label')) {
-			$this->_fieldsets[$group]['label'] = $xml->attributes('label');
+		if ($value = $xml->attributes('label')) {
+			$this->_fieldsets[$group]['label'] = $value;
 		}
 
 		// Get the fieldset description.
-		if ($xml->attributes('description')) {
-			$this->_fieldsets[$group]['description'] = $xml->attributes('description');
+		if ($value = $xml->attributes('description')) {
+			$this->_fieldsets[$group]['description'] = $value;
+		}
+
+		// Get an optional hidden setting (at the discretion of the renderer to honour).
+		if ($value = $xml->attributes('hidden')) {
+			$this->_fieldsets[$group]['hidden'] = ($value == 'true' || $value == 1) ? true : false;
 		}
 
 		// Get the fieldset array option.
@@ -955,7 +960,7 @@ class JForm extends JObject
 				for ($i = 0, $n = count($paths); $i < $n; $i++)
 				{
 					// Derive the new path.
-					$path = $paths[$i].DS.substr($type, 0, $pos);
+					$path = $paths[$i].DS.strtolower(substr($type, 0, $pos));
 
 					// If the path does not exist, add it.
 					if (!in_array($path, $paths)) {
