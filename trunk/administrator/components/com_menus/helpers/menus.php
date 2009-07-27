@@ -18,6 +18,11 @@ defined('_JEXEC') or die;
 class MenusHelper
 {
 	/**
+	 * Defines the valid request variables for the reverse lookup.
+	 */
+	protected static $_filter = array('option', 'view', 'layout');
+
+	/**
 	 * Configure the Linkbar.
 	 *
 	 * @param	string	The name of the active view.
@@ -35,4 +40,46 @@ class MenusHelper
 			$vName == 'menus'
 		);
 	}
+
+	/**
+	 * Gets a standard form of a link for lookups.
+	 *
+	 * @param	mixed	A link string or array of request variables.
+	 *
+	 * @return	mixed	A link in standard option-view-layout form, or false if the supplied response is invalid.
+	 */
+	public static function getLinkKey($request)
+	{
+		if (empty($request)) {
+			return false;
+		}
+
+		// Check if the link is in the form of index.php?...
+		if (is_string($request))
+		{
+			$args = array();
+			if (strpos($request, 'index.php') === 0) {
+				parse_str(parse_url($request, PHP_URL_QUERY), $args);
+			}
+			else {
+				parse_str($request, $args);
+			}
+			$request = $args;
+		}
+
+		// Only take the option, view and layout parts.
+		foreach ($request as $name => $value)
+		{
+			if (!in_array($name, self::$_filter))
+			{
+				// Remove the variables we want to ignore.
+				unset($request[$name]);
+			}
+		}
+
+		ksort($request);
+
+		return 'index.php?'.http_build_query($request);
+	}
+
 }

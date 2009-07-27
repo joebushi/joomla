@@ -25,6 +25,11 @@ class JFormFieldMenuType extends JFormFieldList
 	 */
 	public $type = 'MenuType';
 
+	/**
+	 * A reverse lookup of the base link URL to Title
+	 *
+	 * @var	array
+	 */
 	protected $_rlu = array();
 
 	/**
@@ -57,7 +62,8 @@ class JFormFieldMenuType extends JFormFieldList
 
 			default:
 				$link	= $this->_form->getValue('link');
-				$value	= JText::_(JArrayHelper::getValue($this->_rlu, $link));
+				// Clean the link back to the option, view and layout
+				$value	= JText::_(JArrayHelper::getValue($this->_rlu, MenusHelper::getLinkKey($link)));
 				break;
 		}
 
@@ -79,7 +85,7 @@ class JFormFieldMenuType extends JFormFieldList
 		});");
 
 		$html[] = '<input type="text" readonly="readonly" value="'.$value.'"'.$size.$class.'>';
-		$html[] = '<input type="button" class="modal" value="'.JText::_('Change').'" rel="{handler:\'clone\', target:\'menu-types\'}">';
+		$html[] = '<input type="button" class="modal" value="'.JText::_('Menus_Change_Linktype').'" rel="{handler:\'clone\', target:\'menu-types\'}">';
 		$html[] = '<input type="hidden" name="'.$this->inputName.'" value="'.htmlspecialchars($this->value).'">';
 
 		$html[] = '<div id="menu-types">';
@@ -168,7 +174,7 @@ class JFormFieldMenuType extends JFormFieldList
 				{
 					if (isset($option->request))
 					{
-						$this->_rlu['index.php?'.http_build_query($option->request)] = $option->get('title');
+						$this->_rlu[MenusHelper::getLinkKey($option->request)] = $option->get('title');
 
 						if (isset($option->request['option'])) {
 							$lang->load($option->request['option'].'.menu');
@@ -177,7 +183,6 @@ class JFormFieldMenuType extends JFormFieldList
 				}
 			}
 		}
-
 		return $list;
 	}
 
