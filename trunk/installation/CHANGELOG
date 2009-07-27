@@ -27,6 +27,40 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-Jul-2009 Sam Moffatt
+ ^ Changed default behaviour of JStream::open to not autodetect processing method
+
+10-Jul-2009 Gergo Erdosi
+ + Added Geshi plugin back to content plugins.
+ ^ Updated Geshi library to version 1.0.8.4.
+ - Removed language/pdf_fonts directory.
+ - Removed Khepri template.
+ - Removed unnecessary Food icons.
+ - Removed images/smilies and images/stories directories.
+ ^ Renamed images/M_images to images/joomla.
+ ^ Renamed references of M_images to joomla.
+ + Added copyright information to administrator module layout files.
+
+08-Jul-2009 Gergo Erdosi
+ # Fixed bug in JForm::loadFileType() path building.
+ ^ Changed header icons in com_users.
+
+07-Jul-2009 Gergo Erdosi
+ + Added MySQL version check to installation.
+ # [#17119] [patch] Add keyboard access to admin com_admin
+ # [#17131] [patch] Add keyboard access to admin mod_login
+
+07-Jul-2009 Andrew Eddie
+ # Fixed modal article selector.
+
+06-Jul-2009 Andrew Eddie
+ # [#17103] Missing JText::_ in administrator/components/com_admin/helpers/html/directory.php
+ ^ Change component configuration files from params to fields.
+ ^ Make view/layout labels consistent and convert XML from params to fields.
+ ^ Refactored instances of global $mainframe.
+ ^ Moved the milkyway overrides out of the way for the time being (too many errors to fix).
+ + Added JApplicationHelper::getComponentName from experimental branch.
+
 05-Jul-2009 Gergo Erdosi
  ^ Replaced mod_status with its refactored version.
  ! Thanks to Andrea Tarr for helping refactor the mod_status module.
