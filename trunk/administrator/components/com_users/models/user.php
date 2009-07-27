@@ -89,15 +89,10 @@ class UsersModelUser extends JModelForm
 		// Trigger the data preparation event.
 		$results = $dispatcher->trigger('onPrepareUserProfileData', array($userId, &$value));
 
-		// Build params array.
-		$value->params = array();
-		foreach (explode("\n", trim($table->params, " \n")) as $param)
-		{
-			if (!empty($param)) {
-				list ($k, $v) = explode("=", $param, 2);
-				$value->params[$k] = $v;
-			}
-		}
+		// Convert the params field to an array.
+		$registry = new JRegistry;
+		$registry->loadJSON($value->params);
+		$value->params = $registry->toArray();
 
 		return $value;
 	}
@@ -236,7 +231,7 @@ class UsersModelUser extends JModelForm
 
 		// Check if the row is checked-out by someone else.
 		if ($return === null) {
-			$this->setError(JText::_('USERS_MEMBER_CHECKED_OUT'));
+			$this->setError(JText::_('USERS_USER_CHECKED_OUT'));
 			return false;
 		}
 
