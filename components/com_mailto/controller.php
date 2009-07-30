@@ -17,6 +17,8 @@ defined('_JEXEC') or die( 'Restricted access' );
 
 jimport('joomla.application.component.controller');
 
+define('MAILTO_TIMEOUT', 20);
+
 /**
  * @package		Joomla
  * @subpackage	MailTo
@@ -53,11 +55,14 @@ class MailtoController extends JController
 		$session =& JFactory::getSession();
 		$db	=& JFactory::getDBO();
 
-		$timeout = $session->get('com_mailto.formtime', 0);
-		if($timeout == 0 || time() - $timeout < 20) {
+		// we return time() instead of 0 (as it previously was), so that the session variable has to be set in order to send the mail
+		$timeout = $session->get('com_mailto.formtime', time());
+		if($timeout == 0 || time() - $timeout < MAILTO_TIMEOUT) {
 			JError::raiseNotice( 500, JText:: _ ('EMAIL_NOT_SENT' ));
 			return $this->mailto();
 		}
+		// here we unset the counter right away so that you have to wait again, and you have to visit mailto() first
+		$session->set('com_mailto.formtime', null);
 
 		jimport( 'joomla.mail.helper' );
 

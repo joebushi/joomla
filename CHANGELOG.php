@@ -37,6 +37,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+-------------------- 1.5.14 Stable Release [30-July-2009] ------------------
+
 23-Jul-2009 Gergo Erdosi
  # [#17319] Media Manager is broken
  # [#17323] TinyMCE Editor $file_browser_callback error in 1.5.13
