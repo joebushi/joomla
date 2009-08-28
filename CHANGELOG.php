@@ -17,8 +17,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 1. Copyright and disclaimer
 ---------------------------
 This application is opensource software released under the GPL.  Please
-see source code and the LICENSE file
-
+see source code and the LICENSE file.
 
 2. Changelog
 ------------
