@@ -162,7 +162,7 @@ class TableWeblink extends JTable
 			return false;
 		}
 
-		if (!(eregi('http://', $this->url) || (eregi('https://', $this->url)) || (eregi('ftp://', $this->url)))) {
+		if (!(preg_match('#http://#i', $this->url) || (preg_match('#https://#i', $this->url)) || (preg_match('#ftp://#i', $this->url)))) {
 			$this->url = 'http://'.$this->url;
 		}
 

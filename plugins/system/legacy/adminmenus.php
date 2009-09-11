@@ -310,7 +310,7 @@ class mosAdminMenus
 			if ( is_dir( $i_f ) && $file <> 'CVS' && $file <> '.svn') {
 				$folders[] = JHTML::_('select.option',  $ff_ );
 				mosAdminMenus::ReadImages( $i_f, $ff_, $folders, $images );
-			} else if ( eregi( "bmp|gif|jpg|png", $file ) && is_file( $i_f ) ) {
+			} else if ( preg_match( "#bmp|gif|jpg|png#i", $file ) && is_file( $i_f ) ) {
 				// leading / we don't need
 				$imageFile = substr( $ff, 1 );
 				$images[$folderPath][] = JHTML::_('select.option',  $imageFile, $file );

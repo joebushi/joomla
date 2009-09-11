@@ -959,7 +959,7 @@ class JDatabase extends JObject
 
 		$query = trim( $query );
 		$this->setQuery( $query );
-		if (eregi( '^select', $query )) {
+		if (preg_match('#^select#i', $query )) {
 			$result = $this->loadRowList();
 			return new JRecordSet( $result );
 		} else {

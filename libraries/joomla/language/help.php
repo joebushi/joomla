@@ -39,7 +39,7 @@ class JHelp
 
 		if ($useComponent)
 		{
-			if (!eregi( '\.html$', $ref )) {
+			if (!preg_match( '#\.html$#i', $ref )) {
 				$ref = $ref . '.html';
 			}
 
@@ -77,7 +77,7 @@ class JHelp
 			// Included html help files
 			$helpURL = 'help/' .$lang->getTag() .'/';
 
-			if (!eregi( '\.html$', $ref )) {
+			if (!preg_match( '#\.html$#i', $ref )) {
 				$ref = $ref . '.html';
 			}
 

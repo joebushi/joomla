@@ -432,7 +432,7 @@ class BannersViewBanner
 									<param name="movie" value="../images/banners/<?php echo $row->imageurl; ?>"><embed src="../images/banners/<?php echo $row->imageurl; ?>" loop="false" pluginspage="http://www.macromedia.com/go/get/flashplayer" type="application/x-shockwave-flash"  width="<?php echo $lists['width'];?>" height="<?php echo $lists['height'];?>"></embed>
 								</object>
 								<?php
-							} elseif (eregi("gif|jpg|png", $row->imageurl)) {
+							} elseif (preg_match("#gif|jpg|png#i", $row->imageurl)) {
 								?>
 								<img src="../images/banners/<?php echo $row->imageurl; ?>" name="imagelib" />
 								<?php

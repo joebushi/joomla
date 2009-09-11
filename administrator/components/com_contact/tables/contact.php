@@ -101,7 +101,7 @@ class TableContact extends JTable
 		}
 
 		// check for http on webpage
-		if (strlen($this->webpage) > 0 && (!(eregi('http://', $this->webpage) || (eregi('https://', $this->webpage)) || (eregi('ftp://', $this->webpage))))) {
+		if (strlen($this->webpage) > 0 && (!(preg_match('#http://#i', $this->webpage) || (preg_match('#https://#i', $this->webpage)) || (preg_match('#ftp://#i', $this->webpage))))) {
 			$this->webpage = 'http://'.$this->webpage;
 		}
 

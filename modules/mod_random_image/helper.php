@@ -81,7 +81,7 @@ class modRandomImageHelper
 			{
 				if (!is_dir($dir .DS. $img))
 				{
-					if (eregi($type, $img)) {
+					if (preg_match("#$type#i", $img)) {
 						$images[$i]->name 	= $img;
 						$images[$i]->folder	= $folder;
 						++$i;

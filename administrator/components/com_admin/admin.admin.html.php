@@ -145,7 +145,7 @@ class HTML_admin_misc
 			$langTag = 'en-GB';		// use english as fallback
 		}
 
-		if (!eregi( '\.html$', $page )) {
+		if (!preg_match( '#\.html$#i', $page )) {
 			$page .= '.xml';
 		}
 		?>

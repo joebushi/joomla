@@ -689,7 +689,7 @@ class JInstallationHelper
 			return JText::_('WARNUPLOADFAILURE');
 		}
 
-		if( !eregi('.sql$', $sqlFile['name']) )
+		if( !preg_match('#\.sql$#i', $sqlFile['name']) )
 		{
 			$archive = JPATH_SITE.DS.'tmp'.DS.$sqlFile['name'];
 		}

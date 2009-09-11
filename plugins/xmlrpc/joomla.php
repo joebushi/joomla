@@ -102,7 +102,7 @@ class plgXMLRPCJoomlaServices
 		foreach ($results as $i=>$rows)
 		{
 			foreach ($rows as $j=>$row) {
-				$results[$i][$j]->href = eregi('^(http|https)://', $row->href) ? $row->href : JURI::root().'/'.$row->href;
+				$results[$i][$j]->href = preg_match('#^(http|https)://#i', $row->href) ? $row->href : JURI::root().'/'.$row->href;
 				$results[$i][$j]->text = SearchHelper::prepareSearchContent( $row->text, 200, $searchword);
 			}
 		}

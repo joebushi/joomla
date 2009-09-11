@@ -199,7 +199,7 @@ class patErrorManager
 		}
 
 		// build error object
-		$error			=&	new	$class( $level, $code, $msg, $info );
+		$error			= new $class( $level, $code, $msg, $info );
 
 		// see what to do with this kind of error
 		$handling	=	patErrorManager::getErrorHandling( $level );

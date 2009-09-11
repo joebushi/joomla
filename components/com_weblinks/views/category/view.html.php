@@ -48,7 +48,7 @@ class WeblinksViewCategory extends JView
 		$state		= &$this->get('state');
 
 		$model =& JModel::getInstance('categories', 'weblinksmodel');
-		$categories =& $model->getData();
+		$categories = $model->getData();
 
 		// Get the page/component configuration
 		$params = &$mainframe->getParams();

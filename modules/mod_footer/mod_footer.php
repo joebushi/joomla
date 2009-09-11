@@ -21,13 +21,13 @@ $cur_year	= $date->toFormat('%Y');
 $csite_name	= $mainframe->getCfg('sitename');
 
 if (JString::strpos(JText :: _('FOOTER_LINE1'), '%date%')) {
-	$line1 = ereg_replace('%date%', $cur_year, JText :: _('FOOTER_LINE1'));
+	$line1 = str_replace('%date%', $cur_year, JText :: _('FOOTER_LINE1'));
 } else {
 	$line1 = JText :: _('FOOTER_LINE1');
 }
 
 if (JString::strpos($line1, '%sitename%')) {
-	$lineone = ereg_replace('%sitename%', $csite_name, $line1);
+	$lineone = str_replace('%sitename%', $csite_name, $line1);
 } else {
 	$lineone = $line1;
 }

@@ -37,6 +37,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+
+11-Sept-2009 Ian MacLennan
+ # [#17150] Patch to solve PHP 5.3 issues
+
 -------------------- 1.5.14 Stable Release [30-July-2009] ------------------
 
 23-Jul-2009 Gergo Erdosi

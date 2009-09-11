@@ -257,7 +257,7 @@ class patError
     	if ($formatted && is_array( $this->backtrace )) {
     		$result = '';
     		foreach( debug_backtrace() as $back) {
-			    if (!eregi( 'patErrorManager.php', $back['file'])) {
+			    if (!preg_match( '#patErrorManager.php#i', $back['file'])) {
 				    $result .= '<br />'.$back['file'].':'.$back['line'];
 				}
 			}
