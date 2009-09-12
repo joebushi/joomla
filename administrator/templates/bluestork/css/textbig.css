@@ -1,0 +1,14 @@
+/**
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	templates.bluestork
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+
+body {
+	font-size: 14px;
+	color: #000000;
+	line-height: 140%;
+}
