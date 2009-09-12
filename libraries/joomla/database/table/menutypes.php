@@ -49,7 +49,16 @@ class JTableMenuTypes extends JTable
 	 */
 	function check()
 	{
-		$this->menutype = JFilterOutput::stringURLSafe($this->menutype);
+		
+		$this->menutype = str_replace('-', ' ', $this->menutype);
+
+		$lang =& JFactory::getLanguage();
+		$this->menutype = $lang->transliterate($this->menutype);
+
+		$this->menutype = preg_replace(array('/\s+/','/[^A-Za-z0-9\-\_]/'), array('-',''), $this->menutype);
+
+		$this->menutype = trim(strtolower($this->menutype));
+		
 		if(empty($this->menutype)) {
 			$this->setError( "Cannot save: Empty menu type" );
 			return false;
