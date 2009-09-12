@@ -41,6 +41,7 @@ $ -> Language fix or change
 11-Sept-2009 Ian MacLennan
  # [#17150] Patch to solve PHP 5.3 issues
  # [#17432] Missing spinner.gif
+ # [#17337] Media manager popup is broken in Windows
 
 -------------------- 1.5.14 Stable Release [30-July-2009] ------------------
 
