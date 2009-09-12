@@ -1,5 +1,15 @@
-<?php // no direct access
-defined('_JEXEC') or die; ?>
+<?php
+/**
+ * @version		$Id$
+ * @package		Joomla.Site
+ * @subpackage	com_content
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+// no direct access
+defined('_JEXEC') or die;
+?>
 <ul id="archive-list" style="list-style: none;">
 <?php foreach ($this->items as $item) : ?>
 	<li class="row<?php echo ($item->odd +1); ?>">
@@ -44,7 +54,7 @@ defined('_JEXEC') or die; ?>
 		<h5 class="metadata">
 		<?php if ($this->params->get('show_create_date')) : ?>
 			<span class="created-date">
-				<?php echo JText::_('Created') .': '.  JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC2')) ?>
+				<?php echo JText::_('Created').': '.$item->created; ?>
 			</span>
 			<?php endif; ?>
 			<?php if ($this->params->get('show_author')) : ?>
@@ -54,7 +64,7 @@ defined('_JEXEC') or die; ?>
 		<?php endif; ?>
 		</h5>
 		<div class="intro">
-			<?php echo substr(strip_tags($item->introtext), 0, 255);  ?>...
+			<?php echo substr($item->introtext, 0, 255); ?>...
 		</div>
 	</li>
 <?php endforeach; ?>

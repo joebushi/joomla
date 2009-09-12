@@ -1,5 +1,5 @@
 /**
- * $Id: editor_plugin_src.js 923 2008-09-09 16:45:29Z spocke $
+ * $Id$
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -62,7 +62,7 @@
 
 					// Fixes an IE bug where the scrollbars doesn't reappear
 					if (tinymce.isIE && (s.fullscreen_html_overflow == 'visible' || s.fullscreen_html_overflow == 'scroll'))
-						s.fullscreen_html_overflow = 'auto'; 
+						s.fullscreen_html_overflow = 'auto';
 
 					if (s.fullscreen_overflow == '0px')
 						s.fullscreen_overflow = '';

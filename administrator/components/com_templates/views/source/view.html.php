@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: view.html.php 11838 2009-05-27 22:07:20Z eddieajau $
+ * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	Templates
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
@@ -42,7 +42,6 @@ class TemplatesViewSource extends JView
 		$content	= &$this->get('Data');
 		$client		= &$this->get('Client');
 		$template	= &$this->get('Template');
-		$id	= &$this->get('id');
 
 		// Set FTP credentials, if given
 		jimport('joomla.client.helper');
@@ -52,7 +51,6 @@ class TemplatesViewSource extends JView
 		$this->assignRef('client',		$client);
 		$this->assignRef('ftp',			$ftp);
 		$this->assignRef('template',	$template);
-		$this->assignRef('id',			$id);
 		$this->assignRef('content',	$content);
 
 		parent::display($tpl);

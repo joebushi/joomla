@@ -9,8 +9,9 @@
 // no direct access
 defined('_JEXEC') or die;
 
-$mainframe->registerEvent('onSearch', 'plgSearchContent');
-$mainframe->registerEvent('onSearchAreas', 'plgSearchContentAreas');
+$app = &JFactory::getApplication();
+$app->registerEvent('onSearch', 'plgSearchContent');
+$app->registerEvent('onSearchAreas', 'plgSearchContentAreas');
 
 JPlugin::loadLanguage('plg_search_content');
 
@@ -36,8 +37,6 @@ function &plgSearchContentAreas()
  */
 function plgSearchContent($text, $phrase='', $ordering='', $areas=null)
 {
-	global $mainframe;
-
 	$db		= &JFactory::getDbo();
 	$user	= &JFactory::getUser();
 	$groups	= implode(',', $user->authorisedLevels());
@@ -163,7 +162,7 @@ function plgSearchContent($text, $phrase='', $ordering='', $areas=null)
 		{
 			foreach($list as $key => $item)
 			{
-				$list[$key]->href = ContentHelperRoute::getArticleRoute($item->slug, $item->catslug, $item->sectionid);
+				$list[$key]->href = ContentRoute::article($item->slug, $item->catslug, $item->sectionid);
 			}
 		}
 		$rows[] = $list;
@@ -193,7 +192,7 @@ function plgSearchContent($text, $phrase='', $ordering='', $areas=null)
 		{
 			foreach($list2 as $key => $item)
 			{
-				$list2[$key]->href = ContentHelperRoute::getArticleRoute($item->id);
+				$list2[$key]->href = ContentRoute::article($item->id);
 			}
 		}
 
@@ -234,7 +233,7 @@ function plgSearchContent($text, $phrase='', $ordering='', $areas=null)
 		{
 			foreach($list3 as $key => $item)
 			{
-				$list3[$key]->href = ContentHelperRoute::getArticleRoute($item->slug, $item->catslug, $item->sectionid);
+				$list3[$key]->href = ContentRoute::article($item->slug, $item->catslug, $item->sectionid);
 			}
 		}
 

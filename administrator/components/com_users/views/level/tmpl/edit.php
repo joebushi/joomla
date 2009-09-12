@@ -29,7 +29,7 @@ function submitbutton(task)
 		submitform(task);
 	}
 }
-
+/*
 window.addEvent('domready', function(){
 	$('user-groups').getElements('input').each(function(i){
 		// Event to check all child groups.
@@ -87,10 +87,11 @@ window.addEvent('domready', function(){
 		}
 	});
 });
+*/
 // -->
 </script>
 
-<form action="<?php JRoute::_('index.php?option=com_users'); ?>" method="post" name="adminForm" id="level-form">
+<form action="<?php JRoute::_('index.php?option=com_users'); ?>" method="post" name="adminForm" id="level-form" class="form-validate">
 	<fieldset style="width:45%;float:left">
 		<legend><?php echo JText::_('Users_Level_Details');?></legend>
 

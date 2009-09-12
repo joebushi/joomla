@@ -41,10 +41,10 @@ class JFormFieldEditor extends JFormField
 			$parts	= explode('|', $editorName);
 			$db		= &JFactory::getDbo();
 			$query	= 'SELECT element' .
-					' FROM #__plugins' .
+					' FROM #__extensions' .
 					' WHERE element	= '.$db->Quote($parts[0]) .
 					'  AND folder = '.$db->Quote('editors') .
-					'  AND published = 1';
+					'  AND enabled = 1';
 			$db->setQuery($query);
 			if ($db->loadResult()) {
 				$editorName	= $parts[0];
@@ -60,12 +60,11 @@ class JFormFieldEditor extends JFormField
 		$editor		= &JFactory::getEditor($editorName ? $editorName : null);
 		$rows		= $this->_element->attributes('rows');
 		$cols		= $this->_element->attributes('cols');
-		$height		= ($this->_element->attributes('height')) ? $this->_element->attributes('height') : '200';
+		$height		= ($this->_element->attributes('height')) ? $this->_element->attributes('height') : '250';
 		$width		= ($this->_element->attributes('width')) ? $this->_element->attributes('width') : '100%';
 		$class		= ($this->_element->attributes('class') ? 'class="'.$this->_element->attributes('class').'"' : 'class="text_area"');
 		$buttons	= $this->_element->attributes('buttons');
 
-		$editor->set('TemplateXML',	$this->_element->attributes('templatexml'));
 		if ($buttons == 'true') {
 			$buttons	= true;
 		} else {

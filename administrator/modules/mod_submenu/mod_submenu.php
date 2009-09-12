@@ -33,7 +33,7 @@ if (!class_exists('JAdminSubMenu'))
 					if ($section) {
 						if ($section != 'content') {
 							// special handling for specific core components
-							$map['com_contact_details']	= 'com_contact';
+							$map['com_contact']	= 'com_contact';
 							$map['com_banner']			= 'com_banners';
 
 							$option = isset($map[$section]) ? $map[$section] : $section;
@@ -87,6 +87,10 @@ if (!class_exists('JAdminSubMenu'))
 			$db   = &JFactory::getDbo();
 			$lang = &JFactory::getLanguage();
 
+			// 1.5 or Core
+			$lang->load($componentOption.'.menu');
+			// 1.6 3PD extension
+			$lang->load($componentOption.'menu', JPATH_ADMINISTRATOR.DS.'component'.DS.$componentOption);
 			$lang->load($componentOption.'.menu');
 
 			$query = 'SELECT a.name, a.admin_menu_link, a.admin_menu_img' .

@@ -1,5 +1,5 @@
 /**
- * $Id: editor_plugin_src.js 264 2007-04-26 20:53:09Z spocke $
+ * $Id$
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -296,7 +296,7 @@
 			},
 
 			addSelectAccessibility : function(e, s, w) {
-				// Add event handlers 
+				// Add event handlers
 				if (!s._isAccessible) {
 					s.onkeydown = tinyMCE.accessibleEventHandler;
 					s.onblur = tinyMCE.accessibleEventHandler;

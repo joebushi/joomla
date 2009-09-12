@@ -9,6 +9,7 @@
 defined('JPATH_BASE') or die;
 
 jimport('joomla.html.html');
+jimport('joomla.database.query');
 require_once dirname(__FILE__).DS.'list.php';
 
 /**
@@ -40,11 +41,11 @@ class JFormFieldAccessLevels extends JFormFieldList
 		$query->select('a.id AS value, a.title AS text');
 		$query->select('COUNT(DISTINCT g2.id) AS level');
 		$query->from('#__access_assetgroups AS a');
-		$query->join('LEFT', '#__access_assetgroups AS g2 ON a.left_id > g2.left_id AND a.right_id < g2.right_id');
+		$query->join('LEFT', '#__access_assetgroups AS g2 ON a.lft > g2.lft AND a.rgt < g2.rgt');
 		$query->group('a.id');
 
 		// Get the options.
-		$db->setQuery($query->toString());
+		$db->setQuery((string) $query);
 		$options = $db->loadObjectList();
 
 		// Check for a database error.
@@ -52,10 +53,9 @@ class JFormFieldAccessLevels extends JFormFieldList
 			JError::raiseWarning(500, $db->getErrorMsg());
 		}
 
-		$options	= array_merge(
-						parent::_getOptions(),
-						$options
-					);
+		// Merge any additional options in the XML definition.
+		$options = array_merge(parent::_getOptions(), $options);
+
 		return $options;
 	}
 }

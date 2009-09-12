@@ -1,7 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Administrator
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -11,6 +10,10 @@ defined('_JEXEC') or die;
 
 jimport('joomla.base.tree');
 
+/**
+ * @package		Joomla.Administrator
+ * @subpackage	mod_menu
+ */
 class JAdminCssMenu extends JTree
 {
 	/**
@@ -89,7 +92,9 @@ class JAdminCssMenu extends JTree
 		/*
 		 * Print a link if it exists
 		 */
-		if ($this->_current->link != null) {
+		if ($this->_current->link != null && $this->_current->target != null) {
+			echo "<a class=\"".$this->getIconClass($this->_current->class)."\" href=\"".$this->_current->link."\" target=\"".$this->_current->target."\" >".$this->_current->title."</a>";
+		} elseif ($this->_current->link != null && $this->_current->target == null) {
 			echo "<a class=\"".$this->getIconClass($this->_current->class)."\" href=\"".$this->_current->link."\">".$this->_current->title."</a>";
 		} elseif ($this->_current->title != null) {
 			echo "<a>".$this->_current->title."</a>\n";
@@ -171,6 +176,10 @@ class JAdminCssMenu extends JTree
 	}
 }
 
+/**
+ * @package		Joomla.Administrator
+ * @subpackage	mod_menu
+ */
 class JMenuNode extends JNode
 {
 	/**
@@ -188,6 +197,11 @@ class JMenuNode extends JNode
 	 */
 	public $link = null;
 
+	/**
+	 * Link Target
+	 */
+	public $target = null;
+ 
 	/**
 	 * CSS Class for node
 	 */

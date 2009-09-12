@@ -1,5 +1,5 @@
  /**
- * $Id: editor_plugin_src.js 42 2006-08-08 14:32:24Z spocke $
+ * $Id$
  *
  * @author Moxiecode - based on work by Andrew Tetlaw
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -145,7 +145,7 @@ SXE.initElementDialog = function(element_name) {
 		SXE.updateElement = elm;
 	}
 
-	document.forms[0].insert.value = tinyMCEPopup.getLang(SXE.currentAction, 'Insert', true); 
+	document.forms[0].insert.value = tinyMCEPopup.getLang(SXE.currentAction, 'Insert', true);
 }
 
 SXE.insertElement = function(element_name) {

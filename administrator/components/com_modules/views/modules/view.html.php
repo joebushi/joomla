@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: view.html.php 11838 2009-05-27 22:07:20Z eddieajau $
+ * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	Modules
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
@@ -36,8 +36,8 @@ class ModulesViewModules extends JView
 		JToolBarHelper::unpublishList();
 		JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', 'Copy', true);
 		JToolBarHelper::deleteList();
-		JToolBarHelper::editListX();
-		JToolBarHelper::addNewX();
+		JToolBarHelper::editList();
+		JToolBarHelper::addNew();
 		JToolBarHelper::help('screen.modules');
 
 		// Get data from the model

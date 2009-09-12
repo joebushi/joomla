@@ -1,8 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Application
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -13,20 +11,19 @@ defined('JPATH_BASE') or die;
 /**
  * Class to create and parse routes for the site application
  *
- * @package 	Joomla
+ * @package		Joomla.Site
+ * @subpackage	Application
  * @since		1.5
  */
 class JRouterSite extends JRouter
 {
 	/**
-	 * Class constructor
+	 * Parse the URI
 	 *
-	 * @access public
+	 * @param	object	The URI
+	 *
+	 * @return	array
 	 */
-	function __construct($options = array()) {
-		parent::__construct($options);
-	}
-
 	function parse(&$uri)
 	{
 		$vars = array();
@@ -34,7 +31,8 @@ class JRouterSite extends JRouter
 		// Get the application
 		$app = &JFactory::getApplication();
 
-		if ($app->getCfg('force_ssl') == 2 && strtolower($uri->getScheme()) != 'https') {
+		if ($app->getCfg('force_ssl') == 2 && strtolower($uri->getScheme()) != 'https')
+		{
 			//forward to https
 			$uri->setScheme('https');
 			$app->redirect($uri->toString());
@@ -182,11 +180,9 @@ class JRouterSite extends JRouter
 			return $vars;
 		}
 
-
 		/*
 		 * Parse the application route
 		 */
-
 		if (substr($route, 0, 9) == 'component')
 		{
 			$segments	= explode('/', $route);
@@ -245,7 +241,7 @@ class JRouterSite extends JRouter
 				}
 				else { // fix up search for URL
 					$total = count($segments);
-					for($i=0; $i<$total; $i++) {
+					for ($i=0; $i<$total; $i++) {
 						// urldecode twice because it is encoded twice
 						$segments[$i] = urldecode(urldecode(stripcslashes($segments[$i])));
 					}
@@ -304,12 +300,17 @@ class JRouterSite extends JRouter
 			$parts		= $function($query);
 
 			// encode the route segments
-			if ($component != "com_search") { // Cheep fix on searches
+			if ($component != 'com_search')
+			{
+				// Cheep fix on searches
 				$parts = $this->_encodeSegments($parts);
 			}
-			else { // fix up search for URL
+			else
+			{
+				// fix up search for URL
 				$total = count($parts);
-				for($i=0; $i<$total; $i++) {
+				for ($i = 0; $i < $total; $i++)
+				{
 					// urlencode twice because it is decoded once after redirect
 					$parts[$i] = urlencode(urlencode(stripcslashes($parts[$i])));
 				}
@@ -326,8 +327,8 @@ class JRouterSite extends JRouter
 		if (isset($query['Itemid']) && !empty($query['Itemid']))
 		{
 			$item = $menu->getItem($query['Itemid']);
-
-			if (is_object($item) && $query['option'] == $item->component) {
+			if (is_object($item) && $query['option'] == $item->component)
+			{
 				$tmp = !empty($tmp) ? $item->route.'/'.$tmp : $item->route;
 				$built = true;
 			}

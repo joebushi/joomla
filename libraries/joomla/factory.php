@@ -518,6 +518,8 @@ abstract class JFactory
 		$smtpuser 	= $conf->getValue('config.smtpuser');
 		$smtppass  	= $conf->getValue('config.smtppass');
 		$smtphost 	= $conf->getValue('config.smtphost');
+		$smtpsecure	= $conf->getValue('config.smtpsecure');
+		$smtpport	= $conf->getValue('config.smtpport'); 
 		$mailfrom 	= $conf->getValue('config.mailfrom');
 		$fromname 	= $conf->getValue('config.fromname');
 		$mailer 	= $conf->getValue('config.mailer');
@@ -532,7 +534,7 @@ abstract class JFactory
 		switch ($mailer)
 		{
 			case 'smtp' :
-				$mail->useSMTP($smtpauth, $smtphost, $smtpuser, $smtppass);
+				$mail->useSMTP($smtpauth, $smtphost, $smtpuser, $smtppass, $smtpsecure, $smtpport);
 				break;
 			case 'sendmail' :
 				$mail->IsSendmail();
@@ -590,7 +592,7 @@ abstract class JFactory
 		$doc = &JDocument::getInstance($type, $attributes);
 		return $doc;
 	}
-	
+
 	/**
 	 * Creates a new stream object with appropriate prefix
 	 * @param boolean Prefix the connections for writing
@@ -605,7 +607,7 @@ abstract class JFactory
 		$version = new JVersion();
 		// set the UA for HTTP and overwrite for FTP
 		$context['http']['user_agent'] = $version->getUserAgent($ua, $uamask);
-		$context['ftp']['overwrite'] = true;		
+		$context['ftp']['overwrite'] = true;
 		if($use_prefix) {
 			jimport('joomla.client.helper');
 			$FTPOptions = JClientHelper::getCredentials('ftp');

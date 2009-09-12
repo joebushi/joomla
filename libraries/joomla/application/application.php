@@ -59,6 +59,22 @@ class JApplication extends JObject
 	var $scope = null;
 
 	/**
+	 * The time the request was made
+	 * 
+	 * @var		date
+	 * @access 	public
+	 */
+	public $requestTime = null;
+	/**
+	 * The time the request was made as Unix timestamp
+	 * 
+	 * @var 	integer
+	 * @access 	public
+	 * @since 	1.6
+	 */
+	public $startTime = null;
+
+	/**
 	* Class constructor.
 	*
 	* @param	integer	A client identifier.
@@ -66,6 +82,7 @@ class JApplication extends JObject
 	function __construct($config = array())
 	{
 		jimport('joomla.utilities.utility');
+		jimport('joomla.error.profiler');
 
 		//set the view name
 		$this->_name		= $this->getName();
@@ -95,6 +112,7 @@ class JApplication extends JObject
 		}
 
 		$this->set('requestTime', gmdate('Y-m-d H:i'));
+		$this->set( 'startTime', JProfiler::getmicrotime() ); // used by task system to ensure that the system doesn't go over time
 	}
 
 	/**
@@ -394,13 +412,14 @@ class JApplication extends JObject
 	 *
 	 * @access	public
 	 * @param	string	The name of the value to get.
+	 * @param	string	Default value to return
 	 * @return	mixed	The user state.
 	 * @example	application/japplication-getcfg.php Getting a configuration value
 	 */
-	function getCfg($varname)
+	function getCfg($varname, $default=null)
 	{
 		$config = &JFactory::getConfig();
-		return $config->getValue('config.' . $varname);
+		return $config->getValue('config.' . $varname, $default);
 	}
 
 	/**
@@ -576,7 +595,11 @@ class JApplication extends JObject
 					$crypt = new JSimpleCrypt($key);
 					$rcookie = $crypt->encrypt(serialize($credentials));
 					$lifetime = time() + 365*24*60*60;
-					setcookie(JUtility::getHash('JLOGIN_REMEMBER'), $rcookie, $lifetime, '/');
+
+					// Use domain and path set in config for cookie if it exists
+					$cookie_domain = $this->getCfg('cookie_domain', '');
+					$cookie_path = $this->getCfg('cookie_path', '/');
+					setcookie( JUtility::getHash('JLOGIN_REMEMBER'), $rcookie, $lifetime, $cookie_path, $cookie_domain );
 				}
 				return true;
 			}
@@ -636,7 +659,10 @@ class JApplication extends JObject
 		 * much more information about why the routine may have failed.
 		 */
 		if (!in_array(false, $results, true)) {
-			setcookie(JUtility::getHash('JLOGIN_REMEMBER'), false, time() - 86400, '/');
+			// Use domain and path set in config for cookie if it exists
+			$cookie_domain = $this->getCfg('cookie_domain', '');
+			$cookie_path = $this->getCfg('cookie_path', '/');
+			setcookie(JUtility::getHash('JLOGIN_REMEMBER'), false, time() - 86400, $cookie_path, $cookie_domain );
 			return true;
 		}
 
@@ -780,24 +806,41 @@ class JApplication extends JObject
 				break;
 		}
 
-		$session = &JFactory::getSession($options);
+		$session = JFactory::getSession($options);
 
-		jimport('joomla.database.table');
-		$storage = & JTable::getInstance('session');
-		$storage->purge($session->getExpire());
+		//TODO: At some point we need to get away from having session data always in the db.
 
-		// Session exists and is not expired, update time in session table
-		if ($storage->load($session->getId())) {
-			$storage->update();
-			return $session;
-		}
+		// Remove expired sessions from the database.
+		$db = JFactory::getDBO();
+		$db->setQuery(
+			'DELETE FROM `#__session`' .
+			' WHERE `time` < '.(int) (time() - $session->getExpire())
+		);
+		$db->query();
 
-		//Session doesn't exist yet, initalise and store it in the session table
-		$session->set('registry',	new JRegistry('session'));
-		$session->set('user',		new JUser());
+		// Check to see the the session already exists.
+		$db->setQuery(
+			'SELECT `session_id`' .
+			' FROM `#__session`' .
+			' WHERE `session_id` = '.$db->quote($session->getId())
+		);
+		$exists = $db->loadResult();
 
-		if (!$storage->insert($session->getId(), $this->getClientId())) {
-			jexit($storage->getError());
+		// If the session doesn't exist initialize it.
+		if (!$exists) {
+			$db->setQuery(
+				'INSERT INTO `#__session` (`session_id`, `client_id`, `time`)' .
+				' VALUES ('.$db->quote($session->getId()).', '.(int) $this->getClientId().', '.(int) time().')'
+			);
+
+			// If the insert failed, exit the application.
+			if (!$db->query()) {
+				jexit($db->getErrorMSG());
+			}
+
+			//Session doesn't exist yet, initalise and store it in the session table
+			$session->set('registry',	new JRegistry('session'));
+			$session->set('user',		new JUser());
 		}
 
 		return $session;

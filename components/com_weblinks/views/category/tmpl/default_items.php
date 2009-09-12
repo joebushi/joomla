@@ -68,7 +68,7 @@ defined('_JEXEC') or die;
 				</td>
 				<td>
 					<?php if ($this->params->get('link_icons') <> -1) : ?>
-						<?php echo JHtml::_('image.site',  $this->params->get('link_icons', 'weblink.png'), '/images/M_images/', $this->params->get('weblink_icons'), '/images/M_images/', 'Link');?>
+						<?php echo JHtml::_('image.site',  $this->params->get('link_icons', 'weblink.png'), '/images/system/', $this->params->get('weblink_icons'), '/images/system/', 'Link');?>
 					<?php endif; ?>
 
 					<?php

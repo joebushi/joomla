@@ -82,7 +82,7 @@ class JForm extends JObject
 	 * @return	object		A JForm instance.
 	 * @since	1.6
 	 */
-	public function &getInstance($name = 'jform', $data, $file = true, $options = array())
+	public function &getInstance($data, $name = 'form', $file = true, $options = array())
 	{
 		static $instances;
 
@@ -264,19 +264,9 @@ class JForm extends JObject
 					}
 				}
 
-				// Check if an action is set.
-				if ($parser->document->attributes('action') && $reset) {
-					$this->setAction($parser->document->attributes('action'));
-				}
-
 				// Check if a name is set.
 				if ($parser->document->attributes('name') && $reset) {
 					$this->setName($parser->document->attributes('name'));
-				}
-
-				// Check if an id is set.
-				if ($parser->document->attributes('id') && $reset) {
-					$this->setId($parser->document->attributes('id'));
 				}
 			}
 		}
@@ -405,12 +395,18 @@ class JForm extends JObject
 									break;
 
 								default:
-									// Check for a callback filter.
-									if (is_callable(explode('::', $filter))) {
+									if (strpos($filter, '::') !== false && is_callable(explode('::', $filter))) 
+									{
 										// Filter using the callback method.
 										$return[$name] = call_user_func(explode('::', $filter), $data[$name]);
-									} else {
-										// Filter out HTML.
+									}
+									else if (function_exists($filter)) 
+									{
+										// Filter using the callback function.
+										$return[$name] = call_user_func($filter, $data[$name]);
+									}
+									else {
+										// Filter using JFilterInput. All HTML code is filtered by default.
 										$return[$name] = $noHtmlFilter->clean($data[$name], $filter);
 									}
 									break;
@@ -560,7 +556,7 @@ class JForm extends JObject
 		if ($formControl == '_default' && $this->_options['array'] == false) {
 			$formControl = false;
 		} elseif ($formControl == '_default' && $this->_options['array'] == true) {
-			$formControl = $this->_name;
+			$formControl = $this->_options['array'];
 		}
 
 		// Check the group control.
@@ -675,7 +671,7 @@ class JForm extends JObject
 		if ($formControl == '_default' && $this->_options['array'] == false) {
 			$formControl = false;
 		} elseif ($formControl == '_default' && $this->_options['array'] == true) {
-			$formControl = $this->_name;
+			$formControl = $this->_options['array'];
 		}
 
 		// Check the group control.
@@ -884,13 +880,18 @@ class JForm extends JObject
 		$this->_fieldsets[$group] = array();
 
 		// Get the fieldset label.
-		if ($xml->attributes('label')) {
-			$this->_fieldsets[$group]['label'] = $xml->attributes('label');
+		if ($value = $xml->attributes('label')) {
+			$this->_fieldsets[$group]['label'] = $value;
 		}
 
 		// Get the fieldset description.
-		if ($xml->attributes('description')) {
-			$this->_fieldsets[$group]['description'] = $xml->attributes('description');
+		if ($value = $xml->attributes('description')) {
+			$this->_fieldsets[$group]['description'] = $value;
+		}
+
+		// Get an optional hidden setting (at the discretion of the renderer to honour).
+		if ($value = $xml->attributes('hidden')) {
+			$this->_fieldsets[$group]['hidden'] = ($value == 'true' || $value == 1) ? true : false;
 		}
 
 		// Get the fieldset array option.
@@ -955,7 +956,7 @@ class JForm extends JObject
 				for ($i = 0, $n = count($paths); $i < $n; $i++)
 				{
 					// Derive the new path.
-					$path = $paths[$i].DS.substr($type, 0, $pos);
+					$path = $paths[$i].DS.strtolower(substr($type, 0, $pos));
 
 					// If the path does not exist, add it.
 					if (!in_array($path, $paths)) {

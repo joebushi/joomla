@@ -1,21 +1,22 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Administrator
- * @subpackage	Menus
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+// No direct access
+defined('_JEXEC') or die;
+
 // Import library dependencies
-require_once(dirname(__FILE__).DS.'extension.php');
+require_once dirname(__FILE__).DS.'extension.php';
 jimport('joomla.filesystem.folder');
 
 /**
  * Installer Languages Model
  *
  * @package		Joomla.Administrator
- * @subpackage	Installer
+ * @subpackage	com_installer
  * @since		1.5
  */
 class InstallerModelLanguages extends InstallerModel
@@ -32,20 +33,18 @@ class InstallerModelLanguages extends InstallerModel
 	 */
 	function __construct()
 	{
-		global $mainframe;
+		$app	= &JFactory::getApplication();
 
 		// Call the parent constructor
 		parent::__construct();
 
 		// Set state variables from the request
-		$this->setState('filter.string', $mainframe->getUserStateFromRequest("com_installer.languages.string", 'filter', '', 'string'));
-		$this->setState('filter.client', $mainframe->getUserStateFromRequest("com_installer.languages.client", 'client', -1, 'int'));
+		$this->setState('filter.string', $app->getUserStateFromRequest("com_installer.languages.string", 'filter', '', 'string'));
+		$this->setState('filter.client', $app->getUserStateFromRequest("com_installer.languages.client", 'client', -1, 'int'));
 	}
 
 	function _loadItems()
 	{
-		global $mainframe, $option;
-
 		$db = &JFactory::getDbo();
 
 		if ($this->_state->get('filter.client') < 0) {
@@ -160,8 +159,8 @@ class InstallerModelLanguages extends InstallerModel
 	 */
 	function remove($eid=array())
 	{
-		global $mainframe;
-
+		// TODO: Check why this does this or if its still necessary!
+		// Hopefully its just another redundant path we can remove
 		$lang = &JFactory::getLanguage();
 		$lang->load('com_installer');
 
@@ -220,7 +219,8 @@ class InstallerModelLanguages extends InstallerModel
 			$result = true;
 		}
 
-		$mainframe->enqueueMessage($msg);
+		$app	= &JFactory::getApplication();
+		$app->enqueueMessage($msg);
 		$this->setState('action', 'remove');
 		$this->setState('message', $installer->message);
 		// re-construct the list of all language

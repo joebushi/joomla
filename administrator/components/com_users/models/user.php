@@ -8,7 +8,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modelitem');
+jimport('joomla.application.component.modelform');
 
 /**
  * User model for Users.
@@ -17,7 +17,7 @@ jimport('joomla.application.component.modelitem');
  * @subpackage	com_users
  * @since		1.6
  */
-class UsersModelUser extends JModelItem
+class UsersModelUser extends JModelForm
 {
 	/**
 	 * Method to auto-populate the model state.
@@ -89,15 +89,10 @@ class UsersModelUser extends JModelItem
 		// Trigger the data preparation event.
 		$results = $dispatcher->trigger('onPrepareUserProfileData', array($userId, &$value));
 
-		// Build params array.
-		$value->params = array();
-		foreach (explode("\n", trim($table->params, " \n")) as $param)
-		{
-			if (!empty($param)) {
-				list ($k, $v) = explode("=", $param, 2);
-				$value->params[$k] = $v;
-			}
-		}
+		// Convert the params field to an array.
+		$registry = new JRegistry;
+		$registry->loadJSON($value->params);
+		$value->params = $registry->toArray();
 
 		return $value;
 	}
@@ -107,22 +102,18 @@ class UsersModelUser extends JModelItem
 	 *
 	 * @return	mixed	JForm object on success, false on failure.
 	 */
-	public function &getForm()
+	public function getForm()
 	{
 		// Initialize variables.
 		$app	= &JFactory::getApplication();
-		$false	= false;
 
 		// Get the form.
-		jimport('joomla.form.form');
-		JForm::addFormPath(JPATH_COMPONENT.'/models/forms');
-		JForm::addFieldPath(JPATH_COMPONENT.'/models/fields');
-		$form = &JForm::getInstance('jform', 'user', true, array('array' => true));
+		$form = parent::getForm('user', 'com_users.user', array('array' => 'jform', 'event' => 'onPrepareForm'));
 
 		// Check for an error.
 		if (JError::isError($form)) {
 			$this->setError($form->getMessage());
-			return $false;
+			return false;
 		}
 
 		// Get the dispatcher and load the users plugins.
@@ -135,7 +126,7 @@ class UsersModelUser extends JModelItem
 		// Check for errors encountered while preparing the form.
 		if (count($results) && in_array(false, $results, true)) {
 			$this->setError($dispatcher->getError());
-			return $false;
+			return false;
 		}
 
 		// Check the session for previously entered form data.
@@ -240,53 +231,11 @@ class UsersModelUser extends JModelItem
 
 		// Check if the row is checked-out by someone else.
 		if ($return === null) {
-			$this->setError(JText::_('USERS_MEMBER_CHECKED_OUT'));
+			$this->setError(JText::_('USERS_USER_CHECKED_OUT'));
 			return false;
 		}
 
 		return true;
-	}
-
-	/**
-	 * Method to validate the form data.
-	 *
-	 * @access	public
-	 * @param	array	The form data.
-	 * @return	mixed	Array of filtered data if valid, false otherwise.
-	 * @since	1.0
-	 */
-	function validate($data)
-	{
-		// Get the form.
-		$form = &$this->getForm();
-
-		// Check for an error.
-		if ($form === false) {
-			return false;
-		}
-
-		// Filter and validate the form data.
-		$data	= $form->filter($data);
-		$return	= $form->validate($data);
-
-		// Check for an error.
-		if (JError::isError($return)) {
-			$this->setError($return->getMessage());
-			return false;
-		}
-
-		// Check the validation results.
-		if ($return === false)
-		{
-			// Get the validation messages from the form.
-			foreach ($form->getErrors() as $message) {
-				$this->setError($message);
-			}
-
-			return false;
-		}
-
-		return $data;
 	}
 
 	/**
@@ -346,7 +295,7 @@ class UsersModelUser extends JModelItem
 		// Fire the onBeforeStoreUser event.
 		JPluginHelper::importPlugin('user');
 		$dispatcher = &JDispatcher::getInstance();
-		$dispatcher->trigger('onBeforeStoreUser', array($old->getProperties(), $isNew));
+		$dispatcher->trigger('onBeforeStoreUser', array($old->getProperties(), $isNew, $user->getProperties()));
 
 		// Store the data.
 		if (!$result = $user->store()) {
@@ -357,7 +306,9 @@ class UsersModelUser extends JModelItem
 		// Fire the onAftereStoreUser event
 		$dispatcher->trigger('onAfterStoreUser', array($user->getProperties(), $isNew, $result, $this->getError()));
 
-		return $user->id;
+		$this->setState('user.id', $user->id);
+
+		return true;
 	}
 
 	/**

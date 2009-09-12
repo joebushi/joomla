@@ -9,8 +9,9 @@
 // no direct access
 defined('_JEXEC') or die;
 
-$mainframe->registerEvent('onSearch', 'plgSearchCategories');
-$mainframe->registerEvent('onSearchAreas', 'plgSearchCategoryAreas');
+$app = &JFactory::getApplication();
+$app->registerEvent('onSearch', 'plgSearchCategories');
+$app->registerEvent('onSearchAreas', 'plgSearchCategoryAreas');
 
 JPlugin::loadLanguage('plg_search_categories');
 
@@ -97,7 +98,7 @@ function plgSearchCategories($text, $phrase='', $ordering='', $areas=null)
 
 	$count = count($rows);
 	for ($i = 0; $i < $count; $i++) {
-		$rows[$i]->href = ContentHelperRoute::getCategoryRoute($rows[$i]->slug, $rows[$i]->secid);
+		$rows[$i]->href = ContentRoute::category($rows[$i]->slug, $rows[$i]->secid);
 		$rows[$i]->section 	= JText::_('Category');
 	}
 

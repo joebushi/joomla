@@ -108,7 +108,7 @@ class WeblinksControllerWeblink extends JController
 	 */
 	public function cancel()
 	{
-		JRequest::checkToken() or jExit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		// Initialize variables.
 		$app	= &JFactory::getApplication();
@@ -151,10 +151,16 @@ class WeblinksControllerWeblink extends JController
 		$data	= JRequest::getVar('jform', array(), 'post', 'array');
 
 		// Validate the posted data.
-		$data = $model->validate($data);
+		$form	= &$model->getForm();
+		if (!$form) {
+			JError::raiseError(500, $model->getError());
+			return false;
+		}
+		$data	= $model->validate($form, $data);
 
 		// Check for validation errors.
-		if ($data === false) {
+		if ($data === false)
+		{
 			// Get the validation messages.
 			$errors	= $model->getErrors();
 
@@ -196,8 +202,13 @@ class WeblinksControllerWeblink extends JController
 		$this->setMessage(JText::_('JController_Save_success'));
 
 		// Redirect the user and adjust session state based on the chosen task.
-		switch ($this->_task) {
+		switch ($this->_task)
+		{
 			case 'apply':
+				// Set the row data in the session.
+				$app->setUserState('com_weblinks.edit.weblink.id',		$model->getState('weblink.id'));
+				$app->setUserState('com_weblinks.edit.weblink.data',	null);
+
 				// Redirect back to the edit screen.
 				$this->setRedirect(JRoute::_('index.php?option=com_weblinks&view=weblink&layout=edit', false));
 				break;

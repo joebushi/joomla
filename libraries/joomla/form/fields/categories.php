@@ -37,37 +37,28 @@ class JFormFieldCategories extends JFormFieldList
 		$db			= &JFactory::getDbo();
 		$extension	= $this->_element->attributes('extension');
 		$published	= $this->_element->attributes('published');
-		$allowNone	= $this->_element->attributes('allow_none');
+		$options	= array();
 
 		if ($published === '') {
 			$published = null;
 		}
 
-		if (!empty($extension)) {
-			$db->setQuery(
-				'SELECT c.id AS value, c.title AS text' .
-				' FROM #__categories AS c' .
-				' WHERE c.section = '.$db->Quote($extension).
-				($published !== null ? ' AND published = '.(int) $published : '').
-				' ORDER BY c.title'
-			);
+		if (!empty($extension))
+		{
+			if ($published) {
+				$options = JHtml::_('category.options', $extension, array('filter.published' => implode(',', $published)));
+			}
+			else {
+				$options = JHtml::_('category.options', $extension);
+			}
 		}
-		else {
+		else
+		{
 			JError::raiseWarning(500, JText::_('JFramework_Form_Fields_Category_Error_extension_empty'));
 		}
 
-
-		$options = $db->loadObjectList();
-
-		// Check for an error.
-		if ($db->getErrorNum()) {
-			JError::raiseWarning(500, $db->getErrorMsg());
-			return false;
-		}
-
-		if (is_array($options)) {
-			$options = array_merge(parent::_getOptions(), $options);
-		}
+		// Merge any additional options in the XML definition.
+		$options = array_merge(parent::_getOptions(), $options);
 
 		return $options;
 	}

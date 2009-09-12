@@ -1,8 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Site
- * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -16,7 +14,7 @@ jimport('joomla.application.component.model');
  * Newsfeeds Component Category Model
  *
  * @package		Joomla.Site
- * @subpackage	Newsfeeds
+ * @subpackage	com_newsfeeds
  * @since 1.5
  */
 class NewsfeedsModelCategory extends JModel
@@ -49,6 +47,8 @@ class NewsfeedsModelCategory extends JModel
 	 */
 	var $_category = null;
 
+	var $_categories = null;
+
 	/**
 	 * Constructor
 	 *
@@ -56,14 +56,14 @@ class NewsfeedsModelCategory extends JModel
 	 */
 	function __construct()
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 
 		parent::__construct();
 
 		$config = JFactory::getConfig();
 
 		// Get the pagination request variables
-		$this->setState('limit', $mainframe->getUserStateFromRequest('com_newsfeeds.limit', 'limit', $config->getValue('config.list_limit'), 'int'));
+		$this->setState('limit', $app->getUserStateFromRequest('com_newsfeeds.limit', 'limit', $config->getValue('config.list_limit'), 'int'));
 		$this->setState('limitstart', JRequest::getVar('limitstart', 0, '', 'int'));
 
 		$id = JRequest::getVar('id', 0, '', 'int');
@@ -98,13 +98,6 @@ class NewsfeedsModelCategory extends JModel
 			$query = $this->_buildQuery();
 
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
-
-			$total = count($this->_data);
-			for($i = 0; $i < $total; $i++)
-			{
-				$item = &$this->_data[$i];
-				$item->slug = $item->id.'-'.$item->alias;
-			}
 		}
 
 		return $this->_data;
@@ -121,8 +114,7 @@ class NewsfeedsModelCategory extends JModel
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_total))
 		{
-			$query = $this->_buildQuery();
-			$this->_total = $this->_getListCount($query);
+			$this->getCategory();
 		}
 
 		return $this->_total;
@@ -154,11 +146,13 @@ class NewsfeedsModelCategory extends JModel
 	function getCategory()
 	{
 		// Load the Category data
-		if ($this->_loadCategory())
+		if (empty($this->_category))
 		{
+			jimport('joomla.application.categories');
+			$categoryTree = JCategories::getInstance('com_newsfeeds');
+			$this->_category = $categoryTree->get($this->_id);
 			// Initialize some variables
-			$user	= &JFactory::getUser();
-			$groups	= $user->authorisedLevels();
+			$user = &JFactory::getUser();
 
 			// Make sure the category is published
 			if (!$this->_category->published) {
@@ -166,40 +160,20 @@ class NewsfeedsModelCategory extends JModel
 				return false;
 			}
 			// check whether category access level allows access
-			if (!in_array($this->_category->access, $groups)) {
+			if (!in_array($this->_category->access, $user->authorisedLevels())) {
 				JError::raiseError(403, JText::_("ALERTNOTAUTH"));
 				return false;
 			}
+			$this->_total = $this->_category->numitems;
 		}
 		return $this->_category;
-	}
-
-	/**
-	 * Method to load category data if it doesn't exist.
-	 *
-	 * @access	private
-	 * @return	boolean	True on success
-	 */
-	function _loadCategory()
-	{
-		if (empty($this->_category))
-		{
-			// current category info
-			$query = 'SELECT c.*,' .
-				' CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(\':\', c.id, c.alias) ELSE c.id END as slug '.
-				' FROM #__categories AS c' .
-				' WHERE c.id = '. (int) $this->_id .
-				' AND c.section = "com_newsfeeds"';
-			$this->_db->setQuery($query, 0, 1);
-			$this->_category = $this->_db->loadObject();
-		}
-		return true;
 	}
 
 	function _buildQuery()
 	{
 		// We need to get a list of all weblinks in the given category
-		$query = 'SELECT *' .
+		$query = 'SELECT *,' .
+			' CASE WHEN CHAR_LENGTH(alias) THEN CONCAT_WS(":", id, alias) ELSE id END as slug'.
 			' FROM #__newsfeeds' .
 			' WHERE catid = '.(int) $this->_id.
 			' AND published = 1' .
@@ -208,4 +182,3 @@ class NewsfeedsModelCategory extends JModel
 		return $query;
 	}
 }
-?>

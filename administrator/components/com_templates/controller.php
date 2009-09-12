@@ -44,7 +44,7 @@ class TemplatesController extends JController
 	function save()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		$option		= JRequest::getVar('option', '', '', 'cmd');
 		$params		= JRequest::getVar('params', array(), 'post', 'array');
@@ -65,7 +65,7 @@ class TemplatesController extends JController
 			$msg = JText::_('Error Saving Template') . $model->getError();
 		}
 
-		$this->setRedirect('index.php?option='.$option.'&task=edit&cid[]='.$id.'&client='.$client->id, $msg);
+		$this->setRedirect('index.php?option='.$option.'&task=edit&template='.$template.'&id='.$id.'&client='.$client->id, $msg);
 	}
 
 	function cancel()
@@ -81,11 +81,11 @@ class TemplatesController extends JController
 	 * Add Template Style
 	 */
 	function add() {
-		
+
 		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 		$option		= JRequest::getVar('option', '', '', 'cmd');
-		
+
 		$model = $this->getModel('template');
 		$client		= &$model->getClient();
 		$template	= &$model->getTemplate();
@@ -96,8 +96,8 @@ class TemplatesController extends JController
 		}
 		$msg = JText::_('Template Added');
 		$newid = $model->add();
-		$this->setRedirect('index.php?option='.$option.'&task=edit&cid[]='.$newid.'&client='.$client->id, $msg);
-		
+		$this->setRedirect('index.php?option='.$option.'&task=edit&template='.$template.'&id='.$newid.'&client='.$client->id, $msg);
+
 	}
 
 	/*
@@ -105,15 +105,15 @@ class TemplatesController extends JController
 	 */
 	function delete() {
 		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		//JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		$option		= JRequest::getVar('option', '', '', 'cmd');
-		
+
 		$model = $this->getModel('template');
 		$client		= &$model->getClient();
 		$template	= &$model->getTemplate();
 		$id	= &$model->getId();
-		
+
 
 		if (!$template) {
 			$this->setRedirect('index.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::_('No template specified.'));
@@ -125,10 +125,9 @@ class TemplatesController extends JController
 		} else {
 			$msg = JText::_('Error Saving Template') . $model->getError();
 		}
-		$otherid = $model->getOtherId();
-		$this->setRedirect('index.php?option='.$option.'&task=edit&cid[]='.$otherid.'&client='.$client->id, $msg);
+		$this->setRedirect('index.php?option='.$option.'&task=edit&template='.$template.'&client='.$client->id, $msg);
 	}
-	
+
 	/*
 	 * Set Default for Admin Template
 	 */
@@ -136,7 +135,7 @@ class TemplatesController extends JController
 	{
 		// Check for request forgeries
 //TODO: FIX TOKEN
-		//JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		//JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		$option		= JRequest::getVar('option', '', '', 'cmd');
 
@@ -183,7 +182,7 @@ class TemplatesController extends JController
 	function save_source()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		// Initialize some variables
 		$option			= JRequest::getCmd('option');
@@ -192,8 +191,7 @@ class TemplatesController extends JController
 		$model = $this->getModel('source');
 		$client		= &$model->getClient();
 		$template	= &$model->getTemplate();
-		$id			= &$model->getId();
-		
+
 		if (!$template) {
 			$this->setRedirect('index.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::_('No template specified.'));
 			return;
@@ -214,12 +212,12 @@ class TemplatesController extends JController
 		switch($task)
 		{
 			case 'apply_source':
-				$this->setRedirect('index.php?option='.$option.'&client='.$client->id.'&task=edit_source&id='.$id, $msg);
+				$this->setRedirect('index.php?option='.$option.'&client='.$client->id.'&task=edit_source&template='.$template, $msg);
 				break;
 
 			case 'save_source':
 			default:
-				$this->setRedirect('index.php?option='.$option.'&client='.$client->id.'&task=edit&cid[]='.$id, $msg);
+				$this->setRedirect('index.php?option='.$option.'&client='.$client->id.'&task=edit&template='.$template, $msg);
 				break;
 		}
 	}
@@ -252,7 +250,7 @@ class TemplatesController extends JController
 		$mainframe = JFactory::getApplication();
 
 		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		// Initialize some variables
 		$option			= JRequest::getCmd('option');
@@ -283,12 +281,12 @@ class TemplatesController extends JController
 		switch($task)
 		{
 			case 'apply_css':
-				$this->setRedirect('index.php?option='.$option.'&client='.$client->id.'&task=edit_css&id='.$id.'&filename='.$filename, $msg);
+				$this->setRedirect('index.php?option='.$option.'&client='.$client->id.'&task=edit_css&template='.$template.'&id='.$id.'&filename='.$filename, $msg);
 				break;
 
 			case 'save_css':
 			default:
-				$this->setRedirect('index.php?option='.$option.'&client='.$client->id.'&task=edit&cid[]='.$id, $msg);
+				$this->setRedirect('index.php?option='.$option.'&client='.$client->id.'&task=edit&template='.$template, $msg);
 				break;
 		}
 	}

@@ -1,5 +1,5 @@
 /**
- * $Id: editor_plugin_src.js 1134 2009-05-21 12:48:25Z spocke $
+ * $Id$
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -138,7 +138,7 @@
 				}
 			};
 
-			// Check if we should use the new auto process method			
+			// Check if we should use the new auto process method
 			if (ed.getParam('paste_auto_cleanup_on_paste', true)) {
 				// Is it's Opera or older FF use key handler
 				if (tinymce.isOpera || /Firefox\/2/.test(navigator.userAgent)) {

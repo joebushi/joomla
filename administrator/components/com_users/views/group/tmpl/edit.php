@@ -32,7 +32,7 @@ JHtml::stylesheet('default.css', 'administrator/components/com_users/media/css/'
 // -->
 </script>
 
-<form action="<?php JRoute::_('index.php?option=com_users'); ?>" method="post" name="adminForm" id="group-form">
+<form action="<?php JRoute::_('index.php?option=com_users'); ?>" method="post" name="adminForm" id="group-form" class="form-validate">
 	<fieldset style="width:45%;float:left">
 		<legend><?php echo JText::_('Users_Usergroup_Details');?></legend>
 		<ol>
@@ -49,7 +49,6 @@ JHtml::stylesheet('default.css', 'administrator/components/com_users/media/css/'
 
 	<fieldset id="user-groups">
 		<legend><?php echo JText::_('Users_Actions_Available');?></legend>
-		@TODO Grey out inherited actions
 		<?php echo JHtml::_('access.actions', 'jform[actions]', $this->item->actions); ?>
 	</fieldset>
 

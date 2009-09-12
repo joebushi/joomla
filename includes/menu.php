@@ -1,78 +1,75 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Application
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
+// No direct access.
+defined('_JEXEC') or die;
 
 /**
  * JMenu class
  *
- * @package		Joomla.Framework
+ * @package		Joomla.Site
  * @subpackage	Application
  * @since		1.5
  */
 class JMenuSite extends JMenu
 {
 	/**
-	 * Loads the entire menu table into memory
+	 * Loads the entire menu table into memory.
 	 *
-	 * @access public
 	 * @return array
 	 */
-	function load()
+	public function load()
 	{
 		$cache = &JFactory::getCache('_system', 'output');
 
 		if (!$data = $cache->get('menu_items'))
 		{
-			// Initialize some variables
-			$db		= & JFactory::getDbo();
+			jimport('joomla.database.query');
 
-			$sql	= 'SELECT m.*, c.`option` as component' .
-					' FROM #__menu AS m' .
-					' LEFT JOIN #__components AS c ON m.componentid = c.id'.
-					' WHERE m.published = 1'.
-					' ORDER BY m.sublevel, m.parent, m.ordering';
-			$db->setQuery($sql);
+			// Initialize some variables.
+			$db = &JFactory::getDbo();
+			$query = new JQuery;
 
-			if (!($menus = $db->loadObjectList('id'))) {
-				JError::raiseWarning('SOME_ERROR_CODE', "Error loading Menus: ".$db->getErrorMsg());
+			$query->select('m.id, m.menutype, m.title, m.alias, m.path AS route, m.link, m.type, m.level');
+			$query->select('m.browserNav, m.access, m.params, m.home, m.template_id, m.component_id, m.parent_id');
+			$query->select('c.option as component');
+			$query->from('#__menu AS m');
+			$query->leftJoin('#__components AS c ON m.component_id = c.id');
+			$query->where('m.published = 1');
+			$query->where('m.parent_id > 0');
+			$query->order('m.lft');
+
+			$db->setQuery($query);
+			if (!($menus = $db->loadObjectList('id')))
+			{
+				JError::raiseWarning(500, "Error loading Menus: ".$db->getErrorMsg());
 				return false;
 			}
 
-			foreach($menus as $key => $menu)
+			foreach ($menus as &$menu)
 			{
-				//Get parent information
-				$parent_route = '';
-				$parent_tree  = array();
-				if (($parent = $menus[$key]->parent) && (isset($menus[$parent])) &&
+				// Get parent information.
+				$parent_tree = array();
+				if (($parent = $menu->parent_id) && (isset($menus[$parent])) &&
 					(is_object($menus[$parent])) && (isset($menus[$parent]->route)) && isset($menus[$parent]->tree)) {
-					$parent_route = $menus[$parent]->route.'/';
 					$parent_tree  = $menus[$parent]->tree;
 				}
 
-				//Create tree
-				array_push($parent_tree, $menus[$key]->id);
-				$menus[$key]->tree   = $parent_tree;
+				// Create tree.
+				array_push($parent_tree, $menu->id);
+				$menu->tree = $parent_tree;
 
-				//Create route
-				$route = $parent_route.$menus[$key]->alias;
-				$menus[$key]->route  = $route;
-
-				//Create the query array
-				$url = str_replace('index.php?', '', $menus[$key]->link);
-				if (strpos($url, '&amp;') !== false)
-				{
+				// Create the query array.
+				$url = str_replace('index.php?', '', $menu->link);
+				if (strpos($url, '&amp;') !== false) {
 				   $url = str_replace('&amp;','&',$url);
 				}
 
-				parse_str($url, $menus[$key]->query);
+				parse_str($url, $menu->query);
 			}
 
 			$cache->store(serialize($menus), 'menu_items');

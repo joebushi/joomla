@@ -34,7 +34,7 @@ abstract class JHtmlGrid
 		self::behavior();
 
 		// Build the title.
-		$title = ($value) ? JText::_('Yes') : JText::_('No');
+		$title = ($value) ? JText::_('JYes') : JText::_('JNo');
 		$title .= '::'.JText::_('Click_To_Toggle');
 
 		// Build the <a> tag.
@@ -247,7 +247,7 @@ abstract class JHtmlGrid
 			actions.combine($$(\'a.grid_trash\'));
 			actions.each(function(a){
 				a.addEvent(\'click\', function(){
-					args = Json.evaluate(this.rel);
+					args = JSON.decode(this.rel);
 					listItemTask(args.id, args.task);
 				});
 			});

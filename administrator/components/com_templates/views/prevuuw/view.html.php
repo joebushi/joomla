@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: view.html.php 11838 2009-05-27 22:07:20Z eddieajau $
+ * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	Templates
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
@@ -53,6 +53,7 @@ class TemplatesViewPrevuuw extends JView
 		$this->assignRef('option',		$option);
 		$this->assignRef('client',		$client);
 		$this->assignRef('id',			$id);
+		$this->assignRef('template',	$template);
 		$this->assignRef('tp',			$tp);
 		$this->assignRef('url',			$url);
 

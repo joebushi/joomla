@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: view.html.php 11838 2009-05-27 22:07:20Z eddieajau $
+ * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	Modules
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
@@ -38,7 +38,7 @@ class ModulesViewModule extends JView
 		$positions	= &$this->get('positions');
 		$isNew		= ($row->id < 1);
 
-		JToolBarHelper::title(JText::_('Module') . ': <small><small>[ '. JText::_('Edit') .' ]</small></small>', 'module.png');
+		JToolBarHelper::title(JText::_('Module_Manager') . ': '. JText::_('Edit_Module') .'', 'module.png');
 
 		if ($row->module == 'mod_custom') {
 			JToolBarHelper::Preview('index.php?option=com_modules&tmpl=component&client='.$client->id.'&pollid='.$row->id);

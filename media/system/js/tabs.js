@@ -13,7 +13,7 @@
  */
 var JTabs = new Class({
 	Implements: [Options, Events],
-	
+
 	options : {
 		display: 0,
 		onActive: function(title, description) {
@@ -25,12 +25,12 @@ var JTabs = new Class({
 			title.addClass('closed').removeClass('open');
 		},
 		titleSelector: 'dt',
-		descriptionSelector: 'dd',		
+		descriptionSelector: 'dd',
 	},
 
     initialize: function(dlist, options){
 		this.setOptions(options);
-        this.dlist = $(dlist);
+        this.dlist = document.id(dlist);
         this.titles = this.dlist.getElements(this.options.titleSelector);
         this.descriptions = this.dlist.getElements(this.options.descriptionSelector);
         this.content = new Element('div').inject(this.dlist, 'after').addClass('current');

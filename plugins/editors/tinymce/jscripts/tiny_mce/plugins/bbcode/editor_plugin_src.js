@@ -1,5 +1,5 @@
 /**
- * $Id: editor_plugin_src.js 201 2007-02-12 15:56:56Z spocke $
+ * $Id$
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -82,7 +82,7 @@
 			rep(/&gt;/gi,">");
 			rep(/&amp;/gi,"&");
 
-			return s; 
+			return s;
 		},
 
 		// BBCode -> HTML from PunBB dialect
@@ -108,7 +108,7 @@
 			rep(/\[code\](.*?)\[\/code\]/gi,"<span class=\"codeStyle\">$1</span>&nbsp;");
 			rep(/\[quote.*?\](.*?)\[\/quote\]/gi,"<span class=\"quoteStyle\">$1</span>&nbsp;");
 
-			return s; 
+			return s;
 		}
 	});
 

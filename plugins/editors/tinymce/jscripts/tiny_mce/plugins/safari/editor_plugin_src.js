@@ -1,5 +1,5 @@
 /**
- * $Id: editor_plugin_src.js 264 2007-04-26 20:53:09Z spocke $
+ * $Id$
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -118,7 +118,7 @@
 				ed.selection.select(ed.dom.get('_mce_tmp'));
 				ed.getDoc().execCommand("Delete", false, ' ');
 			});
-	
+
 	/*		ed.onKeyDown.add(function(ed, e) {
 				// Ctrl+A select all will fail on WebKit since if you paste the contents you selected it will produce a odd div wrapper
 				if ((e.ctrlKey || e.metaKey) && e.keyCode == 65) {

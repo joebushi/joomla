@@ -1,20 +1,21 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Administrator
- * @subpackage	Menus
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+// No direct access
+defined('_JEXEC') or die;
+
 // Import library dependencies
-require_once(dirname(__FILE__).DS.'extension.php');
+require_once dirname(__FILE__).DS.'extension.php';
 
 /**
  * Installer Plugins Model
  *
  * @package		Joomla.Administrator
- * @subpackage	Installer
+ * @subpackage	com_installer
  * @since		1.5
  */
 class InstallerModelPlugins extends InstallerModel
@@ -31,14 +32,14 @@ class InstallerModelPlugins extends InstallerModel
 	 */
 	function __construct()
 	{
-		global $mainframe;
+		$app	= &JFactory::getApplication();
 
 		// Call the parent constructor
 		parent::__construct();
 
 		// Set state variables from the request
-		$this->setState('filter.group', $mainframe->getUserStateFromRequest("com_installer.plugins.group", 'group', '', 'cmd'));
-		$this->setState('filter.string', $mainframe->getUserStateFromRequest("com_installer.plugins.string", 'filter', '', 'string'));
+		$this->setState('filter.group', $app->getUserStateFromRequest("com_installer.plugins.group", 'group', '', 'cmd'));
+		$this->setState('filter.string', $app->getUserStateFromRequest("com_installer.plugins.string", 'filter', '', 'string'));
 	}
 
 	function &getGroups()
@@ -48,7 +49,8 @@ class InstallerModelPlugins extends InstallerModel
 
 		// get list of Positions for dropdown filter
 		$query = 'SELECT folder AS value, folder AS text' .
-				' FROM #__plugins' .
+				' FROM #__extensions' .
+				' WHERE type = "plugin"' .
 				' GROUP BY folder' .
 				' ORDER BY folder';
 		$db->setQuery($query);
@@ -61,8 +63,6 @@ class InstallerModelPlugins extends InstallerModel
 
 	function _loadItems()
 	{
-		global $mainframe, $option;
-
 		// Get a database connector
 		$db = & JFactory::getDbo();
 
@@ -82,10 +82,11 @@ class InstallerModelPlugins extends InstallerModel
 			}
 		}
 
-		$query = 'SELECT id, name, folder, element, client_id, iscore' .
-				' FROM #__plugins' .
+		$where = $where ? $where . ' AND type = "plugin"' : ' WHERE type = "plugin"';
+		$query = 'SELECT id, name, folder, element, client_id, protected' .
+				' FROM #__extensions' .
 				$where .
-				' ORDER BY iscore, folder, name';
+				' ORDER BY protected, folder, name';
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
 

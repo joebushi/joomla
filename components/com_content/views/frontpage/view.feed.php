@@ -1,8 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Site
- * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -15,27 +13,25 @@ jimport('joomla.application.component.view');
 /**
  * Frontpage View class
  *
- * @static
  * @package		Joomla.Site
- * @subpackage	Content
- * @since 1.5
+ * @subpackage	com_content
+ * @since		1.5
  */
 class ContentViewFrontpage extends JView
 {
 	function display($tpl = null)
 	{
-		global $mainframe;
-
 		// parameters
+		$app		= &JFactory::getApplication();
 		$db			= &JFactory::getDbo();
 		$document	= &JFactory::getDocument();
-		$params = &$mainframe->getParams();
-		$feedEmail = (@$mainframe->getCfg('feed_email')) ? $mainframe->getCfg('feed_email') : 'author';
-		$siteEmail = $mainframe->getCfg('mailfrom');
+		$params		= &$app->getParams();
+		$feedEmail	= (@$app->getCfg('feed_email')) ? $app->getCfg('feed_email') : 'author';
+		$siteEmail	= $app->getCfg('mailfrom');
 		$document->link = JRoute::_('index.php?option=com_content&view=frontpage');
 
 		// Get some data from the model
-		JRequest::setVar('limit', $mainframe->getCfg('feed_limit'));
+		JRequest::setVar('limit', $app->getCfg('feed_limit'));
 		$rows 		= & $this->get('Data');
 		foreach ($rows as $row)
 		{
@@ -44,7 +40,7 @@ class ContentViewFrontpage extends JView
 			$title = html_entity_decode($title);
 
 			// url link to article
-			$link = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catslug, $row->sectionid));
+			$link = JRoute::_(ContentRoute::article($row->slug, $row->catslug, $row->sectionid));
 
 			// strip html from feed item description text
 			$description	= ($params->get('feed_summary', 0) ? $row->introtext.$row->fulltext : $row->introtext);

@@ -1,21 +1,22 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Administrator
- * @subpackage	Menus
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+// No direct access
+defined('_JEXEC') or die;
+
 // Import library dependencies
-require_once(dirname(__FILE__).DS.'extension.php');
+require_once dirname(__FILE__).DS.'extension.php';
 jimport('joomla.filesystem.folder');
 
 /**
  * Extension Manager Templates Model
  *
  * @package		Joomla.Administrator
- * @subpackage	Installer
+ * @subpackage	com_installer
  * @since		1.5
  */
 class InstallerModelTemplates extends InstallerModel
@@ -32,20 +33,18 @@ class InstallerModelTemplates extends InstallerModel
 	 */
 	function __construct()
 	{
-		global $mainframe;
+		$app	= &JFactory::getApplication();
 
 		// Call the parent constructor
 		parent::__construct();
 
 		// Set state variables from the request
-		$this->setState('filter.string', $mainframe->getUserStateFromRequest("com_installer.templates.string", 'filter', '', 'string'));
-		$this->setState('filter.client', $mainframe->getUserStateFromRequest("com_installer.templates.client", 'client', -1, 'int'));
+		$this->setState('filter.string', $app->getUserStateFromRequest("com_installer.templates.string", 'filter', '', 'string'));
+		$this->setState('filter.client', $app->getUserStateFromRequest("com_installer.templates.client", 'client', -1, 'int'));
 	}
 
 	function _loadItems()
 	{
-		global $mainframe, $option;
-
 		$db = &JFactory::getDbo();
 
 		if ($this->_state->get('filter.client') < 0) {
@@ -106,8 +105,8 @@ class InstallerModelTemplates extends InstallerModel
 		}
 
 		// Get a list of the currently active templates
-		$query = 'SELECT template' .
-				' FROM #__templates_menu' .
+		$query = 'SELECT DISTINCT template' .
+				' FROM #__menu_template' .
 				' WHERE 1';
 		$db->setQuery($query);
 		$activeList = $db->loadResultArray();

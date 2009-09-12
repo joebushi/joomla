@@ -41,9 +41,9 @@ class JFormFieldUserGroups extends JFormFieldList
 		$db->setQuery(
 			'SELECT a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level' .
 			' FROM #__usergroups AS a' .
-			' LEFT JOIN `#__usergroups` AS b ON a.left_id > b.left_id AND a.right_id < b.right_id' .
+			' LEFT JOIN `#__usergroups` AS b ON a.lft > b.lft AND a.rgt < b.rgt' .
 			' GROUP BY a.id' .
-			' ORDER BY a.left_id ASC'
+			' ORDER BY a.lft ASC'
 		);
 		$options = $db->loadObjectList();
 
@@ -52,10 +52,9 @@ class JFormFieldUserGroups extends JFormFieldList
 			$options[$i]->text = str_repeat('- ',$options[$i]->level).$options[$i]->text;
 		}
 
-		$options	= array_merge(
-						parent::_getOptions(),
-						$options
-					);
+		// Merge any additional options in the XML definition.
+		$options = array_merge(parent::_getOptions(), $options);
+
 		return $options;
 	}
 }

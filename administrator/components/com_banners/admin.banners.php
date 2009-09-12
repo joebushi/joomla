@@ -11,9 +11,10 @@
 defined('_JEXEC') or die;
 
 // Make sure the user is authorized to view this page
-$user = & JFactory::getUser();
+$user	= & JFactory::getUser();
+$app	= &JFactory::getApplication();
 if (!$user->authorize('com_banners.manage')) {
-	$mainframe->redirect('index.php', JText::_('ALERTNOTAUTH'));
+	$app->redirect('index.php', JText::_('ALERTNOTAUTH'));
 }
 
 // Set the table directory
@@ -24,11 +25,11 @@ $controllerName = JRequest::getCmd('c', 'banner');
 if ($controllerName == 'client') {
 	JSubMenuHelper::addEntry(JText::_('Banners'), 'index.php?option=com_banners');
 	JSubMenuHelper::addEntry(JText::_('Clients'), 'index.php?option=com_banners&c=client', true);
-	JSubMenuHelper::addEntry(JText::_('Categories'), 'index.php?option=com_categories&section=com_banner');
+	JSubMenuHelper::addEntry(JText::_('Categories'), 'index.php?option=com_categories&extension=com_banner');
 } else {
 	JSubMenuHelper::addEntry(JText::_('Banners'), 'index.php?option=com_banners', true);
 	JSubMenuHelper::addEntry(JText::_('Clients'), 'index.php?option=com_banners&c=client');
-	JSubMenuHelper::addEntry(JText::_('Categories'), 'index.php?option=com_categories&section=com_banner');
+	JSubMenuHelper::addEntry(JText::_('Categories'), 'index.php?option=com_categories&extension=com_banner');
 }
 
 switch ($controllerName)

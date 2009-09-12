@@ -34,12 +34,18 @@
 		/>
 
 		<field
-			name="left_id"
+			name="actions"
+			type="hidden"
+			multiple="true"
+		/>
+
+		<field
+			name="lft"
 			type="hidden"
 			filter="unset"
 		/>
 		<field
-			name="right_id"
+			name="rgt"
 			type="hidden"
 			filter="unset"
 		/>

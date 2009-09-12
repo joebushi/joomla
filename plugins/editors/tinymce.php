@@ -20,22 +20,6 @@ jimport('joomla.plugin.plugin');
 class plgEditorTinymce extends JPlugin
 {
 	/**
-	 * Constructor
-	 *
-	 * For php4 compatability we must not use the __constructor as a constructor for plugins
-	 * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
-	 * This causes problems with cross-referencing necessary for the observer design pattern.
-	 *
-	 * @param 	object $subject The object to observe
-	 * @param 	array  $config  An array that holds the plugin configuration
-	 * @since 1.5
-	 */
-	function plgEditorTinymce(& $subject, $config)
-	{
-		parent::__construct($subject, $config);
-	}
-
-	/**
 	 * Method to handle the onInit event.
 	 *  - Initializes the TinyMCE WYSIWYG Editor
 	 *
@@ -45,9 +29,8 @@ class plgEditorTinymce extends JPlugin
 	 */
 	function onInit()
 	{
-		global $mainframe;
-
-		$language	=& JFactory::getLanguage();
+		$app		= &JFactory::getApplication();
+		$language	= &JFactory::getLanguage();
 
 		$mode = (int) $this->params->get('mode',1);
 		$theme = array('simple','advanced','advanced');
@@ -82,7 +65,7 @@ class plgEditorTinymce extends JPlugin
 			$cleanup = 'false';
 			break;
 		case '1': /* Clean up front end edits only */
-			if ($mainframe->isadmin())
+			if ($app->isadmin())
 				$cleanup = 'false';
 			else
 				$cleanup = 'true';
@@ -115,9 +98,9 @@ class plgEditorTinymce extends JPlugin
 			 */
 			$db =& JFactory::getDBO();
 			$query = 'SELECT template'
-			. ' FROM #__templates_menu'
+			. ' FROM #__menu_template'
 			. ' WHERE client_id = 0'
-			. ' AND menuid = 0'
+			. ' AND home = 1'
 			;
 			$db->setQuery( $query );
 			$template = $db->loadResult();

@@ -1,8 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Site
- * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -16,7 +14,7 @@ jimport('joomla.application.component.model');
  * Newsfeeds Component Newsfeed Model
  *
  * @package		Joomla.Site
- * @subpackage	Newsfeeds
+ * @subpackage	com_newsfeeds
  * @since 1.5
  */
 class NewsfeedsModelNewsfeed extends JModel
@@ -72,8 +70,7 @@ class NewsfeedsModelNewsfeed extends JModel
 		if ($this->_loadData())
 		{
 			// Initialize some variables
-			$user	= &JFactory::getUser();
-			$groups	= $user->authorisedLevels();
+			$user = &JFactory::getUser();
 
 			// Make sure the category is published
 			if (!$this->_data->published) {
@@ -88,7 +85,7 @@ class NewsfeedsModelNewsfeed extends JModel
 			}
 
 			// Check whether category access level allows access
-			if (!in_array($this->_data->cat_access, $groups)) {
+			if (!in_array($this->_data->cat_access, $user->authorisedLevels())) {
 				JError::raiseError(403, JText::_('ALERTNOTAUTH'));
 				return;
 			}

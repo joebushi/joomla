@@ -112,7 +112,8 @@ class UsersControllerUser extends JController
 		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		// Initialize variables.
-		$app = &JFactory::getApplication();
+		$app	= &JFactory::getApplication();
+		$model	= &$this->getModel('User');
 
 		// Get the posted values from the request.
 		$data = JRequest::getVar('jform', array(), 'post', 'array');
@@ -120,22 +121,16 @@ class UsersControllerUser extends JController
 		// Populate the row id from the session.
 		$data['id'] = (int) $app->getUserState('com_users.edit.user.id');
 
-		// Get the model and attempt to validate the posted data.
-		$model	= &$this->getModel('User');
-		$return	= $model->validate($data);
-
-		// Get and sanitize the group data.
-		$data['groups'] = JRequest::getVar('groups', array(), 'post', 'array');
-		$data['groups'] = array_unique($data['groups']);
-		JArrayHelper::toInteger($data['groups']);
-
-		// Remove any values of zero.
-		if (array_search(0, $data['groups'], true)) {
-			unset($data['groups'][array_search(0, $data['groups'], true)]);
+		// Validate the posted data.
+		$form	= &$model->getForm();
+		if (!$form) {
+			JError::raiseError(500, $model->getError());
+			return false;
 		}
+		$data	= $model->validate($form, $data);
 
 		// Check for validation errors.
-		if ($return === false)
+		if ($data === false)
 		{
 			// Get the validation messages.
 			$errors	= $model->getErrors();
@@ -158,6 +153,16 @@ class UsersControllerUser extends JController
 			return false;
 		}
 
+		// Get and sanitize the group data.
+		$data['groups'] = JRequest::getVar('groups', array(), 'post', 'array');
+		$data['groups'] = array_unique($data['groups']);
+		JArrayHelper::toInteger($data['groups']);
+
+		// Remove any values of zero.
+		if (array_search(0, $data['groups'], true)) {
+			unset($data['groups'][array_search(0, $data['groups'], true)]);
+		}
+
 		// Attempt to save the data.
 		$return	= $model->save($data);
 
@@ -168,7 +173,7 @@ class UsersControllerUser extends JController
 			$app->setUserState('com_users.edit.user.data', $data);
 
 			// Redirect back to the edit screen.
-			$this->setMessage(JText::sprintf('USERS_MEMBER_SAVE_FAILED', $model->getError()), 'notice');
+			$this->setMessage(JText::sprintf('USERS_USER_SAVE_FAILED', $model->getError()), 'notice');
 			$this->setRedirect(JRoute::_('index.php?option=com_users&view=user&layout=edit', false));
 			return false;
 		}
@@ -177,8 +182,12 @@ class UsersControllerUser extends JController
 		switch ($this->_task)
 		{
 			case 'apply':
+				// Set the row data in the session.
+				$app->setUserState('com_users.edit.user.id',	$model->getState('user.id'));
+				$app->setUserState('com_users.edit.user.data',	null);
+
 				// Redirect back to the edit screen.
-				$this->setMessage(JText::_('USERS_MEMBER_SAVE_SUCCESS'));
+				$this->setMessage(JText::_('USERS_USER_SAVE_SUCCESS'));
 				$this->setRedirect(JRoute::_('index.php?option=com_users&view=user&layout=edit', false));
 				break;
 
@@ -188,7 +197,7 @@ class UsersControllerUser extends JController
 				$app->setUserState('com_users.edit.user.data', null);
 
 				// Redirect back to the edit screen.
-				$this->setMessage(JText::_('USERS_MEMBER_SAVE_SUCCESS'));
+				$this->setMessage(JText::_('USERS_USER_SAVE_SUCCESS'));
 				$this->setRedirect(JRoute::_('index.php?option=com_users&view=user&layout=edit', false));
 				break;
 
@@ -198,7 +207,7 @@ class UsersControllerUser extends JController
 				$app->setUserState('com_users.edit.user.data', null);
 
 				// Redirect to the list screen.
-				$this->setMessage(JText::_('USERS_MEMBER_SAVE_SUCCESS'));
+				$this->setMessage(JText::_('USERS_USER_SAVE_SUCCESS'));
 				$this->setRedirect(JRoute::_('index.php?option=com_users&view=users', false));
 				break;
 		}
@@ -261,10 +270,10 @@ class UsersControllerUser extends JController
 
 		// Attempt to delete the item(s).
 		if (!$model->delete($cid)) {
-			$this->setMessage(JText::sprintf('USERS_MEMBER_DELETE_FAILED', $model->getError()), 'notice');
+			$this->setMessage(JText::sprintf('USERS_USER_DELETE_FAILED', $model->getError()), 'notice');
 		}
 		else {
-			$this->setMessage(JText::sprintf('USERS_MEMBER_DELETE_SUCCESS', count($cid)));
+			$this->setMessage(JText::sprintf('USERS_USER_DELETE_SUCCESS', count($cid)));
 		}
 
 		// Redirect to the list screen.

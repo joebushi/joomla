@@ -95,7 +95,7 @@ class HTML_contact
 				$checked 	= JHtml::_('grid.checkedout',   $row, $i);
 				$published 	= JHtml::_('grid.published', $row, $i);
 
-				$row->cat_link 	= JRoute::_('index.php?option=com_categories&section=com_contact_details&task=edit&type=other&cid[]='. $row->catid);
+				$row->cat_link 	= JRoute::_('index.php?option=com_categories&extension=com_contact&task=edit&type=other&cid[]='. $row->catid);
 				$row->user_link	= JRoute::_('index.php?option=com_users&task=editA&cid[]='. $row->user_id);
 				?>
 				<tr class="<?php echo "row$k"; ?>">
@@ -430,7 +430,7 @@ class HTML_contact
 						if (document.forms.adminForm.image.options.value!=''){
 							jsimg='../<?php echo $cparams->get('image_path'); ?>/' + getSelectedValue('adminForm', 'image');
 						} else {
-							jsimg='../images/M_images/blank.png';
+							jsimg='../images/system/blank.png';
 						}
 						document.write('<img src=' + jsimg + ' name="imagelib" width="100" height="100" border="2" alt="<?php echo JText::_('Preview'); ?>" />');
 						</script>

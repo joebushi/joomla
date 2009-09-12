@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: cssedit.php 11838 2009-05-27 22:07:20Z eddieajau $
+ * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	Templates
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
@@ -45,7 +45,7 @@ class TemplatesModelCssedit extends JModel
 	 * @var string
 	 */
 	var $_filename = null;
-	
+
 	/**
 	 * Template name
 	 *
@@ -62,25 +62,10 @@ class TemplatesModelCssedit extends JModel
 	{
 		parent::__construct();
 
-		$id	= JRequest::getVar('id', '', 'method', 'cmd');
-		$this->setId($id);
+		$this->_id		= JRequest::getVar('id', '', 'method', 'cmd');
+		$this->_template = JRequest::getVar('template');
 		$this->_filename	= JRequest::getVar('filename', '', 'method', 'cmd');
 		$this->_client	= &JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
-	}
-
-	/**
-	 * Method to set the Template identifier
-	 *
-	 * @access	public
-	 * @param	int Template identifier
-	 */
-	function setId($id)
-	{
-		// Set Template id and wipe data
-		require_once JPATH_COMPONENT.DS.'helpers'.DS.'template.php';
-		$this->_id		= $id;
-		$this->_template = TemplatesHelper::getTemplateName($id);
-		$this->_data	= null;
 	}
 
 	/**
@@ -116,7 +101,7 @@ class TemplatesModelCssedit extends JModel
 	{
 		return $this->_id;
 	}
-	
+
 	function &getFilename()
 	{
 		return $this->_filename;

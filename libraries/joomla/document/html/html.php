@@ -183,7 +183,7 @@ class JDocumentHTML extends JDocument
 			return $this->_buffer;
 		}
 
-		$result = '';
+		$result = null;
 		if (isset($this->_buffer[$type][$name])) {
 			return $this->_buffer[$type][$name];
 		}
@@ -304,7 +304,6 @@ class JDocumentHTML extends JDocument
 	function _loadTemplate($directory, $filename)
 	{
 //		$component	= JApplicationHelper::getComponentName();
-		$mainframe	= &JFactory::getApplication();
 
 		$contents = '';
 
@@ -365,7 +364,7 @@ class JDocumentHTML extends JDocument
 		// Assign the variables
 		$this->template = $template;
 		$this->baseurl  = JURI::base(true);
-		$this->params   = new JParameter($params['params']);
+		$this->params   = new JParameter(isset($params['params']) ? $params['params'] : null);
 
 		// load
 		$this->_template = $this->_loadTemplate($directory.DS.$template, $file);

@@ -37,16 +37,16 @@ class JModelForm extends JModel
 	 * @param	string		$xml		The form data. Can be XML string if file flag is set to false.
 	 * @param	array		$options	Optional array of parameters.
 	 * @param	boolean		$clear		Optional argument to force load a new form.
-	 * @return	object		JForm object on success, JException on error.
+	 * @return	mixed		JForm object on success, False on error.
 	 * @since	1.1
 	 */
-	function &getForm($xml, $options = array(), $clear = false)
+	function &getForm($xml, $name = 'form', $options = array(), $clear = false)
 	{
 		// Handle the optional arguments.
-		$options['array']	= array_key_exists('array', $options) ? $options['array'] : false;
-		$options['file']	= array_key_exists('file', $options) ? $options['file'] : true;
-		$options['event']	= array_key_exists('event', $options) ? $options['event'] : null;
-		$options['group']	= array_key_exists('group', $options) ? $options['group'] : null;
+		$options['array']	= array_key_exists('array',	$options) ? $options['array'] : false;
+		$options['file']	= array_key_exists('file',	$options) ? $options['file']  : true;
+		$options['event']	= array_key_exists('event',	$options) ? $options['event'] : null;
+		$options['group']	= array_key_exists('group',	$options) ? $options['group'] : null;
 
 		// Create a signature hash.
 		$hash = md5($xml.serialize($options));
@@ -59,10 +59,14 @@ class JModelForm extends JModel
 		// Get the form.
 		jimport('joomla.form.form');
 		JForm::addFormPath(JPATH_COMPONENT.DS.'models'.DS.'forms');
-		$form = &JForm::getInstance('jform', $xml, $options['file'], $options);
+		JForm::addFieldPath(JPATH_COMPONENT.'/models/fields');
+		$form = &JForm::getInstance($xml, $name, $options['file'], $options);
 
 		// Check for an error.
-		if (JError::isError($form)) {
+		if (JError::isError($form))
+		{
+			$this->setError($form->getMessage());
+			$false = false;
 			return $form;
 		}
 
@@ -78,7 +82,7 @@ class JModelForm extends JModel
 			}
 
 			// Trigger the form preparation event.
-			$results = $dispatcher->trigger($options['event'], array(&$form));
+			$results = $dispatcher->trigger($options['event'], array($form->getName(), $form));
 
 			// Check for errors encountered while preparing the form.
 			if (count($results) && in_array(false, $results, true))

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: view.html.php 11838 2009-05-27 22:07:20Z eddieajau $
+ * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	Templates
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
@@ -36,7 +36,7 @@ class TemplatesViewCsschoose extends JView
 		JToolBarHelper::help('screen.templates');
 
 		require_once JPATH_COMPONENT.DS.'helpers'.DS.'template.php';
-		
+
 		// Initialize some variables
 		$option 	= JRequest::getCmd('option');
 		$id 		= JRequest::getVar('id', '', 'method', 'int');
@@ -60,7 +60,7 @@ class TemplatesViewCsschoose extends JView
 		$this->assignRef('files',		$files);
 		$this->assignRef('id',		$id);
 		$this->assignRef('t_dir',		$dir);
-		
+
 		parent::display($tpl);
 	}
 }

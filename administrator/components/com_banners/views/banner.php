@@ -21,10 +21,10 @@ class BannersViewBanner
 		JToolBarHelper::title(JText::_('Banner Manager'), 'generic.png');
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
-		JToolBarHelper::customX('copy', 'copy.png', 'copy_f2.png', 'Copy');
+		JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', 'Copy');
 		JToolBarHelper::deleteList();
-		JToolBarHelper::editListX();
-		JToolBarHelper::addNewX();
+		JToolBarHelper::editList();
+		JToolBarHelper::addNew();
 		JToolBarHelper::preferences('com_banners', '200');
 		JToolBarHelper::help('screen.banners');
 	}
@@ -162,7 +162,7 @@ class BannersViewBanner
 						<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" <?php echo $disabled ?> class="text_area" style="text-align: center" />
 					</td>
 					<td align="center">
-						<?php echo $row->sticky ? JText::_('Yes') : JText::_('No');?>
+						<?php echo $row->sticky ? JText::_('JYes') : JText::_('JNo');?>
 					</td>
 					<td align="center">
 						<?php echo $row->impmade.' '.JText::_('of').' '.$row->imptotal?>

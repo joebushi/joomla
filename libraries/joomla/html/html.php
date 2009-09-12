@@ -37,6 +37,13 @@ abstract class JHtml
  );
 
 	private static $includePaths = array();
+	
+	/** 
+	 * An array to hold method references
+	 * 
+	 * @var array
+	 */
+	private static $registry = array();
 
 	/**
 	 * Class loader method
@@ -50,31 +57,27 @@ abstract class JHtml
 	 */
 	public static function _($type)
 	{
-		//Initialise variables
-		$prefix = 'JHtml';
-		$file   = '';
-		$func   = $type;
+		$type = preg_replace('#[^A-Z0-9_\.]#i', '', $type);
 
 		// Check to see if we need to load a helper file
 		$parts = explode('.', $type);
+		
+		$prefix = (count($parts) == 3 ? array_shift($parts) : 'JHtml');
+		$file 	= (count($parts) == 2 ? array_shift($parts) : '');
+		$func 	= array_shift($parts);
 
-		switch (count($parts))
+		$key = strtolower($prefix.'.'.$file.'.'.$func);
+
+		if (array_key_exists($key, self::$registry)) 
 		{
-			case 3 :
-			{
-				$prefix		= preg_replace('#[^A-Z0-9_]#i', '', $parts[0]);
-				$file		= preg_replace('#[^A-Z0-9_]#i', '', $parts[1]);
-				$func		= preg_replace('#[^A-Z0-9_]#i', '', $parts[2]);
-			} break;
-
-			case 2 :
-			{
-				$file		= preg_replace('#[^A-Z0-9_]#i', '', $parts[0]);
-				$func		= preg_replace('#[^A-Z0-9_]#i', '', $parts[1]);
-			} break;
+			$function = self::$registry[$key];
+			$args = func_get_args();
+			// remove function name from arguments
+			array_shift($args);
+			return JHtml::call($function, $args);
 		}
 
-		$className	= $prefix.ucfirst($file);
+		$className = $prefix.ucfirst($file);
 
 		if (!class_exists($className))
 		{
@@ -96,15 +99,82 @@ abstract class JHtml
 			}
 		}
 
-		if (is_callable(array($className, $func)))
+		$toCall = array($className, $func);
+		if (is_callable($toCall))
 		{
+			JHtml::register($key, $toCall); 
 			$args = func_get_args();
+			// remove function name from arguments
 			array_shift($args);
-			return call_user_func_array(array($className, $func), $args);
+			return JHtml::call($toCall, $args);
 		}
 		else
 		{
 			JError::raiseWarning(0, $className.'::'.$func.' not supported.');
+			return false;
+		}
+	}
+
+	/**
+	 * Registers a function to be called with a specific key
+	 *
+	 * @param	string	The name of the key
+	 * @param	string	Function or method
+	 */	
+	public static function register($key, $function)
+	{
+		$parts = explode('.', $key);
+		
+		$prefix = (count($parts) == 3 ? array_shift($parts) : 'JHtml');
+		$file 	= (count($parts) == 2 ? array_shift($parts) : '');
+		$func 	= array_shift($parts);
+
+		$key = strtolower($prefix.'.'.$file.'.'.$func);
+
+		if (is_callable($function))
+		{
+			self::$registry[$key] = $function;
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Removes a key for a method from registry.
+	 *
+	 * @param	string	The name of the key
+	 */		
+	public static function unregister($key)
+	{
+		$key = strtolower($key);
+		if (isset(self::$registry[$key])) {
+			unset(self::$registry[$key]);
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Function caller method
+	 *
+	 * @param	string 	Function or method to call
+	 * @param	array	Arguments to be passed to function
+	 */
+	private static function call($function, $args)
+	{
+		if (is_callable($function))
+		{
+			// PHP 5.3 workaround
+			$temp	= array();
+			foreach ($args AS &$arg) {
+				$temp[] = &$arg;
+			}
+			return call_user_func_array($function, $temp);
+		}
+		else {
+			// TODO raiseError here?
 			return false;
 		}
 	}
@@ -143,10 +213,10 @@ abstract class JHtml
 	}
 
 	/**
-	 * Write a <img></amg> element
+	 * Write a <img></img> element
 	 *
 	 * @access	public
-	 * @param	string 	The relative or absoluete URL to use for the src attribute
+	 * @param	string 	The relative or absolute URL to use for the src attribute
 	 * @param	string	The target attribute to use
 	 * @param	array	An associative array of attributes to add
 	 * @since	1.5
@@ -329,23 +399,35 @@ abstract class JHtml
 	 */
 	public static function calendar($value, $name, $id, $format = '%Y-%m-%d', $attribs = null)
 	{
+		static $done;
+
+		if ($done === null) {
+			$done = array();
+		}
+
 		// Load the calendar behavior
 		JHtml::_('behavior.calendar');
 
 		if (is_array($attribs)) {
 			$attribs = JArrayHelper::toString($attribs);
 		}
-		$document = &JFactory::getDocument();
-		$document->addScriptDeclaration('window.addEvent(\'domready\', function() {Calendar.setup({
-        inputField     :    "'.$id.'",     // id of the input field
-        ifFormat       :    "'.$format.'",      // format of the input field
-        button         :    "'.$id.'_img",  // trigger for the calendar (button ID)
-        align          :    "Tl",           // alignment (defaults to "Bl")
-        singleClick    :    true
-    });});');
+
+		// Only display the triggers once for each control.
+		if (!in_array($id, $done))
+		{
+			$document = &JFactory::getDocument();
+			$document->addScriptDeclaration('window.addEvent(\'domready\', function() {Calendar.setup({
+	        inputField     :    "'.$id.'",     // id of the input field
+	        ifFormat       :    "'.$format.'",      // format of the input field
+	        button         :    "'.$id.'_img",  // trigger for the calendar (button ID)
+	        align          :    "Tl",           // alignment (defaults to "Bl")
+	        singleClick    :    true
+	    });});');
+			$done[] = $id;
+		}
 
 		return '<input type="text" name="'.$name.'" id="'.$id.'" value="'.htmlspecialchars($value, ENT_COMPAT, 'UTF-8').'" '.$attribs.' />'.
-				 '<img class="calendar" src="'.JURI::root(true).'/templates/system/images/calendar.png" alt="calendar" id="'.$id.'_img" />';
+				 '<img class="calendar" src="'.JURI::root(true).'/administrator/templates/bluestork/images/system/calendar.png" alt="calendar" id="'.$id.'_img" />';
 	}
 
 	/**

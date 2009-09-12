@@ -8,7 +8,7 @@
 // No direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modelitem');
+jimport('joomla.application.component.modelform');
 
 /**
  * Weblinks Component Weblink Model
@@ -17,7 +17,7 @@ jimport('joomla.application.component.modelitem');
  * @subpackage	com_weblinks
  * @since		1.5
  */
-class WeblinksModelWeblink extends JModelItem
+class WeblinksModelWeblink extends JModelForm
 {
 	/**
 	 * Override to get the weblink table
@@ -82,10 +82,7 @@ class WeblinksModelWeblink extends JModelItem
 		$table = &$this->getTable();
 
 		// Attempt to check-in the row.
-		$return = $table->checkin($userId, $weblinkId);
-
-		// Check for a database error.
-		if ($return === false) {
+		if (!$table->checkin($weblinkId)) {
 			$this->setError($table->getError());
 			return false;
 		}
@@ -158,11 +155,10 @@ class WeblinksModelWeblink extends JModelItem
 			return $false;
 		}
 
-		// Check for a database error.
-		if ($this->_db->getErrorNum()) {
-			$this->setError($this->_db->getErrorMsg());
-			return $false;
-		}
+		// Convert the params field to an array.
+		$registry = new JRegistry();
+		$registry->loadJSON($table->params);
+		$table->params = $registry->toArray();
 
 		$value = JArrayHelper::toObject($table->getProperties(1), 'JObject');
 		return $value;
@@ -175,22 +171,18 @@ class WeblinksModelWeblink extends JModelItem
 	 * @return	mixed	JForm object on success, false on failure.
 	 * @since	1.0
 	 */
-	public function &getForm()
+	public function getForm()
 	{
 		// Initialize variables.
 		$app	= &JFactory::getApplication();
-		$false	= false;
 
 		// Get the form.
-		jimport('joomla.form.form');
-		JForm::addFormPath(JPATH_COMPONENT.DS.'models'.DS.'forms');
-		JForm::addFieldPath(JPATH_COMPONENT.DS.'models'.DS.'fields');
-		$form = &JForm::getInstance('jform', 'weblink', true, array('array' => true));
+		$form = parent::getForm('weblink', 'com_weblinks.weblink', array('array' => 'jform', 'event' => 'onPrepareForm'));
 
 		// Check for an error.
 		if (JError::isError($form)) {
 			$this->setError($form->getMessage());
-			return $false;
+			return false;
 		}
 
 		// Check the session for previously entered form data.
@@ -254,7 +246,9 @@ class WeblinksModelWeblink extends JModelItem
 		// Trigger the onAfterContentSave event.
 		$dispatcher->trigger('onAfterContentSave', array(&$table, $isNew));
 
-		return $table->id;
+		$this->setState('weblink.id', $table->id);
+
+		return true;
 	}
 
 	protected function _prepareTable(&$table)

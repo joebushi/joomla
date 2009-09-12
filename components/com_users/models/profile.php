@@ -23,8 +23,11 @@ jimport('joomla.plugin.helper');
 class UsersModelProfile extends JModelItem
 {
 	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * @since	1.6
 	 */
-	function _populateState($property = null, $default = null)
+	protected function _populateState($property = null, $default = null)
 	{
 		// Get the application object.
 		$app	= &JFactory::getApplication();
@@ -52,19 +55,15 @@ class UsersModelProfile extends JModelItem
 	 * @return	mixed		JForm object on success, false on failure.
 	 * @since	1.0
 	 */
-	function &getForm()
+	function getForm()
 	{
-		$false = false;
-
 		// Get the form.
-		jimport('joomla.form.form');
-		JForm::addFormPath(JPATH_COMPONENT.DS.'models'.DS.'forms');
-		$form = &JForm::getInstance('jform', 'profile', true, array('array' => true));
+		$form = parent::getForm('profile', 'com_users.profile', array('array' => 'jform', 'event' => 'onPrepareForm'));
 
 		// Check for an error.
 		if (JError::isError($form)) {
 			$this->setError($form->getMessage());
-			return $false;
+			return false;
 		}
 
 		// Get the dispatcher and load the users plugins.
@@ -77,7 +76,7 @@ class UsersModelProfile extends JModelItem
 		// Check for errors encountered while preparing the form.
 		if (count($results) && in_array(false, $results, true)) {
 			$this->setError($dispatcher->getError());
-			return $false;
+			return false;
 		}
 
 		return $form;

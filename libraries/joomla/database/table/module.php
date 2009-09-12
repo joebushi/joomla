@@ -17,7 +17,7 @@ jimport('joomla.database.tableasset');
  * @subpackage	Table
  * @since		1.0
  */
-class JTableModule extends JTableAsset
+class JTableModule extends JTable
 {
 	/** @var int Primary key */
 	var $id					= null;
@@ -51,6 +51,14 @@ class JTableModule extends JTableAsset
 	var $client_id			= null;
 	/** @var string */
 	var $control				= null;
+
+	/**
+	 * Track rows as assets.
+	 *
+	 * @var		boolean
+	 * @since	1.6
+	 */
+	protected $_trackAssets = true;
 
 	/**
 	 * Contructore

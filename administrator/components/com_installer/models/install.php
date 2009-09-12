@@ -1,8 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Administrator
- * @subpackage	Menus
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -18,7 +16,7 @@ jimport('joomla.installer.helper');
  * Extension Manager Install Model
  *
  * @package		Joomla.Administrator
- * @subpackage	Installer
+ * @subpackage	com_installer
  * @since		1.5
  */
 class InstallerModelInstall extends JModel
@@ -41,8 +39,6 @@ class InstallerModelInstall extends JModel
 
 	function install()
 	{
-		global $mainframe;
-
 		$this->setState('action', 'install');
 
 		switch(JRequest::getWord('installtype'))
@@ -89,11 +85,12 @@ class InstallerModelInstall extends JModel
 		}
 
 		// Set some model state values
-		$mainframe->enqueueMessage($msg);
+		$app	= &JFactory::getApplication();
+		$app->enqueueMessage($msg);
 		$this->setState('name', $installer->get('name'));
 		$this->setState('result', $result);
 		$this->setState('message', $installer->message);
-		$this->setState('extension.message', $installer->get('extension.message'));
+		$this->setState('extension_message', $installer->get('extension_message'));
 
 		// Cleanup the install files
 		if (!is_file($package['packagefile'])) {

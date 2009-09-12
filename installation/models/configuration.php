@@ -58,6 +58,7 @@ class JInstallationModelConfiguration extends JModel
 		/* Debug Settings */
 		$registry->setValue('debug', 0);
 		$registry->setValue('debug_lang', 0);
+		$registry->setValue('debug_modules', 1);
 
 		/* Database Settings */
 		$registry->setValue('dbtype', $options->db_type);
@@ -94,6 +95,8 @@ class JInstallationModelConfiguration extends JModel
 		$registry->setValue('smtpuser', '');
 		$registry->setValue('smtppass', '');
 		$registry->setValue('smtphost', 'localhost');
+		$registry->setValue('smtpsecure', 'none');
+		$registry->setValue('smtpport', '25');
 
 		/* Cache Settings */
 		$registry->setValue('caching', 0);

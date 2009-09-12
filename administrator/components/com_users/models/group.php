@@ -8,7 +8,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modelitem');
+jimport('joomla.application.component.modelform');
 
 /**
  * User Group model for Users.
@@ -17,7 +17,7 @@ jimport('joomla.application.component.modelitem');
  * @subpackage	com_users
  * @since		1.6
  */
-class UsersModelGroup extends JModelItem
+class UsersModelGroup extends JModelForm
 {
 	/**
 	 * Array of items for memory caching.
@@ -119,22 +119,18 @@ class UsersModelGroup extends JModelItem
 	 * @return	mixed	JForm object on success, false on failure.
 	 * @since	1.0
 	 */
-	public function &getForm()
+	public function getForm()
 	{
 		// Initialize variables.
 		$app	= &JFactory::getApplication();
-		$false	= false;
 
 		// Get the form.
-		jimport('joomla.form.form');
-		JForm::addFormPath(JPATH_COMPONENT.'/models/forms');
-		JForm::addFieldPath(JPATH_COMPONENT.'/models/fields');
-		$form = &JForm::getInstance('jform', 'group', true, array('array' => true));
+		$form = parent::getForm('group', 'com_users.group', array('array' => 'jform', 'event' => 'onPrepareForm'));
 
 		// Check for an error.
 		if (JError::isError($form)) {
 			$this->setError($form->getMessage());
-			return $false;
+			return false;
 		}
 
 		// Check the session for previously entered form data.
@@ -218,7 +214,7 @@ class UsersModelGroup extends JModelItem
 
 			// Is this group in this rule
 			$inGroup	= in_array($groupId, $groups);
-			$changed		= false;
+			$changed	= false;
 
 			if ($hasAction && !$inGroup) {
 				// Need to add this user group to the rule
@@ -242,7 +238,9 @@ class UsersModelGroup extends JModelItem
 			}
 		}
 
-		return $table->id;
+		$this->setState('group.id', $table->id);
+
+		return true;
 	}
 
 	/**

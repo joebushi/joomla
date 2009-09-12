@@ -8,7 +8,7 @@
 // no direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.database.tableasset');
+jimport('joomla.database.table');
 
 /**
  * Weblink Table class
@@ -17,7 +17,7 @@ jimport('joomla.database.tableasset');
  * @subpackage	com_weblinks
  * @since		1.5
  */
-class WeblinksTableWeblink extends JTableAsset
+class WeblinksTableWeblink extends JTable
 {
 	/**
 	 * Primary Key
@@ -106,6 +106,8 @@ class WeblinksTableWeblink extends JTableAsset
 	 */
 	public $params = null;
 
+	protected $_trackAssets = true;
+
 	/**
 	 * Constructor
 	 *
@@ -130,22 +132,6 @@ class WeblinksTableWeblink extends JTableAsset
 	public function getAssetTitle()
 	{
 		return $this->title;
-	}
-
-	/**
-	 * Loads a weblinks, and any other necessary data
-	 *
-	 * @param	integer		$id		An optional user id.
-	 * @return	boolean		True on success, false on failure.
-	 * @since	1.6
-	 */
-	public function load($id = null)
-	{
-		if ($result = parent::load($id)) {
-			$this->params = json_decode($this->params);
-		}
-
-		return $result;
 	}
 
 	/**

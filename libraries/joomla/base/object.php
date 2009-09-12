@@ -1,19 +1,15 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Base
+ * @version		$Id:observer.php 6961 2007-03-15 16:06:53Z tcp $
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
  */
 
 /**
- * Object class, allowing __construct in PHP4.
+ * Base object class.
+ *
+ * This class allows for simple but smart objects with get and set methods
+ * and an internal error handler.
  *
  * @package		Joomla.Framework
  * @subpackage	Base
@@ -21,53 +17,62 @@
  */
 class JObject
 {
-
 	/**
 	 * An array of errors
 	 *
-	 * @var		array of error messages or JExceptions objects
-	 * @access	protected
-	 * @since	1.0
-	 */
-	var		$_errors		= array();
-
-	/**
-	 * A hack to support __construct() on PHP 4
-	 *
-	 * Hint: descendant classes have no PHP4 class_name() constructors,
-	 * so this constructor gets called first and calls the top-layer __construct()
-	 * which (if present) should call parent::__construct()
-	 *
-	 * @access	public
-	 * @return	Object
+	 * @var		array of error messages or JExceptions objects.
 	 * @since	1.5
 	 */
-	function JObject()
-	{
-		$args = func_get_args();
-		call_user_func_array(array(&$this, '__construct'), $args);
-	}
+	protected $_errors = array();
 
 	/**
 	 * Class constructor, overridden in descendant classes.
 	 *
-	 * @access	protected
+	 * @param	mixed $properties	Either and associative array or another object to set the initial properties of the object.
 	 * @since	1.5
 	 */
-	function __construct() {}
+	public function __construct($properties = null)
+	{
+		if ($properties !== null) {
+			$this->setProperties($properties);
+		}
+	}
 
+	/**
+	 * Magic method to convert the object to a string gracefully.
+	 *
+	 * @return	string	The classname.
+	 * @since	1.6
+	 */
+	public function __toString()
+	{
+		return get_class($this);
+	}
+
+	/**
+	 * Sets a default value if not alreay assigned
+	 *
+	 * @param	string $property	The name of the property.
+	 * @param	mixed  $default		The default value.
+	 * @since	1.6
+	 */
+	public function def($property, $default=null)
+	{
+		$value = $this->get($property, $default);
+		return $this->set($property, $value);
+	}
 
 	/**
 	 * Returns a property of the object or the default value if the property is not set.
 	 *
-	 * @access	public
-	 * @param	string $property The name of the property
-	 * @param	mixed  $default The default value
-	 * @return	mixed The value of the property
+	 * @param	string $property	The name of the property.
+	 * @param	mixed  $default		The default value.
+	 *
+	 * @return	mixed	The value of the property.
 	 * @see		getProperties()
 	 * @since	1.5
  	 */
-	function get($property, $default=null)
+	public function get($property, $default=null)
 	{
 		if (isset($this->$property)) {
 			return $this->$property;
@@ -76,18 +81,17 @@ class JObject
 	}
 
 	/**
-	 * Returns an associative array of object properties
+	 * Returns an associative array of object properties.
 	 *
-	 * @access	public
-	 * @param	boolean $public If true, returns only the public properties
+	 * @param	boolean $public	If true, returns only the public properties.
+	 *
 	 * @return	array
 	 * @see		get()
 	 * @since	1.5
  	 */
-	function getProperties($public = true)
+	public function getProperties($public = true)
 	{
 		$vars  = get_object_vars($this);
-
         if ($public)
 		{
 			foreach ($vars as $key => $value)
@@ -102,23 +106,23 @@ class JObject
 	}
 
 	/**
-	 * Get the most recent error message
+	 * Get the most recent error message.
 	 *
-	 * @param	integer	$i Option error index
-	 * @param	boolean	$toString Indicates if JError objects should return their error message
+	 * @param	integer	$i			Option error index.
+	 * @param	boolean	$toString	Indicates if JError objects should return their error message.
 	 * @return	string	Error message
-	 * @access	public
 	 * @since	1.5
 	 */
-	function getError($i = null, $toString = true)
+	public function getError($i = null, $toString = true)
 	{
 		// Find the error
-		if ($i === null) {
+		if ($i === null)
+		{
 			// Default, return the last message
 			$error = end($this->_errors);
 		}
-		else
-		if (! array_key_exists($i, $this->_errors)) {
+		else if (!array_key_exists($i, $this->_errors))
+		{
 			// If $i has been specified but does not exist, return false
 			return false;
 		}
@@ -135,29 +139,26 @@ class JObject
 	}
 
 	/**
-	 * Return all errors, if any
+	 * Return all errors, if any.
 	 *
-	 * @access	public
-	 * @return	array	Array of error messages or JErrors
+	 * @return	array	Array of error messages or JErrors.
 	 * @since	1.5
 	 */
-	function getErrors()
+	public function getErrors()
 	{
 		return $this->_errors;
 	}
 
-
 	/**
 	 * Modifies a property of the object, creating it if it does not already exist.
 	 *
-	 * @access	public
-	 * @param	string $property The name of the property
-	 * @param	mixed  $value The value of the property to set
-	 * @return	mixed Previous value of the property
-	 * @see		setProperties()
+	 * @param	string $property	The name of the property.
+	 * @param	mixed  $value		The value of the property to set.
+	 *
+	 * @return	mixed	Previous value of the property.
 	 * @since	1.5
 	 */
-	function set($property, $value = null)
+	public function set($property, $value = null)
 	{
 		$previous = isset($this->$property) ? $this->$property : null;
 		$this->$property = $value;
@@ -165,24 +166,22 @@ class JObject
 	}
 
 	/**
-	* Set the object properties based on a named array/hash
-	*
-	* @access	protected
-	* @param	$array  mixed Either and associative array or another object
-	* @return	boolean
-	* @see		set()
-	* @since	1.5
-	*/
-	function setProperties($properties)
+	 * Set the object properties based on a named array/hash.
+	 *
+	 * @param	mixed $properties	Either and associative array or another object.
+	 * @return	boolean
+	 * @see		set()
+	 * @since	1.5
+	 */
+	public function setProperties($properties)
 	{
-		$properties = (array) $properties; //cast to an array
-
-		if (is_array($properties))
+		if (is_array($properties) || is_object($properties))
 		{
-			foreach ($properties as $k => $v) {
-				$this->$k = $v;
+			foreach ((array) $properties as $k => $v)
+			{
+				// Use the set function which might be overriden.
+				$this->set($k, $v);
 			}
-
 			return true;
 		}
 
@@ -190,27 +189,22 @@ class JObject
 	}
 
 	/**
-	 * Add an error message
+	 * Add an error message.
 	 *
-	 * @param	string $error Error message
-	 * @access	public
+	 * @param	string $error	Error message.
 	 * @since	1.0
 	 */
-	function setError($error)
+	public function setError($error)
 	{
 		array_push($this->_errors, $error);
 	}
 
 	/**
-	 * Object-to-string conversion.
-	 * Each class can override it as necessary.
-	 *
-	 * @access	public
-	 * @return	string This name of this class
-	 * @since	1.5
+	 * @deprecated 1.6 - Jun 24, 2009
+	 * @see __toString()
  	 */
 	function toString()
 	{
-		return get_class($this);
+		return __toString();
 	}
 }
