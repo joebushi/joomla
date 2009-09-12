@@ -7,22 +7,22 @@
 		}
 		// do field validation
 		if (form.jform_subject.value == ""){
-			alert("<?php echo JText::_('MassMail_Please_fill_in_the_subject', true); ?>");
+			alert("<?php echo JText::_('Users_Mail_Please_fill_in_the_subject', true); ?>");
 		} else if (getSelectedValue('adminForm','jform_group') < 0){
-			alert("<?php echo JText::_('MassMail_Please_select_a_group', true); ?>");
+			alert("<?php echo JText::_('Users_Mail_Please_select_a_group', true); ?>");
 		} else if (form.jform_message.value == ""){
-			alert("<?php echo JText::_('MassMail_Please_fill_in_the_message', true); ?>");
+			alert("<?php echo JText::_('Users_Mail_Please_fill_in_the_message', true); ?>");
 		} else {
 			submitform(pressbutton);
 		}
 	}
 </script>
 
-<form action="index.php" name="adminForm" method="post">
+<form action="<?php echo(JRoute::_('index.php&option=com_users&view=mail')); ?>" name="adminForm" method="post">
 
 	<div class="col width-30">
 		<fieldset class="adminform">
-			<legend><?php echo JText::_('MassMail_Details'); ?></legend>
+			<legend><?php echo JText::_('Users_Mail_Details'); ?></legend>
 			<table class="admintable">
 				<tr>
 					<td class="key"><?php echo $this->form->getLabel('recurse'); ?></td> 
@@ -46,7 +46,7 @@
 
 	<div class="col width-70">
 		<fieldset class="adminform">
-			<legend><?php echo JText::_('MassMail_Message'); ?></legend>
+			<legend><?php echo JText::_('Users_Mail_Message'); ?></legend>
 			<table class="admintable">
 				<tr>
 					<td class="key"><?php echo $this->form->getLabel('subject'); ?></td>
@@ -62,7 +62,6 @@
 	
 	<div class="clr"></div>
 
-	<input type="hidden" name="option" value="com_massmail" />
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>

@@ -12,24 +12,23 @@ jimport('joomla.application.component.modelform');
 jimport('joomla.database.query');
 
 /**
- * MassMail Model for MassMail.
+ * Users mail model.
  *
  * @package		Joomla.Administrator
  * @subpackage	com_massmail
- * @version		1.6
  */
 class UsersModelMail extends JModelForm
 {
 
 	public function send()
 	{
-		$app = JFactory::getApplication();
+		$app = &JFactory::getApplication();
 
-		$db					= &JFactory::getDbo();
-		$user 				= &JFactory::getUser();
-		$acl 				= &JFactory::getACL();
+		$db		= &JFactory::getDbo();
+		$user 	= &JFactory::getUser();
+		$acl 	= &JFactory::getACL();
 
-		$data = &JRequest::getVar('jform', array(), 'post', 'array');
+		$data = JRequest::getVar('jform', array(), 'post', 'array');
 		
 		$mode = array_key_exists('mode',$data) ? intval($data['mode']) : 0;
 		$subject = array_key_exists('subject',$data) ? $data['subject'] : '';
@@ -48,7 +47,7 @@ class UsersModelMail extends JModelForm
 		// Check for a message body and subject
 		if (!$message_body || !$subject)
 		{
-			$this->setError(JText::_('MassMail_Please_fill_in_the_form_correctly'));
+			$this->setError(JText::_('Users_Mail_Please_fill_in_the_form_correctly'));
 			return false;
 		}
 
@@ -68,13 +67,13 @@ class UsersModelMail extends JModelForm
 				$query->where('id IN (' . implode(',', $to) . ')');
 		}
 
-		$db->setQuery((string)$query);
+		$db->setQuery($query);
 		$rows = $db->loadObjectList();
 
 		// Check to see if there are any users in this group before we continue
-		if (! count($rows))
+		if (!count($rows))
 		{
-			$this->setError(JText::_('MassMail_No_users_could_be_found_in_this_group'));
+			$this->setError(JText::_('Users_Mail_No_users_could_be_found_in_this_group'));
 			return false;
 		}
 		
@@ -82,7 +81,7 @@ class UsersModelMail extends JModelForm
 		$mailer = &JFactory::getMailer();
 		$params = &JComponentHelper::getParams('com_massmail');
 
-		// Build e-mail message format
+		// Build e-mail message format.
 		$mailer->setSender(array($app->getCfg('mailfrom'), $app->getCfg('fromname')));
 		$mailer->setSubject($params->get('mailSubjectPrefix') . stripslashes($subject));
 		$mailer->setBody($message_body . $params->get('mailBodySuffix'));
@@ -116,7 +115,7 @@ class UsersModelMail extends JModelForm
 		}
 		elseif (empty($rs))
 		{
-			$this->setError(JText::_('MassMail_The_mail_could_not_be_sent'));
+			$this->setError(JText::_('Users_Mail_The_mail_could_not_be_sent'));
 			return false;
 		}
 		else
@@ -133,13 +132,13 @@ class UsersModelMail extends JModelForm
 	 * @return	mixed	JForm object on success, false on failure.
 	 * @since	1.6
 	 */
-	public function &getForm()
+	public function getForm()
 	{
 		// Initialize variables.
-		$app	= &JFactory::getApplication();
+		$app 	= &JFactory::getApplication();
 
 		// Get the form.
-		$form = parent::getForm('mail', 'com_users', array('array' => 'jform', 'event' => 'onPrepareForm'));
+		$form = parent::getForm('mail', 'com_users.mail', array('array' => 'jform', 'event' => 'onPrepareForm'));
 
 		// Check for an error.
 		if (JError::isError($form)) {
@@ -148,7 +147,7 @@ class UsersModelMail extends JModelForm
 		}
 
 		// Check the session for previously entered form data.
-		$data = $app->getUserState('com_massmail.data', array());
+		$data = $app->getUserState('com_users.display.mail.data', array());
 
 		// Bind the form data if present.
 		if (!empty($data)) {

@@ -8,8 +8,8 @@
 			name="recurse"
 			type="checkbox"
 			value="1"
-			label="MassMail_Recurse"
-			description="MassMail_Recurse_Desc"
+			label="Users_Mail_Recurse"
+			description="Users_Mail_Recurse_Desc"
 		/>
 			
 		<field
@@ -17,8 +17,8 @@
 			name="mode"
 			type="checkbox"
 			value="1"
-			label="MassMail_Send_In_HTML_Mode"
-			description="MassMail_Send_In_HTML_Mode_Desc"
+			label="Users_Mail_Send_In_HTML_Mode"
+			description="Users_Mail_Send_In_HTML_Mode_Desc"
 		/>
 		
 		<field
@@ -27,8 +27,8 @@
 			type="usergroups"
 			size="10"
 			default="0"
-			label="MassMail_Group"
-			description="MassMail_Group_Desc">
+			label="Users_Mail_Group"
+			description="Users_Mail_Group_Desc">
 			
 			<option value="0">MassMail_All_Users_Groups</option>
 		</field>
@@ -39,8 +39,8 @@
 			type="checkbox"
 			value="1"
 			default="1"
-			label="MassMail_Recipients_as_BCC"
-			description="MassMail_Send_as_Blind_Carbon_Copy"
+			label="Users_Mail_Recipients_as_BCC"
+			description="Users_Mail_Send_as_Blind_Carbon_Copy"
 		/>
 		
 		<field
@@ -50,8 +50,8 @@
 			size="30"
 			maxlength="150"
 			class="inputbox"
-			label="MassMail_Subject"
-			description="MassMail_Subject_Desc"
+			label="Users_Mail_Subject"
+			description="Users_Mail_Subject_Desc"
 		/>
 		
 		<field
@@ -61,8 +61,8 @@
 			rows="20"
 			cols="70"
 			class="inputbox"
-			label="MassMail_Message"
-			description="MassMail_Message_Desc"
+			label="Users_Mail_Message"
+			description="Users_Mail_Message_Desc"
 		/>
 		
 	</fields>

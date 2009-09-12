@@ -13,18 +13,17 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 
 /**
- * HTML View class for the MassMail component
+ * Users mail view.
  *
  * @package		Joomla.Administrator
  * @subpackage	Massmail
- * @since 1.0
  */
 class UsersViewMail extends JView
 {
 	/**
 	 * @var object form object
 	 */
-	protected $form=null;
+	public $form = null;
 	
 	/**
 	 * Display the view
@@ -32,7 +31,7 @@ class UsersViewMail extends JView
 	function display($tpl = null)
 	{
 		// Get data from the model
-		$form = & $this->get('Form');
+		$form = &$this->get('Form');
 
 		// Assign data to the view
 		$this->assignRef('form', $form);
