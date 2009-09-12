@@ -178,7 +178,7 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 	{
 		$query = 'SELECT id, a.title AS title, a.created AS created, a.metadesc, a.metakey, '
 		. ' CONCAT(a.introtext, a.fulltext) AS text,'
-		. ' "2" as browsernav, "'. $db->Quote(JText::_('Uncategorised Content')) .'" AS section'
+		. ' "2" as browsernav, "'. $db->getEscaped(JText::_('Uncategorised Content')) .'" AS section'
 		. ' FROM #__content AS a'
 		. ' WHERE ('.$where.')'
 		. ' AND a.state = 1'

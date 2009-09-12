@@ -42,6 +42,7 @@ $ -> Language fix or change
  # [#17150] Patch to solve PHP 5.3 issues
  # [#17432] Missing spinner.gif
  # [#17337] Media manager popup is broken in Windows
+ # [#16919] Results of search - unnecessary quotation marks
 
 -------------------- 1.5.14 Stable Release [30-July-2009] ------------------
 
