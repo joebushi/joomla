@@ -40,7 +40,7 @@ class UsersModelMail extends JModelForm
 		// automatically removes html formatting
 		if (!$mode)
 		{
-			$noHtmlFilter = & JFilterInput::getInstance();
+			$noHtmlFilter = &JFilterInput::getInstance();
 			$message_body = $noHtmlFilter->clean($message_body, 'string');
 		}
 

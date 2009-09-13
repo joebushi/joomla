@@ -50,10 +50,12 @@ class UsersViewMail extends JView
 	 */
 	protected function _setToolBar()
 	{
+		JRequest::setVar('hidemainmenu', 1);
+		
 		JToolBarHelper::title(JText::_('E-mail Groups'), 'massmail.png');
-		JToolBarHelper::custom('send', 'send.png', 'send_f2.png', 'MassMail_Send_Mail', false);
-		JToolBarHelper::cancel();
-		JToolBarHelper::preferences('com_massmail', '200');
-		JToolBarHelper::help('screen.massmail');
+		JToolBarHelper::custom('mail.send', 'send.png', 'send_f2.png', 'Users_Mail_Send_Mail', false);
+		JToolBarHelper::cancel('mail.cancel');
+		JToolBarHelper::preferences('com_users', '200');
+		JToolBarHelper::help('screen.users');
 	}
 }

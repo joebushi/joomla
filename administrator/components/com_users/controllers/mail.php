@@ -38,6 +38,6 @@ class UsersControllerMail extends JController
 	{
 		// Check for request forgeries.
 		JRequest::checkToken('request') or jexit(JText::_('JInvalid_Token'));
-		$this->setRedirect('index.php?option=com_users');
+		$this->setRedirect('index.php');
 	}
 }

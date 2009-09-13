@@ -100,7 +100,7 @@ if ($user->authorize('core.users.manage'))
 		$menu->addSeparator();
 		if ($user->authorize('core.massmail.manage'))
 		{
-			$menu->addChild(new JMenuNode(JText::_('Mass_Mail_Users'), 'index.php?option=com_massmail', 'class:massmail'));
+			$menu->addChild(new JMenuNode(JText::_('Email_Groups'), 'index.php?option=com_users&view=mail', 'class:massmail'));
 			$menu->addChild(new JMenuNode(JText::_('Read_Private_Messages'), 'index.php?option=com_messages', 'class:readmess'));
 			$menu->addChild(new JMenuNode(JText::_('New_Private_Message'), 'index.php?option=com_messages&task=add', 'class:writemess'));
 		}

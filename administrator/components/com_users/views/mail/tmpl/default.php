@@ -1,7 +1,7 @@
 <script language="javascript" type="text/javascript">
 	function submitbutton(pressbutton) {
 		var form = document.adminForm;
-		if (pressbutton == 'cancel') {
+		if (pressbutton == 'mail.cancel') {
 			submitform(pressbutton);
 			return;
 		}
@@ -18,7 +18,7 @@
 	}
 </script>
 
-<form action="<?php echo(JRoute::_('index.php&option=com_users&view=mail')); ?>" name="adminForm" method="post">
+<form action="<?php echo(JRoute::_('index.php?option=com_users&view=mail')); ?>" name="adminForm" method="post">
 
 	<div class="col width-30">
 		<fieldset class="adminform">
