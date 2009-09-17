@@ -37,6 +37,15 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+17-Sept-2009 Ian MacLennan
+ # [#16982] TinyMCE Configuration Error
+ # [#17057] TinyMCE strips some image html
+ # [#17379] Tinymce 3.2.4.1 generates different html breaking caption.js and messing with content filtering
+ # [#17121] TinyMCE Extended Valid Elements dont work anymore
+ # [#17043] Multiply instances of TinyMCE on the page
+ # [#17367] Cannot add or edit content items
+ # [#17356] Firefox inline spell check doesn't work in 1.5.12 / TinyMCE - suggested fix
+ # [#17332] TinyMCE Language file omission for Toggle Editor button
 
 16-Sept-2009 Ian MacLennan
  # [#18010] Captions don't align properly if image alignment is not set.
