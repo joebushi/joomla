@@ -40,6 +40,7 @@ $ -> Language fix or change
 
 16-Sept-2009 Ian MacLennan
  # [#18010] Captions don't align properly if image alignment is not set.
+ # [#18008] Additional PHP 5.3 Issues
 
 11-Sept-2009 Ian MacLennan
  # [#17150] Patch to solve PHP 5.3 issues
