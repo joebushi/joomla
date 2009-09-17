@@ -45,7 +45,7 @@ $ -> Language fix or change
  # [#17043] Multiply instances of TinyMCE on the page
  # [#17367] Cannot add or edit content items
  # [#17356] Firefox inline spell check doesn't work in 1.5.12 / TinyMCE - suggested fix
- # [#17332] TinyMCE Language file omission for Toggle Editor button
+ $ [#17332] TinyMCE Language file omission for Toggle Editor button
 
 16-Sept-2009 Ian MacLennan
  # [#18010] Captions don't align properly if image alignment is not set.

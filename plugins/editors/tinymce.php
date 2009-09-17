@@ -52,7 +52,7 @@ class plgEditorTinymce extends JPlugin
 	{
 		$mainframe =&JFactory::getApplication();
 		$language =& JFactory::getLanguage();
-
+		JPlugin::loadLangage('plg_editors_tinymce', JPATH_ADMINISTRATOR);
 		$mode = $this->params->get('mode','advanced');
 		$theme = array('simple' => 'simple','advanced' => 'advanced','extended' => 'advanced');
 		$skin = $this->params->get( 'skin', '0' );
