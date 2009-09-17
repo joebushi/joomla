@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: featured.php 12450 2009-07-05 03:45:24Z eddieajau $
  * @package		Joomla.Site
  * @subpackage	com_content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
@@ -11,40 +11,19 @@
 defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
-$cparams =& JComponentHelper::getParams('com_media');
 
 // If the page class is defined, add to class as suffix. 
 // It will be a separate class if the user starts it with a space
 $pageClass = $this->params->get('pageclass_sfx');
 ?>
 
-<div class="jarticles<?php echo $pageClass;?>">
+<div class="jarticles-featured<?php echo $pageClass;?>">
 
 <?php if ($this->params->get('show_page_title', 1)) : ?>
 <h2>
 	<?php echo $this->escape($this->params->get('page_title')); ?>
 </h2>
 <?php endif; ?>
-
-<!-- Show Category Information -->
-<div>
-<?php if ($this->params->def('show_description', 1) || $this->params->def('show_description_image', 1)) :?>
-	<?php if ($this->params->get('show_description_image') && $this->category->image) : ?>
-		<img src="<?php echo $this->baseurl . '/' . $cparams->get('image_path') . '/'. $this->category->image;?>" align="<?php echo $this->category->image_position;?>" hspace="6" alt="" />
-	<?php endif; ?>
-	<?php if ($this->params->get('show_description') && $this->category->description) : ?>
-		<?php echo $this->category->description; ?>
-	<?php endif; ?>
-<?php endif; ?>
-</div>
-
-<!-- Show subcategory links -->
-<ol class="jsubcategories">
-	<?php foreach($this->children as $child) : ?>
-			<li><a href="<?php /* @TODO class not found echo JRoute::_(ContentHelperRoute::getCategoryRoute($child->id)); */ ?>">
-				<?php echo $child->title; ?></a> (<?php /* echo @TODO numitems not loaded $child->numitems; */?>)</li>
-	<?php endforeach; ?>
-</ol>
 
 <!-- Leading Articles -->
 <?php if (!empty($this->lead_items)) : ?>
@@ -83,15 +62,16 @@ $pageClass = $this->params->get('pageclass_sfx');
 <?php endif; ?>
 
 
-<?php // if ($this->params->def('show_pagination', 2) == 1  || ($this->params->get('show_pagination') == 2 && $this->pagination->get('pages.total') > 1)) : ?>
+<?php if ($this->params->def('show_pagination', 2) == 1  || ($this->params->get('show_pagination') == 2 && $this->pagination->get('pages.total') > 1)) : ?>
 	<div class="jpagination">
-		<?php // echo $this->pagination->getPagesLinks(); ?>
-		<?php // if ($this->params->def('show_pagination_results', 1)) : ?>
+		<?php echo $this->pagination->getPagesLinks(); ?>
+		<?php if ($this->params->def('show_pagination_results', 1)) : ?>
 			<div class="jpag-results">
-				<?php // echo $this->pagination->getPagesCounter(); ?>
+				<?php echo $this->pagination->getPagesCounter(); ?>
 			</div>
-		<?php // endif; ?>
+		<?php endif; ?>
 	</div>
-<?php // endif; ?>
+<?php endif; ?>
 
 </div>
+
