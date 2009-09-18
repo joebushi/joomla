@@ -37,6 +37,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+18-Sept-2009 Ian MacLennan
+ # [#16982] Fixed issue with editor.css files
+
 17-Sept-2009 Ian MacLennan
  # [#16982] TinyMCE Configuration Error
  # [#17057] TinyMCE strips some image html

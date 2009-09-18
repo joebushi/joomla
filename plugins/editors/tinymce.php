@@ -107,7 +107,7 @@ class plgEditorTinymce extends JPlugin
 			$text_direction = 'ltr';
 		}
 
-		$content_css		= $this->params->def('content_css', 1);
+		$use_content_css	= $this->params->def('content_css', 1);
 		$content_css_custom	= $this->params->def('content_css_custom', '');
 
 		/*
@@ -121,20 +121,22 @@ class plgEditorTinymce extends JPlugin
 		;
 		$db->setQuery( $query );
 		$template = $db->loadResult();
-
-		$file_path = JPATH_SITE.DS.'templates'.DS.$template.DS.'css';
+		
+		$content_css = '';
+		
+		$templates_path = JPATH_SITE.DS.'templates';//.DS;  //.$template.DS.'css';
 		// loading of css file for 'styles' dropdown
 		if ( $content_css_custom )
 		{
 			// If URL, just pass it to $content_css
 			if (strpos( $content_css_custom, 'http' ) !==false) {
-				$content_css = 'content_css : "'. $content_css_custom .'"';
+				$content_css = 'content_css : "'. $content_css_custom .'",';
 			// If it is not a URL, assume it is a file name in the current template folder
 			} else {
-				$content_css = 'content_css : "'. JURI::root() .'templates/'. $template . '/css/'. $content_css_custom .'"';
+				$content_css = 'content_css : "'. JURI::root() .'templates/'. $template . '/css/'. $content_css_custom .'",';
 				
 				// Issue warning notice if the file is not found (but pass name to $content_css anyway to avoid TinyMCE error
-				if (!file_exists($file_path.DS.$content_css_custom)) {
+				if (!file_exists($templates_path.DS.$template.DS.'css'.DS.$content_css_custom)) {
 					$msg = sprintf (JText::_('CUSTOMCSSFILENOTPRESENT'), $content_css_custom);
 					JError::raiseNotice('SOME_ERROR_CODE', $msg);
 				}
@@ -142,27 +144,24 @@ class plgEditorTinymce extends JPlugin
 		}
 		else
 		{
-			// process when content_css is Yes and no custom file given
-			if($content_css) {
+			// process when use_content_css is Yes and no custom file given
+			if($use_content_css) {
 
 				// first check templates folder for default template
 				// if no editor.css file in templates folder, check system template folder
-				if (!file_exists($file_path.DS.'editor.css')) {
+				if (!file_exists($templates_path.DS.$template.DS.'css'.DS.'editor.css')) {
 					$template = 'system';
 
 					// if no editor.css file in system folder, show alert
-					if (!file_exists($file_path .DS.'editor.css'))
+					if (!file_exists($templates_path.DS.'system'.DS.'css'.DS.'editor.css'))
 					{
 						JError::raiseNotice('SOME_ERROR_CODE', JText::_('TEMPLATECSSFILENOTPRESENT'));
+					} else {
+						$content_css = 'content_css : "' . JURI::root() .'templates/system/css/editor.css",';
 					}
+				} else {
+					$content_css = 'content_css : "' . JURI::root() .'templates/'. $template . '/css/editor.css",';
 				}
-				// set the $content_css even if editor.css file doesn't exist (to allow Tiny to load)
-				$content_css = 'content_css : "' . JURI::root() .'templates/'. $template . '/css/editor.css"';
-			}
-			// if content_css flag is No, need to set it to something to allow Tiny to load
-			else
-			{
-				$content_css = 'content_css : "none"'; // need something for Tiny to load
 			}
 		}
 
@@ -439,9 +438,9 @@ class plgEditorTinymce extends JPlugin
 					// URL
 					relative_urls : $relative_urls,
 					remove_script_host : false,
-					document_base_url : \"". JURI::root() ."\",
 					// Layout
 					$content_css
+					document_base_url : \"". JURI::root() ."\",
 				});
 				</script>";
 				break;
@@ -486,7 +485,7 @@ class plgEditorTinymce extends JPlugin
 					remove_script_host : false,
 					document_base_url : \"". JURI::root() ."\",
 					// Layout
-					$content_css,
+					$content_css
 					// Advanced theme
 					theme_advanced_toolbar_location : \"$toolbar\",
 					theme_advanced_toolbar_align : \"$toolbar_align\",
@@ -540,7 +539,7 @@ class plgEditorTinymce extends JPlugin
 					remove_script_host : false,
 					document_base_url : \"". JURI::root() ."\",
 					// Layout
-					$content_css,
+					$content_css
 					// Advanced theme
 					theme_advanced_toolbar_location : \"$toolbar\",
 					theme_advanced_toolbar_align : \"$toolbar_align\",
