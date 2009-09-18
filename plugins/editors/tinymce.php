@@ -122,7 +122,7 @@ class plgEditorTinymce extends JPlugin
 		$db->setQuery( $query );
 		$template = $db->loadResult();
 
-		$file_path = JPATH_SITE.DS.'templates'DS.$template.DS.'css';
+		$file_path = JPATH_SITE.DS.'templates'.DS.$template.DS.'css';
 		// loading of css file for 'styles' dropdown
 		if ( $content_css_custom )
 		{
