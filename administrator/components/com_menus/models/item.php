@@ -379,7 +379,7 @@ class MenusModelItem extends JModelForm
 
 		// Join on the asset groups table.
 		$query->select('ag.title AS access_title');
-		$query->join('LEFT', '#__access_assetgroups AS ag ON ag.id = a.access');
+		$query->join('LEFT', '#__access_viewgroups AS ag ON ag.id = a.access');
 		$query->where('a.published >= 0');
 		$query->where('a.client_id = 0');
 		$query->order('a.position, a.ordering');

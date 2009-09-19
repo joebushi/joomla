@@ -103,7 +103,7 @@ class PluginsViewPlugins extends JView
 		$query = 'SELECT p.*, p.extension_id AS id, p.enabled AS published, u.name AS editor, ag.title AS groupname'
 			. ' FROM #__extensions AS p'
 			. ' LEFT JOIN #__users AS u ON u.id = p.checked_out'
-			. ' LEFT JOIN #__access_assetgroups AS ag ON ag.id = p.access'
+			. ' LEFT JOIN #__access_viewgroups AS ag ON ag.id = p.access'
 			. $where
 			. ' GROUP BY p.extension_id'
 			. $orderby

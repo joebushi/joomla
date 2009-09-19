@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<access section="com_content">
+	<action name="JContent_editall" value="editall" description="DESC_EDITALL_CONTENT" />
+	<action name="JContent_publishall" value="publishall" description="DESC_PUBLISHALL_CONTENT" >
+		<depends value="true">editall</depends>
+	</action>
+	<asset name="category">
+		<action name="JContent_create" value="create" description="DESC_CREATE_CONTENT" />
+		<action name="JContent_edit" value="edit" description="DESC_EDIT_CONTENT" />
+		<action name="JContent_publish" value="publish" description="DESC_PUBLISH_CONTENT" />
+		<action name="JContent_delete" value="delete" description="DESC_DELETE_CONTENT" />
+	</asset>
+	<group name="Moderator" parent="root">
+		<groupaction name="manage" />
+	</group>
+</access>

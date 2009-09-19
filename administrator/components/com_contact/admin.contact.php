@@ -148,7 +148,7 @@ function showContacts($option)
 	. ' LEFT JOIN #__categories AS cc ON cc.id = cd.catid'
 	. ' LEFT JOIN #__users AS u ON u.id = cd.user_id'
 	. ' LEFT JOIN #__users AS v ON v.id = cd.checked_out'
-	. ' LEFT JOIN #__access_assetgroups AS ag ON ag.id = cd.access'
+	. ' LEFT JOIN #__access_viewgroups AS ag ON ag.id = cd.access'
 	. $where
 	. $orderby
 	;

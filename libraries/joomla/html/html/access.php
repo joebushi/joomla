@@ -223,8 +223,8 @@ abstract class JHtmlAccess
 			$query	= new JQuery;
 
 			$query->select('a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level');
-			$query->from('#__access_assetgroups AS a');
-			$query->join('LEFT', '`#__access_assetgroups` AS b ON a.lft > b.lft AND a.rgt < b.rgt');
+			$query->from('#__access_viewgroups AS a');
+			$query->join('LEFT', '`#__access_viewgroups` AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 			$query->group('a.id');
 			$query->order('a.lft ASC');
 
@@ -272,5 +272,27 @@ abstract class JHtmlAccess
 			)
 		);
 	}
+	
+	public static function componentconfig($component)
+	{
+		if(!is_file(JPATH_ADMINISTRATOR.DS.'components'.DS.$component.DS.'access.xml'))
+		{
+			return false;
+		}
+		$parser = JFactory::getXMLParser('simple');
+		$parser->loadFile(JPATH_ADMINISTRATOR.DS.'components'.DS.$component.DS.'access.xml');
+		$document = $parser->document;
+		$output = '';
+		$output .= JHTML::_('access.usergroup', 'usergroups', null, ' onchange="javascript:usergroupchange()"');
+		foreach($document->children() as $actions)
+		{
+			if($actions->name() == 'action')
+			{
+				$output .= $actions->attributes('name');
+			}
+		}
+		$output .= 'works';
+		return $output;
+	} 
 
 }

@@ -39,11 +39,11 @@ class UsersModelLevels extends JModelList
 
 		// Select all fields from the table.
 		$query->select($this->getState('list.select', 'a.*'));
-		$query->from('`#__access_assetgroups` AS a');
+		$query->from('`#__access_viewgroups` AS a');
 
 		// Add the level in the tree.
 		$query->select('COUNT(DISTINCT c2.id) AS level');
-		$query->join('LEFT OUTER', '`#__access_assetgroups` AS c2 ON a.lft > c2.lft AND a.rgt < c2.rgt');
+		$query->join('LEFT OUTER', '`#__access_viewgroups` AS c2 ON a.lft > c2.lft AND a.rgt < c2.rgt');
 		$query->group('a.id');
 
 		// Count the objects in the user group.
@@ -59,7 +59,7 @@ class UsersModelLevels extends JModelList
 		// Filter the items over the parent id if set.
 		$parent_id = $this->getState('filter.parent_id');
 		if ($parent_id !== null && $parent_id > 0) {
-			$query->join('LEFT', '`#__access_assetgroups` AS p ON p.id = '.(int)$parent_id);
+			$query->join('LEFT', '`#__access_viewgroups` AS p ON p.id = '.(int)$parent_id);
 			$query->where('a.lft > p.lft AND a.rgt < p.rgt');
 		}
 
@@ -77,10 +77,8 @@ class UsersModelLevels extends JModelList
 
 		// Extended joins to get a list of user groups associated with an access level.
 		$query->select('GROUP_CONCAT(DISTINCT ug2.title ORDER BY ug2.lft ASC SEPARATOR \',\') AS user_groups');
-		$query->leftJoin('#__access_assetgroup_rule_map AS agrm ON agrm.group_id = a.id');
-		$query->innerJoin('#__access_rules AS r ON r.id = agrm.rule_id');
-		$query->leftJoin('#__usergroup_rule_map AS ugrm ON ugrm.rule_id = r.id');
-		$query->innerJoin('#__usergroups AS ug1 ON ug1.id = ugrm.group_id');
+		$query->leftJoin('#__access_viewgroups_usergroups_map AS agrm ON agrm.viewgroup_id = a.id');
+		$query->innerJoin('#__usergroups AS ug1 ON ug1.id = agrm.usergroup_id');
 		$query->leftJoin('#__usergroups AS ug2 ON ug2.lft >= ug1.lft AND ug2.rgt <= ug1.rgt');
 
 		$query->group('a.id');

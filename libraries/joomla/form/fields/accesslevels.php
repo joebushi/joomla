@@ -40,8 +40,8 @@ class JFormFieldAccessLevels extends JFormFieldList
 
 		$query->select('a.id AS value, a.title AS text');
 		$query->select('COUNT(DISTINCT g2.id) AS level');
-		$query->from('#__access_assetgroups AS a');
-		$query->join('LEFT', '#__access_assetgroups AS g2 ON a.lft > g2.lft AND a.rgt < g2.rgt');
+		$query->from('#__access_viewgroups AS a');
+		$query->join('LEFT', '#__access_viewgroups AS g2 ON a.lft > g2.lft AND a.rgt < g2.rgt');
 		$query->group('a.id');
 
 		// Get the options.

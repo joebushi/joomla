@@ -65,7 +65,7 @@ class JAccess extends JObject
 			$cache = array();
 		}
 
-		$cacheId = $userId.'.'.$actionName.'.'.$assetName;
+		$cacheId = $userId.'.'.$actionName;
 
 		if (!isset($cache[$cacheId]))
 		{
@@ -144,9 +144,6 @@ class JAccess extends JObject
 			if ($sqlAssetGroupIds) {
 				$query->join('LEFT', '#__access_assetgroups ag ON ag.id = agrm.group_id');
 			}
-
-			// The rule must be enabled
-			$query->where('r.enabled = 1');
 
 			// Must match on the name of the desired action
 			$query->where('a.name='. $db->quote($actionName));
@@ -305,22 +302,9 @@ class JAccess extends JObject
 
 		// Build the base query.
 		$query	= new JQuery;
-		$query->select('DISTINCT ag.id');
-		$query->from('`#__access_actions` AS a');
-		// Map actions to rules
-		$query->join('INNER',	'`#__access_action_rule_map` AS arm ON arm.action_id = a.id');
-		$query->join('INNER',	'`#__access_rules` AS r ON r.id = arm.rule_id');
-		// Map users and/or user groups to rules
-		$query->join('LEFT',	'`#__user_rule_map` AS urm ON r.id = urm.rule_id');
-		// Map users to user groups
-		//$query->join('LEFT',	'`#__usergroups` AS ug ON ugrm.group_id = ug.id');
-		//$query->join('LEFT',	'`#__user_usergroup_map` AS uugm ON ug.id = uugm.group_id');
-		// Map the assets to rules
-		$query->join('INNER',	'`#__access_assetgroup_rule_map` AS agrm ON r.id = agrm.rule_id');
-		$query->join('INNER',	'`#__access_assetgroups` AS ag ON agrm.group_id = ag.id');
+		$query->select('DISTINCT viewgroup_id');
+		$query->from('`#__access_viewgroups_usergroups_map`');
 
-		$query->where('a.name = '.$db->quote($action));
-		//$query->where('(urm.user_id = '.(int) $userId.' OR uugm.user_id = '.(int) $userId.')');
 		if (empty($inGroupIds)) {
 			// User is not mapped to any groups
 			$query->where('(urm.user_id = '.(int) $userId.')');
@@ -328,12 +312,8 @@ class JAccess extends JObject
 		}
 		else {
 			// User is mapped to one or more groups
-			$query->join('LEFT',	'`#__usergroup_rule_map` AS ugrm ON r.id = ugrm.rule_id');
-			$query->where('(urm.user_id = '.(int) $userId.' OR ugrm.group_id IN ('.implode(',', $inGroupIds).'))');
+			$query->where('usergroup_id IN ('.implode(',', $inGroupIds).')');
 		}
-
-		$query->where('r.enabled = 1');
-		$query->where('r.allow = 1');
 
 		$db->setQuery((string) $query);
 
@@ -341,7 +321,6 @@ class JAccess extends JObject
 
 		$ids = $db->loadResultArray();
 		$ids = array_unique($ids);
-
 		$this->_quiet or $this->_log(print_r($ids, 1));
 
 		return $ids;
@@ -413,21 +392,15 @@ class JAccess extends JObject
 		$query->select('DISTINCT ug2.id');
 		$query->from('`#__access_actions` AS a');
 		// Map actions to rules
-		$query->join('INNER',	'`#__access_action_rule_map` AS arm ON arm.action_id = a.id');
-		$query->join('INNER',	'`#__access_rules` AS r ON r.id = arm.rule_id');
-		// Map users and/or user groups to rules
-		$query->join('INNER',	'`#__usergroup_rule_map` AS ugrm ON ugrm.rule_id = r.id');
+		$query->join('INNER',	'`#__access_action_usergroup_map` AS agm ON agm.action_id = a.id');
 
 		if ($recursive) {
-			$query->join('INNER', '#__usergroups AS ug1 ON ug1.id = ugrm.group_id');
+			$query->join('INNER', '#__usergroups AS ug1 ON ug1.id = agm.usergroup_id');
 			$query->join('LEFT', '#__usergroups AS ug2 ON ug2.lft >= ug1.lft AND ug2.rgt <= ug1.rgt');
 		}
 		else {
 			$query->join('INNER', '#__usergroups AS ug2 ON ug2.id = ugrm.group_id');
 		}
-
-		$query->where('r.enabled = 1');
-		$query->where('r.allow = 1');
 
 		// Handle an array of actions or just a single action.
 		if (is_array($action))

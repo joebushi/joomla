@@ -65,7 +65,7 @@ class UsersModelLevel extends JModelForm
 		$db = &$this->getDbo();
 		$db->setQuery(
 			'SELECT `section_id`' .
-			' FROM `#__access_assetgroups`' .
+			' FROM `#__access_viewgroups`' .
 			' WHERE `id` = '.(int) $levelId
 		);
 		$sectionId = $db->loadResult();
@@ -165,7 +165,7 @@ class UsersModelLevel extends JModelForm
 			// Update the access level title.
 			$db = &$this->getDbo();
 			$db->setQuery(
-				'UPDATE `#__access_assetgroups`' .
+				'UPDATE `#__access_viewgroups`' .
 				' SET `title` = '.$db->Quote($data['title']) .
 				' WHERE `id` = '.(int) $levelId
 			);
@@ -200,7 +200,7 @@ class UsersModelLevel extends JModelForm
 		{
 			$db->setQuery(
 				'SELECT `section_id`' .
-				' FROM `#__access_assetgroups`' .
+				' FROM `#__access_viewgroups`' .
 				' WHERE `id` = '.(int) $levelId
 			);
 			$sectionId = $db->loadResult();

@@ -1,23 +1,27 @@
 # $Id$
 
 --
--- Table structure for table `#__access_actions`
+-- Tabellenstruktur für Tabelle `#__access_actions`
 --
 
 CREATE TABLE IF NOT EXISTS `#__access_actions` (
-  `id` integer unsigned NOT NULL auto_increment COMMENT 'Primary Key',
-  `section_id` integer unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_sections.id',
-  `name` varchar(100) NOT NULL default '',
-  `title` varchar(100) NOT NULL default '',
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `section_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Foreign Key to #__access_sections.id',
+  `name` varchar(100) NOT NULL DEFAULT '',
+  `title` varchar(100) NOT NULL DEFAULT '',
   `description` varchar(1024) NOT NULL,
-  `access_type` tinyint(1) unsigned NOT NULL default '0',
-  `ordering` integer NOT NULL default '0',
-  PRIMARY KEY  (`id`),
+  `access_type` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `ordering` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
   UNIQUE KEY `idx_action_name_lookup` (`section_id`,`name`),
   KEY `idx_acl_manager_lookup` (`access_type`,`section_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=34 ;
 
-INSERT INTO `#__access_actions` VALUES 
+--
+-- Daten für Tabelle `#__access_actions`
+--
+
+INSERT INTO `#__access_actions` (`id`, `section_id`, `name`, `title`, `description`, `access_type`, `ordering`) VALUES
 (1, 1, 'core.view', 'View', '', 3, 0),
 (2, 1, 'core.checkin.manage', 'JAction_Checkin_Manage', 'JAction_Checkin_Manage_Desc', 1, 0),
 (3, 1, 'core.cache.manage', 'JAction_Cache_Manage', 'JAction_Cache_Manage_Desc', 1, 0),
@@ -49,238 +53,106 @@ INSERT INTO `#__access_actions` VALUES
 (30, 4, 'com_contact.manage', 'JAction_Contact_Manage', 'JAction_Contact_Manage_Desc', 1, 0),
 (31, 5, 'com_newsfeeds.manage', 'JAction_Newsfeeds_Manage', 'JAction_Newsfeeds_Manage_Desc', 1, 0),
 (32, 6, 'com_trash.manage', 'JAction_Trash_Manage', 'JAction_Trash_Manage_Desc', 1, 0),
-(33, 7, 'com_weblinks.manage', 'JAction_Weblinks_Manage', 'JAction_Weblinks_Manage_Desc', 1, 0)
-;
+(33, 7, 'com_weblinks.manage', 'JAction_Weblinks_Manage', 'JAction_Weblinks_Manage_Desc', 1, 0);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__access_action_rule_map`
+-- Tabellenstruktur für Tabelle `#__access_action_usergroup_map`
 --
 
-CREATE TABLE IF NOT EXISTS `#__access_action_rule_map` (
-  `action_id` integer unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_actions.id',
-  `rule_id` integer unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_rules.id',
-  PRIMARY KEY  (`action_id`,`rule_id`)
+CREATE TABLE IF NOT EXISTS `#__access_action_usergroup_map` (
+  `action_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Foreign Key to #__access_actions.id',
+  `usergroup_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Foreign Key to #__access_rules.id',
+  PRIMARY KEY (`action_id`,`usergroup_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `#__access_action_rule_map` VALUES 
-(1, 1),
-(1, 2),
-(1, 3),
-(16, 4),
-(17, 5),
-(2, 6),
-(3, 7),
+--
+-- Daten für Tabelle `#__access_action_usergroup_map`
+--
+
+INSERT INTO `#__access_action_usergroup_map` (`action_id`, `usergroup_id`) VALUES
+(1, 8),
+(2, 8),
+(3, 8),
 (4, 8),
-(5, 9),
-(6, 10),
-(7, 11),
-(8, 12),
-(9, 13),
-(10, 14),
-(11, 15),
-(12, 16),
-(13, 17),
-(14, 18),
-(15, 19),
-(19, 20),
-(21, 22),
-(22, 23),
-(23, 24),
-(24, 25),
-(25, 26),
-(26, 27),
-(27, 28),
-(28, 29),
-(29, 30),
-(30, 31),
-(31, 32),
-(32, 33),
-(33, 34)
-;
+(5, 8),
+(6, 8),
+(7, 8),
+(8, 8),
+(9, 8),
+(10, 8),
+(11, 8),
+(12, 8),
+(13, 8),
+(14, 8),
+(15, 8),
+(16, 8),
+(17, 8),
+(18, 8),
+(19, 8),
+(21, 8),
+(22, 8),
+(23, 8),
+(24, 8),
+(25, 8),
+(26, 8),
+(27, 8),
+(28, 8),
+(29, 8),
+(30, 8),
+(31, 8),
+(32, 8),
+(33, 8);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__access_assetgroups`
---
-
-CREATE TABLE IF NOT EXISTS `#__access_assetgroups` (
-  `id` integer unsigned NOT NULL auto_increment COMMENT 'Primary Key',
-  `parent_id` integer unsigned NOT NULL default '0' COMMENT 'Adjacency List Reference Id',
-  `lft` integer unsigned NOT NULL default '0' COMMENT 'Nested set lft.',
-  `rgt` integer unsigned NOT NULL default '0' COMMENT 'Nested set rgt.',
-  `title` varchar(100) NOT NULL default '',
-  `section_id` integer unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_sections.id',
-  `section` varchar(100) NOT NULL default '0',
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `idx_assetgroup_title_lookup` (`section`,`title`),
-  KEY `idx_assetgroup_adjacency_lookup` (`parent_id`),
-  KEY `idx_assetgroup_nested_set_lookup` USING BTREE (`lft`,`rgt`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
-
-INSERT INTO `#__access_assetgroups` VALUES 
-(1, 0, 1, 8, 'Public', 1, 'core'),
-(2, 1, 4, 5, 'Registered', 1, 'core'),
-(3, 1, 6, 7, 'Special', 1, 'core');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `#__access_assetgroup_rule_map`
---
-
-CREATE TABLE IF NOT EXISTS `#__access_assetgroup_rule_map` (
-  `group_id` integer unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_assetgroups.id',
-  `rule_id` integer unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_rules.id',
-  PRIMARY KEY  (`group_id`,`rule_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-INSERT INTO `#__access_assetgroup_rule_map` VALUES 
-(1, 1),
-(2, 2),
-(3, 3),
-(1, 20),
-(1, 21),
-(1, 22),
-(1, 27),
-(1, 28),
-(1, 29)
-;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `#__access_assets`
+-- Tabellenstruktur für Tabelle `#__access_assets`
 --
 
 CREATE TABLE IF NOT EXISTS `#__access_assets` (
-  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Primary Key',
-  `parent_id` int(11) NOT NULL default '0' COMMENT 'Nested set parent.',
-  `lft` int(11) NOT NULL default '0' COMMENT 'Nested set lft.',
-  `rgt` int(11) NOT NULL default '0' COMMENT 'Nested set rgt.',
-  `level` INTEGER UNSIGNED NOT NULL COMMENT 'The cached level in the nested tree.',
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `parent_id` int(11) NOT NULL DEFAULT '0' COMMENT 'Nested set parent.',
+  `lft` int(11) NOT NULL DEFAULT '0' COMMENT 'Nested set lft.',
+  `rgt` int(11) NOT NULL DEFAULT '0' COMMENT 'Nested set rgt.',
+  `level` int(10) unsigned NOT NULL COMMENT 'The cached level in the nested tree.',
   `name` varchar(50) NOT NULL COMMENT 'The unique name for the asset.\n',
   `title` varchar(100) NOT NULL COMMENT 'The descriptive title for the asset.',
   `actions` varchar(5120) NOT NULL COMMENT 'JSON encoded access control.',
-  PRIMARY KEY  (`id`),
+  PRIMARY KEY (`id`),
   UNIQUE KEY `idx_asset_name` (`name`),
   KEY `idx_lft_rgt` (`lft`,`rgt`),
   KEY `idx_parent_id` (`parent_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
+--
+-- Daten für Tabelle `#__access_assets`
+--
 
-INSERT INTO `#__access_assets` VALUES 
+INSERT INTO `#__access_assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `title`, `actions`) VALUES
 (1, 0, 1, 9999, 0, 'root.1', 'Root Asset', '{}');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__access_asset_assetgroup_map`
---
-
-CREATE TABLE IF NOT EXISTS `#__access_asset_assetgroup_map` (
-  `asset_id` integer unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_assets.id',
-  `group_id` integer unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_assetgroups.id',
-  PRIMARY KEY  (`asset_id`,`group_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-INSERT INTO `#__access_asset_assetgroup_map` VALUES 
-(7, 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `#__access_asset_rule_map`
---
-
-CREATE TABLE IF NOT EXISTS `#__access_asset_rule_map` (
-  `asset_id` integer unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_assets.id',
-  `rule_id` integer unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_rules.id',
-  PRIMARY KEY  (`asset_id`,`rule_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `#__access_rules`
---
-
-CREATE TABLE IF NOT EXISTS `#__access_rules` (
-  `id` integer unsigned NOT NULL auto_increment COMMENT 'Primary Key',
-  `section_id` integer unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_sections.id',
-  `section` varchar(100) NOT NULL default '0',
-  `name` varchar(100) NOT NULL default '',
-  `title` varchar(100) NOT NULL default '',
-  `description` varchar(1024) default NULL,
-  `ordering` integer NOT NULL default '0',
-  `allow` tinyint(1) unsigned NOT NULL default '0',
-  `enabled` tinyint(1) unsigned NOT NULL default '0',
-  `access_type` tinyint(1) unsigned NOT NULL default '0',
-  `updated_date` integer unsigned NOT NULL default '0',
-  `return` varchar(255) default NULL,
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `idx_rule_name_lookup` (`section_id`,`name`),
-  KEY `idx_access_check` (`enabled`,`allow`),
-  KEY `idx_updated_lookup` (`updated_date`),
-  KEY `idx_action_section_lookup` (`section`),
-  KEY `idx_acl_manager_lookup` (`access_type`,`section_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-INSERT INTO `#__access_rules` VALUES 
-(1, 1, 'core', 'core.view.1', 'SYSTEM', NULL, 0, 1, 1, 3, 0, NULL),
-(2, 1, 'core', 'core.view.2', 'SYSTEM', NULL, 0, 1, 1, 3, 0, NULL),
-(3, 1, 'core', 'core.view.3', 'SYSTEM', NULL, 0, 1, 1, 3, 0, NULL),
-(4, 1, 'core', 'core.site.login', 'SYSTEM', NULL, 0, 1, 1, 1, 0, NULL),
-(5, 1, 'core', 'core.administrator.login', 'SYSTEM', NULL, 0, 1, 1, 1, 0, NULL),
-(6, 1, 'core', 'core.checkin.manage', 'SYSTEM', NULL, 0, 1, 1, 1, 0, NULL),
-(7, 1, 'core', 'core.cache.manage', 'SYSTEM', NULL, 0, 1, 1, 1, 0, NULL),
-(8, 1, 'core', 'core.config.manage', 'SYSTEM', NULL, 0, 1, 1, 1, 0, NULL),
-(9, 1, 'core', 'core.installer.manage', 'SYSTEM', NULL, 0, 1, 1, 1, 0, NULL),
-(10, 1, 'core', 'core.languages.manage', 'SYSTEM', NULL, 0, 1, 1, 1, 0, NULL),
-(11, 1, 'core', 'core.modules.manage', 'SYSTEM', NULL, 0, 1, 1, 1, 0, NULL),
-(12, 1, 'core', 'core.plugins.manage', 'SYSTEM', NULL, 0, 1, 1, 1, 0, NULL),
-(13, 1, 'core', 'core.templates.manage', 'SYSTEM', NULL, 0, 1, 1, 1, 0, NULL),
-(14, 1, 'core', 'core.menus.manage', 'SYSTEM', NULL, 0, 1, 1, 1, 0, NULL),
-(15, 1, 'core', 'core.users.manage', 'SYSTEM', NULL, 0, 1, 1, 1, 0, NULL),
-(16, 1, 'core', 'core.media.manage', 'SYSTEM', NULL, 0, 1, 1, 1, 0, NULL),
-(17, 1, 'core', 'core.categories.manage', 'SYSTEM', NULL, 0, 1, 1, 1, 0, NULL),
-(18, 1, 'core', 'core.massmail.manage', 'SYSTEM', NULL, 0, 1, 1, 1, 0, NULL),
-(19, 1, 'core', 'core.messages.manage', 'SYSTEM', NULL, 0, 1, 1, 1, 0, NULL),
-(20, 1, 'core', 'core.plugins.view', 'SYSTEM', NULL, 0, 1, 1, 3, 0, NULL),
-(21, 1, 'core', 'core.modules.view', 'SYSTEM', NULL, 0, 1, 1, 3, 0, NULL),
-(22, 1, 'core', 'core.menu.view', 'SYSTEM', NULL, 0, 1, 1, 3, 0, NULL),
-(23, 2, 'com_content', 'com_content.manage', 'Content', NULL, 0, 1, 1, 1, 0, NULL),
-(24, 2, 'com_content', 'com_content.article.edit_article', 'Content', NULL, 0, 1, 1, 1, 0, NULL),
-(25, 2, 'com_content', 'com_content.article.edit_own', 'Content', NULL, 0, 1, 1, 1, 0, NULL),
-(26, 2, 'com_content', 'com_content.article.publish', 'Content', NULL, 0, 1, 1, 1, 0, NULL),
-(27, 2, 'com_content', 'com_content.article.edit', 'Content', NULL, 0, 1, 1, 2, 0, NULL),
-(28, 2, 'com_content', 'com_content.article.view', 'Content', NULL, 0, 1, 1, 3, 0, NULL),
-(29, 2, 'com_content', 'com_content.category.view', 'Content', NULL, 0, 1, 1, 3, 0, NULL),
-(30, 3, 'com_banners', 'com_banners.manage', 'Banners', NULL, 0, 1, 1, 1, 0, NULL),
-(31, 4, 'com_contact', 'com_contact.manage', 'Contact', NULL, 0, 1, 1, 1, 0, NULL),
-(32, 5, 'com_newsfeeds', 'com_newsfeeds.manage', 'Newsfeeds', NULL, 0, 1, 1, 1, 0, NULL),
-(33, 6, 'com_trash', 'com_trash.manage', 'Trash', NULL, 0, 1, 1, 1, 0, NULL),
-(34, 7, 'com_weblinks', 'com_weblinks.manage', 'Weblinks', NULL, 0, 1, 1, 1, 0, NULL)
-;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `#__access_sections`
+-- Tabellenstruktur für Tabelle `#__access_sections`
 --
 
 CREATE TABLE IF NOT EXISTS `#__access_sections` (
-  `id` integer unsigned NOT NULL auto_increment COMMENT 'Primary Key',
-  `name` varchar(100) NOT NULL default '',
-  `title` varchar(255) NOT NULL default '',
-  `ordering` integer NOT NULL default '0',
-  PRIMARY KEY  (`id`),
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `name` varchar(100) NOT NULL DEFAULT '',
+  `title` varchar(255) NOT NULL DEFAULT '',
+  `ordering` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
   UNIQUE KEY `idx_section_name_lookup` (`name`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
 
-INSERT INTO `#__access_sections` VALUES 
+--
+-- Daten für Tabelle `#__access_sections`
+--
+
+INSERT INTO `#__access_sections` (`id`, `name`, `title`, `ordering`) VALUES
 (1, 'core', 'Core', -1),
 (2, 'com_content', 'Content', 0),
 (3, 'com_banners', 'Banners', 0),
@@ -288,6 +160,57 @@ INSERT INTO `#__access_sections` VALUES
 (5, 'com_newsfeeds', 'Newsfeeds', 0),
 (6, 'com_trash', 'Trash', 0),
 (7, 'com_weblinks', 'Weblinks', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `#__access_viewgroups`
+--
+
+CREATE TABLE IF NOT EXISTS `#__access_viewgroups` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `parent_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Adjacency List Reference Id',
+  `lft` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Nested set lft.',
+  `rgt` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Nested set rgt.',
+  `title` varchar(100) NOT NULL DEFAULT '',
+  `section_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Foreign Key to #__access_sections.id',
+  `section` varchar(100) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_assetgroup_title_lookup` (`section`,`title`),
+  KEY `idx_assetgroup_adjacency_lookup` (`parent_id`),
+  KEY `idx_assetgroup_nested_set_lookup` (`lft`,`rgt`) USING BTREE
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+
+--
+-- Daten für Tabelle `#__access_viewgroups`
+--
+
+INSERT INTO `#__access_viewgroups` (`id`, `parent_id`, `lft`, `rgt`, `title`, `section_id`, `section`) VALUES
+(1, 0, 1, 8, 'Public', 1, 'core'),
+(2, 1, 4, 5, 'Registered', 1, 'core'),
+(3, 1, 6, 7, 'Special', 1, 'core');
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `#__access_viewgroups_usergroups_map`
+--
+
+CREATE TABLE IF NOT EXISTS `#__access_viewgroups_usergroups_map` (
+  `viewgroup_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Foreign Key to #__access_assetgroups.id',
+  `usergroup_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Foreign Key to #__access_rules.id',
+  PRIMARY KEY (`viewgroup_id`,`usergroup_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Daten für Tabelle `#__access_viewgroups_usergroups_map`
+--
+
+INSERT INTO `#__access_viewgroups_usergroups_map` (`viewgroup_id`, `usergroup_id`) VALUES
+(1, 1),
+(2, 2),
+(3, 3),
+(3, 6);
 
 # --------------------------------------------------------
 
@@ -508,7 +431,7 @@ CREATE TABLE `#__contact_details` (
 
 CREATE TABLE `#__content` (
   `id` integer unsigned NOT NULL auto_increment,
-  `asset_id` INTEGER UNSIGNED NOT NULL DEFAULT 0 COMMENT 'FK to the jos_access_assets table.',
+  `asset_id` INTEGER UNSIGNED NOT NULL DEFAULT 0 COMMENT 'FK to the #__access_assets table.',
   `title` varchar(255) NOT NULL default '',
   `alias` varchar(255) NOT NULL default '',
   `title_alias` varchar(255) NOT NULL default '',
@@ -762,7 +685,7 @@ INSERT INTO `#__extensions` VALUES
 
 CREATE TABLE `#__menu` (
   `id` integer NOT NULL auto_increment,
-  `menutype` varchar(24) NOT NULL COMMENT 'The type of menu this item belongs to. FK to jos_menu_types.menutype',
+  `menutype` varchar(24) NOT NULL COMMENT 'The type of menu this item belongs to. FK to #__menu_types.menutype',
   `title` varchar(255) NOT NULL COMMENT 'The display title of the menu item.',
   `alias` varchar(255) NOT NULL COMMENT 'The SEF alias of the menu item.',
   `path` varchar(1024) NOT NULL COMMENT 'The computed path of the menu item based on the alias field.',
@@ -771,9 +694,9 @@ CREATE TABLE `#__menu` (
   `published` tinyint(4) NOT NULL default '0' COMMENT 'The published state of the menu link.',
   `parent_id` integer unsigned NOT NULL default '0' COMMENT 'The parent menu item in the menu tree.',
   `level` integer unsigned NOT NULL default '0' COMMENT 'The relative level in the tree.',
-  `component_id` integer unsigned NOT NULL default '0' COMMENT 'FK to jos_components.id',
+  `component_id` integer unsigned NOT NULL default '0' COMMENT 'FK to #__components.id',
   `ordering` integer NOT NULL default '0' COMMENT 'The relative ordering of the menu item in the tree.',
-  `checked_out` integer unsigned NOT NULL default '0' COMMENT 'FK to jos_users.id',
+  `checked_out` integer unsigned NOT NULL default '0' COMMENT 'FK to #__users.id',
   `checked_out_time` timestamp NOT NULL default '0000-00-00 00:00:00' COMMENT 'The time the menu item was checked out.',
   `browserNav` tinyint(4) NOT NULL default '0' COMMENT 'The click behaviour of the link.',
   `access` tinyint(3) unsigned NOT NULL default '0' COMMENT 'The access level required to view the menu item.',

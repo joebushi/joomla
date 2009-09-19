@@ -271,14 +271,26 @@ class JUser extends JObject
 			return $acl->check($this->id, $action, $assetname);
 		}
 		if ($this->_authActions === null) {
-			$this->_authActions = array();
+			$acl = JFactory::getACL();
+			$db = JFactory::getDBO();
+			$query = 'SELECT DISTINCT a.name '
+					.'FROM #__access_actions AS a '
+					.'LEFT JOIN #__access_action_usergroup_map AS augm ON a.id = augm.action_id '
+					.'WHERE augm.usergroup_id IN ('.implode(',',$acl->getUserGroupMap($this->id, true)).');';
+			$db->setQuery($query);
+			$actions = $db->loadResultArray();
+			foreach($actions as $action2)
+			{
+				$this->_authActions[$action2] = true;
+			}
+		
+			//$this->_authActions[$action] = $acl->check($this->id, $action);
 		}
 
 		if (!isset($this->_authActions[$action])) {
-			$acl = JFactory::getACL();
-			$this->_authActions[$action] = $acl->check($this->id, $action);
+			$this->_authActions[$action] = false;
 		}
-
+		
 		return $this->_authActions[$action];
 	}
 
