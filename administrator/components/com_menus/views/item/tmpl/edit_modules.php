@@ -36,16 +36,19 @@ defined('_JEXEC') or die;
 					<?php echo JText::sprintf('Menus_Item_Module_Access_Position', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position));?>
 				</td>
 				<td align="center">
-					<input type="radio" name="menuid[<?php echo $module->id;?>]" value="0" <?php echo is_numeric($module->menuid) && $module->menuid == 0 ? 'checked="checked" ' : '';?>/>
+					<input disabled="disabled" type="radio" name="menuid[<?php echo $module->id;?>]" value="0"  value="0" <?php echo is_numeric($module->menuid) && $module->menuid == 0 ?  'checked="checked" ' : '';?>/>
 				</td>
 				<td align="center">
-					<input type="radio" name="menuid[<?php echo $module->id;?>]" value="1" <?php echo $module->menuid == $this->item->id ? 'checked="checked" ' : '';?>/>
+					<input <?php if (is_numeric($module->menuid) && $module->menuid == 0 )  echo 'disabled="disabled"' ?>
+					type="radio" name="menuid[<?php echo $module->id;?>]" value="1" <?php echo $module->menuid == $this->item->id ? 'checked="checked" ' : '';?>/>
 				</td>
 				<td align="center">
-					<input type="radio" name="menuid[<?php echo $module->id;?>]" value="-1" <?php echo $module->menuid == -$this->item->id ? 'checked="checked" ' : '';?>/>
+					<input <?php if (!is_numeric($module->menuid) && $module->menuid == 0 )  echo 'disabled="disabled"' ?>
+					type="radio" name="menuid[<?php echo $module->id;?>]" value="-1" <?php echo $module->menuid == -$this->item->id ? 'checked="checked" ' : '';?>/>
 				</td>
 				<td align="center">
-					<input type="radio" name="menuid[<?php echo $module->id;?>]" value="" <?php echo !is_numeric($module->menuid) || (is_numeric($module->menuid) && $module->menuid != 0 && abs($module->menuid) != $this->item->id)? 'checked="checked" ' : '';?>/>
+					<input  <?php if (!is_numeric($module->menuid) && $module->menuid == 0 )  echo 'disabled="disabled"' ?>
+					type="radio" name="menuid[<?php echo $module->id;?>]" value="" <?php echo !is_numeric($module->menuid) || (is_numeric($module->menuid) && $module->menuid != 0 && abs($module->menuid) != $this->item->id)? 'checked="checked" ' : '';?>/>
 				</td>
 			</tr>
 		<?php endforeach; ?>
