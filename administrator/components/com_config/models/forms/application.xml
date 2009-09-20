@@ -658,7 +658,7 @@
 			description="Config_Cookie_Domain_Desc"
 			required="false"
 			filter="string"
-			size="50"
+			size="40"
 		/>
 
 		<field
@@ -669,7 +669,7 @@
 			description="Config_Cookie_Path_Desc"
 			required="false"
 			filter="string"
-			size="50" 
+			size="40" 
 		/>
 	</fields>
 </form>

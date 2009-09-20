@@ -44,6 +44,7 @@ html, body { height: 95%; }
 
 .clr { clear: both; overflow:hidden; height: 0; }
 
+
 a, img { padding: 0; margin: 0; }
 
 img { border: 0 none; }
@@ -74,7 +75,12 @@ fieldset {
 	text-align: left;
 }
 
-fieldset p {  margin: 10px 0px;  }
+
+fieldset.batch {
+	margin: 25px 0 10px 0;
+}
+fieldset.batch label {  margin: 5px;  }
+fieldset.batch button {  margin: 3px;  }
 
 legend    {
 	color: #146295;
@@ -95,7 +101,7 @@ input.button  { cursor: pointer;   }
 
 input:focus,
 select:focus,
-textarea:focus { background-color: #ffd }
+textarea:focus { background-color: #ffd; }
 
 /* -- OVERALL STYLES ----------------------------- */
 
@@ -173,6 +179,40 @@ textarea:focus { background-color: #ffd }
 #module-status .loggedin-users { background: url(../images/menu/icon-16-user.png) 3px 3px no-repeat; }
 #module-status .logout { background: url(../images/menu/icon-16-logout.png) 3px 3px no-repeat; }
 
+#module-unread-new span {
+	color: red; 
+	text-decoration: none;  
+	font-weight: bold;
+}
+
+#module-unread span {
+	color: black;
+	text-decoration: none;
+}
+
+#module-unread img,
+#module-unread-new img {
+	border: 0;
+}
+
+
+span.stat-notice {
+	font-weight: bold;
+}
+
+div.noparams-notice {
+	text-align: center;
+	padding: 5px; 
+	}
+
+span.writable {
+	color:green;
+}
+
+span.unwritable {
+	color:red;
+}
+
 
 /* -- MISC. STYLES ----------------------------- */
 
@@ -181,6 +221,13 @@ span.note {
 	background: #ffd;
 	padding: 5px;
 	color: #666;
+}
+
+.previewFrame {
+	border: none;
+	width: 95%;
+	height: 600px;
+	padding: 0px 5px 0px 10px;
 }
 
 /* -- OVERLIB STYLES ----------------------------- */
@@ -316,12 +363,29 @@ textarea#mm_message { width: 100%; }
 	margin: 15px;
 }
 
-div.paramrow label {
-
+div#content-pane label {
 }
 
-div.paramrow input {
+div.paramrow label:first-child {
+	vertical-align:top;
+	margin-top: 2px;
+	float:left;
+}
 
+label.hasTip {
+	min-width: 130px;
+}
+
+fieldset input[type="radio"] {
+	display: block;
+	width: 15px;
+float:left;
+}
+
+input#jformparams_link_titles1,
+input#jformparams_show_title1,
+input#jformparams_link_category1 {
+	margin-left: 13px;
 }
 
 
@@ -409,16 +473,37 @@ div.cpanel-right { width:45%; float:right; }
 
 div.col { float: left; }
 
-div.width-30 { width: 30%; float: left;}
-div.width-35 { width: 35%; float: left;}
-div.width-40 { width: 40%; float: left;}
-div.width-45 { width: 45%; float: left;}
-div.width-50 { width: 50%; float: left;}
-div.width-55 { width: 55%; float: left;}
-div.width-60 { width: 60%; float: left;}
-div.width-65 { width: 65%; float: left;}
-div.width-70 { width: 70%; float: left;}
-div.width-100 { width: 100%; float: left;}
+div.width-30 { width: 30%;}
+div.width-35 { width: 35%; }
+div.width-40 { width: 40%;}
+div.width-45 { width: 45%;}
+div.width-50 { width: 50%;}
+div.width-55 { width: 55%;}
+div.width-60 { width: 60%; }
+div.width-65 { width: 65%;}
+div.width-70 { width: 70%;}
+div.width-100 { width: 100%;}
+
+
+.clrlft { clear: left; }
+.clrrt { clear: right; }
+.fltlft { float: left; }
+.fltrt { float: right; }
+.fltnone { float: none; }
+
+div.width-30 fieldset,
+div.width-35 fieldset,
+div.width-40 fieldset,
+div.width-45 fieldset,
+div.width-50 fieldset,
+div.width-55 fieldset,
+div.width-60 fieldset,
+div.width-65 fieldset,
+div.width-70 fieldset,
+div.width-100 fieldset { 
+	background-color: #fff;
+}
+
 
 form#item-form fieldset,
 fieldset.adminform {
@@ -463,16 +548,15 @@ label#jform_fulltext-lbl {
 label#jform_fulltext-lbl {
 }
 
-label#jform_state-lbl {
+label#jform_state-lbl  {
 	clear:none;
 }
-
 fieldset.adminform label {
 	clear:none;
 }
 
 fieldset.adminform input {
-	margin-left:10px;
+	/* margin-left:10px; */
 }
 fieldset.adminform select {
 	margin-right:20px;
@@ -509,12 +593,6 @@ label#jform_log_path-lbl {
 	clear:left;
 }
 
-div.clrleft {
-	float: left;
-
-}
-
-
 select#jform_catid.inputbox {
 	margin-right: 20px;
 }
@@ -539,22 +617,25 @@ div#content-pane fieldset {
 }
 form#item-form fieldset {
 	margin: 10px;
+	background-color: #FFF;
 }
-div#content-pane label {
-	min-width: 110px;
-}
+
 
 input#jform_offline1 {
 
-
 }
+
+
+
 
 
 fieldset ul li {
 	margin-left: -30px;
 }
 
-
+fieldset p {
+  margin: 0 0 15px 0;
+}
 
 fieldset.filter{border:0;margin:0;padding:0 0 5px;}
 fieldset.filter ol{border:0;list-style:none;margin:0;padding:5px 0 0;}
@@ -581,14 +662,14 @@ table.adminform tr.row0 { background-color: #f9f9f9; }
 table.adminform tr.row1 { background-color: #eeeeee; }
 
 table.adminform th {
-	font-size: 11px;
+	font-size: 12px;
 	padding: 6px 2px 4px 4px;
 	text-align: left;
 	height: 25px;
 	color: #000;
 	background-repeat: repeat;
 }
-table.adminform td { padding: 3px; text-align: left; }
+table.adminform td { padding: 5px; text-align: left; font-size: 12px;}
 
 table.adminform td.filter{
 	text-align: left;
@@ -598,10 +679,12 @@ table.adminform td.helpMenu{
 	text-align: right;
 }
 
-
-
+table.adminform {
+	
+}
 
 /* -- TABLE STYLES ----------------------------- */
+
 
 table.adminlist {
 	width: 100%;
@@ -821,6 +904,7 @@ a img.calendar {
 #system-message dd.notice ul { color: #c00; background: #EFE7B8 url(../images/notice-note.png) 4px top no-repeat; border-top: 3px solid #F0DC7E; border-bottom: 3px solid #F0DC7E;}
 
 .invalid { color: red; font-weight: bold; }
+
 input.invalid { border: 1px solid red; }
 
 
@@ -1211,11 +1295,6 @@ div.message {
 	margin: 0;
 	padding: 2px 0px 0px 0px;
 }
-
-
-
-
-
 
 
 
