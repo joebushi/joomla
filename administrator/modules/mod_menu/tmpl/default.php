@@ -19,7 +19,7 @@ if ($enabled)
 		new JMenuNode(JText::_('Site'), '#'), true
 	);
 	$menu->addChild(
-		new JMenuNode(JText::_('Control Panel'), 'index.php', 'class:cpanel')
+		new JMenuNode(JText::_('Control_Panel'), 'index.php', 'class:cpanel')
 	);
 	
 	$menu->addSeparator();
@@ -39,7 +39,7 @@ if ($com || $chm || $cam )
 
 	{
 		$menu->addChild(
-			new JMenuNode(JText::_('Site Maintenance'), '#', 'class:maintenance'), true
+			new JMenuNode(JText::_('Site_Maintenance'), '#', 'class:maintenance'), true
 		);
 
 		$menu->addChild(new JMenuNode(JText::_('Global_Checkin'), 'index.php?option=com_checkin', 'class:checkin'));
@@ -52,7 +52,7 @@ if ($com || $chm || $cam )
 
 	$menu->addSeparator();
 		$menu->addChild(
-		new JMenuNode(JText::_('System Information'), 'index.php?option=com_admin&view=sysinfo', 'class:info')
+		new JMenuNode(JText::_('System_Information'), 'index.php?option=com_admin&view=sysinfo', 'class:info')
 	);
 	$menu->addSeparator();
 
@@ -122,7 +122,7 @@ if ($user->authorize('core.menus.manage'))
 			new JMenuNode(JText::_('Menus'), '#'), true
 		);
 		$menu->addChild(
-			new JMenuNode(JText::_('Menu Manager'), 'index.php?option=com_menus&view=menus', 'class:menumgr')
+			new JMenuNode(JText::_('Menu_Manager'), 'index.php?option=com_menus&view=menus', 'class:menumgr')
 		);
 		$menu->addSeparator();
 
@@ -174,7 +174,7 @@ if ($user->authorize('com_content.manage'))
 		
 		$menu->addSeparator();
 		if ($user->authorize('core.media.manage')) {
-			$menu->addChild(new JMenuNode(JText::_('Media Manager'), 'index.php?option=com_media', 'class:media'));
+			$menu->addChild(new JMenuNode(JText::_('Media_Manager'), 'index.php?option=com_media', 'class:media'));
 		}
 
 		$menu->getParent();
@@ -194,7 +194,9 @@ if ($enabled)
 	$menu->addChild(new JMenuNode(JText::_('Components'), '#'), true);
 
 	// Get the authorised components and sub-menus.
-	$components = ModMenuHelper::getComponents(array('com_content'));
+	$components = ModMenuHelper::getComponents(array('com_content','com_config','com_modules','com_user','com_users','com_cache','com_cpanel','com_installer',
+		'com_massmail','com_messages','com_plugins','com_templates','com_languages','com_mailto','com_media','com_wrapper','com_menus'
+		));
 
 	foreach ($components as &$component)
 	{
@@ -216,11 +218,10 @@ if ($enabled)
 			$menu->addChild(new JMenuNode($text, $component->admin_menu_link, $component->admin_menu_img));
 		}
 	}
-	$menu->addChild(new JMenuNode(JText::_('Redirect'), 'index.php?option=com_redirect', 'class:redirect'));
 	$menu->getParent();
 }
 else {
-	$menu->addChild(new JMenuNode(JText::_('Components'), null, 'disabled'));
+	$menu->addChild(new JMenuNode(JText::_('Menu_Components'), null, 'disabled'));
 }
 
 //
@@ -305,7 +306,7 @@ if ($enabled)
 	$menu->getParent();
 }
 else {
-	$menu->addChild(new JMenuNode(JText::_('Mod_Help'),  null, 'disabled'));
+	$menu->addChild(new JMenuNode(JText::_('Mod_Menu_Help'),  null, 'disabled'));
 }
 
 $menu->renderMenu('menu', $enabled ? '' : 'disabled');
