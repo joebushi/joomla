@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 JHtml::_('behavior.tooltip');
-var_dump($this);die();
+
 $user	= &JFactory::getUser();
 $userId	= $user->get('id');
 ?>
