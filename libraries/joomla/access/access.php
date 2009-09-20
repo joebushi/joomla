@@ -303,7 +303,7 @@ class JAccess extends JObject
 		// Build the base query.
 		$query	= new JQuery;
 		$query->select('DISTINCT viewgroup_id');
-		$query->from('`#__access_viewgroups_usergroups_map`');
+		$query->from('`#__access_viewgroup_usergroup_map`');
 
 		if (empty($inGroupIds)) {
 			// User is not mapped to any groups

@@ -77,7 +77,7 @@ class UsersModelLevels extends JModelList
 
 		// Extended joins to get a list of user groups associated with an access level.
 		$query->select('GROUP_CONCAT(DISTINCT ug2.title ORDER BY ug2.lft ASC SEPARATOR \',\') AS user_groups');
-		$query->leftJoin('#__access_viewgroups_usergroups_map AS agrm ON agrm.viewgroup_id = a.id');
+		$query->leftJoin('#__access_viewgroup_usergroup_map AS agrm ON agrm.viewgroup_id = a.id');
 		$query->innerJoin('#__usergroups AS ug1 ON ug1.id = agrm.usergroup_id');
 		$query->leftJoin('#__usergroups AS ug2 ON ug2.lft >= ug1.lft AND ug2.rgt <= ug1.rgt');
 

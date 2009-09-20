@@ -1,8 +1,8 @@
 # $Id$
 
---
--- Tabellenstruktur für Tabelle `#__access_actions`
---
+#
+# Table structure for table `#__access_actions`
+#
 
 CREATE TABLE IF NOT EXISTS `#__access_actions` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
@@ -15,11 +15,11 @@ CREATE TABLE IF NOT EXISTS `#__access_actions` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_action_name_lookup` (`section_id`,`name`),
   KEY `idx_acl_manager_lookup` (`access_type`,`section_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=34 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
---
--- Daten für Tabelle `#__access_actions`
---
+#
+# Dumping data for table `#__access_actions`
+#
 
 INSERT INTO `#__access_actions` (`id`, `section_id`, `name`, `title`, `description`, `access_type`, `ordering`) VALUES
 (1, 1, 'core.view', 'View', '', 3, 0),
@@ -55,61 +55,80 @@ INSERT INTO `#__access_actions` (`id`, `section_id`, `name`, `title`, `descripti
 (32, 6, 'com_trash.manage', 'JAction_Trash_Manage', 'JAction_Trash_Manage_Desc', 1, 0),
 (33, 7, 'com_weblinks.manage', 'JAction_Weblinks_Manage', 'JAction_Weblinks_Manage_Desc', 1, 0);
 
--- --------------------------------------------------------
+# -------------------------------------------------------
 
---
--- Tabellenstruktur für Tabelle `#__access_action_usergroup_map`
---
+#
+# Table structure for table `#__access_action_usergroup_map`
+#
 
 CREATE TABLE IF NOT EXISTS `#__access_action_usergroup_map` (
   `action_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Foreign Key to #__access_actions.id',
   `usergroup_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Foreign Key to #__access_rules.id',
+  `allow` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Allow (1) or Deny (0) the action',
   PRIMARY KEY (`action_id`,`usergroup_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
---
--- Daten für Tabelle `#__access_action_usergroup_map`
---
+#
+# Dumping data for table `#__access_action_usergroup_map`
+#
 
-INSERT INTO `#__access_action_usergroup_map` (`action_id`, `usergroup_id`) VALUES
-(1, 8),
-(2, 8),
-(3, 8),
-(4, 8),
-(5, 8),
-(6, 8),
-(7, 8),
-(8, 8),
-(9, 8),
-(10, 8),
-(11, 8),
-(12, 8),
-(13, 8),
-(14, 8),
-(15, 8),
-(16, 8),
-(17, 8),
-(18, 8),
-(19, 8),
-(21, 8),
-(22, 8),
-(23, 8),
-(24, 8),
-(25, 8),
-(26, 8),
-(27, 8),
-(28, 8),
-(29, 8),
-(30, 8),
-(31, 8),
-(32, 8),
-(33, 8);
+INSERT INTO `#__access_action_usergroup_map` (`action_id`, `usergroup_id`, `allow`) VALUES
+(1, 8, 0),
+(2, 8, 0),
+(3, 8, 0),
+(4, 8, 0),
+(5, 8, 0),
+(6, 8, 0),
+(7, 8, 0),
+(8, 8, 0),
+(9, 8, 0),
+(10, 8, 0),
+(11, 8, 0),
+(12, 8, 0),
+(13, 8, 0),
+(14, 8, 0),
+(15, 8, 0),
+(16, 8, 0),
+(17, 8, 0),
+(18, 8, 0),
+(19, 8, 0),
+(21, 8, 0),
+(22, 8, 0),
+(23, 8, 0),
+(24, 8, 0),
+(25, 8, 0),
+(26, 8, 0),
+(27, 8, 0),
+(28, 8, 0),
+(29, 8, 0),
+(30, 8, 0),
+(31, 8, 0),
+(32, 8, 0),
+(33, 8, 0);
 
--- --------------------------------------------------------
+# -------------------------------------------------------
 
---
--- Tabellenstruktur für Tabelle `#__access_assets`
---
+#
+# Table structure for table `#__access_action_user_map`
+#
+
+CREATE TABLE IF NOT EXISTS `#__access_action_user_map` (
+  `action_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Foreign Key to #__access_actions.id',
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Foreign Key to #__users.id',
+  `allow` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Allow (1) or Deny (0) the action',
+  PRIMARY KEY (`action_id`,`user_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+#
+# Dumping data for table `#__access_action_user_map`
+#
+
+
+# -------------------------------------------------------
+
+#
+# Table structure for table `#__access_assets`
+#
 
 CREATE TABLE IF NOT EXISTS `#__access_assets` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
@@ -119,25 +138,25 @@ CREATE TABLE IF NOT EXISTS `#__access_assets` (
   `level` int(10) unsigned NOT NULL COMMENT 'The cached level in the nested tree.',
   `name` varchar(50) NOT NULL COMMENT 'The unique name for the asset.\n',
   `title` varchar(100) NOT NULL COMMENT 'The descriptive title for the asset.',
-  `actions` varchar(5120) NOT NULL COMMENT 'JSON encoded access control.',
+  `rules` varchar(5120) NOT NULL COMMENT 'JSON encoded access control.',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_asset_name` (`name`),
   KEY `idx_lft_rgt` (`lft`,`rgt`),
   KEY `idx_parent_id` (`parent_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
---
--- Daten für Tabelle `#__access_assets`
---
+#
+# Dumping data for table `#__access_assets`
+#
 
-INSERT INTO `#__access_assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `title`, `actions`) VALUES
+INSERT INTO `#__access_assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `title`, `rules`) VALUES
 (1, 0, 1, 9999, 0, 'root.1', 'Root Asset', '{}');
 
--- --------------------------------------------------------
+# -------------------------------------------------------
 
---
--- Tabellenstruktur für Tabelle `#__access_sections`
---
+#
+# Table structure for table `#__access_sections`
+#
 
 CREATE TABLE IF NOT EXISTS `#__access_sections` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
@@ -146,11 +165,11 @@ CREATE TABLE IF NOT EXISTS `#__access_sections` (
   `ordering` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_section_name_lookup` (`name`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
---
--- Daten für Tabelle `#__access_sections`
---
+#
+# Dumping data for table `#__access_sections`
+#
 
 INSERT INTO `#__access_sections` (`id`, `name`, `title`, `ordering`) VALUES
 (1, 'core', 'Core', -1),
@@ -161,58 +180,68 @@ INSERT INTO `#__access_sections` (`id`, `name`, `title`, `ordering`) VALUES
 (6, 'com_trash', 'Trash', 0),
 (7, 'com_weblinks', 'Weblinks', 0);
 
--- --------------------------------------------------------
+# -------------------------------------------------------
 
---
--- Tabellenstruktur für Tabelle `#__access_viewgroups`
---
+#
+# Table structure for table `#__access_viewgroups`
+#
 
 CREATE TABLE IF NOT EXISTS `#__access_viewgroups` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
-  `parent_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Adjacency List Reference Id',
-  `lft` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Nested set lft.',
-  `rgt` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Nested set rgt.',
   `title` varchar(100) NOT NULL DEFAULT '',
   `section_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Foreign Key to #__access_sections.id',
   `section` varchar(100) NOT NULL DEFAULT '0',
+  `ordering` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_assetgroup_title_lookup` (`section`,`title`),
-  KEY `idx_assetgroup_adjacency_lookup` (`parent_id`),
-  KEY `idx_assetgroup_nested_set_lookup` (`lft`,`rgt`) USING BTREE
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+  UNIQUE KEY `idx_assetgroup_title_lookup` (`section`,`title`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
---
--- Daten für Tabelle `#__access_viewgroups`
---
+#
+# Dumping data for table `#__access_viewgroups`
+#
 
-INSERT INTO `#__access_viewgroups` (`id`, `parent_id`, `lft`, `rgt`, `title`, `section_id`, `section`) VALUES
-(1, 0, 1, 8, 'Public', 1, 'core'),
-(2, 1, 4, 5, 'Registered', 1, 'core'),
-(3, 1, 6, 7, 'Special', 1, 'core');
+INSERT INTO `#__access_viewgroups` (`id`, `title`, `section_id`, `section`) VALUES
+(1, 'Public', 1, 'core', 0),
+(2, 'Registered', 1, 'core', 1),
+(3, 'Special', 1, 'core', 2);
 
--- --------------------------------------------------------
+# -------------------------------------------------------
 
---
--- Tabellenstruktur für Tabelle `#__access_viewgroups_usergroups_map`
---
+#
+# Table structure for table `#__access_viewgroup_usergroup_map`
+#
 
-CREATE TABLE IF NOT EXISTS `#__access_viewgroups_usergroups_map` (
+CREATE TABLE IF NOT EXISTS `#__access_viewgroup_usergroup_map` (
   `viewgroup_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Foreign Key to #__access_assetgroups.id',
   `usergroup_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Foreign Key to #__access_rules.id',
+  `allow` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Allow (1) or Deny (0) the viewgroup',
   PRIMARY KEY (`viewgroup_id`,`usergroup_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
---
--- Daten für Tabelle `#__access_viewgroups_usergroups_map`
---
+#
+# Dumping data for table `#__access_viewgroup_usergroup_map`
+#
 
-INSERT INTO `#__access_viewgroups_usergroups_map` (`viewgroup_id`, `usergroup_id`) VALUES
-(1, 1),
-(2, 2),
-(3, 3),
-(3, 6);
+INSERT INTO `#__access_viewgroup_usergroup_map` (`viewgroup_id`, `usergroup_id`, `allow`) VALUES
+(1, 1, 0),
+(2, 2, 0),
+(3, 3, 0),
+(3, 6, 0);
 
-# --------------------------------------------------------
+# -------------------------------------------------------
+
+#
+# Table structure for table `#__access_viewgroup_user_map`
+#
+
+CREATE TABLE IF NOT EXISTS `#__access_viewgroup_user_map` (
+  `viewgroup_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Foreign Key to #__access_viewgroups.id',
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Foreign Key to #__users.id',
+  `allow` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Allow (1) or Deny (0) the viewgroup',
+  PRIMARY KEY (`viewgroup_id`,`user_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+# -------------------------------------------------------
 
 #
 # Table structure for table `#__banner`
@@ -248,7 +277,7 @@ CREATE TABLE `#__banner` (
   INDEX `idx_banner_catid`(`catid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-# --------------------------------------------------------
+# -------------------------------------------------------
 
 #
 # Table structure for table `#__bannerclient`
@@ -266,7 +295,7 @@ CREATE TABLE `#__bannerclient` (
   PRIMARY KEY  (`cid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-# --------------------------------------------------------
+# -------------------------------------------------------
 
 #
 # Table structure for table `#__bannertrack`
@@ -278,7 +307,7 @@ CREATE TABLE  `#__bannertrack` (
   `banner_id` integer unsigned NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-# --------------------------------------------------------
+# -------------------------------------------------------
 
 #
 # Table structure for table `#__categories`
@@ -321,7 +350,7 @@ CREATE TABLE `#__categories` (
 INSERT INTO `#__categories` VALUES 
 (1, 0, 0, 17, 0, '', 'system', 'ROOT', 'root', '', 1, 0, '0000-00-00 00:00:00', 1, '{}', '', '', '', 0, '2009-06-22 20:25:13', 0, '0000-00-00 00:00:00', 0, '');
 
-# --------------------------------------------------------
+# -------------------------------------------------------
 
 #
 # Table structure for table `#__components`
@@ -386,7 +415,7 @@ INSERT INTO `#__components` VALUES
  (37, 'Featured', '', 0, 20, 'option=com_content&view=featured', 'com_content_Featured', 'com_content', 3, '', 1, '{}', 1);
 
 
-# --------------------------------------------------------
+# -------------------------------------------------------
 
 #
 # Table structure for table `#__contact_details`
@@ -423,7 +452,7 @@ CREATE TABLE `#__contact_details` (
   KEY `catid` (`catid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-# --------------------------------------------------------
+# -------------------------------------------------------
 
 #
 # Table structure for table `#__content`
@@ -476,7 +505,7 @@ CREATE TABLE `#__content` (
   KEY `idx_xreference` (`xreference`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-# --------------------------------------------------------
+# -------------------------------------------------------
 
 #
 # Table structure for table `#__content_frontpage`
@@ -488,7 +517,7 @@ CREATE TABLE `#__content_frontpage` (
   PRIMARY KEY  (`content_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-# --------------------------------------------------------
+# -------------------------------------------------------
 
 #
 # Table structure for table `#__content_rating`
@@ -502,7 +531,7 @@ CREATE TABLE `#__content_rating` (
   PRIMARY KEY  (`content_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-# --------------------------------------------------------
+# -------------------------------------------------------
 
 #
 # Table structure for table `#__core_log_items`
@@ -515,7 +544,7 @@ CREATE TABLE `#__core_log_items` (
   `hits` integer unsigned NOT NULL default '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-# --------------------------------------------------------
+# -------------------------------------------------------
 
 #
 # Table structure for table `#__core_log_searches`
@@ -527,11 +556,11 @@ CREATE TABLE `#__core_log_searches` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
--- --------------------------------------------------------
+# -------------------------------------------------------
 
---
--- Table structure for table `#__extensions`
---
+#
+# Table structure for table `#__extensions`
+#
 
 CREATE TABLE `#__extensions` (
   `extension_id` INT  NOT NULL AUTO_INCREMENT,
@@ -677,7 +706,7 @@ INSERT INTO `#__extensions` VALUES
 (0, 'bluestork', 'template', 'bluestork', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
 (0, 'rhuk_milkyway', 'template', 'rhuk_milkyway', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1);
 
-# --------------------------------------------------------
+# -------------------------------------------------------
 
 #
 # Table structure for table `#__menu`
@@ -718,7 +747,7 @@ INSERT INTO `#__menu` VALUES
 (1, '', 'Menu_Item_Root', 'root', '', '', '', 1, 0, 0, 0, 0, 0, '0000-00-00 00:00:00', 0, 0, 0, 'show_page_title=1\npage_title=Welcome to the Frontpage\nshow_description=0\nshow_description_image=0\nnum_leading_articles=1\nnum_intro_articles=4\nnum_columns=2\nnum_links=4\nshow_title=1\npageclass_sfx=\nmenu_image=-1\nsecure=0\norderby_pri=\norderby_sec=front\nshow_pagination=2\nshow_pagination_results=1\nshow_noauth=0\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1\n\n', 0, 17, 0),
 (2, 'mainmenu', 'Home', 'home', 'home', 'index.php?option=com_content&view=frontpage', 'component', 1, 1, 1, 20, 0, 0, '0000-00-00 00:00:00', 0, 1, 0, 'show_page_title=1\r\npage_title=Welcome to the Frontpage\r\nshow_description=0\r\nshow_description_image=0\r\nnum_leading_articles=1\r\nnum_intro_articles=4\r\nnum_columns=2\r\nnum_links=4\r\nshow_title=1\r\npageclass_sfx=\r\nmenu_image=-1\r\nsecure=0\r\norderby_pri=\r\norderby_sec=front\r\nshow_pagination=2\r\nshow_pagination_results=1\r\nshow_noauth=0\r\nlink_titles=0\r\nshow_intro=1\r\nshow_section=0\r\nlink_section=0\r\nshow_category=0\r\nlink_category=0\r\nshow_author=1\r\nshow_create_date=1\r\nshow_modify_date=1\r\nshow_item_navigation=0\r\nshow_readmore=1\r\nshow_vote=0\r\nshow_icons=1\r\nshow_pdf_icon=1\r\nshow_print_icon=1\r\nshow_email_icon=1\r\nshow_hits=1\r\n\r\n', 1, 2, 1);
 
-# --------------------------------------------------------
+# -------------------------------------------------------
 
 #
 # Table structure for table `#__menu_template`
@@ -737,7 +766,7 @@ CREATE TABLE IF NOT EXISTS `#__menu_template` (
 INSERT INTO `#__menu_template` VALUES (1, 'rhuk_milkyway', '0', '1', 'Default', '{"colorVariation":"blue","backgroundVariation":"blue","widthStyle":"fmax"}');
 INSERT INTO `#__menu_template` VALUES (2, 'bluestork', '1', '1', 'Default', '{"useRoundedCorners":"1","showSiteName":"0"}');
 
-# --------------------------------------------------------
+# -------------------------------------------------------
 
 #
 # Table structure for table `#__menu_types`
@@ -753,7 +782,7 @@ CREATE TABLE `#__menu_types` (
 
 INSERT INTO `#__menu_types` VALUES (1, 'mainmenu', 'Main Menu', 'The main menu for the site');
 
-# --------------------------------------------------------
+# -------------------------------------------------------
 
 #
 # Table structure for table `#__messages`
@@ -772,7 +801,7 @@ CREATE TABLE `#__messages` (
   PRIMARY KEY  (`message_id`),
   KEY `useridto_state` (`user_id_to`, `state`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-# --------------------------------------------------------
+# -------------------------------------------------------
 
 #
 # Table structure for table `#__messages_cfg`
@@ -784,7 +813,7 @@ CREATE TABLE `#__messages_cfg` (
   `cfg_value` varchar(255) NOT NULL default '',
   UNIQUE `idx_user_var_name` (`user_id`,`cfg_name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-# --------------------------------------------------------
+# -------------------------------------------------------
 
 #
 # Table structure for table `#__modules`
@@ -831,7 +860,7 @@ INSERT INTO `#__modules` VALUES
 (17, 'Login Form', '', 8, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_login', 0, 1, 1, 'greeting=1\nname=0', 1, 0, ''),
 (18, 'Breadcrumbs', '', 1, 'breadcrumb', 0, '0000-00-00 00:00:00', 1, 'mod_breadcrumbs', 0, 1, 1, 'moduleclass_sfx=\ncache=0\nshowHome=1\nhomeText=Home\nshowComponent=1\nseparator=\n\n', 1, 0, '');
 
-# --------------------------------------------------------
+# -------------------------------------------------------
 
 #
 # Table structure for table `#__modules_menu`
@@ -867,7 +896,7 @@ INSERT INTO `#__modules_menu` VALUES
 (17,0),
 (18,0);
 
-# --------------------------------------------------------
+# -------------------------------------------------------
 
 #
 # Table structure for table `#__newsfeeds`
@@ -892,7 +921,7 @@ CREATE TABLE `#__newsfeeds` (
   KEY `catid` (`catid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-# --------------------------------------------------------
+# -------------------------------------------------------
 
 #
 # Table structure for table `#__redirect_links`
@@ -913,7 +942,7 @@ CREATE TABLE `#__redirect_links` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
-# --------------------------------------------------------
+# -------------------------------------------------------
 
 #
 # Table structure for table `#__schemas`
@@ -925,7 +954,7 @@ CREATE TABLE `#__schemas` (
   PRIMARY KEY (`extensionid`, `versionid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-# --------------------------------------------------------
+# -------------------------------------------------------
 
 #
 # Table structure for table `#__session`
@@ -947,7 +976,7 @@ CREATE TABLE `#__session` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
-# --------------------------------------------------------
+# -------------------------------------------------------
 
 # Update Sites
 CREATE TABLE  `#__updates` (
@@ -992,7 +1021,7 @@ CREATE TABLE  `#__update_categories` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Update Categories';
 
 
-# --------------------------------------------------------
+# -------------------------------------------------------
 
 #
 # Table structure for table `#__stats_agents`
@@ -1004,11 +1033,11 @@ CREATE TABLE `#__stats_agents` (
   `hits` integer unsigned NOT NULL default '1'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-# --------------------------------------------------------
+# -------------------------------------------------------
 
---
--- Table structure for table `#__usergroups`
---
+#
+# Table structure for table `#__usergroups`
+#
 
 CREATE TABLE IF NOT EXISTS `#__usergroups` (
   `id` integer unsigned NOT NULL auto_increment COMMENT 'Primary Key',
@@ -1035,11 +1064,11 @@ INSERT INTO `#__usergroups`
 (7, 6, 10, 13, 'Administrator', 1, 'core'),
 (8, 7, 11, 12, 'Super Administrator', 1, 'core');
 
--- --------------------------------------------------------
+# -------------------------------------------------------
 
---
--- Table structure for table `#__usergroup_rule_map`
---
+#
+# Table structure for table `#__usergroup_rule_map`
+#
 
 CREATE TABLE IF NOT EXISTS `#__usergroup_rule_map` (
   `group_id` integer unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__usergroups.id',
@@ -1086,7 +1115,7 @@ INSERT INTO `#__usergroup_rule_map` VALUES
 (4, 24)
 ;
 
--- --------------------------------------------------------
+# -------------------------------------------------------
 
 #
 # Table structure for table `#__users`
@@ -1113,11 +1142,11 @@ CREATE TABLE `#__users` (
   KEY `email` (`email`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-# --------------------------------------------------------
+# -------------------------------------------------------
 
---
--- Table structure for table `#__user_rule_map`
---
+#
+# Table structure for table `#__user_rule_map`
+#
 
 CREATE TABLE IF NOT EXISTS `#__user_rule_map` (
   `user_id` integer unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__users.id',
@@ -1125,11 +1154,11 @@ CREATE TABLE IF NOT EXISTS `#__user_rule_map` (
   PRIMARY KEY  (`user_id`,`rule_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
+# -------------------------------------------------------
 
---
--- Table structure for table `#__user_usergroup_map`
---
+#
+# Table structure for table `#__user_usergroup_map`
+#
 
 CREATE TABLE IF NOT EXISTS `#__user_usergroup_map` (
   `user_id` integer unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__users.id',
@@ -1171,4 +1200,4 @@ CREATE TABLE `#__weblinks` (
   KEY `catid` (`catid`,`state`,`archived`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-# --------------------------------------------------------
+# -------------------------------------------------------
