@@ -27,9 +27,22 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+20-Sep-2009 Hannes Papenberg
+ ^ Removed static insert for com_redirect. its now properly retrieved from the database.
+ # Fixed path to the form file for com_redirect
+
+18-Sep-2009 Hannes Papenberg
+ ^ changed some functions to be static to adhere to PHP5 strict
+ ^ fixed some output to fix a false warning in Eclipse
+ # Fixed missing class in radio buttons in JForms
+
 18-Sep-2009 Andrew Eddie
  # Installation application: Fix untranslated strings; cleanup missing string; add HTML helper for stepbar; namespace language and preinstall layouts.
  # Fixed spurious PHP errors on menu item edit page.
+ + Added JTableAsset
+ + Added check to JTableNested to ensure that parent node exists in the tree.
+ ^ Added nested set fields (parent_id, lft, rgt, level) to jos_access_assets and removed section and section_id fields.
+ # Fixed bugs in JTableNested::_getTreeRepositionData and updating of lft and rgt in JTableNested::store (rgt's were being updated first, wrong way round?).
 
 16-Sep-2009 Ron Severdia
 + BlueStork CSS updates

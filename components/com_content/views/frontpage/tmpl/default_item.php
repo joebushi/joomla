@@ -51,6 +51,7 @@ $params = &$this->item->params;
 
 <?php echo $this->item->event->beforeDisplayContent; ?>
 
+<<<<<<< .working
 <div class="jiteminfo">
 	<?php if ($params->get('show_category')) : ?>
 		<span class="jcategory">
@@ -82,6 +83,30 @@ $params = &$this->item->params;
 	<?php endif; ?>
 	
 </div><!-- end iteminfo -->
+=======
+<?php if ($params->get('show_category')) : ?>
+	<span>
+		<?php if ($params->get('link_category')) : ?>
+			<a href="<?php echo JRoute::_(ContentRoute::category($this->item->catslug)); ?>">
+				<?php echo $this->escape($this->item->category); ?></a>
+		<?php else : ?>
+			<?php echo $this->escape($this->item->category); ?>
+		<?php endif; ?>
+	</span>
+<?php endif; ?>
+
+<?php if ($params->get('show_author') && !empty($this->item->author)) : ?>
+	<span class="small">
+		<?php echo JText::sprintf('Written by', ($this->item->created_by_alias ? $this->item->created_by_alias : $this->item->author)); ?>
+	</span>
+<?php endif; ?>
+
+<?php if ($params->get('show_create_date')) : ?>
+	<span>
+		<?php echo JHtml::_('date', $this->item->created, JText::_('DATE_FORMAT_LC2')); ?>
+	</span>
+<?php endif; ?>
+>>>>>>> .merge-right.r12788
 
 <?php echo $this->item->introtext; ?>
 

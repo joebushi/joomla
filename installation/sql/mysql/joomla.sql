@@ -49,8 +49,8 @@ INSERT INTO `#__access_actions` VALUES
 (30, 4, 'com_contact.manage', 'JAction_Contact_Manage', 'JAction_Contact_Manage_Desc', 1, 0),
 (31, 5, 'com_newsfeeds.manage', 'JAction_Newsfeeds_Manage', 'JAction_Newsfeeds_Manage_Desc', 1, 0),
 (32, 6, 'com_trash.manage', 'JAction_Trash_Manage', 'JAction_Trash_Manage_Desc', 1, 0),
-(33, 7, 'com_weblinks.manage', 'JAction_Weblinks_Manage', 'JAction_Weblinks_Manage_Desc', 1, 0)
-;
+(33, 7, 'com_weblinks.manage', 'JAction_Weblinks_Manage', 'JAction_Weblinks_Manage_Desc', 1, 0),
+(34, 0, 'com_redirect.manage', 'com_redirect.manage', '', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -97,7 +97,8 @@ INSERT INTO `#__access_action_rule_map` VALUES
 (30, 31),
 (31, 32),
 (32, 33),
-(33, 34)
+(33, 34),
+(34, 34)
 ;
 
 -- --------------------------------------------------------
@@ -156,19 +157,23 @@ INSERT INTO `#__access_assetgroup_rule_map` VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `#__access_assets` (
-  `id` integer unsigned NOT NULL auto_increment COMMENT 'Primary Key',
-  `section_id` integer unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_sections.id',
-  `section` varchar(100) NOT NULL default '0',
-  `name` varchar(100) NOT NULL default '',
-  `title` varchar(100) NOT NULL default '',
+  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Primary Key',
+  `parent_id` int(11) NOT NULL default '0' COMMENT 'Nested set parent.',
+  `lft` int(11) NOT NULL default '0' COMMENT 'Nested set lft.',
+  `rgt` int(11) NOT NULL default '0' COMMENT 'Nested set rgt.',
+  `level` INTEGER UNSIGNED NOT NULL COMMENT 'The cached level in the nested tree.',
+  `name` varchar(50) NOT NULL COMMENT 'The unique name for the asset.\n',
+  `title` varchar(100) NOT NULL COMMENT 'The descriptive title for the asset.',
+  `actions` varchar(5120) NOT NULL COMMENT 'JSON encoded access control.',
   PRIMARY KEY  (`id`),
-  UNIQUE KEY `idx_asset_name_lookup` (`section_id`,`name`),
-  KEY `idx_asset_section_lookup` (`section`)
+  UNIQUE KEY `idx_asset_name` (`name`),
+  KEY `idx_lft_rgt` (`lft`,`rgt`),
+  KEY `idx_parent_id` (`parent_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
 INSERT INTO `#__access_assets` VALUES 
-(1, 1, 'core', 'plugin.28', 'System - Debug');
+(1, 0, 1, 9999, 0, 'root.1', 'Root Asset', '{}');
 
 -- --------------------------------------------------------
 
@@ -456,7 +461,8 @@ INSERT INTO `#__components` VALUES (33, 'Control Panel', '', 0, 0, '', 'Control 
 INSERT INTO `#__components` VALUES
  (35, 'Articles', '', 0, 20, 'option=com_content&view=articles', 'com_content_Articles', 'com_content', 1, '', 1, '{}', 1),
  (36, 'Categories', '', 0, 20, 'option=com_categories&view=categories&extension=com_content', 'com_content_Categories', 'com_content', 2, '', 1, '{}', 1),
- (37, 'Featured', '', 0, 20, 'option=com_content&view=featured', 'com_content_Featured', 'com_content', 3, '', 1, '{}', 1);
+ (37, 'Featured', '', 0, 20, 'option=com_content&view=featured', 'com_content_Featured', 'com_content', 3, '', 1, '{}', 1),
+ (38, 'Redirects', '', 0, 0, 'option=com_redirect', 'Manage Redirects', 'com_redirect', 0, 'js/ThemeOffice/component.png', 1, '{}', 1);
 
 
 # --------------------------------------------------------
@@ -504,6 +510,7 @@ CREATE TABLE `#__contact_details` (
 
 CREATE TABLE `#__content` (
   `id` integer unsigned NOT NULL auto_increment,
+  `asset_id` INTEGER UNSIGNED NOT NULL DEFAULT 0 COMMENT 'FK to the jos_access_assets table.',
   `title` varchar(255) NOT NULL default '',
   `alias` varchar(255) NOT NULL default '',
   `title_alias` varchar(255) NOT NULL default '',
@@ -653,6 +660,7 @@ INSERT INTO `#__extensions` VALUES
 (0, 'Module Manager', 'component', 'com_modules', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'News Feeds', 'component', 'com_newsfeeds', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'Plug-in Manager', 'component', 'com_plugins', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'Redirect Manager', 'component', 'com_redirect', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'Search', 'component', 'com_search', '', 1, 1, 0, 1, '', 'enabled=0\n\n', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'Template Manager', 'component', 'com_templates', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'User', 'component', 'com_user', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
