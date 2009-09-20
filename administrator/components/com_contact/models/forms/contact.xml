@@ -397,6 +397,7 @@
 	group="params"
 	array="true"
 	label="Contact_Parameters">
+	
 			<field name="show_name" type="radio" default="1" label="Contact_Params_Name_Label" description="Contact_Params_Name_Desc">
 				<option value="0">Jcommon_Hide</option>
 				<option value="1">Jcommon_Show</option>

@@ -13,13 +13,13 @@
 		label="Menus_Layout_Request_Variables_Label"
 		description="Menus_Layout_Request_Variables_Desc"
 		addfieldpath="/administrator/components/com_contact/models/fields">
-
 		<field
 			name="id"
-			type="contact"
+			type="contacts"
 			default=""
 			label="Select Contact"
-			description="The contact to link to" />
+			description="The contact to link to" 
+			/>
 	</fields>
 	<fields>
 		<field

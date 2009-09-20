@@ -31,11 +31,11 @@ defined('_JEXEC') or die;
 					</td>
 					<td align="center">
 					<?php				if (is_null($module->menuid)) {
-						echo JText::_('Module_Show_None');
+						echo JText::_('Menus_Module_Show_None');
 					} else if ($module->menuid != 0) {
-						echo JText::_('Module_Show_Varies');
+						echo JText::_('Menus_Module_Show_Varies');
 					} else {
-						echo JText::_('Module_Show_All');
+						echo JText::_('Menus_Module_Show_All');
 					} ?>
 	
 					</td>

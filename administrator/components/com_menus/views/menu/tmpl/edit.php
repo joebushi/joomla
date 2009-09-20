@@ -31,20 +31,19 @@ JHtml::_('behavior.formvalidation');
 <form action="<?php JRoute::_('index.php?option=com_menus'); ?>" method="post" name="adminForm" id="item-form">
 	<fieldset style="width:45%;float:left">
 		<legend><?php echo JText::_('Menus_Menu_Details');?></legend>
-		<ol>
-			<li>
+
+			<div>
 				<?php echo $this->form->getLabel('menutype'); ?><br />
 				<?php echo $this->form->getInput('menutype'); ?>
-			</li>
-			<li>
+			</div>
+			<div>
 				<?php echo $this->form->getLabel('title'); ?><br />
 				<?php echo $this->form->getInput('title'); ?>
-			</li>
-			<li>
+			</div>
+			<div>
 				<?php echo $this->form->getLabel('description'); ?><br />
 				<?php echo $this->form->getInput('description'); ?>
-			</li>
-		</ol>
+			</div>
 	</fieldset>
 
 	<input type="hidden" name="task" value="" />

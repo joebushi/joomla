@@ -50,7 +50,7 @@
 			description="Menus_Item_Link_Desc"
 			default=""
 			class="inputbox"
-			size="50"/>
+			size="60"/>
 		<field
 			id="menutype"
 			name="menutype"
@@ -124,8 +124,8 @@
 			filter="int"
 			class="inputbox">
 				<option value="0">Menus_BrowserNav_Option_Parent</option>
-				<option value="1">Menus_BrowserNav_Option_Navigation</option>
-				<option value="2">Menus_BrowserNav_Option_Navigation</option>
+				<option value="1">Menus_BrowserNav_Option_New_With_Nav</option>
+				<option value="2">Menus_BrowserNav_Option_New_Without_Nav</option>
 			</field>
 
 
