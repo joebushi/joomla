@@ -37,17 +37,17 @@ JHtml::_('behavior.formvalidation');
 		<legend><?php echo JText::_('Menus_Item_Details');?></legend>
 		
 				<div>
-					<?php echo $this->form->getLabel('type'); ?><br />
+					<?php echo $this->form->getLabel('type'); ?>
 					<?php echo $this->form->getInput('type'); ?>
 				
-				</ div>
+				</div>
 				<div>
-					<?php echo $this->form->getLabel('title'); ?><br />
+					<?php echo $this->form->getLabel('title'); ?>
 					<?php echo $this->form->getInput('title'); ?>
 				</div>	
 					<?php if ($this->item->type =='url'){ ?>
 							<div>	
-								<?php echo $this->form->getLabel('link'); ?><br />
+								<?php echo $this->form->getLabel('link'); ?>
 								<?php echo $this->form->getInput('link'); ?>
 							</div>	
 					<?php } ?>					
@@ -63,45 +63,45 @@ JHtml::_('behavior.formvalidation');
 				<?php echo $pane->startPanel(JText::_('Menu_Advanced_Menu_Options'), 'advanced-options'); ?>
 				<div>
 						
-							<?php echo $this->form->getLabel('access'); ?><br />
+							<?php echo $this->form->getLabel('access'); ?>
 							<?php echo $this->form->getInput('access'); ?>
 				</div>		
 				<div>						
-							<?php echo $this->form->getLabel('published'); ?><br />
+							<?php echo $this->form->getLabel('published'); ?>
 							<?php echo $this->form->getInput('published'); ?>
 				</div>						
 				
 				<div>						
-							<?php echo $this->form->getLabel('alias'); ?><br />
+							<?php echo $this->form->getLabel('alias'); ?>
 							<?php echo $this->form->getInput('alias'); ?>
 				</div>						
 				<div>						
-							<?php echo $this->form->getLabel('parent_id'); ?><br />
+							<?php echo $this->form->getLabel('parent_id'); ?>
 							<?php echo $this->form->getInput('parent_id'); ?>
 				</div>
-				<div>						
-					<?php if ($this->item->type !=='url'){ ?>
 						
-							<?php echo $this->form->getLabel('link'); ?><br />
+				<?php if ($this->item->type !=='url'){ ?>
+						<div>
+							<?php echo $this->form->getLabel('link'); ?>
 							<?php echo $this->form->getInput('link'); ?>
-							
-					<?php } ?>
-				</div>
+						</div>	
+				<?php } ?>
+				
 				<div>						
-							<?php echo $this->form->getLabel('home'); ?><br />
+							<?php echo $this->form->getLabel('home'); ?>
 							<?php echo $this->form->getInput('home'); ?>
 				</div>		
 				<div>						
-							<?php echo $this->form->getLabel('menutype'); ?><br />
+							<?php echo $this->form->getLabel('menutype'); ?>
 							<?php echo $this->form->getInput('menutype'); ?>
 				</div>		
 				<div>							
-							<?php echo $this->form->getLabel('browserNav'); ?><br />
+							<?php echo $this->form->getLabel('browserNav'); ?>
 							<?php echo $this->form->getInput('browserNav'); ?>
 				</div>						
 				<div>	
 						
-							<?php echo $this->form->getLabel('template_id'); ?><br />
+							<?php echo $this->form->getLabel('template_id'); ?>
 							<?php echo $this->form->getInput('template_id'); ?>
 						
 				</div>
@@ -116,7 +116,7 @@ JHtml::_('behavior.formvalidation');
 				<?php //sliders for module selection						
 		 		echo $pane->startPanel(JText::_('Menu_Item_Module_Assignment'), 'module-options'); ?>			
 					<fieldset>
-						<legend><?php echo JText::_('Menus_Item_Module_Assignment'); ?></legend>
+
 						<?php echo $this->loadTemplate('modules'); ?>
 					</fieldset>		
 				<?php echo $pane->endPanel(); ?>

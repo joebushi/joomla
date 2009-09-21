@@ -34,44 +34,43 @@ JHtml::_('behavior.formvalidation');
 	<fieldset>
 		<legend><?php echo empty($this->item->id) ? JText::_('Newsfeeds_New_Newsfeed') : JText::sprintf('Newsfeeds_Edit_Newsfeed', $this->item->id); ?></legend>
 
-	<ol>
-		<li>
-			<?php echo $this->form->getLabel('name'); ?><br />
+		<div>
+			<?php echo $this->form->getLabel('name'); ?>
 			<?php echo $this->form->getInput('name'); ?>
-		</li>
-		<li>
-			<?php echo $this->form->getLabel('alias'); ?><br />
+		</div>
+		<div>
+			<?php echo $this->form->getLabel('alias'); ?>
 			<?php echo $this->form->getInput('alias'); ?>
-		</li>
-		<li>
-			<?php echo $this->form->getLabel('published'); ?><br />
+		</div>
+		<div>
+			<?php echo $this->form->getLabel('published'); ?>
 			<?php echo $this->form->getInput('published'); ?>
-		</li>
-		<li>
-			<?php echo $this->form->getLabel('catid'); ?><br />
+		</div>
+		<div>
+			<?php echo $this->form->getLabel('catid'); ?>
 			<?php echo $this->form->getInput('catid'); ?>
-		</li>
-		<li>
-			<?php echo $this->form->getLabel('link'); ?><br />
+		</div>
+		<div>
+			<?php echo $this->form->getLabel('link'); ?>
 			<?php echo $this->form->getInput('link'); ?>
-		</li>
-		<li>
-			<?php echo $this->form->getLabel('numarticles'); ?><br />
+		</div>
+		<div>
+			<?php echo $this->form->getLabel('numarticles'); ?>
 			<?php echo $this->form->getInput('numarticles'); ?>
-		</li>
-		<li>
-			<?php echo $this->form->getLabel('cache_time'); ?><br />
+		</div>
+		<div>
+			<?php echo $this->form->getLabel('cache_time'); ?>
 			<?php echo $this->form->getInput('cache_time'); ?>
-		</li>
-		<li>
-			<?php echo $this->form->getLabel('ordering'); ?><br />
+		</div>
+		<div>
+			<?php echo $this->form->getLabel('ordering'); ?>
 			<?php echo $this->form->getInput('ordering'); ?>
-		</li>
-		<li>
-			<?php echo $this->form->getLabel('rtl'); ?><br />
+		</div>
+		<div>
+			<?php echo $this->form->getLabel('rtl'); ?>
 			<?php echo $this->form->getInput('rtl'); ?>
-		</li>
-	</ol>
+		</div>
+
 	</fieldset>
 </div>
 
@@ -79,22 +78,22 @@ JHtml::_('behavior.formvalidation');
 	<fieldset>
 		<legend><?php echo JText::_('Newsfeeds_Options'); ?></legend>
 
-		<table>
+		
 		<?php foreach($this->form->getFields('params') as $field): ?>
 			<?php if ($field->hidden): ?>
 				<?php echo $field->input; ?>
 			<?php else: ?>
-				<tr>
-					<td class="paramlist_key" width="40%">
+				<div>
+					<div class="paramlist_key" width="40%">
 						<?php echo $field->label; ?>
-					</td>
-					<td class="paramlist_value">
+					</div>
+					<div class="paramlist_value">
 						<?php echo $field->input; ?>
-					</td>
-				</tr>
+					</div>
+				</div>
 			<?php endif; ?>
 		<?php endforeach; ?>
-		</table>
+		
 
 	</fieldset>
 </div>
