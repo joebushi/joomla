@@ -34,66 +34,52 @@ JHtml::_('behavior.formvalidation');
 	<fieldset>
 		<legend><?php echo empty($this->item->id) ? JText::_('Newsfeeds_New_Newsfeed') : JText::sprintf('Newsfeeds_Edit_Newsfeed', $this->item->id); ?></legend>
 
-		<div>
+	
 			<?php echo $this->form->getLabel('name'); ?>
 			<?php echo $this->form->getInput('name'); ?>
-		</div>
-		<div>
+	
 			<?php echo $this->form->getLabel('alias'); ?>
 			<?php echo $this->form->getInput('alias'); ?>
-		</div>
-		<div>
+		
 			<?php echo $this->form->getLabel('published'); ?>
 			<?php echo $this->form->getInput('published'); ?>
-		</div>
-		<div>
+		
 			<?php echo $this->form->getLabel('catid'); ?>
 			<?php echo $this->form->getInput('catid'); ?>
-		</div>
-		<div>
+		
 			<?php echo $this->form->getLabel('link'); ?>
 			<?php echo $this->form->getInput('link'); ?>
-		</div>
-		<div>
+		
 			<?php echo $this->form->getLabel('numarticles'); ?>
 			<?php echo $this->form->getInput('numarticles'); ?>
-		</div>
-		<div>
+		
 			<?php echo $this->form->getLabel('cache_time'); ?>
 			<?php echo $this->form->getInput('cache_time'); ?>
-		</div>
-		<div>
+		
 			<?php echo $this->form->getLabel('ordering'); ?>
 			<?php echo $this->form->getInput('ordering'); ?>
-		</div>
-		<div>
-			<?php echo $this->form->getLabel('rtl'); ?>
+		
+			<?php echo $this->form->getLabel('rtl'); ?><br />
 			<?php echo $this->form->getInput('rtl'); ?>
-		</div>
-
+		
 	</fieldset>
 </div>
 
 <div class="width-40 fltrt">
 	<fieldset>
 		<legend><?php echo JText::_('Newsfeeds_Options'); ?></legend>
-
 		
 		<?php foreach($this->form->getFields('params') as $field): ?>
 			<?php if ($field->hidden): ?>
 				<?php echo $field->input; ?>
 			<?php else: ?>
-				<div>
-					<div class="paramlist_key" width="40%">
+				
 						<?php echo $field->label; ?>
-					</div>
-					<div class="paramlist_value">
+					
 						<?php echo $field->input; ?>
-					</div>
-				</div>
+		
 			<?php endif; ?>
 		<?php endforeach; ?>
-		
 
 	</fieldset>
 </div>
