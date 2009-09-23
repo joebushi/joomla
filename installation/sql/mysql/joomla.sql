@@ -200,7 +200,7 @@ CREATE TABLE IF NOT EXISTS `#__access_viewgroups` (
 # Dumping data for table `#__access_viewgroups`
 #
 
-INSERT INTO `#__access_viewgroups` (`id`, `title`, `section_id`, `section`) VALUES
+INSERT INTO `#__access_viewgroups` (`id`, `title`, `section_id`, `section`, `ordering`) VALUES
 (1, 'Public', 1, 'core', 0),
 (2, 'Registered', 1, 'core', 1),
 (3, 'Special', 1, 'core', 2);
