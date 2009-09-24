@@ -315,6 +315,7 @@ CREATE TABLE  `#__bannertrack` (
 
 CREATE TABLE `#__categories` (
   `id` int(11) NOT NULL auto_increment,
+  `asset_id` INTEGER UNSIGNED NOT NULL DEFAULT 0 COMMENT 'FK to the #__access_assets table.',
   `parent_id` int(10) unsigned NOT NULL default '0',
   `lft` int(11) NOT NULL default '0',
   `rgt` int(11) NOT NULL default '0',
@@ -348,7 +349,7 @@ CREATE TABLE `#__categories` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 INSERT INTO `#__categories` VALUES 
-(1, 0, 0, 17, 0, '', 'system', 'ROOT', 'root', '', 1, 0, '0000-00-00 00:00:00', 1, '{}', '', '', '', 0, '2009-06-22 20:25:13', 0, '0000-00-00 00:00:00', 0, '');
+(1, 0, 0, 0, 17, 0, '', 'system', 'ROOT', 'root', '', 1, 0, '0000-00-00 00:00:00', 1, '{}', '', '', '', 0, '2009-06-22 20:25:13', 0, '0000-00-00 00:00:00', 0, '');
 
 # -------------------------------------------------------
 
@@ -1067,57 +1068,6 @@ INSERT INTO `#__usergroups`
 # -------------------------------------------------------
 
 #
-# Table structure for table `#__usergroup_rule_map`
-#
-
-CREATE TABLE IF NOT EXISTS `#__usergroup_rule_map` (
-  `group_id` integer unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__usergroups.id',
-  `rule_id` integer unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_rules.id',
-  PRIMARY KEY  (`group_id`,`rule_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-INSERT INTO `#__usergroup_rule_map` VALUES 
-(1, 1),
-(2, 2),
-(6, 3),
-(2, 4),
-(6, 4),
-(6, 5),
-(6, 6),
-(6, 7),
-(6, 8),
-(6, 9),
-(6, 10),
-(6, 11),
-(6, 12),
-(6, 13),
-(6, 14),
-(6, 15),
-(6, 16),
-(6, 17),
-(6, 18),
-(6, 19),
-(6, 23),
-(6, 30),
-(6, 31),
-(6, 32),
-(6, 33),
-(6, 34),
-(1, 20),
-(1, 21),
-(1, 22),
-(4, 27),
-(6, 27),
-(1, 28),
-(1, 29),
-(5, 26),
-(3, 25),
-(4, 24)
-;
-
-# -------------------------------------------------------
-
-#
 # Table structure for table `#__users`
 #
 
@@ -1140,18 +1090,6 @@ CREATE TABLE `#__users` (
   KEY `idx_block` (`block`),
   KEY `username` (`username`),
   KEY `email` (`email`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-# -------------------------------------------------------
-
-#
-# Table structure for table `#__user_rule_map`
-#
-
-CREATE TABLE IF NOT EXISTS `#__user_rule_map` (
-  `user_id` integer unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__users.id',
-  `rule_id` integer unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_rules.id',
-  PRIMARY KEY  (`user_id`,`rule_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 # -------------------------------------------------------
