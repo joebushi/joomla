@@ -37,6 +37,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+25-Sept-2009 Ian MacLennan
+ # [#16484] Password field changed in configuration.php by Administration > Global Configuration
+
 18-Sept-2009 Ian MacLennan
  # [#16982] Fixed issue with editor.css files
 
