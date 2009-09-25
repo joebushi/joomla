@@ -38,17 +38,17 @@ JHtml::_('behavior.formvalidation');
 			
 					<?php echo $this->form->getLabel('title'); ?>
 					<?php echo $this->form->getInput('title'); ?>
- 
+				
+					<?php echo $this->form->getLabel('alias'); ?>
+					<?php echo $this->form->getInput('alias'); ?>
+				 
 					<?php echo $this->form->getLabel('extension'); ?>
 					<?php echo $this->form->getInput('extension'); ?>
-
+				
 				
 					<?php echo $this->form->getLabel('parent_id'); ?>
 					<?php echo $this->form->getInput('parent_id'); ?>
 				
-					<?php echo $this->form->getLabel('alias'); ?>
-					<?php echo $this->form->getInput('alias'); ?>
-			
 					<?php echo $this->form->getLabel('published'); ?>
 					<?php echo $this->form->getInput('published'); ?>
 				
