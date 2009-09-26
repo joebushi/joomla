@@ -24,7 +24,7 @@ class modLatestNewsHelper
 		$catid		= trim($params->get('catid'));
 		$show_front	= $params->get('show_front', 1);
 		$groups		= $user->authorisedLevels();
-		$groupsA	= implode(',', $groups);
+		$groups		= implode(',', $groups);
 
 		$contentConfig = &JComponentHelper::getParams('com_content');
 		$access		= !$contentConfig->get('show_noauth');
@@ -80,8 +80,7 @@ class modLatestNewsHelper
 			' FROM #__content AS a' .
 			($show_front == '0' ? ' LEFT JOIN #__content_frontpage AS f ON f.content_id = a.id' : '') .
 			' INNER JOIN #__categories AS cc ON cc.id = a.catid' .
-			' WHERE '. $where .' AND s.id > 0' .
-			($access ? ' AND a.access IN ('.$groups.') AND cc.access IN ('.$groups.') AND s.access IN ('.$groups.')' : '').
+			($access ? ' AND a.access IN ('.$groups.') AND cc.access IN ('.$groups.') ' : '').
 			($catid ? $catCondition : '').
 			($show_front == '0' ? ' AND f.content_id IS NULL ' : '').
 			' AND cc.published = 1' .
@@ -93,11 +92,11 @@ class modLatestNewsHelper
 		$lists	= array();
 		foreach ($rows as $row)
 		{
-			if (in_array($row->access, $groups))
+			if (!$user->get('guest'))
 			{
-				$lists[$i]->link = JRoute::_(ContentRoute::article($row->slug, $row->catslug, $row->sectionid));
-			}
-			else {
+				$lists[$i]->link = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catslug));
+			}	
+			 else {
 				$lists[$i]->link = JRoute::_('index.php?option=com_users&view=login');
 			}
 			$lists[$i]->text = htmlspecialchars($row->title);
