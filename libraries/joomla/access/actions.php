@@ -124,33 +124,36 @@ class JActions
 	 * The identity is an integer where +ve represents a user group,
 	 * and -ve represents a user.
 	 *
-	 * @param	string		The name of the action.
-	 * @param	int			An integer representing the identity.
+	 * @param	string	The name of the action.
+	 * @param	mixed	An integer representing the identity, or an array of identities
 	 *
 	 * @return	mixed
 	 */
 	public function allow($action, $identity)
 	{
-		if (empty($action))
-		{
-			// Sweep for the allowed actions.
-			$allowed = new JObject;
-			foreach ($this->_data as $name => $action)
-			{
-				if ($this->_data[$action]->allow($identity)) {
-					$allowed->set($name, true);
-				}
-			}
-			return $allowed;
-		}
-		else
-		{
-			// Check we have information about this action.
-			if (isset($this->_data[$action])) {
-				return $this->_data[$action]->allow($identity);
-			}
+		// Check we have information about this action.
+		if (isset($this->_data[$action])) {
+			return $this->_data[$action]->allow($identity);
 		}
 		return false;
+	}
+
+	/**
+	 * Get the allowed actions for an identity.
+	 *
+	 * @param	mixed	An integer representing the identity, or an array of identities
+	 */
+	function getAllowed($identity)
+	{
+		// Sweep for the allowed actions.
+		$allowed = new JObject;
+		foreach ($this->_data as $name => $action)
+		{
+			if ($this->_data[$action]->allow($identity)) {
+				$allowed->set($name, true);
+			}
+		}
+		return $allowed;
 	}
 
 	/**
