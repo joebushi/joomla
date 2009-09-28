@@ -49,7 +49,7 @@ ALTER TABLE `jos_categories`
  ADD COLUMN `hits` INT UNSIGNED NOT NULL DEFAULT 0 AFTER `modified_time`;
 
 ALTER TABLE `jos_categories` 
- ADD COLUMN `language` VARCHAR(7) NOT NULL AFTER `hits`;
+ ADD COLUMN `language` CHAR(7) NOT NULL AFTER `hits`;
 
 ALTER TABLE `jos_categories`
  ADD INDEX idx_alias(`alias`);
@@ -101,7 +101,7 @@ ALTER TABLE `jos_content`
  ADD INDEX idx_featured_catid(`featured`, `catid`);
 
 ALTER TABLE `jos_content`
- ADD COLUMN `language` VARCHAR(10) NOT NULL COMMENT 'The language code for the article.' AFTER `featured`;
+ ADD COLUMN `language` CHAR(7) NOT NULL COMMENT 'The language code for the article.' AFTER `featured`;
 
 ALTER TABLE `jos_content`
  ADD COLUMN `xreference` VARCHAR(50) NOT NULL COMMENT 'A reference to enable linkages to external data sets.' AFTER `language`;
@@ -209,6 +209,20 @@ INSERT INTO #__extensions SELECT
 
 -- New extensions
 INSERT INTO `#__extensions` VALUES(0, 'Editor - CodeMirror', 'plugin', 'codemirror', 'editors', 1, 0, 1, 1, '', 'linenumbers=0\n\n', '', '', 0, '0000-00-00 00:00:00', 7, 0);
+
+-- ----------------------------------------------------------------
+-- jos_languages (new)
+-- ----------------------------------------------------------------
+
+CREATE TABLE `jos_languages` (
+  `lang_id` int(11) unsigned NOT NULL auto_increment,
+  `lang_code` char(7) NOT NULL,
+  `title` varchar(50) NOT NULL,
+  `title_native` varchar(50) NOT NULL,
+  `description` varchar(512) NOT NULL,
+  `published` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`lang_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8
 
 -- ----------------------------------------------------------------
 -- jos_menu

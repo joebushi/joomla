@@ -146,7 +146,7 @@ class JParameter extends JRegistry
 			else {
 				$this->_xml['_default'] = $xml;
 			}
-			
+
 			if ($dir = $xml->attributes('addpath')) {
 				$this->addElementPath(JPATH_ROOT . str_replace('/', DS, $dir));
 			}
@@ -188,34 +188,31 @@ class JParameter extends JRegistry
 
 		$params = $this->getParams($name, $group);
 		$html = array ();
-		$html[] = '<table width="100%" class="paramlist admintable" cellspacing="1">';
 
 		if ($description = $this->_xml[$group]->attributes('description')) {
 			// add the params description to the display
 			$desc	= JText::_($description);
-			$html[]	= '<tr><td class="paramlist_description" colspan="2">'.$desc.'</td></tr>';
+			$html[]	= '<p class="paramrow_desc">'.$desc.'</p>';
 		}
 
 		foreach ($params as $param)
 		{
-			$html[] = '<tr>';
+			
 
 			if ($param[0]) {
-				$html[] = '<td width="40%" class="paramlist_key"><span class="editlinktip">'.$param[0].'</span></td>';
-				$html[] = '<td class="paramlist_value">'.$param[1].'</td>';
+				$html[] = $param[0];
+				$html[] = $param[1];
 			} else {
-				$html[] = '<td class="paramlist_value" colspan="2">'.$param[1].'</td>';
+				$html[] = $param[1];
 			}
 
-			$html[] = '</tr>';
 		}
 
 		if (count($params) < 1) {
-			$html[] = "<tr><td colspan=\"2\"><i>".JText::_('There are no Parameters for this item')."</i></td></tr>";
+			$html[] = "<p class=\"noparams\">".JText::_('There are no Parameters for this item')."</p>";
 		}
 
-		$html[] = '</table>';
-
+		
 		return implode(PHP_EOL, $html);
 	}
 
@@ -266,7 +263,7 @@ class JParameter extends JRegistry
 		if (!is_array($this->_xml)) {
 			return false;
 		}
-		
+
 		$results = array();
 		foreach ($this->_xml as $name => $group)  {
 			$results[$name] = $this->getNumParams($name);
@@ -286,7 +283,7 @@ class JParameter extends JRegistry
 		if (!isset($this->_xml[$group])) {
 			return false;
 		}
-		
+
 		$results = array();
 		foreach ($this->_xml[$group]->children() as $param)  {
 			$results[] = $this->getParam($param, $name);
@@ -387,13 +384,18 @@ class JParameter extends JRegistry
 			jimport('joomla.filesystem.path');
 			if ($elementFile = JPath::find($dirs, $file)) {
 				include_once $elementFile;
-			} else {
-				return false;
+			}
+			else
+			{
+				$false = false;
+				return $false;
 			}
 		}
 
-		if (!class_exists($elementClass)) {
-			return false;
+		if (!class_exists($elementClass))
+		{
+			$false = false;
+			return $false;
 		}
 
 		$this->_elements[$signature] = new $elementClass($this);

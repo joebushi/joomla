@@ -27,6 +27,62 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-Sep-2009 Ron Severdia
+^ CSS cleanup
+^ Changed commented-out to CSS hide in edit category
+
+28-Sep-2009 Ron Severdia
+# CSS fixes
+$ Missing language strings added
+^ Replaced tables from user config
+
+28-Sep-2009 Gergo Erdosi
+ # Fixed bug in installation SQL file.
+
+28-Sep-2009 Andrew Eddie
++ Added JControllerForm (to support basic edit operations).
++ Added table jos_languages.
++ Added support to add and edit content languages.
+^ Updated frontend content router to support more category path scenarios.
++ Added archived state support to JHtmlJGrid::published
++ Added ContentLanguages JForm field and JElement.
+
+26-Sep-2009 Andrew Eddie
+^ Install from directory now remembers previous path.
+^ Refactored language installation error messages.
+^ Forced language installation file to require client attribute.
+^ Refactored System Debug language strings.
++ New options in System Debug plugin to more tightly control how the untranslated string present
+
+25-Sep-2009 Mark Dexter
+# Add extension to new Category in Content->Category Manager
+
+23-Sep-2009 Hannes Papenberg
+^ Added class and ID to radio buttons
+
+21-Sep-2009 Mark Dexter
+^ Merge from dextercowley branch
+^ Layouts for frontend components
+^ Make com_contact MVC
+^ Fix a number of issues in in com_menus
+^ Fix problem in administrator menu
+^ Update strings
+
+21-Sep-2009 Ron Severdia
+# BlueStork CSS fixes
++ New icons
+$ Language fixes
+^ Replace tables in components
+
+20-Sep-2009 Ron Severdia
+# BlueStork CSS fixes
+# Fixed submenu switcher
+# Visual cleanup
+
+20-Sep-2009 Hannes Papenberg
+ ^ Removed static insert for com_redirect. its now properly retrieved from the database.
+ # Fixed path to the form file for com_redirect
+
 18-Sep-2009 Hannes Papenberg
  ^ changed some functions to be static to adhere to PHP5 strict
  ^ fixed some output to fix a false warning in Eclipse
@@ -50,8 +106,6 @@ $ -> Language fix or change
 # BlueStork CSS fixes/additions
 ^ Form tweaks for com_categories & com_content & com_users
 ^ Replace tables from com_config & com_menus
-
-15-Sep-2009 Ron Severdia
 # Accessibility improvements to com_config, mod_status. Thanks to Andrea Tarr.
 
 13-Sep-2009 Hannes Papenberg

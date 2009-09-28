@@ -32,7 +32,7 @@ JHtml::_('behavior.formvalidation');
 </script>
 
 <form action="<?php JRoute::_('index.php?option=com_menus'); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
-	<div class="width-60">
+	<div class="width-60 fltlft">
 		<fieldset>
 			<legend><?php echo JText::_('Categories_Fieldset_Details');?></legend>
 			
@@ -41,10 +41,9 @@ JHtml::_('behavior.formvalidation');
 				
 					<?php echo $this->form->getLabel('alias'); ?>
 					<?php echo $this->form->getInput('alias'); ?>
-				<!-- 
+				 
 					<?php echo $this->form->getLabel('extension'); ?>
 					<?php echo $this->form->getInput('extension'); ?>
-				-->
 				
 					<?php echo $this->form->getLabel('parent_id'); ?>
 					<?php echo $this->form->getInput('parent_id'); ?>
@@ -54,24 +53,23 @@ JHtml::_('behavior.formvalidation');
 				
 					<?php echo $this->form->getLabel('access'); ?>
 					<?php echo $this->form->getInput('access'); ?>
-			
 		</fieldset>
 	</div>
-
-	<div class="width-40">
+	<div class="width-40 fltrt">
 		<fieldset>
-			<legend><?php echo JText::_('Categories_Fieldset_Options'); ?></legend>
+			<legend><?php echo JText::_('Categories_Fieldset_Options');?></legend>
 			<?php echo $this->loadTemplate('options'); ?>
 		</fieldset>
-
+	</div>
+	<div class="width-40 fltrt">
 		<fieldset>
 			<legend><?php echo JText::_('Categories_Fieldset_Metadata'); ?></legend>
 			<?php echo $this->loadTemplate('metadata'); ?>
 		</fieldset>
 	</div>
-
 	<div class="clr"></div>
-	<?php echo $this->form->getLabel('description'); ?><br />
+	<?php echo $this->form->getLabel('description'); ?>
+	<div class="clr"></div>
 	<?php echo $this->form->getInput('description'); ?>
 
 	<input type="hidden" name="task" value="" />

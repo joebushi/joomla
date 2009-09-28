@@ -23,12 +23,12 @@ class LanguagesViewLanguages extends JView
 	 * @var array languages information
 	 */
 	protected $rows=null;
-	
+
 	/**
 	 * @var object pagination information
 	 */
 	protected $pagination=null;
-	
+
 	/**
 	 * @var boolean|JExeption True, if FTP settings should be shown, or an exeption
 	 */
@@ -49,34 +49,30 @@ class LanguagesViewLanguages extends JView
 	 */
 	protected $option = null;
 
-	
+
 	/**
 	 * Display the view
 	 */
 	function display($tpl = null)
 	{
-		// Get data from the model
-		$rows		= & $this->get('Data');
-		$pagination = & $this->get('Pagination');
-		$ftp		= & $this->get('Ftp');
-		$client		= & $this->get('Client');
-		$user		= & $this->get('User');
-		$option		= & $this->get('Option');
+		$state		= $this->get('State');
+		$items		= $this->get('Items');
+		$pagination	= $this->get('Pagination');
 
-		// Assign data to the view
-		$this->assignRef('rows',		$rows);
-		$this->assignRef('pagination',	$pagination);
-		$this->assignRef('ftp',			$ftp);
-		$this->assignRef('client',		$client);
-		$this->assignRef('user',		$user);
-		$this->assignRef('option',		$option);
-		
-		// Set the toolbar and the submenu
-		$this->_setToolBar();
-		
-		// Display the view
+		// Check for errors.
+		if (count($errors = $this->get('Errors'))) {
+			JError::raiseError(500, implode("\n", $errors));
+			return false;
+		}
+
+		$this->assignRef('state',			$state);
+		$this->assignRef('items',			$items);
+		$this->assignRef('pagination',		$pagination);
+
 		parent::display($tpl);
+		$this->_setToolbar();
 	}
+
 	/**
 	 * Setup the Toolbar
 	 *
@@ -84,9 +80,21 @@ class LanguagesViewLanguages extends JView
 	 */
 	protected function _setToolBar()
 	{
-		JToolBarHelper::title(JText::_('Languages_Language_Manager'), 'langmanager.png');
-		JToolBarHelper::makeDefault('publish');
-		JToolBarHelper::divider();		
+		JToolBarHelper::title(JText::_('Langs_View_Languages_Title'), 'generic.png');
+		JToolBarHelper::addNew('language.add');
+				JToolBarHelper::editList('language.edit');
+				JToolBarHelper::divider();
+		JToolBarHelper::publishList('languages.publish');
+		JToolBarHelper::unpublishList('languages.unpublish');
+		if ($this->state->get('filter.published') == -2) {
+			JToolBarHelper::deleteList('', 'languages.delete', 'JToolbar_Empty_trash');
+		}
+		else {
+			JToolBarHelper::trash('languages.trash');
+		}
+		JToolBarHelper::divider();
+		//JToolBarHelper::preferences('com_languagaes', '480', '570', 'JToolbar_Options');
+		//JToolBarHelper::divider();
 		JToolBarHelper::help('screen.languages');
 	}
 }

@@ -53,7 +53,8 @@ INSERT INTO `#__access_actions` (`id`, `section_id`, `name`, `title`, `descripti
 (30, 4, 'com_contact.manage', 'JAction_Contact_Manage', 'JAction_Contact_Manage_Desc', 1, 0),
 (31, 5, 'com_newsfeeds.manage', 'JAction_Newsfeeds_Manage', 'JAction_Newsfeeds_Manage_Desc', 1, 0),
 (32, 6, 'com_trash.manage', 'JAction_Trash_Manage', 'JAction_Trash_Manage_Desc', 1, 0),
-(33, 7, 'com_weblinks.manage', 'JAction_Weblinks_Manage', 'JAction_Weblinks_Manage_Desc', 1, 0);
+(33, 7, 'com_weblinks.manage', 'JAction_Weblinks_Manage', 'JAction_Weblinks_Manage_Desc', 1, 0),
+(34, 0, 'com_redirect.manage', 'com_redirect.manage', '', 1, 0);
 
 # -------------------------------------------------------
 
@@ -413,7 +414,8 @@ INSERT INTO `#__components` VALUES (33, 'Control Panel', '', 0, 0, '', 'Control 
 INSERT INTO `#__components` VALUES
  (35, 'Articles', '', 0, 20, 'option=com_content&view=articles', 'com_content_Articles', 'com_content', 1, '', 1, '{}', 1),
  (36, 'Categories', '', 0, 20, 'option=com_categories&view=categories&extension=com_content', 'com_content_Categories', 'com_content', 2, '', 1, '{}', 1),
- (37, 'Featured', '', 0, 20, 'option=com_content&view=featured', 'com_content_Featured', 'com_content', 3, '', 1, '{}', 1);
+ (37, 'Featured', '', 0, 20, 'option=com_content&view=featured', 'com_content_Featured', 'com_content', 3, '', 1, '{}', 1),
+ (38, 'Redirects', '', 0, 0, 'option=com_redirect', 'Manage Redirects', 'com_redirect', 0, 'js/ThemeOffice/component.png', 1, '{}', 1);
 
 
 # -------------------------------------------------------
@@ -611,6 +613,7 @@ INSERT INTO `#__extensions` VALUES
 (0, 'Module Manager', 'component', 'com_modules', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'News Feeds', 'component', 'com_newsfeeds', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'Plug-in Manager', 'component', 'com_plugins', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'Redirect Manager', 'component', 'com_redirect', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'Search', 'component', 'com_search', '', 1, 1, 0, 1, '', 'enabled=0\n\n', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'Template Manager', 'component', 'com_templates', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'User', 'component', 'com_user', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
@@ -708,6 +711,20 @@ INSERT INTO `#__extensions` VALUES
 (0, 'rhuk_milkyway', 'template', 'rhuk_milkyway', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1);
 
 # -------------------------------------------------------
+
+#
+# Table structure for table `#__languages`
+#
+
+CREATE TABLE `#__languages` (
+  `lang_id` int(11) unsigned NOT NULL auto_increment,
+  `lang_code` char(7) NOT NULL,
+  `title` varchar(50) NOT NULL,
+  `title_native` varchar(50) NOT NULL,
+  `description` varchar(512) NOT NULL,
+  `published` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`lang_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Table structure for table `#__menu`

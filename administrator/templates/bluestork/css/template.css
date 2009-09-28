@@ -37,7 +37,6 @@ body, td, th {
 	font-size: 11px;
 }
 
-
 html, body { height: 95%; }
 
 #minwidth { min-width: 960px; }
@@ -58,9 +57,7 @@ h1 {
 	font-weight: bold;
 }
 
-h3 {
-	font-size: 13px;
-}
+h3 {font-size: 13px;}
 
 a:link    { color: #025A8D; text-decoration: none; outline: none; }
 a:visited { color: #025A8D; text-decoration: none; outline: none; }
@@ -88,7 +85,7 @@ legend    {
 
 input, select { font-size: 10px;  border: 1px solid silver; }
 textarea      { font-size: 11px;  border: 1px solid silver; }
-button        { font-size: 10px;  }
+button        { font-size: 10px;  margin-top:2px;margin-left:5px;}
 
 .invalid { color: red; font-weight: bold; }
 input.invalid { border: 1px solid red; }
@@ -208,7 +205,7 @@ span.writable {
 }
 
 span.unwritable {
-	color:green;
+	color:red;
 }
 
 
@@ -288,32 +285,14 @@ div.configuration {
 	background-repeat: no-repeat;
 }
 
-div.toolbar-list { float: right; text-align: right; padding: 0; }
-
+div.toolbar-list 				{ float: right; text-align: right; padding: 0; }
 div.toolbar-list ul 			{ margin:0; padding:0; }
-div.toolbar-list li 			{ padding: 1px 1px 3px 4px; text-align: center; color: #666; height: 48px; list-style:none; float:left;}
+div.toolbar-list li 			{ padding: 1px 1px 3px 4px; text-align: center; color: #666; height: 48px; list-style:none; float:left; }
 div.toolbar-list li.spacer  	{ width: 10px; }
 div.toolbar-list li.divider 	{ border-right: 1px solid #eee; width: 5px; }
-
-div.toolbar-list span { float: none; width: 32px; height: 32px; margin: 0 auto; display: block; }
-
-div.toolbar-list a {
-   display: block; 
-   float: left;
-	white-space: nowrap;
-	border: 1px solid #fbfbfb;
-	padding: 1px 5px;
-	cursor: pointer;
-}
-
-div.toolbar-list a:hover {
-	border-left: 1px solid #eee;
-	border-top: 1px solid #eee;
-	border-right: 1px solid #ccc;
-	border-bottom: 1px solid #ccc;
-	text-decoration: none;
-	color: #0B55C4;
-}
+div.toolbar-list span 			{ float: none; width: 32px; height: 32px; margin: 0 auto; display: block; }
+div.toolbar-list a 				{ display: block; float: left;white-space: nowrap;border: 1px solid #fbfbfb;padding: 1px 5px;cursor: pointer; }
+div.toolbar-list a:hover 		{ border-left: 1px solid #eee; border-top: 1px solid #eee; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc; text-decoration: none; color: #0B55C4; }
 
 
 /* -- MASSMAIL STYLES ----------------------------- */
@@ -334,19 +313,20 @@ textarea#mm_message { width: 100%; }
 
 #content-pane { margin: 8px 10px 15px 15px;}
 
-.pane-sliders .panel   { border: 1px solid #ccc; margin-bottom: 3px;}
+.pane-sliders .panel   		{ border: 1px solid #ccc; margin-bottom: 3px;}
+.pane-sliders .panel h3 	{ background: #fafafa; color: #666}
+.pane-sliders .content 		{ background: #fff; }
+.pane-sliders .adminlist   	{ border: 0 none; font-size: 11px; }
+.pane-sliders .adminlist td { border: 0 none; }
 
-.pane-sliders .panel h3 { background: #fff; color: #666}
+.jpane-toggler span     	{ background: transparent url(../images/j_arrow.png) 5px 50% no-repeat; padding-left: 20px;}
+.jpane-toggler-down span 	{ background: transparent url(../images/j_arrow_down.png) 5px 50% no-repeat; padding-left: 20px;}
+.jpane-toggler-down 		{ border-bottom: 1px solid #ccc; }
 
-.pane-sliders .content { background: #f6f6f6; }
-
-.pane-sliders .adminlist     { border: 0 none; font-size: 11px; }
-.pane-sliders .adminlist td  { border: 0 none; }
-
-.jpane-toggler span     { background: transparent url(../images/j_arrow.png) 5px 50% no-repeat; padding-left: 20px;}
-.jpane-toggler-down span { background: transparent url(../images/j_arrow_down.png) 5px 50% no-repeat; padding-left: 20px;}
-
-.jpane-toggler-down {  border-bottom: 1px solid #ccc; }
+h3.jpane-toggler-down a:hover,
+h3.jpane-toggler a:hover {
+	text-decoration: none;
+}
 
 .jpane-slider ol li {
 	list-style:none;
@@ -354,14 +334,8 @@ textarea#mm_message { width: 100%; }
 	margin-top: 10px;
 }
 
-.jpane-slider {
-}
-
 .jpane-slider .paramrow {
 	margin: 15px;
-}
-
-div#content-pane label {
 }
 
 div.paramrow label:first-child {
@@ -371,12 +345,17 @@ div.paramrow label:first-child {
 }
 
 label.hasTip {
-	min-width: 130px;
+	min-width: 135px;
 }
 
 fieldset input[type="radio"] {
 	display: block;
 	width: 15px;
+	float:left;
+}
+
+table input[type="radio"] {
+	float:none;
 }
 
 input#jformparams_link_titles1,
@@ -384,14 +363,6 @@ input#jformparams_show_title1,
 input#jformparams_link_category1 {
 	margin-left: 13px;
 }
-
-
-
-h3.jpane-toggler-down a:hover,
-h3.jpane-toggler a:hover {
-	text-decoration: none;
-}
-
 /* -- TAB STYLES ----------------------------- */
 
 dl.tabs {
@@ -470,17 +441,37 @@ div.cpanel-right { width:45%; float:right; }
 
 div.col { float: left; }
 
-div.width-30 { width: 30%; float: left;}
-div.width-35 { width: 35%; float: left;}
-div.width-40 { width: 40%; float: left;}
-div.width-45 { width: 45%; float: left;}
-div.width-50 { width: 50%; float: left;}
-div.width-55 { width: 55%; float: left;}
-div.width-60 { width: 60%; float: left;}
-div.width-65 { width: 65%; float: left;}
-div.width-70 { width: 70%; float: left;}
-div.width-100 { width: 100%; float: left;}
+div.width-30 { width: 30%;}
+div.width-35 { width: 35%; }
+div.width-40 { width: 40%;}
+div.width-45 { width: 45%;}
+div.width-50 { width: 50%;}
+div.width-55 { width: 55%;}
+div.width-60 { width: 60%; }
+div.width-65 { width: 65%;}
+div.width-70 { width: 70%;}
+div.width-100 { width: 100%;}
 
+.clrlft { clear: left; }
+.clrrt { clear: right; }
+.fltlft { float: left; }
+.fltrt { float: right; }
+.fltnone { float: none; }
+
+div.width-30 fieldset,
+div.width-35 fieldset,
+div.width-40 fieldset,
+div.width-45 fieldset,
+div.width-50 fieldset,
+div.width-55 fieldset,
+div.width-60 fieldset,
+div.width-65 fieldset,
+div.width-70 fieldset,
+div.width-100 fieldset { 
+	background-color: #fff;
+}
+
+form#weblink-form fieldset,
 form#item-form fieldset,
 fieldset.adminform {
 	padding: 15px;
@@ -493,8 +484,11 @@ fieldset.adminform {
 fieldset label {
 	float: left;
 	clear:left;
+	margin: 5px 5px 2px 0;
+}
+
+form label {
 	font-size: 12px;
-	margin: 5px 5px 5px 0;
 }
 
 fieldset input,
@@ -521,9 +515,6 @@ label#jform_fulltext-lbl {
 	width: 100%;
 }
 
-label#jform_fulltext-lbl {
-}
-
 label#jform_state-lbl  {
 	clear:none;
 }
@@ -531,9 +522,6 @@ fieldset.adminform label {
 	clear:none;
 }
 
-fieldset.adminform input {
-	margin-left:10px;
-}
 fieldset.adminform select {
 	margin-right:20px;
 }
@@ -565,13 +553,39 @@ label#jform_smtphost-lbl,
 label#jform_sendmail-lbl,
 label#jform_smtpauth-lbl,
 label#jform_smtpsecure-lbl,
-label#jform_log_path-lbl {
+label#jform_log_path-lbl,
+label#jform_force_ssl-lbl,
+label#jform_smtpport-lbl,
+label#jform_ftp_pass-lbl,
+label#jform_smtpuser-lbl,
+label#jform_ftp_port-lbl,
+label#jform_session_handler-lbl,
+label#jform_metaauthor-lbl,
+label#jform_feed_email-lbl,
+label#jform_sitename_pagetitles-lbl,
+label#jform_offline-lbl,
+label#jform_cachetime-lbl,
+label#jform_cache_handler-lbl,
+label#jform_state-lbl,
+input#jform_menutype,
+input#jform_menudescription,
+label#userparamsnew_usertype-lbl,
+label#userparamsuseractivation-lbl,
+label#userparamsfrontend_userparams-lbl {
 	clear:left;
 }
+
 
 select#jform_catid.inputbox {
 	margin-right: 20px;
 }
+
+/* Hide the extension name on create category page */
+label#jform_extension-lbl,
+input#jform_extension {
+	display:none;
+}
+
 
 input.readonly {
 	font-size: 12px;
@@ -591,23 +605,73 @@ div#content-pane fieldset {
 	border: 0;
 	padding: 10px 15px 0 15px;
 }
-form#item-form fieldset {
-	margin: 10px;
+
+div.panel fieldset {
+	border: 0;
+}
+	
+form#weblink-form fieldset,
+form#item-form fieldset,
+fieldset.batch {
+	margin: 0 10px 10px 0px;
+	background-color: #FFF;
 }
 
-
-input#jform_offline1 {
-
-
+fieldset.batch {
+	margin: 20px 0px 10px 0px;
 }
 
+label#jform_description-lbl {
+	padding: 10px;
+}
+
+label#jform_home0-lbl,
+label#jform_home1-lbl,
+label#jformparams_show_page_title0-lbl,
+label#jformparams_show_page_title1-lbl,
+label#jformparams_secure0-lbl,
+label#jformparams_secure1-lbl,
+label#jformparams_secure-0-lbl,
+label#jformparams_secure-1-lbl{
+	clear:none;
+}
 
 fieldset ul li {
 	margin-left: -30px;
 }
 
 fieldset p {
-  margin: 0 0 15px 0;
+	margin: 0 0 15px 0;
+	font-size: 12px;
+}
+
+ul#overviewlist,
+ul#paramlist {
+	clear:both;
+	font-size: 12px;
+	padding-top: 5px;
+}
+
+ul#overviewlist li {
+	list-style-type: none;
+	margin-left: -40px;
+	margin-bottom: 15px;
+	min-width: 140px;
+}
+
+ul#paramlist li {
+	list-style-type: none;
+	margin-left: -40px;
+	margin-bottom: 5px;
+}
+
+
+li#jform_menutype_label,
+li#jform_parentid_label,
+li#jform_published_label,
+li#jform_access_label {
+	float:left;
+	clear:left;
 }
 
 fieldset.filter{border:0;margin:0;padding:0 0 5px;}
@@ -617,9 +681,6 @@ fieldset.filter ol li fieldset{border:0;margin:0;padding:0;}
 fieldset.filter .left{float:left;}
 fieldset.filter .right{float:right;}
 fieldset.filter .right select.inputbox {margin-left: 10px;}
-
-
-
 
 table.adminform {
 	background-color: #f8f8f8;
@@ -635,27 +696,22 @@ table.adminform tr.row0 { background-color: #f9f9f9; }
 table.adminform tr.row1 { background-color: #eeeeee; }
 
 table.adminform th {
-	font-size: 11px;
+	font-size: 12px;
 	padding: 6px 2px 4px 4px;
 	text-align: left;
 	height: 25px;
 	color: #000;
 	background-repeat: repeat;
 }
-table.adminform td { padding: 3px; text-align: left; }
+table.adminform td { padding: 5px; text-align: left; font-size: 12px;}
 
-table.adminform td.filter{
-	text-align: left;
-}
+table.adminform td.filter { text-align: left; }
 
-table.adminform td.helpMenu{
-	text-align: right;
-}
-
-
+table.adminform td.helpMenu { text-align: right; }
 
 
 /* -- TABLE STYLES ----------------------------- */
+
 
 table.adminlist {
 	width: 100%;
@@ -878,7 +934,24 @@ a img.calendar {
 
 input.invalid { border: 1px solid red; }
 
+/* -- SYSTEM MESSAGES relocated from system.css ---- */
+/* System Messages */
+#system-message    { margin-bottom: 10px; padding: 0;}
+#system-message dt { font-weight: bold; }
+#system-message dd { margin: 0; font-weight: bold; text-indent: 30px; }
+#system-message dd ul { color: #0055BB; margin-bottom: 10px; list-style: none; padding: 10px; border-top: 3px solid #84A7DB; border-bottom: 3px solid #84A7DB;}
 
+/* System Standard Messages */
+#system-message dt.message { display: none; }
+#system-message dd.message {  }
+
+/* System Error Messages */
+#system-message dt.error { display: none; }
+#system-message dd.error ul { color: #c00; background-color: #E6C0C0; border-top: 3px solid #DE7A7B; border-bottom: 3px solid #DE7A7B;}
+
+/* System Notice Messages */
+#system-message dt.notice { display: none; }
+#system-message dd.notice ul { color: #c00; background: #EFE7B8; border-top: 3px solid #F0DC7E; border-bottom: 3px solid #F0DC7E;}
 
 
 /* -- LOGIN STYLES ----------------------------- */
@@ -986,23 +1059,32 @@ p#form-login-lang {
 }
 
 
+/* OpenID icon style */
+input.system-openid, input.com-system-openid {
+   background: url(http://openid.net/login-bg.gif) no-repeat;
+   background-color: #fff;
+   background-position: 0 50%;
+   color: #000;
+   padding-left: 18px;
+}
+
 /* -- ICON STYLES ----------------------------- */
 
-.icon-16-archive 	{ background-image: url(../images/menu/icon-16-archive.png); }
-.icon-16-article 	{ background-image: url(../images/menu/icon-16-article.png); }
-.icon-16-category 	{ background-image: url(../images/menu/icon-16-category.png); }
-.icon-16-checkin 	{ background-image: url(../images/menu/icon-16-checkin.png); }
-.icon-16-clear 		{ background-image: url(../images/menu/icon-16-clear.png); }
-.icon-16-component	{ background-image: url(../images/menu/icon-16-component.png); }
-.icon-16-config 	{ background-image: url(../images/menu/icon-16-config.png); }
-.icon-16-content 	{ background-image: url(../images/menu/icon-16-content.png); }
-.icon-16-cpanel 	{ background-image: url(../images/menu/icon-16-cpanel.png); }
-.icon-16-default 	{ background-image: url(../images/menu/icon-16-default.png); }
-.icon-16-featured 	{ background-image: url(../images/menu/icon-16-frontpage.png); }
-.icon-16-groups		{ background-image: url(../images/menu/icon-16-groups.png); }
-.icon-16-help		{ background-image: url(../images/menu/icon-16-help.png); }
+.icon-16-archive 		{ background-image: url(../images/menu/icon-16-archive.png); }
+.icon-16-article 		{ background-image: url(../images/menu/icon-16-article.png); }
+.icon-16-category 		{ background-image: url(../images/menu/icon-16-category.png); }
+.icon-16-checkin 		{ background-image: url(../images/menu/icon-16-checkin.png); }
+.icon-16-clear 			{ background-image: url(../images/menu/icon-16-clear.png); }
+.icon-16-component		{ background-image: url(../images/menu/icon-16-component.png); }
+.icon-16-config 		{ background-image: url(../images/menu/icon-16-config.png); }
+.icon-16-content 		{ background-image: url(../images/menu/icon-16-content.png); }
+.icon-16-cpanel 		{ background-image: url(../images/menu/icon-16-cpanel.png); }
+.icon-16-default 		{ background-image: url(../images/menu/icon-16-default.png); }
+.icon-16-featured 		{ background-image: url(../images/menu/icon-16-frontpage.png); }
+.icon-16-groups			{ background-image: url(../images/menu/icon-16-groups.png); }
+.icon-16-help			{ background-image: url(../images/menu/icon-16-help.png); }
 
-.icon-16-help		{ background-image: url(../images/menu/icon-16-help.png); }
+.icon-16-help			{ background-image: url(../images/menu/icon-16-help.png); }
 
 .icon-16-help-this		{ background-image: url(../images/menu/icon-16-help-this.png); }
 
@@ -1010,40 +1092,40 @@ p#form-login-lang {
 .icon-16-help-docs		{ background-image: url(../images/menu/icon-16-help-docs.png); }
 .icon-16-help-jed		{ background-image: url(../images/menu/icon-16-help-jed.png); }
 .icon-16-help-jrd		{ background-image: url(../images/menu/icon-16-help-jrd.png); }
-.icon-16-help-community		{ background-image: url(../images/menu/icon-16-help-community.png); }
-.icon-16-help-security		{ background-image: url(../images/menu/icon-16-help-security.png); }
+.icon-16-help-community	{ background-image: url(../images/menu/icon-16-help-community.png); }
+.icon-16-help-security	{ background-image: url(../images/menu/icon-16-help-security.png); }
 .icon-16-help-dev		{ background-image: url(../images/menu/icon-16-help-dev.png); }
 .icon-16-help-shop		{ background-image: url(../images/menu/icon-16-help-shop.png); }
 
 
-.icon-16-info 		{ background-image: url(../images/menu/icon-16-info.png); }
-.icon-16-install 	{ background-image: url(../images/menu/icon-16-install.png);}
-.icon-16-language 	{ background-image: url(../images/menu/icon-16-language.png);}
-.icon-16-levels 	{ background-image: url(../images/menu/icon-16-levels.png);}
-.icon-16-logout 	{ background-image: url(../images/menu/icon-16-logout.png);}
+.icon-16-info 			{ background-image: url(../images/menu/icon-16-info.png); }
+.icon-16-install 		{ background-image: url(../images/menu/icon-16-install.png);}
+.icon-16-language 		{ background-image: url(../images/menu/icon-16-language.png);}
+.icon-16-levels 		{ background-image: url(../images/menu/icon-16-levels.png);}
+.icon-16-logout 		{ background-image: url(../images/menu/icon-16-logout.png);}
 .icon-16-maintenance 	{ background-image: url(../images/menu/icon-16-maintenance.png); }
-.icon-16-massmail 	{ background-image: url(../images/menu/icon-16-massmail.png); }
-.icon-16-media 		{ background-image: url(../images/menu/icon-16-media.png);}
-.icon-16-menu 		{ background-image: url(../images/menu/icon-16-menu.png); }
-.icon-16-menumgr 	{ background-image: url(../images/menu/icon-16-menumgr.png); }
+.icon-16-massmail 		{ background-image: url(../images/menu/icon-16-massmail.png); }
+.icon-16-media 			{ background-image: url(../images/menu/icon-16-media.png);}
+.icon-16-menu 			{ background-image: url(../images/menu/icon-16-menu.png); }
+.icon-16-menumgr 		{ background-image: url(../images/menu/icon-16-menumgr.png); }
 /* .icon-16-messages 	{ background-image: url(../images/menu/icon-16-messages.png); } */
-.icon-16-module 	{ background-image: url(../images/menu/icon-16-module.png); }
+.icon-16-module 		{ background-image: url(../images/menu/icon-16-module.png); }
 /* .icon-16-new 		{ background-image: url(../images/menu/icon-16-new.png); } */
-.icon-16-newarticle   { background-image: url(../images/menu/icon-16-newarticle.png); }
-.icon-16-newcategory  { background-image: url(../images/menu/icon-16-newcategory.png); }
-.icon-16-newgroup 	{ background-image: url(../images/menu/icon-16-newgroup.png); }
-.icon-16-newlevel 	{ background-image: url(../images/menu/icon-16-newlevel.png); }
-.icon-16-newuser 	{ background-image: url(../images/menu/icon-16-newuser.png); }
-.icon-16-plugin 	{ background-image: url(../images/menu/icon-16-plugin.png); }
-.icon-16-purge	 	{ background-image: url(../images/menu/icon-16-purge.png); }
-.icon-16-readmess 	{ background-image: url(../images/menu/icon-16-readmess.png); }
-.icon-16-section 	{ background-image: url(../images/menu/icon-16-section.png); }
-.icon-16-static 	{ background-image: url(../images/menu/icon-16-static.png); }
-.icon-16-stats 		{ background-image: url(../images/menu/icon-16-stats.png); }
-.icon-16-themes 	{ background-image: url(../images/menu/icon-16-themes.png); }
-.icon-16-trash 		{ background-image: url(../images/menu/icon-16-trash.png); }
-.icon-16-user 		{ background-image: url(../images/menu/icon-16-user.png); }
-.icon-16-writemess 	{ background-image: url(../images/menu/icon-16-writemess.png); }
+.icon-16-newarticle   	{ background-image: url(../images/menu/icon-16-newarticle.png); }
+.icon-16-newcategory  	{ background-image: url(../images/menu/icon-16-newcategory.png); }
+.icon-16-newgroup 		{ background-image: url(../images/menu/icon-16-newgroup.png); }
+.icon-16-newlevel 		{ background-image: url(../images/menu/icon-16-newlevel.png); }
+.icon-16-newuser 		{ background-image: url(../images/menu/icon-16-newuser.png); }
+.icon-16-plugin 		{ background-image: url(../images/menu/icon-16-plugin.png); }
+.icon-16-purge	 		{ background-image: url(../images/menu/icon-16-purge.png); }
+.icon-16-readmess 		{ background-image: url(../images/menu/icon-16-readmess.png); }
+.icon-16-section 		{ background-image: url(../images/menu/icon-16-section.png); }
+.icon-16-static 		{ background-image: url(../images/menu/icon-16-static.png); }
+.icon-16-stats 			{ background-image: url(../images/menu/icon-16-stats.png); }
+.icon-16-themes 		{ background-image: url(../images/menu/icon-16-themes.png); }
+.icon-16-trash 			{ background-image: url(../images/menu/icon-16-trash.png); }
+.icon-16-user 			{ background-image: url(../images/menu/icon-16-user.png); }
+.icon-16-writemess 		{ background-image: url(../images/menu/icon-16-writemess.png); }
 
 
 /* -- TOOLBAR ICON STYLES ----------------------------- */
@@ -1052,7 +1134,7 @@ p#form-login-lang {
 .icon-32-help 			{ background-image: url(../images/toolbar/icon-32-help.png); }
 .icon-32-cancel 		{ background-image: url(../images/toolbar/icon-32-cancel.png); }
 .icon-32-config 		{ background-image: url(../images/toolbar/icon-32-config.png); }
-.icon-32-apply 		{ background-image: url(../images/toolbar/icon-32-apply.png); }
+.icon-32-apply 			{ background-image: url(../images/toolbar/icon-32-apply.png); }
 .icon-32-back			{ background-image: url(../images/toolbar/icon-32-back.png); }
 .icon-32-forward		{ background-image: url(../images/toolbar/icon-32-forward.png); }
 .icon-32-save 			{ background-image: url(../images/toolbar/icon-32-save.png); }
@@ -1066,11 +1148,11 @@ p#form-login-lang {
 .icon-32-css 			{ background-image: url(../images/toolbar/icon-32-css.png); }
 .icon-32-menus 			{ background-image: url(../images/toolbar/icon-32-menu.png); }
 .icon-32-publish 		{ background-image: url(../images/toolbar/icon-32-publish.png); }
-.icon-32-unpublish 	{ background-image: url(../images/toolbar/icon-32-unpublish.png);}
+.icon-32-unpublish 		{ background-image: url(../images/toolbar/icon-32-unpublish.png);}
 .icon-32-restore		{ background-image: url(../images/toolbar/icon-32-revert.png); }
-.icon-32-trash 		{ background-image: url(../images/toolbar/icon-32-trash.png); }
+.icon-32-trash 			{ background-image: url(../images/toolbar/icon-32-trash.png); }
 .icon-32-archive 		{ background-image: url(../images/toolbar/icon-32-archive.png); }
-.icon-32-unarchive 	{ background-image: url(../images/toolbar/icon-32-unarchive.png); }
+.icon-32-unarchive 		{ background-image: url(../images/toolbar/icon-32-unarchive.png); }
 .icon-32-preview 		{ background-image: url(../images/toolbar/icon-32-preview.png); }
 .icon-32-default 		{ background-image: url(../images/toolbar/icon-32-default.png); }
 .icon-32-refresh		{ background-image: url(../images/toolbar/icon-32-refresh.png); }
@@ -1078,8 +1160,8 @@ p#form-login-lang {
 /* -- HEADER ICON STYLES ----------------------------- */
 .icon-48-generic 		{ background-image: url(../images/header/icon-48-generic.png); }
 .icon-48-checkin 		{ background-image: url(../images/header/icon-48-checkin.png); }
-.icon-48-clear 		{ background-image: url(../images/header/icon-48-clear.png); }
-.icon-48-purge 		{ background-image: url(../images/header/icon-48-purge.png); }
+.icon-48-clear 			{ background-image: url(../images/header/icon-48-clear.png); }
+.icon-48-purge 			{ background-image: url(../images/header/icon-48-purge.png); }
 .icon-48-cpanel 		{ background-image: url(../images/header/icon-48-cpanel.png); }
 .icon-48-config 		{ background-image: url(../images/header/icon-48-config.png); }
 .icon-48-groups 		{ background-image: url(../images/header/icon-48-groups.png); }
@@ -1087,31 +1169,31 @@ p#form-login-lang {
 .icon-48-module 		{ background-image: url(../images/header/icon-48-module.png); }
 .icon-48-menu 			{ background-image: url(../images/header/icon-48-menu.png); }
 .icon-48-menumgr 		{ background-image: url(../images/header/icon-48-menumgr.png); }
-.icon-48-trash 		{ background-image: url(../images/header/icon-48-trash.png); }
+.icon-48-trash 			{ background-image: url(../images/header/icon-48-trash.png); }
 .icon-48-user	 		{ background-image: url(../images/header/icon-48-user.png); }
-.icon-48-inbox 		{ background-image: url(../images/header/icon-48-inbox.png); }
-.icon-48-msgconfig 	{ background-image: url(../images/header/icon-48-message_config.png); }
-.icon-48-langmanager { background-image: url(../images/header/icon-48-language.png); }
-.icon-48-mediamanager{ background-image: url(../images/header/icon-48-media.png); }
-.icon-48-plugin 	{ background-image: url(../images/header/icon-48-plugin.png); }
-.icon-48-help_header { background-image: url(../images/header/icon-48-help_header.png); }
-.icon-48-impressions { background-image: url(../images/header/icon-48-stats.png); }
+.icon-48-inbox 			{ background-image: url(../images/header/icon-48-inbox.png); }
+.icon-48-msgconfig 		{ background-image: url(../images/header/icon-48-message_config.png); }
+.icon-48-langmanager 	{ background-image: url(../images/header/icon-48-language.png); }
+.icon-48-mediamanager	{ background-image: url(../images/header/icon-48-media.png); }
+.icon-48-plugin 		{ background-image: url(../images/header/icon-48-plugin.png); }
+.icon-48-help_header 	{ background-image: url(../images/header/icon-48-help_header.png); }
+.icon-48-impressions 	{ background-image: url(../images/header/icon-48-stats.png); }
 .icon-48-browser 		{ background-image: url(../images/header/icon-48-stats.png); }
 .icon-48-searchtext 	{ background-image: url(../images/header/icon-48-stats.png); }
-.icon-48-thememanager{ background-image: url(../images/header/icon-48-themes.png); }
-.icon-48-writemess 	{ background-image: url(../images/header/icon-48-writemess.png); }
-.icon-48-frontpage 	{ background-image: url(../images/header/icon-48-frontpage.png); }
-.icon-48-sections 	{ background-image: url(../images/header/icon-48-section.png); }
-.icon-48-article-add 		{ background-image: url(../images/header/icon-48-article-add.png); }
-.icon-48-article-edit 		{ background-image: url(../images/header/icon-48-article-edit.png); }
+.icon-48-thememanager	{ background-image: url(../images/header/icon-48-themes.png); }
+.icon-48-writemess 		{ background-image: url(../images/header/icon-48-writemess.png); }
+.icon-48-frontpage 		{ background-image: url(../images/header/icon-48-frontpage.png); }
+.icon-48-sections 		{ background-image: url(../images/header/icon-48-section.png); }
+.icon-48-article-add 	{ background-image: url(../images/header/icon-48-article-add.png); }
+.icon-48-article-edit 	{ background-image: url(../images/header/icon-48-article-edit.png); }
 .icon-48-article 		{ background-image: url(../images/header/icon-48-article.png); }
 .icon-48-categories 	{ background-image: url(../images/header/icon-48-category.png); }
 .icon-48-install 		{ background-image: url(../images/header/icon-48-extension.png); }
 .icon-48-dbbackup		{ background-image: url(../images/header/icon-48-backup.png); }
-.icon-48-dbrestore 	{ background-image: url(../images/header/icon-48-dbrestore.png); }
+.icon-48-dbrestore 		{ background-image: url(../images/header/icon-48-dbrestore.png); }
 .icon-48-dbquery 		{ background-image: url(../images/header/icon-48-query.png); }
 .icon-48-systeminfo 	{ background-image: url(../images/header/icon-48-info.png); }
-.icon-48-massmail 	{ background-image: url(../images/header/icon-48-massmail.png); }
+.icon-48-massmail 		{ background-image: url(../images/header/icon-48-massmail.png); }
 
 /* -- BASIC MENU STYLES ----------------------------- */
 
@@ -1126,7 +1208,7 @@ p#form-login-lang {
 #menu li li ul {  top: 0; left: 0; }
 
 #menu li.hover ul               {  visibility: visible; }
-#menu li.hover ul li ul 		  {  visibility: hidden;  }
+#menu li.hover ul li ul 		{  visibility: hidden;  }
 #menu li.hover li.hover ul      {  visibility: visible;  left: 100%; }
 
 /* ---- Menu layout -------------------------- */
@@ -1267,10 +1349,51 @@ div.message {
 	padding: 2px 0px 0px 0px;
 }
 
+.outline {
+  border: 1px solid #cccccc;
+  background: #ffffff;
+  padding: 2px;
+}
 
 
+/* -- ERROR STYLES relocated from error.css ----------- */
 
+/*
+body {
+	margin: 15px;
+	height: 100%;
+	padding: 0px;
+	font-family: Arial, Helvetica, Sans Serif;
+	font-size: 11px;
+	color: #333333;
+	background: #ffffff;
+}
 
+.frame {
+	background-color:#FEFCF3;
+	padding:8px;
+	border:solid 1px #000000;
+	margin-top:13px;
+	margin-bottom:25px;
+}
 
+.table {
+	border-collapse:collapse;
+	margin-top:13px;
+}
 
+td {
+	padding:3px;
+	padding-left:5px;
+	padding-right:5px;
+	border:solid 1px #bbbbbb;
+	font-size: 10px;
+}
 
+.type {
+	background-color:#cc0000;
+	color:#ffffff;
+	font-weight:bold;
+	padding:3px;
+}
+*/
