@@ -29,7 +29,7 @@ class JActions
 	 *
 	 * @param	mixed	A JSON format string (probably from the database), or a nested array.
 	 */
-	public function __construct($input)
+	public function __construct($input = '')
 	{
 		// Convert in input to an array.
 		if (is_string($input)) {
