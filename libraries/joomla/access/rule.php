@@ -96,7 +96,7 @@ class JRule
 	 *
 	 * @param	mixed		An integer or array of integers representing the identities to check.
 	 *
-	 * @return	boolean
+	 * @return	mixed		True if allowed, false for an explicit deny, null for an implicit deny.
 	 */
 	public function allow($identities)
 	{
@@ -118,10 +118,10 @@ class JRule
 				// Check if the identity is known.
 				if (isset($this->_data[$identity]))
 				{
-					$result = $this->_data[$identity];
+					$result = (boolean) $this->_data[$identity];
 
 					// An explicit deny wins.
-					if ($result === 0) {
+					if ($result === false) {
 						break;
 					}
 				}
@@ -129,7 +129,7 @@ class JRule
 			}
 		}
 
-		return (boolean) $result;
+		return $result;
 	}
 
 	/**
