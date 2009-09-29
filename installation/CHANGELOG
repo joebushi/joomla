@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+
+29-Sep-2009 Gergo Erdosi
+ # Fixed some call_user_func_array() bugs.
+
 28-Sep-2009 Ron Severdia
 ^ CSS cleanup
 ^ Changed commented-out to CSS hide in edit category
