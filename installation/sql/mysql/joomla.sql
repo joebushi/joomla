@@ -1,131 +1,5 @@
 # $Id$
 
-#
-# Table structure for table `#__access_actions`
-#
-
-CREATE TABLE IF NOT EXISTS `#__access_actions` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
-  `section_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Foreign Key to #__access_sections.id',
-  `name` varchar(100) NOT NULL DEFAULT '',
-  `title` varchar(100) NOT NULL DEFAULT '',
-  `description` varchar(1024) NOT NULL,
-  `access_type` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `ordering` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_action_name_lookup` (`section_id`,`name`),
-  KEY `idx_acl_manager_lookup` (`access_type`,`section_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
-
-#
-# Dumping data for table `#__access_actions`
-#
-
-INSERT INTO `#__access_actions` (`id`, `section_id`, `name`, `title`, `description`, `access_type`, `ordering`) VALUES
-(1, 1, 'core.view', 'View', '', 3, 0),
-(2, 1, 'core.checkin.manage', 'JAction_Checkin_Manage', 'JAction_Checkin_Manage_Desc', 1, 0),
-(3, 1, 'core.cache.manage', 'JAction_Cache_Manage', 'JAction_Cache_Manage_Desc', 1, 0),
-(4, 1, 'core.config.manage', 'JAction_Config_Manage', 'JAction_Config_Manage_Desc', 1, 0),
-(5, 1, 'core.installer.manage', 'JAction_Installer_Manage', 'JJAction_Installer_Manage_Desc', 1, 0),
-(6, 1, 'core.languages.manage', 'JAction_Languages_Manage', 'JAction_Languages_Manage_Desc', 1, 0),
-(7, 1, 'core.modules.manage', 'JAction_Modules_Manage', 'JAction_Modules_Manage_Desc', 1, 0),
-(8, 1, 'core.plugins.manage', 'JAction_Plugins_Manage', 'JAction_Plugins_Manage_Desc', 1, 0),
-(9, 1, 'core.templates.manage', 'JAction_Templates_Manage', 'JAction_Templates_Manage_Desc', 1, 0),
-(10, 1, 'core.menus.manage', 'JAction_Menus_Manage', 'JAction_Menus_Manage_Desc', 1, 0),
-(11, 1, 'core.users.manage', 'JAction_Users_Manage', 'JAction_Users_Manage_Desc', 1, 0),
-(12, 1, 'core.media.manage', 'JAction_Media_Manage', 'JAction_Media_Manage_Desc', 1, 0),
-(13, 1, 'core.categories.manage', 'JAction_Categories_Manage', 'JAction_Categories_Manage_Desc', 1, 0),
-(14, 1, 'core.massmail.manage', 'JAction_Massmail_Manage', 'JAction_Massmail_Manage_Desc', 1, 0),
-(15, 1, 'core.messages.manage', 'JAction_Messages_Manage', 'JAction_Messages_Manage_Desc', 1, 0),
-(16, 1, 'core.site.login', 'JAction_Site_Login', 'JAction_Site_Login_Desc', 1, -1),
-(17, 1, 'core.administrator.login', 'JAction_Administrator_Login', 'JAction_Administrator_Login_Desc', 1, -1),
-(18, 1, 'core.root', 'JAction_Root', 'JAction_Root_Desc', 1, -2),
-(19, 1, 'core.plugins.view', 'JAction_Plugins_View', 'JAction_Plugins_View_Desc', 3, 0),
-(21, 1, 'core.menu.view', 'JAction_Menu_View', 'JAction_Menu_View_Desc', 3, 0),
-(22, 2, 'com_content.manage', 'JAction_Content_Manage', 'JAction_Content_Manage_Desc', 1, 0),
-(23, 2, 'com_content.article.edit_article', 'JAction_Content_Edit_Article', 'JAction_Content_Edit_Article_Desc', 1, 0),
-(24, 2, 'com_content.article.edit_own', 'JAction_Content_Edit_Own', 'JAction_Content_Edit_Own_Desc', 1, 0),
-(25, 2, 'com_content.article.publish', 'JAction_Content_Article_Publish', 'JAction_Content_Article_Publish_Desc', 1, 0),
-(26, 2, 'com_content.article.edit', 'JAction_Content_Article_Edit', 'JAction_Content_Article_Edit_Desc', 2, 0),
-(27, 2, 'com_content.article.view', 'JAction_Content_Article_View', 'JAction_Content_Article_View_Desc', 3, 0),
-(28, 2, 'com_content.category.view', 'JAction_Content_Category_View', 'JAction_Content_Category_View_Desc', 3, 0),
-(29, 3, 'com_banners.manage', 'JAction_Banners_Manage', 'JAction_Banners_Manage_Desc', 1, 0),
-(30, 4, 'com_contact.manage', 'JAction_Contact_Manage', 'JAction_Contact_Manage_Desc', 1, 0),
-(31, 5, 'com_newsfeeds.manage', 'JAction_Newsfeeds_Manage', 'JAction_Newsfeeds_Manage_Desc', 1, 0),
-(32, 6, 'com_trash.manage', 'JAction_Trash_Manage', 'JAction_Trash_Manage_Desc', 1, 0),
-(33, 7, 'com_weblinks.manage', 'JAction_Weblinks_Manage', 'JAction_Weblinks_Manage_Desc', 1, 0),
-(34, 0, 'com_redirect.manage', 'com_redirect.manage', '', 1, 0);
-
-# -------------------------------------------------------
-
-#
-# Table structure for table `#__access_action_usergroup_map`
-#
-
-CREATE TABLE IF NOT EXISTS `#__access_action_usergroup_map` (
-  `action_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Foreign Key to #__access_actions.id',
-  `usergroup_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Foreign Key to #__access_rules.id',
-  `allow` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Allow (1) or Deny (0) the action',
-  PRIMARY KEY (`action_id`,`usergroup_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-#
-# Dumping data for table `#__access_action_usergroup_map`
-#
-
-INSERT INTO `#__access_action_usergroup_map` (`action_id`, `usergroup_id`, `allow`) VALUES
-(1, 8, 0),
-(2, 8, 0),
-(3, 8, 0),
-(4, 8, 0),
-(5, 8, 0),
-(6, 8, 0),
-(7, 8, 0),
-(8, 8, 0),
-(9, 8, 0),
-(10, 8, 0),
-(11, 8, 0),
-(12, 8, 0),
-(13, 8, 0),
-(14, 8, 0),
-(15, 8, 0),
-(16, 8, 0),
-(17, 8, 0),
-(18, 8, 0),
-(19, 8, 0),
-(21, 8, 0),
-(22, 8, 0),
-(23, 8, 0),
-(24, 8, 0),
-(25, 8, 0),
-(26, 8, 0),
-(27, 8, 0),
-(28, 8, 0),
-(29, 8, 0),
-(30, 8, 0),
-(31, 8, 0),
-(32, 8, 0),
-(33, 8, 0);
-
-# -------------------------------------------------------
-
-#
-# Table structure for table `#__access_action_user_map`
-#
-
-CREATE TABLE IF NOT EXISTS `#__access_action_user_map` (
-  `action_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Foreign Key to #__access_actions.id',
-  `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Foreign Key to #__users.id',
-  `allow` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Allow (1) or Deny (0) the action',
-  PRIMARY KEY (`action_id`,`user_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-#
-# Dumping data for table `#__access_action_user_map`
-#
-
-
-# -------------------------------------------------------
 
 #
 # Table structure for table `#__access_assets`
@@ -151,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `#__access_assets` (
 #
 
 INSERT INTO `#__access_assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `title`, `rules`) VALUES
-(1, 0, 1, 18, 0, 'root.1', 'Root Asset', '{"j.root":{"8":1},"j.login":{"2":1,"3":1,"4":1,"5":1,"6":1,"7":1,"8":1,"9":1},"j.admin":{"6":1,"7":1,"8":1},"j.create":{"3":1,"4":1,"5":1,"6":1,"7":1,"8":1},"j.edit":{"4":1,"5":1,"6":1,"7":1,"8":1},"j.delete":{"6":1,"7":1,"8":1},"j.edit.state":{"5":1,"6":1,"7":1,"8":1}}');
+(1, 0, 1, 18, 0, 'root.1', 'Root Asset', '{"core.root":{"8":1},"core.login":{"2":1,"3":1,"4":1,"5":1,"6":1,"7":1,"8":1,"9":1},"core.admin":{"6":1,"7":1,"8":1},"core.create":{"3":1,"4":1,"5":1,"6":1,"7":1,"8":1},"core.edit":{"4":1,"5":1,"6":1,"7":1,"8":1},"core.delete":{"6":1,"7":1,"8":1},"core.edit.state":{"5":1,"6":1,"7":1,"8":1}}');
 
 # -------------------------------------------------------
 
@@ -184,63 +58,28 @@ INSERT INTO `#__access_sections` (`id`, `name`, `title`, `ordering`) VALUES
 # -------------------------------------------------------
 
 #
-# Table structure for table `#__access_viewgroups`
+# Table structure for table `#__viewlevels`
 #
 
-CREATE TABLE IF NOT EXISTS `#__access_viewgroups` (
+CREATE TABLE IF NOT EXISTS `#__viewlevels` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
   `title` varchar(100) NOT NULL DEFAULT '',
   `section_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Foreign Key to #__access_sections.id',
   `section` varchar(100) NOT NULL DEFAULT '0',
   `ordering` int(11) NOT NULL DEFAULT '0',
+  `rules` varchar(5120) NOT NULL COMMENT 'JSON encoded access control.',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_assetgroup_title_lookup` (`section`,`title`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 #
-# Dumping data for table `#__access_viewgroups`
+# Dumping data for table `#__viewlevels`
 #
 
-INSERT INTO `#__access_viewgroups` (`id`, `title`, `section_id`, `section`, `ordering`) VALUES
+INSERT INTO `#__viewlevels` (`id`, `title`, `section_id`, `section`, `ordering`) VALUES
 (1, 'Public', 1, 'core', 0),
 (2, 'Registered', 1, 'core', 1),
 (3, 'Special', 1, 'core', 2);
-
-# -------------------------------------------------------
-
-#
-# Table structure for table `#__access_viewgroup_usergroup_map`
-#
-
-CREATE TABLE IF NOT EXISTS `#__access_viewgroup_usergroup_map` (
-  `viewgroup_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Foreign Key to #__access_assetgroups.id',
-  `usergroup_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Foreign Key to #__access_rules.id',
-  `allow` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Allow (1) or Deny (0) the viewgroup',
-  PRIMARY KEY (`viewgroup_id`,`usergroup_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-#
-# Dumping data for table `#__access_viewgroup_usergroup_map`
-#
-
-INSERT INTO `#__access_viewgroup_usergroup_map` (`viewgroup_id`, `usergroup_id`, `allow`) VALUES
-(1, 1, 0),
-(2, 2, 0),
-(3, 3, 0),
-(3, 6, 0);
-
-# -------------------------------------------------------
-
-#
-# Table structure for table `#__access_viewgroup_user_map`
-#
-
-CREATE TABLE IF NOT EXISTS `#__access_viewgroup_user_map` (
-  `viewgroup_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Foreign Key to #__access_viewgroups.id',
-  `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Foreign Key to #__users.id',
-  `allow` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Allow (1) or Deny (0) the viewgroup',
-  PRIMARY KEY (`viewgroup_id`,`user_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 # -------------------------------------------------------
 

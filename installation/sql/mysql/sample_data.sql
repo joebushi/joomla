@@ -3,33 +3,18 @@
 # IMPORTANT - THIS FILE MUST BE SAVED WITH UTF-8 ENCODING ONLY. BEWARE IF EDITING!
 #
 
--- 
--- Dumping data for table `#__access_action_rule_map`
--- 
-
-INSERT IGNORE INTO `#__access_action_rule_map` VALUES 
-(1, 35);
-
 --
 -- Dumping data for table `#__access_asset_assetgroups`
 --
 
-INSERT IGNORE INTO `#__access_assetgroups` VALUES
-(4, 1, 2, 3, 'Confidential', 1, 'core');
-
---
--- Dumping data for table `#__access_assetgroup_rule_map`
---
-
-INSERT IGNORE INTO `#__access_assetgroup_rule_map` VALUES 
-(4, 35);
+INSERT IGNORE INTO `#__viewlevels` (`id`, `title`, `section_id`, `section`, `ordering`) VALUES
+(4, 'Confidential', 1, 'core', 3);
 
 --
 -- Dumping data for table `#__access_assets`
 --
 
-INSERT INTO `jos_access_assets`
-VALUES
+INSERT INTO `jos_access_assets` VALUES
 	(8,1,16,17,1,'#__content.1','Welcome to Joomla!',''),
 	(3,1,2,3,1,'#__categories.11','News',''),
 	(4,1,4,15,1,'#__categories.12','Countries',''),
@@ -38,22 +23,6 @@ VALUES
 	(7,5,8,13,3,'#__categories.25','Tasmania',''),
 	(9,6,9,10,4,'#__content.2','Great Barrier Reef',''),
 	(10,7,11,12,4,'#__content.3','Cradle Mountain-Lake St Clair National Park','');
-
---
--- Dumping data for table `#__access_asset_assetgroup_map`
---
-
-
--- 
--- Dumping data for table `#__access_asset_rule_map`
--- 
-
---
--- Dumping data for table `#__access_rules`
---
-
-INSERT IGNORE INTO `#__access_rules` VALUES 
-(35, 1, 'core', 'core.view.4', 'SYSTEM', NULL, 0, 1, 1, 3, 0, NULL);
 
 --
 -- Dumping data for table `#__banner`
