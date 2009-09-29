@@ -54,6 +54,9 @@ class JFormFieldRules extends JFormField
 		// The table heading.
 		$html[] = '	<thead>';
 		$html[] = '	<tr>';
+		$html[] = '		<th>';
+		$html[] = '			<span>'.JText::_('User Group').'</span>';
+		$html[] = '		</th>';
 		foreach ($actions as $action)
 		{
 			$html[] = '		<th>';
@@ -70,7 +73,10 @@ class JFormFieldRules extends JFormField
 			$html[] = '	<tr>';
 			foreach ($actions as $action)
 			{
-				$html[] = '		<td>';
+				$html[] = '		<th style="border-bottom:1px solid #ccc">';
+				$html[] = '			'.$group->text;
+				$html[] = '		</th>';
+				$html[] = '		<td style="border-bottom:1px solid #ccc">';
 				// TODO: Fix this inline style stuff...
 				$html[] = '			<label style="float:none;clear:none" for="'.$this->inputId.'_'.$action->name.'_'.$group->value.'">'.JText::_('Inherit').'</label>';
 				$html[] = '			<input style="display:inline;float:none" type="radio" name="'.$this->inputName.'['.$action->name.']['.$group->value.']" id="'.$this->inputId.'_'.$action->name.'_'.$group->value.'" value="" />';
@@ -107,7 +113,7 @@ class JFormFieldRules extends JFormField
 
 		// Pad the option text with spaces using depth level as a multiplier.
 		for ($i=0,$n=count($options); $i < $n; $i++) {
-			$options[$i]->text = str_repeat('- ',$options[$i]->level).$options[$i]->text;
+			$options[$i]->text = str_repeat('&nbsp;',$options[$i]->level).$options[$i]->text;
 		}
 
 		return $options;
