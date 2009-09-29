@@ -151,7 +151,7 @@ CREATE TABLE IF NOT EXISTS `#__access_assets` (
 #
 
 INSERT INTO `#__access_assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `title`, `rules`) VALUES
-(1, 0, 1, 18, 0, 'root.1', 'Root Asset', '{}');
+(1, 0, 1, 18, 0, 'root.1', 'Root Asset', '{"j.root":{"8":1},"j.login":{"2":1,"3":1,"4":1,"5":1,"6":1,"7":1,"8":1,"9":1},"j.admin":{"6":1,"7":1,"8":1},"j.create":{"3":1,"4":1,"5":1,"6":1,"7":1,"8":1},"j.edit":{"4":1,"5":1,"6":1,"7":1,"8":1},"j.delete":{"6":1,"7":1,"8":1},"j.edit.state":{"5":1,"6":1,"7":1,"8":1}}');
 
 # -------------------------------------------------------
 
