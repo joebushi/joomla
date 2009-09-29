@@ -266,6 +266,7 @@
 			type="rules"
 			label="Content_Rules_Label"
 			description="Content_Rules_Desc"
+			validate="rules"
 			class="inputbox"
 			section="com_content"
 			default=""/>

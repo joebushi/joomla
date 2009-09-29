@@ -88,12 +88,18 @@ JHtml::_('behavior.formvalidation');
 				<?php echo $this->form->getLabel('modified'); ?>
 				<?php echo $this->form->getInput('modified'); ?>
 
-
 				<?php echo $this->form->getLabel('version'); ?>
 				<?php echo $this->form->getInput('version'); ?>
 
 				<?php echo $this->form->getLabel('hits'); ?>
 				<?php echo $this->form->getInput('hits'); ?>
+
+		</fieldset>
+		<?php echo $pane->endPanel(); ?>
+
+		<?php echo $pane->startPanel(JText::_('Content_Fieldset_Access'), 'access-rules'); ?>
+
+		<fieldset>
 
 				<?php echo $this->form->getLabel('rules'); ?>
 				<?php echo $this->form->getInput('rules'); ?>
