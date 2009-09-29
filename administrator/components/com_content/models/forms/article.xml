@@ -260,6 +260,16 @@
 			size="20"
 			default=""/>
 
+		<field
+			id="rules"
+			name="rules"
+			type="rules"
+			label="Content_Rules_Label"
+			description="Content_Rules_Desc"
+			class="inputbox"
+			section="com_content"
+			default=""/>
+
 	</fields>
 
 	<fields
