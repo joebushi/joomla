@@ -135,7 +135,7 @@ class JRules
 		if (isset($this->_data[$action])) {
 			return $this->_data[$action]->allow($identity);
 		}
-		return false;
+		return null;
 	}
 
 	/**
