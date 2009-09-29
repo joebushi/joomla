@@ -43,6 +43,11 @@ class JTableAsset extends JTableNested
 	public $title = null;
 
 	/**
+	 * @var	string
+	 */
+	public $rules = null;
+
+	/**
 	 * @param database A database connector object
 	 */
 	public function __construct(&$db)

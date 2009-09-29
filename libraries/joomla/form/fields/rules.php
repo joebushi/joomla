@@ -79,12 +79,12 @@ class JFormFieldRules extends JFormField
 				$html[] = '		<td style="border-bottom:1px solid #ccc">';
 				// TODO: Fix this inline style stuff...
 				//$html[] = '			<fieldset class="access_rule">';
-				$html[] = '				<label style="float:none;clear:none" for="'.$this->inputId.'_'.$action->name.'_'.$group->value.'">'.JText::_('Inherit').'</label>';
 				$html[] = '				<input style="display:inline;float:none" type="radio" name="'.$this->inputName.'['.$action->name.']['.$group->value.']" id="'.$this->inputId.'_'.$action->name.'_'.$group->value.'" value="" />';
-				$html[] = '				<label style="float:none;clear:none" for="'.$this->inputId.'_'.$action->name.'_'.$group->value.'_0">'.JText::_('Deny').'</label>';
+				$html[] = '				<label style="float:none;clear:none" for="'.$this->inputId.'_'.$action->name.'_'.$group->value.'">'.JText::_('Inherit').'</label>';
 				$html[] = '				<input style="display:inline;float:none" type="radio" name="'.$this->inputName.'['.$action->name.']['.$group->value.']" id="'.$this->inputId.'_'.$action->name.'_'.$group->value.'_0" value="0" />';
-				$html[] = '				<label style="float:none;clear:none" for="'.$this->inputId.'_'.$action->name.'_'.$group->value.'_1">'.JText::_('Allow').'</label>';
+				$html[] = '				<label style="float:none;clear:none" for="'.$this->inputId.'_'.$action->name.'_'.$group->value.'_0">'.JText::_('Deny').'</label>';
 				$html[] = '				<input style="display:inline;float:none" type="radio" name="'.$this->inputName.'['.$action->name.']['.$group->value.']" id="'.$this->inputId.'_'.$action->name.'_'.$group->value.'_1" value="1" />';
+				$html[] = '				<label style="float:none;clear:none" for="'.$this->inputId.'_'.$action->name.'_'.$group->value.'_1">'.JText::_('Allow').'</label>';
 				//$html[] = '			</fieldset>';
 				$html[] = '		</td>';
 			}

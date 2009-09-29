@@ -60,7 +60,7 @@ abstract class JTable extends JObject
 	 *
 	 * @var	JActions	A JActions object.
 	 */
-	protected $_rules = null;
+	protected $_actions = null;
 
 	/**
 	 * Indicator that the tables have been locked.
@@ -301,13 +301,13 @@ abstract class JTable extends JObject
 	 *
 	 * @param	mixed	A JActions object, JSON string, or array.
 	 */
-	function setRules($input)
+	function setActions($input)
 	{
 		if ($input instanceof JActions) {
-			$this->_rules = $input;
+			$this->_actions = $input;
 		}
 		else {
-			$this->_rules = new JActions($input);
+			$this->_actions = new JActions($input);
 		}
 	}
 
@@ -316,9 +316,9 @@ abstract class JTable extends JObject
 	 *
 	 * @return	JActions
 	 */
-	public function &getRules()
+	public function &getActions()
 	{
-		return $this->_rules;
+		return $this->_actions;
 	}
 
 	/**
@@ -435,7 +435,17 @@ abstract class JTable extends JObject
 		}
 
 		// Bind the object with the row and return.
-		return $this->bind($row);
+		if (($result = $this->bind($row)) && $this->_trackAssets)
+		{
+			jimport('joomla.access.actions');
+
+			// Load the asset.
+			$name	= $this->_getAssetName();
+			$asset	= JTable::getInstance('Asset');
+			$asset->loadByName($name);
+			$this->_actions = new JActions($asset->rules);
+		}
+		return $result;
 	}
 
 	/**
@@ -520,8 +530,8 @@ abstract class JTable extends JObject
 		$asset->parent_id	= $parentId;
 		$asset->name		= $name;
 		$asset->title		= $title;
-		if ($this->_rules instanceof JActions) {
-			$asset->rules = (string) $this->_rules;
+		if ($this->_actions instanceof JActions) {
+			$asset->rules = (string) $this->_actions;
 		}
 
 		if (!$asset->check() || !$asset->store($updateNulls))

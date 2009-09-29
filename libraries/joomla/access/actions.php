@@ -170,7 +170,6 @@ class JActions
 			// re-encoding will quote the JSON for the identities in the action.
 			$temp[$name] = json_decode((string) $action);
 		}
-
 		return json_encode($temp);
 	}
 }
