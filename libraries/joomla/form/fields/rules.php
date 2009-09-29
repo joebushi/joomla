@@ -47,26 +47,45 @@ class JFormFieldRules extends JFormField
 
 		// Build the form control.
 		$html = array();
+
+		// Open the table.
+		$html[] = '<table>';
+
+		// The table heading.
+		$html[] = '	<thead>';
+		$html[] = '	<tr>';
 		foreach ($actions as $action)
 		{
-			$html[] = '<fieldset>';
-			$html[] = '	<legend>'.$action->title.'</legend>';
-			$html[] = '	<p>'.$action->description.'</p>';
-
-			foreach ($groups as $group)
-			{
-				// TODO: Fix this horrid inline style crap... just trying to get by :)
-				$html[] = '<label style="float:none;clear:none" for="'.$this->inputId.'_'.$action->name.'_'.$group->value.'">Inherit</label>';
-				$html[] = '<input style="display:inline;float:none" type="radio" name="'.$this->inputName.'['.$action->name.']['.$group->value.']" id="'.$this->inputId.'_'.$action->name.'_'.$group->value.'" value="" />';
-				$html[] = '<label style="float:none;clear:none" for="'.$this->inputId.'_'.$action->name.'_'.$group->value.'_0">Deny</label>';
-				$html[] = '<input style="display:inline;float:none" type="radio" name="'.$this->inputName.'['.$action->name.']['.$group->value.']" id="'.$this->inputId.'_'.$action->name.'_'.$group->value.'_0" value="0" />';
-				$html[] = '<label style="float:none;clear:none" for="'.$this->inputId.'_'.$action->name.'_'.$group->value.'_1">Allow</label>';
-				$html[] = '<input style="display:inline;float:none" type="radio" name="'.$this->inputName.'['.$action->name.']['.$group->value.']" id="'.$this->inputId.'_'.$action->name.'_'.$group->value.'_1" value="1" />';
-				$html[] = '<br />';
-			}
-
-			$html[] = '</fieldset>';
+			$html[] = '		<th>';
+			$html[] = '			<span title="'.JText::_($action->description).'">'.JText::_($action->title).'</span>';
+			$html[] = '		</th>';
 		}
+		$html[] = '	</tr>';
+		$html[] = '	</thead>';
+
+		// The table body.
+		$html[] = '	<tbody>';
+		foreach ($groups as $group)
+		{
+			$html[] = '	<tr>';
+			foreach ($actions as $action)
+			{
+				$html[] = '		<td>';
+				// TODO: Fix this inline style stuff...
+				$html[] = '			<label style="float:none;clear:none" for="'.$this->inputId.'_'.$action->name.'_'.$group->value.'">'.JText::_('Inherit').'</label>';
+				$html[] = '			<input style="display:inline;float:none" type="radio" name="'.$this->inputName.'['.$action->name.']['.$group->value.']" id="'.$this->inputId.'_'.$action->name.'_'.$group->value.'" value="" />';
+				$html[] = '			<label style="float:none;clear:none" for="'.$this->inputId.'_'.$action->name.'_'.$group->value.'_0">'.JText::_('Deny').'</label>';
+				$html[] = '			<input style="display:inline;float:none" type="radio" name="'.$this->inputName.'['.$action->name.']['.$group->value.']" id="'.$this->inputId.'_'.$action->name.'_'.$group->value.'_0" value="0" />';
+				$html[] = '			<label style="float:none;clear:none" for="'.$this->inputId.'_'.$action->name.'_'.$group->value.'_1">'.JText::_('Allow').'</label>';
+				$html[] = '			<input style="display:inline;float:none" type="radio" name="'.$this->inputName.'['.$action->name.']['.$group->value.']" id="'.$this->inputId.'_'.$action->name.'_'.$group->value.'_1" value="1" />';
+				$html[] = '		</td>';
+			}
+			$html[] = '	</tr>';
+		}
+		$html[] = '	</tbody>';
+
+		// Close the table.
+		$html[] = '</table>';
 
 		return implode("\n", $html);
 	}
