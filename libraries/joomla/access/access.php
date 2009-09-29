@@ -31,6 +31,8 @@ jimport('joomla.database.query');
  */
 class JAccess extends JObject
 {
+	protected static $viewLevels = array();
+
 	var $_quiet = true;
 
 	function quiet($value)
@@ -293,37 +295,57 @@ class JAccess extends JObject
 	 * @return	array	Array of access level ids.
 	 * @since	1.0
 	 */
-	public function getAuthorisedAccessLevels($userId, $action = 'core.view')
+	public function getAuthorisedAccessLevels($userId)
 	{
-		$inGroupIds = $this->getUserGroupMap($userId, true);
+		// Get the user group ids for the user.
+		$userGroupIds = $this->getUserGroupMap($userId, true);
 
-		// Get a database object.
-		$db	= &JFactory::getDbo();
+		// Only load the view levels once.
+		if (empty(self::$viewLevels))
+		{
+			// Get a database object.
+			$db	= JFactory::getDBO();
 
-		// Build the base query.
-		$query	= new JQuery;
-		$query->select('DISTINCT viewgroup_id');
-		$query->from('`#__access_viewgroup_usergroup_map`');
+			// Build the base query.
+			$query	= new JQuery;
+			$query->select('id, rules');
+			$query->from('`#__viewlevels`');
 
-		if (empty($inGroupIds)) {
-			// User is not mapped to any groups
-			$query->where('(urm.user_id = '.(int) $userId.')');
+			// Set the query for execution.
+			$db->setQuery((string) $query);
 
+			// Debugging option.
+			$this->_quiet or $this->_log($db->getQuery());
+
+			// Build the view levels array.
+			foreach ($db->loadAssocList() as $level)
+			{
+				self::$viewLevels[$level['id']] = (array) json_decode($level['rules']);
+			}
 		}
-		else {
-			// User is mapped to one or more groups
-			$query->where('usergroup_id IN ('.implode(',', $inGroupIds).')');
+
+		// Initialize the authorised array.
+		$authorised = array(0);
+
+		// Find the authorized levels.
+		foreach (self::$viewLevels as $level => $rule)
+		{
+			foreach ($rule as $id)
+			{
+				if (($id < 0) && (($id * -1) == $userId))
+				{
+					$authorised[] = $level;
+					break;
+				}
+				elseif (($id >= 0) && in_array($id, $userGroupIds))
+				{
+					$authorised[] = $level;
+					break;
+				}
+			}
 		}
 
-		$db->setQuery((string) $query);
-
-		$this->_quiet or $this->_log($db->getQuery());
-
-		$ids = $db->loadResultArray();
-		$ids = array_unique($ids);
-		$this->_quiet or $this->_log(print_r($ids, 1));
-
-		return $ids;
+		return $authorised;
 	}
 
 	/**
