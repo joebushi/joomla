@@ -12,7 +12,7 @@ defined('JPATH_BASE') or die;
  * @subpackage	Access
  * @since		1.6
  */
-class JAction
+class JRule
 {
 	/**
 	 * @var	array	A named array
@@ -52,7 +52,7 @@ class JAction
 	 */
 	public function mergeIdentities($identities)
 	{
-		if ($identities instanceof JAction) {
+		if ($identities instanceof JRule) {
 			$identities = $identities->getData();
 		}
 

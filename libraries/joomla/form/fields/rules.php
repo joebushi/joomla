@@ -38,6 +38,10 @@ class JFormFieldRules extends JFormField
 		$section = $this->_element->attributes('section') !== null ? $this->_element->attributes('section') : '';
 		$assetField = $this->_element->attributes('asset_field') !== null ? $this->_element->attributes('asset_field') : 'asset_id';
 
+		$assetId = 10;
+		JAccess::getAssetRules($assetId, true);
+
+
 		// Get the actions for the asset.
 		$access = JFactory::getACL();
 		$actions = $access->getAvailablePermissions($section, JPERMISSION_ASSET);

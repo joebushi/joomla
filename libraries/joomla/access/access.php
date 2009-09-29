@@ -432,6 +432,30 @@ class JAccess extends JObject
 		return $ids;
 	}
 
+	public static function getAssetRules($assetId, $recursive = false)
+	{
+		jimport('joomla.access.rules');
+
+		$db		= &JFactory::getDbo();
+		$query	= new JQuery;
+
+		$query->select($recursive ? 'b.rules' : 'a.rules');
+		$query->from('#__access_assets AS a');
+		$query->where('a.id = '.(int) $assetId);
+		if ($recursive)
+		{
+			$query->leftJoin('#__access_assets AS b ON b.lft <= a.lft AND b.rgt >= a.rgt');
+			$query->where('b.parent_id > 0');
+			$query->order('b.lft');
+		}
+
+		$db->setQuery($query);
+		$result	= $db->loadResultArray();
+		$rules	= new JRules;
+		$rules->mergeCollection($result);
+
+		return $rules;
+	}
 
 	function _log($text)
 	{

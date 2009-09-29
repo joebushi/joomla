@@ -56,11 +56,11 @@ abstract class JTable extends JObject
 	protected $_trackAssets = false;
 
 	/**
-	 * The actions associated with this record.
+	 * The rules associated with this record.
 	 *
-	 * @var	JActions	A JActions object.
+	 * @var	JRules	A JRules object.
 	 */
-	protected $_actions = null;
+	protected $_rules = null;
 
 	/**
 	 * Indicator that the tables have been locked.
@@ -90,7 +90,7 @@ abstract class JTable extends JObject
 		// If we are tracking assets, make sure an access field exists and initially set the default.
 		if (property_exists($this, 'asset_id'))
 		{
-			jimport('joomla.access.actions');
+			jimport('joomla.access.rules');
 			$this->_trackAssets = true;
 			// TODO: Do we need the following line anymore?
 			//$this->access = (int) JFactory::getConfig()->getValue('access');
@@ -299,26 +299,26 @@ abstract class JTable extends JObject
 	/**
 	 * Method to set rules for the record.
 	 *
-	 * @param	mixed	A JActions object, JSON string, or array.
+	 * @param	mixed	A JRules object, JSON string, or array.
 	 */
-	function setActions($input)
+	function setRules($input)
 	{
-		if ($input instanceof JActions) {
-			$this->_actions = $input;
+		if ($input instanceof JRules) {
+			$this->_rules = $input;
 		}
 		else {
-			$this->_actions = new JActions($input);
+			$this->_rules = new JRules($input);
 		}
 	}
 
 	/**
 	 * Method to get a reference to the rules for the record.
 	 *
-	 * @return	JActions
+	 * @return	JRules
 	 */
-	public function &getActions()
+	public function &getRules()
 	{
-		return $this->_actions;
+		return $this->_rules;
 	}
 
 	/**
@@ -435,17 +435,7 @@ abstract class JTable extends JObject
 		}
 
 		// Bind the object with the row and return.
-		if (($result = $this->bind($row)) && $this->_trackAssets)
-		{
-			jimport('joomla.access.actions');
-
-			// Load the asset.
-			$name	= $this->_getAssetName();
-			$asset	= JTable::getInstance('Asset');
-			$asset->loadByName($name);
-			$this->_actions = new JActions($asset->rules);
-		}
-		return $result;
+		return $this->bind($row);
 	}
 
 	/**
@@ -530,8 +520,8 @@ abstract class JTable extends JObject
 		$asset->parent_id	= $parentId;
 		$asset->name		= $name;
 		$asset->title		= $title;
-		if ($this->_actions instanceof JActions) {
-			$asset->rules = (string) $this->_actions;
+		if ($this->_rules instanceof JRules) {
+			$asset->rules = (string) $this->_rules;
 		}
 
 		if (!$asset->check() || !$asset->store($updateNulls))

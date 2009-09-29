@@ -105,9 +105,6 @@ class ContentModelArticle extends JModelForm
 
 		$value = JArrayHelper::toObject($table->getProperties(1), 'JObject');
 
-		// Link to the actions.
-		$value->actions = $table->getActions();
-
 		return $value;
 	}
 
@@ -175,8 +172,8 @@ class ContentModelArticle extends JModelForm
 		// Bind the rules.
 		if (isset($data['rules']))
 		{
-			$actions = new JActions($data['rules']);
-			$table->setActions($actions);
+			$rules = new JRules($data['rules']);
+			$table->setRules($rules);
 		}
 
 		// Check the data.

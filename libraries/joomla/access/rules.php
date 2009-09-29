@@ -7,14 +7,14 @@
 
 defined('JPATH_BASE') or die;
 
-jimport('joomla.access.action');
+jimport('joomla.access.rule');
 
 /**
  * @package 	Joomla.Framework
  * @subpackage	Access
  * @since		1.6
  */
-class JActions
+class JRules
 {
 	/**
 	 * @var	array	A named array
@@ -51,7 +51,7 @@ class JActions
 	/**
 	 * Get the data for the action.
 	 *
-	 * @return	array	A named array of JAction objects.
+	 * @return	array	A named array of JRule objects.
 	 */
 	public function getData()
 	{
@@ -59,7 +59,7 @@ class JActions
 	}
 
 	/**
-	 * Method to merge a collection of JActions.
+	 * Method to merge a collection of JRules.
 	 *
 	 * @param	mixed
 	 */
@@ -91,7 +91,7 @@ class JActions
 				$this->mergeAction($action, $identities);
 			}
 		}
-		else if ($actions instanceof JActions)
+		else if ($actions instanceof JRules)
 		{
 			$data = $actions->getData();
 
@@ -114,7 +114,7 @@ class JActions
 		else
 		{
 			// If new, add the action.
-			$this->_data[$action] = new JAction($identities);
+			$this->_data[$action] = new JRule($identities);
 		}
 	}
 
@@ -164,11 +164,11 @@ class JActions
 	public function __toString()
 	{
 		$temp = array();
-		foreach ($this->_data as $name => $action)
+		foreach ($this->_data as $name => $rule)
 		{
 			// Convert the action to JSON, then back into an array otherwise
 			// re-encoding will quote the JSON for the identities in the action.
-			$temp[$name] = json_decode((string) $action);
+			$temp[$name] = json_decode((string) $rule);
 		}
 		return json_encode($temp);
 	}
