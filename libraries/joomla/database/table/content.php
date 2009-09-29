@@ -201,7 +201,7 @@ class JTableContent extends JTable
 	 * Method to return the title to use for the asset table.
 	 *
 	 * @return	string
-	 * @since	1.0
+	 * @since	1.6
 	 */
 	protected function _getAssetTitle()
 	{
@@ -209,12 +209,24 @@ class JTableContent extends JTable
 	}
 
 	/**
+	 * Get the parent asset id for the record
 	 *
+	 * @return	int
 	 */
 	protected function _getAssetParentId()
 	{
-		// TODO: Lookup the category id.
-		return 1;
+		// Find the asset_id of the category.
+		$query = new JQuery;
+		$query->select('asset_id');
+		$query->from('#__categories');
+		$query->where('id = '.(int) $this->catid);
+		$this->_db->setQuery($query);
+		if ($result = $this->_db->loadResult()) {
+			return (int) $result;
+		}
+		else {
+			return parent::_getAssetParentId();
+		}
 	}
 
 	/**
@@ -287,12 +299,15 @@ class JTableContent extends JTable
 
 		// clean up keywords -- eliminate extra spaces between phrases
 		// and cr (\r) and lf (\n) characters from string
-		if (!empty($this->metakey)) { // only process if not empty
+		if (!empty($this->metakey))
+		{
+			// only process if not empty
 			$bad_characters = array("\n", "\r", "\"", "<", ">"); // array of characters to remove
 			$after_clean = JString::str_ireplace($bad_characters, "", $this->metakey); // remove bad characters
 			$keys = explode(',', $after_clean); // create array using commas as delimiter
 			$clean_keys = array();
-			foreach($keys as $key) {
+			foreach($keys as $key)
+			{
 				if (trim($key)) {  // ignore blank keywords
 					$clean_keys[] = trim($key);
 				}
@@ -301,7 +316,9 @@ class JTableContent extends JTable
 		}
 
 		// clean up description -- eliminate quotes and <> brackets
-		if (!empty($this->metadesc)) { // only process if not empty
+		if (!empty($this->metadesc))
+		{
+			// only process if not empty
 			$bad_characters = array("\"", "<", ">");
 			$this->metadesc = JString::str_ireplace($bad_characters, "", $this->metadesc);
 		}

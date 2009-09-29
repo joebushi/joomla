@@ -151,7 +151,7 @@ CREATE TABLE IF NOT EXISTS `#__access_assets` (
 #
 
 INSERT INTO `#__access_assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `title`, `rules`) VALUES
-(1, 0, 1, 9999, 0, 'root.1', 'Root Asset', '{}');
+(1, 0, 1, 18, 0, 'root.1', 'Root Asset', '{}');
 
 # -------------------------------------------------------
 

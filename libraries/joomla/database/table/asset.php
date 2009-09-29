@@ -76,4 +76,13 @@ class JTableAsset extends JTableNested
 
 		return $this->load($assetId);
 	}
+
+
+	public function store()
+	{
+		$result = parent::store();
+		//die('here');
+		return $result;
+	}
+
 }
