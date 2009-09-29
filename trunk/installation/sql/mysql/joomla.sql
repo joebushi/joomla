@@ -386,7 +386,7 @@ CREATE TABLE `#__categories` (
   `modified_user_id` int(10) unsigned NOT NULL default '0',
   `modified_time` timestamp NOT NULL default '0000-00-00 00:00:00',
   `hits` int(10) unsigned NOT NULL default '0',
-  `language` varchar(7) NOT NULL,
+  `language` char(7) NOT NULL,
   PRIMARY KEY  (`id`),
   KEY `cat_idx` (`extension`,`published`,`access`),
   KEY `idx_access` (`access`),
@@ -541,7 +541,7 @@ CREATE TABLE `#__content` (
   `hits` integer unsigned NOT NULL default '0',
   `metadata` text NOT NULL,
   `featured` tinyint(3) unsigned NOT NULL default '0' COMMENT 'Set if article is featured.',
-  `language` varchar(10) NOT NULL COMMENT 'The language code for the article.',
+  `language` char(7) NOT NULL COMMENT 'The language code for the article.',
   `xreference` varchar(50) NOT NULL COMMENT 'A reference to enable linkages to external data sets.',
   PRIMARY KEY  (`id`),
   KEY `idx_section` (`sectionid`),
@@ -758,6 +758,20 @@ INSERT INTO `#__extensions` VALUES
 (0, 'rhuk_milkyway', 'template', 'rhuk_milkyway', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1);
 
 # --------------------------------------------------------
+
+#
+# Table structure for table `#__languages`
+#
+
+CREATE TABLE `#__languages` (
+  `lang_id` int(11) unsigned NOT NULL auto_increment,
+  `lang_code` char(7) NOT NULL,
+  `title` varchar(50) NOT NULL,
+  `title_native` varchar(50) NOT NULL,
+  `description` varchar(512) NOT NULL,
+  `published` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`lang_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Table structure for table `#__menu`

@@ -45,7 +45,6 @@ JHtml::_('behavior.formvalidation');
 					<?php echo $this->form->getLabel('extension'); ?>
 					<?php echo $this->form->getInput('extension'); ?>
 				
-				
 					<?php echo $this->form->getLabel('parent_id'); ?>
 					<?php echo $this->form->getInput('parent_id'); ?>
 				

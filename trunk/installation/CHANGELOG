@@ -27,6 +27,32 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+
+28-Sep-2009 Ron Severdia
+# Fix visual issues in config/menus/users
+# Fix form structure & element order
+$ Fix language strings, CSS fixes
+
+28-Sep-2009 Ron Severdia
+^ CSS cleanup
+^ Changed commented-out to CSS hide in edit category
+
+28-Sep-2009 Ron Severdia
+# CSS fixes
+$ Missing language strings added
+^ Replaced tables from user config
+
+28-Sep-2009 Gergo Erdosi
+ # Fixed bug in installation SQL file.
+
+28-Sep-2009 Andrew Eddie
++ Added JControllerForm (to support basic edit operations).
++ Added table jos_languages.
++ Added support to add and edit content languages.
+^ Updated frontend content router to support more category path scenarios.
++ Added archived state support to JHtmlJGrid::published
++ Added ContentLanguages JForm field and JElement.
+
 26-Sep-2009 Andrew Eddie
 ^ Install from directory now remembers previous path.
 ^ Refactored language installation error messages.

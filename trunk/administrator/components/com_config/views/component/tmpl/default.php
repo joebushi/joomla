@@ -21,7 +21,7 @@ JHtml::_('behavior.formvalidation');
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_config');?>" method="post" name="adminForm" autocomplete="off">
 	<fieldset>
-		<div style="float: right">
+		<div class="fltrt">
 			<button type="button" onclick="Joomla.submitform('component.save', this.form);window.top.setTimeout('window.parent.SqueezeBox.close()', 700);">
 				<?php echo JText::_('Save');?></button>
 			<button type="button" onclick="window.parent.SqueezeBox.close();">
@@ -39,7 +39,7 @@ JHtml::_('behavior.formvalidation');
 			$label = isset($fieldSet['label']) ? $fieldSet['label'] : 'Config_'.$name;
 			echo $pane->startPanel(JText::_($label), 'publishing-details');
 			if (isset($fieldSet['description'])) :
-				echo '<p class="tip" style="float:right;">'.JText::_($fieldSet['description']).'</p>';
+				echo '<p class="tip fltrt">'.JText::_($fieldSet['description']).'</p>';
 			endif;
 	?>
 
