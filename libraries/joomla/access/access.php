@@ -445,7 +445,6 @@ class JAccess extends JObject
 		if ($recursive)
 		{
 			$query->leftJoin('#__access_assets AS b ON b.lft <= a.lft AND b.rgt >= a.rgt');
-			$query->where('b.parent_id > 0');
 			$query->order('b.lft');
 		}
 
