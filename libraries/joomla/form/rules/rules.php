@@ -37,6 +37,8 @@ class JFormRuleRules extends JFormRule
 		$name	= $field->attributes('name');
 		$field2	= $field->attributes('field');
 
+return true;
+
 		var_dump($values[$name]);
 
 

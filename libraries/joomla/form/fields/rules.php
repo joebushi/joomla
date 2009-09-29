@@ -38,9 +38,7 @@ class JFormFieldRules extends JFormField
 		$section = $this->_element->attributes('section') !== null ? $this->_element->attributes('section') : '';
 		$assetField = $this->_element->attributes('asset_field') !== null ? $this->_element->attributes('asset_field') : 'asset_id';
 
-		$assetId = 10;
-		JAccess::getAssetRules($assetId, true);
-
+		$rules = JAccess::getAssetRules($this->_form->getValue($assetField));
 
 		// Get the actions for the asset.
 		$access = JFactory::getACL();
@@ -83,11 +81,11 @@ class JFormFieldRules extends JFormField
 				$html[] = '		<td style="border-bottom:1px solid #ccc">';
 				// TODO: Fix this inline style stuff...
 				//$html[] = '			<fieldset class="access_rule">';
-				$html[] = '				<input style="display:inline;float:none" type="radio" name="'.$this->inputName.'['.$action->name.']['.$group->value.']" id="'.$this->inputId.'_'.$action->name.'_'.$group->value.'" value="" />';
+				$html[] = '				<input style="display:inline;float:none" type="radio" name="'.$this->inputName.'['.$action->name.']['.$group->value.']" id="'.$this->inputId.'_'.$action->name.'_'.$group->value.'" value=""'.($rules->allow($action->name, $group->value) === null ? ' checked="checked"' : '').' />';
 				$html[] = '				<label style="float:none;clear:none" for="'.$this->inputId.'_'.$action->name.'_'.$group->value.'">'.JText::_('Inherit').'</label>';
-				$html[] = '				<input style="display:inline;float:none" type="radio" name="'.$this->inputName.'['.$action->name.']['.$group->value.']" id="'.$this->inputId.'_'.$action->name.'_'.$group->value.'_0" value="0" />';
+				$html[] = '				<input style="display:inline;float:none" type="radio" name="'.$this->inputName.'['.$action->name.']['.$group->value.']" id="'.$this->inputId.'_'.$action->name.'_'.$group->value.'_0" value="0"'.($rules->allow($action->name, $group->value) === false ? ' checked="checked"' : '').' />';
 				$html[] = '				<label style="float:none;clear:none" for="'.$this->inputId.'_'.$action->name.'_'.$group->value.'_0">'.JText::_('Deny').'</label>';
-				$html[] = '				<input style="display:inline;float:none" type="radio" name="'.$this->inputName.'['.$action->name.']['.$group->value.']" id="'.$this->inputId.'_'.$action->name.'_'.$group->value.'_1" value="1" />';
+				$html[] = '				<input style="display:inline;float:none" type="radio" name="'.$this->inputName.'['.$action->name.']['.$group->value.']" id="'.$this->inputId.'_'.$action->name.'_'.$group->value.'_1" value="1"'.($rules->allow($action->name, $group->value) === true ? ' checked="checked"' : '').' />';
 				$html[] = '				<label style="float:none;clear:none" for="'.$this->inputId.'_'.$action->name.'_'.$group->value.'_1">'.JText::_('Allow').'</label>';
 				//$html[] = '			</fieldset>';
 				$html[] = '		</td>';

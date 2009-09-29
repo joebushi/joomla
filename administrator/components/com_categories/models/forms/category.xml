@@ -10,6 +10,11 @@
 			readonly="true"/>
 
 		<field
+			name="asset_id"
+			type="hidden"
+			filter="unset"/>
+
+		<field
 			name="parent_id"
 			type="categoryparent"
 			label="Categories_Parent_Label"
@@ -162,6 +167,17 @@
 			label="JField_Language_Label"
 			description="JField_Language_Desc"
 			class="inputbox"/>
+
+		<field
+			id="rules"
+			name="rules"
+			type="rules"
+			label="JField_Rules_Label"
+			description="JField_Rules_Desc"
+			validate="rules"
+			class="inputbox"
+			section="com_categories"
+			default=""/>
 	</fields>
 
 	<fields
