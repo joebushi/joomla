@@ -42,7 +42,7 @@ class JFormFieldCategoryParent extends JFormFieldList
 
 		// Filter by the type
 		if ($extension = $this->_form->getValue('extension')) {
-			$query->where('(a.extension = '.$db->quote($extension).' OR a.parent_id = 0)');
+			$query->where('(a.extension = '.$db->quote($extension).' OR a.level = 0)');
 		}
 
 		// Prevent parenting to children of this item.
