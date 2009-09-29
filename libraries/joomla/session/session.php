@@ -269,7 +269,7 @@ class JSession extends JObject
 				require_once(dirname(__FILE__).DS.'storage'.DS.$name.'.php');
 			}
 
-			if (call_user_func_array(array(trim($class), 'test'), null)) {
+			if (call_user_func(array(trim($class), 'test'), null)) {
 				$names[] = $name;
 			}
 		}
@@ -573,7 +573,7 @@ class JSession extends JObject
 		if ($this->_force_ssl) {
 			$cookie['secure'] = true;
 		}
-		
+
 		$config = &JFactory::getConfig();
 		if($config->getValue('config.cookie_domain', '') != '') {
 			$cookie['domain'] = $config->getValue('config.cookie_domain');
