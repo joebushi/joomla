@@ -21,19 +21,19 @@ if ($enabled)
 	$menu->addChild(
 		new JMenuNode(JText::_('Mod_Menu_Control_Panel'), 'index.php', 'class:cpanel')
 	);
-	
+
 	$menu->addSeparator();
-	
-	
-	
-	if ($user->authorize('core.config.manage')) {
+
+
+
+	if ($user->authorize('core.admin', 'com_config')) {
 		$menu->addChild(new JMenuNode(JText::_('Configuration'), 'index.php?option=com_config', 'class:config'));
 		$menu->addSeparator();
 	}
 
-$com = $user->authorize('core.config.manage');
-$chm = $user->authorize('core.checkin.manage');
-$cam = $user->authorize('core.cache.manage');
+$com = $user->authorize('core.admin', 'com_config');
+$chm = $user->authorize('core.admin', 'com_checkin');
+$cam = $user->authorize('core.admin', 'com_cache');
 
 if ($com || $chm || $cam )
 
@@ -69,7 +69,7 @@ else {
 // Users Submenu
 //
 
-if ($user->authorize('core.users.manage'))
+if ($user->authorize('core.admin', 'com_users'))
 	{
 	if ($enabled)
 	{
@@ -98,7 +98,7 @@ if ($user->authorize('core.users.manage'))
 		);
 
 		$menu->addSeparator();
-		if ($user->authorize('core.massmail.manage'))
+		if ($user->authorize('core.admin', 'com_massmail'))
 		{
 			$menu->addChild(new JMenuNode(JText::_('Mod_menu_Mass_Mail_Users'), 'index.php?option=com_massmail', 'class:massmail'));
 			$menu->addChild(new JMenuNode(JText::_('Mod_menu_Read_Private_Messages'), 'index.php?option=com_messages', 'class:readmess'));
@@ -110,11 +110,11 @@ if ($user->authorize('core.users.manage'))
 		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_COM_USERS'), null, 'disabled'));
 	}
 	}
-		
+
 //
 // Menus Submenu
 //
-if ($user->authorize('core.menus.manage'))
+if ($user->authorize('core.admin', 'com_menus'))
 {
 	if ($enabled)
 	{
@@ -147,7 +147,7 @@ if ($user->authorize('core.menus.manage'))
 // Content Submenu
 //
 
-if ($user->authorize('com_content.manage'))
+if ($user->authorize('core.admin', 'com_content'))
 {
 	if ($enabled)
 	{
@@ -157,7 +157,7 @@ if ($user->authorize('com_content.manage'))
 		$menu->addChild(
 			new JMenuNode(JText::_('Mod_Menu_Com_Content_Article_Manager'), 'index.php?option=com_content', 'class:article')
 		);
-		
+
 		$menu->addChild(
 			new JMenuNode(JText::_('Mod_Menu_Com_content_Category_Manager'), 'index.php?option=com_categories&extension=com_content', 'class:category')
 		);
@@ -171,9 +171,9 @@ if ($user->authorize('com_content.manage'))
 		$menu->addChild(
 			new JMenuNode(JText::_('Mod_Menu_Com_content_New_category'), 'index.php?option=com_categories&task=category.add&extension=com_content', 'class:newcategory')
 		);
-		
+
 		$menu->addSeparator();
-		if ($user->authorize('core.media.manage')) {
+		if ($user->authorize('core.admin', 'com_media')) {
 			$menu->addChild(new JMenuNode(JText::_('Mod_Menu_Media_Manager'), 'index.php?option=com_media', 'class:media'));
 		}
 
@@ -227,11 +227,11 @@ else {
 //
 // Extensions Submenu
 //
-$im = $user->authorize('core.installer.manage');
-$mm = $user->authorize('core.modules.manage');
-$pm = $user->authorize('core.plugins.manage');
-$tm = $user->authorize('core.templates.manage');
-$lm = $user->authorize('core.languages.manage');
+$im = $user->authorize('core.admin', 'com_installer');
+$mm = $user->authorize('core.admin', 'com_modules');
+$pm = $user->authorize('core.admin', 'com_plugins');
+$tm = $user->authorize('core.admin', 'com_templates');
+$lm = $user->authorize('core.admin', 'com_languages');
 
 if ($im || $mm || $pm || $tm || $lm)
 {
@@ -276,7 +276,7 @@ if ($enabled)
 		new JMenuNode(JText::_('Mod_Menu_Help_Joomla'), 'index.php?option=com_admin&view=help', 'class:help')
 	);
 	$menu->addSeparator();
-	
+
 	// TO DO: ADD TARGET=BLANK TO EXTERNAL LINKS
 	$menu->addChild(
 		new JMenuNode(JText::_('Mod_Menu_Help_Support_Forum'), 'http://forum.joomla.org', 'class:help-forum')

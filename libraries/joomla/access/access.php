@@ -20,6 +20,7 @@ if (!defined('JPERMISSION_ACTION')) {
 	define('JPERMISSION_ACTION', 1);
 }
 
+jimport('joomla.access.rules');
 jimport('joomla.database.query');
 
 /**
@@ -59,161 +60,25 @@ class JAccess extends JObject
 		$actionName = strtolower(preg_replace('#[\s\-]+#', '.', trim($actionName)));
 		$assetName  = strtolower(preg_replace('#[\s\-]+#', '.', trim($assetName)));
 
-		// @todo More advanced caching to span session
-		static $cache;
 
-		// Simple cache
-		if ($cache == null) {
-			$cache = array();
-		}
+		$db		= JFactory::getDbo();
+		$query	= new JQuery;
 
-		$cacheId = $userId.'.'.$actionName;
+		$query->select('b.rules');
+		$query->from('#__access_assets AS a');
+		$query->where('a.name = '.$db->quote($assetName));
+		$query->leftJoin('#__access_assets AS b ON b.lft <= a.lft AND b.rgt >= a.rgt');
+		$query->order('b.lft');
 
-		if (!isset($cache[$cacheId]))
-		{
-			// This query is where all the magic happens.
-			// The ordering is very important here, as well very tricky to get correct.
-			// Currently there can be  duplicate Rules, or ones that step on each other toes.
-			// In this case, the ACL that was last updated/created
-			// is used.
-			//
-			// This is probably where the most optimizations can be made.
+		$db->setQuery($query);
+		$result	= $db->loadResultArray();
+		$rules	= new JRules;
+		$rules->mergeCollection($result);
 
-			$sqlUserGroupIds	= null;
-			$sqlAssetGroupIds	= null;
-			$assetId			= 0;
+		// Get all groups that the user is mapped to
+		$userGroupIds = $this->getUserGroupMap($userId, true);
 
-			$db = &JFactory::getDbo();
-
-			// Find out the Id of the asset if supplied
-			if ($assetName)
-			{
-				// We could add this to the main query but we need to Asset Id for another part of the query anyway
-				$db->setQuery('SELECT id FROM #__access_assets WHERE `name` = '.$db->quote($assetName), 0, 1);
-				$assetId = $db->loadResult();
-
-				$this->_quiet or $this->_log($db->getQuery());
-				$this->_quiet or $this->_log("Asset by name $assetName had is = ".$assetId);
-			}
-
-			// Start the query
-			$query = new JQuery;
-
-			// Select the Id of the rule, allow and the return value
-			$query->select('r.id, r.allow, r.return');
-			$query->from('#__access_rules AS r');
-
-			// Join on the action-to-rule map
-			$query->join('LEFT', '#__access_action_rule_map arm ON arm.rule_id = r.id');
-
-			// Join on the map to get to the action.  This is for WHERE a.name = $actionName later on.
-			$query->join('LEFT', '#__access_actions a ON a.id = arm.action_id');
-
-			// Join any individual users mapped to the rule
-			$query->join('LEFT', '#__user_rule_map urm ON urm.rule_id = r.id');
-
-			// Join any individual assets mapped to the rule
-			$query->join('LEFT', '#__access_asset_rule_map asrm ON asrm.rule_id=r.id');
-
-			// Get all groups that the user is mapped to
-			$userGroupIds = $this->getUserGroupMap($userId, true);
-
-			// Note: this should not change during the session of the user
-			// unless the admin changes this persons access while they are logged in
-			// which is possible when the site uses long session times
-
-			if (!empty($userGroupIds))
-			{
-				// If the user is in a group, then join on the user-to-group maps
-				$sqlUserGroupIds = implode(',', $userGroupIds);
-				$query->join('LEFT', '#__usergroup_rule_map ugrm ON ugrm.rule_id = r.id');
-				$query->join('LEFT', '#__usergroups ug ON ug.id = ugrm.group_id');
-			}
-
-			// Find all the groups that the asset is mapped to
-			if ($assetId)
-			{
-				$assetGroupIds = $this->getAssetGroupMap($assetId, false);
-
-				if (!empty($assetGroupIds)) {
-					$sqlAssetGroupIds = implode(',', $assetGroupIds);
-				}
-			}
-
-			// this join is necessary to weed out rules associated with asset groups
-			$query->join('LEFT', '#__access_assetgroup_rule_map agrm ON agrm.rule_id = r.id');
-
-			if ($sqlAssetGroupIds) {
-				$query->join('LEFT', '#__access_assetgroups ag ON ag.id = agrm.group_id');
-			}
-
-			// Must match on the name of the desired action
-			$query->where('a.name='. $db->quote($actionName));
-
-			// Must match either specifically on the User Id or the group the user is in
-			$temp = '(urm.user_id = '.(int) $userId.')';
-			if ($sqlUserGroupIds) {
-				$temp .= ' OR ug.id IN ('. $sqlUserGroupIds .')';
-			}
-			$query->where('('.$temp.')');
-
-			if (empty($assetId))
-			{
-				// If the asset is not defined then match nulls
-				// @todo It could be possible to improve this to dispense with the Acl Types in future
-				$temp = '(asrm.asset_id IS NULL)';
-				$query->order('(CASE WHEN urm.user_id IS NULL THEN 0 ELSE 1 END) DESC');
-				//TODO Fix this one! order commented out since it not always applies.
-				//$query->order('(ug.rgt - ug.lft) ASC');
-			}
-			else {
-				// Match specifically on the asset supplied
-				$temp = '(asrm.asset_id = '. (int) $assetId .')';
-			}
-
-			if ($sqlAssetGroupIds)
-			{
-				// Or match on the asset group id if the asset is in a group
-				$temp .= ' OR ag.id IN ('. $sqlAssetGroupIds .')';
-
-				$query->order('(CASE WHEN asrm.asset_id IS NULL THEN 0 ELSE 1 END) DESC');
-				$query->order('(ag.rgt - ag.lft) ASC');
-			}
-			else {
-				$temp .= ' AND agrm.group_id IS NULL';
-			}
-			$query->where('('.$temp.')');
-
-			// The ordering is always very tricky and makes all the difference in the world.
-			// Order (urm.value IS NOT NULL) DESC should put ACLs given to specific AROs
-			// ahead of any ACLs given to groups. This works well for exceptions to groups.
-
-			$query->order('r.updated_date DESC');
-
-			// We are only interested in the first row
-			// @todo Maybe add a parameter to return all rows for diagnositic purposes
-			$db->setQuery((string) $query, 0, 1);
-
-			$this->_quiet or $this->_log($db->getQuery());
-
-			$row = $db->loadRow();
-
-			// Return Rule Id. This is the key to "hooking" extras like pricing assigned to rules etc... Very useful.
-			if (is_array($row)) {
-				// Permission granted?
-				$allow = (isset($row[1]) && $row[1] == 1);
-
-				$cache[$cacheId] = array('rule_id' => $row[0], 'return_value' => $row[2], 'allow' => $allow);
-			}
-			else {
-				// Permission denied.
-				$cache[$cacheId] = array('rule_id' => NULL, 'return_value' => NULL, 'allow' => FALSE);
-			}
-		}
-
-		$this->_quiet or $this->_log(print_r($cache[$cacheId], 1));
-
-		return $cache[$cacheId]['allow'];
+		return $rules->allow($actionName, array_merge(array($userId*-1), $userGroupIds));
 	}
 
 	/**
@@ -249,39 +114,6 @@ class JAccess extends JObject
 		array_unshift($result, '1');
 
 		$this->_quiet or $this->_log("User $userId in groups: ".print_r($result, 1));
-
-		return $result;
-	}
-
-	/**
-	 * Returns an array of the Group Ids that an asset is mapped to
-	 *
-	 * @param	int $assetId		The Asset Id
-	 * @param	boolean $recursive	Recursively include all child groups (optional)
-	 *
-	 * @return	array
-	 */
-	public function getAssetGroupMap($assetId, $recursive = false)
-	{
-		// Get a database object.
-		$db	= &JFactory::getDbo();
-
-		// First find the usergroups that this user is in
-		$query = new JQuery;
-		$query->select($recursive ? 'ag2.id' : 'ag1.id');
-		$query->from('#__access_asset_assetgroup_map AS aagm');
-		$query->where('aagm.asset_id = '.(int) $assetId);
-		$query->join('LEFT', '#__access_assetgroups AS ag1 ON ag1.id = aagm.group_id');
-		if ($recursive) {
-			$query->join('LEFT', '#__access_assetgroups AS ag2 ON ag2.lft <= ag1.lft AND ag2.rgt >= ag1.rgt');
-		}
-		$db->setQuery((string) $query);
-
-		$this->_quiet or $this->_log($db->getQuery());
-
-		$result = $db->loadResultArray();
-
-		$this->_quiet or $this->_log("Asset $assetId in groups: ".print_r($result, 1));
 
 		return $result;
 	}
