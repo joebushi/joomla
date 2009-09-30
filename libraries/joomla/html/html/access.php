@@ -223,7 +223,7 @@ abstract class JHtmlAccess
 			$query	= new JQuery;
 
 			$query->select('a.id AS value, a.title AS text');
-			$query->from('#__access_viewgroups AS a');
+			$query->from('#__viewlevels AS a');
 			$query->group('a.id');
 			$query->order('a.ordering ASC');
 

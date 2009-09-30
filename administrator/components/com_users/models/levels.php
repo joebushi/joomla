@@ -39,11 +39,11 @@ class UsersModelLevels extends JModelList
 
 		// Select all fields from the table.
 		$query->select($this->getState('list.select', 'a.*'));
-		$query->from('`#__access_viewgroups` AS a');
+		$query->from('`#__viewlevels` AS a');
 
 		// Add the level in the tree.
 		$query->select('COUNT(DISTINCT c2.id) AS level');
-		$query->join('LEFT OUTER', '`#__access_viewgroups` AS c2 ON a.lft > c2.lft AND a.rgt < c2.rgt');
+		$query->join('LEFT OUTER', '`#__viewlevels` AS c2 ON a.lft > c2.lft AND a.rgt < c2.rgt');
 		$query->group('a.id');
 
 		// Count the objects in the user group.
@@ -59,7 +59,7 @@ class UsersModelLevels extends JModelList
 		// Filter the items over the parent id if set.
 		$parent_id = $this->getState('filter.parent_id');
 		if ($parent_id !== null && $parent_id > 0) {
-			$query->join('LEFT', '`#__access_viewgroups` AS p ON p.id = '.(int)$parent_id);
+			$query->join('LEFT', '`#__viewlevels` AS p ON p.id = '.(int)$parent_id);
 			$query->where('a.lft > p.lft AND a.rgt < p.rgt');
 		}
 
