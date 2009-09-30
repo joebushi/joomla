@@ -48,6 +48,7 @@ $this->document->addScriptDeclaration("
 		<div id="page-system" class="tab">
 			<div class="noshow">
 				<div class="width-60 fltlft">
+					<?php echo $this->loadTemplate('permissions'); ?>
 					<?php echo $this->loadTemplate('system'); ?>
 				</div>
 				<div class="width-40 fltrt">
