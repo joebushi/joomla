@@ -325,7 +325,7 @@ class JAccess extends JObject
 		}
 
 		// Initialize the authorised array.
-		$authorised = array(0);
+		$authorised = array(1);
 
 		// Find the authorized levels.
 		foreach (self::$viewLevels as $level => $rule)

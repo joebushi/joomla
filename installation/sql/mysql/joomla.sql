@@ -76,10 +76,10 @@ CREATE TABLE IF NOT EXISTS `#__viewlevels` (
 # Dumping data for table `#__viewlevels`
 #
 
-INSERT INTO `#__viewlevels` (`id`, `title`, `section_id`, `section`, `ordering`) VALUES
-(1, 'Public', 1, 'core', 0),
-(2, 'Registered', 1, 'core', 1),
-(3, 'Special', 1, 'core', 2);
+INSERT INTO `#__viewlevels` (`id`, `title`, `section_id`, `section`, `ordering`, `rules`) VALUES
+(1, 'Public', 1, 'core', 0, '[]'),
+(2, 'Registered', 1, 'core', 1, '[2]'),
+(3, 'Special', 1, 'core', 2, '[6]');
 
 # -------------------------------------------------------
 

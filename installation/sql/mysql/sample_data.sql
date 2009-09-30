@@ -7,8 +7,8 @@
 -- Dumping data for table `#__access_asset_assetgroups`
 --
 
-INSERT IGNORE INTO `#__viewlevels` (`id`, `title`, `section_id`, `section`, `ordering`) VALUES
-(4, 'Confidential', 1, 'core', 3);
+INSERT IGNORE INTO `#__viewlevels` (`id`, `title`, `section_id`, `section`, `ordering`, `rules`) VALUES
+(4, 'Confidential', 1, 'core', 3, '[9]');
 
 --
 -- Dumping data for table `#__access_assets`
@@ -115,14 +115,6 @@ INSERT IGNORE INTO `#__menu_types` VALUES
 
 INSERT IGNORE INTO `#__usergroups` VALUES
 (9, 2, 15, 16, 'Park Rangers', 1, 'core');
-
---
--- Dumping data for table `#__usergroup_rule_map`
---
-
-INSERT IGNORE INTO `#__usergroup_rule_map` VALUES
-(9, 4),
-(9, 35);
 
 --
 -- Dumping data for table `#__weblinks`
