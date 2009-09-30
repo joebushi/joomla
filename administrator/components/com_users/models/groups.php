@@ -75,11 +75,6 @@ class UsersModelGroups extends JModelList
 			$query->where('a.title LIKE '.$this->_db->Quote('%'.$search.'%'));
 		}
 
-		// Join on the access control system
-		$query->select('GROUP_CONCAT(DISTINCT(act.title) SEPARATOR \',\') AS actions');
-		$query->leftJoin('#__access_action_usergroup_map AS arm ON arm.usergroup_id = a.id ');
-		$query->leftJoin('#__access_actions AS act ON act.id = arm.action_id ');
-
 		// Add the list ordering clause.
 		$query->order($this->_db->getEscaped($this->getState('list.ordering', 'a.lft')).' '.$this->_db->getEscaped($this->getState('list.direction', 'ASC')));
 

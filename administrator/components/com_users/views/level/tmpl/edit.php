@@ -96,11 +96,6 @@ window.addEvent('domready', function(){
 			<legend><?php echo JText::_('Users_Level_Details');?></legend>
 			<?php echo $this->form->getLabel('title'); ?>
 			<?php echo $this->form->getInput('title'); ?>
-				
-			<?php if (!$this->item->getSectionId()) : ?>
-				<?php echo $this->form->getLabel('section_id'); ?>
-				<?php echo $this->form->getInput('section_id'); ?>
-			<?php endif; ?>
 		</fieldset>
 	</div>
 

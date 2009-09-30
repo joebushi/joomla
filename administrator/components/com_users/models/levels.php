@@ -42,25 +42,13 @@ class UsersModelLevels extends JModelList
 		$query->from('`#__viewlevels` AS a');
 
 		// Add the level in the tree.
-		$query->select('COUNT(DISTINCT c2.id) AS level');
-		$query->join('LEFT OUTER', '`#__viewlevels` AS c2 ON a.lft > c2.lft AND a.rgt < c2.rgt');
 		$query->group('a.id');
 
-		// Count the objects in the user group.
-		$query->select('s.title AS section_title');
-		$query->join('LEFT', '`#__access_sections` AS s ON s.id = a.section_id');
 		$query->group('a.id');
 
 		// If the model is set to check item state, add to the query.
 		if ($this->getState('check.state', true)) {
 			//$query->where('a.block = ' . (int)$this->getState('filter.state'));
-		}
-
-		// Filter the items over the parent id if set.
-		$parent_id = $this->getState('filter.parent_id');
-		if ($parent_id !== null && $parent_id > 0) {
-			$query->join('LEFT', '`#__viewlevels` AS p ON p.id = '.(int)$parent_id);
-			$query->where('a.lft > p.lft AND a.rgt < p.rgt');
 		}
 
 		// Filter the items over the section id if set.
@@ -74,12 +62,6 @@ class UsersModelLevels extends JModelList
 		if (!empty($search)) {
 			$query->where('a.title LIKE '.$this->_db->Quote('%'.$search.'%'));
 		}
-
-		// Extended joins to get a list of user groups associated with an access level.
-		$query->select('GROUP_CONCAT(DISTINCT ug2.title ORDER BY ug2.lft ASC SEPARATOR \',\') AS user_groups');
-		$query->leftJoin('#__access_viewgroup_usergroup_map AS agrm ON agrm.viewgroup_id = a.id');
-		$query->innerJoin('#__usergroups AS ug1 ON ug1.id = agrm.usergroup_id');
-		$query->leftJoin('#__usergroups AS ug2 ON ug2.lft >= ug1.lft AND ug2.rgt <= ug1.rgt');
 
 		$query->group('a.id');
 

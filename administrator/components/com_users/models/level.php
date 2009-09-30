@@ -62,15 +62,7 @@ class UsersModelLevel extends JModelForm
 		$levelId = (!empty($levelId)) ? $levelId : (int)$this->getState('level.id');
 		$false	= false;
 
-		$db = &$this->getDbo();
-		$db->setQuery(
-			'SELECT `section_id`' .
-			' FROM `#__viewlevels`' .
-			' WHERE `id` = '.(int) $levelId
-		);
-		$sectionId = $db->loadResult();
-
-		$item = & JAccessHelper::getAccessLevel((int)$levelId, (int)$sectionId);
+		$item = & JAccessHelper::getAccessLevel((int)$levelId);
 
 		if (count($item->getErrors())) {
 			return $false;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
-	<params>
-		<param
+	<fields>
+		<field
 			name="allowUserRegistration"
 			type="radio"
 			default="1"
@@ -11,9 +11,9 @@
 				value="0">JNo</option>
 			<option
 				value="1">JYes</option>
-		</param>
+		</field>
 
-		<param
+		<field
 			name="new_usertype"
 			type="list"
 			default="Registered"
@@ -27,9 +27,9 @@
 				value="Editor">Editor</option>
 			<option
 				value="Publisher">Publisher</option>
-		</param>
+		</field>
 
-		<param
+		<field
 			name="useractivation"
 			type="radio"
 			default="1"
@@ -39,9 +39,9 @@
 				value="0">JNo</option>
 			<option
 				value="1">JYes</option>
-		</param>
+		</field>
 
-		<param
+		<field
 			name="frontend_userparams"
 			type="radio"
 			default="1"
@@ -51,6 +51,6 @@
 				value="0">Hide</option>
 			<option
 				value="1">Show</option>
-		</param>
-	</params>
+		</field>
+	</fields>
 </config>

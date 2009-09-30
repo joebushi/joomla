@@ -52,35 +52,6 @@ INSERT INTO `#__access_assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`
 (25, 1, 64, 65, 1, 'com_weblinks','com_weblinks','{}'),
 (26, 1, 66, 67, 1, 'com_wrapper','com_wrapper','{}');
 
-
-# -------------------------------------------------------
-
-#
-# Table structure for table `#__access_sections`
-#
-
-CREATE TABLE IF NOT EXISTS `#__access_sections` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
-  `name` varchar(100) NOT NULL DEFAULT '',
-  `title` varchar(255) NOT NULL DEFAULT '',
-  `ordering` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_section_name_lookup` (`name`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
-
-#
-# Dumping data for table `#__access_sections`
-#
-
-INSERT INTO `#__access_sections` (`id`, `name`, `title`, `ordering`) VALUES
-(1, 'core', 'Core', -1),
-(2, 'com_content', 'Content', 0),
-(3, 'com_banners', 'Banners', 0),
-(4, 'com_contact', 'Contact', 0),
-(5, 'com_newsfeeds', 'Newsfeeds', 0),
-(6, 'com_trash', 'Trash', 0),
-(7, 'com_weblinks', 'Weblinks', 0);
-
 # -------------------------------------------------------
 
 #
@@ -90,22 +61,20 @@ INSERT INTO `#__access_sections` (`id`, `name`, `title`, `ordering`) VALUES
 CREATE TABLE IF NOT EXISTS `#__viewlevels` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
   `title` varchar(100) NOT NULL DEFAULT '',
-  `section_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Foreign Key to #__access_sections.id',
-  `section` varchar(100) NOT NULL DEFAULT '0',
   `ordering` int(11) NOT NULL DEFAULT '0',
   `rules` varchar(5120) NOT NULL COMMENT 'JSON encoded access control.',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_assetgroup_title_lookup` (`section`,`title`)
+  UNIQUE KEY `idx_assetgroup_title_lookup` (`title`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 #
 # Dumping data for table `#__viewlevels`
 #
 
-INSERT INTO `#__viewlevels` (`id`, `title`, `section_id`, `section`, `ordering`, `rules`) VALUES
-(1, 'Public', 1, 'core', 0, '[]'),
-(2, 'Registered', 1, 'core', 1, '[2]'),
-(3, 'Special', 1, 'core', 2, '[6]');
+INSERT INTO `#__viewlevels` (`id`, `title`, `ordering`, `rules`) VALUES
+(1, 'Public', 0, '[]'),
+(2, 'Registered', 1, '[2]'),
+(3, 'Special', 2, '[6]');
 
 # -------------------------------------------------------
 
@@ -928,24 +897,22 @@ CREATE TABLE IF NOT EXISTS `#__usergroups` (
   `lft` integer NOT NULL default '0' COMMENT 'Nested set lft.',
   `rgt` integer NOT NULL default '0' COMMENT 'Nested set rgt.',
   `title` varchar(100) NOT NULL default '',
-  `section_id` integer unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_sections.id',
-  `section` varchar(100) NOT NULL default '0',
   PRIMARY KEY  (`id`),
-  UNIQUE KEY `idx_usergroup_title_lookup` (`section`,`title`),
+  UNIQUE KEY `idx_usergroup_title_lookup` (`title`),
   KEY `idx_usergroup_adjacency_lookup` (`parent_id`),
   KEY `idx_usergroup_nested_set_lookup` USING BTREE (`lft`,`rgt`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 INSERT INTO `#__usergroups`
- (`id` ,`parent_id` ,`lft` ,`rgt` ,`title` ,`section_id` ,`section`) VALUES
- (1, 0, 1, 18, 'Public', 1, 'core'),
-(2, 1, 2, 17, 'Registered', 1, 'core'),
-(3, 2, 3, 8, 'Author', 1, 'core'),
-(4, 3, 4, 7, 'Editor', 1, 'core'),
-(5, 4, 5, 6, 'Publisher', 1, 'core'),
-(6, 2, 9, 14, 'Manager', 1, 'core'),
-(7, 6, 10, 13, 'Administrator', 1, 'core'),
-(8, 7, 11, 12, 'Super Administrator', 1, 'core');
+ (`id` ,`parent_id` ,`lft` ,`rgt` ,`title`) VALUES
+ (1, 0, 1, 18, 'Public'),
+(2, 1, 2, 17, 'Registered'),
+(3, 2, 3, 8, 'Author'),
+(4, 3, 4, 7, 'Editor'),
+(5, 4, 5, 6, 'Publisher'),
+(6, 2, 9, 14, 'Manager'),
+(7, 6, 10, 13, 'Administrator'),
+(8, 7, 11, 12, 'Super Administrator');
 
 # -------------------------------------------------------
 
