@@ -174,9 +174,10 @@
 			type="rules"
 			label="JField_Rules_Label"
 			description="JField_Rules_Desc"
-			validate="rules"
+			filter="rules"
 			class="inputbox"
-			section="com_categories"
+			component="com_content"
+			section="category"
 			default=""/>
 	</fields>
 

@@ -189,41 +189,26 @@ class JAccess extends JObject
 	 * @return	array	List of available permissions.
 	 * @since	1.0
 	 */
-	public function getAvailablePermissions($section, $type = JPERMISSION_ACTION)
+	public function getAvailablePermissions($component, $section = 'component')
 	{
-		// Get a database object.
-		$db = &JFactory::getDbo();
+		$permissions = array();
 
-		// Check to see if the section exists.
-		$db->setQuery(
-			'SELECT `id`' .
-			' FROM `#__access_sections`' .
-			' WHERE `name` = '.$db->Quote($section)
-		);
-		$sectionId = $db->loadResult();
+		if (is_file(JPATH_ADMINISTRATOR.'/components/'.$component.'/access.xml'))
+		{
+			$xml = simplexml_load_file(JPATH_ADMINISTRATOR.'/components/'.$component.'/access.xml');
 
-		// Check for a database error.
-		if ($db->getErrorNum()) {
-			return new JException($db->getErrorMsg());
-		}
+			foreach ($xml->children() as $child)
+			{
+				if ($section == (string) $child['name'])
+				{
+					foreach ($child->children() as $action)
+					{
+						$permissions[] = (object) array('name' => (string) $action['name'], 'title' => (string) $action['title'], 'description' => (string) $action['description']);
+					}
 
-		// If the section does not exist, throw an exception.
-		if (empty($sectionId)) {
-			return new JException(JText::_('Access_Section_Invalid'));
-		}
-
-		// Check to see if the action already exists.
-		$db->setQuery(
-			'SELECT `id`, `name`, `title`, `description`' .
-			' FROM `#__access_actions`' .
-			' WHERE `section_id` = '.(int) $sectionId .
-			' AND `access_type` = '.(int) $type
-		);
-		$permissions = $db->loadObjectList();
-
-		// Check for a database error.
-		if ($db->getErrorNum()) {
-			return new JException($db->getErrorMsg());
+					break;
+				}
+			}
 		}
 
 		return $permissions;

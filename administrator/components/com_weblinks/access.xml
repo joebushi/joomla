@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf8"?>
-<access component="com_content">
+<access component="com_weblinks">
 	<section name="component">
 		<action name="core.admin" title="JAction_Admin" description="JAction_Admin_Desc" />
 		<action name="core.create" title="JAction_Create" description="JAction_Create_Desc" />
@@ -8,12 +8,6 @@
 		<action name="core.edit.state" title="JAction_Edit_State" description="JAction_Edit_State_Desc" />
 	</section>
 	<section name="category">
-		<action name="core.create" title="JAction_Create" description="JAction_Create_Desc" />
-		<action name="core.delete" title="JAction_Delete" description="JAction_Delete_Desc" />
-		<action name="core.edit" title="JAction_Edit" description="JAction_Edit_Desc" />
-		<action name="core.edit.state" title="JAction_Edit_State" description="JAction_Edit_State_Desc" />
-	</section>
-	<section name="article">
 		<action name="core.create" title="JAction_Create" description="JAction_Create_Desc" />
 		<action name="core.delete" title="JAction_Delete" description="JAction_Delete_Desc" />
 		<action name="core.edit" title="JAction_Edit" description="JAction_Edit_Desc" />

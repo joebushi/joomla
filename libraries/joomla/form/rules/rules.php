@@ -33,27 +33,11 @@ class JFormRuleRules extends JFormRule
 	 */
 	public function test(&$field, &$values)
 	{
-		$return = false;
-		$name	= $field->attributes('name');
-		$field2	= $field->attributes('field');
+		$name = $field->attributes('name');
 
-return true;
+		// TODO: probably should check to see if the action is even available for this field.
+//		$values[$name];
 
-		var_dump($values[$name]);
-
-
-die;
-
-		// Check the rule.
-		if (!$field2) {
-//			return new JException('Invalid Form Rule :: '.get_class($this));
-		}
-
-		// Test the two values against each other.
-		if ($values[$field1] == $values[$field2]) {
-			$return = true;
-		}
-
-		return $return;
+		return true;
 	}
 }
