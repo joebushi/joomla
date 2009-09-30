@@ -103,7 +103,7 @@ class MediaHelper
 						$err = 'WARNINVALIDMIME';
 						return false;
 					}
-				} else if (!$user->authorize('core.administrator.login')) {
+				} else if (!$user->authorize('core.admin')) {
 					$err = 'WARNNOTADMIN';
 					return false;
 				}

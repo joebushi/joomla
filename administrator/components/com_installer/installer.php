@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
  */
 $user = & JFactory::getUser();
 $app	= &JFactory::getApplication();
-if (!$user->authorize('core.installer.manage')) {
+if (!$user->authorize('core.admin', 'com_installer')) {
 	$app->redirect('index.php', JText::_('ALERTNOTAUTH'));
 }
 

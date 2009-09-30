@@ -11,7 +11,7 @@
 defined('_JEXEC') or die;
 
 $user = & JFactory::getUser();
-if (!$user->authorize('com_newsfeeds.manage')) {
+if (!$user->authorize('core.admin', 'com_newsfeeds')) {
 	JFactory::getApplication()->redirect('index.php', JText::_('ALERTNOTAUTH'));
 }
 //echo JRequest::getCmd('task');exit;
