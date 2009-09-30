@@ -228,14 +228,43 @@ class JTableContent extends JTable
 	 */
 	protected function _getAssetParentId()
 	{
-		// Find the asset_id of the category.
-		$query = new JQuery;
-		$query->select('asset_id');
-		$query->from('#__categories');
-		$query->where('id = '.(int) $this->catid);
-		$this->_db->setQuery($query);
-		if ($result = $this->_db->loadResult()) {
-			return (int) $result;
+		// Initialize variables.
+		$assetId = null;
+
+		// This is a article under a category.
+		if ($this->catid)
+		{
+			// Build the query to get the asset id for the parent category.
+			$query = new JQuery;
+			$query->select('asset_id');
+			$query->from('#__categories');
+			$query->where('id = '.(int) $this->catid);
+
+			// Get the asset id from the database.
+			$this->_db->setQuery($query);
+			if ($result = $this->_db->loadResult()) {
+				$assetId = (int) $result;
+			}
+		}
+		// This is an uncategorized article that needs to parent with the extension.
+		elseif ($assetId === null)
+		{
+			// Build the query to get the asset id for the parent category.
+			$query = new JQuery;
+			$query->select('id');
+			$query->from('#__access_assets');
+			$query->where('name = "com_content"');
+
+			// Get the asset id from the database.
+			$this->_db->setQuery($query);
+			if ($result = $this->_db->loadResult()) {
+				$assetId = (int) $result;
+			}
+		}
+
+		// Return the asset id.
+		if ($assetId) {
+			return $assetId;
 		}
 		else {
 			return parent::_getAssetParentId();
