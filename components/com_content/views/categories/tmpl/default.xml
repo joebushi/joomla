@@ -17,6 +17,7 @@
 			type="categories"
 			label="Choose_Category_Label"
 			description="Choose_Category_Desc"
+			extension="com_content"
 			default="" />
 	</fields>
 </metadata>
