@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `#__access_assets` (
 #
 
 INSERT INTO `#__access_assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `title`, `rules`) VALUES
-(1, 0, 1, 68, 0, 'root.1', 'Root Asset', '{"core.root":{"8":1},"core.login":{"2":1,"3":1,"4":1,"5":1,"6":1,"7":1,"8":1,"9":1},"core.admin":{"6":1,"7":1,"8":1},"core.create":{"3":1,"4":1,"5":1,"6":1,"7":1,"8":1},"core.edit":{"4":1,"5":1,"6":1,"7":1,"8":1},"core.delete":{"6":1,"7":1,"8":1},"core.edit.state":{"5":1,"6":1,"7":1,"8":1}}'),
+(1, 0, 1, 74, 0, 'root.1', 'Root Asset', '{"core.root":{"8":1},"core.login":{"2":1,"3":1,"4":1,"5":1,"6":1,"7":1,"8":1,"9":1},"core.admin":{"6":1,"7":1,"8":1},"core.create":{"3":1,"4":1,"5":1,"6":1,"7":1,"8":1},"core.edit":{"4":1,"5":1,"6":1,"7":1,"8":1},"core.delete":{"6":1,"7":1,"8":1},"core.edit.state":{"5":1,"6":1,"7":1,"8":1}}'),
 (2, 1, 2, 3, 1, 'com_admin','com_admin','{}'),
 (3, 1, 4, 5, 1, 'com_banners','com_banners','{}'),
 (4, 1, 6, 7, 1, 'com_cache','com_cache','{}'),
@@ -49,8 +49,8 @@ INSERT INTO `#__access_assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`
 (22, 1, 58, 59, 1, 'com_search','com_search','{}'),
 (23, 1, 60, 61, 1, 'com_templates','com_templates','{}'),
 (24, 1, 62, 63, 1, 'com_users','com_users','{}'),
-(25, 1, 64, 65, 1, 'com_weblinks','com_weblinks','{}'),
-(26, 1, 66, 67, 1, 'com_wrapper','com_wrapper','{}');
+(25, 1, 64, 71, 1, 'com_weblinks','com_weblinks','{}'),
+(26, 1, 72, 73, 1, 'com_wrapper','com_wrapper','{}');
 
 # -------------------------------------------------------
 

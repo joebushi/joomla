@@ -21,7 +21,11 @@ INSERT INTO `#__access_assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`
 (31, 30, 19, 20, 4,'com_content.category.24','Queensland',''),
 (32, 30, 21, 26, 4,'com_content.category.25','Tasmania',''),
 (33, 31, 22, 23, 5,'com_content.article.2','Great Barrier Reef',''),
-(34, 32, 24, 25, 5,'com_content.article.3','Cradle Mountain-Lake St Clair National Park','');
+(34, 32, 24, 25, 5,'com_content.article.3','Cradle Mountain-Lake St Clair National Park','')
+(35, 25, 65, 70, 2,'com_weblinks.category.20','Uncategorised Weblinks',''),
+(36, 35, 66, 69, 3,'com_weblinks.category.21','Joomla! Specific Links',''),
+(37, 36, 67, 68, 4,'com_weblinks.category.22','Other Resources','');
+
 
 --
 -- Dumping data for table `#__banner`
@@ -40,13 +44,12 @@ INSERT IGNORE INTO `#__bannerclient` VALUES
 --
 -- Dumping data for table `#__categories`
 --
-
 INSERT IGNORE INTO `#__categories` VALUES
 (11, 28, 1, 1, 2, 1, 'news', 'com_content', 'News', 'news', 'The top articles category.', 1, 0, '0000-00-00 00:00:00', 1, '{}', '', '', '', 0, '2009-06-22 19:42:11', 0, '0000-00-00 00:00:00', 0, 'en_GB'),
 (12, 29, 1, 9, 16, 1, 'countries', 'com_content', 'Countries', 'countries', 'The latest news from the Joomla! Team', 1, 0, '0000-00-00 00:00:00', 1, '{}', '', '', '', 0, '2009-06-22 20:25:13', 0, '0000-00-00 00:00:00', 0, 'en_GB'),
-(20, 0, 1, 3, 8, 1, 'uncategorised-weblinks', 'com_weblinks', 'Uncategorised Weblinks', 'uncategorised-weblinks', 'The top weblinks category.', 1, 42, '2009-03-15 15:34:27', 1, '{}', '', '', '', 0, '2009-06-22 19:42:11', 0, '0000-00-00 00:00:00', 0, 'en_GB'),
-(21, 0, 20, 4, 7, 2, 'uncategorised-weblinks/joomla-specific-links', 'com_weblinks', 'Joomla! Specific Links', 'joomla-specific-links', 'A selection of links that are all related to the Joomla! Project.', 1, 42, '2009-03-15 15:34:27', 1, '{}', '', '', '', 0, '2009-06-22 19:42:11', 0, '0000-00-00 00:00:00', 0, 'en_GB'),
-(22, 0, 21, 5, 6, 3, 'uncategorised-weblinks/joomla-specific-links/other-resources', 'com_weblinks', 'Other Resources', 'other-resources', '', 1, 0, '0000-00-00 00:00:00', 1, '{}', '', '', '', 0, '2009-06-22 19:42:11', 0, '0000-00-00 00:00:00', 0, 'en_GB'),
+(20, 35, 1, 3, 8, 1, 'uncategorised-weblinks', 'com_weblinks', 'Uncategorised Weblinks', 'uncategorised-weblinks', 'The top weblinks category.', 1, 42, '2009-03-15 15:34:27', 1, '{}', '', '', '', 0, '2009-06-22 19:42:11', 0, '0000-00-00 00:00:00', 0, 'en_GB'),
+(21, 36, 20, 4, 7, 2, 'uncategorised-weblinks/joomla-specific-links', 'com_weblinks', 'Joomla! Specific Links', 'joomla-specific-links', 'A selection of links that are all related to the Joomla! Project.', 1, 42, '2009-03-15 15:34:27', 1, '{}', '', '', '', 0, '2009-06-22 19:42:11', 0, '0000-00-00 00:00:00', 0, 'en_GB'),
+(22, 37, 21, 5, 6, 3, 'uncategorised-weblinks/joomla-specific-links/other-resources', 'com_weblinks', 'Other Resources', 'other-resources', '', 1, 0, '0000-00-00 00:00:00', 1, '{}', '', '', '', 0, '2009-06-22 19:42:11', 0, '0000-00-00 00:00:00', 0, 'en_GB'),
 (23, 30, 12, 10, 15, 2, 'countries/australia', 'com_content', 'Australia', 'australia', '', 1, 0, '0000-00-00 00:00:00', 1, '', '', '', '', 0, '2009-06-22 20:25:13', 0, '0000-00-00 00:00:00', 0, ''),
 (24, 31, 23, 11, 12, 3, 'countries/australia/queensland', 'com_content', 'Queensland', 'queensland', '', 1, 0, '0000-00-00 00:00:00', 1, '', '', '', '', 0, '2009-06-22 20:25:17', 0, '0000-00-00 00:00:00', 0, ''),
 (25, 32, 23, 13, 14, 3, 'countries/australia/tasmania', 'com_content', 'Tasmania', 'tasmania', '', 1, 0, '0000-00-00 00:00:00', 1, '', '', '', '', 0, '2009-06-22 20:25:17', 0, '0000-00-00 00:00:00', 0, '');
