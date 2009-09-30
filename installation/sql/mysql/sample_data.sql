@@ -11,9 +11,9 @@ INSERT IGNORE INTO `#__viewlevels` (`id`, `title`, `ordering`, `rules`) VALUES
 (4, 'Confidential', 3, '[9]');
 
 --
--- Dumping data for table `#__access_assets`
+-- Dumping data for table `#__assets`
 --
-INSERT INTO `#__access_assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `title`, `rules`) VALUES
+INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `title`, `rules`) VALUES
 (27, 8, 29, 30, 2,'com_content.article.1','Welcome to Joomla!',''),
 (28, 8, 15, 16, 2,'com_content.category.11','News',''),
 (29, 8, 17, 28, 2,'com_content.category.12','Countries',''),

@@ -65,9 +65,9 @@ class JAccess extends JObject
 		$query	= new JQuery;
 
 		$query->select('b.rules');
-		$query->from('#__access_assets AS a');
+		$query->from('#__assets AS a');
 		$query->where('a.name = '.$db->quote($assetName));
-		$query->leftJoin('#__access_assets AS b ON b.lft <= a.lft AND b.rgt >= a.rgt');
+		$query->leftJoin('#__assets AS b ON b.lft <= a.lft AND b.rgt >= a.rgt');
 		$query->order('b.lft');
 
 		$db->setQuery($query);
@@ -279,11 +279,11 @@ class JAccess extends JObject
 		$query	= new JQuery;
 
 		$query->select($recursive ? 'b.rules' : 'a.rules');
-		$query->from('#__access_assets AS a');
+		$query->from('#__assets AS a');
 		$query->where('a.id = '.(int) $assetId);
 		if ($recursive)
 		{
-			$query->leftJoin('#__access_assets AS b ON b.lft <= a.lft AND b.rgt >= a.rgt');
+			$query->leftJoin('#__assets AS b ON b.lft <= a.lft AND b.rgt >= a.rgt');
 			$query->order('b.lft');
 		}
 

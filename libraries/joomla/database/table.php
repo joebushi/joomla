@@ -672,7 +672,7 @@ abstract class JTable extends JObject
 		// Get the asset id for the asset.
 		$this->_db->setQuery(
 			'SELECT `id`' .
-			' FROM `#__access_assets`' .
+			' FROM `#__assets`' .
 			' WHERE `name` = '.$this->_db->Quote($name)
 		);
 		$assetId = $this->_db->loadResult();
@@ -698,7 +698,7 @@ abstract class JTable extends JObject
 
 		// Delete the asset.
 		$this->_db->setQuery(
-			'DELETE FROM `#__access_assets`' .
+			'DELETE FROM `#__assets`' .
 			' WHERE `id` = '.(int) $assetId
 		);
 		$this->_db->query();

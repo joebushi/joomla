@@ -2,10 +2,10 @@
 
 
 #
-# Table structure for table `#__access_assets`
+# Table structure for table `#__assets`
 #
 
-CREATE TABLE IF NOT EXISTS `#__access_assets` (
+CREATE TABLE IF NOT EXISTS `#__assets` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
   `parent_id` int(11) NOT NULL DEFAULT '0' COMMENT 'Nested set parent.',
   `lft` int(11) NOT NULL DEFAULT '0' COMMENT 'Nested set lft.',
@@ -21,10 +21,10 @@ CREATE TABLE IF NOT EXISTS `#__access_assets` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 #
-# Dumping data for table `#__access_assets`
+# Dumping data for table `#__assets`
 #
 
-INSERT INTO `#__access_assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `title`, `rules`) VALUES
+INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `title`, `rules`) VALUES
 (1, 0, 1, 74, 0, 'root.1', 'Root Asset', '{"core.root":{"8":1},"core.login":{"2":1,"3":1,"4":1,"5":1,"6":1,"7":1,"8":1,"9":1},"core.admin":{"6":1,"7":1,"8":1},"core.create":{"3":1,"4":1,"5":1,"6":1,"7":1,"8":1},"core.edit":{"4":1,"5":1,"6":1,"7":1,"8":1},"core.delete":{"6":1,"7":1,"8":1},"core.edit.state":{"5":1,"6":1,"7":1,"8":1}}'),
 (2, 1, 2, 3, 1, 'com_admin','com_admin','{}'),
 (3, 1, 4, 5, 1, 'com_banners','com_banners','{}'),
@@ -150,7 +150,7 @@ CREATE TABLE  `#__bannertrack` (
 
 CREATE TABLE `#__categories` (
   `id` int(11) NOT NULL auto_increment,
-  `asset_id` INTEGER UNSIGNED NOT NULL DEFAULT 0 COMMENT 'FK to the #__access_assets table.',
+  `asset_id` INTEGER UNSIGNED NOT NULL DEFAULT 0 COMMENT 'FK to the #__assets table.',
   `parent_id` int(10) unsigned NOT NULL default '0',
   `lft` int(11) NOT NULL default '0',
   `rgt` int(11) NOT NULL default '0',
@@ -297,7 +297,7 @@ CREATE TABLE `#__contact_details` (
 
 CREATE TABLE `#__content` (
   `id` integer unsigned NOT NULL auto_increment,
-  `asset_id` INTEGER UNSIGNED NOT NULL DEFAULT 0 COMMENT 'FK to the #__access_assets table.',
+  `asset_id` INTEGER UNSIGNED NOT NULL DEFAULT 0 COMMENT 'FK to the #__assets table.',
   `title` varchar(255) NOT NULL default '',
   `alias` varchar(255) NOT NULL default '',
   `title_alias` varchar(255) NOT NULL default '',

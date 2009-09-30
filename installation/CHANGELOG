@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+01-Oct-2009 Andrew Eddie
+- Removed JAccessLevel and JSimpleRule
+^ Rename jos_access_assets to jos_assets
 
 29-Sep-2009 Louis Landry
 

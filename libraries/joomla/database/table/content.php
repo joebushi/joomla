@@ -25,7 +25,7 @@ class JTableContent extends JTable
 	public $id = null;
 
 	/**
-	 * @var int Foreign key to #__access_assets.id
+	 * @var int Foreign key to #__assets.id
 	 */
 	public $asset_id = null;
 
@@ -252,7 +252,7 @@ class JTableContent extends JTable
 			// Build the query to get the asset id for the parent category.
 			$query = new JQuery;
 			$query->select('id');
-			$query->from('#__access_assets');
+			$query->from('#__assets');
 			$query->where('name = "com_content"');
 
 			// Get the asset id from the database.
