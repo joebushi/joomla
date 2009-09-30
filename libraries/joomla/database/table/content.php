@@ -198,6 +198,19 @@ class JTableContent extends JTable
 	}
 
 	/**
+	 * Method to compute the default name of the asset.
+	 * The default name is in the form `table_name.id`
+	 * where id is the value of the primary key of the table.
+	 *
+	 * @return	string
+	 */
+	protected function _getAssetName()
+	{
+		$k = $this->_tbl_key;
+		return 'com_content.article.'.(int) $this->$k;
+	}
+
+	/**
 	 * Method to return the title to use for the asset table.
 	 *
 	 * @return	string

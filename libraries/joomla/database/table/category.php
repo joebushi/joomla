@@ -105,6 +105,19 @@ class JTableCategory extends JTableNested
 	}
 
 	/**
+	 * Method to compute the default name of the asset.
+	 * The default name is in the form `table_name.id`
+	 * where id is the value of the primary key of the table.
+	 *
+	 * @return	string
+	 */
+	protected function _getAssetName()
+	{
+		$k = $this->_tbl_key;
+		return $this->extension.'.category.'.(int) $this->$k;
+	}
+
+	/**
 	 * Method to return the title to use for the asset table.
 	 *
 	 * @return	string
@@ -122,14 +135,43 @@ class JTableCategory extends JTableNested
 	 */
 	protected function _getAssetParentId()
 	{
-		// Find the asset_id of the category.
-		$query = new JQuery;
-		$query->select('asset_id');
-		$query->from('#__categories');
-		$query->where('id = '.(int) $this->parent_id);
-		$this->_db->setQuery($query);
-		if ($result = $this->_db->loadResult()) {
-			return (int) $result;
+		// Initialize variables.
+		$assetId = null;
+
+		// This is a category under a category.
+		if ($this->parent_id > 1)
+		{
+			// Build the query to get the asset id for the parent category.
+			$query = new JQuery;
+			$query->select('asset_id');
+			$query->from('#__categories');
+			$query->where('id = '.(int) $this->parent_id);
+
+			// Get the asset id from the database.
+			$this->_db->setQuery($query);
+			if ($result = $this->_db->loadResult()) {
+				$assetId = (int) $result;
+			}
+		}
+		// This is a category that needs to parent with the extension.
+		elseif ($assetId === null)
+		{
+			// Build the query to get the asset id for the parent category.
+			$query = new JQuery;
+			$query->select('id');
+			$query->from('#__access_assets');
+			$query->where('name = '.$this->_db->quote($this->extension));
+
+			// Get the asset id from the database.
+			$this->_db->setQuery($query);
+			if ($result = $this->_db->loadResult()) {
+				$assetId = (int) $result;
+			}
+		}
+
+		// Return the asset id.
+		if ($assetId) {
+			return $assetId;
 		}
 		else {
 			return parent::_getAssetParentId();
