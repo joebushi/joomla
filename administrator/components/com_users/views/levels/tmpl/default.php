@@ -28,10 +28,6 @@ JHtml::_('behavior.tooltip');
 		<div class="right">
 			<ol>
 				<li>
-					<label for="filter_group_id">
-						<?php echo JText::_('Users_Filter_Section'); ?>
-					</label>
-					<?php echo JHtml::_('access.section', 'filter_section_id', $this->state->get('filter.section_id'), 'onchange="this.form.submit()"'); ?>
 				</li>
 			</ol>
 		</div>
