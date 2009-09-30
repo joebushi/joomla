@@ -7,8 +7,8 @@
 -- Dumping data for table `#__access_asset_assetgroups`
 --
 
-INSERT IGNORE INTO `#__viewlevels` (`id`, `title`, `section_id`, `section`, `ordering`, `rules`) VALUES
-(4, 'Confidential', 1, 'core', 3, '[9]');
+INSERT IGNORE INTO `#__viewlevels` (`id`, `title`, `ordering`, `rules`) VALUES
+(4, 'Confidential', 3, '[9]');
 
 --
 -- Dumping data for table `#__access_assets`
@@ -21,7 +21,7 @@ INSERT INTO `#__access_assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`
 (31, 30, 19, 20, 4,'com_content.category.24','Queensland',''),
 (32, 30, 21, 26, 4,'com_content.category.25','Tasmania',''),
 (33, 31, 22, 23, 5,'com_content.article.2','Great Barrier Reef',''),
-(34, 32, 24, 25, 5,'com_content.article.3','Cradle Mountain-Lake St Clair National Park','')
+(34, 32, 24, 25, 5,'com_content.article.3','Cradle Mountain-Lake St Clair National Park',''),
 (35, 25, 65, 70, 2,'com_weblinks.category.20','Uncategorised Weblinks',''),
 (36, 35, 66, 69, 3,'com_weblinks.category.21','Joomla! Specific Links',''),
 (37, 36, 67, 68, 4,'com_weblinks.category.22','Other Resources','');
@@ -116,7 +116,7 @@ INSERT IGNORE INTO `#__menu_types` VALUES
 --
 
 INSERT IGNORE INTO `#__usergroups` VALUES
-(9, 2, 15, 16, 'Park Rangers', 1, 'core');
+(9, 2, 15, 16, 'Park Rangers');
 
 --
 -- Dumping data for table `#__weblinks`
