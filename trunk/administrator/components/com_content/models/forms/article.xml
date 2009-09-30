@@ -34,15 +34,6 @@
 			size="45"
 			default=""/>
 
-		<field
-			id="introtext"
-			name="introtext"
-			type="editor"
-			class="inputbox"
-			label="Content_Introtext_Label"
-			description="Content_Introtext_Desc"
-			filter="safehtml"
-			default=""/>
 
 		<field
 			id="fulltext"
@@ -51,7 +42,7 @@
 			label="Content_Fulltext_Label"
 			description="Content_Fulltext_Desc"
 			class="inputbox"
-			filter="safehtml"
+			filter=""
 			default=""/>
 
 		<field
