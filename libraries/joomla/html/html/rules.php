@@ -53,11 +53,11 @@ abstract class JHtmlRules
 
 		$html[] = '	<dl class="tabs">';
 
-		$html[] = '		<dt>'.JText::_('Summary').'</dt>';
+		$html[] = '		<dt>'.JText::_('CONTENT_ACCESS_SUMMARY').'</dt>';
 		$html[] = '		<dd>';
 		$html[] = '			<p>'.JText::_('CONTENT_ACCESS_SUMMARY_DESC').'</p>';
 		$html[] = '			<table class="aclsummary-table" summary="'.JText::_('CONTENT_ACCESS_SUMMARY_DESC').'">';
-		$html[] = ' 			<caption>ACL Summary Table</caption>';
+		$html[] = ' 			<caption>'.JText::_('CONTENT_ACCESS_SUMMARY_DESC_CAPTION').'</caption>';
 		$html[] = ' 			<tr>';
 		$html[] = ' 				<th class="col1"></th>';
 		foreach ($actions as $i => $action)
@@ -86,12 +86,12 @@ abstract class JHtmlRules
 			$html[] = '		<dd style="display:none;">';
 			$html[] = '			<p>'.JText::_($action->description).'</p>';
 			$html[] = '			<table class="aclmodify-table" summary="'.JText::_($action->description).'">';
-			$html[] = ' 			<caption>ACL '.JText::_($action->title).' Table</caption>';
+			$html[] = ' 			<caption>'.JText::_('CONTENT_ACCESS_MODIFY_DESC_CAPTION_ACL').' '.JText::_($action->title).' '.JText::_('CONTENT_ACCESS_MODIFY_DESC_CAPTION_TABLE').'</caption>';
 			$html[] = ' 			<tr>';
 			$html[] = ' 				<th class="col1"></th>';
-			$html[] = ' 				<th class="col2">'.JText::_('Inherit').'</th>';
+			$html[] = ' 				<th class="col2">'.JText::_('JINHERIT').'</th>';
 			$html[] = ' 				<th class="col3"></th>';
-			$html[] = ' 				<th class="col4">'.JText::_('Current').'</th>';
+			$html[] = ' 				<th class="col4">'.JText::_('JCURRENT').'</th>';
 			$html[] = ' 			</tr>';
 
 			foreach ($groups as $i => $group)
@@ -101,9 +101,9 @@ abstract class JHtmlRules
 				$html[] = ' 				<td class="col2">'.($inheriting->allow($action->name, $group->value) ? $images['allow-i'] : $images['deny-i']).'</td>';
 				$html[] = ' 				<td class="col3">';
 				$html[] = ' 					<select id="'.$idPrefix.'_'.$action->name.'_'.$group->value.'" class="inputbox" size="1" name="'.$control.'['.$action->name.']['.$group->value.']">';
-				$html[] = ' 						<option value=""'.($rules->allow($action->name, $group->value) === null ? ' selected="selected"' : '').'>'.JText::_('Inherit').'</option>';
-				$html[] = ' 						<option value="1"'.($rules->allow($action->name, $group->value) === true ? ' selected="selected"' : '').'>'.JText::_('Allow').'</option>';
-				$html[] = ' 						<option value="0"'.($rules->allow($action->name, $group->value) === false ? ' selected="selected"' : '').'>'.JText::_('Deny').'</option>';
+				$html[] = ' 						<option value=""'.($rules->allow($action->name, $group->value) === null ? ' selected="selected"' : '').'>'.JText::_('JINHERIT').'</option>';
+				$html[] = ' 						<option value="1"'.($rules->allow($action->name, $group->value) === true ? ' selected="selected"' : '').'>'.JText::_('JALLOW').'</option>';
+				$html[] = ' 						<option value="0"'.($rules->allow($action->name, $group->value) === false ? ' selected="selected"' : '').'>'.JText::_('JDENY').'</option>';
 				$html[] = ' 					</select>';
 				$html[] = ' 				</td>';
 				$html[] = ' 				<td class="col4">'.($inherited->allow($action->name, $group->value) ? $images['allow'] : $images['deny']).'</td>';
@@ -119,10 +119,10 @@ abstract class JHtmlRules
 		// Build the footer with legend and special purpose buttons.
 		$html[] = '	<div class="clr"></div>';
 		$html[] = '	<ul class="acllegend">';
-		$html[] = '		<li class="acl-allowed">'.JText::_('Allowed').'</li>';
-		$html[] = '		<li class="acl-denied">'.JText::_('Denied').'</li>';
-		$html[] = '		<li class="acl-editgroups"><a href="#">'.JText::_('Edit Groups').'</a></li>';
-		$html[] = '		<li class="acl-resetbtn"><a href="#">'.JText::_('Reset to Inherit').'</a></li>';
+		$html[] = '		<li class="acl-allowed">'.JText::_('JALLOWED').'</li>';
+		$html[] = '		<li class="acl-denied">'.JText::_('JDENIED').'</li>';
+		$html[] = '		<li class="acl-editgroups"><a href="#">'.JText::_('CONTENT_ACCESS_EDIT_GROUPS').'</a></li>';
+		$html[] = '		<li class="acl-resetbtn"><a href="#">'.JText::_('CONTENT_ACCESS_RESET_TO_INHERIT').'</a></li>';
 		$html[] = '	</ul>';
 		$html[] = '</div>';
 
@@ -175,10 +175,10 @@ abstract class JHtmlRules
 	protected static function _getImagesArray()
 	{
 		$base = JURI::root(true);
-		$images['allow'] = '<span class="icon-16-allow" title="'.JText::_('Allow').'"> </span>';
-		$images['deny'] = '<span class="icon-16-deny" title="'.JText::_('Deny').'"> </span>';
-		$images['allow-i'] = '<span class="icon-16-allowinactive" title="'.JText::_('Allow (Inherited)').'"> </span>';
-		$images['deny-i'] = '<span class="icon-16-denyinactive" title="'.JText::_('Deny (Inherited)').'"> </span>';
+		$images['allow'] = '<span class="icon-16-allow" title="'.JText::_('JALLOW').'"> </span>';
+		$images['deny'] = '<span class="icon-16-deny" title="'.JText::_('JDENY').'"> </span>';
+		$images['allow-i'] = '<span class="icon-16-allowinactive" title="'.JText::_('JALLOW_INHERITED)').'"> </span>';
+		$images['deny-i'] = '<span class="icon-16-denyinactive" title="'.JText::_('JDENY_INHERITED').'"> </span>';
 
 		return $images;
 	}
