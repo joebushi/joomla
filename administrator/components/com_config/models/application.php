@@ -170,11 +170,18 @@ class ConfigModelApplication extends JModelForm
 			jimport('joomla.access.rules');
 			$rules	= new JRules($data['rules']);
 			$asset	= JTable::getInstance('asset');
-			$asset->loadByName('root.1');
-			$asset->rules = (string) $rules;
+			if ($asset->loadByName('root.1'))
+			{
+				$asset->rules = (string) $rules;
 
-			if (!$asset->check() || !$asset->store()) {
-				JError::raiseNotice('SOME_ERROR_CODE', $asset->getError());
+				if (!$asset->check() || !$asset->store()) {
+					JError::raiseNotice('SOME_ERROR_CODE', $asset->getError());
+				}
+			}
+			else
+			{
+				$this->setError('Config_Error_Root_asset_not_found');
+				return false;
 			}
 		}
 

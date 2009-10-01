@@ -56,7 +56,20 @@ class JFormFieldRules extends JFormField
 		}
 
 		// Get the rules for this asset.
-		$assetId = $this->_form->getValue($assetField);
+		if ($section == 'component')
+		{
+			// Need to find the asset id by the name of the component.
+			$db = JFactory::getDbo();
+			$db->setQuery('SELECT id FROM #__assets WHERE name = '.$db->quote($component));
+			$assetId = (int) $db->loadResult();
+			if ($error = $db->getErrorMsg()) {
+				JError::raiseNotice(500, $error);
+			}
+		}
+		else {
+			$assetId = $this->_form->getValue($assetField);
+		}
+
 		$rules = JAccess::getAssetRules($assetId);
 
 		// Get the available user groups.
@@ -88,7 +101,7 @@ class JFormFieldRules extends JFormField
 		foreach ($groups as $group)
 		{
 			$html[] = '	<tr>';
-			$html[] = '		<th style="border-bottom:1px solid #ccc">';
+			$html[] = '		<th style="border-bottom:1px solid #ccc;text-align:left;">';
 			$html[] = '			'.$group->text;
 			$html[] = '		</th>';
 			foreach ($actions as $action)
@@ -101,14 +114,14 @@ class JFormFieldRules extends JFormField
 				if ($assetId == 1)
 				{
 					// Very special case for the root asset.
-					$html[] = '					<option value=""'.($rules->allow($action->name, $group->value) !== true ? ' selected="selected"' : '').'>'.JText::_('Deny').'</option>';
-					$html[] = '					<option value="1"'.($rules->allow($action->name, $group->value) === true ? ' selected="selected"' : '').'>'.JText::_('Allow').'</option>';
+					$html[] = '					<option value=""'.($rules->allow($action->name, $group->value) !== true ? ' selected="selected"' : '').'>'.JText::_('JDeny').'</option>';
+					$html[] = '					<option value="1"'.($rules->allow($action->name, $group->value) === true ? ' selected="selected"' : '').'>'.JText::_('JAllow').'</option>';
 				}
 				else
 				{
-					$html[] = '					<option value=""'.($rules->allow($action->name, $group->value) === null ? ' selected="selected"' : '').'>'.JText::_('Inherit').'</option>';
-					$html[] = '					<option value="0"'.($rules->allow($action->name, $group->value) === false ? ' selected="selected"' : '').'>'.JText::_('Deny').'</option>';
-					$html[] = '					<option value="1"'.($rules->allow($action->name, $group->value) === true ? ' selected="selected"' : '').'>'.JText::_('Allow').'</option>';
+					$html[] = '					<option value=""'.($rules->allow($action->name, $group->value) === null ? ' selected="selected"' : '').'>'.JText::_('JInherit').'</option>';
+					$html[] = '					<option value="0"'.($rules->allow($action->name, $group->value) === false ? ' selected="selected"' : '').'>'.JText::_('JDeny').'</option>';
+					$html[] = '					<option value="1"'.($rules->allow($action->name, $group->value) === true ? ' selected="selected"' : '').'>'.JText::_('JAllow').'</option>';
 				}
 				$html[] = '				</select>';
 				//$html[] = '			</fieldset>';

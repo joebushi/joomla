@@ -31,6 +31,7 @@ $ -> Language fix or change
 - Removed JAccessLevel and JSimpleRule
 ^ Rename jos_access_assets to jos_assets
 + Added permissions to global configuration.
++ Added permissions to component configuration.
 
 29-Sep-2009 Louis Landry
 
