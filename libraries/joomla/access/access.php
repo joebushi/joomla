@@ -59,7 +59,9 @@ class JAccess extends JObject
 		$userId = (int) $userId;
 		$actionName = strtolower(preg_replace('#[\s\-]+#', '.', trim($actionName)));
 		$assetName  = strtolower(preg_replace('#[\s\-]+#', '.', trim($assetName)));
-
+		if (empty($assetName)) {
+			$assetName = 'root.1';
+		}
 
 		$db		= JFactory::getDbo();
 		$query	= new JQuery;
@@ -77,8 +79,9 @@ class JAccess extends JObject
 
 		// Get all groups that the user is mapped to
 		$userGroupIds = $this->getUserGroupMap($userId, true);
+		array_unshift($userGroupIds, $userId*-1);
 
-		return $rules->allow($actionName, array_merge(array($userId*-1), $userGroupIds));
+		return $rules->allow($actionName, $userGroupIds);
 	}
 
 	/**

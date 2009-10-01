@@ -56,13 +56,13 @@ class JApplication extends JObject
 
 	/**
 	 * The time the request was made
-	 * 
+	 *
 	 * @var		date
 	 */
 	public $requestTime = null;
 	/**
 	 * The time the request was made as Unix timestamp
-	 * 
+	 *
 	 * @var 	integer
 	 * @since 	1.6
 	 */
