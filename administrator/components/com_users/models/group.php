@@ -79,17 +79,7 @@ class UsersModelGroup extends JModelForm
 			return $false;
 		}
 
-		$value = JArrayHelper::toObject($table->getProperties(1), 'JObject');
-
-		//
-		// Perform the rule pivot for read
-		//
-		$value->actions = array();
-
-		// Get all the core type 1 rules
-		$actions	= JAccess::getActions('core');
-
-		return $actions;
+		return $table;
 	}
 
 	/**
