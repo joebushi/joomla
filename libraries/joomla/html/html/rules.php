@@ -77,7 +77,7 @@ abstract class JHtmlRules
 			$html[] = ' 				<td class="col1">'.$group->text.'</td>';
 			foreach ($actions as $i => $action)
 			{
-				$html[] = ' 				<td class="col'.($i+2).'">'.($inheriting->allow($action->name, $group->value) ? $images['allow-i'] : $images['deny-i']).'</td>';
+				$html[] = ' 				<td class="col'.($i+2).'">'.($inherited->allow($action->name, $group->value) ? $images['allow-i'] : $images['deny-i']).'</td>';
 			}
 			$html[] = ' 			</tr>';
 		}
