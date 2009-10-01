@@ -102,7 +102,7 @@ window.addEvent('domready', function(){
 	<div class="width-50">
 		<fieldset>
 			<legend><?php echo JText::_('Users_User_Groups_Having_Access');?></legend>
-			<?php echo JHtml::_('access.usergroups', 'jform[groups]', $this->item->getUserGroups()); ?>
+			<?php echo JHtml::_('access.usergroups', 'jform[groups]', $this->item->groups); ?>
 		</fieldset>
 	</div>
 

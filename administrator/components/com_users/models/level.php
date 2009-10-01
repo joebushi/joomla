@@ -62,11 +62,25 @@ class UsersModelLevel extends JModelForm
 		$levelId = (!empty($levelId)) ? $levelId : (int)$this->getState('level.id');
 		$false	= false;
 
-		$item = & JAccessHelper::getAccessLevel((int)$levelId);
+		// Get a database object.
+		$db	= JFactory::getDBO();
 
-		if (count($item->getErrors())) {
+		// Build the base query.
+		$query	= new JQuery;
+		$query->select('id, title, rules');
+		$query->from('`#__viewlevels`');
+		$query->where('id = '.$levelId);
+
+		// Set the query for execution.
+		$db->setQuery((string) $query);
+
+		$item = $db->loadObject();
+
+		if (!is_object($item)) {
 			return $false;
 		}
+		
+		$item->groups = json_decode($item->rules);
 
 		return $item;
 	}
