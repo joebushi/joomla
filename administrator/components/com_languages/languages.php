@@ -11,7 +11,7 @@
 defined('_JEXEC') or die;
 
 $user = & JFactory::getUser();
-if (!$user->authorize('core.admin', 'com_languages')) {
+if (!$user->authorize('core.manage', 'com_languages')) {
 	JFactory::getApplication()->redirect('index.php', JText::_('ALERTNOTAUTH'));
 }
 

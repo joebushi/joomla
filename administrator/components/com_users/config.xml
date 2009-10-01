@@ -68,9 +68,9 @@
 			component="com_users"
 			section="component">
 			<action
-				name="core.admin"
-				title="JAction_Admin"
-				description="JAction_Admin_Desc" />
+				name="core.manage"
+				title="JAction_Manage"
+				description="JAction_Manage_Desc" />
 			<action
 				name="core.create"
 				title="JAction_Create"

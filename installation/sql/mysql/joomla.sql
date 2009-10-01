@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `#__assets` (
 #
 
 INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `title`, `rules`) VALUES
-(1, 0, 1, 74, 0, 'root.1', 'Root Asset', '{"core.root":{"8":1},"core.login":{"2":1,"3":1,"4":1,"5":1,"6":1,"7":1,"8":1,"9":1},"core.admin":{"6":1,"7":1,"8":1},"core.create":{"3":1,"4":1,"5":1,"6":1,"7":1,"8":1},"core.edit":{"4":1,"5":1,"6":1,"7":1,"8":1},"core.delete":{"6":1,"7":1,"8":1},"core.edit.state":{"5":1,"6":1,"7":1,"8":1}}'),
+(1, 0, 1, 74, 0, 'root.1', 'Root Asset', '{"core.admin":{"8":1},"core.login":{"2":1,"3":1,"4":1,"5":1,"6":1,"7":1,"8":1,"9":1},"core.manage":{"6":1,"7":1,"8":1},"core.create":{"3":1,"4":1,"5":1,"6":1,"7":1,"8":1},"core.edit":{"4":1,"5":1,"6":1,"7":1,"8":1},"core.delete":{"6":1,"7":1,"8":1},"core.edit.state":{"5":1,"6":1,"7":1,"8":1}}'),
 (2, 1, 2, 3, 1, 'com_admin','com_admin','{}'),
 (3, 1, 4, 5, 1, 'com_banners','com_banners','{}'),
 (4, 1, 6, 7, 1, 'com_cache','com_cache','{}'),

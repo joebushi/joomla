@@ -88,7 +88,7 @@ class ModMenuHelper
 			if ($component->parent == 0)
 			{
 				// Only add this top level if it is authorised and enabled.
-				if (!$authCheck == false || $user->authorize('core.admin', $component->option))
+				if (!$authCheck == false || $user->authorize('core.manage', $component->option))
 				{
 					// Root level.
 					$result[$component->id] = $component;

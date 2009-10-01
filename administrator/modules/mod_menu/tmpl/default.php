@@ -26,14 +26,14 @@ if ($enabled)
 
 
 
-	if ($user->authorize('core.admin', 'com_config')) {
+	if ($user->authorize('core.manage', 'com_config')) {
 		$menu->addChild(new JMenuNode(JText::_('Configuration'), 'index.php?option=com_config', 'class:config'));
 		$menu->addSeparator();
 	}
 
-$com = $user->authorize('core.admin', 'com_config');
-$chm = $user->authorize('core.admin', 'com_checkin');
-$cam = $user->authorize('core.admin', 'com_cache');
+$com = $user->authorize('core.manage', 'com_config');
+$chm = $user->authorize('core.manage', 'com_checkin');
+$cam = $user->authorize('core.manage', 'com_cache');
 
 if ($com || $chm || $cam )
 
@@ -69,7 +69,7 @@ else {
 // Users Submenu
 //
 
-if ($user->authorize('core.admin', 'com_users'))
+if ($user->authorize('core.manage', 'com_users'))
 	{
 	if ($enabled)
 	{
@@ -98,7 +98,7 @@ if ($user->authorize('core.admin', 'com_users'))
 		);
 
 		$menu->addSeparator();
-		if ($user->authorize('core.admin', 'com_massmail'))
+		if ($user->authorize('core.manage', 'com_massmail'))
 		{
 			$menu->addChild(new JMenuNode(JText::_('Mod_menu_Mass_Mail_Users'), 'index.php?option=com_massmail', 'class:massmail'));
 			$menu->addChild(new JMenuNode(JText::_('Mod_menu_Read_Private_Messages'), 'index.php?option=com_messages', 'class:readmess'));
@@ -114,7 +114,7 @@ if ($user->authorize('core.admin', 'com_users'))
 //
 // Menus Submenu
 //
-if ($user->authorize('core.admin', 'com_menus'))
+if ($user->authorize('core.manage', 'com_menus'))
 {
 	if ($enabled)
 	{
@@ -147,7 +147,7 @@ if ($user->authorize('core.admin', 'com_menus'))
 // Content Submenu
 //
 
-if ($user->authorize('core.admin', 'com_content'))
+if ($user->authorize('core.manage', 'com_content'))
 {
 	if ($enabled)
 	{
@@ -173,7 +173,7 @@ if ($user->authorize('core.admin', 'com_content'))
 		);
 
 		$menu->addSeparator();
-		if ($user->authorize('core.admin', 'com_media')) {
+		if ($user->authorize('core.manage', 'com_media')) {
 			$menu->addChild(new JMenuNode(JText::_('Mod_Menu_Media_Manager'), 'index.php?option=com_media', 'class:media'));
 		}
 
@@ -227,11 +227,11 @@ else {
 //
 // Extensions Submenu
 //
-$im = $user->authorize('core.admin', 'com_installer');
-$mm = $user->authorize('core.admin', 'com_modules');
-$pm = $user->authorize('core.admin', 'com_plugins');
-$tm = $user->authorize('core.admin', 'com_templates');
-$lm = $user->authorize('core.admin', 'com_languages');
+$im = $user->authorize('core.manage', 'com_installer');
+$mm = $user->authorize('core.manage', 'com_modules');
+$pm = $user->authorize('core.manage', 'com_plugins');
+$tm = $user->authorize('core.manage', 'com_templates');
+$lm = $user->authorize('core.manage', 'com_languages');
 
 if ($im || $mm || $pm || $tm || $lm)
 {

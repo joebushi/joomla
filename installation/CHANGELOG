@@ -32,6 +32,7 @@ $ -> Language fix or change
 ^ Rename jos_access_assets to jos_assets
 + Added permissions to global configuration.
 + Added permissions to component configuration.
+^ Split com_banners helper into site and admin; renamed to BannersHelper.
 
 29-Sep-2009 Louis Landry
 

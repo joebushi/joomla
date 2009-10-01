@@ -71,7 +71,7 @@ class MessagesModelMessage extends JModel
 		$userid = JRequest::getInt('userid', 0);
 
 		// Include user in groups that have access to log in to the administrator.
-		$return = $access->getAuthorisedUsergroups('core.administrator.login', true);
+		$return = $access->getAuthorisedUsergroups('core.manageistrator.login', true);
 		if (count($return)) {
 			$groups = array_merge($groups, $return);
 		}
