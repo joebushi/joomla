@@ -1520,7 +1520,6 @@ table.aclmodify-table {
 	width: 100%;
 	font-size: 12px;
 }
-
 td.col1 {
 	font-size: 12px;
 	text-align:left;
@@ -1535,7 +1534,6 @@ table.aclmodify-table caption{
 }
 
 /* Summary Tab */
-
 table.aclsummary-table th.col1 {
 	width:40%;
 }
@@ -1561,35 +1559,41 @@ table.aclmodify-table th.col2 {
 }
 
 /* Icons */
-span.icon-16-allow { 
+label.icon-16-allow, 
+label.icon-16-deny, 
+a.icon-16-allow,
+a.icon-16-deny,
+a.icon-16-allowinactive,
+a.icon-16-denyinactive {
+	display:block; 
+	height: 16px; 
+	width: 16px;
+	margin: 0 auto;
+}
+label.icon-16-allow { 
 	background:url(../images/admin/icon-16-allow.png) no-repeat; 
-	display:block; 
-	height: 16px; 
-	width: 16px;
-	margin: 0 auto;
+	text-indent:-9999em;
+	position:relative;
+	left: 40%;
 }
-span.icon-16-deny { 
+label.icon-16-deny { 
 	background:url(../images/admin/icon-16-deny.png) no-repeat; 
-	display:block; 
-	height: 16px; 
-	width: 16px;
-	margin: 0 auto;
+	text-indent:-9999em;
+	position:relative;
+	left: 40%;
 }
-span.icon-16-allowinactive { 
+a.icon-16-allow { 
+	background:url(../images/admin/icon-16-allow.png) no-repeat ;
+ }
+a.icon-16-deny { 
+	background:url(../images/admin/icon-16-deny.png) no-repeat ;
+ }
+a.icon-16-allowinactive { 
 	background:url(../images/admin/icon-16-allowinactive.png) no-repeat ;
-	display:block; 
-	height: 16px; 
-	width: 16px;
-	margin: 0 auto;
  }
-span.icon-16-denyinactive { 
+a.icon-16-denyinactive { 
 	background:url(../images/admin/icon-16-denyinactive.png) no-repeat ;
-	display:block; 
-	height: 16px; 
-	width: 16px;
-	margin: 0 auto;
  }
-
 
 /* Create, Edit, Edit State & Delete Tabs */
 table.aclmodify-table th.col2,
@@ -1609,29 +1613,25 @@ ul.acllegend {
 	font-size: 12px;
 	padding-bottom: 10px;
 }
-
 ul.acllegend li {
 	display: block;
 	float: left;
 	padding-right: 20px;
 	margin: 15px 0 15px 10px;
 }
-
 ul.acllegend li.acl-allowed {
 	padding-left: 20px;
 	padding-right: 10px;
 	background:url(../images/admin/icon-16-allow.png) no-repeat left;
 }
-
 ul.acllegend li.acl-denied {
 	padding-left: 20px;
-	padding-right: 40px;
+	padding-right: 20px;
 	background:url(../images/admin/icon-16-deny.png) no-repeat left;
 }
 ul.acllegend li.acl-editgroups {
 	padding-right: 10px;
 }
-
 ul.acllegend li.acl-resetbtn {
 	padding-right: 0px;
 }

@@ -116,12 +116,14 @@ abstract class JHtmlRules
 
 		// Build the footer with legend and special purpose buttons.
 		$html[] = '	<div class="clr"></div>';
-		$html[] = '	<ul class="acllegend">';
+		$html[] = '	<ul class="acllegend fltlft">';
 		$html[] = '		<li class="acl-allowed">'.JText::_('JALLOWED').'</li>';
 		$html[] = '		<li class="acl-denied">'.JText::_('JDENIED').'</li>';
+		$html[] = '	</ul>';
+		$html[] = '	<ul class="acllegend fltrt">';
 		$html[] = '		<li class="acl-editgroups"><a href="#">'.JText::_('CONTENT_ACCESS_EDIT_GROUPS').'</a></li>';
 		$html[] = '		<li class="acl-resetbtn"><a href="#">'.JText::_('CONTENT_ACCESS_RESET_TO_INHERIT').'</a></li>';
-		$html[] = '	</ul>';
+		$html[] = '	</ul>';		
 		$html[] = '</div>';
 
 		return implode("\n", $html);
