@@ -47,6 +47,7 @@ abstract class JHtmlRules
 
 		// Get the incoming inherited rules as well as the asset specific rules.
 		$inheriting = JAccess::getAssetRules(self::_getParentAssetId($assetId), true);
+		$inherited = JAccess::getAssetRules($assetId, true);
 		$rules = JAccess::getAssetRules($assetId);
 
 
@@ -110,7 +111,7 @@ abstract class JHtmlRules
 				$html[] = ' 						<option value="0"'.($rules->allow($action->name, $group->value) === false ? ' selected="selected"' : '').'>'.JText::_('Deny').'</option>';
 				$html[] = ' 					</select>';
 				$html[] = ' 				</td>';
-				$html[] = ' 				<td class="col4">'.($rules->allow($action->name, $group->value) ? $images['allow'] : $images['deny']).'</td>';
+				$html[] = ' 				<td class="col4">'.($inherited->allow($action->name, $group->value) ? $images['allow'] : $images['deny']).'</td>';
 				$html[] = ' 			</tr>';
 			}
 
