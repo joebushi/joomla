@@ -41,6 +41,11 @@ class JAccess extends JObject
 		$action = strtolower(preg_replace('#[\s\-]+#', '.', trim($action)));
 		$asset  = strtolower(preg_replace('#[\s\-]+#', '.', trim($asset)));
 
+		// Default to the root asset node.
+		if (empty($asset)) {
+			$asset = 'root.1';
+		}
+
 
 		$db		= JFactory::getDbo();
 		$query	= new JQuery;
