@@ -53,15 +53,14 @@ abstract class JHtmlRules
 
 		$html = array();
 
-		$html[] = '<div id="acl-options">';
-		$html[] = '	<p>Customize the rules for this Article. The Inherit column displays the parent setting and the Current column displays the computed rule based on the value of the dropdown menu next to each group.</p>';
+		$html[] = '<div class="acl-options">';
 
 		$html[] = '	<dl class="tabs">';
 
 		$html[] = '		<dt>'.JText::_('Summary').'</dt>';
 		$html[] = '		<dd>';
 		$html[] = '			<p>Below is an overview of the access setting for this article. Click the tabs above to customize these settings by action.</p>';
-		$html[] = '			<table id="aclsummary-table" summary="Below is an overview of the access setting for this article. Click the tabs above to customize these settings by action.">';
+		$html[] = '			<table class="aclsummary-table" summary="Below is an overview of the access setting for this article. Click the tabs above to customize these settings by action.">';
 		$html[] = ' 			<caption>ACL Summary Table</caption>';
 		$html[] = ' 			<tr>';
 		$html[] = ' 				<th class="col1"></th>';
@@ -90,7 +89,7 @@ abstract class JHtmlRules
 			$html[] = '		<dt>'.JText::_($action->title).'</dt>';
 			$html[] = '		<dd style="display:none;">';
 			$html[] = '			<p>'.JText::_($action->description).'</p>';
-			$html[] = '			<table id="aclmodify-table" summary="'.JText::_($action->description).'">';
+			$html[] = '			<table class="aclmodify-table" summary="'.JText::_($action->description).'">';
 			$html[] = ' 			<caption>ACL '.JText::_($action->title).' Table</caption>';
 			$html[] = ' 			<tr>';
 			$html[] = ' 				<th class="col1"></th>';
@@ -123,19 +122,12 @@ abstract class JHtmlRules
 
 		// Build the footer with legend and special purpose buttons.
 		$html[] = '	<div class="clr"></div>';
-		$html[] = '	<div id="acllegend">';
-		$html[] = '		'.$images['allow'];
-		$html[] = '		<span>Allowed</span>';
-		$html[] = '		'.$images['deny'];
-		$html[] = '		<span>Denied</span>';
-		$html[] = '	</div>';
-		$html[] = '	<div id="acleditgroups">';
-		$html[] = '		<p><a href="#">Edit Groups</a></p>';
-		$html[] = '	</div>';
-		$html[] = '	<div id="aclresetbtn">';
-		$html[] = '		<p><a href="#">Reset to Inherit</a></p>';
-		$html[] = '	</div>';
-
+		$html[] = '	<ul class="acllegend">';
+		$html[] = '		<li class="acl-allowed">Allowed</li>';
+		$html[] = '		<li class="acl-denied">Denied</li>';
+		$html[] = '		<li class="acl-editgroups"><a href="#">Edit Groups</a></li>';
+		$html[] = '		<li class="acl-resetbtn"><a href="#">Reset to Inherit</a></li>';
+		$html[] = '	</ul>';
 		$html[] = '</div>';
 
 		return implode("\n", $html);
@@ -187,10 +179,10 @@ abstract class JHtmlRules
 	protected static function _getImagesArray()
 	{
 		$base = JURI::root(true);
-		$images['allow'] = '<img alt="Allow" src="'.$base.'/administrator/templates/bluestork/images/admin/icon-16-allow.png" />';
-		$images['deny'] = '<img alt="Deny" src="'.$base.'/administrator/templates/bluestork/images/admin/icon-16-deny.png" />';
-		$images['allow-i'] = '<img alt="Allow (Inherited)" src="'.$base.'/administrator/templates/bluestork/images/admin/icon-16-allowinactive.png" />';
-		$images['deny-i'] = '<img alt="Deny (Inherited)" src="'.$base.'/administrator/templates/bluestork/images/admin/icon-16-denyinactive.png">';
+		$images['allow'] = '<span class="icon-16-allow" title="Allow"> </span>';
+		$images['deny'] = '<span class="icon-16-deny" title="Deny"> </span>';
+		$images['allow-i'] = '<span class="icon-16-allowinactive" title="Allow (Inherited)"> </span>';
+		$images['deny-i'] = '<span class="icon-16-denyinactive" title="Deny (Inherited)"> </span>';
 
 		return $images;
 	}
