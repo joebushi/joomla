@@ -70,7 +70,7 @@ abstract class JHtmlRules
 			$html[] = ' 				<td class="col1">'.$group->text.'</td>';
 			foreach ($actions as $i => $action)
 			{
-				$html[] = ' 				<td class="col'.($i+2).'">'.($inherited->allow($action->name, $group->value) ? $images['allow'] : $images['deny']).'</td>';
+				$html[] = ' 				<td class="col'.($i+2).'">'.($inherited->allow($action->name, $group->value) ? $images['allow-l'] : $images['deny-l']).'</td>';
 			}
 			$html[] = ' 			</tr>';
 		}
@@ -166,17 +166,18 @@ abstract class JHtmlRules
 
 	protected static function _loadBehavior()
 	{
-		JFactory::getDocument()->addScriptDeclaration('window.addEvent(\'domready\', function(){$$(\'dl.tabs\').each(function(tabs){new JTabs(tabs);});});');
-		JHtml::script('tabs.js');
+		JHtml::script('rules.js');
 	}
 
 	protected static function _getImagesArray()
 	{
 		$base = JURI::root(true);
-		$images['allow'] = '<span class="icon-16-allow" title="'.JText::_('JALLOWED').'"> </span>';
-		$images['deny'] = '<span class="icon-16-deny" title="'.JText::_('JDENIED').'"> </span>';
-		$images['allow-i'] = '<span class="icon-16-allowinactive" title="'.JText::_('JALLOW_INHERITED').'"> </span>';
-		$images['deny-i'] = '<span class="icon-16-denyinactive" title="'.JText::_('JDENY_INHERITED').'"> </span>';
+		$images['allow-l'] = '<label class="icon-16-allow" title="'.JText::_('JALLOWED').'">'.JText::_('JALLOWED').'</label>';
+		$images['deny-l'] = '<label class="icon-16-deny" title="'.JText::_('JDENIED').'">'.JText::_('JDENIED').'</label>';
+		$images['allow'] = '<a class="icon-16-allow" title="'.JText::_('JALLOWED').'"> </a>';
+		$images['deny'] = '<a class="icon-16-deny" title="'.JText::_('JDENIED').'"> </a>';
+		$images['allow-i'] = '<a class="icon-16-allowinactive" title="'.JText::_('JALLOW_INHERITED').'"> </a>';
+		$images['deny-i'] = '<a class="icon-16-denyinactive" title="'.JText::_('JDENY_INHERITED').'"> </a>';
 
 		return $images;
 	}
