@@ -42,7 +42,7 @@
 			label="Content_Fulltext_Label"
 			description="Content_Fulltext_Desc"
 			class="inputbox"
-			filter=""
+			filter="safehtml"
 			default=""/>
 
 		<field
