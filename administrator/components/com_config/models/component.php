@@ -125,6 +125,8 @@ class ConfigModelComponent extends JModelForm
 		// Save the rules.
 		if (isset($data['params']) && isset($data['params']['rules']))
 		{
+			// TODO: Access access check. Possible to spoof the ACL from another extension.
+
 			// Load the complete table data to get the option.
 			$table->load();
 

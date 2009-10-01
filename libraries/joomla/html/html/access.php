@@ -271,14 +271,4 @@ abstract class JHtmlAccess
 			)
 		);
 	}
-	
-	public static function componentconfig($component)
-	{
-		$db 	= &JFactory::getDBO();
-		$query	= new JQuery();
-		$query->select('id, ');
-		$output = 'works';
-		return $output;
-	} 
-
 }

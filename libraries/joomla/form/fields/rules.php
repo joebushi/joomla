@@ -33,6 +33,8 @@ class JFormFieldRules extends JFormField
 	 */
 	protected function _getInput()
 	{
+		// TODO: Add access check.
+
 		// Get relevant attributes from the field definition.
 		$section = $this->_element->attributes('section') !== null ? $this->_element->attributes('section') : '';
 		$component = $this->_element->attributes('component') !== null ? $this->_element->attributes('component') : '';

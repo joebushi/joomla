@@ -52,19 +52,12 @@ JHtml::_('behavior.formvalidation');
 			<?php
 			endforeach;
 			?>
-		
+
 
 	<div class="clr"></div>
 	<?php
 			echo $pane->endPanel();
 		endforeach;
-		$access = JHTML::_('access.componentconfig', $this->component->option);
-		if($access)
-		{
-			echo $pane->startPanel(JText::_('Access Configuration'), 'publishing-details');
-			echo $access;
-			echo $pane->endPanel();
-		}
 	echo $pane->endPane();
 	?>
 
