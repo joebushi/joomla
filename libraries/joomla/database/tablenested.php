@@ -665,7 +665,6 @@ class JTableNested extends JTable
 		return false;
 	}
 
-
 	/**
 	 * Method to store a node in the database table.
 	 *

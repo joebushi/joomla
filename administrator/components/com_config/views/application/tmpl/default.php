@@ -48,7 +48,6 @@ $this->document->addScriptDeclaration("
 		<div id="page-system" class="tab">
 			<div class="noshow">
 				<div class="width-60 fltlft">
-					<?php echo $this->loadTemplate('permissions'); ?>
 					<?php echo $this->loadTemplate('system'); ?>
 				</div>
 				<div class="width-40 fltrt">
@@ -69,6 +68,11 @@ $this->document->addScriptDeclaration("
 					<?php echo $this->loadTemplate('database'); ?>
 					<?php echo $this->loadTemplate('mail'); ?>
 				</div>
+			</div>
+		</div>
+		<div id="page-permissions" class="tab">
+			<div class="noshow">
+				<?php echo $this->loadTemplate('permissions'); ?>
 			</div>
 		</div>
 	</div>
