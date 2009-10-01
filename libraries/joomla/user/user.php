@@ -256,11 +256,9 @@ class JUser extends JObject
 	 * object and optionally an access extension object
 	 *
 	 * @access 	public
-	 * @param	string	$acoSection	The ACO section value
-	 * @param	string	$aco		The ACO value
-	 * @param	string	$axoSection	The AXO section value	[optional]
-	 * @param	string	$axo		The AXO value			[optional]
-	 * @return	boolean	True if authorized
+	 * @param	string	The name of the action to check for permission.
+	 * @param	string	The name of the asset on which to perform the action.
+	 * @return	boolean	True if authorised
 	 * @since	1.5
 	 */
 	public function authorise($action, $assetname = null)
