@@ -10,6 +10,11 @@
 // no direct access
 defined('_JEXEC') or die;
 
+// Access check.
+if (!JFactory::getUser()->authorise('core.manage', 'com_content')) {
+	JFactory::getApplication()->redirect('', JText::_('ALERTNOTAUTH'));
+}
+
 // Include dependancies
 jimport('joomla.application.component.controller');
 
