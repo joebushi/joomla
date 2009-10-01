@@ -153,60 +153,6 @@ class UsersModelGroup extends JModelForm
 
 		$groupId = $table->id;
 
-		//
-		// Perform the rule pivot for write
-		//
-
-		// @todo Maybe this can going into a the JAccessHelper??
-		jimport('joomla.access.helper');
-		jimport('joomla.access.permission.simplerule');
-
-		if (!isset($data['actions'])) {
-			$data['actions'] = array();
-		}
-
-		// Get all the core type 1 rules
-		$actions	= JAccessHelper::getActions('core', 1);
-
-		// Load the Simple Rule model
-		$rule		= JSimpleRule::getInstance();
-
-		foreach ($actions as $action)
-		{
-			$rule->load($action->name);
-
-			// Get the user groups mapped to this rule
-			$groups		= $rule->getUserGroups();
-
-			// Is this action selected
-			$hasAction	= in_array($action->id, $data['actions']);
-
-			// Is this group in this rule
-			$inGroup	= in_array($groupId, $groups);
-			$changed	= false;
-
-			if ($hasAction && !$inGroup) {
-				// Need to add this user group to the rule
-				$groups[]	= $groupId;
-				$changed	= true;
-			}
-			else if (!$hasAction && $inGroup) {
-				// Need to remove this user group from the rule
-				$k			= array_search($groupId, $groups);
-				array_splice($groups, $k, 1);
-				$changed	= true;
-			}
-
-			if ($changed)
-			{
-				$rule->setUserGroups($groups);
-				if (!$rule->store()) {
-					$this->setError($rule->getErrorMsg());
-					return false;
-				}
-			}
-		}
-
 		$this->setState('group.id', $table->id);
 
 		return true;

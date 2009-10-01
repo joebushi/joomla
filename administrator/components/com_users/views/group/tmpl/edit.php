@@ -45,7 +45,7 @@ JHtml::_('behavior.formvalidation');
 	<div class="width-50">
 		<fieldset id="user-groups">
 			<legend><?php echo JText::_('Users_Actions_Available');?></legend>
-			<?php echo JHtml::_('access.actions', 'jform[actions]', $this->item->actions); ?>
+			<?php //echo JHtml::_('access.actions', 'jform[actions]', $this->item->actions); ?>
 		</fieldset>
 	</div>
 	
