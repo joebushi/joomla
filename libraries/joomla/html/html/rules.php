@@ -57,10 +57,10 @@ abstract class JHtmlRules
 
 		$html[] = '	<dl class="tabs">';
 
-		$html[] = '		<dt>'.JText::_('Summary').'</dt>';
+		$html[] = '		<dt>'.JText::_('CONTENT_ACCESS_SUMMARY').'</dt>';
 		$html[] = '		<dd>';
-		$html[] = '			<p>Below is an overview of the access setting for this article. Click the tabs above to customize these settings by action.</p>';
-		$html[] = '			<table class="aclsummary-table" summary="Below is an overview of the access setting for this article. Click the tabs above to customize these settings by action.">';
+		$html[] = '			<p>'.JText::_('CONTENT_ACCESS_SUMMARY_DESC').'</p>';
+		$html[] = '			<table class="aclsummary-table" summary="'.JText::_('CONTENT_ACCESS_SUMMARY_DESC').'">';
 		$html[] = ' 			<caption>ACL Summary Table</caption>';
 		$html[] = ' 			<tr>';
 		$html[] = ' 				<th class="col1"></th>';
@@ -123,10 +123,10 @@ abstract class JHtmlRules
 		// Build the footer with legend and special purpose buttons.
 		$html[] = '	<div class="clr"></div>';
 		$html[] = '	<ul class="acllegend">';
-		$html[] = '		<li class="acl-allowed">Allowed</li>';
-		$html[] = '		<li class="acl-denied">Denied</li>';
-		$html[] = '		<li class="acl-editgroups"><a href="#">Edit Groups</a></li>';
-		$html[] = '		<li class="acl-resetbtn"><a href="#">Reset to Inherit</a></li>';
+		$html[] = '		<li class="acl-allowed">'.JText::_('Allowed').'</li>';
+		$html[] = '		<li class="acl-denied">'.JText::_('Denied').'</li>';
+		$html[] = '		<li class="acl-editgroups"><a href="#">'.JText::_('Edit Groups').'</a></li>';
+		$html[] = '		<li class="acl-resetbtn"><a href="#">'.JText::_('Reset to Inherit').'</a></li>';
 		$html[] = '	</ul>';
 		$html[] = '</div>';
 
@@ -179,10 +179,10 @@ abstract class JHtmlRules
 	protected static function _getImagesArray()
 	{
 		$base = JURI::root(true);
-		$images['allow'] = '<span class="icon-16-allow" title="Allow"> </span>';
-		$images['deny'] = '<span class="icon-16-deny" title="Deny"> </span>';
-		$images['allow-i'] = '<span class="icon-16-allowinactive" title="Allow (Inherited)"> </span>';
-		$images['deny-i'] = '<span class="icon-16-denyinactive" title="Deny (Inherited)"> </span>';
+		$images['allow'] = '<span class="icon-16-allow" title="'.JText::_('Allow').'"> </span>';
+		$images['deny'] = '<span class="icon-16-deny" title="'.JText::_('Deny').'"> </span>';
+		$images['allow-i'] = '<span class="icon-16-allowinactive" title="'.JText::_('Allow (Inherited)').'"> </span>';
+		$images['deny-i'] = '<span class="icon-16-denyinactive" title="'.JText::_('Deny (Inherited)').'"> </span>';
 
 		return $images;
 	}

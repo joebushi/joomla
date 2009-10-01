@@ -14,8 +14,8 @@
 		<action name="core.edit.state" title="JAction_Edit_State" description="JAction_Edit_State_Desc" />
 	</section>
 	<section name="article">
-		<action name="core.delete" title="JAction_Delete" description="JAction_Delete_Desc" />
-		<action name="core.edit" title="JAction_Edit" description="JAction_Edit_Desc" />
-		<action name="core.edit.state" title="JAction_Edit_State" description="JAction_Edit_State_Desc" />
+		<action name="core.delete" title="CONTENT_ACCESS_DELETE" description="CONTENT_ACCESS_DELETE_DESC" />
+		<action name="core.edit" title="CONTENT_ACCESS_EDIT" description="CONTENT_ACCESS_EDIT_DESC" />
+		<action name="core.edit.state" title="CONTENT_ACCESS_EDITSTATE" description="CONTENT_ACCESS_EDITSTATE_DESC" />
 	</section>
 </access>
