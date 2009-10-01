@@ -20,19 +20,18 @@ jimport('joomla.database.query');
  * @subpackage	User
  * @since		1.6
  */
-class JAccess extends JObject
+class JAccess
 {
 	protected static $viewLevels = array();
 
 	/**
-	 * Method to check authorization for a user / action / asset combination.
+	 * Method to check if a user is authorised to perform an action, optionally on an asset.
 	 *
-	 * @access	public
-	 * @param	integer	User id.
-	 * @param	string	Action name.
-	 * @param	string	Asset name.
-	 * @return	boolean	True if authorized.
-	 * @since	1.0
+	 * @param	integer	Id of the user for which to check authorisation.
+	 * @param	string	The name of the action to authorise.
+	 * @param	mixed	Integer asset id or the name of the asset as a string.  Defaults to the global asset node.
+	 * @return	boolean	True if authorised.
+	 * @since	1.6
 	 */
 	public static function check($userId, $action, $asset = null)
 	{
@@ -46,25 +45,13 @@ class JAccess extends JObject
 			$asset = 'root.1';
 		}
 
+		// Get the rules for the asset, recursively to root.
+		$rules = self::getAssetRules($asset, true);
 
-		$db		= JFactory::getDbo();
-		$query	= new JQuery;
+		// Get all groups that the user is mapped to recursively.
+		$groups = self::getGroupsByUser($userId);
 
-		$query->select('b.rules');
-		$query->from('#__assets AS a');
-		$query->where('a.name = '.$db->quote($asset));
-		$query->leftJoin('#__assets AS b ON b.lft <= a.lft AND b.rgt >= a.rgt');
-		$query->order('b.lft');
-
-		$db->setQuery($query);
-		$result	= $db->loadResultArray();
-		$rules	= new JRules;
-		$rules->mergeCollection($result);
-
-		// Get all groups that the user is mapped to
-		$userGroupIds = self::getGroupsByUser($userId);
-
-		return $rules->allow($action, array_merge(array($userId*-1), $userGroupIds));
+		return $rules->allow($action, array_merge(array($userId*-1), $groups));
 	}
 
 	/**
@@ -111,8 +98,8 @@ class JAccess extends JObject
 	 */
 	public static function getAuthorisedViewLevels($userId)
 	{
-		// Get the user group ids for the user.
-		$userGroupIds = self::getGroupsByUser($userId);
+		// Get all groups that the user is mapped to recursively.
+		$groups = self::getGroupsByUser($userId);
 
 		// Only load the view levels once.
 		if (empty(self::$viewLevels))
@@ -148,7 +135,7 @@ class JAccess extends JObject
 					$authorised[] = $level;
 					break;
 				}
-				elseif (($id >= 0) && in_array($id, $userGroupIds))
+				elseif (($id >= 0) && in_array($id, $groups))
 				{
 					$authorised[] = $level;
 					break;
@@ -193,24 +180,46 @@ class JAccess extends JObject
 		return $actions;
 	}
 
-	public static function getAssetRules($assetId, $recursive = false)
+	/**
+	 * Method to return the JRules object for an asset.  The returned object can optionally hold
+	 * only the rules explicitly set for the asset or the summation of all inherited rules from
+	 * parent assets and explicit rules.
+	 *
+	 * @param	mixed	Integer asset id or the name of the asset as a string.
+	 * @param	boolean	True to return the rules object with inherited rules.
+	 * @return	object	JRules object for the asset.
+	 * @since	1.6
+	 */
+	public static function getAssetRules($asset, $recursive = false)
 	{
-		jimport('joomla.access.rules');
+		// Get the database connection object.
+		$db = JFactory::getDbo();
 
-		$db		= &JFactory::getDbo();
+		// Build the database query to get the rules for the asset.
 		$query	= new JQuery;
-
 		$query->select($recursive ? 'b.rules' : 'a.rules');
 		$query->from('#__assets AS a');
-		$query->where('a.id = '.(int) $assetId);
+
+		// If the asset identifier is numeric assume it is a primary key, else lookup by name.
+		if (is_numeric($asset)) {
+			$query->where('a.id = '.(int) $asset);
+		}
+		else {
+			$query->where('a.name = '.$db->quote($asset));
+		}
+
+		// If we want the rules cascading up to the global asset node we need a self-join.
 		if ($recursive)
 		{
 			$query->leftJoin('#__assets AS b ON b.lft <= a.lft AND b.rgt >= a.rgt');
 			$query->order('b.lft');
 		}
 
+		// Execute the query and load the rules from the result.
 		$db->setQuery($query);
 		$result	= $db->loadResultArray();
+
+		// Instantiate and return the JRules object for the asset rules.
 		$rules	= new JRules;
 		$rules->mergeCollection($result);
 
