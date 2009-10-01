@@ -88,7 +88,7 @@ abstract class JHtmlRules
 		foreach ($actions as $action)
 		{
 			$html[] = '		<dt>'.JText::_($action->title).'</dt>';
-			$html[] = '		<dd>';
+			$html[] = '		<dd style="display:none;">';
 			$html[] = '			<p>'.JText::_($action->description).'</p>';
 			$html[] = '			<table id="aclmodify-table" summary="'.JText::_($action->description).'">';
 			$html[] = ' 			<caption>ACL '.JText::_($action->title).' Table</caption>';
