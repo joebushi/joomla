@@ -1,49 +1,50 @@
 <?php // no direct access
-defined('_JEXEC') or die; ?>
-<?php if ($this->params->get('show_page_title', 1)) : ?>
-	<div class="componentheading<?php echo $this->params->get('pageclass_sfx')?>"><?php echo $this->escape($this->params->get('page_title')); ?></div>
+defined('_JEXEC') or die; 
+$pageClass = $this->params->get('pageclass_sfx');
+?>
+<?php if ($pageClass) : ?>
+<div class="<?php echo $pageClass;?>">
+<?php endif;?>
+
+<?php if ($this->params->def('show_page_title', 1)) : ?>
+	<h1>
+		<?php echo $this->escape($this->params->get('page_title')); ?>
+	</h1>
+<?php endif; ?>
+<?php  /**
+TODO fix images in com_categories ?>
+<?php if ($this->category->image) : ?>
+	<?php
+		// Define image tag attributes
+		$attribs['align']	= $this->category->image_position;
+		$attribs['hspace']	= 6;
+
+		// Use the static HTML library to build the image tag
+		echo JHtml::_('image', 'images/stories/'.$this->category->image, JText::_('News Feeds'), $attribs);
+	?>
+<?php endif; ?>
+<?php  **/ ?>
+<?php if ($this->category->description) : ?>
+	<p>
+		<?php echo $this->category->description; ?>
+	</p>
 <?php endif; ?>
 
-<table width="100%" cellpadding="4" cellspacing="0" border="0" align="center" class="contentpane<?php echo $this->params->get('pageclass_sfx'); ?>">
-<?php if (@$this->category->image || @$this->category->description) : ?>
-<tr>
-	<td valign="top" class="contentdescription<?php echo $this->params->get('pageclass_sfx'); ?>">
-	<?php
-		if (isset($this->category->image)) :  echo $this->category->image; endif;
-		echo $this->category->description;
-	?>
-	</td>
-</tr>
-<?php endif; ?>
-<?php if (count($this->children)) : ?>
-<tr>
-	<td>
-	<ul>
-<?php foreach ($this->children as $category) : ?>
-	<li>
-		<a href="<?php echo $category->link ?>" class="category<?php echo $this->params->get('pageclass_sfx'); ?>">
-			<?php echo $category->title;?></a>
-		<?php if ($this->params->get('show_cat_items')) : ?>
-		&nbsp;
-		<span class="small">
-			(<?php echo $category->numitems;?>)
-		</span>
-		<?php endif; ?>
-		<?php if ($this->params->get('show_cat_description') && $category->description) : ?>
-		<br />
-		<?php echo $category->description; ?>
-		<?php endif; ?>
-	</li>
-<?php endforeach; ?>
-</ul>
-</td>
-</tr>
-<?php endif; ?>
-<?php if (count($this->items)) : ?>
-<tr>
-	<td width="60%" colspan="2">
-	<?php echo $this->loadTemplate('items'); ?>
-	</td>
-</tr>
-<?php endif; ?>
-</table>
+<?php echo $this->loadTemplate('items'); ?>
+
+<div class="jcat-siblings">
+<?php  echo $this->loadTemplate('siblings');  ?>
+</div> 
+
+<div class="jcat-children">
+<?php echo $this->loadTemplate('children'); ?>
+</div>
+
+<div class="jcat-parents">
+<?php  echo $this->loadTemplate('parents');  ?>
+</div> 
+
+
+<?php if ($pageClass) : ?>
+</div>
+<?php endif;?>
