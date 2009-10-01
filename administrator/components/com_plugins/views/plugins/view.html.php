@@ -31,14 +31,6 @@ class PluginsViewPlugins extends JView
 
 	function display( $tpl = null )
 	{
-	JToolBarHelper::title( JText::_( 'Plugin Manager' ), 'plugin.png' );
-	JToolBarHelper::editList();
-	JToolBarHelper::publishList();
-	JToolBarHelper::unpublishList();
-	JToolBarHelper::divider();
-	JToolBarHelper::help( 'screen.plugins' );
-	
-	
 		$app	= &JFactory::getApplication();
 		$db		=& JFactory::getDBO();
 
@@ -148,6 +140,22 @@ class PluginsViewPlugins extends JView
 		$this->assignRef('items',		$rows);
 		$this->assignRef('pagination',	$pagination);
 
+		$this->_setToolbar();
 		parent::display($tpl);
+	}
+
+	/**
+	 * Display the toolbar
+	 */
+	protected function _setToolbar()
+	{
+		JToolBarHelper::title( JText::_( 'Plugin Manager' ), 'plugin.png' );
+		JToolBarHelper::editList();
+		JToolBarHelper::publishList();
+		JToolBarHelper::unpublishList();
+		JToolBarHelper::divider();
+		JToolBarHelper::preferences('com_plugins');
+		JToolBarHelper::divider();
+		JToolBarHelper::help( 'screen.plugins' );
 	}
 }
