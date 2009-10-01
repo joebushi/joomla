@@ -117,7 +117,7 @@ JHtml::_('behavior.formvalidation');
 						<?php echo $field->input; ?>
 			<?php endif; ?>
 		<?php endforeach; ?>
-		</fieldsset>
+		</fieldset>
 		<?php echo $pane->endPanel(); ?>
 
 		<?php echo $pane->startPanel(JText::_('Content_Fieldset_Metadata'), 'meta-options'); ?>

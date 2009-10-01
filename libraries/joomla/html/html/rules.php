@@ -50,9 +50,7 @@ abstract class JHtmlRules
 		$html = array();
 
 		$html[] = '<div class="acl-options">';
-
 		$html[] = '	<dl class="tabs">';
-
 		$html[] = '		<dt>'.JText::_('CONTENT_ACCESS_SUMMARY').'</dt>';
 		$html[] = '		<dd>';
 		$html[] = '			<p>'.JText::_('CONTENT_ACCESS_SUMMARY_DESC').'</p>';
@@ -83,7 +81,7 @@ abstract class JHtmlRules
 		foreach ($actions as $action)
 		{
 			$html[] = '		<dt>'.JText::_($action->title).'</dt>';
-			$html[] = '		<dd style="display:none;">';
+			$html[] = '		<dd>';
 			$html[] = '			<p>'.JText::_($action->description).'</p>';
 			$html[] = '			<table class="aclmodify-table" summary="'.JText::_($action->description).'">';
 			$html[] = ' 			<caption>'.JText::_('CONTENT_ACCESS_MODIFY_DESC_CAPTION_ACL').' '.JText::_($action->title).' '.JText::_('CONTENT_ACCESS_MODIFY_DESC_CAPTION_TABLE').'</caption>';
@@ -175,9 +173,9 @@ abstract class JHtmlRules
 	protected static function _getImagesArray()
 	{
 		$base = JURI::root(true);
-		$images['allow'] = '<span class="icon-16-allow" title="'.JText::_('JALLOW').'"> </span>';
-		$images['deny'] = '<span class="icon-16-deny" title="'.JText::_('JDENY').'"> </span>';
-		$images['allow-i'] = '<span class="icon-16-allowinactive" title="'.JText::_('JALLOW_INHERITED)').'"> </span>';
+		$images['allow'] = '<span class="icon-16-allow" title="'.JText::_('JALLOWED').'"> </span>';
+		$images['deny'] = '<span class="icon-16-deny" title="'.JText::_('JDENIED').'"> </span>';
+		$images['allow-i'] = '<span class="icon-16-allowinactive" title="'.JText::_('JALLOW_INHERITED').'"> </span>';
 		$images['deny-i'] = '<span class="icon-16-denyinactive" title="'.JText::_('JDENY_INHERITED').'"> </span>';
 
 		return $images;
