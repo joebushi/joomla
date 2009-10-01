@@ -116,7 +116,7 @@ class JFormFieldRules extends JFormField
 				if ($assetId == 1)
 				{
 					// Very special case for the root asset.
-					$html[] = '					<option value=""'.($rules->allow($action->name, $group->value) !== true ? ' selected="selected"' : '').'>'.JText::_('JDeny').'</option>';
+					$html[] = '					<option value=""'.($rules->allow($action->name, $group->value) !== true ? ' selected="selected"' : '').'>'.JText::_('JInherit').'</option>';
 					$html[] = '					<option value="1"'.($rules->allow($action->name, $group->value) === true ? ' selected="selected"' : '').'>'.JText::_('JAllow').'</option>';
 				}
 				else
