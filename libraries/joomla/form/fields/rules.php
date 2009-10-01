@@ -72,6 +72,10 @@ class JFormFieldRules extends JFormField
 			$assetId = $this->_form->getValue($assetField);
 		}
 
+		if (!empty($component) && $section != 'component') {
+			return JHtml::_('rules.assetFormWidget', $actions, $assetId, $assetId ? null : $component, $this->inputName, $this->inputId);
+		}
+
 		$rules = JAccess::getAssetRules($assetId);
 
 		// Get the available user groups.

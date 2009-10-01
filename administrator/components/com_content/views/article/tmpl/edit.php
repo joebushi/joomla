@@ -63,13 +63,6 @@ JHtml::_('behavior.formvalidation');
 	<div class="width-40 fltrt">
 		<?php echo $pane->startPane('content-pane'); ?>
 
-		<?php echo $pane->startPanel(JText::_('Permissions'), 'access-options'); ?>
-
-		<fieldset>
-			<?php echo JHtml::_('rules.assetFormWidget', 'com_content', 'article', $this->item->asset_id); ?>
-		</fieldset>
-		<?php echo $pane->endPanel(); ?>
-
 		<?php echo $pane->startPanel(JText::_('Content_Fieldset_Publishing'), 'publishing-details'); ?>
 
 		<fieldset>

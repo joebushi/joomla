@@ -30,7 +30,7 @@ abstract class JHtmlRules
 	 *
 	 * @return	string	The required HTML for the SELECT tag.
 	 */
-	public static function assetFormWidget($component, $section, $assetId = null, $control = 'jform[rules2]')
+	public static function assetFormWidget($actions, $assetId = null, $parent = null, $control = 'jform[rules]', $idPrefix = 'jform_rules')
 	{
 		// Load the behavior.
 		self::_loadBehavior();
@@ -38,15 +38,11 @@ abstract class JHtmlRules
 		// Load the behavior.
 		$images = self::_getImagesArray();
 
-		// Get the actions for the asset.
-		$access = JFactory::getACL();
-		$actions = JAccess::getActions($component, $section);
-
 		// Get the user groups.
 		$groups = self::_getUserGroups();
 
 		// Get the incoming inherited rules as well as the asset specific rules.
-		$inheriting = JAccess::getAssetRules(self::_getParentAssetId($assetId), true);
+		$inheriting = JAccess::getAssetRules($parent ? $parent : self::_getParentAssetId($assetId), true);
 		$inherited = JAccess::getAssetRules($assetId, true);
 		$rules = JAccess::getAssetRules($assetId);
 
@@ -57,7 +53,7 @@ abstract class JHtmlRules
 
 		$html[] = '	<dl class="tabs">';
 
-		$html[] = '		<dt>'.JText::_('CONTENT_ACCESS_SUMMARY').'</dt>';
+		$html[] = '		<dt>'.JText::_('Summary').'</dt>';
 		$html[] = '		<dd>';
 		$html[] = '			<p>'.JText::_('CONTENT_ACCESS_SUMMARY_DESC').'</p>';
 		$html[] = '			<table class="aclsummary-table" summary="'.JText::_('CONTENT_ACCESS_SUMMARY_DESC').'">';
@@ -104,7 +100,7 @@ abstract class JHtmlRules
 				$html[] = ' 				<td class="col1">'.$group->text.'</td>';
 				$html[] = ' 				<td class="col2">'.($inheriting->allow($action->name, $group->value) ? $images['allow-i'] : $images['deny-i']).'</td>';
 				$html[] = ' 				<td class="col3">';
-				$html[] = ' 					<select id="'.$action->name.'_'.$group->value.'" class="inputbox" size="1" name="'.$control.'['.$action->name.']['.$group->value.']">';
+				$html[] = ' 					<select id="'.$idPrefix.'_'.$action->name.'_'.$group->value.'" class="inputbox" size="1" name="'.$control.'['.$action->name.']['.$group->value.']">';
 				$html[] = ' 						<option value=""'.($rules->allow($action->name, $group->value) === null ? ' selected="selected"' : '').'>'.JText::_('Inherit').'</option>';
 				$html[] = ' 						<option value="1"'.($rules->allow($action->name, $group->value) === true ? ' selected="selected"' : '').'>'.JText::_('Allow').'</option>';
 				$html[] = ' 						<option value="0"'.($rules->allow($action->name, $group->value) === false ? ' selected="selected"' : '').'>'.JText::_('Deny').'</option>';
