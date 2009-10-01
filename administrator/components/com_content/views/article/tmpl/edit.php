@@ -66,7 +66,7 @@ JHtml::_('behavior.formvalidation');
 		<?php echo $pane->startPanel(JText::_('Permissions'), 'access-options'); ?>
 
 		<fieldset>
-			<?php echo JHtml::_('rules.assetFormWidget', 'foo'); ?>
+			<?php echo JHtml::_('rules.assetFormWidget', 'com_content', 'article', $this->item->asset_id); ?>
 		</fieldset>
 		<?php echo $pane->endPanel(); ?>
 

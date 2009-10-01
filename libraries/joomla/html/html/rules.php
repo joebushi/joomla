@@ -30,16 +30,24 @@ abstract class JHtmlRules
 	 *
 	 * @return	string	The required HTML for the SELECT tag.
 	 */
-	public static function assetFormWidget($name, $attribs = '', $allowAll = true)
+	public static function assetFormWidget($component, $section, $assetId = null, $control = 'jform[rules]')
 	{
-		JFactory::getDocument()->addScriptDeclaration('window.addEvent(\'domready\', function(){$$(\'dl.tabs\').each(function(tabs){new JTabs(tabs);});});');
-		JHtml::script('tabs.js');
+		// Load the behavior.
+		self::_loadBehavior();
 
-		$base = JURI::base();
-		$images['allow'] = '<img alt="Allow" src="'.$base.'images/admin/icon-16-allow.png" />';
-		$images['deny'] = '<img alt="Deny" src="'.$base.'images/admin/icon-16-deny.png" />';
-		$images['allow-i'] = '<img alt="Allow (Inherited)" src="'.$base.'images/admin/icon-16-allowinactive.png" />';
-		$images['deny-i'] = '<img alt="Deny (Inherited)" src="'.$base.'images/admin/icon-16-denyinactive.png">';
+		// Load the behavior.
+		$images = self::_getImagesArray();
+
+		// Get the actions for the asset.
+		$access = JFactory::getACL();
+		$actions = $access->getAvailablePermissions($component, $section);
+
+		// Get the user groups.
+		$groups = self::_getUserGroups();
+
+		// Get the incoming inherited rules as well as the asset specific rules.
+		$inheriting = JAccess::getAssetRules(self::_getParentAssetId($assetId), true);
+		$rules = JAccess::getAssetRules($assetId);
 
 
 		$html = array();
@@ -56,59 +64,68 @@ abstract class JHtmlRules
 		$html[] = ' 			<caption>ACL Summary Table</caption>';
 		$html[] = ' 			<tr>';
 		$html[] = ' 				<th class="col1"></th>';
-		$html[] = ' 				<th class="col2">'.JText::_('Create').'</th>';
-		$html[] = ' 				<th class="col3">'.JText::_('Edit').'</th>';
-		$html[] = ' 				<th class="col4">'.JText::_('Edit<br />State').'</th>';
-		$html[] = ' 				<th class="col5">'.JText::_('Delete').'</th>';
+		foreach ($actions as $i => $action)
+		{
+			$html[] = ' 				<th class="col'.($i+2).'">'.JText::_($action->title).'</th>';
+		}
 		$html[] = ' 			</tr>';
 
-		$html[] = ' 			<tr class="row0">';
-		$html[] = ' 				<td class="col1">'.'Public'.'</td>';
-		$html[] = ' 				<td class="col2">'.$images['allow'].'</td>';
-		$html[] = ' 				<td class="col3">'.$images['deny'].'</td>';
-		$html[] = ' 				<td class="col4">'.$images['allow-i'].'</td>';
-		$html[] = ' 				<td class="col5">'.$images['deny-i'].'</td>';
-		$html[] = ' 			</tr>';
+		foreach ($groups as $i => $group)
+		{
+			$html[] = ' 			<tr class="row'.($i%2).'">';
+			$html[] = ' 				<td class="col1">'.$group->text.'</td>';
+			foreach ($actions as $i => $action)
+			{
+				$html[] = ' 				<td class="col'.($i+2).'">'.($inheriting->allow($action->name, $group->value) ? $images['allow-i'] : $images['deny-i']).'</td>';
+			}
+			$html[] = ' 			</tr>';
+		}
 
 		$html[] = ' 		</table>';
 		$html[] = ' 	</dd>';
 
-		$html[] = '		<dt>'.JText::_('Create').'</dt>';
-		$html[] = '		<dd>';
-		$html[] = '			<p>Shown below is the inherited state for <strong>create actions</strong> on this article and the calculated state based on the menu selection.</p>';
-		$html[] = '			<table id="aclmodify-table" summary="Shown below is the inherited state for create actions on this article and the calculated state based on the menu selection.">';
-		$html[] = ' 			<caption>ACL Create Table</caption>';
-		$html[] = ' 			<tr>';
-		$html[] = ' 				<th class="col1"></th>';
-		$html[] = ' 				<th class="col2">'.JText::_('Inherit').'</th>';
-		$html[] = ' 				<th class="col3"></th>';
-		$html[] = ' 				<th class="col4">'.JText::_('Current').'</th>';
-		$html[] = ' 			</tr>';
+		foreach ($actions as $action)
+		{
+			$html[] = '		<dt>'.JText::_($action->title).'</dt>';
+			$html[] = '		<dd>';
+			$html[] = '			<p>'.JText::_($action->description).'</p>';
+			$html[] = '			<table id="aclmodify-table" summary="'.JText::_($action->description).'">';
+			$html[] = ' 			<caption>ACL '.JText::_($action->title).' Table</caption>';
+			$html[] = ' 			<tr>';
+			$html[] = ' 				<th class="col1"></th>';
+			$html[] = ' 				<th class="col2">'.JText::_('Inherit').'</th>';
+			$html[] = ' 				<th class="col3"></th>';
+			$html[] = ' 				<th class="col4">'.JText::_('Current').'</th>';
+			$html[] = ' 			</tr>';
 
-		$html[] = ' 			<tr>';
-		$html[] = ' 				<td class="col1">'.'Public'.'</td>';
-		$html[] = ' 				<td class="col2"><img alt="Allow (Inherited)" src="images/admin/icon-16-allowinactive.png"></td>';
-		$html[] = ' 				<td class="col3">';
-		$html[] = ' 					<select id="" class="inputbox" size="1" name="">';
-		$html[] = ' 						<option value="">'.JText::_('Inherit').'</option>';
-		$html[] = ' 						<option value="1">'.JText::_('Allow').'</option>';
-		$html[] = ' 						<option value="0">'.JText::_('Deny').'</option>';
-		$html[] = ' 					</select>';
-		$html[] = ' 				</td>';
-		$html[] = ' 				<td class="col4"><img alt="Deny" src="images/admin/icon-16-deny.png"></td>';
-		$html[] = ' 			</tr>';
+			foreach ($groups as $i => $group)
+			{
+				$html[] = ' 			<tr class="row'.$i.'">';
+				$html[] = ' 				<td class="col1">'.$group->text.'</td>';
+				$html[] = ' 				<td class="col2">'.($inheriting->allow($action->name, $group->value) ? $images['allow-i'] : $images['deny-i']).'</td>';
+				$html[] = ' 				<td class="col3">';
+				$html[] = ' 					<select id="'.$action->name.'_'.$group->value.'" class="inputbox" size="1" name="'.$control.'['.$action->name.']['.$group->value.']">';
+				$html[] = ' 						<option value=""'.($rules->allow($action->name, $group->value) === null ? ' selected="selected"' : '').'>'.JText::_('Inherit').'</option>';
+				$html[] = ' 						<option value="1"'.($rules->allow($action->name, $group->value) === true ? ' selected="selected"' : '').'>'.JText::_('Allow').'</option>';
+				$html[] = ' 						<option value="0"'.($rules->allow($action->name, $group->value) === false ? ' selected="selected"' : '').'>'.JText::_('Deny').'</option>';
+				$html[] = ' 					</select>';
+				$html[] = ' 				</td>';
+				$html[] = ' 				<td class="col4">'.($rules->allow($action->name, $group->value) ? $images['allow'] : $images['deny']).'</td>';
+				$html[] = ' 			</tr>';
+			}
 
-		$html[] = ' 		</table>';
-		$html[] = ' 	</dd>';
+			$html[] = ' 		</table>';
+			$html[] = ' 	</dd>';
+		}
 
 		$html[] = ' </dl>';
 
 		// Build the footer with legend and special purpose buttons.
 		$html[] = '	<div class="clr"></div>';
 		$html[] = '	<div id="acllegend">';
-		$html[] = '		<img alt="Allow" src="images/admin/icon-16-allow.png">';
+		$html[] = '		'.$images['allow'];
 		$html[] = '		<span>Allowed</span>';
-		$html[] = '		<img alt="Deny" src="images/admin/icon-16-deny.png">';
+		$html[] = '		'.$images['deny'];
 		$html[] = '		<span>Denied</span>';
 		$html[] = '	</div>';
 		$html[] = '	<div id="acleditgroups">';
@@ -121,5 +138,59 @@ abstract class JHtmlRules
 		$html[] = '</div>';
 
 		return implode("\n", $html);
+	}
+
+	protected static function _getParentAssetId($assetId)
+	{
+		// Get a database object.
+		$db = JFactory::getDBO();
+
+		// Get the user groups from the database.
+		$db->setQuery(
+			'SELECT parent_id' .
+			' FROM #__assets' .
+			' WHERE id = '.(int) $assetId
+		);
+		return (int) $db->loadResult();
+	}
+
+	protected static function _getUserGroups()
+	{
+		// Get a database object.
+		$db = JFactory::getDBO();
+
+		// Get the user groups from the database.
+		$db->setQuery(
+			'SELECT a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level' .
+			' FROM #__usergroups AS a' .
+			' LEFT JOIN `#__usergroups` AS b ON a.lft > b.lft AND a.rgt < b.rgt' .
+			' GROUP BY a.id' .
+			' ORDER BY a.lft ASC'
+		);
+		$options = $db->loadObjectList();
+
+		// Pad the option text with spaces using depth level as a multiplier.
+//		foreach ($options as $option) {
+//			$option->text = str_repeat('&nbsp;&nbsp;',$option->level).$option->text;
+//		}
+
+		return $options;
+	}
+
+	protected static function _loadBehavior()
+	{
+		JFactory::getDocument()->addScriptDeclaration('window.addEvent(\'domready\', function(){$$(\'dl.tabs\').each(function(tabs){new JTabs(tabs);});});');
+		JHtml::script('tabs.js');
+	}
+
+	protected static function _getImagesArray()
+	{
+		$base = JURI::root(true);
+		$images['allow'] = '<img alt="Allow" src="'.$base.'/administrator/templates/bluestork/images/admin/icon-16-allow.png" />';
+		$images['deny'] = '<img alt="Deny" src="'.$base.'/administrator/templates/bluestork/images/admin/icon-16-deny.png" />';
+		$images['allow-i'] = '<img alt="Allow (Inherited)" src="'.$base.'/administrator/templates/bluestork/images/admin/icon-16-allowinactive.png" />';
+		$images['deny-i'] = '<img alt="Deny (Inherited)" src="'.$base.'/administrator/templates/bluestork/images/admin/icon-16-denyinactive.png">';
+
+		return $images;
 	}
 }
