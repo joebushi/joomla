@@ -42,6 +42,7 @@ $ -> Language fix or change
 
 01-Oct-2009 Ercan Ozkaya
  ^ Replaced all $ instances to document.id for Mootools except third party classes
+ + Added transliteration override support for language packs
 
 29-Sep-2009 Louis Landry
 ^ Restructured the access control system and simplified the database model to use JRules and a singular nested asset tree.
