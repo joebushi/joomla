@@ -56,7 +56,8 @@ class JFormFieldRules extends JFormField
 		}
 
 		// Get the rules for this asset.
-		$rules = JAccess::getAssetRules($this->_form->getValue($assetField));
+		$assetId = $this->_form->getValue($assetField);
+		$rules = JAccess::getAssetRules($assetId);
 
 		// Get the available user groups.
 		$groups = $this->_getUserGroups();
@@ -97,9 +98,18 @@ class JFormFieldRules extends JFormField
 				//$html[] = '			<fieldset class="access_rule">';
 
 				$html[] = '				<select name="'.$this->inputName.'['.$action->name.']['.$group->value.']" id="'.$this->inputId.'_'.$action->name.'_'.$group->value.'">';
-				$html[] = '					<option value=""'.($rules->allow($action->name, $group->value) === null ? ' selected="selected"' : '').'>'.JText::_('Inherit').'</option>';
-				$html[] = '					<option value="0"'.($rules->allow($action->name, $group->value) === false ? ' selected="selected"' : '').'>'.JText::_('Deny').'</option>';
-				$html[] = '					<option value="1"'.($rules->allow($action->name, $group->value) === true ? ' selected="selected"' : '').'>'.JText::_('Allow').'</option>';
+				if ($assetId == 1)
+				{
+					// Very special case for the root asset.
+					$html[] = '					<option value=""'.($rules->allow($action->name, $group->value) !== true ? ' selected="selected"' : '').'>'.JText::_('Deny').'</option>';
+					$html[] = '					<option value="1"'.($rules->allow($action->name, $group->value) === true ? ' selected="selected"' : '').'>'.JText::_('Allow').'</option>';
+				}
+				else
+				{
+					$html[] = '					<option value=""'.($rules->allow($action->name, $group->value) === null ? ' selected="selected"' : '').'>'.JText::_('Inherit').'</option>';
+					$html[] = '					<option value="0"'.($rules->allow($action->name, $group->value) === false ? ' selected="selected"' : '').'>'.JText::_('Deny').'</option>';
+					$html[] = '					<option value="1"'.($rules->allow($action->name, $group->value) === true ? ' selected="selected"' : '').'>'.JText::_('Allow').'</option>';
+				}
 				$html[] = '				</select>';
 				//$html[] = '			</fieldset>';
 				$html[] = '		</td>';
@@ -130,8 +140,8 @@ class JFormFieldRules extends JFormField
 		$options = $db->loadObjectList();
 
 		// Pad the option text with spaces using depth level as a multiplier.
-		for ($i=0,$n=count($options); $i < $n; $i++) {
-			$options[$i]->text = str_repeat('&nbsp;',$options[$i]->level).$options[$i]->text;
+		foreach ($options as $option) {
+			$option->text = str_repeat('&nbsp;&nbsp;',$option->level).$option->text;
 		}
 
 		return $options;
