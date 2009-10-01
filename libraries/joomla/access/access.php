@@ -14,7 +14,7 @@ jimport('joomla.access.rules');
 jimport('joomla.database.query');
 
 /**
- * Class that handles all access authorization
+ * Class that handles all access authorization routines.
  *
  * @package 	Joomla.Framework
  * @subpackage	User
@@ -23,6 +23,7 @@ jimport('joomla.database.query');
 class JAccess
 {
 	protected static $viewLevels = array();
+	protected static $assetRules = array();
 
 	/**
 	 * Method to check if a user is authorised to perform an action, optionally on an asset.
@@ -42,142 +43,17 @@ class JAccess
 
 		// Default to the root asset node.
 		if (empty($asset)) {
-			$asset = 'root.1';
+			$asset = 1;
 		}
 
-		// Get the rules for the asset, recursively to root.
-		$rules = self::getAssetRules($asset, true);
+		// Get the rules for the asset recursively to root if not already retrieved.
+		if (empty(self::$assetRules[$asset])) {
+			self::$assetRules[$asset] = self::getAssetRules($asset, true);
+		}
 
 		// Get all groups that the user is mapped to recursively.
 		$groups = self::getGroupsByUser($userId);
-
-		return $rules->allow($action, array_merge(array($userId*-1), $groups));
-	}
-
-	/**
-	 * Returns an array of the Group Ids that a user is mapped to
-	 *
-	 * @param	int $userId			The User Id
-	 * @param	boolean $recursive	Recursively include all child groups (optional)
-	 *
-	 * @return	array
-	 */
-	public static function getGroupsByUser($userId, $recursive = true)
-	{
-		// Get a database object.
-		$db	= &JFactory::getDbo();
-
-		// First find the usergroups that this user is in
-		$query = new JQuery;
-		$query->select($recursive ? 'ug2.id' : 'ug1.id');
-		$query->from('#__user_usergroup_map AS uugm');
-		$query->where('uugm.user_id = '.(int) $userId);
-		$query->join('LEFT', '#__usergroups AS ug1 ON ug1.id = uugm.group_id');
-		if ($recursive) {
-			$query->join('LEFT', '#__usergroups AS ug2 ON ug2.lft <= ug1.lft AND ug2.rgt >= ug1.rgt');
-		}
-		$db->setQuery((string) $query);
-
-		$result = $db->loadResultArray();
-
-		// Clean up any NULL values, just in case
-		JArrayHelper::toInteger($result);
-		array_unshift($result, '1');
-
-		return $result;
-	}
-
-	/**
-	 * Method to get the authorized access levels for a user.
-	 *
-	 * @access	public
-	 * @param	integer	User id.
-	 * @param	string	Action name.
-	 * @return	array	Array of access level ids.
-	 * @since	1.0
-	 */
-	public static function getAuthorisedViewLevels($userId)
-	{
-		// Get all groups that the user is mapped to recursively.
-		$groups = self::getGroupsByUser($userId);
-
-		// Only load the view levels once.
-		if (empty(self::$viewLevels))
-		{
-			// Get a database object.
-			$db	= JFactory::getDBO();
-
-			// Build the base query.
-			$query	= new JQuery;
-			$query->select('id, rules');
-			$query->from('`#__viewlevels`');
-
-			// Set the query for execution.
-			$db->setQuery((string) $query);
-
-			// Build the view levels array.
-			foreach ($db->loadAssocList() as $level)
-			{
-				self::$viewLevels[$level['id']] = (array) json_decode($level['rules']);
-			}
-		}
-
-		// Initialize the authorised array.
-		$authorised = array(1);
-
-		// Find the authorized levels.
-		foreach (self::$viewLevels as $level => $rule)
-		{
-			foreach ($rule as $id)
-			{
-				if (($id < 0) && (($id * -1) == $userId))
-				{
-					$authorised[] = $level;
-					break;
-				}
-				elseif (($id >= 0) && in_array($id, $groups))
-				{
-					$authorised[] = $level;
-					break;
-				}
-			}
-		}
-
-		return $authorised;
-	}
-
-	/**
-	 * Method to get the available permissions of a given type for a section.
-	 *
-	 * @access	public
-	 * @param	string	Access section name.
-	 * @param	integer	Permission type.
-	 * @return	array	List of available permissions.
-	 * @since	1.0
-	 */
-	public static function getActions($component, $section = 'component')
-	{
-		$actions = array();
-
-		if (is_file(JPATH_ADMINISTRATOR.'/components/'.$component.'/access.xml'))
-		{
-			$xml = simplexml_load_file(JPATH_ADMINISTRATOR.'/components/'.$component.'/access.xml');
-
-			foreach ($xml->children() as $child)
-			{
-				if ($section == (string) $child['name'])
-				{
-					foreach ($child->children() as $action)
-					{
-						$actions[] = (object) array('name' => (string) $action['name'], 'title' => (string) $action['title'], 'description' => (string) $action['description']);
-					}
-
-					break;
-				}
-			}
-		}
-
-		return $actions;
+		return self::$assetRules[$asset]->allow($action, array_merge(array($userId*-1), $groups));
 	}
 
 	/**
@@ -224,5 +100,136 @@ class JAccess
 		$rules->mergeCollection($result);
 
 		return $rules;
+	}
+
+	/**
+	 * Method to return a list of user groups mapped to a user.  The returned list can optionally hold
+	 * only the groups explicitly mapped to the user or all groups both explicitly mapped and inherited
+	 * by the user.
+	 *
+	 * @param	integer	Id of the user for which to get the list of groups.
+	 * @param	boolean	True to include inherited user groups.
+	 * @return	array	List of user group ids to which the user is mapped.
+	 * @since	1.6
+	 */
+	public static function getGroupsByUser($userId, $recursive = true)
+	{
+		// Get the database connection object.
+		$db = JFactory::getDbo();
+
+		// Build the database query to get the rules for the asset.
+		$query	= new JQuery;
+		$query->select($recursive ? 'b.id' : 'a.id');
+		$query->from('#__user_usergroup_map AS map');
+		$query->where('map.user_id = '.(int) $userId);
+		$query->leftJoin('#__usergroups AS a ON a.id = map.group_id');
+
+		// If we want the rules cascading up to the global asset node we need a self-join.
+		if ($recursive) {
+			$query->leftJoin('#__usergroups AS b ON b.lft <= a.lft AND b.rgt >= a.rgt');
+		}
+
+		// Execute the query and load the rules from the result.
+		$db->setQuery($query);
+		$result	= $db->loadResultArray();
+
+		// Clean up any NULL or duplicate values, just in case
+		JArrayHelper::toInteger($result);
+		array_unshift($result, 1);
+		$result = array_unique($result);
+
+		return $result;
+	}
+
+	/**
+	 * Method to return a list of view levels for which the user is authorised.
+	 *
+	 * @param	integer	Id of the user for which to get the list of authorised view levels.
+	 * @return	array	List of view levels for which the user is authorised.
+	 * @since	1.6
+	 */
+	public static function getAuthorisedViewLevels($userId)
+	{
+		// Get all groups that the user is mapped to recursively.
+		$groups = self::getGroupsByUser($userId);
+
+		// Only load the view levels once.
+		if (empty(self::$viewLevels))
+		{
+			// Get a database object.
+			$db	= JFactory::getDBO();
+
+			// Build the base query.
+			$query	= new JQuery;
+			$query->select('id, rules');
+			$query->from('`#__viewlevels`');
+
+			// Set the query for execution.
+			$db->setQuery((string) $query);
+
+			// Build the view levels array.
+			foreach ($db->loadAssocList() as $level)
+			{
+				self::$viewLevels[$level['id']] = (array) json_decode($level['rules']);
+			}
+		}
+
+		// Initialize the authorised array.
+		$authorised = array(1);
+
+		// Find the authorized levels.
+		foreach (self::$viewLevels as $level => $rule)
+		{
+			foreach ($rule as $id)
+			{
+				// Check to see if the user is mapped to the level.
+				if (($id < 0) && (($id * -1) == $userId))
+				{
+					$authorised[] = $level;
+					break;
+				}
+				// Check to see if the group is mapped to the level.
+				elseif (($id >= 0) && in_array($id, $groups))
+				{
+					$authorised[] = $level;
+					break;
+				}
+			}
+		}
+
+		return $authorised;
+	}
+
+	/**
+	 * Method to return a list of actions for which permissions can be set given a component and section.
+	 *
+	 * @param	string	The component from which to retrieve the actions.
+	 * @param	string	The name of the section within the component from which to retrieve the actions.
+	 * @return	array	List of actions available for the given component and section.
+	 * @since	1.6
+	 */
+	public static function getActions($component, $section = 'component')
+	{
+		$actions = array();
+
+		if (is_file(JPATH_ADMINISTRATOR.'/components/'.$component.'/access.xml'))
+		{
+			$xml = simplexml_load_file(JPATH_ADMINISTRATOR.'/components/'.$component.'/access.xml');
+
+			foreach ($xml->children() as $child)
+			{
+				if ($section == (string) $child['name'])
+				{
+					foreach ($child->children() as $action)
+					{
+						$actions[] = (object) array('name' => (string) $action['name'], 'title' => (string) $action['title'], 'description' => (string) $action['description']);
+					}
+
+					break;
+				}
+			}
+		}
+
+		return $actions;
 	}
 }
