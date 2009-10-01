@@ -30,7 +30,7 @@ abstract class JHtmlRules
 	 *
 	 * @return	string	The required HTML for the SELECT tag.
 	 */
-	public static function assetFormWidget($component, $section, $assetId = null, $control = 'jform[rules]')
+	public static function assetFormWidget($component, $section, $assetId = null, $control = 'jform[rules2]')
 	{
 		// Load the behavior.
 		self::_loadBehavior();
