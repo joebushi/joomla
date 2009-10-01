@@ -100,7 +100,7 @@ abstract class JHtmlRules
 
 			foreach ($groups as $i => $group)
 			{
-				$html[] = ' 			<tr class="row'.$i.'">';
+				$html[] = ' 			<tr class="row'.($i%2).'">';
 				$html[] = ' 				<td class="col1">'.$group->text.'</td>';
 				$html[] = ' 				<td class="col2">'.($inheriting->allow($action->name, $group->value) ? $images['allow-i'] : $images['deny-i']).'</td>';
 				$html[] = ' 				<td class="col3">';
