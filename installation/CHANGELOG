@@ -29,6 +29,8 @@ $ -> Language fix or change
 
 01-Oct-2009 Louis Landry
 - Removed JFormFieldAccessSections
+- Removed JAccessHelper
+^ Drastically simplified JAccess and made all methods static.
 
 01-Oct-2009 Andrew Eddie
 - Removed JAccessLevel and JSimpleRule

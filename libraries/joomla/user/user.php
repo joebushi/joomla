@@ -9,6 +9,8 @@
 
 // No direct access
 defined('JPATH_BASE') or die;
+
+jimport('joomla.access.access');
 jimport('joomla.html.parameter');
 
 /**
@@ -263,7 +265,7 @@ class JUser extends JObject
 	 */
 	public function authorise($action, $assetname = null)
 	{
-		return JFactory::getACL()->check($this->id, $action, $assetname);
+		return JAccess::check($this->id, $action, $assetname);
 	}
 
 	/**
@@ -273,18 +275,17 @@ class JUser extends JObject
 	 *
 	 * @return	array
 	 */
-	public function authorisedLevels($action = 'core.view')
+	public function authorisedLevels()
 	{
 		if ($this->_authLevels === null) {
 			$this->_authLevels = array();
 		}
 
-		if (!isset($this->_authLevels[$action])) {
-			$acs = JFactory::getACL();
-			$this->_authLevels[$action] = $acs->getAuthorisedAccessLevels($this->id, $action);
+		if (empty($this->_authLevels)) {
+			$this->_authLevels = JAccess::getAuthorisedViewLevels($this->id);
 		}
 
-		return $this->_authLevels[$action];
+		return $this->_authLevels;
 	}
 
 	/**

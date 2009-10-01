@@ -40,7 +40,7 @@ abstract class JHtmlRules
 
 		// Get the actions for the asset.
 		$access = JFactory::getACL();
-		$actions = $access->getAvailablePermissions($component, $section);
+		$actions = JAccess::getActions($component, $section);
 
 		// Get the user groups.
 		$groups = self::_getUserGroups();

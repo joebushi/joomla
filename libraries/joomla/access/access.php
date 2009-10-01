@@ -10,16 +10,6 @@
 
 defined('JPATH_BASE') or die;
 
-if (!defined('JPERMISSION_VIEW')) {
-	define('JPERMISSION_VIEW', 3);
-}
-if (!defined('JPERMISSION_ASSET')) {
-	define('JPERMISSION_ASSET', 2);
-}
-if (!defined('JPERMISSION_ACTION')) {
-	define('JPERMISSION_ACTION', 1);
-}
-
 jimport('joomla.access.rules');
 jimport('joomla.database.query');
 
@@ -34,15 +24,6 @@ class JAccess extends JObject
 {
 	protected static $viewLevels = array();
 
-	var $_quiet = true;
-
-	function quiet($value)
-	{
-		$old = $this->_quiet;
-		$this->_quiet = (boolean) $value;
-		return $old;
-	}
-
 	/**
 	 * Method to check authorization for a user / action / asset combination.
 	 *
@@ -53,22 +34,20 @@ class JAccess extends JObject
 	 * @return	boolean	True if authorized.
 	 * @since	1.0
 	 */
-	public function check($userId, $actionName, $assetName = null)
+	public static function check($userId, $action, $asset = null)
 	{
 		// Sanitize inputs.
 		$userId = (int) $userId;
-		$actionName = strtolower(preg_replace('#[\s\-]+#', '.', trim($actionName)));
-		$assetName  = strtolower(preg_replace('#[\s\-]+#', '.', trim($assetName)));
-		if (empty($assetName)) {
-			$assetName = 'root.1';
-		}
+		$action = strtolower(preg_replace('#[\s\-]+#', '.', trim($action)));
+		$asset  = strtolower(preg_replace('#[\s\-]+#', '.', trim($asset)));
+
 
 		$db		= JFactory::getDbo();
 		$query	= new JQuery;
 
 		$query->select('b.rules');
 		$query->from('#__assets AS a');
-		$query->where('a.name = '.$db->quote($assetName));
+		$query->where('a.name = '.$db->quote($asset));
 		$query->leftJoin('#__assets AS b ON b.lft <= a.lft AND b.rgt >= a.rgt');
 		$query->order('b.lft');
 
@@ -78,10 +57,9 @@ class JAccess extends JObject
 		$rules->mergeCollection($result);
 
 		// Get all groups that the user is mapped to
-		$userGroupIds = $this->getUserGroupMap($userId, true);
-		array_unshift($userGroupIds, $userId*-1);
+		$userGroupIds = self::getGroupsByUser($userId);
 
-		return $rules->allow($actionName, $userGroupIds);
+		return $rules->allow($action, array_merge(array($userId*-1), $userGroupIds));
 	}
 
 	/**
@@ -92,7 +70,7 @@ class JAccess extends JObject
 	 *
 	 * @return	array
 	 */
-	public function getUserGroupMap($userId, $recursive = false)
+	public static function getGroupsByUser($userId, $recursive = true)
 	{
 		// Get a database object.
 		$db	= &JFactory::getDbo();
@@ -108,15 +86,11 @@ class JAccess extends JObject
 		}
 		$db->setQuery((string) $query);
 
-		$this->_quiet or $this->_log($db->getQuery());
-
 		$result = $db->loadResultArray();
 
 		// Clean up any NULL values, just in case
 		JArrayHelper::toInteger($result);
 		array_unshift($result, '1');
-
-		$this->_quiet or $this->_log("User $userId in groups: ".print_r($result, 1));
 
 		return $result;
 	}
@@ -130,10 +104,10 @@ class JAccess extends JObject
 	 * @return	array	Array of access level ids.
 	 * @since	1.0
 	 */
-	public function getAuthorisedAccessLevels($userId)
+	public static function getAuthorisedViewLevels($userId)
 	{
 		// Get the user group ids for the user.
-		$userGroupIds = $this->getUserGroupMap($userId, true);
+		$userGroupIds = self::getGroupsByUser($userId);
 
 		// Only load the view levels once.
 		if (empty(self::$viewLevels))
@@ -148,9 +122,6 @@ class JAccess extends JObject
 
 			// Set the query for execution.
 			$db->setQuery((string) $query);
-
-			// Debugging option.
-			$this->_quiet or $this->_log($db->getQuery());
 
 			// Build the view levels array.
 			foreach ($db->loadAssocList() as $level)
@@ -192,9 +163,9 @@ class JAccess extends JObject
 	 * @return	array	List of available permissions.
 	 * @since	1.0
 	 */
-	public function getAvailablePermissions($component, $section = 'component')
+	public static function getActions($component, $section = 'component')
 	{
-		$permissions = array();
+		$actions = array();
 
 		if (is_file(JPATH_ADMINISTRATOR.'/components/'.$component.'/access.xml'))
 		{
@@ -206,7 +177,7 @@ class JAccess extends JObject
 				{
 					foreach ($child->children() as $action)
 					{
-						$permissions[] = (object) array('name' => (string) $action['name'], 'title' => (string) $action['title'], 'description' => (string) $action['description']);
+						$actions[] = (object) array('name' => (string) $action['name'], 'title' => (string) $action['title'], 'description' => (string) $action['description']);
 					}
 
 					break;
@@ -214,64 +185,7 @@ class JAccess extends JObject
 			}
 		}
 
-		return $permissions;
-	}
-
-	/**
-	 * Returns an array of the User Group ID's that can perform a given action
-	 *
-	 * @value	string $action	The name of the action
-	 *
-	 * @return	array
-	 */
-	function getAuthorisedUsergroups($action, $recursive = false)
-	{
-		// Get a database object.
-		$db	= &JFactory::getDbo();
-
-		// Build the base query.
-		$query	= new JQuery;
-		$query->select('DISTINCT ug2.id');
-		$query->from('`#__access_actions` AS a');
-		// Map actions to rules
-		$query->join('INNER',	'`#__access_action_usergroup_map` AS agm ON agm.action_id = a.id');
-
-		if ($recursive) {
-			$query->join('INNER', '#__usergroups AS ug1 ON ug1.id = agm.usergroup_id');
-			$query->join('LEFT', '#__usergroups AS ug2 ON ug2.lft >= ug1.lft AND ug2.rgt <= ug1.rgt');
-		}
-		else {
-			$query->join('INNER', '#__usergroups AS ug2 ON ug2.id = ugrm.group_id');
-		}
-
-		// Handle an array of actions or just a single action.
-		if (is_array($action))
-		{
-			// Quote the actions.
-			foreach ($action as $k => $v) {
-				$action[$k] = $db->Quote($v);
-			}
-			$query->where('(a.name = '.implode(' OR a.name = ', $action).')');
-		}
-		else {
-			$query->where('a.name = '.$db->Quote($action));
-		}
-
-		$db->setQuery((string) $query);
-
-		$this->_quiet or $this->_log($db->getQuery());
-
-		$ids = $db->loadResultArray();
-
-		// Check for a database error.
-		if ($db->getErrorNum()) {
-			JError::raiseNotice(500, $db->getErrorMsg());
-			return false;
-		}
-
-		$this->_quiet or $this->_log(print_r($ids, 1));
-
-		return $ids;
+		return $actions;
 	}
 
 	public static function getAssetRules($assetId, $recursive = false)
@@ -296,10 +210,5 @@ class JAccess extends JObject
 		$rules->mergeCollection($result);
 
 		return $rules;
-	}
-
-	function _log($text)
-	{
-		echo nl2br($text).'<hr />';
 	}
 }

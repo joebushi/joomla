@@ -174,14 +174,13 @@ abstract class JHtmlAccess
 	 *
 	 * @return	string
 	 */
-	public static function actions($name, $selected, $section = 'core', $type = 1)
+	public static function actions($name, $selected, $component, $section = 'global')
 	{
 		static $count;
 
 		$count++;
 
-		jimport('joomla.access.helper');
-		$actions	= JAccessHelper::getActions($section, $type);
+		$actions	= JAccess::getActions($component, $section);
 
 		$html		= array();
 		$html[]		= '<ul class="checklist access-actions">';

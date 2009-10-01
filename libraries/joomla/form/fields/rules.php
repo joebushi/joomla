@@ -42,7 +42,7 @@ class JFormFieldRules extends JFormField
 
 		// Get the actions for the asset.
 		$access = JFactory::getACL();
-		$actions = $access->getAvailablePermissions($component, $section);
+		$actions = JAccess::getActions($component, $section);
 
 		// Iterate over the children and add to the actions.
 		foreach ($this->_element->children() as $e)
