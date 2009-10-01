@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+01-Oct-2009 Louis Landry
+- Removed JFormFieldAccessSections
+
 01-Oct-2009 Andrew Eddie
 - Removed JAccessLevel and JSimpleRule
 ^ Rename jos_access_assets to jos_assets
@@ -35,6 +38,7 @@ $ -> Language fix or change
 ^ Split com_banners helper into site and admin; renamed to BannersHelper.
 
 29-Sep-2009 Louis Landry
+^ Restructured the access control system and simplified the database model to use JRules and a singular nested asset tree.
 
 29-Sep-2009 Ron Severdia
 # Template Manager cleanup
