@@ -22,6 +22,7 @@ jimport('joomla.database.query');
  */
 class JAccess
 {
+	protected static $isRoot = null;
 	protected static $viewLevels = array();
 	protected static $assetRules = array();
 
@@ -36,24 +37,53 @@ class JAccess
 	 */
 	public static function check($userId, $action, $asset = null)
 	{
-		// Sanitize inputs.
-		$userId = (int) $userId;
-		$action = strtolower(preg_replace('#[\s\-]+#', '.', trim($action)));
-		$asset  = strtolower(preg_replace('#[\s\-]+#', '.', trim($asset)));
-
-		// Default to the root asset node.
-		if (empty($asset)) {
-			$asset = 1;
+		if (self::$isRoot) {
+			return true;
 		}
+		else
+		{
+			// Sanitize inputs.
+			$userId = (int) $userId;
 
-		// Get the rules for the asset recursively to root if not already retrieved.
-		if (empty(self::$assetRules[$asset])) {
-			self::$assetRules[$asset] = self::getAssetRules($asset, true);
+			// Crude check for root user.
+			$config = new JConfig;
+			if ($userId == $config->root_user)
+			{
+				self::$isRoot = true;
+				return true;
+			}
+
+			$action = strtolower(preg_replace('#[\s\-]+#', '.', trim($action)));
+			$asset  = strtolower(preg_replace('#[\s\-]+#', '.', trim($asset)));
+
+			// Default to the root asset node.
+			if (empty($asset)) {
+				$asset = 1;
+			}
+
+			// Get the rules for the asset recursively to root if not already retrieved.
+			if (empty(self::$assetRules[$asset])) {
+				self::$assetRules[$asset] = self::getAssetRules($asset, true);
+			}
+
+			// Get all groups agaist which the user is mapped.
+			$groups = self::getGroupsByUser($userId);
+			array_unshift($groups, $userId * -1);
+
+			// Make sure we only check for core.admin once during the run.
+			if (self::$isRoot === null)
+			{
+				if (self::getAssetRules(1)->allow('core.admin', $groups)) {
+					self::$isRoot = true;
+					return true;
+				}
+				else {
+					self::$isRoot = false;
+				}
+			}
+
+			return self::$assetRules[$asset]->allow($action, $groups);
 		}
-
-		// Get all groups that the user is mapped to recursively.
-		$groups = self::getGroupsByUser($userId);
-		return self::$assetRules[$asset]->allow($action, array_merge(array($userId*-1), $groups));
 	}
 
 	/**
@@ -135,8 +165,12 @@ class JAccess
 
 		// Clean up any NULL or duplicate values, just in case
 		JArrayHelper::toInteger($result);
-		array_unshift($result, 1);
-		$result = array_unique($result);
+		if (empty($result)) {
+			$result = array('1');
+		}
+		else {
+			$result = array_unique($result);
+		}
 
 		return $result;
 	}
