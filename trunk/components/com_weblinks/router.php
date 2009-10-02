@@ -13,6 +13,7 @@
  * @since 1.6
  */
 
+defined('_JEXEC') or die;
 
 class WeblinksRoute
 {
@@ -49,7 +50,7 @@ class WeblinksRoute
 	}
 
 	/**
-	 * @param	int $id			The id of the article.
+	 * @param	int $id			The id of the weblink.
 	 * @param	int	$categoryId	An optional category id.
 	 *
 	 * @return	string	The routed link.
@@ -257,8 +258,8 @@ function WeblinksParseRoute($segments)
 		{
 			if (count($segments[0]) == 2)
 			{
-				// We are viewing a newsfeed.
-				$vars['view']	= 'newsfeed';
+				// We are viewing the edit form.
+				$vars['view']	= 'weblink';
 				$vars['id']		= $segments[$count-2];
 				$vars['catid']	= $segments[$count-1];
 
