@@ -99,10 +99,7 @@ class ConfigControllerComponent extends JController
 			return false;
 		}
 
-		// Set the success message.
-		$message = JText::_('Config_Save_Success');
-
-		$this->setRedirect('index.php?option=com_config&view=component&component='.$option.'&tmpl=component', $message);
+		$this->setRedirect('index.php?option=com_config&view=close&tmpl=component');
 		return true;
 	}
 }
