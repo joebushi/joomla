@@ -88,7 +88,7 @@ class ModMenuHelper
 			if ($component->parent == 0)
 			{
 				// Only add this top level if it is authorised and enabled.
-				if (!$authCheck == false || $user->authorize('core.manage', $component->option))
+				if ($authCheck == false || ($authCheck && $user->authorize('core.manage', $component->option)))
 				{
 					// Root level.
 					$result[$component->id] = $component;
@@ -98,9 +98,8 @@ class ModMenuHelper
 
 					// If the root menu link is empty, add it in.
 					if (empty($component->admin_menu_link)) {
-					$component->admin_menu_link = 'index.php?option='.$component->option;
-
-				}
+						$component->admin_menu_link = 'index.php?option='.$component->option;
+					}
 
 					if (!empty($component->option)) {
 						$langs[$component->option.'.menu'] = true;
