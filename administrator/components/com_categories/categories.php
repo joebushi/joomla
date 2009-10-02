@@ -10,7 +10,13 @@
 // no direct access
 defined('_JEXEC') or die;
 
-require_once(JPATH_COMPONENT.DS.'controller.php');
+// Access check.
+if (!JFactory::getUser()->authorise('core.manage', JRequest::getCmd('extension'))) {
+	JFactory::getApplication()->redirect('', JText::_('ALERTNOTAUTH'));
+}
+
+// Include dependancies
+jimport('joomla.application.component.controller');
 
 // Execute the task.
 $controller	= &JController::getInstance('Categories');

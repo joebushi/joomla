@@ -11,7 +11,7 @@
 			type="rules"
 			label="JConfig_Permissions_Label"
 			filter="rules"
-			component="com_templates"
+			component="com_config"
 			section="component">
 			<action
 				name="core.manage"

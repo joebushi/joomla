@@ -11,7 +11,7 @@
 			type="rules"
 			label="JConfig_Permissions_Label"
 			filter="rules"
-			component="com_users"
+			component="com_redirect"
 			section="component">
 			<action
 				name="core.manage"

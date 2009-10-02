@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+02-Oct2009 Andrew Eddie
+# Fix bugs in rules fields (wrong extension given).
+^ Split layout of admin mod_menu into enabled and disabled layouts.
+
 01-Oct-2009 Louis Landry
 - Removed JFormFieldAccessSections
 - Removed JAccessHelper

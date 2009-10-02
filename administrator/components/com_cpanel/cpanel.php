@@ -10,6 +10,12 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
 
+// Access check.
+if (!JFactory::getUser()->authorise('core.manage')) {
+	JFactory::getApplication()->redirect('', JText::_('ALERTNOTAUTH'));
+}
+
+// Include dependancies
 jimport('joomla.application.component.controller');
 
 $controller	= JController::getInstance('Cpanel');

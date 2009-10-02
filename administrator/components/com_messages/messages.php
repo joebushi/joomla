@@ -8,6 +8,12 @@
  */
 defined( '_JEXEC' ) or die;
 
+// Access check.
+if (!JFactory::getUser()->authorise('core.manage', 'com_messages')) {
+	JFactory::getApplication()->redirect('', JText::_('ALERTNOTAUTH'));
+}
+
+// Include dependancies
 jimport('joomla.application.component.controller');
 
 $controller	= JController::getInstance('Messages');

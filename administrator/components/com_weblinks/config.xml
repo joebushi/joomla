@@ -132,7 +132,6 @@
 			name="rules"
 			type="rules"
 			label="JConfig_Permissions_Label"
-			class="inputbox"
 			filter="rules"
 			component="com_weblinks"
 			section="component" />

@@ -10,17 +10,16 @@
 // no direct access
 defined('_JEXEC') or die;
 
-// Make sure the user is authorized to view this page
-$user	= & JFactory::getUser();
-$app	= &JFactory::getApplication();
-if (!$user->authorize('core.manage', 'com_config')) {
-	$app->redirect('index.php', JText::_('ALERTNOTAUTH'));
+// Access check.
+if (!JFactory::getUser()->authorise('core.manage', 'com_config')) {
+	JFactory::getApplication()->redirect('', JText::_('ALERTNOTAUTH'));
 }
+
+// Include dependancies
+jimport('joomla.application.component.controller');
 
 // Tell the browser not to cache this page.
 JResponse::setHeader('Expires', 'Mon, 26 Jul 1997 05:00:00 GMT', true);
-
-jimport('joomla.application.component.controller');
 
 // Execute the controller.
 $controller = JController::getInstance('Config');
