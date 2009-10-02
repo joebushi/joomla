@@ -123,7 +123,7 @@ abstract class JHtmlRules
 		$html[] = '	<ul class="acllegend fltrt">';
 		$html[] = '		<li class="acl-editgroups"><a href="#">'.JText::_('CONTENT_ACCESS_EDIT_GROUPS').'</a></li>';
 		$html[] = '		<li class="acl-resetbtn"><a href="#">'.JText::_('CONTENT_ACCESS_RESET_TO_INHERIT').'</a></li>';
-		$html[] = '	</ul>';		
+		$html[] = '	</ul>';
 		$html[] = '</div>';
 
 		return implode("\n", $html);

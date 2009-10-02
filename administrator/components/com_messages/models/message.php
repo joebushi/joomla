@@ -39,7 +39,7 @@ class MessagesModelMessage extends JModel
 	public function save($data)
 	{
 		$table = $this->getTable();
-		
+
 		if (!$table->bind($data)) {
 			$this->setError($table->getError());
 			return false;
@@ -49,12 +49,12 @@ class MessagesModelMessage extends JModel
 			$this->setError($table->getError());
 			return false;
 		}
-		
+
 		if (!$table->send()) {
 			$this->setError($table->getError());
 			return false;
 		}
-		
+
 		return true;
 	}
 
@@ -155,13 +155,13 @@ class MessagesModelMessage extends JModel
 	 *
 	 * @param integer $cid 		An array of numeric ids for the rows
 	 * @return boolean 			True on success / false on failure
-	 */	
+	 */
 	public function delete($cid)
 	{
 		// Get a message row instance
 		$table = $this->getTable();
 
-		for ($i = 0, $c = count($cid); $i < $c; $i++) { 
+		for ($i = 0, $c = count($cid); $i < $c; $i++) {
 			// Load the row.
 			$return = $table->load($cid[$i]);
 

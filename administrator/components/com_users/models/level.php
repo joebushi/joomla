@@ -79,7 +79,7 @@ class UsersModelLevel extends JModelForm
 			$this->setError($this->_db->getErrorMsg());
 			return $false;
 		}
-		
+
 		$value = JArrayHelper::toObject($table->getProperties(1), 'JObject');
 		$value->groups = json_decode($value->rules);
 
@@ -188,7 +188,7 @@ class UsersModelLevel extends JModelForm
 		);
 
 		$db->Query();
-		
+
 		return true;
 	}
 }
