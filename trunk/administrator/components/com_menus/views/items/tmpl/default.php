@@ -113,9 +113,8 @@ $userId	= $user->get('id');
 						<span><img src="templates/bluestork/images/menu/icon-16-default.png" alt="<?php echo JText::_('Default'); ?>" title="<?php echo JText::_('Default'); ?>" /></span>
 					<?php endif; ?>
 					
-					<br /><small 
-							title="<?php echo $this->escape($item->path);?>">
-								(<?php echo JText::_('JFIELD_ALIAS_LABEL') . ':' . $this->escape($item->alias)
+					<br /><small title="<?php echo $this->escape($item->path);?>">
+			(<?php echo JText::_('JFIELD_ALIAS_LABEL') . ':' . $this->escape($item->alias)
 								.' - '.JText::_('MENUS_ITEM_TYPE_LABEL'); ?>:
 								<?php if ($item->component_id=='0'){
 											echo $this->escape($item->type);   
@@ -124,8 +123,7 @@ $userId	= $user->get('id');
 											echo $this->escape($item->componentname);	
 										}
 
-								;?>)
-								</small>
+								;?>)</small>
 				</td>
 				<td align="center">
 					<?php echo JHtml::_('jgrid.published', $item->published, $i, 'items.');?>
@@ -138,9 +136,6 @@ $userId	= $user->get('id');
 				</td>
 				<td align="center">
 					<?php echo $this->escape($item->access_level); ?>
-				</td>
-				<td align="center">
-					Type
 				</td>
 				<td align="center">
 					<span title="<?php echo sprintf('%d-%d', $item->lft, $item->rgt);?>">

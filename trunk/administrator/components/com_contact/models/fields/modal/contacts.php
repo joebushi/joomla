@@ -10,7 +10,7 @@ defined('JPATH_BASE') or die;
 jimport('joomla.form.field');
 
 /**
- * Supports a modal article picker.
+ * Supports a modal contact picker.
  *
  * @package		Joomla.Administrator
  * @subpackage	com_contact

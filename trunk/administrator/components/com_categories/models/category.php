@@ -374,7 +374,7 @@ class CategoriesModelCategory extends JModelForm
 		// Get an instance of the table obejct.
 		$table = &$this->getTable();
 
-		if (!$table->rebuild())
+		if (!$table->_rebuildCategoryTree())
 		{
 			$this->setError($table->getError());
 			return false;
