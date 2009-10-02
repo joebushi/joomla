@@ -210,14 +210,20 @@ class JAccess
 
 		// Initialize the authorised array.
 		$authorised = array(1);
+		$config = new JConfig;
 
 		// Find the authorized levels.
 		foreach (self::$viewLevels as $level => $rule)
 		{
 			foreach ($rule as $id)
 			{
+				// Root user check.
+				if ($userId == $config->root_user) {
+					$authorised[] = $level;
+					break;
+				}
 				// Check to see if the user is mapped to the level.
-				if (($id < 0) && (($id * -1) == $userId))
+				else if (($id < 0) && (($id * -1) == $userId))
 				{
 					$authorised[] = $level;
 					break;

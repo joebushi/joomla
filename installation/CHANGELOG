@@ -30,6 +30,7 @@ $ -> Language fix or change
 02-Oct2009 Andrew Eddie
 # Fix bugs in rules fields (wrong extension given).
 ^ Split layout of admin mod_menu into enabled and disabled layouts.
+^ Reverse direction of user groups to allow top-down inheritance.
 
 01-Oct-2009 Louis Landry
 - Removed JFormFieldAccessSections

@@ -11,8 +11,8 @@
 defined('_JEXEC') or die;
 
 // Access check.
-if (!JFactory::getUser()->authorise('core.manage', 'com_config')) {
-	JFactory::getApplication()->redirect('', JText::_('ALERTNOTAUTH'));
+if (!JFactory::getUser()->authorise('core.admin')) {
+	return JError::raiseWarning(404, JText::_('ALERTNOTAUTH'));
 }
 
 // Include dependancies
