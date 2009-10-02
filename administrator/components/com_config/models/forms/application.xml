@@ -331,7 +331,7 @@
 		group="metadata"
 		label="Config_Metadata_Settings_Label">
 		<field
-			name="metadesc"
+			name="MetaDesc"
 			type="textarea"
 			default=""
 			label="Config_Metadesc_Label"
@@ -342,7 +342,7 @@
 			rows="3" />
 
 		<field
-			name="metakeys"
+			name="MetaKeys"
 			type="textarea"
 			default=""
 			label="Config_Metakeys_Label"
@@ -353,7 +353,7 @@
 			rows="3" />
 
 		<field
-			name="metatitle"
+			name="MetaTitle"
 			type="radio"
 			default="1"
 			label="Config_Metatitle_Label"
@@ -367,7 +367,7 @@
 		</field>
 
 		<field
-			name="metaauthor"
+			name="MetaAuthor"
 			type="radio"
 			default="1"
 			label="Config_Metaauthor_Label"

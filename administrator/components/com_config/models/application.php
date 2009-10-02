@@ -78,6 +78,28 @@ class ConfigModelApplication extends JModelForm
 	 */
 	public function save($data)
 	{
+		// Save the rules
+		if (isset($data['rules']))
+		{
+			jimport('joomla.access.rules');
+			$rules	= new JRules($data['rules']);
+			$asset	= JTable::getInstance('asset');
+			if ($asset->loadByName('root.1'))
+			{
+				$asset->rules = (string) $rules;
+
+				if (!$asset->check() || !$asset->store()) {
+					JError::raiseNotice('SOME_ERROR_CODE', $asset->getError());
+				}
+			}
+			else
+			{
+				$this->setError('Config_Error_Root_asset_not_found');
+				return false;
+			}
+			unset($data['rules']);
+		}
+
 		// Get the previous configuration.
 		$prev = new JConfig();
 		$prev = JArrayHelper::fromObject($prev);
@@ -162,27 +184,6 @@ class ConfigModelApplication extends JModelForm
 		// Attempt to make the file unwriteable if using FTP.
 		if ($data['ftp_enable'] == 0 && !$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0444')) {
 			JError::raiseNotice('SOME_ERROR_CODE', JText::_('Config_File_Could_Not_Make_Unwritable'));
-		}
-
-		// Save the rules
-		if (isset($data['rules']))
-		{
-			jimport('joomla.access.rules');
-			$rules	= new JRules($data['rules']);
-			$asset	= JTable::getInstance('asset');
-			if ($asset->loadByName('root.1'))
-			{
-				$asset->rules = (string) $rules;
-
-				if (!$asset->check() || !$asset->store()) {
-					JError::raiseNotice('SOME_ERROR_CODE', $asset->getError());
-				}
-			}
-			else
-			{
-				$this->setError('Config_Error_Root_asset_not_found');
-				return false;
-			}
 		}
 
 		return true;
