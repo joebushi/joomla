@@ -50,7 +50,7 @@ $userId	= $user->get('id');
 				<option value=""><?php echo JText::_('JMenu_Option_Select_Level');?></option>
 				<?php echo JHtml::_('select.options', $this->f_levels, 'value', 'text', $this->state->get('filter.level'));?>
 			</select>
-			
+
 			<select name="filter_menutype" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('JMenu_Option_Select_Menutype');?></option>
 				<?php echo JHtml::_('select.options', $this->f_levels, 'value', 'text', $this->state->get('filter.level'));?>
@@ -102,28 +102,30 @@ $userId	= $user->get('id');
 					<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 				</td>
 				<td style="padding-left:<?php echo intval(($item->level-1)*15)+4; ?>px">
-					
+
 					<?php if ($item->checked_out) : ?>
 						<?php echo JHtml::_('jgrid.checkedout', $item->editor, $item->checked_out_time); ?>
 					<?php endif; ?>
 					<a href="<?php echo JRoute::_('index.php?option=com_menus&task=item.edit&cid[]='.$item->id);?>">
 						<?php echo $this->escape($item->title); ?></a>
-						
+
 					<?php if ($item->home == 1) : ?>
 						<span><img src="templates/bluestork/images/menu/icon-16-default.png" alt="<?php echo JText::_('Default'); ?>" title="<?php echo JText::_('Default'); ?>" /></span>
 					<?php endif; ?>
-					
-					<br /><small title="<?php echo $this->escape($item->path);?>">
-			(<?php echo JText::_('JFIELD_ALIAS_LABEL') . ':' . $this->escape($item->alias)
+
+					<br /><small
+							title="<?php echo $this->escape($item->path);?>">
+								(<?php echo JText::_('JFIELD_ALIAS_LABEL') . ':' . $this->escape($item->alias)
 								.' - '.JText::_('MENUS_ITEM_TYPE_LABEL'); ?>:
 								<?php if ($item->component_id=='0'){
-											echo $this->escape($item->type);   
+											echo $this->escape($item->type);
 										}
 										else {
-											echo $this->escape($item->componentname);	
+											echo $this->escape($item->componentname);
 										}
 
-								;?>)</small>
+								;?>)
+								</small>
 				</td>
 				<td align="center">
 					<?php echo JHtml::_('jgrid.published', $item->published, $i, 'items.');?>
@@ -136,6 +138,9 @@ $userId	= $user->get('id');
 				</td>
 				<td align="center">
 					<?php echo $this->escape($item->access_level); ?>
+				</td>
+				<td align="center">
+					Type
 				</td>
 				<td align="center">
 					<span title="<?php echo sprintf('%d-%d', $item->lft, $item->rgt);?>">

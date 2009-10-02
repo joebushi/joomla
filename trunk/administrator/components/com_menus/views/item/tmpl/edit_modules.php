@@ -40,18 +40,18 @@ defined('_JEXEC') or die;
 					} else {
 						echo JText::_('Menus_Module_Show_All');
 					} ?>
-	
+
 					</td>
 					<td align="center">
 					<?php $document = &JFactory::getDocument(); ?>
-						<?php 			
+						<?php
 							$link = 'index.php?option=com_modules&client=0&task=edit&cid[]='. $module->id.'&tmpl=component' ;
 						 	JHTML::_('behavior.modal', 'a.modal');
 							$html = '    <a class="modal" title="'.JText::_('Edit').'"  href="'.$link.'" rel="{handler: \'iframe\', size: {x: 650, y: 375}}">'.JText::_('Edit_module_settings').'</a>';
-							
+
 							echo  $html;
-									
-							?>		
+
+							?>
 					</td>
 				</tr>
 		<?php endforeach; ?>

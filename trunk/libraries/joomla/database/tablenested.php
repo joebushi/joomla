@@ -216,6 +216,10 @@ class JTableNested extends JTable
 	 */
 	public function move($referenceId, $position = 'after', $pk = null)
 	{
+		if ($this->_debug) {
+			echo "\nMoving ReferenceId:$referenceId, Position:$position, PK:$pk";
+		}
+
 		// Initialize variables.
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
@@ -661,7 +665,6 @@ class JTableNested extends JTable
 		return false;
 	}
 
-
 	/**
 	 * Method to store a node in the database table.
 	 *
@@ -676,6 +679,7 @@ class JTableNested extends JTable
 		$k = $this->_tbl_key;
 
 		if ($this->_debug) {
+			echo "\n".get_class($this)."::store\n";
 			$this->_logtable(true, false);
 		}
 		/*
