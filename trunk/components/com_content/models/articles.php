@@ -96,14 +96,14 @@ class ContentModelArticles extends JModelList
 		// Select the required fields from the table.
 		$query->select($this->getState(
 			'list.select',
-			'a.id, a.title, a.alias, a.title_alias, a.introtext, a.state, a.catid, a.created, a.created_by, a.created_by_alias,' .
+			'a.id, a.title, a.alias, a.title_alias, a.introtext, a.fulltext, a.state, a.catid, a.created, a.created_by, a.created_by_alias,' .
 			' a.modified, a.modified_by,a.publish_up, a.publish_down, a.attribs, a.metadata, a.metakey, a.metadesc, a.access,' .
 			' LENGTH(a.fulltext) AS readmore'
 		));
 		$query->from('#__content AS a');
 
 		// Join over the categories.
-		$query->select('c.title AS category_title, c.path AS category_route, c.access AS category_access');
+		$query->select('c.title AS category_title, c.path AS category_route, c.access AS category_access, c.alias AS category_alias');
 		$query->join('LEFT', '#__categories AS c ON c.id = a.catid');
 
 		// Join over the users for the author.
@@ -132,14 +132,32 @@ class ContentModelArticles extends JModelList
 
 		// Filter by a single or group of categories.
 		$categoryId = $this->getState('filter.category_id');
-		if (is_numeric($categoryId)) {
-			$query->where('a.catid = ' . (int) $categoryId);
+		if (is_numeric($categoryId))
+		{
+			$type = $this->getState('filter.category_id.include', true) ? '= ' : '<>';
+			$query->where('a.catid '.$type.(int) $categoryId);
 		}
 		else if (is_array($categoryId))
 		{
 			JArrayHelper::toInteger($categoryId);
 			$categoryId = implode(',', $categoryId);
-			$query->where('a.catid IN ('.$categoryId.')');
+			$type = $this->getState('filter.category_id.include', true) ? 'IN' : 'NOT IN';
+			$query->where('a.catid '.$type.' ('.$categoryId.')');
+		}
+
+		$authorId 	= $this->getState('filter.author_id');
+
+		if (is_numeric($authorId))
+		{
+			$type = $this->getState('filter.author_id.include', true) ? '= ' : '<>';
+			$query->where('a.created_by '.$type.(int) $authorId);
+		}
+		else if (is_array($authorId))
+		{
+			JArrayHelper::toInteger($authorId);
+			$authorId = implode(',', $authorId);
+			$type = $this->getState('filter.author_id.include', true) ? 'IN' : 'NOT IN';
+			$query->where('a.created '.$type.' ('.$authorId.')');
 		}
 
 		// Filter by start and end dates.
