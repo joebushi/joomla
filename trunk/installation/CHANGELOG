@@ -27,6 +27,14 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+06-Oct-2009 Ron Severdia
+# BlueStork CSS cleanup
+# Layout fixes for com_contact, com_menus, com_users, com_weblinks
+# Grid CSS fixed.
+
+06-Oct-2009 Andrew Eddie
+^ Loop optimisation in JDocumentHTML::countModules
+
 05-Oct-2009 Mark Dexter
 # Fixed problems when moving & re-ordering Categories in Category Manager
 
