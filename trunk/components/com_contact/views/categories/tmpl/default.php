@@ -44,7 +44,7 @@ $difLevel = 0;
 	?>
 	
 	<li>
-		<span class="jitem-title"><a href="<?php echo ContactRoute::category('index.php?option=com_contact&view=category&id='.$this->escape($item->slug));?>">
+		<span class="jitem-title"><a href="<?php echo ContactRoute::category('index.php?option=com_contact&view=category&catid='.$this->escape($item->slug));?>">
 			<?php echo $this->escape($item->title); ?></a>
 		</span>
 		<?php if ($item->description) : ?>
