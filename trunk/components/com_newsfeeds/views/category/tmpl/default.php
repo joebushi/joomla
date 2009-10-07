@@ -2,15 +2,15 @@
 defined('_JEXEC') or die; 
 $pageClass = $this->params->get('pageclass_sfx');
 ?>
-<?php if ($pageClass) : ?>
-<div class="<?php echo $pageClass;?>">
-<?php endif;?>
+
+<div class="jnewsfeed-category<?php echo $pageClass;?>">
 
 <?php if ($this->params->def('show_page_title', 1)) : ?>
-	<h1>
+	<h2>
 		<?php echo $this->escape($this->params->get('page_title')); ?>
-	</h1>
+	</h2>
 <?php endif; ?>
+
 <?php  /**
 TODO fix images in com_categories ?>
 <?php if ($this->category->image) : ?>
@@ -44,7 +44,5 @@ TODO fix images in com_categories ?>
 <?php  echo $this->loadTemplate('parents');  ?>
 </div> 
 
-
-<?php if ($pageClass) : ?>
 </div>
-<?php endif;?>
+

@@ -56,12 +56,12 @@ class NewsfeedsModelCategory extends JModelList
 	 protected $_category = null;
 
 	/**
-	 * The list of other weblink categories.
+	 * The list of other newfeed categories.
 	 *
 	 * @access	protected
 	 * @var		array
 	 */
-	 protected $_categories = null;	 
+	 protected $_categories = null;
 
 
 	/**
@@ -80,8 +80,8 @@ class NewsfeedsModelCategory extends JModelList
 			$item = &$items[$i];
 			if (!isset($this->_params))
 			{
-				$item->_params	= $item->params;
-				$item->params	= new JParameter($item->_params);
+				//$item->_params	= $item->params;
+				//$item->params	= new JParameter($item->_params);
 			}
 		}
 
@@ -104,8 +104,8 @@ class NewsfeedsModelCategory extends JModelList
 
 		// Select required fields from the categories.
 		$query->select($this->getState('list.select', 'a.*'));
-		$query->from('`#__weblinks` AS a');
-		$query->where('a.access IN ('.$groups.')');
+		$query->from('`#__newsfeeds` AS a');
+		//$query->where('a.access IN ('.$groups.')');
 
 		// Filter by category.
 		if ($categoryId = $this->getState('category.id'))
