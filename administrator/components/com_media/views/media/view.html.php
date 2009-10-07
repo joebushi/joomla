@@ -56,6 +56,7 @@ class MediaViewMedia extends JView
 			JHtml::_('behavior.uploader', 'uploader-flash', 
 				array(
 					'onAllComplete' => 'function(){ MediaManager.refreshFrame(); }',
+					'targetURL' => '\\$(\'uploadForm\').action'
 				)
 			);
 		}

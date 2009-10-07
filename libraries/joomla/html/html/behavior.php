@@ -221,7 +221,7 @@ abstract class JHtmlBehavior
 		}
 
 		// Setup options object
-		//$opt['url']					= (isset($params['targetURL'])) ? $params['targetURL'] : null ;
+		$opt['url']					= (isset($params['targetURL'])) ? $params['targetURL'] : null ;
 		$opt['path']				= (isset($params['swf'])) ? $params['swf'] : JURI::root(true).'/media/system/swf/uploader.swf';
 		$opt['height']				= (isset($params['height'])) && $params['height'] ? (int)$params['height'] : null;
 		$opt['width']				= (isset($params['width'])) && $params['width'] ? (int)$params['width'] : null;
