@@ -18,5 +18,3 @@ JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables');
 $controller	= JController::getInstance('Newsfeeds');
 $controller->execute(JRequest::getCmd('task'));
 $controller->redirect();
-
-?>

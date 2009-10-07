@@ -26,11 +26,13 @@ class ContentController extends JController
 	 */
 	function display()
 	{
-		// Initialise variables.
-		$document	= &JFactory::getDocument();
+			// Load custom language file.
+		$lang		= &JFactory::getLanguage();
+		$lang->load('com_contact.custom');
+		$document = &JFactory::getDocument();
 
 		// Set the default view name and format from the Request.
-		$vName		= JRequest::getWord('view', 'articles');
+		$vName		= JRequest::getWord('view', 'categories');
 		$vFormat	= $document->getType();
 		$lName		= JRequest::getWord('layout', 'default');
 

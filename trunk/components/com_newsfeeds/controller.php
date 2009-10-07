@@ -31,23 +31,22 @@ class NewsfeedsController extends JController
 	{
 			// Load custom language file.
 		$lang		= &JFactory::getLanguage();
-		$lang->load('com_weblinks.custom');
+		$lang->load('com_newsfeeds.custom');
 
 		// Get the document object.
 		$document = &JFactory::getDocument();
 		
 
 		// Set the default view name and format from the Request.
-		$vName		= JRequest::getWord('view', 'category');
+		$vName		= JRequest::getWord('view', 'categories');
 		$vFormat	= $document->getType();
 		$lName		= JRequest::getWord('layout', 'default');
 
-		// Get and render the view.
+			// Get and render the view.
 		if ($view = &$this->getView($vName, $vFormat))
 		{
 			$model = &$this->getModel($vName);
 			$model->setState('filter.published',	1);
-			$model->setState('filter.approved',		1);
 
 			// Push the model into the view (as default).
 			$view->setModel($model, true);
@@ -55,9 +54,9 @@ class NewsfeedsController extends JController
 
 			// Push document object into the view.
 			$view->assignRef('document', $document);
-					$view->display();
+				$view->display();
 		}
 	}
 }
 
-?>
+

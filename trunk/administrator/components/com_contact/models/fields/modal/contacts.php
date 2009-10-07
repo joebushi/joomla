@@ -8,7 +8,7 @@
 defined('JPATH_BASE') or die;
 
 jimport('joomla.form.field');
-
+require_once JPATH_LIBRARIES.DS.'joomla'.DS.'form'.DS.'fields'.DS.'list.php';
 /**
  * Supports a modal contact picker.
  *
@@ -16,14 +16,14 @@ jimport('joomla.form.field');
  * @subpackage	com_contact
  * @since		1.6
  */
-class JFormFieldModal_Contact extends JFormField
+class JFormFieldContacts extends JFormFieldList
 {
 	/**
 	 * The field type.
 	 *
 	 * @var		string
 	 */
-	public $type = 'Modal_Contacts';
+	public $type = 'Contacts';
 
 	/**
 	 * Method to get a list of options for a list input.
@@ -59,7 +59,7 @@ class JFormFieldModal_Contact extends JFormField
 		}"
 		);
 
-		$link = 'index.php?option=com_contact&amp;view=contacts&amp;layout=modal&amp;tmpl=component&amp;function=jSelectChart_'.$this->inputId;
+		$link = 'index.php?option=com_contact&amp;view=contact&amp;layout=modal&amp;tmpl=component&amp;function=jSelectChart_'.$this->inputId;
 
 		JHTML::_('behavior.modal', 'a.modal');
 		$html = "\n".'<div style="float: left;"><input style="background: #ffffff;" type="text" id="'.$this->inputId.'_name" value="'.htmlspecialchars($title, ENT_QUOTES, 'UTF-8').'" disabled="disabled" /></div>';
