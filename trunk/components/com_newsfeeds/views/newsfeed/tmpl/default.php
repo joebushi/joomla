@@ -73,4 +73,3 @@ defined('_JEXEC') or die; ?>
 		</ol>
 </div>
 
-</div>

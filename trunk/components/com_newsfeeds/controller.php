@@ -44,10 +44,10 @@ class NewsfeedsController extends JController
 
 			// Get and render the view.
 		if ($view = &$this->getView($vName, $vFormat))
-		{
+		{     		
 			$model = &$this->getModel($vName);
 			$model->setState('filter.published',	1);
-
+			
 			// Push the model into the view (as default).
 			$view->setModel($model, true);
 			$view->setLayout($lName);

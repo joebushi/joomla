@@ -51,7 +51,7 @@ class NewsfeedsViewCategory extends JView
 		// Make sure the category was found.
 
 		if (empty($category)) {
-			return JError::raiseWarning(404, JText::_('Newfeedss_Error_Category_not_found'));
+			return JError::raiseWarning(404, JText::_('Newfeeds_Error_Category_not_found'));
 		}
 
 		// Check whether category access level allows access.

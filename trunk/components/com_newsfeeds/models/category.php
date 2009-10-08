@@ -160,7 +160,7 @@ class NewsfeedsModelCategory extends JModelList
 		$this->setState('category.id', $id);
 
 		// Load the parameters.
-		//$this->setState('params', $params);
+		$this->setState('params', $params);
 	}
 
 	/**
