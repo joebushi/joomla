@@ -199,7 +199,7 @@ class JApplication extends JObject
 	public function route()
  	{
 		// Get the full request URI.
-		$uri	= clone(JURI::getInstance());
+		$uri	= clone JURI::getInstance();
 
 		$router = &$this->getRouter();
 		$result = $router->parse($uri);
@@ -736,7 +736,7 @@ class JApplication extends JObject
 	{
 		jimport('joomla.registry.registry');
 
-		require_once($file);
+		require_once $file;
 
 		// Create the JConfig object.
 		$config = new JConfig();
