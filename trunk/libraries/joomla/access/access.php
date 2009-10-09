@@ -58,14 +58,14 @@ class JAccess
 				self::$assetRules[$asset] = self::getAssetRules($asset, true);
 			}
 
-			// Get all groups agaist which the user is mapped.
-			$groups = self::getGroupsByUser($userId);
-			array_unshift($groups, $userId * -1);
+			// Get all groups against which the user is mapped.
+			$identities = self::getGroupsByUser($userId);
+			array_unshift($identities, $userId * -1);
 
 			// Make sure we only check for core.admin once during the run.
 			if (self::$isRoot === null)
 			{
-				if (self::getAssetRules(1)->allow('core.admin', $groups)) {
+				if (self::getAssetRules(1)->allow('core.admin', $identities)) {
 					self::$isRoot = true;
 					return true;
 				}
@@ -74,7 +74,7 @@ class JAccess
 				}
 			}
 
-			return self::$assetRules[$asset]->allow($action, $groups);
+			return self::$assetRules[$asset]->allow($action, $identities);
 		}
 	}
 
@@ -209,13 +209,7 @@ class JAccess
 		{
 			foreach ($rule as $id)
 			{
-				// Root user check.
-				if ($userId == $config->root_user) {
-					$authorised[] = $level;
-					break;
-				}
-				// Check to see if the user is mapped to the level.
-				else if (($id < 0) && (($id * -1) == $userId))
+				if (($id < 0) && (($id * -1) == $userId))
 				{
 					$authorised[] = $level;
 					break;
