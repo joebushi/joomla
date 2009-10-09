@@ -16,14 +16,14 @@ require_once JPATH_LIBRARIES.DS.'joomla'.DS.'form'.DS.'fields'.DS.'list.php';
  * @subpackage	com_contact
  * @since		1.6
  */
-class JFormFieldContacts extends JFormFieldList
+class JFormFieldModal_Contacts extends JFormField
 {
 	/**
 	 * The field type.
 	 *
 	 * @var		string
 	 */
-	public $type = 'Contacts';
+	public $type = 'Modal_Contacts';
 
 	/**
 	 * Method to get a list of options for a list input.
@@ -59,7 +59,7 @@ class JFormFieldContacts extends JFormFieldList
 		}"
 		);
 
-		$link = 'index.php?option=com_contact&amp;view=contact&amp;layout=modal&amp;tmpl=component&amp;function=jSelectChart_'.$this->inputId;
+		$link = 'index.php?option=com_contact&amp;view=contacts&amp;layout=modal&amp;tmpl=component&amp;function=jSelectChart_'.$this->inputId;
 
 		JHTML::_('behavior.modal', 'a.modal');
 		$html = "\n".'<div style="float: left;"><input style="background: #ffffff;" type="text" id="'.$this->inputId.'_name" value="'.htmlspecialchars($title, ENT_QUOTES, 'UTF-8').'" disabled="disabled" /></div>';
