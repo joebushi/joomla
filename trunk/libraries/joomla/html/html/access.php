@@ -150,6 +150,7 @@ abstract class JHtmlAccess
 			// Setup  the variable attributes.
 			$eid = $count.'group_'.$item->id;
 			// don't call in_array unless something is selected
+			$checked = '';
 			if ($selected) {
 				$checked = in_array($item->id, $selected) ? ' checked="checked"' : '';
 			}
