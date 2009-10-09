@@ -8,7 +8,7 @@
 defined('JPATH_BASE') or die;
 
 jimport('joomla.form.field');
-require_once JPATH_LIBRARIES.DS.'joomla'.DS.'form'.DS.'fields'.DS.'list.php';
+
 /**
  * Supports a modal contact picker.
  *
