@@ -6,12 +6,7 @@
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
- /* Contact Component Route Helper
- *
- * @package		Joomla.Site
- * @subpackage	com_contact
- * @since 1.6
- */
+defined('_JEXEC') or die;
 
 class ContactRoute
 {
@@ -26,7 +21,7 @@ class ContactRoute
 	 *
 	 * @return	string	The routed link.
 	 */
-	public static function article($id, $categoryId = null)
+	public static function contact($id, $categoryId = null)
 	{
 		$needles = array(
 			'contact'	=> (int) $id,
@@ -61,7 +56,7 @@ class ContactRoute
 		);
 
 		//Create the link
-		$link = 'index.php?option=com_contact&view=category&id='.$catid;
+		$link = 'index.php?option=com_contact&view=category&catid='.$catid;
 
 		if ($itemId = self::_findItemId($needles)) {
 			// TODO: The following should work automatically??

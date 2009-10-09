@@ -80,8 +80,8 @@ class NewsfeedsModelCategory extends JModelList
 			$item = &$items[$i];
 			if (!isset($this->_params))
 			{
-				//$item->_params	= $item->params;
-				//$item->params	= new JParameter($item->_params);
+			//	$item->_params	= $item->params;
+			//	$item->params	= new JParameter($item->_params);
 			}
 		}
 
@@ -159,6 +159,7 @@ class NewsfeedsModelCategory extends JModelList
 		$id = JRequest::getVar('id', 0, '', 'int');
 		$this->setState('category.id', $id);
 
+		$this->setState('filter.published',	1);
 		// Load the parameters.
 		$this->setState('params', $params);
 	}

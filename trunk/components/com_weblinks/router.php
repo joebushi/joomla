@@ -28,7 +28,7 @@ class WeblinksRoute
 	 *
 	 * @return	string	The routed link.
 	 */
-	public static function article($id, $categoryId = null)
+	public static function weblink($id, $categoryId = null)
 	{
 		$needles = array(
 			'weblink'	=> (int) $id,
@@ -58,11 +58,12 @@ class WeblinksRoute
 	public static function category($catid, $parentId = null)
 	{
 		$needles = array(
+
 			'category' => (int) $catid
 		);
 
 		//Create the link
-		$link = 'index.php?option=com_weblinks&view=category&id='.$catid;
+		$link = 'index.php?option=com_weblinks&view=category&catid='.$catid;
 
 		if ($itemId = self::_findItemId($needles)) {
 			// TODO: The following should work automatically??
@@ -117,7 +118,13 @@ class WeblinksRoute
 	}
 }
 
-
+/**
+ * Build the route for the com_weblinks component
+ *
+ * @param	array	An array of URL arguments
+ *
+ * @return	array	The URL arguments to use to assemble the subsequent URL.
+ */
 function WeblinksBuildRoute(&$query){
 	static $items;
 
@@ -151,6 +158,7 @@ function WeblinksBuildRoute(&$query){
 		}
 		unset($query['id']);
 	}
+
 
 
 	if (isset($query['id']))
@@ -208,71 +216,66 @@ function WeblinksBuildRoute(&$query){
 
 	return $segments;
 }
-
+/**
+ * Parse the segments of a URL.
+ *
+ * @param	array	The segments of the URL to parse.
+ *
+ * @return	array	The URL attributes to be used by the application.
+ */
 function WeblinksParseRoute($segments)
 {
-	$vars	= array();
+	$vars = array();
 
 	// Get the active menu item.
 	$menu	= &JSite::getMenu();
 	$item	= &$menu->getActive();
 
-	// Check if we have a valid menu item.
-	if (is_object($item))
+	// Count route segments
+	$count = count($segments);
+
+	// Standard routing for weblinks.
+	if (!isset($item))
 	{
-		if ($item->query['view'] == 'category')
-		{
-			$categorytree = JCategories::getInstance('com_weblinks');
-			$category = $categorytree->get($item->query['id']);
-			foreach($segments as $segment)
-			{
-				$found = 0;
-				foreach($category->getChildren() as $child)
-				{
-					if ($segment == $child->slug)
-					{
-						$found = 1;
-						$category = $child;
-						break;
-					}
-				}
-				if ($found == 0)
-				{
-					$vars['id'] = $segment;
-					$vars['catid'] = $category->slug;
-					$vars['view'] = 'weblink';
-				} else {
-					$vars['id'] = $category->slug;
-					$vars['view'] = 'category';
-				}
-			}
-		}
+		$vars['view']	= $segments[0];
+		$vars['id']		= $segments[$count - 1];
+		return $vars;
 	}
-	else
+
+	// Handle View and Identifier.
+	switch ($item->query['view'])
 	{
-		// Count route segments
-		$count = count($segments);
+		case 'categories':
+			// From the categories view, we can only jump to a category.
 
-		// Check if there are any route segments to handle.
-		if ($count)
-		{
-			if (count($segments[0]) == 2)
+			if ($count > 1)
 			{
-				// We are viewing the edit form.
-				$vars['view']	= 'weblink';
-				$vars['id']		= $segments[$count-2];
-				$vars['catid']	= $segments[$count-1];
-
+				if (intval($segments[0]) && intval($segments[$count-1]))
+				{ //there is no weblink view
+					// 123-path/to/category/456-article
+				//	$vars['id']		= $segments[$count-1];
+				//	$vars['view']	= 'category';
+				}
+				else
+				{
+					// 123-path/to/category
+					$vars['id']		= $segments[0];
+					$vars['view']	= 'category';
+				}
 			}
 			else
 			{
-				// We are viewing a category.
+				// 123-category
+				$vars['id']		= $segments[0];
 				$vars['view']	= 'category';
-				$vars['catid']	= $segments[$count-1];
 			}
-		}
+			break;
+
+		case 'category':
+			$vars['id']		= $segments[$count-1];
+			$vars['view']	= 'weblink';
+			break;
 	}
+		return $vars;
 
-	return $vars;
 }
-

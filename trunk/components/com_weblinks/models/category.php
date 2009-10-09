@@ -138,6 +138,7 @@ class WeblinksModelCategory extends JModelList
 		$id = JRequest::getVar('id', 0, '', 'int');
 		$this->setState('category.id', $id);
 
+		$this->setState('filter.published',	1);
 		// Load the parameters.
 		$this->setState('params', $params);
 	}

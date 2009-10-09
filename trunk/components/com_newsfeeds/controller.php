@@ -29,10 +29,6 @@ class NewsfeedsController extends JController
 	 */
 	function display()
 	{
-			// Load custom language file.
-		$lang		= &JFactory::getLanguage();
-		$lang->load('com_newsfeeds.custom');
-
 		// Get the document object.
 		$document = &JFactory::getDocument();
 		
@@ -46,7 +42,6 @@ class NewsfeedsController extends JController
 		if ($view = &$this->getView($vName, $vFormat))
 		{     		
 			$model = &$this->getModel($vName);
-			$model->setState('filter.published',	1);
 			
 			// Push the model into the view (as default).
 			$view->setModel($model, true);

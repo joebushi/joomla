@@ -26,9 +26,6 @@ class ContentController extends JController
 	 */
 	function display()
 	{
-			// Load custom language file.
-		$lang		= &JFactory::getLanguage();
-		$lang->load('com_contact.custom');
 		$document = &JFactory::getDocument();
 
 		// Set the default view name and format from the Request.
