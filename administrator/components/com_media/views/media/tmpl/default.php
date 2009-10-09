@@ -77,13 +77,13 @@
 							<a href="#" id="upload-clear">Clear List</a> |
 							<a href="#" id="action-upload">Start Upload</a>
 						</p>
-						<div>
+						<div >
 							<strong class="overall-title"></strong><br />
-							<img src="../../assets/progress-bar/bar.gif" class="progress overall-progress" />
+							<img src="components/com_media/assets/progress-bar/bar.gif" class="progress overall-progress" />
 						</div>
-						<div>
+						<div style="clear:both">
 							<strong class="current-title"></strong><br />
-							<img src="../../assets/progress-bar/bar.gif" class="progress current-progress" />
+							<img src="components/com_media/assets/progress-bar/bar.gif" class="progress current-progress" />
 						</div>
 						<div class="current-text"></div>
 					</div>
