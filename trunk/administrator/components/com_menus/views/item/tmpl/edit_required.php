@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
 		?>
 		<div>
 
-				<?php echo $field->label; ?></ br>
+				<?php echo $field->label; ?>
 				<?php echo $field->input; ?>
 		</div>
 			<?php
