@@ -162,10 +162,10 @@ class JFormFieldMenuType extends JFormFieldList
 			' ORDER BY `name`'		
 		);
 		$components = $db->loadObjectList();
-var_dump($db);
+
 		foreach ($components as $component)
 		{
-var_dump($component);
+
 			if ($options = $this->_getTypeOptionsByComponent($component->option))
 			{		
 				$list[$component->name] = $options;
