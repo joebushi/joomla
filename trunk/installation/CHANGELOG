@@ -28,14 +28,28 @@ $ -> Language fix or change
 ! -> Note
 
 
+11-Oct-2009 Ron Severdia
+^ Standardized all list filters
+^ Front-end core output cleanup
 
-
+11-Oct-2009 Hannes Papenberg
++ Adding class to radio button labels
 
 10-Oct-2009 Ron Severdia
 ^ Replaced tables with CSS
 # Reworked CSS class structure
 ^ Added classes to components still using JParam (emulate JForm)
 ^ Moved com_redirect CSS to main template.css
+# Com_config UI fix and language fix
+# Redirect component UI cleanup
+# Search component UI cleanup
+# Com_templates UI cleanup
+# Com_users UI cleanup
+# Com_weblinks UI fixes
+- Removed beez template
+# Com_categories UI fixes
+# Com_modules UI fixes
+^ Replace inline styles with classes
 
 09-Oct-2009 Mark Dexter
 + Added categories views to weblinks, newsfeeds, contacts (Elin Waring)
