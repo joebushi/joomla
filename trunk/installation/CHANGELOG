@@ -28,6 +28,21 @@ $ -> Language fix or change
 ! -> Note
 
 
+13-Oct-2009 Andrew Eddie
+^ Reverse the order of Publisher, Editor and Author groups to match admin groups direction.
+^ Change label of 'inherit' in Global Config permissions.
++ Add access check to categories form field.
+^ Configure add and edit access controls in com_content (changes to access checks in JControllerForm, article controller and model).
+# Fix bug in JTable::delete when tracking assets.
+! Temporarily disable fulltext display in com_content feeds (need to explicitly retrieve only the required fields to save data overhead).
+^ Correct the inheritance (via user groups) in the JHtml rules widget.
+^ Added component level core.admin check to allow for non Super User's to edit options (configured for Administrator, denied for Manager).
+# Fix permissions in admin mod_menu (Checkin and Cache not correct).
+# Fix permissions in com_config to correctly allow component configuration management.
+^ Change name of first installed user to "Super User".
+- Remove com_members from extensions table.
++ Added options toolbar check to com_checkin, com_cache and com_search.
+
 11-Oct-2009 Ron Severdia
 ^ Standardized all list filters
 ^ Front-end core output cleanup

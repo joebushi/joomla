@@ -22,26 +22,31 @@ $menu->addChild(
 
 $menu->addSeparator();
 
-if ($user->authorize('core.manage', 'com_config')) {
+if ($user->authorise('core.admin')) {
 	$menu->addChild(new JMenuNode(JText::_('Configuration'), 'index.php?option=com_config', 'class:config'));
 	$menu->addSeparator();
 }
 
-$com = $user->authorize('core.manage', 'com_config');
-$chm = $user->authorize('core.manage', 'com_checkin');
-$cam = $user->authorize('core.manage', 'com_cache');
+$chm = $user->authorise('core.manage', 'com_checkin');
+$cam = $user->authorise('core.manage', 'com_cache');
 
-if ($com || $chm || $cam )
+if ($chm || $cam )
 {
 	$menu->addChild(
 		new JMenuNode(JText::_('Mod_Menu_Site_Maintenance'), '#', 'class:maintenance'), true
 	);
 
-	$menu->addChild(new JMenuNode(JText::_('Mod_Menu_Global_Checkin'), 'index.php?option=com_checkin', 'class:checkin'));
+	if ($chm)
+	{
+		$menu->addChild(new JMenuNode(JText::_('Mod_Menu_Global_Checkin'), 'index.php?option=com_checkin', 'class:checkin'));
+		$menu->addSeparator();
+	}
+	if ($cam)
+	{
+		$menu->addChild(new JMenuNode(JText::_('Mod_Menu_Clear_Cache'), 'index.php?option=com_cache', 'class:clear'));
+		$menu->addChild(new JMenuNode(JText::_('Mod_Menu_Purge_Expired_Cache'), 'index.php?option=com_cache&view=purge', 'class:purge'));
+	}
 
-	$menu->addSeparator();
-	$menu->addChild(new JMenuNode(JText::_('Mod_Menu_Clear_Cache'), 'index.php?option=com_cache', 'class:clear'));
-	$menu->addChild(new JMenuNode(JText::_('Mod_Menu_Purge_Expired_Cache'), 'index.php?option=com_cache&view=purge', 'class:purge'));
 	$menu->getParent();
 }
 
@@ -59,7 +64,7 @@ $menu->getParent();
 //
 // Users Submenu
 //
-if ($user->authorize('core.manage', 'com_users'))
+if ($user->authorise('core.manage', 'com_users'))
 {
 	$menu->addChild(
 		new JMenuNode(JText::_('Mod_menu_Com_users_Users'), '#'), true
@@ -86,7 +91,7 @@ if ($user->authorize('core.manage', 'com_users'))
 	);
 
 	$menu->addSeparator();
-	if ($user->authorize('core.manage', 'com_massmail'))
+	if ($user->authorise('core.manage', 'com_massmail'))
 	{
 		$menu->addChild(new JMenuNode(JText::_('Mod_menu_Mass_Mail_Users'), 'index.php?option=com_massmail', 'class:massmail'));
 		$menu->addChild(new JMenuNode(JText::_('Mod_menu_Read_Private_Messages'), 'index.php?option=com_messages', 'class:readmess'));
@@ -98,7 +103,7 @@ if ($user->authorize('core.manage', 'com_users'))
 //
 // Menus Submenu
 //
-if ($user->authorize('core.manage', 'com_menus'))
+if ($user->authorise('core.manage', 'com_menus'))
 {
 	$menu->addChild(
 		new JMenuNode(JText::_('Mod_Menu_Menus'), '#'), true
@@ -124,7 +129,7 @@ if ($user->authorize('core.manage', 'com_menus'))
 //
 // Content Submenu
 //
-if ($user->authorize('core.manage', 'com_content'))
+if ($user->authorise('core.manage', 'com_content'))
 {
 	$menu->addChild(
 		new JMenuNode(JText::_('Mod_Menu_Com_Content'), '#'), true
@@ -148,7 +153,7 @@ if ($user->authorize('core.manage', 'com_content'))
 	);
 
 	$menu->addSeparator();
-	if ($user->authorize('core.manage', 'com_media')) {
+	if ($user->authorise('core.manage', 'com_media')) {
 		$menu->addChild(new JMenuNode(JText::_('Mod_Menu_Media_Manager'), 'index.php?option=com_media', 'class:media'));
 	}
 
@@ -196,11 +201,11 @@ $menu->getParent();
 //
 // Extensions Submenu
 //
-$im = $user->authorize('core.manage', 'com_installer');
-$mm = $user->authorize('core.manage', 'com_modules');
-$pm = $user->authorize('core.manage', 'com_plugins');
-$tm = $user->authorize('core.manage', 'com_templates');
-$lm = $user->authorize('core.manage', 'com_languages');
+$im = $user->authorise('core.manage', 'com_installer');
+$mm = $user->authorise('core.manage', 'com_modules');
+$pm = $user->authorise('core.manage', 'com_plugins');
+$tm = $user->authorise('core.manage', 'com_templates');
+$lm = $user->authorise('core.manage', 'com_languages');
 
 if ($im || $mm || $pm || $tm || $lm)
 {
