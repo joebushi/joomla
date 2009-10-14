@@ -594,21 +594,21 @@
 			required="true"
 			filter="integer">
 			<option
-				value="5">5</option>
+				value="5">JOPTION_5</option>
 			<option
-				value="10">10</option>
+				value="10">JOPTION_10</option>
 			<option
-				value="15">15</option>
+				value="15">JOPTION_15</option>
 			<option
-				value="20">20</option>
+				value="20">JOPTION_20</option>
 			<option
-				value="25">25</option>
+				value="25">JOPTION_25</option>
 			<option
-				value="30">30</option>
+				value="30">JOPTION_30</option>
 			<option
-				value="50">50</option>
+				value="50">JOPTION_50</option>
 			<option
-				value="100">100</option>
+				value="100">JOPTION_100</option>
 		</field>
 
 		<field
@@ -620,21 +620,21 @@
 			required="true"
 			filter="integer">
 			<option
-				value="5">5</option>
+				value="5">JOPTION_5</option>
 			<option
-				value="10">10</option>
+				value="10">JOPTION_10</option>
 			<option
-				value="15">15</option>
+				value="15">JOPTION_15</option>
 			<option
-				value="20">20</option>
+				value="20">JOPTION_20</option>
 			<option
-				value="25">25</option>
+				value="25">JOPTION_25</option>
 			<option
-				value="30">30</option>
+				value="30">JOPTION_30</option>
 			<option
-				value="50">50</option>
+				value="50">JOPTION_50</option>
 			<option
-				value="100">100</option>
+				value="100">JOPTION_100</option>
 		</field>
 
 		<field

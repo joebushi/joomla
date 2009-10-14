@@ -20,10 +20,10 @@ defined('_JEXEC') or die;
 		<div class="submenu-box">
 			<div class="submenu-pad">
 				<ul id="submenu" class="configuration">
-					<li><a href="#" onclick="return false;" id="site" class="active"><?php echo JText::_('Site'); ?></a></li>
-					<li><a href="#" onclick="return false;" id="system"><?php echo JText::_('System'); ?></a></li>
-					<li><a href="#" onclick="return false;" id="server"><?php echo JText::_('Server'); ?></a></li>
-					<li><a href="#" onclick="return false;" id="permissions"><?php echo JText::_('Permissions'); ?></a></li>
+					<li><a href="#" onclick="return false;" id="site" class="active"><?php echo JText::_('CONFIG_Site'); ?></a></li>
+					<li><a href="#" onclick="return false;" id="system"><?php echo JText::_('CONFIG_System'); ?></a></li>
+					<li><a href="#" onclick="return false;" id="server"><?php echo JText::_('CONFIG_Server'); ?></a></li>
+					<li><a href="#" onclick="return false;" id="permissions"><?php echo JText::_('CONFIG_Permissions'); ?></a></li>
 				</ul>
 				<div class="clr"></div>
 			</div>

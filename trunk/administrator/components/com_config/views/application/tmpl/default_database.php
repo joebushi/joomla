@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 ?>
 <div class="width-100">
 <fieldset class="adminform">
-	<legend><?php echo JText::_('Database Settings'); ?></legend>
+	<legend><?php echo JText::_('CONFIG_Database_Settings'); ?></legend>
 			<?php
 			foreach ($this->form->getFields('database') as $field):
 			?>
