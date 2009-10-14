@@ -32,7 +32,7 @@ defined('_JEXEC') or die;
 					<td>
 						<?php echo JText::sprintf('Menus_Item_Module_Access_Position', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?>
 					</td>
-					<td align="center">
+					<td class="center">
 					<?php				if (is_null($module->menuid)) {
 						echo JText::_('Menus_Module_Show_None');
 					} else if ($module->menuid != 0) {
@@ -42,7 +42,7 @@ defined('_JEXEC') or die;
 					} ?>
 
 					</td>
-					<td align="center">
+					<td class="left">
 					<?php $document = &JFactory::getDocument();
 						$document->addScriptDeclaration($js); ?>
 						<?php

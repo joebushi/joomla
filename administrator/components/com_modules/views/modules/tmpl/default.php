@@ -10,26 +10,23 @@
 ?>
 
 <form action=<?php echo JRoute::_('index.php?option=com_modules'); ?> method="post" name="adminForm">
-
-	<table>
-	<tr>
-		<td align="left" width="100%">
-			<?php echo JText::_('Filter'); ?>:
+	<fieldset id="filter-bar">
+		<div class="filter-search fltlft">
+			<label class="filter-search-lbl"><?php echo JText::_('Filter'); ?>:</label>
 			<input type="text" name="search" id="search" value="<?php echo $this->filter->search;?>" class="text_area" onchange="document.adminForm.submit();" />
 			<button onclick="this.form.submit();"><?php echo JText::_('Go'); ?></button>
 			<button onclick="document.getElementById('search').value=''; this.form.getElementById('filter_assigned').value='0'; this.form.getElementById('filter_position').value='0'; this.form.getElementById('filter_type').value='0'; this.form.getElementById('filter_state').value=''; this.form.submit();"><?php echo JText::_('Reset'); ?></button>
-		</td>
-		<td nowrap="nowrap">
+		</div>
+		<div class="filter-select fltrt">
 			<?php
-				echo JHtml::_('filter.assigned', $this->client, $this->filter->assigned);
-				echo JHtml::_('filter.position', $this->client, $this->filter->position);
-				echo JHtml::_('filter.type', $this->client, $this->filter->type);
-				echo JHtml::_('grid.state', $this->filter->state);
+			echo JHtml::_('filter.assigned', $this->client, $this->filter->assigned);
+			echo JHtml::_('filter.position', $this->client, $this->filter->position);
+			echo JHtml::_('filter.type', $this->client, $this->filter->type);
+			echo JHtml::_('grid.state', $this->filter->state);
 			?>
-		</td>
-	</tr>
-	</table>
-
+		</div>
+	</fieldset>
+	<div class="clr"> </div>
 	<table class="adminlist" cellspacing="1">
 	<thead>
 	<tr>
@@ -39,13 +36,13 @@
 		<th width="20">
 			<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($this->rows);?>);" />
 		</th>
-		<th class="title">
+		<th>
 			<?php echo JHtml::_('grid.sort', 'Module Name', 'm.title', @$this->filter->order_Dir, @$this->filter->order); ?>
 		</th>
-		<th nowrap="nowrap" width="7%">
+		<th class="nowrap" width="7%">
 			<?php echo JHtml::_('grid.sort', 'Published', 'm.published', @$this->filter->order_Dir, @$this->filter->order); ?>
 		</th>
-		<th width="80" nowrap="nowrap">
+		<th class="nowrap" width="80" >
 			<?php echo JHtml::_('grid.sort', 'Order', 'm.position', @$this->filter->order_Dir, @$this->filter->order); ?>
 		</th>
 		<th width="1%">
@@ -54,22 +51,22 @@
 		<?php
 		if ($this->client->id == 0) {
 			?>
-			<th nowrap="nowrap" width="7%">
+			<th class="nowrap" width="7%">
 				<?php echo JHtml::_('grid.sort', 'Access', 'groupname', @$this->filter->order_Dir, @$this->filter->order); ?>
 			</th>
 			<?php
 		}
 		?>
-		<th nowrap="nowrap" width="7%">
+		<th width="7%">
 			<?php echo JHtml::_('grid.sort', 'Position', 'm.position', @$this->filter->order_Dir, @$this->filter->order); ?>
 		</th>
-		<th nowrap="nowrap" width="5%">
+		<th class="nowrap" width="5%">
 			<?php echo JHtml::_('grid.sort', 'Pages', 'pages', @$this->filter->order_Dir, @$this->filter->order); ?>
 		</th>
-		<th nowrap="nowrap" width="10%"  class="title">
+		<th class="center" width="10%" >
 			<?php echo JHtml::_('grid.sort', 'Type', 'm.module', @$this->filter->order_Dir, @$this->filter->order); ?>
 		</th>
-		<th nowrap="nowrap" width="1%">
+		<th class="nowrap" width="1%">
 			<?php echo JHtml::_('grid.sort',   'ID', 'm.id', @$this->filter->order_Dir, @$this->filter->order); ?>
 		</th>
 	</tr>
@@ -94,7 +91,7 @@
 		$published  = JHtml::_('grid.published', $row, $i);
 		?>
 		<tr class="<?php echo 'row' . $k; ?>">
-			<td align="right">
+			<td class="center">
 				<?php echo $this->pagination->getRowOffset($i); ?>
 			</td>
 			<td width="20">
@@ -114,28 +111,28 @@
 			}
 			?>
 			</td>
-			<td align="center">
+			<td class="center">
 				<?php echo $published;?>
 			</td>
 			<td class="order" colspan="2">
 				<span><?php echo $this->pagination->orderUpIcon($i, ($row->position == @$this->rows[$i-1]->position), 'orderup', 'Move Up', $ordering); ?></span>
 				<span><?php echo $this->pagination->orderDownIcon($i, $n, ($row->position == @$this->rows[$i+1]->position),'orderdown', 'Move Down', $ordering); ?></span>
 				<?php $disabled = $ordering ?  '' : 'disabled="disabled"'; ?>
-				<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" <?php echo $disabled ?> class="text_area" style="text-align: center" />
+				<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" <?php echo $disabled ?> class="text-area-order" />
 			</td>
 			<?php
 			if ($this->client->id == 0) {
 				?>
-				<td align="center">
+				<td class="center">
 					<?php echo $access;?>
 				</td>
 				<?php
 			}
 			?>
-			<td align="center">
+			<td class="center">
 				<?php echo $row->position; ?>
 			</td>
-			<td align="center">
+			<td class="center">
 				<?php
 				if (is_null($row->pages)) {
 					echo JText::_('None');
@@ -146,10 +143,10 @@
 				}
 				?>
 			</td>
-			<td>
+			<td class="center">
 				<?php echo $row->module ? $row->module : JText::_('User');?>
 			</td>
-			<td>
+			<td class="center">
 				<?php echo $row->id;?>
 			</td>
 		</tr>

@@ -10,13 +10,13 @@ defined('JPATH_BASE') or die;
 jimport('joomla.form.field');
 
 /**
- * Supports a modal article picker.
+ * Supports a modal contact picker.
  *
  * @package		Joomla.Administrator
  * @subpackage	com_contact
  * @since		1.6
  */
-class JFormFieldModal_Contact extends JFormField
+class JFormFieldModal_Contacts extends JFormField
 {
 	/**
 	 * The field type.
@@ -62,7 +62,7 @@ class JFormFieldModal_Contact extends JFormField
 		$link = 'index.php?option=com_contact&amp;view=contacts&amp;layout=modal&amp;tmpl=component&amp;function=jSelectChart_'.$this->inputId;
 
 		JHTML::_('behavior.modal', 'a.modal');
-		$html = "\n".'<div style="float: left;"><input style="background: #ffffff;" type="text" id="'.$this->inputId.'_name" value="'.htmlspecialchars($title, ENT_QUOTES, 'UTF-8').'" disabled="disabled" /></div>';
+		$html = "\n".'<div class="fltlft"><input type="text" id="'.$this->inputId.'_name" value="'.htmlspecialchars($title, ENT_QUOTES, 'UTF-8').'" disabled="disabled" /></div>';
 		$html .= '<div class="button2-left"><div class="blank"><a class="modal" title="'.JText::_('Contact_Change_Contact').'"  href="'.$link.'" rel="{handler: \'iframe\', size: {x: 800, y: 450}}">'.JText::_('Contact_Change_Contact_button').'</a></div></div>'."\n";
 		$html .= "\n".'<input type="hidden" id="'.$this->inputId.'_id" name="'.$this->inputName.'" value="'.(int) $this->value.'" />';
 

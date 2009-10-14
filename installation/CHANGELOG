@@ -27,6 +27,41 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+
+11-Oct-2009 Ron Severdia
+^ Standardized all list filters
+
+11-Oct-2009 Hannes Papenberg
++ Adding class to radio button labels
+
+10-Oct-2009 Ron Severdia
+^ Replaced tables with CSS
+# Reworked CSS class structure
+^ Added classes to components still using JParam (emulate JForm)
+^ Moved com_redirect CSS to main template.css
+# Com_config UI fix and language fix
+# Redirect component UI cleanup
+# Search component UI cleanup
+# Com_templates UI cleanup
+# Com_users UI cleanup
+# Com_weblinks UI fixes
+- Removed beez template
+# Com_categories UI fixes
+# Com_modules UI fixes
+^ Replace inline styles with classes
+
+09-Oct-2009 Mark Dexter
++ Added categories views to weblinks, newsfeeds, contacts (Elin Waring)
+^ Redid frontend layouts for contacts and newsfeeds (Andrea Tarr)
+# Fixed error in Add New Access Level
+^ Moved css files of classes that replace inline styles to _html folder in milkyway (Andrea Tarr)
+# Fixed contact picker modal (Elin Waring)
+^ Moved SetState from controllers to models (Elin Waring)
+
+09-Oct-2009 Hannes Papenberg
+^ Removed the root_user feature.
+# Fixed the userprofile in the backend. This still needs some changes.
+
 08-Oct-2009 Ercan Ozkaya
 # Converted clone calls to be statements
 

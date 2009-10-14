@@ -29,20 +29,15 @@ class BannersViewClients
 		JHtml::_('behavior.tooltip');
 		?>
 		<form action="index.php" method="post" name="adminForm">
-
-			<table>
-			<tr>
-				<td align="left" width="100%">
-					<?php echo JText::_('Filter'); ?>:
+			<fieldset id="filter-bar">
+				<div class="filter-search fltlft">
+					<label class="filter-search-lbl"><?php echo JText::_('Filter'); ?>:</label>
 					<input type="text" name="search" id="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
 					<button onclick="this.form.submit();"><?php echo JText::_('Go'); ?></button>
 					<button onclick="document.getElementById('search').value='';this.form.submit();"><?php echo JText::_('Reset'); ?></button>
-				</td>
-				<td nowrap="nowrap">
-				</td>
-			</tr>
-			</table>
-
+				</div>
+			</fieldset>
+			<div class="clr"> </div>
 			<table class="adminlist">
 			<thead>
 			<tr>
@@ -52,16 +47,16 @@ class BannersViewClients
 				<th width="20">
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($rows); ?>);" />
 				</th>
-				<th nowrap="nowrap" class="title">
+				<th class="nowrap">
 					<?php echo JHtml::_('grid.sort',   'Client Name', 'a.name', @$lists['order_Dir'], @$lists['order']); ?>
 				</th>
-				<th nowrap="nowrap" class="title" width="35%">
+				<th class="nowrap" width="35%">
 					<?php echo JHtml::_('grid.sort',   'Contact', 'a.contact', @$lists['order_Dir'], @$lists['order']); ?>
 				</th>
-				<th align="center" nowrap="nowrap" width="5%">
+				<th class="nowrap center" width="5%">
 					<?php echo JHtml::_('grid.sort',   'No. of Active Banners', 'bid', @$lists['order_Dir'], @$lists['order']); ?>
 				</th>
-				<th width="1%" nowrap="nowrap">
+				<th width="1%" class="nowrap">
 					<?php echo JHtml::_('grid.sort',   'ID', 'a.cid', @$lists['order_Dir'], @$lists['order']); ?>
 				</th>
 			</tr>
@@ -85,7 +80,7 @@ class BannersViewClients
 				$checked		= JHtml::_('grid.checkedout',   $row, $i);
 				?>
 				<tr class="<?php echo "row$k"; ?>">
-					<td align="center">
+					<td class="center">
 						<?php echo $pageNav->getRowOffset($i); ?>
 					</td>
 					<td>
@@ -105,13 +100,13 @@ class BannersViewClients
 						}
 						?>
 					</td>
-					<td>
+					<td class="center">
 						<?php echo $row->contact; ?>
 					</td>
-					<td align="center">
+					<td class="center">
 						<?php echo $row->nbanners;?>
 					</td>
-					<td align="center">
+					<td class="center">
 						<?php echo $row->cid; ?>
 					</td>
 				</tr>
@@ -233,7 +228,7 @@ class BannersViewClients
 				<table class="admintable" width="100%">
 				<tr>
 					<td width="100%" valign="top">
-						<textarea class="inputbox" name="extrainfo" id="extrainfo" cols="40" rows="10" style="width:90%"><?php echo str_replace('&','&amp;',$row->extrainfo);?></textarea>
+						<textarea class="inputbox" name="extrainfo" id="extrainfo" cols="40" rows="10" ><?php echo str_replace('&','&amp;',$row->extrainfo);?></textarea>
 					</td>
 				</tr>
 				</table>
