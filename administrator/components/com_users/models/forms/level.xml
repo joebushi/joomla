@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id: level.xml 13031 2009-10-02 21:54:22Z louis $ -->
+<form>
+	<fields>
+		<field
+			id="id"
+			name="id"
+			type="hidden"
+			default="0"
+			required="true"
+			readonly="true"
+		/>
+
+		<field
+			id="leveltitle"
+			name="title"
+			type="text"
+			default=""
+			size="50"
+			class="inputbox"
+			label="Users_Level_Title"
+			description="Users_Level_Title_Desc"
+		/>
+
+		<field
+			id="parent_id"
+			name="parent_id"
+			type="hidden"
+			default="1"
+			required="true"
+			label="Users_Level_Parent"
+			description="Users_Level_Parent_Desc"
+		/>
+
+		<field
+			id="section_id"
+			name="section_id"
+			type="accesssections"
+			default="0"
+			label="Users_Level_Section"
+			description="Users_Level_Section_Desc"
+		/>
+
+		<field
+			name="lft"
+			type="hidden"
+			filter="unset"
+		/>
+		<field
+			name="rgt"
+			type="hidden"
+			filter="unset"
+		/>
+		<field
+			name="section"
+			type="hidden"
+			filter="unset"
+		/>
+
+		<field
+			name="groups"
+			type="hidden"
+		/>
+	</fields>
+</form>

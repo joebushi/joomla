@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id: language.xml 12772 2009-09-18 02:23:53Z eddieajau $ -->
+<form>
+	<fields>
+		<field name="language" type="language" id="language" class="inputbox"
+			label="Instl_Language_Label"
+			size="20"
+			default="en-GB"
+			required="true"
+		/>
+	</fields>
+</form>

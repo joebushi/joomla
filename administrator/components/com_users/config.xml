@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<fields>
+		<field
+			name="allowUserRegistration"
+			type="radio"
+			default="1"
+			label="Allow User Registration"
+			description="TIPALLOWUSERREG">
+			<option
+				value="0">JNo</option>
+			<option
+				value="1">JYes</option>
+		</field>
+
+		<field
+			name="new_usertype"
+			type="list"
+			default="Registered"
+			label="New User Registration Type"
+			description="TIPNEWUSERTYPE">
+			<option
+				value="Registered">Registered</option>
+			<option
+				value="Author">Author</option>
+			<option
+				value="Editor">Editor</option>
+			<option
+				value="Publisher">Publisher</option>
+		</field>
+
+		<field
+			name="useractivation"
+			type="radio"
+			default="1"
+			label="New User Account Activation"
+			description="TIPIFYESUSERMAILEDLINK">
+			<option
+				value="0">JNo</option>
+			<option
+				value="1">JYes</option>
+		</field>
+
+		<field
+			name="frontend_userparams"
+			type="radio"
+			default="1"
+			label="Front-end User Params"
+			description="TIPFRONTENDUSERPARAMS">
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+	</fields>
+
+	<fields
+		group="permissions"
+		label="JConfig_Permissions_Label"
+		description="JConfig_Permissions_Desc"
+		hidden="true">
+
+		<field
+			name="rules"
+			type="rules"
+			label="JConfig_Permissions_Label"
+			filter="rules"
+			component="com_users"
+			section="component">
+			<action
+				name="core.manage"
+				title="JAction_Manage"
+				description="JAction_Manage_Desc" />
+			<action
+				name="core.create"
+				title="JAction_Create"
+				description="JAction_Create_Desc" />
+			<action
+				name="core.delete"
+				title="JAction_Delete"
+				description="JAction_Delete_Desc" />
+			<action
+				name="core.edit"
+				title="JAction_Edit"
+				description="JAction_Edit_Desc" />
+			<action
+				name="core.edit.state"
+				title="JAction_Edit_State"
+				description="JAction_Edit_State_Desc" />
+		</field>
+	</fields>
+</config>
