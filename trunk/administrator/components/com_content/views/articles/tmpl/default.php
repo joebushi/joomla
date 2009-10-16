@@ -48,7 +48,7 @@ $user	= JFactory::getUser();
 				<th width="20">
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(this)" />
 				</th>
-				<th class="title">
+				<th>
 					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_Title', 'a.title', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="5%">
@@ -63,7 +63,7 @@ $user	= JFactory::getUser();
 				<th width="5%">
 					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_Created_by', 'a.created_by', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
-				<th width="10%" nowrap="nowrap">
+				<th width="10%" class="nowrap">
 					<?php echo JHtml::_('grid.sort',  'JGrid_Heading_Ordering', 'a.ordering', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 					<?php echo JHtml::_('grid.order',  $this->items, 'filesave.png', 'articles.saveorder'); ?>
 				</th>
@@ -76,7 +76,7 @@ $user	= JFactory::getUser();
 				<th width="5%">
 					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_Hits', 'a.hits', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
-				<th width="1%" nowrap="nowrap">
+				<th width="1%" class="nowrap">
 					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_ID', 'a.id', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 			</tr>
@@ -110,8 +110,8 @@ $user	= JFactory::getUser();
 					<?php else : ?>
 						<?php echo $this->escape($item->title); ?>
 					<?php endif; ?>
-					<br /><small>
-						(<?php echo JText::_('JFIELD_ALIAS_LABEL'); ?>: <?php echo $this->escape($item->alias);?>)</small>
+					<p class="smallsub">
+						(<span><?php echo JText::_('JFIELD_ALIAS_LABEL'); ?>:</span> <?php echo $this->escape($item->alias);?>)</p>
 				</td>
 				<td class="center">
 					<?php echo JHtml::_('jgrid.published', $item->state, $i, 'articles.', $canChange); ?>

@@ -63,7 +63,7 @@ $userId	= $user->get('id');
 					<?php echo JHtml::_('grid.sort',  'Weblinks_Order_Heading', 'a.ordering', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 					<?php echo JHtml::_('grid.order',  $this->items); ?>
 				</th>
-				<th width="10%">
+				<th width="20%">
 					<?php echo JHtml::_('grid.sort',  'Weblinks_Category_Heading', 'category', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="10%">
@@ -108,18 +108,19 @@ $userId	= $user->get('id');
 						<a href="<?php echo JRoute::_('index.php?option=com_weblinks&task=weblink.edit&weblink_id='.(int) $item->id); ?>">
 							<?php echo $item->title; ?></a></span>
 					<?php endif; ?>
-					<br /><small><?php echo $this->escape($item->alias);?></small>
+					<p class="smallsub">(<span><?php echo JText::_('WEBLINKS_ALIAS_LABEL') ?>:</span>
+					<?php echo $this->escape($item->alias);?>)</p>
 				</td>
 				<td class="center">
 					<?php echo JHtml::_('jgrid.published', $item->state, $i, 'weblinks.');?>
 				</td>
-				<td class="order">
+				<td class="right">
 					<span><?php echo $this->pagination->orderUpIcon($i, ($item->catid == @$this->items[$i-1]->catid),'weblinks.orderup', 'JGrid_Move_Up', $ordering); ?></span>
 					<span><?php echo $this->pagination->orderDownIcon($i, $n, ($item->catid == @$this->items[$i+1]->catid), 'weblinks.orderdown', 'JGrid_Move_Down', $ordering); ?></span>
 					<?php $disabled = $ordering ?  '' : 'disabled="disabled"'; ?>
 					<input type="text" name="order[]" size="5" value="<?php echo $item->ordering;?>" <?php echo $disabled ?> class="text-area-order" />
 				</td>
-				<td class="center">
+				<td class="left">
 					<span class="editlinktip hasTip" title="<?php echo JText::_('Edit Category');?>::<?php echo $item->category; ?>">
 					<a href="<?php echo JRoute::_('index.php?option=com_weblinks&view=weblink&task=edit&cid[]='.$item->id); ?>" >
 						<?php echo $item->category; ?></a></span>
