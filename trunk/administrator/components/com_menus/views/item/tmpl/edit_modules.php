@@ -43,10 +43,9 @@ defined('_JEXEC') or die;
 
 					</td>
 					<td class="left">
-					<?php $document = &JFactory::getDocument();
-						$document->addScriptDeclaration($js); ?>
+					<?php $document = &JFactory::getDocument();  ?>
 						<?php
-							$link = 'index.php?option=com_modules&client=0&task=edit&cid[]='. $module->id.'&tmpl=component' ;
+							$link = 'index.php?option=com_modules&client=0&view=module&cid[]='. $module->id.'&tmpl=component' ;
 						 	JHTML::_('behavior.modal', 'a.modal');
 							$html = '    <a class="modal" title="'.JText::_('Edit').'"  href="'.$link.'" rel="{handler: \'iframe\', size: {x: 650, y: 375}}">'.JText::_('Edit_module_settings').'</a>';
 
