@@ -48,6 +48,7 @@ $ -> Language fix or change
  $ [#17577] Adding Ulaanbaatar in timezones
  # [#17559] Change to Beez Template to make it more generic
  # [#17231] mod_newsflash doesn't honour alternative read more text
+ # [#17215] Missing <blockquote> button in TinyMCE 3
  
 25-Sept-2009 Ian MacLennan
  # [#16484] Password field changed in configuration.php by Administration > Global Configuration

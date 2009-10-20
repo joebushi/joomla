@@ -162,6 +162,10 @@
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
+		<param name="blockquote" type="radio" default="1" label="Blockquote" description="PARAMBLOCKQUOTE">
+		<option value="0">Hide</option>
+		<option value="1">Show</option>
+		</param>
 		<param name="template" type="radio" default="1" label="Template" description="PARAMTEMPLATE">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>

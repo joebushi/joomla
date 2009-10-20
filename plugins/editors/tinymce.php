@@ -75,7 +75,7 @@ class plgEditorTinymce extends JPlugin
 		$cleanup_startup	= $this->params->def('cleanup_startup', 0);
 		$cleanup_save		= $this->params->def('cleanup_save', 2);
 		$entity_encoding	= $this->params->def('entity_encoding', 'raw');
-		
+
 		if ($cleanup_startup) {
 			$cleanup_startup = 'true';
 		} else {
@@ -121,9 +121,9 @@ class plgEditorTinymce extends JPlugin
 		;
 		$db->setQuery( $query );
 		$template = $db->loadResult();
-		
+
 		$content_css = '';
-		
+
 		$templates_path = JPATH_SITE.DS.'templates';//.DS;  //.$template.DS.'css';
 		// loading of css file for 'styles' dropdown
 		if ( $content_css_custom )
@@ -134,7 +134,7 @@ class plgEditorTinymce extends JPlugin
 			// If it is not a URL, assume it is a file name in the current template folder
 			} else {
 				$content_css = 'content_css : "'. JURI::root() .'templates/'. $template . '/css/'. $content_css_custom .'",';
-				
+
 				// Issue warning notice if the file is not found (but pass name to $content_css anyway to avoid TinyMCE error
 				if (!file_exists($templates_path.DS.$template.DS.'css'.DS.$content_css_custom)) {
 					$msg = sprintf (JText::_('CUSTOMCSSFILENOTPRESENT'), $content_css_custom);
@@ -330,6 +330,13 @@ class plgEditorTinymce extends JPlugin
 		if ($nonbreaking) {
 			$plugins[]	= 'nonbreaking';
 			$buttons4[]	= 'nonbreaking';
+		}
+
+		// blockquote
+		$blockquote	= $this->params->def( 'blockquote', 1 );
+		if ( $blockquote ) {
+			$plugins[] = 'blockquote';
+			$buttons4[] = 'blockquote';
 		}
 
 		// template
