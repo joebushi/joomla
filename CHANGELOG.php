@@ -45,7 +45,8 @@ $ -> Language fix or change
  # [#18070] Error in Ja_purity and IE8
  # [#17692] Email Cloaking on an image
  # [#17618] Localisation of pagination
-
+ # [#17577] Adding Ulaanbaatar in timezones
+ 
 25-Sept-2009 Ian MacLennan
  # [#16484] Password field changed in configuration.php by Administration > Global Configuration
 
