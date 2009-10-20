@@ -43,6 +43,7 @@ $ -> Language fix or change
  # [#18240] Menu item is not opened to new window
  # [#18124] String for JPagination missing in en-GB.ini
  # [#18070] Error in Ja_purity and IE8
+ # [#17692] Email Cloaking on an image
 
 25-Sept-2009 Ian MacLennan
  # [#16484] Password field changed in configuration.php by Administration > Global Configuration

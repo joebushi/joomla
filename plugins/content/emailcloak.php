@@ -87,6 +87,10 @@ function plgEmailCloak(&$text, &$params)
 	// anyText
 	$searchText = '([\x20-\x7f][^<>]+)';
 
+	//$searchText = '(+)';
+	//Any Image link
+	$searchImage	=	"(<img[^>]+>)";
+
 	/*
 	 * Search for derivatives of link code <a href="mailto:email@amail.com"
 	 * >email@amail.com</a>
@@ -108,6 +112,21 @@ function plgEmailCloak(&$text, &$params)
 	 * anytext</a>
 	 */
 	$pattern = plgContentEmailCloak_searchPattern($searchEmail, $searchText);
+	while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
+		$mail = $regs[1][0];
+		$mailText = $regs[2][0];
+
+		$replacement = JHTML::_('email.cloak', $mail, $mode, $mailText, 0);
+
+		// Replace the found address with the js cloaked email
+		$text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
+	}
+
+	/*
+	 * Search for derivatives of link code <a href="mailto:email@amail.com">
+	 * <img anything></a>
+	 */
+	$pattern = plgContentEmailCloak_searchPattern($searchEmail, $searchImage);
 	while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
 		$mail = $regs[1][0];
 		$mailText = $regs[2][0];
