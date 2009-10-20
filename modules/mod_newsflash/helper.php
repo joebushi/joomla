@@ -38,8 +38,11 @@ class modNewsFlashHelper
 			{
 				// Check to see if the user has access to view the full article
 				if ($item->access <= $user->get('aid', 0)) {
+					$itemparams=new JParameter($item->attribs);
+					$readmoretxt=$itemparams->get('readmore',JText::_('Read more text'));
+
 					$item->linkOn = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug, $item->sectionid));
-					$item->linkText = JText::_('Read more text');
+					$item->linkText = $readmoretxt;
 				} else {
 					$item->linkOn = JRoute::_('index.php?option=com_user&view=login');
 					$item->linkText = JText::_('Login To Read More');
