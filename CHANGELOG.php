@@ -40,6 +40,8 @@ $ -> Language fix or change
 19-Oct-2009 Ian MacLennan
  # [#18297] Setting ftp fields to not autocomplete
  # [#16927] Router fatal error then Itemid is null
+ # [#18240] Menu item is not opened to new window
+ # [#18124] String for JPagination missing in en-GB.ini
 
 25-Sept-2009 Ian MacLennan
  # [#16484] Password field changed in configuration.php by Administration > Global Configuration
