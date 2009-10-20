@@ -52,7 +52,7 @@ class ConfigApplicationView
 		jimport('joomla.client.helper');
 		$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
 		?>
-		<form action="index.php" method="post" name="adminForm">
+		<form action="index.php" method="post" name="adminForm" autocomplete="off">
 		<?php if ($ftp) {
 			require_once($tmplpath.DS.'ftp.php');
 		} ?>

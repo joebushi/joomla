@@ -38,6 +38,7 @@ $ -> Language fix or change
 ! -> Note
 
 19-Oct-2009 Ian MacLennan
+ # [#18297] Setting ftp fields to not autocomplete
  # [#16927] Router fatal error then Itemid is null
 
 25-Sept-2009 Ian MacLennan
