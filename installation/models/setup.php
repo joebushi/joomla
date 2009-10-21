@@ -171,28 +171,28 @@ class JInstallationModelSetup extends JModel
 
 		// Check the PHP Version.
 		$option = new stdClass;
-		$option->label  = JText::_('PHP version').' >= 5.2.0';
+		$option->label  = JText::sprintf('Instl_Precheck_PHP_Version_Greater_Than_N', '5.2.0');
 		$option->state  = (phpversion() >= '5.2.0');
 		$option->notice = null;
 		$options[] = $option;
 
 		// Check for zlib support.
 		$option = new stdClass;
-		$option->label  = JText::_('zlib compression support');
+		$option->label  = JText::_('Instl_Precheck_Zlib_Compression_Support');
 		$option->state  = extension_loaded('zlib');
 		$option->notice = null;
 		$options[] = $option;
 
 		// Check for XML support.
 		$option = new stdClass;
-		$option->label  = JText::_('XML support');
+		$option->label  = JText::_('Instl_Precheck_XML_Support');
 		$option->state  = extension_loaded('xml');
 		$option->notice = null;
 		$options[] = $option;
 
 		// Check for MySQL support.
 		$option = new stdClass;
-		$option->label  = JText::_('MySQL support');
+		$option->label  = JText::_('Instl_Precheck_MySQL_Support');
 		$option->state  = (function_exists('mysql_connect') || function_exists('mysqli_connect'));
 		$option->notice = null;
 		$options[] = $option;
@@ -202,24 +202,24 @@ class JInstallationModelSetup extends JModel
 		{
 			// Check for default MB language.
 			$option = new stdClass;
-			$option->label  = JText::_('MB language is default');
+			$option->label  = JText::_('Instl_Precheck_MB_Language_is_Default');
 			$option->state  = (strtolower(ini_get('mbstring.language')) == 'neutral');
-			$option->notice = ($option->state) ? null : JText::_('NOTICEMBLANGNOTDEFAULT');
+			$option->notice = ($option->state) ? null : JText::_('Instl_Precheck_NOTICEMBLANGNOTDEFAULT');
 			$options[] = $option;
 
 			// Check for MB function overload.
 			$option = new stdClass;
-			$option->label  = JText::_('MB string overload off');
+			$option->label  = JText::_('Instl_Precheck_MB_String_Overload_Off');
 			$option->state  = (ini_get('mbstring.func_overload') == 0);
-			$option->notice = ($option->state) ? null : JText::_('NOTICEMBSTRINGOVERLOAD');
+			$option->notice = ($option->state) ? null : JText::_('Instl_Precheck_NOTICEMBSTRINGOVERLOAD');
 			$options[] = $option;
 		}
 
 		// Check for configuration file writeable.
 		$option = new stdClass;
-		$option->label  = 'configuration.php '.JText::_('writable');
+		$option->label  = 'configuration.php '.JText::_('Instl_Precheck_Writable');
 		$option->state  = ((@file_exists('../configuration.php') && @is_writable('../configuration.php')) || is_writable('../'));
-		$option->notice = ($option->state) ? null : JText::_('NOTICEYOUCANSTILLINSTALL');
+		$option->notice = ($option->state) ? null : JText::_('Instl_Precheck_NOTICEYOUCANSTILLINSTALL');
 		$options[] = $option;
 
 		return $options;
@@ -237,49 +237,49 @@ class JInstallationModelSetup extends JModel
 
 		// Check for safe mode.
 		$setting = new stdClass;
-		$setting->label = JText::_('Safe Mode');
+		$setting->label = JText::_('Instl_Precheck_Safe_Mode');
 		$setting->state = (bool) ini_get('safe_mode');
 		$setting->recommended = false;
 		$settings[] = $setting;
 
 		// Check for display errors.
 		$setting = new stdClass;
-		$setting->label = JText::_('Display Errors');
+		$setting->label = JText::_('Instl_Precheck_Display_Errors');
 		$setting->state = (bool) ini_get('display_errors');
 		$setting->recommended = false;
 		$settings[] = $setting;
 
 		// Check for file uploads.
 		$setting = new stdClass;
-		$setting->label = JText::_('File Uploads');
+		$setting->label = JText::_('Instl_Precheck_File_Uploads');
 		$setting->state = (bool) ini_get('file_uploads');
 		$setting->recommended = true;
 		$settings[] = $setting;
 
 		// Check for magic quotes.
 		$setting = new stdClass;
-		$setting->label = JText::_('Magic Quotes Runtime');
+		$setting->label = JText::_('Instl_Precheck_Magic_Quotes_Runtime');
 		$setting->state = (bool) ini_get('magic_quotes_runtime');
 		$setting->recommended = false;
 		$settings[] = $setting;
 
 		// Check for register globals.
 		$setting = new stdClass;
-		$setting->label = JText::_('Register Globals');
+		$setting->label = JText::_('Instl_Precheck_Register_Globals');
 		$setting->state = (bool) ini_get('register_globals');
 		$setting->recommended = false;
 		$settings[] = $setting;
 
 		// Check for output buffering.
 		$setting = new stdClass;
-		$setting->label = JText::_('Output Buffering');
+		$setting->label = JText::_('Instl_Precheck_Output_Buffering');
 		$setting->state = (bool) ini_get('output_buffering');
 		$setting->recommended = false;
 		$settings[] = $setting;
 
 		// Check for session auto-start.
 		$setting = new stdClass;
-		$setting->label = JText::_('Session auto start');
+		$setting->label = JText::_('Instl_Precheck_Session_Auto_Start');
 		$setting->state = (bool) ini_get('session.auto_start');
 		$setting->recommended = false;
 		$settings[] = $setting;

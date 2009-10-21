@@ -40,18 +40,18 @@ class JInstallationModelFilesystem extends JModel
 
 		// Check to make sure FTP is connected and authenticated.
 		if (!$ftp->isConnected()) {
-			$this->setError(JText::_('NOCONNECT'));
+			$this->setError(JText::_('Instl_Ftpconfig_NOCONNECT'));
 			return false;
 		}
 		if (!$ftp->login($options->get('ftpUser'), $options->get('ftpPassword'))) {
-			$this->setError(JText::_('NOLOGIN'));
+			$this->setError(JText::_('Instl_Ftpconfig_NOLOGIN'));
 			return false;
 		}
 
 		// Get the current working directory from the FTP server.
 		$cwd = $ftp->pwd();
 		if ($cwd === false) {
-			$this->setError(JText::_('NOPWD'));
+			$this->setError(JText::_('Instl_Ftpconfig_NOPWD'));
 			return false;
 		}
 		$cwd = rtrim($cwd, '/');
@@ -59,7 +59,7 @@ class JInstallationModelFilesystem extends JModel
 		// Get a list of folders in the current working directory.
 		$cwdFolders = $ftp->listDetails(null, 'folders');
 		if ($cwdFolders === false || count($cwdFolders) == 0) {
-			$this->setError(JText::_('NODIRECTORYLISTING'));
+			$this->setError(JText::_('Instl_Ftpconfig_NODIRECTORYLISTING'));
 			return false;
 		}
 
@@ -106,7 +106,7 @@ class JInstallationModelFilesystem extends JModel
 
 		// Return an error if no root path was found.
 		if ($rootPath === false) {
-			$this->setError(JText::_('Unable to autodetect the FTP root folder.'));
+			$this->setError(JText::_('Instl_Ftpconfig_Unable_Autodetect_Ftp_Root_Folder.'));
 			return false;
 		}
 
@@ -132,12 +132,12 @@ class JInstallationModelFilesystem extends JModel
 
 		// Check to make sure FTP is connected and authenticated.
 		if (!$ftp->isConnected()) {
-			$this->setError(JText::_('NOCONNECT'));
+			$this->setError(JText::_('Instl_Ftpconfig_NOCONNECT'));
 			return false;
 		}
 		if (!$ftp->login($options->get('ftpUser'), $options->get('ftpPassword'))) {
 			$ftp->quit();
-			$this->setError(JText::_('NOLOGIN'));
+			$this->setError(JText::_('Instl_Ftpconfig_NOLOGIN'));
 			return false;
 		}
 
@@ -148,35 +148,35 @@ class JInstallationModelFilesystem extends JModel
 		// Verify PWD function
 		if ($ftp->pwd() === false) {
 			$ftp->quit();
-			$this->setError(JText::_('NOPWD'));
+			$this->setError(JText::_('Instl_Ftpconfig_NOPWD'));
 			return false;
 		}
 
 		// Verify root path exists
 		if (!$ftp->chdir($root)) {
 			$ftp->quit();
-			$this->setError(JText::_('NOROOT'));
+			$this->setError(JText::_('Instl_Ftpconfig_NOROOT'));
 			return false;
 		}
 
 		// Verify NLST function
 		if (($rootList = $ftp->listNames()) === false) {
 			$ftp->quit();
-			$this->setError(JText::_('NONLST'));
+			$this->setError(JText::_('Instl_Ftpconfig_NONLST'));
 			return false;
 		}
 
 		// Verify LIST function
 		if ($ftp->listDetails() === false) {
 			$ftp->quit();
-			$this->setError(JText::_('NOLIST'));
+			$this->setError(JText::_('Instl_Ftpconfig_NOLIST'));
 			return false;
 		}
 
 		// Verify SYST function
 		if ($ftp->syst() === false) {
 			$ftp->quit();
-			$this->setError(JText::_('NOSYST'));
+			$this->setError(JText::_('Instl_Ftpconfig_NOSYST'));
 			return false;
 		}
 
@@ -184,7 +184,7 @@ class JInstallationModelFilesystem extends JModel
 		$checkList = array('robots.txt', 'index.php');
 		if (count(array_diff($checkList, $rootList))) {
 			$ftp->quit();
-			$this->setError(JText::_('INVALIDROOT'));
+			$this->setError(JText::_('Instl_Ftpconfig_INVALIDROOT'));
 			return false;
 		}
 
@@ -192,7 +192,7 @@ class JInstallationModelFilesystem extends JModel
 		$buffer = null;
 		if ($ftp->read($root.'/libraries/joomla/version.php', $buffer) === false) {
 			$ftp->quit();
-			$this->setError(JText::_('NORETR'));
+			$this->setError(JText::_('Instl_Ftpconfig_NORETR'));
 			return false;
 		}
 
@@ -200,35 +200,35 @@ class JInstallationModelFilesystem extends JModel
 		$checkValue = file_get_contents(JPATH_LIBRARIES.DS.'joomla'.DS.'version.php');
 		if ($buffer !== $checkValue) {
 			$ftp->quit();
-			$this->setError(JText::_('INVALIDROOT'));
+			$this->setError(JText::_('Instl_Ftpconfig_INVALIDROOT'));
 			return false;
 		}
 
 		// Verify STOR function
 		if ($ftp->create($root.'/ftp_testfile') === false) {
 			$ftp->quit();
-			$this->setError(JText::_('NOSTOR'));
+			$this->setError(JText::_('Instl_Ftpconfig_NOSTOR'));
 			return false;
 		}
 
 		// Verify DELE function
 		if ($ftp->delete($root.'/ftp_testfile') === false) {
 			$ftp->quit();
-			$this->setError(JText::_('NODELE'));
+			$this->setError(JText::_('Instl_Ftpconfig_NODELE'));
 			return false;
 		}
 
 		// Verify MKD function
 		if ($ftp->mkdir($root.'/ftp_testdir') === false) {
 			$ftp->quit();
-			$this->setError(JText::_('NOMKD'));
+			$this->setError(JText::_('Instl_Ftpconfig_NOMKD'));
 			return false;
 		}
 
 		// Verify RMD function
 		if ($ftp->delete($root.'/ftp_testdir') === false) {
 			$ftp->quit();
-			$this->setError(JText::_('NORMD'));
+			$this->setError(JText::_('Instl_Ftpconfig_NORMD'));
 			return false;
 		}
 
@@ -286,49 +286,49 @@ class JInstallationModelFilesystem extends JModel
 
 		// Verify connection
 		if (!$ftp->isConnected()) {
-			$this->setError(JText::_('NOCONNECT'));
+			$this->setError(JText::_('Instl_Ftpconfig_NOCONNECT'));
 			return false;
 		}
 
 		// Verify username and password
 		if (!$ftp->login($user, $pass)) {
 			$ftp->quit();
-			$this->setError(JText::_('NOLOGIN'));
+			$this->setError(JText::_('Instl_Ftpconfig_NOLOGIN'));
 			return false;
 		}
 
 		// Verify PWD function
 		if ($ftp->pwd() === false) {
 			$ftp->quit();
-			$this->setError(JText::_('NOPWD'));
+			$this->setError(JText::_('Instl_Ftpconfig_NOPWD'));
 			return false;
 		}
 
 		// Verify root path exists
 		if (!$ftp->chdir($root)) {
 			$ftp->quit();
-			$this->setError(JText::_('NOROOT'));
+			$this->setError(JText::_('Instl_Ftpconfig_NOROOT'));
 			return false;
 		}
 
 		// Verify NLST function
 		if (($rootList = $ftp->listNames()) === false) {
 			$ftp->quit();
-			$this->setError(JText::_('NONLST'));
+			$this->setError(JText::_('Instl_Ftpconfig_NONLST'));
 			return false;
 		}
 
 		// Verify LIST function
 		if ($ftp->listDetails() === false) {
 			$ftp->quit();
-			$this->setError(JText::_('NOLIST'));
+			$this->setError(JText::_('Instl_Ftpconfig_NOLIST'));
 			return false;
 		}
 
 		// Verify SYST function
 		if ($ftp->syst() === false) {
 			$ftp->quit();
-			$this->setError(JText::_('NOSYST'));
+			$this->setError(JText::_('Instl_Ftpconfig_NOSYST'));
 			return false;
 		}
 
@@ -336,7 +336,7 @@ class JInstallationModelFilesystem extends JModel
 		$checkList = array('CHANGELOG.php', 'COPYRIGHT.php', 'index.php', 'INSTALL.php', 'LICENSE.php');
 		if (count(array_diff($checkList, $rootList))) {
 			$ftp->quit();
-			$this->setError(JText::_('INVALIDROOT'));
+			$this->setError(JText::_('Instl_Ftpconfig_INVALIDROOT'));
 			return false;
 		}
 
@@ -344,7 +344,7 @@ class JInstallationModelFilesystem extends JModel
 		$buffer = null;
 		if ($ftp->read($root.'/libraries/joomla/version.php', $buffer) === false) {
 			$ftp->quit();
-			$this->setError(JText::_('NORETR'));
+			$this->setError(JText::_('Instl_Ftpconfig_NORETR'));
 			return false;
 		}
 
@@ -352,35 +352,35 @@ class JInstallationModelFilesystem extends JModel
 		$checkValue = file_get_contents(JPATH_LIBRARIES.DS.'joomla'.DS.'version.php');
 		if ($buffer !== $checkValue) {
 			$ftp->quit();
-			$this->setError(JText::_('INVALIDROOT'));
+			$this->setError(JText::_('Instl_Ftpconfig_INVALIDROOT'));
 			return false;
 		}
 
 		// Verify STOR function
 		if ($ftp->create($root.'/ftp_testfile') === false) {
 			$ftp->quit();
-			$this->setError(JText::_('NOSTOR'));
+			$this->setError(JText::_('Instl_Ftpconfig_NOSTOR'));
 			return false;
 		}
 
 		// Verify DELE function
 		if ($ftp->delete($root.'/ftp_testfile') === false) {
 			$ftp->quit();
-			$this->setError(JText::_('NODELE'));
+			$this->setError(JText::_('Instl_Ftpconfig_NODELE'));
 			return false;
 		}
 
 		// Verify MKD function
 		if ($ftp->mkdir($root.'/ftp_testdir') === false) {
 			$ftp->quit();
-			$this->setError(JText::_('NOMKD'));
+			$this->setError(JText::_('Instl_Ftpconfig_NOMKD'));
 			return false;
 		}
 
 		// Verify RMD function
 		if ($ftp->delete($root.'/ftp_testdir') === false) {
 			$ftp->quit();
-			$this->setError(JText::_('NORMD'));
+			$this->setError(JText::_('Instl_Ftpconfig_NORMD'));
 			return false;
 		}
 

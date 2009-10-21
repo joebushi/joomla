@@ -7,8 +7,8 @@
 			default="mysql"
 			required="true"
 		>
-			<option value="mysql">MySQL</option>
-			<option value="mysqli">MySQLi</option>
+			<option value="mysql">Instl_Database_Type_Mysql_Value</option>
+			<option value="mysqli">Instl_Database_Type_Mysqli_Value</option>
 		</field>
 		<field name="db_host" type="text" id="db_host" class="inputbox"
 			label="Instl_Database_Host_Label"
@@ -36,12 +36,12 @@
 
 		<!-- Advanced Settings -->
 		<field name="db_old" type="radio" id="db_old" class="inputbox"
-			label="Instl_Old_Database_Process_Label"
+			label="Instl_Database_Old_Database_Process_Label"
 			default="backup"
 			required="true"
 		>
-			<option value="remove">Remove</option>
-			<option value="backup">Backup</option>
+			<option value="remove">Instl_Database_Old_Database_Value_Remove</option>
+			<option value="backup">Instl_Database_Old_Database_Value_Backup</option>
 		</field>
 		<field name="db_prefix" type="text" id="db_prefix" class="inputbox"
 			label="Instl_Database_Prefix_Label"

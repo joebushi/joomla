@@ -41,7 +41,7 @@ class JInstallationControllerSetup extends JController
 
 		// Create a response body.
 		$r = new JObject();
-		$r->text = 'Sample Data Loaded Successfully.';
+		$r->text = JText::_('Instl_Config_Sample_Data_Loaded_Successfully');
 
 		// Send the response.
 		$this->sendResponse($r);

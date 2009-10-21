@@ -59,7 +59,7 @@ JHtml::_('behavior.formvalidation');
 					<div class="button1-left"><div class="next"><a href="index.php?view=filesystem" title="<?php echo JText::_('JPrevious'); ?>"><?php echo JText::_('JPrevious'); ?></a></div></div>
 <?php endif; ?>
 				</div>
-				<span class="step"><?php echo JText::_('Main Configuration'); ?></span>
+				<span class="step"><?php echo JText::_('Instl_Config_Main_Configuration_Title'); ?></span>
 			</div>
 			<div class="b">
 				<div class="b">
@@ -75,9 +75,9 @@ JHtml::_('behavior.formvalidation');
 			</div>
 			<div class="m">
 				<form action="index.php" method="post" name="adminForm" class="form-validate">
-				<h2><?php echo JText::_('Site Name'); ?></h2>
+				<h2><?php echo JText::_('Instl_Config_Site_Name_Title'); ?></h2>
 				<div class="install-text">
-					<?php echo JText::_('ENTERSITENAME'); ?>
+					<?php echo JText::_('Instl_Config_Enter_Sitename_Desc'); ?>
 				</div>
 				<div class="install-body">
 					<div class="t">
@@ -109,9 +109,9 @@ JHtml::_('behavior.formvalidation');
 
 				<div class="newsection"></div>
 
-				<h2><?php echo JText::_('confTitle'); ?></h2>
+				<h2><?php echo JText::_('Instl_Config_Conf_Title'); ?></h2>
 				<div class="install-text">
-					<?php echo JText::_('tipConfSteps'); ?>
+					<?php echo JText::_('Instl_Config_Conf_Steps_Desc'); ?>
 				</div>
 				<div class="install-body">
 					<div class="t">
@@ -172,12 +172,12 @@ JHtml::_('behavior.formvalidation');
 			<div class="clr"></div>
 
 			<form enctype="multipart/form-data" action="index.php" method="post" name="filename" id="filename">
-				<h2><?php echo JText::_('loadSampleOrMigrate'); ?></h2>
+				<h2><?php echo JText::_('Instl_Config_Load_Sample_Or_Migrate'); ?></h2>
 				<div class="install-text">
-					<p><?php echo JText::_('LOADSQLINSTRUCTIONS1'); ?></p>
-					<p><?php echo JText::_('LOADSQLINSTRUCTIONS2'); ?></p>
-					<p><?php echo JText::_('LOADSQLINSTRUCTIONS3'); ?></p>
-					<p><?php echo JText::_('LOADSQLINSTRUCTIONS7'); ?></p>
+					<p><?php echo JText::_('Instl_Config_LOADSQLINSTRUCTIONS1'); ?></p>
+					<p><?php echo JText::_('Instl_Config_LOADSQLINSTRUCTIONS2'); ?></p>
+					<p><?php echo JText::_('Instl_Config_LOADSQLINSTRUCTIONS3'); ?></p>
+					<p><?php echo JText::_('Instl_Config_LOADSQLINSTRUCTIONS7'); ?></p>
 				</div>
 				<div class="install-body">
 				<div class="t">
@@ -194,10 +194,10 @@ JHtml::_('behavior.formvalidation');
 							</tr>
 							<tr>
 								<td>
-									<span id="theDefault"><input class="button" type="button" name="instDefault" value="<?php echo JText::_('clickToInstallDefault'); ?>" onclick="Install.sampleData(this);"/></span>
+									<span id="theDefault"><input class="button" type="button" name="instDefault" value="<?php echo JText::_('Instl_Config_clickToInstallDefault'); ?>" onclick="Install.sampleData(this);"/></span>
 								</td>
 								<td>
-									<em><?php echo JText::_('tipInstallDefault'); ?></em>
+									<em><?php echo JText::_('Instl_Config_tipInstallDefault'); ?></em>
 								</td>
 							</tr>
 						</table>

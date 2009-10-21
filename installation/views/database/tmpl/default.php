@@ -60,7 +60,7 @@ JHtml::_('behavior.formvalidation');
 					<div class="button1-left"><div class="next"><a href="index.php?view=license" title="<?php echo JText::_('JPrevious'); ?>"><?php echo JText::_('JPrevious'); ?></a></div></div>
 <?php endif; ?>
 				</div>
-				<span class="step"><?php echo JText::_('Database Configuration'); ?></span>
+				<span class="step"><?php echo JText::_('Instl_Database_Configuration_Title'); ?></span>
 			</div>
 			<div class="b">
 				<div class="b">
@@ -75,15 +75,9 @@ JHtml::_('behavior.formvalidation');
 				</div>
 			</div>
 			<div class="m">
-				<h2><?php echo JText::_('Connection Settings'); ?>:</h2>
+				<h2><?php echo JText::_('Instl_Database_Connection_settings_Title'); ?>:</h2>
 				<div class="install-text">
-						<?php echo JText::_('
-							<p>Setting up Joomla! to run on your server involves 4 simple steps...</p>
-							<p>Please enter the hostname of the server Joomla! is to be installed on.</p>
-							<p>Enter the MySQL username, password and database name you wish to use with Joomla.</p>
-							<p>Enter a prefix to be used by tables for this Joomla! installation. Select how to handle exisitng tables from a previous installation.</p>
-							<p>Install the samples unless you are experienced want to start with a virtually empty site.</p>
-						'); ?>
+						<?php echo JText::_('Instl_Database_Connection_settings_Desc'); ?>
 				</div>
 				<div class="install-body">
 					<div class="t">
@@ -92,8 +86,8 @@ JHtml::_('behavior.formvalidation');
 						</div>
 					</div>
 					<div class="m">
-						<h3 class="title-smenu" title="<?php echo JText::_('Basic'); ?>">
-							<?php echo JText::_('Basic Settings'); ?>
+						<h3 class="title-smenu" title="<?php echo JText::_('Instl_Database_Basic_Title'); ?>">
+							<?php echo JText::_('Instl_Database_Basic_Settings_Title'); ?>
 						</h3>
 						<div class="section-smenu">
 							<table class="content2">
@@ -110,7 +104,7 @@ JHtml::_('behavior.formvalidation');
 									</td>
 									<td>
 										<em>
-										<?php echo JText::_('This is probably "mysql"'); ?>
+										<?php echo JText::_('Instl_Database_Type_Desc'); ?>
 										</em>
 									</td>
 								</tr>
@@ -122,7 +116,7 @@ JHtml::_('behavior.formvalidation');
 									</td>
 									<td>
 										<em>
-										<?php echo JText::_('This is usually "localhost"'); ?>
+										<?php echo JText::_('Instl_Database_Host_Desc'); ?>
 										</em>
 									</td>
 								</tr>
@@ -134,7 +128,7 @@ JHtml::_('behavior.formvalidation');
 									</td>
 									<td>
 										<em>
-										<?php echo JText::_('Either something as "root" or a username given by the hoster'); ?>
+										<?php echo JText::_('Instl_Database_User_Desc'); ?>
 										</em>
 									</td>
 								</tr>
@@ -146,7 +140,7 @@ JHtml::_('behavior.formvalidation');
 									</td>
 									<td>
 										<em>
-										<?php echo JText::_('For site security using a password for the mysql account is mandatory'); ?>
+										<?php echo JText::_('Instl_Database_Password_Desc'); ?>
 										</em>
 									</td>
 								</tr>
@@ -158,7 +152,7 @@ JHtml::_('behavior.formvalidation');
 									</td>
 									<td>
 										<em>
-										<?php echo JText::_('Some hosts allow only a certain DB name per site. Use table prefix in this case for distinct Joomla! sites.'); ?>
+										<?php echo JText::_('Instl_Database_Name_Desc'); ?>
 										</em>
 									</td>
 								</tr>
@@ -166,8 +160,8 @@ JHtml::_('behavior.formvalidation');
 							<br /><br />
 						</div>
 
-						<h3 class="title-smenu moofx-toggler" title="<?php echo JText::_('Advanced'); ?>">
-							<?php echo JText::_('Advanced settings'); ?>
+						<h3 class="title-smenu moofx-toggler" title="<?php echo JText::_('Instl_Database_Advanced_Title'); ?>">
+							<?php echo JText::_('Instl_Database_Advanced_settings_Title'); ?>
 						</h3>
 						<div class="section-smenu moofx-slider">
 							<table class="content2">
@@ -184,7 +178,7 @@ JHtml::_('behavior.formvalidation');
 									</td>
 									<td>
 										<em>
-										<?php echo JText::_('Any existing backup tables from former Joomla! installations will be replaced'); ?>
+										<?php echo JText::_('Instl_Database_Backup_Desc'); ?>
 										</em>
 									</td>
 								</tr>
@@ -196,7 +190,7 @@ JHtml::_('behavior.formvalidation');
 									</td>
 									<td>
 										<em>
-										<?php echo JText::_('Dont use "old_" since this is used for backup tables'); ?>
+										<?php echo JText::_('Instl_Database_Old_Desc'); ?>
 										</em>
 									</td>
 								</tr>

@@ -53,14 +53,14 @@ JHtml::_('behavior.formvalidation');
 			<div class="m">
 				<div class="far-right">
 <?php if ($this->document->direction == 'ltr') : ?>
-					<div class="button1-left"><div class="site"><a href="<?php echo JURI::root(); ?>" title="<?php echo JText::_('Site'); ?>"><?php echo JText::_('Site'); ?></a></div></div>
-					<div class="button1-left"><div class="admin"><a href="<?php echo JURI::root(); ?>administrator/" title="<?php echo JText::_('Admin'); ?>"><?php echo JText::_('Admin'); ?></a></div></div>
+					<div class="button1-left"><div class="site"><a href="<?php echo JURI::root(); ?>" title="<?php echo JText::_('Instl_Finish_Site'); ?>"><?php echo JText::_('Instl_Finish_Site'); ?></a></div></div>
+					<div class="button1-left"><div class="admin"><a href="<?php echo JURI::root(); ?>administrator/" title="<?php echo JText::_('Instl_Finish_Admin'); ?>"><?php echo JText::_('Instl_Finish_Admin'); ?></a></div></div>
 <?php elseif ($this->document->direction == 'rtl') : ?>
-					<div class="button1-left"><div class="admin"><a href="<?php echo JURI::root(); ?>administrator/" title="<?php echo JText::_('Admin'); ?>"><?php echo JText::_('Admin'); ?></a></div></div>
-					<div class="button1-left"><div class="site"><a href="<?php echo JURI::root(); ?>" title="<?php echo JText::_('Site'); ?>"><?php echo JText::_('Site'); ?></a></div></div>
+					<div class="button1-left"><div class="admin"><a href="<?php echo JURI::root(); ?>administrator/" title="<?php echo JText::_('Instl_Finish_Admin'); ?>"><?php echo JText::_('Instl_Finish_Admin'); ?></a></div></div>
+					<div class="button1-left"><div class="site"><a href="<?php echo JURI::root(); ?>" title="<?php echo JText::_('Instl_Finish_Site'); ?>"><?php echo JText::_('Instl_Finish_Site'); ?></a></div></div>
 <?php endif; ?>
 				</div>
-				<span class="step"><?php echo JText::_('Finish'); ?></span>
+				<span class="step"><?php echo JText::_('Instl_Finish_Title'); ?></span>
 			</div>
 			<div class="b">
 				<div class="b">
@@ -75,10 +75,10 @@ JHtml::_('behavior.formvalidation');
 				</div>
 			</div>
 			<div class="m">
-				<h2><?php echo JText::_('CONGRATULATIONS'); ?></h2>
+				<h2><?php echo JText::_('Instl_Finish_CONGRATULATIONS'); ?></h2>
 				<div class="install-text">
-					<?php echo JText::_('finishButtons'); ?>
-					<?php echo JText::_('languageinfo'); ?>
+					<?php echo JText::_('Instl_Finish_finishButtons'); ?>
+					<?php echo JText::_('Instl_Finish_languageinfo'); ?>
 				</div>
 				<div class="install-body">
 					<div class="t">
@@ -91,19 +91,19 @@ JHtml::_('behavior.formvalidation');
 							<table class="final-table">
 								<tr>
 									<td class="error" align="center">
-										<?php echo JText::_('removeInstallation'); ?>
+										<?php echo JText::_('Instl_Finish_removeInstallation'); ?>
 									</td>
 								</tr>
 								<tr>
 									<td align="center">
 										<h3>
-										<?php echo JText::_('Administration Login Details'); ?>
+										<?php echo JText::_('Instl_Finish_Administration_Login_Details'); ?>
 										</h3>
 									</td>
 								</tr>
 								<tr>
 									<td align="center" class="notice">
-										<?php echo JText::_('Username'); ?>: <?php echo $this->options['admin_user']; ?>
+										<?php echo JText::_('Instl_Finish_Username'); ?>: <?php echo $this->options['admin_user']; ?>
 									</td>
 								</tr>
 								<tr>
@@ -116,9 +116,9 @@ JHtml::_('behavior.formvalidation');
 												<div class="icon">
 													<a href="http://help.joomla.org/content/view/1651/243/" target="_blank">
 													<br />
-													<b><?php echo JText::_('languagebuttonlineone'); ?></b>
+													<b><?php echo JText::_('Instl_Finish_languagebuttonlineone'); ?></b>
 													<br />
-													<?php echo JText::_('languagebuttonlinetwo'); ?>
+													<?php echo JText::_('Instl_Finish_languagebuttonlinetwo'); ?>
 													<br /><br />
 													</a>
 												</div>
@@ -132,7 +132,7 @@ JHtml::_('behavior.formvalidation');
 								<?php if ($this->config) : ?>
 								<tr>
 									<td class="small">
-										<?php echo JText::_('confProblem'); ?>
+										<?php echo JText::_('Instl_Finish_confProblem'); ?>
 									</td>
 								</tr>
 								<tr>
