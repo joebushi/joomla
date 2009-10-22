@@ -120,7 +120,7 @@ class JDate extends DateTime
 	 *
 	 * @throws	JException
 	 */
-	public function __construct($date = null, $tz = null)
+	public function __construct($date = 'now', $tz = null)
 	{
 		// Create the base GMT and server time zone objects.
 		if (empty(self::$gmt) || empty(self::$stz))
@@ -143,6 +143,9 @@ class JDate extends DateTime
 			    $tz = new DateTimeZone($tz);
 			}
 		}
+
+		// If the date is numeric assume a unix timestamp and convert it.
+		$date = is_numeric($date) ? date('c', $date) : $date;
 
 		// Call the DateTime constructor.
 		parent::__construct($date, $tz);
