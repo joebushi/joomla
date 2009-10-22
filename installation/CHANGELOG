@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+22-Oct-2009 Louis Landry
+ ^ Refactored JDate to extend the native DateTime object.
+
 22-Oct-2009 Ian MacLennan
  # Finally found the problem with the progress bar, and fixed (com_media)
  # Implemented Type Filtering in uploader
