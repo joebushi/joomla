@@ -37,6 +37,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+23-Oct-2009 Ian MacLennan
+ # [#11578] Email cloaking does not work properly with non-ASCII characters
+
 19-Oct-2009 Ian MacLennan
  # [#18297] Setting ftp fields to not autocomplete
  # [#16927] Router fatal error then Itemid is null
