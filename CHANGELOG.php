@@ -45,7 +45,7 @@ $ -> Language fix or change
  # [#17964] Email cloaking. Syntax error in email.php. Patch included.
  # [#18246] Tinymce sql correction
  # [#18310] Email cloak breaks emails used in scripts
-
+ # [#18343] & in page title breaks RSS feed
 
 19-Oct-2009 Ian MacLennan
  # [#18297] Setting ftp fields to not autocomplete
