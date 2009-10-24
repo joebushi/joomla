@@ -28,6 +28,15 @@ $ -> Language fix or change
 ! -> Note
 
 23-Oct-2009 Andrew Eddie
+ ^ Fixed new registered type in User Options to be able to select any group.
+ ^ Added check to group delete to ensure that Public and Registered can't be removed.
+ # Fixed bug in com_users registration controller.
+ # Fixed bugs in com_users router.
+
+23-Oct-2009 Ron Severdia
+^ Removed Austere template
+
+23-Oct-2009 Andrew Eddie
  ! Working commit of adding permissions checks to admin com_users.
  ^ Removed access check on com_cpanel (all can access).
  ^ Removed access check on com_admin (all can access - still need to tune internal access to some data).
