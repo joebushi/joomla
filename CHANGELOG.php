@@ -48,6 +48,8 @@ $ -> Language fix or change
  # [#18343] & in page title breaks RSS feed
  # [#18349] Missing com_media strings
  # [#18353] Information leak - anybody can see installed extensions versions
+ # Upgrade to Mootool 1.12
+
 
 19-Oct-2009 Ian MacLennan
  # [#18297] Setting ftp fields to not autocomplete
