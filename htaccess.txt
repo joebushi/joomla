@@ -31,6 +31,8 @@ RewriteEngine On
 ## If you experience problems on your site block out the operations listed below
 ## This attempts to block the most common type of exploit `attempts` to Joomla!
 #
+# Deny access to extension xml files (uncomment out to activate)
+# RedirectMatch 403 (?:/plugins/[^/]*/[^/]*|(?:/administrator)?/(?:components|modules)/(?:com|mod)_([^/]*)/(?:(?:com|mod)_)?\1)\.xml$
 # Block out any script trying to set a mosConfig value through the URL
 RewriteCond %{QUERY_STRING} mosConfig_[a-zA-Z_]{1,21}(=|\%3D) [OR]
 # Block out any script trying to base64_encode crap to send via URL

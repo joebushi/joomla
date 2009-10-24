@@ -47,6 +47,7 @@ $ -> Language fix or change
  # [#18310] Email cloak breaks emails used in scripts
  # [#18343] & in page title breaks RSS feed
  # [#18349] Missing com_media strings
+ # [#18353] Information leak - anybody can see installed extensions versions
 
 19-Oct-2009 Ian MacLennan
  # [#18297] Setting ftp fields to not autocomplete
