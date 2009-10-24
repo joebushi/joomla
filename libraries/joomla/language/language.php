@@ -286,7 +286,10 @@ class JLanguage extends JObject
 
 		$path = JLanguage::getLanguagePath( $basePath, $lang);
 
-		$filename = ( $extension == 'joomla' || $extension == '' ) ?  $lang : $lang . '.' . $extension ;
+		if ( !strlen( $extension ) ) {
+			$extension = 'joomla';
+		}
+		$filename = ( $extension == 'joomla' ) ?  $lang : $lang . '.' . $extension ;
 		$filename = $path.DS.$filename.'.ini';
 
 		$result = false;
@@ -305,7 +308,7 @@ class JLanguage extends JObject
 			{
 				// No strings, which probably means that the language file does not exist
 				$path		= JLanguage::getLanguagePath( $basePath, $this->_default);
-				$filename	= ( $extension == 'joomla' || $extension == '' ) ?  $this->_default : $this->_default . '.' . $extension ;
+				$filename	= ( $extension == 'joomla' ) ?  $this->_default : $this->_default . '.' . $extension ;
 				$filename	= $path.DS.$filename.'.ini';
 
 				$result = $this->_load( $filename, $extension, false );
@@ -316,7 +319,6 @@ class JLanguage extends JObject
 		return $result;
 
 	}
-
 	/**
 	* Loads a language file
 	*

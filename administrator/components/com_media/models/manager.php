@@ -64,7 +64,6 @@ class MediaModelManager extends JModel
 
 		// Load appropriate language files
 		$lang = & JFactory::getLanguage();
-		$lang->load('', JPATH_ADMINISTRATOR);
 		$lang->load(JRequest::getCmd( 'option' ), JPATH_ADMINISTRATOR);
 
 		$document =& JFactory::getDocument();
