@@ -73,7 +73,7 @@ class JHTMLEmail
 			$replacement 	.= "\n document.write( addy". $rand ." );";
 		}
 		$replacement 	.= "\n //-->";
-		$replacement 	.= '\n </script> ';
+		$replacement 	.= "\n </script> ";
 
 		// XHTML compliance `No Javascript` text handling
 		$replacement 	.= "<script language='JavaScript' type='text/javascript'>";
