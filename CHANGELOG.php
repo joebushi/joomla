@@ -46,6 +46,7 @@ $ -> Language fix or change
  # [#18246] Tinymce sql correction
  # [#18310] Email cloak breaks emails used in scripts
  # [#18343] & in page title breaks RSS feed
+ # [#18349] Missing com_media strings
 
 19-Oct-2009 Ian MacLennan
  # [#18297] Setting ftp fields to not autocomplete
