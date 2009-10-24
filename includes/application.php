@@ -204,7 +204,7 @@ final class JSite extends JApplication
 		}
 
 		// Set the access control action to check.
-		$options['action'] = 'core.login';
+		$options['action'] = 'core.login.site';
 
 		return parent::login($credentials, $options);
 	}
@@ -225,10 +225,11 @@ final class JSite extends JApplication
 				$uri		= JFactory::getURI();
 				$return		= $uri->toString();
 
-				$url  = 'index.php?option=com_users&view=login';
-				$url .= '&return='.base64_encode($return);
+				$this->setUserState('users.login.form.data',array( 'return' => $return ) );
 
-				//$url	= JRoute::_($url, false);
+				$url	= 'index.php?option=com_users&view=login';
+				$url	= JRoute::_($url, false);
+
 				$this->redirect($url, JText::_('You must login first'));
 			}
 			else {

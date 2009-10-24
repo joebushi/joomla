@@ -19,13 +19,16 @@ class BannersViewBanner
 	function setBannersToolbar()
 	{
 		JToolBarHelper::title(JText::_('Banner Manager'), 'banner.png');
+		JToolBarHelper::addNew();
+		JToolBarHelper::editList();
+		JToolBarHelper::divider();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
+		JToolBarHelper::divider();
 		JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', 'Copy');
 		JToolBarHelper::deleteList();
-		JToolBarHelper::editList();
-		JToolBarHelper::addNew();
 		JToolBarHelper::preferences('com_banners');
+		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.banners');
 	}
 
@@ -53,7 +56,7 @@ class BannersViewBanner
 		</div>
 	</fieldset>
 	<div class="clr"> </div>	
-			<table class="adminlist">
+		<table class="adminlist">
 			<thead>
 				<tr>
 					<th width="20">
@@ -103,86 +106,86 @@ class BannersViewBanner
 				</tr>
 			</tfoot>
 			<tbody>
-			<?php
-			$k = 0;
-			for ($i=0, $n=count($rows); $i < $n; $i++) {
-				$row = &$rows[$i];
-
-				$row->id	= $row->bid;
-				$link		= JRoute::_('index.php?option=com_banners&task=edit&cid[]='. $row->id);
-
-				if ($row->imptotal <= 0) {
-					$row->imptotal	=  JText::_('unlimited');
-				}
-
-				if ($row->impmade != 0) {
-					$percentClicks = 100 * $row->clicks/$row->impmade;
-				} else {
-					$percentClicks = 0;
-				}
-
-				$row->published = $row->showBanner;
-				$published		= JHtml::_('grid.published', $row, $i);
-				$checked		= JHtml::_('grid.checkedout',   $row, $i);
-				?>
-				<tr class="<?php echo "row$k"; ?>">
-					<td class="center">
-						<?php echo $pageNav->getRowOffset($i); ?>
-					</td>
-					<td class="center">
-						<?php echo $checked; ?>
-					</td>
-					<td>
-					<span class="editlinktip hasTip" title="<?php echo JText::_('Edit');?>::<?php echo $row->name; ?>">
-						<?php
-						if (JTable::isCheckedOut($user->get ('id'), $row->checked_out)) {
-							echo $row->name;
-						} else {
-							?>
-
-							<a href="<?php echo $link; ?>">
-								<?php echo $row->name; ?></a>
-							<?php
-						}
-						?>
-						</span>
-					</td>
-					<td class="center">
-						<?php echo $row->client_name;?>
-					</td>
-					<td class="center">
-						<?php echo $row->category_name;?>
-					</td>
-					<td class="center">
-						<?php echo $published;?>
-					</td>
-					<td>
-                    	<?php $disabled = $ordering ?  '' : 'disabled="disabled"'; ?>
-						<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" <?php echo $disabled ?> class="text-area-order" />
-					</td>
-					<td class="center">
-						<?php echo $row->sticky ? JText::_('JYes') : JText::_('JNo');?>
-					</td>
-					<td class="center">
-						<?php echo $row->impmade.' '.JText::_('of').' '.$row->imptotal?>
-					</td>
-					<td class="center">
-						<?php echo $row->clicks;?> -
-						<?php echo sprintf('%.2f%%', $percentClicks);?>
-					</td>
-					<td>
-						<?php echo $row->tags; ?>
-					</td>
-					<td class="center">
-						<?php echo $row->id; ?>
-					</td>
-				</tr>
 				<?php
-				$k = 1 - $k;
-			}
-			?>
+				$k = 0;
+				for ($i=0, $n=count($rows); $i < $n; $i++) {
+					$row = &$rows[$i];
+	
+					$row->id	= $row->bid;
+					$link		= JRoute::_('index.php?option=com_banners&task=edit&cid[]='. $row->id);
+	
+					if ($row->imptotal <= 0) {
+						$row->imptotal	=  JText::_('unlimited');
+					}
+	
+					if ($row->impmade != 0) {
+						$percentClicks = 100 * $row->clicks/$row->impmade;
+					} else {
+						$percentClicks = 0;
+					}
+	
+					$row->published = $row->showBanner;
+					$published		= JHtml::_('grid.published', $row, $i);
+					$checked		= JHtml::_('grid.checkedout',   $row, $i);
+					?>
+					<tr class="<?php echo "row$k"; ?>">
+						<td class="center">
+							<?php echo $pageNav->getRowOffset($i); ?>
+						</td>
+						<td class="center">
+							<?php echo $checked; ?>
+						</td>
+						<td>
+						<span class="editlinktip hasTip" title="<?php echo JText::_('Edit');?>::<?php echo $row->name; ?>">
+							<?php
+							if (JTable::isCheckedOut($user->get ('id'), $row->checked_out)) {
+								echo $row->name;
+							} else {
+								?>
+	
+								<a href="<?php echo $link; ?>">
+									<?php echo $row->name; ?></a>
+								<?php
+							}
+							?>
+							</span>
+						</td>
+						<td class="center">
+							<?php echo $row->client_name;?>
+						</td>
+						<td class="center">
+							<?php echo $row->category_name;?>
+						</td>
+						<td class="center">
+							<?php echo $published;?>
+						</td>
+						<td>
+	                    	<?php $disabled = $ordering ?  '' : 'disabled="disabled"'; ?>
+							<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" <?php echo $disabled ?> class="text-area-order" />
+						</td>
+						<td class="center">
+							<?php echo $row->sticky ? JText::_('JYes') : JText::_('JNo');?>
+						</td>
+						<td class="center">
+							<?php echo $row->impmade.' '.JText::_('of').' '.$row->imptotal?>
+						</td>
+						<td class="center">
+							<?php echo $row->clicks;?> -
+							<?php echo sprintf('%.2f%%', $percentClicks);?>
+						</td>
+						<td>
+							<?php echo $row->tags; ?>
+						</td>
+						<td class="center">
+							<?php echo $row->id; ?>
+						</td>
+					</tr>
+					<?php
+					$k = 1 - $k;
+				}
+				?>
 			</tbody>
-			</table>
+		</table>
 
 		<input type="hidden" name="c" value="banner" />
 		<input type="hidden" name="option" value="com_banners" />
@@ -199,9 +202,9 @@ class BannersViewBanner
 	{
 		$task = JRequest::getVar('task', '', 'method', 'string');
 
-		JToolBarHelper::title($task == 'add' ? JText::_('Banner') . ': <small><small>[ '. JText::_('New') .' ]</small></small>' : JText::_('Banner') . ': <small><small>[ '. JText::_('Edit') .' ]</small></small>', 'generic.png');
-		JToolBarHelper::save('save');
+		JToolBarHelper::title($task == 'add' ? JText::_('COM_BANNER_MANAGER') . ': '. JText::_('COM_BANNER_NEW_BANNER') .'' : JText::_('Banner') . ': '. JText::_('COM_BANNER_EDIT_BANNER') .' ', 'generic.png');
 		JToolBarHelper::apply('apply');
+		JToolBarHelper::save('save');
 		JToolBarHelper::cancel('cancel');
 		JToolBarHelper::help('screen.banners.edit');
 	}

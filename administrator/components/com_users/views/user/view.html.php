@@ -2,7 +2,6 @@
 /**
  * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @copyright	Copyright (C) 2008 - 2009 JXtended, LLC. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -52,7 +51,7 @@ class UsersViewUser extends JView
 
 		parent::display($tpl);
 		$this->_setToolbar();
-		
+
 	}
 
 	/**
@@ -64,11 +63,11 @@ class UsersViewUser extends JView
 	protected function _setToolbar()
 	{
 		JRequest::setVar('hidemainmenu', 1);
-		
+
 		$isNew	= ($this->item->id == 0);
 		JToolBarHelper::title(JText::_($isNew ? 'Users_View_New_User_Title' : 'Users_View_Edit_User_Title'), 'user-add');
-		JToolBarHelper::save('user.save');
 		JToolBarHelper::apply('user.apply');
+		JToolBarHelper::save('user.save');
 		JToolBarHelper::addNew('user.save2new', 'JToolbar_Save_and_new');
 		if (empty($this->item->id))  {
 			JToolBarHelper::cancel('user.cancel');

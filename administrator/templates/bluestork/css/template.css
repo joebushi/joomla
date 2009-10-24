@@ -73,7 +73,7 @@ fieldset {
 fieldset.batch {
 	margin: 25px 0 10px 0;
 }
-fieldset.batch label {  margin: 5px;  }
+fieldset.batch label {  margin: 5px; min-width: 110px; }
 fieldset.batch button {  margin: 3px;  }
 
 legend    {
@@ -177,7 +177,6 @@ p.error { color: red; font-weight: bold; }
 	margin-bottom: 5px; 
 }
 
-/* #module-status { background: url(../images/mini_icon.png) 3px 5px no-repeat; } */
 .legacy-mode { color: #c00;}
 
 #module-status .viewsite { background: url(../images/menu/icon-16-viewsite.png) 3px 4px no-repeat; 	}
@@ -290,12 +289,12 @@ div.pagetitle h2 {
 div.pagetitle span { color: #666; }
 
 div.configuration {
-	font-size: 14px; 
+	font-size: 15px; 
 	font-weight: bold; 
-	color: #0B55C4; 
-	line-height: 16px;
+	color: #146295; 
 	padding-left: 30px;
 	margin-left: 10px;
+	margin-top: 1px;
 	background-image: url(../images/menu/icon-16-config.png);
 	background-repeat: no-repeat;
 }
@@ -304,7 +303,7 @@ div.toolbar-list 				{ float: right; text-align: right; padding: 0; }
 div.toolbar-list ul 			{ margin:0; padding:0; }
 div.toolbar-list li 			{ padding: 1px 1px 3px 4px; text-align: center; color: #666; height: 48px; list-style:none; float:left; }
 div.toolbar-list li.spacer  	{ width: 10px; }
-div.toolbar-list li.divider 	{ border-right: 1px solid #eee; width: 5px; }
+div.toolbar-list li.divider 	{ border-right: 1px solid #c7c7c7; width: 2px; }
 div.toolbar-list span 			{ float: none; width: 32px; height: 32px; margin: 0 auto; display: block; }
 div.toolbar-list a 				{ display: block; float: left;white-space: nowrap;border: 1px solid #fbfbfb;padding: 1px 5px;cursor: pointer; }
 div.toolbar-list a:hover 		{ border-left: 1px solid #eee; border-top: 1px solid #eee; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc; text-decoration: none; color: #0B55C4; }
@@ -348,20 +347,8 @@ h3.jpane-toggler a:hover {
 	margin-left:-25px;	
 	margin-top: 10px;
 }
+
 /*
-.jpane-slider fieldset.adminform label {
-	clear:left; 
-}
-
-div.paramrow label:first-child {
-	vertical-align:top;
-	margin-top: 2px;
-	float:left;
-}
-
-label.hasTip {
-	min-width: 135px;
-}
 
 fieldset input[type="radio"] {
 	display: block;
@@ -463,7 +450,6 @@ div.current table#acl-config th.acl-groups {
 }
 
 
-
 /* -- CONTROL PANEL STYLES ----------------------------- */
 
 #cpanel div.icon {
@@ -503,8 +489,7 @@ div.cpanel-right { width:45%; float:right; }
 
 /* -- FORM STYLES ----------------------------- */
 
-div.col { float: left; }
-
+div.width-20 { width: 20%;}
 div.width-30 { width: 30%;}
 div.width-35 { width: 35%; }
 div.width-40 { width: 40%;}
@@ -523,6 +508,7 @@ div.width-100 { width: 100%;}
 .fltrt { float: right; }
 .fltnone { float: none; }
 
+div.width-20 fieldset,
 div.width-30 fieldset,
 div.width-35 fieldset,
 div.width-40 fieldset,
@@ -538,22 +524,15 @@ div.width-100 fieldset {
 	padding: 17px;
 }
 
-/*
-form#weblink-form fieldset,
-form#item-form fieldset,
-fieldset.adminform {
-	padding: 15px;
-}
-*/
-
-
 fieldset#user-groups,
 fieldset.adminform {
 	margin: 10px;
 }
 
-fieldset.panelform {
-
+fieldset#folderview,
+fieldset#uploadform  {
+	background: #fff;
+	padding: 10px;
 }
 
 fieldset label {
@@ -561,7 +540,6 @@ fieldset label {
 	clear:left;
 	margin: 5px 5px 2px 0;
 }
-
 
 fieldset ul {
 	margin: 0;
@@ -589,7 +567,6 @@ fieldset img {
 	width: auto;
 	margin: 5px 5px 10px 0px;
 }
-
 
 input#jform_title {
 	margin-bottom: 10px;
@@ -645,15 +622,6 @@ div.panel fieldset {
 	border: 0;
 }
 
-/*	
-form#weblink-form fieldset,
-form#item-form fieldset,
-fieldset.batch {
-	margin: 0 10px 10px 0px;
-	background-color: #FFF;
-}
-*/
-
 fieldset.batch {
 	margin: 20px 0px 10px 0px;
 	background: #fff;
@@ -662,7 +630,6 @@ fieldset.batch {
 label#jform_description-lbl {
 	padding: 10px 0;
 }
-
 
 /* Custom tweaks for long parameter UI */
 label#paramsusermode-lbl,
@@ -697,7 +664,6 @@ div.jform_template {
 	padding-right: 5px;
 	padding-top: 5px;
 }
-
 
 fieldset ul li {
 	margin-left: -30px;
@@ -736,7 +702,6 @@ li#jform_access_label {
 	clear:left;
 }
 
-
 fieldset.adminform fieldset.radio,
 fieldset.panelform fieldset.radio,
 fieldset.adminform-legacy fieldset.radio  {
@@ -760,12 +725,6 @@ fieldset.adminform-legacy label {
 	float:left;
 	
 }
-fieldset.panelform-legacy hr {
-	display:none;
-	clear:both;
-}
-
-
 /* JParameter classes on radio button labels  */
 fieldset.panelform-legacy label.radiobtn_jno,
 fieldset.panelform-legacy label.radiobtn_jyes,
@@ -776,6 +735,7 @@ fieldset.panelform-legacy label.radiobtn_on {
 	min-width: 40px !important;
 	clear:none !important;
 }
+
 
 #jform_plugdesc-lbl,
 #jform_description-lbl {
@@ -812,7 +772,6 @@ label.filter-published-lbl { clear:none; margin-left: 10px;}
 
 table.adminform {
 	background-color: #fff;
-/* background-color: #f8f8f8; */
 	border: solid 1px #d5d5d5; 
 	width: 100%;
 	border-collapse: collapse;
@@ -832,11 +791,23 @@ table.adminform th {
 	color: #000;
 	background-repeat: repeat;
 }
+
 table.adminform td { padding: 5px; text-align: left; font-size: 12px;}
 
 table.adminform td.filter { text-align: left; }
 
 table.adminform td.helpMenu { text-align: right; }
+
+.helplinks {
+	margin-top: 60px;
+}
+
+ul.helpmenu li { 
+	float:right;
+	margin: 10px;
+	padding: 0;
+	list-style-type: none;
+ }
 
 input.text-area-order {
 	text-align:center;
@@ -860,23 +831,17 @@ ul#legend li {
 	list-style-type: none;
 }
 
-
-/* TO DO: Fix lines in menu manager uploader */
-div#upload-flash ul li {
-	float:left;
-	clear:right;
-	margin-left: 10px;
-	/* border-right: 1px solid #ccc;*/
-}
-
-
-
-/* Hack until HRs are removed from panels  */
+/* Hacks until HRs are removed from panels  
 div.paramrow hr,
 fieldset.panelform hr {
 	display:none;
 }
 
+fieldset.panelform-legacy hr {
+	display:none;
+	clear:both;
+}
+*/
 
 /* -- TABLE STYLES ----------------------------- */
 
@@ -897,17 +862,18 @@ table.adminlist thead th {
 	border-bottom: 1px solid #CCC;
 	border-left: 1px solid #fff;
 }
+table.adminlist thead th.left {
+	text-align: left;
+}
 
 table.adminlist thead a:hover { text-decoration: none; }
 table.adminlist thead th img { vertical-align: middle; padding-left: 3px;}
 
 table.adminlist tbody th { font-weight: bold; }
 table.adminlist tbody tr		{ background-color: #fff;  text-align: left; }
-/*
-table.adminlist tbody tr.row1 	{ background: #f1f1f1; border-top: 1px solid #fff; }
-*/
+
 table.adminlist tbody tr.row0:hover td,
-table.adminlist tbody tr.row1:hover td  { background-color: #D5EEFF; }
+table.adminlist tbody tr.row1:hover td  { background-color: #e8f6fe; }
 table.adminlist tbody tr td 	   { height: 36px; background: #fff; border: 1px solid #fff; }
 table.adminlist tbody tr.row1 td { background: #f0f0f0; border-top: 1px solid #FFF; }
 
@@ -940,12 +906,10 @@ p.smallsub 	span { color: #a0a0a0; }
 div#element-box div.m form table.adminlist tr td p.smallsub a { font-size:11px; }
 
 table.adminlist tr td.btns a {
-	/* border: 1px solid #025A8D; */
-	border: 1px solid #D5EEFF;
+	border: 1px solid #999;
 	padding: 3px;
-	background-color:#D5EEFF;
+	background-color: #E8F6FE;
 }
-
 
 .pagination div.limit {
 	float: left;
@@ -968,7 +932,8 @@ div.checkin-tick {
 }
 
 td.left, th.left { text-align: left; }
-td.center, th.center { text-align: center; }
+td.center, th.center { text-align: center; float:none;}
+td.center img, th.center img { float:none;}
 td.right, th.right { text-align: right; }
 td.nowrap, th.nowrap { white-space:nowrap; }
 
@@ -1071,6 +1036,7 @@ table.admintable td {
 .button2-left .readmore 	{ background: url(../images/j_button2_readmore.png) 100% 0 no-repeat; }
 .button2-left .pagebreak 	{ background: url(../images/j_button2_pagebreak.png) 100% 0 no-repeat; }
 .button2-left .blank	 	{ background: url(../images/j_button2_blank.png) 100% 0 no-repeat; }
+.button2-left .article 		{ background: url(../images/j_button2_readmore.png) 100% 0 no-repeat; }
 
 a.pointer {
 	cursor: pointer;
@@ -1248,8 +1214,6 @@ p#login-error-message { }
 	height: 0px;
 }
 
-
-
 /* OpenID icon style */
 input.system-openid, input.com-system-openid {
    background: url(http://openid.net/login-bg.gif) no-repeat;
@@ -1295,13 +1259,7 @@ input.system-openid, input.com-system-openid {
 .icon-16-media 			{ background-image: url(../images/menu/icon-16-media.png);}
 .icon-16-menu 			{ background-image: url(../images/menu/icon-16-menu.png); }
 .icon-16-menumgr 		{ background-image: url(../images/menu/icon-16-menumgr.png); }
-
-/* .icon-16-messages 	{ background-image: url(../images/menu/icon-16-messages.png); } */
-
 .icon-16-module 		{ background-image: url(../images/menu/icon-16-module.png); }
-
-/* .icon-16-new 		{ background-image: url(../images/menu/icon-16-new.png); } */
-
 .icon-16-newarticle   	{ background-image: url(../images/menu/icon-16-newarticle.png); }
 .icon-16-newcategory  	{ background-image: url(../images/menu/icon-16-newcategory.png); }
 .icon-16-newgroup 		{ background-image: url(../images/menu/icon-16-newgroup.png); }
@@ -1350,7 +1308,12 @@ input.system-openid, input.com-system-openid {
 .icon-32-preview 		{ background-image: url(../images/toolbar/icon-32-preview.png); }
 .icon-32-default 		{ background-image: url(../images/toolbar/icon-32-default.png); }
 .icon-32-refresh		{ background-image: url(../images/toolbar/icon-32-refresh.png); }
-
+.icon-32-save-new		{ background-image: url(../images/toolbar/icon-32-save-new.png); }
+.icon-32-save-copy		{ background-image: url(../images/toolbar/icon-32-save-copy.png); }
+.icon-32-error			{ background-image: url(../images/toolbar/icon-32-error.png); }
+.icon-32-new-style		{ background-image: url(../images/toolbar/icon-32-new-style.png); }
+.icon-32-delete-style	{ background-image: url(../images/toolbar/icon-32-delete-style.png); }
+.icon-32-purge 			{ background-image: url(../images/toolbar/icon-32-purge.png); }
 
 /* -- HEADER ICON STYLES ----------------------------- */
 .icon-48-generic 		{ background-image: url(../images/header/icon-48-generic.png); }
@@ -1406,9 +1369,7 @@ input.system-openid, input.com-system-openid {
 #menu li a  { display:block; white-space: nowrap;  }
 #menu li li { /*width: 100%;*/ clear: both;  /*FF 1.0.7 needs this */  }
 #menu li ul { visibility: hidden; position:absolute; }
-
 #menu li li ul {  top: 0; left: 0; }
-
 #menu li.hover ul               {  visibility: visible; }
 #menu li.hover ul li ul 		{  visibility: hidden;  }
 #menu li.hover li.hover ul      {  visibility: visible;  left: 100%; }
@@ -1466,7 +1427,6 @@ a.icon-16-menu span img {
 	vertical-align:bottom;
 }
 
-
 /* -- SUBMENU STYLES ----------------------------- */
 
 #submenu {
@@ -1523,6 +1483,10 @@ div.message {
 	padding: 0px 0px 0px 0px;
 	overflow: auto;
 }
+ul.subext li{
+	margin-left: 0;
+}
+
 .helpFrame {
 	border-left: 0px solid #222;
 	border-right: none;
@@ -1533,20 +1497,17 @@ div.message {
 	padding: 0px 5px 0px 10px;
 }
 #treecellhelp {
-	width: 25%;
 	display: block;
 	position: relative;
 	float: left;
 	margin: 0;
-	padding: 2px;
 	overflow: hidden;
 }
 
 #datacellhelp {
-	width: 73%;
 	display: block;
-	float: left;
 	margin: 0;
+	margin-top: 10px;
 	padding: 2px 0px 0px 0px;
 }
 
@@ -1556,54 +1517,30 @@ div.message {
   padding: 2px;
 }
 
-/* -- ERROR STYLES relocated from error.css ----------- */
-
-/*
-body {
-	margin: 15px;
-	height: 100%;
-	padding: 0px;
-	font-family: Arial, Helvetica, Sans Serif;
-	font-size: 11px;
-	color: #333333;
-	background: #ffffff;
+/* -- MODAL STYLES ----------- */
+dl.menu_types {
+	padding: 0 0 0 30px;
+}
+dl.menu_types dt {
+	font-weight: bold;
+	font-size: 12px;
+}
+dl.menu_types dd {
+}
+dl.menu_types dd ul {
+	margin-left: -40px;
+}
+dl.menu_types dd ul li {
+	display:block;
+	list-style: none;
+	padding: 0;
+	margin: 0 0 5px -30px;
 }
 
-.frame {
-	background-color:#FEFCF3;
-	padding:8px;
-	border:solid 1px #000000;
-	margin-top:13px;
-	margin-bottom:25px;
-}
-
-.table {
-	border-collapse:collapse;
-	margin-top:13px;
-}
-
-td {
-	padding:3px;
-	padding-left:5px;
-	padding-right:5px;
-	border:solid 1px #bbbbbb;
-	font-size: 10px;
-}
-
-.type {
-	background-color:#cc0000;
-	color:#ffffff;
-	font-weight:bold;
-	padding:3px;
-}
-*/
 
 /* -- ACL STYLES relocated from com_users/media/default.css ----------- */
 /* General */
 .scroll {overflow:auto;}
-
-/* Form validation */
-
 
 /* Filter Form */
 fieldset ol,ol#property-values{margin:0;padding:0}
@@ -1638,150 +1575,6 @@ div#config #submenu-box .padding{padding:0}
 /* Properties */
 fieldset ol,ol#property-values{margin:0;padding:0}
 fieldset li,ol#property-values li{list-style:none;margin:0;padding:5px}
-
-
-/* Styles relocated from administrator/components/com_redirect/media/default.css */
-
-/*
-.clearfix:after {
-    content:".";
-    display:block;
-    height:0;
-    clear:both;
-    visibility:hidden;
-}
-
-.clearfix {
-    display:inline-block;
-}
-
-.clearfix {
-    display:block;
-}
-
-* html .clearfix {
-    height:1px;
-}
-
-.scroll {
-	overflow: auto;
-}
-*/
-/* Validation */
-/*
-.readonly {
-	border: 0;
-}
-
-.invalid {
-	color: red;
-	font-weight: bold;
-}
-
-input.invalid {
-	border: 1px solid red;
-}
-*/
-/* Forms */
-/*
-fieldset {
-	margin-bottom: 10px;
-}
-
-fieldset.batch, fieldset.filter {
-	padding-top: 10px;
-}
-
-fieldset.batch {
-	border: none;
-}
-
-fieldset legend {
-	padding: 0 2px;
-	font-weight: bold;
-}
-fieldset label {
-	line-height: 1.8;
-	vertical-align: top;
-	width: 120px; 
-}
-fieldset ol {
-	margin: 0;
-	padding: 0;
-}
-
-fieldset ul {
-	margin: 0;
-	padding: 0;
-}
-
-fieldset li {
-	list-style: none;
-	padding: 1px 5px;
-	margin: 0;
-}
-
-fieldset.filter li, fieldset.batch li {
-	margin: 0px 5px 0px 0px;
-	padding: 0px 0px 5px 0px;
-	float: left;
-}
-
-fieldset.filter h4, fieldset.batch h4 {
-	margin: 5px 0px;
-}
-
-fieldset span.help {
-	font-size: 85%;
-	color: #c96;
-	margin-left: 16em;
-	padding: 0 0 0 3px;
-	border-left: 1px solid #c96;
-	display: block;
-}
-*/
-/* Filter Form */
-/*
-div.form-filter ul {
-	margin: 0px;
-	padding: 0px;
-	list-style: none;
-}
-
-div.form-filter dl {
-	margin: 0px;
-	padding: 0px;
-}
-
-div.form-filter dt {
-	float: left;
-	margin: 0px;
-	padding: 4px 5px 4px 0px;
-}
-
-div.form-filter dd {
-	margin: 0px;
-	padding: 2px 0px 4px 0px;
-	float: left;
-}
-
-div.form-filter p {
-	margin: 0px;
-	padding: 2px 0px 4px 0px;
-}
-
-
-fieldset.filter .left {
-	float: left;
-}
-
-fieldset.filter .right {
-	float: right;
-}
-*/
-/* END Styles relocated from administrator/components/com_redirect/media/default.css */
-
-
 
 
 /* -- ACL STYLES relocated from com_users/media/grid.css ----------- */

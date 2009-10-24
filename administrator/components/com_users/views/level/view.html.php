@@ -2,7 +2,6 @@
 /**
  * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @copyright	Copyright (C) 2008 - 2009 JXtended, LLC. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -56,9 +55,10 @@ class UsersViewLevel extends JView
 		$isNew	= ($this->item->id == 0);
 		JToolBarHelper::title(JText::_($isNew ? 'Users_View_New_Level_Title' : 'Users_View_Edit_Level_Title'), 'levels-add');
 
-		JToolBarHelper::addNew('level.save2new', 'JToolbar_Save_and_new');
-		JToolBarHelper::save('level.save');
 		JToolBarHelper::apply('level.apply');
+		JToolBarHelper::save('level.save');
+		JToolBarHelper::addNew('level.save2new', 'JToolbar_Save_and_new');
+		
 		JToolBarHelper::cancel('level.cancel');
 		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.users.level');

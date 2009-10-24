@@ -40,29 +40,32 @@ class TemplatesViewTemplate extends JView
 		$client		= &$this->get('Client');
 
 		JToolBarHelper::title(JText::_('TEMPLATE_MANAGER') . ': '. JText::_('EDIT_TEMPLATE') .' ', 'thememanager');
-		JToolBarHelper::save('save');
+		
+		JToolBarHelper::custom('add', 'new-style.png', 'new-style_f2.png', 'New Style', false, false);
+
+		JToolBarHelper::custom('delete', 'delete-style.png', 'delete-style_f2.png', 'Delete Style', false, false);
+		JToolBarHelper::divider();
+		
+		JToolBarHelper::custom('edit_source', 'html.png', 'html_f2.png', 'Edit HTML', false, false);
+		// Needs to be connected to error.php editor--same as index.php editor
+		JToolBarHelper::custom('choose_css', 'css.png', 'css_f2.png', 'Edit CSS', false, false);
+		JToolBarHelper::custom('edit_error', 'error.png', 'error_f2.png', 'Edit Error Page', false, false);
+		
 		JToolBarHelper::divider();
 		if ($client->id == 1) {
 			JToolBarHelper::custom('admindefault', 'default.png', 'default_f2.png', 'Set as Default', false, false);
 		}
-		JToolBarHelper::custom('add', 'new.png', 'new_f2.png', 'New Style', false, false);
-
-		JToolBarHelper::custom('delete', 'delete.png', 'delete_f2.png', 'Delete Style', false, false);
 		JToolBarHelper::custom('preview', 'preview.png', 'preview_f2.png', 'Preview', false, false);
-		JToolBarHelper::custom('edit_source', 'html.png', 'html_f2.png', 'Edit HTML', false, false);
-		// Needs to be connected to error.php editor--same as index.php editor
-		JToolBarHelper::custom('edit_error', 'html.png', 'html_f2.png', 'Edit Error Page', false, false);
-		JToolBarHelper::custom('choose_css', 'css.png', 'css_f2.png', 'Edit CSS', false, false);
-	JToolBarHelper::divider();
-
+		JToolBarHelper::divider();
+		JToolBarHelper::save('save');
 		JToolBarHelper::cancel('cancel', 'Close');
 		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.templates');
 
-		$data		= &$this->get('Data');
-		$params		= &$this->get('CurrentParams');
-		$template	= &$this->get('Template');
-		$parametersets		= &$this->get('Parametersets');
+		$data			= $this->get('Data');
+		$params			= $this->get('CurrentParams');
+		$template		= $this->get('Template');
+		$parametersets	= $this->get('Parametersets');
 
 		if (!$template) {
 			return JError::raiseWarning(500, JText::_('Template not specified'));
@@ -73,13 +76,13 @@ class TemplatesViewTemplate extends JView
 		$ftp = &JClientHelper::setCredentialsFromRequest('ftp');
 
 		$this->assignRef('lists',		$lists);
-		$this->assignRef('data',			$data);
-		$this->assign('option',		JRequest::getCMD('option'));
+		$this->assignRef('data',		$data);
+		$this->assign('option',			JRequest::getCMD('option'));
 		$this->assignRef('client',		$client);
 		$this->assignRef('ftp',			$ftp);
 		$this->assignRef('template',	$template);
 		$this->assignRef('params',		$params);
-		$this->assignRef('paramsets',		$parametersets);
+		$this->assignRef('paramsets',	$parametersets);
 
 		parent::display($tpl);
 	}

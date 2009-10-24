@@ -17,24 +17,18 @@
 			<th colspan="2">
 				<?php echo JText::_('Template Name'); ?>
 			</th>
-			<?php
-			if ($this->client->id == 1) {
-			?>
+			<?php if ($this->client->id == 1) : ?>
 				<th width="5%">
 					<?php echo JText::_('Default'); ?>
 				</th>
-			<?php
-			} else {
-			?>
+			<?php else : ?>
 				<th width="5%">
 					<?php echo JText::_('Default'); ?>
 				</th>
 				<th width="5%">
 					<?php echo JText::_('Assigned'); ?>
 				</th>
-			<?php
-			}
-			?>
+			<?php endif; ?>
 			<th width="10%" class="center">
 				<?php echo JText::_('Version'); ?>
 			</th>
@@ -57,9 +51,9 @@
 <?php
 $k = 0;
 $i = 0;
-foreach($this->rows as $template => $row) {
+foreach ($this->rows as $template => $row) :
 	$author_info = @ $row->xmldata->authorEmail . '<br />' . @ $row->xmldata->authorUrl;
-	$img_path = ($this->client->id == 1 ? JURI::root().'administrator' : JURI::root()).'/templates/'.$row->name.'/template_thumbnail.png';
+	$img_path = ($this->client->id == 1 ? JURI::root().'administrator' : JURI::root()).'/templates/'.$row->directory.'/template_thumbnail.png';
 ?>
 		<tr class="<?php echo 'row'. $k; ?>">
 			<td>
@@ -70,58 +64,34 @@ foreach($this->rows as $template => $row) {
 			</td>
 			<td>
 				<span class="editlinktip hasTip" title="<?php echo $row->name;?>::
-<img border=&quot;1&quot; src=&quot;<?php echo $img_path; ?>&quot; name=&quot;imagelib&quot; alt=&quot;<?php echo JText::_( 'No preview available' ); ?>&quot; width=&quot;206&quot; height=&quot;145&quot; />">
+<img border=&quot;1&quot; src=&quot;<?php echo $img_path; ?>&quot; name=&quot;imagelib&quot; alt=&quot;<?php echo JText::_( 'No preview available' ); ?>&quot; width=&quot;200&quot; height=&quot;145&quot; />">
 					<a href="<?php echo JRoute::_('index.php?option=com_templates&task=edit&template=' . $template . '&client=' . $this->client->id); ?>"><?php echo $row->name;?></a>
 				</span>
 			</td>
-			<?php
-			if ($this->client->id == 1) {
-			?>
+			<?php if ($this->client->id == 1) : ?>
 				<td class="center">
-				<?php
-				if ($row->home == 1) {
-				?>
+				<?php if ($row->home == 1) : ?>
 					<img src="templates/bluestork/images/menu/icon-16-default.png" alt="<?php echo JText::_('Published'); ?>" />
-				<?php
-				} else {
-				?>
+				<?php else  : ?>
 						&nbsp;
-				<?php
-				}
-				?>
+				<?php endif; ?>
 				</td>
-			<?php
-			} else {
-			?>
+			<?php else : ?>
 				<td class="center">
-				<?php
-				if ($row->home == 1) {
-				?>
+				<?php if ($row->home == 1) : ?>
 						<img src="templates/bluestork/images/menu/icon-16-default.png" alt="<?php echo JText::_('Default'); ?>" />
-				<?php
-				} else {
-				?>
+				<?php else  : ?>
 						&nbsp;
-				<?php
-				}
-				?>
+				<?php endif; ?>
 				</td>
 				<td class="center">
-				<?php
-				if ($row->assigned == 1) {
-				?>
+				<?php if ($row->assigned == 1) : ?>
 						<img src="templates/bluestork/admin/images/tick.png" alt="<?php echo JText::_('Assigned'); ?>" />
-				<?php
-				} else {
-				?>
+				<?php else : ?>
 						&nbsp;
-				<?php
-				}
-				?>
+				<?php endif; ?>
 				</td>
-			<?php
-			}
-			?>
+			<?php endif; ?>
 			<td class="center">
 				<?php echo $row->version; ?>
 			</td>
@@ -136,7 +106,7 @@ foreach($this->rows as $template => $row) {
 		</tr>
 		<?php
 		$i++;
-		}
+		endforeach;
 		?>
 	</tbody>
 	</table>
