@@ -43,6 +43,7 @@ $ -> Language fix or change
  # [#17259] html not allowed in user confirmation message
  # [#17430] Image Title attribute field has different names
  # [#17964] Email cloaking. Syntax error in email.php. Patch included.
+ # [#18246] Tinymce sql correction
 
 19-Oct-2009 Ian MacLennan
  # [#18297] Setting ftp fields to not autocomplete
