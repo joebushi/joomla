@@ -79,6 +79,41 @@ function plgEmailCloak(&$text, &$params)
 	// Load plugin params info
 	$pluginParams = new JParameter($plugin->params);
 	$mode = $pluginParams->def('mode', 1);
+	
+	// split the string into parts to exclude strcipt tags from being handled
+	$text = explode( '<script', $text );
+	foreach ( $text as $i => $str ) {
+		if ( $i == 0 ) {
+			plgEmailCloakString( $text[$i], $mode );
+		} else {
+			$str_split = explode( '</script>', $str );
+			foreach ( $str_split as $j => $str_split_part ) {
+				if ( ( $j % 2 ) == 1 ) {
+					plgEmailCloakString( $str_split[$i], $mode );
+				}
+			}
+			$text[$i] = implode( '</script>', $str_split );
+		}
+	}
+	$text = implode( '<script', $text );
+	return true;
+}
+
+/**
+ * Cloak all emails in text from spambots via Javascript.
+ *
+ * @param string The string to be cloaked.
+ * @param string The mode.
+ * replaces addresses with "mailto:" links if nonzero.
+ * @return boolean True on success.
+ */
+function plgEmailCloakString(&$text, $mode = 1)
+{
+	// Simple performance check to determine whether bot should process further.
+	if (JString::strpos($text, '@') === false) {
+		return true;
+	}
+
 
 	// any@email.address.com
 	$searchEmail = '([\w\.\-]+\@(?:[a-z0-9\.\-]+\.)+(?:[a-z0-9\-]{2,4}))';
