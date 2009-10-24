@@ -55,6 +55,7 @@ $ -> Language fix or change
  
 25-Sept-2009 Ian MacLennan
  # [#16484] Password field changed in configuration.php by Administration > Global Configuration
+ # [#16804] Linked image in Beez template jumps in IE8
 
 18-Sept-2009 Ian MacLennan
  # [#16982] Fixed issue with editor.css files
