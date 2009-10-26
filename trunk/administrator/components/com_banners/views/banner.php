@@ -19,13 +19,17 @@ class BannersViewBanner
 	function setBannersToolbar()
 	{
 		JToolBarHelper::title(JText::_('Banner Manager'), 'banner.png');
+		JToolBarHelper::addNew();
+		JToolBarHelper::editList();
+		JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', 'Copy');
+		JToolBarHelper::divider();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
-		JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', 'Copy');
+		JToolBarHelper::divider();
 		JToolBarHelper::deleteList();
-		JToolBarHelper::editList();
-		JToolBarHelper::addNew();
+		JToolBarHelper::divider();
 		JToolBarHelper::preferences('com_banners');
+		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.banners');
 	}
 
@@ -199,9 +203,9 @@ class BannersViewBanner
 	{
 		$task = JRequest::getVar('task', '', 'method', 'string');
 
-		JToolBarHelper::title($task == 'add' ? JText::_('Banner') . ': <small><small>[ '. JText::_('New') .' ]</small></small>' : JText::_('Banner') . ': <small><small>[ '. JText::_('Edit') .' ]</small></small>', 'generic.png');
-		JToolBarHelper::save('save');
+		JToolBarHelper::title($task == 'add' ? JText::_('COM_BANNER_MANAGER') . ': '. JText::_('COM_BANNER_NEW_BANNER') .'' : JText::_('Banner') . ': '. JText::_('COM_BANNER_EDIT_BANNER') .' ', 'generic.png');
 		JToolBarHelper::apply('apply');
+		JToolBarHelper::save('save');
 		JToolBarHelper::cancel('cancel');
 		JToolBarHelper::help('screen.banners.edit');
 	}

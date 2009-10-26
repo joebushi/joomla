@@ -27,14 +27,50 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+25-Oct-2009 Ron Severdia
+^ Toolbar UI tweaks
++ New icons
++ New Bluestork CSS
++ Various missing language strings
+
+25-Oct-2009 Ian MacLennan
+ # Fixed progress bar image
+ # Fixed media manager CSS image paths
+
+25-Oct-2009 Andrew Eddie
+ # Fixed [#17088] Error on loading demodata during installation IE.
+ # Fixed bug: PHP error in module assignment page of menu edit form.
+ # Fixed bug: Move/copy select was not displaying properly in menu item list.
+
+24-Oct-2009 Ron Severdia
+# Clean up views & modals
+- Remove com_users specific JS & CSS from media folder
+$ Language cleanup & new strings
+# CSS cleanup
+
 23-Oct-2009 Andrew Eddie
  ^ Fixed new registered type in User Options to be able to select any group.
  ^ Added check to group delete to ensure that Public and Registered can't be removed.
  # Fixed bug in com_users registration controller.
  # Fixed bugs in com_users router.
+ # Fixed [#18460] Login does not redirect correctly.
+ # Fixed [#18437] JFormFieldCalendar does not include JFormFieldText.
+ # Fixed [#18398] [patch] Add Konqueror/undefined user agent patch from J1.5.
+ # Fixed [#18368] [patch] for tracker item [#16920] - issue with jtext keys in the user controller.
+ # Fixed [#18367] [patch] for tracker item [#16920] - issues with the admin template component.
+ # Fixed [#18366] [patch] for tracker item [#18079] defined or die; missing in core Lib.
+ # Fixed [#17489] Installation Language String Missing.
+ # Fixed [#17271] Sample Data Loaded Successfully - not localisable.
+ # Fixed [#16949] Remove obsolete file checks.
+ # Fixed bug: Default star not showing in template manager list.
+ # Added bandage fix to allow you to change frontend template.
+ # Fixed bug: Cancel not working in edit menu form.
 
 23-Oct-2009 Ron Severdia
-^ Removed Austere template
+- Removed Austere template
+# Style fixes
+# Toolbar fixes
++ New icons
 
 23-Oct-2009 Andrew Eddie
  ! Working commit of adding permissions checks to admin com_users.
