@@ -42,6 +42,7 @@ $ -> Language fix or change
  # [#15780] Search result list uses always the Itemid of the default Menu-item
  # [#17110] Section/Category List - Table width issue in IE8
  # [#17470] Archive filters don't work with cache on + com_content cache optimization
+ # [#17475] Cache unused by core components
 
 23-Oct-2009 Ian MacLennan
  # [#11578] Email cloaking does not work properly with non-ASCII characters

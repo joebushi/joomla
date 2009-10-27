@@ -4,7 +4,6 @@
  */
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$cparams =& JComponentHelper::getParams('com_media');
 ?>
 
 <?php if ( $this->params->get( 'show_page_title', 1 ) ) : ?>
@@ -100,5 +99,6 @@ $cparams =& JComponentHelper::getParams('com_media');
 <input type="hidden" name="catid" value="<?php echo $this->category->id;?>" />
 <input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
 <input type="hidden" name="filter_order_Dir" value="" />
+<input type="hidden" name="viewcache" value="0" />
 </form>
 </div>

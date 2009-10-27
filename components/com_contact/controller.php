@@ -69,7 +69,19 @@ class ContactController extends JController
 
 		// Display the view
 		$view->assign('error', $this->getError());
-		$view->display();
+		
+		// View caching logic -- simple... are we logged in?
+		$user = &JFactory::getUser();
+		$viewnow = JRequest::getVar('view');
+		$viewcache = JRequest::getVar('viewcache','1','POST','INT');
+		
+		if ($user->get('id') || ($viewnow == 'category' && $viewcache == 0)) {
+			$view->display();
+		} else {
+			$option JRequest::getCmd('option');
+			$cache =& JFactory::getCache($option, 'view');
+			$cache->get($view, 'display');
+		}
 	}
 
 	/**
