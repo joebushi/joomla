@@ -275,10 +275,9 @@ class JTableUser extends JTable
 			return false;
 		}
 
+		// Set the registration timestamp
 		if ($this->registerDate == null) {
-			// Set the registration timestamp
-			$now = &JFactory::getDate();
-			$this->registerDate = $now->toMySQL();
+			$this->registerDate = JFactory::getDate()->toMySQL();
 		}
 
 
@@ -470,7 +469,7 @@ class JTableUser extends JTable
 		}
 
 		// If no timestamp value is passed to functon, than current time is used.
-		$date = & JFactory::getDate($timeStamp);
+		$date = JFactory::getDate($timeStamp);
 
 		// Update the database row for the user.
 		$this->_db->setQuery(
