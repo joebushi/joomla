@@ -39,6 +39,7 @@ $ -> Language fix or change
 
 26-Oct-2009 Ian MacLennan
  # [#18245] Implementing templates feature in tinymce
+ # [#15780] Search result list uses always the Itemid of the default Menu-item
 
 23-Oct-2009 Ian MacLennan
  # [#11578] Email cloaking does not work properly with non-ASCII characters
