@@ -37,6 +37,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+26-Oct-2009 Ian MacLennan
+ # [#18245] Implementing templates feature in tinymce
+
 23-Oct-2009 Ian MacLennan
  # [#11578] Email cloaking does not work properly with non-ASCII characters
  # [#16804] Linked image in Beez template jumps in IE8

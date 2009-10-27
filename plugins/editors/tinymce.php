@@ -545,6 +545,8 @@ class plgEditorTinymce extends JPlugin
 					relative_urls : $relative_urls,
 					remove_script_host : false,
 					document_base_url : \"". JURI::root() ."\",
+					//Templates
+					template_external_list_url :  \"". JURI::root() ."plugins/editors/tinymce/templates/template_list.js\",
 					// Layout
 					$content_css
 					// Advanced theme
