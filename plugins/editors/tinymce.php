@@ -124,7 +124,7 @@ class plgEditorTinymce extends JPlugin
 
 		$content_css = '';
 
-		$templates_path = JPATH_SITE.DS.'templates';//.DS;  //.$template.DS.'css';
+		$templates_path = JPATH_SITE.DS.'templates';
 		// loading of css file for 'styles' dropdown
 		if ( $content_css_custom )
 		{

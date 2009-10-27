@@ -131,4 +131,5 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <input type="hidden" name="filter_order" value="" />
 <input type="hidden" name="filter_order_Dir" value="" />
 <input type="hidden" name="limitstart" value="0" />
+<input type="hidden" name="viewcache" value="0" />
 </form>

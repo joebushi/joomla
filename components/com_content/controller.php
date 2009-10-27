@@ -44,7 +44,12 @@ class ContentController extends JController
 
 		// View caching logic -- simple... are we logged in?
 		$user = &JFactory::getUser();
-		if ($user->get('id') || (JRequest::getVar('view') == 'category' && JRequest::getVar('layout') != 'blog')) {
+		$view = JRequest::getVar('view');
+		$viewcache = JRequest::getVar('viewcache',1,'POST','INT');
+
+		if ($user->get('id') ||
+			($view == 'category' && JRequest::getVar('layout') != 'blog' && $viewcache == 0) ||
+			 $view == 'archive' && $viewcache == 0) {
 			parent::display(false);
 		} else {
 			parent::display(true);
