@@ -15,6 +15,7 @@
 /**
  * Create the response global object
  */
+defined('JPATH_BASE') or die();
 $GLOBALS['_JRESPONSE'] = new stdClass();
 $GLOBALS['_JRESPONSE']->cachable = false;
 $GLOBALS['_JRESPONSE']->headers  = array();

@@ -11,7 +11,7 @@
 * other free or open source software licenses.
 * See COPYRIGHT.php for copyright notices and details.
 */
-
+defined('JPATH_BASE') or die();
 /**
  * Simple Record Set object to allow our database connector to be used with
  * ADODB driven 3rd party libraries

@@ -11,7 +11,7 @@
  * source software licenses. See COPYRIGHT.php for copyright notices and
  * details.
  */
-
+defined('JPATH_BASE') or die();
 /**
  * JArrayHelper is an array utility class for doing all sorts of odds and ends with arrays.
  *
