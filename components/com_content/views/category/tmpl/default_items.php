@@ -43,7 +43,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<?php echo JText::_('Num'); ?>
 	</td>
 	<?php if ($this->params->get('show_title')) : ?>
- 	<td class="sectiontableheader<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>" width="45%">
+ 	<td class="sectiontableheader<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>" >
 		<?php echo JHTML::_('grid.sort',  'Item Title', 'a.title', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 	</td>
 	<?php endif; ?>
