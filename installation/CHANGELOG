@@ -27,6 +27,11 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+27-Oct-2009 Louis Landry
+# Fixed failure of JUser to load JSON based parameter strings.
+^ Changed default behavior of JHtml::date() to use user settings for time zones.
+^ Added transparent handling of time zone translation for JForm / JFormFieldCalendar.
+
 25-Oct-2009 Ron Severdia
 ^ Toolbar UI tweaks
 + New icons

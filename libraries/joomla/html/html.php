@@ -325,21 +325,50 @@ abstract class JHtml
 	 * @see		strftime
 	 * @since	1.5
 	 */
-	public static function date($date, $format = null, $offset = null)
+	public static function date($input, $format = null, $tz = true)
 	{
 		if (! $format) {
 			$format = JText::_('DATE_FORMAT_LC1');
 		}
 
-		if (is_null($offset))
-		{
-			$config = &JFactory::getConfig();
-			$offset = $config->getValue('config.offset');
-		}
-		$instance = &JFactory::getDate($date);
-		$instance->setOffset($offset);
+		// Get some system objects.
+		$config = JFactory::getConfig();
+		$user	= JFactory::getUser();
 
-		return $instance->toFormat($format);
+		// UTC date converted to user time zone.
+		if ($tz === true)
+		{
+			// Get a date object based on UTC.
+			$date = JFactory::getDate($input, 'UTC');
+
+			// Set the correct time zone based on the user configuration.
+			$date->setOffset($user->getParam('timezone', $config->getValue('config.offset')));
+		}
+		// UTC date converted to server time zone.
+		elseif ($tz === false)
+		{
+			// Get a date object based on UTC.
+			$date = JFactory::getDate($input, 'UTC');
+
+			// Set the correct time zone based on the server configuration.
+			$date->setOffset($config->getValue('config.offset'));
+		}
+		// No date conversion.
+		elseif ($tz === null)
+		{
+			$date = JFactory::getDate($input);
+		}
+		// UTC date converted to given time zone.
+		else
+		{
+			// Get a date object based on UTC.
+			$date = JFactory::getDate($input, 'UTC');
+
+			// Set the correct time zone based on the server configuration.
+			$date->setOffset($tz);
+		}
+
+		return $date->toFormat($format);
 	}
 
 	/**

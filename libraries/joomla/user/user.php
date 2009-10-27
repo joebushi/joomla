@@ -623,7 +623,7 @@ class JUser extends JObject
 		 * extend this in the future to allow for the ability to have custom
 		 * user parameters, but for right now we'll leave it how it is.
 		 */
-		$this->_params->loadINI($table->params);
+		$this->_params->loadJSON($table->params);
 
 		// Assuming all is well at this point lets bind the data
 		$this->setProperties($table->getProperties());
