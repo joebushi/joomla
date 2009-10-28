@@ -42,6 +42,7 @@ $ -> Language fix or change
  # [#16609] templates/system/css/template.css not found when using templates/system/component
  # [#18493] UTF problems with HTML entities in pathway.
  # [#18518] Change in mod_search.ini
+ # [#18522] Correct version info site/admin for core languages
 
 26-Oct-2009 Ian MacLennan
  # [#18245] Implementing templates feature in tinymce
