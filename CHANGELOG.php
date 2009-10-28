@@ -37,6 +37,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-Oct-2009 Ian MacLennan
+ ^ Updated CREDITS.php
+
 27-Oct-2009 Ian MacLennan
  # [#16914] Default style for admin backend does not specify text color of input fields.
  # [#16609] templates/system/css/template.css not found when using templates/system/component
