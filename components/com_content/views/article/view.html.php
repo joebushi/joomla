@@ -29,7 +29,7 @@ class ContentViewArticle extends ContentView
 	function display($tpl = null)
 	{
 		global $mainframe;
-		
+
 		$user		=& JFactory::getUser();
 		$document	=& JFactory::getDocument();
 		$dispatcher	=& JDispatcher::getInstance();
@@ -58,7 +58,7 @@ class ContentViewArticle extends ContentView
 		}
 
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
-		
+
 		if (!$params->get('intro_only') && ($this->getLayout() == 'default') && ($limitstart == 0))
 		{
 			$model =& $this->getModel();
@@ -171,7 +171,7 @@ class ContentViewArticle extends ContentView
 		 * Handle display events
 		 */
 		$article->event = new stdClass();
-		$results = $dispatcher->trigger('onAfterDisplayTitle', array ($article, &$params, $limitstart));
+		$results = $dispatcher->trigger('onAfterDisplayTitle', array (&$article, &$params, $limitstart));
 		$article->event->afterDisplayTitle = trim(implode("\n", $results));
 
 		$results = $dispatcher->trigger('onBeforeDisplayContent', array (& $article, & $params, $limitstart));
@@ -182,8 +182,8 @@ class ContentViewArticle extends ContentView
 
 		$print = JRequest::getBool('print');
 		if ($print) {
-      $document->setMetaData('robots', 'noindex, nofollow');
-    }
+	  $document->setMetaData('robots', 'noindex, nofollow');
+	}
 
 		$this->assignRef('article', $article);
 		$this->assignRef('params' , $params);
@@ -206,8 +206,8 @@ class ContentViewArticle extends ContentView
 
 		// Make sure you are logged in and have the necessary access rights
 		if ($user->get('gid') < 19) {
-			  JResponse::setHeader('HTTP/1.0 403',true);
-              JError::raiseWarning( 403, JText::_('ALERTNOTAUTH') );
+			JResponse::setHeader('HTTP/1.0 403',true);
+			  JError::raiseWarning( 403, JText::_('ALERTNOTAUTH') );
 			return;
 		}
 
