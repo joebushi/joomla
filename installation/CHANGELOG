@@ -28,7 +28,8 @@ $ -> Language fix or change
 ! -> Note
 
 28-Oct-2009 Andrew Eddie
- + Add block and activation methods to com_users backend.
+ ! Fix block and activation methods to com_users backend list.
+ ^ Sync backend com_users MVC code structure.
 
 27-Oct-2009 Louis Landry
 # Fixed failure of JUser to load JSON based parameter strings.

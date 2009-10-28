@@ -219,7 +219,7 @@ class UsersModelUser extends JModelForm
 		}
 
 		// Trigger the onAftereStoreUser event
-		$dispatcher->trigger('onAfterStoreUser', array($table->getProperties(), $isNew, true));
+		$dispatcher->trigger('onAfterStoreUser', array($table->getProperties(), $isNew, true, null));
 
 		$this->setState('user.id', $table->id);
 
@@ -300,6 +300,7 @@ class UsersModelUser extends JModelForm
 	function block(&$pks, $value = 1)
 	{
 		// Initialise variables.
+		$app		= JFactory::getApplication();
 		$dispatcher	= JDispatcher::getInstance();
 		$user		= JFactory::getUser();
 		$table		= $this->getTable();
@@ -318,7 +319,13 @@ class UsersModelUser extends JModelForm
 			}
 			else if ($table->load($pk))
 			{
-				$allow = $user->authorise('core.edit.state', 'com_users');
+				$old	= $table->getProperties();
+				$allow	= $user->authorise('core.edit.state', 'com_users');
+
+				// Prepare the logout options.
+				$options = array(
+					'clientid' => array(0, 1)
+				);
 
 				if ($allow)
 				{
@@ -331,7 +338,7 @@ class UsersModelUser extends JModelForm
 					}
 
 					// Trigger the onBeforeStoreUser event.
-					$dispatcher->trigger('onBeforeStoreUser', array($old->getProperties(), false));
+					$dispatcher->trigger('onBeforeStoreUser', array($old, false));
 
 					// Store the table.
 					if (!$table->store())
@@ -340,8 +347,13 @@ class UsersModelUser extends JModelForm
 						return false;
 					}
 
-					// Fire the onAftereStoreUser event
-					$dispatcher->trigger('onAfterStoreUser', array($this->getProperties(), false, true, $this->getError()));
+					// Trigger the onAftereStoreUser event
+					$dispatcher->trigger('onAfterStoreUser', array($table->getProperties(), false, true, null));
+
+					// Log the user out.
+					if ($value) {
+						$app->logout($table->id, $options);
+					}
 				}
 				else
 				{
@@ -365,18 +377,25 @@ class UsersModelUser extends JModelForm
 	function activate(&$pks)
 	{
 		// Initialise variables.
-		$user	= JFactory::getUser();
-		$table	= $this->getTable();
-		$pks	= (array) $pks;
+		$dispatcher	= JDispatcher::getInstance();
+		$user		= JFactory::getUser();
+		$table		= $this->getTable();
+		$pks		= (array) $pks;
 
 		// Access checks.
 		foreach ($pks as $i => $pk)
 		{
 			if ($table->load($pk))
 			{
-				$allow = $user->authorise('core.edit.state', 'com_users');
+				$old	= $table->getProperties();
+				$allow	= $user->authorise('core.edit.state', 'com_users');
 
-				if ($allow)
+				if (empty($table->activation))
+				{
+					// Ignore activated accounts.
+					unset($pks[$i]);
+				}
+				else if ($allow)
 				{
 					$table->block		= 0;
 					$table->activation	= '';
@@ -388,7 +407,7 @@ class UsersModelUser extends JModelForm
 					}
 
 					// Trigger the onBeforeStoreUser event.
-					$dispatcher->trigger('onBeforeStoreUser', array($old->getProperties(), false));
+					$dispatcher->trigger('onBeforeStoreUser', array($old, false));
 
 					// Store the table.
 					if (!$table->store())
@@ -398,7 +417,7 @@ class UsersModelUser extends JModelForm
 					}
 
 					// Fire the onAftereStoreUser event
-					$dispatcher->trigger('onAfterStoreUser', array($this->getProperties(), false, true, $this->getError()));
+					$dispatcher->trigger('onAfterStoreUser', array($table->getProperties(), false, true, null));
 				}
 				else
 				{
