@@ -39,6 +39,8 @@ $ -> Language fix or change
 
 28-Oct-2009 Ian MacLennan
  ^ Updated CREDITS.php
+ ^ Updated installation language pack
+ ^ Updated help sites
 
 27-Oct-2009 Ian MacLennan
  # [#16914] Default style for admin backend does not specify text color of input fields.
