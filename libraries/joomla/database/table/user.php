@@ -317,6 +317,7 @@ class JTableUser extends JTable
 		$k = $this->_tbl_key;
 		$key =  $this->$k;
 
+		// TODO: This is a dumb way to handle the groups.
 		// Store groups locally so as to not update directly.
 		$groups = $this->groups;
 		unset($this->groups);
