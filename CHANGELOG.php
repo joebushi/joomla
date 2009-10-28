@@ -44,6 +44,7 @@ $ -> Language fix or change
  # [#18518] Change in mod_search.ini
  # [#18522] Correct version info site/admin for core languages
  # [#18481] Emailcloak on image
+ # [#18430] com_content fails to pass an article reference to onAfterDisplayTitle event handler
 
 26-Oct-2009 Ian MacLennan
  # [#18245] Implementing templates feature in tinymce

@@ -174,16 +174,16 @@ class ContentViewArticle extends ContentView
 		$results = $dispatcher->trigger('onAfterDisplayTitle', array (&$article, &$params, $limitstart));
 		$article->event->afterDisplayTitle = trim(implode("\n", $results));
 
-		$results = $dispatcher->trigger('onBeforeDisplayContent', array (& $article, & $params, $limitstart));
+		$results = $dispatcher->trigger('onBeforeDisplayContent', array (&$article, &$params, $limitstart));
 		$article->event->beforeDisplayContent = trim(implode("\n", $results));
 
-		$results = $dispatcher->trigger('onAfterDisplayContent', array (& $article, & $params, $limitstart));
+		$results = $dispatcher->trigger('onAfterDisplayContent', array (&$article, &$params, $limitstart));
 		$article->event->afterDisplayContent = trim(implode("\n", $results));
 
 		$print = JRequest::getBool('print');
 		if ($print) {
-	  $document->setMetaData('robots', 'noindex, nofollow');
-	}
+			$document->setMetaData('robots', 'noindex, nofollow');
+		}
 
 		$this->assignRef('article', $article);
 		$this->assignRef('params' , $params);
@@ -390,4 +390,4 @@ class ContentViewArticle extends ContentView
 		parent::display($tpl);
 	}
 }
-?>
+
