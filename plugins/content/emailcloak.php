@@ -79,7 +79,7 @@ function plgEmailCloak(&$text, &$params)
 	// Load plugin params info
 	$pluginParams = new JParameter($plugin->params);
 	$mode = $pluginParams->def('mode', 1);
-	
+
 	// split the string into parts to exclude strcipt tags from being handled
 	$text = explode( '<script', $text );
 	foreach ( $text as $i => $str ) {
@@ -166,10 +166,13 @@ function plgEmailCloakString(&$text, $mode = 1)
 	 */
 	$pattern = plgContentEmailCloak_searchPattern($searchEmail, $searchImage);
 	while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
-		$mail = $regs[1][0];
-		$mailText = $regs[2][0];
+		$prefix = $regs[1][0];
+		$mail = $regs[2][0];
+		$suffix = $regs[3][0];
+		$attribs = $regs[4][0];
+		$mailText = $regs[5][0];
 
-		$replacement = JHTML::_('email.cloak', $mail, $mode, $mailText, 0);
+		$replacement = JHTML::_('email.cloak', $mail, $mode, $mailText, 0, $prefix, $suffix, $attribs);
 
 		// Replace the found address with the js cloaked email
 		$text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));

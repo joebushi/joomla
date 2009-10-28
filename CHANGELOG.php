@@ -43,6 +43,7 @@ $ -> Language fix or change
  # [#18493] UTF problems with HTML entities in pathway.
  # [#18518] Change in mod_search.ini
  # [#18522] Correct version info site/admin for core languages
+ # [#18481] Emailcloak on image
 
 26-Oct-2009 Ian MacLennan
  # [#18245] Implementing templates feature in tinymce
