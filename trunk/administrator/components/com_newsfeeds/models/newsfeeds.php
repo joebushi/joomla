@@ -33,7 +33,6 @@ class NewsfeedsModelNewsfeeds extends JModelList
 	{
 		// Initialize variables.
 		$app		= JFactory::getApplication('administrator');
-		$params		= JComponentHelper::getParams('com_newsfeeds');
 
 		// Load the filter state.
 		$search = $app->getUserStateFromRequest($this->_context.'.filter.search', 'filter_search');
@@ -62,6 +61,7 @@ class NewsfeedsModelNewsfeeds extends JModelList
 		$this->setState('list.direction', $orderDirn);
 
 		// Load the parameters.
+		$params = JComponentHelper::getParams('com_newsfeeds');
 		$this->setState('params', $params);
 	}
 

@@ -102,6 +102,26 @@ class NewsfeedsTableNewsfeed extends JTable
 	}
 
 	/**
+	 * Overloaded bind function to pre-process the params.
+	 *
+	 * @param	array		Named array
+	 * @return	null|string	null is operation was satisfactory, otherwise returns an error
+	 * @see JTable:bind
+	 * @since 1.5
+	 */
+	public function bind($array, $ignore = '')
+	{
+		if (isset($array['params']) && is_array($array['params']))
+		{
+			$registry = new JRegistry();
+			$registry->loadArray($array['params']);
+			$array['params'] = $registry->toString();
+		}
+
+		return parent::bind($array, $ignore);
+	}
+
+	/**
 	 * Overloaded check method to ensure data integrity.
 	 *
 	 * @return	boolean	True on success.
