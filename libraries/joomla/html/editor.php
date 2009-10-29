@@ -39,6 +39,13 @@ class JEditor extends JObservable
 	 * @var string
 	 */
 	var $_name = null;
+	
+	/**
+	 * Editor start and end tag
+	 * Used to tell SEF plugin not to process editor contents
+	 * @var array
+	 */
+	var $_tagForSEF = array('start' => '<!-- Start Editor -->', 'end' => '<!-- End Editor -->'); 
 
 	/**
 	 * constructor
@@ -150,7 +157,7 @@ class JEditor extends JObservable
 				$return .= $result;
 			}
 		}
-		return $return;
+		return $this->_tagForSEF['start'] . $return . $this->_tagForSEF['end'];
 	}
 
 	/**

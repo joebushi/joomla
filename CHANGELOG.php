@@ -41,6 +41,7 @@ $ -> Language fix or change
  ^ Updated CREDITS.php
  ^ Updated installation language pack
  ^ Updated help sites
+ # [#16445] SEF rewrites href urls in editor textarea
 
 27-Oct-2009 Ian MacLennan
  # [#16914] Default style for admin backend does not specify text color of input fields.
