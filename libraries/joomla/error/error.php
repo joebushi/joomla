@@ -547,6 +547,15 @@ class JError
 		$document	= & JDocument::getInstance('error');
 		$config		= & JFactory::getConfig();
 
+		//Get the current language direction
+		$language = &JFactory::getLanguage();
+		if ($language->isRTL()){
+		$dir ="rtl";
+		}
+		else {
+		$dir ="ltr";
+		}
+
 		// Get the current template from the application
 		$template = $app->getTemplate();
 
@@ -555,6 +564,8 @@ class JError
 
 		@ob_end_clean();
 		$document->setTitle(JText::_('Error').': '.$error->code);
+		$document->setLanguage($language->getTag());
+		$document->setDirection($dir);
 		$data = $document->render(false, array (
 			'template' => $template,
 			'directory' => JPATH_THEMES,

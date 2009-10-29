@@ -37,6 +37,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Oct-2009 Ian MacLennan
+ # [#18537] error.php rtl issue
+
 28-Oct-2009 Ian MacLennan
  ^ Updated CREDITS.php
  ^ Updated installation language pack
