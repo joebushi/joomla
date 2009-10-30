@@ -11,14 +11,21 @@ defined('_JEXEC') or die;
 /*
  * Get the request group fields and print them out..
  */
+//jimport('joomla.html.pane');
+$pane = &JPane::getInstance('sliders');
+		echo $pane->startPanel(JText::_('Menus_Item_Required_Parameters'), 'required');
+	?>
+	<fieldset class="panelform">
+		<?php 	foreach ($this->paramsform->getFields('request') as $field) :
 
-	foreach ($this->paramsform->getFields('request') as $field) :
 		?>
 		
 			<?php echo $field->label; ?>
 			<?php echo $field->input; ?>
 		
-			<?php
-
-	endforeach;
-	?>
+		<?php	endforeach;
+		if (empty($field)){ 
+				echo JText::_('Menus_Item_No_Required_Params');
+		} 	?>
+		</fieldset>
+	<?php echo $pane->endPanel(); ?> 

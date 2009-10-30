@@ -131,6 +131,7 @@ foreach ($this->orders2 as $k=>$items) {
 				var n = e.options.length;
 				for (i = 0; i < n; i++) {
 					e.options[i].disabled = false;
+					e.options[i].selected = true;				
 				}
 			}
 		</script>

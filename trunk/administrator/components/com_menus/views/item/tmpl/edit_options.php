@@ -11,39 +11,34 @@ defined('_JEXEC') or die;
 
 jimport('joomla.html.pane');
 $pane = &JPane::getInstance('sliders');
-	echo $pane->startPanel(JText::_('Required Parameters'), 'publishing-details');
-	?>
-	<fieldset class="panelform">
-	<?php
-	echo $this->loadTemplate('required');
-	?>
-	</fieldset>
-	<?php
-	echo $pane->endPanel();
-	$fieldSets = $this->paramsform->getFieldsets();
-	foreach ($fieldSets as $name => $fieldSet) :
-		if (isset($fieldSet['hidden']) && $fieldSet['hidden'] == true || $name == 'request') :
-			continue;
-		endif;
-		$label = isset($fieldSet['label']) ? $fieldSet['label'] : 'Config_'.$name;
-		echo $pane->startPanel(JText::_($label), 'publishing-details');
-			if (isset($fieldSet['description'])) :
-				echo '<p class="tip">'.JText::_($fieldSet['description']).'</p>';
-			endif;
-			?>
-		<fieldset class="panelform">
-			<?php
-				foreach ($this->paramsform->getFields($name) as $field) :
-			?>
-			
-				<?php echo $field->label; ?>
-				<?php echo $field->input; ?>
-			
-			<?php
-				endforeach;
-			?>
-		</fieldset>
-<?php
-	echo $pane->endPanel();
-	endforeach;
 ?>
+
+
+<?php 
+//get the menu parameters that are automatically set but may be modified
+//	putting each group in a separate panel
+
+$fieldSets = $this->paramsform->getFieldsets();
+foreach ($fieldSets as $name => $fieldSet) :
+	if (isset($fieldSet['hidden']) && $fieldSet['hidden'] == true || $name == 'request') :
+		continue;
+	endif;
+	
+	$label = isset($fieldSet['label']) ? $fieldSet['label'] : 'Config_'.$name;
+	echo $pane->startPanel(JText::_($label), 'publishing-details');
+
+		if (isset($fieldSet['description'])) :
+				echo '<p class="tip">'.JText::_($fieldSet['description']).'</p>';
+		endif;
+	 	?>
+		<fieldset class="panelform">
+			<?php foreach ($this->paramsform->getFields($name) as $field) : ?>
+					
+					<?php echo $field->label; ?>
+					<?php echo $field->input; ?>
+			
+				<?php endforeach; 	?>
+			</fieldset>
+
+		<?php endforeach; 	?>
+	<?php 	echo $pane->endPanel(); ?>
