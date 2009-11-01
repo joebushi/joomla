@@ -75,7 +75,8 @@ defined('_JEXEC') or die;
 						// Compute the correct link
 
 						$menuclass = 'category'.$this->params->get('pageclass_sfx');
-						$link	= JRoute::_('index.php?task=weblink.go&catid='.$this->category->slug.'&id='. $item->slug);
+
+						$link	= 'index.php?task=weblink.go&id='.$item->id;
 						switch ($item->params->get('target', $this->params->get('target')))
 						{
 							case 1:
@@ -89,7 +90,12 @@ defined('_JEXEC') or die;
 								echo "<a href=\"#\" onclick=\"javascript: window.open('". $link ."', '', 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=550'); return false\" class=\"$menuclass\">".
 									$this->escape($item->title) ."</a>\n";
 								break;
-
+							//case 3:
+								// TODO: open in a modal window 
+							//	echo "<a href=\"#\" onclick=\"javascript: window.open('". $link ."', '', 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=550'); return false\" class=\"$menuclass\">".
+							//		$this->escape($item->title) ."</a>\n";
+								break;
+								
 							default:
 								// open in parent window
 								echo '<a href="'. $link .'" class="'. $menuclass .'" rel="nofollow">'.

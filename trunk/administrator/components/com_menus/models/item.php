@@ -383,7 +383,7 @@ class MenusModelItem extends JModelForm
 			$form->load('item_'.$type, true, false);
 		}
 
-		return $form; var_dump($form);
+		return $form;
 	}
 
 
