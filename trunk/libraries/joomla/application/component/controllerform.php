@@ -160,7 +160,7 @@ class JControllerForm extends JController
 
 		// Clear the record edit information from the session.
 		$app->setUserState($context.'.id', null);
-		$app->setUserState($context.'data', null);
+		$app->setUserState($context.'.data', null);
 
 		// Redirect to the edit screen.
 		$this->setRedirect(JRoute::_('index.php?option='.$this->_option.'&view='.$this->_view_item.'&layout=edit', false));
@@ -178,7 +178,7 @@ class JControllerForm extends JController
 	 */
 	protected function _allowEdit($data = array(), $key = 'id')
 	{
-		return JFactory::getUser()->authorise('core.create', $this->_option);
+		return JFactory::getUser()->authorise('core.edit', $this->_option);
 	}
 
 	/**
@@ -230,7 +230,7 @@ class JControllerForm extends JController
 		{
 			// Check-out succeeded, push the new record id into the session.
 			$app->setUserState($context.'.id',	$recordId);
-			$app->setUserState($this->_context.'data', null);
+			$app->setUserState($context.'.data', null);
 			$this->setRedirect('index.php?option='.$this->_option.'&view='.$this->_view_item.'&layout=edit');
 			return true;
 		}
@@ -269,7 +269,7 @@ class JControllerForm extends JController
 		// Clean the session data and redirect.
 		$app->setUserState($context.'.id',		null);
 		$app->setUserState($context.'.data',	null);
-		$this->setRedirect(JRoute::_('index.php?option='.$this->_option.'&view=='.$this->_view_list, false));
+		$this->setRedirect(JRoute::_('index.php?option='.$this->_option.'&view='.$this->_view_list, false));
 	}
 
 	/**
