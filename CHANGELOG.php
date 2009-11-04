@@ -39,6 +39,9 @@ $ -> Language fix or change
 
 -------------------- 1.5.15 Stable Release [04-November-2009] ------------------
 
+03-Nov-2009 Ian MacLennan
+ # [#18050] Reverting router change.
+
 29-Oct-2009 Ian MacLennan
  # [#18537] error.php rtl issue
 

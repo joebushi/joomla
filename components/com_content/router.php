@@ -49,11 +49,11 @@ function ContentBuildRoute(&$query)
 		}
 	}
 
-	if (isset($view) and ($view == 'category' && !empty($query['Itemid']))) {
-		if (($mView != 'category') or ($mView == 'category' and $mId != intval($query['id']))) {
-			$segments[] = 'category';
-			unset($query['Itemid']);
+	if (isset($view) and $view == 'category') {
+		if ($mId != intval($query['id']) || $mView != $view) {
+			$segments[] = $query['id'];
 		}
+		unset($query['id']);
 	}
 
 	if (isset($query['catid'])) {
