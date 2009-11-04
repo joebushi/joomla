@@ -37,7 +37,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
--------------------- 1.5.15 Stable Release [04-November-2009] ------------------
+-------------------- 1.5.15 Stable Release [05-November-2009] ------------------
+04-Nov-2009 Ian MacLennan
+ # [#17475] Fixed missing = in patch (parse error)
 
 03-Nov-2009 Ian MacLennan
  # [#18050] Reverting router change.

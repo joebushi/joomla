@@ -78,7 +78,7 @@ class ContactController extends JController
 		if ($user->get('id') || ($viewnow == 'category' && $viewcache == 0)) {
 			$view->display();
 		} else {
-			$option JRequest::getCmd('option');
+			$option = JRequest::getCmd('option');
 			$cache =& JFactory::getCache($option, 'view');
 			$cache->get($view, 'display');
 		}
