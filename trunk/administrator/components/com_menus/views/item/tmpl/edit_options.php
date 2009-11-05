@@ -20,7 +20,7 @@ $pane = &JPane::getInstance('sliders');
 
 $fieldSets = $this->paramsform->getFieldsets();
 foreach ($fieldSets as $name => $fieldSet) :
-	if (isset($fieldSet['hidden']) && $fieldSet['hidden'] == true || $name == 'request') :
+	if ((isset($fieldSet['hidden']) && $fieldSet['hidden'] == true) || ($name == 'request')) :
 		continue;
 	endif;
 	
