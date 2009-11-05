@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<!-- $Id$ -->
+<form>
+	<fields>
+		<field
+			id="id"
+			name="id"
+			type="hidden"
+			class="inputbox"
+			label="Module_Id_Label"
+			size="10"
+			default="0"
+			required="true"
+			readonly="true" />
+
+		<field
+			id="title"
+			name="title"
+			type="text"
+			label="JField_Title_Label"
+			description="JField_Title_Desc"
+			class="inputbox"
+			size="30"
+			required="true" />
+
+		<field
+			id="module"
+			name="module"
+			type="text"
+			label="Module_Type_Label"
+			description="Module_Type_Desc"
+			class="inputbox"
+			size="30"
+			readonly="true"
+			filter="unset" />
+
+		<field
+			id="showtitle"
+			name="showtitle"
+			type="list"
+			label="Module_Showtitle_Label"
+			description="Module_Showtitle_Desc"
+			class="inputbox"
+			size="1"
+			default="1">
+			<option
+				value="1">
+				JYes</option>
+			<option
+				value="0">
+				JNo</option>
+		</field>
+
+		<field
+			id="published"
+			name="published"
+			type="list"
+			label="JField_Published_Label"
+			description="JField_Published_Desc"
+			class="inputbox"
+			size="1"
+			default="1">
+			<option
+				value="1">
+				JOption_Published</option>
+			<option
+				value="0">
+				JOption_UnPublished</option>
+		</field>
+
+		<field
+			id="position"
+			name="position"
+		/>
+
+		<field
+			id="access"
+			name="access"
+			type="accesslevels"
+			label="JField_Access_Label"
+			description="JField_Access_Desc"
+			class="inputbox"
+			size="1"
+			default="" />
+	</fields>
+</form>
