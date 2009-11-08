@@ -80,14 +80,11 @@ JHTML::_('behavior.modal');
 </div>
 
 <div class="width-40 fltrt">
-	<?php echo $pane->startPane('menu-pane');
-			//load the request parameters
-			echo $this->loadTemplate('required');
-		?>
+	<?php echo $pane->startPane('menu-pane'); ?>
 
-		<?php //Load non request parameters.
-			echo $this->loadTemplate('options'); 
-		?>
+		<?php //Load  parameters.
+			echo $this->loadTemplate('options'); ?>
+			
 		<div class="clr"></div>
 
 	<?php if (!empty($this->modules)) : ?>
