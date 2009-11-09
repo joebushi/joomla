@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: contact.php 13379 2009-10-29 05:09:17Z dextercowley $
+ * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	Modules
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
