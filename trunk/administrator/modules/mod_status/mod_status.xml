@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="module" version="1.5.0">
+	<name>User Status</name>
+	<author>Joomla! Project</author>
+	<creationDate>Feb 2006</creationDate>
+	<copyright>(C) 2005 - 2009 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>1.6.0</version>
+	<description>MOD_STATUS_DESC</description>
+	<files>
+		<filename module="mod_status">mod_status.php</filename>
+	</files>
+	<params>
+		<param name="cache" type="list" default="0" label="Mod_Status_Cache_Label" description="Mod_Status_Cache_Desc">
+			<option value="0">Never</option>
+	  	</param>
+	</params>
+</install>
