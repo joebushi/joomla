@@ -27,6 +27,17 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+14-Nov-2009 Ian MacLennan
+# Fixing atomic template to work with short tags on
+
+13-Nov-2009 Ron Severdia
+^ Menu Manager UI fixes
+# Menu item modal fixes
++ Added missing language strings/keys
++ Added missing User Menu language file
+$ More language string fixes
+
+
 13-Nov-2009 Andrew Eddie
  ^ Fixed inflection on JForm field names:
    - accesslevels -> accesslevel
