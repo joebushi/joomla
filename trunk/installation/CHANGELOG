@@ -27,6 +27,27 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+20-Nov-2009 Louis Landry
+ + Added JHtmlSliders
+ + Added JHtmlTabs
+ ! JPane and child classes has been deprecated in favor of JHtml helpers.
+ ! Big thanks to Christophe Demko for his work on this.
+ ^ [#17650] Remove hardcoded style in TinyMCE that prevents button alignment
+
+20-Nov-2009 Andrew Eddie
+ ^ Change XML version tags to 1.6.0.
+ # Fixed bug in Tooltip JS code where title attribute not found causes error.
+ # Fixed bug when trying to delete a user.
+
+19-Nov-2009 Ron Severdia
+^ Restored missing CSS
+# Fixed new CSS issues
+^ Cleaned up UI and language strings for Global Check-in
+- Remove unnecessary markup
+^ Update bluestork images
++ New CSS
+^ Fix language strings
+ 
 19-Nov-2009 Andrew Eddie
  ^ Refactor JModelList _getStoreId and _populateState implementations.
  ^ Applied [#18759] Bluestork template with a js independent top menu (by Stian Didriksen).
