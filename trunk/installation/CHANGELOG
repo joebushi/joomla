@@ -27,6 +27,13 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+23-Nov-2009 Ron Severdia
+^ Added panels on Edit Category screen, new panels added for default params
+
+22-Nov-2009 Ron Severdia
+^ CSS button styling, icon update
+# Language fixes
+
 21-Nov-2009 Ron Severdia
 ^ Modal UI fixes
 # BlueStork CSS cleanup for modals, change px to em
