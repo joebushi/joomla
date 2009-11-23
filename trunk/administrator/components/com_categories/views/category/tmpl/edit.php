@@ -77,7 +77,7 @@ JHtml::_('behavior.formvalidation');
 			<?php echo $this->loadTemplate('metadata'); ?>
 		</fieldset>
 	</div>
-
+	
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>

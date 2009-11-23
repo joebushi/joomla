@@ -242,9 +242,26 @@
 			<option
 				value="4">Don't display robots tag</option>
 		</field>
+	</fields>
+	
+	<fields
+		group="articles"
+		label="Content_Config_Article_Settings_Label"
+		description="Content_Config_Article_Settings_Desc"
+		array="true">
 
-
-
+		<field
+			name="show_category"
+			type="radio"
+			label="Content_Attribs_Show_Category_Label"
+			description="Content_Attribs_Show_Category_Desc"
+			default="1">
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+		
 	</fields>
 
 </form>

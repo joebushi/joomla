@@ -30,7 +30,7 @@
 	<fieldset class="adminform">
 		<legend><?php echo JText::_('Module_Menu_Assignment_Legend'); ?></legend>
 	<div class="fltrt">
-			<button type="button" onclick="Joomla.submitform('module.save', this.form);window.top.setTimeout('window.parent.SqueezeBox.close()', 700);">
+			<button type="button" onclick="Joomla.submitform('module.save', this.form);window.top.setTimeout('window.parent.SqueezeBox.close()', 1400);">
 				<?php echo JText::_('Save');?></button>
 			<button type="button" onclick="window.parent.SqueezeBox.close();">
 				<?php echo JText::_('Cancel');?></button>
