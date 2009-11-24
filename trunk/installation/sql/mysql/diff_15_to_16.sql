@@ -340,6 +340,27 @@ ALTER TABLE `jos_menu_types`
 -- jos_modules
 -- ----------------------------------------------------------------
 
+ALTER TABLE `jos_modules`
+ DROP `numnews`;
+
+ALTER TABLE `jos_modules`
+ DROP `control`;
+ 
+ALTER TABLE `jos_modules`
+ DROP `iscore`;
+
+ALTER TABLE `jos_modules` 
+ ADD COLUMN `language` CHAR(7) NOT NULL AFTER `client_id`;
+
+ALTER TABLE `jos_modules`
+ ADD INDEX `idx_language` (`language`);
+
+ALTER TABLE `jos_modules`
+ CHANGE `title` `title` varchar(100) NOT NULL DEFAULT '';
+
+ALTER TABLE `jos_modules`
+ CHANGE `params` `params` varchar(5120) NOT NULL DEFAULT '';
+
 UPDATE `#__modules`
  SET `menutype` = 'mod_menu'
  WHERE `menutype` = 'mod_mainmenu';
