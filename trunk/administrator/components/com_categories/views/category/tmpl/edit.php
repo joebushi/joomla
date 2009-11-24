@@ -115,6 +115,17 @@ JHtml::_('behavior.formvalidation');
 		<?php endforeach; ?>
 		</fieldset>
 		
+		<?php echo JHtml::_('sliders.panel',JText::_('Categories_Fieldset_Article_Options'), 'articles'); ?>
+		<fieldset class="panelform">
+			<?php foreach($this->form->getFields('articles') as $field): ?>
+				<?php if ($field->hidden): ?>
+				<?php echo $field->input; ?>
+			<?php else: ?>
+				<?php echo $field->label; ?>
+				<?php echo $field->input; ?>
+			<?php endif; ?>
+		<?php endforeach; ?>
+		</fieldset>
 		
 		<?php echo JHtml::_('sliders.panel',JText::_('Categories_Fieldset_Rules'), 'rules'); ?>
 		<fieldset class="panelform">

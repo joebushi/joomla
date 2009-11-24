@@ -36,9 +36,9 @@
 			label="Content_Attribs_Show_Title_Label"
 			description="Content_Attribs_Show_Title_Desc">
 			<option
-				value="0">JNo</option>
+				value="0">JCOMMON_HIDE</option>
 			<option
-				value="1">JYes</option>
+				value="1">JCOMMON_SHOW</option>
 		</field>
 
 		<field
@@ -97,6 +97,18 @@
 			type="radio"
 			label="Content_Attribs_Show_Modify_Date_Label"
 			description="Content_Attribs_Show_Modify_Date_Desc"
+			default="1">
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+		
+		<field
+			name="show_publish_date"
+			type="radio"
+			label="Content_Attribs_Show_Publish_Date_Label"
+			description="Content_Attribs_Show_Publish_Date_Desc"
 			default="1">
 			<option
 				value="0">Hide</option>
@@ -507,9 +519,9 @@
 			description="Content_Attribs_Feed_Summary_Desc"
 			default="0">
 			<option
-				value="0">Content_Option_Intro_text</option>
+				value="0">JCommon_Intro_text</option>
 			<option
-				value="1">Content_Option_Full_text</option>
+				value="1">JCommon_Full_text</option>
 		</field>
 
 	</fields>
