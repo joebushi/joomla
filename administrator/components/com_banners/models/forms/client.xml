@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<!-- $Id$ -->
+<form>
+	<fields
+		addfieldpath="/administrator/components/com_banners/models/fields"
+	>
+		<field
+			id="id"
+			name="id"
+			type="hidden"
+			default="0"
+			required="true"
+			readonly="true"/>
+
+		<field
+			id="name"
+			name="name"
+			type="text"
+			class="inputbox"
+			default=""
+			size="40"
+			label="Banners_Name_Label"
+			description="Banners_Name_Desc"
+			required="true"/>
+
+		<field
+			id="contact"
+			name="contact"
+			type="text"
+			class="inputbox"
+			default=""
+			size="40"
+			label="Banners_Contact_Label"
+			description="Banners_Contact_Desc"
+			required="true"/>
+
+		<field
+			id="email"
+			name="email"
+			type="text"
+			class="inputbox validate-email"
+			default=""
+			size="40"
+			label="Banners_Email_Label"
+			description="Banners_Email_Desc"
+			validate="email"
+			required="true"/>
+
+
+	</fields>
+
+	<fields
+		group="extra"
+		label="Banners_Extra">
+
+		<field
+			id="extrainfo"
+			name="extrainfo"
+			type="textarea"
+			class="inputbox"
+			default=""
+			rows="10"
+			cols="40"
+			label="Banners_ExtraInfo_Label"
+			description="Banners_ExtraInfo_Desc"/>
+
+	</fields>
+</form>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id$ -->
+<config>
+	<fields>
+		<field
+			name="track_impressions"
+			type="radio"
+			default="0"
+			label="Banners_Track_Impression_Label"
+			description="Banners_Track_Impression_Desc">
+			<option
+				value="0">JNO</option>
+			<option
+				value="1">JYES</option>
+		</field>
+
+		<field
+			name="track_clicks"
+			type="radio"
+			default="0"
+			label="Banners_TrackClick_Label"
+			description="Banners_TrackClick_Desc">
+			<option
+				value="0">JNO</option>
+			<option
+				value="1">JYES</option>
+		</field>
+
+		<field
+			name="tag_prefix"
+			type="text"
+			default=""
+			label="Banners_TagPrefix_Label"
+			description="Banners_TagPrefix_Desc" />
+	</fields>
+
+	<fields
+		group="permissions"
+		label="JConfig_Permissions_Label"
+		description="JConfig_Permissions_Desc"
+		hidden="true">
+
+		<field
+			name="rules"
+			type="rules"
+			label="JConfig_Permissions_Label"
+			class="inputbox"
+			filter="rules"
+			component="com_banners"
+			section="component" />
+	</fields>
+</config>
