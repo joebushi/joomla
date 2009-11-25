@@ -116,19 +116,6 @@
 		group="advanced"
 		label="Menus_Layout_Advanced_Options_Label"
 		description="">
-
-		<field 
-			name="category_orderby" 
-			type="list" 
-			default="" 
-			label="Content_Attribs_Category_Order_Label" 
-			description="Content_Attribs_Category_Order_Desc">
-				<option value="">JCOMMON_USE_GLOBAL</option>
-				<option value="">No_Order</option>
-				<option value="alpha">Title_Alphabetical</option>
-				<option value="ralpha">Title_Reverse_Alphabetical</option>
-				<option value="order">Category_Manager_Order</option>
-		</field>
 		
 		<field 
 			name="article_orderby" 
