@@ -46,6 +46,25 @@
 			validate="email"
 			required="true"/>
 
+		<field
+			id="state"
+			name="state"
+			type="list"
+			label="Banners_State_Label"
+			description="Banners_State_Desc"
+			class="inputbox"
+			size="1"
+			default="1">
+			<option
+				value="1">JOption_Published</option>
+			<option
+				value="0">JOption_Unpublished</option>
+			<option
+				value="-1">JOption_Archived</option>
+			<option
+				value="-2">JOption_Trash</option>
+		</field>
+
 
 	</fields>
 

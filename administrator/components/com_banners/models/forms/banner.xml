@@ -85,12 +85,15 @@
 			description="Banners_Client_Desc"/>
 
 		<field
-			id="imptotal"
-			name="imptotal"
-			type="impressions"
-			default="0"
-			label="Banners_Impressions_Label"
-			description="Banners_Impressions_Desc"/>
+			id="description"
+			name="description"
+			type="textarea"
+			class="inputbox"
+			default=""
+			rows="3"
+			cols="30"
+			label="Banners_Description_Label"
+			description="Banners_Description_Desc"/>
 
 		<field
 			id="clickurl"
@@ -100,14 +103,6 @@
 			default=""
 			label="Banners_ClickURL_Label"
 			description="Banners_ClickURL_Desc"/>
-
-		<field
-			id="clicks"
-			name="clicks"
-			type="clicks"
-			default="0"
-			label="Banners_Clicks_Label"
-			description="Banners_Clicks_Desc"/>
 
 		<field
 			id="custombannercode"
@@ -121,17 +116,6 @@
 			description="Banners_CustomCode_Desc"/>
 
 		<field
-			id="description"
-			name="description"
-			type="textarea"
-			class="inputbox"
-			default=""
-			rows="3"
-			cols="30"
-			label="Banners_Description_Label"
-			description="Banners_Description_Desc"/>
-
-		<field
 			id="imageurl"
 			name="imageurl"
 			type="media"
@@ -140,6 +124,77 @@
 			default=""
 			label="Banners_Image_Label"
 			description="Banners_Image_Desc" />
+
+	</fields>
+
+	<fields
+		group="publish"
+		label="Banners_Publishing_Details">
+		<field
+			id="date"
+			name="date"
+			type="calendar"
+			label="Banners_Created_Label"
+			description="Banners_Created_Desc"
+			class="inputbox"
+			size="30"
+			format="%Y-%m-%d %H:%M:%S"
+			filter="server_utc" />
+
+		<field
+			id="publish_up"
+			name="publish_up"
+			type="calendar"
+			label="Banners_Publish_up_Label"
+			description="Banners_Publish_up_Desc"
+			class="inputbox"
+			format="%Y-%m-%d %H:%M:%S"
+			size="30"
+			default=""
+			filter="server_utc" />
+
+		<field
+			id="publish_down"
+			name="publish_down"
+			type="calendar"
+			label="Banners_Publish_down_Label"
+			description="Banners_Publish_down_Desc"
+			class="inputbox"
+			format="%Y-%m-%d %H:%M:%S"
+			size="30"
+			default=""
+			filter="server_utc" />
+		<field
+			id="imptotal"
+			name="imptotal"
+			type="impressions"
+			default="0"
+			label="Banners_Impressions_Label"
+			description="Banners_Impressions_Desc"/>
+
+		<field
+			id="clicks"
+			name="clicks"
+			type="clicks"
+			default="0"
+			label="Banners_Clicks_Label"
+			description="Banners_Clicks_Desc"/>
+
+	</fields>
+	
+	<fields
+		group="metadata"
+		label="Banners_Metadata_Options">
+
+		<field
+			name="language"
+			type="contentlanguage"
+			label="JField_Language_Label"
+			description="JField_Language_Desc"
+			class="inputbox"
+			default="">
+			<option value="">JOption_Default_Language</option>
+		</field>
 
 		<field
 			id="tags"
@@ -152,7 +207,9 @@
 			label="Banners_Tags_Label"
 			description="Banners_Tags_Desc"/>
 
+		
 	</fields>
+
 
 	<fields
 		group="params"

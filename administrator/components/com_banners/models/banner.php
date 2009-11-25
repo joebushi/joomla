@@ -95,30 +95,20 @@ class BannersModelBanner extends JModelForm
 		// Get a row instance.
 		$table = &$this->getTable();
 
-		// Attempt to load the row.
-		$return = $table->load($pk);
-
-		// Check for a table object error.
-		if ($return === false && $table->getError()) {
-			$this->setError($table->getError());
-			return $false;
-		}
-
-		// Prime required properties.
-		if (empty($table->id))
+		if($pk>0)
 		{
-			// Prepare data for a new record.
+			// Attempt to load the row.
+			$return = $table->load($pk);
+
+			// Check for a table object error.
+			if ($return === false && $table->getError()) {
+				$this->setError($table->getError());
+				return $false;
+			}
 		}
 
 		// Convert to the JObject before adding other data.
-		$value = JArrayHelper::toObject($table->getProperties(1), 'JObject');
-
-		// Convert the params field to an array.
-		$registry = new JRegistry;
-		$registry->loadJSON($table->params);
-		$value->params = $registry->toArray();
-
-		return $value;
+		return JArrayHelper::toObject($table->getProperties(1), 'JObject');
 	}
 
 	/**
@@ -194,9 +184,6 @@ class BannersModelBanner extends JModelForm
 			return false;
 		}
 
-		// Prepare the row for saving
-		$this->_prepareTable($table);
-
 		// Check the data.
 		if (!$table->check()) {
 			$this->setError($table->getError());
@@ -229,41 +216,6 @@ class BannersModelBanner extends JModelForm
 	}
 
 	/**
-	 * Prepare and sanitise the table prior to saving.
-	 */
-	protected function _prepareTable(&$table)
-	{
-		jimport('joomla.filter.output');
-		$date = JFactory::getDate();
-		$user = JFactory::getUser();
-
-		$table->name		= htmlspecialchars_decode($table->name, ENT_QUOTES);
-		$table->alias		= JFilterOutput::stringURLSafe($table->alias);
-
-		if (empty($table->alias)) {
-			$table->alias = JFilterOutput::stringURLSafe($table->name);
-		}
-
-		if (empty($table->id)) {
-			// Set the values
-			//$table->created	= $date->toMySQL();
-
-			// Set ordering to the last item if not set
-			if (empty($table->ordering)) {
-				$db = JFactory::getDbo();
-				$db->setQuery('SELECT MAX(ordering) FROM #__banners');
-				$max = $db->loadResult();
-
-				$table->ordering = $max+1;
-			}
-		}
-		else {
-			// Set the values
-			//$table->modified	= $date->toMySQL();
-			//$table->modified_by	= $user->get('id');
-		}
-	}
-	/**
 	 * Method to adjust the ordering of a row.
 	 *
 	 * @param	int		The ID of the primary key to move.
@@ -292,23 +244,29 @@ class BannersModelBanner extends JModelForm
 			return false;
 		}
 
-		// Access checks.
-		if ($table->catid) {
-			$allow = $user->authorise('core.edit.state', 'com_banners.category.'.(int) $table->catid);
-		}
-		else {
-			$allow = $user->authorise('core.edit.state', 'com_banners');
-		}
-
-		if (!$allow)
+		// State is not archived or trashed, attempt to move the banner
+		if ($table->state>=0)
 		{
-			$this->setError(JText::_('JError_Core_Edit_State_not_permitted'));
-			return false;
+			// Access checks.
+			if ($table->catid) {
+				$allow = $user->authorise('core.edit.state', 'com_banners.category.'.(int) $table->catid);
+			}
+			else {
+				$allow = $user->authorise('core.edit.state', 'com_banners');
+			}
+
+			if (!$allow)
+			{
+				$this->setError(JText::_('JError_Core_Edit_State_not_permitted'));
+				return false;
+			}
+
+dump($table);
+dump($direction);
+			// Move the row.
+			$table->move($direction,"catid='".$table->catid."' AND state>=0");
 		}
-
-		// Move the row.
-		$table->move($direction,"catid='".$table->catid."'");
-
+		
 		// Check-in the row.
 		if (!$this->checkin($pk)) {
 			return false;

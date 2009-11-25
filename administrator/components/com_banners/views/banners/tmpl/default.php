@@ -59,7 +59,9 @@ $userId	= $user->get('id');
 				</th>
 				<th width="10%" nowrap="nowrap">
 					<?php echo JHtml::_('grid.sort',  'JGrid_Heading_Ordering', 'ordering', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
-					<?php echo JHtml::_('grid.order',  $this->items, 'filesave.png', 'banners.saveorder'); ?>
+					<?php if ($this->state->get('list.ordering')=='ordering'): ?>
+						<?php echo JHtml::_('grid.order',  $this->items, 'filesave.png', 'banners.saveorder'); ?>
+					<?php endif;?>
 				</th>
 				<th width="5%" class="nowrap">
 					<?php echo JHtml::_('grid.sort',   'Banners_Heading_Sticky', 'sticky', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
@@ -120,14 +122,16 @@ $userId	= $user->get('id');
 					<?php echo $this->escape($item->category_title); ?>
 				</td>
 				<td class="order">
-					<?php if ($canChange && in_array($this->state->get('list.ordering'),array('ordering','category_title'))) : ?>
-						<span><?php echo $this->pagination->orderUpIcon($i, $this->state->get('list.direction')=='asc' ? $item->ordering!=1 : $item->ordering!=$this->categories[$item->catid]->max, 'banners.orderup', 'JGrid_Move_Up', $ordering); ?></span>
-						<span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, $this->state->get('list.direction')!='asc' ? $item->ordering!=1 : $item->ordering!=$this->categories[$item->catid]->max, 'banners.orderdown', 'JGrid_Move_Down', $ordering); ?></span>
-						<?php $disabled = $ordering ?  '' : 'disabled="disabled"'; ?>
-						<input type="text" name="order[]" size="5" value="<?php echo $item->ordering;?>" <?php echo $disabled ?> class="text-area-order" />
-					<?php else : ?>
-						<?php echo $item->ordering; ?>
-					<?php endif; ?>
+					<?php if ($item->state >=0):?>
+						<?php if ($canChange && $this->state->get('list.ordering')=='ordering') : ?>
+							<span><?php echo $this->pagination->orderUpIcon($i, $this->state->get('list.direction')=='asc' ? $item->ordering!=1 : $item->ordering!=$this->categories[$item->catid]->max, $this->state->get('list.direction')=='asc' ? 'banners.orderup' : 'banners.orderdown', 'JGrid_Move_Up', $ordering); ?></span>
+							<span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, $this->state->get('list.direction')!='asc' ? $item->ordering!=1 : $item->ordering!=$this->categories[$item->catid]->max, $this->state->get('list.direction')=='asc' ? 'banners.orderdown' : 'banners.orderup', 'JGrid_Move_Down', $ordering); ?></span>
+							<?php $disabled = $ordering ?  '' : 'disabled="disabled"'; ?>
+							<input type="text" name="order[]" size="5" value="<?php echo $item->ordering;?>" <?php echo $disabled ?> class="text-area-order" />
+						<?php else : ?>
+							<?php echo $item->ordering; ?>
+						<?php endif; ?>
+					<?php endif;?>
 				</td>
 				<td class="center">
 					<?php echo $item->sticky ? JText::_('JYes') : JText::_('JNo');?>

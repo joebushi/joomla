@@ -169,6 +169,7 @@ class BannersModelBanners extends JModelList
 		if ($orderCol=='category_title') {
 			$query->order($this->_db->getEscaped('ordering').' '.$this->_db->getEscaped($app->getUserState($this->_context . '.ordering.orderdirn','ASC')));
 		}
+		$query->order($this->_db->getEscaped('state').' '.$this->_db->getEscaped($app->getUserState($this->_context . '.state.orderdirn','ASC')));
 
 		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;
@@ -184,6 +185,7 @@ class BannersModelBanners extends JModelList
 			$query->select('MAX(ordering) as `max`');
 			$query->select('catid');
 			$query->from('#__banners');
+			$query->where('state>=0');
 			$query->group('catid');
 			$this->_db->setQuery((string)$query);
 			$this->_categories = $this->_db->loadObjectList('catid');
@@ -311,41 +313,44 @@ class BannersModelBanners extends JModelList
 		{
 			$table->load((int) $pk);
 
-			// Access checks.
-			if ($table->catid) {
-				$allow = $user->authorise('core.edit.state', 'com_banners.category.'.(int) $table->catid);
-			}
-			else {
-				$allow = $user->authorise('core.edit.state', 'com_banners');
-			}
+			if ($table->state>=0)
+			{
+				// Access checks.
+				if ($table->catid) {
+					$allow = $user->authorise('core.edit.state', 'com_banners.category.'.(int) $table->catid);
+				}
+				else {
+					$allow = $user->authorise('core.edit.state', 'com_banners');
+				}
 
-			if (!$allow)
-			{
-				// Prune items that you can't change.
-				unset($pks[$i]);
-				JError::raiseWarning(403, JText::_('JError_Core_Edit_State_not_permitted'));
-			}
-			else if ($table->ordering != $order[$i])
-			{
-				$table->ordering = $order[$i];
-				if (!$table->store())
+				if (!$allow)
 				{
-					$this->setError($table->getError());
-					return false;
+					// Prune items that you can't change.
+					unset($pks[$i]);
+					JError::raiseWarning(403, JText::_('JError_Core_Edit_State_not_permitted'));
 				}
-				// remember to reorder this category
-				$condition = 'catid = '.(int) $table->catid;
-				$found = false;
-				foreach ($conditions as $cond)
+				else if ($table->ordering != $order[$i])
 				{
-					if ($cond[1] == $condition)
+					$table->ordering = $order[$i];
+					if (!$table->store())
 					{
-						$found = true;
-						break;
+						$this->setError($table->getError());
+						return false;
 					}
-				}
-				if (!$found) {
-					$conditions[] = array ($table->id, $condition);
+					// remember to reorder this category
+					$condition = 'catid = '.(int) $table->catid.' AND state>=0';
+					$found = false;
+					foreach ($conditions as $cond)
+					{
+						if ($cond[1] == $condition)
+						{
+							$found = true;
+							break;
+						}
+					}
+					if (!$found) {
+						$conditions[] = array ($table->id, $condition);
+					}
 				}
 			}
 		}
@@ -353,7 +358,6 @@ class BannersModelBanners extends JModelList
 		// Execute reorder for each category.
 		foreach ($conditions as $cond)
 		{
-			$table->load($cond[0]);
 			$table->reorder($cond[1]);
 		}
 
@@ -363,5 +367,4 @@ class BannersModelBanners extends JModelList
 
 		return true;
 	}
-
 }

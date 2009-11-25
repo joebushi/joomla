@@ -94,20 +94,18 @@ class BannersModelClient extends JModelForm
 
 		// Get a row instance.
 		$table = &$this->getTable();
-
-		// Attempt to load the row.
-		$return = $table->load($pk);
-
-		// Check for a table object error.
-		if ($return === false && $table->getError()) {
-			$this->setError($table->getError());
-			return $false;
-		}
-
-		// Prime required properties.
-		if (empty($table->id))
+		
+		if (!empty($pk))
 		{
-			// Prepare data for a new record.
+
+			// Attempt to load the row.
+			$return = $table->load($pk);
+
+			// Check for a table object error.
+			if ($return === false && $table->getError()) {
+				$this->setError($table->getError());
+				return $false;
+			}
 		}
 
 		// Convert to the JObject before adding other data.

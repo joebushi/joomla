@@ -40,7 +40,7 @@ class BannersTableBanner extends JTable
 	/** @var date */
 	var $date				= null;
 	/** @var int */
-	var $state			= 0;
+	var $state				= 0;
 	/** @var int */
 	var $checked_out		= 0;
 	/** @var date */
@@ -67,7 +67,6 @@ class BannersTableBanner extends JTable
 	function __construct(&$_db)
 	{
 		parent::__construct('#__banners', 'id', $_db);
-
 		$this->set('date', JFactory::getDate()->toMySQL());
 	}
 
@@ -90,99 +89,27 @@ class BannersTableBanner extends JTable
 	 */
 	function check()
 	{
-		if (empty($this->alias)) {
-			$this->alias = $this->name;
-		}
+		jimport('joomla.filter.output');
+
+		// Set name
+		$this->name = htmlspecialchars_decode($this->name, ENT_QUOTES);
+		
+		// Set alias
 		$this->alias = JFilterOutput::stringURLSafe($this->alias);
-
-		/*if (trim($this->imageurl) == '') {
-			$this->setError(JText::_('BNR_IMAGE'));
-			return false;
-		}
-		if (trim($this->clickurl) == '' && trim($this->custombannercode) == '') {
-			$this->setError(JText::_('BNR_URL'));
-			return false;
-		}*/
-
-		return true;
-	}
-	/**
-	 * Method to set the publishing state for a row or list of rows in the database
-	 * table.  The method respects checked out rows by other users and will attempt
-	 * to checkin rows that it can after adjustments are made.
-	 *
-	 * @param	mixed	An optional array of primary key values to update.  If not
-	 * 					set the instance property value is used.
-	 * @param	integer The publishing state. eg. [0 = unpublished, 1 = published]
-	 * @param	integer The user id of the user performing the operation.
-	 * @return	boolean	True on success.
-	 * @since	1.0.4
-	 */
-	public function publish($pks = null, $state = 1, $userId = 0)
-	{
-		// Initialize variables.
-		$k = $this->_tbl_key;
-
-		// Sanitize input.
-		JArrayHelper::toInteger($pks);
-		$userId = (int) $userId;
-		$state  = (int) $state;
-
-		// If there are no primary keys set check to see if the instance key is set.
-		if (empty($pks))
-		{
-			if ($this->$k) {
-				$pks = array($this->$k);
-			}
-			// Nothing to set publishing state on, return false.
-			else {
-				$this->setError(JText::_('No_Rows_Selected'));
-				return false;
-			}
+		if (empty($this->alias)) {
+			$this->alias = JFilterOutput::stringURLSafe($this->name);
 		}
 
-		// Build the WHERE clause for the primary keys.
-		$where = $k.'='.implode(' OR '.$k.'=', $pks);
-
-		// Determine if there is checkin support for the table.
-		if (!property_exists($this, 'checked_out') || !property_exists($this, 'checked_out_time')) {
-			$checkin = '';
+		// Set ordering
+		if($this->state<0) {
+			// Set ordering to 0 if state is archived or trashed
+			$this->ordering = 0;
 		}
-		else {
-			$checkin = ' AND (checked_out = 0 OR checked_out = '.(int) $userId.')';
-		}
-
-		// Update the publishing state for rows with the given primary keys.
-		$this->_db->setQuery(
-			'UPDATE `'.$this->_tbl.'`' .
-			' SET `state` = '.(int) $state .
-			' WHERE ('.$where.')' .
-			$checkin
-		);
-		$this->_db->query();
-
-		// Check for a database error.
-		if ($this->_db->getErrorNum()) {
-			$this->setError($this->_db->getErrorMsg());
-			return false;
+		elseif(empty($this->ordering)) {
+			// Set ordering to last if ordering was 0
+			$this->ordering = self::getNextOrder('`catid`=' . $this->_db->Quote($this->catid).' AND state>=0');
 		}
 
-		// If checkin is supported and all rows were adjusted, check them in.
-		if ($checkin && (count($pks) == $this->_db->getAffectedRows()))
-		{
-			// Checkin the rows.
-			foreach($pks as $pk)
-			{
-				$this->checkin($pk);
-			}
-		}
-
-		// If the JTable instance value is in the list of primary keys that were set, set the instance.
-		if (in_array($this->$k, $pks)) {
-			$this->state = $state;
-		}
-
-		$this->setError('');
 		return true;
 	}
 	/**
@@ -195,14 +122,48 @@ class BannersTableBanner extends JTable
 	 */
 	public function bind($array, $ignore = '') 
 	{
+		// encode params to JSON
 		if (isset($array['params']) && is_array($array['params'])) 
 		{
-			// Convert the params field to an string.
+			// Convert the params field to a JSON string.
 			$parameter = new JParameter;
 			$parameter->loadArray($array['params']);
 			$array['params'] = $parameter->toString();
 		}
 		return parent::bind($array, $ignore);
+	}
+	/**
+	 * method to store a row
+	 *
+	 * @param boolean $updateNulls True to update fields even if they are null.
+	 */
+	function store($updateNulls = false) 
+	{
+		if (empty($this->id))
+		{
+			// Store the row
+			parent::store($updateNulls);
+		}
+		else
+		{
+			// Get the old row
+			$oldrow = & JTable::getInstance('Banner', 'BannersTable');
+			if (!$oldrow->load($this->id) && $oldrow->getError()) 
+			{
+				$this->setError($oldrow->getError());
+			}
+			
+			// Store the new row
+			parent::store($updateNulls);
+			
+			// Need to reorder ?
+			if ($oldrow->state>=0 && ($this->state < 0 || $oldrow->catid != $this->catid))
+			{
+				// Reorder the oldrow
+				$this->reorder('`catid`=' . $this->_db->Quote($oldrow->catid).' AND state>=0');
+			}
+		}
+		return count($this->getErrors())==0;
 	}
 	/**
 	 * Overloaded load function
@@ -228,44 +189,69 @@ class BannersTableBanner extends JTable
 		}
 	}
 	/**
-	 * method to store a row
+	 * Method to set the publishing state for a row or list of rows in the database
+	 * table.  The method respects checked out rows by other users and will attempt
+	 * to checkin rows that it can after adjustments are made.
 	 *
-	 * @param boolean $updateNulls True to update fields even if they are null.
+	 * @param	mixed	An optional array of primary key values to update.  If not
+	 * 					set the instance property value is used.
+	 * @param	integer The publishing state. eg. [0 = unpublished, 1 = published, -1=archived, -2=trashed]
+	 * @param	integer The user id of the user performing the operation.
+	 * @return	boolean	True on success.
+	 * @since	1.6
 	 */
-	function store($updateNulls = false) 
+	public function publish($pks = null, $state = 1, $userId = 0)
 	{
-		if (empty($this->id)) 
+		// Initialize variables.
+		$k = $this->_tbl_key;
+
+		// Sanitize input.
+		JArrayHelper::toInteger($pks);
+		$userId = (int) $userId;
+		$state  = (int) $state;
+
+		// If there are no primary keys set check to see if the instance key is set.
+		if (empty($pks))
 		{
-			$this->ordering = $this->getNextOrder('`catid`=' . $this->_db->Quote($this->catid));
-			return parent::store($updateNulls);
-		}
-		else
-		{
-			$oldrow = & JTable::getInstance('Banner', 'BannersTable');
-			if (!$oldrow->load($this->id) && $oldrow->getError()) 
-			{
-				$this->setError($oldrow->getError());
+			if ($this->$k) {
+				$pks = array($this->$k);
+			}
+			// Nothing to set publishing state on, return false.
+			else {
+				$this->setError(JText::_('No_Rows_Selected'));
 				return false;
 			}
-			if ($oldrow->catid != $this->catid) 
+		}
+		
+		// Get an instance of the table
+		$table = & JTable::getInstance('Banner','BannersTable');
+	
+		// For all keys
+		foreach ($pks as $pk)
+		{
+			// Load the banner
+			if(!$table->load($pk))
 			{
-				$this->ordering = $this->getNextOrder('`catid`=' . $this->_db->Quote($this->catid));
-				if (!parent::store($updateNulls)) 
-				{
-					return false;
-				}
-				if (!$oldrow->reorder('`catid`=' . $this->_db->Quote($oldrow->catid))) 
-				{
-					$this->setError($oldrow->getError());
-					return false;
-				}
-				return true;
+				$this->setError($table->getError());
 			}
-			else
+			
+			// Verify checkout
+			if($table->checked_out==0 || $table->checked_out==$userId)
 			{
-				return parent::store($updateNulls);
+				// Change the state
+				$table->state = $state;
+				
+				// Check the row
+				$table->check();
+				
+				// Store the row
+				if (!$table->store())
+				{
+					$this->setError($table->getError());
+				}
 			}
 		}
+		return count($this->getErrors())==0;
 	}
 }
 
