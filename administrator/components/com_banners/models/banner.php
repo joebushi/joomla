@@ -261,8 +261,6 @@ class BannersModelBanner extends JModelForm
 				return false;
 			}
 
-dump($table);
-dump($direction);
 			// Move the row.
 			$table->move($direction,"catid='".$table->catid."' AND state>=0");
 		}

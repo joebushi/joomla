@@ -143,6 +143,9 @@ class BannersModelClients extends JModelList
 	 */
 	public function delete(&$pks)
 	{
+		// Initialise variables
+		$user	= JFactory::getUser();
+
 		// Typecast variable.
 		$pks = (array) $pks;
 
