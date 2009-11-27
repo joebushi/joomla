@@ -10,12 +10,6 @@
 // no direct access
 defined('_JEXEC') or die;
 
-
-jimport('joomla.html.pane');
-$pane = &JPane::getInstance('sliders');
-
-
-
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 JHtml::_('behavior.tooltip');
@@ -70,80 +64,78 @@ JHtml::_('behavior.formvalidation');
 
 
 <div class="width-50 fltrt">
-		<?php echo $pane->startPane('contact-pane'); ?>
-			<?php echo JHtml::_('sliders.panel',JText::_('Contact_Details'), 'basic-options'); ?>
-			<fieldset class="panelform">
-			<p><?php echo empty($this->item->id) ? JText::_('Contact_Contact_Details') : JText::sprintf('Contact_Edit_Details', $this->item->id); ?></p>
-						<?php echo $this->form->getLabel('con_position'); ?>
-						<?php echo $this->form->getInput('con_position'); ?>
-
-						<?php echo $this->form->getLabel('email_to'); ?>
-						<?php echo $this->form->getInput('email_to'); ?>
-
-						<?php echo $this->form->getLabel('address'); ?>
-						<?php echo $this->form->getInput('address'); ?>
-
-						<?php echo $this->form->getLabel('suburb'); ?>
-						<?php echo $this->form->getInput('suburb'); ?>
-
-						<?php echo $this->form->getLabel('state'); ?>
-						<?php echo $this->form->getInput('state'); ?>
-
-						<?php echo $this->form->getLabel('postcode'); ?>
-						<?php echo $this->form->getInput('postcode'); ?>
-
-						<?php echo $this->form->getLabel('country'); ?>
-						<?php echo $this->form->getInput('country'); ?>
-
-						<?php echo $this->form->getLabel('telephone'); ?>
-						<?php echo $this->form->getInput('telephone'); ?>
-
-						<?php echo $this->form->getLabel('mobile'); ?>
-						<?php echo $this->form->getInput('mobile'); ?>
-
-						<?php echo $this->form->getLabel('webpage'); ?>
-						<?php echo $this->form->getInput('webpage'); ?>
-			</fieldset>
-			<?php  echo $pane->endPanel(); ?>
-			<?php echo JHtml::_('sliders.panel', JText::_('Contact_Fieldset_Options'), 'display-options'); ?>
-			<fieldset class="panelform">
-				<p><?php echo empty($this->item->id) ? JText::_('Contact_Display_Details') : JText::sprintf('Contact_Display_Details', $this->item->id); ?></p>
-					<?php foreach($this->form->getFields('params') as $field): ?>
-						<?php if ($field->hidden): ?>
-							<?php echo $field->input; ?>
-						<?php else: ?>
-							<?php echo $field->label; ?>
-							<?php echo $field->input; ?>
-						<?php endif; ?>
-					<?php endforeach; ?>
-			</fieldset>
-			<?php echo $pane->endPanel(); ?>
-						<?php echo JHtml::_('sliders.panel',JText::_('Contact_Fieldset_Contact_Form'), 'email-options'); ?>
-			<?php //echo $pane->startPanel(JText::_('Contact_Fieldset_Contact_Form'), 'email-options'); ?>
+		<?php echo  JHtml::_('sliders.start', 'contact-slider'); ?>
+				<?php echo JHtml::_('sliders.panel',JText::_('Contact_Details'), 'basic-options'); ?>
 				<fieldset class="panelform">
-
-						<?php echo $this->form->getLabel('show_email_form'); ?>
-						<?php echo $this->form->getInput('show_email_form'); ?>
-
-						<?php echo $this->form->getLabel('email_description'); ?>
-						<?php echo $this->form->getInput('email_description'); ?>
-
-						<?php echo $this->form->getLabel('show_email_copy'); ?>
-						<?php echo $this->form->getInput('show_email_copy'); ?>
-
-						<?php echo $this->form->getLabel('banned_email'); ?>
-						<?php echo $this->form->getInput('banned_email'); ?>
-
-						<?php echo $this->form->getLabel('banned_subject'); ?>
-						<?php echo $this->form->getInput('banned_subject'); ?>
-
-						<?php echo $this->form->getLabel('banned_text'); ?>
-						<?php echo $this->form->getInput('banned_text'); ?>
+				<p><?php echo empty($this->item->id) ? JText::_('Contact_Contact_Details') : JText::sprintf('Contact_Edit_Details', $this->item->id); ?></p>
+							<?php echo $this->form->getLabel('con_position'); ?>
+							<?php echo $this->form->getInput('con_position'); ?>
+	
+							<?php echo $this->form->getLabel('email_to'); ?>
+							<?php echo $this->form->getInput('email_to'); ?>
+	
+							<?php echo $this->form->getLabel('address'); ?>
+							<?php echo $this->form->getInput('address'); ?>
+	
+							<?php echo $this->form->getLabel('suburb'); ?>
+							<?php echo $this->form->getInput('suburb'); ?>
+	
+							<?php echo $this->form->getLabel('state'); ?>
+							<?php echo $this->form->getInput('state'); ?>
+	
+							<?php echo $this->form->getLabel('postcode'); ?>
+							<?php echo $this->form->getInput('postcode'); ?>
+	
+							<?php echo $this->form->getLabel('country'); ?>
+							<?php echo $this->form->getInput('country'); ?>
+	
+							<?php echo $this->form->getLabel('telephone'); ?>
+							<?php echo $this->form->getInput('telephone'); ?>
+	
+							<?php echo $this->form->getLabel('mobile'); ?>
+							<?php echo $this->form->getInput('mobile'); ?>
+	
+							<?php echo $this->form->getLabel('webpage'); ?>
+							<?php echo $this->form->getInput('webpage'); ?>
 				</fieldset>
 
-			<?php echo $pane->endPanel(); ?>
+			<?php echo JHtml::_('sliders.panel', JText::_('Contact_Fieldset_Options'), 'display-options'); ?>
+					<fieldset class="panelform">
+						<p><?php echo empty($this->item->id) ? JText::_('Contact_Display_Details') : JText::sprintf('Contact_Display_Details', $this->item->id); ?></p>
+							<?php foreach($this->form->getFields('params') as $field): ?>
+								<?php if ($field->hidden): ?>
+									<?php echo $field->input; ?>
+								<?php else: ?>
+									<?php echo $field->label; ?>
+									<?php echo $field->input; ?>
+								<?php endif; ?>
+							<?php endforeach; ?>
+					</fieldset>
 
-		<?php echo $pane->endPane(); ?>
+			<?php echo JHtml::_('sliders.panel',JText::_('Contact_Fieldset_Contact_Form'), 'email-options'); ?>
+					<fieldset class="panelform">
+
+							<?php echo $this->form->getLabel('show_email_form'); ?>
+							<?php echo $this->form->getInput('show_email_form'); ?>
+	
+							<?php echo $this->form->getLabel('email_description'); ?>
+							<?php echo $this->form->getInput('email_description'); ?>
+	
+							<?php echo $this->form->getLabel('show_email_copy'); ?>
+							<?php echo $this->form->getInput('show_email_copy'); ?>
+	
+							<?php echo $this->form->getLabel('banned_email'); ?>
+							<?php echo $this->form->getInput('banned_email'); ?>
+	
+							<?php echo $this->form->getLabel('banned_subject'); ?>
+							<?php echo $this->form->getInput('banned_subject'); ?>
+	
+							<?php echo $this->form->getLabel('banned_text'); ?>
+							<?php echo $this->form->getInput('banned_text'); ?>
+					</fieldset>
+
+
+			<?php echo 	 JHtml::_('sliders.end'); ?>
 </div>
 
 	<input type="hidden" name="task" value="" />
