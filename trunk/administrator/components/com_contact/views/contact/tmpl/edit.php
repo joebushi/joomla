@@ -70,6 +70,7 @@ JHtml::_('behavior.formvalidation');
 
 
 <div class="width-50 fltrt">
+		<?php echo $pane->startPane('contact-pane'); ?>
 			<?php echo JHtml::_('sliders.panel',JText::_('Contact_Details'), 'basic-options'); ?>
 			<fieldset class="panelform">
 			<p><?php echo empty($this->item->id) ? JText::_('Contact_Contact_Details') : JText::sprintf('Contact_Edit_Details', $this->item->id); ?></p>
