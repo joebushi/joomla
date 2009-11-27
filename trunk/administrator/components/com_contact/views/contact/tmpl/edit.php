@@ -10,6 +10,12 @@
 // no direct access
 defined('_JEXEC') or die;
 
+
+jimport('joomla.html.pane');
+$pane = &JPane::getInstance('sliders');
+
+
+
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 JHtml::_('behavior.tooltip');
@@ -64,8 +70,7 @@ JHtml::_('behavior.formvalidation');
 
 
 <div class="width-50 fltrt">
-		<?php echo $pane->startPane('contact-pane'); ?>
-			<?php echo $pane->startPanel(JText::_('Contact_Details'), 'basic-options'); ?>
+			<?php echo JHtml::_('sliders.panel',JText::_('Contact_Details'), 'basic-options'); ?>
 			<fieldset class="panelform">
 			<p><?php echo empty($this->item->id) ? JText::_('Contact_Contact_Details') : JText::sprintf('Contact_Edit_Details', $this->item->id); ?></p>
 						<?php echo $this->form->getLabel('con_position'); ?>
@@ -98,7 +103,7 @@ JHtml::_('behavior.formvalidation');
 						<?php echo $this->form->getLabel('webpage'); ?>
 						<?php echo $this->form->getInput('webpage'); ?>
 			</fieldset>
-
+			<?php  echo $pane->endPanel(); ?>
 			<?php echo JHtml::_('sliders.panel', JText::_('Contact_Fieldset_Options'), 'display-options'); ?>
 			<fieldset class="panelform">
 				<p><?php echo empty($this->item->id) ? JText::_('Contact_Display_Details') : JText::sprintf('Contact_Display_Details', $this->item->id); ?></p>
@@ -112,7 +117,8 @@ JHtml::_('behavior.formvalidation');
 					<?php endforeach; ?>
 			</fieldset>
 			<?php echo $pane->endPanel(); ?>
-			<?php echo $pane->startPanel(JText::_('Contact_Fieldset_Contact_Form'), 'email-options'); ?>
+						<?php echo JHtml::_('sliders.panel',JText::_('Contact_Fieldset_Contact_Form'), 'email-options'); ?>
+			<?php //echo $pane->startPanel(JText::_('Contact_Fieldset_Contact_Form'), 'email-options'); ?>
 				<fieldset class="panelform">
 
 						<?php echo $this->form->getLabel('show_email_form'); ?>
