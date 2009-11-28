@@ -33,7 +33,8 @@ class NewsfeedsViewNewsfeeds extends JView
 		$pagination	= $this->get('Pagination');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
@@ -54,7 +55,7 @@ class NewsfeedsViewNewsfeeds extends JView
 		$state	= $this->get('State');
 		$canDo	= NewsfeedsHelper::getActions($state->get('filter.category_id'));
 
-		JToolBarHelper::title(JText::_('Newsfeeds_Manager_Newsfeeds'), 'generic.png');
+		JToolBarHelper::title(JText::_('Newsfeeds_Manager_Newsfeeds'), 'newsfeeds.png');
 		if ($canDo->get('core.create')) {
 			JToolBarHelper::addNew('newsfeed.add');
 		}

@@ -106,8 +106,8 @@ $userId	= $user->get('id');
 					<?php else : ?>
 							<?php echo $this->escape($item->title); ?>
 					<?php endif; ?>
-					<br /><small>
-						(<?php echo JText::_('JFIELD_ALIAS_LABEL'); ?>: <?php echo $this->escape($item->alias);?>)</small>
+					<p class="smallsub">
+						(<span><?php echo JText::_('JFIELD_ALIAS_LABEL'); ?>:</span> <?php echo $this->escape($item->alias);?>)</p>
 				</td>
 				<td class="center">
 					<?php echo JHtml::_('jgrid.published', $item->state, $i, 'weblinks.', $canChange);?>
@@ -132,7 +132,7 @@ $userId	= $user->get('id');
 					<?php echo $item->hits; ?>
 				</td>
 				<td class="center">
-					<?php echo $this->escape($item->language); ?>
+					<?php echo $item->language ? $this->escape($item->language) : JText::_('JDefault'); ?>
 				</td>
 				<td class="center">
 					<?php echo (int) $item->id; ?>

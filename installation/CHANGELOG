@@ -27,6 +27,72 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+25-Nov-2009 Mark Dexter
+^ Changed attribs column in jos_content from text to varchar(5120).
+
+25-Nov-2009 Andrew Eddie
+ # Fixed bug in JHtmlContent improperly using JTableContent (/me shakes head).
+
+25-Nov-2009 Andrew Eddie
+ + Added menu_image param to alias and url menu link types.
+ + Added support to JQuery for Insert, Update and Delete methods; added glue to having clause (thanks Rafael Diaz-Tushman).
+ # Remove integer filter from timezone fields in global configuration.
+ ^ Added ability to load key=>value tuples in JTable::load (thanks Rafael Diaz-Tushman).
+ ^ Added ability to automatically set table fields in JTable::load (thanks Rafael Diaz-Tushman).
+ ^ Removed manual properties from core JTable classes.
+
+24-Nov-2009 Andrew Eddie
+ ^ Initial refactoring of com_modules.
+   - changed menu page selector to list of checkboxes.
+   - changed params to fields in module XML files.
+   - changed add module page to modal popup.
+   - added layout override selector field to all modules
+ ^ Remove iscore, control and numnews fields from jos_modules table.
+ ^ Change jos_modules.title to VARCHAR 100
+ ^ Change jos_modules.params to VARCHAR 5120
+ ^ Make allowance for default language in language form field of article, newsfeed and weblink.
+ ^ Added language field to jos_modules.
+
+23-Nov-2009 Ron Severdia
+^ Added panels on Edit Category screen, new panels added for default params
+
+22-Nov-2009 Ron Severdia
+^ CSS button styling, icon update
+# Language fixes
+
+21-Nov-2009 Ron Severdia
+^ Modal UI fixes
+# BlueStork CSS cleanup for modals, change px to em
+
+20-Nov-2009 Louis Landry
+ + Added JHtmlSliders
+ + Added JHtmlTabs
+ ! JPane and child classes has been deprecated in favor of JHtml helpers.
+ ! Big thanks to Christophe Demko for his work on this.
+ ^ [#17650] Remove hardcoded style in TinyMCE that prevents button alignment
+
+20-Nov-2009 Andrew Eddie
+ ^ Change XML version tags to 1.6.0.
+ # Fixed bug in Tooltip JS code where title attribute not found causes error.
+ # Fixed bug when trying to delete a user.
+
+19-Nov-2009 Ron Severdia
+^ Restored missing CSS
+# Fixed new CSS issues
+^ Cleaned up UI and language strings for Global Check-in
+- Remove unnecessary markup
+^ Update bluestork images
++ New CSS
+^ Fix language strings
+ 
+19-Nov-2009 Andrew Eddie
+ ^ Refactor JModelList _getStoreId and _populateState implementations.
+ ^ Applied [#18759] Bluestork template with a js independent top menu (by Stian Didriksen).
+
+17-Nov-2009 Andrew Eddie
+ # Fixed [#18676] Generator meta tag is still 1.5
+ # Fixed bug in JUser class.  Initialised groups property to empty array.
+
 14-Nov-2009 Ian MacLennan
 # Fixing atomic template to work with short tags on
 
