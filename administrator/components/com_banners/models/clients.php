@@ -99,6 +99,7 @@ class BannersModelClients extends JModelList
 		// Join over the banners for counting
 		$query->select('COUNT(b.id) as nbanners');
 		$query->join('LEFT', '#__banners AS b ON a.id = b.cid');
+		$query->where('b.state>=0');
 
 		// Join over the users for the checked out user.
 		$query->select('uc.name AS editor');
