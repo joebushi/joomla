@@ -21,8 +21,8 @@ class BannersTableBanner extends JTable
 	var $id				= null;
 	/** @var int */
 	var $cid				= null;
-	/** @var string */
-	var $type				= '';
+	/** @var int */
+	var $type				= 0;
 	/** @var string */
 	var $name				= '';
 	/** @var string */
@@ -34,19 +34,9 @@ class BannersTableBanner extends JTable
 	/** @var int */
 	var $clicks				= 0;
 	/** @var string */
-	var $imageurl			= '';
-	/** @var string */
 	var $clickurl			= '';
-	/** @var date */
-	var $date				= null;
 	/** @var int */
 	var $state				= 0;
-	/** @var int */
-	var $checked_out		= 0;
-	/** @var date */
-	var $checked_out_time	= 0;
-	/** @var string */
-	var $custombannercode	= '';
 	/** @var int */
 	var $catid				= null;
 	/** @var string */
@@ -55,19 +45,33 @@ class BannersTableBanner extends JTable
 	var $sticky				= null;
 	/** @var int */
 	var $ordering			= null;
-	/** @var date */
-	var $publish_up			= null;
-	/** @var date */
-	var $publish_down		= null;
 	/** @var string */
 	var $tags				= null;
 	/** @var string */
 	var $params				= null;
+	/** @var int */
+	var $purchase_type		= 0;
+	/** @var int */
+	var $track_clicks		= 0;
+	/** @var int */
+	var $track_impressions	= 0;
+	/** @var int */
+	var $checked_out		= 0;
+	/** @var date */
+	var $checked_out_time	= 0;
+	/** @var date */
+	var $publish_up			= null;
+	/** @var date */
+	var $publish_down		= null;
+	/** @var date creation date */
+	var $created			= null;
+	/** @var date reset date */
+	var $reset			= null;
 
 	function __construct(&$_db)
 	{
 		parent::__construct('#__banners', 'id', $_db);
-		$this->set('date', JFactory::getDate()->toMySQL());
+		$this->created = JFactory::getDate()->toMySQL();
 	}
 
 	function clicks()
@@ -120,14 +124,31 @@ class BannersTableBanner extends JTable
 	 * @see JTable:bind
 	 * @since 1.5
 	 */
-	public function bind($array, $ignore = '') 
+	public function bind($array, $ignore = array()) 
 	{
-		// encode params to JSON
-		if (isset($array['params']) && is_array($array['params'])) 
+		if (!isset($array['params']))
 		{
-			// Convert the params field to a JSON string.
 			$parameter = new JParameter;
-			$parameter->loadArray($array['params']);
+			$params=array();
+			// custom group
+			if (isset($array['custom']) && is_array($array['custom'])) 
+			{
+				$params['custom']=$array['custom'];
+			}
+			if (isset($array['alt']) && is_array($array['alt'])) 
+			{
+				$params['alt']=$array['alt'];
+			}
+			if (isset($array['flash']) && is_array($array['flash'])) 
+			{
+				$params['flash']=$array['flash'];
+			}
+			if (isset($array['image']) && is_array($array['image'])) 
+			{
+				$params['image']=$array['image'];
+			}
+			// encode params to JSON
+			$parameter->loadArray($params);
 			$array['params'] = $parameter->toString();
 		}
 		return parent::bind($array, $ignore);
@@ -141,6 +162,37 @@ class BannersTableBanner extends JTable
 	{
 		if (empty($this->id))
 		{
+			$purchase_type = $this->purchase_type;
+			if ($purchase_type < 0 && $this->cid)
+			{
+				$client = JTable::getInstance('Client','BannersTable');
+				$client->load($this->cid);
+				$purchase_type = $client->purchase_type;
+			}
+			if ($purchase_type < 0)
+			{
+				$params = JComponentHelper::getParams('com_banners');
+				$purchase_type = $params->get('purchase_type');
+			}
+
+			switch($purchase_type)
+			{
+			case 1:
+				$this->reset='0000-00-00 00:00:00';
+			break;
+			case 2:
+				$this->reset = JFactory::getDate('+1 year '.date('Y-m-d',strtotime('now')))->toMySQL();
+			break;	
+			case 3:
+				$this->reset = JFactory::getDate('+1 month '.date('Y-m-d',strtotime('now')))->toMySQL();
+			break;
+			case 4:
+				$this->reset = JFactory::getDate('+7 day '.date('Y-m-d',strtotime('now')))->toMySQL();
+			break;
+			case 5:
+				$this->reset = JFactory::getDate('+1 day '.date('Y-m-d',strtotime('now')))->toMySQL();
+			break;
+			}
 			// Store the row
 			parent::store($updateNulls);
 		}
@@ -178,9 +230,11 @@ class BannersTableBanner extends JTable
 		if (parent::load($pk, $reset)) 
 		{
 			// Convert the params field to a parameter.
-			$parameter = new JParameter;
-			$parameter->loadJSON($this->params);
-			$this->params = $parameter;
+			$registry = new JRegistry;
+			$registry->loadJSON($this->params);
+			$this->params = $registry;
+			// Set customcode
+			$this->params->setValue('custom.bannercode', JFilterOutput::objectHTMLSafe( $this->params->getValue('custom.bannercode',''), ENT_QUOTES));
 			return true;
 		}
 		else
@@ -240,6 +294,71 @@ class BannersTableBanner extends JTable
 			{
 				// Change the state
 				$table->state = $state;
+				
+				// Check the row
+				$table->check();
+				
+				// Store the row
+				if (!$table->store())
+				{
+					$this->setError($table->getError());
+				}
+			}
+		}
+		return count($this->getErrors())==0;
+	}
+	/**
+	 * Method to set the sticky state for a row or list of rows in the database
+	 * table.  The method respects checked out rows by other users and will attempt
+	 * to checkin rows that it can after adjustments are made.
+	 *
+	 * @param	mixed	An optional array of primary key values to update.  If not
+	 * 					set the instance property value is used.
+	 * @param	integer The sticky state. eg. [0 = unsticked, 1 = sticked]
+	 * @param	integer The user id of the user performing the operation.
+	 * @return	boolean	True on success.
+	 * @since	1.6
+	 */
+	public function stick($pks = null, $state = 1, $userId = 0)
+	{
+		// Initialize variables.
+		$k = $this->_tbl_key;
+
+		// Sanitize input.
+		JArrayHelper::toInteger($pks);
+		$userId = (int) $userId;
+		$state  = (int) $state;
+
+		// If there are no primary keys set check to see if the instance key is set.
+		if (empty($pks))
+		{
+			if ($this->$k) {
+				$pks = array($this->$k);
+			}
+			// Nothing to set publishing state on, return false.
+			else {
+				$this->setError(JText::_('No_Rows_Selected'));
+				return false;
+			}
+		}
+		
+		// Get an instance of the table
+		$table = & JTable::getInstance('Banner','BannersTable');
+	
+		// For all keys
+		foreach ($pks as $pk)
+		{
+			// Load the banner
+			if(!$table->load($pk))
+			{
+				$this->setError($table->getError());
+			}
+			
+			// Verify checkout
+			if($table->checked_out==0 || $table->checked_out==$userId)
+			{
+				// Change the state
+				$table->sticky = $state;
 				
 				// Check the row
 				$table->check();

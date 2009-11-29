@@ -6,9 +6,10 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
-jimport('joomla.form.fields.list');
+require_once JPATH_ROOT . '/libraries/joomla/form/formfield.php';
+require_once JPATH_ROOT . '/libraries/joomla/form/fields/list.php';
 
 /**
  * Bannerclient Field class for the Joomla Framework.
@@ -40,8 +41,12 @@ class JFormFieldBannerClient extends JFormFieldList
 			$options[] = JHtml::_('select.option', $option->id, $option->name);
 		}
 		
-		array_unshift($options, JHtml::_('select.option', '0', '- '.JText::_('Select Client').' -'));
+		array_unshift($options, JHtml::_('select.option', '0', JText::_('Banners_Select_Client')));
 		
 		return $options;
+	}
+	public function getOptions()
+	{
+		return self::_getOptions();
 	}
 }

@@ -65,6 +65,55 @@
 				value="-2">JOption_Trash</option>
 		</field>
 
+		<field
+			id="purchase_type"
+			name="purchase_type"
+			type="list"
+			label="Banners_PurchaseType_Label"
+			description="Banners_PurchaseType_Desc"
+			default="0"
+			class="inputbox">
+			<option
+				value="-1">Banners_UseComponentDefault</option>
+			<option
+				value="1">Banners_1</option>
+			<option
+				value="2">Banners_2</option>
+			<option
+				value="3">Banners_3</option>
+			<option
+				value="4">Banners_4</option>
+			<option
+				value="5">Banners_5</option>
+		</field>
+
+		<field
+			name="track_impressions"
+			type="list"
+			default="0"
+			label="Banners_TrackImpression_Label"
+			description="Banners_TrackImpression_Desc">
+			<option
+				value="-1">Banners_UseComponentDefault</option>
+			<option
+				value="0">JNO</option>
+			<option
+				value="1">JYES</option>
+		</field>
+
+		<field
+			name="track_clicks"
+			type="list"
+			default="0"
+			label="Banners_TrackClick_Label"
+			description="Banners_TrackClick_Desc">
+			<option
+				value="-1">Banners_UseComponentDefault</option>
+			<option
+				value="0">JNO</option>
+			<option
+				value="1">JYES</option>
+		</field>
 
 	</fields>
 

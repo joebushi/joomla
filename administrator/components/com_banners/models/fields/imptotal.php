@@ -6,7 +6,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 jimport('joomla.form.field');
 
@@ -17,14 +17,14 @@ jimport('joomla.form.field');
  * @subpackage	com_banners
  * @since		1.6
  */
-class JFormFieldImpressions extends JFormField
+class JFormFieldImpTotal extends JFormField
 {
 	/**
 	 * The field type.
 	 *
 	 * @var		string
 	 */
-	protected $type = 'Impressions';
+	protected $type = 'ImpTotal';
 
 	protected function _getInput()
 	{

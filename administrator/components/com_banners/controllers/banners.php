@@ -29,11 +29,12 @@ class BannersControllerBanners extends JController
 	{
 		parent::__construct($config);
 
-		$this->registerTask('unpublish',	'publish');
-		$this->registerTask('archive',		'publish');
-		$this->registerTask('trash',		'publish');
-		$this->registerTask('orderup',		'reorder');
-		$this->registerTask('orderdown',	'reorder');
+		$this->registerTask('unpublish',		'publish');
+		$this->registerTask('archive',			'publish');
+		$this->registerTask('trash',			'publish');
+		$this->registerTask('orderup',			'reorder');
+		$this->registerTask('orderdown',		'reorder');
+		$this->registerTask('sticky_unpublish',	'sticky_publish');
 	}
 
 	/**
@@ -122,6 +123,45 @@ class BannersControllerBanners extends JController
 				}
 				else {
 					$text = 'JSuccess_N_Items_trashed';
+				}
+				$this->setMessage(JText::sprintf($text, count($ids)));
+			}
+		}
+
+		$this->setRedirect('index.php?option=com_banners&view=banners');
+	}
+
+	public function sticky_publish()
+	{
+		// Check for request forgeries.
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+
+		// Initialise variables.
+		$user	= JFactory::getUser();
+		$ids	= JRequest::getVar('cid', array(), '', 'array');
+		$values	= array('sticky_publish' => 1, 'sticky_unpublish' => 0);
+		$task	= $this->getTask();
+		$value	= JArrayHelper::getValue($values, $task, 0, 'int');
+
+		if (empty($ids)) {
+			JError::raiseWarning(500, JText::_('JError_No_items_selected'));
+		}
+		else
+		{
+			// Get the model.
+			$model	= $this->getModel();
+
+			// Change the state of the records.
+			if (!$model->stick($ids, $value)) {
+				JError::raiseWarning(500, $model->getError());
+			}
+			else
+			{
+				if ($value == 1) {
+					$text = 'Banners_N_Items_stuck';
+				}
+				else {
+					$text = 'Banners_N_Items_unstuck';
 				}
 				$this->setMessage(JText::sprintf($text, count($ids)));
 			}

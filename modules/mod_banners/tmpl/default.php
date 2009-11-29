@@ -14,13 +14,12 @@ defined('_JEXEC') or die;
 
 <?php if ($headerText) : ?>
 	<div class="bannerheader"><?php echo $headerText ?></div>
-<?php endif;
+<?php endif;?>
 
-foreach($list as $item) :
-
-	?><div class="banneritem<?php echo $params->get('moduleclass_sfx') ?>"><?php
-	echo modBannersHelper::renderBanner($params, $item);
-	?><div class="clr"> </div>
+<?php foreach($list as $item) :?>
+	<div class="banneritem<?php echo $params->get('moduleclass_sfx') ?>">
+		<?php echo modBannersHelper::renderBanner($params, $item);?>
+		<div class="clr"></div>
 	</div>
 <?php endforeach; ?>
 

@@ -64,20 +64,6 @@
 		</field>
 
 		<field
-			id="sticky"
-			name="sticky"
-			type="radio"
-			label="Banners_Sticky_Label"
-			description="Banners_Sticky_Desc"
-			default="0"
-			class="inputbox">
-			<option
-				value="0">JNo</option>
-			<option
-				value="1">JYes</option>
-		</field>
-
-		<field
 			id="cid"
 			name="cid"
 			type="bannerclient"
@@ -105,34 +91,29 @@
 			description="Banners_ClickURL_Desc"/>
 
 		<field
-			id="custombannercode"
-			name="custombannercode"
-			type="textarea"
-			class="inputbox"
-			default=""
-			rows="3"
-			cols="30"
-			label="Banners_CustomCode_Label"
-			description="Banners_CustomCode_Desc"/>
-
-		<field
-			id="imageurl"
-			name="imageurl"
-			type="media"
-			directory="/images/banners"
-			hide_none="1"
-			default=""
-			label="Banners_Image_Label"
-			description="Banners_Image_Desc" />
+			id="type"
+			name="type"
+			type="radio"
+			label="Banners_Type_Label"
+			description="Banners_Type_Desc"
+			default="0"
+			class="inputbox">
+			<option
+				value="0">Banners_Option_Image</option>
+			<option
+				value="1">Banners_Option_Custom</option>
+		</field>
 
 	</fields>
+
+
 
 	<fields
 		group="publish"
 		label="Banners_Publishing_Details">
 		<field
-			id="date"
-			name="date"
+			id="created"
+			name="created"
 			type="calendar"
 			label="Banners_Created_Label"
 			description="Banners_Created_Desc"
@@ -164,13 +145,22 @@
 			size="30"
 			default=""
 			filter="server_utc" />
+
 		<field
 			id="imptotal"
 			name="imptotal"
-			type="impressions"
+			type="imptotal"
 			default="0"
-			label="Banners_Impressions_Label"
-			description="Banners_Impressions_Desc"/>
+			label="Banners_ImpTotal_Label"
+			description="Banners_ImpTotal_Desc"/>
+
+		<field
+			id="impmade"
+			name="impmade"
+			type="impmade"
+			default="0"
+			label="Banners_ImpMade_Label"
+			description="Banners_ImpMade_Desc"/>
 
 		<field
 			id="clicks"
@@ -179,6 +169,56 @@
 			default="0"
 			label="Banners_Clicks_Label"
 			description="Banners_Clicks_Desc"/>
+
+		<field
+			id="purchase_type"
+			name="purchase_type"
+			type="list"
+			label="Banners_PurchaseType_Label"
+			description="Banners_PurchaseType_Desc"
+			default="0"
+			class="inputbox">
+			<option
+				value="-1">Banners_UseClientDefault</option>
+			<option
+				value="1">Banners_1</option>
+			<option
+				value="2">Banners_2</option>
+			<option
+				value="3">Banners_3</option>
+			<option
+				value="4">Banners_4</option>
+			<option
+				value="5">Banners_5</option>
+		</field>
+
+		<field
+			name="track_impressions"
+			type="list"
+			default="0"
+			label="Banners_TrackImpression_Label"
+			description="Banners_TrackImpression_Desc">
+			<option
+				value="-1">Banners_UseClientDefault</option>
+			<option
+				value="0">JNO</option>
+			<option
+				value="1">JYES</option>
+		</field>
+
+		<field
+			name="track_clicks"
+			type="list"
+			default="0"
+			label="Banners_TrackClick_Label"
+			description="Banners_TrackClick_Desc">
+			<option
+				value="-1">Banners_UseClientDefault</option>
+			<option
+				value="0">JNO</option>
+			<option
+				value="1">JYES</option>
+		</field>
 
 	</fields>
 	
@@ -207,14 +247,27 @@
 			label="Banners_Tags_Label"
 			description="Banners_Tags_Desc"/>
 
-		
 	</fields>
 
-
 	<fields
-		group="params"
-		array="true"
-		label="Banners_Options">
+		group="image"
+		array="true">
+
+		<field
+			id="url"
+			name="url"
+			type="media"
+			directory="/images/banners"
+			hide_none="1"
+			default=""
+			label="Banners_Image_Label"
+			description="Banners_Image_Desc" />
+
+	</fields>
+	
+	<fields
+		group="flash"
+		array="true">
 
 		<field
 			id="width"
@@ -235,4 +288,38 @@
 			description="Banners_Height_Desc"/>
 
 	</fields>
+	
+	<fields
+		group="alt"
+		array="true">
+
+		<field
+			id="alt"
+			name="alt"
+			type="text"
+			default=""
+			class="inputbox"
+			label="Banners_Alt_Label"
+			description="Banners_Alt_Desc"/>
+
+	</fields>
+	
+	<fields
+		group="custom"
+		array="true">
+
+		<field
+			id="bannercode"
+			name="bannercode"
+			type="textarea"
+			class="inputbox"
+			default=""
+			rows="3"
+			cols="30"
+			filter="raw"
+			label="Banners_CustomCode_Label"
+			description="Banners_CustomCode_Desc"/>
+
+	</fields>
+	
 </form>

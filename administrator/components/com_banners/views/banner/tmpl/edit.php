@@ -24,6 +24,43 @@ JHtml::_('behavior.formvalidation');
 		// @todo Deal with the editor methods
 		submitform(task);
 	}
+	window.addEvent('domready', function() {
+		document.id('jform_type0').addEvent('click', function(e){
+			document.id('image').setStyle('display', 'block');
+			document.id('custom').setStyle('display', 'none');
+			document.id('jform_image_url').fireEvent('change');
+		});
+		document.id('jform_type1').addEvent('click', function(e){
+			document.id('image').setStyle('display', 'none');
+			document.id('flash').setStyle('display', 'none');
+			document.id('alt').setStyle('display', 'none');
+			document.id('custom').setStyle('display', 'block');
+		});
+		document.id('jform_image_url').addEvent('change',function(e){
+			regex=/\.swf$/;
+			if(regex.test(document.id('jform_image_url').value))
+			{
+				document.id('flash').setStyle('display', 'block');
+				document.id('alt').setStyle('display', 'none');
+			}
+			else
+			{
+				document.id('flash').setStyle('display', 'none');		
+				document.id('alt').setStyle('display', 'block');
+			}
+		});
+		if(document.id('jform_type0').checked==true)
+		{
+			document.id('jform_type0').fireEvent('click');
+		}
+		else
+		{
+			document.id('jform_type1').fireEvent('click');
+		}
+		document.id('jform_image_url').fireEvent('change');
+	});
+
+
 // -->
 </script>
 
@@ -39,6 +76,38 @@ JHtml::_('behavior.formvalidation');
 			<?php echo $field->input; ?>
 		<?php endforeach; ?>
 
+		<div id="image" style="display:none;">
+			<?php foreach($this->form->getFields('image') as $field): ?>
+				<?php if (!$field->hidden): ?>
+					<?php echo $field->label; ?>
+				<?php endif; ?>
+				<?php echo $field->input; ?>
+			<?php endforeach; ?>
+		</div>
+		<div id="flash">
+			<?php foreach($this->form->getFields('flash') as $field): ?>
+				<?php if (!$field->hidden): ?>
+					<?php echo $field->label; ?>
+				<?php endif; ?>
+				<?php echo $field->input; ?>
+			<?php endforeach; ?>
+		</div>
+		<div id="alt">
+			<?php foreach($this->form->getFields('alt') as $field): ?>
+				<?php if (!$field->hidden): ?>
+					<?php echo $field->label; ?>
+				<?php endif; ?>
+				<?php echo $field->input; ?>
+			<?php endforeach; ?>
+		</div>
+		<div id="custom">
+			<?php foreach($this->form->getFields('custom') as $field): ?>
+				<?php if (!$field->hidden): ?>
+					<?php echo $field->label; ?>
+				<?php endif; ?>
+				<?php echo $field->input; ?>
+			<?php endforeach; ?>
+		</div>
 	</fieldset>
 </div>
 <div class="width-40 fltrt">
@@ -64,18 +133,6 @@ JHtml::_('behavior.formvalidation');
 			<?php endforeach; ?>
 		</fieldset>
 
-	<?php echo JHtml::_('sliders.panel',JText::_('Banners_Options'), 'options'); ?>
-		<fieldset class="adminform">
-			<?php foreach($this->form->getFields('params') as $field): ?>
-				<div class="paramrow">
-				<?php if (!$field->hidden): ?>
-					<?php echo $field->label; ?>
-				<?php endif; ?>
-				<?php echo $field->input; ?>
-				</div>
-			<?php endforeach; ?>
-		</fieldset>
-		
 	<?php echo JHtml::_('sliders.end'); ?>
 </div>
 

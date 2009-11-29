@@ -23,12 +23,13 @@ class BannersController extends JController
 {
 	function click()
 	{
-		$bid = JRequest::getInt('bid', 0);
-		if ($bid)
+		$id = JRequest::getInt('id', 0);
+		if ($id)
 		{
-			$model = &$this->getModel('Banner');
-			$model->click($bid);
-			$this->setRedirect($model->getUrl($bid));
+			$model = &$this->getModel('Banner','BannersModel',array('ignore_request'=>true));
+			$model->setState('banner.id',$id);
+			$model->click();
+			$this->setRedirect($model->getUrl());
 		}
 	}
 }

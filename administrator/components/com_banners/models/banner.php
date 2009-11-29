@@ -108,7 +108,8 @@ class BannersModelBanner extends JModelForm
 		}
 
 		// Convert to the JObject before adding other data.
-		return JArrayHelper::toObject($table->getProperties(1), 'JObject');
+		$item = JArrayHelper::toObject($table->getProperties(1), 'JObject'); 
+		return $item;
 	}
 
 	/**

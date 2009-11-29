@@ -27,14 +27,14 @@ INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `titl
 --
 
 INSERT IGNORE INTO `#__banners` VALUES
-(1, 1, '', 'OSM 1', 'osm-1', 0, 43, 0, 'osmbanner1.png', 'http://www.opensourcematters.org', '2009-10-10 13:52:59', 1, 0, '0000-00-00 00:00:00', '', 27, '', 0, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', 'width=0\nheight=0');
+(1, 1, 0, 'OSM 1', 'osm-1', 0, 43, 0, 'http://www.opensourcematters.org', 1, 27, '', 0, 1, '', '{"custom":{"bannercode":""},"alt":{"alt":"Open Source Matters"},"flash":{"width":"0","height":"0"},"image":{"url":"osmbanner1.png"}}',-1 ,-1 ,-1 , 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00','2009-10-10 13:52:59' );
 
 --
 -- Dumping data for table `#__banner_clients`
 --
 
 INSERT IGNORE INTO `#__banner_clients` VALUES
-(1, 'Open Source Matters', 'Administrator', 'email@email.com', '', 1, 0, '00:00:00');
+(1, 'Open Source Matters', 'Administrator', 'email@email.com', '', 1, 0, '0000-00-00 00:00:00',-1,-1,-1);
 
 --
 -- Dumping data for table `#__categories` (remove existing rows first)

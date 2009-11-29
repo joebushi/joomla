@@ -40,6 +40,7 @@ class BannersViewBanner extends JView
 
 		// Bind the record to the form.
 		$form->bind($item);
+		$form->bind($item->params);
 
 		$this->assignRef('state',	$state);
 		$this->assignRef('item',	$item);

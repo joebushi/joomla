@@ -27,6 +27,12 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+25-Nov-2009 Mark Dexter
+^ Changed attribs column in jos_content from text to varchar(5120).
+
+25-Nov-2009 Andrew Eddie
+ # Fixed bug in JHtmlContent improperly using JTableContent (/me shakes head).
+
 25-Nov-2009 Andrew Eddie
  + Added menu_image param to alias and url menu link types.
  + Added support to JQuery for Insert, Update and Delete methods; added glue to having clause (thanks Rafael Diaz-Tushman).

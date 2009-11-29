@@ -19,9 +19,9 @@ function BannersBuildRoute(&$query)
 		$segments[] = $query['task'];
 		unset($query['task']);
 	}
-	if (isset($query['bid'])) {
-		$segments[] = $query['bid'];
-		unset($query['bid']);
+	if (isset($query['id'])) {
+		$segments[] = $query['id'];
+		unset($query['id']);
 	}
 
 	return $segments;
@@ -33,9 +33,9 @@ function BannersBuildRoute(&$query)
  *
  * Formats:
  *
- * index.php?/banners/task/bid/Itemid
+ * index.php?/banners/task/id/Itemid
  *
- * index.php?/banners/bid/Itemid
+ * index.php?/banners/id/Itemid
  */
 function BannersParseRoute($segments)
 {
@@ -49,7 +49,7 @@ function BannersParseRoute($segments)
 		$count--;
 		$segment = array_shift($segments);
 		if (is_numeric($segment)) {
-			$vars['bid'] = $segment;
+			$vars['id'] = $segment;
 		} else {
 			$vars['task'] = $segment;
 		}
@@ -60,7 +60,7 @@ function BannersParseRoute($segments)
 		$count--;
 		$segment = array_shift($segments) ;
 		if (is_numeric($segment)) {
-			$vars['bid'] = $segment;
+			$vars['id'] = $segment;
 		}
 	}
 

@@ -35,6 +35,10 @@ $userId	= $user->get('id');
 				<option value=""><?php echo JText::_('JOption_Select_Category');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('category.options', 'com_banners'), 'value', 'text', $this->state->get('filter.category_id'));?>
 			</select>
+
+			<select name="filter_client_id" class="inputbox" onchange="this.form.submit()">
+				<?php echo JHtml::_('select.options', JFormFieldBannerClient::getOptions(), 'value', 'text', $this->state->get('filter.client_id'));?>
+			</select>
 		</div>
 	</fieldset>
 	<div class="clr"> </div>
@@ -75,6 +79,9 @@ $userId	= $user->get('id');
 				<th width="5%" class="nowrap">
 					<?php echo JText::_('Banners_Heading_Tags'); ?>
 				</th>
+				<th width="10%">
+					<?php echo JText::_('Banners_Heading_PurchaseType'); ?>
+				</th>
 				<th width="1%" class="nowrap">
 					<?php echo JHtml::_('grid.sort',   'JGrid_Heading_ID', 'id', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
@@ -82,7 +89,7 @@ $userId	= $user->get('id');
 		</thead>
 		<tfoot>
 			<tr>
-				<td colspan="11">
+				<td colspan="12">
 					<?php echo $this->pagination->getListFooter(); ?>
 				</td>
 			</tr>
@@ -134,7 +141,7 @@ $userId	= $user->get('id');
 					<?php endif;?>
 				</td>
 				<td class="center">
-					<?php echo $item->sticky ? JText::_('JYes') : JText::_('JNo');?>
+					<?php echo JHtml::_('jgrid.published', $item->sticky, $i, 'banners.sticky_', $canChange);?>
 				</td>
 				<td class="center">
 					<?php echo JText::sprintf('Banners_Impressions', $item->impmade, $item->imptotal ? $item->imptotal : JText::_('Banners_Unlimited'));?>
@@ -145,6 +152,13 @@ $userId	= $user->get('id');
 				</td>
 				<td>
 					<?php echo $item->tags; ?>
+				</td>
+				<td class="center">
+					<?php if ($item->purchase_type<0):?>
+						<?php echo JText::sprintf('Banners_Default',$item->client_purchase_type ? JText::_('Banners_'.$item->client_purchase_type) : JText::_('Banners_'.$this->params->get('purchase_type')));?>
+					<?php else:?>
+						<?php echo JText::_('Banners_'.$item->purchase_type);?>
+					<?php endif;?>
 				</td>
 				<td class="center">
 					<?php echo $item->id; ?>

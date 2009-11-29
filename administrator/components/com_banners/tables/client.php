@@ -25,6 +25,9 @@ class BannersTableClient extends JTable
 	var $state				= 1;
 	var $checked_out		= 0;
 	var $checked_out_time	= 0;
+	var $purchase_type		= 0;
+	var $track_clicks		= 0;
+	var $track_impressions	= 0;
 
 	function __construct(&$_db)
 	{

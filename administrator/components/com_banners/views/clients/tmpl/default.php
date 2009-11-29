@@ -53,6 +53,9 @@ $userId	= $user->get('id');
 				<th width="5%">
 					<?php echo JHtml::_('grid.sort',   'Banners_Heading_Active', 'nbanners', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
+				<th width="10%">
+					<?php echo JText::_('Banners_Heading_PurchaseType'); ?>
+				</th>
 				<th width="1%" class="nowrap">
 					<?php echo JHtml::_('grid.sort',   'JGrid_Heading_ID', 'id', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
@@ -60,7 +63,7 @@ $userId	= $user->get('id');
 		</thead>
 		<tfoot>
 			<tr>
-				<td colspan="6">
+				<td colspan="7">
 					<?php echo $this->pagination->getListFooter(); ?>
 				</td>
 			</tr>
@@ -95,6 +98,13 @@ $userId	= $user->get('id');
 				</td>
 				<td class="center">
 					<?php echo $item->nbanners; ?>
+				</td>
+				<td class="center">
+					<?php if ($item->purchase_type<0):?>
+						<?php echo JText::sprintf('Banners_Default',JText::_('Banners_'.$this->params->get('purchase_type')));?>
+					<?php else:?>
+						<?php echo JText::_('Banners_'.$item->purchase_type);?>
+					<?php endif;?>
 				</td>
 				<td class="center">
 					<?php echo $item->id; ?>

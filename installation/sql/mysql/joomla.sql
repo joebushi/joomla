@@ -62,27 +62,29 @@ VALUES
 CREATE TABLE `#__banners` (
   `id` integer NOT NULL auto_increment,
   `cid` integer NOT NULL default '0',
-  `type` varchar(30) NOT NULL default 'banner',
+  `type` integer NOT NULL default '0',
   `name` varchar(255) NOT NULL default '',
   `alias` varchar(255) NOT NULL default '',
   `imptotal` integer NOT NULL default '0',
   `impmade` integer NOT NULL default '0',
   `clicks` integer NOT NULL default '0',
-  `imageurl` varchar(100) NOT NULL default '',
   `clickurl` varchar(200) NOT NULL default '',
-  `date` datetime default NULL,
   `state` tinyint(3) NOT NULL default '0',
-  `checked_out` integer unsigned NOT NULL default '0',
-  `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
-  `custombannercode` text,
   `catid` INTEGER UNSIGNED NOT NULL DEFAULT 0,
   `description` TEXT NOT NULL,
   `sticky` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
   `ordering` INTEGER NOT NULL DEFAULT 0,
-  `publish_up` datetime NOT NULL default '0000-00-00 00:00:00',
-  `publish_down` datetime NOT NULL default '0000-00-00 00:00:00',
   `tags` TEXT NOT NULL,
   `params` TEXT NOT NULL,
+  `purchase_type` tinyint NOT NULL DEFAULT '0',
+  `track_clicks` tinyint NOT NULL DEFAULT '0',
+  `track_impressions` tinyint NOT NULL DEFAULT '0',
+  `checked_out` integer unsigned NOT NULL default '0',
+  `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
+  `publish_up` datetime NOT NULL default '0000-00-00 00:00:00',
+  `publish_down` datetime NOT NULL default '0000-00-00 00:00:00',
+  `reset` datetime NOT NULL default '0000-00-00 00:00:00',
+  `created` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`id`),
   KEY `state` (`state`),
   INDEX `idx_banner_catid`(`catid`)
@@ -103,6 +105,9 @@ CREATE TABLE `#__banner_clients` (
   `state` tinyint(3) NOT NULL default '0',
   `checked_out` integer unsigned NOT NULL default '0',
   `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
+  `purchase_type` tinyint NOT NULL DEFAULT '0',
+  `track_clicks` tinyint NOT NULL DEFAULT '0',
+  `track_impressions` tinyint NOT NULL DEFAULT '0',
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -115,7 +120,12 @@ CREATE TABLE `#__banner_clients` (
 CREATE TABLE  `#__banner_tracks` (
   `track_date` date NOT NULL,
   `track_type` integer unsigned NOT NULL,
-  `banner_id` integer unsigned NOT NULL
+  `banner_id` integer unsigned NOT NULL,
+  `count` integer unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`track_date`, `track_type`, `banner_id`),
+  KEY (`track_date`),
+  KEY (`track_type`),
+  KEY (`banner_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 # -------------------------------------------------------
@@ -204,7 +214,7 @@ INSERT INTO `#__components` VALUES (12, 'Feeds', '', 0, 11, 'option=com_newsfeed
 INSERT INTO `#__components` VALUES (13, 'Categories', '', 0, 11, 'option=com_categories&extension=com_newsfeeds', 'Manage Categories', '', 2, 'js/ThemeOffice/newsfeeds-cat.png', 0, '', 1);
 INSERT INTO `#__components` VALUES (14, 'Users', 'option=com_users', 0, 0, '', '', 'com_users', 0, '', 1, '', 1);
 INSERT INTO `#__components` VALUES (15, 'Search', 'option=com_search', 0, 0, 'option=com_search', 'Search Statistics', 'com_search', 0, 'js/ThemeOffice/search.png', 1, 'enabled=0\n\n', 1);
-INSERT INTO `#__components` VALUES (16, 'Categories', '', 0, 1, 'option=com_categories&extension=com_banners', 'Categories', '', 3, '', 1, '', 1);
+INSERT INTO `#__components` VALUES (16, 'Categories', '', 0, 1, 'option=com_categories&extension=com_banners', 'Categories', '', 4, '', 1, '', 1);
 INSERT INTO `#__components` VALUES (17, 'Wrapper', 'option=com_wrapper', 0, 0, '', 'Wrapper', 'com_wrapper', 0, '', 1, '', 1);
 INSERT INTO `#__components` VALUES (18, 'Mail To', '', 0, 0, '', '', 'com_mailto', 0, '', 1, '', 1);
 INSERT INTO `#__components` VALUES (19, 'Media Manager', '', 0, 0, 'option=com_media', 'Media Manager', 'com_media', 0, '', 1, 'upload_extensions=bmp,csv,doc,epg,gif,ico,jpg,odg,odp,ods,odt,pdf,png,ppt,swf,txt,xcf,xls,BMP,CSV,DOC,EPG,GIF,ICO,JPG,ODG,ODP,ODS,ODT,PDF,PNG,PPT,SWF,TXT,XCF,XLS\nupload_maxsize=10000000\nfile_path=images\nimage_path=images/stories\nrestrict_uploads=1\ncheck_mime=1\nimage_extensions=bmp,gif,jpg,png\nignore_extensions=\nupload_mime=image/jpeg,image/gif,image/png,image/bmp,application/x-shockwave-flash,application/msword,application/excel,application/pdf,application/powerpoint,text/plain,application/x-zip\nupload_mime_illegal=text/html', 1);
@@ -228,6 +238,7 @@ INSERT INTO `#__components` VALUES (38, 'Redirects', '', 0, 0, 'option=com_redir
 INSERT INTO `#__components` VALUES (39, 'Checkin', '', 0, 0, 'option=com_checkin', 'Checkin', 'com_checkin', 0, 'js/ThemeOffice/component.png', 1, '{}', 1);
 INSERT INTO `#__components` VALUES (40, 'New Private Message', '', 0, 27, 'option=com_messages&task=add', '', '', 0, '', 0, '', 1);
 INSERT INTO `#__components` VALUES (41, 'Read Private Messages', '', 0, 27, 'option=com_messages', '', '', 0, '', 0, '', 1);
+INSERT INTO `#__components` VALUES (42, 'Tracks', '', 0, 1, 'option=com_banners&view=tracks', 'Manage Tracks', 'com_banners', 3, 'js/ThemeOffice/categories.png', 0, '', 1);
 
 # -------------------------------------------------------
 
@@ -295,7 +306,7 @@ CREATE TABLE `#__content` (
   `publish_down` datetime NOT NULL default '0000-00-00 00:00:00',
   `images` text NOT NULL,
   `urls` text NOT NULL,
-  `attribs` text NOT NULL,
+  `attribs` varchar(5120) NOT NULL,
   `version` integer unsigned NOT NULL default '1',
   `parentid` integer unsigned NOT NULL default '0',
   `ordering` integer NOT NULL default '0',
@@ -403,7 +414,7 @@ CREATE TABLE `#__extensions` (
 
 INSERT INTO `#__extensions` VALUES 
 (0, 'com_admin', 'component', 'com_admin', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
-(0, 'Banners', 'component', 'com_banners', '', 1, 1, 0, 0, '', 'track_impressions=0\ntrack_clicks=0\ntag_prefix=\n\n', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'Banners', 'component', 'com_banners', '', 1, 1, 0, 0, '', '{"purchase_type":"0","track_impressions":"0","track_clicks":"0","tag_prefix":""}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'Cache Manager', 'component', 'com_cache', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'com_categories', 'component', 'com_categories', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
 (0, 'com_checkin', 'component', 'com_checkin', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
@@ -671,7 +682,8 @@ INSERT INTO `#__modules` VALUES
 (15, 'Title','', 1,'title', 0,'0000-00-00 00:00:00', 1,'mod_title', 3, 1, '', 1, ''),
 (16, 'User Menu', '', 4, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_menu', 2, 1, 'menutype=usermenu\nmoduleclass_sfx=_menu\ncache=1', 0, ''),
 (17, 'Login Form', '', 8, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_login', 1, 1, 'greeting=1\nname=0', 0, ''),
-(18, 'Breadcrumbs', '', 1, 'breadcrumb', 0, '0000-00-00 00:00:00', 1, 'mod_breadcrumbs', 1, 1, 'moduleclass_sfx=\ncache=0\nshowHome=1\nhomeText=Home\nshowComponent=1\nseparator=\n\n', 0, '');
+(18, 'Breadcrumbs', '', 1, 'breadcrumb', 0, '0000-00-00 00:00:00', 1, 'mod_breadcrumbs', 1, 1, 'moduleclass_sfx=\ncache=0\nshowHome=1\nhomeText=Home\nshowComponent=1\nseparator=\n\n', 0, ''),
+(19, 'Banners', '', 1, 'top', 0, '0000-00-00 00:00:00', 1, 'mod_banners', 1, 1, '{"target":"1","count":"1","cid":"1","catid":"27","tag_search":"0","ordering":"0","header_text":"","footer_text":"","layout":"","moduleclass_sfx":"","cache":"1","cache_time":"0"}', 0, '');
 
 # -------------------------------------------------------
 
@@ -707,7 +719,8 @@ INSERT INTO `#__modules_menu` VALUES
 (15,0),
 (16,0),
 (17,0),
-(18,0);
+(18,0),
+(19,0);
 
 # -------------------------------------------------------
 

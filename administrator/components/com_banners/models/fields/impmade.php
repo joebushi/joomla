@@ -17,19 +17,19 @@ jimport('joomla.form.field');
  * @subpackage	com_banners
  * @since		1.6
  */
-class JFormFieldClicks extends JFormField
+class JFormFieldImpMade extends JFormField
 {
 	/**
 	 * The field type.
 	 *
 	 * @var		string
 	 */
-	protected $type = 'Clicks';
+	protected $type = 'ImpMade';
 
 	protected function _getInput()
 	{
 		$onclick	= ' onclick="document.id(\''.$this->inputId.'\').value=\'0\';"';
 
-		return '<input style="border:0;" type="text" name="'.$this->inputName.'" id="'.$this->inputId.'" value="'.htmlspecialchars($this->value).'" readonly="readonly" /><input type="button"'.$onclick.' value="'.JText::_('Banners_Reset_Clicks').'" class="button"/>';
+		return '<input style="border:0;" type="text" name="'.$this->inputName.'" id="'.$this->inputId.'" value="'.htmlspecialchars($this->value).'" readonly="readonly" /><input type="button"'.$onclick.' value="'.JText::_('Banners_Reset_ImpMade').'" class="button"/>';
 	}
 }

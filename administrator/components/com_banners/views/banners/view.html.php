@@ -32,6 +32,7 @@ class BannersViewBanners extends JView
 		$items		= $this->get('Items');
 		$pagination	= $this->get('Pagination');
 		$categories	= $this->get('Categories');
+		$params		= JComponentHelper::getParams('com_banners');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -43,8 +44,10 @@ class BannersViewBanners extends JView
 		$this->assignRef('items',		$items);
 		$this->assignRef('pagination',	$pagination);
 		$this->assignRef('categories',	$categories);
+		$this->assignRef('params',		$params);
 
 		$this->_setToolbar();
+		require_once JPATH_COMPONENT .'/models/fields/bannerclient.php';
 		parent::display($tpl);
 	}
 

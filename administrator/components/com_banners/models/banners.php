@@ -49,6 +49,9 @@ class BannersModelBanners extends JModelList
 		$categoryId = $app->getUserStateFromRequest($this->_context.'.filter.category_id', 'filter_category_id', '');
 		$this->setState('filter.category_id', $categoryId);
 
+		$clientId = $app->getUserStateFromRequest($this->_context.'.filter.client_id', 'filter_client_id', '');
+		$this->setState('filter.client_id', $clientId);
+
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_banners');
 		$this->setState('params', $params);
@@ -102,6 +105,9 @@ class BannersModelBanners extends JModelList
 		// Get the application object
 		$app = &JFactory::getApplication();
 		
+		require_once JPATH_COMPONENT . '/helpers/banners.php';
+		BannersHelper::updateReset();
+		
 		// Create a new query object.
 		$query = new JQuery;
 
@@ -114,7 +120,8 @@ class BannersModelBanners extends JModelList
 				'a.checked_out_time AS checked_out_time, a.catid AS catid,' .
 				'a.clicks AS clicks, a.tags AS tags, a.sticky AS sticky,'.
 				'a.impmade AS impmade, a.imptotal AS imptotal,' .
-				'a.state AS state, a.ordering AS ordering'
+				'a.state AS state, a.ordering AS ordering,'.
+				'a.purchase_type as purchase_type'
 			)
 		);
 		$query->from('`#__banners` AS a');
@@ -128,7 +135,7 @@ class BannersModelBanners extends JModelList
 		$query->join('LEFT', '#__categories AS c ON c.id = a.catid');
 
 		// Join over the clients.
-		$query->select('cl.name AS client_name');
+		$query->select('cl.name AS client_name,cl.purchase_type as client_purchase_type');
 		$query->join('LEFT', '#__banner_clients AS cl ON cl.id = a.cid');
 
 		// Filter by published state
@@ -144,6 +151,12 @@ class BannersModelBanners extends JModelList
 		$categoryId = $this->getState('filter.category_id');
 		if (is_numeric($categoryId)) {
 			$query->where('a.catid = '.(int) $categoryId);
+		}
+
+		// Filter by client.
+		$clientId = $this->getState('filter.client_id');
+		if ($clientId>0) {
+			$query->where('a.cid = '.(int) $clientId);
 		}
 
 		// Filter by search in title
@@ -286,6 +299,50 @@ class BannersModelBanners extends JModelList
 
 		// Attempt to change the state of the records.
 		if (!$table->publish($pks, $value, $user->get('id'))) {
+			$this->setError($table->getError());
+			return false;
+		}
+
+		return true;
+	}
+	/**
+	 * Method to stick records.
+	 *
+	 * @param	array	The ids of the items to publish.
+	 * @param	int		The value of the published state
+	 *
+	 * @return	boolean	True on success.
+	 */
+	function stick(&$pks, $value = 1)
+	{
+		// Initialise variables.
+		$user	= JFactory::getUser();
+		$table	= $this->getTable();
+		$pks	= (array) $pks;
+
+		// Access checks.
+		foreach ($pks as $i => $pk)
+		{
+			if ($table->load($pk))
+			{
+				if ($table->catid) {
+					$allow = $user->authorise('core.edit.state', 'com_banners.category.'.(int) $table->catid);
+				}
+				else {
+					$allow = $user->authorise('core.edit.state', 'com_banners');
+				}
+
+				if (!$allow)
+				{
+					// Prune items that you can't change.
+					unset($pks[$i]);
+					JError::raiseWarning(403, JText::_('JError_Core_Edit_State_not_permitted'));
+				}
+			}
+		}
+
+		// Attempt to change the state of the records.
+		if (!$table->stick($pks, $value, $user->get('id'))) {
 			$this->setError($table->getError());
 			return false;
 		}
