@@ -414,7 +414,7 @@ CREATE TABLE `#__extensions` (
 
 INSERT INTO `#__extensions` VALUES 
 (0, 'com_admin', 'component', 'com_admin', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
-(0, 'Banners', 'component', 'com_banners', '', 1, 1, 0, 0, '', '{"purchase_type":"0","track_impressions":"0","track_clicks":"0","tag_prefix":""}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'Banners', 'component', 'com_banners', '', 1, 1, 0, 0, '', '{"purchase_type":"1","track_impressions":"0","track_clicks":"0","tag_prefix":""}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'Cache Manager', 'component', 'com_cache', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'com_categories', 'component', 'com_categories', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
 (0, 'com_checkin', 'component', 'com_checkin', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),

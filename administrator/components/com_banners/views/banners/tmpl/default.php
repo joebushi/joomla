@@ -155,7 +155,7 @@ $userId	= $user->get('id');
 				</td>
 				<td class="center">
 					<?php if ($item->purchase_type<0):?>
-						<?php echo JText::sprintf('Banners_Default',$item->client_purchase_type ? JText::_('Banners_'.$item->client_purchase_type) : JText::_('Banners_'.$this->params->get('purchase_type')));?>
+						<?php echo JText::sprintf('Banners_Default',($item->client_purchase_type>0) ? JText::_('Banners_'.$item->client_purchase_type) : JText::_('Banners_'.$this->params->get('purchase_type')));?>
 					<?php else:?>
 						<?php echo JText::_('Banners_'.$item->purchase_type);?>
 					<?php endif;?>
