@@ -152,7 +152,7 @@ class BannersModelBanners extends JModelList
 
 		// Filter by client.
 		$clientId = $this->getState('filter.client_id');
-		if ($clientId>0) {
+		if (is_numeric($clientId)) {
 			$query->where('a.cid = '.(int) $clientId);
 		}
 

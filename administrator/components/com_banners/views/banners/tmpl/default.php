@@ -33,10 +33,12 @@ $userId	= $user->get('id');
 
 			<select name="filter_category_id" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('JOption_Select_Category');?></option>
+				<option value="0"><?php echo JText::_('JOption_No_Category');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('category.options', 'com_banners'), 'value', 'text', $this->state->get('filter.category_id'));?>
 			</select>
 
 			<select name="filter_client_id" class="inputbox" onchange="this.form.submit()">
+				<option value=""><?php echo JText::_('Banners_Select_Client');?></option>
 				<?php echo JHtml::_('select.options', JFormFieldBannerClient::getOptions(), 'value', 'text', $this->state->get('filter.client_id'));?>
 			</select>
 		</div>

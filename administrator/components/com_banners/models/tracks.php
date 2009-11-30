@@ -99,14 +99,14 @@ class BannersModelTracks extends JModelList
 		
 		// Filter by client
 		$clientId = $this->getState('filter.client_id');
-		if (!empty($clientId)) {
+		if (is_numeric($clientId)) {
 			$query->where('b.cid = '.(int) $clientId);
 		}
 		
 		// Filter by category
-		$category_id = $this->getState('filter.category_id');
-		if (!empty($category_id)) {
-			$query->where('b.catid = '.(int) $category_id);
+		$catedoryId = $this->getState('filter.category_id');
+		if (is_numeric($catedoryId)) {
+			$query->where('b.catid = '.(int) $catedoryId);
 		}
 		
 		// Filter by begin date

@@ -19,6 +19,7 @@ jimport('joomla.application.component.controller');
  */
 class BannersControllerTracks extends JController
 {
+	protected $_context = 'com_banners.tracks';
 	/**
 	 * Proxy for getModel.
 	 */
@@ -37,24 +38,25 @@ class BannersControllerTracks extends JController
 
 		// Get the model.
 		$model = $this->getModel();
-		// Initialise variables.
-		$app = JFactory::getApplication('administrator');
 
 		// Load the filter state.
-		$type = $app->getUserStateFromRequest($this->_context.'.filter.type', 'filter_type');
+		$app = &JFactory::getApplication();
+		
+		$type = $app->getUserState($this->_context.'.filter.type');
 		$model->setState('filter.type', $type);
 
-		$begin = $app->getUserStateFromRequest($this->_context.'.filter.begin', 'filter_begin', '', 'string');
+		$begin = $app->getUserState($this->_context.'.filter.begin');
 		$model->setState('filter.begin', $begin);
 
-		$end = $app->getUserStateFromRequest($this->_context.'.filter.end', 'filter_end', '', 'string');
+		$end = $app->getUserState($this->_context.'.filter.end');
 		$model->setState('filter.end', $end);
 
-		$categoryId = $app->getUserStateFromRequest($this->_context.'.filter.category_id', 'filter_category_id', '');
+		$categoryId = $app->getUserState($this->_context.'.filter.category_id');
 		$model->setState('filter.category_id', $categoryId);
-
-		$clientId = $app->getUserStateFromRequest($this->_context.'.filter.client_id', 'filter_client_id', '');
+	
+		$clientId = $app->getUserState($this->_context.'.filter.client_id');
 		$model->setState('filter.client_id', $clientId);
+
 		$model->setState('list.limit', 0);
 		$model->setState('list.start', 0);
 
@@ -68,5 +70,48 @@ class BannersControllerTracks extends JController
 		}
 
 		$this->setRedirect('index.php?option=com_banners&view=tracks');
+	}
+	public function display()
+	{
+		// Get the document object.
+		$document	= &JFactory::getDocument();
+		$vName		= 'tracks';
+		$vFormat	= 'csv';
+
+		// Get and render the view.
+		if ($view = &$this->getView($vName, $vFormat))
+		{
+			// Get the model for the view.
+			$model = &$this->getModel($vName);
+
+			// Load the filter state.
+			$app = &JFactory::getApplication();
+			
+			$type = $app->getUserState($this->_context.'.filter.type');
+			$model->setState('filter.type', $type);
+
+			$begin = $app->getUserState($this->_context.'.filter.begin');
+			$model->setState('filter.begin', $begin);
+
+			$end = $app->getUserState($this->_context.'.filter.end');
+			$model->setState('filter.end', $end);
+
+			$categoryId = $app->getUserState($this->_context.'.filter.category_id');
+			$model->setState('filter.category_id', $categoryId);
+		
+			$clientId = $app->getUserState($this->_context.'.filter.client_id');
+			$model->setState('filter.client_id', $clientId);
+
+			$model->setState('list.limit', 0);
+			$model->setState('list.start', 0);
+
+			// Push the model into the view (as default).
+			$view->setModel($model, true);
+
+			// Push document object into the view.
+			$view->assignRef('document', $document);
+
+			$view->display();
+		}
 	}
 }
