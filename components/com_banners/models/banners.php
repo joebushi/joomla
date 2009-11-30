@@ -21,6 +21,7 @@ JTable::addIncludePath(JPATH_ROOT . '/administrator/components/com_banners/table
  */
 class BannersModelBanners extends JModelList
 {
+	protected $_items;
 	/**
 	 * Method to get a store id based on model configuration state.
 	 *
@@ -39,6 +40,7 @@ class BannersModelBanners extends JModelList
 		$id	.= ':'.$this->getState('filter.tag_search');
 		$id	.= ':'.$this->getState('filter.client_id');
 		$id	.= ':'.$this->getState('filter.category_id');
+		$id	.= ':'.$this->getState('filter.keywords');
 
 		return parent::_getStoreId($id);
 	}
@@ -73,7 +75,7 @@ class BannersModelBanners extends JModelList
 			$query->where('a.state=1');
 			$query->where("(NOW() >= a.publish_up OR a.publish_up='0000-00-00 00:00:00')");
 			$query->where("(NOW() <= a.publish_down OR a.publish_down='0000-00-00 00:00:00')");
-			$query->where('(a.imptotal = 0 OR a.impmade < a.imptotal)');
+			$query->where('(a.imptotal = 0 OR a.impmade <= a.imptotal)');
 			if ($cid)
 			{
 				$query->where('a.cid = ' . (int) $cid);
@@ -122,6 +124,20 @@ class BannersModelBanners extends JModelList
 		return $query;
 	}
 
+	function &getItems()
+	{
+		if (!isset($this->_items))
+		{
+			$this->_items = &parent::getItems();
+			foreach ($this->_items as &$item)
+			{
+				$parameters = new JRegistry;
+				$parameters->loadJSON($item->params);
+				$item->params = $parameters->toObject();
+			}
+		}
+		return $this->_items;
+	}
 	/**
 	 * Makes impressions on a list of banners
 	 */

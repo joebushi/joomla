@@ -18,5 +18,5 @@ $footerText	= trim($params->get('footer_text'));
 
 require_once JPATH_ROOT . '/administrator/components/com_banners/helpers/banners.php';
 BannersHelper::updateReset();
-$list = modBannersHelper::getList($params);
+$list = &modBannersHelper::getList($params);
 require JModuleHelper::getLayoutPath('mod_banners', $params->get('layout', 'default'));

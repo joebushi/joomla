@@ -79,9 +79,9 @@ class BannersHelper
 		$query = new JQuery;
 		$query->select('*');
 		$query->from("#__banners");
-		$query->where("NOW()>=reset");
-		$query->where("reset!='0000-00-00 00:00:00'");
-		$query->where("checked_out=0 OR checked_out=".$db->Quote($user->id));
+		$query->where("NOW()>=`reset`");
+		$query->where("`reset`!='0000-00-00 00:00:00' AND `reset`!=NULL");
+		$query->where("(`checked_out`=0 OR `checked_out`=".$db->Quote($user->id).")");
 		$db->setQuery((string)$query);
 		$rows = $db->loadObjectList();
 

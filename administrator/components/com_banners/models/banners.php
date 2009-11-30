@@ -165,7 +165,7 @@ class BannersModelBanners extends JModelList
 			else
 			{
 				$search = $this->_db->Quote('%'.$this->_db->getEscaped($search, true).'%');
-				$query->where('a.name LIKE '.$search.' OR a.alias LIKE '.$search);
+				$query->where('(a.name LIKE '.$search.' OR a.alias LIKE '.$search.')');
 			}
 		}
 

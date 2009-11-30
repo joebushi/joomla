@@ -9,7 +9,7 @@
  * @package		Joomla.Site
  * @subpackage	com_banners
  */
-abstract class BannersHelperCheck
+abstract class BannerHelper
 {
 	/**
 	 * Checks if a URL is an image
