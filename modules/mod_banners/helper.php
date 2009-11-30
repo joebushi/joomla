@@ -10,8 +10,6 @@
 // no direct access
 defined('_JEXEC') or die;
 
-require_once JPATH_ROOT . '/administrator/components/com_banners/banners.php';
-
 class modBannersHelper
 {
 	function getList(&$params)
@@ -24,18 +22,18 @@ class modBannersHelper
 		$model->setState('list.limit', (int) $params->get('count', 1));
 		$model->setState('list.start', 0);
 		$model->setState('filter.ordering', $params->get('ordering'));
-		if ($params->get('tag_search'))
-		{
-			$document		= &JFactory::getDocument();
-			$keywords		=  $document->getMetaData('keywords');
-			$model->setState('filter.tag_search', BannersHelper::getKeywords($keywords));
-		}
+		$model->setState('filter.tag_search', $params->get('tag_search'));
+		$document = &JFactory::getDocument();
+		$keywords = explode(',', $document->getMetaData('keywords'));
+		$model->setState('filter.keywords', $keywords);
+		
 		$banners = $model->getItems();
 		$model->impress();
 		return $banners;
 	}
 	function renderBanner($params, &$item)
 	{
+		require_once JPATH_ROOT . '/components/com_banners/helpers/check.php';
 		$link = JRoute::_('index.php?option=com_banners&task=click&id='. $item->id);
 		$baseurl = JURI::base();
 
@@ -55,7 +53,7 @@ class modBannersHelper
 		{
 			$imageurl = $parameters->image->url;
 			// Image
-			if (BannersHelper::isImage($imageurl))
+			if (BannersHelperCheck::isImage($imageurl))
 			{
 				$alt = $parameters->alt->alt;
 				$alt = $alt ? $alt : $item->name ;
@@ -91,7 +89,7 @@ class modBannersHelper
 				}
 			}
 			// Flash
-			else if (BannersHelper::isFlash($imageurl))
+			else if (BannersHelperCheck::isFlash($imageurl))
 			{
 				$width = $parameters->flash->width;
 				$height = $parameters->flash->height;
@@ -102,7 +100,6 @@ class modBannersHelper
 						</object>";
 			}
 		}
-
 		return $html;
 	}
 }

@@ -47,11 +47,12 @@
 		</field>
 
 		<field
-			name="tag_prefix"
+			name="metakey_prefix"
 			type="text"
 			default=""
-			label="Banners_TagPrefix_Label"
-			description="Banners_TagPrefix_Desc" />
+			label="Banners_MetaKeywordPrefix_Label"
+			description="Banners_MetaKeywordPrefix_Desc" />
+			
 	</fields>
 
 	<fields

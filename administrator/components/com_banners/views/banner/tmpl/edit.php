@@ -76,7 +76,7 @@ JHtml::_('behavior.formvalidation');
 			<?php echo $field->input; ?>
 		<?php endforeach; ?>
 
-		<div id="image" style="display:none;">
+		<div id="image">
 			<?php foreach($this->form->getFields('image') as $field): ?>
 				<?php if (!$field->hidden): ?>
 					<?php echo $field->label; ?>
@@ -111,7 +111,7 @@ JHtml::_('behavior.formvalidation');
 	</fieldset>
 </div>
 <div class="width-40 fltrt">
-	<?php echo JHtml::_('sliders.start','content-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
+	<?php echo JHtml::_('sliders.start','banner-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
 
 	<?php echo JHtml::_('sliders.panel',JText::_('Banners_Publishing_Details'), 'publishing-details'); ?>
 		<fieldset class="adminform">

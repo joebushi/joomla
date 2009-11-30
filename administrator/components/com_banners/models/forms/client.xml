@@ -118,6 +118,44 @@
 	</fields>
 
 	<fields
+		group="metadata"
+		label="Banners_Metadata_Options">
+
+		<field
+			id="metakey"
+			name="metakey"
+			type="textarea"
+			class="inputbox"
+			default=""
+			rows="3"
+			cols="30"
+			label="JField_Meta_Keywords_Label"
+			description="Banners_MetaKeywords_Desc"/>
+
+		<field
+			id="own_prefix"
+			name="own_prefix"
+			type="radio"
+			label="Banners_ClientOwnPrefix_Label"
+			description="Banners_ClientOwnPrefix_Desc"
+			default="0"
+			class="inputbox">
+			<option
+				value="0">Jno</option>
+			<option
+				value="1">JYes</option>
+		</field>
+
+		<field
+			name="metakey_prefix"
+			type="text"
+			default=""
+			label="Banners_MetaKeywordPrefix_Label"
+			description="Banners_MetaKeywordPrefix_Desc" />
+			
+	</fields>
+
+	<fields
 		group="extra"
 		label="Banners_Extra">
 

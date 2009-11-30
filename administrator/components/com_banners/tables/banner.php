@@ -46,9 +46,13 @@ class BannersTableBanner extends JTable
 	/** @var int */
 	var $ordering			= null;
 	/** @var string */
-	var $tags				= null;
+	var $metakey		= null;
 	/** @var string */
 	var $params				= null;
+	/** @var int */
+	var $own_prefix			= 0;
+	/** @var string */
+	var $metakey_prefix	= null;
 	/** @var int */
 	var $purchase_type		= 0;
 	/** @var int */

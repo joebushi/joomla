@@ -25,6 +25,7 @@ class BannersController extends JController
 	public function display()
 	{
 		require_once JPATH_COMPONENT.'/helpers/banners.php';
+		BannersHelper::updateReset();
 
 		// Get the document object.
 		$document	= JFactory::getDocument();

@@ -237,16 +237,37 @@
 		</field>
 
 		<field
-			id="tags"
-			name="tags"
+			id="metakey"
+			name="metakey"
 			type="textarea"
 			class="inputbox"
 			default=""
 			rows="3"
 			cols="30"
-			label="Banners_Tags_Label"
-			description="Banners_Tags_Desc"/>
+			label="JField_Meta_Keywords_Label"
+			description="Banners_MetaKeywords_Desc"/>
 
+		<field
+			id="own_prefix"
+			name="own_prefix"
+			type="radio"
+			label="Banners_BannerOwnPrefix_Label"
+			description="Banners_BannerOwnPrefix_Desc"
+			default="0"
+			class="inputbox">
+			<option
+				value="0">JNo</option>
+			<option
+				value="1">JYes</option>
+		</field>
+
+		<field
+			name="metakey_prefix"
+			type="text"
+			default=""
+			label="Banners_MetaKeywordPrefix_Label"
+			description="Banners_MetaKeywordPrefix_Desc" />
+			
 	</fields>
 
 	<fields

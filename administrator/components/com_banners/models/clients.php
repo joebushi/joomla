@@ -88,9 +88,14 @@ class BannersModelClients extends JModelList
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id AS id, a.name AS name, a.contact AS contact, a.checked_out AS checked_out,'.
+				'a.id AS id,'.
+				'a.name AS name,'.
+				'a.contact AS contact,'.
+				'a.checked_out AS checked_out,'.
 				'a.checked_out_time AS checked_out_time, ' .
-				'a.state AS state, a.purchase_type as purchase_type'
+				'a.state AS state,'.
+				'a.metakey AS metakey,'.
+				'a.purchase_type as purchase_type'
 			)
 		);
 

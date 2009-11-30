@@ -44,17 +44,29 @@ JHtml::_('behavior.formvalidation');
 </div>
 
 <div class="width-50 fltrt">
-	<fieldset class="adminform">
-		<legend><?php echo JText::_('Banners_Extra'); ?></legend>
+	<?php echo JHtml::_('sliders.start','banner-client-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
 
-		<?php foreach($this->form->getFields('extra') as $field): ?>
-			<?php if (!$field->hidden): ?>
-				<?php echo $field->label; ?>
-			<?php endif; ?>
-			<?php echo $field->input; ?>
-		<?php endforeach; ?>
+	<?php echo JHtml::_('sliders.panel',JText::_('Banners_Metadata'), 'publishing-details'); ?>
+		<fieldset class="adminform">
+			<?php foreach($this->form->getFields('metadata') as $field): ?>
+				<?php if (!$field->hidden): ?>
+					<?php echo $field->label; ?>
+				<?php endif; ?>
+				<?php echo $field->input; ?>
+			<?php endforeach; ?>
+		</fieldset>
 
-	</fieldset>
+	<?php echo JHtml::_('sliders.panel',JText::_('Banners_Extra'), 'extra'); ?>
+		<fieldset class="adminform">
+			<?php foreach($this->form->getFields('extra') as $field): ?>
+				<?php if (!$field->hidden): ?>
+					<?php echo $field->label; ?>
+				<?php endif; ?>
+				<?php echo $field->input; ?>
+			<?php endforeach; ?>
+		</fieldset>
+
+	<?php echo JHtml::_('sliders.end'); ?>
 </div>
 
 <div class="clr"></div>

@@ -105,9 +105,6 @@ class BannersModelBanners extends JModelList
 		// Get the application object
 		$app = &JFactory::getApplication();
 		
-		require_once JPATH_COMPONENT . '/helpers/banners.php';
-		BannersHelper::updateReset();
-		
 		// Create a new query object.
 		$query = new JQuery;
 
@@ -118,7 +115,7 @@ class BannersModelBanners extends JModelList
 				'a.id AS id, a.name AS name, a.alias AS alias,'.
 				'a.checked_out AS checked_out,'.
 				'a.checked_out_time AS checked_out_time, a.catid AS catid,' .
-				'a.clicks AS clicks, a.tags AS tags, a.sticky AS sticky,'.
+				'a.clicks AS clicks, a.metakey AS metakey, a.sticky AS sticky,'.
 				'a.impmade AS impmade, a.imptotal AS imptotal,' .
 				'a.state AS state, a.ordering AS ordering,'.
 				'a.purchase_type as purchase_type'
@@ -241,6 +238,20 @@ class BannersModelBanners extends JModelList
 					if (!$table->delete($pk))
 					{
 						$this->setError($table->getError());
+						return false;
+					}
+					
+					// Delete tracks from this banner
+					$query = new JQuery;
+					$query->delete();
+					$query->from('#__banner_tracks');
+					$query->where('banner_id='.(int)$pk);
+					$this->_db->setQuery((string)$query);
+					$this->_db->query();
+
+					// Check for a database error.
+					if ($this->_db->getErrorNum()) {
+						$this->setError($this->_db->getErrorMsg());
 						return false;
 					}
 				}

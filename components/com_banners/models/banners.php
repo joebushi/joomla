@@ -49,62 +49,76 @@ class BannersModelBanners extends JModelList
 	 */
 	function _getListQuery()
 	{
-		require_once JPATH_ROOT . '/administrator/components/com_banners/helpers/banners.php';
-		BannersHelper::updateReset();
-		$ordering	= $this->getState('filter.ordering');
-		$tagSearch	= $this->getState('filter.tag_search');
-		$cid		= $this->getState('filter.client_id');
-		$catid		= $this->getState('filter.category_id');
-		$randomise	= ($ordering == 'random');
-		
-		$query = new JQuery;
-		$query->select(
-			'a.id as id,'.
-			'a.type as type,'.
-			'a.name as name,'.
-			'a.clickurl as clickurl,'.
-			'a.cid as cid,'.
-			'a.params as params,'.
-			'a.track_impressions as track_impressions'
-		);
-		$query->from('#__banners as a');
-		$query->where('a.state=1');
-		$query->where("(NOW() >= a.publish_up OR a.publish_up='0000-00-00 00:00:00')");
-		$query->where("(NOW() <= a.publish_down OR a.publish_down='0000-00-00 00:00:00')");
-		$query->where('(a.imptotal = 0 OR a.impmade < a.imptotal)');
-		if ($cid)
+		static $query;
+		if (!isset($query))
 		{
-			$query->where('a.cid = ' . (int) $cid);
-			$query->join('LEFT', '#__banner_clients AS cl ON cl.id = a.cid');
-			$query->select('cl.track_impressions as client_track_impressions');
-			$query->where('cl.state = 1');
-		}
-		if ($catid)
-		{
-			$query->where('a.catid = ' . (int) $catid);
-			$query->join('LEFT', '#__categories AS cat ON cat.id = a.catid');
-			$query->where('cat.published = 1');
-		}
-		if (is_array($tagSearch))
-		{
-			$temp = array();
-			$n = count($tagSearch);
-			if ($n == 0)
+			$query = new JQuery;
+			$ordering	= $this->getState('filter.ordering');
+			$tagSearch	= $this->getState('filter.tag_search');
+			$cid		= $this->getState('filter.client_id');
+			$catid		= $this->getState('filter.category_id');
+			$keywords	= $this->getState('filter.keywords');
+			$randomise	= ($ordering == 'random');
+
+			$query->select(
+				'a.id as id,'.
+				'a.type as type,'.
+				'a.name as name,'.
+				'a.clickurl as clickurl,'.
+				'a.cid as cid,'.
+				'a.params as params,'.
+				'a.track_impressions as track_impressions'
+			);
+			$query->from('#__banners as a');
+			$query->where('a.state=1');
+			$query->where("(NOW() >= a.publish_up OR a.publish_up='0000-00-00 00:00:00')");
+			$query->where("(NOW() <= a.publish_down OR a.publish_down='0000-00-00 00:00:00')");
+			$query->where('(a.imptotal = 0 OR a.impmade < a.imptotal)');
+			if ($cid)
 			{
-				// if tagsearch is an array, and empty, fail the query
-				$result = array();
-				return $result;
+				$query->where('a.cid = ' . (int) $cid);
+				$query->join('LEFT', '#__banner_clients AS cl ON cl.id = a.cid');
+				$query->select('cl.track_impressions as client_track_impressions');
+				$query->where('cl.state = 1');
 			}
-			for ($i = 0; $i < $n; $i++)
+			if ($catid)
 			{
-				$temp[] = "a.tags REGEXP '[[:<:]]".$db->getEscaped($tagSearch[$i]) . "[[:>:]]'";
+				$query->where('a.catid = ' . (int) $catid);
+				$query->join('LEFT', '#__categories AS cat ON cat.id = a.catid');
+				$query->where('cat.published = 1');
 			}
-			if ($n)
+			if ($tagSearch)
 			{
-				$query->where('(' . implode(' OR ', $temp). ')');
+				if (count($keywords) == 0)
+				{
+					$query->where('0');
+				}
+				else
+				{
+					$temp = array();				
+					$config = &JComponentHelper::getParams('com_banners');
+					$prefix = $config->get('metakey_prefix');
+					foreach ($keywords as $keyword)
+					{
+						$keyword=trim($keyword);
+						$condition1 = "a.own_prefix=1 AND  a.metakey_prefix=SUBSTRING('".$keyword."',1,LENGTH( a.metakey_prefix)) OR a.own_prefix=0 AND cl.own_prefix=1 AND cl.metakey_prefix=SUBSTRING('".$keyword."',1,LENGTH(cl.metakey_prefix)) OR a.own_prefix=0 AND cl.own_prefix=0 AND ".($prefix==substr($keyword,0,strlen($prefix))?'1':'0');
+
+						$condition2="a.metakey REGEXP '[[:<:]]".$this->_db->getEscaped($keyword) . "[[:>:]]'";				
+						if ($cid)
+						{
+							$condition2.=" OR cl.metakey REGEXP '[[:<:]]".$this->_db->getEscaped($keyword) . "[[:>:]]'";
+						}
+						if ($catid)
+						{
+							$condition2.=" OR cat.metakey REGEXP '[[:<:]]".$this->_db->getEscaped($keyword) . "[[:>:]]'";
+						}
+						$temp[]="($condition1) AND ($condition2)";
+					}
+					$query->where('(' . implode(' OR ', $temp). ')');
+				}
 			}
+			$query->order('a.sticky DESC,'. ($randomise ? 'RAND()' : 'a.ordering'));
 		}
-		$query->order('a.sticky DESC,'. ($randomise ? 'RAND()' : 'a.ordering'));
 		return $query;
 	}
 
@@ -125,7 +139,7 @@ class BannersModelBanners extends JModelList
 			$query->where('id='.(int)$id);
 			$this->_db->setQuery((string)$query);
 			if (!$this->_db->query()) {
-				JError::raiseError(500, $db->getErrorMsg());
+				JError::raiseError(500, $this->_db->getErrorMsg());
 			}
 			
 			// track impressions

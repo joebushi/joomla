@@ -74,8 +74,10 @@ CREATE TABLE `#__banners` (
   `description` TEXT NOT NULL,
   `sticky` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
   `ordering` INTEGER NOT NULL DEFAULT 0,
-  `tags` TEXT NOT NULL,
+  `metakey` TEXT NOT NULL,
   `params` TEXT NOT NULL,
+  `own_prefix` tinyint NOT NULL DEFAULT '0',
+  `metakey_prefix` varchar(255) NOT NULL default '',
   `purchase_type` tinyint NOT NULL DEFAULT '0',
   `track_clicks` tinyint NOT NULL DEFAULT '0',
   `track_impressions` tinyint NOT NULL DEFAULT '0',
@@ -87,6 +89,8 @@ CREATE TABLE `#__banners` (
   `created` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`id`),
   KEY `state` (`state`),
+  KEY `own_prefix` (`own_prefix`),
+  KEY `metakey_prefix` (`metakey_prefix`),
   INDEX `idx_banner_catid`(`catid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -105,10 +109,15 @@ CREATE TABLE `#__banner_clients` (
   `state` tinyint(3) NOT NULL default '0',
   `checked_out` integer unsigned NOT NULL default '0',
   `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
+  `metakey` TEXT NOT NULL,
+  `own_prefix` tinyint NOT NULL DEFAULT '0',
+  `metakey_prefix` varchar(255) NOT NULL default '',
   `purchase_type` tinyint NOT NULL DEFAULT '0',
   `track_clicks` tinyint NOT NULL DEFAULT '0',
   `track_impressions` tinyint NOT NULL DEFAULT '0',
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY  (`id`),
+  KEY `own_prefix` (`own_prefix`),
+  KEY `metakey_prefix` (`metakey_prefix`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 # -------------------------------------------------------
@@ -200,7 +209,7 @@ CREATE TABLE `#__components` (
 # Dumping data for table `#__components`
 #
 
-INSERT INTO `#__components` VALUES (1, 'Banners', '', 0, 0, '', 'Banner Management', 'com_banners', 0, 'js/ThemeOffice/component.png', 0, 'track_impressions=0\ntrack_clicks=0\ntag_prefix=\n\n', 1);
+INSERT INTO `#__components` VALUES (1, 'Banners', '', 0, 0, '', 'Banner Management', 'com_banners', 0, 'js/ThemeOffice/component.png', 0, '{"track_impressions":"0","track_clicks":"0","metakey_prefix":"","purchase_type":"1"}', 1);
 INSERT INTO `#__components` VALUES (2, 'Banners', '', 0, 1, 'option=com_banners', 'Active Banners', 'com_banners', 1, 'js/ThemeOffice/edit.png', 0, '', 1);
 INSERT INTO `#__components` VALUES (3, 'Clients', '', 0, 1, 'option=com_banners&view=clients', 'Manage Clients', 'com_banners', 2, 'js/ThemeOffice/categories.png', 0, '', 1);
 INSERT INTO `#__components` VALUES (4, 'Web Links', 'option=com_weblinks', 0, 0, '', 'Manage Weblinks', 'com_weblinks', 0, 'js/ThemeOffice/component.png', 0, 'show_comp_description=1\ncomp_description=\nshow_link_hits=1\nshow_link_description=1\nshow_other_cats=1\nshow_headings=1\nshow_page_title=1\nlink_target=0\nlink_icons=\n\n', 1);
@@ -414,7 +423,7 @@ CREATE TABLE `#__extensions` (
 
 INSERT INTO `#__extensions` VALUES 
 (0, 'com_admin', 'component', 'com_admin', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
-(0, 'Banners', 'component', 'com_banners', '', 1, 1, 0, 0, '', '{"purchase_type":"1","track_impressions":"0","track_clicks":"0","tag_prefix":""}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'Banners', 'component', 'com_banners', '', 1, 1, 0, 0, '', '{"track_impressions":"0","track_clicks":"0","metakey_prefix":"","purchase_type":"1"}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'Cache Manager', 'component', 'com_cache', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'com_categories', 'component', 'com_categories', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
 (0, 'com_checkin', 'component', 'com_checkin', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),

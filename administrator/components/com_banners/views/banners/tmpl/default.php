@@ -77,7 +77,7 @@ $userId	= $user->get('id');
 					<?php echo JHtml::_('grid.sort',   'Banners_Heading_Clicks', 'clicks', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="5%" class="nowrap">
-					<?php echo JText::_('Banners_Heading_Tags'); ?>
+					<?php echo JText::_('Banners_Heading_MetaKeywords'); ?>
 				</th>
 				<th width="10%">
 					<?php echo JText::_('Banners_Heading_PurchaseType'); ?>
@@ -151,7 +151,7 @@ $userId	= $user->get('id');
 					<?php echo sprintf('%.2f%%', $item->impmade ? 100 * $item->clicks/$item->impmade : 0);?>
 				</td>
 				<td>
-					<?php echo $item->tags; ?>
+					<?php echo $item->metakey; ?>
 				</td>
 				<td class="center">
 					<?php if ($item->purchase_type<0):?>
