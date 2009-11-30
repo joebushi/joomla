@@ -29,7 +29,7 @@ class BannersViewTracks extends JView
 	public function display($tpl = null)
 	{
 		$state		= $this->get('State');
-		$items		= array();//$this->get('Items');
+		$items		= $this->get('Items');
 		$pagination	= $this->get('Pagination');
 
 		// Check for errors.
@@ -58,13 +58,16 @@ class BannersViewTracks extends JView
 		$canDo	= BannersHelper::getActions($state->get('filter.category_id'));
 
 		JToolBarHelper::title(JText::_('Banners_Manager_Tracks'), 'generic.png');
-		JToolBarHelper::custom('banners.export', 'export', 'export', 'Banners_Tracks_Export');
+
+		$bar = &JToolBar::getInstance('toolbar');
+		$bar->appendButton('Link', 'export', 'Banners_Tracks_Export', JRoute::_('index.php?option=com_banners&view=tracks&task=tracks.display&format=csv'));
+
 		$document = &JFactory::getDocument();
 		$app = &JFactory::getApplication();
 		// TODO: must be written in the bluestork template
 		$document->addStyleDeclaration('.icon-32-export { background-image: url(templates/'.$app->getTemplate().'/images/toolbar/icon-32-export.png); }');
 		if ($canDo->get('core.delete')) {
-			JToolBarHelper::deleteList('', 'banners.delete');
+			$bar->appendButton('Confirm','Banners_Delete_Msg', 'delete', 'Delete', 'tracks.delete',false);
 		}
 		if ($canDo->get('core.admin')) {
 			JToolBarHelper::divider();

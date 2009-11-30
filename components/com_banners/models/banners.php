@@ -75,7 +75,7 @@ class BannersModelBanners extends JModelList
 			$query->where('a.state=1');
 			$query->where("(NOW() >= a.publish_up OR a.publish_up='0000-00-00 00:00:00')");
 			$query->where("(NOW() <= a.publish_down OR a.publish_down='0000-00-00 00:00:00')");
-			$query->where('(a.imptotal = 0 OR a.impmade <= a.imptotal)');
+			$query->where('(a.imptotal = 0 OR a.impmade = a.imptotal)');
 			if ($cid)
 			{
 				$query->where('a.cid = ' . (int) $cid);

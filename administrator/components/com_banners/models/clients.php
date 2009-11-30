@@ -164,7 +164,7 @@ class BannersModelClients extends JModelList
 			if ($table->load($pk))
 			{
 				// Access checks.
-				$allow = $user->authorise('core.edit.state', 'com_banners');
+				$allow = $user->authorise('core.delete', 'com_banners');
 
 				if ($allow)
 				{
@@ -218,7 +218,7 @@ class BannersModelClients extends JModelList
 				{
 					// Prune items that you can't change.
 					unset($pks[$i]);
-					JError::raiseWarning(403, JText::_('JError_Core_Edit_State_not_permitted'));
+					JError::raiseWarning(403, JText::_('JError_Core_Delete_not_permitted'));
 				}
 			}
 		}

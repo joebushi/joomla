@@ -227,10 +227,10 @@ class BannersModelBanners extends JModelList
 			{
 				// Access checks.
 				if ($table->catid) {
-					$allow = $user->authorise('core.edit.state', 'com_banners.category.'.(int) $table->catid);
+					$allow = $user->authorise('core.delete', 'com_banners.category.'.(int) $table->catid);
 				}
 				else {
-					$allow = $user->authorise('core.edit.state', 'com_banners');
+					$allow = $user->authorise('core.delete', 'com_banners');
 				}
 
 				if ($allow)
@@ -259,7 +259,7 @@ class BannersModelBanners extends JModelList
 				{
 					// Prune items that you can't change.
 					unset($pks[$i]);
-					JError::raiseWarning(403, JText::_('JError_Core_Edit_State_not_permitted'));
+					JError::raiseWarning(403, JText::_('JError_Core_Delete_not_permitted'));
 				}
 			}
 			else

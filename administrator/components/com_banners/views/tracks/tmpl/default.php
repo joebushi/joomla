@@ -18,7 +18,21 @@ $userId	= $user->get('id');
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_banners&view=tracks'); ?>" method="post" name="adminForm" id="adminForm">
 	<fieldset id="filter-bar">
+		<div class="filter-search fltlft">
+
+			<label class="filter-hide-lbl"><?php echo JText::_('Banners_Begin_Label'); ?></label>
+			<?php echo JHtml::_('calendar', $this->state->get('filter.begin'), 'filter_begin','filter_begin','%Y-%m-%d' , array('size'=>10,'onchange'=>'this.form.submit()'));?>
+			
+			<label class="filter-hide-lbl"><?php echo JText::_('Banners_End_Label'); ?></label>
+			<?php echo JHtml::_('calendar', $this->state->get('filter.end'), 'filter_end', 'filter_end','%Y-%m-%d' ,array('size'=>10,'onchange'=>'this.form.submit()'));?>
+
+		</div>
 		<div class="filter-select fltrt">
+		
+			<select name="filter_type" class="inputbox" onchange="this.form.submit()">
+				<?php echo JHtml::_('select.options', array(JHtml::_('select.option', '0', JText::_('Banners_Select_Type')), JHtml::_('select.option', 1, JText::_('Banners_Impression')), JHtml::_('select.option', 2, JText::_('Banners_Click'))), 'value', 'text', $this->state->get('filter.type'));?>
+			</select>
+
 			<select name="filter_category_id" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('JOption_Select_Category');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('category.options', 'com_banners'), 'value', 'text', $this->state->get('filter.category_id'));?>
@@ -62,12 +76,28 @@ $userId	= $user->get('id');
 			</tr>
 		</tfoot>
 		<tbody>
-		<?php foreach ($this->items as $i => $item) :
-			$ordering	= ($this->state->get('list.ordering') == 'ordering');
-			?>
+		<?php foreach ($this->items as $i => $item) :?>
 			<tr class="row<?php echo $i % 2; ?>">
+				<td>
+					<?php echo $item->name;?>
+				</td>
+				<td>
+					<?php echo $item->client_name;?>
+				</td>
+				<td>
+					<?php echo $item->category_title;?>
+				</td>
+				<td>
+					<?php echo $item->track_type==1 ? JText::_('Banners_Impression'): JText::_('Banners_Click');?>
+				</td>
+				<td>
+					<?php echo $item->count;?>
+				</td>
+				<td>
+					<?php echo $item->track_date;?>
+				</td>
 			</tr>
-			<?php endforeach; ?>
+		<?php endforeach; ?>
 		</tbody>
 	</table>
 
