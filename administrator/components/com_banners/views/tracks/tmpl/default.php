@@ -66,7 +66,7 @@ $userId	= $user->get('id');
 					<?php echo JHtml::_('grid.sort',   'Banners_Heading_Count', 'count', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="10%" class="nowrap">
-					<?php echo JHtml::_('grid.sort',   'Banners_Heading_Date', 'date', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort',   'Banners_Heading_Date', 'track_date', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 			</tr>
 		</thead>
