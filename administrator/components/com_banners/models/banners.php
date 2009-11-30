@@ -43,8 +43,8 @@ class BannersModelBanners extends JModelList
 		$search = $app->getUserStateFromRequest($this->_context.'.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$published = $app->getUserStateFromRequest($this->_context.'.filter.state', 'filter_published', '', 'string');
-		$this->setState('filter.state', $published);
+		$state = $app->getUserStateFromRequest($this->_context.'.filter.state', 'filter_state', '', 'string');
+		$this->setState('filter.state', $state);
 
 		$categoryId = $app->getUserStateFromRequest($this->_context.'.filter.category_id', 'filter_category_id', '');
 		$this->setState('filter.category_id', $categoryId);

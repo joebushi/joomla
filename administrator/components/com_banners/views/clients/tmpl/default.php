@@ -27,7 +27,7 @@ $userId	= $user->get('id');
 		</div>
 		<div class="filter-select fltrt">
 
-			<select name="filter_published" class="inputbox" onchange="this.form.submit()">
+			<select name="filter_state" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('JOption_Select_Published');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.state'), true);?>
 			</select>
