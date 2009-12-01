@@ -19,8 +19,6 @@ jimport('joomla.application.component.view');
  */
 class BannersViewTracks extends JView
 {
-	protected $items;
-
 	/**
 	 * Display the view
 	 */
@@ -37,24 +35,25 @@ class BannersViewTracks extends JView
 		$app = &JFactory::getApplication();
 		$document->setType('raw');
 		$document->setMimeEncoding('text/csv');
-		JResponse::setHeader('Content-disposition', 'inline; filename="'.$app->getCfg('sitename').'-tracks-'.JFactory::getDate().'.csv"', true);
+		JResponse::setHeader('Content-disposition', 'inline; filename="'.JText::sprintf('Banners_FileName',$app->getCfg('sitename'),JFactory::getDate()).'.csv"', true);
 
 		echo '"'.
-			JText::_('Banners_Heading_Name').'","'.
-			JText::_('Banners_Heading_Client').'","'.
-			JText::_('JGrid_Heading_Category').'","'.
-			JText::_('Banners_Heading_Type').'","'.
-			JText::_('Banners_Heading_Count').'","'.
-			JText::_('Banners_Heading_Date').'"'."\n";
+			str_replace('"','""',JText::_('Banners_Heading_Name')).'","'.
+			str_replace('"','""',JText::_('Banners_Heading_Client')).'","'.
+			str_replace('"','""',JText::_('JGrid_Heading_Category')).'","'.
+			str_replace('"','""',JText::_('Banners_Heading_Type')).'","'.
+			str_replace('"','""',JText::_('Banners_Heading_Count')).'","'.
+			str_replace('"','""',JText::_('Banners_Heading_Date')).'"'."\n";
 		foreach($items as $i=>$item)
 		{
 			echo '"'.
-				$item->name.'","'.
-				$item->client_name.'","'.
-				$item->category_title.'","'.
-				($item->track_type==1 ? JText::_('Banners_Impression'): JText::_('Banners_Click')).'","'.
-				$item->count.'","'.
-				$item->track_date.'"'."\n";
+				str_replace('"','""',$item->name).'","'.
+				str_replace('"','""',$item->client_name).'","'.
+				str_replace('"','""',$item->category_title).'","'.
+				str_replace('"','""',($item->track_type==1 ? JText::_('Banners_Impression'): JText::_('Banners_Click'))).'","'.
+				str_replace('"','""',$item->count).'","'.
+				str_replace('"','""',$item->track_date).'"'."\n";
 		}
 	}
 }
+
