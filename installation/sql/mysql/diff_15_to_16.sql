@@ -22,6 +22,164 @@ CREATE TABLE IF NOT EXISTS `jos_assets` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 -- ----------------------------------------------------------------
+-- jos_banners
+-- ----------------------------------------------------------------
+
+ALTER TABLE `jos_banner`
+ RENAME TO `jos_banners`;
+
+ALTER TABLE `jos_banners`
+ CHANGE COLUMN `bid` `id` INTEGER NOT NULL auto_increment;
+
+ALTER TABLE `jos_banners`
+ MODIFY COLUMN `type` INTEGER NOT NULL DEFAULT '0';
+
+ALTER TABLE `jos_banners`
+ CHANGE COLUMN `showBanner` `state` TINYINT(3) NOT NULL DEFAULT '0';
+
+ALTER TABLE `jos_banners`
+ CHANGE COLUMN `tags` `metakey` TEXT NOT NULL DEFAULT '' AFTER `state`;
+
+ALTER TABLE `jos_banners`
+ CHANGE COLUMN `date` `created` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `params`;
+
+ALTER TABLE `jos_banners`
+ DROP COLUMN `editor`;
+
+ALTER TABLE `jos_banners`
+ MODIFY COLUMN `catid` INTEGER UNSIGNED NOT NULL DEFAULT 0 AFTER `state`;
+
+ALTER TABLE `jos_banners`
+ MODIFY COLUMN `description` TEXT NOT NULL DEFAULT '' AFTER `catid`;
+
+ALTER TABLE `jos_banners`
+ MODIFY COLUMN `sticky` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 AFTER `description`;
+
+ALTER TABLE `jos_banners`
+ MODIFY COLUMN `ordering` INTEGER NOT NULL DEFAULT 0 AFTER `sticky`;
+
+ALTER TABLE `jos_banners`
+ MODIFY COLUMN `params` TEXT NOT NULL DEFAULT '' AFTER `metakey`;
+
+ALTER TABLE `jos_banners`
+ ADD COLUMN `own_prefix` TINYINT(1) NOT NULL DEFAULT '0' AFTER `params`;
+
+ALTER TABLE `jos_banners`
+ ADD COLUMN `metakey_prefix` VARCHAR(255) NOT NULL DEFAULT '' AFTER `own_prefix`;
+
+ALTER TABLE `jos_banners`
+ ADD COLUMN `purchase_type` TINYINT NOT NULL DEFAULT '-1' AFTER `metakey_prefix`;
+
+ALTER TABLE `jos_banners`
+ ADD COLUMN `track_clicks` TINYINT NOT NULL DEFAULT '-1' AFTER `purchase_type`;
+
+ALTER TABLE `jos_banners`
+ ADD COLUMN `track_impressions` TINYINT NOT NULL DEFAULT '-1' AFTER `track_clicks`;
+
+ALTER TABLE `jos_banners`
+ ADD COLUMN `reset` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `publish_down`;
+
+UPDATE `jos_banners`
+ SET `type`=1 WHERE TRIM(`custombannercode`)!='';
+
+UPDATE `jos_banners`
+ SET `params` = concat( '"flash":{"', REPLACE( REPLACE( REPLACE( TRIM( '\n' FROM `params` ) , '=', '":"' ) , '\n', '","' ) , '\r', '' ) , '"},' ) WHERE TRIM( `params` ) != '';
+
+UPDATE `jos_banners`
+ SET `params` = '"flash":{"height":"0","width":"0"},' WHERE TRIM( `params` ) = '';
+
+UPDATE `jos_banners`
+ SET `params` = CONCAT('{"custom":{"bannercode":"',REPLACE(`custombannercode`,'"','\\"'),'"},"alt":{"alt":""},',`params`,'"image":{"url":"',`imageurl`,'"}}');
+
+ALTER TABLE `jos_banners`
+ DROP COLUMN `custombannercode`;
+
+ALTER TABLE `jos_banners`
+ DROP COLUMN `imageurl`;
+
+ALTER TABLE `jos_banners`
+ DROP INDEX `viewbanner`;
+
+ALTER TABLE `jos_banners`
+ ADD INDEX `idx_own_prefix` (`own_prefix`);
+ 
+ALTER TABLE `jos_banners`
+ ADD INDEX `idx_metakey_prefix` (`metakey_prefix`);
+ 
+-- ----------------------------------------------------------------
+-- jos_banner_clients
+-- ----------------------------------------------------------------
+
+ALTER TABLE `jos_bannerclient`
+ RENAME TO `jos_banner_clients`;
+
+ALTER TABLE `jos_banner_clients`
+ CHANGE COLUMN `cid` `id` INTEGER NOT NULL auto_increment;
+
+ALTER TABLE `jos_banner_clients`
+ DROP COLUMN `editor`;
+
+ALTER TABLE `jos_banner_clients`
+ ADD COLUMN `state` TINYINT(3) NOT NULL DEFAULT '0' AFTER `extrainfo`;
+
+ALTER TABLE `jos_banner_clients`
+ ADD COLUMN `metakey` TEXT NOT NULL DEFAULT '';
+
+ALTER TABLE `jos_banner_clients`
+ ADD COLUMN `own_prefix` TINYINT NOT NULL DEFAULT '0';
+
+ALTER TABLE `jos_banner_clients`
+ ADD COLUMN `metakey_prefix` VARCHAR(255) NOT NULL DEFAULT '';
+
+ALTER TABLE `jos_banner_clients`
+ ADD COLUMN `purchase_type` TINYINT NOT NULL DEFAULT '-1';
+
+ALTER TABLE `jos_banner_clients`
+ ADD COLUMN `track_clicks` TINYINT NOT NULL DEFAULT '-1';
+
+ALTER TABLE `jos_banner_clients`
+ ADD COLUMN `track_impressions` TINYINT NOT NULL DEFAULT '-1';
+
+ALTER TABLE `jos_banner_clients`
+ ADD INDEX `idx_own_prefix` (`own_prefix`);
+ 
+ALTER TABLE `jos_banner_clients`
+ ADD INDEX `idx_metakey_prefix` (`metakey_prefix`);
+
+UPDATE `jos_banner_clients`
+ SET `state`=1;
+ 
+-- ----------------------------------------------------------------
+-- jos_banner_tracks
+-- ----------------------------------------------------------------
+
+ALTER TABLE `jos_bannertrack`
+ RENAME TO `jos_banner_tracks`;
+
+ALTER TABLE `jos_banner_tracks`
+ ADD COLUMN `count` INTEGER UNSIGNED NOT NULL DEFAULT '0';
+
+INSERT `jos_banner_tracks`
+ SELECT `track_date`,`track_type`,`banner_id`,count('*') AS `count`
+ FROM `jos_banner_tracks`
+ GROUP BY `track_date`,`track_type`,`banner_id`;
+ 
+DELETE FROM `jos_banner_tracks`
+ WHERE `count`=0;
+
+ALTER TABLE `jos_banner_tracks`
+ ADD PRIMARY KEY (`track_date`, `track_type`, `banner_id`);
+ 
+ALTER TABLE `jos_banner_tracks`
+ ADD INDEX `idx_track_date` (`track_date`);
+ 
+ALTER TABLE `jos_banner_tracks`
+ ADD INDEX `idx_track_type` (`track_type`);
+ 
+ALTER TABLE `jos_banner_tracks`
+ ADD INDEX `idx_banner_id` (`banner_id`);
+
+-- ----------------------------------------------------------------
 -- jos_categories
 -- ----------------------------------------------------------------
 

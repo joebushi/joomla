@@ -60,37 +60,37 @@ VALUES
 #
 
 CREATE TABLE `#__banners` (
-  `id` integer NOT NULL auto_increment,
-  `cid` integer NOT NULL default '0',
-  `type` integer NOT NULL default '0',
-  `name` varchar(255) NOT NULL default '',
-  `alias` varchar(255) NOT NULL default '',
-  `imptotal` integer NOT NULL default '0',
-  `impmade` integer NOT NULL default '0',
-  `clicks` integer NOT NULL default '0',
-  `clickurl` varchar(200) NOT NULL default '',
-  `state` tinyint(3) NOT NULL default '0',
+  `id` INTEGER NOT NULL auto_increment,
+  `cid` INTEGER NOT NULL DEFAULT '0',
+  `type` INTEGER NOT NULL DEFAULT '0',
+  `name` VARCHAR(255) NOT NULL DEFAULT '',
+  `alias` VARCHAR(255) NOT NULL DEFAULT '',
+  `imptotal` INTEGER NOT NULL DEFAULT '0',
+  `impmade` INTEGER NOT NULL DEFAULT '0',
+  `clicks` INTEGER NOT NULL DEFAULT '0',
+  `clickurl` VARCHAR(200) NOT NULL DEFAULT '',
+  `state` TINYINT(3) NOT NULL DEFAULT '0',
   `catid` INTEGER UNSIGNED NOT NULL DEFAULT 0,
-  `description` TEXT NOT NULL,
+  `description` TEXT NOT NULL DEFAULT '',
   `sticky` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
   `ordering` INTEGER NOT NULL DEFAULT 0,
-  `metakey` TEXT NOT NULL,
-  `params` TEXT NOT NULL,
-  `own_prefix` tinyint NOT NULL DEFAULT '0',
-  `metakey_prefix` varchar(255) NOT NULL default '',
-  `purchase_type` tinyint NOT NULL DEFAULT '0',
-  `track_clicks` tinyint NOT NULL DEFAULT '0',
-  `track_impressions` tinyint NOT NULL DEFAULT '0',
-  `checked_out` integer unsigned NOT NULL default '0',
-  `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
-  `publish_up` datetime NOT NULL default '0000-00-00 00:00:00',
-  `publish_down` datetime NOT NULL default '0000-00-00 00:00:00',
-  `reset` datetime NOT NULL default '0000-00-00 00:00:00',
-  `created` datetime NOT NULL default '0000-00-00 00:00:00',
+  `metakey` TEXT NOT NULL DEFAULT '',
+  `params` TEXT NOT NULL DEFAULT '',
+  `own_prefix` TINYINT(1) NOT NULL DEFAULT '0',
+  `metakey_prefix` VARCHAR(255) NOT NULL DEFAULT '',
+  `purchase_type` TINYINT NOT NULL DEFAULT '-1',
+  `track_clicks` TINYINT NOT NULL DEFAULT '-1',
+  `track_impressions` TINYINT NOT NULL DEFAULT '-1',
+  `checked_out` INTEGER UNSIGNED NOT NULL DEFAULT '0',
+  `checked_out_time` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `publish_up` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `publish_down` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `reset` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY  (`id`),
-  KEY `state` (`state`),
-  KEY `own_prefix` (`own_prefix`),
-  KEY `metakey_prefix` (`metakey_prefix`),
+  INDEX `idx_state` (`state`),
+  INDEX `idx_own_prefix` (`own_prefix`),
+  INDEX `idx_metakey_prefix` (`metakey_prefix`),
   INDEX `idx_banner_catid`(`catid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -101,23 +101,23 @@ CREATE TABLE `#__banners` (
 #
 
 CREATE TABLE `#__banner_clients` (
-  `id` integer NOT NULL auto_increment,
-  `name` varchar(255) NOT NULL default '',
-  `contact` varchar(255) NOT NULL default '',
-  `email` varchar(255) NOT NULL default '',
-  `extrainfo` text NOT NULL,
-  `state` tinyint(3) NOT NULL default '0',
-  `checked_out` integer unsigned NOT NULL default '0',
-  `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
-  `metakey` TEXT NOT NULL,
-  `own_prefix` tinyint NOT NULL DEFAULT '0',
-  `metakey_prefix` varchar(255) NOT NULL default '',
-  `purchase_type` tinyint NOT NULL DEFAULT '0',
-  `track_clicks` tinyint NOT NULL DEFAULT '0',
-  `track_impressions` tinyint NOT NULL DEFAULT '0',
+  `id` INTEGER NOT NULL auto_increment,
+  `name` VARCHAR(255) NOT NULL DEFAULT '',
+  `contact` VARCHAR(255) NOT NULL DEFAULT '',
+  `email` VARCHAR(255) NOT NULL DEFAULT '',
+  `extrainfo` TEXT NOT NULL,
+  `state` TINYINT(3) NOT NULL DEFAULT '0',
+  `checked_out` INTEGER UNSIGNED NOT NULL DEFAULT '0',
+  `checked_out_time` DATETIME NOT NULL default '0000-00-00 00:00:00',
+  `metakey` TEXT NOT NULL DEFAULT '',
+  `own_prefix` TINYINT NOT NULL DEFAULT '0',
+  `metakey_prefix` VARCHAR(255) NOT NULL default '',
+  `purchase_type` TINYINT NOT NULL DEFAULT '-1',
+  `track_clicks` TINYINT NOT NULL DEFAULT '-1',
+  `track_impressions` TINYINT NOT NULL DEFAULT '-1',
   PRIMARY KEY  (`id`),
-  KEY `own_prefix` (`own_prefix`),
-  KEY `metakey_prefix` (`metakey_prefix`)
+  INDEX `idx_own_prefix` (`own_prefix`),
+  INDEX `idx_metakey_prefix` (`metakey_prefix`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 # -------------------------------------------------------
@@ -127,14 +127,14 @@ CREATE TABLE `#__banner_clients` (
 #
 
 CREATE TABLE  `#__banner_tracks` (
-  `track_date` date NOT NULL,
-  `track_type` integer unsigned NOT NULL,
-  `banner_id` integer unsigned NOT NULL,
-  `count` integer unsigned NOT NULL DEFAULT '0',
+  `track_date` DATE NOT NULL,
+  `track_type` INTEGER UNSIGNED NOT NULL,
+  `banner_id` INTEGER UNSIGNED NOT NULL,
+  `count` INTEGER UNSIGNED NOT NULL DEFAULT '0',
   PRIMARY KEY (`track_date`, `track_type`, `banner_id`),
-  KEY (`track_date`),
-  KEY (`track_type`),
-  KEY (`banner_id`)
+  INDEX `idx_track_date` (`track_date`),
+  INDEX `idx_track_type` (`track_type`),
+  INDEX `idx_banner_id` (`banner_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 # -------------------------------------------------------
