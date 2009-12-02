@@ -26,6 +26,10 @@ class BannersModelTracks extends JModelList
 	 */
 	protected $_context = 'com_banners.tracks';
 	/**
+	 *
+	 */
+	protected $_basename;
+	/**
 	 * Method to auto-populate the model state.
 	 */
 	protected function _populateState()
@@ -204,4 +208,222 @@ class BannersModelTracks extends JModelList
 
 		return true;
 	}
+	/**
+	 * Get file name
+	 *
+	 * @return string the file name
+	 */
+	public function getBaseName()
+	{
+		if(!isset($this->_basename))
+		{
+			$app = &JFactory::getApplication();
+			$basename = $this->getState('basename');
+			$basename = str_replace('__SITE__',$app->getCfg('sitename'),$basename);
+			$categoryId = $this->getState('filter.category_id');
+			if (is_numeric($categoryId))
+			{
+				if ($categoryId>0)
+				{
+					$basename = str_replace('__CATID__',$categoryId,$basename);
+				}
+				else
+				{
+					$basename = str_replace('__CATID__','',$basename);
+				}
+				$categoryName = $this->getCategoryName();
+				$basename = str_replace('__CATNAME__',$categoryName,$basename);
+			}
+			else
+			{
+				$basename = str_replace('__CATID__','',$basename);
+				$basename = str_replace('__CATNAME__','',$basename);
+			}
+			$clientId = $this->getState('filter.client_id');
+			if (is_numeric($clientId))
+			{
+				if ($clientId>0)
+				{
+					$basename = str_replace('__CLIENTID__',$clientId,$basename);
+				}
+				else
+				{
+					$basename = str_replace('__CLIENTID__','',$basename);
+				}
+				$clientName = $this->getClientName();
+				$basename = str_replace('__CLIENTNAME__',$clientName,$basename);
+			}
+			else
+			{
+				$basename = str_replace('__CLIENTID__','',$basename);
+				$basename = str_replace('__CLIENTNAME__','',$basename);
+			}
+			$type = $this->getState('filter.type');
+			if ($type > 0)
+			{
+				$basename = str_replace('__TYPE__',$type,$basename);
+				$typeName = JText::_('Banners_Type'.$type);
+				$basename = str_replace('__TYPENAME__',$typeName,$basename);
+			}
+			else
+			{
+				$basename = str_replace('__TYPE__','',$basename);
+				$basename = str_replace('__TYPENAME__','',$basename);
+			}
+			$begin = $this->getState('filter.begin');
+			if (!empty($begin))
+			{
+				$basename = str_replace('__BEGIN__',$begin,$basename);
+			}
+			else
+			{
+				$basename = str_replace('__BEGIN__','',$basename);
+			}
+			$end = $this->getState('filter.end');
+			if (!empty($end))
+			{
+				$basename = str_replace('__END__',$end,$basename);
+			}
+			else
+			{
+				$basename = str_replace('__END__','',$basename);
+			}
+			$this->_basename = $basename;
+		}
+		return $this->_basename;
+	}
+	/**
+	 * Get the category name
+	 *
+	 * @return string the category name
+	 */
+	protected function getCategoryName()
+	{
+		$categoryId = $this->getState('filter.category_id');
+		if ($categoryId)
+		{
+			$query = new JQuery;
+			$query->select('title');
+			$query->from('`#__categories`');
+			$query->where('`id`='.$this->_db->quote($categoryId));
+			$this->_db->setQuery((string)$query);
+			$name = $this->_db->loadResult();
+			if ($this->_db->getErrorNum())
+			{
+				$this->setError($this->_db->getErrorMsg());
+				return false;
+			}
+		}
+		else
+		{
+			$name = JText::_('Banners_NoCategoryName');
+		}
+		return $name;
+	}
+	/**
+	 * Get the category name
+	 *
+	 * @return string the category name
+	 */
+	protected function getClientName()
+	{
+		$clientId = $this->getState('filter.client_id');
+		if ($clientId)
+		{
+			$query = new JQuery;
+			$query->select('name');
+			$query->from('`#__banner_clients`');
+			$query->where('`id`='.$this->_db->quote($clientId));
+			$this->_db->setQuery((string)$query);
+			$name = $this->_db->loadResult();
+			if ($this->_db->getErrorNum())
+			{
+				$this->setError($this->_db->getErrorMsg());
+				return false;
+			}
+		}
+		else
+		{
+			$name = JText::_('Banners_NoClientName');
+		}
+		return $name;
+	}
+	/**
+	 * Get the file type
+	 *
+	 * @return string the file type
+	 */
+	public function getFileType()
+	{
+		return $this->getState('compressed')?'zip':'csv';
+	}
+	/**
+	 * Get the mime type
+	 *
+	 * @return string the mime type
+	 */
+	public function getMimeType()
+	{
+		return $this->getState('compressed')?'application/zip':'text/csv';
+	}
+	/**
+	 * Get the content
+	 *
+	 * @return string the content
+	 */
+	public function getContent()
+	{
+		if (!isset($this->_content))
+		{
+			$this->_content = '';
+			$this->_content.= 
+			'"'.str_replace('"','""',JText::_('Banners_Heading_Name')).'","'.
+				str_replace('"','""',JText::_('Banners_Heading_Client')).'","'.
+				str_replace('"','""',JText::_('JGrid_Heading_Category')).'","'.
+				str_replace('"','""',JText::_('Banners_Heading_Type')).'","'.
+				str_replace('"','""',JText::_('Banners_Heading_Count')).'","'.
+				str_replace('"','""',JText::_('Banners_Heading_Date')).'"'."\n";
+			foreach($this->getItems() as $item)
+			{
+				$this->_content.=
+				'"'.str_replace('"','""',$item->name).'","'.
+					str_replace('"','""',$item->client_name).'","'.
+					str_replace('"','""',$item->category_title).'","'.
+					str_replace('"','""',($item->track_type==1 ? JText::_('Banners_Impression'): JText::_('Banners_Click'))).'","'.
+					str_replace('"','""',$item->count).'","'.
+					str_replace('"','""',$item->track_date).'"'."\n";
+			}
+			if ($this->getState('compressed'))
+			{
+				$files = array();
+				$files['track']=array();
+				$files['track']['name'] = $this->getBasename() . '.csv';
+				$files['track']['data'] = $this->_content;
+				$files['track']['time'] = time();
+				$ziproot = JPATH_ROOT . '/tmp/' . uniqid('banners_tracks_') . '.zip';
+				// run the packager
+				jimport('joomla.filesystem.folder');
+				jimport('joomla.filesystem.file');
+				jimport('joomla.filesystem.archive');
+				$delete = JFolder::files(JPATH_ROOT . '/tmp/', 'banners_tracks_',false,true);
+				if (!empty($delete)) {
+					if (!JFile::delete($delete)) {
+						// JFile::delete throws an error
+						$this->setError(JText::_('BANNERS_ZIP_DELETE_FAILURE'));
+						return false;
+					}
+				}				
+				if (!$packager = & JArchive::getAdapter('zip')) {
+					$this->setError(JText::_('BANNERS_ZIP_ADAPTER_FAILURE'));
+					return false;
+				} else if (!$packager->create($ziproot, $files)) {
+					$this->setError(JText::_('BANNERS_ZIP_CREATE_FAILURE'));
+					return false;
+				}
+				$this->_content = file_get_contents($ziproot);
+			}
+		}
+		return $this->_content;
+	}
 }
+

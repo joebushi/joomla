@@ -76,7 +76,7 @@ class BannersControllerTracks extends JController
 		// Get the document object.
 		$document	= &JFactory::getDocument();
 		$vName		= 'tracks';
-		$vFormat	= 'csv';
+		$vFormat	= 'raw';
 
 		// Get and render the view.
 		if ($view = &$this->getView($vName, $vFormat))
@@ -105,6 +105,17 @@ class BannersControllerTracks extends JController
 			$model->setState('list.limit', 0);
 			$model->setState('list.start', 0);
 
+			$form = JRequest::getVar('jform');
+			$model->setState('basename',$form['basename']);
+			$model->setState('compressed',$form['compressed']);
+
+			$config =& JFactory::getConfig();
+			$cookie_domain = $config->getValue('config.cookie_domain', '');
+			$cookie_path = $config->getValue('config.cookie_path', '/');
+			jimport('joomla.utilities.utility');
+			setcookie(JUtility::getHash($this->_context.'.basename'), $form['basename'], time() + 365 * 86400, $cookie_path, $cookie_domain);
+			setcookie(JUtility::getHash($this->_context.'.compressed'), $form['compressed'], time() + 365 * 86400, $cookie_path, $cookie_domain);
+		
 			// Push the model into the view (as default).
 			$view->setModel($model, true);
 

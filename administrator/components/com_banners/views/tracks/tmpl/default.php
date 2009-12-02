@@ -9,10 +9,10 @@
 
 // no direct access
 defined('_JEXEC') or die;
-
 JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 JHtml::_('behavior.tooltip');
 JHtml::_('script', 'multiselect.js');
+JHtml::_('behavior.modal', 'a.modal');
 $user	= JFactory::getUser();
 $userId	= $user->get('id');
 ?>
