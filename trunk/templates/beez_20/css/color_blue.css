@@ -1,0 +1,1165 @@
+/*
+ * @author ( Angie Radtke )
+*/
+
+/* ##########################  general  ########################### */
+
+body
+{
+        background: #eee ;
+        color: #333;
+}
+
+#all
+{
+        color: #333;
+        background:#fff URL(../images/all_bg.gif) repeat-y right top;
+        border-top:solid 0px #ddd
+}
+
+a:link,
+a:visited
+{
+        color:#044b63
+}
+
+a:hover,
+a:active,
+a:focus
+{
+        background:#000;
+        color:#FFF;
+}
+
+
+ul li a.u2:focus,
+p a.u2:active
+{
+        background-color:#000;
+        color:#FFF;
+}
+
+.skiplinks,
+.skiplinks li
+{
+        border:solid 0px #000;
+}
+
+.skiplinks li a.u2:active,
+.skiplinks li a.u2:focus
+{
+        background:#ffcc00 !important;
+        border:solid 1px;
+}
+
+input:focus
+{
+        border:solid 2px;
+}
+
+p.counter
+{
+        color:#000;
+}
+
+fieldset
+{
+        border:solid 1px #ccc
+}
+
+.article_info
+{
+        color:#444;
+}
+
+.article_info,
+.article_info span,
+.jiteminfo span
+{
+        color:#005782
+}
+
+/* ##########################  back  ########################### */
+
+#back
+{
+
+}
+
+/* ##########################  logo  ########################### */
+
+#logo span
+{
+        color:#fff
+}
+
+.logoheader
+{
+        border:solid 0px #e5e5e5;
+        background:#006699 URL(../images/blue/grass_right.gif) no-repeat right top ;
+        color:#fff;
+}
+
+
+/* ##########################  header  ########################### */
+
+#header
+{
+
+}
+
+/* ++++++++++++++  lists, skiplinks  ++++++++++++++ */
+#header ul
+{
+        background:#005782 ;
+        border-bottom:solid 0px #ccc
+}
+
+#header ul li
+{
+
+}
+
+#header ul li a:link,
+#header ul li a:visited
+{
+        background:#005782 ;
+        color:#fff;
+        border-left:solid 1px #fff;
+}
+
+#header ul li a:hover,
+#header ul li a:active,
+#header ul li a:focus
+{
+        background:#ffcc33;
+        color:#333;
+}
+
+
+
+
+
+/* ++++++++++++++  fontsize  ++++++++++++++ */
+
+#fontsize
+{
+        background:#fff;
+        color:#005782
+}
+
+#fontsize p a:link,
+#fontsize p a:visited
+{
+        color:#444
+}
+
+#fontsize p a:hover,
+#fontsize p a:active,
+#fontsize p a:focus
+{
+        background:#044b63;
+        color:#fff
+}
+#fontsize h3
+{color:#444; font-weight:normal}
+
+/* ++++++++++++++  search  ++++++++++++++ */
+
+#header form fieldset
+{
+        border:0 solid #000;
+}
+
+#header form label
+{
+        color:#000;
+}
+
+
+
+#header form .inputbox
+{
+        background:url(../images/header-bg.gif) repeat-x;
+        border:solid 1px #666;
+}
+
+#header form .inputbox:focus
+{
+        border:solid 2px #000;
+}
+#header form .button
+{
+    border:solid 1px #ddd;
+    background:#444;
+    color:#fff
+}
+
+/* ##########################  contentarea  ########################### */
+
+#contentarea,
+#contentarea2
+{
+        background:#fff url(../images/content_bg.gif) repeat-x
+}
+
+
+/* ##########################  breadcrumbs  ########################### */
+
+#breadcrumbs
+{
+        color:#333;
+        border:solid 0px #ccc
+}
+
+#breadcrumbs a:link,
+#breadcrumbs a:visited
+{
+        background:#fff;
+        color:#333;
+}
+
+#breadcrumbs span
+{
+        color:#333;
+}
+
+#breadcrumbs span a:hover,
+#breadcrumbs span a:active,
+#breadcrumbs span a:focus
+{
+        background:#000;
+        color:#fff;
+}
+
+
+/* ##########################  newsflash  ########################### */
+
+.news
+{
+        background:#f5f5f5 ;
+        border:solid 1px #e5e5e5
+}
+
+.news h1
+{
+        background: url(../images/gruen.gif) no-repeat bottom left ;
+        color:#095D79;
+}
+
+
+/* ##########################  navigation column  ########################### */
+
+#nav .moduletable
+{
+
+}
+
+#nav h3
+{
+      
+        border-top:1px solid #DDDDDD;
+color:#005782;
+}
+
+#nav h3.high
+{
+        color:#044b63 ;
+}
+
+#nav h3.js_heading
+{
+        border-top:solid 1px #ddd;
+        background:#fff url(../images/content_bg.gif) repeat-x;
+        color:#333;
+        padding-top:15px
+}
+
+#nav h3.js_heading a:link,
+#nav h3.js_heading a:visited,
+#nav h3.js_heading a:hover,
+#nav h3.js_heading a:active,
+#nav h3.js_heading a:focus
+{
+
+}
+
+#nav h3.js_heading a:focus
+{
+        border:solid 2px #044b63
+}
+
+#nav ul li
+{
+
+}
+
+#nav ul li a:link,
+#nav ul li a:visited
+{
+        background:#fff url(../images/arrow2.png) 0px center no-repeat;
+        border-bottom:solid 1px #ddd;
+        color:#222;
+}
+
+#nav ul li a:hover,
+#nav ul li a:active,
+#nav ul li a:focus
+{
+        background:#005782 ;
+        color:#fff ;
+}
+
+#nav ul li ul
+{
+        background:#f5f5f5;
+        border-top:solid 0px #ccc;
+}
+
+#nav ul li ul li
+{
+        border:solid 0px #fff;
+}
+
+#nav ul li ul li a:link,
+#nav ul li ul li a:visited
+{
+        background:#f5f5f5;
+        color:#222;
+}
+
+#nav ul li ul li a:hover,
+#nav ul li ul li a:active,
+#nav ul li ul li a:focus
+{
+        background:#005782;
+        color:#fff;
+}
+
+#nav ul li ul li ul
+{
+        border-bottom:solid 1px #ccc;
+}
+
+#nav ul li ul li ul li ul
+{
+        border:solid 1px #ddd;
+        background:#fff;
+}
+
+#nav ul li.active a:link,
+#nav ul li.active a:visited
+{
+        color:#095D79;
+        border-bottom:solid 1px #ccc;
+}
+
+#nav ul li.active a:hover,
+#nav ul li.active a:active,
+#nav ul li.active a:focus
+{
+        color:#fff;
+        background:#333;
+}
+
+#nav ul li.active ul li a:link,
+#nav ul li.active ul li a:visited
+{
+        background:#eee ;
+        border-bottom:solid 1px #ccc;
+        border-left:solid 0 ;
+        color:#000;
+}
+
+#nav ul li.active ul li a:hover,
+#nav ul li.active ul li a:active,
+#nav ul li.active ul li a:focus
+{
+        background:#044b63;
+        color:#fff;
+}
+
+#nav ul li.active ul li ul li a:link,
+#nav ul li.active ul li ul li a:visited
+{
+        background:#fff;
+        color:#000;
+}
+
+#nav ul li.active ul li.active a:link,
+#nav ul li.active ul li.active a:visited
+{
+        background:#eee;
+        color:#095D79;
+}
+
+#nav ul li.active ul li.active a:hover,
+#nav ul li.active ul li.active a:active,
+#nav ul li.active ul li.active a:focus
+{
+        background:#044b63;
+        color:#fff;
+}
+
+#nav ul li.active ul li.active ul li a:link,
+#nav ul li.active ul li.active ul li a:visited
+{
+        background:url(../images/arrow2.png) #f5f5f5 no-repeat center left;
+        color:#000;
+        border-bottom:0
+}
+
+#nav ul li.active ul li.active ul li a:hover,
+#nav ul li.active ul li.active ul li a:active,
+#nav ul li.active ul li.active ul li a:focus
+{
+        background:#044b63;
+        color:#fff;
+}
+
+#nav ul li.active ul li.active ul li.active a:link,
+#nav ul li.active ul li.active ul li.active a:visited
+{
+        background:url(../images/arrow2.png) #f5f5f5 no-repeat center left;
+        color:#044b63;
+}
+
+#nav ul li.active ul li.active ul li.active a:hover,
+#nav ul li.active ul li.active ul li.active a:active,
+#nav ul li.active ul li.active ul li.active a:focus
+{
+        background:#044b63;
+        color:#fff;
+}
+
+#nav ul li.active ul li.active ul li.active ul li a:link,
+#nav ul li.active ul li.active ul li.active ul li a:visited
+{
+        background: #fff;
+        color:#044b63;
+}
+
+#nav ul li.active ul li.active ul li.active ul li a:hover,
+#nav ul li.active ul li.active ul li.active ul li a:active,
+#nav ul li.active ul li.active ul li.active ul li a:focus
+{
+        background:#044b63;
+        color:#fff;
+}
+
+#nav ul li.active ul li.active ul li.active ul li.active a:link,
+#nav ul li.active ul li.active ul li.active ul li.active a:visited
+{
+
+}
+
+#nav ul li.active ul li.active ul li.active ul li.active a:hover,
+#nav ul li.active ul li.active ul li.active ul li.active a:active,
+#nav ul li.active ul li.active ul li.active ul li.active a:focus
+{
+        background:#044b63;
+        color:#fff;
+}
+
+#nav ul li a#active_menu
+{
+        color:#044b63
+}
+
+#nav ul li a#active_menu:hover,
+#nav ul li a#active_menu:active,
+#nav ul li a#active_menu:focus
+{
+        color:#fff
+}
+
+#nav form
+{
+        color:#000;
+}
+
+#nav form a:hover,
+#nav form a:active,
+#nav form a:focus
+{
+        color:#fff;
+        background:#044b63;
+}
+
+
+/* ++++++++++++++  mostread, latest news ++++++++++++++ */
+
+.mostread li a:link,
+.mostread li a:visited,
+.latestnews li a:link,
+.latestnews li a:visited
+{
+        background: url(../images/arrow2.png) 0 10px  no-repeat ;
+}
+
+/* ++++++++++++++  button for closing right column  ++++++++++++++ */
+#close span
+{
+                background:#444 url(../images/close2.gif) top left no-repeat;
+                border:solid 0px #ccc;
+        border-bottom:0;
+        color:#fff;
+}
+
+
+/* ##########################  content - main   ########################### */
+
+#main
+{
+
+}
+
+#main h1
+{
+        color:#005782;
+        border-top:solid 1px #ddd;
+        border-bottom:solid 1px #ddd
+}
+
+#main a:link,
+#main a:visited
+{
+        color:#044B63
+}
+
+#main a:hover,
+#main a:active,
+#main a:focus
+{
+        background:#044B63;
+        color:#fff;
+}
+
+.article_row
+{
+        background:#fff
+}
+
+.article_column
+{
+        border: solid 0px #ccc;
+}
+
+.article_column h2
+{
+        border-bottom:solid 1px #ddd;
+        border-top:solid 1px #ddd;
+        color:#005782
+}
+
+.column1,
+.column2
+{
+        border: solid 0px ;
+}
+
+.article_separator
+{
+        border: solid 1px #333333;
+}
+
+/* ++++++++++++++  images  ++++++++++++++ */
+
+.image_left
+{
+        border:solid 0 #ccc;
+        margin:0 15px 5px 0
+}
+
+.image_right
+{
+        border:solid 1px #ccc;
+        margin:0 0 5px 15px
+}
+
+/* ++++++++++++++  readmore  ++++++++++++++ */
+
+#main a.readon
+{
+        background:url(../images/pfeil.gif) 2px 5px  no-repeat;
+}
+
+#main a.readon:hover,
+#main a.readon:active,
+#main a.readon:focus
+{
+        background:url(../images/pfeil_hover.gif) 2px 5px #005782 no-repeat;
+        color:#fff;
+}
+
+.module_content
+{
+        border:solid 0px #ddd;
+}
+
+/* ++++++++++++++  leading  ++++++++++++++ */
+
+.leading
+{
+
+}
+
+#main .leading h2
+{
+        color:#333
+}
+
+#main .leading .readon
+{
+        background:url(../images/pfeil.gif) no-repeat 2px 5px;
+        border:solid 0;
+        color:#005782;
+}
+
+.leading_separator
+{
+        border-bottom: solid 0px #333333;
+}
+
+/* ++++++++++++++  blog_more  ++++++++++++++ */
+
+#main .blog-more h2
+{
+        background:#044b63 url(../images/blue/h1_blue.gif) repeat-x top left;
+        color:#fff
+}
+
+#main .blog-more ol
+{
+        color:#000;
+}
+
+#main .blog-more ol li a
+{
+        background:#FFFFFF url(../images/arrow2.png) no-repeat 0px center;
+}
+
+#main .blog-more ol li a:hover
+{
+        background: #044B63;
+        color:#fff;
+}
+
+#main .blog-more ol li a:active,
+#main .blog-more ol li a:focus
+{
+        background: #044B63;
+        color:#fff;
+}
+
+/* ++++++++++++++  pagination  ++++++++++++++ */
+
+#main .pagination
+{
+        border-top:solid 1px #CCC;
+}
+
+/* ++++++++++++++  article index  ++++++++++++++ */
+
+table.contenttoc
+{
+        border:solid 1px #ccc;
+}
+
+
+
+/* ##########################  right column   ########################### */
+
+#right
+{
+        border:solid 1px #ccc;
+        background:#eee  url(../images/header-bg.gif) repeat-x ;
+}
+
+#right .moduletable
+{
+        color:#000;
+        border:solid 0px #ccc
+}
+
+#right h3
+{
+        color:#005782;
+        border-bottom:solid 1px #ddd
+}
+
+#right h4
+{
+        color:#000;
+        border:solid 0;
+}
+
+#right ul
+{
+        border:solid 0 #ccc;
+        color:#000;
+}
+
+#right ul li a:link,
+#right ul li a:visited
+{
+        color:#000;
+}
+
+#right ul li a:hover,
+#right ul li a:active,
+#right ul li a:focus
+{
+        background:#044b63;
+        color:#fff;
+}
+
+/* ##########################  search   ########################### */
+
+.searchintro img
+{
+        border:0px
+}
+
+.inputbox:focus
+{
+        border:solid 2px #000;
+}
+
+.word
+{
+        background:#fff;
+        border:solid 0px #ccc ;
+}
+
+.word input
+{
+        background:#fff;
+        border:solid 1px #999;
+        color:#044b63;
+}
+
+.only
+{
+        border:solid 1px #ccc;
+}
+
+.search_result legend
+{
+        border-bottom:solid 0 #000;
+        background:#fff;
+}
+
+.phrases
+{
+        color:#000;
+        border:solid 1px #ccc;
+}
+
+/* ++++++++++++++  selects  ++++++++++++++ */
+.phrase .inputbox
+{
+        background:#fff;
+        color:#000;
+}
+
+.phrase .inputbox option
+{
+        background:#f5f5f5;
+        border-bottom:solid 1px #ccc;
+}
+
+.phrase .inputbox option a:hover
+{
+        background:#C00;
+        border-color:#CFD0D6;
+        color:#fff;
+}
+
+
+/* ##########################  forms   ########################### */
+
+form.login
+{
+        background:#044b63;
+        color:#000;
+}
+
+form.login p
+{
+        border:solid 0 #000;
+        color:#000;
+}
+
+form.login p a
+{
+        color:#000;
+}
+
+form.login p a:hover,
+form.login p a:active,
+form.login p a:focus
+{
+        color:#000;
+}
+
+form.login .button
+{
+        background:url(../images/pfeil.gif) no-repeat;
+        color:#fff;
+}
+
+form.login fieldset
+{
+        border:solid 0 #000;
+}
+
+form.login label
+{
+        color:#000;
+}
+
+form.login .inputbox:focus
+{
+        border:solid 2px #000;
+}
+
+form.login input
+{
+        background:#fff;
+        border:solid 2px #ccc;
+        color:#000;
+}
+
+form.login input.checkbox
+{
+        background:none;
+        border:solid 0 #000;
+}
+
+legend
+{
+         border:solid 1px #ddd;
+         background:#eee;
+}
+
+
+/* ++++++++++++++  form validation  ++++++++++++++ */
+
+.invalid
+{
+        border-color:red !important;
+}
+
+label.invalid
+{
+        color:red;
+}
+
+
+/* ++++++++++++++  form.registration  ++++++++++++++ */
+form.search_result,
+form.registration,
+form.lost_password,
+.login_form
+{
+        background:#fff;
+        border:solid 0 #044b63;
+}
+
+.search_result .button,
+form.registration .button
+{
+        background:url(../images/pfeil.gif) #000 no-repeat;
+        border:0;
+        color:#fff;
+}
+
+/* ##########################  user profile  ########################### */
+#users-profile-core,
+#users-profile-custom
+{
+        border:solid 1px #ccc;
+}
+
+#member-profile fieldset
+{
+        border:solid 1px #ccc;
+}
+
+
+/* ##########################  tables   ########################### */
+
+table.newsfeeds td,
+table.weblinks td,
+table.category td,
+table.jlist-table td
+{
+        border-right:solid 1px #EEE;
+}
+
+table.newsfeeds th,
+table.weblinks th,
+table.category th,
+table.jlist th,
+table.jlist-table th
+{
+        background:#EEE;
+}
+
+table.newsfeeds,
+table.weblinks,
+table.category,
+table.jlist-table
+{
+        border:solid 1px #eee;
+}
+
+
+/* ##########################  contacts   ########################### */
+
+.contact form
+{
+        background:#fff;
+        color:#000;
+        border:solid 1px #ccc
+}
+
+.contact input
+{
+        background:#fff;
+        border:solid 1px #555;
+        color:#000;
+}
+
+.contact .button
+{
+        background:url(../images/pfeil.gif) #000 no-repeat;
+        border:0;
+        color:#fff;
+}
+
+.contact input.invalid,
+.contact textarea.invalid
+{
+        border:solid 2px red;
+}
+
+.contact label.invalid
+{
+        color:red;
+}
+
+
+/* ++++++++++++++  Error Message contact form  ++++++++++++++ */
+
+p.error
+{
+        color:#044b63;
+        background:#eee;
+        border-top:3px solid #044b63;
+        border-bottom:3px solid #044b63;
+}
+
+body.contentpane
+{
+        background:#fff;
+}
+
+/* ##########################  polls   ########################### */
+
+.poll h3
+{
+        color:#044b63;
+        border:solid 0;
+}
+
+.poll table
+{
+        border:solid 0;
+}
+
+.poll table caption
+{
+        color:#044b63;
+}
+
+.poll th
+{
+        background:#EEE;
+        border:solid 1px #ccc;
+}
+
+.poll td
+{
+        border:solid 1px #ddd;
+}
+
+form.poll fieldset
+{
+        border:0 solid #000;
+}
+
+#right form.poll a
+{
+        color:#fff !important;
+        border:outset 1px #ccc;
+        background:#555;
+}
+
+#right form.poll a:hover,
+#right form.poll a:active,
+#right form.poll a:focus,
+#right form.poll .button:hover,
+#right form.poll .button:active,
+#right form.poll .button:focus
+{
+        border:1px outset #ccc;
+}
+
+#right form.poll .button
+{
+        border:outset 1px #ccc;
+        background:#555;
+        color:#fff
+}
+
+#right form.poll .button:focus
+{
+        border:outset 1px #ccc;
+}
+
+dl.poll dt
+{
+        border-bottom:solid 1px #ccc;
+}
+
+.poll .polls_color_1,
+.poll .polls_color_2,
+.poll .polls_color_3,
+.poll .polls_color_4,
+.poll .polls_color_5
+{
+        border:solid 1px;
+}
+
+.polls_color_1
+{
+        background:#000;
+}
+
+.polls_color_2
+{
+        background:#999;
+}
+
+.polls_color_3
+{
+        background:#044b63;
+}
+
+.polls_color_4
+{
+        background:#000;
+}
+
+.polls_color_5
+{
+        background:#ccc;
+}
+
+.polls_color_6
+{
+        background:#044b63;
+}
+
+
+/* ##########################  footer   ########################### */
+
+#footer
+{
+        background:url(../images/footer_bg.gif) repeat-x;
+        color:#fff;
+        border-top:solid 4px #ccc;
+}
+
+#footer a
+{
+        color:#fff;
+}
+
+
+/* ##########################  editor  ########################### */
+
+.contentpaneopen_edit img
+{
+        border:0
+}
+
+form.editor fieldset
+{
+        border:solid 1px #ccc;
+}
+
+
+/* ##########################  rest  ########################### */
+
+.content_vote .button
+{
+        background:url(../images/pfeil.gif) #000 no-repeat;
+        border:0;
+        color:#fff;
+}
+
+form.lost_password .button,
+.login_form .button
+{
+        background:url(../images/pfeil.gif) #000 no-repeat;
+        border:0;
+        color:#fff;
+}
+
+
+form.registration input,
+form.lost_password input,
+.login_form input
+{
+        border:solid 2px #044b63;
+}
+
+
+/* ++++++++++++++  advertisement  ++++++++++++++ */
+
+.moduletable_text
+{
+        border:solid 0px #ccc;
+}
+
+.banneritem_text
+{
+        color:#000
+}
+
+.banneritem_text a
+{
+        font-weight:bold
+}
+
+/* ++++++++++++++  edit  ++++++++++++++ */
+
+form#adminForm
+{
+         border:solid 0px #000
+}
+
+form#adminForm fieldset
+{
+         border:solid 1px #ddd
+}
+
+/* ++++++++++++++  tooltip  ++++++++++++++ */
+.tip
+{
+         border:solid 1px #333;
+         background:#ffffcc;
+}
