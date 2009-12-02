@@ -33,10 +33,11 @@ $userId	= $user->get('id');
 				<?php echo JHtml::_('select.options', array(JHtml::_('select.option', '0', JText::_('Banners_Select_Type')), JHtml::_('select.option', 1, JText::_('Banners_Impression')), JHtml::_('select.option', 2, JText::_('Banners_Click'))), 'value', 'text', $this->state->get('filter.type'));?>
 			</select>
 
+			<?php $category = $this->state->get('filter.category_id');?>
 			<select name="filter_category_id" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('JOption_Select_Category');?></option>
-				<option value="0"><?php echo JText::_('JOption_No_Category');?></option>
-				<?php echo JHtml::_('select.options', JHtml::_('category.options', 'com_banners'), 'value', 'text', $this->state->get('filter.category_id'));?>
+				<option value="0"<?php if($category==='0') echo ' selected="selected"';?>><?php echo JText::_('JOption_No_Category');?></option>
+				<?php echo JHtml::_('select.options', JHtml::_('category.options', 'com_banners'), 'value', 'text', $category);?>
 			</select>
 
 			<select name="filter_client_id" class="inputbox" onchange="this.form.submit()">
