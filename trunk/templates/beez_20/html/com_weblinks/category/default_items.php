@@ -1,6 +1,6 @@
 <?php
 /**
- * @version                $Id: default_items.php 13471 2009-11-12 00:38:49Z eddieajau $
+ * @version                $Id: default_items.php 13471 2009-11-12 00:38:49Z eddieajau changed angie radtke $
  * @package                Joomla.Site
  * @subpackage        com_weblinks
  * @copyright        Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 // TODO: Optimise some of the fixed params in the loops
 ?>
-<script language="javascript" type="text/javascript">
+<script  type="text/javascript">
         function tableOrdering(order, dir, task) {
         var form = document.adminForm;
 
@@ -22,7 +22,7 @@ defined('_JEXEC') or die;
 }
 </script>
 
-// here we are
+
 
  <form action="<?php echo JFilterOutput::ampReplace(JFactory::getURI()->toString()); ?>" method="post" name="adminForm">
  <div class="filter">
@@ -32,7 +32,7 @@ defined('_JEXEC') or die;
         <input type="hidden" name="filter_order" value="<?php echo $this->state->get('list.ordering'); ?>" />
         <input type="hidden" name="filter_order_Dir" value="<?php echo $this->state->get('list.direction'); ?>" />
  </form>
-        <table class="jlist">
+        <table class="weblinks">
                 <thead>
 
                         <?php if ($this->params->def('show_headings', 1)) : ?>
@@ -59,6 +59,7 @@ defined('_JEXEC') or die;
                                         <?php echo $this->pagination->getRowOffset($i); ?>
                                 </td>
                                 <td class="title">
+                                <p>
                                         <?php if ($this->params->get('link_icons') <> -1) : ?>
                                                 <?php echo JHtml::_('image.site',  $this->params->get('link_icons', 'weblink.png'), '/images/system/', $this->params->get('weblink_icons'), '/images/system/', 'Link');?>
                                         <?php endif; ?>
@@ -91,14 +92,20 @@ defined('_JEXEC') or die;
 
                                                         default:
                                                                 // open in parent window
-                                                                        echo '<a href="'.  $link . '\" class=\"'. $menuclass .'" rel="nofollow">'.
+                                                                        echo '<a href="'.  $link . '\" class="'. $menuclass .'" rel="nofollow">'.
                                                                                 $this->escape($item->title) . ' </a>';
                                                                 break;
                                                 }
                                         ?>
-                                        <?php if ($this->params->get('show_link_description')) : ?>
-                                                        <?php echo nl2br($item->description); ?>
+                                        </p>
+
+
+                                        <?php if (($this->params->get('show_link_description')) AND ($item->description !='')): ?>
+                                            <p>
+                                              <?php echo nl2br($item->description); ?>
+                                              </p>
                                         <?php endif; ?>
+
                                 </td>
                                 <?php if ($this->params->get('show_link_hits')) : ?>
                                 <td class="hits">
@@ -107,19 +114,24 @@ defined('_JEXEC') or die;
                                 <?php endif; ?>
                         </tr>
                         <?php endforeach; ?>
-               <tbody>
+               </tbody>
+                  <? if($this->pagination->get('pages.total')>1): ?>
                <tfoot>
+
+
                         <tr>
-                                <td colspan="3">
+                                <td colspan="3" class="counter">
                                         <?php echo $this->pagination->getPagesCounter(); ?>
                                 </td>
                         </tr>
+
                         <tr>
-                                <td colspan="3" class="sectiontablefooter<?php echo $this->params->get('pageclass_sfx'); ?>">
+                                <td colspan="3" class="table_footer<?php echo $this->params->get('pageclass_sfx'); ?>">
                                 <?php echo $this->pagination->getPagesLinks(); ?>
                                 </td>
                         </tr>
                 </tfoot>
+                  <?php endif; ?>
         </table>
 
 

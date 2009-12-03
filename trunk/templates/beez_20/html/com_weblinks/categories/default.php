@@ -21,9 +21,9 @@ $difLevel = 0;
 <div class="jcategories-list<?php echo $pageClass;?>">
 
 <?php if ($this->params->get('show_page_title', 1)) : ?>
-<h2>
+<h1>
         <?php echo $this->escape($this->params->get('page_title')); ?>
-</h2>
+</h1>
 <?php endif; ?>
 
 
@@ -37,7 +37,7 @@ $difLevel = 0;
 		$item->deeper		= (isset($this->items[$i+1]) && ($item->level < $this->items[$i+1]->level));
 		$item->shallower	= (isset($this->items[$i+1]) && ($item->level > $this->items[$i+1]->level));
 		$item->level_diff	= (isset($this->items[$i+1])) ? ($item->level - $this->items[$i+1]->level) : 0;
-	endfor;	
+	endfor;
 	echo '<ul>';
 	for ($i=0;$i<$itemcount;$i++) :
 		$item = &$this->items[$i];
@@ -93,7 +93,7 @@ $difLevel = 0;
 		}
 	}
 	echo '</ul>';
-?>	
+?>
 <?php endif; ?>
 
 </div>
