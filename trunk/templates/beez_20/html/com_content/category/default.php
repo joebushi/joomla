@@ -34,11 +34,11 @@ $pageClass = $this->params->get('pageclass_sfx');
 
 <?php if ($this->params->def('show_description', 1) || $this->params->def('show_description_image', 1)) :?>
 
-<details>
+<div class="category_description">
 
                 <?php echo $this->item->description; ?>
 
-</details>
+</div>
 <?php endif; ?>
 
 

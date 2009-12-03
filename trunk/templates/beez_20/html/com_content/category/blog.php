@@ -28,14 +28,14 @@ $pageClass = $this->params->get('pageclass_sfx');
 
 
 <?php if ($this->params->get('show_description', 1) || $this->params->def('show_description_image', 1)) :?>
-<details class="category_description">
+<div class="category_description">
         <?php if ($this->params->get('show_description_image') && $this->category->image) : ?>
                 <img src="<?php echo $this->baseurl . '/' . $cparams->get('image_path') . '/'. $this->category->image;?>" align="<?php echo $this->category->image_position;?>" hspace="6" alt="" />
         <?php endif; ?>
         <?php if ($this->params->get('show_description') && $this->item->description) : ?>
                 <?php echo $this->item->description; ?>
         <?php endif; ?>
-</details>
+</div>
 <?php endif; ?>
 
 

@@ -25,14 +25,14 @@ $cparams =& JComponentHelper::getParams('com_media');
 <?php endif; ?>
 
 <?php if ($this->params->def('show_description', 1) || $this->params->def('show_description_image', 1)) :?>
-<details class="description">
+<div class="description">
 	<?php if ($this->params->get('show_description_image') && $this->category->image) : ?>
 		<img src="<?php echo $this->baseurl . '/' . $cparams->get('image_path') . '/'. $this->category->image;?>"   alt="" />
 	<?php endif; ?>
 	<?php if ($this->params->get('show_description') && $this->category->description) : ?>
 		<?php echo $this->category->description; ?>
 	<?php endif; ?>
-</details>
+</div>
 <?php endif; ?>
 
 <!--  SubCategory Listing -->
