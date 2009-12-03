@@ -222,12 +222,15 @@ body
 {
         padding:5px 2px 2px;
         position:absolute ;
-        left :0px;
+        right :0px;
         top:0;
         z-index:10000;
-        width:100%;
-        text-align:right
-        }
+        text-align:right;
+        border:solid 0px #000;
+        max-width:37em
+}
+
+
 /* ++++++++++++++  button for closing right column  ++++++++++++++ */
 
 #close

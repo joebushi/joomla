@@ -56,13 +56,13 @@ em
 /* ##########################  header content  ########################### */
 
 #header form
-{  float:right; width:25%
+{       float:right;
+        margin-left:30px;
 }
 
 #header form fieldset
 {
         display:inline;
-
         padding:19px ;
         text-align:left;
         width:6em;
@@ -85,13 +85,10 @@ em
         padding:0px 0px 1px 0px;
         cursor:pointer;
         text-align:center
-
-
 }
 
 #header form .inputbox
 {
-
         padding:1px;
         margin:1px 11px 1px 1px;
         width:12em;
@@ -142,9 +139,10 @@ em
 
 #fontsize
 {
-
-padding:0; margin:0; float:left; width:75%; text-align:right
-
+        padding:0;
+        margin:0;
+        float:left;
+        text-align:right;
 }
 
 #fontsize h3,
@@ -153,10 +151,13 @@ padding:0; margin:0; float:left; width:75%; text-align:right
         border:0;
         display:inline;
         font-size:1em;
-
 }
+
 #fontsize h3
-{padding-right:0}
+{
+	padding-right:0
+}
+
 #fontsize p
 {
         margin:0 0 0 2px;
