@@ -122,7 +122,7 @@ $menuTypes = MenusHelper::getMenuLinks();
 	<input type="hidden" name="original" value="<?php echo $this->item->ordering; ?>" />
 	<input type="hidden" name="jform[module]" value="<?php echo $this->item->module; ?>" />
 	<input type="hidden" name="task" value="" />
-	<!--  <input type="hidden" name="jform[client_id]" value="<?php /* echo $this->client->id */?>" />-->
+	<input type="hidden" name="jform[client_id]" value="<?php echo $this->item->client_id ?>" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>
 </div>
