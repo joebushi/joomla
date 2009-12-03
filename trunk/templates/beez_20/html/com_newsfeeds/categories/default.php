@@ -20,9 +20,9 @@ $difLevel = 0;
 <div class="jcategories-list<?php echo $pageClass;?>">
 
 <?php if ($this->params->get('show_page_title', 1)) : ?>
-<h2>
+<h1>
         <?php echo $this->escape($this->params->get('page_title')); ?>
-</h2>
+</h1>
 <?php endif; ?>
 
 
@@ -57,6 +57,7 @@ $difLevel = 0;
 ?>
   	    <span class="jitem-title"><a href="<?php echo NewsfeedsRoute::category('index.php?option=com_newsfeeds&view=category&id='.$this->escape($item->slug));?>">
 			<?php echo $this->escape($item->title); ?></a>
+		</span>
         <?php if ($item->description) : ?>
         	<div class="jdescription">
             	<?php echo $item->description; ?>
