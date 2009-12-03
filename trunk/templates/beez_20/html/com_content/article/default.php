@@ -16,7 +16,6 @@ JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
 $params = $this->state->get('params');
 // $pageClass = $this->params->get('pageclass_sfx');
 ?>
-
 <article id="page<?php if ($pageClass) { echo 'class="'.$pageClass.'"';} ?>">
 <?php if ($params->get('show_page_title', 1) && $params->get('page_title') != $this->item->title) : ?>
         <h1>
