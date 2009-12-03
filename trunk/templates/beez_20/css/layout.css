@@ -155,7 +155,7 @@ em
 
 #fontsize h3
 {
-	padding-right:0
+        padding-right:0
 }
 
 #fontsize p
@@ -581,12 +581,7 @@ em
         margin:0 0 20px;
 }
 
-.contentdescription
-{
-        padding:20px;
-        overflow:hidden;
-        font-weight:bold
-}
+
 
 .image_left
 {
@@ -607,21 +602,22 @@ em
 
 /* ++++++++++++++  details  ++++++++++++++ */
 
-details
+.category_description
 {
-       margin-left:5px
+       margin:10px 5px;
+
 }
 
-.article_info,
-.jiteminfo
+.article_info
+
 {
         line-height:1.3em;
         margin:10px 0 10px 0px;
         font-size:0.9em
 }
 
-.article_info span,
-.jiteminfo span
+.article_info span
+
 {
         display:block
 }
@@ -635,7 +631,7 @@ details
         float:left
 }
 
-.category,
+dl.category,
 .create_date,
 .createdby
 {
@@ -771,122 +767,7 @@ ul.pagination li a
         padding:2px;
 }
 
-#right form.poll
-{
-        padding:10px 0 0;
-}
 
-#right form.poll fieldset
-{
-        line-height:1.6em;
-}
-
-#right form.poll fieldset label
-{
-        padding:0 0 0 4px;
-}
-
-#right form.poll .button
-{
-        cursor:pointer;
-        float:left;
-        width:auto;
-        line-height:0.9em;
-        display:inline;
-        height:1.55em;
-        font-size:1em;
-        overflow:visible;
-        margin:0 10px 0 0;
-        padding:0 2px !important;
-}
-
-#right form.poll .button:focus
-{
-
-}
-
-#right form.poll a
-{
-        text-decoration:none;
-        padding:1px 2px !important;
-        cursor:pointer;
-        float:left;
-}
-
-#right form.poll a:hover,
-#right form.poll a:active,
-#right form.poll a:focus,
-#right form.poll .button:hover,
-#right form.poll .button:active,
-#right form.poll .button:focus
-{
-
-}
-
-#right form.poll:after
-{
-        /* Inhalt pseudo-Element :after;
-                                 * somit [clear] moeglich
-                                 */
-        content:".";
-        /* [content] verbergen;
-                                 */
-        visibility:hidden;
-        height:0;
-        /* Block-Level fuer [clear];
-                                 */
-        display:block;
-        /* [float] clearing;
-                                 * einbeziehen der Float-Container;
-                                 */
-        clear:both;
-}
-
-dl.poll
-{
-
-}
-
-dl.poll dt
-{
-
-}
-
-dl.poll dd
-{
-        padding:6px 0;
-        font-weight:bold;
-}
-
-.polls_color_1
-{
-
-}
-
-.polls_color_2
-{
-
-}
-
-.polls_color_3
-{
-
-}
-
-.polls_color_4
-{
-
-}
-
-.polls_color_5
-{
-
-}
-
-.polls_color_6
-{
-
-}
 
 /*  ####################   login   #####################  */
 #right fieldset
@@ -1001,17 +882,7 @@ form.lost_password .button,
         margin:2px 0 3px 0
 }
 
-/* ##########################  polls  ########################### */
-.poll
-{
-        padding:20px 20px 20px 0;
-}
-
-form.poll fieldset
-{
-        margin:0 0 10px;
-        padding:0;
-}
+/* #####################  form.registration  ################ */
 
 form.registration input,
 form.lost_password input,
@@ -1030,7 +901,6 @@ form.lost_password label,
         width:12em;
 }
 
-/* #####################  form.registration  ################ */
 form.search_result,
 form.registration,
 form.lost_password,
@@ -1085,7 +955,6 @@ form.registration .button
         text-align:right;
         padding:0 10px 0 20px
 }
-
 
 .inputbox:focus
 {
@@ -1297,6 +1166,11 @@ label.textarea
 
 /*#################### tables ############################ */
 
+table
+{
+        border-collapse:collapse
+}
+
 table.newsfeeds,
 table.weblinks,
 table.category,
@@ -1306,30 +1180,68 @@ table.jlist-table
         font-size:1em;
         margin:20px 10px 20px 0px;
         width:95%;
-        border-collapse:collapse
+
+}
+
+table.newsfeeds td,
+table.weblinks td
+{
+        border-collapse:collapse;
 }
 
 table.newsfeeds td,
 table.weblinks td,
-table.category td,
-table.jlist td,
-table.jlist-table td
+table.category td
 {
-        padding:5px;
+        padding:7px;
 }
 
 table.newsfeeds th,
 table.weblinks th,
-table.category th,
-table.jlist th,
-table.jlist-table th
+table.category th
 {
-        padding:5px;
+        padding:4px;
 }
 
+.newsfeeds .num
+{
+        width:        4%
+}
+
+.newsfeeds .count_articles
+{
+        width:        15%;
+        text-align:center
+}
 .feed_description
 {
         padding:0 10px 0 20px
+}
+
+td.table_footer
+{
+        text-align:right;
+        font-size:0.9em
+}
+
+td.counter
+{
+        font-weight:bold;
+        font-size:0.9em;
+        text-align:right
+}
+
+td.num,
+td.hits
+{
+            vertical-align:top;
+            text-align:center
+}
+
+td p
+{
+            margin:0;
+            line-height:1.3em
 }
 
 /* ++++++++++++++  category table  ++++++++++++++ */
@@ -1346,72 +1258,6 @@ table.jlist-table th
 #author
 {
         width:20%;
-}
-
-
-/* ##########################  polls  ########################### */
-.poll .polls_color_1,
-.poll .polls_color_2,
-.poll .polls_color_3,
-.poll .polls_color_4,
-.poll .polls_color_5
-{
-        position:relative;
-}
-
-.poll h3
-{
-        margin:20px 0;
-}
-
-.poll .td_2
-{
-        width:100px;
-}
-
-.poll .td_3
-{
-        width:300px;
-}
-
-.poll form
-{
-        margin:20px 0;
-}
-
-.poll table
-{
-        font-size:1em;
-        width:auto;
-        position:relative;
-}
-
-.poll table .td_1
-{
-        width:30px;
-}
-
-.poll table caption
-{
-        font-size:1em;
-        font-weight:bold;
-        margin:10px 0;
-        text-align:left;
-}
-
-.poll td
-{
-        padding:2px;
-}
-
-.poll td.line
-{
-        width:300px;
-}
-
-.poll th
-{
-
 }
 
 .question
@@ -1581,6 +1427,11 @@ table.contenttoc tr td
 {
         margin: 10px 5px 10px 0px;
         padding:0px;
+}
+
+.banneritem_text a
+{
+        font-weight:bold
 }
 
 ul.horiz

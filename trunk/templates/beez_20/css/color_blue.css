@@ -137,9 +137,6 @@ fieldset
 }
 
 
-
-
-
 /* ++++++++++++++  fontsize  ++++++++++++++ */
 
 #fontsize
@@ -257,7 +254,7 @@ fieldset
 
 #nav h3
 {
-      
+
         border-top:1px solid #DDDDDD;
 color:#005782;
 }
@@ -889,32 +886,62 @@ form.registration .button
 
 
 /* ##########################  tables   ########################### */
-
-table.newsfeeds td,
-table.weblinks td,
-table.category td,
-table.jlist-table td
-{
-        border-right:solid 1px #EEE;
-}
-
-table.newsfeeds th,
-table.weblinks th,
-table.category th,
-table.jlist th,
-table.jlist-table th
-{
-        background:#EEE;
-}
-
-table.newsfeeds,
-table.weblinks,
-table.category,
-table.jlist-table
+table
 {
         border:solid 1px #eee;
 }
 
+tbody
+{
+
+}
+
+tr.odd
+{
+        background:url(../images/news.gif)  repeat-x;
+}
+
+table.newsfeeds td,
+table.weblinks td
+{
+
+}
+
+table.newsfeeds th,
+table.weblinks th,
+table.newsfeeds th
+
+{
+        background:#ddd url(../images/th_bg.gif) repeat-x;
+}
+
+table.newsfeeds,
+table.weblinks,
+table.newsfeeds
+{
+        border:solid 1px #eee;
+}
+
+td.table_footer
+{
+        background:#ddd url(../images/table_footer.gif) bottom left repeat-x;
+}
+
+td.counter
+{
+
+}
+
+td.num,
+td.hits
+{
+
+}
+
+td p
+{
+
+}
 
 /* ##########################  contacts   ########################### */
 
@@ -964,113 +991,6 @@ p.error
 body.contentpane
 {
         background:#fff;
-}
-
-/* ##########################  polls   ########################### */
-
-.poll h3
-{
-        color:#044b63;
-        border:solid 0;
-}
-
-.poll table
-{
-        border:solid 0;
-}
-
-.poll table caption
-{
-        color:#044b63;
-}
-
-.poll th
-{
-        background:#EEE;
-        border:solid 1px #ccc;
-}
-
-.poll td
-{
-        border:solid 1px #ddd;
-}
-
-form.poll fieldset
-{
-        border:0 solid #000;
-}
-
-#right form.poll a
-{
-        color:#fff !important;
-        border:outset 1px #ccc;
-        background:#555;
-}
-
-#right form.poll a:hover,
-#right form.poll a:active,
-#right form.poll a:focus,
-#right form.poll .button:hover,
-#right form.poll .button:active,
-#right form.poll .button:focus
-{
-        border:1px outset #ccc;
-}
-
-#right form.poll .button
-{
-        border:outset 1px #ccc;
-        background:#555;
-        color:#fff
-}
-
-#right form.poll .button:focus
-{
-        border:outset 1px #ccc;
-}
-
-dl.poll dt
-{
-        border-bottom:solid 1px #ccc;
-}
-
-.poll .polls_color_1,
-.poll .polls_color_2,
-.poll .polls_color_3,
-.poll .polls_color_4,
-.poll .polls_color_5
-{
-        border:solid 1px;
-}
-
-.polls_color_1
-{
-        background:#000;
-}
-
-.polls_color_2
-{
-        background:#999;
-}
-
-.polls_color_3
-{
-        background:#044b63;
-}
-
-.polls_color_4
-{
-        background:#000;
-}
-
-.polls_color_5
-{
-        background:#ccc;
-}
-
-.polls_color_6
-{
-        background:#044b63;
 }
 
 
@@ -1140,10 +1060,7 @@ form.lost_password input,
         color:#000
 }
 
-.banneritem_text a
-{
-        font-weight:bold
-}
+
 
 /* ++++++++++++++  edit  ++++++++++++++ */
 

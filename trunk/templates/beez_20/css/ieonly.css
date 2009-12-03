@@ -17,80 +17,82 @@
 #all { width: expression(document . body . clientWidth > 1050 ? "1050" : "auto");  }
 
 
-
+#line
+{
+	    width:37.0em;
+        margin-right:20px
+}
 
 #contentarea,
 #contentarea2
-
-
-{display:inline-block;
-position:relative;
-
+{
+	    display:inline-block;
+        position:relative;
 }
+
 #main
-{ height:520px; }
+{
+	    height:520px;
+}
+
 #back
-{margin: 0;
-padding:0 10px;}
-
-
+{
+	    margin: 0;
+        padding:0 10px;
+}
 
 #right
 {
         float:right;
         width: 20.5%;
-
-
 }
+
 .left
-{   margin:0px 0px 10px 18px;
-    width: 20.5%;
-
+{
+	    margin:0px 0px 10px 18px;
+        width: 20.5%;
 }
 
-  /* haslayout erzwingen */
+/* haslayout erzwingen */
 
 .blog
-{width:100%}
-
-
+{
+    	width:100%
+}
 
 .article_row
 {
-
-width:auto;
-
-
-
-
+        width:auto;
 }
 
 .row1 .cols2
 {
-
-width:auto;
-
-
+        width:auto;
 }
 
-
-.moduletable , .moduletable_js
-{zoom:1}
+.moduletable,
+.moduletable_js
+{
+	    zoom:1
+}
 
 #nav ul li,
 #right ul li
-{height:1%}
-
-
-
-
+{
+	    height:1%
+}
 
 p.articleinfo
-{display:inline-block}
+{
+	    display:inline-block
+}
 
 .logoheader
+{
+	    height:9em
+}
 
-{height:9em}
 h1
-
-{zoom:1}
+{
+    	zoom:1
+}
