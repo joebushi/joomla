@@ -50,10 +50,9 @@ function modChrome_beezHide($module, &$params, &$attribs)
         if (!empty ($module->content)) : ?>
                 <div class="moduletable_js<?php echo $params->get('moduleclass_sfx'); ?>" >
                         <?php if ($module->showtitle) : ?>
-                                <h<?php echo $headerLevel; ?> class="js_heading"><?php echo $module->title; ?> <a href="#" title="<?php echo JText::_('click'); ?>" onclick="auf('module_<?php echo $module->id; ?>'); return false" ><span class="no"><img src="templates/beez_20/images/openclose.gif" alt="<?php echo JText::_('open') ; ?>" />
-
-
-
+                                <h<?php echo $headerLevel; ?> class="js_heading"><?php echo $module->title; ?>
+                                <a href="#" title="<?php echo JText::_('click'); ?>" onclick="auf('module_<?php echo $module->id; ?>'); return false" >
+                                <span class="no"><img src="templates/beez_20/images/openclose.gif" alt="<?php echo JText::_('open').' '.$module->title ; ?>" />
                                 </span></a></h<?php echo $headerLevel; ?>>
                         <?php endif; ?>
                        <div class="module_content" id="module_<?php echo $module->id; ?>"> <?php echo $module->content; ?></div>
