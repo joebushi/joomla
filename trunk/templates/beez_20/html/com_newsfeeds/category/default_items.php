@@ -73,22 +73,17 @@ defined('_JEXEC') or die; ?>
 				</tr>
 			<?php endforeach; ?>
 		</tbody>
+		</table>
 
-		     <? if($this->pagination->get('pages.total')>1): ?>
-               <tfoot>
+		           <? if($this->pagination->get('pages.total')>1): ?>
+               <div class="pagination">
+
+                                        <p><?php echo $this->pagination->getPagesCounter(); ?></p>
 
 
-                        <tr>
-                                <td colspan="3" class="counter">
-                                        <?php echo $this->pagination->getPagesCounter(); ?>
-                                </td>
-                        </tr>
-
-                        <tr>
-                                <td colspan="3" class="table_footer<?php echo $this->params->get('pageclass_sfx'); ?>">
                                 <?php echo $this->pagination->getPagesLinks(); ?>
-                                </td>
-                        </tr>
-                </tfoot>
+
+                </div>
                   <?php endif; ?>
-	</table>
+
+
