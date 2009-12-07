@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Dec-2009 Ian MacLennan
+^ Modified JString to use phputf8 to support systems without mb_string
+
 01-Dec-2009 Ron Severdia
 + Added CSS for required fields
 
