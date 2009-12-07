@@ -1,0 +1,18 @@
+/**
+ * @version		$Id: boldtext.css 12471 2009-07-06 00:41:03Z eddieajau $
+ * @package		Hathor Accessible Administrator Template
+ * @subpackage  css
+ * @since		1.6
+ * @version  	1.04
+ * @copyright	Copyright (C) 2005 - 2009 Andrea Tarr. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ *
+ * Changes to use bold text as the default
+ */ 
+ 
+/**
+ * Default to bold text 
+ */
+body {
+	font-weight: bold;
+}
