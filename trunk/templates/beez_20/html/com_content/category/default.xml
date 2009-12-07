@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
 	<layout
-		title="com_content_category_view_default_title">
+		title="com_content_category_view_default_title_beez">
 		<message>
 			<![CDATA[com_content_category_view_default_desc]]>
 		</message>
