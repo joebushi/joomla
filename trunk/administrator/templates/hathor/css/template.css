@@ -494,6 +494,61 @@ div.current dd {
 	margin: 0;
 }
 
+/* New parameter styles (check rtl) */
+
+dl#content-pane.tabs {
+	margin: 1px 0 0 0;
+}
+
+div.current label {
+	display: block;
+	min-width: 150px;
+	float:left;
+	clear:left;
+	margin-top: 8px;
+}
+
+div.current fieldset {
+	border: none 0;
+}
+
+div.current fieldset.radio {
+	float:left;
+}
+
+div.current fieldset.radio input {
+	clear:none;
+	min-width: 15px;
+	float:left;
+	margin: 3px 0 0 2px;
+}
+
+div.current fieldset.radio label {
+	clear:none;
+	min-width: 45px;
+	float:left;
+	margin: 3px 0 0 5px;
+}
+
+div.current input.text_area,
+div.current select.inputbox {
+	clear:none;
+	float:left;
+	margin: 3px 0 0 2px;
+}
+div.current select.inputbox { margin-bottom: 15px;}
+
+div.current table#acl-config th.acl-groups {
+	text-align: left;
+}
+
+p.tab-description {
+	font-size: 1.091em;
+	margin-left: 0;
+	margin-top: 5px;
+}
+/* end new parameter styles */
+
 /** 
  * Login Settings
  */
@@ -579,7 +634,7 @@ div.current dd {
 	font-weight: bold;
 }
 
-#form-login .button_holder { /* float: left; */
+#form-login .button-holder { /* float: left; */
 	/* padding-left: 180px; */
 	
 }
@@ -603,6 +658,13 @@ div.current dd {
 	/* padding: 0 30px 0 6px; use this if you use images */
 }
 
+.login-submit {
+	border: 0;
+	padding: 0;
+	margin: 0;
+	width: 0px;
+	height: 0px;
+}
 
 /** 
  * Cpanel Settings
@@ -659,6 +721,8 @@ div.cpanel-component {
 /**
  * Standard Layout Styles
  */
+ 
+ 
 div.col {
 	float: left;
 }
@@ -703,6 +767,13 @@ div.width-70 {
 	width: 70%;
 }
 
+.clrlft { clear: left; }
+.clrrt { clear: right; }
+.fltlft { float: left; }
+.fltrt { float: right; }
+.fltnone { float: none; } 
+
+
 	/* Layout Divs */
 div.main-section {
 	width: 50%;
@@ -743,16 +814,71 @@ fieldset p {
 	margin: 10px 0px;
 }
  
-fieldset ol,ol#property-values {
+fieldset ol,ol#property-values, fieldset ul,ul#property-values {
 	margin: 0;
 	padding: 0;
 }
 
-fieldset li,ol#property-values li {
+fieldset li,ol#property-values li, ul#property-values li {
 	list-style: none;
 	margin: 0;
 	padding: 5px;
 }
+
+/* new form fields (check rtl) */
+
+fieldset.adminform fieldset.radio,
+fieldset.panelform fieldset.radio,
+fieldset.adminform-legacy fieldset.radio  {
+	border: 0;
+	float:left;
+	padding: 0;
+	margin: 0 0 5px 0;
+	clear:right;
+}
+fieldset.adminform fieldset.radio label,
+fieldset.panelform fieldset.radio label {
+	min-width: 40px;
+	float:left;
+	clear:none;
+}
+
+
+fieldset.panelform-legacy label,
+fieldset.adminform-legacy label {
+	min-width: 150px;
+	float:left;
+
+}
+/* JParameter classes on radio button labels  */
+fieldset.panelform-legacy label.radiobtn_jno,
+fieldset.panelform-legacy label.radiobtn_jyes,
+fieldset.panelform-legacy label.radiobtn_show,
+fieldset.panelform-legacy label.radiobtn_hide,
+fieldset.panelform-legacy label.radiobtn_off,
+fieldset.panelform-legacy label.radiobtn_on {
+	min-width: 40px !important;
+	clear:none !important;
+}
+
+
+#jform_plugdesc-lbl,
+#jform_description-lbl {
+	font-weight:bold;
+	clear:both;
+	margin-top: 15px;
+}
+p.jform_desc {
+	clear:left;
+}
+
+div#jform_ordering {
+	font-size: 1.091em;
+	margin-top: 3px;
+}
+
+
+/* end new form fields */
 
 fieldset.filter {
 	border-top: none;
@@ -763,19 +889,19 @@ fieldset.filter {
 	padding: 5px 10px 5px 10px;
 }
 
-fieldset.filter ol {
+fieldset.filter ol, fieldset.filter ul {
 	border: 0;
 	list-style: none;
 	margin: 0;
 	padding: 5px 0 0;
 }
 
-fieldset.filter ol li {
+fieldset.filter ol li, fieldset.filter ul li {
 	float: left;
 	padding: 0 5px 0 0;
 }
 
-fieldset.filter ol li fieldset {
+fieldset.filter ol li fieldset, fieldset.filter ul li fieldset {
 	border: 0;
 	margin: 0;
 	padding: 0;
