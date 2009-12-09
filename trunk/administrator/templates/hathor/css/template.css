@@ -468,18 +468,20 @@ dl.tabs {
 dl.tabs dt {
 	float: left;
 	padding: 4px 10px;
-	border-left: 1px solid #c7c8b2;
-	border-right: 1px solid #c7c8b2;
-	border-top: 1px solid #c7c8b2;
+	border: 1px solid #c7c8b2;
 	margin-left: 3px;
 	background: #f9fade;
 	color: #2c2c2c;
 }
 
 dl.tabs dt.open {
-	background: #e3e4ca;
-	border-bottom: 1px solid #e3e4ca;
+	background: #ffffff;
+	border-bottom: 1px solid #ffffff;
 	z-index: 100;
+	color: #2c2c2c;
+}
+
+dl.tabs dt.open a:visited {
 	color: #2c2c2c;
 }
 
@@ -487,6 +489,7 @@ div.current {
 	clear: both;
 	border: 1px solid #c7c8b2;
 	padding: 10px 10px;
+	background: #ffffff;
 }
 
 div.current dd {
@@ -814,12 +817,12 @@ fieldset p {
 	margin: 10px 0px;
 }
  
-fieldset ol,ol#property-values, fieldset ul,ul#property-values {
+fieldset ol, ol#property-values, fieldset ul, ul#property-values {
 	margin: 0;
 	padding: 0;
 }
 
-fieldset li,ol#property-values li, ul#property-values li {
+fieldset li, ol#property-values li, ul#property-values li {
 	list-style: none;
 	margin: 0;
 	padding: 5px;
@@ -944,6 +947,12 @@ input.required {
 	background-color: #ffd3af;
 }
 
+label.required:after { 
+	content:" *";
+	/* content:url(../images/required.png);
+	vertical-align: middle; */
+}
+
 input.disabled {
 	background-color: #eeeeee;
 }
@@ -1011,6 +1020,14 @@ label.selectlabel {
 .paramlist {
 	overflow: hidden;
 } */
+
+/* from alpha2, do I need it */
+.paramrules {
+	padding: 10px;
+	background: #f9fade;
+}
+
+/* end from alpha2 */
 
 /**
  * Admintable Styles
@@ -1723,10 +1740,6 @@ a img.calendar {
 	background-image: url(../images/menu/icon-16-help.png);
 }
 
-.icon-16-help {
-	background-image: url(../images/menu/icon-16-help.png);
-}
-
 .icon-16-help-this {
 	background-image: url(../images/menu/icon-16-help-this.png);
 }
@@ -1865,9 +1878,30 @@ a img.calendar {
 	background-image: url(../images/menu/icon-16-user.png);
 }
 
-.icon-16-writemess {
-	background-image: url(../images/menu/icon-16-writemess.png);
+.icon-16-delete {
+	background-image: url(../images/menu/icon-16-delete.png);
 }
+
+.icon-16-help-trans {
+	background-image: url(../images/menu/icon-16-help-trans.png);
+}
+
+.icon-16-newsfeeds {
+	background-image: url(../images/menu/icon-16-newsfeeds.png);
+}
+
+.icon-16-newsfeeds-cat {
+	background-image: url(../images/menu/icon-16-newsfeeds-cat.png);
+}
+
+.icon-16-redirect {
+	background-image: url(../images/menu/icon-16-redirect.png);
+}
+
+.icon-16-search {
+	background-image: url(../images/menu/icon-16-search.png);
+}
+
 
 /**
  * Toolbar icons
@@ -1989,6 +2023,11 @@ a img.calendar {
 .icon-32-save-copy {
 	background-image: url(../images/toolbar/icon-32-save-copy.png);
 }
+.icon-32-error			{ background-image: url(../images/toolbar/icon-32-error.png); }
+.icon-32-new-style		{ background-image: url(../images/toolbar/icon-32-new-style.png); }
+.icon-32-delete-style	{ background-image: url(../images/toolbar/icon-32-delete-style.png); }
+.icon-32-purge 			{ background-image: url(../images/toolbar/icon-32-purge.png); }
+.icon-32-remove 		{ background-image: url(../images/toolbar/icon-32-remove.png); }
 
 /**
  * Quick Icons
@@ -2024,8 +2063,16 @@ a img.calendar {
 	background-image: url(../images/header/icon-48-groups.png);
 }
 
+.icon-48-groups-add {
+	background-image: url(../images/header/icon-48-groups-add.png);
+}
+
 .icon-48-levels {
 	background-image: url(../images/header/icon-48-levels.png);
+}
+
+.icon-48-levels-add {
+	background-image: url(../images/header/icon-48-levels-add.png);
 }
 
 .icon-48-module {
@@ -2034,6 +2081,10 @@ a img.calendar {
 
 .icon-48-menu {
 	background-image: url(../images/header/icon-48-menu.png);
+}
+
+.icon-48-menu-add {
+	background-image: url(../images/header/icon-48-menu-add.png);
 }
 
 .icon-48-menumgr {
@@ -2046,6 +2097,10 @@ a img.calendar {
 
 .icon-48-user {
 	background-image: url(../images/header/icon-48-user.png);
+}
+
+.icon-48-user-add {
+	background-image: url(../images/header/icon-48-user-add.png);
 }
 
 .icon-48-inbox {
@@ -2139,6 +2194,10 @@ a img.calendar {
 .icon-48-massmail {
 	background-image: url(../images/header/icon-48-massmail.png);
 }
+
+.icon-48-redirect 		{ background-image: url(../images/header/icon-48-redirect.png); }
+.icon-48-search 		{ background-image: url(../images/header/icon-48-search.png); }
+.icon-48-newsfeeds 		{ background-image: url(../images/header/icon-48-newsfeeds.png); }
 
 /**
  * General styles 

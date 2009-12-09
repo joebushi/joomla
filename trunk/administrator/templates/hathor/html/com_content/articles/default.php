@@ -15,6 +15,8 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 JHtml::_('behavior.tooltip');
 
+$user	= JFactory::getUser();
+
 $n = count($this->items);
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_content&view=articles');?>" method="post" name="adminForm">
@@ -106,6 +108,9 @@ $n = count($this->items);
 		<?php foreach ($this->items as $i => $item) :
 			$item->max_ordering = 0; //??
 			$ordering	= ($this->state->get('list.ordering') == 'a.ordering');
+			$canCreate	= $user->authorise('core.create',		'com_content.category.'.$item->catid);
+			$canEdit	= $user->authorise('core.edit',			'com_content.article.'.$item->id);
+			$canChange	= $user->authorise('core.edit.state',	'com_content.article.'.$item->id);
 			?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<th class="center">
@@ -115,10 +120,14 @@ $n = count($this->items);
 					<?php if ($item->checked_out) : ?>
 						<?php echo JHtml::_('jgrid.checkedout', $item->editor, $item->checked_out_time); ?>
 					<?php endif; ?>
-					<a href="<?php echo JRoute::_('index.php?option=com_content&task=article.edit&cid[]='.$item->id);?>">
+					<?php if ($canCreate || $canEdit) : ?>
+					<a href="<?php echo JRoute::_('index.php?option=com_content&task=article.edit&id='.$item->id);?>">
 						<?php echo $this->escape($item->title); ?></a>
-					<br /><small>
-						(<?php echo JText::_('JFIELD_ALIAS_LABEL'); ?>: <?php echo $this->escape($item->alias);?>)</small>
+					<?php else : ?>
+						<?php echo $this->escape($item->title); ?>
+					<?php endif; ?>
+					<p class="smallsub">
+						(<span><?php echo JText::_('JFIELD_ALIAS_LABEL'); ?>:</span> <?php echo $this->escape($item->alias);?>)</small>
 				</td>
 				<td class="center">
 					<?php echo JHtml::_('jgrid.published', $item->state, $i, 'articles.'); ?>
@@ -133,10 +142,14 @@ $n = count($this->items);
 					<?php echo $this->escape($item->author_name); ?>
 				</td>
 				<td class="order">
-					<span><?php echo $this->pagination->orderUpIcon($i, true, 'items.orderup', 'JGrid_Move_Up', $ordering); ?></span>
-					<span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, true, 'items.orderdown', 'JGrid_Move_Down', $ordering); ?></span>
-					<?php $disabled = $ordering ?  '' : 'disabled="disabled"'; ?>
-					<input type="text" name="order[]" value="<?php echo $item->ordering;?>" <?php echo $disabled ?> class="text_area" title="<?php echo $item->title; ?> order" />
+					<?php if ($canChange) : ?>
+						<span><?php echo $this->pagination->orderUpIcon($i, true, 'items.orderup', 'JGrid_Move_Up', $ordering); ?></span>
+						<span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, true, 'items.orderdown', 'JGrid_Move_Down', $ordering); ?></span>
+						<?php $disabled = $ordering ?  '' : 'disabled="disabled"'; ?>
+						<input type="text" name="order[]" value="<?php echo $item->ordering;?>" <?php echo $disabled ?> class="text_area" title="<?php echo $item->title; ?> order" />
+					<?php else : ?>
+						<?php echo $item->ordering; ?>
+					<?php endif; ?>
 				</td>
 				<td class="center">
 					<?php echo $this->escape($item->access_level); ?>

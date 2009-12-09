@@ -202,22 +202,25 @@ div.toolbar-list a:hover {
  * Tabs
  */
 dl.tabs dt {
-	border-left: 1px solid #1b3f7c;
-	border-right: 1px solid #1b3f7c;
-	border-top: 1px solid #1b3f7c;
+	border: 1px solid #10254a;
 	background: #1c4181;
 	color: #fcff20;
 }
 
 dl.tabs dt.open {
-	background: #10254a;
-	border-bottom: 1px solid #000000;
+	background: #163365;
+	border-bottom: 1px solid #163365;
 	z-index: 100;
+	color: #fcff20;
+}
+
+dl.tabs dt.open a:visited {
 	color: #fcff20;
 }
 
 div.current {
 	border: 1px solid #10254a;
+	background: #163365;
 }
 
 div.current dd {
@@ -350,6 +353,13 @@ input:hover, select:hover, textarea:hover, option:hover
 	{
 	background-color: #10254a;
 	color: #fcff20;
+}
+
+/**
+ * Option or Parameter styles
+ */
+.paramrules {
+	background: #1b3f7c;
 }
 
 /**
@@ -1045,4 +1055,28 @@ div.message {
 #skiplinkholder a,#skiplinkholder a:link,#skiplinkholder a:visited {
 	color: #163365;
 	background: #fcff20;
+}
+
+/* -- ACL STYLES relocated from com_users/media/grid.css ----------- */
+
+
+/* -- ACL PANEL STYLES  ----------- */
+
+tr.row1 {
+	background-color: #1c4181;
+}
+
+/* Summary Tab */
+
+table.aclsummary-table td.col2,
+table.aclsummary-table th.col2,
+table.aclsummary-table td.col3,
+table.aclsummary-table th.col3,
+table.aclsummary-table td.col4,
+table.aclsummary-table th.col4,
+table.aclsummary-table td.col5,
+table.aclsummary-table th.col5,
+table.aclmodify-table td.col2,
+table.aclmodify-table th.col2 {
+	border-left: 1px solid #cbcbcb;
 }
