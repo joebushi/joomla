@@ -1,0 +1,369 @@
+/**
+
+ * @author ( Angie Radtke )
+ * @package Joomla
+ * @subpackage Accessible-Template-Beez
+ * @copyright Copyright (C) 2005 - 2009 Open Source Matters. All rights reserved.
+ * @license GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant to the
+ * GNU General Public License, and as distributed it includes or is derivative
+ * of works licensed under the GNU General Public License or other free or open
+ * source software licenses. See COPYRIGHT.php for copyright notices and
+ * details.
+ */
+
+*
+{
+        margin: 0;
+        padding: 0;
+}
+
+body
+{
+        font-family: arial, helvetica, sans-serif;
+        font-size: 100.01%;
+        padding: 0px;
+        text-align: center;
+}
+
+/* ################   position  ################  */
+#all
+{
+        font-size: 0.8em;
+        margin: 0 auto;
+        max-width: 1050px;
+        padding: 0px 10px 0 10px;
+        text-align: left;
+}
+
+#page
+{
+        padding:0px 0px 20px 0px;
+        display:block
+}
+
+#header
+{
+        display:block !important;
+        position:relative;
+        padding:20px 0 0 0;
+}
+
+#back
+{
+        margin: 0;
+        padding:0 10px 0 3px;
+
+}
+
+#contentarea,
+#contentarea2
+{
+        position:relative;
+        overflow:hidden;
+        padding-top:5px;
+}
+
+#wrapper
+{
+        width:55%;
+        float:left;
+}
+
+#wrapper2
+{
+        width:77%;
+        float:left;
+}
+
+/* ++++++++++++++  nav after content  ++++++++++++++ */
+.left
+{
+        padding-top:10px;
+        float:left;
+        margin:0px 0px 10px 18px;
+        width: 22%;
+
+}
+
+/* ++++++++++++++  nav before content  ++++++++++++++ */
+.left1
+{
+        padding:10px 0 0 10px;
+        float: left;
+        margin:0px 10px 10px 0px;
+        width: 20%;
+}
+
+#right
+{
+        float:right;
+        width: 20.0%;
+        margin:10px 0px 10px 7px;
+}
+
+#main
+{
+        padding: 10px 0px 20px 10px;
+        position: relative;
+        min-height:520px;
+}
+
+
+/* ++++++++++++++  latestnews  ++++++++++++++ */
+.news
+{
+        margin:10px 0 10px 10px;
+        padding:10px 20px 20px 50px;
+}
+
+.news h1
+{
+        margin:0px -20px 0px -50px !important;
+        padding:10px 5px 5px 50px;
+        font-size:1.4em;
+        font-weight:normal;
+}
+
+/* ###################### general ###################### */
+.unsichtbar,
+.invisible,
+.unseen
+{
+        display: inline;
+        height: 0px;
+        left: -3000px;
+        position: absolute;
+        top: -2000px;
+        width: 0px;
+}
+
+.skiplinks,
+.skiplinks li
+{
+        display: inline;
+        height: 0px;
+        line-height:0;
+        padding:0 !important;
+}
+
+.skiplinks li a.u2
+{
+        display: inline;
+        height: 0px;
+        left: -3000px;
+        position: absolute;
+        top: -2000px;
+        width: 0px;
+        z-index: 200 !important;
+}
+
+.skiplinks li a.u2:active,
+.skiplinks li a.u2:focus
+{
+        position:absolute;
+        width:13em;
+        top:100px;
+        left:10px;
+        z-index:10;
+        line-height:1.5em;
+        padding:5px;
+        font-weight:bold;
+        height:3em
+}
+
+.wrap
+{
+        border: 0;
+        clear: both;
+        float: none;
+        font-size: 1px;
+        height: 0;
+        line-height: 1px;
+        margin: 0;
+        padding: 0;
+        visibility: hidden;
+}
+
+#logo
+{
+        margin-top:0em;
+        width:100%;
+        position:relative;
+        font-size:0.8em;
+}
+
+#logo img
+{
+        display: block;
+}
+
+#logo span
+{
+        text-transform:none;
+        font-size:2em;
+        position:absolute;
+        top:3.5em;
+        left:300px;
+}
+
+.logoheader
+{
+        font-size:1.1em;
+        margin:0.5em 0px 0 0px;
+        padding:0px 0px 0px 0px;
+        text-align:left;
+        font-weight:normal;
+        line-height:1.5em;
+        min-height:9em
+}
+
+#line
+{
+        padding:5px 2px 2px;
+        position:absolute ;
+        right :0px;
+        top:0;
+        z-index:10000;
+        text-align:right;
+        border:solid 0px #000;
+        max-width:37em
+}
+
+
+/* ++++++++++++++  button for closing right column  ++++++++++++++ */
+
+#close
+{
+        margin-right:0px;
+        font-size:0.85em;
+        text-transform:uppercase;
+}
+
+#close span
+{
+        position:absolute;
+        right: 0;
+        z-index:10000;
+        top:10px;
+        width:7em;
+        padding:1px;
+        font-weight:bold;
+        text-align:center;
+        line-height:1.9em;
+        padding:10px 0  0 10px
+}
+
+/* ###############  main * ########################### */
+/* ++++++++++++++  position  ++++++++++++++ */
+.leading
+{
+        margin: 0px 0px 10px 0px;
+        padding: 15px 0;
+        position: relative;
+}
+
+.leading_separator
+{
+        display: block;
+        height: 10px;
+        margin: 0 0 0px 0;
+}
+
+.article_separator
+{
+        display: none;
+        margin: 0px 0 0px 0;
+}
+
+.blog
+{
+        padding: 0;
+}
+
+.cols1
+{
+        display: block;
+        float: none !important;
+        margin: 0 !important;
+}
+
+.cols2
+{
+        width: 45%;
+}
+
+.cols3
+{
+        width: 30%;
+}
+
+.column1,
+.column2
+{
+        margin: 0 5px 0 0;
+        position: relative;
+}
+
+.column2,
+.column1
+{
+        float: left;
+        margin: 0;
+}
+
+.column2
+{
+        float: right;
+        margin: 0;
+        width: 45%;
+}
+
+.article_row
+{
+        margin: 0px 0 0px 0;
+        padding: 10px;
+        overflow: hidden;
+}
+
+.article_column
+{
+        padding: 10px 10px 20px 0;
+}
+
+.row_separator
+{
+        display: block;
+        clear: both;
+        margin: 0;
+        border: 0px;
+        height:1px
+}
+
+.row0,
+.row1
+{
+        padding:0
+}
+
+.row1 .cols2
+{
+        float:none;
+        display:block;
+        width:100%
+}
+
+.module_content
+{
+        margin:-2px 0px 10px 0;
+        padding:10px
+}
+
+
+/* ++++++++++++++  style beezHide  ++++++++++++++ */
+
+.moduletable_js_menu
+{
+        margin:0;
+        display:block;
+}

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE install PUBLIC "-//Joomla! 1.6//DTD template 1.0//EN" "http://www.joomla.org/xml/dtd/1.6/template-install.dtd">
+<install version="1.6" type="template">
+        <name>beez_20</name>
+        <creationDate>25 November 2009</creationDate>
+        <author>Angie Radtke</author>
+        <authorEmail>a.radtke@derauftritt.de</authorEmail>
+        <authorUrl>http://www.der-auftritt.de</authorUrl>
+        <copyright></copyright>
+        <license>GNU/GPL</license>
+        <version>1.0.0</version>
+        <description>Accessible template for Joomla 1.6</description>
+        <files>
+                <filename>css/color_blue.css</filename>
+                <filename>css/color_grey.css</filename>
+                <filename>css/layout.css</filename>
+                <filename>css/position.css</filename>
+                <filename>css/template.css</filename>
+                <filename>css/ieonly.css</filename>
+                <filename>css/ie7only.css</filename>
+                <filename>css/print.css</filename>
+                <filename>css/general.css</filename>
+                <filename>css/index.html</filename>
+                <filename>css/template_rtl.css</filename>
+                <filename>css/test.css</filename>
+                <filename>html/com_content/article/default.php</filename>
+                <filename>html/com_content/article/default.xml</filename>
+                <filename>html/com_content/article/index.html</filename>
+                <filename>html/com_content/categories/default.php</filename>
+                <filename>html/com_content/categories/default.xml</filename>
+                <filename>html/com_content/categories/index.html</filename>
+                <filename>html/com_content/category/blog.php</filename>
+                <filename>html/com_content/category/blog.xml</filename>
+                <filename>html/com_content/category/blog_item.php</filename>
+                <filename>html/com_content/category/index.html</filename>
+                <filename>html/com_content/category/blog_links.php</filename>
+                <filename>html/com_content/category/blogmidday.php</filename>
+                <filename>html/com_content/category/default.php</filename>
+                <filename>html/com_content/category/default.xml</filename>
+                <filename>html/com_content/category/default_articles.php</filename>
+                <filename>html/com_content/category/default_children.php</filename>
+                <filename>html/com_content/category/default_parents.php</filename>
+                <filename>html/com_content/category/default_siblings.php</filename>
+                <filename>html/com_content/category/featured.php</filename>
+                <filename>html/com_content/category/featured.xml</filename>
+                <filename>html/com_content/category/featured_item.php</filename>
+                <filename>html/com_content/category/featured_links.php</filename>
+                <filename>html/com_content/frontpage/default.php</filename>
+                <filename>html/com_content/frontpage/default_item.php</filename>
+                <filename>html/com_content/frontpage/default_links.php</filename>
+                <filename>html/com_content/frontpage/index.html</filename>
+                <filename>html/com_content/frontpage/default.xml</filename>
+                <filename>html/com_weblinks/category/default_items.php</filename>
+                <filename>html/mod_login/default.php</filename>
+                <filename>html/mod_login/index.html</filename>
+                <filename>html/modules.php</filename>
+                <filename>images_general/index.html</filename>
+                <filename>images_general/calendar.png</filename>
+                <filename>images_general/j_button2_blank.png</filename>
+                <filename>images_general/j_button2_image.png</filename>
+                <filename>images_general/j_button2_left.png</filename>
+                <filename>images_general/j_button2_pagebreak.png</filename>
+                <filename>images_general/j_button2_readmore.png</filename>
+                <filename>images_general/selector-arrow.png</filename>
+                <filename>images/all_bg.gif</filename>
+                <filename>images/arrow.gif</filename>
+                <filename>images/arrow2.png</filename>
+                <filename>images/arrow_rtl.png</filename>
+                <filename>images/beez.gif</filename>
+                <filename>images/body.gif</filename>
+                <filename>images/close2.gif</filename>
+                <filename>images/content_bg.gif</filename>
+                <filename>images/contentarea_bg.gif</filename>
+                <filename>images/footer_bg.gif</filename>
+                <filename>images/gruen.gif</filename>
+                <filename>images/header-bg.gif</filename>
+                <filename>images/navi_header.gif</filename>
+                <filename>images/news.gif</filename>
+                <filename>images/openclose.gif</filename>
+                <filename>images/pfeil.gif</filename>
+                <filename>images/pfeil_gelb.gif</filename>
+                <filename>images/pfeil_hover.gif</filename>
+                <filename>images/pfeil_rtl.gif</filename>
+                <filename>images/round1.gif</filename>
+                <filename>images/round2.gif</filename>
+                <filename>images/trans.gif</filename>
+                <filename>images/index.html</filename>
+                <filename>images/con_address.png</filename>
+                <filename>images/blue/grass_right.gif</filename>
+                <filename>images/blue/h1_blue.gif</filename>
+                <filename>javascript/md_stylechanger.js</filename>
+                <filename>javascript/index.html</filename>
+                <filename>javascript/hide.js</filename>
+                <filename>javascript/hidewechsel.js</filename>
+                <filename>javascript/html5.js</filename>
+                <filename>javascript/params.ini</filename>
+                <filename>index.html</filename>
+                <filename>index.php</filename>
+                <filename>params.ini</filename>
+                <filename>templateDetails.xml</filename>
+                <filename>template_thumbnail.png</filename>
+                <filename>favicon.ico</filename>
+                <filename>component.php</filename>
+        </files>
+        <languages>
+                <language tag="en-GB">en-GB.tpl_beez.ini</language>
+        </languages>
+        <administration>
+                <languages folder="admin">
+                        <language tag="en-GB">en-GB.tpl_beez.ini</language>
+                </languages>
+        </administration>
+        <positions>
+                <position>left</position>
+                <position>right</position>
+                <position>top</position>
+                <position>breadcrumb</position>
+                <position>user1</position>
+                <position>user2</position>
+                <position>user3</position>
+                <position>user4</position>
+                <position>debug</position>
+                <position>syndicate</position>
+        </positions>
+        <fields group="advanced">
+                <field name="wrapperSmall" type="text" default="55" label="Wrapper Small (%)" description="Wrapper width with opened additional columns in per cent" />
+                <field name="wrapperLarge" type="text" default="70" label="Wrapper Large (%)" description="Wrapper width with closed additional columns in per cent" />
+
+                <field name="navposition" type="list" default="left" label="Position of Navigation" description="Navigation before or after content">
+                        <option value="center">after content</option>
+                        <option value="left">before content</option>
+
+                </field>
+                <field name="templatecolor" type="list" default="blue" label="Template color" description="Color of the template">
+                        <option value="color_blue">blue</option>
+                        <option value="color_grey">grey</option>
+                </field>
+
+        </fields>
+</install>

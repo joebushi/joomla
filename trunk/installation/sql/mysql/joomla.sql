@@ -872,7 +872,7 @@ CREATE TABLE IF NOT EXISTS `#__template_styles` (
 INSERT INTO `#__template_styles` VALUES (1, 'rhuk_milkyway', '0', '1', 'Default', '{"colorVariation":"blue","backgroundVariation":"blue","widthStyle":"fmax"}');
 INSERT INTO `#__template_styles` VALUES (2, 'bluestork', '1', '1', 'Default', '{"useRoundedCorners":"1","showSiteName":"0"}');
 INSERT INTO `#__template_styles` VALUES (3, 'atomic', '0', '0', 'Default', '{}');
-
+INSERT INTO `#__template_styles` VALUES (4, 'beez_20', '0', '0', 'Default', '{"wrapperSmall":"55","wrapperLarge":"77","navposition":"left","templatecolor":"color_blue"}');
 # -------------------------------------------------------
 #
 # Table structure for table `#__user_usergroup_map`
