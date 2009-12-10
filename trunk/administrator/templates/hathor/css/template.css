@@ -121,6 +121,19 @@ a:hover {
 	text-decoration: underline;
 }
 
+/* new styles */
+
+.enabled 	{ color: #005800; font-weight: bold; }
+.disabled 	{ color: #a20000; font-weight: bold; }
+p.error 	{ color: #a20000; font-weight: bold; }
+.warning 	{ color: #a20000; font-weight: bold; }
+.nowarning 	{ color: #2c2c2c; font-weight: bold; }
+.success 	{ color: #005800; font-weight: bold;}
+.allow 		{ color: #005800;}
+.deny 		{ color: #a20000;}
+.none 		{ color: #aaaaaa;}
+
+/* end new styles */
 
 /**
  * Overall Styles
@@ -2293,13 +2306,13 @@ div.message {
 
 	/* For elements that aren't to be seen by users unless the user does something  
 	 * like clicking on a header to see the collapsed section. */
-.element-hidden {
+.element-hidden, .hide {
 	display: none;
 }
 
 	/* For elements that aren't to be seen by visual users but do need to be read by screenreaders.
 	 * Cannot be used for elements that can get focus such as links and form elements */
-.element-invisible {
+.element-invisible, .hidelabeltxt {
 	height: 0;
 	overflow: hidden;
 	position: absolute;
