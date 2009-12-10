@@ -197,8 +197,7 @@
 	<fields
 		group="integration"
 		label="Menus_Layout_Integration_Options_Label"
-		description=""
-		array="true">
+		description="">
 		
 		<field
 			name="article-allow_ratings"
@@ -260,7 +259,6 @@
 	
 	<fields
 		group="articles"
-		array="true"
 		label="Content_Attribs_Article_Settings_Label"
 		description="">
 

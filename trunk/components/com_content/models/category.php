@@ -58,13 +58,19 @@ class ContentModelCategory extends JModelItem
 
 		// TODO: Add pagination for children , siblings and articles??
 
-		// Load the parameters.
+		// Load the parameters. Merge Global and Menu Item params
 		$params	= $app->getParams();
-		$this->setState('params', $params);
+		$menuParams = new JParameter(JSite::getMenu()->getActive()->params);
+		$mergedParams = clone $menuParams;
+		$mergedParams->merge($params);
+		$this->setState('params', $mergedParams);
 
 		// TODO: Tune these values based on other permissions.
 		$this->setState('filter.published',	1);
 		$this->setState('filter.access',	true);
+		
+		// filter.order
+		$this->setState('list.ordering', $this->_buildContentOrderBy());
 	}
 
 	/**
@@ -196,7 +202,7 @@ class ContentModelCategory extends JModelItem
 			$model->setState('filter.category_id',	$category->id);
 			$model->setState('filter.published',	$this->getState('filter.published'));
 			$model->setState('filter.access',		$this->getState('filter.access'));
-			// TODO: Set ordering
+			$model->setState('list.ordering', 		$this->getState('list.ordering'));
 			// TODO: Set limits
 
 			$this->_articles  = $model->getItems();
@@ -299,4 +305,38 @@ class ContentModelCategory extends JModelItem
 
 		return $this->_parents;
 	}
+	
+		/**
+	 * Build the orderby for the query
+	 *
+	 * @return	string	$orderby portion of query
+	 */
+	protected function _buildContentOrderBy()
+	{
+		$app = &JFactory::getApplication('site');
+		$params = $this->_state->params;
+		$itemid = JRequest::getInt('id', 0) . ':' . JRequest::getInt('Itemid', 0);
+		$filter_order  = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order', 'filter_order', '', 'cmd');
+		$filter_order_Dir = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order_Dir', 'filter_order_Dir', '', 'cmd');
+		$orderby = ' ';	
+
+		if ($filter_order && $filter_order_Dir)
+		{
+			$orderby .= $filter_order .' '. $filter_order_Dir.', ';
+		}
+
+		if ($filter_order == 'author')
+		{
+			$orderby .= 'created_by_alias '. $filter_order_Dir.', ';
+		}
+		
+		$articleOrderby	= $params->get('article_orderby', 'rdate');
+		$categoryOrderby	= $params->def('category_orderby', '');
+		$secondary		= ContentHelperQuery::orderbySecondary($articleOrderby).', ';
+		$primary		= ContentHelperQuery::orderbyPrimary($categoryOrderby);
+		
+		$orderby .= $primary . ' ' . $secondary . 'a.created DESC';
+		return $orderby;
+	}
+	
 }
