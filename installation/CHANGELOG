@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+12-Dec-2009 Sam Moffatt
+ + Added initial SQL Server driver work for development.
+ - Removed a minor MySQLism from Sybase MSSQL driver
+
 11-Dec-2009 Louis Landry
  + Added initial Sybase MSSQL driver work for development.
 

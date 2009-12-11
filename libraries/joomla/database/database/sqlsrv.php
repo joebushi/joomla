@@ -1,30 +1,35 @@
 <?php
 /**
- * @version     $Id$
- * @package     Joomla.Framework
- * @subpackage  Database
- * @copyright   Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
- */
+* @version		$Id: sqlsrv.php 11316 2008-11-27 03:11:24Z ian $
+* @package		Joomla.Framework
+* @subpackage	Database
+* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
+* @license		GNU/GPL, see LICENSE.php
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
+* See COPYRIGHT.php for copyright notices and details.
+*/
 
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();
 
 /**
- * Sybase database driver
+ * SQL Server database driver
  *
  * @package		Joomla.Framework
  * @subpackage	Database
  * @since		1.0
  */
-class JDatabaseSybaseMSSQL extends JDatabase
+class JDatabaseSQLSrv extends JDatabase
 {
 	/**
 	 * The database driver name
 	 *
 	 * @var string
 	 */
-	var $name			= 'sybasemssql';
+	var $name			= 'sqlsrv';
 
 	/**
 	 *  The null/zero date string
@@ -38,7 +43,7 @@ class JDatabaseSybaseMSSQL extends JDatabase
 	 *
 	 * @var string
 	 */
-	var $_nameQuote		= '';
+	var $_nameQuote		= "'";
 
 	/**
 	* Database object constructor
@@ -48,7 +53,7 @@ class JDatabaseSybaseMSSQL extends JDatabase
 	* @since	1.5
 	* @see		JDatabase
 	*/
-	function __construct($options)
+	function __construct( $options )
 	{
 		$host		= array_key_exists('host', $options)	? $options['host']		: 'localhost';
 		$user		= array_key_exists('user', $options)	? $options['user']		: '';
@@ -58,24 +63,27 @@ class JDatabaseSybaseMSSQL extends JDatabase
 		$select		= array_key_exists('select', $options)	? $options['select']	: true;
 
 		// perform a number of fatality checks, then return gracefully
-		if (!function_exists('sybase_connect')) {
+		if (!function_exists( 'sqlsrv_connect' )) {
 			$this->_errorNum = 1;
-			$this->_errorMsg = 'The adapter "sybase" is not available.';
+			$this->_errorMsg = 'The MS SQL adapter "sqlsrv" is not available.';
 			return;
 		}
 
 		// connect to the server
-		if (!($this->_resource = @sybase_connect($host, $user, $password))) {
+		if (!($this->_resource = sqlsrv_connect( $host, Array('uid'=>$user, 'pwd'=>$password, 'CharacterSet'=>'UTF-8') ) )) {
 			$this->_errorNum = 2;
-			$this->_errorMsg = 'Could not connect to the database using supplied connection details.';
+			$this->_errorMsg = 'Could not connect to MS SQL';
 			return;
 		}
 
+		sqlsrv_configure('WarningsReturnAsErrors', 1);
+		
+		
 		// finalize initialization
 		parent::__construct($options);
 
 		// select the database
-		if ($select) {
+		if ( $select ) {
 			$this->select($database);
 		}
 	}
@@ -90,13 +98,13 @@ class JDatabaseSybaseMSSQL extends JDatabase
 	{
 		$return = false;
 		if (is_resource($this->_resource)) {
-			$return = sybase_close($this->_resource);
+			$return = sqlsrv_close($this->_resource);
 		}
 		return $return;
 	}
 
 	/**
-	 * Test to see if the MySQL connector is available
+	 * Test to see if the SQL Server connector is available
 	 *
 	 * @static
 	 * @access public
@@ -104,7 +112,7 @@ class JDatabaseSybaseMSSQL extends JDatabase
 	 */
 	function test()
 	{
-		return (function_exists('sybase_connect'));
+		return (function_exists( 'sqlsrv_connect' ));
 	}
 
 	/**
@@ -116,7 +124,13 @@ class JDatabaseSybaseMSSQL extends JDatabase
 	 */
 	function connected()
 	{
-		die(get_class($this).'::connected not implemented');
+		/*if(is_resource($this->_resource)) {
+			return mysql_ping($this->_resource);
+		}
+		return false;
+		*/
+		// TODO: Run a blank query here
+		return true;
 	}
 
 	/**
@@ -129,28 +143,30 @@ class JDatabaseSybaseMSSQL extends JDatabase
 	 */
 	function select($database)
 	{
-		if (!$database) {
+		if ( ! $database )
+		{
 			return false;
 		}
 
-		if (!sybase_select_db($database, $this->_resource)) {
+		$this->setQuery('USE '. $database);
+		if ( !$this->Query() ) {
 			$this->_errorNum = 3;
 			$this->_errorMsg = 'Could not connect to database';
 			return false;
 		}
-
+		
 		return true;
 	}
 
 	/**
 	 * Determines UTF support
 	 *
-	 * @access public
+	 * @access	public
 	 * @return boolean True - UTF is supported
 	 */
 	function hasUTF()
 	{
-		return false;
+		return true;
 	}
 
 	/**
@@ -160,7 +176,7 @@ class JDatabaseSybaseMSSQL extends JDatabase
 	 */
 	function setUTF()
 	{
-		die(get_class($this).'::setUTF not implemented');
+		// TODO: Remove this?
 	}
 
 	/**
@@ -172,8 +188,13 @@ class JDatabaseSybaseMSSQL extends JDatabase
 	 * @access	public
 	 * @abstract
 	 */
-	function getEscaped($text, $extra = false)
+	function getEscaped( $text, $extra = false )
 	{
+		// TODO: MSSQL Compatible escaping
+		// The quoting for MSSQL isn't handled in the driver
+		// however it should be (it'd be nice), so we need
+		// to do this ourselves.
+		// It should just be ' to '' but not sure
 		$result = str_replace("'", "''", $text);
 		return $result;
 	}
@@ -186,40 +207,44 @@ class JDatabaseSybaseMSSQL extends JDatabase
 	 */
 	function query()
 	{
-		//if (!is_resource($this->_resource)) {
-		//	return false;
-		//}
+		if (!is_resource($this->_resource)) {
+			return false;
+		}
 
-		if ($this->_limit > 0 || $this->_offset > 0)
-		{
-			// This is the fun bit for mssql
-			//$this->_sql .= ' LIMIT '.$this->_offset.', '.$this->_limit;
-
-			if ($this->_offset <= 0)
-			{
+		// Take a local copy so that we don't modify the original query and cause issues later
+		$sql = $this->_sql;
+		if ($this->_limit > 0 || $this->_offset > 0) {
+			if($this->_limit > 0 && $this->_offset <= 0) {
+				// we have a limit with zero or no offset, we can use top here	
 				$this->_sql = preg_replace(
-					'/(^\s*select\s+(distinctrow|distinct)?)/i','\\1 TOP '.$this->_limit.' ',$this->_sql);
-			}
-			else
-			{
-
+					'/(^\s*select\s+(distinctrow|distinct)?)/i',
+					'\\1 TOP '.$this->_limit.' ',
+					$this->_sql);
+			} else {
+				// TODO: Work this bit out!
+				// Combination of top vs row_number() over (order by)
+				// but both require at least one column to sort on
 			}
 		}
 		if ($this->_debug) {
 			$this->_ticker++;
-			$this->_log[] = $this->_sql;
+			$this->_log[] = $sql;
 		}
 		$this->_errorNum = 0;
 		$this->_errorMsg = '';
-		$this->_cursor = sybase_query($this->_sql, $this->_resource);
-
+		$this->_cursor = sqlsrv_query( $this->_resource, $sql, null, Array('scrollable' => SQLSRV_CURSOR_STATIC) );
+		
+		
 		if (!$this->_cursor)
 		{
-			$this->_errorNum = 1;
-			$this->_errorMsg = sybase_get_last_message()." SQL=$this->_sql";
+			$errors = sqlsrv_errors( );
+			print_R($errors);
+			$this->_errorNum = $errors[0]['sqlstate'];
+			$this->_errorMsg = $errors[0]['message'];
+			// $errors[0]['errorcode']; // Holds the SQL Server Native Error Code
 
 			if ($this->_debug) {
-				JError::raiseError(500, 'JDatabaseMySQL::query: '.$this->_errorNum.' - '.$this->_errorMsg);
+				JError::raiseError(500, 'JDatabaseSQLSrv::query: '.$this->_errorNum.' - '.$this->_errorMsg );
 			}
 			return false;
 		}
@@ -235,7 +260,7 @@ class JDatabaseSybaseMSSQL extends JDatabase
 	 */
 	function getAffectedRows()
 	{
-		return sybase_affected_rows($this->_resource);
+		return sqlsrv_rows_affected( $this->_resource );
 	}
 
 	/**
@@ -244,36 +269,27 @@ class JDatabaseSybaseMSSQL extends JDatabase
 	 * @access	public
 	 * @return mixed A database resource if successful, FALSE if not.
 	 */
-	function queryBatch($abort_on_error=true, $p_transaction_safe = false)
+	function queryBatch( $abort_on_error=true, $p_transaction_safe = false)
 	{
 		$this->_errorNum = 0;
 		$this->_errorMsg = '';
-		if ($p_transaction_safe) {
-			$this->_sql = rtrim($this->_sql, '; \t\r\n\0');
-			$si = $this->getVersion();
-			preg_match_all("/(\d+)\.(\d+)\.(\d+)/i", $si, $m);
-			if ($m[1] >= 4) {
-				$this->_sql = 'START TRANSACTION;' . $this->_sql . '; COMMIT;';
-			} else if ($m[2] >= 23 && $m[3] >= 19) {
-				$this->_sql = 'BEGIN WORK;' . $this->_sql . '; COMMIT;';
-			} else if ($m[2] >= 23 && $m[3] >= 17) {
-				$this->_sql = 'BEGIN;' . $this->_sql . '; COMMIT;';
-			}
-		}
+		$this->_sql = 'BEGIN TRANSACTION;' . $this->_sql . '; COMMIT TRANSACTION;';
 		$query_split = $this->splitSql($this->_sql);
 		$error = 0;
 		foreach ($query_split as $command_line) {
-			$command_line = trim($command_line);
+			$command_line = trim( $command_line );
 			if ($command_line != '') {
-				$this->_cursor = sybase_query($command_line, $this->_resource);
+				$this->_cursor = sqlsrv_query( $this->_resource, $command_line, null, Array('scrollable' => SQLSRV_CURSOR_STATIC) );
 				if ($this->_debug) {
 					$this->_ticker++;
 					$this->_log[] = $command_line;
 				}
 				if (!$this->_cursor) {
 					$error = 1;
-					$this->_errorNum .= 1 . ' ';
-					$this->_errorMsg .= sybase_get_last_message()." SQL=$command_line <br />";
+					$errors = sqlsrv_errors( );
+					$this->_errorNum = $errors[0]['sqlstate'];
+					$this->_errorMsg = $errors[0]['message'];
+					// $errors[0]['errorcode']; // Holds the SQL Server Native Error Code
 					if ($abort_on_error) {
 						return $this->_cursor;
 					}
@@ -291,7 +307,8 @@ class JDatabaseSybaseMSSQL extends JDatabase
 	 */
 	function explain()
 	{
-		return null;
+		// TODO: Work out if MSSQL supports this but it looks like it doesn't
+		return '';
 	}
 
 	/**
@@ -300,9 +317,9 @@ class JDatabaseSybaseMSSQL extends JDatabase
 	 * @access	public
 	 * @return int The number of rows returned from the most recent query.
 	 */
-	function getNumRows($cur=null)
+	function getNumRows( $cur=null )
 	{
-		return sybase_num_rows($cur ? $cur : $this->_cursor);
+		return sqlsrv_num_rows( $cur ? $cur : $this->_cursor );
 	}
 
 	/**
@@ -317,10 +334,10 @@ class JDatabaseSybaseMSSQL extends JDatabase
 			return null;
 		}
 		$ret = null;
-		if ($row = sybase_fetch_row($cur)) {
+		if ($row = sqlsrv_fetch_array( $cur, SQLSRV_FETCH_NUMERIC )) {
 			$ret = $row[0];
 		}
-		sybase_free_result($cur);
+		sqlsrv_free_stmt( $cur );
 		return $ret;
 	}
 
@@ -335,10 +352,10 @@ class JDatabaseSybaseMSSQL extends JDatabase
 			return null;
 		}
 		$array = array();
-		while ($row = sybase_fetch_row($cur)) {
+		while ($row = sqlsrv_fetch_array( $cur, SQLSRV_FETCH_NUMERIC )) {
 			$array[] = $row[$numinarray];
 		}
-		sybase_free_result($cur);
+		sqlsrv_free_stmt( $cur );
 		return $array;
 	}
 
@@ -354,10 +371,10 @@ class JDatabaseSybaseMSSQL extends JDatabase
 			return null;
 		}
 		$ret = null;
-		if ($array = sybase_fetch_assoc($cur)) {
+		if ($array = sqlsrv_fetch_array( $cur, SQLSRV_FETCH_ASSOC )) {
 			$ret = $array;
 		}
-		sybase_free_result($cur);
+		sqlsrv_free_stmt( $cur );
 		return $ret;
 	}
 
@@ -368,20 +385,20 @@ class JDatabaseSybaseMSSQL extends JDatabase
 	* @param string The field name of a primary key
 	* @return array If <var>key</var> is empty as sequential list of returned records.
 	*/
-	function loadAssocList($key='')
+	function loadAssocList( $key='' )
 	{
 		if (!($cur = $this->query())) {
 			return null;
 		}
 		$array = array();
-		while ($row = sybase_fetch_assoc($cur)) {
+		while ($row = sqlsrv_fetch_array( $cur, SQLSRV_FETCH_ASSOC )) {
 			if ($key) {
 				$array[$row[$key]] = $row;
 			} else {
 				$array[] = $row;
 			}
 		}
-		sybase_free_result($cur);
+		sqlsrv_free_stmt( $cur );
 		return $array;
 	}
 
@@ -391,16 +408,16 @@ class JDatabaseSybaseMSSQL extends JDatabase
 	* @access	public
 	* @return 	object
 	*/
-	function loadObject()
+	function loadObject( )
 	{
 		if (!($cur = $this->query())) {
 			return null;
 		}
 		$ret = null;
-		if ($object = sybase_fetch_object($cur)) {
+		if ($object = sqlsrv_fetch_object( $cur )) {
 			$ret = $object;
 		}
-		sybase_free_result($cur);
+		sqlsrv_free_stmt( $cur );
 		return $ret;
 	}
 
@@ -414,21 +431,20 @@ class JDatabaseSybaseMSSQL extends JDatabase
 	* @param string The field name of a primary key
 	* @return array If <var>key</var> is empty as sequential list of returned records.
 	*/
-	function loadObjectList($key='')
+	function loadObjectList( $key='' )
 	{
 		if (!($cur = $this->query())) {
 			return null;
 		}
 		$array = array();
-		while ($row = sybase_fetch_object($cur)) {
-
+		while ($row = sqlsrv_fetch_object( $cur )) {
 			if ($key) {
 				$array[$row->$key] = $row;
 			} else {
 				$array[] = $row;
 			}
 		}
-		sybase_free_result($cur);
+		sqlsrv_free_stmt( $cur );
 		return $array;
 	}
 
@@ -444,10 +460,10 @@ class JDatabaseSybaseMSSQL extends JDatabase
 			return null;
 		}
 		$ret = null;
-		if ($row = sybase_fetch_row($cur)) {
+		if ($row = sqlsrv_fetch_array( $cur, SQLSRV_FETCH_NUMERIC )) {
 			$ret = $row;
 		}
-		sybase_free_result($cur);
+		sqlsrv_free_stmt( $cur );
 		return $ret;
 	}
 
@@ -460,20 +476,20 @@ class JDatabaseSybaseMSSQL extends JDatabase
 	* If <var>key</var> is not empty then the returned array is indexed by the value
 	* the database key.  Returns <var>null</var> if the query fails.
 	*/
-	function loadRowList($key=null)
+	function loadRowList( $key=null )
 	{
 		if (!($cur = $this->query())) {
 			return null;
 		}
 		$array = array();
-		while ($row = sybase_fetch_row($cur)) {
+		while ($row = sqlsrv_fetch_array( $cur, SQLSRV_FETCH_NUMERIC )) {
 			if ($key !== null) {
 				$array[$row[$key]] = $row;
 			} else {
 				$array[] = $row;
 			}
 		}
-		sybase_free_result($cur);
+		sqlsrv_free_stmt( $cur );
 		return $array;
 	}
 
@@ -485,21 +501,21 @@ class JDatabaseSybaseMSSQL extends JDatabase
 	 * @param	object	An object whose properties match table fields
 	 * @param	string	The name of the primary key. If provided the object property is updated.
 	 */
-	function insertObject($table, &$object, $keyName = NULL)
+	function insertObject( $table, &$object, $keyName = NULL )
 	{
-		$fmtsql = 'INSERT INTO '.$this->nameQuote($table).' (%s) VALUES (%s) ';
+		$fmtsql = 'INSERT INTO '.$this->nameQuote($table).' ( %s ) VALUES ( %s ) ';
 		$fields = array();
-		foreach (get_object_vars($object) as $k => $v) {
+		foreach (get_object_vars( $object ) as $k => $v) {
 			if (is_array($v) or is_object($v) or $v === NULL) {
 				continue;
 			}
 			if ($k[0] == '_') { // internal field
 				continue;
 			}
-			$fields[] = $this->nameQuote($k);
-			$values[] = $this->isQuoted($k) ? $this->Quote($v) : (int) $v;
+			$fields[] = $this->nameQuote( $k );
+			$values[] = $this->isQuoted( $k ) ? $this->Quote( $v ) : (int) $v;
 		}
-		$this->setQuery(sprintf($fmtsql, implode(",", $fields) ,  implode(",", $values)));
+		$this->setQuery( sprintf( $fmtsql, implode( ",", $fields ) ,  implode( ",", $values ) ) );
 		if (!$this->query()) {
 			return false;
 		}
@@ -516,17 +532,17 @@ class JDatabaseSybaseMSSQL extends JDatabase
 	 * @access public
 	 * @param [type] $updateNulls
 	 */
-	function updateObject($table, &$object, $keyName, $updateNulls=true)
+	function updateObject( $table, &$object, $keyName, $updateNulls=true )
 	{
 		$fmtsql = 'UPDATE '.$this->nameQuote($table).' SET %s WHERE %s';
 		$tmp = array();
-		foreach (get_object_vars($object) as $k => $v)
+		foreach (get_object_vars( $object ) as $k => $v)
 		{
-			if(is_array($v) or is_object($v) or $k[0] == '_') { // internal or NA field
+			if( is_array($v) or is_object($v) or $k[0] == '_' ) { // internal or NA field
 				continue;
 			}
-			if($k == $keyName) { // PK not to be updated
-				$where = $keyName . '=' . $this->Quote($v);
+			if( $k == $keyName ) { // PK not to be updated
+				$where = $keyName . '=' . $this->Quote( $v );
 				continue;
 			}
 			if ($v === null)
@@ -537,11 +553,11 @@ class JDatabaseSybaseMSSQL extends JDatabase
 					continue;
 				}
 			} else {
-				$val = $this->isQuoted($k) ? $this->Quote($v) : (int) $v;
+				$val = $this->isQuoted( $k ) ? $this->Quote( $v ) : (int) $v;
 			}
-			$tmp[] = $this->nameQuote($k) . '=' . $val;
+			$tmp[] = $this->nameQuote( $k ) . '=' . $val;
 		}
-		$this->setQuery(sprintf($fmtsql, implode(",", $tmp) , $where));
+		$this->setQuery( sprintf( $fmtsql, implode( ",", $tmp ) , $where ) );
 		return $this->query();
 	}
 
@@ -552,7 +568,9 @@ class JDatabaseSybaseMSSQL extends JDatabase
 	 */
 	function insertid()
 	{
-		die(get_class($this).'::insertid not implemented');
+		// TODO: SELECT IDENTITY
+		$this->setQuery('SELECT @@IDENTITY');
+		return $this->loadResult();
 	}
 
 	/**
@@ -562,7 +580,7 @@ class JDatabaseSybaseMSSQL extends JDatabase
 	 */
 	function getVersion()
 	{
-		return 0;
+		return sqlsrv_server_info( $this->_resource );
 	}
 
 	/**
@@ -573,7 +591,8 @@ class JDatabaseSybaseMSSQL extends JDatabase
 	 */
 	function getCollation ()
 	{
-		die(get_class($this).'::getCollation not implemented');
+		// TODO: Not fake this
+		return 'MSSQL UTF-8 (UCS2)';
 	}
 
 	/**
@@ -584,7 +603,8 @@ class JDatabaseSybaseMSSQL extends JDatabase
 	 */
 	function getTableList()
 	{
-		$this->setQuery('SHOW TABLES');
+		// TODO: Translate to T-SQL
+		$this->setQuery( 'SHOW TABLES' );
 		return $this->loadResultArray();
 	}
 
@@ -595,20 +615,10 @@ class JDatabaseSybaseMSSQL extends JDatabase
 	 * @param 	array|string 	A table name or a list of table names
 	 * @return 	array A list the create SQL for the tables
 	 */
-	function getTableCreate($tables)
+	function getTableCreate( $tables )
 	{
-		settype($tables, 'array'); //force to array
-		$result = array();
-
-		foreach ($tables as $tblval) {
-			$this->setQuery('SHOW CREATE table ' . $this->getEscaped($tblval));
-			$rows = $this->loadRowList();
-			foreach ($rows as $row) {
-				$result[$tblval] = $row[1];
-			}
-		}
-
-		return $result;
+		// MSSQL doesn't support that
+		return '';
 	}
 
 	/**
@@ -619,27 +629,32 @@ class JDatabaseSybaseMSSQL extends JDatabase
 	 * @param	boolean			Only return field types, default true
 	 * @return	array An array of fields by table
 	 */
-	function getTableFields($tables, $typeonly = true)
+	function getTableFields( $tables, $typeonly = true )
 	{
 		settype($tables, 'array'); //force to array
 		$result = array();
 
 		foreach ($tables as $tblval)
 		{
-			$this->setQuery('SHOW FIELDS FROM ' . $tblval);
-			$fields = $this->loadObjectList();
+			// TODO: Should run this through namequote
+			$this->setQuery('select top 0 * from '. $tblval);
+			if($this->Query()) {
+				$fields = sqlsrv_field_metadata( $this->_cursor ); 
 
-			if($typeonly)
-			{
-				foreach ($fields as $field) {
-					$result[$tblval][$field->Field] = preg_replace("/[(0-9)]/",'', $field->Type);
+				if($typeonly)
+				{
+					foreach ($fields as $field) {
+						$result[$tblval][$field->Name] = preg_replace("/[(0-9)]/",'', $field->Type );
+					}
 				}
-			}
-			else
-			{
-				foreach ($fields as $field) {
-					$result[$tblval][$field->Field] = $field;
+				else
+				{
+					foreach ($fields as $field) {
+						$result[$tblval][$field->Name] = $field;
+					}
 				}
+			} else {
+				$result[$tblval] = Array();
 			}
 		}
 
