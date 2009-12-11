@@ -221,7 +221,8 @@
 			type="text"
 			label="JField_Metadata_Author_Label"
 			description="JField_Metadata_Author_Desc"
-			size="30"/>
+			size="30"
+			default=""/>
 
 		<field
 			name="robots"
@@ -242,8 +243,6 @@
 			<option
 				value="4">Don't display robots tag</option>
 		</field>
-
-
 
 	</fields>
 

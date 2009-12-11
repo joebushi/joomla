@@ -31,23 +31,35 @@ class JFormFieldModuleLayout extends JFormFieldList
 	 */
 	protected function _getOptions()
 	{
+		// Initialise variables.
 		$options	= array();
 		$path1		= null;
 		$path2		= null;
 
+		$module = $this->_element->attributes('module');
+		if (empty($module)) {
+			$module = $this->_form->get('module');
+		}
+
+		$clientId = $this->_element->attributes('client_id');
+		if (empty($clientId)) {
+			$clientId = $this->_form->get('client_id');
+		}
+
 		// Load template entries for each menuid
-		$db			=& JFactory::getDBO();
+		$db			= JFactory::getDBO();
 		$query		= 'SELECT template'
-			. ' FROM #__templates_menu'
-			. ' WHERE client_id = 0 AND menuid = 0';
+			. ' FROM #__template_styles'
+			. ' WHERE client_id = '.(int) $clientId.' AND home = 1';
 		$db->setQuery($query);
 		$template	= $db->loadResult();
 
-		if ($module = $this->_element->attributes('module'))
+		if ($module)
 		{
 			$module	= preg_replace('#\W#', '', $module);
-			$path1	= JPATH_SITE.DS.'modules'.DS.$module.DS.'tmpl';
-			$path2	= JPATH_SITE.DS.'templates'.DS.$template.DS.'html'.DS.$module;
+			$client	= JApplicationHelper::getClientInfo($clientId);
+			$path1	= $client->path.'/modules/'.$module.'/tmpl';
+			$path2	= $client->path.'/templates/'.$template.'/html/'.$module;
 			$options[]	= JHTML::_('select.option', '', '');
 		}
 
@@ -57,9 +69,12 @@ class JFormFieldModuleLayout extends JFormFieldList
 			$path1 = JPath::clean($path1);
 			$path2 = JPath::clean($path2);
 
-			$files	= JFolder::files($path1, '^[^_]*\.php$');
-			foreach ($files as $file) {
-				$options[]	= JHTML::_('select.option', JFile::stripExt($file));
+			if (is_dir($path1))
+			{
+				$files	= JFolder::files($path1, '^[^_]*\.php$');
+				foreach ($files as $file) {
+					$options[]	= JHTML::_('select.option', JFile::stripExt($file));
+				}
 			}
 
 			if (is_dir($path2) && $files = JFolder::files($path2, '^[^_]*\.php$'))

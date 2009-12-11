@@ -48,7 +48,7 @@ class JUtility
 		// Are we sending the email as HTML?
 		if ($mode) {
 			$mail->IsHTML(true);
-		}
+	}
 
 		$mail->addRecipient($recipient);
 		$mail->addCC($cc);
@@ -117,7 +117,7 @@ class JUtility
 	public static function getToken($forceNew = false)
 	{
 		$user		= &JFactory::getUser();
-		$session	= &JFactory::getSession();
+		$session = &JFactory::getSession();
 		$hash		= JUtility::getHash($user->get('id', 0).$session->getToken($forceNew));
 		return $hash;
 	}
@@ -197,19 +197,19 @@ class JUtility
 	 * @since 1.6
 	 */
 	function return_bytes($val) {
-            $val = trim($val);
-            $last = strtolower($val{strlen($val)-1});
-            switch($last) {
-                // The 'G' modifier is available since PHP 5.1.0
-                case 'g':
-                    $val *= 1024;
-                case 'm':
-                    $val *= 1024;
-                case 'k':
-                    $val *= 1024;
-            }
+		$val = trim($val);
+		$last = strtolower($val{strlen($val)-1});
+		switch($last) {
+			// The 'G' modifier is available since PHP 5.1.0
+			case 'g':
+				$val *= 1024;
+			case 'm':
+				$val *= 1024;
+			case 'k':
+				$val *= 1024;
+		}
 
-            return $val;
-        }
+		return $val;
+	}
 
 }
