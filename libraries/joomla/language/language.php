@@ -389,28 +389,9 @@ class JLanguage extends JObject
 
 		$result	= false;
 
-		if ($content = @file_get_contents($filename))
+		if ($newStrings = @parse_ini_file($filename))
 		{
-
-			//Take off BOM if present in the ini file
-			if ($content[0] == "\xEF" && $content[1] == "\xBB" && $content[2] == "\xBF")
-			{
-				$content = substr($content, 3);
-			}
-
-			$registry	= new JRegistry();
-			$registry->loadINI($content);
-			$newStrings	= $registry->toArray();
-
-			if (is_array($newStrings))
-			{
-				$this->_strings = $overwrite ? array_merge($this->_strings, $newStrings)
-				: array_merge($newStrings, $this->_strings);
-
-				$this->_strings = array_merge( $this->_strings, $this->_override); // add overrides
-
-				$result = true;
-			}
+			$result = true;
 		}
 
 		// Record the result of loading the extension's file.
@@ -419,7 +400,7 @@ class JLanguage extends JObject
 		}
 
 		$this->_paths[$extension][$filename] = $result;
-
+		print_r($result);
 		return $result;
 	}
 
