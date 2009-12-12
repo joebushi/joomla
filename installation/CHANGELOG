@@ -27,33 +27,6 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-09-Dec-2009 Sam Moffatt
- ^ Committed patch for JCache care of Roben Goethals
- # Change to the installation SQL for the extensions table
- ^ Start of refactoring for the extensions manager
- # Minor fixes for modules updates and updates in general
-
-07-Dec-2009 Andrea Tarr
-# Allow admin templates to install correctly
-
-01-Dec-2009 Ron Severdia
-+ Added CSS for required fields
-
-01-Dec-2009 Ron Severdia
-+ Added Blueprint framework for Atomic template
-
-30-Nov-2009 Mark Dexter
-^ Remove Category level parameters for articles
-# Fix bug where category metadata wasn't saving to database
-# Replace eregi with stripos in contact and weblinks table check
-# Fix error when saving a contact with a link URL
-
-25-Nov-2009 Mark Dexter
-^ Changed attribs column in jos_content from text to varchar(5120).
-
-25-Nov-2009 Andrew Eddie
- # Fixed bug in JHtmlContent improperly using JTableContent (/me shakes head).
-
 25-Nov-2009 Andrew Eddie
  + Added menu_image param to alias and url menu link types.
  + Added support to JQuery for Insert, Update and Delete methods; added glue to having clause (thanks Rafael Diaz-Tushman).
