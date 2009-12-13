@@ -71,6 +71,8 @@ class ContentModelCategory extends JModelItem
 		
 		// filter.order
 		$this->setState('list.ordering', $this->_buildContentOrderBy());
+		$this->setState('list.start', 0);
+		$this->setState('list.limit', $mergedParams->get('display_num'));
 	}
 
 	/**
@@ -112,7 +114,7 @@ class ContentModelCategory extends JModelItem
 			{
 				$query = new JQuery;
 
-				$query->select($this->getState('item.select', 'a.*'));
+				$query->select($this->getState('item.select', 'a.*, a.params as category_params'));
 				$query->from('#__categories AS a');
 
 				$query->where('a.extension = '.$this->_db->quote('com_content'));
@@ -158,6 +160,9 @@ class ContentModelCategory extends JModelItem
 				$registry = new JRegistry;
 				$registry->loadJSON($data->metadata);
 				$data->metadata = $registry;
+				
+				$cat_params = new JParameter($data->category_params);
+				$data->category_params = $cat_params;
 
 				// Compute access permissions.
 				if ($access)
@@ -203,7 +208,8 @@ class ContentModelCategory extends JModelItem
 			$model->setState('filter.published',	$this->getState('filter.published'));
 			$model->setState('filter.access',		$this->getState('filter.access'));
 			$model->setState('list.ordering', 		$this->getState('list.ordering'));
-			// TODO: Set limits
+			$model->setState('list.start', 			$this->getState('list.start'));
+			$model->setState('list.limit', 			$this->getState('list.limit'));
 
 			$this->_articles  = $model->getItems();
 
