@@ -384,76 +384,6 @@ class JLanguage extends JObject
 
 		$result	= false;
 
-		jimport('joomla.filesystem.file');
-		$phpFile = JFile::stripExt($filename).'.php';
-		$className = str_replace(array(".","-"),array("_","_"),JFile::stripExt(basename($filename))).'LanguageHelper';
-		if (JFile::exists($filename))
-		{
-			if (false && (!JFile::exists($phpFile) || filemtime($filename)>filemtime($phpFile)))
-			{
-				$newStrings = $this->_loadINI($filename, $extension, $overwrite);
-				if ($newStrings)
-				{
-					$stream = JFactory::getStream();
-					$stream->open($phpFile,'w');
-					$string = "<?php defined('_JEXEC') or die();\n";$stream->write($string);
-					$string = "// Generated ".JFactory::getDate()."\n";$stream->write($string);
-					$string = "abstract class $className {\n";$stream->write($string);
-					$string = "\tpublic static function load()\n";$stream->write($string);
-					$string = "\t{\n";$stream->write($string);
-					$string = "\t\treturn array(\n";$stream->write($string);
-					foreach ($newStrings as $key => $value)
-					{
-						$string = "\t\t\t'".addcslashes($key,"'")."' => '".addcslashes($value,"'")."',\n";$stream->write($string);
-					}
-					$string = "\t\t);\n";$stream->write($string);
-					$string = "\t}\n";$stream->write($string);
-					$string = "}\n";$stream->write($string);
-					$stream->close();
-				}
-			}
-			else
-			{
-				require_once $phpFile;
-				$newStrings = call_user_func(array($className,'load'));
-			}
-			if ($newStrings)
-			{
-				$this->_strings = $overwrite ? array_merge($this->_strings, $newStrings)
-				: array_merge($newStrings, $this->_strings);
-
-				$this->_strings = array_merge( $this->_strings, $this->_override); // add overrides
-
-				$result = true;
-			}
-		}
-		
-
-		// Record the result of loading the extension's file.
-		if (! isset($this->_paths[$extension])) {
-			$this->_paths[$extension] = array();
-		}
-
-		$this->_paths[$extension][$filename] = $result;
-
-		return $result;
-	}
-
-	/**
-	 * Loads a INI language file
-	 *
-	 * This method will not note the successful loading of a file - use load() instead
-	 *
-	 * @access	private
-	 * @param	string The name of the file
-	 * @param	string The name of the extension
-	 * @return	mixed strings if new strings have been loaded or false 
-	 * @see		JLanguage::_load()
-	 * @since	1.5
-	 */
-	function _loadINI($filename, $extension = 'unknown', $overwrite = true)
-	{
-		$result = false;
 		if ($content = @file_get_contents($filename))
 		{
 
@@ -469,9 +399,22 @@ class JLanguage extends JObject
 
 			if (is_array($newStrings))
 			{
-				$result = $newStrings;
+				$this->_strings = $overwrite ? array_merge($this->_strings, $newStrings)
+				: array_merge($newStrings, $this->_strings);
+
+				$this->_strings = array_merge( $this->_strings, $this->_override); // add overrides
+
+				$result = true;
 			}
 		}
+
+		// Record the result of loading the extension's file.
+		if (! isset($this->_paths[$extension])) {
+			$this->_paths[$extension] = array();
+		}
+
+		$this->_paths[$extension][$filename] = $result;
+
 		return $result;
 	}
 
