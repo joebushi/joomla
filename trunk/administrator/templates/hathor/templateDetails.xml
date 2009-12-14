@@ -2,14 +2,14 @@
 <!DOCTYPE install PUBLIC "-//Joomla! 1.6//DTD template 1.0//EN" "http://www.joomla.org/xml/dtd/1.6/template-install.dtd">
 <install type="template" version="1.6" client="administrator">
 	<name>hathor</name>
-	<creationDate>12/10/2009</creationDate>
+	<creationDate>12/14/2009</creationDate>
 	<author>Andrea Tarr</author>
 	<authorEmail>hathor@tarrconsulting.com</authorEmail>
 	<authorUrl>http://www.tarrconsulting.com</authorUrl>
 	<copyright></copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<version>1.14</version>
-	<description>Accessible Administration template for Joomla! 1.6.</description>
+	<description>TPL_HATHOR</description>
 	<files>
 		<filename>component.php</filename>
 		<filename>cpanel.php</filename>
@@ -26,6 +26,10 @@
 		<folder>images</folder>
 		<folder>js</folder>
 	</files>
+	<languages>
+        <language tag="en-GB">en-GB.tpl_hathor.ini</language>
+    </languages>
+	
 	<positions>
 		<position>menu</position>
 		<position>submenu</position>
@@ -38,21 +42,21 @@
 		<position>debug</position>
 	</positions>
 	<fields>
-		<field name="showSiteName" type="radio" default="0" label="Show Site Name" description="Show the site name in the template header">
-			<option value="0">JDISABLED</option>
-			<option value="1">JENABLED</option>
+		<field name="showSiteName" type="radio" default="0" label="Hathor_Show_Site_Name_Label" description="Hathor_Show_Site_Name_Desc">
+			<option value="0">Hathor_No</option>
+			<option value="1">Hathor_Yes</option>
 		</field>
-		<field name="highContrast" type="radio" default="0" label="High Contrast Colors" description="Use high contrast color palette for template">
-			<option value="0">JDISABLED</option>
-			<option value="1">JENABLED</option>
+		<field name="highContrast" type="radio" default="0" label="Hathor_High_Contrast_Colors_Label" description="Hathor_High_Contrast_Colors_Desc">
+			<option value="0">Hathor_No</option>
+			<option value="1">Hathor_Yes</option>
 		</field>
-		<field name="boldText" type="radio" default="0" label="Bold Text" description="Use bold text">
-			<option value="0">JDISABLED</option>
-			<option value="1">JENABLED</option>
+		<field name="boldText" type="radio" default="0" label="Hathor_Bold_Text_Label" description="Hathor_Bold_Text_Desc">
+			<option value="0">Hathor_No</option>
+			<option value="1">Hathor_Yes</option>
 		</field>
-		<field name="altMenu" type="radio" default="0" label="Alternate Menu" description="Use the alternate menu which integrates mouse and keyboard. JavaScript Required.">
-			<option value="0">JDISABLED</option>
-			<option value="1">JENABLED</option>
+		<field name="altMenu" type="radio" default="0" label="Hathor_Alternate_Menu_Label" description="Hathor_Alternate_Menu_Desc">
+			<option value="0">Hathor_No</option>
+			<option value="1">Hathor_Yes</option>
 		</field>
 	</fields>
 </install>

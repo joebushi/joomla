@@ -132,6 +132,7 @@ p.error 	{ color: #a20000; font-weight: bold; }
 .allow 		{ color: #005800;}
 .deny 		{ color: #a20000;}
 .none 		{ color: #aaaaaa;}
+.pointer	{ cursor: pointer;}
 
 /* end new styles */
 
@@ -467,6 +468,12 @@ textarea#mm_message {
 
 .jpane-toggler-down {
 	border-bottom: 1px solid #c7c8b2;
+}
+
+input#jformparams_link_titles1,
+input#jformparams_show_title1,
+input#jformparams_link_category1 {
+	
 }
 	
 /**
@@ -923,11 +930,11 @@ fieldset.filter ol li fieldset, fieldset.filter ul li fieldset {
 	padding: 0;
 }
 
-fieldset.filter .left {
+fieldset.filter .filter-search {
 	float: left;
 }
 
-fieldset.filter .right {
+fieldset.filter .filter-select {
 	float: right;
 }
 
@@ -2262,6 +2269,66 @@ div.message {
 	padding: 2px 0px 0px 0px;
 }
 
+.outline {
+  border: 1px solid #cccccc;
+  background: #ffffff;
+  padding: 2px;
+}
+
+/* -- MODAL STYLES ----------- */
+
+h2.modal-title {
+	margin-left: 15px;
+	margin-bottom:0;
+	margin-top: 5px;
+	font-size: 1.5em;
+}
+
+ul.menu_types {
+	padding: 0 0 0 15px;
+	width:95%;
+	margin: 0;
+}
+ul.menu_types li,
+dl.menu_type dd ul li {
+	width: 240px;
+	list-style: none;
+	display:block;
+	float:left;
+	margin-right: 10px;	
+}
+ul.menu_types li { width: 47%}
+
+dl.menu_type {
+	width: 240px;
+	margin: 0;
+	padding: 0;
+}
+dl.menu_type dt {
+	font-weight: bold;
+	font-size: 1.5em; 
+	float:left;
+	margin: 13px 0 5px 0;
+	border-bottom: 1px solid #666;
+	width: 240px;
+}
+dl.menu_type dd {
+	clear:left;
+	margin: 0;
+}
+
+dl.menu_type dd a {
+	font-size: 1.2em;
+}
+
+dl.menu_type dd ul li {
+	margin: 0;
+}
+/* dl.menu_type dd ul {
+	margin-left: -40px;
+} */
+
+
 /**
  * User Accessibility
  */
@@ -2352,6 +2419,10 @@ div#jform_ordering {
 	margin-top: 3px;
 }
 
+/* Modal accessibility */
+#min-body.body-overlayed a {
+	
+}
 
 /* -- ACL STYLES relocated from com_users/media/grid.css ----------- */
 

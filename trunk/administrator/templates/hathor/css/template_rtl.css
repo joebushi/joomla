@@ -187,6 +187,14 @@ fieldset {
 	text-align: right;
 }
 
+fieldset.filter .filter-search {
+	float: left;
+}
+
+fieldset.filter .filter-select {
+	float: right;
+}
+
 /**
  * Standard Layout Styles
  */

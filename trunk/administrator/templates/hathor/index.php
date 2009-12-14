@@ -81,7 +81,7 @@ $app	= &JFactory::getApplication();
 		<!-- Site Title and Skip to Content -->
 		<div class="title-ua">		
 			<h1 class="title"><?php echo $this->params->get('showSiteName') ? $app->getCfg('sitename'). " " . JText::_('Administration') : JText::_('Administration') ; ?></h1>
-			<div id="skiplinkholder"><p><a id="skiplink" href="#skiptarget">Skip to main content.</a></p></div>
+			<div id="skiplinkholder"><p><a id="skiplink" href="#skiptarget"><?php echo JText::_('Skip_to_Main_Content'); ?></a></p></div>
 		</div>
 		
 		<!-- Status Module -->	
@@ -94,7 +94,7 @@ $app	= &JFactory::getApplication();
 	<!-- Main Menu Navigation -->
 	<div id="nav">
 		<div id="module-menu">
-			<h2 class="element-invisible">Main Menu</h2>
+			<h2 class="element-invisible"><?php echo JText::_('Main_Menu'); ?></h2>
 			<jdoc:include type="modules" name="menu"/>
 		</div>
 		<div class="clr"></div>
@@ -112,7 +112,7 @@ $app	= &JFactory::getApplication();
 		<!-- Sub Menu Navigation -->		
 		<div class="subheader">
 			<?php if (!JRequest::getInt('hidemainmenu')): ?>
-				<h3 class="element-invisible">Sub Menu</h3>
+				<h3 class="element-invisible"><?php echo JText::_('Sub_Menu'); ?></h3>
 				<jdoc:include type="modules" name="submenu" style="xhtmlid" id="submenu-box" />
 			<?php echo " " ?>
 			<?php else : ?>

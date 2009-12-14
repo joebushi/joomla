@@ -19,7 +19,7 @@ $function = JRequest::getVar('function', 'jSelectArticle');
 <form action="<?php echo JRoute::_('index.php?option=com_content&view=articles');?>" method="post" name="adminForm">
 	<fieldset class="filter clearfix">
 	<legend class="element-invisible"><?php echo JText::_('Filters'); ?></legend>
-		<div class="left">
+		<div class="filter-search">
 			<label for="filter_search">
 				<?php echo JText::_('JSearch_Filter_Label'); ?>
 			</label>
@@ -27,30 +27,24 @@ $function = JRequest::getVar('function', 'jSelectArticle');
 
 			<button type="submit">
 				<?php echo JText::_('JSearch_Filter_Submit'); ?></button>
-			<button type="button" onclick="$('filter_search').value='';this.form.submit();">
+			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();">
 				<?php echo JText::_('JSearch_Filter_Clear'); ?></button>
 		</div>
 
-		<div class="right">
-			<label class="selectlabel" for="filter_access">
-				<?php echo JText::_('Filter_Access'); ?>
-			</label>
+		<div class="filter-select">
+			<label class="selectlabel" for="filter_access"><?php echo JText::_('Filter_Access'); ?></label>
 			<select name="filter_access" id="filter_access" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('JOption_Select_Access');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'));?>
 			</select>
 			
-			<label class="selectlabel" for="filter_published">
-				<?php echo JText::_('Filter_State'); ?>
-			</label>
+			<label class="selectlabel" for="filter_published"><?php echo JText::_('Filter_State'); ?></label>
 			<select name="filter_published" id="filter_published" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('JOption_Select_Published');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true);?>
 			</select>
 
-			<label class="selectlabel" for="filter_category_id">
-				<?php echo JText::_('Filter_Category'); ?>
-			</label>
+			<label class="selectlabel" for="filter_category_id"><?php echo JText::_('Filter_Category'); ?></label>
 			<select name="filter_category_id" id="filter_category_id" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('JOption_Select_Category');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('category.options', 'com_content'), 'value', 'text', $this->state->get('filter.category_id'));?>
@@ -89,7 +83,7 @@ $function = JRequest::getVar('function', 'jSelectArticle');
 					<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 				</td>
 				<td>
-					<a style="cursor: pointer;" onclick="if (window.parent) window.parent.<?php echo $function;?>('<?php echo $item->id; ?>', '<?php echo $this->escape($item->title); ?>');">
+					<a class="pointer" onclick="if (window.parent) window.parent.<?php echo $function;?>('<?php echo $item->id; ?>', '<?php echo $this->escape($item->title); ?>', '<?php echo $this->escape($item->catid); ?>');">
 						<?php echo $this->escape($item->title); ?></a>
 				</td>
 				<td class="center">

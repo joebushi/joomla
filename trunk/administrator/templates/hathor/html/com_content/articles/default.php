@@ -20,50 +20,41 @@ $user	= JFactory::getUser();
 $n = count($this->items);
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_content&view=articles');?>" method="post" name="adminForm">
-	<fieldset class="filter clearfix">
-	<legend class="element-invisible"><?php echo JText::_('Filters'); ?></legend>
-		<div class="left">
-			<label for="filter_search">
-				<?php echo JText::_('JSearch_Filter_Label'); ?>
-			</label>
+	<fieldset class="filter">
+	<legend class="element-invisible"><?php echo JText::_('JSearch_Filter_Label'); ?></legend>
+		<div class="filter-search">
+			<label class="filter-search-lbl" for="filter_search"><?php echo JText::_('JSearch_Filter_Label'); ?></label>
 			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->state->get('filter.search'); ?>" size="35" title="<?php echo JText::_('Content_Filter_Search_Desc'); ?>" />
 
-			<button type="submit">
-				<?php echo JText::_('JSearch_Filter_Submit'); ?></button>
-			<button type="button" onclick="$('filter_search').value='';this.form.submit();">
-				<?php echo JText::_('JSearch_Filter_Clear'); ?></button>
+			<button type="submit" class="btn"><?php echo JText::_('JSearch_Filter_Submit'); ?></button>
+			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSearch_Filter_Clear'); ?></button>
 		</div>
 
-		<div class="right">
-			<label class="selectlabel" for="filter_access">
-				<?php echo JText::_('Filter_Access'); ?>
-			</label>
-			<select name="filter_access" id="filter_access" class="inputbox">
+		<div class="filter-select">
+			<label class="selectlabel" for="filter_access"><?php echo JText::_('JOption_Select_Access'); ?></label>
+			<select name="filter_access" class="inputbox" id="filter_access">
 				<option value=""><?php echo JText::_('JOption_Select_Access');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'));?>
 			</select>
 			
-			<label class="selectlabel" for="filter_published">
-				<?php echo JText::_('Filter_State'); ?>
-			</label> 
-			<select name="filter_published" id="filter_published" class="inputbox">
+			<label class="selectlabel" for="filter_published"><?php echo JText::_('JOption_Select_Published'); ?></label> 
+			<select name="filter_published" class="inputbox" id="filter_published">
 				<option value=""><?php echo JText::_('JOption_Select_Published');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true);?>
 			</select>
 			
-			<label class="selectlabel" for="filter_category_id">
-				<?php echo JText::_('Filter_Category'); ?>
-			</label>
-			<select name="filter_category_id" id="filter_category_id" class="inputbox">
+			<label class="selectlabel" for="filter_category_id"><?php echo JText::_('JOption_Select_Category'); ?></label>
+			<select name="filter_category_id" class="inputbox" id="filter_category_id">
 				<option value=""><?php echo JText::_('JOption_Select_Category');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('category.options', 'com_content'), 'value', 'text', $this->state->get('filter.category_id'));?>
 			</select>
 			
 			<button type="button" id="filter-go" onclick="this.form.submit();">
-				<?php echo JText::_('JGo'); ?></button>
+				<?php echo JText::_('Go'); ?></button>
 		</div>
 	</fieldset>
-
+	<div class="clr"> </div>
+	
 	<table class="adminlist">
 		<thead>
 			<tr>
@@ -82,21 +73,21 @@ $n = count($this->items);
 				<th class="title category-col">
 					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_Category', 'a.catid', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
+				<th class="nowrap ordering-col">
+					<?php echo JHtml::_('grid.sort',  'JGrid_Heading_Ordering', 'a.ordering', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.order',  $this->items, 'filesave.png', 'articles.saveorder'); ?>
+				</th>
+				<th class="title access-col">
+					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_Access', 'access_level', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+				</th>
 				<th class="title created-by-col">
 					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_Created_by', 'a.created_by', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
-				<th class="nowrap ordering-col">
-					<?php echo JHtml::_('grid.sort',  'JGrid_Heading_Ordering', 'a.ordering', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
-					<?php echo JHtml::_('grid.order',  $this->items); ?>
-				</th>
-				<th class="title access-col">
-					<?php echo JHtml::_('grid.sort',  'JGrid_Heading_Access', 'access_level', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
-				</th>
 				<th class="title date-col">
-					<?php echo JHtml::_('grid.sort',  'Content_Heading_Date', 'a.created', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort', 'Content_Heading_Date', 'a.created', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th class="hits-col">
-					<?php echo JHtml::_('grid.sort',  'JGrid_Heading_Hits', 'a.hits', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_Hits', 'a.hits', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th class="nowrap id-col">
 					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_ID', 'a.id', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
@@ -127,24 +118,21 @@ $n = count($this->items);
 						<?php echo $this->escape($item->title); ?>
 					<?php endif; ?>
 					<p class="smallsub">
-						(<span><?php echo JText::_('JFIELD_ALIAS_LABEL'); ?>:</span> <?php echo $this->escape($item->alias);?>)</small>
+						(<span><?php echo JText::_('JFIELD_ALIAS_LABEL'); ?>:</span> <?php echo $this->escape($item->alias);?>)</p>
 				</td>
 				<td class="center">
-					<?php echo JHtml::_('jgrid.published', $item->state, $i, 'articles.'); ?>
+					<?php echo JHtml::_('jgrid.published', $item->state, $i, 'articles.', $canChange); ?>
 				</td>
 				<td class="center">
-					<?php echo JHtml::_('content.featured', $item->featured, $i); ?>
+					<?php echo JHtml::_('content.featured', $item->featured, $i, $canChange); ?>
 				</td>
 				<td class="center">
 					<?php echo $this->escape($item->category_title); ?>
 				</td>
-				<td class="center">
-					<?php echo $this->escape($item->author_name); ?>
-				</td>
 				<td class="order">
 					<?php if ($canChange) : ?>
-						<span><?php echo $this->pagination->orderUpIcon($i, true, 'items.orderup', 'JGrid_Move_Up', $ordering); ?></span>
-						<span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, true, 'items.orderdown', 'JGrid_Move_Down', $ordering); ?></span>
+						<span><?php echo $this->pagination->orderUpIcon($i, true, 'articles.orderup', 'JGrid_Move_Up', $ordering); ?></span>
+						<span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, true, 'articles.orderdown', 'JGrid_Move_Down', $ordering); ?></span>
 						<?php $disabled = $ordering ?  '' : 'disabled="disabled"'; ?>
 						<input type="text" name="order[]" value="<?php echo $item->ordering;?>" <?php echo $disabled ?> class="text_area" title="<?php echo $item->title; ?> order" />
 					<?php else : ?>
@@ -153,6 +141,9 @@ $n = count($this->items);
 				</td>
 				<td class="center">
 					<?php echo $this->escape($item->access_level); ?>
+				</td>
+				<td class="center">
+					<?php echo $this->escape($item->author_name); ?>
 				</td>
 				<td class="center">
 					<?php echo JHtml::date($item->created, '%Y.%m.%d'); ?>

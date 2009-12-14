@@ -22,7 +22,7 @@ $userId	= $user->get('id');
 <form action="<?php echo JRoute::_('index.php?option=com_weblinks'); ?>" method="post" name="adminForm" id="adminForm">
 	<fieldset class="filter">
 	<legend class="element-invisible"><?php echo JText::_('Filters'); ?></legend>
-		<div class="left">
+		<div class="filter-search">
 			<label for="filter_search">
 				<?php echo JText::_('JSearch_Filter_Label'); ?>
 			</label>
@@ -33,7 +33,7 @@ $userId	= $user->get('id');
 			<button type="button" onclick="$('search').value='';this.form.submit();">
 				<?php echo JText::_('JSearch_Filter_Clear'); ?></button>
 		</div>
-		<div class="right">
+		<div class="filter-select">
 			<label class="selectlabel" for="filter_access">
 				<?php echo JText::_('Filter_Access'); ?>
 			</label>
@@ -59,7 +59,7 @@ $userId	= $user->get('id');
 			</select>
 			
 			<button type="button" id="filter-go" onclick="this.form.submit();">
-				<?php echo JText::_('JGo'); ?></button>
+				<?php echo JText::_('Go'); ?></button>
 			
 		</div>
 	</fieldset>
@@ -80,7 +80,7 @@ $userId	= $user->get('id');
 					<?php echo JHtml::_('grid.sort',  'JGrid_Heading_Category', 'category_title', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th class="nowrap ordering-col">
-					<?php echo JHtml::_('grid.sort',  'JGrid_Heading_Order', 'a.ordering', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort',  'JGrid_Heading_Ordering', 'a.ordering', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 					<?php echo JHtml::_('grid.order',  $this->items, 'filesave.png', 'weblinks.saveorder'); ?>
 				</th>
 				<th class="title access-col" >

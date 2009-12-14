@@ -66,7 +66,7 @@ $app = &JFactory::getApplication();
 
 			<!-- Beginning of Actual Content -->
 			<div id="element-box" class="login">		
-				<div class="pagetitle"><h2><?php echo JText::_('Joomla! Administration Login') ?></h2></div>
+				<div class="pagetitle"><h2><?php echo JText::_('Joomla_Administration_Login') ?></h2></div>
 					
 					<!-- System Messages -->
 					<jdoc:include type="message" />
@@ -74,7 +74,7 @@ $app = &JFactory::getApplication();
 					<div class="login-inst">
 					<p><?php echo JText::_('DESCUSEVALIDLOGIN') ?></p>
 					<div id="lock"></div>		
-					<a href="<?php echo JURI::root(); ?>"><?php echo JText::_('Return to site Home Page') ?></a>
+					<a href="<?php echo JURI::root(); ?>"><?php echo JText::_('Go_to_site_Home_Page') ?></a>
 					</div>
 					
 					<!-- Login Component -->
