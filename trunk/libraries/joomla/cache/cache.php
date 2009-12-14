@@ -53,7 +53,7 @@ class JCache extends JObject
 			'storage'=>'file');
 
 		// Overwrite default options with given options
-		$this->_options = array_merge($this->_options,$options); 
+		$this->_options = array_merge($this->_options,$options);
 		//@todo:or with the ampersand here? Like "...& $options);" for speed if array_merge or this construct would make a deep copy otherwise
 
 		// Fix to detect if template positions are enabled...
@@ -70,7 +70,7 @@ class JCache extends JObject
 	 * @return	object	A JCache object
 	 * @since	1.5
 	 */
-	function &getInstance($type = 'output', $options = array())
+	function getInstance($type = 'output', $options = array())
 	{
 		$type = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $type));
 
@@ -87,9 +87,7 @@ class JCache extends JObject
 			}
 		}
 
-		$instance = new $class($options);
-
-		return $instance;
+		return new $class($options);
 	}
 
 	/**
@@ -265,7 +263,7 @@ class JCache extends JObject
 	 * @return object A JCacheStorage object
 	 * @since	1.5
 	 */
-	function &_getStorage()
+	function _getStorage()
 	{
 		if (is_a($this->_handler, 'JCacheStorage')) {
 			return $this->_handler;

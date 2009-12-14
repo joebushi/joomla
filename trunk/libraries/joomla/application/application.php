@@ -112,18 +112,15 @@ class JApplication extends JObject
 	}
 
 	/**
-	 * Returns a reference to the global JApplication object, only creating it if it
+	 * Returns the global JApplication object, only creating it if it
 	 * doesn't already exist.
-	 *
-	 * This method must be invoked as:
-	 * 		<pre>  $menu = &JApplication::getInstance();</pre>
 	 *
 	 * @param	mixed	$id 		A client identifier or name.
 	 * @param	array	$config 	An optional associative array of configuration settings.
 	 * @return	JApplication	The appliction object.
 	 * @since	1.5
 	 */
-	public static function &getInstance($client, $config = array(), $prefix = 'J')
+	public static function getInstance($client, $config = array(), $prefix = 'J')
 	{
 		static $instances;
 
@@ -286,14 +283,15 @@ class JApplication extends JObject
 	 * code in the header pointing to the new location. If the headers have already been
 	 * sent this will be accomplished using a JavaScript statement.
 	 *
-	 * @param	string	$url	The URL to redirect to. Can only be http/https URL
-	 * @param	string	$msg	An optional message to display on redirect.
-	 * @param	string  $msgType An optional message type.
+	 * @param	string	The URL to redirect to. Can only be http/https URL
+	 * @param	string	An optional message to display on redirect.
+	 * @param	string  An optional message type.
+	 * @param	boolean	True if the page is 301 Permanently Moved, otherwise 303 See Other is assumed.
 	 * @return	none; calls exit().
 	 * @since	1.5
 	 * @see		JApplication::enqueueMessage()
 	 */
-	public function redirect($url, $msg='', $msgType='message')
+	public function redirect($url, $msg='', $msgType='message', $moved = false)
 	{
 		// Check for relative internal links.
 		if (preg_match('#^index[2]?.php#', $url)) {
@@ -329,21 +327,18 @@ class JApplication extends JObject
 		}
 
 		// Persist messages if they exist.
-		if (count($this->_messageQueue))
-		{
+		if (count($this->_messageQueue)) {
 			$session = &JFactory::getSession();
 			$session->set('application.queue', $this->_messageQueue);
 		}
 
-		/*
-		 * If the headers have been sent, then we cannot send an additional location header
-		 * so we will output a javascript redirect statement.
-		 */
+		// If the headers have been sent, then we cannot send an additional location header
+		// so we will output a javascript redirect statement.
 		if (headers_sent()) {
 			echo "<script>document.location.href='$url';</script>\n";
 		} else {
-			header('HTTP/1.1 301 Moved Permanently');
-			header('Location: ' . $url);
+			header($moved ? 'HTTP/1.1 301 Moved Permanently' : 'HTTP/1.1 303 See other');
+			header('Location: '.$url);
 		}
 		$this->close();
 	}
@@ -609,7 +604,7 @@ class JApplication extends JObject
 	 */
 	public function logout($userid = null, $options = array())
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$retval = false;
 
 		// Get a user object from the JApplication.
@@ -661,13 +656,13 @@ class JApplication extends JObject
 	}
 
 	/**
-	 * Return a reference to the application JRouter object.
+	 * Returns the application JRouter object.
 	 *
 	 * @param	array	$options 	An optional associative array of configuration settings.
 	 * @return	JRouter.
 	 * @since	1.5
 	 */
-	static public function &getRouter($name = null, array $options = array())
+	static public function getRouter($name = null, array $options = array())
 	{
 		if (!isset($name)) {
 			$name = $this->_name;
@@ -676,20 +671,19 @@ class JApplication extends JObject
 		jimport('joomla.application.router');
 		$router = &JRouter::getInstance($name, $options);
 		if (JError::isError($router)) {
-			$null = null;
-			return $null;
+			return null;
 		}
 		return $router;
 	}
 
 	/**
-	 * Return a reference to the application JPathway object.
+	 * Returns the application JPathway object.
 	 *
 	 * @param	array	$options 	An optional associative array of configuration settings.
 	 * @return	object JPathway.
 	 * @since 1.5
 	 */
-	public function &getPathway($name = null, $options = array())
+	public function getPathway($name = null, $options = array())
 	{
 		if (!isset($name)) {
 			$name = $this->_name;
@@ -698,20 +692,19 @@ class JApplication extends JObject
 		jimport('joomla.application.pathway');
 		$pathway = &JPathway::getInstance($name, $options);
 		if (JError::isError($pathway)) {
-			$null = null;
-			return $null;
+			return null;
 		}
 		return $pathway;
 	}
 
 	/**
-	 * Return a reference to the application JPathway object.
+	 * Returns the application JPathway object.
 	 *
 	 * @param	array	$options 	An optional associative array of configuration settings.
 	 * @return	object	JMenu.
 	 * @since	1.5
 	 */
-	public function &getMenu($name = null, $options = array())
+	public function getMenu($name = null, $options = array())
 	{
 		if (!isset($name)) {
 			$name = $this->_name;
@@ -720,8 +713,7 @@ class JApplication extends JObject
 		jimport('joomla.application.menu');
 		$menu = &JMenu::getInstance($name, $options);
 		if (JError::isError($menu)) {
-			$null = null;
-			return $null;
+			return null;
 		}
 		return $menu;
 	}
@@ -732,7 +724,7 @@ class JApplication extends JObject
 	 * @param	string	$file 	The path to the configuration file.
 	 * return	JConfig
 	 */
-	protected function &_createConfiguration($file)
+	protected function _createConfiguration($file)
 	{
 		jimport('joomla.registry.registry');
 
@@ -762,7 +754,7 @@ class JApplication extends JObject
 	 * @return	object	JSession on success. May call exit() on database error.
 	 * @since	1.5
 	 */
-	protected function &_createSession($name)
+	protected function _createSession($name)
 	{
 		$options = array();
 		$options['name'] = $name;
@@ -799,7 +791,7 @@ class JApplication extends JObject
 		);
 		$exists = $db->loadResult();
 
-		// If the session doesn't exist initialize it.
+		// If the session doesn't exist initialise it.
 		if (!$exists) {
 			$db->setQuery(
 				'INSERT INTO `#__session` (`session_id`, `client_id`, `time`)' .

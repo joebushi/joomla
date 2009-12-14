@@ -86,14 +86,14 @@ class JInstaller extends JAdapter
 	}
 
 	/**
-	 * Returns a reference to the global Installer object, only creating it
+	 * Returns the global Installer object, only creating it
 	 * if it doesn't already exist.
 	 *
 	 * @static
 	 * @return	object	An installer object
 	 * @since 1.5
 	 */
-	public static function &getInstance()
+	public static function getInstance()
 	{
 		static $instance;
 
@@ -174,7 +174,7 @@ class JInstaller extends JAdapter
 	 * @return	object	Manifest object
 	 * @since	1.5
 	 */
-	public function &getManifest()
+	public function getManifest()
 	{
 		if (!is_object($this->manifest)) {
 			$this->findManifest();
@@ -234,7 +234,7 @@ class JInstaller extends JAdapter
 	 */
 	public function abort($msg=null, $type=null)
 	{
-		// Initialize variables
+		// Initialise variables.
 		$retval = true;
 		$step = array_pop($this->_stepStack);
 
@@ -660,7 +660,7 @@ class JInstaller extends JAdapter
 	 */
 	public function parseSQLFiles($element)
 	{
-		// Initialize variables
+		// Initialise variables.
 		$queries = array();
 		$db = & $this->_db;
 		$dbDriver = strtolower($db->get('name'));
@@ -752,7 +752,7 @@ class JInstaller extends JAdapter
 	 */
 	public function parseFiles($element, $cid=0, $oldFiles=null, $oldMD5=null)
 	{
-		// Initialize variables
+		// Initialise variables.
 		$copyfiles = array ();
 
 		// Get the client info
@@ -867,7 +867,7 @@ class JInstaller extends JAdapter
 	 */
 	public function parseLanguages($element, $cid=0)
 	{
-		// Initialize variables
+		// Initialise variables.
 		$copyfiles = array ();
 
 		// Get the client info
@@ -984,7 +984,7 @@ class JInstaller extends JAdapter
 	 */
 	public function parseMedia($element, $cid=0)
 	{
-		// Initialize variables
+		// Initialise variables.
 		$copyfiles = array ();
 
 		// Get the client info
@@ -1218,7 +1218,7 @@ class JInstaller extends JAdapter
 	 */
 	public function removeFiles($element, $cid=0)
 	{
-		// Initialize variables
+		// Initialise variables.
 		$removefiles = array ();
 		$retval = true;
 
@@ -1434,10 +1434,9 @@ class JInstaller extends JAdapter
 	 * @return	mixed	A JSimpleXML document, or null if the file failed to parse
 	 * @since	1.5
 	 */
-	public function &isManifest($file)
+	public function isManifest($file)
 	{
-		// Initialize variables
-		$null	= null;
+		// Initialise variables.
 		$xml	= &JFactory::getXMLParser('Simple');
 
 		// If we cannot load the xml file return null
@@ -1445,7 +1444,7 @@ class JInstaller extends JAdapter
 		{
 			// Free up xml parser memory and return null
 			unset ($xml);
-			return $null;
+			return null;
 		}
 
 		/*
@@ -1460,7 +1459,7 @@ class JInstaller extends JAdapter
 		{
 			// Free up xml parser memory and return null
 			unset ($xml);
-			return $null;
+			return null;
 		}
 
 		// Valid manifest file return the object

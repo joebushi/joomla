@@ -30,14 +30,14 @@ class MenusModelItem extends JModelForm
 	 protected $_context		= 'com_menus.item';
 
 	/**
-	 * Returns a reference to the a Table object, always creating it
+	 * Returns a Table object, always creating it
 	 *
 	 * @param	type 	$type 	 The table type to instantiate
 	 * @param	string 	$prefix	 A prefix for the table class name. Optional.
 	 * @param	array	$options Configuration array for model. Optional.
 	 * @return	JTable	A database object
 	*/
-	public function &getTable($type = 'Menu', $prefix = 'JTable', $config = array())
+	public function getTable($type = 'Menu', $prefix = 'JTable', $config = array())
 	{
 		return JTable::getInstance($type, $prefix, $config);
 	}
@@ -90,7 +90,7 @@ class MenusModelItem extends JModelForm
 	 */
 	public function &getItem($pk = null)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$pk = (!empty($pk)) ? $pk : (int)$this->getState('item.id');
 
 		// Get a level row instance.
@@ -217,7 +217,7 @@ class MenusModelItem extends JModelForm
 	 */
 	public function getForm()
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$app	= &JFactory::getApplication();
 
 		// Get the form.
@@ -308,26 +308,32 @@ class MenusModelItem extends JModelForm
 					}
 
 					$formFile = false;
-					$folders = JFolder::folders(JPATH_SITE.DS.'templates','',false,true);
-					foreach($folders as $folder)
+					
+					// Check for the layout XML file. Use standard xml file if it exists.
+					$path = JPath::clean($base.DS.'views'.DS.$view.DS.'tmpl'.DS.$layout.'.xml');
+					if (JFile::exists($path)) {
+						$formFile = $path;
+					}
+					
+					// if custom layout, get the xml file from the template folder
+					// TODO: only look in the template folder for the menu item's template
+					if(!$formFile)
 					{
-						if (JFile::exists($folder.DS.'html'.DS.$option.DS.$view.DS.$layout.'.xml')) {
-							$formFile = $folder.DS.'html'.DS.$option.DS.$view.DS.$layout.'.xml';
-							break;
+						$folders = JFolder::folders(JPATH_SITE.DS.'templates','',false,true);
+						foreach($folders as $folder)
+						{
+							if (JFile::exists($folder.DS.'html'.DS.$option.DS.$view.DS.$layout.'.xml')) {
+								$formFile = $folder.DS.'html'.DS.$option.DS.$view.DS.$layout.'.xml';
+								break;
+							}
 						}
 					}
 
-					if(!$formFile)
-					{
-					// Check for the layout XML file.
-						$path = JPath::clean($base.DS.'views'.DS.$view.DS.'tmpl'.DS.$layout.'.xml');
-						if (JFile::exists($path)) {
-							$formFile = $path;
-						}
+
 				//	}
 					// TODO: Now check for a view manifest file
 					// TODO: Now check for a component manifest file
-					}
+					
 				}
 
 			if ($formFile)
@@ -432,7 +438,7 @@ class MenusModelItem extends JModelForm
 	 */
 	public function checkin($pk = null)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$pk	= (!empty($pk)) ? $pk : (int) $this->getState('item.id');
 
 		// Only attempt to check the row in if it exists.
@@ -472,7 +478,7 @@ class MenusModelItem extends JModelForm
 	 */
 	public function checkout($pk = null)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$pk = (!empty($pk)) ? $pk : (int) $this->getState('item.id');
 
 		// Only attempt to check the row in if it exists.
@@ -1093,7 +1099,7 @@ class MenusModelItem extends JModelForm
 		}
 
 		// Rebuild the hierarchy.
-		if (!$table->rebuildTree()) {
+		if (!$table->rebuild()) {
 			$this->setError($table->getError());
 			return false;
 		}

@@ -342,7 +342,7 @@ abstract class JHtmlSelect
 	 * parameter is ignored if an options array is passed.
 	 * @return  object
 	 */
-	public static function &option(
+	public static function option(
 		$value, $text = '', $optKey = 'value', $optText = 'text', $disable = false
 	) {
 		$options = array(
@@ -369,7 +369,7 @@ abstract class JHtmlSelect
 
 		/*
 		 * If a label is provided, save it. If no label is provided and there is
-		 * a label name, initialize to an empty string.
+		 * a label name, initialise to an empty string.
 		 */
 		$hasProperty = $options['option.label'] !== null;
 		if (isset($options['label'])) {
@@ -528,7 +528,7 @@ abstract class JHtmlSelect
 					$text .= ' - ' . $splitText[1];
 				}
 
-				if ($options['list.translate']) {
+				if ($options['list.translate'] && !empty($label)) {
 					$label = JText::_($label);
 				}
 				if ($options['option.label.toHtml']) {
