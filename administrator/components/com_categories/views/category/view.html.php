@@ -27,7 +27,6 @@ class CategoriesViewCategory extends JView
 		$state		= $this->get('State');
 		$item		= $this->get('Item');
 		$form		= $this->get('Form');
-		$componentform		= $this->get('ComponentForm');
 		$modules	= $this->get('Modules');
 
 		// Check for errors.
@@ -41,7 +40,6 @@ class CategoriesViewCategory extends JView
 		$this->assignRef('state',	$state);
 		$this->assignRef('item',	$item);
 		$this->assignRef('form',	$form);
-		$this->assignRef('componentform',	$componentform);
 
 		parent::display($tpl);
 		JRequest::setVar('hidemainmenu', true);
