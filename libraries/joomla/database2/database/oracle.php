@@ -58,56 +58,62 @@ class JDatabaseOracle extends JDatabase
     protected $_bounded            = '';
     
     /**
-    * The number of rows affected by the previous 
-    * INSERT, UPDATE, REPLACE or DELETE query executed
-    * @var int
-    */
+     * The number of rows affected by the previous 
+     * INSERT, UPDATE, REPLACE or DELETE query executed
+     * @var int
+     */
     protected $_affectedRows       = '';
     
     /**
-    * The number of rows returned by the previous 
-    * SELECT query executed
-    * @var int
-    */
+     * The number of rows returned by the previous 
+     * SELECT query executed
+     * @var int
+     */
     protected $_numRows       = '';
     
     /**
-    * Returns the current dateformat
-    * 
-    * @var mixed
-    */
+     * Returns the current dateformat
+     * 
+     * @var mixed
+     */
     protected $_dateformat    = '';
     
     /**
-    * Returns the current character set
-    * 
-    * @var mixed
-    */
+     * Returns the current character set
+     * 
+     * @var mixed
+     */
     protected $_charset       = '';
     
     /**
-    * Is used to decide whether a result set
-    * should generate lowercase field names
-    * 
-    * @var boolean
-    */
+     * Is used to decide whether a result set
+     * should generate lowercase field names
+     * 
+     * @var boolean
+     */
     protected $_tolower = true;
     
     /**
-    * Is used to decide whether a result set
-    * should return the LOB values or the LOB objects
-    */
+     * Is used to decide whether a result set
+     * should return the LOB values or the LOB objects
+     */
     protected $_returnlobs = true;
     
-	/**
-	* Oracle database driver constructor
-	*
-    * @see        JDatabase
-    * @throws    JException
-    * @param    array    Array of options used to configure the connection.
-    * @return    void
-	* @since	1.5
-	*/
+    /**
+     * Is used to decide whether queries should
+     * be auto-committed or transactional
+     */
+    protected $_commitMode = null;
+    
+    /*
+	 * Oracle database driver constructor
+	 *
+     * @see        JDatabase
+     * @throws    JException
+     * @param    array    Array of options used to configure the connection.
+     * @return    void
+	 * @since	1.5
+	 */
 	protected function __construct( $options )
 	{
 		$host		= isset($options['host'])	? $options['host']		: 'localhost';
@@ -117,7 +123,6 @@ class JDatabaseOracle extends JDatabase
 		$prefix		= isset($options['prefix'])	? $options['prefix']	: 'jos_';
 		$select		= isset($options['select'])	? $options['select']	: true;
         $port       = isset($options['port'])    ? $options['port']      : '1521';
-        $charset    = isset($options['charset']) ? $options['charset']   : 'AL32UTF8';
         $dateformat = isset($options['dateformat']) ? $options['dateformat'] : 'RRRR-MM-DD HH24:MI:SS';
 
 		// perform a number of fatality checks, then return gracefully
@@ -134,14 +139,15 @@ class JDatabaseOracle extends JDatabase
 
         /**
         * Sets the default dateformat for the session
-        * If the next two lines aren't executed on construction
-        * then dates will be returned in the default Oracle Date Format of
+        * If the next line isn't executed on construction
+        * then dates will be returned in the default 
+        * Oracle Date Format of: DD-MON-RR
         */        
         $this->setDateFormat($dateformat);
-        $this->_dateformat = $dateformat;
         
-        $this->_charset = $charset;
-        
+        // Sets the default COMMIT mode
+        $this->setCommitMode(OCI_COMMIT_ON_SUCCESS);
+
 		// finalize initialization
 		parent::__construct($options);
 	}
@@ -169,7 +175,7 @@ class JDatabaseOracle extends JDatabase
 	 */
 	public static function test()
 	{
-		return (function_exists( 'oci_connect' ));
+		return (function_exists('oci_connect'));
 	}
 
 	/**
@@ -209,8 +215,7 @@ class JDatabaseOracle extends JDatabase
 	 */
 	public function setUTF()
 	{
-        // Doesn't really work right now
-		//$this->setCharset();
+		return $this->setCharset();
 	}
 
 	/**
@@ -268,7 +273,7 @@ class JDatabaseOracle extends JDatabase
 		}
         
 		// Execute the SQL statement.
-		$this->_cursor = oci_execute($this->_prepared);
+		$this->_cursor = oci_execute($this->_prepared, $this->_commitMode);
         
         // If an error occurred, throw an exception.
 		if (!$this->_cursor)
@@ -294,9 +299,9 @@ class JDatabaseOracle extends JDatabase
 	 * @param string The number of results to return
 	 * @param string The common table prefix
 	 */
-	public function setQuery( $sql, $offset = 0, $limit = 0, $prefix='#__' )
+	public function setQuery($sql, $offset = 0, $limit = 0, $prefix='#__')
 	{
-		$this->_sql		= $this->replacePrefix( $sql, $prefix );
+		$this->_sql		= $this->replacePrefix($sql, $prefix);
 		$this->_prepared= oci_parse($this->_resource, $this->_sql);
 		$this->_limit	= (int) $limit;
 		$this->_offset	= (int) $offset;
@@ -312,7 +317,7 @@ class JDatabaseOracle extends JDatabase
      * @param string The Oracle placeholder in your SQL query
      * @param string The PHP variable you want to bind the placeholder to
      */
-    public function setVar( $placeholder, &$var, $maxlength=-1, $type=SQLT_CHR )
+    public function setVar($placeholder, &$var, $maxlength=-1, $type=SQLT_CHR)
     {
         $this->_bounded[$placeholder] = array($var, (int)$maxlength, (int)$type);
     }
@@ -336,7 +341,7 @@ class JDatabaseOracle extends JDatabase
                 $type = $params[2];
                 if(!oci_bind_by_name($this->_prepared, $placeholder, $variable, $maxlength, $type))
                 {
-                    $error = oci_error( $this->_prepared );
+                    $error = oci_error($this->_prepared);
                     $this->_errorNum = $error['code'];
                     $this->_errorMsg = $error['message']." BINDVARS=$placeholder, $variable, $maxlength, $type";
 
@@ -358,13 +363,13 @@ class JDatabaseOracle extends JDatabase
     {
         if(!oci_define_by_name($this->_prepared, $placeholder, $variable, $type))
         {
-            $error = oci_error( $this->_prepared );
+            $error = oci_error($this->_prepared);
             $this->_errorNum = $error['code'];
             $this->_errorMsg = $error['message']." DEFINEVAR=$placeholder, $variable, $type";
 
             if ($this->_debug) 
             {
-                JError::raiseError(500, 'JDatabaseOracle::query: '.$this->_errorNum.' - '.$this->_errorMsg );
+                JError::raiseError(500, 'JDatabaseOracle::query: '.$this->_errorNum.' - '.$this->_errorMsg);
             }
             return false;        
         }    
@@ -412,25 +417,18 @@ class JDatabaseOracle extends JDatabase
     }
     
     /**
-    * Sets the Oracle Charset for the session
-    * Default date format for Oracle is = DD-MON-RR
-    * The default date format for this driver is:
-    * 'RRRR-MM-DD HH24:MI:SS' since it is the format
-    * that matches the MySQL one used within most Joomla
-    * tables.
+    * Sets the Oracle Charset for the session.
+    * As far as I've read, the character set cannot 
+    * be changed in the middle of a session.
+    * 
+    * Please refer to:
+    * http://forums.oracle.com/forums/thread.jspa?messageID=3259228
     * 
     * @param mixed $dateformat
     */
     public function setCharset($charset='AL32UTF8')
     {
-        /* Doesn't really work right now
-        $this->setQuery("alter session set nls_characterset = '$charset'");
-        if (!$this->query()) {
-            return false;
-        }
-        $this->_charset;
-        */
-        return true;
+        return false;
     }
     
     /**
@@ -443,13 +441,8 @@ class JDatabaseOracle extends JDatabase
     */
     public function getCharset()
     {
-        /*
         $this->setQuery("select value from nls_database_parameters where parameter = 'NLS_CHARACTERSET'");
         return $this->loadResult();
-        */
-        // Commented out the above since it will always return the default, 
-        // rather than current character set.
-        return $this->_charset;
     }
     
     /**
@@ -467,84 +460,6 @@ class JDatabaseOracle extends JDatabase
         }
         return false;
     }
-    
-	/**
-	 * This function replaces a string identifier <var>$prefix</var> with the
-	 * string held is the <var>_table_prefix</var> class variable.
-	 *
-	 * @access public
-	 * @param string The SQL query
-	 * @param string The common table prefix
-	 */
-	public function replacePrefix( $sql, $prefix='#__' )
-	{
-		$sql = trim( $sql );
-
-		$escaped = false;
-		$quoteChar = '';
-
-		$n = strlen( $sql );
-
-		$startPos = 0;
-		$literal = '';
-		while ($startPos < $n) {
-			$ip = strpos($sql, $prefix, $startPos);
-			if ($ip === false) {
-				break;
-			}
-
-			$j = strpos( $sql, "'", $startPos );
-			$k = strpos( $sql, '"', $startPos );
-			if (($k !== FALSE) && (($k < $j) || ($j === FALSE))) {
-				$quoteChar	= '"';
-				$j			= $k;
-			} else {
-				$quoteChar	= "'";
-			}
-
-			if ($j === false) {
-				$j = $n;
-			}
-
-			$literal .= str_replace( $prefix, $this->_table_prefix,substr( $sql, $startPos, $j - $startPos ) );
-			$startPos = $j;
-
-			$j = $startPos + 1;
-
-			if ($j >= $n) {
-				break;
-			}
-
-			// quote comes first, find end of quote
-			while (TRUE) {
-				$k = strpos( $sql, $quoteChar, $j );
-				$escaped = false;
-				if ($k === false) {
-					break;
-				}
-				$l = $k - 1;
-				while ($l >= 0 && $sql{$l} == '\\') {
-					$l--;
-					$escaped = !$escaped;
-				}
-				if ($escaped) {
-					$j	= $k+1;
-					continue;
-				}
-				break;
-			}
-			if ($k === FALSE) {
-				// error in the query - no end quote; ignore it
-				break;
-			}
-			$literal .= substr( $sql, $startPos, $k - $startPos + 1 );
-			$startPos = $k+1;
-		}
-		if ($startPos < $n) {
-			$literal .= substr( $sql, $startPos, $n - $startPos );
-		}
-		return $literal;
-	}
 
 	/**
 	 * Get the active query
@@ -590,7 +505,7 @@ class JDatabaseOracle extends JDatabase
 	 * @access	public
 	 * @return  boolean TRUE if successful, FALSE if not.
 	 */
-	public function queryBatch( $abort_on_error=true, $p_transaction_safe = false)
+	public function queryBatch($abort_on_error = true, $p_transaction_safe = false)
 	{
 		$this->_errorNum = 0;
 		$this->_errorMsg = '';
@@ -1355,6 +1270,17 @@ class JDatabaseOracle extends JDatabase
      */
     public function startTransaction()
     {
+        $php_version_array = explode('.', phpversion());
+        
+        // If PHP version is equal to or greater than PHP 5.3.2 
+        // than use the new constant
+        if ($php_version_array[0] >= 5 && 
+            $php_version_array[1] >= 3 && 
+            $php_version_array[2] >= 2) {
+            $this->setCommitMode(OCI_NO_AUTO_COMMIT);
+        } else {
+            $this->setCommitMode(OCI_DEFAULT);
+        }
     }
 
     /**
@@ -1365,6 +1291,7 @@ class JDatabaseOracle extends JDatabase
      */
     public function rollbackTransaction()
     {
+        return oci_rollback($this->_resource);
     }
 
     /**
@@ -1375,6 +1302,7 @@ class JDatabaseOracle extends JDatabase
      */
     public function commitTransaction()
     {
+        return oci_commit($this->_resource);
     }
     
 	/**
@@ -1460,7 +1388,7 @@ class JDatabaseOracle extends JDatabase
 	 * @param	boolean			Only return field types, default true
 	 * @return	array An array of fields by table
 	 */
-	public function getTableFields( $tables, $typeonly = true )
+	public function getTableFields($tables, $typeonly = true)
 	{
 		settype($tables, 'array'); //force to array
 		$result = array();
@@ -1563,5 +1491,25 @@ class JDatabaseOracle extends JDatabase
         }
 
         return $mode;
+    }
+    
+    /**
+    * Gets the commit mode that will be used for queries
+    * 
+    * @return int
+    */
+    public function getCommitMode()
+    {
+        return $this->_commitMode;
+    }
+    
+    /**
+    * Sets the commit mode to use for queries
+    * 
+    * @return void
+    */
+    public function setCommitMode($commit_mode)
+    {
+        $this->_commitMode = $commit_mode;
     }
 }
