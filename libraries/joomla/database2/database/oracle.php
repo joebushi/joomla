@@ -131,7 +131,7 @@ class JDatabaseOracle extends JDatabase
 		}
 
 		// connect to the server
-		if (!($this->_resource = @oci_connect( $user, $password, "//$host:$port/$database" ))) {
+		if (!($this->_resource = @oci_connect($user, $password, "//$host:$port/$database"))) {
 			throw new JException('Could not connect to Oracle.', 2);
 		}
 
@@ -1310,23 +1310,9 @@ class JDatabaseOracle extends JDatabase
      * @since    1.0
 	 */
 	public function getVersion()
-	{
-        /*
-        $server_sentence = oci_server_version( $this->_resource );
-        $server_sentence = explode(' ', $server_sentence);
-        foreach($server_sentence as $word)
-        {
-            if (is_numeric($word[0]) && strlen($word) > 3)
-            {
-                $server_version = $word;
-            }
-        }
-        return $server_version;
-        */
-        
+	{       
         $this->setQuery("select value from nls_database_parameters where parameter = 'NLS_RDBMS_VERSION'");
         return $this->loadResult();
-        
 	}
 
 	/**
