@@ -58,24 +58,24 @@ class JDatabaseOracle extends JDatabase
     protected $_bounded            = '';
     
     /**
-    * The number of rows affected by the previous 
-    * INSERT, UPDATE, REPLACE or DELETE query executed
-    * @var int
-    */
+     * The number of rows affected by the previous 
+     * INSERT, UPDATE, REPLACE or DELETE query executed
+     * @var int
+     */
     protected $_affectedRows       = '';
     
     /**
-    * The number of rows returned by the previous 
-    * SELECT query executed
-    * @var int
-    */
+     * The number of rows returned by the previous 
+     * SELECT query executed
+     * @var int
+     */
     protected $_numRows       = '';
     
     /**
-    * Returns the current dateformat
-    * 
-    * @var mixed
-    */
+     * Returns the current dateformat
+     * 
+     * @var mixed
+     */
     protected $_dateformat    = '';
     
     /**
@@ -87,10 +87,16 @@ class JDatabaseOracle extends JDatabase
     protected $_tolower = true;
     
     /**
-    * Is used to decide whether a result set
-    * should return the LOB values or the LOB objects
-    */
+     * Is used to decide whether a result set
+     * should return the LOB values or the LOB objects
+     */
     protected $_returnlobs = true;
+    
+    /**
+     * Is used to decide whether queries should
+     * be auto-committed or transactional
+     */
+    protected $_commitMode = null;
     
 	/**
 	* Database object constructor
@@ -133,6 +139,9 @@ class JDatabaseOracle extends JDatabase
         */        
         $this->setDateFormat($dateformat);
         
+        // Sets the default COMMIT mode
+        $this->setCommitMode(OCI_COMMIT_ON_SUCCESS);
+
 		// finalize initialization
 		parent::__construct($options);
 	}
@@ -256,7 +265,7 @@ class JDatabaseOracle extends JDatabase
 		}
 		$this->_errorNum = 0;
 		$this->_errorMsg = '';
-		$this->_cursor = oci_execute($this->_prepared);
+		$this->_cursor = oci_execute($this->_prepared, $this->_commitMode);
         
 		if (!$this->_cursor)
 		{
@@ -492,7 +501,7 @@ class JDatabaseOracle extends JDatabase
 	 * @access	public
 	 * @return  boolean TRUE if successful, FALSE if not.
 	 */
-	public function queryBatch( $abort_on_error=true, $p_transaction_safe = false)
+	public function queryBatch($abort_on_error = true, $p_transaction_safe = false)
 	{
 		$this->_errorNum = 0;
 		$this->_errorMsg = '';
@@ -1037,7 +1046,7 @@ class JDatabaseOracle extends JDatabase
         }
         
         //Updates the affectedRows variable with the number of rows returned by the query
-        $this->_numRows = oci_num_rows( $this->_prepared );
+        $this->_numRows = oci_num_rows($this->_prepared);
         oci_free_statement( $cur );
         $cur = null;
 
@@ -1384,5 +1393,25 @@ class JDatabaseOracle extends JDatabase
         }
 
         return $mode;
+    }
+    
+    /**
+    * Gets the commit mode that will be used for queries
+    * 
+    * @return int
+    */
+    public function getCommitMode()
+    {
+        return $this->_commitMode;
+    }
+    
+    /**
+    * Sets the commit mode to use for queries
+    * 
+    * @return void
+    */
+    public function setCommitMode($commit_mode)
+    {
+        $this->_commitMode = $commit_mode;
     }
 }
