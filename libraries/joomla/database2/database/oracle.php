@@ -126,7 +126,7 @@ class JDatabaseOracle extends JDatabase
         $dateformat = isset($options['dateformat']) ? $options['dateformat'] : 'RRRR-MM-DD HH24:MI:SS';
 
 		// perform a number of fatality checks, then return gracefully
-		if (!$this->test()) {
+		if (!self::test()) {
 			throw new JException('The Oracle adapter "oracle" is not available.', 1);
 		}
 
