@@ -126,10 +126,8 @@ class JDatabaseOracle extends JDatabase
         $dateformat = isset($options['dateformat']) ? $options['dateformat'] : 'RRRR-MM-DD HH24:MI:SS';
 
 		// perform a number of fatality checks, then return gracefully
-		if (!function_exists( 'oci_connect' )) {
-			$this->_errorNum = 1;
-			$this->_errorMsg = 'The Oracle adapter "oracle" is not available.';
-			return;
+		if (!$this->test()) {
+			throw new JException('The Oracle adapter "oracle" is not available.', 1);
 		}
 
 		// connect to the server
