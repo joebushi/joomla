@@ -112,14 +112,14 @@ class JDatabaseOracle extends JDatabase
         $dateformat = array_key_exists('dateformat', $options) ? $options['dateformat'] : 'RRRR-MM-DD HH24:MI:SS';
 
 		// perform a number of fatality checks, then return gracefully
-		if (!function_exists( 'oci_connect' )) {
+		if (!$this->test()) {
 			$this->_errorNum = 1;
 			$this->_errorMsg = 'The Oracle adapter "oracle" is not available.';
 			return;
 		}
 
 		// connect to the server
-		if (!($this->_resource = @oci_connect( $user, $password, "//$host:$port/$database" ))) {
+		if (!($this->_resource = @oci_connect($user, $password, "//$host:$port/$database"))) {
 			$this->_errorNum = 2;
 			$this->_errorMsg = 'Could not connect to Oracle';
 			return;
@@ -127,11 +127,11 @@ class JDatabaseOracle extends JDatabase
 
         /**
         * Sets the default dateformat for the session
-        * If the next two lines aren't executed on construction
-        * then dates will be returned in the default Oracle Date Format of
+        * If the next line isn't executed on construction
+        * then dates will be returned in the default 
+        * Oracle Date Format of: DD-MON-RR
         */        
         $this->setDateFormat($dateformat);
-        $this->_dateformat = $dateformat;
         
 		// finalize initialization
 		parent::__construct($options);
@@ -161,7 +161,7 @@ class JDatabaseOracle extends JDatabase
 	 */
 	public function test()
 	{
-		return (function_exists( 'oci_connect' ));
+		return (function_exists('oci_connect'));
 	}
 
 	/**
@@ -190,8 +190,8 @@ class JDatabaseOracle extends JDatabase
 	 */
 	public function hasUTF()
 	{
-		$verParts = explode( '.', $this->getVersion() );
-		return ($verParts[0] > 9 || ($verParts[0] == 9 && $verParts[1] == 2) );
+		$verParts = explode('.', $this->getVersion());
+		return ($verParts[0] > 9 || ($verParts[0] == 9 && $verParts[1] == 2));
 	}
 
 	/**
@@ -214,7 +214,7 @@ class JDatabaseOracle extends JDatabase
 	 * @abstract
 	 */
 	// TODO Figure out how to do this for Oracle...does oci_bind_by_name do the same thing?
-	public function getEscaped( $text, $extra = false )
+	public function getEscaped($text, $extra = false)
 	{
 		/*
 		$result = mysql_real_escape_string( $text, $this->_resource );
@@ -256,21 +256,21 @@ class JDatabaseOracle extends JDatabase
 		}
 		$this->_errorNum = 0;
 		$this->_errorMsg = '';
-		$this->_cursor = oci_execute( $this->_prepared );
+		$this->_cursor = oci_execute($this->_prepared);
         
 		if (!$this->_cursor)
 		{
-			$error = oci_error( $this->_prepared );
+			$error = oci_error($this->_prepared);
 			$this->_errorNum = $error['code'];
 			$this->_errorMsg = $error['message']." SQL=$this->_sql";
 
 			if ($this->_debug) {
-				JError::raiseError(500, 'JDatabaseOracle::query: '.$this->_errorNum.' - '.$this->_errorMsg );
+				JError::raiseError(500, 'JDatabaseOracle::query: '.$this->_errorNum.' - '.$this->_errorMsg);
 			}
 			return false;
 		}
         //Updates the affectedRows variable with the number of rows returned by the query
-        $this->_affectedRows = oci_num_rows( $this->_prepared );
+        $this->_affectedRows = oci_num_rows($this->_prepared);
 		return $this->_prepared;
 	}
 
@@ -286,9 +286,9 @@ class JDatabaseOracle extends JDatabase
 	 * @param string The number of results to return
 	 * @param string The common table prefix
 	 */
-	public function setQuery( $sql, $offset = 0, $limit = 0, $prefix='#__' )
+	public function setQuery($sql, $offset = 0, $limit = 0, $prefix='#__')
 	{
-		$this->_sql		= $this->replacePrefix( $sql, $prefix );
+		$this->_sql		= $this->replacePrefix($sql, $prefix);
 		$this->_prepared= oci_parse($this->_resource, $this->_sql);
 		$this->_limit	= (int) $limit;
 		$this->_offset	= (int) $offset;
@@ -304,7 +304,7 @@ class JDatabaseOracle extends JDatabase
      * @param string The Oracle placeholder in your SQL query
      * @param string The PHP variable you want to bind the placeholder to
      */
-    public function setVar( $placeholder, &$var, $maxlength=-1, $type=SQLT_CHR )
+    public function setVar($placeholder, &$var, $maxlength=-1, $type=SQLT_CHR)
     {
         $this->_bounded[$placeholder] = array($var, (int)$maxlength, (int)$type);
     }
@@ -328,7 +328,7 @@ class JDatabaseOracle extends JDatabase
                 $type = $params[2];
                 if(!oci_bind_by_name($this->_prepared, $placeholder, $variable, $maxlength, $type))
                 {
-                    $error = oci_error( $this->_prepared );
+                    $error = oci_error($this->_prepared);
                     $this->_errorNum = $error['code'];
                     $this->_errorMsg = $error['message']." BINDVARS=$placeholder, $variable, $maxlength, $type";
 
@@ -350,13 +350,13 @@ class JDatabaseOracle extends JDatabase
     {
         if(!oci_define_by_name($this->_prepared, $placeholder, $variable, $type))
         {
-            $error = oci_error( $this->_prepared );
+            $error = oci_error($this->_prepared);
             $this->_errorNum = $error['code'];
             $this->_errorMsg = $error['message']." DEFINEVAR=$placeholder, $variable, $type";
 
             if ($this->_debug) 
             {
-                JError::raiseError(500, 'JDatabaseOracle::query: '.$this->_errorNum.' - '.$this->_errorMsg );
+                JError::raiseError(500, 'JDatabaseOracle::query: '.$this->_errorNum.' - '.$this->_errorMsg);
             }
             return false;        
         }    
@@ -447,84 +447,6 @@ class JDatabaseOracle extends JDatabase
         }
         return false;
     }
-    
-	/**
-	 * This function replaces a string identifier <var>$prefix</var> with the
-	 * string held is the <var>_table_prefix</var> class variable.
-	 *
-	 * @access public
-	 * @param string The SQL query
-	 * @param string The common table prefix
-	 */
-	public function replacePrefix( $sql, $prefix='#__' )
-	{
-		$sql = trim( $sql );
-
-		$escaped = false;
-		$quoteChar = '';
-
-		$n = strlen( $sql );
-
-		$startPos = 0;
-		$literal = '';
-		while ($startPos < $n) {
-			$ip = strpos($sql, $prefix, $startPos);
-			if ($ip === false) {
-				break;
-			}
-
-			$j = strpos( $sql, "'", $startPos );
-			$k = strpos( $sql, '"', $startPos );
-			if (($k !== FALSE) && (($k < $j) || ($j === FALSE))) {
-				$quoteChar	= '"';
-				$j			= $k;
-			} else {
-				$quoteChar	= "'";
-			}
-
-			if ($j === false) {
-				$j = $n;
-			}
-
-			$literal .= str_replace( $prefix, $this->_table_prefix,substr( $sql, $startPos, $j - $startPos ) );
-			$startPos = $j;
-
-			$j = $startPos + 1;
-
-			if ($j >= $n) {
-				break;
-			}
-
-			// quote comes first, find end of quote
-			while (TRUE) {
-				$k = strpos( $sql, $quoteChar, $j );
-				$escaped = false;
-				if ($k === false) {
-					break;
-				}
-				$l = $k - 1;
-				while ($l >= 0 && $sql{$l} == '\\') {
-					$l--;
-					$escaped = !$escaped;
-				}
-				if ($escaped) {
-					$j	= $k+1;
-					continue;
-				}
-				break;
-			}
-			if ($k === FALSE) {
-				// error in the query - no end quote; ignore it
-				break;
-			}
-			$literal .= substr( $sql, $startPos, $k - $startPos + 1 );
-			$startPos = $k+1;
-		}
-		if ($startPos < $n) {
-			$literal .= substr( $sql, $startPos, $n - $startPos );
-		}
-		return $literal;
-	}
 
 	/**
 	 * Get the active query
@@ -1359,7 +1281,7 @@ class JDatabaseOracle extends JDatabase
 	 * @param	boolean			Only return field types, default true
 	 * @return	array An array of fields by table
 	 */
-	public function getTableFields( $tables, $typeonly = true )
+	public function getTableFields($tables, $typeonly = true)
 	{
 		settype($tables, 'array'); //force to array
 		$result = array();
