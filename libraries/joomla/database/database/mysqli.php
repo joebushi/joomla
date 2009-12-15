@@ -542,6 +542,31 @@ class JDatabaseMySQLi extends JDatabase
 
 		return false;
 	}
+    
+    /**
+     * Load the next row returned by the query.
+     *
+     * @return    mixed    The result of the query as an associative array, false if there are no more rows, or null on an error.
+     *
+     * @since    1.6.0
+     */
+    public function loadNextAssoc()
+    {
+        static $cur;
+
+        if (!($cur = $this->query())) {
+            return $this->_errorNum ? null : false;
+        }
+
+        if ($row = mysqli_fetch_assoc($cur)) {
+            return $row;
+        }
+
+        mysql_free_result($cur);
+        $cur = null;
+
+        return false;
+    }
 
 	/**
 	 * Load the next row returned by the query.
