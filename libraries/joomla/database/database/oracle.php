@@ -79,13 +79,6 @@ class JDatabaseOracle extends JDatabase
     protected $_dateformat    = '';
     
     /**
-    * Returns the current character set
-    * 
-    * @var mixed
-    */
-    protected $_charset       = '';
-    
-    /**
     * Is used to decide whether a result set
     * should generate lowercase field names
     * 
@@ -116,7 +109,6 @@ class JDatabaseOracle extends JDatabase
 		$prefix		= array_key_exists('prefix', $options)	? $options['prefix']	: 'jos_';
 		$select		= array_key_exists('select', $options)	? $options['select']	: true;
         $port       = array_key_exists('port', $options)    ? $options['port']      : '1521';
-        $charset    = array_key_exists('charset', $options) ? $options['charset']   : 'AL32UTF8';
         $dateformat = array_key_exists('dateformat', $options) ? $options['dateformat'] : 'RRRR-MM-DD HH24:MI:SS';
 
 		// perform a number of fatality checks, then return gracefully
@@ -140,8 +132,6 @@ class JDatabaseOracle extends JDatabase
         */        
         $this->setDateFormat($dateformat);
         $this->_dateformat = $dateformat;
-        
-        $this->_charset = $charset;
         
 		// finalize initialization
 		parent::__construct($options);
@@ -211,8 +201,7 @@ class JDatabaseOracle extends JDatabase
 	 */
 	public function setUTF()
 	{
-        // Doesn't really work right now
-		//$this->setCharset();
+		return $this->setCharset();
 	}
 
 	/**
@@ -415,25 +404,18 @@ class JDatabaseOracle extends JDatabase
     }
     
     /**
-    * Sets the Oracle Charset for the session
-    * Default date format for Oracle is = DD-MON-RR
-    * The default date format for this driver is:
-    * 'RRRR-MM-DD HH24:MI:SS' since it is the format
-    * that matches the MySQL one used within most Joomla
-    * tables.
+    * Sets the Oracle Charset for the session.
+    * As far as I've read, the character set cannot 
+    * be changed in the middle of a session.
+    * 
+    * Please refer to:
+    * http://forums.oracle.com/forums/thread.jspa?messageID=3259228
     * 
     * @param mixed $dateformat
     */
     public function setCharset($charset='AL32UTF8')
     {
-        /* Doesn't really work right now
-        $this->setQuery("alter session set nls_characterset = '$charset'");
-        if (!$this->query()) {
-            return false;
-        }
-        $this->_charset;
-        */
-        return true;
+        return false;
     }
     
     /**
@@ -446,13 +428,8 @@ class JDatabaseOracle extends JDatabase
     */
     public function getCharset()
     {
-        /*
         $this->setQuery("select value from nls_database_parameters where parameter = 'NLS_CHARACTERSET'");
         return $this->loadResult();
-        */
-        // Commented out the above since it will always return the default, 
-        // rather than current character set.
-        return $this->_charset;
     }
     
     /**
