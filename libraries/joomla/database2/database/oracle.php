@@ -223,7 +223,7 @@ class JDatabaseOracle extends JDatabase
 	 * @abstract
 	 */
 	// TODO Figure out how to do this for Oracle...does oci_bind_by_name do the same thing?
-	public function getEscaped( $text, $extra = false )
+	public function getEscaped($text, $extra = false)
 	{
 		/*
 		$result = mysql_real_escape_string( $text, $this->_resource );
@@ -236,17 +236,19 @@ class JDatabaseOracle extends JDatabase
 	}
 
 	/**
-	 * Execute the query
-	 *
-	 * @access	public
-	 * @return mixed A database resource if successful, FALSE if not.
+	 * Execute the SQL statement.
+     *
+     * @throws    JException
+     * @return    mixed    A database cursor resource on success, boolean false on failure.
+     * @since    1.0
 	 */
 	public function query()
 	{
+        // If the database is not connected, return false.
 		if (!is_resource($this->_resource)) {
 			return false;
 		}
-
+        // Append the limit and offset if set.
 		if ($this->_limit > 0 || $this->_offset > 0) {
 			$this->_sql = "SELECT joomla2.*
             FROM (
@@ -259,27 +261,24 @@ class JDatabaseOracle extends JDatabase
             $this->setQuery($this->_sql);
             $this->bindVars();            
 		}
+        // If debugging is enabled, log the SQL statement.
 		if ($this->_debug) {
 			$this->_ticker++;
 			$this->_log[] = $this->_sql;
 		}
-		$this->_errorNum = 0;
-		$this->_errorMsg = '';
-		$this->_cursor = oci_execute( $this->_prepared );
         
+		// Execute the SQL statement.
+		$this->_cursor = oci_execute($this->_prepared);
+        
+        // If an error occurred, throw an exception.
 		if (!$this->_cursor)
 		{
-			$error = oci_error( $this->_prepared );
-			$this->_errorNum = $error['code'];
-			$this->_errorMsg = $error['message']." SQL=$this->_sql";
-
-			if ($this->_debug) {
-				JError::raiseError(500, 'JDatabaseOracle::query: '.$this->_errorNum.' - '.$this->_errorMsg );
-			}
-			return false;
+            $level = ($this->_debug ? E_ERROR : E_NOTICE);
+            $error = oci_error($this->_prepared);
+            throw new JException($error['message'], $error['code'], $level, $sql);
 		}
         //Updates the affectedRows variable with the number of rows returned by the query
-        $this->_affectedRows = oci_num_rows( $this->_prepared );
+        $this->_affectedRows = oci_num_rows($this->_prepared);
 		return $this->_prepared;
 	}
 
@@ -748,10 +747,11 @@ class JDatabaseOracle extends JDatabase
 	}
 
 	/**
-	 * This method loads the first field of the first row returned by the query.
+	 * Method to get the first field of the first row of the result set from
+     * the database query.
 	 *
-	 * @access	public
-	 * @return The value returned in the query or null if the query failed.
+	 * @throws    JException
+     * @return    mixed    The return value or null if the query failed.
 	 */
 	public function loadResult()
 	{
@@ -772,9 +772,13 @@ class JDatabaseOracle extends JDatabase
 	}
 
 	/**
-	 * Load an array of single field results into an array
-	 *
-	 * @access	public
+	 * Method to get an array of values from the <var>$offset</var> field
+     * in each row of the result set from the database query.
+     *
+     * @throws    JException
+     * @param    integer    The row offset to use to build the result array.
+     * @return    mixed    The return value or null if the query failed.
+     * @since    1.0
 	 */
 	public function loadResultArray($numinarray = 0)
 	{
@@ -795,10 +799,12 @@ class JDatabaseOracle extends JDatabase
 	}
 
 	/**
-	* Fetch a result row as an associative array
-	*
-	* @access	public
-	* @return array
+	 * Method to get the first row of the result set from the database query
+     * as an associative array of ['field_name' => 'row_value'].
+     *
+     * @throws    JException
+     * @return    mixed    The return value or null if the query failed.
+     * @since    1.0
 	*/
 	public function loadAssoc()
 	{
@@ -828,11 +834,17 @@ class JDatabaseOracle extends JDatabase
 	}
 
 	/**
-	* Load a assoc list of database rows
-	*
-	* @access	public
-	* @param string The field name of a primary key
-	* @return array If <var>key</var> is empty as sequential list of returned records.
+	 * Method to get an array of the result set rows from the database query where each
+     * row is an associative array of ['field_name' => 'row_value'].  The array of rows
+     * can optionally be keyed by a field name, but defaults to a sequential numeric array.
+     *
+     * NOTE: Chosing to key the result array by a non-unique field name can result in unwanted
+     * behavior and should be generally avoided.
+     *
+     * @throws    JException
+     * @param    string    The name of a field to key the result array on.
+     * @return    mixed    The return value or null if the query failed.
+     * @since    1.0
 	*/
 	public function loadAssocList($key='')
 	{
@@ -867,10 +879,12 @@ class JDatabaseOracle extends JDatabase
 	}
 
 	/**
-	* This global function loads the first row of a query into an object
-	*
-	* @access	public
-	* @return 	object
+	 * Method to get the first row of the result set from the database query
+     * as an object.
+     *
+     * @throws    JException
+     * @return    mixed    The return value or null if the query failed.
+     * @since    1.0
 	*/
 	public function loadObject()
 	{
@@ -910,14 +924,17 @@ class JDatabaseOracle extends JDatabase
 	}
 
 	/**
-	* Load a list of database objects
-	*
-	* If <var>key</var> is not empty then the returned array is indexed by the value
-	* the database key.  Returns <var>null</var> if the query fails.
-	*
-	* @access	public
-	* @param string The field name of a primary key
-	* @return array If <var>key</var> is empty as sequential list of returned records.
+	 * Method to get an array of the result set rows from the database query where each
+     * row is an object.  The array of objects can optionally be keyed by a field name, but
+     * defaults to a sequential numeric array.
+     *
+     * NOTE: Chosing to key the result array by a non-unique field name can result in unwanted
+     * behavior and should be generally avoided.
+     *
+     * @throws    JException
+     * @param    string    The name of a field to key the result array on.
+     * @return    mixed    The return value or null if the query failed.
+     * @since    1.0
 	*/
 	public function loadObjectList($key='')
 	{
@@ -971,10 +988,13 @@ class JDatabaseOracle extends JDatabase
 	}
 
 	/**
-	 * Description
-	 *
-	 * @access	public
-	 * @return The first row of the query.
+	 * Method to get the first row of the result set from the database query
+     * as an array.  Columns are indexed numerically so the first column in the
+     * result set would be accessible via <var>$row[0]</var>, etc.
+     *
+     * @throws    JException
+     * @return    mixed    The return value or null if the query failed.
+     * @since    1.0
 	 */
 	public function loadRow()
 	{
@@ -995,13 +1015,17 @@ class JDatabaseOracle extends JDatabase
 	}
 
 	/**
-	* Load a list of database rows (numeric column indexing)
-	*
-	* @access public
-	* @param string The field name of a primary key
-	* @return array If <var>key</var> is empty as sequential list of returned records.
-	* If <var>key</var> is not empty then the returned array is indexed by the value
-	* the database key.  Returns <var>null</var> if the query fails.
+	 * Method to get an array of the result set rows from the database query where each
+     * row is an array.  The array of objects can optionally be keyed by a field offset, but
+     * defaults to a sequential numeric array.
+     *
+     * NOTE: Chosing to key the result array by a non-unique field can result in unwanted
+     * behavior and should be generally avoided.
+     *
+     * @throws    JException
+     * @param    string    The offset of a field to key the result array on.
+     * @return    mixed    The return value or null if the query failed.
+     * @since    1.0
 	*/
 	public function loadRowList($key=null)
 	{
@@ -1136,7 +1160,7 @@ class JDatabaseOracle extends JDatabase
         }
         
         //Updates the affectedRows variable with the number of rows returned by the query
-        $this->_numRows = oci_num_rows( $this->_prepared );
+        $this->_numRows = oci_num_rows($this->_prepared);
         oci_free_statement( $cur );
         $cur = null;
 
@@ -1144,25 +1168,28 @@ class JDatabaseOracle extends JDatabase
     }
 
 	/**
-	 * Inserts a row into a table based on an objects properties
-	 *
-	 * @access	public
-	 * @param	string	The name of the table
-	 * @param	object	An object whose properties match table fields
-	 * @param	string	The name of the primary key. If provided the object property is updated.
-	 */
-	public function insertObject( $table, &$object, $keyName = NULL )
+	 * Inserts a row into a table based on an object's properties.
+     *
+     * @param    string    The name of the database table to insert into.
+     * @param    object    An object whose public properties match the table fields.
+     * @param    string    The name of the primary key. If provided the object property is updated.
+     * @return   boolean   True on success.
+     * @since    1.0
+	*/
+	public function insertObject($table, &$object, $keyName = NULL)
 	{
-		$fmtsql = "INSERT INTO $table ( %s ) VALUES ( %s ) ";
+        // Setup the SQL statement.
+		$statement = "INSERT INTO $table ( %s ) VALUES ( %s ) ";
+        
+        // Build the fields and values arrays.
 		$fields = array();
         $values = array();
-		foreach (get_object_vars( $object ) as $k => $v) {
-			if (is_array($v) or is_object($v) or $v === NULL) {
-				continue;
-			}
-			if ($k[0] == '_') { // internal field
-				continue;
-			}
+		foreach (get_object_vars($object) as $k => $v) 
+        {
+			// If the variable is internal or non-scalar or null ignore it.
+            if (($k[0] == '_') || !is_scalar($v) || is_null($v)) {
+                continue;
+            }
             
 			$fields[] = $k;
             
@@ -1172,53 +1199,75 @@ class JDatabaseOracle extends JDatabase
                 $values[] = $this->Quote($v);
             }
 		}
-        // Next two lines for debugging generated SQL statement
-        //$query = sprintf( $fmtsql, implode( ",", $fields ) ,  implode( ",", $values ) );
-        //return $query;
-		$this->setQuery( sprintf( $fmtsql, implode( ",", $fields ) ,  implode( ",", $values ) ) );
-		if (!$this->query()) {
-			return false;
-		}
+        
+        // Inject fields and values then set the SQL statement.
+		$this->setQuery(sprintf($statement, implode(",", $fields), implode( ",", $values)));
+		// Execute the statement.
+        try {
+            $this->query();  
+        } catch (JException $e) {
+            return false;
+        }
+        
 		return true;
 	}
 
 	/**
-    * Updates a row in a table based on an objects properties.
-    * 
-    * @param mixed $table
-    * @param mixed $object
-    * @param mixed $keyName
-    * @param mixed $updateNulls
+     * Updates a row in a table based on an object's properties.
+     *
+     * @param    string    The name of the database table to insert into.
+     * @param    object    An object whose public properties match the table fields.
+     * @param    string    The name of the primary key for the table.
+     * @param    boolean    True to update null fields or false to ignore them.
+     * @return   boolean    True on success.
+     * @since    1.0
     */
-	public function updateObject( $table, &$object, $keyName, $updateNulls=true )
+	public function updateObject( $table, &$object, $pk, $updateNulls=true )
 	{
-		$fmtsql = "UPDATE $table SET %s WHERE %s";
-		$tmp = array();
-		foreach (get_object_vars( $object ) as $k => $v)
+        // Setup the SQL statement.
+		$statement = "UPDATE $table SET %s WHERE %s";
+        // Build the fields array.
+        $fields = array();
+		foreach (get_object_vars($object) as $k => $v)
 		{
-			if( is_array($v) or is_object($v) or $k[0] == '_' ) { // internal or NA field
-				continue;
-			}
-			if( $k == $keyName ) { // PK not to be updated
-				$where = $keyName . '=' . $this->Quote( $v );
-				continue;
-			}
+			// If the variable is internal or non-scalar ignore it.
+            if (($k[0] == '_') || is_object($v) || is_array($v) || is_resource($v)) {
+                continue;
+            }
+            
+            // Use the primary key for the WHERE clause and do not update it.
+            if ($k == $pk) {
+                $where = $pk . '=' . (is_string($v)) ? $this->quote($v) : $v;
+                continue;
+            }
+            
+            // If the value is null check to see if we want to update nulls.
 			if ($v === null)
 			{
+                // If we are updating nulls, set the value to NULL.
 				if ($updateNulls) {
 					$val = 'NULL';
 				} else {
 					continue;
 				}
+            // The value is non-null, add it to the array to be updated.
 			} else {
-				$val = $this->isQuoted( $k ) ? $this->Quote( $v ) : (int) $v;
+				$val = (is_string($v)) ? $this->quote($v) : $v;
 			}
-			$tmp[] = $k . '=' . $val;
+            
+			// Add the field to the array.
+            $fields[] = $this->nameQuote($k).'='.$v;
 		}
-		$this->setQuery( sprintf( $fmtsql, implode( ",", $tmp ) , $where ) );
-        if (!$this->query()) {
+        // Inject fields and values then set the SQL statement.
+		$this->setQuery(sprintf($statement, implode(",", $fields), $where));
+        
+        // Execute the statement.
+        try {
+            $this->query();
+        } catch (JException $e) {
             return false;
         }
+        
 		return true;
 	}
 
@@ -1298,10 +1347,41 @@ class JDatabaseOracle extends JDatabase
         return $value;
     }
     
+    /**
+     * Method to initialize a transaction.
+     *
+     * @return    boolean    True on success.
+     * @since    1.6
+     */
+    public function startTransaction()
+    {
+    }
+
+    /**
+     * Method to roll back a transaction.
+     *
+     * @return    boolean    True on success.
+     * @since    1.6
+     */
+    public function rollbackTransaction()
+    {
+    }
+
+    /**
+     * Method to commit a transaction.
+     *
+     * @return    boolean    True on success.
+     * @since    1.6
+     */
+    public function commitTransaction()
+    {
+    }
+    
 	/**
-	 * Returns the Oracle version number
-	 *
-	 * @access public
+	 * Method to get the database engine version number.
+     *
+     * @return    string    The version number.
+     * @since    1.0
 	 */
 	public function getVersion()
 	{
