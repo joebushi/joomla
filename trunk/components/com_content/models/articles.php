@@ -191,6 +191,23 @@ class ContentModelArticles extends JModelList
 			$registry->loadJSON($item->attribs);
 			$item->params = clone $this->getState('params');
 			$item->params->merge($registry);
+			
+			// get display date
+			switch ($item->params->get('show_date'))
+			{
+				case 'modified':
+					$item->displayDate = $item->modified;
+					break;
+				
+				case 'published':
+					$item->displayDate = ($item->publish_up == 0) ? $item->created : $item->publish_up;
+					break;
+				
+				default:
+				case 'created': 
+					$item->displayDate = $item->created;
+					break;
+			}
 
 			// TODO: Embed the access controls in here
 			$item->params->set('access-edit', false);
