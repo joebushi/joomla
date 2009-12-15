@@ -807,7 +807,7 @@ class JDatabaseOracle extends JDatabase
 			return null;
 		}
 		$ret = null;
-		if ($object = oci_fetch_object( $cur )) {
+		if ($object = oci_fetch_object($cur)) {
 		    if ($returnlobs) {
                 foreach($object as $field => $value) {
                     if (get_class($value) == 'OCI-Lob') {
@@ -819,7 +819,6 @@ class JDatabaseOracle extends JDatabase
                 $obj = new stdClass();
                 foreach($object as $field => $value) {
                     $lowercase = strtolower($field);
-                    //$uppercase = strtoupper($field);
                     $obj->$lowercase = $value;
                     unset($object->$field);
                 }
@@ -831,8 +830,8 @@ class JDatabaseOracle extends JDatabase
 		}
         
         //Updates the affectedRows variable with the number of rows returned by the query
-        $this->_numRows = oci_num_rows( $this->_prepared );
-		oci_free_statement( $cur );
+        $this->_numRows = oci_num_rows($this->_prepared);
+		oci_free_statement($cur);
 		return $ret;
 	}
 
@@ -857,7 +856,7 @@ class JDatabaseOracle extends JDatabase
 			return null;
 		}
 		$array = array();
-		while ($row = oci_fetch_object( $cur )) {
+		while ($row = oci_fetch_object($cur)) {
                      
             if ($returnlobs) {
                 foreach($row as $field => $value) {
@@ -895,8 +894,8 @@ class JDatabaseOracle extends JDatabase
 			}
 		}
         //Updates the affectedRows variable with the number of rows returned by the query
-        $this->_numRows = oci_num_rows( $this->_prepared );
-		oci_free_statement( $cur );
+        $this->_numRows = oci_num_rows($this->_prepared);
+		oci_free_statement($cur);
 		return $array;
 	}
 
@@ -918,12 +917,12 @@ class JDatabaseOracle extends JDatabase
         $mode = $this->getMode(true);
         
 		$ret = null;
-		if ($row = oci_fetch_array( $cur, $mode )) {
+		if ($row = oci_fetch_array($cur, $mode)) {
 			$ret = $row;
 		}
         //Updates the affectedRows variable with the number of rows returned by the query
-        $this->_numRows = oci_num_rows( $this->_prepared );
-		oci_free_statement( $cur );
+        $this->_numRows = oci_num_rows($this->_prepared);
+		oci_free_statement($cur);
 		return $ret;
 	}
 
@@ -1061,7 +1060,6 @@ class JDatabaseOracle extends JDatabase
                 $obj = new stdClass();
                 foreach($object as $field => $value) {
                     $lowercase = strtolower($field);
-                    //$uppercase = strtoupper($field);
                     $obj->$lowercase = $value;
                     unset($object->$field);
                 }
