@@ -62,9 +62,10 @@ class CategoriesModelCategory extends JModelForm
 		if (!($extension = $app->getUserState('com_categories.edit.category.extension'))) {
 			$extension = JRequest::getCmd('extension', 'com_content');
 		}
+		$this->setState('category.extension', $extension);
 		$parts = explode('.',$extension);
-		$this->setState('category.extension', $parts[0]);
-		if (count($parts)>1) $this->setState('category.section', $parts[1]);
+		$this->setState('category.component', $parts[0]);
+		$this->setState('category.section', (count($parts)>1)?$parts[1]:null);
 
 		// Load the parameters.
 		$params	= &JComponentHelper::getParams('com_categories');
@@ -131,7 +132,7 @@ class CategoriesModelCategory extends JModelForm
 		$app = &JFactory::getApplication();
 
 		// Get the form.
-		$form = parent::getForm('category', 'com_categories.category', array('array' => 'jform', 'event' => 'onPrepareForm'));
+		$form = parent::getForm('category', 'com_categories.category.'.$this->getState('category.extension'), array('array' => 'jform', 'event' => 'onPrepareForm', 'group' => 'content'));
 
 		// Check for an error.
 		if (JError::isError($form)) {
@@ -140,77 +141,10 @@ class CategoriesModelCategory extends JModelForm
 		}
 
 		// Set the access control rules field component value.
-		$form->setFieldAttribute('rules', 'component', $this->getState('category.extension'));
-		if ($this->getState('category.section')) $form->setFieldAttribute('rules', 'section', 'category.'.$this->getState('category.section'));
+		$form->setFieldAttribute('rules', 'component', $this->getState('category.component'));
+		$form->setFieldAttribute('rules', 'section', 'category'.($this->getState('category.section')?('.'.$this->getState('category.section')):''));
 
-		// Check the session for previously entered form data.
-		$data = $app->getUserState('com_categories.edit.category.data', array());
-
-		// Bind the form data if present.
-		if (!empty($data)) {
-			$form->bind($data);
-		}
-
-		return $form;
-	}
-
-	/**
-	 * Method to get the component row form.
-	 *
-	 * @return	mixed	JForm object on success, false on failure.
-	 * @since	1.6
-	 */
-	public function getComponentForm()
-	{
-		jimport('joomla.filesystem.file');
-		jimport('joomla.filesystem.path');
-		// Initialise variables.
-		$app = &JFactory::getApplication();
-		$lang = &JFactory::getLanguage();
-		$form = null;
-
-		$option = $this->getState('category.extension');
-		$path = JPath::clean(JPATH_ADMINISTRATOR.'/components/'.$option);
-		$section = $this->getState('category.section');
-		$name = 'category' . ($section ? ('.'.$section):'');
-		$file = $path.'/'.$name.'.xml';
-		if (JFile::exists($file))
-		{
-			$lang->load($option);
-			// Get the form.
-			jimport('joomla.form.form');
-			JForm::addFormPath($path);
-			$form = &JForm::getInstance($name, 'com_categories.component', true, array('array' => 'jform', 'event' => 'onPrepareForm'));
-
-			// Check for an error.
-			if (JError::isError($form)) {
-				$this->setError($form->getMessage());
-				return false;
-			}
-		}
-		if (!$form)
-		{
-			// Try to find the component helper.
-			$eName	= str_replace('com_', '', $option);
-			$file	= JPath::clean(JPATH_ADMINISTRATOR.'/components/'.$option.'/helpers/'.$eName.'.php');
-
-			if (file_exists($file))
-			{
-				require_once $file;
-				$prefix	= ucfirst($eName);
-				$cName	= $prefix.'Helper';
-				if (class_exists($cName) && is_callable(array($cName, 'getCategoryForm')))
-				{
-					$lang->load($option);
-					$form = call_user_func(array($cName, 'getCategoryForm'), $this->getState('category.section'));
-				}
-			}
-		}
-		if(!$form)
-		{
-			$form = new JForm;
-		}
-
+echo $this->getState('category.section');
 		// Check the session for previously entered form data.
 		$data = $app->getUserState('com_categories.edit.category.data', array());
 

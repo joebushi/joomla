@@ -29,22 +29,26 @@ class CategoriesHelper
 			return;
 		}
 
+		$parts = explode('.',$extension);
+		$component = $parts[0];
+		$section =(count($parts)>1)?$parts[1]:null;
+
 		// Try to find the component helper.
-		$eName	= str_replace('com_', '', $extension);
-		$file	= JPath::clean(JPATH_ADMINISTRATOR.'/components/'.$extension.'/helpers/'.$eName.'.php');
+		$eName	= str_replace('com_', '', $component);
+		$file	= JPath::clean(JPATH_ADMINISTRATOR.'/components/'.$component.'/helpers/'.$eName.'.php');
 
 		if (file_exists($file))
 		{
 			require_once $file;
-			$prefix	= ucfirst(str_replace('com_', '', $extension));
+			$prefix	= ucfirst(str_replace('com_', '', $component));
 			$cName	= $prefix.'Helper';
 			if (class_exists($cName))
 			{
 				if (is_callable(array($cName, 'addSubmenu')))
 				{
 					$lang = &JFactory::getLanguage();
-					$lang->load($extension);
-					call_user_func(array($cName, 'addSubmenu'), 'categories');
+					$lang->load($component);
+					call_user_func(array($cName, 'addSubmenu'), 'categories'.($section?('.'.$section):''));
 				}
 			}
 		}

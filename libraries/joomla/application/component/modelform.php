@@ -144,7 +144,7 @@ class JModelForm extends JModel
 			}
 
 			// Trigger the form preparation event.
-			$results = $dispatcher->trigger($options['event'], array($form->getName(), $form));
+			$results = $dispatcher->trigger($options['event'], array($form->getName(), &$form));
 
 			// Check for errors encountered while preparing the form.
 			if (count($results) && in_array(false, $results, true))

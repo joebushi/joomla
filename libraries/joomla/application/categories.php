@@ -49,6 +49,20 @@ class JCategories
 	protected $_table = null;
 
 	/**
+	 * Name of the category field
+	 *
+	 * @var string
+	 */
+	protected $_field = null;
+
+	/**
+	 * Name of the key field
+	 *
+	 * @var string
+	 */
+	protected $_key = null;
+
+	/**
 	 * Array of options
 	 *
 	 * @var array
@@ -65,6 +79,8 @@ class JCategories
 	{
 		$this->_extension 	= $options['extension'];
 		$this->_table		= $options['table'];
+		$this->_field		= (isset($options['field'])&&$options['field'])?$options['field']:'catid';
+		$this->_key			= (isset($options['key'])&&$options['key'])?$options['key']:'id';
 		$this->_options		= $options;
 		return true;
 	}
@@ -82,10 +98,13 @@ class JCategories
 		{
 			return self::$instances[$extension];
 		}
-		$classname = ucfirst(substr($extension,4)).'Categories';
+		$parts = explode('.',$extension);
+		$component = $parts[0];
+		$section = (count($parts)>1)?$parts[1]:'';
+		$classname = ucfirst(substr($component,4)).ucfirst($section).'Categories';
 		if (!class_exists($classname))
 		{
-			$path = JPATH_SITE.DS.'components'.DS.$extension.DS.'helpers'.DS.'category.php';
+			$path = JPATH_SITE.DS.'components'.DS.$component.DS.'helpers'.DS.'category.php';
 			if (is_file($path))
 			{
 				require_once $path;
@@ -131,10 +150,10 @@ class JCategories
 			' WHERE c.extension = '.$db->Quote($this->_extension).
 			' AND cp.id = '.$id.' AND c.parent_id = 0';
 
-		$query = 'SELECT c.*, COUNT(b.id) AS numitems, ' .
+		$query = 'SELECT c.*, COUNT(b.'.$db->nameQuote($this->_key).') AS numitems, ' .
 			' CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(":", c.id, c.alias) ELSE c.id END as slug'.
 			' FROM #__categories AS c' .
-			' LEFT JOIN '.$this->_table.' AS b ON b.catid = c.id ';
+			' LEFT JOIN '.$db->nameQuote($this->_table).' AS b ON b.'.$db->nameQuote($this->_field).' = c.id ';
 		if ($id != 0)
 		{
 			$query .= ' JOIN ('.$subquery.') AS cp ON c.lft >= cp.lft AND c.rgt <= cp.rgt';
