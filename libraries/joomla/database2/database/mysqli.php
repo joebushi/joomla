@@ -499,6 +499,81 @@ class JDatabaseMySQLi extends JDatabase
 		mysqli_free_result($r);
 		return $result;
 	}
+    
+    /**
+     * Load the next row returned by the query.
+     *
+     * @return    mixed    The result of the query as an array, false if there are no more rows, or null on an error.
+     *
+     * @since    1.6.0
+     */
+    public function loadNextRow()
+    {
+        static $cur;
+
+        if (!($cur = $this->query())) {
+            return $this->_errorNum ? null : false;
+        }
+
+        if ($row = mysqli_fetch_row($cur)) {
+            return $row;
+        }
+
+        mysql_free_result($cur);
+        $cur = null;
+
+        return false;
+    }
+    
+    /**
+     * Load the next row returned by the query.
+     *
+     * @return    mixed    The result of the query as an associative array, false if there are no more rows, or null on an error.
+     *
+     * @since    1.6.0
+     */
+    public function loadNextAssoc()
+    {
+        static $cur;
+
+        if (!($cur = $this->query())) {
+            return $this->_errorNum ? null : false;
+        }
+
+        if ($row = mysqli_fetch_assoc($cur)) {
+            return $row;
+        }
+
+        mysql_free_result($cur);
+        $cur = null;
+
+        return false;
+    }
+
+    /**
+     * Load the next row returned by the query.
+     *
+     * @return    mixed    The result of the query as an object, false if there are no more rows, or null on an error.
+     *
+     * @since    1.6.0
+     */
+    public function loadNextObject()
+    {
+        static $cur;
+
+        if (!($cur = $this->query())) {
+            return $this->_errorNum ? null : false;
+        }
+
+        if ($row = mysqli_fetch_object($cur)) {
+            return $row;
+        }
+
+        mysql_free_result($cur);
+        $cur = null;
+
+        return false;
+    }
 
 	/**
 	 * Inserts a row into a table based on an object's properties.
