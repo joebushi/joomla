@@ -35,15 +35,4 @@ $pageClass = $this->params->get('pageclass_sfx');
 		<?php echo $this->loadTemplate('articles'); ?>
 	</div>
 
-	<div class="jcat-siblings <?php echo $pageClass;?>">
-		<?php /* echo $this->loadTemplate('siblings'); */?>
-	</div>
-
-	<div class="jcat-children <?php echo $pageClass;?>">
-		<?php echo $this->loadTemplate('children'); ?>
-	</div>
-
-	<div class="jcat-parents <?php echo $pageClass;?>">
-		<?php /* echo $this->loadTemplate('parents'); */ ?>
-	</div>
 </div>

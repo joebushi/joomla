@@ -146,17 +146,6 @@
 				<option value="modified">Modified</option>
 				<option value="published">Published</option>
 		</field>
-
-	 	<field 
-			name="all_subcategories" 
-			type="list" 
-			default="" 
-			label="Content_Attribs_All_Subcategories_Label" 
-			description="Content_Attribs_All_Subcategories_Desc">
-				<option value="">JCOMMON_USE_GLOBAL</option>
-	 			<option value="all">All_Levels</option>
-	 			<option value="next_level">Next_Level_Only</option>
-	 	</field>
 	 	
 		<field 
 			name="show_pagination_limit" 
