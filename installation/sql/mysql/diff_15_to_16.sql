@@ -251,7 +251,10 @@ CREATE TABLE `#__category_attributes` (
   `group` varchar(255) NOT NULL,
   `field` varchar(255) NOT NULL,
   `value` text NOT NULL,
-  KEY `idx_catid` (`catid`)
+  KEY `idx_catid` (`catid`),
+  KEY `idx_group` (`group`),
+  KEY `idx_field` (`field`),
+  KEY `idx_value` (`value`(255))
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- ----------------------------------------------------------------

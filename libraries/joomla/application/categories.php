@@ -148,7 +148,7 @@ class JCategories
 			' FROM #__categories AS c'.
 			' JOIN #__categories AS cp ON cp.lft >= c.lft AND c.rgt >= cp.rgt'.
 			' WHERE c.extension = '.$db->Quote($this->_extension).
-			' AND cp.id = '.$id.' AND c.parent_id = 0';
+			' AND cp.id = '.$id; // .' AND c.parent_id = 0';
 
 		$query = 'SELECT c.*, COUNT(b.'.$db->nameQuote($this->_key).') AS numitems, ' .
 			' CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(":", c.id, c.alias) ELSE c.id END as slug'.
@@ -164,7 +164,7 @@ class JCategories
 			' ORDER BY c.lft';
 		$db->setQuery($query);
 		$results = $db->loadObjectList();
-
+		
 		if (count($results))
 		{
 			foreach($results as $result)
@@ -228,7 +228,7 @@ class JCategoryNode extends JObject
 		if ($category)
 		{
 			$this->setProperties($category);
-			if ($this->parent_id > 0)
+			if ($this->parent_id > 1)
 			{
 				$categoryTree = JCategories::getInstance($this->extension);
 				$parentNode = &$categoryTree->get($this->parent_id);
