@@ -184,6 +184,21 @@ INSERT INTO `#__categories` VALUES
 # -------------------------------------------------------
 
 #
+# Table structure for table `#__category_attributes`
+#
+
+CREATE TABLE `#__category_attributes` (
+  `catid` int(11) NOT NULL,
+  `group` varchar(255) NOT NULL,
+  `field` varchar(255) NOT NULL,
+  `value` text NOT NULL,
+  KEY `idx_catid` (`catid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+# -------------------------------------------------------
+
+#
 # Table structure for table `#__components`
 #
 

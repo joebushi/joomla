@@ -64,7 +64,9 @@ class CategoriesModelCategory extends JModelForm
 		}
 		$this->setState('category.extension', $extension);
 		$parts = explode('.',$extension);
+		// extract the component name
 		$this->setState('category.component', $parts[0]);
+		// extract the optional section name
 		$this->setState('category.section', (count($parts)>1)?$parts[1]:null);
 
 		// Load the parameters.
@@ -115,7 +117,36 @@ class CategoriesModelCategory extends JModelForm
 		$registry->loadJSON($table->metadata);
 		$table->metadata = $registry->toArray();
 
+		// Convert the result to a JObject
 		$result = JArrayHelper::toObject($table->getProperties(1), 'JObject');
+		
+		// Load category attributes
+		$query = new JQuery;
+		$query->select($this->_db->nameQuote('group'));
+		$query->select($this->_db->nameQuote('field'));
+		$query->select($this->_db->nameQuote('value'));
+		$query->from($this->_db->nameQuote('#__category_attributes'));
+		$query->where($this->_db->nameQuote('catid').'='.(int)$table->id);
+		$this->_db->setQuery((string)$query);
+		$attributes = $this->_db->loadObjectList();
+
+		// Check for a database error.
+		if ($this->_db->getErrorNum()) {
+			$this->setError($this->_db->getErrorMsg());
+			return false;
+		}
+
+		// Push in the attributes data to display.
+		foreach ($attributes as $attribute) {
+			$group = $attribute->group;
+			$field = $attribute->field;
+			$value = $attribute->value;
+			if (!isset($result->$group))
+			{
+				$result->$group=array();
+			}
+			$result->{$group}[$field]=$value;
+		}
 
 		return $result;
 	}
@@ -129,22 +160,89 @@ class CategoriesModelCategory extends JModelForm
 	public function getForm()
 	{
 		// Initialise variables.
-		$app = &JFactory::getApplication();
+		$app		= &JFactory::getApplication();
+		$lang		= &JFactory::getLanguage();
+		$extension	= $this->getState('category.extension');
+		$component	= $this->getState('category.component');
+		$section	= $this->getState('category.section');
 
 		// Get the form.
-		$form = parent::getForm('category', 'com_categories.category.'.$this->getState('category.extension'), array('array' => 'jform', 'event' => 'onPrepareForm', 'group' => 'content'));
-
+		jimport('joomla.form.form');
+		JForm::addFormPath(JPATH_COMPONENT.'/models/forms');
+		JForm::addFieldPath(JPATH_COMPONENT.'/models/fields');
+		$form = &JForm::getInstance('category', "com_categories.category.$extension", true, array('array'=>'jform'));
 		// Check for an error.
-		if (JError::isError($form)) {
+		if (JError::isError($form))
+		{
 			$this->setError($form->getMessage());
 			return false;
 		}
 
-		// Set the access control rules field component value.
-		$form->setFieldAttribute('rules', 'component', $this->getState('category.component'));
-		$form->setFieldAttribute('rules', 'section', 'category'.($this->getState('category.section')?('.'.$this->getState('category.section')):''));
+		// Get the component form if it exists
+		jimport('joomla.filesystem.path');
+		$name = 'category' . ($section ? ('.'.$section):'');
+		$path = JPath::clean(JPATH_ADMINISTRATOR."/components/$component/$name.xml");
+		if (file_exists($path))
+		{
+			$lang->load($component);
+			$form->load($path, true, false);
 
-echo $this->getState('category.section');
+			// Check for an error.
+			if (JError::isError($form)) {
+				$this->setError($form->getMessage());
+				return false;
+			}
+		}
+		
+		// Try to find the component helper.
+		$eName	= str_replace('com_', '', $component);
+		$path	= JPath::clean(JPATH_ADMINISTRATOR."/components/$component/helpers/$eName.php");
+		if (file_exists($path))
+		{
+			require_once $path;
+			$prefix	= ucfirst($eName);
+			$cName	= $prefix.'Helper';
+			if (class_exists($cName) && is_callable(array($cName, 'onPrepareCategoryForm')))
+			{
+				$lang->load($component);
+				call_user_func_array(array($cName, 'onPrepareCategoryForm'), array($section, &$form));
+
+				// Check for an error.
+				if (JError::isError($form)) {
+					$this->setError($form->getMessage());
+					return false;
+				}
+			}
+		}
+
+		// Get the dispatcher.
+		$dispatcher	= &JDispatcher::getInstance();
+
+		// Load the plugin group.
+		JPluginHelper::importPlugin('content');
+
+		// Trigger the form preparation event.
+		$results = $dispatcher->trigger('onPrepareForm', array($form->getName(), &$form));
+
+		// Check for errors encountered while preparing the form.
+		if (count($results) && in_array(false, $results, true))
+		{
+			// Get the last error.
+			$error = $dispatcher->getError();
+
+			// Convert to a JException if necessary.
+			if (!JError::isError($error)) {
+				$error = new JException($error, 500);
+			}
+			
+			$this->setError($error);
+			return false;
+		}
+
+		// Set the access control rules field component value.
+		$form->setFieldAttribute('rules', 'component', $component);
+		$form->setFieldAttribute('rules', 'section', $name);
+
 		// Check the session for previously entered form data.
 		$data = $app->getUserState('com_categories.edit.category.data', array());
 
@@ -277,6 +375,40 @@ echo $this->getState('category.section');
 			return false;
 		}
 
+		// Store the attributes
+		$query = new JQuery;
+		$query->delete();
+		$query->from($this->_db->nameQuote('#__category_attributes'));
+		$query->where($this->_db->nameQuote('catid').'='.(int)$table->id);
+		$this->_db->setQuery((string)$query);
+		$this->_db->query();
+		
+		// Check for a database error.
+		if ($this->_db->getErrorNum()) {
+			$this->setError($this->_db->getErrorMsg());
+			return false;
+		}
+		
+		$tuples=array();
+		foreach ($data as $group=>$fields)
+		{
+			if (is_array($fields) && !in_array($group,array('_default','params','metadata','rules')))
+			{
+				foreach($fields as $field=>$value)
+				{
+					$tuples[]='('.$table->id.','.$this->_db->Quote($group).','.$this->_db->Quote($field).','.$this->_db->Quote($value).')';
+				}
+			}
+		}
+		$this->_db->setQuery('INSERT INTO '.$this->_db->nameQuote('#__category_attributes').' VALUES '.implode(', ', $tuples));
+		$this->_db->query();
+		
+		// Check for a database error.
+		if ($this->_db->getErrorNum()) {
+			$this->setError($this->_db->getErrorMsg());
+			return false;
+		}
+		
 		// Rebuild the tree path.
 		if (!$table->rebuildPath($table->id)) {
 			$this->setError($table->getError());

@@ -251,6 +251,7 @@ class CategoriesControllerCategory extends JController
 			case 'apply':
 				// Set the row data in the session.
 				$app->setUserState('com_categories.edit.category.id',	$model->getState('category.id'));
+				$app->setUserState('com_categories.edit.category.extension', $data['extension']);
 				$app->setUserState('com_categories.edit.category.data',	null);
 				$app->setUserState('com_categories.edit.category.type',	null);
 
