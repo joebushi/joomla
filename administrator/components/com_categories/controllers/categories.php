@@ -68,7 +68,6 @@ class CategoriesControllerCategories extends JController
 		{
 			// Get the model.
 			$model = $this->getModel('category');
-			$model->setState('category.extension', JRequest::getVar('extension'));
 			// Remove the items.
 			if ($model->delete($pks)) {
 				$this->setMessage(JText::sprintf('JSuccess_N_items_deleted', $n));

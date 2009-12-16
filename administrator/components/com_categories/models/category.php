@@ -441,25 +441,6 @@ class CategoriesModelCategory extends JModelForm
 		// Iterate the items to delete each one.
 		foreach ($pks as $pk)
 		{
-			$categoryTree = JCategories::getInstance($this->getState('category.extension'));
-			$node = $categoryTree->get((int)$pk);
-			$children = $node->getChildren();
-			foreach ($children as $child)
-			{
-				// Delete the child attributes
-				$query = new JQuery;
-				$query->delete();
-				$query->from($this->_db->nameQuote('#__category_attributes'));
-				$query->where($this->_db->nameQuote('catid').'='.(int)$child->id);
-				$this->_db->setQuery((string)$query);
-				$this->_db->query();
-		
-				// Check for a database error.
-				if ($this->_db->getErrorNum()) {
-					$this->setError($this->_db->getErrorMsg());
-					return false;
-				}
-			}
 			// Delete the attributes
 			$query = new JQuery;
 			$query->delete();
@@ -467,13 +448,19 @@ class CategoriesModelCategory extends JModelForm
 			$query->where($this->_db->nameQuote('catid').'='.(int)$pk);
 			$this->_db->setQuery((string)$query);
 			$this->_db->query();
-		
-			if (!$table->delete((int) $pk))
-			{
-				$this->setError($table->getError());
+
+			// Check for a database error.
+			if ($this->_db->getErrorNum()) {
+				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
 			
+			// Delete the category (but keep the children)
+			if (!$table->delete((int) $pk, false))
+			{
+				$this->setError($table->getError());
+				return false;
+			}			
 		}
 
 		return true;
