@@ -247,7 +247,7 @@ ALTER TABLE `jos_categories`
 -- ----------------------------------------------------------------
 
 CREATE TABLE `#__category_attributes` (
-  `catid` int(11) NOT NULL,
+  `catid` int(11) NOT NULL COMMENT 'FK to the jos_categories table.',
   `group` varchar(255) NOT NULL,
   `field` varchar(255) NOT NULL,
   `value` text NOT NULL,
