@@ -362,6 +362,20 @@
 			<option
 				value="1">Show</option>
 		</field>
+		
+		<field
+			name="show_publish_date"
+			type="list"
+			label="Content_Attribs_Show_Publish_Date_Label"
+			description="Content_Attribs_Show_Publish_Date_Desc"
+			default="">
+			<option
+				value="">JCOMMON_USE_GLOBAL</option>
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
 
 		<field
 			name="show_item_navigation"
