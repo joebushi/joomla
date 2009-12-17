@@ -9,37 +9,87 @@
 
 // no direct access
 defined('_JEXEC') or die;
+
+JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
+JHtml::_('behavior.tooltip');
+
+$n = count($this->articles);
+
 ?>
 <?php if (empty($this->articles)) : ?>
 	<!--  no articles -->
 <?php else : ?>
-	<h5>Article Links</h5>
+	<form action="<?php echo $this->action; ?>" method="post" name="adminForm">
+	
 	<?php if ($this->params->get('filter_field') != 'hide') :?>
-		<p><?php echo JText::_('Content_'.$this->params->get('filter_field').'_Filter_Label'); ?></p>
+	<fieldset class="filter">
+	<legend class="element-invisible"><?php echo JText::_('JContent_Filter_Label'); ?></legend>
+		<div class="filter-search">
+			<label class="filter-search-lbl" for="filter_search"><?php echo JText::_($this->escape($this->params->get('filter_field')) . '_' . 'Filter_Label').'&nbsp;'; ?></label>
+			<input type="text" name="filter_search" id="filter_search" value="<?php /* echo $this->escape($this->lists['filter']);*/ ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('Content_Filter_Search_Desc'); ?>" />
+		</div>
 	<?php endif; ?>
+	
 	<?php if ($this->params->get('show_pagination_limit')) : ?>
-		<p><?php echo 'Display # will go here'; ?></p>
+		<div class="display">
+			<?php echo JText::_('Display Num'); ?>&nbsp;
+			<!-- @TODO pagination -->
+			<?php /* echo $this->pagination->getLimitBox(); */ ?>
+		</div>
 	<?php endif; ?>
+	</fieldset>
+
+<table class="category">	
 	<?php if ($this->params->get('show_headings')) :?>
-		<p><?php echo 'headings go here'?>
-		<?php if ($this->params->get('show_date') != 'hide') : ?>
-			<?php echo JText::_('Content_'.$this->params->get('show_date').'_Date')?></p>
+	<thead><tr>
+		<?php if ($this->params->get('show_title')) : ?>
+		<th class="item-title" id="tableOrdering">
+			<!-- @TODO replace with the ordering part -->
+			<?php  echo "title ordering here" /* JHTML::_('grid.sort', 'Content_Heading_Title', 'a.title', $this->lists['order_Dir'], $this->lists['order'])*/ ; ?>
+		</th>
 		<?php endif; ?>
-		<ul>
+		<?php if ($this->params->get('show_date') != 'hide') : ?>
+			<th class="item-date" id="tableOrdering2">
+				<?php /*  echo JHTML::_('grid.sort', 'Content_'.$this->params->get('show_date').'_Date', 'a.created', $this->lists['order_Dir'], $this->lists['order']); */ ?>
+				<!-- @TODO replace with the ordering line -->
+				<?php echo JText::_('Content_'.$this->params->get('show_date').'_Date')?>
+			</th>
+		<?php endif; ?>
+	</tr></thead>
 	<?php endif; ?>
-		<?php foreach ($this->articles as &$article) : ?>
-			<li>
-				<a href="<?php echo JRoute::_(ContentRoute::article($article->slug, $article->catslug)); ?>">
-					<?php echo $article->title; ?></a>
+
+	<tbody>
+	<!-- why is $article is reference? -->
+		<?php foreach ($this->articles as $i => &$article) : ?>
+			<tr class="row<?php echo $i % 2; ?>">
+				<td>
+					<a href="<?php echo JRoute::_(ContentRoute::article($article->slug, $article->catslug)); ?>">
+					<?php echo $this->escape($article->title); ?></a>
+				</td>
 				<?php if ($this->params->get('show_date') != 'hide') : ?>
-					<?php echo JHTML::_('date', $article->displayDate, $this->escape(
+					<td>
+						<?php echo JHTML::_('date', $article->displayDate, $this->escape(
 						$this->params->get('date_format', JText::_('DATE_FORMAT_LC3')))); ?>
+					</td>
 				<?php endif; ?>
-			</li>
+			</tr>
 		<?php endforeach; ?>
-	</ul>
+	</tbody>
+	</table>
+	
 	<?php if ($this->params->get('show_pagination')) : ?>
-		<p><?php echo 'Pagination will go here'; ?></p>
+		<div class="jpagination">
+			<div class="jpag-results">
+				Page X of X will be here
+				<?php // echo $this->pagination->getPagesCounter(); ?>
+			</div>
+			Pagination Links will be here
+			<?php // echo $this->pagination->getPagesLinks(); ?>		
+		</div>
 	<?php endif; ?>	
 
 <?php endif; ?>
+
+<!-- @TODO add hidden inputs -->
+
+</form>

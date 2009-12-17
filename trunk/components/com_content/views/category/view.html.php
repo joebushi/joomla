@@ -40,6 +40,7 @@ class ContentViewCategory extends JView
 		// Initialise variables.
 		$user		= &JFactory::getUser();
 		$app		= &JFactory::getApplication();
+		$uri 		=& JFactory::getURI();
 
 		$state		= $this->get('State');
 		$item		= $this->get('Item');
@@ -154,7 +155,8 @@ class ContentViewCategory extends JView
 		 {
 			$parent->slug = $parent->route ? ($parent->id.':'.$parent->route) : $parent->id;
 		 }
-
+		$this->assign('action', 	str_replace('&', '&amp;', $uri->toString()));
+		
 		$this->assignRef('params',		$params);
 		$this->assignRef('item',		$item);
 		$this->assignRef('articles',	$articles);
