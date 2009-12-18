@@ -9,11 +9,11 @@
 
 // no direct access
 defined('_JEXEC') or die;
-?>
+?>00
 <?php if (empty($this->children)) : ?>
 	<!-- no children  -->
 <?php else : ?>
-	<h5>Sub Categories</h5>
+	<h5>jjjSub Categories</h5>
 <?php
 	// Initialise the starting level
 	// starting level is the parent level coming in

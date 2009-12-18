@@ -20,7 +20,7 @@ $n = count($this->articles);
 	<!--  no articles -->
 <?php else : ?>
 	<form action="<?php echo $this->action; ?>" method="post" name="adminForm">
-	
+
 	<?php if ($this->params->get('filter_field') != 'hide') :?>
 	<fieldset class="filter">
 	<legend class="element-invisible"><?php echo JText::_('JContent_Filter_Label'); ?></legend>
@@ -29,7 +29,7 @@ $n = count($this->articles);
 			<input type="text" name="filter_search" id="filter_search" value="<?php /* echo $this->escape($this->lists['filter']);*/ ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('Content_Filter_Search_Desc'); ?>" />
 		</div>
 	<?php endif; ?>
-	
+
 	<?php if ($this->params->get('show_pagination_limit')) : ?>
 		<div class="display">
 			<?php echo JText::_('Display Num'); ?>&nbsp;
@@ -39,7 +39,7 @@ $n = count($this->articles);
 	<?php endif; ?>
 	</fieldset>
 
-<table class="category">	
+<table class="category">
 	<?php if ($this->params->get('show_headings')) :?>
 	<thead><tr>
 		<?php if ($this->params->get('show_title')) : ?>
@@ -76,20 +76,21 @@ $n = count($this->articles);
 		<?php endforeach; ?>
 	</tbody>
 	</table>
-	
-	<?php if ($this->params->get('show_pagination')) : ?>
-		<div class="jpagination">
-			<div class="jpag-results">
-				Page X of X will be here
-				<?php // echo $this->pagination->getPagesCounter(); ?>
-			</div>
-			Pagination Links will be here
-			<?php // echo $this->pagination->getPagesLinks(); ?>		
-		</div>
-	<?php endif; ?>	
 
+	<?php // if ($this->params->get('show_pagination')) : ?>
+	 <div class="pagination">
+	<?php  // if ($this->params->def('show_pagination_results', 1)) : ?>
+                        <p class="counter">
+                                <?php  // echo $this->pagination->getPagesCounter(); ?>
+                        </p>
+   <?php // endif; ?>
+			Pagination Links will be here
+			<?php // echo $this->pagination->getPagesLinks(); ?>
+		</div>
+	<?php // endif; ?>
+</form>
 <?php endif; ?>
 
 <!-- @TODO add hidden inputs -->
 
-</form>
+
