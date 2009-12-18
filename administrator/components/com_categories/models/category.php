@@ -166,11 +166,15 @@ class CategoriesModelCategory extends JModelForm
 		$component	= $this->getState('category.component');
 		$section	= $this->getState('category.section');
 
+		// Check the session for previously entered form data.
+		$data = $app->getUserState('com_categories.edit.category.data', array());
+		$id = isset($data['id'])?$data['id']:0;
+
 		// Get the form.
 		jimport('joomla.form.form');
 		JForm::addFormPath(JPATH_COMPONENT.'/models/forms');
 		JForm::addFieldPath(JPATH_COMPONENT.'/models/fields');
-		$form = &JForm::getInstance('category', "com_categories.category.$extension", true, array('array'=>'jform'));
+		$form = &JForm::getInstance('category', "com_categories.category.$extension.$id", true, array('array'=>'jform'));
 		// Check for an error.
 		if (JError::isError($form))
 		{
@@ -205,7 +209,7 @@ class CategoriesModelCategory extends JModelForm
 			if (class_exists($cName) && is_callable(array($cName, 'onPrepareCategoryForm')))
 			{
 				$lang->load($component);
-				call_user_func_array(array($cName, 'onPrepareCategoryForm'), array($section, &$form));
+				call_user_func_array(array($cName, 'onPrepareCategoryForm'), array($section, $id, &$form));
 
 				// Check for an error.
 				if (JError::isError($form)) {
@@ -242,9 +246,6 @@ class CategoriesModelCategory extends JModelForm
 		// Set the access control rules field component value.
 		$form->setFieldAttribute('rules', 'component', $component);
 		$form->setFieldAttribute('rules', 'section', $name);
-
-		// Check the session for previously entered form data.
-		$data = $app->getUserState('com_categories.edit.category.data', array());
 
 		// Bind the form data if present.
 		if (!empty($data)) {
