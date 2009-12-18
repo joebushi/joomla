@@ -9,21 +9,28 @@
 
 // no direct access
 defined('_JEXEC') or die;
+
+JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
 ?>
 <ul id="jarchive-list">
 <?php foreach ($this->items as $item) : ?>
 	<li class="row<?php echo ($item->odd +1); ?>">
-		<h4>
-			<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($item->slug)); ?>">
+// url goes into the nirvana
+
+
+		<h2>
+			<a href="<?php echo JRoute::_(ContentRoute::article($item->slug)); ?>">
+
+
 				<?php echo $this->escape($item->title); ?></a>
-		</h4>
+		</h2>
 
 		<?php if (($this->params->get('show_section') && $item->sectionid) || ($this->params->get('show_category') && $item->catid)) : ?>
 			<div>
 			<?php if ($this->params->get('show_section') && $item->sectionid && isset($item->section)) : ?>
 				<span>
 				<?php if ($this->params->get('link_section')) : ?>
-					<?php echo '<a href="'.JRoute::_(ContentHelperRoute::getSectionRoute($item->sectionid)).'">'; ?>
+					<?php // echo '<a href="'.JRoute::_(ContentRoute::getSectionRoute($item->sectionid)).'">'; ?>
 				<?php endif; ?>
 
 				<?php echo $item->section; ?>
@@ -40,7 +47,7 @@ defined('_JEXEC') or die;
 			<?php if ($this->params->get('show_category') && $item->catid) : ?>
 				<span>
 				<?php if ($this->params->get('link_category')) : ?>
-					<?php echo '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($item->catslug, $item->sectionid)).'">'; ?>
+					<?php // echo '<a href="'.JRoute::_(ContentRoute::getCategoryRoute($item->catslug, $item->sectionid)).'">'; ?>
 				<?php endif; ?>
 				<?php echo $item->category; ?>
 				<?php if ($this->params->get('link_category')) : ?>
