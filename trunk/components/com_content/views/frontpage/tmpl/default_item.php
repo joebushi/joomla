@@ -62,7 +62,7 @@ $params = &$this->item->params;
 
 
                         <?php echo '<a href="'.JRoute::_(ContentRoute::category($this->item->catslug)).'">'; ?>
-                                <?php echo $this->escape($this->item->category_title); ?></a>
+                                <?php echo $this->escape($this->item->category_title).' </a>'; ?>
                 <?php else : ?>
                        <?php echo $this->escape($this->item->category_title); ?>
 
