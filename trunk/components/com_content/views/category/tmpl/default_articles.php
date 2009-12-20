@@ -63,12 +63,12 @@ $n = count($this->articles);
 				<?php echo JHTML::_('grid.sort', 'Content_'.$this->params->get('show_date').'_Date', 'a.created', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 			</th>
 		<?php endif; ?>
-		<?php if ($this->params->get('show_author') != 'hide') : ?>
+		<?php if ($this->params->get('list_author')) : ?>
 			<th class="item-author" id="tableOrdering3">
 				<?php echo JHTML::_('grid.sort', 'Content_Author', 'a.author', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 			</th>
 		<?php endif; ?>
-		<?php if ($this->params->get('show_date') != 'hide') : ?>
+		<?php if ($this->params->get('list_hits')) : ?>
 			<th class="item-hits" id="tableOrdering4">
 				<?php echo JHTML::_('grid.sort', 'Content_Hits', 'a.hits', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 			</th>
@@ -89,12 +89,12 @@ $n = count($this->articles);
 						$this->params->get('date_format', JText::_('DATE_FORMAT_LC3')))); ?>
 					</td>
 				<?php endif; ?>
-				<?php if ($this->params->get('list_author') != 'hide') : ?>
+				<?php if ($this->params->get('list_author')) : ?>
 					<td>
 						<?php echo ($article->created_by_alias ? $article->created_by_alias : $article->author_name); ?>
 					</td>
 				<?php endif; ?>
-				<?php if ($this->params->get('list_hits') != 'hide') : ?>
+				<?php if ($this->params->get('list_hits')) : ?>
 					<td>
 						<?php echo $article->hits; ?>
 					</td>
