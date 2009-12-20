@@ -58,8 +58,9 @@ $params = &$this->item->params;
 <dt class="category_term"><?php  echo JText::_('CATEGORY'); ?></dt>
 <dd class="category">
 		<?php if ($params->get('link_category')) : ?>
-			<?php echo '<a href="'.JRoute::_(ContentRoute::category($this->item->catslug)).'">'; ?>
-            <?php echo $this->escape($this->item->category_title).' </a>'; ?>
+			<a href="<?php echo JRoute::_(ContentRoute::category($this->item->catslug)); ?>">
+            <?php echo $this->escape($this->item->category_title); ?>
+            </a>
         <?php else : ?>
 			<?php echo $this->escape($this->item->category_title); ?>
         <?php endif; ?>
@@ -90,7 +91,7 @@ $params = &$this->item->params;
 		$link = JRoute::_("index.php?option=com_users&view=login");
 	endif;
 ?>
-	<p class="readon">
+	<p class="jreadmore">
                 <a href="<?php echo $link; ?>" class="readon">
                         <?php if (!$params->get('access-view')) :
                                 echo JText::_('Register to read more...');
@@ -103,5 +104,5 @@ $params = &$this->item->params;
 <?php endif; ?>
 
 
-
+<div class="jseparator"></div>
 <?php echo $this->item->event->afterDisplayContent; ?>

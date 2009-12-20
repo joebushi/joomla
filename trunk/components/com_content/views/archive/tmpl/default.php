@@ -14,7 +14,13 @@ JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
 ?>
 <form id="jForm" action="<?php JRoute::_('index.php')?>" method="post">
 	<?php if ($this->params->get('show_page_title', 1)) : ?>
-		<h1 class="<?php echo $this->params->get('pageclass_sfx')?>"><?php echo $this->escape($this->params->get('page_title')); ?></h1>
+	<h1>
+		<?php if ($this->escape($this->params->get('page_heading'))) :?>
+			<?php echo $this->escape($this->params->get('page_heading')); ?>
+		<?php else : ?>
+			<?php echo $this->escape($this->params->get('page_title')); ?>
+		<?php endif; ?>
+	</h1>
 	<?php endif; ?>
 	<p>// need ids for the form elements to add the lable</p>
 	<p>

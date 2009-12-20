@@ -10,29 +10,13 @@
 // no direct access
 defined('_JEXEC') or die;
 ?>
-<?php if (!empty($this->link_items) && $this->params->get('num_links') > 0) :
-	$i=0;
-?>
+<h3><?php echo JText::_('More Articles...'); ?></h3>
 
-	<div class="blog_more">
-	<h3><?php echo JText::_('More Articles...'); ?></h3>
-
-	<ol class="jlinks">
-<?php
-	foreach ($this->link_items as &$item) :
-
-
-		if ($i >= $this->params->get('num_links')) :
-  			break;
-  		endif;
-  		$i++;
-?>
-		<li>
+<ol class="jlinks">
+<?php foreach ($this->link_items as &$item) : ?>
+	<li>
 		<a href="<?php echo JRoute::_(ContentRoute::article($item->slug, $item->catslug)); ?>">
 			<?php echo $item->title; ?></a>
 	</li>
-
 <?php endforeach; ?>
-	</ol>
-</div>
-<?php endif ; ?>
+</ol>

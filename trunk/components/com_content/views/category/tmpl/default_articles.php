@@ -16,6 +16,17 @@ JHtml::_('behavior.tooltip');
 $n = count($this->articles);
 
 ?>
+<!-- from mootools core for grid.sort -->
+<script language="javascript" type="text/javascript">
+	function tableOrdering(order, dir, task) {
+	var form = document.adminForm;
+
+	form.filter_order.value 	= order;
+	form.filter_order_Dir.value	= dir;
+	document.adminForm.submit(task);
+}
+</script>
+
 <?php if (empty($this->articles)) : ?>
 	<!--  no articles -->
 <?php else : ?>
@@ -34,7 +45,7 @@ $n = count($this->articles);
 		<div class="display">
 			<?php echo JText::_('Display Num'); ?>&nbsp;
 			<!-- @TODO pagination -->
-			<?php /* echo $this->pagination->getLimitBox(); */ ?>
+			<?php // echo $this->pagination->getLimitBox(); ?>
 		</div>
 	<?php endif; ?>
 	</fieldset>
@@ -44,22 +55,28 @@ $n = count($this->articles);
 	<thead><tr>
 		<?php if ($this->params->get('show_title')) : ?>
 		<th class="item-title" id="tableOrdering">
-			<!-- @TODO replace with the ordering part -->
-			<?php  echo "title ordering here" /* JHTML::_('grid.sort', 'Content_Heading_Title', 'a.title', $this->lists['order_Dir'], $this->lists['order'])*/ ; ?>
+			<?php  echo JHTML::_('grid.sort', 'Content_Heading_Title', 'a.title', $this->state->get('list.direction'), $this->state->get('list.ordering')) ; ?>
 		</th>
 		<?php endif; ?>
 		<?php if ($this->params->get('show_date') != 'hide') : ?>
 			<th class="item-date" id="tableOrdering2">
-				<?php /*  echo JHTML::_('grid.sort', 'Content_'.$this->params->get('show_date').'_Date', 'a.created', $this->lists['order_Dir'], $this->lists['order']); */ ?>
-				<!-- @TODO replace with the ordering line -->
-				<?php echo JText::_('Content_'.$this->params->get('show_date').'_Date')?>
+				<?php echo JHTML::_('grid.sort', 'Content_'.$this->params->get('show_date').'_Date', 'a.created', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+			</th>
+		<?php endif; ?>
+		<?php if ($this->params->get('show_author') != 'hide') : ?>
+			<th class="item-author" id="tableOrdering3">
+				<?php echo JHTML::_('grid.sort', 'Content_Author', 'a.author', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+			</th>
+		<?php endif; ?>
+		<?php if ($this->params->get('show_date') != 'hide') : ?>
+			<th class="item-hits" id="tableOrdering4">
+				<?php echo JHTML::_('grid.sort', 'Content_Hits', 'a.hits', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 			</th>
 		<?php endif; ?>
 	</tr></thead>
 	<?php endif; ?>
 
 	<tbody>
-	<!-- why is $article is reference? -->
 		<?php foreach ($this->articles as $i => &$article) : ?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td>
@@ -72,25 +89,39 @@ $n = count($this->articles);
 						$this->params->get('date_format', JText::_('DATE_FORMAT_LC3')))); ?>
 					</td>
 				<?php endif; ?>
+				<?php if ($this->params->get('list_author') != 'hide') : ?>
+					<td>
+						<?php echo ($article->created_by_alias ? $article->created_by_alias : $article->author_name); ?>
+					</td>
+				<?php endif; ?>
+				<?php if ($this->params->get('list_hits') != 'hide') : ?>
+					<td>
+						<?php echo $article->hits; ?>
+					</td>
+				<?php endif; ?>
 			</tr>
 		<?php endforeach; ?>
 	</tbody>
 	</table>
 
-	<?php // if ($this->params->get('show_pagination')) : ?>
+	<?php if ($this->params->get('show_pagination')) : ?>
 	 <div class="pagination">
-	<?php  // if ($this->params->def('show_pagination_results', 1)) : ?>
+	<?php if ($this->params->def('show_pagination_results', 1)) : ?>
                         <p class="counter">
-                                <?php  // echo $this->pagination->getPagesCounter(); ?>
+                                <?php // echo $this->pagination->getPagesCounter(); ?>
                         </p>
-   <?php // endif; ?>
+   <?php endif; ?>
 			Pagination Links will be here
 			<?php // echo $this->pagination->getPagesLinks(); ?>
 		</div>
-	<?php // endif; ?>
+	<?php endif; ?>
+	
+	<!-- @TODO add hidden inputs -->
+	<input type="hidden" name="filter_order" value="<?php echo $this->state->get('list.ordering'); ?>" />
+	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->state->get('list.direction'); ?>" />
 </form>
 <?php endif; ?>
 
-<!-- @TODO add hidden inputs -->
+
 
 

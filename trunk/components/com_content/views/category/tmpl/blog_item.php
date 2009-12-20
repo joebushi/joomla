@@ -28,12 +28,6 @@ $params = &$this->item->params;
 	</h2>
 <?php endif; ?>
 
-
-
-
-
-
-
 <?php if ($params->get('show_print_icon') || $params->get('show_email_icon') || $params->get('access-edit')) : ?>
 	<ul class="jactions">
 		<?php if ($params->get('show_print_icon')) : ?>
@@ -54,7 +48,6 @@ $params = &$this->item->params;
 	</ul>
 <?php endif; ?>
 
-
 <?php if (!$params->get('show_intro')) : ?>
 	<?php echo $this->item->event->afterDisplayTitle; ?>
 <?php endif; ?>
@@ -69,8 +62,9 @@ $params = &$this->item->params;
 <dt class="category_term"><?php  echo JText::_('CATEGORY'); ?></dt>
 <dd class="category">
 		<?php if ($params->get('link_category')) : ?>
-			<?php echo '<a href="'.JRoute::_(ContentRoute::category($this->item->catslug)).'">'; ?>
-            <?php echo $this->escape($this->item->category_title) .' </a>'; ?>
+			<a href="<?php echo JRoute::_(ContentRoute::category($this->item->catslug)); ?>">
+            <?php echo $this->escape($this->item->category_title); ?>
+            </a>
         <?php else : ?>
 			<?php echo $this->escape($this->item->category_title); ?>
         <?php endif; ?>
@@ -92,12 +86,13 @@ $params = &$this->item->params;
  </dl>
 <?php endif; ?>
 <?php echo $this->item->introtext; ?>
+
 <?php if ($params->get('show_readmore') && $this->item->readmore) :
-        if ($params->get('access-view')) :
-                $link = JRoute::_(ContentRoute::article($this->item->slug, $this->item->catslug));
-        else :
-                $link = JRoute::_("index.php?option=com_users&view=login");
-        endif;
+	if ($params->get('access-view')) :
+		$link = JRoute::_(ContentRoute::article($this->item->slug, $this->item->catslug));
+	else :
+		$link = JRoute::_("index.php?option=com_users&view=login");
+	endif;
 ?>
         <p class="jreadmore">
                 <a href="<?php echo $link; ?>" class="readon" >
@@ -110,8 +105,9 @@ $params = &$this->item->params;
                         endif; ?></a>
         </p>
 <?php endif; ?>
+
 <?php if ($this->item->state == 0) : ?>
 </div>
 <?php endif; ?>
-
+<div class="jseparator"></div>
 <?php echo $this->item->event->afterDisplayContent; ?>

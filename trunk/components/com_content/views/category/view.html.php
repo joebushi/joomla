@@ -22,7 +22,6 @@ class ContentViewCategory extends JView
 	protected $state = null;
 	protected $item = null;
 	protected $articles = null;
-	// Note: pagination works in frontpage view, but not set up in this view yet
 	protected $pagination = null;
 
 	protected $lead_items = array();
@@ -48,7 +47,8 @@ class ContentViewCategory extends JView
 		$siblings	= $this->get('Siblings');
 		$children	= $this->get('Children');
 		$parents	= $this->get('Parents');
-		// add pagination
+		// $pagination	= $this->get('Pagination');
+		
 		
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -165,6 +165,7 @@ class ContentViewCategory extends JView
 		$this->assignRef('parents',		$parents);
 		$this->assignRef('pagination',	$pagination);
 		$this->assignRef('user',		$user);
+		$this->assignRef('state',		$state);
 
 		$this->_prepareDocument();
 

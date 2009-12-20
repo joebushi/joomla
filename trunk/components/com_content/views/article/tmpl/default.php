@@ -18,14 +18,18 @@ $params = $this->state->get('params');
 
 <div class="page<?php echo $params->get('pageclass_sfx')?>">
 	<?php if ($params->get('show_page_title', 1) && $params->get('page_title') != $this->item->title) : ?>
-		<h1><?php echo $this->escape($params->get('page_title')); ?></h1>
+		<h1>
+			<?php if ($this->escape($params->get('page_heading'))) :?>
+				<?php echo $this->escape($params->get('page_heading')); ?>
+			<?php else : ?>
+				<?php echo $this->escape($params->get('page_title')); ?>
+			<?php endif; ?>
+		</h1>
 	<?php endif; ?>
-
-
 
 <?php if ($params->get('show_title')|| $params->get('access-edit')) : ?>
         <h2>
-                	<?php if ($params->get('link_titles') && !empty($this->item->rlink)) : ?>
+               	<?php if ($params->get('link_titles') && !empty($this->item->readmore_link)) : ?>
                 <a href="<?php echo $this->item->readmore_link; ?>">
                         <?php echo $this->escape($this->item->title); ?></a>
                 <?php else : ?>
@@ -79,8 +83,9 @@ $params = $this->state->get('params');
                 <?php if ($params->get('link_category')) : ?>
 
 
-                        <?php echo '<a href="'.JRoute::_(ContentRoute::category($this->item->catslug)).'">'; ?>
-                                <?php echo $this->escape($this->item->category_title) .' </a>' ;?>
+                        <a href="<?php echo JRoute::_(ContentRoute::category($this->item->catslug));?>">
+                                <?php echo $this->escape($this->item->category_title);?>
+                        </a>
                 <?php else : ?>
                        <?php echo $this->escape($this->item->category_title); ?>
 

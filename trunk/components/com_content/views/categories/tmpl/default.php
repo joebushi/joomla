@@ -22,7 +22,11 @@ $difLevel = 0;
 
 <?php if ($this->params->get('show_page_title', 1)) : ?>
 <h1>
-	<?php echo $this->escape($this->params->get('page_title')); ?>
+	<?php if ($this->escape($this->params->get('page_heading'))) :?>
+		<?php echo $this->escape($this->params->get('page_heading')); ?>
+	<?php else : ?>
+		<?php echo $this->escape($this->params->get('page_title')); ?>
+	<?php endif; ?>
 </h1>
 <?php endif; ?>
 

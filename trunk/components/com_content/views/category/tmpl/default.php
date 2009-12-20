@@ -20,8 +20,11 @@ $pageClass = $this->params->get('pageclass_sfx');
 <div class="jcategory <?php echo $pageClass;?>">
 	<?php if ($this->params->get('show_page_title', 1)) : ?>
 		<h1>
-		<!--  @TODO Need to check for Page Header override parameter -->
-			<?php echo $this->escape($this->params->get('page_title')); ?>
+			<?php if ($this->escape($this->params->get('page_heading'))) :?>
+				<?php echo $this->escape($this->params->get('page_heading')); ?>
+			<?php else : ?>
+				<?php echo $this->escape($this->params->get('page_title')); ?>
+			<?php endif; ?>
 		</h1>
 	<?php endif; ?>
 	<h2>

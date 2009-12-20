@@ -94,6 +94,7 @@ class ContentModelArticles extends JModelList
 			'list.select',
 			'a.id, a.title, a.alias, a.title_alias, a.introtext, a.state, a.catid, a.created, a.created_by, a.created_by_alias,' .
 			' a.modified, a.modified_by,a.publish_up, a.publish_down, a.attribs, a.metadata, a.metakey, a.metadesc, a.access,' .
+			' a.hits,' .
 			' LENGTH(a.fulltext) AS readmore'
 		));
 		$query->from('#__content AS a');
