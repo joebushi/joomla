@@ -27,12 +27,59 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-Dec-2009 Louis Landry
++ Added setAdditionalUrlParam and getAdditionalUrlParam to JPagination to allow better URL manipulation for GET requests.  (thanks to Robert Deutz)
+
+21-Dec-2009 Hannes Papenberg
++ Added unicode-slug ability. See JApplication::stringURLSafe() for usage
+^ Standardized user plugin events. All events are now with "User" instead of "Users"
+# Fixed reference notice in backend com_users user model
+^ Changed JMail from an abstract to a normal class
+^ Updated TinyMCE to 3.2.7
+
+20-Dec-2009 Mark Dexter
++ Partial implementation of Category List in com_content (thanks to Andrea Tarr, Elin Waring, Angie Radtke)
++ Implement global and menu item parameters
+# Fix 404 error in archive view (thanks to Elin Waring)
+
+14-Dec-2009 Ian MacLennan
+^ Modified JString to use phputf8 to support systems without mb_string
+
+14-Dec-2009 Andrew Eddie
+ # Fixed bug in installation and diff SQL. TEXT fields can't have defaults.
+
+13-Dec-2009 Mark Dexter
+^ Merged in com_content changes. Implement some params for Category List layout.
+# Fixed read more param for articles.
+# Fixed problem with reading params for custom layouts. Always load standard params for standard layouts.
+# Fixes to module modal on menu assignments (thanks to Andrea Tarr).
+
+13-Dec-2009 Andrew Eddie
+ # Fixed JHtmlSelect::options so that empy labels would not be translated.
+ # Fixed duplicate support for com_modules.
+ # Changed JApplcation::redirect to default to 303 and added $moved argument to allow for permanent redirects.
+ ^ Adjust redirect plugin to use permanent redirect.
+
+12-Dec-2009 Louis Landry
+ ^ Merged in refactored banners component thanks to Christophe Demko.
+ ! Removed trailing whitespace.
+
 12-Dec-2009 Sam Moffatt
- + Added initial SQL Server driver work for development.
- - Removed a minor MySQLism from Sybase MSSQL driver
+ ! First commit from 32,000 feet
+ # Alteration to JError:getErrors to fix an error temporarily
+ ^ propset svn:keywords Id on a few files
+ ^ General documentation clean up
 
 11-Dec-2009 Louis Landry
- + Added initial Sybase MSSQL driver work for development.
+ ^ [#18958] Administrator > Site > System Information > Directory Permissions (images/stories/) - Thanks Ryan Briscall
+ ^ Clean up of reference operators as they aren't needed in PHP5 - Thanks Joe LeBlanc
+
+11-Dec-2009 Andrew Eddie
+ # Doc updates to JModelList, internal refuddling.
+ # Fix bugs in JForm package dependency inclusions; code formatting.
+ # Fix bug in menu item model (rebuildTree not a valid method).
+ ^ Removed spaces from mod_menu frontend to help with inline styling.
+ ^ Added support back into mod_menu for start and end level.
 
 09-Dec-2009 Sam Moffatt
  ^ Committed patch for JCache care of Roben Goethals
@@ -57,9 +104,6 @@ $ -> Language fix or change
 
 25-Nov-2009 Mark Dexter
 ^ Changed attribs column in jos_content from text to varchar(5120).
-
-25-Nov-2009 Andrew Eddie
- # Fixed bug in JHtmlContent improperly using JTableContent (/me shakes head).
 
 25-Nov-2009 Andrew Eddie
  + Added menu_image param to alias and url menu link types.
@@ -97,7 +141,7 @@ $ -> Language fix or change
  + Added JHtmlTabs
  ! JPane and child classes has been deprecated in favor of JHtml helpers.
  ! Big thanks to Christophe Demko for his work on this.
- + Added JDatabasePostgreSQL -- Thanks Thom Brown for the initial work!
+ ^ [#17650] Remove hardcoded style in TinyMCE that prevents button alignment
 
 20-Nov-2009 Andrew Eddie
  ^ Change XML version tags to 1.6.0.
@@ -112,7 +156,7 @@ $ -> Language fix or change
 ^ Update bluestork images
 + New CSS
 ^ Fix language strings
- 
+
 19-Nov-2009 Andrew Eddie
  ^ Refactor JModelList _getStoreId and _populateState implementations.
  ^ Applied [#18759] Bluestork template with a js independent top menu (by Stian Didriksen).
@@ -339,7 +383,7 @@ $ Language cleanup & new strings
 # Fixed saving in com_modules
 
 14-Oct-2009 Elin Waring
-# Fix link creation when the layout is not called default. 
+# Fix link creation when the layout is not called default.
 # Update/add access code for weblinks and contacts.  Fix typos.
 # Correct errors in sample data. Correct errors in joomla.sql (add s to user), add xml for com_users front end.
 # Add required="true" to required elements.
@@ -357,7 +401,7 @@ $ Language cleanup & new strings
 ^ Rolled tight coupling of asset name out of JControllerForm.
 + Added checkout and checkin base methods to JModelForm (compliments JControllerForm).
 ! Consistency updates to backend Content component.
-# Added missing support for saveorder in articles list. 
+# Added missing support for saveorder in articles list.
 
 13-Oct-2009 Andrew Eddie
 ^ Reverse the order of Publisher, Editor and Author groups to match admin groups direction.
@@ -787,7 +831,7 @@ $ Language fixes
 
 23-Jun-2009 Gergo Erdosi
  # Fixed weblink checkin method.
- # Fixed extension parameter of categories. 
+ # Fixed extension parameter of categories.
 
 23-Jun-2009 Andrew Eddie
  ^ Changed mod_custom into real module; added allowance to run content through content plugin system.
@@ -795,7 +839,7 @@ $ Language fixes
  # Fixed bug in JTable::move causing SQL error (ordering field not quoted properly).
  # Fixed SQL bug in frontend com_content categories view.
  + Added sample menu item to test frontend categories view.
- 
+
 ========== VERSION 1.6 APLHA RELEASED ==========
 
 22-Jun-2009 Gergo Erdosi

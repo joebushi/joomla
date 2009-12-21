@@ -32,7 +32,7 @@ class NewsfeedsModelNewsfeeds extends JModelList
 	 */
 	protected function _populateState()
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$app = JFactory::getApplication('administrator');
 
 		// Load the filter state.
@@ -116,7 +116,7 @@ class NewsfeedsModelNewsfeeds extends JModelList
 			$query->where('a.access = '.(int) $access);
 		}
 
-		// Filter by published state
+		// Filter by published state.
 		$published = $this->getState('filter.state');
 		if (is_numeric($published)) {
 			$query->where('a.published = '.(int) $published);

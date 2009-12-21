@@ -94,6 +94,7 @@ class ContentModelArticles extends JModelList
 			'list.select',
 			'a.id, a.title, a.alias, a.title_alias, a.introtext, a.state, a.catid, a.created, a.created_by, a.created_by_alias,' .
 			' a.modified, a.modified_by,a.publish_up, a.publish_down, a.attribs, a.metadata, a.metakey, a.metadesc, a.access,' .
+			' a.hits,' .
 			' LENGTH(a.fulltext) AS readmore'
 		));
 		$query->from('#__content AS a');
@@ -164,7 +165,7 @@ class ContentModelArticles extends JModelList
 		$query->where('(a.publish_down = '.$nullDate.' OR a.publish_down >= '.$nowDate.')');
 
 		// Add the list ordering clause.
-		$query->order($this->_db->getEscaped($this->getState('list.ordering', 'a.ordering')).' '.$this->_db->getEscaped($this->getState('list.direction', 'ASC')));
+		$query->order($this->_db->getEscaped($this->getState('list.ordering', 'a.ordering')));
 
 		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;
@@ -191,6 +192,23 @@ class ContentModelArticles extends JModelList
 			$registry->loadJSON($item->attribs);
 			$item->params = clone $this->getState('params');
 			$item->params->merge($registry);
+			
+			// get display date
+			switch ($item->params->get('show_date'))
+			{
+				case 'modified':
+					$item->displayDate = $item->modified;
+					break;
+				
+				case 'published':
+					$item->displayDate = ($item->publish_up == 0) ? $item->created : $item->publish_up;
+					break;
+				
+				default:
+				case 'created': 
+					$item->displayDate = $item->created;
+					break;
+			}
 
 			// TODO: Embed the access controls in here
 			$item->params->set('access-edit', false);

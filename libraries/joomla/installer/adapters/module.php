@@ -466,7 +466,7 @@ class JInstallerModule extends JAdapterInstance
 	 */
 	public function uninstall($id)
 	{
-		// Initialize variables
+		// Initialise variables.
 		$row	= null;
 		$retval = true;
 		$db		= &$this->parent->getDbo();
@@ -515,7 +515,7 @@ class JInstallerModule extends JAdapterInstance
 				// load the file
 				include_once $manifestScriptFile;
 			}
-			
+
 			// Set the class name
 			$classname = $element.'InstallerScript';
 			if (class_exists($classname))
@@ -527,7 +527,7 @@ class JInstallerModule extends JAdapterInstance
 				// Note: if we don't find the class, don't bother to copy the file
 			}
 		}
-		
+
 		ob_start();
 		ob_implicit_flush(false);
 		// run uninstall if possible

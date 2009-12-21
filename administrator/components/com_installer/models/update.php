@@ -32,9 +32,8 @@ class InstallerModelUpdate extends InstallerModel
 	var $_message = '';
 
 	/**
-	 * Current extension list
+	 * Current update list
 	 */
-
 	protected function _loadItems()
 	{
 		jimport('joomla.filesystem.folder');
@@ -70,6 +69,11 @@ class InstallerModelUpdate extends InstallerModel
 		}
 	}
 
+	/**
+	 * Finds updates for an extension
+	 * @param int Extension identifier to look for
+	 * @return boolean Result
+	 */
 	public function findUpdates($eid=0)
 	{
 		$updater =& JUpdater::getInstance();
@@ -77,49 +81,62 @@ class InstallerModelUpdate extends InstallerModel
 		return true;
 	}
 
-	public function purge() 
+	/**
+	 * Removes all of the updates from the table
+	 * @return boolean result of operation
+	 */
+	public function purge()
 	{
 		$db =& JFactory::getDBO();
+		// Note: TRUNCATE is a DDL operation
+		// This may or may not mean depending on your database
 		$db->setQuery('TRUNCATE TABLE #__updates');
-		if ($db->Query()) 
+		if ($db->Query())
 		{
 			$this->_message = JText::_('Purged updates');
 			return true;
-		} 
-		else 
+		}
+		else
 		{
 			$this->_message = JText::_('Failed to purge updates');
 			return false;
 		}
 	}
 
-	public function update($uids) 
+	/**
+	 * Update function
+	 * Sets the "result" state with the result of the operation
+	 * @param Array[int] List of updates to apply
+	 */
+	public function update($uids)
 	{
 		$result = true;
-		foreach($uids as $uid) 
+		foreach($uids as $uid)
 		{
 			$update = new JUpdate();
 			$instance =& JTable::getInstance('update');
 			$instance->load($uid);
 			$update->loadFromXML($instance->detailsurl);
+			// install sets state and enqueues messages
 			$res = $this->_install($update);
-			if ($res) {
-				$msg = JText::sprintf('INSTALLEXT', JText::_($update->get('type','IUnknown')), JText::_('Success'));
-			} else {
-				$msg = JText::sprintf('INSTALLEXT', JText::_($update->get('type','IUnknown')), JText::_('Error'));
-			}
 			$result = $res & $result;
 		}
-		
+
+		// Set the final state
 		$this->setState('result', $result);
 	}
-	
+
+	/**
+	 * Handles the actual update installation
+	 * @param JUpdate an update definition
+	 * @return boolean Result of install
+	 */
 	private function _install($update)
 	{
 		$app = &JFactory::getApplication();
 		if(isset($update->get('downloadurl')->_data)) {
 			$url = $update->downloadurl->_data;
-		} else 
+		} else
 		{
 			JError::raiseWarning('SOME_ERROR_CODE', JText::_('Invalid extension update'));
 			return false;
@@ -129,7 +146,7 @@ class InstallerModelUpdate extends InstallerModel
 		$p_file = JInstallerHelper::downloadPackage($url);
 
 		// Was the package downloaded?
-		if (!$p_file) 
+		if (!$p_file)
 		{
 			JError::raiseWarning('SOME_ERROR_CODE', JText::_('Package download failed').': '. $url);
 			return false;
@@ -146,13 +163,13 @@ class InstallerModelUpdate extends InstallerModel
 		$update->set('type', $package['type']);
 
 		// Install the package
-		if (!$installer->install($package['dir'])) 
+		if (!$installer->install($package['dir']))
 		{
 			// There was an error installing the package
 			$msg = JText::sprintf('INSTALLEXT', JText::_($package['type']), JText::_('Error'));
 			$result = false;
-		} 
-		else 
+		}
+		else
 		{
 			// Package installed sucessfully
 			$msg = JText::sprintf('INSTALLEXT', JText::_($package['type']), JText::_('Success'));
@@ -161,7 +178,7 @@ class InstallerModelUpdate extends InstallerModel
 
 		// Quick change
 		$this->type = $package['type'];
-		
+
 		// Set some model state values
 		$app->enqueueMessage($msg);
 
@@ -172,7 +189,7 @@ class InstallerModelUpdate extends InstallerModel
 		$this->setState('extension.message', $installer->get('extension.message'));
 
 		// Cleanup the install files
-		if (!is_file($package['packagefile'])) 
+		if (!is_file($package['packagefile']))
 		{
 			$config =& JFactory::getConfig();
 			$package['packagefile'] = $config->getValue('config.tmp_path').DS.$package['packagefile'];

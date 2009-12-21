@@ -25,15 +25,15 @@ class ContentHelperQuery
 		switch ($orderby)
 		{
 			case 'alpha' :
-				$orderby = 'cc.title, ';
+				$orderby = 'c.title, ';
 				break;
 
 			case 'ralpha' :
-				$orderby = 'cc.title DESC, ';
+				$orderby = 'c.title DESC, ';
 				break;
 
 			case 'order' :
-				$orderby = 'cc.ordering, ';
+				$orderby = 'c.ordering, ';
 				break;
 
 			default :
@@ -44,16 +44,33 @@ class ContentHelperQuery
 		return $orderby;
 	}
 
-	function orderbySecondary($orderby)
+	function orderbySecondary($orderby, $orderDate = 'created')
 	{
+		switch ($orderDate)
+		{
+			case 'modifed' :
+				$queryDate = 'a.modified';
+				break;
+
+			// use created if publish_up is not set	
+			case 'published' : 
+				$queryDate = 'CASE WHEN a.publish_up = 0 THEN a.created ELSE a.publish_up END';
+				break;
+				
+			case 'created' : 
+			default : 
+				$queryDate = 'a.created';
+				break;
+		}
+
 		switch ($orderby)
 		{
 			case 'date' :
-				$orderby = 'a.created';
+				$orderby = $queryDate;
 				break;
 
 			case 'rdate' :
-				$orderby = 'a.created DESC';
+				$orderby = $queryDate . ' DESC';
 				break;
 
 			case 'alpha' :

@@ -10,16 +10,20 @@ $cparams = &JComponentHelper::getParams('com_media');
 <div class="jcontact-category<?php echo $this->params->get('pageclass_sfx'); ?>">
 	<?php if ($this->params->get('show_page_title', 1)) : ?>
 		<h2>
-			<?php echo $this->escape($this->params->get('page_title')); ?>
+			<?php if ($this->escape($this->params->get('page_heading'))) :?>
+				<?php echo $this->escape($this->params->get('page_heading')); ?>
+			<?php else : ?>
+				<?php echo $this->escape($this->params->get('page_title')); ?>
+			<?php endif; ?>
 		</h2>
 	<?php endif; ?>
 
 	<?php if (!empty($this->category->image) || $this->category->description) : ?>
 		<div class="jdescription">
 			<?php if ($this->params->get('image') != -1 && $this->params->get('image') != '') : ?>
-				<img src="<?php echo $this->baseurl .'/'. 'images/stories' . '/'. $this->params->get('image'); ?>" class="jalign<?php echo $this->params->get('image_align'); ?>" alt="<?php echo JText::_('Contacts'); ?>" />
+				<img src="<?php echo $this->baseurl .'/'. 'images' . '/'. $this->params->get('image'); ?>" class="jalign<?php echo $this->params->get('image_align'); ?>" alt="<?php echo JText::_('Contacts'); ?>" />
 			<?php elseif (!empty($this->category->image)) : ?>
-				<img src="<?php echo $this->baseurl .'/'. 'images/stories' . '/'. $this->category->image; ?>" class="jalign<?php echo $this->category->image_position; ?>" alt="<?php echo JText::_('Contacts'); ?>" />
+				<img src="<?php echo $this->baseurl .'/'. 'images' . '/'. $this->category->image; ?>" class="jalign<?php echo $this->category->image_position; ?>" alt="<?php echo JText::_('Contacts'); ?>" />
 			<?php endif; ?>
 
 			<?php echo $this->category->description; ?>

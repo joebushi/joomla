@@ -116,12 +116,12 @@ class ContactTableContact extends JTable
 			$this->setError(JText::_('CONTACT_WARNING_PROVIDE_VALID_URL'));
 			return false;
 		}
-		
+
 		// check for http, https, ftp on webpage
-		if ((strlen($this->webpage) > 0) 
-			&& (stripos($this->webpage, 'http://') === false) 
-			&& (stripos($this->webpage, 'https://') === false) 
-			&& (stripos($this->webpage, 'ftp://') === false)) 
+		if ((strlen($this->webpage) > 0)
+			&& (stripos($this->webpage, 'http://') === false)
+			&& (stripos($this->webpage, 'https://') === false)
+			&& (stripos($this->webpage, 'ftp://') === false))
 		{
 			$this->webpage = 'http://'.$this->webpage;
 		}
@@ -145,7 +145,7 @@ class ContactTableContact extends JTable
 		if (empty($this->alias)) {
 			$this->alias = $this->title;
 		}
-		$this->alias = JFilterOutput::stringURLSafe($this->alias);
+		$this->alias = JApplication::stringURLSafe($this->alias);
 		if (trim(str_replace('-','',$this->alias)) == '') {
 			$this->alias = JFactory::getDate()->toFormat("%Y-%m-%d-%H-%M-%S");
 		}

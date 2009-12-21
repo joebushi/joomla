@@ -36,15 +36,19 @@ class InstallerModel extends JModel
 		// Call the parent constructor
 		parent::__construct();
 
-		
+
 		// Force populate state
 		$this->_populateState();
+
 		// Set state variables from the request
 		$this->setState('pagination.limit',	$app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'), 'int'));
 		$this->setState('pagination.offset',$app->getUserStateFromRequest('com_installer.limitstart.'.$this->getName(), 'limitstart', 0, 'int'));
 		$this->setState('pagination.total',	0);
 	}
 
+	/**
+	 * Returns a list of items
+	 */
 	public function &getItems()
 	{
 		if (empty($this->_items)) {
@@ -80,7 +84,7 @@ class InstallerModel extends JModel
 	public function remove($eid=array())
 	{
 
-		// Initialize variables
+		// Initialise variables.
 		$app	= &JFactory::getApplication();
 		$failed = array ();
 
@@ -130,27 +134,33 @@ class InstallerModel extends JModel
 		return $result;
 	}
 
+	/**
+	 * Loads items
+	 */
 	protected function _loadItems()
 	{
 		return JError::raiseError(500, JText::_('Method Not Implemented'));
 	}
-	
+
 	/**
 	 * Restore state from the session if relevant
 	 * @see libraries/joomla/application/component/JModel#_populateState()
 	 */
-	protected function _populateState() 
+	protected function _populateState()
 	{
 		$session = JFactory::getSession();
 		$installer_state = $session->get('installer_state',null);
-		if($installer_state) 
+		if($installer_state)
 		{
 			$this->_state = $installer_state;
 		}
 		// wipe out the state from the session
 		$session->clear('installer_state');
 	}
-	
+
+	/**
+	 * Stores a copy of the state in the session
+	 */
 	public function saveState()
 	{
 		$session = JFactory::getSession();
