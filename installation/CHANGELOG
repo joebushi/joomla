@@ -27,6 +27,20 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-Dec-2009 Louis Landry
++ Added setAdditionalUrlParam and getAdditionalUrlParam to JPagination to allow better URL manipulation for GET requests.  (thanks to Robert Deutz)
+
+21-Dec-2009 Hannes Papenberg
++ Added unicode-slug ability. See JApplication::stringURLSafe() for usage
+^ Standardized user plugin events. All events are now with "User" instead of "Users"
+# Fixed reference notice in backend com_users user model
+^ Changed JMail from an abstract to a normal class
+^ Updated TinyMCE to 3.2.7
+
+20-Dec-2009 Mark Dexter
++ Partial implementation of Category List in com_content (thanks to Andrea Tarr, Elin Waring, Angie Radtke)
++ Implement global and menu item parameters
+# Fix 404 error in archive view (thanks to Elin Waring)
 
 14-Dec-2009 Ian MacLennan
 ^ Modified JString to use phputf8 to support systems without mb_string
