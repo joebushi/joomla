@@ -12,20 +12,11 @@ defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 JHtml::_('behavior.tooltip');
+JHtml::core();
 
 $n = count($this->articles);
 
 ?>
-<!-- from mootools core for grid.sort -->
-<script language="javascript" type="text/javascript">
-	function tableOrdering(order, dir, task) {
-	var form = document.adminForm;
-
-	form.filter_order.value 	= order;
-	form.filter_order_Dir.value	= dir;
-	document.adminForm.submit(task);
-}
-</script>
 
 <?php if (empty($this->articles)) : ?>
 	<!--  no articles -->
@@ -33,17 +24,17 @@ $n = count($this->articles);
 	<form action="<?php echo $this->action; ?>" method="post" name="adminForm">
 
 	<?php if ($this->params->get('filter_field') != 'hide') :?>
-	<fieldset class="filter">
+	<fieldset class="filters">
 	<legend class="element-invisible"><?php echo JText::_('JContent_Filter_Label'); ?></legend>
 		<div class="filter-search">
-			<label class="filter-search-lbl" for="filter_search"><?php echo JText::_('Content_'.$this->params->get('filter_field').'_Filter_Label').'&nbsp;'; ?></label>
-			<input type="text" name="filter_search" id="filter_search" value="<?php /* echo $this->escape($this->lists['filter']);*/ ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('Content_Filter_Search_Desc'); ?>" />
+			<label class="filter-search-lbl" for="filter-search"><?php echo JText::_('Content_'.$this->params->get('filter_field').'_Filter_Label').'&nbsp;'; ?></label>
+			<input type="text" name="filter-search" id="filter-search" value="<?php /* echo $this->escape($this->lists['filter']);*/ ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('Content_Filter_Search_Desc'); ?>" />
 		</div>
 	<?php endif; ?>
 
 	<?php if ($this->params->get('show_pagination_limit')) : ?>
-		<div class="display">
-			<?php echo JText::_('Display Num'); ?>&nbsp;
+		<div class="display-limit">
+			<?php echo JText::_('Display_Num'); ?>&nbsp;
 			<!-- @TODO pagination -->
 			<?php // echo $this->pagination->getLimitBox(); ?>
 		</div>
@@ -54,22 +45,22 @@ $n = count($this->articles);
 	<?php if ($this->params->get('show_headings')) :?>
 	<thead><tr>
 		<?php if ($this->params->get('show_title')) : ?>
-		<th class="item-title" id="tableOrdering">
+		<th class="list-title" id="tableOrdering">
 			<?php  echo JHTML::_('grid.sort', 'Content_Heading_Title', 'a.title', $this->state->get('list.direction'), $this->state->get('list.ordering')) ; ?>
 		</th>
 		<?php endif; ?>
 		<?php if ($this->params->get('show_date') != 'hide') : ?>
-			<th class="item-date" id="tableOrdering2">
+			<th class="list-date" id="tableOrdering2">
 				<?php echo JHTML::_('grid.sort', 'Content_'.$this->params->get('show_date').'_Date', 'a.created', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 			</th>
 		<?php endif; ?>
 		<?php if ($this->params->get('list_author')) : ?>
-			<th class="item-author" id="tableOrdering3">
+			<th class="list-author" id="tableOrdering3">
 				<?php echo JHTML::_('grid.sort', 'Content_Author', 'a.author', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 			</th>
 		<?php endif; ?>
 		<?php if ($this->params->get('list_hits')) : ?>
-			<th class="item-hits" id="tableOrdering4">
+			<th class="list-hits" id="tableOrdering4">
 				<?php echo JHTML::_('grid.sort', 'Content_Hits', 'a.hits', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 			</th>
 		<?php endif; ?>
