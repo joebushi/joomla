@@ -35,6 +35,8 @@ class ContentModelCategory extends JModelItem
 	protected $_children = null;
 
 	protected $_parents = null;
+	
+	protected $_pagination = null;
 
 	/**
 	 * Model context string.
@@ -214,6 +216,7 @@ class ContentModelCategory extends JModelItem
 			$model->setState('list.direction', 		$this->getState('list.direction'));
 
 			$this->_articles  = $model->getItems();
+			$this->_pagination = $model->getPagination();
 
 			if ($this->_articles === false) {
 				$this->setError($model->getError());
