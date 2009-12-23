@@ -20,14 +20,25 @@
 			name="showmode"
 			type="list"
 			default="0"
-			label="Display"
-			description="Select what shall be shown">
+			label="Whosonline_Display_Label"
+			description="Whosonline_Display_Desc">
 			<option
 				value="0">Number of Guests/Users</option>
 			<option
 				value="1">User Names</option>
 			<option
 				value="2">Both</option>
+			</field>	
+		<field
+			name="linknames"
+			type="list"
+			default="0"
+			label="Whosonline_Link_label"
+			description="Whosonlin_Link_desc"	>
+			<option
+				value="0">JNo</option>
+			<option
+				value="1">JYes</option>	
 		</field>
 	</fields>
 	<fields

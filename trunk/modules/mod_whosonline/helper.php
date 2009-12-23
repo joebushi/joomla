@@ -55,13 +55,15 @@ class modWhosonlineHelper
 	    $db		= &JFactory::getDbo();
 		$result	= null;
 
-		$query = 'SELECT DISTINCT a.username' .
-				 ' FROM #__session AS a' .
-				 ' WHERE client_id = 0' .
-				 ' AND a.guest = 0';
+
+		$query = 'SELECT DISTINCT username, time, userid, usertype, client_id'
+				. ' FROM #__session AS a'
+				. ' WHERE userid != 0'
+				. $and
+				. ' ORDER BY usertype, username'
+				;
 		$db->setQuery($query);
 		$result = $db->loadObjectList();
-
 		if ($db->getErrorNum()) {
 			JError::raiseWarning(500, $db->stderr());
 		}
