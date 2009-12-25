@@ -18,7 +18,7 @@ jimport('joomla.database.table');
  * @subpackage	com_messages
  * @since		1.5
  */
-class TableMessage extends JTable
+class MessagesTableMessage extends JTable
 {
 	/**
 	 * Primary Key
@@ -92,87 +92,96 @@ class TableMessage extends JTable
 	}
 
 	/**
-	* Validation and filtering
-	*/
+	 * Validation and filtering.
+	 *
+	 * @return boolean
+	 */
 	function check()
 	{
+		// Check the to and from users.
+		$user = new JUser($table->user_id_from);
+		if (empty($user->id)) {
+			$this->setError('Messages_Error_Invalid_from_user');
+			return false;
+		}
+
+		$user = new JUser($table->user_id_to);
+		if (empty($user->id)) {
+			$this->setError('Messages_Error_Invalid_to_user');
+			return false;
+		}
+
+		if (empty($this->subject)) {
+			$this->setError('Messages_Error_Invalid_subject');
+			return false;
+		}
+
+		if (empty($this->message)) {
+			$this->setError('Messages_Error_Invalid_message');
+			return false;
+		}
+
 		return true;
 	}
 
 	/**
-	 * Method to send a private message
+	 * Method to set the publishing state for a row or list of rows in the database
+	 * table.  The method respects checked out rows by other users and will attempt
+	 * to checkin rows that it can after adjustments are made.
 	 *
-	 * @param	int		$fromId		Sender's userid
-	 * @param	int		$toId		Recipient's userid
-	 * @param	string	$subject	The message subject
-	 * @param	string	$message	The message body
-	 * @return	boolean	True on success
-	 * @since	1.5
+	 * @param	mixed	An optional array of primary key values to update.  If not
+	 * 					set the instance property value is used.
+	 * @param	integer The publishing state. eg. [0 = unpublished, 1 = published]
+	 * @param	integer The user id of the user performing the operation.
+	 * @return	boolean	True on success.
+	 * @since	1.6
 	 */
-	public function send($fromId = null, $toId = null, $subject = null, $message = null, $mailfrom = null, $fromname = null)
+	public function publish($pks = null, $state = 1, $userId = 0)
 	{
-		$app	= &JFactory::getApplication();
-		$db		= &JFactory::getDbo();
+		// Initialise variables.
+		$k = $this->_tbl_key;
 
-		if (is_object($this))
+		// Sanitize input.
+		JArrayHelper::toInteger($pks);
+		$userId = (int) $userId;
+		$state  = (int) $state;
+
+		// If there are no primary keys set check to see if the instance key is set.
+		if (empty($pks))
 		{
-			$fromId		= $fromId	? $fromId	: $this->user_id_from;
-			$toId		= $toId		? $toId		: $this->user_id_to;
-			$subject	= $subject	? $subject	: $this->subject;
-			$message	= $message	? $message	: $this->message;
-		}
-
-		$query = 'SELECT cfg_name, cfg_value' .
-				' FROM #__messages_cfg' .
-				' WHERE user_id = '.(int) $toId;
-		$db->setQuery($query);
-
-		$config = $db->loadObjectList('cfg_name');
-		$locked = @ $config['lock']->cfg_value;
-		$domail = @ $config['mail_on_new']->cfg_value;
-
-		if (!$locked)
-		{
-			$this->user_id_from	= $fromId;
-			$this->user_id_to	= $toId;
-			$this->subject		= $subject;
-			$this->message		= $message;
-			$this->date_time	= JFactory::getDate()->toMySQL();
-
-			if ($this->store())
-			{
-				if ($domail)
-				{
-					$query = 'SELECT name, email' .
-							' FROM #__users' .
-							' WHERE id = '.(int) $fromId;
-					$db->setQuery($query);
-					$fromObject = $db->loadObject();
-					$fromname	= $fromObject->name;
-					$mailfrom	= $fromObject->email;
-					$siteURL		= JURI::base();
-					$sitename 		= $app->getCfg('sitename');
-
-					$query = 'SELECT email' .
-							' FROM #__users' .
-							' WHERE id = '.(int) $toId;
-					$db->setQuery($query);
-					$recipient	= $db->loadResult();
-
-					$subject	= sprintf (JText::_('A new private message has arrived'), $sitename);
-					$msg		= sprintf (JText::_('Please login to read your message'), $siteURL);
-
-					JUtility::sendMail($mailfrom, $fromname, $recipient, $subject, $msg);
-				}
-				return true;
+			if ($this->$k) {
+				$pks = array($this->$k);
+			}
+			// Nothing to set publishing state on, return false.
+			else {
+				$this->setError(JText::_('No_Rows_Selected'));
+				return false;
 			}
 		}
-		else
-		{
-			if (is_object($this)) {
-				$this->setError(JText::_('MESSAGE_FAILED'));
-			}
+
+		// Build the WHERE clause for the primary keys.
+		$where = $k.' IN ('.implode(',', $pks).')';
+
+		// Update the publishing state for rows with the given primary keys.
+		$this->_db->setQuery(
+			'UPDATE `'.$this->_tbl.'`' .
+			' SET `state` = '.(int) $state .
+			' WHERE ('.$where.')'
+		);
+		$this->_db->query();
+
+		// Check for a database error.
+		if ($this->_db->getErrorNum()) {
+			$this->setError($this->_db->getErrorMsg());
+			return false;
 		}
-		return false;
+
+		// If the JTable instance value is in the list of primary keys that were set, set the instance.
+		if (in_array($this->$k, $pks)) {
+			$this->state = $state;
+		}
+
+		$this->setError('');
+		return true;
 	}
 }
