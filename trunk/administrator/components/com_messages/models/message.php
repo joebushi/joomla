@@ -30,6 +30,9 @@ class MessagesModelMessage extends JModelForm
 		$messageId = (int) JRequest::getInt('message_id');
 		$this->setState('message.id', $messageId);
 
+		$replyId = (int) JRequest::getInt('reply_id');
+		$this->setState('reply.id', $replyId);
+
 		// Load the parameters.
 		$params	= JComponentHelper::getParams('com_messages');
 		$this->setState('params', $params);
@@ -73,19 +76,39 @@ class MessagesModelMessage extends JModelForm
 			return $false;
 		}
 
+		// Convert to the JObject before adding other data.
+		$value = JArrayHelper::toObject($table->getProperties(1), 'JObject');
+
 		// Prime required properties.
 		if (empty($table->id)) {
 			// Prepare data for a new record.
-		} else {
-			// Get the user names
-			$query = new JQuery;
-			$query->select('name, username');
-			$query->from('#__users');
-			$query->where('id = '.(int) $this->user_id_from);
-		}
+			if ($replyId = $this->getState('reply.id')) {
+				// If replying to a message, preload some data.
+				$db		= $this->getDbo();
+				$query	= new JQuery;
 
-		// Convert to the JObject before adding other data.
-		$value = JArrayHelper::toObject($table->getProperties(1), 'JObject');
+				$query->select('subject, user_id_from');
+				$query->from('#__messages');
+				$query->where('message_id = '.(int) $replyId);
+				$message = $db->setQuery($query)->loadObject();
+
+				if ($error = $db->getErrorMsg()) {
+					$this->setError($error);
+					return false;
+				}
+
+				$value->set('user_id_to', $message->user_id_from);
+				$re = JText::_('Messages_Re');
+				if (stripos($message->subject, $re) !== 0) {
+					$value->set('subject', $re.$message->subject);
+				}
+			}
+		} else {
+			// Get the user name for an existing messasge.
+			if ($table->user_id_from && $fromUser = new JUser($table->user_id_from)) {
+				$value->set('from_user_name', $fromUser->name);
+			}
+		}
 
 		return $value;
 	}
@@ -107,18 +130,6 @@ class MessagesModelMessage extends JModelForm
 		if (JError::isError($form)) {
 			$this->setError($form->getMessage());
 			return false;
-		}
-
-		// Determine correct permissions to check.
-		if ($this->getState('newsfeed.id'))
-		{
-			// Existing record. Can only edit in selected categories.
-			$form->setFieldAttribute('catid', 'action', 'core.edit');
-		}
-		else
-		{
-			// New record. Can only create in selected categories.
-			$form->setFieldAttribute('catid', 'action', 'core.create');
 		}
 
 		// Check the session for previously entered form data.
@@ -143,6 +154,7 @@ class MessagesModelMessage extends JModelForm
 	{
 		$table = $this->getTable();
 
+		// Bind the data.
 		if (!$table->bind($data)) {
 			$this->setError($table->getError());
 			return false;
@@ -156,6 +168,7 @@ class MessagesModelMessage extends JModelForm
 			$table->date_time = JFactory::getDate()->toMySQL();
 		}
 
+		// Check the data.
 		if (!$table->check()) {
 			$this->setError($table->getError());
 			return false;
@@ -175,6 +188,7 @@ class MessagesModelMessage extends JModelForm
 			return false;
 		}
 
+		// Store the data.
 		if (!$table->store()) {
 			$this->setError($table->getError());
 			return false;
@@ -197,81 +211,11 @@ class MessagesModelMessage extends JModelForm
 		return true;
 	}
 
-	public function getRecipientsList()
-	{
-		$access	= &JFactory::getACL();
-		$groups	= array();
-
-		$userid = JRequest::getInt('userid', 0);
-
-		// Include user in groups that have access to log in to the administrator.
-		/*
-		TODO: Fix this
-		$return = $access->getAuthorisedUsergroups('core.manageistrator.login', true);
-		if (count($return)) {
-			$groups = array_merge($groups, $return);
-		}
-		 */
-
-		// Remove duplicate entries and serialize.
-		JArrayHelper::toInteger($groups);
-		$groups = implode(',', array_unique($groups));
-
-		// Build the query to get the users.
-		$query = new JQuery();
-		$query->select('u.id AS value');
-		$query->select('u.name AS text');
-		$query->from('#__users AS u');
-		$query->join('INNER', '#__user_usergroup_map AS m ON m.user_id = u.id');
-		$query->where('u.block = 0');
-		if ($groups) {
-			$query->where('m.group_id IN ('.$groups.')');
-		}
-
-		// Get the users.
-		$this->_db->setQuery((string) $query);
-		$users = $this->_db->loadObjectList();
-
-		// Check for a database error.
-		if ($this->_db->getErrorNum()) {
-			JError::raiseNotice(500, $this->_db->getErrorMsg());
-			return false;
-		}
-
-		// Build the options.
-		$options = array(JHtml::_('select.option',  '0', '- '. JText::_('Select User') .' -'));
-
-		if (count($users)) {
-			$options = array_merge($options, $users);
-		}
-
-		return JHtml::_('select.genericlist', $options, 'user_id_to', 'class="inputbox" size="1"', 'value', 'text', $userid);
-	}
-
-	/**
-	 * When messages are displayed through com_messages, it is necessary
-	 * to mark them as 'read' so they do not appear as new messages.
-	 *
-	 * @return boolean		True on success / false on failure
-	 */
-	public function markAsRead()
-	{
-		$query = 'UPDATE #__messages'
-		. ' SET state = 1'
-		. ' WHERE message_id = ' . (int) $this->getState('message.id')
-		;
-
-		$this->_db->setQuery($query);
-		$this->_db->query();
-
-		return true;
-	}
-
 	/**
 	 * Method to delete messages from the database
 	 *
-	 * @param integer $cid 		An array of numeric ids for the rows
-	 * @return boolean 			True on success / false on failure
+	 * @param   integer  An array of numeric ids for the rows
+	 * @return  boolean  True on success / false on failure
 	 */
 	public function delete($cid)
 	{
@@ -296,6 +240,43 @@ class MessagesModelMessage extends JModelForm
 				$this->setError($table->getError());
 				return false;
 			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Method to publish records.
+	 *
+	 * @param	array	The ids of the items to publish.
+	 * @param	int		The value of the published state
+	 *
+	 * @return	boolean	True on success.
+	 */
+	function publish(&$pks, $value = 1)
+	{
+		// Initialise variables.
+		$user	= JFactory::getUser();
+		$table	= $this->getTable();
+		$pks	= (array) $pks;
+
+		// Access checks.
+		foreach ($pks as $i => $pk) {
+			if ($table->load($pk)) {
+				$allow = $user->authorise('core.edit.state', 'com_messages');
+
+				if (!$allow) {
+					// Prune items that you can't change.
+					unset($pks[$i]);
+					JError::raiseWarning(403, JText::_('JError_Core_Edit_State_not_permitted'));
+				}
+			}
+		}
+
+		// Attempt to change the state of the records.
+		if (!$table->publish($pks, $value, $user->get('id'))) {
+			$this->setError($table->getError());
+			return false;
 		}
 
 		return true;
