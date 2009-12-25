@@ -40,6 +40,17 @@
 			<option
 				value="1">JYes</option>	
 		</field>
+		<field
+			name="linktowhat"
+			type="list"
+			default="0"
+			label="Whosonline_Linktowhat_label"
+			description="Whosonlin_Linktowhat_desc"	>
+			<option
+				value="0">Profile</option>
+			<option
+				value="1">Contact</option>	
+		</field>
 	</fields>
 	<fields
 		group="advanced">

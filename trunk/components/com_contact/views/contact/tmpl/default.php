@@ -22,7 +22,8 @@ $cparams = JComponentHelper::getParams ('com_media');
 			<?php endif; ?>
 		</h2>
 	<?php endif; ?>
-
+<?php echo  JHtml::_('sliders.start', 'contact-slider'); ?>
+	<?php echo JHtml::_('sliders.panel',JText::_('Contact_Details'), 'basic-detailss'); ?>
 	<?php if ($this->params->get('show_contact_list') && count($this->contacts) > 1) : ?>
 		<form action="<?php echo JRoute::_('index.php') ?>" method="post" name="selectForm" id="selectForm">
 			<?php echo JText::_('Select Contact'); ?>:
@@ -60,8 +61,25 @@ $cparams = JComponentHelper::getParams ('com_media');
 	<?php if ($this->contact->params->get('show_email_form') && ($this->contact->email_to )) : ?>
 		<?php echo $this->loadTemplate('form');  ?>
 	<?php endif; ?>
-
+			
 	<?php if ($this->contact->params->get('show_articles') &&  $this->contact->user_id) : ?>
+	<?php echo JHtml::_('sliders.panel', JText::_('Contact_Articles'), 'display-articles'); ?>
 		<?php echo $this->loadTemplate('articles'); ?>
 	<?php endif; ?>
+	<?php if ($this->contact->misc && $this->contact->params->get('show_misc')) : ?>
+			<?php echo JHtml::_('sliders.panel', JText::_('Contact_Other_Information'), 'display-misc'); ?>
+				<div class="jcontact-miscinfo">
+					<span class="<?php echo $this->contact->params->get('marker_class'); ?>">
+						<?php echo $this->contact->params->get('marker_misc'); ?>
+					</span>
+					<span class="jcontact-misc">
+						<?php echo $this->contact->misc; ?>
+					</span>
+				</div>
+	<?php endif; ?>
+	<?php if ($this->contact->params->get('show_profile') &&  $this->contact->user_id) : ?>
+	<?php echo JHtml::_('sliders.panel', JText::_('Contact_Profile'), 'display-profile'); ?>
+		<?php echo $this->loadTemplate('profile'); ?>
+	<?php endif; ?>
+			<?php echo 	 JHtml::_('sliders.end'); ?>	
 </div>
