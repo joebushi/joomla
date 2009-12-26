@@ -20,10 +20,10 @@ class modWhosonlineHelper
 		$result      = array();
 		$user_array  = 0;
 		$guest_array = 0;
-
-		$query = 'SELECT guest, usertype, client_id' .
-					' FROM #__session' .
-					' WHERE client_id = 0';
+		$query = new JQuery;
+		$query->select('guest, usertype, client_id');
+		$query->from('#__session');
+		$query->where('client_id = 0');
 		$db->setQuery($query);
 		$sessions = $db->loadObjectList();
 
@@ -58,16 +58,7 @@ class modWhosonlineHelper
 		$query->select('a.username, a.time, a.userid, a.usertype, a.client_id');
 		$query->from('#__session AS a');
 		$query->where('a.userid != 0');
-		//$query->order('userid');
-		//$query->from('#__contact_details A');
-		//$query->join('LEFT', '#__contact_details');
-		//$query->where('a.userid = user_id');
-	//	$query = 'SELECT DISTINCT username, time, userid, usertype, client_id'
-	//			. ' FROM #__session AS a'
-	//			. ' WHERE userid != 0'
-	//			. $and
-	//			. ' ORDER BY userid'
-	//			;
+		$query->group('a.userid');
 		$db->setQuery($query);
 		$result = $db->loadObjectList();
 		if ($db->getErrorNum()) {
