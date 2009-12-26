@@ -22,6 +22,11 @@ $cparams = JComponentHelper::getParams ('com_media');
 			<?php endif; ?>
 		</h2>
 	<?php endif; ?>
+		<?php if ($this->contact->name && $this->contact->params->get('show_name')) : ?>
+		<h3>
+			<span class="jcontact-name"><?php echo $this->contact->name; ?></span>
+		</h3>
+	<?php endif; ?>
 <?php echo  JHtml::_('sliders.start', 'contact-slider'); ?>
 	<?php echo JHtml::_('sliders.panel',JText::_('Contact_Details'), 'basic-detailss'); ?>
 	<?php if ($this->params->get('show_contact_list') && count($this->contacts) > 1) : ?>
@@ -32,11 +37,7 @@ $cparams = JComponentHelper::getParams ('com_media');
 		</form>
 	<?php endif; ?>
 
-	<?php if ($this->contact->name && $this->contact->params->get('show_name')) : ?>
-		<h3>
-			<span class="jcontact-name"><?php echo $this->contact->name; ?></span>
-		</h3>
-	<?php endif; ?>
+
 
 	<?php if ($this->contact->con_position && $this->contact->params->get('show_position')) : ?>
 		<span class="jcontact-position"><?php echo $this->contact->con_position; ?></span>
@@ -50,7 +51,7 @@ $cparams = JComponentHelper::getParams ('com_media');
 
 	<?php echo $this->loadTemplate('address'); ?>
 
-	<?php echo $this->loadTemplate('links'); ?>
+
 
 	<?php if ($this->contact->params->get('allow_vcard')) : 	//TODO either reimplement vcard or delete this.?>
 		<?php echo JText::_('Download information as a');?>
@@ -61,7 +62,9 @@ $cparams = JComponentHelper::getParams ('com_media');
 	<?php if ($this->contact->params->get('show_email_form') && ($this->contact->email_to )) : ?>
 		<?php echo $this->loadTemplate('form');  ?>
 	<?php endif; ?>
-			
+	<?php if ($this->contact->params->get('show_links')) : ?>
+	<?php echo $this->loadTemplate('links'); ?>			
+	<?php endif; ?>
 	<?php if ($this->contact->params->get('show_articles') &&  $this->contact->user_id) : ?>
 	<?php echo JHtml::_('sliders.panel', JText::_('Contact_Articles'), 'display-articles'); ?>
 		<?php echo $this->loadTemplate('articles'); ?>
