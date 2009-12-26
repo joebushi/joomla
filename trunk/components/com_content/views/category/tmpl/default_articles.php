@@ -35,8 +35,7 @@ $n = count($this->articles);
 	<?php if ($this->params->get('show_pagination_limit')) : ?>
 		<div class="display-limit">
 			<?php echo JText::_('Display_Num'); ?>&nbsp;
-			<!-- @TODO pagination -->
-			<?php // echo $this->pagination->getLimitBox(); ?>
+			<?php echo $this->pagination->getLimitBox(); ?>
 		</div>
 	<?php endif; ?>
 	</fieldset>
@@ -99,17 +98,16 @@ $n = count($this->articles);
 	 <div class="pagination">
 	<?php if ($this->params->def('show_pagination_results', 1)) : ?>
                         <p class="counter">
-                                <?php // echo $this->pagination->getPagesCounter(); ?>
+                                <?php echo $this->pagination->getPagesCounter(); ?>
                         </p>
    <?php endif; ?>
-			Pagination Links will be here
-			<?php // echo $this->pagination->getPagesLinks(); ?>
+			<?php echo $this->pagination->getPagesLinks(); ?>
 		</div>
 	<?php endif; ?>
 	
 	<!-- @TODO add hidden inputs -->
-	<input type="hidden" name="filter_order" value="<?php echo $this->state->get('list.ordering'); ?>" />
-	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->state->get('list.direction'); ?>" />
+	<input type="hidden" name="filter_order" value="" />
+	<input type="hidden" name="filter_order_Dir" value="" />
 </form>
 <?php endif; ?>
 

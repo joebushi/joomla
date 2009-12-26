@@ -74,8 +74,9 @@ class ContentModelCategory extends JModelItem
 		// filter.order
 		$this->setState('list.direction', JRequest::getWord('filter_order_Dir', 'asc'));
 		$this->setState('list.ordering', $this->_buildContentOrderBy());
-		$this->setState('list.start', 0);
-		$this->setState('list.limit', $mergedParams->get('display_num'));
+		$this->setState('list.start', JRequest::getVar('limitstart', 0, '', 'int'));
+		$this->setState('list.limit', JRequest::getVar('limit', $mergedParams->get('display_num'), '', 'int'));
+		
 }
 
 	/**
@@ -225,6 +226,16 @@ class ContentModelCategory extends JModelItem
 
 		return $this->_articles;
 	}
+	
+	/**
+	 * Get the pagination for the articles
+	 * 
+	 * @return JPagination
+	 */
+	function &getPagination()
+	{
+		return $this->_pagination;
+	}
 
 	/**
 	 * Get the sibling (adjacent) categories.
@@ -327,7 +338,7 @@ class ContentModelCategory extends JModelItem
 		$app = &JFactory::getApplication('site');
 		$params = $this->_state->params;
 		$itemid = JRequest::getInt('id', 0) . ':' . JRequest::getInt('Itemid', 0);
-		$filter_order  = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order', 'filter_order', '', 'cmd');
+		$filter_order  = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order', 'filter_order', '', 'string');
 		$filter_order_Dir = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order_Dir', 'filter_order_Dir', '', 'cmd');
 		$orderby = ' ';	
 
@@ -347,7 +358,7 @@ class ContentModelCategory extends JModelItem
 		$secondary		= ContentHelperQuery::orderbySecondary($articleOrderby, $articleOrderDate).', ';
 		$primary		= ContentHelperQuery::orderbyPrimary($categoryOrderby);
 		
-		$orderby .= $primary . ' ' . $secondary . ' a.created DESC';
+		$orderby .= $primary . ' ' . $secondary . ' a.created DESC ';
 		return $orderby;
 	}
 	
