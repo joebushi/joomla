@@ -71,12 +71,16 @@ class ContentModelCategory extends JModelItem
 		$this->setState('filter.published',	1);
 		$this->setState('filter.access',	true);
 		
-		// filter.order
-		$this->setState('list.direction', JRequest::getWord('filter_order_Dir', 'asc'));
-		$this->setState('list.ordering', $this->_buildContentOrderBy());
-		$this->setState('list.start', JRequest::getVar('limitstart', 0, '', 'int'));
-		$this->setState('list.limit', JRequest::getVar('limit', $mergedParams->get('display_num'), '', 'int'));
+		// Optional filter text
+		$this->setState('list.filter', JRequest::getString('filter-search'));
 		
+		// filter.order
+		$itemid = JRequest::getInt('id', 0) . ':' . JRequest::getInt('Itemid', 0);
+		$this->setState('list.ordering', $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order', 'filter_order', '', 'string'));
+		$this->setState('list.direction',$app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order_Dir', 'filter_order_Dir', '', 'cmd'));
+	
+		$this->setState('list.start', JRequest::getVar('limitstart', 0, '', 'int'));
+		$this->setState('list.limit', JRequest::getVar('limit', $mergedParams->get('display_num'), '', 'int'));	
 }
 
 	/**
@@ -211,10 +215,11 @@ class ContentModelCategory extends JModelItem
 			$model->setState('filter.category_id',	$category->id);
 			$model->setState('filter.published',	$this->getState('filter.published'));
 			$model->setState('filter.access',		$this->getState('filter.access'));
-			$model->setState('list.ordering', 		$this->getState('list.ordering'));
+			$model->setState('list.ordering', 		$this->_buildContentOrderBy());
 			$model->setState('list.start', 			$this->getState('list.start'));
 			$model->setState('list.limit', 			$this->getState('list.limit'));
 			$model->setState('list.direction', 		$this->getState('list.direction'));
+			$model->setState('list.filter', 		$this->getState('list.filter'));
 
 			$this->_articles  = $model->getItems();
 			$this->_pagination = $model->getPagination();
@@ -345,11 +350,6 @@ class ContentModelCategory extends JModelItem
 		if ($filter_order && $filter_order_Dir)
 		{
 			$orderby .= $filter_order .' '. $filter_order_Dir.', ';
-		}
-
-		if ($filter_order == 'author')
-		{
-			$orderby .= 'created_by_alias '. $filter_order_Dir.', ';
 		}
 		
 		$articleOrderby	= $params->get('article_orderby', 'rdate');

@@ -28,7 +28,7 @@ $n = count($this->articles);
 	<legend class="element-invisible"><?php echo JText::_('JContent_Filter_Label'); ?></legend>
 		<div class="filter-search">
 			<label class="filter-search-lbl" for="filter-search"><?php echo JText::_('Content_'.$this->params->get('filter_field').'_Filter_Label').'&nbsp;'; ?></label>
-			<input type="text" name="filter-search" id="filter-search" value="<?php /* echo $this->escape($this->lists['filter']);*/ ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('Content_Filter_Search_Desc'); ?>" />
+			<input type="text" name="filter-search" id="filter-search" value="<?php // $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('Content_Filter_Search_Desc'); ?>" />
 		</div>
 	<?php endif; ?>
 

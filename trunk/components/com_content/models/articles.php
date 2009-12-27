@@ -164,6 +164,33 @@ class ContentModelArticles extends JModelList
 
 		$query->where('(a.publish_up = '.$nullDate.' OR a.publish_up <= '.$nowDate.')');
 		$query->where('(a.publish_down = '.$nullDate.' OR a.publish_down >= '.$nowDate.')');
+		
+		// process the filter for list views with user-entered filters
+		$params = $this->getState('params');
+		if ((is_object($params)) && ($params->get('filter_field') != 'hide') && ($filter = $this->getState('list.filter')))
+		{
+			// clean filter variable
+			$filter = JString::strtolower($filter);
+			$hitsFilter = intval($filter);
+			$filter	= $this->_db->Quote( '%'.$this->_db->getEscaped( $filter, true ).'%', false );
+
+			switch ($params->get('filter_field'))
+			{
+				case 'author' :
+					$query->where('( ( LOWER( u.name ) LIKE '.$filter.' ) OR ( LOWER( a.created_by_alias ) LIKE '.$filter.' ) )');
+					break;
+
+				case 'hits' :
+					$query->where('a.hits >= '.$hitsFilter. ' ');
+					break;
+
+				case 'title' :
+				default : // default to 'title' if parameter is not valid
+					$query->where('LOWER( a.title ) LIKE '.$filter);
+					break;
+			}
+		}
+
 
 		// Add the list ordering clause.
 		$query->order($this->_db->getEscaped($this->getState('list.ordering', 'a.ordering')));
