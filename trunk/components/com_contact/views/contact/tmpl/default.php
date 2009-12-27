@@ -22,10 +22,15 @@ $cparams = JComponentHelper::getParams ('com_media');
 			<?php endif; ?>
 		</h2>
 	<?php endif; ?>
-		<?php if ($this->contact->name && $this->contact->params->get('show_name')) : ?>
+	<?php if ($this->contact->name && $this->contact->params->get('show_name')) : ?>
 		<h3>
 			<span class="jcontact-name"><?php echo $this->contact->name; ?></span>
 		</h3>
+	<?php endif; ?>
+	<?php if ($this->contact->image && $this->contact->params->get('show_image')) : ?>
+		<span class="jcontact-image">
+			<?php echo JHtml::_('image', 'images' . '/'.$this->contact->image, JText::_('Contact'), array('align' => 'middle')); ?>
+		</span>
 	<?php endif; ?>
 <?php echo  JHtml::_('sliders.start', 'contact-slider'); ?>
 	<?php echo JHtml::_('sliders.panel',JText::_('Contact_Details'), 'basic-detailss'); ?>
@@ -43,11 +48,7 @@ $cparams = JComponentHelper::getParams ('com_media');
 		<span class="jcontact-position"><?php echo $this->contact->con_position; ?></span>
 	<?php endif; ?>
 
-	<?php if ($this->contact->image && $this->contact->params->get('show_image')) : ?>
-		<span class="jcontact-image">
-			<?php echo JHtml::_('image', 'images' . '/'.$this->contact->image, JText::_('Contact'), array('align' => 'middle')); ?>
-		</span>
-	<?php endif; ?>
+
 
 	<?php echo $this->loadTemplate('address'); ?>
 
