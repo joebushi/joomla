@@ -177,7 +177,7 @@ class ContentModelArticles extends JModelList
 			switch ($params->get('filter_field'))
 			{
 				case 'author' :
-					$query->where('( ( LOWER( u.name ) LIKE '.$filter.' ) OR ( LOWER( a.created_by_alias ) LIKE '.$filter.' ) )');
+					$query->where('LOWER( CASE WHEN a.created_by_alias > " " THEN a.created_by_alias ELSE ua.name END ) LIKE '.$filter.' ');
 					break;
 
 				case 'hits' :

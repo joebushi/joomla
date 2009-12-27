@@ -108,6 +108,7 @@ $n = count($this->articles);
 	<!-- @TODO add hidden inputs -->
 	<input type="hidden" name="filter_order" value="" />
 	<input type="hidden" name="filter_order_Dir" value="" />
+	<input type="hidden" name="limitstart" value="" />
 </form>
 <?php endif; ?>
 
