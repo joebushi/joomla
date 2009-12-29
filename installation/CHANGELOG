@@ -27,14 +27,29 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-24-Dev-2009 Andrew Eddie
+29-Dec-2009 Hannes Papenberg
+ # Fixed reference bug in JCategories
+ # Fixed UTF-8 bug in dropdown selects
+ # Fixed cosmetic bug in includes/router.php
+ # refactored TinyMCE - thanks Jean-Marie
+ # fixed SimplePie library - thanks Jean-Marie
+ # improved frontend article editing - thanks Jean-Marie
+ # fixed reference bug and spelling mistake in com_plugins
+
+29-Dec-2009 Sam Moffatt
+ + Added semicolon after access in configuration.php-dist
+
+27-Dec-2009 Sam Moffatt
+ # Removed the default for the #__extensions manifest_cache field
+
+24-Dec-2009 Andrew Eddie
  ^ Moved modal user field from com_users to jform library; fixed occurances in com_contacts.
  # Fixed bug in modal users list.
  ^ Complete MVC refactor of com_messages.
  ^ Applied patch [#19046] JDatabase::$_connection inaccessible, proposing a getConnection() method as the solution
  # Fixed [#18641] JForm Field elements do not include correct jimport commands
 
-23-Dev-2009 Ian MacLennan
+23-Dec-2009 Ian MacLennan
  ^ Moved JUtility::sendMail and sendAdminMail to JMail and added appropriate proxy methods (thanks Arlen Walker)
 
 23-Dec-2009 Andrew Eddie
