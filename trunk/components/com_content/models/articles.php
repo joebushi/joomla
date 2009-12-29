@@ -242,7 +242,7 @@ class ContentModelArticles extends JModelList
 			$item->params->set('access-edit', false);
 
 			$access = $this->getState('filter.access');
-			if ($access = $this->getState('filter.access'))
+			if ($access)
 			{
 				// If the access filter has been set, we already have only the articles this user can view.
 				$item->params->set('access-view', true);

@@ -58,7 +58,7 @@ class ContentModelCategory extends JModelItem
 		$pk = JRequest::getInt('id');
 		$this->setState('category.id', $pk);
 
-		// TODO: Add pagination for children , siblings and articles??
+		// TODO: Add pagination for children , siblings??
 
 		// Load the parameters. Merge Global and Menu Item params
 		$params	= $app->getParams();
@@ -67,9 +67,16 @@ class ContentModelCategory extends JModelItem
 		$mergedParams->merge($params);
 		$this->setState('params', $mergedParams);
 
-		// TODO: Tune these values based on other permissions.
+		// limit to published
 		$this->setState('filter.published',	1);
-		$this->setState('filter.access',	true);
+		
+		// process show_noauth parameter
+		if (!$mergedParams->get('show_noauth')){
+			$this->setState('filter.access',	true);
+		}
+		else {
+			$this->setState('filter.access',	false);
+		}
 		
 		// Optional filter text
 		$this->setState('list.filter', JRequest::getString('filter-search'));
@@ -185,7 +192,7 @@ class ContentModelCategory extends JModelItem
 					$user	= &JFactory::getUser();
 					$groups	= $user->authorisedLevels();
 
-					$data->params->set('access-view', in_array($data->access, $groups) && in_array($data->category_access, $groups));
+					$data->params->set('access-view', in_array($data->access, $groups));
 				}
 				// TODO: Type 2 permission checks?
 

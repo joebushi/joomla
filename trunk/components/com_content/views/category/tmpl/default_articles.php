@@ -69,6 +69,7 @@ $n = count($this->articles);
 	<tbody>
 		<?php foreach ($this->articles as $i => &$article) : ?>
 			<tr class="row<?php echo $i % 2; ?>">
+				<?php if (in_array($article->access, $this->user->authorisedLevels())) : ?>
 				<td>
 					<a href="<?php echo JRoute::_(ContentRoute::article($article->slug, $article->catslug)); ?>">
 					<?php echo $this->escape($article->title); ?></a>
@@ -88,6 +89,23 @@ $n = count($this->articles);
 					<td>
 						<?php echo $article->hits; ?>
 					</td>
+				<?php endif; ?>
+				<?php else : ?>
+				<td>
+					<?php 
+						echo $this->escape($article->title).' : ';
+						$menu		= JSite::getMenu();
+						$active		= $menu->getActive();
+						$itemId		= $active->id;
+						$link = JRoute::_('index.php?option=com_users&view=login&&Itemid='.$itemId);
+						$returnURL = JRoute::_(ContentRoute::article($article->slug));
+						$fullURL = new JURI($link);
+						$fullURL->setVar('return', base64_encode($returnURL));
+						$link = $fullURL->toString();
+					?>
+					<a href="<?php echo $link; ?>">
+					<?php echo JText::_( 'Register to read more...' ); ?></a>
+				</td>
 				<?php endif; ?>
 			</tr>
 		<?php endforeach; ?>
