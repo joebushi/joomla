@@ -14,6 +14,9 @@ JHtml::_('behavior.keepalive');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.calendar');
 JHtml::_('behavior.formvalidation');
+
+// Create shortcut to parameters.
+$params = $this->state->get('params');
 ?>
 
 <script language="javascript" type="text/javascript">
@@ -25,13 +28,13 @@ function submitbutton(task) {
 }
 </script>
 
-<div class="page<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
-<?php if ($this->params->get('show_page_title', 1)) : ?>
+<div class="edit item-page<?php echo $this->escape($params->get('pageclass_sfx')); ?>">
+<?php if ($params->get('show_page_title', 1)) : ?>
 <h1>
-	<?php if ($this->escape($this->params->get('page_heading'))) :?>
-		<?php echo $this->escape($this->params->get('page_heading')); ?>
+	<?php if ($this->escape($params->get('page_heading'))) :?>
+		<?php echo $this->escape($params->get('page_heading')); ?>
 	<?php else : ?>
-		<?php echo $this->escape($this->params->get('page_title')); ?>
+		<?php echo $this->escape($params->get('page_title')); ?>
 	<?php endif; ?>
 </h1>
 <?php endif; ?>
@@ -44,6 +47,13 @@ function submitbutton(task) {
 			<?php echo $this->form->getLabel('title'); ?>
 			<?php echo $this->form->getInput('title'); ?>
 			</div>
+
+		<?php if (is_null($this->item->id)):?>
+			<div class="formelm">
+			<?php echo $this->form->getLabel('alias'); ?>
+			<?php echo $this->form->getInput('alias'); ?>
+			</div>
+		<?php endif; ?>
 
            	<div class="formelm_buttons">
 			<button type="button" onclick="submitbutton('article.save')">
@@ -93,6 +103,14 @@ function submitbutton(task) {
 		<?php echo $this->form->getLabel('ordering'); ?>
 		<?php echo $this->form->getInput('ordering'); ?>
 		</div>
+	</fieldset>
+
+	<fieldset>
+		<legend><?php echo JText::_('Language'); ?></legend>
+        <div class="formelm_area">
+		<?php echo $this->form->getLabel('language'); ?>
+		<?php echo $this->form->getInput('language'); ?>
+	    </div>
 	</fieldset>
 
 	<fieldset>
