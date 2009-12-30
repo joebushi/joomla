@@ -20,11 +20,11 @@ $user	= JFactory::getUser();
 $n = count($this->items);
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_content&view=articles');?>" method="post" name="adminForm">
-	<fieldset class="filter">
+	<fieldset id="filter-bar">
 	<legend class="element-invisible"><?php echo JText::_('JSearch_Filter_Label'); ?></legend>
 		<div class="filter-search">
 			<label class="filter-search-lbl" for="filter_search"><?php echo JText::_('JSearch_Filter_Label'); ?></label>
-			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->state->get('filter.search'); ?>" size="35" title="<?php echo JText::_('Content_Filter_Search_Desc'); ?>" />
+			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->state->get('filter.search'); ?>" title="<?php echo JText::_('Content_Filter_Search_Desc'); ?>" />
 
 			<button type="submit" class="btn"><?php echo JText::_('JSearch_Filter_Submit'); ?></button>
 			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSearch_Filter_Clear'); ?></button>

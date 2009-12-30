@@ -903,7 +903,7 @@ div#jform_ordering {
 
 /* end new form fields */
 
-fieldset.filter {
+fieldset#filter-bar {
 	border-top: none;
 	border-right: none;
 	border-bottom: 1px solid #c7c8b2;
@@ -912,33 +912,33 @@ fieldset.filter {
 	padding: 5px 10px 5px 10px;
 }
 
-fieldset.filter ol, fieldset.filter ul {
+fieldset#filter-bar ol, fieldset#filter-bar ul {
 	border: 0;
 	list-style: none;
 	margin: 0;
 	padding: 5px 0 0;
 }
 
-fieldset.filter ol li, fieldset.filter ul li {
+fieldset#filter-bar ol li, fieldset#filter-bar ul li {
 	float: left;
 	padding: 0 5px 0 0;
 }
 
-fieldset.filter ol li fieldset, fieldset.filter ul li fieldset {
+fieldset#filter-bar ol li fieldset, fieldset#filter-bar ul li fieldset {
 	border: 0;
 	margin: 0;
 	padding: 0;
 }
 
-fieldset.filter .filter-search {
+fieldset#filter-bar .filter-search {
 	float: left;
 }
 
-fieldset.filter .filter-select {
+fieldset#filter-bar .filter-select {
 	float: right;
 }
 
-fieldset.filter input#search {
+fieldset#filter-bar input#search {
 	width: 10em;
 }
 
@@ -1138,7 +1138,7 @@ table.adminform td {
 	text-align: left;
 }
 
-table.adminform td.filter {
+table.adminform td#filter-bar {
 	text-align: left;
 }
 
@@ -1195,12 +1195,20 @@ th.ordering-col {
 	width: 12%;
 }
 
+.categories th.ordering-col {
+	width: 5%;
+}
+
 th.category-col {
 	width: 5%;
 }
 
 th.access-col {
 	width: 10%;
+}
+
+.categories th.access-col {
+	width: 5%;
 }
 
 th.hits-col {
@@ -1340,6 +1348,20 @@ table.adminlist td.order input {
 	text-align: center;
 	width: 3em;
 }
+/**
+ * Tree indentation & nesting - Up to 10 levels deep so don't go crazy :
+ */
+table.adminlist td.indent-4 	{ padding-left:4px; }
+table.adminlist td.indent-19 	{ padding-left:19px; }
+table.adminlist td.indent-34 	{ padding-left:34px; }
+table.adminlist td.indent-49 	{ padding-left:49px; }
+table.adminlist td.indent-64 	{ padding-left:64px; }
+table.adminlist td.indent-79 	{ padding-left:79px; }
+table.adminlist td.indent-94 	{ padding-left:94px; }
+table.adminlist td.indent-109 	{ padding-left:109px; }
+table.adminlist td.indent-124 	{ padding-left:124px; }
+table.adminlist td.indent-139 	{ padding-left:139px; }
+
 
 /**
  * Pagination styles

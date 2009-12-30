@@ -316,7 +316,7 @@ fieldset {
 	border: 3px dotted #1b3f7c;
 }
 
-fieldset.filter {
+fieldset#filter-bar {
 	border-bottom: 1px solid #1b3f7c;
 }
 

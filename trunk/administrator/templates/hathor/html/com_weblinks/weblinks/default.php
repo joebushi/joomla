@@ -20,7 +20,7 @@ $userId	= $user->get('id');
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_weblinks'); ?>" method="post" name="adminForm" id="adminForm">
-	<fieldset class="filter">
+	<fieldset class="filter-bar">
 	<legend class="element-invisible"><?php echo JText::_('Filters'); ?></legend>
 		<div class="filter-search">
 			<label for="filter_search">

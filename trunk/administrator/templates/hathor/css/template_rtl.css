@@ -177,7 +177,7 @@ body {
 /**
  * Form Styles
  */
-fieldset.filter {
+fieldset#filter-bar {
 	border: 0;
 	padding: 0;
 	margin: 0 0 10px;
@@ -187,11 +187,11 @@ fieldset {
 	text-align: right;
 }
 
-fieldset.filter .filter-search {
+fieldset#filter-bar .filter-search {
 	float: left;
 }
 
-fieldset.filter .filter-select {
+fieldset#filter-bar .filter-select {
 	float: right;
 }
 
@@ -284,7 +284,7 @@ table.adminform td {
 	text-align: right;
 }
 
-table.adminform td.filter {
+table.adminform td#filter-bar {
 	text-align: right;
 }
 

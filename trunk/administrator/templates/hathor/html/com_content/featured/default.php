@@ -20,7 +20,7 @@ $user	= JFactory::getUser();
 $n = count($this->items);
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_content&view=featured');?>" method="post" name="adminForm">
-	<fieldset class="filter">
+	<fieldset id="filter-bar">
 	<legend class="element-invisible"><?php echo JText::_('JSearch_Filter_Label'); ?></legend>
 		<div class="filter-search">
 			<label class="filter-search-lbl" for="filter_search"><?php echo JText::_('JSearch_Filter_Label'); ?></label>
