@@ -138,7 +138,7 @@ $app	= &JFactory::getApplication();
 		<noscript>
 			<?php echo  JText::_('WARNJAVASCRIPT') ?>
 		</noscript>
-		<div class="clr">
+		<div class="clr"></div>
 	
 	</div><!-- end content -->
 		<div class="clearfooter"></div>
