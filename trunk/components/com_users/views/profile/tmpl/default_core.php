@@ -33,7 +33,13 @@ jimport('joomla.user.helper');
 			<?php echo JText::_('Users_Profile_Registered_Date_Label'); ?>
 		</dt>
 		<dd>
-			<?php echo JHtml::date($this->data->registerDate); ?>
+			<?php echo JHtml::date($this->data->registeredDate); ?>
+		</dd>
+				<dt>
+			<?php echo JText::_('Users_Profile_Last_Visited_Date_Label'); ?>
+		</dt>
+		<dd>
+			<?php echo JHtml::date($this->data->lastvisitDate); ?>
 		</dd>
 	</dl>
 </fieldset>

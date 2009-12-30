@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 
 	    <li>
 	    <?php if ($linknames==1) { ?>     
-	    <a href="index.php?option=com_users&view=profile&id=<?php echo (int) $name->id ?>">
+	    <a href="index.php?option=com_users&view=profile&member_id=<?php echo (int) $name->id ?>">
 	   <?php } ?>
 	    <?php echo $name->username; ?>
 	       <?php if ($linknames==1) : ?> 

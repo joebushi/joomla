@@ -42,12 +42,12 @@ function UsersBuildRoute(&$query)
 		// Build an array of serialized query strings to menu item id mappings.
 		for ($i = 0, $n = count($items); $i < $n; $i++)
 		{
-			// Check to see if e have found the resend menu item.
+			// Check to see if we have found the resend menu item.
 			if (empty($resend) && !empty($items[$i]->query['view']) && ($items[$i]->query['view'] == 'resend')) {
 				$resend = $items[$i]->id;
 			}
 
-			// Check to see if e have found the reset menu item.
+			// Check to see if we have found the reset menu item.
 			if (empty($reset) && !empty($items[$i]->query['view']) && ($items[$i]->query['view'] == 'reset')) {
 				$reset = $items[$i]->id;
 			}
@@ -69,7 +69,7 @@ function UsersBuildRoute(&$query)
 
 			// Check to see if e have found the profile menu item.
 			if (empty($profile) && !empty($items[$i]->query['view']) && ($items[$i]->query['view'] == 'profile')) {
-				$profile = $items[$i]->id;
+			$profile = $items[$i]->id;
 			}
 		}
 
@@ -136,6 +136,10 @@ function UsersBuildRoute(&$query)
 
 			default:
 			case 'profile':
+				if (!empty($query['view'])) {
+					$segments[] = $query['view'];
+				}
+				unset ($query['view']);
 				if ($query['Itemid'] = $profile) {
 					unset ($query['view']);
 				}
@@ -150,10 +154,7 @@ function UsersBuildRoute(&$query)
 				}
 				unset ($query['member_id']);
 
-				if (!empty($query['layout'])) {
-					$segments[] = $query['layout'];
-				}
-				unset ($query['layout']);
+
 				break;
 		}
 	}
@@ -181,9 +182,8 @@ function UsersParseRoute($segments)
 	// Get the package from the route segments.
 	$member = array_pop($segments);
 
-	if (!is_numeric($member)) {
+	if (!is_numeric($id)) {
 		$vars['view'] = 'profile';
-		$vars['layout'] = $member;
 		return $vars;
 	}
 
@@ -192,7 +192,7 @@ function UsersParseRoute($segments)
 	$db->setQuery(
 		'SELECT `id`' .
 		' FROM `#__users`' .
-		' WHERE `id` = '.$db->quote($member)
+		' WHERE `id` = '.$db->quote($memberId)
 	);
 	$memberId = $db->loadResult();
 

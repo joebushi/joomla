@@ -23,6 +23,6 @@ defined('_JEXEC') or die;
 <?php echo $this->loadTemplate('core'); ?>
 
 <?php echo $this->loadTemplate('custom'); ?>
-
-<a href="<?php echo JRoute::_('index.php?option=com_users&task=profile.edit&member_id='.$this->data->id);?>">
+<?php  var_dump($this); ?>
+<a href="<?php echo JRoute::_('index.php?option=com_users&task=profile.edit&member_id='.(int) $this->data->id);?>">
 	<?php echo JText::_('Users_Edit_Profile'); ?></a>
