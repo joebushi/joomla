@@ -72,7 +72,7 @@ abstract class JHtmlGrid
 		$html .= JText::_($title);
 		if ($order == $selected) {
 			if ($clientId) {
-				$html .= JHtml::_('image.administrator',  $images[$index], '/templates/'.$cur_template.'/images/admin', NULL, NULL);
+				$html .= JHtml::_('image.administrator',  $images[$index], '/templates/'.$cur_template.'/images/admin/', NULL, NULL);
 			} else {
 				$html .= JHtml::_('image.site',  $images[$index], '/templates/system/images/', NULL, NULL);
 			}
