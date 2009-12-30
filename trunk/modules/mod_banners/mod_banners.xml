@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install
+	type="module"
+	version="1.5.0">
+	<name>Banner</name>
+	<author>Joomla! Project</author>
+	<creationDate>July 2006</creationDate>
+	<copyright>Copyright (C) 2005 - 2009 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>1.6.0</version>
+	<description>mod_banners_Desc</description>
+	<files>
+		<filename
+			module="mod_banners">mod_banners.php</filename>
+	</files>
+	<fields
+		addfieldpath="/administrator/components/com_banners/models/fields">
+		<field
+			name="target"
+			type="list"
+			default="1"
+			label="mod_banners_Target_Label"
+			description="mod_banners_Target_Desc">
+			<option
+				value="0">mod_banners_Parent</option>
+			<option
+				value="1">mod_banners_NewWindowWithBrowserNavigation</option>
+			<option
+				value="2">mod_banners_NewWindowWithoutBrowserNavigation</option>
+		</field>
+		<field
+			type="spacer" />
+		<field
+			name="count"
+			type="text"
+			default="1"
+			label="mod_banners_Count_Label"
+			description="mod_banners_Count_Desc" />
+		<field
+			name="cid"
+			type="bannerclient"
+			default=""
+			label="mod_banners_BannerClient_Label"
+			description="mod_banners_BannerClient_Label" />
+		<field
+			name="catid"
+			type="category"
+			extension="com_banners"
+			default=""
+			label="mod_banners_Category_Label"
+			description="mod_banners_Category_Desc" />
+		<field
+			name="tag_search"
+			type="radio"
+			default="0"
+			label="mod_banners_Tag_Label"
+			description="mod_banners_Tag_Desc">
+			<option
+				value="0">JNo</option>
+			<option
+				value="1">JYes</option>
+		</field>
+		<field
+			name="ordering"
+			type="list"
+			default="0"
+			label="mod_banners_Randomise_Label"
+			description="mod_banners_Randomise_Desc">
+			<option
+				value="0">mod_banners_StickyOrdering</option>
+			<option
+				value="random">mod_banners_StickyRandomise</option>
+		</field>
+		<field
+			type="spacer" />
+		<field
+			name="header_text"
+			type="textarea"
+			rows="3"
+			cols="40"
+			default=""
+			label="mod_banners_Header_Label"
+			description="mod_banners_Header_Desc" />
+		<field
+			name="footer_text"
+			type="textarea"
+			rows="3"
+			cols="40"
+			default=""
+			label="mod_banners_Footer_Label"
+			description="mod_banners_Header_Desc" />
+	</fields>
+	<fields
+		group="advanced">
+		<field
+			name="layout"
+			type="modulelayout"
+			label="JField_Alt_Layout_Label"
+			description="JField_Alt_Module_Layout_Desc" />
+
+		<field
+			name="moduleclass_sfx"
+			type="text"
+			default=""
+			label="Module_Field_Moduleclass_sfx_Label"
+			description="Module_Field_Moduleclass_sfx_Desc" />
+		<field
+			name="cache"
+			type="list"
+			default="1"
+			label="Module_Field_Caching_Label"
+			description="Module_Field_Caching_Desc">
+			<option
+				value="1">Use global</option>
+			<option
+				value="0">No caching</option>
+		</field>
+		<field
+			name="cache_time"
+			type="text"
+			default="900"
+			label="mod_banners_CacheTime_Label"
+			description="mod_banners_CacheTime_Desc" />
+	</fields>
+</install>
