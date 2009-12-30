@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 ?>
     <ul  class="latestusers" >
 <?php foreach($names as $name) : ?>
+
 	    <li>
 	    <?php if ($linknames==1) { ?>     
 	    <a href="index.php?option=com_users&view=profile&id=<?php echo $name->id ?> ">
