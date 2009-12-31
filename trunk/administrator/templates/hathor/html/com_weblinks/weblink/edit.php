@@ -63,15 +63,19 @@ JHtml::_('behavior.formvalidation');
 
 	</fieldset>
 </div>
+
 <div class="col options-section">
-	<fieldset class="adminform">
-		<legend><?php echo JText::_('Weblinks_Options'); ?></legend>
+	<?php echo JHtml::_('sliders.start','content-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
+
+		<?php echo JHtml::_('sliders.panel',JText::_('Weblinks_Options'), 'basic-options'); ?>
+	<fieldset class="panelform">
+		<legend class="element-invisible"><?php echo JText::_('Weblinks_Options'); ?></legend>
 
 		<?php foreach($this->form->getFields('params') as $field): ?>
 			<?php if ($field->hidden): ?>
 				<?php echo $field->input; ?>
 			<?php else: ?>
-			<div class="paramrow">	
+			<div>	
 				<?php echo $field->label; ?>
 				<?php echo $field->input; ?>
 			</div>	
@@ -79,6 +83,7 @@ JHtml::_('behavior.formvalidation');
 		<?php endforeach; ?>
 
 	</fieldset>
+	<?php echo JHtml::_('sliders.end'); ?>	
 </div>
 
 	<input type="hidden" name="task" value="" />

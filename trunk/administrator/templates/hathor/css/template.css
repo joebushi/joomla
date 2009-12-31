@@ -2415,6 +2415,10 @@ legend.element-invisible {
 	height: 0;
 }
 
+fieldset.panelform {
+	border: none 0;
+}
+
 fieldset.adminform label, fieldset.panelform label {
 	line-height: 2em;
 	clear:left;

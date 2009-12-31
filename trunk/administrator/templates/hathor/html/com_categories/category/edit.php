@@ -87,6 +87,8 @@ JHtml::_('behavior.formvalidation');
 			<legend class="element-invisible"><?php echo JText::_('Categories_Fieldset_Metadata'); ?></legend>
 			<?php echo $this->loadTemplate('metadata'); ?>
 		</fieldset>
+		
+		<?php echo JHtml::_('sliders.end'); ?>	
 	</div>
 
 	<input type="hidden" name="task" value="" />
