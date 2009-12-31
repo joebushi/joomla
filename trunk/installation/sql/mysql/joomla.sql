@@ -464,36 +464,43 @@ INSERT INTO `#__extensions` VALUES
 (0, 'simplepie', 'library', 'simplepie', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1);
 
 # Modules
-
+## Administrator
 INSERT INTO `#__extensions` VALUES
-(0, 'mod_articles_archive', 'module', 'mod_articles_archive', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
-(0, 'mod_banners', 'module', 'mod_banners', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
-(0, 'mod_breadcrumbs', 'module', 'mod_breadcrumbs', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
-(0, 'mod_custom', 'module', 'mod_custom', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
 (0, 'mod_custom', 'module', 'mod_custom', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
-(0, 'mod_feed', 'module', 'mod_feed', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
 (0, 'mod_feed', 'module', 'mod_feed', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
 (0, 'mod_footer', 'module', 'mod_footer', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'mod_latest', 'module', 'mod_latest', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
-(0, 'mod_articles_latest', 'module', 'mod_articles_latest', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
 (0, 'mod_logged', 'module', 'mod_logged', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'mod_login', 'module', 'mod_login', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'mod_menu', 'module', 'mod_menu', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
-(0, 'mod_articles_popular', 'module', 'mod_articles_popular', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
-(0, 'mod_newsflash', 'module', 'mod_newsflash', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
 (0, 'mod_online', 'module', 'mod_online', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'mod_popular', 'module', 'mod_popular', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'mod_quickicon', 'module', 'mod_quickicon', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'mod_status', 'module', 'mod_status', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'mod_submenu', 'module', 'mod_submenu', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'mod_title', 'module', 'mod_title', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'mod_toolbar', 'module', 'mod_toolbar', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'mod_unread', 'module', 'mod_unread', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0);
+
+## Site
+INSERT INTO `#__extensions` VALUES
+(0, 'mod_articles_archive', 'module', 'mod_articles_archive', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
+(0, 'mod_articles_latest', 'module', 'mod_articles_latest', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
+(0, 'mod_articles_popular', 'module', 'mod_articles_popular', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
+(0, 'mod_banners', 'module', 'mod_banners', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
+(0, 'mod_breadcrumbs', 'module', 'mod_breadcrumbs', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
+(0, 'mod_custom', 'module', 'mod_custom', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
+(0, 'mod_feed', 'module', 'mod_feed', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
+(0, 'mod_footer', 'module', 'mod_footer', '', 0, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'mod_login', 'module', 'mod_login', '', 0, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'mod_menu', 'module', 'mod_menu', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'mod_newsflash', 'module', 'mod_newsflash', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
 (0, 'mod_random_image', 'module', 'mod_random_image', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
 (0, 'mod_related_items', 'module', 'mod_related_items', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
 (0, 'mod_search', 'module', 'mod_search', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
 (0, 'mod_stats', 'module', 'mod_stats', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
-(0, 'mod_status', 'module', 'mod_status', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
-(0, 'mod_submenu', 'module', 'mod_submenu', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'mod_syndicate', 'module', 'mod_syndicate', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
-(0, 'mod_title', 'module', 'mod_title', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
-(0, 'mod_toolbar', 'module', 'mod_toolbar', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
-(0, 'mod_unread', 'module', 'mod_unread', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'mod_users_latest', 'module', 'mod_users_latest', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
 (0, 'mod_whosonline', 'module', 'mod_whosonline', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
 (0, 'mod_wrapper', 'module', 'mod_wrapper', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1);
 
