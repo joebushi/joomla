@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin"  group="user">
+	<name>User - Contact Creator</name>
+	<author>Sam Moffatt</author>
+	<creationDate>August 2009</creationDate>
+	<copyright>(C) 2009 Sam Moffatt. All rights reserved.</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>pasamio@gmail.com</authorEmail>
+	<authorUrl>sammoffatt.com.au</authorUrl>
+	<version>1.5</version>
+	<update>http://www.jsitepoint.com/update/plugins/plgusercontactcreator</update>
+	<description>This plugin automatically creates contact entries for users and updates their details where relevant.</description>
+	<files>
+		<filename plugin="contactcreator">contactcreator.php</filename>
+	</files>
+	<fields>
+				<field
+			name="autoregister"
+			type="radio"
+			default="1"
+			label="Auto Create Users"
+			description="fieldAUTOCREATEUSERS">
+			<option
+				value="0">JNo</option>
+			<option
+				value="1">JYes</option>
+		</field>
+		<field 
+			name="autowebpage" 
+			default="" 
+			type="text" 
+			label="Automatic Webpage" 
+			description="A formatted string to automatically generate a contact's web page. [username] is replaced with the username, [userid] is replaced with the user ID and [email] is replaced with the user's email"/>
+		<field 
+			name="category" 
+			default="" 
+			type="category"
+			extension="com_contact"
+			label="Contact Default Category" 
+			description="The default category to put the user."/>
+		<field 
+			name="autopublish" 
+			type="radio" 
+			default="0" 
+			label="Automaticly publish new contacts" 
+			description="Automatically publishes a contact when the contact is created. Modified contacts that are unpublished will not be published if this is enabled.">
+				<option value="0">No</option>
+				<option value="1">Yes</option>
+			</field>
+	</fields>
+</install>
