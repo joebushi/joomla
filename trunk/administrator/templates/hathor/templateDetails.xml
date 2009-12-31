@@ -26,9 +26,11 @@
 		<folder>images</folder>
 		<folder>js</folder>
 	</files>
-	<languages>
-        <language tag="en-GB">en-GB.tpl_hathor.ini</language>
-    </languages>
+	<administration>
+		<languages>
+	        <language tag="en-GB">en-GB.tpl_hathor.ini</language>
+	    </languages>
+    </administration>
 	
 	<positions>
 		<position>menu</position>
