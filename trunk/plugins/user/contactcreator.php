@@ -14,21 +14,11 @@ jimport('joomla.plugins.plugin');
 /**
  * Class for Contact Creator
  * @package		Joomla.Plugins
- * @subpackage	user.contact_creator
+ * @subpackage	user.contactcreator
  * @version		1.6
  */
 class plgUserContactCreator extends JPlugin 
 {
-	
-	/**
-	 * Constructor
-	 *
-	 * @param object $subject The object to observe
-	 * @since 1.5
-	 */
-	function plgUserContactCreator(& $subject, $config) {
-		parent :: __construct($subject, $config);
-	}
 	
 	function onAfterStoreUser($user, $isnew, $success, $msg) 
 	{
@@ -47,7 +37,7 @@ class plgUserContactCreator extends JPlugin
 		$category = $this->params->get('category', 0);
 		if(empty($category)) 
 		{
-			JError::raiseWarning(41, JText::_('Contact automatic creation failed because contact category is not set!'));
+			JError::raiseWarning(41, JText::_('PLG_CONTACTCREATOR_NO_CATEGORY'));
 			return false; // bail out if we don't have a category	
 		}
 		
