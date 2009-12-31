@@ -9,7 +9,7 @@
 	<copyright></copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<version>1.16</version>
-	<description>TPL_HATHOR</description>
+	<description>Hathor_Accessible_Admin_Template</description>
 	<files>
 		<filename>component.php</filename>
 		<filename>cpanel.php</filename>
