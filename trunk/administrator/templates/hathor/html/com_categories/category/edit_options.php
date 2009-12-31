@@ -14,7 +14,9 @@ defined('_JEXEC') or die;
 	<?php if ($field->hidden): ?>
 		<?php echo $field->input; ?>
 	<?php else: ?>
-		<?php echo $field->label; ?>
-		<?php echo $field->input; ?>
+		<div>
+			<?php echo $field->label; ?>
+			<?php echo $field->input; ?>
+		</div>
 	<?php endif; ?>
 <?php endforeach; ?>

@@ -799,21 +799,12 @@ div.width-70 {
 
 	/* Layout Divs */
 div.main-section {
-	width: 50%;
-}
-
-div.options-section {
-	width: 50%;
-}
-
-.article-edit div.main-section {
 	width: 60%;
 }
 
-.article-edit div.options-section {
+div.options-section {
 	width: 40%;
 }
-
 
 /**
  * Form Styles
@@ -2211,6 +2202,10 @@ a img.calendar {
 
 .icon-48-categories {
 	background-image: url(../images/header/icon-48-category.png);
+}
+
+.icon-48-category-add { 
+	background-image: url(../images/header/icon-48-category-add.png); 
 }
 
 .icon-48-install {

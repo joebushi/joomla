@@ -54,4 +54,8 @@ div#subheader {
 * html .clearfix {
 	height: 1%;
 }
-	
+
+.hidelabeltxt 	{ 
+	position: relative;
+	text-indent:-9999em;
+}	

@@ -31,28 +31,36 @@ JHtml::_('behavior.formvalidation');
 // -->
 </script>
 
+<div class="category-edit">
+
 <form action="<?php JRoute::_('index.php?option=com_menus'); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
-	<div class="width-60 fltlft">
+	<div class="col main-section">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('Categories_Fieldset_Details');?></legend>
-
+				<div>
 					<?php echo $this->form->getLabel('title'); ?>
 					<?php echo $this->form->getInput('title'); ?>
-
+				</div>
+				<div>
 					<?php echo $this->form->getLabel('alias'); ?>
 					<?php echo $this->form->getInput('alias'); ?>
-
+				</div>
+				<div>
 					<?php echo $this->form->getLabel('extension'); ?>
 					<?php echo $this->form->getInput('extension'); ?>
-
+				</div>
+				<div>
 					<?php echo $this->form->getLabel('parent_id'); ?>
 					<?php echo $this->form->getInput('parent_id'); ?>
-
+				</div>
+				<div>
 					<?php echo $this->form->getLabel('published'); ?>
 					<?php echo $this->form->getInput('published'); ?>
-
+				</div>
+				<div>
 					<?php echo $this->form->getLabel('access'); ?>
 					<?php echo $this->form->getInput('access'); ?>
+				</div>
 
 					<?php echo $this->loadTemplate('options'); ?>
 
@@ -60,20 +68,23 @@ JHtml::_('behavior.formvalidation');
 					<?php echo $this->form->getLabel('description'); ?>
 					<div class="clr"></div>
 					<?php echo $this->form->getInput('description'); ?>
+					<div class="clr"></div>
 		</fieldset>
 	</div>
 
-	<div class="width-40 fltrt">
-		<fieldset>
-			<legend><?php echo JText::_('Categories_Fieldset_Rules');?></legend>
-				<?php echo $this->form->getLabel('rules'); ?>
+	<div class="col options-section">
+	<?php echo JHtml::_('sliders.start','content-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
+
+		<?php echo JHtml::_('sliders.panel',JText::_('Categories_Fieldset_Rules'), 'access-rules'); ?>
+		<fieldset class="panelform">
+			<legend class="element-invisible"><?php echo JText::_('Categories_Fieldset_Rules');?></legend>
+				<?php // echo $this->form->getLabel('rules'); ?>
 				<?php echo $this->form->getInput('rules'); ?>
 		</fieldset>
-	</div>
-
-	<div class="width-40 fltrt">
-		<fieldset class="adminform">
-			<legend><?php echo JText::_('Categories_Fieldset_Metadata'); ?></legend>
+		
+		<?php echo JHtml::_('sliders.panel',JText::_('Categories_Fieldset_Metadata'), 'meta-options'); ?>
+		<fieldset class="panelform">
+			<legend class="element-invisible"><?php echo JText::_('Categories_Fieldset_Metadata'); ?></legend>
 			<?php echo $this->loadTemplate('metadata'); ?>
 		</fieldset>
 	</div>
@@ -82,3 +93,4 @@ JHtml::_('behavior.formvalidation');
 	<?php echo JHtml::_('form.token'); ?>
 </form>
 <div class="clr"></div>
+</div>

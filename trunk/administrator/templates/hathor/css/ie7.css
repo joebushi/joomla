@@ -48,3 +48,8 @@ div#subheader {
 *:first-child+html .clearfix {
 	min-height: 1px;
 }
+
+.hidelabeltxt 	{ 
+	position: relative;
+	text-indent:-9999em;
+}
