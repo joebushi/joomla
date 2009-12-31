@@ -21,7 +21,6 @@ function UsersBuildRoute(&$query)
 	// Declare static variables.
 	static $items;
 	static $default;
-
 	static $registration;
 	static $profile;
 	static $login;
@@ -52,22 +51,22 @@ function UsersBuildRoute(&$query)
 				$reset = $items[$i]->id;
 			}
 
-			// Check to see if e have found the remind menu item.
+			// Check to see if we have found the remind menu item.
 			if (empty($remind) && !empty($items[$i]->query['view']) && ($items[$i]->query['view'] == 'remind')) {
 				$remind = $items[$i]->id;
 			}
 
-			// Check to see if e have found the login menu item.
+			// Check to see if we have found the login menu item.
 			if (empty($login) && !empty($items[$i]->query['view']) && ($items[$i]->query['view'] == 'login')) {
 				$login = $items[$i]->id;
 			}
 
-			// Check to see if e have found the registration menu item.
+			// Check to see if we have found the registration menu item.
 			if (empty($registration) && !empty($items[$i]->query['view']) && ($items[$i]->query['view'] == 'registration')) {
 				$registration = $items[$i]->id;
 			}
 
-			// Check to see if e have found the profile menu item.
+			// Check to see if we have found the profile menu item.
 			if (empty($profile) && !empty($items[$i]->query['view']) && ($items[$i]->query['view'] == 'profile')) {
 			$profile = $items[$i]->id;
 			}
@@ -180,27 +179,27 @@ function UsersParseRoute($segments)
 	}
 
 	// Get the package from the route segments.
-	$member = array_pop($segments);
+	$memberId = array_pop($segments);
 
-	if (!is_numeric($id)) {
+	if (!is_numeric($memberId)) {
 		$vars['view'] = 'profile';
 		return $vars;
 	}
-
+	if (is_numeric($memberId)){
 	// Get the package id from the packages table by alias.
 	$db = & JFactory::getDbo();
 	$db->setQuery(
 		'SELECT `id`' .
 		' FROM `#__users`' .
-		' WHERE `id` = '.$db->quote($memberId)
+		' WHERE `id` = '.(int) $memberId
 	);
 	$memberId = $db->loadResult();
-
+	}
 	// Set the package id if present.
 	if ($memberId)
 	{
 		// Set the package id.
-		$vars['member_id'] = intval($memberId);
+		$vars['member_id'] = (int)$memberId; 
 
 		// Set the view to package if not already set.
 		if (empty($vars['view'])) {
