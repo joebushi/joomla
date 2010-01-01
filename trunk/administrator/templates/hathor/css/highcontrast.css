@@ -19,6 +19,7 @@
  * #10254a	Main hover color/border
  * #000000	Highlight/shadow border
  * #a20000	Invalid Alert Color
+ * #00f800	Success Alert Color 
  * 
  */ 
  
@@ -48,13 +49,13 @@ a:hover,a:focus {
 	text-decoration: underline;
 }
 
-.enabled 	{ color: #005800; font-weight: bold; }
+.enabled 	{ color: #00f800; font-weight: bold; }
 .disabled 	{ color: #a20000; font-weight: bold; }
 p.error 	{ color: #a20000; font-weight: bold; }
 .warning 	{ color: #a20000; font-weight: bold; }
 .nowarning 	{ color: #fcff20; font-weight: bold; }
-.success 	{ color: #005800; font-weight: bold;}
-.allow 		{ color: #005800;}
+.success 	{ color: #00f800; font-weight: bold;}
+.allow 		{ color: #00f800;}
 .deny 		{ color: #a20000;}
 .none 		{ color: #cccccc;}
 
@@ -574,8 +575,12 @@ button:hover,button:focus {
  * Tooltips 
  */
 .tip {
-	background: #163365;
+	background: #10254a;
 	border: 1px solid #1b3f7c;
+}
+
+.tip-title {
+	background: url(../images/selector-arrow-hc.png) no-repeat;
 }
 
 /**
