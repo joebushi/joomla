@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="system">
+	<name>System - Mootools12</name>
+	<author>Joomla! Project</author>
+	<creationDate>January 2010</creationDate>
+	<copyright>Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>1.5</version>
+	<description>Mootools Libary Upgrade</description>
+	<files>
+		<filename plugin="mootools12">mootools12.php</filename>
+		<folder>mootools12</folder>
+	</files>
+	<params>
+	</params>
+</install>
