@@ -16,7 +16,7 @@ class modUsersLatestHelper
 	
 	function getUsers($params) { 
 
-	    $db		= &JFactory::getDbo();
+	    $db = &JFactory::getDbo();
 
 		$result	= null;
 		$query = new JQuery;
