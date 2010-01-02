@@ -570,6 +570,13 @@ div.current table#acl-config th.acl-groups {
 	text-align: left;
 }
 
+div#menu-assignment .menu-link label {
+	clear:none;
+	min-width: 45px;
+	float:left;
+	margin: 3px 0 0 5px;
+}
+
 p.tab-description {
 	font-size: 1.091em;
 	margin-left: 0;

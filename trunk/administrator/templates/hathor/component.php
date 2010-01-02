@@ -19,10 +19,23 @@ defined('_JEXEC') or die;
 <jdoc:include type="head" />
 
 <link href="templates/<?php echo  $this->template ?>/css/template.css" rel="stylesheet" type="text/css" />
+<link href="templates/<?php echo $this->template ?>/css/menu.css" rel="stylesheet" type="text/css" />
 
 <?php if ($this->direction == 'rtl') : ?>
 	<link href="templates/<?php echo  $this->template ?>/css/template_rtl.css" rel="stylesheet" type="text/css" />
 <?php endif; ?>
+
+<!-- Load additional CSS styles for High Contrast colors -->
+<?php if ($this->params->get('highContrast')) : ?>
+	<link href="templates/<?php echo $this->template ?>/css/highcontrast.css" rel="stylesheet" type="text/css" />
+	<link href="templates/<?php echo $this->template ?>/css/menu_hc.css" rel="stylesheet" type="text/css" />
+<?php  endif; ?>
+
+<!-- Load additional CSS styles for bold Text -->
+<?php if ($this->params->get('boldText')) : ?>
+	<link href="templates/<?php echo $this->template ?>/css/boldtext.css" rel="stylesheet" type="text/css" />
+<?php  endif; ?>
+
 
 </head>
 <body class="contentpane">
