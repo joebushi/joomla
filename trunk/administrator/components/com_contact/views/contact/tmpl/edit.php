@@ -26,7 +26,7 @@ JHtml::_('behavior.formvalidation');
 	}
 // -->
 </script>
-<?php var_dump($this->form); ?>
+
 <form action="<?php JRoute::_('index.php?option=com_contact'); ?>" method="post" name="adminForm" id="contact-form" class="form-validate">
 <div class="width-50 fltlft">
 		<fieldset class="adminform">
