@@ -445,7 +445,7 @@ INSERT INTO `#__extensions` VALUES
 (0, 'Redirect Manager', 'component', 'com_redirect', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'Search', 'component', 'com_search', '', 1, 1, 0, 1, '', 'enabled=0\n\n', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'Template Manager', 'component', 'com_templates', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
-(0, 'User', 'component', 'com_user', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'User', 'component', 'com_users', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'User Manager', 'component', 'com_users', '', 1, 1, 0, 1, '', 'allowUserRegistration=1\nnew_usertype=Registered\nuseractivation=1\nfrontend_userparams=1\n\n', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'Web Links', 'component', 'com_weblinks', '', 1, 1, 0, 0, '', 'show_comp_description=1\ncomp_description=\nshow_link_hits=1\nshow_link_description=1\nshow_other_cats=1\nshow_headings=1\nshow_page_title=1\nlink_target=0\nlink_icons=\n\n', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'Wrapper', 'component', 'com_wrapper', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0);
