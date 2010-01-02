@@ -282,6 +282,10 @@ CREATE TABLE `#__contact_details` (
   `access` tinyint(3) unsigned NOT NULL default '0',
   `mobile` varchar(255) NOT NULL default '',
   `webpage` varchar(255) NOT NULL default '',
+  `sortname1` varchar(255) NOT NULL,
+  `sortname2` varchar(255) NOT NULL,
+  `sortname3` varchar(255) NOT NULL,
+  `language` varchar(10) NOT NULL,
   PRIMARY KEY  (`id`),
   KEY `catid` (`catid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
