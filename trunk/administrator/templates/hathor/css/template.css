@@ -590,6 +590,11 @@ p.tab-description {
 #login-page form .inputbox {
 	width: 120px;
 	margin-left: 10px;
+	margin-bottom: 15px;
+}
+#login-page input.inputbox, #login-page select.inputbox {
+	float: right;
+	clear: none;
 }
 
 #login-page .login {
@@ -654,19 +659,26 @@ p.tab-description {
 	background: #ffffff;
 	float: right;
 	border: 1px solid #c7c8b2;
-	padding: 2em;
+	padding: 1.1em;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
+}
+
+#form-login fieldset {
+	border: none;
 }
 
 #form-login label {
 	display: block;
 	float: left;
+	clear: left;
 	width: 120px;
 	text-align: right;
 	padding: 4px;
 	color: #2c2c2c;
 	font-weight: bold;
+	font-size: 1.4em;
+	margin-bottom: 15px;
 }
 
 #form-login .button-holder { /* float: left; */
