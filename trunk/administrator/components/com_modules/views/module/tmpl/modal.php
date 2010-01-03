@@ -47,39 +47,6 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 				<?php echo JText::_('Cancel');?></button>
 		</div>
 		
-				<script type="text/javascript">
-			function allselections() {
-				var e = document.getElementById('selections');
-					e.disabled = true;
-				var i = 0;
-				var n = e.options.length;
-				for (i = 0; i < n; i++) {
-					e.options[i].disabled = true;
-					e.options[i].selected = true;
-				}
-			}
-			function disableselections() {
-				var e = document.getElementById('selections');
-					e.disabled = true;
-				var i = 0;
-				var n = e.options.length;
-				for (i = 0; i < n; i++) {
-					e.options[i].disabled = true;
-					e.options[i].selected = false;
-				}
-			}
-			function enableselections() {
-				var e = document.getElementById('selections');
-					e.disabled = false;
-				var i = 0;
-				var n = e.options.length;
-				for (i = 0; i < n; i++) {
-					e.options[i].disabled = false;
-
-				}
-			}
-		</script>
-		
 		<div class="clr"></div>
 		
 	<div class="width-60 fltlft">
