@@ -99,19 +99,27 @@ class JHTMLBehavior
 	}
 
 	function caption() {
-		JHTML::script('caption.js');
+		// pass false to script so that we don't load the compatibility layer if we don't need it
+		JHTMLBehavior::framework();
+		JHTML::script('caption.js', 'plugins/system/mootools12/', false);
 	}
 
 	function formvalidation() {
-		JHTML::script('validate.js' );
+		// pass false to script so that we don't load the compatibility layer if we don't need it
+		JHTMLBehavior::framework();
+		JHTML::script('validate.js', 'plugins/system/mootools12/', false);
 	}
 
 	function switcher() {
-		JHTML::script('switcher.js' );
+		// pass false to script so that we don't load the compatibility layer if we don't need it
+		JHTMLBehavior::framework();
+		JHTML::script('switcher.js', 'plugins/system/mootools12/', false);
 	}
 
 	function combobox() {
-		JHTML::script('combobox.js' );
+		// pass false to script so that we don't load the compatibility layer if we don't need it
+		JHTMLBehavior::framework();
+		JHTML::script('combobox.js', 'plugins/system/mootools12/', false);
 	}
 
 	function tooltip($selector='.hasTip', $params = array())
@@ -123,7 +131,7 @@ class JHTMLBehavior
 		}
 
 		// Include mootools framework
-		JHTMLBehavior::mootools();
+		JHTMLBehavior::framework();
 
 		$sig = md5(serialize(array($selector,$params)));
 		if (isset($tips[$sig]) && ($tips[$sig])) {
@@ -164,7 +172,8 @@ class JHTMLBehavior
 		if (!isset($included)) {
 
 			// Load the javascript and css
-			JHTML::script('modal.js');
+			JHTMLBehavior::framework();
+			JHTML::script('modal.js', 'plugins/system/mootools12/', false);
 			JHTML::stylesheet('modal.css');
 
 			$included = true;
@@ -274,8 +283,8 @@ class JHTMLBehavior
 		}
 
 		// Include mootools framework
-		JHTMLBehavior::mootools();
-		JHTML::script('mootree.js');
+		JHTMLBehavior::framework();
+		JHTML::script('mootree.js', 'plugins/system/mootools12/', false);
 		JHTML::stylesheet('mootree.css');
 
 		if (isset($trees[$id]) && ($trees[$id])) {
@@ -323,8 +332,9 @@ class JHTMLBehavior
 	{
 		$document =& JFactory::getDocument();
 		JHTML::stylesheet('calendar-jos.css', 'media/system/css/', array(' title' => JText::_( 'green' ) ,' media' => 'all' ));
-		JHTML::script( 'calendar.js', 'media/system/js/' );
-		JHTML::script( 'calendar-setup.js', 'media/system/js/' );
+		JHTMLBehavior::framework();
+		JHTML::script( 'calendar.js', 'plugins/system/mootools12/', false);
+		JHTML::script( 'calendar-setup.js', 'plugins/system/mootools12/', false);
 
 		$translation = JHTMLBehavior::_calendartranslation();
 		if($translation) {
@@ -338,7 +348,7 @@ class JHTMLBehavior
 	function keepalive()
 	{
 		// Include mootools framework
-		JHTMLBehavior::mootools();
+		JHTMLBehavior::framework();
 
 		$config 	 =& JFactory::getConfig();
 		$lifetime 	 = ( $config->getValue('lifetime') * 60000 );
