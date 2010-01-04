@@ -4,6 +4,11 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+// Only define the Joomla namespace if not defined.
+if (typeof(Joomla) === 'undefined') {
+	var Joomla = {};
+}
+
 /**
  * Tabs behavior
  *
@@ -35,8 +40,6 @@ var JTabs = new Class({
         this.descriptions = this.dlist.getElements(this.options.descriptionSelector);
         this.content = new Element('div').inject(this.dlist, 'after').addClass('current');
 
-	this.options.display = this.options.display.toInt().limit(0, this.titles.length-1);
-
         for (var i = 0, l = this.titles.length; i < l; i++){
             var title = this.titles[i];
             var description = this.descriptions[i];
@@ -45,7 +48,7 @@ var JTabs = new Class({
             description.inject(this.content);
         }
 
-        this.display(this.options.display);
+        if ($chk(this.options.display)) this.display(this.options.display);
 
         if (this.options.initialize) this.options.initialize.call(this);
     },
@@ -59,6 +62,12 @@ var JTabs = new Class({
     display: function(i) {
         this.hideAllBut(i);
         this.fireEvent('onActive', [this.titles[i], this.descriptions[i]]);
-	Cookie.write('jpanetabs_' + this.dlist.id, i);
     }
+});
+
+
+window.addEvent('domready', function(){
+	$$('dl.tabs').each(function(tabs){
+		new JTabs(tabs);
+	});
 });
