@@ -222,10 +222,7 @@ final class JSite extends JApplication
 			if ($user->get('id') == 0)
 			{
 				// Redirect to login
-				$uri		= JFactory::getURI();
-				$return		= (string)$uri;
-
-				$this->setUserState('users.login.form.data',array( 'return' => $return ) );
+				$this->setUserState('users.login.form.data',array( 'return' => (string)JFactory::getURI() ) );
 
 				$url	= 'index.php?option=com_users&view=login';
 				$url	= JRoute::_($url, false);

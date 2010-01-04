@@ -25,7 +25,7 @@ class plgContentVote extends JPlugin
 
 	public function onBeforeDisplayContent(&$row, &$params, $page=0)
 	{
-		$uri = &JFactory::getURI();
+		$uri = (string)JFactory::getURI();
 
 		$id = $row->id;
 		$html = '';

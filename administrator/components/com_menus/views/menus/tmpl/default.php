@@ -14,9 +14,6 @@ JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 
 // Load the tooltip behavior.
 JHtml::_('behavior.tooltip');
-
-$uri	= &JFactory::getUri();
-$return	= base64_encode($uri);
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_menus&view=menus');?>" method="post" name="adminForm">
 	<table class="adminlist">
@@ -87,7 +84,7 @@ $return	= base64_encode($uri);
 					if (isset($this->modules[$item->menutype])) :
 						foreach ($this->modules[$item->menutype] as &$module) :
 						?>
-						<a href="<?php echo JRoute::_('index.php?option=com_modules&task=module.edit&module_id='.$module->id.'&return='.$return);?>">
+						<a href="<?php echo JRoute::_('index.php?option=com_modules&task=module.edit&module_id='.$module->id.'&return='.base64_encode(JFactory::getUri()));?>">
 							<?php echo $this->escape($module->title); ?></a>
 						<p class="smallsub">(<?php echo $this->escape($module->position);?>)</p>
 						<?php

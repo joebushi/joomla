@@ -82,9 +82,8 @@ class ContentViewArticle extends JView
 			if ($user->get('guest'))
 			{
 				// Redirect to login
-				$uri		= JFactory::getURI();
 				$app->redirect(
-					'index.php?option=com_users&view=login&return='.base64_encode($uri),
+					'index.php?option=com_users&view=login&return='.base64_encode(JFactory::getURI()),
 					JText::_('Content_Error_Login_to_view_article')
 				);
 				return;
