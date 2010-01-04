@@ -57,7 +57,7 @@ class PluginsModelPlugin extends JModelForm
 	 * @param	array	$options Configuration array for model. Optional.
 	 * @return	JTable	A database object
 	*/
-	public function &getTable($type = 'Extension', $prefix = 'JTable', $config = array())
+	public function getTable($type = 'Extension', $prefix = 'JTable', $config = array())
 	{
 		return JTable::getInstance($type, $prefix, $config);
 	}
@@ -204,6 +204,7 @@ class PluginsModelPlugin extends JModelForm
 
 		// Load the core and/or local language file(s).
 		$lang->load('plg_'.$folder.'_'.$element, JPATH_SITE);
+		$lang->load('plg_'.$folder.'_'.$element, JPATH_ADMINISTRATOR);
 		$lang->load('joomla', $client->path.'/plugins/'.$folder.'/'.$element);
 
 		// If an XML file was found in the component, load it first.
