@@ -32,7 +32,7 @@ class plgContentVote extends JPlugin
 
 		if (isset($row->rating_count) && $params->get('show_vote') && !$params->get('popup'))
 		{
-			$html .= '<form method="post" action="' . $uri->toString() . '">';
+			$html .= '<form method="post" action="' . $uri . '">';
 			$img = '';
 
 			// Look for images in template if available.
@@ -63,7 +63,7 @@ class plgContentVote extends JPlugin
 				$html .= '<input type="hidden" name="task" value="vote" />';
 				$html .= '<input type="hidden" name="option" value="com_content" />';
 				$html .= '<input type="hidden" name="cid" value="'. $id .'" />';
-				$html .= '<input type="hidden" name="url" value="'.  $uri->toString() .'" />';
+				$html .= '<input type="hidden" name="url" value="'.  $uri .'" />';
 				$html .= '</span>';
 			}
 			$html .= '</form>';

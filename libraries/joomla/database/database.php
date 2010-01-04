@@ -806,6 +806,6 @@ abstract class JDatabase extends JObject
 	 */
 	public function quote($text, $escaped = true)
 	{
-		return '\''.($escaped ? $this->getEscaped($text) : $text).'\'';
+		return '\''.($escaped ? $this->getEscaped((string)$text) : (string)$text).'\'';
 	}
 }

@@ -165,7 +165,7 @@ class SearchViewSearch extends JView
 
 		$this->assign('total',			$total);
 		$this->assign('error',			$error);
-		$this->assign('action', 	    $uri->toString());
+		$this->assign('action', 	    (string)$uri);
 
 		parent::display($tpl);
 	}

@@ -35,7 +35,7 @@ class JRouterSite extends JRouter
 		{
 			//forward to https
 			$uri->setScheme('https');
-			$app->redirect($uri->toString());
+			$app->redirect((string)$uri);
 		}
 
 

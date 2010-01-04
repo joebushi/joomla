@@ -490,7 +490,7 @@ abstract class JFactory
 		$db = &JDatabase::getInstance($options);
 
 		if (JError::isError($db)) {
-			jexit('Database Error: ' . $db->toString());
+			jexit('Database Error: ' . $db);
 		}
 
 		if ($db->getErrorNum() > 0) {

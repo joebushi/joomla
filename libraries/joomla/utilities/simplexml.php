@@ -661,4 +661,8 @@ class JSimpleXMLElement extends JObject
 		//Return the final output
 		return $out;
 	}
+	public function __toString()
+	{
+		return $this->toString();
+	}
 }

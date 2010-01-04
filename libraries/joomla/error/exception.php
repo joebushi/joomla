@@ -145,13 +145,21 @@ class JException extends Exception
 	}
 
 	/**
+	 * @deprecated 1.6 - Jan 4, 2010
+	 * @see __toString()
+ 	 */
+	function toString()
+	{
+		return __toString();
+	}
+	/**
 	 * Returns to error message
 	 *
 	 * @access	public
 	 * @return	string Error message
-	 * @since	1.5
+	 * @since	1.6
 	 */
-	public function toString()
+	public function __toString()
 	{
 		return $this->message;
 	}
@@ -225,7 +233,7 @@ class JException extends Exception
 
 		// Check if only the string is requested
 		if (JError::isError($error) && $toString) {
-			return $error->toString();
+			return (string)$error;
 		}
 
 		return $error;

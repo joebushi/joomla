@@ -79,19 +79,18 @@ class UsersControllerConfig extends JController
 		// Get the component configuration values.
 		$app	= JFactory::getApplication();
 		$config = &JComponentHelper::getParams('com_users');
-		$string	= $config->toString();
 
 		// Send file headers.
 		header('Content-type: application/force-download');
 	    header('Content-Transfer-Encoding: Binary');
-	    header('Content-length: '.strlen($string));
+	    header('Content-length: '.strlen($config));
 	    header('Content-disposition: attachment; filename="users.config.ini"');
 		header('Pragma: no-cache');
 		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 		header('Expires: 0');
 
 		// Print the configuration values.
-	    echo $string;
+	    echo $config;
 
 		$app->close();
 	}

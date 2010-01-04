@@ -256,7 +256,7 @@ class LanguagesModelInstalled extends JModelList
 			$table = & JTable::getInstance('component');
 			$table->loadByOption('com_languages');
 
-			$table->params = $params->toString();
+			$table->params = (string)$params;
 			// pre-save checks
 			if (!$table->check()) {
 				$this->setError($table->getError());

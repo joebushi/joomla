@@ -10,7 +10,7 @@ defined('_JEXEC') or die; ?>
 }
 </script>
 
-<form action="<?php echo JFilterOutput::ampReplace(JFactory::getURI()->toString()); ?>" method="post" name="adminForm">
+<form action="<?php echo JFilterOutput::ampReplace(JFactory::getURI()); ?>" method="post" name="adminForm">
 
 		<div class="limit-box">
 			<?php echo JText::_('Display Num') .'&nbsp;'; ?>
