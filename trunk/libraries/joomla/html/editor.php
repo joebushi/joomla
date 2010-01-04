@@ -275,13 +275,15 @@ class JEditor extends JObservable
 
 		// Build the path to the needed editor plugin
 		$name = JFilterInput::clean($this->_name, 'cmd');
-		$path = JPATH_SITE.DS.'plugins'.DS.'editors'.DS.$name.'.php';
+		$path = JPATH_SITE.DS.'plugins/editors/'.$name.'.php';
 
-		if (! JFile::exists($path))
-		{
-			$message = JText::_('Cannot load the editor');
-			JError::raiseWarning(500, $message);
-			return false;
+		if (!JFile::exists($path)) {
+			$path = JPATH_SITE.DS.'plugins/editors/'.$name.'/'.$name.'.php';
+			if (!JFile::exists($path)) {
+				$message = JText::_('Cannot load the editor');
+				JError::raiseWarning(500, $message);
+				return false;
+			}
 		}
 
 		// Require plugin file
