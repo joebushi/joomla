@@ -15,7 +15,7 @@ jimport('joomla.database.query');
  * @package		Joomla.Administrator
  * @subpackage	mod_menu
  */
-class ModMenuHelper
+abstract class ModMenuHelper
 {
 	/**
 	 * Get a list of the available menus.
@@ -47,7 +47,7 @@ class ModMenuHelper
 	 *
 	 * @return	array	A nest array of component objects and submenus
 	 */
-	function getComponents($exclude = array(), $authCheck = true)
+	public static function getComponents($exclude = array(), $authCheck = true)
 	{
 		// Initialise variables.
 		$lang	= &JFactory::getLanguage();
@@ -131,7 +131,7 @@ class ModMenuHelper
 			$lang->load($langName);
 
 			// Load extension-local file.
-			$lang->load('menu', JPATH_ADMINISTRATOR.DS.'components'.DS.str_replace('.menu', '', $langName));
+			$lang->load('menu', JPATH_ADMINISTRATOR.'/components/'.str_replace('.menu', '', $langName));
 		}
 
 		return $result;

@@ -64,18 +64,11 @@ abstract class JHtmlGrid
 		$images		= array('sort_asc.png', 'sort_desc.png');
 		$index		= intval($direction == 'desc');
 		$direction	= ($direction == 'desc') ? 'asc' : 'desc';
-		$app = &JFactory::getApplication();
-		$cur_template = $app->getTemplate();
-		$clientId = $app->getClientId();
 
 		$html = '<a href="javascript:tableOrdering(\''.$order.'\',\''.$direction.'\',\''.$task.'\');" title="'.JText::_('Click to sort this column').'">';
 		$html .= JText::_($title);
 		if ($order == $selected) {
-			if ($clientId) {
-				$html .= JHtml::_('image.administrator',  $images[$index], '/templates/'.$cur_template.'/images/admin/', NULL, NULL);
-			} else {
-				$html .= JHtml::_('image.site',  $images[$index], '/templates/system/images/', NULL, NULL);
-			}
+			$html .= JHtml::_('image.administrator',  $images[$index], '/templates/bluestork/images/admin/', NULL, NULL);
 		}
 		$html .= '</a>';
 		return $html;
@@ -94,7 +87,7 @@ abstract class JHtmlGrid
 		if ($checkedOut) {
 			return '';
 		} else {
-			return '<input type="checkbox" id="cb'.$rowNum.'" name="'.$name.'[]" value="'.$recId.'" onclick="isChecked(this.checked);" title="Checkbox for Row '. ($rowNum + 1) .'" />';
+			return '<input type="checkbox" id="cb'.$rowNum.'" name="'.$name.'[]" value="'.$recId.'" onclick="isChecked(this.checked);" title="'.JText::sprintf('JGrid_Checkbox_Row_N', ($rowNum + 1)).'" />';
 		}
 	}
 
