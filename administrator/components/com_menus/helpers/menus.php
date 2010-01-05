@@ -102,7 +102,7 @@ class MenusHelper
 	 * @param	int		An optional parent ID to pivot results around.
 	 * @param	int		An optional mode. If parent ID is set and mode=2, the parent and children are excluded from the list.
 	 */
-	public static function getMenuLinks($menuType = null, $parentId = 0, $mode = 0)
+	public static function getMenuLinks($menuType = null, $parentId = 0, $mode = 0, $published=array())
 	{
 		$db		= JFactory::getDbo();
 		$query	= new JQuery;
@@ -125,6 +125,12 @@ class MenusHelper
 				$query->join('LEFT', '`#__menu` AS p ON p.id = '.(int) $parentId);
 				$query->where('(a.lft <= p.lft OR a.rgt >= p.rgt)');
 			}
+		}
+		
+		if(!empty($published))
+		{
+			if (is_array($published)) $published = '(' . implode(',',$published) .')';
+			$query->where('a.published IN ' . $published);
 		}
 
 		$query->group('a.id');
