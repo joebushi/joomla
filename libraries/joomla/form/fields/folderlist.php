@@ -20,7 +20,7 @@ require_once dirname(__FILE__) . DS . 'list.php';
  * @subpackage	Form
  * @since		1.6
  */
-class JFormFieldFolderlist extends JFormFieldList
+class JFormFieldFolderList extends JFormFieldList
 {
 
     /**
@@ -28,7 +28,7 @@ class JFormFieldFolderlist extends JFormFieldList
      *
      * @var		string
      */
-    public $type = 'Folderlist';
+    public $type = 'FolderList';
 
     /**
      * Method to get a list of options for a list input.

@@ -11,7 +11,7 @@ defined('JPATH_BASE') or die;
 jimport('joomla.html.html');
 
 // Import joomla field list class
-require_once dirname(__FILE__) . DS . 'list.php';
+require_once dirname(__FILE__) . DS . 'groupedlist.php';
 
 /**
  * Supports an HTML select list of menu item
@@ -20,7 +20,7 @@ require_once dirname(__FILE__) . DS . 'list.php';
  * @subpackage	Form
  * @since		1.6
  */
-class JFormFieldMenuitem extends JFormFieldList
+class JFormFieldMenuItem extends JFormFieldGroupedList
 {
 
     /**
@@ -28,14 +28,14 @@ class JFormFieldMenuitem extends JFormFieldList
      *
      * @var		string
      */
-    public $type = 'Menuitem';
+    public $type = 'MenuItem';
 
     /**
      * Method to get a list of options for a list input.
      *
      * @return	array		An array of JHtml options.
      */
-    protected function _getOptions() 
+    protected function _getGroups() 
     {
 
         // Get the attributes
@@ -50,18 +50,19 @@ class JFormFieldMenuitem extends JFormFieldList
         $items = MenusHelper::getMenuLinks($menuType, 0, 0, $published);
 
         // Prepare return value
-        $options = array();
+        $groups = array();
 
         // If a menu type was set
         if ($menuType) 
         {
+            $groups[$menuType] = array();
 
             // Loop over links
             foreach($items as $link) 
             {
 
                 // Generate an option disabling it if it's the case
-                $options[] = JHtml::_('select.option', $link->value, $link->text, 'value', 'text', in_array($link->type, $disable));
+                $groups[$menuType][] = JHtml::_('select.option', $link->value, $link->text, 'value', 'text', in_array($link->type, $disable));
             }
         }
 
@@ -72,21 +73,18 @@ class JFormFieldMenuitem extends JFormFieldList
             // Loop over types
             foreach($items as $type) 
             {
-
-                // Generate two disabled options
-                $options[] = JHtml::_('select.option', '0', '&nbsp;', 'value', 'text', true);
-                $options[] = JHtml::_('select.option', $type->menutype, $type->title . ' - ' . JText::_('Top'), 'value', 'text', true);
+                $groups[$type] = array();
 
                 // Loop over links
                 foreach($type->links as $link) 
                 {
 
                     // Generate an option disabling it if it's the case
-                    $options[] = JHtml::_('select.option', $link->value, '&nbsp;&nbsp;&nbsp;' . $link->text, 'value', 'text', in_array($link->type, $disable));
+                    $groups[$type][] = JHtml::_('select.option', $link->value, '&nbsp;&nbsp;&nbsp;' . $link->text, 'value', 'text', in_array($link->type, $disable));
                 }
             }
         }
-        return $options;
+        return $groups;
     }
 }
 
