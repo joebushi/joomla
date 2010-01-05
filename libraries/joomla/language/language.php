@@ -618,7 +618,13 @@ class JLanguage extends JObject
 	 * @since	1.5
 	 */
 	function hasKey($key) {
-		return isset ($this->_strings[strtoupper($key)]);
+		@list($extension, $key) = explode('.', strtoupper($string), 2);
+		if(!isset($key))
+		{
+			$key = $extension;
+			$extension = 'J';
+		}
+		return isset ($this->_strings[$extension][$key]);
 	}
 
 	/**
