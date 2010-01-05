@@ -192,16 +192,15 @@ class JControllerForm extends JController
 		$cid		= JRequest::getVar('cid', array(), 'post', 'array');
 		$context	= "$this->_option.edit.$this->_context";
 		$tmpl		= JRequest::getString('tmpl');
-		$layout		= JRequest::getString('layout');
-		
-		// setup redirect info
+		$layout		= JRequest::getString('layout', 'edit');
+		$append		= '';
+
+		// Setup redirect info.
 		if ($tmpl) {
-			$tmpl = '&tmpl='.$tmpl;
+			$append .= '&tmpl='.$tmpl;
 		}
 		if ($layout) {
-			$layout = '&layout='.$layout;
-		} else {
-			$layout = '&layout=edit';
+			$append .= '&layout='.$layout;
 		}
 
 		// Get the previous record id (if any) and the current record id.
@@ -222,7 +221,7 @@ class JControllerForm extends JController
 			{
 				// Check-in failed, go back to the record and display a notice.
 				$message = JText::sprintf('JError_Checkin_failed', $model->getError());
-				$this->setRedirect('index.php?option='.$this->_option.'&view='.$this->_view_item.$tmpl.$layout, $message, 'error');
+				$this->setRedirect('index.php?option='.$this->_option.'&view='.$this->_view_item.$append, $message, 'error');
 				return false;
 			}
 		}
@@ -240,7 +239,7 @@ class JControllerForm extends JController
 			// Check-out succeeded, push the new record id into the session.
 			$app->setUserState($context.'.id',	$recordId);
 			$app->setUserState($context.'.data', null);
-			$this->setRedirect('index.php?option='.$this->_option.'&view='.$this->_view_item.$tmpl.$layout);
+			$this->setRedirect('index.php?option='.$this->_option.'&view='.$this->_view_item.$append);
 			return true;
 		}
 	}
