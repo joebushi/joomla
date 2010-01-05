@@ -27,19 +27,35 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-03-Jan-2009 Hannes Papenberg
+05-Jan-2010 Andrew Eddie
+ ^ Accepted [#19268] Refactoring mod_popular in the BackEnd.
+ ^ Added support for layout and modal forms in JControllerForm::edit method.
+ ^ Fixes to modal module edit form.
+ ^ Accepted [#19263] Refactoring mod_online in the BackEnd.
+ ^ Accepted [#19279] Refactored mod_title, mod_toolbar and mod_unread admin modules to MVC.
+ ^ Accepted [#19275] Refactoring Administrator/mod_submenu
+ ^ Accepted [#19274] Refactoring Administrator/mod_login; fixed return URL on login/logout.
+ ^ Accepted [#19271] Refactored Administrator/mod_latest
+ ^ Accepted [#18890] XML Installer for Front End Modules
+ ^ Accepted [#17634] [patch] Add title to grid.id checkboxes to allieviate the need for a label
+
+04-Jan-2010 Andrew Eddie
+ ^ Applied [#19231] JFormFieldList and onchange behavior.
+ ^ Applied [#19143] Loading data into specified objects via database layer.
+ ^ Applied [#17818] Refactoring administrator/com_massmail
+
+03-Jan-2010 Hannes Papenberg
 ^ Deprecated JSimpleXML - Due to time restraints, this does unfortunately
  not mean that we are removing it from use in core code in 1.6 yet.
 - Removed JElementAssetgroups JParameter Element. This is a leftover from earlier ACL tests.
 ^ Set a default date format for JFormFieldCalendar
 # Fixed JElementComponentLayouts. Its now using the new #__template_styles table
  
-
-02-Jan-2009 Ron Severdia
+02-Jan-2010 Ron Severdia
 # Fixed bug in CSS for ACL, general CSS cleanup & reformat
 # Visual cleanup on borders and login page
 
-01-Jan-2009 Mark Dexter
+01-Jan-2010 Mark Dexter
 # Fix bug where article global parameters were not showing 
 
 29-Dec-2009 Mark Dexter
