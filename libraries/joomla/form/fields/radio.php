@@ -2,14 +2,13 @@
 /**
  * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @copyright	Copyright (C) 2008 - 2009 JXtended, LLC. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_BASE') or die;
 
 jimport('joomla.html.html');
-jimport('joomla.form.field');
+jimport('joomla.form.formfield');
 
 /**
  * Form Field class for the Joomla Framework.
@@ -36,9 +35,8 @@ class JFormFieldRadio extends JFormField
 	{
 		// Get the options for the radio list.
 		$options = array();
-		foreach ($this->_element->children() as $option)
-		{
-			$tmp = JHtml::_('select.option', $option->attributes('value'), $option->data());
+		foreach ($this->_element->children() as $option) {
+			$tmp = JHtml::_('select.option', $option->attributes('value'), trim($option->data()));
 			$tmp->class = $option->attributes('class');
 			$options[] = $tmp;
 		}
@@ -50,21 +48,16 @@ class JFormFieldRadio extends JFormField
 		$html = array();
 		$html[] = '<fieldset id="'.$this->inputId.'" '.$class.'>';
 
-		foreach ($options as $i => $option)
-		{
-			if (is_array($this->value))
-			{
-				foreach ($this->value as $val)
-				{
+		foreach ($options as $i => $option) {
+			if (is_array($this->value)) {
+				foreach ($this->value as $val) {
 					$value = is_object($val) ? $val->value : $val;
-					if ($option->value == $value)
-					{
+					if ($option->value == $value) {
 						$bool = ' selected="selected"';
 						break;
 					}
 				}
-			}
-			else {
+			} else {
 				$bool = ((string) $option->value == (string) $this->value ? ' checked="checked"' : null);
 			}
 

@@ -45,7 +45,8 @@ class UsersControllerUsers extends JController
 	 */
 	public function &getModel($name = 'User', $prefix = 'UsersModel')
 	{
-		return parent::getModel($name, $prefix, array('ignore_request' => true));
+		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
+		return $model;
 	}
 
 	/**
@@ -162,7 +163,7 @@ class UsersControllerUsers extends JController
 		// Check for request forgeries.
 		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
-		// Initialize variables.
+		// Initialise variables.
 		$app	= JFactory::getApplication();
 		$model	= &$this->getModel('User');
 		$vars	= JRequest::getVar('batch', array(), 'post', 'array');

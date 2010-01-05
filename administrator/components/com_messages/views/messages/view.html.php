@@ -4,12 +4,14 @@
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+// No direct access.
 defined('_JEXEC') or die;
 
-jimport( 'joomla.application.component.view');
+jimport('joomla.application.component.view');
 
 /**
- * HTML View class for the Messages component
+ * View class for a list of messages.
  *
  * @package		Joomla.Administrator
  * @subpackage	com_messages
@@ -17,34 +19,65 @@ jimport( 'joomla.application.component.view');
  */
 class MessagesViewMessages extends JView
 {
-	public $pagination;
-	public $items;
-	public $state;
+	protected $state;
+	protected $items;
+	protected $pagination;
 
+	/**
+	 * Display the view
+	 */
 	public function display($tpl = null)
 	{
-		$items = $this->get('Items');
-		$pagination = $this->get('Pagination');
-		$state = $this->get('State');
+		$state		= $this->get('State');
+		$items		= $this->get('Items');
+		$pagination	= $this->get('Pagination');
 
-		$this->assignRef('items', $items);
-		$this->assignRef('pagination', $pagination);
-		$this->assignRef('state', $state);
+		// Check for errors.
+		if (count($errors = $this->get('Errors')))
+		{
+			JError::raiseError(500, implode("\n", $errors));
+			return false;
+		}
+
+		$this->assignRef('state',		$state);
+		$this->assignRef('items',		$items);
+		$this->assignRef('pagination',	$pagination);
 
 		parent::display($tpl);
 		$this->_setToolbar();
 	}
 
+	/**
+	 * Setup the Toolbar.
+	 */
 	protected function _setToolbar()
 	{
-		JToolBarHelper::title(JText::_('PRIVATE_MESSAGES'), 'inbox.png');
+		$state	= $this->get('State');
+		$canDo	= MessagesHelper::getActions();
 
-		JToolBarHelper::addNew();
-		JToolBarHelper::deleteList();
-		JToolBarHelper::divider();
-		JToolBarHelper::custom('config', 'config.png', 'config_f2.png', 'Settings', false, false);
-		JToolBarHelper::preferences('com_redirect');
-		JToolBarHelper::divider();
+		JToolBarHelper::title(JText::_('Messages_Manager_Messages'), 'inbox.png');
+
+		if ($canDo->get('core.create')) {
+			JToolBarHelper::addNew('message.add');
+		}
+		if ($canDo->get('core.edit.state')) {
+			JToolBarHelper::custom('messages.publish', 'publish.png', 'publish_f2.png', 'Messages_Toolbar_Publish', true);
+			JToolBarHelper::custom('messages.unpublish', 'unpublish.png', 'unpublish_f2.png', 'Messages_Toolbar_UnPublish', true);
+		}
+		if ($state->get('filter.state') == -2 && $canDo->get('core.delete')) {
+			JToolBarHelper::deleteList('', 'messages.delete');
+		}
+		else if ($canDo->get('core.edit.state')) {
+			JToolBarHelper::trash('messages.trash');
+		}
+
+		//JToolBarHelper::addNew('module.add');
+		$bar = &JToolBar::getInstance('toolbar');
+		$bar->appendButton('Popup', 'config', 'Messages_Toolbar_My_Settings', 'index.php?option=com_messages&amp;view=config&amp;tmpl=component', 850, 400);
+
+		if ($canDo->get('core.admin')) {
+			JToolBarHelper::preferences('com_messages');
+		}
 		JToolBarHelper::help('screen.messages.inbox');
 	}
 }

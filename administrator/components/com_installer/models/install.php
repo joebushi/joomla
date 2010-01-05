@@ -12,6 +12,9 @@ jimport('joomla.application.component.model');
 jimport('joomla.installer.installer');
 jimport('joomla.installer.helper');
 
+// Import library dependencies
+require_once dirname(__FILE__).DS.'extension.php';
+
 /**
  * Extension Manager Install Model
  *
@@ -19,7 +22,7 @@ jimport('joomla.installer.helper');
  * @subpackage	com_installer
  * @since		1.5
  */
-class InstallerModelInstall extends JModel
+class InstallerModelInstall extends InstallerModel
 {
 	/**
 	 * @var object JTable object
@@ -49,14 +52,19 @@ class InstallerModelInstall extends JModel
 	 */
 	protected function _populateState()
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$app = &JFactory::getApplication('administrator');
 
 		// Remember the 'Install from Directory' path.
 		$path = $app->getUserStateFromRequest($this->_context.'.install_directory', 'install_directory', $app->getCfg('config.tmp_path'));
 		$this->setState('install.directory', $path);
+		parent::_populateState();
 	}
 
+	/**
+	 * Install an extension from either folder, url or upload
+	 * @return boolean result of install
+	 */
 	function install()
 	{
 		$this->setState('action', 'install');
@@ -124,7 +132,8 @@ class InstallerModelInstall extends JModel
 	}
 
 	/**
-	 * @param string The class name for the installer
+	 * Works out an installation package from a HTTP upload
+	 * @return package definition or false on failure
 	 */
 	function _getPackageFromUpload()
 	{
@@ -175,7 +184,7 @@ class InstallerModelInstall extends JModel
 	 * Install an extension from a directory
 	 *
 	 * @static
-	 * @return boolean True on success
+	 * @return Package details or false on failure
 	 * @since 1.0
 	 */
 	function _getPackageFromFolder()
@@ -211,7 +220,7 @@ class InstallerModelInstall extends JModel
 	 * Install an extension from a URL
 	 *
 	 * @static
-	 * @return boolean True on success
+	 * @return Package details or false on failure
 	 * @since 1.5
 	 */
 	function _getPackageFromUrl()

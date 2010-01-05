@@ -54,7 +54,8 @@ class UsersModelUser extends JModelForm
 	*/
 	public function &getTable($type = 'User', $prefix = 'JTable', $config = array())
 	{
-		return JTable::getInstance($type, $prefix, $config);
+		$table = JTable::getInstance($type, $prefix, $config);
+		return $table;
 	}
 
 	/**
@@ -97,7 +98,7 @@ class UsersModelUser extends JModelForm
 		JPluginHelper::importPlugin('user');
 
 		// Trigger the data preparation event.
-		$results = $dispatcher->trigger('onPrepareUsersProfileData', array($table->id, &$value));
+		$results = $dispatcher->trigger('onPrepareUserProfileData', array($table->id, &$value));
 
 		// Convert the params field to an array.
 		$registry = new JRegistry;
@@ -131,7 +132,7 @@ class UsersModelUser extends JModelForm
 		JPluginHelper::importPlugin('user');
 
 		// Trigger the form preparation event.
-		$results = $dispatcher->trigger('onPrepareUsersProfileForm', array($this->getState('user.id'), &$form));
+		$results = $dispatcher->trigger('onPrepareUserProfileForm', array($this->getState('user.id'), &$form));
 
 		// Check for errors encountered while preparing the form.
 		if (count($results) && in_array(false, $results, true)) {
@@ -209,8 +210,11 @@ class UsersModelUser extends JModelForm
 		// Get the old user.
 		$old = JUser::getInstance($table->id);
 
+		// Merge the table back into the raw data for plugin processing.
+		$data = array_merge($data, $table->getProperties(true));
+
 		// Trigger the onBeforeStoreUser event.
-		$result = $dispatcher->trigger('onBeforeStoreUser', array($old->getProperties(), $isNew, $table->getProperties()));
+		$result = $dispatcher->trigger('onBeforeStoreUser', array($old->getProperties(true), $isNew, $data));
 		if (in_array(false, $result, true)) {
 			$this->setError($table->getError());
 			return false;
@@ -224,7 +228,7 @@ class UsersModelUser extends JModelForm
 		}
 
 		// Trigger the onAftereStoreUser event
-		$dispatcher->trigger('onAfterStoreUser', array($table->getProperties(), $isNew, true, null));
+		$dispatcher->trigger('onAfterStoreUser', array($data, $isNew, true, null));
 
 		$this->setState('user.id', $table->id);
 
@@ -559,7 +563,7 @@ class UsersModelUser extends JModelForm
 	 */
 	public function getAssignedGroups($userId = null)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$userId = (!empty($userId)) ? $userId : (int)$this->getState('user.id');
 
 		jimport('joomla.user.helper');

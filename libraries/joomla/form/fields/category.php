@@ -2,7 +2,6 @@
 /**
  * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @copyright	Copyright (C) 2008 - 2009 JXtended, LLC. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,31 +42,25 @@ class JFormFieldCategory extends JFormFieldList
 			$published = null;
 		}
 
-		if (!empty($extension))
-		{
+		if (!empty($extension)) {
 			if ($published) {
 				$options = JHtml::_('category.options', $extension, array('filter.published' => implode(',', $published)));
-			}
-			else {
+			} else {
 				$options = JHtml::_('category.options', $extension);
 			}
 
 			// Verify permissions.  If the action attribute is set, then we scan the options.
-			if ($action	= $this->_element->attributes('action'))
-			{
+			if ($action	= $this->_element->attributes('action')) {
 				$user = JFactory::getUser();
 				// TODO: Add a preload method to JAccess so that we can get all the asset rules in one query and cache them.
 				// eg JAccess::preload('core.create', 'com_content.category')
-				foreach ($options as $i => $option)
-				{
+				foreach ($options as $i => $option) {
 					if (!$user->authorise($action, $extension.'.category.'.$option->value)) {
 						unset($options[$i]);
 					}
 				}
 			}
-		}
-		else
-		{
+		} else {
 			JError::raiseWarning(500, JText::_('JFramework_Form_Fields_Category_Error_extension_empty'));
 		}
 

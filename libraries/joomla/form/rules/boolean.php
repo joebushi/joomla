@@ -4,7 +4,6 @@
  * @package		Joomla.Framework
  * @subpackage	Form
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @copyright	Copyright (C) 2008 - 2009 JXtended, LLC. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,7 +24,6 @@ class JFormRuleBoolean extends JFormRule
 	 * The regular expression.
 	 *
 	 * @var		string
-	 * @since	1.6
 	 */
 	protected $_regex = '^0|1|true|false$';
 
@@ -33,7 +31,6 @@ class JFormRuleBoolean extends JFormRule
 	 * The regular expression modifiers.
 	 *
 	 * @var		string
-	 * @since	1.6
 	 */
 	protected $_modifiers = 'i';
 }

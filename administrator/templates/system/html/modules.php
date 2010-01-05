@@ -37,7 +37,7 @@ function modChrome_xhtml($module, &$params, &$attribs)
  */
 function modChrome_sliders($module, &$params, &$attribs)
 {
-	// Initialize variables
+	// Initialise variables.
 	$user = &JFactory::getUser();
 
 	$editAllComponents 	= $user->authorize('core.manage', 'com_installer');
@@ -54,9 +54,9 @@ function modChrome_sliders($module, &$params, &$attribs)
  */
 function modChrome_tabs($module, &$params, &$attribs)
 {
-	// Initialize variables
+	// Initialise variables.
 	$user	= &JFactory::getUser();
-	
+
 	$editAllComponents 	= $user->authorize('core.manage', 'com_installer');
 
 	// special handling for components module

@@ -2,7 +2,6 @@
 /**
  * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @copyright	Copyright (C) 2008 - 2009 JXtended, LLC. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,7 +33,7 @@ class JFormFieldCalendar extends JFormFieldText
 	 */
 	protected function _getInput()
 	{
-		$format = $this->_element->attributes('format');
+		$format = ($this->_element->attributes('format') ? $this->_element->attributes('format') : '%Y-%m-%d');
 		$filter = $this->_element->attributes('filter');
 		$time	= $this->_element->attributes('time');
 
@@ -50,8 +49,7 @@ class JFormFieldCalendar extends JFormFieldText
 		{
 			case 'SERVER_UTC':
 				// Convert a date to UTC based on the server timezone.
-				if (intval($this->value))
-				{
+				if (intval($this->value)) {
 					// Get a date object based on the correct timezone.
 					$date = JFactory::getDate($this->value, 'UTC');
 					$date->setOffset($config->getValue('config.offset'));
@@ -63,8 +61,7 @@ class JFormFieldCalendar extends JFormFieldText
 
 			case 'USER_UTC':
 				// Convert a date to UTC based on the user timezone.
-				if (intval($this->value))
-				{
+				if (intval($this->value)) {
 					// Get a date object based on the correct timezone.
 					$date = JFactory::getDate($this->value, 'UTC');
 					$date->setOffset($user->getParam('timezone', $config->getValue('config.offset')));

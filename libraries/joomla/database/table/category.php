@@ -60,7 +60,7 @@ class JTableCategory extends JTableNested
 	 */
 	protected function _getAssetParentId()
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$assetId = null;
 
 		// This is a category under a category.
@@ -122,11 +122,37 @@ class JTableCategory extends JTableNested
 			$this->alias = strtolower($this->title);
 		}
 
-		$this->alias = JFilterOutput::stringURLSafe($this->alias);
+		$this->alias = JApplication::stringURLSafe($this->alias);
 		if (trim(str_replace('-','',$this->alias)) == '') {
 			$this->alias = JFactory::getDate()->toFormat('%Y-%m-%d-%H-%M-%S');
 		}
 
 		return true;
+	}
+	/**
+	 * Overloaded bind function.
+	 *
+	 * @param	array		named array
+	 * @return	null|string	null is operation was satisfactory, otherwise returns an error
+	 * @see		JTable:bind
+	 * @since	1.5
+	 */
+	public function bind($array, $ignore = '')
+	{
+		if (isset($array['params']) && is_array($array['params']))
+		{
+			$registry = new JRegistry();
+			$registry->loadArray($array['params']);
+			$array['params'] = $registry->toString();
+		}
+
+		if (isset($array['metadata']) && is_array($array['metadata']))
+		{
+			$registry = new JRegistry();
+			$registry->loadArray($array['metadata']);
+			$array['metadata'] = $registry->toString();
+		}
+
+		return parent::bind($array, $ignore);
 	}
 }

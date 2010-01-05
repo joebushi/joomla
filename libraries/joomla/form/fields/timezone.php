@@ -2,7 +2,6 @@
 /**
  * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @copyright	Copyright (C) 2008 - 2009 JXtended, LLC. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -41,8 +40,7 @@ class JFormFieldTimezone extends JFormFieldList
 
 		$options = array();
 		$group = '';
-		foreach (DateTimeZone::listIdentifiers() as $tz)
-		{
+		foreach (DateTimeZone::listIdentifiers() as $tz) {
 			if ($group != substr($tz, 0, strpos($tz, '/'))) {
 				$group = substr($tz, 0, strpos($tz, '/'));
 				$options[] = JHtml::_('select.optgroup', $group);

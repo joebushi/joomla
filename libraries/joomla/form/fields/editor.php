@@ -2,14 +2,13 @@
 /**
  * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @copyright	Copyright (C) 2008 - 2009 JXtended, LLC. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_BASE') or die;
 
 jimport('joomla.html.editor');
-jimport('joomla.form.field');
+jimport('joomla.form.formfield');
 
 /**
  * Form Field class for the Joomla Framework.
@@ -50,11 +49,9 @@ class JFormFieldEditor extends JFormField
 
 		if ($buttons == 'true' || $buttons == 'yes' || $buttons == 1) {
 			$buttons = true;
-		}
-		else if ($buttons == 'false' || $buttons == 'no' || $buttons == 0) {
+		} else if ($buttons == 'false' || $buttons == 'no' || $buttons == 0) {
 			$buttons = false;
-		}
-		else {
+		} else {
 			$buttons = explode(',', $buttons);
 		}
 
@@ -70,12 +67,10 @@ class JFormFieldEditor extends JFormField
 	 */
 	protected function &_getEditor()
 	{
-		if (empty($this->_editor))
-		{
+		if (empty($this->_editor)) {
 			// editor attribute can be in the form of:
 			// editor="desired|alternative"
-			if ($editorName = trim($this->_element->attributes('editor')))
-			{
+			if ($editorName = trim($this->_element->attributes('editor'))) {
 				$parts	= explode('|', $editorName);
 				$db		= &JFactory::getDbo();
 				$query	= 'SELECT element' .
@@ -86,11 +81,9 @@ class JFormFieldEditor extends JFormField
 				$db->setQuery($query);
 				if ($db->loadResult()) {
 					$editorName	= trim($parts[0]);
-				}
-				else if (isset($parts[1])) {
+				} else if (isset($parts[1])) {
 					$editorName	= trim($parts[1]);
-				}
-				else {
+				} else {
 					$editorName	= '';
 				}
 				$this->_element->addAttribute('editor', $editorName);

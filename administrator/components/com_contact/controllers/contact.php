@@ -46,7 +46,8 @@ class ContactControllerContact extends JController
 	 */
 	function &getModel()
 	{
-		return parent::getModel('Contact', '', array('ignore_request' => true));
+		$model = parent::getModel('Contact', '', array('ignore_request' => true));
+		return $model;
 	}
 
 	/**
@@ -56,7 +57,7 @@ class ContactControllerContact extends JController
 	 */
 	public function add()
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$app = &JFactory::getApplication();
 
 		// Clear the menu item edit information from the session.
@@ -74,7 +75,7 @@ class ContactControllerContact extends JController
 	 */
 	function edit()
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$app	= &JFactory::getApplication();
 		$ids	= JRequest::getVar('cid', array(), '', 'array');
 
@@ -122,7 +123,7 @@ class ContactControllerContact extends JController
 	function cancel()
 	{
 		JRequest::checkToken() or jExit(JText::_('JInvalid_Token'));
-		// Initialize variables.
+		// Initialise variables.
 		$app = &JFactory::getApplication();
 
 		// Get the previous  id (if any) and the current  id.
@@ -160,7 +161,7 @@ class ContactControllerContact extends JController
 		// Check for request forgeries.
 		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
-		// Initialize variables.
+		// Initialise variables.
 		$app	= &JFactory::getApplication();
 		$model	= &$this->getModel('Item');
 		$task	= $this->getTask();

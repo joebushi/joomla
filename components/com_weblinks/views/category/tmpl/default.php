@@ -19,7 +19,11 @@ $pageClass = $this->params->get('pageclass_sfx');
 
 <?php if ($this->params->def('show_page_title', 1)) : ?>
 	<h2>
-		<?php echo $this->escape($this->params->get('page_title')); ?>
+		<?php if ($this->escape($this->params->get('page_heading'))) :?>
+			<?php echo $this->escape($this->params->get('page_heading')); ?>
+		<?php else : ?>
+			<?php echo $this->escape($this->params->get('page_title')); ?>
+		<?php endif; ?>
 	</h2>
 <?php endif; ?>
 <?php  /**
@@ -31,7 +35,7 @@ TODO fix images in com_categories ?>
 		$attribs['hspace']	= 6;
 
 		// Use the static HTML library to build the image tag
-		echo JHtml::_('image', 'images/stories/'.$this->category->image, JText::_('Weblinks_Image Label'), $attribs);
+		echo JHtml::_('image', 'images/'.$this->category->image, JText::_('Weblinks_Image Label'), $attribs);
 	?>
 <?php endif; ?>
 <?php  **/ ?>

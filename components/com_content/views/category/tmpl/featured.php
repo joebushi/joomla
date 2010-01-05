@@ -17,57 +17,60 @@ JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
 $pageClass = $this->params->get('pageclass_sfx');
 ?>
 
-<div class="jarticles-featured<?php echo $pageClass;?>">
+<div class="blog-featured<?php echo $pageClass;?>">
 
 <?php if ($this->params->get('show_page_title', 1)) : ?>
-<h2>
-	<?php echo $this->escape($this->params->get('page_title')); ?>
-</h2>
+<h1>
+	<?php if ($this->escape($this->params->get('page_heading'))) :?>
+		<?php echo $this->escape($this->params->get('page_heading')); ?>
+	<?php else : ?>
+		<?php echo $this->escape($this->params->get('page_title')); ?>
+	<?php endif; ?>
+</h1>
 <?php endif; ?>
 
 <?php if (!empty($this->lead_items)) : ?>
-<ul class="jarticles-lead">
+<div class="items-leading">
 	<?php foreach ($this->lead_items as &$item) : ?>
-	<li<?php echo $item->state == 0 ? ' class="system-unpublished"' : null; ?>>
-		<?php
-			$this->item = &$item;
-			echo $this->loadTemplate('item');
-		?>
-	</li>
+		<div <?php echo $item->state == 0 ? 'class="system-unpublished"' : null; ?>>
+			<?php
+				$this->item = &$item;
+				echo $this->loadTemplate('item');
+			?>
+		</div>
 	<?php endforeach; ?>
-</ul>
+</div>
 <?php endif; ?>
 
 <?php if (!empty($this->intro_items)) : ?>
-<ul class="jarticles-intro jcols-<?php echo (int) $this->columns;?>">
+<div class="items-intro cols-<?php echo (int) $this->columns;?>">
 	<?php foreach ($this->intro_items as $key => &$item) : ?>
-	<li class="jcolumn-<?php echo (((int)$key - 1) % (int) $this->columns)+1;?><?php echo $item->state == 0 ? ' system-unpublished"' : null; ?>">
+	<div class="column-<?php echo (((int)$key - 1) % (int) $this->columns)+1;?><?php echo $item->state == 0 ? ' system-unpublished"' : null; ?>">
 		<?php
 			$this->item = &$item;
 			echo $this->loadTemplate('item');
 		?>
-	</li>
+	</div>
 	<?php endforeach; ?>
-</ul>
+</div>
 
 <?php endif; ?>
 
 <?php if (!empty($this->link_items)) : ?>
-	<div class="jarticles-more">
-	<?php echo $this->loadTemplate('links'); ?>
+	<div class="items_more">
+		<?php echo $this->loadTemplate('links'); ?>
 	</div>
 <?php endif; ?>
 
-<?php if ($this->params->def('show_pagination', 2) == 1  || ($this->params->get('show_pagination') == 2 && $this->pagination->get('pages.total') > 1)) : ?>
-	<div class="jpagination">
-		<?php echo $this->pagination->getPagesLinks(); ?>
-		<?php if ($this->params->def('show_pagination_results', 1)) : ?>
-			<div class="jpag-results">
-				<?php echo $this->pagination->getPagesCounter(); ?>
-			</div>
-		<?php endif; ?>
-	</div>
-<?php endif; ?>
+<?php  // if ($this->params->def('show_pagination', 2) == 1  || ($this->params->get('show_pagination') == 2 && $this->pagination->get('pages.total') > 1)) : ?>
+        <div class="pagination">
+                <?php // if ($this->params->def('show_pagination_results', 1)) : ?>
+                        <p class="counter">
+                                <?php // echo $this->pagination->getPagesCounter(); ?>
+                        </p>
+                <?php // endif; ?>
+                   <?php // echo $this->pagination->getPagesLinks(); ?>
+        </div>
+<?php //  endif;   ?>
 
 </div>
-

@@ -7,7 +7,7 @@
 
 defined('JPATH_BASE') or die;
 
-jimport('joomla.form.field');
+jimport('joomla.form.formfield');
 require_once dirname(__FILE__).DS.'list.php';
 
 /**
@@ -46,10 +46,8 @@ class JFormFieldTemplateStyle extends JFormFieldList
 		// Pre-process into groups.
 		$last		= null;
 		$options	= array();
-		foreach ($styles as $style)
-		{
-			if ($style->template != $last)
-			{
+		foreach ($styles as $style) {
+			if ($style->template != $last) {
 				$options[] = JHtml::_('select.optgroup', $style->template);
 				$last = $style->template;
 			}

@@ -110,7 +110,7 @@ class JControllerForm extends JController
 	 *
 	 * @return	object	The model.
 	 */
-	public function &getModel($name = '', $prefix = '', $config = array('ignore_request' => true))
+	public function getModel($name = '', $prefix = '', $config = array('ignore_request' => true))
 	{
 		if (empty($name)) {
 			$name = $this->_context;
@@ -146,7 +146,7 @@ class JControllerForm extends JController
 	 */
 	public function add()
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$app		= JFactory::getApplication();
 		$context	= "$this->_option.edit.$this->_context";
 
@@ -185,12 +185,23 @@ class JControllerForm extends JController
 	 */
 	public function edit()
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$app		= JFactory::getApplication();
 		$model		= $this->getModel();
 		$table		= $model->getTable();
 		$cid		= JRequest::getVar('cid', array(), 'post', 'array');
 		$context	= "$this->_option.edit.$this->_context";
+		$tmpl		= JRequest::getString('tmpl');
+		$layout		= JRequest::getString('layout', 'edit');
+		$append		= '';
+
+		// Setup redirect info.
+		if ($tmpl) {
+			$append .= '&tmpl='.$tmpl;
+		}
+		if ($layout) {
+			$append .= '&layout='.$layout;
+		}
 
 		// Get the previous record id (if any) and the current record id.
 		$previousId	= (int) $app->getUserState($context.'.id');
@@ -210,7 +221,7 @@ class JControllerForm extends JController
 			{
 				// Check-in failed, go back to the record and display a notice.
 				$message = JText::sprintf('JError_Checkin_failed', $model->getError());
-				$this->setRedirect('index.php?option='.$this->_option.'&view='.$this->_view_item.'&layout=edit', $message, 'error');
+				$this->setRedirect('index.php?option='.$this->_option.'&view='.$this->_view_item.$append, $message, 'error');
 				return false;
 			}
 		}
@@ -228,7 +239,7 @@ class JControllerForm extends JController
 			// Check-out succeeded, push the new record id into the session.
 			$app->setUserState($context.'.id',	$recordId);
 			$app->setUserState($context.'.data', null);
-			$this->setRedirect('index.php?option='.$this->_option.'&view='.$this->_view_item.'&layout=edit');
+			$this->setRedirect('index.php?option='.$this->_option.'&view='.$this->_view_item.$append);
 			return true;
 		}
 	}
@@ -240,7 +251,7 @@ class JControllerForm extends JController
 	{
 		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
-		// Initialize variables.
+		// Initialise variables.
 		$app		= JFactory::getApplication();
 		$model		= &$this->getModel();
 		$checkin	= method_exists($model, 'checkin');
@@ -279,7 +290,7 @@ class JControllerForm extends JController
 	 */
 	protected function _allowSave($data, $key = 'id')
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$recordId	= isset($data[$key]) ? $data[$key] : '0';
 
 		if ($recordId) {
@@ -298,7 +309,7 @@ class JControllerForm extends JController
 		// Check for request forgeries.
 		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
-		// Initialize variables.
+		// Initialise variables.
 		$app		= JFactory::getApplication();
 		$model		= $this->getModel();
 		$table		= $model->getTable();

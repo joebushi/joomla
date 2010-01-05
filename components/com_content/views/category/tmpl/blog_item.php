@@ -18,30 +18,30 @@ $params = &$this->item->params;
 <div class="system-unpublished">
 <?php endif; ?>
 <?php if ($params->get('show_title')) : ?>
-	<h3>
+	<h2>
 		<?php if ($params->get('link_titles') && $params->get('access-view')) : ?>
 			<a href="<?php echo JRoute::_(ContentRoute::article($this->item->slug, $this->item->catslug)); ?>">
 			<?php echo $this->escape($this->item->title); ?></a>
 		<?php else : ?>
 			<?php echo $this->escape($this->item->title); ?>
 		<?php endif; ?>
-	</h3>
+	</h2>
 <?php endif; ?>
 
 <?php if ($params->get('show_print_icon') || $params->get('show_email_icon') || $params->get('access-edit')) : ?>
-	<ul class="jactions">
+	<ul class="actions">
 		<?php if ($params->get('show_print_icon')) : ?>
-		<li class="jprint">
+		<li class="print-icon">
 			<?php echo JHtml::_('icon.print_popup', $this->item, $params); ?>
 		</li>
 		<?php endif; ?>
 		<?php if ($params->get('show_email_icon')) : ?>
-		<li class="jemail">
+		<li class="email-icon">
 			<?php echo JHtml::_('icon.email', $this->item, $params); ?>
 		</li>
 		<?php endif; ?>
 		<?php if ($params->get('access-edit')) : ?>
-		<li class="jedit">
+		<li class="edit-icon">
 			<?php echo JHtml::_('icon.edit', $this->item, $params); ?>
 		</li>
 		<?php endif; ?>
@@ -54,9 +54,9 @@ $params = &$this->item->params;
 
 <?php echo $this->item->event->beforeDisplayContent; ?>
 
-<div class="jiteminfo">
+<div class="item-info">
 	<?php if ($params->get('show_category')) : ?>
-		<span class="jcategory">
+		<span class="item-category">
 			<?php if ($params->get('link_category')) : ?>
 				<a href="<?php echo JRoute::_(ContentRoute::category($this->item->catslug)); ?>">
 					<?php echo $this->escape($this->item->category_title); ?> </a>
@@ -65,25 +65,25 @@ $params = &$this->item->params;
 			<?php endif; ?>
 		</span>
 	<?php endif; ?>
-
+	
 	<?php if ($params->get('show_create_date')) : ?>
-		<span class="jcreated-date">
+		<span class="created-date">
 			<?php echo JHtml::_('date', $this->item->created, JText::_('DATE_FORMAT_LC2')); ?>
 		</span>
 	<?php endif; ?>
-
+	
 	<?php if (intval($this->item->modified) && $params->get('show_modify_date')) : ?>
-		<span class="jmodified-date">
+		<span class="modified-date">
 			<?php echo JText::sprintf('LAST_UPDATED2', JHtml::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC2'))); ?>
 		</span>
 	<?php endif; ?>
-
+	
 	<?php if ($params->get('show_author') && !empty($this->item->author)) : ?>
-		<span class="jcreated-by">
-			<?php echo JText::sprintf('Written by', ($this->item->created_by_alias ? $this->item->created_by_alias : $this->item->author)); ?>
+		<span class="created-by">
+			<?php echo JText::sprintf('Written_by', ($this->item->created_by_alias ? $this->item->created_by_alias : $this->item->author)); ?>
 		</span>
 	<?php endif; ?>
-
+	
 </div>
 
 <?php echo $this->item->introtext; ?>
@@ -95,20 +95,21 @@ $params = &$this->item->params;
 		$link = JRoute::_("index.php?option=com_users&view=login");
 	endif;
 ?>
-	<div class="jreadmore">
-		<a href="<?php echo $link; ?>" >
-			<?php if (!$params->get('access-view')) :
-				echo JText::_('Register to read more...');
-			elseif ($readmore = $params->get('readmore')) :
-				echo $readmore;
-			else :
-				echo JText::sprintf('Read more...');
-			endif; ?></a>
-	</div>
+        <p class="readmore">
+                <a href="<?php echo $link; ?>">
+                        <?php if (!$params->get('access-view')) :
+                                echo JText::_('Register to read more...');
+                        elseif ($readmore = $params->get('readmore')) :
+                                echo $readmore;
+                        else :
+                                echo JText::sprintf('Read more', $this->escape($this->item->title));
+                        endif; ?></a>
+        </p>
 <?php endif; ?>
 
 <?php if ($this->item->state == 0) : ?>
 </div>
 <?php endif; ?>
-<div class="jseparator"></div>
+
+<div class="item-separator"></div>
 <?php echo $this->item->event->afterDisplayContent; ?>

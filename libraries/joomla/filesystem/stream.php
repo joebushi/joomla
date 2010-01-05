@@ -734,7 +734,7 @@ class JStream extends JObject
 	 * @param
 	 * @see http://www.php.net/manual/en/function.stream-filter-append.php
 	 */
-	function &appendFilter($filtername, $read_write=STREAM_FILTER_READ, $params=Array() )
+	function appendFilter($filtername, $read_write=STREAM_FILTER_READ, $params=Array() )
 	{
 		$res = false;
 		if($this->_fh)
@@ -757,7 +757,7 @@ class JStream extends JObject
 		return $res;
 	}
 
-	function &prependFilter($filtername, $read_write=STREAM_FILTER_READ, $params=Array() )
+	function prependFilter($filtername, $read_write=STREAM_FILTER_READ, $params=Array() )
 	{
 		$res = false;
 		if($this->_fh)
@@ -767,8 +767,15 @@ class JStream extends JObject
 			$track_errors = ini_get('track_errors');
 			ini_set('track_errors', true);
 			$res = @stream_filter_prepend($this->_fh, $filername, $read_write, $params);
-			if(!$res && $php_errormsg) $this->setError($php_errormsg); // set the error msg
-			else JUtility::array_unshift_ref($res, $this->filters); // push the new resource onto the filter stack
+			if(!$res && $php_errormsg)
+			{
+				$this->setError($php_errormsg); // set the error msg
+			}
+			else
+			{
+				array_unshift(&$res,'');
+				$res[0] =&$this->filters;
+			}
 			// restore error tracking to what it was before
 			ini_set('track_errors',$track_errors);
 		}

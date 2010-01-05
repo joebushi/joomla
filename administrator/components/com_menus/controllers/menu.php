@@ -46,7 +46,7 @@ class MenusControllerMenu extends JController
 	 */
 	public function add()
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$app = &JFactory::getApplication();
 
 		// Clear the menu item edit information from the session.
@@ -64,7 +64,7 @@ class MenusControllerMenu extends JController
 	 */
 	public function edit()
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$app	= &JFactory::getApplication();
 		$ids	= JRequest::getVar('cid', array(), '', 'array');
 
@@ -87,7 +87,7 @@ class MenusControllerMenu extends JController
 	 */
 	public function cancel()
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$app = &JFactory::getApplication();
 
 		// Clear the menu item edit information from the session.
@@ -108,12 +108,20 @@ class MenusControllerMenu extends JController
 		// Check for request forgeries.
 		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
-		// Initialize variables.
+		// Initialise variables.
 		$app	= &JFactory::getApplication();
 		$task	= $this->getTask();
 
 		// Get the posted values from the request.
 		$data	= JRequest::getVar('jform', array(), 'post', 'array');
+		
+		// Check the menutype
+		if($data['menutype'] == '_adminmenu'){
+			JError::raiseNotice(0, JText::_('MENUS_MENU_TYPE_NOT_ALLOWED'));
+			// Redirect back to the edit screen.
+			$this->setRedirect(JRoute::_('index.php?option=com_menus&view=menu&layout=edit', false));
+			return false;
+		}
 
 		// Populate the row id from the session.
 		$data['id'] = (int) $app->getUserState('com_menus.edit.menu.id');

@@ -46,16 +46,13 @@ class JEditor extends JObservable
 	}
 
 	/**
-	 * Returns a reference to a global Editor object, only creating it
+	 * Returns the global Editor object, only creating it
 	 * if it doesn't already exist.
-	 *
-	 * This method must be invoked as:
-	 * 		<pre>  $editor = &JEditor::getInstance([$editor);</pre>
 	 *
 	 * @param	string	$editor  The editor to use.
 	 * @return	JEditor	The Editor object.
 	 */
-	public static function &getInstance($editor = 'none')
+	public static function getInstance($editor = 'none')
 	{
 		static $instances;
 
@@ -73,7 +70,7 @@ class JEditor extends JObservable
 	}
 
 	/**
-	 * Initialize the editor
+	 * Initialise the editor
 	 */
 	public function initialise()
 	{
@@ -124,7 +121,7 @@ class JEditor extends JObservable
 		$width	= str_replace(';', '', $width);
 		$height	= str_replace(';', '', $height);
 
-		// Initialize variables
+		// Initialise variables.
 		$return = null;
 
 		$args['name']		= $name;
@@ -139,8 +136,7 @@ class JEditor extends JObservable
 
 		$results[] = $this->_editor->update($args);
 
-		foreach ($results as $result)
-		{
+		foreach ($results as $result) {
 			if (trim($result)) {
 				$return .= $result;
 			}
@@ -238,8 +234,7 @@ class JEditor extends JObservable
 		// Get plugins
 		$plugins = JPluginHelper::getPlugin('editors-xtd');
 
-		foreach($plugins as $plugin)
-		{
+		foreach($plugins as $plugin) {
 			if (is_array($buttons) &&  in_array($plugin->name, $buttons)) {
 				continue;
 			}
@@ -277,13 +272,15 @@ class JEditor extends JObservable
 
 		// Build the path to the needed editor plugin
 		$name = JFilterInput::clean($this->_name, 'cmd');
-		$path = JPATH_SITE.DS.'plugins'.DS.'editors'.DS.$name.'.php';
+		$path = JPATH_SITE.DS.'plugins/editors/'.$name.'.php';
 
-		if (! JFile::exists($path))
-		{
-			$message = JText::_('Cannot load the editor');
-			JError::raiseWarning(500, $message);
-			return false;
+		if (!JFile::exists($path)) {
+			$path = JPATH_SITE.DS.'plugins/editors/'.$name.'/'.$name.'.php';
+			if (!JFile::exists($path)) {
+				$message = JText::_('Cannot load the editor');
+				JError::raiseWarning(500, $message);
+				return false;
+			}
 		}
 
 		// Require plugin file
@@ -297,8 +294,7 @@ class JEditor extends JObservable
 
 		// Build editor plugin classname
 		$name = 'plgEditor'.$this->_name;
-		if ($this->_editor = new $name ($this, (array)$plugin))
-		{
+		if ($this->_editor = new $name ($this, (array)$plugin)) {
 			// load plugin parameters
 			$this->initialise();
 			JPluginHelper::importPlugin('editors-xtd');

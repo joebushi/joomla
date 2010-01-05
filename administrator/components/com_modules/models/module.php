@@ -83,7 +83,7 @@ class ModulesModelModule extends JModelForm
 	 * @param	array	$options Configuration array for model. Optional.
 	 * @return	JTable	A database object
 	*/
-	public function &getTable($type = 'Module', $prefix = 'JTable', $config = array())
+	public function getTable($type = 'Module', $prefix = 'JTable', $config = array())
 	{
 		return JTable::getInstance($type, $prefix, $config);
 	}
@@ -129,8 +129,7 @@ class ModulesModelModule extends JModelForm
 		// Initialise variables.
 		$pk = (!empty($pk)) ? (int) $pk : (int) $this->getState('module.id');
 
-		if (!isset($this->_cache[$pk]))
-		{
+		if (!isset($this->_cache[$pk])) {
 			$false	= false;
 
 			// Get a row instance.
@@ -140,17 +139,14 @@ class ModulesModelModule extends JModelForm
 			$return = $table->load($pk);
 
 			// Check for a table object error.
-			if ($return === false && $error = $table->getError())
-			{
+			if ($return === false && $error = $table->getError()) {
 				$this->setError($error);
 				return $false;
 			}
 
 			// Check if we are creating a new extension.
-			if (empty($pk))
-			{
-				if ($extensionId = (int) $this->getState('extension.id'))
-				{
+			if (empty($pk)) {
+				if ($extensionId = (int) $this->getState('extension.id')) {
 					jimport('joomla.database.query');
 					$query = new JQuery;
 					$query->select('element, client_id');
@@ -160,14 +156,10 @@ class ModulesModelModule extends JModelForm
 					$this->_db->setQuery($query);
 
 					$extension = $this->_db->loadObject();
-					if (empty($extension))
-					{
-						if ($error = $this->_db->getErrorMsg())
-						{
+					if (empty($extension)) {
+						if ($error = $this->_db->getErrorMsg()) {
 							$this->setError($error);
-						}
-						else
-						{
+						} else {
 							$this->setError('Modules_Error_Cannot_find_extension');
 						}
 						return false;
@@ -176,9 +168,7 @@ class ModulesModelModule extends JModelForm
 					// Extension found, prime some module values.
 					$table->module		= $extension->element;
 					$table->client_id	= $extension->client_id;
-				}
-				else
-				{
+				} else {
 					$this->setError('Modules_Error_Cannot_get_item');
 					return false;
 				}
@@ -200,29 +190,20 @@ class ModulesModelModule extends JModelForm
 			);
 			$assigned = $this->_db->loadResultArray();
 
-			if (empty($pk))
-			{
+			if (empty($pk)) {
 				// If this is a new module, assign to all pages.
 				$assignment = 0;
-			}
-			else if (empty($assigned))
-			{
+			} else if (empty($assigned)) {
 				// For an existing module it is assigned to none.
 				$assignment = '-';
 			}
-			else
-			{
-				if ($assigned[0] === 0)
-				{
-					$assignment = 0;
-				}
-				else if ($assigned[0] > 0)
-				{
-					$assignment = 1;
-				}
-				else
-				{
+			else {
+				if ($assigned[0] > 0) {
+					$assignment = +1;
+				} else if ($assigned[0] < 0) {
 					$assignment = -1;
+				} else {
+					$assignment = 0;
 				}
 			}
 
@@ -233,12 +214,9 @@ class ModulesModelModule extends JModelForm
 			$client	= JApplicationHelper::getClientInfo($table->client_id);
 			$path	= JPath::clean($client->path.'/modules/'.$table->module.'/'.$table->module.'.xml');
 
-			if (file_exists($path))
-			{
+			if (file_exists($path)) {
 				$this->_cache[$pk]->xml = simplexml_load_file($path);
-			}
-			else
-			{
+			} else {
 				$this->_cache[$pk]->xml = null;
 			}
 		}
@@ -316,8 +294,8 @@ class ModulesModelModule extends JModelForm
 		$formFile		= JPath::clean($client->path.'/modules/'.$module.'/'.$module.'.xml');
 
 		// Load the core and/or local language file(s).
-		$lang->load('tpl_'.$module, JPATH_ADMINISTRATOR);
-		$lang->load('joomla', $client->path.DS.'modules'.DS.$module);
+		$lang->load($module, $client->path);
+		$lang->load('joomla', $client->path.'/modules/'.$module);
 
 		if (file_exists($formFile))
 		{
@@ -409,6 +387,9 @@ class ModulesModelModule extends JModelForm
 		// If the assignment is numeric, then something is selected (otherwise it's none).
 		if (is_numeric($assignment))
 		{
+			// Variable is numeric, but could be a string.
+			$assignment = (int) $assignment;
+
 			// Check needed to stop a module being assigned to `All`
 			// and other menu items resulting in a module being displayed twice.
 			if ($assignment === 0)
@@ -591,7 +572,7 @@ class ModulesModelModule extends JModelForm
 					$rows = $this->_db->loadResultArray();
 
 					foreach ($rows as $menuid) {
-						$tuples[] = '('.(int) $pk.','.(int) $menuid.')';
+						$tuples[] = '('.(int) $table->id.','.(int) $menuid.')';
 					}
 			}
 			else
@@ -668,7 +649,7 @@ class ModulesModelModule extends JModelForm
 	 */
 	function saveorder($pks, $order)
 	{
-		// Initialize variables
+		// Initialise variables.
 		$table		= $this->getTable();
 		$conditions	= array();
 

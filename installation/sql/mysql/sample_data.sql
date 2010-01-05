@@ -19,22 +19,22 @@ INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `titl
 	(36,35,70,73,3,'com_weblinks.category.21','Joomla! Specific Links',''),
 	(37,36,71,72,4,'com_weblinks.category.22','Other Resources',''),
 	(39,7,13,14,2,'com_contact.category.26','Contacts','{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-	(40,1,78,79,1,'com_banner.category.27','Banners',''),
+	(40,1,78,79,1,'com_banners.category.27','Banners',''),
 	(41,19,55,56,2,'com_newsfeeds.category.28','News Feeds','{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}');
 
 --
--- Dumping data for table `#__banner`
+-- Dumping data for table `#__banners`
 --
 
-INSERT IGNORE INTO `#__banner` VALUES
-(1, 1, '', 'OSM 1', 'osm-1', 0, 43, 0, 'osmbanner1.png', 'http://www.opensourcematters.org', '2009-10-10 13:52:59', 1, 0, '0000-00-00 00:00:00', '', '', 27, '', 0, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', 'width=0\nheight=0');
+INSERT IGNORE INTO `#__banners` VALUES
+(1, 1, 0, 'OSM 1', 'osm-1', 0, 43, 0, 'http://www.opensourcematters.org', 1, 27, '', 0, 1, '', '{"custom":{"bannercode":""},"alt":{"alt":"Open Source Matters"},"flash":{"width":"0","height":"0"},"image":{"url":"osmbanner1.png"}}',0 ,'' ,-1 ,-1 ,-1 , 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00','2009-10-10 13:52:59' );
 
 --
--- Dumping data for table `#__bannerclient`
+-- Dumping data for table `#__banner_clients`
 --
 
-INSERT IGNORE INTO `#__bannerclient` VALUES
-(1, 'Open Source Matters', 'Administrator', 'email@email.com', '', 0, '00:00:00', '');
+INSERT IGNORE INTO `#__banner_clients` VALUES
+(1, 'Open Source Matters', 'Administrator', 'email@email.com', '', 1, 0, '0000-00-00 00:00:00','',0,'',-1,-1,-1);
 
 --
 -- Dumping data for table `#__categories` (remove existing rows first)
@@ -53,7 +53,7 @@ INSERT IGNORE INTO `#__categories` VALUES
 (24, 31, 23, 11, 12, 3, 'countries/australia/queensland', 'com_content', 'Queensland', 'queensland', '', 1, 0, '0000-00-00 00:00:00', 1, '', '', '', '', 0, '2009-06-22 20:25:17', 0, '0000-00-00 00:00:00', 0, ''),
 (25, 32, 23, 13, 14, 3, 'countries/australia/tasmania', 'com_content', 'Tasmania', 'tasmania', '', 1, 0, '0000-00-00 00:00:00', 1, '', '', '', '', 0, '2009-06-22 20:25:17', 0, '0000-00-00 00:00:00', 0, ''),
 (26, 38, 1, 17, 18, 1, 'contacts', 'com_contact', 'Contacts', 'contacts', '', 1, 0, '0000-00-00 00:00:00', 1, '', '', '', '', 0, '2009-10-10 05:52:59', 0, '0000-00-00 00:00:00', 0, ''),
-(27, 40, 1, 19, 20, 1, 'banners', 'com_banner', 'Banners', 'banners', '', 1, 0, '0000-00-00 00:00:00', 1, '', '', '', '', 0, '2009-10-10 09:50:46', 0, '0000-00-00 00:00:00', 0, ''),
+(27, 40, 1, 19, 20, 1, 'banners', 'com_banners', 'Banners', 'banners', '', 1, 0, '0000-00-00 00:00:00', 1, '', '', '', '', 0, '2009-10-10 09:50:46', 0, '0000-00-00 00:00:00', 0, ''),
 (28, 41, 1, 21, 22, 1, 'news-feeds', 'com_newsfeeds', 'News Feeds', 'news-feeds', '', 1, 0, '0000-00-00 00:00:00', 1, '', '', '', '', 0, '2009-10-10 10:17:32', 0, '0000-00-00 00:00:00', 0, '');
 
 --
@@ -61,7 +61,7 @@ INSERT IGNORE INTO `#__categories` VALUES
 --
 
 INSERT IGNORE INTO `#__contact_details` VALUES
-(1, 'Contact Name', 'name', 'Position', 'Street Address', 'Suburb', 'State', 'Country', 'Zip Code', 'Telephone', 'Fax', 'Miscellanous info', 'powered_by.png', 'top', 'email@email.com', 1, 1, 42, '2009-10-10 09:53:12', 1, '{"show_name":"1","show_position":"1","show_email":"0","show_street_address":"1","show_suburb":"1","show_state":"1","show_postcode":"1","show_country":"1","show_telephone":"1","show_mobile":"1","show_fax":"1","show_webpage":"1","show_misc":"1","show_image":"1","allow_vcard":"0","show_articles":"1","show_links":"1","linka_name":"","linka":"","linkb_name":"","linkb":"","linkc_name":"","linkc":"","linkd_name":"","linkd":"","linke_name":"","linke":""}', 0, 26, 1, '', '');
+(1, 'Contact Name', 'name', 'Position', 'Street Address', 'Suburb', 'State', 'Country', 'Zip Code', 'Telephone', 'Fax', '<p>Information about or by the contact.</p>', 'powered_by.png', 'top', 'email@email.com', 1, 1, 42, '2009-10-10 09:53:12', 1, '{"show_name":"1","show_position":"1","show_email":"0","show_street_address":"1","show_suburb":"1","show_state":"1","show_postcode":"1","show_country":"1","show_telephone":"1","show_mobile":"1","show_fax":"1","show_webpage":"1","show_misc":"1","show_image":"1","allow_vcard":"0","show_articles":"1","show_links":"1","linka_name":"Twitter","linka":"http:\/\/twitter.com\/joomla","linkb_name":"YouTube","linkb":"http:\/\/www.youtube.com\/user\/joomla","linkc_name":"Ustream","linkc":"http:\/\/www.ustream.tv\/joomla","linkd_name":"FriendFeed","linkd":"http:\/\/friendfeed.com/joomla","linke_name":"Scribed","linke":"http:\/\/www.scribd.com\/people\/view\/504592-joomla","show_profile":"1"}', 0, 26, 1, '', '');
 
 --
 -- Dumping data for table `#__content`
@@ -83,19 +83,16 @@ INSERT IGNORE INTO `#__content_frontpage` VALUES
 -- Dumping data for table `#__menu` (remove existing rows first)
 --
 
-TRUNCATE `#__menu`;
-
 INSERT IGNORE INTO `#__menu` VALUES
-(1, '', 'Menu_Item_Root', 'root', '', '', '', 1, 0, 0, 0, 0, 0, '0000-00-00 00:00:00', 0, 0, 0, '{"show_page_title":"1","page_title":"Welcome to the Frontpage","show_description":"0","show_description_image":"0","num_leading_articles":"1","num_intro_articles":"4","num_columns":"2","num_links":"4","show_title":"1","pageclass_sfx":"","menu_image":"-1","secure":"0","orderby_pri":"","orderby_sec":"front","show_pagination":"2","show_pagination_results":"1","show_noauth":"0","link_titles":"0","show_intro":"1","show_section":"0","link_section":"0","show_category":"0","link_category":"0","show_author":"1","show_create_date":"1","show_modify_date":"1","show_item_navigation":"0","show_readmore":"1","show_vote":"0","show_icons":"1","show_pdf_icon":"1","show_print_icon":"1","show_email_icon":"1","show_hits":"1"}', 0, 19, 0),
-(3, 'mainmenu', 'Administrator', 'administrator', 'administrator', 'administrator/', 'url', 1, 1, 1, 0, 2, 0, '0000-00-00 00:00:00', 0, 1, 0, '{"menu_image":"-1"}', 9, 10, 0),
-(2, 'mainmenu', 'Home', 'home', 'home', 'index.php?option=com_content&view=frontpage', 'component', 1, 1, 1, 20, 0, 0, '0000-00-00 00:00:00', 0, 1, 0, '{"show_page_title":"1","page_title":"Welcome to the Frontpage","show_description":"0","show_description_image":"0","num_leading_articles":"1","num_intro_articles":"4","num_columns":"2","num_links":"4","show_title":"1","pageclass_sfx":"","menu_image":"-1","secure":"0","orderby_pri":"","orderby_sec":"front","show_pagination":"2","show_pagination_results":"1","show_noauth":"0","link_titles":"0","show_intro":"1","show_section":"0","link_section":"0","show_category":"0","link_category":"0","show_author":"1","show_create_date":"1","show_modify_date":"1","show_item_navigation":"0","show_readmore":"1","show_vote":"0","show_icons":"1","show_pdf_icon":"1","show_print_icon":"1","show_email_icon":"1","show_hits":"1"}', 1, 2, 1),
-(5, 'usermenu', 'Logout', 'logout', 'logout', 'index.php?option=com_user&view=login', 'component', 1, 1, 1, 14, 5, 0, '0000-00-00 00:00:00', 0, 2, 0, '', 15, 16, 0),
-(6, 'usermenu', 'Submit an Article', 'submit-an-article', 'submit-an-article', 'index.php?option=com_content&view=form&layout=edit', 'component', 1, 1, 1, 20, 3, 0, '0000-00-00 00:00:00', 0, 2, 0, '{"menu-anchor_title":"","menu-anchor_css":"","page_title":"","show_page_title":1,"page_heading":"","pageclass_sfx":"","menu_image":"","link_title":"","secure":0,"menu-meta_description":"","menu-meta_keywords":"","robots":""}', 11, 12, 0),
-(7, 'usermenu', 'Submit a Web Link', 'submit-a-web-link', 'submit-a-web-link', 'index.php?option=com_weblinks&view=form&layout=edit', 'component', 1, 1, 1, 4, 4, 0, '0000-00-00 00:00:00', 0, 2, 0, '{"menu-anchor_title":"","menu-anchor_css":"","page_title":"","show_page_title":1,"page_heading":"","pageclass_sfx":"","menu_image":"","link_title":"","secure":0,"menu-meta_description":"","menu-meta_keywords":"","robots":""}', 13, 14, 0),
-(8, 'mainmenu', 'Weblinks', 'weblinks', 'weblinks', 'index.php?option=com_weblinks&view=categories', 'component', 1, 1, 1, 4, 6, 0, '0000-00-00 00:00:00', 0, 1, 0, '{"image":"-1","image_align":"right","show_feed_link":"1","show_comp_description":"","comp_description":"","show_link_hits":"","show_link_description":"","show_other_cats":"","show_headings":"","show_numbers":"","show_report":"","target":"","link_icons":"","page_title":"","show_page_title":"1","pageclass_sfx":"","menu_image":"-1","secure":"0"}', 17, 18, 0),
-(9, 'mainmenu', 'Article Categories', 'article-categories', 'article-categories', 'index.php?option=com_content&view=categories', 'component', 1, 1, 1, 20, 0, 0, '0000-00-00 00:00:00', 0, 1, 0, '{"Category":"12","menu-anchor_title":"","menu-anchor_css":"","page_title":"","show_page_title":1,"page_heading":"","pageclass_sfx":"","menu_image":"","link_title":"","secure":0,"menu-meta_description":"","menu-meta_keywords":"","robots":""}', 3, 4, 0),
-(14, 'mainmenu', 'Contact', 'contact', 'contact', 'index.php?option=com_contact&amp;view=contact&amp;id=1', 'component', 1, 1, 1, 7, 0, 0, '0000-00-00 00:00:00', 0, 1, 0, '{"show_contact_list":"0","show_category_crumb":"0","menu-anchor_title":"","menu-anchor_css":"","page_title":"","show_page_title":1,"page_heading":"","pageclass_sfx":"","menu_image":"","link_title":"","secure":0,"menu-meta_description":"","menu-meta_keywords":"","robots":""}', 5, 6, 0),
-(15, 'usermenu', 'Your Profile', 'your-profile', 'your-profile', 'index.php?option=com_users&view=profile', 'component', 1, 1, 1, 31, 0, 0, '0000-00-00 00:00:00', 0, 1, 0, '{"menu-anchor_title":"","menu-anchor_css":"","page_title":"","show_page_title":1,"page_heading":"","pageclass_sfx":"","menu_image":"","link_title":"","secure":0,"menu-meta_description":"","menu-meta_keywords":"","robots":""}', 7, 8, 0);
+(0, 'mainmenu', 'Administrator', 'administrator', 'administrator', 'administrator/', 'url', 1, 1, 1, 0, 2, 0, '0000-00-00 00:00:00', 0, 1,'', 0, '{"menu_image":"-1"}', 9, 10, 0),
+(0, 'mainmenu', 'Home', 'home', 'home', 'index.php?option=com_content&view=frontpage', 'component', 1, 1, 1, 20, 0, 0, '0000-00-00 00:00:00', 0, 1,'', 0, '{"show_page_title":"1","page_title":"Welcome to the Frontpage","show_description":"0","show_description_image":"0","num_leading_articles":"1","num_intro_articles":"4","num_columns":"2","num_links":"4","show_title":"1","pageclass_sfx":"","menu_image":"-1","secure":"0","orderby_pri":"","orderby_sec":"front","show_pagination":"2","show_pagination_results":"1","show_noauth":"0","link_titles":"0","show_intro":"1","show_section":"0","link_section":"0","show_category":"0","link_category":"0","show_author":"1","show_create_date":"1","show_modify_date":"1","show_item_navigation":"0","show_readmore":"1","show_vote":"0","show_icons":"1","show_pdf_icon":"1","show_print_icon":"1","show_email_icon":"1","show_hits":"1"}', 1, 2, 1),
+(0, 'usermenu', 'Logout', 'logout', 'logout', 'index.php?option=com_user&view=login', 'component', 1, 1, 1, 14, 5, 0, '0000-00-00 00:00:00', 0, 2,'', 0, '', 15, 16, 0),
+(0, 'usermenu', 'Submit an Article', 'submit-an-article', 'submit-an-article', 'index.php?option=com_content&view=form&layout=edit', 'component', 1, 1, 1, 20, 3, 0, '0000-00-00 00:00:00', 0, 2,'', 0, '{"menu-anchor_title":"","menu-anchor_css":"","page_title":"","show_page_title":1,"page_heading":"","pageclass_sfx":"","menu_image":"","link_title":"","secure":0,"menu-meta_description":"","menu-meta_keywords":"","robots":""}', 11, 12, 0),
+(0, 'usermenu', 'Submit a Web Link', 'submit-a-web-link', 'submit-a-web-link', 'index.php?option=com_weblinks&view=form&layout=edit', 'component', 1, 1, 1, 4, 4, 0, '0000-00-00 00:00:00', 0, 2,'', 0, '{"menu-anchor_title":"","menu-anchor_css":"","page_title":"","show_page_title":1,"page_heading":"","pageclass_sfx":"","menu_image":"","link_title":"","secure":0,"menu-meta_description":"","menu-meta_keywords":"","robots":""}', 13, 14, 0),
+(0, 'mainmenu', 'Weblinks', 'weblinks', 'weblinks', 'index.php?option=com_weblinks&view=categories', 'component', 1, 1, 1, 4, 6, 0, '0000-00-00 00:00:00', 0, 1,'', 0, '{"image":"-1","image_align":"right","show_feed_link":"1","show_comp_description":"","comp_description":"","show_link_hits":"","show_link_description":"","show_other_cats":"","show_headings":"","show_numbers":"","show_report":"","target":"","link_icons":"","page_title":"","show_page_title":"1","pageclass_sfx":"","menu_image":"-1","secure":"0"}', 17, 18, 0),
+(0, 'mainmenu', 'Article Categories', 'article-categories', 'article-categories', 'index.php?option=com_content&view=categories', 'component', 1, 1, 1, 20, 0, 0, '0000-00-00 00:00:00', 0, 1,'', 0, '{"Category":"12","menu-anchor_title":"","menu-anchor_css":"","page_title":"","show_page_title":1,"page_heading":"","pageclass_sfx":"","menu_image":"","link_title":"","secure":0,"menu-meta_description":"","menu-meta_keywords":"","robots":""}', 3, 4, 0),
+(0, 'mainmenu', 'Contact', 'contact', 'contact', 'index.php?option=com_contact&amp;view=contact&amp;id=1', 'component', 1, 1, 1, 7, 0, 0, '0000-00-00 00:00:00', 0, 1,'', 0, '{"show_contact_list":"0","show_category_crumb":"0","menu-anchor_title":"","menu-anchor_css":"","page_title":"","show_page_title":1,"page_heading":"","pageclass_sfx":"","menu_image":"","link_title":"","secure":0,"menu-meta_description":"","menu-meta_keywords":"","robots":""}', 5, 6, 0),
+(0, 'usermenu', 'Your Profile', 'your-profile', 'your-profile', 'index.php?option=com_users&view=profile', 'component', 1, 1, 1, 31, 0, 0, '0000-00-00 00:00:00', 0, 1,'', 0, '{"menu-anchor_title":"","menu-anchor_css":"","page_title":"","show_page_title":1,"page_heading":"","pageclass_sfx":"","menu_image":"","link_title":"","secure":0,"menu-meta_description":"","menu-meta_keywords":"","robots":""}', 7, 8, 0);
 
 --
 -- Dumping data for table `#__menu_types`

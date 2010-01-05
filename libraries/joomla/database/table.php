@@ -147,11 +147,8 @@ abstract class JTable extends JObject
 	 * @since	1.5
 	 * @link	http://docs.joomla.org/JTable/getInstance
 	*/
-	public static function &getInstance($type, $prefix = 'JTable', $config = array())
+	public static function getInstance($type, $prefix = 'JTable', $config = array())
 	{
-		// Initialize variables.
-		$false = false;
-
 		// Sanitize and prepare the table class name.
 		$type = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
 		$tableClass = $prefix.ucfirst($type);
@@ -169,13 +166,13 @@ abstract class JTable extends JObject
 				// If we were unable to load the proper class, raise a warning and return false.
 				if (!class_exists($tableClass)) {
 					JError::raiseWarning(0, 'Table class ' . $tableClass . ' not found in file.');
-					return $false;
+					return false;
 				}
 			}
 			else {
 				// If we were unable to find the class file in the JTable include paths, raise a warning and return false.
 				JError::raiseWarning(0, 'Table ' . $type . ' not supported. File not found.');
-				return $false;
+				return false;
 			}
 		}
 
@@ -188,9 +185,7 @@ abstract class JTable extends JObject
 		}
 
 		// Instantiate a new table class and return it.
-		$instance = new $tableClass($db);
-
-		return $instance;
+		return new $tableClass($db);
 	}
 
 	/**
@@ -311,7 +306,7 @@ abstract class JTable extends JObject
 	 * @return	object	The internal database connector object.
 	 * @link	http://docs.joomla.org/JTable/getDBO
 	 */
-	public function &getDBO()
+	public function getDBO()
 	{
 		return $this->_db;
 	}
@@ -350,11 +345,11 @@ abstract class JTable extends JObject
 	}
 
 	/**
-	 * Method to get a reference to the rules for the record.
+	 * Method to get the rules for the record.
 	 *
 	 * @return	JRules
 	 */
-	public function &getRules()
+	public function getRules()
 	{
 		return $this->_rules;
 	}
@@ -526,7 +521,7 @@ abstract class JTable extends JObject
 	 */
 	public function store($updateNulls = false)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$k = $this->_tbl_key;
 
 		// If a primary key exists update the object, otherwise insert it.
@@ -671,7 +666,7 @@ abstract class JTable extends JObject
 	 */
 	public function delete($pk = null)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
@@ -740,7 +735,7 @@ abstract class JTable extends JObject
 			return true;
 		}
 
-		// Initialize variables.
+		// Initialise variables.
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
@@ -791,7 +786,7 @@ abstract class JTable extends JObject
 			return true;
 		}
 
-		// Initialize variables.
+		// Initialise variables.
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
@@ -838,7 +833,7 @@ abstract class JTable extends JObject
 			return true;
 		}
 
-		// Initialize variables.
+		// Initialise variables.
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
@@ -962,7 +957,7 @@ abstract class JTable extends JObject
 			return false;
 		}
 
-		// Initialize variables.
+		// Initialise variables.
 		$k = $this->_tbl_key;
 
 		// Setup the extra where and ordering clause data.
@@ -1038,7 +1033,7 @@ abstract class JTable extends JObject
 			return true;
 		}
 
-		// Initialize variables.
+		// Initialise variables.
 		$k = $this->_tbl_key;
 		$row = null;
 
@@ -1138,7 +1133,7 @@ abstract class JTable extends JObject
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$k = $this->_tbl_key;
 
 		// Sanitize input.
@@ -1220,7 +1215,7 @@ abstract class JTable extends JObject
 	 */
 	public function canDelete($pk = null, $joins = null)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
@@ -1292,7 +1287,7 @@ abstract class JTable extends JObject
 	 */
 	public function toXML($mapKeysToText=false)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$xml = array();
 		$map = $mapKeysToText ? ' mapkeystotext="true"' : '';
 

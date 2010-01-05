@@ -21,28 +21,35 @@ jimport('joomla.application.component.model');
 class InstallerModel extends JModel
 {
 	/** @var array Array of installed components */
-	var $_items = array();
+	protected $_items = array();
 
 	/** @var object JPagination object */
-	var $_pagination = null;
+	protected $_pagination = null;
 
 	/**
 	 * Overridden constructor
 	 */
-	function __construct()
+	public function __construct()
 	{
 		$app	= &JFactory::getApplication();
 
 		// Call the parent constructor
 		parent::__construct();
 
+
+		// Force populate state
+		$this->_populateState();
+
 		// Set state variables from the request
 		$this->setState('pagination.limit',	$app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'), 'int'));
-		$this->setState('pagination.offset',$app->getUserStateFromRequest('com_installer.limitstart.'.$this->_type, 'limitstart', 0, 'int'));
+		$this->setState('pagination.offset',$app->getUserStateFromRequest('com_installer.limitstart.'.$this->getName(), 'limitstart', 0, 'int'));
 		$this->setState('pagination.total',	0);
 	}
 
-	function &getItems()
+	/**
+	 * Returns a list of items
+	 */
+	public function &getItems()
 	{
 		if (empty($this->_items)) {
 			// Load the items
@@ -51,7 +58,7 @@ class InstallerModel extends JModel
 		return $this->_items;
 	}
 
-	function &getPagination()
+	public function &getPagination()
 	{
 		if (empty($this->_pagination)) {
 			// Make sure items are loaded for a proper total
@@ -74,10 +81,10 @@ class InstallerModel extends JModel
 	 * @return	boolean	True on success
 	 * @since 1.0
 	 */
-	function remove($eid=array())
+	public function remove($eid=array())
 	{
 
-		// Initialize variables
+		// Initialise variables.
 		$app	= &JFactory::getApplication();
 		$failed = array ();
 
@@ -127,8 +134,36 @@ class InstallerModel extends JModel
 		return $result;
 	}
 
-	function _loadItems()
+	/**
+	 * Loads items
+	 */
+	protected function _loadItems()
 	{
 		return JError::raiseError(500, JText::_('Method Not Implemented'));
+	}
+
+	/**
+	 * Restore state from the session if relevant
+	 * @see libraries/joomla/application/component/JModel#_populateState()
+	 */
+	protected function _populateState()
+	{
+		$session = JFactory::getSession();
+		$installer_state = $session->get('installer_state',null);
+		if($installer_state)
+		{
+			$this->_state = $installer_state;
+		}
+		// wipe out the state from the session
+		$session->clear('installer_state');
+	}
+
+	/**
+	 * Stores a copy of the state in the session
+	 */
+	public function saveState()
+	{
+		$session = JFactory::getSession();
+		$session->set('installer_state', $this->_state);
 	}
 }

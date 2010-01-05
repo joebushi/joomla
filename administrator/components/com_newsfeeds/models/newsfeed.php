@@ -38,14 +38,14 @@ class NewsfeedsModelNewsfeed extends JModelForm
 	}
 
 	/**
-	 * Returns a reference to the a Table object, always creating it.
+	 * Returns a Table object, always creating it.
 	 *
 	 * @param	type 	$type 	 The table type to instantiate
 	 * @param	string 	$prefix	 A prefix for the table class name. Optional.
 	 * @param	array	$options Configuration array for model. Optional.
 	 * @return	JTable	A database object
 	*/
-	public function &getTable($type = 'Newsfeed', $prefix = 'NewsfeedsTable', $config = array())
+	public function getTable($type = 'Newsfeed', $prefix = 'NewsfeedsTable', $config = array())
 	{
 		return JTable::getInstance($type, $prefix, $config);
 	}
@@ -93,7 +93,7 @@ class NewsfeedsModelNewsfeed extends JModelForm
 		$false	= false;
 
 		// Get a row instance.
-		$table = &$this->getTable();
+		$table = $this->getTable();
 
 		// Attempt to load the row.
 		$return = $table->load($pk);
@@ -162,6 +162,7 @@ class NewsfeedsModelNewsfeed extends JModelForm
 	 * Method to save the form data.
 	 *
 	 * @param	array	The form data.
+	 *
 	 * @return	boolean	True on success.
 	 */
 	public function save($data)
@@ -231,10 +232,10 @@ class NewsfeedsModelNewsfeed extends JModelForm
 		$user = JFactory::getUser();
 
 		$table->name		= htmlspecialchars_decode($table->name, ENT_QUOTES);
-		$table->alias		= JFilterOutput::stringURLSafe($table->alias);
+		$table->alias		= JApplication::stringURLSafe($table->alias);
 
 		if (empty($table->alias)) {
-			$table->alias = JFilterOutput::stringURLSafe($table->name);
+			$table->alias = JApplication::stringURLSafe($table->name);
 		}
 
 		if (empty($table->id)) {
@@ -415,7 +416,7 @@ class NewsfeedsModelNewsfeed extends JModelForm
 	 */
 	function saveorder($pks, $order)
 	{
-		// Initialize variables
+		// Initialise variables.
 		$table		= $this->getTable();
 		$conditions	= array();
 

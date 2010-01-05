@@ -41,7 +41,8 @@ class ContentControllerArticle extends JController
 	 */
 	public function &getModel($name = 'form', $prefix = '', $config = array())
 	{
-		return parent::getModel($name, $prefix, $config);
+		$model = parent::getModel($name, $prefix, $config);
+		return $model;
 	}
 
 	protected function _getReturnPage()
@@ -108,7 +109,7 @@ class ContentControllerArticle extends JController
 	 */
 	public function edit()
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$app		= &JFactory::getApplication();
 		$context	= $this->_context.'.';
 		$ids		= JRequest::getVar('cid', array(), '', 'array');
@@ -170,7 +171,7 @@ class ContentControllerArticle extends JController
 		// Check for request forgeries.
 		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
-		// Initialize variables.
+		// Initialise variables.
 		$app 		= &JFactory::getApplication();
 		$context 	= $this->_context.'.';
 
@@ -206,7 +207,7 @@ class ContentControllerArticle extends JController
 		// Check for request forgeries.
 		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
-		// Initialize variables.
+		// Initialise variables.
 		$app		= &JFactory::getApplication();
 		$context 	= $this->_context.'.';
 		$model		= &$this->getModel();

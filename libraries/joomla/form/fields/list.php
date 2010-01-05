@@ -2,14 +2,13 @@
 /**
  * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @copyright	Copyright (C) 2008 - 2009 JXtended, LLC. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_BASE') or die;
 
 jimport('joomla.html.html');
-jimport('joomla.form.field');
+jimport('joomla.form.formfield');
 
 /**
  * Form Field class for the Joomla Framework.
@@ -60,13 +59,14 @@ class JFormFieldList extends JFormField
 		}
 		if ($v = $this->_element->attributes('class')) {
 			$attributes	.= 'class="'.$v.'"';
-		}
-		else {
+		} else {
 			$attributes	.= 'class="inputbox"';
 		}
-		if ($m = $this->_element->attributes('multiple'))
-		{
+		if ($m = $this->_element->attributes('multiple')) {
 			$attributes	.= 'multiple="multiple"';
+		}
+		if ($v = $this->_element->attributes('onchange')) {
+			$attributes	.= 'onchange="'.$v.'"';
 		}
 
 		if ($disabled || $readonly) {
@@ -76,8 +76,7 @@ class JFormFieldList extends JFormField
 		$return		= null;
 
 		// Handle a disabled list.
-		if ($disabled)
-		{
+		if ($disabled) {
 			// Create a disabled list.
 			$return .= JHtml::_('select.genericlist', $options, $this->inputName, $attributes, 'value', 'text', $this->value, $this->inputId);
 		}
@@ -89,8 +88,7 @@ class JFormFieldList extends JFormField
 			$return	.= '<input type="hidden" name="'.$this->inputName.'" value="'.$this->value.'" />';
 		}
 		// Handle a regular list.
-		else
-		{
+		else {
 			// Create a regular list.
 			$return = JHtml::_('select.genericlist', $options, $this->inputName, $attributes, 'value', 'text', $this->value, $this->inputId);
 		}

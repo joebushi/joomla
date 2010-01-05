@@ -6,36 +6,48 @@
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
-?>
-<?php defined('_JEXEC') or die; ?>
+// No direct access.
+defined('_JEXEC') or die;
 
-<?php
+JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::_('behavior.tooltip');
+JHtml::_('behavior.formvalidation');
+JHtml::_('behavior.combobox');
 
-	JHtml::_('behavior.tooltip');
+jimport('joomla.html.pane');
+$pane = &JPane::getInstance('sliders');
+
+$hasContent = empty($this->item->module) || $this->item->module == 'custom' || $this->item->module == 'mod_custom';
 ?>
 <script type="text/javascript">
 <!--
 	function submitbutton(task)
 	{
-		if (task == 'item.cancel' || document.formvalidator.isValid(document.id('item-form'))) {
+		if (task == 'module.cancel' || document.formvalidator.isValid(document.id('module-form'))) {
+			<?php
+			if ($hasContent) :
+				echo $this->form->getField('articletext')->save();
+			endif;
+			?>
 			submitform(task);
+		}
+		else {
+			alert('<?php echo $this->escape(JText::_('JValidation_Form_failed'));?>');
 		}
 	}
 // -->
 </script>
-<div class="">
-<form action="<?php echo JRoute::_('index.php');?>" method="post" name="adminForm">
 
+<form action="<?php JRoute::_('index.php?option=com_modules'); ?>" method="post" name="adminForm" id="module-form" class="form-validate">
 
-	<fieldset class="adminform">
-		<legend><?php echo JText::_('Module_Menu_Assignment_Legend'); ?></legend>
-	<div class="fltrt">
-			<button type="button" onclick="Joomla.submitform('module.save', this.form);window.top.setTimeout('window.parent.SqueezeBox.close()', 700);">
+		<div class="fltrt">
+			<button type="button" onclick="Joomla.submitform('module.save', this.form);window.top.setTimeout('window.parent.SqueezeBox.close()', 1400);">
 				<?php echo JText::_('Save');?></button>
 			<button type="button" onclick="window.parent.SqueezeBox.close();">
 				<?php echo JText::_('Cancel');?></button>
 		</div>
-		<script type="text/javascript">
+		
+				<script type="text/javascript">
 			function allselections() {
 				var e = document.getElementById('selections');
 					e.disabled = true;
@@ -67,53 +79,84 @@
 				}
 			}
 		</script>
-	<!-- TO DO: Need to rework UI for this section -->
-			<label id="jform_menus-lbl" class="hasTip" for="jform_menus"><?php echo JText::_('Menus'); ?>:</label>
-				<?php if ($this->row->client_id != 1) : ?>
-
-			<fieldset id="jform_menus" class="radio">
-				<label id="jform_menus-all-lbl" for="menus-all"><?php echo JText::_('All'); ?></label>
-				<input id="menus-all" type="radio" name="menus" value="all" onclick="allselections();" <?php
-						echo ($this->row->pages == 'all') ? 'checked="checked"' : ''; ?> />
-
-				<label id="jform_menus-none-lbl" for="menus-none"><?php echo JText::_('None'); ?></label>
-				<input id="menus-none" type="radio" name="menus" value="none" onclick="disableselections();" <?php
-						echo ($this->row->pages == 'none') ? 'checked="checked"' : ''; ?> />
-
-				<label id="jform_menus-select-lbl" for="menus-select"><?php echo JText::_('Select From List'); ?></label>
-				<input id="menus-select" type="radio" name="menus" value="select" onclick="enableselections();" <?php
-						echo ($this->row->pages == 'select') ? 'checked="checked"' : ''; ?> />
-
-				<label id="jform_menus-deselect-lbl" for="menus-deselect"><?php echo JText::_('Deselect From List'); ?></label>
-				<input id="menus-deselect" type="radio" name="menus" value="deselect" onclick="enableselections();" <?php
-						echo ($this->row->pages == 'deselect') ? 'checked="checked"' : ''; ?> />
-			</fieldset>
-				<?php endif; ?>
-
-			<label id="jform_menuselect-lbl" class="hasTip" for="jform_menuselect"><?php echo JText::_('Menu Selection'); ?>:</label>
-					<?php echo $this->lists['selections']; ?>
-
-		<?php if ($this->row->client_id != 1) : ?>
-			<?php if ($this->row->pages == 'all') : ?>
-			<script type="text/javascript">allselections();</script>
-			<?php elseif ($this->row->pages == 'none') : ?>
-			<script type="text/javascript">disableselections();</script>
+		
+		<div class="clr"></div>
+		
+	<div class="width-60 fltlft">
+		<fieldset class="adminform">
+			<?php if ($this->item->id) : ?>
+			<legend><?php echo JText::sprintf('JRecord_Number', $this->item->id); ?></legend>
 			<?php endif; ?>
-		<?php endif; ?>
-	</fieldset>
 
+			<?php echo $this->form->getLabel('title'); ?>
+			<?php echo $this->form->getInput('title'); ?>
 
+			<?php echo $this->form->getLabel('module'); ?>
+			<?php echo $this->form->getInput('module'); ?>
 
+			<?php echo $this->form->getLabel('showtitle'); ?>
+			<?php echo $this->form->getInput('showtitle'); ?>
 
+			<?php echo $this->form->getLabel('published'); ?>
+			<?php echo $this->form->getInput('published'); ?>
 
+			<?php echo $this->form->getLabel('position'); ?>
+			<?php echo $this->form->getInput('position'); ?>
 
-	<input type="hidden" name="option" value="com_modules" />
-	<input type="hidden" name="jform[id]" value="<?php echo $this->row->id; ?>" />
-	<input type="hidden" name="cid[]" value="<?php echo $this->row->id; ?>" />
-	<input type="hidden" name="original" value="<?php echo $this->row->ordering; ?>" />
-	<input type="hidden" name="jform[module]" value="<?php echo $this->row->module; ?>" />
+			<?php echo $this->form->getLabel('ordering'); ?>
+			<div id="jform_ordering" class="fltlft"><?php echo $this->form->getInput('ordering'); ?></div>
+
+			<?php echo $this->form->getLabel('access'); ?><br />
+			<?php echo $this->form->getInput('access'); ?>
+
+			<?php echo $this->form->getLabel('client_id'); ?>
+			<?php echo $this->form->getInput('client_id'); ?>
+
+			<?php echo $this->form->getLabel('language'); ?>
+			<?php echo $this->form->getInput('language'); ?>
+
+			<br class="clr" />
+			<!-- Module metadata -->
+			<?php if ($this->item->xml) : ?>
+				<?php if ($text = (string) $this->item->xml->description) : ?>
+					<label>
+						<?php echo JText::_('Modules_Module_Description'); ?>
+					</label>
+					<?php echo $this->escape($text); ?>
+				<?php endif; ?>
+			<?php else : ?>
+				<?php echo JText::_('Modules_XML_data_not_available'); ?>
+			<?php endif; ?>
+		</fieldset>
+	</div>
+
+	<div class="width-40 fltrt">
+	<?php echo $pane->startPane('options-pane'); ?>
+
+		<?php echo $this->loadTemplate('options'); ?>
+
+		<div class="clr"></div>
+
+		<?php echo $pane->endPane(); ?>
+	</div>
+
+	<div class="width-60 fltlft">
+
+		<?php echo $this->loadTemplate('assignment'); ?>
+
+	</div>
+
+	<div class="clr"></div>
+	<?php if ($hasContent) : ?>
+		<fieldset class="adminform">
+			<legend><?php echo JText::_('Custom Output'); ?></legend>
+
+			<?php echo $this->form->getLabel('content'); ?>
+			<?php echo $this->form->getInput('content'); ?>
+
+		</fieldset>	endif;
+	<?php endif; ?>
+
 	<input type="hidden" name="task" value="" />
-	<input type="hidden" name="jform[client_id]" value="<?php echo $this->client->id ?>" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>
-</div>

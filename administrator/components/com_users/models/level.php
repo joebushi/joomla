@@ -55,7 +55,8 @@ class UsersModelLevel extends JModelForm
 	*/
 	public function &getTable($type = 'Viewlevel', $prefix = 'JTable', $config = array())
 	{
-		return JTable::getInstance($type, $prefix, $config);
+		$return = JTable::getInstance($type, $prefix, $config);
+		return $return;
 	}
 
 	/**
@@ -275,7 +276,7 @@ class UsersModelLevel extends JModelForm
 	 */
 	function saveorder($pks, $order)
 	{
-		// Initialize variables
+		// Initialise variables.
 		$table		= $this->getTable();
 		$conditions	= array();
 

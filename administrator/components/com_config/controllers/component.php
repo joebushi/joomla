@@ -41,7 +41,7 @@ class ConfigControllerComponent extends JController
 		jimport('joomla.client.helper');
 		JClientHelper::setCredentialsFromRequest('ftp');
 
-		// Initialize variables.
+		// Initialise variables.
 		$app	= JFactory::getApplication();
 		$model	= $this->getModel('Component');
 		$form	= $model->getForm();
@@ -84,7 +84,8 @@ class ConfigControllerComponent extends JController
 		// Attempt to save the configuration.
 		$data	= array(
 					'params'	=> $return,
-					'id'		=> $id
+					'id'		=> $id,
+					'option' 	=> $option
 					);
 		$return = $model->save($data);
 

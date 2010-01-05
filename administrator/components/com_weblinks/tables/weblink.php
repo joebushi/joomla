@@ -158,7 +158,11 @@ class WeblinksTableWeblink extends JTable
 			return false;
 		}
 
-		if (!(eregi('http://', $this->url) || (eregi('https://', $this->url)) || (eregi('ftp://', $this->url)))) {
+		// check for http, https, ftp on webpage
+		if ((stripos($this->url, 'http://') === false)
+			&& (stripos($this->url, 'https://') === false)
+			&& (stripos($this->url, 'ftp://') === false))
+		{
 			$this->url = 'http://'.$this->url;
 		}
 
@@ -175,7 +179,7 @@ class WeblinksTableWeblink extends JTable
 		if (empty($this->alias)) {
 			$this->alias = $this->title;
 		}
-		$this->alias = JFilterOutput::stringURLSafe($this->alias);
+		$this->alias = JApplication::stringURLSafe($this->alias);
 		if (trim(str_replace('-','',$this->alias)) == '') {
 			$this->alias = JFactory::getDate()->toFormat("%Y-%m-%d-%H-%M-%S");
 		}
@@ -197,7 +201,7 @@ class WeblinksTableWeblink extends JTable
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$k = $this->_tbl_key;
 
 		// Sanitize input.

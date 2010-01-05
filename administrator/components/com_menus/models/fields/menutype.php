@@ -39,7 +39,7 @@ class JFormFieldMenuType extends JFormFieldList
 	 */
 	protected function _getInput()
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$html = array();
 		$types = $this->_getTypeList();
 
@@ -96,10 +96,10 @@ class JFormFieldMenuType extends JFormFieldList
 
 	protected function _getTypeList()
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$html = array();
 		$types = $this->_getTypeOptions();
-		
+
 		$html[] = '<h2 class="modal-title">'.JText::_('Menus_Type_Choose').'</h2>';
 		$html[] = '<ul class="menu_types">';
 
@@ -123,7 +123,7 @@ class JFormFieldMenuType extends JFormFieldList
 		$html[] = '</dl>';
 		$html[] = '</li>';
 		}
-		
+
 		$html[] = '<li>';
 		$html[] = '<dl class="menu_type">';
 		$html[] = '	<dt>'.JText::_('Menus_Type_System').'</dt>';
@@ -157,17 +157,17 @@ class JFormFieldMenuType extends JFormFieldList
 	{
 		jimport('joomla.filesystem.file');
 
-		// Initialize variables.
+		// Initialise variables.
 		$lang = &JFactory::getLanguage();
 		$list = array();
 
 		// Get the list of components.
 		$db = & JFactory::getDBO();
 		$db->setQuery(
-			'SELECT `name`, `option`' .
-			' FROM `#__components`' .
-			' WHERE `link` <> ""' .
-			' AND `parent` = 0' .
+			'SELECT `name`, `element` AS "option"' .
+			' FROM `#__extensions`' .
+			' WHERE `type` = "component"' .
+			' AND `enabled` = 1' .
 			' ORDER BY `name`'
 		);
 		$components = $db->loadObjectList();
@@ -199,7 +199,7 @@ class JFormFieldMenuType extends JFormFieldList
 
 	protected function _getTypeOptionsByComponent($component)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$options = array();
 
 		$mainXML = JPATH_SITE.'/components/'.$component.'/metadata.xml';
@@ -216,7 +216,7 @@ class JFormFieldMenuType extends JFormFieldList
 
 	protected function _getTypeOptionsFromXML($file, $component)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$options = array();
 
 		// Attempt to load the xml file.
@@ -290,7 +290,7 @@ class JFormFieldMenuType extends JFormFieldList
 
 	protected function _getTypeOptionsFromMVC($component)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$options = array();
 
 		// Get the views for this component.
@@ -377,18 +377,12 @@ class JFormFieldMenuType extends JFormFieldList
 
 	protected function _getTypeOptionsFromLayouts($component, $view)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$options = array();
-
 		$layouts = array();
-		$folders = JFolder::folders(JPATH_SITE.DS.'templates','',false,true);
-		foreach($folders as $folder)
-		{
-			if (JFolder::exists($folder.DS.'html'.DS.$component.DS.$view)) {
-				$layouts = array_merge($layouts, JFolder::files($folder.DS.'html'.DS.$component.DS.$view, '.xml$', false, true));
-			}
-		}
-
+		$layoutNames = array();
+		$templateLayouts = array();
+		
 		// Get the layouts from the view folder.
 		$path = JPATH_SITE.'/components/'.$component.'/views/'.$view.'/tmpl';
 		if (JFolder::exists($path)) {
@@ -397,6 +391,41 @@ class JFormFieldMenuType extends JFormFieldList
 		else {
 			return $options;
 		}
+		
+		// build list of standard layout names
+		foreach ($layouts as $layout)
+		{
+			// Ignore private layouts.
+			if (strpos(JFile::getName($layout), '_') === false)
+			{
+				$file = $layout;
+				// Get the layout name.
+				$layoutNames[] = JFile::stripext(JFile::getName($layout));			
+			}
+		}
+			
+		// get the template layouts
+		// TODO: This should only search one template -- the current template for this item (default of specified)
+		$folders = JFolder::folders(JPATH_SITE.DS.'templates','',false,true);
+		foreach($folders as $folder)
+		{
+			if (JFolder::exists($folder.DS.'html'.DS.$component.DS.$view)) {
+				$templateLayouts = JFolder::files($folder.DS.'html'.DS.$component.DS.$view, '.xml$', false, true);
+					
+				foreach ($templateLayouts as $layout)
+				{
+					$file = $layout;
+					// Get the layout name.
+					$templateLayoutName = JFile::stripext(JFile::getName($layout));
+					// add to the list only if it is not a standard layout
+					if (array_search($templateLayoutName, $layoutNames) === false) {
+						$layouts[] = $layout;
+					}
+
+				}
+			}
+		}
+
 
 		// Process the found layouts.
 		foreach ($layouts as $layout)

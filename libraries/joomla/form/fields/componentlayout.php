@@ -2,7 +2,6 @@
 /**
  * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @copyright	Copyright (C) 2008 - 2009 JXtended, LLC. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -48,8 +47,7 @@ class JFormFieldComponentLayout extends JFormFieldList
 			$extn = $this->_form->getValue('extension');
 		}
 
-		if (($view = $this->_element->attributes('view')) && $extn)
-		{
+		if (($view = $this->_element->attributes('view')) && $extn) {
 			$view	= preg_replace('#\W#', '', $view);
 			$extn	= preg_replace('#\W#', '', $extn);
 			$path1	= JPATH_SITE.DS.'components'.DS.$extn.DS.'views'.DS.$view.DS.'tmpl';
@@ -57,21 +55,18 @@ class JFormFieldComponentLayout extends JFormFieldList
 			$options[]	= JHTML::_('select.option', '', JText::_('JOption_Use_Menu_Request_Setting'));
 		}
 
-		if ($path1 && $path2)
-		{
+		if ($path1 && $path2) {
 			jimport('joomla.filesystem.file');
 			$path1 = JPath::clean($path1);
 			$path2 = JPath::clean($path2);
 
-			if (is_dir($path1) && ($files = JFolder::files($path1, '^[^_]*\.php$')))
-			{
+			if (is_dir($path1) && ($files = JFolder::files($path1, '^[^_]*\.php$'))) {
 				foreach ($files as $file) {
 					$options[]	= JHTML::_('select.option', JFile::stripExt($file));
 				}
 			}
 
-			if (is_dir($path2) && ($files = JFolder::files($path2, '^[^_]*\.php$')))
-			{
+			if (is_dir($path2) && ($files = JFolder::files($path2, '^[^_]*\.php$'))) {
 				$options[]	= JHTML::_('select.optgroup', JText::_('JOption_From_Default_Template'));
 				foreach ($files as $file) {
 					$options[]	= JHTML::_('select.option', JFile::stripExt($file));
