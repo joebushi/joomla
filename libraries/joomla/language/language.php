@@ -10,6 +10,8 @@
 // No direct access
 defined('JPATH_BASE') or die;
 
+DEFINE('QUOTE', '"');
+
 /**
  * Languages/translation handler class
  *
