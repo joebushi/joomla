@@ -72,13 +72,6 @@ class JDatabaseOracle extends JDatabase
     protected $_numRows       = '';
     
     /**
-     * Returns the current dateformat
-     * 
-     * @var mixed
-     */
-    protected $_dateformat    = '';
-    
-    /**
     * Is used to decide whether a result set
     * should generate lowercase field names
     * 
@@ -116,6 +109,7 @@ class JDatabaseOracle extends JDatabase
 		$select		= array_key_exists('select', $options)	? $options['select']	: true;
         $port       = array_key_exists('port', $options)    ? $options['port']      : '1521';
         $dateformat = array_key_exists('dateformat', $options) ? $options['dateformat'] : 'RRRR-MM-DD HH24:MI:SS';
+        $timestampformat = array_key_exists('timestampformat', $options) ? $options['timestampformat'] : 'RRRR-MM-DD HH24:MI:SS';
 
 		// perform a number of fatality checks, then return gracefully
 		if (!$this->test()) {
@@ -132,12 +126,14 @@ class JDatabaseOracle extends JDatabase
 		}
 
         /**
-        * Sets the default dateformat for the session
+        * Sets the default Date and Timestamp Formats for the session
         * If the next line isn't executed on construction
         * then dates will be returned in the default 
-        * Oracle Date Format of: DD-MON-RR
+        * Oracle Date Format of: DD-MON-RR and
+        * Oracle Timestamp Format of: DD-MON-RR HH.MI.SSXFF AM
         */        
         $this->setDateFormat($dateformat);
+        $this->setTimestampFormat($timestampformat);
         
         // Sets the default COMMIT mode
         $this->setCommitMode(OCI_COMMIT_ON_SUCCESS);
@@ -383,13 +379,12 @@ class JDatabaseOracle extends JDatabase
     * 
     * @param mixed $dateformat
     */
-    public function setDateFormat($dateformat='DD-MON-RR')
+    public function setDateFormat($dateformat = 'DD-MON-RR')
     {
         $this->setQuery("alter session set nls_date_format = '$dateformat'");
         if (!$this->query()) {
             return false;
         }
-        $this->_dateformat = $dateformat;
         return true;
     }
     
@@ -403,13 +398,42 @@ class JDatabaseOracle extends JDatabase
     */
     public function getDateFormat()
     {
-        /*
-        $this->setQuery("select value from nls_database_parameters where parameter = 'NLS_DATE_FORMAT'");
+        $this->setQuery("select value from nls_session_parameters where parameter = 'NLS_DATE_FORMAT'");
         return $this->loadResult();
-        */
-        // Commented out the above since it will always return the default, 
-        // rather than current date format.
-        return $this->_dateformat;
+    }
+    
+    /**
+    * Sets the Oracle Timestamp Format for the session
+    * Default date format for Oracle is = DD-MON-RR HH.MI.SSXFF AM
+    * The default date format for this driver is:
+    * 'RRRR-MM-DD HH24:MI:SS' since it is the format
+    * that matches the MySQL one used within most Joomla
+    * tables.
+    * 
+    * @param mixed $timestampformat
+    */
+    public function setTimestampFormat($timestampformat = 'DD-MON-RR HH.MI.SSXFF AM')
+    {
+        $this->setQuery("alter session set nls_timestamp_format = '$timestampformat'");
+        if (!$this->query()) {
+            return false;
+        }
+        return true;
+    }
+    
+    /**
+    * Returns the current Timestamp Format
+    * This method should be useful in the case that
+    * somebody actually wants to use a different
+    * timestamp format and needs to check what the current
+    * one is to see if it needs to be changed.
+    * 
+    */
+    public function getTimestampFormat()
+    {
+        
+        $this->setQuery("select value from nls_session_parameters where parameter = 'NLS_TIMESTAMP_FORMAT'");
+        return $this->loadResult();
     }
     
     /**
@@ -422,7 +446,7 @@ class JDatabaseOracle extends JDatabase
     * 
     * @param mixed $dateformat
     */
-    public function setCharset($charset='AL32UTF8')
+    public function setCharset($charset = 'AL32UTF8')
     {
         return false;
     }
@@ -508,7 +532,7 @@ class JDatabaseOracle extends JDatabase
 		if ($p_transaction_safe) {
 			$this->_sql = rtrim($this->_sql, '; \t\r\n\0');
 			$si = $this->getVersion();
-			preg_match_all( "/(\d+)\.(\d+)\.(\d+)/i", $si, $m );
+			preg_match_all("/(\d+)\.(\d+)\.(\d+)/i", $si, $m);
 			if ($m[1] >= 4) {
 				$this->_sql = 'START TRANSACTION;' . $this->_sql . '; COMMIT;';
 			} else if ($m[2] >= 23 && $m[3] >= 19) {
@@ -520,13 +544,13 @@ class JDatabaseOracle extends JDatabase
 		$query_split = $this->splitSql($this->_sql);
 		$error = 0;
 		foreach ($query_split as $command_line) {
-			$command_line = trim( $command_line );
+			$command_line = trim($command_line);
 			if ($command_line != '') {
                 $this->setQuery($command_line);
                 $this->query();
 				if (!$this->_cursor) {
 					$error = 1;
-					$this->_errorNum .= oci_error( $this->_resource ) . ' ';
+					$this->_errorNum .= oci_error($this->_resource) . ' ';
 					$this->_errorMsg .= " SQL=$command_line <br />";
 					if ($abort_on_error) {
 						return $this->_cursor;
@@ -609,7 +633,7 @@ class JDatabaseOracle extends JDatabase
             return null;
         }
         
-		while ($row = oci_fetch_assoc( $cur )) {
+		while ($row = oci_fetch_assoc($cur)) {
 			if ($first) {
 				$buffer .= '<tr>';
 				foreach ($row as $k=>$v) {
@@ -637,7 +661,7 @@ class JDatabaseOracle extends JDatabase
         if (!($cur = $this->query())) {
             return null;
         }
-		oci_free_statement( $cur );
+		oci_free_statement($cur);
 
 		$this->_sql = $temp;
         $this->setQuery($this->_sql);
@@ -652,7 +676,7 @@ class JDatabaseOracle extends JDatabase
 	 * @return int The number of rows returned from the most recent query.
 	 */
 	// TODO Check validity of this method, I don't feel it is the correct way to do it
-	public function getNumRows( $cur=null )
+	public function getNumRows($cur = null)
 	{
 		return $this->_numRows;
 	}
@@ -672,12 +696,12 @@ class JDatabaseOracle extends JDatabase
         $mode = $this->getMode(true);
         
 		$ret = null;
-		if ($row = oci_fetch_array( $cur, $mode )) {
+		if ($row = oci_fetch_array($cur, $mode)) {
 			$ret = $row[0];
 		}
         //Updates the affectedRows variable with the number of rows returned by the query
-        $this->_numRows = oci_num_rows( $this->_prepared );
-		oci_free_statement( $cur );
+        $this->_numRows = oci_num_rows($this->_prepared);
+		oci_free_statement($cur);
 		return $ret;
 	}
 
@@ -695,190 +719,136 @@ class JDatabaseOracle extends JDatabase
         $mode = $this->getMode(true);
         
 		$array = array();
-		while ($row = oci_fetch_array( $cur, $mode )) {
+		while ($row = oci_fetch_array($cur, $mode)) {
 			$array[] = $row[$numinarray];
 		}
         //Updates the affectedRows variable with the number of rows returned by the query
-        $this->_numRows = oci_num_rows( $this->_prepared );
-		oci_free_statement( $cur );
+        $this->_numRows = oci_num_rows($this->_prepared);
+		oci_free_statement($cur);
 		return $array;
 	}
-
-	/**
-	* Fetch a result row as an associative array
-	*
-	* @access	public
-	* @return array
-	*/
-	public function loadAssoc()
-	{
+    
+    /**
+    * Fetch a result row as an associative array
+    *
+    * @access    public
+    * @return array
+    */
+    public function loadAssoc()
+    {
         $tolower = $this->_tolower;
-		if (!($cur = $this->query())) {
-			return null;
-		}
+        if (!($cur = $this->query())) {
+            return null;
+        }
         
         $mode = $this->getMode();
         
-		$ret = null;
-		if ($array = oci_fetch_array( $cur, $mode )) {
+        $ret = null;
+        if ($array = oci_fetch_array($cur, $mode)) {
             if ($tolower) {
-                foreach($array as $field => $value) {
-                    $lowercase = strtolower($field);
-                    $array[$lowercase] = $value;
-                    unset($array[$field]);
-                }
+                $array = array_change_key_case($array, CASE_LOWER);
             }
             
-			$ret = $array;
-		}
+            $ret = $array;
+        }
         //Updates the affectedRows variable with the number of rows returned by the query
-        $this->_numRows = oci_num_rows( $this->_prepared );
-		oci_free_statement( $cur );
-		return $ret;
-	}
-
-	/**
-	* Load a assoc list of database rows
-	*
-	* @access	public
-	* @param string The field name of a primary key
-	* @return array If <var>key</var> is empty as sequential list of returned records.
-	*/
-	public function loadAssocList($key='')
-	{
+        $this->_numRows = oci_num_rows($this->_prepared);
+        oci_free_statement($cur);
+        return $ret;
+    }
+    
+    /**
+    * Load a assoc list of database rows
+    *
+    * @access    public
+    * @param string The field name of a primary key
+    * @return array If <var>key</var> is empty as sequential list of returned records.
+    */
+    public function loadAssocList($key = '')
+    {
         $tolower = $this->_tolower;
-		if (!($cur = $this->query())) {
-			return null;
-		}
+        if (!($cur = $this->query())) {
+            return null;
+        }
         
         $mode = $this->getMode();
         
-		$array = array();
-		while ($row = oci_fetch_array( $cur, $mode )) {
-            
+        $array = array();
+        while ($row = oci_fetch_array($cur, $mode)) {
             if ($tolower) {
-                foreach($row as $field => $value) {
-                    $lowercase = strtolower($field);
-                    $row[$lowercase] = $value;
-                    unset($row[$field]);
-                }
+                $row = array_change_key_case($row, CASE_LOWER);
             }
             
-			if ($key) {
-				$array[$row[$key]] = $row;
-			} else {
-				$array[] = $row;
-			}
-		}
+            if ($key) {
+                $array[$row[$key]] = $row;
+            } else {
+                $array[] = $row;
+            }
+        }
         //Updates the affectedRows variable with the number of rows returned by the query
-        $this->_numRows = oci_num_rows( $this->_prepared );
-		oci_free_statement( $cur );
-		return $array;
-	}
-
-	/**
-	* This global function loads the first row of a query into an object
-	*
-	* @access	public
-	* @return 	object
-	*/
-	public function loadObject()
-	{
-        $tolower = $this->_tolower;
-        $returnlobs = $this->_returnlobs;
-		if (!($cur = $this->query())) {
-			return null;
-		}
-		$ret = null;
-		if ($object = oci_fetch_object( $cur )) {
-		    if ($returnlobs) {
-                foreach($object as $field => $value) {
-                    if (get_class($value) == 'OCI-Lob') {
-                        $object->$field = $value->load();
-                    }
-                }
-            }
-            if ($tolower) {
-                $obj = new stdClass();
-                foreach($object as $field => $value) {
-                    $lowercase = strtolower($field);
-                    //$uppercase = strtoupper($field);
-                    $obj->$lowercase = $value;
-                    unset($object->$field);
-                }
-                unset($value);
-                unset($object);
-                $object = &$obj;
-            }
-        	$ret = $object;
-		}
-        
-        //Updates the affectedRows variable with the number of rows returned by the query
-        $this->_numRows = oci_num_rows( $this->_prepared );
-		oci_free_statement( $cur );
-		return $ret;
-	}
-
-	/**
-	* Load a list of database objects
-	*
-	* If <var>key</var> is not empty then the returned array is indexed by the value
-	* the database key.  Returns <var>null</var> if the query fails.
-	*
-	* @access	public
-	* @param string The field name of a primary key
-	* @return array If <var>key</var> is empty as sequential list of returned records.
-	*/
-	public function loadObjectList($key='')
-	{
-        $tolower = $this->_tolower;
-        $returnlobs = $this->_returnlobs;
-		if (!($cur = $this->query())) {
-			return null;
-		}
-		$array = array();
-		while ($row = oci_fetch_object( $cur )) {
-                     
-            if ($returnlobs) {
-                foreach($row as $field => $value) {
-                    if (get_class($value) == 'OCI-Lob') {
-                        $row->$field = $value->load();
-                    }
-                }
-            }
-            
-            if ($tolower) {
-                $obj = new stdClass();
-                foreach($row as $field => $value) {
-                    $lowercase = strtolower($field);
-                    $obj->$lowercase = $value;
-                    unset($row->$field);
-                }
-                unset($value);
-                unset($row);
-            }
-            
-			if ($key) {
-                if ($tolower) {
-                    $lowercase = strtolower($key);
-                    $array[$obj->$lowercase] = $obj;
+        $this->_numRows = oci_num_rows($this->_prepared);
+        oci_free_statement($cur);
+        return $array;
+    }
+    
+    /**
+    * This global function loads the first row of a query into an object
+    *
+    * @param    string    The name of the class to return (stdClass by default).
+    * @param array The parameters to pass to the constructor function of the new object.
+    * @access    public
+    * @return     object
+    */
+    public function loadObject($className = 'stdClass', $params = null)
+    {
+        $row = $this->loadAssoc();
+        if (is_null($row)) {
+            return $row;
+        } else {
+            if ($className === 'stdClass') {
+                return (object) $row;
+            } else {
+                if (is_null($params)) {
+                    return new $className($row);    
                 } else {
-                    $array[$row->$key] = $row;
+                    return new $className($row, $params);        
                 }
-				
-			} else {
-                if ($tolower) {
-                    $array[] = $obj;
+                
+            }
+        }
+    }
+    
+    /**
+    * Load a list of database objects
+    *
+    * If <var>key</var> is not empty then the returned array is indexed by the value
+    * the database key.  Returns <var>null</var> if the query fails.
+    *
+    * @access    public
+    * @param string The field name of a primary key
+    * @param    string    The name of the class to return (stdClass by default).
+    * @param array The parameters to pass to the constructor function of the new object.
+    * @return array If <var>key</var> is empty as sequential list of returned records.
+    */
+    public function loadObjectList($key = '', $className = 'stdClass', $params = null)
+    {
+        $list = $this->loadAssocList($key);
+        if (is_null($list)) {
+            return $list;
+        }
+        foreach($list as $k => $row) {
+            if ($className === 'stdClass') {
+                $list[$k] = (object) $row;
+            } else {
+                if (is_null($params)) {
+                    $list[$k] = new $className($row);
                 } else {
-                    $array[] = $row;
+                    $list[$k] = new $className($row, $params);    
                 }
-			}
-		}
-        //Updates the affectedRows variable with the number of rows returned by the query
-        $this->_numRows = oci_num_rows( $this->_prepared );
-		oci_free_statement( $cur );
-		return $array;
-	}
+            }
+        }
+        return $list;
+    }
 
 	/**
 	 * Description
@@ -895,12 +865,12 @@ class JDatabaseOracle extends JDatabase
         $mode = $this->getMode(true);
         
 		$ret = null;
-		if ($row = oci_fetch_array( $cur, $mode )) {
+		if ($row = oci_fetch_array($cur, $mode)) {
 			$ret = $row;
 		}
         //Updates the affectedRows variable with the number of rows returned by the query
-        $this->_numRows = oci_num_rows( $this->_prepared );
-		oci_free_statement( $cur );
+        $this->_numRows = oci_num_rows($this->_prepared);
+		oci_free_statement($cur);
 		return $ret;
 	}
 
@@ -987,11 +957,7 @@ class JDatabaseOracle extends JDatabase
         
         if ($array = oci_fetch_array($cur, $mode)) {
             if ($tolower) {
-                foreach($array as $field => $value) {
-                    $lowercase = strtolower($field);
-                    $array[$lowercase] = $value;
-                    unset($array[$field]);
-                }
+                $array = array_change_key_case($array, CASE_LOWER);
             }
             return $array;
         }
@@ -1010,49 +976,25 @@ class JDatabaseOracle extends JDatabase
      *
      * @since    1.6.0
      */
-    public function loadNextObject()
+    public function loadNextObject($className = 'stdClass', $params = null)
     {
-        static $cur;
-        
-        $tolower = $this->_tolower;
-        $returnlobs = $this->_returnlobs;
-        if (is_null($cur)) {
-            if (!($cur = $this->query())) {
-                return null;
-            }    
-        }
-
-        if ($object = oci_fetch_object($cur)) {
-            if ($returnlobs) {
-                foreach($object as $field => $value) {
-                    if (get_class($value) == 'OCI-Lob') {
-                        $object->$field = $value->load();
-                    }
+        $row = $this->loadNextAssoc();
+        if (is_null($row) || $row === false) {
+            return $row;
+        } else {
+            if ($className === 'stdClass') {
+                return (object) $row;
+            } else {
+                if (is_null($params)) {
+                    return new $className($row);    
+                } else {
+                    return new $className($row, $params);        
                 }
+                
             }
-            if ($tolower) {
-                $obj = new stdClass();
-                foreach($object as $field => $value) {
-                    $lowercase = strtolower($field);
-                    //$uppercase = strtoupper($field);
-                    $obj->$lowercase = $value;
-                    unset($object->$field);
-                }
-                unset($value);
-                unset($object);
-                $object = &$obj;
-            }
-            return $object;
         }
-        
-        //Updates the affectedRows variable with the number of rows returned by the query
-        $this->_numRows = oci_num_rows($this->_prepared);
-        oci_free_statement( $cur );
-        $cur = null;
-
-        return false;
     }
-
+    
 	/**
 	 * Inserts a row into a table based on an objects properties
 	 *
