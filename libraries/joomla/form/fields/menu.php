@@ -53,6 +53,8 @@ class JFormFieldMenu extends JFormFieldList
 		{
 			$options[] = JHtml::_('select.option', $menutype, $menutype);
 		}
+		// Merge any additional options in the XML definition.
+		$options = array_merge(parent::_getOptions(), $options);
 		return $options;
 	}
 }
