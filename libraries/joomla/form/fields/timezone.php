@@ -8,6 +8,9 @@
 defined('JPATH_BASE') or die;
 jimport('joomla.html.html');
 
+// Import joomla field list class
+require_once dirname(__FILE__) . DS . 'groupedlist.php';
+
 /**
  * Form Field class for the Joomla Framework.
  *
@@ -15,7 +18,7 @@ jimport('joomla.html.html');
  * @subpackage	Form
  * @since		1.6
  */
-class JFormFieldTimezone extends JFormField
+class JFormFieldTimezone extends JFormFieldGroupedList
 {
 
 	/**
@@ -30,7 +33,7 @@ class JFormFieldTimezone extends JFormField
 	 *
 	 * @return	array		An array of JHtml options.
 	 */
-	protected function _getInput() 
+	protected function _getGroups() 
 	{
 		if (strlen($this->value) == 0) 
 		{
@@ -40,35 +43,32 @@ class JFormFieldTimezone extends JFormField
 		$zones = DateTimeZone::listIdentifiers();
 		foreach($zones as $zone) 
 		{
-			$zone = explode('/', $zone); // 0 => Continent, 1 => City
+
+			// 0 => Continent, 1 => City
+			$zone = explode('/', $zone);
 
 			// Only use "friendly" continent names
-
 			if ($zone[0] == 'Africa' || $zone[0] == 'America' || $zone[0] == 'Antarctica' || $zone[0] == 'Arctic' || $zone[0] == 'Asia' || $zone[0] == 'Atlantic' || $zone[0] == 'Australia' || $zone[0] == 'Europe' || $zone[0] == 'Indian' || $zone[0] == 'Pacific') 
 			{
 				if (isset($zone[1]) != '') 
 				{
-					$locations[$zone[0]][$zone[0] . '/' . $zone[1]] = str_replace('_', ' ', $zone[1]); // Creates array(DateTimeZone => 'Friendly name')
 
-					
+					// Creates array(DateTimeZone => 'Friendly name')
+					$groups[$zone[0]][$zone[0] . '/' . $zone[1]] = str_replace('_', ' ', $zone[1]);
 				}
 			}
 		}
-		ksort($locations);
-		$html = '';
-		$html.= '<select id="' . $this->inputId . '" name="' . $this->inputName . '" class="inputbox">';
-		foreach($locations as $zone => $location) 
+
+		// Sort the arrays
+		ksort($groups);
+		foreach($groups as $zone => $location) 
 		{
 			ksort($location);
-			$html.= '<optgroup label="' . $zone . '"">';
-			foreach($location as $key=>$value)
-			{
-				$html.='<option value="'.$key.'">'.$value.'</option>';
-			}
-			$html.= '</optgroup>';
 		}
-		$html.= '</select>';
-		return $html;
+
+		// Merge any additional options in the XML definition.
+		$groups = array_merge(parent::_getGroups(), $groups);
+		return $groups;
 	}
 }
 
