@@ -138,12 +138,22 @@ class JLanguage extends JObject
 		$this->setLanguage($lang);
 
 		$filename = JPATH_BASE.DS.'language'.DS.'overrides'.DS.$lang.'.override.ini';
-		if ($contents = @file_get_contents( $filename ))
+		if ($contents = @parse_ini_file( $filename ))
 		{
-			$registry	= new JRegistry();
-			$registry->loadINI($contents);
-			$this->_override = $registry->toArray( );
-			unset($registry);
+			foreach($contents as $ext => $textstrings)
+			{
+				if(is_array($textstrings))
+				{
+					if(isset($this->_overrides[$ext]))
+					{
+						$this->_overrides[$ext] = array_merge($this->_overrides[$ext], $textstrings);
+					} else {
+						$this->_overrides[$ext] = $textstrings;
+					}
+				} else {
+					$this->_overrides['J'][$ext] = $textstrings;
+				}
+			}
 			unset($contents);
 		}
 
@@ -409,6 +419,7 @@ class JLanguage extends JObject
 			}
 			if(is_array($strings) && count($strings))
 			{
+				$this->_strings = array_merge($this->_strings, $this->_override);
 				$result = true;
 			}
 		}
