@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install
+	type="module"
+	version="1.6.0"
+	client="administrator">
+	<name>Unread Items</name>
+	<author>Joomla! Project</author>
+	<creationDate>Nov 2005</creationDate>
+	<copyright>Copyright (C) 2005 - 2009 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>1.6.0</version>
+	<description>This module shows a list of unread items</description>
+	<files>
+		<filename
+			module="mod_unread">mod_unread.php</filename>
+	</files>
+	<fields
+		group="advanced">
+		<field
+			name="layout"
+			type="modulelayout"
+			label="JField_Alt_Layout_Label"
+			description="JField_Alt_Module_Layout_Desc" />
+
+		<field
+			name="moduleclass_sfx"
+			type="text"
+			default=""
+			label="Module_Field_Moduleclass_sfx_Label"
+			description="Module_Field_Moduleclass_sfx_Desc" />
+
+		<field
+			name="cache"
+			type="list"
+			default="0"
+			label="Module_Field_Caching_Label"
+			description="Module_Field_Caching_Desc">
+			<option
+				value="0">No caching</option>
+		</field>
+	</fields>
+</install>
