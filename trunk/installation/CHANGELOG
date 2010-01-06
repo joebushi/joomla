@@ -27,6 +27,66 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+06-Jan-2010 Hannes Papenberg
+# Fixed default parameters in install-SQL for components
+
+05-Jan-2010 Mark Dexter
+# Fix category parameter in content modules (Elin Waring)
+# Fix URL's to remove spaces (Elin Waring)
+# Fix grid.sort to work with images (Andrea Tarr)
+# Remove hard-coding for admin images (Andrea Tarr)
+# Accessibility fixes to rules.php and grid.php (Andrea Tarr)
+^ Auto create linked contact when creating new user (Sam Moffatt)
+# Fix limit on latest users module (Elin Waring)
+# Add missing frontend modules to extensions table (Jonnathan S. Lima)
+# Fix admin/com_template/style error messages (Andrea Tarr)
+# Remove duplicate title attribute in toolbars (Andrea Tarr)
+# Make toolbars consistent in ordering and labels when editing (Elin Waring)
+# Replact &getTable with getTable where it was generating warnings because of arrays (Elin Waring)
+# Change com_user to com_users in the extensions table (Elin Waring)
+# Change weblinks config.xml to use fields (Elin Waring)
+# Fix admin/com_modules to delete associated records in modules_menu when module is deleted (Andrea Tarr)
+^ Step one of adding separate name fields to contact (Elin Waring)
+# Fix Save2Copy to correctly checkin the original content (Elin Waring)
+# Fix module menu assignments modal (Andrea Tarr)
+# Remove extraneous javascript from com_modules modal layout (Andrea Tarr)
+# Fix & standardize the sysinfo check for output buffering (Andrea Tarr)
+
+
+05-Jan-2010 Hannes Papenberg
+ ^ Removed #__components and moved the admin menu information to #__menu. Thanks jonnsl!
+
+05-Jan-2010 Andrew Eddie
+ ^ Accepted [#19268] Refactoring mod_popular in the BackEnd.
+ ^ Added support for layout and modal forms in JControllerForm::edit method.
+ ^ Fixes to modal module edit form.
+ ^ Accepted [#19263] Refactoring mod_online in the BackEnd.
+ ^ Accepted [#19279] Refactored mod_title, mod_toolbar and mod_unread admin modules to MVC.
+ ^ Accepted [#19275] Refactoring Administrator/mod_submenu
+ ^ Accepted [#19274] Refactoring Administrator/mod_login; fixed return URL on login/logout.
+ ^ Accepted [#19271] Refactored Administrator/mod_latest
+ ^ Accepted [#18890] XML Installer for Front End Modules
+ ^ Accepted [#17634] [patch] Add title to grid.id checkboxes to allieviate the need for a label
+
+04-Jan-2010 Andrew Eddie
+ ^ Applied [#19231] JFormFieldList and onchange behavior.
+ ^ Applied [#19143] Loading data into specified objects via database layer.
+ ^ Applied [#17818] Refactoring administrator/com_massmail
+
+03-Jan-2010 Hannes Papenberg
+^ Deprecated JSimpleXML - Due to time restraints, this does unfortunately
+ not mean that we are removing it from use in core code in 1.6 yet.
+- Removed JElementAssetgroups JParameter Element. This is a leftover from earlier ACL tests.
+^ Set a default date format for JFormFieldCalendar
+# Fixed JElementComponentLayouts. Its now using the new #__template_styles table
+ 
+02-Jan-2010 Ron Severdia
+# Fixed bug in CSS for ACL, general CSS cleanup & reformat
+# Visual cleanup on borders and login page
+
+01-Jan-2010 Mark Dexter
+# Fix bug where article global parameters were not showing 
+
 29-Dec-2009 Mark Dexter
 # Add correct initial Article parameters in joomla.sql
 + Partial implementation of Category List Layout
