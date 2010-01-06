@@ -23,56 +23,57 @@ require_once dirname(__FILE__) . DS . 'list.php';
 class JFormFieldFolderList extends JFormFieldList
 {
 
-    /**
-     * The field type.
-     *
-     * @var		string
-     */
-    public $type = 'FolderList';
+	/**
+	 * The field type.
+	 *
+	 * @var		string
+	 */
+	public $type = 'FolderList';
 
-    /**
-     * Method to get a list of options for a list input.
-     *
-     * @return	array		An array of JHtml options.
-     */
-    protected function _getOptions() 
-    {
-        jimport('joomla.filesystem.folder');
+	/**
+	 * Method to get a list of options for a list input.
+	 *
+	 * @return	array		An array of JHtml options.
+	 */
+	protected function _getOptions() 
+	{
+		jimport('joomla.filesystem.folder');
 
-        // path to folders directory
-        $path = realpath(JPATH_ROOT . '/' . $this->_element->attributes('directory'));
-        $filter = $this->_element->attributes('filter');
-        $exclude = $this->_element->attributes('exclude');
-        $folders = JFolder::folders($path, $filter);
+		// path to folders directory
+		$path = realpath(JPATH_ROOT . '/' . $this->_element->attributes('directory'));
+		$filter = $this->_element->attributes('filter');
+		$exclude = $this->_element->attributes('exclude');
+		$folders = JFolder::folders($path, $filter);
 
-        // Prepare return value
-        $options = array();
+		// Prepare return value
+		$options = array();
 
-        // Add basic options
-        if (!$this->_element->attributes('hide_none')) 
-        {
-            $options[] = JHtml::_('select.option', '-1', JText::_('JOption_Do_Not_Use'));
-        }
-        if (!$this->_element->attributes('hide_default')) 
-        {
-            $options[] = JHtml::_('select.option', '', JText::_('JOption_Use_Default')));
-        }
+		// Add basic options
+		if (!$this->_element->attributes('hide_none')) 
+		{
+			$options[] = JHtml::_('select.option', '-1', JText::_('JOption_Do_Not_Use'));
+		}
+		if (!$this->_element->attributes('hide_default')) 
+		{
+			$options[] = JHtml::_('select.option', '', JText::_('JOption_Use_Default'));
+		}
 
-        // Iterate over folders
-        if (is_array($folder)) 
-        {
-            foreach($folders as $folder) 
-            {
-                if ($exclude) 
-                {
-                    if (preg_match(chr(1) . $exclude . chr(1), $folder)) 
-                    {
-                        continue;
-                    }
-                }
-                $options[] = JHtml::_('select.option', $folder, $folder);
-            }
-        }
-    }
+		// Iterate over folders
+		if (is_array($folders)) 
+		{
+			foreach($folders as $folder) 
+			{
+				if ($exclude) 
+				{
+					if (preg_match(chr(1) . $exclude . chr(1), $folder)) 
+					{
+						continue;
+					}
+				}
+				$options[] = JHtml::_('select.option', $folder, $folder);
+			}
+		}
+		return $options;
+	}
 }
 

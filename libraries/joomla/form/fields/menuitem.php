@@ -23,68 +23,70 @@ require_once dirname(__FILE__) . DS . 'groupedlist.php';
 class JFormFieldMenuItem extends JFormFieldGroupedList
 {
 
-    /**
-     * The field type.
-     *
-     * @var		string
-     */
-    public $type = 'MenuItem';
+	/**
+	 * The field type.
+	 *
+	 * @var		string
+	 */
+	public $type = 'MenuItem';
 
-    /**
-     * Method to get a list of options for a list input.
-     *
-     * @return	array		An array of JHtml options.
-     */
-    protected function _getGroups() 
-    {
+	/**
+	 * Method to get a list of options for a list input.
+	 *
+	 * @return	array		An array of JHtml options.
+	 */
+	protected function _getGroups() 
+	{
 
-        // Get the attributes
-        $menuType = $this->_element->attributes('menu_type');
-        $published = explode(','$this->_element->attributes('published'));
-        $disable = explode(',', $this->_element->attributes('disable'));
+		// Get the attributes
+		$menuType = $this->_element->attributes('menu_type');
+		$published = $this->_element->attributes('published') ? explode(',', $this->_element->attributes('published')) : array();
+		$disable = $this->_element->attributes('disable') ? explode(',', $this->_element->attributes('disable')) : array();
 
-        // Get the com_menus helper
-        require_once realpath(JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
+		// Get the com_menus helper
+		require_once realpath(JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
 
-        // Get the items
-        $items = MenusHelper::getMenuLinks($menuType, 0, 0, $published);
+		// Get the items
+		$items = MenusHelper::getMenuLinks($menuType, 0, 0, $published);
 
-        // Prepare return value
-        $groups = array();
+		// Prepare return value
+		$groups = array();
 
-        // If a menu type was set
-        if ($menuType) 
-        {
-            $groups[$menuType] = array();
+		// If a menu type was set
+		if ($menuType) 
+		{
+			$groups[$menuType] = array();
 
-            // Loop over links
-            foreach($items as $link) 
-            {
+			// Loop over links
+			foreach($items as $link) 
+			{
 
-                // Generate an option disabling it if it's the case
-                $groups[$menuType][] = JHtml::_('select.option', $link->value, $link->text, 'value', 'text', in_array($link->type, $disable));
-            }
-        }
+				// Generate an option disabling it if it's the case
+				$groups[$menuType][] = JHtml::_('select.option', $link->value, $link->text, 'value', 'text', in_array($link->type, $disable));
+			}
+		}
 
-        // else all menu types have to be displayed
-        else 
-        {
+		// else all menu types have to be displayed
+		else 
+		{
 
-            // Loop over types
-            foreach($items as $type) 
-            {
-                $groups[$type] = array();
+			// Loop over types
+			foreach($items as $menu) 
+			{
+				$groups[$menu->menutype] = array();
 
-                // Loop over links
-                foreach($type->links as $link) 
-                {
+				// Loop over links
+				foreach($menu->links as $link) 
+				{
 
-                    // Generate an option disabling it if it's the case
-                    $groups[$type][] = JHtml::_('select.option', $link->value, '&nbsp;&nbsp;&nbsp;' . $link->text, 'value', 'text', in_array($link->type, $disable));
-                }
-            }
-        }
-        return $groups;
-    }
+					// Generate an option disabling it if it's the case
+					$groups[$menu->menutype][] = JHtml::_('select.option', $link->value, $link->text, 'value', 'text', in_array($link->type, $disable));
+				}
+			}
+		}
+		// Merge any additional options in the XML definition.
+		$groups = array_merge(parent::_getGroups(), $groups);
+		return $groups;
+	}
 }
 

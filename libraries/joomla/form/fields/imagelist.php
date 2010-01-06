@@ -20,26 +20,26 @@ require_once dirname(__FILE__) . DS . 'list.php';
  * @subpackage	Form
  * @since		1.6
  */
-class JFormFieldImageList extends JFormFieldList
+class JFormFieldImageList extends JFormFieldFileList
 {
 
-    /**
-     * The field type.
-     *
-     * @var		string
-     */
-    public $type = 'ImageList';
+	/**
+	 * The field type.
+	 *
+	 * @var		string
+	 */
+	public $type = 'ImageList';
 
-    /**
-     * Method to get a list of options for a list input.
-     *
-     * @return	array		An array of JHtml options.
-     */
-    protected function _getOptions() 
-    {
-        $filter = '\.png$|\.gif$|\.jpg$|\.bmp$|\.ico$';
-        $this->_element->addAttribute('filter', $filter);
-        return parent::_getOptions();
-    }
+	/**
+	 * Method to get a list of options for a list input.
+	 *
+	 * @return	array		An array of JHtml options.
+	 */
+	protected function _getOptions() 
+	{
+		$filter = '\.png$|\.gif$|\.jpg$|\.bmp$|\.ico$';
+		$this->_element->addAttribute('filter', $filter);
+		return parent::_getOptions();
+	}
 }
 

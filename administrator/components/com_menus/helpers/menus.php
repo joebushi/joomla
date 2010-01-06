@@ -107,7 +107,7 @@ class MenusHelper
 		$db		= JFactory::getDbo();
 		$query	= new JQuery;
 
-		$query->select('a.id AS value, a.title AS text, a.level, a.menutype');
+		$query->select('a.id AS value, a.title AS text, a.level, a.menutype, a.type');
 		$query->from('#__menu AS a');
 		$query->join('LEFT', '`#__menu` AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 

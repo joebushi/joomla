@@ -17,7 +17,7 @@ require_once dirname(__FILE__).DS.'list.php';
  * @subpackage	Form
  * @since		1.6
  */
-class JFormFieldTemplateStyle extends JFormFieldList
+class JFormFieldTemplateStyle extends JFormFieldGroupedList
 {
 	/**
 	 * The field type.
@@ -31,7 +31,7 @@ class JFormFieldTemplateStyle extends JFormFieldList
 	 *
 	 * @return	string		The field input.
 	 */
-	protected function _getOptions()
+	protected function _getGroups()
 	{
 		$db = JFactory::getDBO();
 
@@ -45,18 +45,18 @@ class JFormFieldTemplateStyle extends JFormFieldList
 
 		// Pre-process into groups.
 		$last		= null;
-		$options	= array();
+		$groups	= array();
 		foreach ($styles as $style) {
 			if ($style->template != $last) {
-				$options[] = JHtml::_('select.optgroup', $style->template);
 				$last = $style->template;
+				$groups[$last] = array();
 			}
-			$options[] = JHtml::_('select.option', $style->id, $style->title);
+			$groups[$last] = JHtml::_('select.option', $style->id, $style->title);
 		}
 
 		// Merge any additional options in the XML definition.
-		$options = array_merge(parent::_getOptions(), $options);
+		$groups = array_merge(parent::_getOptions(), $groups);
 
-		return $options;
+		return $groups;
 	}
 }

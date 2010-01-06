@@ -23,64 +23,64 @@ require_once dirname(__FILE__) . DS . 'list.php';
 class JFormFieldCategory extends JFormFieldList
 {
 
-    /**
-     * The field type.
-     *
-     * @var		string
-     */
-    public $type = 'Category';
+	/**
+	 * The field type.
+	 *
+	 * @var		string
+	 */
+	public $type = 'Category';
 
-    /**
-     * Method to get a list of options for a list input.
-     *
-     * @return	array		An array of JHtml options.
-     */
-    protected function _getOptions() 
-    {
-        $db = JFactory::getDbo();
-        $extension = $this->_element->attributes('extension') ? $this->_element->attributes('extension') : $this->_element->attributes('scope');
-        $published = $this->_element->attributes('published');
-        $options = array();
-        if ($published === '') 
-        {
-            $published = null;
-        }
-        if (!empty($extension)) 
-        {
-            if ($published) 
-            {
-                $options = JHtml::_('category.options', $extension, array('filter.published' => implode(',', $published)));
-            }
-            else
-            {
-                $options = JHtml::_('category.options', $extension);
-            }
+	/**
+	 * Method to get a list of options for a list input.
+	 *
+	 * @return	array		An array of JHtml options.
+	 */
+	protected function _getOptions() 
+	{
+		$db = JFactory::getDbo();
+		$extension = $this->_element->attributes('extension') ? $this->_element->attributes('extension') : $this->_element->attributes('scope');
+		$published = $this->_element->attributes('published');
+		$options = array();
+		if ($published === '') 
+		{
+			$published = null;
+		}
+		if (!empty($extension)) 
+		{
+			if ($published) 
+			{
+				$options = JHtml::_('category.options', $extension, array('filter.published' => implode(',', $published)));
+			}
+			else
+			{
+				$options = JHtml::_('category.options', $extension);
+			}
 
-            // Verify permissions.  If the action attribute is set, then we scan the options.
-            if ($action = $this->_element->attributes('action')) 
-            {
-                $user = JFactory::getUser();
+			// Verify permissions.  If the action attribute is set, then we scan the options.
+			if ($action = $this->_element->attributes('action')) 
+			{
+				$user = JFactory::getUser();
 
-                // TODO: Add a preload method to JAccess so that we can get all the asset rules in one query and cache them.
-                // eg JAccess::preload('core.create', 'com_content.category')
+				// TODO: Add a preload method to JAccess so that we can get all the asset rules in one query and cache them.
+				// eg JAccess::preload('core.create', 'com_content.category')
 
-                foreach($options as $i => $option) 
-                {
-                    if (!$user->authorise($action, $extension . '.category.' . $option->value)) 
-                    {
-                        unset($options[$i]);
-                    }
-                }
-            }
-        }
-        else
-        {
-            JError::raiseWarning(500, JText::_('JFramework_Form_Fields_Category_Error_extension_empty'));
-        }
+				foreach($options as $i => $option) 
+				{
+					if (!$user->authorise($action, $extension . '.category.' . $option->value)) 
+					{
+						unset($options[$i]);
+					}
+				}
+			}
+		}
+		else
+		{
+			JError::raiseWarning(500, JText::_('JFramework_Form_Fields_Category_Error_extension_empty'));
+		}
 
-        // Merge any additional options in the XML definition.
-        $options = array_merge(parent::_getOptions(), $options);
-        return $options;
-    }
+		// Merge any additional options in the XML definition.
+		$options = array_merge(parent::_getOptions(), $options);
+		return $options;
+	}
 }
 
