@@ -419,7 +419,10 @@ class JLanguage extends JObject
 			}
 			if(is_array($strings) && count($strings))
 			{
-				$this->_strings = array_merge($this->_strings, $this->_override);
+				foreach($this->_overrides as $ext => $override)
+				{
+					$this->_strings[$ext] = array_merge($this->_strings[$ext], $this->_overrides[$ext]);
+				}
 				$result = true;
 			}
 		}
