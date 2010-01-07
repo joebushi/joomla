@@ -39,7 +39,12 @@ class JFormFieldMedia extends JFormField
 			JHtml::_('behavior.modal');
 			$js = "
 			function jInsertFieldValue(value,id) {
-				document.getElementById(id).value = value;
+				var old_id = document.getElementById(id).value;
+				if (old_id != id)
+				{
+					document.getElementById(id).value = value;
+					".$onchange."
+				}
 			}";
 			$doc = &JFactory::getDocument();
 			$doc->addScriptDeclaration($js);

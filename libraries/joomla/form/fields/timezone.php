@@ -61,9 +61,9 @@ class JFormFieldTimezone extends JFormFieldGroupedList
 
 		// Sort the arrays
 		ksort($groups);
-		foreach($groups as $zone => $location) 
+		foreach($groups as $zone => &$location) 
 		{
-			ksort($location);
+			sort($location);
 		}
 
 		// Merge any additional options in the XML definition.

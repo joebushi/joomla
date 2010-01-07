@@ -93,7 +93,7 @@ class JFormFieldGroupedList extends JFormField
 		}
 		if ($v = $this->_element->attributes('onchange')) 
 		{
-			$attributes.= 'onchange="' . $v . '"';
+			$attributes	.= 'onchange="'.$this->_replacePrefix($v).'"';
 		}
 		if ($disabled) 
 		{
