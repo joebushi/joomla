@@ -452,12 +452,6 @@
 			description="JField_Metadata_Robots_Desc"
 			size="20" />
 
-		<field
-			name="author"
-			type="text"
-			label="JField_Metadata_Author_Label"
-			description="JField_Metadata_Author_Desc"
-			size="20" />
 
 		<field
 			name="rights"
@@ -474,7 +468,7 @@
 
 		<field
 			name="show_name"
-			type="radio"
+			type="list"
 			default="1"
 			label="Contact_Params_Name_Label"
 			description="Contact_Params_Name_Desc">
@@ -483,12 +477,12 @@
 			<option
 				value="1">Jcommon_Show</option>
 			<option
-				value="1">Jcommon_Use_Global</option>
+				value="">Jcommon_Use_Global</option>
 		</field>
 
 		<field
 			name="show_position"
-			type="radio"
+			type="list"
 			default="1"
 			label="Contact_Params_Contact_Position_Label"
 			description="Contact_Params_Name_Desc">
@@ -497,12 +491,12 @@
 			<option
 				value="1">Jcommon_Show</option>
 			<option
-				value="1">Jcommon_Use_Global</option>
+				value="">Jcommon_Use_Global</option>
 		</field>
 
 		<field
 			name="show_email"
-			type="radio"
+			type="list"
 			default="0"
 			label="Contact_Params_Contact_Position_E-mail_Label"
 			description="Contact_Params_Name_Desc">
@@ -511,12 +505,12 @@
 			<option
 				value="1">Jcommon_Show</option>
 			<option
-				value="1">Jcommon_Use_Global</option>
+				value="">Jcommon_Use_Global</option>
 		</field>
 
 		<field
 			name="show_street_address"
-			type="radio"
+			type="list"
 			default="1"
 			label="Contact_Params_Street_Address_Label"
 			description="Contact_Params_Name_Desc">
@@ -525,12 +519,12 @@
 			<option
 				value="1">Jcommon_Show</option>
 			<option
-				value="1">Jcommon_Use_Global</option>
+				value="">Jcommon_Use_Global</option>
 		</field>
 
 		<field
 			name="show_suburb"
-			type="radio"
+			type="list"
 			default="1"
 			label="Contact_Params_Town/Suburb_Label"
 			description="Contact_Params_Name_Desc">
@@ -539,12 +533,12 @@
 			<option
 				value="1">Jcommon_Show</option>
 			<option
-				value="1">Jcommon_Use_Global</option>
+				value="">Jcommon_Use_Global</option>
 		</field>
 
 		<field
 			name="show_state"
-			type="radio"
+			type="list"
 			default="1"
 			label="Contact_Params_State/County_Label"
 			description="Contact_Params_Name_Desc">
@@ -553,12 +547,12 @@
 			<option
 				value="1">Jcommon_Show</option>
 			<option
-				value="1">Jcommon_Use_Global</option>
+				value="">Jcommon_Use_Global</option>
 		</field>
 
 		<field
 			name="show_postcode"
-			type="radio"
+			type="list"
 			default="1"
 			label="Contact_Params_Post/Zip_Code_Label"
 			description="Contact_Params_Name_Desc">
@@ -567,12 +561,12 @@
 			<option
 				value="1">Jcommon_Show</option>
 			<option
-				value="1">Jcommon_Use_Global</option>
+				value="">Jcommon_Use_Global</option>
 		</field>
 
 		<field
 			name="show_country"
-			type="radio"
+			type="list"
 			default="1"
 			label="Contact_Params_Country_Label"
 			description="Contact_Params_Name_Desc">
@@ -581,12 +575,12 @@
 			<option
 				value="1">Jcommon_Show</option>
 			<option
-				value="1">Jcommon_Use_Global</option>
+				value="">Jcommon_Use_Global</option>
 		</field>
 
 		<field
 			name="show_telephone"
-			type="radio"
+			type="list"
 			default="1"
 			label="Contact_Params_Telephone_Label"
 			description="Contact_Params_Name_Desc">
@@ -595,12 +589,12 @@
 			<option
 				value="1">Jcommon_Show</option>
 			<option
-				value="1">Jcommon_Use_Global</option>
+				value="">Jcommon_Use_Global</option>
 		</field>
 
 		<field
 			name="show_mobile"
-			type="radio"
+			type="list"
 			default="1"
 			label="Contact_Params_Mobile_Label"
 			description="Contact_Params_Name_Desc">
@@ -609,12 +603,12 @@
 			<option
 				value="1">Jcommon_Show</option>
 			<option
-				value="1">Jcommon_Use_Global</option>
+				value="">Jcommon_Use_Global</option>
 		</field>
 
 		<field
 			name="show_fax"
-			type="radio"
+			type="list"
 			default="1"
 			label="Contact_Params_Fax_Label"
 			description="Contact_Params_Name_Desc">
@@ -623,12 +617,12 @@
 			<option
 				value="1">Jcommon_Show</option>
 			<option
-				value="1">Jcommon_Use_Global</option>
+				value="">Jcommon_Use_Global</option>
 		</field>
 
 		<field
 			name="show_webpage"
-			type="radio"
+			type="list"
 			default="1"
 			label="Contact_Params_Webpage_Label"
 			description="Contact_Params_Name_Desc">
@@ -637,12 +631,12 @@
 			<option
 				value="1">Jcommon_Show</option>
 			<option
-				value="1">Jcommon_Use_Global</option>
+				value="">Jcommon_Use_Global</option>
 		</field>
 
 		<field
 			name="show_misc"
-			type="radio"
+			type="list"
 			default="1"
 			label="Contact_Params_Misc Info_Label"
 			description="Contact_Params_Name_Desc">
@@ -651,12 +645,12 @@
 			<option
 				value="1">Jcommon_Show</option>
 			<option
-				value="1">Jcommon_Use_Global</option>
+				value="">Jcommon_Use_Global</option>
 		</field>
 
 		<field
 			name="show_image"
-			type="radio"
+			type="list"
 			default="1"
 			label="Contact_Params_Image_Label"
 			description="Contact_Params_Name_Desc">
@@ -665,12 +659,12 @@
 			<option
 				value="1">Jcommon_Show</option>
 			<option
-				value="1">Jcommon_Use_Global</option>
+				value="">Jcommon_Use_Global</option>
 		</field>
 
 		<field
 			name="allow_vcard"
-			type="radio"
+			type="list"
 			default="0"
 			label="Contact_Params_vCard_Label"
 			description="Contact_Params_vCard_Label">
@@ -679,7 +673,7 @@
 			<option
 				value="1">Jcommon_Show</option>
 			<option
-				value="1">Jcommon_Use_Global</option>
+				value="">Jcommon_Use_Global</option>
 		</field>
 
 		<field
@@ -687,14 +681,14 @@
 			name="show_articles"
 			label="Contact_Show_Articles_Label"
 			description="Contact_Show_Articles_Desc"
-			type="radio"
+			type="list"
 			default="1">
 			<option
 				value="0">Jcommon_Hide</option>
 			<option
 				value="1">Jcommon_Show</option>
 			<option
-				value="1">Jcommon_Use_Global</option>
+				value="">Jcommon_Use_Global</option>
 		</field>
 
 		<field
@@ -702,14 +696,14 @@
 			name="show_links"
 			label="Contact_Show_Links_Label"
 			description="Contact_Show_Links_Desc"
-			type="radio"
+			type="list"
 			default="1">
 			<option
 				value="0">Jcommon_Hide</option>
 			<option
 				value="1">Jcommon_Show</option>
 			<option
-				value="1">Jcommon_Use_Global</option>
+				value="">Jcommon_Use_Global</option>
 		</field>
 
 		<field
