@@ -50,6 +50,50 @@ class ModulesViewModule extends JView
 		$paramsForm->set('module', $item->module);
 		$paramsForm->set('client_id', $item->client_id);
 
+		$db = &JFactory::getDBO();
+
+		// First lets get all the items that are published so that we know what goes into the second box.
+		$query = 'SELECT *'
+		. ' FROM #__modules_menu'
+		. ' WHERE moduleid = '. $item->id
+		;
+		$db->setQuery($query);
+		$assigned = $db->loadObjectList();
+
+		$selections = JHtml::_('menu.linkoptions');
+		$lists['unassigned'] = JHtml::_(
+			'select.genericlist',
+			$selections,
+			'unassigned[]',
+			'class="inputbox" size="15" multiple="multiple"',
+			'value',
+			'text',
+			'',
+			'unassigned'
+		);
+
+
+		$query = 'SELECT *'
+		. ' FROM #__modules_menu'
+		. ' WHERE moduleid = '. $item->id
+		;
+		$db->setQuery($query);
+		$articles_unassigned = $db->loadObjectList();
+
+		$selections = JHtml::_('article.linkoptions');
+		$lists['articles_unassigned'] = JHtml::_(
+			'select.genericlist',
+			$selections,
+			'articles_unassigned[]',
+			'class="inputbox" size="15" multiple="multiple"',
+			'value',
+			'text',
+			$articles_unassigned,
+			'articles_unassigned'
+		);
+
+
+		$this->assignRef('lists',		$lists);
 		$this->assignRef('state',		$state);
 		$this->assignRef('item',		$item);
 		$this->assignRef('form',		$itemForm);
