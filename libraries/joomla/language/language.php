@@ -144,14 +144,14 @@ class JLanguage extends JObject
 			{
 				if(is_array($textstrings))
 				{
-					if(isset($this->_overrides[$ext]))
+					if(isset($this->_override[$ext]))
 					{
-						$this->_overrides[$ext] = array_merge($this->_overrides[$ext], $textstrings);
+						$this->_override[$ext] = array_merge($this->_override[$ext], $textstrings);
 					} else {
-						$this->_overrides[$ext] = $textstrings;
+						$this->_override[$ext] = $textstrings;
 					}
 				} else {
-					$this->_overrides['J'][$ext] = $textstrings;
+					$this->_override['J'][$ext] = $textstrings;
 				}
 			}
 			unset($contents);
@@ -419,9 +419,9 @@ class JLanguage extends JObject
 			}
 			if(is_array($strings) && count($strings))
 			{
-				foreach($this->_overrides as $ext => $override)
+				foreach($this->_override as $ext => $override)
 				{
-					$this->_strings[$ext] = array_merge($this->_strings[$ext], $this->_overrides[$ext]);
+					$this->_strings[$ext] = array_merge($this->_strings[$ext], $this->_override[$ext]);
 				}
 				$result = true;
 			}
