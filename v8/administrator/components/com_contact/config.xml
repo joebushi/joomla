@@ -193,8 +193,7 @@
 				value="0">Jcommon_Hide</option>
 			<option
 				value="1">Jcommon_Show</option>
-			<option
-				value="1">Jcommon_Use_Global</option>
+
 		</field>
 		<field
 			id="linka_name"
