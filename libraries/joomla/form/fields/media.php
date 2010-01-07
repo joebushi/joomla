@@ -35,6 +35,7 @@ class JFormFieldMedia extends JFormField
 		static $init = false;
 		$html = '';
 
+		$onchange	= $this->_element->attributes('onchange') ? $this->_replacePrefix($this->_element->attributes('onchange')) : '';
 		if (!$init) {
 			JHtml::_('behavior.modal');
 			$js = "
