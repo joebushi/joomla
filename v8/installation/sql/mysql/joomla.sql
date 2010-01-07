@@ -376,7 +376,7 @@ INSERT INTO `#__extensions` VALUES
 (0, 'Menu Editor', 'component', 'com_menus', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'Messaging', 'component', 'com_messages', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'Module Manager', 'component', 'com_modules', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
-(0, 'News Feeds', 'component', 'com_newsfeeds', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'News Feeds', 'component', 'com_newsfeeds', '', 1, 1, 0, 0, '', '{"show_headings":"1","show_name":"1","show_articles":"1","show_link":"1","show_cat_description":"1","show_cat_items":"1","show_feed_image":"1","show_feed_description":"1","show_item_description":"1","feed_word_count":"0"}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'Plug-in Manager', 'component', 'com_plugins', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'Redirect Manager', 'component', 'com_redirect', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'Search', 'component', 'com_search', '', 1, 1, 0, 1, '', '{"enabled":"0","show_date":"1"}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
