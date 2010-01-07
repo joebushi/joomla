@@ -568,6 +568,9 @@ ALTER TABLE `jos_newsfeeds`
 
 ALTER TABLE `jos_newsfeeds`
  ADD INDEX `idx_language` (`language`);
+ 
+ALTER TABLE `jos_newsfeeds` 
+ADD `params` TEXT NOT NULL; 
 
 -- ----------------------------------------------------------------
 -- jos_plugins

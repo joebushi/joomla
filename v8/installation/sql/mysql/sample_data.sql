@@ -85,7 +85,6 @@ INSERT IGNORE INTO `#__content_frontpage` VALUES
 
 INSERT IGNORE INTO `#__menu` VALUES
 (0, 'mainmenu', 'Administrator', 'administrator', 'administrator', 'administrator/', 'url', 1, 1, 1, 0, 2, 0, '0000-00-00 00:00:00', 0, 1,'', 0, '{"menu_image":"-1"}', 9, 10, 0),
-(0, 'mainmenu', 'Home', 'home', 'home', 'index.php?option=com_content&view=frontpage', 'component', 1, 1, 1, 20, 0, 0, '0000-00-00 00:00:00', 0, 1,'', 0, '{"show_page_title":"1","page_title":"Welcome to the Frontpage","show_description":"0","show_description_image":"0","num_leading_articles":"1","num_intro_articles":"4","num_columns":"2","num_links":"4","show_title":"1","pageclass_sfx":"","menu_image":"-1","secure":"0","orderby_pri":"","orderby_sec":"front","show_pagination":"2","show_pagination_results":"1","show_noauth":"0","link_titles":"0","show_intro":"1","show_section":"0","link_section":"0","show_category":"0","link_category":"0","show_author":"1","show_create_date":"1","show_modify_date":"1","show_item_navigation":"0","show_readmore":"1","show_vote":"0","show_icons":"1","show_pdf_icon":"1","show_print_icon":"1","show_email_icon":"1","show_hits":"1"}', 1, 2, 1),
 (0, 'usermenu', 'Logout', 'logout', 'logout', 'index.php?option=com_user&view=login', 'component', 1, 1, 1, 14, 5, 0, '0000-00-00 00:00:00', 0, 2,'', 0, '', 15, 16, 0),
 (0, 'usermenu', 'Submit an Article', 'submit-an-article', 'submit-an-article', 'index.php?option=com_content&view=form&layout=edit', 'component', 1, 1, 1, 20, 3, 0, '0000-00-00 00:00:00', 0, 2,'', 0, '{"menu-anchor_title":"","menu-anchor_css":"","page_title":"","show_page_title":1,"page_heading":"","pageclass_sfx":"","menu_image":"","link_title":"","secure":0,"menu-meta_description":"","menu-meta_keywords":"","robots":""}', 11, 12, 0),
 (0, 'usermenu', 'Submit a Web Link', 'submit-a-web-link', 'submit-a-web-link', 'index.php?option=com_weblinks&view=form&layout=edit', 'component', 1, 1, 1, 4, 4, 0, '0000-00-00 00:00:00', 0, 2,'', 0, '{"menu-anchor_title":"","menu-anchor_css":"","page_title":"","show_page_title":1,"page_heading":"","pageclass_sfx":"","menu_image":"","link_title":"","secure":0,"menu-meta_description":"","menu-meta_keywords":"","robots":""}', 13, 14, 0),
@@ -112,12 +111,12 @@ INSERT IGNORE INTO `#__menu_types` VALUES
 --
 -- Dumping data for table `#__newsfeeds`
 --
-INSERT IGNORE INTO `#__newsfeeds`  (`catid`,`id`,`name`,`alias`,`link`,`filename`,`published`,`numarticles`,`cache_time`,`checked_out`,`checked_out_time`,`ordering`,`rtl`,`access`,`language`)
+INSERT IGNORE INTO `#__newsfeeds`  (`catid`,`id`,`name`,`alias`,`link`,`filename`,`published`,`numarticles`,`cache_time`,`checked_out`,`checked_out_time`,`ordering`,`rtl`,`access`,`language`,`params`)
 VALUES
-(28, 1, 'Joomla! Announcements', 'joomla-announcements', 'http://www.joomla.org/announcements.feed?type=rss', NULL, 1, 5, 3600, 0, '0000-00-00 00:00:00', 1,0,1,'en_GB'),
-(28, 2, 'New Joomla! Extensions', 'new-joomla-extensions', 'http://feeds.joomla.org/JoomlaExtensions', NULL, 1, 5, 3600, 0, '0000-00-00 00:00:00', 1,0,1,'en_GB'),
-(28, 3, 'Joomla! Security News', 'joomla-security-news', 'http://feeds.joomla.org/JoomlaSecurityNews', NULL, 1, 5, 3600, 0, '0000-00-00 00:00:00', 1,0,1,'en_GB'),
-(28, 4, 'Joomla! Connect', 'joomla-connect', 'http://feeds.joomla.org/JoomlaConnect', NULL, 1, 5, 3600, 0, '0000-00-00 00:00:00', 1,0,1,'en_GB');
+(28, 1, 'Joomla! Announcements', 'joomla-announcements', 'http://www.joomla.org/announcements.feed?type=rss', NULL, 1, 5, 3600, 0, '0000-00-00 00:00:00', 1,0,1,'en_GB','{"show_headings":"","show_name":"","show_articles":"","show_link":"","show_cat_description":"","show_cat_items":"","show_feed_image":"","show_feed_description":"","show_item_description":"","feed_word_count":"0"}'),
+(28, 2, 'New Joomla! Extensions', 'new-joomla-extensions', 'http://feeds.joomla.org/JoomlaExtensions', NULL, 1, 5, 3600, 0, '0000-00-00 00:00:00', 1,0,1,'en_GB','{"show_headings":"","show_name":"","show_articles":"","show_link":"","show_cat_description":"","show_cat_items":"","show_feed_image":"","show_feed_description":"","show_item_description":"","feed_word_count":"0"}'),
+(28, 3, 'Joomla! Security News', 'joomla-security-news', 'http://feeds.joomla.org/JoomlaSecurityNews', NULL, 1, 5, 3600, 0, '0000-00-00 00:00:00', 1,0,1,'en_GB','{"show_headings":"","show_name":"","show_articles":"","show_link":"","show_cat_description":"","show_cat_items":"","show_feed_image":"","show_feed_description":"","show_item_description":"","feed_word_count":"0"}'),
+(28, 4, 'Joomla! Connect', 'joomla-connect', 'http://feeds.joomla.org/JoomlaConnect', NULL, 1, 5, 3600, 0, '0000-00-00 00:00:00', 1,0,1,'en_GB','{"show_headings":"","show_name":"","show_articles":"","show_link":"","show_cat_description":"","show_cat_items":"","show_feed_image":"","show_feed_description":"","show_item_description":"","feed_word_count":"0"}');
 
 --
 -- Dumping data for table `#__usergroups`

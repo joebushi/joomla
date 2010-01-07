@@ -716,6 +716,7 @@ CREATE TABLE `#__newsfeeds` (
   `rtl` tinyint(4) NOT NULL default '0',
   `access` tinyint UNSIGNED NOT NULL DEFAULT '0',
   `language` char(7) NOT NULL DEFAULT '',
+  `params` text NOT NULL,
   PRIMARY KEY  (`id`),
   KEY `published` (`published`),
   KEY `idx_access` (`access`),
