@@ -26,7 +26,7 @@ class JElementUserGroup extends JElement
 	* @access	protected
 	* @var		string
 	*/
-	protected $_name = 'UserGroup';
+	protected $_name = 'Editors';
 
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
