@@ -58,6 +58,14 @@ class JDatabaseOracle extends JDatabase
     protected $_bounded            = '';
     
     /**
+     * The charset passed into the constructor to create
+     * the database connection.
+     *
+     * @var array
+     */
+    protected $_charset            = '';
+    
+    /**
      * The number of rows affected by the previous 
      * INSERT, UPDATE, REPLACE or DELETE query executed
      * @var int
@@ -108,7 +116,8 @@ class JDatabaseOracle extends JDatabase
 		$prefix		= array_key_exists('prefix', $options)	? $options['prefix']	: 'jos_';
 		$select		= array_key_exists('select', $options)	? $options['select']	: true;
         $port       = array_key_exists('port', $options)    ? $options['port']      : '1521';
-        $dateformat = array_key_exists('dateformat', $options) ? $options['dateformat'] : 'RRRR-MM-DD';
+        $charset    = array_key_exists('charset', $options) ? $options['charset']   : 'AL32UTF8';
+        $dateformat = array_key_exists('dateformat', $options) ? $options['dateformat'] : 'RRRR-MM-DD HH24:MI:SS';
         $timestampformat = array_key_exists('timestampformat', $options) ? $options['timestampformat'] : 'RRRR-MM-DD HH24:MI:SS';
 
 		// perform a number of fatality checks, then return gracefully
@@ -119,11 +128,14 @@ class JDatabaseOracle extends JDatabase
 		}
 
 		// connect to the server
-		if (!($this->_resource = @oci_connect($user, $password, "//$host:$port/$database"))) {
+		if (!($this->_resource = @oci_connect($user, $password, "//$host:$port/$database", $charset))) {
 			$this->_errorNum = 2;
 			$this->_errorMsg = 'Could not connect to Oracle';
 			return;
 		}
+        
+        // Saves the charset used to connect for later retrieval
+        $this->_charset = $charset;
 
         /**
         * Sets the default Date and Timestamp Formats for the session
@@ -196,7 +208,16 @@ class JDatabaseOracle extends JDatabase
 	public function hasUTF()
 	{
 		$verParts = explode('.', $this->getVersion());
-		return ($verParts[0] > 9 || ($verParts[0] == 9 && $verParts[1] == 2));
+        
+        if ($verParts[0] > 9 || ($verParts[0] == 9 && $verParts[1] == 2)) {
+            if (strripos($this->_charset, 'utf8') !== false) {
+                return true;
+            } else {
+                return false;
+            }   
+        } else {
+            return false;
+        }
 	}
 
 	/**
@@ -460,6 +481,19 @@ class JDatabaseOracle extends JDatabase
     * 
     */
     public function getCharset()
+    {
+        return $this->_charset;
+    }
+    
+    /**
+    * Returns the current character set
+    * This method should be useful in the case that
+    * somebody actually wants to use a different
+    * character set and needs to check what the current
+    * one is to see if it needs to be changed.
+    * 
+    */
+    public function getDatabaseCharset()
     {
         $this->setQuery("select value from nls_database_parameters where parameter = 'NLS_CHARACTERSET'");
         return $this->loadResult();
@@ -1157,22 +1191,8 @@ class JDatabaseOracle extends JDatabase
 	 */
 	public function getVersion()
 	{
-        /*
-        $server_sentence = oci_server_version( $this->_resource );
-        $server_sentence = explode(' ', $server_sentence);
-        foreach($server_sentence as $word)
-        {
-            if (is_numeric($word[0]) && strlen($word) > 3)
-            {
-                $server_version = $word;
-            }
-        }
-        return $server_version;
-        */
-        
         $this->setQuery("select value from nls_database_parameters where parameter = 'NLS_RDBMS_VERSION'");
         return $this->loadResult();
-        
 	}
 
 	/**
