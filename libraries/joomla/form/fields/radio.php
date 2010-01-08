@@ -44,10 +44,10 @@ class JFormFieldRadio extends JFormField
 		reset($options);
 
 		// Get the fieldset class.
-		$class = $this->_element->attributes('class') ? 'class="radio '.$this->_element->attributes('class').'"': 'class="radio"';
+		$class = $this->_element->attributes('class') ? ' class="radio '.$this->_element->attributes('class').'"': ' class="radio"';
 
 		$html = array();
-		$html[] = '<fieldset id="'.$this->inputId.'" '.$class.'>';
+		$html[] = '<fieldset id="'.$this->inputId.'"'.$class.'>';
 
 		foreach ($options as $i => $option) {
 			if (is_array($this->value)) {

@@ -149,7 +149,7 @@ abstract class JFormField extends JObject
 		// Use the form name
 		else
 		{
-			return str_replace($this->prefix, $formName.'_', $javascript);
+			return str_replace($this->prefix, preg_replace('#\W#', '_',$formName).'_', $javascript);
 		}
 	}
 	

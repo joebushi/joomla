@@ -74,26 +74,26 @@ class JFormFieldGroupedList extends JFormField
 	protected function _getInput() 
 	{
 		$disabled = $this->_element->attributes('disabled') == 'true' ? true : false;
-		$attributes = ' ';
+		$attributes = '';
 		if ($v = $this->_element->attributes('size')) 
 		{
-			$attributes.= 'size="' . $v . '"';
+			$attributes.= ' size="' . $v . '"';
 		}
 		if ($v = $this->_element->attributes('class')) 
 		{
-			$attributes.= 'class="' . $v . '"';
+			$attributes.= ' class="' . $v . '"';
 		}
 		else
 		{
-			$attributes.= 'class="inputbox"';
+			$attributes.= ' class="inputbox"';
 		}
 		if ($m = $this->_element->attributes('multiple')) 
 		{
-			$attributes.= 'multiple="multiple"';
+			$attributes.= ' multiple="multiple"';
 		}
 		if ($v = $this->_element->attributes('onchange')) 
 		{
-			$attributes	.= 'onchange="'.$this->_replacePrefix($v).'"';
+			$attributes.= ' onchange="' . $this->_replacePrefix($v) . '"';
 		}
 		if ($disabled) 
 		{

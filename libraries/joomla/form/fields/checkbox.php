@@ -34,10 +34,10 @@ class JFormFieldCheckbox extends JFormField
 	protected function _getInput()
 	{
 		$value = $this->_element->attributes('value') !== null ? $this->_element->attributes('value') : '';
-		$attributes = (!empty($value) && $value == $this->value) ? 'checked="checked"' : '';
+		$attributes = (!empty($value) && $value == $this->value) ? ' checked="checked"' : '';
 		if ($v = $this->_element->attributes('onclick')) {
 			$attributes	.= ' onclick="'.$this->_replacePrefix($v).'"';
 		}
-		return '<input type="checkbox" name="'.$this->inputName.'" id="'.$this->inputId.'" value="'.$value.'" '.$attributes.' />';
+		return '<input type="checkbox" name="'.$this->inputName.'" id="'.$this->inputId.'" value="'.$value.'"'.$attributes.' />';
 	}
 }
