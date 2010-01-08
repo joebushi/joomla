@@ -140,7 +140,7 @@ class JInstallationModelDatabase extends JModel
 
 			// Attempt to import the database schema.
 			if (!$this->populateDatabase($db, $schema)) {
-				$this->setError(JText::sprintf('Install_Error_DB', $this->getError()));
+				$this->setError(JText::sprintf('Instl_Error_DB', $this->getError()));
 				return false;
 			}
 
@@ -148,7 +148,7 @@ class JInstallationModelDatabase extends JModel
 			$dblocalise = 'sql/'.(($type == 'mysqli') ? 'mysql' : $type).'/localise.sql';
 			if (JFile::exists($dblocalise)) {
 				if (!$this->populateDatabase($db, $dblocalise)) {
-					$this->setError(JText::sprintf('Install_Error_DB', $this->getError()));
+					$this->setError(JText::sprintf('Instl_Error_DB', $this->getError()));
 					return false;
 				}
 			}
@@ -161,18 +161,18 @@ class JInstallationModelDatabase extends JModel
 				// Build the language parameters for the language manager.
 				$params = array();
 				if (in_array($options->language, $languages['admin'])) {
-					$params[] = 'administrator='.$options->language;
+					$params['administrator'] = $options->language;
 				}
 				if (in_array($options->language, $languages['site'])) {
-					$params[] = 'site='.$options->language;
+					$params['site'] = $options->language;
 				}
-				$params = implode("\n", $params);
+				$params = Json_encode($params);
 
 				// Update the language settings in the language manager.
 				$db->setQuery(
-					'UPDATE `#__components`' .
+					'UPDATE `#__extensions`' .
 					' SET `params` = '.$db->Quote($params) .
-					' WHERE `option`="com_languages"'
+					' WHERE `element`="com_languages"'
 				);
 
 				// Check for errors.
@@ -215,7 +215,7 @@ class JInstallationModelDatabase extends JModel
 
 		// Attempt to import the database schema.
 		if (!$this->populateDatabase($db, $data)) {
-			$this->setError(JText::sprintf('Install_Error_DB', $this->getError()));
+			$this->setError(JText::sprintf('Instl_Error_DB', $this->getError()));
 			return false;
 		}
 
