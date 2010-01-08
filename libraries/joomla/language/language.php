@@ -10,7 +10,7 @@
 // No direct access
 defined('JPATH_BASE') or die;
 
-DEFINE('QUOTE', '"');
+DEFINE('_QQ_', '"');
 
 /**
  * Languages/translation handler class
@@ -140,19 +140,9 @@ class JLanguage extends JObject
 		$filename = JPATH_BASE.DS.'language'.DS.'overrides'.DS.$lang.'.override.ini';
 		if ($contents = @parse_ini_file( $filename ))
 		{
-			foreach($contents as $ext => $textstrings)
+			if(is_array($contents))
 			{
-				if(is_array($textstrings))
-				{
-					if(isset($this->_override[$ext]))
-					{
-						$this->_override[$ext] = array_merge($this->_override[$ext], $textstrings);
-					} else {
-						$this->_override[$ext] = $textstrings;
-					}
-				} else {
-					$this->_override['J'][$ext] = $textstrings;
-				}
+				$this->_override = $contents;
 			}
 			unset($contents);
 		}
@@ -202,28 +192,21 @@ class JLanguage extends JObject
 	function _($string, $jsSafe = false)
 	{
 		//$key = str_replace(' ', '_', strtoupper(trim($string)));echo '<br />'.$key;
-		@list($extension, $key) = explode('.', strtoupper($string), 2);
-		if(!isset($key))
+		$key = strtoupper($string);
+		if (isset ($this->_strings[$key]))
 		{
-			$key = $extension;
-			$extension = 'J';
-		}
-		$key = substr($key, 0, 1) == '_' ? substr($key, 1) : $key;
-
-		if (isset ($this->_strings[$extension][$key]))
-		{
-			$string = $this->_debug ? '**'.$this->_strings[$extension][$key].'**' : $this->_strings[$extension][$key];
+			$string = $this->_debug ? '**'.$this->_strings[$key].'**' : $this->_strings[$key];
 
 			// Store debug information
 			if ($this->_debug)
 			{
 				$caller = $this->_getCallerInfo();
 
-				if (! array_key_exists($extension.'.'.$key, $this->_used)) {
-					$this->_used[$extension.'.'.$key] = array();
+				if (! array_key_exists($key, $this->_used)) {
+					$this->_used[$key] = array();
 				}
 
-				$this->_used[$extension.'.'.$key][] = $caller;
+				$this->_used[$key][] = $caller;
 			}
 
 		} else {
@@ -232,11 +215,11 @@ class JLanguage extends JObject
 				$caller = $this->_getCallerInfo();
 				$caller['string'] = $string;
 
-				if (! array_key_exists($extension.'.'.$key, $this->_orphans)) {
-					$this->_orphans[$extension.'.'.$key] = array();
+				if (! array_key_exists($key, $this->_orphans)) {
+					$this->_orphans[$key] = array();
 				}
 
-				$this->_orphans[$extension.'.'.$key][] = $caller;
+				$this->_orphans[$key][] = $caller;
 
 				$string = '??'.$string.'??';
 			}
@@ -401,38 +384,25 @@ class JLanguage extends JObject
 
 		$result	= false;
 
-		if ($strings = @parse_ini_file($filename, true))
+		if ($strings = @parse_ini_file($filename))
 		{
-			foreach($strings as $ext => $textstrings)
+			if(is_array($strings))
 			{
-				if(is_array($textstrings))
-				{
-					if(isset($this->_strings[$ext]))
-					{
-						$this->_strings[$ext] = array_merge($this->_strings[$ext], $textstrings);
-					} else {
-						$this->_strings[$ext] = $textstrings;
-					}
-				} else {
-					$this->_strings['J'][$ext] = $textstrings;
-				}
+				$this->_strings = array_merge($this->_strings, $strings);
 			}
 			if(is_array($strings) && count($strings))
 			{
-				foreach($this->_override as $ext => $override)
-				{
-					$this->_strings[$ext] = array_merge($this->_strings[$ext], $this->_override[$ext]);
-				}
+				$this->_strings = array_merge($this->_strings, $this->_override);
 				$result = true;
 			}
 		}
 
 		// Record the result of loading the extension's file.
-		if (! isset($this->_paths[$extension])) {
-			$this->_paths[$extension] = array();
+		if (! isset($this->_paths)) {
+			$this->_paths = array();
 		}
 
-		$this->_paths[$extension][$filename] = $result;
+		$this->_paths[$filename] = $result;
 
 		return $result;
 	}
