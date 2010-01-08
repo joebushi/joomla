@@ -108,7 +108,7 @@ class JDatabaseOracle extends JDatabase
 		$prefix		= array_key_exists('prefix', $options)	? $options['prefix']	: 'jos_';
 		$select		= array_key_exists('select', $options)	? $options['select']	: true;
         $port       = array_key_exists('port', $options)    ? $options['port']      : '1521';
-        $dateformat = array_key_exists('dateformat', $options) ? $options['dateformat'] : 'RRRR-MM-DD HH24:MI:SS';
+        $dateformat = array_key_exists('dateformat', $options) ? $options['dateformat'] : 'RRRR-MM-DD';
         $timestampformat = array_key_exists('timestampformat', $options) ? $options['timestampformat'] : 'RRRR-MM-DD HH24:MI:SS';
 
 		// perform a number of fatality checks, then return gracefully
