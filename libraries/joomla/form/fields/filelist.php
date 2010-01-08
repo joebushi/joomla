@@ -41,7 +41,7 @@ class JFormFieldFileList extends JFormFieldList
 		jimport('joomla.filesystem.file');
 
 		// path to files directory
-		$path = realpath(JPATH_ROOT . '/' . $this->_element->attributes('directory'));
+		$path = JPATH_ROOT . '/' . $this->_element->attributes('directory');
 		$filter = $this->_element->attributes('filter');
 		$exclude = $this->_element->attributes('exclude');
 		$stripExt = $this->_element->attributes('stripext');

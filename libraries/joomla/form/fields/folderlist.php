@@ -40,7 +40,7 @@ class JFormFieldFolderList extends JFormFieldList
 		jimport('joomla.filesystem.folder');
 
 		// path to folders directory
-		$path = realpath(JPATH_ROOT . '/' . $this->_element->attributes('directory'));
+		$path = JPATH_ROOT . '/' . $this->_element->attributes('directory');
 		$filter = $this->_element->attributes('filter');
 		$exclude = $this->_element->attributes('exclude');
 		$folders = JFolder::folders($path, $filter);
