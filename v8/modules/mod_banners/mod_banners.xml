@@ -144,4 +144,4 @@
 			label="mod_banners_CacheTime_Label"
 			description="mod_banners_CacheTime_Desc" />
 	</fields>
-</install>
+</extension>
