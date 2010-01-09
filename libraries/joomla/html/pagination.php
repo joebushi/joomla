@@ -234,7 +234,7 @@ class JPagination extends JObject
 			$html .= "\n".$msg;
 		}
 		else {
-			$html .= "\n".JText::_('No records found');
+			$html .= "\n".JText::_('No_records_found');
 		}
 
 		return $html;

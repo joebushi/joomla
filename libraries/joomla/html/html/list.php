@@ -190,7 +190,7 @@ abstract class JHtmlList
 		;
 		$db->setQuery($query);
 		if ($nouser) {
-			$users[] = JHtml::_('select.option',  '0', '- '. JText::_('No User') .' -');
+			$users[] = JHtml::_('select.option',  '0', '- '. JText::_('No_User') .' -');
 			$users = array_merge($users, $db->loadObjectList());
 		} else {
 			$users = $db->loadObjectList();

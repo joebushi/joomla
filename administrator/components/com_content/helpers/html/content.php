@@ -45,11 +45,11 @@ abstract class JHtmlContent
 		<div class="center">
 			<ul id="legend articles">
 				<li><img src="templates/bluestork/images/admin/publish_y.png" width="16" height="16" border="0" alt="<?php echo JText::_('Pending'); ?>" /></li>
-				<li><?php echo JText::_('Published, but is'); ?> <u><?php echo JText::_('Pending'); ?></u></li>
+				<li><?php echo JText::_('Published but is'); ?> <u><?php echo JText::_('Pending'); ?></u></li>
 				<li><img src="templates/bluestork/images/admin/publish_g.png" width="16" height="16" border="0" alt="<?php echo JText::_('Visible'); ?>" /></li>
 				<li><?php echo JText::_('Published and is'); ?> <u><?php echo JText::_('Current'); ?></u></li>
 				<li><img src="templates/bluestork/images/admin/publish_r.png" width="16" height="16" border="0" alt="<?php echo JText::_('Finished'); ?>" /></li>
-				<li><?php echo JText::_('Published, but has'); ?> <u><?php echo JText::_('Expired'); ?></u></li>
+				<li><?php echo JText::_('Published but has'); ?> <u><?php echo JText::_('Expired'); ?></u></li>
 				<li><img src="templates/bluestork/images/admin/publish_x.png" width="16" height="16" border="0" alt="<?php echo JText::_('Finished'); ?>" /></li>
 				<li><?php echo JText::_('Not Published'); ?></li>
 				<li><img src="templates/bluestork/images/admin/disabled.png" width="16" height="16" border="0" alt="<?php echo JText::_('Archived'); ?>" /></li>

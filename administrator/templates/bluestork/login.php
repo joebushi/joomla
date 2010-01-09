@@ -63,7 +63,7 @@ $app = &JFactory::getApplication();
 				</div>
 				<div class="m wbg">
 
-					<h1><?php echo JText::_('Joomla! Administration Login') ?></h1>
+					<h1><?php echo JText::_('Joomla Administration Login') ?></h1>
 					<jdoc:include type="message" />
 					<jdoc:include type="component" />
 					<p><?php echo JText::_('DESCUSEVALIDLOGIN') ?></p>
