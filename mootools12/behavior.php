@@ -112,14 +112,16 @@ class JHTMLBehavior
 
 	function switcher() {
 		// pass false to script so that we don't load the compatibility layer if we don't need it
-		JHTMLBehavior::framework();
-		JHTML::script('switcher.js', 'plugins/system/mootools12/', false);
+		//JHTMLBehavior::framework();
+		//JHTML::script('switcher.js', 'plugins/system/mootools12/', false);
+		JHTML::script('switcher.js', 'media/system/js/', false);
 	}
 
 	function combobox() {
 		// pass false to script so that we don't load the compatibility layer if we don't need it
-		JHTMLBehavior::framework();
-		JHTML::script('combobox.js', 'plugins/system/mootools12/', false);
+		//JHTMLBehavior::framework();
+		//JHTML::script('combobox.js', 'plugins/system/mootools12/', false);
+		JHTML::script('combobox.js', 'media/system/js/');
 	}
 
 	function tooltip($selector='.hasTip', $params = array())
@@ -132,7 +134,7 @@ class JHTMLBehavior
 
 		// Include mootools framework
 		JHTMLBehavior::framework();
-
+		JHTML::script('tips.js', 'plugins/system/mootools12/');
 		$sig = md5(serialize(array($selector,$params)));
 		if (isset($tips[$sig]) && ($tips[$sig])) {
 			return;
@@ -152,9 +154,19 @@ class JHTMLBehavior
 		$options = JHTMLBehavior::_getJSObject($opt);
 
 		// Attach tooltips to document
-		$document =& JFactory::getDocument();
-		$tooltipInit = '		window.addEvent(\'domready\', function(){ var JTooltips = new Tips($$(\''.$selector.'\'), '.$options.'); });';
-		$document->addScriptDeclaration($tooltipInit);
+		$document = &JFactory::getDocument();
+		$document->addScriptDeclaration("
+		window.addEvent('domready', function() {
+			$$('$selector').each(function(el) {
+				var title = el.get('title');
+				if (title) {
+					var parts = title.split('::', 2);
+					el.store('tip:title', parts[0]);
+					el.store('tip:text', parts[1]);
+				}
+			});
+			var JTooltips = new Tips($$('$selector'), $options);
+		});");
 
 		// Set static array
 		$tips[$sig] = true;

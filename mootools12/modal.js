@@ -41,7 +41,7 @@ var SqueezeBox = {
 		overlayFx: {},
 		resizeFx: {},
 		contentFx: {},
-		parse: false, // 'rel'
+		parse: 'rel',
 		parseSecure: false,
 		shadow: true,
 		document: null,

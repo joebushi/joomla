@@ -80,3 +80,14 @@ var JSwitcher = new Class({
 		element.setStyle('display', 'block');
 	}
 });
+
+JSwitcher.implement(new Options);
+
+document.switcher = null;
+window.addEvent('domready', function(){
+ 	toggler = $('submenu')
+  	element = $('config-document')
+  	if(element) {
+  		document.switcher = new JSwitcher(toggler, element, {cookieName: toggler.getAttribute('class')});
+  	}
+});

@@ -649,3 +649,9 @@ var $ES = function(selector, filter){
 	});
 
 })();
+
+window.onDomReady = function(fn){
+	return this.addEvent('domready', fn);
+};
+
+
