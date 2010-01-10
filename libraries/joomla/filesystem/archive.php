@@ -7,6 +7,9 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+// No direct access
+defined('JPATH_BASE') or die();
+
 /**
  * An Archive handling class
  *
@@ -124,7 +127,7 @@ class JArchive
 		return true;
 	}
 
-	function &getAdapter($type)
+	function getAdapter($type)
 	{
 		static $adapters;
 
@@ -141,7 +144,7 @@ class JArchive
 			{
 				$path = dirname(__FILE__).DS.'archive'.DS.strtolower($type).'.php';
 				if (file_exists($path)) {
-					require_once($path);
+					require_once $path;
 				} else {
 					JError::raiseError(500,JText::_('Unable to load archive'));
 				}

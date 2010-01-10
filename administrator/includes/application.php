@@ -115,8 +115,12 @@ class JAdministrator extends JApplication
 	 *
 	 * @param	string	The component to dispatch.
 	 */
-	public function dispatch($component)
+	public function dispatch($component = null)
 	{
+		if ($component === null) {
+			$component = JAdministratorHelper::findOption();
+		}
+
 		$document	= &JFactory::getDocument();
 		$user		= &JFactory::getUser();
 
@@ -191,7 +195,7 @@ class JAdministrator extends JApplication
 		}
 
 		// Set the access control action to check.
-		$options['action'] = 'core.administrator.login';
+		$options['action'] = 'core.login.admin';
 
 		$result = parent::login($credentials, $options);
 
@@ -222,14 +226,14 @@ class JAdministrator extends JApplication
 			// Load the template name from the database
 			$db = &JFactory::getDbo();
 			$query = 'SELECT template, params'
-				. ' FROM #__menu_template'
+				. ' FROM #__template_styles'
 				. ' WHERE client_id = 1'
 				. ' AND home = 1'
 				;
 			$db->setQuery($query);
 			$template = $db->loadObject();
 
-			$template->template = JFilterInput::clean($template->template, 'cmd');
+			$template->template = JFilterInput::getInstance()->clean($template->template, 'cmd');
 
 			if (!file_exists(JPATH_THEMES.DS.$template->template.DS.'index.php'))
 			{
@@ -280,7 +284,7 @@ class JAdministrator extends JApplication
 		if ($purge > 0)
 		{
 			// purge old messages at day set in message configuration
-			$past = &JFactory::getDate(time() - $purge * 86400);
+			$past = JFactory::getDate(time() - $purge * 86400);
 			$pastStamp = $past->toMySQL();
 
 			$query = 'DELETE FROM #__messages'

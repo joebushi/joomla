@@ -4,7 +4,7 @@
  * @package		Joomla
  * @subpackage	com_content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // no direct access
@@ -31,6 +31,7 @@ abstract class ContentHelperRoute
 	{
 		if ($catid)
 		{
+			jimport('joomla.application.categories');
 			$categoryTree = JCategories::getInstance('com_content');
 			$category = $categoryTree->get($catid);
 			$catids = array();
@@ -65,6 +66,7 @@ abstract class ContentHelperRoute
 
 	public static function getCategoryRoute($catid)
 	{
+		jimport('joomla.application.categories');
 		$categoryTree = JCategories::getInstance('com_content');
 		$category = $categoryTree->get($catid);
 		$catids = array();

@@ -4,15 +4,18 @@
  * @package		Joomla.Administrator
  * @subpackage	com_newsfeeds
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
+// No direct access.
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
+// Include the HTML helpers.
+JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
+JHtml::_('behavior.keepalive');
+
 ?>
 <script type="text/javascript">
 <!--
@@ -29,55 +32,59 @@ JHtml::_('behavior.formvalidation');
 // -->
 </script>
 
-<form action="<?php JRoute::_('index.php?option=com_newsfeeds'); ?>" method="post" name="adminForm" id="newsfeed-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_newsfeeds'); ?>" method="post" name="adminForm" id="newsfeed-form" class="form-validate">
 <div class="width-60 fltlft">
-	<fieldset>
+	<fieldset class="adminform">
 		<legend><?php echo empty($this->item->id) ? JText::_('Newsfeeds_New_Newsfeed') : JText::sprintf('Newsfeeds_Edit_Newsfeed', $this->item->id); ?></legend>
 
-	
 			<?php echo $this->form->getLabel('name'); ?>
 			<?php echo $this->form->getInput('name'); ?>
-	
+
 			<?php echo $this->form->getLabel('alias'); ?>
 			<?php echo $this->form->getInput('alias'); ?>
-		
+
 			<?php echo $this->form->getLabel('published'); ?>
 			<?php echo $this->form->getInput('published'); ?>
-		
+
+			<?php echo $this->form->getLabel('access'); ?>
+			<?php echo $this->form->getInput('access'); ?>
+
 			<?php echo $this->form->getLabel('catid'); ?>
 			<?php echo $this->form->getInput('catid'); ?>
-		
+
 			<?php echo $this->form->getLabel('link'); ?>
 			<?php echo $this->form->getInput('link'); ?>
-		
-			<?php echo $this->form->getLabel('numarticles'); ?>
-			<?php echo $this->form->getInput('numarticles'); ?>
-		
-			<?php echo $this->form->getLabel('cache_time'); ?>
-			<?php echo $this->form->getInput('cache_time'); ?>
-		
+
 			<?php echo $this->form->getLabel('ordering'); ?>
 			<?php echo $this->form->getInput('ordering'); ?>
-		
-			<?php echo $this->form->getLabel('rtl'); ?><br />
-			<?php echo $this->form->getInput('rtl'); ?>
-		
+
 	</fieldset>
 </div>
 
 <div class="width-40 fltrt">
-	<fieldset>
+	<fieldset class="adminform">
 		<legend><?php echo JText::_('Newsfeeds_Options'); ?></legend>
-		
+
+			<?php echo $this->form->getLabel('numarticles'); ?>
+			<?php echo $this->form->getInput('numarticles'); ?>
+
+			<?php echo $this->form->getLabel('cache_time'); ?>
+			<?php echo $this->form->getInput('cache_time'); ?>
+
+			<?php echo $this->form->getLabel('rtl'); ?>
+			<?php echo $this->form->getInput('rtl'); ?>
+
+			<?php echo $this->form->getLabel('language'); ?>
+			<?php echo $this->form->getInput('language'); ?>
+
 		<?php foreach($this->form->getFields('params') as $field): ?>
 			<?php if ($field->hidden): ?>
 				<?php echo $field->input; ?>
 			<?php else: ?>
-				
-						<?php echo $field->label; ?>
-					
-						<?php echo $field->input; ?>
-		
+			<div class="paramrow">
+				<?php echo $field->label; ?>
+				<?php echo $field->input; ?>
+			</div>
 			<?php endif; ?>
 		<?php endforeach; ?>
 

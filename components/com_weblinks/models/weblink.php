@@ -39,7 +39,8 @@ class WeblinksModelWeblink extends JModelItem
 	 */
 	public function _populateState()
 	{
-		$params		= JComponentHelper::getParams('com_contentmanager');
+		$app = JFactory::getApplication();
+		$params	= $app->getParams();
 
 		// Load the object state.
 		$id	= JRequest::getInt('id');
@@ -106,115 +107,5 @@ class WeblinksModelWeblink extends JModelItem
 
 		$weblink = &$this->getTable('Weblink', 'WeblinksTable');
 		return $weblink->hit($id);
-	}
-
-	/**
-	 * Tests if weblink is checked out
-	 *
-	 * @access	public
-	 * @param	int	A user id
-	 * @return	boolean	True if checked out
-	 * @since	1.5
-	 */
-	function isCheckedOut($uid=0)
-	{
-		if ($this->_loadData())
-		{
-			if ($uid) {
-				return ($this->_data->checked_out && $this->_data->checked_out != $uid);
-			} else {
-				return $this->_data->checked_out;
-			}
-		}
-	}
-
-	/**
-	 * Method to checkin/unlock the weblink
-	 *
-	 * @access	public
-	 * @return	boolean	True on success
-	 * @since	1.5
-	 */
-	function checkin()
-	{
-		if ($this->_id)
-		{
-			$weblink = & $this->getTable();
-			if (! $weblink->checkin($this->_id)) {
-				$this->setError($this->_db->getErrorMsg());
-				return false;
-			}
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * Method to checkout/lock the weblink
-	 *
-	 * @access	public
-	 * @param	int	$uid	User ID of the user checking the article out
-	 * @return	boolean	True on success
-	 * @since	1.5
-	 */
-	function checkout($uid = null)
-	{
-		if ($this->_id)
-		{
-			// Make sure we have a user id to checkout the article with
-			if (is_null($uid)) {
-				$user	= &JFactory::getUser();
-				$uid	= $user->get('id');
-			}
-			// Lets get to it and checkout the thing...
-			$weblink = & $this->getTable();
-			if (!$weblink->checkout($uid, $this->_id)) {
-				$this->setError($this->_db->getErrorMsg());
-				return false;
-			}
-
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * Method to store the weblink
-	 *
-	 * @access	public
-	 * @return	boolean	True on success
-	 * @since	1.5
-	 */
-	function store($data)
-	{
-		$row = &$this->getTable();
-
-		// Bind the form fields to the web link table
-		if (!$row->bind($data)) {
-			$this->setError($this->_db->getErrorMsg());
-			return false;
-		}
-
-		// Create the timestamp for the date
-		$row->date = gmdate('Y-m-d H:i:s');
-
-		// if new item, order last in appropriate group
-		if (!$row->id) {
-			$where = 'catid = ' . (int) $row->catid ;
-			$row->ordering = $row->getNextOrder($where);
-		}
-		// Make sure the web link table is valid
-		if (!$row->check()) {
-			$this->setError($this->_db->getErrorMsg());
-			return false;
-		}
-
-		// Store the web link table to the database
-		if (!$row->store()) {
-			$this->setError($this->_db->getErrorMsg());
-			return false;
-		}
-
-		return true;
 	}
 }

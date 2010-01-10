@@ -51,7 +51,7 @@ if (file_exists(JPATH_CONFIGURATION.DS.'configuration.php') && (filesize(JPATH_C
  */
 
 // Bootstrap the Joomla Framework.
-require_once(JPATH_LIBRARIES.DS.'joomla'.DS.'import.php');
+require_once JPATH_LIBRARIES.DS.'joomla'.DS.'import.php';
 
 // Joomla library imports.
 jimport('joomla.database.table');
@@ -63,15 +63,13 @@ jimport('joomla.language.language');
 jimport('joomla.utilities.string');
 
 // Create the application object.
-$app = & JFactory::getApplication('installation');
+$app = &JFactory::getApplication('installation');
 
-// Initialize the application.
+// Initialise the application.
 $app->initialise();
 
 // Render the document.
 $app->render();
 
-/**
- * RETURN THE RESPONSE
- */
-echo JResponse::toString();
+// Return the response.
+echo $app;

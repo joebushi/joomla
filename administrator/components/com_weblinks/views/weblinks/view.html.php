@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 
 /**
- * HTML View class for the WebLinks component
+ * View class for a list of weblinks.
  *
  * @package		Joomla.Administrator
  * @subpackage	com_weblinks
@@ -19,14 +19,12 @@ jimport('joomla.application.component.view');
  */
 class WeblinksViewWeblinks extends JView
 {
-	public $state;
-	public $items;
-	public $pagination;
+	protected $state;
+	protected $items;
+	protected $pagination;
 
 	/**
 	 * Display the view
-	 *
-	 * @return	void
 	 */
 	public function display($tpl = null)
 	{
@@ -40,12 +38,12 @@ class WeblinksViewWeblinks extends JView
 			return false;
 		}
 
-		$this->assignRef('state',			$state);
-		$this->assignRef('items',			$items);
-		$this->assignRef('pagination',		$pagination);
+		$this->assignRef('state',		$state);
+		$this->assignRef('items',		$items);
+		$this->assignRef('pagination',	$pagination);
 
-		parent::display($tpl);
 		$this->_setToolbar();
+		parent::display($tpl);
 	}
 
 	/**
@@ -53,21 +51,38 @@ class WeblinksViewWeblinks extends JView
 	 */
 	protected function _setToolbar()
 	{
+		require_once JPATH_COMPONENT.DS.'helpers'.DS.'weblinks.php';
+
+		$state	= $this->get('State');
+		$canDo	= WeblinksHelper::getActions($state->get('filter.category_id'));
+
 		JToolBarHelper::title(JText::_('Weblinks_Manager_Weblinks'), 'generic.png');
-		JToolBarHelper::addNew('weblink.add');
-				JToolBarHelper::editList('weblink.edit');
-				JToolBarHelper::divider();			
-		JToolBarHelper::publishList('weblinks.publish');
-		JToolBarHelper::unpublishList('weblinks.unpublish');
-		if ($this->state->get('filter.state') == -2) {
-			JToolBarHelper::deleteList('', 'weblinks.delete', 'JToolbar_Empty_trash');
+		if ($canDo->get('core.create')) {
+			JToolBarHelper::addNew('weblink.add');
 		}
-		else {
+		if ($canDo->get('core.edit')) {
+			JToolBarHelper::editList('weblink.edit');
+		}
+		JToolBarHelper::divider();
+		if ($canDo->get('core.edit.state')) {
+			JToolBarHelper::custom('weblinks.publish', 'publish.png', 'publish_f2.png', 'Publish', true);
+			JToolBarHelper::custom('weblinks.unpublish', 'unpublish.png', 'unpublish_f2.png', 'Unpublish', true);
+			JToolBarHelper::divider();
+			if ($state->get('filter.published') != -1) {
+				JToolBarHelper::archiveList('weblinks.archive');
+			}
+		}
+		if ($state->get('filter.published') == -2 && $canDo->get('core.delete')) {
+			JToolBarHelper::deleteList('', 'weblinks.delete');
+		}
+		else if ($canDo->get('core.edit.state')) {
 			JToolBarHelper::trash('weblinks.trash');
 		}
-		JToolBarHelper::divider();	
-		JToolBarHelper::preferences('com_weblinks', '480', '570', 'JToolbar_Options');
-				JToolBarHelper::divider();	
+		if ($canDo->get('core.admin')) {
+			JToolBarHelper::divider();
+			JToolBarHelper::preferences('com_weblinks');
+		}
+		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.weblink');
 	}
 }

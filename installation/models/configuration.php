@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Invalid Request.');
 jimport('joomla.application.component.model');
 jimport('joomla.filesystem.file');
 jimport('joomla.user.helper');
-require_once(JPATH_INSTALLATION.'/helpers/database.php');
+require_once JPATH_INSTALLATION.'/helpers/database.php';
 
 /**
  * Install Configuration model for the Joomla Core Installer.
@@ -52,7 +52,6 @@ class JInstallationModelConfiguration extends JModel
 		$registry->setValue('sitename', $options->site_name);
 		$registry->setValue('editor', 'tinymce');
 		$registry->setValue('list_limit', 20);
-		$registry->setValue('root_user', 42);
 		$registry->setValue('access', 1);
 
 		/* Debug Settings */
@@ -113,6 +112,7 @@ class JInstallationModelConfiguration extends JModel
 		$registry->setValue('sef', 1);
 		$registry->setValue('sef_rewrite', 0);
 		$registry->setValue('sef_suffix', 1);
+		$registry->setValue('unicodeslugs', 0);
 
 		/* Feed Settings */
 		$registry->setValue('feed_limit', 10);
@@ -220,7 +220,7 @@ class JInstallationModelConfiguration extends JModel
 		$nullDate 		= $db->getNullDate();
 		$query	= 'INSERT INTO #__users SET'
 				. ' id = 42'
-				. ', name = '.$db->quote('Administrator')
+				. ', name = '.$db->quote('Super User')
 				. ', username = '.$db->quote($options->admin_user)
 				. ', email = '.$db->quote($options->admin_email)
 				. ', password = '.$db->quote($cryptpass)

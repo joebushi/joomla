@@ -2,7 +2,7 @@
 /**
  * @version		$Id: profile.php 11839 2009-05-27 22:17:45Z eddieajau $
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_BASE') or die;
@@ -11,7 +11,7 @@ $lang = &JFactory::getLanguage();
 $lang->load('plg_user_profile');
 
 /**
- * An exmample custom profile plugin.
+ * An example custom profile plugin.
  *
  * @package		Joomla.Plugins
  * @subpackage	user.profile
@@ -25,7 +25,7 @@ class plgUserProfile extends JPlugin
 	 *
 	 * @return	boolean
 	 */
-	function onPrepareUsersProfileForm($userId, &$form)
+	function onPrepareUserProfileForm($userId, &$form)
 	{
 		// Add the profile fields to the form.
 		JForm::addFormPath(dirname(__FILE__).DS.'profiles');

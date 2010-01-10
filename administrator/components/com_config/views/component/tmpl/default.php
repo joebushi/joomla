@@ -12,9 +12,6 @@ defined('_JEXEC') or die;
 
 $template = JFactory::getApplication()->getTemplate();
 
-jimport('joomla.html.pane');
-$pane = &JPane::getInstance('tabs', array('allowAllClose' => true));
-
 // Load the tooltip behavior.
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
@@ -22,7 +19,7 @@ JHtml::_('behavior.formvalidation');
 <form action="<?php echo JRoute::_('index.php?option=com_config');?>" method="post" name="adminForm" autocomplete="off">
 	<fieldset>
 		<div class="fltrt">
-			<button type="button" onclick="Joomla.submitform('component.save', this.form);window.top.setTimeout('window.parent.SqueezeBox.close()', 700);">
+			<button type="button" onclick="Joomla.submitform('component.save', this.form);window.top.setTimeout('window.parent.SqueezeBox.close()', 1400);">
 				<?php echo JText::_('Save');?></button>
 			<button type="button" onclick="window.parent.SqueezeBox.close();">
 				<?php echo JText::_('Cancel');?></button>
@@ -33,13 +30,13 @@ JHtml::_('behavior.formvalidation');
 	</fieldset>
 
 	<?php
-	echo $pane->startPane('content-pane');
+	echo JHtml::_('tabs.start','config-tabs-'.$this->component->option.'_configuration', array('useCookie'=>1));
 		$fieldSets = $this->form->getFieldsets();
 		foreach ($fieldSets as $name => $fieldSet) :
 			$label = isset($fieldSet['label']) ? $fieldSet['label'] : 'Config_'.$name;
-			echo $pane->startPanel(JText::_($label), 'publishing-details');
+			echo JHtml::_('tabs.panel',JText::_($label), 'publishing-details');
 			if (isset($fieldSet['description'])) :
-				echo '<p class="tip fltrt">'.JText::_($fieldSet['description']).'</p>';
+				echo '<p class="tab-description">'.JText::_($fieldSet['description']).'</p>';
 			endif;
 	?>
 
@@ -52,13 +49,12 @@ JHtml::_('behavior.formvalidation');
 			<?php
 			endforeach;
 			?>
-		
+
 
 	<div class="clr"></div>
 	<?php
-			echo $pane->endPanel();
 		endforeach;
-	echo $pane->endPane();
+	echo JHtml::_('tabs.end');
 	?>
 
 	<input type="hidden" name="id" value="<?php echo $this->component->id;?>" />

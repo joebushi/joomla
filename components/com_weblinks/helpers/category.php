@@ -2,9 +2,9 @@
 /**
  * @version		$Id$
  * @package		Joomla
- * @subpackage	Content
+ * @subpackage	Weblinks
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // no direct access
@@ -15,11 +15,11 @@ jimport('joomla.application.component.helper');
 jimport('joomla.application.categories');
 
 /**
- * Content Component Category Tree
+ * Weblinks Component Category Tree
  *
  * @static
  * @package		Joomla
- * @subpackage	Content
+ * @subpackage	Weblinks
  * @since 1.6
  */
 class WeblinksCategories extends JCategories

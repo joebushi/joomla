@@ -2,7 +2,7 @@
 /**
  * @version		$Id$
  * @package		Joomla.Site
- * @subpackage	Content
+ * @subpackage	Weblinks
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -29,15 +29,11 @@ class WeblinksController extends JController
 	 */
 	function display()
 	{
-		// Load custom language file.
-		$lang		= &JFactory::getLanguage();
-		$lang->load('com_weblinks.custom');
-
 		// Get the document object.
 		$document = &JFactory::getDocument();
 
 		// Set the default view name and format from the Request.
-		$vName		= JRequest::getWord('view', 'category');
+		$vName		= JRequest::getWord('view', 'categories');
 		$vFormat	= $document->getType();
 		$lName		= JRequest::getWord('layout', 'default');
 
@@ -45,8 +41,7 @@ class WeblinksController extends JController
 		if ($view = &$this->getView($vName, $vFormat))
 		{
 			$model = &$this->getModel($vName);
-			$model->setState('filter.published',	1);
-			$model->setState('filter.approved',		1);
+
 
 			// Push the model into the view (as default).
 			$view->setModel($model, true);

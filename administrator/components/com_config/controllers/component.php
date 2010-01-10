@@ -37,23 +37,24 @@ class ConfigControllerComponent extends JController
 		// Check for request forgeries.
 		JRequest::checkToken() or jexit(JText::_('Invalid_Token'));
 
-		// Check if the user is authorized to do this.
-		// TODO: This permission need to change based on the extension.
-		if (!JFactory::getUser()->authorize('core.config.manage')) {
-			JFactory::getApplication()->redirect('index.php', JText::_('ALERTNOTAUTH'));
-		}
-
 		// Set FTP credentials, if given.
 		jimport('joomla.client.helper');
 		JClientHelper::setCredentialsFromRequest('ftp');
 
-		// Initialize variables.
+		// Initialise variables.
 		$app	= JFactory::getApplication();
 		$model	= $this->getModel('Component');
 		$form	= $model->getForm();
 		$data	= JRequest::getVar('jform', array(), 'post', 'array');
 		$id		= JRequest::getInt('id');
 		$option	= JRequest::getWord('component');
+
+		// Check if the user is authorized to do this.
+		if (!JFactory::getUser()->authorize('core.admin', $option))
+		{
+			JFactory::getApplication()->redirect('index.php', JText::_('ALERTNOTAUTH'));
+			return;
+		}
 
 		// Validate the posted data.
 		$return = $model->validate($form, $data);
@@ -76,14 +77,15 @@ class ConfigControllerComponent extends JController
 			$app->setUserState('com_config.config.global.data', $data);
 
 			// Redirect back to the edit screen.
-			$this->setRedirect(JRoute::_('index.php?option=com_config&view=component&component='.$option, false));
+			$this->setRedirect(JRoute::_('index.php?option=com_config&view=component&component='.$option.'&tmpl=component', false));
 			return false;
 		}
 
 		// Attempt to save the configuration.
 		$data	= array(
 					'params'	=> $return,
-					'id'		=> $id
+					'id'		=> $id,
+					'option' 	=> $option
 					);
 		$return = $model->save($data);
 
@@ -95,14 +97,11 @@ class ConfigControllerComponent extends JController
 
 			// Save failed, go back to the screen and display a notice.
 			$message = JText::sprintf('JError_Save_Failed', $model->getError());
-			$this->setRedirect('index.php?option=com_config&view=component&component='.$option, $message, 'error');
+			$this->setRedirect('index.php?option=com_config&view=component&component='.$option.'&tmpl=component', $message, 'error');
 			return false;
 		}
 
-		// Set the success message.
-		$message = JText::_('Config_Save_Success');
-
-		$this->setRedirect('index.php?option=com_config&view=component&component='.$option, $message);
+		$this->setRedirect('index.php?option=com_config&view=close&tmpl=component');
 		return true;
 	}
 }

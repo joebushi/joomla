@@ -21,41 +21,40 @@ class RedirectTableLink extends JTable
 	/**
 	 * @var int
 	 */
-	var $id = null;
+	public $id = null;
 	/**
 	 * @var varchar
 	 */
-	var $old_url = null;
+	public $old_url = null;
 	/**
 	 * @var varchar
 	 */
-	var $new_url = null;
+	public $new_url = null;
 	/**
 	 * @var varchar
 	 */
-	var $comment = null;
+	public $comment = null;
 	/**
 	 * @var int unsigned
 	 */
-	var $published = null;
+	public $published = null;
 	/**
 	 * @var int unsigned
 	 */
-	var $created_date = null;
+	public $created_date = null;
 	/**
 	 * @var int unsigned
 	 */
-	var $updated_date = null;
+	public $updated_date = null;
 
 	/**
 	 * Constructor
 	 *
-	 * @access	protected
 	 * @param	object	Database object
 	 * @return	void
 	 * @since	1.0
 	 */
-	function __construct(&$db)
+	public function __construct(&$db)
 	{
 		parent::__construct('#__redirect_links', 'id', $db);
 	}
@@ -65,19 +64,31 @@ class RedirectTableLink extends JTable
 	 *
 	 * @return boolean
 	 */
-	function check()
+	public function check()
 	{
-		// check for valid name
-		if((trim($this->old_url)) == '') {
-			$this->setError(JText::_('Redirect_Source_URL_Required'));
-			return false;
-		}
-		// check for valid name
-		if((trim($this->new_url)) == '') {
-			$this->setError(JText::_('Redirect_Destination_URL_Required'));
+		$this->old_url = trim($this->old_url);
+		$this->new_url = trim($this->new_url);
+
+		// Check for valid name.
+		if (empty($this->old_url))
+		{
+			$this->setError(JText::_('Redir_Error_Source_URL_Required'));
 			return false;
 		}
 
+		// Check for valid name.
+		if (empty($this->new_url))
+		{
+			$this->setError(JText::_('Redir_Error_Destination_URL_Required'));
+			return false;
+		}
+
+		// Check for duplicates
+		if ($this->old_url == $this->new_url)
+		{
+			$this->setError(JText::_('Redir_Error_Duplicate_URLs'));
+			return false;
+		}
 		return true;
 	}
 }

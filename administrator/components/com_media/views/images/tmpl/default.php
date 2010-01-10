@@ -1,19 +1,30 @@
-<?php defined('_JEXEC') or die; ?>
+<?php
+/**
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	com_media
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+// No direct access.
+defined('_JEXEC') or die;
+?>
 <script type='text/javascript'>
 var image_base_path = '<?php $params = &JComponentHelper::getParams('com_media');
-echo $params->get('image_path', 'images/stories');?>/';
+echo $params->get('image_path', 'images');?>/';
 </script>
 <form action="index.php" id="imageForm" method="post" enctype="multipart/form-data">
 	<div id="messages" style="display: none;">
-		<span id="message"></span><img src="<?php echo JURI::base() ?>components/com_media/images/dots.gif" width="22" height="12" alt="..." />
+		<span id="message"></span><img src="<?php echo JURI::base() ?>media/media/images/dots.gif" width="22" height="12" alt="..." />
 	</div>
 	<fieldset>
-		<div style="float: left">
+		<div class="fltlft">
 			<label for="folder"><?php echo JText::_('Directory') ?></label>
 			<?php echo $this->folderList; ?>
 			<button type="button" id="upbutton" title="<?php echo JText::_('Directory Up') ?>"><?php echo JText::_('Up') ?></button>
 		</div>
-		<div style="float: right">
+		<div class="fltrt">
 			<button type="button" onclick="ImageManager.onok();window.parent.document.getElementById('sbox-window').close();"><?php echo JText::_('Insert') ?></button>
 			<button type="button" onclick="window.parent.document.getElementById('sbox-window').close();"><?php echo JText::_('Cancel') ?></button>
 		</div>

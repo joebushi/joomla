@@ -8,8 +8,6 @@
  */
 
 defined('_JEXEC') or die;
-jimport('joomla.html.pane');
-$pane = &JPane::getInstance('sliders', array('allowAllClose' => true));
 
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
@@ -17,6 +15,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 // Load the tooltip behavior.
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
+JHTML::_('behavior.modal');
 ?>
 
 <script type="text/javascript">
@@ -32,8 +31,8 @@ JHtml::_('behavior.formvalidation');
 
 <form action="<?php JRoute::_('index.php?option=com_menus'); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 
-<div class="width-50 fltlft">
-	<fieldset>
+<div class="width-60 fltlft">
+	<fieldset class="adminform">
 		<legend><?php echo JText::_('Menus_Item_Details');?></legend>
 
 			<?php echo $this->form->getLabel('title'); ?>
@@ -41,65 +40,64 @@ JHtml::_('behavior.formvalidation');
 
 			<?php echo $this->form->getLabel('alias'); ?>
 			<?php echo $this->form->getInput('alias'); ?>
-				
+
 			<?php echo $this->form->getLabel('type'); ?>
 			<?php echo $this->form->getInput('type'); ?>
-				
+
 			<?php if ($this->item->type =='url'){ ?>
 				<?php echo $this->form->getLabel('link'); ?>
 				<?php echo $this->form->getInput('link'); ?>
-			<?php } ?>		
-				
-			<?php echo $this->form->getLabel('published'); ?>
-			<?php echo $this->form->getInput('published'); ?>
-	
-			<?php echo $this->form->getLabel('access'); ?>
-			<?php echo $this->form->getInput('access'); ?>
-									
-			<?php echo $this->form->getLabel('menutype'); ?>
-			<?php echo $this->form->getInput('menutype'); ?>
-	
-			<?php echo $this->form->getLabel('parent_id'); ?>
-			<?php echo $this->form->getInput('parent_id'); ?>
-				
+			<?php } ?>
+
 			<?php if ($this->item->type !=='url'){ ?>
 				<?php echo $this->form->getLabel('link'); ?>
 				<?php echo $this->form->getInput('link'); ?>
 			<?php } ?>
 
+			<?php echo $this->form->getLabel('published'); ?>
+			<?php echo $this->form->getInput('published'); ?>
+
+			<?php echo $this->form->getLabel('access'); ?>
+			<?php echo $this->form->getInput('access'); ?>
+
+			<?php echo $this->form->getLabel('menutype'); ?>
+			<?php echo $this->form->getInput('menutype'); ?>
+
+			<?php echo $this->form->getLabel('parent_id'); ?>
+			<?php echo $this->form->getInput('parent_id'); ?>
+
 			<?php echo $this->form->getLabel('browserNav'); ?>
 			<?php echo $this->form->getInput('browserNav'); ?>
-	
+
 			<?php echo $this->form->getLabel('home'); ?>
 			<?php echo $this->form->getInput('home'); ?>
-				
-			<?php echo $this->form->getLabel('template_id'); ?>
-			<?php echo $this->form->getInput('template_id'); ?>
-			
-			<?php echo $this->loadTemplate('required'); ?>
+
+			<?php echo $this->form->getLabel('template_style_id'); ?>
+			<?php echo $this->form->getInput('template_style_id'); ?>
+
+
 	</fieldset>
 </div>
 
-<div class="width-50 fltrt">
-<?php echo $pane->startPane('menu-pane'); ?>
-	
-	<?php //get the menu parameters that are automatically set but may be modified.
-		echo $this->loadTemplate('options'); ?>
-	
-	<div class="clr"></div>
+<div class="width-40 fltrt">
+	<?php echo JHtml::_('sliders.start','menu-sliders-'.$this->item->id); ?>
+	<?php //Load  parameters.
+			echo $this->loadTemplate('options'); ?>
 
-	<?php //sliders for module selection						
-		 echo $pane->startPanel(JText::_('Menu_Item_Module_Assignment'), 'module-options'); ?>			
+		<div class="clr"></div>
+
+		<?php if (!empty($this->modules)) : ?>
+			<?php echo JHtml::_('sliders.panel',JText::_('Menu_Item_Module_Assignment'), 'module-options'); ?>
 			<fieldset>
 				<?php echo $this->loadTemplate('modules'); ?>
-			</fieldset>		
-			<?php echo $pane->endPanel(); ?>
+			</fieldset>
+		<?php endif; ?>
 
-	<?php echo $pane->endPane(); ?>	
-</div>	
+	<?php echo JHtml::_('sliders.end'); ?>
+</div>
 	<input type="hidden" name="task" value="" />
 	<?php echo $this->form->getInput('component_id'); ?>
 	<?php echo JHtml::_('form.token'); ?>
 </form>
-<div class="clr"></div>
+
 

@@ -1,8 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Administrator
- * @subpackage	Media
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -15,9 +13,8 @@ jimport('joomla.application.component.view');
 /**
  * HTML View class for the WebLinks component
  *
- * @static
  * @package		Joomla.Administrator
- * @subpackage	Media
+ * @subpackage	com_media
  * @since 1.0
  */
 class MediaViewImages extends JView
@@ -28,10 +25,10 @@ class MediaViewImages extends JView
 
 		$app = JFactory::getApplication();
 		$append = '';
-		if ($app->getClientId() == 1) $append = 'administrator/';
+		// if ($app->getClientId() == 1) $append = 'administrator/';
 
-		JHtml::_('script'    , 'popup-imagemanager.js', $append .'components/com_media/assets/');
-		JHtml::_('stylesheet', 'popup-imagemanager.css', $append .'components/com_media/assets/');
+		JHtml::_('script'    , 'popup-imagemanager.js', $append .'media/media/');
+		JHtml::_('stylesheet', 'popup-imagemanager.css', $append .'media/media/');
 		if ($config->get('enable_flash', 0)) {
 			JHtml::_('behavior.uploader', 'file-upload', array('onAllComplete' => 'function(){ ImageManager.refreshFrame(); }'));
 		}

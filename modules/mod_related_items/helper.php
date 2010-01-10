@@ -10,7 +10,7 @@
 // no direct access
 defined('_JEXEC') or die;
 
-require_once (JPATH_SITE.DS.'components'.DS.'com_content'.DS.'helpers'.DS.'route.php');
+require_once JPATH_SITE.DS.'components'.DS.'com_content'.DS.'helpers'.DS.'route.php';
 
 class modRelatedItemsHelper
 {
@@ -18,7 +18,10 @@ class modRelatedItemsHelper
 	{
 		$db			= &JFactory::getDbo();
 		$user		= &JFactory::getUser();
-		$groups		= implode(',', $user->authorisedLevels());
+		$userId		= (int) $user->get('id');
+		$count		= intval($params->get('count', 5));
+		$groups		= $user->authorisedLevels();
+		$groups	= implode(',', $groups);
 		$date		= &JFactory::getDate();
 
 		$option		= JRequest::getCmd('option');

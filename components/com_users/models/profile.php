@@ -71,7 +71,7 @@ class UsersModelProfile extends JModelForm
 		JPluginHelper::importPlugin('user');
 
 		// Trigger the form preparation event.
-		$results = $dispatcher->trigger('onPrepareUsersProfileForm', array($this->getState('member.id'), &$form));
+		$results = $dispatcher->trigger('onPrepareUserProfileForm', array($this->getState('member.id'), &$form));
 
 		// Check for errors encountered while preparing the form.
 		if (count($results) && in_array(false, $results, true)) {
@@ -97,8 +97,7 @@ class UsersModelProfile extends JModelForm
 		$app	= &JFactory::getApplication();
 		$false	= false;
 
-		// Add the table include path and then initialize the table with JUser.
-		JTable::addIncludePath(JPATH_SITE.DS.'plugins'.DS.'system'.DS.'jxtended'.DS.'database'.DS.'table');
+		// Initialise the table with JUser.
 		$table = &JUser::getTable('User', 'JTable');
 		$data = new JUser($this->getState('member.id'));
 
@@ -121,7 +120,7 @@ class UsersModelProfile extends JModelForm
 		JPluginHelper::importPlugin('users');
 
 		// Trigger the data preparation event.
-		$results = $dispatcher->trigger('onPrepareUsersProfileData', array($this->getState('member.id'), &$data));
+		$results = $dispatcher->trigger('onPrepareUserProfileData', array($this->getState('member.id'), &$data));
 
 		// Check for errors encountered while preparing the data.
 		if (count($results) && in_array(false, $results, true)) {
@@ -142,7 +141,7 @@ class UsersModelProfile extends JModelForm
 		JPluginHelper::importPlugin('users');
 
 		// Trigger the profile preparation event.
-		$results = $dispatcher->trigger('onPrepareUsersProfile', array($this->getState('member.id'), &$data));
+		$results = $dispatcher->trigger('onPrepareUserProfile', array($this->getState('member.id'), &$data));
 
 		// Check for errors encountered while preparing the profile.
 		if (count($results) && in_array(false, $results, true)) {
@@ -168,8 +167,7 @@ class UsersModelProfile extends JModelForm
 
 		if ($memberId)
 		{
-			// Add the table include path and then get the table with JUser.
-			JTable::addIncludePath(JPATH_SITE.DS.'plugins'.DS.'system'.DS.'jxtended'.DS.'database'.DS.'table');
+			// Initialise the table with JUser.
 			$table = JUser::getTable('User', 'JTable');
 
 			// Get the current user object.
@@ -200,8 +198,7 @@ class UsersModelProfile extends JModelForm
 
 		if ($memberId)
 		{
-			// Add the table include path and then get the table with JUser.
-			JTable::addIncludePath(JPATH_SITE.DS.'plugins'.DS.'system'.DS.'jxtended'.DS.'database'.DS.'table');
+			// Initialise the table with JUser.
 			$table = JUser::getTable('User', 'JTable');
 
 			// Get the current user object.
@@ -229,7 +226,7 @@ class UsersModelProfile extends JModelForm
 	{
 		$memberId = (!empty($data['id'])) ? $data['id'] : (int)$this->getState('member.id');
 
-		// initialize the table with JUser.
+		// Initialise the table with JUser.
 		JUser::getTable('User', 'JTable');
 		$user = new JUser($memberId);
 

@@ -1,8 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Administrator
- * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -17,7 +15,7 @@ jimport('joomla.filesystem.folder');
  * Weblinks Weblink Controller
  *
  * @package		Joomla.Administrator
- * @subpackage	Weblinks
+ * @subpackage	com_media
  * @since 1.5
  */
 class MediaControllerFile extends MediaController
@@ -141,7 +139,7 @@ class MediaControllerFile extends MediaController
 		$paths	= JRequest::getVar('rm', array(), '', 'array');
 		$folder = JRequest::getVar('folder', '', '', 'path');
 
-		// Initialize variables
+		// Initialise variables.
 		$msg = array();
 		$ret = true;
 

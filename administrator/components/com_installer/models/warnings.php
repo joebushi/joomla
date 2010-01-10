@@ -29,12 +29,33 @@ class InstallerModelWarnings extends InstallerModel
 
 	/**
 	 * Overridden constructor
-	 * @access	protected
 	 */
 	function __construct()
 	{
 		// Call the parent constructor
 		parent::__construct();
+	}
+
+	/**
+	 * Return the byte value of a particular string
+	 * @param string String optionally with G, M or K suffix
+	 * @return int size in bytes
+	 * @since 1.6
+	 */
+	function return_bytes($val) {
+		$val = trim($val);
+		$last = strtolower($val{strlen($val)-1});
+		switch($last) {
+			// The 'G' modifier is available since PHP 5.1.0
+			case 'g':
+				$val *= 1024;
+			case 'm':
+				$val *= 1024;
+			case 'k':
+				$val *= 1024;
+		}
+
+		return $val;
 	}
 
 	/**
@@ -66,7 +87,7 @@ class InstallerModelWarnings extends InstallerModel
 			}
 		}
 
-		$bytes = JUtility::return_bytes(ini_get('memory_limit'));
+		$bytes = $this->return_bytes(ini_get('memory_limit'));
 		if ($bytes < (8 * 1024 * 1024)) {
 			$messages[] = Array('message'=>JText::_('LOWMEMORYWARN'), 'description'=>JText::_('LOWMEMORYDESC'));
 		} else if ($bytes < (16 * 1024 * 1024)) {

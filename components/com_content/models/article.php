@@ -51,6 +51,7 @@ class ContentModelArticle extends JModelItem
 
 		// TODO: Tune these values based on other permissions.
 		$this->setState('filter.published',	1);
+		$this->setState('filter.archived',	-1);		
 		$this->setState('filter.access',		true);
 	}
 
@@ -63,7 +64,7 @@ class ContentModelArticle extends JModelItem
 	 */
 	public function &getItem($pk = null)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$pk = (!empty($pk)) ? $pk : (int) $this->getState('article.id');
 
 		if ($this->_item === null) {
@@ -80,7 +81,7 @@ class ContentModelArticle extends JModelItem
 				$query->from('#__content AS a');
 
 				// Join on category table.
-				$query->select('c.title AS category_title, a.alias AS category_alias, c.access AS category_access');
+				$query->select('c.title AS category_title, c.alias AS category_alias, c.access AS category_access');
 				$query->join('LEFT', '#__categories AS c on c.id = a.catid');
 
 				// Join on user table.
@@ -91,10 +92,12 @@ class ContentModelArticle extends JModelItem
 
 				// Filter by published state.
 				$published = $this->getState('filter.published');
+				$archived = $this->getState('filter.archived');			
 				if (is_numeric($published)) {
-					$query->where('a.state = '.(int) $published);
+					$query->where('(a.state = '.(int) $published.' OR a.state ='.(int) $archived.')');
 				}
 
+				
 				// Filter by access level.
 				if ($access = $this->getState('filter.access'))
 				{
@@ -113,12 +116,14 @@ class ContentModelArticle extends JModelItem
 				}
 
 				if (empty($data)) {
-					throw new Exception(JText::_('Content_Error_Article_not_found'));
+					throw new Exception(JText::_('Content_Error_Article_not_found'), 404);
 				}
 
 				// Check for published state if filter set.
-				if (is_numeric($published) && $data->state != $published) {
-					throw new Exception(JText::_('Content_Error_Article_not_found'));
+				if (((is_numeric($published))||(is_numeric($archived))) && 
+					(($data->state != $published ) && ( $data->state != $archived )))
+				  {
+					throw new Exception(JText::_('Content_Error_Article_not_found'), 404);
 				}
 
 				// Convert parameter fields to objects.
@@ -156,7 +161,7 @@ class ContentModelArticle extends JModelItem
 			}
 			catch (Exception $e)
 			{
-				$this->setError($e->getMessage());
+				$this->setError($e);
 				$this->_item[$pk] = false;
 			}
 		}
@@ -173,7 +178,7 @@ class ContentModelArticle extends JModelItem
 	 */
 	public function hit($pk = 0)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$pk = (!empty($pk)) ? $pk : (int) $this->getState('article.id');
 
 		$this->_db->setQuery(

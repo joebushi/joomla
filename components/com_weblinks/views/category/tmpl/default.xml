@@ -14,13 +14,14 @@
 		description="Menus_Layout_Request_Variables_Desc">
 		<field
 			name="id"
-			type="categories"
+			type="category"
 			extension="com_weblinks"
 			default="0"
 			label="Category"
+			required="true"
 			description="fieldCATSELECT" />
 	</fields>
-	
+
 	<fields
 		group="basic"
 		label="Menus_Layout_Basic_Options_Label"
@@ -37,5 +38,13 @@
 			<option
 				value="1">JYes</option>
 		</field>
+		<field
+			name="image"
+			type="imagelist"
+			directory="/images"
+			hide_default="1"
+			default=""
+			label="Image"
+			description="fieldIMAGE" />
 	</fields>
 </metadata>

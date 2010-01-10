@@ -56,18 +56,15 @@ class JLog extends JObject
 	}
 
 	/**
-	 * Returns a reference to the global log object, only creating it
+	 * Returns the global log object, only creating it
 	 * if it doesn't already exist.
-	 *
-	 * This method must be invoked as:
-	 * 		<pre>  $log = & JLog::getInstance();</pre>
 	 *
 	 * @access	public
 	 * @static
 	 * @return	object	The JLog object.
 	 * @since	1.5
 	 */
-	static function & getInstance($file = 'error.php', $options = null, $path = null)
+	static function getInstance($file = 'error.php', $options = null, $path = null)
 	{
 		static $instances;
 
@@ -166,9 +163,6 @@ class JLog extends JObject
 			return true;
 		}
 
-		$now = &JFactory::getDate();
-		$date = $now->toMySQL();
-
 		if (!file_exists($this->_path))
 		{
 			jimport("joomla.filesystem.folder");
@@ -177,7 +171,7 @@ class JLog extends JObject
 			}
 			$header[] = "#<?php die('Direct Access To Log Files Not Permitted'); ?>";
 			$header[] = "#Version: 1.0";
-			$header[] = "#Date: " . $date;
+			$header[] = "#Date: " . JFactory::getDate()->toMySQL();
 
 			// Prepare the fields string
 			$fields = str_replace("{", "", $this->_format);

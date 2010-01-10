@@ -10,171 +10,194 @@
 // no direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
+jimport('joomla.application.component.modelform');
 
 /**
  * @package		Joomla.Administrator
  * @subpackage	Templates
+ * @since		1.5
  */
-class TemplatesModelSource extends JModel
+class TemplatesModelSource extends JModelForm
 {
 	/**
-	 * Template id
+	 * Cache for the template information.
 	 *
-	 * @var int
+	 * @var		object
 	 */
-	var $_id = null;
+	private $_template = null;
 
 	/**
-	 * Template data
+	 * Method to auto-populate the model state.
 	 *
-	 * @var array
+	 * @since	1.6
 	 */
-	var $_data = null;
-
-	/**
-	 * client object
-	 *
-	 * @var object
-	 */
-	var $_client = null;
-
-	/**
-	 * Template name
-	 *
-	 * @var string
-	 */
-	var $_template = null;
-
-	/**
-	 * Constructor
-	 *
-	 * @since 1.5
-	 */
-	function __construct()
+	protected function _populateState()
 	{
-		parent::__construct();
+		$app = JFactory::getApplication('administrator');
 
-		$this->_template = JRequest::getVar('template');
-		$this->_client	= &JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		// Load the User state.
+		$id = $app->getUserState('com_templates.edit.source.id');
+
+		// Parse the template id out of the compound reference.
+		$temp	= explode(':', base64_decode($id));
+		$this->setState('extension.id', (int) array_shift($temp));
+		$this->setState('filename', array_shift($temp));
+
+		// Load the parameters.
+		$params	= JComponentHelper::getParams('com_templates');
+		$this->setState('params', $params);
 	}
 
 	/**
-	 * Method to get a Template
+	 * Method to get the record form.
 	 *
-	 * @since 1.6
+	 * @return	mixed	JForm object on success, false on failure.
+	 * @since	1.6
 	 */
-	function &getData()
+	public function getForm()
 	{
-		// Load the data
-		if (!$this->_loadData())
-			$this->_initData();
+		// Initialise variables.
+		$app = JFactory::getApplication();
 
-		return $this->_data;
+		// Get the form.
+		$form = parent::getForm('source', 'com_templates.source', array('array' => 'jform', 'event' => 'onPrepareForm'));
+
+		// Check for an error.
+		if (JError::isError($form)) {
+			$this->setError($form->getMessage());
+			return false;
+		}
+
+		// Check the session for previously entered form data.
+		$data = $app->getUserState('com_templates.edit.source.data', array());
+
+		// Bind the form data if present.
+		if (!empty($data)) {
+			$form->bind($data);
+		}
+
+		return $form;
 	}
 
 	/**
-	 * Method to get the client object
+	 * Method to get a single record.
 	 *
-	 * @since 1.6
+	 * @return	mixed	Object on success, false on failure.
+	 * @since	1.6
 	 */
-	function &getClient()
+	public function &getSource()
 	{
-		return $this->_client;
+		$item = new stdClass;
+
+		if ($this->_template)
+		{
+			$fileName	= $this->getState('filename');
+			$client		= JApplicationHelper::getClientInfo($this->_template->client_id);
+			$filePath	= JPath::clean($client->path.'/templates/'.$this->_template->element.'/'.$fileName);
+
+			if (file_exists($filePath))
+			{
+				jimport('joomla.filesystem.file');
+
+				$item->extension_id	= $this->getState('extension.id');
+				$item->filename		= $this->getState('filename');
+				$item->source		= JFile::read($filePath);
+			}
+			else {
+				$this->setError(JText::_('Templates_Error_Source_file_not_found'));
+			}
+		}
+
+		return $item;
 	}
 
-	function &getTemplate()
+	/**
+	 * Method to get the template information.
+	 *
+	 * @return	mixed	Object if successful, false if not and internal error is set.
+	 * @since	1.6
+	 */
+	public function &getTemplate()
 	{
+		// Initialise variables.
+		$pk		= $this->getState('extension.id');
+		$db		= $this->getDbo();
+		$result	= false;
+
+		// Get the template information.
+		$db->setQuery(
+			'SELECT extension_id, client_id, element' .
+			' FROM #__extensions' .
+			' WHERE extension_id = '.(int) $pk.
+			'  AND type = '.$db->quote('template')
+		);
+
+		$result = $db->loadObject();
+		if (empty($result))
+		{
+			if ($error = $db->getErrorMsg()) {
+				$this->setError($error);
+			}
+			else {
+				$this->setError(JText::_('Templates_Error_Extension_record_not_found'));
+			}
+			$this->_template = false;
+		}
+		else {
+			$this->_template = $result;
+		}
+
 		return $this->_template;
 	}
 
 	/**
-	 * Method to store the Template
+	 * Method to store the source file contents.
 	 *
-	 * @access	public
-	 * @return	boolean	True on success
+	 * @param	array	The souce data to save.
+	 *
+	 * @return	boolean	True on success, false otherwise and internal error set.
 	 * @since	1.6
 	 */
-	function store($filecontent)
+	public function save($data)
 	{
-		// Set FTP credentials, if given
+		jimport('joomla.filesystem.file');
 		jimport('joomla.client.helper');
+
+		// Get the template.
+		$template = $this->getTemplate();
+		if (empty($template)) {
+			return false;
+		}
+
+		$fileName	= $this->getState('filename');
+		$client		= JApplicationHelper::getClientInfo($template->client_id);
+		$filePath	= JPath::clean($client->path.'/templates/'.$template->element.'/'.$fileName);
+
+		// Set FTP credentials, if given.
 		JClientHelper::setCredentialsFromRequest('ftp');
 		$ftp = JClientHelper::getCredentials('ftp');
 
-		$file = $this->_client->path.DS.'templates'.DS.$this->_template.DS.'index.php';
-
-		// Try to make the template file writeable
-		if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0755')) {
-			$this->setError(JText::_('Could not make the template file writable'));
+		// Try to make the template file writeable.
+		if (!$ftp['enabled'] && JPath::isOwner($filePath) && !JPath::setPermissions($filePath, '0755'))
+		{
+			$this->setError(JText::_('Template_Error_Source_file_not_writable'));
 			return false;
 		}
 
-		jimport('joomla.filesystem.file');
-		$return = JFile::write($file, $filecontent);
+		$return = JFile::write($filePath, $data['source']);
 
-		// Try to make the template file unwriteable
-		if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0555')) {
-			$this->setError(JText::_('Could not make the template file unwritable'));
+		// Try to make the template file unwriteable.
+		if (!$ftp['enabled'] && JPath::isOwner($filePath) && !JPath::setPermissions($filePath, '0555'))
+		{
+			$this->setError(JText::_('Template_Error_Source_file_not_unwritable'));
+			return false;
+		}
+		else if (!$return)
+		{
+			$this->setError(JText::sprintf('Template_Error_Failed_to_save_filename.', $fileName));
 			return false;
 		}
 
-		if (!$return)
-		{
-			$this->setError(JText::_('Operation Failed').': '.JText::sprintf('Failed to open file for writing.', $file));
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * Method to load Template data
-	 *
-	 * @access	private
-	 * @return	boolean	True on success
-	 * @since	1.6
-	 */
-	function _loadData()
-	{
-		// Lets load the content if it doesn't already exist
-		if (empty($this->_data))
-		{
-			$file		= $this->_client->path.DS.'templates'.DS.$this->_template.DS.'index.php';
-
-			// Read the source file
-			jimport('joomla.filesystem.file');
-			$content = JFile::read($file);
-
-			if ($content === false)
-			{
-				$this->setError(JText::sprintf('Operation Failed Could not open', $file));
-				return false;
-			}
-			$content = htmlspecialchars($content, ENT_COMPAT, 'UTF-8');
-
-			$this->_data = $content;
-			return (boolean) $this->_data;
-		}
-		return true;
-	}
-
-	/**
-	 * Method to initialise the Template data
-	 *
-	 * @access	private
-	 * @return	boolean	True on success
-	 * @since	1.6
-	 */
-	function _initData()
-	{
-		// Lets load the content if it doesn't already exist
-		if (empty($this->_data))
-		{
-			$template = new stdClass();
-			$this->_data = $template;
-			return (boolean) $this->_data;
-		}
 		return true;
 	}
 }

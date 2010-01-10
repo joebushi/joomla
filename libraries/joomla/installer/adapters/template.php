@@ -58,7 +58,7 @@ class JInstallerTemplate extends JAdapterInstance
 
 		// Set the extensions name
 		$name = &$root->getElementByPath('name');
-		$name = JFilterInput::clean($name->data(), 'cmd');
+		$name = JFilterInput::getInstance()->clean($name->data(), 'cmd');
 
 		$element = strtolower(str_replace(" ", "_", $name));
 		$this->set('name', $name);
@@ -170,7 +170,7 @@ class JInstallerTemplate extends JAdapterInstance
 		$row->enabled = 1;
 		$row->protected = 0;
 		$row->access = 1;
-		$row->client_id = 0;
+		$row->client_id = $clientId;
 		$row->params = $this->parent->getParams();
 		$row->custom_data = ''; // custom data
 		$row->manifest_cache = $this->parent->generateManifestCache();
@@ -181,9 +181,9 @@ class JInstallerTemplate extends JAdapterInstance
 			return false;
 		}
 
-		//insert record in #_menu_template
-		$query = 'INSERT INTO #__menu_template'.
-				' (template,client_id,home,description,params)'.
+		//insert record in #__template_styles
+		$query = 'INSERT INTO #__template_styles'.
+				' (template,client_id,home,title,params)'.
 				' VALUE ('.$db->Quote($row->name).','.
 				$db->Quote($clientId).',0,'.
 				$db->Quote(JText::_('Default')).','.
@@ -205,7 +205,7 @@ class JInstallerTemplate extends JAdapterInstance
 	 */
 	public function uninstall($id)
 	{
-		// Initialize variables
+		// Initialise variables.
 		$retval	= true;
 
 		// First order of business will be to load the module object table from the database.
@@ -237,7 +237,7 @@ class JInstallerTemplate extends JAdapterInstance
 
 		// Deny remove default template
 		$db = &$this->parent->getDbo();
-		$query = 'SELECT COUNT(*) FROM #__menu_template'.
+		$query = 'SELECT COUNT(*) FROM #__template_styles'.
 				' WHERE home = 1 AND template = '.$db->Quote($name);
 		$db->setQuery($query);
 		if ($db->loadResult() != 0)
@@ -285,15 +285,15 @@ class JInstallerTemplate extends JAdapterInstance
 		}
 
 		//Set menu that assigned to the template back to default template
-		$query = 'UPDATE #__menu INNER JOIN #__menu_template'.
-				' ON #__menu_template.id = #__menu.template_id'.
-				' SET #__menu.template_id = 0'.
-				' WHERE #__menu_template.template = '.$db->Quote($name).
-				' AND #__menu_template.client_id = '.$db->Quote($clientId);
+		$query = 'UPDATE #__menu INNER JOIN #__template_styles'.
+				' ON #__template_styles.id = #__menu.template_style_id'.
+				' SET #__menu.template_style_id = 0'.
+				' WHERE #__template_styles.template = '.$db->Quote($name).
+				' AND #__template_styles.client_id = '.$db->Quote($clientId);
 		$db->setQuery($query);
 		$db->Query();
 
-		$query = 'DELETE FROM #__menu_template'.
+		$query = 'DELETE FROM #__template_styles'.
 				' WHERE template = '.$db->Quote($name).
 				' AND client_id = '.$db->Quote($clientId);
 		$db->setQuery($query);

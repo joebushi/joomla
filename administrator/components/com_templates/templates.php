@@ -10,16 +10,14 @@
 // no direct access
 defined('_JEXEC') or die;
 
-$user = & JFactory::getUser();
-if (!$user->authorize('core.templates.manage')) {
-	JFactory::getApplication()->redirect('index.php', JText::_('ALERTNOTAUTH'));
+// Access check.
+if (!JFactory::getUser()->authorise('core.manage', 'com_templates')) {
+	return JError::raiseWarning(404, JText::_('ALERTNOTAUTH'));
 }
 
-// Require the base controller
-require_once JPATH_COMPONENT.DS.'controller.php';
+// Include dependancies
+jimport('joomla.application.component.controller');
 
-$controller	= new TemplatesController();
-
-// Perform the Request task
+$controller	= JController::getInstance('Templates');
 $controller->execute(JRequest::getCmd('task'));
 $controller->redirect();

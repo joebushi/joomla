@@ -2,7 +2,7 @@
 /**
  * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // Check to ensure this file is included in Joomla!
@@ -93,8 +93,8 @@ class LanguagesViewLanguages extends JView
 			JToolBarHelper::trash('languages.trash');
 		}
 		JToolBarHelper::divider();
-		//JToolBarHelper::preferences('com_languagaes', '480', '570', 'JToolbar_Options');
-		//JToolBarHelper::divider();
+		JToolBarHelper::preferences('com_languagaes');
+		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.languages');
 	}
 }

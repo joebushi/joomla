@@ -54,7 +54,7 @@ class NewsfeedsModelNewsfeed extends JModel
 	 */
 	function setId($id)
 	{
-		// Set weblink id and wipe data
+		// Set newsfeed id and wipe data
 		$this->_id	 = $id;
 		$this->_data = null;
 	}
@@ -66,10 +66,10 @@ class NewsfeedsModelNewsfeed extends JModel
 	 */
 	function &getData()
 	{
-		// Load the weblink data
+		// Load the newsfeed data
 		if ($this->_loadData())
 		{
-			// Initialize some variables
+			// Initialise some variables
 			$user = &JFactory::getUser();
 
 			// Make sure the category is published

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- $Id$ -->
+	<!-- $Id$ -->
 <form>
 	<fields>
 		<field
@@ -8,57 +8,62 @@
 			type="hidden"
 			default="0"
 			required="true"
-			readonly="true"
-		/>
-
-		<field
-			id="catid"
-			name="catid"
-			type="Categories"
-			extension="com_newsfeeds"
-			allow_none="false"
-			class="inputbox"
-			default=""
-			label="Newsfeeds_Category_Label"
-			description="Newsfeeds_Category_Desc"
-			required="true"
-		/>
-
+			readonly="true" />
 
 		<field
 			id="name"
 			name="name"
 			type="text"
+			label="JField_Title_Label"
+			description="JField_Title_Desc"
 			class="inputbox"
-			default=""
-			size="40"
-			label="Newsfeeds_Name_Label"
-			description="Newsfeeds_Name_Desc"
-			required="true"
-		/>
+			size="30"
+			required="true" />
 
 		<field
 			id="alias"
 			name="alias"
 			type="text"
+			label="JField_Alias_Label"
+			description="JField_Alias_Desc"
 			class="inputbox"
-			default=""
-			size="40"
-			label="Newsfeeds_Alias_Label"
-			description="Newsfeeds_Alias_Desc"
-		/>
+			size="45"
+			default="" />
 
 		<field
 			id="published"
 			name="published"
-			type="radio"
+			type="list"
+			label="JField_Published_Label"
+			description="JField_Published_Desc"
 			class="inputbox"
-			default="1"
-			label="Newsfeeds_State_Label"
-			description="Newsfeeds_State_Desc"
-		>
-			<option value="1">JState_Published</option>
-			<option value="0">JState_UnPublished</option>
+			size="1"
+			default="1">
+			<option
+				value="1">
+				JOption_Published</option>
+			<option
+				value="0">
+				JOption_UnPublished</option>
+			<option
+				value="-1">
+				JOption_Archived</option>
+			<option
+				value="-2">
+				JOption_Trashed</option>
+		</field>
+
+		<field
+			id="catid"
+			name="catid"
+			type="category"
+			extension="com_newsfeeds"
+			label="JField_Category_Label"
+			description="JField_Category_Desc"
+			class="inputbox"
+			required="true">
+			<option
+				value="0">JOption_No_Category</option>
 		</field>
 
 		<field
@@ -70,9 +75,8 @@
 			size="60"
 			label="Newsfeeds_Link_Label"
 			description="Newsfeeds_Link_Desc"
-			required="true"
-		/>	
-		
+			required="true" />
+
 		<field
 			id="numarticles"
 			name="numarticles"
@@ -82,9 +86,8 @@
 			size="2"
 			label="Newsfeeds_Numarticles_Label"
 			description="Newsfeeds_Numarticles_Desc"
-			required="true"
-		/>
-		
+			required="true" />
+
 		<field
 			id="cache_time"
 			name="cache_time"
@@ -94,9 +97,8 @@
 			size="4"
 			label="Newsfeeds_Cachetime_Label"
 			description="Newsfeeds_Cachetime_Desc"
-			required="true"
-		/>
-				
+			required="true" />
+
 		<field
 			id="ordering"
 			name="ordering"
@@ -104,9 +106,8 @@
 			class="inputbox"
 			default=""
 			label="Newsfeeds_Ordering_Label"
-			description="Newsfeeds_Ordering_Desc"
-		/>
-		
+			description="Newsfeeds_Ordering_Desc" />
+
 		<field
 			id="rtl"
 			name="rtl"
@@ -114,14 +115,16 @@
 			class="inputbox"
 			default="1"
 			label="Newsfeeds_RTL_Label"
-			description="Newsfeeds_RTL_Desc"
-		>
-			<option value="0">Newsfeeds_RTL_select</option>
-			<option value="1">Newsfeeds_RTL_left_to_right</option>
-			<option value="1">Newsfeeds_RTL_right_to_left</option>
+			description="Newsfeeds_RTL_Desc">
+			<option
+				value="0">Newsfeeds_RTL_select</option>
+			<option
+				value="1">Newsfeeds_RTL_left_to_right</option>
+			<option
+				value="1">Newsfeeds_RTL_right_to_left</option>
 		</field>
-		
-		
+
+
 		<field
 			id="checked_out"
 			name="checked_out"
@@ -132,8 +135,7 @@
 			label="Newsfeeds_Checkedout_Label"
 			description="Newsfeeds_Checkedout_Desc"
 			readonly="true"
-			filter="unset"
-		/>
+			filter="unset" />
 
 		<field
 			id="checked_out_time"
@@ -145,16 +147,34 @@
 			label="Newsfeeds_Checkedout_Time_Label"
 			description="Newsfeeds_Checkedout_Time_Desc"
 			readonly="true"
-			filter="unset"
-		/>
+			filter="unset" />
+
+		<field
+			name="access"
+			type="accesslevel"
+			label="JField_Access_Label"
+			description="JField_Access_Desc"
+			class="inputbox"
+			size="1"
+			default="" />
+
+		<field
+			name="language"
+			type="contentlanguage"
+			label="JField_Language_Label"
+			description="JField_Language_Desc"
+			class="inputbox"
+			default="">
+			<option value="">JOption_Default_Language</option>
+		</field>
 
 	</fields>
-	
+
 	<fields
 		group="params"
 		array="true"
 		label="Newsfeeds_Options">
-		
+
 		<field
 			id="show_headings"
 			name="show_headings"
@@ -167,7 +187,7 @@
 			<option
 				value="1">JOption_Show</option>
 		</field>
-		
+
 		<field
 			id="show_name"
 			name="show_name"
@@ -180,7 +200,7 @@
 			<option
 				value="1">JOption_Show</option>
 		</field>
-			
+
 		<field
 			id="show_articles"
 			name="show_articles"
@@ -193,7 +213,7 @@
 			<option
 				value="1">JOption_Show</option>
 		</field>
-		
+
 		<field
 			id="show_link"
 			name="show_link"
@@ -206,9 +226,9 @@
 			<option
 				value="1">JOption_Show</option>
 		</field>
-		
+
 		<!-- Spacer -->
-		
+
 		<field
 			id="show_cat_description"
 			name="show_cat_description"
@@ -221,7 +241,7 @@
 			<option
 				value="1">JOption_Show</option>
 		</field>
-		
+
 		<field
 			id="show_cat_items"
 			name="show_cat_items"
@@ -234,9 +254,9 @@
 			<option
 				value="1">JOption_Show</option>
 		</field>
-		
+
 		<!-- Spacer -->
-		
+
 		<field
 			id="show_feed_image"
 			name="show_feed_image"
@@ -249,7 +269,7 @@
 			<option
 				value="1">JOption_Show</option>
 		</field>
-		
+
 		<field
 			id="show_feed_description"
 			name="show_feed_description"
@@ -262,7 +282,7 @@
 			<option
 				value="1">JOption_Show</option>
 		</field>
-		
+
 		<field
 			id="show_item_description"
 			name="show_item_description"
@@ -275,7 +295,7 @@
 			<option
 				value="1">JOption_Show</option>
 		</field>
-		
+
 		<field
 			id="feed_word_count"
 			name="feed_word_count"
@@ -283,6 +303,6 @@
 			size="6"
 			default="0"
 			label="Newsfeeds_Word_Count_Label"
-			description="Newsfeeds_Word_Count_Desc"/>
+			description="Newsfeeds_Word_Count_Desc" />
 	</fields>
 </form>

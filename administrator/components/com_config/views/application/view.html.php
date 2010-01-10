@@ -41,16 +41,11 @@ class ConfigViewApplication extends JView
 			$form->bind($data);
 		}
 
-		// Get other component parameters.
-		$table = JTable::getInstance('component');
-
 		// Get the params for com_users.
-		$table->loadByOption('com_users');
-		$usersParams = new JParameter($table->params, JPATH_ADMINISTRATOR.'/components/com_users/config.xml');
+		$usersParams = JComponentHelper::getParams('com_users');
 
 		// Get the params for com_media.
-		$table->loadByOption('com_media');
-		$mediaParams = new JParameter($table->params, JPATH_ADMINISTRATOR.'/components/com_media/config.xml');
+		$mediaParams = JComponentHelper::getParams('com_media');
 
 		// Load settings for the FTP layer.
 		jimport('joomla.client.helper');
@@ -68,15 +63,15 @@ class ConfigViewApplication extends JView
 
 	/**
 	 * Display the toolbar
-	 *
-	 * @access	private
 	 */
 	protected function _setToolbar()
 	{
 		JToolBarHelper::title(JText::_('Global Configuration'), 'config.png');
-		JToolBarHelper::save('application.save');
 		JToolBarHelper::apply('application.apply');
+		JToolBarHelper::save('application.save');
+		JToolBarHelper::divider();
 		JToolBarHelper::cancel('application.cancel', 'Close');
+		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.config');
 	}
 

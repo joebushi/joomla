@@ -95,7 +95,7 @@ class JTableNested extends JTable
 	 */
 	public function getPath($pk = null, $diagnostic = false)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
@@ -130,7 +130,7 @@ class JTableNested extends JTable
 	 */
 	public function getTree($pk = null, $diagnostic = false)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
@@ -164,7 +164,7 @@ class JTableNested extends JTable
 	 */
 	public function isLeaf($pk = null)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
@@ -216,7 +216,11 @@ class JTableNested extends JTable
 	 */
 	public function move($referenceId, $position = 'after', $pk = null)
 	{
-		// Initialize variables.
+		if ($this->_debug) {
+			echo "\nMoving ReferenceId:$referenceId, Position:$position, PK:$pk";
+		}
+
+		// Initialise variables.
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
@@ -263,6 +267,12 @@ class JTableNested extends JTable
 				// Error message set in getNode method.
 				$this->_unlock();
 				return false;
+			}
+
+			// If moving "down" the tree, adjust $reference lft, rgt for $node width
+			if ($node->rgt < $reference->rgt) {
+				$reference->lft -= $node->width;
+				$reference->rgt -= $node->width;
 			}
 
 			// Get the reposition data for shifting the tree and re-inserting the node.
@@ -473,7 +483,7 @@ class JTableNested extends JTable
 	 */
 	public function delete($pk = null, $children = true)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
@@ -661,7 +671,6 @@ class JTableNested extends JTable
 		return false;
 	}
 
-
 	/**
 	 * Method to store a node in the database table.
 	 *
@@ -672,10 +681,11 @@ class JTableNested extends JTable
 	 */
 	public function store($updateNulls = false)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$k = $this->_tbl_key;
 
 		if ($this->_debug) {
+			echo "\n".get_class($this)."::store\n";
 			$this->_logtable(true, false);
 		}
 		/*
@@ -845,7 +855,7 @@ class JTableNested extends JTable
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$k = $this->_tbl_key;
 
 		// Sanitize input.
@@ -968,7 +978,7 @@ class JTableNested extends JTable
 	 */
 	public function orderUp($pk)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
@@ -1054,7 +1064,7 @@ class JTableNested extends JTable
 	 */
 	public function orderDown($pk)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
@@ -1310,7 +1320,7 @@ class JTableNested extends JTable
 			return true;
 		}
 
-		// Initialize variables.
+		// Initialise variables.
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
@@ -1385,8 +1395,8 @@ class JTableNested extends JTable
 		);
 		$row = $this->_db->loadObject();
 
-		// Check for a database error.
-		if ($this->_db->getErrorNum()) {
+		// Check for a database error or no $row returned
+		if ((!$row) || ($this->_db->getErrorNum())) {
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
@@ -1424,7 +1434,7 @@ class JTableNested extends JTable
 			return false;
 		}
 
-		// Initialize variables
+		// Initialise variables.
 		$k = $this->_tbl_key;
 		$data = new stdClass;
 
@@ -1433,7 +1443,7 @@ class JTableNested extends JTable
 		{
 			case 'first-child':
 				$data->left_where		= 'lft > '.$referenceNode->lft;
-				$data->right_where		= 'lft >= '.$referenceNode->lft;
+				$data->right_where		= 'rgt >= '.$referenceNode->lft;
 
 				$data->new_lft 			= $referenceNode->lft + 1;
 				$data->new_rgt			= $referenceNode->lft + $nodeWidth;
@@ -1442,7 +1452,7 @@ class JTableNested extends JTable
 				break;
 
 			case 'last-child':
-				$data->left_where		= 'rgt > '.($referenceNode->rgt);
+				$data->left_where		= 'lft > '.($referenceNode->rgt);
 				$data->right_where		= 'rgt >= '.($referenceNode->rgt);
 
 				$data->new_lft			= $referenceNode->rgt;

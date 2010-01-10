@@ -2,14 +2,13 @@
 /**
  * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @copyright	Copyright (C) 2008 - 2009 JXtended, LLC. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_BASE') or die;
 
 jimport('joomla.html.html');
-jimport('joomla.form.field');
+jimport('joomla.form.formfield');
 
 /**
  * Form Field class for the Joomla Framework.
@@ -34,14 +33,44 @@ class JFormFieldRadio extends JFormField
 	 */
 	protected function _getInput()
 	{
-		$options = array();
-		$class = $this->_element->attributes('class') ? ' class="radiobtn '.$this->_element->attributes('class').'" ': ' class="radiobtn"';
-
 		// Get the options for the radio list.
+		$options = array();
 		foreach ($this->_element->children() as $option) {
-			$options[] = JHtml::_('select.option', $option->attributes('value'), JText::_($option->data()));
+			$tmp = JHtml::_('select.option', $option->attributes('value'), trim($option->data()));
+			$tmp->class = $option->attributes('class');
+			$options[] = $tmp;
+		}
+		reset($options);
+
+		// Get the fieldset class.
+		$class = $this->_element->attributes('class') ? 'class="radio '.$this->_element->attributes('class').'"': 'class="radio"';
+
+		$html = array();
+		$html[] = '<fieldset id="'.$this->inputId.'" '.$class.'>';
+
+		foreach ($options as $i => $option) {
+			if (is_array($this->value)) {
+				foreach ($this->value as $val) {
+					$value = is_object($val) ? $val->value : $val;
+					if ($option->value == $value) {
+						$bool = ' selected="selected"';
+						break;
+					}
+				}
+			} else {
+				$bool = ((string) $option->value == (string) $this->value ? ' checked="checked"' : null);
+			}
+
+			// Get the defined class for the option if set.
+			$class = isset($option->class) ? ' class="'.$option->class.'"' : null;
+
+
+			$html[] = '<input id="'.$this->inputId.$i.'" type="radio" name="'.$this->inputName.'" value="'.htmlspecialchars($option->value).'"'.$bool.' />';
+			$html[] = '<label for="'.$this->inputId.$i.'"'.$class.'>'.JText::_($option->text).'</label>';
 		}
 
-		return JHtml::_('select.radiolist', $options, $this->inputName, $class, 'value', 'text', $this->value, $this->inputId);
+		$html[] = '</fieldset>';
+
+		return implode($html);
 	}
 }

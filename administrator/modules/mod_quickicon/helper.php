@@ -1,7 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Administrator
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -9,9 +8,13 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
 
+/**
+ * @package		Joomla.Administrator
+ * @subpackage	mod_quickicon
+ */
 abstract class QuickIconHelper
 {
-	/** 
+	/**
 	 * Stack to hold default buttons
 	 */
 	protected static $buttons = array();
@@ -24,14 +27,14 @@ abstract class QuickIconHelper
 	 */
 	public static function button($button)
 	{
-		if (!empty($button['access'])) 
+		if (!empty($button['access']))
 		{
 			if (!JFactory::getUser()->authorize($button['access'])) {
 				return '';
 			}
 		}
-		
-		if (empty($button['imagePath'])) 
+
+		if (empty($button['imagePath']))
 		{
 			$template = JFactory::getApplication()->getTemplate();
 			$button['imagePath'] = '/templates/'. $template .'/images/header/';
@@ -45,15 +48,15 @@ abstract class QuickIconHelper
 
 	/**
 	 * Helper method to return button list.
-	 * 
-	 * This method returns the array by reference so it can be 
+	 *
+	 * This method returns the array by reference so it can be
 	 * used to add custom buttons or remove default ones.
 	 *
 	 * @return	array	An array of buttons
 	 */
 	public static function &getButtons()
 	{
-		if (empty(self::$buttons)) 
+		if (empty(self::$buttons))
 		{
 			self::$buttons = array(
 				array(
@@ -98,7 +101,7 @@ abstract class QuickIconHelper
 					'image' => 'icon-48-extension.png',
 					'text' => JText::_('Extension_Manager'),
 				)
-			);		
+			);
 		}
 
 		return self::$buttons;

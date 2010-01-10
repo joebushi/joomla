@@ -42,15 +42,17 @@ class ConfigControllerApplication extends JController
 		JRequest::checkToken() or jexit(JText::_('Invalid_Token'));
 
 		// Check if the user is authorized to do this.
-		if (!JFactory::getUser()->authorize('core.config.manage')) {
+		if (!JFactory::getUser()->authorize('core.admin'))
+		{
 			JFactory::getApplication()->redirect('index.php', JText::_('ALERTNOTAUTH'));
+			return;
 		}
 
 		// Set FTP credentials, if given.
 		jimport('joomla.client.helper');
 		JClientHelper::setCredentialsFromRequest('ftp');
 
-		// Initialize variables.
+		// Initialise variables.
 		$app	= JFactory::getApplication();
 		$model	= $this->getModel('Application');
 		$form	= $model->getForm();
@@ -122,6 +124,13 @@ class ConfigControllerApplication extends JController
 	 */
 	function cancel()
 	{
+		// Check if the user is authorized to do this.
+		if (!JFactory::getUser()->authorize('core.admin', 'com_config'))
+		{
+			JFactory::getApplication()->redirect('index.php', JText::_('ALERTNOTAUTH'));
+			return;
+		}
+
 		// Set FTP credentials, if given
 		jimport('joomla.client.helper');
 		JClientHelper::setCredentialsFromRequest('ftp');

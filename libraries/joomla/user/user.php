@@ -9,6 +9,8 @@
 
 // No direct access
 defined('JPATH_BASE') or die;
+
+jimport('joomla.access.access');
 jimport('joomla.html.parameter');
 
 /**
@@ -105,7 +107,7 @@ class JUser extends JObject
 	 * @since	1.6
 	 * @var		array
 	 */
-	var $groups;
+	var $groups = array();
 
 	/**
 	 * Description
@@ -163,18 +165,15 @@ class JUser extends JObject
 	}
 
 	/**
-	 * Returns a reference to the global User object, only creating it if it
+	 * Returns the global User object, only creating it if it
 	 * doesn't already exist.
-	 *
-	 * This method must be invoked as:
-	 * 		<pre>  $user = &JUser::getInstance($id);</pre>
 	 *
 	 * @access 	public
 	 * @param 	int 	$id 	The user to load - Can be an integer or string - If string, it is converted to ID automatically.
 	 * @return 	JUser  			The User object.
 	 * @since 	1.5
 	 */
-	static function &getInstance($id = 0)
+	static function getInstance($id = 0)
 	{
 		static $instances;
 
@@ -256,30 +255,14 @@ class JUser extends JObject
 	 * object and optionally an access extension object
 	 *
 	 * @access 	public
-	 * @param	string	$acoSection	The ACO section value
-	 * @param	string	$aco		The ACO value
-	 * @param	string	$axoSection	The AXO section value	[optional]
-	 * @param	string	$axo		The AXO value			[optional]
-	 * @return	boolean	True if authorized
+	 * @param	string	The name of the action to check for permission.
+	 * @param	string	The name of the asset on which to perform the action.
+	 * @return	boolean	True if authorised
 	 * @since	1.5
 	 */
 	public function authorise($action, $assetname = null)
 	{
-		if ($assetname)
-		{
-			$acl	= & JFactory::getACL();
-			return $acl->check($this->id, $action, $assetname);
-		}
-		if ($this->_authActions === null) {
-			$this->_authActions = array();
-		}
-
-		if (!isset($this->_authActions[$action])) {
-			$acl = JFactory::getACL();
-			$this->_authActions[$action] = $acl->check($this->id, $action);
-		}
-
-		return $this->_authActions[$action];
+		return JAccess::check($this->id, $action, $assetname);
 	}
 
 	/**
@@ -289,18 +272,17 @@ class JUser extends JObject
 	 *
 	 * @return	array
 	 */
-	public function authorisedLevels($action = 'core.view')
+	public function authorisedLevels()
 	{
 		if ($this->_authLevels === null) {
 			$this->_authLevels = array();
 		}
 
-		if (!isset($this->_authLevels[$action])) {
-			$acs = JFactory::getACL();
-			$this->_authLevels[$action] = $acs->getAuthorisedAccessLevels($this->id, $action);
+		if (empty($this->_authLevels)) {
+			$this->_authLevels = JAccess::getAuthorisedViewLevels($this->id);
 		}
 
-		return $this->_authLevels[$action];
+		return $this->_authLevels;
 	}
 
 	/**
@@ -333,7 +315,7 @@ class JUser extends JObject
 	 * @return	object	The user parameters object
 	 * @since	1.5
 	 */
-	function &getParameters($loadsetupfile = false, $path = null)
+	function getParameters($loadsetupfile = false, $path = null)
 	{
 		static $parampath;
 
@@ -386,7 +368,7 @@ class JUser extends JObject
 	 * @return	object	The user table object
 	 * @since	1.5
 	 */
-	function &getTable($type = null, $prefix = 'JTable')
+	function getTable($type = null, $prefix = 'JTable')
 	{
 		static $tabletype;
 
@@ -403,8 +385,7 @@ class JUser extends JObject
 		}
 
 		// Create the user table object
-		$table 	= &JTable::getInstance($tabletype['name'], $tabletype['prefix']);
-		return $table;
+		return JTable::getInstance($tabletype['name'], $tabletype['prefix']);
 	}
 
 	/**
@@ -441,8 +422,7 @@ class JUser extends JObject
 
 			// Set the registration timestamp
 
-			$now = &JFactory::getDate();
-			$this->set('registerDate', $now->toMySQL());
+			$this->set('registerDate', JFactory::getDate()->toMySQL());
 
 			// Check that username is not greater than 150 characters
 			$username = $this->get('username');
@@ -638,7 +618,7 @@ class JUser extends JObject
 		 * extend this in the future to allow for the ability to have custom
 		 * user parameters, but for right now we'll leave it how it is.
 		 */
-		$this->_params->loadINI($table->params);
+		$this->_params->loadJSON($table->params);
 
 		// Assuming all is well at this point lets bind the data
 		$this->setProperties($table->getProperties());

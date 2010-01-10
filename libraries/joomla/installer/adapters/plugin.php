@@ -51,7 +51,7 @@ class JInstallerPlugin extends JAdapterInstance
 
 		// Set the extensions name
 		$name = &$this->manifest->getElementByPath('name');
-		$name = JFilterInput::clean($name->data(), 'string');
+		$name = JFilterInput::getInstance()->clean($name->data(), 'string');
 		$this->set('name', $name);
 
 		// Get the component description
@@ -153,7 +153,7 @@ class JInstallerPlugin extends JAdapterInstance
 			if (is_file($manifestScriptFile))
 			{
 				// load the file
-				include_once($manifestScriptFile);
+				include_once $manifestScriptFile;
 			}
 			// Set the class name
 			$classname = 'plg'.$group.$element.'InstallerScript';
@@ -365,7 +365,7 @@ class JInstallerPlugin extends JAdapterInstance
 	 */
 	public function uninstall($id)
 	{
-		// Initialize variables
+		// Initialise variables.
 		$row	= null;
 		$retval = true;
 		$db		= &$this->parent->getDbo();
@@ -445,7 +445,7 @@ class JInstallerPlugin extends JAdapterInstance
 				$manifestScriptFile = $this->parent->getPath('source').DS.$manifestScript;
 				if (is_file($manifestScriptFile)) {
 					// load the file
-					include_once($manifestScriptFile);
+					include_once $manifestScriptFile;
 				}
 				// Set the class name
 				$classname = 'plg'.$row->folder.$row->element.'InstallerScript';

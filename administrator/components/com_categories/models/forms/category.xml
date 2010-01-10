@@ -10,6 +10,11 @@
 			readonly="true"/>
 
 		<field
+			name="asset_id"
+			type="hidden"
+			filter="unset"/>
+
+		<field
 			name="parent_id"
 			type="categoryparent"
 			label="Categories_Parent_Label"
@@ -108,7 +113,7 @@
 
 		<field
 			name="access"
-			type="accesslevels"
+			type="accesslevel"
 			label="JField_Access_Label"
 			description="JField_Access_Desc"
 			class="inputbox"/>
@@ -162,6 +167,18 @@
 			label="JField_Language_Label"
 			description="JField_Language_Desc"
 			class="inputbox"/>
+
+		<field
+			id="rules"
+			name="rules"
+			type="rules"
+			label="JField_Rules_Label"
+			description="JField_Rules_Desc"
+			filter="rules"
+			class="inputbox"
+			component="com_content"
+			section="category"
+			default=""/>
 	</fields>
 
 	<fields
@@ -171,12 +188,20 @@
 
 		<field
 			name="target"
-			type="componentlayouts"
+			type="componentlayout"
 			label="JField_Alt_Layout_Label"
 			description="JField_Alt_Component_Layout_Desc"
 			extension=""
 			view="categories"
 			/>
+		<field
+			name="image"
+			type="imagelist"
+			directory="/images"
+			hide_default="1"
+			default=""
+			label="Image"
+			description="fieldIMAGE" />
 	</fields>
 
 	<fields
@@ -190,14 +215,15 @@
 			description="JField_Alt_Page_title_Desc"
 			size="30"
 			default=""/>
-		
+
 		<field
 			name="author"
 			type="text"
 			label="JField_Metadata_Author_Label"
 			description="JField_Metadata_Author_Desc"
-			size="30"/>
-			
+			size="30"
+			default=""/>
+
 		<field
 			name="robots"
 			type="list"
@@ -217,8 +243,6 @@
 			<option
 				value="4">Don't display robots tag</option>
 		</field>
-
-		
 
 	</fields>
 

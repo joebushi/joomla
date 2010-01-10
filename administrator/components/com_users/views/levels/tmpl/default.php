@@ -4,10 +4,10 @@
  * @package		Joomla.Administrator
  * @subpackage	com_users
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @copyright	Copyright (C) 2008 - 2009 JXtended, LLC. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+// No direct access.
 defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
@@ -16,26 +16,19 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 // Load the tooltip behavior.
 JHtml::_('behavior.tooltip');
 
+$user	= JFactory::getUser();
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=levels');?>" method="post" name="adminForm">
-	<fieldset class="filter clearfix">
-		<div class="left">
-			<label for="search"><?php echo JText::sprintf('JSearch_Label', 'Levels'); ?></label>
-			<input type="text" name="filter_search" id="search" value="<?php echo $this->state->get('filter.search'); ?>" size="30" title="<?php echo JText::sprintf('JSearch_Title', 'Levels'); ?>" />
-			<button type="submit"><?php echo JText::_('JSearch_Submit'); ?></button>
-			<button type="button" onclick="document.id('search').value='';this.form.submit();"><?php echo JText::_('JSearch_Reset'); ?></button>
-		</div>
-		<div class="right">
-			<ol>
-				<li>
-					<label for="filter_group_id">
-						<?php echo JText::_('Users_Filter_Section'); ?>
-					</label>
-					<?php echo JHtml::_('access.section', 'filter_section_id', $this->state->get('filter.section_id'), 'onchange="this.form.submit()"'); ?>
-				</li>
-			</ol>
+	<fieldset id="filter-bar">
+		<div class="filter-search fltlft">
+			<label class="filter-search-lbl" for="filter_search"><?php echo JText::sprintf('JSearch_Label', 'Users'); ?></label>
+			<input type="text" name="filter_search" id="search" value="<?php echo $this->state->get('filter.search'); ?>" title="<?php echo JText::sprintf('JSearch_Title', 'Levels'); ?>" />
+			<button type="submit"><?php echo JText::_('JSearch_Filter_Submit'); ?></button>
+			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSearch_Reset'); ?></button>
 		</div>
 	</fieldset>
+	<div class="clr"> </div>
+
 	<table class="adminlist">
 		<thead>
 			<tr>
@@ -43,15 +36,16 @@ JHtml::_('behavior.tooltip');
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(this)" />
 				</th>
 				<th class="left">
-					<?php echo JText::_('Users_Heading_Level_Name'); ?>
+					<?php echo JHtml::_('grid.sort', 'Users_Heading_Level_Name', 'a.title', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
-				<th width="10%">
-					<?php echo JText::_('Users_Heading_Section'); ?>
+				<th width="10%" nowrap="nowrap">
+					<?php echo JHtml::_('grid.sort',  'JGrid_Heading_Ordering', 'a.ordering', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.order',  $this->items, 'filesave.png', 'levels.saveorder'); ?>
 				</th>
-				<th width="30%">
-					<?php // echo JText::_('Users_Heading_Level_User_Groups'); ?>
+				<th width="5%">
+					<?php echo JText::_('JGrid_Heading_ID'); ?>
 				</th>
-				<th width="30%">
+				<th width="40%">
 					&nbsp;
 				</th>
 			</tr>
@@ -64,22 +58,36 @@ JHtml::_('behavior.tooltip');
 			</tr>
 		</tfoot>
 		<tbody>
-		<?php
-			$i = 0;
-			foreach ($this->items as $item) : ?>
-			<tr class="row<?php echo $i++ % 2; ?>">
-				<td style="text-align:center">
-					<?php echo JHtml::_('grid.id', $item->id, $item->id); ?>
+		<?php foreach ($this->items as $i => $item) :
+			$ordering	= ($this->state->get('list.ordering') == 'a.ordering');
+			$canCreate	= $user->authorise('core.create',		'com_users');
+			$canEdit	= $user->authorise('core.edit',			'com_users');
+			$canChange	= $user->authorise('core.edit.state',	'com_users');
+			?>
+			<tr class="row<?php echo $i % 2; ?>">
+				<td class="center">
+					<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 				</td>
 				<td>
-					<a href="<?php echo JRoute::_('index.php?option=com_users&task=level.edit&cid[]='.$item->id);?>">
-						<?php echo $item->title; ?></a>
+					<?php if ($canCreate || $canEdit) : ?>
+					<a href="<?php echo JRoute::_('index.php?option=com_users&task=level.edit&id='.$item->id);?>">
+						<?php echo $this->escape($item->title); ?></a>
+					<?php else : ?>
+						<?php echo $this->escape($item->title); ?>
+					<?php endif; ?>
 				</td>
-				<td>
-					<?php echo $item->section_title; ?>
+				<td class="order">
+					<?php if ($canChange) : ?>
+						<span><?php echo $this->pagination->orderUpIcon($i, true, 'levels.orderup', 'JGrid_Move_Up', $ordering); ?></span>
+						<span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, true, 'levels.orderdown', 'JGrid_Move_Down', $ordering); ?></span>
+						<?php $disabled = $ordering ?  '' : 'disabled="disabled"'; ?>
+						<input type="text" name="order[]" size="5" value="<?php echo $item->ordering;?>" <?php echo $disabled ?> class="text-area-order" />
+					<?php else : ?>
+						<?php echo $item->ordering; ?>
+					<?php endif; ?>
 				</td>
-				<td>
-					<?php //echo nl2br(implode("\n", explode(',', $item->user_groups))); ?>
+				<td class="center">
+					<?php echo (int) $item->id; ?>
 				</td>
 				<td>
 					&nbsp;

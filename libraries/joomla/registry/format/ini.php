@@ -33,7 +33,7 @@ class JRegistryFormatINI extends JRegistryFormat
 	public function objectToString(&$object, $params)
 	{
 
-		// Initialize variables
+		// Initialise variables.
 		$retval = '';
 		$prepend = '';
 
@@ -270,7 +270,7 @@ class JRegistryFormatINI extends JRegistryFormat
 			}
 		}
 
-		$inistocache[$hash] = clone($obj);
+		$inistocache[$hash] = clone $obj;
 		return $obj;
 	}
 }

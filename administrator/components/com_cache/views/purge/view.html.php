@@ -30,10 +30,16 @@ class CacheViewPurge extends JView
 
 	protected function _setToolbar()
 	{
-		JSubMenuHelper::addEntry(JText::_('Back to Clean Cache Admin'), 'index.php?option=com_cache', false);
+		JSubMenuHelper::addEntry(JText::_('COM_CACHE_BACK_CACHE_MANAGER'), 'index.php?option=com_cache', false);
 
 		JToolBarHelper::title(JText::_('Cache Manager - Purge Cache Admin'), 'purge.png');
 		JToolBarHelper::custom('purge', 'delete.png', 'delete_f2.png', 'Purge expired', false);
+		JToolBarHelper::divider();
+		if (JFactory::getUser()->authorise('core.admin', 'com_cache'))
+		{
+			JToolBarHelper::preferences('com_cache');
+			JToolBarHelper::divider();
+		}
 		JToolBarHelper::help('screen.cache');
 	}
 }

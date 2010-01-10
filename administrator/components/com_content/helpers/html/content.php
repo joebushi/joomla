@@ -18,21 +18,22 @@ abstract class JHtmlContent
 	 * @param	int $value	The state value
 	 * @param	int $i
 	 */
-	function featured($value = 0, $i)
+	function featured($value = 0, $i, $canChange = true)
 	{
 		// Array of image, task, title, action
 		$states	= array(
 			0	=> array('disabled.png',	'articles.featured',	'Content_Unfeatured',	'Content_Toggle_To_Feature'),
-			1	=> array('tick.png',		'articles.unfeatured',	'Content_Featured',	'Content_Toggle_To_Unfeature'),
+			1	=> array('tick.png',		'articles.unfeatured',	'Content_Featured',		'Content_Toggle_To_Unfeature'),
 		);
 		$state	= JArrayHelper::getValue($states, (int) $value, $states[1]);
-		$html	= '<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$i.'\',\''.$state[1].'\')" title="'.JText::_($state[3]).'">'
-				. JHtml::_('image.administrator', $state[0], '/images/', null, '/images/', JText::_($state[2])).'</a>';
+		$html	= JHtml::_('image.administrator', $state[0], '/templates/bluestork/images/admin/', null, '/templates/bluestork/admin/images/', JText::_($state[2]));
+		if ($canChange) {
+			$html	= '<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$i.'\',\''.$state[1].'\')" title="'.JText::_($state[3]).'">'
+					. $html.'</a>';
+		}
 
 		return $html;
 	}
-
-
 
 	/**
 	 * Displays the publishing state legend for articles
@@ -40,45 +41,22 @@ abstract class JHtmlContent
 	function Legend()
 	{
 		?>
-		<table cellspacing="0" cellpadding="4" border="0" align="center">
-		<tr align="center">
-			<td>
-			<img src="images/publish_y.png" width="16" height="16" border="0" alt="<?php echo JText::_('Pending'); ?>" />
-			</td>
-			<td>
-			<?php echo JText::_('Published, but is'); ?> <u><?php echo JText::_('Pending'); ?></u> |
-			</td>
-			<td>
-			<img src="images/publish_g.png" width="16" height="16" border="0" alt="<?php echo JText::_('Visible'); ?>" />
-			</td>
-			<td>
-			<?php echo JText::_('Published and is'); ?> <u><?php echo JText::_('Current'); ?></u> |
-			</td>
-			<td>
-			<img src="images/publish_r.png" width="16" height="16" border="0" alt="<?php echo JText::_('Finished'); ?>" />
-			</td>
-			<td>
-			<?php echo JText::_('Published, but has'); ?> <u><?php echo JText::_('Expired'); ?></u> |
-			</td>
-			<td>
-			<img src="images/publish_x.png" width="16" height="16" border="0" alt="<?php echo JText::_('Finished'); ?>" />
-			</td>
-			<td>
-			<?php echo JText::_('Not Published'); ?> |
-			</td>
-			<td>
-			<img src="images/disabled.png" width="16" height="16" border="0" alt="<?php echo JText::_('Archived'); ?>" />
-			</td>
-			<td>
-			<?php echo JText::_('Archived'); ?>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="10" align="center">
-			<?php echo JText::_('Click on icon to toggle state.'); ?>
-			</td>
-		</tr>
-		</table>
+
+		<div class="center">
+			<ul id="legend articles">
+				<li><img src="templates/bluestork/images/admin/publish_y.png" width="16" height="16" border="0" alt="<?php echo JText::_('Pending'); ?>" /></li>
+				<li><?php echo JText::_('Published, but is'); ?> <u><?php echo JText::_('Pending'); ?></u></li>
+				<li><img src="templates/bluestork/images/admin/publish_g.png" width="16" height="16" border="0" alt="<?php echo JText::_('Visible'); ?>" /></li>
+				<li><?php echo JText::_('Published and is'); ?> <u><?php echo JText::_('Current'); ?></u></li>
+				<li><img src="templates/bluestork/images/admin/publish_r.png" width="16" height="16" border="0" alt="<?php echo JText::_('Finished'); ?>" /></li>
+				<li><?php echo JText::_('Published, but has'); ?> <u><?php echo JText::_('Expired'); ?></u></li>
+				<li><img src="templates/bluestork/images/admin/publish_x.png" width="16" height="16" border="0" alt="<?php echo JText::_('Finished'); ?>" /></li>
+				<li><?php echo JText::_('Not Published'); ?></li>
+				<li><img src="templates/bluestork/images/admin/disabled.png" width="16" height="16" border="0" alt="<?php echo JText::_('Archived'); ?>" /></li>
+				<li><?php echo JText::_('Archived'); ?></li>
+			</ul>
+			<p class="center"><?php echo JText::_('Click on icon to toggle state.'); ?></p>
+		</div>
 		<?php
 	}
 }

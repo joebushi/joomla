@@ -2,28 +2,32 @@
 /**
  * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
+// No direct access.
 defined('_JEXEC') or die;
 
+jimport('joomla.application.component.controller');
+
 /**
- * Newsfeeds Newsfeed Controller
+ * Newsfeeds master display controller.
  *
  * @package		Joomla.Administrator
  * @subpackage	com_newsfeeds
- * @since		1.5
+ * @since		1.6
  */
 class NewsfeedsController extends JController
 {
 	/**
 	 * Method to display a view.
 	 */
-	function display()
+	public function display()
 	{
+		require_once JPATH_COMPONENT.'/helpers/newsfeeds.php';
+
 		// Get the document object.
-		$document = &JFactory::getDocument();
+		$document	= JFactory::getDocument();
 
 		// Set the default view name and format from the Request.
 		$vName		= JRequest::getWord('view', 'newsfeeds');
@@ -33,12 +37,8 @@ class NewsfeedsController extends JController
 		// Get and render the view.
 		if ($view = &$this->getView($vName, $vFormat))
 		{
-			switch ($vName)
-			{
-				default:
-					$model = &$this->getModel($vName);
-					break;
-			}
+			// Get the model for the view.
+			$model = &$this->getModel($vName);
 
 			// Push the model into the view (as default).
 			$view->setModel($model, true);
@@ -48,9 +48,9 @@ class NewsfeedsController extends JController
 			$view->assignRef('document', $document);
 
 			$view->display();
+
 			// Load the submenu.
-			require_once JPATH_COMPONENT.DS.'helpers'.DS.'newsfeeds.php';
-			NewsfeedsHelper::addSubmenu($vName);			
+			NewsfeedsHelper::addSubmenu($vName);
 		}
 	}
 }

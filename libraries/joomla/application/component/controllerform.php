@@ -36,7 +36,7 @@ class JControllerForm extends JController
 	protected $_view_list;
 
 	/**
-	 * @var string	The context for storing internal data, eg com_records.edit.record.
+	 * @var string	The context for storing internal data, eg record.
 	 */
 	protected $_context;
 
@@ -107,10 +107,10 @@ class JControllerForm extends JController
 	 * @param	string	The model name. Optional.
 	 * @param	string	The class prefix. Optional.
 	 * @param	array	Configuration array for model. Optional.
+	 *
 	 * @return	object	The model.
-	 * @since	1.5
 	 */
-	public function &getModel($name = '', $prefix = '', $config = array())
+	public function getModel($name = '', $prefix = '', $config = array('ignore_request' => true))
 	{
 		if (empty($name)) {
 			$name = $this->_context;
@@ -121,8 +121,6 @@ class JControllerForm extends JController
 
 	/**
 	 * This controller does not have a display method. Redirect back to the list view of the component.
-	 *
-	 * @return	void
 	 */
 	public function display()
 	{
@@ -130,41 +128,91 @@ class JControllerForm extends JController
 	}
 
 	/**
-	 * Method to add a new record.
+	 * Method to check if you can add a new record.
 	 *
-	 * @return	void
+	 * Extended classes can override this if necessary.
+	 *
+	 * @param	array	An array of input data.
+	 *
+	 * @return 	boolean
+	 */
+	protected function _allowAdd($data = array())
+	{
+		return JFactory::getUser()->authorise('core.create', $this->_option);
+	}
+
+	/**
+	 * Method to add a new record.
 	 */
 	public function add()
 	{
-		// Initialize variables.
-		$app		= &JFactory::getApplication();
+		// Initialise variables.
+		$app		= JFactory::getApplication();
 		$context	= "$this->_option.edit.$this->_context";
+
+		// Access check.
+		if (!$this->_allowAdd())
+		{
+			$this->setRedirect(JRoute::_('index.php?option='.$this->_option.'&view='.$this->_view_items, false));
+			return JError::raiseWarning(403, 'JError_Core_Create_not_permitted.');
+		}
 
 		// Clear the record edit information from the session.
 		$app->setUserState($context.'.id', null);
-		$app->setUserState($context.'data', null);
+		$app->setUserState($context.'.data', null);
 
 		// Redirect to the edit screen.
 		$this->setRedirect(JRoute::_('index.php?option='.$this->_option.'&view='.$this->_view_item.'&layout=edit', false));
 	}
 
 	/**
-	 * Method to edit an existing record.
+	 * Method to check if you can add a new record.
 	 *
-	 * @return	void
+	 * Extended classes can override this if necessary.
+	 *
+	 * @param	array	An array of input data.
+	 * @param	string	The name of the key for the primary key.
+	 *
+	 * @return 	boolean
+	 */
+	protected function _allowEdit($data = array(), $key = 'id')
+	{
+		return JFactory::getUser()->authorise('core.edit', $this->_option);
+	}
+
+	/**
+	 * Method to edit an existing record.
 	 */
 	public function edit()
 	{
-		// Initialize variables.
-		$app		= &JFactory::getApplication();
-		$model		= &$this->getModel();
+		// Initialise variables.
+		$app		= JFactory::getApplication();
+		$model		= $this->getModel();
+		$table		= $model->getTable();
 		$cid		= JRequest::getVar('cid', array(), 'post', 'array');
 		$context	= "$this->_option.edit.$this->_context";
+		$tmpl		= JRequest::getString('tmpl');
+		$layout		= JRequest::getString('layout', 'edit');
+		$append		= '';
+
+		// Setup redirect info.
+		if ($tmpl) {
+			$append .= '&tmpl='.$tmpl;
+		}
+		if ($layout) {
+			$append .= '&layout='.$layout;
+		}
 
 		// Get the previous record id (if any) and the current record id.
-		$previousId		= (int) $app->getUserState($context.'.id');
-		$recordId		= (int) (count($cid) ? $cid[0] : JRequest::getInt('id'));
-		$checkin		= method_exists($model, 'checkin');
+		$previousId	= (int) $app->getUserState($context.'.id');
+		$recordId	= (int) (count($cid) ? $cid[0] : JRequest::getInt('id'));
+		$checkin	= method_exists($model, 'checkin');
+
+		// Access check.
+		$key		= $table->getKeyName();
+		if (!$this->_allowEdit(array($key => $recordId), $key)) {
+			return JError::raiseWarning(403, 'JError_Core_Edit_not_permitted.');
+		}
 
 		// If record ids do not match, checkin previous record.
 		if ($checkin && ($previousId > 0) && ($recordId != $previousId))
@@ -173,7 +221,7 @@ class JControllerForm extends JController
 			{
 				// Check-in failed, go back to the record and display a notice.
 				$message = JText::sprintf('JError_Checkin_failed', $model->getError());
-				$this->setRedirect('index.php?option='.$this->_option.'&view='.$this->_view_item.'&layout=edit', $message, 'error');
+				$this->setRedirect('index.php?option='.$this->_option.'&view='.$this->_view_item.$append, $message, 'error');
 				return false;
 			}
 		}
@@ -190,24 +238,21 @@ class JControllerForm extends JController
 		{
 			// Check-out succeeded, push the new record id into the session.
 			$app->setUserState($context.'.id',	$recordId);
-			$app->setUserState($this->_context.'data', null);
-			$this->setRedirect('index.php?option='.$this->_option.'&view='.$this->_view_item.'&layout=edit');
+			$app->setUserState($context.'.data', null);
+			$this->setRedirect('index.php?option='.$this->_option.'&view='.$this->_view_item.$append);
 			return true;
 		}
 	}
 
 	/**
 	 * Method to cancel an edit
-	 *
-	 * @return	void
-	 * @since	1.0
 	 */
 	public function cancel()
 	{
 		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
-		// Initialize variables.
-		$app		= &JFactory::getApplication();
+		// Initialise variables.
+		$app		= JFactory::getApplication();
 		$model		= &$this->getModel();
 		$checkin	= method_exists($model, 'checkin');
 		$context	= "$this->_option.edit.$this->_context";
@@ -217,7 +262,7 @@ class JControllerForm extends JController
 
 		// Attempt to check-in the current record.
 		if ($checkin && $recordId)
-{
+		{
 			if (!$model->checkin($recordId))
 			{
 				// Check-in failed, go back to the record and display a notice.
@@ -230,26 +275,75 @@ class JControllerForm extends JController
 		// Clean the session data and redirect.
 		$app->setUserState($context.'.id',		null);
 		$app->setUserState($context.'.data',	null);
-		$this->setRedirect(JRoute::_('index.php?option='.$this->_option.'&view=='.$this->_view_list, false));
+		$this->setRedirect(JRoute::_('index.php?option='.$this->_option.'&view='.$this->_view_list, false));
+	}
+
+	/**
+	 * Method to check if you can save a new or existing record.
+	 *
+	 * Extended classes can override this if necessary.
+	 *
+	 * @param	array	An array of input data.
+	 * @param	string	The name of the key for the primary key.
+	 *
+	 * @return 	boolean
+	 */
+	protected function _allowSave($data, $key = 'id')
+	{
+		// Initialise variables.
+		$recordId	= isset($data[$key]) ? $data[$key] : '0';
+
+		if ($recordId) {
+			return $this->_allowEdit($data, $key);
+		}
+		else {
+			return $this->_allowAdd($data);
+		}
 	}
 
 	/**
 	 * Method to save a record.
-	 *
-	 * @return	void
-	 * @since	1.0
 	 */
 	public function save()
 	{
 		// Check for request forgeries.
 		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
-		// Initialize variables.
-		$app		= &JFactory::getApplication();
+		// Initialise variables.
+		$app		= JFactory::getApplication();
 		$model		= $this->getModel();
+		$table		= $model->getTable();
 		$data		= JRequest::getVar('jform', array(), 'post', 'array');
 		$checkin	= method_exists($model, 'checkin');
 		$context	= "$this->_option.edit.$this->_context";
+		$task		= $this->getTask();
+		$recordId	= (int) $app->getUserState($context.'.id');
+
+		// Populate the row id from the session.
+		$key		= $table->getKeyName();
+		$data[$key] = $recordId;
+
+		// The save2copy task needs to be handled slightly differently.
+		if ($task == 'save2copy')
+		{
+			// Check-in the original row.
+			if (!$model->checkin($data[$key]))
+			{
+				// Check-in failed, go back to the item and display a notice.
+				$message = JText::sprintf('JError_Checkin_saved', $model->getError());
+				$this->setRedirect('index.php?option='.$this->_option.'&view='.$this->_view_item.'&layout=edit', $message, 'error');
+				return false;
+			}
+
+			// Reset the ID and then treat the request as for Apply.
+			$data['id']	= 0;
+			$task		= 'apply';
+		}
+		
+		// Access check.
+		if (!$this->_allowSave($data)) {
+			return JError::raiseWarning(403, 'JError_Save_not_permitted');
+		}
 
 		// Validate the posted data.
 		$form	= &$model->getForm();
@@ -278,21 +372,22 @@ class JControllerForm extends JController
 			}
 
 			// Save the data in the session.
-			$app->setUserState($context.'data', $data);
+			$app->setUserState($context.'.data', $data);
 
 			// Redirect back to the edit screen.
 			$this->setRedirect(JRoute::_('index.php?option='.$this->_option.'&view='.$this->_view_item.'&layout=edit', false));
 			return false;
 		}
 
-		// Attempt to save the record.
-		$return = $model->save($data);
-
-		if ($return === false)
+		// Attempt to save the data.
+		if (!$model->save($data))
 		{
-			// Save failed, go back to the record and display a notice.
-			$message = JText::sprintf('JError_Save_failed', $model->getError());
-			$this->setRedirect('index.php?option='.$this->_option.'&view='.$this->_view_item.'&layout=edit', $message, 'error');
+			// Save the data in the session.
+			$app->setUserState($context.'.data', $data);
+
+			// Redirect back to the edit screen.
+			$this->setMessage(JText::sprintf('JError_Save_failed', $model->getError()), 'notice');
+			$this->setRedirect(JRoute::_('index.php?option='.$this->_option.'&view='.$this->_view_item.'&layout=edit', false));
 			return false;
 		}
 
@@ -308,11 +403,11 @@ class JControllerForm extends JController
 		$this->setMessage(JText::_('JController_Save_success'));
 
 		// Redirect the user and adjust session state based on the chosen task.
-		switch ($this->_task)
+		switch ($task)
 		{
 			case 'apply':
 				// Set the record data in the session.
-				$app->setUserState($context.'.id',		$model->getState($this->_content.'.id'));
+				$app->setUserState($context.'.id',		$model->getState($this->_context.'.id'));
 				$app->setUserState($context.'.data',	null);
 
 				// Redirect back to the edit screen.
@@ -337,5 +432,7 @@ class JControllerForm extends JController
 				$this->setRedirect(JRoute::_('index.php?option='.$this->_option.'&view='.$this->_view_list, false));
 				break;
 		}
+
+		return true;
 	}
 }

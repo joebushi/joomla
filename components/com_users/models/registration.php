@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
+jimport('joomla.application.component.modelform');
 jimport('joomla.event.dispatcher');
 jimport('joomla.plugin.helper');
 
@@ -20,7 +20,7 @@ jimport('joomla.plugin.helper');
  * @subpackage	com_users
  * @version		1.0
  */
-class UsersModelRegistration extends JModel
+class UsersModelRegistration extends JModelForm
 {
 	/**
 	 * Method to auto-populate the model state.
@@ -63,7 +63,7 @@ class UsersModelRegistration extends JModel
 		JPluginHelper::importPlugin('users');
 
 		// Trigger the form preparation event.
-		$results = $dispatcher->trigger('onPrepareUsersRegistrationForm', array(&$form));
+		$results = $dispatcher->trigger('onPrepareUserRegistrationForm', array(&$form));
 
 		// Check for errors encountered while preparing the form.
 		if (count($results) && in_array(false, $results, true)) {
@@ -100,10 +100,11 @@ class UsersModelRegistration extends JModel
 		// Get the groups the user should be added to after registration.
 		$data->groups = isset($data->groups) ? array_unique($data->groups) : array();
 
-		// Get the default new user group.
-		$system	= $params->get('new_usertype', 'Registered');
+		// Get the default new user group, Registered if not specified.
+		$system	= $params->get('new_usertype', 2);
 		$data->usertype = $system;
 
+		// TODO: Not sure we need all this stuff anymore. Just need to add the group to the list and we are golden.
 		// Handle the system default group.
 		if (!in_array($system, $data->groups)) {
 			// Add the system group to the first position.
@@ -123,7 +124,7 @@ class UsersModelRegistration extends JModel
 		JPluginHelper::importPlugin('users');
 
 		// Trigger the data preparation event.
-		$results = $dispatcher->trigger('onPrepareUsersRegistrationData', array(&$data));
+		$results = $dispatcher->trigger('onPrepareUserRegistrationData', array(&$data));
 
 		// Check for errors encountered while preparing the data.
 		if (count($results) && in_array(false, $results, true)) {
@@ -147,8 +148,7 @@ class UsersModelRegistration extends JModel
 		$config = &JFactory::getConfig();
 		$params = &JComponentHelper::getParams('com_users');
 
-		// Add the table include path and then initialize the table with JUser.
-		JTable::addIncludePath(JPATH_SITE.DS.'plugins'.DS.'system'.DS.'jxtended'.DS.'database'.DS.'table');
+		// Initialise the table with JUser.
 		JUser::getTable('User', 'JTable');
 		$user = new JUser();
 		$data = (array)$this->getData();

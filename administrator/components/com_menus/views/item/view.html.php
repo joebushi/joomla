@@ -60,7 +60,7 @@ class MenusViewItem extends JView
 		$isNew		= ($this->item->id == 0);
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
 
-		JToolBarHelper::title(JText::_($isNew ? 'Menus_View_New_Item_Title' : 'Menus_View_Edit_Item_Title'));
+		JToolBarHelper::title(JText::_($isNew ? 'Menus_View_New_Item_Title' : 'Menus_View_Edit_Item_Title'), 'menu-add');
 
 
 		// If not checked out, can save the item.
@@ -73,14 +73,14 @@ class MenusViewItem extends JView
 		}
 		// If an existing item, can save to a copy.
 		if (!$isNew) {
-			JToolBarHelper::custom('item.save2copy', 'copy.png', 'copy_f2.png', 'JToolbar_Save_as_copy', false)
+			JToolBarHelper::custom('item.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JToolbar_Save_as_copy', false)
 			;}
 		if ($isNew) {
 			JToolBarHelper::cancel('item.cancel','JToolbar_Cancel');
 			}
 		else {
 			JToolBarHelper::cancel('item.cancel', 'JToolbar_Close');
-		}	
+		}
 		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.menus.item');
 	}

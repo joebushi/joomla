@@ -62,7 +62,7 @@ class AdminModelSysInfo extends JModel
 			$this->php_settings['file_uploads']			= ini_get('file_uploads') == '1';
 			$this->php_settings['magic_quotes_gpc']		= ini_get('magic_quotes_gpc') == '1';
 			$this->php_settings['register_globals']		= ini_get('register_globals') == '1';
-			$this->php_settings['output_buffering']		= ini_get('output_buffering') == '1';
+			$this->php_settings['output_buffering']		= (bool) ini_get('output_buffering');
 			$this->php_settings['open_basedir']			= ini_get('open_basedir');
 			$this->php_settings['session.save_path']	= ini_get('session.save_path');
 			$this->php_settings['session.auto_start']	= ini_get('session.auto_start');
@@ -135,7 +135,7 @@ class AdminModelSysInfo extends JModel
 			$phpinfo = ob_get_contents();
 			ob_end_clean();
 			preg_match_all('#<body[^>]*>(.*)</body>#siU', $phpinfo, $output);
-			$output = preg_replace('#<table#', '<table class="adminlist" align="center"', $output[1][0]);
+			$output = preg_replace('#<table#', '<table class="adminlist" ', $output[1][0]);
 			$output = preg_replace('#(\w),(\w)#', '\1, \2', $output);
 			$output = preg_replace('#border="0" cellpadding="3" width="600"#', 'border="0" cellspacing="1" cellpadding="4" width="95%"', $output);
 			$output = preg_replace('#<hr />#', '', $output);
@@ -158,7 +158,6 @@ class AdminModelSysInfo extends JModel
 			jimport('joomla.filesystem.folder');
 			$cparams = & JComponentHelper::getParams('com_media');
 			$this->directory = array();
-			$this->directory['administrator'.DS.'backups']		= array('writable' => is_writable(JPATH_SITE.DS.'administrator'.DS.'backups'), 'message' => '');
 			$this->directory['administrator'.DS.'components']	= array('writable' => is_writable(JPATH_SITE.DS.'administrator'.DS.'components'), 'message' => '');
 			$this->directory['administrator'.DS.'language']		= array('writable' => is_writable(JPATH_SITE.DS.'administrator'.DS.'language'), 'message' => '');
 
@@ -191,7 +190,6 @@ class AdminModelSysInfo extends JModel
 			$this->directory['plugins'.DS.'search']			= array('writable' => is_writable(JPATH_SITE.DS.'plugins'.DS.'search'), 'message' => '');
 			$this->directory['plugins'.DS.'system']			= array('writable' => is_writable(JPATH_SITE.DS.'plugins'.DS.'system'), 'message' => '');
 			$this->directory['plugins'.DS.'user']			= array('writable' => is_writable(JPATH_SITE.DS.'plugins'.DS.'user'), 'message' => '');
-			$this->directory['plugins'.DS.'xmlrpc']			= array('writable' => is_writable(JPATH_SITE.DS.'plugins'.DS.'xmlrpc'), 'message' => '');
 			$this->directory['cache']						= array('writable' => is_writable(JPATH_SITE.DS.'cache'), 'message' => 'Admin_Cache_Directory');
 			$this->directory['administrator'.DS.'cache']	= array('writable' => is_writable(JPATH_SITE.DS.'administrator'.DS.'cache'), 'message' => 'Admin_Cache_Directory');
 

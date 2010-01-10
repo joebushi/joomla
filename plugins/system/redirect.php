@@ -32,7 +32,7 @@ class plgSystemRedirect extends JPlugin
 		parent::__construct($subject, $config);
 
 		// Set the error handler for E_ERROR to be the class handleError method.
-		JError::setErrorHandling(E_ERROR, 'callback', array('plgSystemRedirect','handleError'));
+		JError::setErrorHandling(E_ERROR, 'callback', array('plgSystemRedirect', 'handleError'));
 	}
 
 	static function handleError(&$error)
@@ -63,23 +63,26 @@ class plgSystemRedirect extends JPlugin
 			);
 			$link = $db->loadObject();
 
-			// If a redirect exists and is published, redirect.
+			// If a redirect exists and is published, permanently redirect.
 			if ($link and ($link->published == 1)) {
-				$app->redirect($link->new_url);
-			} else {
+				$app->redirect($link->new_url, null, null, true);
+			}
+			else
+			{
+				$referer = empty($_SERVER['HTTP_REFERER']) ? '' : $_SERVER['HTTP_REFERER'];
+
 				// If not, add the new url to the database.
-				$now = & JFactory::getDate();
 				$db->setQuery(
 					'INSERT IGNORE INTO `#__redirect_links` (`old_url`, `referer`, `published`, `created_date`)' .
-					' VALUES ('.$db->Quote($current).', '.$db->Quote($_SERVER["HTTP_REFERER"]).', 0, '.$now->toUNIX().')'
+					' VALUES ('.$db->Quote($current).', '.$db->Quote($referer).', 0, '.JFactory::getDate()->toUNIX().')'
 				);
 				$db->query();
 
 				// Render the error page.
 				JError::customErrorPage($error);
 			}
-
-		} else {
+		}
+		else {
 			// Render the error page.
 			JError::customErrorPage($error);
 		}

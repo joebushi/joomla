@@ -2,7 +2,6 @@
 /**
  * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @copyright	Copyright (C) 2008 - 2009 JXtended, LLC. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -149,15 +148,19 @@ abstract class JHtmlAccess
 
 			// Setup  the variable attributes.
 			$eid = $count.'group_'.$item->id;
-			$checked = in_array($item->id, $selected) ? ' checked="checked"' : '';
+			// don't call in_array unless something is selected
+			$checked = '';
+			if ($selected) {
+				$checked = in_array($item->id, $selected) ? ' checked="checked"' : '';
+			}
 			$rel = ($item->parent_id > 0) ? ' rel="'.$count.'group_'.$item->parent_id.'"' : '';
 
 			// Build the HTML for the item.
 			$html[] = '	<li>';
 			$html[] = '		<input type="checkbox" name="'.$name.'[]" value="'.$item->id.'" id="'.$eid.'"';
 			$html[] = '				'.$checked.$rel.' />';
-			$html[] = '		'.str_repeat('- ', $item->level).$item->title;
 			$html[] = '		<label for="'.$eid.'">';
+			$html[] = '		'.str_repeat('<span class="gi">|&mdash;</span>', $item->level).$item->title;
 			$html[] = '		</label>';
 			$html[] = '	</li>';
 		}
@@ -174,14 +177,13 @@ abstract class JHtmlAccess
 	 *
 	 * @return	string
 	 */
-	public static function actions($name, $selected, $section = 'core', $type = 1)
+	public static function actions($name, $selected, $component, $section = 'global')
 	{
 		static $count;
 
 		$count++;
 
-		jimport('joomla.access.helper');
-		$actions	= JAccessHelper::getActions($section, $type);
+		$actions	= JAccess::getActions($component, $section);
 
 		$html		= array();
 		$html[]		= '<ul class="checklist access-actions">';
@@ -215,18 +217,17 @@ abstract class JHtmlAccess
 	 *
 	 * @return	mixed			An array or false if an error occurs
 	 */
-	public static function &assetgroups($config = array())
+	public static function assetgroups($config = array())
 	{
 		if (empty(JHtmlAccess::$asset_groups))
 		{
 			$db		= &JFactory::getDbo();
 			$query	= new JQuery;
 
-			$query->select('a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level');
-			$query->from('#__access_assetgroups AS a');
-			$query->join('LEFT', '`#__access_assetgroups` AS b ON a.lft > b.lft AND a.rgt < b.rgt');
+			$query->select('a.id AS value, a.title AS text');
+			$query->from('#__viewlevels AS a');
 			$query->group('a.id');
-			$query->order('a.lft ASC');
+			$query->order('a.ordering ASC');
 
 			$db->setQuery($query);
 			JHtmlAccess::$asset_groups = $db->loadObjectList();
@@ -272,5 +273,4 @@ abstract class JHtmlAccess
 			)
 		);
 	}
-
 }

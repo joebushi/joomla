@@ -7,6 +7,9 @@
  * @license		GNU General Public License, see LICENSE.php
  */
 
+// No direct access
+defined('JPATH_BASE') or die;
+
 /**
  * Adapter Instance Class
  *
@@ -15,16 +18,16 @@
  * @since		1.6
  */
 class JAdapterInstance extends JObject {
-	
-	/** Parent 
+
+	/** Parent
 	 * @var object */
 	protected $parent = null;
-	
+
 	/** Database
 	 * @var object */
 	protected $db = null;
-	
-	
+
+
 	/**
 	 * Constructor
 	 *

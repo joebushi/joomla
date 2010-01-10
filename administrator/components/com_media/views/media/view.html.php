@@ -1,8 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Administrator
- * @subpackage	Media
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -15,9 +13,8 @@ jimport('joomla.application.component.view');
 /**
  * HTML View class for the Media component
  *
- * @static
  * @package		Joomla.Administrator
- * @subpackage	Media
+ * @subpackage	com_media
  * @since 1.0
  */
 class MediaViewMedia extends JView
@@ -29,19 +26,12 @@ class MediaViewMedia extends JView
 
 		$style = $app->getUserStateFromRequest('media.list.layout', 'layout', 'thumbs', 'word');
 
-		$listStyle = "
-			<ul id=\"submenu\">
-				<li><a id=\"thumbs\" onclick=\"MediaManager.setViewType('thumbs')\">".JText::_('Thumbnail View')."</a></li>
-				<li><a id=\"details\" onclick=\"MediaManager.setViewType('details')\">".JText::_('Detail View')."</a></li>
-			</ul>
-		";
-
 		$document = &JFactory::getDocument();
-		$document->setBuffer($listStyle, 'modules', 'submenu');
+		$document->setBuffer($this->loadTemplate('navigation'), 'modules', 'submenu');
 
 		JHtml::_('behavior.framework', true);
-		$document->addScript('components/com_media/assets/mediamanager.js');
-		$document->addStyleSheet('components/com_media/assets/mediamanager.css');
+		$document->addScript('../media/media/js/mediamanager.js');
+		$document->addStyleSheet('../media/media/css/mediamanager.css');
 
 		JHtml::_('behavior.modal');
 		$document->addScriptDeclaration("
@@ -52,8 +42,31 @@ class MediaViewMedia extends JView
 		JHtml::script('mootree.js');
 		JHtml::stylesheet('mootree.css');
 
-		if ($config->get('enable_flash', 0)) {
-			JHtml::_('behavior.uploader', 'file-upload', array('onAllComplete' => 'function(){ MediaManager.refreshFrame(); }'));
+		if ($config->get('enable_flash', 1)) {
+			$fileTypes = $config->get('image_extensions', 'bmp,gif,jpg,png,jpeg');
+			$types = explode(',', $fileTypes);
+			$displayTypes = '';		// this is what the user sees
+			$filterTypes = '';		// this is what controls the logic
+			$firstType = true;
+			foreach($types AS $type) {
+				if(!$firstType) {
+					$displayTypes .= ', ';
+					$filterTypes .= '; ';
+				} else {
+					$firstType = false;
+				}
+				$displayTypes .= '*.'.$type;
+				$filterTypes .= '*.'.$type;
+			}
+			$typeString = '{ \'Images ('.$displayTypes.')\': \''.$filterTypes.'\' }';
+
+			JHtml::_('behavior.uploader', 'upload-flash',
+				array(
+					'onComplete' => 'function(){ MediaManager.refreshFrame(); }',
+					'targetURL' => '\\$(\'uploadForm\').action',
+					'typeFilter' => $typeString
+				)
+			);
 		}
 
 		if (DS == '\\')
@@ -101,11 +114,12 @@ class MediaViewMedia extends JView
 		// Add a delete button
 		$title = JText::_('Delete');
 		$dhtml = "<a href=\"#\" onclick=\"MediaManager.submit('folder.delete')\" class=\"toolbar\">
-					<span class=\"icon-32-delete\" title=\"$title\" type=\"Custom\"></span>
+					<span class=\"icon-32-delete\" title=\"$title\"></span>
 					$title</a>";
 		$bar->appendButton('Custom', $dhtml, 'delete');
 		JToolBarHelper::divider();
-		// Add a popup configuration button
+		JToolBarHelper::preferences('com_media');
+		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.mediamanager');
 	}
 

@@ -15,10 +15,12 @@
 abstract class JHtmlJGrid
 {
 	/**
-	 * @param	int $value	The state value
+	 * @param	int $value	The state value.
 	 * @param	int $i
+	 * @param	string		An optional prefix for the task.
+	 * @param	boolean		An optional setting for access control on the action.
 	 */
-	public static function published($value = 0, $i, $taskPrefix = '')
+	public static function published($value = 0, $i, $taskPrefix = '', $canChange = true)
 	{
 		// Array of image, task, title, action
 		$states	= array(
@@ -28,8 +30,11 @@ abstract class JHtmlJGrid
 			-2	=> array('trash.png',		$taskPrefix.'publish',		'JState_Trashed',		'JState_Publish_Item'),
 		);
 		$state	= JArrayHelper::getValue($states, (int) $value, $states[0]);
-		$html	= '<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$i.'\',\''.$state[1].'\')" title="'.JText::_($state[3]).'">'
-				. JHtml::_('image.administrator', $state[0], '/images/', null, '/images/', JText::_($state[2])).'</a>';
+		$html	= JHtml::_('image.administrator', $state[0], '/templates/bluestork/images/admin/', null, '/templates/bluestork/admin/images/', JText::_($state[2]));
+		if ($canChange) {
+			$html	= '<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$i.'\',\''.$state[1].'\')" title="'.JText::_($state[3]).'">'
+					. $html.'</a>';
+		}
 
 		return $html;
 	}
@@ -67,9 +72,64 @@ abstract class JHtmlJGrid
 		$time	= JHTML::_('date',  $time, '%H:%M');
 
 		$hover = '<span class="editlinktip hasTip" title="'. JText::_('Checked Out') .'::'. $text .'<br />'. $date .'<br />'. $time .'">';
-		$checked = $hover .'<img src="images/checked_out.png" alt="'.JText::_('Checked Out').'" /></span>';
+		$checked = $hover .'<img src="templates/bluestork/images/admin/checked_out.png" alt="'.JText::_('Checked Out').'" /></span>';
 
 		return $checked;
 	}
 
+	/**
+	 * Create a order-up action icon.
+	 *
+	 * @param	integer	The row index.
+	 * @param	string	The task to fire.
+	 * @param	boolean	True to show the icon.
+	 * @param	string	The image alternate text string.
+	 *
+	 * @return	string	The HTML for the IMG tag.
+	 * @since	1.6
+	 */
+	public static function orderUp($i, $task, $enabled = true, $alt = 'JGrid_Move_Up')
+	{
+		$alt = JText::_($alt);
+
+		// TODO: Deal with hardcoded links.
+		if ($enabled)
+		{
+			$html	= '<a href="#reorder" onclick="return listItemTask(\'cb'.$i.'\',\''.$task.'\')" title="'.$alt.'">';
+			$html	.= '   <img src="templates/bluestork/images/admin/uparrow.png" width="16" height="16" border="0" alt="'.$alt.'" />';
+			$html	.= '</a>';
+		}
+		else {
+			$html	= '<img src="templates/bluestork/images/admin/uparrow0.png" width="16" height="16" border="0" alt="'.$alt.'" />';
+		}
+		return $html;
+	}
+
+	/**
+	 * Create a move-down action icon.
+	 *
+	 * @param	integer	The row index.
+	 * @param	string	The task to fire.
+	 * @param	boolean	True to show the icon.
+	 * @param	string	The image alternate text string.
+	 *
+	 * @return	string	The HTML for the IMG tag.
+	 * @since	1.6
+	 */
+	public static function orderDown($i, $task, $enabled = true, $alt = 'JGrid_Move_Up')
+	{
+		$alt = JText::_($alt);
+
+		// TODO: Deal with hardcoded links.
+		if ($enabled)
+		{
+			$html	= '<a href="#reorder" onclick="return listItemTask(\'cb'.$i.'\',\''.$task.'\')" title="'.$alt.'">';
+			$html	.= '   <img src="templates/bluestork/images/admin/downarrow.png" width="16" height="16" border="0" alt="'.$alt.'" />';
+			$html	.= '</a>';
+		}
+		else {
+			$html	= '<img src="templates/bluestork/images/admin/downarrow0.png" width="16" height="16" border="0" alt="'.$alt.'" />';
+		}
+		return $html;
+	}
 }

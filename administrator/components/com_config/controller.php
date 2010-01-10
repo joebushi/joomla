@@ -39,11 +39,20 @@ class ConfigController extends JController
 		// Get and render the view.
 		if ($view = &$this->getView($vName, $vFormat))
 		{
-			// Get the model for the view.
-			$model = &$this->getModel($vName);
+			if ($vName != 'close')
+			{
+				// Get the model for the view.
+				$model = &$this->getModel($vName);
 
-			// Push the model into the view (as default).
-			$view->setModel($model, true);
+				// Access check.
+				if (!JFactory::getUser()->authorise('core.admin', $model->getState('component.option'))) {
+					return JError::raiseWarning(404, JText::_('ALERTNOTAUTH'));
+				}
+
+				// Push the model into the view (as default).
+				$view->setModel($model, true);
+			}
+
 			$view->setLayout($lName);
 
 			// Push document object into the view.

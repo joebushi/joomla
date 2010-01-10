@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 // Component Helper
 jimport('joomla.application.component.helper');
+jimport('joomla.application.categorytree');
 
 /**
  * Weblinks Component Route Helper
@@ -23,7 +24,7 @@ jimport('joomla.application.component.helper');
  */
 class WeblinksHelperRoute
 {
-	function getWeblinkRoute($id, $catid) {
+	function getWeblinksRoute($id, $catid) {
 		$needles = array(
 			'category' => (int) $catid,
 			'categories' => null
@@ -34,7 +35,7 @@ class WeblinksHelperRoute
 		$itemid = $itemid ? '&Itemid='.$itemid : '';
 
 		//Create the link
-		$link = 'index.php?option=com_weblinks&view=weblink&id='. $id . '&catid='.$catid . $itemid;
+		$link = 'index.php?option=com_weblinks&view=submit&id='. $id . '&catid='.$catid . $itemid;
 
 		return $link;
 	}

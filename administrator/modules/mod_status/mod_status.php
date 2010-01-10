@@ -10,7 +10,7 @@
 // No direct access.
 defined('_JEXEC') or die;
 
-// Initialize variables.
+// Initialise variables.
 $config = &JFactory::getConfig();
 $user = &JFactory::getUser();
 $db = &JFactory::getDbo();
@@ -58,4 +58,4 @@ if ($task == 'edit' || $task == 'editA' || JRequest::getInt('hidemainmenu')) {
 	$logoutLink = JRoute::_('index.php?option=com_login&task=logout');
 }
 
-require(JModuleHelper::getLayoutPath('mod_status'));
+require JModuleHelper::getLayoutPath('mod_status', $params->get('layout', 'default'));

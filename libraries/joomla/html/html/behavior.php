@@ -31,6 +31,7 @@ abstract class JHtmlBehavior
 	public static function framework($extras = false, $debug = null)
 	{
 		static $loaded = array();
+
 		$type = $extras ? 'more' : 'core';
 
 		// Only load once
@@ -41,15 +42,15 @@ abstract class JHtmlBehavior
 		JHtml::core($debug);
 
 		// If no debugging value is set, use the configuration setting
-		if ($debug === null) {
+		if ($debug === null)
+		{
 			$config = &JFactory::getConfig();
 			$debug = $config->getValue('config.debug');
 		}
 
 		// TODO NOTE: Here we are checking for Konqueror - If they fix thier issue with compressed, we will need to update this
-		$konkcheck = strpos(strtolower($_SERVER['HTTP_USER_AGENT']), "konqueror");
-
-		$uncompressed = ($debug || $konkcheck) ? '-uncompressed' : '';
+		$konkcheck		= isset($_SERVER['HTTP_USER_AGENT']) ? strpos(strtolower($_SERVER['HTTP_USER_AGENT']), 'konqueror') : null;
+		$uncompressed	= ($debug || $konkcheck) ? '-uncompressed' : '';
 
 		if ($type != 'core' && empty($loaded['core'])) {
 			self::framework(false);
@@ -73,15 +74,18 @@ abstract class JHtmlBehavior
 		self::framework(true, $debug);
 	}
 
-	public static function caption() {
+	public static function caption()
+	{
 		JHtml::script('caption.js');
 	}
 
-	public static function formvalidation() {
+	public static function formvalidation()
+	{
 		JHtml::script('validate.js');
 	}
 
-	public static function switcher() {
+	public static function switcher()
+	{
 		JHtml::_('behavior.framework');
 		JHtml::script('switcher.js' );
 
@@ -98,7 +102,8 @@ abstract class JHtmlBehavior
 		JFactory::getDocument()->addScriptDeclaration($script);
 	}
 
-	public static function combobox() {
+	public static function combobox()
+	{
 		JHtml::script('combobox.js');
 	}
 
@@ -137,9 +142,11 @@ abstract class JHtmlBehavior
 		window.addEvent('domready', function() {
 			$$('$selector').each(function(el) {
 				var title = el.get('title');
-				var parts = title.split('::', 2);
-				el.store('tip:title', parts[0]);
-				el.store('tip:text', parts[1]);
+				if (title) {
+					var parts = title.split('::', 2);
+					el.store('tip:title', parts[0]);
+					el.store('tip:text', parts[1]);
+				}
 			});
 			var JTooltips = new Tips($$('$selector'), $options);
 		});");
@@ -204,9 +211,10 @@ abstract class JHtmlBehavior
 		return;
 	}
 
-	public static function uploader($id='file-upload', $params = array())
+	public static function uploader($id='file-upload', $params = array(), $upload_queue='upload-queue')
 	{
 		JHtml::script('swf.js');
+		JHtml::script('progressbar.js');
 		JHtml::script('uploader.js');
 
 		static $uploaders;
@@ -221,36 +229,81 @@ abstract class JHtmlBehavior
 
 		// Setup options object
 		$opt['url']					= (isset($params['targetURL'])) ? $params['targetURL'] : null ;
-		$opt['swf']					= (isset($params['swf'])) ? $params['swf'] : JURI::root(true).'/media/system/swf/uploader.swf';
+		$opt['path']				= (isset($params['swf'])) ? $params['swf'] : JURI::root(true).'/media/system/swf/uploader.swf';
+		$opt['height']				= (isset($params['height'])) && $params['height'] ? (int)$params['height'] : null;
+		$opt['width']				= (isset($params['width'])) && $params['width'] ? (int)$params['width'] : null;
 		$opt['multiple']			= (isset($params['multiple']) && !($params['multiple'])) ? '\\false' : '\\true';
-		$opt['queued']				= (isset($params['queued']) && !($params['queued'])) ? '\\false' : '\\true';
-		$opt['queueList']			= (isset($params['queueList'])) ? $params['queueList'] : 'upload-queue';
+		$opt['queued']				= (isset($params['queued']) && !($params['queued'])) ? (int)$params['queued'] : null;
+		$opt['target']				= (isset($params['target'])) ? $params['target'] : '\\$(\'upload-browse\')';
 		$opt['instantStart']		= (isset($params['instantStart']) && ($params['instantStart'])) ? '\\true' : '\\false';
 		$opt['allowDuplicates']		= (isset($params['allowDuplicates']) && !($params['allowDuplicates'])) ? '\\false' : '\\true';
-		$opt['limitSize']			= (isset($params['limitSize']) && ($params['limitSize'])) ? (int)$params['limitSize'] : null;
-		$opt['limitFiles']			= (isset($params['limitFiles']) && ($params['limitFiles'])) ? (int)$params['limitFiles'] : null;
-		$opt['optionFxDuration']	= (isset($params['optionFxDuration'])) ? (int)$params['optionFxDuration'] : null;
-		$opt['container']			= (isset($params['container'])) ? '\\$('.$params['container'].')' : '\\$(\''.$id.'\').getParent()';
-		$opt['types']				= (isset($params['types'])) ?'\\'.$params['types'] : '\\{\'All Files (*.*)\': \'*.*\'}';
+		// limitSize is the old parameter name.  Remove in 1.7
+		$opt['fileSizeMax']			= (isset($params['limitSize']) && ($params['limitSize'])) ? (int)$params['limitSize'] : null;
+		// fileSizeMax is the new name.  If supplied, it will override the old value specified for limitSize
+		$opt['fileSizeMax']			= (isset($params['fileSizeMax']) && ($params['fileSizeMax'])) ? (int)$params['fileSizeMax'] : $opt['fileSizeMax'];
+		$opt['fileSizeMin']			= (isset($params['fileSizeMin']) && ($params['fileSizeMin'])) ? (int)$params['fileSizeMin'] : null;
+		// limitFiles is the old parameter name.  Remove in 1.7
+		$opt['fileListMax']			= (isset($params['limitFiles']) && ($params['limitFiles'])) ? (int)$params['limitFiles'] : null;
+		// fileListMax is the new name.  If supplied, it will override the old value specified for limitFiles
+		$opt['fileListMax']			= (isset($params['fileListMax']) && ($params['fileListMax'])) ? (int)$params['fileListMax'] : $opt['fileListMax'];
+		$opt['fileListSizeMax']		= (isset($params['fileListSizeMax']) && ($params['fileListSizeMax'])) ? (int)$params['fileListSizeMax'] : null;
+		// types is the old parameter name.  Remove in 1.7
+		$opt['typeFilter']			= (isset($params['types'])) ?'\\'.$params['types'] : '\\{\'All Files (*.*)\': \'*.*\'}';
+		$opt['typeFilter']			= (isset($params['typeFilter'])) ?'\\'.$params['typeFilter'] : $opt['typeFilter'];
 
 
 		// Optional functions
-		$opt['createReplacement']	= (isset($params['createReplacement'])) ? '\\'.$params['createReplacement'] : null;
-		$opt['onComplete']			= (isset($params['onComplete'])) ? '\\'.$params['onComplete'] : null;
-		$opt['onAllComplete']		= (isset($params['onAllComplete'])) ? '\\'.$params['onAllComplete'] : null;
+		$opt['createReplacement'] = (isset($params['createReplacement'])) ? '\\'.$params['createReplacement'] : null;
+		$opt['onFileComplete'] = (isset($params['onFileComplete'])) ? '\\'.$params['onFileComplete'] : null;
+		$opt['onComplete'] = (isset($params['onComplete'])) ? '\\'.$params['onComplete'] : null;
+		$opt['onFileSuccess'] = (isset($params['onFileSuccess'])) ? '\\'.$params['onFileSuccess'] : null;
 
-/*  types: Object with (description: extension) pairs, default: Images (*.jpg; *.jpeg; *.gif; *.png)
- */
+		if(!isset($params['startButton'])) $params['startButton'] = 'upload-start';
+		if(!isset($params['clearButton'])) $params['clearButton'] = 'upload-clear';
+
+		$opt['onLoad'] =
+			'\\function() {
+				document.id(\''.$id.'\').removeClass(\'hide\'); // we show the actual UI
+				document.id(\'upload-noflash\').destroy(); // ... and hide the plain form
+
+				// We relay the interactions with the overlayed flash to the link
+				this.target.addEvents({
+					click: function() {
+						return false;
+					},
+					mouseenter: function() {
+						this.addClass(\'hover\');
+					},
+					mouseleave: function() {
+						this.removeClass(\'hover\');
+						this.blur();
+					},
+					mousedown: function() {
+						this.focus();
+					}
+				});
+
+				// Interactions for the 2 other buttons
+
+				document.id(\''.$params['clearButton'].'\').addEvent(\'click\', function() {
+					Uploader.remove(); // remove all files
+					return false;
+				});
+
+				document.id(\''.$params['startButton'].'\').addEvent(\'click\', function() {
+					Uploader.start(); // start upload
+					return false;
+				});
+			}';
 
 		$options = JHtmlBehavior::_getJSObject($opt);
 
 		// Attach tooltips to document
 		$document = &JFactory::getDocument();
-		$uploaderInit = 'sBrowseCaption=\''.JText::_('Browse Files', true).'\';
-				sRemoveToolTip=\''.JText::_('Remove from queue', true).'\';
-				window.addEvent(\'load\', function(){
-				var Uploader = new FancyUpload($(\''.$id.'\'), '.$options.');
-				$(\'upload-clear\').adopt(new Element(\'input\', { type: \'button\', events: { click: Uploader.clearList.bind(Uploader, [false])}, value: \''.JText::_('Clear Completed').'\' }));				});';
+		$uploaderInit =
+				'window.addEvent(\'domready\', function(){
+				var Uploader = new FancyUpload2($(\''.$id.'\'), $(\''.$upload_queue.'\'), '.$options.' );
+				});';
 		$document->addScriptDeclaration($uploaderInit);
 
 		// Set static array
@@ -361,7 +414,7 @@ abstract class JHtmlBehavior
 	 */
 	protected static function _getJSObject($array=array())
 	{
-		// Initialize variables
+		// Initialise variables.
 		$object = '{';
 
 		// Iterate over array to build objects
@@ -370,11 +423,13 @@ abstract class JHtmlBehavior
 			if (is_null($v)) {
 				continue;
 			}
-			if (!is_array($v) && !is_object($v)) {
+			if (!is_array($v) && !is_object($v))
+			{
 				$object .= ' '.$k.': ';
 				$object .= (is_numeric($v) || strpos($v, '\\') === 0) ? (is_numeric($v)) ? $v : substr($v, 1) : "'".$v."'";
 				$object .= ',';
-			} else {
+			}
+			else {
 				$object .= ' '.$k.': '.JHtmlBehavior::_getJSObject($v).',';
 			}
 		}
@@ -418,7 +473,8 @@ Calendar._TT["ABOUT_TIME"] = "\n\n" +
 		Calendar._TT["PREV_YEAR"] = "'.JText::_('Prev. year (hold for menu)').'";Calendar._TT["PREV_MONTH"] = "'.JText::_('Prev. month (hold for menu)').'";	Calendar._TT["GO_TODAY"] = "'.JText::_('Go Today').'";Calendar._TT["NEXT_MONTH"] = "'.JText::_('Next month (hold for menu)').'";Calendar._TT["NEXT_YEAR"] = "'.JText::_('Next year (hold for menu)').'";Calendar._TT["SEL_DATE"] = "'.JText::_('Select date').'";Calendar._TT["DRAG_TO_MOVE"] = "'.JText::_('Drag to move').'";Calendar._TT["PART_TODAY"] = "'.JText::_('(Today)').'";Calendar._TT["DAY_FIRST"] = "'.JText::_('Display %s first').'";Calendar._TT["WEEKEND"] = "0,6";Calendar._TT["CLOSE"] = "'.JText::_('Close').'";Calendar._TT["TODAY"] = "'.JText::_('Today').'";Calendar._TT["TIME_PART"] = "'.JText::_('(Shift-)Click or drag to change value').'";Calendar._TT["DEF_DATE_FORMAT"] = "'.JText::_('%Y-%m-%d').'"; Calendar._TT["TT_DATE_FORMAT"] = "'.JText::_('%a, %b %e').'";Calendar._TT["WK"] = "'.JText::_('wk').'";Calendar._TT["TIME"] = "'.JText::_('Time:').'";';
 			$jsscript = 1;
 			return $return;
-		} else {
+		}
+		else {
 			return false;
 		}
 	}

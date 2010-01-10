@@ -71,24 +71,16 @@ class plgUserJoomla extends JPlugin
 			return JError::raiseWarning('SOME_ERROR_CODE', JText::_('E_NOLOGIN_BLOCKED'));
 		}
 
-		// Get an ACL object
-		$acl = &JFactory::getACL();
-
 		//Authorise the user based on the group information
 		if (!isset($options['group'])) {
 			$options['group'] = 'USERS';
 		}
 
 		jimport('joomla.access.access');
-		$userId	= $instance->id;
-		// Always let the Root User in
-		if ($userId != JFactory::getApplication()->getCfg('root_user'))
-		{
-			$acs	= new JAccess;
-			$result	= $acs->check($instance->id, $options['action']);
-			if (!$result) {
-				return JError::raiseWarning(401, JText::_('JError_Login_denied'));
-			}
+
+		$result	= JAccess::check($instance->id, $options['action']);
+		if (!$result) {
+			return JError::raiseWarning(401, JText::_('JError_Login_denied'));
 		}
 
 		//Mark the user as logged in
@@ -174,7 +166,8 @@ class plgUserJoomla extends JPlugin
 		//TODO : move this out of the plugin
 		jimport('joomla.application.component.helper');
 		$config   = &JComponentHelper::getParams('com_users');
-		$usertype = $config->get('new_usertype', 'Registered');
+		// Default to Registered.
+		$usertype = $config->get('new_usertype', 2);
 
 		$acl = &JFactory::getACL();
 

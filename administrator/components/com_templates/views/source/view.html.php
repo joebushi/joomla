@@ -1,58 +1,83 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Administrator
- * @subpackage	Templates
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
+// No direct access.
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
 /**
- * HTML View class for the Templates component
+ * View to edit a template style.
  *
- * @static
  * @package		Joomla.Administrator
- * @subpackage	Templates
+ * @subpackage	com_templates
  * @since 1.6
  */
 class TemplatesViewSource extends JView
 {
-	protected $content = null;
-	protected $template = null;
-	protected $ftp = null;
-	protected $client = null;
-	protected $option = null;
+	protected $state;
+	protected $source;
+	protected $template;
+	protected $form;
 
+	/**
+	 * Display the view
+	 */
 	public function display($tpl = null)
 	{
-		JToolBarHelper::title(JText::_('Template HTML Editor'), 'thememanager');
-		JToolBarHelper::save('save_source');
-		JToolBarHelper::apply('apply_source');
-		JToolBarHelper::cancel('edit');
-		JToolBarHelper::help('screen.templates');
-
-		// Initialize some variables
-		$option		= JRequest::getCmd('option');
-
-		$content	= &$this->get('Data');
-		$client		= &$this->get('Client');
-		$template	= &$this->get('Template');
-
-		// Set FTP credentials, if given
 		jimport('joomla.client.helper');
-		$ftp = &JClientHelper::setCredentialsFromRequest('ftp');
 
-		$this->assignRef('option',		$option);
-		$this->assignRef('client',		$client);
-		$this->assignRef('ftp',			$ftp);
+		// Initialise variables.
+		$state		= $this->get('State');
+		$template	= $this->get('Template');
+		$source		= $this->get('Source');
+		$form		= $this->get('Form');
+		$ftp		= JClientHelper::setCredentialsFromRequest('ftp');
+
+		// Check for errors.
+		if (count($errors = $this->get('Errors'))) {
+			JError::raiseError(500, implode("\n", $errors));
+			return false;
+		}
+
+		// Bind the record to the form.
+		$form->bind($source);
+
+		$this->assignRef('state',		$state);
+		$this->assignRef('source',		$source);
 		$this->assignRef('template',	$template);
-		$this->assignRef('content',	$content);
+		$this->assignRef('form',		$form);
+		$this->assignRef('ftp',			$ftp);
 
+		$this->_setToolbar();
 		parent::display($tpl);
+	}
+
+	/**
+	 * Setup the Toolbar
+	 */
+	protected function _setToolbar()
+	{
+		JRequest::setVar('hidemainmenu', true);
+
+		$user		= JFactory::getUser();
+		$canDo		= TemplatesHelper::getActions();
+
+		JToolBarHelper::title(JText::_('Templates_Manager_Edit_file'));
+
+		// If not checked out, can save the item.
+		if ($canDo->get('core.edit'))
+		{
+			JToolBarHelper::apply('source.apply');
+			JToolBarHelper::save('source.save');
+		}
+
+		JToolBarHelper::cancel('source.cancel');
+		JToolBarHelper::divider();
+		JToolBarHelper::help('screen.source.edit');
 	}
 }

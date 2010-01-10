@@ -37,10 +37,10 @@ abstract class JHtml
  );
 
 	private static $includePaths = array();
-	
-	/** 
+
+	/**
 	 * An array to hold method references
-	 * 
+	 *
 	 * @var array
 	 */
 	private static $registry = array();
@@ -61,14 +61,14 @@ abstract class JHtml
 
 		// Check to see if we need to load a helper file
 		$parts = explode('.', $type);
-		
+
 		$prefix = (count($parts) == 3 ? array_shift($parts) : 'JHtml');
 		$file 	= (count($parts) == 2 ? array_shift($parts) : '');
 		$func 	= array_shift($parts);
 
 		$key = strtolower($prefix.'.'.$file.'.'.$func);
 
-		if (array_key_exists($key, self::$registry)) 
+		if (array_key_exists($key, self::$registry))
 		{
 			$function = self::$registry[$key];
 			$args = func_get_args();
@@ -88,13 +88,13 @@ abstract class JHtml
 
 				if (!class_exists($className))
 				{
-					JError::raiseWarning(0, $className.'::' .$func. ' not found in file.');
+					JError::raiseError(500, $className.'::' .$func. ' not found in file.');
 					return false;
 				}
 			}
 			else
 			{
-				JError::raiseWarning(0, $prefix.$file . ' not supported. File not found.');
+				JError::raiseError(500, $prefix.$file . ' not supported. File not found.');
 				return false;
 			}
 		}
@@ -102,7 +102,7 @@ abstract class JHtml
 		$toCall = array($className, $func);
 		if (is_callable($toCall))
 		{
-			JHtml::register($key, $toCall); 
+			JHtml::register($key, $toCall);
 			$args = func_get_args();
 			// remove function name from arguments
 			array_shift($args);
@@ -110,7 +110,7 @@ abstract class JHtml
 		}
 		else
 		{
-			JError::raiseWarning(0, $className.'::'.$func.' not supported.');
+			JError::raiseError(500, $className.'::'.$func.' not supported.');
 			return false;
 		}
 	}
@@ -120,11 +120,11 @@ abstract class JHtml
 	 *
 	 * @param	string	The name of the key
 	 * @param	string	Function or method
-	 */	
+	 */
 	public static function register($key, $function)
 	{
 		$parts = explode('.', $key);
-		
+
 		$prefix = (count($parts) == 3 ? array_shift($parts) : 'JHtml');
 		$file 	= (count($parts) == 2 ? array_shift($parts) : '');
 		$func 	= array_shift($parts);
@@ -144,7 +144,7 @@ abstract class JHtml
 	 * Removes a key for a method from registry.
 	 *
 	 * @param	string	The name of the key
-	 */		
+	 */
 	public static function unregister($key)
 	{
 		$key = strtolower($key);
@@ -174,7 +174,7 @@ abstract class JHtml
 			return call_user_func_array($function, $temp);
 		}
 		else {
-			// TODO raiseError here?
+			JError::raiseError(500, 'Function not supported.');
 			return false;
 		}
 	}
@@ -316,30 +316,61 @@ abstract class JHtml
 	}
 
 	/**
-	 * Returns formated date according to current local and adds time offset
+	 * Returns formated date according to a given format and time zone.
 	 *
-	 * @access	public
-	 * @param	string	date in an US English date format
+	 * @param	string	String in a format accepted by strtotime(), defaults to "now".
 	 * @param	string	format optional format for strftime
-	 * @returns	string	formated date
+	 * @param	mixed	Time zone to be used for the date.  Special cases: boolean true for user
+	 * 					setting, boolean false for server setting.
+	 * @return	string	A date translated by the given format and time zone.
 	 * @see		strftime
 	 * @since	1.5
 	 */
-	public static function date($date, $format = null, $offset = null)
+	public static function date($input = 'now', $format = null, $tz = true)
 	{
-		if (! $format) {
+		// Get some system objects.
+		$config = JFactory::getConfig();
+		$user	= JFactory::getUser();
+
+		// UTC date converted to user time zone.
+		if ($tz === true)
+		{
+			// Get a date object based on UTC.
+			$date = JFactory::getDate($input, 'UTC');
+
+			// Set the correct time zone based on the user configuration.
+			$date->setOffset($user->getParam('timezone', $config->getValue('config.offset')));
+		}
+		// UTC date converted to server time zone.
+		elseif ($tz === false)
+		{
+			// Get a date object based on UTC.
+			$date = JFactory::getDate($input, 'UTC');
+
+			// Set the correct time zone based on the server configuration.
+			$date->setOffset($config->getValue('config.offset'));
+		}
+		// No date conversion.
+		elseif ($tz === null)
+		{
+			$date = JFactory::getDate($input);
+		}
+		// UTC date converted to given time zone.
+		else
+		{
+			// Get a date object based on UTC.
+			$date = JFactory::getDate($input, 'UTC');
+
+			// Set the correct time zone based on the server configuration.
+			$date->setOffset($tz);
+		}
+
+		// If no format is given use the default locale based format.
+		if (!$format) {
 			$format = JText::_('DATE_FORMAT_LC1');
 		}
 
-		if (is_null($offset))
-		{
-			$config = &JFactory::getConfig();
-			$offset = $config->getValue('config.offset');
-		}
-		$instance = &JFactory::getDate($date);
-		$instance->setOffset($offset);
-
-		return $instance->toFormat($format);
+		return $date->toFormat($format);
 	}
 
 	/**

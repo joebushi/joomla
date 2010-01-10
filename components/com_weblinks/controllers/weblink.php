@@ -1,26 +1,37 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Site
- * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
+// no direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
+jimport('joomla.application.component.controllerform');
 
 /**
- * Weblinks Weblink Controller
- *
  * @package		Joomla.Site
- * @subpackage	Weblinks
- * @since 1.5
+ * @subpackage	com_weblinks
  */
-class WeblinksControllerWeblink extends WeblinksController
+class WeblinksControllerWeblink extends JControllerForm
 {
+	protected $_context = 'com_weblinks.edit.weblink';
+	/**
+	 * Constructor
+	 */
+	public function __construct($config = array())
+	{
+		parent::__construct($config);
+
+		$this->registerTask('apply',		'save');
+		$this->registerTask('save2new',		'save');
+		$this->registerTask('save2copy',	'save');
+	}
+	protected $_view_item = 'form';
+
+	protected $_view_list = 'categories';
+
 	/**
 	 * Method to get a model object, loading it if required.
 	 *
@@ -28,23 +39,24 @@ class WeblinksControllerWeblink extends WeblinksController
 	 * @param	string	The class prefix. Optional.
 	 * @param	array	Configuration array for model. Optional.
 	 * @return	object	The model.
-	 * @since	1.6
+	 * @since	1.5
 	 */
-	public function &getModel($name = 'Weblink', $prefix = 'WeblinksModel')
+	public function &getModel($name = 'form', $prefix = '', $config = array())
 	{
-		return parent::getModel($name, $prefix, array('ignore_request' => true));
+		$model = parent::getModel($name, $prefix, $config);
+		return $model;
 	}
 
 	/**
 	 * Go to a weblink
 	 */
-	function go()
+	public function go()
 	{
 		// Get the ID from the request
 		$id		= JRequest::getInt('id');
 
 		// Get the model, requiring published items
-		$modelLink	= &$this->getModel();
+		$modelLink	= &$this->getModel('Weblink', '', array('ignore_request' => true));
 		$modelLink->setState('filter.published', 1);
 
 		// Get the item
@@ -63,7 +75,7 @@ class WeblinksControllerWeblink extends WeblinksController
 		}
 
 		// Check whether category access level allows access.
-		$modelCat = &$this->getModel('Category');
+		$modelCat = &$this->getModel('Category', 'WeblinksModel', array('ignore_request' => true));
 		$modelCat->setState('filter.published', 1);
 
 		// Get the category
@@ -90,115 +102,4 @@ class WeblinksControllerWeblink extends WeblinksController
 			return JError::raiseWarning(404, JText::_('Weblinks_Error_Weblink_url_invalid'));
 		}
 	}
-
-	/**
-	* Edit a weblink and show the edit form
-	*
-	* @acces public
-	* @since 1.5
-	*/
-	function edit()
-	{
-		$user	= & JFactory::getUser();
-
-		// Make sure you are logged in
-		if (!$user->authorise('com_weblink.weblink.edit')) {
-			JError::raiseError(403, JText::_('ALERTNOTAUTH'));
-			return;
-		}
-
-		JRequest::setVar('view', 'weblink');
-		JRequest::setVar('layout', 'form');
-
-		$model = &$this->getModel('weblink');
-		$model->checkout();
-
-		parent::display();
-	}
-
-	/**
-	* Saves the record on an edit form submit
-	*
-	* @acces public
-	* @since 1.5
-	*/
-	function save()
-	{
-		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
-
-		// Get some objects from the JApplication
-		$db		= &JFactory::getDbo();
-		$user	= &JFactory::getUser();
-
-		// Must be logged in
-		if ($user->get('id') < 1) {
-			JError::raiseError(403, JText::_('ALERTNOTAUTH'));
-			return;
-		}
-
-		//get data from the request
-		$post = JRequest::getVar('jform', array(), 'post', 'array');
-
-		$model = $this->getModel('weblink');
-
-		if ($model->store($post)) {
-			$msg = JText::_('Weblink Saved');
-		} else {
-			$msg = JText::_('Error Saving Weblink');
-		}
-
-		// Check the table in so it can be edited.... we are done with it anyway
-		$model->checkin();
-
-		// Get the user groups setup to receive notifications of new weblinks.
-		$access = new JAccess();
-		$groups = $access->getAuthorisedUsergroups('com_weblinks.submit.notify');
-		$groups = count($groups) ? implode(',', $groups) : '0';
-
-		// list of admins
-		$query = 'SELECT u.email, u.name' .
-				' FROM #__users AS u' .
-				' JOIN #__users_usergroup_map AS m ON m.group_id IN ('.$groups.')' .
-				' AND u.sendEmail = 1';
-		$db->setQuery($query);
-		if (!$db->query()) {
-			JError::raiseError(500, $db->stderr(true));
-			return;
-		}
-		$adminRows = $db->loadObjectList();
-
-		// send email notification to admins
-		foreach ($adminRows as $adminRow) {
-			JUtility::sendAdminMail($adminRow->name, $adminRow->email, '',  JText::_('Web Link'), $post['title']." URL link ".$post[url], $user->get('username'), JURI::base());
-		}
-
-		$this->setRedirect(JRoute::_('index.php?option=com_weblinks&view=category&id='.$post['catid'], false), $msg);
-	}
-
-	/**
-	* Cancel the editing of a web link
-	*
-	* @access	public
-	* @since	1.5
-	*/
-	function cancel()
-	{
-		// Get some objects from the JApplication
-		$user	= & JFactory::getUser();
-
-		// Must be logged in
-		if ($user->get('id') < 1) {
-			JError::raiseError(403, JText::_('ALERTNOTAUTH'));
-			return;
-		}
-
-		// Checkin the weblink
-		$model = $this->getModel('weblink');
-		$model->checkin();
-
-		$this->setRedirect(JRoute::_('index.php?option=com_weblinks&view=categories', false));
-	}
 }
-
-?>

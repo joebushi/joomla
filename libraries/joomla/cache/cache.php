@@ -45,40 +45,18 @@ class JCache extends JObject
 	 */
 	function __construct($options)
 	{
-		$this->_options = &$options;
+		$this->_options = array(
+			'language'=>'en-GB',
+			'cachebase'=>JPATH_ROOT.DS.'cache',
+			'defaultgroup'=>'default',
+			'caching'=>true,
+			'storage'=>'file');
 
-		// Get the default group and caching
-		if (isset($options['language'])) {
-			$this->_options['language'] = $options['language'];
-		} else {
-			$options['language'] = 'en-GB';
-		}
+		// Overwrite default options with given options
+		$this->_options = array_merge($this->_options,$options);
+		//@todo:or with the ampersand here? Like "...& $options);" for speed if array_merge or this construct would make a deep copy otherwise
 
-		if (isset($options['cachebase'])) {
-			$this->_options['cachebase'] = $options['cachebase'];
-		} else {
-			$this->_options['cachebase'] = JPATH_ROOT.DS.'cache';
-		}
-
-		if (isset($options['defaultgroup'])) {
-			$this->_options['defaultgroup'] = $options['defaultgroup'];
-		} else {
-			$this->_options['defaultgroup'] = 'default';
-		}
-
-		if (isset($options['caching'])) {
-			$this->_options['caching'] =  $options['caching'];
-		} else {
-			$this->_options['caching'] = true;
-		}
-
-		if (isset($options['storage'])) {
-			$this->_options['storage'] = $options['storage'];
-		} else {
-			$this->_options['storage'] = 'file';
-		}
-
-		//Fix to detect if template positions are enabled...
+		// Fix to detect if template positions are enabled...
 		if (JRequest::getCMD('tpl',0)) {
 			$this->_options['caching'] = false;
 		}
@@ -92,7 +70,7 @@ class JCache extends JObject
 	 * @return	object	A JCache object
 	 * @since	1.5
 	 */
-	function &getInstance($type = 'output', $options = array())
+	function getInstance($type = 'output', $options = array())
 	{
 		$type = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $type));
 
@@ -103,15 +81,13 @@ class JCache extends JObject
 			$path = dirname(__FILE__).DS.'handler'.DS.$type.'.php';
 
 			if (file_exists($path)) {
-				require_once($path);
+				require_once $path;
 			} else {
 				JError::raiseError(500, 'Unable to load Cache Handler: '.$type);
 			}
 		}
 
-		$instance = new $class($options);
-
-		return $instance;
+		return new $class($options);
 	}
 
 	/**
@@ -132,7 +108,7 @@ class JCache extends JObject
 			$class = 'JCacheStorage'.$name;
 
 			if (!class_exists($class)) {
-				require_once(dirname(__FILE__).DS.'storage'.DS.$name.'.php');
+				require_once dirname(__FILE__).DS.'storage'.DS.$name.'.php';
 			}
 
 			if (call_user_func_array(array(trim($class), 'test'), array())) {
@@ -287,7 +263,7 @@ class JCache extends JObject
 	 * @return object A JCacheStorage object
 	 * @since	1.5
 	 */
-	function &_getStorage()
+	function _getStorage()
 	{
 		if (is_a($this->_handler, 'JCacheStorage')) {
 			return $this->_handler;

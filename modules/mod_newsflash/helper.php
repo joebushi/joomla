@@ -10,7 +10,7 @@
 // no direct access
 defined('_JEXEC') or die;
 
-require_once (JPATH_SITE.DS.'components'.DS.'com_content'.DS.'helpers'.DS.'route.php');
+require_once JPATH_SITE.DS.'components/com_content/helpers/route.php';
 
 class modNewsFlashHelper
 {
@@ -19,6 +19,7 @@ class modNewsFlashHelper
 		$app	= &JFactory::getApplication();
 		$user 	= &JFactory::getUser();
 		$groups	= $user->authorisedLevels();
+		$groups	= implode(',', $groups);
 
 		$item->text		= $item->introtext;
 		$item->groups	= '';
@@ -54,7 +55,7 @@ class modNewsFlashHelper
 		$results = $app->triggerEvent('onBeforeDisplayContent', array (&$item, &$params, 1));
 		$item->beforeDisplayContent = trim(implode("\n", $results));
 
-		require(JModuleHelper::getLayoutPath('mod_newsflash', '_item'));
+		require JModuleHelper::getLayoutPath('mod_newsflash', '_item');
 	}
 
 	function getList(&$params, &$access)
@@ -80,11 +81,10 @@ class modNewsFlashHelper
 			' FROM #__content AS a' .
 			' INNER JOIN #__categories AS cc ON cc.id = a.catid' .
 			' WHERE a.state = 1 ' .
-			($noauth ? ' AND a.access IN ('.$groups.') AND cc.access IN ('.$groups.') AND s.access IN ('.$groups.')' : '').
+			($noauth ? ' AND a.access IN ('.$groups.') AND cc.access IN ('.$groups.') ' : '').
 			' AND (a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).') ' .
 			' AND (a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).')' .
 			' AND cc.id = '. (int) $catid .
-			' AND cc.section = s.id' .
 			' AND cc.published = 1' .
 			' ORDER BY a.ordering';
 		$db->setQuery($query, 0, $items);

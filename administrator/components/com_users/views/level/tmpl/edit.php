@@ -4,7 +4,6 @@
  * @package		Joomla.Administrator
  * @subpackage	com_users
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @copyright	Copyright (C) 2008 - 2009 JXtended, LLC. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -79,7 +78,7 @@ window.addEvent('domready', function(){
 			}.bind(this));
 		}.bind(i));
 
-		// Initialize the widget.
+		// Initialise the widget.
 		if (i.getProperty('checked')) {
 			i.fireEvent('click');
 		}
@@ -92,22 +91,17 @@ window.addEvent('domready', function(){
 
 <form action="<?php JRoute::_('index.php?option=com_users'); ?>" method="post" name="adminForm" id="level-form" class="form-validate">
 	<div class="width-100">
-		<fieldset>
+		<fieldset class="adminform">
 			<legend><?php echo JText::_('Users_Level_Details');?></legend>
 			<?php echo $this->form->getLabel('title'); ?>
 			<?php echo $this->form->getInput('title'); ?>
-				
-			<?php if (!$this->item->getSectionId()) : ?>
-				<?php echo $this->form->getLabel('section_id'); ?>
-				<?php echo $this->form->getInput('section_id'); ?>
-			<?php endif; ?>
 		</fieldset>
 	</div>
 
 	<div class="width-50">
-		<fieldset>
+		<fieldset class="adminform">
 			<legend><?php echo JText::_('Users_User_Groups_Having_Access');?></legend>
-			<?php echo JHtml::_('access.usergroups', 'jform[groups]', $this->item->getUserGroups()); ?>
+			<?php echo JHtml::_('access.usergroups', 'jform[rules]', $this->item->rules); ?>
 		</fieldset>
 	</div>
 

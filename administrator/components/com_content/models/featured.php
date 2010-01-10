@@ -36,7 +36,12 @@ class ContentModelFeatured extends ContentModelArticles
 		$query = new JQuery;
 
 		// Select the required fields from the table.
-		$query->select($this->getState('list.select', 'a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.state, a.access, a.created, a.hits'));
+		$query->select(
+			$this->getState(
+				'list.select',
+				'a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid, a.state, a.access, a.created, a.hits'
+			)
+		);
 		$query->from('#__content AS a');
 
 		// Join over the content table.
@@ -49,7 +54,7 @@ class ContentModelFeatured extends ContentModelArticles
 
 		// Join over the asset groups.
 		$query->select('ag.title AS access_level');
-		$query->join('LEFT', '#__access_assetgroups AS ag ON ag.id = a.access');
+		$query->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
 
 		// Join over the categories.
 		$query->select('c.title AS category_title');

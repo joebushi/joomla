@@ -33,44 +33,50 @@ JHtml::_('behavior.formvalidation');
 
 <form action="<?php JRoute::_('index.php?option=com_menus'); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 	<div class="width-60 fltlft">
-		<fieldset>
+		<fieldset class="adminform">
 			<legend><?php echo JText::_('Categories_Fieldset_Details');?></legend>
-			
-					<?php echo $this->form->getLabel('title'); ?>
-					<?php echo $this->form->getInput('title'); ?>
-				
-					<?php echo $this->form->getLabel('alias'); ?>
-					<?php echo $this->form->getInput('alias'); ?>
-				 
-					<?php echo $this->form->getLabel('extension'); ?>
-					<?php echo $this->form->getInput('extension'); ?>
-				
-					<?php echo $this->form->getLabel('parent_id'); ?>
-					<?php echo $this->form->getInput('parent_id'); ?>
-				
-					<?php echo $this->form->getLabel('published'); ?>
-					<?php echo $this->form->getInput('published'); ?>
-				
-					<?php echo $this->form->getLabel('access'); ?>
-					<?php echo $this->form->getInput('access'); ?>
-		</fieldset>
-	</div>
-	<div class="width-40 fltrt">
-		<fieldset>
-			<legend><?php echo JText::_('Categories_Fieldset_Options');?></legend>
+
+			<?php echo $this->form->getLabel('title'); ?>
+			<?php echo $this->form->getInput('title'); ?>
+
+			<?php echo $this->form->getLabel('alias'); ?>
+			<?php echo $this->form->getInput('alias'); ?>
+
+			<?php echo $this->form->getLabel('extension'); ?>
+			<?php echo $this->form->getInput('extension'); ?>
+
+			<?php echo $this->form->getLabel('parent_id'); ?>
+			<?php echo $this->form->getInput('parent_id'); ?>
+
+			<?php echo $this->form->getLabel('published'); ?>
+			<?php echo $this->form->getInput('published'); ?>
+
+			<?php echo $this->form->getLabel('access'); ?>
+			<?php echo $this->form->getInput('access'); ?>
+
 			<?php echo $this->loadTemplate('options'); ?>
+
+			<div class="clr"></div>
+			<?php echo $this->form->getLabel('description'); ?>
+			<div class="clr"></div>
+			<?php echo $this->form->getInput('description'); ?>
 		</fieldset>
 	</div>
+
 	<div class="width-40 fltrt">
 		<fieldset>
+			<legend><?php echo JText::_('Categories_Fieldset_Rules');?></legend>
+				<?php echo $this->form->getLabel('rules'); ?>
+				<?php echo $this->form->getInput('rules'); ?>
+		</fieldset>
+	</div>
+
+	<div class="width-40 fltrt">
+		<fieldset class="adminform">
 			<legend><?php echo JText::_('Categories_Fieldset_Metadata'); ?></legend>
 			<?php echo $this->loadTemplate('metadata'); ?>
 		</fieldset>
 	</div>
-	<div class="clr"></div>
-	<?php echo $this->form->getLabel('description'); ?>
-	<div class="clr"></div>
-	<?php echo $this->form->getInput('description'); ?>
 
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>

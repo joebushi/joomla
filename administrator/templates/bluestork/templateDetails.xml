@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE install PUBLIC "-//Joomla! 1.5//DTD template 1.0//EN" "http://www.joomla.org/xml/dtd/1.5/template-install.dtd">
-<install type="template" version="1.6.0" client="administrator">
+<!DOCTYPE install PUBLIC "-//Joomla! 1.6//DTD template 1.0//EN" "http://www.joomla.org/xml/dtd/1.6/template-install.dtd">
+<install
+	type="template"
+	version="1.6"
+	client="administrator">
 	<name>BlueStork</name>
 	<creationDate>07/02/09</creationDate>
 	<author>Ron Severdia</author>
-	<authorEmail>ron@kontentdesign.com</authorEmail>
+	<authorEmail>contact@kontentdesign.com</authorEmail>
 	<authorUrl>http://www.kontentdesign.com</authorUrl>
 	<copyright>2009</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<version>0.5</version>
+	<version>0.6</version>
 	<description>Administrator template for Joomla 1.6</description>
 	<files>
 		<filename>index.php</filename>
 		<filename>login.php</filename>
 		<filename>component.php</filename>
 		<filename>cpanel.php</filename>
-		<filename>params.ini</filename>
+		<filename>fields.ini</filename>
 		<filename>favicon.ico</filename>
 		<filename>index.html</filename>
 		<filename>template_thumbnail.png</filename>
@@ -36,25 +39,53 @@
 		<position>footer</position>
 		<position>debug</position>
 	</positions>
-	<params>
-		<param name="useRoundedCorners" type="radio" default="1" label="Use Rounded Corners" description="Enable/Disable Rounded Corner Effect">
-			<option value="0">JDISABLED</option>
-			<option value="1">JENABLED</option>
-		</param>
-		<param name="showSiteName" type="radio" default="0" label="Show Site Name" description="Show the site name in the template header">
-			<option value="0">JDISABLED</option>
-			<option value="1">JENABLED</option>
-		</param>
-		
-		<param name="textBig" type="radio" default="0" label="Bigger Text" description="Turn on to increase size of text">
-			<option value="0">JDISABLED</option>
-			<option value="1">JENABLED</option>
-		</param>
-		
-		<param name="highContrast" type="radio" default="0" label="High Contrast" description="Turn on for high-contrast version">
-			<option value="0">JDISABLED</option>
-			<option value="1">JENABLED</option>
-		</param>
-		
-	</params>
+	<fields>
+		<field
+			name="useRoundedCorners"
+			type="list"
+			default="1"
+			label="Use Rounded Corners"
+			description="Enable/Disable Rounded Corner Effect">
+			<option
+				value="0">JDISABLED</option>
+			<option
+				value="1">JENABLED</option>
+		</field>
+		<field
+			name="showSiteName"
+			type="list"
+			default="0"
+			label="Show Site Name"
+			description="Show the site name in the template header">
+			<option
+				value="0">JDISABLED</option>
+			<option
+				value="1">JENABLED</option>
+		</field>
+
+		<field
+			name="textBig"
+			type="list"
+			default="0"
+			label="Bigger Text"
+			description="Turn on to increase size of text">
+			<option
+				value="0">JDISABLED</option>
+			<option
+				value="1">JENABLED</option>
+		</field>
+
+		<field
+			name="highContrast"
+			type="list"
+			default="0"
+			label="High Contrast"
+			description="Turn on for high-contrast version">
+			<option
+				value="0">JDISABLED</option>
+			<option
+				value="1">JENABLED</option>
+		</field>
+
+	</fields>
 </install>

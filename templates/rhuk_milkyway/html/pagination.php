@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
  *
  * pagination_list_footer
  * 	Input variable $list is an array with offsets:
+ *		$list[prefix]		: string
  * 		$list[limit]		: int
  * 		$list[limitstart]	: int
  * 		$list[total]		: int
@@ -45,12 +46,14 @@ defined('_JEXEC') or die;
  * pagination_item_active
  * 	Input variable $item is an object with fields:
  * 		$item->base	: integer
+ * 		$item->prefix	: string
  * 		$item->link	: string
  * 		$item->text	: string
  *
  * pagination_item_inactive
  * 	Input variable $item is an object with fields:
  * 		$item->base	: integer
+ * 		$item->prefix	: string
  * 		$item->link	: string
  * 		$item->text	: string
  *
@@ -67,7 +70,7 @@ function pagination_list_footer($list)
 	$html .= $list['pageslinks'];
 	$html .= "\n<div class=\"counter\">".$list['pagescounter']."</div>";
 
-	$html .= "\n<input type=\"hidden\" name=\"limitstart\" value=\"".$list['limitstart']."\" />";
+	$html .= "\n<input type=\"hidden\" name=\"" . $list['prefix'] . "limitstart\" value=\"".$list['limitstart']."\" />";
 	$html .= "\n</div>";
 
 	return $html;
@@ -75,7 +78,7 @@ function pagination_list_footer($list)
 
 function pagination_list_render($list)
 {
-	// Initialize variables
+	// Initialise variables.
 	$html = "<span class=\"pagination\">";
 	$html .= '<span>&laquo;</span>'.$list['start']['data'];
 	$html .= $list['previous']['data'];

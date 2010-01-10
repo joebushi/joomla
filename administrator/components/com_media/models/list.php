@@ -1,8 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Administrator
- * @subpackage	Media
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -18,7 +16,7 @@ jimport('joomla.filesystem.file');
  * Media Component List Model
  *
  * @package		Joomla.Administrator
- * @subpackage	Media
+ * @subpackage	com_media
  * @since 1.5
  */
 class MediaModelList extends JModel
@@ -81,7 +79,7 @@ class MediaModelList extends JModel
 			$current = '';
 		}
 
-		// Initialize variables
+		// Initialise variables.
 		if (strlen($current) > 0) {
 			$basePath = COM_MEDIA_BASE.DS.$current;
 		} else {
@@ -148,17 +146,19 @@ class MediaModelList extends JModel
 							break;
 						// Non-image document
 						default:
-							$iconfile_32 = JPATH_ADMINISTRATOR.DS."components".DS."com_media".DS."images".DS."mime-icon-32".DS.$ext.".png";
+							// $iconfile_32 = JPATH_ADMINISTRATOR.DS."components".DS."com_media".DS."images".DS."mime-icon-32".DS.$ext.".png";
+							$iconfile_32 = "media".DS."media".DS."images".DS."mime-icon-32".DS.$ext.".png";
 							if (file_exists($iconfile_32)) {
-								$tmp->icon_32 = "components/com_media/images/mime-icon-32/".$ext.".png";
+								$tmp->icon_32 = "media/media/images/mime-icon-32/".$ext.".png";
 							} else {
-								$tmp->icon_32 = "components/com_media/images/con_info.png";
+								$tmp->icon_32 = "media/media/images/con_info.png";
 							}
-							$iconfile_16 = JPATH_ADMINISTRATOR.DS."components".DS."com_media".DS."images".DS."mime-icon-16".DS.$ext.".png";
+							// $iconfile_16 = JPATH_ADMINISTRATOR.DS."components".DS."com_media".DS."images".DS."mime-icon-16".DS.$ext.".png";
+							$iconfile_16 = "media".DS."media".DS."images".DS."mime-icon-16".DS.$ext.".png";
 							if (file_exists($iconfile_16)) {
-								$tmp->icon_16 = "components/com_media/images/mime-icon-16/".$ext.".png";
+								$tmp->icon_16 = "media/media/images/mime-icon-16/".$ext.".png";
 							} else {
-								$tmp->icon_16 = "components/com_media/images/con_info.png";
+								$tmp->icon_16 = "media/media/images/con_info.png";
 							}
 							$docs[] = $tmp;
 							break;

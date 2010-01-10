@@ -44,7 +44,7 @@ class UsersViewProfile extends JView
 
 		// Check if a member was found.
 		if (!$data->id) {
-			JError::raiseError(404, 'USERS PROFILE NOT FOUND');
+			JError::raiseError(404, 'USERS_PROFILE_NOT_FOUND');
 			return false;
 		}
 
@@ -56,6 +56,7 @@ class UsersViewProfile extends JView
 		// Configure the pathway and page title.
 		$app		= &JFactory::getApplication();
 		$config		= &JFactory::getConfig();
+		$user		= &JFactory::getUser();
 		$pathway	= &$app->getPathway();
 		$menus		= &$app->getMenu();
 		$menu		= &$menus->getActive();

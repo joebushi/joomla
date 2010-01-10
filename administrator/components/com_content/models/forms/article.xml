@@ -11,7 +11,12 @@
 			size="10"
 			default="0"
 			required="true"
-			readonly="true"/>
+			readonly="true" />
+
+		<field
+			name="asset_id"
+			type="hidden"
+			filter="unset" />
 
 		<field
 			id="title"
@@ -21,8 +26,7 @@
 			description="JField_Title_Desc"
 			class="inputbox"
 			size="30"
-			required="true"
-			/>
+			required="true" />
 
 		<field
 			id="alias"
@@ -32,27 +36,18 @@
 			description="JField_Alias_Desc"
 			class="inputbox"
 			size="45"
-			default=""/>
+			default="" />
 
 		<field
-			id="introtext"
-			name="introtext"
+			id="articletext"
+			name="articletext"
 			type="editor"
 			class="inputbox"
-			label="Content_Introtext_Label"
-			description="Content_Introtext_Desc"
+			label="Content_Articletext_Label"
+			description="Content_Articletext_Desc"
 			filter="safehtml"
-			default=""/>
-
-		<field
-			id="fulltext"
-			name="fulltext"
-			type="editor"
-			label="Content_Fulltext_Label"
-			description="Content_Fulltext_Desc"
-			class="inputbox"
-			filter="safehtml"
-			default=""/>
+			buttons="true"
+			default="" />
 
 		<field
 			id="state"
@@ -61,6 +56,7 @@
 			label="JField_Published_Label"
 			description="JField_Published_Desc"
 			class="inputbox"
+			filter="intval"
 			size="1"
 			default="1">
 			<option
@@ -80,13 +76,14 @@
 		<field
 			id="catid"
 			name="catid"
-			type="Categories"
+			type="category"
 			extension="com_content"
 			label="JField_Category_Label"
 			description="JField_Category_Desc"
 			class="inputbox"
 			required="true">
-			<option value="0">JOption_No_Category</option>
+			<option
+				value="0">JOption_No_Category</option>
 		</field>
 
 		<field
@@ -97,15 +94,15 @@
 			description="Content_Created_Desc"
 			class="inputbox"
 			size="16"
-			format="%Y-%m-%d %H-%M-%S"
-			/>
+			format="%Y-%m-%d %H:%M:%S"
+			filter="server_utc" />
 
 		<field
 			id="created_by"
 			name="created_by"
 			type="text"
 			label="Content_Created_by_Label"
-			description="Content_Created_by_Desc"/>
+			description="Content_Created_by_Desc" />
 
 		<field
 			id="created_by_alias"
@@ -115,7 +112,7 @@
 			description="Content_Created_by_alias_Desc"
 			class="inputbox"
 			size="20"
-			default=""/>
+			default="" />
 
 		<field
 			id="modified"
@@ -126,22 +123,22 @@
 			description="Content_Modified_Desc"
 			size="16"
 			readonly="true"
-			filter="unset"/>
+			filter="unset" />
 
 		<field
 			name="modified_by"
 			type="hidden"
-			filter="unset"/>
+			filter="unset" />
 
 		<field
 			name="checked_out"
 			type="hidden"
-			filter="unset"/>
+			filter="unset" />
 
 		<field
 			name="checked_out_time"
 			type="hidden"
-			filter="unset"/>
+			filter="unset" />
 
 		<field
 			id="publish_up"
@@ -150,9 +147,10 @@
 			label="Content_Publish_up_Label"
 			description="Content_Publish_up_Desc"
 			class="inputbox"
-			format="%Y-%m-%d %H-%M-%S"
+			format="%Y-%m-%d %H:%M:%S"
 			size="30"
-			default=""/>
+			default=""
+			filter="server_utc" />
 
 		<field
 			id="publish_down"
@@ -161,9 +159,10 @@
 			label="Content_Publish_down_Label"
 			description="Content_Publish_down_Desc"
 			class="inputbox"
-			format="%Y-%m-%d %H-%M-%S"
+			format="%Y-%m-%d %H:%M:%S"
 			size="30"
-			default=""/>
+			default=""
+			filter="server_utc" />
 
 		<field
 			id="version"
@@ -174,7 +173,7 @@
 			size="6"
 			description="Content_Version_Desc"
 			readonly="true"
-			filter="unset"/>
+			filter="unset" />
 
 		<field
 			id="ordering"
@@ -184,7 +183,7 @@
 			description="JField_Ordering_Desc"
 			class="inputbox"
 			size="6"
-			default="0"/>
+			default="0" />
 
 		<field
 			id="metakey"
@@ -195,7 +194,7 @@
 			class="inputbox"
 			rows="3"
 			cols="30"
-			default=""/>
+			default="" />
 
 		<field
 			id="metadesc"
@@ -206,17 +205,17 @@
 			class="inputbox"
 			rows="3"
 			cols="30"
-			default=""/>
+			default="" />
 
 		<field
 			id="access"
 			name="access"
-			type="accesslevels"
+			type="accesslevel"
 			label="JField_Access_Label"
 			description="JField_Access_Desc"
 			class="inputbox"
 			size="1"
-			default=""/>
+			default="" />
 
 		<field
 			id="hits"
@@ -227,7 +226,7 @@
 			class="readonly"
 			size="6"
 			readonly="true"
-			filter="unset"/>
+			filter="unset" />
 
 		<field
 			id="metadata"
@@ -238,17 +237,17 @@
 			class="inputbox"
 			rows="3"
 			cols="30"
-			default=""/>
+			default="" />
 
 		<field
-			id="language"
 			name="language"
-			type="text"
+			type="contentlanguage"
 			label="JField_Language_Label"
 			description="JField_Language_Desc"
 			class="inputbox"
-			size="20"
-			default=""/>
+			default="">
+			<option value="">JOption_Default_Language</option>
+		</field>
 
 		<field
 			id="xreference"
@@ -258,8 +257,19 @@
 			description="Content_XReference_Desc"
 			class="inputbox"
 			size="20"
-			default=""/>
+			default="" />
 
+		<field
+			id="rules"
+			name="rules"
+			type="rules"
+			label="Content_Rules_Label"
+			description="Content_Rules_Desc"
+			class="inputbox"
+			filter="rules"
+			component="com_content"
+			section="article"
+			default="" />
 	</fields>
 
 	<fields
@@ -378,12 +388,32 @@
 		</field>
 
 		<field
+			name="show_publish_date"
+			type="list"
+			label="Content_Attribs_Show_Publish_Date_Label"
+			description="Content_Attribs_Show_Publish_Date_Desc"
+			default="">
+			<option
+				value="">JCOMMON_USE_GLOBAL</option>
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+
+		<field
 			name="show_readmore"
-			type="text"
+			type="list"
 			label="Content_Attribs_Show_Readmore_Label"
 			description="Content_Attribs_Show_Readmore_Desc"
-			size="25"
-			default=""/>
+			default="" >
+			<option
+				value="">Use Global</option>
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>	
 
 		<field
 			name="show_print_icon"
@@ -419,16 +449,15 @@
 			label="JField_Alt_Page_title_Label"
 			description="JField_Alt_Page_title_Desc"
 			size="25"
-			default=""/>
+			default="" />
 
 		<field
 			name="layout"
-			type="componentlayouts"
+			type="componentlayout"
 			label="JField_Alt_Layout_Label"
 			description="JField_Alt_Component_Layout_Desc"
 			extension="com_content"
-			view="article"
-			/>
+			view="article" />
 
 		<field
 			name="article-allow_ratings"
@@ -489,7 +518,7 @@
 			type="text"
 			label="JField_Metadata_Author_Label"
 			description="JField_Metadata_Author_Desc"
-			size="20"/>
+			size="20" />
 
 	</fields>
 </form>

@@ -30,14 +30,14 @@ class MenusHelper
 	public static function addSubmenu($vName)
 	{
 		JSubMenuHelper::addEntry(
-			JText::_('Menus_Submenu_Items'),
-			'index.php?option=com_menus&view=items',
-			$vName == 'items'
-		);
-		JSubMenuHelper::addEntry(
 			JText::_('Menus_Submenu_Menus'),
 			'index.php?option=com_menus&view=menus',
 			$vName == 'menus'
+		);
+		JSubMenuHelper::addEntry(
+			JText::_('Menus_Submenu_Items'),
+			'index.php?option=com_menus&view=items',
+			$vName == 'items'
 		);
 	}
 
@@ -79,21 +79,120 @@ class MenusHelper
 
 		ksort($request);
 
-		return 'index.php?'.http_build_query($request);
+		return 'index.php?'.http_build_query($request,'','&');
 	}
-	
+
 	/**
 	 * Get the menu list for create a menu module
 	 *
-	 * @access 		public
 	 * @return		array  	The menu array list
 	 * @since		1.6
 	 */
-	public static function getMenuTypes() 
+	public static function getMenuTypes()
 	{
 		$db = JFactory::getDbo();
 		$db->setQuery('SELECT a.menutype FROM #__menu_types AS a');
 		return $db->loadResultArray();
 	}
 
+	/**
+	 * Get a list of menu links for one or all menus.
+	 *
+	 * @param	string	An option menu to filter the list on, otherwise all menu links are returned as a grouped array.
+	 * @param	int		An optional parent ID to pivot results around.
+	 * @param	int		An optional mode. If parent ID is set and mode=2, the parent and children are excluded from the list.
+	 */
+	public static function getMenuLinks($menuType = null, $parentId = 0, $mode = 0)
+	{
+		$db		= JFactory::getDbo();
+		$query	= new JQuery;
+
+		$query->select('a.id AS value, a.title AS text, a.level, a.menutype');
+		$query->from('#__menu AS a');
+		$query->join('LEFT', '`#__menu` AS b ON a.lft > b.lft AND a.rgt < b.rgt');
+
+		// Filter by the type
+		if ($menuType)
+		{
+			$query->where('(a.menutype = '.$db->quote($menuType).' OR a.parent_id = 0)');
+		}
+
+		if ($parentId)
+		{
+			if ($mode == 2)
+			{
+				// Prevent the parent and children from showing.
+				$query->join('LEFT', '`#__menu` AS p ON p.id = '.(int) $parentId);
+				$query->where('(a.lft <= p.lft OR a.rgt >= p.rgt)');
+			}
+		}
+
+		$query->group('a.id');
+		$query->order('a.lft ASC');
+
+		// Get the options.
+		$db->setQuery($query);
+
+		$links = $db->loadObjectList();
+
+		// Check for a database error.
+		if ($error = $db->getErrorMsg())
+		{
+			JError::raiseWarning(500, $error);
+			return false;
+		}
+
+		// Pad the option text with spaces using depth level as a multiplier.
+		foreach ($links as &$link)
+		{
+			$link->text = str_repeat('- ',$link->level).$link->text;
+		}
+
+		if (empty($menuType))
+		{
+			// If the menutype is empty, group the items by menutype.
+			$query	= new JQuery;
+			$query->select('*');
+			$query->from('#__menu_types');
+			$query->where('menutype <> '.$db->quote(''));
+			$query->order('title, menutype');
+			$db->setQuery($query);
+
+			$menuTypes = $db->loadObjectList();
+
+			// Check for a database error.
+			if ($error = $db->getErrorMsg())
+			{
+				JError::raiseWarning(500, $error);
+				return false;
+			}
+
+			// Create a reverse lookup and aggregate the links.
+			$rlu = array();
+			foreach ($menuTypes as &$type)
+			{
+				$rlu[$type->menutype] = &$type;
+				$type->links = array();
+			}
+
+			// Loop through the list of menu links.
+			foreach ($links as &$link)
+			{
+				if (isset($rlu[$link->menutype]))
+				{
+					$rlu[$link->menutype]->links[] = &$link;
+
+					// Cleanup garbage.
+					unset($link->menutype);
+				}
+			}
+
+			return $menuTypes;
+		}
+		else
+		{
+			return $links;
+		}
+
+	}
 }

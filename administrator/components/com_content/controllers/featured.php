@@ -3,7 +3,6 @@
  * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
- * @link		http://www.theartofjoomla.com
  */
 
 // no direct access
@@ -27,11 +26,23 @@ class ContentControllerFeatured extends ContentControllerArticles
 		// Check for request forgeries
 		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
-		// Get items to remove from the request.
+		// Initialise variables.
+		$user	= JFactory::getUser();
 		$ids	= JRequest::getVar('cid', array(), '', 'array');
 
+		// Access checks.
+		foreach ($ids as $i => $id)
+		{
+			if (!$user->authorise('core.delete', 'com_content.article.'.(int) $id))
+			{
+				// Prune items that you can't delete.
+				unset($ids[$i]);
+				JError::raiseNotice(403, JText::_('JError_Core_Delete_not_permitted'));
+			}
+		}
+
 		if (empty($ids)) {
-			JError::raiseWarning(500, JText::_('Select an item to delete'));
+			JError::raiseWarning(500, JText::_('JError_No_items_selected'));
 		}
 		else {
 			// Get the model.

@@ -110,7 +110,7 @@ class JLanguage extends JObject
 	 * @since	1.6
 	 */
 	protected $_override 	= array();
-	
+
 	/**
 	 * Name of the transliterator function for this language
 	 *
@@ -167,20 +167,15 @@ class JLanguage extends JObject
 	}
 
 	/**
-	 * Returns a reference to a language object
-	 *
-	 * This method must be invoked as:
-	 * 		<pre>  $browser = &JLanguage::getInstance([$lang);</pre>
+	 * Returns a language object
 	 *
 	 * @param	string $lang  The language to use.
 	 * @return	JLanguage  The Language object.
 	 * @since	1.5
 	 */
-	public static function &getInstance($lang)
+	public static function getInstance($lang)
 	{
-		$instance = new JLanguage($lang);
-		$reference = & $instance;
-		return $reference;
+		return new JLanguage($lang);
 	}
 
 	/**
@@ -274,7 +269,7 @@ class JLanguage extends JObject
 	{
 		return $this->_transliterator;
 	}
-	
+
 	/**
 	 * Set the transliteration function
 	 *

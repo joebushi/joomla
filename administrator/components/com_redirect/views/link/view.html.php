@@ -1,36 +1,37 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Administrator
- * @subpackage	com_redirect
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die('Invalid Request.');
+// No direct access.
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
 /**
- * The HTML Redirect link view.
+ * View to edit a redirect link.
  *
  * @package		Joomla.Administrator
  * @subpackage	com_redirect
- * @version		1.6
+ * @since		1.6
  */
 class RedirectViewLink extends JView
 {
+	protected $state;
+	protected $item;
+	protected $form;
+
 	/**
 	 * Display the view
-	 *
-	 * @return	void
-	 * @since	1.6
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
+		$app	= JFactory::getApplication();
 		$state	= $this->get('State');
 		$item	= $this->get('Item');
-		$form	= $this->get('Form');
+		$form 	= $this->get('Form');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -38,45 +39,50 @@ class RedirectViewLink extends JView
 			return false;
 		}
 
-		// Bind the item data to the form object.
-		if ($item) {
-			$form->bind($item);
-		}
+		// Bind the record to the form.
+		$form->bind($item);
 
 		$this->assignRef('state',	$state);
 		$this->assignRef('item',	$item);
 		$this->assignRef('form',	$form);
 
+		$this->_setToolbar();
 		parent::display($tpl);
 	}
 
 	/**
-	 * Build the default toolbar.
-	 *
-	 * @access	protected
-	 * @return	void
-	 * @since	1.6
+	 * Setup the Toolbar
 	 */
-	function buildDefaultToolBar()
+	protected function _setToolbar()
 	{
-		if (is_object($this->item)) {
-			$isNew = ($this->item->id == 0);
-		}
-		else {
-			$isNew = true;
-		}
+		JRequest::setVar('hidemainmenu', true);
 
-		JToolBarHelper::title('Redirect: '.($isNew ? 'Add Link' : 'Edit Link'), 'generic');
+		$user		= JFactory::getUser();
+		$isNew		= ($this->item->id == 0);
+		$canDo		= RedirectHelper::getActions();
 
-		JToolBarHelper::save('link.save');
-		JToolBarHelper::apply('link.apply');
-		JToolBarHelper::custom('link.save2new', 'new.png', 'new_f2.png', 'Save and New', false);	
-		if (empty($this->item->id))  {
-			JToolBarHelper::cancel('link.cancel');
+		JToolBarHelper::title(JText::_('Redir_Manager_Link'));
+
+		// If not checked out, can save the item.
+		if ($canDo->get('core.edit'))
+		{
+			JToolBarHelper::apply('link.apply', 'JToolbar_Apply');
+			JToolBarHelper::save('link.save', 'JToolbar_Save');
+		}
+		// If an existing item, can save to a copy.
+		if (!$isNew && $canDo->get('core.create')) {
+			JToolBarHelper::custom('link.save2copy§', 'copy.png', 'copy_f2.png', 'JToolbar_Save_as_Copy', false);
+		}
+		if ($canDo->get('core.edit') && $canDo->get('core.create'))
+		{
+			JToolBarHelper::addNew('link.save2new', 'JToolbar_Save_and_new');
+		}
+		if (empty($this->item->id)) {
+			JToolBarHelper::cancel('link.cancel', 'JToolbar_Cancel');
 		}
 		else {
 			JToolBarHelper::cancel('link.cancel', 'JToolbar_Close');
 		}
-		JToolBarHelper::help('screen.redirect.link');		
+		JToolBarHelper::help('screen.redirect.link');
 	}
 }

@@ -21,7 +21,6 @@ function UsersBuildRoute(&$query)
 	// Declare static variables.
 	static $items;
 	static $default;
-
 	static $registration;
 	static $profile;
 	static $login;
@@ -29,7 +28,7 @@ function UsersBuildRoute(&$query)
 	static $resend;
 	static $reset;
 
-	// Initialize variables.
+	// Initialise variables.
 	$segments = array();
 
 	// Get the relevant menu items if not loaded.
@@ -42,34 +41,34 @@ function UsersBuildRoute(&$query)
 		// Build an array of serialized query strings to menu item id mappings.
 		for ($i = 0, $n = count($items); $i < $n; $i++)
 		{
-			// Check to see if e have found the resend menu item.
+			// Check to see if we have found the resend menu item.
 			if (empty($resend) && !empty($items[$i]->query['view']) && ($items[$i]->query['view'] == 'resend')) {
 				$resend = $items[$i]->id;
 			}
 
-			// Check to see if e have found the reset menu item.
+			// Check to see if we have found the reset menu item.
 			if (empty($reset) && !empty($items[$i]->query['view']) && ($items[$i]->query['view'] == 'reset')) {
 				$reset = $items[$i]->id;
 			}
 
-			// Check to see if e have found the remind menu item.
+			// Check to see if we have found the remind menu item.
 			if (empty($remind) && !empty($items[$i]->query['view']) && ($items[$i]->query['view'] == 'remind')) {
 				$remind = $items[$i]->id;
 			}
 
-			// Check to see if e have found the login menu item.
+			// Check to see if we have found the login menu item.
 			if (empty($login) && !empty($items[$i]->query['view']) && ($items[$i]->query['view'] == 'login')) {
 				$login = $items[$i]->id;
 			}
 
-			// Check to see if e have found the registration menu item.
+			// Check to see if we have found the registration menu item.
 			if (empty($registration) && !empty($items[$i]->query['view']) && ($items[$i]->query['view'] == 'registration')) {
 				$registration = $items[$i]->id;
 			}
 
-			// Check to see if e have found the profile menu item.
+			// Check to see if we have found the profile menu item.
 			if (empty($profile) && !empty($items[$i]->query['view']) && ($items[$i]->query['view'] == 'profile')) {
-				$profile = $items[$i]->id;
+			$profile = $items[$i]->id;
 			}
 		}
 
@@ -90,33 +89,62 @@ function UsersBuildRoute(&$query)
 		switch ($query['view'])
 		{
 			case 'reset':
-				unset ($query['view']);
-				$query['Itemid'] = ($reset) ? $reset : $default;
+				if ($query['Itemid'] = $reset) {
+					unset ($query['view']);
+				}
+				else {
+					$query['Itemid'] = $default;
+				}
 				break;
 
 			case 'resend':
-				unset ($query['view']);
-				$query['Itemid'] = ($resend) ? $resend : $default;
+				if ($query['Itemid'] = $resend) {
+					unset ($query['view']);
+				}
+				else {
+					$query['Itemid'] = $default;
+				}
 				break;
 
 			case 'remind':
-				unset ($query['view']);
-				$query['Itemid'] = ($remind) ? $remind : $default;
+				if ($query['Itemid'] = $remind) {
+					unset ($query['view']);
+				}
+				else {
+					$query['Itemid'] = $default;
+				}
 				break;
 
 			case 'login':
-				unset ($query['view']);
-				$query['Itemid'] = ($login) ? $login : $default;
+				if ($query['Itemid'] = $login) {
+					unset ($query['view']);
+				}
+				else {
+					$query['Itemid'] = $default;
+				}
 				break;
 
 			case 'registration':
-				unset ($query['view']);
-				$query['Itemid'] = ($registration) ? $registration : $default;
+				if ($query['Itemid'] = $registration) {
+					unset ($query['view']);
+				}
+				else {
+					$query['Itemid'] = $default;
+				}
 				break;
 
 			default:
 			case 'profile':
+				if (!empty($query['view'])) {
+					$segments[] = $query['view'];
+				}
 				unset ($query['view']);
+				if ($query['Itemid'] = $profile) {
+					unset ($query['view']);
+				}
+				else {
+					$query['Itemid'] = $default;
+				}
 
 				// Only append the member id if not "me".
 				$user = & JFactory::getUser();
@@ -125,12 +153,7 @@ function UsersBuildRoute(&$query)
 				}
 				unset ($query['member_id']);
 
-				if (!empty($query['layout'])) {
-					$segments[] = $query['layout'];
-				}
-				unset ($query['layout']);
 
-				$query['Itemid'] = ($profile) ? $profile : $default;
 				break;
 		}
 	}
@@ -147,7 +170,7 @@ function UsersBuildRoute(&$query)
  */
 function UsersParseRoute($segments)
 {
-	// Initialize variables.
+	// Initialise variables.
 	$vars = array();
 
 	// Only run routine if there are segments to parse.
@@ -156,28 +179,27 @@ function UsersParseRoute($segments)
 	}
 
 	// Get the package from the route segments.
-	$member = array_pop($segments);
+	$memberId = array_pop($segments);
 
-	if (!is_numeric($member)) {
+	if (!is_numeric($memberId)) {
 		$vars['view'] = 'profile';
-		$vars['layout'] = $member;
 		return $vars;
 	}
-
+	if (is_numeric($memberId)){
 	// Get the package id from the packages table by alias.
 	$db = & JFactory::getDbo();
 	$db->setQuery(
 		'SELECT `id`' .
 		' FROM `#__users`' .
-		' WHERE `id` = '.$db->quote($member)
+		' WHERE `id` = '.(int) $memberId
 	);
 	$memberId = $db->loadResult();
-
+	}
 	// Set the package id if present.
 	if ($memberId)
 	{
 		// Set the package id.
-		$vars['member_id'] = intval($memberId);
+		$vars['member_id'] = (int)$memberId; 
 
 		// Set the view to package if not already set.
 		if (empty($vars['view'])) {

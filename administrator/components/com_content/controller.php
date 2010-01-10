@@ -23,8 +23,10 @@ class ContentController extends JController
 	 */
 	function display()
 	{
+		require_once JPATH_COMPONENT.DS.'helpers'.DS.'content.php';
+
 		// Get the document object.
-		$document	= &JFactory::getDocument();
+		$document	= JFactory::getDocument();
 
 		// Set the default view name and format from the Request.
 		$vName		= JRequest::getWord('view', 'articles');
@@ -47,7 +49,6 @@ class ContentController extends JController
 			$view->display();
 
 			// Load the submenu.
-			require_once JPATH_COMPONENT.DS.'helpers'.DS.'content.php';
 			ContentHelper::addSubmenu($vName);
 		}
 	}

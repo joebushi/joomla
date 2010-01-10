@@ -17,90 +17,6 @@ defined('JPATH_BASE') or die;
 class JTableUser extends JTable
 {
 	/**
-	 * Unique id
-	 *
-	 * @var int
-	 */
-	var $id				= null;
-
-	/**
-	 * The users real name (or nickname)
-	 *
-	 * @var string
-	 */
-	var $name			= null;
-
-	/**
-	 * The login name
-	 *
-	 * @var string
-	 */
-	var $username		= null;
-
-	/**
-	 * The email
-	 *
-	 * @var string
-	 */
-	var $email			= null;
-
-	/**
-	 * MD5 encrypted password
-	 *
-	 * @var string
-	 */
-	var $password		= null;
-
-	/**
-	 * Description
-	 *
-	 * @var string
-	 */
-	var $usertype		= null;
-
-	/**
-	 * Description
-	 *
-	 * @var int
-	 */
-	var $block			= null;
-
-	/**
-	 * Description
-	 *
-	 * @var int
-	 */
-	var $sendEmail		= null;
-
-	/**
-	 * Description
-	 *
-	 * @var datetime
-	 */
-	var $registerDate	= null;
-
-	/**
-	 * Description
-	 *
-	 * @var datetime
-	 */
-	var $lastvisitDate	= null;
-
-	/**
-	 * Description
-	 *
-	 * @var string activation hash
-	 */
-	var $activation		= null;
-
-	/**
-	 * Description
-	 *
-	 * @var string
-	 */
-	var $params			= null;
-
-	/**
 	 * Associative array of user group ids => names.
 	 *
 	 * @access	public
@@ -275,10 +191,9 @@ class JTableUser extends JTable
 			return false;
 		}
 
+		// Set the registration timestamp
 		if ($this->registerDate == null) {
-			// Set the registration timestamp
-			$now = &JFactory::getDate();
-			$this->registerDate = $now->toMySQL();
+			$this->registerDate = JFactory::getDate()->toMySQL();
 		}
 
 
@@ -318,6 +233,7 @@ class JTableUser extends JTable
 		$k = $this->_tbl_key;
 		$key =  $this->$k;
 
+		// TODO: This is a dumb way to handle the groups.
 		// Store groups locally so as to not update directly.
 		$groups = $this->groups;
 		unset($this->groups);
@@ -470,7 +386,7 @@ class JTableUser extends JTable
 		}
 
 		// If no timestamp value is passed to functon, than current time is used.
-		$date = & JFactory::getDate($timeStamp);
+		$date = JFactory::getDate($timeStamp);
 
 		// Update the database row for the user.
 		$this->_db->setQuery(

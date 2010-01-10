@@ -44,14 +44,14 @@ class AdminViewHelp extends JView
 	/**
 	 * @var string url for the latest version check
 	 */
-	protected $latest_version_check= 'http://www.joomla.org/content/blogcategory/57/111/';
+	protected $latest_version_check= 'http://www.joomla.org/download.html';
 
 	/**
 	 * Display the view
 	 */
 	function display($tpl = null)
 	{
-		// Get the values	
+		// Get the values
 		$help_url = & $this->get('HelpURL');
 		$full_help_url = & $this->get('FullHelpURL');
 		$help_search = & $this->get('HelpSearch');

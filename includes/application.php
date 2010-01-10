@@ -25,7 +25,7 @@ final class JSite extends JApplication
 	 * @var object
 	 */
 	private $template = null;
-	
+
 	/**
 	 * Class constructor
 	 *
@@ -79,6 +79,18 @@ final class JSite extends JApplication
 
 		parent::initialise($options);
 	}
+
+	/**
+	 * Route the application.
+	 *
+	 */
+	public function route()
+ 	{
+ 		parent::route();
+
+ 		$Itemid = JRequest::getInt('Itemid');
+		$this->authorize($Itemid);
+ 	}
 
 	/**
 	 * Dispatch the application
@@ -192,7 +204,7 @@ final class JSite extends JApplication
 		}
 
 		// Set the access control action to check.
-		$options['action'] = 'core.site.login';
+		$options['action'] = 'core.login.site';
 
 		return parent::login($credentials, $options);
 	}
@@ -213,10 +225,11 @@ final class JSite extends JApplication
 				$uri		= JFactory::getURI();
 				$return		= $uri->toString();
 
-				$url  = 'index.php?option=com_users&view=login';
-				$url .= '&return='.base64_encode($return);;
+				$this->setUserState('users.login.form.data',array( 'return' => $return ) );
 
-				//$url	= JRoute::_($url, false);
+				$url	= 'index.php?option=com_users&view=login';
+				$url	= JRoute::_($url, false);
+
 				$this->redirect($url, JText::_('You must login first'));
 			}
 			else {
@@ -303,7 +316,7 @@ final class JSite extends JApplication
 
 		$id = 0;
 		if (is_object($item)) { // valid item retrieved
-			$id = $item->template_id;
+			$id = $item->template_style_id;
 		}
 		$condition = '';
 
@@ -321,7 +334,7 @@ final class JSite extends JApplication
 		// Load template entries for the active menuid and the default template
 		$db = &JFactory::getDbo();
 		$query = 'SELECT template, params'
-			. ' FROM #__menu_template'
+			. ' FROM #__template_styles'
 			. ' WHERE client_id = 0 AND '.$condition
 			;
 		$db->setQuery($query, 0, 1);
@@ -329,7 +342,7 @@ final class JSite extends JApplication
 
 		// Allows for overriding the active template from the request
 		$template->template = JRequest::getCmd('template', $template->template);
-		$template->template = JFilterInput::clean($template->template, 'cmd'); // need to filter the default value as well
+		$template->template = JFilterInput::getInstance()->clean($template->template, 'cmd'); // need to filter the default value as well
 
 		// Fallback template
 		if (!file_exists(JPATH_THEMES.DS.$template->template.DS.'index.php')) {

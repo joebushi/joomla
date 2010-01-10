@@ -25,7 +25,7 @@ $return	= base64_encode($uri->toString());
 				<th width="20" rowspan="2">
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(this)" />
 				</th>
-				<th class="title" rowspan="2">
+				<th rowspan="2">
 					<?php echo JHtml::_('grid.sort',  'JGrid_Heading_Title', 'a.title', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="30%" colspan="3">
@@ -34,7 +34,7 @@ $return	= base64_encode($uri->toString());
 				<th width="20%" rowspan="2">
 					<?php echo JText::_('JMenus_Heading_Linked_modules'); ?>
 				</th>
-				<th width="1%" nowrap="nowrap" rowspan="2">
+				<th width="1%" class="nowrap" rowspan="2">
 					<?php echo JHtml::_('grid.sort',  'JGrid_Heading_ID', 'a.id', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 			</tr>
@@ -60,42 +60,42 @@ $return	= base64_encode($uri->toString());
 		<tbody>
 		<?php foreach ($this->items as $i => $item) : ?>
 			<tr class="row<?php echo $i % 2; ?>">
-				<td style="text-align:center">
+				<td class="center">
 					<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 				</td>
 				<td>
-					<a href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype='.$item->menutype) ?> "> 
+					<a href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype='.$item->menutype) ?> ">
 						<?php echo $this->escape($item->title); ?></a>
-					<small>( <?php echo JText::_('MENUS_MENU_MENUTYPE_LABEL') ?>
-						<?php echo '<a href="'. JRoute::_('index.php?option=com_menus&task=menu.edit&cid[]='.$item->id).' title='.   $this->escape($item->description).'">'. 
-						 $this->escape($item->menutype).' </a>'; ?>)</small>
+					<p class="smallsub">(<span><?php echo JText::_('MENUS_MENU_MENUTYPE_LABEL') ?>:</span>
+						<?php echo '<a href="'. JRoute::_('index.php?option=com_menus&task=menu.edit&cid[]='.$item->id).' title='.   $this->escape($item->description).'">'.
+						 $this->escape($item->menutype).'</a>'; ?>)</p>
 				</td>
-				<td align="center">
+				<td class="center btns">
 					<a href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype='.$item->menutype.'&filter_published=1');?>">
-						( <?php echo $item->count_published; ?> )</a>
+						<?php echo $item->count_published; ?></a>
 				</td>
-				<td align="center">
+				<td class="center btns">
 					<a href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype='.$item->menutype.'&filter_published=0');?>">
-						( <?php echo $item->count_unpublished; ?> )</a>
+						<?php echo $item->count_unpublished; ?></a>
 				</td>
-				<td align="center">
+				<td class="center btns">
 					<a href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype='.$item->menutype.'&filter_published=2');?>">
-						( <?php echo $item->count_trashed; ?> )</a>
+						<?php echo $item->count_trashed; ?></a>
 				</td>
-				<td align="left">
+				<td class="left">
 					<?php
 					if (isset($this->modules[$item->menutype])) :
 						foreach ($this->modules[$item->menutype] as &$module) :
 						?>
 						<a href="<?php echo JRoute::_('index.php?option=com_modules&task=module.edit&module_id='.$module->id.'&return='.$return);?>">
 							<?php echo $this->escape($module->title); ?></a>
-						<small>(<?php echo $this->escape($module->position);?>)</small><br />
+						<p class="smallsub">(<?php echo $this->escape($module->position);?>)</p>
 						<?php
 						endforeach;
 					endif;
 					?>
 				</td>
-				<td align="center">
+				<td class="center">
 					<?php echo $item->id; ?>
 				</td>
 			</tr>

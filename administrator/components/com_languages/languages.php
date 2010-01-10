@@ -4,17 +4,18 @@
  * @package		Joomla.Administrator
  * @subpackage	com_languages
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // no direct access
 defined('_JEXEC') or die;
 
-$user = & JFactory::getUser();
-if (!$user->authorize('core.languages.manage')) {
-	JFactory::getApplication()->redirect('index.php', JText::_('ALERTNOTAUTH'));
+// Access check.
+if (!JFactory::getUser()->authorise('core.manage', 'com_languages')) {
+	return JError::raiseWarning(404, JText::_('ALERTNOTAUTH'));
 }
 
+// Include dependancies
 jimport('joomla.application.component.controller');
 
 $controller	= JController::getInstance('Languages');

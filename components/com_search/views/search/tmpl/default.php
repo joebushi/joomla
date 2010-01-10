@@ -1,9 +1,14 @@
 <?php defined('_JEXEC') or die; ?>
 
+<div class="<?php echo $this->params->get('pageclass_sfx'); ?>">
 <?php if ($this->params->get('show_page_title', 1)) : ?>
-<div class="componentheading<?php echo $this->params->get('pageclass_sfx'); ?>">
-	<?php echo $this->params->get('page_title'); ?>
-</div>
+<h2>
+	<?php if ($this->escape($this->params->get('page_heading'))) :?>
+		<?php echo $this->escape($this->params->get('page_heading')); ?>
+	<?php else : ?>
+		<?php echo $this->escape($this->params->get('page_title')); ?>
+	<?php endif; ?>
+</h2>
 <?php endif; ?>
 
 <?php echo $this->loadTemplate('form'); ?>
@@ -12,3 +17,4 @@
 else :
 	echo $this->loadTemplate('error');
 endif; ?>
+</div>

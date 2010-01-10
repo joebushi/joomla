@@ -261,7 +261,7 @@ class JDocumentHTML extends JDocument
 		$result = '';
 
 		$words = explode(' ', $condition);
-		for ($i = 0; $i < count($words); $i+=2)
+		for ($i = 0, $n = count($words); $i < $n; $i+=2)
 		{
 			// odd parts (modules)
 			$name		= strtolower($words[$i]);
@@ -344,7 +344,7 @@ class JDocumentHTML extends JDocument
 	}
 
 	/**
-	 * Fetch the template, and initialize the params
+	 * Fetch the template, and initialise the params
 	 *
 	 * @param array parameters to determine the template
 	 */
@@ -352,8 +352,9 @@ class JDocumentHTML extends JDocument
 	 {
 		// check
 		$directory	= isset($params['directory']) ? $params['directory'] : 'templates';
-		$template	= JFilterInput::clean($params['template'], 'cmd');
-		$file		= JFilterInput::clean($params['file'], 'cmd');
+		$filter		= JFilterInput::getInstance();
+		$template	= $filter->clean($params['template'], 'cmd');
+		$file		= $filter->clean($params['file'], 'cmd');
 
 		if (!file_exists($directory.DS.$template.DS.$file)) {
 			$template = 'system';

@@ -71,12 +71,12 @@ class MenusViewItems extends JView
 	 */
 	protected function _setToolbar()
 	{
-		JToolBarHelper::title(JText::_('Menus_View_Items_Title'), 'menu.png');
+		JToolBarHelper::title(JText::_('Menus_View_Items_Title'), 'menumgr.png');
 		JToolBarHelper::custom('item.add', 'new.png', 'new_f2.png', 'New', false);
 		JToolBarHelper::custom('item.edit', 'edit.png', 'edit_f2.png', 'Edit', true);
 
 		JToolBarHelper::divider();
-		
+
 		JToolBarHelper::custom('items.publish', 'publish.png', 'publish_f2.png', 'Publish', true);
 		JToolBarHelper::custom('items.unpublish', 'unpublish.png', 'unpublish_f2.png', 'Unpublish', true);
 		if ($this->state->get('filter.published') == -2) {

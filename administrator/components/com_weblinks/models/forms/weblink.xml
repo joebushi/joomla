@@ -11,17 +11,6 @@
 			readonly="true"/>
 
 		<field
-			id="catid"
-			name="catid"
-			type="Categories"
-			extension="com_weblinks"
-			label="Weblinks_Category_Label"
-			description="Weblinks_Category_Desc"
-			class="inputbox">
-			<option>JOption_No_Category</option>
-		</field>
-
-		<field
 			id="title"
 			name="title"
 			type="text"
@@ -41,6 +30,17 @@
 			size="40"
 			label="Weblinks_Alias_Label"
 			description="Weblinks_Alias_Desc"/>
+
+		<field
+			id="catid"
+			name="catid"
+			type="category"
+			extension="com_weblinks"
+			label="Weblinks_Category_Label"
+			description="Weblinks_Category_Desc"
+			class="inputbox">
+			<option>JOption_No_Category</option>
+		</field>
 
 		<field
 			id="url"
@@ -87,11 +87,12 @@
 		<field
 			id="state"
 			name="state"
-			type="radio"
-			class="rbtn"
-			default="1"
+			type="list"
 			label="Weblinks_State_Label"
-			description="Weblinks_State_Desc">
+			description="Weblinks_State_Desc"
+			class="inputbox"
+			size="1"
+			default="1">
 			<option
 				value="1">JOption_Published</option>
 			<option
@@ -136,20 +137,6 @@
 			description="Weblinks_Ordering_Desc"/>
 
 		<field
-			id="archived"
-			name="archived"
-			type="radio"
-			class="inputbox"
-			default=""
-			label="Weblinks_Archived_Label"
-			description="Weblinks_Archived_Desc">
-			<option
-				value="0">JNo</option>
-			<option
-				value="1">JYes</option>
-		</field>
-
-		<field
 			id="approved"
 			name="approved"
 			type="radio"
@@ -161,6 +148,25 @@
 				value="0">JNo</option>
 			<option
 				value="1">JYes</option>
+		</field>
+
+		<field
+			name="access"
+			type="accesslevel"
+			label="JField_Access_Label"
+			description="JField_Access_Desc"
+			class="inputbox"
+			size="1"
+			default="" />
+
+		<field
+			name="language"
+			type="contentlanguage"
+			label="JField_Language_Label"
+			description="JField_Language_Desc"
+			class="inputbox"
+			default="">
+			<option value="">JOption_Default_Language</option>
 		</field>
 
 	</fields>

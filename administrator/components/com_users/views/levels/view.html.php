@@ -2,7 +2,6 @@
 /**
  * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @copyright	Copyright (C) 2008 - 2009 JXtended, LLC. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -49,17 +48,30 @@ class UsersViewLevels extends JView
 	 */
 	protected function _setToolbar()
 	{
+		$canDo	= UsersHelper::getActions();
+
 		JToolBarHelper::title(JText::_('Users_View_Levels_Title'), 'levels');
 
-		JToolBarHelper::custom('level.add', 'new.png', 'new_f2.png', 'New', false);
-		JToolBarHelper::custom('level.edit', 'edit.png', 'edit_f2.png', 'Edit', true);
-		JToolBarHelper::deleteList('', 'level.delete');
+		if ($canDo->get('core.create'))
+		{
+			JToolBarHelper::custom('level.add', 'new.png', 'new_f2.png', 'New', false);
+		}
+		if ($canDo->get('core.edit'))
+		{
+			JToolBarHelper::custom('level.edit', 'edit.png', 'edit_f2.png', 'Edit', true);
+		}
+		if ($canDo->get('core.delete'))
+		{
+			JToolBarHelper::deleteList('', 'level.delete');
+		}
 
 		JToolBarHelper::divider();
 
-		// We can't use the toolbar helper here because there is no generic popup button.
-		$bar = &JToolBar::getInstance('toolbar');
-		$bar->appendButton('Popup', 'config', 'JToolbar_Options', 'index.php?option=com_users&view=config&tmpl=component', 570, 500);
+		if ($canDo->get('core.admin'))
+		{
+			JToolBarHelper::preferences('com_users');
+		}
+		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.users.levels');
 	}
 }

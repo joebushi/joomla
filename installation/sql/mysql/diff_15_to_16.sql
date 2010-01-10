@@ -3,6 +3,183 @@
 # 1.5 to 1.6
 
 -- ----------------------------------------------------------------
+-- jos_assets
+-- ----------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `jos_assets` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `parent_id` int(11) NOT NULL DEFAULT '0' COMMENT 'Nested set parent.',
+  `lft` int(11) NOT NULL DEFAULT '0' COMMENT 'Nested set lft.',
+  `rgt` int(11) NOT NULL DEFAULT '0' COMMENT 'Nested set rgt.',
+  `level` int(10) unsigned NOT NULL COMMENT 'The cached level in the nested tree.',
+  `name` varchar(50) NOT NULL COMMENT 'The unique name for the asset.\n',
+  `title` varchar(100) NOT NULL COMMENT 'The descriptive title for the asset.',
+  `rules` varchar(5120) NOT NULL COMMENT 'JSON encoded access control.',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_asset_name` (`name`),
+  KEY `idx_lft_rgt` (`lft`,`rgt`),
+  KEY `idx_parent_id` (`parent_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+-- ----------------------------------------------------------------
+-- jos_banners
+-- ----------------------------------------------------------------
+
+ALTER TABLE `jos_banner`
+ RENAME TO `jos_banners`;
+
+ALTER TABLE `jos_banners`
+ CHANGE COLUMN `bid` `id` INTEGER NOT NULL auto_increment;
+
+ALTER TABLE `jos_banners`
+ MODIFY COLUMN `type` INTEGER NOT NULL DEFAULT '0';
+
+ALTER TABLE `jos_banners`
+ CHANGE COLUMN `showBanner` `state` TINYINT(3) NOT NULL DEFAULT '0';
+
+ALTER TABLE `jos_banners`
+ CHANGE COLUMN `tags` `metakey` TEXT NOT NULL AFTER `state`;
+
+ALTER TABLE `jos_banners`
+ CHANGE COLUMN `date` `created` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `params`;
+
+ALTER TABLE `jos_banners`
+ DROP COLUMN `editor`;
+
+ALTER TABLE `jos_banners`
+ MODIFY COLUMN `catid` INTEGER UNSIGNED NOT NULL DEFAULT 0 AFTER `state`;
+
+ALTER TABLE `jos_banners`
+ MODIFY COLUMN `description` TEXT NOT NULL AFTER `catid`;
+
+ALTER TABLE `jos_banners`
+ MODIFY COLUMN `sticky` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 AFTER `description`;
+
+ALTER TABLE `jos_banners`
+ MODIFY COLUMN `ordering` INTEGER NOT NULL DEFAULT 0 AFTER `sticky`;
+
+ALTER TABLE `jos_banners`
+ MODIFY COLUMN `params` TEXT NOT NULL AFTER `metakey`;
+
+ALTER TABLE `jos_banners`
+ ADD COLUMN `own_prefix` TINYINT(1) NOT NULL DEFAULT '0' AFTER `params`;
+
+ALTER TABLE `jos_banners`
+ ADD COLUMN `metakey_prefix` VARCHAR(255) NOT NULL DEFAULT '' AFTER `own_prefix`;
+
+ALTER TABLE `jos_banners`
+ ADD COLUMN `purchase_type` TINYINT NOT NULL DEFAULT '-1' AFTER `metakey_prefix`;
+
+ALTER TABLE `jos_banners`
+ ADD COLUMN `track_clicks` TINYINT NOT NULL DEFAULT '-1' AFTER `purchase_type`;
+
+ALTER TABLE `jos_banners`
+ ADD COLUMN `track_impressions` TINYINT NOT NULL DEFAULT '-1' AFTER `track_clicks`;
+
+ALTER TABLE `jos_banners`
+ ADD COLUMN `reset` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `publish_down`;
+
+UPDATE `jos_banners`
+ SET `type`=1 WHERE TRIM(`custombannercode`)!='';
+
+UPDATE `jos_banners`
+ SET `params` = concat( '"flash":{"', REPLACE( REPLACE( REPLACE( TRIM( '\n' FROM `params` ) , '=', '":"' ) , '\n', '","' ) , '\r', '' ) , '"},' ) WHERE TRIM( `params` ) != '';
+
+UPDATE `jos_banners`
+ SET `params` = '"flash":{"height":"0","width":"0"},' WHERE TRIM( `params` ) = '';
+
+UPDATE `jos_banners`
+ SET `params` = CONCAT('{"custom":{"bannercode":"',REPLACE(`custombannercode`,'"','\\"'),'"},"alt":{"alt":""},',`params`,'"image":{"url":"',`imageurl`,'"}}');
+
+ALTER TABLE `jos_banners`
+ DROP COLUMN `custombannercode`;
+
+ALTER TABLE `jos_banners`
+ DROP COLUMN `imageurl`;
+
+ALTER TABLE `jos_banners`
+ DROP INDEX `viewbanner`;
+
+ALTER TABLE `jos_banners`
+ ADD INDEX `idx_own_prefix` (`own_prefix`);
+
+ALTER TABLE `jos_banners`
+ ADD INDEX `idx_metakey_prefix` (`metakey_prefix`);
+
+-- ----------------------------------------------------------------
+-- jos_banner_clients
+-- ----------------------------------------------------------------
+
+ALTER TABLE `jos_bannerclient`
+ RENAME TO `jos_banner_clients`;
+
+ALTER TABLE `jos_banner_clients`
+ CHANGE COLUMN `cid` `id` INTEGER NOT NULL auto_increment;
+
+ALTER TABLE `jos_banner_clients`
+ DROP COLUMN `editor`;
+
+ALTER TABLE `jos_banner_clients`
+ ADD COLUMN `state` TINYINT(3) NOT NULL DEFAULT '0' AFTER `extrainfo`;
+
+ALTER TABLE `jos_banner_clients`
+ ADD COLUMN `metakey` TEXT NOT NULL;
+
+ALTER TABLE `jos_banner_clients`
+ ADD COLUMN `own_prefix` TINYINT NOT NULL DEFAULT '0';
+
+ALTER TABLE `jos_banner_clients`
+ ADD COLUMN `metakey_prefix` VARCHAR(255) NOT NULL DEFAULT '';
+
+ALTER TABLE `jos_banner_clients`
+ ADD COLUMN `purchase_type` TINYINT NOT NULL DEFAULT '-1';
+
+ALTER TABLE `jos_banner_clients`
+ ADD COLUMN `track_clicks` TINYINT NOT NULL DEFAULT '-1';
+
+ALTER TABLE `jos_banner_clients`
+ ADD COLUMN `track_impressions` TINYINT NOT NULL DEFAULT '-1';
+
+ALTER TABLE `jos_banner_clients`
+ ADD INDEX `idx_own_prefix` (`own_prefix`);
+
+ALTER TABLE `jos_banner_clients`
+ ADD INDEX `idx_metakey_prefix` (`metakey_prefix`);
+
+UPDATE `jos_banner_clients`
+ SET `state`=1;
+
+-- ----------------------------------------------------------------
+-- jos_banner_tracks
+-- ----------------------------------------------------------------
+
+ALTER TABLE `jos_bannertrack`
+ RENAME TO `jos_banner_tracks`;
+
+ALTER TABLE `jos_banner_tracks`
+ ADD COLUMN `count` INTEGER UNSIGNED NOT NULL DEFAULT '0';
+
+INSERT `jos_banner_tracks`
+ SELECT `track_date`,`track_type`,`banner_id`,count('*') AS `count`
+ FROM `jos_banner_tracks`
+ GROUP BY `track_date`,`track_type`,`banner_id`;
+
+DELETE FROM `jos_banner_tracks`
+ WHERE `count`=0;
+
+ALTER TABLE `jos_banner_tracks`
+ ADD PRIMARY KEY (`track_date`, `track_type`, `banner_id`);
+
+ALTER TABLE `jos_banner_tracks`
+ ADD INDEX `idx_track_date` (`track_date`);
+
+ALTER TABLE `jos_banner_tracks`
+ ADD INDEX `idx_track_type` (`track_type`);
+
+ALTER TABLE `jos_banner_tracks`
+ ADD INDEX `idx_banner_id` (`banner_id`);
+
+-- ----------------------------------------------------------------
 -- jos_categories
 -- ----------------------------------------------------------------
 
@@ -11,19 +188,19 @@ ALTER TABLE `jos_categories`
 
 ALTER TABLE `jos_categories`
  MODIFY COLUMN `params` VARCHAR(2048) NOT NULL DEFAULT '';
- 
+
 ALTER TABLE `jos_categories`
  ADD COLUMN `lft` INTEGER NOT NULL DEFAULT 0 COMMENT 'Nested set lft.' AFTER `parent_id`;
- 
+
 ALTER TABLE `jos_categories`
  ADD COLUMN `rgt` INTEGER NOT NULL DEFAULT 0 COMMENT 'Nested set rgt.' AFTER `lft`;
- 
+
 ALTER TABLE `jos_categories`
  ADD COLUMN `level` INT UNSIGNED NOT NULL DEFAULT 0 AFTER `rgt`;
- 
+
 ALTER TABLE `jos_categories`
  ADD COLUMN `path` VARCHAR(1024) NOT NULL DEFAULT '' AFTER `level`;
- 
+
 ALTER TABLE `jos_categories`
  ADD COLUMN `metadesc` VARCHAR(1024) NOT NULL COMMENT 'The meta description for the page.' AFTER `params`;
 
@@ -35,20 +212,20 @@ ALTER TABLE `jos_categories`
 
 ALTER TABLE `jos_categories`
  ADD COLUMN `created_user_id` INT UNSIGNED NOT NULL DEFAULT 0 AFTER `metadata`;
- 
+
 ALTER TABLE `jos_categories`
  ADD COLUMN `created_time` TIMESTAMP NOT NULL AFTER `created_user_id`;
- 
+
 ALTER TABLE `jos_categories`
  ADD COLUMN `modified_user_id` INT UNSIGNED NOT NULL DEFAULT 0 AFTER `created_time`;
- 
+
 ALTER TABLE `jos_categories`
  ADD COLUMN `modified_time` TIMESTAMP NOT NULL AFTER `modified_user_id`;
- 
+
 ALTER TABLE `jos_categories`
  ADD COLUMN `hits` INT UNSIGNED NOT NULL DEFAULT 0 AFTER `modified_time`;
 
-ALTER TABLE `jos_categories` 
+ALTER TABLE `jos_categories`
  ADD COLUMN `language` CHAR(7) NOT NULL AFTER `hits`;
 
 ALTER TABLE `jos_categories`
@@ -77,9 +254,11 @@ UPDATE `jos_components`
  WHERE link = 'option=com_content';
 
 INSERT INTO `#__components` VALUES
- (0, 'Articles', '', 0, 0, 'option=com_content&view=articles', 'com_content_Articles', 'com_content', 1, '', 1, '{}', 1),
- (0, 'Categories', '', 0, 0, 'option=com_categories&view=categories&extension=com_content', 'com_content_Categories', 'com_content', 2, '', 1, '{}', 1),
- (0, 'Featured', '', 0, 0, 'option=com_content&view=featured', 'com_content_Featured', 'com_content', 3, '', 1, '{}', 1);
+ (null, 'Articles', '', 0, 0, 'option=com_content&view=articles', 'com_content_Articles', 'com_content', 1, '', 1, '{}', 1),
+ (null, 'Categories', '', 0, 0, 'option=com_categories&view=categories&extension=com_content', 'com_content_Categories', 'com_content', 2, '', 1, '{}', 1),
+ (null, 'Featured', '', 0, 0, 'option=com_content&view=featured', 'com_content_Featured', 'com_content', 3, '', 1, '{}', 1),
+ (null, 'Redirects', '', 0, 0, 'option=com_redirect', 'Manage Redirects', 'com_redirect', 0, 'js/ThemeOffice/component.png', 1, '{}', 1),
+ (null, 'Checkin', '', 0, 0, 'option=com_checkin', 'Checkin', 'com_checkin', 0, 'js/ThemeOffice/component.png', 1, '{}', 1);
 
 UPDATE `jos_components` AS a
  LEFT JOIN `jos_components` AS b ON b.link='option=com_content'
@@ -92,7 +271,7 @@ UPDATE `jos_components` AS a
 -- ----------------------------------------------------------------
 
 ALTER TABLE `jos_content`
- ADD COLUMN `asset_id` INTEGER UNSIGNED NOT NULL DEFAULT 0 COMMENT 'FK to the jos_access_assets table.' AFTER `id`;
+ ADD COLUMN `asset_id` INTEGER UNSIGNED NOT NULL DEFAULT 0 COMMENT 'FK to the jos_assets table.' AFTER `id`;
 
 ALTER TABLE `jos_content`
  ADD COLUMN `featured` TINYINT UNSIGNED NOT NULL DEFAULT 0 COMMENT 'Set if article is featured.' AFTER `metadata`;
@@ -108,7 +287,7 @@ ALTER TABLE `jos_content`
 
 ALTER TABLE `jos_content`
  ADD INDEX idx_language(`language`);
- 
+
 ALTER TABLE `jos_content`
  ADD INDEX idx_xreference(`xreference`);
 
@@ -118,6 +297,8 @@ UPDATE `jos_content` AS a
  	SELECT f.content_id
  	FROM `jos_content_frontpage` AS f
  );
+
+ ALTER TABLE `jos_content` CHANGE `attribs` `attribs` VARCHAR( 5120 ) NOT NULL;
 
 -- ----------------------------------------------------------------
 -- jos_extensions (new) and migration
@@ -150,14 +331,14 @@ CREATE TABLE  `#__extensions` (
 ) TYPE=MyISAM CHARACTER SET `utf8`;
 
 TRUNCATE TABLE #__extensions;
-INSERT INTO #__extensions SELECT 
+INSERT INTO #__extensions SELECT
      0,							# extension id (regenerate)
      name,						# name
      'plugin',					# type
      element,					# element
      folder,                    # folder
      client_id,                 # client_id
-     published,                 # enabled 
+     published,                 # enabled
      access,                    # access
      iscore,                    # protected
      '',                        # manifest_cache
@@ -167,15 +348,15 @@ INSERT INTO #__extensions SELECT
      checked_out_time,         	# checked_out_time
      ordering                   # ordering
      FROM #__plugins;         	# #__extensions replaces the old #__plugins table
-     
- INSERT INTO #__extensions SELECT 
+
+ INSERT INTO #__extensions SELECT
      0,                         # extension id (regenerate)
      name,						# name
      'component',				# type
      `option`,					# element
      '',                        # folder
      0,                         # client id (unused for components)
-     enabled,                   # enabled 
+     enabled,                   # enabled
      0,                         # access
      iscore,                    # protected
      '',                        # manifest cache
@@ -187,7 +368,7 @@ INSERT INTO #__extensions SELECT
      FROM #__components        # #__extensions replaces #__components for install uninstall
                                 # component menu selection still utilises the #__components table
      WHERE parent = 0;          # only get top level entries
-     
+
  INSERT INTO #__extensions SELECT DISTINCT
      0,                         # extension id (regenerate)
      module,                    # name
@@ -195,7 +376,7 @@ INSERT INTO #__extensions SELECT
      `module`,                  # element
      '',                        # folder
      client_id,                 # client id
-     1,                         # enabled (module instances may be enabled/disabled in #__modules) 
+     1,                         # enabled (module instances may be enabled/disabled in #__modules)
      0,                         # access (module instance access controlled in #__modules)
      iscore,                    # protected
      '',                        # manifest cache
@@ -205,7 +386,7 @@ INSERT INTO #__extensions SELECT
      '0000-00-00 00:00:00',     # checked_out_time (module instance, see #__modules)
      0                          # ordering (module instance, see #__modules)
      FROM #__modules			# #__extensions provides the install/uninstall control for modules
-     WHERE id IN (SELECT id FROM #__modules GROUP BY module ORDER BY id)     
+     WHERE id IN (SELECT id FROM #__modules GROUP BY module ORDER BY id)
 
 -- New extensions
 INSERT INTO `#__extensions` VALUES(0, 'Editor - CodeMirror', 'plugin', 'codemirror', 'editors', 1, 0, 1, 1, '', 'linenumbers=0\n\n', '', '', 0, '0000-00-00 00:00:00', 7, 0);
@@ -223,6 +404,11 @@ CREATE TABLE `jos_languages` (
   `published` int(11) NOT NULL default '0',
   PRIMARY KEY  (`lang_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8
+
+INSERT INTO `jos_languages` (`lang_id`,`lang_code`,`title`,`title_native`,`description`,`published`)
+VALUES
+	(1,'en_GB','English (UK)','English (UK)','',1),
+	(2,'en_US','English (US)','English (US)','',1);
 
 -- ----------------------------------------------------------------
 -- jos_menu
@@ -290,7 +476,10 @@ ALTER TABLE `jos_menu`
 ALTER TABLE `jos_menu`
  ADD COLUMN `path` VARCHAR(1024) NOT NULL COMMENT 'The computed path of the menu item based on the alias field.' AFTER `alias`;
 
-INSERT INTO `jos_menu` VALUES 
+ALTER TABLE `jos_menu`
+ ADD COLUMN `template_style_id` int(11) UNSIGNED NOT NULL DEFAULT '0';
+
+INSERT INTO `jos_menu` VALUES
  (0, '', 'Menu_Item_Root', 'root', '', '', '', 1, 0, 0, 0, 0, 0, '0000-00-00 00:00:00', 0, 0, 0, '', 0, 37, 0);
 
 -- TODO: Need to devise how to shift the parent_id's of the existing menus to relate to the new root.
@@ -305,16 +494,81 @@ INSERT INTO `jos_menu` VALUES
 ALTER TABLE `jos_menu_types`
  MODIFY COLUMN `menutype` VARCHAR(24) NOT NULL,
  MODIFY COLUMN `title` VARCHAR(48) NOT NULL,
- DROP INDEX `menutype`; 
+ DROP INDEX `menutype`;
+
+-- ----------------------------------------------------------------
+-- jos_messages
+-- ----------------------------------------------------------------
+
+ALTER TABLE `jos_messages`
+ CHANGE `subject` `subject` varchar(255) NOT NULL DEFAULT '';
+ 
+ALTER TABLE `jos_messages`
+ CHANGE `state` `state` tinyint(1) NOT NULL DEFAULT '0';
+
+ALTER TABLE `jos_messages`
+ CHANGE `priority` `priority` tinyint(1) UNSIGNED NOT NULL DEFAULT '0';
+
+ALTER TABLE `jos_messages`
+ CHANGE `folder_id` `folder_id` tinyint(3) UNSIGNED NOT NULL DEFAULT '0';
 
 -- ----------------------------------------------------------------
 -- jos_modules
 -- ----------------------------------------------------------------
 
+ALTER TABLE `jos_modules`
+ DROP `numnews`;
+
+ALTER TABLE `jos_modules`
+ DROP `control`;
+
+ALTER TABLE `jos_modules`
+ DROP `iscore`;
+
+ALTER TABLE `jos_modules`
+ ADD COLUMN `language` CHAR(7) NOT NULL AFTER `client_id`;
+
+ALTER TABLE `jos_modules`
+ ADD INDEX `idx_language` (`language`);
+
+ALTER TABLE `jos_modules`
+ CHANGE `title` `title` varchar(100) NOT NULL DEFAULT '';
+
+ALTER TABLE `jos_modules`
+ CHANGE `params` `params` varchar(5120) NOT NULL DEFAULT '';
+
 UPDATE `#__modules`
  SET `menutype` = 'mod_menu'
  WHERE `menutype` = 'mod_mainmenu';
- 
+
+-- ----------------------------------------------------------------
+-- jos_newsfeeds
+-- ----------------------------------------------------------------
+
+ALTER TABLE `jos_newsfeeds`
+ CHANGE `id` `id` integer(11) UNSIGNED NOT NULL auto_increment;
+
+ALTER TABLE `jos_newsfeeds`
+ CHANGE `name` `name` varchar(100) NOT NULL DEFAULT '';
+
+ALTER TABLE `jos_newsfeeds`
+ CHANGE `alias` `alias` varchar(100) NOT NULL DEFAULT '';
+
+ALTER TABLE `jos_newsfeeds`
+ CHANGE `link` `link` varchar(200) NOT NULL DEFAULT '';
+
+ALTER TABLE `jos_newsfeeds`
+ CHANGE `checked_out` `checked_out` integer(10) UNSIGNED NOT NULL DEFAULT '0';
+
+ALTER TABLE `jos_newsfeeds`
+ ADD `access` tinyint UNSIGNED NOT NULL DEFAULT '0';
+
+ALTER TABLE `jos_newsfeeds`
+ ADD `language` char(7) NOT NULL DEFAULT '';
+
+ALTER TABLE `jos_newsfeeds`
+ ADD INDEX `idx_language` (`language`);
+
 -- ----------------------------------------------------------------
 -- jos_plugins
 -- ----------------------------------------------------------------
@@ -346,6 +600,33 @@ ALTER TABLE `jos_session`
 
 ALTER TABLE `jos_session`
  MODIFY COLUMN `data` VARCHAR(20480);
+
+-- ----------------------------------------------------------------
+-- jos_template_styles
+-- ----------------------------------------------------------------
+
+RENAME TABLE `jos_menu_template` TO `jos_template_styles`;
+
+ALTER TABLE `jos_template_styles`
+ CHANGE `id` `id` int(11) UNSIGNED NOT NULL auto_increment;
+
+ALTER TABLE `jos_template_styles`
+ CHANGE `template` `template` varchar(50) NOT NULL DEFAULT '';
+
+ALTER TABLE `jos_template_styles`
+ CHANGE `client_id` `client_id` tinyint(1) UNSIGNED NOT NULL DEFAULT '0';
+
+ALTER TABLE `jos_template_styles`
+ CHANGE `home` `home` tinyint(1) UNSIGNED NOT NULL DEFAULT '0';
+
+ALTER TABLE `jos_template_styles`
+ CHANGE `params` `params` varchar(2048) NOT NULL DEFAULT '';
+
+ALTER TABLE `jos_template_styles`
+ ADD INDEX `idx_template` (`template`);
+
+ALTER TABLE `jos_template_styles`
+ ADD INDEX `idx_home` (`home`);
 
 -- ----------------------------------------------------------------
 -- jos_updates (new)
@@ -411,6 +692,11 @@ CREATE TABLE  `#__update_categories` (
 ALTER TABLE `jos_weblinks`
  ADD COLUMN `access` INT UNSIGNED NOT NULL DEFAULT 1 AFTER `approved`;
 
+ALTER TABLE `jos_weblinks`
+ ADD `language` char(7) NOT NULL DEFAULT '';
+
+ALTER TABLE `jos_weblinks`
+ ADD INDEX `idx_language` (`language`);
 
 
 -- ----------------------------------------------------------------

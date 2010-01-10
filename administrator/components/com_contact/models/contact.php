@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		
+ * @version
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -28,7 +28,7 @@ class ContactModelContact extends JModelForm
 	 protected $_context		= 'com_contact.item';
 
 	/**
-	 * Returns a reference to the a Table object, always creating it
+	 * Returns a Table object, always creating it
 	 *
 	 * @param	type 	$type 	 The table type to instantiate
 	 * @param	string 	$prefix	 A prefix for the table class name. Optional.
@@ -36,7 +36,7 @@ class ContactModelContact extends JModelForm
 	 * @return	JTable	A database object
 	*/
 
-	public function &getTable($type = 'Contact', $prefix = 'ContactTable', $config = array())
+	public function getTable($type = 'Contact', $prefix = 'ContactTable', $config = array())
 	{
 		return JTable::getInstance($type, $prefix, $config);
 	}
@@ -60,7 +60,7 @@ class ContactModelContact extends JModelForm
 		// Load the parameters.
 		$this->setState('params', $params);
 			}
-	
+
 
 	/**
 	 * Method to get an item.
@@ -71,7 +71,7 @@ class ContactModelContact extends JModelForm
 	 */
 	public function &getItem($itemId = null)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$itemId = (!empty($itemId)) ? $itemId : (int)$this->getState('contact.id');
 		$false	= false;
 
@@ -89,7 +89,7 @@ class ContactModelContact extends JModelForm
 		// Prime required properties.
 		if (empty($table->id))
 		{
-			//$table->parent_id	= $this->getState('item.parent_id');
+			$table->parent_id	= $this->getState('item.parent_id');
 			//$table->menutype	= $this->getState('item.menutype');
 			//$table->type		= $this->getState('item.type');
 		}
@@ -101,7 +101,7 @@ class ContactModelContact extends JModelForm
 
 		// Convert the params field to an array.
 		$registry = new JRegistry;
-		$registry->loadJSON($table->metadata);
+		//$registry->loadJSON($table->metadata);
 		$table->metadata = $registry->toArray();
 
 
@@ -118,7 +118,7 @@ class ContactModelContact extends JModelForm
 	 */
 	public function getForm()
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$app	= &JFactory::getApplication();
 		JImport('joomla.form.form');
 		JForm::addFieldPath('JPATH_ADMINISTRATOR/components/com_users/models/fields');
@@ -206,7 +206,7 @@ class ContactModelContact extends JModelForm
 		$dispatcher = & JDispatcher::getInstance();
 		// Include the content plugins for the onSave events.
 		JPluginHelper::importPlugin('content');
-		
+
 		// Sanitize the ids.
 		$pks = (array) $pks;
 		JArrayHelper::toInteger($pks);
@@ -219,19 +219,19 @@ class ContactModelContact extends JModelForm
 		{
 			$table->load($itemId); // get contact for onBeforeContacttDelete event
 			$result = $dispatcher->trigger('onBeforeContacttDelete', array($table));
-			if (in_array(false, $result, true)) 
+			if (in_array(false, $result, true))
 			{
 				JError::raiseError(500, $row->getError());
 				return false;
 			}
-			
+
 			// delete row
 			if (!$table->delete($itemId))
 			{
 				$this->setError($table->getError());
 				return false;
 			}
-			
+
 			$dispatcher->trigger('onAfterContactDelete', array($itemId));
 		}
 
@@ -239,7 +239,7 @@ class ContactModelContact extends JModelForm
 		return true;
 	}
 	/**
-	 * Method to publish 
+	 * Method to publish
 	 *
 	 * @param	array	The ids of the items to publish.
 	 * @param	int		The value of the published state
@@ -297,10 +297,10 @@ class ContactModelContact extends JModelForm
 	 * @return	boolean	True on success/false on failure
 	 * @since	1.6
 	 */
-	 
+
 	public function checkin($pk = null)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$pk	= (!empty($pk)) ? $pk : (int) $this->getState('contact.id');
 		// Only attempt to check the row in if it exists.
 		if ($pk)
@@ -318,7 +318,7 @@ class ContactModelContact extends JModelForm
 				$this->setError(JText::_('JError_Checkin_user_mismatch'));
 				return false;
 			}
-			
+
 			// Attempt to check the row in.
 			if (!$table->checkin($contactId)) {
 				$this->setError($table->getError());
@@ -335,7 +335,7 @@ class ContactModelContact extends JModelForm
 	 */
 	public function checkout($pk = null)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$pk		= (!empty($pk)) ? $pk : (int) $this->getState('contact.id');
 
 		// Only attempt to check the row in if it exists.
@@ -439,5 +439,5 @@ class ContactModelContact extends JModelForm
 		return true;
 	}
 
-	
+
 }

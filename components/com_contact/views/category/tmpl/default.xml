@@ -16,9 +16,10 @@
 
 		<field
 			name="catid"
-			type="categories"
+			type="category"
 			extension="com_contact"
 			default="0"
+			required="true"
 			label="Select Category"
 			description="A contacts category" />
 	</fields>
@@ -51,7 +52,7 @@
 		<field
 			name="image"
 			type="imagelist"
-			directory="/images/stories"
+			directory="/images"
 			hide_default="1"
 			default=""
 			label="Image"

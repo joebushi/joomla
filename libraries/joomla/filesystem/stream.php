@@ -19,7 +19,7 @@
  * @version SVN: $Id$
  */
 
-// Check to ensure this file is within the rest of the framework
+// No direct access.
 defined('JPATH_BASE') or die();
 
 jimport('joomla.filesystem.helper');
@@ -82,7 +82,8 @@ class JStream extends JObject
 	/**
 	 * Destructor
 	 */
-	function __destruct() {
+	function __destruct()
+	{
 		// attempt to close on destruction if there is a file handle
 		if($this->_fh) @$this->close();
 	}
@@ -119,9 +120,9 @@ class JStream extends JObject
 		{
 			// if we're dealing with a Joomla! stream, load it
 			if(JFilesystemHelper::isJoomlaStream($url['scheme'])) {
-				require_once(dirname(__FILE__).DS.'streams'.DS.$url['scheme'].'.php');
+				require_once dirname(__FILE__).DS.'streams'.DS.$url['scheme'].'.php';
 			}
-				
+
 			// we have a scheme! force the method to be f
 			$this->processingmethod = 'f';
 		}
@@ -290,13 +291,13 @@ class JStream extends JObject
 		if(!$res)
 		{
 			$tmp_error = '';
-				
+
 			if($php_errormsg) { // some bad went wrong
 				$tmp_error = $php_errormsg; // store the error in case we need it
 			}
-				
+
 			$res = JFilesystemHelper::remotefsize($this->filename);
-				
+
 			if(!$res)
 			{
 				if($tmp_error) { // use the php_errormsg from before
@@ -401,7 +402,7 @@ class JStream extends JObject
 					$res = ($remaining > 0) ? fread($this->_fh, $remaining) : fread($this->_fh, $this->chunksize);
 					break;
 			}
-				
+
 			if(!$res)
 			{
 				$this->setError($php_errormsg);
@@ -618,7 +619,7 @@ class JStream extends JObject
 	 * @see http://au.php.net/manual/en/function.stream-get-meta-data.php
 	 * @return array header/metadata
 	 */
-	function get_meta_data() 
+	function get_meta_data()
 	{
 		if(!$this->_fh)
 		{
@@ -733,7 +734,7 @@ class JStream extends JObject
 	 * @param
 	 * @see http://www.php.net/manual/en/function.stream-filter-append.php
 	 */
-	function &appendFilter($filtername, $read_write=STREAM_FILTER_READ, $params=Array() )
+	function appendFilter($filtername, $read_write=STREAM_FILTER_READ, $params=Array() )
 	{
 		$res = false;
 		if($this->_fh)
@@ -756,7 +757,7 @@ class JStream extends JObject
 		return $res;
 	}
 
-	function &prependFilter($filtername, $read_write=STREAM_FILTER_READ, $params=Array() )
+	function prependFilter($filtername, $read_write=STREAM_FILTER_READ, $params=Array() )
 	{
 		$res = false;
 		if($this->_fh)
@@ -766,8 +767,15 @@ class JStream extends JObject
 			$track_errors = ini_get('track_errors');
 			ini_set('track_errors', true);
 			$res = @stream_filter_prepend($this->_fh, $filername, $read_write, $params);
-			if(!$res && $php_errormsg) $this->setError($php_errormsg); // set the error msg
-			else JUtility::array_unshift_ref($res, $this->filters); // push the new resource onto the filter stack
+			if(!$res && $php_errormsg)
+			{
+				$this->setError($php_errormsg); // set the error msg
+			}
+			else
+			{
+				array_unshift(&$res,'');
+				$res[0] =&$this->filters;
+			}
 			// restore error tracking to what it was before
 			ini_set('track_errors',$track_errors);
 		}
@@ -994,7 +1002,7 @@ class JStream extends JObject
 		}
 		return $filename;
 	}
-	
+
 	/**
 	 * Return the internal file handle
 	 */

@@ -8,17 +8,23 @@
  */
 
 defined('_JEXEC') or die;
-
-// Check if we need to show the page title.
-if ($this->params->get('show_page_title', 1)):
-	?>
-	<h1><?php echo $this->params->get('page_title'); ?></h1>
-	<?php
-endif;
 ?>
+
+<?php if ($this->params->get('show_page_title', 1)): ?>
+	<h2>
+		<?php if ($this->escape($this->params->get('page_heading'))) :?>
+			<?php echo $this->escape($this->params->get('page_heading')); ?>
+		<?php else : ?>
+			<?php echo $this->escape($this->params->get('page_title')); ?>
+		<?php endif; ?>
+	</h2>
+<?php endif; ?>
+
 <?php echo $this->loadTemplate('core'); ?>
 
 <?php echo $this->loadTemplate('custom'); ?>
 
-<a href="<?php echo JRoute::_('index.php?option=com_users&task=profile.edit&member_id='.$this->data->id);?>">
+<?php 		if (JFactory::getUser()->id == $this->data->id) {?>
+<a href="<?php echo JRoute::_('index.php?option=com_users&task=profile.edit&member_id='.(int) $this->data->id);?>">
 	<?php echo JText::_('Users_Edit_Profile'); ?></a>
+<?php  }	?>

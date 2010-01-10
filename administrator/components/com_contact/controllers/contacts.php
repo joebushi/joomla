@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		
+ * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
- * @link		http://www.theartofjoomla.com
  */
 
 // no direct access
@@ -29,7 +28,7 @@ class ContactControllerContacts extends JController
 		//$this->registerTask('report',       'publish');
 		$this->registerTask('orderup',		'ordering');
 		$this->registerTask('orderdown',	'ordering');
-		$this->registerTask('unfeatured',	'featured');		
+		$this->registerTask('unfeatured',	'featured');
 	}
 
 	/**
@@ -44,7 +43,8 @@ class ContactControllerContacts extends JController
 	 */
 	function &getModel($name = 'Contacts', $prefix = 'ContactModel')
 	{
-		return parent::getModel($name, $prefix, array('ignore_request' => true));
+		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
+		return $model;
 	}
 
 	/**
@@ -80,7 +80,7 @@ class ContactControllerContacts extends JController
 	 * @since	1.0
 	 */
 	function publish()
-	{   
+	{
 
 		// Check for request forgeries
 		JRequest::checkToken() or die(JText('JInvalid_Token'));

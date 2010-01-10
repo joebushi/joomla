@@ -2,6 +2,7 @@
 	<!-- $Id$ -->
 <form>
 	<fields
+		group="hyperlinkoptions"
 		label="Menus_Linktype_Options_Label"
 		description="">
 
@@ -22,11 +23,11 @@
 			default=""/>
 
 		<field
-			id="page_title"
-			name="page_title"
+			id="menu_image"
+			name="menu_image"
 			type="text"
-			label="Menus_Item_Page_Title_Label"
-			description="Menus_Item_Page_Title_Desc"
+			label="Menus_Item_Menu_Image_Label"
+			description="Menus_Item_Menu_Image_Desc"
 			default=""/>
 
 		<field
@@ -38,10 +39,20 @@
 			default="1"
 			filter="integer">
 			<option
-				value="0">JNo</option>
+				value="0"
+				class="no">JNo</option>
 			<option
-				value="1">JYes</option>
+				value="1"
+				class="yes">JYes</option>
 		</field>
+
+		<field
+			id="page_title"
+			name="page_title"
+			type="text"
+			label="Menus_Item_Page_Title_Label"
+			description="Menus_Item_Page_Title_Desc"
+			default=""/>
 
 		<field
 			id="page_heading"
@@ -50,7 +61,7 @@
 			label="Menus_Item_Page_Heading_Label"
 			description="Menus_Item_Page_Heading_Desc"
 			default=""/>
-			
+
 		<field
 			id="pageclass_sfx"
 			name="pageclass_sfx"
@@ -58,38 +69,6 @@
 			label="Menus_Item_Page_Class_Label"
 			description="Menus_Item_Page_Class_Desc"
 			default=""/>
-
-		<field
-			id="menu_image"
-			name="menu_image"
-			type="text"
-			label="Menus_Item_Menu_Image_Label"
-			description="Menus_Item_Menu_Image_Desc"
-			default=""/>
-			
-		<field
-			id="link_title"
-			name="link_title"
-			type="text"
-			label="Menus_Item_Link_Title_Label"
-			description="Menus_Item_Link_Title_Desc"
-			default=""/>
-
-		<field
-			id="secure"
-			name="secure"
-			type="radio"
-			label="Menus_Item_Secure_Label"
-			description="Menus_Item_Secure_Desc"
-			default="0"
-			filter="integer">
-			<option
-				value="-1">Off</option>
-			<option
-				value="0">Ignore</option>
-			<option
-				value="1">On</option>
-		</field>
 
 		<field
 			id="menu-meta_description"
@@ -110,7 +89,7 @@
 			default=""
 			rows="3"
 			cols="40"/>
-			
+
 			<field
 			name="robots"
 			type="list"
@@ -130,6 +109,24 @@
 			<option
 				value="4">Don't display robots tag</option>
 		</field>
+
+		<field
+			id="secure"
+			name="secure"
+			type="radio"
+			label="Menus_Item_Secure_Label"
+			description="Menus_Item_Secure_Desc"
+			default="0"
+			filter="integer">
+			<option
+				value="-1">Off</option>
+			<option
+				value="1">On</option>
+			<option
+				value="0">Ignore</option>
+
+		</field>
+
 
 	</fields>
 

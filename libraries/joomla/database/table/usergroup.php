@@ -19,41 +19,6 @@ jimport('joomla.database.table');
 class JTableUsergroup extends JTable
 {
 	/**
-	 * @var int unsigned
-	 */
-	var $id;
-
-	/**
-	 * @var int unsigned
-	 */
-	var $parent_id;
-
-	/**
-	 * @var int unsigned
-	 */
-	var $lft;
-
-	/**
-	 * @var int unsigned
-	 */
-	var $rgt;
-
-	/**
-	 * @var varchar
-	 */
-	var $title;
-
-	/**
-	 * @var int unsigned
-	 */
-	var $section_id;
-
-	/**
-	 * @var varchar
-	 */
-	var $section;
-
-	/**
 	 * Constructor
 	 *
 	 * @access	public
@@ -78,12 +43,6 @@ class JTableUsergroup extends JTable
 		// Validate the title.
 		if ((trim($this->title)) == '') {
 			$this->setError(JText::_('Usergroup must have a title'));
-			return false;
-		}
-
-		// Validate the section.
-		if (empty($this->section_id)) {
-			$this->setError(JText::_('Usergroup must have a section'));
 			return false;
 		}
 

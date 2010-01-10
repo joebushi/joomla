@@ -2,7 +2,7 @@
 /**
  * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // No direct access
@@ -56,8 +56,6 @@ class CategoriesViewCategories extends JView
 
 	/**
 	 * Display the toolbar
-	 *
-	 * @access	private
 	 */
 	protected function _setToolbar()
 	{
@@ -75,12 +73,13 @@ class CategoriesViewCategories extends JView
 			),
 			'categories.png'
 		);
-		JToolBarHelper::custom('category.edit', 'new.png', 'new_f2.png', 'New', false);	
-		JToolBarHelper::custom('category.edit', 'edit.png', 'edit_f2.png', 'Edit', true);	
-		JToolBarHelper::divider();		
+		JToolBarHelper::custom('category.edit', 'new.png', 'new_f2.png', 'New', false);
+		JToolBarHelper::custom('category.edit', 'edit.png', 'edit_f2.png', 'Edit', true);
+		JToolBarHelper::divider();
 		JToolBarHelper::custom('categories.publish', 'publish.png', 'publish_f2.png', 'Publish', true);
 		JToolBarHelper::custom('categories.unpublish', 'unpublish.png', 'unpublish_f2.png', 'Unpublish', true);
 		if ($state->get('filter.published') != -1) {
+			JToolBarHelper::divider();
 			JToolBarHelper::archiveList('categories.archive');
 		}
 		if ($state->get('filter.published') == -2) {
@@ -93,6 +92,6 @@ class CategoriesViewCategories extends JView
 		JToolBarHelper::custom('categories.rebuild', 'refresh.png', 'refresh_f2.png', 'JToolbar_Rebuild', false);
 		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.categories');
-		
+
 	}
 }

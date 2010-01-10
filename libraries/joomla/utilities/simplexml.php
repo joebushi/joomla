@@ -73,6 +73,7 @@ defined('JPATH_BASE') or die;
  * @package 	Joomla.Framework
  * @subpackage	Utilities
  * @since 1.5
+ * @deprecated
  */
 class JSimpleXML extends JObject
 {
@@ -349,6 +350,7 @@ class JSimpleXML extends JObject
  * @package 	Joomla.Framework
  * @subpackage	Utilities
  * @since 1.5
+ * @deprecated
  */
 class JSimpleXMLElement extends JObject
 {
@@ -506,7 +508,7 @@ class JSimpleXMLElement extends JObject
 	 * @param int 	 $level
 	 * @return JSimpleXMLElement 	The added child object
 	 */
-	function &addChild($name, $attrs = array(), $level = null)
+	function addChild($name, $attrs = array(), $level = null)
 	{
 		//If there is no array already set for the tag name being added,
 		//create an empty array for it
@@ -559,10 +561,9 @@ class JSimpleXMLElement extends JObject
 	 * @param	string	$path	The / separated path to the element
 	 * @return	object	JSimpleXMLElement
 	 */
-	function &getElementByPath($path)
+	function getElementByPath($path)
 	{
 		$tmp	= &$this;
-		$false	= false;
 		$parts	= explode('/', trim($path, '/'));
 
 		foreach ($parts as $node)
@@ -583,11 +584,10 @@ class JSimpleXMLElement extends JObject
 		}
 
 		if ($found) {
-			$ref = &$tmp;
-		} else {
-			$ref = &$false;
+			return $tmp;
 		}
-		return $ref;
+
+		return false;
 	}
 
 	/**

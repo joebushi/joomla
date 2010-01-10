@@ -7,6 +7,9 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+// No direct access
+defined('JPATH_BASE') or die();
+
 /**
  * Client helper class
  *
@@ -36,7 +39,7 @@ class JClientHelper
 
 		if (!isset($credentials[$client]) || $force)
 		{
-			// Initialize variables
+			// Initialise variables.
 			$config = &JFactory::getConfig();
 
 			// Fetch the client layer configuration options for the specific client
@@ -213,7 +216,7 @@ class JClientHelper
 	 * @return	boolean|JExeption	True, if FTP settings should be shown, or an exeption
 	 * @since	1.5
 	 */
-	function &setCredentialsFromRequest($client)
+	function setCredentialsFromRequest($client)
 	{
 		// Determine wether FTP credentials have been passed along with the current request
 		$user = JRequest::getString('username', null, 'POST', JREQUEST_ALLOWRAW);

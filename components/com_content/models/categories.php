@@ -55,7 +55,7 @@ class ContentModelCategories extends JModelList
 
 		//$limitstart = $app->getUserStateFromRequest($this->_context.'.limitstart', 'limitstart', 0);
 		$limitstart = JRequest::getInt('limitstart', 0);
-		$this->setState('list.limitstart', $limitstart);
+		$this->setState('list.start', $limitstart);
 
 		//$orderCol = $app->getUserStateFromRequest($this->_context.'.ordercol', 'filter_order', 'a.lft');
 		$orderCol = JRequest::getCmd('filter_order', 'a.lft');
@@ -86,15 +86,11 @@ class ContentModelCategories extends JModelList
 	protected function _getStoreId($id = '')
 	{
 		// Compile the store id.
-		$id	.= ':'.$this->getState('list.start');
-		$id	.= ':'.$this->getState('list.limit');
-		$id	.= ':'.$this->getState('list.ordering');
-		$id	.= ':'.$this->getState('list.direction');
 		$id	.= ':'.$this->getState('filter.extension');
 		$id	.= ':'.$this->getState('filter.published');
 		$id	.= ':'.$this->getState('filter.access');
 
-		return md5($id);
+		return parent::_getStoreId($id);
 	}
 
 	/**

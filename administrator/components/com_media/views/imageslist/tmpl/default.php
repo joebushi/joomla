@@ -1,4 +1,15 @@
-<?php defined('_JEXEC') or die; ?>
+<?php
+/**
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	com_media
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+// No direct access.
+defined('_JEXEC') or die;
+?>
 <?php if (count($this->images) > 0 || count($this->folders) > 0) { ?>
 <div class="manager">
 
@@ -14,13 +25,7 @@
 
 </div>
 <?php } else { ?>
-<table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
-<tr>
-	<td>
-		<div align="center" style="font-size:large;font-weight:bold;color:#CCCCCC;font-family: Helvetica, sans-serif;">
-			<?php echo JText::_('No Images Found'); ?>
-		</div>
-	</td>
-</tr>
-</table>
+	<div id="media-noimages">
+		<p><?php echo JText::_('No Images Found'); ?></p>
+	</div>
 <?php } ?>

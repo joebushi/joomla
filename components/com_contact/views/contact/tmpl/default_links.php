@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @version		
+ * @version
  * @package		Joomla.Site
  * @subpackage	Contact
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
@@ -10,12 +10,10 @@
 
 defined('_JEXEC') or die;
 ?>
-<?php
 
-if ($this->contact->params->get('show_links')) : ?>
-	<h3>
-		<? echo JText::_('Com_Contact_Contact_Links_Heading') ; ?>
-	</h3>
+	<?php echo JHtml::_('sliders.panel', JText::_('Contact_Links'), 'display-links'); ?>
+<div class="jcontact-links">
+
 	<ul>
 		<?php if ($this->contact->params->get('linka')) : ?>
 			<li><a href="<?php echo $this->contact->params->get('linka') ?>"><?php echo $this->contact->params->get('linka_name')  ?></a></li>
@@ -33,4 +31,5 @@ if ($this->contact->params->get('show_links')) : ?>
 			<li><a href="<?php echo $this->contact->params->get('linke') ?>"><?php echo $this->contact->params->get('linke_name')  ?></a></li>
 		<?php endif; ?>
 	</ul>
-<? endif; ?>	
+</div>
+

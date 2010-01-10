@@ -1,30 +1,33 @@
 <?php defined('_JEXEC') or die; ?>
-<div id="tablecell">
-	<table class="adminform">
+<table id="global-checkin" class="adminlist">
+	<thead>
 		<tr>
-			<th class="title">
-				<?php echo JText::_('Database Table'); ?>
-			</th>
-			<th class="title">
-				<?php echo JText::_('Num of Items'); ?>
-			</th>
-			<th class="title">
-				<?php echo JText::_('Checked-In'); ?>
-			</th>
+			<th class="left"><?php echo JText::_('DATABASE_TABLE'); ?></th>
+			<th><?php echo JText::_('ITEMS_CHECKED_IN'); ?></th>
+			<th>&nbsp;</th>
 		</tr>
+	</thead>
 	<?php
 	$k = 0;
 	foreach ($this->tables as $table => $count): ?>
 		<tr class="row<?php echo $k; ?>">
-			<td width="350">
-				<?php echo JText::_('Checking table').' - '.$table; ?>
+			<td>
+				<?php echo JText::_('Checking').' <em>'.$table.'</em> '.JText::_('table'); ?>
 			</td>
-			<td width="150">
-				<?php echo JText::_('Checked-In').' '; ?><strong><?php echo $count; ?></strong><?php echo ' '.JText::_('items'); ?>
-			</td>
-			<td align="center">
+
+			<?php if ($count > 0): ?>
+				<td width="100" class="active center">
+					<span class="success"><?php echo $count; ?></span>
+				</td>
+			<?php else: ?>
+				<td width="100" class="center">
+					<?php echo $count; ?>
+				</td>
+			<?php endif; ?>
+
+			<td width="50">
 				<?php if ($count > 0): ?>
-				<img src="images/tick.png" border="0" alt="<?php echo JText::_('tick'); ?>" />
+				<div class="checkin-tick"><?php echo JText::_('tick'); ?></div>
 				<?php else: ?>
 				&nbsp;
 				<?php endif; ?>
@@ -35,9 +38,8 @@
 	endforeach;
 	?>
 	<tr>
-		<td colspan="3">
-			<span class="stat-notice"><?php echo JText::_('Checked out items have now been all checked in'); ?></span>
+		<td colspan="3" class="center">
+			<span class="stat-notice success"><?php echo JText::_('Checked out items have now been all checked in'); ?></span>
 		</td>
 	</tr>
-	</table>
-</div>
+</table>

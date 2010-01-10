@@ -33,7 +33,7 @@ class MenusModelItems extends JModelList
 	 */
 	protected function _populateState()
 	{
-		$app = &JFactory::getApplication('administrator');
+		$app = JFactory::getApplication('administrator');
 
 		$search = $app->getUserStateFromRequest($this->_context.'.search', 'search');
 		$this->setState('filter.search', $search);
@@ -53,22 +53,12 @@ class MenusModelItems extends JModelList
 		$menuType = $app->getUserStateFromRequest($this->_context.'.filter.menutype', 'menutype', 'mainmenu');
 		$this->setState('filter.menutype', $menuType);
 
-		// List state information.
-		$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'));
-		$this->setState('list.limit', $limit);
-
-		$limitstart = $app->getUserStateFromRequest($this->_context.'.limitstart', 'limitstart', 0);
-		$this->setState('list.limitstart', $limitstart);
-
-		$orderCol	= $app->getUserStateFromRequest($this->_context.'.ordercol', 'filter_order', 'a.lft');
-		$this->setState('list.ordering', $orderCol);
-
-		$orderDirn	= $app->getUserStateFromRequest($this->_context.'.orderdirn', 'filter_order_Dir', 'asc');
-		$this->setState('list.direction', $orderDirn);
-
 		// Component parameters.
-		$params	= &JComponentHelper::getParams('com_menus');
+		$params	= JComponentHelper::getParams('com_menus');
 		$this->setState('params', $params);
+
+		// List state information.
+		parent::_populateState('a.lft', 'asc');
 	}
 
 	/**
@@ -84,17 +74,13 @@ class MenusModelItems extends JModelList
 	protected function _getStoreId($id = '')
 	{
 		// Compile the store id.
-		$id	.= ':'.$this->getState('list.start');
-		$id	.= ':'.$this->getState('list.limit');
-		$id	.= ':'.$this->getState('list.ordering');
-		$id	.= ':'.$this->getState('list.direction');
 		$id	.= ':'.$this->getState('filter.access');
 		$id	.= ':'.$this->getState('filter.published');
 		$id	.= ':'.$this->getState('filter.search');
 		$id	.= ':'.$this->getState('filter.parent_id');
 		$id	.= ':'.$this->getState('filter.menu_id');
 
-		return md5($id);
+		return parent::_getStoreId($id);
 	}
 
 	/**
@@ -115,14 +101,13 @@ class MenusModelItems extends JModelList
 		$query->select('u.name AS editor');
 		$query->join('LEFT', '`#__users` AS u ON u.id = a.checked_out');
 
+		//Join over components
+		$query->select('c.name AS componentname');
+		$query->join('LEFT', '`#__extensions` AS c ON c.extension_id = a.component_id');
+
 		// Join over the asset groups.
 		$query->select('ag.title AS access_level');
-		$query->join('LEFT', '#__access_assetgroups AS ag ON ag.id = a.access');
-
-		// Self join to find the level in the tree.
-		$query->select('COUNT(DISTINCT p.id) AS level');
-		$query->join('LEFT OUTER', '`#__menu` AS p ON a.lft > p.lft AND a.rgt < p.rgt');
-		$query->group('a.id');
+		$query->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
 
 		// Exclude the root category.
 		$query->where('a.id > 1');
@@ -131,25 +116,20 @@ class MenusModelItems extends JModelList
 		$published = $this->getState('filter.published');
 		if (is_numeric($published)) {
 			$query->where('a.published = '.(int) $published);
-		}
-		else if ($published === '') {
+		} else if ($published === '') {
 			$query->where('(a.published IN (0, 1))');
 		}
 
 		// Filter by search in title, alias or id
-		if ($search = trim($this->getState('filter.search')))
-		{
+		if ($search = trim($this->getState('filter.search'))) {
 			if (stripos($search, 'id:') === 0) {
 				$query->where('a.id = '.(int) substr($search, 3));
-			}
-			else if (stripos($search, 'link:') === 0)
-			{
+			} else if (stripos($search, 'link:') === 0) {
 				if ($search = substr($search, 5)) {
 					$search = $this->_db->Quote('%'.$this->_db->getEscaped($search, true).'%');
 					$query->where('a.link LIKE '.$search);
 				}
-			}
-			else {
+			} else {
 				$search = $this->_db->Quote('%'.$this->_db->getEscaped($search, true).'%');
 				$query->where('a.title LIKE '.$search.' OR a.alias LIKE '.$search);
 			}

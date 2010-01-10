@@ -5,7 +5,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
@@ -30,7 +30,8 @@ class ContentViewArticles extends JView
 		$pagination	= $this->get('Pagination');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
@@ -45,30 +46,40 @@ class ContentViewArticles extends JView
 
 	/**
 	 * Display the toolbar
-	 *
-	 * @access	private
 	 */
 	protected function _setToolbar()
 	{
-		$state = $this->get('State');
+		$state	= $this->get('State');
+		$canDo	= ContentHelper::getActions($state->get('filter.category_id'));
+
 		JToolBarHelper::title(JText::_('Content_Articles_Title'), 'article.png');
-		JToolBarHelper::custom('article.edit', 'new.png', 'new_f2.png', 'New', false);	
-		JToolBarHelper::custom('article.edit', 'edit.png', 'edit_f2.png', 'Edit', true);
+		if ($canDo->get('core.create')) {
+			JToolBarHelper::custom('article.add', 'new.png', 'new_f2.png', 'New', false);
+		}
+		if ($canDo->get('core.edit')) {
+			JToolBarHelper::custom('article.edit', 'edit.png', 'edit_f2.png', 'Edit', true);
+		}
 		JToolBarHelper::divider();
-		JToolBarHelper::custom('articles.publish', 'publish.png', 'publish_f2.png', 'Publish', true);
-		JToolBarHelper::custom('articles.unpublish', 'unpublish.png', 'unpublish_f2.png', 'Unpublish', true);
-		if ($state->get('filter.published') != -1) {
-			JToolBarHelper::archiveList('articles.archive');
-		}		
-		if ($state->get('filter.published') == -2) {
+		if ($canDo->get('core.edit.state')) {
+			JToolBarHelper::custom('articles.publish', 'publish.png', 'publish_f2.png', 'Publish', true);
+			JToolBarHelper::custom('articles.unpublish', 'unpublish.png', 'unpublish_f2.png', 'Unpublish', true);
+			if ($state->get('filter.published') != -1) {
+				JToolBarHelper::divider();
+				JToolBarHelper::archiveList('articles.archive');
+			}
+		}
+		if ($state->get('filter.published') == -2 && $canDo->get('core.delete')) {
+
 			JToolBarHelper::deleteList('', 'articles.delete');
 		}
-		else {
+		else if ($canDo->get('core.edit.state')) {
 			JToolBarHelper::trash('articles.trash');
 		}
+		if ($canDo->get('core.admin')) {
+			JToolBarHelper::divider();
+			JToolBarHelper::preferences('com_content');
+		}
 		JToolBarHelper::divider();
-		JToolBarHelper::preferences('com_content');
-		JToolBarHelper::divider();		
 		JToolBarHelper::help('screen.content.articles');
 	}
 }

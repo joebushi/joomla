@@ -2,7 +2,7 @@
 /**
  * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // No direct access
@@ -30,7 +30,7 @@ class ContentViewArchive extends JView
 			$layout = 'list';
 		}
 
-		// Initialize some variables
+		// Initialise some variables
 		$user		= &JFactory::getUser();
 		$pathway	= &$app->getPathway();
 		$document	= &JFactory::getDocument();

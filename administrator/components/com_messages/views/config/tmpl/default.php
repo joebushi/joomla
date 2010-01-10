@@ -6,40 +6,52 @@
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
-defined('_JEXEC') or die;
-?>
-<script language="javascript" type="text/javascript">
-function submitbutton(pressbutton) {
-	var form = document.adminForm;
-	if (pressbutton == 'saveconfig') {
-		if (confirm ("<?php echo JText::_('Are you sure?'); ?>")) {
-			submitform(pressbutton);
-		}
-	} else {
-		document.location.href = 'index.php?option=<?php echo $option;?>';
-	}
-}
-</script>
-<form action="index.php" method="post" name="adminForm">
-	<div class="width-40">
-		<fieldset>	
-			<legend><?php echo JText::_('CONFIGURATION_DETAILS'); ?></legend>
-			<?php echo JText::_('Lock Inbox'); ?>:
-		
-			<?php echo $this->vars['lock']; ?>
-		
-			<?php echo JText::_('Mail me on new Message'); ?>:
-	
-			<?php echo $this->vars['mail_on_new']; ?>
-	
-			<?php echo JText::_('Auto Purge Messages'); ?>:
-		
-			<input type="text" name="vars[auto_purge]" size="5" value="<?php echo $this->vars['auto_purge']; ?>" class="inputbox" />
-			<?php echo JText::_('days old'); ?>
-		</fieldset>
-	</div>
 
-<input type="hidden" name="option" value="<?php echo $option; ?>" />
-<input type="hidden" name="task" value="" />
-<?php echo JHtml::_('form.token'); ?>
+// No direct access.
+defined('_JEXEC') or die;
+
+// Include the HTML helpers.
+JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::_('behavior.tooltip');
+JHtml::_('behavior.formvalidation');
+JHtml::_('behavior.keepalive');
+?>
+<script type="text/javascript">
+<!--
+	function submitbutton(task)
+	{
+		if (task == 'config.cancel' || document.formvalidator.isValid(document.id('config-form'))) {
+			submitform(task);
+		}
+	}
+// -->
+</script>
+<form action="<?php echo JRoute::_('index.php?option=com_messages'); ?>" method="post" name="adminForm" id="newsfeed-form" class="form-validate">
+	<fieldset>
+		<div class="fltrt">
+			<button type="button" onclick="Joomla.submitform('config.save', this.form);window.top.setTimeout('window.parent.SqueezeBox.close()', 1400);">
+				<?php echo JText::_('Save');?></button>
+			<button type="button" onclick="window.parent.SqueezeBox.close();">
+				<?php echo JText::_('Cancel');?></button>
+		</div>
+		<div class="configuration" >
+			<?php echo JText::_('Messages_My_Settings') ?>
+		</div>
+	</fieldset>
+
+	<fieldset class="adminform">
+
+		<?php echo $this->form->getLabel('lock'); ?>
+		<?php echo $this->form->getInput('lock'); ?>
+
+		<?php echo $this->form->getLabel('mail_on_new'); ?>
+		<?php echo $this->form->getInput('mail_on_new'); ?>
+
+		<?php echo $this->form->getLabel('auto_purge'); ?>
+		<?php echo $this->form->getInput('auto_purge'); ?>
+
+	</fieldset>
+
+	<input type="hidden" name="task" value="" />
+	<?php echo JHtml::_('form.token'); ?>
 </form>

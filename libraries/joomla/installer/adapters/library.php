@@ -41,7 +41,7 @@ class JInstallerLibrary extends JAdapterInstance
 
 		// Set the extensions name
 		$name = &$this->manifest->getElementByPath('name');
-		$name = JFilterInput::clean($name->data(), 'string');
+		$name = JFilterInput::getInstance()->clean($name->data(), 'string');
 		$element = str_replace('.xml','',basename($this->parent->getPath('manifest')));
 		$this->set('name', $name);
 		$this->set('element', $element);
@@ -187,7 +187,7 @@ class JInstallerLibrary extends JAdapterInstance
 
 		// Set the extensions name
 		$name = &$this->manifest->getElementByPath('name');
-		$name = JFilterInput::clean($name->data(), 'string');
+		$name = JFilterInput::getInstance()->clean($name->data(), 'string');
 		$element = str_replace('.xml','',basename($this->parent->getPath('manifest')));
 		$this->set('name', $name);
 		$this->set('element', $element);
@@ -213,7 +213,7 @@ class JInstallerLibrary extends JAdapterInstance
 	 */
 	function uninstall($id)
 	{
-		// Initialize variables
+		// Initialise variables.
 		$retval = true;
 
 		// First order of business will be to load the module object table from the database.

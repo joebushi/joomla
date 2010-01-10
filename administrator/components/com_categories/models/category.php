@@ -2,7 +2,7 @@
 /**
  * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // Check to ensure this file is included in Joomla!
@@ -27,14 +27,14 @@ class CategoriesModelCategory extends JModelForm
 	 protected $_context		= 'com_categories.item';
 
 	/**
-	 * Returns a reference to the a Table object, always creating it
+	 * Returns a Table object, always creating it
 	 *
 	 * @param	type 	$type 	 The table type to instantiate
 	 * @param	string 	$prefix	 A prefix for the table class name. Optional.
 	 * @param	array	$options Configuration array for model. Optional.
 	 * @return	JTable	A database object
 	*/
-	public function &getTable($type = 'Category', $prefix = 'JTable', $config = array())
+	public function getTable($type = 'Category', $prefix = 'JTable', $config = array())
 	{
 		return JTable::getInstance($type, $prefix, $config);
 	}
@@ -78,7 +78,7 @@ class CategoriesModelCategory extends JModelForm
 	 */
 	public function &getItem($pk = null)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$pk = (!empty($pk)) ? $pk : (int)$this->getState('category.id');
 
 		// Get a level row instance.
@@ -107,6 +107,11 @@ class CategoriesModelCategory extends JModelForm
 		$registry->loadJSON($table->params);
 		$table->params = $registry->toArray();
 
+		// Convert the metadata field to an array.
+		$registry = new JRegistry();
+		$registry->loadJSON($table->metadata);
+		$table->metadata = $registry->toArray();
+
 		$result = JArrayHelper::toObject($table->getProperties(1), 'JObject');
 
 		return $result;
@@ -120,7 +125,7 @@ class CategoriesModelCategory extends JModelForm
 	 */
 	public function getForm()
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$app = &JFactory::getApplication();
 
 		// Get the form.
@@ -131,6 +136,9 @@ class CategoriesModelCategory extends JModelForm
 			$this->setError($form->getMessage());
 			return false;
 		}
+
+		// Set the access control rules field compoennt value.
+		$form->setFieldAttribute('rules', 'component', $this->getState('category.extension'));
 
 		// Check the session for previously entered form data.
 		$data = $app->getUserState('com_categories.edit.category.data', array());
@@ -151,7 +159,7 @@ class CategoriesModelCategory extends JModelForm
 	 */
 	public function checkin($pk = null)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$pk	= (!empty($pk)) ? $pk : (int) $this->getState('category.id');
 
 		// Only attempt to check the row in if it exists.
@@ -191,7 +199,7 @@ class CategoriesModelCategory extends JModelForm
 	 */
 	public function checkout($pk = null)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$pk = (!empty($pk)) ? $pk : (int) $this->getState('category.id');
 
 		// Only attempt to check the row in if it exists.
@@ -243,6 +251,13 @@ class CategoriesModelCategory extends JModelForm
 		if (!$table->bind($data)) {
 			$this->setError(JText::sprintf('JTable_Error_Bind_failed', $table->getError()));
 			return false;
+		}
+
+		// Bind the rules.
+		if (isset($data['rules']))
+		{
+			$rules = new JRules($data['rules']);
+			$table->setRules($rules);
 		}
 
 		// Check the data.

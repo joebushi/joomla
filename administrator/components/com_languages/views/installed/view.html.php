@@ -2,7 +2,7 @@
 /**
  * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // Check to ensure this file is included in Joomla!
@@ -85,6 +85,8 @@ class LanguagesViewInstalled extends JView
 	{
 		JToolBarHelper::title(JText::_('Langs_View_Installed_Title'), 'langmanager.png');
 		JToolBarHelper::makeDefault('installed.publish');
+		JToolBarHelper::divider();
+		JToolBarHelper::preferences('com_languages');
 		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.languages');
 	}

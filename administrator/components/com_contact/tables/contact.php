@@ -70,7 +70,13 @@ class ContactTableContact extends JTable
 	/** @var string */
 	public $webpage 			= null;
 	/** @var string */
-	protected $_trackAssets = true;
+	public $sortname1 			= null;	
+	/** @var string */
+	public $sortname2 			= null;
+	/** @var string */
+	public $sortname3 			= null;
+	/** @var string */
+	public $language 			= null;	
 	/**
 	 * Constructor
 	 *
@@ -82,20 +88,7 @@ class ContactTableContact extends JTable
 		parent::__construct('#__contact_details', 'id', $db);
 	}
 
-	public function getAssetSection()
-	{
-		return 'com_contact';
-	}
 
-	public function getAssetNamePrefix()
-	{
-		return 'contact';
-	}
-
-	public function getAssetTitle()
-	{
-		return $this->name;
-	}
 		/**
 	 * Stores a contact
 	 *
@@ -103,19 +96,13 @@ class ContactTableContact extends JTable
 	 * @return	boolean		True on success, false on failure.
 	 * @since	1.6
 	 */
-	public function store($updateNulls = false)
-	{
+	public function store($updateNulls = false){
+
 		// Transform the params field
 		if (is_array($this->params)) {
 			$registry = new JRegistry();
 			$registry->loadArray($this->params);
 			$this->params = $registry->toString();
-		}
-		// Transform the metadata field
-		if (is_array($this->metadata)) {
-			$registry = new JRegistry();
-			$registry->loadArray($this->metadata);
-			$this->metadata = $registry->toString();
 		}
 
 		// Attempt to store the data.
@@ -125,7 +112,6 @@ class ContactTableContact extends JTable
 	/**
 	 * Overloaded check function
 	 *
-	 * @access public
 	 * @return boolean
 	 * @see JTable::check
 	 * @since 1.5
@@ -138,21 +124,17 @@ class ContactTableContact extends JTable
 			$this->setError(JText::_('CONTACT_WARNING_PROVIDE_VALID_URL'));
 			return false;
 		}
-		// check for http on webpage
-		if (strlen($this->webpage) > 0 && (!(eregi('http://', $this->webpage) || (eregi('https://', $this->webpage)) || (eregi('ftp://', $this->webpage))))) {
-			$this->webpage = 'http://'.$this->contact->params->get('linka');
+
+		// check for http, https, ftp on webpage
+		if ((strlen($this->webpage) > 0)
+			&& (stripos($this->webpage, 'http://') === false)
+			&& (stripos($this->webpage, 'https://') === false)
+			&& (stripos($this->webpage, 'ftp://') === false))
+		{
+			$this->webpage = 'http://'.$this->webpage;
 		}
 		// check for http on additional links
 
-		if (empty($this->alias)) {
-			$this->alias = $this->name;
-		}
-				
-		$this->alias = JFilterOutput::stringURLSafe($this->alias);
-		if (trim(str_replace('-','',$this->alias)) == '') {
-			$datenow = &JFactory::getDate();
-			$this->alias = $datenow->toFormat("%Y-%m-%d-%H-%M-%S");
-		}
 		/** check for valid name */
 		if (trim($this->name) == '') {
 			$this->setError(JText::_('CONTACT_WARNING_NAME'));
@@ -171,10 +153,9 @@ class ContactTableContact extends JTable
 		if (empty($this->alias)) {
 			$this->alias = $this->title;
 		}
-		$this->alias = JFilterOutput::stringURLSafe($this->alias);
+		$this->alias = JApplication::stringURLSafe($this->alias);
 		if (trim(str_replace('-','',$this->alias)) == '') {
-			$datenow = &JFactory::getDate();
-			$this->alias = $datenow->toFormat("%Y-%m-%d-%H-%M-%S");
+			$this->alias = JFactory::getDate()->toFormat("%Y-%m-%d-%H-%M-%S");
 		}
 		/** check for valid category */
 		if (trim($this->catid) == '') {

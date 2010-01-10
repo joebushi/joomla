@@ -2,7 +2,7 @@
 /**
  * @version		$Id$
  * @package		Joomla.Site
- * @subpackage	Contact
+ * @subpackage	com_contact
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -17,7 +17,7 @@ jimport('joomla.application.component.controller');
  *
  * @static
  * @package		Joomla.Site
- * @subpackage	Contact
+ * @subpackage	com_contact
  * @since 1.5
  */
 class ContactController extends JController
@@ -29,8 +29,10 @@ class ContactController extends JController
 	{
 		$document = &JFactory::getDocument();
 
-		$viewName	= JRequest::getVar('view', 'category', 'default', 'cmd');
-		$viewType	= $document->getType();
+		// Set the default view name and format from the Request.
+		$vName		= JRequest::getWord('view', 'categories');
+		$vFormat	= $document->getType();
+		$lName		= JRequest::getWord('layout', 'default');
 
 		// interceptors to support legacy urls
 		switch ($this->getTask())
@@ -46,25 +48,26 @@ class ContactController extends JController
 				break;
 		}
 
-		// Set the default view name from the Request
-		$view = &$this->getView($viewName, $viewType);
+			// Get and render the view.
+		if ($view = &$this->getView($vName, $vFormat))
+		{
+			// Get the model for the view.
+			$model	= &$this->getModel($vName);
 
-		// Push a model into the view
-		$model	= &$this->getModel($viewName);
-		if (!JError::isError($model)) {
+			// Push the model into the view (as default).
 			$view->setModel($model, true);
-		}
+			$view->setLayout($lName);
 
+			// Push document object into the view.
+			$view->assignRef('document', $document);
 		// Workaround for the item view
-		if ($viewName == 'contact')
+		if ($vName == 'contact')
 		{
 			$modelCat	= &$this->getModel('category');
 			$view->setModel($modelCat);
 		}
-
-		// Display the view
-		$view->assign('error', $this->getError());
-		$view->display();
+			$view->display();
+		}
 	}
 
 	/**
@@ -78,7 +81,7 @@ class ContactController extends JController
 		// Check for request forgeries
 		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
-		// Initialize some variables
+		// Initialise some variables
 		$app		= &JFactory::getApplication();
 		$db			= & JFactory::getDbo();
 		$SiteName	= $app->getCfg('sitename');
@@ -193,7 +196,7 @@ class ContactController extends JController
 		else
 		{
 			// stay on the same  contact page
-		
+
 		$link = JRoute::_('index.php?option=com_contact&view=contact&id='.(int) $contact->id, false);
 		}
 		$this->setRedirect($link, $msg);
@@ -207,7 +210,7 @@ class ContactController extends JController
 	 */
 	function vcard()
 	{
-		// Initialize some variables
+		// Initialise some variables
 		$app	= &JFactory::getApplication();
 		$db		= &JFactory::getDbo();
 		$user	= &JFactory::getUser();
@@ -261,7 +264,7 @@ class ContactController extends JController
 			$middlename = trim($middlename);
 
 			// Create a new vcard object and populate the fields
-			require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_contact'.DS.'helpers'.DS.'vcard.php');
+			require_once JPATH_ADMINISTRATOR.DS.'components'.DS.'com_contact'.DS.'helpers'.DS.'vcard.php';
 			$v = new JvCard();
 
 			$v->setPhoneNumber($contact->telephone, 'PREF;WORK;VOICE');

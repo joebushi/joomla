@@ -1,17 +1,13 @@
 <?php // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$config =& JFactory::getConfig();
-$publish_up =& JFactory::getDate($this->article->publish_up);
-$publish_up->setOffset($config->getValue('config.offset'));
-$publish_up = $publish_up->toFormat();
+$config = JFactory::getConfig();
+$publish_up = JHtml::date($this->article->publish_up);
 
 if (! isset($this->article->publish_down) || $this->article->publish_down == 'Never') {
 	$publish_down = JText::_('Never');
 } else {
-	$publish_down =& JFactory::getDate($this->article->publish_down);
-	$publish_down->setOffset($config->getValue('config.offset'));
-	$publish_down = $publish_down->toFormat();
+	$publish_down = JHtml::date($this->article->publish_down);
 }
 ?>
 
@@ -117,7 +113,7 @@ echo $this->editor->display('text', $this->article->text, '100%', '400', '70', '
 		<?php echo $this->lists['catid']; ?>
 	</td>
 </tr>
-<?php if ($this->user->authorize('com_content', 'publish', 'content', 'all')) : ?>
+<?php if ($this->user->authorize('core.edit.state', 'com_content')) : ?>
 <tr>
 	<td class="key">
 		<label for="state">

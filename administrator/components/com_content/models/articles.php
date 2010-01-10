@@ -12,7 +12,7 @@ jimport('joomla.application.component.modellist');
 jimport('joomla.database.query');
 
 /**
- * About Page Model
+ * Methods supporting a list of article records.
  *
  * @package		Joomla.Administrator
  * @subpackage	com_content
@@ -24,7 +24,7 @@ class ContentModelArticles extends JModelList
 	 *
 	 * @var		string
 	 */
-	public $_context = 'com_content.articles';
+	protected $_context = 'com_content.articles';
 
 	/**
 	 * Method to auto-populate the model state.
@@ -33,32 +33,23 @@ class ContentModelArticles extends JModelList
 	 */
 	protected function _populateState()
 	{
-		$app = &JFactory::getApplication();
+		// Initialise variables.
+		$app = JFactory::getApplication();
 
-		$search = $app->getUserStateFromRequest($this->_context.'.search', 'filter_search');
+		$search = $app->getUserStateFromRequest($this->_context.'.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
 		$access = $app->getUserStateFromRequest($this->_context.'.filter.access', 'filter_access', 0, 'int');
 		$this->setState('filter.access', $access);
 
-		$published = $app->getUserStateFromRequest($this->_context.'.published', 'filter_published', '');
+		$published = $app->getUserStateFromRequest($this->_context.'.filter.state', 'filter_published', '');
 		$this->setState('filter.published', $published);
 
-		$categoryId = $app->getUserStateFromRequest($this->_context.'.category_id', 'filter_category_id');
+		$categoryId = $app->getUserStateFromRequest($this->_context.'.filter.category_id', 'filter_category_id');
 		$this->setState('filter.category_id', $categoryId);
 
-		// List state information
-		$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'));
-		$this->setState('list.limit', $limit);
-
-		$limitstart = $app->getUserStateFromRequest($this->_context.'.limitstart', 'limitstart', 0);
-		$this->setState('list.limitstart', $limitstart);
-
-		$orderCol = $app->getUserStateFromRequest($this->_context.'.ordercol', 'filter_order', 'a.title');
-		$this->setState('list.ordering', $orderCol);
-
-		$orderDirn = $app->getUserStateFromRequest($this->_context.'.orderdirn', 'filter_order_Dir', 'asc');
-		$this->setState('list.direction', $orderDirn);
+		// List state information.
+		parent::_populateState('a.title', 'asc');
 	}
 
 	/**
@@ -71,26 +62,25 @@ class ContentModelArticles extends JModelList
 	 * @param	string		$id	A prefix for the store id.
 	 *
 	 * @return	string		A store id.
+	 * @since	1.6
 	 */
 	protected function _getStoreId($id = '')
 	{
 		// Compile the store id.
-		$id	.= ':'.$this->getState('list.start');
-		$id	.= ':'.$this->getState('list.limit');
-		$id	.= ':'.$this->getState('list.ordering');
-		$id	.= ':'.$this->getState('list.direction');
 		$id	.= ':'.$this->getState('filter.search');
-		$id	.= ':'.$this->getState('filter.published');
+		$id .= ':'.$this->getState('filter.access');
+		$id	.= ':'.$this->getState('filter.state');
+		$id	.= ':'.$this->getState('filter.category_id');
 
-		return md5($id);
+		return parent::_getStoreId($id);
 	}
 
 	/**
-	 * @param	boolean	True to join selected foreign information
+	 * Build an SQL query to load the list data.
 	 *
-	 * @return	string
+	 * @return	JQuery
 	 */
-	function _getListQuery($resolveFKs = true)
+	protected function _getListQuery()
 	{
 		// Create a new query object.
 		$query = new JQuery;
@@ -99,7 +89,8 @@ class ContentModelArticles extends JModelList
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.state, a.access, a.created, a.hits, a.ordering, a.featured')
+				'a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid,' .
+				' a.state, a.access, a.created, a.hits, a.ordering, a.featured')
 		);
 		$query->from('#__content AS a');
 
@@ -109,7 +100,7 @@ class ContentModelArticles extends JModelList
 
 		// Join over the asset groups.
 		$query->select('ag.title AS access_level');
-		$query->join('LEFT', '#__access_assetgroups AS ag ON ag.id = a.access');
+		$query->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
 
 		// Join over the categories.
 		$query->select('c.title AS category_title');
@@ -133,10 +124,25 @@ class ContentModelArticles extends JModelList
 			$query->where('(a.state = 0 OR a.state = 1)');
 		}
 
-		// Filter by category.
+		// Filter by a single or group of categories.
 		$categoryId = $this->getState('filter.category_id');
-		if (is_numeric($categoryId)) {
-			$query->where('a.state = ' . (int) $published);
+		if (is_numeric($categoryId))
+		{
+			$query->where('a.catid = '.(int) $categoryId);
+		}
+		else if (is_array($categoryId))
+		{
+			JArrayHelper::toInteger($categoryId);
+			$categoryId = implode(',', $categoryId);
+			$query->where('a.catid IN ('.$categoryId.')');
+		}
+
+		// Filter by author
+		$authorId 	= $this->getState('filter.author_id');
+		if (is_numeric($authorId))
+		{
+			$type = $this->getState('filter.author_id.include', true) ? '= ' : '<>';
+			$query->where('a.created_by '.$type.(int) $authorId);
 		}
 
 		// Filter by search in title

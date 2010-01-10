@@ -10,7 +10,10 @@
 // no direct access
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT.DS.'controller.php';
+// No access check.
+
+// Include dependancies
+jimport('joomla.application.component.controller');
 
 $controller	= JController::getInstance('Admin');
 $controller->execute(JRequest::getCmd('task'));

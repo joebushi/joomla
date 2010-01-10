@@ -2,7 +2,7 @@
 /**
  * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // Check to ensure this file is included in Joomla!
@@ -62,7 +62,6 @@ class LanguagesModelInstalled extends JModelList
 	/**
 	 * Model context string.
 	 *
-	 * @access	protected
 	 * @var		string
 	 */
 	 protected $_context = 'com_languages.installed';
@@ -79,29 +78,19 @@ class LanguagesModelInstalled extends JModelList
 	 */
 	protected function _populateState()
 	{
-		// Initialize variables.
-		$app		= &JFactory::getApplication('administrator');
-		$params		= JComponentHelper::getParams('com_languages');
+		// Initialise variables.
+		$app = JFactory::getApplication('administrator');
 
 		// Load the filter state.
 		$clientId = $app->getUserStateFromRequest($this->_context.'.filter.client_id', 'filter_client_id', 0);
 		$this->setState('filter.client_id', $clientId);
 
-		// List state information.
-		$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'));
-		$this->setState('list.limit', $limit);
-
-		$limitstart = $app->getUserStateFromRequest($this->_context.'.limitstart', 'limitstart', 0);
-		$this->setState('list.limitstart', $limitstart);
-
-		$orderCol	= $app->getUserStateFromRequest($this->_context.'.ordercol', 'filter_order', 'a.title');
-		$this->setState('list.ordering', $orderCol);
-
-		$orderDirn	= $app->getUserStateFromRequest($this->_context.'.orderdirn', 'filter_order_Dir', 'asc');
-		$this->setState('list.direction', $orderDirn);
-
 		// Load the parameters.
+		$params = JComponentHelper::getParams('com_languages');
 		$this->setState('params', $params);
+
+		// List state information.
+		parent::_populateState('a.title', 'asc');
 	}
 
 	/**
@@ -119,12 +108,8 @@ class LanguagesModelInstalled extends JModelList
 	{
 		// Compile the store id.
 		$id	.= ':'.$this->getState('filter.client_id');
-		$id	.= ':'.$this->getState('list.start');
-		$id	.= ':'.$this->getState('list.limit');
-		$id	.= ':'.$this->getState('list.ordering');
-		$id	.= ':'.$this->getState('list.direction');
 
-		return md5($id);
+		return parent::_getStoreId($id);
 	}
 
 	/**
@@ -211,7 +196,7 @@ class LanguagesModelInstalled extends JModelList
 
 			// Prepare data
 			$limit = $this->getState('list.limit');
-			$start = $this->getState('list.limitstart');
+			$start = $this->getState('list.start');
 			$total = $this->getTotal();
 
 			if ($limit == 0)
@@ -268,9 +253,14 @@ class LanguagesModelInstalled extends JModelList
 			$params = & JComponentHelper::getParams('com_languages');
 			$params->set($client->name, $cid[0]);
 
-			$table = & JTable::getInstance('component');
-			$table->loadByOption('com_languages');
+			$table = & JTable::getInstance('extension');
+			$id = $table->find(array('element' => 'com_languages'));
 
+			// Load
+			if (!$table->load($id)) {
+				$this->setError($table->getError());
+				return false;
+			}
 			$table->params = $params->toString();
 			// pre-save checks
 			if (!$table->check()) {
@@ -294,7 +284,6 @@ class LanguagesModelInstalled extends JModelList
 	/**
 	 * Method to get the folders
 	 *
-	 * @access protected
 	 * @return array languages folders
 	 */
 	protected function _getFolders()
@@ -311,7 +300,6 @@ class LanguagesModelInstalled extends JModelList
 	/**
 	 * Method to get the path
 	 *
-	 * @access protected
 	 * @return string the path to the languages folders
 	 */
 	protected function _getPath()
@@ -327,7 +315,6 @@ class LanguagesModelInstalled extends JModelList
 	/**
 	 * Method to compare two languages in order to sort them
 	 *
-	 * @access protected
 	 * @param object $lang1 the first language
 	 * @param object $lang2 the second language
 	 * @return integer
