@@ -230,7 +230,7 @@ class JPagination extends JObject
 
 		// If there are results found.
 		if ($this->total > 0) {
-			$msg = JText::sprintf('Results of', $fromResult, $toResult, $this->total);
+			$msg = JText::sprintf('RESULTS_OF', $fromResult, $toResult, $this->total);
 			$html .= "\n".$msg;
 		}
 		else {
@@ -461,7 +461,7 @@ class JPagination extends JObject
 	{
 		$html = "<div class=\"list-footer\">\n";
 
-		$html .= "\n<div class=\"limit\">".JText::_('Display Num').$list['limitfield']."</div>";
+		$html .= "\n<div class=\"limit\">".JText::_('DISPLAY_NUM').$list['limitfield']."</div>";
 		$html .= $list['pageslinks'];
 		$html .= "\n<div class=\"counter\">".$list['pagescounter']."</div>";
 
@@ -538,7 +538,7 @@ class JPagination extends JObject
 			}
 		}
 
-		$data->all = new JPaginationObject(JText::_('View All'), $this->prefix);
+		$data->all = new JPaginationObject(JText::_('VIEW_ALL'), $this->prefix);
 		if (!$this->_viewall) {
 			$data->all->base	= '0';
 			$data->all->link	= JRoute::_($params.'&'.$this->prefix.'limitstart=');

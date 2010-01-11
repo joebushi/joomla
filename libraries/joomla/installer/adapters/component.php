@@ -168,7 +168,7 @@ class JInstallerComponent extends JAdapterInstance
 		{
 			if (!$created = JFolder::create($this->parent->getPath('extension_site')))
 			{
-				JError::raiseWarning(1, JText::_('Component').' '.JText::_('Install').': '.JText::_('Failed to create directory').': "'.$this->parent->getPath('extension_site').'"');
+				JError::raiseWarning(1, JText::_('Component').' '.JText::_('Install').': '.JText::_('FAILED_TO_CREATE_DIRECTORY').': "'.$this->parent->getPath('extension_site').'"');
 				return false;
 			}
 		}
@@ -187,7 +187,7 @@ class JInstallerComponent extends JAdapterInstance
 		{
 			if (!$created = JFolder::create($this->parent->getPath('extension_administrator')))
 			{
-				JError::raiseWarning(1, JText::_('Component').' '.JText::_('Install').': '.JText::_('Failed to create directory').': "'.$this->parent->getPath('extension_administrator').'"');
+				JError::raiseWarning(1, JText::_('Component').' '.JText::_('Install').': '.JText::_('FAILED_TO_CREATE_DIRECTORY').': "'.$this->parent->getPath('extension_administrator').'"');
 				// Install failed, rollback any changes
 				$this->parent->abort();
 				return false;
@@ -394,7 +394,7 @@ class JInstallerComponent extends JAdapterInstance
 		if (!$this->parent->copyManifest())
 		{
 			// Install failed, rollback changes
-			$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.JText::_('Could not copy setup file'));
+			$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.JText::_('COULD_NOT_COPY_SETUP_FILE'));
 			return false;
 		}
 
@@ -561,7 +561,7 @@ class JInstallerComponent extends JAdapterInstance
 		{
 			if (!$created = JFolder::create($this->parent->getPath('extension_site')))
 			{
-				JError::raiseWarning(1, JText::_('Component').' '.JText::_('Update').': '.JText::_('Failed to create directory').': "'.$this->parent->getPath('extension_site').'"');
+				JError::raiseWarning(1, JText::_('Component').' '.JText::_('Update').': '.JText::_('FAILED_TO_CREATE_DIRECTORY').': "'.$this->parent->getPath('extension_site').'"');
 				return false;
 			}
 		}
@@ -580,7 +580,7 @@ class JInstallerComponent extends JAdapterInstance
 		{
 			if (!$created = JFolder::create($this->parent->getPath('extension_administrator')))
 			{
-				JError::raiseWarning(1, JText::_('Component').' '.JText::_('Update').': '.JText::_('Failed to create directory').': "'.$this->parent->getPath('extension_administrator').'"');
+				JError::raiseWarning(1, JText::_('Component').' '.JText::_('Update').': '.JText::_('FAILED_TO_CREATE_DIRECTORY').': "'.$this->parent->getPath('extension_administrator').'"');
 				// Install failed, rollback any changes
 				$this->parent->abort();
 				return false;
@@ -774,7 +774,7 @@ class JInstallerComponent extends JAdapterInstance
 		if (!$this->parent->copyManifest())
 		{
 			// Install failed, rollback changes
-			$this->parent->abort(JText::_('Component').' '.JText::_('Update').': '.JText::_('Could not copy setup file'));
+			$this->parent->abort(JText::_('Component').' '.JText::_('Update').': '.JText::_('COULD_NOT_COPY_SETUP_FILE'));
 			return false;
 		}
 
@@ -990,7 +990,7 @@ class JInstallerComponent extends JAdapterInstance
 			 {
 				if (!JFolder::delete($this->parent->getPath('extension_site')))
 				{
-					JError::raiseWarning(100, JText::_('Component').' '.JText::_('Uninstall').': '.JText::_('Unable to remove the component site directory'));
+					JError::raiseWarning(100, JText::_('Component').' '.JText::_('Uninstall').': '.JText::_('UNABLE_TO_REMOVE_THE_COMPONENT_SITE_DIRECTORY'));
 					$retval = false;
 				}
 			}
@@ -1000,7 +1000,7 @@ class JInstallerComponent extends JAdapterInstance
 			{
 				if (!JFolder::delete($this->parent->getPath('extension_administrator')))
 				{
-					JError::raiseWarning(100, JText::_('Component').' '.JText::_('Uninstall').': '.JText::_('Unable to remove the component admin directory'));
+					JError::raiseWarning(100, JText::_('Component').' '.JText::_('Uninstall').': '.JText::_('UNABLE_TO_REMOVE_THE_COMPONENT_ADMIN_DIRECTORY'));
 					$retval = false;
 				}
 			}
