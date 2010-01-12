@@ -246,7 +246,7 @@ class JInstallerComponent extends JAdapterInstance
 				if (!$this->parent->copyFiles(array ($path)))
 				{
 					// Install failed, rollback changes
-					$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.JText::_('Could not copy PHP install file.'));
+					$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.JText::_('Could_not_copy_PHP_install_file'));
 					return false;
 				}
 			}
@@ -266,7 +266,7 @@ class JInstallerComponent extends JAdapterInstance
 				if (!$this->parent->copyFiles(array ($path)))
 				{
 					// Install failed, rollback changes
-					$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.JText::_('Could not copy PHP uninstall file.'));
+					$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.JText::_('Could_not_copy_PHP_uninstall_file'));
 					return false;
 				}
 			}
@@ -640,7 +640,7 @@ class JInstallerComponent extends JAdapterInstance
 				if (!$this->parent->copyFiles(array ($path)))
 				{
 					// Install failed, rollback changes
-					$this->parent->abort(JText::_('Component').' '.JText::_('Update').': '.JText::_('Could not copy PHP install file.'));
+					$this->parent->abort(JText::_('Component').' '.JText::_('Update').': '.JText::_('Could_not_copy_PHP_install_file'));
 					return false;
 				}
 			}
@@ -660,7 +660,7 @@ class JInstallerComponent extends JAdapterInstance
 				if (!$this->parent->copyFiles(array ($path)))
 				{
 					// Install failed, rollback changes
-					$this->parent->abort(JText::_('Component').' '.JText::_('Update').': '.JText::_('Could not copy PHP uninstall file.'));
+					$this->parent->abort(JText::_('Component').' '.JText::_('Update').': '.JText::_('Could_not_copy_PHP_uninstall_file'));
 					return false;
 				}
 			}

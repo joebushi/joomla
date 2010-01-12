@@ -398,11 +398,11 @@ class JLanguage extends JObject
 		}
 
 		// Record the result of loading the extension's file.
-		if (! isset($this->_paths)) {
-			$this->_paths = array();
+		if (! isset($this->_paths[$extension])) {
+			$this->_paths[$extension] = array();
 		}
 
-		$this->_paths[$filename] = $result;
+		$this->_paths[$extension][$filename] = $result;
 
 		return $result;
 	}
