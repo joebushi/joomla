@@ -68,7 +68,7 @@ class ContactViewContact extends JView
 			$url  = 'index.php?option=com_users&view=login';
 			$url .= '&return='.base64_encode(JFactory::getURI());
 
-			$app->redirect($url, JText::_('You must login first'));
+			$app->redirect($url, JText::_('YOU_MUST_LOGIN_FIRST'));
 
 		}
 
