@@ -10,7 +10,7 @@
 // No direct access
 defined('JPATH_BASE') or die;
 
-DEFINE('_QQ_', '"');
+define('_QQ_', '"');
 
 /**
  * Languages/translation handler class
@@ -601,7 +601,7 @@ class JLanguage extends JObject
 	 * @return	boolean True, if the key exists
 	 * @since	1.5
 	 */
-	function hasKey($key) {
+	function hasKey($string) {
 		@list($extension, $key) = explode('.', strtoupper($string), 2);
 		if(!isset($key))
 		{
@@ -736,33 +736,34 @@ class JLanguage extends JObject
 	}
 
 	/**
-	 * Parse XML file for language information
+	 * Parse XML file for language information.
 	 *
-	 * @access	public
 	 * @param	string	$path	 Path to the xml files
 	 * @return	array	Array holding the found metadata as a key => value pair
 	 * @since	1.5
 	 */
 	public static function _parseXMLLanguageFile($path)
 	{
-		$xml = & JFactory::getXMLParser('Simple');
-
-		// Load the file
-		if (!$xml || !$xml->loadFile($path)) {
+		// Try to load the file
+		if( ! $xml = JFactory::getXML($path))
+		{
 			return null;
 		}
 
-		// Check that it's am metadata file
-		if (!$xml->document || $xml->document->name() != 'metafile') {
+		// Check that it's a metadata file
+		if((string)$xml->getName() != 'metafile')
+		{
 			return null;
 		}
 
 		$metadata = array();
 
-		foreach ($xml->document->metadata[0]->children() as $child) {
-			$metadata[$child->name()] = $child->data();
+		foreach ($xml->metadata->children() as $child)
+		{
+			$metadata[$child->getName()] = (string)$child;
 		}
 
 		return $metadata;
-	}
+	}//function
+
 }
