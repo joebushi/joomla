@@ -27,6 +27,13 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+13-Jan-2010 Chrisotphe Demko
++ Add specific component fields in com_categories (#19018)
+# Fixed Add a reference to the form fielf in JModelForm
+# Corrected some bugs in class JCategories
+# Corrected some bugs due to SimpleXML
+# Corrected some bugs in JTable (constructing the table)
+
 13-Jan-2010 Hannes Papenberg
 # Fixed JFormFieldUsergroup - Thanks Christopher Demko!
 ^ Using PHPs built in SimpleXML instead of JSimpleXML to read XML files. Exception: JParameter. - Thanks Nikolai (elkuku)!
