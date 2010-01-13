@@ -27,12 +27,15 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-13-Jan-2010 Chrisotphe Demko
+13-Jan-2010 Christophe Demko
 + Add specific component fields in com_categories (#19018)
 # Fixed Add a reference to the form fielf in JModelForm
 # Corrected some bugs in class JCategories
 # Corrected some bugs due to SimpleXML
 # Corrected some bugs in JTable (constructing the table)
+
+13-Jan-2010 Mark Dexter
+^ More sample data changes (Elin Waring)
 
 13-Jan-2010 Hannes Papenberg
 # Fixed JFormFieldUsergroup - Thanks Christopher Demko!
