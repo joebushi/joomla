@@ -381,7 +381,7 @@ class CategoriesModelCategory extends JModelForm
 		$query->delete();
 		$query->from($this->_db->nameQuote('#__category_attributes'));
 		$query->where($this->_db->nameQuote('catid').'='.(int)$table->id);
-		$this->_db->setQuery((string)$query);
+		$this->_db->setQuery($query);
 		$this->_db->query();
 		
 		// Check for a database error.

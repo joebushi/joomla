@@ -147,6 +147,7 @@ class CategoriesControllerCategory extends JController
 
 		// Clear the row edit information from the session.
 		$app->setUserState('com_categories.edit.category.id',	null);
+		$app->setUserState('com_categories.edit.category.extension',	null);
 		$app->setUserState('com_categories.edit.category.data',	null);
 		$app->setUserState('com_categories.edit.category.type',	null);
 	}
@@ -262,6 +263,7 @@ class CategoriesControllerCategory extends JController
 			case 'save2new':
 				// Clear the row id and data in the session.
 				$app->setUserState('com_categories.edit.category.id',	null);
+				$app->setUserState('com_categories.edit.category.extension', $data['extension']);
 				$app->setUserState('com_categories.edit.category.data',	null);
 				$app->setUserState('com_categories.edit.category.type',	null);
 
@@ -271,7 +273,8 @@ class CategoriesControllerCategory extends JController
 
 			default:
 				// Clear the row id and data in the session.
-				$app->setUserState('com_categories.`.id',	null);
+				$app->setUserState('categories.edit.category.id',	null);
+				$app->setUserState('com_categories.edit.category.extension', null);
 				$app->setUserState('com_categories.edit.category.data',	null);
 				$app->setUserState('com_categories.edit.category.type',	null);
 
