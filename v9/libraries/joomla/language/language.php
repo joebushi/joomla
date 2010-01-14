@@ -354,12 +354,22 @@ class JLanguage extends JObject
 			// Check if there was a problem with loading the file
 			if ($result === false)
 			{
-				// No strings, which probably means that the language file does not exist
+				// No strings, so either file doesn't exist or the file is invalid
+				$oldFilename = $filename;
+				
+				// Check the standard file name
 				$path		= JLanguage::getLanguagePath($basePath, $this->_default);
 				$filename = $internal ? $this->_default : $this->_default . '.' . $extension;
 				$filename	= $path.DS.$filename.'.ini';
 
-				$result = $this->_load($filename, $extension, false);
+				// If the one we tried is different than the new name, try again
+				if ($oldFilename != $filename) {
+					$result = $this->_load($filename, $extension, false);
+				}
+				// Otherwise, if the file exists, it must be invalid format. Raise warning.
+				elseif (file_exists($filename)) {
+					JError::raiseWarning('SOME_ERROR_CODE', JText::_('ERROR_PARSING_LANGUAGE_FILE').' '.$filename); 
+				}
 			}
 		}
 		return $result;
