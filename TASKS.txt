@@ -1,6 +1,8 @@
 - DONE: Fix cache admin to support all drivers, not just file cache
-- Fix drivers  - implement missing functions: file(DONE), eacellerator(DONE), apc, xcache, memcache
+- DONE: Fix drivers  - implement missing functions: file(DONE), eacellerator(DONE), apc(DONE), xcache(DONE), memcache(DONE)
+- Test and cleanup storage & drivers
 - fix cache plugin settings  http://joomlacode.org/gf/project/joomla/tracker/?action=TrackerItemEdit&tracker_id=32&tracker_item_id=18669
+- Add standalone script with gc() call (to be used with crontab) 
 - Re-conceptualize view cache
 - Re-conceptualize module cache
 - Implement changed caching in core components and modules
