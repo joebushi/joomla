@@ -55,6 +55,20 @@
 		</field>
 		
 		<field
+			name="memcache_compress"
+			type="radio"
+			default="0"
+			label="Memcache_Compression_Label"
+			description="Memcache_Compression_Description"
+			required="true"
+			filter="integer">
+			<option
+				value="1">JYes</option>
+			<option
+				value="0">JNo</option>
+		</field>
+		
+		<field
 			name="memcache_server_host"
 			type="text"
 			default="localhost"

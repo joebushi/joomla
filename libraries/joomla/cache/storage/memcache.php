@@ -59,8 +59,8 @@ class JCacheStorageMemcache extends JCacheStorage
 	function getConnection() {
 		
 			$config = &JFactory::getConfig();
-			$persistent	= $config->getValue('config.memcache_persist', true);
-			
+			$this->_persistent	= $config->getValue('config.memcache_persist', true);
+			$this->_compress	= $config->getValue('config.memcache_compress', true);
 			// This will be an array of loveliness
 			// @todo: multiple servers
 			//$servers	= (isset($params['servers'])) ? $params['servers'] : array();
@@ -69,7 +69,7 @@ class JCacheStorageMemcache extends JCacheStorage
 			$server['port'] = $config->getValue('config.memcache_server_port',11211);
 			// Create the memcache connection
 			$this->_db = new Memcache;
-				$this->_db->addServer($server['host'], $server['port'], $persistent);
+				$this->_db->addServer($server['host'], $server['port'], $this->_persistent);
 				//$db->connect($server['host'], $server['port']) or die ("Could not connect");
 			
 
