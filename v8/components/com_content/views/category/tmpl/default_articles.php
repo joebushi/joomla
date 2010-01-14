@@ -65,34 +65,33 @@ $n = count($this->articles);
 		<?php endif; ?>
 	</tr></thead>
 	<?php endif; ?>
-
 	<tbody>
 		<?php foreach ($this->articles as $i => &$article) : ?>
-			<tr class="row<?php echo $i % 2; ?>">
+			<tr class="cat-list-row<?php echo $i % 2; ?>">
 				<?php if (in_array($article->access, $this->user->authorisedLevels())) : ?>
-				<td>
+				<td class="list-title">
 					<a href="<?php echo JRoute::_(ContentRoute::article($article->slug, $article->catslug)); ?>">
 					<?php echo $this->escape($article->title); ?></a>
 				</td>
 				<?php if ($this->params->get('show_date') != 'hide') : ?>
-					<td>
+					<td class="list-date">
 						<?php echo JHTML::_('date', $article->displayDate, $this->escape(
 						$this->params->get('date_format', JText::_('DATE_FORMAT_LC3')))); ?>
 					</td>
 				<?php endif; ?>
 				<?php if ($this->params->get('list_author')) : ?>
-					<td>
+					<td class="list-author">
 						<?php echo $article->author_name; ?>
 					</td>
 				<?php endif; ?>
 				<?php if ($this->params->get('list_hits')) : ?>
-					<td>
+					<td class="list-hits">
 						<?php echo $article->hits; ?>
 					</td>
 				<?php endif; ?>
 				<?php else : ?>
 				<td>
-					<?php 
+					<?php
 						echo $this->escape($article->title).' : ';
 						$menu		= JSite::getMenu();
 						$active		= $menu->getActive();
@@ -122,7 +121,7 @@ $n = count($this->articles);
 			<?php echo $this->pagination->getPagesLinks(); ?>
 		</div>
 	<?php endif; ?>
-	
+
 	<!-- @TODO add hidden inputs -->
 	<input type="hidden" name="filter_order" value="" />
 	<input type="hidden" name="filter_order_Dir" value="" />
