@@ -4,6 +4,7 @@
  * @package		Joomla.Framework
  * @subpackage	Cache
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2010 Klas Berlič
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,11 +28,12 @@ class JCacheStorage extends JObject
 	* @param array $options optional parameters
 	*/
 	function __construct($options = array())
-	{
+	{	$config			= &JFactory::getConfig();
+		$this->_hash	= md5($config->getValue('config.secret'));
 		$this->_application	= (isset($options['application'])) ? $options['application'] : null;
 		$this->_language	= (isset($options['language'])) ? $options['language'] : 'en-GB';
 		$this->_locking		= (isset($options['locking'])) ? $options['locking'] : true;
-		$this->_lifetime	= (isset($options['lifetime'])) ? $options['lifetime'] : null;
+		$this->_lifetime	= (isset($options['lifetime'])) ? $options['lifetime'] : $config->getValue('config.cachetime');
 		$this->_now		= (isset($options['now'])) ? $options['now'] : time();
 
 		// Set time threshold value.  If the lifetime is not set, default to 60 (0 is BAD)
@@ -53,7 +55,7 @@ class JCacheStorage extends JObject
 	 * @return	object	A JCacheStorageHandler object
 	 * @since	1.5
 	 */
-	function getInstance($handler = 'file', $options = array())
+	function getInstance($handler, $options = array())
 	{
 		static $now = null;
 		if (is_null($now)) {
@@ -62,6 +64,12 @@ class JCacheStorage extends JObject
 		$options['now'] = $now;
 		//We can't cache this since options may change...
 		$handler = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $handler));
+
+        $conf =& JFactory::getConfig();
+        if(!isset($storage)) {
+            $storage = $conf->getValue('config.cache_handler', 'file');
+        }
+		
 		$class   = 'JCacheStorage'.ucfirst($handler);
 		if (!class_exists($class))
 		{
@@ -88,6 +96,22 @@ class JCacheStorage extends JObject
 	 * @since	1.5
 	 */
 	function get($id, $group, $checkTime)
+	{
+		return;
+	}
+	
+	/**
+	 * Get all cached data
+	 *
+	 * @abstract
+	 * @access	public
+	 * @param	string	$id			The cache data id
+	 * @param	string	$group		The cache data group
+	 * @param	boolean	$checkTime	True to verify cache time expiration threshold
+	 * @return	mixed	Boolean false on failure or a cached data string
+	 * @since	1.5
+	 */
+	function getAll()
 	{
 		return;
 	}

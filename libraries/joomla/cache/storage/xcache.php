@@ -4,6 +4,7 @@
  * @package		Joomla.Framework
  * @subpackage	Cache
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2010 Klas Berlič
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,9 +29,6 @@ class JCacheStorageXCache extends JCacheStorage
 	function __construct($options = array())
 	{
 		parent::__construct($options);
-
-		$config			= &JFactory::getConfig();
-		$this->_hash	= $config->getValue('config.secret');
 	}
 
 	/**
@@ -54,7 +52,49 @@ class JCacheStorageXCache extends JCacheStorage
 
 		return xcache_get($cache_id);
 	}
+	
+	
+	 /**
+	 * Get all cached data
+	 *
+	 *  requires the php.ini setting xcache.admin.enable_auth = Off
+	 *
+	 * @access	public
+	 * @return	array data
+	 * @since	1.6
+	 */
+	function getAll()
+	{	$allinfo = xcache_list(XC_TYPE_VAR, 0);
+		$keys = $allinfo['cache_list'];
 
+
+        $secret = $this->_hash;
+        $data = array();		
+
+		foreach ($keys as $key) {
+		
+			$namearr=explode('-',$key['name']);
+			
+			if ($namearr !== false && $namearr[0]==$secret &&  $namearr[1]=='cache') {
+			
+			$group = $namearr[2];
+			
+			if (!isset($data[$group])) {
+			$item = new CacheItem($group);
+			} else {
+			$item = $data[$group];
+			}
+
+			$item->updateSize($key['size']/1024);
+			
+			$data[$group] = $item;
+			
+			}
+		}
+	
+					
+		return $data;
+	}
 	/**
 	 * Store the data by id and group
 	 *
@@ -94,6 +134,8 @@ class JCacheStorageXCache extends JCacheStorage
 	/**
 	 * Clean cache for a group given a mode.
 	 *
+	 * requires the php.ini setting xcache.admin.enable_auth = Off
+	 *
 	 * group mode		: cleans all cache in the group
 	 * notgroup mode	: cleans all cache not in the group
 	 *
@@ -105,6 +147,49 @@ class JCacheStorageXCache extends JCacheStorage
 	 */
 	function clean($group, $mode)
 	{
+		$allinfo = xcache_list(XC_TYPE_VAR, 0);
+		$keys = $allinfo['cache_list'];
+		
+        $secret = $this->_hash;
+        foreach ($keys as $key) {
+		
+        if (strpos($key['name'], $secret.'-cache-'.$group.'-')===0 xor $mode != 'group')
+					xcache_unset($key['name']);
+        }
+		return true;
+	}
+	
+	/**
+	 * Garbage collect expired cache data
+	 *
+	 * @access public
+	 * @return boolean  True on success, false otherwise.
+	 * * @since	1.6
+	 */
+	function gc()
+	{
+		// dummy, xcache has builtin garbage collector, turn it on in php.ini by changing default xcache.gc_interval setting from 0 to 3600 (=1 hour)
+		
+		/**
+		$now = time();
+
+		$cachecount = xcache_count(XC_TYPE_VAR);
+
+			for ($i = 0; $i < $cachecount; $i ++) {
+
+				$allinfo  = xcache_list(XC_TYPE_VAR, $i);
+				$keys = $allinfo ['cache_list'];
+
+				foreach($keys as $key) {
+
+					if(strstr($key['name'], $this->_hash)) {
+						if(($key['ctime'] + $this->_lifetime ) < $this->_now) xcache_unset($key['name']);
+					}
+				}
+			}
+
+		 */
+		
 		return true;
 	}
 
@@ -130,8 +215,8 @@ class JCacheStorageXCache extends JCacheStorage
 	 * @since	1.5
 	 */
 	function _getCacheId($id, $group)
-	{
-		$name	= md5($this->_application.'-'.$id.'-'.$this->_hash.'-'.$this->_language);
-		return 'cache_'.$group.'-'.$name;
+	{	
+		$name	= md5($this->_application.'-'.$id.'-'.$this->_language);
+		return $this->_hash.'-cache-'.$group.'-'.$name;
 	}
 }

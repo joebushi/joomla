@@ -4,6 +4,7 @@
  * @package		Joomla.Framework
  * @subpackage	Cache
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2010 Klas Berlič
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,10 +29,8 @@ class JCacheStorageFile extends JCacheStorage
 	function __construct($options = array())
 	{
 		parent::__construct($options);
-
-		$config			= &JFactory::getConfig();
 		$this->_root	= $options['cachebase'];
-		$this->_hash	= $config->getValue('config.secret');
+
 	}
 
 	/**
@@ -60,7 +59,42 @@ class JCacheStorageFile extends JCacheStorage
 
 		return $data;
 	}
+	
+	
+	 /**
+	 * Get all cached data
+	 *
+	 *
+	 * @access	public
+	 * @return	array data
+	 * @since	1.6
+	 */
+	
+	function getAll()
+	{
+		//$clientId = JRequest::getInt('client', 0);
+		//$client	= &JApplicationHelper::getClientInfo($clientId);
+		//$path = ($path !== null ? $path : $this->getState('path'));
+		//$path = $client->path.DS.'cache';
+		$path=$this->_root;
+		jimport('joomla.filesystem.folder');
+		$folders = JFolder::folders($path);
+		$data = array();
 
+		foreach ($folders as $folder) {
+			$files = array();
+			$files = JFolder::files($path.DS.$folder);
+			$item = new CacheItem($folder);
+
+			foreach ($files as $file) {
+				$item->updateSize(filesize($path.DS.$folder.DS.$file)/1024);
+			}
+			$data[$folder] = $item;
+		}
+
+		return $data;
+	}
+	
 	/**
 	 * Store the data to a file by id and group
 	 *

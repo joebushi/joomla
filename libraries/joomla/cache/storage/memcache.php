@@ -4,6 +4,7 @@
  * @package		Joomla.Framework
  * @subpackage	Cache
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2010 Klas Berlič
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,20 +24,15 @@ class JCacheStorageMemcache extends JCacheStorage
 	 * Resource for the current memcached connection.
 	 * @var resource
 	 */
-	var $_db;
-
-	/**
-	 * Use compression?
-	 * @var int
-	 */
-	var $_compress = null;
+	 var $_db;
 
 	/**
 	 * Use persistent connections
 	 * @var boolean
 	 */
 	var $_persistent = false;
-
+	
+	var $_compress = 0;
 	/**
 	 * Constructor
 	 *
@@ -45,17 +41,12 @@ class JCacheStorageMemcache extends JCacheStorage
 	 */
 	function __construct($options = array())
 	{
-		if (!$this->test()) {
-			return JError::raiseError(404, "The memcache extension is not available");
-		}
+		/**if (!$this->test()) {
+			return JError::raiseError(404, "THE_MEMCACHE_EXTENSION_IS_NOT_AVAILABLE");
+		}*/
 		parent::__construct($options);
+		if (!isset($this->_db)) $this->getConnection();
 
-		$params = &JCacheStorageMemcache::getConfig();
-		$this->_compress	= (isset($params['compression'])) ? $params['compression'] : 0;
-		$this->_db = &JCacheStorageMemcache::getConnection();
-
-		// Get the site hash
-		$this->_hash = $params['hash'];
 	}
 
 	/**
@@ -66,45 +57,40 @@ class JCacheStorageMemcache extends JCacheStorage
 	 * @return object memcache connection object
 	 */
 	function getConnection() {
-		static $db = null;
-		if (is_null($db)) {
-			$params = &JCacheStorageMemcache::getConfig();
-			$persistent	= (isset($params['persistent'])) ? $params['persistent'] : false;
-			// This will be an array of loveliness
-			$servers	= (isset($params['servers'])) ? $params['servers'] : array();
-
-			// Create the memcache connection
-			$db = new Memcache;
-			foreach($servers AS $server) {
-				$db->addServer($server['host'], $server['port'], $persistent);
-			}
-		}
-		return $db;
-	}
-
-	/**
-	 * Return memcache related configuration
-	 *
-	 * @static
-	 * @access private
-	 * @return array options
-	 */
-	function getConfig() {
-		static $params = null;
-		if (is_null($params)) {
+		
 			$config = &JFactory::getConfig();
-			$params = $config->getValue('config.memcache_settings');
-			if (!is_array($params)) {
-				$params = unserialize(stripslashes($params));
-			}
+			$persistent	= $config->getValue('config.memcache_persist', true);
+			
+			// This will be an array of loveliness
+			// @todo: multiple servers
+			//$servers	= (isset($params['servers'])) ? $params['servers'] : array();
+			$server=array();
+			$server['host'] = $config->getValue('config.memcache_server_host', 'localhost');
+			$server['port'] = $config->getValue('config.memcache_server_port',11211);
+			// Create the memcache connection
+			$this->_db = new Memcache;
+				$this->_db->addServer($server['host'], $server['port'], $persistent);
+				//$db->connect($server['host'], $server['port']) or die ("Could not connect");
+			
 
-			if (!$params) {
-				$params = array();
+			/**if(false === $this->_db->get($this->_hash.'init-time')) {
+
+				$this->_db->set($this->_hash.'init-time', time(), 0, 0);
+				$this->_db->set($this->_hash.'hits',   0, 0, 0);
+				$this->_db->set($this->_hash.'misses', 0, 0, 0);
+				$this->_db->set($this->_hash.'304s', 0, 0, 0);
+				$this->_db->set($this->_hash.'count', 0, 0, 0);
+				$this->_db->set($this->_hash.'count-gzip', 0, 0, 0);
+			}*/
+			// memcahed has no list keys, we do our own accounting, initalise key index
+			if(false === $this->_db->get($this->_hash.'-index')) {
+				$empty = array();
+				$this->_db->set($this->_hash.'-index', $empty , $this->_compress, 0);
 			}
-			$params['hash'] = $config->getValue('config.secret');
-		}
-		return $params;
+			
+		return;
 	}
+
 
 	/**
 	 * Get cached data from memcache by id and group
@@ -122,6 +108,47 @@ class JCacheStorageMemcache extends JCacheStorage
 		return $this->_db->get($cache_id);
 	}
 
+	 /**
+	 * Get all cached data
+	 *
+	 *
+	 * @access	public
+	 * @return	array data
+	 * @since	1.6
+	 */
+	function getAll()
+	{
+		$keys = $this->_db->get($this->_hash.'-index');
+
+        $secret = $this->_hash;
+        $data = array();		
+		if (!empty($keys)){
+		foreach ($keys as $key) {
+			if (empty($key)) continue;
+			$namearr=explode('-',$key['name']);
+			
+			if ($namearr !== false && $namearr[0]==$secret &&  $namearr[1]=='cache') {
+			
+			$group = $namearr[2];
+			
+			if (!isset($data[$group])) {
+			$item = new CacheItem($group);
+			} else {
+			$item = $data[$group];
+			}
+
+			$item->updateSize($key['size']/1024);
+			
+			$data[$group] = $item;
+			
+			}
+		}
+		}
+	
+					
+		return $data;
+	}
+	
 	/**
 	 * Store the data to memcache by id and group
 	 *
@@ -135,6 +162,12 @@ class JCacheStorageMemcache extends JCacheStorage
 	function store($id, $group, $data)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
+		$index = $this->_db->get($this->_hash.'-index');
+		$tmparr = array();
+		$tmparr['name'] = $cache_id;
+		$tmparr['size'] = strlen(serialize($data));
+		$index[] = $tmparr;
+		$this->_db->set($this->_hash.'-index', $index , 0, 0);
 		return $this->_db->set($cache_id, $data, $this->_compress, $this->_lifetime);
 	}
 
@@ -150,6 +183,15 @@ class JCacheStorageMemcache extends JCacheStorage
 	function remove($id, $group)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
+		
+		$index = $this->_db->get($this->_hash.'-index');
+		
+		foreach ($index as $key){
+		if ($key['name'] == $cache_id) unset ($index[$key]);
+		break;
+		}
+		$this->_db->set($this->_hash.'-index', $index , 0, 0);
+		
 		return $this->_db->delete($cache_id);
 	}
 
@@ -167,7 +209,16 @@ class JCacheStorageMemcache extends JCacheStorage
 	 */
 	function clean($group, $mode)
 	{
+		$keys = $this->_db->get($this->_hash.'-index');
+		
+		$secret = $this->_hash;
+        foreach ($keys as $key) {
+		
+        if (strpos($key['name'], $secret.'-cache-'.$group.'-')===0 xor $mode != 'group')
+					$this->_db->delete($key['name']);
+        }
 		return true;
+		
 	}
 
 	/**
@@ -177,7 +228,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	 * @return boolean  True on success, false otherwise.
 	 */
 	function gc()
-	{
+	{  //dummy, memcache has builtin garbage collector
 		return true;
 	}
 
@@ -203,8 +254,8 @@ class JCacheStorageMemcache extends JCacheStorage
 	 * @since	1.5
 	 */
 	function _getCacheId($id, $group)
-	{
-		$name	= md5($this->_application.'-'.$id.'-'.$this->_hash.'-'.$this->_language);
-		return 'cache_'.$group.'-'.$name;
+	{	
+		$name	= md5($this->_application.'-'.$id.'-'.$this->_language);
+		return $this->_hash.'-cache-'.$group.'-'.$name;
 	}
 }

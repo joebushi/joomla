@@ -3,7 +3,8 @@
  * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Cache
- * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.ž
+ * @copyright	Copyright (C) 2010 Klas Berlič
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -53,9 +54,15 @@ class JCache extends JObject
 			'storage'=>'file');
 
 		// Overwrite default options with given options
-		$this->_options = array_merge($this->_options,$options);
+		//$this->_options = array_merge($this->_options,$options);
 		//@todo:or with the ampersand here? Like "...& $options);" for speed if array_merge or this construct would make a deep copy otherwise
-
+		
+		foreach ($this->_options AS $option=>$value) {
+		if (isset($options[$option])) {
+			$this->_options[$option] = $options[$option];
+		} 
+		}
+		
 		// Fix to detect if template positions are enabled...
 		if (JRequest::getCMD('tpl',0)) {
 			$this->_options['caching'] = false;
@@ -164,6 +171,24 @@ class JCache extends JObject
 		$handler = &$this->_getStorage();
 		if (!JError::isError($handler) && $this->_options['caching']) {
 			return $handler->get($id, $group, (isset($this->_options['checkTime']))? $this->_options['checkTime'] : true);
+		}
+		return false;
+	}
+	
+	/**
+	 * Get all cached data
+	 *
+	 * @abstract
+	 * @access	public
+	 * @return	mixed	Boolean false on failure or an object with a list of cache groups and data
+	 * @since	1.6
+	 */
+	function getAll()
+	{
+		// Get the storage handler
+		$handler = &$this->_getStorage();
+		if (!JError::isError($handler) && $this->_options['caching']) {
+			return $handler->getAll();
 		}
 		return false;
 	}

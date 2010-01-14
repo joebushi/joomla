@@ -4,6 +4,7 @@
  * @package		Joomla.Framework
  * @subpackage	Cache
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2010 Klas Berlič
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,9 +29,6 @@ class JCacheStorageEaccelerator extends JCacheStorage
 	function __construct($options = array())
 	{
 		parent::__construct($options);
-
-		$config			= &JFactory::getConfig();
-		$this->_hash	= $config->getValue('config.secret');
 	}
 
 	/**
@@ -54,7 +52,49 @@ class JCacheStorageEaccelerator extends JCacheStorage
 		}
 		return $cache_content;
 	}
+	
+	 /**
+	 * Get all cached data
+	 *
+	 *
+	 * @access	public
+	 * @return	array data
+	 * @since	1.6
+	 */
+	function getAll()
+	{
+		$keys = eaccelerator_list_keys();
 
+        $secret = $this->_hash;
+        $data = array();		
+
+		foreach ($keys as $key) {
+			/* Trim leading ":" to work around list_keys namespace bug in eAcc. This will still work when bug is fixed */
+			$name = ltrim($key['name'], ':');
+			
+			$namearr=explode('-',$name);
+			
+			if ($namearr !== false && $namearr[0]==$secret &&  $namearr[1]=='cache') {
+			
+			$group = $namearr[2];
+			
+			if (!isset($data[$group])) {
+			$item = new CacheItem($group);
+			} else {
+			$item = $data[$group];
+			}
+
+			$item->updateSize($key['size']/1024);
+			
+			$data[$group] = $item;
+			
+			}
+		}
+	
+					
+		return $data;
+	}
+	
 	/**
 	 * Store the data to by id and group
 	 *
@@ -68,7 +108,7 @@ class JCacheStorageEaccelerator extends JCacheStorage
 	function store($id, $group, $data)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
-		eaccelerator_put($cache_id.'_expire', time());
+		eaccelerator_put($cache_id.'-expire', time());
 		return eaccelerator_put($cache_id, $data, $this->_lifetime);
 	}
 
@@ -84,7 +124,7 @@ class JCacheStorageEaccelerator extends JCacheStorage
 	function remove($id, $group)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
-		eaccelerator_rm($cache_id.'_expire');
+		eaccelerator_rm($cache_id.'-expire');
 		return eaccelerator_rm($cache_id);
 	}
 
@@ -102,6 +142,16 @@ class JCacheStorageEaccelerator extends JCacheStorage
 	 */
 	function clean($group, $mode)
 	{
+		$keys = eaccelerator_list_keys();
+
+        $secret = $this->_hash;
+        foreach ($keys as $key) {
+        /* Trim leading ":" to work around list_keys namespace bug in eAcc. This will still work when bug is fixed */
+		$key['name'] = ltrim($key['name'], ':'); 
+		
+        if (strpos($key['name'], $secret.'-cache-'.$group.'-')===0 xor $mode != 'group')
+					eaccelerator_rm($key['name']);
+        }
 		return true;
 	}
 
@@ -139,14 +189,14 @@ class JCacheStorageEaccelerator extends JCacheStorage
 	function _setExpire($key)
 	{
 		$lifetime	= $this->_lifetime;
-		$expire		= eaccelerator_get($key.'_expire');
+		$expire		= eaccelerator_get($key.'-expire');
 
 		// set prune period
-		if ($expire + $lifetime < time()) {
+		if ($expire + $lifetime < $this->_now ) {
 			eaccelerator_rm($key);
-			eaccelerator_rm($key.'_expire');
+			eaccelerator_rm($key.'-expire');
 		} else {
-			eaccelerator_put($key.'_expire',  time());
+			eaccelerator_put($key.'-expire', $this->_now );
 		}
 	}
 
@@ -160,8 +210,8 @@ class JCacheStorageEaccelerator extends JCacheStorage
 	 * @since	1.5
 	 */
 	function _getCacheId($id, $group)
-	{
-		$name	= md5($this->_application.'-'.$id.'-'.$this->_hash.'-'.$this->_language);
-		return 'cache_'.$group.'-'.$name;
+	{	
+		$name	= md5($this->_application.'-'.$id.'-'.$this->_language);
+		return $this->_hash.'-cache-'.$group.'-'.$name;
 	}
 }

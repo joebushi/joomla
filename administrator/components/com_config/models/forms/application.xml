@@ -34,7 +34,43 @@
 			default="file"
 			label="Config_Cache_Handler_Label"
 			description="Config_Cache_Handler_Desc"
+			required="true"
 			filter="word" />
+	</fields>
+		<fields
+		group="memcache"
+		label="Config_Memcache_Settings_Label">
+		<field
+			name="memcache_persist"
+			type="radio"
+			default="0"
+			label="Memcache_Persistent_Label"
+			description="Memcache_Persistent_Description"
+			required="true"
+			filter="integer">
+			<option
+				value="1">JYes</option>
+			<option
+				value="0">JNo</option>
+		</field>
+		
+		<field
+			name="memcache_server_host"
+			type="text"
+			default="localhost"
+			label="Memcache_Host_Label"
+			description="Memcache_Host_Desc"
+			filter="string"
+			size="25" />
+			
+		<field
+			name="memcache_server_port"
+			type="text"
+			default="11211"
+			label="Memcache_Port_Label"
+			description="Memcache_Port_Desc"
+			filter="integer"
+			size="5" />
 	</fields>
 
 	<fields

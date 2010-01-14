@@ -4,6 +4,7 @@
  * @package		Joomla.Administrator
  * @subpackage	Cache
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2010 Klas Berlič
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -75,7 +76,7 @@ class CacheModelCache extends JModel
 	 * Parse $path for cache file groups
 	 *
 	 * @return	array
-	 */
+	 
 	protected function _parse($path = null)
 	{
 		$path = ($path !== null ? $path : $this->getState('path'));
@@ -97,7 +98,7 @@ class CacheModelCache extends JModel
 
 		return $data;
 	}
-
+*/
 	/**
 	 * Method to get cache data
 	 *
@@ -106,9 +107,13 @@ class CacheModelCache extends JModel
 	public function getData()
 	{
 		if (empty($this->_data)) {
-			$this->_data = $this->_parse();
+		    $conf =& JFactory::getConfig();
+            $storage = $conf->getValue('config.cache_handler', 'file');
+			//$this->_data = $this->_parse();
+			$cache = &JFactory::getCache('', 'callback', $storage);
+			$this->_data = $cache->getAll();
 		}
-
+		
 		return $this->_data;
 	}
 
@@ -158,8 +163,10 @@ class CacheModelCache extends JModel
 	 * @param String $group
 	 */
 	public function clean($group = '')
-	{
-		$cache = &JFactory::getCache('', 'callback', 'file');
+	{   $conf =& JFactory::getConfig();
+            $storage = $conf->getValue('config.cache_handler', 'file');
+		//$cache = &JFactory::getCache('', 'callback', 'file');
+		$cache = &JFactory::getCache('', 'callback', $storage);
 		$cache->clean($group);
 	}
 

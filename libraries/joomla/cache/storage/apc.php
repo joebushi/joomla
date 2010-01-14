@@ -4,6 +4,7 @@
  * @package		Joomla.Framework
  * @subpackage	Cache
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2010 Klas Berlič
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,9 +29,6 @@ class JCacheStorageApc extends JCacheStorage
 	function __construct($options = array())
 	{
 		parent::__construct($options);
-
-		$config			= &JFactory::getConfig();
-		$this->_hash	= $config->getValue('config.secret');
 	}
 
 	/**
@@ -49,7 +47,55 @@ class JCacheStorageApc extends JCacheStorage
 		$this->_setExpire($cache_id);
 		return apc_fetch($cache_id);
 	}
+	
+	 /**
+	 * Get all cached data
+	 *
+	 *
+	 * @access	public
+	 * @return	array data
+	 * @since	1.5
+	 */
+	function getAll()
+	{
+		$allinfo = apc_cache_info('user');
+		
+		$keys = $allinfo['cache_list'];
+		
+		print_r($keys);
+		
+        $secret = $this->_hash;
+        $data = array();		
 
+		foreach ($keys as $key) {
+			
+			$name=$key['info'];
+			$namearr=explode('-',$name);
+			
+			if ($namearr !== false && $namearr[0]==$secret &&  $namearr[1]=='cache') {
+			
+			$group = $namearr[2];
+			
+			if (!isset($data[$group])) {
+			$item = new CacheItem($group);
+			} else {
+			$item = $data[$group];
+			}
+
+			$item->updateSize($key['mem_size']/1024);
+			
+			$data[$group] = $item;
+			
+			}
+		}
+	
+					
+		return $data;
+	}
+	
+	
+	
+	
 	/**
 	 * Store the data to APC by id and group
 	 *
@@ -63,7 +109,7 @@ class JCacheStorageApc extends JCacheStorage
 	function store($id, $group, $data)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
-		apc_store($cache_id.'_expire', time());
+		apc_store($cache_id.'-expire', time());
 		return apc_store($cache_id, $data, $this->_lifetime);
 	}
 
@@ -79,7 +125,7 @@ class JCacheStorageApc extends JCacheStorage
 	function remove($id, $group)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
-		apc_delete($cache_id.'_expire');
+		apc_delete($cache_id.'-expire');
 		return apc_delete($cache_id);
 	}
 
@@ -97,6 +143,28 @@ class JCacheStorageApc extends JCacheStorage
 	 */
 	function clean($group, $mode)
 	{
+		$allinfo = apc_cache_info('user');
+		$keys = $allinfo['cache_list'];
+		
+        $secret = $this->_hash;
+        foreach ($keys as $key) {
+		
+        if (strpos($key['info'], $secret.'-cache-'.$group.'-')===0 xor $mode != 'group')
+					apc_delete($key['info']);
+        }
+		return true;
+	}
+	
+	/**
+	 * Garbage collect expired cache data
+	 *
+	 * @access public
+	 * @return boolean  True on success, false otherwise.
+	 * * @since	1.6
+	 */
+	function gc()
+	{
+		// dummy, apc has builtin garbage collector controled by apc.gc_ttl
 		return true;
 	}
 
@@ -123,14 +191,14 @@ class JCacheStorageApc extends JCacheStorage
 	function _setExpire($key)
 	{
 		$lifetime	= $this->_lifetime;
-		$expire		= apc_fetch($key.'_expire');
+		$expire		= apc_fetch($key.'-expire');
 
 		// set prune period
 		if ($expire + $lifetime < time()) {
 			apc_delete($key);
-			apc_delete($key.'_expire');
+			apc_delete($key.'-expire');
 		} else {
-			apc_store($key.'_expire',  time());
+			apc_store($key.'-expire',  time());
 		}
 	}
 
@@ -144,8 +212,8 @@ class JCacheStorageApc extends JCacheStorage
 	 * @since	1.5
 	 */
 	function _getCacheId($id, $group)
-	{
-		$name	= md5($this->_application.'-'.$id.'-'.$this->_hash.'-'.$this->_language);
-		return 'cache_'.$group.'-'.$name;
+	{	
+		$name	= md5($this->_application.'-'.$id.'-'.$this->_language);
+		return $this->_hash.'-cache-'.$group.'-'.$name;
 	}
 }
