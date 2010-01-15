@@ -59,7 +59,7 @@ $pageClass = $this->params->get('pageclass_sfx');
 	<div class="items-row cols-<?php echo (int) $this->columns;?> <? echo 'row-'.$row ; ?>">
 	<?php endif; ?>
 
-	<div class="column-<?php echo $rowcount;?><?php echo $item->state == 0 ? ' system-unpublished' : null; ?>">
+	<div class="item column-<?php echo $rowcount;?><?php echo $item->state == 0 ? ' system-unpublished' : null; ?>">
 		<?php
 			$this->item = &$item;
 			echo $this->loadTemplate('item');
