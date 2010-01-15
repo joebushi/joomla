@@ -84,7 +84,7 @@
 	<fields
 		group="params"
 		label="Contact_Contact_Settings_Label"
-		description="Contact_Contact_Settings_Desc">
+		description="">
 		<field
 			name="show_name"
 			type="list"
