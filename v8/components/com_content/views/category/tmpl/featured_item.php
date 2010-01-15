@@ -54,38 +54,40 @@ $params = &$this->item->params;
 
 <?php echo $this->item->event->beforeDisplayContent; ?>
 
-<?php // to do not that elegant ?>
+<?php // to do not that elegant would be nice to group the params ?>
 
 <?php if (($params->get('show_author')) or ($params->get('show_category')) or ($params->get('show_create_date')) or ($params->get('show_modify_date'))) : ?>
  <dl class="article-info">
+ <dt class="article-info-term"><?php  echo JText::_('JContent_Article_Infos'); ?></dt>
 <?php endif; ?>
 <?php if ($params->get('show_category')) : ?>
-<dt class="category-name"><?php  echo JText::_('CATEGORY'); ?></dt>
-<dd class="category-name">
+
+<dd class="category-name"><?php  echo JText::_('JContent_Category'); ?>
                 <?php if ($params->get('link_category')) : ?>
-                <?php echo '<a href="'.JRoute::_(ContentRoute::category($this->item->catslug)).'">'; ?>
-                <?php echo $this->escape($this->item->category_title); ?></a>
-                <?php else : ?>
-                <?php echo $this->escape($this->item->category_title); ?>
-                <?php endif; ?>
+                	<?php echo '<a href="'.JRoute::_(ContentRoute::category($this->item->catslug)).'">'; ?>
+                	<?php echo $this->escape($this->item->category_title); ?></a>
+                	<?php else : ?>
+                	<?php echo $this->escape($this->item->category_title); ?>
+				<?php endif; ?>
      </dd>
 <?php endif; ?>
 <?php if ($params->get('show_create_date')) : ?>
-        <dt class="create"> <?php echo JText::_('CREATION_DATE'); ?> </dt>
+
         <dd class="create">
-                <?php echo JHtml::_('date', $this->item->created, JText::_('DATE_FORMAT_LC2')); ?>
-        </dd>
+         <?php   echo JText::sprintf('CONTENT_CREATED_DATE', JHtml::_('date', $this->item->created, JText::_('DATE_FORMAT_LC2'))); ?>
+		</dd>
 <?php endif; ?>
 <?php if ($params->get('show_modify_date')) : ?>
-        <dt class="modified"> <?php echo JText::_('MODIFY_DATE'); ?> </dt>
-        <dd class="modified">
-        <?php echo JHtml::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC2')); ?>
+       <dd class="modified">
+       <?php   echo JText::sprintf('LAST_UPDATED2', JHtml::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC2'))); ?>
         </dd>
 <?php endif; ?>
 <?php if ($params->get('show_author') && !empty($this->item->author_name)) : ?>
-		<dt class="createdby"> <?php echo JText::_('WRITTEN_BY'); ?></dt>
-		<dd class="createdby">
-			<?php echo ($this->item->created_by_alias ? $this->item->created_by_alias : $this->item->author_name); ?>
+	  <dd class="createdby">
+       <?php $author=($this->item->created_by_alias ? $this->item->created_by_alias : $this->item->author_name);?>
+
+    <?php echo JText::sprintf('Written_by', $author); ?>
+
 		</dd>
 	<?php endif; ?>
 <?php if (($params->get('show_author')) or ($params->get('show_category')) or ($params->get('show_create_date')) or ($params->get('show_modify_date'))) : ?>
@@ -94,7 +96,7 @@ $params = &$this->item->params;
 
 <?php echo $this->item->introtext; ?>
 
-<?php if ($params->get('show_readmore') && $this->item->readmore) :
+<?php if ($params->get('show_readmore') && $this->item->readmore!="0") :
 	if ($params->get('access-view')) :
 		$link = JRoute::_(ContentRoute::article($this->item->slug, $this->item->catslug));
 	else :

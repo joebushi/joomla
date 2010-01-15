@@ -19,7 +19,7 @@ $n = count($this->articles);
 ?>
 
 <?php if (empty($this->articles)) : ?>
-	<!--  no articles -->
+	<p> <?php echo JText::_('JContent_No_Articles'); ?>     </p>
 <?php else : ?>
 	<form action="<?php echo $this->action; ?>" method="post" name="adminForm">
 
@@ -40,7 +40,7 @@ $n = count($this->articles);
 	<?php endif; ?>
 	</fieldset>
 
-<table class="category">
+<table class="category" border="1">
 	<?php if ($this->params->get('show_headings')) :?>
 	<thead><tr>
 		<?php if ($this->params->get('show_title')) : ?>
@@ -102,7 +102,7 @@ $n = count($this->articles);
 						$fullURL->setVar('return', base64_encode($returnURL));
 						$link = $fullURL->toString();
 					?>
-					<a href="<?php echo $link; ?>">
+					<a href="<?php echo $link; ?>" class="register">
 					<?php echo JText::_( 'Register to read more...' ); ?></a>
 				</td>
 				<?php endif; ?>

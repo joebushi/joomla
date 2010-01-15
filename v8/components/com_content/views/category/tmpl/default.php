@@ -32,7 +32,7 @@ $pageClass = $this->params->get('pageclass_sfx');
 		<div class="category-desc">
 			<!-- @TODO Verify image path defaults/overrides/positions -->
 			<?php if ($this->params->get('show_description_image') && $this->item->category_params->get('image')) : ?>
-				<img src="<?php echo $this->item->category_params->get('image'); ?>"/>
+				<img src="<?php echo $this->item->category_params->get('image'); ?>" />
 			<?php endif; ?>
 			<?php if ($this->params->get('show_description') && $this->item->description) : ?>
 				<?php echo $this->item->description; ?>
