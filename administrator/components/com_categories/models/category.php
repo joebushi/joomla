@@ -226,7 +226,7 @@ class CategoriesModelCategory extends JModelForm
 		JPluginHelper::importPlugin('content');
 
 		// Trigger the form preparation event.
-		$results = $dispatcher->trigger('onPrepareForm', array($form->getName(), &$form));
+		$results = $dispatcher->trigger('onPrepareForm', array($form->getName(), $form));
 
 		// Check for errors encountered while preparing the form.
 		if (count($results) && in_array(false, $results, true))

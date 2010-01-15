@@ -111,7 +111,6 @@ abstract class JTable extends JObject
 		{
 			$this->access = (int) JFactory::getConfig()->getValue('access');
 		}
-
 	}
 
 	/**
