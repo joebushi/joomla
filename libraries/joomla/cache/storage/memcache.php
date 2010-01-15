@@ -24,7 +24,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	 * Resource for the current memcached connection.
 	 * @var resource
 	 */
-	 var $_db;
+	 private $_db = null;
 
 	/**
 	 * Use persistent connections
@@ -83,9 +83,9 @@ class JCacheStorageMemcache extends JCacheStorage
 				$this->_db->set($this->_hash.'count-gzip', 0, 0, 0);
 			}*/
 			// memcahed has no list keys, we do our own accounting, initalise key index
-			if(false === $this->_db->get($this->_hash.'-index')) {
+			if($this->_db->get($this->_hash.'-index') === false) {
 				$empty = array();
-				$this->_db->set($this->_hash.'-index', $empty , $this->_compress, 0);
+				$this->_db->set($this->_hash.'-index', serialize($empty) , $this->_compress, 0);
 			}
 			
 		return;
@@ -105,7 +105,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	function get($id, $group, $checkTime)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
-		return $this->_db->get($cache_id);
+		return unserialize($this->_db->get($cache_id));
 	}
 
 	 /**
@@ -118,14 +118,14 @@ class JCacheStorageMemcache extends JCacheStorage
 	 */
 	function getAll()
 	{
-		$keys = $this->_db->get($this->_hash.'-index');
+		$keys = unserialize($this->_db->get($this->_hash.'-index'));
 
         $secret = $this->_hash;
         $data = array();		
 		if (!empty($keys)){
 		foreach ($keys as $key) {
 			if (empty($key)) continue;
-			$namearr=explode('-',$key['name']);
+			$namearr=explode('-',$key->name);
 			
 			if ($namearr !== false && $namearr[0]==$secret &&  $namearr[1]=='cache') {
 			
@@ -137,7 +137,7 @@ class JCacheStorageMemcache extends JCacheStorage
 			$item = $data[$group];
 			}
 
-			$item->updateSize($key['size']/1024);
+			$item->updateSize($key->size/1024);
 			
 			$data[$group] = $item;
 			
@@ -160,15 +160,18 @@ class JCacheStorageMemcache extends JCacheStorage
 	 * @since	1.5
 	 */
 	function store($id, $group, $data)
-	{
+	{   $data = serialize($data);
 		$cache_id = $this->_getCacheId($id, $group);
-		$index = $this->_db->get($this->_hash.'-index');
-		$tmparr = array();
-		$tmparr['name'] = $cache_id;
-		$tmparr['size'] = strlen(serialize($data));
+		$index = unserialize($this->_db->get($this->_hash.'-index'));
+		if ($index === false) {$index = array();} else {$index = $index;}
+		$tmparr = new stdClass;
+		$tmparr->name = $cache_id;
+		$tmparr->size = strlen($data);
 		$index[] = $tmparr;
-		$this->_db->set($this->_hash.'-index', $index , 0, 0);
-		return $this->_db->set($cache_id, $data, $this->_compress, $this->_lifetime);
+		$this->_db->replace($this->_hash.'-index', serialize($index) , 0, 0);
+		$this->_db->set($cache_id, serialize($data), $this->_compress, $this->_lifetime);
+		
+		return;
 	}
 
 	/**
@@ -184,13 +187,14 @@ class JCacheStorageMemcache extends JCacheStorage
 	{
 		$cache_id = $this->_getCacheId($id, $group);
 		
-		$index = $this->_db->get($this->_hash.'-index');
+		$index = unserialize($this->_db->get($this->_hash.'-index'));
+		if ($index === false) {$index = array();} else {$index = $index;}
 		
-		foreach ($index as $key){
-		if ($key['name'] == $cache_id) unset ($index[$key]);
+		foreach ($index as $key=>$value){
+		if ($value->name == $cache_id) unset ($index[$key]);
 		break;
 		}
-		$this->_db->set($this->_hash.'-index', $index , 0, 0);
+		$this->_db->replace($this->_hash.'-index', serialize($index), 0, 0);
 		
 		return $this->_db->delete($cache_id);
 	}
@@ -209,14 +213,17 @@ class JCacheStorageMemcache extends JCacheStorage
 	 */
 	function clean($group, $mode)
 	{
-		$keys = $this->_db->get($this->_hash.'-index');
+		$index = unserialize($this->_db->get($this->_hash.'-index'));
+		if ($index === false) {$index = array();} else {$index = $index;}
 		
 		$secret = $this->_hash;
-        foreach ($keys as $key) {
+        foreach ($index as $key=>$value) {
 		
-        if (strpos($key['name'], $secret.'-cache-'.$group.'-')===0 xor $mode != 'group')
-					$this->_db->delete($key['name']);
+        if (strpos($value->name, $secret.'-cache-'.$group.'-')===0 xor $mode != 'group')
+					$this->_db->delete($value->name);
+					unset ($index[$key]);
         }
+        $this->_db->replace($this->_hash.'-index', serialize($index) , 0, 0);
 		return true;
 		
 	}
