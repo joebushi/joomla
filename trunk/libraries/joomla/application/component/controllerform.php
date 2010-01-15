@@ -191,6 +191,17 @@ class JControllerForm extends JController
 		$table		= $model->getTable();
 		$cid		= JRequest::getVar('cid', array(), 'post', 'array');
 		$context	= "$this->_option.edit.$this->_context";
+		$tmpl		= JRequest::getString('tmpl');
+		$layout		= JRequest::getString('layout', 'edit');
+		$append		= '';
+
+		// Setup redirect info.
+		if ($tmpl) {
+			$append .= '&tmpl='.$tmpl;
+		}
+		if ($layout) {
+			$append .= '&layout='.$layout;
+		}
 
 		// Get the previous record id (if any) and the current record id.
 		$previousId	= (int) $app->getUserState($context.'.id');
@@ -210,7 +221,7 @@ class JControllerForm extends JController
 			{
 				// Check-in failed, go back to the record and display a notice.
 				$message = JText::sprintf('JError_Checkin_failed', $model->getError());
-				$this->setRedirect('index.php?option='.$this->_option.'&view='.$this->_view_item.'&layout=edit', $message, 'error');
+				$this->setRedirect('index.php?option='.$this->_option.'&view='.$this->_view_item.$append, $message, 'error');
 				return false;
 			}
 		}
@@ -228,7 +239,7 @@ class JControllerForm extends JController
 			// Check-out succeeded, push the new record id into the session.
 			$app->setUserState($context.'.id',	$recordId);
 			$app->setUserState($context.'.data', null);
-			$this->setRedirect('index.php?option='.$this->_option.'&view='.$this->_view_item.'&layout=edit');
+			$this->setRedirect('index.php?option='.$this->_option.'&view='.$this->_view_item.$append);
 			return true;
 		}
 	}
@@ -312,6 +323,23 @@ class JControllerForm extends JController
 		$key		= $table->getKeyName();
 		$data[$key] = $recordId;
 
+		// The save2copy task needs to be handled slightly differently.
+		if ($task == 'save2copy')
+		{
+			// Check-in the original row.
+			if (!$model->checkin($data[$key]))
+			{
+				// Check-in failed, go back to the item and display a notice.
+				$message = JText::sprintf('JError_Checkin_saved', $model->getError());
+				$this->setRedirect('index.php?option='.$this->_option.'&view='.$this->_view_item.'&layout=edit', $message, 'error');
+				return false;
+			}
+
+			// Reset the ID and then treat the request as for Apply.
+			$data['id']	= 0;
+			$task		= 'apply';
+		}
+		
 		// Access check.
 		if (!$this->_allowSave($data)) {
 			return JError::raiseWarning(403, 'JError_Save_not_permitted');
@@ -325,23 +353,6 @@ class JControllerForm extends JController
 			return false;
 		}
 		$data	= $model->validate($form, $data);
-
-		// The save2copy task needs to be handled slightly differently.
-		if ($task == 'save2copy')
-		{
-			// Check-in the original row.
-			if (!$model->checkin())
-			{
-				// Check-in failed, go back to the item and display a notice.
-				$message = JText::sprintf('JError_Checkin_saved', $model->getError());
-				$this->setRedirect('index.php?option='.$this->_option.'&view='.$this->_view_item.'&layout=edit', $message, 'error');
-				return false;
-			}
-
-			// Reset the ID and then treat the request as for Apply.
-			$data['id']	= 0;
-			$task		= 'apply';
-		}
 
 		// Check for validation errors.
 		if ($data === false)

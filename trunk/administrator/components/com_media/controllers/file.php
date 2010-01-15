@@ -1,8 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Administrator
- * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -17,7 +15,7 @@ jimport('joomla.filesystem.folder');
  * Weblinks Weblink Controller
  *
  * @package		Joomla.Administrator
- * @subpackage	Weblinks
+ * @subpackage	com_media
  * @since 1.5
  */
 class MediaControllerFile extends MediaController
@@ -92,9 +90,9 @@ class MediaControllerFile extends MediaController
 					$log = &JLog::getInstance('upload.error.php');
 					$log->addEntry(array('comment' => 'Cannot upload: '.$filepath));
 					header('HTTP/1.0 400 Bad Request');
-					jexit('Error. Unable to upload file');
+					jexit('Error Unable to upload file');
 				} else {
-					JError::raiseWarning(100, JText::_('Error. Unable to upload file'));
+					JError::raiseWarning(100, JText::_('ERROR_UNABLE_TO_UPLOAD_FILE'));
 					// REDIRECT
 					if ($return) {
 						$app->redirect(base64_decode($return).'&folder='.$folder);
@@ -108,7 +106,7 @@ class MediaControllerFile extends MediaController
 					$log->addEntry(array('comment' => $folder));
 					jexit('Upload complete');
 				} else {
-					$app->enqueueMessage(JText::_('Upload complete'));
+					$app->enqueueMessage(JText::_('UPLOAD_COMPLETE'));
 					// REDIRECT
 					if ($return) {
 						$app->redirect(base64_decode($return).'&folder='.$folder);

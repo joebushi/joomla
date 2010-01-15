@@ -230,7 +230,7 @@ final class JSite extends JApplication
 				$url	= 'index.php?option=com_users&view=login';
 				$url	= JRoute::_($url, false);
 
-				$this->redirect($url, JText::_('You must login first'));
+				$this->redirect($url, JText::_('YOU_MUST_LOGIN_FIRST'));
 			}
 			else {
 				JError::raiseError(403, JText::_('ALERTNOTAUTH'));
@@ -342,7 +342,7 @@ final class JSite extends JApplication
 
 		// Allows for overriding the active template from the request
 		$template->template = JRequest::getCmd('template', $template->template);
-		$template->template = JFilterInput::clean($template->template, 'cmd'); // need to filter the default value as well
+		$template->template = JFilterInput::getInstance()->clean($template->template, 'cmd'); // need to filter the default value as well
 
 		// Fallback template
 		if (!file_exists(JPATH_THEMES.DS.$template->template.DS.'index.php')) {

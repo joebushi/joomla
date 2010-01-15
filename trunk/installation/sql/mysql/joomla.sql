@@ -184,74 +184,6 @@ INSERT INTO `#__categories` VALUES
 # -------------------------------------------------------
 
 #
-# Table structure for table `#__components`
-#
-
-CREATE TABLE `#__components` (
-  `id` integer NOT NULL auto_increment,
-  `name` varchar(50) NOT NULL default '',
-  `link` varchar(255) NOT NULL default '',
-  `menuid` integer unsigned NOT NULL default '0',
-  `parent` integer unsigned NOT NULL default '0',
-  `admin_menu_link` varchar(255) NOT NULL default '',
-  `admin_menu_alt` varchar(255) NOT NULL default '',
-  `option` varchar(50) NOT NULL default '',
-  `ordering` integer NOT NULL default '0',
-  `admin_menu_img` varchar(255) NOT NULL default '',
-  `iscore` tinyint(4) NOT NULL default '0',
-  `params` text NOT NULL,
-  `enabled` tinyint(4) UNSIGNED NOT NULL default '1',
-  PRIMARY KEY  (`id`),
-  KEY `parent_option` (`parent`, `option`(32))
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-#
-# Dumping data for table `#__components`
-#
-
-INSERT INTO `#__components` VALUES (1, 'Banners', '', 0, 0, '', 'Banner Management', 'com_banners', 0, 'js/ThemeOffice/component.png', 0, '{"track_impressions":"0","track_clicks":"0","metakey_prefix":"","purchase_type":"1"}', 1);
-INSERT INTO `#__components` VALUES (2, 'Banners', '', 0, 1, 'option=com_banners', 'Active Banners', 'com_banners', 1, 'js/ThemeOffice/edit.png', 0, '', 1);
-INSERT INTO `#__components` VALUES (3, 'Clients', '', 0, 1, 'option=com_banners&view=clients', 'Manage Clients', 'com_banners', 2, 'js/ThemeOffice/categories.png', 0, '', 1);
-INSERT INTO `#__components` VALUES (4, 'Web Links', 'option=com_weblinks', 0, 0, '', 'Manage Weblinks', 'com_weblinks', 0, 'js/ThemeOffice/component.png', 0, 'show_comp_description=1\ncomp_description=\nshow_link_hits=1\nshow_link_description=1\nshow_other_cats=1\nshow_headings=1\nshow_page_title=1\nlink_target=0\nlink_icons=\n\n', 1);
-INSERT INTO `#__components` VALUES (5, 'Links', '', 0, 4, 'option=com_weblinks', 'View existing weblinks', 'com_weblinks', 1, 'js/ThemeOffice/edit.png', 0, '', 1);
-INSERT INTO `#__components` VALUES (6, 'Categories', '', 0, 4, 'option=com_categories&extension=com_weblinks', 'Manage weblink categories', '', 2, 'js/ThemeOffice/categories.png', 0, '', 1);
-INSERT INTO `#__components` VALUES (7, 'Contacts', 'option=com_contact', 0, 0, '', 'Edit contact details', 'com_contact', 0, 'js/ThemeOffice/component.png', 1, 'contact_icons=0\nicon_address=\nicon_email=\nicon_telephone=\nicon_fax=\nicon_misc=\nshow_headings=1\nshow_position=1\nshow_email=0\nshow_telephone=1\nshow_mobile=1\nshow_fax=1\nbannedEmail=\nbannedSubject=\nbannedText=\nsession=1\ncustomReply=0\n\n', 1);
-INSERT INTO `#__components` VALUES (8, 'Contacts', '', 0, 7, 'option=com_contact', 'Edit contact details', 'com_contact', 0, 'js/ThemeOffice/edit.png', 1, '', 1);
-INSERT INTO `#__components` VALUES (9, 'Categories', '', 0, 7, 'option=com_categories&extension=com_contact', 'Manage contact categories', '', 2, 'js/ThemeOffice/categories.png', 1, 'contact_icons=0\nicon_address=\nicon_email=\nicon_telephone=\nicon_fax=\nicon_misc=\nshow_headings=1\nshow_position=1\nshow_email=0\nshow_telephone=1\nshow_mobile=1\nshow_fax=1\nbannedEmail=\nbannedSubject=\nbannedText=\nsession=1\ncustomReply=0\n\n', 1);
-INSERT INTO `#__components` VALUES (11, 'News Feeds', 'option=com_newsfeeds', 0, 0, '', 'News Feeds Management', 'com_newsfeeds', 0, 'js/ThemeOffice/newsfeeds.png', 0, '', 1);
-INSERT INTO `#__components` VALUES (12, 'Feeds', '', 0, 11, 'option=com_newsfeeds', 'Manage News Feeds', 'com_newsfeeds', 1, 'js/ThemeOffice/newsfeeds.png', 0, 'show_headings=1\nshow_name=1\nshow_articles=1\nshow_link=1\nshow_cat_description=1\nshow_cat_items=1\nshow_feed_image=1\nshow_feed_description=1\nshow_item_description=1\nfeed_word_count=0\n\n', 1);
-INSERT INTO `#__components` VALUES (13, 'Categories', '', 0, 11, 'option=com_categories&extension=com_newsfeeds', 'Manage Categories', '', 2, 'js/ThemeOffice/newsfeeds-cat.png', 0, '', 1);
-INSERT INTO `#__components` VALUES (14, 'Users', 'option=com_users', 0, 0, '', '', 'com_users', 0, '', 1, '', 1);
-INSERT INTO `#__components` VALUES (15, 'Search', 'option=com_search', 0, 0, 'option=com_search', 'Search Statistics', 'com_search', 0, 'js/ThemeOffice/search.png', 1, 'enabled=0\n\n', 1);
-INSERT INTO `#__components` VALUES (16, 'Categories', '', 0, 1, 'option=com_categories&extension=com_banners', 'Categories', '', 4, '', 1, '', 1);
-INSERT INTO `#__components` VALUES (17, 'Wrapper', 'option=com_wrapper', 0, 0, '', 'Wrapper', 'com_wrapper', 0, '', 1, '', 1);
-INSERT INTO `#__components` VALUES (18, 'Mail To', '', 0, 0, '', '', 'com_mailto', 0, '', 1, '', 1);
-INSERT INTO `#__components` VALUES (19, 'Media Manager', '', 0, 0, 'option=com_media', 'Media Manager', 'com_media', 0, '', 1, 'upload_extensions=bmp,csv,doc,epg,gif,ico,jpg,odg,odp,ods,odt,pdf,png,ppt,swf,txt,xcf,xls,BMP,CSV,DOC,EPG,GIF,ICO,JPG,ODG,ODP,ODS,ODT,PDF,PNG,PPT,SWF,TXT,XCF,XLS\nupload_maxsize=10000000\nfile_path=images\nimage_path=images\nrestrict_uploads=1\ncheck_mime=1\nimage_extensions=bmp,gif,jpg,png\nignore_extensions=\nupload_mime=image/jpeg,image/gif,image/png,image/bmp,application/x-shockwave-flash,application/msword,application/excel,application/pdf,application/powerpoint,text/plain,application/x-zip\nupload_mime_illegal=text/html', 1);
-INSERT INTO `#__components` VALUES (20, 'Articles', 'option=com_content', 0, 0, 'option=com_content&view=articles', 'Articles', 'com_content', 0, '', 1, '{"show_category":"0","link_category":"0","show_title":"1","link_titles":"0","show_intro":"1","show_author":"1","show_create_date":"1","show_modify_date":"1","show_publish_date":"1","show_item_navigation":"0","show_readmore":"1","show_icons":"1","show_print_icon":"1","show_email_icon":"1","show_hits":"1","num_leading_articles":"1","num_intro_articles":"4","num_columns":"2","num_links":"4","multi_column_order":"0","show_pagination_results":"1","display_num":"10","list_type":"single","show_headings":"1","show_date":"hide","date_format":"","filter_field":"hide","show_pagination_limit":"1","list_hits":"1","list_author":"1","show_description":"0","show_description_image":"0","drill_down_layout":"0","all_subcategories":"all","empty_categories":"1","article_count":"0","category_orderby":"alpha","article_orderby":"rdate","order_date":"created","show_pagination":"1","show_noauth":"0","show_feed_link":"1","feed_summary":"0","filter_type":"BL","filter_tags":"","filter_attritbutes":"","rules":{"core.admin":{"7":true},"core.manage":{"6":true},"core.create":{"3":true,"5":true},"core.delete":[],"core.edit":{"4":true},"core.edit.state":{"5":true}}}', 1);
-INSERT INTO `#__components` VALUES (21, 'Configuration Manager', '', 0, 0, '', 'Configuration', 'com_config', 0, '', 1, '', 1);
-INSERT INTO `#__components` VALUES (22, 'Installation Manager', '', 0, 0, '', 'Installer', 'com_installer', 0, '', 1, '', 1);
-INSERT INTO `#__components` VALUES (23, 'Language Manager', '', 0, 0, '', 'Languages', 'com_languages', 0, '', 1, '', 1);
-INSERT INTO `#__components` VALUES (24, 'Mass mail', '', 0, 0, '', 'Mass Mail', 'com_massmail', 0, '', 1, 'mailSubjectPrefix=\nmailBodySuffix=\n\n', 1);
-INSERT INTO `#__components` VALUES (25, 'Menu Editor', '', 0, 0, '', 'Menu Editor', 'com_menus', 0, '', 1, '', 1);
-INSERT INTO `#__components` VALUES (27, 'Messaging', '', 0, 0, '', 'Messages', 'com_messages', 0, '', 1, '', 1);
-INSERT INTO `#__components` VALUES (28, 'Module Manager', '', 0, 0, '', 'Modules', 'com_modules', 0, '', 1, '', 1);
-INSERT INTO `#__components` VALUES (29, 'Plug-in Manager', '', 0, 0, '', 'Plug-ins', 'com_plugins', 0, '', 1, '', 1);
-INSERT INTO `#__components` VALUES (30, 'Template Manager', '', 0, 0, '', 'Templates', 'com_templates', 0, '', 1, '', 1);
-INSERT INTO `#__components` VALUES (31, 'User Manager', '', 0, 0, '', 'Users', 'com_users', 0, '', 1, 'allowUserRegistration=1\nnew_usertype=Registered\nuseractivation=1\nfrontend_userparams=1\n\n', 1);
-INSERT INTO `#__components` VALUES (32, 'Cache Manager', '', 0, 0, '', 'Cache', 'com_cache', 0, '', 1, '', 1);
-INSERT INTO `#__components` VALUES (33, 'Control Panel', '', 0, 0, '', 'Control Panel', 'com_cpanel', 0, '', 1, '', 1);
-INSERT INTO `#__components` VALUES (35, 'Articles', '', 0, 20, 'option=com_content&view=articles', 'com_content_Articles', 'com_content', 1, '', 1, '{}', 1);
-INSERT INTO `#__components` VALUES (36, 'Categories', '', 0, 20, 'option=com_categories&view=categories&extension=com_content', 'com_content_Categories', 'com_content', 2, '', 1, '{}', 1);
-INSERT INTO `#__components` VALUES (37, 'Featured', '', 0, 20, 'option=com_content&view=featured', 'com_content_Featured', 'com_content', 3, '', 1, '{}', 1);
-INSERT INTO `#__components` VALUES (38, 'Redirects', '', 0, 0, 'option=com_redirect', 'Manage Redirects', 'com_redirect', 0, 'js/ThemeOffice/redirect.png', 1, '{}', 1);
-INSERT INTO `#__components` VALUES (39, 'Checkin', '', 0, 0, 'option=com_checkin', 'Checkin', 'com_checkin', 0, 'js/ThemeOffice/component.png', 1, '{}', 1);
-INSERT INTO `#__components` VALUES (40, 'New Private Message', '', 0, 27, 'option=com_messages&task=add', '', '', 0, '', 0, '', 1);
-INSERT INTO `#__components` VALUES (41, 'Read Private Messages', '', 0, 27, 'option=com_messages', '', '', 0, '', 0, '', 1);
-INSERT INTO `#__components` VALUES (42, 'Tracks', '', 0, 1, 'option=com_banners&view=tracks', 'Manage Tracks', 'com_banners', 3, 'js/ThemeOffice/categories.png', 0, '', 1);
-
-# -------------------------------------------------------
-
-#
 # Table structure for table `#__contact_details`
 #
 
@@ -282,6 +214,10 @@ CREATE TABLE `#__contact_details` (
   `access` tinyint(3) unsigned NOT NULL default '0',
   `mobile` varchar(255) NOT NULL default '',
   `webpage` varchar(255) NOT NULL default '',
+  `sortname1` varchar(255) NOT NULL,
+  `sortname2` varchar(255) NOT NULL,
+  `sortname3` varchar(255) NOT NULL,
+  `language` varchar(10) NOT NULL,
   PRIMARY KEY  (`id`),
   KEY `catid` (`catid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -367,19 +303,6 @@ CREATE TABLE `#__content_rating` (
 # -------------------------------------------------------
 
 #
-# Table structure for table `#__core_log_items`
-#
-
-CREATE TABLE `#__core_log_items` (
-  `time_stamp` date NOT NULL default '0000-00-00',
-  `item_table` varchar(50) NOT NULL default '',
-  `item_id` integer unsigned NOT NULL default '0',
-  `hits` integer unsigned NOT NULL default '0'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-# -------------------------------------------------------
-
-#
 # Table structure for table `#__core_log_searches`
 #
 
@@ -423,31 +346,30 @@ CREATE TABLE `#__extensions` (
 
 INSERT INTO `#__extensions` VALUES
 (0, 'com_admin', 'component', 'com_admin', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
-(0, 'Banners', 'component', 'com_banners', '', 1, 1, 0, 0, '', '{"track_impressions":"0","track_clicks":"0","metakey_prefix":"","purchase_type":"1"}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'Banners', 'component', 'com_banners', '', 1, 1, 0, 0, '', '{"purchase_type":"1","track_impressions":"0","track_clicks":"0","metakey_prefix":""}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'Cache Manager', 'component', 'com_cache', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'com_categories', 'component', 'com_categories', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
 (0, 'com_checkin', 'component', 'com_checkin', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
 (0, 'Configuration Manager', 'component', 'com_config', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
-(0, 'Contacts', 'component', 'com_contact', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
-(0, 'Articles', 'component', 'com_content', '', 1, 1, 0, 1, '', 'show_noauth=0\nshow_title=1\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1\nfeed_summary=0\n\n', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'Contacts', 'component', 'com_contact', '', 1, 1, 0, 1, '', '{"contact":{"show_name":"1","show_position":"1","show_email":"0","show_street_address":"1","show_suburb":"1","show_state":"1","show_postcode":"1","show_country":"1","show_telephone":"1","show_mobile":"1","show_fax":"1","show_webpage":"1","show_misc":"1","show_image":"1","allow_vcard":"0","show_links":"1","linka_name":"Contact_Default_Link_Name","linkb_name":"Contact_Default_Link_Name","linkc_name":"Contact_Default_Link_Name","linkd_name":"Contact_Default_Link_Name","linke_name":"Contact_Default_Link_Name"},"contact_icons":"0","icon_address":"","icon_email":"","icon_telephone":"","icon_mobile":"","icon_fax":"","icon_misc":"","contacts":{"show_headings":"1","show_position":"1","show_email":"0","show_telephone":"1","show_mobile":"1","show_fax":"1","allow_vcard":"0","show_profile":"1"},"Contact_Form":{"show_email_form":"1","banned_email":"","banned_subject":"","banned_text":"","validate_session":"1","custom_reply":"0","redirect":""},"Contact_Config_Meta_Data":{"metakey":"","metadesc":"","robots":"","author":"","rights":"","xreference":""}}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'Articles', 'component', 'com_content', '', 1, 1, 0, 1, '', '{"show_category":"1","link_category":"1","show_title":"1","link_titles":"1","show_intro":"1","show_author":"1","show_create_date":"1","show_modify_date":"1","show_publish_date":"1","show_item_navigation":"1","show_readmore":"1","show_icons":"1","show_print_icon":"1","show_email_icon":"1","show_hits":"1","num_leading_articles":"1","num_intro_articles":"4","num_columns":"2","num_links":"4","multi_column_order":"0","show_pagination_results":"1","display_num":"10","list_type":"single","show_headings":"1","show_date":"hide","date_format":"","filter_field":"hide","show_pagination_limit":"1","list_hits":"1","list_author":"1","show_description":"0","show_description_image":"0","drill_down_layout":"0","all_subcategories":"all","empty_categories":"1","article_count":"0","category_orderby":"alpha","article_orderby":"rdate","order_date":"created","show_pagination":"1","show_noauth":"0","show_feed_link":"1","feed_summary":"0","filter_type":"BL","filter_tags":"","filter_attritbutes":""}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'Control Panel', 'component', 'com_cpanel', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'Installation Manager', 'component', 'com_installer', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'Language Manager', 'component', 'com_languages', '', 1, 1, 0, 1, '', 'administrator=en-GB\nsite=en-GB', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'com_login', 'component', 'com_login', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
 (0, 'Mail To', 'component', 'com_mailto', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'Mass Mail', 'component', 'com_massmail', '', 1, 1, 0, 1, '', 'mailSubjectPrefix=\nmailBodySuffix=\n\n', '', '', 0, '0000-00-00 00:00:00', 0, 0),
-(0, 'Media Manager', 'component', 'com_media', '', 1, 1, 0, 1, '', 'upload_extensions=bmp,csv,doc,epg,gif,ico,jpg,odg,odp,ods,odt,pdf,png,ppt,swf,txt,xcf,xls,BMP,CSV,DOC,EPG,GIF,ICO,JPG,ODG,ODP,ODS,ODT,PDF,PNG,PPT,SWF,TXT,XCF,XLS\nupload_maxsize=10000000\nfile_path=images\nimage_path=images\nrestrict_uploads=1\ncheck_mime=1\nimage_extensions=bmp,gif,jpg,png\nignore_extensions=\nupload_mime=image/jpeg,image/gif,image/png,image/bmp,application/x-shockwave\nflash,application/msword,application/excel,application/pdf,application/powerpoint,text/plain,application/x-zip\nupload_mime_illegal=text/html\nenable_flash=1\n\n', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'Media Manager', 'component', 'com_media', '', 1, 1, 0, 1, '', '{"upload_extensions":"bmp,csv,doc,gif,ico,jpg,jpeg,odg,odp,ods,odt,pdf,png,ppt,swf,txt,xcf,xls,BMP,CSV,DOC,GIF,ICO,JPG,JPEG,ODG,ODP,ODS,ODT,PDF,PNG,PPT,SWF,TXT,XCF,XLS","upload_maxsize":"10000000","file_path":"images","image_path":"images","restrict_uploads":"1","allowed_media_usergroup":"3","check_mime":"1","image_extensions":"bmp,gif,jpg,png","ignore_extensions":"","upload_mime":"image\\/jpeg,image\\/gif,image\\/png,image\\/bmp,application\\/x-shockwave-flash,application\\/msword,application\\/excel,application\\/pdf,application\\/powerpoint,text\\/plain,application\\/x-zip","upload_mime_illegal":"text\\/html","enable_flash":"0"}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'Menu Editor', 'component', 'com_menus', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'Messaging', 'component', 'com_messages', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'Module Manager', 'component', 'com_modules', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
-(0, 'News Feeds', 'component', 'com_newsfeeds', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'News Feeds', 'component', 'com_newsfeeds', '', 1, 1, 0, 0, '', '{"show_headings":"1","show_name":"1","show_articles":"1","show_link":"1","show_cat_description":"1","show_cat_items":"1","show_feed_image":"1","show_feed_description":"1","show_item_description":"1","feed_word_count":"0"}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'Plug-in Manager', 'component', 'com_plugins', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'Redirect Manager', 'component', 'com_redirect', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
-(0, 'Search', 'component', 'com_search', '', 1, 1, 0, 1, '', 'enabled=0\n\n', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'Search', 'component', 'com_search', '', 1, 1, 0, 1, '', '{"enabled":"0","show_date":"1"}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'Template Manager', 'component', 'com_templates', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
-(0, 'User', 'component', 'com_user', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
-(0, 'User Manager', 'component', 'com_users', '', 1, 1, 0, 1, '', 'allowUserRegistration=1\nnew_usertype=Registered\nuseractivation=1\nfrontend_userparams=1\n\n', '', '', 0, '0000-00-00 00:00:00', 0, 0),
-(0, 'Web Links', 'component', 'com_weblinks', '', 1, 1, 0, 0, '', 'show_comp_description=1\ncomp_description=\nshow_link_hits=1\nshow_link_description=1\nshow_other_cats=1\nshow_headings=1\nshow_page_title=1\nlink_target=0\nlink_icons=\n\n', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'User Manager', 'component', 'com_users', '', 1, 1, 0, 1, '', '{"allowUserRegistration":"1","new_usertype":"2","useractivation":"1","frontend_userparams":"1","mailSubjectPrefix":"","mailBodySuffix":""}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'Web Links', 'component', 'com_weblinks', '', 1, 1, 0, 0, '', '{"show_comp_description":"1","comp_description":"","show_link_hits":"1","show_link_description":"1","show_other_cats":"1","show_headings":"1","show_numbers":"1","show_report":"1","target":"0","link_icons":""}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'Wrapper', 'component', 'com_wrapper', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0);
 
 # Languages
@@ -464,36 +386,43 @@ INSERT INTO `#__extensions` VALUES
 (0, 'simplepie', 'library', 'simplepie', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1);
 
 # Modules
-
+## Administrator
 INSERT INTO `#__extensions` VALUES
-(0, 'mod_articles_archive', 'module', 'mod_articles_archive', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
-(0, 'mod_banners', 'module', 'mod_banners', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
-(0, 'mod_breadcrumbs', 'module', 'mod_breadcrumbs', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
-(0, 'mod_custom', 'module', 'mod_custom', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
 (0, 'mod_custom', 'module', 'mod_custom', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
-(0, 'mod_feed', 'module', 'mod_feed', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
 (0, 'mod_feed', 'module', 'mod_feed', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
 (0, 'mod_footer', 'module', 'mod_footer', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'mod_latest', 'module', 'mod_latest', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
-(0, 'mod_articles_latest', 'module', 'mod_articles_latest', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
 (0, 'mod_logged', 'module', 'mod_logged', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'mod_login', 'module', 'mod_login', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'mod_menu', 'module', 'mod_menu', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
-(0, 'mod_articles_popular', 'module', 'mod_articles_popular', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
-(0, 'mod_newsflash', 'module', 'mod_newsflash', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
 (0, 'mod_online', 'module', 'mod_online', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'mod_popular', 'module', 'mod_popular', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'mod_quickicon', 'module', 'mod_quickicon', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'mod_status', 'module', 'mod_status', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'mod_submenu', 'module', 'mod_submenu', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'mod_title', 'module', 'mod_title', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'mod_toolbar', 'module', 'mod_toolbar', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'mod_unread', 'module', 'mod_unread', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0);
+
+## Site
+INSERT INTO `#__extensions` VALUES
+(0, 'mod_articles_archive', 'module', 'mod_articles_archive', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
+(0, 'mod_articles_latest', 'module', 'mod_articles_latest', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
+(0, 'mod_articles_popular', 'module', 'mod_articles_popular', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
+(0, 'mod_banners', 'module', 'mod_banners', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
+(0, 'mod_breadcrumbs', 'module', 'mod_breadcrumbs', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
+(0, 'mod_custom', 'module', 'mod_custom', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
+(0, 'mod_feed', 'module', 'mod_feed', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
+(0, 'mod_footer', 'module', 'mod_footer', '', 0, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'mod_login', 'module', 'mod_login', '', 0, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'mod_menu', 'module', 'mod_menu', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'mod_newsflash', 'module', 'mod_newsflash', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
 (0, 'mod_random_image', 'module', 'mod_random_image', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
 (0, 'mod_related_items', 'module', 'mod_related_items', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
 (0, 'mod_search', 'module', 'mod_search', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
 (0, 'mod_stats', 'module', 'mod_stats', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
-(0, 'mod_status', 'module', 'mod_status', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
-(0, 'mod_submenu', 'module', 'mod_submenu', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'mod_syndicate', 'module', 'mod_syndicate', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
-(0, 'mod_title', 'module', 'mod_title', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
-(0, 'mod_toolbar', 'module', 'mod_toolbar', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
-(0, 'mod_unread', 'module', 'mod_unread', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'mod_users_latest', 'module', 'mod_users_latest', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
 (0, 'mod_whosonline', 'module', 'mod_whosonline', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
 (0, 'mod_wrapper', 'module', 'mod_wrapper', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1);
 
@@ -504,7 +433,6 @@ INSERT INTO `#__extensions` VALUES
 (0, 'Search - Categories', 'plugin', 'categories', 'search', 1, 1, 0, 0, '', '{"search_limit":"50"}', '', '', 0, '0000-00-00 00:00:00', 4, 0),
 (0, 'Editor - CodeMirror', 'plugin', 'codemirror', 'editors', 1, 1, 1, 1, '', '{"linenumbers":"0"}', '', '', 0, '0000-00-00 00:00:00', 7, 0),
 (0, 'Search - Contact', 'plugin', 'contact', 'search', 0, 1, 1, 0, '', '{"search_limit":"50"}', '', '', 0, '0000-00-00 00:00:00', 7, 0),
-(0, 'Contacts', 'plugin', 'contacts', 'search', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
 (0, 'Search - Content', 'plugin', 'content', 'search', 0, 1, 1, 0, '', '{"search_limit":"50","search_content":"1","search_uncategorised":"1","search_archived":"1"}', '', '', 0, '0000-00-00 00:00:00', 1, 0),
 (0, 'System - Debug', 'plugin', 'debug', 'system', 0, 1, 1, 0, '', '{"profile":"1","queries":"1","memory":"1","language_files":"1","language_strings":"2","language_prefix":"(Mod_[^_]*)"}', '', '', 0, '0000-00-00 00:00:00', 2, 0),
 (0, 'Content - Email Cloaking', 'plugin', 'emailcloak', 'content', 0, 1, 1, 0, '', '{"mode":"1"}', '', '', 0, '0000-00-00 00:00:00', 5, 0),
@@ -527,7 +455,6 @@ INSERT INTO `#__extensions` VALUES
 (0, 'Editor Button - Article', 'plugin', 'article', 'editors-xtd', 0, 1, 1, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'System - Redirect', 'plugin', 'redirect', 'system', 0, 0, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 7, 0),
 (0, 'System - Remember Me', 'plugin', 'remember', 'system', 0, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 6, 0),
-(0, 'Search - Sections', 'plugin', 'sections', 'search', 0, 1, 1, 0, '', '{"search_limit":"50"}', '', '', 0, '0000-00-00 00:00:00', 5, 0),
 (0, 'System - SEF', 'plugin', 'sef', 'system', 0, 1, 1, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 1, 0),
 (0, 'Editor - TinyMCE 3.2', 'plugin', 'tinymce', 'editors', 0, 1, 1, 0, '', '{"mode":"1","skin":"0","compressed":"0","cleanup_startup":"0","cleanup_save":"2","entity_encoding":"raw","lang_mode":"0","lang_code":"en","text_direction":"ltr","content_css":"1","content_css_custom":"","relative_urls":"1","newlines":"0","invalid_elements":"script,applet,iframe","extended_elements":"","toolbar":"top","toolbar_align":"left","html_height":"550","html_width":"750","element_path":"1","fonts":"1","paste":"1","searchreplace":"1","insertdate":"1","format_date":"%Y-%m-%d","inserttime":"1","format_time":"%H:%M:%S","colors":"1","table":"1","smilies":"1","media":"1","hr":"1","directionality":"1","fullscreen":"1","style":"1","layer":"1","xhtmlxtras":"1","visualchars":"1","nonbreaking":"1","template":"1","blockquote":"1","wordcount":"1","advimage":"1","advlink":"1","autosave":"1","contextmenu":"1","inlinepopups":"1","safari":"0","custom_plugin":"","custom_button":""}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'Content - Rating', 'plugin', 'vote', 'content', 0, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 4, 0),
@@ -574,7 +501,7 @@ CREATE TABLE `#__menu` (
   `link` varchar(1024) NOT NULL COMMENT 'The actually link the menu item refers to.',
   `type` varchar(16) NOT NULL COMMENT 'The type of link: Component, URL, Alias, Separator',
   `published` tinyint(4) NOT NULL default '0' COMMENT 'The published state of the menu link.',
-  `parent_id` integer unsigned NOT NULL default '0' COMMENT 'The parent menu item in the menu tree.',
+  `parent_id` integer unsigned NOT NULL default '1' COMMENT 'The parent menu item in the menu tree.',
   `level` integer unsigned NOT NULL default '0' COMMENT 'The relative level in the tree.',
   `component_id` integer unsigned NOT NULL default '0' COMMENT 'FK to #__components.id',
   `ordering` integer NOT NULL default '0' COMMENT 'The relative ordering of the menu item in the tree.',
@@ -582,6 +509,7 @@ CREATE TABLE `#__menu` (
   `checked_out_time` timestamp NOT NULL default '0000-00-00 00:00:00' COMMENT 'The time the menu item was checked out.',
   `browserNav` tinyint(4) NOT NULL default '0' COMMENT 'The click behaviour of the link.',
   `access` tinyint(3) unsigned NOT NULL default '0' COMMENT 'The access level required to view the menu item.',
+  `img` varchar(255) NOT NULL COMMENT 'The image of the menu item.',
   `template_style_id` integer unsigned NOT NULL default '0',
   `params` varchar(10240) NOT NULL COMMENT 'JSON encoded data for the menu item.',
   `lft` integer NOT NULL default '0' COMMENT 'Nested set lft.',
@@ -597,8 +525,28 @@ CREATE TABLE `#__menu` (
 
 
 INSERT INTO `#__menu` VALUES
-(1, '', 'Menu_Item_Root', 'root', '', '', '', 1, 0, 0, 0, 0, 0, '0000-00-00 00:00:00', 0, 0, 0, '{"show_page_title":"1","page_title":"Welcome to the Frontpage","show_description":"0","show_description_image":"0","num_leading_articles":"1","num_intro_articles":"4","num_columns":"2","num_links":"4","show_title":"1","pageclass_sfx":"","menu_image":"-1","secure":"0","orderby_pri":"","orderby_sec":"front","show_pagination":"2","show_pagination_results":"1","show_noauth":"0","link_titles":"0","show_intro":"1","show_section":"0","link_section":"0","show_category":"0","link_category":"0","show_author":"1","show_create_date":"1","show_modify_date":"1","show_item_navigation":"0","show_readmore":"1","show_vote":"0","show_icons":"1","show_pdf_icon":"1","show_print_icon":"1","show_email_icon":"1","show_hits":"1"}', 0, 3, 0),
-(2, 'mainmenu', 'Home', 'home', 'home', 'index.php?option=com_content&view=frontpage', 'component', 1, 1, 1, 20, 0, 0, '0000-00-00 00:00:00', 0, 1, 0, '{"show_page_title":"1","page_title":"Welcome to the Frontpage","show_description":"0","show_description_image":"0","num_leading_articles":"1","num_intro_articles":"4","num_columns":"2","num_links":"4","show_title":"1","pageclass_sfx":"","menu_image":"-1","secure":"0","orderby_pri":"","orderby_sec":"front","show_pagination":"2","show_pagination_results":"1","show_noauth":"0","link_titles":"0","show_intro":"1","show_section":"0","link_section":"0","show_category":"0","link_category":"0","show_author":"1","show_create_date":"1","show_modify_date":"1","show_item_navigation":"0","show_readmore":"1","show_vote":"0","show_icons":"1","show_pdf_icon":"1","show_print_icon":"1","show_email_icon":"1","show_hits":"1"}', 1, 2, 1);
+(1, '', 'Menu_Item_Root', 'root', '', '', '', 1, 0, 0, 0, 0, 0, '0000-00-00 00:00:00', 0, 0, '', 0, '', 0, 41, 0),
+(2, '_adminmenu', 'com_banners', 'Banners', 'Banners', 'index.php?option=com_banners', 'component', 0, 1, 1, 2, 0, 0, '0000-00-00 00:00:00', 0, 0, 'class:banners', 0, '', 1, 10, 0),
+(3, '_adminmenu', 'com_banners', 'Banners', 'Banners/Banners', 'index.php?option=com_banners', 'component', 0, 2, 2, 2, 0, 0, '0000-00-00 00:00:00', 0, 0, 'class:banners', 0, '', 2, 3, 0),
+(4, '_adminmenu', 'com_banners_clients', 'Clients', 'Banners/Clients', 'index.php?option=com_banners&view=clients', 'component', 0, 2, 2, 2, 0, 0, '0000-00-00 00:00:00', 0, 0, 'class:banners-clients', 0, '', 4, 5, 0),
+(5, '_adminmenu', 'com_banners_tracks', 'Tracks', 'Banners/Tracks', 'index.php?option=com_banners&view=tracks', 'component', 0, 2, 2, 2, 0, 0, '0000-00-00 00:00:00', 0, 0, 'class:banners-tracks', 0, '', 6, 7, 0),
+(6, '_adminmenu', 'com_banners_categories', 'Categories', 'Banners/Categories', 'index.php?option=com_categories&extension=com_banners', 'component', 0, 2, 2, 2, 0, 0, '0000-00-00 00:00:00', 0, 0, 'class:banners-cat', 0, '', 8, 9, 0),
+(7, '_adminmenu', 'com_contact', 'Contacts', 'Contacts', 'index.php?option=com_contact', 'component', 0, 1, 1, 7, 0, 0, '0000-00-00 00:00:00', 0, 0, 'class:contact', 0, '', 11, 16, 0),
+(8, '_adminmenu', 'com_contact', 'Contacts', 'Contacts/Contacts', 'index.php?option=com_contact', 'component', 0, 7, 2, 7, 0, 0, '0000-00-00 00:00:00', 0, 0, 'class:contact', 0, '', 12, 13, 0),
+(9, '_adminmenu', 'com_contact_categories', 'Categories', 'Contacts/Categories', 'index.php?option=com_categories&extension=com_contact', 'component', 0, 7, 2, 7, 0, 0, '0000-00-00 00:00:00', 0, 0, 'class:contact-cat', 0, '', 14, 15, 0),
+(10, '_adminmenu', 'com_messages', 'Messaging', 'Messaging', 'index.php?option=com_messages', 'component', 0, 1, 1, 17, 0, 0, '0000-00-00 00:00:00', 0, 0, 'class:messages', 0, '', 17, 22, 0),
+(11, '_adminmenu', 'com_messages_add', 'New Private Message', 'Messaging/New Private Message', 'index.php?option=com_messages&task=message.add', 'component', 0, 10, 2, 17, 0, 0, '0000-00-00 00:00:00', 0, 0, 'class:messages-add', 0, '', 18, 19, 0),
+(12, '_adminmenu', 'com_messages_read', 'Read Private Message', 'Messaging/Read Private Message', 'index.php?option=com_messages', 'component', 0, 10, 2, 17, 0, 0, '0000-00-00 00:00:00', 0, 0, 'class:messages-read', 0, '', 20, 21, 0),
+(13, '_adminmenu', 'com_newsfeeds', 'News Feeds', 'News Feeds', 'index.php?option=com_newsfeeds', 'component', 0, 1, 1, 19, 0, 0, '0000-00-00 00:00:00', 0, 0, 'class:newsfeeds', 0, '', 23, 28, 0),
+(14, '_adminmenu', 'com_newsfeeds_feeds', 'Feeds', 'News Feeds/Feeds', 'index.php?option=com_newsfeeds', 'component', 0, 13, 2, 19, 0, 0, '0000-00-00 00:00:00', 0, 0, 'class:newsfeeds', 0, '', 24, 25, 0),
+(15, '_adminmenu', 'com_newsfeeds_categories', 'Categories', 'News Feeds/Categories', 'index.php?option=com_categories&extension=com_newsfeeds', 'component', 0, 13, 2, 19, 0, 0, '0000-00-00 00:00:00', 0, 0, 'class:newsfeeds-cat', 0, '', 26, 27, 0),
+(16, '_adminmenu', 'com_redirect', 'Redirect', 'Redirect', 'index.php?option=com_redirect', 'component', 0, 1, 1, 21, 0, 0, '0000-00-00 00:00:00', 0, 0, 'class:redirect', 0, '', 37, 38, 0),
+(17, '_adminmenu', 'com_search', 'Search', 'Search', 'index.php?option=com_search', 'component', 0, 1, 1, 22, 0, 0, '0000-00-00 00:00:00', 0, 0, 'class:search', 0, '', 29, 30, 0),
+(18, '_adminmenu', 'com_weblinks', 'Weblinks', 'Weblinks', 'index.php?option=com_weblinks', 'component', 0, 1, 1, 26, 0, 0, '0000-00-00 00:00:00', 0, 0, 'class:weblinks', 0, '', 31, 36, 0),
+(19, '_adminmenu', 'com_weblinks_links', 'Links', 'Weblinks/Links', 'index.php?option=com_weblinks', 'component', 0, 18, 2, 26, 0, 0, '0000-00-00 00:00:00', 0, 0, 'class:weblinks', 0, '', 32, 33, 0),
+(20, '_adminmenu', 'com_weblinks_categories', 'Categories', 'Weblinks/Categories', 'index.php?option=com_categories&extension=com_weblinks', 'component', 0, 18, 2, 26, 0, 0, '0000-00-00 00:00:00', 0, 0, 'class:weblinks-cat', 0, '', 34, 35, 0),
+(97, 'mainmenu', 'Home', 'home', 'home', 'index.php?option=com_content&view=frontpage', 'component', 1, 1, 1, 8, 0, 0, '0000-00-00 00:00:00', 0, 1, '', 0, '{"num_leading_articles":"1","num_intro_articles":"4","num_columns":"2","num_links":"4","orderby_pri":"","orderby_sec":"front","multi_column_order":"1","show_pagination":"2","show_pagination_results":"1","show_feed_link":"1","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","show_page_title":1,"page_title":"","page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}', 159, 160, 1);
+
 
 # -------------------------------------------------------
 
@@ -753,6 +701,7 @@ CREATE TABLE `#__newsfeeds` (
   `rtl` tinyint(4) NOT NULL default '0',
   `access` tinyint UNSIGNED NOT NULL DEFAULT '0',
   `language` char(7) NOT NULL DEFAULT '',
+  `params` text NOT NULL,
   PRIMARY KEY  (`id`),
   KEY `published` (`published`),
   KEY `idx_access` (`access`),
@@ -859,18 +808,6 @@ CREATE TABLE  `#__update_categories` (
   PRIMARY KEY  (`categoryid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Update Categories';
 
-
-# -------------------------------------------------------
-
-#
-# Table structure for table `#__stats_agents`
-#
-
-CREATE TABLE `#__stats_agents` (
-  `agent` varchar(255) NOT NULL default '',
-  `type` tinyint(1) unsigned NOT NULL default '0',
-  `hits` integer unsigned NOT NULL default '1'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 # -------------------------------------------------------
 

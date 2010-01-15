@@ -69,6 +69,14 @@ class ContactTableContact extends JTable
 	public $mobile 				= null;
 	/** @var string */
 	public $webpage 			= null;
+	/** @var string */
+	public $sortname1 			= null;	
+	/** @var string */
+	public $sortname2 			= null;
+	/** @var string */
+	public $sortname3 			= null;
+	/** @var string */
+	public $language 			= null;	
 	/**
 	 * Constructor
 	 *
@@ -143,7 +151,7 @@ class ContactTableContact extends JTable
 		}
 
 		if (empty($this->alias)) {
-			$this->alias = $this->title;
+			$this->alias = $this->name;
 		}
 		$this->alias = JApplication::stringURLSafe($this->alias);
 		if (trim(str_replace('-','',$this->alias)) == '') {

@@ -28,7 +28,7 @@ defined('_JEXEC') or die;
 		<thead>
 			<tr>
 				<td align="right" colspan="4">
-					<?php echo JText::_('Display Num'); ?>
+					<?php echo JText::_('DISPLAY_NUM'); ?>
 					<?php echo $this->pagination->getLimitBox(); ?>
 				</td>
 			</tr>
@@ -98,7 +98,7 @@ defined('_JEXEC') or die;
 								</a>
 								<?php break;
 
-							default:
+							default: 
 								// open in parent window
 									echo '<a href="'.  $link . '\" class=\"'. $menuclass .'" rel="nofollow">'.
 										$this->escape($item->title) . ' </a>';

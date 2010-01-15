@@ -1,8 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Administrator
- * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -16,7 +14,7 @@ jimport('joomla.application.component.model');
  * Media Component Manager Model
  *
  * @package		Joomla.Administrator
- * @subpackage	Media
+ * @subpackage	com_media
  * @since 1.5
  */
 class MediaModelManager extends JModel
@@ -61,7 +59,7 @@ class MediaModelManager extends JModel
 		$lang->load(JRequest::getCmd('option'), JPATH_ADMINISTRATOR);
 
 		$document = &JFactory::getDocument();
-		$document->setTitle(JText::_('Insert Image'));
+		$document->setTitle(JText::_('INSERT_IMAGE'));
 
 		// Build the array of select options for the folder list
 		$options[] = JHtml::_('select.option', "","/");
