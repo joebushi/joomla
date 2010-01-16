@@ -27,6 +27,13 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Jan-2010 Andrew Eddie
+ # Fixed integrity of component_id's in jos_menu core and sample data.
+ ^ Hard coded extension_id's in jos_extensions.
+ ^ JDatabase::loadAssocList takes a second argument to return just the value of a column, not the whole row.
+ + Added (temporarily) menus.resync in menus sub-controller to help repair incorrect component_id values in the jos_menu table.
+ ^ Added Mark's patch for presenting errors in language .ini file parsing.
+
 16-Jan-2010 Christophe Demko
 + Add specific component fields in com_categories (#19018)
 # Corrected some bugs in class JCategories
@@ -42,6 +49,12 @@ $ -> Language fix or change
 # Correct the code of JStream::prependFilter (Call-time pass-by-reference has been deprecated)
 # Correct the code of JModelForm and JControllerForm to handle without errors checkin and checkout
 # Correct the code of JTable::__construct to handle asset_id and access correctly
+# Correct the code of JInstallerComponent to create admin menu
+# Correct the code of JFormFieldTimeZone (#19441)
+# Correct the code of the installed view in adminstrator com_languages (SimpleXML issue)
+# Load third party translation when stored in extension folder for admin menu (#18664)
+# Load third party translation when stored in extension folder for CategoriesHelper (#18595)
+# Correct of bug #18458 in JPagination class
 $ Add the Content_Page_View_article in administrator/language/en-GB/en-GB.com_content.ini
 $ Change the language string JOption_Access_Show_All_Sections to JOption_Access_Show_All_Levels
 
