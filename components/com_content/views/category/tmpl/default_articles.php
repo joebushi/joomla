@@ -103,7 +103,7 @@ $n = count($this->articles);
 						$fullURL->setVar('return', base64_encode($returnURL));
 					?>
 					<a href="<?php echo $fullURL; ?>">
-					<?php echo JText::_( 'Register to read more...' ); ?></a>
+					<?php echo JText::_( 'REGISTER_TO_READ_MORE' ); ?></a>
 				</td>
 				<?php endif; ?>
 			</tr>
