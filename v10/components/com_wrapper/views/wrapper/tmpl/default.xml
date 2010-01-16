@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout
+		title="com_wrapper_wrapper_view_default_title">
+		<message>
+			<![CDATA[com_wrapper_wrapper_view_default_desc]]>
+		</message>
+	</layout>
+	<fields
+		group="request"
+		label="Menus_Layout_Basic_Options_Label"
+		description="">
+
+	<field
+			name="url"
+			type="text"
+			size="30"
+			default=""
+			label="Wrapper URL"
+			description="URL to open in an IFRAME" />
+	</fields>
+
+	<fields
+		group="basic"
+		label="Menus_Layout_Basic_Options_Label"
+		description="">
+
+
+		<field
+			type="spacer" />
+
+		<field
+			name="scrolling"
+			type="radio"
+			default="auto"
+			label="Scroll Bars"
+			description="fieldHORIVERT">
+			<option
+				value="no">JNo</option>
+			<option
+				value="yes">JYes</option>
+			<option
+				value="auto">Auto</option>
+		</field>
+
+		<field
+			name="width"
+			type="text"
+			size="5"
+			default="100%"
+			label="Width"
+			description="fieldWIDTH" />
+
+		<field
+			name="height"
+			type="text"
+			size="5"
+			default="500"
+			label="Height"
+			description="fieldHEIGHT" />
+		<field
+			type="spacer" />
+	</fields>
+
+	<fields
+		group="advanced"
+		label="Menus_Layout_Advanced_Options_Label"
+		description="">
+
+		<field
+			name="height_auto"
+			type="radio"
+			default="0"
+			label="Auto Height"
+			description="fieldHEIGHTAUTO">
+			<option
+				value="0">JNo</option>
+			<option
+				value="1">JYes</option>
+		</field>
+
+		<field
+			name="add_scheme"
+			type="radio"
+			default="1"
+			label="Auto Add"
+			description="fieldADD">
+			<option
+				value="0">JNo</option>
+			<option
+				value="1">JYes</option>
+		</field>
+	</fields>
+</metadata>
