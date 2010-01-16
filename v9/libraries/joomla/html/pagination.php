@@ -94,8 +94,8 @@ class JPagination extends JObject
 		 * If limitstart is greater than total (i.e. we are asked to display records that don't exist)
 		 * then set limitstart to display the last natural page of results
 		 */
-		if ($this->limitstart > $this->total) {
-			$this->limitstart = (int)(ceil($this->total / $this->limit) - 1) * $this->limit;
+		if ($this->limitstart > $this->total - $this->limit) {
+			$this->limitstart = max(0, (int)(ceil($this->total / $this->limit) - 1) * $this->limit);
 		}
 
 		// Set the total pages and current page values.
@@ -552,10 +552,10 @@ class JPagination extends JObject
 		{
 			$page = ($this->get('pages.current') -2) * $this->limit;
 
-			$page = $page == 0 ? '' : $page; //set the empty for removal from route
+			//$page = $page == 0 ? '' : $page; //set the empty for removal from route
 
 			$data->start->base	= '0';
-			$data->start->link	= JRoute::_($params.'&'.$this->prefix.'limitstart=');
+			$data->start->link	= JRoute::_($params.'&'.$this->prefix.'limitstart=0');
 			$data->previous->base	= $page;
 			$data->previous->link	= JRoute::_($params.'&'.$this->prefix.'limitstart='.$page);
 		}
@@ -581,7 +581,7 @@ class JPagination extends JObject
 		{
 			$offset = ($i -1) * $this->limit;
 
-			$offset = $offset == 0 ? '' : $offset;  //set the empty for removal from route
+			//$offset = $offset == 0 ? '' : $offset;  //set the empty for removal from route
 
 			$data->pages[$i] = new JPaginationObject($i, $this->prefix);
 			if ($i != $this->get('pages.current') || $this->_viewall)

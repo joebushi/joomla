@@ -21,8 +21,8 @@
 			name="usesecure"
 			type="radio"
 			default="0"
-			label="Encrypt_Login_Form"
-			description="SUBMIT_ENCRYPTED_LOGIN">
+			label="Encrypt Login Form"
+			description="SUBMIT_ENCRYPTED_LOGIN_DATA_DESC">
 			<option
 				value="0">JNo</option>
 			<option
