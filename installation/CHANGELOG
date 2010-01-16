@@ -33,6 +33,7 @@ $ -> Language fix or change
  ^ JDatabase::loadAssocList takes a second argument to return just the value of a column, not the whole row.
  + Added (temporarily) menus.resync in menus sub-controller to help repair incorrect component_id values in the jos_menu table.
  ^ Added Mark's patch for presenting errors in language .ini file parsing.
+ # Accepted [#19357] JForm should use keyword self rather than explicit class name.
 
 16-Jan-2010 Christophe Demko
 + Add specific component fields in com_categories (#19018)
@@ -55,6 +56,8 @@ $ -> Language fix or change
 # Load third party translation when stored in extension folder for admin menu (#18664)
 # Load third party translation when stored in extension folder for CategoriesHelper (#18595)
 # Correct of bug #18458 in JPagination class
+# Correct the JControllerForm class: method_exists return true even for inherited method. Use of property_exists instead
+# Correct the _context property in CategoriesControllerCategory and CategoriesModelCategories
 $ Add the Content_Page_View_article in administrator/language/en-GB/en-GB.com_content.ini
 $ Change the language string JOption_Access_Show_All_Sections to JOption_Access_Show_All_Levels
 
