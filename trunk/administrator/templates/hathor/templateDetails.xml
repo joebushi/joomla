@@ -2,13 +2,13 @@
 <!DOCTYPE install PUBLIC "-//Joomla! 1.6//DTD template 1.0//EN" "http://www.joomla.org/xml/dtd/1.6/template-install.dtd">
 <install type="template" version="1.6" client="administrator">
 	<name>hathor</name>
-	<creationDate>01/03/10</creationDate>
+	<creationDate>01/17/10</creationDate>
 	<author>Andrea Tarr</author>
 	<authorEmail>hathor@tarrconsulting.com</authorEmail>
 	<authorUrl>http://www.tarrconsulting.com</authorUrl>
 	<copyright></copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<version>1.17</version>
+	<version>1.18</version>
 	<description>Hathor_Accessible_Admin_Template</description>
 	<files>
 		<filename>component.php</filename>
