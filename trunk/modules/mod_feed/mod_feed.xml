@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension
+	type="module"
+	version="1.6.0"
+	client="site"
+	method="upgrade">
+	<name>Feed Display</name>
+	<author>Joomla! Project</author>
+	<creationDate>July 2005</creationDate>
+	<copyright>Copyright (C) 2005 - 2009 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>1.6.0</version>
+	<description>DESCFEED</description>
+	<files>
+		<filename
+			module="mod_feed">mod_feed.php</filename>
+		<folder>tmpl</folder>
+		<filename>helper.php</filename>
+		<filename>index.php</filename>
+		<filename>mod_feed.xml</filename>
+	</files>
+	<languages>
+		<language
+			tag="en-GB">en-GB.mod_feed.ini</language>
+	</languages>
+	<fields>
+		<field
+			name="rssurl"
+			type="text"
+			size="50"
+			default=""
+			label="Feed URL"
+			description="Enter the URL of the RSS/RDF feed" />
+		<field
+			name="rssrtl"
+			type="radio"
+			default="0"
+			label="RTL feed"
+			description="Display feed in RTL direction">
+			<option
+				value="1">JYes</option>
+			<option
+				value="0">JNo</option>
+		</field>
+		<field
+			name="rsstitle"
+			type="radio"
+			default="1"
+			label="Feed Title"
+			description="Display news feed title">
+			<option
+				value="1">JYes</option>
+			<option
+				value="0">JNo</option>
+		</field>
+		<field
+			name="rssdesc"
+			type="radio"
+			default="1"
+			label="Feed Description"
+			description="Show the description text for the whole Feed">
+			<option
+				value="1">JYes</option>
+			<option
+				value="0">JNo</option>
+		</field>
+		<field
+			name="rssimage"
+			type="radio"
+			default="1"
+			label="FEED_IMAGE"
+			description="Show the image associated with the whole Feed">
+			<option
+				value="1">JYes</option>
+			<option
+				value="0">JNo</option>
+		</field>
+		<field
+			name="rssitems"
+			type="text"
+			default="3"
+			label="Items"
+			description="Enter number of RSS items to display" />
+		<field
+			name="rssitemdesc"
+			type="radio"
+			default="1"
+			label="Item Description"
+			description="fieldITEMDESC">
+			<option
+				value="1">JYes</option>
+			<option
+				value="0">JNo</option>
+		</field>
+		<field
+			name="word_count"
+			type="text"
+			size="6"
+			default="0"
+			label="Word Count"
+			description="fieldWORDCOUNT" />
+	</fields>
+	<fields
+		group="advanced">
+		<field
+			name="layout"
+			type="modulelayout"
+			label="JField_Alt_Layout_Label"
+			description="JField_Alt_Module_Layout_Desc" />
+		<field
+			name="moduleclass_sfx"
+			type="text"
+			default=""
+			label="Module_Field_Moduleclass_sfx_Label"
+			description="Module_Field_Moduleclass_sfx_Desc" />
+		<field
+			name="cache"
+			type="list"
+			default="1"
+			label="Module_Field_Caching_Label"
+			description="Module_Field_Caching_Desc">
+			<option
+				value="1">USE_GLOBAL</option>
+			<option
+				value="0">No caching</option>
+		</field>
+		<field
+			name="cache_time"
+			type="text"
+			default="900"
+			label="Cache Time"
+			description="The time before the module is recached" />
+	</fields>
+</extension>

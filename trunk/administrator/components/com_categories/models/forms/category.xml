@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<!-- $Id$ -->
+<form>
+	<fields>
+		<field
+			name="id"
+			type="hidden"
+			default="0"
+			required="true"
+			readonly="true"/>
+
+		<field
+			name="asset_id"
+			type="hidden"
+			filter="unset"/>
+
+		<field
+			name="parent_id"
+			type="categoryparent"
+			label="Categories_Parent_Label"
+			description="Categories_Parent_Desc"
+			class="inputbox"/>
+
+		<field
+			name="lft"
+			type="hidden"
+			filter="unset"/>
+
+		<field
+			name="rgt"
+			type="hidden"
+			filter="unset"/>
+
+		<field
+			name="level"
+			type="hidden"
+			filter="unset"/>
+
+		<field
+			name="path"
+			type="text"
+			label="Categories_Path_Label"
+			description="Categories_Path_Desc"
+			class="readonly"
+			size="40"
+			readonly="true"/>
+
+		<field
+			name="extension"
+			type="text"
+			label="Categories_Extension_Label"
+			description="Categories_Extension_Desc"
+			class="readonly"
+			size="40"
+			readonly="true"/>
+
+		<field
+			name="title"
+			type="text"
+			label="JField_Title_Label"
+			description="JField_Title_Desc"
+			class="inputbox"
+			size="40"
+			required="true"/>
+
+		<field
+			name="alias"
+			type="text"
+			label="JField_Alias_Label"
+			description="JField_Alias_Desc"
+			class="inputbox"
+			size="40"/>
+
+		<field
+			name="description"
+			type="editor"
+			label="Categories_Description_Label"
+			description="Categories_Description_Desc"
+			class="inputbox"
+			buttons="readmore,pagebreak"/>
+
+		<field
+			name="published"
+			type="list"
+			class="inputbox"
+			default="1"
+			size="1"
+			label="JField_Published_Label"
+			description="JField_Published_Desc">
+			<option
+				value="1">
+				JOption_Published</option>
+			<option
+				value="0">
+				JOption_UnPublished</option>
+			<option
+				value="-1">
+				JOption_Archived</option>
+			<option
+				value="-2">
+				JOption_Trashed</option>
+		</field>
+
+		<field
+			name="checked_out"
+			type="hidden"
+			filter="unset"/>
+
+		<field
+			name="checked_out_time"
+			type="hidden"
+			filter="unset"/>
+
+		<field
+			name="access"
+			type="accesslevel"
+			label="JField_Access_Label"
+			description="JField_Access_Desc"
+			class="inputbox"/>
+
+		<field
+			name="metadesc"
+			type="textarea"
+			label="JField_Meta_Description_Label"
+			description="JField_Meta_Description_Desc"
+			default=""
+			rows="3"
+			cols="40"/>
+
+		<field
+			name="metakey"
+			type="textarea"
+			label="JField_Meta_Keywords_Label"
+			description="JField_Meta_Keywords_Desc"
+			default=""
+			rows="3"
+			cols="40"/>
+
+		<field
+			name="created_user_id"
+			type="hidden"
+			filter="unset"/>
+
+		<field
+			name="created_time"
+			type="hidden"
+			filter="unset"/>
+
+		<field
+			name="modified_user_id"
+			type="hidden"
+			filter="unset"/>
+
+		<field
+			name="modified_time"
+			type="hidden"
+			filter="unset"/>
+
+		<field
+			name="hits"
+			type="hidden"
+			filter="unset"/>
+
+		<field
+			name="language"
+			type="contentlanguage"
+			label="JField_Language_Label"
+			description="JField_Category_Language_Desc"
+			class="inputbox"
+			default="">
+			<option value="">JOption_Default_Language</option>
+		</field>
+
+		<field
+			id="rules"
+			name="rules"
+			type="rules"
+			label="JField_Rules_Label"
+			description="JField_Rules_Desc"
+			filter="rules"
+			class="inputbox"
+			component="com_content"
+			section="category"
+			default=""/>
+	</fields>
+
+	<fields
+		group="params"
+		array="true"
+		label="Categories_Options">
+
+		<field
+			name="target"
+			type="componentlayout"
+			label="JField_Alt_Layout_Label"
+			description="JField_Alt_Component_Layout_Desc"
+			extension=""
+			view="categories"
+			/>
+		<field
+			name="image"
+			type="imagelist"
+			directory="/images"
+			hide_default="1"
+			default=""
+			label="Image"
+			description="fieldIMAGE" />
+	</fields>
+
+	<fields
+		group="metadata"
+		array="true">
+
+		<field
+			name="page_title"
+			type="text"
+			label="JField_Alt_Page_title_Label"
+			description="JField_Alt_Page_title_Desc"
+			size="30"
+			default=""/>
+
+		<field
+			name="author"
+			type="text"
+			label="JField_Metadata_Author_Label"
+			description="JField_Metadata_Author_Desc"
+			size="30"
+			default=""/>
+
+		<field
+			name="robots"
+			type="list"
+			label="JField_Metadata_Robots_Label"
+			description="JField_Metadata_Robots_Desc"
+			default="">
+			<option
+				value="">USE_GLOBAL</option>
+			<option
+				value="0">index, follow</option>
+			<option
+				value="1">noindex, follow</option>
+			<option
+				value="2">index, nofollow</option>
+			<option
+				value="3">noindex, nofollow</option>
+			<option
+				value="4">Don't display robots tag</option>
+		</field>
+
+	</fields>
+
+</form>
