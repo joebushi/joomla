@@ -27,12 +27,36 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+18-Jan-2010 Jean-Marie Simonet
+^ Added Description metadata in plugins edit screen
+
+18-Jan-2010 Hannes Papenberg
+# Changed default namespace of JRegistry from 'default' to '_default' - Thanks Robert Deutz!
+
+18-Jan-2010 Jean-Marie Simonet
+# Fixed typos in language and router
+
+18-Jan-2010 Jean-Marie Simonet
+^ Improve default alias transliteration
+
+18-Jan-2010 Andrew Eddie
+ # Fixed PHP notice when invalid itemid processed by JRouterSite; JRouter* code-formatting.
+
+16-Jan-2010 Mark Dexter
+^ Partial refactoring of com_contact
+^ Work on com_content layouts (Angie Radtke)
+^ Work on com_menus (Elin Waring)
+
+16-Jan-2010 Mark Dexter
+# Fix invalid language files in login.
+
 16-Jan-2010 Andrew Eddie
  # Fixed integrity of component_id's in jos_menu core and sample data.
  ^ Hard coded extension_id's in jos_extensions.
  ^ JDatabase::loadAssocList takes a second argument to return just the value of a column, not the whole row.
  + Added (temporarily) menus.resync in menus sub-controller to help repair incorrect component_id values in the jos_menu table.
  ^ Added Mark's patch for presenting errors in language .ini file parsing.
+ # Accepted [#19357] JForm should use keyword self rather than explicit class name.
 
 16-Jan-2010 Christophe Demko
 ^ Change the JHtmlAccess::section function to a JHtmlAccess::level function. Add the possibility to give extraoptions and to give an id
