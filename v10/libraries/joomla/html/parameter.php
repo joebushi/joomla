@@ -65,7 +65,7 @@ class JParameter extends JRegistry
 	 */
 	public function __construct($data = '', $path = '')
 	{
-		parent::__construct('_default');
+		parent::__construct('default');
 
 		// Set base path.
 		$this->_elementPath[] = dirname(__FILE__).DS.'parameter'.DS.'element';
@@ -95,7 +95,7 @@ class JParameter extends JRegistry
 	 * @return	string	The set value.
 	 * @since	1.5
 	 */
-	public function set($key, $value = '', $group = '_default')
+	public function set($key, $value = '', $group = 'default')
 	{
 		return $this->setValue($group.'.'.$key, (string) $value);
 	}
@@ -108,7 +108,7 @@ class JParameter extends JRegistry
 	 * @return	string
 	 * @since	1.5
 	 */
-	public function get($key, $default = '', $group = '_default')
+	public function get($key, $default = '', $group = 'default')
 	{
 		$value = $this->getValue($group.'.'.$key);
 		$result = (empty($value) && ($value !== 0) && ($value !== '0')) ? $default : $value;
@@ -124,7 +124,7 @@ class JParameter extends JRegistry
 	 * @return	string	The set value.
 	 * @since	1.5
 	 */
-	public function def($key, $default = '', $group = '_default')
+	public function def($key, $default = '', $group = 'default')
 	{
 		$value = $this->get($key, (string) $default, $group);
 		return $this->set($key, $value);
@@ -144,7 +144,7 @@ class JParameter extends JRegistry
 				$this->_xml[$group] = $xml;
 			}
 			else {
-				$this->_xml['_default'] = $xml;
+				$this->_xml['default'] = $xml;
 			}
 
 			if ($dir = $xml->attributes('addpath')) {
@@ -160,7 +160,7 @@ class JParameter extends JRegistry
 	 * @return	boolean	True if the data was successfully bound.
 	 * @since	1.5
 	 */
-	public function bind($data, $group = '_default')
+	public function bind($data, $group = 'default')
 	{
 		if (is_array($data)) {
 			return $this->loadArray($data, $group);
@@ -180,7 +180,7 @@ class JParameter extends JRegistry
 	 * @return	string	HTML
 	 * @since	1.5
 	 */
-	public function render($name = 'params', $group = '_default')
+	public function render($name = 'params', $group = 'default')
 	{
 		if (!isset($this->_xml[$group])) {
 			return false;
@@ -223,7 +223,7 @@ class JParameter extends JRegistry
 	 * @return	array	Array of all parameters, each as array Any array of the label, the form element and the tooltip
 	 * @since	1.5
 	 */
-	public function renderToArray($name = 'params', $group = '_default')
+	public function renderToArray($name = 'params', $group = 'default')
 	{
 		if (!isset($this->_xml[$group])) {
 			return false;
@@ -242,7 +242,7 @@ class JParameter extends JRegistry
 	 * @return	mixed	Boolean falst if no params exist or integer number of params that exist.
 	 * @since	1.5
 	 */
-	public function getNumParams($group = '_default')
+	public function getNumParams($group = 'default')
 	{
 		if (!isset($this->_xml[$group]) || !count($this->_xml[$group]->children())) {
 			return false;
@@ -278,7 +278,7 @@ class JParameter extends JRegistry
 	 * @return	array	Aarray of all parameters, each as array Any array of the label, the form element and the tooltip.
 	 * @since	1.5
 	 */
-	public function getParams($name = 'params', $group = '_default')
+	public function getParams($name = 'params', $group = 'default')
 	{
 		if (!isset($this->_xml[$group])) {
 			return false;
@@ -299,7 +299,7 @@ class JParameter extends JRegistry
 	 * @return	array	Any array of the label, the form element and the tooltip.
 	 * @since	1.5
 	 */
-	public function getParam(&$node, $control_name = 'params', $group = '_default')
+	public function getParam(&$node, $control_name = 'params', $group = 'default')
 	{
 		// Get the type of the parameter.
 		$type = $node->attributes('type');
