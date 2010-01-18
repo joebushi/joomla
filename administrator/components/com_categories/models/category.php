@@ -172,9 +172,9 @@ class CategoriesModelCategory extends JModelForm
 
 		// Get the form.
 		jimport('joomla.form.form');
-		JForm::addFormPath(JPATH_COMPONENT.'/models/forms');
-		JForm::addFieldPath(JPATH_COMPONENT.'/models/fields');
-		$form = &JForm::getInstance('category', "com_categories.category.$extension.$id", true, array('array'=>'jform'));
+		JForm::addFormPath(JPATH_ADMINISTRATOR.'/components/com_categories/models/forms');
+		JForm::addFieldPath(JPATH_ADMINISTRATOR.'/components/com_categories/models/fields');
+		$form = &JForm::getInstance('category', "com_categories.category.$extension", true, array('array'=>'jform'));
 		// Check for an error.
 		if (JError::isError($form))
 		{

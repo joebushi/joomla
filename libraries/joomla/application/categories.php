@@ -142,26 +142,45 @@ class JCategories
 
 	protected function _load($id)
 	{
-		$db	= &JFactory::getDbo();
-		$user = &JFactory::getUser();
-		$subquery = 'SELECT c.id, c.lft, c.rgt'.
-			' FROM #__categories AS c'.
-			' JOIN #__categories AS cp ON cp.lft >= c.lft AND c.rgt >= cp.rgt'.
-			' WHERE c.extension = '.$db->Quote($this->_extension).
-			' AND cp.id = '.$id; // .' AND c.parent_id = 0';
+		$db	= JFactory::getDbo();
+		$user = JFactory::getUser();
+		$extension = $this->_extension;
+		
+		$query = new JQuery;
+		
+		// c for category
+		$query->select('c.*');
+		$query->select('CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(":", c.id, c.alias) ELSE c.id END as slug');
+		$query->from('#__categories as c');
+		$query->where('c.parent_id<>0');
+		$query->where('c.extension='.$db->Quote($extension));
+		$query->where('c.access IN ('.implode(',', $user->authorisedLevels()).')');		
+		$query->order('c.lft');
+		$query->group('c.id');
 
-		$query = 'SELECT c.*, COUNT(b.'.$db->nameQuote($this->_key).') AS numitems, ' .
-			' CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(":", c.id, c.alias) ELSE c.id END as slug'.
-			' FROM #__categories AS c' .
-			' LEFT JOIN '.$db->nameQuote($this->_table).' AS b ON b.'.$db->nameQuote($this->_field).' = c.id ';
-		if ($id != 0)
+		// s for selected id
+		if (!empty($id))
 		{
-			$query .= ' JOIN ('.$subquery.') AS cp ON c.lft >= cp.lft AND c.rgt <= cp.rgt';
+			$query->leftJoin('#__categories as s on (s.lft>=c.lft and s.rgt <= c.rgt) or (s.lft<=c.lft and s.rgt >= c.rgt)');
+			$query->where('s.id='.(int)$id);
 		}
-		$query .= ' WHERE c.extension = '.$db->Quote($this->_extension).
-			' AND c.access IN ('.implode(',', $user->authorisedLevels()).')'.
-			' GROUP BY c.id'.
-			' ORDER BY c.lft';
+
+		// i for item
+		$query->leftJoin($db->nameQuote($this->_table).' AS i ON i.'.$db->nameQuote($this->_field).' = c.id ');
+		$query->select('COUNT(i.'.$db->nameQuote($this->_key).') AS numitems');
+		
+		// Add category extra fields
+		$parts = explode('.',$extension);
+		$component = $parts[0];
+		$section = (count($parts)>1)?$parts[1]:'';
+		jimport('joomla.application.component.model');
+		JModel::addIncludePath(JPATH_ADMINISTRATOR .'/components/com_categories/models');
+		$model = JModel::getInstance('Category','CategoriesModel',array('ignore_request'=>true));
+		$model->setState('category.extension',$extension);
+		$model->setState('category.component',$component);
+		$model->setState('category.section',$section);
+		$form=$model->getForm();
+
 		$db->setQuery($query);
 		$results = $db->loadObjectList();
 		
