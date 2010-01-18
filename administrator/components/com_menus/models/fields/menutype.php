@@ -1,7 +1,7 @@
 <?php
 /**
  * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -164,10 +164,10 @@ class JFormFieldMenuType extends JFormFieldList
 		// Get the list of components.
 		$db = & JFactory::getDBO();
 		$db->setQuery(
-			'SELECT `name`, `option`' .
-			' FROM `#__components`' .
-			' WHERE `link` <> ""' .
-			' AND `parent` = 0' .
+			'SELECT `name`, `element` AS "option"' .
+			' FROM `#__extensions`' .
+			' WHERE `type` = "component"' .
+			' AND `enabled` = 1' .
 			' ORDER BY `name`'
 		);
 		$components = $db->loadObjectList();
@@ -188,6 +188,7 @@ class JFormFieldMenuType extends JFormFieldList
 
 						if (isset($option->request['option'])) {
 							$lang->load($option->request['option'].'.menu');
+							$lang->load($option->request['option'].'.menu', JPATH_ADMINISTRATOR.'/components/'.$option->request['option']);
 						}
 					}
 				}

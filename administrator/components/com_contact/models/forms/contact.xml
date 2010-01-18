@@ -85,7 +85,42 @@
 			class="inputbox"
 			size="1"
 			default="" />
-
+			<field
+			id="sortname1"
+			name="sortname1"
+			type="text"
+			label="Contact_SortName1_Label"
+			description="Contact_SortName1_Desc"
+			class="inputbox"
+			size="30"
+			required="" />
+		<field
+			id="sortname2"
+			name="sortname2"
+			type="text"
+			label="Contact_sortName2_Label"
+			description="Contact_sortName3_Desc"
+			class="inputbox"
+			size="30"
+			required="" />
+		<field
+			id="sortname3"
+			name="sortname3"
+			type="text"
+			label="Contact_SortName3_Label"
+			description="Contact_SortName3_Desc"
+			class="inputbox"
+			size="30"
+			required="" />			
+		<field
+			id="language"
+			name="language"
+			type="text"
+			label="Contact_Language_Label"
+			description="Contact_Language_Desc"
+			class="inputbox"
+			size="30"
+			required="" />
 		<field
 			id="con_position"
 			name="con_position"
@@ -94,7 +129,7 @@
 			description="Contact_Information_Position_Desc"
 			class="inputbox"
 			size="30"
-			default="" />
+			 />
 
 		<field
 			id="email_to"
@@ -104,7 +139,7 @@
 			description="Contact_Information_Email_Desc"
 			class="inputbox"
 			size="30"
-			default="" />
+			 />
 
 		<field
 			id="address"
@@ -115,7 +150,7 @@
 			class="inputbox"
 			rows="3"
 			cols="30"
-			default="" />
+			 />
 
 		<field
 			id="suburb"
@@ -125,7 +160,7 @@
 			description="Contact_Information_Suburb_Desc"
 			class="inputbox"
 			size="30"
-			default="" />
+			 />
 
 		<field
 			id="state"
@@ -135,7 +170,7 @@
 			description="Contact_Information_State_Desc"
 			class="inputbox"
 			size="30"
-			default="" />
+			 />
 
 		<field
 			id="postcode"
@@ -145,7 +180,7 @@
 			description="Contact_Information_Postcode_Desc"
 			class="inputbox"
 			size="30"
-			default="" />
+			/>
 
 		<field
 			id="country"
@@ -155,7 +190,7 @@
 			description="Contact_Information_Country_Desc"
 			class="inputbox"
 			size="30"
-			default="" />
+			 />
 
 		<field
 			id="telephone"
@@ -165,7 +200,7 @@
 			description="Contact_Information_Telephone_Desc"
 			class="inputbox"
 			size="30"
-			default="" />
+			 />
 
 		<field
 			id="mobile"
@@ -175,7 +210,7 @@
 			description="Contact_Information_Mobile_Desc"
 			class="inputbox"
 			size="30"
-			default="" />
+			 />
 
 		<field
 			id="webpage"
@@ -185,7 +220,7 @@
 			description="Contact_Information_Webpage_Desc"
 			class="inputbox"
 			size="30"
-			default="" />
+			 />
 		<field
 			id="misc"
 			name="misc"
@@ -240,24 +275,14 @@
 			default="" />
 
 		<field
-			id="language"
 			name="language"
-			type="text"
+			type="contentlanguage"
 			label="JField_Language_Label"
-			description="JField_Language_Desc"
+			description="JField_Contact_Language_Desc"
 			class="inputbox"
-			size="10"
-			default="" />
-
-		<field
-			id="xreference"
-			name="xreference"
-			type="text"
-			label="JField_Metadata_XReference_Label"
-			description="JField_Metadata_XReference_Desc"
-			class="inputbox"
-			size="30"
-			default="" />
+			default="">
+			<option value="">JOption_Default_Language</option>
+		</field>
 
 		<field
 			name="show_email_form"
@@ -342,8 +367,8 @@
 
 		<field
 			name="icon_address"
-			type="media"
-			directory="/images/joomla"
+			type="imagelist"
+			directory="/images"
 			hide_none="1"
 			default=""
 			label="Contact_Icons_Address_Label"
@@ -351,8 +376,8 @@
 
 		<field
 			name="icon_email"
-			type="media"
-			directory="/images/joomla"
+			type="imagelist"
+			directory="/images"
 			hide_none="1"
 			default=""
 			label="Contact_Icons_Email_Label"
@@ -360,8 +385,8 @@
 
 		<field
 			name="icon_telephone"
-			type="media"
-			directory="/images/joomla"
+			type="imagelist"
+			directory="/images"
 			hide_none="1"
 			default=""
 			abel="Contact_Icons_Telephone_Label"
@@ -369,8 +394,8 @@
 
 		<field
 			name="icon_mobile"
-			type="media"
-			directory="/images/joomla"
+			type="imagelist"
+			directory="/images"
 			hide_none="1"
 			default=""
 			label="Contact_Icons_Mobile_Label"
@@ -378,8 +403,8 @@
 
 		<field
 			name="icon_fax"
-			type="media"
-			directory="/images/joomla"
+			type="imagelist"
+			directory="/images"
 			hide_none="1"
 			default=""
 			label="Contact_Icons_Fax_Label"
@@ -387,8 +412,8 @@
 
 		<field
 			name="icon_misc"
-			type="media"
-			directory="/images/joomla"
+			type="imagelist"
+			directory="/images"
 			hide_none="1"
 			default=""
 			label="Contact_Icons_Misc_Label"
@@ -417,12 +442,6 @@
 			description="JField_Metadata_Robots_Desc"
 			size="20" />
 
-		<field
-			name="author"
-			type="text"
-			label="JField_Metadata_Author_Label"
-			description="JField_Metadata_Author_Desc"
-			size="20" />
 
 		<field
 			name="rights"
@@ -439,8 +458,8 @@
 
 		<field
 			name="show_name"
-			type="radio"
-			default="1"
+			type="list"
+			default=""
 			label="Contact_Params_Name_Label"
 			description="Contact_Params_Name_Desc">
 			<option
@@ -448,13 +467,13 @@
 			<option
 				value="1">Jcommon_Show</option>
 			<option
-				value="1">Jcommon_Use_Global</option>
+				value="">Jcommon_Use_Global</option>
 		</field>
 
 		<field
 			name="show_position"
-			type="radio"
-			default="1"
+			type="list"
+			default=""
 			label="Contact_Params_Contact_Position_Label"
 			description="Contact_Params_Name_Desc">
 			<option
@@ -462,27 +481,27 @@
 			<option
 				value="1">Jcommon_Show</option>
 			<option
-				value="1">Jcommon_Use_Global</option>
+				value="">Jcommon_Use_Global</option>
 		</field>
 
 		<field
 			name="show_email"
-			type="radio"
-			default="0"
-			label="Contact_Params_Contact_Position_E-mail_Label"
+			type="list"
+			default=""
+			label="CONTACT_PARAMS_CONTACT_POSITION_E_MAIL_LABEL"
 			description="Contact_Params_Name_Desc">
 			<option
 				value="0">Jcommon_Hide</option>
 			<option
 				value="1">Jcommon_Show</option>
 			<option
-				value="1">Jcommon_Use_Global</option>
+				value="">Jcommon_Use_Global</option>
 		</field>
 
 		<field
 			name="show_street_address"
-			type="radio"
-			default="1"
+			type="list"
+			default=""
 			label="Contact_Params_Street_Address_Label"
 			description="Contact_Params_Name_Desc">
 			<option
@@ -490,55 +509,55 @@
 			<option
 				value="1">Jcommon_Show</option>
 			<option
-				value="1">Jcommon_Use_Global</option>
+				value="">Jcommon_Use_Global</option>
 		</field>
 
 		<field
 			name="show_suburb"
-			type="radio"
-			default="1"
-			label="Contact_Params_Town/Suburb_Label"
+			type="list"
+			default=""
+			label="CONTACT_PARAMS_TOWN_SUBURB_LABEL"
 			description="Contact_Params_Name_Desc">
 			<option
 				value="0">Jcommon_Hide</option>
 			<option
 				value="1">Jcommon_Show</option>
 			<option
-				value="1">Jcommon_Use_Global</option>
+				value="">Jcommon_Use_Global</option>
 		</field>
 
 		<field
 			name="show_state"
-			type="radio"
-			default="1"
-			label="Contact_Params_State/County_Label"
+			type="list"
+			default=""
+			label="CONTACT_PARAMS_STATE_COUNTY_LABEL"
 			description="Contact_Params_Name_Desc">
 			<option
 				value="0">Jcommon_Hide</option>
 			<option
 				value="1">Jcommon_Show</option>
 			<option
-				value="1">Jcommon_Use_Global</option>
+				value="">Jcommon_Use_Global</option>
 		</field>
 
 		<field
 			name="show_postcode"
-			type="radio"
-			default="1"
-			label="Contact_Params_Post/Zip_Code_Label"
+			type="list"
+			default=""
+			label="CONTACT_PARAMS_POST_ZIP_CODE_LABEL"
 			description="Contact_Params_Name_Desc">
 			<option
 				value="0">Jcommon_Hide</option>
 			<option
 				value="1">Jcommon_Show</option>
 			<option
-				value="1">Jcommon_Use_Global</option>
+				value="">Jcommon_Use_Global</option>
 		</field>
 
 		<field
 			name="show_country"
-			type="radio"
-			default="1"
+			type="list"
+			default=""
 			label="Contact_Params_Country_Label"
 			description="Contact_Params_Name_Desc">
 			<option
@@ -546,13 +565,13 @@
 			<option
 				value="1">Jcommon_Show</option>
 			<option
-				value="1">Jcommon_Use_Global</option>
+				value="">Jcommon_Use_Global</option>
 		</field>
 
 		<field
 			name="show_telephone"
-			type="radio"
-			default="1"
+			type="list"
+			default=""
 			label="Contact_Params_Telephone_Label"
 			description="Contact_Params_Name_Desc">
 			<option
@@ -560,13 +579,13 @@
 			<option
 				value="1">Jcommon_Show</option>
 			<option
-				value="1">Jcommon_Use_Global</option>
+				value="">Jcommon_Use_Global</option>
 		</field>
 
 		<field
 			name="show_mobile"
-			type="radio"
-			default="1"
+			type="list"
+			default=""
 			label="Contact_Params_Mobile_Label"
 			description="Contact_Params_Name_Desc">
 			<option
@@ -574,13 +593,13 @@
 			<option
 				value="1">Jcommon_Show</option>
 			<option
-				value="1">Jcommon_Use_Global</option>
+				value="">Jcommon_Use_Global</option>
 		</field>
 
 		<field
 			name="show_fax"
-			type="radio"
-			default="1"
+			type="list"
+			default=""
 			label="Contact_Params_Fax_Label"
 			description="Contact_Params_Name_Desc">
 			<option
@@ -588,13 +607,13 @@
 			<option
 				value="1">Jcommon_Show</option>
 			<option
-				value="1">Jcommon_Use_Global</option>
+				value="">Jcommon_Use_Global</option>
 		</field>
 
 		<field
 			name="show_webpage"
-			type="radio"
-			default="1"
+			type="list"
+			default=""
 			label="Contact_Params_Webpage_Label"
 			description="Contact_Params_Name_Desc">
 			<option
@@ -602,27 +621,27 @@
 			<option
 				value="1">Jcommon_Show</option>
 			<option
-				value="1">Jcommon_Use_Global</option>
+				value="">Jcommon_Use_Global</option>
 		</field>
 
 		<field
 			name="show_misc"
-			type="radio"
-			default="1"
-			label="Contact_Params_Misc Info_Label"
+			type="list"
+			default=""
+			label="CONTACT_PARAMS_MISC_INFO_LABEL"
 			description="Contact_Params_Name_Desc">
 			<option
 				value="0">Jcommon_Hide</option>
 			<option
 				value="1">Jcommon_Show</option>
 			<option
-				value="1">Jcommon_Use_Global</option>
+				value="">Jcommon_Use_Global</option>
 		</field>
 
 		<field
 			name="show_image"
-			type="radio"
-			default="1"
+			type="list"
+			default=""
 			label="Contact_Params_Image_Label"
 			description="Contact_Params_Name_Desc">
 			<option
@@ -630,13 +649,13 @@
 			<option
 				value="1">Jcommon_Show</option>
 			<option
-				value="1">Jcommon_Use_Global</option>
+				value="">Jcommon_Use_Global</option>
 		</field>
 
 		<field
 			name="allow_vcard"
-			type="radio"
-			default="0"
+			type="list"
+			default=""
 			label="Contact_Params_vCard_Label"
 			description="Contact_Params_vCard_Label">
 			<option
@@ -644,7 +663,7 @@
 			<option
 				value="1">Jcommon_Show</option>
 			<option
-				value="1">Jcommon_Use_Global</option>
+				value="">Jcommon_Use_Global</option>
 		</field>
 
 		<field
@@ -652,14 +671,14 @@
 			name="show_articles"
 			label="Contact_Show_Articles_Label"
 			description="Contact_Show_Articles_Desc"
-			type="radio"
-			default="1">
+			type="list"
+			default="">
 			<option
 				value="0">Jcommon_Hide</option>
 			<option
 				value="1">Jcommon_Show</option>
 			<option
-				value="1">Jcommon_Use_Global</option>
+				value="">Jcommon_Use_Global</option>
 		</field>
 
 		<field
@@ -667,14 +686,14 @@
 			name="show_links"
 			label="Contact_Show_Links_Label"
 			description="Contact_Show_Links_Desc"
-			type="radio"
-			default="1">
+			type="list"
+			default="0">
 			<option
 				value="0">Jcommon_Hide</option>
 			<option
 				value="1">Jcommon_Show</option>
 			<option
-				value="1">Jcommon_Use_Global</option>
+				value="">Jcommon_Use_Global</option>
 		</field>
 
 		<field
@@ -772,4 +791,6 @@
 			size="30"
 			default="" />
 	</fields>
+
+						
 </form>

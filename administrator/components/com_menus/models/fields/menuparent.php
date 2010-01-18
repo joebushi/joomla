@@ -1,7 +1,7 @@
 <?php
 /**
  * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,12 +43,6 @@ class JFormFieldMenuParent extends JFormFieldList
 		// Filter by the type
 		if ($menuType = $this->_form->getValue('menutype')) {
 			$query->where('(a.menutype = '.$db->quote($menuType).' OR a.parent_id = 0)');
-		}
-
-		// Prevent parenting to of this item.
-		if ($parentId = $this->_form->getValue('parent_id')) {
-			$query->join('LEFT', '`#__menu` AS p ON p.id = '.(int) $parentId);
-			$query->where('(a.lft <= p.lft OR a.rgt >= p.rgt)');
 		}
 
 		$query->group('a.id');

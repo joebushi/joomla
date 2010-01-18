@@ -3,7 +3,7 @@
  * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	com_newsfeeds
- * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -57,6 +57,9 @@ JHtml::_('behavior.keepalive');
 
 			<?php echo $this->form->getLabel('ordering'); ?>
 			<?php echo $this->form->getInput('ordering'); ?>
+			
+			<?php echo $this->form->getLabel('language'); ?>
+			<?php echo $this->form->getInput('language'); ?>
 
 	</fieldset>
 </div>
@@ -73,9 +76,6 @@ JHtml::_('behavior.keepalive');
 
 			<?php echo $this->form->getLabel('rtl'); ?>
 			<?php echo $this->form->getInput('rtl'); ?>
-
-			<?php echo $this->form->getLabel('language'); ?>
-			<?php echo $this->form->getInput('language'); ?>
 
 		<?php foreach($this->form->getFields('params') as $field): ?>
 			<?php if ($field->hidden): ?>

@@ -1,7 +1,7 @@
 <?php
 /**
  * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -70,15 +70,16 @@ class NewsfeedsViewNewsfeed extends JView
 		if (!$checkedOut && $canDo->get('core.edit'))
 		{
 
-			JToolBarHelper::save('newsfeed.save');
-			JToolBarHelper::apply('newsfeed.apply');
-		// If an existing item, can save to a copy.
+			JToolBarHelper::apply('newsfeed.apply', 'JToolbar_Apply');
+			JToolBarHelper::save('newsfeed.save', 'JToolbar_Save');
+			JToolBarHelper::addNew('newsfeed.save2new', 'JToolbar_Save_and_new');
+		}
+			// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create')) {
 			JToolBarHelper::custom('newsfeed.save2copy', 'copy.png', 'copy_f2.png', 'JToolbar_Save_as_Copy', false);
 		}
 
-			JToolBarHelper::addNew('newsfeed.save2new', 'JToolbar_Save_and_new');
-		}
+
 		if (empty($this->item->id))  {
 			JToolBarHelper::cancel('newsfeed.cancel');
 		}

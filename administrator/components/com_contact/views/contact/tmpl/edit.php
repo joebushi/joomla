@@ -3,7 +3,7 @@
  * @version		$Id: edit.php 12295 2009-06-22 11:10:18Z eddieajau $
  * @package		Joomla.Administrator
  * @subpackage	com_contact
- * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -52,7 +52,19 @@ JHtml::_('behavior.formvalidation');
 
 					<?php echo $this->form->getLabel('ordering'); ?>
 					<?php echo $this->form->getInput('ordering'); ?>
+					
+					<?php echo $this->form->getLabel('sortname1'); ?>
+					<?php echo $this->form->getInput('sortname1'); ?>
+					
+					<?php echo $this->form->getLabel('sortname2'); ?>
+					<?php echo $this->form->getInput('sortname2'); ?>
+					
+					<?php echo $this->form->getLabel('sortname3'); ?>
+					<?php echo $this->form->getInput('sortname3'); ?>
 
+					<?php echo $this->form->getLabel('language'); ?>
+					<?php echo $this->form->getInput('language'); ?>
+				
 					<div class="clr"> </div>
 					<?php echo $this->form->getLabel('misc'); ?>
 					<div class="clr"> </div>

@@ -1,7 +1,7 @@
 <?php
 /**
  * @version		$Id: controller.php 12685 2009-09-10 14:14:04Z pentacle $
- * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -127,6 +127,16 @@ class PluginsModelPlugin extends JModelForm
 			$registry = new JRegistry;
 			$registry->loadJSON($table->params);
 			$this->_cache[$pk]->params = $registry->toArray();
+			
+			// Get the plugin XML.
+			$client	= JApplicationHelper::getClientInfo($table->client_id);
+			$path	= JPath::clean($client->path.'/plugins/'.$table->folder.'/'.$table->element.'/'.$table->element.'.xml');
+
+			if (file_exists($path)) {
+				$this->_cache[$pk]->xml = &JFactory::getXML($path);
+			} else {
+				$this->_cache[$pk]->xml = null;
+			}
 		}
 
 		return $this->_cache[$pk];

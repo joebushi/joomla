@@ -1,7 +1,7 @@
 <?php
 /**
  * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -67,8 +67,8 @@ class PluginsViewPlugin extends JView
 		// If not checked out, can save the item.
 		if ($canDo->get('core.edit'))
 		{
-			JToolBarHelper::save('plugin.save');
-			JToolBarHelper::apply('plugin.apply');
+			JToolBarHelper::apply('plugin.apply', 'JToolbar_Apply');	
+			JToolBarHelper::save('plugin.save', 'JToolbar_Save');
 		}
 		JToolBarHelper::cancel('plugin.cancel', 'JToolbar_Close');
 		JToolBarHelper::divider();

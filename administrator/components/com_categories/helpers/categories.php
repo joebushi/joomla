@@ -1,7 +1,7 @@
 <?php
 /**
  * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -42,9 +42,12 @@ class CategoriesHelper
 			{
 				if (is_callable(array($cName, 'addSubmenu')))
 				{
-					$lang = &JFactory::getLanguage();
-					$lang->load($extension);
-					call_user_func(array($cName, 'addSubmenu'), 'categories');
+ 					$lang = &JFactory::getLanguage();
+					// loading language file from the administrator/language directory
+ 					$lang->load($extension);
+					// loading language file from the administrator/components/*extension*/language directory
+					$lang->load($extension, JPath::clean(JPATH_ADMINISTRATOR.'/components/'.$extension));
+ 					call_user_func(array($cName, 'addSubmenu'), 'categories');
 				}
 			}
 		}

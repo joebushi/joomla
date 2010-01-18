@@ -1,7 +1,7 @@
 <?php
 /**
  * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -103,16 +103,11 @@ class MenusModelItems extends JModelList
 
 		//Join over components
 		$query->select('c.name AS componentname');
-		$query->join('LEFT', '`#__components` AS c ON c.id = a.component_id');
+		$query->join('LEFT', '`#__extensions` AS c ON c.extension_id = a.component_id');
 
 		// Join over the asset groups.
 		$query->select('ag.title AS access_level');
 		$query->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
-
-		// Self join to find the level in the tree.
-		$query->select('COUNT(DISTINCT p.id) AS level');
-		$query->join('LEFT OUTER', '`#__menu` AS p ON a.lft > p.lft AND a.rgt < p.rgt');
-		$query->group('a.id');
 
 		// Exclude the root category.
 		$query->where('a.id > 1');
