@@ -217,7 +217,7 @@ class ContentModelArticles extends JModelList
 		foreach ($items as &$item)
 		{
 			$registry = new JRegistry;
-			 $registry->loadJSON($item->attribs);
+			 $registry->loadJSON($item->attribs,'_default');
 			$item->params = clone $this->getState('params');
 			 $item->params->merge($registry);
 
