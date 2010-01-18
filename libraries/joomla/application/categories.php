@@ -161,7 +161,7 @@ class JCategories
 		// s for selected id
 		if (!empty($id))
 		{
-			$query->leftJoin('#__categories as s on (s.lft>=c.lft and s.rgt <= c.rgt) or (s.lft<=c.lft and s.rgt >= c.rgt)');
+			$query->leftJoin('#__categories AS s ON (s.lft>=c.lft AND s.rgt <= c.rgt) OR (s.lft<=c.lft and s.rgt >= c.rgt)');
 			$query->where('s.id='.(int)$id);
 		}
 
@@ -180,14 +180,60 @@ class JCategories
 		$model->setState('category.component',$component);
 		$model->setState('category.section',$section);
 		$form=$model->getForm();
+		// foreach all groups
+		foreach ($form->getFieldsets() as $name => $fieldSet)
+		{
+			// Don't use params, metadata and _default group	
+			if (!in_array($name, array('params','metadata','_default')))
+			{
+				// Foreach fields in this group
+				foreach($form->getFields($name) as $field)
+				{
+					// Add the field as #{group}{field} in the query
+					$query->leftJoin('#__category_attributes as '.$db->nameQuote($name.$field->name).' ON '.$db->nameQuote($name.$field->name).'.catid=c.id AND '.$db->nameQuote($name.$field->name).'.group='.$db->Quote($name).' AND '.$db->nameQuote($name.$field->name).'.field='.$db->Quote($field->name));
+					$query->select($db->nameQuote($name.$field->name).'.value AS '.$db->nameQuote('#'.$name.$field->name));
+				}
+			}
+		}
 
+		// Get the results
 		$db->setQuery($query);
 		$results = $db->loadObjectList();
 		
 		if (count($results))
 		{
+			// foreach categories
 			foreach($results as $result)
 			{
+				// foreach all groups
+				foreach ($form->getFieldsets() as $name => $fieldSet)
+				{
+					// Don't use params, metadata and _default group	
+					if (!in_array($name, array('params','metadata','_default')))
+					{
+						// Prepare the attribute equal to the group name
+						$result->{$name}=array();
+						// Foreach fields in this group
+						foreach($form->getFields($name) as $field)
+						{
+							// For each field in this group, add it to the array
+							$result->{$name}[$field->name]=$result->{'#'.$name.$field->name};
+							// Unset the special field
+							unset($result->{'#'.$name.$field->name});
+						}
+					}
+				}
+				// Convert the params field to an array.
+				$registry = new JRegistry();
+				$registry->loadJSON($result->params);
+				$result->params = $registry->toArray();
+
+				// Convert the metadata field to an array.
+				$registry = new JRegistry();
+				$registry->loadJSON($result->metadata);
+				$result->metadata = $registry->toArray();
+				
+				// Create the JCategoryNode
 				$this->_nodes[$result->id] = new JCategoryNode($result);
 			}
 		} else {
