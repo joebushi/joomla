@@ -170,7 +170,22 @@
 			<option
 				value="1">Jcommon_Show</option>
 		</field>
-		
+			<field name="show_articles"
+				type="radio"
+				default="1"
+				label="Contact_Profile_Show_Label"
+				description="Contact_Profile_Show_Desc">
+					<option value="0">Jcommon_Hide</option>
+					<option value="1">Jcommon_Show</option>
+		</field>
+		<field name="show_profile"
+				type="radio"
+				default="1"
+				label="Contact_Profile_Show_Label"
+				description="Contact_Profile_Show_Desc">
+					<option value="0">Jcommon_Hide</option>
+					<option value="1">Jcommon_Show</option>
+		</field>	
 		<field
 			id="show_links"
 			name="show_links"
@@ -387,14 +402,7 @@
 				value="1">Jcommon_Show</option>
 
 		</field>
-		<field name="show_profile"
-				type="radio"
-				default="1"
-				label="Contact_Profile_Show_Label"
-				description="Contact_Profile_Show_Desc">
-					<option value="0">Jcommon_Hide</option>
-					<option value="1">Jcommon_Show</option>
-		</field>
+
 	</fields>
 	<fields
 		group="Contact_Form"

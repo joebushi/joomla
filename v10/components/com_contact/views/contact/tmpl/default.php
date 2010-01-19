@@ -70,6 +70,10 @@ $cparams = JComponentHelper::getParams ('com_media');
 	<?php echo JHtml::_('sliders.panel', JText::_('Contact_Articles'), 'display-articles'); ?>
 		<?php echo $this->loadTemplate('articles'); ?>
 	<?php endif; ?>
+	<?php if ($this->contact->params->get('show_profile') &&  $this->contact->user_id) : ?>	
+	<?php echo JHtml::_('sliders.panel', JText::_('Contact_Profile'), 'display-profile'); ?>
+		<?php echo $this->loadTemplate('profile'); ?>
+	<?php endif; ?>	
 	<?php if ($this->contact->misc && $this->contact->params->get('show_misc')) : ?>
 			<?php echo JHtml::_('sliders.panel', JText::_('Contact_Other_Information'), 'display-misc'); ?>
 				<div class="jcontact-miscinfo">
@@ -81,9 +85,6 @@ $cparams = JComponentHelper::getParams ('com_media');
 					</span>
 				</div>
 	<?php endif; ?>
-	<?php if ($this->contact->params->get('show_profile') &&  $this->contact->user_id) : ?>
-	<?php echo JHtml::_('sliders.panel', JText::_('Contact_Profile'), 'display-profile'); ?>
-		<?php echo $this->loadTemplate('profile'); ?>
-	<?php endif; ?>
+
 			<?php echo 	 JHtml::_('sliders.end'); ?>	
 </div>

@@ -680,7 +680,19 @@
 			<option
 				value="">Jcommon_Use_Global</option>
 		</field>
-
+		<field 
+				id="show_profile"
+				name="show_profile"
+				type="list"
+				default=""
+				label="Contact_Profile_Show_Label">
+			<option
+				value="0">Jcommon_Hide</option>
+			<option
+				value="1">Jcommon_Show</option>
+			<option
+				value="">Jcommon_Use_Global</option>
+		</field>
 		<field
 			id="show_links"
 			name="show_links"
