@@ -116,17 +116,23 @@ class JCategories
 
 	/**
 	 * Loads a specific category and all its children in a JCategoryNode object
-	 * @param $id
+	 * @param an optional id
+	 * @param an optional array of boolean options (all set to true by default).
+	 *   'children' to get its direct children,
+	 *   'parent' to get its direct parent,
+	 *   'siblings' to get its siblings
+	 *   'ascendants' to get its ascendants
+	 *   'descentants' to get its descendants
 	 * @return JCategoryNode
 	 */
-	public function get($id,$options=array())
+	public function get($id=1,$options=array())
 	{
 		$id = (int) $id;
 		if ($id == 0)
 		{
 			return false;
 		}
-		if (!isset($this->_nodes[$id]) || (isset($options['reload']) && $options['reload']))
+		if (!isset($this->_nodes[$id]) || (isset($options['load']) && $options['load']))
 		{
 			$this->_load($id,$options);
 		}
@@ -137,6 +143,16 @@ class JCategories
 			throw new JException('Unable to load category: '.$id, 0000, E_ERROR, $info, true);
 		}
 	}
+	/**
+	 * Return a node or false
+	 * @param an optional id
+	 * @return JCategoryNode
+	 */
+	public function node($id=1)
+	{
+		if (isset($this->_nodes[$id]) && $this->_nodes[$id] instanceof JCategoryNode) return $this->_nodes[$id];
+		else return false;
+	}
 
 	protected function _load($id,$options)
 	{
@@ -144,8 +160,11 @@ class JCategories
 		$user = JFactory::getUser();
 		$extension = $this->_extension;
 		
-		$children = !isset($options['children']) || !$options['children'];
-		$siblings= !isset($options['siblings']) || !$options['siblings'];
+		$children		= !isset($options['children'])		|| $options['children'];
+		$parent			= !isset($options['parent'])		|| $options['parent'];
+		$siblings		= !isset($options['siblings'])		|| $options['siblings'];
+		$ascendants		= !isset($options['ascendants'])	|| $options['ascendants'];
+		$descendants	= !isset($options['descendants'])	|| $options['descendants'];
 		
 		$query = new JQuery;
 		
@@ -153,21 +172,26 @@ class JCategories
 		$query->select('c.*');
 		$query->select('CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(":", c.id, c.alias) ELSE c.id END as slug');
 		$query->from('#__categories as c');
-		$query->where('c.parent_id<>0');
-		$query->where('c.extension='.$db->Quote($extension));
+		$query->where('(c.extension='.$db->Quote($extension).($id==1?' OR c.extension='.$db->Quote('system'):'').')');
 		$query->where('c.access IN ('.implode(',', $user->authorisedLevels()).')');		
 		$query->order('c.lft');
 		$query->group('c.id');
 
 		// s for selected id
-		if (!empty($id))
+		if ($id>1)
 		{
-			// Get the parents
-			$test = '(s.lft<=c.lft AND s.rgt >= c.rgt)'; 
+			// Get the selected category
+			$test = 					'(s.lft = c.lft AND s.rgt = c.rgt)';
+			// Get the parent
+			$test.=$parent?			' OR (s.parent_id = c.id)':''; 
 			// Get the children
-			$test.=$children ? ' OR (s.lft>=c.lft AND s.rgt <= c.rgt)':'';
+			$test.=$children ?		' OR (c.parent_id = s.id)':'';
 			// Get the siblings
-			$test.=$siblings ? ' OR (s.parent_id=c.parent_id)':'';
+			$test.=$siblings ?		' OR (s.parent_id = c.parent_id)':'';
+			// Get the ascendants
+			$test.=$ascendants?		' OR (s.lft <= c.lft AND s.rgt >= c.rgt)':''; 
+			// Get the descendants
+			$test.=$descendants ?	' OR (s.lft >= c.lft AND s.rgt <= c.rgt)':'';
 			
 			$query->leftJoin('#__categories AS s ON ' . $test);
 			$query->where('s.id='.(int)$id);
@@ -176,8 +200,6 @@ class JCategories
 		// i for item
 		$query->leftJoin($db->nameQuote($this->_table).' AS i ON i.'.$db->nameQuote($this->_field).' = c.id ');
 		$query->select('COUNT(i.'.$db->nameQuote($this->_key).') AS numitems');
-		
-		var_dump((string)$query);
 		
 		// Add category extra fields
 		$parts = explode('.',$extension);
@@ -229,7 +251,7 @@ class JCategories
 							// For each field in this group, add it to the array
 							$result->{$name}[$field->name]=$result->{'_'.$name.'_'.$field->name};
 							// Unset the special field
-							unset($result->{'#'.$name.$field->name});
+							unset($result->{'_'.$name.'_'.$field->name});
 						}
 					}
 				}
@@ -267,7 +289,7 @@ class JCategoryNode extends JNode
 	public $parent_id			= null;
 	/** @var int */
 	public $extension			= null;
-	public $lang					= null;
+	public $lang				= null;
 	/** @var string The menu title for the category (a short name)*/
 	public $title				= null;
 	/** @var string The the alias for the category*/
@@ -279,15 +301,15 @@ class JCategoryNode extends JNode
 	/** @var boolean */
 	public $checked_out			= 0;
 	/** @var time */
-	public $checked_out_time		= 0;
+	public $checked_out_time	= 0;
 	/** @var int */
 	public $access				= null;
 	/** @var string */
 	public $params				= null;
 	/** @var int */
-	public $numitems				= null;
+	public $numitems			= null;
 	/** @var string */
-	public $slug					= null;
+	public $slug				= null;
 
 	/**
 	 * Class constructor
@@ -299,11 +321,11 @@ class JCategoryNode extends JNode
 		if ($category)
 		{
 			$this->setProperties($category);
-			if ($this->parent_id > 1)
+			if ($this->parent_id > 0)
 			{
 				$categoryTree = JCategories::getInstance($this->extension);
-				$parentNode = &$categoryTree->get($this->parent_id);
-				$parentNode->addChild($this);
+				$parentNode = &$categoryTree->node($this->parent_id);
+				if ($parentNode) $parentNode->addChild($this);
 			}
 			return true;
 		}
