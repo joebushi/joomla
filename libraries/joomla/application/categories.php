@@ -117,7 +117,8 @@ class JCategories
 	/**
 	 * Loads a specific category and all its children in a JCategoryNode object
 	 * @param an optional id
-	 * @param an optional array of boolean options (all set to true by default).
+	 * @param an optional array of boolean options (all set to true by default, except load).
+	 *   'load' to force reloading
 	 *   'children' to get its direct children,
 	 *   'parent' to get its direct parent,
 	 *   'siblings' to get its siblings
@@ -221,7 +222,7 @@ class JCategories
 				// Foreach fields in this group
 				foreach($form->getFields($name) as $field)
 				{
-					// Add the field as #{group}{field} in the query
+					// Add the field as _{group}_{field} in the query
 					$query->leftJoin('#__category_attributes as '.$db->nameQuote($name.$field->name).' ON '.$db->nameQuote($name.$field->name).'.catid=c.id AND '.$db->nameQuote($name.$field->name).'.group='.$db->Quote($name).' AND '.$db->nameQuote($name.$field->name).'.field='.$db->Quote($field->name));
 					$query->select($db->nameQuote($name.$field->name).'.value AS '.$db->nameQuote('_'.$name.'_'.$field->name));
 				}
