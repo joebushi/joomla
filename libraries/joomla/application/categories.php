@@ -1,9 +1,9 @@
 <?php
 /**
- * @version		$Id:categorytree.php 6961 2007-03-15 16:06:53Z tcp $
+ * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Application
- * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -121,16 +121,16 @@ class JCategories
 	 * @param $id
 	 * @return JCategoryNode
 	 */
-	public function get($id)
+	public function get($id,$options=array())
 	{
 		$id = (int) $id;
 		if ($id == 0)
 		{
 			return false;
 		}
-		if (!isset($this->_nodes[$id]))
+		if (!isset($this->_nodes[$id]) || (isset($options['reload'] && $options['reload'])))
 		{
-			$this->_load($id);
+			$this->_load($id,$options);
 		}
 		if ($this->_nodes[$id] instanceof JCategoryNode)
 		{
@@ -140,11 +140,15 @@ class JCategories
 		}
 	}
 
-	protected function _load($id)
+	protected function _load($id,$options)
 	{
 		$db	= JFactory::getDbo();
 		$user = JFactory::getUser();
 		$extension = $this->_extension;
+		
+		$children = !isset($options['children']) || !$options['children'];
+		$parents = !isset($options['parents']) || !$options['parents'];
+		$siblings= !isset($options['siblings']) || !$options['siblings'];
 		
 		$query = new JQuery;
 		
@@ -161,7 +165,17 @@ class JCategories
 		// s for selected id
 		if (!empty($id))
 		{
-			$query->leftJoin('#__categories AS s ON (s.lft>=c.lft AND s.rgt <= c.rgt) OR (s.lft<=c.lft and s.rgt >= c.rgt)');
+			// Get the selected category
+			$test ='(s.lft=c.lft AND s.rgt=c.rgt)';
+			// Get the children
+			$test.=$children ? ' OR (s.lft>=c.lft AND s.rgt <= c.rgt)':'';
+			// Get the parents
+			$test.=$parents ? ' OR (s.lft<=c.lft AND s.rgt >= c.rgt)':''; 
+			// Get the siblings
+			$test.=$siblings ? ' OR (s.parent_id=c.parent_id)':'';
+			
+			'(s.lft>=c.lft AND s.rgt <= c.rgt) OR (s.lft<=c.lft and s.rgt >= c.rgt)'
+			$query->leftJoin('#__categories AS s ON ' . $test);
 			$query->where('s.id='.(int)$id);
 		}
 
