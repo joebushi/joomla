@@ -128,7 +128,7 @@ class JCategories
 		{
 			return false;
 		}
-		if (!isset($this->_nodes[$id]) || (isset($options['reload'] && $options['reload'])))
+		if (!isset($this->_nodes[$id]) || (isset($options['reload']) && $options['reload']))
 		{
 			$this->_load($id,$options);
 		}
@@ -147,7 +147,6 @@ class JCategories
 		$extension = $this->_extension;
 		
 		$children = !isset($options['children']) || !$options['children'];
-		$parents = !isset($options['parents']) || !$options['parents'];
 		$siblings= !isset($options['siblings']) || !$options['siblings'];
 		
 		$query = new JQuery;
@@ -165,16 +164,13 @@ class JCategories
 		// s for selected id
 		if (!empty($id))
 		{
-			// Get the selected category
-			$test ='(s.lft=c.lft AND s.rgt=c.rgt)';
+			// Get the parents
+			$test = '(s.lft<=c.lft AND s.rgt >= c.rgt)'; 
 			// Get the children
 			$test.=$children ? ' OR (s.lft>=c.lft AND s.rgt <= c.rgt)':'';
-			// Get the parents
-			$test.=$parents ? ' OR (s.lft<=c.lft AND s.rgt >= c.rgt)':''; 
 			// Get the siblings
 			$test.=$siblings ? ' OR (s.parent_id=c.parent_id)':'';
 			
-			'(s.lft>=c.lft AND s.rgt <= c.rgt) OR (s.lft<=c.lft and s.rgt >= c.rgt)'
 			$query->leftJoin('#__categories AS s ON ' . $test);
 			$query->where('s.id='.(int)$id);
 		}
@@ -182,6 +178,8 @@ class JCategories
 		// i for item
 		$query->leftJoin($db->nameQuote($this->_table).' AS i ON i.'.$db->nameQuote($this->_field).' = c.id ');
 		$query->select('COUNT(i.'.$db->nameQuote($this->_key).') AS numitems');
+		
+		var_dump((string)$query);
 		
 		// Add category extra fields
 		$parts = explode('.',$extension);
