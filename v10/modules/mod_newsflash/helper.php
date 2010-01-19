@@ -10,7 +10,7 @@
 // no direct access
 defined('_JEXEC') or die;
 
-require_once JPATH_SITE.DS.'components/com_content/helpers/route.php';
+require_once JPATH_SITE.'/components/com_content/router.php';
 
 class modNewsFlashHelper
 {
