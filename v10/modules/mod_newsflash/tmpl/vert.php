@@ -10,7 +10,7 @@
 // no direct access
 defined('_JEXEC') or die;
 ?>
-<ul class="newsflash-vert<?php echo $params->get('moduleclass_sfx'); ?>"
+<ul class="newsflash-vert<?php echo $params->get('moduleclass_sfx'); ?>">
 <?php for ($i = 0, $n = count($list); $i < $n; $i ++) :
      	echo '<li class="newsflash-item">';
 	modNewsFlashHelper::renderItem($list[$i], $params, $access);
@@ -19,4 +19,4 @@ defined('_JEXEC') or die;
  	<?php endif; ?>
  	</li>
 <?php endfor; ?>
-</div>
+</ul>
