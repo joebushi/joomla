@@ -96,6 +96,7 @@ class JAccess
 		$query	= new JQuery;
 		$query->select($recursive ? 'b.rules' : 'a.rules');
 		$query->from('#__assets AS a');
+		$query->group($recursive ? 'b.id' : 'a.id');
 
 		// If the asset identifier is numeric assume it is a primary key, else lookup by name.
 		if (is_numeric($asset)) {

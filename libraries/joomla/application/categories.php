@@ -10,7 +10,7 @@
 // No direct access
 defined('JPATH_BASE') or die;
 
-jimport('joomla.base.tree');
+jimport('joomla.base.node');
 /**
  * JCategories Class.
  *
@@ -191,7 +191,7 @@ class JCategories
 				{
 					// Add the field as #{group}{field} in the query
 					$query->leftJoin('#__category_attributes as '.$db->nameQuote($name.$field->name).' ON '.$db->nameQuote($name.$field->name).'.catid=c.id AND '.$db->nameQuote($name.$field->name).'.group='.$db->Quote($name).' AND '.$db->nameQuote($name.$field->name).'.field='.$db->Quote($field->name));
-					$query->select($db->nameQuote($name.$field->name).'.value AS '.$db->nameQuote('#'.$name.$field->name));
+					$query->select($db->nameQuote($name.$field->name).'.value AS '.$db->nameQuote('_'.$name.'_'.$field->name));
 				}
 			}
 		}
@@ -217,7 +217,7 @@ class JCategories
 						foreach($form->getFields($name) as $field)
 						{
 							// For each field in this group, add it to the array
-							$result->{$name}[$field->name]=$result->{'#'.$name.$field->name};
+							$result->{$name}[$field->name]=$result->{'_'.$name.'_'.$field->name};
 							// Unset the special field
 							unset($result->{'#'.$name.$field->name});
 						}
@@ -247,7 +247,7 @@ class JCategories
  * @author Hannes
  * @since 1.6
  */
-class JCategoryNode extends JObject
+class JCategoryNode extends JNode
 {
 	/** @var int Primary key */
 	public $id					= null;
@@ -279,10 +279,6 @@ class JCategoryNode extends JObject
 	/** @var string */
 	public $slug					= null;
 
-	protected $_parent				= null;
-
-	protected $_children			= array();
-
 	/**
 	 * Class constructor
 	 * @param $category
@@ -302,53 +298,5 @@ class JCategoryNode extends JObject
 			return true;
 		}
 		return false;
-	}
-
-	/**
-	 * Adds a child to the current element of the Categorytree
-	 * @param $node
-	 * @return void
-	 */
-	public function addChild(&$node)
-	{
-		$node->setParent($this);
-		$this->_children[] = & $node;
-	}
-
-	/**
-	 * Returns the parent category of the current category
-	 * @return JCategoryNode
-	 */
-	public function getParent()
-	{
-		return $this->_parent;
-	}
-
-	/**
-	 * Sets the parent for the current category
-	 * @param $node
-	 * @return void
-	 */
-	public function setParent(&$node)
-	{
-		$this->_parent = & $node;
-	}
-
-	/**
-	 * Returns true if the category has children
-	 * @return boolean
-	 */
-	public function hasChildren()
-	{
-		return count($this->_children);
-	}
-
-	/**
-	 * Returns the children of the Category
-	 * @return array
-	 */
-	public function getChildren()
-	{
-		return $this->_children;
 	}
 }
