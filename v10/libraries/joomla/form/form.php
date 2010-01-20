@@ -3,7 +3,7 @@
  * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Form
- * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -473,7 +473,7 @@ class JForm extends JObject
 	 * @param	string		$group		The group to add the field to.
 	 * @return	void
 	 */
-	public function addField(&$field, $group = 'default')
+	public function addField(&$field, $group = '_default')
 	{
 		// Add the field to the group.
 		$this->_groups[$group][(string)$field->attributes()->name] = &$field;
@@ -486,7 +486,7 @@ class JForm extends JObject
 	 * @param	string		$group	The group to add the fields to.
 	 * @return	void
 	 */
-	public function addFields(&$fields, $group = 'default')
+	public function addFields(&$fields, $group = '_default')
 	{
 		// Add the fields to the group.
 		foreach ($fields as $field) {
@@ -504,7 +504,7 @@ class JForm extends JObject
 	 * @param	mixed		$value			The optional value to render as the default for the field.
 	 * @return	object		Rendered Form Field object
 	 */
-	public function getField($name, $group = 'default', $formControl = '_default', $groupControl = '_default', $value = null)
+	public function getField($name, $group = '_default', $formControl = '_default', $groupControl = '_default', $value = null)
 	{
 		// Get the XML node.
 		$node = isset($this->_groups[$group][$name]) ? $this->_groups[$group][$name] : null;
@@ -529,18 +529,18 @@ class JForm extends JObject
 		}
 
 		// Check the form control.
-		if ($formControl == '_default' && $this->_options['array'] == false) {
+		if ($formControl == '_default' && $this->_options['array'] === false) {
 			$formControl = false;
 		} elseif ($formControl == '_default' && $this->_options['array'] == true) {
 			$formControl = $this->_options['array'];
 		}
 
 		// Check the group control.
-		if ($groupControl == '_default' && $this->_fieldsets[$group]['array'] == false) {
+		if ($groupControl == '_default' && $this->_fieldsets[$group]['array'] === false) {
 			$groupControl = false;
-		} elseif ($groupControl == '_default' && $group !== 'default' && $this->_fieldsets[$group]['array'] == true) {
+		} elseif ($groupControl == '_default' && $group !== '_default' && $this->_fieldsets[$group]['array'] === true) {
 			$groupControl = $group;
-		} elseif ($groupControl == '_default' && $group !== 'default' && is_string($this->_fieldsets[$group]['array']) && strlen($this->_fieldsets[$group]['array'])) {
+		} elseif ($groupControl == '_default' && $group !== '_default' && is_string($this->_fieldsets[$group]['array']) && strlen($this->_fieldsets[$group]['array'])) {
 			$groupControl = $this->_fieldsets[$group]['array'];
 		}
 
@@ -560,7 +560,7 @@ class JForm extends JObject
 	 * @param	string		$group			The optional group of the field.
 	 * @return	mixed		The value of the attribute if set, otherwise the default value.
 	 */
-	public function getFieldAttribute($field, $attribute, $default, $group = 'default')
+	public function getFieldAttribute($field, $attribute, $default, $group = '_default')
 	{
 		$return = null;
 
@@ -579,7 +579,7 @@ class JForm extends JObject
 	 * @param	string		$group		The group to replace the field in.
 	 * @return	boolean		True on success, false when field does not exist.
 	 */
-	public function setField(&$field, $group = 'default')
+	public function setField(&$field, $group = '_default')
 	{
 		$return = false;
 
@@ -599,7 +599,7 @@ class JForm extends JObject
 	 * @param	string		$group		The group to remove.
 	 * @return	void
 	 */
-	public function removeField($field, $group = 'default')
+	public function removeField($field, $group = '_default')
 	{
 		unset($this->_groups[$group][$field]);
 	}
@@ -613,7 +613,7 @@ class JForm extends JObject
 	 * @param	string		$group			The optional group of the field.
 	 * @return	boolean		True on success, false when field does not exist.
 	 */
-	public function setFieldAttribute($field, $attribute, $value, $group = 'default')
+	public function setFieldAttribute($field, $attribute, $value, $group = '_default')
 	{
 		$return = false;
 
@@ -634,23 +634,23 @@ class JForm extends JObject
 	 * @param	mixed		$groupControl	The optional group control. Set to false to disable.
 	 * @return	array		Associative array of rendered Form Field object by field name
 	 */
-	public function getFields($group = 'default', $formControl = '_default', $groupControl = '_default')
+	public function getFields($group = '_default', $formControl = '_default', $groupControl = '_default')
 	{
 		$results = array();
 
 		// Check the form control.
-		if ($formControl == '_default' && $this->_options['array'] == false) {
+		if ($formControl == '_default' && $this->_options['array'] === false) {
 			$formControl = false;
 		} elseif ($formControl == '_default' && $this->_options['array'] == true) {
 			$formControl = $this->_options['array'];
 		}
 
 		// Check the group control.
-		if ($groupControl == '_default' && (empty($this->_fieldsets[$group]) || $this->_fieldsets[$group]['array'] == false)) {
+		if ($groupControl == '_default' && (empty($this->_fieldsets[$group]) || $this->_fieldsets[$group]['array'] === false)) {
 			$groupControl = false;
-		} elseif ($groupControl == '_default' && $group !== 'default' && isset($this->_fieldsets[$group]) && $this->_fieldsets[$group]['array'] == true) {
+		} elseif ($groupControl == '_default' && $group !== '_default' && isset($this->_fieldsets[$group]) && $this->_fieldsets[$group]['array'] === true) {
 			$groupControl = $group;
-		} elseif ($groupControl == '_default' && $group !== 'default' && isset($this->_fieldsets[$group]) && is_string($this->_fieldsets[$group]['array']) && strlen($this->_fieldsets[$group]['array'])) {
+		} elseif ($groupControl == '_default' && $group !== '_default' && isset($this->_fieldsets[$group]) && is_string($this->_fieldsets[$group]['array']) && strlen($this->_fieldsets[$group]['array'])) {
 			$groupControl = $this->_fieldsets[$group]['array'];
 		}
 		// Set the prefix
@@ -687,7 +687,7 @@ class JForm extends JObject
 	 * @param	string		$group		The group to assign the fields to.
 	 * @return	void
 	 */
-	public function setFields(&$fields, $group = 'default')
+	public function setFields(&$fields, $group = '_default')
 	{
 		// Reset the fields group,
 		$this->_groups[$group] = array();
@@ -734,7 +734,7 @@ class JForm extends JObject
 	 * @param	mixed		$value			The optional value to render as the default for the field.
 	 * @return	string		The form field input control.
 	 */
-	public function getInput($name, $group = 'default', $formControl = '_default', $groupControl = '_default', $value = null)
+	public function getInput($name, $group = '_default', $formControl = '_default', $groupControl = '_default', $value = null)
 	{
 		// Render the field input.
 		$field = $this->getField($name, $group, $formControl, $groupControl, $value);
@@ -752,7 +752,7 @@ class JForm extends JObject
 	 * @param	mixed		$value			The optional value to render as the default for the field.
 	 * @return	string		The form field label.
 	 */
-	public function getLabel($name, $group = 'default', $formControl = '_default', $groupControl = '_default', $value = null)
+	public function getLabel($name, $group = '_default', $formControl = '_default', $groupControl = '_default', $value = null)
 	{
 		// Render the field label.
 		$field = $this->getField($name, $group, $formControl, $groupControl, $value);
@@ -768,7 +768,7 @@ class JForm extends JObject
 	 * @param	string		$group		The group the field is in.
 	 * @return	boolean		The value of the field or the default value if empty.
 	 */
-	public function getValue($field, $default = null, $group = 'default')
+	public function getValue($field, $default = null, $group = '_default')
 	{
 		$return = null;
 
@@ -788,7 +788,7 @@ class JForm extends JObject
 	 * @param	string		$group		The group the field is in.
 	 * @return	boolean		True if field exists, false otherwise.
 	 */
-	public function setValue($field, $value, $group = 'default')
+	public function setValue($field, $value, $group = '_default')
 	{
 		// Set the field if it exists.
 		if (isset($this->_groups[$group][$field]) && is_object($this->_groups[$group][$field])) {
@@ -814,7 +814,7 @@ class JForm extends JObject
 		}
 
 		// Get the group name.
-		$group = ((string)$xml->attributes()->group) ? (string)$xml->attributes()->group : 'default';
+		$group = ((string)$xml->attributes()->group) ? (string)$xml->attributes()->group : '_default';
 
 		if ($reset) {
 			// Reset the field group.
@@ -834,7 +834,9 @@ class JForm extends JObject
 		}
 
 		// Get the fieldset attributes.
-		$this->_fieldsets[$group] = array();
+		if (!isset($this->_fieldsets[$group])) {
+			$this->_fieldsets[$group] = array();
+		}
 
 		// Get the fieldset label.
 		if ($value = (string)$xml->attributes()->label) {
