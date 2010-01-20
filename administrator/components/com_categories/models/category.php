@@ -143,7 +143,7 @@ class CategoriesModelCategory extends JModelForm
 			$value = $attribute->value;
 			if (!isset($result->$group))
 			{
-				$result->$group=array();
+				$result->{$group}=array();
 			}
 			$result->{$group}[$field]=$value;
 		}

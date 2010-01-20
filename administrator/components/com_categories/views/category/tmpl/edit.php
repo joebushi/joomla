@@ -63,6 +63,16 @@ JHtml::_('behavior.formvalidation');
 			<?php echo $this->form->getLabel('description'); ?>
 			<div class="clr"></div>
 			<?php echo $this->form->getInput('description'); ?>
+			<?php foreach ($this->form->getFieldsets() as $name => $fieldSet) :?>
+				<?php if (!in_array($name, array('params','metadata','_default')) && preg_match('/^_/',$name) && (!isset($fieldSet['hidden']) || !$fieldSet['hidden'])) :?>
+					<?php foreach ($this->form->getFields($name) as $field) :?>
+						<?php if (!$field->hidden):?>
+							<?php echo $field->label; ?>
+						<?php endif;?>
+						<?php echo $field->input; ?>
+					<?php endforeach;?>
+				<?php endif;?>
+			<?php endforeach;?>
 		</fieldset>
 	</div>
 
@@ -83,7 +93,7 @@ JHtml::_('behavior.formvalidation');
 		</fieldset>
 
 		<?php foreach ($this->form->getFieldsets() as $name => $fieldSet) :?>
-			<?php if (!in_array($name, array('params','metadata','_default')) && (!isset($fieldSet['hidden']) || !$fieldSet['hidden'])) :?>
+			<?php if (!in_array($name, array('params','metadata','_default')) && !preg_match('/^_/',$name) && (!isset($fieldSet['hidden']) || !$fieldSet['hidden'])) :?>
 				<?php echo JHtml::_('sliders.panel',JText::_(isset($fieldSet['label']) ? $fieldSet['label'] : 'Config_'.$name), $name.'-options');?>
 				<?php if (isset($fieldSet['description'])) :?>
 					<p class="tip"><?php echo JText::_($fieldSet['description']);?></p>

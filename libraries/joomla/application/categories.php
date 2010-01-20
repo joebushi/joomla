@@ -116,43 +116,57 @@ class JCategories
 
 	/**
 	 * Loads a specific category and all its children in a JCategoryNode object
-	 * @param an optional id
-	 * @param an optional array of boolean options (all set to true by default, except load).
-	 *   'load' to force reloading
+	 * @param an optional id integer or equal to 'root'
+	 * @param an optional array of boolean options (all set to true by default).
+	 *   'load' to force loading
 	 *   'children' to get its direct children,
 	 *   'parent' to get its direct parent,
 	 *   'siblings' to get its siblings
 	 *   'ascendants' to get its ascendants
 	 *   'descentants' to get its descendants
-	 * @return JCategoryNode
+	 * @return JCategoryNode|null
 	 */
-	public function get($id=1,$options=array())
+	public function get($id='root',$options=array())
 	{
-		$id = (int) $id;
-		if ($id == 0)
+		if ($id != 'root')
 		{
-			return false;
+			$id = (int) $id;
+			if ($id == 0)
+			{
+				return null;
+			}
 		}
-		if (!isset($this->_nodes[$id]) || (isset($options['load']) && $options['load']))
+		if (!isset($this->_nodes[$id]) || !isset($options['load']) || $options['load'])
 		{
 			$this->_load($id,$options);
 		}
-		if ($this->_nodes[$id] instanceof JCategoryNode)
+		
+		return $this->node($id);
+	}
+	/**
+	 * Return a node
+	 * @param an optional id
+	 * @return JCategoryNode|null
+	 */
+	public function node($id='root')
+	{
+		if (isset($this->_nodes[$id]) && $this->_nodes[$id] instanceof JCategoryNode)
 		{
 			return $this->_nodes[$id];
-		} else {
-			throw new JException('Unable to load category: '.$id, 0000, E_ERROR, $info, true);
+		}
+		else
+		{
+			return null;
 		}
 	}
 	/**
-	 * Return a node or false
-	 * @param an optional id
-	 * @return JCategoryNode
+	 * Return the root or null
+	 *
+	 * @return JCategoryNode|null
 	 */
-	public function node($id=1)
+	public function root()
 	{
-		if (isset($this->_nodes[$id]) && $this->_nodes[$id] instanceof JCategoryNode) return $this->_nodes[$id];
-		else return false;
+		return $this->node('root');
 	}
 
 	protected function _load($id,$options)
@@ -169,17 +183,20 @@ class JCategories
 		
 		$query = new JQuery;
 		
-		// c for category
+		// Add category extra fields (a for additional attributes)
+		$query->from('#__category_attributes as a');
+		$query->select('a.*');
+
+		// right join with c for category
 		$query->select('c.*');
 		$query->select('CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(":", c.id, c.alias) ELSE c.id END as slug');
-		$query->from('#__categories as c');
-		$query->where('(c.extension='.$db->Quote($extension).($id==1?' OR c.extension='.$db->Quote('system'):'').')');
+		$query->rightJoin('#__categories as c ON c.id=a.catid');
+		$query->where('(c.extension='.$db->Quote($extension).($id=='root'?' OR c.extension='.$db->Quote('system'):'').')');
 		$query->where('c.access IN ('.implode(',', $user->authorisedLevels()).')');		
 		$query->order('c.lft');
-		$query->group('c.id');
 
 		// s for selected id
-		if ($id>1)
+		if ($id!='root')
 		{
 			// Get the selected category
 			$test = 					'(s.lft = c.lft AND s.rgt = c.rgt)';
@@ -202,32 +219,8 @@ class JCategories
 		$query->leftJoin($db->nameQuote($this->_table).' AS i ON i.'.$db->nameQuote($this->_field).' = c.id ');
 		$query->select('COUNT(i.'.$db->nameQuote($this->_key).') AS numitems');
 		
-		// Add category extra fields
-		$parts = explode('.',$extension);
-		$component = $parts[0];
-		$section = (count($parts)>1)?$parts[1]:'';
-		jimport('joomla.application.component.model');
-		JModel::addIncludePath(JPATH_ADMINISTRATOR .'/components/com_categories/models');
-		$model = JModel::getInstance('Category','CategoriesModel',array('ignore_request'=>true));
-		$model->setState('category.extension',$extension);
-		$model->setState('category.component',$component);
-		$model->setState('category.section',$section);
-		$form=$model->getForm();
-		// foreach all groups
-		foreach ($form->getFieldsets() as $name => $fieldSet)
-		{
-			// Don't use params, metadata and _default group	
-			if (!in_array($name, array('params','metadata','_default')))
-			{
-				// Foreach fields in this group
-				foreach($form->getFields($name) as $field)
-				{
-					// Add the field as _{group}_{field} in the query
-					$query->leftJoin('#__category_attributes as '.$db->nameQuote($name.$field->name).' ON '.$db->nameQuote($name.$field->name).'.catid=c.id AND '.$db->nameQuote($name.$field->name).'.group='.$db->Quote($name).' AND '.$db->nameQuote($name.$field->name).'.field='.$db->Quote($field->name));
-					$query->select($db->nameQuote($name.$field->name).'.value AS '.$db->nameQuote('_'.$name.'_'.$field->name));
-				}
-			}
-		}
+		// Group by
+		$query->group('c.id, a.group, a.field');
 
 		// Get the results
 		$db->setQuery($query);
@@ -238,39 +231,64 @@ class JCategories
 			// foreach categories
 			foreach($results as $result)
 			{
-				// foreach all groups
-				foreach ($form->getFieldsets() as $name => $fieldSet)
+				// Deal with parent_id
+				if (empty($result->parent_id))
 				{
-					// Don't use params, metadata and _default group	
-					if (!in_array($name, array('params','metadata','_default')))
+					$result->id = 'root';
+				}
+				elseif($result->parent_id == 1)
+				{
+					$result->parent_id = 'root';
+				}
+				
+				// Get the group, field and value
+				$group = $result->group;
+				$field = $result->field;
+				$value = $result->value;
+				unset($result->group);
+				unset($result->field);
+				unset($result->value);
+				
+				// Create the node
+				if (!isset($this->_nodes[$result->id]))
+				{
+					// Convert the params field to an array.
+					$registry = new JRegistry();
+					$registry->loadJSON($result->params);
+					$result->params = $registry->toArray();
+
+					// Convert the metadata field to an array.
+					$registry = new JRegistry();
+					$registry->loadJSON($result->metadata);
+					$result->metadata = $registry->toArray();
+					
+					// Create the JCategoryNode
+					$this->_nodes[$result->id] = new JCategoryNode($result);
+				}
+				
+				// Add the specific field
+				if (!is_null($group) && !is_null($field))
+				{
+					if(!isset($this->_nodes[$result->id]->{$group}))
 					{
-						// Prepare the attribute equal to the group name
-						$result->{$name}=array();
-						// Foreach fields in this group
-						foreach($form->getFields($name) as $field)
-						{
-							// For each field in this group, add it to the array
-							$result->{$name}[$field->name]=$result->{'_'.$name.'_'.$field->name};
-							// Unset the special field
-							unset($result->{'_'.$name.'_'.$field->name});
-						}
+						$this->_nodes[$result->id]->{$group}=array();
+					}
+					$this->_nodes[$result->id]->{$group}[$field]=$value;
+				}
+				
+				// Compute relationship between node and its parent
+				if (!$this->_nodes[$result->id]->hasParent())
+				{
+					if (isset($this->_nodes[$result->parent_id]))
+					{
+						$this->_nodes[$result->id]->setParent($this->_nodes[$result->parent_id]);
 					}
 				}
-				// Convert the params field to an array.
-				$registry = new JRegistry();
-				$registry->loadJSON($result->params);
-				$result->params = $registry->toArray();
-
-				// Convert the metadata field to an array.
-				$registry = new JRegistry();
-				$registry->loadJSON($result->metadata);
-				$result->metadata = $registry->toArray();
-				
-				// Create the JCategoryNode
-				$this->_nodes[$result->id] = new JCategoryNode($result);
 			}
-		} else {
-			$this->_nodes[$id] = false;
+		}
+		else
+		{
+			$this->_nodes[$id] = null;
 		}
 	}
 }
@@ -322,14 +340,17 @@ class JCategoryNode extends JNode
 		if ($category)
 		{
 			$this->setProperties($category);
-			if ($this->parent_id > 0)
-			{
-				$categoryTree = JCategories::getInstance($this->extension);
-				$parentNode = &$categoryTree->node($this->parent_id);
-				if ($parentNode) $parentNode->addChild($this);
-			}
 			return true;
 		}
 		return false;
+	}
+	/**
+	 * Test if this node is the system node
+	 *
+	 * @return bool
+	 */
+	public function isSystem()
+	{
+		return $this->id=='root';
 	}
 }

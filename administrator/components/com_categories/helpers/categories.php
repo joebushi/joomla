@@ -50,10 +50,10 @@ class CategoriesHelper
 				if (is_callable(array($cName, 'addSubmenu')))
 				{
  					$lang = &JFactory::getLanguage();
+					// loading language file from the administrator/components/*extension*/language directory
+					$lang->load($component, JPath::clean(JPATH_ADMINISTRATOR.'/components/'.$extension));
 					// loading language file from the administrator/language directory
  					$lang->load($component);
-					// loading language file from the administrator/components/*component*/language directory
-					$lang->load($component, JPath::clean(JPATH_ADMINISTRATOR.'/components/'.$component));
  					call_user_func(array($cName, 'addSubmenu'), 'categories'.(isset($section)?'.'.$section:''));
 				}
 			}

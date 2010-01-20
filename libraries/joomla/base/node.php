@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @version		$Id: tree.php 6961 2007-03-15 16:06:53Z tcp $
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
@@ -17,44 +18,102 @@ defined('JPATH_BASE') or die;
  */
 class JNode extends JObject
 {
+
 	/**
-	 * Parent node
+	 * @var Parent node
 	 */
 	protected $_parent = null;
 
 	/**
-	 * Array of Children
+	 * @var Array of Children
 	 */
 	protected $_children = array();
 
-	function __construct()
+	/**
+	 * Constructor
+	 */
+	function __construct() 
 	{
 		return true;
 	}
 
-	function addChild(&$node)
+	/**
+	 * Add child to this node
+	 *
+	 * If the child already has a parent, the link is unset
+	 *
+	 * @param JNode the child to be added
+	 */
+	function addChild(&$child) 
 	{
-		$node->setParent($this);
-		$this->_children[] = & $node;
+		if ($child instanceof Jnode) 
+		{
+			$child->setParent($this);
+		}
 	}
 
-	function &getParent()
+	/**
+	 * Set the parent of a this node
+	 *
+	 * If the node already has a parent, the link is unset
+	 *
+	 * @param JNode|null the parent to be setted
+	 */
+	function setParent(&$parent) 
+	{
+		if ($parent instanceof JNode || is_null($parent)) 
+		{
+			$hash = spl_object_hash($this);
+			if (!is_null($this->_parent)) 
+			{
+				unset($this->_parent->children[$hash]);
+			}
+			if (!is_null($parent)) 
+			{
+				$parent->_children[$hash] = & $this;
+			}
+			$this->_parent = & $parent;
+		}
+	}
+
+	/**
+	 * Get the children of this node
+	 *
+	 * @return array the children
+	 */
+	function &getChildren() 
+	{
+		return $this->_children;
+	}
+
+	/**
+	 * Get the parent of this node
+	 *
+	 * @return JNode|null the parent
+	 */
+	function &getParent() 
 	{
 		return $this->_parent;
 	}
 
-	function setParent(&$node)
-	{
-		$this->_parent = & $node;
-	}
-
-	function hasChildren()
+	/**
+	 * Test if this node has children
+	 *
+	 * @return bool
+	 */
+	function hasChildren() 
 	{
 		return count($this->_children);
 	}
 
-	function &getChildren()
+	/**
+	 * Test if this node has a parent
+	 *
+	 * @return bool
+	 */
+	function hasParent() 
 	{
-		return $this->_children;
+		return $this->getParent() != null;
 	}
 }
+
