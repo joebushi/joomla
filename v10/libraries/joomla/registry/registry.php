@@ -312,7 +312,7 @@ class JRegistry extends JObject
 
 				// Load the variables into the registry's default namespace.
 				foreach ($source->toArray($ns) as $k => $v) {
-					if ($v != null) {
+					if (null !== $v) {
 						$this->_registry[$ns]['data']->$k = $v;
 					}
 				}
