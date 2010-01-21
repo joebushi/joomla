@@ -38,6 +38,7 @@ $ -> Language fix or change
 ! -> Note
 
 -------------------- 1.5.15 Stable Release [05-November-2009] ------------------
+
 04-Nov-2009 Ian MacLennan
  # [#17475] Fixed missing = in patch (parse error)
 
