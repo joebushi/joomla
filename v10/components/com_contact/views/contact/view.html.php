@@ -37,7 +37,7 @@ class ContactViewContact extends JView
 		$menus	= &JSite::getMenu();
 		$menu    = $menus->getActive();
 
-		$pparams = &$app->getParams('com_contact');
+		$pparams = $this->getModel('contact')->getState()->params;
 
 		// check if access is registered/special
 		$groups	= $user->authorisedLevels();
@@ -80,16 +80,12 @@ class ContactViewContact extends JView
 		// Adds parameter handling
 		$contact->params = new JParameter($contact->params);
 
-		$pparams->merge($contact->params);
-
-
-
 		// Handle email cloaking
-		if ($contact->email_to && $contact->params->get('show_email')) {
+		if ($contact->email_to && $pparams->get('show_email')) {
 			$contact->email_to = JHtml::_('email.cloak', $contact->email_to);
 		}
 
-		if ($contact->params->get('show_street_address') || $contact->params->get('show_suburb') || $contact->params->get('show_state') || $contact->params->get('show_postcode') || $contact->params->get('show_country'))
+		if ($pparams->get('show_street_address') || $pparams->get('show_suburb') || $pparams->get('show_state') || $pparams->get('show_postcode') || $pparams->get('show_country'))
 		{
 			if (!empty ($contact->address) || !empty ($contact->suburb) || !empty ($contact->state) || !empty ($contact->country) || !empty ($contact->postcode)) {
 				$contact->params->set('address_check', 1);
@@ -99,7 +95,7 @@ class ContactViewContact extends JView
 		}
 
 		 // Manage the display mode for contact detail groups
-		switch ($contact->params->get('contact_icons'))
+		switch ($pparams->get('contact_icons'))
 		{
 			case 1 :
 				// text
