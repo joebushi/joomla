@@ -144,6 +144,15 @@ JHtml::_('behavior.formvalidation');
 
 						<?php echo $this->form->getLabel('banned_text'); ?>
 						<?php echo $this->form->getInput('banned_text'); ?>
+						
+						<?php echo $this->form->getLabel('validate_session'); ?>
+						<?php echo $this->form->getInput('validate_session'); ?>
+
+						<?php echo $this->form->getLabel('custom_reply'); ?>
+						<?php echo $this->form->getInput('custom_reply'); ?>
+						
+						<?php echo $this->form->getLabel('redirect'); ?>
+						<?php echo $this->form->getInput('redirect'); ?>
 				</fieldset>
 
 

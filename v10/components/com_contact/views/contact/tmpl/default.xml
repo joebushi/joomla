@@ -351,6 +351,29 @@
 			<option
 				value="1">Jcommon_Show</option>
 		</field>
+		
+		<field
+			name="email_description"
+			type="text"
+			size="30"
+			default=""
+			label="Contact_Email_Description_Text_Label"
+			description="Contact_Email_Description_Text_Desc" />
+
+		<field
+			name="show_email_copy"
+			type="list"
+			default=""
+			label="Contact_Email_Email_Copy_Label"
+			description="Contact_Email_Email_Copy_Desc">
+			<option
+				value="">Jcommon_Use_Global</option>
+			<option
+				value="0">Jcommon_Hide</option>
+			<option
+				value="1">Jcommon_Show</option>
+		</field>
+		
 		<field
 			name="banned_email"
 			type="textarea"
@@ -412,6 +435,7 @@
 			size="30"
 			label="Contact_Config_Redirect_LABEL"
 			description="Contact_Config_Redirect_DESC" />
+
 	</fields>
 		
 </metadata>

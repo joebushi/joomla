@@ -428,6 +428,27 @@
 			<option
 				value="1">Jcommon_Show</option>
 		</field>
+	
+		<field
+			name="email_description"
+			type="text"
+			size="30"
+			default=""
+			label="Contact_Email_Description_Text_Label"
+			description="Contact_Email_Description_Text_Desc" />
+
+		<field
+			name="show_email_copy"
+			type="radio"
+			default=""
+			label="Contact_Email_Email_Copy_Label"
+			description="Contact_Email_Email_Copy_Desc">
+			<option
+				value="0">Jcommon_Hide</option>
+			<option
+				value="1">Jcommon_Show</option>
+		</field>
+		
 		<field
 			name="banned_email"
 			type="textarea"
