@@ -37,7 +37,7 @@ $cparams = JComponentHelper::getParams ('com_media');
 	<?php if ($this->params->get('show_contact_list') && count($this->contacts) > 1) : ?>
 		<form action="<?php echo JRoute::_('index.php') ?>" method="post" name="selectForm" id="selectForm">
 			<?php echo JText::_('CONTACT_SELECT_CONTACT'); ?>:
-			<?php echo JHtml::_('select.genericlist',  $this->contacts, 'contact_id', 'class="inputbox" onchange="this.form.submit()"', 'id', 'name', $this->contact->id);?>
+			<?php echo JHtml::_('select.genericlist',  $this->contacts, 'id', 'class="inputbox" onchange="this.form.submit()"', 'id', 'name', $this->contact->id);?>
 			<input type="hidden" name="option" value="com_contact" />
 		</form>
 	<?php endif; ?>
@@ -61,7 +61,7 @@ $cparams = JComponentHelper::getParams ('com_media');
 	<?php endif; ?>
 
 	<?php if ($this->params->get('show_email_form') && ($this->contact->email_to )) : ?>
-		<?php echo JHtml::_('sliders.panel', JText::_('Contact_Other_Information'), 'display-misc'); ?>
+		<?php echo JHtml::_('sliders.panel', JText::_('Contact_Email_Form'), 'display-form'); ?>
 			<?php echo $this->loadTemplate('form');  ?>
 	<?php endif; ?>
 	<?php if ($this->params->get('show_links')) : ?>

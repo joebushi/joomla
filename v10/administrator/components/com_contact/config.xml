@@ -440,7 +440,7 @@
 		<field
 			name="show_email_copy"
 			type="radio"
-			default=""
+			default="1"
 			label="Contact_Email_Email_Copy_Label"
 			description="Contact_Email_Email_Copy_Desc">
 			<option
