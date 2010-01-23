@@ -10,7 +10,7 @@
 // no direct access
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
+JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
 $cparams =& JComponentHelper::getParams('com_media');
 
 // If the page class is defined, add to class as suffix.
@@ -44,7 +44,7 @@ $pageClass = $this->params->get('pageclass_sfx');
 <?php if ($this->children): ?>
 	<ul class="subcategories">
 		<?php foreach($this->children as $child) : ?>
-				<li><a href="<?php /* @TODO class not found echo JRoute::_(ContentHelperRoute::getCategoryRoute($child->id)); */ ?>">
+				<li><a href="<?php /*TODO  Needs a class */  echo ContentRoute::category($child->id); ?>">
 					<?php echo $child->title; ?></a> <?php /* echo @TODO numitems not loaded $child->numitems; */?></li>
 		<?php endforeach; ?>
 	</ul>
