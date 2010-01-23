@@ -284,104 +284,6 @@
 			<option value="">JOption_Default_Language</option>
 		</field>
 
-		<field
-			name="show_email_form"
-			type="list"
-			default=""
-			label="Contact_Email_Show_Form_Label"
-			description="Contact_Email_Show_Form_Desc">
-			<option
-				value="">Jcommon_Use_Global</option>
-			<option
-				value="0">Jcommon_Hide</option>
-			<option
-				value="1">Jcommon_Show</option>
-		</field>
-
-		<field
-			name="email_description"
-			type="text"
-			size="30"
-			default=""
-			label="Contact_Email_Description_Text_Label"
-			description="Contact_Email_Description_Text_Desc" />
-
-		<field
-			name="show_email_copy"
-			type="list"
-			default=""
-			label="Contact_Email_Email_Copy_Label"
-			description="Contact_Email_Email_Copy_Desc">
-			<option
-				value="">Jcommon_Use_Global</option>
-			<option
-				value="0">Jcommon_Hide</option>
-			<option
-				value="1">Jcommon_Show</option>
-		</field>
-
-		<field
-			name="banned_email"
-			type="textarea"
-			default=""
-			label="Contact_Email_BANNED_EMAIL_LABEL"
-			rows="3"
-			cols="30"
-			description="Contact_Email_BANNED_EMAIL_DESC" />
-
-		<field
-			name="banned_subject"
-			type="textarea"
-			default=""
-			label="Contact_Email_BANNED_SUBJECT_LABEL"
-			rows="3"
-			cols="30"
-			description="Contact_Email_BANNED_SUBJECT_DESC" />
-
-		<field
-			name="banned_text"
-			type="textarea"
-			default=""
-			label="Contact_Email_BANNED_TEXT_LABEL"
-			rows="3"
-			cols="30"
-			description="Contact_Email_BANNED_TEXT_DESC" />
-
-		<field
-			name="validate_session"
-			type="list"
-			default=""
-			label="Contact_Config_SESSION_CHECK_LABEL"
-			description="Contact_Config_SESSION_CHECK_DESC">
-			<option
-				value="">Jcommon_Use_Global</option>
-			<option
-				value="0">JNo</option>
-			<option
-				value="1">JYes</option>
-		</field>
-
-		<field
-			name="custom_reply"
-			type="list"
-			default=""
-			label="Contact_Config_Custom_Reply"
-			description="Contact_Config_Custom_Reply_Desc">
-			<option
-				value="">Jcommon_Use_Global</option>
-			<option
-				value="0">JNo</option>
-			<option
-				value="1">JYes</option>
-		</field>
-
-		<field
-			name="redirect"
-			type="text"
-			default=""
-			size="30"
-			label="Contact_Email_Redirect_LABEL"
-			description="Contact_Email_Redirect_DESC" />
 
 		<field
 			name="contact_icons"
@@ -835,6 +737,111 @@
 			size="30"
 			default="" />
 	</fields>
+	<fields 
+		group="email_form"
+		label="Contact_Email_Form_Label"
+		array="true"
+		>
+	
+		<field
+			name="show_email_form"
+			type="list"
+			default=""
+			label="Contact_Email_Show_Form_Label"
+			description="Contact_Email_Show_Form_Desc">
+			<option
+				value="">Jcommon_Use_Global</option>
+			<option
+				value="0">Jcommon_Hide</option>
+			<option
+				value="1">Jcommon_Show</option>
+		</field>
 
+		<field
+			name="email_description"
+			type="text"
+			size="30"
+			default=""
+			label="Contact_Email_Description_Text_Label"
+			description="Contact_Email_Description_Text_Desc" />
+
+		<field
+			name="show_email_copy"
+			type="list"
+			default=""
+			label="Contact_Email_Email_Copy_Label"
+			description="Contact_Email_Email_Copy_Desc">
+			<option
+				value="">Jcommon_Use_Global</option>
+			<option
+				value="0">Jcommon_Hide</option>
+			<option
+				value="1">Jcommon_Show</option>
+		</field>
+
+		<field
+			name="banned_email"
+			type="textarea"
+			default=""
+			label="Contact_Email_BANNED_EMAIL_LABEL"
+			rows="3"
+			cols="30"
+			description="Contact_Email_BANNED_EMAIL_DESC" />
+
+		<field
+			name="banned_subject"
+			type="textarea"
+			default=""
+			label="Contact_Email_BANNED_SUBJECT_LABEL"
+			rows="3"
+			cols="30"
+			description="Contact_Email_BANNED_SUBJECT_DESC" />
+
+		<field
+			name="banned_text"
+			type="textarea"
+			default=""
+			label="Contact_Email_BANNED_TEXT_LABEL"
+			rows="3"
+			cols="30"
+			description="Contact_Email_BANNED_TEXT_DESC" />
+
+		<field
+			name="validate_session"
+			type="list"
+			default=""
+			label="Contact_Config_SESSION_CHECK_LABEL"
+			description="Contact_Config_SESSION_CHECK_DESC">
+			<option
+				value="">Jcommon_Use_Global</option>
+			<option
+				value="0">JNo</option>
+			<option
+				value="1">JYes</option>
+		</field>
+
+		<field
+			name="custom_reply"
+			type="list"
+			default=""
+			label="Contact_Config_Custom_Reply"
+			description="Contact_Config_Custom_Reply_Desc">
+			<option
+				value="">Jcommon_Use_Global</option>
+			<option
+				value="0">JNo</option>
+			<option
+				value="1">JYes</option>
+		</field>
+
+		<field
+			name="redirect"
+			type="text"
+			default=""
+			size="30"
+			label="Contact_Email_Redirect_LABEL"
+			description="Contact_Email_Redirect_DESC" />
+
+</fields>
 						
 </form>
