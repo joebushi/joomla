@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 ?>
-<?php if ($this->contact->params->get('show_profile')) : ?>
+<?php if ($this->params->get('show_profile')) : ?>
 <div class="jcontact-profile">
 	<h4>
 		<?php echo JText::_('Com_Contact_Profile_Heading'); ?>

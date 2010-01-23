@@ -13,7 +13,7 @@ $cparams = JComponentHelper::getParams ('com_media');
 ?>
 
 <div class="jcontact<?php echo $this->params->get('pageclass_sfx')?>">
-	<?php if ($this->params->get('show_page_title', 1) && !$this->contact->params->get('popup') && $this->params->get('page_title') != $this->contact->name) : ?>
+	<?php if ($this->params->get('show_page_title', 1) && $this->params->get('page_title') != $this->contact->name) : ?>
 		<h2>
 			<?php if ($this->escape($this->params->get('page_heading'))) :?>
 				<?php echo $this->escape($this->params->get('page_heading')); ?>

@@ -15,20 +15,20 @@ defined('_JEXEC') or die;
 <div class="jcontact-links">
 
 	<ul>
-		<?php if ($this->contact->params->get('linka')) : ?>
-			<li><a href="<?php echo $this->contact->params->get('linka') ?>"><?php echo $this->contact->params->get('linka_name')  ?></a></li>
+		<?php if ($this->params->get('linka')) : ?>
+			<li><a href="<?php echo $this->params->get('linka') ?>"><?php echo $this->params->get('linka_name')  ?></a></li>
 		<?php endif; ?>
-		<?php if ($this->contact->params->get('linkb')) : ?>
-			<li><a href="<?php echo $this->contact->params->get('linkb') ?>"><?php echo $this->contact->params->get('linkb_name')  ?></a></li>
+		<?php if ($this->params->get('linkb')) : ?>
+			<li><a href="<?php echo $this->params->get('linkb') ?>"><?php echo $this->params->get('linkb_name')  ?></a></li>
 		<?php endif; ?>
-		<?php if ($this->contact->params->get('linkc')) : ?>
-			<li><a href="<?php echo $this->contact->params->get('linkc') ?>"><?php echo $this->contact->params->get('linkc_name')  ?></a></li>
+		<?php if ($this->params->get('linkc')) : ?>
+			<li><a href="<?php echo $this->params->get('linkc') ?>"><?php echo $this->params->get('linkc_name')  ?></a></li>
 		<?php endif; ?>
-		<?php if ($this->contact->params->get('linkd')) : ?>
-			<li><a href="<?php echo $this->contact->params->get('linkd') ?>"><?php echo $this->contact->params->get('linkd_name')  ?></a></li>
+		<?php if ($this->params->get('linkd')) : ?>
+			<li><a href="<?php echo $this->params->get('linkd') ?>"><?php echo $this->params->get('linkd_name')  ?></a></li>
 		<?php endif; ?>
-		<?php if ($this->contact->params->get('linke')) : ?>
-			<li><a href="<?php echo $this->contact->params->get('linke') ?>"><?php echo $this->contact->params->get('linke_name')  ?></a></li>
+		<?php if ($this->params->get('linke')) : ?>
+			<li><a href="<?php echo $this->params->get('linke') ?>"><?php echo $this->params->get('linke_name')  ?></a></li>
 		<?php endif; ?>
 	</ul>
 </div>
