@@ -64,8 +64,6 @@ INSERT IGNORE INTO `#__banner_clients` VALUES
 -- Dumping data for table `#__categories` (remove existing rows first)
 --
 
-TRUNCATE `#__categories`;
-
 INSERT IGNORE INTO `#__categories` VALUES
 (11, 28, 29, 36, 37, 2, 'sample-data-content/news', 'com_content', 'News', 'news', 'The top articles category.', 1, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":"-1"}', '', '', '{"page_title":"","author":"","robots":""}', 0, '2010-01-24 11:25:26', 0, '0000-00-00 00:00:00', 0, ''),
 (12, 29, 29, 28, 35, 2, 'sample-data-content/countries', 'com_content', 'Countries', 'countries', 'The latest news from the Joomla! Team', 1, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":"-1"}', '', '', '{"page_title":"","author":"","robots":""}', 0, '2010-01-24 11:25:26', 0, '0000-00-00 00:00:00', 0, ''),
@@ -100,6 +98,12 @@ INSERT IGNORE INTO `#__categories` VALUES
 (48, 57, 46, 55, 56, 3, 'contacts/shop-site/suppliers', 'com_contact', 'Suppliers', 'suppliers', 'We get our fruit from the very best growers.', 1, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":"-1"}', '', '', '{"page_title":"","author":"","robots":""}', 0, '2010-01-24 11:25:26', 0, '0000-00-00 00:00:00', 0, ''),
 (49, 58, 46, 57, 58, 3, 'contacts/shop-site/fruit', 'com_contact', 'Fruit', 'fruit', 'Our directory of information about different kinds of fruit.', 1, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":"-1"}', '', '', '{"page_title":"","author":"","robots":""}', 0, '2010-01-24 11:25:26', 0, '0000-00-00 00:00:00', 0, ''),
 (50, 60, 29, 38, 47, 2, 'sample-data-content/park-site', 'com_content', 'Park Site', 'park-site', '', 1, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":"-1"}', '', '', '{"page_title":"","author":"","robots":""}', 0, '2010-01-24 11:25:26', 0, '0000-00-00 00:00:00', 0, '');
+
+--
+-- Update rgt value of root category row
+--
+SET @max_rgt = (SELECT MAX(rgt)+1 FROM `#__categories` WHERE `id` <> 1);
+UPDATE `#__categories` SET rgt = @max_rgt WHERE id = 1; 
 
 --
 -- Dumping data for table `#__contact_details`
@@ -362,6 +366,8 @@ INSERT  INTO `#__modules_menu` VALUES
 (13, 0),
 (14, 0),
 (15, 0),
+(17, 101),
+(17, 239),
 (16, 0),
 (18, 0),
 (19, 0),
