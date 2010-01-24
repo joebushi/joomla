@@ -322,15 +322,59 @@
 			label="Contact_Show_Links_Label"
 			description="Contact_Show_Links_Desc"
 			type="list"
-			default="">
+			default="1">
 			<option
-				value="">Jcommon_Use_Global</option>
+				value="">Jcommon_Use_Global</option>			
 			<option
 				value="0">Jcommon_Hide</option>
 			<option
 				value="1">Jcommon_Show</option>
 		</field>
 
+		<field
+			id="linka_name"
+			name="linka_name"
+			type="text"
+			label="Contact_Linka_Name_Label"
+			description="Contact_Linka_Name_Desc"
+			size="30"
+			default="" />
+
+		<field
+			id="linkb_name"
+			name="linkb_name"
+			type="text"
+			label="Contact_LInkb_Name_Label"
+			description="Contact_Linkb_Name_Desc"
+			size="30"
+			default="" />
+
+		<field
+			id="linkc_name"
+			name="linkc_name"
+			type="text"
+			label="Contact_LInkc_Name_Label"
+			description="Contact_Linkc_Name_Desc"
+			size="30"
+			default="" />
+
+		<field
+			id="linkd_name"
+			name="linkd_name"
+			type="text"
+			label="Contact_LInkd_Name_Label"
+			description="Contact_Linkd_Name_Desc"
+			size="30"
+			default="" />
+
+		<field
+			id="linke_name"
+			name="linke_name"
+			type="text"
+			label="Contact_LInke_Name_Label"
+			description="Contact_Linke_Name_Desc"
+			size="30"
+			default="" />
 
 	</fields>
 	

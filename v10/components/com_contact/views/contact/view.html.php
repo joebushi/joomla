@@ -137,7 +137,22 @@ class ContactViewContact extends JView
 				$pparams->set('marker_class', 		'jicons-icons');
 				break;
 		}
-	JHtml::_('behavior.formvalidation');
+		
+		// Use link labels from contact if blank in params
+		$loopArray = array('a','b','c','d','e');
+		foreach ($loopArray as $letter) {
+			$thisLable = 'link'.$letter.'_name';
+			$thisLink = 'link'.$letter;
+			if (!$pparams->get($thisLable)) {
+				if ($contact->params->get($thisLable)) {
+					$pparams->set($thisLable, $contact->params->get($thisLable));
+				} else {
+					$pparams->set($thisLable, $contact->params->get($thisLink));
+				}
+			}
+		}
+		
+		JHtml::_('behavior.formvalidation');
 
 		$this->assignRef('contact',		$contact);
 		$this->assignRef('contacts',	$contacts);
